@@ -1,0 +1,18 @@
+command line
+-flags generate site
+- generate and watch for changes
+
+load classes
+-builder.lib
+-generator.lib
+-watcher.lib
+
+load mustache
+
+get arguments
+
+ -call generator
+
+ -or call watch
+
+ -else provide syntax

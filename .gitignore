@@ -1,3 +1,4 @@
+node_modules/
 .DS_Store
 public/index.html
 public/styleguide.html
