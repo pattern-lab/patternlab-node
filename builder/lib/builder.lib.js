@@ -1,22 +1,32 @@
+//TODO
 //build the config if it doesnt exist....
-
 //populate a bunch of variables from the config
 
+//load classes
+var JSONReader = require("./jsonreader.lib.js");
 
-
-var ConfigReader = require("./configreader.lib.js");
-
-var Builder = function(){
-	//load the config
-	var configReader = new ConfigReader();
-	configReader.read('./../../config/config.json', function(config){
-
-		// generate pattern paths
-
-		// get nav items
-
-
-	});
+function Builder(){
+	var self = this;
+	this.config = {};
+	this.jsonReader = new JSONReader();
 };
+
+Builder.prototype.readConfig = function(callback){
+	this.jsonReader.read('./../../config/config.json', function(cfg){
+		this.config = cfg;
+		callback();
+	});
+}
+
+
+Builder.prototype.getConfigInternal = function(){
+	return config;
+};
+
+
+Builder.prototype.gatherData = function(){
+	console.log('test');
+}
+
 module.exports = Builder;
 
