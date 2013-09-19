@@ -15,7 +15,11 @@ process.argv.forEach(function(val, index, array) {
 			var generator = new Generator();
 			console.log('generate');
 			generator.loadConfig(function(){
-				generator.getConfig(function(d){console.log(d)});
+
+				generator.generate(function(){
+					console.log('your site has been generated...');
+				});
+
 			});
 		} else if(val === 'w'){
 			console.log('generate and watch');

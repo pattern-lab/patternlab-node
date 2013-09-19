@@ -19,5 +19,7 @@ module.exports = function(grunt) {
 	// grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 
-	grunt.registerTask('default', ['sass']);
+	grunt.task.loadTasks('./builder/lib/');
+
+	grunt.registerTask('default', ['patternlab']);
 };
