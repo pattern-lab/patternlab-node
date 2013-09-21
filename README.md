@@ -7,6 +7,10 @@ The Node version of Pattern Lab is, at its core, a static site generator. It com
 
 The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and (hopefully) [@Wiscow](https://twitter.com/Wiscow).  Contributions welcome.  We both have kids under 2 years of age, so patience and coffee is requested :D
 
+#### Watching Progress
+
+To run the dev version of patternlab-node, first install the pulled down repo using `npm install` and then run `grunt`.  Right now this only creates the styleguide to a limited extent. 
+
 ===
 
 ## Demo

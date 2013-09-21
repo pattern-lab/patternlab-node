@@ -8,6 +8,8 @@ public/fonts/*
 public/js/*
 public/images/*
 public/patterns/*
+public/styleguide/css/*
+public/styleguide/js/*
 config.ini
 latest-change.txt
 /public/styleguide/js/styleguide-ck.js
@@ -15,3 +17,5 @@ latest-change.txt
 /public/styleguide/js/data-saver-ck.js
 /public/styleguide/js/url-handler-ck.js
 patternlab.json
+.sass-cache/*
+/sass-cache
