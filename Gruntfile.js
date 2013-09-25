@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 				files: [
 					{ expand: true, cwd: './source/js/', src: '*', dest: './public/styleguide/js/'}
 					,{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' }
+					,{ expand: true, cwd: './source/images/', src: '*', dest: './public/images/' }
 				]
 			}
 		}

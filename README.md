@@ -9,7 +9,7 @@ The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](
 
 #### Watching Progress
 
-To run the dev version of patternlab-node, first install the pulled down repo using `npm install` and then run `grunt`.  Right now this only creates the styleguide to a limited extent. 
+To run the dev version of patternlab-node, first install the pulled down repo using `npm install` and then run `grunt`.  Right now this only creates the public/styleguide to a limited extent. 
 
 ===
 
