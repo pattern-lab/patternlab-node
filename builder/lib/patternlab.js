@@ -112,8 +112,6 @@ module.exports = function(grunt) {
 
 		//build the styleguide
 		var styleguidetemplate = grunt.file.read('./source/_patternlab-files/styleguide.mustache');
-
-		//this is definitely wrong.  we need to get the partial information in the right format, which looks like 
 		var styleguidehtml = mustache.render(styleguidetemplate, {partials: patternlab.patterns});
 
 		grunt.file.write('./public/styleguide/html/styleguide.html', styleguidehtml);
