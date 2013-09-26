@@ -8,7 +8,6 @@ var oPattern = function(name, subdir, filename, data){
 	this.data =  data;
 	this.template = '';
 	this.patternOutput = '';
-	this.partialName = ''; //a name that is recognizable with the current partial syntax
 	this.patternName = ''; //this is the display name for the ui
 };
 
@@ -32,11 +31,6 @@ module.exports = function(grunt) {
 			var patternIndex = patternlab.patternIndex.indexOf(subdir + '-' +  patternName);
 			var currentPattern;		
 
-			// console.log(abspath);
-			// console.log(rootdir);
-			// console.log(subdir);
-			// console.log(filename);	
-
 			//two reasons could return no pattern, 1) just a bare mustache, or 2) a json found before the mustache
 			//returns -1 if patterns does not exist, otherwise returns the index
 			//add the pattern array if first time, otherwise pull it up
@@ -44,11 +38,11 @@ module.exports = function(grunt) {
 				grunt.log.ok('pattern not found, adding to array');
 				var flatPatternName = subdir.replace(/\//g, '-') + '-' + patternName;
 				flatPatternName = flatPatternName.replace(/\//g, '-');
-				currentPattern = new oPattern(flatPatternName, subdir, {}, filename);
+				currentPattern = new oPattern(flatPatternName, subdir, filename, {});
 				currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
 
 				if(grunt.util._.str.include(filename, 'json')){
-					grunt.log.writeln('adding json data to pattern');
+					grunt.log.writeln('json file found first, so add it to the pattern and continuing');
 					currentPattern.data = grunt.file.readJSON(abspath);
 					//done
 				} else{
@@ -65,13 +59,18 @@ module.exports = function(grunt) {
 					var sub = subdir.substring(subdir.indexOf('-') + 1);
 					var folderIndex = sub.indexOf('/'); //THIS IS MOST LIKELY WINDOWS ONLY.  path.sep not working yet
 					var cleanSub = sub.substring(0, folderIndex);
-					var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
 
-					patternlab.partials[partialname] = currentPattern.patternOutput;
+					//add any templates found to an object of partials, so downstream templates may use them too
+					//exclude the template patterns - we don't need them as partials because pages will just swap data
+					if(cleanSub !== ''){
+						var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
 
-					//done		
+						patternlab.partials[partialname] = currentPattern.template;
+
+						//done		
+					}
 				}
-				//add to patternlab arrays
+				//add to patternlab arrays so we can look these up later.  this could probably just be an object.
 				patternlab.patternIndex.push(currentPattern.name);
 				patternlab.patterns.push(currentPattern);
 			} else{
@@ -81,23 +80,14 @@ module.exports = function(grunt) {
 				//determine if this file is data or pattern
 				if(grunt.util._.str.include(filename, 'mustache')){
 
-					grunt.log.writeln('mustache');
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
 					currentPattern.patternOutput = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
-					grunt.log.writeln('compiled with data!');
+					grunt.log.writeln('template compiled with data!');
 
 					//write the compiled template to the public patterns directory
 					grunt.file.write('./public/patterns/' + currentPattern.name + '/' + currentPattern.name + '.html', patternlab.header + currentPattern.patternOutput + patternlab.footer);
-
-					//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
-					var sub = subdir.substring(subdir.indexOf('-') + 1);
-					var folderIndex = sub.indexOf('/'); //THIS IS MOST LIKELY WINDOWS ONLY.  path.sep not working yet
-					var cleanSub = sub.substring(0, folderIndex);
-					var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
-
-					patternlab.partials[partialname] = currentPattern.patternOutput;
 
 					//done
 				} else{
