@@ -23,6 +23,16 @@ module.exports = function(grunt) {
 					,{ expand: true, cwd: './source/images/sample/', src: '*', dest: './public/images/sample/'}
 				]
 			}
+		},
+		watch: {
+			scss: {
+				files: ['source/css/**/*.scss'],
+				tasks: ['default']
+			},
+			mustache: {
+				files: ['source/_patterns/**/*.mustache'],
+				tasks: ['default']
+			}
 		}
 	});
 
