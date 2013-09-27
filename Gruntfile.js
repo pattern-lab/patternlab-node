@@ -32,6 +32,10 @@ module.exports = function(grunt) {
 			mustache: {
 				files: ['source/_patterns/**/*.mustache'],
 				tasks: ['default']
+			},
+			data: {
+				files: ['source/_patterns/**/*.json'],
+				tasks: ['default']
 			}
 		}
 	});
