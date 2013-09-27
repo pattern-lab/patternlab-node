@@ -17,12 +17,24 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-					{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'}
-					,{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' }
-					,{ expand: true, cwd: './source/images/', src: '*', dest: './public/images/' }
-					,{ expand: true, cwd: './source/images/sample/', src: '*', dest: './public/images/sample/'}
+					{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
+					{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' },
+					{ expand: true, cwd: './source/images/', src: '*', dest: './public/images/' },
+					{ expand: true, cwd: './source/images/sample/', src: '*', dest: './public/images/sample/'}
 				]
 			}
+		},
+		jshint: {
+			options: {
+				"curly": true,
+				"eqnull": true,
+				"eqeqeq": true,
+				"undef": true,
+				"forin": true,
+				//"unused": true,
+				"node": true
+			},
+			patternlab: ['Gruntfile.js', './builder/lib/patternlab.js']
 		},
 		watch: {
 			scss: {
@@ -43,7 +55,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 
+	//load the patternlab task
 	grunt.task.loadTasks('./builder/lib/');
 
 	grunt.registerTask('default', ['patternlab', 'sass', 'copy']);

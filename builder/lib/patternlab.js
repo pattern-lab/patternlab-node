@@ -1,5 +1,4 @@
-var util = require('util'),
-	path = require('path');
+var path = require('path');
 
 var oPattern = function(name, subdir, filename, data){
 	this.name = name; //this is the unique name with the subDir
@@ -9,6 +8,7 @@ var oPattern = function(name, subdir, filename, data){
 	this.template = '';
 	this.patternOutput = '';
 	this.patternName = ''; //this is the display name for the ui
+	this.patternLink = '';
 };
 
 var mustache = require('./Mustache/mustache.js');
@@ -29,7 +29,8 @@ module.exports = function(grunt) {
 			//check if the pattern already exists.  
 			var patternName = filename.substring(0, filename.indexOf('.'));
 			var patternIndex = patternlab.patternIndex.indexOf(subdir + '-' +  patternName);
-			var currentPattern;		
+			var currentPattern;	
+			var flatPatternPath;
 
 			//two reasons could return no pattern, 1) just a bare mustache, or 2) a json found before the mustache
 			//returns -1 if patterns does not exist, otherwise returns the index
@@ -53,7 +54,9 @@ module.exports = function(grunt) {
 					currentPattern.patternOutput = mustache.render(currentPattern.template, patternlab.data, patternlab.partials);
 
 					//write the compiled template to the public patterns directory
-					grunt.file.write('./public/patterns/' + currentPattern.name + '/' + currentPattern.name + '.html', patternlab.header + currentPattern.patternOutput + patternlab.footer);
+					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
+					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternOutput + patternlab.footer);
+					currentPattern.patternLink = flatPatternPath;
 
 					//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
 					var sub = subdir.substring(subdir.indexOf('-') + 1);
@@ -87,7 +90,9 @@ module.exports = function(grunt) {
 					grunt.log.writeln('template compiled with data!');
 
 					//write the compiled template to the public patterns directory
-					grunt.file.write('./public/patterns/' + currentPattern.name + '/' + currentPattern.name + '.html', patternlab.header + currentPattern.patternOutput + patternlab.footer);
+					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
+					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternOutput + patternlab.footer);
+					currentPattern.patternLink = flatPatternPath;
 
 					//done
 				} else{
@@ -107,4 +112,4 @@ module.exports = function(grunt) {
 		grunt.file.write('./public/styleguide/html/styleguide.html', styleguidehtml);
 
 	});
-}
+};
