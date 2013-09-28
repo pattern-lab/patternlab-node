@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 
 	//load the patternlab task
-	grunt.task.loadTasks('./builder/lib/');
+	grunt.task.loadTasks('./builder/');
 
 	grunt.registerTask('default', ['patternlab', 'sass', 'copy']);
 };
