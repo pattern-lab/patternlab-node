@@ -11,6 +11,34 @@ var oPattern = function(name, subdir, filename, data){
 	this.patternLink = '';
 };
 
+var oBucket = function(name){
+	this.bucketNameLC = name;
+	this.bucketNameUC = name.charAt(0).toUpperCase() + name.slice(1);
+	this.navItems = [];
+	this.navItemsIndex = [];
+	this.patternItems = [];
+	this.patternItemsIndex = [];
+};
+
+var oNavItem = function(name){
+	this.sectionNameLC = name;
+	this.sectionNameUC = name.charAt(0).toUpperCase() + name.slice(1);
+	this.navSubItems = [];
+	this.navSubItemsIndex = [];
+};
+
+var oNavSubItem = function(name){
+	this.patternPath = '';
+	this.patternPartial = '';
+	this.patternName = name.charAt(0).toUpperCase() + name.slice(1);;
+};
+
+var oPatternItem = function(){
+	this.patternPath = '';
+	this.patternPartial = '';
+	this.patternName = '';
+};
+
 var mustache = require('./Mustache/mustache.js');
 
 module.exports = function(grunt) {	
@@ -24,6 +52,8 @@ module.exports = function(grunt) {
 		patternlab.patterns = [];
 		patternlab.patternIndex = [];
 		patternlab.partials = {};
+		patternlab.buckets = [];
+		patternlab.bucketIndex = [];
 
 		grunt.file.recurse('./source/_patterns', function(abspath, rootdir, subdir, filename){
 			//check if the pattern already exists.  
@@ -102,14 +132,131 @@ module.exports = function(grunt) {
 
 		});
 
+		//build the styleguide
+		var styleguideTemplate = grunt.file.read('./source/_patternlab-files/styleguide.mustache');
+		var styleguideHtml = mustache.render(styleguideTemplate, {partials: patternlab.patterns});
+		grunt.file.write('./public/styleguide/html/styleguide.html', styleguideHtml);
+
+		//build the patternlab website
+		var patternlabSiteTemplate = grunt.file.read('./source/_patternlab-files/index.mustache');
+
+		//the patternlab site requires a lot of partials to be rendered.
+		//patternNav.
+		var patternNavTemplate = grunt.file.read('./source/_patternlab-files/partials/patternNav.mustache');
+		
+		//loop through all patterns.  deciding to do this separate from the recursion, even at a performance hit, to attempt to separate the tasks of styleguide creation versus site menu creation
+		for(var i = 0; i < patternlab.patterns.length; i++){
+			var pattern = patternlab.patterns[i]; 
+			var bucketName = pattern.name.replace(/\//g, '-').split('-')[1];
+
+			//check if the bucket already exists
+			var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
+			if(bucketIndex === -1){
+				//add the bucket
+				var bucket = new oBucket(bucketName);
+
+				//get the navItem
+				var navItemName = pattern.subdir.split('-').pop();
+
+				//get the navSubItem
+				var navSubItemName = pattern.patternName;
+
+				grunt.log.writeln('new bucket found: ' + bucketName + " " + navItemName + " " + navSubItemName);
+
+				//assume the navItem does not exist.
+				var navItem = new oNavItem(navItemName);
+
+				//assume the navSubItem does not exist.
+				var navSubItem = new oNavSubItem(navSubItemName);
+				navSubItem.patternPath = pattern.patternLink;
+				navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+
+				//TODO patternItems....
+
+				//add everything
+				navItem.navSubItems.push(navSubItem);
+				navItem.navSubItemsIndex.push(navSubItemName);
+				bucket.navItems.push(navItem);
+				bucket.navItemsIndex.push(navItemName);
+				patternlab.buckets.push(bucket);
+				patternlab.bucketIndex.push(bucketName);
+
+				//done
+
+			} else{
+				//find the bucket
+				var bucket = patternlab.buckets[bucketIndex];
+
+				//get the navItem
+				var navItemName = pattern.subdir.split('-').pop();
+
+				//get the navSubItem
+				var navSubItemName = pattern.patternName;
+
+				//check to see if navItem exists
+				var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
+				if(navItemIndex === -1){
+
+					var navItem = new oNavItem(navItemName);
+
+					//assume the navSubItem does not exist.
+					var navSubItem = new oNavSubItem(navSubItemName);
+					navSubItem.patternPath = pattern.patternLink;
+					navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+
+					//add the navItem and navSubItem
+					navItem.navSubItems.push(navSubItem);
+					navItem.navSubItemsIndex.push(navSubItemName);
+					bucket.navItems.push(navItem);
+					bucket.navItemsIndex.push(navItemName);
+
+				} else{
+					var navItem = bucket.navItems[navItemIndex];
+
+					//check to see if the navSubItem exists
+					var navSubItemIndex = navItem.navSubItemsIndex.indexOf(navSubItemName);
+					if(navSubItemIndex === -1){
+
+						var navSubItem = new oNavSubItem(navSubItemName);
+						navSubItem.patternPath = pattern.patternLink;
+						navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+
+						//add the navSubItem
+						navItem.navSubItems.push(navSubItem);
+						navItem.navSubItemsIndex.push(navSubItemName);
+
+					} else{
+
+						var navSubItem = navItem.navSubItems[navSubItemsIndex];
+
+						navSubItem.patternPath = pattern.patternLink;
+						navSubItem.patternPartial = bucketName + "-" + navSubItemName;						
+
+					}
+
+				}
+			}
+		}
+		var patternNavPartialHtml = mustache.render(patternNavTemplate, patternlab);
+
+		//ishControls
+		var ishControlsTemplate = grunt.file.read('./source/_patternlab-files/partials/ishControls.mustache');
+		var ishControlsPartialHtml = mustache.render(ishControlsTemplate);
+
+		//patternPaths
+		//viewAllPaths
+		//websockets
+
+		var patternlabSiteHtml = mustache.render(patternlabSiteTemplate, {}, {
+			'ishControls': ishControlsPartialHtml,
+			'patternNav': patternNavPartialHtml
+		});
+		grunt.file.write('./public/index.html', patternlabSiteHtml);
+
+
+		//debug
 		var outputFilename = './patternlab.json';
 		grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
-
-		//build the styleguide
-		var styleguidetemplate = grunt.file.read('./source/_patternlab-files/styleguide.mustache');
-		var styleguidehtml = mustache.render(styleguidetemplate, {partials: patternlab.patterns});
-
-		grunt.file.write('./public/styleguide/html/styleguide.html', styleguidehtml);
 
 	});
 };
