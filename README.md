@@ -23,9 +23,9 @@ Patternlab Node has reached [minimum viable product](http://en.wikipedia.org/wik
 * More Documentation
 * Tests
 
-===
-
 **THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
+
+
 ===
 
 ## Demo
