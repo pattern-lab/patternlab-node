@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*------------------------------------*\
     $STYLE GUIDE CONTAINER STYLES
 \*------------------------------------*/
@@ -112,6 +113,10 @@ html, body {
 	-webkit-text-size-adjust: 100%;
 }
 
+html#pattern-frame {
+	background: #fff;
+}
+
 .sg-nav-wrapper {
 	overflow: hidden;
 	background: $sg-tertiary;
@@ -159,7 +164,7 @@ html, body {
 		padding: 0;
 		margin: 0;
 	}
-	
+
 	li {
 		list-style: none;
 		border-bottom: 1px solid $sg-tint;
@@ -179,6 +184,25 @@ html, body {
 			background: $sg-tint;
 		}
 	}
+
+	ol{
+    li{
+      ol{
+        li{
+          ol{
+            li{
+              //3rd level nav item
+							a{
+								padding-left: 2em;
+								text-transform: none;
+							}
+            }
+          }
+        }
+      }
+    }
+  }
+  
 }
 
 
