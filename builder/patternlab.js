@@ -159,7 +159,7 @@ module.exports = function(grunt) {
 				var navItemName = pattern.subdir.split('-').pop();
 
 				//get the navSubItem
-				var navSubItemName = pattern.patternName;
+				var navSubItemName = pattern.patternName.replace(/-/g, ' ');
 
 				grunt.log.writeln('new bucket found: ' + bucketName + " " + navItemName + " " + navSubItemName);
 
@@ -191,7 +191,7 @@ module.exports = function(grunt) {
 				var navItemName = pattern.subdir.split('-').pop();
 
 				//get the navSubItem
-				var navSubItemName = pattern.patternName;
+				var navSubItemName = pattern.patternName.replace(/-/g, ' ');;
 
 				//check to see if navItem exists
 				var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);

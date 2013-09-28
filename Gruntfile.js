@@ -10,7 +10,9 @@ module.exports = function(grunt) {
 					precision: 8
 				},
 				files: {
-					'./source/css/style.css': './source/css/style.scss'
+					'./source/css/style.css': './source/css/style.scss',
+					'./public/styleguide/css/static.css': './source/styleguide/scss/static.scss',
+					'./public/styleguide/css/styleguide.css': './source/styleguide/scss/styleguide.scss'
 				}
 			}
 		},
@@ -20,7 +22,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
 					{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' },
 					{ expand: true, cwd: './source/images/', src: '*', dest: './public/images/' },
-					{ expand: true, cwd: './source/images/sample/', src: '*', dest: './public/images/sample/'}
+					{ expand: true, cwd: './source/images/sample/', src: '*', dest: './public/images/sample/'},
+					{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'}
 				]
 			}
 		},
@@ -38,7 +41,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			scss: {
-				files: ['source/css/**/*.scss'],
+				files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
 				tasks: ['default']
 			},
 			mustache: {
