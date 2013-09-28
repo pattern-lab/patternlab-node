@@ -2,22 +2,30 @@
 
 The Node version of Pattern Lab is, at its core, a static site generator. It combines platform-agnostic assets, like the [Mustache](http://mustache.github.io/)-based patterns and the JavaScript-based viewer, with a Node-based "builder" that transforms and dynamically builds the Pattern Lab site. By making it a static site generator, the Node version of Pattern Lab strongly separates patterns, data, and presentation from build logic. The Node version is a work in progress, the [PHP version](https://github.com/pattern-lab/patternlab-php) should be seen as a reference for other developers to improve upon as they build their own Pattern Lab Builders in their language of choice.
 
-
 ## Under Active Development
 
 The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and (hopefully) [@Wiscow](https://twitter.com/Wiscow).  Contributions welcome.  We both have kids under 2 years of age, so patience and coffee is requested :D
 
-#### Watching Progress
+### Getting Started
 
 To run the dev version of patternlab-node, first install the pulled down repo using `npm install` and then run `grunt`.  Right now this only creates the public/styleguide and each pattern, with or without data. `patternlab.json` is a file created for debugging purposes.  It tells you all the secrets in tidy json.
 
+Use `grunt watch` to have the styleguide and site rebuilt after every pattern, data, or scss/css change.
+
 To have patternlab-node watch for changes to either a mustache template or scss, run `grunt watch`.  The `Gruntfile` governs what is watched.  It should be easy to swap scss with whatever preprocessor you fancy.
 
-##### Roadmap
-* Patternlab site support.  (This is the uber cool navigation found at [demo.pattern-lab.info](http://demo.pattern-lab.info)).
-* Documentation
+#### Watching Progress
+
+Patternlab Node has reached [minimum viable product](http://en.wikipedia.org/wiki/Minimum_viable_product) status.  The main branch will always have the most up to date version of patternlab-node.  Watch the dev branch for what it coming next!
+
+#### Roadmap
+* Full Patternlab site support.  (This is the uber cool navigation found at [demo.pattern-lab.info](http://demo.pattern-lab.info)).
+* More Documentation
 * Tests
 
+===
+
+**THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
 ===
 
 ## Demo
