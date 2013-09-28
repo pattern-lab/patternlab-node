@@ -11,8 +11,8 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'./source/css/style.css': './source/css/style.scss',
-					'./public/styleguide/css/static.css': './source/styleguide/scss/static.scss',
-					'./public/styleguide/css/styleguide.css': './source/styleguide/scss/styleguide.scss'
+					'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
+					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss'
 				}
 			}
 		},
