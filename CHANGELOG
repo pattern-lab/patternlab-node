@@ -1,4 +1,8 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-v0.0.2
+ - FIX: Sub Nav Items now strip hyphens and are styled like patternlab-php.
+ - FIX: Grunt watching styleguide scss
+
 PL-v0.0.1
  - Minimum Viable Product! At this point, I feel you could use Pattern Lab Node to build a atomic design-drive website.
