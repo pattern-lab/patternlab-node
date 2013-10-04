@@ -54,6 +54,7 @@ module.exports = function(grunt) {
 		patternlab.partials = {};
 		patternlab.buckets = [];
 		patternlab.bucketIndex = [];
+		patternlab.patternPaths = {};
 
 		grunt.file.recurse('./source/_patterns', function(abspath, rootdir, subdir, filename){
 			//check if the pattern already exists.  
@@ -155,6 +156,10 @@ module.exports = function(grunt) {
 				//add the bucket
 				var bucket = new oBucket(bucketName);
 
+				//add paternPath
+				patternlab.patternPaths[bucketName] = {};
+
+
 				//get the navItem
 				var navItemName = pattern.subdir.split('-').pop();
 
@@ -180,6 +185,9 @@ module.exports = function(grunt) {
 				bucket.navItemsIndex.push(navItemName);
 				patternlab.buckets.push(bucket);
 				patternlab.bucketIndex.push(bucketName);
+
+				//add to patternPaths
+				patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
 				//done
 
@@ -230,11 +238,14 @@ module.exports = function(grunt) {
 						var navSubItem = navItem.navSubItems[navSubItemsIndex];
 
 						navSubItem.patternPath = pattern.patternLink;
-						navSubItem.patternPartial = bucketName + "-" + navSubItemName;						
-
+						navSubItem.patternPartial = bucketName + "-" + navSubItemName;
 					}
 
 				}
+
+				//add to patternPaths
+				patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+
 			}
 		}
 		var patternNavPartialHtml = mustache.render(patternNavTemplate, patternlab);
@@ -244,15 +255,28 @@ module.exports = function(grunt) {
 		var ishControlsPartialHtml = mustache.render(ishControlsTemplate);
 
 		//patternPaths
-		//viewAllPaths
-		//websockets
+		var patternPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/patternPaths.mustache');
+		var patternPathsPartialHtml = mustache.render(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
 
+		//viewAllPaths
+		
+
+		//websockets
+		var websocketsTemplate = grunt.file.read('./source/_patternlab-files/partials/websockets.mustache');
+		var config = grunt.file.readJSON('./config/config.json');
+		patternlab.contentsyncport = config.contentSyncPort;
+		patternlab.navsyncport = config.navSyncPort;
+
+		var websocketsPartialHtml = mustache.render(websocketsTemplate, patternlab);
+
+		//render the patternlab template, with all partials
 		var patternlabSiteHtml = mustache.render(patternlabSiteTemplate, {}, {
 			'ishControls': ishControlsPartialHtml,
-			'patternNav': patternNavPartialHtml
+			'patternNav': patternNavPartialHtml,
+			'patternPaths': patternPathsPartialHtml,
+			'websockets': websocketsPartialHtml
 		});
 		grunt.file.write('./public/index.html', patternlabSiteHtml);
-
 
 		//debug
 		var outputFilename = './patternlab.json';
