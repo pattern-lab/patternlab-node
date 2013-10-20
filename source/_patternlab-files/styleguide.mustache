@@ -23,18 +23,48 @@
 </div> <!--end #patterns-->
 </div><!--End Style Guide Main Content-->
 <script>
-	var body = document.getElementsByTagName('body');
+
+	// alert the iframe parent that the pattern has loaded. for page follow.
+	if (self != top) {
+		var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+		parent.postMessage( { "patternpartial": "all", "path": window.location.toString() }, targetOrigin);
+	}
+
+	// if there are clicks on the iframe make sure the nav in the iframe parent closes
+	var body = document.getElementsByTagName("body");
 	body[0].onclick = function() {
-		parent.postMessage({"bodyclick":"bodyclick"},window.location.protocol+"//"+window.location.host)
+		var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+		parent.postMessage( { "bodyclick": "bodyclick" }, targetOrigin)
 	};
-	
-	var els = document.getElementsByClassName("patternLink");
-	for (i in els) {
-		els[i].onclick = function() {
-			parent.postMessage({"patternpartial":this.getAttribute("data-patternpartial")},window.location.protocol+"//"+window.location.host);
-			return false;
+
+	// find all links and add an onclick handler for replacing the iframe address so the history works
+	if (self != top) {
+		var aTags = document.getElementsByTagName("a");
+		for (a in aTags) {
+			aTags[a].onclick = function(e) {
+				e.preventDefault();
+				window.location.replace(this.getAttribute("href"));
+			};
 		}
 	}
+
+	// watch the iframe source so that it can be sent back to everyone else.
+	function receiveIframeMessage(event) {
+
+		// does the origin sending the message match the current host? if not dev/null the request
+		if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
+			return;
+		}
+
+		if (event.data.path != undefined) {
+			var path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("styleguide\/html\/styleguide.html","")+event.data.path;
+			window.location.replace(path);
+		} else if (event.data.reload != undefined) {
+			window.location.reload();
+		}
+
+	}
+	window.addEventListener("message", receiveIframeMessage, false);
 </script>
 </body>
 </html>

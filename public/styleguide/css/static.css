@@ -1,0 +1,401 @@
+@charset "UTF-8";
+/*
+colors
+red: $orange; rgb(229,24,55)
+gray: #808080;
+*/
+/************Reset**************/
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body, div, object, iframe, fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+ol, ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+header, footer, nav, section, article, hgroup, figure {
+  display: block;
+}
+
+legend {
+  display: none;
+}
+
+/************End Reset**************/
+/************Global**************/
+body {
+  background: #fff;
+  color: #000;
+  font: 100%/1.4 "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+  border-top: 20px solid black;
+  border-bottom: 20px solid black;
+}
+
+a {
+  color: #808080;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #bededf;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+img, object, video {
+  max-width: 100%;
+  border: 0;
+}
+
+a img {
+  border: 0;
+  outline: 0;
+}
+
+h1 {
+  font-size: 3em;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.2em;
+}
+
+h2 {
+  font-size: 2em;
+  line-height: 1.1;
+  margin-bottom: 0.2em;
+}
+
+h3 {
+  font-weight: normal;
+  line-height: 1.1;
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid #cccccc;
+}
+
+h1 a, h2 a, h3 a {
+  display: block;
+  color: #000;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover {
+  color: #bededf;
+}
+
+blockquote {
+  border-left: 0.5em solid #dddddd;
+  padding-left: 1em;
+  margin-left: 1em;
+}
+
+small {
+  color: #bededf;
+}
+
+input[type=search] {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+::-webkit-input-placeholder {
+  color: #808080;
+}
+
+:-moz-placeholder {
+  color: #808080;
+}
+
+/************End Global**************/
+/************Classes**************/
+.inactive {
+  color: #ddd;
+}
+
+/************End Classes**************/
+/************Structure**************/
+.container {
+  max-width: 60em;
+  margin: 0 auto;
+  padding: 0 1em;
+  overflow: hidden;
+}
+
+[role=main] {
+  padding-bottom: 1em;
+}
+
+/*Footer*/
+[role=contentinfo] {
+  color: #fff;
+  background: #000;
+  margin: 0 -1em;
+  position: relative;
+  z-index: 2;
+  /*End Footer*/
+  /*Grid*/
+  /*Fluid*/
+  /*Homepage*/
+  /*Patterns*/
+  /*Blog*/
+  /*Blog Header*/
+  /*Posts*/
+  /* Sidebar */
+}
+[role=contentinfo] > div {
+  max-width: 60em;
+  padding: 0 1em;
+  margin: 0 auto;
+  overflow: hidden;
+}
+[role=contentinfo] .grid {
+  margin: 0 -1em;
+  overflow: hidden;
+}
+[role=contentinfo] .grid:target {
+  -webkit-animation: fadeout 5s 1 ease-out;
+  -moz-animation: fadeout 5s 1 ease-out;
+  -o-animation: fadeout 5s 1 ease-out;
+  animation: fadeout 5s 1 ease-out;
+}
+[role=contentinfo] .grid > h2 {
+  margin-left: 0.45em;
+}
+[role=contentinfo] .grid > section {
+  padding: 1em 1em 0.5em;
+}
+[role=contentinfo] .grid > section:target {
+  -webkit-animation: fadeout 5s 1 ease-out;
+  -moz-animation: fadeout 5s 1 ease-out;
+  -o-animation: fadeout 5s 1 ease-out;
+  animation: fadeout 5s 1 ease-out;
+}
+[role=contentinfo] .grid ul {
+  overflow: hidden;
+}
+[role=contentinfo] .grid ul li {
+  margin-bottom: 0.3em;
+}
+[role=contentinfo] .featured:after {
+  content: "*";
+  color: #bededf;
+}
+[role=contentinfo] .fluid {
+  display: block;
+  margin: 0 auto;
+  max-width: 40em;
+}
+[role=contentinfo] .home h1 {
+  margin-bottom: 0.2em;
+}
+[role=contentinfo] .intro {
+  font-size: 1.8em;
+  line-height: 1.2;
+  margin: 0 auto;
+}
+[role=contentinfo] .intro a:hover, [role=contentinfo] .intro a:focus {
+  color: #000;
+  border-bottom-color: #000;
+}
+[role=contentinfo] .ani {
+  position: relative;
+  height: 15em;
+  margin: 1em 0 0;
+  width: 100%;
+  z-index: 0;
+}
+[role=contentinfo] .ani div {
+  width: 100%;
+}
+[role=contentinfo] .ani div b {
+  display: block;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  bottom: 5%;
+  left: 5%;
+  background: rgba(229, 24, 55, 0.22);
+}
+[role=contentinfo] .mod {
+  padding: 1em;
+}
+[role=contentinfo] .pattern {
+  background: #f7f7f7;
+  border-bottom: 1px solid gray;
+  margin-bottom: 1em;
+  overflow: hidden;
+}
+[role=contentinfo] .pattern-description h1 {
+  font-size: 3.4em;
+  margin-bottom: 0.5em;
+}
+[role=contentinfo] .pattern-description {
+  max-width: 40em;
+  margin: 0 auto;
+}
+[role=contentinfo] .pattern-description ul, [role=contentinfo] .pattern-description ol {
+  margin-bottom: 2em;
+}
+[role=contentinfo] .pattern-description li {
+  margin-bottom: 1em;
+}
+[role=contentinfo] .blog .container {
+  max-width: 62em;
+}
+[role=contentinfo] .blog header[role=banner] {
+  overflow: hidden;
+  margin-bottom: 2em;
+  padding: 2em 0 1em;
+  border-bottom: 1px solid black;
+}
+[role=contentinfo] .blog-logo {
+  font-weight: normal;
+  font-size: 1.2em;
+  margin: 0 0 1em;
+}
+[role=contentinfo] .blog-logo img {
+  width: 3.3em;
+}
+[role=contentinfo] .blog-logo a {
+  color: #000;
+}
+[role=contentinfo] .search-form {
+  width: 100%;
+  margin-bottom: 1em;
+}
+[role=contentinfo] .search-field {
+  width: 100%;
+  padding: 0.5em 0;
+  border: 0;
+  border-bottom: 1px solid gray;
+  outline: none;
+}
+[role=contentinfo] .search-field:focus {
+  background: #bededf;
+  color: #fff;
+}
+[role=contentinfo] .search-field:focus::-webkit-input-placeholder {
+  color: #fff;
+}
+[role=contentinfo] .search-field:focus :-moz-placeholder {
+  color: #fff;
+}
+[role=contentinfo] .blog .nav {
+  clear: both;
+}
+[role=contentinfo] .blog .nav a {
+  display: block;
+  font-weight: bold;
+  color: #000;
+}
+[role=contentinfo] .blog .nav a:hover {
+  color: #bededf;
+}
+[role=contentinfo] .posts ol > li {
+  padding-bottom: 1em;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 1em;
+  overflow: hidden;
+}
+[role=contentinfo] .posts h2 {
+  font-size: 1.4em;
+  margin: 0.28em 0 0.1em;
+  font-weight: normal;
+}
+[role=contentinfo] .posts h2 a {
+  color: #000;
+}
+[role=contentinfo] .posts h2 a:hover, [role=contentinfo] .posts h2 a:focus {
+  color: #bededf;
+}
+[role=contentinfo] .permalink {
+  display: block;
+  font-size: 0.8em;
+  margin-bottom: 1.2em;
+}
+[role=contentinfo] .post-body a {
+  border-bottom: 1px solid #cccccc;
+}
+[role=contentinfo] .posts blockquote {
+  margin: 0 0 1em;
+  color: #666;
+  border-left: 0.25em solid #cccccc;
+  padding-left: 1em;
+}
+[role=contentinfo] .tags {
+  float: left;
+}
+[role=contentinfo] .tags li {
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 0.5em;
+}
+[role=contentinfo] .posts ol > li .tags a, [role=contentinfo] .permalink {
+  color: #ccc;
+  -webkit-transition: color 0.3s ease-out;
+  -moz-transition: color 0.3s ease-out;
+  -ms-transition: color 0.3s ease-out;
+  -o-transition: color 0.3s ease-out;
+  transition: color 0.3s ease-out;
+}
+[role=contentinfo] .posts ol > li:hover .tags a, [role=contentinfo] .posts ol > li:hover .permalink {
+  color: #808080;
+}
+[role=contentinfo] .blog-nav {
+  text-align: center;
+  overflow: hidden;
+  padding: 1em 0;
+}
+[role=contentinfo] .posts .blog-nav a {
+  border: 0;
+}
+[role=contentinfo] .nav-next {
+  float: right;
+}
+[role=contentinfo] .nav-prev {
+  float: left;
+}
+[role=contentinfo] .sidebar {
+  font-size: 0.8em;
+  padding-bottom: 1.4em;
+}
+[role=contentinfo] .sidebar div {
+  margin-bottom: 2em;
+}
+[role=contentinfo] .sidebar h3 {
+  font-weight: bold;
+  font-size: 0.9em;
+  line-height: 1;
+  border-bottom: 1px solid black;
+}
+[role=contentinfo] .sidebar a {
+  color: #808080;
+}
+[role=contentinfo] .sidebar a:hover, [role=contentinfo] .sidebar a:focus {
+  color: #bededf;
+}
+[role=contentinfo] .top {
+  clear: both;
+  display: block;
+  padding: 1em 0;
+}
+[role=contentinfo] .top:before {
+  content: '▲';
+}
