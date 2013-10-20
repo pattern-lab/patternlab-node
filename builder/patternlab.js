@@ -9,6 +9,9 @@ var oPattern = function(name, subdir, filename, data){
 	this.patternOutput = '';
 	this.patternName = ''; //this is the display name for the ui
 	this.patternLink = '';
+	this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
+	this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
+	this.flatPatternPath = subdir.replace(/\//g, '-');
 };
 
 var oBucket = function(name){
@@ -55,6 +58,7 @@ module.exports = function(grunt) {
 		patternlab.buckets = [];
 		patternlab.bucketIndex = [];
 		patternlab.patternPaths = {};
+		patternlab.viewAllPaths = {};
 
 		grunt.file.recurse('./source/_patterns', function(abspath, rootdir, subdir, filename){
 			//check if the pattern already exists.  
@@ -62,6 +66,11 @@ module.exports = function(grunt) {
 			var patternIndex = patternlab.patternIndex.indexOf(subdir + '-' +  patternName);
 			var currentPattern;	
 			var flatPatternPath;
+
+			//ignore _underscored patterns
+			if(filename.charAt(0) === '_'){
+				return;
+			}
 
 			//two reasons could return no pattern, 1) just a bare mustache, or 2) a json found before the mustache
 			//returns -1 if patterns does not exist, otherwise returns the index
@@ -159,7 +168,6 @@ module.exports = function(grunt) {
 				//add paternPath
 				patternlab.patternPaths[bucketName] = {};
 
-
 				//get the navItem
 				var navItemName = pattern.subdir.split('-').pop();
 
@@ -246,8 +254,42 @@ module.exports = function(grunt) {
 				//add to patternPaths
 				patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
+				//check to see if this bucket has a View All yet.  If not, add it.
+				// var navItem = bucket.navItems[navItemIndex];
+				// if(navItem){
+				// 	var hasViewAll = navItem.navSubItemsIndex.indexOf('View All');
+				// 	if(hasViewAll === -1){
+				// 		console.log('add a view all pattern');
+
+				// 			var navSubItem = new oNavSubItem('View All');
+				// 			navSubItem.patternPath = pattern.flatPatternPath + '/index.html'; //this is likely wrong
+				// 			navSubItem.patternPartial = 'viewall-' + bucketName + '-' + pattern.patternSubGroup;
+
+				// 			//add the navSubItem
+				// 			console.log(navSubItem);
+				// 			navItem.navSubItems.push(navSubItem);
+				// 			navItem.navSubItemsIndex.push('View All');
+				// 	} 	
+				// }
 			}
-		}
+
+			//VIEW ALL LOGIC CAN LOOP THROUGH PATTERNS TOO
+			//only add if it's an atom, molecule, or organism
+			// if(pattern.patternGroup === 'atoms' || pattern.patternGroup === 'molecules' || pattern.patternGroup === 'organisms'){
+			// 	if(patternlab.viewAllPaths[pattern.patternGroup]){
+					
+			// 		//add the pattern sub-group
+			// 		patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
+			// 	}
+			// 	else{
+			// 		//add the new group then the subgroup
+			// 		patternlab.viewAllPaths[pattern.patternGroup] = {};
+			// 		patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
+			// 	}
+			// }
+
+		};
+
 		var patternNavPartialHtml = mustache.render(patternNavTemplate, patternlab);
 
 		//ishControls
@@ -259,7 +301,8 @@ module.exports = function(grunt) {
 		var patternPathsPartialHtml = mustache.render(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
 
 		//viewAllPaths
-		
+		var viewAllPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/viewAllPaths.mustache');
+		var viewAllPathersPartialHtml = mustache.render(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
 		//websockets
 		var websocketsTemplate = grunt.file.read('./source/_patternlab-files/partials/websockets.mustache');
@@ -274,7 +317,8 @@ module.exports = function(grunt) {
 			'ishControls': ishControlsPartialHtml,
 			'patternNav': patternNavPartialHtml,
 			'patternPaths': patternPathsPartialHtml,
-			'websockets': websocketsPartialHtml
+			'websockets': websocketsPartialHtml,
+			'viewAllPaths': viewAllPathersPartialHtml
 		});
 		grunt.file.write('./public/index.html', patternlabSiteHtml);
 
