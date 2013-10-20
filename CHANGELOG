@@ -2,6 +2,7 @@ THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
 PL-v0.0.2
  - FIX: Sub Nav Items now strip hyphens and are styled like patternlab-php.
+ - FIX: Exclude patterns by using an underscore
  - FIX: Grunt watching styleguide scss
 
 PL-v0.0.1
