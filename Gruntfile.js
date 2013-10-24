@@ -40,10 +40,10 @@ module.exports = function(grunt) {
 			patternlab: ['Gruntfile.js', './builder/lib/patternlab.js']
 		},
 		watch: {
-			scss: {
-				files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
-				tasks: ['default']
-			},
+			// scss: { //scss can be watched if you like
+			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
+			// 	tasks: ['default']
+			// },
 			mustache: {
 				files: ['source/_patterns/**/*.mustache'],
 				tasks: ['default']
@@ -63,5 +63,6 @@ module.exports = function(grunt) {
 	//load the patternlab task
 	grunt.task.loadTasks('./builder/');
 
-	grunt.registerTask('default', ['patternlab', 'sass', 'copy']);
+	//if you choose to use scss, or any preprocessor, you can add it here
+	grunt.registerTask('default', ['patternlab', /*'sass',*/ 'copy']);
 };
