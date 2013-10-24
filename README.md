@@ -8,11 +8,15 @@ The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](
 
 ### Getting Started
 
-To run the dev version of patternlab-node, first install the pulled down repo using `npm install` and then run `grunt`.  Right now this only creates the public/styleguide and each pattern, with or without data. `patternlab.json` is a file created for debugging purposes.  It tells you all the secrets in tidy json.
+To run patternlab-node, just do the following from the command line at the root of patternlab-node: 
 
-Use `grunt watch` to have the styleguide and site rebuilt after every pattern, data, or scss/css change.
+1. `npm install`
+2. `npm install -g grunt-cli`
+3. `grunt`  
 
-To have patternlab-node watch for changes to either a mustache template or scss, run `grunt watch`.  The `Gruntfile` governs what is watched.  It should be easy to swap scss with whatever preprocessor you fancy.
+This creates all patterns, the styleguide, and the patternlab site. `patternlab.json` is a file created for debugging purposes.  It tells you all the secrets in tidy json.
+
+To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt watch`. The `Gruntfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
 
 #### Watching Progress
 
