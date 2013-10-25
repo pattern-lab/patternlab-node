@@ -1,0 +1,13 @@
+THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
+
+PL-node-v0.0.3
+ - FIX: Install documentation was incomplete, should not have assumed grunt
+ - FIX: Remove SASS/SCSS dependency which was causing clean installs from failing
+
+PL-node-v0.0.2
+ - FIX: Sub Nav Items now strip hyphens and are styled like patternlab-php.
+ - FIX: Exclude patterns by using an underscore
+ - FIX: Grunt watching styleguide scss
+
+PL-node-v0.0.1
+ - Minimum Viable Product! At this point, I feel you could use Pattern Lab Node to build a atomic design-drive website.
