@@ -3,19 +3,7 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		sass: {
-			build: {
-				options: {
-					style: 'expanded',
-					precision: 8
-				},
-				files: {
-					'./source/css/style.css': './source/css/style.scss',
-					'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
-					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss'
-				}
-			}
-		},
+		clean: ['./public/patterns'],
 		copy: {
 			main: {
 				files: [
@@ -52,10 +40,24 @@ module.exports = function(grunt) {
 				files: ['source/_patterns/**/*.json'],
 				tasks: ['default']
 			}
+		},
+		sass: {
+			build: {
+				options: {
+					style: 'expanded',
+					precision: 8
+				},
+				files: {
+					'./source/css/style.css': './source/css/style.scss',
+					'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
+					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss'
+				}
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -64,5 +66,5 @@ module.exports = function(grunt) {
 	grunt.task.loadTasks('./builder/');
 
 	//if you choose to use scss, or any preprocessor, you can add it here
-	grunt.registerTask('default', ['patternlab', /*'sass',*/ 'copy']);
+	grunt.registerTask('default', ['clean', 'patternlab', /*'sass',*/ 'copy']);
 };
