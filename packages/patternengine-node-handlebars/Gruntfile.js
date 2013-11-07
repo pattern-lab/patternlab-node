@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 				tasks: ['default']
 			},
 			data: {
-				files: ['source/_patterns/**/*.json'],
+				files: ['source/_patterns/**/*.json', 'source/_data/*.json'],
 				tasks: ['default']
 			}
 		},
