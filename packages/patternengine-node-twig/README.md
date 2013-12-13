@@ -4,7 +4,7 @@ The Node version of Pattern Lab is, at its core, a static site generator. It com
 
 ## Under Active Development
 
-The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and (hopefully) [@Wiscow](https://twitter.com/Wiscow).  Contributions welcome.  We both have kids under 2 years of age, so patience and coffee is requested :D
+The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer).  Contributions welcome!
 
 ### Getting Started
 
