@@ -56,11 +56,8 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
+	// load all grunt tasks
+ 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 	//load the patternlab task
 	grunt.task.loadTasks('./builder/');
