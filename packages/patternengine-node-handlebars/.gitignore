@@ -8,8 +8,6 @@ public/fonts/*
 public/js/*
 public/images/*
 public/patterns/*
-public/styleguide/*.js
-public/styleguide/js/*.js
 config.ini
 latest-change.txt
 patternlab.json
