@@ -97,9 +97,7 @@ module.exports = function(grunt) {
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
 
 					//add footer info before writing
-					console.log(currentPattern);
 					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
-					console.log(currentPatternFooter);
 
 					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
 					currentPattern.patternLink = flatPatternPath;
