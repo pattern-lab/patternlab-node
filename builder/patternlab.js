@@ -6,7 +6,7 @@ var oPattern = function(name, subdir, filename, data){
 	this.filename = filename;
 	this.data =  data;
 	this.template = '';
-	this.patternOutput = '';
+	this.patternPartial = '';
 	this.patternName = ''; //this is the display name for the ui
 	this.patternLink = '';
 	this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
@@ -91,11 +91,17 @@ module.exports = function(grunt) {
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
-					currentPattern.patternOutput = mustache.render(currentPattern.template, patternlab.data, patternlab.partials);
+					currentPattern.patternPartial = mustache.render(currentPattern.template, patternlab.data, patternlab.partials);
 
 					//write the compiled template to the public patterns directory
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternOutput + patternlab.footer);
+
+					//add footer info before writing
+					console.log(currentPattern);
+					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
+					console.log(currentPatternFooter);
+
+					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
 					currentPattern.patternLink = flatPatternPath;
 
 					//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
@@ -126,12 +132,17 @@ module.exports = function(grunt) {
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
-					currentPattern.patternOutput = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
+					currentPattern.patternPartial = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
 					grunt.log.writeln('template compiled with data!');
 
 					//write the compiled template to the public patterns directory
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternOutput + patternlab.footer);
+
+					//add footer info before writing
+					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
+
+					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
+
 					currentPattern.patternLink = flatPatternPath;
 
 					//done
@@ -187,13 +198,19 @@ module.exports = function(grunt) {
 				navSubItem.patternPartial = bucketName + "-" + navSubItemName;
 
 				//if it is flat - we should not add the pattern to patternPaths
-				if(flatPatternItem){
-					//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
+				//EXPERIMENT: ADD THESE ANYWAYS. COMMENTING OUT THE IF STATEMENT
+				// if(flatPatternItem){
+				// 	//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
 					
-					//add the navItem to patternItems
-					bucket.patternItems.push(navSubItem);
+				// 	//add the navItem to patternItems
+				// 	bucket.patternItems.push(navSubItem);
 
-				} else{
+
+				// 	//EXPERIMENT: ADD THESE ANYWAYS
+
+
+
+				// } else{
 					//add the more complex nav items
 					bucket.navItems.push(navItem);
 					bucket.navItemsIndex.push(navItemName);
@@ -202,7 +219,7 @@ module.exports = function(grunt) {
 
 					//add to patternPaths
 					patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
-				}
+				// EXPERIMENT} 
 
 				//add the bucket.
 				patternlab.buckets.push(bucket);
@@ -233,12 +250,13 @@ module.exports = function(grunt) {
 				}
 
 				//if it is flat - we should not add the pattern to patternPaths
-				if(flatPatternItem){
-					//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
+				//EXPERIMENT: ADD THESE ANYWAYS. COMMENTING OUT THE IF STATEMENT
+				// if(flatPatternItem){
+				// 	//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
 
-					//add the navItem to patternItems
-					bucket.patternItems.push(navSubItem);
-				} else{
+				// 	//add the navItem to patternItems
+				// 	bucket.patternItems.push(navSubItem);
+				// } else{
 					//check to see if navItem exists
 					var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
 					if(navItemIndex === -1){
@@ -261,7 +279,7 @@ module.exports = function(grunt) {
 					//add to patternPaths
 					patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
-				}
+				//EXPERIMENT }
 
 
 				//check to see if this bucket has a View All yet.  If not, add it.

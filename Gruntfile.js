@@ -11,7 +11,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' },
 					{ expand: true, cwd: './source/images/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/' },
 					{ expand: true, cwd: './source/images/sample/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/sample/'},
-					{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'}
+					{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
+					{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
 				]
 			}
 		},

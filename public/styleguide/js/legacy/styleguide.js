@@ -1,11 +1,11 @@
 (function(w){
-	
 	var sw = document.body.clientWidth, //Viewport Width
 		sh = document.body.clientHeight, //Viewport Height
 		minViewportWidth = 240, //Minimum Size for Viewport
 		maxViewportWidth = 2600, //Maxiumum Size for Viewport
 		viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
 		$sgViewport = $('#sg-viewport'), //Viewport element
+		$viewToggle = $('#sg-t-toggle'), //Toggle 
 		$sizePx = $('.sg-size-px'), //Px size input element in toolbar
 		$sizeEms = $('.sg-size-em'), //Em size input element in toolbar
 		$bodySize = parseInt($('body').css('font-size')), //Body size of the document
@@ -35,8 +35,10 @@
 		$('.sg-nav-container').toggleClass('active');
 	});
 	
-	//"View (containing clean, code, raw, etc options) Trigger
-	$('#sg-t-toggle').on("click", function(e){
+	
+	
+	//View Trigger
+	$viewToggle.on("click", function(e){
 		e.preventDefault();
 		$(this).parents('ul').toggleClass('active');
 	});
@@ -45,6 +47,13 @@
 	$('#sg-size-toggle').on("click", function(e){
 		e.preventDefault();
 		$(this).parents('ul').toggleClass('active');
+	});
+
+	//Add Active States for size controls
+	$('#sg-controls a').on("click", function(e){
+		var $this = $(this);
+		$('#sg-controls a').removeClass('active');
+		$this.addClass('active');
 	});
 	
 	//Phase View Events
@@ -160,12 +169,9 @@
 		hayMode = true;
 		$('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth+viewportResizeHandleWidth);
 		$sgViewport.removeClass("vp-animate").width(minViewportWidth);		
-		
 		var timeoutID = window.setTimeout(function(){
 			$('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth+viewportResizeHandleWidth);
 			$sgViewport.addClass('hay-mode').width(maxViewportWidth);
-			
-			setInterval(function(){ var vpSize = $sgViewport.width(); updateSizeReading(vpSize); },100);
 		}, 200);
 	}
 
@@ -211,16 +217,6 @@
 	$sizeEms.on('keyup', function(e){
 		var val = parseFloat($(this).val());
 		updateSizeReading(val,'em','updatePxInput');
-	});
-	
-	// handle the MQ click
-	$('#sg-mq a').on("click", function(e){
-		e.preventDefault();
-		var val = $(this).html();
-		var type = (val.indexOf("px") != -1) ? "px" : "em";
-		val = val.replace(type,"");
-		var width = (type == "px") ? val*1 : val*$bodySize;
-		sizeiframe(width,true);
 	});
 	
 	//Resize the viewport
@@ -291,7 +287,7 @@
 	function updateViewportWidth(size) {
 	
 		$("#sg-viewport").width(size);
-		$("#sg-gen-container").width(size*1 + 14);
+		$("#sg-gen-container").width(Math.floor(size) + 14);
 		
 		updateSizeReading(size);
 	}
@@ -359,7 +355,7 @@
 	}
 	
 	// load the iframe source
-	var patternName = "all";
+	var patternName = "";
 	var patternPath = "";
 	var iFramePath  = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"styleguide/html/styleguide.html";
 	if ((oGetVars.p != undefined) || (oGetVars.pattern != undefined)) {
@@ -368,32 +364,112 @@
 		iFramePath  = (patternPath != "") ? window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+patternPath : iFramePath;
 	}
 	
-	if (patternName != "all") {
-		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
-		history.replaceState({ "pattern": patternName }, null, null);
-	}
+	document.getElementById("sg-viewport").contentWindow.location.assign(iFramePath);
 	
-	document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
-	
-	urlHandler.skipBack = true;
-	document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
+	history.replaceState({ "pattern": patternName }, null, null);
 	
 	//IFrame functionality
+
+	//Scripts to run after the page has loaded into the iframe
+	$sgViewport.load(function (){
+		var $sgSrc = $sgViewport.attr('src'),
+			$vp = $sgViewport.contents(),
+			$sgPattern = $vp.find('.sg-pattern');
+
+		//Clean View Trigger
+		$('#sg-t-clean').on("click", function(e){
+			e.preventDefault();
+			$sgViewport.contents().hide();
+			$vp.find('body').toggleClass('sg-clean');
+			$vp.find('#intro, .sg-head, #about-sg').toggle();
+			$vp.find('[role=main]').toggleClass('clean');
+		});
+		
+		//Code View Trigger
+		$('#sg-t-code').click(function(e){
+			var $code = $vp.find('.sg-code');
+			e.preventDefault();
+			
+			if($vp.find('.sg-code').length==0) {
+				buildCodeView();
+			} else {
+				$code.toggle();
+			}
+		});
+
+		//Annotation View Trigger
+		$('#sg-t-annotations').click(function(e){
+			var $annotations = $vp.find('.sg-annotations');
+			e.preventDefault();
+			
+			if($vp.find('.sg-annotations').length==0) {
+				buildAnnotationView();
+			} else {
+				$annotations.toggle();
+			}
+		});
+		
+		//Add code blocks after each pattern
+		function buildCodeView() {
+			$sgPattern.each(function(index) {
+				$this = $(this),
+				$thisHTML = $this.html().replace(/[<>]/g, function(m) { return {'<':'&lt;','>':'&gt;'}[m]}), 
+				$thisCode = $( '<code></code>' ).html($thisHTML);
+				
+				$('<pre class="sg-code" />').html($thisCode).appendTo($this); //Create new node, fill it with the code text, then append it to the pattern
+			});
+			$vp.find('.sg-code').show();
+		}
+
+		//Add annotation blocks after each pattern
+		function buildAnnotationView() {
+			$sgPattern.each(function(index) { //Loop through each pattern
+				$this = $(this),
+				$thisAnnotation = "This is an example of an annotation. Eventually this annotation will be replaced by a real annotation defined in an external JSON file."; //Example Annotation
+				
+				$('<div class="sg-annotations" />').html($thisAnnotation).appendTo($this); //Create new node, fill it with the annotation text, then append it to the pattern
+			});
+			$vp.find('.sg-annotations').show();
+		}
+		
+		// Pattern Click
+		// this doesn't work because patternlab-php assumes the iframe is being refreshed. not the overall app
+		/*
+		$vp.find('.sg-head a').on("click", function(e){
+			e.preventDefault();
+			var thisHref = $(this).attr('href');
+			window.location = thisHref;
+		});
+		*/
+	});
 	
 })(this);
 
+// reload the iframes initial state when clicking on home
+$('.sg-nav-home').on('click', function(e){
+	
+	document.getElementById("sg-viewport").contentWindow.location.assign(iFramePath);
+
+	//todo push state to maintain history.  not familiar with this yet.
+	
+	e.stopPropagation();
+
+	return false;
+
+});
+
 // update the iframe with the source from clicked element in pull down menu. also close the menu
 // having it outside fixes an auto-close bug i ran into
-$('.sg-nav a').not('.sg-acc-handle').on("click", function(e){
-	
-	e.preventDefault();
+$('.sg-nav a').not('.sg-acc-handle').not('.sg-nav-home').on("click", function(e){
 	
 	// update the iframe via the history api handler
-	document.getElementById("sg-viewport").contentWindow.postMessage( { "path": urlHandler.getFileName($(this).attr("data-patternpartial")) }, urlHandler.targetOrigin);
+	urlHandler.pushPattern($(this).attr("data-patternpartial"));
 	
 	// close up the menu
 	$(this).parents('.sg-acc-panel').toggleClass('active');
 	$(this).parents('.sg-acc-panel').siblings('.sg-acc-handle').toggleClass('active');
+	
+	e.stopPropagation();
 	
 	return false;
 	
@@ -438,19 +514,13 @@ function receiveIframeMessage(event) {
 		
 		if (!urlHandler.skipBack) {
 			
-			if ((history.state == null) || (history.state.pattern != event.data.patternpartial)) {
-				urlHandler.pushPattern(event.data.patternpartial, event.data.path);
-			}
-			
+			var iFramePath = urlHandler.getFileName(event.data.patternpartial);
+			urlHandler.pushPattern(event.data.patternpartial, event.data.path);
 			if (wsnConnected) {
-				var iFramePath = urlHandler.getFileName(event.data.patternpartial);
 				wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
 			}
 			
 		}
-		
-		// for testing purposes
-		console.log(event.data.lineage);
 		
 		// reset the defaults
 		urlHandler.skipBack = false;
