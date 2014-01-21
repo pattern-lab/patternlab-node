@@ -12,8 +12,9 @@
 
 var urlHandler = {
 	
-	// if true it'll make sure iFrames and history aren't updated on back button click
+	// set-up some default vars
 	skipBack: false,
+	targetOrigin: (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host,
 	
 	/**
 	* get the real file name for a given pattern name
@@ -28,6 +29,10 @@ var urlHandler = {
 		
 		if (name == undefined) {
 			return fileName;
+		}
+		
+		if (name == "all") {
+			return "styleguide/html/styleguide.html";
 		}
 		
 		var paths = (name.indexOf("viewall-") != -1) ? viewAllPaths : patternPaths;
@@ -117,15 +122,21 @@ var urlHandler = {
 	/**
 	* push a pattern onto the current history based on a click
 	* @param  {String}       the shorthand partials syntax for a given pattern
+	* @param  {String}       the path given by the loaded iframe
 	*/
-	pushPattern: function (pattern) {
-		var data = { "pattern": pattern };
-		var path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+urlHandler.getFileName(pattern);
-		if (document.getElementById("sg-viewport").contentWindow.location.toString() != path) {
-			urlHandler.skipBack = true;
-			document.getElementById("sg-viewport").contentWindow.location.replace(path);
+	pushPattern: function (pattern, givenPath) {
+		var data         = { "pattern": pattern };
+		var fileName     = urlHandler.getFileName(pattern);
+		var expectedPath = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("public/index.html","public/")+fileName;
+		if (givenPath != expectedPath) {
+			// make sure to update the iframe because there was a click
+			document.getElementById("sg-viewport").contentWindow.postMessage( { "path": fileName }, urlHandler.targetOrigin);
 		} else {
-			history.pushState(data, "", window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern);
+			// add to the history
+			var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
+			history.pushState(data, null, addressReplacement);
+			document.getElementById("title").innerHTML = "Pattern Lab - "+pattern;
+			document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(pattern));
 		}
 	},
 	
@@ -138,13 +149,8 @@ var urlHandler = {
 		var state = e.state;
 		
 		if (state == null) {
-			var rVars = this.getRequestVars();
-			if ((rVars.p != undefined) || (rVars.pattern != undefined)) {
-				var patternName = (rVars.p != undefined) ? rVars.p : rVars.pattern;
-			} else {
-				this.skipBack = false;
-				return;
-			}
+			this.skipBack = false;
+			return;
 		} else if (state != null) {
 			var patternName = state.pattern;
 		} 
@@ -152,10 +158,12 @@ var urlHandler = {
 		var iFramePath = "";
 		iFramePath = this.getFileName(patternName);
 		if (iFramePath == "") {
-			iFramePath = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"styleguide/html/styleguide.html";
+			iFramePath = "styleguide/html/styleguide.html";
 		}
 		
-		document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
+		document.getElementById("sg-viewport").contentWindow.postMessage( { "path": iFramePath }, urlHandler.targetOrigin);
+		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
+		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
 		
 		if (wsnConnected) {
 			wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );

@@ -1,3 +1,13 @@
+/* 
+ * patternlab-node - v0.1.0 - 2014-01-21 
+ * 
+ * Brian Muenzenmeyer, and the web community.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ *
+ */
+
 var path = require('path');
 
 var oPattern = function(name, subdir, filename, data){
@@ -6,7 +16,7 @@ var oPattern = function(name, subdir, filename, data){
 	this.filename = filename;
 	this.data =  data;
 	this.template = '';
-	this.patternOutput = '';
+	this.patternPartial = '';
 	this.patternName = ''; //this is the display name for the ui
 	this.patternLink = '';
 	this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
@@ -91,11 +101,15 @@ module.exports = function(grunt) {
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
-					currentPattern.patternOutput = mustache.render(currentPattern.template, patternlab.data, patternlab.partials);
+					currentPattern.patternPartial = mustache.render(currentPattern.template, patternlab.data, patternlab.partials);
 
 					//write the compiled template to the public patterns directory
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternOutput + patternlab.footer);
+
+					//add footer info before writing
+					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
+
+					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
 					currentPattern.patternLink = flatPatternPath;
 
 					//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
@@ -126,12 +140,17 @@ module.exports = function(grunt) {
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
-					currentPattern.patternOutput = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
+					currentPattern.patternPartial = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
 					grunt.log.writeln('template compiled with data!');
 
 					//write the compiled template to the public patterns directory
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternOutput + patternlab.footer);
+
+					//add footer info before writing
+					var currentPatternFooter = mustache.render(patternlab.footer, currentPattern);
+
+					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
+
 					currentPattern.patternLink = flatPatternPath;
 
 					//done
@@ -184,30 +203,31 @@ module.exports = function(grunt) {
 				//assume the navSubItem does not exist.
 				var navSubItem = new oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
-				navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
 				//if it is flat - we should not add the pattern to patternPaths
 				if(flatPatternItem){
-					//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
 					
-					//add the navItem to patternItems
 					bucket.patternItems.push(navSubItem);
+					
+					//add to patternPaths
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
 				} else{
-					//add the more complex nav items
+
 					bucket.navItems.push(navItem);
 					bucket.navItemsIndex.push(navItemName);
 					navItem.navSubItems.push(navSubItem);
 					navItem.navSubItemsIndex.push(navSubItemName);
 
 					//add to patternPaths
-					patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
-				}
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+
+				} 
 
 				//add the bucket.
 				patternlab.buckets.push(bucket);
 				patternlab.bucketIndex.push(bucketName);
-
 
 				//done
 
@@ -224,7 +244,7 @@ module.exports = function(grunt) {
 				//assume the navSubItem does not exist.
 				var navSubItem = new oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
-				navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
 				//test whether the pattern struture is flat or not - usually due to a template or page
 				var flatPatternItem = false;
@@ -234,10 +254,13 @@ module.exports = function(grunt) {
 
 				//if it is flat - we should not add the pattern to patternPaths
 				if(flatPatternItem){
-					//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
 
 					//add the navItem to patternItems
 					bucket.patternItems.push(navSubItem);
+
+					//add to patternPaths
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+
 				} else{
 					//check to see if navItem exists
 					var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
@@ -258,11 +281,10 @@ module.exports = function(grunt) {
 						navItem.navSubItemsIndex.push(navSubItemName);
 					}
 
-					//add to patternPaths
-					patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+					// just add to patternPaths
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
 				}
-
 
 				//check to see if this bucket has a View All yet.  If not, add it.
 				// var navItem = bucket.navItems[navItemIndex];
