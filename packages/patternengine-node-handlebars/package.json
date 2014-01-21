@@ -1,6 +1,7 @@
 {
   "name": "patternlab-node",
-  "version": "0.0.5",
+  "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
+  "version": "0.1.0",
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-nodeunit": "~0.1.2",
@@ -9,6 +10,16 @@
     "grunt-contrib-copy": "~0.4.0",
     "grunt-contrib-jshint": "~0.4.0",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
     "matchdep": "~0.3.0"
-  }
+  },
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Grunt",
+    "Javascript"
+  ],
+  "author": "Brian Muenzenmeyer",
+  "license": "MIT"
 }
