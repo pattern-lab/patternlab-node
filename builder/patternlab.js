@@ -193,7 +193,7 @@ module.exports = function(grunt) {
 				//assume the navSubItem does not exist.
 				var navSubItem = new oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
-				navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
 				//if it is flat - we should not add the pattern to patternPaths
 				//EXPERIMENT: ADD THESE ANYWAYS. COMMENTING OUT THE IF STATEMENT
@@ -216,7 +216,7 @@ module.exports = function(grunt) {
 					navItem.navSubItemsIndex.push(navSubItemName);
 
 					//add to patternPaths
-					patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 				// EXPERIMENT} 
 
 				//add the bucket.
@@ -239,7 +239,7 @@ module.exports = function(grunt) {
 				//assume the navSubItem does not exist.
 				var navSubItem = new oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
-				navSubItem.patternPartial = bucketName + "-" + navSubItemName;
+				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
 				//test whether the pattern struture is flat or not - usually due to a template or page
 				var flatPatternItem = false;
@@ -275,7 +275,7 @@ module.exports = function(grunt) {
 					}
 
 					//add to patternPaths
-					patternlab.patternPaths[bucketName][navSubItemName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
 				//EXPERIMENT }
 
