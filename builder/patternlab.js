@@ -1,3 +1,13 @@
+/* 
+ * patternlab-node - v0.1.0 - 2014-01-21 
+ * 
+ * Brian Muenzenmeyer, and the web community.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ *
+ */
+
 var path = require('path');
 
 var oPattern = function(name, subdir, filename, data){
@@ -196,20 +206,15 @@ module.exports = function(grunt) {
 				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
 				//if it is flat - we should not add the pattern to patternPaths
-				//EXPERIMENT: ADD THESE ANYWAYS. COMMENTING OUT THE IF STATEMENT
-				// if(flatPatternItem){
-				// 	//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
+				if(flatPatternItem){
 					
-				// 	//add the navItem to patternItems
-				// 	bucket.patternItems.push(navSubItem);
+					bucket.patternItems.push(navSubItem);
+					
+					//add to patternPaths
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
+				} else{
 
-				// 	//EXPERIMENT: ADD THESE ANYWAYS
-
-
-
-				// } else{
-					//add the more complex nav items
 					bucket.navItems.push(navItem);
 					bucket.navItemsIndex.push(navItemName);
 					navItem.navSubItems.push(navSubItem);
@@ -217,12 +222,12 @@ module.exports = function(grunt) {
 
 					//add to patternPaths
 					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
-				// EXPERIMENT} 
+
+				} 
 
 				//add the bucket.
 				patternlab.buckets.push(bucket);
 				patternlab.bucketIndex.push(bucketName);
-
 
 				//done
 
@@ -248,13 +253,15 @@ module.exports = function(grunt) {
 				}
 
 				//if it is flat - we should not add the pattern to patternPaths
-				//EXPERIMENT: ADD THESE ANYWAYS. COMMENTING OUT THE IF STATEMENT
-				// if(flatPatternItem){
-				// 	//grunt.log.writeln('flat source structure found for ' + navItemName + " " + bucketName);
+				if(flatPatternItem){
 
-				// 	//add the navItem to patternItems
-				// 	bucket.patternItems.push(navSubItem);
-				// } else{
+					//add the navItem to patternItems
+					bucket.patternItems.push(navSubItem);
+
+					//add to patternPaths
+					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+
+				} else{
 					//check to see if navItem exists
 					var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
 					if(navItemIndex === -1){
@@ -274,11 +281,10 @@ module.exports = function(grunt) {
 						navItem.navSubItemsIndex.push(navSubItemName);
 					}
 
-					//add to patternPaths
+					// just add to patternPaths
 					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
-				//EXPERIMENT }
-
+				}
 
 				//check to see if this bucket has a View All yet.  If not, add it.
 				// var navItem = bucket.navItems[navItemIndex];
