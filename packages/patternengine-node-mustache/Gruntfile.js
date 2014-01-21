@@ -4,6 +4,16 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		clean: ['./public/patterns'],
+		concat: {
+			options: {
+				stripBanners: true,
+				banner: '/* \n * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n * \n * <%= pkg.author %>, and the web community.\n * Licensed under the <%= pkg.license %> license. \n * \n * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. \n *\n */\n\n',
+			},
+			dist: {
+				src: './builder/patternlab.js',
+				dest: './builder/patternlab.js'
+			}
+		},
 		copy: {
 			main: {
 				files: [
@@ -11,7 +21,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' },
 					{ expand: true, cwd: './source/images/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/' },
 					{ expand: true, cwd: './source/images/sample/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/sample/'},
-					{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'}
+					{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
+					{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
 				]
 			}
 		},
@@ -63,5 +74,5 @@ module.exports = function(grunt) {
 	grunt.task.loadTasks('./builder/');
 
 	//if you choose to use scss, or any preprocessor, you can add it here
-	grunt.registerTask('default', ['clean', 'patternlab', /*'sass',*/ 'copy']);
+	grunt.registerTask('default', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
 };
