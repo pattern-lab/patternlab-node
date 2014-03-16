@@ -64,6 +64,9 @@ module.exports = function(grunt) {
 					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss'
 				}
 			}
+		},
+		qunit: {
+			files: ["./test/tests.js"]
 		}
 	});
 
@@ -75,4 +78,7 @@ module.exports = function(grunt) {
 
 	//if you choose to use scss, or any preprocessor, you can add it here
 	grunt.registerTask('default', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
+
+	//travis CI task
+	grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'qunit'])
 };
