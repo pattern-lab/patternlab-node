@@ -71,7 +71,6 @@ module.exports = function(grunt) {
 					urls: ['./test/tests.html']
 				}
 			}
-			files: ["./test/tests.js"]
 		}
 	});
 
