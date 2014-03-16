@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+
 
 ## About the Node Version of Pattern Lab
 
@@ -6,7 +6,7 @@ The Node version of Pattern Lab is, at its core, a static site generator. It com
 
 ## Under Active Development
 
-The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer).  Contributions welcome!
+The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer).  [![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) Contributions welcome!
 
 ### Getting Started
 
