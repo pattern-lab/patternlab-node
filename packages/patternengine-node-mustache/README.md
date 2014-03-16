@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+
 ## About the Node Version of Pattern Lab
 
 The Node version of Pattern Lab is, at its core, a static site generator. It combines platform-agnostic assets, like the [Mustache](http://mustache.github.io/)-based patterns and the JavaScript-based viewer, with a Node-based "builder" that transforms and dynamically builds the Pattern Lab site. By making it a static site generator, the Node version of Pattern Lab strongly separates patterns, data, and presentation from build logic. The Node version is a work in progress, the [PHP version](https://github.com/pattern-lab/patternlab-php) should be seen as a reference for other developers to improve upon as they build their own Pattern Lab Builders in their language of choice.
@@ -23,9 +25,9 @@ To have patternlab-node watch for changes to either a mustache template, data, o
 Patternlab Node has reached [minimum viable product](http://en.wikipedia.org/wiki/Minimum_viable_product) status.  The main branch will always have the most up to date version of patternlab-node.  Watch the dev branch for what it coming next!
 
 #### Roadmap
-* Full Patternlab site support.  (This is the uber cool navigation found at [demo.pattern-lab.info](http://demo.pattern-lab.info)).
-* More Documentation
-* Tests
+* DRY & Testing.
+* Lineage
+* Documentation
 
 **THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
 
