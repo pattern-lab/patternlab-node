@@ -286,40 +286,6 @@ module.exports = function(grunt) {
 
 				}
 
-				//check to see if this bucket has a View All yet.  If not, add it.
-				// var navItem = bucket.navItems[navItemIndex];
-				// if(navItem){
-				// 	var hasViewAll = navItem.navSubItemsIndex.indexOf('View All');
-				// 	if(hasViewAll === -1){
-				// 		console.log('add a view all pattern');
-
-				// 			var navSubItem = new oNavSubItem('View All');
-				// 			navSubItem.patternPath = pattern.flatPatternPath + '/index.html'; //this is likely wrong
-				// 			navSubItem.patternPartial = 'viewall-' + bucketName + '-' + pattern.patternSubGroup;
-
-				// 			//add the navSubItem
-				// 			console.log(navSubItem);
-				// 			navItem.navSubItems.push(navSubItem);
-				// 			navItem.navSubItemsIndex.push('View All');
-				// 	} 	
-				// }
-			}
-
-			//VIEW ALL LOGIC CAN LOOP THROUGH PATTERNS TOO
-			//only add if it's an atom, molecule, or organism
-			// if(pattern.patternGroup === 'atoms' || pattern.patternGroup === 'molecules' || pattern.patternGroup === 'organisms'){
-			// 	if(patternlab.viewAllPaths[pattern.patternGroup]){
-					
-			// 		//add the pattern sub-group
-			// 		patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
-			// 	}
-			// 	else{
-			// 		//add the new group then the subgroup
-			// 		patternlab.viewAllPaths[pattern.patternGroup] = {};
-			// 		patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
-			// 	}
-			// }
-
 		};
 
 		//the patternlab site requires a lot of partials to be rendered.
