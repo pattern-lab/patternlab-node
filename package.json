@@ -2,7 +2,7 @@
   "name": "patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
   "version": "0.1.0",
-  "devDependencies": {
+  "dependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-watch": "~0.2.0",
     "grunt-contrib-sass": "~0.2.2",
@@ -20,6 +20,10 @@
     "Grunt",
     "Javascript"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pattern-lab/patternlab-node.git"
+  },
   "author": "Brian Muenzenmeyer",
   "license": "MIT",
   "scripts": {
