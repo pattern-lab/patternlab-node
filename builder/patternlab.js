@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.0 - 2014-01-21 
+ * patternlab-node - v0.1.0 - 2014-04-09 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -52,7 +52,7 @@ var oPatternItem = function(){
 	this.patternName = '';
 };
 
-var mustache = require('./lib/Mustache/mustache.js');
+var mustache = require('mustache');
 
 module.exports = function(grunt) {	
 	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
