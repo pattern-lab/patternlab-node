@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.0 - 2014-01-21 
+ * patternlab-node - v0.1.1 - 2014-04-18 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -57,7 +57,9 @@ var mustache = require('./lib/Mustache/mustache.js');
 module.exports = function(grunt) {	
 	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
 
+		
 		var patternlab = {};
+		patternlab.package = grunt.file.readJSON('package.json');
 		patternlab.data = grunt.file.readJSON('./source/_data/data.json');
 		patternlab.listitems = grunt.file.readJSON('./source/_data/listitems.json');
 		patternlab.header = grunt.file.read('./source/_patternlab-files/pattern-header-footer/header.html');
@@ -286,6 +288,8 @@ module.exports = function(grunt) {
 
 				}
 
+			}
+
 		};
 
 		//the patternlab site requires a lot of partials to be rendered.
@@ -323,9 +327,10 @@ module.exports = function(grunt) {
 		});
 		grunt.file.write('./public/index.html', patternlabSiteHtml);
 
-		//debug
-		var outputFilename = './patternlab.json';
-		grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
-
+		//debug file can be written by setting flag on package.json
+		if(patternlab.package.debug){
+			var outputFilename = './patternlab.json';
+			grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
+		}
 	});
 };
