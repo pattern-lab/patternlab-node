@@ -6,7 +6,8 @@ PL-node-v0.1.1
  - ADD: Travis CI test support!
  - ADD: Contributing file
  - ADD: Repository to package.json
- - THX: thank you @tbranyen for tip on repository, and NPM
+ - FIX: Manage Mustache dependency using NPM
+ - THX: thank you @tbranyen for tip on repository, Mustache, and NPM!
 
 PL-node-v0.1.0
  - FIX: Links to patterns did not work when visited from a server
