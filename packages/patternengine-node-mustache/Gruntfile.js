@@ -3,7 +3,10 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		clean: ['./public/patterns'],
+		clean: {
+			options: { force: true },
+			files: ['./public/patterns']
+		},
 		concat: {
 			options: {
 				stripBanners: true,
