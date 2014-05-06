@@ -2,10 +2,6 @@
 
 The Node version of Pattern Lab is, at its core, a static site generator. It combines platform-agnostic assets, like the [Mustache](http://mustache.github.io/)-based patterns and the JavaScript-based viewer, with a Node-based "builder" that transforms and dynamically builds the Pattern Lab site. By making it a static site generator, the Node version of Pattern Lab strongly separates patterns, data, and presentation from build logic. The Node version is a work in progress, the [PHP version](https://github.com/pattern-lab/patternlab-php) should be seen as a reference for other developers to improve upon as they build their own Pattern Lab Builders in their language of choice.
 
-## Under Active Development
-
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer).  Contributions welcome!
-
 ### Getting Started
 
 To run patternlab-node, just do the following from the command line at the root of patternlab-node: 
@@ -14,18 +10,22 @@ To run patternlab-node, just do the following from the command line at the root 
 2. `npm install -g grunt-cli`
 3. `grunt`  
 
-This creates all patterns, the styleguide, and the patternlab site. `patternlab.json` is a file created for debugging purposes.  It tells you all the secrets in tidy json.
+This creates all patterns, the styleguide, and the pattern lab site. `patternlab.json` is a file created for debugging purposes.  It tells you all the secrets in tidy json.
 
 To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt watch`. The `Gruntfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
 
-#### Watching Progress
+### Under Active Development
 
-Patternlab Node has reached [minimum viable product](http://en.wikipedia.org/wiki/Minimum_viable_product) status.  The main branch will always have the most up to date version of patternlab-node.  Watch the dev branch for what it coming next!
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
 
-#### Roadmap
-* DRY & Testing.
-* Lineage
-* Documentation
+#### Forward, To the Specification!
+
+Dave Olsen has published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together. 
+
+#### Is Pattern Lab a Platform or a Build Tool?
+
+A lot of good conversation has revolved around whether Pattern Lab is a platform or a tool in the toolbox, part of a larger solution. It's my goal to #1) adhere to the specification and #2) meet the needs of both use cases.
+
 
 **THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
 

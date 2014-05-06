@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.0 - 2014-01-21 
+ * patternlab-node - v0.1.1 - 2014-05-05 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -57,7 +57,9 @@ var mustache = require('./lib/Mustache/mustache.js');
 module.exports = function(grunt) {	
 	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
 
+		
 		var patternlab = {};
+		patternlab.package = grunt.file.readJSON('package.json');
 		patternlab.data = grunt.file.readJSON('./source/_data/data.json');
 		patternlab.listitems = grunt.file.readJSON('./source/_data/listitems.json');
 		patternlab.header = grunt.file.read('./source/_patternlab-files/pattern-header-footer/header.html');
@@ -286,39 +288,7 @@ module.exports = function(grunt) {
 
 				}
 
-				//check to see if this bucket has a View All yet.  If not, add it.
-				// var navItem = bucket.navItems[navItemIndex];
-				// if(navItem){
-				// 	var hasViewAll = navItem.navSubItemsIndex.indexOf('View All');
-				// 	if(hasViewAll === -1){
-				// 		console.log('add a view all pattern');
-
-				// 			var navSubItem = new oNavSubItem('View All');
-				// 			navSubItem.patternPath = pattern.flatPatternPath + '/index.html'; //this is likely wrong
-				// 			navSubItem.patternPartial = 'viewall-' + bucketName + '-' + pattern.patternSubGroup;
-
-				// 			//add the navSubItem
-				// 			console.log(navSubItem);
-				// 			navItem.navSubItems.push(navSubItem);
-				// 			navItem.navSubItemsIndex.push('View All');
-				// 	} 	
-				// }
 			}
-
-			//VIEW ALL LOGIC CAN LOOP THROUGH PATTERNS TOO
-			//only add if it's an atom, molecule, or organism
-			// if(pattern.patternGroup === 'atoms' || pattern.patternGroup === 'molecules' || pattern.patternGroup === 'organisms'){
-			// 	if(patternlab.viewAllPaths[pattern.patternGroup]){
-					
-			// 		//add the pattern sub-group
-			// 		patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
-			// 	}
-			// 	else{
-			// 		//add the new group then the subgroup
-			// 		patternlab.viewAllPaths[pattern.patternGroup] = {};
-			// 		patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
-			// 	}
-			// }
 
 		};
 
@@ -357,9 +327,10 @@ module.exports = function(grunt) {
 		});
 		grunt.file.write('./public/index.html', patternlabSiteHtml);
 
-		//debug
-		var outputFilename = './patternlab.json';
-		grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
-
+		//debug file can be written by setting flag on package.json
+		if(patternlab.package.debug){
+			var outputFilename = './patternlab.json';
+			grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
+		}
 	});
 };
