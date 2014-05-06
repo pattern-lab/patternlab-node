@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.1 - 2014-05-05 
+ * patternlab-node - v0.1.1 - 2014-05-06 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -8,58 +8,61 @@
  *
  */
 
-var path = require('path');
+var plnode = function(grunt){
+	var path = require('path'),
+	mustache = require('mustache'),
+	patternlab = {};
 
-var oPattern = function(name, subdir, filename, data){
-	this.name = name; //this is the unique name with the subDir
-	this.subdir = subdir;
-	this.filename = filename;
-	this.data =  data;
-	this.template = '';
-	this.patternPartial = '';
-	this.patternName = ''; //this is the display name for the ui
-	this.patternLink = '';
-	this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
-	this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
-	this.flatPatternPath = subdir.replace(/\//g, '-');
-};
+	patternlab.package = grunt.file.readJSON('package.json');
 
-var oBucket = function(name){
-	this.bucketNameLC = name;
-	this.bucketNameUC = name.charAt(0).toUpperCase() + name.slice(1);
-	this.navItems = [];
-	this.navItemsIndex = [];
-	this.patternItems = [];
-	this.patternItemsIndex = [];
-};
+	var oPattern = function(name, subdir, filename, data){
+		this.name = name; //this is the unique name with the subDir
+		this.subdir = subdir;
+		this.filename = filename;
+		this.data =  data;
+		this.template = '';
+		this.patternPartial = '';
+		this.patternName = ''; //this is the display name for the ui
+		this.patternLink = '';
+		this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
+		this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
+		this.flatPatternPath = subdir.replace(/\//g, '-');
+	};
 
-var oNavItem = function(name){
-	this.sectionNameLC = name;
-	this.sectionNameUC = name.charAt(0).toUpperCase() + name.slice(1);
-	this.navSubItems = [];
-	this.navSubItemsIndex = [];
-};
+	var oBucket = function(name){
+		this.bucketNameLC = name;
+		this.bucketNameUC = name.charAt(0).toUpperCase() + name.slice(1);
+		this.navItems = [];
+		this.navItemsIndex = [];
+		this.patternItems = [];
+		this.patternItemsIndex = [];
+	};
 
-var oNavSubItem = function(name){
-	this.patternPath = '';
-	this.patternPartial = '';
-	this.patternName = name.charAt(0).toUpperCase() + name.slice(1);;
-};
+	var oNavItem = function(name){
+		this.sectionNameLC = name;
+		this.sectionNameUC = name.charAt(0).toUpperCase() + name.slice(1);
+		this.navSubItems = [];
+		this.navSubItemsIndex = [];
+	};
 
-var oPatternItem = function(){
-	this.patternPath = '';
-	this.patternPartial = '';
-	this.patternName = '';
-};
+	var oNavSubItem = function(name){
+		this.patternPath = '';
+		this.patternPartial = '';
+		this.patternName = name.charAt(0).toUpperCase() + name.slice(1);
+	};
 
-var mustache = require('mustache');
+	var oPatternItem = function(){
+		this.patternPath = '';
+		this.patternPartial = '';
+		this.patternName = '';
+	};
 
-module.exports = function(grunt) {	
-	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
+	function getVersion() {
+		grunt.log.ok(patternlab.package.version);
+	}
 
-		
-		var patternlab = {};
-		patternlab.package = grunt.file.readJSON('package.json');
+	function build(){
+
 		patternlab.data = grunt.file.readJSON('./source/_data/data.json');
 		patternlab.listitems = grunt.file.readJSON('./source/_data/listitems.json');
 		patternlab.header = grunt.file.read('./source/_patternlab-files/pattern-header-footer/header.html');
@@ -76,7 +79,7 @@ module.exports = function(grunt) {
 			//check if the pattern already exists.  
 			var patternName = filename.substring(0, filename.indexOf('.'));
 			var patternIndex = patternlab.patternIndex.indexOf(subdir + '-' +  patternName);
-			var currentPattern;	
+			var currentPattern;
 			var flatPatternPath;
 
 			//ignore _underscored patterns
@@ -173,7 +176,7 @@ module.exports = function(grunt) {
 		
 		//loop through all patterns.  deciding to do this separate from the recursion, even at a performance hit, to attempt to separate the tasks of styleguide creation versus site menu creation
 		for(var i = 0; i < patternlab.patterns.length; i++){
-			var pattern = patternlab.patterns[i]; 
+			var pattern = patternlab.patterns[i];
 			var bucketName = pattern.name.replace(/\//g, '-').split('-')[1];
 
 			//check if the bucket already exists
@@ -225,7 +228,7 @@ module.exports = function(grunt) {
 					//add to patternPaths
 					patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
 
-				} 
+				}
 
 				//add the bucket.
 				patternlab.buckets.push(bucket);
@@ -332,5 +335,33 @@ module.exports = function(grunt) {
 			var outputFilename = './patternlab.json';
 			grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
 		}
+
+	}
+
+	return {
+		version: function(){
+			return getVersion();
+		},
+		build: function(){
+			build();
+		}
+	};
+
+};
+
+module.exports = plnode;
+
+module.exports = function(grunt) {
+	grunt.registerTask('patternlab', 'create design systems with atomic design', function(v) {
+
+		var pl = plnode(grunt);
+
+		if(v && v === 'v'){
+			pl.version();
+		} else{
+			pl.build();
+		}
+
 	});
+
 };
