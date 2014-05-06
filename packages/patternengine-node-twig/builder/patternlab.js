@@ -52,7 +52,7 @@ var oPatternItem = function(){
 	this.patternName = '';
 };
 
-var mustache = require('./lib/Mustache/mustache.js');
+var mustache = require('mustache');
 
 module.exports = function(grunt) {	
 	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
