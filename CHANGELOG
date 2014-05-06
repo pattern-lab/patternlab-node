@@ -5,6 +5,8 @@ PL-node-v0.1.1
  - ADD: Flag for generating debug file
  - ADD: Travis CI test support!
  - ADD: Contributing file
+ - ADD: Repository to package.json
+ - THX: thank you @tbranyen for tip on repository
 
 PL-node-v0.1.0
  - FIX: Links to patterns did not work when visited from a server
