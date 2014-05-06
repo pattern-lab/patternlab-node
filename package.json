@@ -20,6 +20,10 @@
     "Grunt",
     "Javascript"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pattern-lab/patternlab-node.git"
+  },
   "author": "Brian Muenzenmeyer",
   "license": "MIT",
   "scripts": {
