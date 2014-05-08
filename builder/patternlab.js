@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.1 - 2014-05-06 
+ * patternlab-node - v0.1.1 - 2014-05-07 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -11,54 +11,18 @@
 var plnode = function(grunt){
 	var path = require('path'),
 	mustache = require('mustache'),
+	of = require('./object_factory'),
+	pa = require('./pattern_assembler'),
 	patternlab = {};
 
 	patternlab.package = grunt.file.readJSON('package.json');
 
-	var oPattern = function(name, subdir, filename, data){
-		this.name = name; //this is the unique name with the subDir
-		this.subdir = subdir;
-		this.filename = filename;
-		this.data =  data;
-		this.template = '';
-		this.patternPartial = '';
-		this.patternName = ''; //this is the display name for the ui
-		this.patternLink = '';
-		this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
-		this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
-		this.flatPatternPath = subdir.replace(/\//g, '-');
-	};
-
-	var oBucket = function(name){
-		this.bucketNameLC = name;
-		this.bucketNameUC = name.charAt(0).toUpperCase() + name.slice(1);
-		this.navItems = [];
-		this.navItemsIndex = [];
-		this.patternItems = [];
-		this.patternItemsIndex = [];
-	};
-
-	var oNavItem = function(name){
-		this.sectionNameLC = name;
-		this.sectionNameUC = name.charAt(0).toUpperCase() + name.slice(1);
-		this.navSubItems = [];
-		this.navSubItemsIndex = [];
-	};
-
-	var oNavSubItem = function(name){
-		this.patternPath = '';
-		this.patternPartial = '';
-		this.patternName = name.charAt(0).toUpperCase() + name.slice(1);
-	};
-
-	var oPatternItem = function(){
-		this.patternPath = '';
-		this.patternPartial = '';
-		this.patternName = '';
-	};
-
 	function getVersion() {
 		grunt.log.ok(patternlab.package.version);
+	}
+
+	function help(){
+		grunt.log.ok('patternlab help coming soon');
 	}
 
 	function build(){
@@ -91,18 +55,18 @@ var plnode = function(grunt){
 			//returns -1 if patterns does not exist, otherwise returns the index
 			//add the pattern array if first time, otherwise pull it up
 			if(patternIndex === -1){
-				grunt.log.ok('pattern not found, adding to array');
+				grunt.verbose.ok('pattern not found, adding to array');
 				var flatPatternName = subdir.replace(/\//g, '-') + '-' + patternName;
 				flatPatternName = flatPatternName.replace(/\//g, '-');
-				currentPattern = new oPattern(flatPatternName, subdir, filename, {});
+				currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
 				currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
 
 				if(grunt.util._.str.include(filename, 'json')){
-					grunt.log.writeln('json file found first, so add it to the pattern and continuing');
+					grunt.verbose.ok('json file found first, so add it to the pattern and continuing');
 					currentPattern.data = grunt.file.readJSON(abspath);
 					//done
 				} else{
-					grunt.log.writeln('mustache file found, assume no data, so compile it right away');
+					grunt.verbose.ok('mustache file found, assume no data, so compile it right away');
 					currentPattern.template = grunt.file.read(abspath);
 
 					//render the pattern. pass partials object just in case.
@@ -138,7 +102,7 @@ var plnode = function(grunt){
 			} else{
 				//if we get here, we can almost ensure we found the json first, so render the template and pass in the unique json
 				currentPattern = patternlab.patterns[patternIndex];
-				grunt.log.ok('pattern found, loaded');
+				grunt.verbose.ok('pattern found, loaded');
 				//determine if this file is data or pattern
 				if(grunt.util._.str.include(filename, 'mustache')){
 
@@ -146,7 +110,7 @@ var plnode = function(grunt){
 
 					//render the pattern. pass partials object just in case.
 					currentPattern.patternPartial = mustache.render(currentPattern.template, currentPattern.data, patternlab.partials);
-					grunt.log.writeln('template compiled with data!');
+					grunt.verbose.ok('template compiled with data!');
 
 					//write the compiled template to the public patterns directory
 					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
@@ -183,7 +147,7 @@ var plnode = function(grunt){
 			var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
 			if(bucketIndex === -1){
 				//add the bucket
-				var bucket = new oBucket(bucketName);
+				var bucket = new of.oBucket(bucketName);
 
 				//add paternPath
 				patternlab.patternPaths[bucketName] = {};
@@ -203,10 +167,10 @@ var plnode = function(grunt){
 				}
 
 				//assume the navItem does not exist.
-				var navItem = new oNavItem(navItemName);
+				var navItem = new of.oNavItem(navItemName);
 
 				//assume the navSubItem does not exist.
-				var navSubItem = new oNavSubItem(navSubItemName);
+				var navSubItem = new of.oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
 				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
@@ -247,7 +211,7 @@ var plnode = function(grunt){
 				var navSubItemName = pattern.patternName.replace(/-/g, ' ');
 
 				//assume the navSubItem does not exist.
-				var navSubItem = new oNavSubItem(navSubItemName);
+				var navSubItem = new of.oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
 				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
@@ -271,7 +235,7 @@ var plnode = function(grunt){
 					var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
 					if(navItemIndex === -1){
 
-						var navItem = new oNavItem(navItemName);
+						var navItem = new of.oNavItem(navItemName);
 
 						//add the navItem and navSubItem
 						navItem.navSubItems.push(navSubItem);
@@ -344,6 +308,12 @@ var plnode = function(grunt){
 		},
 		build: function(){
 			build();
+		},
+		help: function(){
+			help();
+		},
+		build_patterns_only: function(){
+			grunt.log.ok('only_patterns argument not yet implemented');
 		}
 	};
 
@@ -352,14 +322,28 @@ var plnode = function(grunt){
 module.exports = plnode;
 
 module.exports = function(grunt) {
-	grunt.registerTask('patternlab', 'create design systems with atomic design', function(v) {
+	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
 
 		var pl = plnode(grunt);
 
-		if(v && v === 'v'){
-			pl.version();
-		} else{
+		if(arguments.length === 0){
 			pl.build();
+		} 
+
+		if(arg && arg === 'v'){
+			pl.version();
+		} 
+
+		if(arg && arg === "only_patterns"){
+			pl.build_patterns_only();
+		}
+
+		if(arg && arg === "help"){
+			pl.help();
+		}
+
+		if(arg && (arg !== "v" && arg !=="only_patterns")){
+			pl.help();
 		}
 
 	});
