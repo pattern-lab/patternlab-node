@@ -26,6 +26,13 @@ Dave Olsen has published the [specification](https://github.com/pattern-lab/the-
 
 A lot of good conversation has revolved around whether Pattern Lab is a platform or a tool in the toolbox, part of a larger solution. It's my goal to #1) adhere to the specification and #2) meet the needs of both use cases.
 
+If you want to only build the patterns, alter your `Gruntfile.js` patternlab task to the following:
+
+```
+grunt.registerTask('default', ['clean', 'concat', 'patternlab:only_patterns', /*'sass',*/ 'copy']);
+```
+
+This will output compiled patterns to ./public/patterns/
 
 **THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
 

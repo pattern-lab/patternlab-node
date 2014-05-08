@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.1 - 2014-05-07 
+ * patternlab-node - v0.1.2 - 2014-05-08 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -8,12 +8,12 @@
  *
  */
 
-var plnode = function(grunt){
+var patternlab_engine = function(grunt){
 	var path = require('path'),
-	mustache = require('mustache'),
-	of = require('./object_factory'),
-	pa = require('./pattern_assembler'),
-	patternlab = {};
+		mustache = require('mustache'),
+		of = require('./object_factory'),
+		pa = require('./pattern_assembler'),
+		patternlab = {};
 
 	patternlab.package = grunt.file.readJSON('package.json');
 
@@ -25,8 +25,15 @@ var plnode = function(grunt){
 		grunt.log.ok('patternlab help coming soon');
 	}
 
-	function build(){
+	function printDebug() {
+		//debug file can be written by setting flag on package.json
+		if(patternlab.package.debug){
+			var outputFilename = './patternlab.json';
+			grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
+		}
+	}
 
+	function buildPatterns(){
 		patternlab.data = grunt.file.readJSON('./source/_data/data.json');
 		patternlab.listitems = grunt.file.readJSON('./source/_data/listitems.json');
 		patternlab.header = grunt.file.read('./source/_patternlab-files/pattern-header-footer/header.html');
@@ -34,10 +41,6 @@ var plnode = function(grunt){
 		patternlab.patterns = [];
 		patternlab.patternIndex = [];
 		patternlab.partials = {};
-		patternlab.buckets = [];
-		patternlab.bucketIndex = [];
-		patternlab.patternPaths = {};
-		patternlab.viewAllPaths = {};
 
 		grunt.file.recurse('./source/_patterns', function(abspath, rootdir, subdir, filename){
 			//check if the pattern already exists.  
@@ -129,6 +132,14 @@ var plnode = function(grunt){
 			}
 
 		});
+
+	}
+
+	function buildFrontEnd(){
+		patternlab.buckets = [];
+		patternlab.bucketIndex = [];
+		patternlab.patternPaths = {};
+		patternlab.viewAllPaths = {};
 
 		//build the styleguide
 		var styleguideTemplate = grunt.file.read('./source/_patternlab-files/styleguide.mustache');
@@ -294,12 +305,6 @@ var plnode = function(grunt){
 		});
 		grunt.file.write('./public/index.html', patternlabSiteHtml);
 
-		//debug file can be written by setting flag on package.json
-		if(patternlab.package.debug){
-			var outputFilename = './patternlab.json';
-			grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
-		}
-
 	}
 
 	return {
@@ -307,43 +312,48 @@ var plnode = function(grunt){
 			return getVersion();
 		},
 		build: function(){
-			build();
+			buildPatterns();
+			buildFrontEnd();
+			printDebug();
+
 		},
 		help: function(){
 			help();
 		},
 		build_patterns_only: function(){
 			grunt.log.ok('only_patterns argument not yet implemented');
+			buildPatterns();
+			printDebug();
 		}
 	};
 
 };
 
-module.exports = plnode;
+module.exports = patternlab_engine;
 
 module.exports = function(grunt) {
 	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
 
-		var pl = plnode(grunt);
+		var patternlab = patternlab_engine(grunt);
 
 		if(arguments.length === 0){
-			pl.build();
-		} 
+			patternlab.build();
+		}
 
 		if(arg && arg === 'v'){
-			pl.version();
-		} 
+			patternlab.version();
+		}
 
 		if(arg && arg === "only_patterns"){
-			pl.build_patterns_only();
+			patternlab.build_patterns_only();
 		}
 
 		if(arg && arg === "help"){
-			pl.help();
+			patternlab.help();
 		}
 
 		if(arg && (arg !== "v" && arg !=="only_patterns")){
-			pl.help();
+			patternlab.help();
 		}
 
 	});
