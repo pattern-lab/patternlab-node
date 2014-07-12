@@ -1,0 +1,44 @@
+{
+	"name":             "pattern-lab/styleguidekit-assets-default",
+	"description":      "The assets for the default styleguide mark-up and styles for Pattern Lab.",
+	"keywords":         ["mustache", "pattern lab", "styleguide"],
+	"homepage":         "http://patternlab.io",
+	"license":          "MIT",
+	"type":             "patternlab-styleguidekit",
+	"authors": [
+		{
+			"name":         "Dave Olsen",
+			"email":        "dmolsen@gmail.com",
+			"homepage":     "http://dmolsen.com",
+			"role":         "Lead Developer"
+		},
+		{
+			"name":         "Brad Frost",
+			"homepage":     "http://bradfrostweb.com",
+			"role":         "Creator"
+		}
+	],
+	"support": {
+		"issues":         "https://github.com/pattern-lab/styleguidekit-assets-default/issues",
+		"wiki":           "http://patternlab.io/docs/",
+		"source":         "https://github.com/pattern-lab/styleguidekit-assets-default/releases"
+	},
+	"extra": {
+		"patternlab": {
+			"assets": {
+				"publicDir": [
+					{ "bower_components/*": "styleguide/bower_components/*" },
+					{ "css/styleguide.css": "styleguide/css/styleguide.css" },
+					{ "css/typeahead.css": "styleguide/css/typeahead.css" },
+					{ "fonts/*": "styleguide/fonts/*" },
+					{ "html/index.html": "index.html" },
+					{ "images/*": "styleguide/images/*" },
+					{ "js/*": "styleguide/js/*" }
+				],
+				"sourceDir": [
+					{ "css/styleguide-specific.css": "styleguide/css/styleguide-specific.css" }
+				]
+			}
+		}
+	}
+}

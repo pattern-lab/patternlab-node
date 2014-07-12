@@ -1,0 +1,35 @@
+{
+  "name": "jwerty",
+  "version": "0.3.2",
+  "description": "Awesome handling of keyboard events",
+  "keywords": [
+    "key",
+    "dom",
+    "keyup",
+    "KeyboardEvent",
+    "addEventListener",
+    "jQuery",
+    "Zepto",
+    "browser",
+    "ender"
+  ],
+  "main": "./jwerty.js",
+  "dependencies": {
+    "jquery": ">=1.8"
+  },
+  "devDependencies": {
+    "jquery": ">=1.8",
+    "zepto": "1.0.0rc1"
+  },
+  "homepage": "https://github.com/keithamus/jwerty",
+  "_release": "0.3.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.2",
+    "commit": "ad2e0f4c3030329d3e681f5b3961168b2bae8f26"
+  },
+  "_source": "git://github.com/keithamus/jwerty.git",
+  "_target": "~0.3.2",
+  "_originalSource": "jwerty",
+  "_direct": true
+}

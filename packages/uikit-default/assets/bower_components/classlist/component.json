@@ -1,0 +1,10 @@
+{
+  "name": "classlist",
+  "repo": "components/classlist.js",
+  "description": "Shim repository for the default theme for classList.js.",
+  "license": "PDDL-1.0",
+  "main": "classList.js",
+  "scripts": [
+    "classList.js"
+  ]
+}

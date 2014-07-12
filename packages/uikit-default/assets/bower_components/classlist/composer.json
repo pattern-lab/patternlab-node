@@ -1,0 +1,23 @@
+{
+    "name": "components/classlist.js",
+    "description": "classList.js is a cross-browser JavaScript shim that fully implements element.classList.",
+    "type": "component",
+    "license": "PDDL-1.0",
+    "authors": [
+        {
+            "name": "Eli Grey",
+            "homepage": "http://eligrey.com"
+        }
+    ],
+    "require": {
+        "robloach/component-installer": "*"
+    },
+    "extra": {
+        "component": {
+            "name": "classlist",
+            "scripts": [
+                "classList.js"
+            ]
+        }
+    }
+}
