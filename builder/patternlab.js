@@ -1,9 +1,5 @@
 /* 
-<<<<<<< HEAD
  * patternlab-node - v0.1.2 - 2014-07-12 
-=======
- * patternlab-node - v0.1.2 - 2014-06-21 
->>>>>>> 17680edf7cc53bd6c2eddb3051ec2b567cc603d6
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
