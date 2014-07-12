@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.2 - 2014-06-21 
+ * patternlab-node - v0.1.2 - 2014-07-12 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -16,6 +16,7 @@ var patternlab_engine = function(grunt){
 		patternlab = {};
 
 	patternlab.package = grunt.file.readJSON('package.json');
+	patternlab.config = grunt.file.readJSON('config.json');
 
 	function getVersion() {
 		grunt.log.ok(patternlab.package.version);
@@ -26,8 +27,8 @@ var patternlab_engine = function(grunt){
 	}
 
 	function printDebug() {
-		//debug file can be written by setting flag on package.json
-		if(patternlab.package.debug){
+		//debug file can be written by setting flag on config.json
+		if(patternlab.config.debug){
 			var outputFilename = './patternlab.json';
 			grunt.file.write(outputFilename, JSON.stringify(patternlab, null, 3));
 		}
@@ -277,7 +278,7 @@ var patternlab_engine = function(grunt){
 
 		//ishControls
 		var ishControlsTemplate = grunt.file.read('./source/_patternlab-files/partials/ishControls.mustache');
-		var ishControlsPartialHtml = mustache.render(ishControlsTemplate);
+		var ishControlsPartialHtml = mustache.render(ishControlsTemplate, patternlab.config);
 
 		//patternPaths
 		var patternPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/patternPaths.mustache');
@@ -289,9 +290,8 @@ var patternlab_engine = function(grunt){
 
 		//websockets
 		var websocketsTemplate = grunt.file.read('./source/_patternlab-files/partials/websockets.mustache');
-		var config = grunt.file.readJSON('./config/config.json');
-		patternlab.contentsyncport = config.contentSyncPort;
-		patternlab.navsyncport = config.navSyncPort;
+		patternlab.contentsyncport = patternlab.config.contentSyncPort;
+		patternlab.navsyncport = patternlab.config.navSyncPort;
 
 		var websocketsPartialHtml = mustache.render(websocketsTemplate, patternlab);
 

@@ -1,0 +1,31 @@
+ {
+ 	"patterns" : {
+ 		"source" : "./source/_patterns/",
+ 		"public" : "./public/patterns/"
+ 	},
+ 	"ignored-extensions" : ["scss", "DS_Store", "less"],
+ 	"ignored-directories" : ["scss"],
+ 	"contentSyncPort" : 8002,
+ 	"navSyncPort" : 8003,
+ 	"debug": false,
+ 	"ishControlsVisible": {
+ 		"s": true,
+ 		"m": true,
+ 		"l": true,
+ 		"full": true,
+ 		"ranndom": true,
+ 		"disco": true,
+ 		"hay": true,
+ 		"mqs": false,
+ 		"find": false,
+ 		"views-all": true,
+ 		"views-annotations": true,
+ 		"views-code": true,
+ 		"views-new": true,
+ 		"tools-all": true,
+ 		"tools-follow": false,
+ 		"tools-reload": false,
+ 		"tools-shortcuts": false,
+ 		"tools-docs": true
+ 	}
+ }
