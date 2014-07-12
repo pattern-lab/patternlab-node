@@ -10,19 +10,69 @@ To run patternlab-node, just do the following from the command line at the root 
 2. `npm install -g grunt-cli`
 3. `grunt`  
 
-This creates all patterns, the styleguide, and the pattern lab site. `patternlab.json` is a file created for debugging purposes.  It tells you all the secrets in tidy json.
+This creates all patterns, the styleguide, and the pattern lab site.
 
+### Command Line Interface
+
+The following are grunt task arguments you may execute:
+
+##### `patternlab`
+With no arguments, patternlab runs the full builder, compiling patterns, and constructing the front-end site.
+
+##### `patternlab:only_patterns`
+Compile the patterns only, outputting to ./public/patterns
+
+##### `patternlab:v`
+Retrieve the version of patternlab-node you have installed
+
+##### `patternlab:help`
+Get more information about patternlab-node, pattern lab in general, and where to report issues.
+
+### Config Options
+
+##### Watching Changes
 To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt watch`. The `Gruntfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
+
+##### Nav Bar Controls
+If you don't have a need for some of the nav-bar tools in the patternlab frontend, you can turn them off in `config.json`.
+
+The current selection is as follows. It reflects support versus patternlab-php.
+
+```
+"ishControlsVisible": {
+	"s": true,
+	"m": true,
+	"l": true,
+	"full": true,
+	"ranndom": true,
+	"disco": true,
+	"hay": true,
+	"mqs": false,
+	"find": false,
+	"views-all": true,
+	"views-annotations": true,
+	"views-code": true,
+	"views-new": true,
+	"tools-all": true,
+	"tools-follow": false,
+	"tools-reload": false,
+	"tools-shortcuts": false,
+	"tools-docs": true
+}
+```
+
+##### Verbose Mode
+`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
 ### Under Active Development
 
 [![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
 
-#### Forward, To the Specification!
+### Forward, To the Specification!
 
 Dave Olsen has published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together. 
 
-#### Is Pattern Lab a Platform or a Build Tool?
+### Is Pattern Lab a Platform or a Build Tool?
 
 A lot of good conversation has revolved around whether Pattern Lab is a platform or a tool in the toolbox, part of a larger solution. It's my goal to #1) adhere to the specification and #2) meet the needs of both use cases.
 
@@ -34,16 +84,17 @@ grunt.registerTask('default', ['clean', 'concat', 'patternlab:only_patterns', /*
 
 This will output compiled patterns to ./public/patterns/
 
-**THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
+===
 
+**THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
 
 ===
 
-## Demo
+### Demo
 
 You can play with a demo of the front-end of the PHP version of Pattern Lab at [demo.pattern-lab.info](http://demo.pattern-lab.info).
 
-## Getting Started
+### Getting Started
 
 The PHP version of Pattern Lab should be relatively easy for anyone to get up and running. 
 
@@ -53,7 +104,7 @@ The PHP version of Pattern Lab should be relatively easy for anyone to get up an
 * [Editing the Pattern Lab Website Source Files](https://github.com/pattern-lab/patternlab-php/wiki/Editing-the-Pattern-Lab-Website-Source-Files)
 * [Using the Command-line Options](https://github.com/pattern-lab/patternlab-php/wiki/Using-the-Command-line-Options)
 
-## Working with Patterns
+### Working with Patterns
 
 Patterns are the core element of Pattern Lab. Understanding how they work is the key to getting the most out of the system. Patterns use [Mustache](http://mustache.github.io/) so please read [Mustache's docs](http://mustache.github.io/mustache.5.html) as well.
 
@@ -67,7 +118,7 @@ Patterns are the core element of Pattern Lab. Understanding how they work is the
 * [Managing Assets for a Pattern: JavaScript, images, CSS, etc.](https://github.com/pattern-lab/patternlab-php/wiki/Managing-Assets-for-a-Pattern)
 * [Modifying the Standard Header & Footer for Patterns](https://github.com/pattern-lab/patternlab-php/wiki/Modifying-the-Standard-Header-&-Footer-for-Patterns)
 
-## Creating & Working With Dynamic Data for a Pattern
+### Creating & Working With Dynamic Data for a Pattern
 
 The PHP version of Pattern Lab utilizes Mustache as the template language for patterns. In addition to allowing for the [inclusion of one pattern within another](https://github.com/pattern-lab/patternlab-php/wiki/Including-One-Pattern-Within-Another) it also gives pattern developers the ability to include variables. This means that attributes like image sources can be centralized in one file for easy modification across one or more patterns. The PHP version of Pattern Lab uses a JSON file, `source/_data/data.json`, to centralize many of these attributes.
 
@@ -76,7 +127,7 @@ The PHP version of Pattern Lab utilizes Mustache as the template language for pa
 * [Linking to Patterns with Pattern Lab's Default `link` Variable](https://github.com/pattern-lab/patternlab-php/wiki/Linking-to-Patterns-with-Pattern-Lab's-Default-%60link%60-Variable)
 * [Creating Lists with Pattern Lab's Default `listItems` Variable](https://github.com/pattern-lab/patternlab-php/wiki/Creating-Lists-with-Pattern-Lab's-Default-%60listItems%60-Variable)
 
-## Using Pattern Lab's Advanced Features
+### Using Pattern Lab's Advanced Features
 
 By default, the Pattern Lab assets can be manually generated and the Pattern Lab site manually refreshed but who wants to waste time doing that? Here are some ways that the PHP version of Pattern Lab can make your development workflow a little smoother:
 
