@@ -23,7 +23,7 @@ var patternlab_engine = function(grunt){
 	}
 
 	function help(){
-		grunt.log.ok('patternlab help coming soon');
+		grunt.log.ok('patternlab-node help coming soon \n Until then, visit http://patternlab.io/docs/index.html for general help on pattern-lab \n Visit https://github.com/pattern-lab/patternlab-node/issues to open a bug.');
 	}
 
 	function printDebug() {
@@ -352,7 +352,7 @@ module.exports = function(grunt) {
 			patternlab.help();
 		}
 
-		if(arg && (arg !== "v" && arg !=="only_patterns")){
+		if(arg && (arg !== "v" && arg !=="only_patterns" && arg !=="help")){
 			patternlab.help();
 		}
 
