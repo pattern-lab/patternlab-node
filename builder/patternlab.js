@@ -23,7 +23,18 @@ var patternlab_engine = function(grunt){
 	}
 
 	function help(){
-		grunt.log.ok('patternlab-node help coming soon \n Until then, visit http://patternlab.io/docs/index.html for general help on pattern-lab \n Visit https://github.com/pattern-lab/patternlab-node/issues to open a bug.');
+		grunt.log.subhead('Patternlab Node Help');
+		grunt.log.writeln('===============================');
+		grunt.log.writeln('Command Line Arguments');
+		grunt.log.writeln('patternlab:only_patterns');			
+		grunt.log.writeln(' > Compiles the patterns only, outputting to ./public/patterns');
+		grunt.log.writeln('patternlab:v');
+		grunt.log.writeln(' > Retrieve the version of patternlab-node you have installed');
+		grunt.log.writeln('patternlab:help');
+		grunt.log.writeln(' > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
+		grunt.log.writeln('===============================');
+		grunt.log.writeln('Visit http://patternlab.io/docs/index.html for general help on pattern-lab');
+		grunt.log.writeln('Visit https://github.com/pattern-lab/patternlab-node/issues to open a bug.');
 	}
 
 	function printDebug() {
