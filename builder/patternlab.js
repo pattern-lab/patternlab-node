@@ -10,7 +10,7 @@
 
 var patternlab_engine = function(grunt){
 	var path = require('path'),
-		hbs = require('handlebars'),
+		mustache = require('mustache'),
 		of = require('./object_factory'),
 		pa = require('./pattern_assembler'),
 		patternlab = {};
@@ -61,88 +61,65 @@ var patternlab_engine = function(grunt){
 			var currentPattern;
 			var flatPatternPath;
 
-			//ignore _underscored patterns
-			if(filename.charAt(0) === '_'){
+			//ignore _underscored patterns and json
+			if(filename.charAt(0) === '_' || grunt.util._.str.include(filename, 'json')){
 				return;
 			}
+			
 
-			//two reasons could return no pattern, 1) just a bare hbs, or 2) a json found before the hbs
-			//returns -1 if patterns does not exist, otherwise returns the index
-			//add the pattern array if first time, otherwise pull it up
-			if(patternIndex === -1){
-				grunt.verbose.ok('pattern not found, adding to array');
-				var flatPatternName = subdir.replace(/\//g, '-') + '-' + patternName;
-				flatPatternName = flatPatternName.replace(/\//g, '-');
-				currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
-				currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
+			//make a new Pattern Object
+			var flatPatternName = subdir.replace(/\//g, '-') + '-' + patternName;
+			flatPatternName = flatPatternName.replace(/\//g, '-');
+			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
+			currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
+			currentPattern.data = null;
 
-				if(grunt.util._.str.include(filename, 'json')){
-					grunt.verbose.ok('json file found first, so add it to the pattern and continuing');
-					currentPattern.data = grunt.file.readJSON(abspath);
-					//done
-				} else{
-					grunt.verbose.ok('hbs file found, assume no data, so compile it right away');
-					currentPattern.template = grunt.file.read(abspath);
-
-					//render the pattern. pass partials object just in case.
-					currentPattern.patternPartial = renderPattern(currentPattern.template, patternlab.data, patternlab.partials);
-
-					//write the compiled template to the public patterns directory
-					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-
-					//add footer info before writing
-					var currentPatternFooter = renderPattern(patternlab.footer, currentPattern);
-
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
-					currentPattern.patternLink = flatPatternPath;
-
-					//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
-					var sub = subdir.substring(subdir.indexOf('-') + 1);
-					var folderIndex = sub.indexOf('/'); //THIS IS MOST LIKELY WINDOWS ONLY.  path.sep not working yet
-					var cleanSub = sub.substring(0, folderIndex);
-
-					//add any templates found to an object of partials, so downstream templates may use them too
-					//exclude the template patterns - we don't need them as partials because pages will just swap data
-					if(cleanSub !== ''){
-						var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
-
-						patternlab.partials[partialname] = currentPattern.template;
-						hbs.registerPartial(partialname, currentPattern.template);
-
-						//done		
-					}
-				}
-				//add to patternlab arrays so we can look these up later.  this could probably just be an object.
-				patternlab.patternIndex.push(currentPattern.name);
-				patternlab.patterns.push(currentPattern);
-			} else{
-				//if we get here, we can almost ensure we found the json first, so render the template and pass in the unique json
-				currentPattern = patternlab.patterns[patternIndex];
-				grunt.verbose.ok('pattern found, loaded');
-				//determine if this file is data or pattern
-				if(grunt.util._.str.include(filename, 'hbs')){
-
-					currentPattern.template = grunt.file.read(abspath);
-
-					//render the pattern. pass partials object just in case.
-					currentPattern.patternPartial = renderPattern(currentPattern.template, currentPattern.data, patternlab.partials);
-					grunt.verbose.ok('template compiled with data!');
-
-					//write the compiled template to the public patterns directory
-					flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-
-					//add footer info before writing
-					var currentPatternFooter = renderPattern(patternlab.footer, currentPattern);
-
-					grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
-
-					currentPattern.patternLink = flatPatternPath;
-
-					//done
-				} else{
-					grunt.log.error('json encountered!? there should only be one');
-				}
+			//look for a json file for this template
+			try {
+				var jsonFilename = abspath.substr(0, abspath.lastIndexOf(".")) + ".json";
+				currentPattern.data = grunt.file.readJSON(jsonFilename);
 			}
+			catch(e) {
+
+			}
+
+			currentPattern.template = grunt.file.read(abspath);
+
+			//render the pattern. pass partials object just in case.
+			if(currentPattern.data) { // Pass JSON as data
+				currentPattern.patternPartial = renderPattern(currentPattern.template, currentPattern.data, patternlab.partials);
+			}else{ // Pass global patternlab data
+				currentPattern.patternPartial = renderPattern(currentPattern.template, patternlab.data, patternlab.partials);
+			}
+			
+			//write the compiled template to the public patterns directory
+			flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
+
+			//add footer info before writing
+			var currentPatternFooter = renderPattern(patternlab.footer, currentPattern);
+
+			grunt.file.write('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
+			currentPattern.patternLink = flatPatternPath;
+
+			//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
+			var sub = subdir.substring(subdir.indexOf('-') + 1);
+			var folderIndex = sub.indexOf('/'); //THIS IS MOST LIKELY WINDOWS ONLY.  path.sep not working yet
+			var cleanSub = sub.substring(0, folderIndex);
+
+			//add any templates found to an object of partials, so downstream templates may use them too
+			//exclude the template patterns - we don't need them as partials because pages will just swap data
+			if(cleanSub !== ''){
+				var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
+
+				patternlab.partials[partialname] = currentPattern.template;
+				hbs.registerPartial(partialname, currentPattern.template);
+
+				//done
+			}
+			
+			//add to patternlab arrays so we can look these up later.  this could probably just be an object.
+			patternlab.patternIndex.push(currentPattern.name);
+			patternlab.patterns.push(currentPattern);
 
 		});
 
@@ -155,12 +132,12 @@ var patternlab_engine = function(grunt){
 		patternlab.viewAllPaths = {};
 
 		//build the styleguide
-		var styleguideTemplate = grunt.file.read('./source/_patternlab-files/styleguide.hbs');
+		var styleguideTemplate = grunt.file.read('./source/_patternlab-files/styleguide.mustache');
 		var styleguideHtml = renderPattern(styleguideTemplate, {partials: patternlab.patterns});
 		grunt.file.write('./public/styleguide/html/styleguide.html', styleguideHtml);
 
 		//build the patternlab website
-		var patternlabSiteTemplate = grunt.file.read('./source/_patternlab-files/index.hbs');
+		var patternlabSiteTemplate = grunt.file.read('./source/_patternlab-files/index.mustache');
 		
 		//loop through all patterns.  deciding to do this separate from the recursion, even at a performance hit, to attempt to separate the tasks of styleguide creation versus site menu creation
 		for(var i = 0; i < patternlab.patterns.length; i++){
@@ -285,31 +262,27 @@ var patternlab_engine = function(grunt){
 
 		//the patternlab site requires a lot of partials to be rendered.
 		//patternNav
-		var patternNavTemplate = grunt.file.read('./source/_patternlab-files/partials/patternNav.hbs');
+		var patternNavTemplate = grunt.file.read('./source/_patternlab-files/partials/patternNav.mustache');
 		var patternNavPartialHtml = renderPattern(patternNavTemplate, patternlab);
-		hbs.registerPartial('patternNav', patternNavPartialHtml);
 
 		//ishControls
-		var ishControlsTemplate = grunt.file.read('./source/_patternlab-files/partials/ishControls.hbs');
+		var ishControlsTemplate = grunt.file.read('./source/_patternlab-files/partials/ishControls.mustache');
 		var ishControlsPartialHtml = renderPattern(ishControlsTemplate, patternlab.config);
-		hbs.registerPartial('ishControls', ishControlsPartialHtml);
 
 		//patternPaths
-		var patternPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/patternPaths.hbs');
+		var patternPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/patternPaths.mustache');
 		var patternPathsPartialHtml = renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
-		hbs.registerPartial('patternPaths', patternPathsPartialHtml);
 
 		//viewAllPaths
-		var viewAllPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/viewAllPaths.hbs');
+		var viewAllPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/viewAllPaths.mustache');
 		var viewAllPathersPartialHtml = renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
-		hbs.registerPartial('viewAllPaths', viewAllPathersPartialHtml);
 
 		//websockets
-		var websocketsTemplate = grunt.file.read('./source/_patternlab-files/partials/websockets.hbs');
+		var websocketsTemplate = grunt.file.read('./source/_patternlab-files/partials/websockets.mustache');
 		patternlab.contentsyncport = patternlab.config.contentSyncPort;
 		patternlab.navsyncport = patternlab.config.navSyncPort;
+
 		var websocketsPartialHtml = renderPattern(websocketsTemplate, patternlab);
-		hbs.registerPartial('websockets', websocketsPartialHtml);
 
 		//render the patternlab template, with all partials
 		var patternlabSiteHtml = renderPattern(patternlabSiteTemplate, {}, {
@@ -324,9 +297,11 @@ var patternlab_engine = function(grunt){
 	}
 
 	function renderPattern(name, data, partials) {
-		var template = hbs.compile(name);
-		var source = template(data);
-		return source;
+		if(partials) {
+			return mustache.render(name, data, partials);
+		}else{
+			return mustache.render(name, data);
+		}
 	}
 
 	return {
