@@ -112,7 +112,6 @@ var patternlab_engine = function(grunt){
 				var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
 
 				patternlab.partials[partialname] = currentPattern.template;
-				hbs.registerPartial(partialname, currentPattern.template);
 
 				//done
 			}
