@@ -266,11 +266,7 @@ var patternlab_engine = function(grunt){
 
 		//ishControls
 		var ishControlsTemplate = grunt.file.read('./source/_patternlab-files/partials/ishControls.mustache');
-<<<<<<< HEAD
-		var ishControlsPartialHtml = mustache.render(ishControlsTemplate, patternlab.config);
-=======
 		var ishControlsPartialHtml = renderPattern(ishControlsTemplate, patternlab.config);
->>>>>>> a38e78c13ca1f9b51ca570c2c1ebb077f880214c
 
 		//patternPaths
 		var patternPathsTemplate = grunt.file.read('./source/_patternlab-files/partials/patternPaths.mustache');
