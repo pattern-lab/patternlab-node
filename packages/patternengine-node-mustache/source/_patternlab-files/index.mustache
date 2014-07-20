@@ -5,9 +5,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width" />
 	<link rel="stylesheet" href="styleguide/css/styleguide.css" media="all" />
+	<link rel="stylesheet" href="styleguide/css/styleguide-specific.css" media="all" />
 	<link rel="stylesheet" href="styleguide/css/prism.css" media="all" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="styleguide/js/jquery.js"><\/script>')</script>
+	<script>window.jQuery || document.write('<script src="styleguide/js/vendor/jquery.js"><\/script>')</script>
 </head>
 <body  id="patternlab-body">>
 	<!--Style Guide Header-->
@@ -31,8 +32,53 @@
 		</div>
 	</div>
 	<!--end iFrame-->
-	
-	<script src="styleguide/js/prism.js"></script>
+
+	<!-- the template for the code view slider -->
+	<script type="text/html" id="code-template">
+		<div id="sg-code-close" class="sg-view-close">
+			<a href="#" id="sg-code-close-btn" class="sg-view-close-btn">Close</a>
+		</div>
+		<div id="sg-code-loader">
+			<div class="spinner"></div>
+			Loading pattern...
+		</div>
+		<div id="sg-code-patternstate" style="display: none;">
+			<p>
+				The state of the <span id="sg-code-patternstate-patternname" class="sg-code-patternname"></span> pattern is: <span id="sg-code-patternstate-fill"></span>
+			</p>
+		</div>
+		<div id="sg-code-lineage" style="display: none;">
+			<p>
+				The <span id="sg-code-lineager-patternname" class="sg-code-patternname"></span> pattern contains the following patterns: <span id="sg-code-lineage-fill"></span>
+			</p>
+		</div>
+		<div id="sg-code-lineager" style="display: none;">
+			<p>
+				The <span id="sg-code-lineager-patternname" class="sg-code-patternname"></span> pattern is included in the following patterns: <span id="sg-code-lineager-fill"></span>
+			</p>
+		</div>
+		<div id="sg-code-markup">
+			<ul id="sg-code-tabs">
+				<li id="sg-code-title-html" class="sg-code-title-active">HTML</li>
+				<li id="sg-code-title-mustache">Mustache</li>
+				<li id="sg-code-title-css" style="display: none;">CSS</li>
+			</ul>
+			<div class="clear">
+				<pre><code id="sg-code-fill"></code></pre>
+			</div>
+		</div>
+	</script>
+
+	<!-- the template for the annotations viewer slider -->
+	<script type="text/html" id="annotations-template">
+		<div id="sg-annotation-close" class="sg-view-close">
+			<a href="#" id="sg-annotation-close-btn" class="sg-view-close-btn">Close</a>
+		</div>
+		<div id="sg-comments-container"></div>
+	</script>
+
+	<script src="styleguide/js/vendor/prism.js"></script>
+	<script src="styleguide/js/vendor/jwerty.js"></script>
 	<script src="styleguide/js/data-saver.js"></script>
 	{{> patternPaths }}
 	{{> viewAllPaths }}
@@ -40,7 +86,7 @@
 	{{> websockets }}
 	<script src="listeners/synclisteners.js"></script>
 	<script src="styleguide/js/styleguide.js"></script>
-	<!--<script src="styleguide/js/annotations-viewer.js "></script>-->
-	<!--<script src="styleguide/js/code-viewer.js "></script>-->
+	<script src="styleguide/js/annotations-viewer.js "></script>
+	<script src="styleguide/js/code-viewer.js "></script>
 </body>
 </html>
