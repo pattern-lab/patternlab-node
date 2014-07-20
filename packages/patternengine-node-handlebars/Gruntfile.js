@@ -10,11 +10,15 @@ module.exports = function(grunt) {
 		concat: {
 			options: {
 				stripBanners: true,
-				banner: '/* \n * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %> \n * \n * <%= pkg.author %>, and the web community.\n * Licensed under the <%= pkg.license %> license. \n * \n * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. \n *\n */\n\n',
+				banner: '/* \n * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy") %> \n * \n * <%= pkg.author %>, and the web community.\n * Licensed under the <%= pkg.license %> license. \n * \n * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. \n *\n */\n\n',
 			},
-			dist: {
+			patternlab: {
 				src: './builder/patternlab.js',
 				dest: './builder/patternlab.js'
+			},
+			object_factory: {
+				src: './builder/object_factory.js',
+				dest: './builder/object_factory.js'
 			}
 		},
 		copy: {
@@ -68,17 +72,13 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		qunit: {
-			all:{
-				options:{
-					urls: ['./test/tests.html']
-				}
-			}
+		nodeunit: {
+			all: ['test/*_tests.js']
 		}
 	});
 
 	// load all grunt tasks
- 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 	//load the patternlab task
 	grunt.task.loadTasks('./builder/');
@@ -87,5 +87,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
 
 	//travis CI task
-	grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'qunit'])
+	grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'nodeunit']);
 };

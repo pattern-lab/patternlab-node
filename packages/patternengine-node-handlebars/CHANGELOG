@@ -1,5 +1,19 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.1.2
+ - ADD: Abstracted template rendering into a function for easier swapping of rendering engine
+ - ADD: Smarter filtering of files to support other templates Thanks 
+ - ADD: Help command line agument
+ - ADD: Version command line argument
+ - ADD: Patterns only command line argument
+ - ADD: IshControlsVisible options. Can now hide any ishControls you like.
+ - ADD: Documented the command line interface
+ - CHG: Put debug flag in conf.json instead of package.json
+ - CHG: Aligned styleguide css with patternlab-php
+ - FIX: Removed node .8 from travis
+ - FIX: Code and annotation support in patternlab viewer
+ - THX: thanks @ivanmayes and Shoptology crew for contibutions!
+
 PL-node-v0.1.1
  - FIX: Removed View All Pattern SubItem Link Logic, no longer in reference implementation
  - ADD: Flag for generating debug file
