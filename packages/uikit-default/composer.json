@@ -41,6 +41,12 @@
 				"sourceDir": [
 					{ "css/styleguide-specific.css": "styleguide/css/styleguide-specific.css" }
 				]
+			},
+				"config": [
+					{ "ishMinimum": "240" },
+					{ "ishMaximum": "2600" },
+					{ "ishControlsHide": "hay" }
+				]
 			}
 		}
 	}
