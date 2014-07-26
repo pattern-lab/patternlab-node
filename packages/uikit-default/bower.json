@@ -1,0 +1,18 @@
+{
+  "name": "styleguidekit-assets-default",
+  "version": "0.1.0",
+  "homepage": "https://github.com/pattern-lab/styleguidekit-assets-default",
+  "authors": [
+    "Dave Olsen <dmolsen@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "classlist": "~2014.7.23",
+    "jquery": "~2.1.1",
+    "jwerty": "~0.3.2",
+    "prism": "gh-pages",
+    "typeahead.js": "~0.10.4",
+    "hogan": "~3.0.2"
+  }
+}
