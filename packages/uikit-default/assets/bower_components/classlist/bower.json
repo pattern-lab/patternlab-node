@@ -1,8 +1,0 @@
-{
-  "name": "classlist",
-  "main": "classList.js",
-  "ignore": [
-    ".gitignore",
-    "README.md"
-  ]
-}
