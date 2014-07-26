@@ -15,6 +15,7 @@
   "devDependencies": {
     "gulp": "^3.8.6",
     "gulp-autoprefixer": "0.0.8",
+    "gulp-bower-files": "^0.2.7",
     "gulp-concat": "^2.3.4",
     "gulp-imagemin": "^0.6.1",
     "gulp-jshint": "^1.8.0",
