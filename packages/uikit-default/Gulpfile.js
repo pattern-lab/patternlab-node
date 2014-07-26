@@ -1,15 +1,7 @@
 var plugins = require('gulp-load-plugins')(scope: ['devDependencies']);
 
-gulp.task('bower', function() {
-	return gulp.src('src/scripts/**/*.js')
-		.pipe(plugins.jshint('.jshintrc'))
-		.pipe(plugins.jshint.reporter('default'))
-		.pipe(plugins.concat('main.js'))
-		.pipe(gulp.dest('dist/assets/js'))
-		.pipe(plugins.rename({suffix: '.min'}))
-		.pipe(plugins.uglify())
-		.pipe(gulp.dest('dist/assets/js'))
-		.pipe(plugins.notify({ message: 'Scripts task complete' }));
+gulp.task("bower-files", function(){
+    plugins.bowerFiles().pipe(gulp.dest("dist/bower_components"));
 });
 
 gulp.task('js', function() {
