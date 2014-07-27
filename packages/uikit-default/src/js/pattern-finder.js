@@ -33,14 +33,15 @@ var patternFinder = {
 			limit: 10,
 			local: this.data
 		});
-
+		
 		// initialize the bloodhound suggestion engine
 		patterns.initialize();
-
+		
 		$('#sg-find .typeahead').typeahead({ highlight: true }, {
 			displayKey: 'patternPartial',
 			source: patterns.ttAdapter()
-		}).on('typeahead:selected', patternFinder.onAutocompleted).on('typeahead:autocompleted', patternFinder.onSelected);
+		});
+		//.on('typeahead:selected', patternFinder.onAutocompleted).on('typeahead:autocompleted', patternFinder.onSelected);
 		
 	},
 	
