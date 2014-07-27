@@ -51,6 +51,8 @@ gulp.task('clean:js', function () {
 /* core tasks */
 gulp.task('build:bower', ['clean:bower'], function(){
 	return gulp.src(plugins.mainBowerFiles())
+		.pipe(plugins.rename({suffix: '.min'}))
+		.pipe(plugins.uglify())
 		.pipe(gulp.dest("dist/bower_components"))
 		.pipe(gulp.dest("../../../public/styleguide/bower_components"));
 });
