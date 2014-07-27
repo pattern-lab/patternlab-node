@@ -1,63 +1,140 @@
-/* load the plugins */
-var plugins = require('gulp-load-plugins')(scope: ['devDependencies']);
+/* load command line arguments */
+var args = require('yargs').argv;
 
-/* clean task */
-gulp.task('clean', function () {
-	cleanDirs = [];
-	cleanDirs.push('dist/bower_components/*.(js|css)');
-	cleanDirs.push('../../../public/styleguide/bower_components/*.(js|css)');
-	cleanDirs.push('dist/js/*.js');
-	cleanDirs.push('../../../public/styleguide/js/*.js');
-	return gulp.src(, {read: false}).pipe(plugins.clean());
+/* load gulp */
+var gulp = require('gulp');
+
+/* load the plugins */
+var gulpLoadPlugins    = require('gulp-load-plugins');
+var plugins            = gulpLoadPlugins({ scope: ['devDependencies'] });
+plugins.mainBowerFiles = require("main-bower-files");
+plugins.pngcrush       = require('imagemin-pngcrush');
+
+cleanDirs = [];
+cleanDirs.push();
+cleanDirs.push();
+cleanDirs.push();
+cleanDirs.push();
+cleanDirs.push();
+cleanDirs.push('dist/images/*');
+cleanDirs.push('dist/js/*.js');
+
+/* clean tasks */
+gulp.task('clean:bower', function () {
+	return gulp.src('dist/bower_components/*.(js|css)', { read: false }).pipe(plugins.rimraf());
+});
+
+gulp.task('clean:css-patternlab', function () {
+	return gulp.src('dist/css/patternlab/*.css', { read: false }).pipe(plugins.rimraf());
+});
+
+gulp.task('clean:css-custom', function () {
+	return gulp.src('dist/css/custom/*.css', { read: false }).pipe(plugins.rimraf());
+});
+
+gulp.task('clean:fonts', function () {
+	return gulp.src('dist/fonts/*', { read: false }).pipe(plugins.rimraf());
+});
+
+gulp.task('clean:html', function () {
+	return gulp.src('dist/html/index.html', { read: false }).pipe(plugins.rimraf());
+});
+
+gulp.task('clean:images', function () {
+	return gulp.src('dist/images/*', { read: false }).pipe(plugins.rimraf());
+});
+
+gulp.task('clean:js', function () {
+	return gulp.src('dist/js/*.js', { read: false }).pipe(plugins.rimraf());
 });
 
 /* core tasks */
-gulp.task("bower-files", ['clean'], function(){
-	plugins.bowerFiles()
-	.pipe(gulp.dest("dist/bower_components"))
-	.pipe(gulp.dest("../../../public/styleguide/bower_components"));
+gulp.task('build:bower', ['clean:bower'], function(){
+	return gulp.src(plugins.mainBowerFiles())
+		.pipe(gulp.dest("dist/bower_components"))
+		.pipe(gulp.dest("../../../public/styleguide/bower_components"));
 });
 
-gulp.task('js', ['clean'], function() {
+gulp.task('build:css-general', function() {
+	return gulp.src(['src/css/prism-okaidia.css','src/css/typeahead.css'])
+		.pipe(plugins.concat('prism-typeahead.css'))
+		.pipe(gulp.dest('dist/css/patternlab'))
+		.pipe(plugins.rename({suffix: '.min'}))
+		.pipe(plugins.minifyCss())
+		.pipe(gulp.dest('dist/css/patternlab'))
+		.pipe(gulp.dest('../../../public/styleguide/css'));
+});
+
+gulp.task('build:css-patternlab', ['clean:css-patternlab', 'build:css-general'], function() {
+	return gulp.src('src/sass/styleguide.scss')
+		.pipe(plugins.rubySass({ style: 'expanded' }))
+		.pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+		.pipe(gulp.dest('dist/css/patternlab'))
+		.pipe(plugins.rename({suffix: '.min'}))
+		.pipe(plugins.minifyCss())
+		.pipe(gulp.dest('dist/css/patternlab'))
+		.pipe(gulp.dest('../../../public/styleguide/css'));
+});
+
+gulp.task('build:css-custom', ['clean:css-custom', 'build:css-patternlab'], function() {
+	return gulp.src('src/sass/styleguide-specific.scss')
+		.pipe(plugins.rubySass({ style: 'expanded' }))
+		.pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+		.pipe(gulp.dest('dist/css/custom'))
+		.pipe(plugins.rename({suffix: '.min'}))
+		.pipe(plugins.minifyCss())
+		.pipe(gulp.dest('dist/css/custom'))
+		.pipe(gulp.dest('../../../source/styleguide/css'));
+});
+
+gulp.task('build:fonts', ['clean:fonts'], function() {
+	return gulp.src('src/fonts/*')
+		.pipe(gulp.dest('dist/fonts'))
+		.pipe(gulp.dest('../../../public/styleguide/fonts'));
+});
+
+gulp.task('build:html', ['clean:html'], function() {
+	return gulp.src('src/html/index.html')
+		.pipe(gulp.dest('dist/html'))
+		.pipe(gulp.dest('../../../public'));
+});
+
+gulp.task('build:images', ['clean:images'], function() {
+	return gulp.src('src/images/*')
+		.pipe(plugins.imagemin({
+		          progressive: true,
+		          svgoPlugins: [{removeViewBox: false}],
+		          use: [plugins.pngcrush()]
+		 }))
+		.pipe(gulp.dest('dist/images'))
+		.pipe(gulp.dest('../../../public/styleguide/images'));
+});
+
+gulp.task('build:js', ['clean:js'], function() {
 	return gulp.src('src/js/*.js')
 		.pipe(plugins.jshint('.jshintrc'))
 		.pipe(plugins.jshint.reporter('default'))
-		.pipe(plugins.concat('main.js'))
-		.pipe(gulp.dest('dist/assets/js'))
+		.pipe(plugins.resolveDependencies( { pattern: /\* @requires [\s-]*(.*?\.js)/g } ))
+		.on('error', function(err) { console.log(err.message); })
+		.pipe(plugins.concat('patternlab.js'))
+		.pipe(gulp.dest('dist/js'))
 		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(plugins.uglify())
-		.pipe(gulp.dest('dist/assets/js'))
-		.pipe(gulp.dest('../../../public/styleguide/js'))
-		.pipe(plugins.notify({ message: 'Scripts task complete' }));
+		.pipe(gulp.dest('dist/js'))
+		.pipe(gulp.dest('../../../public/styleguide/js'));
 });
 
-gulp.task('styleguide-general', ['clean'], function() {
-	return gulp.src(['src/css/styleguide.scss','typeahead.scss'])
-		.pipe(plugins.rubySass({ style: 'expanded' }))
-		.pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-		.pipe(gulp.dest('assets/css/app'))
-		.pipe(plugins.rename({suffix: '.min'}))
-		.pipe(plugins.minifyCss())
-		.pipe(gulp.dest('assets/css/app'))
-		.pipe(gulp.dest('../../../public/styleguide/css'))
-		.pipe(plugins.notify({ message: 'Styleguide-general task complete' }));
-});
-
-gulp.task('styleguide-specific', ['clean'], function() {
-	return gulp.src('src/css/styleguide-specific.scss')
-		.pipe(plugins.rubySass({ style: 'expanded' }))
-		.pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-		.pipe(gulp.dest('dist/css/custom'))
-		.pipe(plugins.rename({suffix: '.min'}))
-		.pipe(plugins.minifyCss())
-		.pipe(gulp.dest('dist/css/custom'))
-		.pipe(gulp.dest('../../../public/styleguide/css'))
-		.pipe(plugins.notify({ message: 'Styleguide-specific task complete' }));
-});
-
-gulp.task('default', function () {
-	gulp.watch(['src/bower_components/**/*'], ['bower']);
-	gulp.watch(['src/js/*'], ['js']);
-	gulp.watch(['src/css/styleguide.scss'], ['styleguide-general']);
-	gulp.watch(['src/css/styleguide-specific.scss'], ['styleguide-specific']);
+gulp.task('default', ['build:bower', 'build:css-custom', 'build:fonts', 'build:html', 'build:images', 'build:js'], function () {
+	
+	if (args.watch !== undefined) {
+		gulp.watch(['src/bower_components/**/*'], ['build:bower']);
+		gulp.watch(['src/css/prism-okaidia.css','src/css/typeahead.css'],['build:css-general']);
+		gulp.watch(['src/sass/styleguide.scss'], ['build:css-patternlab']);
+		gulp.watch(['src/sass/styleguide-specific.scss'], ['build:css-custom']);
+		gulp.watch(['src/fonts/*'], ['build:fonts'])
+		gulp.watch(['src/html/index.html'], ['build:html']);
+		gulp.watch(['src/images/*'], ['build:images']);
+		gulp.watch(['src/js/*'], ['build:js']);
+	}
+	
 });
