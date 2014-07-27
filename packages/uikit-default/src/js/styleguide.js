@@ -1,3 +1,9 @@
+/**
+ * @requires data-saver.js
+ * @requires url-handler.js
+ * @requires postmessage.js
+ */
+
 (function (w) {
 	
 	var sw = document.body.clientWidth, //Viewport Width

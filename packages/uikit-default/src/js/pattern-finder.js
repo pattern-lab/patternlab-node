@@ -4,6 +4,8 @@
  * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
  *
+ * @requires url-handler.js
+ *
  */
 
 var patternFinder = {
