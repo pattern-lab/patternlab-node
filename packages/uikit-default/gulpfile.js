@@ -21,15 +21,15 @@ cleanDirs.push('dist/js/*.js');
 
 /* clean tasks */
 gulp.task('clean:bower', function () {
-	return gulp.src('dist/bower_components/*.(js|css)', { read: false }).pipe(plugins.rimraf());
+	return gulp.src('dist/bower_components/*', { read: false }).pipe(plugins.rimraf());
 });
 
 gulp.task('clean:css-patternlab', function () {
-	return gulp.src('dist/css/patternlab/*.css', { read: false }).pipe(plugins.rimraf());
+	return gulp.src('dist/css/patternlab/*', { read: false }).pipe(plugins.rimraf());
 });
 
 gulp.task('clean:css-custom', function () {
-	return gulp.src('dist/css/custom/*.css', { read: false }).pipe(plugins.rimraf());
+	return gulp.src('dist/css/custom/*', { read: false }).pipe(plugins.rimraf());
 });
 
 gulp.task('clean:fonts', function () {
@@ -45,7 +45,7 @@ gulp.task('clean:images', function () {
 });
 
 gulp.task('clean:js', function () {
-	return gulp.src('dist/js/*.js', { read: false }).pipe(plugins.rimraf());
+	return gulp.src('dist/js/*', { read: false }).pipe(plugins.rimraf());
 });
 
 /* core tasks */
