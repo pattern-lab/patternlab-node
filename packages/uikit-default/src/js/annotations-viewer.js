@@ -4,7 +4,7 @@
  * Copyright (c) 2013 Brad Frost, http://bradfrostweb.com & Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
  *
- * @requires postmessage.js
+ * @requires url-handler.js
  *
  */
 

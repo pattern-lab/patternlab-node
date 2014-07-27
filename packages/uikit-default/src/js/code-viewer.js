@@ -4,6 +4,8 @@
  * Copyright (c) 2013 Brad Frost, http://bradfrostweb.com & Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
  *
+ * @requires url-handler.js
+ *
  */
 
 var codeViewer = {
