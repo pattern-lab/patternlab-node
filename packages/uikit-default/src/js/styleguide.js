@@ -14,7 +14,7 @@
 		$sgViewport = $('#sg-viewport'), //Viewport element
 		$sizePx = $('.sg-size-px'), //Px size input element in toolbar
 		$sizeEms = $('.sg-size-em'), //Em size input element in toolbar
-		$bodySize = parseInt($('body').css('font-size')), //Body size of the document,
+		$bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document,
 		$headerHeight = $('.sg-header').height(),
 		discoID = false,
 		discoMode = false,
