@@ -42,11 +42,10 @@
 				]
 			},
 			"config": [
-					{ "ishMinimum": "240" },
-					{ "ishMaximum": "2600" },
-					{ "ishControlsHide": "hay" }
-				]
-			}
+				{ "ishMinimum": "240" },
+				{ "ishMaximum": "2600" },
+				{ "ishControlsHide": "hay" }
+			]
 		}
 	}
 }
