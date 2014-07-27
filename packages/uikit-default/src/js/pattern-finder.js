@@ -90,11 +90,13 @@ var patternFinder = {
 			return;
 		}
 		
-		if (data.keyPress !== undefined) {
+		if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
+			
 			if (data.keyPress == 'ctrl+shift+f') {
 				patternFinder.toggleFinder();
 				return false;
 			}
+			
 		}
 		
 	}
