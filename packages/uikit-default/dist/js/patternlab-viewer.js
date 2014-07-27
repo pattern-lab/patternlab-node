@@ -1304,8 +1304,8 @@ window.addEventListener("message", receiveIframeMessage, false);
 	
 	var sw = document.body.clientWidth, //Viewport Width
 		sh = $(document).height(), //Viewport Height
-		minViewportWidth = parseInt(config.ishminimum), //Minimum Size for Viewport
-		maxViewportWidth = parseInt(config.ishmaximum), //Maxiumum Size for Viewport
+		minViewportWidth = parseInt(config.ishMinimum), //Minimum Size for Viewport
+		maxViewportWidth = parseInt(config.ishMaximum), //Maxiumum Size for Viewport
 		viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
 		$sgViewport = $('#sg-viewport'), //Viewport element
 		$sizePx = $('.sg-size-px'), //Px size input element in toolbar
