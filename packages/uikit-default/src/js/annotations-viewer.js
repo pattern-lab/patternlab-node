@@ -72,15 +72,17 @@ var annotationsViewer = {
 	*/
 	openComments: function() {
 		
+		var obj;
+		
 		// make sure the code view overlay is off before showing the annotations view
 		$('#sg-t-code').removeClass('active');
 		codeViewer.codeActive = false;
-		var obj = JSON.stringify({ "event": "patternLab.codePanel", "codeToggle": "off" });
+		obj = JSON.stringify({ "event": "patternLab.codePanel", "codeToggle": "off" });
 		document.getElementById('sg-viewport').contentWindow.postMessage(obj,annotationsViewer.targetOrigin);
 		codeViewer.slideCode(999);
 		
 		// tell the iframe annotation view has been turned on
-		var obj = JSON.stringify({ "event": "patternLab.annotationPanel", "commentToggle": "on" });
+		obj = JSON.stringify({ "event": "patternLab.annotationPanel", "commentToggle": "on" });
 		document.getElementById('sg-viewport').contentWindow.postMessage(obj,annotationsViewer.targetOrigin);
 		
 		// note that it's turned on in the viewer
@@ -184,7 +186,7 @@ var annotationsViewer = {
 					annotationsViewer.slideComment($('#sg-annotation-container').outerHeight());
 				}
 			} else if (data.event == "patternLab.annotationUpdateState") {
-				document.getElementById("annotation-state-"+data.displayNumber).innerHTML = (data.annotationState == true) ? "" : " hidden";
+				document.getElementById("annotation-state-"+data.displayNumber).innerHTML = (data.annotationState === true) ? "" : " hidden";
 			} else if (data.event == "patternLab.annotationNumberClicked") {
 				annotationsViewer.moveTo(data.displaynumber);
 			} else if (data.event == "patternLab.keyPress") {

@@ -299,7 +299,7 @@
 				val = val.replace(type,"");
 				var width = (type === "px") ? val*1 : val*$bodySize;
 				sizeiframe(width,true);
-			}
+			};
 		}(i,this));
 		
 		// bind the keyboard shortcut. can't use cmd on a mac because 3 & 4 are for screenshots
@@ -311,7 +311,7 @@
 				var width = (type === "px") ? val*1 : val*$bodySize;
 				sizeiframe(width,true);
 				return false;
-			}
+			};
 		}(this));
 		
 	});
@@ -463,7 +463,7 @@
 	
 	var testWidth = screen.width;
 	if (window.orientation !== undefined) {
-		testWidth = (window.orientation == 0) ? screen.width : screen.height;
+		testWidth = (window.orientation === 0) ? screen.width : screen.height;
 	}
 	if (($(window).width() == testWidth) && ('ontouchstart' in document.documentElement) && ($(window).width() <= 1024)) {
 		$("#sg-rightpull-container").width(0);
@@ -507,7 +507,7 @@
 		history.replaceState({ "pattern": patternName }, null, null);
 	}
 	
-	if (document.getElementById("sg-raw") != undefined) {
+	if (document.getElementById("sg-raw") !== undefined) {
 		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
 	}
 	

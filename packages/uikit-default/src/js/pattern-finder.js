@@ -97,7 +97,7 @@ var patternFinder = {
 		
 	}
 	
-}
+};
 
 patternFinder.init();
 

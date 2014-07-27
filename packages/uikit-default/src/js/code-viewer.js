@@ -79,15 +79,17 @@ var codeViewer = {
 	*/
 	openCode: function() {
 		
+		var obj;
+		
 		// make sure the annotations overlay is off before showing code view
 		$('#sg-t-annotations').removeClass('active');
 		annotationsViewer.commentsActive = false;
-		var obj = JSON.stringify({ "event": "patternLab.annotationPanel", "commentToggle": "off" });
+		obj = JSON.stringify({ "event": "patternLab.annotationPanel", "commentToggle": "off" });
 		document.getElementById('sg-viewport').contentWindow.postMessage(obj,codeViewer.targetOrigin);
 		annotationsViewer.slideComment(999);
 		
 		// tell the iframe code view has been turned on
-		var obj = JSON.stringify({ "event": "patternLab.codePanel", "codeToggle": "on" });
+		obj = JSON.stringify({ "event": "patternLab.codePanel", "codeToggle": "on" });
 		document.getElementById('sg-viewport').contentWindow.postMessage(obj,codeViewer.targetOrigin);
 		
 		// note it's turned on in the viewer

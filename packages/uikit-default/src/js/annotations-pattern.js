@@ -26,9 +26,11 @@ var annotationsPattern = {
 			
 			var count = 0;
 			
-			for (comment in comments.comments) {
+			for (var comment in comments.comments) {
+				
 				var item = comments.comments[comment];
 				var els  = document.querySelectorAll(item.el);
+				
 				if (els.length > 0) {
 					
 					count++;
@@ -49,7 +51,7 @@ var annotationsPattern = {
 									
 								}
 								
-							}
+							};
 						})(item);
 					}
 				}
@@ -129,6 +131,7 @@ var annotationsPattern = {
 	*/
 	receiveIframeMessage: function(event) {
 		
+		var i, obj, state, els, item, displayNum;
 		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		// does the origin sending the message match the current host? if not dev/null the request
@@ -138,22 +141,20 @@ var annotationsPattern = {
 		
 		if ((data.event !== undefined) && (data.event == "patternLab.resize") && (annotationsPattern.commentsOverlayActive)) {
 			
-			for (var i = 0; i < annotationsPattern.trackedElements.length; ++i) {
+			for (i = 0; i < annotationsPattern.trackedElements.length; ++i) {
 				var el = annotationsPattern.trackedElements[i];
 				if (window.getComputedStyle(el.element,null).getPropertyValue("max-height") == "0px") {
 					el.element.firstChild.style.display = "none";
-					var obj = JSON.stringify({"event": "patternLab.annotationUpdateState", "annotationState": false, "displayNumber": el.displayNumber });
+					obj = JSON.stringify({"event": "patternLab.annotationUpdateState", "annotationState": false, "displayNumber": el.displayNumber });
 					parent.postMessage(obj,annotationsPattern.targetOrigin);
 				} else {
 					el.element.firstChild.style.display = "block";
-					var obj = JSON.stringify({"event": "patternLab.annotationUpdateState", "annotationState": true, "displayNumber": el.displayNumber });
+					obj = JSON.stringify({"event": "patternLab.annotationUpdateState", "annotationState": true, "displayNumber": el.displayNumber });
 					parent.postMessage(obj,annotationsPattern.targetOrigin);
 				}
 			}
 			
 		} else if ((data.event !== undefined) && (data.event == "patternLab.annotationPanel")) {
-			
-			var i, els, item, displayNum;
 			
 			// if this is an overlay make sure it's active for the onclick event
 			annotationsPattern.commentsOverlayActive  = false;
@@ -195,7 +196,7 @@ var annotationsPattern = {
 					item = comments.comments[i];
 					els  = document.querySelectorAll(item.el);
 					
-					var state = true;
+					state = true;
 					
 					if (els.length) {
 						
@@ -226,15 +227,15 @@ var annotationsPattern = {
 				}
 				
 				// count elements so it can be used when displaying the results in the viewer
-				var count = 0;
+				count = 0;
 				
 				// iterate over the comments in annotations.js
 				for (i = 0; i < comments.comments.length; i++) {
 					
-					var state = true;
+					state = true;
 					
-					var item  = comments.comments[i];
-					var els   = document.querySelectorAll(item.el);
+					item  = comments.comments[i];
+					els   = document.querySelectorAll(item.el);
 					
 					// if an element is found in the given pattern add it to the overall object so it can be passed when the overlay is turned on
 					if (els.length > 0) {
@@ -251,7 +252,7 @@ var annotationsPattern = {
 				}
 				
 				// send the list of annotations for the page back to the parent
-				var obj = JSON.stringify(annotationsPattern.commentsGathered);
+				obj = JSON.stringify(annotationsPattern.commentsGathered);
 				parent.postMessage(obj,annotationsPattern.targetOrigin);
 				
 			} else if (annotationsPattern.commentsEmbeddedActive && !annotationsPattern.commentsEmbedded) {

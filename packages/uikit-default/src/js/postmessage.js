@@ -33,7 +33,7 @@ if (self != top) {
 		aTags[i].onclick = function(e) {
 			var href   = this.getAttribute("href");
 			var target = this.getAttribute("target");
-			if ((target != undefined) && ((target == "_parent") || (target == "_blank"))) {
+			if ((target !== undefined) && ((target == "_parent") || (target == "_blank"))) {
 				// just do normal stuff
 			} else if (href && href !== "#") {
 				e.preventDefault();
@@ -53,7 +53,7 @@ if (self != top) {
 				var obj = JSON.stringify({ "event": "patternLab.keyPress", "keyPress": "ctrl+shift+"+k });
 				parent.postMessage(obj,t);
 				return false;
-			}
+			};
 		}(keys[i],targetOrigin));
 	}
 	
@@ -66,7 +66,7 @@ if (self != top) {
 				var obj = JSON.stringify({ "event": "patternLab.keyPress", "keyPress": "ctrl+shift+"+k });
 				parent.postMessage(obj,t);
 				return false;
-			}
+			};
 		}(i,targetOrigin));
 		i++;
 	}
