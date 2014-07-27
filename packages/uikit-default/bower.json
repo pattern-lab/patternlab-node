@@ -14,5 +14,10 @@
     "prism": "gh-pages",
     "typeahead.js": "~0.10.4",
     "hogan": "~3.0.2"
+  },
+  "overrides": {
+    "hogan": {
+      "main": "web/builds/3.0.2/hogan-3.0.2.js"
+    }
   }
 }
