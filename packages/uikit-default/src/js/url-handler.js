@@ -176,9 +176,11 @@ var urlHandler = {
 		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
 		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
 		
-		if (wsnConnected) {
+		/*
+		if (wsnConnected !== undefined) {
 			wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );
 		}
+		*/
 		
 	}
 	

@@ -578,10 +578,12 @@
 					urlHandler.pushPattern(data.patternpartial, data.path);
 				}
 				
+				/*
 				if (wsnConnected) {
 					var iFramePath = urlHandler.getFileName(data.patternpartial);
 					wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
 				}
+				*/
 			}
 			
 			// reset the defaults
