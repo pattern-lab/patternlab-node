@@ -10,15 +10,6 @@ var plugins            = gulpLoadPlugins({ scope: ['devDependencies'] });
 plugins.mainBowerFiles = require("main-bower-files");
 plugins.pngcrush       = require('imagemin-pngcrush');
 
-cleanDirs = [];
-cleanDirs.push();
-cleanDirs.push();
-cleanDirs.push();
-cleanDirs.push();
-cleanDirs.push();
-cleanDirs.push('dist/images/*');
-cleanDirs.push('dist/js/*.js');
-
 /* clean tasks */
 gulp.task('clean:bower', function () {
 	return gulp.src('dist/bower_components/*', { read: false }).pipe(plugins.rimraf());
