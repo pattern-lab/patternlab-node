@@ -103,13 +103,13 @@ gulp.task('build:images', ['clean:images'], function() {
 		.pipe(gulp.dest('../../../public/styleguide/images'));
 });
 
-gulp.task('build:js', ['clean:js'], function() {
-	return gulp.src('src/js/*.js')
+gulp.task('build:js-viewer', ['clean:js'], function() {
+	return gulp.src(['src/js/*.js','!src/js/annotations-pattern.js','!src/js/code-pattern.js']) 
 		.pipe(plugins.jshint('.jshintrc'))
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.resolveDependencies( { pattern: /\* @requires [\s-]*(.*?\.js)/g } ))
 		.on('error', function(err) { console.log(err.message); })
-		.pipe(plugins.concat('patternlab.js'))
+		.pipe(plugins.concat('patternlab-viewer.js'))
 		.pipe(gulp.dest('dist/js'))
 		.pipe(plugins.rename({suffix: '.min'}))
 		.pipe(plugins.uglify())
@@ -117,7 +117,21 @@ gulp.task('build:js', ['clean:js'], function() {
 		.pipe(gulp.dest('../../../public/styleguide/js'));
 });
 
-gulp.task('default', ['build:bower', 'build:css-custom', 'build:fonts', 'build:html', 'build:images', 'build:js'], function () {
+gulp.task('build:js-pattern', ['build:js-viewer'], function() {
+	return gulp.src(['src/js/postmessage.js','src/js/annotations-pattern.js','src/js/code-pattern.js'])
+		.pipe(plugins.jshint('.jshintrc'))
+		.pipe(plugins.jshint.reporter('default'))
+		.pipe(plugins.resolveDependencies( { pattern: /\* @requires [\s-]*(.*?\.js)/g } ))
+		.on('error', function(err) { console.log(err.message); })
+		.pipe(plugins.concat('patternlab-pattern.js'))
+		.pipe(gulp.dest('dist/js'))
+		.pipe(plugins.rename({suffix: '.min'}))
+		.pipe(plugins.uglify())
+		.pipe(gulp.dest('dist/js'))
+		.pipe(gulp.dest('../../../public/styleguide/js'));
+});
+
+gulp.task('default', ['build:bower', 'build:css-custom', 'build:fonts', 'build:html', 'build:images', 'build:js-pattern'], function () {
 	
 	if (args.watch !== undefined) {
 		gulp.watch(['src/bower_components/**/*'], ['build:bower']);
@@ -127,7 +141,7 @@ gulp.task('default', ['build:bower', 'build:css-custom', 'build:fonts', 'build:h
 		gulp.watch(['src/fonts/*'], ['build:fonts'])
 		gulp.watch(['src/html/index.html'], ['build:html']);
 		gulp.watch(['src/images/*'], ['build:images']);
-		gulp.watch(['src/js/*'], ['build:js']);
+		gulp.watch(['src/js/*'], ['build:js-pattern']);
 	}
 	
 });
