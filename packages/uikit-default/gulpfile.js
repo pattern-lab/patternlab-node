@@ -63,8 +63,6 @@ gulp.task('build:css-patternlab', ['clean:css-patternlab', 'build:css-general'],
 		.pipe(plugins.rubySass({ style: 'expanded' }))
 		.pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
 		.pipe(gulp.dest('dist/css/patternlab'))
-		.pipe(plugins.rename({suffix: '.min'}))
-		.pipe(plugins.minifyCss())
 		.pipe(gulp.dest('dist/css/patternlab'))
 		.pipe(gulp.dest('../../../public/styleguide/css'));
 });
@@ -74,8 +72,6 @@ gulp.task('build:css-custom', ['clean:css-custom', 'build:css-patternlab'], func
 		.pipe(plugins.rubySass({ style: 'expanded' }))
 		.pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
 		.pipe(gulp.dest('dist/css/custom'))
-		.pipe(plugins.rename({suffix: '.min'}))
-		.pipe(plugins.minifyCss())
 		.pipe(gulp.dest('dist/css/custom'))
 		.pipe(gulp.dest('../../../source/styleguide/css'));
 });
