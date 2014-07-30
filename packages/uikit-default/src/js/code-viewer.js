@@ -331,12 +331,12 @@ var codeViewer = {
 	*/
 	receiveIframeMessage: function(event) {
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+		
+		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		// switch based on stuff related to the postmessage
 		if ((data.event !== undefined) && (data.event == "patternLab.codePanel")) {

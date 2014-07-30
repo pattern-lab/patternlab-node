@@ -131,13 +131,14 @@ var annotationsPattern = {
 	*/
 	receiveIframeMessage: function(event) {
 		
-		var i, obj, state, els, item, displayNum;
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+		
+		
+		var i, obj, state, els, item, displayNum;
+		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		if ((data.event !== undefined) && (data.event == "patternLab.resize") && (annotationsPattern.commentsOverlayActive)) {
 			

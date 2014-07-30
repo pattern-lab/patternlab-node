@@ -367,12 +367,12 @@ var annotationsViewer = {
 	*/
 	receiveIframeMessage: function(event) {
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+		
+		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		if (data.event !== undefined) {
 			
@@ -773,12 +773,12 @@ var codeViewer = {
 	*/
 	receiveIframeMessage: function(event) {
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+		
+		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		// switch based on stuff related to the postmessage
 		if ((data.event !== undefined) && (data.event == "patternLab.codePanel")) {
@@ -1131,12 +1131,12 @@ var patternFinder = {
 	
 	receiveIframeMessage: function(event) {
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+		
+		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
 			
@@ -1258,13 +1258,13 @@ body[0].onclick = function() {
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
 	
-	var path;
-	var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-	
 	// does the origin sending the message match the current host? if not dev/null the request
 	if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 		return;
 	}
+	
+	var path;
+	var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 	
 	// see if it got a path to replace
 	if (data.event == "patternLab.updatePath") {
@@ -1855,12 +1855,12 @@ window.addEventListener("message", receiveIframeMessage, false);
 	// based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
 	function receiveIframeMessage(event) {
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+		
+		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
 		
 		if (data.event == "patternLab.bodyclick") {
 			
