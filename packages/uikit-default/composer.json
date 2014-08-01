@@ -24,9 +24,6 @@
 		"source":         "https://github.com/pattern-lab/styleguidekit-assets-default/releases"
 	},
 	"extra": {
-		"branch-alias": {
-			"dev-master": "dev-dev"
-		},
 		"patternlab": {
 			"dist": {
 				"publicDir": [
