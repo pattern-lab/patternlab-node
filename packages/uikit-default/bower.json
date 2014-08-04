@@ -13,11 +13,17 @@
     "jwerty": "~0.3.2",
     "prism": "gh-pages",
     "typeahead.js": "~0.10.4",
-    "hogan": "~3.0.2"
+    "hogan": "~3.0.2",
+    "script.js": "~2.5.7",
+    "eventEmitter": "~4.2.7"
   },
   "overrides": {
     "hogan": {
       "main": "web/builds/3.0.2/hogan-3.0.2.js"
+    },
+    "script.js": {
+      "main": "dist/script.js"
     }
-  }
+  },
+  "devDependencies": {}
 }
