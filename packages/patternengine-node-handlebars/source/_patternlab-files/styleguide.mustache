@@ -17,7 +17,7 @@
 			<div id="sg-patterns">
 				{{# partials }}
 					<div class="sg-pattern">
-						<h2 class="sg-pattern-head" ><a href="../../patterns/{{ patternLink }}" class="patternLink" data-patternpartial="{{ patternPartialPath }}">{{ patternName }}</a></h2>
+						<h2 class="sg-pattern-head" ><a href="../../patterns/{{ patternLink }}" class="patternLink {{# patternState }}sg-pattern-state {{ . }}{{/ patternState }}" data-patternpartial="{{ patternPartialPath }}">{{ patternName }}</a></h2>
 						<div class="sg-pattern-body">
 							{{{ patternPartial }}}
 							<div class="sg-code" style="display: none">
