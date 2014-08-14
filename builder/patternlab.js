@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.2 - 2014 
+ * patternlab-node - v0.1.3 - 2014 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -28,7 +28,7 @@ var patternlab_engine = function(){
 		console.log('Patternlab Node Help');
 		console.log('===============================');
 		console.log('Command Line Arguments');
-		console.log('patternlab:only_patterns');			
+		console.log('patternlab:only_patterns');
 		console.log(' > Compiles the patterns only, outputting to ./public/patterns');
 		console.log('patternlab:v');
 		console.log(' > Retrieve the version of patternlab-node you have installed');
@@ -75,8 +75,8 @@ var patternlab_engine = function(){
 				currentPattern,
 				flatPatternPath;
 
-			//ignore _underscored patterns and json
-			if(filename.charAt(0) === '_' || path.extname(filename) === '.json'){
+			//ignore _underscored patterns, json, and dotfiles
+			if(filename.charAt(0) === '_' || path.extname(filename) === '.json' || filename.charAt(0) === '.'){
 				return;
 			}
 
@@ -87,6 +87,11 @@ var patternlab_engine = function(){
 			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
 			currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
 			currentPattern.data = null;
+
+			//see if this file has a state
+			if(patternlab.config.patternStates[currentPattern.patternName]){
+				currentPattern.patternState = patternlab.config.patternStates[currentPattern.patternName];
+			}
 
 			//look for a json file for this template
 			try {
@@ -185,6 +190,11 @@ var patternlab_engine = function(){
 				navSubItem.patternPath = pattern.patternLink;
 				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
+				//add the patternState if it exists
+				if(pattern.patternState){
+					navSubItem.patternState = pattern.patternState;
+				}
+
 				//if it is flat - we should not add the pattern to patternPaths
 				if(flatPatternItem){
 					
@@ -225,6 +235,11 @@ var patternlab_engine = function(){
 				var navSubItem = new of.oNavSubItem(navSubItemName);
 				navSubItem.patternPath = pattern.patternLink;
 				navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
+
+				//add the patternState if it exists
+				if(pattern.patternState){
+					navSubItem.patternState = pattern.patternState;
+				}
 
 				//test whether the pattern struture is flat or not - usually due to a template or page
 				var flatPatternItem = false;
@@ -267,7 +282,7 @@ var patternlab_engine = function(){
 
 			}
 
-		};
+		}
 
 		//the patternlab site requires a lot of partials to be rendered.
 		//patternNav

@@ -1,5 +1,10 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.1.3
+ - ADD: Pattern states
+ - FIX: Removed all grunt dependencies from patternlab.js
+ - ADD: Ships with grunt connect if you are into that kinda thing
+
 PL-node-v0.1.2
  - ADD: Abstracted template rendering into a function for easier swapping of rendering engine
  - ADD: Smarter filtering of files to support other templates Thanks 

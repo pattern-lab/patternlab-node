@@ -27,5 +27,7 @@
  		"tools-reload": false,
  		"tools-shortcuts": false,
  		"tools-docs": true
+ 	},
+ 	"patternStates": {
  	}
  }

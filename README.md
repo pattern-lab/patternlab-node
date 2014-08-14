@@ -64,6 +64,22 @@ The current selection is as follows. It reflects support versus patternlab-php.
 ##### Verbose Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
+##### Pattern States
+You can set the state of a pattern by including it in `config.json` too. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
+Pattern states should be lowercase and use hyphens where spaces are present.
+```
+"patternStates": {
+	"colors" : "inprogress",
+	"fonts" : "inreview",
+	"three-up" : "complete"
+}
+```
+
+##### Server
+Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. This can be changed in the `Gruntfile.js`
+
+**Next steps: Livereload and watches**
+
 ### Under Active Development
 
 [![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
