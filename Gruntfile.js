@@ -24,12 +24,12 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-					{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
-					{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' },
-					{ expand: true, cwd: './source/images/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/' },
-					{ expand: true, cwd: './source/images/sample/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/sample/'},
-					{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
-					{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
+				{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
+				{ expand: true, cwd: './source/css/', src: 'style.css', dest: './public/css/' },
+				{ expand: true, cwd: './source/images/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/' },
+				{ expand: true, cwd: './source/images/sample/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/sample/'},
+				{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
+				{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
 				]
 			}
 		},
@@ -50,12 +50,12 @@ module.exports = function(grunt) {
 			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
 			// 	tasks: ['default']
 			// },
-			mustache: {
-				files: ['source/_patterns/**/*.mustache'],
-				tasks: ['default']
-			},
-			data: {
-				files: ['source/_patterns/**/*.json', 'source/_data/*.json'],
+			all: {
+				files: [
+				'source/_patterns/**/*.mustache',
+				'source/_patterns/**/*.json',
+				'source/_data/*.json'
+				],
 				tasks: ['default']
 			}
 		},
@@ -74,6 +74,16 @@ module.exports = function(grunt) {
 		},
 		nodeunit: {
 			all: ['test/*_tests.js']
+		},
+		connect: {
+			app:{
+				options: {
+					port: 9001,
+					base: './public',
+					hostname: 'localhost',
+					keepalive: true
+				}
+			}
 		}
 	});
 
@@ -88,4 +98,10 @@ module.exports = function(grunt) {
 
 	//travis CI task
 	grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'nodeunit']);
+
+	grunt.registerTask('serve', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'connect:app']);
+	//need to get livereload working
+	//http://www.thecrumb.com/2014/03/16/using-grunt-for-live-reload-revisited/
+	//http://rhumaric.com/2013/07/renewing-the-grunt-livereload-magic/
+
 };
