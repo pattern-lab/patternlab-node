@@ -111,7 +111,6 @@ var patternlab_engine = function(){
 			}
 			
 			//write the compiled template to the public patterns directory
-			
 			flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
 
 			//add footer info before writing
