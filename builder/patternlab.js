@@ -81,8 +81,7 @@ var patternlab_engine = function(){
 			}
 
 			//make a new Pattern Object
-			var flatPatternName = subdir.replace(/\\/g, '-') + '-' + patternName;
-			
+			var flatPatternName = subdir.replace(/[\\\/]/g, '-') + '-' + patternName;
 			flatPatternName = flatPatternName.replace(/\\/g, '-');
 			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
 			currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
@@ -112,6 +111,7 @@ var patternlab_engine = function(){
 			}
 			
 			//write the compiled template to the public patterns directory
+			
 			flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
 
 			//add footer info before writing

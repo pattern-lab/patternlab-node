@@ -80,7 +80,7 @@ var urlHandler = {
 	* @return {Array}        the pattern type and pattern name
 	*/
 	getPatternInfo: function (name, paths) {
-		
+		console.log(name)
 		var patternBits = name.split("-");
 		
 		var i = 1;
