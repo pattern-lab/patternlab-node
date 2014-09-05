@@ -1,0 +1,13 @@
+{
+  "name": "patternLabStyleguideJS",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "test",
+        "build": "browserify main.js -o styleguide.js",
+        "watch": "watchify main.js -o styleguide.js --debug --verbose"
+  },
+  "author": "",
+  "license": "ISC"
+}

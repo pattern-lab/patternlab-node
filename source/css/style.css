@@ -149,24 +149,24 @@ header, footer, nav, section, article, hgroup, figure {
 }
 
 .error {
-  color: red;
+  color: #f00;
 }
 
 body {
-  background: white;
+  background: #fff;
   font: 100%/1.5 "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   -webkit-text-size-adjust: 100%;
-  color: #333333;
+  color: #333;
 }
 
 /* Links */
 a {
-  color: #333333;
+  color: #333;
   text-decoration: none;
   outline: 0;
 }
 a:hover, a:focus {
-  color: gray;
+  color: #808080;
 }
 
 /* Headings */
@@ -197,8 +197,8 @@ p {
 /* Blockquote */
 blockquote {
   font-style: italic;
-  border-left: 1px solid gray;
-  color: gray;
+  border-left: 1px solid #808080;
+  color: #808080;
   padding-left: 1rem;
   margin-bottom: 1rem;
 }
@@ -207,12 +207,12 @@ blockquote {
 hr {
   border: 0;
   height: 2px;
-  background: #eeeeee;
+  background: #eee;
   margin: 2rem 0;
 }
 
 abbr {
-  border-bottom: 1px dotted gray;
+  border-bottom: 1px dotted #808080;
   cursor: help;
 }
 
@@ -291,7 +291,7 @@ button, input, select, textarea {
 
 input, textarea {
   width: 100%;
-  border: 1px solid gray;
+  border: 1px solid #808080;
   padding: 0.5rem 0.65rem;
 }
 
@@ -301,8 +301,8 @@ input[type=text], input[type=search], input[type=url], input[type=number], texta
 
 button, input[type="submit"] {
   padding: 0.5rem;
-  background: #333333;
-  border: 1px solid gray;
+  background: #333;
+  border: 1px solid #808080;
   cursor: pointer;
 }
 
@@ -332,7 +332,7 @@ input[type="search"]::-webkit-search-decoration {
 .inline-form input[type=submit], .inline-form button, .inline-form .btn {
   font-size: 0.875em;
   padding: 0.65rem 1.3rem;
-  background: #333333;
+  background: #333;
   position: absolute;
   top: 0;
   right: 0;
@@ -340,8 +340,8 @@ input[type="search"]::-webkit-search-decoration {
   width: auto;
 }
 .inline-form input[type=submit]:hover, .inline-form input[type=submit]:focus, .inline-form button:hover, .inline-form button:focus, .inline-form .btn:hover, .inline-form .btn:focus {
-  background: gray;
-  color: white;
+  background: #808080;
+  color: #fff;
 }
 
 .inline-search-results-form {
@@ -365,7 +365,7 @@ input[type="search"]::-webkit-search-decoration {
 
 /* Validation */
 .has-error {
-  border-color: red;
+  border-color: #f00;
 }
 
 .is-valid {
@@ -384,8 +384,8 @@ input[type="search"]::-webkit-search-decoration {
   background: none;
   padding: 0.78em 1em;
   border: 0;
-  border-left: 1px solid gray;
-  color: gray;
+  border-left: 1px solid #808080;
+  color: #808080;
 }
 
 /*------------------------------------*\
@@ -394,18 +394,18 @@ input[type="search"]::-webkit-search-decoration {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid gray;
+  border: 1px solid #808080;
   width: 100%;
 }
 
 th {
   text-align: left;
-  border: 1px solid gray;
+  border: 1px solid #808080;
   padding: 0.2em;
 }
 
 td {
-  border: 1px solid gray;
+  border: 1px solid #808080;
   padding: 0.2em;
 }
 
@@ -667,7 +667,7 @@ td {
     $PAGE STRUCTURE
 \*------------------------------------*/
 .header {
-  background: white;
+  background: #fff;
   padding: 0;
   border-bottom: 1px solid #dbdbdb;
 }
@@ -720,7 +720,7 @@ td {
 .nav a {
   display: block;
   padding: 1rem;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #eee;
 }
 .nav.active {
   max-height: 40em;
@@ -744,7 +744,7 @@ td {
 }
 .pagination li {
   float: left;
-  border-right: 1px solid #eeeeee;
+  border-right: 1px solid #eee;
 }
 .pagination li:last-child {
   border: 0;
@@ -768,7 +768,7 @@ td {
   clear: both;
   overflow: hidden;
   background: #131313;
-  color: white;
+  color: #fff;
   line-height: 1.2;
 }
 .footer .lc, .footer .header, .footer [role=main] {
@@ -782,7 +782,7 @@ td {
   margin: -1rem -1rem 1rem;
 }
 .nav-footer li {
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #333;
 }
 @media all and (min-width: 46.8em) {
   .nav-footer li {
@@ -841,8 +841,8 @@ td {
 .grade {
   display: block;
   font-weight: bold;
-  background: gray;
-  color: white;
+  background: #808080;
+  color: #fff;
   min-height: 4.5rem;
   padding-top: 1.5rem;
   text-align: center;
@@ -850,8 +850,8 @@ td {
 
 /* Eyebrow */
 .eyebrow {
-  background: #333333;
-  color: white;
+  background: #333;
+  color: #fff;
   padding: 0.2em;
   display: inline-block;
   margin-bottom: 0.5rem;
@@ -882,7 +882,6 @@ td {
   font-weight: normal;
   font-style: normal;
 }
-
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
   font-family: 'icons';
@@ -1010,8 +1009,8 @@ td {
 
 .icon-play-box:before {
   padding: 0.25rem;
-  background: gray;
-  color: white;
+  background: #808080;
+  color: #fff;
   margin-left: -1.7rem;
   margin-right: 0.5rem;
 }
@@ -1021,8 +1020,8 @@ td {
 \*------------------------------------*/
 .btn {
   display: inline-block;
-  background: #333333;
-  color: white;
+  background: #333;
+  color: #fff;
   line-height: 1;
   font-weight: bold;
   padding: 1rem;
@@ -1030,11 +1029,11 @@ td {
   text-align: center;
 }
 .btn:hover, .btn:focus {
-  color: white;
+  color: #fff;
 }
 .btn.disabled {
-  background: #eeeeee;
-  color: #bbbbbb;
+  background: #eee;
+  color: #bbb;
 }
 
 .btn-small {
@@ -1044,7 +1043,7 @@ td {
 .btn-large {
   padding: 0.5rem;
   text-transform: uppercase;
-  background: gray;
+  background: #808080;
   font-size: 1.4rem;
   font-weight: normal;
 }
@@ -1059,7 +1058,7 @@ td {
   padding: 2rem;
   text-align: center;
   font-weight: bold;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #eee;
 }
 
 /* Block */
@@ -1091,7 +1090,7 @@ td {
     left: 0;
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: #fff;
     padding: 1.5rem;
   }
 }
@@ -1160,7 +1159,7 @@ td {
   left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
-  color: white;
+  color: #fff;
   padding: 0.5rem;
 }
 
@@ -1198,7 +1197,7 @@ td {
 }
 .headline-list li {
   padding: 0.25rem 0;
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid #ddd;
 }
 
 /* Post List */
@@ -1244,8 +1243,8 @@ td {
   left: 0;
   width: 18em;
   padding: 1rem;
-  background: white;
-  border: 1px solid gray;
+  background: #fff;
+  border: 1px solid #808080;
   box-shadow: 0.3em 0.3em 1em 0 rgba(0, 0, 0, 0.2);
 }
 .tooltip h2 {
@@ -1273,24 +1272,24 @@ td {
 
 .acc-handle {
   background: #131313;
-  color: white;
+  color: #fff;
   font-family: Georgia, Times, "Times New Roman", serif;
   font-weight: bold;
   display: block;
   position: relative;
   padding: 0.5rem;
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #ddd;
 }
 .acc-handle:after {
   content: "+";
   float: right;
 }
 .acc-handle:hover {
-  color: white;
-  background: #333333;
+  color: #fff;
+  background: #333;
 }
 .acc-handle.active {
-  background: #333333;
+  background: #333;
 }
 .acc-handle.active:after {
   content: "-";
@@ -1306,7 +1305,7 @@ td {
 .tabs li {
   display: table-cell;
   text-align: center;
-  border-right: 1px solid #dddddd;
+  border-right: 1px solid #ddd;
 }
 .tabs li:last-child {
   border-right: 0;
@@ -1314,14 +1313,14 @@ td {
 .tabs a {
   display: block;
   padding: 0.5rem;
-  background: gray;
+  background: #808080;
 }
 .tabs a:hover, .tabs a:focus {
-  background: #dddddd;
+  background: #ddd;
 }
 .tabs a.active {
-  background: #333333;
-  color: white;
+  background: #333;
+  color: #fff;
 }
 
 .section {
@@ -1365,13 +1364,13 @@ td {
   margin-right: 0.25rem;
 }
 .social-share a {
-  background: #333333;
-  color: white;
+  background: #333;
+  color: #fff;
   display: block;
   padding: 0.5rem;
 }
 .social-share a:hover {
-  background: gray;
+  background: #808080;
 }
 
 .comments li {
@@ -1389,7 +1388,7 @@ td {
 }
 .comment-meta img {
   display: block;
-  border: 1px solid #eeeeee;
+  border: 1px solid #eee;
   margin-bottom: 0.5rem;
 }
 

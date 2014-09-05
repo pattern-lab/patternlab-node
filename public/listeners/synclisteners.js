@@ -18,7 +18,7 @@ var wsnConnected = false;
 var wsc;
 var wscConnected = false;
 var dataPrevious = 0;
-var host = (window.location.host != "") ? window.location.host : "127.0.0.1";
+var host = (window.location.host !== '') ? window.location.hostname : '127.0.0.1';
 
 // handle page updates from one browser to another
 function connectNavSync() {
@@ -26,6 +26,7 @@ function connectNavSync() {
 	if ('WebSocket' in window && window.WebSocket.CLOSING === 2) {
 		
 		var navSyncCopy = "Page Follow";
+
 		wsn = new WebSocket("ws://"+host+":"+navSyncPort+"/navsync");
 		
 		// when trying to open a connection to WebSocket update the pattern lab nav bar
