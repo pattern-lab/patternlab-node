@@ -57,6 +57,7 @@ $sg-tint : rgba(255,255,255,0.05);
 $sg-tint-2 : rgba(255,255,255,0.25);
 $sg-tone : rgba(0,0,0,0.1);
 $sg-tone-2 : rgba(0,0,0,0.3);
+$sg-tone-3 : rgba(0,0,0,0.05);
 
 /* Typography */
 $sg-font-size-norm : 100%;
@@ -947,6 +948,15 @@ div.clear {
 }
 .sg-icon-eye:before {
 	content: "\e60b";
+}
+
+
+/* Readme docs */
+.sg-pattern-doc {
+	background: $sg-tone-3;
+	font-size: $sg-font-size-sm;
+	margin: $sg-space;
+	padding: 10px;
 }
 
 /******************************************************************/

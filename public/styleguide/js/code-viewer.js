@@ -202,7 +202,7 @@ var codeViewer = {
 	* if the encoded tab is the current active tab it adds the content to the default code container
 	*/
 	saveEncoded: function() {
-		codeViewer.encoded = this.responseText;
+		codeViewer.encoded = this.responseText.replace('<', '&lt;').replace('>', '&gt;');
 		if (codeViewer.tabActive == "e") {
 			codeViewer.activateDefaultTab("e",this.responseText);
 		}
@@ -318,7 +318,7 @@ var codeViewer = {
 		// request the encoded markup version of the pattern
 		var e = new XMLHttpRequest();
 		e.onload = this.saveEncoded;
-		e.open("GET", fileName.replace(/\.html/,".escaped.html") + "?" + (new Date()).getTime(), true);
+		e.open("GET", fileName /*.replace(/\.escaped.html/,".html")*/ + "?" + (new Date()).getTime(), true);
 		e.send();
 		
 		// request the mustache markup version of the pattern

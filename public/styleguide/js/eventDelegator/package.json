@@ -1,0 +1,26 @@
+{
+  "name": "eventDelegator",
+  "version": "0.0.1",
+  "description": "Event delegation module",
+  "main": "eventDelegator.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec --ui bdd",
+    "build": "browserify eventDelegator.js -o eventDelegator.min.js",
+    "watch": "watchify eventDelegator.js -o eventDelegator.min.js --debug --verbose"
+  },
+  "keywords": [
+    "events",
+    "delegation",
+    "dom"
+  ],
+  "author": "Tor Brekke Skjøtskift",
+  "license": "ISC",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "jsdom": "^1.0.0-pre.6",
+    "mocha": "^1.21.4"
+  }
+}
