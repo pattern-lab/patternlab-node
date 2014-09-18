@@ -15,6 +15,7 @@ var patternlab_engine = function(){
 		mustache = require('mustache'),
 		of = require('./object_factory'),
 		pa = require('./pattern_assembler'),
+		mh = require('./media_hunter'),
 		patternlab = {};
 
 	patternlab.package =fs.readJSONSync('./package.json');
@@ -81,7 +82,7 @@ var patternlab_engine = function(){
 			}
 
 			//make a new Pattern Object
-			var flatPatternName = subdir.replace(/\\/g, '-') + '-' + patternName;
+			var flatPatternName = subdir.replace(/[\/\\]/g, '-') + '-' + patternName;
 			
 			flatPatternName = flatPatternName.replace(/\\/g, '-');
 			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
@@ -122,7 +123,7 @@ var patternlab_engine = function(){
 
 			//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
 			var sub = subdir.substring(subdir.indexOf('-') + 1);
-			var folderIndex = sub.indexOf('/'); //THIS IS MOST LIKELY WINDOWS ONLY.  path.sep not working yet
+			var folderIndex = sub.indexOf(path.sep);
 			var cleanSub = sub.substring(0, folderIndex);
 
 			//add any templates found to an object of partials, so downstream templates may use them too
@@ -147,6 +148,11 @@ var patternlab_engine = function(){
 		patternlab.bucketIndex = [];
 		patternlab.patternPaths = {};
 		patternlab.viewAllPaths = {};
+
+		//find mediaQueries
+		// var media_hunter = new mh();
+		// media_hunter.find_media_queries(patternlab);
+		// console.log(patternlab.mediaQueries);
 
 		//build the styleguide
 		var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8');
