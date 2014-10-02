@@ -76,9 +76,7 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 ```
 
 ##### Server
-Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. This can be changed in the `Gruntfile.js`
-
-**Next steps: Livereload and watches**
+Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.
 
 ### Under Active Development
 
