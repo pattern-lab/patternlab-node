@@ -16,7 +16,7 @@
  		"ranndom": true,
  		"disco": true,
  		"hay": true,
- 		"mqs": false,
+ 		"mqs": true,
  		"find": false,
  		"views-all": true,
  		"views-annotations": true,

@@ -150,9 +150,8 @@ var patternlab_engine = function(){
 		patternlab.viewAllPaths = {};
 
 		//find mediaQueries
-		// var media_hunter = new mh();
-		// media_hunter.find_media_queries(patternlab);
-		// console.log(patternlab.mediaQueries);
+		var media_hunter = new mh();
+		media_hunter.find_media_queries(patternlab);
 
 		//build the styleguide
 		var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8');
@@ -297,6 +296,9 @@ var patternlab_engine = function(){
 
 		//ishControls
 		var ishControlsTemplate = fs.readFileSync('./source/_patternlab-files/partials/ishControls.mustache', 'utf8');
+		console.log(patternlab.mediaQueries);
+		patternlab.config.mqs = patternlab.mediaQueries;
+		console.log(patternlab.config);
 		var ishControlsPartialHtml = renderPattern(ishControlsTemplate, patternlab.config);
 
 		//patternPaths
