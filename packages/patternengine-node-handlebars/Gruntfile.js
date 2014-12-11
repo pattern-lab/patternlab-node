@@ -19,6 +19,18 @@ module.exports = function(grunt) {
 			object_factory: {
 				src: './builder/object_factory.js',
 				dest: './builder/object_factory.js'
+			},
+			lineage: {
+				src: './builder/lineage_hunter.js',
+				dest: './builder/lineage_hunter.js'
+			},
+			media_hunter: {
+				src: './builder/media_hunter.js',
+				dest: './builder/media_hunter.js'
+			},
+			patternlab_grunt: {
+				src: './builder/patternlab_grunt.js',
+				dest: './builder/patternlab_grunt.js'
 			}
 		},
 		copy: {
@@ -51,6 +63,9 @@ module.exports = function(grunt) {
 			// 	tasks: ['default']
 			// },
 			all: {
+				options: {
+					livereload: true
+				},
 				files: [
 				'source/_patterns/**/*.mustache',
 				'source/_patterns/**/*.json',
@@ -81,7 +96,8 @@ module.exports = function(grunt) {
 					port: 9001,
 					base: './public',
 					hostname: 'localhost',
-					keepalive: true
+					open: true,
+					livereload: 35729
 				}
 			}
 		}
@@ -99,9 +115,6 @@ module.exports = function(grunt) {
 	//travis CI task
 	grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'nodeunit']);
 
-	grunt.registerTask('serve', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'connect:app']);
-	//need to get livereload working
-	//http://www.thecrumb.com/2014/03/16/using-grunt-for-live-reload-revisited/
-	//http://rhumaric.com/2013/07/renewing-the-grunt-livereload-magic/
+	grunt.registerTask('serve', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'connect', 'watch']);
 
 };
