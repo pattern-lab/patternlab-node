@@ -6,8 +6,8 @@ PL-node-v0.1.6
  - ADD: more unit tests
 
 PL-node-v0.1.5
- - ADD: Added support for live reload via gruntfile
- - THX: thanks @marcinmodestowicz for the proper syntax!
+ - ADD: Live reload support for grunt serve task
+ - THX: thanks @marcinmodestowicz for the configuration fix. VERY useful :)
 
 PL-node-v0.1.4
  - FIX: Resolved issue with nested pattern rendering
