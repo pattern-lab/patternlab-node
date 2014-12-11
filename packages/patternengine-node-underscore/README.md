@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) 
+
 ## About the Node Version of Pattern Lab
 
 The Node version of Pattern Lab is, at its core, a static site generator. It combines platform-agnostic assets, like the [Mustache](http://mustache.github.io/)-based patterns and the JavaScript-based viewer, with a Node-based "builder" that transforms and dynamically builds the Pattern Lab site. By making it a static site generator, the Node version of Pattern Lab strongly separates patterns, data, and presentation from build logic. The Node version is a work in progress, the [PHP version](https://github.com/pattern-lab/patternlab-php) should be seen as a reference for other developers to improve upon as they build their own Pattern Lab Builders in their language of choice.
@@ -76,13 +78,11 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 ```
 
 ##### Server
-Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. This can be changed in the `Gruntfile.js`
+Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.
 
-**Next steps: Livereload and watches**
+===
 
-### Under Active Development
-
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) The Node version of Pattern Lab is under active development by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
+The Node version of Pattern Lab is maintained by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
 
 ### Forward, To the Specification!
 
@@ -100,53 +100,48 @@ grunt.registerTask('default', ['clean', 'concat', 'patternlab:only_patterns', /*
 
 This will output compiled patterns to ./public/patterns/
 
+### Where is the Gulp Version?
+
+The core patternlab engine is free of any dependencies to grunt, allowing users to integrate with gulp if desired. Future efforts here will orient towards [this gulp implementation](https://github.com/oscar-g/patternlab-node/tree/dev-gulp) by [oscar-g](https://github.com/oscar-g).
+
 ===
 
-**THE FOLLOWING IS FROM THE PATTERNLAB-PHP PROJECT.  A LOT STILL APPLIES TO PATTERNLAB-NODE, BUT IT HAS NOT BEEN ADAPTED YET.  USE AT YOUR OWN PERIL**
+## Working with Patterns
 
-===
-
-### Demo
-
-You can play with a demo of the front-end of the PHP version of Pattern Lab at [demo.pattern-lab.info](http://demo.pattern-lab.info).
-
-### Getting Started
-
-The PHP version of Pattern Lab should be relatively easy for anyone to get up and running. 
-
-* [Requirements](https://github.com/pattern-lab/patternlab-php/wiki/Requirements)
-* [Installing the PHP Version of Pattern Lab](https://github.com/pattern-lab/patternlab-php/wiki/Installing-the-PHP-Version-of-Pattern-Lab)
-* [Generating the Pattern Lab Website for the First Time](https://github.com/pattern-lab/patternlab-php/wiki/Generating-the-Pattern-Lab-Website-for-the-First-Time)
-* [Editing the Pattern Lab Website Source Files](https://github.com/pattern-lab/patternlab-php/wiki/Editing-the-Pattern-Lab-Website-Source-Files)
-* [Using the Command-line Options](https://github.com/pattern-lab/patternlab-php/wiki/Using-the-Command-line-Options)
-
-### Working with Patterns
+(The following documentation is built for the PHP version of Pattern Lab, but most applies to the node version too. If you find omissions or mistakes please open an issue.)
 
 Patterns are the core element of Pattern Lab. Understanding how they work is the key to getting the most out of the system. Patterns use [Mustache](http://mustache.github.io/) so please read [Mustache's docs](http://mustache.github.io/mustache.5.html) as well.
 
-* [How Patterns Are Organized](https://github.com/pattern-lab/patternlab-php/wiki/How-Patterns-Are-Organized)
-* [Adding New Patterns](https://github.com/pattern-lab/patternlab-php/wiki/Adding-New-Patterns)
-* [Reorganizing Patterns](https://github.com/pattern-lab/patternlab-php/wiki/Reorganizing-Patterns)
-* [Converting Old Patterns](https://github.com/pattern-lab/patternlab-php/wiki/Converting-Old-Patterns)
-* ["Hiding" Patterns in the Navigation](https://github.com/pattern-lab/patternlab-php/wiki/Hiding-Patterns-in-the-Navigation)
-* [Including One Pattern Within Another via Partials](https://github.com/pattern-lab/patternlab-php/wiki/Including-One-Pattern-Within-Another)
-* [Linking Directly to a Pattern](https://github.com/pattern-lab/patternlab-php/wiki/Linking-Directly-to-a-Pattern)
-* [Managing Assets for a Pattern: JavaScript, images, CSS, etc.](https://github.com/pattern-lab/patternlab-php/wiki/Managing-Assets-for-a-Pattern)
-* [Modifying the Standard Header & Footer for Patterns](https://github.com/pattern-lab/patternlab-php/wiki/Modifying-the-Standard-Header-&-Footer-for-Patterns)
+* [How Patterns Are Organized](http://patternlab.io/docs/pattern-organization.html)
+* [Adding New Patterns](http://patternlab.io/docs/pattern-add-new.html)
+* [Reorganizing Patterns](http://patternlab.io/docs/pattern-reorganizing.html)
+* [Including One Pattern Within Another via Partials](http://patternlab.io/docs/pattern-including.html)
+* [Managing Assets for a Pattern: JavaScript, images, CSS, etc.](http://patternlab.io/docs/pattern-managing-assets.html)
+* [Modifying the Pattern Header and Footer](http://patternlab.io/docs/pattern-header-footer.html)
+* [Using Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
+* [Using Pattern State](http://patternlab.io/docs/pattern-states.html)
+* ["Hiding" Patterns in the Navigation](http://patternlab.io/docs/pattern-hiding.html)
+* [Adding Annotations](http://patternlab.io/docs/pattern-adding-annotations.html)
+* [Viewing Patterns on a Mobile Device](http://patternlab.io/docs/pattern-mobile-view.html)
 
-### Creating & Working With Dynamic Data for a Pattern
+## Creating & Working With Dynamic Data for a Pattern
 
-The PHP version of Pattern Lab utilizes Mustache as the template language for patterns. In addition to allowing for the [inclusion of one pattern within another](https://github.com/pattern-lab/patternlab-php/wiki/Including-One-Pattern-Within-Another) it also gives pattern developers the ability to include variables. This means that attributes like image sources can be centralized in one file for easy modification across one or more patterns. The PHP version of Pattern Lab uses a JSON file, `source/_data/data.json`, to centralize many of these attributes.
+The Node version of Pattern Lab utilizes Mustache as the template language for patterns. In addition to allowing for the [inclusion of one pattern within another](http://patternlab.io/docs/pattern-including.html) it also gives pattern developers the ability to include variables. This means that attributes like image sources can be centralized in one file for easy modification across one or more patterns. The Node version of Pattern Lab uses a JSON file, `source/_data/data.json`, to centralize many of these attributes.
 
-* [Introduction to JSON & Mustache Variables](http://github.com/pattern-lab/patternlab-php/wiki/Introduction-to-JSON-&-Mustache-Variables)
-* [Overriding the Central `data.json` Values with Pattern-specific Values](https://github.com/pattern-lab/patternlab-php/wiki/Overriding-the-Central-%60data.json%60-Values-with-Pattern-specific-Values)
-* [Linking to Patterns with Pattern Lab's Default `link` Variable](https://github.com/pattern-lab/patternlab-php/wiki/Linking-to-Patterns-with-Pattern-Lab's-Default-%60link%60-Variable)
-* [Creating Lists with Pattern Lab's Default `listItems` Variable](https://github.com/pattern-lab/patternlab-php/wiki/Creating-Lists-with-Pattern-Lab's-Default-%60listItems%60-Variable)
+* [Introduction to JSON & Mustache Variables](http://patternlab.io/docs/data-json-mustache.html)
+* [Overriding the Central `data.json` Values with Pattern-specific Values](http://patternlab.io/docs/data-pattern-specific.html)
+* [Linking to Patterns with Pattern Lab's Default `link` Variable](http://patternlab.io/docs/data-link-variable.html)
+* [Creating Lists with Pattern Lab's Default `listItems` Variable](http://patternlab.io/docs/data-listitems.html)
 
-### Using Pattern Lab's Advanced Features
+## Using Pattern Lab's Advanced Features
 
-By default, the Pattern Lab assets can be manually generated and the Pattern Lab site manually refreshed but who wants to waste time doing that? Here are some ways that the PHP version of Pattern Lab can make your development workflow a little smoother:
+By default, the Pattern Lab assets can be manually generated and the Pattern Lab site manually refreshed but who wants to waste time doing that? Here are some ways that Pattern Lab can make your development workflow a little smoother:
 
-* [Watching for Changes and Auto-Regenerating Patterns](https://github.com/pattern-lab/patternlab-php/wiki/Watching-for-Changes-and-Auto-Regenerating-Patterns)
-* [Auto-Reloading the Browser Window When Changes Are Made](https://github.com/pattern-lab/patternlab-php/wiki/Auto-Reloading-the-Browser-Window-When-Changes-Are-Made)
-* [Multi-browser & Multi-device Testing with Page Follow](https://github.com/pattern-lab/patternlab-php/wiki/Multi-browser-&-Multi-device-Testing-with-Page-Follow)
+* [Watching for Changes and Auto-Regenerating Patterns](http://patternlab.io/docs/advanced-auto-regenerate.html) - Node version coming soon
+* [Auto-Reloading the Browser Window When Changes Are Made](http://patternlab.io/docs/advanced-reload-browser.html) - Node version coming soon
+* [Multi-browser & Multi-device Testing with Page Follow](http://patternlab.io/docs/advanced-page-follow.html)
+* [Keyboard Shortcuts](http://patternlab.io/docs/advanced-keyboard-shortcuts.html) 
+* [Special Pattern Lab-specific Query String Variables ](http://patternlab.io/docs/pattern-linking.html)
+* [Preventing the Cleaning of public/](http://patternlab.io/docs/advanced-clean-public.html) - Node version coming soon
+* [Modifying the Pattern Lab Nav](http://patternlab.io/docs/advanced-pattern-lab-nav.html) - Node version coming soon
+* [Editing the config.ini Options](http://patternlab.io/docs/advanced-config-options.html) - Node version coming soon
