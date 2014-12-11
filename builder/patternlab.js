@@ -16,6 +16,7 @@ var patternlab_engine = function(){
 		of = require('./object_factory'),
 		pa = require('./pattern_assembler'),
 		mh = require('./media_hunter'),
+		lh = require('./lineage_hunter'),
 		patternlab = {};
 
 	patternlab.package =fs.readJSONSync('./package.json');
@@ -92,6 +93,8 @@ var patternlab_engine = function(){
 			//see if this file has a state
 			if(patternlab.config.patternStates[currentPattern.patternName]){
 				currentPattern.patternState = patternlab.config.patternStates[currentPattern.patternName];
+			} else{
+				currentPattern.patternState = "";
 			}
 
 			//look for a json file for this template
@@ -114,12 +117,16 @@ var patternlab_engine = function(){
 			
 			//write the compiled template to the public patterns directory
 			flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
+			currentPattern.patternLink = flatPatternPath;
+
+			//find pattern lineage
+			var lineage_hunter = new lh();
+			lineage_hunter.find_lineage(currentPattern, patternlab);
 
 			//add footer info before writing
 			var currentPatternFooter = renderPattern(patternlab.footer, currentPattern);
 
 			fs.outputFileSync('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
-			currentPattern.patternLink = flatPatternPath;
 
 			//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
 			var sub = subdir.substring(subdir.indexOf('-') + 1);
@@ -150,9 +157,8 @@ var patternlab_engine = function(){
 		patternlab.viewAllPaths = {};
 
 		//find mediaQueries
-		// var media_hunter = new mh();
-		// media_hunter.find_media_queries(patternlab);
-		// console.log(patternlab.mediaQueries);
+		var media_hunter = new mh();
+		media_hunter.find_media_queries(patternlab);
 
 		//build the styleguide
 		var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8');
@@ -297,6 +303,7 @@ var patternlab_engine = function(){
 
 		//ishControls
 		var ishControlsTemplate = fs.readFileSync('./source/_patternlab-files/partials/ishControls.mustache', 'utf8');
+		patternlab.config.mqs = patternlab.mediaQueries;
 		var ishControlsPartialHtml = renderPattern(ishControlsTemplate, patternlab.config);
 
 		//patternPaths
