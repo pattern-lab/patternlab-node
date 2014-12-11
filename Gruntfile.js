@@ -19,6 +19,18 @@ module.exports = function(grunt) {
 			object_factory: {
 				src: './builder/object_factory.js',
 				dest: './builder/object_factory.js'
+			},
+			lineage: {
+				src: './builder/lineage_hunter.js',
+				dest: './builder/lineage_hunter.js'
+			},
+			media_hunter: {
+				src: './builder/media_hunter.js',
+				dest: './builder/media_hunter.js'
+			},
+			patternlab_grunt: {
+				src: './builder/patternlab_grunt.js',
+				dest: './builder/patternlab_grunt.js'
 			}
 		},
 		copy: {

@@ -1,5 +1,14 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.1.6
+ - ADD: media queries found in css added to ish controls
+ - ADD: basic lineage support
+ - ADD: more unit tests
+
+PL-node-v0.1.5
+ - ADD: Added support for live reload via gruntfile
+ - THX: thanks @marcinmodestowicz for the proper syntax!
+
 PL-node-v0.1.4
  - FIX: Resolved issue with nested pattern rendering
  - FIX: Supporting flat pattern name regex's in unix-systems
