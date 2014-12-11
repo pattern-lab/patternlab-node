@@ -297,7 +297,7 @@ var codeViewer = {
 			e.preventDefault();
 			$("#sg-code-loader").css("display","block");
 			var obj = JSON.stringify({ "path": urlHandler.getFileName($(this).attr("data-patternpartial")) });
-			document.getElementById("sg-viewport").contentWindow.postMessage(obj,codeViewer.targetOrigin);
+			document.getElementById("sg-viewport").contentWindow.postMessage(JSON.parse(obj),codeViewer.targetOrigin);
 		});
 		
 		// show pattern state
