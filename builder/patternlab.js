@@ -83,7 +83,7 @@ var patternlab_engine = function(){
 			}
 
 			//make a new Pattern Object
-			var flatPatternName = subdir.replace(/[\/\\]/g, '-') + '-' + patternName;
+			var flatPatternName = subdir.replace(/\\/g, '-') + '-' + patternName;
 			
 			flatPatternName = flatPatternName.replace(/\\/g, '-');
 			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
