@@ -116,17 +116,11 @@ var patternlab_engine = function(){
 			}
 			
 			//write the compiled template to the public patterns directory
-			flatPatternPath = currentPattern.name + '/' + currentPattern.name + '.html';
-			currentPattern.patternLink = flatPatternPath;
+			currentPattern.patternLink = currentPattern.name + '/' + currentPattern.name + '.html';;
 
 			//find pattern lineage
 			var lineage_hunter = new lh();
 			lineage_hunter.find_lineage(currentPattern, patternlab);
-
-			//add footer info before writing
-			var currentPatternFooter = renderPattern(patternlab.footer, currentPattern);
-
-			fs.outputFileSync('./public/patterns/' + flatPatternPath, patternlab.header + currentPattern.patternPartial + currentPatternFooter);
 
 			//add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
 			var sub = subdir.substring(subdir.indexOf('-') + 1);
@@ -147,6 +141,17 @@ var patternlab_engine = function(){
 			patternlab.patternIndex.push(currentPattern.name);
 			patternlab.patterns.push(currentPattern);
 		});
+
+		//render all patterns last, so lineageR works
+		patternlab.patterns.forEach(function(pattern, index, patterns){
+
+			//add footer info before writing
+			var patternFooter = renderPattern(patternlab.footer, pattern);
+
+			fs.outputFileSync('./public/patterns/' + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+
+		});
+
 
 	}
 
