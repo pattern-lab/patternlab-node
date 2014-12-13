@@ -23,6 +23,10 @@
 		this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
 		this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
 		this.flatPatternPath = subdir.replace(/\//g, '-');
+		this.lineage = [];
+		this.lineageIndex = [];
+		this.lineageR = [];
+		this.lineageRIndex = [];
 	};
 
 	var oBucket = function(name){
