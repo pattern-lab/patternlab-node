@@ -19,7 +19,11 @@
 				"patternGroup": "organisms",
 				"patternSubGroup": "organisms\\00-global",
 				"flatPatternPath": "02-organisms\\00-global",
-				"patternState": ""
+				"patternState": "",
+				"lineage": [],
+				"lineageIndex": [],
+				"lineageR": [],
+				"lineageRIndex": []
 			};
 			var patternlab = {
 				patterns: [
@@ -35,7 +39,11 @@
 					"patternGroup": "atoms",
 					"patternSubGroup": "atoms\\03-images",
 					"flatPatternPath": "00-atoms\\03-images",
-					"patternState": ""
+					"patternState": "",
+					"lineage": [],
+					"lineageIndex": [],
+					"lineageR": [],
+					"lineageRIndex": []
 				},
 				{
 					"name": "01-molecules-05-navigation-00-primary-nav",
@@ -49,7 +57,11 @@
 					"patternGroup": "molecules",
 					"patternSubGroup": "molecules\\05-navigation",
 					"flatPatternPath": "01-molecules\\05-navigation",
-					"patternState": ""
+					"patternState": "",
+					"lineage": [],
+					"lineageIndex": [],
+					"lineageR": [],
+					"lineageRIndex": []
 				},
 				{
 					"name": "01-molecules-04-forms-00-search",
@@ -63,7 +75,11 @@
 					"patternGroup": "molecules",
 					"patternSubGroup": "molecules\\04-forms",
 					"flatPatternPath": "01-molecules\\04-forms",
-					"patternState": ""
+					"patternState": "",
+					"lineage": [],
+					"lineageIndex": [],
+					"lineageR": [],
+					"lineageRIndex": []
 				}
 				]
 			};
