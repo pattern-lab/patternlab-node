@@ -15,10 +15,6 @@
 
 		function findlineage(pattern, patternlab){
 
-			pattern.lineage = [];
-			pattern.lineageIndex = [];
-			pattern.lineageR = [];
-			pattern.lineageRIndex = [];
 			//find the {{> template-name }} within patterns
 			var matches = pattern.template.match(/{{>([ ]+)?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ]+)}}/g);
 			if(matches !== null){
