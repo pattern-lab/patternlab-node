@@ -29,5 +29,7 @@
  		"tools-docs": true
  	},
  	"patternStates": {
- 	}
+ 	},
+  "patternExportKeys": [],
+  "patternExportDirectory": "./pattern_exports/"
  }

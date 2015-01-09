@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.6 - 2014 
+ * patternlab-node - v0.1.7 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -17,6 +17,7 @@ var patternlab_engine = function(){
 		pa = require('./pattern_assembler'),
 		mh = require('./media_hunter'),
 		lh = require('./lineage_hunter'),
+		pe = require('./pattern_exporter')
 		patternlab = {};
 
 	patternlab.package =fs.readJSONSync('./package.json');
@@ -89,6 +90,7 @@ var patternlab_engine = function(){
 			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
 			currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
 			currentPattern.data = null;
+			currentPattern.key = currentPattern.patternGroup + '-' + currentPattern.patternName;
 
 			//see if this file has a state
 			if(patternlab.config.patternStates[currentPattern.patternName]){
@@ -115,7 +117,6 @@ var patternlab_engine = function(){
 				currentPattern.patternPartial = renderPattern(currentPattern.template, patternlab.data, patternlab.partials);
 			}
 			
-			//write the compiled template to the public patterns directory
 			currentPattern.patternLink = currentPattern.name + '/' + currentPattern.name + '.html';;
 
 			//find pattern lineage
@@ -148,10 +149,14 @@ var patternlab_engine = function(){
 			//add footer info before writing
 			var patternFooter = renderPattern(patternlab.footer, pattern);
 
+			//write the compiled template to the public patterns directory
 			fs.outputFileSync('./public/patterns/' + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
 
 		});
 
+		//export patterns if necessary
+		var pattern_exporter = new pe();
+		pattern_exporter.export_patterns(patternlab);
 
 	}
 

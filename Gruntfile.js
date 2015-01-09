@@ -31,6 +31,10 @@ module.exports = function(grunt) {
 			patternlab_grunt: {
 				src: './builder/patternlab_grunt.js',
 				dest: './builder/patternlab_grunt.js'
+			},
+			pattern_exporter: {
+				src: './builder/pattern_exporter.js',
+				dest: './builder/pattern_exporter.js'
 			}
 		},
 		copy: {

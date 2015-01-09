@@ -62,10 +62,6 @@ The current selection is as follows. It reflects support versus patternlab-php.
 	"tools-docs": true
 }
 ```
-
-##### Verbose Mode
-`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
-
 ##### Pattern States
 You can set the state of a pattern by including it in `config.json` too. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
 Pattern states should be lowercase and use hyphens where spaces are present.
@@ -76,6 +72,20 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 	"three-up" : "complete"
 }
 ```
+
+##### Pattern Export
+`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory. 
+
+```
+"patternExportKeys": ["molecules-primary-nav","organisms-header", ""organisms-header""],
+"patternExportDirectory": "./pattern_exports/"
+```
+
+Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
+
+
+##### Verbose Mode
+`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
 ##### Server
 Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.

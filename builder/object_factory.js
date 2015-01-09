@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.1.6 - 2014 
+ * patternlab-node - v0.1.7 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -23,6 +23,7 @@
 		this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
 		this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
 		this.flatPatternPath = subdir.replace(/\//g, '-');
+		this.key = '';
 		this.lineage = [];
 		this.lineageIndex = [];
 		this.lineageR = [];
