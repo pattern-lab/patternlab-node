@@ -77,7 +77,7 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 `config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory. 
 
 ```
-"patternExportKeys": ["molecules-primary-nav","organisms-header", ""organisms-header""],
+"patternExportKeys": ["molecules-primary-nav", "organisms-header", "organisms-header"],
 "patternExportDirectory": "./pattern_exports/"
 ```
 
