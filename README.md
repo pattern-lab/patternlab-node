@@ -46,7 +46,7 @@ The current selection is as follows. It reflects support versus patternlab-php.
 	"m": true,
 	"l": true,
 	"full": true,
-	"ranndom": true,
+	"random": true,
 	"disco": true,
 	"hay": true,
 	"mqs": false,
