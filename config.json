@@ -13,7 +13,7 @@
  		"m": true,
  		"l": true,
  		"full": true,
- 		"ranndom": true,
+ 		"random": true,
  		"disco": true,
  		"hay": true,
  		"mqs": true,
@@ -29,5 +29,7 @@
  		"tools-docs": true
  	},
  	"patternStates": {
- 	}
+ 	},
+  "patternExportKeys": [],
+  "patternExportDirectory": "./pattern_exports/"
  }

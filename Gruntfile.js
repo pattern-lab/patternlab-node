@@ -31,6 +31,10 @@ module.exports = function(grunt) {
 			patternlab_grunt: {
 				src: './builder/patternlab_grunt.js',
 				dest: './builder/patternlab_grunt.js'
+			},
+			pattern_exporter: {
+				src: './builder/pattern_exporter.js',
+				dest: './builder/pattern_exporter.js'
 			}
 		},
 		copy: {
@@ -83,7 +87,8 @@ module.exports = function(grunt) {
 				files: {
 					'./source/css/style.css': './source/css/style.scss',
 					'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
-					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss'
+					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
+					'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
 				}
 			}
 		},
