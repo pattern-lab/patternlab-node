@@ -132,7 +132,6 @@ module.exports = function(grunt) {
                 src: 'public/css/style.css'
             },
             options: {
-                host: ipAddress,
                 watchTask: true
             }
         },
