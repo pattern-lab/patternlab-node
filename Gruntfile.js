@@ -1,5 +1,26 @@
 module.exports = function(grunt) {
 
+    var os = require('os');
+    var ifaces = os.networkInterfaces();
+    var lookupIpAddress = null;
+    for (var dev in ifaces) {
+        if (dev !== "en1" && dev !== "en0") {
+            continue;
+        }
+        ifaces[dev].forEach(function(details) {
+            if (details.family === 'IPv4') {
+                lookupIpAddress = details.address;
+            }
+        });
+    }
+
+    //If an IP Address is passed
+    //we're going to use the ip/host from the param
+    //passed over the command line 
+    //over the ip addressed that was looked up
+    var ipAddress = grunt.option('host') || lookupIpAddress;
+
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -132,7 +153,18 @@ module.exports = function(grunt) {
                 src: 'public/css/style.css'
             },
             options: {
+                host: ipAddress,
                 watchTask: true
+            }
+        },
+        replace: {
+            ip: {
+                src: ['public/**/*.html'], // source files array (supports minimatch)
+                overwrite: true, // destination directory or file
+                replacements: [{
+                    from: 'HOST', // string replacement
+                    to: ipAddress
+                }]
             }
         },
         nodeunit: {
@@ -142,8 +174,9 @@ module.exports = function(grunt) {
             app: {
                 options: {
                     port: 9001,
+                    //hostname: localhost, // Private IP option
+                    hostname: ipAddress,
                     base: './public',
-                    hostname: 'localhost',
                     open: true,
                     livereload: 35729
                 }
@@ -163,6 +196,6 @@ module.exports = function(grunt) {
     //travis CI task
     grunt.registerTask('travis', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'nodeunit']);
 
-    grunt.registerTask('serve', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'connect', 'browserSync', 'watch']);
+    grunt.registerTask('serve', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'replace', 'connect', 'browserSync', 'watch']);
 
 };
