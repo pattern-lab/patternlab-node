@@ -17,7 +17,8 @@ var patternlab_engine = function(){
 		pa = require('./pattern_assembler'),
 		mh = require('./media_hunter'),
 		lh = require('./lineage_hunter'),
-		pe = require('./pattern_exporter')
+		pe = require('./pattern_exporter'),
+		he = require('html-entities').AllHtmlEntities,
 		patternlab = {};
 
 	patternlab.package =fs.readJSONSync('./package.json');
@@ -143,6 +144,8 @@ var patternlab_engine = function(){
 			patternlab.patterns.push(currentPattern);
 		});
 
+		var entity_encoder = new he();
+
 		//render all patterns last, so lineageR works
 		patternlab.patterns.forEach(function(pattern, index, patterns){
 
@@ -151,6 +154,14 @@ var patternlab_engine = function(){
 
 			//write the compiled template to the public patterns directory
 			fs.outputFileSync('./public/patterns/' + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+
+			//write the mustache file too
+			fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
+
+			//write the encoded version too
+			fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+
+
 
 		});
 
