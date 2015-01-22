@@ -6,7 +6,7 @@ The Node version of Pattern Lab is, at its core, a static site generator. It com
 
 ### Getting Started
 
-To run patternlab-node, just do the following from the command line at the root of patternlab-node: 
+To run patternlab-node, run the following from the command line at the root of whichever directory you want to initialize your project in: 
 
 1. `npm install`
 2. `npm install -g grunt-cli`
