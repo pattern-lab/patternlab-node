@@ -23,6 +23,12 @@
     },
     "script.js": {
       "main": "dist/script.js"
+    },
+    "jwerty": {
+      "main": "jwerty.js"
+    },
+    "prism": {
+      "main": "prism.js"
     }
   },
   "devDependencies": {}
