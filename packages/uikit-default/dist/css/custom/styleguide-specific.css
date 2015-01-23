@@ -18,19 +18,19 @@
 }
 
 .demo .gi, .demo .demo-block {
-  background: #dddddd;
-  color: gray;
+  background: #ddd;
+  color: #808080;
   text-align: center;
   margin-bottom: 0.5em;
   padding: 1em !important;
 }
 .demo .gi:nth-of-type(2n), .demo .demo-block:nth-of-type(2n) {
-  color: #dddddd;
-  background: gray;
+  color: #ddd;
+  background: #808080;
 }
 .demo .gi .gi, .demo .demo-block .gi {
   background: rgba(0, 0, 0, 0.1);
-  color: #dddddd;
+  color: #ddd;
 }
 .demo .gi .gi:nth-of-type(2n), .demo .demo-block .gi:nth-of-type(2n) {
   background: rgba(0, 0, 0, 0.3);
@@ -52,7 +52,7 @@
   left: 0;
   bottom: 0;
   width: 20px;
-  background: gray;
+  background: #808080;
 }
 .animate-move:hover > .demo-shape {
   left: 100%;
@@ -64,7 +64,7 @@
 }
 .sg-colors li {
   overflow: hidden;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   padding: 0.3em;
   margin: 0 0.2em 0.2em 0;
 }
