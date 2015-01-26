@@ -16,8 +16,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 	<!-- load the pattern lab css -->
-	<link rel="stylesheet" href="styleguide/css/styleguide.css" media="all" />
-	<link rel="stylesheet" href="styleguide/css/styleguide-specific.css" media="all" />
+	<link rel="stylesheet" href="styleguide/css/styleguide.min.css" media="all" />
+	<link rel="stylesheet" href="styleguide/css/styleguide-specific.min.css" media="all" />
 	
 	<!-- load the external library css -->
 	<link rel="stylesheet" href="styleguide/css/prism-typeahead.min.css" media="all" />
@@ -173,9 +173,11 @@
 			</p>
 		</div>
 		{{/ lineageRExists }}
+		{{ patternDesc }}
 		{{# patternDescAdditions }}
 			{{{ . }}}
 		{{/ patternDescAdditions }}
+		<div id="sg-code-extra-output"></div>
 		<div id="sg-code-markup">
 			<ul id="sg-code-tabs">
 				<li id="sg-code-title-html" class="sg-code-title-active">HTML</li>
@@ -224,6 +226,7 @@
 	<script src="styleguide/bower_components/EventEmitter.min.js"></script>
 	<script src="styleguide/bower_components/script.min.js"></script>
 	
+	<!-- set-up the dispatcher -->
 	<script>
 		var Dispatcher = new EventEmitter();
 	</script>
