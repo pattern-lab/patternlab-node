@@ -271,6 +271,11 @@ var codeViewer = {
 		var templateRendered = templateCompiled.render(patternData);
 		document.getElementById("sg-code-container").innerHTML = templateRendered;
 		
+		// dispatch the event
+		console.log(patternData);
+		
+		Dispatcher.trigger("codePanelRenderDone", [ patternData ] );
+		
 		// when clicking on a lineage item change the iframe source
 		$('#sg-code-lineage-fill a, #sg-code-lineager-fill a').on("click", function(e){
 			e.preventDefault();
