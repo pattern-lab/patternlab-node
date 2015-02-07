@@ -73,6 +73,22 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 }
 ```
 
+##### Pattern Linking
+You can build patterns that link to one another to help simulate using a real website. This is especially useful when working with the Pages and Templates pattern types. The basic format is:
+
+`{{ link.pattern-name }}`
+
+For example, if you wanted to add a link to the `home page` template from your `blog` template you could write the following:
+
+`<a href="{{ link.templates-homepage }}">Home</a>`
+
+This would compile to:
+
+`<a href="/patterns/templates-homepage/templates-homepage.html">Home</a>`
+
+As you can see, it's a much easier way of linking patterns to one another.
+
+
 ##### Pattern Export
 `config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory. 
 
