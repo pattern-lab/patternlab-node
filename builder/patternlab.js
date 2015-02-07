@@ -130,14 +130,14 @@ var patternlab_engine = function(){
 			var cleanSub = sub.substring(0, folderIndex);
 
 			//add any templates found to an object of partials, so downstream templates may use them too
-			//exclude the template patterns - we don't need them as partials because pages will just swap data
+			//look for the full path on nested patters, else expect it to be flat
+			var partialname = '';
 			if(cleanSub !== ''){
-				var partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
-
-				patternlab.partials[partialname] = currentPattern.template;
-
-				//done
+				partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
+			} else{
+				partialname = currentPattern.patternGroup + '-' + patternName.substring(patternName.indexOf('-') + 1);
 			}
+			patternlab.partials[partialname] = currentPattern.template;
 			
 			//add to patternlab arrays so we can look these up later.  this could probably just be an object.
 			patternlab.patternIndex.push(currentPattern.name);
@@ -160,9 +160,6 @@ var patternlab_engine = function(){
 
 			//write the encoded version too
 			fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
-
-
-
 		});
 
 		//export patterns if necessary
@@ -335,19 +332,11 @@ var patternlab_engine = function(){
 		var viewAllPathsTemplate = fs.readFileSync('./source/_patternlab-files/partials/viewAllPaths.mustache', 'utf8');
 		var viewAllPathersPartialHtml = renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
-		//websockets
-		var websocketsTemplate = fs.readFileSync('./source/_patternlab-files/partials/websockets.mustache', 'utf8');
-		patternlab.contentsyncport = patternlab.config.contentSyncPort;
-		patternlab.navsyncport = patternlab.config.navSyncPort;
-
-		var websocketsPartialHtml = renderPattern(websocketsTemplate, patternlab);
-
 		//render the patternlab template, with all partials
 		var patternlabSiteHtml = renderPattern(patternlabSiteTemplate, {}, {
 			'ishControls': ishControlsPartialHtml,
 			'patternNav': patternNavPartialHtml,
 			'patternPaths': patternPathsPartialHtml,
-			'websockets': websocketsPartialHtml,
 			'viewAllPaths': viewAllPathersPartialHtml
 		});
 		fs.outputFileSync('./public/index.html', patternlabSiteHtml);
