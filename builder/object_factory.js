@@ -19,7 +19,7 @@
 		this.template = '';
 		this.patternPartial = '';
 		this.patternName = ''; //this is the display name for the ui
-		this.patternLink = '';
+		this.patternLink = name + '/' + name + '.html';
 		this.patternGroup = name.substring(name.indexOf('-') + 1, name.indexOf('-', 4) + 1 - name.indexOf('-') + 1);
 		this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
 		this.flatPatternPath = subdir.replace(/\//g, '-');

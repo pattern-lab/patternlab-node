@@ -11,6 +11,7 @@
 var patternlab_engine = function(){
 	var path = require('path'),
 		fs = require('fs-extra'),
+		extend = require('util')._extend,
 		diveSync = require('diveSync'),
 		mustache = require('mustache'),
 		of = require('./object_factory'),
@@ -59,6 +60,7 @@ var patternlab_engine = function(){
 		patternlab.patterns = [];
 		patternlab.patternIndex = [];
 		patternlab.partials = {};
+		patternlab.data.link = {};
 
 		diveSync('./source/_patterns', function(err, file){
 
@@ -108,18 +110,8 @@ var patternlab_engine = function(){
 			catch(e) {
 
 			}
-
 			currentPattern.template = fs.readFileSync(abspath, 'utf8');
-
-			//render the pattern. pass partials object just in case.
-			if(currentPattern.data) { // Pass JSON as data
-				currentPattern.patternPartial = renderPattern(currentPattern.template, currentPattern.data, patternlab.partials);
-			}else{ // Pass global patternlab data
-				currentPattern.patternPartial = renderPattern(currentPattern.template, patternlab.data, patternlab.partials);
-			}
 			
-			currentPattern.patternLink = currentPattern.name + '/' + currentPattern.name + '.html';;
-
 			//find pattern lineage
 			var lineage_hunter = new lh();
 			lineage_hunter.find_lineage(currentPattern, patternlab);
@@ -138,9 +130,10 @@ var patternlab_engine = function(){
 				partialname = currentPattern.patternGroup + '-' + patternName.substring(patternName.indexOf('-') + 1);
 			}
 			patternlab.partials[partialname] = currentPattern.template;
-			
-			//add to patternlab arrays so we can look these up later.  this could probably just be an object.
+
+			//add to patternlab object so we can look these up later.
 			patternlab.patternIndex.push(currentPattern.name);
+			patternlab.data.link[currentPattern.patternGroup + '-' + currentPattern.patternName] = '/patterns/' + currentPattern.patternLink;
 			patternlab.patterns.push(currentPattern);
 		});
 
@@ -148,6 +141,17 @@ var patternlab_engine = function(){
 
 		//render all patterns last, so lineageR works
 		patternlab.patterns.forEach(function(pattern, index, patterns){
+
+			//render the pattern. pass partials and data
+			if(pattern.data) { // Pass found pattern-specific JSON as data
+
+				//extend patternIndex into link for pattern link shortcuts to work. we do this locally and globally
+				pattern.data.link = extend({}, patternlab.data.link);
+
+				pattern.patternPartial = renderPattern(pattern.template, pattern.data, patternlab.partials);
+			}else{ // Pass global patternlab data
+				pattern.patternPartial = renderPattern(pattern.template, patternlab.data, patternlab.partials);
+			}
 
 			//add footer info before writing
 			var patternFooter = renderPattern(patternlab.footer, pattern);
