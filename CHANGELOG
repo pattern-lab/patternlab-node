@@ -1,5 +1,12 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.8.0
+ - CHG: note the change in versioning to proper semver. wanted to do ths to inch closer to a 1.0.0 release
+ - DEL: deleted most of the lingering PHP sync listener code
+ - FIX: support for displaying the HTML and Mustache in the code viewer
+ - ADD: pattern link support
+ - CHG: updated included mustache templates to reflect pattern links in navigation and compiling pages direct from templates
+
 PL-node-v0.1.7
  - ADD: pattern export
  - CHG: updated devDependencies
