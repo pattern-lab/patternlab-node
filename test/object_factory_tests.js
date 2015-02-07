@@ -13,7 +13,7 @@
 			test.equals(p.template, '');
 			test.equals(p.patternPartial, '');
 			test.equals(p.patternName, '');
-			test.equals(p.patternLink, '');
+			test.equals(p.patternLink, '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html');
 			test.equals(p.patternGroup, 'atoms');
 			test.equals(p.patternSubGroup, 'global');
 			test.equals(p.flatPatternPath, '00-atoms-00-global');
