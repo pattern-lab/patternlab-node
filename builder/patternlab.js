@@ -58,7 +58,6 @@ var patternlab_engine = function(){
 		patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
 		patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
 		patternlab.patterns = [];
-		patternlab.patternIndex = [];
 		patternlab.partials = {};
 		patternlab.data.link = {};
 
@@ -75,25 +74,15 @@ var patternlab_engine = function(){
 			var subdir = path.dirname(path.relative('./source/_patterns', file));
 			var filename = path.basename(file);
 
-			//check if the pattern already exists.  
-			var patternName = filename.substring(0, filename.indexOf('.')),
-				patternIndex = patternlab.patternIndex.indexOf(subdir + '-' +  patternName),
-				currentPattern,
-				flatPatternPath;
-
-			//ignore _underscored patterns, json, and dotfiles
+			//ignore _underscored patterns, json (for now), and dotfiles
 			if(filename.charAt(0) === '_' || path.extname(filename) === '.json' || filename.charAt(0) === '.'){
 				return;
 			}
 
+			//check for pattern parameters before we do much else. need to remove them into a data object so the rest of the filename parsing works
+
 			//make a new Pattern Object
-			var flatPatternName = subdir.replace(/[\/\\]/g, '-') + '-' + patternName;
-			
-			flatPatternName = flatPatternName.replace(/\\/g, '-');
-			currentPattern = new of.oPattern(flatPatternName, subdir, filename, {});
-			currentPattern.patternName = patternName.substring(patternName.indexOf('-') + 1);
-			currentPattern.data = null;
-			currentPattern.key = currentPattern.patternGroup + '-' + currentPattern.patternName;
+			currentPattern = new of.oPattern(subdir, filename, {});
 
 			//see if this file has a state
 			if(patternlab.config.patternStates[currentPattern.patternName]){
@@ -111,6 +100,8 @@ var patternlab_engine = function(){
 
 			}
 			currentPattern.template = fs.readFileSync(abspath, 'utf8');
+
+			//look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
 			
 			//find pattern lineage
 			var lineage_hunter = new lh();
@@ -125,14 +116,13 @@ var patternlab_engine = function(){
 			//look for the full path on nested patters, else expect it to be flat
 			var partialname = '';
 			if(cleanSub !== ''){
-				partialname = cleanSub + '-' + patternName.substring(patternName.indexOf('-') + 1);
+				partialname = cleanSub + '-' + currentPattern.patternName;
 			} else{
-				partialname = currentPattern.patternGroup + '-' + patternName.substring(patternName.indexOf('-') + 1);
+				partialname = currentPattern.patternGroup + '-' + currentPattern.patternName;
 			}
 			patternlab.partials[partialname] = currentPattern.template;
 
 			//add to patternlab object so we can look these up later.
-			patternlab.patternIndex.push(currentPattern.name);
 			patternlab.data.link[currentPattern.patternGroup + '-' + currentPattern.patternName] = '/patterns/' + currentPattern.patternLink;
 			patternlab.patterns.push(currentPattern);
 		});
@@ -145,7 +135,7 @@ var patternlab_engine = function(){
 			//render the pattern. pass partials and data
 			if(pattern.data) { // Pass found pattern-specific JSON as data
 
-				//extend patternIndex into link for pattern link shortcuts to work. we do this locally and globally
+				//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
 				pattern.data.link = extend({}, patternlab.data.link);
 
 				pattern.patternPartial = renderPattern(pattern.template, pattern.data, patternlab.partials);
@@ -356,7 +346,7 @@ var patternlab_engine = function(){
 
 	function addToPatternPaths(bucketName, pattern){
 		//this is messy, could use a refactor.
-		patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.filename.substring(0, pattern.filename.indexOf('.'));
+		patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
 	}
 
 	return {

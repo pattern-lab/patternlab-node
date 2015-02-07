@@ -5,18 +5,23 @@
 
 	exports['oPattern initialization'] = {
 		'test oPattern initializes correctly' : function(test){
-			var p = new of.oPattern('00-atoms-00-global-00-colors', '00-atoms/00-global', 'file.txt', { d: 123});
+			var p = new of.oPattern('00-atoms/00-global', '00-colors.mustache', { d: 123});
 			test.equals(p.name, '00-atoms-00-global-00-colors');
 			test.equals(p.subdir, '00-atoms/00-global');
-			test.equals(p.filename, 'file.txt');
+			test.equals(p.fileName, '00-colors');
 			test.equals(p.data.d, 123);
-			test.equals(p.template, '');
-			test.equals(p.patternPartial, '');
-			test.equals(p.patternName, '');
+			test.equals(p.patternName, 'colors');
 			test.equals(p.patternLink, '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html');
 			test.equals(p.patternGroup, 'atoms');
 			test.equals(p.patternSubGroup, 'global');
 			test.equals(p.flatPatternPath, '00-atoms-00-global');
+			test.equals(p.key, 'atoms-colors');
+			test.equals(p.template, '');
+			test.equals(p.patternPartial, '');
+			test.equals(p.lineage.length, 0);
+			test.equals(p.lineageIndex.length, 0);
+			test.equals(p.lineageR.length, 0);
+			test.equals(p.lineageRIndex.length, 0);
 			test.done();
 		}
 	};
