@@ -9,6 +9,7 @@ PL-node-v0.8.0
  - THX: @getsetbro for finding and fixing a typo
  - FIX: fixed a bug preventing pattern states from displaying on the flat template/pages
  - ADD: support for basic pseudo-patterns
+ - CHG: cleaned up patternlab.js a bit for future testing, a bit more DRYness.
 
 PL-node-v0.1.7
  - ADD: pattern export
