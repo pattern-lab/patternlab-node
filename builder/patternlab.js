@@ -83,17 +83,14 @@ var patternlab_engine = function(){
 				return;
 			}
 
-			//check for pattern parameters before we do much else. need to remove them into a data object so the rest of the filename parsing works
+			//TODO: https://github.com/pattern-lab/patternlab-node/issues/88 check for pattern parameters before we do much else. need to remove them into a data object so the rest of the filename parsing works
+			//TODO: https://github.com/pattern-lab/patternlab-node/issues/95 check for patternstylemodifiers before we do much else. need to remove these from the template for proper rendering
 
 			//make a new Pattern Object
 			currentPattern = new of.oPattern(subdir, filename, {});
 
 			//see if this file has a state
-			if(patternlab.config.patternStates[currentPattern.patternName]){
-				currentPattern.patternState = patternlab.config.patternStates[currentPattern.patternName];
-			} else{
-				currentPattern.patternState = "";
-			}
+			assembler.setPatternState(currentPattern, patternlab);
 
 			//look for a json file for this template
 			try {
@@ -144,11 +141,7 @@ var patternlab_engine = function(){
 					var patternVariant = new of.oPattern(subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
 
 					//see if this file has a state
-					if(patternlab.config.patternStates[patternVariant.patternName]){
-						patternVariant.patternState = patternlab.config.patternStates[patternVariant.patternName];
-					} else{
-						patternVariant.patternState = "";
-					}
+					assembler.setPatternState(patternVariant, patternlab);
 
 					//use the same template as the non-variant
 					patternVariant.template = currentPattern.template;
@@ -157,14 +150,12 @@ var patternlab_engine = function(){
 					lineage_hunter.find_lineage(patternVariant, patternlab);
 
 					//add to patternlab object so we can look these up later.
-					patternlab.data.link[patternVariant.patternGroup + '-' + patternVariant.patternName] = '/patterns/' + patternVariant.patternLink;
-					patternlab.patterns.push(patternVariant);
+					assembler.addPattern(patternVariant, patternlab);
 				}
 			}
 
 			//add to patternlab object so we can look these up later.
-			patternlab.data.link[currentPattern.patternGroup + '-' + currentPattern.patternName] = '/patterns/' + currentPattern.patternLink;
-			patternlab.patterns.push(currentPattern);
+			assembler.addPattern(currentPattern, patternlab);
 		});
 
 		var entity_encoder = new he();

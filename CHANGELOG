@@ -7,6 +7,8 @@ PL-node-v0.8.0
  - ADD: pattern link support
  - CHG: updated included mustache templates to reflect pattern links in navigation and compiling pages direct from templates
  - THX: @getsetbro for finding and fixing a typo
+ - FIX: fixed a bug preventing pattern states from displaying on the flat template/pages
+ - ADD: support for basic pseudo-patterns
 
 PL-node-v0.1.7
  - ADD: pattern export
