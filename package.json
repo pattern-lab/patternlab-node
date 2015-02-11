@@ -16,7 +16,8 @@
     "matchdep": "^0.3.0",
     "fs-extra": "^0.14.0",
     "diveSync": "^0.2.1",
-    "html-entities": "^1.1.1"
+    "html-entities": "^1.1.1",
+    "glob": "^4.3.5"
   },
   "keywords": [
     "Pattern Lab",

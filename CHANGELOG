@@ -6,6 +6,7 @@ PL-node-v0.8.0
  - FIX: support for displaying the HTML and Mustache in the code viewer
  - ADD: pattern link support
  - CHG: updated included mustache templates to reflect pattern links in navigation and compiling pages direct from templates
+ - THX: @getsetbro for finding and fixing a typo
 
 PL-node-v0.1.7
  - ADD: pattern export

@@ -7,7 +7,7 @@
  	"ignored-directories" : ["scss"],
  	"contentSyncPort" : 8002,
  	"navSyncPort" : 8003,
- 	"debug": false,
+ 	"debug": true,
  	"ishControlsVisible": {
  		"s": true,
  		"m": true,

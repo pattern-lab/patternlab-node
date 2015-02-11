@@ -14,11 +14,13 @@ var patternlab_engine = function(){
 		extend = require('util')._extend,
 		diveSync = require('diveSync'),
 		mustache = require('mustache'),
+		glob = require('glob'),
 		of = require('./object_factory'),
 		pa = require('./pattern_assembler'),
 		mh = require('./media_hunter'),
 		lh = require('./lineage_hunter'),
 		pe = require('./pattern_exporter'),
+		pa = require('./pattern_assembler'),
 		he = require('html-entities').AllHtmlEntities,
 		patternlab = {};
 
@@ -53,6 +55,8 @@ var patternlab_engine = function(){
 	}
 
 	function buildPatterns(callback){
+		var assembler = new pa();
+
 		patternlab.data = fs.readJSONSync('./source/_data/data.json');
 		patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
 		patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
@@ -101,8 +105,6 @@ var patternlab_engine = function(){
 			}
 			currentPattern.template = fs.readFileSync(abspath, 'utf8');
 
-			//look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-			
 			//find pattern lineage
 			var lineage_hunter = new lh();
 			lineage_hunter.find_lineage(currentPattern, patternlab);
@@ -121,6 +123,44 @@ var patternlab_engine = function(){
 				partialname = currentPattern.patternGroup + '-' + currentPattern.patternName;
 			}
 			patternlab.partials[partialname] = currentPattern.template;
+
+			//look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+			var needle = currentPattern.subdir + '/' + currentPattern.fileName+ '~*.json';
+			var pseudoPatterns = glob.sync(needle, {
+				cwd: 'source/_patterns/', //relative to gruntfile
+				debug: false,
+				nodir: true,
+			});
+
+			if(pseudoPatterns.length > 0){
+				for(var i = 0; i < pseudoPatterns.length; i++){
+					//we want to do everything we normally would here, except instead head the pseudoPattern data
+					var variantFileData = fs.readJSONSync('source/_patterns/' + pseudoPatterns[i]);
+
+					//extend any existing data with variant data
+					variantFileData = extend(variantFileData, currentPattern.data);
+
+					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
+					var patternVariant = new of.oPattern(subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
+
+					//see if this file has a state
+					if(patternlab.config.patternStates[patternVariant.patternName]){
+						patternVariant.patternState = patternlab.config.patternStates[patternVariant.patternName];
+					} else{
+						patternVariant.patternState = "";
+					}
+
+					//use the same template as the non-variant
+					patternVariant.template = currentPattern.template;
+
+					//find pattern lineage
+					lineage_hunter.find_lineage(patternVariant, patternlab);
+
+					//add to patternlab object so we can look these up later.
+					patternlab.data.link[patternVariant.patternGroup + '-' + patternVariant.patternName] = '/patterns/' + patternVariant.patternLink;
+					patternlab.patterns.push(patternVariant);
+				}
+			}
 
 			//add to patternlab object so we can look these up later.
 			patternlab.data.link[currentPattern.patternGroup + '-' + currentPattern.patternName] = '/patterns/' + currentPattern.patternLink;

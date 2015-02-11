@@ -1,7 +1,6 @@
 {
 	"title" : "Home Page",
 	"bodyClass": "home",
-	"emergency" : false,
 	"hero" : [
 		{
 			"img": {
