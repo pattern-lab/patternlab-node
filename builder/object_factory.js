@@ -12,7 +12,6 @@
 	"use strict";
 
 	var oPattern = function(subdir, filename, data){
-		//console.log(filename);
 		this.fileName = filename.substring(0, filename.indexOf('.'));
 		this.subdir = subdir;
 		this.name = (subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName).replace(/\\/g, '-'); //this is the unique name with the subDir

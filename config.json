@@ -28,8 +28,9 @@
  		"tools-shortcuts": false,
  		"tools-docs": true
  	},
- 	"patternStates": {
- 	},
+  "patternStates": {
+      "homepage-emergency" : "inprogress"
+  },
   "patternExportKeys": [],
   "patternExportDirectory": "./pattern_exports/"
  }
