@@ -6,7 +6,7 @@ The Node version of Pattern Lab is, at its core, a static site generator. It com
 
 ### Getting Started
 
-To run patternlab-node, just do the following from the command line at the root of patternlab-node: 
+To run patternlab-node, run the following from the command line at the root of whichever directory you want to initialize your project in: 
 
 1. `npm install`
 2. `npm install -g grunt-cli`
@@ -46,7 +46,7 @@ The current selection is as follows. It reflects support versus patternlab-php.
 	"m": true,
 	"l": true,
 	"full": true,
-	"ranndom": true,
+	"random": true,
 	"disco": true,
 	"hay": true,
 	"mqs": false,
@@ -62,10 +62,6 @@ The current selection is as follows. It reflects support versus patternlab-php.
 	"tools-docs": true
 }
 ```
-
-##### Verbose Mode
-`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
-
 ##### Pattern States
 You can set the state of a pattern by including it in `config.json` too. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
 Pattern states should be lowercase and use hyphens where spaces are present.
@@ -76,6 +72,85 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 	"three-up" : "complete"
 }
 ```
+
+##### Pseudo-Patterns
+Pseudo-patterns are meant to give developers the ability to build multiple and unique **rendered** patterns off of one base pattern and its mark-up while giving them control over the data that is injected into the base pattern. This feature is especially useful when developing template- and page-style patterns.
+
+Pseudo-patterns are, essentially, the pattern-specific JSON files that would accompany a pattern. Rather than require a Mustache pattern, though, pseudo-patterns are hinted so a developer can reference a shared pattern. The basic syntax:
+
+`patternName~pseudoPatternName.json`
+
+The tilde, `~`, and JSON extension denotes that this is a pseudo-pattern. `patternName` is the parent pattern that will be used when rendering the pseudo-pattern. `patternName` and `pseudoPatternName` are combined when adding the pseudo-pattern to the navigation.
+
+The JSON file itself works exactly like the [pattern-specific JSON file](http://patternlab.io/docs/data-pattern-specific.html). It has the added benefit that the pseudo-pattern will also import any values from the parent pattern's pattern-specific JSON file. Here is an example (which ships with the package) where we want to show an emergency notification on our homepage template. Our `03-templates/` directory looks like this:
+
+```
+00-homepage.mustache
+01-blog.mustache
+02-article.mustache
+```
+
+Our `00-homepage.mustache` template might look like this:
+
+```
+<div id="main-container">
+    {{# emergency }}
+        <div class="emergency">Oh Noes! Emergency!</div>
+    {{/ emergency }}
+    { ...a bunch of other content... }
+</div>
+```
+
+If our `_data.json` file doesn't give a value for `emergency` that section will never show up when `00-homepage.mustache` is rendered.
+
+We want to show both the regular and emergency states of the homepage but we don't want to duplicate the entire `00-homepage.mustache` template. That would be a maintenance nightmare. So let's add our pseudo-pattern:
+
+```
+00-homepage.mustache
+00-homepage~emergency.json
+01-blog.mustache
+02-article.mustache
+```
+
+In our pseudo-pattern, `00-homepage~emergency.json`, we add our `emergency` attribute:
+
+```
+{
+    "emergency": true
+}
+```
+
+Now when we generate our site we'll have our homepage template rendered twice. Once as the regular template and once as a pseudo-pattern showing the emergency section. Note that the pseudo-pattern will show up in our navigation as `Homepage Emergency`.
+
+##### Pattern Linking
+You can build patterns that link to one another to help simulate using a real website. This is especially useful when working with the Pages and Templates pattern types. The basic format is:
+
+`{{ link.pattern-name }}`
+
+For example, if you wanted to add a link to the `home page` template from your `blog` template you could write the following:
+
+`<a href="{{ link.templates-homepage }}">Home</a>`
+
+This would compile to:
+
+`<a href="/patterns/templates-homepage/templates-homepage.html">Home</a>`
+
+As you can see, it's a much easier way of linking patterns to one another.
+
+
+##### Pattern Export
+`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory. 
+
+```
+"patternExportKeys": ["molecules-primary-nav", "organisms-header", "organisms-header"],
+"patternExportDirectory": "./pattern_exports/"
+```
+
+Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
+
+
+##### Verbose Mode
+`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
 ##### Server
 Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.
