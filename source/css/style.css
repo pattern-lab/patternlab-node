@@ -144,7 +144,7 @@ header, footer, nav, section, article, hgroup, figure {
   }
 }
 
-@media all and (min-width: 566em) {
+@media all and (min-width: 66em) {
   .hide-large-2 {
     display: none;
   }
