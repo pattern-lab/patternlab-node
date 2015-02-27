@@ -87,7 +87,7 @@ var patternlab_engine = function(){
 			//TODO: https://github.com/pattern-lab/patternlab-node/issues/95 check for patternstylemodifiers before we do much else. need to remove these from the template for proper rendering
 
 			//make a new Pattern Object
-			currentPattern = new of.oPattern(subdir, filename, {});
+			currentPattern = new of.oPattern(subdir, filename);
 
 			//see if this file has a state
 			assembler.setPatternState(currentPattern, patternlab);
