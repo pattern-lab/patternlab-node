@@ -1,5 +1,11 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.8.1
+ - FIX: v8 is not pulling in values from global data.json
+ - FIX: MQ list breaks if media queries don't have spaces
+ - THX: @getsetbro for reporting these issues :D
+ - THX: @dmolsen for a cheat codes
+
 PL-node-v0.8.0
  - CHG: note the change in versioning to proper semver. wanted to do ths to inch closer to a 1.0.0 release
  - DEL: deleted most of the lingering PHP sync listener code
