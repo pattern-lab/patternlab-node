@@ -80,6 +80,12 @@
     }
 }
 
+.hide-large-2 {
+    @media all and (min-width:$bp-large-2) {
+        display: none;
+    }
+}
+
 //
 .valid {
 	color: $valid;
