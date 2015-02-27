@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.8.0 - 2015 
+ * patternlab-node - v0.8.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -26,7 +26,7 @@
 					var safeContents = contents.replace("\r", " ").replace("\n", " ");
 					var matches = safeContents.match(/\((min|max)-width:([ ]+)?(([0-9]{1,5})(\.[0-9]{1,20}|)(px|em))/g);
 					for(var i = 0; i < matches.length; i++){
-						var breakpoint = matches[i].substring(matches[i].indexOf(' ') + 1);
+						var breakpoint = matches[i].substring(matches[i].indexOf(':') + 1).trimLeft();
 						if(patternlab.mediaQueries.indexOf(breakpoint) === -1){
 							patternlab.mediaQueries.push(breakpoint);
 						}
