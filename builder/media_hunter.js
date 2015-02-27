@@ -26,7 +26,7 @@
 					var safeContents = contents.replace("\r", " ").replace("\n", " ");
 					var matches = safeContents.match(/\((min|max)-width:([ ]+)?(([0-9]{1,5})(\.[0-9]{1,20}|)(px|em))/g);
 					for(var i = 0; i < matches.length; i++){
-						var breakpoint = matches[i].substring(matches[i].indexOf(' ') + 1);
+						var breakpoint = matches[i].substring(matches[i].indexOf(':') + 1).trimLeft();
 						if(patternlab.mediaQueries.indexOf(breakpoint) === -1){
 							patternlab.mediaQueries.push(breakpoint);
 						}
