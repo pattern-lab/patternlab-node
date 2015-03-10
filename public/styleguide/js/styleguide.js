@@ -1,7 +1,7 @@
 (function(w){
 	
 	var sw = document.body.clientWidth, //Viewport Width
-		sh = document.body.clientHeight, //Viewport Height
+		sh = $(document).height(), //Viewport Height
 		minViewportWidth = 240, //Minimum Size for Viewport
 		maxViewportWidth = 2600, //Maxiumum Size for Viewport
 		viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
@@ -9,6 +9,7 @@
 		$sizePx = $('.sg-size-px'), //Px size input element in toolbar
 		$sizeEms = $('.sg-size-em'), //Em size input element in toolbar
 		$bodySize = parseInt($('body').css('font-size')), //Body size of the document
+		$headerHeight = $('.sg-header').height(),
 		$vp = Object,
 		$sgPattern = Object,
 		discoID = false,
@@ -18,7 +19,7 @@
 	
 	$(w).resize(function(){ //Update dimensions on resize
 		sw = document.body.clientWidth;
-		sh = document.body.clientHeight;
+		sh = $(document).height();
 
 		setAccordionHeight();
 	});

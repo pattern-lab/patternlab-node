@@ -5,6 +5,7 @@ PL-node-v0.8.2
  - ADD: Added upgrade instructions to README
  - FIX: Fix issue with styleguide accordions not closing upon click of a sibling menu.
  - THX: @getsetbro for reporting more issues :) 
+ - ADD: Added support for pattern search. This is 'in beta' and should have more testing applied to it.
 
 PL-node-v0.8.1
  - FIX: v8 is not pulling in values from global data.json

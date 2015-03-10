@@ -17,7 +17,7 @@
  		"disco": true,
  		"hay": true,
  		"mqs": true,
- 		"find": false,
+ 		"find": true,
  		"views-all": true,
  		"views-annotations": true,
  		"views-code": true,

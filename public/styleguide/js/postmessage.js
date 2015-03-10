@@ -32,6 +32,32 @@ if (self != top) {
 			window.location.replace(this.getAttribute("href"));
 		};
 	}
+
+	// bind the keyboard shortcuts for various viewport resizings + pattern search
+	var keys = [ "s", "m", "l", "d", "h", "f" ];
+	for (var i = 0; i < keys.length; i++) {
+		jwerty.key('ctrl+shift+'+keys[i],  function (k,t) {
+			return function(e) {
+				var obj = JSON.stringify({ "keyPress": "ctrl+shift+"+k });
+				parent.postMessage(obj,t);
+				return false;
+			}
+		}(keys[i],targetOrigin));
+	}
+	
+	// bind the keyboard shortcuts for mqs
+	var i = 0;
+	while (i < 10) {
+		jwerty.key('ctrl+shift+'+i, function (k,t) {
+			return function(e) {
+				var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+				var obj = JSON.stringify({ "keyPress": "ctrl+shift+"+k });
+				parent.postMessage(obj,t);
+				return false;
+			}
+		}(i,targetOrigin));
+		i++;
+	}
 	
 }
 
@@ -44,7 +70,7 @@ body[0].onclick = function() {
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
-	
+
 	// does the origin sending the message match the current host? if not dev/null the request
 	if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 		return;
