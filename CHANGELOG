@@ -1,5 +1,11 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.8.2
+ - FIX: Added grunt-contrib-copy args to copy all found source/css/*.css
+ - ADD: Added upgrade instructions to README
+ - FIX: Fix issue with styleguide accordions not closing upon click of a sibling menu.
+ - THX: @getsetbro for reporting more issues :) 
+
 PL-node-v0.8.1
  - FIX: v8 is not pulling in values from global data.json
  - FIX: MQ list breaks if media queries don't have spaces
