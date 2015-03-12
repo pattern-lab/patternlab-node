@@ -10,8 +10,6 @@
 		$sizeEms = $('.sg-size-em'), //Em size input element in toolbar
 		$bodySize = parseInt($('body').css('font-size')), //Body size of the document
 		$headerHeight = $('.sg-header').height(),
-		$vp = Object,
-		$sgPattern = Object,
 		discoID = false,
 		discoMode = false,
 		hayMode = false;
@@ -89,28 +87,55 @@
 	
 	//Size View Events
 
-	//Click Size Small Button
-	$('#sg-size-s').on("click", function(e){
-		e.preventDefault();
+	// handle small button
+	function goSmall() {
 		killDisco();
 		killHay();
 		sizeiframe(getRandom(minViewportWidth,500));
+	}
+	
+	$('#sg-size-s').on("click", function(e){
+		e.preventDefault();
+		goSmall();
 	});
 	
-	//Click Size Medium Button
-	$('#sg-size-m').on("click", function(e){
-		e.preventDefault();
+	jwerty.key('ctrl+shift+s', function(e) {
+		goSmall();
+		return false;
+	});
+	
+	// handle medium button
+	function goMedium() {
 		killDisco();
 		killHay();
 		sizeiframe(getRandom(500,800));
+	}
+	
+	$('#sg-size-m').on("click", function(e){
+		e.preventDefault();
+		goMedium();
 	});
 	
-	//Click Size Large Button
-	$('#sg-size-l').on("click", function(e){
-		e.preventDefault();
+	jwerty.key('ctrl+shift+m', function(e) {
+		goMedium();
+		return false;
+	});
+	
+	// handle large button
+	function goLarge() {
 		killDisco();
 		killHay();
 		sizeiframe(getRandom(800,1200));
+	}
+	
+	$('#sg-size-l').on("click", function(e){
+		e.preventDefault();
+		goLarge();
+	});
+	
+	jwerty.key('ctrl+shift+l', function(e) {
+		goLarge();
+		return false;
 	});
 
 	//Click Full Width Button
@@ -154,19 +179,28 @@
 	}
 	
 	function startDisco() {
+		killHay();
 		discoMode = true;
 		discoID = setInterval(disco, 800);
 	}
+	
+	jwerty.key('ctrl+shift+d', function(e) {
+		if (!discoMode) {
+			startDisco();
+		} else {
+			killDisco();
+		}
+		return false;
+	});
 
 	//Stephen Hay Mode - "Start with the small screen first, then expand until it looks like shit. Time for a breakpoint!"
 	$('#sg-size-hay').on("click", function(e){
 		e.preventDefault();
 		killDisco();
-
 		if (hayMode) {
 			killHay();
 		} else {
-			startHay();	
+			startHay();
 		}
 	});
 
@@ -181,9 +215,10 @@
 	
 	// start Hay! mode
 	function startHay() {
+		killDisco();
 		hayMode = true;
 		$('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth+viewportResizeHandleWidth);
-		$sgViewport.removeClass("vp-animate").width(minViewportWidth);		
+		$sgViewport.removeClass("vp-animate").width(minViewportWidth);
 		
 		var timeoutID = window.setTimeout(function(){
 			$('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth+viewportResizeHandleWidth);
@@ -192,26 +227,35 @@
 			setInterval(function(){ var vpSize = $sgViewport.width(); updateSizeReading(vpSize); },100);
 		}, 200);
 	}
+	
+	// start hay from a keyboard shortcut
+	jwerty.key('ctrl+shift+h', function(e) {
+		if (hayMode) {
+			killHay();
+		} else {
+			startHay();
+		}
+		return false;
+	});
 
 	//Pixel input
 	$sizePx.on('keydown', function(e){
 		var val = Math.floor($(this).val());
 
-		if(e.keyCode == 38) { //If the up arrow key is hit
+		if(e.keyCode === 38) { //If the up arrow key is hit
 			val++;
 			sizeiframe(val,false);
-		} else if(e.keyCode == 40) { //If the down arrow key is hit
+		} else if(e.keyCode === 40) { //If the down arrow key is hit
 			val--;
 			sizeiframe(val,false);
-		} else if(e.keyCode == 13) { //If the Enter key is hit
-	    	e.preventDefault();
+		} else if(e.keyCode === 13) { //If the Enter key is hit
+			e.preventDefault();
 			sizeiframe(val); //Size Iframe to value of text box
 			$(this).blur();
-	    }
-	    
+		}
 	});
 
-	$sizePx.on('keyup', function(e){
+	$sizePx.on('keyup', function(){
 		var val = Math.floor($(this).val());
 		updateSizeReading(val,'px','updateEmInput');
 	});
@@ -220,31 +264,60 @@
 	$sizeEms.on('keydown', function(e){
 		var val = parseFloat($(this).val());
 
-	    if(e.keyCode == 38) { //If the up arrow key is hit
+		if(e.keyCode === 38) { //If the up arrow key is hit
 			val++;
 			sizeiframe(Math.floor(val*$bodySize),false);
-		} else if(e.keyCode == 40) { //If the down arrow key is hit
+		} else if(e.keyCode === 40) { //If the down arrow key is hit
 			val--;
 			sizeiframe(Math.floor(val*$bodySize),false);
-		} else if(e.keyCode == 13) { //If the Enter key is hit
-	    	e.preventDefault();
+		} else if(e.keyCode === 13) { //If the Enter key is hit
+			e.preventDefault();
 			sizeiframe(Math.floor(val*$bodySize)); //Size Iframe to value of text box
-	    } 
+		}
 	});
 
-	$sizeEms.on('keyup', function(e){
+	$sizeEms.on('keyup', function(){
 		var val = parseFloat($(this).val());
 		updateSizeReading(val,'em','updatePxInput');
 	});
 	
-	// handle the MQ click
-	$('#sg-mq a').on("click", function(e){
+	// set 0 to 320px as a default
+	jwerty.key('ctrl+shift+0', function(e) {
 		e.preventDefault();
-		var val = $(this).html();
-		var type = (val.indexOf("px") != -1) ? "px" : "em";
-		val = val.replace(type,"");
-		var width = (type == "px") ? val*1 : val*$bodySize;
-		sizeiframe(width,true);
+		sizeiframe(320,true);
+		return false;
+	});
+	
+	// handle the MQ click
+	var mqs = [];
+	$('#sg-mq a').each(function(i) {
+		
+		mqs.push($(this).html());
+		
+		// bind the click
+		$(this).on("click", function(i,k) {
+			return function(e) {
+				e.preventDefault();
+				var val = $(k).html();
+				var type = (val.indexOf("px") !== -1) ? "px" : "em";
+				val = val.replace(type,"");
+				var width = (type === "px") ? val*1 : val*$bodySize;
+				sizeiframe(width,true);
+			}
+		}(i,this));
+		
+		// bind the keyboard shortcut. can't use cmd on a mac because 3 & 4 are for screenshots
+		jwerty.key('ctrl+shift+'+(i+1), function (k) {
+			return function(e) {
+				var val = $(k).html();
+				var type = (val.indexOf("px") !== -1) ? "px" : "em";
+				val = val.replace(type,"");
+				var width = (type === "px") ? val*1 : val*$bodySize;
+				sizeiframe(width,true);
+				return false;
+			}
+		}(this));
+		
 	});
 	
 	//Resize the viewport
@@ -404,7 +477,7 @@
 	
 	//IFrame functionality
 	
-})(this);
+
 
 // update the iframe with the source from clicked element in pull down menu. also close the menu
 // having it outside fixes an auto-close bug i ran into
@@ -449,37 +522,66 @@ $('#sg-vp-wrap').click(function(e) {
 // based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
 function receiveIframeMessage(event) {
 	
+	var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
+	
 	// does the origin sending the message match the current host? if not dev/null the request
-	if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
+	if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 		return;
 	}
 	
-	if (event.data.bodyclick != undefined) {
+	if (data.bodyclick !== undefined) {
 		
 		closePanels();
 		
-	} else if (event.data.patternpartial != undefined) {
+	} else if (data.patternpartial !== undefined) {
 		
 		if (!urlHandler.skipBack) {
 			
-			if ((history.state == null) || (history.state.pattern != event.data.patternpartial)) {
-				urlHandler.pushPattern(event.data.patternpartial, event.data.path);
+			if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
+				urlHandler.pushPattern(data.patternpartial, data.path);
 			}
 			
 			if (wsnConnected) {
-				var iFramePath = urlHandler.getFileName(event.data.patternpartial);
+				var iFramePath = urlHandler.getFileName(data.patternpartial);
 				wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
 			}
-			
 		}
-		
-		// for testing purposes
-		console.log(event.data.lineage);
 		
 		// reset the defaults
 		urlHandler.skipBack = false;
 		
+	} else if (data.keyPress !== undefined) {
+		if (data.keyPress == 'ctrl+shift+s') {
+			goSmall();
+		} else if (data.keyPress == 'ctrl+shift+m') {
+			goMedium();
+		} else if (data.keyPress == 'ctrl+shift+l') {
+			goLarge();
+		} else if (data.keyPress == 'ctrl+shift+d') {
+			if (!discoMode) {
+				startDisco();
+			} else {
+				killDisco();
+			}
+		} else if (data.keyPress == 'ctrl+shift+h') {
+			if (!hayMode) {
+				startHay();
+			} else {
+				killHay();
+			}
+		} else if (data.keyPress == 'ctrl+shift+0') {
+			sizeiframe(320,true);
+		} else if (found = data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
+			var val = mqs[(found[1]-1)];
+			var type = (val.indexOf("px") !== -1) ? "px" : "em";
+			val = val.replace(type,"");
+			var width = (type === "px") ? val*1 : val*$bodySize;
+			sizeiframe(width,true);
+		}
+		return false;
 	}
-	
 }
+
 window.addEventListener("message", receiveIframeMessage, false);
+
+})(this);

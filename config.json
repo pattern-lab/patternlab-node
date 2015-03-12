@@ -25,7 +25,7 @@
  		"tools-all": true,
  		"tools-follow": false,
  		"tools-reload": false,
- 		"tools-shortcuts": false,
+ 		"tools-shortcuts": true,
  		"tools-docs": true
  	},
   "patternStates": {
