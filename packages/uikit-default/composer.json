@@ -1,6 +1,6 @@
 {
 	"name":             "pattern-lab/styleguidekit-assets-default",
-	"description":      "The assets for the default styleguide mark-up and styles for Pattern Lab.",
+	"description":      "The assets for the default StyleguideKit for Pattern Lab. Contains styles and mark-up for Pattern Lab's front-end.",
 	"keywords":         ["mustache", "pattern lab", "styleguide"],
 	"homepage":         "http://patternlab.io",
 	"license":          "MIT",
@@ -23,6 +23,10 @@
 		"wiki":           "http://patternlab.io/docs/",
 		"source":         "https://github.com/pattern-lab/styleguidekit-assets-default/releases"
 	},
+	"require": {
+		"pattern-lab/core": "dev-dev"
+	},
+	"minimum-stability": "dev",
 	"extra": {
 		"patternlab": {
 			"dist": {
@@ -38,11 +42,11 @@
 					{ "css/custom/*": "styleguide/css/*" }
 				]
 			},
-			"config": [
-				{ "ishMinimum": "240" },
-				{ "ishMaximum": "2600" },
-				{ "ishControlsHide": "hay" }
-			]
+			"config": {
+				"ishMinimum": "240",
+				"ishMaximum": "2600",
+				"ishControlsHide": ["hay"]
+			}
 		}
 	}
 }
