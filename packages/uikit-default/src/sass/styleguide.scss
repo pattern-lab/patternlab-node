@@ -677,6 +677,11 @@ span.sg-pattern-state:before {
 	}
 }
 
+/* Section Body */
+.sg-pattern-example {
+	padding-top: $sg-doublespace;
+}
+
 //Annotations and code view container
 .sg-view-container {
 	-moz-box-sizing: border-box;

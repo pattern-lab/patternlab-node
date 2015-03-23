@@ -10,7 +10,7 @@
  
 
 /* Style Guide Interface Colors */ 
-$sg-primary : #222;
+$sg-primary : #000;
 $sg-secondary : #808080;
 $sg-tertiary : #ddd;
 $sg-quaternary : #fff;
@@ -76,27 +76,6 @@ $animate-quick: 0.2s;
 	padding: $sg-pad;
 	margin-bottom: $sg-space;
 	text-align: center;
-}
-
-//Animate Demo to show 
-.animate-move {
-	position: relative;
-
-	.demo-shape {
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		width: 20px;
-		background: $sg-secondary;
-	}
-
-	&:hover {
-		> .demo-shape {
-			left: 100%;
-			margin-left: -20px;
-		}
-	}
 }
 
 // Style Guide color swatches

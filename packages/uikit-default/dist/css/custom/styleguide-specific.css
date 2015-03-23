@@ -43,22 +43,6 @@
   text-align: center;
 }
 
-.animate-move {
-  position: relative;
-}
-.animate-move .demo-shape {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 20px;
-  background: #808080;
-}
-.animate-move:hover > .demo-shape {
-  left: 100%;
-  margin-left: -20px;
-}
-
 .sg-colors {
   overflow: hidden;
 }
