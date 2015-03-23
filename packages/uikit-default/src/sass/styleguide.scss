@@ -48,7 +48,7 @@
 $sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
 
 /* Style Guide Interface Colors */ 
-$sg-primary : #222;
+$sg-primary : #000;
 $sg-secondary : #808080;
 $sg-tertiary : #ddd;
 $sg-quaternary : #fff;
@@ -658,7 +658,7 @@ span.sg-pattern-state:before {
 
 /* Section Head */
 .sg-pattern-head {
-	margin: $sg-doublespace 0;
+	margin: $sg-doublespace 0 0;
 	font-family: $sg-font;
 	font-size: $sg-font-size-sm;
 	font-weight: normal;
