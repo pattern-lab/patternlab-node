@@ -89,16 +89,6 @@
 						{{^ ishControlsHide.hay }}<li><a href="#" class="mode-link" id="sg-size-hay">Hay!</a></li>{{/ ishControlsHide.hay }}
 					</ul>
 				</li>
-				{{^ ishControlsHide.mqs }}
-				<li class="sg-mqs">
-					<a href="#" class="mode-link sg-acc-handle" id="sg-size-mq" title="Media queries in stylesheet">MQ</a>
-					<ul class="sg-acc-panel sg-left" id="sg-mq">
-						{{# mqs }}
-							<li><a href="#">{{ . }}</a></li>
-						{{/ mqs }}
-					</ul>
-				</li>
-				{{/ ishControlsHide.mqs }}
 				{{^ ishControlsHide.find }}
 				<li class="sg-find">
 					<a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-search" id="sg-f-toggle" title="Search Patterns"><span class="is-vishidden">Search Patterns</span></a>
