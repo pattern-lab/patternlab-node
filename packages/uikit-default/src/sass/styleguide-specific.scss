@@ -9,7 +9,7 @@
  */
  
 
-/* Style Guide Interface Colors */ 
+//  Style Guide Interface Colors 
 $sg-primary : #000;
 $sg-secondary : #808080;
 $sg-tertiary : #ddd;
@@ -20,27 +20,31 @@ $sg-tint-2 : rgba(255,255,255,0.25);
 $sg-tone : rgba(0,0,0,0.1);
 $sg-tone-2 : rgba(0,0,0,0.3);
 
-/* Typography */
+//  Typography
 $sg-font-size-norm : 100%;
 $sg-font-size-sm : 70%;
 $sg-font-size-large : 120%;
 
-/* Defaults */
+//  Defaults
 $sg-space : 1em;
 $sg-doublespace : $sg-space*2;
 $sg-pad : 1em;
 $sg-pad-half : $sg-pad/2;
 
-/* Dimensions */
+// Dimensions
 $offset-top: 2em;
 
-/* Breakpoints */
+//Borders
+$sg-border-radius: 8px;
+
+// Breakpoints
 $sg-bp-small : 24em;
 $sg-bp-small-2 : 30em;
 $sg-bp-med : 48em;
 $sg-bp-large : 72em;
 $sg-bp-xl : 80em;
 
+// Animation
 $animate-quick: 0.2s;
 
 .demo {
@@ -50,6 +54,8 @@ $animate-quick: 0.2s;
 
 .demo .gi, .demo .demo-block {
 	background: $sg-tertiary;
+	border: 1px solid $sg-secondary;
+	border-radius: 8px;
 	color: $sg-secondary;
 	text-align: center;
 	margin-bottom: $sg-pad-half;
@@ -76,43 +82,32 @@ $animate-quick: 0.2s;
 	padding: $sg-pad;
 	margin-bottom: $sg-space;
 	text-align: center;
+	border-radius: $sg-border-radius;
 }
 
 // Style Guide color swatches
 .sg-colors {
-	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
 
 	li {
-		overflow: hidden;
-		border: 1px solid $sg-tertiary;
+		flex: auto;
 		padding: 0.3em;
-		margin: 0 0.2em 0.2em 0;
-
-		@media all and (min-width: $sg-bp-small-2) {
-			float: left;
-			width: 5em;
-		}
+		margin: 0 0.5em 0.5em 0;
+		min-width: 5em;
+		border: 1px solid $sg-tertiary;
+		border-radius: $sg-border-radius;
 	}
 }
 
 .sg-swatch {
 	display: block;
-	height: 1.5em;
-	width: 50%;
-	
-	@media all and (max-width: $sg-bp-small-2) {
-		float: left;
-		margin-right: 0.3em;
-	}
-
-	@media all and (min-width: $sg-bp-small-2) {
-		width: 100%;
-		height: 4em;
-		margin-bottom: 0.2em;
-	}
-	
+	height: 4em;
+	margin-bottom: 0.3em;
+	border-radius: 5px;
 }
 
 .sg-label {
+	font-size: 90%;
 	line-height: 1;
 }

@@ -7,11 +7,6 @@
  * It's also helpful for overriding context-specific styles like fixed or absolutely positioned elements
  * These styles will not be your production CSS.
  */
-/* Style Guide Interface Colors */
-/* Typography */
-/* Defaults */
-/* Dimensions */
-/* Breakpoints */
 .demo {
   overflow: hidden;
   margin-bottom: 1rem;
@@ -19,6 +14,8 @@
 
 .demo .gi, .demo .demo-block {
   background: #ddd;
+  border: 1px solid #808080;
+  border-radius: 8px;
   color: #808080;
   text-align: center;
   margin-bottom: 0.5em;
@@ -41,43 +38,38 @@
   padding: 1em;
   margin-bottom: 1em;
   text-align: center;
+  border-radius: 8px;
 }
 
 .sg-colors {
-  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
 }
 .sg-colors li {
-  overflow: hidden;
-  border: 1px solid #ddd;
+  -webkit-box-flex: 1;
+  -webkit-flex: auto;
+      -ms-flex: auto;
+          flex: auto;
   padding: 0.3em;
-  margin: 0 0.2em 0.2em 0;
-}
-@media all and (min-width: 30em) {
-  .sg-colors li {
-    float: left;
-    width: 5em;
-  }
+  margin: 0 0.5em 0.5em 0;
+  min-width: 5em;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .sg-swatch {
   display: block;
-  height: 1.5em;
-  width: 50%;
-}
-@media all and (max-width: 30em) {
-  .sg-swatch {
-    float: left;
-    margin-right: 0.3em;
-  }
-}
-@media all and (min-width: 30em) {
-  .sg-swatch {
-    width: 100%;
-    height: 4em;
-    margin-bottom: 0.2em;
-  }
+  height: 4em;
+  margin-bottom: 0.3em;
+  border-radius: 5px;
 }
 
 .sg-label {
+  font-size: 90%;
   line-height: 1;
 }
