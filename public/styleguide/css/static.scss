@@ -47,7 +47,7 @@ body {
 	border-bottom: 20px solid #000;
 }
 a {
-	color: #808080;
+	color: $brand-yellow;
 	text-decoration: none;
 }
 a:hover, a:focus {
@@ -352,7 +352,7 @@ input[type=search] {
           transition: color 0.3s ease-out;
 }
 .posts ol > li:hover .tags a, .posts ol > li:hover .permalink {
-	color: #808080;
+	color: $brand-yellow;
 }
 .blog-nav {
 	text-align: center;
