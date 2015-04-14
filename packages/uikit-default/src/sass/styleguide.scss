@@ -13,13 +13,7 @@
      $CONTENTS
 \*------------------------------------*/
 /**
- * STYLE GUIDE VARIABLES------------------Declarations of Sass variables 
- * -----Font
- * -----Colors
- * -----Typography
- * -----Defaults
- * -----Breakpoints
- * MIXINS---------------------------------Sass mixins 
+ * STYLE GUIDE VARIABLES------------------Declarations of Sass variables
  * GLOBAL ELEMENTS------------------------Establish global styles
  * -----Main
  * -----Headings
@@ -44,10 +38,10 @@
 /*------------------------------------*\
     $PATTERN LAB VARIABLES 
 \*------------------------------------*/
-/*Fonts*/
+// Fonts
 $sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
 
-/* Style Guide Interface Colors */ 
+// Style Guide Interface Colors
 $sg-primary : #000;
 $sg-secondary : #808080;
 $sg-tertiary : #ddd;
@@ -58,44 +52,27 @@ $sg-tint-2 : rgba(255,255,255,0.25);
 $sg-tone : rgba(0,0,0,0.1);
 $sg-tone-2 : rgba(0,0,0,0.3);
 
-/* Typography */
-$sg-font-size-norm : 100%;
+// Typography
 $sg-font-size-sm : 70%;
+$sg-font-size-norm : 100%;
 $sg-font-size-large : 120%;
 
-/* Defaults */
+// Defaults
 $sg-space : 1em;
 $sg-doublespace : $sg-space*2;
 $sg-pad : 1em;
 $sg-pad-half : $sg-pad/2;
 
-/* Dimensions */
+// Dimensions
 $offset-top: 2em;
 
-/* Breakpoints */
+// Breakpoints
 $sg-bp-small : 24em;
-$sg-bp-small-2 : 30em;
-$sg-bp-med : 48em;
-$sg-bp-large : 72em;
-$sg-bp-xl : 81em;
+$sg-bp-med : 42em;
+$sg-bp-large : 56em;
 
-$animate-quick: 0.2s;
-
-
-
-
-
-/*------------------------------------*\
-    $PATTERN LAB MIXINS 
-\*------------------------------------*/
-@mixin sg-transition($transition-property, $transition-time, $method) {
-	-webkit-transition: $transition-property $transition-time $method;
-	-moz-transition: $transition-property $transition-time $method;
-	-ms-transition: $transition-property $transition-time $method;
-	-o-transition: $transition-property $transition-time $method;
-	transition: $transition-property $transition-time $method;
-}
-
+//Animations
+$animate-quick: 0.1s;
 
 
 
@@ -181,9 +158,9 @@ $animate-quick: 0.2s;
 		text-decoration: none;
 		display: block;
 		line-height: 1;
-		padding: $sg-pad;
-		@include sg-transition(background,0.15s,ease-out);
-		@include sg-transition(color,0.15s,ease-out);
+		padding: 1em 0.7em;
+		transition: background $animate-quick ease-out;
+		transition: color $animate-quick ease-out;
 		
 		&:hover, &:focus, &.active {
 			color: $sg-quaternary;
@@ -222,7 +199,7 @@ $animate-quick: 0.2s;
 	@media all and (max-width: $sg-bp-med) {
 		overflow: hidden;
 		max-height: 0;
-		@include sg-transition(max-height,0.1s,ease-out);
+		transition: max-height $animate-quick ease-out;
 		
 		&.active {
 			max-height: 50em;
@@ -257,21 +234,37 @@ $animate-quick: 0.2s;
 
 /* Accordion */
 .sg-acc-handle {
+	
 	&:after {
-		content: ' +';
-		float: right;
-		font-size: $sg-font-size-sm;
-		
+		content: '▼';
+		color: $sg-tint-2;
+		display: inline-block;
+		font-size: 7px;
+		position: relative;
+		top: -1px;
+		right: -2px;
+		transition: all $animate-quick ease-out;
+				
 		@media all and (min-width: $sg-bp-med) {
 			float: none;
+		}
+	}
+	
+	&:hover, &:focus {
+		&:after {
+			color: $sg-secondary;
 		}
 	}
 	
 	&.active {
 		color: $sg-quaternary;
 		background: $sg-tint;
+		
 		&:after {
-			content: ' -';
+			color: $sg-secondary;
+			-webkit-transform: rotate(180deg);  
+			-ms-transform: rotate(180deg);
+			transform: rotate(180deg);
 		}
 	}
 
@@ -283,14 +276,14 @@ $animate-quick: 0.2s;
 .sg-header .sg-icon {
 	width: auto;
 	font-size: 1rem;
-	padding: 0.5rem 1rem;
+	padding: 0.5rem 0.7rem;
 }
 
 .sg-acc-panel {
 	overflow: hidden;
 	max-height: 0;
 	min-width: 10em;
-	@include sg-transition(max-height,0.1s,ease-out);
+	transition: max-height $animate-quick ease-out;
 
 	li {
 		background: $sg-primary;
@@ -354,10 +347,7 @@ $animate-quick: 0.2s;
 	
 	.sg-input {
 		padding: 0.1em;
-		-webkit-transition: all $animate-quick ease-out;
-	    -moz-transition: all $animate-quick ease-out;
-	    -ms-transition: all $animate-quick ease-out;
-	    -o-transition: all $animate-quick ease-out;
+		border-radius: 3px;
 	    transition: all $animate-quick ease-out;
 
 		&:active, &:focus {
@@ -435,6 +425,10 @@ $animate-quick: 0.2s;
 
 	@media all and (min-width: $sg-bp-med) {
 		width: 35px;
+		
+		&.sg-size-px {
+			width: 30px;
+		}
 	}
 }
 
@@ -496,7 +490,7 @@ $animate-quick: 0.2s;
 
 /* call out for pattern's pattern state */
 span.sg-pattern-state {
-	color: #999;
+	color: $sg-quinary;
 }
 
 span.sg-pattern-state:before {
@@ -504,7 +498,7 @@ span.sg-pattern-state:before {
 	margin-left: 4px;
 }
 
-/* pattern states */
+// Pattern states
 .inprogress:before {
 	color: #FF4136 !important;
 }
@@ -518,12 +512,11 @@ span.sg-pattern-state:before {
 }
 
 
-
 /*------------------------------------*\
     $PATTERN LAB VIEWPORT
 \*------------------------------------*/
 
-/* Viewport */
+// Viewport
 #sg-vp-wrap {
 	text-align: center;
 	width: 100%;
@@ -535,10 +528,6 @@ span.sg-pattern-state:before {
 	z-index: 0;
 
 	&.wrap-animate {
-		-webkit-transition: left 0.3s ease-out;
-	    -moz-transition: left 0.3s ease-out;
-	    -ms-transition: left 0.3s ease-out;
-	    -o-transition: left 0.3s ease-out;
 	    transition: left 0.3s ease-out;
 	}
 
@@ -558,10 +547,6 @@ span.sg-pattern-state:before {
 	background-color: white;
 
   &.hay-mode {
-		-webkit-transition: all 40s linear;
-	    -moz-transition: all 40s linear;
-	    -ms-transition: all 40s linear;
-	    -o-transition: all 40s linear;
 	    transition: all 40s linear;
 	}
 }
@@ -596,10 +581,6 @@ span.sg-pattern-state:before {
 	overflow-x: hidden;
 
 	&.hay-mode {
-		-webkit-transition: all 40s linear;
-	    -moz-transition: all 40s linear;
-	    -ms-transition: all 40s linear;
-	    -o-transition: all 40s linear;
 	    transition: all 40s linear;
 	}
 }
@@ -616,11 +597,7 @@ span.sg-pattern-state:before {
 	margin: 0; 
 	width: 100%; 
 	height: 100%; 
-	background: #999;
-	-webkit-transition: background $animate-quick ease-out;
-    -moz-transition: background $animate-quick ease-out;
-    -ms-transition: background $animate-quick ease-out;
-    -o-transition: background $animate-quick ease-out;
+	background: $sg-quinary;
     transition: background $animate-quick ease-out;
 
 	&:hover {
@@ -634,10 +611,6 @@ span.sg-pattern-state:before {
 }
 
 .vp-animate {
-  -webkit-transition: width 0.8s ease-out;
-  -moz-transition: width 0.8s ease-out;
-  -ms-transition: width 0.8s ease-out;
-  -o-transition: width 0.8s ease-out;
   transition: width 0.8s ease-out;
 }
 
@@ -662,8 +635,9 @@ span.sg-pattern-state:before {
 	font-family: $sg-font;
 	font-size: $sg-font-size-sm;
 	font-weight: normal;
-	padding: $sg-pad 0;
+	padding: $sg-pad 0 $sg-pad-half;
 	border-bottom: 1px solid $sg-secondary;
+	position: relative;
 
 	a {
 		display: block;
@@ -675,6 +649,18 @@ span.sg-pattern-state:before {
 			color: $sg-primary;
 		}
 	}
+}
+
+.sg-pattern-extra-trigger {
+	font-size: 9px;
+	position: absolute;
+	top: 10px;
+	right: 0;
+	padding: 1px;
+	line-height: 1;
+	font-weight: normal;
+	border: 1px solid $sg-secondary;
+	border-radius: 10px;
 }
 
 /* Section Body */
@@ -712,11 +698,6 @@ span.sg-pattern-state:before {
 	}
 
 	&.anim-ready {
-		-webkit-transition: bottom 0.3s ease-out;
-		-moz-transition: bottom 0.3s ease-out;
-	  	-webkit-transition: bottom 0.3s ease-out;
-	  	-ms-transition: bottom 0.3s ease-out; 
-	  	-o-transition: bottom 0.3s ease-out;
 	  	transition:  bottom 0.3s ease-out;
 	}
 }
