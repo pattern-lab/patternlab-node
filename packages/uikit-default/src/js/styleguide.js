@@ -18,7 +18,10 @@
 		$headerHeight = $('.sg-header').height(),
 		discoID = false,
 		discoMode = false,
+		fullMode = true,
 		hayMode = false;
+		
+	
 	
 	//Update dimensions on resize
 	$(w).resize(function() {
@@ -26,6 +29,10 @@
 		sh = $(document).height();
 
 		setAccordionHeight();
+		
+		if(fullMode === true) {
+			sizeiframe(sw, false);
+		};
 	});
 
 	// Accordion dropdown
@@ -79,6 +86,7 @@
 		e.preventDefault();
 		killDisco();
 		killHay();
+		fullMode = false;
 		
 		var val = $(this).attr('data-size');
 		
@@ -96,6 +104,7 @@
 	function goSmall() {
 		killDisco();
 		killHay();
+		fullMode = false;
 		sizeiframe(getRandom(minViewportWidth,500));
 	}
 	
@@ -113,6 +122,7 @@
 	function goMedium() {
 		killDisco();
 		killHay();
+		fullMode = false;
 		sizeiframe(getRandom(500,800));
 	}
 	
@@ -130,6 +140,7 @@
 	function goLarge() {
 		killDisco();
 		killHay();
+		fullMode = false;
 		sizeiframe(getRandom(800,1200));
 	}
 	
@@ -148,6 +159,7 @@
 		e.preventDefault();
 		killDisco();
 		killHay();
+		fullMode = true;
 		sizeiframe(sw);
 	});
 	
@@ -156,6 +168,7 @@
 		e.preventDefault();
 		killDisco();
 		killHay();
+		fullMode = false;
 		sizeiframe(getRandom(minViewportWidth,sw));
 	});
 	
@@ -163,6 +176,7 @@
 	$('#sg-size-disco').on("click", function(e){
 		e.preventDefault();
 		killHay();
+		fullMode = false;
 
 		if (discoMode) {
 			killDisco();
@@ -431,6 +445,8 @@
 		var origClientX = event.clientX;
 		var origViewportWidth = $sgViewport.width();
 		
+		fullMode = false;
+		
 		// show the cover
 		$("#sg-cover").css("display","block");
 		
@@ -610,7 +626,7 @@
 				}
 			} else if (data.keyPress == 'ctrl+shift+0') {
 				sizeiframe(320,true);
-			} else if (found = data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
+			} else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
 				var val = mqs[(found[1]-1)];
 				var type = (val.indexOf("px") !== -1) ? "px" : "em";
 				val = val.replace(type,"");
