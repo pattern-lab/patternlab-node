@@ -78,10 +78,11 @@ $animate-quick: 0.2s;
 
 //Demo box for animation
 .demo-animate {
-	background: #ddd;
+	background: #efefef;
 	padding: $sg-pad;
 	margin-bottom: $sg-space;
 	text-align: center;
+	border: 1px solid #eee;
 	border-radius: $sg-border-radius;
 }
 

@@ -34,10 +34,11 @@
 }
 
 .demo-animate {
-  background: #ddd;
+  background: #efefef;
   padding: 1em;
   margin-bottom: 1em;
   text-align: center;
+  border: 1px solid #eee;
   border-radius: 8px;
 }
 
