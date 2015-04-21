@@ -14,13 +14,13 @@
 	var oPattern = function(subdir, filename, data){
 		this.fileName = filename.substring(0, filename.indexOf('.'));
 		this.subdir = subdir;
-		this.name = (subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName).replace(/\\/g, '-'); //this is the unique name with the subDir
+		this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
 		this.data =  data || null;
 		this.patternName = this.fileName.substring(this.fileName.indexOf('-') + 1); //this is the display name for the ui
 		this.patternLink = this.name + '/' + this.name + '.html';
 		this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
 		this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
-		this.flatPatternPath = subdir.replace(/\//g, '-');
+		this.flatPatternPath = subdir.replace(/[\/\\]/g, '-');
 		this.key = this.patternGroup + '-' + this.patternName;
 		this.template = '';
 		this.patternPartial = '';
@@ -52,18 +52,11 @@
 		this.patternName = name.charAt(0).toUpperCase() + name.slice(1);
 	};
 
-	var oPatternItem = function(){
-		this.patternPath = '';
-		this.patternPartial = '';
-		this.patternName = '';
-	};
-
 	module.exports = {
 		oPattern: oPattern,
 		oBucket: oBucket,
 		oNavItem: oNavItem,
-		oNavSubItem: oNavSubItem,
-		oPatternItem: oPatternItem
+		oNavSubItem: oNavSubItem
 	};
 
 }());

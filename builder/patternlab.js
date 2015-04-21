@@ -75,7 +75,7 @@ var patternlab_engine = function(){
 
 			//extract some information
 			var abspath = file.substring(2);
-			var subdir = path.dirname(path.relative('./source/_patterns', file));
+			var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
 			var filename = path.basename(file);
 
 			//ignore _underscored patterns, json (for now), and dotfiles
@@ -87,7 +87,7 @@ var patternlab_engine = function(){
 			//TODO: https://github.com/pattern-lab/patternlab-node/issues/95 check for patternstylemodifiers before we do much else. need to remove these from the template for proper rendering
 
 			//make a new Pattern Object
-			currentPattern = new of.oPattern(subdir, filename);
+			var currentPattern = new of.oPattern(subdir, filename);
 
 			//see if this file has a state
 			assembler.setPatternState(currentPattern, patternlab);
@@ -210,6 +210,32 @@ var patternlab_engine = function(){
 
 		//build the patternlab website
 		var patternlabSiteTemplate = fs.readFileSync('./source/_patternlab-files/index.mustache', 'utf8');
+
+        //build the viewall pages
+        var prevSubdir = '',
+            i;
+
+        for (i = 0; i < patternlab.patterns.length; i++) {
+            var pattern = patternlab.patterns[i];
+
+            // check if the current sub section is different from the previous one
+            if (pattern.subdir !== prevSubdir) {
+                prevSubdir = pattern.subdir;
+
+                var viewAllPatterns = [],
+                    j;
+
+                for (j = 0; j < patternlab.patterns.length; j++) {
+                    if (patternlab.patterns[j].subdir == pattern.subdir) {
+                        viewAllPatterns.push(patternlab.patterns[j]);
+                    }
+                }
+
+                var viewAllTemplate = fs.readFileSync('./source/_patternlab-files/viewall.mustache', 'utf8');
+                var viewAllHtml = renderPattern(viewAllTemplate, {partials: viewAllPatterns});
+                fs.outputFileSync('./public/patterns/' + pattern.flatPatternPath + '/index.html', viewAllHtml);
+            }
+        }
 		
 		//loop through all patterns.  deciding to do this separate from the recursion, even at a performance hit, to attempt to separate the tasks of styleguide creation versus site menu creation
 		for(var i = 0; i < patternlab.patterns.length; i++){
@@ -222,8 +248,9 @@ var patternlab_engine = function(){
 				//add the bucket
 				var bucket = new of.oBucket(bucketName);
 
-				//add paternPath
+				//add patternPath and viewAllPath
 				patternlab.patternPaths[bucketName] = {};
+                patternlab.viewAllPaths[bucketName] = {};
 
 				//get the navItem
 				var navItemName = pattern.subdir.split('-').pop();
@@ -329,6 +356,19 @@ var patternlab_engine = function(){
 						var navItem = bucket.navItems[navItemIndex];
 						navItem.navSubItems.push(navSubItem);
 						navItem.navSubItemsIndex.push(navSubItemName);
+
+                        //check if we are moving to a new sub section in the next loop
+                        if (patternlab.patterns[i + 1] && pattern.subdir !== patternlab.patterns[i + 1].subdir) {
+
+                            var navViewAllSubItem = new of.oNavSubItem("");
+
+                            //add the navViewAllSubItem
+                            navViewAllSubItem.patternName = "View All";
+                            navViewAllSubItem.patternPath = pattern.subdir.replace(/[\/\\]/g, '-') + "/index.html";
+                            navViewAllSubItem.patternPartial = "viewall-" + bucketName + "-" + pattern.patternSubGroup; //add the hyphenated name
+                            navItem.navSubItems.push(navViewAllSubItem);
+                            navItem.navSubItemsIndex.push("View All");
+                        }
 					}
 
 					// just add to patternPaths
@@ -337,7 +377,9 @@ var patternlab_engine = function(){
 
 			}
 
-		}
+            //add to viewAllPaths
+            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.subdir.replace(/\\/g, '-');
+        }
 
 		//the patternlab site requires a lot of partials to be rendered.
 		//patternNav
@@ -355,14 +397,14 @@ var patternlab_engine = function(){
 
 		//viewAllPaths
 		var viewAllPathsTemplate = fs.readFileSync('./source/_patternlab-files/partials/viewAllPaths.mustache', 'utf8');
-		var viewAllPathersPartialHtml = renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
+		var viewAllPathsPartialHtml = renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
 		//render the patternlab template, with all partials
 		var patternlabSiteHtml = renderPattern(patternlabSiteTemplate, {}, {
 			'ishControls': ishControlsPartialHtml,
 			'patternNav': patternNavPartialHtml,
 			'patternPaths': patternPathsPartialHtml,
-			'viewAllPaths': viewAllPathersPartialHtml
+			'viewAllPaths': viewAllPathsPartialHtml
 		});
 		fs.outputFileSync('./public/index.html', patternlabSiteHtml);
 	}
