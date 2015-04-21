@@ -364,7 +364,15 @@ var patternlab_engine = function(){
 
                             //add the navViewAllSubItem
                             navViewAllSubItem.patternName = "View All";
+<<<<<<< HEAD
                             navViewAllSubItem.patternPath = pattern.flatPatternPath + "/index.html";
+=======
+<<<<<<< HEAD
+                            navViewAllSubItem.patternPath = pattern.flatPatternPath + "/index.html";
+=======
+                            navViewAllSubItem.patternPath = pattern.subdir.replace(/[\/\\]/g, '-') + "/index.html";
+>>>>>>> acbc02a96fb3abedf5349d93ea1da3708fff58bd
+>>>>>>> 3b59b046f9ef2128cfb7fd90c51187d1a7aae65a
                             navViewAllSubItem.patternPartial = "viewall-" + bucketName + "-" + pattern.patternSubGroup; //add the hyphenated name
                             navItem.navSubItems.push(navViewAllSubItem);
                             navItem.navSubItemsIndex.push("View All");
@@ -378,7 +386,15 @@ var patternlab_engine = function(){
 			}
 
             //add to viewAllPaths
+<<<<<<< HEAD
             patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.subdir.replace(/\\/g, '-');
+=======
+<<<<<<< HEAD
+            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
+=======
+            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.subdir.replace(/\\/g, '-');
+>>>>>>> acbc02a96fb3abedf5349d93ea1da3708fff58bd
+>>>>>>> 3b59b046f9ef2128cfb7fd90c51187d1a7aae65a
         }
 
 		//the patternlab site requires a lot of partials to be rendered.
