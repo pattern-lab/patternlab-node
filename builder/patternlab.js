@@ -364,7 +364,7 @@ var patternlab_engine = function(){
 
                             //add the navViewAllSubItem
                             navViewAllSubItem.patternName = "View All";
-                            navViewAllSubItem.patternPath = pattern.subdir.replace(/[\/\\]/g, '-') + "/index.html";
+                            navViewAllSubItem.patternPath = pattern.flatPatternPath + "/index.html";
                             navViewAllSubItem.patternPartial = "viewall-" + bucketName + "-" + pattern.patternSubGroup; //add the hyphenated name
                             navItem.navSubItems.push(navViewAllSubItem);
                             navItem.navSubItemsIndex.push("View All");
@@ -377,7 +377,7 @@ var patternlab_engine = function(){
 
 			}
 
-            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.subdir.replace(/\\/g, '-');
+            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
         }
 
 		//the patternlab site requires a lot of partials to be rendered.
