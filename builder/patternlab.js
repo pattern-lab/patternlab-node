@@ -378,7 +378,7 @@ var patternlab_engine = function(){
 			}
 
             //add to viewAllPaths
-            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
+            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.subdir.replace(/\\/g, '-');
         }
 
 		//the patternlab site requires a lot of partials to be rendered.
