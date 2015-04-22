@@ -140,10 +140,10 @@ var codeViewer = {
 			codeViewer.swapCode("c");
 		});
 
-        // make sure the click events are handled on the JS tab
-        $(codeViewer.ids["j"]).click(function() {
-            codeViewer.swapCode("j");
-        });
+		// make sure the click events are handled on the JS tab
+		$(codeViewer.ids["j"]).click(function() {
+			codeViewer.swapCode("j");
+		});
 
 	},
 
@@ -155,17 +155,17 @@ var codeViewer = {
 		codeViewer.clearSelection();
 		var fill      = "";
 		var className;
-        switch(type){
-            case "css":
-                className = "css";
-                break;
-            case "js":
-                className = "js";
-                break;
-            default:
-                className = "markup";
-                break;
-        }
+		switch(type){
+			case "css":
+				className = "css";
+				break;
+			case "js":
+				className = "js";
+				break;
+			default:
+				className = "markup";
+				break;
+		}
 		$("#sg-code-fill").removeClass().addClass("language-"+className);
 		if (type == "m") {
 			fill = codeViewer.mustache;
@@ -174,8 +174,8 @@ var codeViewer = {
 		} else if (type == "c") {
 			fill = codeViewer.css;
 		} else if (type == "j") {
-            fill = codeViewer.js;
-        }
+			fill = codeViewer.js;
+		}
 		$("#sg-code-fill").html(fill).text();
 		codeViewer.tabActive = type;
 		Prism.highlightElement(document.getElementById("sg-code-fill"));
@@ -250,59 +250,59 @@ var codeViewer = {
 		}
 	},
 
-    /**
-    * if the CSS is not provided for the pattern- hides the CSS tab
-    * if the CSS tab is the current active tab function changes it to the HTML
-    */
-    cleanCss: function() {
-        $('#sg-code-title-css').css("display","none");
-        codeViewer.css = "";
-        if (codeViewer.tabActive == "c") {
-            codeViewer.tabActive = "e";
-        }
-    },
+	/**
+	* if the CSS is not provided for the pattern- hides the CSS tab
+	* if the CSS tab is the current active tab function changes it to the HTML
+	*/
+	cleanCss: function() {
+		$('#sg-code-title-css').css("display","none");
+		codeViewer.css = "";
+		if (codeViewer.tabActive == "c") {
+			codeViewer.tabActive = "e";
+		}
+	},
 
-    /**
-     * once the AJAX request for the js mark-up is finished this runs. if this function is running then js has been enabled
-     * if the js tab is the current active tab it adds the content to the default code container
-     */
-    saveJS: function() {
-        $('#sg-code-title-js').css("display","block");
-        codeViewer.js = this.responseText;
-        if (codeViewer.tabActive == "j") {
-            codeViewer.activateDefaultTab("j",this.responseText);
-        }
-    },
+	/**
+	 * once the AJAX request for the js mark-up is finished this runs. if this function is running then js has been enabled
+	 * if the js tab is the current active tab it adds the content to the default code container
+	 */
+	saveJS: function() {
+		$('#sg-code-title-js').css("display","block");
+		codeViewer.js = this.responseText;
+		if (codeViewer.tabActive == "j") {
+			codeViewer.activateDefaultTab("j",this.responseText);
+		}
+	},
 
-    /**
-     * if the JS is not provided for the pattern- hides the JS tab
-     * if the JS tab is the current active tab function changes it to the HTML
-     */
-    cleanJs: function() {
-        $('#sg-code-title-js').css("display","none");
-        codeViewer.js = "";
-        if (codeViewer.tabActive == "j") {
-            codeViewer.tabActive = "e";
-        }
-    },
+	/**
+	 * if the JS is not provided for the pattern- hides the JS tab
+	 * if the JS tab is the current active tab function changes it to the HTML
+	 */
+	cleanJs: function() {
+		$('#sg-code-title-js').css("display","none");
+		codeViewer.js = "";
+		if (codeViewer.tabActive == "j") {
+			codeViewer.tabActive = "e";
+		}
+	},
 
 	/**
 	* when loading the code view make sure the active tab is highlighted and filled in appropriately
 	*/
 	activateDefaultTab: function(type,code) {
 		var typeName  = "";
-        var className;
-        switch(type){
-            case "css":
-                className = "css";
-                break;
-            case "js":
-                className = "js";
-                break;
-            default:
-                className = "markup";
-                break;
-        }
+		var className;
+		switch(type){
+			case "css":
+				className = "css";
+				break;
+			case "js":
+				className = "js";
+				break;
+			default:
+				className = "markup";
+				break;
+		}
 		if (type == "m") {
 			typeName = "mustache";
 		} else if (type == "e") {
@@ -310,8 +310,8 @@ var codeViewer = {
 		} else if (type == "c") {
 			typeName = "css";
 		} else if (type == "j") {
-            typeName = "js";
-        }
+			typeName = "js";
+		}
 		$('.sg-code-title-active').removeClass('sg-code-title-active');
 		$('#sg-code-title-'+typeName).addClass('sg-code-title-active');
 		$("#sg-code-fill").removeClass().addClass("language-"+className);
@@ -402,18 +402,18 @@ var codeViewer = {
 			c.open("GET", fileName.replace(/\.html/,".css") + "?" + (new Date()).getTime(), true);
 			c.send();
 		} else{
-            this.cleanCss();
-        }
+			this.cleanCss();
+		}
 
-        // if js is enabled request the js for the pattern
-        if (jsEnabled) {
-            var j = new XMLHttpRequest();
-            j.onload = this.saveJS;
-            j.open("GET", fileName.replace(/\.html/,".js") + "?" + (new Date()).getTime(), true);
-            j.send();
-        } else{
-            this.cleanJs();
-        }
+		// if js is enabled request the js for the pattern
+		if (jsEnabled) {
+			var j = new XMLHttpRequest();
+			j.onload = this.saveJS;
+			j.open("GET", fileName.replace(/\.html/,".js") + "?" + (new Date()).getTime(), true);
+			j.send();
+		} else{
+			this.cleanJs();
+		}
 
 		// move the code into view
 		codeViewer.slideCode(0);
