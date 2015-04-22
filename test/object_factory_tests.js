@@ -59,14 +59,4 @@
 		}
 	};
 
-	exports['oPatternItem initialization'] = {
-		'test oPatternItem initializes correctly' : function(test){
-			var pi = new of.oPatternItem();
-			test.equals(pi.patternName, '');
-			test.equals(pi.patternPath, '');
-			test.equals(pi.patternPartial, '');
-			test.done();
-		}
-	};
-
 }());
