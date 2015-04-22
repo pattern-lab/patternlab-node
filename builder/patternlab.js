@@ -75,7 +75,7 @@ var patternlab_engine = function(){
 
 			//extract some information
 			var abspath = file.substring(2);
-			var subdir = path.dirname(path.relative('./source/_patterns', file));
+            var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
 			var filename = path.basename(file);
 
 			//ignore _underscored patterns, json (for now), and dotfiles
@@ -208,6 +208,33 @@ var patternlab_engine = function(){
 		var styleguideHtml = renderPattern(styleguideTemplate, {partials: patternlab.patterns});
 		fs.outputFileSync('./public/styleguide/html/styleguide.html', styleguideHtml);
 
+        //build the viewall pages
+        var prevSubdir = '',
+            i;
+
+        for (i = 0; i < patternlab.patterns.length; i++) {
+            var pattern = patternlab.patterns[i];
+
+            // check if the current sub section is different from the previous one
+            if (pattern.subdir !== prevSubdir) {
+                prevSubdir = pattern.subdir;
+
+                var viewAllPatterns = [],
+                    patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup,
+                    j;
+
+                for (j = 0; j < patternlab.patterns.length; j++) {
+                    if (patternlab.patterns[j].subdir == pattern.subdir) {
+                        viewAllPatterns.push(patternlab.patterns[j]);
+                    }
+                }
+
+                var viewAllTemplate = fs.readFileSync('./source/_patternlab-files/viewall.mustache', 'utf8');
+                var viewAllHtml = renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
+                fs.outputFileSync('./public/patterns/' + pattern.flatPatternPath + '/index.html', viewAllHtml);
+            }
+        }
+
 		//build the patternlab website
 		var patternlabSiteTemplate = fs.readFileSync('./source/_patternlab-files/index.mustache', 'utf8');
 		
@@ -222,8 +249,9 @@ var patternlab_engine = function(){
 				//add the bucket
 				var bucket = new of.oBucket(bucketName);
 
-				//add paternPath
+				//add patternPath and viewAllPath
 				patternlab.patternPaths[bucketName] = {};
+                patternlab.viewAllPaths[bucketName] = {};
 
 				//get the navItem
 				var navItemName = pattern.subdir.split('-').pop();
@@ -331,11 +359,25 @@ var patternlab_engine = function(){
 						navItem.navSubItemsIndex.push(navSubItemName);
 					}
 
+                    //add the navViewAllSubItem
+                    var navViewAllSubItem = new of.oNavSubItem("");
+                    navViewAllSubItem.patternName = "View All";
+                    navViewAllSubItem.patternPath = pattern.flatPatternPath + "/index.html";
+                    navViewAllSubItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
+
+                    //check if we are moving to a new sub section in the next loop
+                    if (pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
+                        navItem.navSubItems.push(navViewAllSubItem);
+                        navItem.navSubItemsIndex.push("View All");
+                    }
+
 					// just add to patternPaths
 					addToPatternPaths(bucketName, pattern);
 				}
 
 			}
+
+            patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
 
 		}
 
@@ -355,14 +397,14 @@ var patternlab_engine = function(){
 
 		//viewAllPaths
 		var viewAllPathsTemplate = fs.readFileSync('./source/_patternlab-files/partials/viewAllPaths.mustache', 'utf8');
-		var viewAllPathersPartialHtml = renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
+		var viewAllPathsPartialHtml = renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
 		//render the patternlab template, with all partials
 		var patternlabSiteHtml = renderPattern(patternlabSiteTemplate, {}, {
 			'ishControls': ishControlsPartialHtml,
 			'patternNav': patternNavPartialHtml,
 			'patternPaths': patternPathsPartialHtml,
-			'viewAllPaths': viewAllPathersPartialHtml
+			'viewAllPaths': viewAllPathsPartialHtml
 		});
 		fs.outputFileSync('./public/index.html', patternlabSiteHtml);
 	}
