@@ -76,6 +76,8 @@ module.exports = function(grunt) {
 				files: [
 				'source/_patterns/**/*.mustache',
 				'source/_patterns/**/*.json',
+				'source/_patterns/**/*.css',
+				'source/_patterns/**/*.js',
 				'source/_data/*.json'
 				],
 				tasks: ['default']
