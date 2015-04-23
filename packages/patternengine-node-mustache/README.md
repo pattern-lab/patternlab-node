@@ -159,6 +159,10 @@ Running `grunt serve` will compile the patternlab front end and host it on <a hr
 
 The Node version of Pattern Lab is maintained by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
 
+### Upgrading
+
+You can find some simple upgrade documenation in it's current home here (unreleased but confirmed to work): [https://github.com/pattern-lab/website/blob/dev/patternlabsite/docs/node/upgrading.md](https://github.com/pattern-lab/website/blob/dev/patternlabsite/docs/node/upgrading.md)
+
 ### Forward, To the Specification!
 
 Dave Olsen has published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together. 
