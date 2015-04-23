@@ -1,7 +1,5 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
-PL-node-
-
 PL-node-v0.9.0
  - FIX: Added grunt-contrib-copy args to copy all found source/css/*.css
  - ADD: Added upgrade instructions to README
