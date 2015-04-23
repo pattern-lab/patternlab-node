@@ -11,7 +11,10 @@ PL-node-v0.9.0
  - ADD: Added support for all keyboard shortcuts found in PL-PHP-v1.0.0
  - FIX: Fixed an issue where Hay mode and Disco mode did not stop one another when using keyboard shortcuts
  - FIX: Fix location of paragraph closing tag to wrap citation
- - THX @laurendorman for the pull request!
+ - THX: @laurendorman for the pull request!
+ - FIX: Removed some dead code.
+ - ADD: Added View All links in each menu subsection
+ - THX: BIG THANKS TO @walmokrani for this work!
 
 PL-node-v0.8.1
  - FIX: v8 is not pulling in values from global data.json
