@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.8.1 - 2015 
+ * patternlab-node - v0.9.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -52,18 +52,11 @@
 		this.patternName = name.charAt(0).toUpperCase() + name.slice(1);
 	};
 
-	var oPatternItem = function(){
-		this.patternPath = '';
-		this.patternPartial = '';
-		this.patternName = '';
-	};
-
 	module.exports = {
 		oPattern: oPattern,
 		oBucket: oBucket,
 		oNavItem: oNavItem,
-		oNavSubItem: oNavSubItem,
-		oPatternItem: oPatternItem
+		oNavSubItem: oNavSubItem
 	};
 
 }());
