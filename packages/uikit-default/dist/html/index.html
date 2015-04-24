@@ -97,7 +97,7 @@
 						<li><a href="#" id="sg-t-code"><span class="sg-checkbox"></span>Code</a></li>
 						{{/ ishControlsHide.views-code }}
 						{{^ ishControlsHide.views-new }}
-						<li><a href="#" target="_blank" id="sg-raw" class="sg-icon-link">Open in new window</a></li>
+						<li><a href="#" target="_blank" id="sg-raw"><span class="sg-icon-link"></span>Open in new window</a></li>
 						{{/ ishControlsHide.views-new }}
 						{{^ ishControlsHide.find }}
 						<li class="sg-find"><input class="typeahead" id="typeahead" type="text" placeholder="Find pattern" /></li>
@@ -109,10 +109,8 @@
 				<li class="sg-tools">
 					<a href="#" class="sg-acc-handle sg-tools-toggle sg-icon sg-icon-cog" id="sg-tools-toggle" title="Tools"><span class="is-vishidden">Tools</span></a>
 					<ul class="sg-acc-panel sg-right sg-checklist">
-						{{^ ishControlsHide.tools-follow }}<li><a href="#" id="navSyncButton" class="sg-checkbox sg-page-follow" data-state="off">Page Follow</a></li>{{/ ishControlsHide.tools-follow }}
-						{{^ ishControlsHide.tools-reload }}<li><a href="#" id="contentSyncButton" class="sg-checkbox sg-auto-reload" data-state="off">Auto-reload</a></li>{{/ ishControlsHide.tools-reload }}
-						{{^ ishControlsHide.tools-shortcuts }}<li><a href="http://pattern-lab.info/docs/advanced-keyboard-shortcuts.html" class="sg-icon-keyboard" target="_blank">Keyboard Shortcuts</a>{{/ ishControlsHide.tools-shortcuts }}
-						{{^ ishControlsHide.tools-docs }}<li><a href="http://pattern-lab.info/docs/" class="sg-icon-file" target="_blank">Pattern Lab Docs</a>{{/ ishControlsHide.tools-docs }}
+						{{^ ishControlsHide.tools-shortcuts }}<li><a href="http://pattern-lab.info/docs/advanced-keyboard-shortcuts.html" target="_blank"><span class="sg-icon-keyboard"></span>Keyboard Shortcuts</a>{{/ ishControlsHide.tools-shortcuts }}
+						{{^ ishControlsHide.tools-docs }}<li><a href="http://pattern-lab.info/docs/" target="_blank"><span class="sg-icon-file"></span>Pattern Lab Docs</a>{{/ ishControlsHide.tools-docs }}
 					</ul>
 				</li>
 				{{/ ishControlsHide.tools-all }}
