@@ -8,7 +8,7 @@
  *
  */
 
- var patternlab_engine = function(){
+var patternlab_engine = function(){
   var path = require('path'),
   fs = require('fs-extra'),
   extend = require('util')._extend,
@@ -78,11 +78,10 @@
       var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
       var filename = path.basename(file);
 
-		// ToDo
-      //ignore _underscored patterns, json (for now), and dotfiles
+      //ignore _underscored patterns, json/css/js (for now), and dotfiles
       if(filename.charAt(0) === '_' ||
-		  path.extname(filename) === '.json' || path.extname(filename) === '.css' || path.extname(filename) === '.js' ||
-		  filename.charAt(0) === '.'){
+        path.extname(filename) === '.json' || path.extname(filename) === '.css' || path.extname(filename) === '.js' ||
+        filename.charAt(0) === '.'){
         return;
       }
 
@@ -105,24 +104,23 @@
       }
       currentPattern.template = fs.readFileSync(abspath, 'utf8');
 
-		// ToDo
-		//look for a css file for this template
-		var cssPath = abspath.substr(0, abspath.lastIndexOf(".")) + ".css";
-		var cssExists = fs.existsSync(cssPath);
+      //look for a css file for this template
+      var cssPath = abspath.substr(0, abspath.lastIndexOf(".")) + ".css";
+      var cssExists = fs.existsSync(cssPath);
 
-		if (cssExists) {
-			currentPattern.cssExists = true;
-			currentPattern.css = fs.readFileSync(cssPath, 'utf8');
-		}
+      if (cssExists) {
+        currentPattern.cssExists = true;
+        currentPattern.css = fs.readFileSync(cssPath, 'utf8');
+      }
 
-		//look for a css file for this template
-		var jsPath = abspath.substr(0, abspath.lastIndexOf(".")) + ".js";
-		var jsExists = fs.existsSync(jsPath);
+      //look for a js file for this template
+      var jsPath = abspath.substr(0, abspath.lastIndexOf(".")) + ".js";
+      var jsExists = fs.existsSync(jsPath);
 
-		if (jsExists) {
-			currentPattern.jsExists = true;
-			currentPattern.js = fs.readFileSync(jsPath, 'utf8');
-		}
+      if (jsExists) {
+        currentPattern.jsExists = true;
+        currentPattern.js = fs.readFileSync(jsPath, 'utf8');
+      }
       
       //find pattern lineage
       var lineage_hunter = new lh();
@@ -208,16 +206,15 @@ var entity_encoder = new he();
       //write the encoded version too
       fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
 
-		// ToDo
-		//write the css file too
-		if(pattern.cssExists){
-			fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.css'), pattern.css);
-		}
+      //write the css file too
+      if(pattern.cssExists){
+        fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.css'), pattern.css);
+      }
 
-		//write the js file too
-		if(pattern.jsExists){
-			fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.js'), pattern.js);
-		}
+      //write the js file too
+      if(pattern.jsExists){
+        fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.js'), pattern.js);
+      }
     });
 
     //export patterns if necessary
