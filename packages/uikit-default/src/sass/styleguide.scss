@@ -43,6 +43,7 @@ $sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
 
 // Style Guide Interface Colors
 $sg-primary : #000;
+$sg-dark-gray : #222;
 $sg-secondary : #808080;
 $sg-tertiary : #ddd;
 $sg-quaternary : #fff;
@@ -69,11 +70,14 @@ $offset-top: 2em;
 // Breakpoints
 $sg-bp-small : 24em;
 $sg-bp-med : 42em;
-$sg-bp-large : 56em;
+$sg-bp-large : 53em;
 
-//Animations
+// Animations
 $animate-quick: 0.1s;
 
+// Border
+$border-radius: 3px;
+$border-radius-med: 6px;
 
 
 
@@ -149,7 +153,6 @@ $animate-quick: 0.1s;
 
 	li {
 		list-style: none;
-		border-bottom: 1px solid $sg-tint;
 	}
 
 	a {
@@ -164,7 +167,7 @@ $animate-quick: 0.1s;
 		
 		&:hover, &:focus, &.active {
 			color: $sg-quaternary;
-			background: $sg-tint;
+			background: $sg-dark-gray;
 		}
 	}
 
@@ -180,7 +183,6 @@ $animate-quick: 0.1s;
 .sg-header .sg-nav-toggle {
 	display: inline-block;
 	padding: 0.9em $sg-pad;
-	border-bottom: 1px solid rgba(0,0,0,0);
 	position: relative;
 	text-transform: uppercase;
 	z-index: 2;
@@ -218,7 +220,6 @@ $animate-quick: 0.1s;
 
 		@media all and (min-width: $sg-bp-med) {
 			border-bottom: 0;
-			border-right: 1px solid $sg-tint;
 			float: left;
 			position: relative;
 			
@@ -258,9 +259,10 @@ $animate-quick: 0.1s;
 	
 	&.active {
 		color: $sg-quaternary;
-		background: $sg-tint;
+		background: $sg-dark-gray;
 		
 		&:after {
+			top: -2px;
 			color: $sg-secondary;
 			-webkit-transform: rotate(180deg);  
 			-ms-transform: rotate(180deg);
@@ -286,7 +288,13 @@ $animate-quick: 0.1s;
 	transition: max-height $animate-quick ease-out;
 
 	li {
-		background: $sg-primary;
+		background: $sg-dark-gray;
+	}
+	
+	li:last-child {
+		overflow: hidden;
+		border-bottom-left-radius: $border-radius-med;
+		border-bottom-right-radius: $border-radius-med;
 	}
 
 	&.active {
@@ -323,12 +331,6 @@ $animate-quick: 0.1s;
 }
 
 .sg-control-trigger {
-	border-bottom: 1px solid $sg-tint;
-	
-	@media all and (min-width: $sg-bp-med) {
-		border: 0;
-	}
-	
 	@media all and (min-width: $sg-bp-large) {
 		float: left;
 		width: 6em;
@@ -338,22 +340,17 @@ $animate-quick: 0.1s;
 .sg-control {
 	> li {
 		float: left;
-
-		@media all and (min-width: $sg-bp-med) {
-			border-bottom: 0;
-			border-left: 1px solid $sg-tint;
-		}
 	}
 	
 	.sg-input {
 		padding: 0.1em;
-		border-radius: 3px;
+		border-radius: $border-radius;
 	    transition: all $animate-quick ease-out;
 
 		&:active, &:focus {
 			outline: 0;
-			background: $sg-quinary;
-			color: #000;
+			background: $sg-secondary;
+			color: $sg-primary;
 		}
 	}
 }
@@ -365,8 +362,8 @@ $animate-quick: 0.1s;
 
 	&:hover {
 		.sg-input {
-			background: $sg-quinary;
-			color: #000;
+			background: $sg-dark-gray;
+			color: $sg-quaternary;
 		}
 	}
 
@@ -384,17 +381,15 @@ $animate-quick: 0.1s;
 }
 
 .sg-size-options {
+	display: none;
 
 	@media all and (min-width: $sg-bp-large) {
+		display: block;
 		float: left;
 		position: static;
-		max-height: none;
-		max-width: none;
 
 		> li {
 			float: left;
-			border: 0;
-			border-left: 1px solid $sg-tint;
 		}
 	}
 }
@@ -871,7 +866,92 @@ div.clear {
 	opacity: .7;
 }
 
-/* Pattern Lab icon fonts */
+
+
+
+
+#sg-find {
+	color: #000;
+	text-transform: lowercase;
+}
+
+.show-overflow {
+	overflow: visible;
+}
+
+
+
+
+
+/*------------------------------------*\
+    $TYPEAHEAD
+\*------------------------------------*/
+
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 220px;
+  height: 30px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 16px;
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #999;
+}
+
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-dropdown-menu {
+  width: 422px;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-align: left;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 13px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+
+
+
+/*------------------------------------*\
+    $PATTERN LAB ICON FONTS 
+\*------------------------------------*/
+
 @font-face {
 	font-family: 'icomoon';
 	src:url('../fonts/icomoon.eot?srsv7g');
@@ -927,9 +1007,6 @@ div.clear {
 }
 .sg-icon-keyboard:before {
 	content: "\e609";
-}
-.sg-icon-qrcode:before {
-	content: "\e60a";
 }
 .sg-icon-eye:before {
 	content: "\e60b";
