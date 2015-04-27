@@ -32,7 +32,7 @@
 		
 		if(fullMode === true) {
 			sizeiframe(sw, false);
-		};
+		}
 	});
 
 	// Accordion dropdown
