@@ -86,10 +86,10 @@
 						{{^ ishControlsHide.hay }}<li><a href="#" class="mode-link" id="sg-size-hay">Hay!</a></li>{{/ ishControlsHide.hay }}
 					</ul>
 				</li>
-				{{^ ishControlsHide.views-all }}
-				<li class="sg-view">
-					<a href="#sg-view" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-eye" id="sg-t-toggle" title="View"><span class="is-vishidden">View</span></a>
-					<ul class="sg-view sg-acc-panel sg-right sg-checklist" id="sg-view">
+				{{^ ishControlsHide.tools-all }}
+				<li class="sg-tools">
+					<a href="#" class="sg-acc-handle sg-tools-toggle sg-icon sg-icon-cog" id="sg-tools-toggle" title="Tools"><span class="is-vishidden">Tools</span></a>
+					<ul class="sg-acc-panel sg-right sg-checklist">
 						{{^ ishControlsHide.views-annotations }}
 						<li><a href="#" id="sg-t-annotations"><span class="sg-checkbox"></span>Annotations</a></li>
 						{{/ ishControlsHide.views-annotations }}
@@ -99,18 +99,15 @@
 						{{^ ishControlsHide.views-new }}
 						<li><a href="#" target="_blank" id="sg-raw"><span class="sg-icon-link"></span>Open in new window</a></li>
 						{{/ ishControlsHide.views-new }}
+						{{^ ishControlsHide.tools-shortcuts }}
+						<li><a href="http://pattern-lab.info/docs/advanced-keyboard-shortcuts.html" target="_blank"><span class="sg-icon-keyboard"></span>Keyboard Shortcuts</a></li>
+						{{/ ishControlsHide.tools-shortcuts }}
+						{{^ ishControlsHide.tools-docs }}
+						<li><a href="http://pattern-lab.info/docs/" target="_blank"><span class="sg-icon-file"></span>Pattern Lab Docs</a></li>
+						{{/ ishControlsHide.tools-docs }}
 						{{^ ishControlsHide.find }}
 						<li class="sg-find"><input class="typeahead" id="typeahead" type="text" placeholder="Find pattern" /></li>
 						{{/ ishControlsHide.find }}
-					</ul>
-				</li>
-				{{/ ishControlsHide.views-all }}
-				{{^ ishControlsHide.tools-all }}
-				<li class="sg-tools">
-					<a href="#" class="sg-acc-handle sg-tools-toggle sg-icon sg-icon-cog" id="sg-tools-toggle" title="Tools"><span class="is-vishidden">Tools</span></a>
-					<ul class="sg-acc-panel sg-right sg-checklist">
-						{{^ ishControlsHide.tools-shortcuts }}<li><a href="http://pattern-lab.info/docs/advanced-keyboard-shortcuts.html" target="_blank"><span class="sg-icon-keyboard"></span>Keyboard Shortcuts</a>{{/ ishControlsHide.tools-shortcuts }}
-						{{^ ishControlsHide.tools-docs }}<li><a href="http://pattern-lab.info/docs/" target="_blank"><span class="sg-icon-file"></span>Pattern Lab Docs</a>{{/ ishControlsHide.tools-docs }}
 					</ul>
 				</li>
 				{{/ ishControlsHide.tools-all }}
