@@ -7,83 +7,15 @@
  * It's also helpful for overriding context-specific styles like fixed or absolutely positioned elements
  * These styles will not be your production CSS.
  */
- 
 
-//  Style Guide Interface Colors 
-$sg-primary : #000;
-$sg-secondary : #808080;
-$sg-tertiary : #ddd;
-$sg-quaternary : #fff;
-$sg-quinary : #999;
-$sg-tint : rgba(255,255,255,0.05);
-$sg-tint-2 : rgba(255,255,255,0.25);
-$sg-tone : rgba(0,0,0,0.1);
-$sg-tone-2 : rgba(0,0,0,0.3);
-
-//  Typography
-$sg-font-size-norm : 100%;
-$sg-font-size-sm : 70%;
-$sg-font-size-large : 120%;
-
-//  Defaults
-$sg-space : 1em;
-$sg-doublespace : $sg-space*2;
-$sg-pad : 1em;
-$sg-pad-half : $sg-pad/2;
-
-// Dimensions
-$offset-top: 2em;
-
-//Borders
-$sg-border-radius: 8px;
-
-// Breakpoints
-$sg-bp-small : 24em;
-$sg-bp-small-2 : 30em;
-$sg-bp-med : 48em;
-$sg-bp-large : 72em;
-$sg-bp-xl : 80em;
-
-// Animation
-$animate-quick: 0.2s;
-
-.demo {
-	overflow: hidden;
-	margin-bottom: 1rem;
-}
-
-.demo .gi, .demo .demo-block {
-	background: $sg-tertiary;
-	border: 1px solid $sg-secondary;
-	border-radius: 8px;
-	color: $sg-secondary;
-	text-align: center;
-	margin-bottom: $sg-pad-half;
-	padding: 1em !important;
-	
-	&:nth-of-type(2n) {
-		color: $sg-tertiary;
-		background: $sg-secondary;
-	}
-	
-	.gi {
-		background: $sg-tone;
-		color: $sg-tertiary;
-		
-		&:nth-of-type(2n) {
-			background: $sg-tone-2;
-		}
-	}
-}
-
-//Demo box for animation
+// Demo box for animation
 .demo-animate {
-	background: #efefef;
-	padding: $sg-pad;
-	margin-bottom: $sg-space;
+	background: #ddd;
+	padding: 1em;
+	margin-bottom: 1em;
 	text-align: center;
-	border: 1px solid #eee;
-	border-radius: $sg-border-radius;
+	border-radius: 8px;
+	cursor: pointer;
 }
 
 // Style Guide color swatches
@@ -96,8 +28,8 @@ $animate-quick: 0.2s;
 		padding: 0.3em;
 		margin: 0 0.5em 0.5em 0;
 		min-width: 5em;
-		border: 1px solid $sg-tertiary;
-		border-radius: $sg-border-radius;
+		border: 1px solid #ddd;
+		border-radius: 8px;
 	}
 }
 
@@ -111,4 +43,9 @@ $animate-quick: 0.2s;
 .sg-label {
 	font-size: 90%;
 	line-height: 1;
+}
+
+// Style Guide fonts
+.sg-fonts p {
+	margin-bottom: 0.3em;
 }
