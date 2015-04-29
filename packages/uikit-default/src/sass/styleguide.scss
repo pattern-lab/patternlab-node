@@ -42,12 +42,13 @@
 $sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
 
 // Style Guide Interface Colors
-$sg-primary : #000;
-$sg-dark-gray : #222;
-$sg-secondary : #808080;
-$sg-tertiary : #ddd;
-$sg-quaternary : #fff;
-$sg-quinary : #999;
+$sg-black : #000;
+$sg-white : #fff;
+$sg-gray-light : #eee;
+$sg-gray-light-2 : #ddd;
+$sg-gray-light-3 : #999;
+$sg-gray : #808080;
+$sg-gray-dark : #222;
 $sg-tint : rgba(255,255,255,0.05);
 $sg-tint-2 : rgba(255,255,255,0.25);
 $sg-tone : rgba(0,0,0,0.1);
@@ -89,13 +90,13 @@ $border-radius-med: 6px;
 #patternlab-html, #patternlab-body {
 	margin: 0;
 	padding: 0;
-	background: $sg-tertiary;
+	background: $sg-gray-light-2;
 	-webkit-text-size-adjust: 100%;
 }
 
 .sg-nav-wrapper {
 	overflow: hidden;
-	background: $sg-tertiary;
+	background: $sg-gray-light-2;
 }
 
 .is-vishidden {
@@ -130,8 +131,8 @@ $border-radius-med: 6px;
 \*------------------------------------*/
 /* Header */
 .sg-header {
-	background: $sg-primary;
-	color: $sg-quaternary;
+	background: $sg-black;
+	color: $sg-white;
 	font-family: $sg-font;
 	text-transform: uppercase;
 	position: fixed;
@@ -157,7 +158,7 @@ $border-radius-med: 6px;
 
 	a {
 		font-size: $sg-font-size-sm;
-		color: $sg-secondary;
+		color: $sg-gray;
 		text-decoration: none;
 		display: block;
 		line-height: 1;
@@ -166,8 +167,8 @@ $border-radius-med: 6px;
 		transition: color $animate-quick ease-out;
 		
 		&:hover, &:focus, &.active {
-			color: $sg-quaternary;
-			background: $sg-dark-gray;
+			color: $sg-white;
+			background: $sg-gray-dark;
 		}
 	}
 
@@ -182,15 +183,9 @@ $border-radius-med: 6px;
 /* Navigation */
 .sg-header .sg-nav-toggle {
 	display: inline-block;
-	padding: 0.9em $sg-pad;
 	position: relative;
 	text-transform: uppercase;
 	z-index: 2;
-	
-	span {
-		display: inline-block;
-		padding-right: 0.2em;
-	}
 
 	@media all and (min-width: $sg-bp-med) {
 		display: none;
@@ -253,17 +248,17 @@ $border-radius-med: 6px;
 	
 	&:hover, &:focus {
 		&:after {
-			color: $sg-secondary;
+			color: $sg-gray;
 		}
 	}
 	
 	&.active {
-		color: $sg-quaternary;
-		background: $sg-dark-gray;
+		color: $sg-white;
+		background: $sg-gray-dark;
 		
 		&:after {
 			top: -2px;
-			color: $sg-secondary;
+			color: $sg-gray;
 			-webkit-transform: rotate(180deg);  
 			-ms-transform: rotate(180deg);
 			transform: rotate(180deg);
@@ -288,7 +283,7 @@ $border-radius-med: 6px;
 	transition: max-height $animate-quick ease-out;
 
 	li {
-		background: $sg-dark-gray;
+		background: $sg-gray-dark;
 	}
 	
 	li:last-child {
@@ -341,31 +336,12 @@ $border-radius-med: 6px;
 	> li {
 		float: left;
 	}
-	
-	.sg-input {
-		padding: 0.1em;
-		border-radius: $border-radius;
-	    transition: all $animate-quick ease-out;
-
-		&:active, &:focus {
-			outline: 0;
-			background: $sg-secondary;
-			color: $sg-primary;
-		}
-	}
 }
 
 .sg-current-size {
 	font-size: 70%;
-	color: $sg-secondary;
+	color: $sg-gray;
 	padding: 0.85em 0.7em;
-
-	&:hover {
-		.sg-input {
-			background: $sg-dark-gray;
-			color: $sg-quaternary;
-		}
-	}
 
 	@media all and (min-width: $sg-bp-large) {
 		float: left;
@@ -394,15 +370,6 @@ $border-radius-med: 6px;
 	}
 }
 
-//Media Queries Dropdown
-#sg-size-mq {
-	display: none;
-
-	@media all and (min-width: $sg-bp-large) {
-		display: block;
-	}
-}
-
 #sg-form {
 	margin: 0;
 	border: 0;
@@ -411,12 +378,25 @@ $border-radius-med: 6px;
 
 .sg-input {
 	margin: -2px 0 0 0;
-	padding: 0;
+	padding: 0.1em;
 	border: 0;
-	background-color: #222;
-	color: gray;
+	border-radius: $border-radius;
+	background: $sg-black; 
+	color: $sg-gray;
 	width: 25px;
 	text-align: right;
+	transition: all $animate-quick ease-out;
+	    
+    &:hover {
+	    color: $sg-white;
+	    background: $sg-gray-dark;
+    }
+
+	&:active, &:focus {
+		outline: 0;
+		background: $sg-gray;
+		color: $sg-white;
+	}
 
 	@media all and (min-width: $sg-bp-med) {
 		width: 35px;
@@ -425,11 +405,6 @@ $border-radius-med: 6px;
 			width: 30px;
 		}
 	}
-}
-
-.sg-input-active {
-	background-color: #fff;
-	color: #000;
 }
 
 .sg-view {
@@ -485,7 +460,7 @@ $border-radius-med: 6px;
 
 /* call out for pattern's pattern state */
 span.sg-pattern-state {
-	color: $sg-quinary;
+	color: $sg-gray-light-3;
 }
 
 span.sg-pattern-state:before {
@@ -592,7 +567,7 @@ span.sg-pattern-state:before {
 	margin: 0; 
 	width: 100%; 
 	height: 100%; 
-	background: $sg-quinary;
+	background: $sg-gray-light-3;
     transition: background $animate-quick ease-out;
 
 	&:hover {
@@ -630,40 +605,81 @@ span.sg-pattern-state:before {
 	font-family: $sg-font;
 	font-size: $sg-font-size-sm;
 	font-weight: normal;
-	padding: $sg-pad 0 $sg-pad-half;
-	border-bottom: 1px solid $sg-secondary;
 	position: relative;
 
-	a {
-		display: block;
-		color: $sg-secondary;
+	h3 a {
+		display: inline-block;
+		padding: $sg-pad 0 0.3em;
+		color: $sg-gray;
 		text-decoration: none;
 		cursor: pointer;
 		
 		&:hover {
-			color: $sg-primary;
+			color: $sg-black;
 		}
 	}
 }
 
-.sg-pattern-extra-trigger {
+// Toggle for pattern info
+.sg-pattern-extra-toggle {
 	font-size: 9px;
 	position: absolute;
-	top: 10px;
+	bottom: -1px;
 	right: 0;
-	padding: 1px;
+	z-index: 1;
+	padding: 0.65em;
 	line-height: 1;
 	font-weight: normal;
-	border: 1px solid $sg-secondary;
-	border-radius: 10px;
+	border: 1px solid $sg-gray-light-2;
+	border-top-left-radius: $border-radius-med;
+	border-top-right-radius: $border-radius-med;
+	transition: background $animate-quick ease-out;
+	
+	&:hover, &.active {
+		background: $sg-gray-light;
+		color: $sg-gray-dark;
+	}
+	
+	&.active {
+		border-bottom-color: $sg-gray-light;
+	}
 }
 
-/* Section Body */
-.sg-pattern-example {
-	padding-top: $sg-doublespace;
+
+// Pattern Info Panel
+.sg-pattern-extra {
+	background: $sg-gray-light;
+	border-top: 1px solid $sg-gray-light-2;
+	margin-bottom: $sg-space;
+	overflow: hidden;
+	max-height: 1px;
+	transition: all $animate-quick ease-out;
+	
+	&.active {
+		border: 1px solid $sg-gray-light-2;
+		border-radius: $border-radius-med;
+		border-top-right-radius: 0;
+		padding: $sg-pad;
+		max-height: 40em;
+	}
 }
 
-//Annotations and code view container
+// Pattern Extra Info and Code
+.sg-pattern-extra-info {
+	@media all and (min-width: 30em) {
+		float: left;
+		width: 50%;
+	}
+}
+
+.sg-pattern-extra-info {
+	@media all and (min-width: 30em) {
+		float: left;
+		width: 50%;
+	}
+}
+
+// Annotations and code view container
 .sg-view-container {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -671,8 +687,8 @@ span.sg-pattern-state:before {
 	font-family: $sg-font;
 	line-height: 1.4;
 	font-size: 90%;
-	background: $sg-primary;
-	color: $sg-secondary;
+	background: $sg-black;
+	color: $sg-gray;
 	position: fixed;
 	top: auto;
 	padding: $sg-pad;
@@ -685,7 +701,7 @@ span.sg-pattern-state:before {
 	overflow-x: hidden;
 
   	a {
-    	color: $sg-quinary;
+    	color: $sg-gray-light-3;
     }
 
      pre {
@@ -714,18 +730,18 @@ span.sg-pattern-state:before {
 //Annotated elements Styles
 .has-annotation {
 	cursor: help !important;
-	box-shadow: 0 0 10px $sg-secondary;
+	box-shadow: 0 0 10px $sg-gray;
 
 	a, input {
 		cursor: help !important;
 	}
 
 	&:hover {
-		box-shadow: 0 0 10px $sg-primary;
+		box-shadow: 0 0 10px $sg-black;
 	}
 
 	&.active {
-		box-shadow: inset 0 0 20px $sg-secondary;
+		box-shadow: inset 0 0 20px $sg-gray;
 	}
 	
 }
@@ -767,8 +783,8 @@ span.sg-pattern-state:before {
 
 .sg-code, .sg-annotations {
 	clear: both;
-	background: $sg-tertiary;
-	color: $sg-primary;
+	background: $sg-gray-light-2;
+	color: $sg-black;
 	padding: $sg-pad $sg-pad-half;
 	margin: $sg-space 0;
 
@@ -792,19 +808,19 @@ span.sg-pattern-state:before {
 .sg-code-contains {
 	margin-bottom: 1rem;
 	font-size: 85%;
-	color: $sg-secondary;
+	color: $sg-gray;
 
 	code {
 		padding: 0.2em;
 		background: $sg-tone-2;
-		color: $sg-quinary;
+		color: $sg-gray-light-3;
 		position: relative;
 		top: -2px;
 	}
 }
 
 .sg-code-head {
-	color: $sg-secondary;
+	color: $sg-gray;
 	font-size: 1em;
 }
 
