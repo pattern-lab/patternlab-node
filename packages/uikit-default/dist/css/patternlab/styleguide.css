@@ -1,0 +1,894 @@
+@charset "UTF-8";
+/*------------------------------------*\
+    $PATTERN LAB STYLES
+\*------------------------------------*/
+/**
+ * NOTE: These styles are specific to Pattern Lab and should not be modified. 
+ * Edit all project styles in /source/css/
+ * 
+ * Second note: Any important declarations are to prevent brand styles from overriding style guide 
+ */
+/*------------------------------------*\
+     $CONTENTS
+\*------------------------------------*/
+/**
+ * STYLE GUIDE VARIABLES------------------Declarations of Sass variables
+ * GLOBAL ELEMENTS------------------------Establish global styles
+ * -----Main
+ * -----Headings
+ * -----Text-related elements (p, blockquote, lists)
+ * -----Defaults
+ * -----Breakpoints
+ * STYLE GUIDE INTERFACE------------------CSS for the Pattern Lab Container.
+ * -----Header
+ * -----Navigation
+ * -----Controls
+ * -----Main Container
+ * -----Viewport
+ * -----Section Headers
+ * -----Code View
+ * -----Icon Fonts
+ */
+/*------------------------------------*\
+    $PATTERN LAB VARIABLES 
+\*------------------------------------*/
+/*------------------------------------*\
+    $PATTERN LAB INTERFACE 
+\*------------------------------------*/
+#patternlab-html, #patternlab-body {
+  margin: 0;
+  padding: 0;
+  background: #ddd;
+  -webkit-text-size-adjust: 100%;
+}
+
+.sg-nav-wrapper {
+  overflow: hidden;
+  background: #ddd;
+}
+
+.is-vishidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.sg-cf, .sg-pattern {
+  /**zoom: 1;*/
+}
+.sg-cf:before, .sg-pattern:before, .sg-cf:after, .sg-pattern:after {
+  content: " ";
+  display: table;
+}
+.sg-cf:after, .sg-pattern:after {
+  clear: both;
+}
+
+/*------------------------------------*\
+    $PATTERN LAB HEADER 
+\*------------------------------------*/
+/* Header */
+.sg-header {
+  background: #000;
+  color: #fff;
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  text-transform: uppercase;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+}
+.sg-header * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.sg-header ul, .sg-header ol {
+  padding: 0;
+  margin: 0;
+}
+.sg-header li {
+  list-style: none;
+}
+.sg-header a {
+  font-size: 70%;
+  color: #808080;
+  text-decoration: none;
+  display: block;
+  line-height: 1;
+  padding: 1em 0.7em;
+  -webkit-transition: background 0.1s ease-out;
+          transition: background 0.1s ease-out;
+  -webkit-transition: color 0.1s ease-out;
+          transition: color 0.1s ease-out;
+}
+.sg-header a:hover, .sg-header a:focus, .sg-header a.active {
+  color: #fff;
+  background: #222;
+}
+.sg-header ol ol ol a {
+  padding-left: 2em;
+  text-transform: none;
+}
+
+/* Navigation */
+.sg-header .sg-nav-toggle {
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 2;
+}
+@media all and (min-width: 42em) {
+  .sg-header .sg-nav-toggle {
+    display: none;
+  }
+}
+
+@media all and (max-width: 42em) {
+  .sg-nav-container {
+    overflow: hidden;
+    max-height: 0;
+    -webkit-transition: max-height 0.1s ease-out;
+            transition: max-height 0.1s ease-out;
+  }
+  .sg-nav-container.active {
+    max-height: 50em;
+  }
+}
+
+.sg-nav {
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sg-nav > li {
+  cursor: pointer;
+}
+@media all and (min-width: 42em) {
+  .sg-nav > li {
+    border-bottom: 0;
+    float: left;
+    position: relative;
+  }
+  .sg-nav > li > ol {
+    position: absolute;
+    top: 2em;
+    left: 0;
+  }
+}
+
+/* Accordion */
+.sg-acc-handle:after {
+  content: '▼';
+  color: rgba(255, 255, 255, 0.25);
+  display: inline-block;
+  font-size: 7px;
+  position: relative;
+  top: -1px;
+  right: -2px;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+@media all and (min-width: 42em) {
+  .sg-acc-handle:after {
+    float: none;
+  }
+}
+.sg-acc-handle:hover:after, .sg-acc-handle:focus:after {
+  color: #808080;
+}
+.sg-acc-handle.active {
+  color: #fff;
+  background: #222;
+}
+.sg-acc-handle.active:after {
+  top: -2px;
+  color: #808080;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.sg-acc-handle.sg-icon:after {
+  content: "";
+}
+
+.sg-header .sg-icon {
+  width: auto;
+  font-size: 1rem;
+  padding: 0.5rem 0.7rem;
+}
+
+.sg-acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  min-width: 10em;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+}
+.sg-acc-panel li {
+  background: #222;
+}
+.sg-acc-panel li:last-child {
+  overflow: hidden;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.sg-acc-panel.active {
+  max-height: 120em;
+  overflow: auto;
+}
+.sg-acc-panel.sg-right {
+  position: absolute;
+  left: auto;
+  right: 0;
+}
+.sg-acc-panel.sg-left {
+  position: absolute;
+  left: auto;
+}
+.sg-acc-panel [class^="sg-icon-"]:before {
+  display: inline-block;
+  margin-right: 0.4em;
+}
+
+/* Controls (sizing, view mode) */
+.sg-controls {
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+@media all and (min-width: 53em) {
+  .sg-control-trigger {
+    float: left;
+    width: 6em;
+  }
+}
+
+.sg-control > li {
+  float: left;
+}
+
+.sg-current-size {
+  font-size: 70%;
+  color: #808080;
+  padding: 0.85em 0.7em;
+}
+@media all and (min-width: 53em) {
+  .sg-current-size {
+    float: left;
+  }
+}
+
+.sg-size {
+  width: 135px;
+}
+@media all and (min-width: 42em) {
+  .sg-size {
+    width: auto;
+  }
+}
+
+.sg-size-options {
+  display: none;
+}
+@media all and (min-width: 53em) {
+  .sg-size-options {
+    display: block;
+    float: left;
+    position: static;
+  }
+  .sg-size-options > li {
+    float: left;
+  }
+}
+
+#sg-form {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.sg-input {
+  margin: -2px 0 0 0;
+  padding: 0.1em;
+  border: 0;
+  border-radius: 3px;
+  background: #000;
+  color: #808080;
+  width: 25px;
+  text-align: right;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.sg-input:hover {
+  color: #fff;
+  background: #222;
+}
+.sg-input:active, .sg-input:focus {
+  outline: 0;
+  background: #808080;
+  color: #fff;
+}
+@media all and (min-width: 42em) {
+  .sg-input {
+    width: 35px;
+  }
+  .sg-input.sg-size-px {
+    width: 30px;
+  }
+}
+
+.sg-view {
+  position: relative;
+}
+.sg-view > ul {
+  position: absolute;
+  top: 2em;
+  left: 0;
+}
+
+.sg-checkbox:before {
+  display: inline-block;
+  margin-right: 0.4em;
+}
+
+/* basic styling */
+.sg-pattern-state:before {
+  margin-right: 4px;
+  content: "\2022";
+  display: inline-block;
+  margin-bottom: -4px;
+  font-size: 18px;
+  vertical-align: bottom;
+}
+
+/* nav styling */
+.sg-nav .sg-pattern-state:before {
+  margin-top: -4px;
+  margin-bottom: 0;
+  margin-left: -4px;
+  height: 20px;
+  display: block;
+  float: left;
+}
+
+.sg-sub-nav .sg-pattern-state:before {
+  margin-left: -11px;
+  margin-right: 4px;
+}
+
+/* call out for pattern's pattern state */
+span.sg-pattern-state {
+  color: #999;
+}
+
+span.sg-pattern-state:before {
+  margin-bottom: -3px;
+  margin-left: 4px;
+}
+
+.inprogress:before {
+  color: #FF4136 !important;
+}
+
+.inreview:before {
+  color: #FFCC00 !important;
+}
+
+.complete:before {
+  color: #2ECC40 !important;
+}
+
+/*------------------------------------*\
+    $PATTERN LAB VIEWPORT
+\*------------------------------------*/
+#sg-vp-wrap {
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: 2em;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+#sg-vp-wrap.wrap-animate {
+  -webkit-transition: left 0.3s ease-out;
+          transition: left 0.3s ease-out;
+}
+
+#sg-viewport {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+#sg-viewport.hay-mode {
+  -webkit-transition: all 40s linear;
+          transition: all 40s linear;
+}
+
+.no-resize #sg-cover, .no-resize #sg-rightpull-container {
+  display: none;
+}
+.no-resize #sg-viewport {
+  overflow: hidden !important;
+}
+
+#sg-cover {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: absolute;
+  z-index: 20;
+  cursor: col-resize;
+}
+
+#sg-gen-container {
+  height: 100%;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#sg-gen-container.hay-mode {
+  -webkit-transition: all 40s linear;
+          transition: all 40s linear;
+}
+
+#sg-rightpull-container {
+  width: 14px;
+  float: right;
+  margin: 0;
+  height: 100%;
+  cursor: col-resize;
+}
+
+#sg-rightpull {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #999;
+  -webkit-transition: background 0.1s ease-out;
+          transition: background 0.1s ease-out;
+}
+#sg-rightpull:hover {
+  background: #666;
+}
+#sg-rightpull:active {
+  cursor: col-resize;
+  background: #444;
+}
+
+.vp-animate {
+  -webkit-transition: width 0.8s ease-out;
+          transition: width 0.8s ease-out;
+}
+
+/*------------------------------------*\
+    $PATTERN LAB CONTENT 
+\*------------------------------------*/
+/* Section Pattern */
+.sg-pattern {
+  margin-bottom: 2em;
+  position: relative;
+}
+
+/* Section Head */
+.sg-pattern-head {
+  margin: 2em 0 0;
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  font-size: 70%;
+  font-weight: normal;
+  position: relative;
+}
+.sg-pattern-head h3 a {
+  display: inline-block;
+  padding: 1em 0 0.3em;
+  color: #808080;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sg-pattern-head h3 a:hover {
+  color: #000;
+}
+
+.sg-pattern-extra-toggle {
+  font-size: 9px;
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  z-index: 1;
+  padding: 0.65em;
+  line-height: 1;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  -webkit-transition: background 0.1s ease-out;
+          transition: background 0.1s ease-out;
+}
+.sg-pattern-extra-toggle:hover, .sg-pattern-extra-toggle.active {
+  background: #eee;
+  color: #222;
+}
+.sg-pattern-extra-toggle.active {
+  border-bottom-color: #eee;
+}
+
+.sg-pattern-extra {
+  background: #eee;
+  border-top: 1px solid #ddd;
+  margin-bottom: 1em;
+  overflow: hidden;
+  max-height: 1px;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.sg-pattern-extra.active {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  border-top-right-radius: 0;
+  padding: 1em;
+  max-height: 40em;
+}
+
+@media all and (min-width: 30em) {
+  .sg-pattern-extra-info {
+    float: left;
+    width: 50%;
+  }
+}
+
+@media all and (min-width: 30em) {
+  .sg-pattern-extra-info {
+    float: left;
+    width: 50%;
+  }
+}
+
+.sg-view-container {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  line-height: 1.4;
+  font-size: 90%;
+  background: #000;
+  color: #808080;
+  position: fixed;
+  top: auto;
+  padding: 1em;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 50%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sg-view-container a {
+  color: #999;
+}
+.sg-view-container pre {
+  padding: 0 1em;
+}
+.sg-view-container.anim-ready {
+  -webkit-transition: bottom 0.3s ease-out;
+          transition: bottom 0.3s ease-out;
+}
+
+.sg-view-close {
+  width: 100%;
+  margin-bottom: -10px;
+}
+
+.sg-view-close-btn {
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: right;
+  display: block;
+}
+
+.has-annotation {
+  cursor: help !important;
+  -webkit-box-shadow: 0 0 10px #808080;
+          box-shadow: 0 0 10px #808080;
+}
+.has-annotation a, .has-annotation input {
+  cursor: help !important;
+}
+.has-annotation:hover {
+  -webkit-box-shadow: 0 0 10px #000;
+          box-shadow: 0 0 10px #000;
+}
+.has-annotation.active {
+  -webkit-box-shadow: inset 0 0 20px #808080;
+          box-shadow: inset 0 0 20px #808080;
+}
+
+.annotation-tip {
+  display: block;
+  position: absolute;
+  margin-top: -10px !important;
+  margin-left: -10px !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 13px !important;
+  text-align: center !important;
+  background: #444 !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  z-index: 100;
+}
+
+#sg-comments-container {
+  max-width: 60em;
+  margin: 0 auto;
+}
+
+.sg-comment-container {
+  padding-bottom: 2em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+.sg-comment-container p:last-child {
+  margin-bottom: 0;
+}
+.sg-comment-container h2 {
+  margin-bottom: 0.25em;
+}
+
+.sg-code, .sg-annotations {
+  clear: both;
+  background: #ddd;
+  color: #000;
+  padding: 1em 0.5em;
+  margin: 1em 0;
+}
+.sg-code a, .sg-annotations a {
+  text-decoration: underline;
+}
+
+.sg-code pre {
+  white-space: -moz-pre-line;
+  white-space: -pre-line;
+  white-space: -o-pre-line;
+  word-wrap: break-word;
+  white-space: pre-line;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5em;
+}
+
+.sg-code-contains {
+  margin-bottom: 1rem;
+  font-size: 85%;
+  color: #808080;
+}
+.sg-code-contains code {
+  padding: 0.2em;
+  background: rgba(0, 0, 0, 0.3);
+  color: #999;
+  position: relative;
+  top: -2px;
+}
+
+.sg-code-head {
+  color: #808080;
+  font-size: 1em;
+}
+
+#sg-code-markup {
+  padding-top: 10px;
+}
+
+#sg-code-tabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sg-code-tabs li {
+  float: left;
+  background-color: #333;
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: 5px 15px;
+  border-top: 2px solid #666;
+  margin-right: 2px;
+  cursor: pointer;
+}
+
+.sg-code-title-active {
+  color: #bbb;
+  background-color: #272822 !important;
+}
+
+div.clear {
+  clear: both;
+}
+
+.sg-code-patternname {
+  color: #aaa;
+}
+
+#sg-code-loader {
+  display: none;
+  position: absolute;
+  left: 45%;
+  top: 20%;
+  width: 150px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #000;
+  z-index: 100;
+}
+
+.spinner {
+  height: 30px;
+  width: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background: url("../images/spinner.gif");
+  border-radius: 50%;
+  opacity: .7;
+}
+
+#sg-find {
+  color: #000;
+  text-transform: lowercase;
+}
+
+.show-overflow {
+  overflow: visible;
+}
+
+/*------------------------------------*\
+    $TYPEAHEAD
+\*------------------------------------*/
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 220px;
+  height: 30px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 16px;
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #999;
+}
+
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999;
+}
+
+.tt-dropdown-menu {
+  width: 422px;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  text-align: left;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tt-suggestion {
+  padding: 3px 13px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+/*------------------------------------*\
+    $PATTERN LAB ICON FONTS 
+\*------------------------------------*/
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon.eot?srsv7g");
+  src: url("../fonts/icomoon.eot?#iefixsrsv7g") format("embedded-opentype"), url("../fonts/icomoon.woff?srsv7g") format("woff"), url("../fonts/icomoon.ttf?srsv7g") format("truetype"), url("../fonts/icomoon.svg?srsv7g#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+.sg-icon-search, .sg-icon-cog, .sg-icon-minus, .sg-icon-plus, .sg-icon-menu, .sg-icon-radio-checked, .sg-checkbox.active, .sg-icon-radio-unchecked, .sg-checkbox, .sg-icon-file, .sg-icon-link, .sg-icon-keyboard, .sg-icon-qrcode, .sg-icon-eye, .sg-checkbox {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sg-icon-search:before {
+  content: "\e600";
+  font-size: 85%;
+}
+
+.sg-icon-cog:before {
+  content: "\e601";
+}
+
+.sg-icon-minus:before {
+  content: "\e602";
+}
+
+.sg-icon-plus:before {
+  content: "\e603";
+}
+
+.sg-icon-menu:before {
+  content: "\e604";
+}
+
+.sg-icon-radio-checked:before, .sg-checkbox.active:before, .sg-checkbox.active:before {
+  content: "\e605";
+}
+
+.sg-icon-radio-unchecked:before, .sg-checkbox:before, .sg-checkbox:before {
+  content: "\e606";
+}
+
+.sg-icon-file:before {
+  content: "\e607";
+}
+
+.sg-icon-link:before {
+  content: "\e608";
+}
+
+.sg-icon-keyboard:before {
+  content: "\e609";
+}
+
+.sg-icon-eye:before {
+  content: "\e60b";
+}
+
+/******************************************************************/
+/* End Pattern Lab Interface code */
