@@ -35,14 +35,22 @@
 										{{ patternPartial }}
 									</code>
 								</pre>
-								{{# patternCSSExists }}
+								{{# cssExists }}
 									<h3 class="sg-code-head">CSS</h3>
 									<pre class="sg-code-css">
 										<code>
-											{{ patternCSS }}
+											{{ css }}
 										</code>
 									</pre>
-								{{/ patternCSSExists }}
+								{{/ cssExists }}
+								{{# jsExists }}
+									<h3 class="sg-code-head">JS</h3>
+									<pre class="sg-code-js">
+										<code>
+											{{ js }}
+										</code>
+									</pre>
+								{{/ jsExists }}
 							</div>
 						</div>
 					</div>

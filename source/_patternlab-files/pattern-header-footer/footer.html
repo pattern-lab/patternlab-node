@@ -11,8 +11,9 @@
 		var patternPartial = "{{ patternGroup }}-{{ patternName }}";
 		var lineage = [{{{ lineage }}}];
 		var lineageR = [{{{ lineageR }}}];
-		var patternState = "{{patternState}}"
-		var cssEnabled = false; //TODO
+		var patternState = "{{patternState}}";
+		var cssEnabled = ("{{cssExists}}" === "true");
+		var jsEnabled = ("{{jsExists}}" === "true");
 	</script>
 	
 	<script type="text/html" id="sg-pattern-html">
