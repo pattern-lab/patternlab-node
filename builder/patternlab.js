@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.9.0 - 2015 
+ * patternlab-node - v0.9.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -8,7 +8,7 @@
  *
  */
 
- var patternlab_engine = function(){
+var patternlab_engine = function(){
   var path = require('path'),
   fs = require('fs-extra'),
   extend = require('util')._extend,
