@@ -668,8 +668,10 @@ span.sg-pattern-state:before {
 	padding: $sg-pad;
 	box-sizing: border-box;
 	border-bottom: 1px solid $sg-gray-light-2;
+	line-height: 1.3;
+	font-size: 90%;
 	
-	@media all and (min-width: 30em) {
+	@media all and (min-width: 40em) {
 		float: left;
 		width: 50%;
 		border-bottom: 0;
@@ -681,7 +683,7 @@ span.sg-pattern-state:before {
 	padding: $sg-pad;
 	box-sizing: border-box;
 	
-	@media all and (min-width: 30em) {
+	@media all and (min-width: 40em) {
 		float: left;
 		width: 50%;
 	}
@@ -879,84 +881,47 @@ div.clear {
 	z-index: 100; 
 }
 
-.spinner {
-	height: 30px;
-	width: 30px;
-	margin-left: auto; margin-right: auto;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background: url('../images/spinner.gif');
-	border-radius: 50%;
-	opacity: .7;
-}
-
-
-
-
-
-#sg-find {
-	color: #000;
-	text-transform: lowercase;
-}
-
 .show-overflow {
 	overflow: visible;
 }
-
-
-
-
 
 /*------------------------------------*\
     $TYPEAHEAD
 \*------------------------------------*/
 
-.typeahead,
-.tt-query,
-.tt-hint {
-  width: 220px;
-  height: 30px;
-  padding: 8px 12px;
-  font-size: 14px;
-  line-height: 16px;
-  border: 2px solid #ccc;
-  outline: none;
+.twitter-typeahead {
+	width: 100%;	
 }
 
 .typeahead {
-  background-color: #fff;
-}
-
-.typeahead:focus {
-  border: 2px solid #999;
-}
-
-.tt-query {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	border: 0;
+	background: $sg-gray-dark;
+	color: $sg-gray;
+	width: 100%;
+	padding: 1em 0.7em;
+	right: 0;
+  
+	&:focus {
+		background: $sg-gray;
+		color: $sg-white;
+	}
 }
 
 .tt-hint {
-  color: #999
+ 
 }
 
 .tt-dropdown-menu {
-  width: 422px;
   padding: 8px 0;
   background-color: #fff;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   text-align: left;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
 }
 
 .tt-suggestion {
   padding: 3px 13px;
-  font-size: 14px;
-  line-height: 16px;
+
 }
 
 .tt-suggestion.tt-cursor {
@@ -1008,15 +973,6 @@ div.clear {
 .sg-icon-cog:before {
 	content: "\e601";
 }
-.sg-icon-minus:before {
-	content: "\e602";
-}
-.sg-icon-plus:before {
-	content: "\e603";
-}
-.sg-icon-menu:before {
-	content: "\e604";
-}
 .sg-icon-radio-checked:before, .sg-checkbox.active:before {
 	content: "\e605";
 }
@@ -1028,9 +984,6 @@ div.clear {
 }
 .sg-icon-link:before {
 	content: "\e608";
-}
-.sg-icon-keyboard:before {
-	content: "\e609";
 }
 .sg-icon-eye:before {
 	content: "\e60b";
