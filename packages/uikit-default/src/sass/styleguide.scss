@@ -567,16 +567,16 @@ span.sg-pattern-state:before {
 	margin: 0; 
 	width: 100%; 
 	height: 100%; 
-	background: $sg-gray-light-3;
+	background: #c2c2c2;
     transition: background $animate-quick ease-out;
 
 	&:hover {
-		background: #666;
+		background: $sg-gray;
 	}
 
 	&:active {
 		cursor: col-resize;
-		background: #444;
+		background: #666;
 	}
 }
 
@@ -659,20 +659,28 @@ span.sg-pattern-state:before {
 		border: 1px solid $sg-gray-light-2;
 		border-radius: $border-radius-med;
 		border-top-right-radius: 0;
-		padding: $sg-pad;
-		max-height: 40em;
+		max-height: 30em;
 	}
 }
 
 // Pattern Extra Info and Code
 .sg-pattern-extra-info {
+	padding: $sg-pad;
+	box-sizing: border-box;
+	border-bottom: 1px solid $sg-gray-light-2;
+	
 	@media all and (min-width: 30em) {
 		float: left;
 		width: 50%;
+		border-bottom: 0;
+		border-right: 1px solid $sg-gray-light-2;
 	}
 }
 
-.sg-pattern-extra-info {
+.sg-pattern-extra-code {
+	padding: $sg-pad;
+	box-sizing: border-box;
+	
 	@media all and (min-width: 30em) {
 		float: left;
 		width: 50%;
