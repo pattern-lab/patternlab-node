@@ -638,13 +638,4 @@
 	}
 	window.addEventListener("message", receiveIframeMessage, false);
 	
-	/*if (qrCodeGeneratorOn) {
-		$('.sg-tools').click(function() {
-			if ((qrCodeGenerator.lastGenerated == "") || (qrCodeGenerator.lastGenerated != window.location.search)) {
-				qrCodeGenerator.getQRCode();
-				qrCodeGenerator.lastGenerated = window.location.search;
-			}
-		});
-	}*/
-	
 })(this);
