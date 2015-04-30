@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.9.0 - 2015 
+ * patternlab-node - v0.9.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -8,7 +8,7 @@
  *
  */
 
- var patternlab_engine = function(){
+var patternlab_engine = function(){
   var path = require('path'),
   fs = require('fs-extra'),
   extend = require('util')._extend,
@@ -367,7 +367,7 @@ var entity_encoder = new he();
           navViewAllSubItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
 
           //check if we are moving to a new sub section in the next loop
-          if (pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
+          if (!patternlab.patterns[i + 1] || pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
             navItem.navSubItems.push(navViewAllSubItem);
             navItem.navSubItemsIndex.push("View All");
           }
