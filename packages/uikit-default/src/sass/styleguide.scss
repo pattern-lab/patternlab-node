@@ -46,7 +46,8 @@ $sg-black : #000;
 $sg-white : #fff;
 $sg-gray-light : #eee;
 $sg-gray-light-2 : #ddd;
-$sg-gray-light-3 : #999;
+$sg-gray-light-3 : #ccc;
+$sg-gray-light-4 : #999;
 $sg-gray : #808080;
 $sg-gray-dark : #222;
 $sg-tint : rgba(255,255,255,0.05);
@@ -66,7 +67,7 @@ $sg-pad : 1em;
 $sg-pad-half : $sg-pad/2;
 
 // Dimensions
-$offset-top: 2em;
+$offset-top : 2em;
 
 // Breakpoints
 $sg-bp-small : 24em;
@@ -74,11 +75,11 @@ $sg-bp-med : 42em;
 $sg-bp-large : 53em;
 
 // Animations
-$animate-quick: 0.1s;
+$sg-animate-quick : 0.1s;
 
 // Border
-$border-radius: 3px;
-$border-radius-med: 6px;
+$sg-border-radius : 3px;
+$sg-border-radius-med : 6px;
 
 
 
@@ -163,8 +164,8 @@ $border-radius-med: 6px;
 		display: block;
 		line-height: 1;
 		padding: 1em 0.7em;
-		transition: background $animate-quick ease-out;
-		transition: color $animate-quick ease-out;
+		transition: background $sg-animate-quick ease-out;
+		transition: color $sg-animate-quick ease-out;
 		
 		&:hover, &:focus, &.active {
 			color: $sg-white;
@@ -196,7 +197,7 @@ $border-radius-med: 6px;
 	@media all and (max-width: $sg-bp-med) {
 		overflow: hidden;
 		max-height: 0;
-		transition: max-height $animate-quick ease-out;
+		transition: max-height $sg-animate-quick ease-out;
 		
 		&.active {
 			max-height: 50em;
@@ -239,7 +240,7 @@ $border-radius-med: 6px;
 		position: relative;
 		top: -1px;
 		right: -2px;
-		transition: all $animate-quick ease-out;
+		transition: all $sg-animate-quick ease-out;
 				
 		@media all and (min-width: $sg-bp-med) {
 			float: none;
@@ -280,7 +281,7 @@ $border-radius-med: 6px;
 	overflow: hidden;
 	max-height: 0;
 	min-width: 10em;
-	transition: max-height $animate-quick ease-out;
+	transition: max-height $sg-animate-quick ease-out;
 
 	li {
 		background: $sg-gray-dark;
@@ -288,8 +289,8 @@ $border-radius-med: 6px;
 	
 	li:last-child {
 		overflow: hidden;
-		border-bottom-left-radius: $border-radius-med;
-		border-bottom-right-radius: $border-radius-med;
+		border-bottom-left-radius: $sg-border-radius-med;
+		border-bottom-right-radius: $sg-border-radius-med;
 	}
 
 	&.active {
@@ -380,12 +381,12 @@ $border-radius-med: 6px;
 	margin: -2px 0 0 0;
 	padding: 0.1em;
 	border: 0;
-	border-radius: $border-radius;
+	border-radius: $sg-border-radius;
 	background: $sg-black; 
 	color: $sg-gray;
 	width: 25px;
 	text-align: right;
-	transition: all $animate-quick ease-out;
+	transition: all $sg-animate-quick ease-out;
 	    
     &:hover {
 	    color: $sg-white;
@@ -460,7 +461,7 @@ $border-radius-med: 6px;
 
 /* call out for pattern's pattern state */
 span.sg-pattern-state {
-	color: $sg-gray-light-3;
+	color: $sg-gray-light-4;
 }
 
 span.sg-pattern-state:before {
@@ -568,7 +569,7 @@ span.sg-pattern-state:before {
 	width: 100%; 
 	height: 100%; 
 	background: #c2c2c2;
-    transition: background $animate-quick ease-out;
+    transition: background $sg-animate-quick ease-out;
 
 	&:hover {
 		background: $sg-gray;
@@ -631,9 +632,9 @@ span.sg-pattern-state:before {
 	line-height: 1;
 	font-weight: normal;
 	border: 1px solid $sg-gray-light-2;
-	border-top-left-radius: $border-radius-med;
-	border-top-right-radius: $border-radius-med;
-	transition: background $animate-quick ease-out;
+	border-top-left-radius: $sg-border-radius-med;
+	border-top-right-radius: $sg-border-radius-med;
+	transition: background $sg-animate-quick ease-out;
 	
 	&:hover, &.active {
 		background: $sg-gray-light;
@@ -653,11 +654,11 @@ span.sg-pattern-state:before {
 	margin-bottom: $sg-space;
 	overflow: hidden;
 	max-height: 1px;
-	transition: all $animate-quick ease-out;
+	transition: all $sg-animate-quick ease-out;
 	
 	&.active {
 		border: 1px solid $sg-gray-light-2;
-		border-radius: $border-radius-med;
+		border-radius: $sg-border-radius-med;
 		border-top-right-radius: 0;
 		max-height: 30em;
 	}
@@ -675,18 +676,78 @@ span.sg-pattern-state:before {
 		float: left;
 		width: 50%;
 		border-bottom: 0;
-		border-right: 1px solid $sg-gray-light-2;
 	}
+}
+
+.sg-pattern-desc {
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid $sg-gray-light-3;
+	
+	p:last-child {
+		margin: 0;
+	}
+}
+
+.sg-pattern-extra-lineage {
+	font-size: 90%;
+	font-style: italic;
+	color: $sg-gray;
 }
 
 .sg-pattern-extra-code {
 	padding: $sg-pad;
 	box-sizing: border-box;
+	font-size: 90%;
+	
+	pre {
+		margin: 0;
+		background: $sg-gray-dark;
+		color: $sg-white;
+		padding: 0.5em;
+		border-radius: $sg-border-radius-med;
+	}
 	
 	@media all and (min-width: 40em) {
 		float: left;
 		width: 50%;
 	}
+}
+
+// Tabs
+.sg-tab-list {
+	
+	li {
+		display: inline-block;
+	} 
+	
+	a {
+		display: block;
+		font-size: 90%;
+		font-weight: bold;
+		padding: 0.3em 1em;
+		border: 1px solid $sg-gray-light-3;
+		color: $sg-gray;
+		border-top-right-radius: $sg-border-radius-med;
+		border-top-left-radius: $sg-border-radius-med;
+		transition: color $sg-animate-quick ease-out;
+		
+		&:hover {
+			color: $sg-gray-dark;
+		}
+		
+		&.active {
+			border-bottom-color: $sg-gray-light;
+			color: $sg-gray-dark;
+		}
+	}
+}
+
+.sg-tab-content {
+	border: 1px solid $sg-gray-light-3;
+	border-radius: $sg-border-radius-med;
+	border-top-left-radius: 0;
+	padding: 0.7em;
 }
 
 // Annotations and code view container
@@ -711,7 +772,7 @@ span.sg-pattern-state:before {
 	overflow-x: hidden;
 
   	a {
-    	color: $sg-gray-light-3;
+    	color: $sg-gray-light-4;
     }
 
      pre {
@@ -823,7 +884,7 @@ span.sg-pattern-state:before {
 	code {
 		padding: 0.2em;
 		background: $sg-tone-2;
-		color: $sg-gray-light-3;
+		color: $sg-gray-light-4;
 		position: relative;
 		top: -2px;
 	}
@@ -978,15 +1039,6 @@ div.clear {
 }
 .sg-icon-radio-unchecked:before, .sg-checkbox:before {
 	content: "\e606";
-}
-.sg-icon-file:before {
-	content: "\e607";
-}
-.sg-icon-link:before {
-	content: "\e608";
-}
-.sg-icon-eye:before {
-	content: "\e60b";
 }
 
 /******************************************************************/
