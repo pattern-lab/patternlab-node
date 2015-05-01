@@ -1057,6 +1057,7 @@ document.getElementById("sg-controls").innerHTML = templateRendered;
  *
  */
 
+/*
 var patternFinder = {
 	
 	data:   [],
@@ -1165,6 +1166,7 @@ $('#sg-find .typeahead').focus(function() {
 $('#sg-find .typeahead').blur(function() {
 	patternFinder.closeFinder();
 });
+*/
 /*!
  * Basic postMessage Support
  *
