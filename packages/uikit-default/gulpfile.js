@@ -9,7 +9,6 @@ var gulpLoadPlugins    = require('gulp-load-plugins');
 var plugins            = gulpLoadPlugins({ scope: ['devDependencies'] });
 plugins.del            = require("del");
 plugins.mainBowerFiles = require("main-bower-files");
-plugins.pngcrush       = require('imagemin-pngcrush');
 
 /* clean tasks */
 gulp.task('clean:bower', function (cb) {
