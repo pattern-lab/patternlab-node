@@ -562,7 +562,6 @@ span.sg-pattern-state:before {
     float: left;
     width: 50%;
     border-bottom: 0;
-    border-right: 1px solid #ddd;
   }
 }
 
@@ -570,12 +569,50 @@ span.sg-pattern-state:before {
   padding: 1em;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-size: 90%;
+}
+.sg-pattern-extra-code pre {
+  margin: 0;
+  background: #222;
+  color: #fff;
+  padding: 0.5em;
+  border-radius: 6px;
 }
 @media all and (min-width: 40em) {
   .sg-pattern-extra-code {
     float: left;
     width: 50%;
   }
+}
+
+.sg-tab-list li {
+  display: inline-block;
+}
+.sg-tab-list a {
+  display: block;
+  font-size: 90%;
+  font-weight: bold;
+  padding: 0.3em 1em;
+  border: 1px solid #ccc;
+  color: #808080;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  -webkit-transition: color 0.1s ease-out;
+          transition: color 0.1s ease-out;
+}
+.sg-tab-list a:hover {
+  color: #222;
+}
+.sg-tab-list a.active {
+  border-bottom-color: #eee;
+  color: #222;
+}
+
+.sg-tab-content {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  border-top-left-radius: 0;
+  padding: 0.7em;
 }
 
 .sg-view-container {
@@ -840,18 +877,6 @@ div.clear {
 
 .sg-icon-radio-unchecked:before, .sg-checkbox:before, .sg-checkbox:before {
   content: "\e606";
-}
-
-.sg-icon-file:before {
-  content: "\e607";
-}
-
-.sg-icon-link:before {
-  content: "\e608";
-}
-
-.sg-icon-eye:before {
-  content: "\e60b";
 }
 
 /******************************************************************/
