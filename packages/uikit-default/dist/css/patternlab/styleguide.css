@@ -27,7 +27,6 @@
  * -----Viewport
  * -----Section Headers
  * -----Code View
- * -----Icon Fonts
  */
 /*------------------------------------*\
     $PATTERN LAB VARIABLES 
@@ -193,14 +192,12 @@
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-.sg-acc-handle.sg-icon:after {
-  content: "";
+.sg-acc-handle.sg-tools-toggle {
+  padding: 0.9em 0.7em 0.6em;
 }
-
-.sg-header .sg-icon {
-  width: auto;
-  font-size: 1rem;
-  padding: 0.5rem 0.7rem;
+.sg-acc-handle.sg-tools-toggle:after {
+  display: none;
+  content: "";
 }
 
 .sg-acc-panel {
@@ -230,10 +227,6 @@
 .sg-acc-panel.sg-left {
   position: absolute;
   left: auto;
-}
-.sg-acc-panel [class^="sg-icon-"]:before {
-  display: inline-block;
-  margin-right: 0.4em;
 }
 
 /* Controls (sizing, view mode) */
@@ -333,11 +326,6 @@
   position: absolute;
   top: 2em;
   left: 0;
-}
-
-.sg-checkbox:before {
-  display: inline-block;
-  margin-right: 0.4em;
 }
 
 /* basic styling */
@@ -865,46 +853,6 @@ div.clear {
 
 .tt-suggestion p {
   margin: 0;
-}
-
-/*------------------------------------*\
-    $PATTERN LAB ICON FONTS 
-\*------------------------------------*/
-@font-face {
-  font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?srsv7g");
-  src: url("../fonts/icomoon.eot?#iefixsrsv7g") format("embedded-opentype"), url("../fonts/icomoon.woff?srsv7g") format("woff"), url("../fonts/icomoon.ttf?srsv7g") format("truetype"), url("../fonts/icomoon.svg?srsv7g#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
-.sg-icon-search, .sg-icon-cog, .sg-icon-minus, .sg-icon-plus, .sg-icon-menu, .sg-icon-radio-checked, .sg-checkbox.active, .sg-icon-radio-unchecked, .sg-checkbox, .sg-icon-file, .sg-icon-link, .sg-icon-keyboard, .sg-icon-qrcode, .sg-icon-eye, .sg-checkbox {
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.sg-icon-search:before {
-  content: "\e600";
-  font-size: 85%;
-}
-
-.sg-icon-cog:before {
-  content: "\e601";
-}
-
-.sg-icon-radio-checked:before, .sg-checkbox.active:before, .sg-checkbox.active:before {
-  content: "\e605";
-}
-
-.sg-icon-radio-unchecked:before, .sg-checkbox:before, .sg-checkbox:before {
-  content: "\e606";
 }
 
 /******************************************************************/
