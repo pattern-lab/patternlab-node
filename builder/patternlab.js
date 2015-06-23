@@ -21,6 +21,7 @@ var patternlab_engine = function(){
   lh = require('./lineage_hunter'),
   pe = require('./pattern_exporter'),
   pa = require('./pattern_assembler'),
+  twig = require('twig'),
   he = require('html-entities').AllHtmlEntities,
   patternlab = {};
 
@@ -88,6 +89,12 @@ var patternlab_engine = function(){
 
       //make a new Pattern Object
       currentPattern = new of.oPattern(subdir, filename);
+
+      //add the relative path to the pattern
+      currentPattern.patternSourcePath = path.join('./source/_patterns',subdir,filename);
+
+      //add the pattern template engine
+      currentPattern.templateEngine = path.extname(filename).replace('.','');
 
       //see if this file has a state
       assembler.setPatternState(currentPattern, patternlab);
@@ -169,9 +176,17 @@ var entity_encoder = new he();
         //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
         pattern.data.link = extend({}, patternlab.data.link);
 
-        pattern.patternPartial = renderPattern(pattern.template, pattern.data, patternlab.partials);
+        if(path.extname(pattern.templateEngine) !== 'mustache'){
+          pattern.patternPartial = renderPatternAlt(pattern, patternlab.config);
+        }else{
+          pattern.patternPartial = renderPattern(pattern.template, pattern.data, patternlab.partials);
+        }
       }else{ // Pass global patternlab data
-        pattern.patternPartial = renderPattern(pattern.template, patternlab.data, patternlab.partials);
+        if(path.extname(pattern.templateEngine) !== 'mustache'){
+          pattern.patternPartial = renderPatternAlt(pattern, patternlab.config);
+        }else{
+          pattern.patternPartial = renderPattern(pattern.template, patternlab.data, patternlab.partials);
+        }
       }
 
       //add footer info before writing
@@ -417,6 +432,38 @@ var entity_encoder = new he();
       return mustache.render(name, data);
     }
   }
+
+  /**
+   * Allows rendering of templates from alternative templating engines
+   *
+   * @param {Object}  pattern  details and data for an individual pattern
+   * @param {Object}  config  pattern lab config from config.json
+   *
+   * @return {String}  compiled html
+   */
+  function renderPatternAlt(pattern, config) {
+
+    switch (pattern.templateEngine) {
+      case 'twig':
+        var twigOptions = config.twig;
+        twigOptions.path = pattern.patternSourcePath;
+        
+        var tpl = twig.twig(twigOptions); //read the file with Twig
+        return tpl.render(pattern.data);
+        break;
+      case 'handlebars':
+      case 'hbs':
+        // add hbs compiler
+        break;
+      case 'swig':
+        // add swig compiler
+        break;
+      default:
+        //console.log('Error: no compiler for ' + pattern.templateEngine + 'available.');
+        return fs.readFileSync(pattern.patternSourcePath, 'utf8')
+    }
+  }
+
 
   function addToPatternPaths(bucketName, pattern){
     //this is messy, could use a refactor.
