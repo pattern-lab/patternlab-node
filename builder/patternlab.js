@@ -176,13 +176,14 @@ var entity_encoder = new he();
         //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
         pattern.data.link = extend({}, patternlab.data.link);
 
-        if(path.extname(pattern.templateEngine) !== 'mustache'){
+        if(pattern.templateEngine && (path.extname(pattern.templateEngine) !== 'mustache')){
+
           pattern.patternPartial = renderPatternAlt(pattern, patternlab.config);
         }else{
           pattern.patternPartial = renderPattern(pattern.template, pattern.data, patternlab.partials);
         }
       }else{ // Pass global patternlab data
-        if(path.extname(pattern.templateEngine) !== 'mustache'){
+        if(pattern.templateEngine && (path.extname(pattern.templateEngine) !== 'mustache')){
           pattern.patternPartial = renderPatternAlt(pattern, patternlab.config);
         }else{
           pattern.patternPartial = renderPattern(pattern.template, patternlab.data, patternlab.partials);
