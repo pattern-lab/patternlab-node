@@ -32,5 +32,9 @@
       "homepage-emergency" : "inprogress"
   },
   "patternExportKeys": [],
-  "patternExportDirectory": "./pattern_exports/"
+  "patternExportDirectory": "./pattern_exports/",
+  "twig" : {
+    "base" : "./source/_patterns/",
+    "async" : false
+  }
  }
