@@ -70,15 +70,15 @@ var patternFinder = {
 	
 	openFinder: function() {
 		patternFinder.active = true;
-		$('#sg-find .typeahead').val("");
-		$("#sg-find").addClass('show-overflow');
-		$('#sg-find .typeahead').focus();
+		// $('#sg-find .typeahead').val("");
+		// $("#sg-find").addClass('show-overflow');
+		// $('#sg-find .typeahead').focus();
 	},
 	
 	closeFinder: function() {
 		patternFinder.active = false;
-		$("#sg-find").removeClass('show-overflow');
-		$('#sg-find .typeahead').val("");
+		// $("#sg-find").removeClass('show-overflow');
+		// $('#sg-find .typeahead').val("");
 	},
 	
 	receiveIframeMessage: function(event) {
