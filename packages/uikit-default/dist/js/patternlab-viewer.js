@@ -1057,7 +1057,6 @@ document.getElementById("sg-controls").innerHTML = templateRendered;
  *
  */
 
-/*
 var patternFinder = {
 	
 	data:   [],
@@ -1120,15 +1119,15 @@ var patternFinder = {
 	
 	openFinder: function() {
 		patternFinder.active = true;
-		$('#sg-find .typeahead').val("");
-		$("#sg-find").addClass('show-overflow');
-		$('#sg-find .typeahead').focus();
+		// $('#sg-find .typeahead').val("");
+		// $("#sg-find").addClass('show-overflow');
+		// $('#sg-find .typeahead').focus();
 	},
 	
 	closeFinder: function() {
 		patternFinder.active = false;
-		$("#sg-find").removeClass('show-overflow');
-		$('#sg-find .typeahead').val("");
+		// $("#sg-find").removeClass('show-overflow');
+		// $('#sg-find .typeahead').val("");
 	},
 	
 	receiveIframeMessage: function(event) {
@@ -1166,7 +1165,6 @@ $('#sg-find .typeahead').focus(function() {
 $('#sg-find .typeahead').blur(function() {
 	patternFinder.closeFinder();
 });
-*/
 /*!
  * Basic postMessage Support
  *
