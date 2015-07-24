@@ -601,14 +601,21 @@ span.sg-pattern-state:before {
   }
 }
 
+.sg-tab-list {
+  overflow: hidden;
+  position: relative;
+  bottom: -1px;
+}
 .sg-tab-list li {
-  display: inline-block;
+  float: left;
+  margin-right: 3px;
 }
 .sg-tab-list a {
   display: block;
   font-size: 90%;
   font-weight: bold;
-  padding: 0.3em 1em;
+  line-height: 1;
+  padding: 0.5em 1em;
   border: 1px solid #ccc;
   color: #808080;
   border-top-right-radius: 6px;
@@ -853,6 +860,8 @@ div.clear {
 
 .tt-hint {
   text-transform: lowercase;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .tt-dropdown-menu {

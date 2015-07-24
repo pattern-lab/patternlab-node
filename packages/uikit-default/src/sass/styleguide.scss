@@ -981,6 +981,8 @@ div.clear {
 
 .tt-hint {
 	text-transform: lowercase;
+	border-bottom-right-radius: $sg-border-radius-med;
+	border-bottom-left-radius: $sg-border-radius-med;
 }
 
 .tt-dropdown-menu {
