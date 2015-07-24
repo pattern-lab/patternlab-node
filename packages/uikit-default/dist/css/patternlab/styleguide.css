@@ -211,7 +211,10 @@
   background: #222;
 }
 .sg-acc-panel li:last-child {
-  overflow: hidden;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.sg-acc-panel li:last-child a {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 }
@@ -326,6 +329,10 @@
   position: absolute;
   top: 2em;
   left: 0;
+}
+
+.sg-find {
+  position: relative;
 }
 
 /* basic styling */
@@ -826,29 +833,45 @@ div.clear {
   background: #222;
   color: #808080;
   width: 100%;
-  padding: 1em 0.7em;
   right: 0;
+  padding: 0.8em;
+  text-transform: lowercase;
 }
 .typeahead:focus {
   background: #808080;
   color: #fff;
 }
 
+.tt-input {
+  background: #808080;
+  color: #fff;
+  text-transform: uppercase;
+}
+.tt-input:focus {
+  text-transform: lowercase;
+}
+
+.tt-hint {
+  text-transform: lowercase;
+}
+
 .tt-dropdown-menu {
-  padding: 8px 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  text-align: left;
+  text-transform: lowercase;
+  background-color: #808080;
+  width: 100%;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .tt-suggestion {
-  padding: 3px 13px;
+  color: #eee;
+  font-size: 75%;
+  padding: 0.8em;
 }
 
 .tt-suggestion.tt-cursor {
   color: #fff;
-  background-color: #0097cf;
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .tt-suggestion p {

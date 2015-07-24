@@ -286,9 +286,13 @@ $sg-border-radius-med : 6px;
 	}
 	
 	li:last-child {
-		overflow: hidden;
 		border-bottom-left-radius: $sg-border-radius-med;
 		border-bottom-right-radius: $sg-border-radius-med;
+		
+		a {
+			border-bottom-left-radius: $sg-border-radius-med;
+			border-bottom-right-radius: $sg-border-radius-med;
+		}
 	}
 
 	&.active {
@@ -407,6 +411,10 @@ $sg-border-radius-med : 6px;
 		top: $offset-top;
 		left: 0;
 	}
+}
+
+.sg-find {
+	position: relative;
 }
 
 //Pattern States (active, inprogress, complete, etc)
@@ -943,7 +951,7 @@ div.clear {
 \*------------------------------------*/
 
 .twitter-typeahead {
-	width: 100%;	
+	width: 100%;
 }
 
 .typeahead {
@@ -951,32 +959,47 @@ div.clear {
 	background: $sg-gray-dark;
 	color: $sg-gray;
 	width: 100%;
-	padding: 1em 0.7em;
 	right: 0;
-  
+	padding: 0.8em;
+	text-transform: lowercase;
+
 	&:focus {
 		background: $sg-gray;
 		color: $sg-white;
 	}
 }
 
+.tt-input {
+	background: $sg-gray;
+	color: $sg-white;
+	text-transform: uppercase;
+	
+	&:focus {
+		text-transform: lowercase;
+	}
+}
+
+.tt-hint {
+	text-transform: lowercase;
+}
+
 .tt-dropdown-menu {
-  padding: 8px 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  text-align: left;
+	text-transform: lowercase;
+	background-color: $sg-gray;
+	width: 100%;
+	border-bottom-right-radius: $sg-border-radius-med;
+	border-bottom-left-radius: $sg-border-radius-med;
 }
 
 .tt-suggestion {
-  padding: 3px 13px;
-
+	color: $sg-gray-light;
+	font-size: 75%;
+	padding: 0.8em;
 }
 
 .tt-suggestion.tt-cursor {
-  color: #fff;
-  background-color: #0097cf;
-
+  color: $sg-white;
+  background: $sg-tint-2;
 }
 
 .tt-suggestion p {
