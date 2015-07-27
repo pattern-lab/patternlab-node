@@ -59,7 +59,7 @@
 
 				});
 			}
-			return matches.length;
+			return matches !== null ? matches.length : 0;
 		}
 
 		return {

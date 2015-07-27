@@ -13,10 +13,10 @@
 
 	var lineage_hunter = function(){
 
-		var pa = require('./pattern_assembler');
-		var pattern_assembler = new pa();
-
 		function findlineage(pattern, patternlab){
+
+			var pa = require('./pattern_assembler');
+			var pattern_assembler = new pa();
 
 			//find the {{> template-name }} within patterns
 			var matches = pattern_assembler.find_pattern_partials(pattern);

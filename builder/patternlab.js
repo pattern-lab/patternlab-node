@@ -10,6 +10,7 @@
 
 var patternlab_engine = function () {
   'use strict';
+
   var path = require('path'),
   fs = require('fs-extra'),
   extend = require('util')._extend,
@@ -54,8 +55,6 @@ var patternlab_engine = function () {
   }
 
   function buildPatterns(callback){
-    console.log('0');
-
     patternlab.data = fs.readJSONSync('./source/_data/data.json');
     patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
     patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
@@ -69,7 +68,6 @@ var patternlab_engine = function () {
         pattern_exporter = new pe();
 
     diveSync('./source/_patterns', function(err, file){
-      console.log('1');
       //log any errors
       if(err){
         console.log(err);

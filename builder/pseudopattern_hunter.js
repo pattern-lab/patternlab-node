@@ -13,18 +13,18 @@
 
 	var pseudopattern_hunter = function(){
 
-    var extend = require('util')._extend,
-        glob = require('glob'),
-        fs = require('fs-extra'),
-				pa = require('./pattern_assembler'),
-        lh = require('./lineage_hunter'),
-        of = require('./object_factory'),
-				mustache = require('mustache');
+    function findpseudopatterns(currentPattern, patternlab){
 
-		var pattern_assembler = new pa();
-    var lineage_hunter = new lh();
+			var extend = require('util')._extend,
+					glob = require('glob'),
+					fs = require('fs-extra'),
+					pa = require('./pattern_assembler'),
+					lh = require('./lineage_hunter'),
+					of = require('./object_factory'),
+					mustache = require('mustache');
 
-    function findpseudopatterns(currentPattern, subdir, patternlab){
+			var pattern_assembler = new pa();
+			var lineage_hunter = new lh();
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
       var needle = currentPattern.subdir + '/' + currentPattern.fileName+ '~*.json';
@@ -43,7 +43,7 @@
           variantFileData = extend(variantFileData, currentPattern.data);
 
           var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-          var patternVariant = new of.oPattern(subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
+          var patternVariant = new of.oPattern(currentPattern.subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
 
           //see if this file has a state
           pattern_assembler.setPatternState(patternVariant, patternlab);
@@ -62,8 +62,8 @@
     }
 
     return {
-      find_pseudopatterns: function(pattern, subdir, patternlab){
-        findpseudopatterns(pattern, subdir, patternlab);
+      find_pseudopatterns: function(pattern, patternlab){
+        findpseudopatterns(pattern, patternlab);
       }
     };
 

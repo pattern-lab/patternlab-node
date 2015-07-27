@@ -11,13 +11,6 @@
 (function () {
   "use strict";
 
-  var fs = require('fs-extra'),
-      mustache = require('mustache'),
-      ph = require('./parameter_hunter'),
-      path = require('path');
-
-  var parameter_hunter = new ph();
-
   var pattern_assembler = function(){
 
     //find and return any {{> template-name }} within pattern
@@ -40,6 +33,9 @@
     }
 
     function renderPattern(template, data, partials) {
+
+      var mustache = require('mustache');
+
       if(partials) {
         return mustache.render(template, data, partials);
       }else{
@@ -48,6 +44,10 @@
     }
 
     function processPatternFile(file, patternlab){
+      var fs = require('fs-extra'),
+          of = require('./object_factory'),
+          path = require('path');
+
       //extract some information
       var abspath = file.substring(2);
       var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
@@ -59,10 +59,10 @@
       }
 
       //make a new Pattern Object
-      currentPattern = new of.oPattern(subdir, filename);
+      var currentPattern = new of.oPattern(subdir, filename);
 
       //see if this file has a state
-      pattern_assembler.setPatternState(currentPattern, patternlab);
+      setState(currentPattern, patternlab);
 
       //look for a json file for this template
       try {
@@ -79,18 +79,30 @@
       processPattern(currentPattern, patternlab);
     }
 
-    function processPattern(pattern, patternlab, additionalData){
+    function processPattern(currentPattern, patternlab, additionalData){
+
+      var fs = require('fs-extra'),
+          mustache = require('mustache'),
+          lh = require('./lineage_hunter'),
+          ph = require('./parameter_hunter'),
+          pph = require('./pseudopattern_hunter'),
+          path = require('path');
+
+      var parameter_hunter = new ph(),
+          lineage_hunter = new lh(),
+          pseudopattern_hunter = new pph();
+
       //find how many partials there may be for the given pattern
       var foundPatternPartials = findPartials(currentPattern);
 
-      if(foundPatternPartials != null && foundPatternPartials.length > 0){
+      if(foundPatternPartials !== null && foundPatternPartials.length > 0){
 
         console.log(foundPatternPartials);
 
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
-        var patternsConsumedWithParamaters = parameter_hunter.find_parameters(pattern, patternlab);
+        var patternsConsumedWithParameters = parameter_hunter.find_parameters(currentPattern, patternlab);
 
-        if(patternsConsumedWithParamaters === 0){
+        if(patternsConsumedWithParameters === 0){
           //do something with the regular old partials
         }
 
@@ -103,7 +115,7 @@
       lineage_hunter.find_lineage(currentPattern, patternlab);
 
       //add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
-      var sub = subdir.substring(subdir.indexOf('-') + 1);
+      var sub = currentPattern.subdir.substring(currentPattern.subdir.indexOf('-') + 1);
       var folderIndex = sub.indexOf(path.sep);
       var cleanSub = sub.substring(0, folderIndex);
 
@@ -118,10 +130,10 @@
       patternlab.partials[partialname] = currentPattern.template;
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-      pseudopattern_hunter.find_pseudopatterns(currentPattern, subdir, patternlab);
+      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
 
       //add to patternlab object so we can look these up later.
-      pattern_assembler.addPattern(currentPattern, patternlab);
+      addPattern(currentPattern, patternlab);
     }
 
     return {
