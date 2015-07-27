@@ -1,10 +1,30 @@
+/* 
+ * patternlab-node - v0.10.0 - 2015 
+ * 
+ * Brian Muenzenmeyer, and the web community.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ *
+ */
+
 (function () {
   "use strict";
 
   var fs = require('fs-extra'),
+      mustache = require('mustache'),
+      ph = require('./parameter_hunter'),
       path = require('path');
 
+  var parameter_hunter = new ph();
+
   var pattern_assembler = function(){
+
+    //find and return any {{> template-name }} within pattern
+    function findPartials(pattern){
+      var matches = pattern.template.match(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g);
+      return matches;
+    }
 
     function setState(pattern, patternlab){
       if(patternlab.config.patternStates[pattern.patternName]){
@@ -14,17 +34,114 @@
       }
     }
 
-    function addPattern(pattern, patternLab){
-      patternLab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
-      patternLab.patterns.push(pattern);
+    function addPattern(pattern, patternlab){
+      patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
+      patternlab.patterns.push(pattern);
+    }
+
+    function renderPattern(template, data, partials) {
+      if(partials) {
+        return mustache.render(template, data, partials);
+      }else{
+        return mustache.render(template, data);
+      }
+    }
+
+    function processPatternFile(file, patternlab){
+      //extract some information
+      var abspath = file.substring(2);
+      var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
+      var filename = path.basename(file);
+
+      //ignore _underscored patterns, json (for now), and dotfiles
+      if(filename.charAt(0) === '_' || path.extname(filename) === '.json' || filename.charAt(0) === '.'){
+        return;
+      }
+
+      //make a new Pattern Object
+      currentPattern = new of.oPattern(subdir, filename);
+
+      //see if this file has a state
+      pattern_assembler.setPatternState(currentPattern, patternlab);
+
+      //look for a json file for this template
+      try {
+        var jsonFilename = abspath.substr(0, abspath.lastIndexOf(".")) + ".json";
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+      }
+      catch(e) {
+      }
+
+      //add the raw template to memory
+      currentPattern.template = fs.readFileSync(abspath, 'utf8');
+
+      //our helper function that does a lot of heavy lifting
+      processPattern(currentPattern, patternlab);
+    }
+
+    function processPattern(pattern, patternlab, additionalData){
+      //find how many partials there may be for the given pattern
+      var foundPatternPartials = findPartials(currentPattern);
+
+      if(foundPatternPartials != null && foundPatternPartials.length > 0){
+
+        console.log(foundPatternPartials);
+
+        //determine if the template contains any pattern parameters. if so they must be immediately consumed
+        var patternsConsumedWithParamaters = parameter_hunter.find_parameters(pattern, patternlab);
+
+        if(patternsConsumedWithParamaters === 0){
+          //do something with the regular old partials
+        }
+
+      } else{
+        //we found no partials, so we are ready to render
+
+      }
+
+      //find pattern lineage
+      lineage_hunter.find_lineage(currentPattern, patternlab);
+
+      //add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
+      var sub = subdir.substring(subdir.indexOf('-') + 1);
+      var folderIndex = sub.indexOf(path.sep);
+      var cleanSub = sub.substring(0, folderIndex);
+
+      //add any templates found to an object of partials, so downstream templates may use them too
+      //look for the full path on nested patterns, else expect it to be flat
+      var partialname = '';
+      if(cleanSub !== ''){
+        partialname = cleanSub + '-' + currentPattern.patternName;
+      } else{
+        partialname = currentPattern.patternGroup + '-' + currentPattern.patternName;
+      }
+      patternlab.partials[partialname] = currentPattern.template;
+
+      //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+      pseudopattern_hunter.find_pseudopatterns(currentPattern, subdir, patternlab);
+
+      //add to patternlab object so we can look these up later.
+      pattern_assembler.addPattern(currentPattern, patternlab);
     }
 
     return {
+      find_pattern_partials: function(pattern){
+        return findPartials(pattern);
+      },
       setPatternState: function(pattern, patternlab){
         setState(pattern, patternlab);
       },
-      addPattern: function(pattern, patternLab){
-        addPattern(pattern, patternLab);
+      addPattern: function(pattern, patternlab){
+        addPattern(pattern, patternlab);
+      },
+      renderPattern: function(template, data, partials){
+        return renderPattern(template, data, partials);
+      },
+      process_pattern_file: function(file, patternlab){
+        processPatternFile(file, patternlab);
+      },
+      process_pattern: function(pattern, patternlab, additionalData){
+        processPattern(pattern, patternlab, additionalData);
       }
     };
 
