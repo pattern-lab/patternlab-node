@@ -174,6 +174,11 @@ var entity_encoder = new he();
         pattern.patternPartial = renderPattern(pattern.template, patternlab.data, patternlab.partials);
       }
 
+      // check for baseurl in config.json
+      if(patternlab.config.baseurl){
+        pattern.baseurl = patternlab.config.baseurl;
+      }
+      
       //add footer info before writing
       var patternFooter = renderPattern(patternlab.footer, pattern);
 
@@ -199,13 +204,18 @@ var entity_encoder = new he();
     patternlab.patternPaths = {};
     patternlab.viewAllPaths = {};
 
+    var baseurl;
+    // check for baseurl in config.json
+    if(patternlab.config.baseurl){
+      baseurl = patternlab.config.baseurl;
+    }
     //find mediaQueries
     var media_hunter = new mh();
     media_hunter.find_media_queries(patternlab);
 
     //build the styleguide
     var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8');
-    var styleguideHtml = renderPattern(styleguideTemplate, {partials: patternlab.patterns});
+    var styleguideHtml = renderPattern(styleguideTemplate, {partials: patternlab.patterns, baseurl: baseurl});
     fs.outputFileSync('./public/styleguide/html/styleguide.html', styleguideHtml);
 
     //build the viewall pages
@@ -230,7 +240,7 @@ var entity_encoder = new he();
         }
 
         var viewAllTemplate = fs.readFileSync('./source/_patternlab-files/viewall.mustache', 'utf8');
-        var viewAllHtml = renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
+        var viewAllHtml = renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, baseurl: baseurl});
         fs.outputFileSync('./public/patterns/' + pattern.flatPatternPath + '/index.html', viewAllHtml);
       }
     }

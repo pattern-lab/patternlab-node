@@ -148,6 +148,15 @@ As you can see, it's a much easier way of linking patterns to one another.
 
 Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
 
+##### baseurl
+
+If your instance of Pattern Lab lives in a subdirectory of your server, for instance on github pages (ex: yourusername.github.io/patterns-demo/), then add the baseurl here. The baseurl is everything after the hostname - ie: `patterns-demo`
+
+```
+"baseurl" : "/patterns-demo"
+```
+
+Default: blank
 
 ##### Verbose Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
