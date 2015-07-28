@@ -81,15 +81,11 @@ var patternlab_engine = function () {
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
 
-      //render the pattern. pass partials and data
-      if(pattern.data) { // Pass found pattern-specific JSON as data
-        //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-        pattern.data.link = extend({}, patternlab.data.link);
-
-        pattern.patternPartial = pattern_assembler.renderPattern(pattern.template, pattern.data, patternlab.partials);
-      } else { // Pass global patternlab data
-        pattern.patternPartial = pattern_assembler.renderPattern(pattern.template, patternlab.data, patternlab.partials);
-      }
+      //render the pattern, but first consolidate any data we may have
+      var allData = patternlab.data;
+      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
+      allData = pattern_assembler.merge_data(allData, pattern.data);
+      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, patternlab.data);
 
       //add footer info before writing
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);

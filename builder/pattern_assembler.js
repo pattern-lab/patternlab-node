@@ -38,7 +38,7 @@
 
       if(partials) {
         return mustache.render(template, data, partials);
-      }else{
+      } else{
         return mustache.render(template, data);
       }
     }
@@ -92,42 +92,51 @@
           lineage_hunter = new lh(),
           pseudopattern_hunter = new pph();
 
+      currentPattern.extendedTemplate = currentPattern.template;
+
       //find how many partials there may be for the given pattern
       var foundPatternPartials = findPartials(currentPattern);
 
       if(foundPatternPartials !== null && foundPatternPartials.length > 0){
 
-        console.log(foundPatternPartials);
-
+        if(patternlab.config.debug){
+          console.log('found partials for ' + currentPattern.key);
+        }
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
         var patternsConsumedWithParameters = parameter_hunter.find_parameters(currentPattern, patternlab);
 
-        if(patternsConsumedWithParameters === 0){
-          //do something with the regular old partials
+        //do something with the regular old partials
+        for(var i = 0; i < foundPatternPartials.length; i++){
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          console.log('key for partial is ' + partialKey);
+          var partialPattern = getpatternbykey(partialKey, patternlab);
+          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
         }
 
       } else{
         //we found no partials, so we are ready to render
-
+        if(patternlab.config.debug){
+          console.log('no partial found in pattern ' + currentPattern.key);
+        }
       }
 
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
 
       //add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
-      var sub = currentPattern.subdir.substring(currentPattern.subdir.indexOf('-') + 1);
-      var folderIndex = sub.indexOf(path.sep);
-      var cleanSub = sub.substring(0, folderIndex);
-
-      //add any templates found to an object of partials, so downstream templates may use them too
-      //look for the full path on nested patterns, else expect it to be flat
-      var partialname = '';
-      if(cleanSub !== ''){
-        partialname = cleanSub + '-' + currentPattern.patternName;
-      } else{
-        partialname = currentPattern.patternGroup + '-' + currentPattern.patternName;
-      }
-      patternlab.partials[partialname] = currentPattern.template;
+      // var sub = currentPattern.subdir.substring(currentPattern.subdir.indexOf('-') + 1);
+      // var folderIndex = sub.indexOf(path.sep);
+      // var cleanSub = sub.substring(0, folderIndex);
+      //
+      // //add any templates found to an object of partials, so downstream templates may use them too
+      // //look for the full path on nested patterns, else expect it to be flat
+      // var partialname = '';
+      // if(cleanSub !== ''){
+      //   partialname = cleanSub + '-' + currentPattern.patternName;
+      // } else{
+      //   partialname = currentPattern.patternGroup + '-' + currentPattern.patternName;
+      // }
+      // patternlab.partials[partialname] = currentPattern.template;
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
       pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
@@ -135,6 +144,38 @@
       //add to patternlab object so we can look these up later.
       addPattern(currentPattern, patternlab);
     }
+
+    function getpatternbykey(key, patternlab){
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        if(patternlab.patterns[i].key === key){
+          return patternlab.patterns[i];
+        }
+      }
+      throw 'Could not find pattern with key ' + key;
+    }
+
+  /*
+   * Recursively merge properties of two objects
+   * http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
+  */
+  function mergeData(obj1, obj2) {
+    for (var p in obj2) {
+      try {
+        // Property in destination object set; update its value.
+        if ( obj2[p].constructor == Object ) {
+          obj1[p] = merge_data(obj1[p], obj2[p]);
+
+        } else {
+          obj1[p] = obj2[p];
+
+        }
+      } catch(e) {
+        // Property in destination object not set; create it and set its value.
+        obj1[p] = obj2[p];
+      }
+    }
+    return obj1;
+  }
 
     return {
       find_pattern_partials: function(pattern){
@@ -154,6 +195,12 @@
       },
       process_pattern: function(pattern, patternlab, additionalData){
         processPattern(pattern, patternlab, additionalData);
+      },
+      get_pattern_by_key: function(key, patternlab){
+        return getpatternbykey(key, patternlab);
+      },
+      merge_data: function(existingData, newData){
+        return mergeData(existingData, newData);
       }
     };
 
