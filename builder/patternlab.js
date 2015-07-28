@@ -174,6 +174,11 @@ var entity_encoder = new he();
         pattern.patternPartial = renderPattern(pattern.template, patternlab.data, patternlab.partials);
       }
 
+      // check for baseurl in config.json
+      if(patternlab.config.baseurl){
+        pattern.baseurl = patternlab.config.baseurl;
+      }
+      
       //add footer info before writing
       var patternFooter = renderPattern(patternlab.footer, pattern);
 
