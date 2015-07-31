@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -37,7 +37,7 @@
 
 					//compile this partial immeadiately, essentially consuming it.
 					//TODO: see how this affects lineage. perhaps add manually here.
-					var partial = patternlab.partials[partialName];
+					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 					var existingData = pattern.data || patternlab.data;
 
 					//merge paramData with any other data that exists.
@@ -49,22 +49,20 @@
 
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
 					existingData.link = extend({}, patternlab.data.link);
-
-					var renderedPartial = pattern_assembler.renderPattern(partial, existingData, patternlab.partials);
+					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, existingData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
-					pattern.template = pattern.template.replace(pMatch, renderedPartial);
+					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 
-					//TODO see if other data works
+					//TODO: lineage is missing for this pattern
 
 				});
 			}
-			return matches !== null ? matches.length : 0;
 		}
 
 		return {
 			find_parameters: function(pattern, patternlab){
-				return findparameters(pattern, patternlab);
+				findparameters(pattern, patternlab);
 			}
 		};
 

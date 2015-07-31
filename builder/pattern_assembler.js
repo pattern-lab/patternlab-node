@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -103,7 +103,7 @@
           console.log('found partials for ' + currentPattern.key);
         }
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
-        var patternsConsumedWithParameters = parameter_hunter.find_parameters(currentPattern, patternlab);
+        parameter_hunter.find_parameters(currentPattern, patternlab);
 
         //do something with the regular old partials
         for(var i = 0; i < foundPatternPartials.length; i++){
@@ -122,21 +122,6 @@
 
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
-
-      //add as a partial in case this is referenced later.  convert to syntax needed by existing patterns
-      // var sub = currentPattern.subdir.substring(currentPattern.subdir.indexOf('-') + 1);
-      // var folderIndex = sub.indexOf(path.sep);
-      // var cleanSub = sub.substring(0, folderIndex);
-      //
-      // //add any templates found to an object of partials, so downstream templates may use them too
-      // //look for the full path on nested patterns, else expect it to be flat
-      // var partialname = '';
-      // if(cleanSub !== ''){
-      //   partialname = cleanSub + '-' + currentPattern.patternName;
-      // } else{
-      //   partialname = currentPattern.patternGroup + '-' + currentPattern.patternName;
-      // }
-      // patternlab.partials[partialname] = currentPattern.template;
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
       pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
