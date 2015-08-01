@@ -1,12 +1,12 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
+/*
+* patternlab-node - v0.10.0 - 2015
+*
+* Brian Muenzenmeyer, and the web community.
+* Licensed under the MIT license.
+*
+* Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+*
+*/
 
 (function () {
   "use strict";
@@ -45,8 +45,8 @@
 
     function processPatternFile(file, patternlab){
       var fs = require('fs-extra'),
-          of = require('./object_factory'),
-          path = require('path');
+      of = require('./object_factory'),
+      path = require('path');
 
       //extract some information
       var abspath = file.substring(2);
@@ -82,15 +82,15 @@
     function processPattern(currentPattern, patternlab, additionalData){
 
       var fs = require('fs-extra'),
-          mustache = require('mustache'),
-          lh = require('./lineage_hunter'),
-          ph = require('./parameter_hunter'),
-          pph = require('./pseudopattern_hunter'),
-          path = require('path');
+      mustache = require('mustache'),
+      lh = require('./lineage_hunter'),
+      ph = require('./parameter_hunter'),
+      pph = require('./pseudopattern_hunter'),
+      path = require('path');
 
       var parameter_hunter = new ph(),
-          lineage_hunter = new lh(),
-          pseudopattern_hunter = new pph();
+      lineage_hunter = new lh(),
+      pseudopattern_hunter = new pph();
 
       currentPattern.extendedTemplate = currentPattern.template;
 
@@ -108,16 +108,10 @@
         //do something with the regular old partials
         for(var i = 0; i < foundPatternPartials.length; i++){
           var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
-          console.log('key for partial is ' + partialKey);
           var partialPattern = getpatternbykey(partialKey, patternlab);
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
         }
 
-      } else{
-        //we found no partials, so we are ready to render
-        if(patternlab.config.debug){
-          console.log('no partial found in pattern ' + currentPattern.key);
-        }
       }
 
       //find pattern lineage
@@ -139,28 +133,28 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-  /*
-   * Recursively merge properties of two objects
-   * http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
-  */
-  function mergeData(obj1, obj2) {
-    for (var p in obj2) {
-      try {
-        // Property in destination object set; update its value.
-        if ( obj2[p].constructor == Object ) {
-          obj1[p] = merge_data(obj1[p], obj2[p]);
+    /*
+    * Recursively merge properties of two objects
+    * http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
+    */
+    var self = this;
+    function mergeData(obj1, obj2) {
+      for (var p in obj2) {
+        try {
+          // Property in destination object set; update its value.
+          if ( obj2[p].constructor == Object ) {
+            obj1[p] = self.merge_data(obj1[p], obj2[p]);
 
-        } else {
+          } else {
+            obj1[p] = obj2[p];
+          }
+        } catch(e) {
+          // Property in destination object not set; create it and set its value.
           obj1[p] = obj2[p];
-
         }
-      } catch(e) {
-        // Property in destination object not set; create it and set its value.
-        obj1[p] = obj2[p];
       }
+      return obj1;
     }
-    return obj1;
-  }
 
     return {
       find_pattern_partials: function(pattern){

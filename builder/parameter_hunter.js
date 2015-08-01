@@ -1,12 +1,12 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
+/*
+* patternlab-node - v0.10.0 - 2015
+*
+* Brian Muenzenmeyer, and the web community.
+* Licensed under the MIT license.
+*
+* Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+*
+*/
 
 (function () {
 	"use strict";
@@ -14,9 +14,9 @@
 	var parameter_hunter = function(){
 
 		var extend = require('util')._extend,
-				pa = require('./pattern_assembler'),
-				mustache = require('mustache'),
-				pattern_assembler = new pa();
+		pa = require('./pattern_assembler'),
+		mustache = require('mustache'),
+		pattern_assembler = new pa();
 
 		function findparameters(pattern, patternlab){
 
@@ -26,6 +26,10 @@
 				matches.forEach(function(pMatch, index, matches){
 					//find the partial's name
 					var partialName = pMatch.match(/([a-z-]+)/ig)[0]
+
+					if(patternlab.config.debug){
+						console.log('found patternParameters for ' + partialName);
+					}
 
 					//strip out the additional data and eval
 					var leftParen = pMatch.indexOf('(');
@@ -42,9 +46,9 @@
 
 					//merge paramData with any other data that exists.
 					for (var prop in paramData) {
-							if (existingData.hasOwnProperty(prop)) {
-									existingData[prop] = paramData[prop];
-							}
+						if (existingData.hasOwnProperty(prop)) {
+							existingData[prop] = paramData[prop];
+						}
 					}
 
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally

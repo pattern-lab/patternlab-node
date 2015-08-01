@@ -1,12 +1,12 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
+/*
+* patternlab-node - v0.10.0 - 2015
+*
+* Brian Muenzenmeyer, and the web community.
+* Licensed under the MIT license.
+*
+* Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+*
+*/
 
 var patternlab_engine = function () {
   'use strict';
@@ -64,8 +64,8 @@ var patternlab_engine = function () {
     patternlab.data.link = {};
 
     var pattern_assembler = new pa(),
-        entity_encoder = new he(),
-        pattern_exporter = new pe();
+    entity_encoder = new he(),
+    pattern_exporter = new pe();
 
     diveSync('./source/_patterns', function(err, file){
       //log any errors
@@ -77,15 +77,14 @@ var patternlab_engine = function () {
       pattern_assembler.process_pattern_file(file, patternlab);
 
     });
-
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
-
       //render the pattern, but first consolidate any data we may have
-      var allData = patternlab.data;
+      var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
       allData = pattern_assembler.merge_data(allData, pattern.data);
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, patternlab.data);
+
+      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
       //add footer info before writing
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
@@ -107,7 +106,7 @@ var patternlab_engine = function () {
 
   function buildFrontEnd(){
     var pattern_assembler = new pa(),
-        media_hunter = new mh();
+    media_hunter = new mh();
     patternlab.buckets = [];
     patternlab.bucketIndex = [];
     patternlab.patternPaths = {};
@@ -118,12 +117,12 @@ var patternlab_engine = function () {
 
     //build the styleguide
     var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8'),
-        styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: patternlab.patterns});
+    styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: patternlab.patterns});
     fs.outputFileSync('./public/styleguide/html/styleguide.html', styleguideHtml);
 
     //build the viewall pages
     var prevSubdir = '',
-        i;
+    i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       var pattern = patternlab.patterns[i];

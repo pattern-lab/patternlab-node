@@ -1,19 +1,19 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
+/*
+* patternlab-node - v0.10.0 - 2015
+*
+* Brian Muenzenmeyer, and the web community.
+* Licensed under the MIT license.
+*
+* Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+*
+*/
 
 (function () {
 	"use strict";
 
 	var diveSync = require('diveSync'),
-		path = require('path'),
-		fs = require('fs-extra');
+	path = require('path'),
+	fs = require('fs-extra');
 
 	var media_hunter = function(){
 
