@@ -5,13 +5,13 @@
     $TABLE OF CONTENTS
 \*------------------------------------*/
 /**
- * VARIABLES..............................Declarations of Sass variables 
+ * VARIABLES..............................Declarations of Sass variables
  * .....Colors
  * .....Typography
  * .....Layout
  * .....Defaults
  * .....Breakpoints
- * MIXINS.................................Sass mixins 
+ * MIXINS.................................Sass mixins
  * RESET..................................Set reset defaults
  * GLOBAL CLASSES.........................Set reset defaults
  * GLOBAL ELEMENTS........................Establish global styles
@@ -35,7 +35,7 @@
 /* CSS Transition
 	Usage: @include transition(width,0.3s,ease-out);
  */
-/* Rem Unit font sizes with relative fallback http:/seesparkbox.com/foundry/scss_rem_mixin_now_with_a_better_fallback  
+/* Rem Unit font sizes with relative fallback http:/seesparkbox.com/foundry/scss_rem_mixin_now_with_a_better_fallback
 	Usage: @include font-size(1, large);
 */
 /*------------------------------------*\
@@ -1405,4 +1405,18 @@ td {
 
 .comment-text {
   margin-left: 9em;
+}
+
+.alert {
+	text-align: center;
+	padding: 1rem;
+	margin-bottom: .5rem;
+	border: 1px solid #808080;
+	background: #f9f9f9;
+}
+
+.alert-error {
+	color: #F00;
+	border-color: #F00;
+	background: #ffbebe;
 }
