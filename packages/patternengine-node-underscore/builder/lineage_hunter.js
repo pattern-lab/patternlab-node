@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.9.1 - 2015 
+ * patternlab-node - v0.10.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -15,12 +15,15 @@
 
 		function findlineage(pattern, patternlab){
 
+			var pa = require('./pattern_assembler');
+			var pattern_assembler = new pa();
+
 			//find the {{> template-name }} within patterns
-			var matches = pattern.template.match(/{{>([ ]+)?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ]+)}}/g);
+			var matches = pattern_assembler.find_pattern_partials(pattern);
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
 					//strip out the template cruft
-					var foundPattern = match.replace("{{> ", "").replace(" }}", "");
+					var foundPattern = match.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
 
 					//add if it doesnt exist
 					if (pattern.lineageIndex.indexOf(foundPattern) === -1){

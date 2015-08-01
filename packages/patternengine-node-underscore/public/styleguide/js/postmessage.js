@@ -86,10 +86,26 @@ function receiveIframeMessage(event) {
 	if (data.path !== undefined) {
 		
 		if (patternPartial !== "") {
-			
+
+			if(baseurl){
+        // create main site url
+        var siteurl = window.location.protocol+"//"+window.location.host;
+        // add a trailing slash if it doesn't exist
+        siteurl = siteurl.replace(/\/?$/, '/');
+        // remove a begining slash for baseurl if it exists
+        baseurl = baseurl.replace(/^\//, '');
+        // connect baseurl to siteurl
+        siteurl = siteurl + baseurl;
+        // add a trailing slash if it doesn't exist
+        siteurl = siteurl.replace(/\/?$/, '/');
+        // build our final path
+        path = siteurl+data.path+'?'+Date.now();
+      } else {
 			// handle patterns and the view all page
-			var re = /patterns\/(.*)$/;
-			path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
+        var re = /patterns\/(.*)$/;
+        path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
+      }
+      
 			window.location.replace(path);
 			
 		} else {

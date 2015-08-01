@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.9.1 - 2015 
+ * patternlab-node - v0.10.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -12,8 +12,8 @@
 	"use strict";
 
 	var diveSync = require('diveSync'),
-		path = require('path'),
-		fs = require('fs-extra');
+	path = require('path'),
+	fs = require('fs-extra');
 
 	var media_hunter = function(){
 
@@ -32,7 +32,7 @@
 						}
 					}
 				}
-			});	
+			});
 			//alpha sort for now, but should meet most use-cases except greater than 100ems. you are using ems right?
 			patternlab.mediaQueries.sort();
 		}
@@ -48,22 +48,3 @@
 	module.exports = media_hunter;
 
 }());
-
-	// protected function gatherMQs() {
-		
-	// 	$mqs = array();
-		
-	// 	foreach(glob($this->sd."/css/*.css") as $filename) {
-	// 		$data    = file_get_contents($filename);
-	// 		preg_match_all("/(min|max)-width:([ ]+)?(([0-9]{1,5})(\.[0-9]{1,20}|)(px|em))/",$data,$matches);
-	// 		foreach ($matches[3] as $match) {
-	// 			if (!in_array($match,$mqs)) {
-	// 				$mqs[] = $match;
-	// 			}
-	// 		}	
-	// 	}
-		
-	// 	sort($mqs);
-	// 	return $mqs;
-		
-	// }

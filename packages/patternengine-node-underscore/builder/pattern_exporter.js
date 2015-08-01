@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.9.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -12,7 +12,7 @@
   "use strict";
 
   var fs = require('fs-extra'),
-      path = require('path');
+  path = require('path');
 
   var pattern_exporter = function(){
 
@@ -30,9 +30,6 @@
           }
         }
       }
-
-      
-
     }
 
     return {
