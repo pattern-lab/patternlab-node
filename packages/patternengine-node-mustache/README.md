@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) 
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
 
 ## About the Node Version of Pattern Lab
 
@@ -6,7 +6,7 @@ The Node version of Pattern Lab is, at its core, a static site generator. It com
 
 ### Getting Started
 
-To run patternlab-node, run the following from the command line at the root of whichever directory you want to initialize your project in: 
+To run patternlab-node, run the following from the command line at the root of whichever directory you want to initialize your project in:
 
 1. `npm install`
 2. `npm install -g grunt-cli`
@@ -72,6 +72,25 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 	"three-up" : "complete"
 }
 ```
+
+##### Pattern Parameters
+attern parameters are a simple mechanism for replacing Mustache variables via attributes on a pattern partial tag rather than having to use a pattern-specific json file. They are especially useful when you want to supply distinct values for Mustache variables in a specific pattern partial instance that may be included multiple times in a molecule, template, or page.
+
+The basic syntax is this:
+
+```
+{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}
+```
+
+The attributes listed in the pattern parameters should match Mustache variable names in your pattern. The values listed for each attribute will replace the Mustache variables. Again, pattern parameters are a simple find and replace of Mustache variables with the supplied values.
+
+Pattern parameters **do not** currently support the following:
+
+* sub-lists (e.g. iteration of a section),
+* and the use of long strings of text can be unwieldy
+* nested properties within the parameter data, such as `{{> molecules-single-comment(foo.bar: 'baz') }}`
+
+You can read the full documentation on pattern parameters here: [Using Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
 
 ##### Pseudo-Patterns
 Pseudo-patterns are meant to give developers the ability to build multiple and unique **rendered** patterns off of one base pattern and its mark-up while giving them control over the data that is injected into the base pattern. This feature is especially useful when developing template- and page-style patterns.
@@ -139,7 +158,7 @@ As you can see, it's a much easier way of linking patterns to one another.
 
 
 ##### Pattern Export
-`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory. 
+`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory.
 
 ```
 "patternExportKeys": ["molecules-primary-nav", "organisms-header", "organisms-header"],
@@ -148,6 +167,15 @@ As you can see, it's a much easier way of linking patterns to one another.
 
 Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
 
+##### baseurl
+
+If your instance of Pattern Lab lives in a subdirectory of your server, for instance on github pages (ex: yourusername.github.io/patterns-demo/), then add the baseurl here. The baseurl is everything after the hostname - ie: `patterns-demo`
+
+```
+"baseurl" : "/patterns-demo"
+```
+
+Default: blank
 
 ##### Verbose Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
@@ -165,7 +193,7 @@ You can find some simple upgrade documenation in it's current home here (unrelea
 
 ### Forward, To the Specification!
 
-Dave Olsen has published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together. 
+Dave Olsen has published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together.
 
 ### Is Pattern Lab a Platform or a Build Tool?
 
@@ -219,7 +247,7 @@ By default, the Pattern Lab assets can be manually generated and the Pattern Lab
 * [Watching for Changes and Auto-Regenerating Patterns](http://patternlab.io/docs/advanced-auto-regenerate.html) - Node version coming soon
 * [Auto-Reloading the Browser Window When Changes Are Made](http://patternlab.io/docs/advanced-reload-browser.html) - Node version coming soon
 * [Multi-browser & Multi-device Testing with Page Follow](http://patternlab.io/docs/advanced-page-follow.html)
-* [Keyboard Shortcuts](http://patternlab.io/docs/advanced-keyboard-shortcuts.html) 
+* [Keyboard Shortcuts](http://patternlab.io/docs/advanced-keyboard-shortcuts.html)
 * [Special Pattern Lab-specific Query String Variables ](http://patternlab.io/docs/pattern-linking.html)
 * [Preventing the Cleaning of public/](http://patternlab.io/docs/advanced-clean-public.html) - Node version coming soon
 * [Modifying the Pattern Lab Nav](http://patternlab.io/docs/advanced-pattern-lab-nav.html) - Node version coming soon
