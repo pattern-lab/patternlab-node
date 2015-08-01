@@ -93,6 +93,110 @@
 			test.equals(currentPattern.lineageIndex[2], "molecules-search");
 
 			test.done();
+		},
+
+		'test lineage hunter finds lineage with spaced pattern parameters' : function(test){
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+				"name": "01-molecules-01-toast-00-error",
+				"subdir": "01-molecules\\01-toast",
+				"filename": "00-error.mustache",
+				"data": null,
+				"template": "{{> atoms-error(message: 'That\'s no moon...') }}",
+				"patternPartial": "{{> atoms-error(message: 'That\'s no moon...') }}",
+				"patternName": "error",
+				"patternLink": "01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html",
+				"patternGroup": "molecules",
+				"patternSubGroup": "molecules\\01-toast",
+				"flatPatternPath": "01-molecules\\01-toast",
+				"patternState": "",
+				"lineage": [],
+				"lineageIndex": [],
+				"lineageR": [],
+				"lineageRIndex": []
+			};
+			var patternlab = {
+				patterns: [
+					{
+						"name": "01-atoms-05-alerts-00-error",
+						"subdir": "01-atoms\\05-alerts",
+						"filename": "00-error.mustache",
+						"data": null,
+						"template": "<h1> {{message}} </h1>",
+						"patternPartial": "<h1> {{message}} </h1>",
+						"patternName": "error",
+						"patternLink": "01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html",
+						"patternGroup": "atoms",
+						"patternSubGroup": "atoms\\05-alerts",
+						"flatPatternPath": "01-atoms\\05-alerts",
+						"patternState": "",
+						"lineage": [],
+						"lineageIndex": [],
+						"lineageR": [],
+						"lineageRIndex": []
+					}
+				]
+			};
+
+			var lineage_hunter = new lh();
+			lineage_hunter.find_lineage(currentPattern, patternlab);
+
+			test.equals(currentPattern.lineageIndex.length, 1);
+			test.equals(currentPattern.lineageIndex[0], "atoms-error");
+
+			test.done();
+		},
+
+		'test lineage hunter finds lineage with unspaced pattern parameters' : function(test){
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+				"name": "01-molecules-01-toast-00-error",
+				"subdir": "01-molecules\\01-toast",
+				"filename": "00-error.mustache",
+				"data": null,
+				"template": "{{>atoms-error(message: 'That\'s no moon...')}}",
+				"patternPartial": "{{>atoms-error(message: 'That\'s no moon...')}}",
+				"patternName": "error",
+				"patternLink": "01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html",
+				"patternGroup": "molecules",
+				"patternSubGroup": "molecules\\01-toast",
+				"flatPatternPath": "01-molecules\\01-toast",
+				"patternState": "",
+				"lineage": [],
+				"lineageIndex": [],
+				"lineageR": [],
+				"lineageRIndex": []
+			};
+			var patternlab = {
+				patterns: [
+					{
+						"name": "01-atoms-05-alerts-00-error",
+						"subdir": "01-atoms\\05-alerts",
+						"filename": "00-error.mustache",
+						"data": null,
+						"template": "<h1> {{message}} </h1>",
+						"patternPartial": "<h1> {{message}} </h1>",
+						"patternName": "error",
+						"patternLink": "01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html",
+						"patternGroup": "atoms",
+						"patternSubGroup": "atoms\\05-alerts",
+						"flatPatternPath": "01-atoms\\05-alerts",
+						"patternState": "",
+						"lineage": [],
+						"lineageIndex": [],
+						"lineageR": [],
+						"lineageRIndex": []
+					}
+				]
+			};
+
+			var lineage_hunter = new lh();
+			lineage_hunter.find_lineage(currentPattern, patternlab);
+
+			test.equals(currentPattern.lineageIndex.length, 1);
+			test.equals(currentPattern.lineageIndex[0], "atoms-error");
+
+			test.done();
 		}
 	};
 
