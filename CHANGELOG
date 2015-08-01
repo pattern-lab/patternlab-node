@@ -1,4 +1,12 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
+PL-node-v0.10.0
+ - ADD: Added support for pattern parameters! Resolves #88
+ - FIX: Data inheritance is now working as advertised. Resolves #127. This turned out to be a MAJOR thing, as I realized the home-page was not passing down any of its json data to partials.
+ - CHG: Refactored a lot of code out of patternlab.js and into separate files. Doing so should make everything dryer, more unit testable, and easier to understand I hope.
+ - ADD: Added proper styling for the homepage-emergency alert that is displayed for demo purposes
+ - ADD: Added a new comment organism, the sticky comment, to ship an example of pattern parameters
+ - CHG: Start some JS linting of the project. I don't quite agree with a lot of it, so am trying to set some smart configurations
+ - CHG: wrapped some build messages in the patternlab.config.debug flag
 
 PL-node-v0.9.1
  - FIX: Fixed an issue with view all navigation not checking for index out of bounds cases
@@ -7,7 +15,7 @@ PL-node-v0.9.0
  - FIX: Added grunt-contrib-copy args to copy all found source/css/*.css
  - ADD: Added upgrade instructions to README
  - FIX: Fix issue with styleguide accordions not closing upon click of a sibling menu.
- - THX: @getsetbro for reporting more issues :) 
+ - THX: @getsetbro for reporting more issues :)
  - ADD: Added support for pattern search. This is 'in beta' and should have more testing applied to it.
  - ADD: Added support for all keyboard shortcuts found in PL-PHP-v1.0.0
  - FIX: Fixed an issue where Hay mode and Disco mode did not stop one another when using keyboard shortcuts
@@ -63,7 +71,7 @@ PL-node-v0.1.3
 
 PL-node-v0.1.2
  - ADD: Abstracted template rendering into a function for easier swapping of rendering engine
- - ADD: Smarter filtering of files to support other templates Thanks 
+ - ADD: Smarter filtering of files to support other templates Thanks
  - ADD: Help command line agument
  - ADD: Version command line argument
  - ADD: Patterns only command line argument
@@ -102,7 +110,7 @@ PL-node-v0.0.5
 
 PL-node-v0.0.4
  - ADD: An explicit MIT license
- - FIX: Clean public/patterns/ before build 
+ - FIX: Clean public/patterns/ before build
 
 PL-node-v0.0.3
  - FIX: Install documentation was incomplete, should not have assumed grunt
