@@ -25,6 +25,11 @@
 					//strip out the template cruft
 					var foundPattern = match.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
 
+					// remove any potential pattern parameters. this and the above are rather brutish but I didn't want to do a regex at the time
+					if(foundPattern.indexOf('(') > 0){
+						foundPattern = foundPattern.substring(0, foundPattern.indexOf('('));
+					}
+
 					//add if it doesnt exist
 					if (pattern.lineageIndex.indexOf(foundPattern) === -1){
 

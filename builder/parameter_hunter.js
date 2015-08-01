@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -40,7 +40,6 @@
 					var paramData = eval(paramString);
 
 					//compile this partial immeadiately, essentially consuming it.
-					//TODO: see how this affects lineage. perhaps add manually here.
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 					var existingData = pattern.data || patternlab.data;
 
@@ -57,9 +56,6 @@
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
-
-					//TODO: lineage is missing for this pattern
-
 				});
 			}
 		}
