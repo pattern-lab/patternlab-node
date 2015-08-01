@@ -32,5 +32,6 @@
       "homepage-emergency" : "inprogress"
   },
   "patternExportKeys": [],
-  "patternExportDirectory": "./pattern_exports/"
+  "patternExportDirectory": "./pattern_exports/",
+  "baseurl" : ""
  }
