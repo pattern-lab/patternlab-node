@@ -32,9 +32,21 @@ module.exports = function(grunt) {
 				src: './builder/patternlab_grunt.js',
 				dest: './builder/patternlab_grunt.js'
 			},
+			parameter_hunter: {
+				src: './builder/parameter_hunter.js',
+				dest: './builder/parameter_hunter.js'
+			},
 			pattern_exporter: {
 				src: './builder/pattern_exporter.js',
 				dest: './builder/pattern_exporter.js'
+			},
+			pattern_assembler: {
+				src: './builder/pattern_assembler.js',
+				dest: './builder/pattern_assembler.js'
+			},
+			pseudopattern_hunter: {
+				src: './builder/pseudopattern_hunter.js',
+				dest: './builder/pseudopattern_hunter.js'
 			}
 		},
 		copy: {
