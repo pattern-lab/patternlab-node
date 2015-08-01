@@ -6,7 +6,8 @@ PL-node-v0.10.0
  - ADD: Added proper styling for the homepage-emergency alert that is displayed for demo purposes
  - ADD: Added a new comment organism, the sticky comment, to ship an example of pattern parameters
  - CHG: Start some JS linting of the project. I don't quite agree with a lot of it, so am trying to set some smart configurations
- - CHG: wrapped some build messages in the patternlab.config.debug flag
+ - CHG: Wrapped some build messages in the patternlab.config.debug flag
+ - FIX: Allow users to set a base url path. Resolves #125 ([)testing in the while requested)
 
 PL-node-v0.9.1
  - FIX: Fixed an issue with view all navigation not checking for index out of bounds cases
