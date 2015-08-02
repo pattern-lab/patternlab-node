@@ -17,10 +17,10 @@
 
 	var media_hunter = function(){
 
-		function findMediaQueries(patternlab){
+		function findMediaQueries(dir, patternlab){
 			patternlab.mediaQueries = [];
 
-			diveSync('./source/css', function(err, file){
+			diveSync(dir, function(err, file){
 				if(path.extname(file) === '.css'){
 					var contents = fs.readFileSync(file, 'utf8');
 					var safeContents = contents.replace("\r", " ").replace("\n", " ");
@@ -38,8 +38,8 @@
 		}
 
 		return {
-			find_media_queries: function(patternlab){
-				findMediaQueries(patternlab);
+			find_media_queries: function(dir, patternlab){
+				findMediaQueries(dir, patternlab);
 			}
 		};
 
