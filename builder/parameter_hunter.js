@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.10.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -47,7 +47,7 @@
 					for (var prop in paramData) {
 						if (existingData.hasOwnProperty(prop)) {
 							existingData[prop] = paramData[prop];
-						}
+						} 
 					}
 
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
