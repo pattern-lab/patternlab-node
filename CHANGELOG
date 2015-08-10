@@ -1,4 +1,8 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
+PL-node-v0.10.1
+ - ADD: Added more unit tests for recently more-modular code
+ - FIX: Lineage was not working for patterns with pattern parameters
+
 PL-node-v0.10.0
  - ADD: Added support for pattern parameters! Resolves #88
  - FIX: Data inheritance is now working as advertised. Resolves #127. This turned out to be a MAJOR thing, as I realized the home-page was not passing down any of its json data to partials.
