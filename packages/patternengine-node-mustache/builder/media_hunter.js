@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.0 - 2015 
+ * patternlab-node - v0.10.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -17,10 +17,10 @@
 
 	var media_hunter = function(){
 
-		function findMediaQueries(patternlab){
+		function findMediaQueries(dir, patternlab){
 			patternlab.mediaQueries = [];
 
-			diveSync('./source/css', function(err, file){
+			diveSync(dir, function(err, file){
 				if(path.extname(file) === '.css'){
 					var contents = fs.readFileSync(file, 'utf8');
 					var safeContents = contents.replace("\r", " ").replace("\n", " ");
@@ -33,13 +33,16 @@
 					}
 				}
 			});
-			//alpha sort for now, but should meet most use-cases except greater than 100ems. you are using ems right?
-			patternlab.mediaQueries.sort();
+			patternlab.mediaQueries.sort(function(a,b){
+				var integerPartA = a.match(/(?:\d*\.)?\d+/g);
+				var integerPartB = b.match(/(?:\d*\.)?\d+/g);
+				return parseInt(a,10) > parseInt(b,10);
+			});
 		}
 
 		return {
-			find_media_queries: function(patternlab){
-				findMediaQueries(patternlab);
+			find_media_queries: function(dir, patternlab){
+				findMediaQueries(dir, patternlab);
 			}
 		};
 
