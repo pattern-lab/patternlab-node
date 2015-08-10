@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.0 - 2015 
+ * patternlab-node - v0.10.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -24,6 +24,11 @@
 				matches.forEach(function(match, index, matches){
 					//strip out the template cruft
 					var foundPattern = match.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
+
+					// remove any potential pattern parameters. this and the above are rather brutish but I didn't want to do a regex at the time
+					if(foundPattern.indexOf('(') > 0){
+						foundPattern = foundPattern.substring(0, foundPattern.indexOf('('));
+					}
 
 					//add if it doesnt exist
 					if (pattern.lineageIndex.indexOf(foundPattern) === -1){
