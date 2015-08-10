@@ -1,0 +1,19 @@
+@media only screen and (min-width: 35em){
+    body{
+      color: rebeccapurple;
+    }
+}
+
+@media (min-width:50em){ body{ color: grey;} }
+
+@media only screen and (min-width: 70em) and (max-width: 1600px){
+  body{
+    color: green;
+  }
+}
+
+@media only screen and( max-width: 50em){
+  body{
+    color: orange;
+  }
+}

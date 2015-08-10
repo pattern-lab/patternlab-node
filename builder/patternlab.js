@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.0 - 2015 
+ * patternlab-node - v0.10.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -113,7 +113,7 @@ var patternlab_engine = function () {
     patternlab.viewAllPaths = {};
 
     //find mediaQueries
-    media_hunter.find_media_queries(patternlab);
+    media_hunter.find_media_queries('./source/css', patternlab);
 
     //build the styleguide
     var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8'),
