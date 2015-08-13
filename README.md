@@ -177,6 +177,12 @@ If your instance of Pattern Lab lives in a subdirectory of your server, for inst
 
 Default: blank
 
+##### excluding patterns
+
+If you'd like to exclude an individual pattern you can do so by prepending the filename with an underscore, like: `_filename.mustache`
+
+You can also exclude complete directories by prepending the directory name with an underscore, like: `/_experiment/...`
+
 ##### Verbose Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 

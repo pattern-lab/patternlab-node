@@ -1,4 +1,8 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
+
+PL-node-v0.11.0
+ - ADD: Ignore pattern directories that start with an underscore.
+
 PL-node-v0.10.1
  - ADD: Added more unit tests for recently more-modular code
  - FIX: Lineage was not working for patterns with pattern parameters

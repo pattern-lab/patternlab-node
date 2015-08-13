@@ -65,17 +65,27 @@ var patternlab_engine = function () {
 
     var pattern_assembler = new pa(),
     entity_encoder = new he(),
-    pattern_exporter = new pe();
+    pattern_exporter = new pe(),
+    patterns_dir = './source/_patterns';
 
-    diveSync('./source/_patterns', function(err, file){
-      //log any errors
-      if(err){
-        console.log(err);
-        return;
-      }
+    diveSync(patterns_dir, {
+      filter: function(path, dir) {
+        if(dir){
+          var remainingPath = path.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+          return true;
+        }
+      },
+      function(err, file){
+        //log any errors
+        if(err){
+          console.log(err);
+          return;
+        }
 
-      pattern_assembler.process_pattern_file(file, patternlab);
-
+        pattern_assembler.process_pattern_file(file, patternlab);
     });
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
