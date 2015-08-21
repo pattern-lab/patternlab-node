@@ -68,6 +68,8 @@ var patternlab_engine = function () {
     pattern_exporter = new pe(),
     patterns_dir = './source/_patterns';
 
+    pattern_assembler.combine_listItems(patternlab);
+
     diveSync(patterns_dir, {
       filter: function(path, dir) {
         if(dir){

@@ -156,6 +156,34 @@
       return obj1;
     }
 
+    function buildListItems(patternlab){
+      //combine all list items into one structure
+      var list = [];
+      for (var item in patternlab.listitems) {
+        if( patternlab.listitems.hasOwnProperty(item)) {
+          list.push(patternlab.listitems[item]);
+        }
+      }
+      patternlab.listItemArray = shuffle(list);
+
+      for(var i = 1; i <= 12; i++){
+        var top = i;
+        var c = 1;
+        var tempItems = [];
+        while(c <= top){
+          tempItems.push(patternlab.listItemArray[c]);
+          c++;
+        }
+        patternlab.listitems['' + i ] = tempItems;
+      }
+    }
+
+    //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+    function shuffle(o){
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+    }
+
     return {
       find_pattern_partials: function(pattern){
         return findPartials(pattern);
@@ -180,6 +208,9 @@
       },
       merge_data: function(existingData, newData){
         return mergeData(existingData, newData);
+      },
+      combine_listItems: function(patternlab){
+        buildListItems(patternlab);
       }
     };
 
