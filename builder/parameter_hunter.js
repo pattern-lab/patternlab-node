@@ -41,13 +41,13 @@
 
 					//compile this partial immeadiately, essentially consuming it.
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
-					var existingData = pattern.data || patternlab.data;
+					var existingData = pattern.data ? JSON.parse(JSON.stringify(pattern.data)) : JSON.parse(JSON.stringify(patternlab.data));
 
 					//merge paramData with any other data that exists.
 					for (var prop in paramData) {
 						if (existingData.hasOwnProperty(prop)) {
 							existingData[prop] = paramData[prop];
-						} 
+						}
 					}
 
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
