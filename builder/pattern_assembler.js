@@ -13,9 +13,24 @@
 
   var pattern_assembler = function(){
 
+    function isObjectEmpty(obj) {
+      for(var prop in obj) {
+          if(obj.hasOwnProperty(prop))
+              return false;
+      }
+
+      return true;
+    }
+
+
     //find and return any {{> template-name }} within pattern
     function findPartials(pattern){
       var matches = pattern.template.match(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g);
+      return matches;
+    }
+
+    function findListItems(pattern){
+      var matches = pattern.template.match(/({{#( )?)(listItems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g);
       return matches;
     }
 
@@ -86,10 +101,12 @@
       lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
+      lih = require('./list_item_hunter'),
       path = require('path');
 
       var parameter_hunter = new ph(),
       lineage_hunter = new lh(),
+      list_item_hunter = new lih(),
       pseudopattern_hunter = new pph();
 
       currentPattern.extendedTemplate = currentPattern.template;
@@ -102,6 +119,10 @@
         if(patternlab.config.debug){
           console.log('found partials for ' + currentPattern.key);
         }
+
+        //find any listItem partials
+        list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
         parameter_hunter.find_parameters(currentPattern, patternlab);
 
@@ -166,15 +187,17 @@
       }
       patternlab.listItemArray = shuffle(list);
 
-      for(var i = 1; i <= 12; i++){
-        var top = i;
-        var c = 1;
+      for(var i = 1; i <= patternlab.listItemArray.length; i++){
         var tempItems = [];
-        while(c <= top){
-          tempItems.push(patternlab.listItemArray[c]);
-          c++;
+        if( i === 1){
+          tempItems.push(patternlab.listItemArray[0]);
+          patternlab.listitems['' + i ] = tempItems;
+        } else{
+          for(var c = 1; c <= i; c++){
+            tempItems.push(patternlab.listItemArray[c - 1]);
+            patternlab.listitems['' + i ] = tempItems;
+          }
         }
-        patternlab.listitems['' + i ] = tempItems;
       }
     }
 
@@ -187,6 +210,9 @@
     return {
       find_pattern_partials: function(pattern){
         return findPartials(pattern);
+      },
+      find_list_items: function(pattern){
+        return findListItems(pattern)
       },
       setPatternState: function(pattern, patternlab){
         setState(pattern, patternlab);
@@ -211,6 +237,9 @@
       },
       combine_listItems: function(patternlab){
         buildListItems(patternlab);
+      },
+      is_object_empty: function(obj){
+        return isObjectEmpty(obj);
       }
     };
 

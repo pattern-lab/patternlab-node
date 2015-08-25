@@ -94,7 +94,6 @@ var patternlab_engine = function () {
       //render the pattern, but first consolidate any data we may have
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-      allData = pattern_assembler.merge_data(allData, pattern.data);
 
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 

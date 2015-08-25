@@ -47,6 +47,10 @@ module.exports = function(grunt) {
 			pseudopattern_hunter: {
 				src: './builder/pseudopattern_hunter.js',
 				dest: './builder/pseudopattern_hunter.js'
+			},
+			list_item_hunter: {
+				src: './builder/list_item_hunter.js',
+				dest: './builder/list_item_hunter.js'
 			}
 		},
 		copy: {
