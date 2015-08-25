@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.10.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -48,7 +48,7 @@
 					variantFileData = pattern_assembler.merge_data(variantFileData, currentPattern.jsonFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-					var patternVariant = new of.oPattern(currentPattern.subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
+				  var patternVariant = new of.oPattern(currentPattern.subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
 
 					//see if this file has a state
 					pattern_assembler.setPatternState(patternVariant, patternlab);

@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.10.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -13,7 +13,13 @@
 
   var pattern_assembler = function(){
 
-    //find and return any {{> template-name }} within pattern
+    var fs = require('fs-extra'),
+        of = require('./object_factory'),
+        path = require('path'),
+        patternEngines = require('./pattern_engines/pattern_engines');
+
+    // find and return any {{> template-name }} within pattern
+    // TODO: delete, factored out
     function findPartials(pattern){
       var matches = pattern.template.match(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g);
       return matches;
@@ -33,30 +39,37 @@
     }
 
     function renderPattern(template, data, partials) {
-
-      var mustache = require('mustache');
-
-      if(partials) {
-        return mustache.render(template, data, partials);
-      } else{
-        return mustache.render(template, data);
-      }
+      debugger;
+      // TODO:
+      // choose an appropriate pattern engine
+      // call and return result of its renderPattern method
+      // OR MAYBE: this should just be a method of oPattern
     }
 
-    function processPatternFile(file, patternlab){
-      var fs = require('fs-extra'),
-      of = require('./object_factory'),
-      path = require('path');
+    function isPatternFile(filename, patternlab) {
+      var engineNames = Object.keys(patternEngines);
+      var supportedPatternFileExtensions = engineNames.map(function (engineName) {
+        return patternEngines[engineName].fileExtension;
+      });
+      var extension = path.extname(filename);
+      return (supportedPatternFileExtensions.lastIndexOf(extension) != -1);
+    }
 
+    // given a pattern file, figure out what to do with it
+    function processPatternFile(file, patternlab){
       //extract some information
       var abspath = file.substring(2);
       var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
       var filename = path.basename(file);
 
-      //ignore _underscored patterns, json (for now), and dotfiles
-      if(filename.charAt(0) === '_' || path.extname(filename) === '.json' || filename.charAt(0) === '.'){
+      // ignore _underscored patterns, dotfiles, and anything not recognized by
+      // a loaded pattern engine
+      if (filename.charAt(0) === '_' ||
+          filename.charAt(0) === '.' ||
+          !isPatternFile(filename, patternlab)) {
         return;
       }
+      console.log('found pattern', file);
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(subdir, filename);
@@ -80,17 +93,13 @@
     }
 
     function processPattern(currentPattern, patternlab, additionalData){
-
-      var fs = require('fs-extra'),
-      mustache = require('mustache'),
-      lh = require('./lineage_hunter'),
-      ph = require('./parameter_hunter'),
-      pph = require('./pseudopattern_hunter'),
-      path = require('path');
+      var lh = require('./lineage_hunter'),
+          ph = require('./parameter_hunter'),
+          pph = require('./pseudopattern_hunter');
 
       var parameter_hunter = new ph(),
-      lineage_hunter = new lh(),
-      pseudopattern_hunter = new pph();
+          lineage_hunter = new lh(),
+          pseudopattern_hunter = new pph();
 
       currentPattern.extendedTemplate = currentPattern.template;
 
