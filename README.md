@@ -73,6 +73,40 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 }
 ```
 
+##### Pattern Export
+`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory.
+
+```
+"patternExportKeys": ["molecules-primary-nav", "organisms-header", "organisms-header"],
+"patternExportDirectory": "./pattern_exports/"
+```
+
+Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
+
+##### baseurl
+
+If your instance of Pattern Lab lives in a subdirectory of your server, for instance on github pages (ex: yourusername.github.io/patterns-demo/), then add the baseurl here. The baseurl is everything after the hostname - ie: `patterns-demo`
+
+```
+"baseurl" : "/patterns-demo"
+```
+
+Default: blank
+
+##### excluding patterns
+
+If you'd like to exclude an individual pattern you can do so by prepending the filename with an underscore, like: `_filename.mustache`
+
+You can also exclude complete directories by prepending the directory name with an underscore, like: `/_experiment/...`
+
+##### Verbose Mode
+`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
+
+##### Server
+Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.
+
+### Advanced Pattern Library Features
+
 ##### Pattern Parameters
 Pattern parameters are a simple mechanism for replacing Mustache variables via attributes on a pattern partial tag rather than having to use a pattern-specific json file. They are especially useful when you want to supply distinct values for Mustache variables in a specific pattern partial instance that may be included multiple times in a molecule, template, or page.
 
@@ -157,38 +191,6 @@ This would compile to:
 As you can see, it's a much easier way of linking patterns to one another.
 
 
-##### Pattern Export
-`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory.
-
-```
-"patternExportKeys": ["molecules-primary-nav", "organisms-header", "organisms-header"],
-"patternExportDirectory": "./pattern_exports/"
-```
-
-Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
-
-##### baseurl
-
-If your instance of Pattern Lab lives in a subdirectory of your server, for instance on github pages (ex: yourusername.github.io/patterns-demo/), then add the baseurl here. The baseurl is everything after the hostname - ie: `patterns-demo`
-
-```
-"baseurl" : "/patterns-demo"
-```
-
-Default: blank
-
-##### excluding patterns
-
-If you'd like to exclude an individual pattern you can do so by prepending the filename with an underscore, like: `_filename.mustache`
-
-You can also exclude complete directories by prepending the directory name with an underscore, like: `/_experiment/...`
-
-##### Verbose Mode
-`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
-
-##### Server
-Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.
-
 ===
 
 The Node version of Pattern Lab is maintained by [@bmuenzenmeyer](https://twitter.com/bmuenzenmeyer) and contributors. Pull requests welcome, but please take a moment to read the [guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/CONTRIBUTING.md).
@@ -197,9 +199,11 @@ The Node version of Pattern Lab is maintained by [@bmuenzenmeyer](https://twitte
 
 You can find some simple upgrade documenation in it's current home here (unreleased but confirmed to work): [https://github.com/pattern-lab/website/blob/dev/patternlabsite/docs/node/upgrading.md](https://github.com/pattern-lab/website/blob/dev/patternlabsite/docs/node/upgrading.md)
 
-### Forward, To the Specification!
+### ROADMAP
 
-Dave Olsen has published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together.
+A roadmap exists for Pattern Lab Node. Check it out [here](https://github.com/pattern-lab/patternlab-node/issues/134)
+
+Dave Olsen has also published the [specification](https://github.com/pattern-lab/the-spec/blob/draft/SPEC.md) for Pattern Lab ports. Development will be oriented toward compliance with this as the spec and the port mature together.
 
 ### Is Pattern Lab a Platform or a Build Tool?
 
