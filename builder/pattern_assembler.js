@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.1 - 2015 
+ * patternlab-node - v0.11.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -13,9 +13,24 @@
 
   var pattern_assembler = function(){
 
+    function isObjectEmpty(obj) {
+      for(var prop in obj) {
+          if(obj.hasOwnProperty(prop))
+              return false;
+      }
+
+      return true;
+    }
+
+
     //find and return any {{> template-name }} within pattern
     function findPartials(pattern){
       var matches = pattern.template.match(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g);
+      return matches;
+    }
+
+    function findListItems(pattern){
+      var matches = pattern.template.match(/({{#( )?)(listItems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g);
       return matches;
     }
 
@@ -50,7 +65,7 @@
 
       //extract some information
       var abspath = file.substring(2);
-      var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
+      var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
 
       //ignore _underscored patterns, json (for now), and dotfiles
@@ -66,11 +81,21 @@
 
       //look for a json file for this template
       try {
-        var jsonFilename = abspath.substr(0, abspath.lastIndexOf(".")) + ".json";
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+        var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
+        console.log('found pattern-specific data.json for ' + currentPattern.key);
       }
       catch(e) {
       }
+
+      //look for a listitems.json file for this template
+      try {
+        var listJsonFileName = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".listitems.json";
+        currentPattern.patternSpecificListJson = fs.readJSONSync(listJsonFileName.substring(2));
+        console.log('found pattern-specific listitems.json for ' + currentPattern.key);
+      }
+      catch(e) {
+      }      
 
       //add the raw template to memory
       currentPattern.template = fs.readFileSync(abspath, 'utf8');
@@ -86,10 +111,12 @@
       lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
+      lih = require('./list_item_hunter'),
       path = require('path');
 
       var parameter_hunter = new ph(),
       lineage_hunter = new lh(),
+      list_item_hunter = new lih(),
       pseudopattern_hunter = new pph();
 
       currentPattern.extendedTemplate = currentPattern.template;
@@ -102,6 +129,10 @@
         if(patternlab.config.debug){
           console.log('found partials for ' + currentPattern.key);
         }
+
+        //find any listItem partials
+        list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
         parameter_hunter.find_parameters(currentPattern, patternlab);
 
@@ -156,9 +187,42 @@
       return obj1;
     }
 
+    function buildListItems(patternlab){
+      //combine all list items into one structure
+      var list = [];
+      for (var item in patternlab.listitems) {
+        if( patternlab.listitems.hasOwnProperty(item)) {
+          list.push(patternlab.listitems[item]);
+        }
+      }
+      patternlab.listItemArray = shuffle(list);
+
+      for(var i = 1; i <= patternlab.listItemArray.length; i++){
+        var tempItems = [];
+        if( i === 1){
+          tempItems.push(patternlab.listItemArray[0]);
+          patternlab.listitems['' + i ] = tempItems;
+        } else{
+          for(var c = 1; c <= i; c++){
+            tempItems.push(patternlab.listItemArray[c - 1]);
+            patternlab.listitems['' + i ] = tempItems;
+          }
+        }
+      }
+    }
+
+    //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+    function shuffle(o){
+        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+        return o;
+    }
+
     return {
       find_pattern_partials: function(pattern){
         return findPartials(pattern);
+      },
+      find_list_items: function(pattern){
+        return findListItems(pattern)
       },
       setPatternState: function(pattern, patternlab){
         setState(pattern, patternlab);
@@ -180,6 +244,12 @@
       },
       merge_data: function(existingData, newData){
         return mergeData(existingData, newData);
+      },
+      combine_listItems: function(patternlab){
+        buildListItems(patternlab);
+      },
+      is_object_empty: function(obj){
+        return isObjectEmpty(obj);
       }
     };
 

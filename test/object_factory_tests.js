@@ -9,7 +9,7 @@
 			test.equals(p.name, '00-atoms-00-global-00-colors');
 			test.equals(p.subdir, '00-atoms/00-global');
 			test.equals(p.fileName, '00-colors');
-			test.equals(p.data.d, 123);
+			test.equals(p.jsonFileData.d, 123);
 			test.equals(p.patternName, 'colors');
 			test.equals(p.patternLink, '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html');
 			test.equals(p.patternGroup, 'atoms');
