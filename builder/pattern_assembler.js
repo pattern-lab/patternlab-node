@@ -65,7 +65,7 @@
 
       //extract some information
       var abspath = file.substring(2);
-      var subdir = path.dirname(path.relative('./source/_patterns', file)).replace('\\', '/');
+      var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
 
       //ignore _underscored patterns, json (for now), and dotfiles

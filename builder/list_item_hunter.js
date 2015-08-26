@@ -49,8 +49,17 @@
             var thisBlockTemplate = repeatedBlockTemplate[i];
             var thisBlockHTML = "";
 
+            //check for a local listitems.json file
+            // var patternSpecificListJson = {};
+            // try {
+            //   patternSpecificListJson = abspath.substr(0, abspath.lastIndexOf(".")) + "listitems.json";
+            //   currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+            // }
+            // catch(e) {
+            // }
+
             //combine listItem data with pattern data with global data
-            var itemData = patternlab.listitems['' + items.indexOf(loopNumberString)]; //this is a propety
+            var itemData = patternlab.listitems['' + items.indexOf(loopNumberString)]; //this is a property
             var globalData = JSON.parse(JSON.stringify(patternlab.data));
             var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
 
@@ -61,11 +70,9 @@
             //check for partials within the repeated block
             var foundPartials = pattern_assembler.find_pattern_partials({ 'template' : thisBlockTemplate });
 
-            if(foundPartials.length > 0){
+            if(foundPartials && foundPartials.length > 0){
 
               for(var j = 0; j < foundPartials.length; j++){
-                //add the lineage once for the parent pattern
-                //TODO
 
                 //get the partial
                 var partialName = foundPartials[j].match(/([a-z-]+)/ig)[0];
@@ -73,7 +80,6 @@
 
                 //replace its reference within the block with the extended template
                 thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], partialPattern.extendedTemplate);
-
               }
 
               //render with data
