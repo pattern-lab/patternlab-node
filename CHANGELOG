@@ -2,6 +2,7 @@ THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
 PL-node-v0.11.0
  - ADD: Ignore pattern directories that start with an underscore.
+ - ADD: Support for lists with the listItems variable
  - FIX: Resolved issue where pattern parameter data bled into global data object
  - ADD: Support a fluid viewport
 

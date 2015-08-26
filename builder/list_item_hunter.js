@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.1 - 2015 
+ * patternlab-node - v0.11.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -31,8 +31,6 @@
 
           //find the boundaries of the block
           var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
-
-          //find the boundaries of the block
           var end = liMatch.replace('#', '/');
           var patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
 
@@ -43,23 +41,18 @@
             repeatedBlockTemplate.push(patternBlock);
           }
 
+          //check for a local listitems.json file
+          var listData = JSON.parse(JSON.stringify(patternlab.listitems));
+          listData = pattern_assembler.merge_data(listData, pattern.patternSpecificListJson);
+
           //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
           for(var i = 0; i < repeatedBlockTemplate.length; i++){
 
             var thisBlockTemplate = repeatedBlockTemplate[i];
             var thisBlockHTML = "";
 
-            //check for a local listitems.json file
-            // var patternSpecificListJson = {};
-            // try {
-            //   patternSpecificListJson = abspath.substr(0, abspath.lastIndexOf(".")) + "listitems.json";
-            //   currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
-            // }
-            // catch(e) {
-            // }
-
             //combine listItem data with pattern data with global data
-            var itemData = patternlab.listitems['' + items.indexOf(loopNumberString)]; //this is a property
+            var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
             var globalData = JSON.parse(JSON.stringify(patternlab.data));
             var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
 

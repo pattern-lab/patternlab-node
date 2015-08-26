@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.1 - 2015 
+ * patternlab-node - v0.11.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -81,11 +81,21 @@
 
       //look for a json file for this template
       try {
-        var jsonFilename = abspath.substr(0, abspath.lastIndexOf(".")) + ".json";
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+        var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
+        console.log('found pattern-specific data.json for ' + currentPattern.key);
       }
       catch(e) {
       }
+
+      //look for a listitems.json file for this template
+      try {
+        var listJsonFileName = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".listitems.json";
+        currentPattern.patternSpecificListJson = fs.readJSONSync(listJsonFileName.substring(2));
+        console.log('found pattern-specific listitems.json for ' + currentPattern.key);
+      }
+      catch(e) {
+      }      
 
       //add the raw template to memory
       currentPattern.template = fs.readFileSync(abspath, 'utf8');

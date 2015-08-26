@@ -100,50 +100,67 @@
       test.done();
     },
 
-    //TODO
-    //'process_list_item_partials overwrites listItem data if local .listitem.json is found' : function(test){
-      // //arrange
-      // //setup current pattern from what we would have during execution
-      // var currentPattern = {
-      //    "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-      //    "extendedTemplate" : "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-      //    "key": "test-patternName",
-      //    "jsonFileData" : {}
-      // };
+    'process_list_item_partials overwrites listItem data if local .listitem.json is found' : function(test){
+      //arrange
+      //setup current pattern from what we would have during execution
+      var currentPattern = {
+         "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
+         "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
+         "key": "test-patternName",
+         "jsonFileData" : {},
+         "patternSpecificListJson" : {
+            "2": [
+                   {
+                      "title": "One"
+                   },
+                   {
+                      "title": "Two"
+                   },
+                ]
+          }         
+      };
 
-      // var patternlab = {
-      //   "listitems": {
-      //     "1": [
-      //        {
-      //           "title": "Foo"
-      //        }
-      //     ],
-      //     "2": [
-      //        {
-      //           "title": "Foo"
-      //        },
-      //        {
-      //           "title": "Bar"
-      //        }
-      //     ]
-      //   },
-      //   "data": {
-      //     "link": {},
-      //     "partials": []
-      //   },
-      //   "config": {"debug": true}
-      // };
+      var patternlab = {
+        "listitems": {
+          "1": [
+             {
+                "title": "Foo"
+             }
+          ],
+          "2": [
+             {
+                "title": "Foo"
+             },
+             {
+                "title": "Bar"
+             }
+          ]
+        },
+        "data": {
+          "link": {},
+          "partials": []
+        },
+        "config": {"debug": false},
+        "patterns": [
+          {
+           "template": "{{ title }}",
+           "extendedTemplate" : "{{ title }}",
+           "key": "test-simple",
+           "jsonFileData" : {}
+          }
+        ]
+      };
 
-      // var list_item_hunter = new lih();
+      var list_item_hunter = new lih();
 
-      // //act
-      // list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+      //act
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
       
-      // //assert
-      // test.equals(currentPattern.extendedTemplate, "FooBar" );
+      //assert
+      test.equals(currentPattern.extendedTemplate, "OneTwo" );
 
-      // test.done();
-    //},    
+      test.done();
+    }
 
   };
 
