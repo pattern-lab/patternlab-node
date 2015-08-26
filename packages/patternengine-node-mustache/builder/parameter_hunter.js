@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.1 - 2015 
+ * patternlab-node - v0.11.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -23,9 +23,10 @@
 			//find the {{> template-name(*) }} within patterns
 			var matches = pattern.template.match(/{{>([ ]+)?([A-Za-z0-9-]+)(\()(.+)(\))([ ]+)?}}/g);
 			if(matches !== null){
+				//compile this partial immeadiately, essentially consuming it.
 				matches.forEach(function(pMatch, index, matches){
 					//find the partial's name
-					var partialName = pMatch.match(/([a-z-]+)/ig)[0]
+					var partialName = pMatch.match(/([a-z-]+)/ig)[0];
 
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
@@ -39,20 +40,17 @@
 					//do no evil. there is no good way to do this that I can think of without using a split, which then makes commas and colons special characters and unusable within the pattern params
 					var paramData = eval(paramString);
 
-					//compile this partial immeadiately, essentially consuming it.
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
-					var existingData = pattern.data || patternlab.data;
+					var globalData = JSON.parse(JSON.stringify(patternlab.data));
+					var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
 
-					//merge paramData with any other data that exists.
-					for (var prop in paramData) {
-						if (existingData.hasOwnProperty(prop)) {
-							existingData[prop] = paramData[prop];
-						} 
-					}
+					var allData = pattern_assembler.merge_data(globalData, localData);
+					allData = pattern_assembler.merge_data(allData, paramData);
 
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-					existingData.link = extend({}, patternlab.data.link);
-					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, existingData, patternlab.partials);
+					allData.link = extend({}, patternlab.data.link);
+
+					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
