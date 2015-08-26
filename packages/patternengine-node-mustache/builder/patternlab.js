@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.10.1 - 2015 
+ * patternlab-node - v0.11.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -65,24 +65,35 @@ var patternlab_engine = function () {
 
     var pattern_assembler = new pa(),
     entity_encoder = new he(),
-    pattern_exporter = new pe();
+    pattern_exporter = new pe(),
+    patterns_dir = './source/_patterns';
 
-    diveSync('./source/_patterns', function(err, file){
-      //log any errors
-      if(err){
-        console.log(err);
-        return;
-      }
+    pattern_assembler.combine_listItems(patternlab);
 
-      pattern_assembler.process_pattern_file(file, patternlab);
+    diveSync(patterns_dir, {
+      filter: function(path, dir) {
+        if(dir){
+          var remainingPath = path.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+          return true;
+        }
+      },
+      function(err, file){
+        //log any errors
+        if(err){
+          console.log(err);
+          return;
+        }
 
+        pattern_assembler.process_pattern_file(file, patternlab);
     });
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
       //render the pattern, but first consolidate any data we may have
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-      allData = pattern_assembler.merge_data(allData, pattern.data);
 
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
