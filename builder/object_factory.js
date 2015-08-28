@@ -1,15 +1,17 @@
-/* 
- * patternlab-node - v0.10.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.10.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
 (function () {
   "use strict";
+
+  var PatternEngines = require('pattern_engines/pattern_engines');
 
   var oPattern = function(subdir, filename, data){
     this.fileName = filename.substring(0, filename.indexOf('.'));
@@ -29,6 +31,11 @@
     this.lineageIndex = [];
     this.lineageR = [];
     this.lineageRIndex = [];
+    this.engine = PatternEngines.getEngineForPattern(this);
+  };
+  // render method on oPatterns; this acts as a proxy for the
+  oPattern.prototype.render = function (data, partials) {
+    return this.engine.render(this.template, data, partials);
   };
 
   var oBucket = function(name){

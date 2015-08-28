@@ -17,22 +17,25 @@
     'handlebars'
   ];
 
-  // hash of all loaded pattern engines, empty at first
-  var patternEngines = {};
+  // object/hash of all loaded pattern engines, empty at first
+  function PatternEngines () {
+    // do nothing
+  }
+  PatternEngines.prototype = {
+    getEngineForPattern: function (pattern) {
+      console.log('pattern file name: ', pattern.fileName);
+      return 'mustache';
+    }
+  };
 
   // try to load all supported engines
   supportedPatternEngineNames.forEach(function (engineName) {
     try {
-      patternEngines[engineName] = require('./engine_' + engineName);
+      PatternEngines[engineName] = require('./engine_' + engineName);
     } catch (err) {
       console.log(err, 'pattern engine "' + engineName + '" not loaded. Did you install its dependency with npm?');
     }
   });
 
-  patternEngines.getEngineForPattern = function (pattern) {
-
-  };
-
-  module.exports = patternEngines;
-
+  module.exports = new PatternEngines();
 })();

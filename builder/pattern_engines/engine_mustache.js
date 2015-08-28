@@ -1,10 +1,10 @@
-/* 
- * mustache pattern engine for patternlab-node - v0.10.1 - 2015 
- * 
+/*
+ * mustache pattern engine for patternlab-node - v0.10.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -31,6 +31,6 @@
       return matches;
     }
   };
-  
+
   module.exports = engine_mustache;
 })();
