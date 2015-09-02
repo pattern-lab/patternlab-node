@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 			//	options: {
 			//		livereload: true
 			//	},
-			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
+			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.css'],
 			// 	tasks: ['default']
 			// },
 			all: {
