@@ -157,7 +157,7 @@
 
     function getpatternbykey(key, patternlab){
       for(var i = 0; i < patternlab.patterns.length; i++){
-        switch (key) {
+        switch(key) {
           case patternlab.patterns[i].key:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
