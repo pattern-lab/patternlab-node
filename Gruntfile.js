@@ -77,10 +77,10 @@ module.exports = function(grunt) {
 				],
 				tasks: ['default']
 			},
-			scss: {
-				files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
-				tasks: ['sass', 'copy:css','bsReload:css']
-			},
+			// scss: {
+			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
+			// 	tasks: ['sass', 'copy:css','bsReload:css']
+			// },
 			patterns: {
 				files: [
 					'source/_patterns/**/*.mustache',
@@ -90,20 +90,20 @@ module.exports = function(grunt) {
 				tasks: ['default']
 			}
 		},
-		sass: {
-			build: {
-				options: {
-					style: 'expanded',
-					precision: 8
-				},
-				files: {
-					'./source/css/style.css': './source/css/style.scss',
-					'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
-					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
-					'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
-				}
-			}
-		},
+		// sass: {
+		// 	build: {
+		// 		options: {
+		// 			style: 'expanded',
+		// 			precision: 8
+		// 		},
+		// 		files: {
+		// 			'./source/css/style.css': './source/css/style.scss',
+		// 			'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
+		// 			'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
+		// 			'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
+		// 		}
+		// 	}
+		// },
 		nodeunit: {
 			all: ['test/*_tests.js']
 		},

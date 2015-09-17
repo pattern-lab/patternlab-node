@@ -164,10 +164,7 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-    /*
-    * Recursively merge properties of two objects
-    * http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
-    */
+    
     var self = this;
     function mergeData(obj1, obj2) {
       for (var p in obj2) {

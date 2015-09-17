@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.12.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.12.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -54,7 +54,7 @@ var patternlab_engine = function () {
     }
   }
 
-  function buildPatterns(callback){
+  function buildPatterns(deletePatternDir){
     patternlab.data = fs.readJSONSync('./source/_data/data.json');
     patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
     patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
@@ -91,7 +91,9 @@ var patternlab_engine = function () {
     });
 
     //delete the contents of config.patterns.public before writing
-    fs.emptyDirSync(patternlab.config.patterns.public);
+    if(deletePatternDir){
+      fs.emptyDirSync(patternlab.config.patterns.public);
+    }
 
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
@@ -346,16 +348,16 @@ var patternlab_engine = function () {
     version: function(){
       return getVersion();
     },
-    build: function(){
-      buildPatterns();
+    build: function(deletePatternDir){
+      buildPatterns(deletePatternDir);
       buildFrontEnd();
       printDebug();
     },
     help: function(){
       help();
     },
-    build_patterns_only: function(){
-      buildPatterns();
+    build_patterns_only: function(deletePatternDir){
+      buildPatterns(deletePatternDir);
       printDebug();
     }
   };
