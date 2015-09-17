@@ -1,4 +1,4 @@
-// Shoutout to oscar-g for starting this at https://github.com/oscar-g/patternlab-node/tree/dev-gulp
+// Special thanks to oscar-g (https://github.com/oscar-g) for starting this at https://github.com/oscar-g/patternlab-node/tree/dev-gulp
 
 var pkg = require('./package.json'),
     gulp = require('gulp'),

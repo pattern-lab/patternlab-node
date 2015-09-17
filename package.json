@@ -12,7 +12,6 @@
     "grunt-contrib-concat": "^0.5.0",
     "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-nodeunit": "^0.4.1",
-    "grunt-contrib-sass": "^0.8.1",
     "grunt-contrib-watch": "^0.6.1",
     "html-entities": "^1.1.1",
     "matchdep": "^0.3.0",
