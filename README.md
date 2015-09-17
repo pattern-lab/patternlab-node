@@ -102,8 +102,10 @@ You can also exclude complete directories by prepending the directory name with 
 ##### Verbose Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
-##### Server
-Running `grunt serve` will compile the patternlab front end and host it on <a href="http://localhost:9001">http://localhost:9001</a> by default. Page will reload on any saved source code change.
+##### Server &amp; BrowserSync
+Running `grunt serve` will compile the patternlab front end and host it by default on <a href="http://localhost:3000">http://localhost:3000</a> via [BrowserSync](http://www.browsersync.io/docs/). After it starts, templates, `data.json`, and scss/css changes in your source code will be automatically injected into the page. 
+
+You'll notice that if you have this open across different browsers, we do our best to keep the front end in sync, but there is a known issue with synced navigation using the main menu. 
 
 ### Advanced Pattern Library Features
 
