@@ -1,5 +1,16 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.12.0
+ - ADD: Gulp support arrives with an optional configuration
+ - ADD: Instructions how to install and run with Gulp
+ - DEL: Deleted the sass modules from `package.json` files
+ - CHG: Commented out all sass tasks in Grunt and Gulp files
+ - CHG: Changed static web server provider to BrowserSync
+ - CHG: Replaced the Style Guide toolbar Auto-Reload and Page Follow with a link to the BrowserSync UI
+ - THX: Thanks @oscar-g for the initial work on the gulpfile!
+ - ADD: An alternative, more verbose syntax for pattern partial inclusion
+ - THX: Thanks @e2tha-e for the thoughtful addition with unit test coverage
+
 PL-node-v0.11.0
  - ADD: Ignore pattern directories that start with an underscore.
  - ADD: Support for lists with the listItems variable
