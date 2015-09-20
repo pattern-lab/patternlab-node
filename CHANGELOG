@@ -7,6 +7,7 @@ PL-node-v0.12.0
  - CHG: Commented out all sass tasks in Grunt and Gulp files
  - CHG: Changed static web server provider to BrowserSync
  - CHG: Replaced the Style Guide toolbar Auto-Reload and Page Follow with a link to the BrowserSync UI
+ - THX: Thanks @oscar-g for the initial work on the gulpfile!
 
 PL-node-v0.11.0
  - ADD: Ignore pattern directories that start with an underscore.

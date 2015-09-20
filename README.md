@@ -2,9 +2,9 @@
 
 ## About the Node Version of Pattern Lab
 
-The Node version of [Pattern Lab](http://patternlab.io/) is, at its core, a static site generator. It combines platform-agnostic assets, like the Mustache-based patterns, the JavaScript-based viewer, and the self-contained webserver, with a Node-based "builder" that transforms and dynamically builds the Pattern Lab site. 
+The Node version of [Pattern Lab](http://patternlab.io/) is, at its core, a static site generator. It combines platform-agnostic assets, like the Mustache-based patterns, the JavaScript-based viewer, and the self-contained webserver, with a Node-based "builder" that transforms and dynamically builds the Pattern Lab site.
 
-This repository contains the vanilla builder logic, grunt and gulp configurations, and some sample template/css/data to illustrate the powe and flexibility of the tool.
+This repository contains the vanilla builder logic, grunt and gulp configurations, and some sample template/css/data to illustrate the power and flexibility of the tool.
 
 ### Download
 
@@ -22,7 +22,7 @@ This repository ships with two `package.json` files, a `Gruntfile.js`, and a `gu
 To run patternlab-node using grunt, do the following in the directory you downloaded and extracted the zipped release:
 
 1. Run `npm install` from the command line
-2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `builder/patternlab_gulp.js` files if you are certain you dont need it.
+2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `builder/patternlab_gulp.js` files if you are certain you don't need it.
 * Not deleting `builder/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
 3. Run `grunt` or `grunt serve` from the command line
 
@@ -33,7 +33,7 @@ This creates all patterns, the styleguide, and the pattern lab site. It's strong
 To run patternlab-node using gulp, you need to swap out the default grunt configuration. Do the following in the directory you downloaded and extracted the zipped release:
 
 1. Rename `package.json` to `package.grunt.json` or delete it if you don't intend on going back
-2. Rename `package.gulp.json` to `package.json` 
+2. Rename `package.gulp.json` to `package.json`
 3. Run `npm install` from the command line
 4. Run `gulp` or `gulp serve` from the command line
 
@@ -74,7 +74,7 @@ Get more information about patternlab-node, pattern lab in general, and where to
 To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt|gulp watch` or `grunt|gulp serve`. The `Gruntfile|Gulpfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
 
 ##### Preprocessor Support
-The patternlab-node release package ships with some `.scss` files utilized in the creation of the style guide and sample templates, but these are not required. The compilation tasks are commented out in the `Gruntfiles|Gulpfiles` but can be uncommented or changed to meet your needs. Sass modules are note included in `package.json` files - the prevailing thought being if you are familiar enough with preprocessors, you can use the instructions for [grunt-contrib-sass](https://github.com/gruntjs/grunt-contrib-sass) / [gulp-sass](https://github.com/dlmanning/gulp-sass) / _preprocessor of choice_ to install them. 
+The patternlab-node release package ships with some `.scss` files utilized in the creation of the style guide and sample templates, but these are not required. The compilation tasks are commented out in the `Gruntfiles|Gulpfiles` but can be uncommented or changed to meet your needs. Sass modules are not included in `package.json` files - the prevailing thought being if you are familiar enough with preprocessors, you can use the instructions for [grunt-contrib-sass](https://github.com/gruntjs/grunt-contrib-sass) / [gulp-sass](https://github.com/dlmanning/gulp-sass) / _preprocessor of choice_ to install them. Uncomment the preprocessor configuration to fully utilize the example templates, css and style guide.
 
 **NOTE:** You may run into issues installing gulp-sass if you don't have the latest Visual Studio on Windows. See [here](https://github.com/sass/node-sass/issues/469) for more information and [this query](https://github.com/sass/node-sass/issues?utf8=%E2%9C%93&q=is%3Aissue+install) for a slew of installation problems related to gulp-sass.
 
@@ -146,9 +146,9 @@ You can also exclude complete directories by prepending the directory name with 
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
 ##### Server &amp; BrowserSync
-Running `grunt serve` will compile the patternlab front end and host it by default on <a href="http://localhost:3000">http://localhost:3000</a> via [BrowserSync](http://www.browsersync.io/docs/). After it starts, templates, `data.json`, and scss/css changes in your source code will be automatically injected into the page. 
+Running `grunt serve` will compile the patternlab front end and host it by default on <a href="http://localhost:3000">http://localhost:3000</a> via [BrowserSync](http://www.browsersync.io/docs/). After it starts, templates, `data.json`, and scss/css changes in your source code will be automatically injected into the page.
 
-You'll notice that if you have this open across different browsers, we do our best to keep the front end in sync, but there is a known issue with synced navigation using the main menu. 
+You'll notice that if you have this open across different browsers, we do our best to keep the front end in sync, but there is a known issue with synced navigation using the main menu.
 
 ### Roadmap
 

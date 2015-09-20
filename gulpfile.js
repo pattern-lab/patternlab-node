@@ -7,7 +7,7 @@ var pkg = require('./package.json'),
     strip_banner = require('gulp-strip-banner'),
     header = require('gulp-header'),
     nodeunit = require('gulp-nodeunit'),
-		sass = require('gulp-sass'),
+		//sass = require('gulp-sass'),
     browserSync = require('browser-sync').create();
 
 require('gulp-load')(gulp);
