@@ -45,7 +45,7 @@
 					var variantFileData = fs.readJSONSync('source/_patterns/' + pseudoPatterns[i]);
 
 					//extend any existing data with variant data
-					variantFileData = pattern_assembler.merge_data(variantFileData, currentPattern.jsonFileData);
+					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
 					var patternVariant = new of.oPattern(currentPattern.subdir, currentPattern.fileName + '-' + variantName + '.mustache', variantFileData);
