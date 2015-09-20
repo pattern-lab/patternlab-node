@@ -79,9 +79,9 @@ The patternlab-node release package ships with some `.scss` files utilized in th
 **NOTE:** You may run into issues installing gulp-sass if you don't have the latest Visual Studio on Windows. See [here](https://github.com/sass/node-sass/issues/469) for more information and [this query](https://github.com/sass/node-sass/issues?utf8=%E2%9C%93&q=is%3Aissue+install) for a slew of installation problems related to gulp-sass.
 
 ##### Nav Bar Controls
-If you don't have a need for some of the nav-bar tools in the patternlab frontend, you can turn them off in `config.json`.
+If you don't have a need for some of the nav-bar tools in the Pattern Lab frontend, you can turn them off in `config.json`.
 
-The current selection is as follows. It reflects support versus patternlab-php.
+The current selection is as follows.
 
 ```
 "ishControlsVisible": {
@@ -146,9 +146,9 @@ You can also exclude complete directories by prepending the directory name with 
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
 ##### Server &amp; BrowserSync
-Running `grunt serve` will compile the patternlab front end and host it by default on <a href="http://localhost:3000">http://localhost:3000</a> via [BrowserSync](http://www.browsersync.io/docs/). After it starts, templates, `data.json`, and scss/css changes in your source code will be automatically injected into the page.
+Running `grunt serve` or `gulp serve` will compile the Pattern Lab frontend and host it by default on <a href="http://localhost:3000">http://localhost:3000</a> via [BrowserSync](http://www.browsersync.io/docs/). After it starts, templates, `data.json`, and scss/css changes in your source code will be automatically injected into the page.
 
-You'll notice that if you have this open across different browsers, we do our best to keep the front end in sync, but there is a known issue with synced navigation using the main menu.
+You'll notice that if you have this open across different browsers, we do our best to keep the frontend in sync, but there is a known issue with synced navigation using the main menu.
 
 ### Roadmap
 
