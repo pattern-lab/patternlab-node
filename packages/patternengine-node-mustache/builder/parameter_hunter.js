@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.11.0 - 2015 
+ * patternlab-node - v0.12.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -21,12 +21,12 @@
 		function findparameters(pattern, patternlab){
 
 			//find the {{> template-name(*) }} within patterns
-			var matches = pattern.template.match(/{{>([ ]+)?([A-Za-z0-9-]+)(\()(.+)(\))([ ]+)?}}/g);
+			var matches = pattern.template.match(/{{>([ ]+)?([\w\-\.\/~]+)(\()(.+)(\))([ ]+)?}}/g);
 			if(matches !== null){
 				//compile this partial immeadiately, essentially consuming it.
 				matches.forEach(function(pMatch, index, matches){
 					//find the partial's name
-					var partialName = pMatch.match(/([a-z-]+)/ig)[0];
+					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
