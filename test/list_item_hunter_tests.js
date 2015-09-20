@@ -179,7 +179,7 @@
                       "title": "Two"
                    },
                 ]
-          }         
+          }
       };
 
       var patternlab = {
@@ -217,7 +217,7 @@
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-      
+
       //assert
       test.equals(currentPattern.extendedTemplate, "Foo" );
 
@@ -246,7 +246,7 @@
                       "title": "Two"
                    },
                 ]
-          }         
+          }
       };
 
       var patternlab = {
@@ -279,7 +279,7 @@
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-      
+
       //assert
       test.equals(currentPattern.extendedTemplate, "One" );
 
