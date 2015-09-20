@@ -170,8 +170,9 @@
     /**
      * Recursively merge properties of two objects.
      *
-     * @param {object} obj1 If obj1 has properties obj2 doesn't, add to obj2.
-     * @param {object} obj2 This object's properties have priority over obj1.
+     * @param {Object} obj1 If obj1 has properties obj2 doesn't, add to obj2.
+     * @param {Object} obj2 This object's properties have priority over obj1.
+     * @returns {Object} obj2
      */
     function mergeData(obj1, obj2){
       if(typeof obj2 === 'undefined'){
