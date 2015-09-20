@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.11.0 - 2015 
+ * patternlab-node - v0.12.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -25,7 +25,7 @@
 
     //find and return any {{> template-name }} within pattern
     function findPartials(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g);
+      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g);
       return matches;
     }
 
@@ -138,7 +138,7 @@
 
         //do something with the regular old partials
         for(var i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([A-Za-z0-9-]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
           var partialPattern = getpatternbykey(partialKey, patternlab);
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
         }
@@ -157,17 +157,17 @@
 
     function getpatternbykey(key, patternlab){
       for(var i = 0; i < patternlab.patterns.length; i++){
-        if(patternlab.patterns[i].key === key){
-          return patternlab.patterns[i];
+        switch(key){
+          case patternlab.patterns[i].key:
+          case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
+          case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
+            return patternlab.patterns[i];
         }
       }
       throw 'Could not find pattern with key ' + key;
     }
 
-    /*
-    * Recursively merge properties of two objects
-    * http://stackoverflow.com/questions/171251/how-can-i-merge-properties-of-two-javascript-objects-dynamically
-    */
+    
     var self = this;
     function mergeData(obj1, obj2) {
       for (var p in obj2) {

@@ -5,9 +5,7 @@
  	},
  	"ignored-extensions" : ["scss", "DS_Store", "less"],
  	"ignored-directories" : ["scss"],
- 	"contentSyncPort" : 8002,
- 	"navSyncPort" : 8003,
- 	"debug": true,
+ 	"debug": false,
  	"ishControlsVisible": {
  		"s": true,
  		"m": true,
@@ -23,8 +21,7 @@
  		"views-code": true,
  		"views-new": true,
  		"tools-all": true,
- 		"tools-follow": false,
- 		"tools-reload": false,
+ 		"tools-sync": true,
  		"tools-shortcuts": true,
  		"tools-docs": true
  	},
