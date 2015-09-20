@@ -167,24 +167,39 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-    
-    var self = this;
-    function mergeData(obj1, obj2) {
-      for (var p in obj2) {
+    /**
+     * Recursively merge properties of two objects.
+     *
+     * @param {Object} obj1 If obj1 has properties obj2 doesn't, add to obj2.
+     * @param {Object} obj2 This object's properties have priority over obj1.
+     * @returns {Object} obj2
+     */
+    function mergeData(obj1, obj2){
+      if(typeof obj2 === 'undefined'){
+        obj2 = {};
+      }
+      for(var p in obj1){
         try {
-          // Property in destination object set; update its value.
-          if ( obj2[p].constructor == Object ) {
-            obj1[p] = self.merge_data(obj1[p], obj2[p]);
-
-          } else {
-            obj1[p] = obj2[p];
+          // Only recurse if obj1[p] is an object.
+          if(obj1[p].constructor === Object){
+            // Requires 2 objects as params; create obj2[p] if undefined.
+            if(typeof obj2[p] === 'undefined'){
+              obj2[p] = {};
+            }
+            obj2[p] = mergeData(obj1[p], obj2[p]);
+          // Pop when recursion meets a non-object. If obj1[p] is a non-object,
+          // only copy to undefined obj2[p]. This way, obj2 maintains priority.
+          } else if(typeof obj2[p] === 'undefined'){
+            obj2[p] = obj1[p];
           }
         } catch(e) {
           // Property in destination object not set; create it and set its value.
-          obj1[p] = obj2[p];
+          if(typeof obj2[p] === 'undefined'){
+            obj2[p] = obj1[p];
+          }
         }
       }
-      return obj1;
+      return obj2;
     }
 
     function buildListItems(patternlab){
