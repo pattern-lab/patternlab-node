@@ -1,7 +1,7 @@
 /*
  * patternlab-node - v0.10.1 - 2015
  *
- * Brian Muenzenmeyer, and the web community.
+ * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
@@ -17,7 +17,13 @@
     'handlebars'
   ];
 
-  // object/hash of all loaded pattern engines, empty at first
+  // Object/hash of all loaded pattern engines, empty at first.
+  // My intention here is to make this return an object that can be used to
+  // obtain any loaded PatternEngine by addressing them like this:
+  //
+  // var PatternEngines = require('pattern_engines/pattern_engines');
+  // var Mustache = PatternEngines('mustache');
+  //
   function PatternEngines () {
     // do nothing
   }
