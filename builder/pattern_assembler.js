@@ -148,11 +148,11 @@
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
 
-      //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-
       //add to patternlab object so we can look these up later.
       addPattern(currentPattern, patternlab);
+
+      //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
     }
 
     function getpatternbykey(key, patternlab){
