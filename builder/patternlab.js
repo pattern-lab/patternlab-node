@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v0.10.1 - 2015
+ * patternlab-node - v0.12.0 - 2015
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -36,7 +36,7 @@ var patternlab_engine = function () {
     console.log('===============================');
     console.log('Command Line Arguments');
     console.log('patternlab:only_patterns');
-    console.log(' > Compiles the patterns only, outputting to ./public/patterns');
+    console.log(' > Compiles the patterns only, outputting to config.patterns.public');
     console.log('patternlab:v');
     console.log(' > Retrieve the version of patternlab-node you have installed');
     console.log('patternlab:help');
@@ -54,7 +54,7 @@ var patternlab_engine = function () {
     }
   }
 
-  function buildPatterns(callback){
+  function buildPatterns(deletePatternDir){
     patternlab.data = fs.readJSONSync('./source/_data/data.json');
     patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
     patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
@@ -65,23 +65,41 @@ var patternlab_engine = function () {
 
     var pattern_assembler = new pa(),
     entity_encoder = new he(),
-    pattern_exporter = new pe();
+    pattern_exporter = new pe(),
+    patterns_dir = './source/_patterns';
 
-    diveSync('./source/_patterns', function(err, filePath){
-      //log any errors
-      if(err){
-        console.log(err);
-        return;
-      }
-      pattern_assembler.process_pattern_file(filePath, patternlab);
+    pattern_assembler.combine_listItems(patternlab);
+
+    diveSync(patterns_dir, {
+      filter: function(path, dir) {
+        if(dir){
+          var remainingPath = path.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+          return true;
+        }
+      },
+      function(err, file){
+        //log any errors
+        if(err){
+          console.log(err);
+          return;
+        }
+
+        pattern_assembler.process_pattern_file(file, patternlab);
     });
 
-    //render all patterns last, so lineage works
+    //delete the contents of config.patterns.public before writing
+    if(deletePatternDir){
+      fs.emptyDirSync(patternlab.config.patterns.public);
+    }
+
+    //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
       //render the pattern, but first consolidate any data we may have
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-      allData = pattern_assembler.merge_data(allData, pattern.data);
 
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
@@ -89,13 +107,13 @@ var patternlab_engine = function () {
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync('./public/patterns/' + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+      fs.outputFileSync(patternlab.config.patterns.public + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
 
       //write the mustache file too
-      fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
+      fs.outputFileSync(patternlab.config.patterns.public + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
 
       //write the encoded version too
-      fs.outputFileSync('./public/patterns/' + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+      fs.outputFileSync(patternlab.config.patterns.public + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
     });
 
     //export patterns if necessary
@@ -142,7 +160,7 @@ var patternlab_engine = function () {
 
         var viewAllTemplate = fs.readFileSync('./source/_patternlab-files/viewall.mustache', 'utf8');
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
-        fs.outputFileSync('./public/patterns/' + pattern.flatPatternPath + '/index.html', viewAllHtml);
+        fs.outputFileSync(patternlab.config.patterns.public + pattern.flatPatternPath + '/index.html', viewAllHtml);
       }
     }
 
@@ -330,16 +348,16 @@ var patternlab_engine = function () {
     version: function(){
       return getVersion();
     },
-    build: function(){
-      buildPatterns();
+    build: function(deletePatternDir){
+      buildPatterns(deletePatternDir);
       buildFrontEnd();
       printDebug();
     },
     help: function(){
       help();
     },
-    build_patterns_only: function(){
-      buildPatterns();
+    build_patterns_only: function(deletePatternDir){
+      buildPatterns(deletePatternDir);
       printDebug();
     }
   };

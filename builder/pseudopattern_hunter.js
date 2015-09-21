@@ -1,6 +1,6 @@
-/*
- * patternlab-node - v0.10.1 - 2015
- *
+/* 
+ * patternlab-node - v0.12.0 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *

@@ -3,10 +3,6 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		clean: {
-			options: { force: true },
-			files: ['./public/patterns']
-		},
 		concat: {
 			options: {
 				stripBanners: true,
@@ -47,6 +43,10 @@ module.exports = function(grunt) {
 			pseudopattern_hunter: {
 				src: './builder/pseudopattern_hunter.js',
 				dest: './builder/pseudopattern_hunter.js'
+			},
+			list_item_hunter: {
+				src: './builder/list_item_hunter.js',
+				dest: './builder/list_item_hunter.js'
 			}
 		},
 		copy: {
@@ -59,67 +59,72 @@ module.exports = function(grunt) {
 				{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
 				{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
 				]
+			},
+			css: {
+				files: [
+				{ expand: true, cwd: './source/css/', src: '*.css', dest: './public/css/' }
+				]
 			}
 		},
-		jshint: {
-			options: {
-				"curly": true,
-				"eqnull": true,
-				"eqeqeq": true,
-				"undef": true,
-				"forin": true,
-				//"unused": true,
-				"node": true
-			},
-			patternlab: ['Gruntfile.js', './builder/lib/patternlab.js']
-		},
 		watch: {
-			// scss: { //scss can be watched if you like
-			//	options: {
-			//		livereload: true
-			//	},
-			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
-			// 	tasks: ['default']
-			// },
 			all: {
-				options: {
-					livereload: true
-				},
 				files: [
-				'source/_patterns/**/*.mustache',
-				'source/_patterns/**/*.json',
-				'source/_data/*.json'
+					'source/css/**/*.css',
+					'public/styleguide/css/*.css',
+					'source/_patterns/**/*.mustache',
+					'source/_patterns/**/*.json',
+					'source/_data/*.json'
+				],
+				tasks: ['default']
+			},
+			// scss: {
+			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
+			// 	tasks: ['sass', 'copy:css','bsReload:css']
+			// },
+			patterns: {
+				files: [
+					'source/_patterns/**/*.mustache',
+					'source/_patterns/**/*.json',
+					'source/_data/*.json'
 				],
 				tasks: ['default']
 			}
 		},
-		sass: {
-			build: {
-				options: {
-					style: 'expanded',
-					precision: 8
-				},
-				files: {
-					'./source/css/style.css': './source/css/style.scss',
-					'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
-					'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
-					'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
-				}
-			}
-		},
+		// sass: {
+		// 	build: {
+		// 		options: {
+		// 			style: 'expanded',
+		// 			precision: 8
+		// 		},
+		// 		files: {
+		// 			'./source/css/style.css': './source/css/style.scss',
+		// 			'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
+		// 			'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
+		// 			'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
+		// 		}
+		// 	}
+		// },
 		nodeunit: {
 			all: ['test/*_tests.js']
 		},
-		connect: {
-			app:{
+		browserSync: {
+			dev: {
 				options: {
-					port: 9001,
-					base: './public',
-					hostname: 'localhost',
-					open: true,
-					livereload: 35729
+					server:  './public',
+					watchTask: true,
+					plugins: [
+						{
+							module: 'bs-html-injector',
+							options: {
+								files: './public/index.html'
+							}
+						}
+					]
 				}
 			}
+		},
+		bsReload: {
+			css: './public/**/*.css'
 		}
 	});
 
@@ -130,11 +135,15 @@ module.exports = function(grunt) {
 	grunt.task.loadTasks('./builder/');
 
 	//if you choose to use scss, or any preprocessor, you can add it here
-	grunt.registerTask('default', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
+	grunt.registerTask('default', ['patternlab', /*'sass',*/ 'copy:main']);
 
 	//travis CI task
-	grunt.registerTask('travis', ['nodeunit', 'clean', 'concat', 'patternlab', /*'sass',*/ 'copy']);
+	grunt.registerTask('travis', ['nodeunit', 'patternlab']);
 
-	grunt.registerTask('serve', ['clean', 'concat', 'patternlab', /*'sass',*/ 'copy', 'connect', 'watch']);
+	//TODO: this line is more efficient, but you cannot run concurrent watch tasks without another dependency.
+	//grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'browserSync', 'watch:patterns', 'watch:scss']);
+	grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'browserSync', 'watch:all']);
+
+	grunt.registerTask('build', ['nodeunit', 'concat']);
 
 };

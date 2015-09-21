@@ -1,6 +1,6 @@
-/*
- * patternlab-node - v0.10.1 - 2015
- *
+/* 
+ * patternlab-node - v0.12.0 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -17,8 +17,7 @@
     this.fileName = filename.substring(0, filename.indexOf('.'));
     this.subdir = subdir;
     this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
-    this.data =  data || null;
-    this.jsonFileData = {};
+    this.jsonFileData = data || {};
     this.patternName = this.fileName.substring(this.fileName.indexOf('-') + 1); //this is the display name for the ui
     this.patternLink = this.name + '/' + this.name + '.html';
     this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
