@@ -81,14 +81,25 @@
       //extract some information
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
+      var ext = path.extname(filename);
 
-      //ignore _underscored patterns, json (for now), and dotfiles
-      if(filename.charAt(0) === '_' || path.extname(filename) === '.json' || filename.charAt(0) === '.'){
+      //ignore _underscored patterns, dotfiles, and non-variant .json files
+      if(filename.charAt(0) === '_' || filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
         return;
       }
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
+
+      //if file is named in the syntax for variants
+      if(ext === '.json' && filename.indexOf('~') > -1){
+        //add current pattern to patternlab object with minimal data
+        //processPatternRecursive() will run find_pseudopatterns() to fill out
+        //the object in the next diveSync
+        addPattern(currentPattern, patternlab);
+        //no need to process further
+        return;
+      }
 
       //see if this file has a state
       setState(currentPattern, patternlab);

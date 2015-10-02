@@ -48,8 +48,8 @@
 					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '-' + variantName + '.mustache';
-					var variantFileName = currentPattern.fileName + '-' + variantName + '.mustache';
+					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
+					var variantFileName = currentPattern.fileName + '-' + variantName + '.';
 					var patternVariant = new of.oPattern(variantFilePath, currentPattern.subdir, variantFileName, variantFileData);
 
 					//see if this file has a state
