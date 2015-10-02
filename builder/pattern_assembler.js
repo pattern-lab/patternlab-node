@@ -152,7 +152,7 @@
         }
       }
 
-      //return if processing a .json file
+      //return if processing a non-variant .json file
       if(typeof currentPattern === 'undefined'){
         return;
       }
