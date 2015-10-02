@@ -70,6 +70,7 @@ var patternlab_engine = function () {
 
     pattern_assembler.combine_listItems(patternlab);
 
+    //diveSync once to perform iterative populating of patternlab object
     diveSync(patterns_dir, {
       filter: function(path, dir) {
         if(dir){
@@ -90,6 +91,8 @@ var patternlab_engine = function () {
         pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
     });
 
+    //diveSync again to recursively include partials, filling out the
+    //extendedTemplate property of the patternlab.patterns elements
     diveSync(patterns_dir, {
       filter: function(path, dir) {
         if(dir){

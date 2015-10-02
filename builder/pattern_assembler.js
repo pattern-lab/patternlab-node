@@ -133,6 +133,7 @@
       list_item_hunter = new lih(),
       pseudopattern_hunter = new pph();
 
+      //find current pattern in patternlab object using var file as a key
       var currentPattern, i;
       for(i = 0; i < patternlab.patterns.length; i++){
         if(patternlab.patterns[i].abspath === file){
