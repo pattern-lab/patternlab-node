@@ -117,6 +117,7 @@
 				}
 			}
 
+			//delete test files
 			fs.unlinkSync(patterns_dir + '/02-organisms/00-global/02-foo.mustache');
 			fs.unlinkSync(patterns_dir + '/02-organisms/00-global/03-bar.mustache');
 
