@@ -87,7 +87,27 @@ var patternlab_engine = function () {
           return;
         }
 
-        pattern_assembler.process_pattern_file(file, patternlab);
+        pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+    });
+
+    diveSync(patterns_dir, {
+      filter: function(path, dir) {
+        if(dir){
+          var remainingPath = path.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+          return true;
+        }
+      },
+      function(err, file){
+        //log any errors
+        if(err){
+          console.log(err);
+          return;
+        }
+
+        pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
     });
 
     //delete the contents of config.patterns.public before writing

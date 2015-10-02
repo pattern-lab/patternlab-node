@@ -11,8 +11,9 @@
 (function () {
   "use strict";
 
-  var oPattern = function(subdir, filename, data){
+  var oPattern = function(abspath, subdir, filename, data){
     this.fileName = filename.substring(0, filename.indexOf('.'));
+    this.abspath = abspath;
     this.subdir = subdir;
     this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
     this.jsonFileData = data || {};
