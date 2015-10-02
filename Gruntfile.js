@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
 	//load the patternlab task
-	grunt.task.loadTasks('./builder');
+	grunt.task.loadTasks('./builder/');
 
 	//if you choose to use scss, or any preprocessor, you can add it here
 	grunt.registerTask('default', ['patternlab', /*'sass',*/ 'copy:main']);
