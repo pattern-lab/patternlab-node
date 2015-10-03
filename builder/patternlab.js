@@ -165,6 +165,11 @@ var patternlab_engine = function () {
     i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
+      // skip underscore-prefixed files
+      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
+        continue;
+      }
+
       var pattern = patternlab.patterns[i];
 
       // check if the current sub section is different from the previous one
@@ -193,6 +198,11 @@ var patternlab_engine = function () {
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
     for(var i = 0; i < patternlab.patterns.length; i++){
+      // skip underscore-prefixed files
+      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
+        continue;
+      }
+
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
 

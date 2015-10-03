@@ -83,8 +83,8 @@
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      //ignore _underscored patterns, dotfiles, and non-variant .json files
-      if(filename.charAt(0) === '_' || filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
+      //ignore dotfiles and non-variant .json files
+      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
         return;
       }
 
@@ -145,14 +145,16 @@
       pseudopattern_hunter = new pph();
 
       //find current pattern in patternlab object using var file as a key
-      var currentPattern, i;
+      var currentPattern,
+      i;
+
       for(i = 0; i < patternlab.patterns.length; i++){
         if(patternlab.patterns[i].abspath === file){
           currentPattern = patternlab.patterns[i];
         }
       }
 
-      //return if processing a non-variant .json file
+      //return if processing an ignored file
       if(typeof currentPattern === 'undefined'){
         return;
       }
