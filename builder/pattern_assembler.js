@@ -184,8 +184,7 @@
           //identify which pattern this partial corresponds to
           for(var j = 0; j < patternlab.patterns.length; j++){
             if(patternlab.patterns[j].key === partialKey ||
-              patternlab.patterns[j].abspath === 'source/_patterns/' + partialKey ||
-              patternlab.patterns[j].abspath === 'source/_patterns/' + partialKey + '.mustache')
+              patternlab.patterns[j].abspath.indexOf(partialKey) > -1)
             {
               partialPath = patternlab.patterns[j].abspath;
             }

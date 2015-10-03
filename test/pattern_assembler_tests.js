@@ -46,8 +46,10 @@
 			var fs = require('fs-extra');
 			var pa = require('../builder/pattern_assembler');
 			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
 			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config.patterns = {source: patterns_dir};
 			patternlab.data = fs.readJSONSync('./source/_data/data.json');
 			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
 			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
@@ -55,11 +57,6 @@
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
-			var patterns_dir = './source/_patterns';
-
-			//create test partials
-			fs.writeFileSync(patterns_dir + '/02-organisms/00-global/02-foo.mustache', '{{> organisms-bar }}');
-			fs.writeFileSync(patterns_dir + '/02-organisms/00-global/03-bar.mustache', 'bar');
 
 			//diveSync once to perform iterative populating of patternlab object
 			diveSync(patterns_dir,
@@ -108,21 +105,24 @@
 				}
 			);
 
-			//find test pattern
-			var foo;
+			//get test output for comparison
+			var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
+			var bar = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8').trim();
+			var fooExtended;
+
+			//get extended pattern
 			for(var i = 0; i < patternlab.patterns.length; i++){
-				if(patternlab.patterns[i].fileName === '02-foo'){
-					foo = patternlab.patterns[i].extendedTemplate;
+				if(patternlab.patterns[i].fileName === '00-foo'){
+					fooExtended = patternlab.patterns[i].extendedTemplate.trim();
 					break;
 				}
 			}
 
-			//delete test files
-			fs.unlinkSync(patterns_dir + '/02-organisms/00-global/02-foo.mustache');
-			fs.unlinkSync(patterns_dir + '/02-organisms/00-global/03-bar.mustache');
-
-			//test that 02-foo.mustache included partial 03-bar.mustache
-			test.equals(foo, 'bar');
+			//check initial values
+			test.equals(foo, '{{> test-bar }}');
+			test.equals(bar, 'bar');
+			//test that 00-foo.mustache included partial 01-bar.mustache
+			test.equals(fooExtended, 'bar');
 
 			test.done();
 		}
