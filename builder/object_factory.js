@@ -17,7 +17,7 @@
     this.subdir = subdir;
     this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
     this.jsonFileData = data || {};
-    this.patternName = this.fileName.substring(this.fileName.indexOf('-') + 1); //this is the display name for the ui
+    this.patternName = this.fileName.replace(/^\d*\-/, ''); //this is the display name for the ui. strip numeric + hyphen prefixes
     this.patternLink = this.name + '/' + this.name + '.html';
     this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
     this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);

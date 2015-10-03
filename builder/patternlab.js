@@ -272,7 +272,10 @@ var patternlab_engine = function () {
         var bucket = patternlab.buckets[bucketIndex];
 
         //get the navItem
-        var navItemName = pattern.subdir.split('-').pop();
+        //if there is one or more slashes in the subdir, get everything after
+        //the last slash. if no slash, get the whole subdir string and strip
+        //any numeric + hyphen prefix
+        var navItemName = pattern.subdir.split('/').pop().replace(/^\d*\-/, '');
 
         //get the navSubItem
         var navSubItemName = pattern.patternName.replace(/-/g, ' ');
