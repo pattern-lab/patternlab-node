@@ -101,6 +101,11 @@
         return;
       }
 
+      //can ignore all non-mustache files at this point
+      if(ext !== '.mustache'){
+        return;
+      }
+
       //see if this file has a state
       setState(currentPattern, patternlab);
 
