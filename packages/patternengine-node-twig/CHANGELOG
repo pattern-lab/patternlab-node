@@ -1,5 +1,15 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.13.0
+- FIX: Cleanup an old file and an incorrect entry in the .gitignore file
+- CHG: Change order of pattern addition and ~variant pattern addition so they build naturally in the menu.
+- THX: Thanks @e2tha-e for the flurry of pull requests!
+- CHG: Update data merge function to prioritize handle pattern~variant.json files
+- THX: Thanks @e2tha-e for finding, fixing, and unit testing the data merge issue.
+- ADD: Support for recursive partial inclusion
+- THX: Thanks @e2tha-e for making pattern inclusion a lot more robust. Great work!!!
+- FIX: Improvements to style guide menu generation and capitalization.
+
 PL-node-v0.12.0
  - ADD: Gulp support arrives with an optional configuration
  - ADD: Instructions how to install and run with Gulp
