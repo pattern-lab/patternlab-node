@@ -6,6 +6,8 @@ PL-node-v0.13.0
 - THX: Thanks @e2tha-e for the flurry of pull requests!
 - CHG: Update data merge function to prioritize handle pattern~variant.json files
 - THX: Thanks @e2tha-e for finding, fixing, and unit testing the data merge issue.
+- ADD: Support for recursive partial inclusion
+- THX: Thanks @e2tha-e for making pattern inclusion a lot more robust. Great work!!!
 
 PL-node-v0.12.0
  - ADD: Gulp support arrives with an optional configuration
