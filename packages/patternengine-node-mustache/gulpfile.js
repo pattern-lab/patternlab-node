@@ -37,6 +37,7 @@ gulp.task('banner', function(){
     './builder/lineage_hunter.js',
     './builder/media_hunter.js',
     './builder/patternlab_grunt.js',
+    './builder/patternlab_gulp.js',
     './builder/parameter_hunter.js',
     './builder/pattern_exporter.js',
     './builder/pattern_assembler.js',
