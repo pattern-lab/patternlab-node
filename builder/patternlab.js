@@ -217,7 +217,8 @@ var patternlab_engine = function () {
         patternlab.viewAllPaths[bucketName] = {};
 
         //get the navItem
-        var navItemName = pattern.subdir.split('-').pop();
+        var navItemName = pattern.subdir.split('/').pop();
+        navItemName = navItemName.replace(/(\d).(-)/g, '');
 
         //get the navSubItem
         var navSubItemName = pattern.patternName.replace(/-/g, ' ');

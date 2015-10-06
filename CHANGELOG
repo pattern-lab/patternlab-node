@@ -8,6 +8,7 @@ PL-node-v0.13.0
 - THX: Thanks @e2tha-e for finding, fixing, and unit testing the data merge issue.
 - ADD: Support for recursive partial inclusion
 - THX: Thanks @e2tha-e for making pattern inclusion a lot more robust. Great work!!!
+- FIX: Improvements to style guide menu generation and capitalization.
 
 PL-node-v0.12.0
  - ADD: Gulp support arrives with an optional configuration
