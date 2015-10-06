@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v0.12.0 - 2015
- *
+/* 
+ * patternlab-node - v0.12.0 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -21,6 +21,7 @@
 
       return true;
     }
+
 
     //find and return any {{> template-name }} within pattern
     function findPartials(pattern){
@@ -39,26 +40,6 @@
       } else{
         pattern.patternState = "";
       }
-    }
-
-    function applyStyleModifications(pattern, patternlab){
-      //look for styleModifiers within the pattern template
-      var matches = pattern.template.match(/(:)([a-zA-Z]*)/g);
-
-      //parse matches if they look like modifiers
-      if(matches){
-        console.log(matches);
-
-        for(var i = 0; i < matches.length; i++){
-          if(matches[i].length > 1){
-            console.log(matches[i]);
-          }
-        }
-      }
-
-      //add to pattern data
-
-      //remove from the template
     }
 
     function addPattern(pattern, patternlab){
@@ -111,12 +92,10 @@
       try {
         var listJsonFileName = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".listitems.json";
         currentPattern.patternSpecificListJson = fs.readJSONSync(listJsonFileName.substring(2));
-        if(patternlab.confi.debug){
-          console.log('found pattern-specific listitems.json for ' + currentPattern.key);
-        }
+        console.log('found pattern-specific listitems.json for ' + currentPattern.key);
       }
       catch(e) {
-      }
+      }      
 
       //add the raw template to memory
       currentPattern.template = fs.readFileSync(abspath, 'utf8');
@@ -165,9 +144,6 @@
         }
 
       }
-
-      //look for pattern styleModifiers
-      applyStyleModifications(currentPattern, patternlab);
 
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
