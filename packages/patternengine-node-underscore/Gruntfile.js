@@ -28,6 +28,10 @@ module.exports = function(grunt) {
 				src: './builder/patternlab_grunt.js',
 				dest: './builder/patternlab_grunt.js'
 			},
+			patternlab_gulp: {
+				src: './builder/patternlab_gulp.js',
+				dest: './builder/patternlab_gulp.js'
+			},
 			parameter_hunter: {
 				src: './builder/parameter_hunter.js',
 				dest: './builder/parameter_hunter.js'
