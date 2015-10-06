@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v0.12.0 - 2015
- *
+/* 
+ * patternlab-node - v0.13.0 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -70,6 +70,7 @@ var patternlab_engine = function () {
 
     pattern_assembler.combine_listItems(patternlab);
 
+    //diveSync once to perform iterative populating of patternlab object
     diveSync(patterns_dir, {
       filter: function(path, dir) {
         if(dir){
@@ -87,7 +88,29 @@ var patternlab_engine = function () {
           return;
         }
 
-        pattern_assembler.process_pattern_file(file, patternlab);
+        pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+    });
+
+    //diveSync again to recursively include partials, filling out the
+    //extendedTemplate property of the patternlab.patterns elements
+    diveSync(patterns_dir, {
+      filter: function(path, dir) {
+        if(dir){
+          var remainingPath = path.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+          return true;
+        }
+      },
+      function(err, file){
+        //log any errors
+        if(err){
+          console.log(err);
+          return;
+        }
+
+        pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
     });
 
     //delete the contents of config.patterns.public before writing
@@ -142,6 +165,11 @@ var patternlab_engine = function () {
     i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
+      // skip underscore-prefixed files
+      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
+        continue;
+      }
+
       var pattern = patternlab.patterns[i];
 
       // check if the current sub section is different from the previous one
@@ -170,6 +198,11 @@ var patternlab_engine = function () {
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
     for(var i = 0; i < patternlab.patterns.length; i++){
+      // skip underscore-prefixed files
+      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
+        continue;
+      }
+
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
 
@@ -184,7 +217,8 @@ var patternlab_engine = function () {
         patternlab.viewAllPaths[bucketName] = {};
 
         //get the navItem
-        var navItemName = pattern.subdir.split('-').pop();
+        var navItemName = pattern.subdir.split('/').pop();
+        navItemName = navItemName.replace(/(\d).(-)/g, '');
 
         //get the navSubItem
         var navSubItemName = pattern.patternName.replace(/-/g, ' ');
@@ -239,7 +273,10 @@ var patternlab_engine = function () {
         var bucket = patternlab.buckets[bucketIndex];
 
         //get the navItem
-        var navItemName = pattern.subdir.split('-').pop();
+        //if there is one or more slashes in the subdir, get everything after
+        //the last slash. if no slash, get the whole subdir string and strip
+        //any numeric + hyphen prefix
+        var navItemName = pattern.subdir.split('/').pop().replace(/^\d*\-/, '');
 
         //get the navSubItem
         var navSubItemName = pattern.patternName.replace(/-/g, ' ');
