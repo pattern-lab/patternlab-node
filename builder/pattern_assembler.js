@@ -44,7 +44,22 @@
 
     function addPattern(pattern, patternlab){
       patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
-      patternlab.patterns.push(pattern);
+
+      //only push to array if the array doesn't contain this pattern
+      var isNew = true;
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        //so we need the identifier to be unique, which patterns[i].abspath is
+        if(pattern.abspath === patternlab.patterns[i].abspath){
+          //if abspath already exists, overwrite that element
+          patternlab.patterns[i] = pattern;
+          isNew = false;
+          break;
+        }
+      }
+      //if the pattern is new, just push to the array
+      if(isNew){
+        patternlab.patterns.push(pattern);
+      }
     }
 
     function renderPattern(template, data, partials) {
@@ -58,23 +73,38 @@
       }
     }
 
-    function processPatternFile(file, patternlab){
+    function processPatternIterative(file, patternlab){
       var fs = require('fs-extra'),
       of = require('./object_factory'),
       path = require('path');
 
       //extract some information
-      var abspath = file.substring(2);
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
+      var ext = path.extname(filename);
 
-      //ignore _underscored patterns, json (for now), and dotfiles
-      if(filename.charAt(0) === '_' || path.extname(filename) === '.json' || filename.charAt(0) === '.'){
+      //ignore dotfiles and non-variant .json files
+      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
         return;
       }
 
       //make a new Pattern Object
-      var currentPattern = new of.oPattern(subdir, filename);
+      var currentPattern = new of.oPattern(file, subdir, filename);
+
+      //if file is named in the syntax for variants
+      if(ext === '.json' && filename.indexOf('~') > -1){
+        //add current pattern to patternlab object with minimal data
+        //processPatternRecursive() will run find_pseudopatterns() to fill out
+        //the object in the next diveSync
+        addPattern(currentPattern, patternlab);
+        //no need to process further
+        return;
+      }
+
+      //can ignore all non-mustache files at this point
+      if(ext !== '.mustache'){
+        return;
+      }
 
       //see if this file has a state
       setState(currentPattern, patternlab);
@@ -98,13 +128,13 @@
       }      
 
       //add the raw template to memory
-      currentPattern.template = fs.readFileSync(abspath, 'utf8');
+      currentPattern.template = fs.readFileSync(file, 'utf8');
 
-      //our helper function that does a lot of heavy lifting
-      processPattern(currentPattern, patternlab);
+      //add currentPattern to patternlab.patterns array
+      addPattern(currentPattern, patternlab);
     }
 
-    function processPattern(currentPattern, patternlab, additionalData){
+    function processPatternRecursive(file, patternlab, additionalData){
 
       var fs = require('fs-extra'),
       mustache = require('mustache'),
@@ -118,6 +148,21 @@
       lineage_hunter = new lh(),
       list_item_hunter = new lih(),
       pseudopattern_hunter = new pph();
+
+      //find current pattern in patternlab object using var file as a key
+      var currentPattern,
+      i;
+
+      for(i = 0; i < patternlab.patterns.length; i++){
+        if(patternlab.patterns[i].abspath === file){
+          currentPattern = patternlab.patterns[i];
+        }
+      }
+
+      //return if processing an ignored file
+      if(typeof currentPattern === 'undefined'){
+        return;
+      }
 
       currentPattern.extendedTemplate = currentPattern.template;
 
@@ -137,8 +182,23 @@
         parameter_hunter.find_parameters(currentPattern, patternlab);
 
         //do something with the regular old partials
-        for(var i = 0; i < foundPatternPartials.length; i++){
+        for(i = 0; i < foundPatternPartials.length; i++){
           var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialPath;
+
+          //identify which pattern this partial corresponds to
+          for(var j = 0; j < patternlab.patterns.length; j++){
+            if(patternlab.patterns[j].key === partialKey ||
+              patternlab.patterns[j].abspath.indexOf(partialKey) > -1)
+            {
+              partialPath = patternlab.patterns[j].abspath;
+            }
+          }
+
+          //recurse through nested partials to fill out this extended template.
+          processPatternRecursive(partialPath, patternlab);
+
+          //complete assembly of extended template
           var partialPattern = getpatternbykey(partialKey, patternlab);
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
         }
@@ -248,11 +308,11 @@
       renderPattern: function(template, data, partials){
         return renderPattern(template, data, partials);
       },
-      process_pattern_file: function(file, patternlab){
-        processPatternFile(file, patternlab);
+      process_pattern_iterative: function(file, patternlab){
+        processPatternIterative(file, patternlab);
       },
-      process_pattern: function(pattern, patternlab, additionalData){
-        processPattern(pattern, patternlab, additionalData);
+      process_pattern_recursive: function(file, patternlab, additionalData){
+        processPatternRecursive(file, patternlab, additionalData);
       },
       get_pattern_by_key: function(key, patternlab){
         return getpatternbykey(key, patternlab);
