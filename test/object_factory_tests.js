@@ -5,8 +5,9 @@
 
 	exports['oPattern initialization'] = {
 		'test oPattern initializes correctly' : function(test){
-			var p = new of.oPattern('00-atoms/00-global', '00-colors.mustache', { d: 123});
+			var p = new of.oPattern('source/_patterns/00-atoms/00-global/00-colors.mustache', '00-atoms/00-global', '00-colors.mustache', { d: 123});
 			test.equals(p.name, '00-atoms-00-global-00-colors');
+			test.equals(p.abspath, 'source/_patterns/00-atoms/00-global/00-colors.mustache');
 			test.equals(p.subdir, '00-atoms/00-global');
 			test.equals(p.fileName, '00-colors');
 			test.equals(p.jsonFileData.d, 123);
