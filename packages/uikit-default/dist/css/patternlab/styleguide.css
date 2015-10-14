@@ -3,10 +3,10 @@
     $PATTERN LAB STYLES
 \*------------------------------------*/
 /**
- * NOTE: These styles are specific to Pattern Lab and should not be modified. 
+ * NOTE: These styles are specific to Pattern Lab and should not be modified.
  * Edit all project styles in /source/css/
- * 
- * Second note: Any important declarations are to prevent brand styles from overriding style guide 
+ *
+ * Second note: Any important declarations are to prevent brand styles from overriding style guide
  */
 /*------------------------------------*\
      $CONTENTS
@@ -29,10 +29,10 @@
  * -----Code View
  */
 /*------------------------------------*\
-    $PATTERN LAB VARIABLES 
+    $PATTERN LAB VARIABLES
 \*------------------------------------*/
 /*------------------------------------*\
-    $PATTERN LAB INTERFACE 
+    $PATTERN LAB INTERFACE
 \*------------------------------------*/
 #patternlab-html, #patternlab-body {
   margin: 0;
@@ -68,7 +68,7 @@
 }
 
 /*------------------------------------*\
-    $PATTERN LAB HEADER 
+    $PATTERN LAB HEADER
 \*------------------------------------*/
 /* Header */
 .sg-header {
@@ -478,7 +478,7 @@ span.sg-pattern-state:before {
 }
 
 /*------------------------------------*\
-    $PATTERN LAB CONTENT 
+    $PATTERN LAB CONTENT
 \*------------------------------------*/
 /* Section Pattern */
 .sg-pattern {
@@ -551,6 +551,42 @@ span.sg-pattern-state:before {
   border-top-right-radius: 0;
   max-height: 30em;
 }
+@media all and (min-width: 42em) {
+  .sg-pattern-extra {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+    width: 100%;
+  }
+}
+
+.sg-pattern-extra--dark {
+  background: #000;
+  color: #eee;
+  border: 0;
+}
+.sg-pattern-extra--dark.active {
+  border: 0;
+}
+.sg-pattern-extra--dark .sg-tab-list a {
+  border-color: #808080;
+  color: #eee;
+}
+.sg-pattern-extra--dark .sg-tab-list a:hover, .sg-pattern-extra--dark .sg-tab-list a:focus {
+  color: #fff;
+}
+.sg-pattern-extra--dark .sg-tab-list a.active {
+  color: #fff;
+  border-bottom-color: #000;
+}
+.sg-pattern-extra--dark .sg-tab-content {
+  border-color: #808080;
+}
 
 .sg-pattern-extra-info {
   padding: 1em;
@@ -558,12 +594,10 @@ span.sg-pattern-state:before {
           box-sizing: border-box;
   line-height: 1.3;
   font-size: 90%;
-}
-@media all and (min-width: 42em) {
-  .sg-pattern-extra-info {
-    float: left;
-    width: 50%;
-  }
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .sg-pattern-desc {
@@ -586,6 +620,14 @@ span.sg-pattern-state:before {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-size: 90%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 .sg-pattern-extra-code pre {
   margin: 0;
@@ -593,18 +635,29 @@ span.sg-pattern-state:before {
   color: #fff;
   padding: 0.5em;
   border-radius: 6px;
+  overflow: scroll;
 }
-@media all and (min-width: 42em) {
-  .sg-pattern-extra-code {
-    float: left;
-    width: 50%;
-  }
+
+.sg-tab {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
 }
 
 .sg-tab-list {
   overflow: hidden;
   position: relative;
   bottom: -1px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 .sg-tab-list li {
   float: left;
@@ -622,6 +675,7 @@ span.sg-pattern-state:before {
   border-top-left-radius: 6px;
   -webkit-transition: color 0.1s ease-out;
           transition: color 0.1s ease-out;
+  text-decoration: none;
 }
 .sg-tab-list a:hover {
   color: #222;
@@ -632,17 +686,48 @@ span.sg-pattern-state:before {
 }
 
 .sg-tab-content {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 6px;
   border-top-left-radius: 0;
   padding: 0.7em;
+}
+.sg-tab-content pre {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .sg-tab-panel {
   display: none;
 }
 .sg-tab-panel.active {
-  display: block;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .sg-view-container {
@@ -655,7 +740,7 @@ span.sg-pattern-state:before {
   color: #808080;
   position: fixed;
   top: auto;
-  padding: 1em;
+  padding: 4em 1em 1em;
   bottom: 0;
   left: 0;
   z-index: 2;
@@ -663,29 +748,52 @@ span.sg-pattern-state:before {
   height: 50%;
   overflow-y: auto;
   overflow-x: hidden;
-}
-.sg-view-container a {
-  color: #999;
-}
-.sg-view-container pre {
-  padding: 0 1em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .sg-view-container.anim-ready {
   -webkit-transition: bottom 0.3s ease-out;
           transition: bottom 0.3s ease-out;
 }
-
-.sg-view-close {
-  width: 100%;
-  margin-bottom: -10px;
+.sg-view-container .sg-pattern-extra {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  max-height: none;
+  padding: 0;
+}
+.sg-view-container .sg-pattern-extra.active {
+  max-height: none;
 }
 
 .sg-view-close-btn {
-  color: #fff;
+  font-size: 0.7em;
+  background: #000;
+  color: #808080;
+  border: 1px solid #808080;
+  border-radius: 6px;
+  display: inline-block;
+  padding: 0.5em;
   text-transform: uppercase;
   text-decoration: none;
-  text-align: right;
-  display: block;
+  cursor: pointer;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.sg-view-close-btn:hover, .sg-view-close-btn:focus {
+  color: #eee;
+  border-color: #eee;
 }
 
 .has-annotation {
@@ -775,36 +883,6 @@ span.sg-pattern-state:before {
 .sg-code-head {
   color: #808080;
   font-size: 1em;
-}
-
-#sg-code-markup {
-  padding-top: 10px;
-}
-
-#sg-code-tabs {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-#sg-code-tabs li {
-  float: left;
-  background-color: #333;
-  font-size: 1.3em;
-  font-weight: bold;
-  padding: 5px 15px;
-  border-top: 2px solid #666;
-  margin-right: 2px;
-  cursor: pointer;
-}
-
-.sg-code-title-active {
-  color: #bbb;
-  background-color: #272822 !important;
-}
-
-div.clear {
-  clear: both;
 }
 
 .sg-code-patternname {

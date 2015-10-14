@@ -2,13 +2,13 @@
     $PATTERN LAB STYLES
 \*------------------------------------*/
 /**
- * NOTE: These styles are specific to Pattern Lab and should not be modified. 
+ * NOTE: These styles are specific to Pattern Lab and should not be modified.
  * Edit all project styles in /source/css/
- * 
- * Second note: Any important declarations are to prevent brand styles from overriding style guide 
+ *
+ * Second note: Any important declarations are to prevent brand styles from overriding style guide
  */
- 
- 
+
+
 /*------------------------------------*\
      $CONTENTS
 \*------------------------------------*/
@@ -35,7 +35,7 @@
 
 
 /*------------------------------------*\
-    $PATTERN LAB VARIABLES 
+    $PATTERN LAB VARIABLES
 \*------------------------------------*/
 // Fonts
 $sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
@@ -84,7 +84,7 @@ $sg-border-radius-med : 6px;
 
 
 /*------------------------------------*\
-    $PATTERN LAB INTERFACE 
+    $PATTERN LAB INTERFACE
 \*------------------------------------*/
 
 #patternlab-html, #patternlab-body {
@@ -106,7 +106,7 @@ $sg-border-radius-med : 6px;
   height: 1px;
   padding: 0;
   border: 0;
-  clip: rect(1px, 1px, 1px, 1px); 
+  clip: rect(1px, 1px, 1px, 1px);
 }
 
 
@@ -127,7 +127,7 @@ $sg-border-radius-med : 6px;
 
 
 /*------------------------------------*\
-    $PATTERN LAB HEADER 
+    $PATTERN LAB HEADER
 \*------------------------------------*/
 /* Header */
 .sg-header {
@@ -146,7 +146,7 @@ $sg-border-radius-med : 6px;
 	  -webkit-box-sizing: border-box;
 	  box-sizing: border-box;
 	}
-	
+
 	ul, ol {
 		padding: 0;
 		margin: 0;
@@ -165,7 +165,7 @@ $sg-border-radius-med : 6px;
 		padding: 1em 0.7em;
 		transition: background $sg-animate-quick ease-out;
 		transition: color $sg-animate-quick ease-out;
-		
+
 		&:hover, &:focus, &.active {
 			color: $sg-white;
 			background: $sg-gray-dark;
@@ -197,7 +197,7 @@ $sg-border-radius-med : 6px;
 		overflow: hidden;
 		max-height: 0;
 		transition: max-height $sg-animate-quick ease-out;
-		
+
 		&.active {
 			max-height: 50em;
 		}
@@ -209,7 +209,7 @@ $sg-border-radius-med : 6px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	
+
 	> li {
 		cursor: pointer;
 
@@ -217,20 +217,20 @@ $sg-border-radius-med : 6px;
 			border-bottom: 0;
 			float: left;
 			position: relative;
-			
+
 			> ol {
 				position: absolute;
 				top: $offset-top;
 				left: 0;
 			}
-			
+
 		}
 	}
 }
 
 /* Accordion */
 .sg-acc-handle {
-	
+
 	&:after {
 		content: '▼';
 		color: $sg-tint-2;
@@ -240,34 +240,34 @@ $sg-border-radius-med : 6px;
 		top: -1px;
 		right: -2px;
 		transition: all $sg-animate-quick ease-out;
-				
+
 		@media all and (min-width: $sg-bp-med) {
 			float: none;
 		}
 	}
-	
+
 	&:hover, &:focus {
 		&:after {
 			color: $sg-gray;
 		}
 	}
-	
+
 	&.active {
 		color: $sg-white;
 		background: $sg-gray-dark;
-		
+
 		&:after {
 			top: -2px;
 			color: $sg-gray;
-			-webkit-transform: rotate(180deg);  
+			-webkit-transform: rotate(180deg);
 			-ms-transform: rotate(180deg);
 			transform: rotate(180deg);
 		}
 	}
-	
+
 	&.sg-tools-toggle {
 		padding: 0.9em 0.7em 0.6em;
-		
+
 		&:after {
 			display: none;
 			content: "";
@@ -284,11 +284,11 @@ $sg-border-radius-med : 6px;
 	li {
 		background: $sg-gray-dark;
 	}
-	
+
 	li:last-child {
 		border-bottom-left-radius: $sg-border-radius-med;
 		border-bottom-right-radius: $sg-border-radius-med;
-		
+
 		a {
 			border-bottom-left-radius: $sg-border-radius-med;
 			border-bottom-right-radius: $sg-border-radius-med;
@@ -305,7 +305,7 @@ $sg-border-radius-med : 6px;
 		left: auto;
 		right: 0;
 	}
-	
+
 	&.sg-left {
 		position: absolute;
 		left: auto;
@@ -377,12 +377,12 @@ $sg-border-radius-med : 6px;
 	padding: 0.1em;
 	border: 0;
 	border-radius: $sg-border-radius;
-	background: $sg-black; 
+	background: $sg-black;
 	color: $sg-gray;
 	width: 25px;
 	text-align: right;
 	transition: all $sg-animate-quick ease-out;
-	    
+
     &:hover {
 	    color: $sg-white;
 	    background: $sg-gray-dark;
@@ -396,7 +396,7 @@ $sg-border-radius-med : 6px;
 
 	@media all and (min-width: $sg-bp-med) {
 		width: 35px;
-		
+
 		&.sg-size-px {
 			width: 30px;
 		}
@@ -515,22 +515,22 @@ span.sg-pattern-state:before {
 	#sg-viewport {
 		overflow: hidden !important;
 	}
-	
+
 }
 
 #sg-cover {
-	width: 100%; 
-	height: 100%; 
-	display: none; 
-	position: absolute; 
-	z-index: 20; 
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: absolute;
+	z-index: 20;
 	cursor: col-resize;
 }
 
 #sg-gen-container {
 	height: 100%;
 	position: relative;
-	text-align: center; 
+	text-align: center;
 	margin: 0 auto;
 	-webkit-overflow-scrolling: touch;
 	overflow-y: auto;
@@ -542,17 +542,17 @@ span.sg-pattern-state:before {
 }
 
 #sg-rightpull-container {
-	width: 14px; 
-	float: right; 
-	margin: 0; 
-	height: 100%; 
+	width: 14px;
+	float: right;
+	margin: 0;
+	height: 100%;
 	cursor: col-resize;
 }
 
 #sg-rightpull {
-	margin: 0; 
-	width: 100%; 
-	height: 100%; 
+	margin: 0;
+	width: 100%;
+	height: 100%;
 	background: #c2c2c2;
     transition: background $sg-animate-quick ease-out;
 
@@ -575,7 +575,7 @@ span.sg-pattern-state:before {
 
 
 /*------------------------------------*\
-    $PATTERN LAB CONTENT 
+    $PATTERN LAB CONTENT
 \*------------------------------------*/
 
 /* Section Pattern */
@@ -599,7 +599,7 @@ span.sg-pattern-state:before {
 		color: $sg-gray;
 		text-decoration: none;
 		cursor: pointer;
-		
+
 		&:hover {
 			color: $sg-black;
 		}
@@ -620,21 +620,21 @@ span.sg-pattern-state:before {
 	border-top-left-radius: $sg-border-radius-med;
 	border-top-right-radius: $sg-border-radius-med;
 	transition: background $sg-animate-quick ease-out;
-	
+
 	span {
 		display: inline-block;
 	}
-	
+
 	&:hover, &.active {
 		background: $sg-gray-light;
 		color: $sg-gray-dark;
 	}
-	
+
 	&.active {
 		border-bottom-color: $sg-gray-light;
-		
+
 		span {
-			-webkit-transform: rotate(180deg);  
+			-webkit-transform: rotate(180deg);
 			-ms-transform: rotate(180deg);
 			transform: rotate(180deg);
 		}
@@ -650,13 +650,47 @@ span.sg-pattern-state:before {
 	overflow: hidden;
 	max-height: 1px;
 	transition: all $sg-animate-quick ease-out;
-	
+
 	&.active {
 		border: 1px solid $sg-gray-light-2;
 		border-radius: $sg-border-radius-med;
 		border-top-right-radius: 0;
 		max-height: 30em;
 	}
+
+    @media all and (min-width: 42em) {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+    }
+}
+
+.sg-pattern-extra--dark {
+    background: $sg-black;
+    color: $sg-gray-light;
+    border: 0;
+
+    &.active {
+        border: 0;
+    }
+
+    .sg-tab-list a {
+        border-color: $sg-gray;
+        color: $sg-gray-light;
+
+        &:hover, &:focus {
+            color: $sg-white;
+        }
+
+        &.active {
+            color: $sg-white;
+            border-bottom-color: $sg-black;
+        }
+    }
+
+    .sg-tab-content {
+        border-color: $sg-gray;
+    }
 }
 
 // Pattern Extra Info and Code
@@ -665,18 +699,14 @@ span.sg-pattern-state:before {
 	box-sizing: border-box;
 	line-height: 1.3;
 	font-size: 90%;
-	
-	@media all and (min-width: 42em) {
-		float: left;
-		width: 50%;
-	}
+    flex: 1;
 }
 
 .sg-pattern-desc {
 	margin-bottom: 1em;
 	padding-bottom: 1em;
 	border-bottom: 1px solid $sg-gray-light-3;
-	
+
 	p:last-child {
 		margin: 0;
 	}
@@ -692,42 +722,56 @@ span.sg-pattern-state:before {
 	padding: $sg-pad;
 	box-sizing: border-box;
 	font-size: 90%;
-	
+    flex: 1;
+    display: flex;
+
 	pre {
 		margin: 0;
 		background: $sg-gray-dark;
 		color: $sg-white;
 		padding: 0.5em;
 		border-radius: $sg-border-radius-med;
-	}
-	
-	@media all and (min-width: 42em) {
-		float: left;
-		width: 50%;
+        overflow: scroll;
 	}
 }
 
 // Tabs
+.sg-tab {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .sg-tab-list {
+	overflow: hidden;
+	position: relative;
+	bottom: -1px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
 	li {
-		display: inline-block;
-	} 
-	
+		float: left;
+		margin-right: 3px;
+	}
+
 	a {
 		display: block;
 		font-size: 90%;
 		font-weight: bold;
-		padding: 0.3em 1em;
+		line-height: 1;
+		padding: 0.5em 1em;
 		border: 1px solid $sg-gray-light-3;
 		color: $sg-gray;
 		border-top-right-radius: $sg-border-radius-med;
 		border-top-left-radius: $sg-border-radius-med;
 		transition: color $sg-animate-quick ease-out;
-		
+		text-decoration: none;
+
 		&:hover {
 			color: $sg-gray-dark;
 		}
-		
+
 		&.active {
 			border-bottom-color: $sg-gray-light;
 			color: $sg-gray-dark;
@@ -736,17 +780,26 @@ span.sg-pattern-state:before {
 }
 
 .sg-tab-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 	border: 1px solid $sg-gray-light-3;
 	border-radius: $sg-border-radius-med;
 	border-top-left-radius: 0;
 	padding: 0.7em;
+
+    pre {
+        flex: 1;
+    }
 }
 
 .sg-tab-panel {
 	display: none;
-	
+
 	&.active {
-		display: block;
+		display: flex;
+        flex-direction: column;
+        flex: 1;
 	}
 }
 
@@ -762,7 +815,7 @@ span.sg-pattern-state:before {
 	color: $sg-gray;
 	position: fixed;
 	top: auto;
-	padding: $sg-pad;
+	padding: 4em 1em 1em;
 	bottom: 0;
 	left: 0;
 	z-index: 2;
@@ -770,32 +823,45 @@ span.sg-pattern-state:before {
 	height: 50%;
 	overflow-y: auto;
 	overflow-x: hidden;
-
-  	a {
-    	color: $sg-gray-light-4;
-    }
-
-     pre {
-		padding: 0 1em;
-	}
+    display: flex;
+    flex-direction: column;
 
 	&.anim-ready {
 	  	transition:  bottom 0.3s ease-out;
 	}
+
+    .sg-pattern-extra {
+        flex: 1;
+        max-height: none;
+        padding: 0;
+
+        &.active {
+            max-height: none;
+        }
+    }
 }
 
 //Annotation and code view close button
-.sg-view-close {
-	width: 100%;
-	margin-bottom: -10px;
-}
-
 .sg-view-close-btn {
-	color: #fff;
+	font-size: 0.7em;
+    background: $sg-black;
+	color: $sg-gray;
+	border: 1px solid $sg-gray;
+    border-radius: $sg-border-radius-med;
+	display: inline-block;
+	padding: 0.5em;
 	text-transform: uppercase;
 	text-decoration: none;
-	text-align: right;
-	display: block;
+	cursor: pointer;
+	position: absolute;
+	right: 1em;
+	top: 1em;
+    transition: all $sg-animate-quick ease-out;
+
+	&:hover, &:focus {
+		color: $sg-gray-light;
+		border-color: $sg-gray-light;
+	}
 }
 
 //Annotated elements Styles
@@ -814,7 +880,7 @@ span.sg-pattern-state:before {
 	&.active {
 		box-shadow: inset 0 0 20px $sg-gray;
 	}
-	
+
 }
 
 .annotation-tip {
@@ -869,7 +935,7 @@ span.sg-pattern-state:before {
 		white-space: -moz-pre-line;
 		white-space: -pre-line;
 		white-space: -o-pre-line;
-		word-wrap: break-word; 
+		word-wrap: break-word;
 		white-space: pre-line;
 		border: 1px solid $sg-tone;
 		padding: $sg-pad-half;
@@ -895,38 +961,8 @@ span.sg-pattern-state:before {
 	font-size: 1em;
 }
 
-#sg-code-markup {
-	padding-top: 10px;
-}
-
-#sg-code-tabs {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#sg-code-tabs li {
-	float: left;
-	background-color: #333;
-	font-size: 1.3em;
-	font-weight: bold;
-	padding: 5px 15px;
-	border-top: 2px solid #666;
-	margin-right: 2px;
-	cursor: pointer;
-}
-
-.sg-code-title-active {
-	color: #bbb;
-	background-color: #272822 !important;
-}
-
-div.clear {
-	clear: both;
-}
-
 .sg-code-patternname {
-	color: #aaa; 
+	color: #aaa;
 }
 
 #sg-code-loader {
@@ -939,7 +975,7 @@ div.clear {
 	text-align: center;
 	border-radius: 10px;
 	background-color: #000;
-	z-index: 100; 
+	z-index: 100;
 }
 
 .show-overflow {
@@ -973,7 +1009,7 @@ div.clear {
 	background: $sg-gray;
 	color: $sg-white;
 	text-transform: uppercase;
-	
+
 	&:focus {
 		text-transform: lowercase;
 	}
