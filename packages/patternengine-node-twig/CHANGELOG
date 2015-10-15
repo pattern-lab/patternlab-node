@@ -1,5 +1,9 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.13.1
+- FIX: Allow verbose partials for list items
+- THX: Thanks @e2tha-e
+
 PL-node-v0.13.0
 - FIX: Cleanup an old file and an incorrect entry in the .gitignore file
 - CHG: Change order of pattern addition and ~variant pattern addition so they build naturally in the menu.
