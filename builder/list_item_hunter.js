@@ -68,7 +68,7 @@
               for(var j = 0; j < foundPartials.length; j++){
 
                 //get the partial
-                var partialName = foundPartials[j].match(/([a-z-]+)/ig)[0];
+                var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
                 var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
                 //replace its reference within the block with the extended template
