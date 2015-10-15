@@ -1,7 +1,7 @@
 {
   "name": "patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "devDependencies": {
     "bs-html-injector": "^2.0.4",
     "diveSync": "^0.2.1",
