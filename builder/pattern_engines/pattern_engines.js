@@ -21,18 +21,15 @@
   // My intention here is to make this return an object that can be used to
   // obtain any loaded PatternEngine by addressing them like this:
   //
-  // var PatternEngines = require('pattern_engines/pattern_engines');
-  // var Mustache = PatternEngines('mustache');
+  // var PatternEngines = require('./pattern_engines/pattern_engines');
+  // var Mustache = PatternEngines['mustache'];
   //
-  function PatternEngines () {
-    // do nothing
-  }
-  PatternEngines.prototype = {
+  var PatternEngines = Object.create({
     getEngineForPattern: function (pattern) {
       console.log('pattern file name: ', pattern.fileName);
       return 'mustache';
     }
-  };
+  });
 
   // try to load all supported engines
   supportedPatternEngineNames.forEach(function (engineName) {
@@ -43,5 +40,5 @@
     }
   });
 
-  module.exports = new PatternEngines();
+  module.exports = PatternEngines;
 })();
