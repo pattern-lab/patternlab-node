@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.13.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.13.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  var PatternEngines = require('pattern_engines/pattern_engines');
+  var PatternEngines = require('./pattern_engines/pattern_engines');
 
   var oPattern = function(abspath, subdir, filename, data){
     this.fileName = filename.substring(0, filename.indexOf('.'));
@@ -36,7 +36,8 @@
     this.lineageRIndex = [];
     this.engine = PatternEngines.getEngineForPattern(this);
   };
-  // render method on oPatterns; this acts as a proxy for the
+  // render method on oPatterns; this acts as a proxy for the PatternEngine's
+  // render function
   oPattern.prototype.render = function (data, partials) {
     return this.engine.render(this.template, data, partials);
   };

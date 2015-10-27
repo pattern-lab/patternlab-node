@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.13.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.13.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -14,7 +14,7 @@
 	var parameter_hunter = function(){
 
 		var extend = require('util')._extend,
-				pa = require('./pattern_asbsembler'),
+				pa = require('./pattern_assembler'),
 				mustache = require('mustache'),
 				pattern_assembler = new pa();
 
