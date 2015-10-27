@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.13.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.13.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -68,12 +68,19 @@
       }
     }
 
+    // template: a string containing the template text, not an oPattern
     function renderPattern(template, data, partials) {
-      debugger;
       // TODO:
       // choose an appropriate pattern engine
       // call and return result of its renderPattern method
       // OR MAYBE: this should just be a method of oPattern
+
+      var mustache = require('mustache');
+      if (partials) {
+        return mustache.render(template, data, partials);
+      } else {
+        return mustache.render(template, data);
+      }
     }
 
     function isPatternFile(filename, patternlab) {
