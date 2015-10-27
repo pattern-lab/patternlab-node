@@ -68,18 +68,17 @@
       }
     }
 
-    // template: a string containing the template text, not an oPattern
-    function renderPattern(template, data, partials) {
-      // TODO:
-      // choose an appropriate pattern engine
-      // call and return result of its renderPattern method
-      // OR MAYBE: this should just be a method of oPattern
-
-      var mustache = require('mustache');
-      if (partials) {
-        return mustache.render(template, data, partials);
+    function renderPattern(pattern, data, partials) {
+      // if we've been passed a full oPattern, it knows what kind of template it
+      // is, and how to render itself, so we just call its render method
+      if (pattern instanceof of.oPattern) {
+        console.log('rendering full oPattern');
+        return pattern.render(pattern, data, partials);
       } else {
-        return mustache.render(template, data);
+        // otherwise, assume it's a plain mustache template string and act
+        // accordingly
+        console.log('rendering plain mustache string');
+        return patternEngines.mustache.renderPattern(pattern, data, partials);
       }
     }
 

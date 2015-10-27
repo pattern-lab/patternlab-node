@@ -15,6 +15,7 @@
 
   var engine_mustache = {
     engine: Mustache,
+    name: 'mustache',
     fileExtension: '.mustache',
 
     // render it

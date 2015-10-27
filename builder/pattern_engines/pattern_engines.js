@@ -25,9 +25,13 @@
   // var Mustache = PatternEngines['mustache'];
   //
   var PatternEngines = Object.create({
-    getEngineForPattern: function (pattern) {
+    getEngineNameForPattern: function (pattern) {
       console.log('pattern file name: ', pattern.fileName);
       return 'mustache';
+    },
+    getEngineForPattern: function (pattern) {
+      var engineName = this.getEngineNameForPattern(pattern);
+      return this[engineName];
     }
   });
 
