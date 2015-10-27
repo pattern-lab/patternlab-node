@@ -11,10 +11,12 @@
 (function () {
   "use strict";
 
-  var PatternEngines = require('./pattern_engines/pattern_engines');
+  var patternEngines = require('./pattern_engines/pattern_engines');
+  var path = require('path');
 
   var oPattern = function(abspath, subdir, filename, data){
     this.fileName = filename.substring(0, filename.indexOf('.'));
+    this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
     this.subdir = subdir;
     this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
@@ -34,7 +36,7 @@
     this.lineageIndex = [];
     this.lineageR = [];
     this.lineageRIndex = [];
-    this.engine = PatternEngines.getEngineForPattern(this);
+    this.engine = patternEngines.getEngineForPattern(this);
   };
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
