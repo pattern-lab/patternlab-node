@@ -39,7 +39,7 @@
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
   oPattern.prototype.render = function (data, partials) {
-    return this.engine.render(this.template, data, partials);
+    return this.engine.renderPattern(this.template, data, partials);
   };
 
   var oBucket = function(name){

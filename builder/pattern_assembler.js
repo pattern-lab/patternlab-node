@@ -72,8 +72,8 @@
       // if we've been passed a full oPattern, it knows what kind of template it
       // is, and how to render itself, so we just call its render method
       if (pattern instanceof of.oPattern) {
-        console.log('rendering full oPattern');
-        return pattern.render(pattern, data, partials);
+        console.log('rendering full oPattern: ' + pattern.name);
+        return pattern.render(data, partials);
       } else {
         // otherwise, assume it's a plain mustache template string and act
         // accordingly

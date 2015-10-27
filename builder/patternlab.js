@@ -124,7 +124,7 @@ var patternlab_engine = function () {
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
+      pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
 
       //add footer info before writing
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
