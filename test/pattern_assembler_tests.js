@@ -38,6 +38,165 @@
 			test.done();
 		},
 
+		'find_pattern_partials_with_style_modifiers finds style modifiers' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+      test.equals(results.length, 1);
+			test.equals(results[0], '{{> molecules-single-comment:foo }}');
+
+			test.done();
+		},
+
+		'find_pattern_partials_with_style_modifiers finds style modifiers with parameters present too' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+				 "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			test.equals(results.length, 1);
+			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
+
+			test.done();
+		},
+
+		'find_pattern_partials_with_style_modifiers finds style modifiers with verbose partials' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+      test.equals(results.length, 1);
+			test.equals(results[0], '{{> 01-molecules/06-components/molecules-single-comment:foo }}');
+
+			test.done();
+		},
+
+		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials present' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+      test.equals(results, null);
+
+			test.done();
+		},
+
+		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials with pattern parameters present' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+      test.equals(results, null);
+
+			test.done();
+		},
+
+		'find_pattern_partials_with_parameters finds parameters' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      test.equals(results.length, 1);
+			test.equals(results[0], "{{> molecules-single-comment(bar:'baz') }}");
+
+			test.done();
+
+		},
+
+		'find_pattern_partials_with_parameters finds parameters when stylemodifiers present too' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      test.equals(results.length, 1);
+			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
+
+			test.done();
+
+		},
+
+		'find_pattern_partials_with_parameters finds parameters with verbose partials' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      test.equals(results.length, 1);
+			test.equals(results[0], "{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}");
+
+			test.done();
+
+		},
+
+		'find_pattern_partials_with_parameters finds no style modifiers when only partials present' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      test.equals(results, null);
+
+			test.done();
+		},
+
+		'find_pattern_partials_with_parameters finds no style modifiers when only partials with style modifiers present' : function(test){
+
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
+			};
+
+			var pattern_assembler = new pa();
+
+      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      test.equals(results, null);
+
+			test.done();
+		},
+
 		'process_pattern_recursive recursively includes partials' : function(test){
 
 			//tests inclusion of partial that will be discovered by diveSync later in iteration than parent

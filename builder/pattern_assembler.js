@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.13.0 - 2015 
+ * patternlab-node - v0.14.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -22,6 +22,17 @@
       return true;
     }
 
+    // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
+    function findPartialsWithStyleModifiers(pattern){
+      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-]+)+(?:(| )\(.*)?([ ])?}}/g);
+      return matches;
+    }
+
+    // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
+    function findPartialsWithPatternParameters(pattern){
+      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)+([ ])?}}/g);
+      return matches;
+    }
 
     //find and return any {{> template-name }} within pattern
     function findPartials(pattern){
@@ -299,6 +310,12 @@
     return {
       find_pattern_partials: function(pattern){
         return findPartials(pattern);
+      },
+      find_pattern_partials_with_style_modifiers: function(pattern){
+        return findPartialsWithStyleModifiers(pattern);
+      },
+      find_pattern_partials_with_parameters: function(pattern){
+        return findPartialsWithPatternParameters(pattern);
       },
       find_list_items: function(pattern){
         return findListItems(pattern)
