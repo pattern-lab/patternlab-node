@@ -1,14 +1,12 @@
-/* 
- * patternlab-node - v0.13.0 - 2015 
+/** 
+ * patternlab-node - v0.13.0 - 2015
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
+ * Licensed under the MIT license.
  * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
-
-(function () {
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * 
+ **/(function () {
   "use strict";
 
   var pattern_assembler = function(){
@@ -231,14 +229,7 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-    /**
-     * Recursively merge properties of two objects.
-     *
-     * @param {Object} obj1 If obj1 has properties obj2 doesn't, add to obj2.
-     * @param {Object} obj2 This object's properties have priority over obj1.
-     * @returns {Object} obj2
-     */
-    function mergeData(obj1, obj2){
+        function mergeData(obj1, obj2){
       if(typeof obj2 === 'undefined'){
         obj2 = {};
       }

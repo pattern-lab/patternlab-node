@@ -1,14 +1,12 @@
-/* 
- * patternlab-node - v0.13.0 - 2015 
+/** 
+ * patternlab-node - v0.13.0 - 2015
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
+ * Licensed under the MIT license.
  * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
-
-var patternlab_engine = require('./patternlab.js');
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * 
+ **/var patternlab_engine = require('./patternlab.js');
 
 module.exports = function(gulp) {
 
