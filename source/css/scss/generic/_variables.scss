@@ -11,7 +11,7 @@ $colorNevada: #6E7074;
 $colorBlack: #000000;
 
 $colorBisonHide: #C4BAA6;
-$colorBarleyCorn: #9B875F;
+$colorTussock: #C39E42;
 
 $colorMagenta: #FF00FF;
 $colorRed: #F00;
@@ -33,39 +33,15 @@ $fontSizeLarge: 1.4375em;
 $lineHeightNormal: 1.625em;
 
 //Layout
-$max-width: 72rem;
-$offset-left-1: 4.5rem;
+$maxWidthLayout: 1500px;
 
-$l-sidebar-width: 19.75rem;
+//Responsiveness
+$breakPointMobile: 320px;
+$breakPointTablet: 640px;
+$breakPointDesktop: 960px;
 
-//Defaults
-$space: 1rem;
-$space-and-half: $space*1.5;
-$space-double: $space*2;
-$space-triple: $space*3;
-$space-quad: $space*4;
-$space-half: $space/2;
-$space-quarter: $space/4;
-$pad: 1rem;
-$pad-and-half: $pad*1.5;
-$pad-double: $pad*2;
-$pad-half: $pad/2;
-$pad-quarter: $pad/4;
-
-//Borders
-$border-med: 3px;
-$border-thick: 7px;
-
-//Breakpoints
-$bp-small: 24em;
-$bp-small-2: 29.75em;
-$bp-small-3: 39.8em;
-$bp-med: 46.8em;
-$bp-med-2: 48em;
-$bp-large: 50em;
-$bp-large-2: 66em;
-$bp-xl: 73em;
-$bp-xxl: 89em;
-$bp-xxxl: 93em;
-
-//
+//Timings
+$animationTimingFast: 200ms;
+$animationTimingNormal: 500ms;
+$animationTimingLong: 1000ms;
+$animationTimingForever: 3000ms;
