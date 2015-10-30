@@ -1,3 +1,13 @@
 .navigation--primary {
-
+  font-size : 12px;
+  text-transform : uppercase;
+  font-weight : 300;
+  letter-spacing : 0.12em;
+  width : 400px;
+  ul {
+    display : flex;
+    flex-wrap : wrap;
+    justify-content : space-between;
+    list-style : none;
+  }
 }

@@ -1,5 +1,12 @@
 .columns {
+  display : block;
   &__column {
 
   }
+}
+
+.demoColumns {
+  background-color : $colorSilver;
+  height : 50px;
+  border : 1px solid $colorWhite;
 }

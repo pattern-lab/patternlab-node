@@ -1,4 +1,5 @@
 .blockBanner {
+  position : relative;
   &__inner {
 
   }
@@ -6,5 +7,32 @@
   }
 
   &__text {
+    margin-top : -20px;
+    display : block;
+    text-align : center;
+    font-weight : 900;
+    color : $colorWhite;
+    text-transform : uppercase;
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%, -50%);
+    width : 100%;
+    &--headline {
+      font-size : 21px;
+      @media screen and (min-device-width: $breakPointDesktop) {
+        font-size : 45px;
+      }
+    }
+    &:after {
+      width: 55px;
+      height: 20px;
+      border-bottom: 3px solid $colorWhite;
+      position: absolute;
+      content: "";
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
