@@ -16,6 +16,7 @@ fieldset {
 
   &--input {
     min-height : 40px;
+    font-family : $fontSecondary;
     width : 100%;
     box-shadow : none;
     outline : none;
@@ -27,52 +28,18 @@ fieldset {
     font-size : 14px;
   }
 
-  input {
+  input, textarea {
     &::-webkit-input-placeholder {
       line-height : 26px;
       font-size : 12px;
       opacity : 1.0;
       color : $colorBlack;
-      text-transform : uppercase;
       letter-spacing : 0.12em;
       transition : color 500ms ease-out;
       font-weight : 300;
     }
 
     &:focus::-webkit-input-placeholder {
-      color : transparent;
-      transition-timing-function : ease-in;
-    }
-
-    //&:-moz-placeholder { /* Firefox 18- */
-    //  color: red;
-    //}
-    //
-    //&::-moz-placeholder {  /* Firefox 19+ */
-    //  color: red;
-    //}
-    //
-    //&:-ms-input-placeholder {
-    //  color: red;
-    //}
-
-  }
-
-  textarea {
-    &::-webkit-input-placeholder {
-      line-height : 26px;
-      font-size : 12px;
-      opacity : 1.0;
-      color : $colorBlack;
-      text-transform : uppercase;
-      letter-spacing : 1px;
-      font-weight : 300;
-      transition : color 500ms ease-out;
-    }
-
-    &:focus::-webkit-input-placeholder {
-      line-height : 26px;
-      font-size : 12px;
       color : transparent;
       transition-timing-function : ease-in;
     }

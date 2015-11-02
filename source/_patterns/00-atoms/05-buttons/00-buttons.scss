@@ -1,38 +1,31 @@
 .button {
-  min-height : 40px;
-  outline : none;
-  border : 1px solid $colorBlack;
-  padding : 0 2em;
-  line-height : 38px;
-  font-size : 12px;
-  font-weight : 300;
-  text-align : center;
-  text-transform : uppercase;
-  text-decoration : none;
-  letter-spacing : 0.12em;
-  cursor : pointer;
-  background-color : $colorBlack;
-  color : white;
-    &:hover {
-      background-color : $colorTussock;
-      transition-timing-function: ease-out;
-      border : 1px solid  $colorTussock;
-    }
-    &:active {
-      background-color : lighten($colorTussock, 10%);
-      border : 1px solid lighten($colorTussock, 10%);
-    }
-    &::-moz-focus-inner {
-      border:none;
-      padding:0;
-    }
-
-  &--alt {
-  background-color : transparent;
-  color : black;
-    &:hover {
-      background-color : $colorWhite;
-      transition-timing-function: ease-out;
-    }
+  min-height: 40px;
+  outline: none;
+  border: 1px solid $colorBlack;
+  padding: 0 2em;
+  line-height: 38px;
+  font-size: 0.75em;
+  font-weight: 300;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  background-color: $colorBlack;
+  color: white;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in;
+  &:hover {
+    background-color: $colorTussock;
+    transition-timing-function: ease-out;
+    border: 1px solid $colorTussock;
+  }
+  &:active {
+    background-color: lighten($colorTussock, 10%);
+    border: 1px solid lighten($colorTussock, 10%);
+  }
+  &::-moz-focus-inner {
+    border: none;
+    padding: 0;
   }
 }
