@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -15,8 +15,10 @@
 
 		var extend = require('util')._extend,
 		pa = require('./pattern_assembler'),
+		smh = require('./style_modifier_hunter'),
 		mustache = require('mustache'),
 		pattern_assembler = new pa(),
+		style_modifier_hunter = new smh(),
     items = [ 'zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
 
 		function processListItemPartials(pattern, patternlab){
@@ -71,6 +73,11 @@
                 var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
                 var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
+								//if partial has style modifier data, replace the styleModifier value
+								if(pattern.stylePartials && pattern.stylePartials.length > 0){
+									style_modifier_hunter.consume_style_modifier(partialPattern, foundPartials[j], patternlab);
+								}
+
                 //replace its reference within the block with the extended template
                 thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], partialPattern.extendedTemplate);
               }
@@ -87,7 +94,7 @@
             repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML;
           }
 
-          //replace the block with our generated HTML 
+          //replace the block with our generated HTML
           var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
           pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 
