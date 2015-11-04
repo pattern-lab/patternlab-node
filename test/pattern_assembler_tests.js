@@ -8,13 +8,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials(currentPattern);
-      test.equals(results.length, 2);
+			var results = pattern_assembler.find_pattern_partials(currentPattern);
+			test.equals(results.length, 2);
 			test.equals(results[0], '{{> molecules-comment-header}}');
 			test.equals(results[1], '{{> molecules-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
 
@@ -42,13 +42,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
-      test.equals(results.length, 1);
+			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			test.equals(results.length, 1);
 			test.equals(results[0], '{{> molecules-single-comment:foo }}');
 
 			test.done();
@@ -58,7 +58,7 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-				 "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
 			};
 
 			var pattern_assembler = new pa();
@@ -74,13 +74,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>",
+				"template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
-      test.equals(results.length, 1);
+			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			test.equals(results.length, 1);
 			test.equals(results[0], '{{> 01-molecules/06-components/molecules-single-comment:foo }}');
 
 			test.done();
@@ -90,13 +90,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
-      test.equals(results, null);
+			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			test.equals(results, null);
 
 			test.done();
 		},
@@ -105,13 +105,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
-      test.equals(results, null);
+			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			test.equals(results, null);
 
 			test.done();
 		},
@@ -120,13 +120,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
-      test.equals(results.length, 1);
+			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+			test.equals(results.length, 1);
 			test.equals(results[0], "{{> molecules-single-comment(bar:'baz') }}");
 
 			test.done();
@@ -137,13 +137,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
-      test.equals(results.length, 1);
+			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+			test.equals(results.length, 1);
 			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
 
 			test.done();
@@ -154,13 +154,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>",
+				"template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
-      test.equals(results.length, 1);
+			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+			test.equals(results.length, 1);
 			test.equals(results[0], "{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}");
 
 			test.done();
@@ -171,13 +171,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
-      test.equals(results, null);
+			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+			test.equals(results, null);
 
 			test.done();
 		},
@@ -186,13 +186,13 @@
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
-         "template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
+				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
 			};
 
 			var pattern_assembler = new pa();
 
-      var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
-      test.equals(results, null);
+			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+			test.equals(results, null);
 
 			test.done();
 		},
