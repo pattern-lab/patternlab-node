@@ -51,6 +51,10 @@ module.exports = function(grunt) {
 			list_item_hunter: {
 				src: './builder/list_item_hunter.js',
 				dest: './builder/list_item_hunter.js'
+			},
+			style_modifier_hunter: {
+				src: './builder/style_modifier_hunter.js',
+				dest: './builder/style_modifier_hunter.js'
 			}
 		},
 		copy: {
