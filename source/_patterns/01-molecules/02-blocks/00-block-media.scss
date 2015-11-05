@@ -2,6 +2,7 @@
   text-align : center;
   display : flex;
   flex-direction : column;
+  margin-bottom : 2.75em;
   @media only screen and (min-width : $breakpointDesktop) {
     display : flex;
     flex-direction : row;
