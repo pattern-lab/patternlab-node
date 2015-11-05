@@ -1,0 +1,12 @@
+.pageContent {
+  max-width : 1500px;
+  margin : 0 auto;
+
+  .blockMedia__image {
+    height : 300px;
+    overflow : hidden;
+    @media only screen and (min-width : $breakpointDesktop) {
+      height : 100%;
+    }
+  }
+}
