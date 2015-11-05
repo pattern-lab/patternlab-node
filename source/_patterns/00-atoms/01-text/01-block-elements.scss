@@ -2,10 +2,9 @@ p {
   font-family : $fontSecondary;
 }
 
-.blockquoteText {
-
-}
-
-.preformatedText {
-
+.pullQuote {
+  margin      : 2em 2em;
+  font-size   : 2em;
+  line-height : 1.5em;
+  text-align  : center;
 }
