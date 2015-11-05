@@ -1,5 +1,6 @@
 .blockBanner {
   position : relative;
+  margin-bottom : 2.75em;
   &__inner {
 
   }
@@ -20,7 +21,7 @@
     width : 100%;
     &--headline {
       font-size : 21px;
-      @media screen and (min-device-width: $breakPointDesktop) {
+      @media screen and (min-device-width: $breakpointDesktop) {
         font-size : 45px;
       }
     }
