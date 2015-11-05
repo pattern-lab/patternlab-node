@@ -1,10 +1,48 @@
 .blockMedia {
-  &__inner {
-
+  text-align : center;
+  display : flex;
+  flex-direction : column;
+  @media only screen and (min-width : $breakpointDesktop) {
+    display : flex;
+    flex-direction : row;
+    align-items : center;
+    justify-content : space-between;
+    align-content : center;
   }
   &__image {
+    margin-top : 2.75em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media only screen and (min-width : $breakpointDesktop) {
+      margin-top : 0;
+      padding : 0 3.75em;
+      display: inline-block;
+      width: 49%;
+    }
   }
-
   &__text {
+    padding : 0 1em;
+    @media only screen and (min-width : $breakpointDesktop) {
+      padding : 0 3.75em;
+      display: inline-block;
+      width: 49%;
+    }
+    p {
+      margin-top : 2.75em;
+    }
+  }
+  &:nth-of-type(even) {
+    @media only screen and (min-width : $breakpointTablet) {
+      text-align: right;
+    }
+    @media only screen and (min-width : $breakpointDesktop) {
+      flex-direction: row-reverse;
+    }
+  }
+  &:nth-of-type(odd) {
+    @media only screen and (min-width : $breakpointTablet) {
+      text-align: left;
+    }
   }
 }
