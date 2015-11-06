@@ -179,6 +179,32 @@ Pattern parameters **do not** currently support the following:
 
 You can read the full documentation on pattern parameters here: [Using Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
 
+##### Pattern Style Modifiers
+Style Modifiers allow you to create a base pattern that you can easily modify by adding a class name to the pattern partial. Read more about them [here](http://patternlab.io/docs/pattern-stylemodifier.html), including support with pattern parameters. Below is the gist.
+
+The basic syntax is this:
+
+```
+{{> atoms-message:error }}
+```
+
+This works by using a reserved mustache variable of sorts called {{ styleModifier }} applied to the atoms-message mustache file itself:
+
+```
+<div class="message {{ styleModifier }}">{{ message }}</div>
+```
+
+Once rendered, it looks like this:
+
+```
+<div>
+    <div class="message error"></div>
+</div>
+```
+
+
+
+
 ##### Pseudo-Patterns
 Pseudo-patterns are meant to give developers the ability to build multiple and unique **rendered** patterns off of one base pattern and its mark-up while giving them control over the data that is injected into the base pattern. This feature is especially useful when developing template- and page-style patterns.
 

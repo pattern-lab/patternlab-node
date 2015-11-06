@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v0.13.0 - 2015
+ * patternlab-node - v0.14.0 - 2015
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -148,8 +148,7 @@ var patternlab_engine = function () {
     var pattern_assembler = new pa(),
         media_hunter = new mh(),
         styleGuideExcludes = patternlab.config.styleGuideExcludes,
-        styleguidePatterns = []
-    ;
+        styleguidePatterns = [];
     patternlab.buckets = [];
     patternlab.bucketIndex = [];
     patternlab.patternPaths = {};
