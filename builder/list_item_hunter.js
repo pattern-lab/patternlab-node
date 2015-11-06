@@ -35,7 +35,6 @@
 					var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
 					var end = liMatch.replace('#', '/');
 					var patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
-
 					//build arrays that repeat the block, however large we need to
 					var repeatedBlockTemplate = [];
 					var repeatedBlockHtml = '';
@@ -45,7 +44,7 @@
 
 					//check for a local listitems.json file
 					var listData = JSON.parse(JSON.stringify(patternlab.listitems));
-					listData = pattern_assembler.merge_data(listData, pattern.patternSpecificListJson);
+					listData = pattern_assembler.merge_data(listData, pattern.listitems);
 
 					//iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
 					for(var i = 0; i < repeatedBlockTemplate.length; i++){
@@ -59,7 +58,7 @@
 						var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
 
 						var allData = pattern_assembler.merge_data(globalData, localData);
-						allData = pattern_assembler.merge_data(allData, itemData[i]);
+						allData = pattern_assembler.merge_data(allData, itemData != undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
 						allData.link = extend({}, patternlab.data.link);
 
 						//check for partials within the repeated block

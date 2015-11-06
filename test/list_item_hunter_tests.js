@@ -41,7 +41,51 @@
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-      
+
+      //assert
+      test.equals(currentPattern.extendedTemplate, "FooBar" );
+
+      test.done();
+    },
+
+    'process_list_item_partials listitems with lowercase name' : function(test){
+      //arrange
+      //setup current pattern from what we would have during execution
+      var currentPattern = {
+         "template": "{{#listitems.two}}{{ title }}{{/listitems.two}}",
+         "extendedTemplate" : "{{#listitems.two}}{{ title }}{{/listitems.two}}",
+         "key": "test-patternName",
+         "jsonFileData" : {}
+      };
+
+      var patternlab = {
+        "listitems": {
+          "1": [
+             {
+                "title": "Foo"
+             }
+          ],
+          "2": [
+             {
+                "title": "Foo"
+             },
+             {
+                "title": "Bar"
+             }
+          ]
+        },
+        "data": {
+          "link": {},
+          "partials": []
+        },
+        "config": {"debug": false}
+      };
+
+      var list_item_hunter = new lih();
+
+      //act
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+
       //assert
       test.equals(currentPattern.extendedTemplate, "FooBar" );
 
@@ -93,7 +137,7 @@
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-      
+
       //assert
       test.equals(currentPattern.extendedTemplate, "FooBar" );
 
