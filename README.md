@@ -143,6 +143,18 @@ If you'd like to exclude an individual pattern you can do so by prepending the f
 
 You can also exclude complete directories by prepending the directory name with an underscore, like: `/_experiment/...`
 
+##### Style Guide Excludes
+
+Exclude whole pattern types from the "All patterns" styleguide by adding entries to `config.json`. This is quite useful to make speedier. Pattern Lab Node ships with the following:
+
+```
+"styleGuideExcludes": [
+	"templates",
+	"pages"
+]
+```
+
+
 ##### Debug Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 

@@ -2,6 +2,8 @@ THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
 PL-node-v0.14.0
 - ADD: Support for style modifiers
+- ADD: Support for styleGuideExcludes
+- THX: Thanks to @bramsmulders for the styleGuideExcludes pull request and @illepic for the original headsup
 
 PL-node-v0.13.1
 - FIX: Allow verbose partials for list items
