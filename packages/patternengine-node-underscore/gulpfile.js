@@ -42,7 +42,8 @@ gulp.task('banner', function(){
     './builder/pattern_exporter.js',
     './builder/pattern_assembler.js',
     './builder/pseudopattern_hunter.js',
-    './builder/list_item_hunter.js'
+    './builder/list_item_hunter.js',
+    './builder/style_modifier_hunter.js'
   ])
     .pipe(strip_banner())
     .pipe(header( banner, {
