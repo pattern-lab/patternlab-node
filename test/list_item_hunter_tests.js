@@ -219,7 +219,7 @@
          "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
          "key": "test-patternName",
          "jsonFileData" : {},
-         "patternSpecificListJson" : {
+         "listitems" : {
             "2": [
                    {
                       "title": "One"
@@ -281,7 +281,7 @@
          "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
          "key": "test-patternName",
          "jsonFileData" : {},
-         "patternSpecificListJson" : {
+         "listitems" : {
             "2": [
                    {
                       "title": "One"
@@ -343,7 +343,7 @@
          "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
          "key": "test-patternName",
          "jsonFileData" : {},
-         "patternSpecificListJson" : {
+         "listitems" : {
             "1": [
                {
                   "title": "One"
