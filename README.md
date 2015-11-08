@@ -27,7 +27,7 @@ To run patternlab-node using grunt, do the following in the directory you downlo
 * Not deleting `builder/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
 3. Run `grunt` or `grunt serve` from the command line
 
-This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to see have BrowserSync spin up and serve the files to you.
+This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to have BrowserSync spin up and serve the files to you.
 
 ### Getting Started - Gulp
 
