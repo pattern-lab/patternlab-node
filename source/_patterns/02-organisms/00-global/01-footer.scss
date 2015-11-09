@@ -1,5 +1,16 @@
 .footer {
   max-width : 1500px;
   margin : 0 auto;
-  border-top : 3px solid $colorBlack;
+  padding : 0 3.75em;
+  position : relative;
+  @media only screen and (min-width : $breakpointTablet) {
+    &::before {
+      content: "";
+      width : 100%;
+      background-color : $colorBlack;
+      height : 3px;
+      position : absolute;
+      top : 1.5em;
+    }
+  }
 }

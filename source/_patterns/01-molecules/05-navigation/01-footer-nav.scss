@@ -1,3 +1,20 @@
-.navigation--footer {
+.navigation__footer {
+  display : inline-block;
+  width : 20%;
+  vertical-align : top;
 
+  &--headline {
+    font-size : 0.875em;
+    font-weight : normal;
+    text-transform : uppercase;
+    letter-spacing : 0.1em;
+    margin-bottom : 2em;
+  }
+
+  &--item {
+    font-family : $fontSecondary;
+    font-size : 0.875em;
+    line-height : 1.625em;
+    list-style-type : none;
+  }
 }
