@@ -1,3 +1,14 @@
 .socialShare {
-
+  display : inline-block;
+  width : 15%;
+  &__list {
+    list-style-type : none;
+    display : inline;
+  }
+  &__link {
+    &--icon {
+      font-size : 1.75rem;
+      margin-right : 0.625rem;
+    }
+  }
 }
