@@ -1,10 +1,12 @@
 .blockBanner {
   position : relative;
-  margin-bottom : 2.75em;
+  margin : 0 auto 2.75em;
+  text-align : center;
   &__inner {
 
   }
   &__image {
+    width : 100%;
   }
 
   &__text {

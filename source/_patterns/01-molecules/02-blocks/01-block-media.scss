@@ -3,6 +3,9 @@
   display : flex;
   flex-direction : column;
   margin-bottom : 2.75em;
+  @media only screen and (min-width : $breakpointTablet) {
+    text-align: left;
+  }
   @media only screen and (min-width : $breakpointDesktop) {
     display : flex;
     flex-direction : row;
@@ -21,6 +24,13 @@
       display: inline-block;
       width: 49%;
     }
+    &--cropped {
+      height : 300px;
+      overflow : hidden;
+      @media only screen and (min-width : $breakpointDesktop) {
+        height : 100%;
+      }
+    }
   }
   &__text {
     padding : 0 1em;
@@ -31,19 +41,6 @@
     }
     p {
       margin-top : 2.75em;
-    }
-  }
-  &:nth-of-type(even) {
-    @media only screen and (min-width : $breakpointTablet) {
-      text-align: right;
-    }
-    @media only screen and (min-width : $breakpointDesktop) {
-      flex-direction: row-reverse;
-    }
-  }
-  &:nth-of-type(odd) {
-    @media only screen and (min-width : $breakpointTablet) {
-      text-align: left;
     }
   }
 }
