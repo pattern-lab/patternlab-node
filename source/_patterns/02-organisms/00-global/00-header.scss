@@ -1,3 +1,16 @@
 .header {
-
+  font-size: 1rem;
+  background: yellow;
+  text-align: center;
+  padding: 0;
+  height: 3.25em;
+  padding: 1.125em;
+  vertical-align: middle;
+  &__logo {
+    display: inline;
+    width: 80%;
+    vertical-align: middle;
+  }
+  &__navigation {
+  }
 }
