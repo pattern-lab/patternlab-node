@@ -18,7 +18,8 @@
     "gulp-sass": "^2.1.0",
     "gulp-strip-banner": "0.0.2",
     "html-entities": "^1.1.1",
-    "mustache": "^1.0.0"
+    "mustache": "^1.0.0",
+    "node-sass-globbing": "0.0.23"
   },
   "keywords": [
     "Pattern Lab",

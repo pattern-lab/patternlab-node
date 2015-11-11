@@ -9,6 +9,7 @@ var
   header = require('gulp-header'),
   nodeunit = require('gulp-nodeunit'),
   sass = require('gulp-sass'),
+  nodeSassGlobbing = require('node-sass-globbing'),
   autoprefixer = require('gulp-autoprefixer'),
   browserSync = require('browser-sync').create();
 
@@ -113,6 +114,7 @@ gulp.task('nodeunit', function () {
 gulp.task('sass:style', function () {
   return gulp.src('./source/css/*.scss')
     .pipe(sass({
+      importer: nodeSassGlobbing,
       outputStyle: 'expanded',
       precision: 8
     }))
@@ -127,6 +129,7 @@ gulp.task('sass:style', function () {
 gulp.task('sass:styleguide', function () {
   return gulp.src('./public/styleguide/css/*.scss')
     .pipe(sass({
+      importer: nodeSassGlobbing,
       outputStyle: 'expanded',
       precision: 8
     }))
