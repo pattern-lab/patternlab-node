@@ -1,13 +1,140 @@
-.navigation--primary {
-  font-size : 0.75em;
-  text-transform : uppercase;
-  font-weight : 300;
-  letter-spacing : 0.1em;
-  width : 400px;
-  ul {
-    display : flex;
-    flex-wrap : wrap;
-    justify-content : space-between;
-    list-style : none;
+.navigation {
+  &--primary:before {
+    @extend .logo;
+    content: '';
+    height: 3em;
+    display: none;
+  }
+  &__list {
+    text-align: left;
+    list-style: none;
+  }
+  &__link {
+    &:hover {
+      color: inherit;
+      border: none;
+    }
+  }
+}
+
+@media only screen and (max-width: $breakpointMobileEnd) {
+
+  .navigation {
+    &--primary {
+      width: 230px;
+      font-size: 0.75em;
+      line-height: 1.333em;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      &:before {
+        display: block;
+      }
+
+    }
+    &__list {
+
+      &--secondLevel {
+        margin: 0 .75em;
+        position: relative;
+
+        &:before {
+          font-family: "icomoon";
+          content: "\e60e";
+          position: absolute;
+          right: 0;
+          top: -2.733em;
+          display: block;
+        }
+
+        &:after {
+          content: "";
+          border: 0 solid $colorSilver;
+          position: absolute;
+          top: -1px;
+          bottom: -1px;
+          left: 0;
+          right: 0;
+          display: block;
+          z-index: -1;
+        }
+      }
+      &__item {
+        position: relative;
+        .navigation__list--secondLevel & {
+          display: none;
+        }
+      }
+    }
+
+    &__link {
+      display: block;
+      padding: 1.333em;
+      border: none;
+
+      &--active {
+        background: $colorBlack;
+        color: $colorTextInvert;
+        border: none;
+        & + .navigation__list--secondLevel {
+          &:before {
+            color: $colorTextInvert;
+          }
+        }
+      }
+      &:focus {
+        & + .navigation__list--secondLevel {
+          &:after {
+            border-width: 1px 0;
+          }
+          &:before {
+            content: "\e60d";
+          }
+          .navigation__list__item {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: $breakpointTablet) {
+
+  .navigation {
+
+    &--primary {
+      width: 100%;
+      text-align: center;
+    }
+    &__list {
+      &--firstLevel {
+        display: inline;
+        list-style: none;
+      }
+      &--secondLevel {
+        display: none;
+        position: absolute;
+        text-align: left;
+        background: $colorWhite;
+
+      }
+      &__item {
+        display: inline-block;
+        position: relative;
+        .navigation__list--secondLevel & {
+          display: block;
+        }
+      }
+    }
+    &__link {
+      padding: .25em .625em;
+      display: block;
+      &:hover {
+        & + .navigation__list--secondLevel {
+          display: block;
+        }
+      }
+    }
   }
 }
