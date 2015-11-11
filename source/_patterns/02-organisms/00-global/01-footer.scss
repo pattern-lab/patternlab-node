@@ -1,9 +1,12 @@
 .footer {
   max-width : 1500px;
   margin : 0 auto;
-  padding : 0 3.75em;
   position : relative;
-  @media only screen and (min-width : $breakpointTablet) {
+  @media only screen and (min-width : $breakpointDesktop) {
+    display : flex;
+    flex-direction : row;
+    justify-content : space-between;
+    align-items : flex-start;
     &::before {
       content: "";
       width : 100%;
@@ -11,6 +14,34 @@
       height : 3px;
       position : absolute;
       top : 1.5em;
+    }
+  }
+  &__sectionLeft {
+    @media only screen and (min-width : $breakpointDesktop) {
+      width: 35%;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  &__copyright {
+    padding : 1.25rem 0;
+    text-align : center;
+    font-size : 0.75em;
+    text-transform : uppercase;
+    letter-spacing : 0.1em;
+  }
+  .newsletterForm {
+    border-top : 1px solid $colorSilver;
+    border-bottom : 1px solid $colorSilver;
+    padding : 1.25em 0.75em;
+    @media only screen and (min-width : $breakpointDesktop) {
+      padding : 0 0.75em;
+      display : inline-block;
+      vertical-align : top;
+      border : none;
+      .field__container--label {
+        font-size : 0.875em;
+      }
     }
   }
 }

@@ -3,7 +3,6 @@ fieldset {
 }
 
 .field__container {
-  margin-bottom : 3em;
 
   &--label {
     display : block;
@@ -17,7 +16,6 @@ fieldset {
   &--input {
     min-height : 40px;
     font-family : $fontSecondary;
-    width : 100%;
     box-shadow : none;
     outline : none;
     border-radius : 0;

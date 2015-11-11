@@ -1,3 +1,54 @@
 .accordion {
-
+  width : 100%;
+  &__handle {
+    display : block;
+    position : relative;
+    font-family : $fontPrimary;
+    font-size : 0.875em;
+    font-weight : normal;
+    text-transform : uppercase;
+    letter-spacing : 0.1em;
+    border-bottom : 1px solid $colorSilver;
+    background-color : $colorGallery;
+    padding-top : 1em;
+    padding-bottom : 1em;
+    padding-left : 0.75em;
+    &:active {
+      background-color : lighten(#c0c0c0, 20%);
+    }
+    &:before {
+      @extend .iconFont, .icon-minus:before;
+      position : absolute;
+      right : 1em;
+    }
+    @media only screen and (min-width : $breakpointDesktop) {
+      &:before {
+        opacity : 0;
+      }
+    }
+  }
+  &__panel {
+    font-size : 0.875em;
+    line-height : 1.625em;
+    list-style-type : none;
+    letter-spacing : 0.1em;
+    text-transform : uppercase;
+    border-bottom : 1px solid $colorSilver;
+    padding-top : 1em;
+    padding-bottom : 1em;
+    padding-left : 0.75em;
+    font-weight : 300;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in;
+  }
+  &__link {
+    display : block;
+    &:hover {
+      background-color : $colorGallery;
+      transition-timing-function: ease-out;
+    }
+    &:active {
+      background-color : lighten(#c0c0c0, 20%);
+    }
+  }
 }

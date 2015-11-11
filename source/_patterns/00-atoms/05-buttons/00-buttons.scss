@@ -29,3 +29,14 @@
     padding: 0;
   }
 }
+
+.button__primary {
+  @extend .button;
+  width : 280px;
+}
+
+.button__secondary {
+  @extend .button, .button__primary;
+  background-color : $colorNevada;
+  border: 1px solid $colorNevada;
+}

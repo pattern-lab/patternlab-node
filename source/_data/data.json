@@ -22,6 +22,10 @@
 		"rectangle": {
 			"src": "http://placeimg.com/400/300/tech",
 			"alt": "Rectangle"
+		},
+	  	"placeholder_blockMedia": {
+			"src": "../../images/placeholder_blockMedia.jpg",
+			"alt": "Placeholder Block Media"
 		}
 	},
 	"headline" : {
