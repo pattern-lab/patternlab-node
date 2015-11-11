@@ -45,6 +45,8 @@
 }
 @media only screen and (max-width: $breakpointMobileEnd) {
   .navigation {
+    position: absolute;
+    left: -200px;
     &--primary {
       width: 230px;
       font-size: 0.75em;
