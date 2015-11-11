@@ -5,9 +5,41 @@
     height: 3em;
     display: none;
   }
+
   &__list {
     text-align: left;
     list-style: none;
+
+    &--secondLevel {
+
+      &:before {
+        @extend .iconFont;
+        @extend .icon-plus:before;
+        display: none;
+        position: absolute;
+        right: 0;
+        top: -2.6em;
+
+        .navigation__link:focus + & {
+          @extend .icon-minus:before;
+        }
+        @media only screen and (max-width: $breakpointMobileEnd) {
+          display: block;
+
+        }
+      }
+      &:after {
+        content: "";
+        border: 0 solid $colorSilver;
+        position: absolute;
+        top: -1px;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        display: block;
+        z-index: -1;
+      }
+    }
   }
   &__link {
     &:hover {
@@ -16,6 +48,8 @@
     }
   }
 }
+
+
 
 @media only screen and (max-width: $breakpointMobileEnd) {
 
@@ -30,34 +64,12 @@
       &:before {
         display: block;
       }
-
     }
     &__list {
 
       &--secondLevel {
         margin: 0 .75em;
         position: relative;
-
-        &:before {
-          font-family: "icomoon";
-          content: "\e60e";
-          position: absolute;
-          right: 0;
-          top: -2.733em;
-          display: block;
-        }
-
-        &:after {
-          content: "";
-          border: 0 solid $colorSilver;
-          position: absolute;
-          top: -1px;
-          bottom: -1px;
-          left: 0;
-          right: 0;
-          display: block;
-          z-index: -1;
-        }
       }
       &__item {
         position: relative;
@@ -86,9 +98,6 @@
         & + .navigation__list--secondLevel {
           &:after {
             border-width: 1px 0;
-          }
-          &:before {
-            content: "\e60d";
           }
           .navigation__list__item {
             display: block;
