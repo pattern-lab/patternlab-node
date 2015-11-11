@@ -1,0 +1,59 @@
+.basicLayout {
+  height: 100%;
+  overflow-x: hidden;
+
+  &__inner {
+    height: 100%;
+    transition: margin $animationTimingFast;
+    position: relative;
+    width: 100%;
+    box-sizing: content-box;
+    padding: 0 200px;
+    margin: 0 -200px;
+
+    .basicLayout--openLeft & {
+      margin-left: 0;
+    }
+    .basicLayout--openRight & {
+      margin-left: -400px;
+    }
+  }
+
+  &__canvas {
+    height: 100%;
+    background: lightgreen;
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      .basicLayout--openLeft &,
+      .basicLayout--openRight & {
+        background: $colorBackgroundOverlay;
+      }
+    }
+  }
+
+  &__offCanvasLeft,
+  &__offCanvasRight {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+  }
+  &__offCanvasLeft {
+    left: 0;
+    background: red;
+  }
+
+  &__offCanvasRight {
+    right: 0;
+    background: grey;
+  }
+
+
+}
