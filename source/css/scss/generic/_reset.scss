@@ -15,3 +15,13 @@ html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, ol, ul, 
 header, footer, nav, section, article, hgroup, figure {
 	display: block;	
 }
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100.01%;
+  box-sizing : border-box;
+  color: $colorText;
+}
