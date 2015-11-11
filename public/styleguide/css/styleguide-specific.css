@@ -1,4 +1,5 @@
 /*------------------------------------*    $PATTERN LAB-SPECIFIC STYLES
+/*------------------------------------*    $PATTERN LAB-SPECIFIC STYLES
 \*------------------------------------*/
 /**
  * This stylesheet is for styles you want to include only when the interface is being viewed within Pattern Lab.
@@ -77,7 +78,7 @@
 @media all and (min-width: 30em) {
   .sg-colors li {
     float: left;
-    width: 5em;
+    width: 6em;
   }
 }
 
