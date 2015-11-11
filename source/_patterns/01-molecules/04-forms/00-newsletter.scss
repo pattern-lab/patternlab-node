@@ -1,12 +1,21 @@
 .newsletterForm {
+  &__container {
+    @extend .field__container;
+    display : flex;
+    flex-direction : row;
+    &--input {
+      @extend .field__container--input;
+      flex : 2;
+      margin-right : 0.5em;
+      @media only screen and (min-width : $breakpointDesktop) {
+        width : 300px;
+      }
+    }
+  }
 
-}
-
-.newsletterField {
-  width : 300px;
-  margin-right : 0.5em;
-}
-
-.newsletterSubmit {
-
+  &__label {
+    margin-bottom : 2em;
+    font-size : 0.875em;
+    display : block;
+  }
 }

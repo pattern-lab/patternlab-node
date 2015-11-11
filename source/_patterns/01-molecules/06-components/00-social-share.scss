@@ -1,12 +1,24 @@
 .socialShare {
-  display : inline-block;
-  width : 15%;
+  padding : 1.25em;
+  @media only screen and (min-width : $breakpointDesktop) {
+    padding : 0;
+    display: inline-block;
+    vertical-align : top;
+    min-width : 125px;
+  }
+  .navigation__footer--headline {
+    display : none;
+    @media only screen and (min-width : $breakpointDesktop) {
+      display : block;
+    }
+  }
   &__list {
     list-style-type : none;
     display : inline;
   }
   &__link {
     &--icon {
+      display : inline-block;
       font-size : 1.75rem;
       margin-right : 0.625rem;
     }

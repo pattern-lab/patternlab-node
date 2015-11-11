@@ -1,20 +1,47 @@
 .navigation__footer {
-  display : inline-block;
-  width : 20%;
-  vertical-align : top;
+  width : 100%;
+
+  @media only screen and (min-width : $breakpointDesktop) {
+    padding-left : 1.25em;
+    text-align : left;
+    display : inline-block;
+    width : 50%;
+    min-width : 150px;
+    vertical-align : top;
+  }
 
   &--headline {
-    font-size : 0.875em;
-    font-weight : normal;
-    text-transform : uppercase;
-    letter-spacing : 0.1em;
-    margin-bottom : 2em;
+    @extend .accordion__handle;
+    &:first-of-type {
+      border-top : 1px solid $colorSilver;
+      @media only screen and (min-width : $breakpointDesktop) {
+        border-top : none;
+      }
+      .navigation__footer + .navigation__footer & {
+        border-top : none;
+      }
+    }
+    @media only screen and (min-width : $breakpointDesktop) {
+      border-bottom : none;
+      padding-top : 0;
+      padding-bottom : 0;
+      padding-left : 0;
+      margin-bottom : 2em;
+      background-color : transparent;
+    }
   }
 
   &--item {
-    font-family : $fontSecondary;
-    font-size : 0.875em;
-    line-height : 1.625em;
-    list-style-type : none;
+    @extend .accordion__panel;
+    @media only screen and (min-width : $breakpointDesktop) {
+      letter-spacing : 0;
+      text-transform : none;
+      border-bottom : none;
+      font-family : $fontSecondary;
+      padding-top : 0;
+      padding-bottom : 0;
+      padding-left : 0;
+      font-weight : 500;
+    }
   }
 }

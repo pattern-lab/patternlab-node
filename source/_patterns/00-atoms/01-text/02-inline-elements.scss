@@ -1,17 +1,26 @@
 a {
-  color : $colorBlack;
+  color : inherit;
   text-decoration : none;
-  transition: color, border-color;
-  border-bottom: 1px solid transparent;
-  transition-duration: 500ms;
-  transition-timing-function: ease-in;
+}
 
-  &:hover {
-    color: $colorTussock;
-    border-bottom : 1px solid $colorTussock;
-    transition-timing-function: ease-out;
+p {
+  a {
+    color : $colorBlack;
+    text-decoration : none;
+    transition: color, border-color;
+    border-bottom: 1px solid transparent;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in;
+
+    &:hover {
+      color: $colorTussock;
+      border-bottom : 1px solid $colorTussock;
+      transition-timing-function: ease-out;
+    }
   }
 }
+
+
 
 strong, b {
 
