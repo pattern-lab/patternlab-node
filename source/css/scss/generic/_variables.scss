@@ -20,6 +20,12 @@ $colorJapaneseLaurel: #089e00;
 $colorError: $colorRed;
 $colorValid: $colorJapaneseLaurel;
 
+$colorBackgroundOverlay: rgba(0,0,0,.7);
+
+$colorText: $colorBlack;
+$colorTextInvert: $colorWhite;
+
+
 //Typography
 $fontPrimary: 'Avenir', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
 $fontSecondary: 'Baskerville', 'Palatino', 'Palatino Linotype', 'Garamond', 'Times New Roman', 'Times', serif;
@@ -39,6 +45,8 @@ $maxWidthLayout: 1500px;
 $breakpointMobile: 320px;
 $breakpointTablet: 640px;
 $breakpointDesktop: 960px;
+$breakpointMobileEnd: 639px;
+$breakpointTabletEnd: 959px;
 
 //Timings
 $animationTimingFast: 200ms;
@@ -46,7 +54,3 @@ $animationTimingNormal: 500ms;
 $animationTimingLong: 1000ms;
 $animationTimingForever: 3000ms;
 
-
-body {
-    box-sizing : border-box;
-}
