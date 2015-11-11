@@ -28,7 +28,7 @@
 			var pseudoPatterns = glob.sync(needle, {
 				cwd: 'source/_patterns/', //relative to gruntfile
 				debug: false,
-				nodir: true,
+				nodir: true
 			});
 
 			if(pseudoPatterns.length > 0){
