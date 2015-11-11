@@ -5,13 +5,10 @@
     height: 3em;
     display: none;
   }
-
   &__list {
     text-align: left;
     list-style: none;
-
     &--secondLevel {
-
       &:before {
         @extend .iconFont;
         @extend .icon-plus:before;
@@ -19,13 +16,11 @@
         position: absolute;
         right: 0;
         top: -2.6em;
-
         .navigation__link:focus + & {
           @extend .icon-minus:before;
         }
         @media only screen and (max-width: $breakpointMobileEnd) {
           display: block;
-
         }
       }
       &:after {
@@ -48,11 +43,7 @@
     }
   }
 }
-
-
-
 @media only screen and (max-width: $breakpointMobileEnd) {
-
   .navigation {
     &--primary {
       width: 230px;
@@ -66,7 +57,6 @@
       }
     }
     &__list {
-
       &--secondLevel {
         margin: 0 .75em;
         position: relative;
@@ -78,12 +68,10 @@
         }
       }
     }
-
     &__link {
       display: block;
       padding: 1.333em;
       border: none;
-
       &--active {
         background: $colorBlack;
         color: $colorTextInvert;
@@ -107,11 +95,8 @@
     }
   }
 }
-
 @media only screen and (min-width: $breakpointTablet) {
-
   .navigation {
-
     &--primary {
       width: 100%;
       text-align: center;
@@ -126,7 +111,6 @@
         position: absolute;
         text-align: left;
         background: $colorWhite;
-
       }
       &__item {
         display: inline-block;
