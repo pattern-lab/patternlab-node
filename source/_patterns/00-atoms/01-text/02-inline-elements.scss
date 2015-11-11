@@ -1,9 +1,9 @@
 a {
   color : $colorBlack;
   text-decoration : none;
-  transition: color, border-color;
   border-bottom: 1px solid transparent;
-  transition-duration: 500ms;
+  transition: color, border-color, background-color;
+  transition-duration: $animationTimingNormal;
   transition-timing-function: ease-in;
 
   &:hover {
