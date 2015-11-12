@@ -4,7 +4,7 @@
   "version": "0.13.0",
   "aws": {
     "bucket": {
-      "name": "horizn-frontend",
+      "name": "horizn-styleguide",
       "region": "eu-central-1"
     }
   },

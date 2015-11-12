@@ -162,7 +162,7 @@ gulp.task('help', ['patternlab:help']);
 
 gulp.task('deploy', function (done) {
   sequence(
-    'patterns',
+    'lab',
     'deployAws',
     'notifyAboutNewVersion',
     done

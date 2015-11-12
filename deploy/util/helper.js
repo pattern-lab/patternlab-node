@@ -10,6 +10,7 @@ function isDevMode() {
 }
 
 function getTargetDir(path) {
+  path = !path ? '' : path;
   return 'public/' + path;
 }
 
