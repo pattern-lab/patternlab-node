@@ -131,7 +131,7 @@ function sendHasUpdatedNotification(sharedNamespace, sharedShopifySettings) {
     return;
   }
 
-  return getMetafieldsOfNamespace(namespace)
+  return getMetafieldsOfNamespace(shopifyNamespace)
     .then(updateVersionMetaFieldOfNamespace)
     .then(updateCommitMetaFieldOfNamespace);
 }
