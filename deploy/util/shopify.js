@@ -9,7 +9,8 @@ var
   packageJson = require('../../package.json'),
 
   deployData = {},
-  shopifySettings =  {},
+  shopifySettings = {},
+  shopifyNamespace = undefined,
   metafieldsApiEndpoint = packageJson.shopify.metafieldsApiEndpoint;
 
 function requestToShopifyApi(options, deferred, body) {
@@ -60,7 +61,7 @@ function getMetafieldsOfNamespace(namespace) {
   var
     deferred = q.defer(),
     options = {
-      query: 'namespace='+namespace
+      query: 'namespace=' + namespace
     };
 
   return requestToShopifyApi(options, deferred)
@@ -82,7 +83,7 @@ function updateMetaFieldOfNamespace(metafieldKey, metafieldValue) {
 
     body = JSON.stringify({
       metafield: {
-        namespace: shopifySettings.namespace,
+        namespace: shopifyNamespace,
         key: metafieldKey,
         value: metafieldValue,
         value_type: "string"
@@ -105,7 +106,7 @@ function updateMetaFieldOfNamespace(metafieldKey, metafieldValue) {
   }
 
   util.log(util.colors.green("Set metafield '" + metafieldKey + "' to '" +
-    metafieldValue + "' of namespace '"+shopifySettings.namespace+"' on Shopify instance " +
+    metafieldValue + "' of namespace '" + shopifyNamespace + "' on Shopify instance " +
     shopifySettings.hostname + "."));
 
   return requestToShopifyApi(options, deferred, body);
@@ -119,11 +120,18 @@ function updateCommitMetaFieldOfNamespace() {
   return updateMetaFieldOfNamespace("commit", deployData.commit);
 }
 
-function sendHasUpdatedNotification(sharedShopifySettings) {
+function sendHasUpdatedNotification(sharedNamespace, sharedShopifySettings) {
 
   shopifySettings = sharedShopifySettings;
+  shopifyNamespace = sharedNamespace;
 
-  return getMetafieldsOfNamespace(shopifySettings.namespace)
+  if (!shopifyNamespace) {
+    util.log(util.colors.red("namespace must be set('" + shopifyNamespace + "') to update Shopify instance " +
+      shopifySettings.hostname + "."));
+    return;
+  }
+
+  return getMetafieldsOfNamespace(namespace)
     .then(updateVersionMetaFieldOfNamespace)
     .then(updateCommitMetaFieldOfNamespace);
 }

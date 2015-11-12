@@ -8,7 +8,6 @@ var
   namespace = 'styleguide',
 
   shopifySettings = {
-    namespace: namespace,
     stage: {
       hostname: 'horizn-studios-test-environment.myshopify.com',
       auth: process.env.HORIZN_SHOPIFY_STAGE_AUTH
@@ -34,12 +33,12 @@ function notifyAboutNewVersionTask(done) {
     })
     .then(function () {
       if (deployData.isMaster) {
-        return shopify.sendHasUpdatedNotification(shopifySettings.stage);
+        return shopify.sendHasUpdatedNotification(namespace, shopifySettings.stage);
       }
     })
     .then(function () {
       if (deployData.isMaster) {
-        return shopify.sendHasUpdatedNotification(shopifySettings.prod);
+        return shopify.sendHasUpdatedNotification(namespace, shopifySettings.prod);
       }
     })
     .then(function () {
