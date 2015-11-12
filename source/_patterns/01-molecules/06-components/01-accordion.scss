@@ -13,6 +13,7 @@
     padding-top : 1em;
     padding-bottom : 1em;
     padding-left : 0.75em;
+    cursor: pointer;
     &:active {
       background-color : lighten(#c0c0c0, 20%);
     }
@@ -50,5 +51,13 @@
     &:active {
       background-color : lighten(#c0c0c0, 20%);
     }
+  }
+  &--expand {
+    height : auto;
+  }
+  &--contract {
+    height : 0;
+    padding : 0;
+    overflow : hidden;
   }
 }
