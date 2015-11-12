@@ -12,10 +12,10 @@ var
       hostname: 'horizn-studios-test-environment.myshopify.com',
       auth: process.env.HORIZN_SHOPIFY_STAGE_AUTH
     },
-    //prod: {
-    //  hostname: 'horizn-studios.myshopify.com',
-    //  auth: process.env.HORIZN_SHOPIFY_PRODUCTION_AUTH
-    //}
+    prod: {
+      hostname: 'horizn-studios.myshopify.com',
+      auth: process.env.HORIZN_SHOPIFY_PRODUCTION_AUTH
+    }
   };
 
 function notifyAboutNewVersionTask(done) {
