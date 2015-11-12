@@ -1,9 +1,33 @@
 .navigation {
-  &--primary:before {
-    @extend .logo;
-    content: '';
-    height: 3em;
-    display: none;
+  &--primary {
+    &:before {
+      @extend .logo;
+      content: '';
+      height: 4.2em;
+      width: 80%;
+      margin-left: .75em;
+      display: none;
+    }
+    &__hamburger {
+      @extend .iconFont;
+      @extend .icon-menu;
+      position: absolute;
+      right: -1.35em;
+      top: .2175em;
+      font-size: 3.25em;
+      display: none;
+      &:before {
+        display: block;
+        height: .9em;
+        line-height: .9em;
+        text-align: center;
+        padding-left: .065em;
+        background-color: $colorWhite;
+      }
+      @media only screen and (max-width: $breakpointTabletEnd) {
+        display: block;
+      }
+    }
   }
   &__list {
     text-align: left;
@@ -19,7 +43,7 @@
         .navigation__link:focus + & {
           @extend .icon-minus:before;
         }
-        @media only screen and (max-width: $breakpointMobileEnd) {
+        @media only screen and (max-width: $breakpointTabletEnd) {
           display: block;
         }
       }
@@ -36,26 +60,28 @@
       }
     }
   }
-  &__link {
-    &:hover {
-      color: inherit;
-      border: none;
-    }
-  }
 }
-@media only screen and (max-width: $breakpointMobileEnd) {
+@media only screen and (max-width: $breakpointTabletEnd) {
   .navigation {
-    position: absolute;
-    left: -200px;
     &--primary {
-      width: 230px;
+      position: fixed;
+      left: -#{$widthOffCanvasA};
+      top: 0;
+      z-index: 20;
+      width: $widthOffCanvasA;
       font-size: 0.75em;
       line-height: 1.333em;
-      font-weight: 300;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      transition: left $animationTimingFast;
       &:before {
         display: block;
+        @media only screen and (min-width: $breakpointTablet) {
+          height: 4.65em;
+        }
+      }
+      .basicLayout--showOffCanvasA & {
+        left: 0;
       }
     }
     &__list {
@@ -97,7 +123,8 @@
     }
   }
 }
-@media only screen and (min-width: $breakpointTablet) {
+
+@media only screen and (min-width: $breakpointDesktop) {
   .navigation {
     &--primary {
       width: 100%;
