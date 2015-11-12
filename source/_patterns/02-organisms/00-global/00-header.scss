@@ -4,9 +4,17 @@
   text-align: center;
   padding: 0;
   height: 3.125em;
-  padding-top: 1.25em;
+  padding-top: 1.125em;
   vertical-align: middle;
+  background: $colorWhite;
+  min-width: $breakpointMobile;
+  width: 100%;
+  max-width: $maxWidthLayout;
+  margin: 0 auto;
   z-index: 1;
+  @media only screen and (min-width: $breakpointDesktop) {
+    padding-top: 1.25em;
+  }
   &__logo {
     display: inline-block;
     width: 80%;
@@ -18,7 +26,6 @@
   &__navigation {
     position: absolute;
     top: 0;
-
     @media only screen and (min-width: $breakpointDesktop) {
       left: 50%;
       top: 60%;
@@ -26,13 +33,27 @@
     }
   }
   &__claim {
-    @extend .fontSecondary;
+    @extend .fontPrimary__light;
     display: none;
     position: absolute;
-    left: 1.25em;
-    top: 1.55em;
+    font-size: .75em;
+    left: 1.6667em;
+    top: 2.95em;
+    transform: translateY(-50%);
     @media only screen and (min-width: $breakpointDesktop) {
       display: block;
+    }
+  }
+  &__card {
+    position: absolute;
+    top: 50%;
+    right: 1.6667em;
+    transform: translateY(-50%);
+    height: .875em;
+    width: 20px;
+    background:red;
+    @media only screen and (min-width: $breakpointDesktop) {
+      top: 1.95em;
     }
   }
   @media only screen and (min-width: $breakpointTablet) {
@@ -40,5 +61,25 @@
   }
   @media only screen and (min-width: $breakpointDesktop) {
     height: 8.25em;
+  }
+
+  &--sticky {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    @media only screen and (min-width: $breakpointDesktop) {
+      height: 5.75em;
+      .header {
+        &__logo {
+          opacity: 0;
+        }
+        &__claim,
+        &__navigation,
+        &__card {
+          top: 50%;
+        }
+      }
+    }
   }
 }

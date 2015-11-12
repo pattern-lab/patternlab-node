@@ -1,5 +1,8 @@
 .navigation {
   &--primary {
+    @extend .fontPrimary__light;
+    text-transform: uppercase;
+    font-size: 0.75em;
     &:before {
       @extend .logo;
       content: '';
@@ -69,19 +72,14 @@
       top: 0;
       z-index: 20;
       width: $widthOffCanvasA;
-      font-size: 0.75em;
       line-height: 1.333em;
       letter-spacing: 0.1em;
-      text-transform: uppercase;
       transition: left $animationTimingFast;
       &:before {
         display: block;
         @media only screen and (min-width: $breakpointTablet) {
           height: 4.65em;
         }
-      }
-      .basicLayout--showOffCanvasA & {
-        left: 0;
       }
     }
     &__list {
@@ -136,23 +134,35 @@
         list-style: none;
       }
       &--secondLevel {
+        font-size: 0.8334em;
+        line-height: 1.25em;
         display: none;
         position: absolute;
         text-align: left;
         background: $colorWhite;
+        &:hover {
+          display: block;
+        }
       }
       &__item {
         display: inline-block;
         position: relative;
         .navigation__list--secondLevel & {
-          display: block;
+          padding: .25em .5em;
         }
       }
     }
     &__link {
       padding: .25em .625em;
       display: block;
+      &--active {
+        color: $colorTussock;
+        .navigation__list--secondLevel & {
+          text-decoration: underline;
+        }
+      }
       &:hover {
+        color: $colorTussock;
         & + .navigation__list--secondLevel {
           display: block;
         }

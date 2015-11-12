@@ -9,15 +9,6 @@
     box-sizing: content-box;
     padding: 0 $widthOffCanvasB 0 $widthOffCanvasA;
     margin-left: -#{$widthOffCanvasA};
-    .basicLayout--showOffCanvasA & {
-      margin-left: 0;
-      @media only screen and (min-width: $breakpointDesktop) {
-        margin-left: -#{$widthOffCanvasA};
-      }
-    }
-    .basicLayout--showOffCanvasB & {
-      margin-left: calc(-#{$widthOffCanvasB} - #{$widthOffCanvasA});
-    }
   }
   &__canvas {
     min-height: 100vh;
@@ -31,17 +22,8 @@
       background: $colorBlack;
       opacity: 0;
       bottom: 100%;
+      z-index: 1;
       transition: opacity $animationTimingNormal linear $animationTimingFast;
-      .basicLayout--showOffCanvasA &,
-      .basicLayout--showOffCanvasB & {
-        bottom: 0;
-        opacity: $opacityOverlayBackground;
-      }
-      .basicLayout--showOffCanvasA & {
-        @media only screen and (min-width: $breakpointDesktop) {
-          bottom: 100%;
-        }
-      }
     }
   }
   &__offCanvasA,
@@ -59,5 +41,39 @@
     width: $widthOffCanvasB;
     right: 0;
     background: $colorWhite;
+  }
+}
+
+.basicLayout--showOffCanvasA,
+.basicLayout--showOffCanvasB {
+  .basicLayout__canvas:after {
+    bottom: 0;
+    opacity: $opacityOverlayBackground;
+  }
+}
+.basicLayout--showOffCanvasA {
+  .basicLayout__inner {
+    margin-left: 0;
+    @media only screen and (min-width: $breakpointDesktop) {
+      margin-left: -#{$widthOffCanvasA};
+    }
+  }
+  .navigation--primary {
+    left: 0;
+  }
+  .header {
+    @media only screen and (max-width: $breakpointTabletEnd) {
+      left: $widthOffCanvasA;
+    }
+  }
+  .basicLayout__canvas:after {
+    @media only screen and (min-width: $breakpointDesktop) {
+      bottom: 100%;
+    }
+  }
+}
+.basicLayout--showOffCanvasB {
+  .basicLayout__inner {
+    margin-left: calc(-#{$widthOffCanvasB} - #{$widthOffCanvasA});
   }
 }

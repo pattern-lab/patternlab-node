@@ -2,8 +2,7 @@ a {
   color : inherit;
   text-decoration : none;
   transition: color, border-color, background-color;
-  transition-duration: $animationTimingNormal;
-  transition-timing-function: ease-in;
+  transition-duration: $animationTimingFast;
   outline: none;
 }
 
@@ -16,7 +15,6 @@ p {
     &:hover {
       color: $colorTussock;
       border-bottom : 1px solid $colorTussock;
-      transition-timing-function: ease-out;
     }
   }
 }
