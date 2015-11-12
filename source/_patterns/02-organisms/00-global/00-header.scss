@@ -4,7 +4,7 @@
   text-align: center;
   padding: 0;
   height: 3.125em;
-  padding-top: 1.125em;
+  padding: 1.125em 0 0 0;
   vertical-align: middle;
   background: $colorWhite;
   min-width: $breakpointMobile;
@@ -36,7 +36,7 @@
     @extend .fontPrimary__light;
     display: none;
     position: absolute;
-    font-size: .75em;
+    font-size: 0.75em;
     left: 1.6667em;
     top: 2.95em;
     transform: translateY(-50%);
@@ -44,14 +44,13 @@
       display: block;
     }
   }
-  &__card {
+  &__cart {
     position: absolute;
     top: 50%;
     right: 1.6667em;
     transform: translateY(-50%);
-    height: .875em;
+    height: 0.875em;
     width: 20px;
-    background:red;
     @media only screen and (min-width: $breakpointDesktop) {
       top: 1.95em;
     }
@@ -76,7 +75,7 @@
         }
         &__claim,
         &__navigation,
-        &__card {
+        &__cart {
           top: 50%;
         }
       }
