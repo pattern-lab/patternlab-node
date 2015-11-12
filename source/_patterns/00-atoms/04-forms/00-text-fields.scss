@@ -35,6 +35,7 @@ fieldset {
       letter-spacing : 0.12em;
       transition : color 500ms ease-out;
       font-weight : 300;
+      text-transform : capitalize;
     }
 
     &:focus::-webkit-input-placeholder {
