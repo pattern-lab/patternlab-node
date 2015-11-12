@@ -5,8 +5,10 @@ var
   q = require('q'),
 
   deployData = {},
+  namespace = 'styleguide',
 
   shopifySettings = {
+    namespace: namespace,
     stage: {
       hostname: 'horizn-studios-test-environment.myshopify.com',
       auth: process.env.HORIZN_SHOPIFY_STAGE_AUTH
@@ -32,17 +34,17 @@ function notifyAboutNewVersionTask(done) {
     })
     .then(function () {
       if (deployData.isMaster) {
-        return shopify.sendStyleguideHasUpdatedNotification(shopifySettings.stage);
+        return shopify.sendHasUpdatedNotification(shopifySettings.stage);
       }
     })
     .then(function () {
       if (deployData.isMaster) {
-        return shopify.sendStyleguideHasUpdatedNotification(shopifySettings.prod);
+        return shopify.sendHasUpdatedNotification(shopifySettings.prod);
       }
     })
     .then(function () {
       if (deployData.isMaster) {
-        return kirby.storeStyleguideVersionOnKirbyInstance();
+        return kirby.storeVersionOnKirbyInstance(namespace);
       }
     })
     .then(done.bind(null, undefined))

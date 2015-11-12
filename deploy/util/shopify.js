@@ -56,11 +56,11 @@ function requestToShopifyApi(options, deferred, body) {
   return deferred.promise;
 }
 
-function getStyleguideMetafields() {
+function getMetafieldsOfNamespace(namespace) {
   var
     deferred = q.defer(),
     options = {
-      query: 'namespace=styleguide'
+      query: 'namespace='+namespace
     };
 
   return requestToShopifyApi(options, deferred)
@@ -74,7 +74,7 @@ function storeReceivedMetafields(data) {
   })
 }
 
-function updateMetaField(metafieldKey, metafieldValue) {
+function updateMetaFieldOfNamespace(metafieldKey, metafieldValue) {
 
   var
     metafieldId,
@@ -82,7 +82,7 @@ function updateMetaField(metafieldKey, metafieldValue) {
 
     body = JSON.stringify({
       metafield: {
-        namespace: "styleguide",
+        namespace: shopifySettings.namespace,
         key: metafieldKey,
         value: metafieldValue,
         value_type: "string"
@@ -105,27 +105,27 @@ function updateMetaField(metafieldKey, metafieldValue) {
   }
 
   util.log(util.colors.green("Set metafield '" + metafieldKey + "' to '" +
-    metafieldValue + "' of namespace 'frontend' on Shopify instance " +
+    metafieldValue + "' of namespace '"+shopifySettings.namespace+"' on Shopify instance " +
     shopifySettings.hostname + "."));
 
   return requestToShopifyApi(options, deferred, body);
 }
 
-function updateStyleguideVersionMetaField() {
-  return updateMetaField("version", deployData.version);
+function updateVersionMetaFieldOfNamespace() {
+  return updateMetaFieldOfNamespace("version", deployData.version);
 }
 
-function updateStyleguideCommitMetaField() {
-  return updateMetaField("commit", deployData.commit);
+function updateCommitMetaFieldOfNamespace() {
+  return updateMetaFieldOfNamespace("commit", deployData.commit);
 }
 
-function sendStyleguideHasUpdatedNotification(sharedShopifySettings) {
+function sendHasUpdatedNotification(sharedShopifySettings) {
 
   shopifySettings = sharedShopifySettings;
 
-  return getStyleguideMetafields()
-    .then(updateStyleguideVersionMetaField)
-    .then(updateStyleguideCommitMetaField);
+  return getMetafieldsOfNamespace(shopifySettings.namespace)
+    .then(updateVersionMetaFieldOfNamespace)
+    .then(updateCommitMetaFieldOfNamespace);
 }
 
 function shopifyConstructor(sharedDeployData) {
@@ -133,7 +133,7 @@ function shopifyConstructor(sharedDeployData) {
   deployData = sharedDeployData;
 
   return {
-    sendStyleguideHasUpdatedNotification: sendStyleguideHasUpdatedNotification
+    sendHasUpdatedNotification: sendHasUpdatedNotification
   }
 }
 

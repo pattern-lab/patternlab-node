@@ -8,7 +8,6 @@ var
   packageJson = require('../../package.json'),
 
   deployData = {},
-  filename = packageJson.kirby.baseDestination + '/content/styleguide-version.json',
 
   ssh = new sshClient({
     hostname: packageJson.kirby.hostname,
@@ -16,11 +15,12 @@ var
     port: 22
   });
 
-function storeStyleguideVersionOnKirbyInstance() {
+function storeVersionOnKirbyInstance(namespace) {
 
   var
     deferred = q.defer(),
-    deployDataJson = JSON.stringify(deployData);
+    deployDataJson = JSON.stringify(deployData),
+    filename = packageJson.kirby.baseDestination + '/content/'+namespace+'-version.json';
 
   ssh.command('echo \'' + deployDataJson + '\' > ' + filename + ' && chmod 777 ' + filename, '', deferred.resolve);
 
@@ -35,7 +35,7 @@ function kirbyConstructor(sharedDeployData) {
   deployData = sharedDeployData;
 
   return {
-    storeStyleguideVersionOnKirbyInstance: storeStyleguideVersionOnKirbyInstance
+    storeVersionOnKirbyInstance: storeVersionOnKirbyInstance
   }
 }
 
