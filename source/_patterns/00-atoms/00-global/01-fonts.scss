@@ -76,8 +76,6 @@ body {
 
 .fontSecondary {
   font-family : $fontSecondary;
-  &__normal {
-    font-weight : 500;
-  }
+  font-style:italic;
 }
 
