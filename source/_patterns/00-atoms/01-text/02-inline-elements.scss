@@ -4,6 +4,7 @@ a {
   transition: color, border-color, background-color;
   transition-duration: $animationTimingNormal;
   transition-timing-function: ease-in;
+  outline: none;
 }
 
 p {
