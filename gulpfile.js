@@ -11,7 +11,11 @@ var
   sass = require('gulp-sass'),
   nodeSassGlobbing = require('node-sass-globbing'),
   autoprefixer = require('gulp-autoprefixer'),
-  browserSync = require('browser-sync').create();
+  browserSync = require('browser-sync').create(),
+  sequence = require('run-sequence');
+
+gulp.task('deployAws', require('./deploy/tasks/deployAws'));
+gulp.task('notifyAboutNewVersion', require('./deploy/tasks/notifyAboutNewVersion'));
 
 require('gulp-load')(gulp);
 var banner = ['/** ',
@@ -155,3 +159,12 @@ gulp.task('travis', ['lab', 'nodeunit']);
 
 gulp.task('version', ['patternlab:version']);
 gulp.task('help', ['patternlab:help']);
+
+gulp.task('deploy', function (done) {
+  sequence(
+    'patterns',
+    'deployAws',
+    'notifyAboutNewVersion',
+    done
+  )
+});
