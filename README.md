@@ -10,13 +10,11 @@ This repository contains the vanilla builder logic, grunt and gulp configuration
 
 * Download the [latest release of patternlab-node](https://github.com/pattern-lab/patternlab-node/releases/latest) from Github
 * Via npm, run `npm install patternlab-node` (Note this will auto install the grunt version currently. see below)
-* **NOTE** Node version 4.X is not officially supported yet, citing [a lot of Windows issues](https://github.com/nodejs/node-gyp/issues/629), including [mine](https://github.com/pattern-lab/patternlab-node/issues/162). Upgrade node at your own risk until otherwise stated.
+* **NOTE** Node version 4.X and 5.X have tentative support, citing [a lot of Windows issues](https://github.com/nodejs/node-gyp/issues/629), including [mine](https://github.com/pattern-lab/patternlab-node/issues/162). Upgrade node at your own risk until otherwise stated. I've tried to catalog some issues and troubleshooting steps on the [wiki](https://github.com/pattern-lab/patternlab-node/wiki/Windows-Issues).
 
 ### Choose Your Adventure! Now Vanilla, Grunt & Gulp
 
 This repository ships with two `package.json` files, a `Gruntfile.js`, and a `gulpfile.js`. The default is grunt currently. The core builder is not dependent on either.
-
-**HELP WANTED** Please help me test both of the configurations by [reporting](https://github.com/pattern-lab/patternlab-node/blob/dev/CONTRIBUTING.md) any issues encountered.
 
 ### Getting Started - Grunt
 
