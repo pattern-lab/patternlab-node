@@ -1,16 +1,44 @@
 .header {
   font-size: 1rem;
-  background: yellow;
+  position: relative;
   text-align: center;
   padding: 0;
-  height: 3.25em;
-  padding: 1.125em;
+  height: 3.125em;
+  padding-top: 1.25em;
   vertical-align: middle;
+  z-index: 1;
   &__logo {
-    display: inline;
+    display: inline-block;
     width: 80%;
     vertical-align: middle;
+    @media only screen and (min-width: $breakpointDesktop) {
+      height: 1.1875em;
+    }
   }
   &__navigation {
+    position: absolute;
+    top: 0;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      left: 50%;
+      top: 60%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &__claim {
+    @extend .fontSecondary;
+    display: none;
+    position: absolute;
+    left: 1.25em;
+    top: 1.55em;
+    @media only screen and (min-width: $breakpointDesktop) {
+      display: block;
+    }
+  }
+  @media only screen and (min-width: $breakpointTablet) {
+    height: 3.4375em
+  }
+  @media only screen and (min-width: $breakpointDesktop) {
+    height: 8.25em;
   }
 }

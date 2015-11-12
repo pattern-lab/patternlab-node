@@ -1,27 +1,26 @@
 .basicLayout {
-  height: 100%;
-  overflow-x: hidden;
-
+  min-height: 100vh;
+  overflow: hidden;
   &__inner {
     height: 100%;
     transition: margin $animationTimingFast;
     position: relative;
     width: 100%;
     box-sizing: content-box;
-    padding: 0 200px;
-    margin: 0 -200px;
-
-    .basicLayout--openLeft & {
+    padding: 0 $widthOffCanvasB 0 $widthOffCanvasA;
+    margin-left: -#{$widthOffCanvasA};
+    .basicLayout--showOffCanvasA & {
       margin-left: 0;
+      @media only screen and (min-width: $breakpointDesktop) {
+        margin-left: -#{$widthOffCanvasA};
+      }
     }
-    .basicLayout--openRight & {
-      margin-left: -400px;
+    .basicLayout--showOffCanvasB & {
+      margin-left: calc(-#{$widthOffCanvasB} - #{$widthOffCanvasA});
     }
   }
-
   &__canvas {
-    height: 100%;
-    background: lightgreen;
+    min-height: 100vh;
     position: relative;
     &:after {
       content: '';
@@ -29,31 +28,36 @@
       left: 0;
       top: 0;
       right: 0;
-      bottom: 0;
-      .basicLayout--openLeft &,
-      .basicLayout--openRight & {
-        background: $colorBackgroundOverlay;
+      background: $colorBlack;
+      opacity: 0;
+      bottom: 100%;
+      transition: opacity $animationTimingNormal linear $animationTimingFast;
+      .basicLayout--showOffCanvasA &,
+      .basicLayout--showOffCanvasB & {
+        bottom: 0;
+        opacity: $opacityOverlayBackground;
+      }
+      .basicLayout--showOffCanvasA & {
+        @media only screen and (min-width: $breakpointDesktop) {
+          bottom: 100%;
+        }
       }
     }
   }
-
-  &__offCanvasLeft,
-  &__offCanvasRight {
-    width: 200px;
+  &__offCanvasA,
+  &__offCanvasB {
     position: absolute;
     top: 0;
     bottom: 0;
-
   }
-  &__offCanvasLeft {
+  &__offCanvasA {
+    width: $widthOffCanvasA;
     left: 0;
-    background: red;
+    background: $colorWhite;
   }
-
-  &__offCanvasRight {
+  &__offCanvasB {
+    width: $widthOffCanvasB;
     right: 0;
-    background: grey;
+    background: $colorWhite;
   }
-
-
 }
