@@ -16,12 +16,8 @@ header, footer, nav, section, article, hgroup, figure {
 	display: block;	
 }
 
-html {
-  height: 100%;
-}
-
 body {
-  height: 100.01%;
+  height: 100vh;
   box-sizing : border-box;
   color: $colorText;
 }

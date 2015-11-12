@@ -20,11 +20,10 @@ $colorJapaneseLaurel: #089e00;
 $colorError: $colorRed;
 $colorValid: $colorJapaneseLaurel;
 
-$colorBackgroundOverlay: rgba(0,0,0,.7);
+$opacityOverlayBackground: 0.7;
 
 $colorText: $colorBlack;
 $colorTextInvert: $colorWhite;
-
 
 //Typography
 $fontPrimary: 'Avenir', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
@@ -40,6 +39,8 @@ $lineHeightNormal: 1.625em;
 
 //Layout
 $maxWidthLayout: 1500px;
+$widthOffCanvasA: 230px;
+$widthOffCanvasB: 512px;
 
 //Responsiveness
 $breakpointMobile: 320px;
