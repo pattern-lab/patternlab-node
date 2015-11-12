@@ -116,7 +116,7 @@ gulp.task('nodeunit', function () {
 
 //sass tasks, turn on if you want to use
 gulp.task('sass:style', function () {
-  return gulp.src('./source/css/*.scss')
+  return gulp.src(['./source/css/*.scss', './source/css/wip/*.scss'], { base : './source/css' })
     .pipe(sass({
       importer: nodeSassGlobbing,
       outputStyle: 'expanded',
