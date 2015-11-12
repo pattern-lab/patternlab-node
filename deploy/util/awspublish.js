@@ -18,7 +18,7 @@ function upload() {
     publisher = awspublish.create(awsSettings);
 
   util.log(util.colors.green("Deploying to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'."));
-  console.log(helper.getTargetDir() + '/**/*');
+
   gulp.src(helper.getTargetDir() + '/**/*')
     .pipe(rename(function (path) {
       path.dirname = deployData.version + '/' + path.dirname;
