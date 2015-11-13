@@ -54,14 +54,13 @@
   content : "\e60f";
 }
 
-.icons.patternlab {
-  .icons {
-    &__icon {
-      font-size : 1.75em;
-    }
-    &__description {
-      margin-bottom : 2.75em;
-    }
+.patternlab.icons,
+.patternlab .icons {
+  &__icon {
+    font-size : 1.75em;
+  }
+  &__description {
+    margin-bottom : 2.75em;
   }
 }
 

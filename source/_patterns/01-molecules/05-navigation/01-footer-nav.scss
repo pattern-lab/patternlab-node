@@ -1,4 +1,5 @@
-.navigation__footer {
+.patternlab.navigation__footer,
+.patternlab .navigation__footer{
   width : 100%;
 
   @media only screen and (min-width : $breakpointDesktop) {
@@ -11,7 +12,6 @@
   }
 
   &--headline {
-    @extend .accordion__handle;
     &:first-of-type {
       border-top : 1px solid $colorSilver;
       @media only screen and (min-width : $breakpointDesktop) {
@@ -28,12 +28,15 @@
       padding-left : 0;
       margin-bottom : 2em;
       background-color : transparent;
+      font-size : 0.875em;
+      font-weight : normal;
+      text-transform : uppercase;
     }
   }
 
   &--item {
-    @extend .accordion__panel;
     @media only screen and (min-width : $breakpointDesktop) {
+      display : block;
       letter-spacing : 0;
       text-transform : none;
       border-bottom : none;

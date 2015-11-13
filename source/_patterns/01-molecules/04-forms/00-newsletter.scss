@@ -1,7 +1,9 @@
-.newsletterForm {
+.patternlab.newsletterForm,
+.patternlab .newsletterForm {
   * {
     box-sizing : border-box;
   }
+
   &__container {
     @extend .field__container;
     display : flex;

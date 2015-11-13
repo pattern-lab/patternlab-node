@@ -1,4 +1,4 @@
-.accordion {
+@mixin accordion {
   width : 100%;
   &__handle {
     display : block;
@@ -18,17 +18,26 @@
       background-color : lighten(#c0c0c0, 20%);
     }
     &:before {
-      @extend .iconFont, .icon-minus:before;
+      @extend .iconFont;
+      content:'\e60e'; // +
       position : absolute;
       right : 1em;
     }
-    @media only screen and (min-width : $breakpointDesktop) {
+    &--expanded {
       &:before {
-        opacity : 0;
+        content:'\e60d'; // -
+      }
+
+      + [class*="accordion__panel"] {
+        display:block;
       }
     }
   }
   &__panel {
+    display:none;
+  }
+  &__panel__content {
+    display:block;
     font-size : 0.875em;
     line-height : 1.625em;
     list-style-type : none;
@@ -59,5 +68,15 @@
     height : 0;
     padding : 0;
     overflow : hidden;
+  }
+}
+
+.patternlab .accordion {
+  @include accordion;
+}
+
+@media only screen and (max-width : $breakpointTabletEnd) {
+  .patternlab .mobile-accordion {
+    @include accordion;
   }
 }

@@ -1,48 +1,48 @@
-fieldset.patternlab {
+fieldset.patternlab,
+.patternlab fieldset{
   border : 0;
 }
 
-.patternlab {
-  .field__container {
-    &--label {
-      font-family: $fontPrimary;
-      display: block;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+.patternlab.field__container,
+.patternlab .field__container {
+  &--label {
+    font-family: $fontPrimary;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 26px;
+    font-size: 12px;
+    margin-bottom: 1em;
+  }
+
+  &--input {
+    min-height: 40px;
+    font-family: $fontSecondary;
+    box-shadow: none;
+    outline: none;
+    border-radius: 0;
+    border: 1px solid $colorBlack;
+    background: transparent;
+    padding: 6px 10px;
+    line-height: 26px;
+    font-size: 14px;
+  }
+
+  input, textarea {
+    &::-webkit-input-placeholder {
       line-height: 26px;
       font-size: 12px;
-      margin-bottom: 1em;
+      opacity: 1.0;
+      color: $colorBlack;
+      letter-spacing: 0.12em;
+      transition: color 500ms ease-out;
+      font-weight: 300;
+      text-transform: capitalize;
     }
 
-    &--input {
-      min-height: 40px;
-      font-family: $fontSecondary;
-      box-shadow: none;
-      outline: none;
-      border-radius: 0;
-      border: 1px solid $colorBlack;
-      background: transparent;
-      padding: 6px 10px;
-      line-height: 26px;
-      font-size: 14px;
-    }
-
-    input, textarea {
-      &::-webkit-input-placeholder {
-        line-height: 26px;
-        font-size: 12px;
-        opacity: 1.0;
-        color: $colorBlack;
-        letter-spacing: 0.12em;
-        transition: color 500ms ease-out;
-        font-weight: 300;
-        text-transform: capitalize;
-      }
-
-      &:focus::-webkit-input-placeholder {
-        color: transparent;
-        transition-timing-function: ease-in;
-      }
+    &:focus::-webkit-input-placeholder {
+      color: transparent;
+      transition-timing-function: ease-in;
     }
   }
 }

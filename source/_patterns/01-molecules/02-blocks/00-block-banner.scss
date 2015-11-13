@@ -1,44 +1,42 @@
-.blockBanner.patternlab {
+.patternlab.blockBanner,
+.patternlab .blockBanner {
   font-family : $fontPrimary;
   position : relative;
   margin : 0 auto 2.75em;
   text-align : center;
-  .blockBanner {
-    &__inner {
+  &__inner {
 
-    }
-    &__image {
-      width : 100%;
-    }
-
-    &__text {
-      margin-top : -20px;
-      display : block;
-      text-align : center;
-      font-weight : 900;
-      color : $colorWhite;
-      text-transform : uppercase;
-      position : absolute;
-      top : 50%;
-      left : 50%;
-      transform : translate(-50%, -50%);
-      width : 100%;
-      &--headline {
-        font-size : 21px;
-        @media only screen and (min-width: $breakpointTablet) {
-          font-size : 45px;
-        }
+  }
+  &__image {
+    width : 100%;
+  }
+  &__text {
+    margin-top : -20px;
+    display : block;
+    text-align : center;
+    font-weight : 900;
+    color : $colorWhite;
+    text-transform : uppercase;
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%, -50%);
+    width : 100%;
+    &--headline {
+      font-size : 21px;
+      @media only screen and (min-width: $breakpointTablet) {
+        font-size : 45px;
       }
-      &:after {
-        width: 55px;
-        height: 20px;
-        border-bottom: 3px solid $colorWhite;
-        position: absolute;
-        content: "";
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
+    }
+    &:after {
+      width: 55px;
+      height: 20px;
+      border-bottom: 3px solid $colorWhite;
+      position: absolute;
+      content: "";
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }

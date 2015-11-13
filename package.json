@@ -71,6 +71,7 @@
     "bulk-require": "^0.2.1",
     "bulkify": "^1.1.1",
     "gutil": "^1.6.4",
+    "jquery": "^2.1.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
