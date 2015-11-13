@@ -1,12 +1,14 @@
 .headlineGroup{
   margin-bottom : 3em;
-  &__headline {
+  &__headline.patternlab {
+    font-family : $fontPrimary;
     text-transform : uppercase;
     letter-spacing : 0.12em;
     font-size : 21px;
     font-weight : 500;
   }
-  &__subHeadline {
+  &__subHeadline.patternlab {
+    font-family : $fontPrimary;
     font-size : 12px;
     text-transform : uppercase;
     letter-spacing : 0.12em;
@@ -16,14 +18,17 @@
 }
 
 .headlineGroup{
-  &__headline--alt {
+  &__headline--alt.patternlab {
+    font-family : $fontPrimary;
     font-size : 20px;
     font-weight : 500;
     text-transform : none;
   }
-  &__subHeadline--alt {
+  &__subHeadline--alt.patternlab {
+    font-family : $fontPrimary;
     font-size : 16px;
     font-weight : 500;
     text-transform : none;
   }
 }
+

@@ -1,4 +1,4 @@
-.blockMedia {
+.blockMedia.patternlab {
   text-align : center;
   display : flex;
   flex-direction : column;
@@ -13,34 +13,36 @@
     justify-content : space-between;
     align-content : center;
   }
-  &__image {
-    margin-top : 2.75em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @media only screen and (min-width : $breakpointDesktop) {
-      margin-top : 0;
-      padding : 0 3.75em;
-      display: inline-block;
-      width: 49%;
-    }
-    &--cropped {
-      height : 300px;
-      overflow : hidden;
+  .blockMedia {
+    &__image {
+      margin-top : 2.75em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       @media only screen and (min-width : $breakpointDesktop) {
-        height : 100%;
+        margin-top : 0;
+        padding : 0 3.75em;
+        display: inline-block;
+        width: 49%;
+      }
+      &--cropped {
+        height : 300px;
+        overflow : hidden;
+        @media only screen and (min-width : $breakpointDesktop) {
+          height : 100%;
+        }
       }
     }
-  }
-  &__text {
-    padding : 0 1em;
-    @media only screen and (min-width : $breakpointDesktop) {
-      padding : 0 3.75em;
-      display: inline-block;
-      width: 49%;
-    }
-    p {
-      margin-top : 2.75em;
+    &__text {
+      padding : 0 1em;
+      @media only screen and (min-width : $breakpointDesktop) {
+        padding : 0 3.75em;
+        display: inline-block;
+        width: 49%;
+      }
+      p {
+        margin-top : 2.75em;
+      }
     }
   }
 }
