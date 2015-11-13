@@ -62,7 +62,7 @@ gulp.task('banner', function () {
 
 //copy tasks
 gulp.task('cp:js', function () {
-  return gulp.src('**/*.js', {cwd: './source/js'})
+  return gulp.src(['**/*.js', '!**/scripts.js'], {cwd: './source/js'})
     .pipe(gulp.dest('./public/js'))
 });
 gulp.task('cp:img', function () {
@@ -85,6 +85,25 @@ gulp.task('cp:css', function () {
     .pipe(browserSync.stream());
 });
 
+//script task
+gulp.task('js', function () {
+  var
+    browserify = require('browserify'),
+    source     = require('vinyl-source-stream'),
+    buffer     = require('vinyl-buffer'),
+    bulkify    = require('bulkify')
+    gutil      = require('gutil');
+
+  return browserify({ entries : './source/js/scripts.js' })
+    .transform(bulkify)
+    .bundle()
+    .on('error', gutil.log)
+    .pipe(source('scripts.js'))
+    .pipe(buffer())
+    .pipe(gulp.dest('./public/js'))
+    .pipe(browserSync.stream());
+});
+
 //server and watch tasks
 gulp.task('connect', ['lab'], function () {
   browserSync.init({
@@ -97,6 +116,8 @@ gulp.task('connect', ['lab'], function () {
   //suggested watches if you use scss
   gulp.watch('./source/**/*.scss', ['sass:style']);
   gulp.watch('./public/styleguide/*.scss', ['sass:styleguide']);
+
+  gulp.watch('./source/_patterns/**/*.js', ['js']);
 
   gulp.watch([
       './source/_patterns/**/*.mustache',
@@ -148,7 +169,7 @@ gulp.task('lab-pipe', ['lab'], function (cb) {
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide']);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js']);
 gulp.task('prelab', ['clean', 'banner', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function (cb) {
   cb();
