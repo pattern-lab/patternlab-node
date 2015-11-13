@@ -1,0 +1,1 @@
+require('bulk-require')(__dirname, ['../_patterns/**/*.js']);
