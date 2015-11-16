@@ -10,6 +10,7 @@ This repository contains the vanilla builder logic, grunt and gulp configuration
 
 * Download the [latest release of patternlab-node](https://github.com/pattern-lab/patternlab-node/releases/latest) from Github
 * Via npm, run `npm install patternlab-node` (Note this will auto install the grunt version currently. see below)
+* **NOTE** Node version 4.X is not officially supported yet, citing [a lot of Windows issues](https://github.com/nodejs/node-gyp/issues/629), including [mine](https://github.com/pattern-lab/patternlab-node/issues/162). Upgrade node at your own risk until otherwise stated.
 
 ### Choose Your Adventure! Now Vanilla, Grunt & Gulp
 
@@ -142,6 +143,18 @@ If you'd like to exclude an individual pattern you can do so by prepending the f
 
 You can also exclude complete directories by prepending the directory name with an underscore, like: `/_experiment/...`
 
+##### Style Guide Excludes
+
+Exclude whole pattern types from the "All patterns" styleguide by adding entries to `config.json`. This is quite useful to make speedier. Pattern Lab Node ships with the following:
+
+```
+"styleGuideExcludes": [
+	"templates",
+	"pages"
+]
+```
+
+
 ##### Debug Mode
 `patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
 
@@ -177,6 +190,32 @@ Pattern parameters **do not** currently support the following:
 * nested properties within the parameter data, such as `{{> molecules-single-comment(foo.bar: 'baz') }}`
 
 You can read the full documentation on pattern parameters here: [Using Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
+
+##### Pattern Style Modifiers
+Style Modifiers allow you to create a base pattern that you can easily modify by adding a class name to the pattern partial. Read more about them [here](http://patternlab.io/docs/pattern-stylemodifier.html), including support with pattern parameters. Below is the gist.
+
+The basic syntax is this:
+
+```
+{{> atoms-message:error }}
+```
+
+This works by using a reserved mustache variable of sorts called {{ styleModifier }} applied to the atoms-message mustache file itself:
+
+```
+<div class="message {{ styleModifier }}">{{ message }}</div>
+```
+
+Once rendered, it looks like this:
+
+```
+<div>
+    <div class="message error"></div>
+</div>
+```
+
+
+
 
 ##### Pseudo-Patterns
 Pseudo-patterns are meant to give developers the ability to build multiple and unique **rendered** patterns off of one base pattern and its mark-up while giving them control over the data that is injected into the base pattern. This feature is especially useful when developing template- and page-style patterns.

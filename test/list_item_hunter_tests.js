@@ -41,7 +41,51 @@
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-      
+
+      //assert
+      test.equals(currentPattern.extendedTemplate, "FooBar" );
+
+      test.done();
+    },
+
+    'process_list_item_partials listitems with lowercase name' : function(test){
+      //arrange
+      //setup current pattern from what we would have during execution
+      var currentPattern = {
+         "template": "{{#listitems.two}}{{ title }}{{/listitems.two}}",
+         "extendedTemplate" : "{{#listitems.two}}{{ title }}{{/listitems.two}}",
+         "key": "test-patternName",
+         "jsonFileData" : {}
+      };
+
+      var patternlab = {
+        "listitems": {
+          "1": [
+             {
+                "title": "Foo"
+             }
+          ],
+          "2": [
+             {
+                "title": "Foo"
+             },
+             {
+                "title": "Bar"
+             }
+          ]
+        },
+        "data": {
+          "link": {},
+          "partials": []
+        },
+        "config": {"debug": false}
+      };
+
+      var list_item_hunter = new lih();
+
+      //act
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+
       //assert
       test.equals(currentPattern.extendedTemplate, "FooBar" );
 
@@ -93,9 +137,76 @@
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-      
+
       //assert
       test.equals(currentPattern.extendedTemplate, "FooBar" );
+
+      test.done();
+    },
+
+    'process_list_item_partials finds verbose partials and outputs repeated renders' : function(test){
+      var pattern1 = {
+        "template": "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
+        "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
+        "key": "test-patternName1",
+        "jsonFileData" : {}
+      };
+
+      var pattern2 = {
+        "template": "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
+        "extendedTemplate" : "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
+        "key": "test-patternName2",
+        "jsonFileData" : {}
+      };
+
+      var patternlab = {
+        "listitems": {
+          "1": [
+             {
+                "title": "Foo"
+             }
+          ],
+          "2": [
+             {
+                "title": "Foo"
+             },
+             {
+                "title": "Bar"
+             }
+          ]
+        },
+        "data": {
+          "link": {},
+          "partials": []
+        },
+        "config": {"debug": false},
+        "patterns": [
+          {
+           "template": "{{ title }}",
+           "extendedTemplate" : "{{ title }}",
+           "subdir": "00-test",
+           "fileName": "00-foo",
+           "jsonFileData" : {}
+          },
+          {
+           "template": "{{ title }}",
+           "extendedTemplate" : "{{ title }}",
+           "subdir": "00-test",
+           "fileName": "01-bar",
+           "jsonFileData" : {}
+          }
+        ]
+      };
+
+      var list_item_hunter = new lih();
+
+      //act
+      list_item_hunter.process_list_item_partials(pattern1, patternlab);
+      list_item_hunter.process_list_item_partials(pattern2, patternlab);
+
+      //assert
+      test.equals(pattern1.extendedTemplate, "Foo" );
+      test.equals(pattern2.extendedTemplate, "FooBar" );
 
       test.done();
     },
@@ -108,7 +219,7 @@
          "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
          "key": "test-patternName",
          "jsonFileData" : {},
-         "patternSpecificListJson" : {
+         "listitems" : {
             "2": [
                    {
                       "title": "One"
@@ -170,7 +281,7 @@
          "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
          "key": "test-patternName",
          "jsonFileData" : {},
-         "patternSpecificListJson" : {
+         "listitems" : {
             "2": [
                    {
                       "title": "One"
@@ -232,7 +343,7 @@
          "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
          "key": "test-patternName",
          "jsonFileData" : {},
-         "patternSpecificListJson" : {
+         "listitems" : {
             "1": [
                {
                   "title": "One"

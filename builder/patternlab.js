@@ -1,6 +1,6 @@
-/*
- * patternlab-node - v0.13.0 - 2015
- *
+/* 
+ * patternlab-node - v0.14.0 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -146,7 +146,9 @@ var patternlab_engine = function () {
 
   function buildFrontEnd(){
     var pattern_assembler = new pa(),
-    media_hunter = new mh();
+        media_hunter = new mh(),
+        styleGuideExcludes = patternlab.config.styleGuideExcludes,
+        styleguidePatterns = [];
     patternlab.buckets = [];
     patternlab.bucketIndex = [];
     patternlab.patternPaths = {};
@@ -155,9 +157,23 @@ var patternlab_engine = function () {
     //find mediaQueries
     media_hunter.find_media_queries('./source/css', patternlab);
 
+    // check if patterns are excluded, if not add them to styleguidePatterns
+    if (styleGuideExcludes.length) {
+        for (i = 0; i < patternlab.patterns.length; i++) {
+            var key = patternlab.patterns[i].key;
+            var typeKey = key.substring(0, key.indexOf('-'));
+            var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
+            if (!isExcluded) {
+                styleguidePatterns.push(patternlab.patterns[i]);
+            }
+        }
+    } else {
+        styleguidePatterns = patternlab.patterns;
+    }
+
     //build the styleguide
     var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8'),
-    styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: patternlab.patterns});
+    styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
     fs.outputFileSync('./public/styleguide/html/styleguide.html', styleguideHtml);
 
     //build the viewall pages
