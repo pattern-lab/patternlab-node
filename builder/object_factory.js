@@ -2,17 +2,21 @@
  * patternlab-node - v0.15.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
 (function () {
   "use strict";
 
+  var patternEngines = require('./pattern_engines/pattern_engines');
+  var path = require('path');
+
   var oPattern = function(abspath, subdir, filename, data){
     this.fileName = filename.substring(0, filename.indexOf('.'));
+    this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
     this.subdir = subdir;
     this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
@@ -32,6 +36,12 @@
     this.lineageIndex = [];
     this.lineageR = [];
     this.lineageRIndex = [];
+    this.engine = patternEngines.getEngineForPattern(this);
+  };
+  // render method on oPatterns; this acts as a proxy for the PatternEngine's
+  // render function
+  oPattern.prototype.render = function (data, partials) {
+    return this.engine.renderPattern(this.template, data, partials);
   };
 
   var oBucket = function(name){

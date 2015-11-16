@@ -2,9 +2,9 @@
  * patternlab-node - v0.15.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -12,6 +12,11 @@
   "use strict";
 
   var pattern_assembler = function(){
+
+    var fs = require('fs-extra'),
+        of = require('./object_factory'),
+        path = require('path'),
+        patternEngines = require('./pattern_engines/pattern_engines');
 
     function isObjectEmpty(obj) {
       for(var prop in obj) {
@@ -21,7 +26,7 @@
 
       return true;
     }
-
+    // GTP: I need to factor out all these regexes
     // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithStyleModifiers(pattern){
       var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_]+)+(?:(| )\(.*)?([ ])?}}/g);
@@ -73,15 +78,27 @@
       }
     }
 
-    function renderPattern(template, data, partials) {
-
-      var mustache = require('mustache');
-
-      if(partials) {
-        return mustache.render(template, data, partials);
-      } else{
-        return mustache.render(template, data);
+    function renderPattern(pattern, data, partials) {
+      // if we've been passed a full oPattern, it knows what kind of template it
+      // is, and how to render itself, so we just call its render method
+      if (pattern instanceof of.oPattern) {
+        console.log('rendering full oPattern: ' + pattern.name);
+        return pattern.render(data, partials);
+      } else {
+        // otherwise, assume it's a plain mustache template string and act
+        // accordingly
+        console.log('rendering plain mustache string');
+        return patternEngines.mustache.renderPattern(pattern, data, partials);
       }
+    }
+
+    function isPatternFile(filename, patternlab) {
+      var engineNames = Object.keys(patternEngines);
+      var supportedPatternFileExtensions = engineNames.map(function (engineName) {
+        return patternEngines[engineName].fileExtension;
+      });
+      var extension = path.extname(filename);
+      return (supportedPatternFileExtensions.lastIndexOf(extension) != -1);
     }
 
     function processPatternIterative(file, patternlab){
@@ -94,10 +111,15 @@
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      //ignore dotfiles and non-variant .json files
-      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
+      // ignore _underscored patterns, dotfiles, and anything not recognized by
+      // a loaded pattern engine
+      if (filename.charAt(0) === '_' ||
+          filename.charAt(0) === '.' ||
+          (ext === '.json' && filename.indexOf('~') === -1) ||
+          !isPatternFile(filename, patternlab)) {
         return;
       }
+      console.log('found pattern', file);
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
@@ -157,15 +179,12 @@
     }
 
     function processPatternRecursive(file, patternlab, additionalData){
-
-      var fs = require('fs-extra'),
-      mustache = require('mustache'),
-      lh = require('./lineage_hunter'),
-      ph = require('./parameter_hunter'),
-      pph = require('./pseudopattern_hunter'),
-      lih = require('./list_item_hunter'),
-      smh = require('./style_modifier_hunter'),
-      path = require('path');
+      var lh = require('./lineage_hunter'),
+          ph = require('./parameter_hunter'),
+          pph = require('./pseudopattern_hunter'),
+          lih = require('./list_item_hunter'),
+          smh = require('./style_modifier_hunter'),
+          path = require('path');
 
       var parameter_hunter = new ph(),
       lineage_hunter = new lh(),

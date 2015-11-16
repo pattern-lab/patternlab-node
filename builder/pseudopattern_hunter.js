@@ -2,9 +2,9 @@
  * patternlab-node - v0.15.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -47,6 +47,7 @@
 					//extend any existing data with variant data
 					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
 
+                    // GTP: mustache-specific stuff here
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
 					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
 					var variantFileName = currentPattern.fileName + '-' + variantName + '.';
