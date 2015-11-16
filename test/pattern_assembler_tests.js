@@ -284,6 +284,34 @@
 			test.equals(fooExtended, 'bar');
 
 			test.done();
+		},
+
+    'isPatternFile correctly identifies pattern files and rejects non-pattern files': function(test){
+      var pattern_assembler = new pa();
+
+      // each test case
+      var filenames = {
+        '00-comment-thread.mustache': true,
+        '00-comment-thread.fakeextthatdoesntexist': false,
+        '00-comment-thread': false,
+        '_00-comment-thread.mustache': false,
+        '.00-comment-thread.mustache': false,
+        '00-comment-thread.json': false,
+        '00-homepage~emergency.json': false
+      };
+      // expect one test per test case
+      test.expect(Object.keys(filenames).length);
+
+      // loop over each test case and test it
+      Object.keys(filenames).forEach(function (filename) {
+        var expectedResult = filenames[filename],
+            actualResult = pattern_assembler.is_pattern_file(filename),
+            testMessage = 'isPatternFile should return ' + expectedResult + ' for ' + filename;
+        test.strictEqual(actualResult, expectedResult, testMessage);
+      });
+
+      // done
+			test.done();
 		}
 	};
 }());

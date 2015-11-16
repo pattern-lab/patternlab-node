@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -92,33 +92,31 @@
       }
     }
 
-    function isPatternFile(filename, patternlab) {
+    // ignore _underscored patterns, dotfiles, and anything not recognized by
+    // a loaded pattern engine
+    function isPatternFile(filename) {
+      // skip hidden patterns/files without a second thought
+      if (filename.charAt(0) === '_' || filename.charAt(0) === '.') {
+        return false;
+      }
+
+      // not a hidden pattern, let's dig deeper
       var engineNames = Object.keys(patternEngines);
       var supportedPatternFileExtensions = engineNames.map(function (engineName) {
         return patternEngines[engineName].fileExtension;
       });
       var extension = path.extname(filename);
-      return (supportedPatternFileExtensions.lastIndexOf(extension) != -1);
+      return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1);
     }
 
     function processPatternIterative(file, patternlab){
-      var fs = require('fs-extra'),
-      of = require('./object_factory'),
-      path = require('path');
-
       //extract some information
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      // ignore _underscored patterns, dotfiles, and anything not recognized by
-      // a loaded pattern engine
-      if (filename.charAt(0) === '_' ||
-          filename.charAt(0) === '.' ||
-          (ext === '.json' && filename.indexOf('~') === -1) ||
-          !isPatternFile(filename, patternlab)) {
-        return;
-      }
+      // skip non-pattern files
+      if (!isPatternFile(filename, patternlab)) { return; }
       console.log('found pattern', file);
 
       //make a new Pattern Object
@@ -183,8 +181,7 @@
           ph = require('./parameter_hunter'),
           pph = require('./pseudopattern_hunter'),
           lih = require('./list_item_hunter'),
-          smh = require('./style_modifier_hunter'),
-          path = require('path');
+          smh = require('./style_modifier_hunter');
 
       var parameter_hunter = new ph(),
       lineage_hunter = new lh(),
@@ -385,7 +382,8 @@
       },
       is_object_empty: function(obj){
         return isObjectEmpty(obj);
-      }
+      },
+      is_pattern_file: isPatternFile
     };
 
   };
