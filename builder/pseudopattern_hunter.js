@@ -63,7 +63,7 @@
 					patternVariant.extendedTemplate = currentPattern.extendedTemplate;
 					patternVariant.isPseudoPattern = true;
 					patternVariant.basePattern = currentPattern;
-					patternVariant.engine = patternEngines.getEngineForPattern(this);
+					patternVariant.engine = patternVariant.basePattern.engine;
 
 					//find pattern lineage
 					lineage_hunter.find_lineage(patternVariant, patternlab);

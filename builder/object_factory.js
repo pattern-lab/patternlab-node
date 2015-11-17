@@ -17,8 +17,7 @@
   // oPattern properties
 
   var oPattern = function(abspath, subdir, filename, data){
-    console.log('new oPattern');
-    console.log('absPath:', abspath, 'subdir:', subdir, 'filename:', filename, 'data:', data);
+    console.log('NEW OPATTERN.  ', 'absPath:', abspath, 'subdir:', subdir, 'filename:', filename, 'data:', data);
     this.fileName = filename.substring(0, filename.indexOf('.'));
     this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
@@ -40,8 +39,8 @@
     this.lineageIndex = [];
     this.lineageR = [];
     this.lineageRIndex = [];
-    this.engine = patternEngines.getEngineForPattern(this);
     this.isPseudoPattern = false;
+    this.engine = patternEngines.getEngineForPattern(this);
   };
 
   // oPattern methods
