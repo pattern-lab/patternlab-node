@@ -125,11 +125,6 @@
       console.log('processPatternIterative:', 'filename:', filename);
 
       // skip non-pattern files
-      //ignore dotfiles and non-variant .json files
-      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
-        return;
-      }
-
       if (!isPatternFile(filename, patternlab)) { return; }
       console.log('found pattern', file);
 
