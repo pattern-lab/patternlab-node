@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.15.0 - 2015 
+ * patternlab-node - v0.15.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -24,7 +24,7 @@
 				}
 
 				//replace the stylemodifier placeholder with the class name
-				pattern.extendedTemplate = pattern.extendedTemplate.replace('{{styleModifier}}', styleModifier);
+				pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
 			}
 		}
 
