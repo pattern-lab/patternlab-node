@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -20,17 +20,19 @@
 			pa = require('./pattern_assembler'),
 			lh = require('./lineage_hunter'),
 			of = require('./object_factory'),
+			patternEngines = require('./pattern_engines/pattern_engines'),
 			mustache = require('mustache');
 
 			var pattern_assembler = new pa();
 			var lineage_hunter = new lh();
 
-			//look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+			//look for a pseudo pattern by checking if there is a file containing same
+			//name, with ~ in it, ending in .json
 			var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
 			var pseudoPatterns = glob.sync(needle, {
 				cwd: 'source/_patterns/', //relative to gruntfile
 				debug: false,
-				nodir: true,
+				nodir: true
 			});
 
 			if(pseudoPatterns.length > 0){
@@ -47,7 +49,7 @@
 					//extend any existing data with variant data
 					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
 
-                    // GTP: mustache-specific stuff here
+					// GTP: mustache-specific stuff here
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
 					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
 					var variantFileName = currentPattern.fileName + '-' + variantName + '.';
@@ -59,6 +61,9 @@
 					//use the same template as the non-variant
 					patternVariant.template = currentPattern.template;
 					patternVariant.extendedTemplate = currentPattern.extendedTemplate;
+					patternVariant.isPseudoPattern = true;
+					patternVariant.basePattern = currentPattern;
+					patternVariant.engine = patternEngines.getEngineForPattern(this);
 
 					//find pattern lineage
 					lineage_hunter.find_lineage(patternVariant, patternlab);

@@ -87,16 +87,20 @@
       } else {
         // otherwise, assume it's a plain mustache template string and act
         // accordingly
-        console.log('rendering plain mustache string');
+        console.log('rendering plain mustache string:', pattern.substring(0, 20) + '...');
         return patternEngines.mustache.renderPattern(pattern, data, partials);
       }
     }
 
-    // ignore _underscored patterns, dotfiles, and anything not recognized by
-    // a loaded pattern engine
+    // ignore _underscored patterns, dotfiles, and anything not recognized by a
+    // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
+    // pattern files!
     function isPatternFile(filename) {
       // skip hidden patterns/files without a second thought
-      if (filename.charAt(0) === '_' || filename.charAt(0) === '.') {
+      var extension = path.extname(filename);
+      if(filename.charAt(0) === '.' ||
+         filename.charAt(0) === '_' ||
+         (extension === '.json' && filename.indexOf('~') === -1)) {
         return false;
       }
 
@@ -105,17 +109,27 @@
       var supportedPatternFileExtensions = engineNames.map(function (engineName) {
         return patternEngines[engineName].fileExtension;
       });
-      var extension = path.extname(filename);
       return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1);
     }
 
     function processPatternIterative(file, patternlab){
+      var fs = require('fs-extra'),
+      of = require('./object_factory'),
+      path = require('path');
+
       //extract some information
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
+      console.log('processPatternIterative:', 'filename:', filename);
+
       // skip non-pattern files
+      //ignore dotfiles and non-variant .json files
+      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
+        return;
+      }
+
       if (!isPatternFile(filename, patternlab)) { return; }
       console.log('found pattern', file);
 

@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -14,7 +14,11 @@
   var patternEngines = require('./pattern_engines/pattern_engines');
   var path = require('path');
 
+  // oPattern properties
+
   var oPattern = function(abspath, subdir, filename, data){
+    console.log('new oPattern');
+    console.log('absPath:', abspath, 'subdir:', subdir, 'filename:', filename, 'data:', data);
     this.fileName = filename.substring(0, filename.indexOf('.'));
     this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
@@ -37,10 +41,22 @@
     this.lineageR = [];
     this.lineageRIndex = [];
     this.engine = patternEngines.getEngineForPattern(this);
+    this.isPseudoPattern = false;
   };
+
+  // oPattern methods
+
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
   oPattern.prototype.render = function (data, partials) {
+    if (this.isPseudoPattern) {
+      console.log(this.name + ' is a pseudo-pattern');
+    } else {
+      console.log('this is NOT a pseudo-pattern');
+    }
+    // console.log('this does ' + (this.template ? '' : 'NOT ') + 'have template');
+    // console.log('this does ' + (this.extendedTemplate ? '' : 'NOT ') + 'have extendedTemplate');
+
     return this.engine.renderPattern(this.template, data, partials);
   };
 
@@ -55,6 +71,7 @@
     this.patternItemsIndex = [];
   };
 
+
   var oNavItem = function(name){
     this.sectionNameLC = name;
     this.sectionNameUC = name.split('-').reduce(function(val, working){
@@ -64,6 +81,7 @@
     this.navSubItemsIndex = [];
   };
 
+
   var oNavSubItem = function(name){
     this.patternPath = '';
     this.patternPartial = '';
@@ -71,6 +89,7 @@
       return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
     }, '').trim();
   };
+
 
   module.exports = {
     oPattern: oPattern,

@@ -43,8 +43,12 @@
       return 'mustache';
     },
     getEngineForPattern: function (pattern) {
-      var engineName = this.getEngineNameForPattern(pattern);
-      return this[engineName];
+      if (pattern.isPseudoPattern) {
+        return this.getEngineForPattern(pattern.basePattern);
+      } else {
+        var engineName = this.getEngineNameForPattern(pattern);
+        return this[engineName];
+      }
     }
   });
 

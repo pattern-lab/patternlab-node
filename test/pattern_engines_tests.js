@@ -6,6 +6,10 @@
 
   // the mustache test pattern, stolen from object_factory unit tests
   var mustacheTestPattern = new of.oPattern('source/_patterns/00-atoms/00-global/00-colors-alt.mustache', '00-atoms/00-global', '00-colors-alt.mustache', {d: 123});
+  var mustacheTestPseudoPatternBasePattern = new of.oPattern('source/_patterns/04-pages/00-homepage.mustache', '04-pages', '00-homepage.mustache', {d: 123});
+  var mustacheTestPseudoPattern = new of.oPattern('source/_patterns/04-pages/00-homepage~emergency.json', '04-pages', '00-homepage-emergency.', {d: 123});
+  mustacheTestPseudoPattern.isPseudoPattern = true;
+  mustacheTestPseudoPattern.basePattern = mustacheTestPseudoPatternBasePattern;
   var engineNames = Object.keys(patternEngines);
 
 
@@ -17,6 +21,11 @@
     },
     'getEngineForPattern returns a reference to the mustache engine from test pattern': function (test) {
       var engine = patternEngines.getEngineForPattern(mustacheTestPattern);
+      test.equals(engine, patternEngines.mustache);
+      test.done();
+    },
+    'getEngineForPattern returns a reference to the mustache engine from test pseudo-pattern': function (test) {
+      var engine = patternEngines.getEngineForPattern(mustacheTestPseudoPattern);
       test.equals(engine, patternEngines.mustache);
       test.done();
     }
