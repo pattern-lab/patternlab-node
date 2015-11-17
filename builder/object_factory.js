@@ -56,7 +56,7 @@
     // console.log('this does ' + (this.template ? '' : 'NOT ') + 'have template');
     // console.log('this does ' + (this.extendedTemplate ? '' : 'NOT ') + 'have extendedTemplate');
 
-    return this.engine.renderPattern(this.template, data, partials);
+    return this.engine.renderPattern(this.extendedTemplate, data, partials);
   };
 
   var oBucket = function(name){
