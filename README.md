@@ -212,6 +212,11 @@ Once rendered, it looks like this:
 </div>
 ```
 
+You may also specify multiple classes using a pipe character (|).
+
+```
+{{> atoms-message:error|is-on }}
+```
 
 
 

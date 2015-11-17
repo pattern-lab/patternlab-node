@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.15.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.15.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -24,19 +24,19 @@
 
     // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithStyleModifiers(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_]+)+(?:(| )\(.*)?([ ])?}}/g);
+      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
       return matches;
     }
 
     // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithPatternParameters(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)+([ ])?}}/g);
+      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g);
       return matches;
     }
 
     //find and return any {{> template-name* }} within pattern
     function findPartials(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g);
+      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g);
       return matches;
     }
 
@@ -207,7 +207,7 @@
 
         //do something with the regular old partials
         for(i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_]+)?(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
 
           var partialPath;
 
@@ -262,7 +262,7 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-    
+
     function mergeData(obj1, obj2){
       if(typeof obj2 === 'undefined'){
         obj2 = {};
