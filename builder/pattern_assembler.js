@@ -92,6 +92,7 @@
       }
     }
 
+    // takes a filename string, not a full path; a basename (plus extension)
     // ignore _underscored patterns, dotfiles, and anything not recognized by a
     // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
     // pattern files!
@@ -143,6 +144,7 @@
 
       //can ignore all non-mustache files at this point
       if(ext !== '.mustache'){
+        console.log('==================== FOUND NON-MUSTACHE FILE');
         return;
       }
 
