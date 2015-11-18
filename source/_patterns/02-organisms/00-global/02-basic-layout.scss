@@ -1,5 +1,6 @@
 .basicLayout.patternlab,
 .patternlab .basicLayout{
+  min-height: 100%;
   min-height: 100vh;
   overflow: hidden;
   &__inner {
