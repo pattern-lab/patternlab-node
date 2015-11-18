@@ -1,0 +1,18 @@
+.languageSwitcher {
+  display : none;
+  @media only screen and (min-width: $breakpointDesktop) {
+    display : block;
+    position : absolute;
+    right : 3em;
+    top : 2.95em;
+    line-height : 1em;
+    font-size : 0.75em;
+    text-transform : uppercase;
+    letter-spacing : 1px;
+    transform: translateY(-50%);
+    font-weight : 300;
+  }
+  &--active {
+    font-weight : 500;
+  }
+}
