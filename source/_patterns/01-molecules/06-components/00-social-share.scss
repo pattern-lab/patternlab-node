@@ -22,6 +22,15 @@
       display : inline-block;
       font-size : 1.75rem;
       margin-right : 0.625rem;
+      transition-duration: 500ms;
+      transition-timing-function: ease-in;
+      &:hover {
+        color: $colorTussock;
+        transition-timing-function: ease-out;
+      }
+      &:active {
+        color: lighten($colorTussock, 10%);
+      }
     }
   }
 }
