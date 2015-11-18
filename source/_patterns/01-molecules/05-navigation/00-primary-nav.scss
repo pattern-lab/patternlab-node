@@ -9,23 +9,22 @@
       content: '';
       height: 4.2em;
       width: 80%;
-      margin-left: .75em;
+      margin-left: 0.75em;
       display: none;
     }
     &__hamburger {
-      @extend .iconFont;
-      @extend .icon-menu;
+      @extend .iconFont, .icon-menu;
       position: absolute;
       right: -1.35em;
-      top: .2175em;
+      top: 0.2175em;
       font-size: 3.25em;
       display: none;
       &:before {
         display: block;
-        height: .9em;
-        line-height: .9em;
+        height: 0.9em;
+        line-height: 0.9em;
         text-align: center;
-        padding-left: .065em;
+        padding-left: 0.065em;
         background-color: $colorWhite;
       }
       @media only screen and (max-width: $breakpointTabletEnd) {
@@ -36,10 +35,10 @@
   &__list {
     text-align: left;
     list-style: none;
+    letter-spacing: 0.1em;
     &--secondLevel {
       &:before {
-        @extend .iconFont;
-        @extend .icon-plus:before;
+        @extend .iconFont, .icon-plus:before;
         display: none;
         position: absolute;
         right: 0;
@@ -86,7 +85,7 @@
     }
     &__list {
       &--secondLevel {
-        margin: 0 .75em;
+        margin: 0 0.75em;
         position: relative;
       }
       &__item {
@@ -137,7 +136,7 @@
         list-style: none;
       }
       &--secondLevel {
-        font-size: 0.8334em;
+        font-size: 0.9em;
         line-height: 1.25em;
         display: none;
         position: absolute;
@@ -151,12 +150,12 @@
         display: inline-block;
         position: relative;
         .navigation__list--secondLevel & {
-          padding: .25em .5em;
+          padding: 0.25em 0.5em;
         }
       }
     }
     &__link {
-      padding: .25em .625em;
+      padding: 0.25em 0.625em;
       display: block;
       &--active {
         color: $colorTussock;
