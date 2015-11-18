@@ -14,7 +14,7 @@
     padding-bottom : 1em;
     padding-left : 0.75em;
     cursor: pointer;
-    &:active {
+    &:hover, &:active {
       background-color : lighten(#c0c0c0, 20%);
     }
     &:before {
@@ -24,6 +24,7 @@
       right : 1em;
     }
     &--expanded {
+      background-color : lighten(#c0c0c0, 20%);
       &:before {
         content:'\e60d'; // -
       }
@@ -51,7 +52,20 @@
     transition-duration: 500ms;
     transition-timing-function: ease-in;
   }
-  &__link {
+}
+
+.patternlab.accordion,
+.patternlab .accordion {
+  @include accordion;
+}
+
+@media only screen and (max-width : $breakpointTabletEnd) {
+  .patternlab.mobile-accordion,
+  .patternlab .mobile-accordion {
+    @include accordion;
+  }
+  .patternlab.accordion__panel__content--link,
+  .patternlab .accordion__panel__content--link {
     display : block;
     &:hover {
       background-color : $colorGallery;
@@ -61,22 +75,5 @@
       background-color : lighten(#c0c0c0, 20%);
     }
   }
-  &--expand {
-    height : auto;
-  }
-  &--contract {
-    height : 0;
-    padding : 0;
-    overflow : hidden;
-  }
 }
 
-.patternlab .accordion {
-  @include accordion;
-}
-
-@media only screen and (max-width : $breakpointTabletEnd) {
-  .patternlab .mobile-accordion {
-    @include accordion;
-  }
-}

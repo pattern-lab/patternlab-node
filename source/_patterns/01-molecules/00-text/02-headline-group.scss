@@ -1,14 +1,14 @@
 .patternlab.headlineGroup,
 .patternlab .headlineGroup{
   margin-bottom : 3em;
-  &__headline.patternlab {
+  &__headline {
     font-family : $fontPrimary;
     text-transform : uppercase;
     letter-spacing : 0.12em;
     font-size : 21px;
     font-weight : 500;
   }
-  &__subHeadline.patternlab {
+  &__subHeadline {
     font-family : $fontPrimary;
     font-size : 12px;
     text-transform : uppercase;
@@ -16,10 +16,7 @@
     font-weight : 500;
     color : $colorTussock;
   }
-}
-
-.headlineGroup{
-  &__headline--alt.patternlab {
+  &__headline--alt {
     font-family : $fontPrimary;
     font-size : 20px;
     font-weight : 500;
@@ -32,4 +29,3 @@
     text-transform : none;
   }
 }
-

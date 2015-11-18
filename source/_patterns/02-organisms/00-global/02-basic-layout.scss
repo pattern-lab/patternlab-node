@@ -45,14 +45,17 @@
   }
 }
 
-.basicLayout--showOffCanvasA,
-.basicLayout--showOffCanvasB {
+.patternlab.basicLayout--showOffCanvasA,
+.patternlab .basicLayout--showOffCanvasA,
+.patternlab.basicLayout--showOffCanvasB,
+.patternlab .basicLayout--showOffCanvasB {
   .basicLayout__canvas:after {
     bottom: 0;
     opacity: $opacityOverlayBackground;
   }
 }
-.basicLayout--showOffCanvasA {
+.patternlab.basicLayout--showOffCanvasA,
+.patternlab .basicLayout--showOffCanvasA {
   .basicLayout__inner {
     margin-left: 0;
     @media only screen and (min-width: $breakpointDesktop) {
@@ -73,7 +76,8 @@
     }
   }
 }
-.basicLayout--showOffCanvasB {
+.patternlab.basicLayout--showOffCanvasB,
+.patternlab .basicLayout--showOffCanvasB {
   .basicLayout__inner {
     margin-left: calc(-#{$widthOffCanvasB} - #{$widthOffCanvasA});
   }

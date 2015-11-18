@@ -12,15 +12,6 @@
   }
 
   &--headline {
-    &:first-of-type {
-      border-top : 1px solid $colorSilver;
-      @media only screen and (min-width : $breakpointDesktop) {
-        border-top : none;
-      }
-      .navigation__footer + .navigation__footer & {
-        border-top : none;
-      }
-    }
     @media only screen and (min-width : $breakpointDesktop) {
       border-bottom : none;
       padding-top : 0;
@@ -36,6 +27,8 @@
 
   &--item {
     @media only screen and (min-width : $breakpointDesktop) {
+      font-size : 0.875em;
+      line-height : 1.625em;
       display : block;
       letter-spacing : 0;
       text-transform : none;
@@ -45,6 +38,15 @@
       padding-bottom : 0;
       padding-left : 0;
       font-weight : 500;
+      transition-duration: 500ms;
+      transition-timing-function: ease-in;
+      &:hover {
+        color: $colorTussock;
+        transition-timing-function: ease-out;
+      }
+      &:active {
+        color: lighten($colorTussock, 10%);
+      }
     }
   }
 }

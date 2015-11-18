@@ -52,18 +52,20 @@
   url('https://s3.eu-central-1.amazonaws.com/horizn-fonts/Baskerville_400_italic.eot') format('embedded-opentype');
 }
 
-body.patternlab {
+body.patternlab,
+body .patternlab {
   font-family: $fontPrimary;
   font-size: 16px;
 }
-// ????
 
 
-.fontShowcase.patternlab {
+.patternlab.fontShowcase,
+.patternlab .fontShowcase {
   margin-bottom : 1em;
 }
 
-.fontPrimary.patternlab {
+.patternlab.fontPrimary,
+.patternlab.fontPrimary {
   font-family : $fontPrimary;
   &__light {
     font-weight : 300;
@@ -76,8 +78,8 @@ body.patternlab {
   }
 }
 
-.fontSecondary.patternlab {
+.patternlab.fontSecondary,
+.patternlab .fontSecondary {
   font-family : $fontSecondary;
-  font-style:italic;
 }
 

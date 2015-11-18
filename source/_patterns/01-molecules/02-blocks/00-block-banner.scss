@@ -11,7 +11,7 @@
     width : 100%;
   }
   &__text {
-    margin-top : -20px;
+    margin-top : -10px;
     display : block;
     text-align : center;
     font-weight : 900;
@@ -25,6 +25,7 @@
     &--headline {
       font-size : 21px;
       @media only screen and (min-width: $breakpointTablet) {
+        margin-top : -20px;
         font-size : 45px;
       }
     }
