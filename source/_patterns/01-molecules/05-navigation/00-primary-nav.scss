@@ -142,6 +142,7 @@
         position: absolute;
         text-align: left;
         background: $colorWhite;
+        min-width: 7.5em;
         &:hover {
           display: block;
         }
