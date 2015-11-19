@@ -11,10 +11,5 @@
         flex-direction: row-reverse;
       }
     }
-    div:nth-of-type(odd) {
-      @media only screen and (min-width : $breakpointTablet) {
-        text-align: left;
-      }
-    }
   }
 }
