@@ -66,9 +66,11 @@ gulp.task('cp:js', function () {
     .pipe(gulp.dest('./public/js'))
 });
 gulp.task('cp:img', function () {
+  var imagemin = require('gulp-imagemin');
   return gulp.src(
-    ['**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'],
+    ['**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg'],
     {cwd: './source/images'})
+    .pipe(imagemin())
     .pipe(gulp.dest('./public/images'))
 });
 gulp.task('cp:font', function () {
