@@ -1,7 +1,7 @@
 .patternlab.header,
 .patternlab .header {
   font-size: 1rem;
-  position: relative;
+  position: fixed;
   text-align: center;
   height: 3.125em;
   padding: 1.125em 0 0 0;
@@ -13,14 +13,16 @@
   margin: 0 auto;
   z-index: 1;
   @media only screen and (min-width: $breakpointDesktop) {
+    position : relative;
     padding-top: 1.25em;
   }
   &__logo {
     display: inline-block;
-    width: 80%;
     vertical-align: middle;
+    width : 180px;
     @media only screen and (min-width: $breakpointDesktop) {
-      height: 1.1875em;
+      width : 250px;
+      margin-top : 0;
     }
   }
   &__navigation {
@@ -54,7 +56,7 @@
     width: 20px;
     @media only screen and (min-width: $breakpointDesktop) {
       transform: translateY(-50%);
-      top: 1.25em;
+      top: 1.3em;
     }
   }
   @media only screen and (min-width: $breakpointTablet) {
@@ -76,10 +78,15 @@
           opacity: 0;
         }
         &__claim,
-        &__navigation,
-        &__cart {
+        &__navigation {
           top: 50%;
         }
+        &__cart {
+          top : 2em;
+        }
+      }
+      .languageSwitcher {
+        top : 50%;
       }
     }
   }

@@ -1,7 +1,16 @@
 .patternlab.pageContent,
 .patternlab .pageContent {
+  padding-top : 3.125em;
   max-width : 1500px;
   margin : 0 auto;
+  @media only screen and (min-width : $breakpointDesktop) {
+    padding-top : 0;
+  }
+  &--stickyHeader {
+    @media only screen and (min-width : $breakpointDesktop) {
+      padding-top : 8.25em;
+    }
+  }
   &__blockMedia {
     div:nth-of-type(even) {
       @media only screen and (min-width : $breakpointTablet) {
