@@ -1,5 +1,6 @@
 .patternlab.socialShare,
 .patternlab .socialShare {
+  display : inline-block;
   padding : 1.25em;
   @media only screen and (min-width : $breakpointDesktop) {
     padding : 0;

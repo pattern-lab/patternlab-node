@@ -24,12 +24,24 @@
       flex-direction: row;
     }
   }
+  &__sectionRight {
+    position : relative;
+  }
   &__copyright {
     padding : 1.25rem 0;
     text-align : center;
     font-size : 0.75em;
     text-transform : uppercase;
     letter-spacing : 0.1em;
+  }
+  &__trustedShops {
+    position : absolute;
+    right : 1.25em;
+    bottom : 8.5em;
+    @media only screen and (min-width : $breakpointDesktop) {
+      left: -3em;
+      bottom : -0.45em;
+    }
   }
   .newsletterForm {
     border-top : 1px solid $colorSilver;

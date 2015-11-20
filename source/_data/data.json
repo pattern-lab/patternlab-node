@@ -30,6 +30,10 @@
 	  	"placeholder_blockMedia": {
 			"src": "../../images/placeholder_blockMedia.jpg",
 			"alt": "Placeholder Block Media"
+		},
+		"placeholder_trustedShops": {
+			"src": "../../images/trusted-shops-placeholder.jpg",
+			"alt": "Placeholder Trusted Shops"
 		}
 	},
 	"headline" : {
