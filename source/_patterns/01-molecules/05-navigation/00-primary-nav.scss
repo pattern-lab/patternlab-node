@@ -5,11 +5,9 @@
     text-transform: uppercase;
     font-size: 0.75em;
     &:before {
-      @extend .logo;
-      content: '';
-      height: 4.2em;
-      width: 80%;
-      margin-left: 0.75em;
+      @extend .iconFont, .icon-logo;
+      font-size : 1.25em;
+      padding : 0.75em 0;
       display: none;
     }
     &__hamburger {
@@ -37,33 +35,24 @@
     list-style: none;
     letter-spacing: 0.1em;
     &--secondLevel {
-      &:before {
-        @extend .iconFont, .icon-plus:before;
-        display: none;
-        position: absolute;
-        right: 0;
-        top: -2.6em;
-        .navigation__link:focus + & {
-          @extend .icon-minus:before;
-        }
-        @media only screen and (max-width: $breakpointTabletEnd) {
-          display: block;
-        }
-      }
       &:after {
         content: "";
-        border: 0 solid $colorSilver;
+        border-top: 1px solid $colorSilver;
+        border-bottom: 1px solid $colorSilver;
         position: absolute;
         top: -1px;
         bottom: -1px;
         left: 0;
         right: 0;
         display: block;
-        z-index: -1;
+        z-index: 1;
       }
     }
   }
 }
+
+
+
 @media only screen and (max-width: $breakpointTabletEnd) {
   .patternlab.navigation,
   .patternlab .navigation {
@@ -78,9 +67,6 @@
       transition: left $animationTimingFast;
       &:before {
         display: block;
-        @media only screen and (min-width: $breakpointTablet) {
-          height: 4.65em;
-        }
       }
     }
     &__list {
@@ -99,24 +85,25 @@
       display: block;
       padding: 1.333em;
       border: none;
+      background-color : white;
       &--active {
         background: $colorBlack;
         color: $colorTextInvert;
         border: none;
-        & + .navigation__list--secondLevel {
-          &:before {
-            color: $colorTextInvert;
-          }
+        &:before {
+          color: $colorTextInvert;
         }
-      }
-      &:focus {
-        & + .navigation__list--secondLevel {
-          &:after {
-            border-width: 1px 0;
-          }
-          .navigation__list__item {
-            display: block;
-          }
+        &:after {
+          content: "";
+          border-top: 1px solid $colorBlack;
+          border-bottom: 1px solid $colorBlack;
+          top : 0;
+          bottom : 0;
+          position: absolute;
+          left: 0;
+          right: 0;
+          display: block;
+          z-index: 2;
         }
       }
     }

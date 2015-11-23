@@ -3,20 +3,6 @@
   &__handle {
     display : block;
     position : relative;
-    font-family : $fontPrimary;
-    font-size : 0.875em;
-    font-weight : normal;
-    text-transform : uppercase;
-    letter-spacing : 0.1em;
-    border-bottom : 1px solid $colorSilver;
-    background-color : $colorGallery;
-    padding-top : 1em;
-    padding-bottom : 1em;
-    padding-left : 0.75em;
-    cursor: pointer;
-    &:hover, &:active {
-      background-color : lighten(#c0c0c0, 20%);
-    }
     &:before {
       @extend .iconFont;
       content:'\e60e'; // +
@@ -51,6 +37,24 @@
     font-weight : 300;
     transition-duration: 500ms;
     transition-timing-function: ease-in;
+  }
+}
+
+.accordion__handle--base {
+  @extend .accordion__handle;
+  font-family : $fontPrimary;
+  font-size : 0.875em;
+  font-weight : normal;
+  text-transform : uppercase;
+  letter-spacing : 0.1em;
+  border-bottom : 1px solid $colorSilver;
+  background-color : $colorGallery;
+  padding-top : 1em;
+  padding-bottom : 1em;
+  padding-left : 0.75em;
+  cursor: pointer;
+  &:hover, &:active {
+    background-color : lighten(#c0c0c0, 20%);
   }
 }
 
