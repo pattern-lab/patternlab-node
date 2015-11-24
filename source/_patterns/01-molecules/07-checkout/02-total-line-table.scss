@@ -1,0 +1,35 @@
+.order-summary__section {
+  border-top: 1px solid $colorBorder;
+  padding: 20px 0;
+}
+.total-line-table {
+  thead {
+    display: none
+  }
+  td {
+    border: none;
+    padding-top: .25em;
+    padding-bottom: .25em;
+  }
+}
+.total-line {
+  @include font-primary-light-uppercase();
+  line-height: 1em;
+  &__price {
+    text-align: right;
+  }
+  &__name,
+  &__price {
+    .order-summary__section--total & {
+      @include font-primary-medium-uppercase();
+      font-size: 1.3125em;
+    }
+    .order-summary__small-text {
+      @include font-primary-light-uppercase();
+      font-size: .85rem;
+    }
+    .payment-due__currency {
+      display: none;
+    }
+  }
+}
