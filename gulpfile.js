@@ -74,7 +74,7 @@ gulp.task('cp:img', function () {
     .pipe(gulp.dest('./public/images'))
 });
 gulp.task('cp:font', function () {
-  return gulp.src('*', {cwd: './source/fonts'})
+  return gulp.src('*.*', {cwd: './source/fonts'})
     .pipe(gulp.dest('./public/fonts'))
 });
 gulp.task('cp:data', function () {
@@ -93,7 +93,7 @@ gulp.task('js', function () {
     browserify = require('browserify'),
     source     = require('vinyl-source-stream'),
     buffer     = require('vinyl-buffer'),
-    bulkify    = require('bulkify')
+    bulkify    = require('bulkify'),
     gutil      = require('gutil');
 
   return browserify({ entries : './source/js/scripts.js' })
@@ -120,6 +120,8 @@ gulp.task('connect', ['lab'], function () {
   gulp.watch('./public/styleguide/*.scss', ['sass:styleguide']);
 
   gulp.watch('./source/_patterns/**/*.js', ['js']);
+
+  gulp.watch('./source/fonts/icon-source/**/*.svg', ['iconfont']);
 
   gulp.watch([
       './source/_patterns/**/*.mustache',
@@ -164,6 +166,21 @@ gulp.task('sass:styleguide', function () {
     .pipe(browserSync.stream());
 });
 
+gulp.task('iconfont', function() {
+  var iconfont = require('gulp-iconfont');
+
+  return gulp.src('./source/fonts/icon-source/**/*.svg')
+      .pipe(iconfont({
+        fontName: 'horizn-icons',
+        appendUnicode: true,
+        normalize:true,
+        formats: ['ttf', 'woff', 'woff2'],
+        timestamp: new Date().getTime()
+      }))
+      .pipe(gulp.dest('./public/fonts'))
+      ;
+});
+
 gulp.task('lab-pipe', ['lab'], function (cb) {
   cb();
   browserSync.reload();
@@ -171,7 +188,7 @@ gulp.task('lab-pipe', ['lab'], function (cb) {
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js']);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js', 'iconfont']);
 gulp.task('prelab', ['clean', 'banner', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function (cb) {
   cb();
