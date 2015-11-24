@@ -1,0 +1,54 @@
+<main class="cart">
+  <table>
+    <thead>
+    <tr>
+      <th class="item">Item</th>
+      <th class="price">Price</th>
+      <th class="qty">Qty</th>
+      <th class="remove">Delete</th>
+      <th class="total">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="item">
+        <a href="/products/test_product?variant=8346690563">
+          <figure>
+            <img
+                src="//cdn.shopify.com/s/files/1/1008/2800/products/horizn-studios-logo-square-1024px_compact.png?v=1443528333"
+                alt="Test Product - Suede / Black">
+            <figcaption>
+              <h3>Test Product - Suede / Black</h3>
+              <p>&euro;1.23</p>
+            </figcaption>
+          </figure>
+        </a>
+      </td>
+      <td class="price">&euro;1.23</td>
+      <td class="qty">
+        <input type="text" name="updates[]" value="1">
+      </td>
+      <td class="remove">
+        <a href="/cart/change?line=1&quantity=0">Remove</a>
+      </td>
+      <td class="total">&euro;1.23</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="3"></td>
+      <td class="label"><h3>Subtotal</h3></td>
+      <td class="total"><p>&euro;1.23</p></td>
+    </tr>
+    <tr>
+      <td colspan="3"></td>
+      <td class="update">
+        <button type="submit" name="update" value="">Update</button>
+      </td>
+      <td class="checkout">
+        <button type="submit" name="checkout" value="">Checkout</button>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+</main>
