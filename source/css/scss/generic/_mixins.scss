@@ -21,3 +21,10 @@
   @else { font-size: $decimal-size * $base-font-multiplier * 16px;}
   font-size: $decimal-size * 1rem;
 }
+
+@mixin font-primary-light() {
+  font-family: $fontPrimary;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
