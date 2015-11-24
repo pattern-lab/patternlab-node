@@ -93,7 +93,7 @@ gulp.task('js', function () {
     browserify = require('browserify'),
     source     = require('vinyl-source-stream'),
     buffer     = require('vinyl-buffer'),
-    bulkify    = require('bulkify')
+    bulkify    = require('bulkify'),
     gutil      = require('gutil');
 
   return browserify({ entries : './source/js/scripts.js' })
@@ -109,8 +109,15 @@ gulp.task('js', function () {
 //server and watch tasks
 gulp.task('connect', ['lab'], function () {
   browserSync.init({
+    socket: {
+      domain: 'localhost:3000'
+    },
     server: {
-      baseDir: './public/'
+      baseDir: './public/',
+      middleware: function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      }
     }
   });
   gulp.watch('./source/css/style.css', ['cp:css']);
