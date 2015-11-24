@@ -1,10 +1,10 @@
 .product-table {
-  th:last-child {
-    text-align: right;
+  thead {
+    display: none
   }
 }
-
 .product {
+  border-top: 1px solid $colorBorder;
   &__image {
     width: 90px;
     height: 90px;
@@ -14,14 +14,13 @@
       height: 88px;
       line-height: 88px;
       background: $colorWhite;
-      border: 1px solid $colorSilver;
+      border: 1px solid $colorBorder;
     }
     img {
       line-height: 88px;
       vertical-align: middle;
     }
   }
-
   &__quantity {
     display: block;
     background-color: $colorBlack;
@@ -38,12 +37,18 @@
     text-align: center;
     transform: translate(-50%, -50%);
   }
-
-  &__description__name,
-  &__description__variant {
-    display: block;
+  &__description {
+    vertical-align: middle;
+    &__name,
+    &__variant {
+      display: block;
+    }
+    &__name {
+      @include font-primary-light-uppercase();
+    }
   }
   &__price {
+    vertical-align: middle;
     text-align: right
   }
 }
