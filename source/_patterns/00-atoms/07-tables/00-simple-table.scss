@@ -17,7 +17,7 @@ td {
   }
 }
 th {
-  @include font-primary-light();
+  @include font-primary-light-uppercase();
   vertical-align: bottom;
   padding-bottom: 5px;
 }
@@ -25,6 +25,7 @@ th {
 
 td {
   border-top: 1px solid $colorSilver;
+  vertical-align: top;
 }
 
 
