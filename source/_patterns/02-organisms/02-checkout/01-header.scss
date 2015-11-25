@@ -1,0 +1,20 @@
+.multi-step {
+  .logo {
+    display:block;
+    border-bottom:3px solid $colorBlack;
+    padding:20px 0;
+
+    &__text {
+      display:none;
+    }
+
+    &:after {
+      display:block;
+      margin:0 auto;
+      content:'';
+      width:200px;
+      height:48px;
+      background:url(../images/logo.png) 0 0 no-repeat;
+    }
+  }
+}

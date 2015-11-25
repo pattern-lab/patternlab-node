@@ -109,8 +109,15 @@ gulp.task('js', function () {
 //server and watch tasks
 gulp.task('connect', ['lab'], function () {
   browserSync.init({
+    socket: {
+      domain: 'localhost:3000'
+    },
     server: {
-      baseDir: './public/'
+      baseDir: './public/',
+      middleware: function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      }
     }
   });
   gulp.watch('./source/css/style.css', ['cp:css']);
