@@ -2,18 +2,22 @@
 	"use strict";
 
 	var pa = require('../builder/pattern_assembler');
+  var of = require('../builder/object_factory');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
+      test.expect(3);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>",
-			};
+			var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+      currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials(currentPattern);
+			var results = currentPattern.findPartials();
 			test.equals(results.length, 2);
 			test.equals(results[0], '{{> molecules-comment-header}}');
 			test.equals(results[1], '{{> molecules-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
@@ -22,32 +26,38 @@
 		},
 
 		'find_pattern_partials finds verbose partials' : function(test){
+      test.expect(3);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+      currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials(currentPattern);
+			var results = currentPattern.findPartials();
 			test.equals(results.length, 2);
 			test.equals(results[0], '{{> 01-molecules/06-components/03-comment-header.mustache }}');
 			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
-
 			test.done();
 		},
 
 		'find_pattern_partials_with_style_modifiers finds style modifiers' : function(test){
+      test.expect(2);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
-			};
 
-			var pattern_assembler = new pa();
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
 
-			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			var results = currentPattern.findPartialsWithStyleModifiers();
 			test.equals(results.length, 1);
 			test.equals(results[0], '{{> molecules-single-comment:foo }}');
 
@@ -55,15 +65,19 @@
 		},
 
 		'find_pattern_partials_with_style_modifiers finds style modifiers with parameters present too' : function(test){
+      test.expect(2);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
-			};
 
-			var pattern_assembler = new pa();
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
 
-			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			var results = currentPattern.findPartialsWithStyleModifiers();
 			test.equals(results.length, 1);
 			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
 
@@ -71,15 +85,18 @@
 		},
 
 		'find_pattern_partials_with_style_modifiers finds style modifiers with verbose partials' : function(test){
+      test.expect(2);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+			var results = currentPattern.findPartialsWithStyleModifiers();
 			test.equals(results.length, 1);
 			test.equals(results[0], '{{> 01-molecules/06-components/molecules-single-comment:foo }}');
 
@@ -87,45 +104,54 @@
 		},
 
 		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials present' : function(test){
+      test.expect(1);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+      var results = currentPattern.findPartialsWithStyleModifiers();
 			test.equals(results, null);
 
 			test.done();
 		},
 
 		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials with pattern parameters present' : function(test){
+      test.expect(1);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_style_modifiers(currentPattern);
+      var results = currentPattern.findPartialsWithStyleModifiers();
 			test.equals(results, null);
 
 			test.done();
 		},
 
 		'find_pattern_partials_with_parameters finds parameters' : function(test){
+      test.expect(2);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      var results = currentPattern.findPartialsWithPatternParameters();
 			test.equals(results.length, 1);
 			test.equals(results[0], "{{> molecules-single-comment(bar:'baz') }}");
 
@@ -134,76 +160,86 @@
 		},
 
 		'find_pattern_partials_with_parameters finds parameters when stylemodifiers present too' : function(test){
+      test.expect(2);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      var results = currentPattern.findPartialsWithPatternParameters();
 			test.equals(results.length, 1);
 			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
 
 			test.done();
-
 		},
 
 		'find_pattern_partials_with_parameters finds parameters with verbose partials' : function(test){
+      test.expect(2);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      var results = currentPattern.findPartialsWithPatternParameters();
 			test.equals(results.length, 1);
 			test.equals(results[0], "{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}");
 
 			test.done();
-
 		},
 
 		'find_pattern_partials_with_parameters finds no style modifiers when only partials present' : function(test){
+      test.expect(1);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      var results = currentPattern.findPartialsWithPatternParameters();
 			test.equals(results, null);
 
 			test.done();
 		},
 
 		'find_pattern_partials_with_parameters finds no style modifiers when only partials with style modifiers present' : function(test){
+      test.expect(1);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
-				"template": "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>",
-			};
+      var currentPattern = new of.oPattern(
+        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
+        '01-molecules\\00-testing', // subdir
+        '00-test-mol.mustache', // filename,
+        null // data
+      );
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
 
-			var pattern_assembler = new pa();
-
-			var results = pattern_assembler.find_pattern_partials_with_parameters(currentPattern);
+      var results = currentPattern.findPartialsWithPatternParameters();
 			test.equals(results, null);
 
 			test.done();
 		},
 
 		'process_pattern_recursive recursively includes partials' : function(test){
+      test.expect(3);
 
 			//tests inclusion of partial that will be discovered by diveSync later in iteration than parent
 			//prepare to diveSync
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
-			var pa = require('../builder/pattern_assembler');
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};

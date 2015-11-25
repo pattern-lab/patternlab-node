@@ -19,6 +19,18 @@
       test.equals(engineName, 'mustache');
       test.done();
     },
+    'getEngineNameForPattern returns "mustache" for a plain string template as a backwards compatibility measure': function (test) {
+      test.expect(1);
+      test.equals(patternEngines.getEngineNameForPattern('plain text string'), 'mustache');
+      test.done();
+    },
+    'getEngineNameForPattern returns "mustache" for an artificial empty template': function (test) {
+      test.expect(1);
+      var emptyPattern = of.oPattern.createEmpty();
+      console.log(emptyPattern);
+      test.equals(patternEngines.getEngineNameForPattern(emptyPattern), 'mustache');
+      test.done();
+    },
     'getEngineForPattern returns a reference to the mustache engine from test pattern': function (test) {
       var engine = patternEngines.getEngineForPattern(mustacheTestPattern);
       test.equals(engine, patternEngines.mustache);
@@ -54,6 +66,11 @@
       test.expect(1);
       test.ok(patternEngines.hasOwnProperty('mustache'));
       test.done();
+    },
+    'patternEngines object reports that it supports the .mustache extension': function (test) {
+      test.expect(1);
+      test.ok(patternEngines.isFileExtensionSupported('.mustache'));
+      test.done();
     }
   };
 
@@ -64,8 +81,8 @@
 
         var propertyTests = {
           'engine': 'object',
-          'name': 'string',
-          'fileExtension': 'string',
+          'engineName': 'string',
+          'engineFileExtension': 'string',
           'renderPattern': 'function',
           'findPartials': 'function'
         };
