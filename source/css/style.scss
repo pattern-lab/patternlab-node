@@ -1,55 +1,3 @@
-/*
-                                                ,,            ,,                          ,,
- .M"""bgd mm                                    db          `7MM        mm         mm   `7MM                                    OO OO OO
-,MI    "Y MM                                                  MM        MM         MM     MM                                    88 88 88
-`MMb.   mmMMmm ,pW"Wq.`7MMpdMAo.     `7Mb,od8 `7MM  .P"Ybmmm  MMpMMMb.mmMMmm     mmMMmm   MMpMMMb.  .gP"Ya `7Mb,od8 .gP"Ya      || || ||
-  `YMMNq. MM  6W'   `Wb MM   `Wb       MM' "'   MM :MI  I8    MM    MM  MM         MM     MM    MM ,M'   Yb  MM' "',M'   Yb     || || ||
-.     `MM MM  8M     M8 MM    M8       MM       MM  WmmmP"    MM    MM  MM         MM     MM    MM 8M""""""  MM    8M""""""     `' `' `'
-Mb     dM MM  YA.   ,A9 MM   ,AP       MM       MM 8M         MM    MM  MM         MM     MM    MM YM.    ,  MM    YM.    ,     ,, ,, ,,
-P"Ybmmd"  `Mbmo`Ybmd9'  MMbmmd'      .JMML.   .JMML.YMMMMMb .JMML  JMML.`Mbmo      `Mbmo.JMML  JMML.`Mbmmd'.JMML.   `Mbmmd'     db db db
-                        MM                         6'     dP
-                      .JMML.                       Ybmmmd'
-Pattern Lab doesn't have any CSS requirements, which means you can write your styles however you want. Hooray!
-You can use Sass, Less, vanilla CSS, or some other crazy thing I haven't heard of yet.
-So please don't use these styles. They're just here to put together the demo, and nothing more.
-They're intentionally gray, boring, and crappy because you're supposed to do this stuff yourself.
-Atomic design is philosophically complimentary with these CSS approaches:
-* SMACSS by Jonathan Snook http://smacss.com/
-* OOCSS by Nicole Sullivan http://oocss.org/
-* BEM CSS Methology : http://bem.info/method/
-* CSS Guidelines by Harry Roberts : https://github.com/csswizardry/CSS-Guidelines
-So feel free to use any of these approaches. Or don't. It's totally up to you.
-*/
-
-
-/*------------------------------------*\
-    $TABLE OF CONTENTS
-\*------------------------------------*/
-/**
- * VARIABLES..............................Declarations of Sass variables
- * .....Colors
- * .....Typography
- * .....Layout
- * .....Defaults
- * .....Breakpoints
- * MIXINS.................................Sass mixins
- * RESET..................................Set reset defaults
- * GLOBAL CLASSES.........................Set reset defaults
- * GLOBAL ELEMENTS........................Establish global styles
- * .....Main
- * .....Headings
- * .....Text-related elements (p, blockquote, lists)
- * .....Defaults
- * .....Breakpoints
- * TYPOGRAPHY------------------------------
- * MEDIA------------------------------
- * LAYOUT------------------------------
- * NAVIGATION------------------------------
- * TOC To Be Continued
- */
-
-
-
 @import "scss/generic/variables";
 @import "scss/generic/mixins";
 @import "scss/generic/reset";
@@ -65,7 +13,7 @@ So feel free to use any of these approaches. Or don't. It's totally up to you.
 @import "../_patterns/00-atoms/03-images/00-images";
 @import "../_patterns/00-atoms/03-images/00-logo";
 @import "../_patterns/00-atoms/03-images/05-icons";
-@import "../_patterns/00-atoms/04-forms/00-text-fields";
+@import "../_patterns/00-atoms/04-forms/00-form-fields";
 @import "../_patterns/00-atoms/05-buttons/00-buttons";
 @import "../_patterns/00-atoms/07-tables/00-simple-table";
 
@@ -75,21 +23,25 @@ So feel free to use any of these approaches. Or don't. It's totally up to you.
 @import "../_patterns/01-molecules/01-sections/00-columns";
 @import "../_patterns/01-molecules/02-blocks/00-block-banner";
 @import "../_patterns/01-molecules/02-blocks/01-block-media";
+@import "../_patterns/01-molecules/04-forms/00-field";
 @import "../_patterns/01-molecules/04-forms/00-newsletter";
 @import "../_patterns/01-molecules/05-navigation/00-primary-nav";
 @import "../_patterns/01-molecules/05-navigation/01-footer-nav";
-@import "../_patterns/01-molecules/07-checkout/03-breadcrumbs";
 @import "../_patterns/01-molecules/06-components/00-social-share";
 @import "../_patterns/01-molecules/06-components/02-language-switch";
 @import "../_patterns/01-molecules/06-components/03-cart";
-@import "../_patterns/01-molecules/07-checkout/01-product-table";
-@import "../_patterns/01-molecules/07-checkout/02-total-line-table";
 
 @import "../_patterns/02-organisms/00-global/00-header";
 @import "../_patterns/02-organisms/00-global/01-footer";
 @import "../_patterns/02-organisms/00-global/02-basic-layout";
 @import "../_patterns/02-organisms/01-components/00-carousel";
-@import "../_patterns/02-organisms/02-checkout/01-header";
+@import "../_patterns/02-organisms/02-forms/02-fullfeatured-form";
 
 @import "../_patterns/03-templates/00-content";
+
+@import "../_patterns/00-atoms/10-checkout/00-checkout-helper-classes";
+@import "../_patterns/01-molecules/10-checkout/01-checkout-product-table";
+@import "../_patterns/01-molecules/10-checkout/02-checkout-total-line-table";
+@import "../_patterns/01-molecules/10-checkout/00-checkout-breadcrumbs";
+@import "../_patterns/02-organisms/10-checkout/01-checkout-header";
 @import "../_patterns/03-templates/02-checkout-layout";

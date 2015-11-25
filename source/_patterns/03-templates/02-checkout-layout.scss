@@ -12,18 +12,29 @@
   }
 
   &__sidebar {
+    display:none;
     flex:0.4;
     padding:1.5em 0.75em;
     min-height:100%;
     background:$colorAlabaster;
     border-left:1px solid $colorSilver;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      display:block;
+      padding:1.5em;
+    }
   }
 
   &__content {
-    flex:0.6;
+    flex:1;
     padding:0 0.75em 1.5em;
     min-height:100%;
     background:$colorWhite;
     opacity:0.5;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      flex:0.6;
+      padding:0 1.5em 1.5em;
+    }
   }
 }

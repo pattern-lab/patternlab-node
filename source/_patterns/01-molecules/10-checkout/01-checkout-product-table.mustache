@@ -1,0 +1,56 @@
+<table class="product-table">
+  <thead>
+  <tr>
+    <th>Item</th>
+    <th>Description</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="product">
+    <td class="product__image">
+      <div class="product__image__inner">
+        <span class="product__quantity">1</span>
+        <img src="{{ img.placeholder_blockMedia.src }}">
+      </div>
+    </td>
+    <td class="product__description">
+      <span class="product__description__name order-summary__emphasis">{{ products.title.mini }}</span>
+      <span class="product__description__variant order-summary__small-text">{{ products.material.mini }}</span>
+    </td>
+    <td class="product__price">
+      <span class="order-summary__emphasis">€1.23</span>
+    </td>
+  </tr>
+  <tr class="product">
+    <td class="product__image">
+      <div class="product__image__inner">
+        <span class="product__quantity">8</span>
+        <img src="{{ img.placeholder_blockMedia.src }}">
+      </div>
+    </td>
+    <td class="product__description">
+      <span class="product__description__name order-summary__emphasis">{{ products.title.short }}</span>
+      <span class="product__description__variant order-summary__small-text">{{ products.material.short }}</span>
+    </td>
+    <td class="product__price">
+      <span class="order-summary__emphasis">€9999.99</span>
+    </td>
+  </tr>
+  <tr class="product">
+    <td class="product__image">
+      <div class="product__image__inner">
+        <span class="product__quantity">10</span>
+        <img src="{{ img.placeholder_blockMedia.src }}">
+      </div>
+    </td>
+    <td class="product__description">
+      <span class="product__description__name order-summary__emphasis">{{ products.title.medium }}</span>
+      <span class="product__description__variant order-summary__small-text">{{ products.material.medium }}</span>
+    </td>
+    <td class="product__price">
+      <span class="order-summary__emphasis">€660.00</span>
+    </td>
+  </tr>
+  </tbody>
+</table>

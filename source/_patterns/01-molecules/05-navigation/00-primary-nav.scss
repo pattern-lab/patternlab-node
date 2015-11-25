@@ -1,5 +1,4 @@
-.patternlab.navigation,
-.patternlab .navigation {
+.navigation {
   &--primary {
     @extend .fontPrimary__light;
     text-transform: uppercase;
@@ -53,8 +52,8 @@
 
 
 @media only screen and (max-width: $breakpointTabletEnd) {
-  .patternlab.navigation,
-  .patternlab .navigation {
+
+  .navigation {
     &--primary {
       position: fixed;
       left: -#{$widthOffCanvasA};
@@ -110,8 +109,7 @@
 }
 
 @media only screen and (min-width: $breakpointDesktop) {
-  .patternlab.navigation,
-  .patternlab .navigation {
+  .navigation {
     &--primary {
       width: 100%;
       text-align: center;

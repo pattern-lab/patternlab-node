@@ -1,5 +1,5 @@
-.patternlab.headlineGroup,
-.patternlab .headlineGroup{
+
+.headlineGroup{
   margin-bottom : 3em;
   &__headline {
     font-family : $fontPrimary;
@@ -22,7 +22,7 @@
     font-weight : 500;
     text-transform : none;
   }
-  &__subHeadline--alt.patternlab {
+  &__subHeadline--alt {
     font-family : $fontPrimary;
     font-size : 16px;
     font-weight : 500;
