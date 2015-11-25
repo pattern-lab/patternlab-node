@@ -25,7 +25,12 @@ var patternlab_engine = function () {
   patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
-  patternlab.config = fs.readJSONSync('./config.json');
+  patternlab.config  = fs.readJSONSync('./config.json');
+
+  if (patternlab.config.patternlab != undefined) {
+    patternlab.config = patternlab.config.patternlab;
+  }
+
 
   function getVersion() {
     console.log(patternlab.package.version);
