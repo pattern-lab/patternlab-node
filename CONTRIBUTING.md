@@ -1,7 +1,7 @@
 #Contributing to Patternlab - Node
 If you'd like to contribute to patternlab - node, please do so! There is always a lot of ground to cover, with patternlab - php being so feature-rich.  
 
-No pull request is too small.
+No pull request is too small. Check out any [up for grabs issues](https://github.com/pattern-lab/patternlab-node/labels/up%20for%20grabs) as a good way to get your feet wet. 
 
 ##Guidelines
 1. Please keep your pull requests concise and limited to **ONE** substantive change at a time.

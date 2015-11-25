@@ -1,5 +1,11 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.15.1
+- FIX: Resolve issue with styleModifiers not being replaced when the partial has spaces in it.
+- ADD: Support multiple styleModifier classes using the | pipe syntax
+- FIX: Resolve issue with styleModifiers not being applied correctly when mixed with pattern parameters
+- THX: Thanks @theorise for the issue reports!
+
 PL-node-v0.15.0
 - CHG: Updated package.json devDependencies for Node 4.X and 5.X support.
 - CHG: Updated package.gulp.json devDependencies for Node 4.X and 5.X support.

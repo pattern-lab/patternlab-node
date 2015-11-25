@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.15.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.15.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -28,6 +28,8 @@
 					//find the partial's name and retrieve it
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+					//if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
+					partialPattern.extendedTemplate = partialPattern.template;
 
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
