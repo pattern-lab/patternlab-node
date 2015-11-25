@@ -27,14 +27,14 @@ var banner = ['/** ',
   ' * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.',
   ' * ', ' **/'].join(eol);
 
-//load patternlab-node tasks
-gulp.loadTasks(__dirname + '/builder/patternlab_gulp.js');
-
 //clean patterns dir
 gulp.task('clean', function (cb) {
-  del.sync(['./public/patterns/*'], {force: true});
-  cb();
+    del.sync(['./public/patterns/*'], {force: true});
+    cb();
 });
+
+//load patternlab-node tasks
+gulp.loadTasks(__dirname + '/builder/patternlab_gulp.js');
 
 //build the banner
 gulp.task('banner', function () {
@@ -106,40 +106,6 @@ gulp.task('js', function () {
     .pipe(browserSync.stream());
 });
 
-//server and watch tasks
-gulp.task('connect', ['lab'], function () {
-  browserSync.init({
-    socket: {
-      domain: 'localhost:3000'
-    },
-    server: {
-      baseDir: './public/',
-      middleware: function (req, res, next) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        next();
-      }
-    }
-  });
-  gulp.watch('./source/css/style.css', ['cp:css']);
-
-  //suggested watches if you use scss
-  gulp.watch('./source/**/*.scss', ['sass:style']);
-  gulp.watch('./public/styleguide/*.scss', ['sass:styleguide']);
-
-  gulp.watch('./source/_patterns/**/*.js', ['js']);
-
-  gulp.watch('./source/fonts/icon-source/**/*.svg', ['iconfont']);
-
-  gulp.watch([
-      './source/_patterns/**/*.mustache',
-      './source/_patterns/**/*.json',
-      './source/_data/*.json'],
-    ['lab-pipe'], function () {
-      browserSync.reload();
-    });
-
-});
-
 //unit test
 gulp.task('nodeunit', function () {
   return gulp.src('./test/**/*_tests.js')
@@ -202,24 +168,60 @@ gulp.task('iconfont', function() {
       ;
 });
 
-gulp.task('lab-pipe', ['lab'], function (cb) {
+gulp.task('assets', gulp.series('iconfont', gulp.parallel('cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js')));
+
+gulp.task('prelab', gulp.series('clean', gulp.parallel('banner', 'assets')));
+gulp.task('lab', gulp.parallel('prelab', 'patternlab'), function (cb) {
+    cb();
+});
+
+//server and watch tasks
+gulp.task('connect', gulp.series('lab', function () {
+    browserSync.init({
+        socket: {
+            domain: 'localhost:3000'
+        },
+        server: {
+            baseDir: './public/',
+            middleware: function (req, res, next) {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                next();
+            }
+        }
+    });
+    gulp.watch('./source/css/style.css', gulp.series('cp:css'));
+
+    //suggested watches if you use scss
+    gulp.watch('./source/**/*.scss', gulp.series('sass:style'));
+    gulp.watch('./public/styleguide/*.scss', gulp.series('sass:styleguide'));
+
+    gulp.watch('./source/_patterns/**/*.js', gulp.series('js'));
+
+    gulp.watch('./source/fonts/icon-source/**/*.svg', gulp.series('iconfont'));
+
+    gulp.watch([
+            './source/_patterns/**/*.mustache',
+            './source/_patterns/**/*.json',
+            './source/_data/*.json'],
+        gulp.series('lab-pipe', function () {
+            browserSync.reload();
+        }));
+
+}));
+
+gulp.task('lab-pipe', gulp.series('lab', function (cb) {
   cb();
   browserSync.reload();
-});
+}));
 
-gulp.task('default', ['lab']);
+gulp.task('default', gulp.series('lab'));
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js', 'iconfont']);
-gulp.task('prelab', ['clean', 'banner', 'assets']);
-gulp.task('lab', ['prelab', 'patternlab'], function (cb) {
-  cb();
-});
-gulp.task('patterns', ['patternlab:only_patterns']);
-gulp.task('serve', ['lab', 'connect']);
-gulp.task('travis', ['lab', 'nodeunit']);
+gulp.task('patterns', gulp.series('patternlab:only_patterns'));
+gulp.task('serve', gulp.series('connect'));
+gulp.task('travis', gulp.series('lab', 'nodeunit'));
 
-gulp.task('version', ['patternlab:version']);
-gulp.task('help', ['patternlab:help']);
+gulp.task('version', gulp.series('patternlab:version'));
+gulp.task('help', gulp.series('patternlab:help'));
 
 gulp.task('deploy', function (done) {
   sequence(
