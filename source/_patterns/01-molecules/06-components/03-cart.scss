@@ -1,7 +1,6 @@
 .cart {
   &__link {
-    &--icon {
-      font-size : 1.25em;
-    }
+    @include icon('bag');
+    font-size : 1.375em;
   }
 }

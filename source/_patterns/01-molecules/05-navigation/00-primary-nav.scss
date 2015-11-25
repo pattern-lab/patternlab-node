@@ -5,13 +5,13 @@
     text-transform: uppercase;
     font-size: 0.75em;
     &:before {
-      @extend .iconFont, .icon-logo;
+      @include icon('logo');
       font-size : 1.25em;
       padding : 0.75em 0;
       display: none;
     }
     &__hamburger {
-      @extend .iconFont, .icon-menu;
+      @include icon('hamburgerMenu');
       position: absolute;
       right: -1.35em;
       top: 0.2175em;
