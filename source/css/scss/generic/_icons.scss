@@ -1,0 +1,133 @@
+@font-face {
+	font-family: "horizn-icons";
+	src: url('../fonts/horizn-icons.eot');
+	src: url('../fonts/horizn-icons.eot?#iefix') format('eot'),
+		url('../fonts/horizn-icons.woff') format('woff'),
+		url('../fonts/horizn-icons.ttf') format('truetype'),
+		url('../fonts/horizn-icons.svg#horizn-icons') format('svg');
+}
+
+@mixin icon-styles {
+	font-family: "horizn-icons";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	// speak: none; // only necessary if not using the private unicode range (firstGlyph option)
+	text-decoration: none;
+	text-transform: none;
+}
+
+%icon {
+	@include icon-styles;
+}
+
+@function icon-char($filename) {
+	$char: "";
+
+	@if $filename == plus-black-or-something {
+		$char: "\E001";
+	}
+	@if $filename == uEA01-chevron-icon {
+		$char: "\E002";
+	}
+	@if $filename == uEA03-arrowdown-black-15x15 {
+		$char: "\E003";
+	}
+	@if $filename == uEA04-bag-black-21x15 {
+		$char: "\E004";
+	}
+	@if $filename == uEA05-bag-black-21x19 {
+		$char: "\E005";
+	}
+	@if $filename == uEA08-logo-black-178x13 {
+		$char: "\E006";
+	}
+	@if $filename == uEA09-logo-black-248x19 {
+		$char: "\E007";
+	}
+	@if $filename == uEA0A-menu-black-38x38 {
+		$char: "\E008";
+	}
+	@if $filename == uEA0B-menu-gray-38x38 {
+		$char: "\E009";
+	}
+	@if $filename == uEA0C-minus-black-11x11 {
+		$char: "\E00A";
+	}
+	@if $filename == uEA0F-x-black-38x38 {
+		$char: "\E00B";
+	}
+	@if $filename == uEA10-x-black-8x8 {
+		$char: "\E00C";
+	}
+	@if $filename == uEA06-facebook {
+		$char: "\E00D";
+	}
+	@if $filename == uEA07-instagram {
+		$char: "\E00E";
+	}
+	@if $filename == uEA0E-twitter {
+		$char: "\E00F";
+	}
+
+	@return $char;
+}
+
+@mixin icon($filename, $insert: before, $extend: true) {
+	&:#{$insert} {
+		@if $extend {
+			@extend %icon;
+		} @else {
+			@include icon-styles;
+		}
+		content: icon-char($filename);
+	}
+}
+
+.icon-plus-black-or-something {
+	@include icon(plus-black-or-something);
+}
+.icon-uEA01-chevron-icon {
+	@include icon(uEA01-chevron-icon);
+}
+.icon-uEA03-arrowdown-black-15x15 {
+	@include icon(uEA03-arrowdown-black-15x15);
+}
+.icon-uEA04-bag-black-21x15 {
+	@include icon(uEA04-bag-black-21x15);
+}
+.icon-uEA05-bag-black-21x19 {
+	@include icon(uEA05-bag-black-21x19);
+}
+.icon-uEA08-logo-black-178x13 {
+	@include icon(uEA08-logo-black-178x13);
+}
+.icon-uEA09-logo-black-248x19 {
+	@include icon(uEA09-logo-black-248x19);
+}
+.icon-uEA0A-menu-black-38x38 {
+	@include icon(uEA0A-menu-black-38x38);
+}
+.icon-uEA0B-menu-gray-38x38 {
+	@include icon(uEA0B-menu-gray-38x38);
+}
+.icon-uEA0C-minus-black-11x11 {
+	@include icon(uEA0C-minus-black-11x11);
+}
+.icon-uEA0F-x-black-38x38 {
+	@include icon(uEA0F-x-black-38x38);
+}
+.icon-uEA10-x-black-8x8 {
+	@include icon(uEA10-x-black-8x8);
+}
+.icon-uEA06-facebook {
+	@include icon(uEA06-facebook);
+}
+.icon-uEA07-instagram {
+	@include icon(uEA07-instagram);
+}
+.icon-uEA0E-twitter {
+	@include icon(uEA0E-twitter);
+}
