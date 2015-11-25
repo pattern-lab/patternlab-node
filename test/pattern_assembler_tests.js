@@ -2,6 +2,7 @@
 	"use strict";
 
 	var pa = require('../builder/pattern_assembler');
+	var object_factory = require('../builder/object_factory');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
@@ -283,6 +284,38 @@
 			//test that 00-foo.mustache included partial 01-bar.mustache
 			test.equals(fooExtended, 'bar');
 
+			test.done();
+		},
+		'processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			var patterns_dir = './test/files/_patterns';
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+
+
+			var groupPattern = new object_factory.oPattern('test/files/_patterns/00-test/04-group.mustache', '00-test', '04-group.mustache');
+			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/04-group.mustache', 'utf8');
+			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(groupPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/04-group.mustache', pl, {});
+			//assert
+			var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		}
 	};
