@@ -1,76 +1,115 @@
 @font-face {
-  font-family: 'icomoon';
-  src:url('https://s3.eu-central-1.amazonaws.com/horizn-fonts/icomoon.eot');
-  src:url('https://s3.eu-central-1.amazonaws.com/horizn-fonts/icomoon.eot') format('embedded-opentype'),
-  url('https://s3.eu-central-1.amazonaws.com/horizn-fonts/icomoon.ttf') format('truetype'),
-  url('https://s3.eu-central-1.amazonaws.com/horizn-fonts/icomoon.woff') format('woff'),
-  url('https://s3.eu-central-1.amazonaws.com/horizn-fonts/icomoon.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
+	font-family: "horizn-icons";
+	src: url('../fonts/horizn-icons.eot');
+	src: url('../fonts/horizn-icons.eot?#iefix') format('eot'),
+		url('../fonts/horizn-icons.woff') format('woff'),
+		url('../fonts/horizn-icons.ttf') format('truetype'),
+		url('../fonts/horizn-icons.svg#horizn-icons') format('svg');
 }
 
-[class^="icon-"], [class*=" icon-"], .iconFont {
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@mixin icon-styles {
+	font-family: "horizn-icons";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	// speak: none; // only necessary if not using the private unicode range (firstGlyph option)
+	text-decoration: none;
+	text-transform: none;
 }
 
-
-.patternlab .icon-instagram:before {
-  content : "\e600";
+%icon {
+	@include icon-styles;
 }
 
-.patternlab .icon-facebook:before {
-  content : "\e601";
+@function icon-char($filename) {
+	$char: "";
+
+	@if $filename == arrowDown {
+		$char: "\E001";
+	}
+	@if $filename == bag {
+		$char: "\E002";
+	}
+	@if $filename == chevron {
+		$char: "\E003";
+	}
+	@if $filename == hamburgerMenu {
+		$char: "\E004";
+	}
+	@if $filename == logo {
+		$char: "\E005";
+	}
+	@if $filename == minus {
+		$char: "\E006";
+	}
+	@if $filename == plus {
+		$char: "\E007";
+	}
+	@if $filename == x-large {
+		$char: "\E008";
+	}
+	@if $filename == x-small {
+		$char: "\E009";
+	}
+	@if $filename == facebook {
+		$char: "\E00A";
+	}
+	@if $filename == instagram {
+		$char: "\E00B";
+	}
+	@if $filename == twitter {
+		$char: "\E00C";
+	}
+
+	@return $char;
 }
 
-.patternlab .icon-twitter:before {
-  content : "\e602";
+@mixin icon($filename, $insert: before, $extend: true) {
+	&:#{$insert} {
+		@if $extend {
+			@extend %icon;
+		} @else {
+			@include icon-styles;
+		}
+		content: icon-char($filename);
+	}
 }
 
-.patternlab .icon-arrow-down:before {
-  content : "\e606";
+.icon-arrowDown {
+	@include icon(arrowDown);
 }
-
-.patternlab .icon-bag:before {
-  content : "\e608";
+.icon-bag {
+	@include icon(bag);
 }
-
-.patternlab .icon-logo:before {
-  content : "\e60a";
+.icon-chevron {
+	@include icon(chevron);
 }
-
-.patternlab .icon-menu:before {
-  content : "\e60c";
+.icon-hamburgerMenu {
+	@include icon(hamburgerMenu);
 }
-
-.patternlab .icon-minus:before {
-  content : "\e60d";
+.icon-logo {
+	@include icon(logo);
 }
-
-.patternlab .icon-plus:before {
-  content : "\e60e";
+.icon-minus {
+	@include icon(minus);
 }
-
-.patternlab .icon-x:before {
-  content : "\e60f";
+.icon-plus {
+	@include icon(plus);
 }
-
-
-.patternlab .icons {
-  &__icon {
-    font-size : 1.75em;
-  }
-  &__description {
-    margin-bottom : 2.75em;
-  }
+.icon-x-large {
+	@include icon(x-large);
 }
-
+.icon-x-small {
+	@include icon(x-small);
+}
+.icon-facebook {
+	@include icon(facebook);
+}
+.icon-instagram {
+	@include icon(instagram);
+}
+.icon-twitter {
+	@include icon(twitter);
+}

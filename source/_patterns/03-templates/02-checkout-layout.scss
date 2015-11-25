@@ -1,0 +1,29 @@
+.checkout {
+  height:100%;
+  background:linear-gradient(to right, $colorWhite 60%,$colorAlabaster 60%);
+
+  &__wrapper {
+    display:flex;
+    flex-flow:row wrap;
+    width:auto;
+    max-width:78.5714em;
+    margin:0 auto;
+    height:100%;
+  }
+
+  &__sidebar {
+    flex:0.4;
+    padding:1.5em 0.75em;
+    min-height:100%;
+    background:$colorAlabaster;
+    border-left:1px solid $colorSilver;
+  }
+
+  &__content {
+    flex:0.6;
+    padding:0 0.75em 1.5em;
+    min-height:100%;
+    background:$colorWhite;
+    opacity:0.5;
+  }
+}

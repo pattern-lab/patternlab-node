@@ -3,17 +3,14 @@
   &__handle {
     display : block;
     position : relative;
+    @include icon('plus');
     &:before {
-      @extend .iconFont;
-      content:'\e60e'; // +
       position : absolute;
       right : 1em;
     }
     &--expanded {
       background-color : lighten(#c0c0c0, 20%);
-      &:before {
-        content:'\e60d'; // -
-      }
+      @include icon('minus');
 
       + [class*="accordion__panel"] {
         display:block;

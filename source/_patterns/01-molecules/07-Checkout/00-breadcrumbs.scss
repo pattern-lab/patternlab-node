@@ -1,0 +1,37 @@
+.breadcrumb {
+  display : none;
+  @media only screen and (min-width : $breakpointDesktop) {
+    display : block;
+  }
+  &__item {
+    font-family : $fontPrimary;
+    font-size : 0.75rem;
+    color : $colorBlack;
+    display : inline-block;
+    @include icon('chevron', 'after');
+    &:after {
+      line-height : 0.625em;
+      font-size : 1rem;
+      display: inline-block;
+      width: 6px;
+      height: 11px;
+      vertical-align: middle;
+      margin: 0 0.5em;
+      background-image: none;
+    }
+    &:last-child {
+      &:after {
+        display : none;
+      }
+    }
+    &--completed {
+
+    }
+    &-current {
+
+    }
+    &--blank {
+      color : $colorSilverChalice;
+    }
+  }
+}

@@ -74,7 +74,7 @@ gulp.task('cp:img', function () {
     .pipe(gulp.dest('./public/images'))
 });
 gulp.task('cp:font', function () {
-  return gulp.src('*', {cwd: './source/fonts'})
+  return gulp.src('*.*', {cwd: './source/fonts'})
     .pipe(gulp.dest('./public/fonts'))
 });
 gulp.task('cp:data', function () {
@@ -128,6 +128,8 @@ gulp.task('connect', ['lab'], function () {
 
   gulp.watch('./source/_patterns/**/*.js', ['js']);
 
+  gulp.watch('./source/fonts/icon-source/**/*.svg', ['iconfont']);
+
   gulp.watch([
       './source/_patterns/**/*.mustache',
       './source/_patterns/**/*.json',
@@ -171,6 +173,35 @@ gulp.task('sass:styleguide', function () {
     .pipe(browserSync.stream());
 });
 
+gulp.task('iconfont', function() {
+  var iconfont = require('gulp-iconfont'),
+      iconfontCss = require('gulp-iconfont-css'),
+      fs = require('fs');
+
+  return gulp.src('./source/_patterns/00-atoms/03-images/_icons/**/*.svg')
+      .pipe(iconfontCss({
+          fontName: 'horizn-icons',
+          path: 'scss',
+          targetPath: '../../source/_patterns/00-atoms/03-images/05-icons.scss',
+          fontPath: '../fonts/'
+      }))
+      .pipe(iconfont({
+        fontName: 'horizn-icons',
+        appendUnicode: true,
+        normalize:true,
+        formats: ['ttf', 'woff', 'woff2'],
+        timestamp: new Date().getTime()
+      }))
+      .on('glyphs', function(glyphs) {
+          var html = '<!-- This file is generated, don\'t change! -->\n\n<div class="icons patternlab">\n' + glyphs.map(function(glyph) {
+              return '\t<span class="icon-' + glyph.name + '"></span>\n\t<div class="icons__description">icon-' + glyph.name + '</div>';
+          }).join('\n\n') + '\n</div>';
+          fs.writeFile('./source/_patterns/00-atoms/03-images/05-icons.mustache', html);
+      })
+      .pipe(gulp.dest('./public/fonts'))
+      ;
+});
+
 gulp.task('lab-pipe', ['lab'], function (cb) {
   cb();
   browserSync.reload();
@@ -178,7 +209,7 @@ gulp.task('lab-pipe', ['lab'], function (cb) {
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js']);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js', 'iconfont']);
 gulp.task('prelab', ['clean', 'banner', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function (cb) {
   cb();

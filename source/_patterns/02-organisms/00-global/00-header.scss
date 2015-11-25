@@ -55,7 +55,7 @@
     width: 20px;
     @media only screen and (min-width: $breakpointDesktop) {
       transform: translateY(-50%);
-      top: 1.3em;
+      top: 1.25em;
     }
   }
   @media only screen and (min-width: $breakpointTablet) {
@@ -81,7 +81,7 @@
           top: 50%;
         }
         &__cart {
-          top : 2em;
+          top : 1.8em;
         }
       }
       .languageSwitcher {

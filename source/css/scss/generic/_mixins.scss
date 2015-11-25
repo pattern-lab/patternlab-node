@@ -12,10 +12,4 @@
   letter-spacing: 0.1em;
 }
 
-@mixin clearfix {
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-}
+@import './icons';

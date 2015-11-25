@@ -70,6 +70,8 @@
     "browserify": "^12.0.1",
     "bulk-require": "^0.2.1",
     "bulkify": "^1.1.1",
+    "gulp-iconfont": "^5.0.1",
+    "gulp-iconfont-css": "^2.0.0",
     "gulp-imagemin": "^2.4.0",
     "gutil": "^1.6.4",
     "jquery": "^2.1.4",
