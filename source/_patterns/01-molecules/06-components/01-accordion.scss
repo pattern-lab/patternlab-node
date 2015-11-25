@@ -40,8 +40,8 @@
   }
 }
 
-.patternlab.accordion__handle--base,
-.patternlab .accordion__handle--base {
+
+.accordion__handle--base {
   @extend .accordion__handle;
   font-family : $fontPrimary;
   font-size : 0.875em;
@@ -59,8 +59,8 @@
   }
 }
 
-.patternlab.mobile-accordion__handle--base,
-.patternlab .mobile-accordion__handle--base {
+
+.mobile-accordion__handle--base {
   @extend .accordion__handle;
   @media only screen and (max-width : $breakpointTabletEnd) {
     font-family: $fontPrimary;
@@ -79,19 +79,15 @@
     }
   }
 }
-
-.patternlab.accordion,
-.patternlab .accordion {
+.accordion {
   @include accordion;
 }
-
 @media only screen and (max-width : $breakpointTabletEnd) {
-  .patternlab.mobile-accordion,
-  .patternlab .mobile-accordion {
+
+  .mobile-accordion {
     @include accordion;
   }
-  .patternlab.accordion__panel__content--link,
-  .patternlab .accordion__panel__content--link {
+  .accordion__panel__content--link {
     display : block;
     &:hover {
       background-color : $colorGallery;

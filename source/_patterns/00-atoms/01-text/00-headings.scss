@@ -1,47 +1,33 @@
-.patternlab.headlineH1,
-.patternlab .headlineH1{
+.headlineH1{
+  font-family : $fontPrimary;
+  &__link {
+  }
+}
+.headlineH2 {
+  font-family : $fontPrimary;
+  &__link {
+  }
+}
+
+
+.headlineH3 {
+  font-family : $fontPrimary;
+  &__link {
+  }
+}
+.headlineH4 {
+  font-family : $fontPrimary;
+  &__link {
+  }
+}
+.headlineH5 {
   font-family : $fontPrimary;
   &__link {
 
   }
 }
-
-.patternlab.headlineH2,
-.patternlab .headlineH2 {
+.headlineH6 {
   font-family : $fontPrimary;
   &__link {
-
-  }
-}
-
-.patternlab.headlineH3,
-.patternlab .headlineH3 {
-  font-family : $fontPrimary;
-  &__link {
-
-  }
-}
-
-.patternlab.headlineH4,
-.patternlab .headlineH4 {
-  font-family : $fontPrimary;
-  &__link {
-
-  }
-}
-
-.patternlab.headlineH5,
-.patternlab .headlineH5 {
-  font-family : $fontPrimary;
-  &__link {
-
-  }
-}
-
-.patternlab.headlineH6,
-.patternlab .headlineH6 {
-  font-family : $fontPrimary;
-  &__link {
-
   }
 }

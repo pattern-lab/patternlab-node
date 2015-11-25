@@ -1,5 +1,4 @@
-a.patternlab,
-.patternlab a {
+a {
   color : inherit;
   text-decoration : none;
   transition: color, border-color, background-color;
@@ -7,8 +6,7 @@ a.patternlab,
   outline: none;
 }
 
-p.patternlab,
-.patternlab p {
+ p {
   a {
     color : $colorBlack;
     text-decoration : none;

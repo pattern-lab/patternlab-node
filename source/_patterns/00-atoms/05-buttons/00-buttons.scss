@@ -1,5 +1,4 @@
-.patternlab.button,
-.patternlab .button {
+.button {
   min-height: 40px;
   outline: none;
   border: 1px solid $colorBlack;
@@ -29,17 +28,12 @@
     border: none;
     padding: 0;
   }
-}
-
-.patternlab.button__primary,
-.patternlab .button__primary {
-  @extend .button;
-  width : 280px;
-}
-
-.patternlab.button__secondary,
-.patternlab .button__secondary {
-  @extend .button, .button__primary;
-  background-color : $colorNevada;
-  border: 1px solid $colorNevada;
+  &--primary {
+    width: 280px;
+  }
+  &--secondary {
+    width: 280px;
+    background-color: $colorNevada;
+    border: 1px solid $colorNevada;
+  }
 }

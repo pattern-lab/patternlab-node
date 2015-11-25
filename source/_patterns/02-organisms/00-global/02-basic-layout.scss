@@ -1,5 +1,4 @@
-.basicLayout.patternlab,
-.patternlab .basicLayout{
+.basicLayout{
   min-height: 100%;
   min-height: 100vh;
   overflow: hidden;
@@ -47,17 +46,14 @@
   }
 }
 
-.patternlab.basicLayout--showOffCanvasA,
-.patternlab .basicLayout--showOffCanvasA,
-.patternlab.basicLayout--showOffCanvasB,
-.patternlab .basicLayout--showOffCanvasB {
+.basicLayout--showOffCanvasA,
+.basicLayout--showOffCanvasB {
   .basicLayout__canvas:after {
     bottom: 0;
     opacity: $opacityOverlayBackground;
   }
 }
-.patternlab.basicLayout--showOffCanvasA,
-.patternlab .basicLayout--showOffCanvasA {
+.basicLayout--showOffCanvasA {
   .basicLayout__inner {
     margin-left: 0;
     @media only screen and (min-width: $breakpointDesktop) {
@@ -78,8 +74,7 @@
     }
   }
 }
-.patternlab.basicLayout--showOffCanvasB,
-.patternlab .basicLayout--showOffCanvasB {
+.basicLayout--showOffCanvasB {
   .basicLayout__inner {
     margin-left: calc(-#{$widthOffCanvasB} - #{$widthOffCanvasA});
   }
