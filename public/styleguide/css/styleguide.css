@@ -473,6 +473,7 @@ span.sg-pattern-state:before {
   left: 0;
   right: 0;
   z-index: 0;
+  background-color: #f5f5f5;
 }
 
 #sg-vp-wrap.wrap-animate {
