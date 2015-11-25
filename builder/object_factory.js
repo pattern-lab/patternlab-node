@@ -13,11 +13,16 @@
 
   var patternEngines = require('./pattern_engines/pattern_engines');
   var path = require('path');
+  var fs = require('fs-extra');
+  var config = fs.readJSONSync('./config.json');
+  var extend = require('util')._extend;
 
   // oPattern properties
 
   var oPattern = function(abspath, subdir, filename, data){
-    console.log('NEW OPATTERN.  ', 'absPath:', abspath, 'subdir:', subdir, 'filename:', filename, 'data:', data);
+    if (config.debug) {
+      console.log('=== NEW OPATTERN.', '\nabsPath:', abspath, '\nsubdir:', subdir, '\nfilename:', filename, '\ndata:\n', data);
+    }
     this.fileName = filename.substring(0, filename.indexOf('.'));
     this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
@@ -48,16 +53,43 @@
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
   oPattern.prototype.render = function (data, partials) {
-    if (this.isPseudoPattern) {
-      console.log(this.name + ' is a pseudo-pattern');
-    } else {
-      console.log('this is NOT a pseudo-pattern');
+    if (config.debug && this.isPseudoPattern) {
+      console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
     }
-    // console.log('this does ' + (this.template ? '' : 'NOT ') + 'have template');
-    // console.log('this does ' + (this.extendedTemplate ? '' : 'NOT ') + 'have extendedTemplate');
-
     return this.engine.renderPattern(this.extendedTemplate, data, partials);
   };
+  // the finders all delegate to the PatternEngine, which also encapsulates all
+  // appropriate regexes
+  oPattern.prototype.findPartials = function () {
+    return this.engine.findPartials(this);
+  };
+  oPattern.prototype.findPartialsWithStyleModifiers = function () {
+    return this.engine.findPartialsWithStyleModifiers(this);
+  };
+  oPattern.prototype.findPartialsWithPatternParameters = function () {
+    return this.engine.findPartialsWithPatternParameters(this);
+  };
+  oPattern.prototype.findListItems = function () {
+    return this.engine.findListItems(this);
+  };
+
+  // oPattern static methods
+
+  // factory: creates an empty oPattern for miscellaneous internal use, such as
+  // by list_item_hunter
+  oPattern.createEmpty = function (customProps) {
+    var pattern = new oPattern('', '', '', null);
+    return extend(pattern, customProps);
+  };
+
+  // factory: creates an oPattern object on-demand from a hash; the hash accepts
+  // parameters that replace the positional parameters that the oPattern
+  // constructor takes.
+  oPattern.create = function (abspath, subdir, filename, data, customProps) {
+    var newPattern =  new oPattern(abspath || '', subdir || '', filename || '', data || null);
+    return extend(newPattern, customProps);
+  };
+
 
   var oBucket = function(name){
     this.bucketNameLC = name;
@@ -97,4 +129,4 @@
     oNavSubItem: oNavSubItem
   };
 
-}());
+})();

@@ -35,7 +35,7 @@
       // avoid circular dependency by putting this in here. TODO: is this slow?
       var of = require('../object_factory');
 
-      if (pattern instanceof of.oPattern) {
+      if (pattern instanceof of.oPattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
         return engineNameForExtension[pattern.fileExtension];
       }
       // otherwise, assume it's a plain mustache template string and act
@@ -49,6 +49,16 @@
         var engineName = this.getEngineNameForPattern(pattern);
         return this[engineName];
       }
+    },
+    getSupportedFileExtensions: function () {
+      var engineNames = Object.keys(PatternEngines);
+      return engineNames.map(function (engineName) {
+        return PatternEngines[engineName].engineFileExtension;
+      });
+    },
+    isFileExtensionSupported: function (fileExtension) {
+      var supportedExtensions = PatternEngines.getSupportedFileExtensions();
+      return (supportedExtensions.lastIndexOf(fileExtension) !== -1);
     }
   });
 
@@ -69,7 +79,7 @@
     var mapping = {};
 
     Object.keys(PatternEngines).forEach(function (engineName) {
-      var extensionForEngine = PatternEngines[engineName].fileExtension;
+      var extensionForEngine = PatternEngines[engineName].engineFileExtension;
       mapping[extensionForEngine] = engineName;
     });
 
