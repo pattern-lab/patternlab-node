@@ -192,7 +192,7 @@ gulp.task('connect', gulp.series('lab', function () {
     gulp.watch('./source/css/style.css', gulp.series('cp:css'));
 
     //suggested watches if you use scss
-    gulp.watch('./source/**/*.scss', gulp.series('sass:style'));
+    gulp.watch(['./source/**/*.scss', '!./source/_patterns/**/*icons.scss'], gulp.series('sass:style'));
     gulp.watch('./public/styleguide/*.scss', gulp.series('sass:styleguide'));
 
     gulp.watch('./source/_patterns/**/*.js', gulp.series('js'));
@@ -201,6 +201,7 @@ gulp.task('connect', gulp.series('lab', function () {
 
     gulp.watch([
             './source/_patterns/**/*.mustache',
+            '!./source/_patterns/**/*icons.mustache',
             './source/_patterns/**/*.json',
             './source/_data/*.json'],
         gulp.series('lab-pipe', function () {
