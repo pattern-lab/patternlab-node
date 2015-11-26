@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -15,7 +15,6 @@ var patternlab_engine = function () {
   fs = require('fs-extra'),
   extend = require('util')._extend,
   diveSync = require('diveSync'),
-  mustache = require('mustache'),
   glob = require('glob'),
   of = require('./object_factory'),
   pa = require('./pattern_assembler'),
@@ -26,6 +25,7 @@ var patternlab_engine = function () {
 
   patternlab.package = fs.readJSONSync('./package.json');
   patternlab.config = fs.readJSONSync('./config.json');
+
 
   function getVersion() {
     console.log(patternlab.package.version);
@@ -124,7 +124,7 @@ var patternlab_engine = function () {
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
+      pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
 
       //add footer info before writing
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
