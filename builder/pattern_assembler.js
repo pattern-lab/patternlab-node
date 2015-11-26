@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v0.15.1 - 2015
- *
+/* 
+ * patternlab-node - v0.15.2 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -94,8 +94,8 @@
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      //ignore dotfiles and non-variant .json files
-      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
+      //ignore dotfiles, underscored files, and non-variant .json files
+      if(filename.charAt(0) === '.' || filename.charAt(0) === '_' || (ext === '.json' && filename.indexOf('~') === -1)){
         return;
       }
 

@@ -1,5 +1,9 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v0.15.2
+- FIX: Resolve issue with not hiding underscored patterns.
+- THX: Thanks @ivancamilov for reporting this regression.
+
 PL-node-v0.15.1
 - FIX: Resolve issue with styleModifiers not being replaced when the partial has spaces in it.
 - ADD: Support multiple styleModifier classes using the | pipe syntax
