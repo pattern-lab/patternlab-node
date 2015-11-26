@@ -16,7 +16,14 @@
 		mustache = require('mustache'),
 		smh = require('./style_modifier_hunter'),
 		style_modifier_hunter = new smh(),
-		pattern_assembler = new pa();
+		pattern_assembler = new pa(),
+
+		resolvedParameters = [],
+		missingParameters = [];
+
+		function fillInParameters() {
+
+		}
 
 		function findparameters(pattern, patternlab){
 
@@ -27,6 +34,8 @@
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
+					console.log('current:', pattern.patternGroup, ', including:', partialPattern.patternGroup, index);
+
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
 					}
@@ -34,10 +43,30 @@
 					//strip out the additional data and eval
 					var leftParen = pMatch.indexOf('(');
 					var rightParen = pMatch.indexOf(')');
-					var paramString =  '({' + pMatch.substring(leftParen + 1, rightParen) + '})';
+					var paramString =  '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+					var paramData;
+
+					console.log(paramString);
 
 					//do no evil. there is no good way to do this that I can think of without using a split, which then makes commas and colons special characters and unusable within the pattern params
-					var paramData = eval(paramString);
+
+					try {
+						patternlab.knownData = patternlab.knownData || {};
+						var knownDataString = Object.keys(patternlab.knownData).map(function(propertyName) {
+							return 'var ' + propertyName + ' = ' + patternlab.knownData[propertyName] + ';';
+						}).join('');
+
+						paramData = eval('(function() { ' + knownDataString + ' return ' + paramString + '; })();');
+
+						Object.keys(paramData).forEach(function(propertyName) {
+							patternlab.knownData[propertyName] = patternlab.knownData[propertyName] || paramData[propertyName];
+						});
+					} catch(e) {}
+
+					if (!paramData) {
+						console.log('cannot resolve yet: ', paramString);
+						return missingParameters.push(paramString);
+					}
 
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
 					var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
