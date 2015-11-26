@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -13,6 +13,12 @@
 
   var pattern_assembler = function(){
 
+    var fs = require('fs-extra'),
+        of = require('./object_factory'),
+        path = require('path'),
+        patternEngines = require('./pattern_engines/pattern_engines'),
+        config = fs.readJSONSync('./config.json');
+
     function isObjectEmpty(obj) {
       for(var prop in obj) {
           if(obj.hasOwnProperty(prop))
@@ -20,29 +26,6 @@
       }
 
       return true;
-    }
-
-    // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
-    function findPartialsWithStyleModifiers(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_]+)+(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
-    }
-
-    // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
-    function findPartialsWithPatternParameters(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)+([ ])?}}/g);
-      return matches;
-    }
-
-    //find and return any {{> template-name* }} within pattern
-    function findPartials(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
-    }
-
-    function findListItems(pattern){
-      var matches = pattern.template.match(/({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g);
-      return matches;
     }
 
     function setState(pattern, patternlab){
@@ -73,15 +56,40 @@
       }
     }
 
-    function renderPattern(template, data, partials) {
-
-      var mustache = require('mustache');
-
-      if(partials) {
-        return mustache.render(template, data, partials);
-      } else{
-        return mustache.render(template, data);
+    function renderPattern(pattern, data, partials) {
+      // if we've been passed a full oPattern, it knows what kind of template it
+      // is, and how to render itself, so we just call its render method
+      if (pattern instanceof of.oPattern) {
+        if (config.debug) {
+          console.log('rendering full oPattern: ' + pattern.name);
+        }
+        return pattern.render(data, partials);
+      } else {
+        // otherwise, assume it's a plain mustache template string and act
+        // accordingly
+        if (config.debug) {
+          console.log('rendering plain mustache string:', pattern.substring(0, 20) + '...');
+        }
+        return patternEngines.mustache.renderPattern(pattern, data, partials);
       }
+    }
+
+    // takes a filename string, not a full path; a basename (plus extension)
+    // ignore _underscored patterns, dotfiles, and anything not recognized by a
+    // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
+    // pattern files!
+    function isPatternFile(filename) {
+      // skip hidden patterns/files without a second thought
+      var extension = path.extname(filename);
+      if(filename.charAt(0) === '.' ||
+         filename.charAt(0) === '_' ||
+         (extension === '.json' && filename.indexOf('~') === -1)) {
+        return false;
+      }
+
+      // not a hidden pattern, let's dig deeper
+      var supportedPatternFileExtensions = patternEngines.getSupportedFileExtensions();
+      return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1);
     }
 
     function processPatternIterative(file, patternlab){
@@ -94,9 +102,14 @@
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      //ignore dotfiles and non-variant .json files
-      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
-        return;
+      if (config.debug) {
+        console.log('processPatternIterative:', 'filename:', filename);
+      }
+
+      // skip non-pattern files
+      if (!isPatternFile(filename, patternlab)) { return; }
+      if (config.debug) {
+        console.log('processPatternIterative:', 'found pattern', file);
       }
 
       //make a new Pattern Object
@@ -114,6 +127,9 @@
 
       //can ignore all non-mustache files at this point
       if(ext !== '.mustache'){
+        if (config.debug) {
+          console.log('==================== FOUND NON-MUSTACHE FILE');
+        }
         return;
       }
 
@@ -147,25 +163,21 @@
       currentPattern.template = fs.readFileSync(file, 'utf8');
 
       //find any stylemodifiers that may be in the current pattern
-      currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+      currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
 
       //find any pattern parameters that may be in the current pattern
-      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
+      currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
 
       //add currentPattern to patternlab.patterns array
       addPattern(currentPattern, patternlab);
     }
 
     function processPatternRecursive(file, patternlab, additionalData){
-
-      var fs = require('fs-extra'),
-      mustache = require('mustache'),
-      lh = require('./lineage_hunter'),
-      ph = require('./parameter_hunter'),
-      pph = require('./pseudopattern_hunter'),
-      lih = require('./list_item_hunter'),
-      smh = require('./style_modifier_hunter'),
-      path = require('path');
+      var lh = require('./lineage_hunter'),
+          ph = require('./parameter_hunter'),
+          pph = require('./pseudopattern_hunter'),
+          lih = require('./list_item_hunter'),
+          smh = require('./style_modifier_hunter');
 
       var parameter_hunter = new ph(),
       lineage_hunter = new lh(),
@@ -191,7 +203,7 @@
       currentPattern.extendedTemplate = currentPattern.template;
 
       //find how many partials there may be for the given pattern
-      var foundPatternPartials = findPartials(currentPattern);
+      var foundPatternPartials = currentPattern.findPartials(currentPattern);
 
       if(foundPatternPartials !== null && foundPatternPartials.length > 0){
 
@@ -329,16 +341,16 @@
 
     return {
       find_pattern_partials: function(pattern){
-        return findPartials(pattern);
+        return pattern.findPartials();
       },
       find_pattern_partials_with_style_modifiers: function(pattern){
-        return findPartialsWithStyleModifiers(pattern);
+        return pattern.findPartialsWithStyleModifiers();
       },
       find_pattern_partials_with_parameters: function(pattern){
-        return findPartialsWithPatternParameters(pattern);
+        return pattern.findPartialsWithPatternParameters();
       },
       find_list_items: function(pattern){
-        return findListItems(pattern)
+        return pattern.findListItems();
       },
       setPatternState: function(pattern, patternlab){
         setState(pattern, patternlab);
@@ -366,7 +378,8 @@
       },
       is_object_empty: function(obj){
         return isObjectEmpty(obj);
-      }
+      },
+      is_pattern_file: isPatternFile
     };
 
   };
