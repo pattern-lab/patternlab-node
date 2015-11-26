@@ -5,35 +5,61 @@
   &__wrapper {
     display:flex;
     flex-flow:row wrap;
+    align-items:flex-start;
     width:auto;
     max-width:78.5714em;
     margin:0 auto;
     height:100%;
   }
 
-  &__sidebar {
-    display:none;
-    flex:0.4;
-    padding:1.5em 0.75em;
-    min-height:100%;
-    background:$colorAlabaster;
-    border-left:1px solid $colorSilver;
+  &__header-container {
+    flex:1 100%;
+    order:1;
+    background:$colorWhite;
 
     @media only screen and (min-width: $breakpointDesktop) {
-      display:block;
+      display:none;
+    }
+  }
+
+  &__sidebar {
+    flex:1 100%;
+    order:2;
+    padding:1.5em 0.75em;
+    background:$colorAlabaster;
+    border:1px solid $colorSilver;
+    border-left-width:0;
+    border-right-width:0;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      flex:0.4;
+      min-height:100%;
       padding:1.5em;
+      order:3;
+      border-width:0 0 0 1px;
     }
   }
 
   &__content {
-    flex:1;
-    padding:0 0.75em 1.5em;
-    min-height:100%;
+    flex:1 100%;
+    order:3;
+    padding:1.5em 0.75em;
+
     background:$colorWhite;
 
     @media only screen and (min-width: $breakpointDesktop) {
       flex:0.6;
+      min-height:100%;
       padding:0 1.5em 1.5em;
+      order:2;
+    }
+  }
+
+  &__content &__header {
+    display:none;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      display:block;
     }
   }
 }
