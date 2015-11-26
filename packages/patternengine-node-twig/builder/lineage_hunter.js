@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.14.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -19,7 +19,8 @@
 			var pattern_assembler = new pa();
 
 			//find the {{> template-name }} within patterns
-			var matches = pattern_assembler.find_pattern_partials(pattern);
+      console.log('===\n', pattern, '\n===');
+			var matches = pattern.findPartials();
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
 					//strip out the template cruft
