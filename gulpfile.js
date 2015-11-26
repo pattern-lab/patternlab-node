@@ -1,64 +1,27 @@
 // Special thanks to oscar-g (https://github.com/oscar-g) for starting this at https://github.com/oscar-g/patternlab-node/tree/dev-gulp
 
 var
-  pkg = require('./package.json'),
   gulp = require('gulp'),
-  eol = require('os').EOL,
   del = require('del'),
-  strip_banner = require('gulp-strip-banner'),
-  header = require('gulp-header'),
   nodeunit = require('gulp-nodeunit'),
   sass = require('gulp-sass'),
   nodeSassGlobbing = require('node-sass-globbing'),
   autoprefixer = require('gulp-autoprefixer'),
-  browserSync = require('browser-sync').create(),
-  sequence = require('run-sequence');
+  browserSync = require('browser-sync').create();
 
 gulp.task('deployAws', require('./deploy/tasks/deployAws'));
 gulp.task('notifyAboutNewVersion', require('./deploy/tasks/notifyAboutNewVersion'));
 
 require('gulp-load')(gulp);
-var banner = ['/** ',
-  ' * <%= pkg.name %> - v<%= pkg.version %> - <%= today %>',
-  ' * ',
-  ' * <%= pkg.author %>, and the web community.',
-  ' * Licensed under the <%= pkg.license %> license.',
-  ' * ',
-  ' * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.',
-  ' * ', ' **/'].join(eol);
 
 //clean patterns dir
 gulp.task('clean', function (cb) {
-    del.sync(['./public/patterns/*'], {force: true});
-    cb();
+  del.sync(['./public/patterns/*'], {force: true});
+  cb();
 });
 
 //load patternlab-node tasks
 gulp.loadTasks(__dirname + '/builder/patternlab_gulp.js');
-
-//build the banner
-gulp.task('banner', function () {
-  return gulp.src([
-    './builder/patternlab.js',
-    './builder/object_factory.js',
-    './builder/lineage_hunter.js',
-    './builder/media_hunter.js',
-    './builder/patternlab_grunt.js',
-    './builder/patternlab_gulp.js',
-    './builder/parameter_hunter.js',
-    './builder/pattern_exporter.js',
-    './builder/pattern_assembler.js',
-    './builder/pseudopattern_hunter.js',
-    './builder/list_item_hunter.js'
-  ])
-    .pipe(strip_banner())
-    .pipe(header(banner, {
-        pkg: pkg,
-        today: new Date().getFullYear()
-      }
-    ))
-    .pipe(gulp.dest('./builder'));
-});
 
 //copy tasks
 gulp.task('cp:js', function () {
@@ -141,94 +104,73 @@ gulp.task('sass:styleguide', function () {
 
 gulp.task('iconfont', function() {
   var iconfont = require('gulp-iconfont'),
-      iconfontCss = require('gulp-iconfont-css'),
-      fs = require('fs');
+    iconfontCss = require('gulp-iconfont-css'),
+    fs = require('fs');
 
   return gulp.src('./source/_patterns/00-atoms/03-images/_icons/**/*.svg')
-      .pipe(iconfontCss({
-          fontName: 'horizn-icons',
-          path: 'scss',
-          targetPath: '../../source/_patterns/00-atoms/03-images/05-icons.scss',
-          fontPath: '../fonts/'
-      }))
-      .pipe(iconfont({
-        fontName: 'horizn-icons',
-        appendUnicode: true,
-        normalize:true,
-        formats: ['ttf', 'woff', 'woff2'],
-        timestamp: new Date().getTime()
-      }))
-      .on('glyphs', function(glyphs) {
-          var html = '<!-- This file is generated, don\'t change! -->\n\n<div class="icons patternlab">\n' + glyphs.map(function(glyph) {
-              return '\t<span class="icon-' + glyph.name + '"></span>\n\t<div class="icons__description">icon-' + glyph.name + '</div>';
-          }).join('\n\n') + '\n</div>';
-          fs.writeFile('./source/_patterns/00-atoms/03-images/05-icons.mustache', html);
-      })
-      .pipe(gulp.dest('./public/fonts'))
-      ;
+    .pipe(iconfontCss({
+      fontName: 'horizn-icons',
+      path: 'scss',
+      targetPath: '../../source/_patterns/00-atoms/03-images/05-icons.scss',
+      fontPath: '../fonts/'
+    }))
+    .pipe(iconfont({
+      fontName: 'horizn-icons',
+      appendUnicode: true,
+      normalize:true,
+      formats: ['ttf', 'woff', 'woff2'],
+      timestamp: new Date().getTime()
+    }))
+    .on('glyphs', function(glyphs) {
+      var html = '<!-- This file is generated, don\'t change! -->\n\n<div class="icons patternlab">\n' + glyphs.map(function(glyph) {
+          return '\t<span class="icon-' + glyph.name + '"></span>\n\t<div class="icons__description">icon-' + glyph.name + '</div>';
+        }).join('\n\n') + '\n</div>';
+      fs.writeFile('source/_patterns/00-atoms/03-images/05-icons.mustache', html);
+    })
+    .pipe(gulp.dest('public/fonts'))
+    ;
 });
 
 gulp.task('assets', gulp.series('iconfont', gulp.parallel('cp:js', 'cp:img', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js')));
-
-gulp.task('prelab', gulp.series('clean', gulp.parallel('banner', 'assets')));
-gulp.task('lab', gulp.parallel('prelab', 'patternlab'), function (cb) {
-    cb();
-});
+gulp.task('prelab', gulp.series('clean', 'assets'));
+gulp.task('lab', gulp.series('prelab', 'patternlab'));
 
 //server and watch tasks
-gulp.task('connect', gulp.series('lab', function () {
-    browserSync.init({
-        socket: {
-            domain: 'localhost:3000'
-        },
-        server: {
-            baseDir: './public/',
-            middleware: function (req, res, next) {
-                res.setHeader('Access-Control-Allow-Origin', '*');
-                next();
-            }
-        }
-    });
-    gulp.watch('./source/css/style.css', gulp.series('cp:css'));
+gulp.task('serve', gulp.series('lab', function serve() {
+  browserSync.init({
+    socket: {
+      domain: 'localhost:3000'
+    },
+    server: {
+      baseDir: './public/',
+      middleware: function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      }
+    },
+    ghostMode: false,
+    notify : false
+  });
 
-    //suggested watches if you use scss
-    gulp.watch(['./source/**/*.scss', '!./source/_patterns/**/*icons.scss'], gulp.series('sass:style'));
-    gulp.watch('./public/styleguide/*.scss', gulp.series('sass:styleguide'));
-
-    gulp.watch('./source/_patterns/**/*.js', gulp.series('js'));
-
-    gulp.watch('./source/fonts/icon-source/**/*.svg', gulp.series('iconfont'));
-
-    gulp.watch([
-            './source/_patterns/**/*.mustache',
-            '!./source/_patterns/**/*icons.mustache',
-            './source/_patterns/**/*.json',
-            './source/_data/*.json'],
-        gulp.series('lab-pipe', function () {
-            browserSync.reload();
-        }));
-
-}));
-
-gulp.task('lab-pipe', gulp.series('lab', function (cb) {
-  cb();
-  browserSync.reload();
+  gulp.watch('source/css/style.css', gulp.series('cp:css'));
+  gulp.watch(['source/**/*.scss', '!./source/_patterns/**/*icons.scss'], gulp.series('sass:style'));
+  gulp.watch('public/styleguide/*.scss', gulp.series('sass:styleguide'));
+  gulp.watch('source/_patterns/**/*.js', gulp.series('js'));
+  gulp.watch('source/fonts/icon-source/**/*.svg', gulp.series('iconfont'));
+  gulp.watch([
+      '!source/_patterns/00-atoms/03-images/05-icons.mustache',
+      'source/_patterns/**/*.mustache',
+      'source/_patterns/**/*.json',
+      'source/_data/*.json'],
+    gulp.series('cp:data', 'patterns', function reload(cb) {
+      browserSync.reload();
+      cb();
+    }));
 }));
 
 gulp.task('default', gulp.series('lab'));
-
 gulp.task('patterns', gulp.series('patternlab:only_patterns'));
-gulp.task('serve', gulp.series('connect'));
 gulp.task('travis', gulp.series('lab', 'nodeunit'));
-
 gulp.task('version', gulp.series('patternlab:version'));
 gulp.task('help', gulp.series('patternlab:help'));
-
-gulp.task('deploy', function (done) {
-  sequence(
-    'lab',
-    'deployAws',
-    'notifyAboutNewVersion',
-    done
-  )
-});
+gulp.task('deploy', gulp.series('lab', 'deployAws', 'notifyAboutNewVersion'));
