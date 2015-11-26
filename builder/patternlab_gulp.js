@@ -10,25 +10,27 @@
 
 module.exports = function(gulp) {
 
-  gulp.task('patternlab', ['clean'], function(cb){
+  gulp.task('patternlab', function(cb) {
     var patternlab = patternlab_engine();
     patternlab.build(false);
     cb();
   });
 
-  gulp.task('patternlab:version', function(){
+  gulp.task('patternlab:version', function(cb) {
     var patternlab = patternlab_engine();
     patternlab.version();
-  })
+    cb();
+  });
 
-  gulp.task('patternlab:only_patterns', ['clean'], function(){
+  gulp.task('patternlab:only_patterns', function(cb) {
     var patternlab = patternlab_engine();
     patternlab.build_patterns_only(false);
-  })
+    cb();
+  });
 
-  gulp.task('patternlab:help', function(){
+  gulp.task('patternlab:help', function(cb) {
     var patternlab = patternlab_engine();
     patternlab.help();
-  })
-
-}
+    cb();
+  });
+};
