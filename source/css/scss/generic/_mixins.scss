@@ -12,4 +12,11 @@
   letter-spacing: 0.1em;
 }
 
+@mixin font-primary-light-lowercase() {
+  font-family: $fontPrimary;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  font-size : 0.875em;
+}
+
 @import './icons';
