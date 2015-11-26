@@ -1,33 +1,21 @@
 .headlineH1{
   font-family : $fontPrimary;
-  &__link {
-  }
 }
 .headlineH2 {
-  font-family : $fontPrimary;
-  &__link {
-  }
+  font-family: $fontPrimary;
+  font-weight: 300;
+  text-transform: uppercase;
+
 }
-
-
 .headlineH3 {
   font-family : $fontPrimary;
-  &__link {
-  }
 }
 .headlineH4 {
   font-family : $fontPrimary;
-  &__link {
-  }
 }
 .headlineH5 {
   font-family : $fontPrimary;
-  &__link {
-
-  }
 }
 .headlineH6 {
   font-family : $fontPrimary;
-  &__link {
-  }
 }
