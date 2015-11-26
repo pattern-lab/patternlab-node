@@ -9,7 +9,7 @@
 	],
  	"ignored-extensions" : ["scss", "DS_Store", "less"],
  	"ignored-directories" : ["scss"],
- 	"debug": false,
+ 	"debug": true,
  	"ishControlsVisible": {
  		"s": true,
  		"m": true,
