@@ -16,25 +16,15 @@
 		mustache = require('mustache'),
 		smh = require('./style_modifier_hunter'),
 		style_modifier_hunter = new smh(),
-		pattern_assembler = new pa(),
+		pattern_assembler = new pa();
 
-		resolvedParameters = [],
-		missingParameters = [];
-
-		function fillInParameters() {
-
-		}
-
-		function findparameters(pattern, patternlab){
-
+		function findparameters(pattern, patternlab, additionalRun){
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
 					//find the partial's name and retrieve it
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
-
-					console.log('current:', pattern.patternGroup, ', including:', partialPattern.patternGroup, index);
 
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
@@ -46,14 +36,13 @@
 					var paramString =  '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
 					var paramData;
 
-					console.log(paramString);
-
 					//do no evil. there is no good way to do this that I can think of without using a split, which then makes commas and colons special characters and unusable within the pattern params
 
 					try {
 						patternlab.knownData = patternlab.knownData || {};
 						var knownDataString = Object.keys(patternlab.knownData).map(function(propertyName) {
-							return 'var ' + propertyName + ' = ' + patternlab.knownData[propertyName] + ';';
+							var value = patternlab.knownData[propertyName];
+							return 'var ' + propertyName + ' = ' + (typeof value === 'string' ? '"' + value + '"' : value) + ';';
 						}).join('');
 
 						paramData = eval('(function() { ' + knownDataString + ' return ' + paramString + '; })();');
@@ -63,9 +52,17 @@
 						});
 					} catch(e) {}
 
+					patternlab.patternsWithMissingData = patternlab.patternsWithMissingData || [];
+
 					if (!paramData) {
-						console.log('cannot resolve yet: ', paramString);
-						return missingParameters.push(paramString);
+						return patternlab.patternsWithMissingData.push([pattern, patternlab]);
+					}
+
+					if (!additionalRun) {
+						patternlab.patternsWithMissingData.forEach(function(args) {
+							patternlab.patternsWithMissingData.pop();
+							findparameters(args[0], args[1], true);
+						});
 					}
 
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
