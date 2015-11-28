@@ -21,18 +21,7 @@
     engineFileExtension: '.twig',
 
     // regexes, stored here so they're only compiled once
-    // findPartialsRE: /{%([ ]+)?(?:include|embed|extend) .["]([A-Za-z0-9-_.]+).["] (.*)%}/g,
-    
-    // findPartialsRE: /"{%([ ]+)?(?:include)[\"]"/g,
-    
-    
     findPartialsRE: /{%([ ]+)?(?:include|embed|extend)..([A-Za-z0-9-_.]+).(.*)%}/g,
-    
-    
-    
-    // {%([ ]+)?(?:include|embed|extend).["]([A-Za-z0-9-_.]+)["].
-    
-    
     
     findPartialsWithStyleModifiersRE: /{%([ ]+)?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_]+)+(?:(| )\(.*)?([ ])?%}/g,
     
