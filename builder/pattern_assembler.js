@@ -63,7 +63,7 @@
         if (config.debug) {
           console.log('rendering full oPattern: ' + pattern.name);
         }
-        return pattern.render(data, partials);
+        return pattern.render(pattern, data, partials);
       } else {
         // otherwise, assume it's a plain mustache template string and act
         // accordingly
@@ -126,7 +126,8 @@
       }
 
       //can ignore all non-mustache files at this point
-      if(ext !== '.mustache'){
+      // if(ext !== '.mustache'){
+      if(patternEngines.isFileExtensionSupported(ext) === false){
         if (config.debug) {
           console.log('==================== FOUND NON-MUSTACHE FILE');
         }

@@ -12,9 +12,9 @@ var codeViewer = {
 	codeActive:   false,
 	tabActive:    "e",
 	encoded:      "",
-	mustache:     "",
+	template:     "",
 	css:          "",
-	ids:          { "e": "#sg-code-title-html", "m": "#sg-code-title-mustache", "c": "#sg-code-title-css" },
+	ids:          { "e": "#sg-code-title-html", "t": "#sg-code-title-template", "c": "#sg-code-title-css" },
 	targetOrigin: (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host,
 	copyOnInit:   false,
 	
@@ -129,9 +129,9 @@ var codeViewer = {
 			codeViewer.swapCode("e");
 		});
 		
-		// make sure the click events are handled on the Mustache tab
-		$(codeViewer.ids["m"]).click(function() {
-			codeViewer.swapCode("m");
+		// make sure the click events are handled on the Template tab
+		$(codeViewer.ids["t"]).click(function() {
+			codeViewer.swapCode("t");
 		});
 		
 		// make sure the click events are handled on the CSS tab
@@ -150,8 +150,8 @@ var codeViewer = {
 		var fill      = "";
 		var className = (type == "c") ? "css" : "markup";
 		$("#sg-code-fill").removeClass().addClass("language-"+className);
-		if (type == "m") {
-			fill = codeViewer.mustache;
+		if (type == "t") {
+			fill = codeViewer.template;
 		} else if (type == "e") {
 			fill = codeViewer.encoded;
 		} else if (type == "c") {
@@ -212,10 +212,10 @@ var codeViewer = {
 	* once the AJAX request for the mustache mark-up is finished this runs.
 	* if the mustache tab is the current active tab it adds the content to the default code container
 	*/
-	saveMustache: function() {
-		codeViewer.mustache = this.responseText;
-		if (codeViewer.tabActive == "m") {
-			codeViewer.activateDefaultTab("m",this.responseText);
+	saveTemplate: function() {
+		codeViewer.template = this.responseText;
+		if (codeViewer.tabActive == "t") {
+			codeViewer.activateDefaultTab("t",this.responseText);
 		}
 	},
 	
@@ -237,8 +237,8 @@ var codeViewer = {
 	activateDefaultTab: function(type,code) {
 		var typeName  = "";
 		var className = (type == "c") ? "css" : "markup";
-		if (type == "m") {
-			typeName = "mustache";
+		if (type == "t") {
+			typeName = "template";
 		} else if (type == "e") {
 			typeName = "html";
 		} else if (type == "c") {
@@ -259,7 +259,8 @@ var codeViewer = {
 	* when turning on or switching between patterns with code view on make sure we get
 	* the code from from the pattern via post message
 	*/
-	updateCode: function(lineage,lineageR,patternPartial,patternState,cssEnabled) {
+	updateCode: function(lineage,lineageR,patternPartial,patternState,cssEnabled,fileExtension) {
+		
 		
 		// clear any selections that might have been made
 		codeViewer.clearSelection();
@@ -321,11 +322,12 @@ var codeViewer = {
 		e.open("GET", fileName.replace(/\.html/,".escaped.html") + "?" + (new Date()).getTime(), true);
 		e.send();
 		
-		// request the mustache markup version of the pattern
-		var m = new XMLHttpRequest();
-		m.onload = this.saveMustache;
-		m.open("GET", fileName.replace(/\.html/,".mustache") + "?" + (new Date()).getTime(), true);
-		m.send();
+		
+		// request the template markup version of the pattern
+		var t = new XMLHttpRequest();
+		t.onload = this.saveTemplate;
+		t.open("GET", fileName.replace(/\.html/,fileExtension) + "?" + (new Date()).getTime(), true);
+		t.send();
 		
 		// if css is enabled request the css for the pattern
 		if (cssEnabled) {
@@ -359,7 +361,7 @@ var codeViewer = {
 		// switch based on stuff related to the postmessage
 		if (data.codeOverlay !== undefined) {
 			if (data.codeOverlay === "on") {
-				codeViewer.updateCode(data.lineage,data.lineageR,data.patternPartial,data.patternState,data.cssEnabled);
+				codeViewer.updateCode(data.lineage,data.lineageR,data.patternPartial,data.patternState,data.cssEnabled,data.fileExtension);
 			} else {
 				codeViewer.slideCode($('#sg-code-container').outerHeight());
 			}
@@ -372,7 +374,7 @@ var codeViewer = {
 				return false;
 			} else if (data.keyPress == 'ctrl+shift+u') {
 				if (codeViewer.codeActive) {
-					codeViewer.swapCode("m");
+					codeViewer.swapCode("t");
 					return false;
 				}
 			} else if (data.keyPress == 'ctrl+shift+y') {
@@ -416,7 +418,7 @@ jwerty.key('cmd+a/ctrl+a', function (e) {
 	return false;
 });
 
-// open the mustache panel
+// open the template panel
 jwerty.key('ctrl+shift+u', function (e) {
 	if (codeViewer.codeActive) {
 		codeViewer.swapCode("m");

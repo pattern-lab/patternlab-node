@@ -14,9 +14,11 @@
     "gulp-header": "^1.0.5",
     "gulp-load": "^0.1.1",
     "gulp-nodeunit": "0.0.5",
+    "gulp-sass": "^2.1.0",
     "gulp-strip-banner": "0.0.2",
     "html-entities": "^1.1.1",
-    "mustache": "^1.0.0"
+    "mustache": "^1.0.0",
+    "twig": "^0.8.2"
   },
   "keywords": [
     "Pattern Lab",

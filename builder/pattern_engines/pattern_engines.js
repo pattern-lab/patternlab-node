@@ -15,6 +15,7 @@
   // list of supported pattern engines
   var supportedPatternEngineNames = [
     'mustache',
+    'twig',
     'handlebars'
   ];
 

@@ -15,7 +15,8 @@
     "grunt-contrib-watch": "^0.6.1",
     "html-entities": "^1.1.1",
     "matchdep": "^0.3.0",
-    "mustache": "^1.0.0"
+    "mustache": "^1.0.0",
+    "twig": "^0.8.2"
   },
   "keywords": [
     "Pattern Lab",
