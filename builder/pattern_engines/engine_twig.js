@@ -1,7 +1,7 @@
 /*
- * mustache pattern engine for patternlab-node - v0.10.1 - 2015
+ * twig pattern engine for patternlab-node - v0.10.1 - 2015
  *
- * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
+ * Geoffrey Pursell, Brian Muenzenmeyer, Salem Ghoweri, and the web community.
  * Licensed under the MIT license.
  *
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
@@ -11,7 +11,6 @@
 (function () {
   "use strict";
 
-  // var Mustache = require('mustache');
   var twig = require('twig').twig;
   var path = require('path');
 
