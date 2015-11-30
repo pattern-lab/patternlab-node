@@ -4,7 +4,7 @@
   letter-spacing: 0.12em;
   transition: color $animationTimingFast ease-out;
   font-weight: 300;
-  opacity: 1;
+  opacity: 1!important;
 }
 
 @mixin placeholderFocus() {
@@ -18,18 +18,7 @@ input, textarea, select {
   border: 1px solid $colorBlack;
   background-color: transparent;
   &:focus {
-    &::-webkit-input-placeholder {
-      @include placeholderFocus()
-    }
-    &::-moz-placeholder {
-      @include placeholderFocus()
-    }
-    &:-moz-placeholder {
-      @include placeholderFocus()
-    }
-    &:-ms-input-placeholder {
-      @include placeholderFocus()
-    }
+    outline: none;
   }
 }
 
