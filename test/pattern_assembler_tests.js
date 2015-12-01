@@ -7,22 +7,47 @@
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
-      test.expect(3);
+      test.expect(13);
 
 			//setup current pattern from what we would have during execution
-			var currentPattern = new of.oPattern(
+			var currentPattern = of.oPattern.create(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
-        null // data
+        null, // data
+        {
+          template: "{{> molecules-comment-header}}asdfasdf" +
+            "{{>  molecules-comment-header}}" +
+            "{{> \n	molecules-comment-header\n}}" +
+            "{{> }}" +
+            "{{>  molecules-weird-spacing     }}" +
+            "{{>  molecules-ba_d-cha*rs     }}" +
+            "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
+            '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}' +
+            "{{> molecules-single-comment:foo }}" +
+            "{{> 01-molecules/06-components/03-comment-header.mustache }}" +
+            "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
+            "{{> molecules-single-comment:foo }}" +
+            "{{>atoms-error(message: 'That\\'s no moon...')}}" +
+            '{{>atoms-error(message: \'That\\\'s no moon...\')}}'
+        }
       );
-      currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
 
 			var results = currentPattern.findPartials();
-			test.equals(results.length, 2);
-			test.equals(results[0], '{{> molecules-comment-header}}');
-			test.equals(results[1], '{{> molecules-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
-
+      console.log(results);
+			test.equals(results.length, 12);
+      test.equals(results[0], "{{> molecules-comment-header}}");
+      test.equals(results[1], "{{>  molecules-comment-header}}");
+      test.equals(results[2], "{{> \n	molecules-comment-header\n}}");
+      test.equals(results[3], "{{>  molecules-weird-spacing     }}");
+      test.equals(results[4], "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}");
+      test.equals(results[5], '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}');
+      test.equals(results[6], "{{> molecules-single-comment:foo }}");
+      test.equals(results[7], "{{> 01-molecules/06-components/03-comment-header.mustache }}");
+      test.equals(results[8], "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}");
+      test.equals(results[9], "{{> molecules-single-comment:foo }}");
+      test.equals(results[10], "{{>atoms-error(message: 'That\\'s no moon...')}}");
+      test.equals(results[11], "{{>atoms-error(message: 'That\\'s no moon...')}}");
 			test.done();
 		},
 
@@ -36,12 +61,12 @@
         '00-test-mol.mustache', // filename,
         null // data
       );
-      currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
+      currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
 
 			var results = currentPattern.findPartials();
 			test.equals(results.length, 2);
 			test.equals(results[0], '{{> 01-molecules/06-components/03-comment-header.mustache }}');
-			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
+			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment.mustache(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
 			test.done();
 		},
 
