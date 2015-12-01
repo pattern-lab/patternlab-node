@@ -8,7 +8,7 @@
     font-size : 0.75rem;
     color : $colorBlack;
     display : inline-block;
-    @include icon('chevron', 'after');
+    @include icon('chevron-right', 'after');
     &:after {
       line-height : 0.625em;
       font-size : 1rem;
