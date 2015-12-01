@@ -3,6 +3,7 @@
 
 	var pa = require('../builder/pattern_assembler');
   var of = require('../builder/object_factory');
+  var patternEngines = require('../builder/pattern_engines/pattern_engines');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
@@ -341,7 +342,7 @@
       // loop over each test case and test it
       Object.keys(filenames).forEach(function (filename) {
         var expectedResult = filenames[filename],
-            actualResult = pattern_assembler.is_pattern_file(filename),
+            actualResult = patternEngines.isPatternFile(filename),
             testMessage = 'isPatternFile should return ' + expectedResult + ' for ' + filename;
         test.strictEqual(actualResult, expectedResult, testMessage);
       });

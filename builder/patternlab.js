@@ -19,6 +19,7 @@ var patternlab_engine = function () {
   mh = require('./media_hunter'),
   pe = require('./pattern_exporter'),
   he = require('html-entities').AllHtmlEntities,
+  plutils = require('./utilities'),
   patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
@@ -120,7 +121,7 @@ var patternlab_engine = function () {
     patternlab.patterns.forEach(function(pattern, index, patterns){
       //render the pattern, but first consolidate any data we may have
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
-      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
+      allData = plutils.mergeData(allData, pattern.jsonFileData);
 
       pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
 

@@ -15,18 +15,9 @@
 
     var fs = require('fs-extra'),
         of = require('./object_factory'),
-        path = require('path'),
+        plutils = require('./utilities'),
         patternEngines = require('./pattern_engines/pattern_engines'),
         config = fs.readJSONSync('./config.json');
-
-    function isObjectEmpty(obj) {
-      for(var prop in obj) {
-          if(obj.hasOwnProperty(prop))
-              return false;
-      }
-
-      return true;
-    }
 
     function setState(pattern, patternlab){
       if(patternlab.config.patternStates[pattern.patternName]){
@@ -74,24 +65,6 @@
       }
     }
 
-    // takes a filename string, not a full path; a basename (plus extension)
-    // ignore _underscored patterns, dotfiles, and anything not recognized by a
-    // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
-    // pattern files!
-    function isPatternFile(filename) {
-      // skip hidden patterns/files without a second thought
-      var extension = path.extname(filename);
-      if(filename.charAt(0) === '.' ||
-         filename.charAt(0) === '_' ||
-         (extension === '.json' && filename.indexOf('~') === -1)) {
-        return false;
-      }
-
-      // not a hidden pattern, let's dig deeper
-      var supportedPatternFileExtensions = patternEngines.getSupportedFileExtensions();
-      return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1);
-    }
-
     function processPatternIterative(file, patternlab){
       var fs = require('fs-extra'),
       of = require('./object_factory'),
@@ -107,7 +80,7 @@
       }
 
       // skip non-pattern files
-      if (!isPatternFile(filename, patternlab)) { return; }
+      if (!patternEngines.isPatternFile(filename, patternlab)) { return; }
       if (config.debug) {
         console.log('processPatternIterative:', 'found pattern', file);
       }
@@ -274,40 +247,7 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-    /**
-     * Recursively merge properties of two objects.
-     *
-     * @param {Object} obj1 If obj1 has properties obj2 doesn't, add to obj2.
-     * @param {Object} obj2 This object's properties have priority over obj1.
-     * @returns {Object} obj2
-     */
-    function mergeData(obj1, obj2){
-      if(typeof obj2 === 'undefined'){
-        obj2 = {};
-      }
-      for(var p in obj1){
-        try {
-          // Only recurse if obj1[p] is an object.
-          if(obj1[p].constructor === Object){
-            // Requires 2 objects as params; create obj2[p] if undefined.
-            if(typeof obj2[p] === 'undefined'){
-              obj2[p] = {};
-            }
-            obj2[p] = mergeData(obj1[p], obj2[p]);
-          // Pop when recursion meets a non-object. If obj1[p] is a non-object,
-          // only copy to undefined obj2[p]. This way, obj2 maintains priority.
-          } else if(typeof obj2[p] === 'undefined'){
-            obj2[p] = obj1[p];
-          }
-        } catch(e) {
-          // Property in destination object not set; create it and set its value.
-          if(typeof obj2[p] === 'undefined'){
-            obj2[p] = obj1[p];
-          }
-        }
-      }
-      return obj2;
-    }
+
 
     function buildListItems(container){
       //combine all list items into one structure
@@ -317,7 +257,7 @@
           list.push(container.listitems[item]);
         }
       }
-      container.listItemArray = shuffle(list);
+      container.listItemArray = plutils.shuffle(list);
 
       for(var i = 1; i <= container.listItemArray.length; i++){
         var tempItems = [];
@@ -333,11 +273,7 @@
       }
     }
 
-    //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-    function shuffle(o){
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
-    }
+
 
     return {
       find_pattern_partials: function(pattern){
@@ -370,16 +306,9 @@
       get_pattern_by_key: function(key, patternlab){
         return getpatternbykey(key, patternlab);
       },
-      merge_data: function(existingData, newData){
-        return mergeData(existingData, newData);
-      },
       combine_listItems: function(patternlab){
         buildListItems(patternlab);
-      },
-      is_object_empty: function(obj){
-        return isObjectEmpty(obj);
-      },
-      is_pattern_file: isPatternFile
+      }
     };
 
   };

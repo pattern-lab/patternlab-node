@@ -12,6 +12,8 @@
 (function () {
   'use strict';
 
+  var path = require('path');
+
   // list of supported pattern engines
   var supportedPatternEngineNames = [
     'mustache',
@@ -42,6 +44,7 @@
       // accordingly
       return 'mustache';
     },
+
     getEngineForPattern: function (pattern) {
       if (pattern.isPseudoPattern) {
         return this.getEngineForPattern(pattern.basePattern);
@@ -50,15 +53,35 @@
         return this[engineName];
       }
     },
+
     getSupportedFileExtensions: function () {
       var engineNames = Object.keys(PatternEngines);
       return engineNames.map(function (engineName) {
         return PatternEngines[engineName].engineFileExtension;
       });
     },
+
     isFileExtensionSupported: function (fileExtension) {
       var supportedExtensions = PatternEngines.getSupportedFileExtensions();
       return (supportedExtensions.lastIndexOf(fileExtension) !== -1);
+    },
+
+    // takes a filename string, not a full path; a basename (plus extension)
+    // ignore _underscored patterns, dotfiles, and anything not recognized by a
+    // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
+    // pattern files!
+    isPatternFile: function (filename) {
+      // skip hidden patterns/files without a second thought
+      var extension = path.extname(filename);
+      if(filename.charAt(0) === '.' ||
+         filename.charAt(0) === '_' ||
+         (extension === '.json' && filename.indexOf('~') === -1)) {
+        return false;
+      }
+
+      // not a hidden pattern, let's dig deeper
+      var supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
+      return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1);
     }
   });
 

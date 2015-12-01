@@ -19,7 +19,8 @@
 			fs = require('fs-extra'),
 			pa = require('./pattern_assembler'),
 			lh = require('./lineage_hunter'),
-			of = require('./object_factory');
+			of = require('./object_factory'),
+			plutils = require('./utilities');
 
 			var pattern_assembler = new pa();
 			var lineage_hunter = new lh();
@@ -38,6 +39,7 @@
 				for(var i = 0; i < pseudoPatterns.length; i++){
 
 					if(patternlab.config.debug){
+						debugger;
 						console.log('found pseudoPattern variant of ' + currentPattern.key);
 					}
 
@@ -45,7 +47,7 @@
 					var variantFileData = fs.readJSONSync('source/_patterns/' + pseudoPatterns[i]);
 
 					//extend any existing data with variant data
-					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
+					variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
 					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
