@@ -104,30 +104,22 @@
 			//setup current pattern from what we would have during execution
       var currentPattern = createFakeEmptyErrorPattern();
       extend(currentPattern, {
-				"template": "{{> atoms-error(message: 'That\'s no moon...') }}",
-				"patternPartial": "{{> atoms-error(message: 'That\'s no moon...') }}"
+				"template": "{{> atoms-error(message: 'That\\'s no moon...') }}",
+				"patternPartial": "{{> atoms-error(message: 'That\\'s no moon...') }}"
       });
 
 			var patternlab = {
 				patterns: [
-					{
-						"name": "01-atoms-05-alerts-00-error",
-						"subdir": "01-atoms\\05-alerts",
-						"filename": "00-error.mustache",
-						"data": null,
-						"template": "<h1> {{message}} </h1>",
-						"patternPartial": "<h1> {{message}} </h1>",
-						"patternName": "error",
-						"patternLink": "01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html",
-						"patternGroup": "atoms",
-						"patternSubGroup": "atoms\\05-alerts",
-						"flatPatternPath": "01-atoms\\05-alerts",
-						"patternState": "",
-						"lineage": [],
-						"lineageIndex": [],
-						"lineageR": [],
-						"lineageRIndex": []
-					}
+					of.oPattern.create(
+						'/home/fakeuser/pl/source/_patterns/00-atoms/05-alerts/00-error.mustache',
+						'00-atoms\\05-alerts',
+						'00-error.mustache',
+						null,
+						{
+							"template": "<h1> {{message}} </h1>",
+							"patternPartial": "<h1> {{message}} </h1>"
+						}
+					)
 				]
 			};
 
@@ -144,8 +136,8 @@
 			//setup current pattern from what we would have during execution
       var currentPattern = createFakeEmptyErrorPattern();
       extend(currentPattern, {
-				"template": "{{>atoms-error(message: 'That\'s no moon...')}}",
-				"patternPartial": "{{>atoms-error(message: 'That\'s no moon...')}}",
+				"template": "{{>atoms-error(message: 'That\\'s no moon...')}}",
+				"patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}",
       });
 
 			var patternlab = {
@@ -186,8 +178,8 @@
 			//setup current pattern from what we would have during execution
       var currentPattern = createFakeEmptyErrorPattern();
       extend(currentPattern, {
-				"template": "{{>atoms-error(message: 'That\'s no moon...')}}",
-				"patternPartial": "{{>atoms-error(message: 'That\'s no moon...')}}"
+				"template": "{{>atoms-error(message: 'That\\'s no moon...')}}",
+				"patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}"
 			});
 			var patternlab = {
 				patterns: [

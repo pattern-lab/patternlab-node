@@ -18,8 +18,29 @@
     return extend(pattern, customProps);
   }
 
+  function createFakePatternLab(customProps) {
+    var pl = {
+      "listitems": {
+        "1": [
+          { "title": "Foo" }
+        ],
+        "2": [
+          { "title": "Foo" },
+          { "title": "Bar" }
+        ]
+      },
+      "data": {
+        "link": {},
+        "partials": []
+      },
+      "config": {"debug": false}
+    };
+
+    return extend(pl, customProps);
+  }
+
   exports['list_item_hunter'] = {
-    'process_list_item_partials finds and outputs basic repeating blocks' : function(test){
+    'process_list_item_partials finds and outputs basic repeating blocks': function(test){
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = createFakeListPattern({
@@ -27,30 +48,7 @@
         "extendedTemplate": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
         "key": "test-patternName"
       });
-
-      var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false}
-      };
-
+      var patternlab = createFakePatternLab();
       var list_item_hunter = new lih();
 
       //act
@@ -70,30 +68,7 @@
         "extendedTemplate" : "{{#listitems.two}}{{ title }}{{/listitems.two}}",
         "key": "test-patternName"
       });
-
-      var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false}
-      };
-
+      var patternlab = createFakePatternLab();
       var list_item_hunter = new lih();
 
       //act
@@ -105,45 +80,25 @@
       test.done();
     },
 
-    'process_list_item_partials finds partials and outputs repeated renders' : function(test){
+    'process_list_item_partials finds partials and outputs repeated renders': function(test){
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = createFakeListPattern({
         "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-        "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
+        "extendedTemplate": "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
         "key": "test-patternName"
       });
 
-      var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
+      var patternlab = createFakePatternLab({
         "patterns": [
           {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "key": "test-simple",
-           "jsonFileData" : {}
+            "template": "{{ title }}",
+            "extendedTemplate" : "{{ title }}",
+            "key": "test-simple",
+            "jsonFileData" : {}
           }
         ]
-      };
+      });
 
       var list_item_hunter = new lih();
 
@@ -169,42 +124,22 @@
         "key": "test-patternName2"
       });
 
-      var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
+      var patternlab = createFakePatternLab({
         "patterns": [
-          of.oPattern.create(null, "00-test", "00-foo", null, {
+          of.oPattern.create('/home/fakeuser/pl/source/_patterns/00-atoms/00-test/00-foo.mustache', "00-atoms/00-test", "00-foo.mustache", null, {
             "template": "{{ title }}",
-            "extendedTemplate": "{{ title }}",
-            "jsonFileData": {}
+            "extendedTemplate": "{{ title }}"
           }),
-          of.oPattern.create(null, "00-test", "00-bar", null, {
+          of.oPattern.create('/home/fakeuser/pl/source/_patterns/00-atoms/00-test/00-bar.mustache', "00-atoms/00-test", "00-bar.mustache", null, {
             "template": "{{ title }}",
-            "extendedTemplate": "{{ title }}",
-            "jsonFileData": {}
+            "extendedTemplate": "{{ title }}"
           })
         ]
-      };
+      });
 
       var list_item_hunter = new lih();
+
+      debugger;
 
       //act
       list_item_hunter.process_list_item_partials(pattern1, patternlab);
@@ -217,57 +152,31 @@
       test.done();
     },
 
-    'process_list_item_partials overwrites listItem property if that property is in local .listitem.json' : function(test){
+    'process_list_item_partials overwrites listItem property if that property is in local .listitem.json': function(test) {
       //arrange
       //setup current pattern from what we would have during execution
-      var currentPattern = {
-         "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-         "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
-         "key": "test-patternName",
-         "jsonFileData" : {},
-         "listitems" : {
-            "2": [
-                   {
-                      "title": "One"
-                   },
-                   {
-                      "title": "Two"
-                   },
-                ]
-          }
-      };
-
-      var patternlab = {
+      var currentPattern = createFakeListPattern({
+        "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
+        "extendedTemplate": "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
+        "key": "test-patternName",
+        "jsonFileData": {},
         "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
           "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
+            { "title": "One" },
+            { "title": "Two" }
           ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
+        }
+      });
+      var patternlab = createFakePatternLab({
         "patterns": [
-          {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "key": "test-simple",
-           "jsonFileData" : {}
-          }
+          createFakeListPattern({
+            "template": "{{ title }}",
+            "extendedTemplate": "{{ title }}",
+            "key": "test-simple",
+            "jsonFileData": {}
+          })
         ]
-      };
-
+      });
       var list_item_hunter = new lih();
 
       //act
@@ -282,54 +191,28 @@
     'process_list_item_partials keeps listItem property if that property is not in local .listitem.json' : function(test){
       //arrange
       //setup current pattern from what we would have during execution
-      var currentPattern = {
-         "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
-         "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
-         "key": "test-patternName",
-         "jsonFileData" : {},
-         "listitems" : {
-            "2": [
-                   {
-                      "title": "One"
-                   },
-                   {
-                      "title": "Two"
-                   },
-                ]
-          }
-      };
-
-      var patternlab = {
+      var currentPattern = createFakeListPattern({
+        "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
+        "extendedTemplate": "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
+        "key": "test-patternName",
+        "jsonFileData": {},
         "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
           "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
+            { "title": "One" },
+            { "title": "Two" }
           ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
+        }
+      });
+      var patternlab = createFakePatternLab({
         "patterns": [
-          {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "key": "test-simple",
-           "jsonFileData" : {}
-          }
+          createFakeListPattern({
+            "template": "{{ title }}",
+            "extendedTemplate": "{{ title }}",
+            "key": "test-simple",
+            "jsonFileData" : {}
+          })
         ]
-      };
-
+      });
       var list_item_hunter = new lih();
 
       //act
@@ -344,53 +227,33 @@
     'process_list_item_partials uses local listItem property if that property is not set globally' : function(test){
       //arrange
       //setup current pattern from what we would have during execution
-      var currentPattern = {
-         "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
-         "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
-         "key": "test-patternName",
-         "jsonFileData" : {},
-         "listitems" : {
-            "1": [
-               {
-                  "title": "One"
-               }
-            ],
-            "2": [
-                   {
-                      "title": "One"
-                   },
-                   {
-                      "title": "Two"
-                   },
-                ]
-          }
-      };
-
-      var patternlab = {
+      var currentPattern = createFakeListPattern({
+        "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
+        "extendedTemplate": "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
+        "key": "test-patternName",
+        "jsonFileData": {},
         "listitems": {
+          "1": [
+            { "title": "One" }
+          ],
           "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
+            { "title": "One" },
+            { "title": "Two" }
           ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
+        }
+      });
+
+      var patternlab = createFakePatternLab({
         "patterns": [
-          {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "key": "test-simple",
-           "jsonFileData" : {}
-          }
+          createFakeListPattern({
+            "template": "{{ title }}",
+            "extendedTemplate": "{{ title }}",
+            "key": "test-simple",
+            "jsonFileData": {}
+          })
         ]
-      };
+      });
+      delete patternlab.listitems["1"]; // remove the "1" list
 
       var list_item_hunter = new lih();
 
@@ -398,6 +261,7 @@
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
+      test.equals(typeof patternlab.listitems["1"], "undefined");
       test.equals(currentPattern.extendedTemplate, "One" );
 
       test.done();
@@ -405,4 +269,4 @@
 
   };
 
-}());
+})();
