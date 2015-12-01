@@ -27,7 +27,6 @@
     'getEngineNameForPattern returns "mustache" for an artificial empty template': function (test) {
       test.expect(1);
       var emptyPattern = of.oPattern.createEmpty();
-      console.log(emptyPattern);
       test.equals(patternEngines.getEngineNameForPattern(emptyPattern), 'mustache');
       test.done();
     },

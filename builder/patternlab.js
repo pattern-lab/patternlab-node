@@ -13,9 +13,7 @@ var patternlab_engine = function () {
 
   var path = require('path'),
   fs = require('fs-extra'),
-  extend = require('util')._extend,
   diveSync = require('diveSync'),
-  glob = require('glob'),
   of = require('./object_factory'),
   pa = require('./pattern_assembler'),
   mh = require('./media_hunter'),
