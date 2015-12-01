@@ -43,7 +43,9 @@
 					var repeatedBlockTemplate = [];
 					var repeatedBlockHtml = '';
 					for(var i = 0; i < items.indexOf(loopNumberString); i++){
-            console.log('adding', patternBlock, 'to repeatedBlockTemplate');
+            if (config.debug) {
+              console.log('list item(s) in pattern', pattern.patternName, 'adding', patternBlock, 'to repeatedBlockTemplate');
+            }
 						repeatedBlockTemplate.push(patternBlock);
 					}
 
