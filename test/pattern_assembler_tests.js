@@ -7,7 +7,13 @@
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
-      test.expect(13);
+      // NOTES from GTP:
+      // it's nice to have so much test coverage, but it retrospect, I'm not
+      // happy with the structure I wound up with in this test; it's too
+      // difficult to add test cases and test failure reporting is not very
+      // granular.
+
+      test.expect(14);
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = of.oPattern.create(
@@ -29,13 +35,15 @@
             "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
             "{{> molecules-single-comment:foo }}" +
             "{{>atoms-error(message: 'That\\'s no moon...')}}" +
-            '{{>atoms-error(message: \'That\\\'s no moon...\')}}'
+            '{{>atoms-error(message: \'That\\\'s no moon...\')}}' +
+            "{{> 00-atoms/00-global/ }}" +
+            "{{> 00-atoms/00-global/06-test }}"
         }
       );
 
 			var results = currentPattern.findPartials();
       console.log(results);
-			test.equals(results.length, 12);
+			test.equals(results.length, 13);
       test.equals(results[0], "{{> molecules-comment-header}}");
       test.equals(results[1], "{{>  molecules-comment-header}}");
       test.equals(results[2], "{{> \n	molecules-comment-header\n}}");
@@ -48,6 +56,7 @@
       test.equals(results[9], "{{> molecules-single-comment:foo }}");
       test.equals(results[10], "{{>atoms-error(message: 'That\\'s no moon...')}}");
       test.equals(results[11], "{{>atoms-error(message: 'That\\'s no moon...')}}");
+      test.equals(results[12], "{{> 00-atoms/00-global/06-test }}");
 			test.done();
 		},
 

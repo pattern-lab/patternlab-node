@@ -137,7 +137,7 @@
       var currentPattern = createFakeEmptyErrorPattern();
       extend(currentPattern, {
 				"template": "{{>atoms-error(message: 'That\\'s no moon...')}}",
-				"patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}",
+				"patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}"
       });
 
 			var patternlab = {
@@ -219,4 +219,4 @@
 
 	};
 
-}());
+})();
