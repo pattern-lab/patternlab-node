@@ -28,7 +28,7 @@
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
-					console.log(partialPattern.abspath, 'requested by', pattern.abspath);
+					console.log(partialPattern.abspath, 'requested by', pattern.abspath, index);
 
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
@@ -59,6 +59,7 @@
 					}
 
 					if (!paramData) {
+						console.log('no data :/');
 						return passed = false;
 					}
 
@@ -88,7 +89,7 @@
 
 		return {
 			find_parameters: function(pattern, patternlab){
-				findparameters(pattern, patternlab);
+				return findparameters(pattern, patternlab);
 			}
 		};
 

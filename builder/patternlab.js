@@ -68,48 +68,38 @@
 
     pattern_assembler.combine_listItems(patternlab);
 
-    //diveSync once to perform iterative populating of patternlab object
-    diveSync(patterns_dir, {
-      filter: function(path, dir) {
-        if(dir){
-          var remainingPath = path.replace(patterns_dir, '');
-          var isValidPath = remainingPath.indexOf('/_') === -1;
-          return isValidPath;
-        }
-          return true;
-        }
-      },
-      function(err, file){
-        //log any errors
-        if(err){
-          console.log(err);
-          return;
-        }
-
-        pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
-    });
-
-    //diveSync again to recursively include partials, filling out the
+    //diveSync to perform iterative populating of patternlab object and to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
-    diveSync(patterns_dir, {
-      reverse : true,
-      filter: function(path, dir) {
-        if(dir){
-          var remainingPath = path.replace(patterns_dir, '');
-          var isValidPath = remainingPath.indexOf('/_') === -1;
-          return isValidPath;
-        }
-          return true;
-        }
-      },
-      function(err, file){
-        //log any errors
-        if(err){
-          console.log(err);
-          return;
-        }
 
-        pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
+    [
+      {
+        operation : pattern_assembler.process_pattern_iterative,
+        reverseFiles : false
+      },
+      {
+        operation : pattern_assembler.process_pattern_list_recursive,
+        reverseFiles : false
+      },
+      {
+        operation : pattern_assembler.process_pattern_recursive,
+        reverseFiles : true
+      }
+    ].forEach(function(turn) {
+      diveSync(patterns_dir, {
+            reverse : turn.reverseFiles,
+            filter: function(path, dir) {
+              return dir ? path.replace(patterns_dir, '').indexOf('/_') === -1 : true;
+            }
+          },
+          function(err, file){
+            //log any errors
+            if(err){
+              console.log(err);
+              return;
+            }
+
+            turn.operation(file.substring(2), patternlab);
+          });
     });
 
     //delete the contents of config.patterns.public before writing
