@@ -1,8 +1,5 @@
 .step__footer {
   text-align : center;
-  a {
-    border-bottom-color: inherit;
-  }
   @media only screen and (min-width: $breakpointTablet) {
     display : flex;
     flex-direction : row-reverse;
@@ -20,6 +17,9 @@
     @include font-primary-medium-uppercase();
     font-size : 0.75rem;
     margin-bottom : 1em;
+    a {
+      border-bottom-color: inherit;
+    }
     @media only screen and (min-width: $breakpointTablet) {
       text-align : left;
     }
