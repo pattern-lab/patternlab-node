@@ -21,7 +21,7 @@
   "devDependencies": {
     "browser-sync": "^2.8.2",
     "del": "^1.2.1",
-    "diveSync": "^0.2.1",
+    "diveSync": "jonathan-reisdorf/node-diveSync",
     "fs-extra": "^0.14.0",
     "git-tools": "^0.2.1",
     "glob": "^4.3.5",

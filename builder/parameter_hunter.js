@@ -18,13 +18,17 @@
 		style_modifier_hunter = new smh(),
 		pattern_assembler = new pa();
 
-		function findparameters(pattern, patternlab, additionalRun){
+		function findparameters(pattern, patternlab){
+			var passed = true;
+
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
 					//find the partial's name and retrieve it
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+
+					console.log(partialPattern.abspath, 'requested by', pattern.abspath);
 
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
@@ -50,19 +54,12 @@
 						Object.keys(paramData).forEach(function(propertyName) {
 							patternlab.knownData[propertyName] = patternlab.knownData[propertyName] || paramData[propertyName];
 						});
-					} catch(e) {}
-
-					patternlab.patternsWithMissingData = patternlab.patternsWithMissingData || [];
-
-					if (!paramData) {
-						return patternlab.patternsWithMissingData.push([pattern, patternlab]);
+					} catch(e) {
+						console.log('ERROR:', e);
 					}
 
-					if (!additionalRun) {
-						patternlab.patternsWithMissingData.forEach(function(args) {
-							patternlab.patternsWithMissingData.pop();
-							findparameters(args[0], args[1], true);
-						});
+					if (!paramData) {
+						return passed = false;
 					}
 
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
@@ -85,6 +82,8 @@
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 				});
 			}
+
+			return passed;
 		}
 
 		return {

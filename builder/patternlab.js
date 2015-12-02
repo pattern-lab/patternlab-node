@@ -92,6 +92,7 @@
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(patterns_dir, {
+      reverse : true,
       filter: function(path, dir) {
         if(dir){
           var remainingPath = path.replace(patterns_dir, '');
