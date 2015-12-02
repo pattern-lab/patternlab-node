@@ -3,8 +3,8 @@
   min-height: 40px;
   outline: none;
   border: 1px solid $colorBlack;
-  padding: 0 2em;
-  line-height: 38px;
+  padding: 1em 2em;
+  line-height: normal;
   font-size: 0.75em;
   font-weight: 300;
   text-align: center;
@@ -29,12 +29,19 @@
     border: none;
     padding: 0;
   }
-  &--primary {
+}
+
+.button__primary {
+  @extend .button;
+  width : 100%;
+  padding: 1em 1em;
+  @media only screen and (min-width: 414px) {
     width: 280px;
   }
-  &--secondary {
-    width: 280px;
-    background-color: $colorNevada;
-    border: 1px solid $colorNevada;
-  }
+}
+
+.button__secondary {
+  @extend .button, .button__primary;
+  background-color: $colorNevada;
+  border: 1px solid $colorNevada;
 }
