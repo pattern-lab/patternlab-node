@@ -28,8 +28,6 @@
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
 					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
-					console.log(partialPattern.abspath, 'requested by', pattern.abspath, index);
-
 					if(patternlab.config.debug){
 						console.log('found patternParameters for ' + partialName);
 					}
@@ -54,12 +52,9 @@
 						Object.keys(paramData).forEach(function(propertyName) {
 							patternlab.knownData[propertyName] = patternlab.knownData[propertyName] || paramData[propertyName];
 						});
-					} catch(e) {
-						console.log('ERROR:', e);
-					}
+					} catch(e) {}
 
 					if (!paramData) {
-						console.log('no data :/');
 						return passed = false;
 					}
 
@@ -77,6 +72,7 @@
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
 					allData.link = extend({}, patternlab.data.link);
 
+					findparameters(partialPattern, patternlab);
 					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData

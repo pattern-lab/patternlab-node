@@ -248,10 +248,7 @@
           var partialData = getPartialDataByPartialKey(foundPatternPartials[i], patternlab);
 
           //recurse through nested partials to fill out this extended template.
-          console.log('++', file);
           processPatternRecursive(partialData.path, patternlab);
-
-          console.log('--', file);
           //complete assembly of extended template
           var partialPattern = getpatternbykey(partialData.key, patternlab);
 
@@ -260,8 +257,6 @@
             style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
           }
 
-          console.log(foundPatternPartials[i], '!');
-          console.log(partialPattern.extendedTemplate);
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate || partialPattern.template);
         }
       }
