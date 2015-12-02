@@ -111,7 +111,7 @@ input[type="search"]::-webkit-search-decoration {
 }
 
 /* Validation */
-.has-error {
+.is-error {
 	border-color: $error;
 }
 .is-valid {
