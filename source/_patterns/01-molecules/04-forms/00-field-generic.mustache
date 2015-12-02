@@ -1,9 +1,7 @@
 <div class="field {{ styleModifier }}">
   <div class="field__input-wrapper">
     <label for="{{ id }}" class="field__label">{{ label }}</label>
-    aaaa {{ id }} ----
-    {{> atoms-input-type-text(id: "${id}", class: "field__input", test: "9999999999999999999") }}
-    aaaa
+    {{> atoms-input-type-text(id: id, placeholder: label,  className: "field__input") }}
     {{# message }}
       <p class="field__message">{{ message }}</p>
     {{/ message }}
