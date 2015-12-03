@@ -11,9 +11,7 @@
 
   var path = require('path'),
   fs = require('fs-extra'),
-  extend = require('util')._extend,
   diveSync = require('diveSync'),
-  mustache = require('mustache'),
   glob = require('glob'),
   of = require('./object_factory'),
   pa = require('./pattern_assembler'),

@@ -73,12 +73,12 @@
 
     function renderPattern(template, data, partials) {
 
-      var mustache = require('mustache');
+      var mostache = require('mostache');
 
       if(partials) {
-        return mustache.render(template, data, partials);
+        return mostache.render(template, data, partials);
       } else{
-        return mustache.render(template, data);
+        return mostache.render(template, data);
       }
     }
 

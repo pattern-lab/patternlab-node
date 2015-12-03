@@ -17,8 +17,7 @@
 			fs = require('fs-extra'),
 			pa = require('./pattern_assembler'),
 			lh = require('./lineage_hunter'),
-			of = require('./object_factory'),
-			mustache = require('mustache');
+			of = require('./object_factory');
 
 			var pattern_assembler = new pa();
 			var lineage_hunter = new lh();

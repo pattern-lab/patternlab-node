@@ -13,7 +13,6 @@
 
 		var extend = require('util')._extend,
 		pa = require('./pattern_assembler'),
-		mustache = require('mustache'),
 		smh = require('./style_modifier_hunter'),
 		style_modifier_hunter = new smh(),
 		pattern_assembler = new pa();
