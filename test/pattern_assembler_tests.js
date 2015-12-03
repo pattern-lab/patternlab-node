@@ -14,8 +14,10 @@
 
       test.expect(14);
 
-			//setup current pattern from what we would have during execution
-			var currentPattern = of.oPattern.create(
+      // setup current pattern from what we would have during execution
+      // docs on partial syntax are here:
+      // http://patternlab.io/docs/pattern-including.html
+      var currentPattern = of.oPattern.create(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -30,15 +32,14 @@
             "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
             '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}' +
             "{{> molecules-single-comment:foo }}" +
-            // questionable: is a partial call with a file extension really
-            // permitted? seems like no, based on
-            // http://patternlab.io/docs/pattern-including.html
+            // verbose partial syntax, introduced in v0.12.0, with file extension
             "{{> 01-molecules/06-components/03-comment-header.mustache }}" +
             "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
             "{{> molecules-single-comment:foo }}" +
             "{{>atoms-error(message: 'That\\'s no moon...')}}" +
             '{{>atoms-error(message: \'That\\\'s no moon...\')}}' +
             "{{> 00-atoms/00-global/ }}" +
+            // verbose partial syntax, introduced in v0.12.0, no file extension
             "{{> 00-atoms/00-global/06-test }}"
         }
       );
