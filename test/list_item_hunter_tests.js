@@ -113,14 +113,14 @@
 
     'process_list_item_partials finds verbose partials and outputs repeated renders' : function(test){
       var pattern1 = createFakeListPattern({
-        "template": "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
-        "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
+        "template": "{{#listItems.one}}{{> atoms-foo }}{{/listItems.one}}",
+        "extendedTemplate" : "{{#listItems.one}}{{> atoms-foo }}{{/listItems.one}}",
         "key": "test-patternName1"
       });
 
       var pattern2 = createFakeListPattern({
-        "template": "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
-        "extendedTemplate" : "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
+        "template": "{{#listItems.two}}{{> atoms-bar }}{{/listItems.two}}",
+        "extendedTemplate" : "{{#listItems.two}}{{> atoms-bar }}{{/listItems.two}}",
         "key": "test-patternName2"
       });
 
@@ -138,8 +138,6 @@
       });
 
       var list_item_hunter = new lih();
-
-      debugger;
 
       //act
       list_item_hunter.process_list_item_partials(pattern1, patternlab);
