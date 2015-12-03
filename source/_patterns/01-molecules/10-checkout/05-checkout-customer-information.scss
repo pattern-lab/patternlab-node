@@ -1,0 +1,54 @@
+.content-box {
+  p {
+    @include font-primary-light-lowercase();
+  }
+
+  h2 {
+    display : none;
+  }
+
+  h3 {
+    @include font-primary-medium-uppercase();
+    margin : 1.9375em 0 0.5em;
+    font-size : 0.875em;
+  }
+
+  .section__content {
+    display : block;
+
+    @media only screen and (min-width: $breakpointTablet) {
+      display : flex;
+      flex-direction : row;
+      justify-content : space-between;
+    }
+
+    &__column--half {
+      @media only screen and (min-width: $breakpointTablet) {
+        display : inline-block;
+        vertical-align : top;
+      }
+    }
+  }
+  .payment-method {
+    &-list {
+      list-style-type : none;
+      position : relative;
+
+      &__item {
+        @include font-primary-light-lowercase();
+
+        &__info {
+          margin-left : 2em;
+        }
+      }
+    }
+  }
+
+  .payment-icon--generic {
+    @include icon(creditCard);
+    color : $colorNevada;
+    &:before {
+      position : absolute;
+    }
+  }
+}
