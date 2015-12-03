@@ -1,0 +1,23 @@
+.section--shipping-address-recap {
+
+  p {
+    @include font-primary-light-lowercase();
+  }
+
+  .edit-link {
+    display : inline;
+    border-bottom : 1px solid $colorBlack;
+    @extend %animationTextLinks;
+
+    &:before {
+      content : '';
+      display : block;
+      margin : 1.9375em 0 0.5em;
+    }
+  }
+  .section__title {
+    @include font-primary-medium-uppercase();
+    margin : 1.9375em 0 0.5em;
+    font-size : 0.875em;
+  }
+}
