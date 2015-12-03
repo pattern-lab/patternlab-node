@@ -3,7 +3,6 @@
 
 	var pa = require('../builder/pattern_assembler');
   var of = require('../builder/object_factory');
-  var patternEngines = require('../builder/pattern_engines/pattern_engines');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
@@ -31,6 +30,9 @@
             "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
             '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}' +
             "{{> molecules-single-comment:foo }}" +
+            // questionable: is a partial call with a file extension really
+            // permitted? seems like no, based on
+            // http://patternlab.io/docs/pattern-including.html
             "{{> 01-molecules/06-components/03-comment-header.mustache }}" +
             "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
             "{{> molecules-single-comment:foo }}" +
@@ -355,34 +357,6 @@
 			test.equals(fooExtended, 'bar');
 
 			test.done();
-		},
-
-    'isPatternFile correctly identifies pattern files and rejects non-pattern files': function(test){
-      var pattern_assembler = new pa();
-
-      // each test case
-      var filenames = {
-        '00-comment-thread.mustache': true,
-        '00-comment-thread.fakeextthatdoesntexist': false,
-        '00-comment-thread': false,
-        '_00-comment-thread.mustache': false,
-        '.00-comment-thread.mustache': false,
-        '00-comment-thread.json': false,
-        '00-homepage~emergency.json': false
-      };
-      // expect one test per test case
-      test.expect(Object.keys(filenames).length);
-
-      // loop over each test case and test it
-      Object.keys(filenames).forEach(function (filename) {
-        var expectedResult = filenames[filename],
-            actualResult = patternEngines.isPatternFile(filename),
-            testMessage = 'isPatternFile should return ' + expectedResult + ' for ' + filename;
-        test.strictEqual(actualResult, expectedResult, testMessage);
-      });
-
-      // done
-			test.done();
 		}
 	};
-}());
+})();

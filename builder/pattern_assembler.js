@@ -89,7 +89,7 @@
       var currentPattern = new of.oPattern(file, subdir, filename);
 
       //if file is named in the syntax for variants
-      if(ext === '.json' && filename.indexOf('~') > -1){
+      if(patternEngines.isPseudoPatternJSON(filename)){
         //add current pattern to patternlab object with minimal data
         //processPatternRecursive() will run find_pseudopatterns() to fill out
         //the object in the next diveSync

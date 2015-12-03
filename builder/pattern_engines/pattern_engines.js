@@ -66,6 +66,13 @@
       return (supportedExtensions.lastIndexOf(fileExtension) !== -1);
     },
 
+    // given a filename, return a boolean: whether or not the filename indicates
+    // that the file is pseudopattern JSON
+    isPseudoPatternJSON: function (filename) {
+      var extension = path.extname(filename);
+      return (extension === '.json' && filename.indexOf('~') > -1);
+    },
+
     // takes a filename string, not a full path; a basename (plus extension)
     // ignore _underscored patterns, dotfiles, and anything not recognized by a
     // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
@@ -75,13 +82,14 @@
       var extension = path.extname(filename);
       if(filename.charAt(0) === '.' ||
          filename.charAt(0) === '_' ||
-         (extension === '.json' && filename.indexOf('~') === -1)) {
+         (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))) {
         return false;
       }
 
       // not a hidden pattern, let's dig deeper
       var supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
-      return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1);
+      return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
+             PatternEngines.isPseudoPatternJSON(filename));
     }
   });
 
