@@ -15,7 +15,7 @@
       "all"
     ],
     "dot-notation": [
-      2,
+      1,
       {
         "allowKeywords": true
       }
@@ -29,6 +29,7 @@
       "never"
     ],
     "guard-for-in": 2,
+    "key-spacing": 1,
     "new-cap": 0,
     "no-bitwise": 2,
     "no-caller": 2,
@@ -52,6 +53,7 @@
     "no-sequences": 2,
     "no-shadow": 2,
     "no-undef": 2,
+    "no-underscore-dangle": 1,
     "no-unused-vars": 2,
     "no-with": 2,
     "quotes": [

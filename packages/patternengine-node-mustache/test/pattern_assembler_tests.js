@@ -2,26 +2,68 @@
 	"use strict";
 
 	var pa = require('../builder/pattern_assembler');
-  var of = require('../builder/object_factory');
+  var object_factory = require('../builder/object_factory');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
-      test.expect(3);
+      // NOTES from GTP:
+      // it's nice to have so much test coverage, but it retrospect, I'm not
+      // happy with the structure I wound up with in this test; it's too
+      // difficult to add test cases and test failure reporting is not very
+      // granular.
 
-			//setup current pattern from what we would have during execution
-			var currentPattern = new of.oPattern(
+      test.expect(16);
+
+      // setup current pattern from what we would have during execution
+      // docs on partial syntax are here:
+      // http://patternlab.io/docs/pattern-including.html
+      var currentPattern = object_factory.oPattern.create(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
-        null // data
+        null, // data
+        {
+          template: "{{> molecules-comment-header}}asdfasdf" +
+            "{{>  molecules-comment-header}}" +
+            "{{> \n	molecules-comment-header\n}}" +
+            "{{> }}" +
+            "{{>  molecules-weird-spacing     }}" +
+            "{{>  molecules-ba_d-cha*rs     }}" +
+            "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
+            '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}' +
+            "{{> molecules-single-comment:foo }}" +
+            // verbose partial syntax, introduced in v0.12.0, with file extension
+            "{{> 01-molecules/06-components/03-comment-header.mustache }}" +
+            "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
+            "{{> molecules-single-comment:foo }}" +
+            "{{>atoms-error(message: 'That\\'s no moon...')}}" +
+            '{{>atoms-error(message: \'That\\\'s no moon...\')}}' +
+            "{{> 00-atoms/00-global/ }}" +
+            // verbose partial syntax, introduced in v0.12.0, no file extension
+            "{{> 00-atoms/00-global/06-test }}" +
+            "{{> molecules-single-comment:foo_1 }}" +
+            "{{> molecules-single-comment:foo-1 }}"
+        }
       );
-      currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
 
 			var results = currentPattern.findPartials();
-			test.equals(results.length, 2);
-			test.equals(results[0], '{{> molecules-comment-header}}');
-			test.equals(results[1], '{{> molecules-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
-
+      console.log(results);
+			test.equals(results.length, 15);
+      test.equals(results[0], "{{> molecules-comment-header}}");
+      test.equals(results[1], "{{>  molecules-comment-header}}");
+      test.equals(results[2], "{{> \n	molecules-comment-header\n}}");
+      test.equals(results[3], "{{>  molecules-weird-spacing     }}");
+      test.equals(results[4], "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}");
+      test.equals(results[5], '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}');
+      test.equals(results[6], "{{> molecules-single-comment:foo }}");
+      test.equals(results[7], "{{> 01-molecules/06-components/03-comment-header.mustache }}");
+      test.equals(results[8], "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}");
+      test.equals(results[9], "{{> molecules-single-comment:foo }}");
+      test.equals(results[10], "{{>atoms-error(message: 'That\\'s no moon...')}}");
+      test.equals(results[11], "{{>atoms-error(message: 'That\\'s no moon...')}}");
+      test.equals(results[12], "{{> 00-atoms/00-global/06-test }}");
+      test.equals(results[13], '{{> molecules-single-comment:foo_1 }}');
+      test.equals(results[14], '{{> molecules-single-comment:foo-1 }}');
 			test.done();
 		},
 
@@ -29,37 +71,39 @@
       test.expect(3);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
         null // data
       );
-      currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
+      currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
 
 			var results = currentPattern.findPartials();
 			test.equals(results.length, 2);
 			test.equals(results[0], '{{> 01-molecules/06-components/03-comment-header.mustache }}');
-			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
+			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment.mustache(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
 			test.done();
 		},
 
 		'find_pattern_partials_with_style_modifiers finds style modifiers' : function(test){
-      test.expect(2);
+      test.expect(4);
 
 			//setup current pattern from what we would have during execution
 
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
         null // data
       );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
+			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div><div>{{> molecules-single-comment:foo_1 }}</div><div>{{> molecules-single-comment:foo-1 }}</div>";
 
 			var results = currentPattern.findPartialsWithStyleModifiers();
-			test.equals(results.length, 1);
+			test.equals(results.length, 3);
 			test.equals(results[0], '{{> molecules-single-comment:foo }}');
+      test.equals(results[1], '{{> molecules-single-comment:foo_1 }}');
+      test.equals(results[2], '{{> molecules-single-comment:foo-1 }}');
 
 			test.done();
 		},
@@ -69,7 +113,7 @@
 
 			//setup current pattern from what we would have during execution
 
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -88,7 +132,7 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -107,7 +151,7 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -125,7 +169,7 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -143,7 +187,7 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -163,7 +207,7 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -182,7 +226,7 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -201,7 +245,7 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -219,7 +263,7 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new of.oPattern(
+      var currentPattern = new object_factory.oPattern(
         '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
         '01-molecules\\00-testing', // subdir
         '00-test-mol.mustache', // filename,
@@ -321,33 +365,172 @@
 
 			test.done();
 		},
+		'processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
 
-    'isPatternFile correctly identifies pattern files and rejects non-pattern files': function(test){
-      var pattern_assembler = new pa();
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			var patterns_dir = './test/files/_patterns';
 
-      // each test case
-      var filenames = {
-        '00-comment-thread.mustache': true,
-        '00-comment-thread.fakeextthatdoesntexist': false,
-        '00-comment-thread': false,
-        '_00-comment-thread.mustache': false,
-        '.00-comment-thread.mustache': false,
-        '00-comment-thread.json': false,
-        '00-homepage~emergency.json': false
-      };
-      // expect one test per test case
-      test.expect(Object.keys(filenames).length);
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-      // loop over each test case and test it
-      Object.keys(filenames).forEach(function (filename) {
-        var expectedResult = filenames[filename],
-            actualResult = pattern_assembler.is_pattern_file(filename),
-            testMessage = 'isPatternFile should return ' + expectedResult + ' for ' + filename;
-        test.strictEqual(actualResult, expectedResult, testMessage);
-      });
+			var groupPattern = new object_factory.oPattern('test/files/_patterns/00-test/04-group.mustache', '00-test', '04-group.mustache');
+			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/04-group.mustache', 'utf8');
+			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
 
-      // done
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(groupPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/04-group.mustache', pl, {});
+
+			//assert
+			var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+			test.done();
+		},
+		'processPatternRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			var patterns_dir = './test/files/_patterns';
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+
+			var mixedPattern = new object_factory.oPattern('test/files/_patterns/00-test/06-mixed.mustache', '00-test', '06-mixed.mustache');
+			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/06-mixed.mustache', 'utf8');
+			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(mixedPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/06-mixed.mustache', pl, {});
+
+			//assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
+			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+			test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+			test.done();
+		},
+		'processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier  between' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			var patterns_dir = './test/files/_patterns';
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+
+			var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/09-bookend.mustache', '00-test', '09-bookend.mustache');
+			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/09-bookend.mustache', 'utf8');
+			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(bookendPattern);
+
+      debugger;
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/09-bookend.mustache', pl, {});
+
+			//assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
+			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
+      var actualValue = bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ');
+			test.equals(actualValue.trim(), expectedValue.trim(), 'actual value:\n' + actualValue + '\nexpected value:\n' + expectedValue);
+			test.done();
+		},
+		'processPatternRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier and pattern parameters' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			var patterns_dir = './test/files/_patterns';
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+      atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+
+			var mixedPattern = new object_factory.oPattern('test/files/_patterns/00-test/07-mixed-params.mustache', '00-test', '07-mixed-params.mustache');
+			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/07-mixed-params.mustache', 'utf8');
+			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
+      mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(mixedPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/07-mixed-params.mustache', pl, {});
+
+			//assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
+			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
+			test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+			test.done();
+		},
+		'processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier and pattern parameters between' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			var patterns_dir = './test/files/_patterns';
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+      atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+
+			var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/08-bookend-params.mustache', '00-test', '08-bookend-params.mustache');
+			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/08-bookend-params.mustache', 'utf8');
+			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
+      bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(bookendPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/08-bookend-params.mustache', pl, {});
+
+			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
+			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
+			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		}
 	};
-}());
+})();

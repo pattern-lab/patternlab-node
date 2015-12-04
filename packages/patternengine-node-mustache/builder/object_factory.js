@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v0.14.0 - 2015
+ * patternlab-node - v0.15.1 - 2015
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -19,7 +19,7 @@
 
   // oPattern properties
 
-  var oPattern = function(abspath, subdir, filename, data){
+  var oPattern = function(abspath, subdir, filename, data) {
     if (config.debug) {
       console.log('=== NEW OPATTERN.', '\nabsPath:', abspath, '\nsubdir:', subdir, '\nfilename:', filename, '\ndata:\n', data);
     }
@@ -50,27 +50,38 @@
 
   // oPattern methods
 
-  // render method on oPatterns; this acts as a proxy for the PatternEngine's
-  // render function
-  oPattern.prototype.render = function (data, partials) {
-    if (config.debug && this.isPseudoPattern) {
-      console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
+  oPattern.prototype = {
+
+    // render method on oPatterns; this acts as a proxy for the PatternEngine's
+    // render function
+    render: function (data, partials) {
+      if (config.debug && this.isPseudoPattern) {
+        console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
+      }
+      return this.engine.renderPattern(this.extendedTemplate, data, partials);
+    },
+
+    // the finders all delegate to the PatternEngine, which also encapsulates all
+    // appropriate regexes
+    findPartials: function () {
+      return this.engine.findPartials(this);
+    },
+
+    findPartialsWithStyleModifiers: function () {
+      return this.engine.findPartialsWithStyleModifiers(this);
+    },
+
+    findPartialsWithPatternParameters: function () {
+      return this.engine.findPartialsWithPatternParameters(this);
+    },
+
+    findListItems: function () {
+      return this.engine.findListItems(this);
+    },
+
+    getPartialKey: function (partialString) {
+      return this.engine.getPartialKey(this, partialString);
     }
-    return this.engine.renderPattern(this.extendedTemplate, data, partials);
-  };
-  // the finders all delegate to the PatternEngine, which also encapsulates all
-  // appropriate regexes
-  oPattern.prototype.findPartials = function () {
-    return this.engine.findPartials(this);
-  };
-  oPattern.prototype.findPartialsWithStyleModifiers = function () {
-    return this.engine.findPartialsWithStyleModifiers(this);
-  };
-  oPattern.prototype.findPartialsWithPatternParameters = function () {
-    return this.engine.findPartialsWithPatternParameters(this);
-  };
-  oPattern.prototype.findListItems = function () {
-    return this.engine.findListItems(this);
   };
 
   // oPattern static methods
