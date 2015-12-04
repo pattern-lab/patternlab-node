@@ -9,6 +9,36 @@
  **/(function () {
 	"use strict";
 
+	function escapeParamVariableReferences(paramString) {
+		var data = {};
+		var parts = paramString.split(':').map(function(part) {
+			var partSegments = part.split(','),
+				lastPartSegment = partSegments.pop();
+
+			return [partSegments.join(','), lastPartSegment].filter(function(partSegment) {
+				return partSegment;
+			});
+		}).reduce(function(prevPart, nextPart) {
+			return prevPart.concat(nextPart);
+		});
+		parts.forEach(function(value, key) {
+			if (!(key % 2)) {
+				data[value.trim()] = parts[key+1].trim();
+			}
+		});
+
+		return Object.keys(data).map(function(key) {
+			var values = data[key].split(/\s*\|\|\s*/).map(function(value) {
+				if (eval('typeof ' + value) === 'undefined') {
+					value = '(typeof ' + value + ' !== "undefined" ? ' + value + ' : undefined)';
+				}
+				return value;
+			}).join(' || ');
+
+			return key + ' : ' + values;
+		}).join(', ');
+	}
+
 	var parameter_hunter = function(){
 
 		var extend = require('util')._extend,
@@ -18,8 +48,6 @@
 		pattern_assembler = new pa();
 
 		function findparameters(pattern, patternlab){
-			var passed = true;
-
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
@@ -34,10 +62,8 @@
 					//strip out the additional data and eval
 					var leftParen = pMatch.indexOf('(');
 					var rightParen = pMatch.indexOf(')');
-					var paramString =  '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+					var paramString = pMatch.substring(leftParen + 1, rightParen);
 					var paramData;
-
-					//do no evil. there is no good way to do this that I can think of without using a split, which then makes commas and colons special characters and unusable within the pattern params
 
 					try {
 						patternlab.knownData = patternlab.knownData || {};
@@ -46,15 +72,18 @@
 							return 'var ' + propertyName + ' = ' + (typeof value === 'string' ? '"' + value + '"' : value) + ';';
 						}).join('');
 
-						paramData = eval('(function() { ' + knownDataString + ' return ' + paramString + '; })();');
+						paramData = eval('(function() { ' + knownDataString + ' return {' + escapeParamVariableReferences(paramString) + '}; })();');
 
 						Object.keys(paramData).forEach(function(propertyName) {
 							patternlab.knownData[propertyName] = patternlab.knownData[propertyName] || paramData[propertyName];
 						});
-					} catch(e) {}
+					} catch(e) {
+						console.log('ERROR:', e);
+					}
 
 					if (!paramData) {
-						return passed = false;
+						// something went wrong!
+						paramData = {};
 					}
 
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
@@ -78,8 +107,6 @@
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 				});
 			}
-
-			return passed;
 		}
 
 		return {
