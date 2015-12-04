@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v0.14.0 - 2015
+ * patternlab-node - v0.15.1 - 2015
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -192,7 +192,7 @@
 
         //do something with the regular old partials
         for(i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_]+)?(?:\:[A-Za-z0-9-]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
 
           var partialPath;
 
