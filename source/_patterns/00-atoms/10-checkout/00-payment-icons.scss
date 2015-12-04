@@ -1,0 +1,74 @@
+.payment-icon {
+  display: inline-block;
+  height: 24px;
+  width: 38px;
+  background-repeat: no-repeat;
+  &--amazon {
+    background-image: url("../images/payment-providers/amazon.svg"), none;
+  }
+  &--american-express {
+    background-image: url("../images/payment-providers/american-express.svg"), none;
+  }
+  &--bitcoin {
+    background-image: url("../images/payment-providers/bitcoin.svg"), none;
+  }
+  &--bogus {
+    background-image: url("../images/payment-providers/bogus.svg"), none;
+  }
+  &--boleto {
+    background-image: url("../images/payment-providers/boleto.svg"), none;
+  }
+  &--cash {
+    background-image: url("../images/payment-providers/cash.svg"), none;
+  }
+  &--dankort {
+    background-image: url("../images/payment-providers/dankort.svg"), none;
+  }
+  &--diners-club {
+    background-image: url("../images/payment-providers/diners-club.svg"), none;
+  }
+  &--discover {
+    background-image: url("../images/payment-providers/discover.svg"), none;
+  }
+  &--dogecoin {
+    background-image: url("../images/payment-providers/dogecoin.svg"), none;
+  }
+  &--litecoin {
+    background-image: url("../images/payment-providers/litecoin.svg"), none;
+  }
+  &--generic {
+    background-image: url("../images/payment-providers/generic.svg"), none;
+  }
+  &--gift-card {
+    background-image: url("../images/payment-providers/gift-card.svg"), none;
+  }
+  &--google-wallet {
+    background-image: url("../images/payment-providers/google-wallet.svg"), none;
+  }
+  &--jcb {
+    background-image: url("../images/payment-providers/jcb.svg"), none;
+  }
+  &--laser {
+    background-image: url("../images/payment-providers/laser.svg"), none;
+  }
+  &--maestro {
+    background-image: url("../images/payment-providers/maestro.svg"), none;
+  }
+  &--master {
+    background-image: url("../images/payment-providers/master.svg"), none;
+  }
+  &--paypal {
+    background-image: url("../images/payment-providers/paypal.svg"), none;
+  }
+  &--sofort {
+    background-image: url("../images/payment-providers/sofort.svg"), none;
+  }
+  &--unionpay {
+    background-image: url("../images/payment-providers/unionpay.svg"), none;
+  }
+  &--visa {
+    background-image: url("../images/payment-providers/visa.svg"), none;
+  }
+
+
+}
