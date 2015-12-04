@@ -1,6 +1,6 @@
-/*
- * patternlab-node - v0.14.0 - 2015
- *
+/* 
+ * patternlab-node - v0.15.1 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -17,9 +17,12 @@
 
 			var pa = require('./pattern_assembler');
 			var pattern_assembler = new pa();
+			var config = require('../config.json');
 
 			//find the {{> template-name }} within patterns
-      console.log('===\n', pattern, '\n===');
+			if (config.debug) {
+				console.log('===\n', pattern, '\n===');
+			}
 			var matches = pattern.findPartials();
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
