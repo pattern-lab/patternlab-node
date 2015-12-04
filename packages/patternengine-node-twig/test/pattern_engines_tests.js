@@ -27,7 +27,6 @@
     'getEngineNameForPattern returns "mustache" for an artificial empty template': function (test) {
       test.expect(1);
       var emptyPattern = of.oPattern.createEmpty();
-      console.log(emptyPattern);
       test.equals(patternEngines.getEngineNameForPattern(emptyPattern), 'mustache');
       test.done();
     },
@@ -40,7 +39,57 @@
       var engine = patternEngines.getEngineForPattern(mustacheTestPseudoPattern);
       test.equals(engine, patternEngines.mustache);
       test.done();
-    }
+    },
+    'isPseudoPatternJSON correctly identifies pseudo-pattern JSON filenames': function(test) {
+      // each test case
+      var filenames = {
+        '00-homepage~emergency.json': true,
+        '~emergency.json': true,
+        '00-homepage~emergency.js': false,
+        '00-homepage-emergency.js': false,
+        '00-homepage.hbs': false,
+        '00-homepage.json': false,
+        'greatpic.jpg': false
+      };
+      // expect one test per test case
+      test.expect(Object.keys(filenames).length);
+
+      // loop over each test case and test it
+      Object.keys(filenames).forEach(function (filename) {
+        var expectedResult = filenames[filename],
+            actualResult = patternEngines.isPseudoPatternJSON(filename),
+            testMessage = 'isPseudoPatternJSON should return ' + expectedResult + ' for ' + filename;
+        test.strictEqual(actualResult, expectedResult, testMessage);
+      });
+
+      // done
+			test.done();
+		},
+    'isPatternFile correctly identifies pattern files and rejects non-pattern files': function(test){
+      // each test case
+      var filenames = {
+        '00-comment-thread.mustache': true,
+        '00-comment-thread.fakeextthatdoesntexist': false,
+        '00-comment-thread': false,
+        '_00-comment-thread.mustache': false,
+        '.00-comment-thread.mustache': false,
+        '00-comment-thread.json': false,
+        '00-homepage~emergency.json': true
+      };
+      // expect one test per test case
+      test.expect(Object.keys(filenames).length);
+
+      // loop over each test case and test it
+      Object.keys(filenames).forEach(function (filename) {
+        var expectedResult = filenames[filename],
+            actualResult = patternEngines.isPatternFile(filename),
+            testMessage = 'isPatternFile should return ' + expectedResult + ' for ' + filename;
+        test.strictEqual(actualResult, expectedResult, testMessage);
+      });
+
+      // done
+			test.done();
+		}
   };
 
   // testProps() utility function: given an object, and a hash of expected
