@@ -13,12 +13,13 @@
 
 		var extend = require('util')._extend,
 		pa = require('./pattern_assembler'),
-		mustache = require('mustache'),
 		smh = require('./style_modifier_hunter'),
 		style_modifier_hunter = new smh(),
 		pattern_assembler = new pa();
 
-		function findparameters(pattern, patternlab, additionalRun){
+		function findparameters(pattern, patternlab){
+			var passed = true;
+
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
@@ -52,17 +53,8 @@
 						});
 					} catch(e) {}
 
-					patternlab.patternsWithMissingData = patternlab.patternsWithMissingData || [];
-
 					if (!paramData) {
-						return patternlab.patternsWithMissingData.push([pattern, patternlab]);
-					}
-
-					if (!additionalRun) {
-						patternlab.patternsWithMissingData.forEach(function(args) {
-							patternlab.patternsWithMissingData.pop();
-							findparameters(args[0], args[1], true);
-						});
+						return passed = false;
 					}
 
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
@@ -79,17 +71,20 @@
 					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
 					allData.link = extend({}, patternlab.data.link);
 
+					findparameters(partialPattern, patternlab);
 					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 				});
 			}
+
+			return passed;
 		}
 
 		return {
 			find_parameters: function(pattern, patternlab){
-				findparameters(pattern, patternlab);
+				return findparameters(pattern, patternlab);
 			}
 		};
 
