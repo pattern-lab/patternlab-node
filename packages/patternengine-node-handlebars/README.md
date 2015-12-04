@@ -10,13 +10,11 @@ This repository contains the vanilla builder logic, grunt and gulp configuration
 
 * Download the [latest release of patternlab-node](https://github.com/pattern-lab/patternlab-node/releases/latest) from Github
 * Via npm, run `npm install patternlab-node` (Note this will auto install the grunt version currently. see below)
-* **NOTE** Node version 4.X is not officially supported yet, citing [a lot of Windows issues](https://github.com/nodejs/node-gyp/issues/629), including [mine](https://github.com/pattern-lab/patternlab-node/issues/162). Upgrade node at your own risk until otherwise stated.
+* **NOTE** Node version 4.X and 5.X have tentative support, citing [a lot of Windows issues](https://github.com/nodejs/node-gyp/issues/629), including [mine](https://github.com/pattern-lab/patternlab-node/issues/162). Upgrade node at your own risk until otherwise stated. I've tried to catalog some issues and troubleshooting steps on the [wiki](https://github.com/pattern-lab/patternlab-node/wiki/Windows-Issues).
 
 ### Choose Your Adventure! Now Vanilla, Grunt & Gulp
 
 This repository ships with two `package.json` files, a `Gruntfile.js`, and a `gulpfile.js`. The default is grunt currently. The core builder is not dependent on either.
-
-**HELP WANTED** Please help me test both of the configurations by [reporting](https://github.com/pattern-lab/patternlab-node/blob/dev/CONTRIBUTING.md) any issues encountered.
 
 ### Getting Started - Grunt
 
@@ -27,7 +25,7 @@ To run patternlab-node using grunt, do the following in the directory you downlo
 * Not deleting `builder/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
 3. Run `grunt` or `grunt serve` from the command line
 
-This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to see have BrowserSync spin up and serve the files to you.
+This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to have BrowserSync spin up and serve the files to you.
 
 ### Getting Started - Gulp
 
@@ -51,7 +49,7 @@ It's not expected to toggle between the two build systems, but for those migrati
 
 ### Upgrading
 
-You can find some simple upgrade documenation in it's current home here (unreleased but confirmed to work): [https://github.com/pattern-lab/website/blob/dev/patternlabsite/docs/node/upgrading.md](https://github.com/pattern-lab/website/blob/dev/patternlabsite/docs/node/upgrading.md)
+You can find instructions on how to upgrade from version to version of Pattern Lab Node here: [https://github.com/pattern-lab/patternlab-node/wiki/Upgrading](https://github.com/pattern-lab/patternlab-node/wiki/Upgrading)
 
 ### Command Line Interface
 
@@ -214,6 +212,11 @@ Once rendered, it looks like this:
 </div>
 ```
 
+You may also specify multiple classes using a pipe character (|).
+
+```
+{{> atoms-message:error|is-on }}
+```
 
 
 

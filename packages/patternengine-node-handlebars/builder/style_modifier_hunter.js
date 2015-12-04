@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v0.14.0 - 2015 
- * 
+/*
+ * patternlab-node - v0.15.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -16,15 +16,18 @@
 		function consumestylemodifier(pattern, partial, patternlab){
 
 			//extract the classname from the stylemodifier which comes in the format of :className
-			var styleModifier = partial.match(/:([\w\-_])+/g) ? partial.match(/:([\w\-_])+/g)[0].slice(1) : null;
+			var styleModifier = partial.match(/:([\w\-_|])+/g) ? partial.match(/:([\w\-_|])+/g)[0].slice(1) : null;
 			if(styleModifier){
+
+				//replace the special character pipe | used to separate multiple classes with a space
+				styleModifier = styleModifier.replace(/\|/g, ' ');
 
 				if(patternlab.config.debug){
 					console.log('found partial styleModifier within pattern ' + pattern.key);
 				}
 
 				//replace the stylemodifier placeholder with the class name
-				pattern.extendedTemplate = pattern.extendedTemplate.replace('{{styleModifier}}', styleModifier);
+				pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
 			}
 		}
 
