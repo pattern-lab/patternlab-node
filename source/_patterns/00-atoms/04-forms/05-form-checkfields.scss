@@ -1,0 +1,58 @@
+
+.input {
+  &-checkbox,
+  &-radio {
+    width: 18px;
+    height: 18px;;
+    box-shadow: 0 0 0 1px $colorBorder inset;
+    transition: box-shadow 0.2s ease-in-out;
+    border: none!important;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: -3px;
+    outline: 0;
+    -webkit-appearance: none;
+    &:hover {
+      box-shadow: 0 0 0 1px $colorTussock inset;
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: scale(0.2);
+      transition: all 0.2s ease-in-out 0.1s;
+      opacity: 0;
+    }
+
+    &:focus {
+      border: 2px solid blue
+    }
+
+    &:checked {
+      &:after {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
+  &-radio {
+    border-radius: 50%;
+    &:after {
+      width: 10px;
+      height: 10px;
+      margin-left: -5px;
+      margin-top: -5px;
+      background-color: $colorBlack;
+      border-radius: 50%
+    }
+  }
+  &-checkbox {
+    border-radius: 4px;
+    &:checked {
+      box-shadow: 0 0 0 5px $colorBlack inset;
+    }
+  }
+}

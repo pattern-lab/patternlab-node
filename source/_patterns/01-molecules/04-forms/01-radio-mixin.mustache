@@ -1,0 +1,11 @@
+<div class="radio-wrapper content-box__row ">
+    {{> atoms-input-type-radio(id: id, placeholder: label) }}
+  <label for="{{ id }}" class="radio__label content-box__emphasis">
+    {{ label }}
+  </label>
+  <div class="radio__accessory">
+    {{> atoms-payment-icon-visa }}
+    {{> atoms-payment-icon-master }}
+    {{> atoms-payment-icon-american-express }}
+  </div>
+</div>

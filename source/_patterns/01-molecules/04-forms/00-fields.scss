@@ -13,6 +13,8 @@
   }
   &__label {
     font-family: $fontSecondary;
+    color: $colorNevada;
+    letter-spacing: 0.12em;
     -moz-user-select: none;
     box-sizing: border-box;
     font-size: 0.75em;

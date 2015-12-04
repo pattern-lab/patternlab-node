@@ -1,0 +1,23 @@
+.radio {
+  &-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+    align-content: space-between;
+    padding: 1.3em 1em;
+  }
+  &__input {
+    flex: 0 0 40px;
+  }
+  &__label {
+    flex: 1 1;
+  }
+  &__accessory {
+    padding-left: 1em;
+    text-align: right;
+    .payment-icon {
+      margin: -2px 0 -6px
+    }
+  }
+}
+

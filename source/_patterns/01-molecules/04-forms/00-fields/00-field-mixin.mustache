@@ -1,0 +1,45 @@
+<div class="field {{ styleModifier }}">
+  <div class="field__input-wrapper">
+    <label for="{{ id || 'any_id' }}" class="field__label">{{ label || 'Vestibulum ante' }}</label>
+
+    {{# typeText }}
+      {{> atoms-input-type-text(id: id || 'any_id', placeholder: label || 'Vestibulum ante',  className: "field__input") }}
+    {{/ typeText }}
+
+    {{# typePassword }}
+      {{> atoms-input-type-password(id: id || 'any_id', placeholder: label || 'Vestibulum ante',  className: "field__input") }}
+    {{/ typePassword }}
+
+    {{# typeTel }}
+      {{> atoms-input-type-tel(id: id || 'any_id', placeholder: label || 'Vestibulum ante',  className: "field__input") }}
+    {{/ typeTel }}
+
+    {{# typeUrl }}
+      {{> atoms-input-type-url(id: id || 'any_id', placeholder: label || 'Vestibulum ante',  className: "field__input") }}
+    {{/ typeUrl }}
+
+    {{# typeEmail }}
+      {{> atoms-input-type-email(id: id || 'any_id', placeholder: label || 'Vestibulum ante',  className: "field__input") }}
+    {{/ typeEmail }}
+
+    {{# typeTextarea }}
+      {{> atoms-textarea(id: id || 'any_id', placeholder: label || 'Vestibulum ante',  className: "field__input") }}
+    {{/ typeTextarea }}
+
+    {{# typeSelect }}
+      {{> atoms-select(id: id || 'any_id', className: "field__input") }}
+    {{/ typeSelect }}
+
+    {{# message }}
+      <p class="field__message">{{ message }}</p>
+    {{/ message }}
+
+    {{# error }}
+      <p class="field__message field__message--error">{{ error }}</p>
+    {{/ error }}
+
+    {{# warning }}
+      <p class="field__message field__message--warning">{{ warning }}</p>
+    {{/ warning }}
+  </div>
+</div>
