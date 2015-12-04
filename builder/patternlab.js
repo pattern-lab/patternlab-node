@@ -1,24 +1,24 @@
-/** 
+/**
  * patternlab-node - v0.13.0 - 2015
- * 
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
- * 
+ *
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- * 
+ *
  **/var patternlab_engine = function () {
   'use strict';
 
   var path = require('path'),
-  fs = require('fs-extra'),
-  diveSync = require('diveSync'),
-  glob = require('glob'),
-  of = require('./object_factory'),
-  pa = require('./pattern_assembler'),
-  mh = require('./media_hunter'),
-  pe = require('./pattern_exporter'),
-  he = require('html-entities').AllHtmlEntities,
-  patternlab = {};
+    fs = require('fs-extra'),
+    diveSync = require('diveSync'),
+    glob = require('glob'),
+    of = require('./object_factory'),
+    pa = require('./pattern_assembler'),
+    mh = require('./media_hunter'),
+    pe = require('./pattern_exporter'),
+    he = require('html-entities').AllHtmlEntities,
+    patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
   patternlab.config = fs.readJSONSync('./config.json');
@@ -27,7 +27,7 @@
     console.log(patternlab.package.version);
   }
 
-  function help(){
+  function help() {
     console.log('Patternlab Node Help');
     console.log('===============================');
     console.log('Command Line Arguments');
@@ -44,13 +44,13 @@
 
   function printDebug() {
     //debug file can be written by setting flag on config.json
-    if(patternlab.config.debug){
+    if (patternlab.config.debug) {
       console.log('writing patternlab debug file to ./patternlab.json');
       fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, null, 3));
     }
   }
 
-  function buildPatterns(deletePatternDir){
+  function buildPatterns(deletePatternDir) {
     patternlab.data = fs.readJSONSync('./source/_data/data.json');
     patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
     patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
@@ -60,9 +60,9 @@
     patternlab.data.link = {};
 
     var pattern_assembler = new pa(),
-    entity_encoder = new he(),
-    pattern_exporter = new pe(),
-    patterns_dir = './source/_patterns';
+      entity_encoder = new he(),
+      pattern_exporter = new pe(),
+      patterns_dir = './source/_patterns';
 
     pattern_assembler.combine_listItems(patternlab);
 
@@ -71,47 +71,52 @@
 
     [
       {
-        operation : pattern_assembler.process_pattern_iterative,
-        reverseFiles : false
+        operation: pattern_assembler.process_pattern_iterative,
+        reverseFiles: false
       },
       {
-        operation : pattern_assembler.process_pattern_list_recursive,
-        reverseFiles : false
+        operation: pattern_assembler.process_pattern_list_recursive,
+        reverseFiles: false
       },
       {
-        operation : function(pattern, patternlab) {
+        operation: function (pattern, patternlab) {
           pattern_assembler.process_pattern_recursive(pattern, patternlab);
           patternlab.knownData = {};
         },
-        reverseFiles : true
+        reverseFiles: true
       }
-    ].forEach(function(turn) {
-    diveSync(patterns_dir, {
-            reverse : turn.reverseFiles,
-      filter: function(path, dir) {
-              return dir ? path.replace(patterns_dir, '').indexOf('/_') === -1 : true;
-        }
-      },
-      function(err, file){
-        //log any errors
-        if(err){
-          console.log(err);
-          return;
-        }
+    ].forEach(function (turn) {
+        diveSync(patterns_dir, {
+            reverse: turn.reverseFiles,
+            filter: function (path, dir) {
+              if (dir) {
+                return path.replace(patterns_dir, '').indexOf('/_') === -1;
+              }
+              else {
+                return path.indexOf('.mustache') !== -1;
+              }
+            }
+          },
+          function (err, file) {
+            //log any errors
+            if (err) {
+              console.log(err);
+              return;
+            }
 
             turn.operation(file.substring(2), patternlab);
           });
-    });
+      });
 
     //delete the contents of config.patterns.public before writing
-    if(deletePatternDir){
+    if (deletePatternDir) {
       fs.emptyDirSync(patternlab.config.patterns.public);
     }
 
     //render all patterns last, so lineageR works
-    patternlab.patterns.forEach(function(pattern, index, patterns){
+    patternlab.patterns.forEach(function (pattern, index, patterns) {
       //render the pattern, but first consolidate any data we may have
-      var allData =  JSON.parse(JSON.stringify(patternlab.data));
+      var allData = JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
@@ -134,11 +139,11 @@
 
   }
 
-  function buildFrontEnd(){
+  function buildFrontEnd() {
     var pattern_assembler = new pa(),
-        media_hunter = new mh(),
-        styleGuideExcludes = patternlab.config.styleGuideExcludes,
-        styleguidePatterns = [];
+      media_hunter = new mh(),
+      styleGuideExcludes = patternlab.config.styleGuideExcludes,
+      styleguidePatterns = [];
     patternlab.buckets = [];
     patternlab.bucketIndex = [];
     patternlab.patternPaths = {};
@@ -149,26 +154,27 @@
 
     // check if patterns are excluded, if not add them to styleguidePatterns
     if (styleGuideExcludes.length) {
-        for (i = 0; i < patternlab.patterns.length; i++) {
-            var key = patternlab.patterns[i].key;
-            var typeKey = key.substring(0, key.indexOf('-'));
-            var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
-            if (!isExcluded) {
-                styleguidePatterns.push(patternlab.patterns[i]);
-            }
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        var key = patternlab.patterns[i].key;
+        var depth = patternlab.patterns[i].subdir.split('/').length;
+        var typeKey = key.substring(0, key.indexOf('-'));
+        var isExcluded = styleGuideExcludes.indexOf(typeKey) > -1;
+        if (!isExcluded && depth < 3) {
+          styleguidePatterns.push(patternlab.patterns[i]);
         }
+      }
     } else {
-        styleguidePatterns = patternlab.patterns;
+      styleguidePatterns = patternlab.patterns;
     }
 
     //build the styleguide
     var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8'),
-    styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
+      styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
     fs.outputFileSync('./public/styleguide/html/styleguide.html', styleguideHtml);
 
     //build the viewall pages
     var prevSubdir = '',
-    i;
+      i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       // skip underscore-prefixed files
@@ -183,8 +189,8 @@
         prevSubdir = pattern.subdir;
 
         var viewAllPatterns = [],
-        patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup,
-        j;
+          patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup,
+          j;
 
         for (j = 0; j < patternlab.patterns.length; j++) {
           if (patternlab.patterns[j].subdir === pattern.subdir) {
@@ -193,7 +199,10 @@
         }
 
         var viewAllTemplate = fs.readFileSync('./source/_patternlab-files/viewall.mustache', 'utf8');
-        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
+        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {
+          partials: viewAllPatterns,
+          patternPartial: patternPartial
+        });
         fs.outputFileSync(patternlab.config.patterns.public + pattern.flatPatternPath + '/index.html', viewAllHtml);
       }
     }
@@ -203,7 +212,7 @@
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
-    for(var i = 0; i < patternlab.patterns.length; i++){
+    for (var i = 0; i < patternlab.patterns.length; i++) {
       // skip underscore-prefixed files
       if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
         continue;
@@ -211,10 +220,11 @@
 
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
+      var depth = pattern.subdir.split('/').length
 
       //check if the bucket already exists
       var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
-      if(bucketIndex === -1){
+      if (bucketIndex === -1) {
         //add the bucket
         var bucket = new of.oBucket(bucketName);
 
@@ -231,7 +241,7 @@
 
         //test whether the pattern struture is flat or not - usually due to a template or page
         var flatPatternItem = false;
-        if(navItemName === bucketName){
+        if (navItemName === bucketName) {
           flatPatternItem = true;
         }
 
@@ -243,38 +253,31 @@
         navSubItem.patternPath = pattern.patternLink;
         navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
+
         //add the patternState if it exists
-        if(pattern.patternState){
+        if (pattern.patternState) {
           navSubItem.patternState = pattern.patternState;
         }
 
         //if it is flat - we should not add the pattern to patternPaths
-        if(flatPatternItem){
-
+        if (flatPatternItem) {
           bucket.patternItems.push(navSubItem);
-
-          //add to patternPaths
-          addToPatternPaths(bucketName, pattern);
-
-        } else{
-
+        }
+        else {
           bucket.navItems.push(navItem);
           bucket.navItemsIndex.push(navItemName);
           navItem.navSubItems.push(navSubItem);
           navItem.navSubItemsIndex.push(navSubItemName);
-
-          //add to patternPaths
-          addToPatternPaths(bucketName, pattern);
-
         }
+
+        if (depth < 3) addToPatternPaths(bucketName, pattern);
 
         //add the bucket.
         patternlab.buckets.push(bucket);
         patternlab.bucketIndex.push(bucketName);
-
         //done
-
-      } else{
+      }
+      else {
         //find the bucket
         var bucket = patternlab.buckets[bucketIndex];
 
@@ -293,29 +296,30 @@
         navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
         //add the patternState if it exists
-        if(pattern.patternState){
+        if (pattern.patternState) {
           navSubItem.patternState = pattern.patternState;
         }
 
         //test whether the pattern struture is flat or not - usually due to a template or page
         var flatPatternItem = false;
-        if(navItemName === bucketName){
+        if (navItemName === bucketName) {
           flatPatternItem = true;
         }
 
-        //if it is flat - we should not add the pattern to patternPaths
-        if(flatPatternItem){
+        if (depth < 3) addToPatternPaths(bucketName, pattern);
 
+        //if it is flat - we should not add the pattern to patternPaths
+        if (flatPatternItem) {
           //add the navItem to patternItems
           bucket.patternItems.push(navSubItem);
+        }
+        else {
 
-          //add to patternPaths
-          addToPatternPaths(bucketName, pattern);
+          if (depth > 2) continue;
 
-        } else{
           //check to see if navItem exists
           var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
-          if(navItemIndex === -1){
+          if (navItemIndex === -1) {
 
             var navItem = new of.oNavItem(navItemName);
 
@@ -325,7 +329,7 @@
             bucket.navItems.push(navItem);
             bucket.navItemsIndex.push(navItemName);
 
-          } else{
+          } else {
             //add the navSubItem
             var navItem = bucket.navItems[navItemIndex];
             navItem.navSubItems.push(navSubItem);
@@ -343,15 +347,9 @@
             navItem.navSubItems.push(navViewAllSubItem);
             navItem.navSubItemsIndex.push("View All");
           }
-
-          // just add to patternPaths
-          addToPatternPaths(bucketName, pattern);
         }
-
       }
-
       patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
-
     }
 
     //the patternlab site requires a lot of partials to be rendered.
@@ -382,29 +380,28 @@
     fs.outputFileSync('./public/index.html', patternlabSiteHtml);
   }
 
-  function addToPatternPaths(bucketName, pattern){
+  function addToPatternPaths(bucketName, pattern) {
     //this is messy, could use a refactor.
     patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
   }
 
   return {
-    version: function(){
+    version: function () {
       return getVersion();
     },
-    build: function(deletePatternDir){
+    build: function (deletePatternDir) {
       buildPatterns(deletePatternDir);
       buildFrontEnd();
       printDebug();
     },
-    help: function(){
+    help: function () {
       help();
     },
-    build_patterns_only: function(deletePatternDir){
+    build_patterns_only: function (deletePatternDir) {
       buildPatterns(deletePatternDir);
       printDebug();
     }
   };
-
 };
 
 module.exports = patternlab_engine;

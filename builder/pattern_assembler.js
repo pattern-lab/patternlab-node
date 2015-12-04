@@ -377,7 +377,6 @@
         return isObjectEmpty(obj);
       }
     };
-
   };
 
   module.exports = pattern_assembler;
