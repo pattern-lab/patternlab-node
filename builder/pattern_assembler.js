@@ -145,6 +145,8 @@
       addPattern(currentPattern, patternlab);
     }
 
+
+
     function processPatternRecursive(file, patternlab, additionalData){
       var lh = require('./lineage_hunter'),
           ph = require('./parameter_hunter'),
@@ -192,7 +194,7 @@
 
         //do something with the regular old partials
         for(i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = currentPattern.getPartialKey(foundPatternPartials[i]);
 
           var partialPath;
 

@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.15.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.15.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -77,6 +77,10 @@
 
     findListItems: function () {
       return this.engine.findListItems(this);
+    },
+
+    getPartialKey: function (partialString) {
+      return this.engine.getPartialKey(this, partialString);
     }
   };
 
