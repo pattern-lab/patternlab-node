@@ -233,15 +233,7 @@
       var foundPatternPartials = findPartials(currentPattern);
       if(foundPatternPartials && foundPatternPartials.length){
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
-        patternlab.postponedPatterns = patternlab.postponedPatterns || [];
-
-        if (!parameter_hunter.find_parameters(currentPattern, patternlab)) {
-          console.log('sorry, I have to postpone this pattern');
-          return patternlab.postponedPatterns.push({
-            file : file,
-            patternlab : patternlab
-          });
-        }
+        parameter_hunter.find_parameters(currentPattern, patternlab);
 
         //do something with the regular old partials
         for(var i = 0; i < foundPatternPartials.length; i++){
