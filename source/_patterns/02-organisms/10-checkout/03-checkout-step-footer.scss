@@ -1,0 +1,41 @@
+.step__footer {
+  text-align : center;
+  @media only screen and (min-width: $breakpointTablet) {
+    display : flex;
+    flex-direction : row-reverse;
+    justify-content : space-between;
+  }
+  &__continue-btn {
+    display : block;
+    margin : 0 auto 1em;
+    @media only screen and (min-width: $breakpointTablet) {
+      display : inline-block;
+      margin : 0 0 1em;
+    }
+  }
+  &__info, &__previous-link {
+    @include font-primary-medium-uppercase();
+    font-size : 0.75rem;
+    margin-bottom : 1em;
+    a {
+      border-bottom-color: inherit;
+    }
+    @media only screen and (min-width: $breakpointTablet) {
+      text-align : left;
+    }
+  }
+  &__previous-link {
+    @include icon('chevron-left');
+    position : relative;
+    padding-left : 1.25em;
+    &:before {
+      font-size : 1rem;
+      position : absolute;
+      top : -3px;
+      left : 0;
+    }
+    .icon--chevron {
+      display : none;
+    }
+  }
+}

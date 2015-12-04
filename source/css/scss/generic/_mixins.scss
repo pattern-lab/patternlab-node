@@ -5,13 +5,6 @@
   letter-spacing: 0.1em;
 }
 
-@mixin font-primary-medium-uppercase() {
-  font-family: $fontPrimary;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
 @mixin font-primary-light-lowercase() {
   font-family: $fontPrimary;
   font-weight: 300;
@@ -19,4 +12,19 @@
   font-size : 0.875em;
 }
 
+@mixin font-primary-medium-uppercase() {
+  font-family: $fontPrimary;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@mixin font-primary-bold-uppercase() {
+  font-family: $fontPrimary;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+// Imports auto-generated icon mixins
 @import './icons';

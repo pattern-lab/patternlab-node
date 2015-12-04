@@ -1,0 +1,42 @@
+.fieldset {
+  display : none;
+  max-height: 0;
+}
+
+.field__input-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  @media only screen and (min-width: 400px) {
+    display: flex;
+    flex-direction: row;
+  }
+
+  //.field__input-btn {
+  //  height : 47px;
+  //}
+}
+
+.field__input-wrapper {
+  margin-right : 0.75em;
+  margin-bottom : 0.75em;
+}
+
+.checkout__voucherField--label {
+  padding-left : 1.5em;
+  position : relative;
+  @include icon(chevron-up);
+  font-family : $fontSecondary;
+  &:before {
+    position : absolute;
+    left : 0.25em;
+  }
+
+  &--expanded {
+    @include icon(chevron-down);
+
+    + [class*="fieldset"] {
+      display : block;
+    }
+  }
+}

@@ -75,6 +75,11 @@
       background-color: lighten(#c0c0c0, 20%);
     }
   }
+  &:before {
+    @media only screen and (min-width : $breakpointDesktop) {
+      display : none;
+    }
+  }
 }
 .accordion {
   @include accordion;

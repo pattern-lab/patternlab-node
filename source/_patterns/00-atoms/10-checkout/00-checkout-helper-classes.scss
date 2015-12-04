@@ -1,3 +1,11 @@
 .visually-hidden {
   display: none;
 }
+
+.btn {
+  @extend .button;
+}
+
+.step__footer__continue-btn {
+  @extend .button, .button__primary;
+}
