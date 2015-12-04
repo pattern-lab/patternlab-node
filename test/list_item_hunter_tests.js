@@ -113,14 +113,14 @@
 
     'process_list_item_partials finds verbose partials and outputs repeated renders' : function(test){
       var pattern1 = createFakeListPattern({
-        "template": "{{#listItems.one}}{{> atoms-foo }}{{/listItems.one}}",
-        "extendedTemplate" : "{{#listItems.one}}{{> atoms-foo }}{{/listItems.one}}",
+        "template": "{{#listItems.one}}{{> 00-atoms/00-test/00-foo.mustache }}{{/listItems.one}}",
+        "extendedTemplate" : "{{#listItems.one}}{{> 00-atoms/00-test/00-foo.mustache }}{{/listItems.one}}",
         "key": "test-patternName1"
       });
 
       var pattern2 = createFakeListPattern({
-        "template": "{{#listItems.two}}{{> atoms-bar }}{{/listItems.two}}",
-        "extendedTemplate" : "{{#listItems.two}}{{> atoms-bar }}{{/listItems.two}}",
+        "template": "{{#listItems.two}}{{> 00-atoms/00-test/00-bar.mustache }}{{/listItems.two}}",
+        "extendedTemplate" : "{{#listItems.two}}{{> 00-atoms/00-test/00-bar.mustache }}{{/listItems.two}}",
         "key": "test-patternName2"
       });
 
