@@ -500,6 +500,46 @@
 			}
 			test.equals(foundIgnoredPattern, false);
 			test.done();
+		},
+		'setState - applies any patternState matching the pattern' : function(test){
+			//arrange
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.config = {};
+			patternlab.config.patternStates = {};
+			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+
+			var pattern = {
+				patternName: "homepage-emergency"
+			};
+
+			//act
+			pattern_assembler.setPatternState(pattern, patternlab);
+
+			//assert
+			test.equals(pattern.patternState, "inprogress");
+			test.done();
+		},
+		'setState - does not apply any patternState if nothing matches the pattern' : function(test){
+			//arrange
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.config = {};
+			patternlab.config.patternStates = {};
+			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+
+			var pattern = {
+				patternName: "homepage"
+			};
+
+			//act
+			pattern_assembler.setPatternState(pattern, patternlab);
+
+			//assert
+			test.equals(pattern.patternState, "");
+			test.done();
 		}
 	};
 }());
