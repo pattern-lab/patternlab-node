@@ -22,6 +22,7 @@
     this.patternLink = this.name + '/' + this.name + '.html';
     this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
     this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
+    this.isHidden = subdir.split('/').length > 2;
     this.flatPatternPath = subdir.replace(/[\/\\]/g, '-');
     this.key = this.patternGroup + '-' + this.patternName;
     this.template = '';

@@ -75,7 +75,7 @@
 						paramData = eval('(function() { ' + knownDataString + ' return {' + escapeParamVariableReferences(paramString) + '}; })();');
 
 						Object.keys(paramData).forEach(function(propertyName) {
-							patternlab.knownData[propertyName] = patternlab.knownData[propertyName] || paramData[propertyName];
+							patternlab.knownData[propertyName] = paramData[propertyName];
 						});
 					} catch(e) {
 						console.log('ERROR:', e);

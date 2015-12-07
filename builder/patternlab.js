@@ -69,6 +69,8 @@
     //diveSync to perform iterative populating of patternlab object and to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
 
+    var filesAlreadyBuilt = [];
+
     [
       {
         operation: pattern_assembler.process_pattern_iterative,
@@ -79,8 +81,19 @@
         reverseFiles: false
       },
       {
-        operation: function (pattern, patternlab) {
-          pattern_assembler.process_pattern_recursive(pattern, patternlab);
+        operation: function (file, patternlab) {
+          pattern_assembler.process_pattern_recursive(file, patternlab);
+          filesAlreadyBuilt.push(file);
+
+          patternlab.patterns = patternlab.patterns.map(function(pattern) {
+            if (filesAlreadyBuilt.indexOf(pattern.abspath) !== -1) {
+              return pattern;
+            }
+
+            pattern.extendedTemplate = pattern.template;
+            return pattern;
+          });
+
           patternlab.knownData = {};
         },
         reverseFiles: true
@@ -89,12 +102,7 @@
         diveSync(patterns_dir, {
             reverse: turn.reverseFiles,
             filter: function (path, dir) {
-              if (dir) {
-                return path.replace(patterns_dir, '').indexOf('/_') === -1;
-              }
-              else {
-                return path.indexOf('.mustache') !== -1;
-              }
+              return dir ? path.replace(patterns_dir, '').indexOf('/_') === -1 : true;
             }
           },
           function (err, file) {
@@ -156,10 +164,10 @@
     if (styleGuideExcludes.length) {
       for (i = 0; i < patternlab.patterns.length; i++) {
         var key = patternlab.patterns[i].key;
-        var depth = patternlab.patterns[i].subdir.split('/').length;
+        var isHidden = patternlab.patterns[i].isHidden;
         var typeKey = key.substring(0, key.indexOf('-'));
         var isExcluded = styleGuideExcludes.indexOf(typeKey) > -1;
-        if (!isExcluded && depth < 3) {
+        if (!isExcluded && !isHidden) {
           styleguidePatterns.push(patternlab.patterns[i]);
         }
       }
@@ -220,7 +228,8 @@
 
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
-      var depth = pattern.subdir.split('/').length
+
+      if (pattern.isHidden) continue;
 
       //check if the bucket already exists
       var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
@@ -270,11 +279,12 @@
           navItem.navSubItemsIndex.push(navSubItemName);
         }
 
-        if (depth < 3) addToPatternPaths(bucketName, pattern);
+        addToPatternPaths(bucketName, pattern);
 
         //add the bucket.
         patternlab.buckets.push(bucket);
         patternlab.bucketIndex.push(bucketName);
+
         //done
       }
       else {
@@ -306,7 +316,7 @@
           flatPatternItem = true;
         }
 
-        if (depth < 3) addToPatternPaths(bucketName, pattern);
+        addToPatternPaths(bucketName, pattern);
 
         //if it is flat - we should not add the pattern to patternPaths
         if (flatPatternItem) {
@@ -314,8 +324,6 @@
           bucket.patternItems.push(navSubItem);
         }
         else {
-
-          if (depth > 2) continue;
 
           //check to see if navItem exists
           var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
@@ -343,13 +351,18 @@
           navViewAllSubItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
 
           //check if we are moving to a new sub section in the next loop
+
           if (!patternlab.patterns[i + 1] || pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
-            navItem.navSubItems.push(navViewAllSubItem);
-            navItem.navSubItemsIndex.push("View All");
+            if (!!patternlab.patterns[i - 1] && pattern.patternSubGroup === patternlab.patterns[i - 1].patternSubGroup) {
+              navItem.navSubItems.push(navViewAllSubItem);
+              navItem.navSubItemsIndex.push("View All");
+            }
           }
         }
       }
+
       patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
+
     }
 
     //the patternlab site requires a lot of partials to be rendered.
@@ -402,6 +415,7 @@
       printDebug();
     }
   };
+
 };
 
 module.exports = patternlab_engine;
