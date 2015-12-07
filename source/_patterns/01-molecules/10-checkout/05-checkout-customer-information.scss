@@ -1,6 +1,7 @@
 .content-box {
   p {
     @include font-primary-light-lowercase();
+    font-size : 0.875em;
   }
 
   h2 {
@@ -36,6 +37,7 @@
 
       &__item {
         @include font-primary-light-lowercase();
+        font-size : 0.875em;
 
         &__icon {
           vertical-align: middle;

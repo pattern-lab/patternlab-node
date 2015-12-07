@@ -1,11 +1,8 @@
-.headlineH1{
+.headlineH1 {
   font-family : $fontPrimary;
 }
 .headlineH2 {
-  font-family: $fontPrimary;
-  font-weight: 300;
-  text-transform: uppercase;
-
+  @include font-primary-light-uppercase();
 }
 .headlineH3 {
   font-family : $fontPrimary;

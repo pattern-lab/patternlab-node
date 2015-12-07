@@ -2,6 +2,7 @@
 
   p {
     @include font-primary-light-lowercase();
+    font-size : 0.875em;
   }
 
   .edit-link {

@@ -1,6 +1,7 @@
 .os {
   &-order-number {
     @include font-primary-light-lowercase();
+    font-size : 0.875em;
   }
   &-header {
     position : relative;
