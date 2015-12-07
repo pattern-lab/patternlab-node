@@ -47,35 +47,32 @@
 	@if $filename == chevron-up {
 		$char: "\E007";
 	}
-	@if $filename == creditCard {
+	@if $filename == hamburgerMenu {
 		$char: "\E008";
 	}
-	@if $filename == hamburgerMenu {
+	@if $filename == logo {
 		$char: "\E009";
 	}
-	@if $filename == logo {
+	@if $filename == minus {
 		$char: "\E00A";
 	}
-	@if $filename == minus {
+	@if $filename == plus {
 		$char: "\E00B";
 	}
-	@if $filename == plus {
+	@if $filename == x-large {
 		$char: "\E00C";
 	}
-	@if $filename == x-large {
+	@if $filename == x-small {
 		$char: "\E00D";
 	}
-	@if $filename == x-small {
+	@if $filename == facebook {
 		$char: "\E00E";
 	}
-	@if $filename == facebook {
+	@if $filename == instagram {
 		$char: "\E00F";
 	}
-	@if $filename == instagram {
-		$char: "\E010";
-	}
 	@if $filename == twitter {
-		$char: "\E011";
+		$char: "\E010";
 	}
 
 	@return $char;
@@ -112,9 +109,6 @@
 }
 .icon-chevron-up {
 	@include icon(chevron-up);
-}
-.icon-creditCard {
-	@include icon(creditCard);
 }
 .icon-hamburgerMenu {
 	@include icon(hamburgerMenu);

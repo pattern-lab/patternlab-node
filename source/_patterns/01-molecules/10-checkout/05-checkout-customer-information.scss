@@ -37,18 +37,11 @@
       &__item {
         @include font-primary-light-lowercase();
 
-        &__info {
-          margin-left : 2em;
+        &__icon {
+          vertical-align: middle;
+          margin: -0.25em 0.25em 0 0;
         }
       }
-    }
-  }
-
-  .payment-icon--generic {
-    @include icon(creditCard);
-    color : $colorNevada;
-    &:before {
-      position : absolute;
     }
   }
 }
