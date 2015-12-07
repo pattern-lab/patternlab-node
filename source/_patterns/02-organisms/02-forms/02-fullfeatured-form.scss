@@ -8,9 +8,16 @@
   & + .fieldset {
     margin-top: 2em;
   }
-}
 
-
-.field-half {
-
+  .field {
+    @media only screen and (min-width: $breakpointTablet) {
+      flex: 0 0 100%;
+      &--half {
+        flex: 0 0 50%;
+      }
+      &--quarter {
+        flex: 0 0 25%;
+      }
+    }
+  }
 }

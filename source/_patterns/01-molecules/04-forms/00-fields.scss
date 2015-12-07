@@ -1,12 +1,6 @@
 .field {
   padding: .45em;
   width: 100%;
-  @media only screen and (min-width: $breakpointTablet) {
-    flex: 0 0 100%;
-    &--half {
-      flex: 0 0 50%;
-    }
-  }
   &__input-wrapper {
     width: 100%;
     position: relative;
