@@ -1,0 +1,14 @@
+.checkoutUsp {
+  @include font-primary-light-uppercase(0.75em);
+  @include icon(check);
+  padding-left : 2em;
+  position : relative;
+  display : inline-block;
+
+  &:before {
+    position : absolute;
+    left : 0;
+    top : -2px;
+    font-size : 1.125em;
+  }
+}

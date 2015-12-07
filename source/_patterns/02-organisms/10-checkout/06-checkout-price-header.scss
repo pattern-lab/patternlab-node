@@ -1,0 +1,10 @@
+.checkout__priceSummaryHeader {
+  display : flex;
+  flex-direction : row;
+  justify-content : space-between;
+  &--usp {
+    ul {
+      list-style-type: none;
+    }
+  }
+}
