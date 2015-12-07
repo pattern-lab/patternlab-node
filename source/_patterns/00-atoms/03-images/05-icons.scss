@@ -29,50 +29,53 @@
 	@if $filename == arrowDown {
 		$char: "\E001";
 	}
-	@if $filename == bag {
+	@if $filename == bag-outline {
 		$char: "\E002";
 	}
-	@if $filename == checkmark {
+	@if $filename == bag {
 		$char: "\E003";
 	}
-	@if $filename == chevron-down {
+	@if $filename == checkmark {
 		$char: "\E004";
 	}
-	@if $filename == chevron-left {
+	@if $filename == chevron-down {
 		$char: "\E005";
 	}
-	@if $filename == chevron-right {
+	@if $filename == chevron-left {
 		$char: "\E006";
 	}
-	@if $filename == chevron-up {
+	@if $filename == chevron-right {
 		$char: "\E007";
 	}
-	@if $filename == hamburgerMenu {
+	@if $filename == chevron-up {
 		$char: "\E008";
 	}
-	@if $filename == logo {
+	@if $filename == hamburgerMenu {
 		$char: "\E009";
 	}
-	@if $filename == minus {
+	@if $filename == logo {
 		$char: "\E00A";
 	}
-	@if $filename == plus {
+	@if $filename == minus {
 		$char: "\E00B";
 	}
-	@if $filename == x-large {
+	@if $filename == plus {
 		$char: "\E00C";
 	}
-	@if $filename == x-small {
+	@if $filename == x-large {
 		$char: "\E00D";
 	}
-	@if $filename == facebook {
+	@if $filename == x-small {
 		$char: "\E00E";
 	}
-	@if $filename == instagram {
+	@if $filename == facebook {
 		$char: "\E00F";
 	}
-	@if $filename == twitter {
+	@if $filename == instagram {
 		$char: "\E010";
+	}
+	@if $filename == twitter {
+		$char: "\E011";
 	}
 
 	@return $char;
@@ -91,6 +94,9 @@
 
 .icon-arrowDown {
 	@include icon(arrowDown);
+}
+.icon-bag-outline {
+	@include icon(bag-outline);
 }
 .icon-bag {
 	@include icon(bag);
