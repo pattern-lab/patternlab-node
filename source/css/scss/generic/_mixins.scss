@@ -1,28 +1,32 @@
-@mixin font-primary-light-uppercase() {
+@mixin font-primary-light-uppercase($fontSize: 1em) {
   font-family: $fontPrimary;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  font-size: $fontSize;
 }
 
-@mixin font-primary-light-lowercase() {
+@mixin font-primary-light-lowercase($fontSize: 1em) {
   font-family: $fontPrimary;
   font-weight: 300;
   letter-spacing: 0.1em;
+  font-size: $fontSize;
 }
 
-@mixin font-primary-medium-uppercase() {
+@mixin font-primary-medium-uppercase($fontSize: 1em) {
   font-family: $fontPrimary;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  font-size: $fontSize;
 }
 
-@mixin font-primary-bold-uppercase() {
+@mixin font-primary-bold-uppercase($fontSize: 1em) {
   font-family: $fontPrimary;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  font-size: $fontSize;
 }
 
 // Imports auto-generated icon mixins
