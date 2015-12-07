@@ -12,18 +12,20 @@
 	function escapeParamVariableReferences(paramString) {
 		var data = {};
 		var parts = paramString.split(':').map(function(part) {
-			var partSegments = part.split(','),
-				lastPartSegment = partSegments.pop();
-
-			return [partSegments.join(','), lastPartSegment].filter(function(partSegment) {
-				return partSegment;
+			return part.match(/([^\"\',]*((\'[^\']*\')*||(\"[^\"]*\")*))+/g).filter(function(partSegment) {
+				return partSegment.replace(/\s/g, '');
 			});
 		}).reduce(function(prevPart, nextPart) {
 			return prevPart.concat(nextPart);
 		});
+
 		parts.forEach(function(value, key) {
 			if (!(key % 2)) {
-				data[value.trim()] = parts[key+1].trim();
+				try {
+					data[value.trim()] = parts[key+1].trim();
+				} catch (e) {
+					console.log('ERROR: escaping failed for:', parts, e);
+				}
 			}
 		});
 
@@ -48,7 +50,6 @@
 			pattern_assembler = new pa();
 
 		function findparameters(pattern, patternlab){
-
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
@@ -62,8 +63,8 @@
 
 					//strip out the additional data and eval
 					var leftParen = pMatch.indexOf('(');
-					var rightParen = pMatch.indexOf(')');
-					var paramString = pMatch.substring(leftParen + 1, rightParen);
+					var rightParen = pMatch.length - pMatch.split('').reverse().join('').indexOf(')');
+					var paramString = pMatch.substring(leftParen + 1, rightParen - 1);
 					var paramData;
 
 					try {
@@ -78,7 +79,7 @@
 							patternlab.knownData[propertyName] = paramData[propertyName];
 						});
 					} catch(e) {
-						console.log('ERROR:', e);
+						console.log('ERROR during findparameters:', e, '\nfile:', pattern.abspath, '\n');
 					}
 
 					if (!paramData) {
