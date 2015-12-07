@@ -35,41 +35,47 @@
 	@if $filename == checkmark {
 		$char: "\E003";
 	}
-	@if $filename == chevron-left {
+	@if $filename == chevron-down {
 		$char: "\E004";
 	}
-	@if $filename == chevron-right {
+	@if $filename == chevron-left {
 		$char: "\E005";
 	}
-	@if $filename == creditCard {
+	@if $filename == chevron-right {
 		$char: "\E006";
 	}
-	@if $filename == hamburgerMenu {
+	@if $filename == chevron-up {
 		$char: "\E007";
 	}
-	@if $filename == logo {
+	@if $filename == creditCard {
 		$char: "\E008";
 	}
-	@if $filename == minus {
+	@if $filename == hamburgerMenu {
 		$char: "\E009";
 	}
-	@if $filename == plus {
+	@if $filename == logo {
 		$char: "\E00A";
 	}
-	@if $filename == x-large {
+	@if $filename == minus {
 		$char: "\E00B";
 	}
-	@if $filename == x-small {
+	@if $filename == plus {
 		$char: "\E00C";
 	}
-	@if $filename == facebook {
+	@if $filename == x-large {
 		$char: "\E00D";
 	}
-	@if $filename == instagram {
+	@if $filename == x-small {
 		$char: "\E00E";
 	}
-	@if $filename == twitter {
+	@if $filename == facebook {
 		$char: "\E00F";
+	}
+	@if $filename == instagram {
+		$char: "\E010";
+	}
+	@if $filename == twitter {
+		$char: "\E011";
 	}
 
 	@return $char;
@@ -95,11 +101,17 @@
 .icon-checkmark {
 	@include icon(checkmark);
 }
+.icon-chevron-down {
+	@include icon(chevron-down);
+}
 .icon-chevron-left {
 	@include icon(chevron-left);
 }
 .icon-chevron-right {
 	@include icon(chevron-right);
+}
+.icon-chevron-up {
+	@include icon(chevron-up);
 }
 .icon-creditCard {
 	@include icon(creditCard);
