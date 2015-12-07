@@ -106,6 +106,10 @@
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
+
+					// reset the known data
+					partialPattern.extendedTemplate = partialPattern.template;
+					patternlab.knownData = {};
 				});
 			}
 		}
