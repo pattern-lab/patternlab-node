@@ -13,25 +13,88 @@
   'use strict';
 
   var path = require('path');
+  var diveSync = require('diveSync');
+  var engineMatcher = /^engine_(.*)\.js/;
+  var enginesDirectory = __dirname;
 
-  // list of supported pattern engines
-  var supportedPatternEngineNames = [
-    'mustache',
-    'handlebars'
-  ];
+  var PatternEngines; // the main export object
+  var engineNameForExtension; // generated mapping of extension to engine name
 
-  // mapping of file extensions to engine names, for lookup use
-  var engineNameForExtension = {};
 
-  // Object/hash of all loaded pattern engines, empty at first.
-  // My intention here is to make this return an object that can be used to
-  // obtain any loaded PatternEngine by addressing them like this:
+  // free private functions, for internal setup only
+
+  function findSupportedPatternEngineNames() {
+    var foundPatternEngineNames = [];
+
+    console.log('patternEngines: begin diveSync ====================');
+
+    // find
+    diveSync(enginesDirectory, {
+      recursive: false,
+      filter: function (filePath, dir) {
+        var baseName = path.basename(filePath),
+            engineMatch = baseName.match(engineMatcher);
+
+        if (dir || engineMatch !== null) { return true; }
+        return false;
+      }
+    }, function (err, filePath) {
+      if (err) { throw err; }
+      var baseName = path.basename(filePath),
+          engineMatch = baseName.match(engineMatcher),
+          foundEngineName = engineMatch[1];
+
+      console.log('patternEngines: FOUND ENGINE', foundEngineName);
+      foundPatternEngineNames.push(foundEngineName);
+    });
+
+    return foundPatternEngineNames;
+  }
+
+  // try to load all supported engines
+  function loadAllEngines(enginesObject) {
+    enginesObject.supportedPatternEngineNames.forEach(function (engineName) {
+      try {
+        enginesObject[engineName] = require('./engine_' + engineName);
+      } catch (err) {
+        console.log(err, 'pattern engine "' + engineName + '" not loaded. Did you install its dependency with npm?');
+      }
+    });
+  }
+
+  // produce a mapping between file extension and engine name for each of the
+  // loaded engines
+  function createFileExtensionToEngineNameMap(enginesObject) {
+    var mapping = {};
+
+    Object.keys(enginesObject).forEach(function (engineName) {
+      var extensionForEngine = enginesObject[engineName].engineFileExtension;
+      mapping[extensionForEngine] = engineName;
+    });
+
+    return mapping;
+  }
+
+
   //
-  // var PatternEngines = require('./pattern_engines/pattern_engines');
-  // var Mustache = PatternEngines['mustache'];
+  // PatternEngines: the main export of this module
   //
-  var PatternEngines = Object.create({
-    supportedPatternEngineNames: supportedPatternEngineNames,
+  // It's an Object/hash of all loaded pattern engines, empty at first.  My
+  // intention here is to make this return an object that can be used to obtain
+  // any loaded PatternEngine by addressing them like this:
+  //
+  //   var PatternEngines = require('./pattern_engines/pattern_engines');
+  //   var Mustache = PatternEngines['mustache'];
+  //
+  // Object.create lets us create an object with a specified prototype. We want
+  // this here because we would like the object's "own properties" to include
+  // only the engine names so we can easily iterate over them; all the handy
+  // methods and properites below should therefore be on its prototype.
+
+  PatternEngines = Object.create({
+    // build the list of supported pattern engines based on what plugins we have
+    // in the pattern_engines directory
+    supportedPatternEngineNames: findSupportedPatternEngineNames(),
 
     getEngineNameForPattern: function (pattern) {
       // avoid circular dependency by putting this in here. TODO: is this slow?
@@ -93,30 +156,12 @@
     }
   });
 
-  // try to load all supported engines
-  (function loadAllEngines() {
-    supportedPatternEngineNames.forEach(function (engineName) {
-      try {
-        PatternEngines[engineName] = require('./engine_' + engineName);
-      } catch (err) {
-        console.log(err, 'pattern engine "' + engineName + '" not loaded. Did you install its dependency with npm?');
-      }
-    });
-  })();
 
-  // produce a mapping between file extension and engine name for each of the
-  // loaded engines
-  engineNameForExtension = (function () {
-    var mapping = {};
+  // load up the engines we found
+  loadAllEngines(PatternEngines);
 
-    Object.keys(PatternEngines).forEach(function (engineName) {
-      var extensionForEngine = PatternEngines[engineName].engineFileExtension;
-      mapping[extensionForEngine] = engineName;
-    });
-
-    return mapping;
-  })();
-
+  // mapping of file extensions to engine names, for lookup use
+  engineNameForExtension = createFileExtensionToEngineNameMap(PatternEngines);
 
   module.exports = PatternEngines;
 })();
