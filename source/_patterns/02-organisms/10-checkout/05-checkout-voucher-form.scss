@@ -1,42 +1,58 @@
-.fieldset {
-  display : none;
-  max-height: 0;
-}
+.order-summary__section--discount {
 
-.field__input-btn-wrapper {
-  display: flex;
-  flex-direction: column;
+  .edit_checkout {
+    padding : 0 0.45em;
+  }
 
-  @media only screen and (min-width: 400px) {
+  .fieldset {
+    overflow : hidden;
+  }
+
+  .field {
+    transition: margin-top $animationTimingExtraLong, opacity $animationTimingLong ease-out;
+    opacity:0;
+    overflow:hidden;
+    margin-top:-121px;
+
+    &--expanded {
+      opacity:1;
+      margin-top:0;
+      transition : margin-top $animationTimingLong, opacity $animationTimingExtraLong ease-out;
+    }
+  }
+
+  .field__input-btn-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    @media only screen and (min-width: 400px) {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .field__input-btn {
+      height : 47px;
+    }
   }
 
-  //.field__input-btn {
-  //  height : 47px;
-  //}
-}
-
-.field__input-wrapper {
-  margin-right : 0.75em;
-  margin-bottom : 0.75em;
-}
-
-.checkout__voucherField--label {
-  padding-left : 1.5em;
-  position : relative;
-  @include icon(chevron-up);
-  font-family : $fontSecondary;
-  &:before {
-    position : absolute;
-    left : 0.25em;
+  .field__input-wrapper {
+    margin-right : 0.75em;
+    margin-bottom : 0.75em;
   }
 
-  &--expanded {
-    @include icon(chevron-down);
+  .checkout__voucherField--label {
+    padding-left : 1.5em;
+    position : relative;
+    @include icon(chevron-up);
+    font-family : $fontSecondary;
 
-    + [class*="fieldset"] {
-      display : block;
+    &:before {
+      position : absolute;
+      left : 0.25em;
+    }
+
+    &--expanded {
+      @include icon(chevron-down);
     }
   }
 }
