@@ -50,6 +50,7 @@
 		function findparameters(pattern, patternlab){
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
+        patternlab.knownData = {};
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
 					//find the partial's name and retrieve it
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
@@ -101,7 +102,7 @@
 					allData.link = extend({}, patternlab.data.link);
 
 					findparameters(partialPattern, patternlab);
-					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
+					var renderedPartial = pattern_assembler.renderPattern(partialPattern.template, allData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);

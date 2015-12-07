@@ -225,6 +225,7 @@
            pseudopattern_hunter = new require('./pseudopattern_hunter')(),
            currentPattern = getPattern(file, patternlab);
 
+
       if (!currentPattern) {
         return;
       }
@@ -233,6 +234,7 @@
       var foundPatternPartials = findPartials(currentPattern);
       if(foundPatternPartials && foundPatternPartials.length){
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
+
         parameter_hunter.find_parameters(currentPattern, patternlab);
 
         //do something with the regular old partials
@@ -275,7 +277,7 @@
       throw 'Could not find pattern with key ' + key;
     }
 
-        function mergeData(obj1, obj2){
+    function mergeData(obj1, obj2){
       if(typeof obj2 === 'undefined'){
         obj2 = {};
       }

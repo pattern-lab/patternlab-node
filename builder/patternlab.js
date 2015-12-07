@@ -151,10 +151,10 @@
     if (styleGuideExcludes.length) {
       for (i = 0; i < patternlab.patterns.length; i++) {
         var key = patternlab.patterns[i].key;
-        var depth = patternlab.patterns[i].subdir.split('/').length;
+        var isHidden = patternlab.patterns[i].isHidden;
         var typeKey = key.substring(0, key.indexOf('-'));
         var isExcluded = styleGuideExcludes.indexOf(typeKey) > -1;
-        if (!isExcluded && depth < 3) {
+        if (!isExcluded && !isHidden) {
           styleguidePatterns.push(patternlab.patterns[i]);
         }
       }
@@ -215,7 +215,8 @@
 
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
-      var depth = pattern.subdir.split('/').length
+
+      if (pattern.isHidden) continue;
 
       //check if the bucket already exists
       var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
@@ -256,28 +257,24 @@
 
         //if it is flat - we should not add the pattern to patternPaths
         if (flatPatternItem) {
-
           bucket.patternItems.push(navSubItem);
-
         }
         else {
-
           bucket.navItems.push(navItem);
           bucket.navItemsIndex.push(navItemName);
           navItem.navSubItems.push(navSubItem);
           navItem.navSubItemsIndex.push(navSubItemName);
-
         }
 
-        if (depth < 3) addToPatternPaths(bucketName, pattern);
+        addToPatternPaths(bucketName, pattern);
 
         //add the bucket.
         patternlab.buckets.push(bucket);
         patternlab.bucketIndex.push(bucketName);
 
         //done
-
-      } else {
+      }
+      else {
         //find the bucket
         var bucket = patternlab.buckets[bucketIndex];
 
@@ -306,18 +303,14 @@
           flatPatternItem = true;
         }
 
-        if (depth < 3) addToPatternPaths(bucketName, pattern);
+        addToPatternPaths(bucketName, pattern);
 
         //if it is flat - we should not add the pattern to patternPaths
         if (flatPatternItem) {
-
           //add the navItem to patternItems
           bucket.patternItems.push(navSubItem);
-
         }
         else {
-
-          if (depth > 2) continue;
 
           //check to see if navItem exists
           var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
@@ -345,9 +338,12 @@
           navViewAllSubItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
 
           //check if we are moving to a new sub section in the next loop
+
           if (!patternlab.patterns[i + 1] || pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
-            navItem.navSubItems.push(navViewAllSubItem);
-            navItem.navSubItemsIndex.push("View All");
+            if (!!patternlab.patterns[i - 1] && pattern.patternSubGroup === patternlab.patterns[i - 1].patternSubGroup) {
+              navItem.navSubItems.push(navViewAllSubItem);
+              navItem.navSubItemsIndex.push("View All");
+            }
           }
         }
       }
