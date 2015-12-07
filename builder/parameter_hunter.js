@@ -1,11 +1,11 @@
-/** 
+/**
  * patternlab-node - v0.13.0 - 2015
- * 
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
- * 
+ *
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- * 
+ *
  **/(function () {
 	"use strict";
 
@@ -42,15 +42,15 @@
 	var parameter_hunter = function(){
 
 		var extend = require('util')._extend,
-		pa = require('./pattern_assembler'),
-		smh = require('./style_modifier_hunter'),
-		style_modifier_hunter = new smh(),
-		pattern_assembler = new pa();
+			pa = require('./pattern_assembler'),
+			smh = require('./style_modifier_hunter'),
+			style_modifier_hunter = new smh(),
+			pattern_assembler = new pa();
 
 		function findparameters(pattern, patternlab){
+
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
 				//compile this partial immeadiately, essentially consuming it.
-        patternlab.knownData = {};
 				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
 					//find the partial's name and retrieve it
 					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
@@ -76,7 +76,7 @@
 						paramData = eval('(function() { ' + knownDataString + ' return {' + escapeParamVariableReferences(paramString) + '}; })();');
 
 						Object.keys(paramData).forEach(function(propertyName) {
-							patternlab.knownData[propertyName] = patternlab.knownData[propertyName] || paramData[propertyName];
+							patternlab.knownData[propertyName] = paramData[propertyName];
 						});
 					} catch(e) {
 						console.log('ERROR:', e);
@@ -102,7 +102,7 @@
 					allData.link = extend({}, patternlab.data.link);
 
 					findparameters(partialPattern, patternlab);
-					var renderedPartial = pattern_assembler.renderPattern(partialPattern.template, allData, patternlab.partials);
+					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
