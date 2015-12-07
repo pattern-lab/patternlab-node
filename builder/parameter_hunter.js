@@ -74,7 +74,6 @@
 						}).join('');
 
 						paramData = eval('(function() { ' + knownDataString + ' return {' + escapeParamVariableReferences(paramString) + '}; })();');
-
 						Object.keys(paramData).forEach(function(propertyName) {
 							patternlab.knownData[propertyName] = paramData[propertyName];
 						});
@@ -106,10 +105,7 @@
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
-
-					// reset the known data
-					partialPattern.extendedTemplate = partialPattern.template;
-					patternlab.knownData = {};
+					partialPattern.extendedTemplate = '' + partialPattern.template;
 				});
 			}
 		}

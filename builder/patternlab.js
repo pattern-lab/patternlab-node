@@ -79,7 +79,10 @@
         reverseFiles: false
       },
       {
-        operation: pattern_assembler.process_pattern_recursive,
+        operation: function (file, patternlab) {
+          pattern_assembler.process_pattern_recursive(file, patternlab);
+          patternlab.knownData = {};
+        },
         reverseFiles: true
       }
     ].forEach(function (turn) {
