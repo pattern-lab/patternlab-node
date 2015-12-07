@@ -69,8 +69,6 @@
     //diveSync to perform iterative populating of patternlab object and to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
 
-    var filesAlreadyBuilt = [];
-
     [
       {
         operation: pattern_assembler.process_pattern_iterative,
@@ -83,17 +81,6 @@
       {
         operation: function (file, patternlab) {
           pattern_assembler.process_pattern_recursive(file, patternlab);
-          filesAlreadyBuilt.push(file);
-
-          patternlab.patterns = patternlab.patterns.map(function(pattern) {
-            if (filesAlreadyBuilt.indexOf(pattern.abspath) !== -1) {
-              return pattern;
-            }
-
-            pattern.extendedTemplate = pattern.template;
-            return pattern;
-          });
-
           patternlab.knownData = {};
         },
         reverseFiles: true
