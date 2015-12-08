@@ -9,3 +9,13 @@
 .step__footer__continue-btn {
   @extend .button, .button__primary;
 }
+
+.section {
+  & + & {
+    margin-top: 2em;
+  }
+  &__title {
+    @extend .headlineH2;
+    bacground: red
+  }
+}
