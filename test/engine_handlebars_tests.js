@@ -64,9 +64,9 @@
       );
       var pattern2Path = path.resolve(
         testPatternsPath,
-        '00-atoms',
+        '00-molecules',
         '00-global',
-        '01-helloworlds.hbs'
+        '00-helloworlds.hbs'
       );
 
       // set up environment
