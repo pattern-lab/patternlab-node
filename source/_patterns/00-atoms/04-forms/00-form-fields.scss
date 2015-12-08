@@ -23,7 +23,7 @@ input, textarea, select {
 }
 
 select {
-  -moz-appearance: none;
+  appearance: none;
   text-transform: none;
 }
 
@@ -32,7 +32,7 @@ select {
 }
 
 ::-moz-placeholder {
-  @include placeholder()
+  @include placeholder();
 }
 
 :-moz-placeholder {
