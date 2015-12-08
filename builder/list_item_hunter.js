@@ -2,9 +2,9 @@
  * patternlab-node - v0.15.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -14,20 +14,24 @@
 	var list_item_hunter = function(){
 
 		var extend = require('util')._extend,
-		pa = require('./pattern_assembler'),
-		smh = require('./style_modifier_hunter'),
-		mustache = require('mustache'),
-		pattern_assembler = new pa(),
-		style_modifier_hunter = new smh(),
-		items = [ 'zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+				pa = require('./pattern_assembler'),
+				smh = require('./style_modifier_hunter'),
+				plutils = require('./utilities'),
+				config = require('../config.json'),
+        of = require('./object_factory');
+
+		var pattern_assembler = new pa(),
+				style_modifier_hunter = new smh(),
+				items = [ 'zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
 
 		function processListItemPartials(pattern, patternlab){
 			//find any listitem blocks
-			var matches = pattern_assembler.find_list_items(pattern, patternlab);
+			var matches = pattern.findListItems();
+
 			if(matches !== null){
 				matches.forEach(function(liMatch, index, matches){
 
-					if(patternlab.config.debug){
+					if(config.debug){
 						console.log('found listItem of size ' + liMatch + ' inside ' + pattern.key);
 					}
 
@@ -39,12 +43,15 @@
 					var repeatedBlockTemplate = [];
 					var repeatedBlockHtml = '';
 					for(var i = 0; i < items.indexOf(loopNumberString); i++){
+            if (config.debug) {
+              console.log('list item(s) in pattern', pattern.patternName, 'adding', patternBlock, 'to repeatedBlockTemplate');
+            }
 						repeatedBlockTemplate.push(patternBlock);
 					}
 
 					//check for a local listitems.json file
 					var listData = JSON.parse(JSON.stringify(patternlab.listitems));
-					listData = pattern_assembler.merge_data(listData, pattern.listitems);
+					listData = plutils.mergeData(listData, pattern.listitems);
 
 					//iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
 					for(var i = 0; i < repeatedBlockTemplate.length; i++){
@@ -57,12 +64,12 @@
 						var globalData = JSON.parse(JSON.stringify(patternlab.data));
 						var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
 
-						var allData = pattern_assembler.merge_data(globalData, localData);
-						allData = pattern_assembler.merge_data(allData, itemData != undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+						var allData = plutils.mergeData(globalData, localData);
+						allData = plutils.mergeData(allData, itemData != undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
 						allData.link = extend({}, patternlab.data.link);
 
 						//check for partials within the repeated block
-						var foundPartials = pattern_assembler.find_pattern_partials({ 'template' : thisBlockTemplate });
+						var foundPartials = of.oPattern.createEmpty({'template': thisBlockTemplate}).findPartials();
 
 						if(foundPartials && foundPartials.length > 0){
 

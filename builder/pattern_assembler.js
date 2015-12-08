@@ -12,38 +12,13 @@
   "use strict";
 
   var pattern_assembler = function(){
+    var path = require('path'),
+        fs = require('fs-extra'),
+        of = require('./object_factory'),
+        plutils = require('./utilities'),
+        patternEngines = require('./pattern_engines/pattern_engines');
 
-    function isObjectEmpty(obj) {
-      for(var prop in obj) {
-          if(obj.hasOwnProperty(prop))
-              return false;
-      }
-
-      return true;
-    }
-
-    // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
-    function findPartialsWithStyleModifiers(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
-    }
-
-    // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
-    function findPartialsWithPatternParameters(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g);
-      return matches;
-    }
-
-    //find and return any {{> template-name* }} within pattern
-    function findPartials(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
-    }
-
-    function findListItems(pattern){
-      var matches = pattern.template.match(/({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g);
-      return matches;
-    }
+    var config = fs.readJSONSync('./config.json');
 
     function setState(pattern, patternlab){
       if(patternlab.config.patternStates[pattern.patternName]){
@@ -73,48 +48,59 @@
       }
     }
 
-    function renderPattern(template, data, partials) {
-
-      var mustache = require('mustache');
-
-      if(partials) {
-        return mustache.render(template, data, partials);
-      } else{
-        return mustache.render(template, data);
+    function renderPattern(pattern, data, partials) {
+      // if we've been passed a full oPattern, it knows what kind of template it
+      // is, and how to render itself, so we just call its render method
+      if (pattern instanceof of.oPattern) {
+        if (config.debug) {
+          console.log('rendering full oPattern: ' + pattern.name);
+        }
+        return pattern.render(data, partials);
+      } else {
+        // otherwise, assume it's a plain mustache template string and act
+        // accordingly
+        if (config.debug) {
+          console.log('rendering plain mustache string:', pattern.substring(0, 20) + '...');
+        }
+        return patternEngines.mustache.renderPattern(pattern, data, partials);
       }
     }
 
     function processPatternIterative(file, patternlab){
-      var fs = require('fs-extra'),
-      of = require('./object_factory'),
-      path = require('path');
-
       //extract some information
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      //ignore dotfiles and non-variant .json files
-      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
-        return;
+      if (config.debug) {
+        console.log('processPatternIterative:', 'filename:', filename);
+      }
+
+      // skip non-pattern files
+      if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
+      if (config.debug) {
+        console.log('processPatternIterative:', 'found pattern', file);
       }
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
 
       //if file is named in the syntax for variants
-      if(ext === '.json' && filename.indexOf('~') > -1){
+      if(patternEngines.isPseudoPatternJSON(filename)){
         //add current pattern to patternlab object with minimal data
         //processPatternRecursive() will run find_pseudopatterns() to fill out
         //the object in the next diveSync
         addPattern(currentPattern, patternlab);
         //no need to process further
-        return;
+        return currentPattern;
       }
 
-      //can ignore all non-mustache files at this point
-      if(ext !== '.mustache'){
-        return;
+      //can ignore all non-supported files at this point
+      if(patternEngines.isFileExtensionSupported(ext) === false){
+        if (config.debug) {
+          console.log('==================== FOUND NON-MUSTACHE FILE');
+        }
+        return currentPattern;
       }
 
       //see if this file has a state
@@ -147,25 +133,25 @@
       currentPattern.template = fs.readFileSync(file, 'utf8');
 
       //find any stylemodifiers that may be in the current pattern
-      currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+      currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
 
       //find any pattern parameters that may be in the current pattern
-      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
+      currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
 
       //add currentPattern to patternlab.patterns array
       addPattern(currentPattern, patternlab);
+
+      return currentPattern;
     }
 
-    function processPatternRecursive(file, patternlab, additionalData){
 
-      var fs = require('fs-extra'),
-      mustache = require('mustache'),
-      lh = require('./lineage_hunter'),
-      ph = require('./parameter_hunter'),
-      pph = require('./pseudopattern_hunter'),
-      lih = require('./list_item_hunter'),
-      smh = require('./style_modifier_hunter'),
-      path = require('path');
+
+    function processPatternRecursive(file, patternlab, additionalData){
+      var lh = require('./lineage_hunter'),
+          ph = require('./parameter_hunter'),
+          pph = require('./pseudopattern_hunter'),
+          lih = require('./list_item_hunter'),
+          smh = require('./style_modifier_hunter');
 
       var parameter_hunter = new ph(),
       lineage_hunter = new lh(),
@@ -191,7 +177,7 @@
       currentPattern.extendedTemplate = currentPattern.template;
 
       //find how many partials there may be for the given pattern
-      var foundPatternPartials = findPartials(currentPattern);
+      var foundPatternPartials = currentPattern.findPartials(currentPattern);
 
       if(foundPatternPartials !== null && foundPatternPartials.length > 0){
 
@@ -207,7 +193,7 @@
 
         //do something with the regular old partials
         for(i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = currentPattern.getPartialKey(foundPatternPartials[i]);
 
           var partialPath;
 
@@ -263,33 +249,6 @@
     }
 
 
-    function mergeData(obj1, obj2){
-      if(typeof obj2 === 'undefined'){
-        obj2 = {};
-      }
-      for(var p in obj1){
-        try {
-          // Only recurse if obj1[p] is an object.
-          if(obj1[p].constructor === Object){
-            // Requires 2 objects as params; create obj2[p] if undefined.
-            if(typeof obj2[p] === 'undefined'){
-              obj2[p] = {};
-            }
-            obj2[p] = mergeData(obj1[p], obj2[p]);
-          // Pop when recursion meets a non-object. If obj1[p] is a non-object,
-          // only copy to undefined obj2[p]. This way, obj2 maintains priority.
-          } else if(typeof obj2[p] === 'undefined'){
-            obj2[p] = obj1[p];
-          }
-        } catch(e) {
-          // Property in destination object not set; create it and set its value.
-          if(typeof obj2[p] === 'undefined'){
-            obj2[p] = obj1[p];
-          }
-        }
-      }
-      return obj2;
-    }
 
     function buildListItems(container){
       //combine all list items into one structure
@@ -299,7 +258,7 @@
           list.push(container.listitems[item]);
         }
       }
-      container.listItemArray = shuffle(list);
+      container.listItemArray = plutils.shuffle(list);
 
       for(var i = 1; i <= container.listItemArray.length; i++){
         var tempItems = [];
@@ -315,24 +274,20 @@
       }
     }
 
-    //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-    function shuffle(o){
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
-    }
+
 
     return {
       find_pattern_partials: function(pattern){
-        return findPartials(pattern);
+        return pattern.findPartials();
       },
       find_pattern_partials_with_style_modifiers: function(pattern){
-        return findPartialsWithStyleModifiers(pattern);
+        return pattern.findPartialsWithStyleModifiers();
       },
       find_pattern_partials_with_parameters: function(pattern){
-        return findPartialsWithPatternParameters(pattern);
+        return pattern.findPartialsWithPatternParameters();
       },
       find_list_items: function(pattern){
-        return findListItems(pattern)
+        return pattern.findListItems();
       },
       setPatternState: function(pattern, patternlab){
         setState(pattern, patternlab);
@@ -344,7 +299,7 @@
         return renderPattern(template, data, partials);
       },
       process_pattern_iterative: function(file, patternlab){
-        processPatternIterative(file, patternlab);
+        return processPatternIterative(file, patternlab);
       },
       process_pattern_recursive: function(file, patternlab, additionalData){
         processPatternRecursive(file, patternlab, additionalData);
@@ -352,14 +307,8 @@
       get_pattern_by_key: function(key, patternlab){
         return getpatternbykey(key, patternlab);
       },
-      merge_data: function(existingData, newData){
-        return mergeData(existingData, newData);
-      },
       combine_listItems: function(patternlab){
         buildListItems(patternlab);
-      },
-      is_object_empty: function(obj){
-        return isObjectEmpty(obj);
       }
     };
 

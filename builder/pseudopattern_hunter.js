@@ -2,9 +2,9 @@
  * patternlab-node - v0.15.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -20,17 +20,18 @@
 			pa = require('./pattern_assembler'),
 			lh = require('./lineage_hunter'),
 			of = require('./object_factory'),
-			mustache = require('mustache');
+			plutils = require('./utilities');
 
 			var pattern_assembler = new pa();
 			var lineage_hunter = new lh();
 
-			//look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+			//look for a pseudo pattern by checking if there is a file containing same
+			//name, with ~ in it, ending in .json
 			var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
 			var pseudoPatterns = glob.sync(needle, {
 				cwd: 'source/_patterns/', //relative to gruntfile
 				debug: false,
-				nodir: true,
+				nodir: true
 			});
 
 			if(pseudoPatterns.length > 0){
@@ -38,6 +39,7 @@
 				for(var i = 0; i < pseudoPatterns.length; i++){
 
 					if(patternlab.config.debug){
+						debugger;
 						console.log('found pseudoPattern variant of ' + currentPattern.key);
 					}
 
@@ -45,19 +47,23 @@
 					var variantFileData = fs.readJSONSync('source/_patterns/' + pseudoPatterns[i]);
 
 					//extend any existing data with variant data
-					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
+					variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
 					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
 					var variantFileName = currentPattern.fileName + '-' + variantName + '.';
-					var patternVariant = new of.oPattern(variantFilePath, currentPattern.subdir, variantFileName, variantFileData);
+					var patternVariant = of.oPattern.create(variantFilePath, currentPattern.subdir, variantFileName, variantFileData, {
+						//use the same template as the non-variant
+						template: currentPattern.template,
+						extendedTemplate: currentPattern.extendedTemplate,
+						isPseudoPattern: true,
+						basePattern: currentPattern,
+						// use the same template engine as the non-variant
+						engine: currentPattern.engine
+					});
 
 					//see if this file has a state
 					pattern_assembler.setPatternState(patternVariant, patternlab);
-
-					//use the same template as the non-variant
-					patternVariant.template = currentPattern.template;
-					patternVariant.extendedTemplate = currentPattern.extendedTemplate;
 
 					//find pattern lineage
 					lineage_hunter.find_lineage(patternVariant, patternlab);

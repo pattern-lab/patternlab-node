@@ -15,8 +15,8 @@
 
 		var extend = require('util')._extend,
 		pa = require('./pattern_assembler'),
-		mustache = require('mustache'),
 		smh = require('./style_modifier_hunter'),
+		plutils = require('./utilities'),
 		style_modifier_hunter = new smh(),
 		pattern_assembler = new pa();
 
@@ -46,8 +46,8 @@
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
 					var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
 
-					var allData = pattern_assembler.merge_data(globalData, localData);
-					allData = pattern_assembler.merge_data(allData, paramData);
+					var allData = plutils.mergeData(globalData, localData);
+					allData = plutils.mergeData(allData, paramData);
 
 					//if partial has style modifier data, replace the styleModifier value
 					if(pattern.stylePartials && pattern.stylePartials.length > 0){

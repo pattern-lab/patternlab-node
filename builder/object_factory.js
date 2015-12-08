@@ -1,18 +1,30 @@
-/* 
- * patternlab-node - v0.15.1 - 2015 
- * 
+/*
+ * patternlab-node - v0.15.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
 (function () {
   "use strict";
 
-  var oPattern = function(abspath, subdir, filename, data){
+  var patternEngines = require('./pattern_engines/pattern_engines');
+  var path = require('path');
+  var fs = require('fs-extra');
+  var config = fs.readJSONSync('./config.json');
+  var extend = require('util')._extend;
+
+  // oPattern properties
+
+  var oPattern = function(abspath, subdir, filename, data) {
+    if (config.debug) {
+      console.log('=== NEW OPATTERN.', '\nabsPath:', abspath, '\nsubdir:', subdir, '\nfilename:', filename, '\ndata:\n', data);
+    }
     this.fileName = filename.substring(0, filename.indexOf('.'));
+    this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
     this.subdir = subdir;
     this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
@@ -32,7 +44,63 @@
     this.lineageIndex = [];
     this.lineageR = [];
     this.lineageRIndex = [];
+    this.isPseudoPattern = false;
+    this.engine = patternEngines.getEngineForPattern(this);
   };
+
+  // oPattern methods
+
+  oPattern.prototype = {
+
+    // render method on oPatterns; this acts as a proxy for the PatternEngine's
+    // render function
+    render: function (data, partials) {
+      if (config.debug && this.isPseudoPattern) {
+        console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
+      }
+      return this.engine.renderPattern(this.extendedTemplate, data, partials);
+    },
+
+    // the finders all delegate to the PatternEngine, which also encapsulates all
+    // appropriate regexes
+    findPartials: function () {
+      return this.engine.findPartials(this);
+    },
+
+    findPartialsWithStyleModifiers: function () {
+      return this.engine.findPartialsWithStyleModifiers(this);
+    },
+
+    findPartialsWithPatternParameters: function () {
+      return this.engine.findPartialsWithPatternParameters(this);
+    },
+
+    findListItems: function () {
+      return this.engine.findListItems(this);
+    },
+
+    getPartialKey: function (partialString) {
+      return this.engine.getPartialKey(this, partialString);
+    }
+  };
+
+  // oPattern static methods
+
+  // factory: creates an empty oPattern for miscellaneous internal use, such as
+  // by list_item_hunter
+  oPattern.createEmpty = function (customProps) {
+    var pattern = new oPattern('', '', '', null);
+    return extend(pattern, customProps);
+  };
+
+  // factory: creates an oPattern object on-demand from a hash; the hash accepts
+  // parameters that replace the positional parameters that the oPattern
+  // constructor takes.
+  oPattern.create = function (abspath, subdir, filename, data, customProps) {
+    var newPattern =  new oPattern(abspath || '', subdir || '', filename || '', data || null);
+    return extend(newPattern, customProps);
+  };
+
 
   var oBucket = function(name){
     this.bucketNameLC = name;
@@ -45,6 +113,7 @@
     this.patternItemsIndex = [];
   };
 
+
   var oNavItem = function(name){
     this.sectionNameLC = name;
     this.sectionNameUC = name.split('-').reduce(function(val, working){
@@ -54,6 +123,7 @@
     this.navSubItemsIndex = [];
   };
 
+
   var oNavSubItem = function(name){
     this.patternPath = '';
     this.patternPartial = '';
@@ -62,6 +132,7 @@
     }, '').trim();
   };
 
+
   module.exports = {
     oPattern: oPattern,
     oBucket: oBucket,
@@ -69,4 +140,4 @@
     oNavSubItem: oNavSubItem
   };
 
-}());
+})();
