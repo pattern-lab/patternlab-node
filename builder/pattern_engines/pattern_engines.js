@@ -68,7 +68,7 @@
                     notLoaded ? 'renderer not installed; engine disabled' : 'good to go');
       }
     });
-    console.log('Done loading engines.\n');
+    console.log('...done loading engines.\n');
   }
 
   // produce a mapping between file extension and engine name for each of the
