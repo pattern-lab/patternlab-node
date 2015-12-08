@@ -235,24 +235,6 @@
       if(foundPatternPartials && foundPatternPartials.length){
         //determine if the template contains any pattern parameters. if so they must be immediately consumed
         parameter_hunter.find_parameters(currentPattern, patternlab);
-
-        //do something with the regular old partials
-        foundPatternPartials.filter(function(foundPattern) {
-          return !currentPattern.parameteredPartials || currentPattern.parameteredPartials.indexOf(foundPattern) === -1;
-        }).forEach(function(foundPatternPartial) {
-          var partialData = getPartialDataByPartialKey(foundPatternPartial, patternlab);
-
-          //recurse through nested partials to fill out this extended template.
-          processPatternRecursive(partialData.path, patternlab);
-          var partialPattern = getpatternbykey(partialData.key, patternlab);
-
-          //if partial has style modifier data, replace the styleModifier value
-          if(currentPattern.stylePartials && currentPattern.stylePartials.length > 0){
-            style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartial, patternlab);
-          }
-
-          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartial, partialPattern.extendedTemplate || partialPattern.template);
-        });
       }
 
       //find pattern lineage
@@ -348,6 +330,12 @@
       find_list_items: function(pattern){
         return findListItems(pattern)
       },
+      findPartials: function(pattern) {
+        return findPartials(pattern);
+      },
+      getPartialDataByPartialKey: function(partial, patternlab) {
+        return getPartialDataByPartialKey(partial, patternlab);
+      },
       setPatternState: function(pattern, patternlab){
         setState(pattern, patternlab);
       },
@@ -365,6 +353,9 @@
       },
       process_pattern_list_recursive: function(file, patternlab) {
         processPatternListRecursive(file, patternlab);
+      },
+      getPatternByFile: function(file, patternlab) {
+        return getPattern(file, patternlab);
       },
       get_pattern_by_key: function(key, patternlab){
         return getpatternbykey(key, patternlab);

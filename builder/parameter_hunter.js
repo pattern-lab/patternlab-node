@@ -102,13 +102,32 @@
 					allData.link = extend({}, patternlab.data.link);
 
 					findparameters(partialPattern, patternlab);
-					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
+					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate || partialPattern.template, allData, patternlab.partials);
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
-					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
+					pattern.extendedTemplate = (pattern.extendedTemplate || '').replace(pMatch, renderedPartial);
 					partialPattern.extendedTemplate = '' + partialPattern.template;
 				});
 			}
+
+			//do something with the regular old partials
+			(pattern_assembler.findPartials(pattern) || []).filter(function(foundPattern) {
+				return !pattern.parameteredPartials || pattern.parameteredPartials.indexOf(foundPattern) === -1;
+			}).forEach(function(foundPatternPartial) {
+				var partialData = pattern_assembler.getPartialDataByPartialKey(foundPatternPartial, patternlab);
+
+				//recurse through nested partials to fill out this extended template.
+				findparameters(pattern_assembler.getPatternByFile(partialData.path, patternlab), patternlab);
+
+				var partialPattern = pattern_assembler.get_pattern_by_key(partialData.key, patternlab);
+
+				//if partial has style modifier data, replace the styleModifier value
+				if(pattern.stylePartials && pattern.stylePartials.length > 0){
+					style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartial, patternlab);
+				}
+
+				pattern.extendedTemplate = (pattern.extendedTemplate || '').replace(foundPatternPartial, partialPattern.extendedTemplate || partialPattern.template);
+			});
 		}
 
 		return {
