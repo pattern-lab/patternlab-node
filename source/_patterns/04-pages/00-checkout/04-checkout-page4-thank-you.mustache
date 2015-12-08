@@ -7,8 +7,9 @@
         <div role="main" class="checkout__content">
             {{> organisms-checkout-header }}
 
-            {{> organisms-checkout-form-customer-information }}
-            {{> organisms-checkout-form-shipping-address }}
+            {{> molecules-checkout-map }}
+            {{> molecules-checkout-status }}
+            {{> molecules-checkout-customer-information }}
 
             {{> organisms-checkout-step-footer }}
             {{> organisms-checkout-main-footer }}
@@ -18,6 +19,7 @@
             {{> organisms-checkout-price-header }}
 
             {{> molecules-checkout-product-table }}
+            {{> organisms-checkout-voucher-form }}
             {{> molecules-checkout-total-line-table }}
 
             {{> organisms-checkout-price-footer }}
