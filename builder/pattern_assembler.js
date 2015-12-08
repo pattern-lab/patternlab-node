@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.15.2 - 2015 
+ * patternlab-node - v0.16.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -46,7 +46,7 @@
     }
 
     function setState(pattern, patternlab){
-      if(patternlab.config.patternStates[pattern.patternName]){
+      if(patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]){
         pattern.patternState = patternlab.config.patternStates[pattern.patternName];
       } else{
         pattern.patternState = "";
@@ -102,13 +102,9 @@
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
 
-      //if file is named in the syntax for variants
+      //if file is named in the syntax for variants, no need to process further
+      //processPatternRecursive() will run find_pseudopatterns() and look at each pattern for a variant
       if(ext === '.json' && filename.indexOf('~') > -1){
-        //add current pattern to patternlab object with minimal data
-        //processPatternRecursive() will run find_pseudopatterns() to fill out
-        //the object in the next diveSync
-        addPattern(currentPattern, patternlab);
-        //no need to process further
         return;
       }
 

@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.15.2 - 2015 
+ * patternlab-node - v0.16.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -210,6 +210,18 @@ var patternlab_engine = function () {
 
     //build the patternlab website
     var patternlabSiteTemplate = fs.readFileSync('./source/_patternlab-files/index.mustache', 'utf8');
+
+    //sort all patterns explicitly.
+    patternlab.patterns = patternlab.patterns.sort(function(a,b){
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
