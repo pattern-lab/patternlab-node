@@ -1,0 +1,22 @@
+<div class="section section--payment-method">
+  <div class="section__header">
+    <h2 class="section__title">Payment method</h2>
+  </div>
+  <div class="section__content">
+    {{> molecules-radio-mixin(label: 'Credit card', checked: true, typePayment: true) }}
+
+    <div class="radio-wrapper content-box__row content-box__row--secondary">
+      <div class="fieldset">
+        {{> molecules-field-mixin(typeText: true,  id: '4234234234234', label : 'Card number') }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Name on card',  styleModifier: 'field--half' ) }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'MM / YY',  styleModifier: 'field--quarter' ) }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'CVV',  styleModifier: 'field--quarter') }}
+      </div>
+    </div>
+
+    {{> molecules-radio-mixin(image: '//cdn.shopify.com/s/assets/checkout_v2/offsite-gateway-logos/paypal@2x-2cabd13111981089fdf7f9faee0ef21550690cd2d380dede9fb7bc8c1253b3c6.png', label: 'Paypal', checked: false, typePayment: true) }}
+    {{> molecules-radio-mixin(image: '//cdn.shopify.com/s/assets/checkout_v2/offsite-gateway-logos/directebanking@2x-63b564097fbcba32942213fc5daeb97979c1fc75229810f4d35db15da3a1697c.png', label: 'Sofort', checked: false, typePayment: true) }}
+    {{> molecules-radio-mixin(label: 'Invoice / Rechnung', checked: false, accessory: '') }}
+
+  </div>
+</div>

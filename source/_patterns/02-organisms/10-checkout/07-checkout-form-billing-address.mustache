@@ -1,0 +1,22 @@
+<div class="section section--payment-method">
+  <div class="section__header">
+    <h2 class="section__title">Payment method</h2>
+  </div>
+  <div class="section__content">
+    {{> molecules-radio-mixin(label: 'Same as shipping address ', checked: false, accessory: '') }}
+    {{> molecules-radio-mixin(label: 'Use a different billing address', checked: true, accessory: '') }}
+
+    <div class="radio-wrapper content-box__row content-box__row--secondary">
+      <div class="fieldset">
+        {{> molecules-field-mixin(typeText: true,  id: '4234234234234', label : 'First name',  styleModifier: 'field--half' ) }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Last name',  styleModifier: 'field--half' ) }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Company') }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Address') }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'City') }}
+        {{> molecules-field-mixin(typeSelect: true,  id: '3333234234', label : 'Country',  styleModifier: 'field--half field--show-floating-label' ) }}
+        {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Postal code',  styleModifier: 'field--half' ) }}
+        {{> molecules-field-mixin(typeTel: true,  id: '3333234234', label : 'Phone (optional)') }}
+      </div>
+    </div>
+  </div>
+</div>

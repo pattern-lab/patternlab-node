@@ -1,7 +1,7 @@
 .fieldset {
   display: flex;
   flex-flow: row wrap;
-  width: auto;
+  width: calc(100% + .9em);
   margin-left: -.45em;
   margin-right: -.45em;
 

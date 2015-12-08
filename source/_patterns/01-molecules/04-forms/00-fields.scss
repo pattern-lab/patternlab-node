@@ -5,7 +5,7 @@
     width: 100%;
     position: relative;
     &--select {
-      @include icon('checkmark');
+      @include icon('chevron-down');
       &:before {
         color: $colorBorder;
         font-size: 1.5em;

@@ -1,13 +1,19 @@
 <div class="radio-wrapper content-box__row ">
-    {{> atoms-input-type-radio(id: id, placeholder: label) }}
+  {{> atoms-input-type-radio(id: id, placeholder: label, checked: checked) }}
   <label for="{{ id }}" class="radio__label content-box__emphasis">
-    {{ label }}
+    {{# image }}
+      <img src="{{ image }}" alt="{{ label }}"/>
+    {{/ image }}
+    {{^ image }}
+      {{ label }}
+    {{/ image }}
   </label>
+
   <div class="radio__accessory">
     {{# typePayment }}
-      {{> atoms-payment-icon-visa }}
-      {{> atoms-payment-icon-master }}
-      {{> atoms-payment-icon-american-express }}
+      {{> atoms-payment-icon-visa() }}
+      {{> atoms-payment-icon-master() }}
+      {{> atoms-payment-icon-american-express() }}
     {{/ typePayment }}
     {{^ typePayment }}
       {{ accessory  || non finibus }}
