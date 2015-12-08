@@ -77,7 +77,7 @@
       }
 
       // skip non-pattern files
-      if (!patternEngines.isPatternFile(filename, patternlab)) { return; }
+      if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
       if (config.debug) {
         console.log('processPatternIterative:', 'found pattern', file);
       }
@@ -92,15 +92,15 @@
         //the object in the next diveSync
         addPattern(currentPattern, patternlab);
         //no need to process further
-        return;
+        return currentPattern;
       }
 
-      //can ignore all non-mustache files at this point
-      if(ext !== '.mustache'){
+      //can ignore all non-supported files at this point
+      if(patternEngines.isFileExtensionSupported(ext) === false){
         if (config.debug) {
           console.log('==================== FOUND NON-MUSTACHE FILE');
         }
-        return;
+        return currentPattern;
       }
 
       //see if this file has a state
@@ -140,6 +140,8 @@
 
       //add currentPattern to patternlab.patterns array
       addPattern(currentPattern, patternlab);
+
+      return currentPattern;
     }
 
 
@@ -297,7 +299,7 @@
         return renderPattern(template, data, partials);
       },
       process_pattern_iterative: function(file, patternlab){
-        processPatternIterative(file, patternlab);
+        return processPatternIterative(file, patternlab);
       },
       process_pattern_recursive: function(file, patternlab, additionalData){
         processPatternRecursive(file, patternlab, additionalData);
