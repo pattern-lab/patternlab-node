@@ -3,13 +3,12 @@
   flex-direction : row;
   align-items : center;
 
-  &--badge {
+  &__badge {
     width : 3.5em;
     height : 3.5em;
-    background-color : magenta;
   }
 
-  &--description {
+  &__description {
     @include font-primary-light-uppercase(0.75em);
     line-height : 2.0833333333em;
     margin-top : 0.5em;
