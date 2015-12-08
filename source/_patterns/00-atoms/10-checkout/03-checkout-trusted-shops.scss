@@ -1,0 +1,19 @@
+.checkout__trustedShops {
+  display : flex;
+  flex-direction : row;
+  align-items : center;
+
+  &--badge {
+    width : 3.5em;
+    height : 3.5em;
+    background-color : magenta;
+  }
+
+  &--description {
+    @include font-primary-light-uppercase(0.75em);
+    line-height : 2.0833333333em;
+    margin-top : 0.5em;
+    margin-left : 1em;
+    width : 5.5em;
+  }
+}
