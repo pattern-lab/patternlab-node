@@ -11,8 +11,8 @@
 html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, ol, ul, li, form, legend, label, table, header, footer, nav, section, figure, fieldset, span {
 	margin: 0;
 	padding: 0;
-    font-weight: normal;
-    font-size: 1em;
+    font-weight: inherit;
+    font-size: inherit;
 }
 header, footer, nav, section, article, hgroup, figure {
 	display: block;
