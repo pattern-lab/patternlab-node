@@ -4,6 +4,22 @@
   &__input-wrapper {
     width: 100%;
     position: relative;
+    &--select {
+      @include icon('checkmark');
+      &:before {
+        color: $colorBorder;
+        font-size: 1.5em;
+        right: 3px;
+        top: 8px;
+        bottom: 8px;
+        width: 40px;
+        line-height: 1.35em;
+        text-align: center;
+        border-left: 1px solid $colorBorder;
+        pointer-events: none;
+        position: absolute;
+      }
+    }
   }
   &__label {
     font-family: $fontSecondary;
@@ -39,8 +55,8 @@
     border: 1px solid $colorBlack;
     background: transparent;
     &--select {
-      -moz-appearance: none;
-      text-transform: none;
+      height: 3.428em;
+      position: relative;
     }
     .field--show-floating-label & {
       padding-top: 1.5em;

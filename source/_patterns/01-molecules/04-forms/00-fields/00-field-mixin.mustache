@@ -1,5 +1,5 @@
 <div class="field {{ styleModifier }}">
-  <div class="field__input-wrapper">
+  <div class="field__input-wrapper{{# typeSelect }} field__input-wrapper--select{{/ typeSelect }}">
     <label for="{{ id || 'any_id' }}" class="field__label">{{ label || 'Vestibulum ante' }}</label>
 
     {{# typeText }}
@@ -27,7 +27,7 @@
     {{/ typeTextarea }}
 
     {{# typeSelect }}
-      {{> atoms-select(id: id || 'any_id', className: "field__input") }}
+      {{> atoms-select(id: id || 'any_id', className: "field__input field__input--select") }}
     {{/ typeSelect }}
 
     {{# message }}

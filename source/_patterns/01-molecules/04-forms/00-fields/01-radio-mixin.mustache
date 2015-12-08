@@ -4,8 +4,13 @@
     {{ label }}
   </label>
   <div class="radio__accessory">
-    {{> atoms-payment-icon-visa }}
-    {{> atoms-payment-icon-master }}
-    {{> atoms-payment-icon-american-express }}
+    {{# typePayment }}
+      {{> atoms-payment-icon-visa }}
+      {{> atoms-payment-icon-master }}
+      {{> atoms-payment-icon-american-express }}
+    {{/ typePayment }}
+    {{^ typePayment }}
+      {{ accessory  || non finibus }}
+    {{/ typePayment }}
   </div>
 </div>

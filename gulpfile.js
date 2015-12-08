@@ -118,11 +118,12 @@ gulp.task('iconfont', function() {
       fontName: 'horizn-icons',
       appendUnicode: true,
       normalize:true,
-      formats: ['ttf', 'woff', 'woff2'],
+      formats: ['ttf', 'woff', 'woff2', 'svg'],
       timestamp: new Date().getTime()
     }))
     .on('glyphs', function(glyphs) {
       var html = '<!-- This file is generated, don\'t change! -->\n\n<div class="icons patternlab">\n' + glyphs.map(function(glyph) {
+          console.log(glyph);
           return '\t<span class="icon-' + glyph.name + '"></span>\n\t<div class="icons__description">icon-' + glyph.name + '</div>';
         }).join('\n\n') + '\n</div>';
       fs.writeFile('source/_patterns/00-atoms/03-images/05-icons.mustache', html);
