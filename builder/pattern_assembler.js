@@ -12,12 +12,13 @@
   "use strict";
 
   var pattern_assembler = function(){
-
-    var fs = require('fs-extra'),
+    var path = require('path'),
+        fs = require('fs-extra'),
         of = require('./object_factory'),
         plutils = require('./utilities'),
-        patternEngines = require('./pattern_engines/pattern_engines'),
-        config = fs.readJSONSync('./config.json');
+        patternEngines = require('./pattern_engines/pattern_engines');
+
+    var config = fs.readJSONSync('./config.json');
 
     function setState(pattern, patternlab){
       if(patternlab.config.patternStates[pattern.patternName]){
@@ -66,10 +67,6 @@
     }
 
     function processPatternIterative(file, patternlab){
-      var fs = require('fs-extra'),
-      of = require('./object_factory'),
-      path = require('path');
-
       //extract some information
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
