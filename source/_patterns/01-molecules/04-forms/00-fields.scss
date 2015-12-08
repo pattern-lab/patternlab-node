@@ -7,13 +7,13 @@
     &--select {
       @include icon('chevron-down');
       &:before {
-        color: $colorBorder;
-        font-size: 1.5em;
-        right: 3px;
+        color: inherit;
+        font-size: 1.35em;
+        right: 2px;
         top: 8px;
         bottom: 8px;
         width: 40px;
-        line-height: 1.35em;
+        line-height: 1.85em;
         text-align: center;
         border-left: 1px solid $colorBorder;
         pointer-events: none;
@@ -55,7 +55,8 @@
     border: 1px solid $colorBlack;
     background: transparent;
     &--select {
-      height: 3.428em;
+      line-height: 1.4em;
+      padding-bottom: 0.375em!important;
       position: relative;
     }
     .field--show-floating-label & {
