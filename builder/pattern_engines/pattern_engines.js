@@ -21,12 +21,10 @@
   var engineNameForExtension; // generated mapping of extension to engine name
 
 
-  // free private functions, for internal setup only
+  // free "private" functions, for internal setup only
 
   function findSupportedPatternEngineNames() {
     var foundPatternEngineNames = [];
-
-    console.log('patternEngines: begin diveSync ====================');
 
     // find
     diveSync(enginesDirectory, {
@@ -44,7 +42,6 @@
           engineMatch = baseName.match(engineMatcher),
           foundEngineName = engineMatch[1];
 
-      console.log('patternEngines: FOUND ENGINE', foundEngineName);
       foundPatternEngineNames.push(foundEngineName);
     });
 
@@ -53,13 +50,25 @@
 
   // try to load all supported engines
   function loadAllEngines(enginesObject) {
+    console.log('\nLoading engines...');
+
     enginesObject.supportedPatternEngineNames.forEach(function (engineName) {
+      var notLoaded = false;
+
       try {
         enginesObject[engineName] = require('./engine_' + engineName);
       } catch (err) {
-        console.log(err, 'pattern engine "' + engineName + '" not loaded. Did you install its dependency with npm?');
+        // Handle errors loading each pattern engine. This will usually be
+        // because the engine's renderer hasn't been installed by the end user
+        // -- we don't include any of them (except mustache) by default as
+        // depedencies in package.json.
+        notLoaded = (err.code === 'MODULE_NOT_FOUND');
+      } finally {
+        console.log('-', engineName, 'engine:',
+                    notLoaded ? 'renderer not installed; engine disabled' : 'good to go');
       }
     });
+    console.log('Done loading engines.\n');
   }
 
   // produce a mapping between file extension and engine name for each of the
