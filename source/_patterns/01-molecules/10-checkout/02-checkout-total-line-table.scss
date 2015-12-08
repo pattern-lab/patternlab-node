@@ -33,3 +33,22 @@
     }
   }
 }
+
+.applied-reduction-code {
+  font-weight: 400;
+  svg {
+    display: none;
+  }
+}
+.applied-reduction-code__clear-button {
+  @include icon('x-small');
+  appearance: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  height: 1.65em;
+  width: 2em;
+  vertical-align: baseline;
+  display: inline;
+  margin-left: -.65em;
+}
