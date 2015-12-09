@@ -1,38 +1,45 @@
- {
- 	"patterns" : {
- 		"source" : "./source/_patterns/",
- 		"public" : "./public/patterns/"
- 	},
-	"styleGuideExcludes": [
-		"templates",
-		"pages"
-	],
- 	"ignored-extensions" : ["scss", "DS_Store", "less"],
- 	"ignored-directories" : ["scss"],
- 	"debug": false,
- 	"ishControlsVisible": {
- 		"s": true,
- 		"m": true,
- 		"l": true,
- 		"full": true,
- 		"random": true,
- 		"disco": true,
- 		"hay": true,
- 		"mqs": true,
- 		"find": true,
- 		"views-all": true,
- 		"views-annotations": true,
- 		"views-code": true,
- 		"views-new": true,
- 		"tools-all": true,
- 		"tools-sync": true,
- 		"tools-shortcuts": true,
- 		"tools-docs": true
- 	},
-  "patternStates": {
-	  "homepage-emergency" : "inprogress"
-  },
-  "patternExportKeys": [],
-  "patternExportDirectory": "./pattern_exports/",
-  "baseurl" : ""
- }
+{
+    "patternlab": {
+		"files": "source/_patternlab-files",
+        "patterns" : {
+            "source" : "source/_patterns",
+            "public" : "public/patterns"
+        },
+        "data" : {
+            "source" : "source/_data",
+            "public" : "public/data"
+        },
+        "styleGuideExcludes": [
+            "templates",
+            "pages"
+        ],
+        "ignored-extensions" : ["scss", "DS_Store", "less"],
+        "ignored-directories" : ["scss"],
+        "debug": false,
+        "ishControlsVisible": {
+            "s": true,
+            "m": true,
+            "l": true,
+            "full": true,
+            "random": true,
+            "disco": true,
+            "hay": true,
+            "mqs": true,
+            "find": true,
+            "views-all": true,
+            "views-annotations": true,
+            "views-code": true,
+            "views-new": true,
+            "tools-all": true,
+            "tools-sync": true,
+            "tools-shortcuts": true,
+            "tools-docs": true
+        },
+        "patternStates": {
+            "homepage-emergency" : "inprogress"
+        },
+        "patternExportKeys": [],
+        "patternExportDirectory": "./pattern_exports/",
+        "baseurl" : ""
+    }
+}
