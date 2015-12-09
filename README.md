@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+## Access to the Horizn Studios Patternlab version (Migration Branch)
+
+http://horizn-styleguide.s3-website.eu-central-1.amazonaws.com/branch/HSK-386-migration/
+
 
 ## About the Node Version of Pattern Lab
 
