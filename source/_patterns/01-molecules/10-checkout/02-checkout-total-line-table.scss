@@ -51,4 +51,8 @@
   vertical-align: baseline;
   display: inline;
   margin-left: -.65em;
+
+  &:before {
+    color : $colorError;
+  }
 }
