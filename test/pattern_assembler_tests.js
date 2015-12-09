@@ -290,6 +290,7 @@
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
 			pl.config = {};
@@ -297,7 +298,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			var patterns_dir = './test/files/_patterns';
+			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -322,6 +323,7 @@
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
 			pl.config = {};
@@ -329,7 +331,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			var patterns_dir = './test/files/_patterns';
+			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -354,6 +356,7 @@
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
 			pl.config = {};
@@ -361,7 +364,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			var patterns_dir = './test/files/_patterns';
+			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -386,6 +389,7 @@
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
 			pl.config = {};
@@ -393,7 +397,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			var patterns_dir = './test/files/_patterns';
+			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -420,6 +424,7 @@
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
 			pl.config = {};
@@ -427,7 +432,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			var patterns_dir = './test/files/_patterns';
+			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -448,6 +453,214 @@
 			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+			test.done();
+		},
+		'processPatternIterative - ignores files that start with underscore' : function(test){
+			//arrange
+			var diveSync = require('diveSync');
+			var fs = require('fs-extra');
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
+			var patternlab = {};
+			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config.patterns = {source: patterns_dir};
+			patternlab.data = fs.readJSONSync('./source/_data/data.json');
+			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
+			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
+			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.patterns = [];
+			patternlab.data.link = {};
+			patternlab.partials = {};
+
+			//act
+			diveSync(patterns_dir,
+				{
+					filter: function(path, dir){
+						if(dir){
+							var remainingPath = path.replace(patterns_dir, '');
+							var isValidPath = remainingPath.indexOf('/_') === -1;
+							return isValidPath;
+						}
+						return true;
+					}
+				},
+				function(err, file){
+					//log any errors
+					if(err){
+						console.log(err);
+						return;
+					}
+
+					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+				}
+			);
+
+			//assert
+			var foundIgnoredPattern = false;
+			for(var i = 0; i < patternlab.patterns.length; i++){
+				if(patternlab.patterns[i].fileName[0] === '_'){
+					foundIgnoredPattern = true;
+				}
+			}
+			test.equals(foundIgnoredPattern, false);
+			test.done();
+		},
+		'processPatternIterative - ignores files that are variants' : function(test){
+			//arrange
+			var diveSync = require('diveSync');
+			var fs = require('fs-extra');
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
+			var patternlab = {};
+			//THIS IS BAD.
+			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config.patterns = {source: patterns_dir};
+			patternlab.data = fs.readJSONSync('./source/_data/data.json');
+			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
+			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
+			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.patterns = [];
+			patternlab.data.link = {};
+			patternlab.partials = {};
+
+			//act
+			diveSync(patterns_dir,
+				{
+					filter: function(path, dir){
+						if(dir){
+							var remainingPath = path.replace(patterns_dir, '');
+							var isValidPath = remainingPath.indexOf('/_') === -1;
+							return isValidPath;
+						}
+						return true;
+					}
+				},
+				function(err, file){
+					//log any errors
+					if(err){
+						console.log(err);
+						return;
+					}
+
+					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+				}
+			);
+
+			//assert
+			var foundVariant = false;
+			for(var i = 0; i < patternlab.patterns.length; i++){
+				if(patternlab.patterns[i].fileName.indexOf('~') > -1){
+					foundVariant = true;
+				}
+			}
+			test.equals(foundVariant, false);
+			test.done();
+		},
+		'setState - applies any patternState matching the pattern' : function(test){
+			//arrange
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.config = {};
+			patternlab.config.patternStates = {};
+			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+
+			var pattern = {
+				patternName: "homepage-emergency"
+			};
+
+			//act
+			pattern_assembler.setPatternState(pattern, patternlab);
+
+			//assert
+			test.equals(pattern.patternState, "inprogress");
+			test.done();
+		},
+		'setState - does not apply any patternState if nothing matches the pattern' : function(test){
+			//arrange
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.config = {};
+			patternlab.config.patternStates = {};
+			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+
+			var pattern = {
+				patternName: "homepage"
+			};
+
+			//act
+			pattern_assembler.setPatternState(pattern, patternlab);
+
+			//assert
+			test.equals(pattern.patternState, "");
+			test.done();
+		},
+		'parseDataLinks - replaces found link.* data for their expanded links' : function(test){
+			//arrange
+			var diveSync = require('diveSync');
+			var fs = require('fs-extra');
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns/';
+			var patternlab = {};
+			//THIS IS BAD
+			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config.patterns = {source: patterns_dir};
+			patternlab.data = fs.readJSONSync('./source/_data/data.json');
+			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
+			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
+			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.patterns = [];
+			patternlab.data.link = {};
+			patternlab.partials = {};
+
+			diveSync(patterns_dir,
+				{
+					filter: function(path, dir){
+						if(dir){
+							var remainingPath = path.replace(patterns_dir, '');
+							var isValidPath = remainingPath.indexOf('/_') === -1;
+							return isValidPath;
+						}
+						return true;
+					}
+				},
+				function(err, file){
+					//log any errors
+					if(err){
+						console.log(err);
+						return;
+					}
+					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+				}
+			);
+
+			//for the sake of the test, also imagining I have the following pages...
+			patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
+			patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
+			patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
+
+			var pattern;
+			for(var i = 0; i < patternlab.patterns.length; i++){
+				if(patternlab.patterns[i].key === 'test-nav'){
+					pattern = patternlab.patterns[i];
+				}
+			}
+			//assert before
+			test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad");
+			test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave");
+			test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian");
+
+			//act
+			pattern_assembler.parse_data_links(patternlab);
+
+			//assert after
+			test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost");
+			test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
+			test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
 			test.done();
 		}
 	};

@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v0.15.1 - 2015
- *
+/* 
+ * patternlab-node - v1.0.0 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -46,7 +46,7 @@
     }
 
     function setState(pattern, patternlab){
-      if(patternlab.config.patternStates[pattern.patternName]){
+      if(patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]){
         pattern.patternState = patternlab.config.patternStates[pattern.patternName];
       } else{
         pattern.patternState = "";
@@ -54,6 +54,7 @@
     }
 
     function addPattern(pattern, patternlab){
+      //add the link to the global object
       patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
 
       //only push to array if the array doesn't contain this pattern
@@ -94,21 +95,17 @@
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
-      //ignore dotfiles and non-variant .json files
-      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
+      //ignore dotfiles, underscored files, and non-variant .json files
+      if(filename.charAt(0) === '.' || filename.charAt(0) === '_' || (ext === '.json' && filename.indexOf('~') === -1)){
         return;
       }
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
 
-      //if file is named in the syntax for variants
+      //if file is named in the syntax for variants, no need to process further
+      //processPatternRecursive() will run find_pseudopatterns() and look at each pattern for a variant
       if(ext === '.json' && filename.indexOf('~') > -1){
-        //add current pattern to patternlab object with minimal data
-        //processPatternRecursive() will run find_pseudopatterns() to fill out
-        //the object in the next diveSync
-        addPattern(currentPattern, patternlab);
-        //no need to process further
         return;
       }
 
@@ -321,6 +318,36 @@
         return o;
     }
 
+    //look for pattern links included in data files.
+    //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
+    function parseDataLinks(patternlab){
+
+      //loop through all patterns
+      for (var i = 0; i < patternlab.patterns.length; i++){
+        var pattern = patternlab.patterns[i];
+        //look for link.* such as link.pages-blog as a value
+        var linkRE = /link.[A-z0-9-_]+/g;
+        //convert to string for easier searching
+        var dataObjAsString = JSON.stringify(pattern.jsonFileData);
+        var linkMatches = dataObjAsString.match(linkRE);
+
+        //if no matches found, escape current loop iteration
+        if(linkMatches === null) { continue; }
+
+        for(var i = 0; i < linkMatches.length; i++){
+          //for each match, find the expanded link within the already constructed patternlab.data.link object
+          var expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+          if(patternlab.config.debug){
+            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + pattern.key);
+          }
+          //replace value with expandedLink on the pattern
+          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
+        }
+        //write back to data on the pattern
+        pattern.jsonFileData = JSON.parse(dataObjAsString);
+      }
+    }
+
     return {
       find_pattern_partials: function(pattern){
         return findPartials(pattern);
@@ -360,6 +387,9 @@
       },
       is_object_empty: function(obj){
         return isObjectEmpty(obj);
+      },
+      parse_data_links: function(patternlab){
+        parseDataLinks(patternlab);
       }
     };
 

@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.15.1 - 2015 
+ * patternlab-node - v1.0.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -91,6 +91,10 @@ var patternlab_engine = function () {
         pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
     });
 
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(patterns_dir, {
@@ -124,6 +128,7 @@ var patternlab_engine = function () {
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
+      //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
       //add footer info before writing
@@ -210,6 +215,18 @@ var patternlab_engine = function () {
 
     //build the patternlab website
     var patternlabSiteTemplate = fs.readFileSync('./source/_patternlab-files/index.mustache', 'utf8');
+
+    //sort all patterns explicitly.
+    patternlab.patterns = patternlab.patterns.sort(function(a,b){
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
