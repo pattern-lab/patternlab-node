@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.16.0 - 2015 
+ * patternlab-node - v1.0.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -54,6 +54,7 @@
     }
 
     function addPattern(pattern, patternlab){
+      //add the link to the global object
       patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
 
       //only push to array if the array doesn't contain this pattern
@@ -317,6 +318,36 @@
         return o;
     }
 
+    //look for pattern links included in data files.
+    //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
+    function parseDataLinks(patternlab){
+
+      //loop through all patterns
+      for (var i = 0; i < patternlab.patterns.length; i++){
+        var pattern = patternlab.patterns[i];
+        //look for link.* such as link.pages-blog as a value
+        var linkRE = /link.[A-z0-9-_]+/g;
+        //convert to string for easier searching
+        var dataObjAsString = JSON.stringify(pattern.jsonFileData);
+        var linkMatches = dataObjAsString.match(linkRE);
+
+        //if no matches found, escape current loop iteration
+        if(linkMatches === null) { continue; }
+
+        for(var i = 0; i < linkMatches.length; i++){
+          //for each match, find the expanded link within the already constructed patternlab.data.link object
+          var expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+          if(patternlab.config.debug){
+            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + pattern.key);
+          }
+          //replace value with expandedLink on the pattern
+          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
+        }
+        //write back to data on the pattern
+        pattern.jsonFileData = JSON.parse(dataObjAsString);
+      }
+    }
+
     return {
       find_pattern_partials: function(pattern){
         return findPartials(pattern);
@@ -356,6 +387,9 @@
       },
       is_object_empty: function(obj){
         return isObjectEmpty(obj);
+      },
+      parse_data_links: function(patternlab){
+        parseDataLinks(patternlab);
       }
     };
 

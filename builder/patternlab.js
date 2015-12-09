@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.16.0 - 2015 
+ * patternlab-node - v1.0.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -91,6 +91,10 @@ var patternlab_engine = function () {
         pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
     });
 
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(patterns_dir, {
@@ -124,6 +128,7 @@ var patternlab_engine = function () {
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
+      //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
       //add footer info before writing

@@ -514,6 +514,7 @@
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
+			//THIS IS BAD.
 			patternlab.config = fs.readJSONSync('./config.json');
 			patternlab.config.patterns = {source: patterns_dir};
 			patternlab.data = fs.readJSONSync('./source/_data/data.json');
@@ -595,6 +596,71 @@
 
 			//assert
 			test.equals(pattern.patternState, "");
+			test.done();
+		},
+		'parseDataLinks - replaces found link.* data for their expanded links' : function(test){
+			//arrange
+			var diveSync = require('diveSync');
+			var fs = require('fs-extra');
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns/';
+			var patternlab = {};
+			//THIS IS BAD
+			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config.patterns = {source: patterns_dir};
+			patternlab.data = fs.readJSONSync('./source/_data/data.json');
+			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
+			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
+			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.patterns = [];
+			patternlab.data.link = {};
+			patternlab.partials = {};
+
+			diveSync(patterns_dir,
+				{
+					filter: function(path, dir){
+						if(dir){
+							var remainingPath = path.replace(patterns_dir, '');
+							var isValidPath = remainingPath.indexOf('/_') === -1;
+							return isValidPath;
+						}
+						return true;
+					}
+				},
+				function(err, file){
+					//log any errors
+					if(err){
+						console.log(err);
+						return;
+					}
+					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+				}
+			);
+
+			//for the sake of the test, also imagining I have the following pages...
+			patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
+			patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
+			patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
+
+			var pattern;
+			for(var i = 0; i < patternlab.patterns.length; i++){
+				if(patternlab.patterns[i].key === 'test-nav'){
+					pattern = patternlab.patterns[i];
+				}
+			}
+			//assert before
+			test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad");
+			test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave");
+			test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian");
+
+			//act
+			pattern_assembler.parse_data_links(patternlab);
+
+			//assert after
+			test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost");
+			test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
+			test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
 			test.done();
 		}
 	};
