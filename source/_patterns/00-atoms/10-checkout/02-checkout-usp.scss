@@ -4,6 +4,10 @@
   position : relative;
   margin-bottom : 1em;
 
+  &:last-child {
+    margin-bottom : 0;
+  }
+
   &:before {
     left : 0;
     top : -3px;
