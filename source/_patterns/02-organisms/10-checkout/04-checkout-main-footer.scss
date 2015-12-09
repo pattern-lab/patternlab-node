@@ -6,16 +6,16 @@
   }
 
   &__item {
+    @include font-primary-light-uppercase();
+    list-style-type: none;
+    font-size : 0.75em;
+    line-height : 2em;
+    text-align : center;
+
     @media only screen and (max-width: $breakpointMobileEnd) {
       padding : 1em 0;
       border-top : 1px solid $colorSilver;
     }
-
-
-    @include font-primary-light-uppercase();
-    font-size : 0.75em;
-    line-height : 2em;
-    text-align : center;
 
     @media only screen and (min-width: $breakpointTablet) {
       text-align : left;
