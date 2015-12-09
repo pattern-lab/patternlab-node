@@ -41,18 +41,22 @@
   }
 
   .checkout__voucherField--label {
-    padding-left : 1.5em;
     position : relative;
-    @include icon(chevron-up);
+    @include icon(chevron-down);
     font-family : $fontSecondary;
+    cursor: pointer;
+    padding: 1em 0 1em 1.5em;
 
     &:before {
       position : absolute;
       left : 0.25em;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-top: -.05em;
     }
 
     &--expanded {
-      @include icon(chevron-down);
+      @include icon(chevron-up);
     }
   }
 }

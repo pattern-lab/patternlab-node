@@ -11,9 +11,6 @@
 }
 
 .section {
-  & + & {
-    margin-top: 2em;
-  }
   &__title {
     @extend .headlineH2;
     margin-bottom: .75em;
@@ -21,3 +18,8 @@
   }
 }
 
+* + .step__footer,
+* + .section,
+* + .content-box {
+  margin-top: 30px;
+}

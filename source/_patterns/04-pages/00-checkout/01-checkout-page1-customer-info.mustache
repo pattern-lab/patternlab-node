@@ -1,27 +1,27 @@
 <div class="checkout">
-    <div class="checkout__wrapper">
-        <div class="checkout__header-container">
-            {{> organisms-checkout-header }}
-        </div>
-
-        <div role="main" class="checkout__content">
-            {{> organisms-checkout-header }}
-
-            {{> organisms-checkout-form-customer-information }}
-            {{> organisms-checkout-form-shipping-address }}
-
-            {{> organisms-checkout-step-footer }}
-            {{> organisms-checkout-main-footer }}
-        </div>
-
-        <aside class="checkout__sidebar">
-          {{> organisms-checkout-price-header }}
-
-          {{> molecules-checkout-product-table }}
-          {{> organisms-checkout-voucher-form }}
-          {{> molecules-checkout-total-line-table }}
-
-          {{> organisms-checkout-price-footer }}
-        </aside>
+  <div class="checkout__wrapper">
+    <div class="checkout__header-container">
+      {{> organisms-checkout-header }}
     </div>
+
+    <div role="main" class="checkout__content">
+      {{> organisms-checkout-header }}
+
+      {{> organisms-checkout-form-customer-information }}
+      {{> organisms-checkout-form-shipping-address }}
+      {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to cart', nextButtonText: 'Continue to shipping method') }}
+      {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+    </div>
+
+
+    <aside class="checkout__sidebar">
+      {{> organisms-checkout-price-header }}
+
+      {{> molecules-checkout-product-table }}
+      {{> organisms-checkout-voucher-form }}
+      {{> molecules-checkout-total-line-table }}
+
+      {{> organisms-checkout-price-footer }}
+    </aside>
+  </div>
 </div>
