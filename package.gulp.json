@@ -34,7 +34,7 @@
   "author": "Brian Muenzenmeyer",
   "license": "MIT",
   "scripts": {
-    "test": "grunt travis --verbose"
+    "test": "gulp travis --verbose"
   },
   "engines": {
     "node": ">=0.1"
