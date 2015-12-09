@@ -1,7 +1,10 @@
 var $ = require('jquery');
 module.exports = $(function() {
+    var field = $('.field');
+
     $('body').on('click', '[class*=checkout__voucherField--label]', function(){
-        $(this).toggleClass($(this).hasClass('checkout__voucherField--label') ? 'checkout__voucherField--label--expanded' : 'checkout__voucherField--label--expanded');
-        $('.field').toggleClass('field--expanded');
+        var voucherField = $(this);
+        voucherField.toggleClass('checkout__voucherField--label--expanded');
+        field.toggleClass('field--expanded');
     });
 });
