@@ -11,15 +11,14 @@
   }
 
   .field {
-    transition: margin-top $animationTimingExtraLong, opacity $animationTimingLong ease-out;
+    transition: margin-top $animationTimingLong, opacity $animationTimingLong;
     opacity:0;
     overflow:hidden;
     margin-top:-121px;
 
     &--expanded {
       opacity:1;
-      margin-top:0;
-      transition : margin-top $animationTimingLong, opacity $animationTimingExtraLong ease-out;
+      margin-top:0 !important;
     }
   }
 
