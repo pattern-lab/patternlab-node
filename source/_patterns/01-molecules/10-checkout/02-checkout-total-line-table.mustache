@@ -10,7 +10,7 @@
     <tr class="total-line total-line--subtotal">
       <td class="total-line__name">Subtotal</td>
       <td class="total-line__price">
-        <span data-checkout-subtotal-price-target="123" class="order-summary__emphasis">€1.23</span>
+        <span data-checkout-subtotal-price-target="123" class="order-summary__emphasis">{{subtotal || €1.23 }}</span>
       </td>
     </tr>
     <tr data-discount-type="percentage" data-discount-success="" class="total-line total-line--reduction ">
@@ -20,7 +20,7 @@
                 <span class="applied-reduction-code">
                   <svg fill="#CE4549" class="applied-reduction-code__icon" xmlns="http://www.w3.org/2000/svg" height="15" width="16">
                     <path d="M14.476 0H8.76c-.404 0-.792.15-1.078.42L.446 7.207c-.595.558-.595 1.463 0 2.022l5.703 5.35c.296.28.687.42 1.076.42.39 0 .78-.14 1.077-.418l7.25-6.79c.286-.268.447-.632.447-1.01V1.43C16 .64 15.318 0 14.476 0zm-2.62 5.77c-.944 0-1.713-.777-1.713-1.732 0-.954.77-1.73 1.714-1.73.945 0 1.714.776 1.714 1.73 0 .955-.768 1.73-1.713 1.73z"/></svg>
-                  <span class="applied-reduction-code__information">WGTEST</span>
+                  <span class="applied-reduction-code__information">{{ voucherCode || WGTEST }}</span>
                 </span>
           <button class="applied-reduction-code__clear-button icon icon--clear" type="submit">
             <span class="visually-hidden">Remove discount</span>
@@ -28,7 +28,7 @@
         </form>
       </td>
       <td class="total-line__price">
-        <span  class="order-summary__emphasis">- €0.01</span>
+        <span  class="order-summary__emphasis">{{ voucherAmount || - €0.01 }}</span>
       </td>
     </tr>
     <tr class="total-line total-line--shipping">
@@ -60,7 +60,7 @@
       </td>
       <td class="total-line__price payment-due">
         <span class="payment-due__currency">EUR</span>
-        <span data-checkout-payment-due-target="8123" class="payment-due__price">€81.23</span>
+        <span data-checkout-payment-due-target="8123" class="payment-due__price">{{ totalAmount || €81.23 }} </span>
       </td>
     </tr>
     </tbody>

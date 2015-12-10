@@ -15,11 +15,11 @@
       </div>
     </td>
     <td class="product__description">
-      <span class="product__description__name order-summary__emphasis">{{ products.title.mini }}</span>
-      <span class="product__description__variant order-summary__small-text">{{ products.material.mini }}</span>
+      <span class="product__description__name order-summary__emphasis">{{ product_title_first || Mauris acru }}</span>
+      <span class="product__description__variant order-summary__small-text">{{ product_description_first || Maecenas / Eget }}</span>
     </td>
     <td class="product__price">
-      <span class="order-summary__emphasis">€1.23</span>
+      <span class="order-summary__emphasis">{{ product_price_first || €1.23 }}</span>
     </td>
   </tr>
   <tr class="product">
@@ -30,11 +30,11 @@
       </div>
     </td>
     <td class="product__description">
-      <span class="product__description__name order-summary__emphasis">{{ products.title.short }}</span>
-      <span class="product__description__variant order-summary__small-text">{{ products.material.short }}</span>
+      <span class="product__description__name order-summary__emphasis">{{ product_title_second || modi tempora incidunt ut labore }}</span>
+      <span class="product__description__variant order-summary__small-text">{{ product_description_second || Nisi ut aliquid / Exea com}}</span>
     </td>
     <td class="product__price">
-      <span class="order-summary__emphasis">€9999.99</span>
+      <span class="order-summary__emphasis">{{ product_price_second || €9999.99 }}</span>
     </td>
   </tr>
   <tr class="product">
@@ -45,11 +45,11 @@
       </div>
     </td>
     <td class="product__description">
-      <span class="product__description__name order-summary__emphasis">{{ products.title.medium }}</span>
-      <span class="product__description__variant order-summary__small-text">{{ products.material.medium }}</span>
+      <span class="product__description__name order-summary__emphasis">{{ product_title_third || Suspendisse pharetra facilisis vehicula cras amet }}</span>
+      <span class="product__description__variant order-summary__small-text">{{ product_description_third || Nam rutrum ipsum  / Dolor sit amet consectetur }}</span>
     </td>
     <td class="product__price">
-      <span class="order-summary__emphasis">€660.00</span>
+      <span class="order-summary__emphasis">{{ product_price_third || €660.00 }}</span>
     </td>
   </tr>
   </tbody>
