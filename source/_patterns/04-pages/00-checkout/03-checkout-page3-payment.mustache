@@ -7,8 +7,15 @@
     <div role="main" class="checkout__content">
       {{> organisms-checkout-header }}
 
-      {{> organisms-checkout-form-customer-information }}
-      {{> organisms-checkout-form-shipping-address }}
+
+      {{> organisms-checkout-form-payment-method }}
+
+      <div class="section section--optional">
+        <div class="section__content">
+          {{> molecules-checkbox-mixin(id: 'molecules-checkbox-mixin234', label : 'Subscribe to our newsletter ' ) }}
+        </div>
+      </div>
+
       {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to shipping method', nextButtonText: 'Complete order') }}
       {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
     </div>

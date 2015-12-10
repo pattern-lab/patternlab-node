@@ -1,11 +1,42 @@
-//.hide {
-//  &--mobile {
-//
-//  }
-//  &--tablet {
-//
-//  }
-//  &--desktop {
-//
-//  }
-//}
+.visually-hidden {
+  display: none!important;
+}
+
+.hide {
+  &--mobile {
+    @media only screen and (max-width: $breakpointMobileEnd) {
+      display: none!important;
+    }
+  }
+  &--tablet {
+    @media only screen and (min-width: $breakpointMobile) and (max-width: $breakpointTabletEnd) {
+      display: none!important;
+    }
+  }
+  &--desktop {
+    @media only screen and (min-width: $breakpointDesktop) {
+      display: none!important;
+    }
+  }
+}
+
+.show {
+  &--mobile {
+    @media only screen and (min-width: $breakpointTablet) {
+      display: none!important;
+    }
+  }
+  &--tablet {
+    @media only screen and (max-width: $breakpointMobileEnd) {
+      display: none!important;
+    }
+    @media only screen and (min-width: $breakpointDesktop) {
+      display: none!important;
+    }
+  }
+  &--desktop {
+    @media only screen and (max-width: $breakpointTabletEnd) {
+      display: none!important;
+    }
+  }
+}

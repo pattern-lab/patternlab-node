@@ -4,6 +4,7 @@
 
 @import "../_patterns/00-atoms/00-global/01-fonts";
 @import "../_patterns/00-atoms/00-global/00-colors";
+@import "../_patterns/00-atoms/00-global/03-visibility";
 @import "../_patterns/00-atoms/01-text/00-headings";
 @import "../_patterns/00-atoms/01-text/01-block-elements";
 @import "../_patterns/00-atoms/01-text/02-inline-elements";
@@ -26,6 +27,7 @@
 @import "../_patterns/01-molecules/02-blocks/01-block-media";
 @import "../_patterns/01-molecules/04-forms/00-fields";
 @import "../_patterns/01-molecules/04-forms/01-radio";
+@import "../_patterns/01-molecules/04-forms/02-checkbox";
 @import "../_patterns/01-molecules/04-forms/02-newsletter";
 @import "../_patterns/01-molecules/05-navigation/00-primary-nav";
 @import "../_patterns/01-molecules/05-navigation/01-footer-nav";
@@ -38,7 +40,8 @@
 @import "../_patterns/02-organisms/00-global/01-footer";
 @import "../_patterns/02-organisms/00-global/02-basic-layout";
 @import "../_patterns/02-organisms/01-components/00-carousel";
-@import "../_patterns/02-organisms/02-forms/02-fullfeatured-form";
+@import "../_patterns/02-organisms/02-forms/01-fieldset";
+@import "../_patterns/02-organisms/02-forms/02-fieldset-inline";
 
 @import "../_patterns/03-templates/00-content";
 

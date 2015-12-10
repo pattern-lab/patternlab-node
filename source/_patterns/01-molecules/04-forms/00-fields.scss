@@ -59,7 +59,8 @@
       padding-bottom: 0.375em!important;
       position: relative;
     }
-    .field--show-floating-label & {
+    .field--show-floating-label &,
+    .field__input-wrapper--select &{
       padding-top: 1.5em;
       padding-bottom: 0.275em;
     }
@@ -78,7 +79,8 @@
       }
     }
   }
-  &--show-floating-label {
+  &--show-floating-label,
+  &__input-wrapper--select {
     .field {
       &__label {
         opacity: 1;
