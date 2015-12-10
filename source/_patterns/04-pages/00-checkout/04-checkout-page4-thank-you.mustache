@@ -1,23 +1,27 @@
 <div class="checkout">
-  <div class="checkout__wrapper">
+    <div class="checkout__wrapper">
 
-    <div role="main" class="checkout__content">
-      {{> organisms-checkout-header }}
+        <div role="main" class="checkout__content">
+            {{> organisms-checkout-header }}
 
-      {{> molecules-checkout-status }}
-      {{> molecules-checkout-map }}
-      {{> molecules-checkout-customer-information }}
-      {{> molecules-checkout-step-footer-continue-shopping(shoppingButtonText: 'Continue shopping', questionText: 'Need help?', linkText: 'Contact us') }}
-      {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+            {{> molecules-checkout-status }}
+            {{> molecules-checkout-map }}
+            {{> molecules-checkout-customer-information }}
+            {{> molecules-checkout-step-footer-continue-shopping(shoppingButtonText: 'Continue shopping', questionText: 'Need help?', linkText: 'Contact us') }}
+            {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+        </div>
+
+        <aside class="checkout__sidebar">
+            <div class="checkout__sidebar-container">
+                <div class="order-summary order-summary--is-collapsed" data-order-summary data-set-by-height="-margin-top">
+                    {{> organisms-checkout-price-header }}
+
+                    {{> molecules-checkout-product-table }}
+                    {{> molecules-checkout-total-line-table }}
+
+                    {{> organisms-checkout-price-footer }}
+                </div>
+            </div>
+        </aside>
     </div>
-
-    <aside class="checkout__sidebar">
-      {{> organisms-checkout-price-header }}
-
-      {{> molecules-checkout-product-table }}
-      {{> molecules-checkout-total-line-table }}
-
-      {{> organisms-checkout-price-footer }}
-    </aside>
-  </div>
 </div>

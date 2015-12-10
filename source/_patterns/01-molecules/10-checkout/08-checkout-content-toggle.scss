@@ -1,0 +1,18 @@
+.order-summary-toggle {
+  width:100%;
+  background:$colorAlabaster;
+  border:1px solid $colorSilver;
+  border-left-width:0;
+  border-right-width:0;
+  padding:1.5em 0.75em;
+  cursor:pointer;
+
+  &__text {
+    display:none;
+  }
+
+  &--show &__text--show,
+  &--hide &__text--hide {
+    display:block;
+  }
+}

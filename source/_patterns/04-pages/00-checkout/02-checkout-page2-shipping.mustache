@@ -1,25 +1,30 @@
 <div class="checkout">
-  <div class="checkout__wrapper">
-    <div class="checkout__header-container">
-      {{> organisms-checkout-header }}
+    <div class="checkout__wrapper">
+        <div class="checkout__header-container">
+            {{> organisms-checkout-header }}
+            {{> molecules-checkout-content-toggle }}
+        </div>
+
+        <div role="main" class="checkout__content">
+            {{> organisms-checkout-header }}
+            {{> molecules-checkout-customer-address }}
+            {{> organisms-checkout-form-shipping-method }}
+            {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to customer information', nextButtonText: 'Continue to payment method') }}
+            {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+        </div>
+
+        <aside class="checkout__sidebar">
+            <div class="checkout__sidebar-container">
+                <div class="order-summary order-summary--is-collapsed" data-order-summary data-set-by-height="-margin-top">
+                    {{> organisms-checkout-price-header }}
+
+                    {{> molecules-checkout-product-table }}
+                    {{> organisms-checkout-voucher-form }}
+                    {{> molecules-checkout-total-line-table }}
+
+                    {{> organisms-checkout-price-footer }}
+                </div>
+            </div>
+        </aside>
     </div>
-
-    <div role="main" class="checkout__content">
-      {{> organisms-checkout-header }}
-      {{> molecules-checkout-customer-address }}
-      {{> organisms-checkout-form-shipping-method }}
-      {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to customer information', nextButtonText: 'Continue to payment method') }}
-      {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
-    </div>
-
-    <aside class="checkout__sidebar">
-      {{> organisms-checkout-price-header }}
-
-      {{> molecules-checkout-product-table }}
-      {{> organisms-checkout-voucher-form }}
-      {{> molecules-checkout-total-line-table }}
-
-      {{> organisms-checkout-price-footer }}
-    </aside>
-  </div>
 </div>
