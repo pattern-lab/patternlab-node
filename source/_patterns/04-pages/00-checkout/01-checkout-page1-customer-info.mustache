@@ -15,13 +15,13 @@
 
 
     <aside class="checkout__sidebar">
-      {{> organisms-checkout-price-header }}
+      {{> organisms-checkout-price-header(headerText_first: 'Secure Payment', headerText_second: 'Free shipping & Return' ) }}
 
       {{> molecules-checkout-product-table }}
       {{> organisms-checkout-voucher-form }}
       {{> molecules-checkout-total-line-table }}
 
-      {{> organisms-checkout-price-footer }}
+      {{> organisms-checkout-price-footer(footerText_first: 'Finest Italian leather', footerText_second: 'Free Travel Assistent Service', footerText_third: 'Smart Technology') }}
     </aside>
   </div>
 </div>
