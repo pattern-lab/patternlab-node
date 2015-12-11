@@ -1,5 +1,7 @@
 <div class="checkout__header">
     {{> atoms-logo }}
+    <hr class="divider"/>
+    {{#show_breadcrumbs}}
+        {{> molecules-checkout-breadcrumbs(class_first:class_first, class_second:class_second, class_third:class_third, class_fourth:class_fourth, breadcrumbText_first:breadcrumbText_first, breadcrumbText_second:breadcrumbText_second, breadcrumbText_third:breadcrumbText_third, breadcrumbText_fourth:breadcrumbText_fourth) }}
+    {{/show_breadcrumbs}}
 </div>
-
-{{> molecules-checkout-breadcrumbs }}

@@ -1,8 +1,13 @@
 .checkout {
   &__header {
-    padding:1.5em 0.75em;
     margin-bottom:1.5em;
-    border-bottom:3px solid $colorBlack;
-    text-align:center;
+
+    .logo__image {
+      padding:1.5em 0.75em
+    }
+
+    .divider {
+      margin-bottom:1.5em;
+    }
   }
 }
