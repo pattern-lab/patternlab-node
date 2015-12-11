@@ -45,6 +45,7 @@
     }
     &__name {
       @include font-primary-light-uppercase();
+      margin-bottom : 0.25em;
     }
   }
   &__price {
