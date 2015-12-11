@@ -1,19 +1,25 @@
-/**
- * patternlab-node - v0.13.0 - 2015
- *
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- **/(function () {
-	"use strict";
+(function () {
+	'use strict';
+
+	function escapeString(string) {
+		return '"' + string.replace(/"/gm, '\\"') + '"';
+	}
+
+	function convertObjectToText(objectLevel, fromRealObject) {
+		return '{ ' + Object.keys(objectLevel).map(function(key) {
+			if (typeof objectLevel[key] === 'object') {
+				return escapeString(key) + ' : ' + convertObjectToText(objectLevel[key], fromRealObject);
+			} else {
+				return escapeString(key) + ' : ' + (fromRealObject && typeof objectLevel[key] === 'string' ? escapeString(objectLevel[key]) : objectLevel[key]);
+			}
+		}).join(', ') + ' }';
+	}
 
 	function escapeParamVariableReferences(paramString) {
 		var data = {};
 		var parts = paramString.split(':').map(function(part) {
-			return part.match(/([^\"\',]*((\'[^\']*\')*||(\"[^\"]*\")*))+/g).filter(function(partSegment) {
-				return partSegment.replace(/\s/g, '');
+			return part.match(/([^\"\',]*((\'[^\']*\')*||(\"[^\"]*\")*))+/gm).filter(function(partSegment) {
+				return partSegment.replace(/\s/gm, '');
 			});
 		}).reduce(function(prevPart, nextPart) {
 			return prevPart.concat(nextPart);
@@ -29,16 +35,41 @@
 			}
 		});
 
-		return Object.keys(data).map(function(key) {
+		var params = Object.keys(data).map(function(key) {
 			var values = data[key].split(/\s*\|\|\s*/).map(function(value) {
-				if (eval('typeof ' + value) === 'undefined') {
-					value = '(typeof ' + value + ' !== "undefined" ? ' + value + ' : undefined)';
-				}
-				return value;
+				var levels = (value || '').match(/([^\"\'.]*((\'[^\']*\')*||(\"[^\"]*\")*))+/gm).filter(function(levelSegment) {
+					return levelSegment.replace(/\s/gm, '');
+				});
+
+				var isVariable = eval('typeof ' + levels[0]) === 'undefined';
+				return '(' + levels.map(function(level, index) {
+					return 'typeof ' + (isVariable ? 'data.' : '') + levels.slice(0, index + 1).join('.') + ' !== "undefined"';
+				}).join(' && ') + ' ? ' + (isVariable ? 'data.' : '') + value + ' : undefined)';
 			}).join(' || ');
 
-			return key + ' : ' + values;
-		}).join(', ');
+			return {
+				key : key,
+				values : values
+			};
+		});
+
+		function fillResultRecursive(resultLevel, remainingParts, value) {
+			var currentRemainingPart = remainingParts.shift();
+			if (!remainingParts.length) {
+				resultLevel[currentRemainingPart] = value;
+			} else {
+				resultLevel[currentRemainingPart] = resultLevel[currentRemainingPart] || {};
+				fillResultRecursive(resultLevel[currentRemainingPart], remainingParts, value);
+			}
+		}
+
+		var result = {};
+		params.forEach(function(param) {
+			var keyParts = param.key.split('.');
+			fillResultRecursive(result, keyParts, param.values);
+		});
+
+		return convertObjectToText(result);
 	}
 
 	var parameter_hunter = function(){
@@ -54,7 +85,10 @@
 					partialPattern = pattern_assembler.getPatternByFile(partialData.path, patternlab),
 					isParametered = pattern.parameteredPartials && pattern.parameteredPartials.indexOf(foundPattern) !== -1;
 
-				var paramData;
+				var paramData,
+					globalData = JSON.parse(JSON.stringify(patternlab.data)),
+					localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {})),
+					allData = pattern_assembler.merge_data(globalData, localData);
 
 				if (isParametered) {
 					var leftParen = foundPattern.indexOf('(');
@@ -62,13 +96,8 @@
 					var paramString = foundPattern.substring(leftParen + 1, rightParen - 1);
 
 					try {
-						patternlab.knownData = patternlab.knownData || {};
-						var knownDataString = Object.keys(patternlab.knownData).map(function(propertyName) {
-							var value = patternlab.knownData[propertyName];
-							return 'var ' + propertyName + ' = ' + (typeof value === 'string' ? '"' + value + '"' : value) + ';';
-						}).join('');
-
-						paramData = eval('(function() { ' + knownDataString + ' return {' + escapeParamVariableReferences(paramString) + '}; })();');
+						patternlab.knownData = patternlab.knownData || allData;
+						paramData = eval('(function() { var data = ' + convertObjectToText(patternlab.knownData, true) + '; return ' + escapeParamVariableReferences(paramString) + '; })();');
 						Object.keys(paramData).forEach(function(propertyName) {
 							patternlab.knownData[propertyName] = paramData[propertyName];
 						});
@@ -81,10 +110,6 @@
 					paramData = {};
 				}
 
-				var globalData = JSON.parse(JSON.stringify(patternlab.data));
-				var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
-
-				var allData = pattern_assembler.merge_data(globalData, localData);
 				allData = pattern_assembler.merge_data(allData, paramData);
 
 				//if partial has style modifier data, replace the styleModifier value
@@ -107,7 +132,7 @@
 		return {
 			find_parameters: function(pattern, patternlab){
 				findparameters(pattern, patternlab, 0);
-				patternlab.knownData = {};
+				patternlab.knownData = null;
 			}
 		};
 
