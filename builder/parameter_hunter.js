@@ -42,30 +42,24 @@
 	}
 
 	var parameter_hunter = function(){
-
 		var extend = require('util')._extend,
 			pa = require('./pattern_assembler'),
 			smh = require('./style_modifier_hunter'),
 			style_modifier_hunter = new smh(),
 			pattern_assembler = new pa();
 
-		function findparameters(pattern, patternlab){
-			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
-				//compile this partial immeadiately, essentially consuming it.
-				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
-					//find the partial's name and retrieve it
-					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+		function findparameters(pattern, patternlab, level){
+			(pattern_assembler.findPartials(pattern) || []).forEach(function(foundPattern) {
+				var partialData = pattern_assembler.getPartialDataByPartialKey(foundPattern, patternlab),
+					partialPattern = pattern_assembler.getPatternByFile(partialData.path, patternlab),
+					isParametered = pattern.parameteredPartials && pattern.parameteredPartials.indexOf(foundPattern) !== -1;
 
-					if(patternlab.config.debug){
-						console.log('found patternParameters for ' + partialName);
-					}
+				var paramData;
 
-					//strip out the additional data and eval
-					var leftParen = pMatch.indexOf('(');
-					var rightParen = pMatch.length - pMatch.split('').reverse().join('').indexOf(')');
-					var paramString = pMatch.substring(leftParen + 1, rightParen - 1);
-					var paramData;
+				if (isParametered) {
+					var leftParen = foundPattern.indexOf('(');
+					var rightParen = foundPattern.length - foundPattern.split('').reverse().join('').indexOf(')');
+					var paramString = foundPattern.substring(leftParen + 1, rightParen - 1);
 
 					try {
 						patternlab.knownData = patternlab.knownData || {};
@@ -79,60 +73,41 @@
 							patternlab.knownData[propertyName] = paramData[propertyName];
 						});
 					} catch(e) {
-						console.log('ERROR during findparameters:', e, '\nfile:', pattern.abspath, '\n');
+						console.log('ERROR during findparameters:', e, '\nfile:', pattern.abspath, '\nlevel of recursion:', level);
 					}
+				}
 
-					if (!paramData) {
-						// something went wrong!
-						paramData = {};
-					}
+				if (!paramData) {
+					paramData = {};
+				}
 
-					var globalData = JSON.parse(JSON.stringify(patternlab.data));
-					var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
+				var globalData = JSON.parse(JSON.stringify(patternlab.data));
+				var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
 
-					var allData = pattern_assembler.merge_data(globalData, localData);
-					allData = pattern_assembler.merge_data(allData, paramData);
-
-					//if partial has style modifier data, replace the styleModifier value
-					if(pattern.stylePartials && pattern.stylePartials.length > 0){
-						style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
-					}
-
-					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-					allData.link = extend({}, patternlab.data.link);
-
-					findparameters(partialPattern, patternlab);
-					var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate || partialPattern.template, allData, patternlab.partials);
-
-					//remove the parameter from the partial and replace it with the rendered partial + paramData
-					pattern.extendedTemplate = (pattern.extendedTemplate || '').replace(pMatch, renderedPartial);
-					partialPattern.extendedTemplate = '' + partialPattern.template;
-				});
-			}
-
-			//do something with the regular old partials
-			(pattern_assembler.findPartials(pattern) || []).filter(function(foundPattern) {
-				return !pattern.parameteredPartials || pattern.parameteredPartials.indexOf(foundPattern) === -1;
-			}).forEach(function(foundPatternPartial) {
-				var partialData = pattern_assembler.getPartialDataByPartialKey(foundPatternPartial, patternlab);
-
-				//recurse through nested partials to fill out this extended template.
-				findparameters(pattern_assembler.getPatternByFile(partialData.path, patternlab), patternlab);
-
-				var partialPattern = pattern_assembler.get_pattern_by_key(partialData.key, patternlab);
+				var allData = pattern_assembler.merge_data(globalData, localData);
+				allData = pattern_assembler.merge_data(allData, paramData);
 
 				//if partial has style modifier data, replace the styleModifier value
 				if(pattern.stylePartials && pattern.stylePartials.length > 0){
-					style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartial, patternlab);
+					style_modifier_hunter.consume_style_modifier(partialPattern, foundPattern, patternlab);
 				}
 
-				pattern.extendedTemplate = (pattern.extendedTemplate || '').replace(foundPatternPartial, partialPattern.extendedTemplate || partialPattern.template);
+				//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
+				allData.link = extend({}, patternlab.data.link);
+
+				findparameters(partialPattern, patternlab, level + 1);
+				var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate || partialPattern.template, allData, patternlab.partials);
+
+				//remove the parameter from the partial and replace it with the rendered partial + paramData
+				pattern.extendedTemplate = (pattern.extendedTemplate || '').replace(foundPattern, renderedPartial);
+				partialPattern.extendedTemplate = '' + partialPattern.template;
 			});
 		}
 
 		return {
 			find_parameters: function(pattern, patternlab){
-				return findparameters(pattern, patternlab);
+				findparameters(pattern, patternlab, 0);
+				patternlab.knownData = {};
 			}
 		};
 

@@ -230,12 +230,8 @@
         return;
       }
 
-      //find how many partials there may be for the given pattern
-      var foundPatternPartials = findPartials(currentPattern);
-      if(foundPatternPartials && foundPatternPartials.length){
-        //determine if the template contains any pattern parameters. if so they must be immediately consumed
-        parameter_hunter.find_parameters(currentPattern, patternlab);
-      }
+      //find how many partials there may be for the given pattern, and, if they contain any parameters, use them recursively
+      parameter_hunter.find_parameters(currentPattern, patternlab);
 
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
