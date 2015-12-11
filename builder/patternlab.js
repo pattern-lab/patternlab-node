@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v1.0.0 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -19,6 +19,7 @@ var patternlab_engine = function () {
   mh = require('./media_hunter'),
   pe = require('./pattern_exporter'),
   he = require('html-entities').AllHtmlEntities,
+  util = require('util'),
   plutils = require('./utilities'),
   patternlab = {};
 
@@ -49,7 +50,10 @@ var patternlab_engine = function () {
     //debug file can be written by setting flag on config.json
     if(patternlab.config.debug){
       console.log('writing patternlab debug file to ./patternlab.json');
-      fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, null, 3));
+      // fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, null, 3));
+      fs.outputFileSync('./patternlab.json', util.inspect(patternlab, {
+        depth: null
+      }));
     }
   }
 
@@ -114,7 +118,12 @@ var patternlab_engine = function () {
         }
 
         pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
-    });
+      });
+
+    if (patternlab.config.debug) {
+      console.log('pattern keys:', Object.keys(patternlab.patternsByKey));
+      console.log('by keys length:', Object.keys(patternlab.patternsByKey).length, 'array length:', patternlab.patterns.length);
+    }
 
     //delete the contents of config.patterns.public before writing
     if(deletePatternDir){
@@ -145,7 +154,6 @@ var patternlab_engine = function () {
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
-
   }
 
   function buildFrontEnd(){

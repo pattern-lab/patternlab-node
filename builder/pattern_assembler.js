@@ -31,6 +31,8 @@
     function addPattern(pattern, patternlab){
       //add the link to the global object
       patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
+      if (!patternlab.patternsByKey) { patternlab.patternsByKey = {}; }
+      if (!patternlab.patternsByAbsPath) { patternlab.patternsByAbsPath = {}; }
 
       //only push to array if the array doesn't contain this pattern
       var isNew = true;
@@ -45,7 +47,12 @@
       }
       //if the pattern is new, just push to the array
       if(isNew){
+        // do global registration
         patternlab.patterns.push(pattern);
+        patternlab.patternsByKey[pattern.key] = pattern;
+        patternlab.patternsByAbsPath[pattern.asbpath] = pattern;
+        // do plugin-specific registration
+        pattern.registerPartial();
       }
     }
 
@@ -74,14 +81,11 @@
       var ext = path.extname(filename);
 
       if (config.debug) {
-        console.log('processPatternIterative:', 'filename:', filename);
+        console.log('processPatternIterative:', filename);
       }
 
       // skip non-pattern files
       if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
-      if (config.debug) {
-        console.log('processPatternIterative:', 'found pattern', file);
-      }
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
@@ -104,7 +108,7 @@
         var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
         currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
         if(patternlab.config.debug){
-          console.log('found pattern-specific data.json for ' + currentPattern.key);
+          console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.key);
         }
       }
       catch(e) {

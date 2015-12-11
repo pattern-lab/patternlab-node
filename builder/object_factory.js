@@ -20,9 +20,6 @@
   // oPattern properties
 
   var oPattern = function(abspath, subdir, filename, data) {
-    if (config.debug) {
-      console.log('=== NEW OPATTERN.', '\nabsPath:', abspath, '\nsubdir:', subdir, '\nfilename:', filename, '\ndata:\n', data);
-    }
     this.fileName = filename.substring(0, filename.indexOf('.'));
     this.fileExtension = path.extname(abspath);
     this.abspath = abspath;
@@ -59,6 +56,12 @@
         console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
       }
       return this.engine.renderPattern(this.extendedTemplate, data, partials);
+    },
+
+    registerPartial: function () {
+      if (typeof this.engine.registerPartial === 'function') {
+        this.engine.registerPartial(this);
+      }
     },
 
     // the finders all delegate to the PatternEngine, which also encapsulates all

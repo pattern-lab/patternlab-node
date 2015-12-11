@@ -20,9 +20,6 @@
 			var config = require('../config.json');
 
 			//find the {{> template-name }} within patterns
-			if (config.debug) {
-				console.log('===\n', pattern, '\n===');
-			}
 			var matches = pattern.findPartials();
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
