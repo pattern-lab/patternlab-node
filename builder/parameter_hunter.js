@@ -5,6 +5,12 @@
 		return '"' + string.replace(/"/gm, '\\"') + '"';
 	}
 
+	function convertDotNotationToSafe(string) {
+		return string.split('.').map(function(part, index) {
+			return !index ? part : '[' + escapeString(part) + ']';
+		}).join('');
+	}
+
 	function convertObjectToText(objectLevel, fromRealObject) {
 		return '{ ' + Object.keys(objectLevel).map(function(key) {
 			if (typeof objectLevel[key] === 'object') {
@@ -43,8 +49,9 @@
 
 				var isVariable = eval('typeof ' + levels[0]) === 'undefined';
 				return '(' + levels.map(function(level, index) {
-					return 'typeof ' + (isVariable ? 'data.' : '') + levels.slice(0, index + 1).join('.') + ' !== "undefined"';
-				}).join(' && ') + ' ? ' + (isVariable ? 'data.' : '') + value + ' : undefined)';
+					var path = levels.slice(0, index + 1).join('.');
+					return 'typeof ' + (isVariable ? convertDotNotationToSafe('data.' + path) : path) + ' !== "undefined"';
+				}).join(' && ') + ' ? ' + (isVariable ? convertDotNotationToSafe('data.' + value) : value) + ' : undefined)';
 			}).join(' || ');
 
 			return {
