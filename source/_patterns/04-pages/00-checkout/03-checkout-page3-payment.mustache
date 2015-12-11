@@ -1,33 +1,38 @@
 <div class="checkout">
-  <div class="checkout__wrapper">
-    <div class="checkout__header-container">
-      {{> organisms-checkout-header }}
-    </div>
-
-    <div role="main" class="checkout__content">
-      {{> organisms-checkout-header }}
-
-
-      {{> organisms-checkout-form-payment-method }}
-
-      <div class="section section--optional">
-        <div class="section__content">
-          {{> molecules-checkbox-mixin(id: 'molecules-checkbox-mixin234', label : 'Subscribe to our newsletter ' ) }}
+    <div class="checkout__wrapper">
+        <div class="checkout__header-container">
+            {{> organisms-checkout-header }}
+            {{> molecules-checkout-content-toggle }}
         </div>
-      </div>
 
-      {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to shipping method', nextButtonText: 'Complete order') }}
-      {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+        <div role="main" class="checkout__content">
+            {{> organisms-checkout-header }}
+
+
+            {{> organisms-checkout-form-payment-method }}
+
+            <div class="section section--optional">
+                <div class="section__content">
+                    {{> molecules-checkbox-mixin(id: 'molecules-checkbox-mixin234', label : 'Subscribe to our newsletter ' ) }}
+                </div>
+            </div>
+
+            {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to shipping method', nextButtonText: 'Complete order') }}
+            {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+        </div>
+
+        <aside class="checkout__sidebar">
+            <div class="checkout__sidebar-container">
+                <div class="order-summary order-summary--is-collapsed" data-order-summary data-set-by-height="-margin-top">
+                    {{> organisms-checkout-price-header(headerText_first: 'Secure Payment', headerText_second: 'Free shipping & Return', trustedShops_description: 'Authorized Partner' ) }}
+
+                    {{> molecules-checkout-product-table(product_title_first: 'Weekender', product_description_first: 'Nappa Leather / Black', product_price_first: '€450.00', product_title_second: 'The Tote', product_description_second: 'Vacchetta Leather / Tan', product_price_second: '€590.00', product_title_third: 'iPhone 6 Plus Sleeve', product_description_third: 'Full-Grain Leather / Red', product_price_third: '€70.00', ) }}
+                    {{> organisms-checkout-voucher-form }}
+                    {{> molecules-checkout-total-line-table }}
+
+                    {{> organisms-checkout-price-footer(footerText_first: 'Finest Italian leather', footerText_second: 'Free Travel Assistent Service', footerText_third: 'Smart Technology') }}
+                </div>
+            </div>
+        </aside>
     </div>
-
-    <aside class="checkout__sidebar">
-      {{> organisms-checkout-price-header(headerText_first: 'Secure Payment', headerText_second: 'Free shipping & Return', trustedShops_description: 'Authorized Partner' ) }}
-
-      {{> molecules-checkout-product-table(product_title_first: 'Weekender', product_description_first: 'Nappa Leather / Black', product_price_first: '€450.00', product_title_second: 'The Tote', product_description_second: 'Vacchetta Leather / Tan', product_price_second: '€590.00', product_title_third: 'iPhone 6 Plus Sleeve', product_description_third: 'Full-Grain Leather / Red', product_price_third: '€70.00', ) }}
-      {{> organisms-checkout-voucher-form }}
-      {{> molecules-checkout-total-line-table }}
-
-      {{> organisms-checkout-price-footer(footerText_first: 'Finest Italian leather', footerText_second: 'Free Travel Assistent Service', footerText_third: 'Smart Technology') }}
-    </aside>
-  </div>
 </div>

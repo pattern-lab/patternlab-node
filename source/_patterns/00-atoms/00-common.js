@@ -27,4 +27,30 @@ module.exports = $(function() {
       });
     });
   });
+
+  (function() {
+    var $setByHeightTargets = $('[data-set-by-height]');
+    if (!$setByHeightTargets.length) {
+      return;
+    }
+
+    function setByHeight() {
+      $setByHeightTargets.each(function() {
+        var value = $(this).data('set-by-height'),
+          isNegative = value.indexOf('-') === 0;
+
+        $(this).css(isNegative ? value.substr(1) : value, $(this).outerHeight(false) * (isNegative ? -1 : 1));
+      });
+    }
+
+    // here comes the crappy stuff:
+    $(window).resize(setByHeight).get(0).setInterval(setByHeight, 500);
+    setByHeight();
+  })();
+
+  $('[data-stop-propagation]').each(function() {
+    $(this).on($(this).data('stop-propagation'), function(e) {
+      e.stopPropagation();
+    });
+  });
 });

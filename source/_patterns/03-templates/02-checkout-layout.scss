@@ -1,11 +1,15 @@
 .checkout {
   min-height:100%;
-  background:linear-gradient(to right, $colorWhite 60%,$colorAlabaster 60%);
+
+  @media only screen and (min-width: $breakpointDesktop) {
+    background:linear-gradient(to right, $colorWhite 60%,$colorAlabaster 60%);
+  }
 
   &__wrapper {
     display:flex;
     flex-flow:row wrap;
     align-items:flex-start;
+    align-content:flex-start;
     width:auto;
     max-width:78.5714em;
     margin:0 auto;
@@ -13,9 +17,9 @@
   }
 
   &__header-container {
-    flex:1 100%;
-    order:1;
+    display:block;
     background:$colorWhite;
+    flex:1 100%;
 
     @media only screen and (min-width: $breakpointDesktop) {
       display:none;
@@ -24,25 +28,43 @@
 
   &__sidebar {
     flex:1 100%;
-    order:2;
-    padding:1.5em 0.75em;
+    order:1;
     background:$colorAlabaster;
-    border:1px solid $colorSilver;
-    border-left-width:0;
-    border-right-width:0;
 
     @media only screen and (min-width: $breakpointDesktop) {
       flex:0.4;
-      padding:1.5em;
-      order:3;
-      border-width:0 0 0 1px;
+      order:2;
+      border-left:1px solid $colorSilver;
       align-self: stretch;
+    }
+
+    &-container {
+      overflow:hidden;
+
+      .order-summary {
+        transition:margin-top $animationTimingLong;
+        padding:1.5em 0.75em;
+        border-bottom:1px solid $colorSilver;
+
+        &--is-collapsed {
+          margin-top:-200%;
+        }
+        &--is-expanded {
+          margin-top:0 !important;
+        }
+
+        @media only screen and (min-width: $breakpointDesktop) {
+          padding:1.5em;
+          border-bottom-width:0;
+          margin-top:0 !important;
+        }
+      }
     }
   }
 
   &__content {
     flex:1 100%;
-    order:3;
+    order:2;
     padding:1.5em 0.75em;
     background:$colorWhite;
 
@@ -50,7 +72,7 @@
       flex:0.6;
       min-height:100vh;
       padding:0 1.5em 1.5em;
-      order:2;
+      order:1;
       display: flex;
       flex-flow: column nowrap;
     }
