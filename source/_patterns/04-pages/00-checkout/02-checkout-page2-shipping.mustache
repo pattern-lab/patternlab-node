@@ -16,13 +16,13 @@
         <aside class="checkout__sidebar">
             <div class="checkout__sidebar-container">
                 <div class="order-summary order-summary--is-collapsed" data-order-summary data-set-by-height="-margin-top">
-                    {{> organisms-checkout-price-header(headerText_first: 'Secure Payment', headerText_second: 'Free shipping & Return', trustedShops_description: 'Authorized Partner' ) }}
+                    {{> organisms-checkout-price-header(headerText.first: 'Secure Payment', headerText.second: 'Free shipping & Return', trustedShops_description: 'Authorized Partner' ) }}
 
                     {{> molecules-checkout-product-table(product_title_first: 'Weekender', product_description_first: 'Nappa Leather / Black', product_price_first: '€450.00', product_title_second: 'The Tote', product_description_second: 'Vacchetta Leather / Tan', product_price_second: '€590.00', product_title_third: 'iPhone 6 Plus Sleeve', product_description_third: 'Full-Grain Leather / Red', product_price_third: '€70.00', ) }}
                     {{> organisms-checkout-voucher-form }}
                     {{> molecules-checkout-total-line-table }}
 
-                    {{> organisms-checkout-price-footer(footerText_first: 'Finest Italian leather', footerText_second: 'Free Travel Assistent Service', footerText_third: 'Smart Technology') }}
+                    {{> organisms-checkout-price-footer(footerText.first: 'Finest Italian leather', footerText.second: 'Free Travel Assistent Service', footerText.third: 'Smart Technology') }}
                 </div>
             </div>
         </aside>

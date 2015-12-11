@@ -1,9 +1,9 @@
 <div class="checkout__priceSummaryHeader">
     <div class="checkout__priceSummaryHeader--trustedShops">
-        {{> atoms-checkout-trusted-shops }}
+        {{> atoms-checkout-trusted-shops(trustedShops_description:trustedShops_description) }}
     </div>
     <div class="checkout__priceSummaryHeader--usp">
-        {{> atoms-checkout-usp(text:headerText_first) }}
-        {{> atoms-checkout-usp(text:headerText_second) }}
+        {{> atoms-checkout-usp(text:headerText.first || headline.mini + ' (1st)') }}
+        {{> atoms-checkout-usp(text:headerText.second || headline.mini + ' (2nd)') }}
     </div>
 </div>
