@@ -6,8 +6,7 @@
         </div>
 
         <div role="main" class="checkout__content">
-            {{> organisms-checkout-header }}
-
+            {{> organisms-checkout-header(show_breadcrumbs: true, class_second: 'breadcrumb__item--completed', class_third: 'breadcrumb__item--completed', class_fourth: 'breadcrumb__item--current', breadcrumbText_first: 'Cart', breadcrumbText_second: 'Customer information', breadcrumbText_third: 'Shipping method', breadcrumbText_fourth: 'Payment method') }}
 
             {{> organisms-checkout-form-payment-method }}
 
