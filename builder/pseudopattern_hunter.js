@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.15.1 - 2015 
+ * patternlab-node - v1.0.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -29,7 +29,7 @@
 			//name, with ~ in it, ending in .json
 			var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
 			var pseudoPatterns = glob.sync(needle, {
-				cwd: 'source/_patterns/', //relative to gruntfile
+				cwd: patternlab.config.patterns.source + '/',
 				debug: false,
 				nodir: true
 			});
@@ -43,14 +43,14 @@
 						console.log('found pseudoPattern variant of ' + currentPattern.key);
 					}
 
-					//we want to do everything we normally would here, except instead head the pseudoPattern data
-					var variantFileData = fs.readJSONSync('source/_patterns/' + pseudoPatterns[i]);
+					//we want to do everything we normally would here, except instead read the pseudoPattern data
+					var variantFileData = fs.readJSONSync(patternlab.config.patterns.source + '/' + pseudoPatterns[i]);
 
 					//extend any existing data with variant data
 					variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-					var variantFilePath = 'source/_patterns/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
+					var variantFilePath = patternlab.config.patterns.source + '/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
 					var variantFileName = currentPattern.fileName + '-' + variantName + '.';
 					var patternVariant = of.oPattern.create(variantFilePath, currentPattern.subdir, variantFileName, variantFileData, {
 						//use the same template as the non-variant
