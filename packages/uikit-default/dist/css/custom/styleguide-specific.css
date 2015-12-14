@@ -7,6 +7,11 @@
  * It's also helpful for overriding context-specific styles like fixed or absolutely positioned elements
  * These styles will not be your production CSS.
  */
+#sg-patterns {
+  max-width: 100%;
+  padding: 0 0.5em;
+}
+
 .demo-animate {
   background: #ddd;
   padding: 1em;
@@ -24,6 +29,9 @@
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .sg-colors li {
   -webkit-box-flex: 1;
@@ -36,6 +44,9 @@
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+.sg-colors li:last-child {
+  margin-right: 0;
+}
 
 .sg-swatch {
   display: block;
@@ -47,8 +58,4 @@
 .sg-label {
   font-size: 90%;
   line-height: 1;
-}
-
-.sg-fonts p {
-  margin-bottom: 0.3em;
 }

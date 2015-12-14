@@ -8,6 +8,12 @@
  * These styles will not be your production CSS.
  */
 
+// This is the container for the 'view all' screen, which contains the list of patterns.
+#sg-patterns {
+	 max-width: 100%; // Fully fluid by default, but can be modified by giving it a different `max-width`
+	 padding: 0 0.5em; // this determines the gutter between the edge of the viewport and the pattern container
+ }
+
 // Demo box for animation
 .demo-animate {
 	background: #ddd;
@@ -18,7 +24,7 @@
 	cursor: pointer;
 }
 
-// Style Guide color swatches
+// Style Guide color swatch styles
 .sg-colors {
 	display: flex;
 	flex-wrap: wrap;
@@ -33,9 +39,14 @@
 		min-width: 5em;
 		border: 1px solid #ddd;
 		border-radius: 8px;
+
+		&:last-child {
+			margin-right: 0;
+		}
 	}
 }
 
+// Swatch tile
 .sg-swatch {
 	display: block;
 	height: 4em;
@@ -43,12 +54,8 @@
 	border-radius: 5px;
 }
 
+// Swatch label
 .sg-label {
 	font-size: 90%;
 	line-height: 1;
-}
-
-// Style Guide fonts
-.sg-fonts p {
-	margin-bottom: 0.3em;
 }
