@@ -47,13 +47,21 @@ var patternlab_engine = function () {
   }
 
   function printDebug() {
+    // A replacer function to pass to stringify below; this is here to prevent
+    // the debug output from blowing up into a massive fireball of circular
+    // references. This happens specifically with the Handlebars engine. Remove
+    // if you like 180MB log files.
+    function propertyStringReplacer(key, value) {
+      if (key === 'engine' && value.engineName) {
+        return '{' + value.engineName + ' engine object}';
+      }
+      return value;
+    }
+
     //debug file can be written by setting flag on config.json
     if(patternlab.config.debug){
       console.log('writing patternlab debug file to ./patternlab.json');
-      // fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, null, 3));
-      fs.outputFileSync('./patternlab.json', util.inspect(patternlab, {
-        depth: null
-      }));
+      fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
     }
   }
 
