@@ -31,8 +31,6 @@
     function addPattern(pattern, patternlab){
       //add the link to the global object
       patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
-      if (!patternlab.patternsByKey) { patternlab.patternsByKey = {}; }
-      if (!patternlab.patternsByAbsPath) { patternlab.patternsByAbsPath = {}; }
 
       //only push to array if the array doesn't contain this pattern
       var isNew = true;
@@ -49,8 +47,6 @@
       if(isNew){
         // do global registration
         patternlab.patterns.push(pattern);
-        patternlab.patternsByKey[pattern.key] = pattern;
-        patternlab.patternsByAbsPath[pattern.asbpath] = pattern;
         // do plugin-specific registration
         pattern.registerPartial();
       }

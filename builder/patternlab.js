@@ -128,10 +128,6 @@ var patternlab_engine = function () {
         pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
       });
 
-    if (patternlab.config.debug) {
-      console.log('pattern keys:', Object.keys(patternlab.patternsByKey));
-      console.log('by keys length:', Object.keys(patternlab.patternsByKey).length, 'array length:', patternlab.patterns.length);
-    }
 
     //delete the contents of config.patterns.public before writing
     if(deletePatternDir){
