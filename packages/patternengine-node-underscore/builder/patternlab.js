@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v0.15.1 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -19,6 +19,7 @@ var patternlab_engine = function () {
   mh = require('./media_hunter'),
   pe = require('./pattern_exporter'),
   he = require('html-entities').AllHtmlEntities,
+  util = require('util'),
   plutils = require('./utilities'),
   patternlab = {};
 
@@ -46,10 +47,21 @@ var patternlab_engine = function () {
   }
 
   function printDebug() {
+    // A replacer function to pass to stringify below; this is here to prevent
+    // the debug output from blowing up into a massive fireball of circular
+    // references. This happens specifically with the Handlebars engine. Remove
+    // if you like 180MB log files.
+    function propertyStringReplacer(key, value) {
+      if (key === 'engine' && value.engineName) {
+        return '{' + value.engineName + ' engine object}';
+      }
+      return value;
+    }
+
     //debug file can be written by setting flag on config.json
     if(patternlab.config.debug){
       console.log('writing patternlab debug file to ./patternlab.json');
-      fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, null, 3));
+      fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
     }
   }
 
@@ -90,6 +102,10 @@ var patternlab_engine = function () {
         pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
     });
 
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(patterns_dir, {
@@ -110,7 +126,8 @@ var patternlab_engine = function () {
         }
 
         pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
-    });
+      });
+
 
     //delete the contents of config.patterns.public before writing
     if(deletePatternDir){
@@ -123,6 +140,7 @@ var patternlab_engine = function () {
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = plutils.mergeData(allData, pattern.jsonFileData);
 
+      //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
 
       //add footer info before writing
@@ -140,7 +158,6 @@ var patternlab_engine = function () {
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
-
   }
 
   function buildFrontEnd(){
@@ -209,6 +226,18 @@ var patternlab_engine = function () {
 
     //build the patternlab website
     var patternlabSiteTemplate = fs.readFileSync('./source/_patternlab-files/index.mustache', 'utf8');
+
+    //sort all patterns explicitly.
+    patternlab.patterns = patternlab.patterns.sort(function(a,b){
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday

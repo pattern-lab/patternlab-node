@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v0.15.1 - 2015 
+ * patternlab-node - v1.0.0 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -20,9 +20,6 @@
 			var config = require('../config.json');
 
 			//find the {{> template-name }} within patterns
-			if (config.debug) {
-				console.log('===\n', pattern, '\n===');
-			}
 			var matches = pattern.findPartials();
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
