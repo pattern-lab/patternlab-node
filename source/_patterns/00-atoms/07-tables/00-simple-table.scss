@@ -6,25 +6,16 @@
 
   &__cell {
     text-align: left;
-    //
-    padding: 20px;
-    &:first-child {
-      padding-left: 0;
-    }
-    &:last-child {
-      padding-right: 0;
-    }
-    //
   }
 
   &__header &__cell {
     @include font-primary-light-uppercase();
     vertical-align: bottom;
-    padding-bottom: 5px;
+    padding-bottom: 0.3125em;
   }
 
   &__body &__cell {
-    border-top: 1px solid $colorSilver;
+    border-top: 1px solid;
     vertical-align: top;
   }
 }
