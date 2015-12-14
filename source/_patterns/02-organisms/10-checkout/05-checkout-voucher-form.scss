@@ -38,12 +38,14 @@
 
   .field__input-wrapper {
     margin-right : 0.75em;
-    margin-bottom : 0.75em;
+    @media only screen and (max-width: 400px) {
+      margin-bottom : 0.75em;
+    }
   }
 
   .checkout__voucherField--label {
     position : relative;
-    @include icon(chevron-right);
+    @include icon(chevron-down);
     font-family : $fontSecondary;
     cursor: pointer;
     padding: 1em 0 1em 1.25em;
@@ -57,7 +59,7 @@
     }
 
     &--expanded {
-      @include icon(chevron-down);
+      @include icon(chevron-up);
     }
   }
 }
