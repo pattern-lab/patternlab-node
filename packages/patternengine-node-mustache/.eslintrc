@@ -1,9 +1,6 @@
 {
   "env": {
-    "jasmine": true,
     "node": true,
-    "mocha": true,
-    "browser": true,
     "builtin": true
   },
   "globals": {},
