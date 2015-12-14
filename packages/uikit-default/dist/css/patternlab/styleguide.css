@@ -490,19 +490,23 @@ span.sg-pattern-state:before {
 .sg-pattern-head {
   margin: 2em 0 0;
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
-  font-size: 70%;
   font-weight: normal;
   position: relative;
 }
+.sg-pattern-head h3 {
+  font-size: 1.2rem !important;
+  font-weight: bold !important;
+  margin: 0 !important;
+}
 .sg-pattern-head h3 a {
   display: inline-block;
-  padding: 1em 0 0.3em;
-  color: #808080;
+  padding: 1em 0 0.5rem;
+  color: #808080 !important;
   text-decoration: none;
   cursor: pointer;
 }
 .sg-pattern-head h3 a:hover {
-  color: #000;
+  color: #000 !important;
 }
 
 .sg-pattern-extra-toggle {
@@ -513,6 +517,7 @@ span.sg-pattern-state:before {
   z-index: 1;
   padding: 0.65em;
   line-height: 1;
+  color: #808080;
   font-weight: normal;
   border: 1px solid #ddd;
   border-top-left-radius: 6px;
@@ -525,7 +530,7 @@ span.sg-pattern-state:before {
 }
 .sg-pattern-extra-toggle:hover, .sg-pattern-extra-toggle.active {
   background: #eee;
-  color: #222;
+  color: #000;
 }
 .sg-pattern-extra-toggle.active {
   border-bottom-color: #eee;

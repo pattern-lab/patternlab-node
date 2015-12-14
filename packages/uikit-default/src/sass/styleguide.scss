@@ -589,19 +589,24 @@ span.sg-pattern-state:before {
 .sg-pattern-head {
 	margin: $sg-doublespace 0 0;
 	font-family: $sg-font;
-	font-size: $sg-font-size-sm;
 	font-weight: normal;
 	position: relative;
 
+	h3 {
+		font-size: 1.2rem !important;
+		font-weight: bold !important;
+		margin: 0 !important;
+	}
+
 	h3 a {
 		display: inline-block;
-		padding: $sg-pad 0 0.3em;
-		color: $sg-gray;
+		padding: $sg-pad 0 0.5rem;
+		color: $sg-gray !important;
 		text-decoration: none;
 		cursor: pointer;
 
 		&:hover {
-			color: $sg-black;
+			color: $sg-black  !important;
 		}
 	}
 }
@@ -615,6 +620,7 @@ span.sg-pattern-state:before {
 	z-index: 1;
 	padding: 0.65em;
 	line-height: 1;
+	color: $sg-gray;
 	font-weight: normal;
 	border: 1px solid $sg-gray-light-2;
 	border-top-left-radius: $sg-border-radius-med;
@@ -627,7 +633,7 @@ span.sg-pattern-state:before {
 
 	&:hover, &.active {
 		background: $sg-gray-light;
-		color: $sg-gray-dark;
+		color: $sg-black;
 	}
 
 	&.active {
