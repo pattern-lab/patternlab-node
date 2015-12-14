@@ -38,14 +38,6 @@
 
   &__image, &__description {
     @extend .table__cell;
-    vertical-align : top;
-    padding: 1.25em 0.25em;
-    &:first-child, &:last-child {
-      padding : 1.25em 3%;
-    }
+    padding : 1.25em 3%;
   }
-}
-
-.total-line {
-  padding : 1.25em 3%;
 }
