@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v0.15.1 - 2015
+ * patternlab-node - v1.0.0 - 2015
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -12,15 +12,16 @@
   "use strict";
 
   var pattern_assembler = function(){
-
-    var fs = require('fs-extra'),
+    var path = require('path'),
+        fs = require('fs-extra'),
         of = require('./object_factory'),
         plutils = require('./utilities'),
-        patternEngines = require('./pattern_engines/pattern_engines'),
-        config = fs.readJSONSync('./config.json');
+        patternEngines = require('./pattern_engines/pattern_engines');
+
+    var config = fs.readJSONSync('./config.json');
 
     function setState(pattern, patternlab){
-      if(patternlab.config.patternStates[pattern.patternName]){
+      if(patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]){
         pattern.patternState = patternlab.config.patternStates[pattern.patternName];
       } else{
         pattern.patternState = "";
@@ -28,6 +29,7 @@
     }
 
     function addPattern(pattern, patternlab){
+      //add the link to the global object
       patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
 
       //only push to array if the array doesn't contain this pattern
@@ -43,7 +45,10 @@
       }
       //if the pattern is new, just push to the array
       if(isNew){
+        // do global registration
         patternlab.patterns.push(pattern);
+        // do plugin-specific registration
+        pattern.registerPartial();
       }
     }
 
@@ -66,44 +71,29 @@
     }
 
     function processPatternIterative(file, patternlab){
-      var fs = require('fs-extra'),
-      of = require('./object_factory'),
-      path = require('path');
-
       //extract some information
       var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
       if (config.debug) {
-        console.log('processPatternIterative:', 'filename:', filename);
+        console.log('processPatternIterative:', filename);
       }
 
       // skip non-pattern files
-      if (!patternEngines.isPatternFile(filename, patternlab)) { return; }
-      if (config.debug) {
-        console.log('processPatternIterative:', 'found pattern', file);
-      }
+      if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
 
       //make a new Pattern Object
       var currentPattern = new of.oPattern(file, subdir, filename);
 
       //if file is named in the syntax for variants
       if(patternEngines.isPseudoPatternJSON(filename)){
-        //add current pattern to patternlab object with minimal data
-        //processPatternRecursive() will run find_pseudopatterns() to fill out
-        //the object in the next diveSync
-        addPattern(currentPattern, patternlab);
-        //no need to process further
-        return;
+        return currentPattern;
       }
 
-      //can ignore all non-mustache files at this point
-      if(ext !== '.mustache'){
-        if (config.debug) {
-          console.log('==================== FOUND NON-MUSTACHE FILE');
-        }
-        return;
+      //can ignore all non-supported files at this point
+      if(patternEngines.isFileExtensionSupported(ext) === false){
+        return currentPattern;
       }
 
       //see if this file has a state
@@ -114,7 +104,7 @@
         var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
         currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
         if(patternlab.config.debug){
-          console.log('found pattern-specific data.json for ' + currentPattern.key);
+          console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.key);
         }
       }
       catch(e) {
@@ -143,6 +133,8 @@
 
       //add currentPattern to patternlab.patterns array
       addPattern(currentPattern, patternlab);
+
+      return currentPattern;
     }
 
 
@@ -277,6 +269,36 @@
 
 
 
+    //look for pattern links included in data files.
+    //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
+    function parseDataLinks(patternlab){
+
+      //loop through all patterns
+      for (var i = 0; i < patternlab.patterns.length; i++){
+        var pattern = patternlab.patterns[i];
+        //look for link.* such as link.pages-blog as a value
+        var linkRE = /link.[A-z0-9-_]+/g;
+        //convert to string for easier searching
+        var dataObjAsString = JSON.stringify(pattern.jsonFileData);
+        var linkMatches = dataObjAsString.match(linkRE);
+
+        //if no matches found, escape current loop iteration
+        if(linkMatches === null) { continue; }
+
+        for(var i = 0; i < linkMatches.length; i++){
+          //for each match, find the expanded link within the already constructed patternlab.data.link object
+          var expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+          if(patternlab.config.debug){
+            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + pattern.key);
+          }
+          //replace value with expandedLink on the pattern
+          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
+        }
+        //write back to data on the pattern
+        pattern.jsonFileData = JSON.parse(dataObjAsString);
+      }
+    }
+
     return {
       find_pattern_partials: function(pattern){
         return pattern.findPartials();
@@ -300,7 +322,7 @@
         return renderPattern(template, data, partials);
       },
       process_pattern_iterative: function(file, patternlab){
-        processPatternIterative(file, patternlab);
+        return processPatternIterative(file, patternlab);
       },
       process_pattern_recursive: function(file, patternlab, additionalData){
         processPatternRecursive(file, patternlab, additionalData);
@@ -310,6 +332,9 @@
       },
       combine_listItems: function(patternlab){
         buildListItems(patternlab);
+      },
+      parse_data_links: function(patternlab){
+        parseDataLinks(patternlab);
       }
     };
 

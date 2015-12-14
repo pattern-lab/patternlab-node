@@ -1,5 +1,20 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v1.0.0
+- FIX: Resolve issue with not hiding underscored patterns.
+- THX: Thanks @ivancamilov for reporting this regression.
+- FIX: Fix misapplied error input class
+- THX: Thanks @johngerome for the pull request!
+- ADD: Added a note in the README during installation to run with elevated privileges
+- THX: Thanks @RichardBray for the heads up
+- ADD: Added a Prerequisites section to the README
+- ADD: Added unit tests for pattern states and pseudopatterns
+- CHG: Changed pseudopattern generation to use config.patterns.source directory instead of hardcode
+- CHG: Explicitly sorting patterns by name prior to building the UI
+- ADD: Added ability to specify link.* urls inside data objects
+- CHG: Incremented version to 1.0.0. Achieved near-parity with PL PHP 1!
+- THX: Thanks to each and every person who cared about Pattern Lab Node! - Brian
+
 PL-node-v0.15.1
 - FIX: Resolve issue with styleModifiers not being replaced when the partial has spaces in it.
 - ADD: Support multiple styleModifier classes using the | pipe syntax

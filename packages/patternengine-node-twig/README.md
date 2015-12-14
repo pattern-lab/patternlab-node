@@ -6,11 +6,19 @@ The Node version of [Pattern Lab](http://patternlab.io/) is, at its core, a stat
 
 This repository contains the vanilla builder logic, grunt and gulp configurations, and some sample template/css/data to illustrate the power and flexibility of the tool.
 
+### Prerequisites
+
+Make sure Node and npm are installed. A great guide can be found here: [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
+
 ### Download
 
 * Download the [latest release of patternlab-node](https://github.com/pattern-lab/patternlab-node/releases/latest) from Github
 * Via npm, run `npm install patternlab-node` (Note this will auto install the grunt version currently. see below)
 * **NOTE** Node version 4.X and 5.X have tentative support, citing [a lot of Windows issues](https://github.com/nodejs/node-gyp/issues/629), including [mine](https://github.com/pattern-lab/patternlab-node/issues/162). Upgrade node at your own risk until otherwise stated. I've tried to catalog some issues and troubleshooting steps on the [wiki](https://github.com/pattern-lab/patternlab-node/wiki/Windows-Issues).
+
+### Troubleshooting Installs
+
+Make sure you are running your terminal/command line session as administrator. This could mean `sudo`, or opening the window with a right-click option.
 
 ### Choose Your Adventure! Now Vanilla, Grunt & Gulp
 
