@@ -5,6 +5,7 @@
  * This stylesheet is for styles you want to include only when the interface is being viewed within Pattern Lab.
  * This is helpful for displaying demo styles for grids, animations, color swatches, etc
  * It's also helpful for overriding context-specific styles like fixed or absolutely positioned elements
+ * You can also override styles for the defaults found in `styleguide.css`
  * These styles will not be your production CSS.
  */
 #sg-patterns {

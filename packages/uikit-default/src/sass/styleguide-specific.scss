@@ -5,10 +5,11 @@
  * This stylesheet is for styles you want to include only when the interface is being viewed within Pattern Lab.
  * This is helpful for displaying demo styles for grids, animations, color swatches, etc
  * It's also helpful for overriding context-specific styles like fixed or absolutely positioned elements
+ * You can also override styles for the defaults found in `styleguide.css`
  * These styles will not be your production CSS.
  */
 
-// This is the container for the 'view all' screen, which contains the list of patterns.
+// The container for the 'view all' screen, which contains the list of patterns.
 #sg-patterns {
 	 max-width: 100%; // Fully fluid by default, but can be modified by giving it a different `max-width`
 	 padding: 0 0.5em; // this determines the gutter between the edge of the viewport and the pattern container
@@ -24,7 +25,7 @@
 	cursor: pointer;
 }
 
-// Style Guide color swatch styles
+// Color swatch list
 .sg-colors {
 	display: flex;
 	flex-wrap: wrap;
@@ -46,7 +47,7 @@
 	}
 }
 
-// Swatch tile
+// Color swatch tile
 .sg-swatch {
 	display: block;
 	height: 4em;
@@ -54,7 +55,7 @@
 	border-radius: 5px;
 }
 
-// Swatch label
+// Color swatch label
 .sg-label {
 	font-size: 90%;
 	line-height: 1;
