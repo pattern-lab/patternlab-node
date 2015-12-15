@@ -1,11 +1,13 @@
 
-.footer{
+.footer {
   max-width : 1500px;
   margin : 0 auto;
   position : relative;
+
   @media only screen and (min-width : $breakpointDesktop) {
     display : flex;
     flex-direction : row;
+
     &::before {
       content: "";
       width : 100%;
@@ -15,6 +17,7 @@
       top : 1.5em;
     }
   }
+
   &__sectionLeft {
     @media only screen and (min-width : $breakpointDesktop) {
       width: 40%;
@@ -23,9 +26,11 @@
       flex: 1;
     }
   }
+
   &__sectionRight {
     position : relative;
   }
+
   &__copyright {
     padding : 1.25rem 0;
     text-align : center;
@@ -33,25 +38,30 @@
     text-transform : uppercase;
     letter-spacing : 0.1em;
   }
+
   &__trustedShops {
     position : absolute;
     right : 1.25em;
     bottom : 3.4em;
     width : 3em;
+
     @media only screen and (min-width : $breakpointDesktop) {
       left: -3.75em;
       top : 2.375em;
     }
   }
+
   .newsletterForm {
     border-top : 1px solid $colorSilver;
     border-bottom : 1px solid $colorSilver;
     padding : 1.25em 0.75em;
+
     @media only screen and (min-width : $breakpointDesktop) {
       padding : 0 0.75em;
       display : inline-block;
       vertical-align : top;
       border : none;
+
       .field__container--label {
         font-size : 0.875em;
       }
@@ -59,7 +69,10 @@
   }
 
   .fieldset {
-    padding-right : 3%;
-    padding-left : 3%;
+    @media only screen and (max-width : $breakpointTablet) {
+      height : 77px;
+      padding-right : 3%;
+      padding-left : 3%;
+    }
   }
 }
