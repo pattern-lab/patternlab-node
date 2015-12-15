@@ -1,7 +1,7 @@
 <div class="checkout__priceSummaryFooter">
     <div class="checkout__priceSummaryFooter--usp">
-        {{> atoms-checkout-usp(text:footerText.first || headline.mini + ' (1st)') }}
-        {{> atoms-checkout-usp(text:footerText.second || headline.mini + ' (2nd)') }}
-        {{> atoms-checkout-usp(text:footerText.third || headline.mini + ' (3rd)') }}
+        {{> atoms-checkout-usp(text:footerText.first || headline.mini || 'first USP') }}
+        {{> atoms-checkout-usp(text:footerText.second || headline.mini || 'second USP') }}
+        {{> atoms-checkout-usp(text:footerText.third || headline.mini || 'third USP') }}
     </div>
 </div>

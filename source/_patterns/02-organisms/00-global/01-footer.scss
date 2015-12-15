@@ -36,10 +36,11 @@
   &__trustedShops {
     position : absolute;
     right : 1.25em;
-    bottom : 8.5em;
+    bottom : 3.4em;
+    width : 3em;
     @media only screen and (min-width : $breakpointDesktop) {
-      left: -3em;
-      bottom : -0.45em;
+      left: -3.75em;
+      top : 2.375em;
     }
   }
   .newsletterForm {
@@ -55,5 +56,10 @@
         font-size : 0.875em;
       }
     }
+  }
+
+  .fieldset {
+    padding-right : 3%;
+    padding-left : 3%;
   }
 }

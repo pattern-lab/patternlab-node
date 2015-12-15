@@ -30,21 +30,29 @@
     flex:1 100%;
     order:1;
     background:$colorAlabaster;
+    border-bottom:1px solid $colorSilver;
 
     @media only screen and (min-width: $breakpointDesktop) {
       flex:0.4;
       order:2;
       border-left:1px solid $colorSilver;
       align-self: stretch;
+      border-bottom-width:0;
     }
 
     &-container {
       overflow:hidden;
+      width:100%;
+      max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
+      margin:0 auto;
+
+      @media only screen and (min-width: $breakpointDesktop) {
+        max-width:none;
+      }
 
       .order-summary {
         transition:margin-top $animationTimingLong;
-        padding:1.5em 0.75em;
-        border-bottom:1px solid $colorSilver;
+        padding:0.75em;
 
         &--is-collapsed {
           margin-top:-200%;
@@ -55,7 +63,6 @@
 
         @media only screen and (min-width: $breakpointDesktop) {
           padding:1.5em;
-          border-bottom-width:0;
           margin-top:0 !important;
         }
       }
@@ -67,10 +74,13 @@
     order:2;
     padding:1.5em 0.75em;
     background:$colorWhite;
+    max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
+    margin:0 auto;
 
     @media only screen and (min-width: $breakpointDesktop) {
       flex:0.6;
       min-height:100vh;
+      max-width:none;
       padding:0 1.5em 1.5em;
       order:1;
       display: flex;
@@ -95,9 +105,5 @@
       content: '';
       flex-grow: 1;
     }
-  }
-
-  .order-summary__section--discount {
-    padding : 25px 12px;
   }
 }

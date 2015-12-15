@@ -1,18 +1,35 @@
 .order-summary-toggle {
   width:100%;
   background:$colorAlabaster;
-  border:1px solid $colorSilver;
-  border-left-width:0;
-  border-right-width:0;
+  border:0 solid $colorSilver;
+  border-top-width:1px;
   padding:1.5em 0.75em;
   cursor:pointer;
+  line-height:1.5em;
+  font-family: $fontPrimary;
+  font-size:$fontSizeSlightlyLarger;
+
+  &__inner {
+    max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
+    margin:0 auto;
+    display:flex;
+    flex-flow:row nowrap;
+  }
 
   &__text {
     display:none;
+    flex:1;
+    text-align:left;
+    padding:0 1.5em;
   }
 
   &--show &__text--show,
   &--hide &__text--hide {
     display:block;
+  }
+
+  &__icon-wrapper,
+  &__total-recap {
+    flex:none;
   }
 }

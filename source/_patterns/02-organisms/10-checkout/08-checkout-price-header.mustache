@@ -3,7 +3,7 @@
         {{> atoms-checkout-trusted-shops(trustedShops_description:trustedShops_description) }}
     </div>
     <div class="checkout__priceSummaryHeader--usp">
-        {{> atoms-checkout-usp(text:headerText.first || headline.mini + ' (1st)') }}
-        {{> atoms-checkout-usp(text:headerText.second || headline.mini + ' (2nd)') }}
+        {{> atoms-checkout-usp(text:headerText.first || headline.mini || 'first USP') }}
+        {{> atoms-checkout-usp(text:headerText.second || headline.mini || 'second USP') }}
     </div>
 </div>

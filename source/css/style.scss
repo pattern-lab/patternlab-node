@@ -44,7 +44,7 @@
 
 @import "../_patterns/03-templates/00-content";
 
-@import "../_patterns/00-atoms/10-checkout/00-checkout-helper-classes";
+@import "scss/generic/_checkout-helper-classes";
 @import "../_patterns/00-atoms/10-checkout/00-payment-icons";
 @import "../_patterns/00-atoms/10-checkout/02-checkout-usp";
 @import "../_patterns/00-atoms/10-checkout/03-checkout-trusted-shops";

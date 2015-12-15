@@ -1,6 +1,6 @@
 .order-summary__section {
   border-top: 1px solid $colorBorder;
-  padding: 20px 0;
+  padding: 1.25em 3%;
 }
 .total-line-table {
   thead {
@@ -8,8 +8,8 @@
   }
   td {
     border: none;
-    padding-top: .25em;
-    padding-bottom: .25em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
   }
 }
 .total-line {
@@ -26,7 +26,7 @@
     }
     .order-summary__small-text {
       @include font-primary-light-uppercase();
-      font-size: .85rem;
+      font-size: 0.85rem;
     }
     .payment-due__currency {
       display: none;
@@ -53,7 +53,7 @@
   width: 2em;
   vertical-align: middle;
   display: inline;
-  margin-left: -.65em;
+  margin-left: -0.65em;
 
   &:before {
     color : $colorError;

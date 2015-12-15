@@ -8,7 +8,7 @@
 
 .section {
   &__header {
-    margin-bottom: 20px;
+    margin-bottom: 1.25em;
   }
   &__title {
     @extend .headlineH2;
@@ -17,7 +17,7 @@
 }
 
 .section--payment-method + .section--optional {
-  width: 280px;
+  width: 17.5em;
   margin-left: auto;
   .checkbox-wrapper {
     padding: 0;
@@ -27,5 +27,17 @@
 * + .step__footer,
 * + .section,
 * + .content-box {
-  margin-top: 30px;
+  margin-top: 1.875em;
+}
+
+// Tables
+.product, .total-line {
+  &-table {
+    @extend .table;
+  }
+
+  &__image, &__description {
+    @extend .table__cell;
+    padding : 1.25em 3%;
+  }
 }
