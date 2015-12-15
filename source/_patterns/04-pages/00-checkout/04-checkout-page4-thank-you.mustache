@@ -6,15 +6,13 @@
         </div>
 
         <div role="main" class="checkout__content">
-            <div class="checkout__content-container">
-                {{> organisms-checkout-header }}
+            {{> organisms-checkout-header }}
 
-                {{> molecules-checkout-status }}
-                {{> molecules-checkout-map }}
-                {{> molecules-checkout-customer-information }}
-                {{> molecules-checkout-step-footer-continue-shopping(shoppingButtonText: 'Continue shopping', questionText: 'Need help?', linkText: 'Contact us') }}
-                {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
-            </div>
+            {{> molecules-checkout-status }}
+            {{> molecules-checkout-map }}
+            {{> molecules-checkout-customer-information }}
+            {{> molecules-checkout-step-footer-continue-shopping(shoppingButtonText: 'Continue shopping', questionText: 'Need help?', linkText: 'Contact us') }}
+            {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
         </div>
 
         <aside class="checkout__sidebar">

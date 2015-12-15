@@ -74,20 +74,13 @@
     order:2;
     padding:1.5em 0.75em;
     background:$colorWhite;
-
-    &-container {
-      width:100%;
-      max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
-      margin:0 auto;
-
-      @media only screen and (min-width: $breakpointDesktop) {
-        max-width:none;
-      }
-    }
+    max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
+    margin:0 auto;
 
     @media only screen and (min-width: $breakpointDesktop) {
       flex:0.6;
       min-height:100vh;
+      max-width:none;
       padding:0 1.5em 1.5em;
       order:1;
       display: flex;
