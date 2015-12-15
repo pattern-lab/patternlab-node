@@ -39,5 +39,6 @@
   &__image, &__description {
     @extend .table__cell;
     padding : 1.25em 3%;
+    width: auto;
   }
 }
