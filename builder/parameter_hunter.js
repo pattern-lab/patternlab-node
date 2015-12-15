@@ -132,7 +132,14 @@
 
 				//remove the parameter from the partial and replace it with the rendered partial + paramData
 				pattern.extendedTemplate = (pattern.extendedTemplate || '').replace(foundPattern, renderedPartial);
-				partialPattern.extendedTemplate = '' + partialPattern.template;
+
+				patternlab.processedRoots = patternlab.processedRoots || [];
+				if (patternlab.processedRoots.indexOf(partialPattern.abspath) === -1) {
+					partialPattern.extendedTemplate = '' + partialPattern.template;
+				}
+				if (!level) {
+					patternlab.processedRoots.push(pattern.abspath);
+				}
 			});
 		}
 
