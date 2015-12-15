@@ -77,12 +77,15 @@ gulp.task('nodeunit', function () {
 
 //sass tasks, turn on if you want to use
 gulp.task('sass:style', function () {
+  var base64Inline = require('gulp-base64-inline')
+
   return gulp.src(['./source/css/*.scss', './source/css/wip/*.scss'], { base : './source/css' })
     .pipe(sass({
       importer: nodeSassGlobbing,
       outputStyle: 'expanded',
       precision: 8
     }))
+    .pipe(base64Inline(''))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
