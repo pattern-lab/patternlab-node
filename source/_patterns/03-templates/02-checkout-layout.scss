@@ -42,6 +42,7 @@
 
     &-container {
       overflow:hidden;
+      width:100%;
       max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
       margin:0 auto;
 
@@ -75,6 +76,7 @@
     background:$colorWhite;
 
     &-container {
+      width:100%;
       max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
       margin:0 auto;
 
