@@ -6,12 +6,14 @@
         </div>
 
         <div role="main" class="checkout__content">
-            {{> organisms-checkout-header(show_breadcrumbs: true, breadcrumbText_first: 'Cart', breadcrumbText_second: 'Customer information', breadcrumbText_third: 'Shipping method', breadcrumbText_fourth: 'Payment method') }}
+            <div class="checkout__content-container">
+                {{> organisms-checkout-header(show_breadcrumbs: true, breadcrumbText_first: 'Cart', breadcrumbText_second: 'Customer information', breadcrumbText_third: 'Shipping method', breadcrumbText_fourth: 'Payment method') }}
 
-            {{> organisms-checkout-form-customer-information }}
-            {{> organisms-checkout-form-shipping-address }}
-            {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to cart', nextButtonText: 'Continue to shipping method') }}
-            {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+                {{> organisms-checkout-form-customer-information }}
+                {{> organisms-checkout-form-shipping-address }}
+                {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to cart', nextButtonText: 'Continue to shipping method') }}
+                {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+            </div>
         </div>
 
 

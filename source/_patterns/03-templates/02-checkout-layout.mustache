@@ -6,9 +6,11 @@
         </div>
 
         <div role="main" class="checkout__content">
-            {{> organisms-checkout-header }}
-            {{> organisms-checkout-form-customer-information }}
-            {{> organisms-checkout-form-shipping-address }}
+            <div class="checkout__content-container">
+                {{> organisms-checkout-header }}
+                {{> organisms-checkout-form-customer-information }}
+                {{> organisms-checkout-form-shipping-address }}
+            </div>
         </div>
 
         <aside class="checkout__sidebar">

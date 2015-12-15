@@ -6,13 +6,15 @@
         </div>
 
         <div role="main" class="checkout__content">
-            {{> organisms-checkout-header(show_breadcrumbs: true, class_second: 'breadcrumb__item--completed', class_third: 'breadcrumb__item--current', breadcrumbText_first: 'Cart', breadcrumbText_second: 'Customer information', breadcrumbText_third: 'Shipping method', breadcrumbText_fourth: 'Payment method') }}
+            <div class="checkout__content-container">
+                {{> organisms-checkout-header(show_breadcrumbs: true, class_second: 'breadcrumb__item--completed', class_third: 'breadcrumb__item--current', breadcrumbText_first: 'Cart', breadcrumbText_second: 'Customer information', breadcrumbText_third: 'Shipping method', breadcrumbText_fourth: 'Payment method') }}
 
-            {{> molecules-checkout-customer-address }}
-            {{> organisms-checkout-form-shipping-method }}
+                {{> molecules-checkout-customer-address }}
+                {{> organisms-checkout-form-shipping-method }}
 
-            {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to customer information', nextButtonText: 'Continue to payment method') }}
-            {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+                {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to customer information', nextButtonText: 'Continue to payment method') }}
+                {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
+            </div>
         </div>
 
         <aside class="checkout__sidebar">
