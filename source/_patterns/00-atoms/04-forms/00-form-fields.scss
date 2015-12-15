@@ -16,7 +16,7 @@ input, textarea, select {
   padding: .3em;
   font-size: 0.875em;
   border: 1px solid $colorBlack;
-  background-color: transparent;
+  background: transparent;
   &:focus {
     outline: none;
   }
@@ -27,8 +27,12 @@ select {
   text-transform: none;
 }
 
+::-ms-expand{
+  display:none;
+}
+
 ::-webkit-input-placeholder {
-  @include placeholder()
+  @include placeholder();
 }
 
 ::-moz-placeholder {
@@ -36,9 +40,13 @@ select {
 }
 
 :-moz-placeholder {
-  @include placeholder()
+  @include placeholder();
 }
 
 :-ms-input-placeholder {
-  @include placeholder()
+  @include placeholder();
+}
+
+input:-ms-input-placeholder {
+  @include placeholder();
 }

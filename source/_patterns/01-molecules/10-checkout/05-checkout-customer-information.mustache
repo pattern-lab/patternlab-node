@@ -6,14 +6,14 @@
         <div class="section__content">
             <div class="section__content__column section__content__column--half">
                 <h3>Shipping address</h3>
-                <p>test test<br>Julie-Wolfthorn-Straße 1<br>10115, Berlin<br>Germany</p>
+              {{> atoms-checkout-address(address.name: address.name, address.street: address.street, address.postal: address.postal, address.town: address.town, address.country: address.country) }}
                 <h3>Shipping method</h3>
                 <p>1. Kostenloser Versand</p>
             </div>
             <div class="section__content__column section__content__column--half">
                 <h3>Billing address</h3>
-                <p>test test<br>Julie-Wolfthorn-Straße 1<br>10115, Berlin<br>Germany</p>
-                <h3>Payment method</h3>
+              {{> atoms-checkout-address(address.name: address.name, address.street: address.street, address.postal: address.postal, address.town: address.town, address.country: address.country) }}
+              <h3>Payment method</h3>
                 <ul class="payment-method-list">
                     <li class="payment-method-list__item">
                         <i class="payment-method-list__item__icon payment-icon payment-icon--generic">

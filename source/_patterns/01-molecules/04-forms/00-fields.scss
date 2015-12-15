@@ -1,8 +1,7 @@
 .field {
-  padding: .45em;
   width: 100%;
   &__input-wrapper {
-    width: 100%;
+    margin: .45em;
     position: relative;
     &--select {
       @include icon('chevron-down');
@@ -25,7 +24,7 @@
     font-family: $fontSecondary;
     color: $colorNevada;
     letter-spacing: 0.12em;
-    -moz-user-select: none;
+    user-select: none;
     box-sizing: border-box;
     font-size: 0.75em;
     font-weight: normal;
@@ -59,10 +58,13 @@
       padding-bottom: 0.375em!important;
       position: relative;
     }
-    .field--show-floating-label &,
-    .field__input-wrapper--select &{
+    .field--show-floating-label &{
       padding-top: 1.5em;
       padding-bottom: 0.275em;
+    }
+    .field__input-wrapper--select & {
+      padding-top: 1.5em;
+      padding-bottom: 0.2em;
     }
   }
   &__message {

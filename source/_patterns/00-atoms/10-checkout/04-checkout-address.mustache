@@ -1,0 +1,9 @@
+<p>
+  {{ address.name || 'Maecenas Pellentesque Donec' }}<br>
+  {{ address.street || 'Phasellus vel massa quam. Mauris bibendum 65' }}<br>
+  {{ address.postal || '12345' }} {{ address.town || 'Morbi ultricies a nulla' }}<br>
+  {{ address.country || 'Mvestibulum tempor' }}
+  {{# editLinkText }}
+    <a class="edit-link edit-link--small" href="#">{{ editLinkText }}</a>
+  {{/ editLinkText }}
+</p>

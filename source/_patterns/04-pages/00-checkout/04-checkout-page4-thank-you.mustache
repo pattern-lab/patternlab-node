@@ -9,8 +9,8 @@
             {{> organisms-checkout-header }}
 
             {{> molecules-checkout-status }}
-            {{> molecules-checkout-map }}
-            {{> molecules-checkout-customer-information }}
+            {{> molecules-checkout-map(popWindowHeadline: 'Shipping method', popWindowContent, 'Test') }}
+            {{> molecules-checkout-customer-information(address.name: 'Max Mustermann', address.street: 'Gartenstraße 44', address.postal: '12345', address.town: 'Berlin', address.country: 'Germany' ) }}
             {{> molecules-checkout-step-footer-continue-shopping(shoppingButtonText: 'Continue shopping', questionText: 'Need help?', linkText: 'Contact us') }}
             {{> organisms-checkout-main-footer(firstItemText: 'Privacy policy', secondItemText: 'Refund policy', thirdItemText: 'Terms of service') }}
         </div>

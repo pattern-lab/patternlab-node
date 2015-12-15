@@ -10,12 +10,12 @@
 
   .field {
     @media only screen and (min-width: $breakpointTablet) {
-      flex: 0 0 100%;
+      flex: 0 1 100%;
       &--half {
-        flex: 0 0 50%;
+        flex: 0 1 50%;
       }
       &--quarter {
-        flex: 0 0 25%;
+        flex: 0 1 25%;
       }
     }
   }

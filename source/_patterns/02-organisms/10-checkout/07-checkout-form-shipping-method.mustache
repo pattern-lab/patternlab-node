@@ -1,10 +1,9 @@
 <div class="section section--shipping-method">
   <div class="section__header">
-    <h2 class="section__title">Shipping method</h2>
+    <h2 class="section__title">{{ sectionTitleText || 'Aenean interdum arcu vel' }}</h2>
   </div>
   <div class="section__content">
-    {{> molecules-radio-mixin(label: 'Nulla blandit tristique arcu quis lobortis.', checked: true) }}
-    {{> molecules-radio-mixin(label: 'Integer ante ante, consectetur quis magna sit amet, feugiat auctor odio.', checked: false) }}
-
+    {{> molecules-radio-mixin(label: radio.first.label || 'Nulla blandit tristique arcu quis lobortis.', accessory: radio.first.accessory || 'free', checked: radio.first.isChecked || true) }}
+    {{> molecules-radio-mixin(label: radio.second.label || 'Integer ante ante, consectetur quis magna sit amet, feugiat auctor odio.', accessory: radio.second.accessory || 'free',  checked: radio.second.isChecked || false) }}
   </div>
 </div>
