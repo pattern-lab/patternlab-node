@@ -2,8 +2,10 @@
   &--inline {
     .field {
       flex: 2 1;
-      padding-top: 0;
-      padding-bottom: 0;
+      &__input-wrapper {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
     .button {
       white-space: nowrap;

@@ -1,53 +1,51 @@
 .order-summary__section--discount {
   .fieldset {
-    overflow : hidden;
-    margin-top: 0;
-    margin-bottom: 0;
+    overflow: hidden;
+    margin: 0 -0.45em;
   }
-
   .field {
-    transition: margin-top $animationTimingLong, opacity $animationTimingLong;
-    opacity:0;
-    overflow:hidden;
-    margin-top:-121px;
+    transition: margin-top $animationTimingNormal, opacity $animationTimingNormal;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: -121px;
 
     &--expanded {
-      opacity:1;
-      margin-top:0 !important;
+      opacity: 1;
+      margin-top: 0 !important;
     }
-  }
+    &__input {
+      &-wrapper {
+        margin: 0 0.9em 0  0;
+        flex: 2 0;
+        @media only screen and (max-width: 400px) {
+          margin-bottom: 0.75em;
+        }
+      }
+      &-btn {
+        &-wrapper {
+          margin-top: 1em;
+          display: flex;
+          flex-direction: column;
 
-  .field__input-btn-wrapper {
-    display: flex;
-    flex-direction: column;
-
-    @media only screen and (min-width: 400px) {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .field__input-btn {
-      height : 47px;
-    }
-  }
-
-  .field__input-wrapper {
-    margin-right : 0.75em;
-    @media only screen and (max-width: 400px) {
-      margin-bottom : 0.75em;
+          @media only screen and (min-width: 400px) {
+            display: flex;
+            flex-direction: row;
+          }
+        }
+      }
     }
   }
 
   .checkout__voucherField--label {
-    position : relative;
+    position: relative;
     @include icon(chevron-down);
-    font-family : $fontSecondary;
+    font-family: $fontSecondary;
     cursor: pointer;
     padding: 1em 0 1em 1.25em;
 
     &:before {
-      position : absolute;
-      left : 0;
+      position: absolute;
+      left: 0;
       top: 50%;
       transform: translateY(-50%);
       margin-top: -.05em;
@@ -57,4 +55,5 @@
       @include icon(chevron-up);
     }
   }
+
 }
