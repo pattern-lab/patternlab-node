@@ -484,6 +484,8 @@ span.sg-pattern-state:before {
 .sg-pattern {
   margin-bottom: 2em;
   position: relative;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
 }
 
 /* Section Head */

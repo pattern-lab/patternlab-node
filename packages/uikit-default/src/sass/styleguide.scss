@@ -582,6 +582,7 @@ span.sg-pattern-state:before {
 .sg-pattern {
 	margin-bottom: $sg-doublespace;
 	position: relative; //Prevents absolutely-positioned elements from floating to the top
+	box-sizing: border-box !important;
 	@extend .sg-cf;
 }
 
