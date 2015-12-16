@@ -1,4 +1,5 @@
 // Special thanks to oscar-g (https://github.com/oscar-g) for starting this at https://github.com/oscar-g/patternlab-node/tree/dev-gulp
+// Special thanks to oscar-g (https://github.com/oscar-g) for starting this at https://github.com/oscar-g/patternlab-node/tree/dev-gulp
 
 var
   gulp = require('gulp'),
@@ -75,7 +76,7 @@ gulp.task('nodeunit', function () {
 
 //sass tasks, turn on if you want to use
 gulp.task('sass:style', function () {
-  var base64Inline = require('gulp-base64-inline')
+  var base64Inline = require('gulp-base64-inline');
 
   return gulp.src(['./source/css/*.scss', './source/css/wip/*.scss'], { base : './source/css' })
     .pipe(sass({
