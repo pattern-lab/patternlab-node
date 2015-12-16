@@ -1,9 +1,10 @@
 .order-summary-toggle {
+  display:block;
   width:100%;
   background:$colorAlabaster;
   border:0 solid $colorSilver;
   border-top-width:1px;
-  padding:1.5em 0.75em;
+  padding:0;
   cursor:pointer;
   line-height:1.5em;
   font-family: $fontPrimary;
@@ -12,6 +13,7 @@
   &__inner {
     max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
     margin:0 auto;
+    padding:0.75em;
     display:flex;
     flex-flow:row nowrap;
   }
