@@ -13,10 +13,10 @@
   }
 }
 .total-line {
-  @include font-primary-light-uppercase();
   line-height: 1em;
   &__price {
     text-align: right;
+    font-family : $fontSecondary;
   }
   &__name,
   &__price {
@@ -25,20 +25,26 @@
       font-size: 1.3125em;
     }
     .order-summary__small-text {
-      @include font-primary-light-uppercase();
-      font-size: 0.85rem;
+      font-family : $fontSecondary;
+      text-transform : none;
+      letter-spacing : 0;
+      font-size : 14px;
+      line-height : 2em;
     }
     .payment-due__currency {
       display: none;
     }
   }
   &__name {
-    line-height : 1em;
+    @include font-primary-medium-lowercase();
+    letter-spacing : 0;
+    text-transform : none;
   }
 }
 
 .applied-reduction-code {
-  font-weight: 400;
+  font-weight: 300;
+  font-size : 0.875em;
   svg {
     display: none;
   }
@@ -49,11 +55,11 @@
   background: transparent;
   border: none;
   box-shadow: none;
-  height: 1.65em;
+  height: 1.75em;
   width: 2em;
   vertical-align: middle;
   display: inline;
-  margin-left: -0.65em;
+  margin-left: -0.5em;
 
   &:before {
     color : $colorError;

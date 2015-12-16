@@ -20,11 +20,11 @@
   &__headline2 {
     @include font-primary-medium-uppercase();
     font-size : 1.3125em;
-    margin-bottom : 1.25em;
+    margin-bottom : 0.5em;
   }
 
   &__headline3 {
-    @include font-primary-light-lowercase();
+    font-family : $fontSecondary;
     font-size : 1em;
     margin-bottom : 3.125em;
   }

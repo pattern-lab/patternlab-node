@@ -24,10 +24,13 @@
   }
 }
 
-* + .step__footer,
-* + .section,
-* + .content-box {
-  margin-top: 1.875em;
+//.section,
+.content-box {
+  margin-bottom: 4em;
+}
+
+.checkout__header {
+  margin-bottom: 2em;
 }
 
 // Tables

@@ -3,11 +3,8 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: baseline;
-    font-size: .875em;
     font-weight: 300;
     padding: 1.3em 1em;
-    font-size: .875em;
-    font-weight: 300;
     & + & {
       padding-top: 0
     }
@@ -20,7 +17,7 @@
   &__label {
     flex: 1 1;
     cursor: pointer;
-
+    font-family : $fontSecondary;
   }
 }
 

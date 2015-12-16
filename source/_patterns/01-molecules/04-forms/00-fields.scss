@@ -23,7 +23,6 @@
   &__label {
     font-family: $fontSecondary;
     color: $colorNevada;
-    letter-spacing: 0.12em;
     user-select: none;
     box-sizing: border-box;
     font-size: 0.75em;
@@ -43,7 +42,7 @@
     transition: opacity $animationTimingFast ease-out;
   }
   &__input {
-    font-family: $fontPrimary;
+    font-family: $fontSecondary;
     width: 100%;
     padding: 0.9875em 0.625em 0.7875em;
     font-size: 0.875em;

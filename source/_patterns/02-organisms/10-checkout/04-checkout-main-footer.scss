@@ -6,9 +6,8 @@
   }
 
   &__item {
-    @include font-primary-light-uppercase();
+    @include font-primary-light-uppercase(0.75em);
     list-style-type: none;
-    font-size : 0.75em;
     line-height : 2em;
     text-align : center;
 

@@ -1,6 +1,6 @@
 .os {
   &-order-number {
-    @include font-primary-light-lowercase();
+    font-family : $fontSecondary;
     font-size : 0.875em;
   }
   &-header {
@@ -22,7 +22,7 @@
       display : none;
     }
     &__title {
-      @include font-primary-medium-uppercase();
+      @include font-primary-medium-uppercase(1.3125em);
     }
   }
 }

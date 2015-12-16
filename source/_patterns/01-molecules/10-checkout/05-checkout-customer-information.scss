@@ -1,7 +1,6 @@
 .content-box {
   p {
-    @include font-primary-light-lowercase();
-    font-size : 0.875em;
+    font-family : $fontSecondary;
   }
 
   h2 {
@@ -9,9 +8,9 @@
   }
 
   h3 {
-    @include font-primary-medium-uppercase();
-    margin : 1.9375em 0 0.5em;
-    font-size : 0.875em;
+    @include font-primary-medium-lowercase();
+    margin : 2em 0 1.25em;
+    letter-spacing : 0;
   }
 
   .section__content {
@@ -27,6 +26,7 @@
       @media only screen and (min-width: $breakpointTablet) {
         display : inline-block;
         vertical-align : top;
+        min-width : 17.5em;
       }
     }
   }
@@ -36,8 +36,7 @@
       position : relative;
 
       &__item {
-        @include font-primary-light-lowercase();
-        font-size : 0.875em;
+        font-family : $fontSecondary;
 
         &__icon {
           vertical-align: middle;

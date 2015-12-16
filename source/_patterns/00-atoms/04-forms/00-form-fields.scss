@@ -1,7 +1,6 @@
 @mixin placeholder() {
   font-family: $fontSecondary;
   color: $colorBlack;
-  letter-spacing: 0.12em;
   transition: color $animationTimingFast ease-out;
   font-weight: 300;
   opacity: 1 !important;

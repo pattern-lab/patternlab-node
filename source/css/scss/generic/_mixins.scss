@@ -21,6 +21,13 @@
   font-size: $fontSize;
 }
 
+@mixin font-primary-medium-lowercase($fontSize: 1em) {
+  font-family: $fontPrimary;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  font-size: $fontSize;
+}
+
 @mixin font-primary-bold-uppercase($fontSize: 1em) {
   font-family: $fontPrimary;
   font-weight: 900;

@@ -5,11 +5,9 @@
     align-items: baseline;
     align-content: space-between;
     padding: 1.3em 1em;
-    font-size: .875em;
-    font-weight: 300;
-    text-transform: uppercase;
     border-bottom: 1px solid $colorBorder;
     border-top: 1px solid $colorBorder;
+    font-family : $fontSecondary;
     & + & {
       border-top: 0
     }

@@ -4,15 +4,23 @@
   align-items : center;
 
   &__badge {
-    width : 3.5em;
-    height : 3.5em;
+    width : 2em;
+    height : 2em;
+    @media only screen and (min-width : $breakpointTablet) {
+      width : 3em;
+      height : 3em;
+    }
   }
 
   &__description {
     @include font-primary-light-uppercase(0.75em);
-    line-height : 2.5em;
+    line-height : 1.5em;
     margin-top : 0.5em;
-    margin-left : 1em;
+    margin-left : 0.5em;
     width : 5.5em;
+    text-transform : none;
+    @media only screen and (min-width : $breakpointTablet) {
+      margin-left : 1em;
+    }
   }
 }

@@ -2,7 +2,8 @@
   @include font-primary-light-uppercase(0.75em);
   @include icon(check);
   position : relative;
-  margin-bottom : 1em;
+  margin-bottom : 0.25em;
+  text-transform : none;
 
   &:last-child {
     margin-bottom : 0;
@@ -11,7 +12,7 @@
   &:before {
     left : 0;
     top : -3px;
-    font-size : 1.125em;
-    margin-right : 1em;
+    font-size : 1em;
+    margin-right : 0.5em;
   }
 }

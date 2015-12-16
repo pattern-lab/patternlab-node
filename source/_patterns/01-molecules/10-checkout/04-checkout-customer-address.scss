@@ -1,24 +1,25 @@
 .section--shipping-address-recap {
 
   p {
-    @include font-primary-light-lowercase();
-    font-size : 0.875em;
+    font-family : $fontSecondary;
   }
 
   .edit-link {
     display : inline;
-    border-bottom : 1px solid $colorBlack;
+    border-bottom : 1px solid $colorNevada;
     @extend %animationTextLinks;
+    color : $colorNevada;
+    font-size : 0.875em;
 
     &:before {
       content : '';
       display : block;
-      margin : 1.9375em 0 0.5em;
+      margin : 1em 0 0.5em;
     }
   }
   .section__title {
-    @include font-primary-medium-uppercase();
-    margin : 1.9375em 0 0.5em;
-    font-size : 0.875em;
+    @include font-primary-medium-lowercase();
+    text-transform: none;
+    letter-spacing : 0;
   }
 }
