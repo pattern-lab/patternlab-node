@@ -3,10 +3,6 @@
   "htmlClass": "pl",
   "bodyClass": "body",
   "img": {
-    "logo": {
-      "src": "../../images/horizn-studios-logo.svg",
-      "alt": "HORIZN STUDIOS – Luxury Designer Bags and Accessories"
-    },
     "landscape-4x3": {
       "src": "../../images/fpo_4x3.png",
       "alt": "4x3 Image"
@@ -30,10 +26,6 @@
     "placeholder_blockMedia": {
       "src": "../../images/placeholder_blockMedia.jpg",
       "alt": "Placeholder Block Media"
-    },
-    "placeholder_trustedShops": {
-      "src": "../../images/trusted-shops-60px.png",
-      "alt": "Trusted Shops Badge"
     }
   },
   "headline": {
