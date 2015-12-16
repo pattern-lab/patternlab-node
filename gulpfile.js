@@ -150,7 +150,8 @@ gulp.task('serve', gulp.series('lab', function serve() {
       }
     },
     ghostMode: false,
-    notify : false
+    notify : false,
+    https : true
   });
 
   gulp.watch('source/css/style.css', gulp.series('cp:css'));
