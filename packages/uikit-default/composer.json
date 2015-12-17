@@ -24,7 +24,7 @@
 		"source":         "https://github.com/pattern-lab/styleguidekit-assets-default/releases"
 	},
 	"require": {
-		"pattern-lab/core": "0.*"
+		"pattern-lab/core": "dev-dev"
 	},
 	"extra": {
 		"patternlab": {
