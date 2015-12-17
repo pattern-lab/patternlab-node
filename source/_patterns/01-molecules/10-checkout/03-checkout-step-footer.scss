@@ -1,5 +1,7 @@
 .step__footer {
   text-align : center;
+  margin : 3em 0 1em;
+
   @media only screen and (min-width: $breakpointTablet) {
     display : flex;
     flex-direction : row-reverse;
@@ -9,6 +11,8 @@
   &__continue-btn {
     display : block;
     margin : 0 auto 1em;
+    height : 3em;
+    padding : 1.35em;
     @media only screen and (min-width: $breakpointTablet) {
       display : inline-block;
       margin : 0 0 1em;

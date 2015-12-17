@@ -20,7 +20,7 @@
   }
   &__title {
     @extend .headlineH2;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 }
 
@@ -29,7 +29,13 @@
   padding-bottom: 2em;
   .section__header {
     margin-top: 2em;
+    &.os-header {
+      @media only screen and (min-width: $breakpointDesktop) {
+        margin : 0;
+      }
+    }
   }
+
   &--optional {
     width: 17.5em;
     margin-left: auto;
@@ -43,6 +49,7 @@
     }
   }
 }
+
 
 // Tables
 .product, .total-line {

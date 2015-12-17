@@ -4,7 +4,8 @@
   }
 
   h2 {
-    display : none;
+    margin : 2em 0 0;
+    @include font-primary-medium-uppercase(1.3125em);
   }
 
   h3 {
