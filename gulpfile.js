@@ -165,7 +165,7 @@ gulp.task('serve', gulp.series('lab', function serve() {
       'source/_patterns/**/*.mustache',
       'source/_patterns/**/*.json',
       'source/_data/*.json'],
-    gulp.series('cp:data', 'patterns', function reload(cb) {
+    gulp.series('cp:data', 'patternlab', function reload(cb) {
       browserSync.reload();
       cb();
     }));
