@@ -1,10 +1,21 @@
 .logo {
   text-align:center;
+  height : 0.9em;
+  @media only screen and (min-width: $breakpointTablet) {
+    height : 1.25em;
+  }
 
   &__text {
     display:block;
     width:0;
     height:0;
     overflow:hidden;
+  }
+
+  .icon-logo {
+    font-size : 0.9em;
+    @media only screen and (min-width: $breakpointTablet) {
+      font-size : 1.19em;
+    }
   }
 }
