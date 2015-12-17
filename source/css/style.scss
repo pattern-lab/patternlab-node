@@ -2,6 +2,8 @@
 @import "scss/generic/mixins";
 @import "scss/generic/reset";
 
+@import "../_patterns/00-atoms/03-images/05-icons";
+
 @import "../_patterns/00-atoms/00-global/01-fonts";
 @import "../_patterns/00-atoms/00-global/00-colors";
 @import "../_patterns/00-atoms/00-global/03-visibility";
@@ -13,7 +15,6 @@
 @import "../_patterns/00-atoms/01-text/06-caption";
 @import "../_patterns/00-atoms/03-images/00-images";
 @import "../_patterns/00-atoms/03-images/00-logo";
-@import "../_patterns/00-atoms/03-images/05-icons";
 @import "../_patterns/00-atoms/04-forms/00-form-fields";
 @import "../_patterns/00-atoms/05-buttons/00-buttons";
 @import "../_patterns/00-atoms/06-badges/00-trusted-shops";
@@ -40,6 +41,7 @@
 @import "../_patterns/02-organisms/00-global/01-footer";
 @import "../_patterns/02-organisms/00-global/02-basic-layout";
 @import "../_patterns/02-organisms/01-components/00-carousel";
+@import "../_patterns/02-organisms/01-components/01-modal";
 @import "../_patterns/02-organisms/02-forms/01-fieldset";
 @import "../_patterns/02-organisms/02-forms/02-fieldset-inline";
 
