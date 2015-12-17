@@ -51,6 +51,10 @@
         max-width: none;
       }
 
+      @media only screen and (min-width: $maxWidthLayout) {
+        padding-right : 0;
+      }
+
       .order-summary {
         transition: margin-top $animationTimingLong;
 

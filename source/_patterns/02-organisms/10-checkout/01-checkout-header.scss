@@ -1,12 +1,20 @@
 .checkout {
   &__header {
+    margin-bottom : 0;
+    @media only screen and (min-width: $breakpointTablet) {
+      margin-bottom : 2em;
+    }
     .logo {
-      margin: 1.5em 0.75em
-
+      margin: 0.81em 0.75em;
+      @media only screen and (min-width: $breakpointTablet) {
+        margin: 1.5em 0.75em;
+      }
     }
 
     .divider {
-      margin-bottom:1.5em;
+      @media only screen and (min-width: $breakpointTablet) {
+        margin-bottom:1.5em;
+      }
     }
   }
 }
