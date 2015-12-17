@@ -1,8 +1,7 @@
 .checkout__priceSummaryFooter {
   text-align : right;
   border-top: 1px solid $colorBorder;
-  padding: 20px 0;
-  padding : 1.25em 3%;
+  padding : $checkoutSidebarVerticalPadding $checkoutSidebarHorizontalPadding;
   &--usp {
     ul {
       list-style-type: none;

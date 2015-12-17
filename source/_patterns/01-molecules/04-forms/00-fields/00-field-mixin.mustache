@@ -30,16 +30,16 @@
       {{> atoms-select(id: id || 'any_id', className: "field__input field__input--select") }}
     {{/ typeSelect }}
 
-    {{# message }}
-      <p class="field__message">{{ message }}</p>
-    {{/ message }}
-
-    {{# error }}
-      <p class="field__message field__message--error">{{ error }}</p>
-    {{/ error }}
-
-    {{# warning }}
-      <p class="field__message field__message--warning">{{ warning }}</p>
-    {{/ warning }}
   </div>
+  {{# message }}
+    <p class="field__message">{{ message }}</p>
+  {{/ message }}
+
+  {{# error }}
+    <p class="field__message field__message--error">{{ error }}</p>
+  {{/ error }}
+
+  {{# warning }}
+    <p class="field__message field__message--warning">{{ warning }}</p>
+  {{/ warning }}
 </div>

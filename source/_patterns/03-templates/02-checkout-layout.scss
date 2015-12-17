@@ -1,98 +1,96 @@
 .checkout {
-  min-height:100%;
+  min-height: 100%;
 
   @media only screen and (min-width: $breakpointDesktop) {
-    background:linear-gradient(to right, $colorWhite 60%,$colorAlabaster 60%);
+    background: linear-gradient(to right, $colorWhite 60%, $colorAlabaster 60%);
   }
 
   &__wrapper {
-    display:flex;
-    flex-flow:row wrap;
-    align-items:flex-start;
-    align-content:flex-start;
-    width:auto;
-    max-width:78.5714em;
-    margin:0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: auto;
+    max-width: 78.5714em;
+    margin: 0 auto;
     min-height: 100vh;
   }
 
   &__header-container {
-    display:block;
-    background:$colorWhite;
-    flex:1 100%;
+    display: block;
+    background: $colorWhite;
+    flex: 1 100%;
 
     @media only screen and (min-width: $breakpointDesktop) {
-      display:none;
+      display: none;
     }
   }
 
   &__sidebar {
-    flex:1 100%;
-    order:1;
-    background:$colorAlabaster;
-    border-bottom:1px solid $colorSilver;
+    flex: 1 100%;
+    order: 1;
+    background: $colorAlabaster;
+    border-bottom: 1px solid $colorSilver;
 
     @media only screen and (min-width: $breakpointDesktop) {
-      flex:0.4;
-      order:2;
-      border-left:1px solid $colorSilver;
+      flex: 0.4;
+      order: 2;
+      border-left: 1px solid $colorSilver;
       align-self: stretch;
-      border-bottom-width:0;
+      border-bottom-width: 0;
     }
 
     &-container {
-      overflow:hidden;
-      width:100%;
-      max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
-      margin:0 auto;
+      overflow: hidden;
+      width: 100%;
+      max-width: $maxTabletWidth;
+      margin: 0 auto;
+      padding: 0 $checkoutFlexiblePadding;
 
       @media only screen and (min-width: $breakpointDesktop) {
-        max-width:none;
+        max-width: none;
       }
 
       .order-summary {
-        transition:margin-top $animationTimingLong;
-        padding:0.75em;
+        transition: margin-top $animationTimingLong;
 
         &--is-collapsed {
-          margin-top:-200%;
+          margin-top: -200%;
         }
         &--is-expanded {
-          margin-top:0 !important;
+          margin-top: 0 !important;
         }
 
         @media only screen and (min-width: $breakpointDesktop) {
-          padding:1.5em;
-          margin-top:0 !important;
+          margin-top: 0 !important;
         }
       }
     }
   }
 
   &__content {
-    flex:1 100%;
-    order:2;
-    padding:1.5em 0.75em;
-    background:$colorWhite;
-    max-width:($breakpointTablet + (($breakpointDesktop - $breakpointTablet) / 2));
-    margin:0 auto;
+    flex: 1 100%;
+    order: 2;
+    background: $colorWhite;
+    max-width: $maxTabletWidth;
+    margin: 0 auto;
+    padding: 0 $checkoutFlexiblePadding;
 
     @media only screen and (min-width: $breakpointDesktop) {
-      flex:0.6;
-      min-height:100vh;
-      max-width:none;
-      padding:0 1.5em 1.5em;
-      order:1;
+      flex: 0.6;
+      min-height: 100vh;
+      max-width: none;
+      order: 1;
       display: flex;
       flex-flow: column nowrap;
     }
   }
 
   &__content &__header {
-    display:none;
+    display: none;
 
     @media only screen and (min-width: $breakpointDesktop) {
-      display:block;
+      display: block;
     }
   }
 

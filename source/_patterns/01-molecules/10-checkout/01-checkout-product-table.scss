@@ -3,57 +3,62 @@
     display: none
   }
 }
+
 .product {
   border-top: 1px solid $colorBorder;
-  &__image {
-    height: 90px;
-    &__inner {
-      position: relative;
-      width: 88px;
-      height: 88px;
-      line-height: 88px;
-      background: $colorWhite;
-      border: 1px solid $colorBorder;
+  & &{
+    &__image {
+      height: 90px;
+      width: calc(88px +  #{$checkoutSidebarHorizontalPadding} + 1em);
+      padding-left: $checkoutSidebarHorizontalPadding + .3em;
+      &__inner {
+        position: relative;
+        width: 88px;
+        height: 88px;
+        line-height: 88px;
+        background: $colorWhite;
+        border: 1px solid $colorBorder;
+      }
+      img {
+        line-height: 88px;
+        vertical-align: middle;
+      }
     }
-    img {
-      line-height: 88px;
-      vertical-align: middle;
-    }
-  }
-  &__quantity {
-    font-family : $fontSecondary;
-    display: block;
-    background-color: $colorBlack;
-    color: $colorTextInvert;
-    border-radius: 2em;
-    font-size: 0.85714em;
-    line-height: 2em;
-    width: 1.8em;
-    height: 1.8em;
-    font-weight: 500;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-  }
-  &__description {
-    vertical-align: middle;
-    font-family : $fontSecondary;
-    &__name,
-    &__variant {
+    &__quantity {
+      font-family: $fontSecondary;
       display: block;
+      background-color: $colorBlack;
+      color: $colorTextInvert;
+      border-radius: 2em;
+      font-size: 0.85714em;
+      line-height: 2em;
+      width: 1.8em;
+      height: 1.8em;
+      font-weight: 500;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      text-align: center;
+      transform: translate(-50%, -50%);
     }
-    &__name {
-      @include font-primary-medium-lowercase();
-      margin-bottom : 0.25em;
-      letter-spacing : 0;
+    &__description {
+      vertical-align: middle;
+      font-family: $fontSecondary;
+      &__name,
+      &__variant {
+        display: block;
+      }
+      &__name {
+        @include font-primary-medium-lowercase();
+        margin-bottom: 0.25em;
+        letter-spacing: 0;
+      }
     }
-  }
-  &__price {
-    font-family : $fontSecondary;
-    vertical-align: middle;
-    text-align: right;
-    padding-right : 3%;
+    &__price {
+      font-family: $fontSecondary;
+      vertical-align: middle;
+      text-align: right;
+      padding-right: $checkoutSidebarHorizontalPadding;
+    }
   }
 }

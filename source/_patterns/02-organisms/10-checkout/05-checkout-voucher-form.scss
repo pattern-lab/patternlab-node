@@ -1,21 +1,14 @@
-.order-summary__section--discount {
+.order-summary__section--discount,
+.section--reductions {
   .fieldset {
     overflow: hidden;
-    margin: 0 -0.45em;
+    margin: 0;
+    width: 100%;
   }
   .field {
-    transition: margin-top $animationTimingNormal, opacity $animationTimingNormal;
-    opacity: 0;
-    overflow: hidden;
-    margin-top: -121px;
-
-    &--expanded {
-      opacity: 1;
-      margin-top: 0 !important;
-    }
     &__input {
       &-wrapper {
-        margin: 0 0.9em 0  0;
+        margin: 0 0.9em 0 0;
         flex: 2 0;
         @media only screen and (max-width: 400px) {
           margin-bottom: 0.75em;
@@ -23,7 +16,6 @@
       }
       &-btn {
         &-wrapper {
-          margin-top: 1em;
           display: flex;
           flex-direction: column;
 
@@ -35,10 +27,25 @@
       }
     }
   }
+}
 
-  .checkout__voucherField--label {
+.order-summary__section--discount {
+  @media only screen and (max-width: $breakpointTabletEnd) {
+    display: none !important;
+  }
+  .field {
+    transition: margin-top $animationTimingNormal, opacity $animationTimingNormal;
+    overflow: hidden;
+    &:not(.field--collapsed) {
+      margin-top: 0 !important;
+    }
+    &--collapsed {
+      opacity: 0;
+    }
+  }
+  .checkout__voucherField-label {
     position: relative;
-    @include icon(chevron-down);
+    @include icon(chevron-up);
     font-family: $fontSecondary;
     cursor: pointer;
     padding: 1em 0 1em 1.25em;
@@ -51,9 +58,14 @@
       margin-top: -.05em;
     }
 
-    &--expanded {
-      @include icon(chevron-up);
+    &--collapsed {
+      @include icon(chevron-down);
     }
+
+    + .fieldset .field__input-btn-wrapper {
+      margin-top: 1em;
+    }
+
   }
 
 }

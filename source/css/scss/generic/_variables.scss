@@ -40,8 +40,13 @@ $fontSizeLarge: 1.4375em;
 
 $lineHeightNormal: 1.625em;
 
+$checkoutSidebarHorizontalPadding: 0.7em;
+$checkoutSidebarVerticalPadding: 1.25em;
+$checkoutFlexiblePadding: calc(100vw * .035);
+
 //Layout
 $maxWidthLayout: 1500px;
+$maxTabletWidth: 700px;
 $widthOffCanvasA: 230px;
 $widthOffCanvasB: 512px;
 

@@ -54,10 +54,10 @@
     background: transparent;
     &--select {
       line-height: 1.4em;
-      padding-bottom: 0.375em!important;
+      padding-bottom: 0.375em !important;
       position: relative;
     }
-    .field--show-floating-label &{
+    .field--show-floating-label & {
       padding-top: 1.5em;
       padding-bottom: 0.275em;
     }
@@ -67,10 +67,16 @@
     }
   }
   &__message {
-    font-family: $fontPrimary;
-    font-weight: 300;
-    font-size: 0.85714em;
-    margin: 0.75em 0 0.25em;
+    &,
+    &--warning {
+      font-family: $fontPrimary;
+      font-weight: 300;
+      font-size: 0.85714em;
+      margin: 0.75em 0.575em 0.25em;
+      & + & {
+        margin-top: 0;
+      }
+    }
     &--error {
       display: none;
       color: $colorError;
@@ -79,6 +85,7 @@
         display: block;
       }
     }
+
   }
   &--show-floating-label,
   &__input-wrapper--select {

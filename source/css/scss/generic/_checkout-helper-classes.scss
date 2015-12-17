@@ -1,3 +1,11 @@
+.hidden {
+  display: none;
+}
+
+.hidden-on-desktop {
+  @extend .hide--desktop;
+}
+
 .btn {
   @extend .button;
 }
@@ -16,21 +24,24 @@
   }
 }
 
-.section--payment-method + .section--optional {
-  width: 17.5em;
-  margin-left: auto;
-  .checkbox-wrapper {
-    padding: 0;
+
+.section {
+  padding-bottom: 2em;
+  .section__header {
+    margin-top: 2em;
   }
-}
-
-.section,
-.content-box {
-  margin-bottom: 4em;
-}
-
-.checkout__header {
-  margin-bottom: 2em;
+  &--optional {
+    width: 17.5em;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 0;
+    @media only screen and (min-width: $breakpointTablet) {
+      margin-right: 0;
+      .checkbox-wrapper {
+        padding-left: 0;
+      }
+    }
+  }
 }
 
 // Tables
@@ -41,9 +52,14 @@
 
   &__image, &__description {
     @extend .table__cell;
-    padding : 1.25em 3%;
+    padding : 1.25em 0;
     width: auto;
   }
+
+  &:first-child {
+    border: none;
+  }
+
 }
 
 

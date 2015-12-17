@@ -18,10 +18,13 @@
     @include font-primary-medium-uppercase();
     font-size : 0.75rem;
     margin-bottom : 1em;
+    margin-top: 1em;
+    display: inline-block;
     a {
       border-bottom-color: inherit;
     }
     @media only screen and (min-width: $breakpointTablet) {
+      margin-top: 0;
       text-align : left;
     }
   }

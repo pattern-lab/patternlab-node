@@ -1,22 +1,26 @@
 .order-summary__section {
   border-top: 1px solid $colorBorder;
-  padding: 1.25em 3%;
+  padding: $checkoutSidebarVerticalPadding $checkoutSidebarHorizontalPadding;
+  &--product-list {
+    padding: 0;
+  }
 }
+
 .total-line-table {
   thead {
     display: none
   }
   td {
     border: none;
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
+    padding: 0.25em 0;
   }
 }
+
 .total-line {
   line-height: 1em;
   &__price {
     text-align: right;
-    font-family : $fontSecondary;
+    font-family: $fontSecondary;
   }
   &__name,
   &__price {
@@ -25,11 +29,11 @@
       font-size: 1.3125em;
     }
     .order-summary__small-text {
-      font-family : $fontSecondary;
-      text-transform : none;
-      letter-spacing : 0;
-      font-size : 14px;
-      line-height : 2em;
+      font-family: $fontSecondary;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 14px;
+      line-height: 2em;
     }
     .payment-due__currency {
       display: none;
@@ -37,18 +41,19 @@
   }
   &__name {
     @include font-primary-medium-lowercase();
-    letter-spacing : 0;
-    text-transform : none;
+    letter-spacing: 0;
+    text-transform: none;
   }
 }
 
 .applied-reduction-code {
   font-weight: 300;
-  font-size : 0.875em;
+  font-size: 0.875em;
   svg {
     display: none;
   }
 }
+
 .applied-reduction-code__clear-button {
   @include icon('x-small');
   appearance: none;
@@ -62,6 +67,6 @@
   margin-left: -0.5em;
 
   &:before {
-    color : $colorError;
+    color: $colorError;
   }
 }

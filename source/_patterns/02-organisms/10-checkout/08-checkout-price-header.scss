@@ -3,7 +3,10 @@
   flex-direction : row;
   align-items : center;
   justify-content : space-between;
-  padding : 1.25em 3% 1.25em 0;
+  padding : $checkoutSidebarVerticalPadding$checkoutSidebarHorizontalPadding;
+  background: $colorAlabaster;
+  position: relative;
+  z-index: 2;
 
   &--usp {
     text-align : right;

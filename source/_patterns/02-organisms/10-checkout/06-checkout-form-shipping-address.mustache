@@ -8,9 +8,9 @@
   <div class="section__content">
     <div class="fieldset">
       {{> molecules-field-mixin(typeText: true,  id: '4234234234234', label : 'First name',  styleModifier: 'field--half' ) }}
-      {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Last name',  styleModifier: 'field--half' ) }}
+      {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Last name',  styleModifier: 'field--half field--error', error: 'Phasellus pharetra mauris molestie arcu rutrum porttitor.' ) }}
       {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Company') }}
-      {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Address') }}
+      {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Address', message: 'Curabitur eu aliquam risus. Aliquam vitae fermentum neque.' ) }}
       {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'City') }}
       {{> molecules-field-mixin(typeSelect: true,  id: '3333234234', label : 'Country',  styleModifier: 'field--half field--show-floating-label' ) }}
       {{> molecules-field-mixin(typeText: true,  id: '3333234234', label : 'Postal code',  styleModifier: 'field--half' ) }}
@@ -18,3 +18,4 @@
     </div>
   </div>
 </div>
+

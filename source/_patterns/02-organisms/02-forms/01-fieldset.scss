@@ -17,6 +17,12 @@
       &--quarter {
         flex: 0 1 25%;
       }
+      &--two-thirds {
+        flex: 0 1 66.6667%;
+      }
+      &--third {
+        flex: 0 1 33.333%;
+      }
     }
   }
 }
