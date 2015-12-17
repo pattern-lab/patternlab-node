@@ -1,0 +1,51 @@
+.icon--question {
+  @include icon('help');
+  &:before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.has-tooltip {
+  cursor: pointer;
+}
+
+.tooltip {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 80%;
+  right: -0.33333em;
+  width: 180px;
+  margin: 0 0 5px 0;
+  padding: 0.75em 1em;
+  border-radius: 4px;
+  white-space: normal;
+  font-size: 0.85714em;
+  font-style: normal;
+  text-align: center;
+  display: block;
+  z-index: 200;
+  transition: all 0.3s cubic-bezier(0.3, 0, 0, 1);
+  transform: rotateX(20deg) scale(0.8);
+  transform-origin: 90% 120%;
+  background-color: $colorGallery;
+  visibility: hidden;
+  opacity: 0;
+  &:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 18px;
+    width: 0;
+    border: 6px solid transparent;
+    border-top-color: $colorGallery;
+  }
+  .has-tooltip:focus & {
+    transform: rotateX(0deg) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
+  }
+}

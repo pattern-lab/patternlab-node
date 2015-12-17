@@ -45,4 +45,10 @@
       }
     }
   }
+
+  &__row {
+    &--secondary {
+      background: $colorAlabaster;
+    }
+  }
 }

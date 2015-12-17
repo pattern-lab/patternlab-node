@@ -56,29 +56,32 @@
 	@if $filename == hamburgerMenu {
 		$char: "\E00A";
 	}
-	@if $filename == logo {
+	@if $filename == help {
 		$char: "\E00B";
 	}
-	@if $filename == minus {
+	@if $filename == logo {
 		$char: "\E00C";
 	}
-	@if $filename == plus {
+	@if $filename == minus {
 		$char: "\E00D";
 	}
-	@if $filename == x-large {
+	@if $filename == plus {
 		$char: "\E00E";
 	}
-	@if $filename == x-small {
+	@if $filename == x-large {
 		$char: "\E00F";
 	}
-	@if $filename == facebook {
+	@if $filename == x-small {
 		$char: "\E010";
 	}
-	@if $filename == instagram {
+	@if $filename == facebook {
 		$char: "\E011";
 	}
-	@if $filename == twitter {
+	@if $filename == instagram {
 		$char: "\E012";
+	}
+	@if $filename == twitter {
+		$char: "\E013";
 	}
 
 	@return $char;
@@ -124,6 +127,9 @@
 }
 .icon-hamburgerMenu {
 	@include icon(hamburgerMenu);
+}
+.icon-help {
+	@include icon(help);
 }
 .icon-logo {
 	@include icon(logo);

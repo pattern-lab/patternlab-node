@@ -30,6 +30,11 @@
       {{> atoms-select(id: id || 'any_id', className: "field__input field__input--select") }}
     {{/ typeSelect }}
 
+
+  {{# tooltipText }}
+    {{> atoms-checkout-tooltip(tooltipText: tooltipText, icon: tooltipIcon || 'question') }}
+  {{/ tooltipText }}
+
   </div>
   {{# message }}
     <p class="field__message">{{ message }}</p>
