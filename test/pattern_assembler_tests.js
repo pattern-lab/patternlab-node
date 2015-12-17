@@ -319,6 +319,41 @@
 			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
+		'processPatternRecursive - correctly replaces multiple stylemodifier classes on same partial' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
+
+			var pl = {};
+			pl.config = {};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+			pl.config.patterns = { source: patterns_dir};
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+			atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+
+			var groupPattern = new object_factory.oPattern('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', '00-test', '10-multiple-classes-numeric.mustache');
+			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/10-multiple-classes-numeric.mustache', 'utf8');
+			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
+			groupPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(groupPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(groupPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', pl, {});
+
+			//assert
+			var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
+			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+			test.done();
+		},
 		'processPatternRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier' : function(test){
 			//arrange
 			var fs = require('fs-extra');
