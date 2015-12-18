@@ -7,6 +7,7 @@
   }
   .field {
     &__input {
+      border-color: $colorSilver;
       &-wrapper {
         margin: 0 0.9em 0 0;
         flex: 2 0;
@@ -15,6 +16,8 @@
         }
       }
       &-btn {
+        background-color: $colorSilver;
+        border-color: $colorSilver;
         &-wrapper {
           display: flex;
           flex-direction: column;
@@ -77,6 +80,7 @@
 }
 
 .section--reductions {
+
   .content-box {
     &__row {
       margin-top: 1em;
@@ -90,5 +94,8 @@
       font-family: $fontSecondary;
       font-size: 1.125em;
     }
+  }
+  .section__title {
+    display: none;
   }
 }
