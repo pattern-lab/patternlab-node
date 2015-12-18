@@ -2,6 +2,9 @@ THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
 PL-node-v1.0.1
 - FIX: Fix issue where partials containing styleModifiers with integers were not found correctly under all circumstances
+- FIX: Fix issue where excluded patterns were still rendered on the Pattern Lab site. Now they do not directly get rendered via the menu, view all links, or the styleguide, but are accessible for inclusion as pattern partials, and can be accessed via lineage.
+- THX: Thanks @theorise for reporting these issues.
+- THX: Thanks @dmolsen for input on desired behavior.
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.

@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.0 - 2015 
+ * patternlab-node - v1.0.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -124,6 +124,7 @@ var patternlab_engine = function () {
 
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
+
       //render the pattern, but first consolidate any data we may have
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
@@ -165,15 +166,24 @@ var patternlab_engine = function () {
     // check if patterns are excluded, if not add them to styleguidePatterns
     if (styleGuideExcludes.length) {
         for (i = 0; i < patternlab.patterns.length; i++) {
-            var key = patternlab.patterns[i].key;
-            var typeKey = key.substring(0, key.indexOf('-'));
-            var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
-            if (!isExcluded) {
-                styleguidePatterns.push(patternlab.patterns[i]);
+
+          // skip underscore-prefixed files
+          if(isPatternExcluded(patternlab.patterns[i])){
+            if(patternlab.config.debug){
+              console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
             }
+            continue;
+          }
+
+          var key = patternlab.patterns[i].key;
+          var typeKey = key.substring(0, key.indexOf('-'));
+          var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
+          if (!isExcluded) {
+              styleguidePatterns.push(patternlab.patterns[i]);
+          }
         }
     } else {
-        styleguidePatterns = patternlab.patterns;
+      styleguidePatterns = patternlab.patterns;
     }
 
     //build the styleguide
@@ -187,7 +197,10 @@ var patternlab_engine = function () {
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       // skip underscore-prefixed files
-      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
+      if(isPatternExcluded(patternlab.patterns[i])){
+        if(patternlab.config.debug){
+          console.log('Omitting ' + patternlab.patterns[i].key + " from view all rendering.");
+        }
         continue;
       }
 
@@ -203,6 +216,14 @@ var patternlab_engine = function () {
 
         for (j = 0; j < patternlab.patterns.length; j++) {
           if (patternlab.patterns[j].subdir === pattern.subdir) {
+            //again, skip any sibling patterns to the current one that may have underscores
+            if(isPatternExcluded(patternlab.patterns[j])){
+              if(patternlab.config.debug){
+                console.log('Omitting ' + patternlab.patterns[j].key + " from view all sibling rendering.");
+              }
+              continue;
+            }
+
             viewAllPatterns.push(patternlab.patterns[j]);
           }
         }
@@ -231,10 +252,6 @@ var patternlab_engine = function () {
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
     for(var i = 0; i < patternlab.patterns.length; i++){
-      // skip underscore-prefixed files
-      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
-        continue;
-      }
 
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
@@ -242,6 +259,12 @@ var patternlab_engine = function () {
       //check if the bucket already exists
       var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
       if(bucketIndex === -1){
+
+        // skip underscore-prefixed files. don't create a bucket on account of an underscored pattern
+        if(isPatternExcluded(pattern)){
+          continue;
+        }
+
         //add the bucket
         var bucket = new of.oBucket(bucketName);
 
@@ -333,6 +356,11 @@ var patternlab_engine = function () {
         //if it is flat - we should not add the pattern to patternPaths
         if(flatPatternItem){
 
+          // skip underscore-prefixed files
+          if(isPatternExcluded(pattern)){
+            continue;
+          }
+
           //add the navItem to patternItems
           bucket.patternItems.push(navSubItem);
 
@@ -340,23 +368,27 @@ var patternlab_engine = function () {
           addToPatternPaths(bucketName, pattern);
 
         } else{
-          //check to see if navItem exists
-          var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
-          if(navItemIndex === -1){
 
-            var navItem = new of.oNavItem(navItemName);
+          // only do this if pattern is included
+          if(!isPatternExcluded(pattern)){
+            //check to see if navItem exists
+            var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
+            if(navItemIndex === -1){
 
-            //add the navItem and navSubItem
-            navItem.navSubItems.push(navSubItem);
-            navItem.navSubItemsIndex.push(navSubItemName);
-            bucket.navItems.push(navItem);
-            bucket.navItemsIndex.push(navItemName);
+              var navItem = new of.oNavItem(navItemName);
 
-          } else{
-            //add the navSubItem
-            var navItem = bucket.navItems[navItemIndex];
-            navItem.navSubItems.push(navSubItem);
-            navItem.navSubItemsIndex.push(navSubItemName);
+              //add the navItem and navSubItem
+              navItem.navSubItems.push(navSubItem);
+              navItem.navSubItemsIndex.push(navSubItemName);
+              bucket.navItems.push(navItem);
+              bucket.navItemsIndex.push(navItemName);
+
+            } else{
+              //add the navSubItem
+              var navItem = bucket.navItems[navItemIndex];
+              navItem.navSubItems.push(navSubItem);
+              navItem.navSubItemsIndex.push(navSubItemName);
+            }
           }
 
           //add the navViewAllSubItem
@@ -412,6 +444,12 @@ var patternlab_engine = function () {
   function addToPatternPaths(bucketName, pattern){
     //this is messy, could use a refactor.
     patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
+  }
+
+  //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
+  function isPatternExcluded(pattern){
+    // returns whether or not the first character of the pattern filename is an underscore, or excluded
+    return pattern.fileName.charAt(0) === '_';
   }
 
   return {
