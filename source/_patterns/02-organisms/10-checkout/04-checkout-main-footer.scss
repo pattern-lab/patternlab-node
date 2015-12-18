@@ -3,6 +3,7 @@
   margin-top : 1em;
   @media only screen and (min-width: $breakpointTablet) {
     border-top : 1px solid $colorSilver;
+    margin-bottom : 1em;
   }
 
   &__item {
