@@ -4,7 +4,7 @@
   outline: none;
   border: 1px solid $colorBlack;
   padding: 1em 2em;
-  line-height: normal;
+  line-height: 1.85em;
   font-size: 0.75em;
   font-weight: 300;
   text-align: center;
@@ -16,6 +16,7 @@
   color: white;
   transition-duration: 500ms;
   transition-timing-function: ease-in;
+  vertical-align: middle;
   &:hover {
     background-color: $colorTussock;
     transition-timing-function: ease-out;
@@ -29,19 +30,17 @@
     border: none;
     padding: 0;
   }
-}
 
-.button__primary {
-  @extend .button;
-  width : 100%;
-  padding: 1em 1em;
-  @media only screen and (min-width: 414px) {
-    width: 280px;
+  &--primary {
+    width : 100%;
+    padding: 1em 1em;
+    @media only screen and (min-width: 414px) {
+      width: 280px;
+    }
   }
-}
 
-.button__secondary {
-  @extend .button, .button__primary;
-  background-color: $colorNevada;
-  border: 1px solid $colorNevada;
+  &--secondary {
+    background-color: $colorNevada;
+    border: 1px solid $colorNevada;
+  }
 }
