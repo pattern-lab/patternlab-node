@@ -77,12 +77,18 @@
 }
 
 .section--reductions {
-  .content-box__row {
-    margin-top: 1em;
-    .edit_checkout {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
+  .content-box {
+    &__row {
+      margin-top: 1em;
+      .edit_checkout {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+      }
+    }
+    &__emphasis {
+      font-family: $fontSecondary;
+      font-size: 1.125em;
     }
   }
 }
