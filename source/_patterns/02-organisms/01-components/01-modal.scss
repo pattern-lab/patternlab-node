@@ -32,7 +32,7 @@
     border-bottom: 3px solid $colorBlack;
 
     &__title {
-      padding: 0.75em;
+      padding: 0.75em 0.75em 0.75em 1em;
       flex: 1;
     }
   }
@@ -57,7 +57,11 @@
   &__content {
     overflow-y: auto;
     flex: 1;
-    padding: 0.75em;
+    padding: 0 1em 0 0;
+    margin: 1em;
+    p + p {
+      margin-top: 1em;
+    }
   }
 
   &__loading-icon {
