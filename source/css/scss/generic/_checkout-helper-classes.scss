@@ -8,6 +8,32 @@
 
 .btn {
   @extend .button;
+  // taken from shopify checkout css
+  // start
+  &__content {
+    transition: opacity 0.3s ease-in-out 0s;
+  }
+  &--loading {
+    cursor: default;
+    pointer-events: none;
+    .btn__content {
+      opacity: 0;
+    }
+    .btn__spinner {
+      animation: 0.5s linear 0s normal none infinite running rotate;
+      opacity: 1;
+    }
+  }
+  &__spinner {
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transition: opacity 0.3s ease-in-out 0s;
+  }
+  // end
 }
 
 .step__footer__continue-btn {
@@ -15,6 +41,7 @@
 }
 
 .section {
+  padding-bottom: 2em;
   &__header {
     margin-bottom: 1.25em;
   }
@@ -22,20 +49,14 @@
     @extend .headlineH2;
     margin-bottom: 0.5em;
   }
-}
-
-
-.section {
-  padding-bottom: 2em;
-  .section__header {
+  &__header {
     margin-top: 2em;
     &.os-header {
       @media only screen and (min-width: $breakpointDesktop) {
-        margin : 0;
+        margin: 0;
       }
     }
   }
-
   &--optional {
     width: 17.5em;
     margin-left: auto;
@@ -62,14 +83,23 @@
 
   &__image, &__description {
     @extend .table__cell;
-    padding : 1.25em 0;
+    padding: 1.25em 0;
     width: auto;
   }
 
   &:first-child {
     border: none;
   }
+}
 
+.content-box {
+  &__row {
+    & + & {
+      .radio-wrapper {
+        border-top: none;
+      }
+    }
+  }
 }
 
 
