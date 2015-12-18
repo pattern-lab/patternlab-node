@@ -1,8 +1,19 @@
 .checkout__travelAssistant {
-    max-width : 280px;
     text-align : center;
+    margin: 2em auto;
+    font-family : $fontSecondary;
 
-    .headlineH6 {
-        margin-bottom : 1.875em;
+    @media only screen and (min-width: $breakpointTablet) {
+        margin-right : 0;
+        max-width : 280px;
+    }
+
+    &Text {
+        max-width : 280px;
+        margin : auto;
+    }
+
+    .button__primary {
+        margin-top : 1em;
     }
 }

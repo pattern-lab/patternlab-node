@@ -1,4 +1,4 @@
 <div class="checkout__travelAssistant">
-    <h6 class="headlineH6">{{headline.medium}}</h6>
-    <button class="button button--primary">Primary Button</button>
+    <div class="checkout__travelAssistantText">{{ text || headline.medium || 'LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.' }}</div>
+    <button class="button--primary">{{ textButton || headline.mini || 'Primary Button' }}</button>
 </div>
