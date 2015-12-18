@@ -1,8 +1,4 @@
 .breadcrumb {
-  display : none;
-  @media only screen and (min-width : $breakpointDesktop) {
-    display : block;
-  }
   &__item {
     font-family : $fontPrimary;
     font-size : 0.75rem;
