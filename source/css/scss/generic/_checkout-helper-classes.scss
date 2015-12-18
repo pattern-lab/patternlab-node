@@ -50,6 +50,9 @@
   }
 }
 
+.icon--spinner {
+  animation: rotate 0.5s linear infinite;
+}
 
 // Tables
 .product, .total-line {
