@@ -74,5 +74,15 @@
     }
 
   }
+}
 
+.section--reductions {
+  .content-box__row {
+    margin-top: 1em;
+    .edit_checkout {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+  }
 }
