@@ -4,9 +4,12 @@
     flex-flow: row nowrap;
     align-items: baseline;
     font-weight: 300;
-    padding: 1.3em 1em;
+    margin-bottom : -2em;
     & + & {
-      padding-top: 0
+      padding-top: 0;
+    }
+    @media only screen and (min-width: $breakpointTablet) {
+
     }
   }
 
