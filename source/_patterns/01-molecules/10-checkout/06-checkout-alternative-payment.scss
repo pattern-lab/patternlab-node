@@ -1,0 +1,8 @@
+.alt-payment-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 2em 0 0 0;
+  @media only screen and (min-width : $breakpointDesktop) {
+    margin-top: 0;
+  }
+}

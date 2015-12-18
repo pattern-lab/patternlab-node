@@ -7,7 +7,7 @@
 
     <div role="main" class="checkout__content">
       {{> organisms-checkout-header(show_breadcrumbs: true, breadcrumbText_first: 'Cart', breadcrumbText_second: 'Customer information', breadcrumbText_third: 'Shipping method', breadcrumbText_fourth: 'Payment method') }}
-
+      {{> molecules-checkout-alternative-payment }}
       {{> organisms-checkout-form-customer-information }}
       {{> organisms-checkout-form-shipping-address }}
       {{> molecules-checkout-step-footer-next(prevLinkText: 'Return to cart', nextButtonText: 'Continue to shipping method') }}
