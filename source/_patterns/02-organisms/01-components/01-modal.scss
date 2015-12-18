@@ -1,60 +1,62 @@
 .modal {
-  display:flex;
-  flex-flow:column nowrap;
-  position:relative;
-  background:$colorWhite;
-  width:33.3333%;
-  margin:0 auto;
-  max-height:100%;
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
+  background: $colorWhite;
+  margin: 0 auto;
+  width: 66.66%;
+  max-height: 60%;
+  min-width: 280px;
+  max-width: 680px;
 
   &-backdrop {
-    position:fixed;
-    display:none;
-    background:$colorBackDrop;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    z-index:9999;
+    position: fixed;
+    display: none;
+    background: $colorBackDrop;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
 
     &--is-visible {
-      display:flex;
-      flex-flow:row nowrap;
-      align-items:center;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
     }
   }
 
   &__header {
-    display:flex;
-    flex:none;
-    border-bottom:3px solid $colorBlack;
+    display: flex;
+    flex: none;
+    border-bottom: 3px solid $colorBlack;
 
     &__title {
-      padding:0.75em;
-      flex:1;
+      padding: 0.75em;
+      flex: 1;
     }
   }
 
   &__close {
-    flex:none;
-    padding:0.75em;
-    padding-left:0;
+    flex: none;
+    padding: 0.75em;
+    padding-left: 0;
 
     .icon--close-modal {
       @include icon('x-large');
-      background:transparent;
-      padding:0;
-      margin:-4px 0;
-      border:0 none;
-      float:right;
-      cursor:pointer;
-      font-size:20px;
+      background: transparent;
+      padding: 0;
+      margin: -4px 0;
+      border: 0 none;
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
     }
   }
 
   &__content {
-    overflow-y:auto;
-    flex:1;
-    padding:0.75em;
+    overflow-y: auto;
+    flex: 1;
+    padding: 0.75em;
   }
 }
