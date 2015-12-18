@@ -1,19 +1,25 @@
 .checkout__travelAssistant {
-    text-align : center;
-    margin: 2em auto;
-    font-family : $fontSecondary;
+    display : none;
 
-    @media only screen and (min-width: $breakpointTablet) {
-        margin-right : 0;
-        max-width : 280px;
-    }
+    .page--thank-you & {
+        display : block;
+        text-align : center;
+        margin: 2em auto;
+        font-family : $fontSecondary;
 
-    &Text {
-        max-width : 280px;
-        margin : auto;
-    }
+        @media only screen and (min-width: $breakpointTablet) {
+            margin-right : 0;
+            max-width : 280px;
+        }
 
-    .button__primary {
-        margin-top : 1em;
+        &Text {
+            max-width : 280px;
+            margin : auto;
+        }
+
+        .button__primary {
+            margin-top : 1em;
+        }
     }
 }
+
