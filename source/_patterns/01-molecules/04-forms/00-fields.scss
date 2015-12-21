@@ -17,6 +17,7 @@
         border-left: 1px solid $colorBorder;
         pointer-events: none;
         position: absolute;
+        z-index: 1;
       }
     }
   }
