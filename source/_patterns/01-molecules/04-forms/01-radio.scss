@@ -33,3 +33,7 @@
   }
 }
 
+.radio-group__row {
+  @extend .radio-wrapper;
+}
+
