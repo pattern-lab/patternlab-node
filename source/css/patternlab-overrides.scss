@@ -1,0 +1,26 @@
+@import "scss/generic/variables";
+
+.sg-pattern-body {
+  position: relative;
+}
+
+@media only screen and (max-width: $breakpointTabletEnd) {
+  .navigation--primary {
+    position: absolute;
+  }
+}
+
+.modal-backdrop,
+.full-page-overlay,
+.header--sticky {
+  position: absolute;
+}
+
+.sg-pattern-body {
+  &--checkout-full-page-overlay,
+  &--modal,
+  &--header{
+    height: 600px;
+    background: $colorGallery url('../images/placeholder-background.png');
+  }
+}
