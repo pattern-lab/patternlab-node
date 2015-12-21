@@ -26,6 +26,19 @@ select {
   text-transform: none;
 }
 
+input[type=text]
+input[type=password]
+input[type=search]
+input[type=number]
+input[type=time]
+input[type=email]
+input[type=url],
+input[type=tel],
+textarea,
+select {
+  appearance: none;
+}
+
 ::-ms-expand{
   display:none;
 }
