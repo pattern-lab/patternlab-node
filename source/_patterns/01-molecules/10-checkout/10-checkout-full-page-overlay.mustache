@@ -1,0 +1,24 @@
+<div class="full-page-overlay">
+  <div class="full-page-overlay__wrap">
+    <div class="full-page-overlay__content">
+      <div class="shown-if-js">
+        <svg class="full-page-overlay__icon icon icon--spinner" xmlns="http://www.w3.org/2000/svg" width="66"
+             height="66" viewBox="-270 364 66 66">
+          <path
+              d="M-237 428c-17.1 0-31-13.9-31-31s13.9-31 31-31v-2c-18.2 0-33 14.8-33 33s14.8 33 33 33 33-14.8 33-33h-2c0 17.1-13.9 31-31 31z"></path>
+        </svg>
+        <h2 class="full-page-overlay__title">Redirecting…</h2>
+        <p class="full-page-overlay__text">Please wait while we redirect you.</p>
+      </div>
+      <div class="hidden-if-js">
+        <h2 class="full-page-overlay__title">Complete your purchase</h2>
+        <p class="full-page-overlay__text">Continue to the payment gateway to enter your payment information.</p>
+        <form id="payment-form" action="https://www.directebanking.com/payment/start" accept-charset="UTF-8"
+              method="post" class="animate-floating-labels">
+          <input type="submit" value="Continue to the payment gateway"
+                 class="full-page-overlay__btn btn btn--default hidden-if-js">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

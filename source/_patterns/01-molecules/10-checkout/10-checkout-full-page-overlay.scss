@@ -1,0 +1,50 @@
+.full-page-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  background: $colorWhite;
+  color: $colorText;
+
+  &__wrap {
+    margin: auto;
+    width: 100%;
+    padding: 10% 0
+  }
+
+  &__content {
+    margin: 0 auto;
+    max-width: 30em;
+    zoom: 1;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    &:after,
+    &:before {
+      content: "";
+      display: table;
+    }
+
+    &:after {
+      clear: both;
+    }
+  }
+
+  &__icon {
+    margin-bottom: 1.5em;
+  }
+
+  &__title {
+    margin-bottom: 0.5em;
+  }
+
+  &__btn {
+    margin-top: 1em;
+  }
+}

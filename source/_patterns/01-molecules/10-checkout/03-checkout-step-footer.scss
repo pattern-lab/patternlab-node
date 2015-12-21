@@ -36,13 +36,14 @@
     @include icon('chevron-left');
     position : relative;
     padding-left : 1.25em;
-    padding-top: .3em;
     &:before {
       font-size : 1rem;
       position : absolute;
       top : 50%;
       left : 0;
-      transform: translateY(-40%);
+      margin-top: -.075em;
+      transform: translateY(-50%);
+      vertical-align: middle;
     }
     .icon--chevron {
       display : none;

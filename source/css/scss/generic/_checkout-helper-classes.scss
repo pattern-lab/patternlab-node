@@ -1,5 +1,7 @@
-.hidden {
-  display: none;
+.hidden,
+.no-js .shown-if-js,
+.js .hidden-if-js {
+  display: none
 }
 
 .hidden-on-desktop {
@@ -70,6 +72,11 @@
     }
   }
 }
+
+.full-page-overlay__title {
+  @extend .headlineH2;
+}
+
 
 .icon--spinner {
   animation: rotate 0.5s linear infinite;
