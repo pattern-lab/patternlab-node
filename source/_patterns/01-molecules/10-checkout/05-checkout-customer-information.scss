@@ -20,14 +20,13 @@
     @media only screen and (min-width: $breakpointTablet) {
       display : flex;
       flex-direction : row;
+      flex-wrap : nowrap;
       justify-content : space-between;
     }
 
     &__column--half {
       @media only screen and (min-width: $breakpointTablet) {
-        display : inline-block;
-        vertical-align : top;
-        min-width : 17.5em;
+        flex-basis: 17.5em;
       }
     }
   }
