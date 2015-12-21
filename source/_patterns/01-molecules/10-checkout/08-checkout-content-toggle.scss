@@ -2,12 +2,15 @@
   display: block;
   width: 100%;
   background: $colorAlabaster;
-  border: 0 solid $colorSilver;
-  border-top-width: 1px;
+  border : none;
   cursor: pointer;
   line-height: 1.5em;
   font-family: $fontPrimary;
   font-size: $fontSizeSlightlyLarger;
+
+  @media only screen and (min-width: $breakpointTablet) {
+    border-top: 1px solid $colorSilver;
+  }
 
   &:focus {
     outline: none;
