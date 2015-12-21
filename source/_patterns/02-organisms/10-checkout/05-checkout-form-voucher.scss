@@ -21,6 +21,7 @@
       &-btn {
         background-color: $colorSilver;
         border-color: $colorSilver;
+        min-height: none;
         &-wrapper {
           display: flex;
           flex-flow: column nowrap;
