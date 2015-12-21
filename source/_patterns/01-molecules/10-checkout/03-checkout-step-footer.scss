@@ -41,9 +41,12 @@
       position : absolute;
       top : 50%;
       left : 0;
-      margin-top: -.075em;
       transform: translateY(-50%);
       vertical-align: middle;
+      margin-top: -2px;
+      @media only screen and (min-width: $breakpointTablet) {
+        margin-top: -1px;
+      }
     }
     .icon--chevron {
       display : none;
