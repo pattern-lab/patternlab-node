@@ -18,6 +18,10 @@ header, footer, nav, section, article, hgroup, figure {
 	display: block;
 }
 
+html {
+  text-size-adjust: 100%;
+}
+
 body {
 	height: 100%;
 	height: 100vh;
