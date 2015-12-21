@@ -8,11 +8,14 @@
   .field {
     &__input {
       border-color: $colorSilver;
+      padding-bottom: 0.7875em;
+      padding-top: 1em;
       &-wrapper {
         margin: 0 0.9em 0 0;
         flex: 2 0;
         @media only screen and (max-width: 400px) {
           margin-bottom: 0.75em;
+          margin-right: 0;
         }
       }
       &-btn {
@@ -20,11 +23,9 @@
         border-color: $colorSilver;
         &-wrapper {
           display: flex;
-          flex-direction: column;
-
+          flex-flow: column nowrap;
           @media only screen and (min-width: 400px) {
-            display: flex;
-            flex-direction: row;
+            flex-flow: row nowrap;
           }
         }
       }
