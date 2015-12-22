@@ -15,17 +15,15 @@
   cursor: pointer;
   background-color: $colorBlack;
   color: white;
-  transition-duration: 500ms;
-  transition-timing-function: ease-in;
   vertical-align: middle;
+
   &:hover {
     background-color: $colorTussock;
-    transition-timing-function: ease-out;
-    border: 1px solid $colorTussock;
+    border-color:$colorTussock;
   }
   &:active {
     background-color: lighten($colorTussock, 10%);
-    border: 1px solid lighten($colorTussock, 10%);
+    border-color: lighten($colorTussock, 10%);
   }
   &::-moz-focus-inner {
     border: none;
@@ -42,6 +40,15 @@
 
   &--secondary {
     background-color: $colorNevada;
-    border: 1px solid $colorNevada;
+    border-color: $colorNevada;
+  }
+
+  @media only screen and (min-width: $breakpointDesktop) {
+    transition:background-color 500ms ease-in, border-color 500ms ease-in;
+
+    &:hover,
+    &:active {
+      transition-timing-function: ease-out;
+    }
   }
 }
