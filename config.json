@@ -1,8 +1,17 @@
- {
- 	"patterns" : {
- 		"source" : "./source/_patterns/",
- 		"public" : "./public/patterns/"
- 	},
+{
+  "paths" : {
+    "source" : {
+      "root": "./source/",
+      "patterns" : "./source/_patterns/",
+      "data" : "./source/_data/",
+      "patternlabFiles" : "./source/_patternlab-files/"
+    },
+    "public" : {
+      "root" : "./public/",
+      "patterns" : "./public/patterns/",
+      "styleguide" : "./public/styleguide/"
+    }
+  },
 	"styleGuideExcludes": [
 		"templates",
 		"pages"
@@ -30,7 +39,7 @@
  		"tools-docs": true
  	},
   "patternStates": {
-	  "homepage-emergency" : "inprogress"
+    "homepage-emergency" : "inprogress"
   },
   "patternExportKeys": [],
   "patternExportDirectory": "./pattern_exports/",

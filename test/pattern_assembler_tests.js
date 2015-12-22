@@ -2,7 +2,8 @@
 	"use strict";
 
 	var pa = require('../builder/pattern_assembler');
-	var object_factory = require('../builder/object_factory');
+  var object_factory = require('../builder/object_factory');
+  var path = require('path');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
@@ -209,11 +210,12 @@
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
 			patternlab.config = fs.readJSONSync('./config.json');
-			patternlab.config.patterns = {source: patterns_dir};
-			patternlab.data = fs.readJSONSync('./source/_data/data.json');
-			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.config.paths.source.patterns = patterns_dir;
+
+			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -293,12 +295,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -361,12 +368,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -394,12 +406,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -427,12 +444,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -462,12 +484,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -592,11 +619,11 @@
 			var patternlab = {};
 			//THIS IS BAD
 			patternlab.config = fs.readJSONSync('./config.json');
-			patternlab.config.patterns = {source: patterns_dir};
-			patternlab.data = fs.readJSONSync('./source/_data/data.json');
-			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.config.paths.source.patterns = patterns_dir;
+			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -618,7 +645,7 @@
 						console.log(err);
 						return;
 					}
-					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+					pattern_assembler.process_pattern_iterative(file, patternlab);
 				}
 			);
 
@@ -633,6 +660,7 @@
 					pattern = patternlab.patterns[i];
 				}
 			}
+
 			//assert before
 			test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad");
 			test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave");
