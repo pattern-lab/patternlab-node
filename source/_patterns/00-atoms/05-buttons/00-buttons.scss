@@ -16,6 +16,7 @@
   background-color: $colorBlack;
   color: white;
   vertical-align: middle;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   &:hover {
     background-color: $colorTussock;
