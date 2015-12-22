@@ -53,3 +53,8 @@
     }
   }
 }
+
+.btn__content {
+  // fixes script changes done by shopify in order to show spinner which we currently don't support
+  opacity:1 !important;
+}
