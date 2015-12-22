@@ -27,7 +27,7 @@ gulp.loadTasks(__dirname+'/builder/patternlab_gulp.js');
 gulp.task('clean', function(cb){
   del.sync(['./public/patterns/*'], {force: true});
   cb();
-})
+});
 
 //build the banner
 gulp.task('banner', function(){
@@ -51,32 +51,32 @@ gulp.task('banner', function(){
       today : new Date().getFullYear() }
     ))
     .pipe(gulp.dest('./builder'));
-})
+});
 
 //copy tasks
 gulp.task('cp:js', function(){
   return gulp.src('**/*.js', {cwd:'./source/js'})
-    .pipe(gulp.dest('./public/js'))
+    .pipe(gulp.dest('./public/js'));
 });
 gulp.task('cp:img', function(){
   return gulp.src(
     [ '**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'  ],
     {cwd:'./source/images'} )
-    .pipe(gulp.dest('./public/images'))
+    .pipe(gulp.dest('./public/images'));
 });
 gulp.task('cp:font', function(){
   return gulp.src('*', {cwd:'./source/fonts'})
-    .pipe(gulp.dest('./public/fonts'))
-});
+    .pipe(gulp.dest('./public/fonts'));
+});;
 gulp.task('cp:data', function(){
   return gulp.src('annotations.js', {cwd:'./source/_data'})
-    .pipe(gulp.dest('./public/data'))
-})
+    .pipe(gulp.dest('./public/data'));
+});
 gulp.task('cp:css', function(){
   return gulp.src('./source/css/style.css')
     .pipe(gulp.dest('./public/css'))
     .pipe(browserSync.stream());
-})
+});
 
 //server and watch tasks
 gulp.task('connect', ['lab'], function(){
@@ -99,13 +99,13 @@ gulp.task('connect', ['lab'], function(){
        browserSync.reload();
      });
 
-})
+});
 
 //unit test
 gulp.task('nodeunit', function(){
   return gulp.src('./test/**/*_tests.js')
     .pipe(nodeunit());
-})
+});
 
 //sass tasks, turn on if you want to use
 // gulp.task('sass:style', function(){
@@ -130,12 +130,12 @@ gulp.task('nodeunit', function(){
 gulp.task('lab-pipe', ['lab'], function(cb){
   cb();
   browserSync.reload();
-})
+});
 
 gulp.task('default', ['lab']);
 
 gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', /*'sass:style', 'sass:styleguide'*/]);
-gulp.task('prelab', ['clean', 'banner', 'assets']);
+gulp.task('prelab', ['clean', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
 gulp.task('serve', ['lab', 'connect']);
