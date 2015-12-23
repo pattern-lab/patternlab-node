@@ -59,13 +59,15 @@ gulp.task('banner', function(){
 });
 
 
-//copy tasks
+// COPY TASKS
 
+// JS copy
 gulp.task('cp:js', function(){
   return gulp.src('**/*.js', {cwd:paths().source.js})
     .pipe(gulp.dest(paths().public.js));
 });
 
+// Images copy
 gulp.task('cp:img', function(){
   return gulp.src(
     [ '**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'  ],
@@ -73,16 +75,19 @@ gulp.task('cp:img', function(){
     .pipe(gulp.dest(paths().public.images));
 });
 
+// Fonts copy
 gulp.task('cp:font', function(){
   return gulp.src('*', {cwd:paths().source.fonts})
     .pipe(gulp.dest(paths().public.images));
 });
 
+// Data copy
 gulp.task('cp:data', function(){
   return gulp.src('annotations.js', {cwd:paths().source.data})
     .pipe(gulp.dest(paths().public.data));
 });
 
+// CSS Copy
 gulp.task('cp:css', function(){
   return gulp.src(path.resolve(paths().source.css, 'style.css'))
     .pipe(gulp.dest(paths().public.css))
