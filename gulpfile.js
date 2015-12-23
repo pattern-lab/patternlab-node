@@ -2,6 +2,7 @@
 
 var pkg = require('./package.json'),
     gulp = require('gulp'),
+    path = require('path'),
     eol = require('os').EOL,
     del = require('del'),
     strip_banner = require('gulp-strip-banner'),
@@ -20,12 +21,16 @@ var banner = [ '/** ',
   ' * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.',
   ' * ', ' **/'].join(eol);
 
+function paths () {
+  return require('./config.json').paths;
+}
+
 //load patternlab-node tasks
 gulp.loadTasks(__dirname+'/builder/patternlab_gulp.js');
 
 //clean patterns dir
 gulp.task('clean', function(cb){
-  del.sync(['./public/patterns/*'], {force: true});
+  del.sync([path.resolve(paths().public.patterns, '*')], {force: true});
   cb();
 });
 
@@ -53,28 +58,34 @@ gulp.task('banner', function(){
     .pipe(gulp.dest('./builder'));
 });
 
+
 //copy tasks
+
 gulp.task('cp:js', function(){
-  return gulp.src('**/*.js', {cwd:'./source/js'})
-    .pipe(gulp.dest('./public/js'));
+  return gulp.src('**/*.js', {cwd:paths().source.js})
+    .pipe(gulp.dest(paths().public.js));
 });
+
 gulp.task('cp:img', function(){
   return gulp.src(
     [ '**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'  ],
-    {cwd:'./source/images'} )
-    .pipe(gulp.dest('./public/images'));
+    {cwd:paths().source.images} )
+    .pipe(gulp.dest(paths().public.images));
 });
+
 gulp.task('cp:font', function(){
-  return gulp.src('*', {cwd:'./source/fonts'})
-    .pipe(gulp.dest('./public/fonts'));
-});;
-gulp.task('cp:data', function(){
-  return gulp.src('annotations.js', {cwd:'./source/_data'})
-    .pipe(gulp.dest('./public/data'));
+  return gulp.src('*', {cwd:paths().source.fonts})
+    .pipe(gulp.dest(paths().public.images));
 });
+
+gulp.task('cp:data', function(){
+  return gulp.src('annotations.js', {cwd:paths().source.data})
+    .pipe(gulp.dest(paths().public.data));
+});
+
 gulp.task('cp:css', function(){
-  return gulp.src('./source/css/style.css')
-    .pipe(gulp.dest('./public/css'))
+  return gulp.src(path.resolve(paths().source.css, 'style.css'))
+    .pipe(gulp.dest(paths().public.css))
     .pipe(browserSync.stream());
 });
 
@@ -82,22 +93,24 @@ gulp.task('cp:css', function(){
 gulp.task('connect', ['lab'], function(){
   browserSync.init({
     server: {
-      baseDir: './public/'
+      baseDir: paths().public.root
     }
   });
-  gulp.watch('./source/css/style.css', ['cp:css']);
+  gulp.watch(path.resolve(paths().public.css, 'style.css'), ['cp:css']);
 
   //suggested watches if you use scss
   // gulp.watch('./source/css/**/*.scss', ['sass:style']);
   // gulp.watch('./public/styleguide/*.scss', ['sass:styleguide']);
 
-  gulp.watch([
-    './source/_patterns/**/*.mustache',
-    './source/_patterns/**/*.json',
-    './source/_data/*.json'	],
-     ['lab-pipe'], function(){
-       browserSync.reload();
-     });
+  gulp.watch(
+    [
+      path.resolve(paths().source.patterns, '**/*.mustache'),
+      path.resolve(paths().source.patterns, '**/*.json'),
+      path.resolve(paths().source.data, '*.json')
+    ],
+    ['lab-pipe'],
+    function () { browserSync.reload(); }
+  );
 
 });
 

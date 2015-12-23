@@ -4,12 +4,21 @@
       "root": "./source/",
       "patterns" : "./source/_patterns/",
       "data" : "./source/_data/",
-      "patternlabFiles" : "./source/_patternlab-files/"
+      "patternlabFiles" : "./source/_patternlab-files/",
+      "js" : "./source/js",
+      "images" : "./source/images",
+      "fonts" : "./source/fonts",
+      "css" : "./source/css/"
     },
     "public" : {
       "root" : "./public/",
       "patterns" : "./public/patterns/",
-      "styleguide" : "./public/styleguide/"
+      "data" : "./public/data/",
+      "styleguide" : "./public/styleguide/",
+      "js" : "./public/js",
+      "images" : "./public/images",
+      "fonts" : "./public/fonts",
+      "css" : "./public/css"
     }
   },
 	"styleGuideExcludes": [
