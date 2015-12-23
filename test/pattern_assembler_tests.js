@@ -333,12 +333,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
