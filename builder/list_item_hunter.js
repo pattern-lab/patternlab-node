@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.0.1 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -72,13 +72,16 @@
 								var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
 								var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
+								//create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
+								var cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+
 								//if partial has style modifier data, replace the styleModifier value
-								if(pattern.stylePartials && pattern.stylePartials.length > 0){
-									style_modifier_hunter.consume_style_modifier(partialPattern, foundPartials[j], patternlab);
+								if(foundPartials[j].indexOf(':') > -1){
+									style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPartials[j], patternlab);
 								}
 
 								//replace its reference within the block with the extended template
-								thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], partialPattern.extendedTemplate);
+								thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], cleanPartialPattern.extendedTemplate);
 							}
 
 							//render with data
