@@ -399,7 +399,7 @@
       test.done();
     },
 
-    'processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier  between' : function(test){
+    'process_list_item_partials - correctly ignores bookended partials without a style modifier when the same partial has a style modifier between' : function(test){
       //arrange
       var fs = require('fs-extra');
       var pattern_assembler = new pa();
