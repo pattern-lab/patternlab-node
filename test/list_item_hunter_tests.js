@@ -148,14 +148,14 @@
       var pattern1 = {
         "template": "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
         "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
-        "key": "test-patternName1",
+        "key": "test-foo",
         "jsonFileData" : {}
       };
 
       var pattern2 = {
         "template": "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
         "extendedTemplate" : "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
-        "key": "test-patternName2",
+        "key": "test-bar",
         "jsonFileData" : {}
       };
 
@@ -186,14 +186,16 @@
            "extendedTemplate" : "{{ title }}",
            "subdir": "00-test",
            "fileName": "00-foo",
-           "jsonFileData" : {}
+           "jsonFileData" : {},
+           "key": "test-foo",
           },
           {
            "template": "{{ title }}",
            "extendedTemplate" : "{{ title }}",
            "subdir": "00-test",
            "fileName": "01-bar",
-           "jsonFileData" : {}
+           "jsonFileData" : {},
+           "key": "test-bar",
           }
         ]
       };

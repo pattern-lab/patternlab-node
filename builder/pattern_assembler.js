@@ -255,6 +255,17 @@
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
             return patternlab.patterns[i];
         }
+        //look for exact key matches
+        if(key === patternlab.patterns[i].key){
+          return patternlab.patterns[i];
+        }
+        //return the fuzzy match within the type if it exists
+        var keyParts = key.split('-'),
+            keyType = keyParts[0],
+            keyName = keyParts.slice(1).join('-');
+        if(patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1){
+          return patternlab.patterns[i];
+        }
       }
       throw 'Could not find pattern with key ' + key;
     }
