@@ -5,6 +5,7 @@ PL-node-v1.0.1
 - FIX: Fix issue where excluded patterns were still rendered on the Pattern Lab site. Now they do not directly get rendered via the menu, view all links, or the styleguide, but are accessible for inclusion as pattern partials, and can be accessed via lineage.
 - THX: Thanks @theorise for reporting these issues.
 - THX: Thanks @dmolsen for input on desired behavior.
+- FIX: Fix issue where style modifier partials within list item blocks where not uniquely being applied. this seems like a regression. added a unit test with fix 
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.
