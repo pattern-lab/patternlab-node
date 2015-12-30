@@ -646,6 +646,24 @@
 			test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
 			test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
 			test.done();
+		},
+		'get_pattern_by_key - returns the fuzzy result when no others found' : function(test){
+			//arrange
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.patterns = [];
+
+			patternlab.patterns.push({
+				key: 'character-han-solo',
+				subdir: 'character',
+				fileName: 'han-solo'
+			});
+
+			//act
+			var result = pattern_assembler.get_pattern_by_key('character-han', patternlab);
+			//assert
+			test.equals(result, patternlab.patterns[0]);
+			test.done();
 		}
 	};
 }());
