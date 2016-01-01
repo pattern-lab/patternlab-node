@@ -91,7 +91,7 @@
       path = require('path');
 
       //extract some information
-      var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
+      var subdir = path.dirname(path.relative(patternlab.config.paths.source.patterns, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
@@ -119,8 +119,8 @@
 
       //look for a json file for this template
       try {
-        var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
+        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
         if(patternlab.config.debug){
           console.log('found pattern-specific data.json for ' + currentPattern.key);
         }
@@ -130,8 +130,8 @@
 
       //look for a listitems.json file for this template
       try {
-        var listJsonFileName = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".listitems.json";
-        currentPattern.listitems = fs.readJSONSync(listJsonFileName.substring(2));
+        var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir,currentPattern.fileName + ".listitems.json");
+        currentPattern.listitems = fs.readJSONSync(listJsonFileName);
         buildListItems(currentPattern);
         if(patternlab.config.debug){
           console.log('found pattern-specific listitems.json for ' + currentPattern.key);
