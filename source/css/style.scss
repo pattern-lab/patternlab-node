@@ -36,7 +36,9 @@
 @import "../_patterns/01-molecules/06-components/00-social-share";
 @import "../_patterns/01-molecules/06-components/02-language-switch";
 @import "../_patterns/01-molecules/06-components/03-cart";
-@import "../_patterns/01-molecules/06-components/04-empty-cart";
+
+@import "../_patterns/01-molecules/07-cart/01-filled-cart";
+@import "../_patterns/01-molecules/07-cart/02-empty-cart";
 
 @import "../_patterns/02-organisms/00-global/00-header";
 @import "../_patterns/02-organisms/00-global/01-footer";
@@ -47,6 +49,7 @@
 @import "../_patterns/02-organisms/02-forms/02-fieldset-inline";
 
 @import "../_patterns/03-templates/00-content";
+@import "../_patterns/03-templates/03-cart";
 
 @import "scss/generic/_checkout-helper-classes";
 @import "../_patterns/00-atoms/10-checkout/00-payment-icons";
