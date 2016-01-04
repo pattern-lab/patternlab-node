@@ -47,7 +47,7 @@
     width: 100%;
     padding: 0.9875em 0.625em 0.7875em;
     font-size: 0.875em;
-    line-height: 1.525em;
+    line-height: 1.5714em;
     box-shadow: none;
     outline: none;
     border-radius: 0;
@@ -55,7 +55,7 @@
     background-color: $colorWhite;
     &--select {
       line-height: 1.4em;
-      padding-bottom: 0.375em !important;
+      padding-bottom: 0.4286em !important;
       position: relative;
     }
     .field--show-floating-label & {
