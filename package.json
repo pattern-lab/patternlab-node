@@ -4,7 +4,6 @@
   "version": "1.0.1",
   "main": "./builder/patternlab.js",
   "dependencies": {
-    "bs-html-injector": "^3.0.0",
     "diveSync": "^0.3.0",
     "fs-extra": "^0.26.2",
     "glob": "^6.0.1",
@@ -13,6 +12,7 @@
     "mustache": "^2.2.0"
   },
   "devDependencies": {
+    "bs-html-injector": "^3.0.0",
     "grunt": "~0.4.5",
     "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-concat": "^0.5.1",
