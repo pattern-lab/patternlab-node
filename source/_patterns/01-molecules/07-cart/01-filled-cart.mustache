@@ -26,13 +26,13 @@
                 </a>
             </td>
             <td class="cart__table-cell cart__table-cell--price">€340.00</td>
-            <td class="cart__table-cell cart__table-cell--quantity">
+            <td class="cart__table-cell cart__table-cell--quantity cart__table-cell--aligned-to-image">
                 <input type="text" value="1" name="updates[]">
             </td>
             <td class="cart__table-cell cart__table-cell--actions">
-                <a href="#">Remove</a>
+                <a class="cart__table-action icon-x-large" href="#">Remove</a>
             </td>
-            <td class="cart__table-cell cart__table-cell--total">€340.00</td>
+            <td class="cart__table-cell cart__table-cell--total cart__table-cell--aligned-to-image">€340.00</td>
         </tr>
 
         <tr class="cart__table-row">
@@ -48,30 +48,30 @@
                 </a>
             </td>
             <td class="cart__table-cell cart__table-cell--price">€590.00</td>
-            <td class="cart__table-cell cart__table-cell--quantity">
+            <td class="cart__table-cell cart__table-cell--quantity cart__table-cell--aligned-to-image">
                 <input type="text" value="1" name="updates[]">
             </td>
             <td class="cart__table-cell cart__table-cell--actions">
-                <a href="#">Remove</a>
+                <a class="cart__table-action icon-x-large" href="#">Remove</a>
             </td>
-            <td class="cart__table-cell cart__table-cell--total">€590.00</td>
+            <td class="cart__table-cell cart__table-cell--total cart__table-cell--aligned-to-image">€590.00</td>
         </tr>
         </tbody>
 
         <tfoot>
-        <tr>
+        <tr class="cart__table-row">
             <td colspan="2"></td>
-            <td class="label" colspan="2"><h3>Subtotal</h3></td>
-            <td class="total" colspan="2"><p>€930.00</p></td>
+            <td class="cart__table-cell cart__table-cell--legend" colspan="2">Subtotal</td>
+            <td class="cart__table-cell cart__table-cell--total" colspan="2">€930.00</td>
         </tr>
 
-        <tr>
+        <tr class="cart__table-row cart__table-row--shortened">
             <td colspan="2"></td>
-            <td class="update" colspan="2">
-                <button value="" name="update" type="submit">Update</button>
+            <td class="cart__table-cell cart__table-cell--update" colspan="2">
+                <button class="cart__button button button--secondary">Update</button>
             </td>
-            <td class="checkout" colspan="2">
-                <button value="" name="checkout" type="submit">Checkout</button>
+            <td class="cart__table-cell cart__table-cell--checkout" colspan="2">
+                <button class="cart__button button button--primary">Checkout</button>
             </td>
         </tr>
         </tfoot>
