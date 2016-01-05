@@ -152,7 +152,10 @@ gulp.task('serve', gulp.series('lab', function serve() {
     },
     ghostMode: false,
     notify : false,
-    https : true
+    https: {
+      key: 'ssl/localhost.key',
+      cert: 'ssl/localhost.pem'
+    }
   });
 
   gulp.watch('source/css/style.css', gulp.series('cp:css'));
