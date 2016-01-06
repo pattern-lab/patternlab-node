@@ -101,8 +101,8 @@
 
       //look for a json file for this template
       try {
-        var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
+        var jsonFilename = path.resolve(patternlab.config.patterns.source, currentPattern.subdir, currentPattern.fileName  + ".json");
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
         if(patternlab.config.debug){
           console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.key);
         }

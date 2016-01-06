@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v1.0.0 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.0 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -55,7 +55,7 @@
       if (config.debug && this.isPseudoPattern) {
         console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
       }
-      return this.engine.renderPattern(this.extendedTemplate, data, partials);
+      return this.engine.renderPattern(this.extendedTemplate, data || this.jsonFileData, partials);
     },
 
     registerPartial: function () {
