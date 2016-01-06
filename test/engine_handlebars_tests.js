@@ -101,7 +101,7 @@
       // set up environment
       var patternlab = new fakePatternLab(); // environment
       var assembler = new pa();
-      
+
       // do all the normal processing of the pattern
       assembler.process_pattern_iterative(pattern1Path, patternlab);
       var helloWorldsPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
@@ -110,6 +110,29 @@
 
       // test
       test.equals(helloWorldsPattern.render(), 'Hello world!\n and Hello world!\n\n');
+      test.done();
+    },
+    'handlebars partials can render JSON values': function (test) {
+      test.expect(1);
+
+      // pattern paths
+      var pattern1Path = path.resolve(
+        testPatternsPath,
+        '00-atoms',
+        '00-global',
+        '00-helloworld-withdata.hbs'
+      );
+
+      // set up environment
+      var patternlab = new fakePatternLab(); // environment
+      var assembler = new pa();
+
+      // do all the normal processing of the pattern
+      var helloWorldWithData = assembler.process_pattern_iterative(pattern1Path, patternlab);
+      assembler.process_pattern_recursive(pattern1Path, patternlab);
+
+      // test
+      test.equals(helloWorldWithData.render(), 'Hello world!\nYeah, we got the subtitle from the JSON.\n');
       test.done();
     },
     'find_pattern_partials finds partials': function(test){
@@ -154,7 +177,7 @@
         '{{> myPartial name=../name }}'
       ]);
     },
-    
+
     'find_pattern_partials finds handlebars block partials': function(test){
       testFindPartials(test, [
         '{{#> myPartial }}'
