@@ -239,7 +239,7 @@
 						return;
 					}
 
-					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
 				}
 			);
 
@@ -263,7 +263,7 @@
 						return;
 					}
 
-					pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
+					pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
 				}
 			);
 
@@ -522,7 +522,7 @@
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
-		'processPatternIterative - ignores files that are variants' : function(test){
+		'processPatternIterative - ignores files that start with underscore' : function(test){
 			//arrange
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
@@ -530,13 +530,13 @@
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
-			//THIS IS BAD.
 			patternlab.config = fs.readJSONSync('./config.json');
 			patternlab.config.patterns = {source: patterns_dir};
-			patternlab.data = fs.readJSONSync('./source/_data/data.json');
-			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -560,7 +560,60 @@
 						return;
 					}
 
-					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
+				}
+			);
+
+			//assert
+			var foundIgnoredPattern = false;
+			for(var i = 0; i < patternlab.patterns.length; i++){
+				if(patternlab.patterns[i].fileName[0] === '_'){
+					foundIgnoredPattern = true;
+				}
+			}
+			test.equals(foundIgnoredPattern, false);
+			test.done();
+		},
+		'processPatternIterative - ignores files that are variants' : function(test){
+			//arrange
+			var diveSync = require('diveSync');
+			var fs = require('fs-extra');
+			var pa = require('../builder/pattern_assembler');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
+			var patternlab = {};
+			//THIS IS BAD.
+			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config.paths.source.patterns = patterns_dir;
+
+			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+			patternlab.patterns = [];
+			patternlab.data.link = {};
+			patternlab.partials = {};
+
+			//act
+			diveSync(patterns_dir,
+				{
+					filter: function(path, dir){
+						if(dir){
+							var remainingPath = path.replace(patterns_dir, '');
+							var isValidPath = remainingPath.indexOf('/_') === -1;
+							return isValidPath;
+						}
+						return true;
+					}
+				},
+				function(err, file){
+					//log any errors
+					if(err){
+						console.log(err);
+						return;
+					}
+
+					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
 				}
 			);
 
