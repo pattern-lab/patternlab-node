@@ -135,6 +135,37 @@
       test.equals(helloWorldWithData.render(), 'Hello world!\nYeah, we got the subtitle from the JSON.\n');
       test.done();
     },
+    'handlebars partials use the JSON environment from the calling pattern and can accept passed parameters': function (test) {
+      test.expect(1);
+
+      // pattern paths
+      var atomPath = path.resolve(
+        testPatternsPath,
+        '00-atoms',
+        '00-global',
+        '00-helloworld-withdata.hbs'
+      );
+      var molPath = path.resolve(
+        testPatternsPath,
+        '00-molecules',
+        '00-global',
+        '00-call-atom-with-molecule-data.hbs'
+      );
+
+      // set up environment
+      var patternlab = new fakePatternLab(); // environment
+      var assembler = new pa();
+
+      // do all the normal processing of the pattern
+      var atom = assembler.process_pattern_iterative(atomPath, patternlab);
+      var mol = assembler.process_pattern_iterative(molPath, patternlab);
+      assembler.process_pattern_recursive(atomPath, patternlab);
+      assembler.process_pattern_recursive(molPath, patternlab);
+
+      // test
+      test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>\nThis is Hello world!\nfrom the default JSON.\n\n\n<h2>Call with passed parameter:</h2>\nHowever, this is Hello world!\nfrom a totally different blob.\n\n');
+      test.done();
+    },
     'find_pattern_partials finds partials': function(test){
       testFindPartials(test, [
         "{{> molecules-comment-header}}",

@@ -18,6 +18,10 @@
     engineName: 'mustache',
     engineFileExtension: '.mustache',
 
+    // partial expansion is only necessary for Mustache templates that have
+    // style modifiers or pattern parameters (I think)
+    expandPartials: true,
+
     // regexes, stored here so they're only compiled once
     findPartialsRE: /{{>\s*((?:\d+-[\w-]+\/)+(\d+-[\w-]+(\.\w+)?)|[A-Za-z0-9-]+)(\:[\w-]+)?(\(\s*\w+\s*:\s*(?:'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")\))?\s*}}/g,
     findPartialsWithStyleModifiersRE: /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g,

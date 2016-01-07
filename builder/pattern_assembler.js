@@ -139,22 +139,61 @@
 
 
 
+    function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
+      var smh = require('./style_modifier_hunter'),
+          ph = require('./parameter_hunter');
+
+      var style_modifier_hunter = new smh(),
+          parameter_hunter = new ph();
+
+      if(patternlab.config.debug){
+        console.log('found partials for ' + currentPattern.key);
+      }
+
+      // determine if the template contains any pattern parameters. if so they
+      // must be immediately consumed
+      parameter_hunter.find_parameters(currentPattern, patternlab);
+
+      //do something with the regular old partials
+      for(var i = 0; i < foundPatternPartials.length; i++){
+        var partialKey = currentPattern.getPartialKey(foundPatternPartials[i]);
+        var partialPath;
+
+        //identify which pattern this partial corresponds to
+        for(var j = 0; j < patternlab.patterns.length; j++){
+          if(patternlab.patterns[j].key === partialKey ||
+             patternlab.patterns[j].abspath.indexOf(partialKey) > -1)
+          {
+            partialPath = patternlab.patterns[j].abspath;
+          }
+        }
+
+        //recurse through nested partials to fill out this extended template.
+        processPatternRecursive(partialPath, patternlab);
+
+        //complete assembly of extended template
+        var partialPattern = getpatternbykey(partialKey, patternlab);
+
+        //if partial has style modifier data, replace the styleModifier value
+        if(currentPattern.stylePartials && currentPattern.stylePartials.length > 0){
+          style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
+        }
+
+        currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
+      }
+    }
+
     function processPatternRecursive(file, patternlab, additionalData){
       var lh = require('./lineage_hunter'),
-          ph = require('./parameter_hunter'),
           pph = require('./pseudopattern_hunter'),
-          lih = require('./list_item_hunter'),
-          smh = require('./style_modifier_hunter');
+          lih = require('./list_item_hunter');
 
-      var parameter_hunter = new ph(),
-      lineage_hunter = new lh(),
-      list_item_hunter = new lih(),
-      style_modifier_hunter = new smh(),
-      pseudopattern_hunter = new pph();
+      var lineage_hunter = new lh(),
+          list_item_hunter = new lih(),
+          pseudopattern_hunter = new pph();
 
       //find current pattern in patternlab object using var file as a key
-      var currentPattern,
-      i;
+      var currentPattern, i;
 
       for(i = 0; i < patternlab.patterns.length; i++){
         if(patternlab.patterns[i].abspath === file){
@@ -163,60 +202,19 @@
       }
 
       //return if processing an ignored file
-      if(typeof currentPattern === 'undefined'){
-        return;
-      }
+      if (typeof currentPattern === 'undefined') { return; }
 
       currentPattern.extendedTemplate = currentPattern.template;
 
       //find how many partials there may be for the given pattern
       var foundPatternPartials = currentPattern.findPartials(currentPattern);
 
-      if(foundPatternPartials !== null && foundPatternPartials.length > 0){
+      //find any listItem blocks that within the pattern, even if there are no partials
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
-        if(patternlab.config.debug){
-          console.log('found partials for ' + currentPattern.key);
-        }
-
-        //find any listItem blocks
-        list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-
-        //determine if the template contains any pattern parameters. if so they must be immediately consumed
-        parameter_hunter.find_parameters(currentPattern, patternlab);
-
-        //do something with the regular old partials
-        for(i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = currentPattern.getPartialKey(foundPatternPartials[i]);
-
-          var partialPath;
-
-          //identify which pattern this partial corresponds to
-          for(var j = 0; j < patternlab.patterns.length; j++){
-            if(patternlab.patterns[j].key === partialKey ||
-              patternlab.patterns[j].abspath.indexOf(partialKey) > -1)
-            {
-              partialPath = patternlab.patterns[j].abspath;
-            }
-          }
-
-          //recurse through nested partials to fill out this extended template.
-          processPatternRecursive(partialPath, patternlab);
-
-          //complete assembly of extended template
-          var partialPattern = getpatternbykey(partialKey, patternlab);
-
-          //if partial has style modifier data, replace the styleModifier value
-          if(currentPattern.stylePartials && currentPattern.stylePartials.length > 0){
-            style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-          }
-
-          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
-
-        }
-
-      } else{
-        //find any listItem blocks that within the pattern, even if there are no partials
-        list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+      // expand any partials present in this pattern; that is, drill down into the template and replace their calls in this template with rendered results
+      if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
+        expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
       }
 
       //find pattern lineage
