@@ -1,8 +1,12 @@
-<button class="button">I am a button</button>
-<button class="button button--primary">I am a button</button>
-<button class="button button--secondary">I am a button</button>
+<button class="button">{{ buttonInline || 'Inline button' }}</button>
+<a href="#" class="button">{{ linkInline || 'Inline link' }}</a>
 
-<a class="button">I am a button</a>
-<a class="button button--primary">I am a link</a>
-<a class="button button--secondary">I am a link</a>
+<button class="button button--primary">{{ buttonPrimary || 'Primary button' }}</button>
+<a href="#" class="button button--primary">{{ linkPrimary || 'Primary link' }}</a>
+
+<button class="button button--secondary">{{ buttonSecondary || 'Secondary button' }}</button>
+<a href="#" class="button button--secondary">{{ linkSecondary || 'Secondary link' }}</a>
+
+<button class="button button--tertiary">{{ tertiaryButton || 'Tertiary button' }}</button>
+<a href="#" class="button button--tertiary">{{ tertiaryLink || 'Tertiary link' }}</a>
 

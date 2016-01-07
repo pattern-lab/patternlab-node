@@ -31,9 +31,8 @@
     padding: 0;
   }
 
-  &--primary {
+  &--primary, &--secondary, &--tertiary {
     width : 100%;
-    padding: 1em 1em;
     @media only screen and (min-width: 414px) {
       width: 280px;
     }
@@ -42,6 +41,11 @@
   &--secondary {
     background-color: $colorNevada;
     border-color: $colorNevada;
+  }
+
+  &--tertiary {
+    background-color : $colorSilver;
+    border-color : $colorSilver;
   }
 
   @media only screen and (min-width: $breakpointDesktop) {
