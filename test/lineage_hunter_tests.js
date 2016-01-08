@@ -4,7 +4,7 @@
 	var lh = require('../builder/lineage_hunter');
 
 	exports['lineage hunter '] = {
-		'test lineage hunter finds lineage' : function(test){
+		'find_lineage - finds lineage' : function(test){
 
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
@@ -19,6 +19,7 @@
 				"patternGroup": "organisms",
 				"patternSubGroup": "organisms\\00-global",
 				"flatPatternPath": "02-organisms\\00-global",
+				"key": "organisms-header",
 				"patternState": "",
 				"lineage": [],
 				"lineageIndex": [],
@@ -39,6 +40,7 @@
 					"patternGroup": "atoms",
 					"patternSubGroup": "atoms\\03-images",
 					"flatPatternPath": "00-atoms\\03-images",
+					"key": "atoms-logo",
 					"patternState": "",
 					"lineage": [],
 					"lineageIndex": [],
@@ -57,6 +59,7 @@
 					"patternGroup": "molecules",
 					"patternSubGroup": "molecules\\05-navigation",
 					"flatPatternPath": "01-molecules\\05-navigation",
+					"key": "molecules-primary-nav",
 					"patternState": "",
 					"lineage": [],
 					"lineageIndex": [],
@@ -75,6 +78,7 @@
 					"patternGroup": "molecules",
 					"patternSubGroup": "molecules\\04-forms",
 					"flatPatternPath": "01-molecules\\04-forms",
+					"key": "molecules-search",
 					"patternState": "",
 					"lineage": [],
 					"lineageIndex": [],
@@ -95,7 +99,7 @@
 			test.done();
 		},
 
-		'test lineage hunter finds lineage with spaced pattern parameters' : function(test){
+		'find_lineage - finds lineage with spaced pattern parameters' : function(test){
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
 				"name": "01-molecules-01-toast-00-error",
@@ -109,6 +113,7 @@
 				"patternGroup": "molecules",
 				"patternSubGroup": "molecules\\01-toast",
 				"flatPatternPath": "01-molecules\\01-toast",
+				"key": "molecules-error",
 				"patternState": "",
 				"lineage": [],
 				"lineageIndex": [],
@@ -129,6 +134,7 @@
 						"patternGroup": "atoms",
 						"patternSubGroup": "atoms\\05-alerts",
 						"flatPatternPath": "01-atoms\\05-alerts",
+						"key": "atoms-error",
 						"patternState": "",
 						"lineage": [],
 						"lineageIndex": [],
@@ -147,7 +153,7 @@
 			test.done();
 		},
 
-		'test lineage hunter finds lineage with unspaced pattern parameters' : function(test){
+		'find_lineage - finds lineage with unspaced pattern parameters' : function(test){
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
 				"name": "01-molecules-01-toast-00-error",
@@ -161,6 +167,7 @@
 				"patternGroup": "molecules",
 				"patternSubGroup": "molecules\\01-toast",
 				"flatPatternPath": "01-molecules\\01-toast",
+				"key": "molecules-error",
 				"patternState": "",
 				"lineage": [],
 				"lineageIndex": [],
@@ -181,6 +188,7 @@
 						"patternGroup": "atoms",
 						"patternSubGroup": "atoms\\05-alerts",
 						"flatPatternPath": "01-atoms\\05-alerts",
+						"key": "atoms-error",
 						"patternState": "",
 						"lineage": [],
 						"lineageIndex": [],
@@ -201,20 +209,21 @@
 			test.done();
 		},
 
-		'test lineage hunter does not apply lineage twice' : function(test){
+		'find_lineage - finds lineage with spaced styleModifier' : function(test){
 			//setup current pattern from what we would have during execution
 			var currentPattern = {
 				"name": "01-molecules-01-toast-00-error",
 				"subdir": "01-molecules\\01-toast",
 				"filename": "00-error.mustache",
 				"data": null,
-				"template": "{{>atoms-error(message: 'That\'s no moon...')}}",
-				"patternPartial": "{{>atoms-error(message: 'That\'s no moon...')}}",
+				"template": "{{> atoms-error:foo }}",
+				"patternPartial": "{{> atoms-error:foo }}",
 				"patternName": "error",
 				"patternLink": "01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html",
 				"patternGroup": "molecules",
 				"patternSubGroup": "molecules\\01-toast",
 				"flatPatternPath": "01-molecules\\01-toast",
+				"key": "molecules-error",
 				"patternState": "",
 				"lineage": [],
 				"lineageIndex": [],
@@ -235,6 +244,169 @@
 						"patternGroup": "atoms",
 						"patternSubGroup": "atoms\\05-alerts",
 						"flatPatternPath": "01-atoms\\05-alerts",
+						"key": "atoms-error",
+						"patternState": "",
+						"lineage": [],
+						"lineageIndex": [],
+						"lineageR": [],
+						"lineageRIndex": []
+					}
+				]
+			};
+
+			var lineage_hunter = new lh();
+			lineage_hunter.find_lineage(currentPattern, patternlab);
+
+			test.equals(currentPattern.lineageIndex.length, 1);
+			test.equals(currentPattern.lineageIndex[0], "atoms-error");
+
+			test.done();
+		},
+
+		'find_lineage - finds lineage with unspaced styleModifier' : function(test){
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+				"name": "01-molecules-01-toast-00-error",
+				"subdir": "01-molecules\\01-toast",
+				"filename": "00-error.mustache",
+				"data": null,
+				"template": "{{> atoms-error:foo }}",
+				"patternPartial": "{{>atoms-error:foo}}",
+				"patternName": "error",
+				"patternLink": "01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html",
+				"patternGroup": "molecules",
+				"patternSubGroup": "molecules\\01-toast",
+				"flatPatternPath": "01-molecules\\01-toast",
+				"key": "molecules-error",
+				"patternState": "",
+				"lineage": [],
+				"lineageIndex": [],
+				"lineageR": [],
+				"lineageRIndex": []
+			};
+			var patternlab = {
+				patterns: [
+					{
+						"name": "01-atoms-05-alerts-00-error",
+						"subdir": "01-atoms\\05-alerts",
+						"filename": "00-error.mustache",
+						"data": null,
+						"template": "<h1> {{message}} </h1>",
+						"patternPartial": "<h1> {{message}} </h1>",
+						"patternName": "error",
+						"patternLink": "01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html",
+						"patternGroup": "atoms",
+						"patternSubGroup": "atoms\\05-alerts",
+						"flatPatternPath": "01-atoms\\05-alerts",
+						"key": "atoms-error",
+						"patternState": "",
+						"lineage": [],
+						"lineageIndex": [],
+						"lineageR": [],
+						"lineageRIndex": []
+					}
+				]
+			};
+
+			var lineage_hunter = new lh();
+			lineage_hunter.find_lineage(currentPattern, patternlab);
+
+			test.equals(currentPattern.lineageIndex.length, 1);
+			test.equals(currentPattern.lineageIndex[0], "atoms-error");
+
+			test.done();
+		},
+
+		'find_lineage - finds lineage with fuzzy partial with styleModifier' : function(test){
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+				"name": "01-molecules-01-toast-00-error",
+				"subdir": "01-molecules\\01-toast",
+				"filename": "00-error.mustache",
+				"data": null,
+				"template": "{{> atoms-e:foo }}",
+				"patternPartial": "{{>atoms-e:foo}}",
+				"patternName": "error",
+				"patternLink": "01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html",
+				"patternGroup": "molecules",
+				"patternSubGroup": "molecules\\01-toast",
+				"flatPatternPath": "01-molecules\\01-toast",
+				"key": "molecules-error",
+				"patternState": "",
+				"lineage": [],
+				"lineageIndex": [],
+				"lineageR": [],
+				"lineageRIndex": []
+			};
+			var patternlab = {
+				patterns: [
+					{
+						"name": "01-atoms-05-alerts-00-error",
+						"subdir": "01-atoms\\05-alerts",
+						"filename": "00-error.mustache",
+						"data": null,
+						"template": "<h1> {{message}} </h1>",
+						"patternPartial": "<h1> {{message}} </h1>",
+						"patternName": "error",
+						"patternLink": "01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html",
+						"patternGroup": "atoms",
+						"patternSubGroup": "atoms\\05-alerts",
+						"flatPatternPath": "01-atoms\\05-alerts",
+						"key": "atoms-error",
+						"patternState": "",
+						"lineage": [],
+						"lineageIndex": [],
+						"lineageR": [],
+						"lineageRIndex": []
+					}
+				]
+			};
+
+			var lineage_hunter = new lh();
+			lineage_hunter.find_lineage(currentPattern, patternlab);
+
+			test.equals(currentPattern.lineageIndex.length, 1);
+			test.equals(currentPattern.lineageIndex[0], "atoms-error");
+
+			test.done();
+		},
+
+		'find_lineage - does not apply lineage twice' : function(test){
+			//setup current pattern from what we would have during execution
+			var currentPattern = {
+				"name": "01-molecules-01-toast-00-error",
+				"subdir": "01-molecules\\01-toast",
+				"filename": "00-error.mustache",
+				"data": null,
+				"template": "{{>atoms-error(message: 'That\'s no moon...')}}",
+				"patternPartial": "{{>atoms-error(message: 'That\'s no moon...')}}",
+				"patternName": "error",
+				"patternLink": "01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html",
+				"patternGroup": "molecules",
+				"patternSubGroup": "molecules\\01-toast",
+				"flatPatternPath": "01-molecules\\01-toast",
+				"key": "molecules-error",
+				"patternState": "",
+				"lineage": [],
+				"lineageIndex": [],
+				"lineageR": [],
+				"lineageRIndex": []
+			};
+			var patternlab = {
+				patterns: [
+					{
+						"name": "01-atoms-05-alerts-00-error",
+						"subdir": "01-atoms\\05-alerts",
+						"filename": "00-error.mustache",
+						"data": null,
+						"template": "<h1> {{message}} </h1>",
+						"patternPartial": "<h1> {{message}} </h1>",
+						"patternName": "error",
+						"patternLink": "01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html",
+						"patternGroup": "atoms",
+						"patternSubGroup": "atoms\\05-alerts",
+						"flatPatternPath": "01-atoms\\05-alerts",
+						"key": "atoms-error",
 						"patternState": "",
 						"lineage": [],
 						"lineageIndex": [],
@@ -254,8 +426,7 @@
 			test.equals(JSON.parse(patternlab.patterns[0].lineageR).lineagePattern, 'molecules-error');
 
 			test.done();
-		},
-
+		}
 
 	};
 

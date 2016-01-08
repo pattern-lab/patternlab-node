@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.0.1 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -248,17 +248,34 @@
     }
 
     function getpatternbykey(key, patternlab){
+
+      //look for exact key matches
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        if(patternlab.patterns[i].key === key){
+          return patternlab.patterns[i];
+        }
+      }
+
+      //else look by verbose syntax
       for(var i = 0; i < patternlab.patterns.length; i++){
         switch(key){
-          case patternlab.patterns[i].key:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
             return patternlab.patterns[i];
         }
       }
+
+      //return the fuzzy match if all else fails
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        var keyParts = key.split('-'),
+            keyType = keyParts[0],
+            keyName = keyParts.slice(1).join('-');
+        if(patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1){
+          return patternlab.patterns[i];
+        }
+      }
       throw 'Could not find pattern with key ' + key;
     }
-
 
     function mergeData(obj1, obj2){
       if(typeof obj2 === 'undefined'){
