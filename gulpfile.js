@@ -101,7 +101,7 @@ gulp.task('connect', ['lab'], function(){
       baseDir: paths().public.root
     }
   });
-  gulp.watch(path.resolve(paths().public.css, 'style.css'), ['cp:css']);
+  gulp.watch(path.resolve(paths().source.css, '**/*.css'), ['cp:css']);
 
   //suggested watches if you use scss
   // gulp.watch('./source/css/**/*.scss', ['sass:style']);
@@ -152,7 +152,7 @@ gulp.task('lab-pipe', ['lab'], function(cb){
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', /*'sass:style', 'sass:styleguide'*/]);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'cp:css' /*'sass:style', 'sass:styleguide'*/]);
 gulp.task('prelab', ['clean', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
