@@ -9,16 +9,17 @@
 
         @media only screen and (min-width: $breakpointTablet) {
             margin-right : 0;
-            max-width : 280px;
+            width : 320px;
         }
 
         &Text {
-            max-width : 280px;
+            max-width : 320px;
             margin : auto;
         }
 
         .button--primary {
             margin-top : 1em;
+            width: 100%;
         }
     }
 }

@@ -11,7 +11,8 @@
   &__continue-btn {
     display : block;
     margin : 0 auto 1em;
-    height : 3em;
+    min-height : 3em;
+    width: 320px;
 
     @media only screen and (min-width: $breakpointTablet) {
       display : inline-block;
