@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.0.0 - 2015
+ * patternlab-node - v1.0.1 - 2015
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -72,7 +72,7 @@
 
     function processPatternIterative(file, patternlab){
       //extract some information
-      var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
+      var subdir = path.dirname(path.relative(patternlab.config.paths.source.patterns, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
@@ -101,7 +101,7 @@
 
       //look for a json file for this template
       try {
-        var jsonFilename = path.resolve(patternlab.config.patterns.source, currentPattern.subdir, currentPattern.fileName  + ".json");
+        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
         currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
         if(patternlab.config.debug){
           console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.key);
@@ -112,8 +112,8 @@
 
       //look for a listitems.json file for this template
       try {
-        var listJsonFileName = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".listitems.json";
-        currentPattern.listitems = fs.readJSONSync(listJsonFileName.substring(2));
+        var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir,currentPattern.fileName + ".listitems.json");
+        currentPattern.listitems = fs.readJSONSync(listJsonFileName);
         buildListItems(currentPattern);
         if(patternlab.config.debug){
           console.log('found pattern-specific listitems.json for ' + currentPattern.key);
@@ -228,12 +228,30 @@
     }
 
     function getpatternbykey(key, patternlab){
+
+      //look for exact key matches
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        if(patternlab.patterns[i].key === key){
+          return patternlab.patterns[i];
+        }
+      }
+
+      //else look by verbose syntax
       for(var i = 0; i < patternlab.patterns.length; i++){
         switch(key){
-          case patternlab.patterns[i].key:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
             return patternlab.patterns[i];
+        }
+      }
+
+      //return the fuzzy match if all else fails
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        var keyParts = key.split('-'),
+            keyType = keyParts[0],
+            keyName = keyParts.slice(1).join('-');
+        if(patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1){
+          return patternlab.patterns[i];
         }
       }
       throw 'Could not find pattern with key ' + key;

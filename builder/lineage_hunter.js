@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.0 - 2015 
+ * patternlab-node - v1.0.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -24,47 +24,41 @@
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
 					//strip out the template cruft
-					var foundPattern = match.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
+					var foundPatternKey = match.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
 
 					// remove any potential pattern parameters. this and the above are rather brutish but I didn't want to do a regex at the time
-					if(foundPattern.indexOf('(') > 0){
-						foundPattern = foundPattern.substring(0, foundPattern.indexOf('('));
+					if(foundPatternKey.indexOf('(') > 0){
+						foundPatternKey = foundPatternKey.substring(0, foundPatternKey.indexOf('('));
 					}
 
-					//add if it doesnt exist
-					if (pattern.lineageIndex.indexOf(foundPattern) === -1){
+					//remove any potential stylemodifiers.
+					foundPatternKey = foundPatternKey.split(':')[0];
 
-						pattern.lineageIndex.push(foundPattern);
+					//get the ancestorPattern
+					var ancestorPattern = pattern_assembler.get_pattern_by_key(foundPatternKey, patternlab);
 
-						patternlab.patterns.forEach(function(ancestorPattern, index, patterns){
+					if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.key) === -1){
 
-							//find the pattern in question
-							var searchPattern = ancestorPattern.patternGroup + "-" + ancestorPattern.patternName;
+							//add it since it didnt exist
+							pattern.lineageIndex.push(ancestorPattern.key);
+							//create the more complex patternLineage object too
+							var l = {
+								"lineagePattern": ancestorPattern.key,
+								"lineagePath": "../../patterns/" + ancestorPattern.patternLink
+							};
+							pattern.lineage.push(JSON.stringify(l));
 
-							if(searchPattern === foundPattern){
-								//create the more complex patternLineage object too
-								var l = {
-									"lineagePattern": foundPattern,
-									"lineagePath": "../../patterns/" + ancestorPattern.patternLink
+							//also, add the lineageR entry if it doesn't exist
+							if (ancestorPattern.lineageRIndex.indexOf(pattern.key) === -1){
+								ancestorPattern.lineageRIndex.push(pattern.key);
+
+								//create the more complex patternLineage object in reverse
+								var lr = {
+									"lineagePattern": pattern.key,
+									"lineagePath": "../../patterns/" + pattern.patternLink
 								};
-								pattern.lineage.push(JSON.stringify(l));
-
-								//also, add the lineageR entry if it doesn't exist
-								var patternLabel = pattern.patternGroup + "-" + pattern.patternName;
-								if (ancestorPattern.lineageRIndex.indexOf(patternLabel) === -1){
-									ancestorPattern.lineageRIndex.push(patternLabel);
-
-									//create the more complex patternLineage object in reverse
-									var lr = {
-										"lineagePattern": patternLabel,
-										"lineagePath": "../../patterns/" + pattern.patternLink
-									};
-									ancestorPattern.lineageR.push(JSON.stringify(lr));
-								}
+								ancestorPattern.lineageR.push(JSON.stringify(lr));
 							}
-
-						});
-
 					}
 				});
 			}

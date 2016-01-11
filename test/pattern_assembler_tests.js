@@ -3,6 +3,7 @@
 
 	var pa = require('../builder/pattern_assembler');
   var object_factory = require('../builder/object_factory');
+  var path = require('path');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
@@ -288,11 +289,12 @@
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
 			patternlab.config = fs.readJSONSync('./config.json');
-			patternlab.config.patterns = {source: patterns_dir};
-			patternlab.data = fs.readJSONSync('./source/_data/data.json');
-			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.config.paths.source.patterns = patterns_dir;
+
+			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -372,12 +374,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -398,6 +405,46 @@
 			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
+		'processPatternRecursive - correctly replaces multiple stylemodifier classes on same partial' : function(test){
+			//arrange
+			var fs = require('fs-extra');
+			var pattern_assembler = new pa();
+			var patterns_dir = './test/files/_patterns';
+
+			var pl = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
+			pl.data = {};
+			pl.data.link = {};
+			pl.config.debug = false;
+			pl.patterns = [];
+
+			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+			atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+
+			var groupPattern = new object_factory.oPattern('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', '00-test', '10-multiple-classes-numeric.mustache');
+			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/10-multiple-classes-numeric.mustache', 'utf8');
+			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
+			groupPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(groupPattern);
+
+			pl.patterns.push(atomPattern);
+			pl.patterns.push(groupPattern);
+
+			//act
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', pl, {});
+
+			//assert
+			var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
+			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+			test.done();
+		},
 		'processPatternRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier' : function(test){
 			//arrange
 			var fs = require('fs-extra');
@@ -405,12 +452,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -438,12 +490,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -474,12 +531,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -509,12 +571,17 @@
 			var patterns_dir = './test/files/_patterns';
 
 			var pl = {};
-			pl.config = {};
+			pl.config = {
+				paths: {
+					source: {
+						patterns: patterns_dir
+					}
+				}
+			};
 			pl.data = {};
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.config.patterns = { source: patterns_dir};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -535,57 +602,6 @@
 			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-			test.done();
-		},
-		'processPatternIterative - ignores files that start with underscore' : function(test){
-			//arrange
-			var diveSync = require('diveSync');
-			var fs = require('fs-extra');
-			var pa = require('../builder/pattern_assembler');
-			var pattern_assembler = new pa();
-			var patterns_dir = './test/files/_patterns';
-			var patternlab = {};
-			patternlab.config = fs.readJSONSync('./config.json');
-			patternlab.config.patterns = {source: patterns_dir};
-			patternlab.data = fs.readJSONSync('./source/_data/data.json');
-			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
-			patternlab.patterns = [];
-			patternlab.data.link = {};
-			patternlab.partials = {};
-
-			//act
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
-					//log any errors
-					if(err){
-						console.log(err);
-						return;
-					}
-
-					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
-				}
-			);
-
-			//assert
-			var foundIgnoredPattern = false;
-			for(var i = 0; i < patternlab.patterns.length; i++){
-				if(patternlab.patterns[i].fileName[0] === '_'){
-					foundIgnoredPattern = true;
-				}
-			}
-			test.equals(foundIgnoredPattern, false);
 			test.done();
 		},
 		'processPatternIterative - ignores files that are variants' : function(test){
@@ -690,11 +706,11 @@
 			var patternlab = {};
 			//THIS IS BAD
 			patternlab.config = fs.readJSONSync('./config.json');
-			patternlab.config.patterns = {source: patterns_dir};
-			patternlab.data = fs.readJSONSync('./source/_data/data.json');
-			patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-			patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-			patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+			patternlab.config.paths.source.patterns = patterns_dir;
+			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -716,7 +732,7 @@
 						console.log(err);
 						return;
 					}
-					pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+					pattern_assembler.process_pattern_iterative(file, patternlab);
 				}
 			);
 
@@ -731,6 +747,7 @@
 					pattern = patternlab.patterns[i];
 				}
 			}
+
 			//assert before
 			test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad");
 			test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave");
@@ -743,6 +760,46 @@
 			test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost");
 			test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
 			test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
+			test.done();
+		},
+		'get_pattern_by_key - returns the fuzzy result when no others found' : function(test){
+			//arrange
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.patterns = [];
+
+			patternlab.patterns.push({
+				key: 'character-han-solo',
+				subdir: 'character',
+				fileName: 'han-solo'
+			});
+
+			//act
+			var result = pattern_assembler.get_pattern_by_key('character-han', patternlab);
+			//assert
+			test.equals(result, patternlab.patterns[0]);
+			test.done();
+		},
+		'get_pattern_by_key - returns the exact key if found' : function(test){
+			//arrange
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.patterns = [];
+
+			patternlab.patterns.push({
+				key: 'molecules-primary-nav-jagged',
+				subdir: 'molecules',
+				fileName: 'primary-nav-jagged'
+			}, {
+				key: 'molecules-primary-nav',
+				subdir: 'molecules',
+				fileName: 'molecules-primary-nav'
+			});
+
+			//act
+			var result = pattern_assembler.get_pattern_by_key('molecules-primary-nav', patternlab);
+			//assert
+			test.equals(result, patternlab.patterns[1]);
 			test.done();
 		}
 	};

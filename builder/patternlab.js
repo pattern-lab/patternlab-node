@@ -1,6 +1,6 @@
-/*
- * patternlab-node - v1.0.0 - 2015
- *
+/* 
+ * patternlab-node - v1.0.1 - 2015 
+ * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -25,6 +25,8 @@ var patternlab_engine = function () {
 
   patternlab.package = fs.readJSONSync('./package.json');
   patternlab.config = fs.readJSONSync('./config.json');
+
+  var paths = patternlab.config.paths;
 
 
   function getVersion() {
@@ -66,10 +68,10 @@ var patternlab_engine = function () {
   }
 
   function buildPatterns(deletePatternDir){
-    patternlab.data = fs.readJSONSync('./source/_data/data.json');
-    patternlab.listitems = fs.readJSONSync('./source/_data/listitems.json');
-    patternlab.header = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/header.html', 'utf8');
-    patternlab.footer = fs.readFileSync('./source/_patternlab-files/pattern-header-footer/footer.html', 'utf8');
+    patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
+    patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
+    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
@@ -77,7 +79,7 @@ var patternlab_engine = function () {
     var pattern_assembler = new pa(),
     entity_encoder = new he(),
     pattern_exporter = new pe(),
-    patterns_dir = './source/_patterns';
+    patterns_dir = paths.source.patterns;
 
     pattern_assembler.combine_listItems(patternlab);
 
@@ -98,7 +100,6 @@ var patternlab_engine = function () {
           console.log(err);
           return;
         }
-
         pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
     });
 
@@ -124,18 +125,18 @@ var patternlab_engine = function () {
           console.log(err);
           return;
         }
-
         pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
       });
 
 
     //delete the contents of config.patterns.public before writing
     if(deletePatternDir){
-      fs.emptyDirSync(patternlab.config.patterns.public);
+      fs.emptyDirSync(paths.public.patterns);
     }
 
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function(pattern, index, patterns){
+
       //render the pattern, but first consolidate any data we may have
       var allData =  JSON.parse(JSON.stringify(patternlab.data));
       allData = plutils.mergeData(allData, pattern.jsonFileData);
@@ -147,13 +148,13 @@ var patternlab_engine = function () {
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(patternlab.config.patterns.public + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
 
       //write the mustache file too
-      fs.outputFileSync(patternlab.config.patterns.public + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
 
       //write the encoded version too
-      fs.outputFileSync(patternlab.config.patterns.public + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
     });
 
     //export patterns if necessary
@@ -174,23 +175,32 @@ var patternlab_engine = function () {
     media_hunter.find_media_queries('./source/css', patternlab);
 
     // check if patterns are excluded, if not add them to styleguidePatterns
-    if (styleGuideExcludes.length) {
+    if (styleGuideExcludes && styleGuideExcludes.length) {
         for (i = 0; i < patternlab.patterns.length; i++) {
-            var key = patternlab.patterns[i].key;
-            var typeKey = key.substring(0, key.indexOf('-'));
-            var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
-            if (!isExcluded) {
-                styleguidePatterns.push(patternlab.patterns[i]);
+
+          // skip underscore-prefixed files
+          if(isPatternExcluded(patternlab.patterns[i])){
+            if(patternlab.config.debug){
+              console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
             }
+            continue;
+          }
+
+          var key = patternlab.patterns[i].key;
+          var typeKey = key.substring(0, key.indexOf('-'));
+          var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
+          if (!isExcluded) {
+              styleguidePatterns.push(patternlab.patterns[i]);
+          }
         }
     } else {
-        styleguidePatterns = patternlab.patterns;
+      styleguidePatterns = patternlab.patterns;
     }
 
     //build the styleguide
-    var styleguideTemplate = fs.readFileSync('./source/_patternlab-files/styleguide.mustache', 'utf8'),
+    var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'styleguide.mustache'), 'utf8'),
     styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
-    fs.outputFileSync('./public/styleguide/html/styleguide.html', styleguideHtml);
+    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
 
     //build the viewall pages
     var prevSubdir = '',
@@ -198,7 +208,10 @@ var patternlab_engine = function () {
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       // skip underscore-prefixed files
-      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
+      if(isPatternExcluded(patternlab.patterns[i])){
+        if(patternlab.config.debug){
+          console.log('Omitting ' + patternlab.patterns[i].key + " from view all rendering.");
+        }
         continue;
       }
 
@@ -214,18 +227,26 @@ var patternlab_engine = function () {
 
         for (j = 0; j < patternlab.patterns.length; j++) {
           if (patternlab.patterns[j].subdir === pattern.subdir) {
+            //again, skip any sibling patterns to the current one that may have underscores
+            if(isPatternExcluded(patternlab.patterns[j])){
+              if(patternlab.config.debug){
+                console.log('Omitting ' + patternlab.patterns[j].key + " from view all sibling rendering.");
+              }
+              continue;
+            }
+
             viewAllPatterns.push(patternlab.patterns[j]);
           }
         }
 
-        var viewAllTemplate = fs.readFileSync('./source/_patternlab-files/viewall.mustache', 'utf8');
+        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
-        fs.outputFileSync(patternlab.config.patterns.public + pattern.flatPatternPath + '/index.html', viewAllHtml);
+        fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', viewAllHtml);
       }
     }
 
     //build the patternlab website
-    var patternlabSiteTemplate = fs.readFileSync('./source/_patternlab-files/index.mustache', 'utf8');
+    var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'index.mustache'), 'utf8');
 
     //sort all patterns explicitly.
     patternlab.patterns = patternlab.patterns.sort(function(a,b){
@@ -242,10 +263,6 @@ var patternlab_engine = function () {
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
     for(var i = 0; i < patternlab.patterns.length; i++){
-      // skip underscore-prefixed files
-      if (path.basename(patternlab.patterns[i].abspath).charAt(0) === '_') {
-        continue;
-      }
 
       var pattern = patternlab.patterns[i];
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
@@ -253,6 +270,12 @@ var patternlab_engine = function () {
       //check if the bucket already exists
       var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
       if(bucketIndex === -1){
+
+        // skip underscore-prefixed files. don't create a bucket on account of an underscored pattern
+        if(isPatternExcluded(pattern)){
+          continue;
+        }
+
         //add the bucket
         var bucket = new of.oBucket(bucketName);
 
@@ -344,6 +367,11 @@ var patternlab_engine = function () {
         //if it is flat - we should not add the pattern to patternPaths
         if(flatPatternItem){
 
+          // skip underscore-prefixed files
+          if(isPatternExcluded(pattern)){
+            continue;
+          }
+
           //add the navItem to patternItems
           bucket.patternItems.push(navSubItem);
 
@@ -351,23 +379,27 @@ var patternlab_engine = function () {
           addToPatternPaths(bucketName, pattern);
 
         } else{
-          //check to see if navItem exists
-          var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
-          if(navItemIndex === -1){
 
-            var navItem = new of.oNavItem(navItemName);
+          // only do this if pattern is included
+          if(!isPatternExcluded(pattern)){
+            //check to see if navItem exists
+            var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
+            if(navItemIndex === -1){
 
-            //add the navItem and navSubItem
-            navItem.navSubItems.push(navSubItem);
-            navItem.navSubItemsIndex.push(navSubItemName);
-            bucket.navItems.push(navItem);
-            bucket.navItemsIndex.push(navItemName);
+              var navItem = new of.oNavItem(navItemName);
 
-          } else{
-            //add the navSubItem
-            var navItem = bucket.navItems[navItemIndex];
-            navItem.navSubItems.push(navSubItem);
-            navItem.navSubItemsIndex.push(navSubItemName);
+              //add the navItem and navSubItem
+              navItem.navSubItems.push(navSubItem);
+              navItem.navSubItemsIndex.push(navSubItemName);
+              bucket.navItems.push(navItem);
+              bucket.navItemsIndex.push(navItemName);
+
+            } else{
+              //add the navSubItem
+              var navItem = bucket.navItems[navItemIndex];
+              navItem.navSubItems.push(navSubItem);
+              navItem.navSubItemsIndex.push(navSubItemName);
+            }
           }
 
           //add the navViewAllSubItem
@@ -394,20 +426,20 @@ var patternlab_engine = function () {
 
     //the patternlab site requires a lot of partials to be rendered.
     //patternNav
-    var patternNavTemplate = fs.readFileSync('./source/_patternlab-files/partials/patternNav.mustache', 'utf8');
+    var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternNav.mustache'), 'utf8');
     var patternNavPartialHtml = pattern_assembler.renderPattern(patternNavTemplate, patternlab);
 
     //ishControls
-    var ishControlsTemplate = fs.readFileSync('./source/_patternlab-files/partials/ishControls.mustache', 'utf8');
+    var ishControlsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/ishControls.mustache'), 'utf8');
     patternlab.config.mqs = patternlab.mediaQueries;
     var ishControlsPartialHtml = pattern_assembler.renderPattern(ishControlsTemplate, patternlab.config);
 
     //patternPaths
-    var patternPathsTemplate = fs.readFileSync('./source/_patternlab-files/partials/patternPaths.mustache', 'utf8');
+    var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternPaths.mustache'), 'utf8');
     var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
 
     //viewAllPaths
-    var viewAllPathsTemplate = fs.readFileSync('./source/_patternlab-files/partials/viewAllPaths.mustache', 'utf8');
+    var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/viewAllPaths.mustache'), 'utf8');
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
@@ -417,12 +449,18 @@ var patternlab_engine = function () {
       'patternPaths': patternPathsPartialHtml,
       'viewAllPaths': viewAllPathsPartialHtml
     });
-    fs.outputFileSync('./public/index.html', patternlabSiteHtml);
+    fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
   }
 
   function addToPatternPaths(bucketName, pattern){
     //this is messy, could use a refactor.
     patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
+  }
+
+  //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
+  function isPatternExcluded(pattern){
+    // returns whether or not the first character of the pattern filename is an underscore, or excluded
+    return pattern.fileName.charAt(0) === '_';
   }
 
   return {

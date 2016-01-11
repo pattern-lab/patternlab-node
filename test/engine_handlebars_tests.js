@@ -26,7 +26,7 @@
 
     // patch the pattern source so the pattern assembler can correctly determine
     // the "subdir"
-    fpl.config.patterns.source = './test/files/_handlebars-test-patterns';
+    fpl.config.paths.source.patterns = './test/files/_handlebars-test-patterns';
 
     return fpl;
   }
@@ -137,6 +137,8 @@
     },
     'handlebars partials use the JSON environment from the calling pattern and can accept passed parameters': function (test) {
       test.expect(1);
+
+      debugger;
 
       // pattern paths
       var atomPath = path.resolve(
