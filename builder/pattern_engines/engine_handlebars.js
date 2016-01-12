@@ -64,7 +64,7 @@
     },
     // given a pattern, and a partial string, tease out the "pattern key" and
     // return it.
-    findPartialKey: function(pattern, partialString) {
+    findPartialKey: function(partialString) {
       var partialKey = partialString.replace(this.findPartialsRE, '$1');
       return partialKey;
     }
