@@ -156,7 +156,7 @@
 
       //do something with the regular old partials
       for(var i = 0; i < foundPatternPartials.length; i++){
-        var partialKey = currentPattern.getPartialKey(foundPatternPartials[i]);
+        var partialKey = currentPattern.findPartialKey(foundPatternPartials[i]);
         var partialPath;
 
         //identify which pattern this partial corresponds to

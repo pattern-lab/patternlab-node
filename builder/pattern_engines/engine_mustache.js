@@ -23,11 +23,11 @@
     expandPartials: true,
 
     // regexes, stored here so they're only compiled once
-    findPartialsRE: /{{>\s*((?:\d+-[\w-]+\/)+(\d+-[\w-]+(\.\w+)?)|[A-Za-z0-9-]+)(\:[\w-]+)?(\(\s*\w+\s*:\s*(?:'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")\))?\s*}}/g,
+    findPartialsRE:  /{{>\s*((?:\d+-[\w-]+\/)+(\d+-[\w-]+(\.\w+)?)|[A-Za-z0-9-]+)(\:[\w-]+(?:\|[\w-]+)*)?(\(\s*\w+\s*:\s*(?:'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")\))?\s*}}/g,
     findPartialsWithStyleModifiersRE: /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g,
     findPartialsWithPatternParametersRE: /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g,
     findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
-    getPartialKeyRE: /{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g,
+    findPartialKeyRE: /{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g,
 
     // render it
     renderPattern: function renderPattern(template, data, partials) {
@@ -58,9 +58,26 @@
     },
     // given a pattern, and a partial string, tease out the "pattern key" and
     // return it.
-    getPartialKey: function(pattern, partialString) {
-      var partialKey = partialString.replace(this.getPartialKeyRE, '$2');
+    findPartialKey_new: function(partialString) {
+      var partialKey = partialString.replace(this.findPartialKeyRE, '$2');
       return partialKey;
+    },
+
+    // GTP: the old implementation works better. We might not need
+    // this.findPartialKeyRE anymore if it works in all cases!
+    findPartialKey: function(partialString) {
+      //strip out the template cruft
+      var foundPatternKey = partialString.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
+
+		  // remove any potential pattern parameters. this and the above are rather brutish but I didn't want to do a regex at the time
+		  if(foundPatternKey.indexOf('(') > 0){
+			  foundPatternKey = foundPatternKey.substring(0, foundPatternKey.indexOf('('));
+		  }
+
+		  //remove any potential stylemodifiers.
+		  foundPatternKey = foundPatternKey.split(':')[0];
+
+      return foundPatternKey;
     }
   };
 

@@ -23,24 +23,13 @@
 			var matches = pattern.findPartials();
 			if(matches !== null){
 				matches.forEach(function(match, index, matches){
-					//strip out the template cruft
-					var foundPatternKey = match.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
-
-					// remove any potential pattern parameters. this and the above are rather brutish but I didn't want to do a regex at the time
-					if(foundPatternKey.indexOf('(') > 0){
-						foundPatternKey = foundPatternKey.substring(0, foundPatternKey.indexOf('('));
-					}
-
-					//remove any potential stylemodifiers.
-					foundPatternKey = foundPatternKey.split(':')[0];
-
 					//get the ancestorPattern
-					var ancestorPattern = pattern_assembler.get_pattern_by_key(foundPatternKey, patternlab);
+					var ancestorPattern = pattern_assembler.get_pattern_by_key(pattern.findPartialKey(match), patternlab);
 
 					if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.key) === -1){
-
 							//add it since it didnt exist
-							pattern.lineageIndex.push(ancestorPattern.key);
+						pattern.lineageIndex.push(ancestorPattern.key);
+
 							//create the more complex patternLineage object too
 							var l = {
 								"lineagePattern": ancestorPattern.key,

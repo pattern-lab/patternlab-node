@@ -82,8 +82,8 @@
       return this.engine.findListItems(this);
     },
 
-    getPartialKey: function (partialString) {
-      return this.engine.getPartialKey(this, partialString);
+    findPartialKey: function (partialString) {
+      return this.engine.findPartialKey(partialString);
     }
   };
 
