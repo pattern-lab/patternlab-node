@@ -4,7 +4,7 @@
     flex-flow: row nowrap;
     align-content: space-between;
     font-family : $fontSecondary;
-    align-items: center;
+    align-items: top;
     padding: 1.3em 1em;
     border-bottom: 1px solid $colorBorder;
     border-top: 1px solid $colorBorder;
@@ -19,7 +19,6 @@
   }
   &__input {
     flex: 0 0 40px;
-    margin-top: -3px;
   }
   &__label {
     flex: 1 1;

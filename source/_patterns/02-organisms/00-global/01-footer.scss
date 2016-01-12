@@ -42,12 +42,13 @@
   &__trustedShops {
     position : absolute;
     right : 1.25em;
-    bottom : 3.4em;
+    bottom : 100%;
     width : 3em;
 
     @media only screen and (min-width : $breakpointDesktop) {
       left: -3.75em;
       top : 2.375em;
+      bottom: auto;
     }
   }
 
@@ -68,9 +69,9 @@
     }
   }
 
-  .fieldset {
-    @media only screen and (max-width : $breakpointTablet) {
-      height : 77px;
-    }
-  }
+  //.fieldset {
+  //  @media only screen and (min-width : $breakpointDesktop) {
+  //    height : 77px;
+  //  }
+  //}
 }

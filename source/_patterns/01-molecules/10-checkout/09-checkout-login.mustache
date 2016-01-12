@@ -1,0 +1,35 @@
+<div class="section">
+  <div class="section__header">
+    <h2 class="section__title">
+      Log in to view all shipment details
+    </h2>
+    <p class="section__text">
+      You can find your order number in the receipt you received via email.
+    </p>
+  </div>
+  <div class="notice notice--warning">
+    <p class="notice__text">Invalid email or order number.</p>
+  </div>
+  <div class="section__content">
+    <div class="fieldset fieldset--inline">
+      <div class="field field--required">
+        <div class="field__input-wrapper"><label for="email" class="field__label">Email</label>
+
+          <input type="email" class="field__input" placeholder="Email" id="email" name="email">
+        </div>
+      </div>
+
+      <div class="field field--required">
+        <div class="field__input-wrapper"><label for="email" class="field__label">Order number</label>
+
+          <input type="text" class="field__input" placeholder="Order number" id="order_number" name="order_number">
+        </div>
+      </div>
+      <button class="btn btn-primary js-btn-primary js-btn-loadable focus-on-show" type="submit" name="button">Log in
+      </button>
+    </div>
+    <p class="section__content__text">
+      Not <span class="emphasis">Test</span>? You can <a href="#" target="_blank">buy this product too ›</a>
+    </p>
+  </div>
+</div>

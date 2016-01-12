@@ -57,8 +57,8 @@ $widthOffCanvasB: 512px;
 $breakpointMobile: 320px;
 $breakpointTablet: 750px;
 $breakpointDesktop: 960px;
-$breakpointMobileEnd: 639px;
-$breakpointTabletEnd: 959px;
+$breakpointMobileEnd: $breakpointTablet - 1;
+$breakpointTabletEnd: $breakpointDesktop - 1;
 
 //Timings
 $animationTimingFast: 200ms;

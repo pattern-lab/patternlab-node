@@ -2,7 +2,8 @@
   display: flex;
   flex-flow: row wrap;
   width: calc(100% + .9em);
-  margin: -.45em;
+  margin: 0 -.45em;
+
 
   & + .fieldset {
     margin-top: 2em;

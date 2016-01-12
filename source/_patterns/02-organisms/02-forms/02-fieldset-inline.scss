@@ -1,5 +1,7 @@
 .fieldset {
   &--inline {
+    margin-top: .45em;
+    margin-bottom: .45em;
     .field {
       flex: 2 1;
       &__input-wrapper {
@@ -15,7 +17,6 @@
       margin-right: .45em;
     }
     .field__message {
-      margin-left: 0;
       margin-right: 0;
     }
 
