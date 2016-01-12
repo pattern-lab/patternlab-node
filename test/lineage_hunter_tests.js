@@ -105,11 +105,11 @@
 
 		'find_lineage - finds lineage with spaced pattern parameters' : function(test){
 			//setup current pattern from what we would have during execution
-      var currentPattern = createFakeEmptyErrorPattern();
-      extend(currentPattern, {
+			var currentPattern = createFakeEmptyErrorPattern();
+			extend(currentPattern, {
 				"template": "{{> atoms-error(message: 'That\\'s no moon...') }}",
 				"patternPartial": "{{> atoms-error(message: 'That\\'s no moon...') }}"
-      });
+			});
 
 			var patternlab = {
 				patterns: [
@@ -137,8 +137,8 @@
 
 		'find_lineage - finds lineage with unspaced pattern parameters' : function(test){
 			//setup current pattern from what we would have during execution
-      var currentPattern = createFakeEmptyErrorPattern();
-      extend(currentPattern, {
+			var currentPattern = createFakeEmptyErrorPattern();
+			extend(currentPattern, {
 				"template": "{{>atoms-error(message: 'That\\'s no moon...')}}",
 				"patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}"
       });
@@ -180,7 +180,7 @@
 
 		'find_lineage - finds lineage with spaced styleModifier' : function(test){
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
+			var currentPattern = of.oPattern.createEmpty({
 				"name": "01-molecules-01-toast-00-error",
 				"subdir": "01-molecules\\01-toast",
 				"filename": "00-error.mustache",
@@ -198,10 +198,10 @@
 				"lineageIndex": [],
 				"lineageR": [],
 				"lineageRIndex": []
-			};
+			});
 			var patternlab = {
 				patterns: [
-					{
+					of.oPattern.createEmpty({
 						"name": "01-atoms-05-alerts-00-error",
 						"subdir": "01-atoms\\05-alerts",
 						"filename": "00-error.mustache",
@@ -219,7 +219,7 @@
 						"lineageIndex": [],
 						"lineageR": [],
 						"lineageRIndex": []
-					}
+					})
 				]
 			};
 
@@ -234,7 +234,7 @@
 
 		'find_lineage - finds lineage with unspaced styleModifier' : function(test){
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
+			var currentPattern = of.oPattern.createEmpty({
 				"name": "01-molecules-01-toast-00-error",
 				"subdir": "01-molecules\\01-toast",
 				"filename": "00-error.mustache",
@@ -252,10 +252,10 @@
 				"lineageIndex": [],
 				"lineageR": [],
 				"lineageRIndex": []
-			};
+			});
 			var patternlab = {
 				patterns: [
-					{
+					of.oPattern.createEmpty({
 						"name": "01-atoms-05-alerts-00-error",
 						"subdir": "01-atoms\\05-alerts",
 						"filename": "00-error.mustache",
@@ -273,7 +273,7 @@
 						"lineageIndex": [],
 						"lineageR": [],
 						"lineageRIndex": []
-					}
+					})
 				]
 			};
 
@@ -288,7 +288,7 @@
 
 		'find_lineage - finds lineage with fuzzy partial with styleModifier' : function(test){
 			//setup current pattern from what we would have during execution
-			var currentPattern = {
+			var currentPattern = of.oPattern.createEmpty({
 				"name": "01-molecules-01-toast-00-error",
 				"subdir": "01-molecules\\01-toast",
 				"filename": "00-error.mustache",
@@ -306,10 +306,10 @@
 				"lineageIndex": [],
 				"lineageR": [],
 				"lineageRIndex": []
-			};
+			});
 			var patternlab = {
 				patterns: [
-					{
+					of.oPattern.createEmpty({
 						"name": "01-atoms-05-alerts-00-error",
 						"subdir": "01-atoms\\05-alerts",
 						"filename": "00-error.mustache",
@@ -327,7 +327,7 @@
 						"lineageIndex": [],
 						"lineageR": [],
 						"lineageRIndex": []
-					}
+					})
 				]
 			};
 
