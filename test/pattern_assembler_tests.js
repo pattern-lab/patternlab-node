@@ -48,7 +48,6 @@
       );
 
 			var results = currentPattern.findPartials();
-      console.log(results);
 			test.equals(results.length, 15);
       test.equals(results[0], "{{> molecules-comment-header}}");
       test.equals(results[1], "{{>  molecules-comment-header}}");
