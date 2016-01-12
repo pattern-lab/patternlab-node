@@ -268,6 +268,7 @@
     'process_list_item_partials - correctly ignores bookended partials without a style modifier when the same partial has a style modifier between' : function(test){
       //arrange
       var fs = require('fs-extra');
+      var pa = require('../builder/pattern_assembler');
       var pattern_assembler = new pa();
       var list_item_hunter = new lih();
       var patterns_dir = './test/files/_patterns';
@@ -295,12 +296,12 @@
         ]
       };
 
-      var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+      var atomPattern = new of.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
       atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
       atomPattern.extendedTemplate = atomPattern.template;
       atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-      var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/11-bookend-listitem.mustache', '00-test', '11-bookend-listitem.mustache');
+      var bookendPattern = new of.oPattern('test/files/_patterns/00-test/11-bookend-listitem.mustache', '00-test', '11-bookend-listitem.mustache');
       bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/11-bookend-listitem.mustache', 'utf8');
       bookendPattern.extendedTemplate = bookendPattern.template;
       bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
