@@ -44,7 +44,7 @@ To run patternlab-node using gulp, you need to swap out the default grunt config
 3. Run `npm install` from the command line
 4. Run `gulp` or `gulp serve` from the command line
 
-This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to see have BrowserSync spin up and serve the files to you.
+This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `gulp serve` to see have BrowserSync spin up and serve the files to you.
 
 ### There and Back Again, or Switching Between Grunt and Gulp
 
