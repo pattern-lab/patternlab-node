@@ -90,7 +90,7 @@ var patternlab_engine = function () {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_iterative(file.substring(2), patternlab);
+        pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
     });
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
@@ -115,8 +115,9 @@ var patternlab_engine = function () {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(file.substring(2), patternlab);
-    });
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
+      });
+
 
     //delete the contents of config.patterns.public before writing
     if(deletePatternDir){
