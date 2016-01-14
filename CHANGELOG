@@ -7,6 +7,10 @@ PL-node-v1.1.0
 - THX: Thanks @dmolsen for input on desired behavior.
 - FIX: Fixed issue where style modifier partials within list item blocks where not uniquely being applied. this seems like a regression. added a unit test with fix
 - ADD: Added fuzzy pattern matching support based on patternType-substring(patternName) to align with PL PHP
+- FIX: Fixed issue with gulpfile not copying style.css and watching the wrong directory
+- THX: Thanks @robinsonaaron for the issue and pull request!
+- FIX: Prefer exact pattern key match over fuzzy matches inside getpatternbykey()
+- THX: Thanks @EvanLovely for the suggestion
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.
