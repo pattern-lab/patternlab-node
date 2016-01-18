@@ -11,6 +11,10 @@ PL-node-v1.1.0
 - THX: Thanks @robinsonaaron for the issue and pull request!
 - FIX: Prefer exact pattern key match over fuzzy matches inside getpatternbykey()
 - THX: Thanks @EvanLovely for the suggestion
+- FIX: Fix issue where absolute paths in the config path object would not resolve
+- THX: Thanks to @geoffp and @EvanLovely for reporting, fixing and testing the issue in the dev branch.
+- FIX: Typo in gulp instructions in README.
+- THX: Thanks @simonknittel for the watchful eyes
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.
