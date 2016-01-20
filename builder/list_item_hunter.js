@@ -17,7 +17,6 @@
 				pa = require('./pattern_assembler'),
 				smh = require('./style_modifier_hunter'),
 				plutils = require('./utilities'),
-				config = require('../config.json'),
         of = require('./object_factory');
 
 		var pattern_assembler = new pa(),
@@ -31,7 +30,7 @@
 			if(matches !== null){
 				matches.forEach(function(liMatch, index, matches){
 
-					if(config.debug){
+					if(patternlab.config.debug){
 						console.log('found listItem of size ' + liMatch + ' inside ' + pattern.key);
 					}
 
@@ -43,7 +42,7 @@
 					var repeatedBlockTemplate = [];
 					var repeatedBlockHtml = '';
 					for(var i = 0; i < items.indexOf(loopNumberString); i++){
-            if (config.debug) {
+            if (patternlab.config.debug) {
               console.log('list item(s) in pattern', pattern.patternName, 'adding', patternBlock, 'to repeatedBlockTemplate');
             }
 						repeatedBlockTemplate.push(patternBlock);

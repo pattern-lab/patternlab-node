@@ -17,7 +17,6 @@
 
 			var pa = require('./pattern_assembler');
 			var pattern_assembler = new pa();
-			var config = require('../config.json');
 
 			//find the {{> template-name }} within patterns
 			var matches = pattern.findPartials();
