@@ -14,7 +14,6 @@
   var patternEngines = require('./pattern_engines/pattern_engines');
   var path = require('path');
   var fs = require('fs-extra');
-  var config = fs.readJSONSync('./config.json');
   var extend = require('util')._extend;
 
   // oPattern properties
@@ -52,9 +51,6 @@
     // render method on oPatterns; this acts as a proxy for the PatternEngine's
     // render function
     render: function (data, partials) {
-      if (config.debug && this.isPseudoPattern) {
-        console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
-      }
       return this.engine.renderPattern(this.extendedTemplate, data || this.jsonFileData, partials);
     },
 

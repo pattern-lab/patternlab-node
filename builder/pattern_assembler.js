@@ -18,8 +18,6 @@
         plutils = require('./utilities'),
         patternEngines = require('./pattern_engines/pattern_engines');
 
-    var config = fs.readJSONSync('./config.json');
-
     function setState(pattern, patternlab){
       if(patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]){
         pattern.patternState = patternlab.config.patternStates[pattern.patternName];
@@ -56,16 +54,10 @@
       // if we've been passed a full oPattern, it knows what kind of template it
       // is, and how to render itself, so we just call its render method
       if (pattern instanceof of.oPattern) {
-        if (config.debug) {
-          console.log('rendering full oPattern: ' + pattern.name);
-        }
         return pattern.render(data, partials);
       } else {
         // otherwise, assume it's a plain mustache template string and act
         // accordingly
-        if (config.debug) {
-          console.log('rendering plain mustache string:', pattern.substring(0, 20) + '...');
-        }
         return patternEngines.mustache.renderPattern(pattern, data, partials);
       }
     }
@@ -75,10 +67,6 @@
       var subdir = path.dirname(path.relative(patternlab.config.paths.source.patterns, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
-
-      if (config.debug) {
-        console.log('processPatternIterative:', filename);
-      }
 
       // skip non-pattern files
       if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
