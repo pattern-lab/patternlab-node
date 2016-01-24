@@ -104,8 +104,8 @@ gulp.task('connect', ['lab'], function(){
   gulp.watch(path.resolve(paths().source.css, '**/*.css'), ['cp:css']);
 
   //suggested watches if you use scss
-  // gulp.watch('./source/css/**/*.scss', ['sass:style']);
-  // gulp.watch('./public/styleguide/*.scss', ['sass:styleguide']);
+  // gulp.watch(paths().source.css + '**/*.scss', ['sass:style']);
+  // gulp.watch(paths().public.styleguide + '*.scss', ['sass:styleguide']);
 
   gulp.watch(
     [
@@ -127,21 +127,21 @@ gulp.task('nodeunit', function(){
 
 //sass tasks, turn on if you want to use
 // gulp.task('sass:style', function(){
-// 	return gulp.src('./source/css/*.scss')
+// 	return gulp.src(paths().source.css + '*.scss')
 // 		.pipe(sass({
 // 			outputStyle: 'expanded',
 // 			precision: 8
 // 		}))
-// 		.pipe(gulp.dest('./public/css'))
+// 		.pipe(gulp.dest(paths().public.css))
 //     .pipe(browserSync.stream());
 // })
 // gulp.task('sass:styleguide', function(){
-// 	return gulp.src('./public/styleguide/css/*.scss')
+// 	return gulp.src(gulp.dest(paths().public.styleguide + 'css/*.scss')
 //  		.pipe(sass({
 //  			outputStyle: 'expanded',
 //  			precision: 8
 //  		}))
-//  		.pipe(gulp.dest('./public/styleguide/css'))
+//  		.pipe(gulp.dest(paths().public.styleguide + 'css'))
 //     .pipe(browserSync.stream());
 // })
 

@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+	var path = require('path');
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -60,40 +62,46 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-				{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
-				{ expand: true, cwd: './source/css/', src: '*.css', dest: './public/css/' },
-				{ expand: true, cwd: './source/images/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/' },
-				{ expand: true, cwd: './source/images/sample/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/sample/'},
-				{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
-				{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
+				{ expand: true, cwd: paths().source.js, src: '*', dest: paths().public.js},
+				{ expand: true, cwd: paths().source.css, src: '*.css', dest: paths().public.css },
+				{ expand: true, cwd: paths().source.images, src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: paths().public.images },
+				{ expand: true, cwd: paths().source.fonts, src: '*', dest: paths().public.fonts},
+				{ expand: true, cwd: paths().source.data, src: 'annotations.js', dest: paths().public.data}
 				]
 			},
 			css: {
 				files: [
-				{ expand: true, cwd: './source/css/', src: '*.css', dest: './public/css/' }
+				{ expand: true, cwd: paths().source.css, src: '*.css', dest: paths().public.css }
+				]
+			},
+			styleguide: {
+				files: [
+					{
+						expand: true, cwd: paths().source.styleguide, src: ['*.*', '**/*.*'], dest: paths().public.styleguide
+					}
 				]
 			}
 		},
 		watch: {
 			all: {
 				files: [
-					'source/css/**/*.css',
-					'public/styleguide/css/*.css',
-					'source/_patterns/**/*.mustache',
-					'source/_patterns/**/*.json',
-					'source/_data/*.json'
+					paths().source.css + '**/*.css',
+					paths().source.styleguide + 'css/*.css',
+					paths().source.patterns + '**/*.mustache',
+					paths().source.patterns + '**/*.json',
+					paths().source.data + '*.json'
 				],
 				tasks: ['default']
 			},
 			// scss: {
-			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
+			// 	files: [paths().source.css + '**/*.scss', paths().source.styleguide + 'css/*.scss'],
 			// 	tasks: ['sass', 'copy:css','bsReload:css']
 			// },
 			patterns: {
 				files: [
-					'source/_patterns/**/*.mustache',
-					'source/_patterns/**/*.json',
-					'source/_data/*.json'
+					paths().source.patterns + '*.mustache',
+					paths().source.patterns + '*.json',
+					paths().source.data + '*.json'
 				],
 				tasks: ['default']
 			}
@@ -105,10 +113,10 @@ module.exports = function(grunt) {
 		// 			precision: 8
 		// 		},
 		// 		files: {
-		// 			'./source/css/style.css': './source/css/style.scss',
-		// 			'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
-		// 			'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
-		// 			'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
+		// 			paths().source.css + 'style.css': paths().source.css + 'style.scss',
+		// 			paths().source.styleguide + 'css/static.css': paths().source.styleguide + 'css/static.scss',
+		// 			paths().source.styleguide + 'css/styleguide.css': paths().source.styleguide + 'css/styleguide.scss',
+		// 			paths().source.styleguide + 'css/styleguide-specific.css': paths().source.styleguide + 'css/styleguide-specific.scss'
 		// 		}
 		// 	}
 		// },
@@ -118,13 +126,13 @@ module.exports = function(grunt) {
 		browserSync: {
 			dev: {
 				options: {
-					server:  './public',
+					server:  paths().public.root,
 					watchTask: true,
 					plugins: [
 						{
 							module: 'bs-html-injector',
 							options: {
-								files: './public/index.html'
+								files: paths().public + 'index.html'
 							}
 						}
 					]
@@ -132,9 +140,13 @@ module.exports = function(grunt) {
 			}
 		},
 		bsReload: {
-			css: './public/**/*.css'
+			css: paths().public + '**/*.css'
 		}
 	});
+
+	function paths () {
+	  return require('./config.json').paths;
+	}
 
 	// load all grunt tasks
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -149,8 +161,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('travis', ['nodeunit', 'patternlab']);
 
 	//TODO: this line is more efficient, but you cannot run concurrent watch tasks without another dependency.
-	//grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'browserSync', 'watch:patterns', 'watch:scss']);
-	grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'browserSync', 'watch:all']);
+	//grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'copy:styleguide', 'browserSync', 'watch:patterns', 'watch:scss']);
+	grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'copy:styleguide', 'browserSync', 'watch:all']);
 
 	grunt.registerTask('build', ['nodeunit', 'concat']);
 
