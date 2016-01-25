@@ -34,9 +34,10 @@
       transform: translate(-50%, -50%);
     }
     &--noImage {
+      position : relative;
       color : $colorBlack;
       &:after {
-        color : $colorBlack;
+        border-color : $colorBlack;
       }
     }
   }
