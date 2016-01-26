@@ -1,6 +1,6 @@
 
 .headlineGroup{
-  margin-bottom : 3em;
+  margin-bottom : $marginStandard;
   &__headline {
     font-family : $fontPrimary;
     text-transform : uppercase;
