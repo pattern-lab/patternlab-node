@@ -62,23 +62,16 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-				{ expand: true, cwd: paths().source.js, src: '*', dest: paths().public.js},
-				{ expand: true, cwd: paths().source.css, src: '*.css', dest: paths().public.css },
-				{ expand: true, cwd: paths().source.images, src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: paths().public.images },
-				{ expand: true, cwd: paths().source.fonts, src: '*', dest: paths().public.fonts},
-				{ expand: true, cwd: paths().source.data, src: 'annotations.js', dest: paths().public.data}
-				]
-			},
-			css: {
-				files: [
-				{ expand: true, cwd: paths().source.css, src: '*.css', dest: paths().public.css }
+					{ expand: true, cwd: paths().source.js, src: '*.js', dest: paths().public.js},
+					{ expand: true, cwd: paths().source.css, src: '*.css', dest: paths().public.css },
+					{ expand: true, cwd: paths().source.images, src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: paths().public.images },
+					{ expand: true, cwd: paths().source.fonts, src: '*', dest: paths().public.fonts},
+					{ expand: true, cwd: paths().source.data, src: 'annotations.js', dest: paths().public.data}
 				]
 			},
 			styleguide: {
 				files: [
-					{
-						expand: true, cwd: paths().source.styleguide, src: ['*.*', '**/*.*'], dest: paths().public.styleguide
-					}
+					{ expand: true, cwd: paths().source.styleguide, src: ['*.*', '**/*.*'], dest: paths().public.styleguide }
 				]
 			}
 		},
@@ -91,35 +84,9 @@ module.exports = function(grunt) {
 					paths().source.patterns + '**/*.json',
 					paths().source.data + '*.json'
 				],
-				tasks: ['default']
-			},
-			// scss: {
-			// 	files: [paths().source.css + '**/*.scss', paths().source.styleguide + 'css/*.scss'],
-			// 	tasks: ['sass', 'copy:css','bsReload:css']
-			// },
-			patterns: {
-				files: [
-					paths().source.patterns + '*.mustache',
-					paths().source.patterns + '*.json',
-					paths().source.data + '*.json'
-				],
-				tasks: ['default']
+				tasks: ['default', 'bsReload:css']
 			}
 		},
-		// sass: {
-		// 	build: {
-		// 		options: {
-		// 			style: 'expanded',
-		// 			precision: 8
-		// 		},
-		// 		files: {
-		// 			paths().source.css + 'style.css': paths().source.css + 'style.scss',
-		// 			paths().source.styleguide + 'css/static.css': paths().source.styleguide + 'css/static.scss',
-		// 			paths().source.styleguide + 'css/styleguide.css': paths().source.styleguide + 'css/styleguide.scss',
-		// 			paths().source.styleguide + 'css/styleguide-specific.css': paths().source.styleguide + 'css/styleguide-specific.scss'
-		// 		}
-		// 	}
-		// },
 		nodeunit: {
 			all: ['test/*_tests.js']
 		},
@@ -128,11 +95,15 @@ module.exports = function(grunt) {
 				options: {
 					server:  paths().public.root,
 					watchTask: true,
+					watchOptions: {
+						ignoreInitial: true,
+						ignored: '*.html'
+					},
 					plugins: [
 						{
 							module: 'bs-html-injector',
 							options: {
-								files: paths().public + 'index.html'
+								files: [paths().public.root + '/index.html', paths().public.styleguide + '/styleguide.html']
 							}
 						}
 					]
@@ -140,7 +111,7 @@ module.exports = function(grunt) {
 			}
 		},
 		bsReload: {
-			css: paths().public + '**/*.css'
+			css: paths().public.root + '**/*.css'
 		}
 	});
 
@@ -154,15 +125,12 @@ module.exports = function(grunt) {
 	//load the patternlab task
 	grunt.task.loadTasks('./builder/');
 
-	//if you choose to use scss, or any preprocessor, you can add it here
-	grunt.registerTask('default', ['patternlab', /*'sass',*/ 'copy:main']);
+	grunt.registerTask('default', ['patternlab', 'copy:main', 'copy:styleguide']);
 
 	//travis CI task
 	grunt.registerTask('travis', ['nodeunit', 'patternlab']);
 
-	//TODO: this line is more efficient, but you cannot run concurrent watch tasks without another dependency.
-	//grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'copy:styleguide', 'browserSync', 'watch:patterns', 'watch:scss']);
-	grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'copy:styleguide', 'browserSync', 'watch:all']);
+	grunt.registerTask('serve', ['patternlab', 'copy:main', 'copy:styleguide', 'browserSync', 'watch:all']);
 
 	grunt.registerTask('build', ['nodeunit', 'concat']);
 

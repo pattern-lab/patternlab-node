@@ -191,7 +191,7 @@ var patternlab_engine = function (config) {
     //build the styleguide
     var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'styleguide.mustache'), 'utf8'),
     styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
-    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
+    fs.outputFileSync(path.resolve(paths.source.styleguide, 'html/styleguide.html'), styleguideHtml);
 
     //build the viewall pages
     var prevSubdir = '',
