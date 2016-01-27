@@ -3,7 +3,7 @@
   text-align : center;
   display : flex;
   flex-direction : column;
-  margin-bottom : 2.75em;
+  margin-bottom : $marginStandard;
   @media only screen and (min-width : $breakpointTablet) {
     text-align: left;
   }
