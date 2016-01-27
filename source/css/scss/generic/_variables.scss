@@ -69,6 +69,8 @@ $animationTimingForever: 3000ms;
 
 //Margins & Paddings
 $marginStandard : 2.75em;
+$marginMedium : (2 * $marginStandard);
+$marginLarge : (3 * $marginStandard);
 $paddingStandard: 2.75em;
 
 %animationTextLinks {
