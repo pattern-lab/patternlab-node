@@ -11,10 +11,14 @@ PL-node-v1.1.0
 - THX: Thanks @robinsonaaron for the issue and pull request!
 - FIX: Prefer exact pattern key match over fuzzy matches inside getpatternbykey()
 - THX: Thanks @EvanLovely for the suggestion
+- ADD: Make all paths configurable
+- THX: HUGE Thanks to @geoffp and @EvanLovely for their thoughts, time, and talent to make this a reality!
 - FIX: Fix issue where absolute paths in the config path object would not resolve
 - THX: Thanks to @geoffp and @EvanLovely for reporting, fixing and testing the issue in the dev branch.
 - FIX: Typo in gulp instructions in README.
 - THX: Thanks @simonknittel for the watchful eyes
+- CHG: Changed locations of ./public/styleguide to ./core/styleguide to make ./public/ a cleaner distribution directory
+- CHG: Removed scss files and config from project. This is in preparation for including the default asset repo in the future
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.

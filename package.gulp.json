@@ -4,17 +4,17 @@
   "version": "1.0.1",
   "main": "./builder/patternlab.js",
   "dependencies": {
-    "del": "^2.0.2",
+    "del": "^2.2.0",
     "diveSync": "^0.3.0",
-    "fs-extra": "^0.26.2",
-    "glob": "^6.0.1",
+    "fs-extra": "^0.26.5",
+    "glob": "^6.0.4",
     "html-entities": "^1.2.0",
-    "mustache": "^2.2.0"
+    "mustache": "^2.2.1"
   },
   "devDependencies": {
-    "browser-sync": "^2.10.0",
+    "browser-sync": "^2.11.1",
     "gulp": "^3.9.0",
-    "gulp-connect": "^2.2.0",
+    "gulp-connect": "^2.3.1",
     "gulp-copy": "0.0.2",
     "gulp-header": "^1.7.1",
     "gulp-load": "^0.1.1",
