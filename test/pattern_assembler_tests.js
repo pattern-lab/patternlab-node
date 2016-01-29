@@ -643,6 +643,11 @@
 			patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
 			patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
 
+			patternlab.data.brad = { url: "link.twitter-brad" }
+			patternlab.data.dave = {	url: "link.twitter-dave" }
+			patternlab.data.brian = {	url: "link.twitter-brian" }
+
+
 			var pattern;
 			for(var i = 0; i < patternlab.patterns.length; i++){
 				if(patternlab.patterns[i].key === 'test-nav'){
@@ -661,6 +666,10 @@
 			test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost");
 			test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
 			test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
+
+			test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost");
+			test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen");
+			test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer");
 			test.done();
 		}
 	};
