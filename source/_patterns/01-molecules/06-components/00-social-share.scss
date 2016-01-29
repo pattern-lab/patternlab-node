@@ -1,24 +1,27 @@
 
 .socialShare {
   display : inline-block;
-  padding : 1.25em;
+
   @media only screen and (min-width : $breakpointDesktop) {
     padding : 0;
-    margin-left : 1.25em;
     display: inline-block;
     vertical-align : top;
     min-width : 125px;
   }
+
   .navigation__footer--headline {
     display : none;
+
     @media only screen and (min-width : $breakpointDesktop) {
       display : block;
     }
   }
+
   &__list {
     list-style-type : none;
     display : inline;
   }
+
   &__link {
     &--icon {
       display : inline-block;
@@ -26,10 +29,12 @@
       margin-right : 0.625rem;
       transition-duration: 500ms;
       transition-timing-function: ease-in;
+
       &:hover {
         color: $colorTussock;
         transition-timing-function: ease-out;
       }
+
       &:active {
         color: lighten($colorTussock, 10%);
       }

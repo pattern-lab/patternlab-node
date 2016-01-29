@@ -3,39 +3,50 @@
   text-align : center;
   display : flex;
   flex-direction : column;
+
   @media only screen and (min-width : $breakpointTablet) {
     text-align: left;
   }
+
   @media only screen and (min-width : $breakpointDesktop) {
-    display : flex;
+    margin : 0 $marginStandard;
     flex-direction : row;
     align-items : center;
     justify-content : space-between;
     align-content : center;
   }
+
+  @media only screen and (min-width : $maxWidthLayout) {
+    margin : 0 $marginMini;
+  }
+
   &__image {
     margin-top : 2.75em;
     display: flex;
     justify-content: center;
     align-items: center;
+
     @media only screen and (min-width : $breakpointDesktop) {
       margin-top : 0;
-      padding : 0 3.75em;
       display: inline-block;
       width: 49%;
     }
+
     &--cropped {
       height : 300px;
       overflow : hidden;
+
       @media only screen and (min-width : $breakpointDesktop) {
         height : 100%;
       }
     }
   }
   &__text {
-    padding : 0 1em;
+    padding : 0 $marginMini;
+
     @media only screen and (min-width : $breakpointDesktop) {
-      padding : 0 3.75em;
+      padding : 0;
+      max-width : 600px;
       display: inline-block;
       width: 49%;
     }

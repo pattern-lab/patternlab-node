@@ -1,13 +1,16 @@
 @mixin accordion {
   width : 100%;
+
   &__handle {
     display : block;
     position : relative;
     @include icon('plus');
+
     &:before {
       position : absolute;
-      right : 1em;
+      right : $marginMini;
     }
+
     &--expanded {
       background-color : lighten(#c0c0c0, 20%);
       @include icon('minus');
@@ -20,6 +23,7 @@
   &__panel {
     display:none;
   }
+
   &__panel__content {
     display:block;
     font-size : 0.875em;
@@ -30,7 +34,7 @@
     border-bottom : 1px solid $colorSilver;
     padding-top : 1em;
     padding-bottom : 1em;
-    padding-left : 0.75em;
+    padding-left : $marginMini;
     font-weight : 300;
     transition-duration: 500ms;
     transition-timing-function: ease-in;
@@ -49,8 +53,9 @@
   background-color : $colorGallery;
   padding-top : 1em;
   padding-bottom : 1em;
-  padding-left : 0.75em;
+  padding-left : $marginMini;
   cursor: pointer;
+
   &:hover, &:active {
     background-color : lighten(#c0c0c0, 20%);
   }
@@ -59,6 +64,7 @@
 
 .mobile-accordion__handle--base {
   @extend .accordion__handle;
+
   @media only screen and (max-width : $breakpointTabletEnd) {
     font-family: $fontPrimary;
     font-size: 0.875em;
@@ -69,12 +75,14 @@
     background-color: $colorGallery;
     padding-top: 1em;
     padding-bottom: 1em;
-    padding-left: 0.75em;
+    padding-left: $marginMini;
     cursor: pointer;
+
     &:hover, &:active {
       background-color: lighten(#c0c0c0, 20%);
     }
   }
+
   &:before {
     @media only screen and (min-width : $breakpointDesktop) {
       display : none;
@@ -89,12 +97,15 @@
   .mobile-accordion {
     @include accordion;
   }
+
   .accordion__panel__content--link {
     display : block;
+
     &:hover {
       background-color : $colorGallery;
       transition-timing-function: ease-out;
     }
+
     &:active {
       background-color : lighten(#c0c0c0, 20%);
     }

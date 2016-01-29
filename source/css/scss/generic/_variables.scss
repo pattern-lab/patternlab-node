@@ -54,7 +54,7 @@ $widthOffCanvasA: 230px;
 $widthOffCanvasB: 512px;
 
 //Responsiveness
-$breakpointMobile: 320px;
+$breakpointMobile: 480px;
 $breakpointTablet: 750px;
 $breakpointDesktop: 960px;
 $breakpointMobileEnd: $breakpointTablet - 1;
@@ -69,9 +69,14 @@ $animationTimingForever: 3000ms;
 
 //Margins & Paddings
 $marginStandard : 2.75em;
+$marginMini : (0.5 * $marginStandard);
 $marginMedium : (2 * $marginStandard);
 $marginLarge : (3 * $marginStandard);
+
 $paddingStandard: 2.75em;
+$paddingMini : (0.5 * $paddingStandard);
+$paddingMedium : (2 * $paddingStandard);
+$paddingLarge : (3 * $paddingStandard);
 
 %animationTextLinks {
   color : inherit;

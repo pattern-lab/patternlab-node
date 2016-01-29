@@ -3,7 +3,6 @@
   width : 100%;
 
   @media only screen and (min-width : $breakpointDesktop) {
-    margin: 0 1.25em 0 1.25em;
     text-align : left;
     width : auto;
     vertical-align : top;
@@ -42,10 +41,12 @@
       font-weight : 500;
       transition-duration: 500ms;
       transition-timing-function: ease-in;
+
       &:hover {
         color: $colorTussock;
         transition-timing-function: ease-out;
       }
+
       &:active {
         color: lighten($colorTussock, 10%);
       }
