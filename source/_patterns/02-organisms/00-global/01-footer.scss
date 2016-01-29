@@ -35,6 +35,28 @@
       flex-direction: row;
       flex: 1;
     }
+
+    &--groupedContent {
+      display: flex;
+      flex-flow: row;
+      flex-grow : 2;
+
+      @media only screen and (max-width : $breakpointMobile) {
+        align-items: center;
+      }
+
+      .socialShare {
+        margin-left : $marginMini;
+        padding-top : $paddingMini;
+        margin-bottom : 0.3em;
+        flex : 1;
+
+        @media only screen and (min-width : $breakpointDesktop) {
+          padding-top : 0;
+          margin-left : 0;
+        }
+      }
+    }
   }
 
   &__sectionRight {
@@ -50,28 +72,13 @@
     margin: 0 $marginStandard 0 0;
   }
 
-  &__copyright {
-    padding : 1.25rem 0;
-    text-align : center;
-    font-size : 0.75em;
-    text-transform : uppercase;
-    letter-spacing : 0.1em;
-  }
-
   &__trustedShops {
-    position : absolute;
-    bottom : 100%;
+    flex: none;
     width : 3em;
-    right: 0;
-
-    @media only screen and (max-width : $breakpointMobile) {
-      bottom : 6.5em;
-    }
+    margin-right: $marginMini;
 
     @media only screen and (min-width : $breakpointDesktop) {
-      left: -3.75em;
-      top : 2.375em;
-      bottom: auto;
+      margin-top : 2.375em;
     }
   }
 
@@ -83,31 +90,25 @@
     @media only screen and (min-width : $breakpointDesktop) {
       margin-top : 0;
     }
-    .field__input-wrapper {
-      margin-bottom : 0.5em;
-      //margin-top : $marginMini;
-    }
-    .field__message ~ .field__input-wrapper {
-      color : green;
-      margin-top : 2em;
-    }
 
-    .field__message {
+    .field {
       @media only screen and (max-width : $breakpointMobile) {
-        top : -2em;
-        position : absolute;
+        display : flex;
+        flex-flow : column-reverse;
       }
     }
+
+    .field__input-wrapper {
+      margin-bottom : 0.5em;
+    }
+
   }
 
-  .socialShare {
-      margin-left : $marginMini;
-      padding-top : $paddingMini;
-      margin-bottom : 0.3em;
-
-    @media only screen and (min-width : $breakpointDesktop) {
-      padding-top : 0;
-      margin-left : 0;
-    }
+  &__copyright {
+    padding : 1.25rem 0;
+    text-align : center;
+    font-size : 0.75em;
+    text-transform : uppercase;
+    letter-spacing : 0.1em;
   }
 }

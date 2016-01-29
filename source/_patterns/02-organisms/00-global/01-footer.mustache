@@ -2,13 +2,17 @@
     <div class="footer__wrapper">
         <div class="footer__sectionLeft">
             {{> molecules-footer-nav }}
-            {{> molecules-social-share }}
+
+            <div class="footer__sectionLeft--groupedContent">
+                {{> molecules-social-share }}
+                <div class="footer__trustedShops">
+                    {{> atoms-trusted-shops }}
+                </div>
+            </div>
+
         </div>
         <div class="footer__sectionRight">
             <h3 class="navigation__footer--headline show--desktop">Join us on our Journey</h3>
-            <div class="footer__trustedShops">
-                {{> atoms-trusted-shops }}
-            </div>
             {{> organisms-fieldset-inline(buttonText: 'Join Now!', id: '686482364', label: 'Enter your email', error: 'Please enter your email address.', styleModifier: 'field--error'  ) }}
         </div>
     </div>
