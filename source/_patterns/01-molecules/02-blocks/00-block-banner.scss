@@ -3,9 +3,16 @@
   position : relative;
   margin : 0 auto;
   text-align : center;
+
   &__image {
     width : 100%;
   }
+
+  @media only screen and (min-width: $maxWidthLayout) {
+    margin-right : $marginMini;
+    margin-left : $marginMini;
+  }
+
   &__text {
     @include font-primary-bold-uppercase();
     font-size : 1.3125em;
@@ -23,6 +30,7 @@
       margin-top : -20px;
       font-size : 2.1428571429em;
     }
+
     &:after {
       width: 55px;
       height: 20px;
@@ -33,9 +41,11 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
     &--noImage {
       position : relative;
       color : $colorBlack;
+
       &:after {
         border-color : $colorBlack;
       }
