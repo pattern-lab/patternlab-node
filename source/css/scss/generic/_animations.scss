@@ -5,3 +5,25 @@
       transform: rotate(360deg);
     }
 }
+
+@keyframes slide-fade-in-left {
+  from {
+    transform: translateX(-5%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-fade-in-right {
+  from {
+    transform: translateX(5%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
