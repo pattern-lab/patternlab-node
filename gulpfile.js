@@ -62,34 +62,34 @@ gulp.task('banner', function(){
 
 // JS copy
 gulp.task('cp:js', function(){
-  return gulp.src('**/*.js', {cwd:paths().source.js})
-    .pipe(gulp.dest(paths().public.js));
+  return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
+    .pipe(gulp.dest(path.resolve(paths().public.js)));
 });
 
 // Images copy
 gulp.task('cp:img', function(){
   return gulp.src(
     [ '**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'  ],
-    {cwd:paths().source.images} )
-    .pipe(gulp.dest(paths().public.images));
+    {cwd: path.resolve(paths().source.images)} )
+    .pipe(gulp.dest(path.resolve(paths().public.images)));
 });
 
 // Fonts copy
 gulp.task('cp:font', function(){
-  return gulp.src('*', {cwd:paths().source.fonts})
-    .pipe(gulp.dest(paths().public.images));
+  return gulp.src('*', {cwd: path.resolve(paths().source.fonts)})
+    .pipe(gulp.dest(path.resolve(paths().public.images)));
 });
 
 // Data copy
 gulp.task('cp:data', function(){
-  return gulp.src('annotations.js', {cwd:paths().source.data})
-    .pipe(gulp.dest(paths().public.data));
+  return gulp.src('annotations.js', {cwd: path.resolve(paths().source.data)})
+    .pipe(gulp.dest(path.resolve(paths().public.data)));
 });
 
 // CSS Copy
 gulp.task('cp:css', function(){
   return gulp.src(path.resolve(paths().source.css, 'style.css'))
-    .pipe(gulp.dest(paths().public.css))
+    .pipe(gulp.dest(path.resolve(paths().public.css)))
     .pipe(browserSync.stream());
 });
 
@@ -97,8 +97,8 @@ gulp.task('cp:css', function(){
 gulp.task('cp:styleguide', function(){
   return gulp.src(
       [ '**/*'],
-      {cwd:paths().source.styleguide} )
-      .pipe(gulp.dest(paths().public.styleguide))
+      {cwd: path.resolve(paths().source.styleguide)} )
+      .pipe(gulp.dest(path.resolve(paths().public.styleguide)))
       .pipe(browserSync.stream());;
 });
 
@@ -106,7 +106,7 @@ gulp.task('cp:styleguide', function(){
 gulp.task('connect', ['lab'], function(){
   browserSync.init({
     server: {
-      baseDir: paths().public.root
+      baseDir: path.resolve(paths().public.root)
     }
   });
   gulp.watch(path.resolve(paths().source.css, '**/*.css'), ['cp:css']);
@@ -118,6 +118,9 @@ gulp.task('connect', ['lab'], function(){
       path.resolve(paths().source.patterns, '**/*.mustache'),
       path.resolve(paths().source.patterns, '**/*.json'),
       path.resolve(paths().source.data, '*.json'),
+      path.resolve(paths().source.fonts + '/*'),
+      path.resolve(paths().source.images + '/*'),
+      path.resolve(paths().source.data + '*.json'),
     ],
     ['lab-pipe'],
     function () { browserSync.reload(); }

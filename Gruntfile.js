@@ -62,27 +62,29 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-					{ expand: true, cwd: paths().source.js, src: '*.js', dest: paths().public.js},
-					{ expand: true, cwd: paths().source.css, src: '*.css', dest: paths().public.css },
-					{ expand: true, cwd: paths().source.images, src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: paths().public.images },
-					{ expand: true, cwd: paths().source.fonts, src: '*', dest: paths().public.fonts},
-					{ expand: true, cwd: paths().source.data, src: 'annotations.js', dest: paths().public.data}
+					{ expand: true, cwd: path.resolve(paths().source.js), src: '*.js', dest: path.resolve(paths().public.js) },
+					{ expand: true, cwd: path.resolve(paths().source.css), src: '*.css', dest: path.resolve(paths().public.css) },
+					{ expand: true, cwd: path.resolve(paths().source.images), src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: path.resolve(paths().public.images) },
+					{ expand: true, cwd: path.resolve(paths().source.fonts), src: '*', dest: path.resolve(paths().public.fonts) },
+					{ expand: true, cwd: path.resolve(paths().source.data), src: 'annotations.js', dest: path.resolve(paths().public.data) }
 				]
 			},
 			styleguide: {
 				files: [
-					{ expand: true, cwd: paths().source.styleguide, src: ['*.*', '**/*.*'], dest: paths().public.styleguide }
+					{ expand: true, cwd: path.resolve(paths().source.styleguide), src: ['*.*', '**/*.*'], dest: path.resolve(paths().public.styleguide) }
 				]
 			}
 		},
 		watch: {
 			all: {
 				files: [
-					paths().source.css + '**/*.css',
-					paths().source.styleguide + 'css/*.css',
-					paths().source.patterns + '**/*.mustache',
-					paths().source.patterns + '**/*.json',
-					paths().source.data + '*.json'
+					path.resolve(paths().source.css + '**/*.css'),
+					path.resolve(paths().source.styleguide + 'css/*.css'),
+					path.resolve(paths().source.patterns + '**/*.mustache'),
+					path.resolve(paths().source.patterns + '**/*.json'),
+					path.resolve(paths().source.fonts + '/*'),
+					path.resolve(paths().source.images + '/*'),
+					path.resolve(paths().source.data + '*.json')
 				],
 				tasks: ['default', 'bsReload:css']
 			}
@@ -93,7 +95,7 @@ module.exports = function(grunt) {
 		browserSync: {
 			dev: {
 				options: {
-					server:  paths().public.root,
+					server:  path.resolve(paths().public.root),
 					watchTask: true,
 					watchOptions: {
 						ignoreInitial: true,
@@ -103,7 +105,7 @@ module.exports = function(grunt) {
 						{
 							module: 'bs-html-injector',
 							options: {
-								files: [paths().public.root + '/index.html', paths().public.styleguide + '/styleguide.html']
+								files: [path.resolve(paths().public.root + '/index.html'), path.resolve(paths().public.styleguide + '/styleguide.html')]
 							}
 						}
 					]
@@ -111,7 +113,7 @@ module.exports = function(grunt) {
 			}
 		},
 		bsReload: {
-			css: paths().public.root + '**/*.css'
+			css: path.resolve(paths().public.root + '**/*.css')
 		}
 	});
 
