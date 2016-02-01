@@ -1,3 +1,61 @@
-//.carousel {
-//
-//}
+.carousel {
+  overflow:hidden;
+
+  &__image {
+    display:none;
+    flex:1;
+    padding:0 $paddingMini;
+
+    &--visible {
+      display:block;
+      animation: slide-fade-in-left $animationTimingNormal;
+    }
+
+    &--visible + &--visible {
+      animation: slide-fade-in-right $animationTimingNormal;
+
+      @media only screen and (max-width: $breakpointDesktop) {
+        display:none;
+      }
+    }
+
+    &s {
+      display:flex;
+      flex-flow:row nowrap;
+      margin:0 (-$marginMini);
+    }
+
+    img {
+      display:block;
+      width:100%;
+    }
+  }
+
+  &__handle {
+    transition:background-color $animationTimingNormal;
+    display:inline-block;
+    width:$fontSizeNormal;
+    height:$fontSizeNormal;
+    border-radius:100%;
+    background-color:$colorSilverChalice;
+    padding:0;
+    margin:0;
+    border:0 none;
+    cursor:pointer;
+
+    &--active {
+      background-color:$colorBlack;
+      cursor:default;
+    }
+
+    &s {
+      margin:$marginMini 0;
+      text-align:center;
+      white-space:nowrap;
+      cursor:default;
+      font-size:$fontSizeNormal;
+      line-height:$fontSizeNormal;
+      letter-spacing:0.2em;
+    }
+  }
+}
