@@ -17,7 +17,8 @@
   }
 
   @media only screen and (min-width : $maxWidthLayout) {
-    margin : 0 $marginMini;
+    margin-right : 0;
+    margin-left : 0;
   }
 
   &__image {

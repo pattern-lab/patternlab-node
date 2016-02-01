@@ -7,11 +7,11 @@
   &__image {
     width : 100%;
   }
-
-  @media only screen and (min-width: $maxWidthLayout) {
-    margin-right : $marginMini;
-    margin-left : $marginMini;
-  }
+  //
+  //@media only screen and (min-width: $maxWidthLayout) {
+  //  margin-right : $marginMini;
+  //  margin-left : $marginMini;
+  //}
 
   &__text {
     @include font-primary-bold-uppercase();

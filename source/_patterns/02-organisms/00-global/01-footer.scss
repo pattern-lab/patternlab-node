@@ -24,7 +24,17 @@
         top : 1.5em;
         transform: translateX(-50%);
         left: 50%;
+
+        @media only screen and (min-width: $maxWidthLayout) {
+          padding-left : $paddingMini;
+          padding-right : $paddingMini;
+        }
       }
+    }
+
+    @media only screen and (min-width: $maxWidthLayout) {
+      padding-left : 0;
+      padding-right : 0;
     }
   }
 

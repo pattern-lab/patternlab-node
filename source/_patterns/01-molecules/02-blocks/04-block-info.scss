@@ -7,6 +7,10 @@
   @media only screen and (min-width: $breakpointTablet) {
     padding : $paddingStandard;
   }
+  //
+  //@media only screen and (min-width : $maxWidthLayout) {
+  //  margin : 0 $marginMini;
+  //}
 
   &:before {
     display : block;
@@ -15,7 +19,7 @@
 
   }
   .headlineH3 {
-    max-width : 40em;
+    max-width : $textBlockMaxWidth;
     margin: 0 auto;
   }
 }
