@@ -9,16 +9,14 @@
     &--visible {
       display:block;
       animation: slide-fade-in-left $animationTimingNormal;
-
-      @media only screen and (max-width: $breakpointDesktop) {
-        + &--visible {
-          display:none;
-        }
-      }
     }
 
     &--visible + &--visible {
       animation: slide-fade-in-right $animationTimingNormal;
+
+      @media only screen and (max-width: $breakpointDesktop) {
+        display:none;
+      }
     }
 
     &s {
@@ -34,11 +32,12 @@
   }
 
   &__handle {
+    transition:background-color $animationTimingNormal;
     display:inline-block;
     width:$fontSizeNormal;
     height:$fontSizeNormal;
     border-radius:100%;
-    background:$colorNevada;
+    background-color:$colorSilverChalice;
     padding:0;
     margin:0;
     border:0 none;
