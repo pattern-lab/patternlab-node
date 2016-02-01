@@ -65,23 +65,26 @@
 	@if $filename == minus {
 		$char: "\E00D";
 	}
-	@if $filename == plus {
+	@if $filename == phone_message {
 		$char: "\E00E";
 	}
-	@if $filename == x-large {
+	@if $filename == plus {
 		$char: "\E00F";
 	}
-	@if $filename == x-small {
+	@if $filename == x-large {
 		$char: "\E010";
 	}
-	@if $filename == facebook {
+	@if $filename == x-small {
 		$char: "\E011";
 	}
-	@if $filename == instagram {
+	@if $filename == facebook {
 		$char: "\E012";
 	}
-	@if $filename == twitter {
+	@if $filename == instagram {
 		$char: "\E013";
+	}
+	@if $filename == twitter {
+		$char: "\E014";
 	}
 
 	@return $char;
@@ -136,6 +139,9 @@
 }
 .icon-minus {
 	@include icon(minus);
+}
+.icon-phone_message {
+	@include icon(phone_message);
 }
 .icon-plus {
 	@include icon(plus);

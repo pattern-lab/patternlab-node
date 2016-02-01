@@ -1,0 +1,21 @@
+.blockInfo {
+  padding : $paddingStandard $paddingMini;
+  background-color : $colorGallery;
+  text-align : center;
+
+
+  @media only screen and (min-width: $breakpointTablet) {
+    padding : $paddingStandard;
+  }
+
+  &:before {
+    display : block;
+    font-size : 3.5em;
+    margin: 0 auto 0.5em;
+
+  }
+  .headlineH3 {
+    max-width : 40em;
+    margin: 0 auto;
+  }
+}
