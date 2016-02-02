@@ -1,5 +1,6 @@
 .carousel {
   overflow:hidden;
+  margin-bottom : $marginStandard;
 
   &__image {
     position:relative;
@@ -10,11 +11,11 @@
 
     &--visible {
       display:block;
-      animation: slide-fade-in-left $animationTimingNormal;
+      animation: slide-fade-in-left $animationTimingLong;
     }
 
     &--visible + &--visible {
-      animation: slide-fade-in-right $animationTimingNormal;
+      animation: slide-fade-in-right $animationTimingLong;
 
       @media only screen and (max-width: $breakpointTabletEnd) {
         display:none;
@@ -70,20 +71,33 @@
   }
 
   &__handle {
-    transition:background-color $animationTimingNormal;
     display:inline-block;
-    width:$fontSizeNormal;
-    height:$fontSizeNormal;
+    width:50px;
+    height:50px;
     border-radius:100%;
-    background-color:$colorSilverChalice;
+    background-color: transparent;
     padding:0;
     margin:0;
     border:0 none;
     cursor:pointer;
 
+    &:after {
+      content : "";
+      transition:background-color $animationTimingNormal;
+      width : 6px;
+      height : 6px;
+      position : absolute;
+      border-radius : 50%;
+      transform : translate(-50%, -50%);
+      background-color: $colorSilverChalice;
+    }
+
     &--active {
-      background-color:$colorBlack;
       cursor:default;
+
+      &:after {
+        background-color:$colorBlack;
+      }
     }
 
     &s {
