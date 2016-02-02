@@ -2,9 +2,11 @@
   overflow:hidden;
 
   &__image {
+    position:relative;
     display:none;
     flex:1;
-    padding:0 $paddingMini;
+    margin:0 $marginMini;
+    overflow:hidden;
 
     &--visible {
       display:block;
@@ -28,6 +30,32 @@
     img {
       display:block;
       width:100%;
+    }
+  }
+
+  &__text {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:$paddingStandard;
+    background:transparentize($colorWhite, 0.5);
+    text-align:center;
+    box-shadow:$shadowMedium;
+
+    &--primary {
+      @include font-secondary-medium-uppercase(2.25em);
+      margin:0;
+      padding:0;
+    }
+    &--secondary {
+      @include font-secondary-medium-uppercase(1.25em);
+      margin:0;
+      padding:0;
+    }
+
+    &--primary + &--secondary {
+      margin-top:$marginMini / 3;
     }
   }
 

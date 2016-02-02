@@ -80,6 +80,9 @@ $paddingMini : (0.5 * $paddingStandard);
 $paddingMedium : (2 * $paddingStandard);
 $paddingLarge : (3 * $paddingStandard);
 
+//Shadows
+$shadowMedium : 0 0 $marginMini transparentize($colorBlack, 0.9);
+
 %animationTextLinks {
   color : inherit;
   text-decoration : none;
