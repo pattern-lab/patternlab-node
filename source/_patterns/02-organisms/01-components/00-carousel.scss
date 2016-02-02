@@ -16,7 +16,7 @@
     &--visible + &--visible {
       animation: slide-fade-in-right $animationTimingNormal;
 
-      @media only screen and (max-width: $breakpointDesktop) {
+      @media only screen and (max-width: $breakpointTabletEnd) {
         display:none;
       }
     }
@@ -38,22 +38,34 @@
     left:0;
     right:0;
     bottom:0;
-    padding:$paddingSmaller;
+    padding:3.225vw;
     background:transparentize($colorWhite, 0.5);
     text-align:center;
     box-shadow:$shadowMedium;
 
     &--primary {
-      @include font-secondary-medium-uppercase(2.5em);
-      letter-spacing:0.01em;
+      @include font-secondary-medium-uppercase(4.35vw);
+      letter-spacing:0;
       margin:0;
       padding:0;
     }
     &--secondary {
-      @include font-secondary-medium-uppercase(1.25em);
-      letter-spacing:0.05em;
+      @include font-secondary-medium-uppercase(2.3vw);
+      letter-spacing:0;
       margin:0;
       padding:0;
+    }
+
+    @media only screen and (min-width: $breakpointTablet) {
+      padding:1.6vw;
+
+      &--primary {
+        font-size:2.15vw;
+      }
+
+      &--secondary {
+        font-size:1.125vw;
+      }
     }
   }
 
