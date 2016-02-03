@@ -9,7 +9,9 @@ module.exports = $(function() {
         e.stopPropagation();
     });
     $(document).scroll(function() {
-        $('header.header')[$(window).scrollTop() ? 'addClass' : 'removeClass']('header--sticky');
-        $('.pageContent')[$(window).scrollTop() ? 'addClass' : 'removeClass']('pageContent--stickyHeader');
+        var $header = $('header.header'),
+          hasScrolled = $(window).scrollTop();
+        $header[hasScrolled ? 'addClass' : 'removeClass']('header--sticky');
+        $('.pageContent').css({ paddingTop : hasScrolled ? $header.outerHeight(false) : 0 });
     });
 });
