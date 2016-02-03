@@ -52,4 +52,14 @@
       width: 49%;
     }
   }
+
+  &--alignRight {
+    @media only screen and (min-width : $breakpointTablet) {
+      text-align: right;
+    }
+
+    @media only screen and (min-width : $breakpointDesktop) {
+      flex-direction: row-reverse;
+    }
+  }
 }

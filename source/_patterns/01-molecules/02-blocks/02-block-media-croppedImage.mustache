@@ -1,10 +1,23 @@
 <div class="block blockMedia">
     <div class="blockMedia__text">
         <div class="headlineGroup">
-            <h1 class="headlineGroup__headline">{{ headline.mini }}</h1>
-            <div class="headlineGroup__subHeadline">This example becomes one column on a medium viewport</div>
+            <h1 class="headlineGroup__headline">{{ headline.mini }} Cropped image</h1>
+            <div class="headlineGroup__subHeadline">The image in this Block Media is cropped in smaller viewports</div>
         </div>
-        <p>{{ excerpt.medium }}</p>
+        <p>This example becomes one column on a medium viewport {{ excerpt.medium }}</p>
+    </div>
+    <div class="blockMedia__image blockMedia__image--cropped">
+        {{> atoms-landscape-4x3() }}
+    </div>
+</div>
+
+<div class="block blockMedia blockMedia--alignRight">
+    <div class="blockMedia__text">
+        <div class="headlineGroup">
+            <h1 class="headlineGroup__headline">{{ headline.mini }} Cropped image</h1>
+            <div class="headlineGroup__subHeadline">The image in this Block Media is cropped in smaller viewports</div>
+        </div>
+        <p>This example becomes one column on a medium viewport {{ excerpt.medium }}</p>
     </div>
     <div class="blockMedia__image blockMedia__image--cropped">
         {{> atoms-landscape-4x3() }}
