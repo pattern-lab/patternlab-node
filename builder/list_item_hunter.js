@@ -100,6 +100,9 @@
 					var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 
+					//update the extendedTemplate in the partials object in case this pattern is consumed later
+					patternlab.partials[pattern.key] = pattern.extendedTemplate;
+
 				});
 			}
 		}

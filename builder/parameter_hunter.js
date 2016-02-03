@@ -61,6 +61,9 @@
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
+
+					//update the extendedTemplate in the partials object in case this pattern is consumed later
+					patternlab.partials[pattern.key] = pattern.extendedTemplate;
 				});
 			}
 		}

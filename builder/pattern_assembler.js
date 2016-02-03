@@ -233,6 +233,8 @@
 
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
 
+          //update the extendedTemplate in the partials object in case this pattern is consumed later
+          patternlab.partials[currentPattern.key] = currentPattern.extendedTemplate;
         }
 
       } else{

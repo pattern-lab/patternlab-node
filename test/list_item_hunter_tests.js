@@ -36,7 +36,8 @@
           "link": {},
           "partials": []
         },
-        "config": {"debug": false}
+        "config": {"debug": false},
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -80,7 +81,8 @@
           "link": {},
           "partials": []
         },
-        "config": {"debug": false}
+        "config": {"debug": false},
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -132,7 +134,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -199,7 +202,8 @@
            "jsonFileData" : {},
            "key": "test-bar",
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -263,7 +267,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -325,7 +330,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -387,7 +393,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -414,6 +421,7 @@
       pl.data.link = {};
       pl.config.debug = false;
       pl.patterns = [];
+      pl.partials = {};
       pl.config.patterns = { source: patterns_dir};
       pl.listitems = {
         "1": [
