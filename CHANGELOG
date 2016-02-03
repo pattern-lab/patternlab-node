@@ -19,6 +19,8 @@ PL-node-v1.1.0
 - THX: Thanks @simonknittel for the watchful eyes
 - CHG: Changed locations of ./public/styleguide to ./core/styleguide to make ./public/ a cleaner distribution directory
 - CHG: Removed scss files and config from project. This is in preparation for including the default asset repo in the future
+- FIX: Fix issue where partials were not being sent to Mustache during pattern parameter parsing.
+- THX: Thanks to @e2tha-e for reporting this issue.
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.

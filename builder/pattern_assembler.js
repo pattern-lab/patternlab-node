@@ -64,6 +64,7 @@
         if(pattern.abspath === patternlab.patterns[i].abspath){
           //if abspath already exists, overwrite that element
           patternlab.patterns[i] = pattern;
+          patternlab.partials[pattern.key] = pattern.extendedTemplate || pattern.template;
           isNew = false;
           break;
         }
@@ -71,6 +72,7 @@
       //if the pattern is new, just push to the array
       if(isNew){
         patternlab.patterns.push(pattern);
+        patternlab.partials[pattern.key] = pattern.extendedTemplate || pattern.template;
       }
     }
 
@@ -177,6 +179,7 @@
       for(i = 0; i < patternlab.patterns.length; i++){
         if(patternlab.patterns[i].abspath === file){
           currentPattern = patternlab.patterns[i];
+          break;
         }
       }
 
