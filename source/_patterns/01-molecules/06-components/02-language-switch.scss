@@ -1,5 +1,6 @@
 .languageSwitcher {
   display : none;
+
   @media only screen and (min-width: $breakpointDesktop) {
     display : block;
     position : absolute;
@@ -12,7 +13,14 @@
     transform: translateY(-50%);
     font-weight : 300;
   }
-  &--active {
-    font-weight : 500;
+
+  &__item {
+    &--active a {
+      font-weight : 600;
+    }
+
+    & + &:before {
+      content:'/ ';
+    }
   }
 }
