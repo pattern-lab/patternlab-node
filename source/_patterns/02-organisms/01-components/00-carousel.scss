@@ -57,7 +57,7 @@
       padding:0;
     }
 
-    @media only screen and (min-width: $breakpointTablet) {
+    @media only screen and (min-width: $breakpointDesktop) {
       padding:1.6vw;
 
       &--primary {
