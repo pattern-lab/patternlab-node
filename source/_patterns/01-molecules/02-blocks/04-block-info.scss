@@ -4,13 +4,9 @@
   text-align : center;
 
 
-  @media only screen and (min-width: $breakpointTablet) {
+  @media only screen and (min-width: $breakpointDesktop) {
     padding : $paddingStandard;
   }
-  //
-  //@media only screen and (min-width : $maxWidthLayout) {
-  //  margin : 0 $marginMini;
-  //}
 
   &:before {
     display : block;

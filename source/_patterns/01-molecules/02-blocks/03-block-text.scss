@@ -2,4 +2,11 @@
   text-align : center;
   max-width : $textBlockMaxWidth;
   margin : 0 auto;
+  padding-right : $paddingMini;
+  padding-left : $paddingMini;
+
+  @media only screen and (min-width: $breakpointDesktop) {
+    padding-right : 0;
+    padding-left : 0;
+  }
 }
