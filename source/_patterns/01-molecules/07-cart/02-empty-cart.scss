@@ -1,0 +1,35 @@
+.cart {
+  &__icon {
+    text-align : center;
+    position : relative;
+    padding-top : 7.125em;
+    @include icon(bag-outline);
+
+    &:before {
+      position : absolute;
+      top : 0;
+      left : 0;
+      right : 0;
+      font-size : 4em;
+    }
+  }
+
+  &__headline {
+    text-align:center;
+    margin-bottom : 0.5em;
+  }
+
+  &__headline2 {
+    font-family : $fontSecondary;
+    font-size : 1em;
+    margin-bottom : 3.125em;
+  }
+
+  &__button {
+    margin : 1em 0;
+    @media only screen and (min-width: $breakpointTablet) {
+      margin : 1em 0.75em;
+    }
+  }
+}
+
