@@ -7,8 +7,11 @@
     @include icon('plus');
 
     &:before {
-      position : absolute;
-      right : $marginMini;
+      float:right;
+      margin-left:$marginMini;
+      font-size:0.9em;
+      //position : absolute;
+      //right : $marginMini;
     }
 
     &--expanded {
@@ -51,9 +54,7 @@
   letter-spacing : 0.1em;
   border-bottom : 1px solid $colorSilver;
   background-color : $colorGallery;
-  padding-top : 1em;
-  padding-bottom : 1em;
-  padding-left : $marginMini;
+  padding : 1em $marginMini;
   cursor: pointer;
 
   &:hover, &:active {
@@ -73,9 +74,7 @@
     letter-spacing: 0.1em;
     border-bottom: 1px solid $colorSilver;
     background-color: $colorGallery;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-left: $marginMini;
+    padding : 1em $marginMini;
     cursor: pointer;
 
     &:hover, &:active {
