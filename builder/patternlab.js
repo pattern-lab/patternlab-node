@@ -93,10 +93,6 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
     });
 
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
-
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(patterns_dir, {
@@ -118,6 +114,10 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
       });
 
+
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
 
     //delete the contents of config.patterns.public before writing
     if(deletePatternDir){
