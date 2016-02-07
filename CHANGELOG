@@ -21,6 +21,8 @@ PL-node-v1.1.0
 - CHG: Removed scss files and config from project. This is in preparation for including the default asset repo in the future
 - FIX: Fix issue where partials were not being sent to Mustache during pattern parameter parsing.
 - THX: Thanks to @e2tha-e for reporting this issue.
+- ADD: Now patterns and pseudopatterns can be linked from global or file data.json
+- THX: Thanks @kylewelsby for the thoughtful enhancement
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.
