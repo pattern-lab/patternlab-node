@@ -43,3 +43,10 @@
   letter-spacing: 0.1em;
   font-size: $fontSize;
 }
+
+@mixin font-secondary-medium-lowercase($fontSize: 1em) {
+  font-family: $fontSecondary;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  font-size: $fontSize;
+}

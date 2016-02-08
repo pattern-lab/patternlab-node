@@ -1,0 +1,50 @@
+.magazine__articleSummary {
+  text-align : center;
+
+  @media only screen and (min-width : $breakpointTablet) {
+    display : flex;
+    flex-direction: row;
+    justify-content : center;
+    align-items : center;
+    border-top : 1px solid $colorSilver;
+    border-bottom : 1px solid $colorSilver;
+
+    &__image {
+      margin-left : $marginMini;
+      width : 50%;
+    }
+  }
+
+  &__text {
+    margin-right : $marginMini;
+    margin-left : $marginMini;
+
+    @media only screen and (min-width : $breakpointTablet) {
+      margin-left : 0;
+      width : 50%;
+    }
+  }
+
+  &__date {
+    @include font-secondary-medium-lowercase;
+    margin-bottom : $marginMini;
+  }
+
+  .headlineGroup {
+    &__headline--alt {
+      margin-bottom : $marginMini;
+
+      @media only screen and (min-width : $breakpointTablet) {
+        margin-bottom : $marginStandard;
+      }
+    }
+
+    &__subHeadline {
+      margin-bottom : $marginMini;
+    }
+  }
+
+  &__readMore {
+    color: $colorTussock;
+  }
+}
