@@ -1,76 +1,73 @@
-.basicLayout{
-  min-height: 100%;
-  min-height: 100vh;
-  overflow: hidden;
-  &__inner {
-    height: 100%;
-    transition: margin $animationTimingFast;
-    position: relative;
-    width: 100%;
-    box-sizing: content-box;
-    padding: 0 $widthOffCanvasB 0 $widthOffCanvasA;
-    margin-left: -#{$widthOffCanvasA};
-  }
-  &__canvas {
-    min-height: 100%;
-    min-height: 100vh;
-    position: relative;
-    &:after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      background: $colorBlack;
-      opacity: 0;
-      bottom: 100%;
-      z-index: 1;
-      transition: opacity $animationTimingNormal linear $animationTimingFast;
-    }
-  }
-  &__offCanvasA,
-  &__offCanvasB {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-  }
-  &__offCanvasA {
-    width: $widthOffCanvasA;
-    left: 0;
-    background: $colorWhite;
-  }
-  &__offCanvasB {
-    width: $widthOffCanvasB;
-    right: 0;
-    background: $colorWhite;
-  }
-}
+.basicLayout {
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  min-height:100vh;
 
-.basicLayout--showOffCanvasA,
-.basicLayout--showOffCanvasB {
-  .basicLayout__canvas:after {
-    bottom: 0;
-    opacity: $opacityOverlayBackground;
-  }
-}
-.basicLayout--showOffCanvasA {
-  .basicLayout__inner {
-    margin-left: 0;
-    @media only screen and (min-width: $breakpointDesktop) {
-      margin-left: -#{$widthOffCanvasA};
+  &--inner {
+    transition:margin-left $animationTimingNormal ease-in-out, margin-right $animationTimingNormal ease-in-out;
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    margin:0;
+
+    &:before {
+      transition:all $animationTimingNormal ease-in-out;
+      display:block;
+      position:absolute;
+      content:'';
+      left:50%;
+      width:0;
+      top:0;
+      bottom:0;
+      opacity:0;
+      background:transparentize($colorBlack, 0.5);
+      z-index:99;
     }
   }
+
   .navigation--primary {
-    left: 0;
+    transition:left $animationTimingNormal ease-in-out;
+    min-width:$widthMobileNavigation;
+    left:-$widthMobileNavigation;
   }
-  .basicLayout__canvas:after {
-    @media only screen and (min-width: $breakpointDesktop) {
-      bottom: 100%;
+
+  &--expanded-left &--inner {
+    margin-left:$widthMobileNavigation;
+
+    &:before {
+      left:0;
+      width:100%;
+      opacity:1;
+    }
+
+    .navigation--primary {
+      left: 0;
     }
   }
-}
-.basicLayout--showOffCanvasB {
-  .basicLayout__inner {
-    margin-left: calc(-#{$widthOffCanvasB} - #{$widthOffCanvasA});
+
+  &--expanded-right &--inner {
+    margin-left:-$widthCartSidebar;
+
+    &:before {
+      left:0;
+      width:100%;
+      opacity:1;
+    }
+
+    // add cart panel movement here
+  }
+
+  @media only screen and (min-width:$breakpointDesktop) {
+    &--expanded-left &--inner {
+      margin-left:0;
+      margin-right:0;
+
+      &:before {
+        left:50%;
+        width:0;
+        opacity:0;
+      }
+    }
   }
 }

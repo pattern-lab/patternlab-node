@@ -1,21 +1,19 @@
 <div class="basicLayout">
-  <div class="basicLayout__inner">
-    <div class="basicLayout__offCanvasA"></div>
-    <div class="basicLayout__canvas">
-      {{> organisms-header }}
-      <div class="pageContent">
-        {{> molecules-block-banner }}
-        <div class="pageContent__blockMedia">
-          {{> molecules-block-text }}
-          {{> molecules-block-media }}
-          {{> molecules-block-media-croppedImage }}
-          {{> molecules-block-info }}
+    <div class="basicLayout--inner">
+        {{> organisms-header }}
+
+        <div class="pageContent">
+            {{> molecules-block-banner }}
+
+            <div class="pageContent__blockMedia">
+                {{> molecules-block-text }}
+                {{> molecules-block-media }}
+                {{> molecules-block-media-croppedImage }}
+                {{> molecules-block-info }}
+            </div>
         </div>
-      </div>
-      {{> organisms-footer }}
+        {{> organisms-footer }}
     </div>
-    <div class="basicLayout__offCanvasB"></div>
-  </div>
 </div>
 
 

@@ -2,6 +2,8 @@
   width : 100%;
 
   &__handle {
+    transition:background-color $animationTimingFast ease-in-out;
+    font-size : 0.875em;
     display : block;
     position : relative;
     @include icon('plus');
@@ -10,8 +12,6 @@
       float:right;
       margin-left:$marginMini;
       font-size:0.9em;
-      //position : absolute;
-      //right : $marginMini;
     }
 
     &--expanded {
@@ -28,19 +28,16 @@
   }
 
   &__panel__content {
-    display:block;
     font-size : 0.875em;
+    transition:background-color $animationTimingFast ease-in-out;
+    display:block;
     line-height : 1.625em;
     list-style-type : none;
     letter-spacing : 0.1em;
     text-transform : uppercase;
     border-bottom : 1px solid $colorSilver;
-    padding-top : 1em;
-    padding-bottom : 1em;
-    padding-left : $marginMini;
+    padding : 1em $paddingMini;
     font-weight : 300;
-    transition-duration: 500ms;
-    transition-timing-function: ease-in;
   }
 }
 
@@ -48,13 +45,12 @@
 .accordion__handle--base {
   @extend .accordion__handle;
   font-family : $fontPrimary;
-  font-size : 0.875em;
   font-weight : normal;
   text-transform : uppercase;
   letter-spacing : 0.1em;
   border-bottom : 1px solid $colorSilver;
   background-color : $colorGallery;
-  padding : 1em $marginMini;
+  padding : 1em $paddingMini;
   cursor: pointer;
 
   &:hover, &:active {
@@ -68,13 +64,12 @@
 
   @media only screen and (max-width : $breakpointTabletEnd) {
     font-family: $fontPrimary;
-    font-size: 0.875em;
     font-weight: normal;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border-bottom: 1px solid $colorSilver;
     background-color: $colorGallery;
-    padding : 1em $marginMini;
+    padding : 1em $paddingMini;
     cursor: pointer;
 
     &:hover, &:active {
@@ -102,7 +97,6 @@
 
     &:hover {
       background-color : $colorGallery;
-      transition-timing-function: ease-out;
     }
 
     &:active {
