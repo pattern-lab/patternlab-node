@@ -1,8 +1,5 @@
 .caption {
-  color : $colorBlack;
-  font-family : $fontPrimary;
-  font-size : 0.75em;
-  letter-spacing : 0.5px;
-  text-transform : uppercase;
   padding : 0 1em;
+  @include font-primary-medium-uppercase(0.75em);
+  line-height : 1.5em;
 }

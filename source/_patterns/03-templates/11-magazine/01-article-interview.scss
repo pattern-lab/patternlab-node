@@ -1,0 +1,16 @@
+.magazineArticle__interview {
+  .magArticle__text {
+    text-align : center;
+    margin-bottom : $marginStandard;
+  }
+
+  .magazineArticle__columns--text {
+    padding-right : $marginMini;
+    padding-left : $marginMini;
+
+    @media only screen and (min-width : $maxWidthLayout) {
+      padding-right : 0;
+      padding-left : 0;
+    }
+  }
+}

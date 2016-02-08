@@ -1,10 +1,14 @@
 p {
-  font-family : $fontSecondary;
+  @include font-secondary-medium-lowercase;
 }
 .pullQuote {
+  @include font-secondary-medium-lowercase(1.5em);
   font-family : $fontSecondary;
   margin      : 2em 2em;
-  font-size   : 2em;
   line-height : 1.5em;
   text-align  : center;
+
+  @media only screen and (min-width : $breakpointDesktop) {
+    font-size : 2em;
+  }
 }

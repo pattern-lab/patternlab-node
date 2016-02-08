@@ -30,6 +30,7 @@
 @import "../_patterns/01-molecules/02-blocks/01-block-media";
 @import "../_patterns/01-molecules/02-blocks/03-block-text";
 @import "../_patterns/01-molecules/02-blocks/04-block-info";
+@import "../_patterns/01-molecules/03-media/00-figure-with-caption";
 @import "../_patterns/01-molecules/04-forms/00-fields";
 @import "../_patterns/01-molecules/04-forms/01-radio";
 @import "../_patterns/01-molecules/04-forms/02-checkbox";
@@ -82,3 +83,5 @@
 
 // Magazine
 @import "../_patterns/01-molecules/11-magazine/01-homepage-article-block";
+@import "../_patterns/03-templates/11-magazine/01-article-interview";
+@import "../_patterns/03-templates/11-magazine/00-home";

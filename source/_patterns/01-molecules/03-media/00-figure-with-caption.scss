@@ -1,0 +1,10 @@
+.figureWithCaption {
+  display : table;
+  margin : 0 auto;
+
+  &__caption {
+    padding-top : 1em;
+    display: table-caption;
+    caption-side: bottom;
+  }
+}

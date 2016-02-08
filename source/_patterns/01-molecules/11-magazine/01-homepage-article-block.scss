@@ -1,4 +1,4 @@
-.magazine__articleSummary {
+.magArticle {
   text-align : center;
 
   @media only screen and (min-width : $breakpointTablet) {
@@ -13,20 +13,22 @@
       margin-left : $marginMini;
       width : 50%;
     }
+
+    .magArticle__text {
+      @media only screen and (min-width : $breakpointTablet) {
+        margin-left : 0;
+        width : 50%;
+      }
+    }
   }
 
   &__text {
     margin-right : $marginMini;
     margin-left : $marginMini;
-
-    @media only screen and (min-width : $breakpointTablet) {
-      margin-left : 0;
-      width : 50%;
-    }
   }
 
   &__date {
-    @include font-secondary-medium-lowercase;
+    @include font-secondary-medium-lowercase(0.875em);
     margin-bottom : $marginMini;
   }
 
@@ -41,6 +43,10 @@
 
     &__subHeadline {
       margin-bottom : $marginMini;
+
+      @media only screen and (min-width : $breakpointTablet) {
+        margin-bottom : 0;
+      }
     }
   }
 
