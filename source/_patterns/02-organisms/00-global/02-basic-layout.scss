@@ -63,11 +63,6 @@
   .navigation--primary {
     left: 0;
   }
-  .header {
-    @media only screen and (max-width: $breakpointTabletEnd) {
-      left: $widthOffCanvasA;
-    }
-  }
   .basicLayout__canvas:after {
     @media only screen and (min-width: $breakpointDesktop) {
       bottom: 100%;

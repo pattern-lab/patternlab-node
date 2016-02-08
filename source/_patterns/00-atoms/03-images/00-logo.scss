@@ -1,7 +1,8 @@
 .logo {
   text-align:center;
   height : 0.9em;
-  @media only screen and (min-width: $breakpointTablet) {
+
+  @media only screen and (min-width: $breakpointDesktop) {
     height : 1.25em;
   }
 
@@ -13,9 +14,13 @@
   }
 
   .icon-logo {
-    font-size : 0.9em;
-    @media only screen and (min-width: $breakpointTablet) {
-      font-size : 1.19em;
+    display:block;
+    font-size:0.9em;
+    line-height:0.7em;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      font-size:1.25em;
+      line-height:1em;
     }
   }
 }
