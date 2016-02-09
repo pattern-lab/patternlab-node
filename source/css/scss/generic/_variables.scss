@@ -81,6 +81,7 @@ $paddingMedium : 2 * $paddingStandard;
 $paddingLarge : 3 * $paddingStandard;
 
 //Shadows
+$shadowTiny : 0 0 3px 1px transparentize($colorBlack, 0.925);
 $shadowMedium : 0 0 $marginMini transparentize($colorBlack, 0.9);
 
 %animationTextLinks {
