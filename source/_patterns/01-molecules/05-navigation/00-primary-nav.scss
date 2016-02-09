@@ -92,6 +92,7 @@
     &--primary {
       width: 100%;
       text-align: center;
+      cursor:default;
     }
 
     &__list {
@@ -101,56 +102,79 @@
       }
 
       &--secondLevel {
-        font-size: 0.9em;
-        line-height: 1.25em;
-        display: none;
+        display:block;
+        transition:transform $animationTimingFast, opacity $animationTimingFast;
         position: absolute;
         text-align: left;
         background: $colorWhite;
         min-width: 7.5em;
+        box-shadow:$shadowMedium;
+        left:50%;
+        margin-top:$marginMini / 2;
+        transform:translate(-50%, $marginMini);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transform-origin:left top;
+        backface-visibility:hidden;
+        opacity:0;
+        pointer-events:none;
 
-        &:after {
-          content: "";
-          border-top: 1px solid $colorSilver;
-          border-bottom: 1px solid $colorSilver;
-          position: absolute;
-          top: -1px;
-          bottom: -1px;
-          left: 0;
-          right: 0;
-          display: block;
-          z-index: -1;
+        &:before {
+          display:block;
+          content:'';
+          position:absolute;
+          left:0;
+          right:0;
+          top:-10px;
+          border:5px solid transparent;
+          border-bottom-color:$colorSilver;
         }
 
-        &:hover {
-          display: block;
+        &:after {
+          display:block;
+          content:'';
+          position:absolute;
+          left:50%;
+          top:-4px;
+          margin-left:-2px;
+          border:4px solid transparent;
+          border-bottom-color:$colorWhite;
+          border-top-width:0;
         }
       }
 
       &__item {
-        display: inline-block;
-        position: relative;
-        .navigation__list--secondLevel & {
-          padding: 0.25em 0.5em;
-        }
+        display:inline-block;
+        position:relative;
+      }
+
+      &__item:hover &--secondLevel {
+        opacity:1;
+        transform:translate(-50%, 0);
+        pointer-events:all;
+      }
+
+      &--secondLevel &__item {
+        display:block;
+        white-space:nowrap;
       }
     }
 
     &__link {
-      padding: 0.25em 0.625em;
-      display: block;
+      transition:color $animationTimingFast;
+      padding:0.25em 0.625em;
+      display:block;
+
+      .navigation__list--secondLevel & {
+        padding:0.625em;
+      }
 
       &--active {
         color: $colorTussock;
-        .navigation__list--secondLevel & {
-          text-decoration: underline;
-        }
       }
+
       &:hover {
         color: $colorTussock;
-        & + .navigation__list--secondLevel {
-          display: block;
-        }
       }
     }
   }
