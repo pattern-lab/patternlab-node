@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.0 - 2015 
+ * patternlab-node - v1.1.0 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -20,15 +20,16 @@
 			pa = require('./pattern_assembler'),
 			lh = require('./lineage_hunter'),
 			of = require('./object_factory'),
-			mustache = require('mustache');
+			path = require('path');
 
 			var pattern_assembler = new pa();
 			var lineage_hunter = new lh();
+			var paths = patternlab.config.paths;
 
 			//look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
 			var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
 			var pseudoPatterns = glob.sync(needle, {
-				cwd: patternlab.config.patterns.source + '/',
+				cwd: paths.source.patterns,
 				debug: false,
 				nodir: true,
 			});
@@ -42,13 +43,13 @@
 					}
 
 					//we want to do everything we normally would here, except instead read the pseudoPattern data
-					var variantFileData = fs.readJSONSync(patternlab.config.patterns.source + '/' + pseudoPatterns[i]);
+					var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
 
 					//extend any existing data with variant data
 					variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
 
 					var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-					var variantFilePath = patternlab.config.patterns.source + '/' + currentPattern.subdir + '/' + currentPattern.fileName + '~' + variantName + '.json';
+					var variantFilePath = path.resolve(paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
 					var variantFileName = currentPattern.fileName + '-' + variantName + '.';
 					var patternVariant = new of.oPattern(variantFilePath, currentPattern.subdir, variantFileName, variantFileData);
 

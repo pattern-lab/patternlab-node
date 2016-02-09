@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+	var path = require('path');
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -60,71 +62,50 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-				{ expand: true, cwd: './source/js/', src: '*', dest: './public/js/'},
-				{ expand: true, cwd: './source/css/', src: '*.css', dest: './public/css/' },
-				{ expand: true, cwd: './source/images/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/' },
-				{ expand: true, cwd: './source/images/sample/', src: ['*.png', '*.jpg', '*.gif', '*.jpeg'], dest: './public/images/sample/'},
-				{ expand: true, cwd: './source/fonts/', src: '*', dest: './public/fonts/'},
-				{ expand: true, cwd: './source/_data/', src: 'annotations.js', dest: './public/data/' }
+					{ expand: true, cwd: path.resolve(paths().source.js), src: '*.js', dest: path.resolve(paths().public.js) },
+					{ expand: true, cwd: path.resolve(paths().source.css), src: '*.css', dest: path.resolve(paths().public.css) },
+					{ expand: true, cwd: path.resolve(paths().source.images), src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: path.resolve(paths().public.images) },
+					{ expand: true, cwd: path.resolve(paths().source.fonts), src: '*', dest: path.resolve(paths().public.fonts) },
+					{ expand: true, cwd: path.resolve(paths().source.data), src: 'annotations.js', dest: path.resolve(paths().public.data) }
 				]
 			},
-			css: {
+			styleguide: {
 				files: [
-				{ expand: true, cwd: './source/css/', src: '*.css', dest: './public/css/' }
+					{ expand: true, cwd: path.resolve(paths().source.styleguide), src: ['*.*', '**/*.*'], dest: path.resolve(paths().public.styleguide) }
 				]
 			}
 		},
 		watch: {
 			all: {
 				files: [
-					'source/css/**/*.css',
-					'public/styleguide/css/*.css',
-					'source/_patterns/**/*.mustache',
-					'source/_patterns/**/*.json',
-					'source/_data/*.json'
+					path.resolve(paths().source.css + '**/*.css'),
+					path.resolve(paths().source.styleguide + 'css/*.css'),
+					path.resolve(paths().source.patterns + '**/*.mustache'),
+					path.resolve(paths().source.patterns + '**/*.json'),
+					path.resolve(paths().source.fonts + '/*'),
+					path.resolve(paths().source.images + '/*'),
+					path.resolve(paths().source.data + '*.json')
 				],
-				tasks: ['default']
-			},
-			// scss: {
-			// 	files: ['source/css/**/*.scss', 'public/styleguide/css/*.scss'],
-			// 	tasks: ['sass', 'copy:css','bsReload:css']
-			// },
-			patterns: {
-				files: [
-					'source/_patterns/**/*.mustache',
-					'source/_patterns/**/*.json',
-					'source/_data/*.json'
-				],
-				tasks: ['default']
+				tasks: ['default', 'bsReload:css']
 			}
 		},
-		// sass: {
-		// 	build: {
-		// 		options: {
-		// 			style: 'expanded',
-		// 			precision: 8
-		// 		},
-		// 		files: {
-		// 			'./source/css/style.css': './source/css/style.scss',
-		// 			'./public/styleguide/css/static.css': './public/styleguide/css/static.scss',
-		// 			'./public/styleguide/css/styleguide.css': './public/styleguide/css/styleguide.scss',
-		// 			'./public/styleguide/css/styleguide-specific.css': './public/styleguide/css/styleguide-specific.scss'
-		// 		}
-		// 	}
-		// },
 		nodeunit: {
 			all: ['test/*_tests.js']
 		},
 		browserSync: {
 			dev: {
 				options: {
-					server:  './public',
+					server:  path.resolve(paths().public.root),
 					watchTask: true,
+					watchOptions: {
+						ignoreInitial: true,
+						ignored: '*.html'
+					},
 					plugins: [
 						{
 							module: 'bs-html-injector',
 							options: {
-								files: './public/index.html'
+								files: [path.resolve(paths().public.root + '/index.html'), path.resolve(paths().public.styleguide + '/styleguide.html')]
 							}
 						}
 					]
@@ -132,9 +113,13 @@ module.exports = function(grunt) {
 			}
 		},
 		bsReload: {
-			css: './public/**/*.css'
+			css: path.resolve(paths().public.root + '**/*.css')
 		}
 	});
+
+	function paths () {
+	  return require('./config.json').paths;
+	}
 
 	// load all grunt tasks
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -142,15 +127,12 @@ module.exports = function(grunt) {
 	//load the patternlab task
 	grunt.task.loadTasks('./builder/');
 
-	//if you choose to use scss, or any preprocessor, you can add it here
-	grunt.registerTask('default', ['patternlab', /*'sass',*/ 'copy:main']);
+	grunt.registerTask('default', ['patternlab', 'copy:main', 'copy:styleguide']);
 
 	//travis CI task
 	grunt.registerTask('travis', ['nodeunit', 'patternlab']);
 
-	//TODO: this line is more efficient, but you cannot run concurrent watch tasks without another dependency.
-	//grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'browserSync', 'watch:patterns', 'watch:scss']);
-	grunt.registerTask('serve', ['patternlab', /*'sass',*/ 'copy:main', 'browserSync', 'watch:all']);
+	grunt.registerTask('serve', ['patternlab', 'copy:main', 'copy:styleguide', 'browserSync', 'watch:all']);
 
 	grunt.registerTask('build', ['nodeunit', 'concat']);
 

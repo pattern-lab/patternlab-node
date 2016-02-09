@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.0 - 2015 
+ * patternlab-node - v1.1.0 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -64,6 +64,7 @@
         if(pattern.abspath === patternlab.patterns[i].abspath){
           //if abspath already exists, overwrite that element
           patternlab.patterns[i] = pattern;
+          patternlab.partials[pattern.key] = pattern.extendedTemplate || pattern.template;
           isNew = false;
           break;
         }
@@ -71,6 +72,7 @@
       //if the pattern is new, just push to the array
       if(isNew){
         patternlab.patterns.push(pattern);
+        patternlab.partials[pattern.key] = pattern.extendedTemplate || pattern.template;
       }
     }
 
@@ -91,12 +93,12 @@
       path = require('path');
 
       //extract some information
-      var subdir = path.dirname(path.relative(patternlab.config.patterns.source, file)).replace('\\', '/');
+      var subdir = path.dirname(path.relative(patternlab.config.paths.source.patterns, file)).replace('\\', '/');
       var filename = path.basename(file);
       var ext = path.extname(filename);
 
       //ignore dotfiles, underscored files, and non-variant .json files
-      if(filename.charAt(0) === '.' || filename.charAt(0) === '_' || (ext === '.json' && filename.indexOf('~') === -1)){
+      if(filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)){
         return;
       }
 
@@ -119,8 +121,8 @@
 
       //look for a json file for this template
       try {
-        var jsonFilename = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".json";
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename.substring(2));
+        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
         if(patternlab.config.debug){
           console.log('found pattern-specific data.json for ' + currentPattern.key);
         }
@@ -130,8 +132,8 @@
 
       //look for a listitems.json file for this template
       try {
-        var listJsonFileName = patternlab.config.patterns.source + currentPattern.subdir + '/' + currentPattern.fileName  + ".listitems.json";
-        currentPattern.listitems = fs.readJSONSync(listJsonFileName.substring(2));
+        var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir,currentPattern.fileName + ".listitems.json");
+        currentPattern.listitems = fs.readJSONSync(listJsonFileName);
         buildListItems(currentPattern);
         if(patternlab.config.debug){
           console.log('found pattern-specific listitems.json for ' + currentPattern.key);
@@ -177,6 +179,7 @@
       for(i = 0; i < patternlab.patterns.length; i++){
         if(patternlab.patterns[i].abspath === file){
           currentPattern = patternlab.patterns[i];
+          break;
         }
       }
 
@@ -204,7 +207,7 @@
 
         //do something with the regular old partials
         for(i = 0; i < foundPatternPartials.length; i++){
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
 
           var partialPath;
 
@@ -230,6 +233,8 @@
 
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
 
+          //update the extendedTemplate in the partials object in case this pattern is consumed later
+          patternlab.partials[currentPattern.key] = currentPattern.extendedTemplate;
         }
 
       } else{
@@ -248,17 +253,34 @@
     }
 
     function getpatternbykey(key, patternlab){
+
+      //look for exact key matches
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        if(patternlab.patterns[i].key === key){
+          return patternlab.patterns[i];
+        }
+      }
+
+      //else look by verbose syntax
       for(var i = 0; i < patternlab.patterns.length; i++){
         switch(key){
-          case patternlab.patterns[i].key:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
           case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
             return patternlab.patterns[i];
         }
       }
+
+      //return the fuzzy match if all else fails
+      for(var i = 0; i < patternlab.patterns.length; i++){
+        var keyParts = key.split('-'),
+            keyType = keyParts[0],
+            keyName = keyParts.slice(1).join('-');
+        if(patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1){
+          return patternlab.patterns[i];
+        }
+      }
       throw 'Could not find pattern with key ' + key;
     }
-
 
     function mergeData(obj1, obj2){
       if(typeof obj2 === 'undefined'){
@@ -318,33 +340,36 @@
         return o;
     }
 
+    function parseDataLinksHelper (patternlab, obj, key) {
+      var linkRE, dataObjAsString, linkMatches, expandedLink;
+
+      linkRE = /link\.[A-z0-9-_]+/g
+      dataObjAsString = JSON.stringify(obj);
+      linkMatches = dataObjAsString.match(linkRE)
+
+      if(linkMatches) {
+        for (var i = 0; i < linkMatches.length; i++) {
+          expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+          if (expandedLink) {
+            if(patternlab.config.debug){
+              console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
+            }
+            dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
+          }
+        }
+      }
+      return JSON.parse(dataObjAsString)
+    }
     //look for pattern links included in data files.
     //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
-    function parseDataLinks(patternlab){
+    function parseDataLinks(patternlab) {
+      //look for link.* such as link.pages-blog as a value
+
+      patternlab.data = parseDataLinksHelper(patternlab, patternlab.data, 'data.json')
 
       //loop through all patterns
-      for (var i = 0; i < patternlab.patterns.length; i++){
-        var pattern = patternlab.patterns[i];
-        //look for link.* such as link.pages-blog as a value
-        var linkRE = /link.[A-z0-9-_]+/g;
-        //convert to string for easier searching
-        var dataObjAsString = JSON.stringify(pattern.jsonFileData);
-        var linkMatches = dataObjAsString.match(linkRE);
-
-        //if no matches found, escape current loop iteration
-        if(linkMatches === null) { continue; }
-
-        for(var i = 0; i < linkMatches.length; i++){
-          //for each match, find the expanded link within the already constructed patternlab.data.link object
-          var expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
-          if(patternlab.config.debug){
-            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + pattern.key);
-          }
-          //replace value with expandedLink on the pattern
-          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
-        }
-        //write back to data on the pattern
-        pattern.jsonFileData = JSON.parse(dataObjAsString);
+      for (var i = 0; i < patternlab.patterns.length; i++) {
+        patternlab.patterns[i].jsonFileData = parseDataLinksHelper(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].key)
       }
     }
 

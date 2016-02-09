@@ -44,7 +44,7 @@ To run patternlab-node using gulp, you need to swap out the default grunt config
 3. Run `npm install` from the command line
 4. Run `gulp` or `gulp serve` from the command line
 
-This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to see have BrowserSync spin up and serve the files to you.
+This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `gulp serve` to have BrowserSync spin up and serve the files to you.
 
 ### There and Back Again, or Switching Between Grunt and Gulp
 
@@ -80,10 +80,36 @@ Get more information about patternlab-node, pattern lab in general, and where to
 ##### Watching Changes
 To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt|gulp watch` or `grunt|gulp serve`. The `Gruntfile|Gulpfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
 
-##### Preprocessor Support
-The patternlab-node release package ships with some `.scss` files utilized in the creation of the style guide and sample templates, but these are not required. The compilation tasks are commented out in the `Gruntfiles|Gulpfiles` but can be uncommented or changed to meet your needs. Sass modules are not included in `package.json` files - the prevailing thought being if you are familiar enough with preprocessors, you can use the instructions for [grunt-contrib-sass](https://github.com/gruntjs/grunt-contrib-sass) / [gulp-sass](https://github.com/dlmanning/gulp-sass) / _preprocessor of choice_ to install them. Uncomment the preprocessor configuration to fully utilize the example templates, css and style guide.
+##### Configurable Paths
+Pattern Lab Node ships with a particular source and public workflow intended to separate the code you work on with the code generated for consumption elsewhere. If you wish to change any paths, you may do so within `config.json`. The contents are here:
 
-**NOTE:** You may run into issues installing gulp-sass if you don't have the latest Visual Studio on Windows. See [here](https://github.com/sass/node-sass/issues/469) for more information and [this query](https://github.com/sass/node-sass/issues?utf8=%E2%9C%93&q=is%3Aissue+install) for a slew of installation problems related to gulp-sass.
+```
+"paths" : {
+    "source" : {
+      "root": "./source/",
+      "patterns" : "./source/_patterns/",
+      "data" : "./source/_data/",
+      "styleguide" : "./core/styleguide/",
+      "patternlabFiles" : "./source/_patternlab-files/",
+      "js" : "./source/js",
+      "images" : "./source/images",
+      "fonts" : "./source/fonts",
+      "css" : "./source/css/"
+    },
+    "public" : {
+      "root" : "./public/",
+      "patterns" : "./public/patterns/",
+      "data" : "./public/data/",
+      "styleguide" : "./public/styleguide/",
+      "js" : "./public/js",
+      "images" : "./public/images",
+      "fonts" : "./public/fonts",
+      "css" : "./public/css"
+    }
+}
+```
+
+Note the intentional repitition of the nested structure, made this way for maximum flexibility. Relative paths are default but absolute paths should work too. You may also use these paths within Grunt or Gulp files by referring to the paths() object.
 
 ##### Nav Bar Controls
 If you don't have a need for some of the nav-bar tools in the Pattern Lab frontend, you can turn them off in `config.json`.

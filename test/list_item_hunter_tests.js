@@ -2,6 +2,8 @@
   "use strict";
 
   var lih = require('../builder/list_item_hunter');
+  var pa = require('../builder/pattern_assembler');
+  var object_factory = require('../builder/object_factory');
 
   exports['list_item_hunter'] = {
     'process_list_item_partials finds and outputs basic repeating blocks' : function(test){
@@ -34,7 +36,8 @@
           "link": {},
           "partials": []
         },
-        "config": {"debug": false}
+        "config": {"debug": false},
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -78,7 +81,8 @@
           "link": {},
           "partials": []
         },
-        "config": {"debug": false}
+        "config": {"debug": false},
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -130,7 +134,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -148,14 +153,14 @@
       var pattern1 = {
         "template": "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
         "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
-        "key": "test-patternName1",
+        "key": "test-foo",
         "jsonFileData" : {}
       };
 
       var pattern2 = {
         "template": "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
         "extendedTemplate" : "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
-        "key": "test-patternName2",
+        "key": "test-bar",
         "jsonFileData" : {}
       };
 
@@ -186,16 +191,19 @@
            "extendedTemplate" : "{{ title }}",
            "subdir": "00-test",
            "fileName": "00-foo",
-           "jsonFileData" : {}
+           "jsonFileData" : {},
+           "key": "test-foo",
           },
           {
            "template": "{{ title }}",
            "extendedTemplate" : "{{ title }}",
            "subdir": "00-test",
            "fileName": "01-bar",
-           "jsonFileData" : {}
+           "jsonFileData" : {},
+           "key": "test-bar",
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -259,7 +267,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -321,7 +330,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -383,7 +393,8 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ]
+        ],
+        "partials" : {}
       };
 
       var list_item_hunter = new lih();
@@ -394,6 +405,59 @@
       //assert
       test.equals(currentPattern.extendedTemplate, "One" );
 
+      test.done();
+    },
+
+    'process_list_item_partials - correctly ignores bookended partials without a style modifier when the same partial has a style modifier between' : function(test){
+      //arrange
+      var fs = require('fs-extra');
+      var pattern_assembler = new pa();
+      var list_item_hunter = new lih();
+      var patterns_dir = './test/files/_patterns';
+
+      var pl = {};
+      pl.config = {};
+      pl.data = {};
+      pl.data.link = {};
+      pl.config.debug = false;
+      pl.patterns = [];
+      pl.partials = {};
+      pl.config.patterns = { source: patterns_dir};
+      pl.listitems = {
+        "1": [
+           {
+              "message": "Foo"
+           }
+        ],
+        "2": [
+           {
+              "message": "Foo"
+           },
+           {
+              "message": "Bar"
+           }
+        ]
+      };
+
+      var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+      atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+      atomPattern.extendedTemplate = atomPattern.template;
+      atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+
+      var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/11-bookend-listitem.mustache', '00-test', '11-bookend-listitem.mustache');
+      bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/11-bookend-listitem.mustache', 'utf8');
+      bookendPattern.extendedTemplate = bookendPattern.template;
+      bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
+
+      pl.patterns.push(atomPattern);
+      pl.patterns.push(bookendPattern);
+
+      //act
+      list_item_hunter.process_list_item_partials(bookendPattern, pl);
+
+      //assert. here we expect {{styleModifier}} to be replaced with an empty string or the styleModifier value from the found partial with the :styleModifier
+      var expectedValue = '<div class="test_group"> <span class="test_base "> Foo </span> <span class="test_base test_1"> Foo </span> <span class="test_base "> Foo </span> <span class="test_base "> Bar </span> <span class="test_base test_1"> Bar </span> <span class="test_base "> Bar </span> </div>';
+      test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
       test.done();
     }
 
