@@ -11,8 +11,8 @@
 
   &--sticky {
     position:fixed;
-    box-shadow: 0 1px 3px 0 rgba(37,39,49,.1);
-    background-color: rgba(255,255,255,.95);
+    box-shadow: $shadowTiny;
+    background-color: transparentize($colorWhite, 0.05);
   }
 
   &__logo {}
