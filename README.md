@@ -22,37 +22,34 @@ Make sure you are running your terminal/command line session as administrator. T
 
 ### Choose Your Adventure! Now Vanilla, Grunt & Gulp
 
-This repository ships with two `package.json` files, a `Gruntfile.js`, and a `gulpfile.js`. The default is grunt currently. The core builder is not dependent on either.
+This repository ships a `Gruntfile.js`, and a `gulpfile.js`. The default is grunt currently. The core builder and tests are not dependent on either.
 
 ### Getting Started - Grunt
 
 To run patternlab-node using grunt, do the following in the directory you downloaded and extracted the zipped release:
 
 1. Run `npm install` from the command line
-2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `builder/patternlab_gulp.js` files if you are certain you don't need it.
-* Not deleting `builder/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
-3. Run `grunt` or `grunt serve` from the command line
+2. Optionally, delete `gulpfile.js`, `builder/gulp-core.js`, `builder/gulp-build.js` and `builder/gulp-extra.js` files if you are certain you don't need it.
+3. Run `grunt` or `grunt pl:serve` from the command line
 
-This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to have BrowserSync spin up and serve the files to you.
+This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt pl:serve` to have BrowserSync spin up and serve the files to you.
 
 ### Getting Started - Gulp
 
 To run patternlab-node using gulp, you need to swap out the default grunt configuration. Do the following in the directory you downloaded and extracted the zipped release:
 
-1. Rename `package.json` to `package.grunt.json` or delete it if you don't intend on going back
-2. Rename `package.gulp.json` to `package.json`
-3. Run `npm install` from the command line
-4. Run `gulp` or `gulp serve` from the command line
+1. Run `npm install` from the command line
+2. Optionally, delete `Gruntfile.js`, `builder/grunt-core.js` and `builder/grunt-build.js` files if you are certain you don't need it.
+4. Run `gulp` or `gulp pl:serve` from the command line
 
-This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `gulp serve` to have BrowserSync spin up and serve the files to you.
+This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `gulp pl:serve` to have BrowserSync spin up and serve the files to you.
 
 ### There and Back Again, or Switching Between Grunt and Gulp
 
 It's not expected to toggle between the two build systems, but for those migrating between the two configs, here's some general guidelines:
 
-* Make sure your `package.json` files are correct per the Getting Started sections.
-* Run `npm cache clear` before installation
-* Delete the contents of `./node_modules` if you want a cleaner installation.
+* Don't delete any files related to grunt or gulp. That's it!
+* The `package.json` includes all dependencies for gulp **and** grunt so you can switch between the two without doing anything.
 * Regarding speed, Gulp is faster. BrowserSync takes a bit longer than the old static server to spin up, but its capabilities far outweigh the startup cost.
 
 ### Upgrading
@@ -78,7 +75,7 @@ Get more information about patternlab-node, pattern lab in general, and where to
 ### Further Configuration
 
 ##### Watching Changes
-To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt|gulp watch` or `grunt|gulp serve`. The `Gruntfile|Gulpfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
+To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt watch|gulp pl:connect` or `grunt|gulp pl:serve`. The `Gruntfile|Gulpfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
 
 ##### Configurable Paths
 Pattern Lab Node ships with a particular source and public workflow intended to separate the code you work on with the code generated for consumption elsewhere. If you wish to change any paths, you may do so within `config.json`. The contents are here:
