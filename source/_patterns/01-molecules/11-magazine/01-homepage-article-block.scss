@@ -1,4 +1,4 @@
-.magArticle {
+.magArticle__summary {
   text-align : center;
 
   @media only screen and (min-width : $breakpointTablet) {
@@ -9,27 +9,18 @@
     border-top : 1px solid $colorSilver;
     border-bottom : 1px solid $colorSilver;
 
-    &__image {
-      margin-left : $marginMini;
-      width : 50%;
-    }
-
-    .magArticle__text {
-      @media only screen and (min-width : $breakpointTablet) {
-        margin-left : 0;
+    .magArticle {
+      &__image {
+        margin-left : $marginMini;
         width : 50%;
       }
+      &__text {
+        @media only screen and (min-width : $breakpointTablet) {
+          margin-left : 0;
+          width : 50%;
+        }
+      }
     }
-  }
-
-  &__text {
-    margin-right : $marginMini;
-    margin-left : $marginMini;
-  }
-
-  &__date {
-    @include font-secondary-medium-lowercase(0.875em);
-    margin-bottom : $marginMini;
   }
 
   .headlineGroup {
@@ -49,7 +40,19 @@
       }
     }
   }
+}
 
+.magArticle {
+  &__text {
+    margin-right : $marginMini;
+    margin-left : $marginMini;
+  }
+
+  &__date {
+    @include font-secondary-medium-lowercase(0.875em);
+    margin-bottom : $marginMini;
+    display: inline-block;
+  }
   &__readMore {
     color: $colorTussock;
   }

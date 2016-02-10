@@ -2,7 +2,7 @@
     <div class="basicLayout--inner">
         {{> organisms-header }}
 
-        <div class="pageContent magazineArticle__interview">
+        <div class="pageContent magArticle magArticle__interview">
             <div class="magArticle__text">
                 <div class="magArticle__date">{{ headline.mini }}</div>
                 <h2 class="headlineGroup__headline--alt">{{ headline.mini }}:<br>{{ headline.short }}</h2>
@@ -10,10 +10,10 @@
 
             {{> molecules-block-banner }}
 
-            <div class="columns magazineArticle__columns">
+            <div class="columns magArticle__columns">
                 <div class="block columns__column">{{> molecules-figure-with-caption }}</div>
-                <div class="block columns__column magazineArticle__columns--text">
-                    <p class="magazine__magazineArticle__firstParagraph">{{ excerpt.long }}</p><br>
+                <div class="block columns__column magArticle__columns--text">
+                    <p class="magazine__magArticle__firstParagraph">{{ excerpt.long }}</p><br>
                     <p>{{ excerpt.long }}</p><br>
                     <blockquote class="pullQuote">
                         <p>A pull quotation is a a brief, attention-catching quotation taken from the main text of an article</p>
@@ -21,14 +21,14 @@
                 </div>
             </div>
 
-            <div class="columns magazineArticle__columns">
+            <div class="columns magArticle__columns">
                 <div class="block columns__column">{{> molecules-figure-with-caption }}</div>
                 <div class="block columns__column">{{> molecules-figure-with-caption }}</div>
             </div>
 
-            <div class="columns magazineArticle__columns">
+            <div class="columns magArticle__columns">
                 <div class="block columns__column"></div>
-                <div class="block columns__column magazineArticle__columns--text">
+                <div class="block columns__column magArticle__columns--text">
                     <p>{{ excerpt.long }}</p><br>
                     <p>{{ excerpt.long }}</p><br>
                     <blockquote class="pullQuote">

@@ -86,5 +86,7 @@
 
 // Magazine
 @import "../_patterns/01-molecules/11-magazine/01-homepage-article-block";
-@import "../_patterns/03-templates/11-magazine/01-article-interview";
+@import "../_patterns/03-templates/11-magazine/magazine-article-base";
 @import "../_patterns/03-templates/11-magazine/00-home";
+@import "../_patterns/03-templates/11-magazine/01-article-interview";
+@import "../_patterns/03-templates/11-magazine/02-article-city-guide";

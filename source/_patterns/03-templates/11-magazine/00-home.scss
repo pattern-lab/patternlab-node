@@ -1,8 +1,12 @@
 .pageContent__magazineHome {
-  .magArticle {
+  .magArticle__summary {
     margin-right : auto;
     margin-left : auto;
     margin-bottom : $marginMedium;
     max-width : 60em;
+  }
+
+  .magArticle__text {
+    margin-bottom : 0;
   }
 }

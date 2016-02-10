@@ -1,11 +1,7 @@
 
 .vCard {
-  font-family : $fontPrimary;
-  font-weight : 300;
-  line-height : 24px;
-  text-transform : uppercase;
-  font-size : 0.75em;
-  letter-spacing: 1px;
+  @include font-primary-medium-uppercase(0.75em);
+  line-height : 1.5em;
   .vCard {
 
     &__organisation {

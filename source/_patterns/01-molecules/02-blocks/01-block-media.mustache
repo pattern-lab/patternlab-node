@@ -4,7 +4,8 @@
             <h1 class="headlineGroup__headline">{{ headline.mini }}</h1>
             <div class="headlineGroup__subHeadline">The image in this Block Media is never cropped</div>
         </div>
-        <p>This example becomes one column on a medium viewport {{ excerpt.medium }}</p>
+        <p class="blockMedia__text__content">This example becomes one column on a medium viewport {{ excerpt.medium }}</p>
+        {{# displayVcard }}{{> molecules-vcard }}{{/ displayVcard }}
     </div>
     <div class="blockMedia__image">
         {{> atoms-landscape-4x3() }}
@@ -17,7 +18,8 @@
             <h1 class="headlineGroup__headline">{{ headline.mini }}</h1>
             <div class="headlineGroup__subHeadline">The image in this Block Media is never cropped</div>
         </div>
-        <p>This example becomes one column on a medium viewport {{ excerpt.medium }}</p>
+        <p class="blockMedia__text__content">This example becomes one column on a medium viewport {{ excerpt.medium }}</p>
+        {{# displayVcard }}{{> molecules-vcard }}{{/ displayVcard }}
     </div>
     <div class="blockMedia__image">
         {{> atoms-landscape-4x3() }}

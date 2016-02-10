@@ -1,0 +1,19 @@
+<div class="basicLayout">
+    <div class="basicLayout--inner">
+        {{> organisms-header }}
+
+        <div class="pageContent magArticle magArticle__cityGuide">
+            <div class="magArticle__text">
+                <div class="magArticle__date">{{ headline.mini }}</div>
+                <h2 class="headlineGroup__headline--alt">{{ headline.mini }}:<br>{{ headline.short }}</h2>
+            </div>
+
+            {{> molecules-block-banner }}
+
+            {{> molecules-block-media(displayVcard: true) }}
+            {{> molecules-block-media(displayVcard: true) }}
+
+        </div>
+        {{> organisms-footer }}
+    </div>
+</div>
