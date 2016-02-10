@@ -2,6 +2,7 @@
   text-align : center;
   display : flex;
   flex-direction : column;
+  max-width : 75em;
 
   @media only screen and (min-width : $breakpointTablet) {
     text-align: left;
@@ -16,8 +17,8 @@
   }
 
   @media only screen and (min-width : $maxWidthLayout) {
-    margin-right : 0;
-    margin-left : 0;
+    margin-right : auto;
+    margin-left : auto;
   }
 
   &__image {
@@ -29,7 +30,7 @@
     @media only screen and (min-width : $breakpointDesktop) {
       margin-top : 0;
       width: 49%;
-      min-height : 45em;
+      justify-content : flex-end;
     }
 
     &--cropped {
@@ -59,6 +60,12 @@
 
     @media only screen and (min-width : $breakpointDesktop) {
       flex-direction: row-reverse;
+    }
+
+    .blockMedia__image {
+      @media only screen and (min-width : $breakpointDesktop) {
+        justify-content : flex-start;
+      }
     }
   }
 
