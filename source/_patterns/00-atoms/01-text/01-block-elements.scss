@@ -1,5 +1,6 @@
 p {
   @include font-secondary-medium-lowercase;
+  margin-bottom : $marginMini;
 }
 .pullQuote {
   @include font-secondary-medium-lowercase(1.5em);
