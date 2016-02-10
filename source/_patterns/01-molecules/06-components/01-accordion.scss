@@ -1,12 +1,20 @@
-@mixin accordion {
+@mixin baseAccordion {
   width : 100%;
 
   &__handle {
-    transition:background-color $animationTimingFast ease-in-out;
-    font-size : 0.875em;
-    display : block;
-    position : relative;
     @include icon('plus');
+    @include font-primary-light-uppercase(0.875em);
+    transition:background-color $animationTimingFast ease-in-out;
+    display:block;
+    position:relative;
+    border-bottom:1px solid $colorSilver;
+    background-color:$colorGallery;
+    padding:1em $paddingMini;
+    cursor:pointer;
+
+    &:hover, &:active {
+      background-color:lighten(#c0c0c0, 20%);
+    }
 
     &:before {
       float:right;
@@ -15,16 +23,17 @@
     }
 
     &--expanded {
-      background-color : lighten(#c0c0c0, 20%);
+      background-color:lighten(#c0c0c0, 20%);
       @include icon('minus');
-
-      + [class*="accordion__panel"] {
-        display:block;
-      }
     }
   }
+
   &__panel {
     display:none;
+  }
+
+  &__handle--expanded + &__panel {
+    display:block;
   }
 
   &__panel__content {
@@ -38,70 +47,30 @@
     border-bottom : 1px solid $colorSilver;
     padding : 1em $paddingMini;
     font-weight : 300;
-  }
-}
 
+    &--link {
+      display : block;
 
-.accordion__handle--base {
-  @extend .accordion__handle;
-  font-family : $fontPrimary;
-  font-weight : normal;
-  text-transform : uppercase;
-  letter-spacing : 0.1em;
-  border-bottom : 1px solid $colorSilver;
-  background-color : $colorGallery;
-  padding : 1em $paddingMini;
-  cursor: pointer;
+      &:hover {
+        background-color : $colorGallery;
+      }
 
-  &:hover, &:active {
-    background-color : lighten(#c0c0c0, 20%);
-  }
-}
-
-
-.mobile-accordion__handle--base {
-  @extend .accordion__handle;
-
-  @media only screen and (max-width : $breakpointTabletEnd) {
-    font-family: $fontPrimary;
-    font-weight: normal;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-bottom: 1px solid $colorSilver;
-    background-color: $colorGallery;
-    padding : 1em $paddingMini;
-    cursor: pointer;
-
-    &:hover, &:active {
-      background-color: lighten(#c0c0c0, 20%);
-    }
-  }
-
-  &:before {
-    @media only screen and (min-width : $breakpointDesktop) {
-      display : none;
+      &:active {
+        background-color : lighten(#c0c0c0, 20%);
+      }
     }
   }
 }
-.accordion {
-  @include accordion;
-}
+
+
 @media only screen and (max-width : $breakpointTabletEnd) {
-
   .mobile-accordion {
-    @include accordion;
-  }
-
-  .accordion__panel__content--link {
-    display : block;
-
-    &:hover {
-      background-color : $colorGallery;
-    }
-
-    &:active {
-      background-color : lighten(#c0c0c0, 20%);
-    }
+    @include baseAccordion;
   }
 }
 
+@media only screen and (min-width : $breakpointDesktop) {
+  .accordion {
+    @include baseAccordion;
+  }
+}
