@@ -11,6 +11,14 @@
     min-height:100vh;
     margin:0;
 
+    display:flex;
+    flex-flow:column nowrap;
+
+    > .pageContent {
+      flex:1;
+      width:100%;
+    }
+
     &:before {
       transition:all $animationTimingNormal ease-in-out;
       display:block;
