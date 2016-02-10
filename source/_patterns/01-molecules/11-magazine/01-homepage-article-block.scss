@@ -51,6 +51,7 @@
   &__date {
     @include font-secondary-medium-lowercase(0.875em);
     margin-bottom : $marginMini;
+    display: inline-block;
   }
   &__readMore {
     color: $colorTussock;
