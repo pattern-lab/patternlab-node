@@ -19,13 +19,11 @@
   }
 
   &__image {
-    margin-top : 2.75em;
     display: flex;
     justify-content: center;
     align-items: center;
 
     @media only screen and (min-width : $breakpointDesktop) {
-      margin-top : 0;
       width: 49%;
       justify-content : flex-end;
     }

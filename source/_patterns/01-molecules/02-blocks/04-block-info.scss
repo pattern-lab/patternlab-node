@@ -5,7 +5,7 @@
 
 
   @media only screen and (min-width: $breakpointDesktop) {
-    padding : $paddingStandard;
+    padding : ($paddingStandard + $paddingMini) $paddingStandard;
   }
 
   &:before {
