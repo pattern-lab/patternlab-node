@@ -2,21 +2,18 @@
   text-align : center;
   display : flex;
   flex-direction : column;
-  max-width : 75em;
+  max-width : 75em + (2*$paddingStandard);
 
   @media only screen and (min-width : $breakpointTablet) {
     text-align: left;
   }
 
   @media only screen and (min-width : $breakpointDesktop) {
-    margin : 0 $marginStandard;
+    padding : 0 $paddingStandard;
     flex-direction : row;
     align-items : center;
     justify-content : space-between;
     align-content : center;
-  }
-
-  @media only screen and (min-width : $maxWidthLayout) {
     margin-right : auto;
     margin-left : auto;
   }
