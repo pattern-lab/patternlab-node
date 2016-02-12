@@ -37,6 +37,7 @@
       .headlineH2 {
         margin-bottom : $marginMini;
         margin-top : $marginMini;
+        @include font-primary-bold-uppercase;
       }
 
       ul {
@@ -44,7 +45,7 @@
       }
     }
 
-    &__interviewer, &__altFont {
+    &__interviewer{
       @include font-primary-bold-uppercase;
       letter-spacing : 0;
     }
