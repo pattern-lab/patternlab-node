@@ -1,11 +1,52 @@
 .magArticle__interview {
-  .magArticle__columns--text {
-    padding-right : $marginMini;
-    padding-left : $marginMini;
+  .magArticle {
+    &__columns {
+      &--text {
+        padding-right: $marginMini;
+        padding-left: $marginMini;
 
-    @media only screen and (min-width : $maxWidthLayout) {
-      padding-right : 0;
-      padding-left : 0;
+        @media only screen and (min-width: $maxWidthLayout) {
+          padding-right: 0;
+          padding-left: 0;
+        }
+      }
+
+      &--blockquote {
+        display : flex;
+        align-items : center;
+      }
+    }
+
+    &__sidebar {
+      padding : 0 $paddingMini;
+      position : relative;
+      display : flex;
+      align-items : center;
+
+      @media only screen and (min-width: $breakpointMobile) {
+        padding : 0;
+      }
+
+      &__innerWrapper {
+        max-width : 25em;
+        border-top : 3px solid $colorBlack;
+        margin-right : auto;
+        margin-left : auto;
+      }
+
+      .headlineH2 {
+        margin-bottom : $marginMini;
+        margin-top : $marginMini;
+      }
+
+      ul {
+        list-style-type: none;
+      }
+    }
+
+    &__interviewer, &__altFont {
+      @include font-primary-bold-uppercase;
+      letter-spacing : 0;
     }
   }
 }

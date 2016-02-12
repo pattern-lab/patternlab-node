@@ -12,8 +12,8 @@
     width: 100%;
 
     @media only screen and (min-width: $breakpointTablet) {
-      margin-left : $marginMini;
-      margin-right : $marginMini;
+      margin-left : ($marginMini/2);
+      margin-right : ($marginMini/2);
       flex : 1;
     }
   }

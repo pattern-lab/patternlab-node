@@ -13,29 +13,50 @@
             <div class="columns magArticle__columns">
                 <div class="block columns__column">{{> molecules-figure-with-caption }}</div>
                 <div class="block columns__column magArticle__columns--text">
-                    <p class="magazine__magArticle__firstParagraph">{{ excerpt.long }}</p><br>
-                    <p>{{ excerpt.long }}</p><br>
-                    <blockquote class="pullQuote">
-                        <p>A pull quotation is a a brief, attention-catching quotation taken from the main text of an article</p>
-                    </blockquote>
+                    <p>Interview by <span class="magArticle__interviewer">Horizn Studios</span></p>
+                    {{> atoms-block-elements(paragraph: true) }}
+                    {{> atoms-block-elements(interviewQuestion: true) }}
+                    {{> atoms-block-elements(paragraph: true) }}
+                    {{> atoms-block-elements(interviewQuestion: true) }}
+                    {{> atoms-block-elements(paragraph: true) }}
                 </div>
             </div>
 
             <div class="columns magArticle__columns">
-                <div class="block columns__column">{{> molecules-figure-with-caption }}</div>
+                <div class="block columns__column magArticle__columns--blockquote">
+                    {{> atoms-block-elements(blockquote: true) }}
+                </div>
                 <div class="block columns__column">{{> molecules-figure-with-caption }}</div>
             </div>
 
             <div class="columns magArticle__columns">
-                <div class="block columns__column"></div>
+                <div class="block columns__column magArticle__sidebar">
+                    <div class="magArticle__sidebar__innerWrapper">
+                        {{> atoms-heading(level: 2) }}
+                        <p><span class="magArticle__altFont">{{ headline.mini }}: </span>{{ headline.short }}</p>
+                        <p><span class="magArticle__altFont">{{ headline.short }}: </span>{{ excerpt.mini }}</p>
+                        <p><span class="magArticle__altFont">{{ headline.mini }}: </span>{{ excerpt.short }}</p>
+                        <p><span class="magArticle__altFont">{{ headline.short }}: </span>{{ headline.mini }}</p>
+                    </div>
+                </div>
                 <div class="block columns__column magArticle__columns--text">
-                    <p>{{ excerpt.long }}</p><br>
-                    <p>{{ excerpt.long }}</p><br>
-                    <blockquote class="pullQuote">
-                        <p>A pull quotation is a a brief, attention-catching quotation taken from the main text of an article</p>
-                    </blockquote>
-                    <p>{{ excerpt.long }}</p><br>
-                    <p>{{ excerpt.long }}</p><br>
+                    {{> atoms-block-elements(paragraph: true) }}
+                    {{> atoms-block-elements(interviewQuestion: true) }}
+                    {{> atoms-block-elements(paragraph: true) }}
+                    {{> atoms-block-elements(interviewQuestion: true) }}
+                    {{> atoms-block-elements(paragraph: true) }}
+                </div>
+            </div>
+
+            <div class="columns magArticle__columns">
+                <div class="block columns__column">
+                    {{> molecules-figure-with-caption }}
+                </div>
+                <div class="block columns__column">
+                    {{> molecules-figure-with-caption }}
+                </div>
+                <div class="block columns__column">
+                    {{> molecules-figure-with-caption }}
                 </div>
             </div>
 

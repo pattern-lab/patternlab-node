@@ -1,8 +1,4 @@
 .block {
   margin-bottom: $marginStandard;
   line-height : $lineHeightNormal;
-
-  &:first-child {
-    margin-bottom : $marginStandard;
-  }
 }

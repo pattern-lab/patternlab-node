@@ -2,6 +2,11 @@ p {
   @include font-secondary-medium-lowercase;
   margin-bottom : $marginMini;
 }
+
+.interviewQuestion {
+  font-weight : 500;
+}
+
 .pullQuote {
   @include font-secondary-medium-lowercase(1.5em);
   font-family : $fontSecondary;
