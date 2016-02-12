@@ -49,12 +49,27 @@
   }
 
   @media only screen and (min-width: $breakpointDesktop) {
-    transition:background-color 500ms ease-in, border-color 500ms ease-in;
+    transition:all $animationTimingFast ease-in;
 
     &:hover,
     &:active {
       transition-timing-function: ease-out;
     }
+  }
+
+  &[disabled] {
+    opacity:0.5;
+    cursor:not-allowed;
+    background-color:$colorNevada;
+    border-color:$colorNevada;
+  }
+
+  &--busy,
+  &--busy[disabled] {
+    opacity:0.5;
+    cursor:wait;
+    background-color:$colorNevada;
+    border-color:$colorNevada;
   }
 }
 
