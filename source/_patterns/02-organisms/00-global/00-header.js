@@ -14,7 +14,6 @@ module.exports = $(function() {
     $(document).scroll(function() {
         var $header = $('header.header'),
           hasScrolled = $(window).scrollTop();
-        $header[hasScrolled ? 'addClass' : 'removeClass']('header--sticky');
-        $('.pageContent').css({ paddingTop : hasScrolled ? $header.outerHeight(false) : 0 });
+        $header[hasScrolled ? 'addClass' : 'removeClass']('header--sticky').next().css({ paddingTop : hasScrolled ? $header.outerHeight(false) : 0 });
     });
 });
