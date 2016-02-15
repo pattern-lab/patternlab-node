@@ -32,6 +32,10 @@
         border-top : 3px solid $colorBlack;
         margin-right : auto;
         margin-left : auto;
+
+        @media only screen and (min-width: $breakpointTablet) {
+          min-width : 22em;
+        }
       }
 
       .headlineH2 {
