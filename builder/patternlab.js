@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.1.0 - 2016 
+ * patternlab-node - v1.1.1 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -162,6 +162,18 @@ var patternlab_engine = function (config) {
     patternlab.patternPaths = {};
     patternlab.viewAllPaths = {};
 
+    //sort all patterns explicitly.
+    patternlab.patterns = patternlab.patterns.sort(function(a,b){
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+
     //find mediaQueries
     media_hunter.find_media_queries('./source/css', patternlab);
 
@@ -238,18 +250,6 @@ var patternlab_engine = function (config) {
 
     //build the patternlab website
     var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'index.mustache'), 'utf8');
-
-    //sort all patterns explicitly.
-    patternlab.patterns = patternlab.patterns.sort(function(a,b){
-      if (a.name > b.name) {
-        return 1;
-      }
-      if (a.name < b.name) {
-        return -1;
-      }
-      // a must be equal to b
-      return 0;
-    });
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
