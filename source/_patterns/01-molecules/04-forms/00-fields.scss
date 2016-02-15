@@ -82,11 +82,20 @@
       display: none;
       color: $colorError;
       line-height: 1.3em;
+
       .field--error & {
         display: block;
       }
     }
+    &--success {
+      display: none;
+      color: $colorValid;
+      line-height: 1.3em;
 
+      .field--success & {
+        display: block;
+      }
+    }
   }
   &__icon {
     position: absolute;
