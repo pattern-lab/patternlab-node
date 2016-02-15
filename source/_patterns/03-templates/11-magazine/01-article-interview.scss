@@ -1,11 +1,22 @@
 .magArticle__interview {
   .magArticle {
     &__columns {
-      &--text {
-        padding-right: $marginMini;
-        padding-left: $marginMini;
+      justify-content : center;
 
-        @media only screen and (min-width: $maxWidthLayout) {
+      .columns__column {
+        max-width : 37.5em;
+
+        @media only screen and (max-width: $breakpointTabletEnd) {
+          margin-right : auto;
+          margin-left: auto;
+        }
+      }
+
+      &--text {
+        padding-right: $paddingStandard;
+        padding-left: $paddingStandard;
+
+        @media only screen and (min-width: $breakpointTablet) {
           padding-right: 0;
           padding-left: 0;
         }
@@ -14,6 +25,7 @@
       &--blockquote {
         display : flex;
         align-items : center;
+        justify-content : center;
       }
     }
 
