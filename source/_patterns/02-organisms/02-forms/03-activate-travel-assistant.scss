@@ -1,0 +1,17 @@
+.activateTA__wrapper {
+  &__column {
+    @media only screen and (min-width: $breakpointTablet) {
+      &:first-child {
+        .activateTA {
+          margin-right: $marginMini;
+        }
+      }
+
+      &:last-child {
+        .activateTA {
+          margin-left: $marginMini;
+        }
+      }
+    }
+  }
+}
