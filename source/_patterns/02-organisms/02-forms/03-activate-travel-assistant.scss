@@ -1,6 +1,7 @@
 .activateTA__wrapper {
   &__column {
-    @media only screen and (min-width: $breakpointTablet) {
+    margin-bottom : $marginStandard;
+    @media only screen and (min-width: $breakpointDesktop) {
       &:first-child {
         .activateTA {
           margin-right: $marginMini;

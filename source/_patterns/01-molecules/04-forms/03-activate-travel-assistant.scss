@@ -26,6 +26,8 @@
   &__number {
     @include font-secondary-medium-uppercase(7.5em);
     letter-spacing : 0;
+    margin-top: -15px;
+    margin-bottom: -30px;
   }
 
   &__currency {
