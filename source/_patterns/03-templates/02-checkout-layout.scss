@@ -112,4 +112,10 @@
   .field__input-wrapper {
     margin: 0.45em;
   }
+
+  .order-summary__section--discount {
+    .field__input-wrapper {
+      margin : 0 0.45em;
+    }
+  }
 }
