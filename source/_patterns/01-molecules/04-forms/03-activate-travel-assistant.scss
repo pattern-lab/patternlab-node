@@ -1,0 +1,43 @@
+.activateTA {
+  text-align : center;
+  margin-right : auto;
+  margin-left : auto;
+  max-width : 17.5em;
+
+  .list {
+    text-align : left;
+    margin-right : auto;
+    margin-left : auto;
+    margin-bottom : $marginMini;
+  }
+
+  &__headline {
+    margin-bottom : 0;
+  }
+
+  &__price {
+    display : flex;
+    align-items: center;
+    margin-right : auto;
+    margin-left : auto;
+    justify-content: center;
+  }
+
+  &__number {
+    @include font-secondary-medium-uppercase(7.5em);
+    letter-spacing : 0;
+  }
+
+  &__currency {
+    letter-spacing : 0;
+    text-align: left;
+  }
+
+  &__footNote {
+    margin-top : $marginMini;
+  }
+
+  .button {
+    margin-top : $marginMini;
+  }
+}
