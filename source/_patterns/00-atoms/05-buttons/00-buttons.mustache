@@ -1,14 +1,13 @@
-<button class="button">{{ buttonInline || 'Inline button' }}</button>
-<a href="#" class="button">{{ linkInline || 'Inline link' }}</a>
+{{> atoms-button }}
+
+{{> atoms-button(type: true, class: 'primary') }}
+
 
 <button class="button button--primary">{{ buttonPrimary || 'Primary button' }}</button>
 <a href="#" class="button button--primary">{{ linkPrimary || 'Primary link' }}</a>
 <button class="button button--primary" disabled>Primary button disabled</button>
 <button class="button button--primary button--busy">Primary button busy</button>
 
-<button class="button button--secondary">{{ buttonSecondary || 'Secondary button' }}</button>
-<a href="#" class="button button--secondary">{{ linkSecondary || 'Secondary link' }}</a>
-
-<button class="button button--tertiary">{{ tertiaryButton || 'Tertiary button' }}</button>
+{{> atoms-button(type: true, class: 'tertiary') }}
 <a href="#" class="button button--tertiary">{{ tertiaryLink || 'Tertiary link' }}</a>
 
