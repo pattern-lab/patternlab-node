@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v1.0.1 - 2015
- *
+/* 
+ * patternlab-node - v1.1.1 - 2016 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -105,6 +105,9 @@
 					//replace the block with our generated HTML
 					var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
+
+					//update the extendedTemplate in the partials object in case this pattern is consumed later
+					patternlab.partials[pattern.key] = pattern.extendedTemplate;
 
 				});
 			}
