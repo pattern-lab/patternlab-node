@@ -40,6 +40,12 @@
     left:-$widthMobileNavigation;
   }
 
+  .navigation--cart {
+    transition:right $animationTimingNormal ease-in-out;
+    min-width:$widthCartSidebar;
+    right:-$widthCartSidebar;
+  }
+
   &--expanded-left &--inner {
     margin-left:$widthMobileNavigation;
 
@@ -63,7 +69,9 @@
       opacity:1;
     }
 
-    // add cart panel movement here
+    .navigation--cart {
+      right: 0;
+    }
   }
 
   @media only screen and (min-width:$breakpointDesktop) {
