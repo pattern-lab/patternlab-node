@@ -26,7 +26,7 @@
 
     // patch the pattern source so the pattern assembler can correctly determine
     // the "subdir"
-    fpl.config.patterns.source = './test/files/_handlebars-test-patterns';
+    fpl.config.paths.source.patterns = './test/files/_handlebars-test-patterns';
 
     return fpl;
   }
@@ -101,7 +101,7 @@
       // set up environment
       var patternlab = new fakePatternLab(); // environment
       var assembler = new pa();
-      
+
       // do all the normal processing of the pattern
       assembler.process_pattern_iterative(pattern1Path, patternlab);
       var helloWorldsPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
@@ -110,6 +110,62 @@
 
       // test
       test.equals(helloWorldsPattern.render(), 'Hello world!\n and Hello world!\n\n');
+      test.done();
+    },
+    'handlebars partials can render JSON values': function (test) {
+      test.expect(1);
+
+      // pattern paths
+      var pattern1Path = path.resolve(
+        testPatternsPath,
+        '00-atoms',
+        '00-global',
+        '00-helloworld-withdata.hbs'
+      );
+
+      // set up environment
+      var patternlab = new fakePatternLab(); // environment
+      var assembler = new pa();
+
+      // do all the normal processing of the pattern
+      var helloWorldWithData = assembler.process_pattern_iterative(pattern1Path, patternlab);
+      assembler.process_pattern_recursive(pattern1Path, patternlab);
+
+      // test
+      test.equals(helloWorldWithData.render(), 'Hello world!\nYeah, we got the subtitle from the JSON.\n');
+      test.done();
+    },
+    'handlebars partials use the JSON environment from the calling pattern and can accept passed parameters': function (test) {
+      test.expect(1);
+
+      debugger;
+
+      // pattern paths
+      var atomPath = path.resolve(
+        testPatternsPath,
+        '00-atoms',
+        '00-global',
+        '00-helloworld-withdata.hbs'
+      );
+      var molPath = path.resolve(
+        testPatternsPath,
+        '00-molecules',
+        '00-global',
+        '00-call-atom-with-molecule-data.hbs'
+      );
+
+      // set up environment
+      var patternlab = new fakePatternLab(); // environment
+      var assembler = new pa();
+
+      // do all the normal processing of the pattern
+      var atom = assembler.process_pattern_iterative(atomPath, patternlab);
+      var mol = assembler.process_pattern_iterative(molPath, patternlab);
+      assembler.process_pattern_recursive(atomPath, patternlab);
+      assembler.process_pattern_recursive(molPath, patternlab);
+
+      // test
+      test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>\nThis is Hello world!\nfrom the default JSON.\n\n\n<h2>Call with passed parameter:</h2>\nHowever, this is Hello world!\nfrom a totally different blob.\n\n');
       test.done();
     },
     'find_pattern_partials finds partials': function(test){
@@ -154,7 +210,7 @@
         '{{> myPartial name=../name }}'
       ]);
     },
-    
+
     'find_pattern_partials finds handlebars block partials': function(test){
       testFindPartials(test, [
         '{{#> myPartial }}'
