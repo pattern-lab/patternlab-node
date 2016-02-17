@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v1.0.0 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -17,7 +17,6 @@
 				pa = require('./pattern_assembler'),
 				smh = require('./style_modifier_hunter'),
 				plutils = require('./utilities'),
-				config = require('../config.json'),
         of = require('./object_factory');
 
 		var pattern_assembler = new pa(),
@@ -31,7 +30,7 @@
 			if(matches !== null){
 				matches.forEach(function(liMatch, index, matches){
 
-					if(config.debug){
+					if(patternlab.config.debug){
 						console.log('found listItem of size ' + liMatch + ' inside ' + pattern.key);
 					}
 
@@ -43,7 +42,7 @@
 					var repeatedBlockTemplate = [];
 					var repeatedBlockHtml = '';
 					for(var i = 0; i < items.indexOf(loopNumberString); i++){
-            if (config.debug) {
+            if (patternlab.config.debug) {
               console.log('list item(s) in pattern', pattern.patternName, 'adding', patternBlock, 'to repeatedBlockTemplate');
             }
 						repeatedBlockTemplate.push(patternBlock);
@@ -79,13 +78,16 @@
 								var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
 								var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
+								//create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
+								var cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+
 								//if partial has style modifier data, replace the styleModifier value
-								if(pattern.stylePartials && pattern.stylePartials.length > 0){
-									style_modifier_hunter.consume_style_modifier(partialPattern, foundPartials[j], patternlab);
+								if(foundPartials[j].indexOf(':') > -1){
+									style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPartials[j], patternlab);
 								}
 
 								//replace its reference within the block with the extended template
-								thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], partialPattern.extendedTemplate);
+								thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], cleanPartialPattern.extendedTemplate);
 							}
 
 							//render with data
