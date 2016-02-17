@@ -26,13 +26,14 @@
   &__number {
     @include font-secondary-medium-uppercase(7.5em);
     letter-spacing : 0;
-    margin-top: -15px;
-    margin-bottom: -15px;
+    margin-top: -1rem;
+    margin-bottom: -0.3rem;
   }
 
   &__currency {
     letter-spacing : 0;
     text-align: left;
+    margin-left : 0.3em;
   }
 
   &__footNote {
