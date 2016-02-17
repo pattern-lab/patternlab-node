@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.0 - 2015 
+ * patternlab-node - v1.0.1 - 2015 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -21,16 +21,16 @@ module.exports = function(gulp) {
   gulp.task('patternlab:version', function(){
     var patternlab = patternlab_engine();
     patternlab.version();
-  })
+  });
 
   gulp.task('patternlab:only_patterns', ['clean'], function(){
     var patternlab = patternlab_engine();
     patternlab.build_patterns_only(false);
-  })
+  });
 
   gulp.task('patternlab:help', function(){
     var patternlab = patternlab_engine();
     patternlab.help();
-  })
+  });
 
-}
+};
