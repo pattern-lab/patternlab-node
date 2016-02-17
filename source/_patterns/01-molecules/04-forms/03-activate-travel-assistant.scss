@@ -27,7 +27,7 @@
     @include font-secondary-medium-uppercase(7.5em);
     letter-spacing : 0;
     margin-top: -15px;
-    margin-bottom: -30px;
+    margin-bottom: -15px;
   }
 
   &__currency {
@@ -37,6 +37,7 @@
 
   &__footNote {
     margin-top : $marginMini;
+    font-size : 0.75em;
   }
 
   .button {
