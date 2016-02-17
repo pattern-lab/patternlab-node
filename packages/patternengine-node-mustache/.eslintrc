@@ -22,11 +22,13 @@
       "allow-null"
     ],
     "global-strict": [
-      2,
+      0,
       "never"
     ],
     "guard-for-in": 2,
-    "key-spacing": 1,
+    "key-spacing": [
+      0
+    ],
     "new-cap": 0,
     "no-bitwise": 2,
     "no-caller": 2,
@@ -42,6 +44,7 @@
     "no-irregular-whitespace": 1,
     "no-iterator": 2,
     "no-loop-func": 2,
+    "no-mixed-requires": 0,
     "no-multi-str": 2,
     "no-multi-spaces": 0,
     "no-new": 2,
@@ -61,7 +64,7 @@
       0,
       "never"
     ],
-    "strict": 2,
+    "strict": 0,
     "valid-typeof": 2,
     "wrap-iife": [
       2,
