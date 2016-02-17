@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v1.0.0 - 2015 
- * 
+/*
+ * patternlab-node - v1.0.1 - 2015
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -14,7 +14,6 @@
   var patternEngines = require('./pattern_engines/pattern_engines');
   var path = require('path');
   var fs = require('fs-extra');
-  var config = fs.readJSONSync('./config.json');
   var extend = require('util')._extend;
 
   // oPattern properties
@@ -52,10 +51,7 @@
     // render method on oPatterns; this acts as a proxy for the PatternEngine's
     // render function
     render: function (data, partials) {
-      if (config.debug && this.isPseudoPattern) {
-        console.log('===', this.name + ' IS A PSEUDO-PATTERN ===');
-      }
-      return this.engine.renderPattern(this.extendedTemplate, data, partials);
+      return this.engine.renderPattern(this.extendedTemplate, data || this.jsonFileData, partials);
     },
 
     registerPartial: function () {
@@ -82,8 +78,8 @@
       return this.engine.findListItems(this);
     },
 
-    getPartialKey: function (partialString) {
-      return this.engine.getPartialKey(this, partialString);
+    findPartialKey: function (partialString) {
+      return this.engine.findPartialKey(partialString);
     }
   };
 
