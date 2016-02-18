@@ -44,7 +44,7 @@
     // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithStyleModifiers(pattern){
       // the regular expression broken down:
-      // the opening mustache include tag
+      // opening mustache include tag
       var regexStr = '{{>';
       // an optional single space
       regexStr += '( )?';
@@ -64,7 +64,7 @@
       regexStr += '(\\([^\\)]*\\))?';
       // an optional single space
       regexStr += '( )?';
-      // the closing mustache tag
+      // closing mustache tag
       regexStr += '}}';
 
       var regex = new RegExp(regexStr, 'g');
@@ -74,7 +74,7 @@
     // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithPatternParameters(pattern){
       // the regular expression broken down:
-      // the opening mustache include tag
+      // opening mustache include tag
       var regexStr = '{{>';
       // an optional single space
       regexStr += '( )?';
@@ -93,7 +93,7 @@
       regexStr += '(\\([^\\)]*\\))';
       // an optional single space
       regexStr += '( )?';
-      // the closing mustache tag
+      // closing mustache tag
       regexStr += '}}';
 
       var regex = new RegExp(regexStr, 'g');
@@ -103,7 +103,7 @@
     //find and return any {{> template-name* }} within pattern
     function findPartials(pattern){
       // the regular expression broken down:
-      // the opening mustache include tag
+      // opening mustache include tag
       var regexStr = '{{>';
       // an optional single space
       regexStr += '( )?';
@@ -122,7 +122,7 @@
       regexStr += '(\\([^\\)]*\\))?';
       // an optional single space
       regexStr += '( )?';
-      // the closing mustache tag
+      // closing mustache tag
       regexStr += '}}';
 
       var regex = new RegExp(regexStr, 'g');
