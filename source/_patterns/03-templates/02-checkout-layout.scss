@@ -1,5 +1,7 @@
 .checkout {
-  min-height: 100%;
+  body > & {
+    min-height: 100%;
+  }
 
   @media only screen and (min-width: $breakpointDesktop) {
     background: linear-gradient(to right, $colorWhite 60%, $colorAlabaster 60%);
