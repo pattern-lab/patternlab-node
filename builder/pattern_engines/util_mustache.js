@@ -119,7 +119,6 @@
   partialKeyStr += '(\\s*\\([^\\)]*\\))?';
   // look for >=0 whitespaces, followed by closing mustache tag
   partialKeyStr += '\\s*}}';
-  partialKeyStr += '\\s*}}';
   var partialKeyRE = new RegExp(partialKeyStr, 'g');
 
   var utilMustache = {
