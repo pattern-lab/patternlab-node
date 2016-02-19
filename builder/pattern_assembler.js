@@ -22,22 +22,111 @@
       return true;
     }
 
+    /**
+     * @function
+     * @description Finds partials within a pattern based on regex.
+     * @param {string|object} pattern - either a string or a pattern object.
+     * @param {object} regex - a JavaScript RegExp object.
+     * @returns {array}
+     */
+    function partialsFinder(pattern, regex){
+      var matches;
+
+      if(typeof pattern === 'string'){
+        matches = pattern.match(regex);
+      } else if(typeof pattern === 'object' && typeof pattern.template === 'string'){
+        matches = pattern.template.match(regex);
+      }
+
+      return matches;
+    }
+
     // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithStyleModifiers(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
+      // the regular expression broken down:
+      // opening mustache include tag
+      var regexStr = '{{>';
+      // an optional single space
+      regexStr += '( )?';
+      // one or more characters comprising any combination of alphanumerics
+      // (including underscores), hyphens, periods, slashses, and tildes
+      regexStr += '([\\w\\-\\.\\/~]+)';
+      // the previous group cannot be followed by an opening parenthesis
+      regexStr += '(?!\\()';
+      // a colon followed by one or more characters comprising any combination
+      // of alphanumerics (including underscores), hyphens, and pipes
+      regexStr += '(\\:[\\w\\-\\|]+)';
+      // an optional single space
+      regexStr += '( )?';
+      // an optional group of characters starting with an opening parenthesis,
+      // followed by any number of characters that are not closing parentheses,
+      // followed by a closing parenthesis
+      regexStr += '(\\([^\\)]*\\))?';
+      // an optional single space
+      regexStr += '( )?';
+      // closing mustache tag
+      regexStr += '}}';
+
+      var regex = new RegExp(regexStr, 'g');
+      return partialsFinder(pattern, regex);
     }
 
     // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithPatternParameters(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g);
-      return matches;
+      // the regular expression broken down:
+      // opening mustache include tag
+      var regexStr = '{{>';
+      // an optional single space
+      regexStr += '( )?';
+      // one or more characters comprising any combination of alphanumerics
+      // (including underscores), hyphens, periods, slashses, and tildes
+      regexStr += '([\\w\\-\\.\\/~]+)';
+      // an optional group comprising a colon followed by one or more characters
+      // comprising any combination of alphanumerics (including underscores),
+      // hyphens, and pipes
+      regexStr += '(\\:[\\w\\-\\|]+)?';
+      // an optional single space
+      regexStr += '( )?';
+      // a group of characters starting with an opening parenthesis, followed by
+      // any number of characters that are not closing parentheses, followed by
+      // a closing parenthesis
+      regexStr += '(\\([^\\)]*\\))';
+      // an optional single space
+      regexStr += '( )?';
+      // closing mustache tag
+      regexStr += '}}';
+
+      var regex = new RegExp(regexStr, 'g');
+      return partialsFinder(pattern, regex);
     }
 
     //find and return any {{> template-name* }} within pattern
     function findPartials(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
+      // the regular expression broken down:
+      // opening mustache include tag
+      var regexStr = '{{>';
+      // an optional single space
+      regexStr += '( )?';
+      // one or more characters comprising any combination of alphanumerics
+      // (including underscores), hyphens, periods, slashses, and tildes
+      regexStr += '([\\w\\-\\.\\/~]+)';
+      // an optional group comprising a colon followed by one or more characters
+      // comprising any combination of alphanumerics (including underscores),
+      // hyphens, and pipes
+      regexStr += '(\\:[\\w\\-\\|]+)?';
+      // an optional single space
+      regexStr += '( )?';
+      // an optional group of characters starting with an opening parenthesis,
+      // followed by any number of characters that are not closing parentheses,
+      // followed by a closing parenthesis
+      regexStr += '(\\([^\\)]*\\))?';
+      // an optional single space
+      regexStr += '( )?';
+      // closing mustache tag
+      regexStr += '}}';
+
+      var regex = new RegExp(regexStr, 'g');
+      return partialsFinder(pattern, regex);
     }
 
     function findListItems(pattern){
