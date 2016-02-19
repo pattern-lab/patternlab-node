@@ -1,7 +1,9 @@
 .blockQuote {
   &__verticallyCentered {
     display : flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   .pullQuote {
@@ -10,5 +12,9 @@
     @media only screen and (min-width : $breakpointDesktop) {
       padding : 0;
     }
+  }
+
+  &__citation {
+    @include font-primary-medium-uppercase(0.75em);
   }
 }
