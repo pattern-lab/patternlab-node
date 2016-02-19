@@ -12,6 +12,7 @@
   "use strict";
 
   var Mustache = require('mustache');
+  var utilMustache = require('./util_mustache');
 
   var engine_mustache = {
     engine: Mustache,
@@ -23,11 +24,11 @@
     expandPartials: true,
 
     // regexes, stored here so they're only compiled once
-    findPartialsRE:  /{{>\s*((?:\d+-[\w-]+\/)+(\d+-[\w-]+(\.\w+)?)|[A-Za-z0-9-]+)(\:[\w-]+(?:\|[\w-]+)*)?(\(\s*\w+\s*:\s*(?:'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")\))?\s*}}/g,
-    findPartialsWithStyleModifiersRE: /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g,
-    findPartialsWithPatternParametersRE: /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g,
-    findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
-    findPartialKeyRE: /{{>([ ])?([\w\-\.\/~]+)(:[A-z-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g,
+    findPartialsRE: utilMustache.partialsRE,
+    findPartialsWithStyleModifiersRE: utilMustache.partialsWithStyleModifiersRE,
+    findPartialsWithPatternParametersRE: utilMustache.partialsWithPatternParametersRE,
+    findListItemsRE: utilMustache.listItemsRE,
+    findPartialKeyRE: utilMustache.partialKeyRE,
 
     // render it
     renderPattern: function renderPattern(template, data, partials) {
@@ -37,23 +38,38 @@
       return Mustache.render(template, data);
     },
 
+    // find partials based on regex.
+    // @param {string|object} pattern - either a string or a pattern object.
+    // @param {object} regex - a JavaScript RegExp object.
+    // @returns {array}
+    partialsFinder: function partialsFinder(pattern, regex){
+      var matches = [];
+
+      if(typeof pattern === 'string'){
+        matches = pattern.match(regex);
+      } else if(typeof pattern === 'object' && typeof pattern.template === 'string'){
+        matches = pattern.template.match(regex);
+      }
+
+      return matches;
+    },
     // find and return any {{> template-name }} within pattern
     findPartials: function findPartials(pattern) {
-      var matches = pattern.template.match(this.findPartialsRE);
+      var matches = this.partialsFinder(pattern, this.findPartialsRE);
       return matches;
     },
     findPartialsWithStyleModifiers: function(pattern) {
-      var matches = pattern.template.match(this.findPartialsWithStyleModifiersRE);
+      var matches = this.partialsFinder(pattern, this.findPartialsWithStyleModifiersRE);
       return matches;
     },
     // returns any patterns that match {{> value(foo:"bar") }} or {{>
     // value:mod(foo:"bar") }} within the pattern
     findPartialsWithPatternParameters: function(pattern) {
-      var matches = pattern.template.match(this.findPartialsWithPatternParametersRE);
+      var matches = this.partialsFinder(pattern, this.findPartialsWithPatternParametersRE);
       return matches;
     },
     findListItems: function(pattern) {
-      var matches = pattern.template.match(this.findListItemsRE);
+      var matches = this.partialsFinder(pattern, this.findListItemsRE);
       return matches;
     },
     // given a pattern, and a partial string, tease out the "pattern key" and
