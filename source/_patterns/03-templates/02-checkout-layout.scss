@@ -1,6 +1,11 @@
 .checkout {
   min-height: 100%;
 
+  &.standard {
+    // trusted shops hack
+    min-height: 0;
+  }
+
   @media only screen and (min-width: $breakpointDesktop) {
     background: linear-gradient(to right, $colorWhite 60%, $colorAlabaster 60%);
   }
