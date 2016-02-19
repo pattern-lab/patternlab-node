@@ -34,21 +34,22 @@
   partialsStr += '(\\:[\\w\\-]+(\\|[\\w\\-]+)*)?';
   // end 2nd exterior group
   // begin 3rd exterior group, an optional group
-  // look for an opening parenthesis, followed by >=0 whitespaces,
-  // followed by >=0 whitespaces, followed by a colon, followed by >=0 whitespaces
-  partialsStr += '(\\(\\s*\\w+\\s*:\\s*';
+  // look for an opening parenthesis, followed by >=0 whitespaces, followed by
+  // >0 alphanumerics, followed by >=0 whitespaces, followed by a colon,
+  // followed by >=0 whitespaces
+  partialsStr += '(\\(\\s*\\w+\\s*\\:\\s*';
   // followed by an interior group
   // comprising a single quote, followed by an interior group comprising
-  // >0 characters that are not single quotes or backslashes
-  // or >0 character pairs comprising a backlash, followed by any character
-  // look for a single quote to termination this pattern
+  // >=0 characters that are not single quotes or backslashes
+  // or >=0 character pairs comprising a backlash, followed by any character.
+  // look for a single quote to terminate this pattern
   partialsStr += '(\'([^\'\\\\]|\\\\.)*\'';
   // if the pattern wrapped in single quotes is not found, look for one wrapped
   // in double quotes
   // look for a double quote, followed by an interior group comprising
-  // >0 characters that are not double quotes or backslashes
-  // or >0 character pairs comprising a backlash, followed by any character
-  // look for a double quote to termination this pattern
+  // >=0 characters that are not double quotes or backslashes
+  // or >=0 character pairs comprising a backlash, followed by any character.
+  // look for a double quote to terminate this pattern
   partialsStr += '|"([^"\\\\]|\\\\.)*")';
   // look for a closing parenthesis
   partialsStr += '\\))?';
