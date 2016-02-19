@@ -7,8 +7,10 @@
 
             <div class="pageContent__blockMedia">
                 {{> molecules-block-text }}
-                {{> molecules-block-media }}
-                {{> molecules-block-media-croppedImage }}
+                {{> molecules-block-media(isVerticallyCentered: true, isDisplay: true ) }}
+                {{> molecules-block-media(isVerticallyCentered: true, isDisplay: true, isReversed: true) }}
+                {{> molecules-block-media(isVerticallyCentered: true, isDisplay: true, isCroppedMedia: true) }}
+                {{> molecules-block-media(isVerticallyCentered: true, isDisplay: true, isReversed: true, isCroppedMedia: true) }}
                 {{> molecules-block-info }}
             </div>
         </div>

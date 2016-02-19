@@ -1,9 +1,9 @@
-<div class="blockWrapper blockMedia">
-    <div class="columns {{#isDisplay}}blockMedia--display{{/isDisplay}} {{#isReversed}}blockMedia--display--reverse{{/isReversed}} {{#isCroppedMedia}}blockMedia--display--croppedMedia{{/isCroppedMedia}}">
-        <div class="block columns__column {{#isVerticallyCentered}}blockMedia__verticallyCentered{{/isVerticallyCentered}}">
+<div class="blockWrapper">
+    <div class="columns {{ class || ''}}">
+        <div class="block columns__column {{#isCentered}}{{/isCentered}}">
             {{> molecules-figure-with-caption }}
         </div>
-        <div class="block columns__column {{#isVerticallyCentered}}blockMedia__verticallyCentered{{/isVerticallyCentered}}">
+        <div class="block columns__column">
             <div class="blockMedia__text">
                 <div class="headlineGroup">
                     <h1 class="headlineGroup__headline">{{ headline.mini }}</h1>

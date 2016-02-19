@@ -1,0 +1,14 @@
+.blockQuote {
+  &__verticallyCentered {
+    display : flex;
+    align-items: center;
+  }
+
+  .pullQuote {
+    padding : 0 $marginMini;
+
+    @media only screen and (min-width : $breakpointDesktop) {
+      padding : 0;
+    }
+  }
+}

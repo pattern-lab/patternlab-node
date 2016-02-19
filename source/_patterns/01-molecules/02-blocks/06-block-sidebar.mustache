@@ -1,0 +1,22 @@
+<div class="blockWrapper blockSidebar">
+    <div class="columns {{ class || ''}}">
+        <div class="block columns__column">
+            <div class="blockSidebar__innerWrapper">
+                {{> atoms-heading(level: 2) }}
+                <p><span class="magArticle__altFont">{{ headline.mini }}: </span>{{ headline.short }}</p>
+                <p><span class="magArticle__altFont">{{ headline.short }}: </span>{{ excerpt.mini }}</p>
+                <p><span class="magArticle__altFont">{{ headline.mini }}: </span>{{ excerpt.short }}</p>
+                <p><span class="magArticle__altFont">{{ headline.short }}: </span>{{ headline.mini }}</p>
+            </div>
+        </div>
+        <div class="block columns__column">
+            <div class="blockMedia__text">
+                {{> atoms-block-elements(paragraph: true) }}
+                {{> atoms-block-elements(interviewQuestion: true) }}
+                {{> atoms-block-elements(paragraph: true) }}
+                {{> atoms-block-elements(interviewQuestion: true) }}
+                {{> atoms-block-elements(paragraph: true) }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,66 +1,49 @@
 .blockMedia {
-  text-align : center;
-  display : flex;
-  flex-direction : column;
-  max-width : 75em + (2*$paddingStandard);
-
-  @media only screen and (min-width : $breakpointTablet) {
-    text-align: left;
-  }
-
-  @media only screen and (min-width : $breakpointDesktop) {
-    padding : 0 $paddingStandard;
-    flex-direction : row;
-    align-items : center;
-    justify-content : space-between;
-    align-content : center;
-    margin-right : auto;
-    margin-left : auto;
-  }
-
-  &__image {
-    display: flex;
-    justify-content: center;
+  &__verticallyCentered {
+    display : flex;
     align-items: center;
+  }
 
-    @media only screen and (min-width : $breakpointDesktop) {
-      width: 49%;
-      justify-content : flex-end;
+  &--display {
+    .blockMedia__text {
+      text-align : center;
+
+      @media only screen and (min-width : $breakpointTablet) {
+        text-align : right;
+      }
     }
 
-    &--cropped {
-      height : 300px;
-      overflow : hidden;
+    &--reverse {
+      @media only screen and (min-width : $breakpointTablet) {
+        flex-direction : row-reverse;
 
-      @media only screen and (min-width : $breakpointDesktop) {
-        height : 100%;
+        .blockMedia__text {
+          text-align : left;
+        }
+      }
+    }
+
+    &--croppedMedia {
+      @media only screen and (max-width : $breakpointTabletEnd) {
+        .image__wrapper {
+          height : 300px;
+          overflow : hidden;
+
+          .image {
+            top: 50%;
+            position: relative;
+            transform: translateY(-50%);
+          }
+        }
       }
     }
   }
+
   &__text {
     padding : 0 $marginMini;
 
-    @media only screen and (min-width : $breakpointDesktop) {
+    @media only screen and (min-width : $maxWidthLayout) {
       padding : 0;
-      max-width : 600px;
-      display: inline-block;
-      width: 49%;
-    }
-  }
-
-  &--alignRight {
-    @media only screen and (min-width : $breakpointTablet) {
-      text-align: right;
-    }
-
-    @media only screen and (min-width : $breakpointDesktop) {
-      flex-direction: row-reverse;
-    }
-
-    .blockMedia__image {
-      @media only screen and (min-width : $breakpointDesktop) {
-        justify-content : flex-start;
-      }
     }
   }
 

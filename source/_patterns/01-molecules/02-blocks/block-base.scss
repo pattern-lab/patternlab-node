@@ -2,3 +2,9 @@
   margin-bottom: $marginStandard;
   line-height : $lineHeightNormal;
 }
+
+.blockWrapper {
+  max-width : 75em;
+  margin-left : auto;
+  margin-right : auto;
+}

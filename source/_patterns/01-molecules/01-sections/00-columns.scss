@@ -1,4 +1,3 @@
-
 .columns {
   @media only screen and (min-width: $breakpointDesktop) {
     display : flex;
@@ -12,8 +11,8 @@
     width: 100%;
 
     @media only screen and (min-width: $breakpointTablet) {
-      margin-left : $marginMini;
-      margin-right : $marginMini;
+      padding-left : $paddingMini;
+      padding-right : $paddingMini;
       flex : 1;
     }
   }

@@ -1,0 +1,35 @@
+.blockSidebar {
+  &__innerWrapper {
+    max-width : 28em;
+    border-top : 3px solid $colorBlack;
+    margin-right : auto;
+    margin-left : auto;
+    padding-right: $paddingMini;
+    padding-left: $paddingMini;
+
+
+    @media only screen and (min-width: $breakpointTablet) {
+      min-width : 22em;
+    }
+  }
+
+  &__text {
+    padding-right: $paddingMini;
+    padding-left: $paddingMini;
+
+    @media only screen and (min-width: $breakpointTablet) {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  .headlineH2 {
+    margin-bottom : $marginMini;
+    margin-top : $marginMini;
+    @include font-primary-bold-uppercase;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+}

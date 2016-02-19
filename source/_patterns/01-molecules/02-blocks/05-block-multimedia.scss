@@ -1,0 +1,25 @@
+.blockMultimedia {
+  justify-content : center;
+  margin-right : auto;
+  margin-left: auto;
+
+  .columns__column {
+    max-width: 37.5em;
+    margin-right: auto;
+    margin-left: auto;
+
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      padding-right: $paddingMini;
+      padding-left: $paddingMini;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}
