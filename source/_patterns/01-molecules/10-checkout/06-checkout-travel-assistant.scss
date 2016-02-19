@@ -24,3 +24,13 @@
     }
 }
 
+#trustedShopsCheckout {
+    display:block;
+    height:0;
+    overflow:hidden;
+
+    .page--thank-you & {
+        height:auto;
+        overflow:visible;
+    }
+}
