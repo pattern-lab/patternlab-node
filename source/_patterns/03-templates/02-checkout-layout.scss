@@ -1,6 +1,9 @@
 .checkout {
-  body > & {
-    min-height: 100%;
+  min-height: 100%;
+
+  &.standard {
+    // trusted shops hack
+    min-height: 0;
   }
 
   @media only screen and (min-width: $breakpointDesktop) {
