@@ -17,6 +17,7 @@
   color: white;
   vertical-align: middle;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-sizing:border-box;
 
   &:hover {
     background-color: $colorTussock;

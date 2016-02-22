@@ -53,10 +53,13 @@
     border-radius: 0;
     border: 1px solid $colorBlack;
     background-color: $colorWhite;
+    box-sizing:border-box;
+
     &--select {
       line-height: 1.4em;
       padding-bottom: 0.4286em !important;
       position: relative;
+      box-sizing:border-box;
     }
     .field--show-floating-label & {
       padding-top: 1.5em;
