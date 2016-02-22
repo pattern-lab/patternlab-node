@@ -23,7 +23,7 @@ function upload() {
     .pipe(rename(function (path) {
       path.dirname = deployData.version + '/' + path.dirname;
     }))
-    .pipe(awspublish.gzip({ ext : '.gz' }))
+    .pipe(awspublish.gzip({}))
     .pipe(publisher.publish())
     .pipe(publisher.sync(deployData.version))
     .pipe(awspublish.reporter())
