@@ -36,13 +36,13 @@
 
   .navigation--primary {
     transition:left $animationTimingNormal ease-in-out;
-    min-width:$widthMobileNavigation;
+    width:$widthMobileNavigation;
     left:-$widthMobileNavigation;
   }
 
   .navigation--cart {
     transition:right $animationTimingNormal ease-in-out;
-    min-width:$widthCartSidebar;
+    width:$widthCartSidebar;
     right:-$widthCartSidebar;
   }
 
@@ -60,13 +60,16 @@
     }
   }
 
-  &--expanded-right &--inner {
-    margin-left:-$widthCartSidebar;
+  &--expanded-right {
 
-    &:before {
-      left:0;
-      width:100%;
-      opacity:1;
+    &--inner {
+      margin-left: -$widthCartSidebar;
+
+      &:before {
+        left: 0;
+        width: 100%;
+        opacity: 1;
+      }
     }
 
     .navigation--cart {
