@@ -96,10 +96,10 @@ gulp.task('cp:css', function(){
 // Styleguide Copy
 gulp.task('cp:styleguide', function(){
   return gulp.src(
-      [ '**/*'],
-      {cwd: path.resolve(paths().source.styleguide)} )
+      ['**/*'],
+      {cwd: path.resolve(paths().source.styleguide)})
       .pipe(gulp.dest(path.resolve(paths().public.styleguide)))
-      .pipe(browserSync.stream());;
+      .pipe(browserSync.stream());
 });
 
 //server and watch tasks
@@ -120,7 +120,7 @@ gulp.task('connect', ['lab'], function(){
       path.resolve(paths().source.data, '*.json'),
       path.resolve(paths().source.fonts + '/*'),
       path.resolve(paths().source.images + '/*'),
-      path.resolve(paths().source.data + '*.json'),
+      path.resolve(paths().source.data + '*.json')
     ],
     ['lab-pipe'],
     function () { browserSync.reload(); }
