@@ -45,10 +45,18 @@
 					var paramStringWellFormed = paramStringWellFormed.replace(/([\{|,]\s*)([^\:\s]+)(\s*\:)/gm, '$1"$2"$3');
 					//if param values are wrapped in single quotes, replace with double quotes.
 					var paramStringWellFormed = paramStringWellFormed.replace(/(\:\s*)(')([^']+)(')/gm, '$1"$3"');
-					var paramData = JSON.parse(paramStringWellFormed);
 
-					var globalData = JSON.parse(JSON.stringify(patternlab.data));
-					var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
+					var paramData = {};
+					var globalData = {};
+					var localData = {};
+
+					try {
+						paramData = JSON.parse(paramStringWellFormed);
+						globalData = JSON.parse(JSON.stringify(patternlab.data));
+						localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
+					} catch(e){
+						console.log(e);
+					}
 
 					var allData = pattern_assembler.merge_data(globalData, localData);
 					allData = pattern_assembler.merge_data(allData, paramData);
