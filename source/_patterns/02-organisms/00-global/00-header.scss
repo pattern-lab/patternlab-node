@@ -6,6 +6,7 @@
   font-size:1rem;
   background:$colorWhite;
   z-index:9;
+  box-sizing:border-box;
 
   &--sticky {
     position:fixed;
