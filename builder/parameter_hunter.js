@@ -35,13 +35,17 @@
 						console.log('found patternParameters for ' + partialName);
 					}
 
-					//strip out the additional data and eval
+					//strip out the additional data, convert string to JSON.
 					var leftParen = pMatch.indexOf('(');
 					var rightParen = pMatch.indexOf(')');
-					var paramString =  '({' + pMatch.substring(leftParen + 1, rightParen) + '})';
-
-					//do no evil. there is no good way to do this that I can think of without using a split, which then makes commas and colons special characters and unusable within the pattern params
-					var paramData = eval(paramString);
+					var paramString =  '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+					//if param keys are wrapped in single quotes, replace with double quotes.
+					var paramStringWellFormed = paramString.replace(/(')([^'\s]+)(')(\s*\:)/gm, '"$2"$4');
+					//if params keys are not wrapped in any quotes, wrap in double quotes.
+					var paramStringWellFormed = paramStringWellFormed.replace(/([\{|,]\s*)([^\:\s]+)(\s*\:)/gm, '$1"$2"$3');
+					//if param values are wrapped in single quotes, replace with double quotes.
+					var paramStringWellFormed = paramStringWellFormed.replace(/(\:\s*)(')([^']+)(')/gm, '$1"$3"');
+					var paramData = JSON.parse(paramStringWellFormed);
 
 					var globalData = JSON.parse(JSON.stringify(patternlab.data));
 					var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
