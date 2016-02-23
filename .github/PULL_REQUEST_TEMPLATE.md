@@ -1,4 +1,4 @@
-**Target the `dev` branch!**
+<!-- **Please read the contribution guidelines first, and target the `dev` branch!** -->
 
 Addresses #
 
