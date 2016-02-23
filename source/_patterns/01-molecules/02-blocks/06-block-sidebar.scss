@@ -6,9 +6,12 @@
     margin-left : auto;
     padding-right: $paddingMini;
     padding-left: $paddingMini;
+    line-height: 1.5em;
+    padding-bottom : $paddingStandard;
 
 
     @media only screen and (min-width: $breakpointTablet) {
+      padding-bottom : 0;
       min-width : 22em;
     }
   }
