@@ -1,7 +1,9 @@
 .blockMedia {
   &__verticallyCentered {
-    display : flex;
-    align-items: center;
+    @media only screen and (min-width : $breakpointTablet) {
+      display : flex;
+      align-items: center;
+    }
   }
 
   &--display {
