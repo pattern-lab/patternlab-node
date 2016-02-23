@@ -42,7 +42,7 @@
 
   .navigation--cart {
     transition:right $animationTimingNormal ease-in-out;
-    min-width:$widthCartSidebar;
+    max-width:$widthCartSidebar;
     right:-$widthCartSidebar;
   }
 
@@ -61,17 +61,17 @@
   }
 
   &--expanded-right &--inner {
-    margin-left:-$widthCartSidebar;
+    margin-left: -$widthCartSidebar;
 
     &:before {
-      left:0;
-      width:100%;
-      opacity:1;
+      left: 0;
+      width: 100%;
+      opacity: 1;
     }
+  }
 
-    .navigation--cart {
-      right: 0;
-    }
+  &--expanded-right .navigation--cart {
+    right: 0;
   }
 
   @media only screen and (min-width:$breakpointDesktop) {

@@ -5,7 +5,6 @@
 }
 
 .product {
-  border-top: 1px solid $colorBorder;
   & &{
     &__image {
       height: 90px;
@@ -61,4 +60,8 @@
       padding-right: $checkoutSidebarHorizontalPadding;
     }
   }
+}
+
+tr.product {
+  border-top: 1px solid $colorBorder;
 }
