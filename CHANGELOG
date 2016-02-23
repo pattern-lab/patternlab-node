@@ -1,5 +1,10 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v1.1.2
+- FIX: Greatly improved the browsersync configuration, so that it only fires on the iframe, preventing users from losing their scroll position. Also lightened up the styling and made it less obtrusive.
+- THX: Thanks to @geoffp for taking the lead on this issue.
+- THX: This release also marks the first with @geoff's more official involvement with the project as a core contributor. His work on the `pattern_engine` branch and configurable paths have and will continue to make Pattern Lab Node better.
+
 PL-node-v1.1.1
 - FIX: Fixed issue where alternate patterns are added to end of styleguide instead of inline with their parent pattern.
 
