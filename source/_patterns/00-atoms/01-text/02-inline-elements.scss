@@ -10,15 +10,14 @@ a {
   }
 }
 
+i, cite, em, var, address, dfn {
+  font-style: normal;
+}
 
-//
-//strong, b {
-//
-//}
-//
-//em, i {
-//
-//}
+strong, b {
+  font-weight: inherit;
+}
+
 //
 //del {
 //}
