@@ -66,7 +66,6 @@
       test.equals(results[14], '{{> molecules-single-comment:foo-1 }}');
 			test.done();
 		},
-
 		'find_pattern_partials finds verbose partials' : function(test){
       test.expect(3);
 
@@ -85,7 +84,6 @@
 			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment.mustache(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
 			test.done();
 		},
-
 		'find_pattern_partials_with_style_modifiers finds style modifiers' : function(test){
       test.expect(4);
 
@@ -107,7 +105,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_style_modifiers finds style modifiers with parameters present too' : function(test){
       test.expect(2);
 
@@ -127,7 +124,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_style_modifiers finds style modifiers with verbose partials' : function(test){
       test.expect(2);
 
@@ -146,7 +142,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials present' : function(test){
       test.expect(1);
 
@@ -164,7 +159,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials with pattern parameters present' : function(test){
       test.expect(1);
 
@@ -182,7 +176,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_parameters finds parameters' : function(test){
       test.expect(2);
 
@@ -202,7 +195,6 @@
 			test.done();
 
 		},
-
 		'find_pattern_partials_with_parameters finds parameters when stylemodifiers present too' : function(test){
       test.expect(2);
 
@@ -221,7 +213,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_parameters finds parameters with verbose partials' : function(test){
       test.expect(2);
 
@@ -240,7 +231,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_parameters finds no style modifiers when only partials present' : function(test){
       test.expect(1);
 
@@ -258,7 +248,6 @@
 
 			test.done();
 		},
-
 		'find_pattern_partials_with_parameters finds no style modifiers when only partials with style modifiers present' : function(test){
       test.expect(1);
 
@@ -276,7 +265,6 @@
 
 			test.done();
 		},
-
 		'process_pattern_recursive recursively includes partials' : function(test){
       test.expect(3);
 
@@ -384,6 +372,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
+			pl.partials = {};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -393,8 +382,8 @@
 			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/04-group.mustache', 'utf8');
 			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
 
-			pl.patterns.push(atomPattern);
-			pl.patterns.push(groupPattern);
+			pattern_assembler.addPattern(atomPattern, pl);
+			pattern_assembler.addPattern(groupPattern, pl);
 
 			//act
 			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/04-group.mustache', pl, {});
@@ -422,6 +411,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
+			pl.partials = {};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -433,8 +423,8 @@
 			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
 			groupPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(groupPattern);
 
-			pl.patterns.push(atomPattern);
-			pl.patterns.push(groupPattern);
+			pattern_assembler.addPattern(atomPattern, pl);
+			pattern_assembler.addPattern(groupPattern, pl);
 
 			//act
 			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', pl, {});
@@ -462,6 +452,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
+			pl.partials = {};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -471,8 +462,8 @@
 			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/06-mixed.mustache', 'utf8');
 			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
 
-			pl.patterns.push(atomPattern);
-			pl.patterns.push(mixedPattern);
+			pattern_assembler.addPattern(atomPattern, pl);
+			pattern_assembler.addPattern(mixedPattern, pl);
 
 			//act
 			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/06-mixed.mustache', pl, {});
@@ -500,6 +491,7 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
+			pl.partials = {};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
@@ -509,8 +501,8 @@
 			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/09-bookend.mustache', 'utf8');
 			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
 
-			pl.patterns.push(atomPattern);
-			pl.patterns.push(bookendPattern);
+			pattern_assembler.addPattern(atomPattern, pl);
+			pattern_assembler.addPattern(bookendPattern, pl);
 
       debugger;
 
@@ -541,19 +533,20 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
+			pl.partials = {};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
-      atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+			atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
 			var mixedPattern = new object_factory.oPattern('test/files/_patterns/00-test/07-mixed-params.mustache', '00-test', '07-mixed-params.mustache');
 			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/07-mixed-params.mustache', 'utf8');
 			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
-      mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
+      		mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
 
-			pl.patterns.push(atomPattern);
-			pl.patterns.push(mixedPattern);
+			pattern_assembler.addPattern(atomPattern, pl);
+			pattern_assembler.addPattern(mixedPattern, pl);
 
 			//act
 			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/07-mixed-params.mustache', pl, {});
@@ -581,19 +574,20 @@
 			pl.data.link = {};
 			pl.config.debug = false;
 			pl.patterns = [];
+			pl.partials = {};
 
 			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
-      atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+      		atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
 			var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/08-bookend-params.mustache', '00-test', '08-bookend-params.mustache');
 			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/08-bookend-params.mustache', 'utf8');
 			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
-      bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
+      		bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
 
-			pl.patterns.push(atomPattern);
-			pl.patterns.push(bookendPattern);
+			pattern_assembler.addPattern(atomPattern, pl);
+			pattern_assembler.addPattern(bookendPattern, pl);
 
 			//act
 			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/08-bookend-params.mustache', pl, {});
@@ -741,6 +735,11 @@
 			patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
 			patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
 
+			patternlab.data.brad = { url: "link.twitter-brad" }
+			patternlab.data.dave = {	url: "link.twitter-dave" }
+			patternlab.data.brian = {	url: "link.twitter-brian" }
+
+
 			var pattern;
 			for(var i = 0; i < patternlab.patterns.length; i++){
 				if(patternlab.patterns[i].key === 'test-nav'){
@@ -760,6 +759,10 @@
 			test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost");
 			test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
 			test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
+
+			test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost");
+			test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen");
+			test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer");
 			test.done();
 		},
 		'get_pattern_by_key - returns the fuzzy result when no others found' : function(test){
@@ -800,6 +803,48 @@
 			var result = pattern_assembler.get_pattern_by_key('molecules-primary-nav', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[1]);
+			test.done();
+		},
+		'addPattern - adds pattern extended template to patternlab partial object' : function(test){
+			//arrange
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.patterns = [];
+			patternlab.partials = {};
+			patternlab.data = {link: {}};
+
+			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+			pattern.extendedTemplate = 'barExtended';
+			pattern.template = 'bar';
+
+			//act
+			pattern_assembler.addPattern(pattern, patternlab);
+
+			//assert
+			test.equals(patternlab.patterns.length, 1);
+			test.equals(patternlab.partials['test-bar'] != undefined, true);
+			test.equals(patternlab.partials['test-bar'], 'barExtended');
+			test.done();
+		},
+		'addPattern - adds pattern template to patternlab partial object if extendedtemplate does not exist yet' : function(test){
+			//arrange
+			var pattern_assembler = new pa();
+			var patternlab = {};
+			patternlab.patterns = [];
+			patternlab.partials = {};
+			patternlab.data = {link: {}};
+
+			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+			pattern.extendedTemplate = undefined;
+			pattern.template = 'bar';
+
+			//act
+			pattern_assembler.addPattern(pattern, patternlab);
+
+			//assert
+			test.equals(patternlab.patterns.length, 1);
+			test.equals(patternlab.partials['test-bar'] != undefined, true);
+			test.equals(patternlab.partials['test-bar'], 'bar');
 			test.done();
 		}
 	};

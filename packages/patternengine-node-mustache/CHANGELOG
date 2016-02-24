@@ -1,5 +1,8 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v1.1.1
+- FIX: Fixed issue where alternate patterns are added to end of styleguide instead of inline with their parent pattern.
+
 PL-node-v1.1.0
 - FIX: Fixed issue where partials containing styleModifiers with integers were not found correctly under all circumstances
 - FIX: Fixed issue where excluded patterns were still rendered on the Pattern Lab site. Now they do not directly get rendered via the menu, view all links, or the styleguide, but are accessible for inclusion as pattern partials, and can be accessed via lineage.
@@ -11,10 +14,18 @@ PL-node-v1.1.0
 - THX: Thanks @robinsonaaron for the issue and pull request!
 - FIX: Prefer exact pattern key match over fuzzy matches inside getpatternbykey()
 - THX: Thanks @EvanLovely for the suggestion
+- ADD: Make all paths configurable
+- THX: HUGE Thanks to @geoffp and @EvanLovely for their thoughts, time, and talent to make this a reality!
 - FIX: Fix issue where absolute paths in the config path object would not resolve
 - THX: Thanks to @geoffp and @EvanLovely for reporting, fixing and testing the issue in the dev branch.
 - FIX: Typo in gulp instructions in README.
 - THX: Thanks @simonknittel for the watchful eyes
+- CHG: Changed locations of ./public/styleguide to ./core/styleguide to make ./public/ a cleaner distribution directory
+- CHG: Removed scss files and config from project. This is in preparation for including the default asset repo in the future
+- FIX: Fix issue where partials were not being sent to Mustache during pattern parameter parsing.
+- THX: Thanks to @e2tha-e for reporting this issue.
+- ADD: Now patterns and pseudopatterns can be linked from global or file data.json
+- THX: Thanks @kylewelsby for the thoughtful enhancement
 
 PL-node-v1.0.0
 - FIX: Resolve issue with not hiding underscored patterns.

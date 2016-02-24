@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.1 - 2015 
+ * patternlab-node - v1.1.1 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -61,6 +61,9 @@
 
 					//remove the parameter from the partial and replace it with the rendered partial + paramData
 					pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
+
+					//update the extendedTemplate in the partials object in case this pattern is consumed later
+					patternlab.partials[pattern.key] = pattern.extendedTemplate;
 				});
 			}
 		}

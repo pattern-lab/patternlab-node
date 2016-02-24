@@ -4,6 +4,7 @@
       "root": "./source/",
       "patterns" : "./source/_patterns/",
       "data" : "./source/_data/",
+      "styleguide" : "./core/styleguide/",
       "patternlabFiles" : "./source/_patternlab-files/",
       "js" : "./source/js",
       "images" : "./source/images",
