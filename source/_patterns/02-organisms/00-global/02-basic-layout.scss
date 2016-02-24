@@ -1,8 +1,8 @@
 .basicLayout {
   position:relative;
-  overflow:hidden;
+  overflow:visible;
   width:100%;
-  min-height:100vh;
+  height:100vh;
 
   &--inner {
     transition:margin-left $animationTimingNormal ease-in-out, margin-right $animationTimingNormal ease-in-out;
