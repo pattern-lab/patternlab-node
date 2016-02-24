@@ -33,7 +33,8 @@
         "link": {},
         "partials": []
       },
-      "config": {"debug": false}
+      "config": {"debug": false},
+      "partials" : {}
     };
 
     return extend(pl, customProps);
@@ -97,6 +98,7 @@
             "key": "test-simple",
             "jsonFileData" : {}
           }
+
         ]
       });
 
@@ -136,6 +138,23 @@
           })
         ]
       });
+      
+      // {
+      //  "template": "{{ title }}",
+      //  "extendedTemplate" : "{{ title }}",
+      //  "subdir": "00-test",
+      //  "fileName": "00-foo",
+      //  "jsonFileData" : {},
+      //  "key": "test-foo",
+      // },
+      // {
+      //  "template": "{{ title }}",
+      //  "extendedTemplate" : "{{ title }}",
+      //  "subdir": "00-test",
+      //  "fileName": "01-bar",
+      //  "jsonFileData" : {},
+      //  "key": "test-bar",
+      // }
 
       var list_item_hunter = new lih();
 
@@ -243,6 +262,7 @@
 
       var patternlab = createFakePatternLab({
         "patterns": [
+
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
@@ -279,6 +299,7 @@
       pl.data.link = {};
       pl.config.debug = false;
       pl.patterns = [];
+      pl.partials = {};
       pl.config.patterns = { source: patterns_dir};
       pl.listitems = {
         "1": [
