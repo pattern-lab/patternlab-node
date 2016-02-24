@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.0.1 - 2015 
+ * patternlab-node - v1.1.1 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -28,6 +28,9 @@
 
 				//replace the stylemodifier placeholder with the class name
 				pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
+
+				//update the extendedTemplate in the partials object in case this pattern is consumed later
+				patternlab.partials[pattern.key] = pattern.extendedTemplate;
 			}
 		}
 
