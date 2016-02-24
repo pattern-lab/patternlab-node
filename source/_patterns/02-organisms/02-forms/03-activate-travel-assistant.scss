@@ -1,7 +1,14 @@
 .activateTA__wrapper {
+  @media only screen and (min-width: 750px) {
+    display : flex;
+  }
+
   &__column {
-    margin-bottom : $marginStandard;
+    margin-bottom : $marginMedium;
+
     @media only screen and (min-width: $breakpointDesktop) {
+      margin-bottom : $marginStandard;
+
       &:first-child {
         .activateTA {
           margin-right: $marginMini;
