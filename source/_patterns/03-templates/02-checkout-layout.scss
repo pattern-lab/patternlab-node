@@ -123,4 +123,8 @@
       margin : 0 0.45em;
     }
   }
+
+  .section--shipping-address + .section--optional p {
+    display:none;
+  }
 }

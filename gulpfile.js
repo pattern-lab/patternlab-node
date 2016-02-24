@@ -76,7 +76,8 @@ gulp.task('nodeunit', function () {
 
 //sass tasks, turn on if you want to use
 gulp.task('sass:style', function () {
-  var base64Inline = require('gulp-base64-inline');
+  var base64Inline = require('gulp-base64-inline'),
+    cssNano = require('gulp-cssnano');
 
   return gulp.src(['./source/css/*.scss', './source/css/wip/*.scss'], { base : './source/css' })
     .pipe(sass({
@@ -85,6 +86,7 @@ gulp.task('sass:style', function () {
       precision: 8
     }))
     .pipe(base64Inline(''))
+    .pipe(cssNano())
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
@@ -94,12 +96,15 @@ gulp.task('sass:style', function () {
 });
 
 gulp.task('sass:styleguide', function () {
+  var cssNano = require('gulp-cssnano');
+
   return gulp.src('./public/styleguide/css/*.scss')
     .pipe(sass({
       importer: nodeSassGlobbing,
       outputStyle: 'expanded',
       precision: 8
     }))
+    .pipe(cssNano())
     .pipe(gulp.dest('./public/styleguide/css'))
     .pipe(browserSync.stream());
 });

@@ -6,7 +6,8 @@
     "bucket": {
       "name": "horizn-styleguide",
       "region": "eu-central-1"
-    }
+    },
+    "publicUrl": "http://s3.eu-central-1.amazonaws.com"
   },
   "shopify": {
     "stageHost": "horizn-studios-test-environment.myshopify.com",
@@ -30,6 +31,8 @@
     "gulp-base64-inline": "^1.0.3",
     "gulp-connect": "^2.0.6",
     "gulp-copy": "0.0.2",
+    "gulp-cssnano": "^2.1.1",
+    "gulp-download": "0.0.1",
     "gulp-header": "^1.0.5",
     "gulp-load": "^0.1.1",
     "gulp-nodeunit": "0.0.5",
