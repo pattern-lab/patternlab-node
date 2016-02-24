@@ -101,6 +101,10 @@ module.exports = function(grunt) {
 						ignoreInitial: true,
 						ignored: '*.html'
 					},
+                    snippetOptions: {
+                        // Ignore all HTML files within the templates folder
+                        blacklist: ['/index.html', '/']
+                    },
 					plugins: [
 						{
 							module: 'bs-html-injector',
@@ -108,7 +112,25 @@ module.exports = function(grunt) {
 								files: [path.resolve(paths().public.root + '/index.html'), path.resolve(paths().public.styleguide + '/styleguide.html')]
 							}
 						}
-					]
+					],
+                    notify: {
+                        styles: [
+                            'display: none',
+                            'padding: 15px',
+                            'font-family: sans-serif',
+                            'position: fixed',
+                            'font-size: 1em',
+                            'z-index: 9999',
+                            'bottom: 0px',
+                            'right: 0px',
+                            'border-top-left-radius: 5px',
+                            'background-color: #1B2032',
+                            'opacity: 0.4',
+                            'margin: 0',
+                            'color: white',
+                            'text-align: center'
+                        ]
+                    }
 				}
 			}
 		},
