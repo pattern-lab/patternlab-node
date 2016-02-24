@@ -8,11 +8,7 @@
     transition:margin-left $animationTimingNormal ease-in-out, margin-right $animationTimingNormal ease-in-out;
     position:relative;
     width:100%;
-    min-height:100vh;
     margin:0;
-
-    display:flex;
-    flex-flow:column nowrap;
 
     > .pageContent {
       flex:1;
