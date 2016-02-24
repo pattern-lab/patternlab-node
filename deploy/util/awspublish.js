@@ -16,39 +16,40 @@ function upload() {
 
   var
     download = require('gulp-download'),
-    merge = require('merge-stream'),
     publisher = awspublish.create(awsSettings),
     deferred = q.defer();
 
   util.log(util.colors.green("Deploying to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'."));
 
-  var cacheDownloadStream = download(packageJson.aws.publicUrl + '/' + awsSettings.params.Bucket + '/' + deployData.version + '/' + '.awspublish-' + awsSettings.params.Bucket)
-    .pipe(gulp.dest('./'));
+  download(packageJson.aws.publicUrl + '/' + awsSettings.params.Bucket + '/' + deployData.version + '/' + '.awspublish-' + awsSettings.params.Bucket)
+    .pipe(gulp.dest('./'))
+    .on('end', function() {
+      gulp.src(helper.getTargetDir() + '/**/*')
+        .pipe(rename(function (path) {
+          path.dirname = deployData.version + '/' + path.dirname;
+        }))
+        .pipe(awspublish.gzip({}))
+        .pipe(publisher.publish())
+        .pipe(publisher.sync(deployData.version))
+        .pipe(publisher.cache())
+        .pipe(awspublish.reporter())
+        .on('end', function(err) {
+          if (err) {
+            return deferred.reject(err);
+          }
 
-  var fileUploadStream = gulp.src(helper.getTargetDir() + '/**/*')
-    .pipe(rename(function (path) {
-      path.dirname = deployData.version + '/' + path.dirname;
-    }))
-    .pipe(awspublish.gzip({}))
-    .pipe(publisher.publish())
-    .pipe(publisher.sync(deployData.version))
-    .pipe(publisher.cache())
-    .pipe(awspublish.reporter());
+          util.log(util.colors.green("Done. Re-uploading cache file to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'..."));
 
-  var cacheUploadStream = gulp.src('.awspublish-' + awsSettings.params.Bucket)
-    .pipe(rename(function (path) {
-      path.dirname = deployData.version + '/' + path.dirname;
-    }))
-    .pipe(publisher.publish())
-    .pipe(awspublish.reporter());
-
-  merge(cacheDownloadStream, fileUploadStream, cacheUploadStream)
-    .on('end', function(err) {
-      if (err) {
-        deferred.reject(err);
-      } else {
-        deferred.resolve();
-      }
+          gulp.src('.awspublish-' + awsSettings.params.Bucket)
+            .pipe(rename(function (path) {
+              path.dirname = deployData.version + '/' + path.dirname;
+            }))
+            .pipe(publisher.publish())
+            .pipe(awspublish.reporter())
+            .on('end', function() {
+              deferred.resolve();
+            });
+        });
     });
 
   return deferred.promise;

@@ -42,7 +42,6 @@
     "gulp-util": "^3.0.6",
     "gulp-zip": "~3.0",
     "html-entities": "^1.1.1",
-    "merge-stream": "^1.0.0",
     "mostache": "github:jonathan-reisdorf/mostache",
     "node-sass-globbing": "0.0.23",
     "node-sshclient": "^0.2.0",
