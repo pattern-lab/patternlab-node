@@ -77,7 +77,7 @@ gulp.task('cp:img', function(){
 // Fonts copy
 gulp.task('cp:font', function(){
   return gulp.src('*', {cwd: path.resolve(paths().source.fonts)})
-    .pipe(gulp.dest(path.resolve(paths().public.images)));
+    .pipe(gulp.dest(path.resolve(paths().public.fonts)));
 });
 
 // Data copy
