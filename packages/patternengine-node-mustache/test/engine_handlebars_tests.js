@@ -1,6 +1,10 @@
 (function () {
   "use strict";
 
+  // don't run these tests unless handlebars is installed
+  try { var handlebars = require('handlebars'); }
+  catch (err) { return; }
+
   var path = require('path');
   var pa = require('../builder/pattern_assembler');
   var object_factory = require('../builder/object_factory');
