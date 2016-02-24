@@ -7,6 +7,7 @@
 		'uses the partial stylemodifer to modify the patterns extendedTemplate' : function(test){
 			//arrange
 			var pl = {};
+			pl.partials = {};
 			pl.config = {};
 			pl.config.debug = false;
 
@@ -26,6 +27,7 @@
 		'replaces style modifiers with spaces in the syntax' : function(test){
 			//arrange
 			var pl = {};
+			pl.partials = {};
 			pl.config = {};
 			pl.config.debug = false;
 
@@ -45,6 +47,7 @@
 		'replaces multiple style modifiers' : function(test){
 			//arrange
 			var pl = {};
+			pl.partials = {};
 			pl.config = {};
 			pl.config.debug = false;
 
@@ -64,6 +67,7 @@
 		'does not alter pattern extendedTemplate if styleModifier not found in partial' : function(test){
 			//arrange
 			var pl = {};
+			pl.partials = {};
 			pl.config = {};
 			pl.config.debug = false;
 

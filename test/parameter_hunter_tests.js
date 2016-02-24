@@ -26,26 +26,27 @@
 			};
 			var patternlab = {
 				patterns: [
-          {
-             "fileName": "02-single-comment",
-             "subdir": "01-molecules/06-components",
-             "name": "01-molecules-06-components-02-single-comment",
-             "patternName": "single-comment",
-             "patternLink": "01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html",
-             "patternGroup": "molecules",
-             "patternSubGroup": "components",
-             "flatPatternPath": "01-molecules-06-components",
-             "key": "molecules-single-comment",
-             "template": "<p>{{description}}</p>",
-             "extendedTemplate": "<p>{{description}}</p>"
-          }
+                  {
+                     "fileName": "02-single-comment",
+                     "subdir": "01-molecules/06-components",
+                     "name": "01-molecules-06-components-02-single-comment",
+                     "patternName": "single-comment",
+                     "patternLink": "01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html",
+                     "patternGroup": "molecules",
+                     "patternSubGroup": "components",
+                     "flatPatternPath": "01-molecules-06-components",
+                     "key": "molecules-single-comment",
+                     "template": "<p>{{description}}</p>",
+                     "extendedTemplate": "<p>{{description}}</p>"
+                  }
 				],
         config: {
           debug: false
         },
         data: {
           description: 'Not a quote from a smart man'
-        }
+        },
+        partials: {},
 			};
 
 			var parameter_hunter = new ph();
@@ -77,6 +78,7 @@
 				 ]
       };
       var patternlab = {
+        partials: {},
         patterns: [
           {
              "fileName": "02-single-comment",
@@ -130,7 +132,8 @@
 				 ]
       };
       var patternlab = {
-        patterns: [
+          partials: {},
+          patterns: [
           {
              "fileName": "02-single-comment",
              "subdir": "01-molecules/06-components",
@@ -182,7 +185,8 @@
 				 ]
       };
       var patternlab = {
-        patterns: [
+          partials: {},
+          patterns: [
           {
              "fileName": "02-single-comment",
              "subdir": "01-molecules/06-components",
