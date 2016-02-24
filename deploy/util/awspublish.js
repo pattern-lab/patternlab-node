@@ -7,6 +7,7 @@ var
   rename = require('gulp-rename'),
   awspublish = require('gulp-awspublish'),
   helper = require('./helper'),
+  packageJson = require('../../package.json'),
 
   deployData = {},
   awsSettings = {};
@@ -14,12 +15,15 @@ var
 function upload() {
 
   var
+    download = require('gulp-download'),
     deferred = q.defer(),
     publisher = awspublish.create(awsSettings);
 
   util.log(util.colors.green("Deploying to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'."));
 
-  gulp.src(helper.getTargetDir() + '/**/*')
+  download(packageJson.aws.publicUrl + '/' + awsSettings.params.Bucket + '/' + deployData.version + '/' + '.awspublish-' + awsSettings.params.Bucket)
+    .pipe(gulp.dest('./'))
+    .pipe(gulp.src(helper.getTargetDir() + '/**/*'))
     .pipe(rename(function (path) {
       path.dirname = deployData.version + '/' + path.dirname;
     }))
@@ -32,7 +36,17 @@ function upload() {
       if (error) {
         return deferred.reject(error);
       }
-      deferred.resolve();
+
+      util.log(util.colors.green("Uploading S3 cache file to bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'."));
+      gulp.src('.awspublish-' + awsSettings.params.Bucket)
+        .pipe(rename(function (path) {
+          path.dirname = deployData.version + '/' + path.dirname;
+        }))
+        .pipe(publisher.publish())
+        .pipe(awspublish.reporter())
+        .on('end', function() {
+          deferred.resolve();
+        });
     });
 
   return deferred.promise;
