@@ -26,6 +26,7 @@ function upload() {
     .pipe(awspublish.gzip({}))
     .pipe(publisher.publish())
     .pipe(publisher.sync(deployData.version))
+    .pipe(publisher.cache())
     .pipe(awspublish.reporter())
     .on('end', function (error) {
       if (error) {
