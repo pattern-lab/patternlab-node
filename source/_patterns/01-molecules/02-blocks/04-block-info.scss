@@ -2,7 +2,7 @@
   padding : $paddingStandard $paddingMini;
   background-color : $colorGallery;
   text-align : center;
-
+  margin-bottom: $marginStandard;
 
   @media only screen and (min-width: $breakpointDesktop) {
     padding : ($paddingStandard + $paddingMini) $paddingStandard;
