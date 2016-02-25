@@ -53,7 +53,7 @@
       position:fixed;
       top:0;
       z-index:20;
-      min-height:100%;
+      height:100%;
     }
 
     &__link {
@@ -80,6 +80,10 @@
     }
 
     &__list {
+      &--firstLevel {
+        max-height:100%;
+        overflow-y:auto;
+      }
       &--secondLevel {
         text-indent:$marginMini;
       }

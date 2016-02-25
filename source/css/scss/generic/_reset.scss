@@ -27,6 +27,7 @@ body {
 	height: 100vh;
 	box-sizing : border-box;
 	color: $colorText;
+  	overflow-x: hidden;
 }
 
 fieldset{
