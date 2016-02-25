@@ -39,9 +39,8 @@
   &__claim {
     display:none;
     flex:none;
-    @include font-secondary-light-lowercase();
+    @include font-primary-light-lowercase(0.75em);
     letter-spacing:0;
-    font-style:italic;
 
     @media only screen and (min-width: $breakpointDesktop) {
       display:block;
