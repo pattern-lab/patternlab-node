@@ -12,6 +12,7 @@
 
     > .pageContent {
       flex:1;
+      -ms-flex-preferred-size : auto;
       width:100%;
     }
 
