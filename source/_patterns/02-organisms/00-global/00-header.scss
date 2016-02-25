@@ -10,6 +10,8 @@
 
   &--sticky {
     position:fixed;
+  }
+  &--scrolled {
     box-shadow: $shadowTiny;
     background-color: transparentize($colorWhite, 0.05);
   }
