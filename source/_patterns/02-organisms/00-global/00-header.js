@@ -11,9 +11,13 @@ module.exports = $(function() {
     }).on('click', '.header__navigation', function(e) {
         e.stopPropagation();
     });
+
+    // sticky header
+    var $header = $('header.header').addClass('header--sticky');
     $(document).scroll(function() {
-        var $header = $('header.header'),
-          hasScrolled = $(window).scrollTop();
-        $header[hasScrolled ? 'addClass' : 'removeClass']('header--sticky').next().css({ paddingTop : hasScrolled ? $header.outerHeight(false) : 0 });
-    });
+        $header[$(window).scrollTop() ? 'addClass' : 'removeClass']('header--scrolled');
+    }).scroll();
+    $(window).resize(function() {
+        $header.next().css({ paddingTop : $header.outerHeight(false) });
+    }).resize();
 });
