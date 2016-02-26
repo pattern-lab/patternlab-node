@@ -1,10 +1,13 @@
 .field {
   width: 100%;
+
   &__input-wrapper {
     margin: .45em 0;
     position: relative;
+
     &--select {
       @include icon('chevron-down');
+
       &:before {
         color: inherit;
         font-size: 1.35em;
@@ -21,6 +24,7 @@
       }
     }
   }
+
   &__label {
     font-family: $fontSecondary;
     color: $colorNevada;
@@ -42,6 +46,7 @@
     z-index: 1;
     transition: opacity $animationTimingFast ease-out;
   }
+
   &__input {
     font-family: $fontSecondary;
     width: 100%;
@@ -61,15 +66,18 @@
       position: relative;
       box-sizing:border-box;
     }
+
     .field--show-floating-label & {
       padding-top: 1.5em;
       padding-bottom: 0.275em;
     }
+
     .field__input-wrapper--select & {
       padding-top: 1.5em;
       padding-bottom: 0.2em;
     }
   }
+
   &__message {
     &,
     &--warning {
@@ -77,10 +85,8 @@
       font-weight: 300;
       font-size: 0.85714em;
       margin: 0.75em 0.575em 0.25em;
-      & + & {
-        margin-top: 0;
-      }
     }
+
     &--error {
       display: none;
       color: $colorError;
@@ -112,10 +118,12 @@
     width: 40px;
     height: 40px;
     margin-top: -20px;
+
     &:focus {
       outline: none;
     }
   }
+
   &--show-floating-label,
   &__input-wrapper--select {
     .field {
