@@ -1,5 +1,9 @@
 THIS CHANGELOG IS AN ATTEMPT TO DOCUMENT CHANGES TO THIS PROJECT.
 
+PL-node-v1.1.3
+- FIX: Added pattern type view all pages to the navigation, which users view all 'Atoms/Molecules/Organisms' etc.
+- THX: Thanks to @gael-boyenval for originally pointing out the omission.
+
 PL-node-v1.1.2
 - FIX: Greatly improved the browsersync configuration, so that it only fires on the iframe, preventing users from losing their scroll position. Also lightened up the styling and made it less obtrusive.
 - THX: Thanks to @geoffp for taking the lead on this issue.
