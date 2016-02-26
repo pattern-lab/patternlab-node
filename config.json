@@ -26,6 +26,7 @@
 		"templates",
 		"pages"
 	],
+  "defaultPattern": "all",
  	"ignored-extensions" : ["scss", "DS_Store", "less"],
  	"ignored-directories" : ["scss"],
  	"debug": false,

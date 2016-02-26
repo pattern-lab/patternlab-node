@@ -473,7 +473,11 @@ var patternlab_engine = function (config) {
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
-    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {}, {
+    debugger;
+
+    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {
+      defaultPattern: patternlab.config.defaultPattern || 'all'
+    }, {
       'ishControls': ishControlsPartialHtml,
       'patternNav': patternNavPartialHtml,
       'patternPaths': patternPathsPartialHtml,
