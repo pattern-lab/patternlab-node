@@ -5,6 +5,14 @@
     margin-right : -$marginMini;
   }
 
+  &--narrowImages {
+    @media only screen and (min-width: $breakpointTablet) {
+      display : flex;
+      margin-left : -$marginMini;
+      margin-right : -$marginMini;
+    }
+  }
+
   &__column {
     flex-shrink: 0;
     flex-grow: 0;
