@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.1.2 - 2016 
+ * patternlab-node - v1.1.3 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -207,7 +207,8 @@ var patternlab_engine = function (config) {
 
     //build the viewall pages
     var prevSubdir = '',
-    i;
+        prevGroup = '',
+        i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       // skip underscore-prefixed files
@@ -220,6 +221,35 @@ var patternlab_engine = function (config) {
 
       var pattern = patternlab.patterns[i];
 
+      //create the view all for the section
+      // check if the current section is different from the previous one
+      if (pattern.patternGroup != prevGroup){
+        prevGroup = pattern.patternGroup;
+
+        var viewAllPatterns = [],
+            patternPartial = "viewall-" + pattern.patternGroup,
+            j;
+
+        for (j = 0; j < patternlab.patterns.length; j++) {
+          if (patternlab.patterns[j].patternGroup === pattern.patternGroup) {
+            //again, skip any sibling patterns to the current one that may have underscores
+            if(isPatternExcluded(patternlab.patterns[j])){
+              if(patternlab.config.debug){
+                console.log('Omitting ' + patternlab.patterns[j].key + " from view all sibling rendering.");
+              }
+              continue;
+            }
+
+            viewAllPatterns.push(patternlab.patterns[j]);
+          }
+        }
+
+        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
+        fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', viewAllHtml);
+      }
+
+      //create the view all for the subsection
       // check if the current sub section is different from the previous one
       if (pattern.subdir !== prevSubdir) {
         prevSubdir = pattern.subdir;
@@ -318,6 +348,14 @@ var patternlab_engine = function (config) {
           //add to patternPaths
           addToPatternPaths(bucketName, pattern);
 
+          //add the navViewAllItem
+          var navViewAllItem = new of.oNavSubItem("View All");
+          navViewAllItem.patternPath = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + "/index.html";
+          navViewAllItem.patternPartial = "viewall-" + pattern.patternGroup;
+
+          bucket.patternItems.push(navViewAllItem);
+          patternlab.viewAllPaths[bucketName]['viewall'] = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
+
         }
 
         //add the bucket.
@@ -393,14 +431,15 @@ var patternlab_engine = function (config) {
             }
           }
 
-          //add the navViewAllSubItem
-          var navViewAllSubItem = new of.oNavSubItem("");
-          navViewAllSubItem.patternName = "View All";
-          navViewAllSubItem.patternPath = pattern.flatPatternPath + "/index.html";
-          navViewAllSubItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
-
           //check if we are moving to a new sub section in the next loop
           if (!patternlab.patterns[i + 1] || pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
+
+            //add the navViewAllSubItem
+            var navViewAllSubItem = new of.oNavSubItem("");
+            navViewAllSubItem.patternName = "View All";
+            navViewAllSubItem.patternPath = pattern.flatPatternPath + "/index.html";
+            navViewAllSubItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
+
             navItem.navSubItems.push(navViewAllSubItem);
             navItem.navSubItemsIndex.push("View All");
           }
