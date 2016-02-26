@@ -94,6 +94,11 @@
       display: none;
       color: $colorValid;
       line-height: 1.3em;
+      @include icon(check);
+
+      &:before {
+        margin-right : ($marginMini/3);
+      }
 
       .field--success & {
         display: block;
