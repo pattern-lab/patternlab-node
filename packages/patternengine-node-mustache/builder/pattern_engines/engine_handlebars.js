@@ -8,6 +8,16 @@
  *
  */
 
+/*
+ * ENGINE SUPPORT LEVEL:
+ *
+ * Full. Partial calls and lineage hunting are supported. Handlebars does not
+ * support the mustache-specific syntax extensions, style modifiers and pattern
+ * parameters, because their use cases are addressed by the core Handlebars
+ * feature set.
+ *
+ */
+
 (function () {
   "use strict";
 
@@ -23,11 +33,7 @@
     expandPartials: false,
 
     // regexes, stored here so they're only compiled once
-    // GTP warning: unchanged copypasta from mustache engine
-    // findPartialsRE: /{{>\s*((?:\d+-[\w-]+\/)+(\d+-[\w-]+(\.\w+)?)|[A-Za-z0-9-]+)(\:[\w-]+)?(\(\s*\w+\s*:\s*(?:'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*")\))?\s*}}/g,
     findPartialsRE: /{{#?>\s*([\w-\/.]+)(?:.|\s+)*?}}/g,
-    findPartialsWithStyleModifiersRE: /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g,
-    findPartialsWithPatternParametersRE: /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g,
     findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
     // render it
@@ -48,15 +54,17 @@
       var matches = pattern.template.match(this.findPartialsRE);
       return matches;
     },
-    findPartialsWithStyleModifiers: function(pattern) {
-      var matches = pattern.template.match(this.findPartialsWithStyleModifiersRE);
-      return matches;
+    findPartialsWithStyleModifiers: function() {
+      // TODO: make the call to this from oPattern objects conditional on their
+      // being implemented here.
+      return [];
     },
     // returns any patterns that match {{> value(foo:"bar") }} or {{>
     // value:mod(foo:"bar") }} within the pattern
-    findPartialsWithPatternParameters: function(pattern) {
-      var matches = pattern.template.match(this.findPartialsWithPatternParametersRE);
-      return matches;
+    findPartialsWithPatternParameters: function() {
+      // TODO: make the call to this from oPattern objects conditional on their
+      // being implemented here.
+      return [];
     },
     findListItems: function(pattern) {
       var matches = pattern.template.match(this.findListItemsRE);
