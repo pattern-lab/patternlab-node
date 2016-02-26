@@ -10,6 +10,13 @@
   var object_factory = require('../builder/object_factory');
   var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 
+  try {
+    require('handlebars');
+  } catch (err) {
+    console.log('handlebars renderer not installed; skipping tests');
+    return;
+  }
+
   // fake pattern lab constructor:
   // sets up a fake patternlab object, which is needed by the pattern processing
   // apparatus.
