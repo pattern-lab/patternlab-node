@@ -98,9 +98,27 @@
   function testProps(object, propTests, test) {
 
     // function to test each expected property is present and the correct type
-    function testProp(propName, typeString) {
+    function testProp(propName, types) {
+
+      var possibleTypes;
+
+      // handle "types" being a string or an array of strings
+      if (types instanceof Array) {
+        possibleTypes = types;
+      } else {
+        // "types" is just a single string, load it into an array; the rest of
+        // the code expects it!
+        possibleTypes = [types];
+      }
+
+      var isOneOfTheseTypes = possibleTypes.map(function (type) {
+        return typeof object[propName] === type;
+      }).reduce(function(isPrevType, isCurrentType) {
+        return isPrevType || isCurrentType;
+      });
+      
       test.ok(object.hasOwnProperty(propName), '"' + propName + '" prop should be present');
-      test.ok(typeof object[propName] === typeString, '"' + propName + '" prop should be of type ' + typeString);
+      test.ok(isOneOfTheseTypes, '"' + propName + '" prop should be one of types ' + possibleTypes);
     }
 
     // go over each property test and run it
@@ -129,7 +147,7 @@
       'engine contains expected properties and methods': function (test) {
 
         var propertyTests = {
-          'engine': 'object',
+          'engine': ['object', 'function'],
           'engineName': 'string',
           'engineFileExtension': 'string',
           'renderPattern': 'function',
