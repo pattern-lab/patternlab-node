@@ -43,7 +43,7 @@
 
   .navigation--cart {
     transition:right $animationTimingNormal ease-in-out;
-    max-width:$widthCartSidebar;
+    width:$widthCartSidebar;
     right:-$widthCartSidebar;
   }
 
