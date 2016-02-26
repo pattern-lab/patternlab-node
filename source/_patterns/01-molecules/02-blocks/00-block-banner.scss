@@ -31,20 +31,20 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+  }
 
-    .blockBanner__text {
-      margin-top : -10px;
-      color : $colorWhite;
-      position : absolute;
-      top : 50%;
-      left : 50%;
-      transform : translate(-50%, -50%);
+  .blockBanner__text {
+    margin-top : -10px;
+    margin-bottom : 0;
+    color : $colorWhite;
+    position : absolute;
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%, -50%);
 
-      @media only screen and (min-width: $breakpointTablet) {
-        margin-top : -20px;
-      }
+    @media only screen and (min-width: $breakpointTablet) {
+      margin-top : -20px;
     }
-
 
     &--noImage {
       &:after {
