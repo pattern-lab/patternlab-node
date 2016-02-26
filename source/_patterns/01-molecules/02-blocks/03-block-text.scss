@@ -9,4 +9,14 @@
     padding-right : 0;
     padding-left : 0;
   }
+
+  &__body--base {
+    text-align : left;
+
+    h2 {
+      @include font-primary-medium-uppercase();
+      padding-top : $paddingMini;
+      padding-bottom : $paddingMini;
+    }
+  }
 }
