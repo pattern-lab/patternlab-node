@@ -8,8 +8,8 @@ This repository contains the vanilla builder logic, grunt and gulp configuration
 
 ###### Core Team
 
-* @bmuenzenmeyer - Maintainer
-* @geoffp - Core Contributor
+* [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) - Lead Maintainer
+* [@geoffp](https://github.com/geoffp) - Core Contributor
 
 ### Prerequisites
 
