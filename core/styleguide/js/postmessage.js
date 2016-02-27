@@ -10,7 +10,7 @@
 
 // alert the iframe parent that the pattern has loaded assuming this view was loaded in an iframe
 if (self != top) {
-	
+
 	// handle the options that could be sent to the parent window
 	//   - all get path
 	//   - pattern & view all get a pattern partial, styleguide gets all
@@ -22,10 +22,10 @@ if (self != top) {
 	if (lineage !== "") {
 		options.lineage = lineage;
 	}
-	
+
 	var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
 	parent.postMessage(options, targetOrigin);
-	
+
 	// find all links and add an onclick handler for replacing the iframe address so the history works
 	var aTags = document.getElementsByTagName('a');
 	for (var i = 0; i < aTags.length; i++) {
@@ -37,7 +37,7 @@ if (self != top) {
 			}
 		};
 	}
-	
+
 	// bind the keyboard shortcuts for various viewport resizings + pattern search
 	var keys = [ "s", "m", "l", "d", "h", "f" ];
 	for (var i = 0; i < keys.length; i++) {
@@ -48,7 +48,7 @@ if (self != top) {
 			}
 		}(keys[i],targetOrigin));
 	}
-	
+
 	// bind the keyboard shortcuts for mqs
 	var i = 0;
 	while (i < 10) {
@@ -61,7 +61,7 @@ if (self != top) {
 		}(i,targetOrigin));
 		i++;
 	}
-	
+
 }
 
 // if there are clicks on the iframe make sure the nav in the iframe parent closes
@@ -73,18 +73,19 @@ body[0].onclick = function() {
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
-	
+
 	var path;
 	var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-	
+	var baseurl;
+
 	// does the origin sending the message match the current host? if not dev/null the request
 	if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 		return;
 	}
-	
+
 	// see if it got a path to replace
 	if (data.path !== undefined) {
-		
+
 		if (patternPartial !== "") {
 
 			if(baseurl){
@@ -105,23 +106,23 @@ function receiveIframeMessage(event) {
         var re = /patterns\/(.*)$/;
         path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
       }
-      
+
 			window.location.replace(path);
-			
+
 		} else {
-			
+
 			// handle the style guide
 			path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("styleguide\/html\/styleguide.html","")+data.path+'?'+Date.now();
 			window.location.replace(path);
-			
+
 		}
-		
+
 	} else if (data.reload !== undefined) {
-		
+
 		// reload the location if there was a message to do so
 		window.location.reload();
-		
+
 	}
-	
+
 }
 window.addEventListener("message", receiveIframeMessage, false);
