@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 					},
                     snippetOptions: {
                         // Ignore all HTML files within the templates folder
-                        blacklist: ['/index.html', '/', '/?p=*']
+                        blacklist: ['/index.html', '/', '/?*']
                     },
 					plugins: [
 						{
