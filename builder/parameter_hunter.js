@@ -20,6 +20,93 @@
 		style_modifier_hunter = new smh(),
 		pattern_assembler = new pa();
 
+		function paramToJson(paramString) {
+			var paramStringWellFormed = '';
+			var paramStringTmp;
+			var colonPos;
+			var delimitPos;
+			var quotePos;
+
+			do {
+				//if param key is wrapped in single quotes, replace with double quotes.
+				paramString = paramString.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
+				//if params key is not wrapped in any quotes, wrap in double quotes.
+				paramString = paramString.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
+				//move param key to paramStringWellFormed var.
+				colonPos = paramString.indexOf(':');
+				//except to prevent infinite loops.
+				if (colonPos === -1) {
+					colonPos = paramString.length - 1;
+				}
+				else {
+					colonPos += 1;
+				}
+				paramStringWellFormed += paramString.substring(0, colonPos);
+				paramString = paramString.substring(colonPos, paramString.length).trim();
+
+				//if param value is wrapped in single quotes, replace with double quotes.
+				if (paramString[0] === '\'') {
+					quotePos = paramString.search(/[^\\]'/);
+					//except for unclosed quotes to prevent infinite loops.
+					if (quotePos === -1) {
+						quotePos = paramString.length - 1;
+					}
+					else {
+						quotePos += 2;
+					}
+					//prepare param value for move to paramStringWellFormed var.
+					paramStringTmp = paramString.substring(0, quotePos);
+					//unescape any escaped single quotes.
+					paramStringTmp = paramStringTmp.replace(/\\'/g, '\'');
+					//escape any double quotes.
+					paramStringTmp = paramStringTmp.replace(/"/g, '\\"');
+					//replace the delimiting single quotes with double quotes.
+					paramStringTmp = paramStringTmp.replace(/^'/, '"');
+					paramStringTmp = paramStringTmp.replace(/'$/, '"');
+					//move param key to paramStringWellFormed var.
+					paramStringWellFormed += paramStringTmp;
+					paramString = paramString.substring(quotePos, paramString.length).trim();
+				}
+				//if param value is wrapped in double quotes, just move to paramStringWellFormed var.
+				else if (paramString[0] === '"') {
+					quotePos = paramString.search(/[^\\]"/);
+					//except for unclosed quotes to prevent infinite loops.
+					if (quotePos === -1) {
+						quotePos = paramString.length - 1;
+					}
+					else {
+						quotePos += 2;
+					}
+					//move param key to paramStringWellFormed var.
+					paramStringWellFormed += paramString.substring(0, quotePos);
+					paramString = paramString.substring(quotePos, paramString.length).trim();
+				}
+				//if param value is not wrapped in quotes, move everthing up to the delimiting comma to paramStringWellFormed var.
+				else {
+					delimitPos = paramString.indexOf(',');
+					//except to prevent infinite loops.
+					if (delimitPos === -1) {
+						delimitPos = paramString.length - 1;
+					}
+					else {
+						delimitPos += 1;
+					}
+					paramStringWellFormed += paramString.substring(0, delimitPos);
+					paramString = paramString.substring(delimitPos, paramString.length).trim();
+				}
+
+				//break at the end.
+				if (paramString.length === 1) {
+					paramStringWellFormed += paramString.trim();
+					paramString = '';
+					break;
+				}
+
+			} while(paramString);
+
+			return paramStringWellFormed;
+		}
+
 		function findparameters(pattern, patternlab){
 
 			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
@@ -39,12 +126,7 @@
 					var leftParen = pMatch.indexOf('(');
 					var rightParen = pMatch.indexOf(')');
 					var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-					//if param keys are wrapped in single quotes, replace with double quotes.
-					var paramStringWellFormed = paramString.replace(/(')([^']+)(')(\s*\:)/g, '"$2"$4');
-					//if params keys are not wrapped in any quotes, wrap in double quotes.
-					var paramStringWellFormed = paramStringWellFormed.replace(/([\{|,]\s*)([^\s"'\:]+)(\s*\:)/g, '$1"$2"$3');
-					//if param values are wrapped in single quotes, replace with double quotes.
-					var paramStringWellFormed = paramStringWellFormed.replace(/(\:\s*)(')([^']+)(')/g, '$1"$3"');
+					var paramStringWellFormed = paramToJson(paramString);
 
 					var paramData = {};
 					var globalData = {};
