@@ -19,7 +19,7 @@ var lineage_hunter = function () {
 
     //find the {{> template-name }} within patterns
     var matches = pattern_assembler.find_pattern_partials(pattern);
-    if(matches !== null) {
+    if (matches !== null) {
       matches.forEach(function (match) {
         //strip out the template cruft
         var foundPatternKey = match
@@ -30,7 +30,7 @@ var lineage_hunter = function () {
 
         // remove any potential pattern parameters. this and the above are
         // rather brutish but I didn't want to do a regex at the time
-        if(foundPatternKey.indexOf('(') > 0) {
+        if (foundPatternKey.indexOf('(') > 0) {
           foundPatternKey = foundPatternKey.substring(0, foundPatternKey.indexOf('('));
         }
 
@@ -44,6 +44,7 @@ var lineage_hunter = function () {
 
           //add it since it didnt exist
           pattern.lineageIndex.push(ancestorPattern.key);
+
           //create the more complex patternLineage object too
           var l = {
             "lineagePattern": ancestorPattern.key,
