@@ -8,7 +8,6 @@
  *
  */
 
-
 "use strict";
 
 var list_item_hunter = function () {

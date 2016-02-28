@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.1.3 - 2016 
- * 
+/*
+ * patternlab-node - v1.1.3 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -12,13 +12,6 @@
 "use strict";
 
 var pattern_assembler = function () {
-
-  function isObjectEmpty(obj) {
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) { return false; }
-    }
-    return true;
-  }
 
   // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithStyleModifiers(pattern) {
@@ -67,7 +60,7 @@ var pattern_assembler = function () {
         break;
       }
     }
-    
+
     //if the pattern is new, just push to the array
     if (isNew) {
       patternlab.patterns.push(pattern);
@@ -249,7 +242,7 @@ var pattern_assembler = function () {
 
   function getpatternbykey(key, patternlab) {
     var i; // for the for loops
-    
+
     //look for exact key matches
     for (i = 0; i < patternlab.patterns.length; i++) {
       if (patternlab.patterns[i].key === key) {
@@ -271,7 +264,7 @@ var pattern_assembler = function () {
       var keyParts = key.split('-'),
           keyType = keyParts[0],
           keyName = keyParts.slice(1).join('-');
-      
+
       if (patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1) {
         return patternlab.patterns[i];
       }
@@ -293,7 +286,7 @@ var pattern_assembler = function () {
             obj2[p] = {};
           }
           obj2[p] = mergeData(obj1[p], obj2[p]);
-          
+
           // Pop when recursion meets a non-object. If obj1[p] is a non-object,
           // only copy to undefined obj2[p]. This way, obj2 maintains priority.
         } else if (typeof obj2[p] === 'undefined') {
@@ -360,7 +353,7 @@ var pattern_assembler = function () {
     }
     return JSON.parse(dataObjAsString);
   }
-  
+
   //look for pattern links included in data files.
   //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
   function parseDataLinks(patternlab) {
@@ -410,9 +403,6 @@ var pattern_assembler = function () {
     },
     combine_listItems: function (patternlab) {
       buildListItems(patternlab);
-    },
-    is_object_empty: function (obj) {
-      return isObjectEmpty(obj);
     },
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);

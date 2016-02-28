@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",
+    "eslint": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.3.1",
     "gulp-copy": "0.0.2",
