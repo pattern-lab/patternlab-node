@@ -14,7 +14,7 @@
     "eqeqeq": [2, "allow-null"],
     "global-strict": [0, "never"],
     "guard-for-in": 2,
-    "indent": [2, 2, {"SwitchCase": 1, "VariableDeclarator": 2}],
+    "indent": [2, 2, {"SwitchCase": 1, "VariableDeclarator": 1}],
     "lines-around-comment": [2, {
       "beforeBlockComment": true,
       "beforeLineComment": true,

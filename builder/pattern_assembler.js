@@ -92,11 +92,11 @@ var pattern_assembler = function () {
       var tempItems = [];
       if (i === 1) {
         tempItems.push(container.listItemArray[0]);
-        container.listitems['' + i ] = tempItems;
+        container.listitems['' + i] = tempItems;
       } else {
         for (var c = 1; c <= i; c++) {
           tempItems.push(container.listItemArray[c - 1]);
-          container.listitems['' + i ] = tempItems;
+          container.listitems['' + i] = tempItems;
         }
       }
     }
@@ -136,8 +136,8 @@ var pattern_assembler = function () {
 
   function processPatternIterative(file, patternlab) {
     var fs = require('fs-extra'),
-        of = require('./object_factory'),
-        path = require('path');
+      of = require('./object_factory'),
+      path = require('path');
 
     //extract some information
     var subdir = path.dirname(path.relative(patternlab.config.paths.source.patterns, file)).replace('\\', '/');
@@ -206,20 +206,20 @@ var pattern_assembler = function () {
 
   function processPatternRecursive(file, patternlab) {
     var lh = require('./lineage_hunter'),
-        ph = require('./parameter_hunter'),
-        pph = require('./pseudopattern_hunter'),
-        lih = require('./list_item_hunter'),
-        smh = require('./style_modifier_hunter');
+      ph = require('./parameter_hunter'),
+      pph = require('./pseudopattern_hunter'),
+      lih = require('./list_item_hunter'),
+      smh = require('./style_modifier_hunter');
 
     var parameter_hunter = new ph(),
-        lineage_hunter = new lh(),
-        list_item_hunter = new lih(),
-        style_modifier_hunter = new smh(),
-        pseudopattern_hunter = new pph();
+      lineage_hunter = new lh(),
+      list_item_hunter = new lih(),
+      style_modifier_hunter = new smh(),
+      pseudopattern_hunter = new pph();
 
     //find current pattern in patternlab object using var file as a key
     var currentPattern,
-        i;
+      i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       if (patternlab.patterns[i].abspath === file) {
@@ -259,7 +259,7 @@ var pattern_assembler = function () {
         //identify which pattern this partial corresponds tou
         for (var j = 0; j < patternlab.patterns.length; j++) {
           if (patternlab.patterns[j].key === partialKey ||
-              patternlab.patterns[j].abspath.indexOf(partialKey) > -1) {
+            patternlab.patterns[j].abspath.indexOf(partialKey) > -1) {
             partialPath = patternlab.patterns[j].abspath;
           }
         }

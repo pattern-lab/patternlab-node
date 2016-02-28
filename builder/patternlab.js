@@ -12,14 +12,14 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var path = require('path'),
-      fs = require('fs-extra'),
-      diveSync = require('diveSync'),
-      of = require('./object_factory'),
-      pa = require('./pattern_assembler'),
-      mh = require('./media_hunter'),
-      pe = require('./pattern_exporter'),
-      he = require('html-entities').AllHtmlEntities,
-      patternlab = {};
+    fs = require('fs-extra'),
+    diveSync = require('diveSync'),
+    of = require('./object_factory'),
+    pa = require('./pattern_assembler'),
+    mh = require('./media_hunter'),
+    pe = require('./pattern_exporter'),
+    he = require('html-entities').AllHtmlEntities,
+    patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../config.json'));
@@ -64,9 +64,9 @@ var patternlab_engine = function (config) {
     patternlab.data.link = {};
 
     var pattern_assembler = new pa(),
-        entity_encoder = new he(),
-        pattern_exporter = new pe(),
-        patterns_dir = paths.source.patterns;
+      entity_encoder = new he(),
+      pattern_exporter = new pe(),
+      patterns_dir = paths.source.patterns;
 
     pattern_assembler.combine_listItems(patternlab);
 
@@ -166,10 +166,10 @@ var patternlab_engine = function (config) {
 
   function buildFrontEnd() {
     var pattern_assembler = new pa(),
-        media_hunter = new mh(),
-        styleGuideExcludes = patternlab.config.styleGuideExcludes,
-        styleguidePatterns = [],
-        i; // for loops
+      media_hunter = new mh(),
+      styleGuideExcludes = patternlab.config.styleGuideExcludes,
+      styleguidePatterns = [],
+      i; // for loops
 
     patternlab.buckets = [];
     patternlab.bucketIndex = [];
@@ -213,13 +213,13 @@ var patternlab_engine = function (config) {
 
     //build the styleguide
     var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'styleguide.mustache'), 'utf8'),
-        styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
+      styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
 
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
 
     //build the viewall pages
     var prevSubdir = '',
-        prevGroup = '';
+      prevGroup = '';
 
     for (i = 0; i < patternlab.patterns.length; i++) {
       // skip underscore-prefixed files
@@ -238,8 +238,8 @@ var patternlab_engine = function (config) {
         prevGroup = pattern.patternGroup;
 
         var viewAllPatterns = [],
-            patternPartial = "viewall-" + pattern.patternGroup,
-            j;
+          patternPartial = "viewall-" + pattern.patternGroup,
+          j;
 
         for (j = 0; j < patternlab.patterns.length; j++) {
           if (patternlab.patterns[j].patternGroup === pattern.patternGroup) {
@@ -266,8 +266,8 @@ var patternlab_engine = function (config) {
         prevSubdir = pattern.subdir;
 
         var viewAllPatterns = [],
-            patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup,
-            j;
+          patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup,
+          j;
 
         for (j = 0; j < patternlab.patterns.length; j++) {
           if (patternlab.patterns[j].subdir === pattern.subdir) {

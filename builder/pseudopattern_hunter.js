@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.1.3 - 2016 
- * 
+/*
+ * patternlab-node - v1.1.3 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -14,11 +14,11 @@ var pseudopattern_hunter = function () {
 
   function findpseudopatterns(currentPattern, patternlab) {
     var glob = require('glob'),
-        fs = require('fs-extra'),
-        pa = require('./pattern_assembler'),
-        lh = require('./lineage_hunter'),
-        of = require('./object_factory'),
-        path = require('path');
+      fs = require('fs-extra'),
+      pa = require('./pattern_assembler'),
+      lh = require('./lineage_hunter'),
+      of = require('./object_factory'),
+      path = require('path');
 
     var pattern_assembler = new pa();
     var lineage_hunter = new lh();

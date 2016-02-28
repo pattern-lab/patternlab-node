@@ -11,8 +11,8 @@
 "use strict";
 
 var diveSync = require('diveSync'),
-    path = require('path'),
-    fs = require('fs-extra');
+  path = require('path'),
+  fs = require('fs-extra');
 
 var media_hunter = function () {
 
