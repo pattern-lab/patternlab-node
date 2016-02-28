@@ -13,11 +13,11 @@
 var list_item_hunter = function () {
 
   var extend = require('util')._extend,
-      pa = require('./pattern_assembler'),
-      smh = require('./style_modifier_hunter'),
-      pattern_assembler = new pa(),
-      style_modifier_hunter = new smh(),
-      items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+    pa = require('./pattern_assembler'),
+    smh = require('./style_modifier_hunter'),
+    pattern_assembler = new pa(),
+    style_modifier_hunter = new smh(),
+    items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
