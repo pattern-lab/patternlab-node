@@ -5,7 +5,7 @@
   },
   "globals": {},
   "rules": {
-    "block-scoped-var": 1,
+    "block-scoped-var": 0,
     "camelcase": 0,
     "comma-spacing": [1, {"before": false, "after": true}],
     "consistent-return": 2,
