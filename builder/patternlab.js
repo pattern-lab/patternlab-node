@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.1.3 - 2016 
- * 
+/*
+ * patternlab-node - v1.1.3 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -153,13 +153,24 @@ var patternlab_engine = function (config) {
     pattern_exporter.export_patterns(patternlab);
   }
 
+  function addToPatternPaths(bucketName, pattern) {
+    //this is messy, could use a refactor.
+    patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
+  }
+
+  //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
+  function isPatternExcluded(pattern) {
+    // returns whether or not the first character of the pattern filename is an underscore, or excluded
+    return pattern.fileName.charAt(0) === '_';
+  }
+
   function buildFrontEnd() {
     var pattern_assembler = new pa(),
         media_hunter = new mh(),
         styleGuideExcludes = patternlab.config.styleGuideExcludes,
         styleguidePatterns = [],
         i; // for loops
-    
+
     patternlab.buckets = [];
     patternlab.bucketIndex = [];
     patternlab.patternPaths = {};
@@ -169,7 +180,7 @@ var patternlab_engine = function (config) {
     patternlab.patterns = patternlab.patterns.sort(function (a, b) {
       if (a.name > b.name) { return 1; }
       if (a.name < b.name) { return -1; }
-      
+
       // a must be equal to b
       return 0;
     });
@@ -203,7 +214,7 @@ var patternlab_engine = function (config) {
     //build the styleguide
     var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'styleguide.mustache'), 'utf8'),
         styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
-    
+
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
 
     //build the viewall pages
@@ -325,7 +336,7 @@ var patternlab_engine = function (config) {
         navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
         //add the patternState if it exists
-        if(pattern.patternState){
+        if (pattern.patternState) {
           navSubItem.patternState = pattern.patternState;
         }
 
@@ -351,7 +362,7 @@ var patternlab_engine = function (config) {
           navViewAllItem.patternPartial = "viewall-" + pattern.patternGroup;
 
           bucket.patternItems.push(navViewAllItem);
-          patternlab.viewAllPaths[bucketName]['viewall'] = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
+          patternlab.viewAllPaths[bucketName].viewall = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
         }
 
         //add the bucket.
@@ -475,17 +486,6 @@ var patternlab_engine = function (config) {
       'viewAllPaths': viewAllPathsPartialHtml
     });
     fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
-  }
-
-  function addToPatternPaths(bucketName, pattern) {
-    //this is messy, could use a refactor.
-    patternlab.patternPaths[bucketName][pattern.patternName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
-  }
-
-  //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
-  function isPatternExcluded(pattern) {
-    // returns whether or not the first character of the pattern filename is an underscore, or excluded
-    return pattern.fileName.charAt(0) === '_';
   }
 
   return {

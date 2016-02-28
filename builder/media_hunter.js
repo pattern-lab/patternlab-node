@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.1.3 - 2016 
- * 
+/*
+ * patternlab-node - v1.1.3 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -33,8 +33,8 @@ var media_hunter = function () {
       }
     });
     patternlab.mediaQueries.sort(function (a, b) {
-      var integerPartA = a.match(/(?:\d*\.)?\d+/g);
-      var integerPartB = b.match(/(?:\d*\.)?\d+/g);
+      a.match(/(?:\d*\.)?\d+/g);
+      b.match(/(?:\d*\.)?\d+/g);
       return parseInt(a, 10) > parseInt(b, 10);
     });
   }

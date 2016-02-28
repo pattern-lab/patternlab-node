@@ -78,6 +78,62 @@ var pattern_assembler = function () {
     }
   }
 
+  function buildListItems(container) {
+    //combine all list items into one structure
+    var list = [];
+    for (var item in container.listitems) {
+      if (container.listitems.hasOwnProperty(item)) {
+        list.push(container.listitems[item]);
+      }
+    }
+    container.listItemArray = shuffle(list);
+
+    for (var i = 1; i <= container.listItemArray.length; i++) {
+      var tempItems = [];
+      if (i === 1) {
+        tempItems.push(container.listItemArray[0]);
+        container.listitems['' + i ] = tempItems;
+      } else {
+        for (var c = 1; c <= i; c++) {
+          tempItems.push(container.listItemArray[c - 1]);
+          container.listitems['' + i ] = tempItems;
+        }
+      }
+    }
+  }
+
+  function getpatternbykey(key, patternlab) {
+    var i; // for the for loops
+
+    //look for exact key matches
+    for (i = 0; i < patternlab.patterns.length; i++) {
+      if (patternlab.patterns[i].key === key) {
+        return patternlab.patterns[i];
+      }
+    }
+
+    //else look by verbose syntax
+    for (i = 0; i < patternlab.patterns.length; i++) {
+      switch (key) {
+        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
+        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
+          return patternlab.patterns[i];
+      }
+    }
+
+    //return the fuzzy match if all else fails
+    for (i = 0; i < patternlab.patterns.length; i++) {
+      var keyParts = key.split('-'),
+        keyType = keyParts[0],
+        keyName = keyParts.slice(1).join('-');
+
+      if (patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1) {
+        return patternlab.patterns[i];
+      }
+    }
+    throw 'Could not find pattern with key ' + key;
+  }
+
   function processPatternIterative(file, patternlab) {
     var fs = require('fs-extra'),
         of = require('./object_factory'),
@@ -240,38 +296,6 @@ var pattern_assembler = function () {
     pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
   }
 
-  function getpatternbykey(key, patternlab) {
-    var i; // for the for loops
-
-    //look for exact key matches
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].key === key) {
-        return patternlab.patterns[i];
-      }
-    }
-
-    //else look by verbose syntax
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      switch (key) {
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
-          return patternlab.patterns[i];
-      }
-    }
-
-    //return the fuzzy match if all else fails
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      var keyParts = key.split('-'),
-          keyType = keyParts[0],
-          keyName = keyParts.slice(1).join('-');
-
-      if (patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1) {
-        return patternlab.patterns[i];
-      }
-    }
-    throw 'Could not find pattern with key ' + key;
-  }
-
   function mergeData(obj1, obj2) {
     /*eslint-disable guard-for-in, no-param-reassign*/
     if (typeof obj2 === 'undefined') {
@@ -300,30 +324,6 @@ var pattern_assembler = function () {
       }
     }
     return obj2;
-  }
-
-  function buildListItems(container) {
-    //combine all list items into one structure
-    var list = [];
-    for (var item in container.listitems) {
-      if (container.listitems.hasOwnProperty(item)) {
-        list.push(container.listitems[item]);
-      }
-    }
-    container.listItemArray = shuffle(list);
-
-    for (var i = 1; i <= container.listItemArray.length; i++) {
-      var tempItems = [];
-      if (i === 1) {
-        tempItems.push(container.listItemArray[0]);
-        container.listitems['' + i ] = tempItems;
-      } else {
-        for (var c = 1; c <= i; c++) {
-          tempItems.push(container.listItemArray[c - 1]);
-          container.listitems['' + i ] = tempItems;
-        }
-      }
-    }
   }
 
   //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript

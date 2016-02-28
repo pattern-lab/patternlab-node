@@ -17,7 +17,7 @@ var list_item_hunter = function () {
       smh = require('./style_modifier_hunter'),
       pattern_assembler = new pa(),
       style_modifier_hunter = new smh(),
-      items = [ 'zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+      items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
@@ -33,6 +33,7 @@ var list_item_hunter = function () {
         var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
         var end = liMatch.replace('#', '/');
         var patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
+
         //build arrays that repeat the block, however large we need to
         var repeatedBlockTemplate = [];
         var repeatedBlockHtml = '';

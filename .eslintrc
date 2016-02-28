@@ -5,7 +5,7 @@
   },
   "globals": {},
   "rules": {
-    "block-scoped-var": 2,
+    "block-scoped-var": 1,
     "camelcase": 0,
     "comma-spacing": [1, {"before": false, "after": true}],
     "consistent-return": 2,
@@ -51,7 +51,7 @@
     "no-new": 2,
     "no-param-reassign": 2,
     "no-proto": 2,
-    "no-redeclare": 2,
+    "no-redeclare": 1,
     "no-script-url": 2,
     "no-self-assign": 2,
     "no-self-compare": 2,

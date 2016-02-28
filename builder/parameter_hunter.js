@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.1.3 - 2016 
- * 
+/*
+ * patternlab-node - v1.1.3 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -20,13 +20,13 @@ var parameter_hunter = function () {
 
   function findparameters(pattern, patternlab) {
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
-      //compile this partial immeadiately, essentially consuming it.
-      
+      //compile this partial immediately, essentially consuming it.
+
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
         var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
         var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
-        
+
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
         if (patternlab.config.debug) {
@@ -37,13 +37,13 @@ var parameter_hunter = function () {
         var leftParen = pMatch.indexOf('(');
         var rightParen = pMatch.indexOf(')');
         var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        
+
         //if param keys are wrapped in single quotes, replace with double quotes.
         var paramStringWellFormed = paramString.replace(/(')([^']+)(')(\s*\:)/g, '"$2"$4');
-        
+
         //if params keys are not wrapped in any quotes, wrap in double quotes.
         paramStringWellFormed = paramStringWellFormed.replace(/([\{|,]\s*)([^\s"'\:]+)(\s*\:)/g, '$1"$2"$3');
-        
+
         //if param values are wrapped in single quotes, replace with double quotes.
         paramStringWellFormed = paramStringWellFormed.replace(/(\:\s*)(')([^']+)(')/g, '$1"$3"');
 
