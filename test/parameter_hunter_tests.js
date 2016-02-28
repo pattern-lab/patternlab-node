@@ -158,32 +158,32 @@
       test.done();
     },
 
-    'parameter hunter parses parameters with single-quoted keys and single-quoted values' : function(test){
+    'parameter hunter parses parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment('description': 'true') }}";
+      currentPattern.template = "{{> molecules-single-comment('description': 'true not,\\'true\\'') }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not,&#39;true&#39;</p>');
 
       test.done();
     },
 
-    'parameter hunter parses parameters with single-quoted keys and double-quoted values' : function(test){
+    'parameter hunter parses parameters with single-quoted keys and double-quoted values wrapping internal single-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment('description': \"true\") }}";
+      currentPattern.template = "{{> molecules-single-comment('description': \"true not:'true'\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not:&#39;true&#39;</p>');
 
       test.done();
     },
@@ -203,32 +203,32 @@
       test.done();
     },
 
-    'parameter hunter parses parameters with double-quoted keys and single-quoted values' : function(test){
+    'parameter hunter parses parameters with double-quoted keys and single-quoted values wrapping internal double-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment(\"description\": 'true') }}";
+      currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not{\"true\"') }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not{&quot;true&quot;</p>');
 
       test.done();
     },
 
-    'parameter hunter parses parameters with double-quoted keys and double-quoted values' : function(test){
+    'parameter hunter parses parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment(\"description\": \"true\") }}";
+      currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not}\\\"true\\\"\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not}&quot;true&quot;</p>');
 
       test.done();
     }
