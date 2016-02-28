@@ -51,7 +51,7 @@
     "no-new": 2,
     "no-param-reassign": 2,
     "no-proto": 2,
-    "no-redeclare": 1,
+    "no-redeclare": 0,
     "no-script-url": 2,
     "no-self-assign": 2,
     "no-self-compare": 2,
