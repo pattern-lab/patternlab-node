@@ -138,6 +138,12 @@ module.exports = function (grunt) {
         }
       }
     },
+    eslint: {
+      options: {
+        configFile: './.eslintrc'
+      },
+      target: ['./builder/*']
+    },
     bsReload: {
       css: path.resolve(paths().public.root + '**/*.css')
     }
@@ -152,10 +158,10 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['patternlab', 'copy:main', 'copy:styleguide']);
 
   //travis CI task
-  grunt.registerTask('travis', ['nodeunit', 'patternlab']);
+  grunt.registerTask('travis', ['nodeunit', 'eslint', 'patternlab']);
 
   grunt.registerTask('serve', ['patternlab', 'copy:main', 'copy:styleguide', 'browserSync', 'watch:all']);
 
-  grunt.registerTask('build', ['nodeunit', 'concat']);
+  grunt.registerTask('build', ['nodeunit', 'eslint', 'concat']);
 
 };

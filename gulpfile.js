@@ -9,6 +9,7 @@ var pkg = require('./package.json'),
     strip_banner = require('gulp-strip-banner'),
     header = require('gulp-header'),
     nodeunit = require('gulp-nodeunit'),
+    eslint = require('gulp-eslint'),
     browserSync = require('browser-sync').create();
 
 require('gulp-load')(gulp);
@@ -151,6 +152,14 @@ gulp.task('connect', ['lab'], function () {
 
 });
 
+//lint
+gulp.task('eslint', function () {
+  return gulp.src(['./builder/*.js', '!node_modules/**'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
 //unit test
 gulp.task('nodeunit', function () {
   return gulp.src('./test/**/*_tests.js')
@@ -170,7 +179,7 @@ gulp.task('prelab', ['clean', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function (cb) { cb(); });
 gulp.task('patterns', ['patternlab:only_patterns']);
 gulp.task('serve', ['lab', 'connect']);
-gulp.task('travis', ['lab', 'nodeunit']);
+gulp.task('build', ['eslint', 'nodeunit', 'banner']);
 
 gulp.task('version', ['patternlab:version']);
 gulp.task('help', ['patternlab:help']);

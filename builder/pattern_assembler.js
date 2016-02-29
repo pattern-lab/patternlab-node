@@ -8,7 +8,6 @@
  *
  */
 
-
 "use strict";
 
 var pattern_assembler = function () {
@@ -76,6 +75,12 @@ var pattern_assembler = function () {
     } else {
       return mustache.render(template, data);
     }
+  }
+
+  //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+  function shuffle(o) {
+        for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
   }
 
   function buildListItems(container) {
@@ -297,8 +302,7 @@ var pattern_assembler = function () {
   }
 
   function mergeData(obj1, obj2) {
-    /*eslint-disable guard-for-in, no-param-reassign*/
-    if (typeof obj2 === 'undefined') {
+        if (typeof obj2 === 'undefined') {
       obj2 = {};
     }
     for (var p in obj1) {
@@ -324,13 +328,6 @@ var pattern_assembler = function () {
       }
     }
     return obj2;
-  }
-
-  //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-  function shuffle(o) {
-    /*eslint-disable curly*/
-    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
