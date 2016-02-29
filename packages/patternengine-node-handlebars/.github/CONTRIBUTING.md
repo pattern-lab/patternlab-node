@@ -1,5 +1,5 @@
 # Contributing to Patternlab Node
-If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.  
+If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.
 
 No pull request is too small. Check out any [up for grabs issues](https://github.com/pattern-lab/patternlab-node/labels/up%20for%20grabs) as a good way to get your feet wet, or add some more unit tests.
 
@@ -9,4 +9,7 @@ No pull request is too small. Check out any [up for grabs issues](https://github
 3. If you can, add some unit tests using the existing patterns in the `./test` directory
 
 ##Coding style
-Regarding code style like indentation and whitespace, follow the conventions you see used in the source already. Add enough source code comments to help the next person.
+Two files combine within the project to define and maintain our coding style.
+
+* The `.editorconfig` controls spaces / tabs within supported editors. Check out their [site](http://editorconfig.org/).
+* The `.eslintrc` defines our javascript standards. Some editors will evaluate this real-time - otherwise it's run using `grunt|gulp build`
