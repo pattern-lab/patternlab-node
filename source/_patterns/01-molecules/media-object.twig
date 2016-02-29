@@ -1,0 +1,21 @@
+<style>
+  .Media {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .Media > img {
+    margin-right: 1em;
+    max-width: 200px;
+  }
+
+  .Media-body {
+    flex: 1;
+  }
+</style>
+
+
+<div class="Media">
+  {% include "atoms-image" %}
+  <p class="Media-body">Media Object body text</p>
+</div>
