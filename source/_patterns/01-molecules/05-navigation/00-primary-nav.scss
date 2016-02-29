@@ -112,7 +112,6 @@
         text-align: left;
         background: $colorWhite;
         min-width: 7.5em;
-        box-shadow:$shadowMedium;
         left:50%;
         margin-top:$marginMini / 2;
         transform:translate(-50%, $marginMini);
@@ -122,29 +121,6 @@
         backface-visibility:hidden;
         opacity:0;
         pointer-events:none;
-
-        &:before {
-          display:block;
-          content:'';
-          position:absolute;
-          left:0;
-          right:0;
-          top:-10px;
-          border:5px solid transparent;
-          border-bottom-color:$colorSilver;
-        }
-
-        &:after {
-          display:block;
-          content:'';
-          position:absolute;
-          left:50%;
-          top:-4px;
-          margin-left:-2px;
-          border:4px solid transparent;
-          border-bottom-color:$colorWhite;
-          border-top-width:0;
-        }
       }
 
       &__item {
