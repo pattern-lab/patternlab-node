@@ -303,8 +303,7 @@ var pattern_assembler = function () {
 
   function mergeData(obj1, obj2) {
     if (typeof obj2 === 'undefined') {
-      //noinspection Eslint
-      obj2 = {};
+      obj2 = {}; //eslint-disable-line no-param-reassign
     }
 
     for (var p in obj1) { //eslint-disable-line guard-for-in
