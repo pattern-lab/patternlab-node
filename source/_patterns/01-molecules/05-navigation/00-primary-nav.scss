@@ -110,9 +110,10 @@
         transition:transform $animationTimingFast, opacity $animationTimingFast;
         position: absolute;
         text-align: left;
-        background: $colorWhite;
+        background: rgba($colorWhite, 0.95);
         min-width: 7.5em;
         left:50%;
+        margin-top: 21.5px;
         transform:translate(-50%, $marginMini);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -120,6 +121,16 @@
         backface-visibility:hidden;
         opacity:0;
         pointer-events:none;
+
+        &:before {
+          display:block;
+          content:'';
+          position:absolute;
+          left:0;
+          right:0;
+          top:-21.5px;
+          border-top: 21.5px solid transparent;
+        }
       }
 
       &__item {
