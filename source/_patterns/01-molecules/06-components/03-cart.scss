@@ -4,6 +4,11 @@
     @include icon('bag');
     display:block;
     font-size:1.375em;
+
+    &:before {
+      position: relative;
+      top: -2px;
+    }
   }
 
   &__qty {
