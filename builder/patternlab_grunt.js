@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.1.1 - 2016 
+ * patternlab-node - v1.1.3 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -10,31 +10,29 @@
 
 var patternlab_engine = require('./patternlab.js');
 
-module.exports = function(grunt) {
-	grunt.registerTask('patternlab', 'create design systems with atomic design', function(arg) {
+module.exports = function (grunt) {
+  grunt.registerTask('patternlab', 'create design systems with atomic design', function (arg) {
+    var patternlab = patternlab_engine();
 
-		var patternlab = patternlab_engine();
+    if (arguments.length === 0) {
+      patternlab.build(true);
+    }
 
-		if(arguments.length === 0){
-			patternlab.build(true);
-		}
+    if (arg && arg === 'v') {
+      patternlab.version();
+    }
 
-		if(arg && arg === 'v'){
-			patternlab.version();
-		}
+    if (arg && arg === "only_patterns") {
+      patternlab.build_patterns_only(true);
+    }
 
-		if(arg && arg === "only_patterns"){
-			patternlab.build_patterns_only(true);
-		}
+    if (arg && arg === "help") {
+      patternlab.help();
+    }
 
-		if(arg && arg === "help"){
-			patternlab.help();
-		}
-
-		if(arg && (arg !== "v" && arg !=="only_patterns" && arg !=="help")){
-			patternlab.help();
-		}
-
-	});
+    if (arg && (arg !== "v" && arg !== "only_patterns" && arg !== "help")) {
+      patternlab.help();
+    }
+  });
 
 };
