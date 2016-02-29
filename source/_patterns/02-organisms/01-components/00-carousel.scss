@@ -6,7 +6,7 @@
     position:relative;
     display:none;
     flex:1;
-    margin:0 $marginMini;
+    margin:0 ($marginMini/2);
     overflow:hidden;
 
     &--visible {
@@ -25,7 +25,7 @@
     &s {
       display:flex;
       flex-flow:row nowrap;
-      margin:0 (-$marginMini);
+      margin:0 (-$marginMini/2);
     }
 
     img {
