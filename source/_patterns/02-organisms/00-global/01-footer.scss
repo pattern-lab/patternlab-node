@@ -27,8 +27,7 @@
         left: 50%;
 
         @media only screen and (min-width: $maxWidthLayout) {
-          padding-left : $paddingMini;
-          padding-right : $paddingMini;
+          width: calc(100% + #{$paddingMini * 2});
         }
       }
     }
