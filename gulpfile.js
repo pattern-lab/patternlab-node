@@ -112,7 +112,7 @@ gulp.task('connect', ['lab'], function () {
     },
     snippetOptions: {
       // Ignore all HTML files within the templates folder
-      blacklist: ['/index.html', '/']
+      blacklist: ['/index.html', '/', '/?*']
     },
     notify: {
       styles: [

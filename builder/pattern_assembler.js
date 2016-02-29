@@ -79,7 +79,7 @@ var pattern_assembler = function () {
 
   //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
   function shuffle(o) {
-        for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x); //eslint-disable-line curly
     return o;
   }
 
@@ -302,10 +302,12 @@ var pattern_assembler = function () {
   }
 
   function mergeData(obj1, obj2) {
-        if (typeof obj2 === 'undefined') {
+    if (typeof obj2 === 'undefined') {
+      //noinspection Eslint
       obj2 = {};
     }
-    for (var p in obj1) {
+
+    for (var p in obj1) { //eslint-disable-line guard-for-in
       try {
         // Only recurse if obj1[p] is an object.
         if (obj1[p].constructor === Object) {
