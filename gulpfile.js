@@ -77,7 +77,7 @@ gulp.task('cp:img', function(){
 // Fonts copy
 gulp.task('cp:font', function(){
   return gulp.src('*', {cwd: path.resolve(paths().source.fonts)})
-    .pipe(gulp.dest(path.resolve(paths().public.images)));
+    .pipe(gulp.dest(path.resolve(paths().public.fonts)));
 });
 
 // Data copy
@@ -123,7 +123,7 @@ gulp.task('connect', ['lab'], function() {
     },
     snippetOptions: {
       // Ignore all HTML files within the templates folder
-      blacklist: ['/index.html', '/']
+      blacklist: ['/index.html', '/', '/?*']
     },
     notify: {
       styles: [
