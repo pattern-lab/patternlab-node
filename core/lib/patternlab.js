@@ -129,7 +129,7 @@ var patternlab_engine = function (config) {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, path.resolve(file));
       });
 
     //set user defined head and foot if they exist
@@ -202,6 +202,9 @@ var patternlab_engine = function (config) {
       var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
 
       //render the extendedTemplate with all data
+if(typeof pattern.extendedTemplate === 'undefined') {
+console.log(pattern);
+}
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
       //set the pattern-specific footer if necessary

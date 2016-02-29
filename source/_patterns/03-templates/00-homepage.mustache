@@ -2,8 +2,11 @@
 	{{> organisms-header }}
 	<div role="main">
 		{{# emergency }}
-			{{> molecules-alert }}
+			{{> molecules-alert(alertClass: 'error') }}
 		{{/ emergency }}
+		{{# foo }}
+			{{> molecules-alert(alertClass: 'foo') }}
+		{{/ foo }}
 		{{# hero }}
 			{{> molecules-block-hero }}
 		{{/ hero}}
