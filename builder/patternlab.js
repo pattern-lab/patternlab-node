@@ -111,7 +111,7 @@ var patternlab_engine = function (config) {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, path.resolve(file));
       });
 
 
@@ -132,6 +132,9 @@ var patternlab_engine = function (config) {
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
       //render the extendedTemplate with all data
+if(typeof pattern.extendedTemplate === 'undefined') {
+console.log(pattern);
+}
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
       //add footer info before writing
