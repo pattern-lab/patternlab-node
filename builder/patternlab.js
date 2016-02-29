@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.1.3 - 2016 
- * 
+/*
+ * patternlab-node - v1.1.3 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -473,8 +473,6 @@ var patternlab_engine = function (config) {
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
-    debugger;
-
     var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {
       defaultPattern: patternlab.config.defaultPattern || 'all'
     }, {
