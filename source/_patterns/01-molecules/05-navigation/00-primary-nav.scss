@@ -97,6 +97,8 @@
       width: 100%;
       text-align: center;
       cursor:default;
+      margin-top :- 0.5em;
+      margin-bottom :- 0.25em;
     }
 
     &__list {
@@ -113,7 +115,7 @@
         background: rgba($colorWhite, 0.95);
         min-width: 7.5em;
         left:0;
-        margin-top: 21.5px;
+        margin-top: 18.5px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         backface-visibility:hidden;
