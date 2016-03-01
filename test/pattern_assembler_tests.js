@@ -308,7 +308,7 @@
 			pattern_assembler.addPattern(groupPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/04-group.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/04-group.mustache', pl);
 
 			//assert
 			var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
@@ -349,7 +349,7 @@
 			pattern_assembler.addPattern(groupPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', pl);
 
 			//assert
 			var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
@@ -388,7 +388,7 @@
 			pattern_assembler.addPattern(mixedPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/06-mixed.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/06-mixed.mustache', pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
@@ -427,7 +427,7 @@
 			pattern_assembler.addPattern(bookendPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/09-bookend.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/09-bookend.mustache', pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
@@ -468,7 +468,7 @@
 			pattern_assembler.addPattern(mixedPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/07-mixed-params.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/07-mixed-params.mustache', pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
@@ -509,7 +509,7 @@
 			pattern_assembler.addPattern(bookendPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/08-bookend-params.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/08-bookend-params.mustache', pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';

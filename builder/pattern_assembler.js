@@ -11,7 +11,16 @@
 (function () {
   "use strict";
 
-  var pattern_assembler = function(){
+  // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
+  function findPartialsWithStyleModifiers(pattern) {
+    var matches;
+    if (typeof pattern === 'string') {
+      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
+    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
+      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
+    }
+    return matches;
+  }
 
     function isObjectEmpty(obj) {
       for(var prop in obj) {
@@ -235,49 +244,23 @@
       var foundPatternPartials = findPartials(currentPattern);
 
       //determine if the template contains any pattern parameters
-      if(currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0){
+      if (currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0) {
         //reset currentPattern.extendedTemplate via parameter_hunter.find_parameters()
         parameter_hunter.find_parameters(currentPattern, patternlab);
         //re-evaluate foundPatternPartials
         foundPatternPartials = findPartials(currentPattern.extendedTemplate);
       }
 
-        //find any listItem blocks
-        list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+      if (foundPatternPartials && foundPatternPartials.length > 0) {
+        //do something with the regular old partials
+        for (i = 0; i < foundPatternPartials.length; i++) {
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialPath;
 
-if(currentPattern.abspath.indexOf('07-messaging/00-alert.mustache') > -1){
-}
-
-        //determine if the template contains any pattern parameters
-        if(currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0){
-          //reset currentPattern.extendedTemplate via parameter_hunter.find_parameters()
-          parameter_hunter.find_parameters(currentPattern, patternlab, startFile);
-//          currentPattern.extendedTemplate = parameter_hunter.find_parameters(currentPattern, patternlab, startFile);
-//          foundPatternPartials = parameter_hunter.find_parameters(currentPattern, patternlab, startFile);
-          //re-evaluate foundPatternPartials
-if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
-}
-          foundPatternPartials = findPartials(currentPattern.extendedTemplate);
-if(startFile.indexOf('04-pages/00-homepage') > -1){
-}
-        }
-
-
-
-        if(foundPatternPartials && foundPatternPartials.length > 0){
-          //do something with the regular old partials
-          for(i = 0; i < foundPatternPartials.length; i++){
-            var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
-
-            var partialPath;
-
-            //identify which pattern this partial corresponds to
-            for(var j = 0; j < patternlab.patterns.length; j++){
-              if(patternlab.patterns[j].key === partialKey ||
-                patternlab.patterns[j].abspath.indexOf(partialKey) > -1)
-              {
-                partialPath = patternlab.patterns[j].abspath;
-              }
+          //identify which pattern this partial corresponds to
+          for (var j = 0; j < patternlab.patterns.length; j++) {
+            if (patternlab.patterns[j].key === partialKey || patternlab.patterns[j].abspath.indexOf(partialKey) > -1) {
+              partialPath = patternlab.patterns[j].abspath;
             }
 
           //recurse through nested partials to fill out this extended template.
@@ -286,10 +269,10 @@ if(startFile.indexOf('04-pages/00-homepage') > -1){
             //complete assembly of extended template
             var partialPattern = getpatternbykey(partialKey, patternlab);
 
-            //if partial has style modifier data, replace the styleModifier value
-            if(currentPattern.stylePartials && currentPattern.stylePartials.length > 0){
-              style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-            }
+          //if partial has style modifier data, replace the styleModifier value
+          if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
+            style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
+          }
 
             currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
 
