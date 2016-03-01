@@ -121,6 +121,20 @@ var parameter_hunter = function () {
 
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
 
+      var globalData = {};
+      var localData = {};
+      var paramData = {};
+
+      try {
+        globalData = JSON.parse(JSON.stringify(patternlab.data));
+        localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
+      } catch (e) {
+        console.log(e);
+      }
+
+      //assemble the allData object to render non-partial Mustache tags.
+      var allData = pattern_assembler.merge_data(globalData, localData);
+
       //compile this partial immeadiately, essentially consuming it.
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
@@ -140,13 +154,7 @@ var parameter_hunter = function () {
         var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
         var paramStringWellFormed = paramToJson(paramString);
 
-        var globalData = {};
-        var localData = {};
-        var paramData = {};
-
         try {
-          globalData = JSON.parse(JSON.stringify(patternlab.data));
-          localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
           paramData = JSON.parse(paramStringWellFormed);
         } catch (e) {
           console.log(e);
@@ -158,7 +166,6 @@ var parameter_hunter = function () {
         }
 
         //assemble the allData object to render non-partial Mustache tags.
-        var allData = pattern_assembler.merge_data(globalData, localData);
         allData = pattern_assembler.merge_data(allData, paramData);
 
         //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
