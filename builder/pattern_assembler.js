@@ -15,20 +15,31 @@
   function findPartialsWithStyleModifiers(pattern) {
     var matches;
     if (typeof pattern === 'string') {
-      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
+      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g);
     } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
-      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
+      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g);
     }
     return matches;
   }
 
-    function isObjectEmpty(obj) {
-      for(var prop in obj) {
-          if(obj.hasOwnProperty(prop))
-              return false;
-      }
+  // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
+  function findPartialsWithPatternParameters(pattern) {
+    var matches;
+    if (typeof pattern === 'string') {
+      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g);
+    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
+      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g);
+    }
+    return matches;
+  }
 
-      return true;
+  //find and return any {{> template-name* }} within pattern
+  function findPartials(pattern) {
+    var matches;
+    if (typeof pattern === 'string') {
+      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g);
+    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
+      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g);
     }
 
     // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
@@ -274,21 +285,25 @@
 
         //do something with the regular old partials
         for (i = 0; i < foundPatternPartials.length; i++) {
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
+          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
 
           //identify which pattern this partial corresponds to
           var partialPattern = getpatternbykey(partialKey, patternlab);
 
-          //recurse through nested partials to fill out this extended template.
-          processPatternRecursive(partialPattern.abspath, patternlab);
+          if (partialPattern === null) {
+            throw 'Could not find pattern with key ' + partialKey;
 
-          //if partial has style modifier data, replace the styleModifier value
-          if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-            style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-          }
+          } else {
+            //recurse through nested partials to fill out this extended template.
+            processPatternRecursive(partialPattern.abspath, patternlab);
 
-          //complete assembly of extended template
-          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
+            //if partial has style modifier data, replace the styleModifier value
+            if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
+              style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
+            }
+
+            //complete assembly of extended template
+            currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
 
             //update the extendedTemplate in the partials object in case this pattern is consumed later
             patternlab.partials[currentPattern.key] = currentPattern.extendedTemplate;

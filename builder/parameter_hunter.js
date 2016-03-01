@@ -96,15 +96,14 @@ var parameter_hunter = function () {
         //except to prevent infinite loops.
         if (delimitPos === -1) {
           delimitPos = paramString.length - 1;
-        } else {
-          delimitPos += 1;
         }
+
         paramStringWellFormed += paramString.substring(0, delimitPos);
         paramString = paramString.substring(delimitPos, paramString.length).trim();
       }
 
       //break at the end.
-      if (paramString.length === 1) {
+      if (paramString.length <= 1) {
         paramStringWellFormed += paramString.trim();
         paramString = '';
         break;
@@ -135,60 +134,78 @@ var parameter_hunter = function () {
       //assemble the allData object to render non-partial Mustache tags.
       var allData = pattern_assembler.merge_data(globalData, localData);
 
-      //compile this partial immeadiately, essentially consuming it.
-      pattern.parameteredPartials.forEach(function (pMatch) {
-        //find the partial's name and retrieve it
-        var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+      //compile this partial immediately, essentially consuming it.
+      //the reasoning for rendering at this point is to eliminate the unwanted
+      //recursion paths that would remain if irrelevant Mustache conditionals persisted.
+      //in order to token-replace parameterized tags, prepare for rendering Mustache
+      //replace global and file-specific data. however, since partial inclusion
+      //is not done here, escape partial tags by switching them to ERB syntax.
+      var templateEscaped = renderedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
+      templateEscaped = pattern_assembler.renderPattern(templateEscaped, allData);
 
-        //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
-        partialPattern.extendedTemplate = partialPattern.template;
+      //after that's done, switch back to standard Mustache tags
+      renderedTemplate = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
 
-        if (patternlab.config.debug) {
-          console.log('found patternParameters for ' + partialName);
-        }
+      //re-evaluate parameteredPartials after rendering
+      pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(renderedTemplate);
 
-        //strip out the additional data, convert string to JSON.
-        var leftParen = pMatch.indexOf('(');
-        var rightParen = pMatch.indexOf(')');
-        var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        var paramStringWellFormed = paramToJson(paramString);
+      if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
 
-        try {
-          paramData = JSON.parse(paramStringWellFormed);
-        } catch (e) {
-          console.log(e);
-        }
+        //iterate through most recently evaluated parameteredPartials
+        pattern.parameteredPartials.forEach(function (pMatch) {
+          //find the partial's name and retrieve it
+          var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+          var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
-        //if partial has style modifier data, replace the styleModifier value
-        if (pattern.stylePartials && pattern.stylePartials.length > 0) {
-          style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
-        }
+          //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
+          partialPattern.extendedTemplate = partialPattern.template;
 
-        //assemble the allData object to render non-partial Mustache tags.
-        allData = pattern_assembler.merge_data(allData, paramData);
+          if (patternlab.config.debug) {
+            console.log('found patternParameters for ' + partialName);
+          }
 
-        //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-        allData.link = extend({}, patternlab.data.link);
+          //strip out the additional data, convert string to JSON.
+          var leftParen = pMatch.indexOf('(');
+          var rightParen = pMatch.indexOf(')');
+          var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+          var paramStringWellFormed = '{}';
+          paramStringWellFormed = paramToJson(paramString);
 
-        //the reasoning for rendering at this point is to eliminate the unwanted
-        //recursion paths that would remain if irrelevant Mustache conditionals persisted
+          try {
+            paramData = JSON.parse(paramStringWellFormed);
+          } catch (e) {
+            console.log(e);
+          }
 
-        //in order to token-replace parameterized tags, prepare for rendering Mustache
-        //replace global, file-specific, and param data. however, since partial inclusion
-        //is not done here, escape partial tags by switching them to ERB syntax.
-        var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
-        extendedTemplateEscaped = pattern_assembler.renderPattern(extendedTemplateEscaped, allData);
+          //if partial has style modifier data, replace the styleModifier value
+          if (pattern.stylePartials && pattern.stylePartials.length > 0) {
+            style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
+          }
 
-        //after that's done, switch back to standard Mustache tags
-        renderedPartial = extendedTemplateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+          //assemble the allData object to render non-partial Mustache tags.
+          allData = pattern_assembler.merge_data(allData, paramData);
 
-        //remove the parameter from the partial and replace it with the rendered partial + paramData
-        renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
+          //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
+          allData.link = extend({}, patternlab.data.link);
 
-					//update the extendedTemplate in the partials object in case this pattern is consumed later
-					patternlab.partials[pattern.key] = renderedTemplate;
-				});
+          //the reasoning for rendering at this point is to eliminate the unwanted
+          //recursion paths that would remain if irrelevant Mustache conditionals persisted.
+          //in order to token-replace parameterized tags, prepare for rendering Mustache
+          //replace global, file-specific, and param data. however, since partial inclusion
+          //is not done here, escape partial tags by switching them to ERB syntax.
+          var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
+          extendedTemplateEscaped = pattern_assembler.renderPattern(extendedTemplateEscaped, allData);
+
+          //after that's done, switch back to standard Mustache tags
+          renderedPartial = extendedTemplateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+
+          //remove the parameter from the partial and replace it with the rendered partial + paramData
+          renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
+
+          //update the extendedTemplate in the partials object in case this pattern is consumed later
+          patternlab.partials[pattern.key] = renderedTemplate;
+        });
+      }
 
       //after iterating through parameteredPartials, reassign the current pattern's
       //stylePartials, parameteredPartials, and extendedTemplate properties based on
@@ -198,7 +215,7 @@ var parameter_hunter = function () {
       pattern.extendedTemplate = renderedTemplate;
 
       //recurse if renderedTemplate still has parametered partials.
-      if (pattern.parameteredPartials) {
+      if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
         findparameters(pattern, patternlab);
       }
     }
