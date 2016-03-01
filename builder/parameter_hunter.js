@@ -40,8 +40,7 @@ var parameter_hunter = function () {
       //except to prevent infinite loops.
       if (colonPos === -1) {
         colonPos = paramString.length - 1;
-      }
-      else {
+      } else {
         colonPos += 1;
       }
       paramStringWellFormed += paramString.substring(0, colonPos);
@@ -54,8 +53,7 @@ var parameter_hunter = function () {
         //except for unclosed quotes to prevent infinite loops.
         if (quotePos === -1) {
           quotePos = paramString.length - 1;
-        }
-        else {
+        } else {
           quotePos += 2;
         }
 
@@ -75,34 +73,30 @@ var parameter_hunter = function () {
         //move param key to paramStringWellFormed var.
         paramStringWellFormed += paramStringTmp;
         paramString = paramString.substring(quotePos, paramString.length).trim();
-      }
 
       //if param value is wrapped in double quotes, just move to paramStringWellFormed var.
-      else if (paramString[0] === '"') {
+      } else if (paramString[0] === '"') {
         quotePos = paramString.search(/[^\\]"/);
 
         //except for unclosed quotes to prevent infinite loops.
         if (quotePos === -1) {
           quotePos = paramString.length - 1;
-        }
-        else {
+        } else {
           quotePos += 2;
         }
 
         //move param key to paramStringWellFormed var.
         paramStringWellFormed += paramString.substring(0, quotePos);
         paramString = paramString.substring(quotePos, paramString.length).trim();
-      }
 
       //if param value is not wrapped in quotes, move everthing up to the delimiting comma to paramStringWellFormed var.
-      else {
+      } else {
         delimitPos = paramString.indexOf(',');
 
         //except to prevent infinite loops.
         if (delimitPos === -1) {
           delimitPos = paramString.length - 1;
-        }
-        else {
+        } else {
           delimitPos += 1;
         }
         paramStringWellFormed += paramString.substring(0, delimitPos);
@@ -121,7 +115,7 @@ var parameter_hunter = function () {
     return paramStringWellFormed;
   }
 
-  function findparameters(pattern, patternlab, startFile) {
+  function findparameters(pattern, patternlab) {
     var renderedPartial;
     var renderedTemplate = pattern.extendedTemplate;
 
@@ -144,22 +138,17 @@ var parameter_hunter = function () {
         var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
         var paramStringWellFormed = paramToJson(paramString);
 
-        var paramData = {};
         var globalData = {};
         var localData = {};
-        var startPattern = {};
-        var startData = {};
+        var paramData = {};
 
         try {
-          paramData = JSON.parse(paramStringWellFormed);
           globalData = JSON.parse(JSON.stringify(patternlab.data));
           localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
-          startPattern = pattern_assembler.get_pattern_by_key(startFile, patternlab);
-          startData = JSON.parse(JSON.stringify(startPattern.jsonFileData || {}));
+          paramData = JSON.parse(paramStringWellFormed);
         } catch (e) {
           console.log(e);
         }
-console.log(paramData);
 
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {
@@ -167,8 +156,7 @@ console.log(paramData);
         }
 
         //assemble the allData object to render non-partial Mustache tags.
-        var allData = pattern_assembler.merge_data(globalData, startData);
-        allData = pattern_assembler.merge_data(allData, localData);
+        var allData = pattern_assembler.merge_data(globalData, localData);
         allData = pattern_assembler.merge_data(allData, paramData);
 
         //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
@@ -188,16 +176,6 @@ console.log(paramData);
 
         //remove the parameter from the partial and replace it with the rendered partial + paramData
         renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
-        /*
-if (startFile.indexOf('04-pages/00-homepage') > -1) {
-  console.log('pMatch');
-  console.log(pMatch);
-  console.log('renderedPartial');
-  console.log(renderedPartial);
-  console.log('renderedTemplate');
-  console.log(renderedTemplate);
-}
-*/
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later
         patternlab.partials[pattern.key] = renderedTemplate;
@@ -211,19 +189,14 @@ if (startFile.indexOf('04-pages/00-homepage') > -1) {
 
       //recurse if renderedTemplate still has parametered partials.
       if (pattern.parameteredPartials) {
-        findparameters(pattern, patternlab, startFile);
-/*
-console.log('doing');
-console.log(pattern);
-console.log(renderedPartial);
-*/
+        findparameters(pattern, patternlab);
       }
     }
   }
 
   return {
-    find_parameters: function(pattern, patternlab, startFile){
-      findparameters(pattern, patternlab, startFile);
+    find_parameters: function(pattern, patternlab){
+      findparameters(pattern, patternlab);
     }
   };
 

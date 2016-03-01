@@ -222,9 +222,8 @@ var pattern_assembler = function () {
    *
    * @param {string} file The abspath of pattern being processed.
    * @param {Object} patternlab The patternlab object.
-   * @param {string} startFile The abspath of the pattern at the top level of recursion.
    */
-  function processPatternRecursive(file, patternlab, startFile) {
+  function processPatternRecursive(file, patternlab) {
     var lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
@@ -270,7 +269,7 @@ var pattern_assembler = function () {
       //determine if the template contains any pattern parameters
       if(currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0){
         //reset currentPattern.extendedTemplate via parameter_hunter.find_parameters()
-        parameter_hunter.find_parameters(currentPattern, patternlab, startFile);
+        parameter_hunter.find_parameters(currentPattern, patternlab);
         //re-evaluate foundPatternPartials
         foundPatternPartials = findPartials(currentPattern.extendedTemplate);
       }
@@ -291,7 +290,7 @@ var pattern_assembler = function () {
           }
 
           //recurse through nested partials to fill out this extended template.
-          processPatternRecursive(partialPath, patternlab, startFile);
+          processPatternRecursive(partialPath, patternlab);
 
           //complete assembly of extended template
           var partialPattern = getpatternbykey(partialKey, patternlab);
@@ -412,8 +411,8 @@ var pattern_assembler = function () {
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, startFile) {
-      processPatternRecursive(file, patternlab, startFile);
+    process_pattern_recursive: function (file, patternlab) {
+      processPatternRecursive(file, patternlab);
     },
     get_pattern_by_key: function (key, patternlab) {
       return getpatternbykey(key, patternlab);
