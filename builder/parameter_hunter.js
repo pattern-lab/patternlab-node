@@ -181,10 +181,11 @@ var parameter_hunter = function () {
         patternlab.partials[pattern.key] = renderedTemplate;
       });
 
-      //after iterating through parameteredPartials, re-evaluate whether renderedTemplate
-      //has parametered partials within its just-rendered parametered partials.
+      //after iterating through parameteredPartials, reassign the current pattern's
+      //stylePartials, parameteredPartials, and extendedTemplate properties based on
+      //the most recent evaluation of renderedTemplate.
+      pattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(renderedTemplate);
       pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(renderedTemplate);
-      //fill out extendedTemplate with renderedTemplate.
       pattern.extendedTemplate = renderedTemplate;
 
       //recurse if renderedTemplate still has parametered partials.
