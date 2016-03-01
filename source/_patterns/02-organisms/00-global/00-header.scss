@@ -16,7 +16,14 @@
     background-color: transparentize($colorWhite, 0.05);
   }
 
-  &__logo {}
+  &__logo {
+    line-height:0;
+    text-align:center;
+
+    .logo {
+      display:inline-block;
+    }
+  }
 
   &__container {
     display:flex;
