@@ -18,7 +18,10 @@
       &:last-child {
         .activateTA {
           margin-left: $marginMini;
-        }
+            &__price {
+              color : $colorNevada;
+            }
+          }
       }
     }
   }
