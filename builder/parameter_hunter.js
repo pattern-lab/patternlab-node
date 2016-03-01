@@ -8,103 +8,174 @@
  *
  */
 
-(function () {
-	"use strict";
+"use strict";
 
-	var parameter_hunter = function(){
+var parameter_hunter = function () {
 
-		var extend = require('util')._extend,
-		pa = require('./pattern_assembler'),
-		mustache = require('mustache'),
-		smh = require('./style_modifier_hunter'),
-		style_modifier_hunter = new smh(),
-		pattern_assembler = new pa();
+  var extend = require('util')._extend,
+    pa = require('./pattern_assembler'),
+    smh = require('./style_modifier_hunter'),
+    style_modifier_hunter = new smh(),
+    pattern_assembler = new pa();
 
-		function findparameters(pattern, patternlab, startFile){
-            var renderedPartial;
-            var renderedTemplate = pattern.extendedTemplate;
+  function paramToJson(pString) {
+    var paramStringWellFormed = '';
+    var paramStringTmp;
+    var colonPos;
+    var delimitPos;
+    var quotePos;
+    var paramString = pString;
 
-			if(pattern.parameteredPartials && pattern.parameteredPartials.length > 0){
-				//compile this partial immeadiately, essentially consuming it.
-				pattern.parameteredPartials.forEach(function(pMatch, index, matches){
-					//find the partial's name and retrieve it
-					var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-					var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
-					//if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
-					partialPattern.extendedTemplate = partialPattern.template;
+    do {
 
-					if(patternlab.config.debug){
-						console.log('found patternParameters for ' + partialName);
-					}
+      //if param key is wrapped in single quotes, replace with double quotes.
+      paramString = paramString.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
 
-					//strip out the additional data and eval
-					var leftParen = pMatch.indexOf('(');
-					var rightParen = pMatch.indexOf(')');
-					var paramString =  '({' + pMatch.substring(leftParen + 1, rightParen) + '})';
+      //if params key is not wrapped in any quotes, wrap in double quotes.
+      paramString = paramString.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
 
-					//do no evil. there is no good way to do this that I can think of without using a split, which then makes commas and colons special characters and unusable within the pattern params
-					var paramData = eval(paramString);
+      //move param key to paramStringWellFormed var.
+      colonPos = paramString.indexOf(':');
 
-					var globalData = JSON.parse(JSON.stringify(patternlab.data));
-                    var localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
-                    var startPattern = pattern_assembler.get_pattern_by_key(startFile, patternlab);
-                    var startData = JSON.parse(JSON.stringify(startPattern.jsonFileData || {}));
+      //except to prevent infinite loops.
+      if (colonPos === -1) {
+        colonPos = paramString.length - 1;
+      } else {
+        colonPos += 1;
+      }
+      paramStringWellFormed += paramString.substring(0, colonPos);
+      paramString = paramString.substring(colonPos, paramString.length).trim();
 
-      //in order to token-replace parameterized tags, prepare for rendering Mustache
-      //replace global, file-specific, and param data. however, since partial inclusion
-      //is not done here, escape partial tags by switching them to ERB syntax.
-var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
-      //then set the new delimiter at the beginning of the extended template
-//      extendedTemplateEscaped = '{{=<% %>=}}' + extendedTemplateEscaped;
+      //if param value is wrapped in single quotes, replace with double quotes.
+      if (paramString[0] === '\'') {
+        quotePos = paramString.search(/[^\\]'/);
 
+        //except for unclosed quotes to prevent infinite loops.
+        if (quotePos === -1) {
+          quotePos = paramString.length - 1;
+        } else {
+          quotePos += 2;
+        }
 
-      //render the newly delimited partial
-//      var renderedPartial = pattern_assembler.renderPattern(extendedTemplateEscaped, paramData, patternlab.partials);
+        //prepare param value for move to paramStringWellFormed var.
+        paramStringTmp = paramString.substring(0, quotePos);
 
-					var allData = pattern_assembler.merge_data(globalData, startData);
-					allData = pattern_assembler.merge_data(allData, localData);
-					allData = pattern_assembler.merge_data(allData, paramData);
+        //unescape any escaped single quotes.
+        paramStringTmp = paramStringTmp.replace(/\\'/g, '\'');
 
-					//if partial has style modifier data, replace the styleModifier value
-					if(pattern.stylePartials && pattern.stylePartials.length > 0){
-						style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
-					}
+        //escape any double quotes.
+        paramStringTmp = paramStringTmp.replace(/"/g, '\\"');
 
-					//extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-					allData.link = extend({}, patternlab.data.link);
+        //replace the delimiting single quotes with double quotes.
+        paramStringTmp = paramStringTmp.replace(/^'/, '"');
+        paramStringTmp = paramStringTmp.replace(/'$/, '"');
 
-/*
-      //in pre-render, escape all tags which correspond to keys in the allData object
-      //in order to do so, escape the partials by switching them to ERB
-      var escapeLoopsAndConditionals = function(dataKey) {
-        var escapeString = new RegExp('{{([{#\\^\\/&]?\\s*' + dataKey + '\\s*}?)}}', 'g');
-        renderedPartial = renderedPartial.replace(escapeString, '<%$1%>');
-      };
-      pattern_assembler.traverse_data(allData, escapeLoopsAndConditionals);
+        //move param key to paramStringWellFormed var.
+        paramStringWellFormed += paramStringTmp;
+        paramString = paramString.substring(quotePos, paramString.length).trim();
 
-      //also escape partial includes and listItems loops
-      renderedPartial = renderedPartial.replace(/{{> ([^\}]+)}}/g, '<%> $1%>');
-      renderedPartial = renderedPartial.replace(/{{([#\/]\s*listItems.[a-z]+\s*)}}/g, '<%$1%>');
-*/
+      //if param value is wrapped in double quotes, just move to paramStringWellFormed var.
+      } else if (paramString[0] === '"') {
+        quotePos = paramString.search(/[^\\]"/);
 
-      //the reasoning for rendering at this point is to eliminate the unwanted
-      //recursion paths that would remain if irrelevant Mustache conditionals persisted
-console.log(typeof extendedTemplateEscaped);
-      extendedTemplateEscaped = pattern_assembler.renderPattern(extendedTemplateEscaped, allData);
+        //except for unclosed quotes to prevent infinite loops.
+        if (quotePos === -1) {
+          quotePos = paramString.length - 1;
+        } else {
+          quotePos += 2;
+        }
 
-      //after that's done, switch back to standard Mustache tags
-      renderedPartial = extendedTemplateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+        //move param key to paramStringWellFormed var.
+        paramStringWellFormed += paramString.substring(0, quotePos);
+        paramString = paramString.substring(quotePos, paramString.length).trim();
 
-					//remove the parameter from the partial and replace it with the rendered partial + paramData
-                    renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
-if (startFile.indexOf('04-pages/00-homepage') > -1) {
-  console.log('pMatch');
-  console.log(pMatch);
-  console.log('renderedPartial');
-  console.log(renderedPartial);
-  console.log('renderedTemplate');
-  console.log(renderedTemplate);
-}
+      //if param value is not wrapped in quotes, move everthing up to the delimiting comma to paramStringWellFormed var.
+      } else {
+        delimitPos = paramString.indexOf(',');
+
+        //except to prevent infinite loops.
+        if (delimitPos === -1) {
+          delimitPos = paramString.length - 1;
+        } else {
+          delimitPos += 1;
+        }
+        paramStringWellFormed += paramString.substring(0, delimitPos);
+        paramString = paramString.substring(delimitPos, paramString.length).trim();
+      }
+
+      //break at the end.
+      if (paramString.length === 1) {
+        paramStringWellFormed += paramString.trim();
+        paramString = '';
+        break;
+      }
+
+    } while (paramString);
+
+    return paramStringWellFormed;
+  }
+
+  function findparameters(pattern, patternlab) {
+    var renderedPartial;
+    var renderedTemplate = pattern.extendedTemplate;
+
+    if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
+      //compile this partial immeadiately, essentially consuming it.
+      pattern.parameteredPartials.forEach(function (pMatch) {
+        //find the partial's name and retrieve it
+        var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+        //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
+        partialPattern.extendedTemplate = partialPattern.template;
+
+        if (patternlab.config.debug) {
+          console.log('found patternParameters for ' + partialName);
+        }
+
+        //strip out the additional data, convert string to JSON.
+        var leftParen = pMatch.indexOf('(');
+        var rightParen = pMatch.indexOf(')');
+        var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+        var paramStringWellFormed = paramToJson(paramString);
+
+        var globalData = {};
+        var localData = {};
+        var paramData = {};
+
+        try {
+          globalData = JSON.parse(JSON.stringify(patternlab.data));
+          localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
+          paramData = JSON.parse(paramStringWellFormed);
+        } catch (e) {
+          console.log(e);
+        }
+
+        //if partial has style modifier data, replace the styleModifier value
+        if (pattern.stylePartials && pattern.stylePartials.length > 0) {
+          style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
+        }
+
+        //assemble the allData object to render non-partial Mustache tags.
+        var allData = pattern_assembler.merge_data(globalData, localData);
+        allData = pattern_assembler.merge_data(allData, paramData);
+
+        //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
+        allData.link = extend({}, patternlab.data.link);
+
+        //the reasoning for rendering at this point is to eliminate the unwanted
+        //recursion paths that would remain if irrelevant Mustache conditionals persisted
+
+        //in order to token-replace parameterized tags, prepare for rendering Mustache
+        //replace global, file-specific, and param data. however, since partial inclusion
+        //is not done here, escape partial tags by switching them to ERB syntax.
+        var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
+        extendedTemplateEscaped = pattern_assembler.renderPattern(extendedTemplateEscaped, allData);
+
+        //after that's done, switch back to standard Mustache tags
+        renderedPartial = extendedTemplateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+
+        //remove the parameter from the partial and replace it with the rendered partial + paramData
+        renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
 
 					//update the extendedTemplate in the partials object in case this pattern is consumed later
 					patternlab.partials[pattern.key] = renderedTemplate;
@@ -114,28 +185,18 @@ var parameteredPartialsNew = pattern_assembler.find_pattern_partials_with_parame
 pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(renderedTemplate);
 pattern.extendedTemplate = renderedTemplate;
 
-if(pattern.parameteredPartials){
-//pattern.extendedTemplate = findparameters(pattern, patternlab, startFile);
-findparameters(pattern, patternlab, startFile);
-console.log('doing');
-console.log(pattern);
-  console.log(renderedPartial);
-}
-if (startFile.indexOf('04-pages/00-homepage') > -1) {
-}
+      //recurse if renderedTemplate still has parametered partials.
+      if (pattern.parameteredPartials) {
+        findparameters(pattern, patternlab);
+      }
+    }
+  }
 
-//                return renderedTemplate;
-			}
-		}
-
-		return {
-			find_parameters: function(pattern, patternlab, startFile){
-//				return findparameters(pattern, patternlab, startFile);
-findparameters(pattern, patternlab, startFile);
-			}
-		};
-
-	};
+  return {
+    find_parameters: function(pattern, patternlab){
+      findparameters(pattern, patternlab);
+    }
+  };
 
 	module.exports = parameter_hunter;
 

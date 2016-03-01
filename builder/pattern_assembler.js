@@ -165,19 +165,28 @@
       addPattern(currentPattern, patternlab);
     }
 
-    /**
-     * Recurse through patternlab object as necessitated by partial inclusions.
-     * Build out the final output for writing to the public/patterns directory.
-     *
-     * @param {string} file The abspath of pattern being processed.
-     * @param {Object} patternlab The patternlab object.
-     * @param {string} startFile The abspath of the pattern at the top level of recursion.
-     */
-    function processPatternRecursive(file, patternlab, startFile){
+    //add the raw template to memory
+    currentPattern.template = fs.readFileSync(file, 'utf8');
 
-      var fs = require('fs-extra'),
-      mustache = require('mustache'),
-      lh = require('./lineage_hunter'),
+    //find any stylemodifiers that may be in the current pattern
+    currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+
+    //find any pattern parameters that may be in the current pattern
+    currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
+
+    //add currentPattern to patternlab.patterns array
+    addPattern(currentPattern, patternlab);
+  }
+
+  /**
+   * Recurse through patternlab object as necessitated by partial inclusions.
+   * Build out the final output for writing to the public/patterns directory.
+   *
+   * @param {string} file The abspath of pattern being processed.
+   * @param {Object} patternlab The patternlab object.
+   */
+  function processPatternRecursive(file, patternlab) {
+    var lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
       lih = require('./list_item_hunter'),
@@ -225,13 +234,13 @@
       //find how many partials there may be for the given pattern
       var foundPatternPartials = findPartials(currentPattern);
 
-//      var startPattern = getpatternbykey(startFile, patternlab);
-
-      if(foundPatternPartials !== null && foundPatternPartials.length > 0){
-
-        if(patternlab.config.debug){
-          console.log('found partials for ' + currentPattern.key);
-        }
+      //determine if the template contains any pattern parameters
+      if(currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0){
+        //reset currentPattern.extendedTemplate via parameter_hunter.find_parameters()
+        parameter_hunter.find_parameters(currentPattern, patternlab);
+        //re-evaluate foundPatternPartials
+        foundPatternPartials = findPartials(currentPattern.extendedTemplate);
+      }
 
         //find any listItem blocks
         list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -271,10 +280,8 @@ if(startFile.indexOf('04-pages/00-homepage') > -1){
               }
             }
 
-            //recurse through nested partials to fill out this extended template.
-            processPatternRecursive(partialPath, patternlab, startFile);
-if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
-}
+          //recurse through nested partials to fill out this extended template.
+          processPatternRecursive(partialPath, patternlab);
 
             //complete assembly of extended template
             var partialPattern = getpatternbykey(partialKey, patternlab);
@@ -429,17 +436,47 @@ if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
       }
       return JSON.parse(dataObjAsString)
     }
-    //look for pattern links included in data files.
-    //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
-    function parseDataLinks(patternlab) {
-      //look for link.* such as link.pages-blog as a value
+  }
 
-      patternlab.data = parseDataLinksHelper(patternlab, patternlab.data, 'data.json')
-
-      //loop through all patterns
-      for (var i = 0; i < patternlab.patterns.length; i++) {
-        patternlab.patterns[i].jsonFileData = parseDataLinksHelper(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].key)
-      }
+  return {
+    find_pattern_partials: function (pattern) {
+      return findPartials(pattern);
+    },
+    find_pattern_partials_with_style_modifiers: function (pattern) {
+      return findPartialsWithStyleModifiers(pattern);
+    },
+    find_pattern_partials_with_parameters: function (pattern) {
+      return findPartialsWithPatternParameters(pattern);
+    },
+    find_list_items: function (pattern) {
+      return findListItems(pattern);
+    },
+    setPatternState: function (pattern, patternlab) {
+      setState(pattern, patternlab);
+    },
+    addPattern: function (pattern, patternlab) {
+      addPattern(pattern, patternlab);
+    },
+    renderPattern: function (template, data, partials) {
+      return renderPattern(template, data, partials);
+    },
+    process_pattern_iterative: function (file, patternlab) {
+      processPatternIterative(file, patternlab);
+    },
+    process_pattern_recursive: function (file, patternlab) {
+      processPatternRecursive(file, patternlab);
+    },
+    get_pattern_by_key: function (key, patternlab) {
+      return getpatternbykey(key, patternlab);
+    },
+    merge_data: function (existingData, newData) {
+      return mergeData(existingData, newData);
+    },
+    combine_listItems: function (patternlab) {
+      buildListItems(patternlab);
+    },
+    parse_data_links: function (patternlab) {
+      parseDataLinks(patternlab);
     }
 
     return {
