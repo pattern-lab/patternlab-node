@@ -120,11 +120,13 @@ var parameter_hunter = function () {
     var renderedTemplate = pattern.extendedTemplate;
 
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
+
       //compile this partial immeadiately, essentially consuming it.
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
         var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
         var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
 
@@ -196,7 +198,7 @@ var parameter_hunter = function () {
   }
 
   return {
-    find_parameters: function(pattern, patternlab){
+    find_parameters: function (pattern, patternlab) {
       findparameters(pattern, patternlab);
     }
   };
