@@ -106,6 +106,9 @@
       }
     }
 
+    return null;
+  }
+
     function processPatternIterative(file, patternlab){
       var fs = require('fs-extra'),
       of = require('./object_factory'),
@@ -208,16 +211,15 @@
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
 
-      //find current pattern in patternlab object using var file as a key
-      var currentPattern,
-      i;
+    var i; // for the for loops
 
-      for(i = 0; i < patternlab.patterns.length; i++){
-        if(patternlab.patterns[i].abspath === file){
-          currentPattern = patternlab.patterns[i];
-          break;
-        }
-      }
+    //find current pattern in patternlab object using var file as a key
+    var currentPattern = getpatternbykey(file, patternlab);
+
+    //return if processing an ignored file
+    if (currentPattern === null) {
+      return;
+    }
 
       //return if processing an ignored file
       if(typeof currentPattern === 'undefined'){
@@ -255,26 +257,20 @@
         //do something with the regular old partials
         for (i = 0; i < foundPatternPartials.length; i++) {
           var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
-          var partialPath;
 
           //identify which pattern this partial corresponds to
-          for (var j = 0; j < patternlab.patterns.length; j++) {
-            if (patternlab.patterns[j].key === partialKey || patternlab.patterns[j].abspath.indexOf(partialKey) > -1) {
-              partialPath = patternlab.patterns[j].abspath;
-            }
+          var partialPattern = getpatternbykey(partialKey, patternlab);
 
           //recurse through nested partials to fill out this extended template.
-          processPatternRecursive(partialPath, patternlab);
-
-            //complete assembly of extended template
-            var partialPattern = getpatternbykey(partialKey, patternlab);
+          processPatternRecursive(partialPattern.abspath, patternlab);
 
           //if partial has style modifier data, replace the styleModifier value
           if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
             style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
           }
 
-            currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
+          //complete assembly of extended template
+          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
 
             //update the extendedTemplate in the partials object in case this pattern is consumed later
             patternlab.partials[currentPattern.key] = currentPattern.extendedTemplate;
