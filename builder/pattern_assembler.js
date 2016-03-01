@@ -88,10 +88,25 @@
           break;
         }
       }
-      //if the pattern is new, just push to the array
-      if(isNew){
-        patternlab.patterns.push(pattern);
-        patternlab.partials[pattern.key] = pattern.extendedTemplate || pattern.template;
+    }
+  }
+
+  function getpatternbykey(key, patternlab) {
+    var i; // for the for loops
+
+    for (i = 0; i < patternlab.patterns.length; i++) {
+      switch (key) {
+
+        //look for exact key matches
+        case patternlab.patterns[i].key:
+
+        //look for abspath matches
+        case patternlab.patterns[i].abspath:
+
+        //else look by verbose syntax
+        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
+        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
+          return patternlab.patterns[i];
       }
     }
 
@@ -247,13 +262,16 @@
 
       //determine if the template contains any pattern parameters
       if (currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0) {
+
         //reset currentPattern.extendedTemplate via parameter_hunter.find_parameters()
         parameter_hunter.find_parameters(currentPattern, patternlab);
+
         //re-evaluate foundPatternPartials
         foundPatternPartials = findPartials(currentPattern.extendedTemplate);
       }
 
       if (foundPatternPartials && foundPatternPartials.length > 0) {
+
         //do something with the regular old partials
         for (i = 0; i < foundPatternPartials.length; i++) {
           var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
