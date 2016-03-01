@@ -24,7 +24,10 @@ function upload() {
     .on('end', function() {
       var
         awspublish = require('gulp-awspublish'),
-        publisher = awspublish.create(awsSettings);
+        publisher = awspublish.create(awsSettings),
+        s3Headers = {
+          'Cache-Control' : 'max-age=1209600, public'
+        };
 
       util.log(util.colors.green("Deploying to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'."));
 
@@ -33,7 +36,7 @@ function upload() {
           path.dirname = deployData.version + '/' + path.dirname;
         }))
         .pipe(awspublish.gzip({}))
-        .pipe(publisher.publish())
+        .pipe(publisher.publish(s3Headers))
         .pipe(publisher.sync(deployData.version))
         .pipe(publisher.cache())
         .pipe(awspublish.reporter())
