@@ -39,7 +39,7 @@
   &__claim {
     display:none;
     flex:none;
-    @include font-primary-light-lowercase(0.75em);
+    @include font-secondary-medium(0.875em);
     letter-spacing:0;
 
     @media only screen and (min-width: $breakpointDesktop) {

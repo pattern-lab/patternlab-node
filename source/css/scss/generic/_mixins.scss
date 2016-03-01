@@ -36,9 +36,8 @@
   font-size: $fontSize;
 }
 
-@mixin font-secondary-light-lowercase($fontSize: 1em) {
+@mixin font-secondary-medium($fontSize: 1em) {
   font-family: $fontSecondary;
-  font-weight: 300;
   letter-spacing: 0.1em;
   font-size: $fontSize;
 }
