@@ -1,35 +1,36 @@
 .footer {
+  position : relative;
   @media only screen and (min-width : $breakpointDesktop) {
     padding-left : $paddingMini;
     padding-right : $paddingMini;
     margin-top : $marginStandard;
+
+    &::before {
+      content: "";
+      width : 100%;
+      background-color : $colorBlack;
+      height : 3px;
+      position : absolute;
+      top : 1.5em;
+      transform: translateX(-50%);
+      left: 50%;
+
+      @media only screen and (min-width: $maxWidthLayout) {
+        width: calc(100% + #{$paddingMini * 2});
+      }
+    }
   }
 
   &__wrapper {
     max-width : 1500px;
     margin : 0 auto;
-    position : relative;
+
 
     @media only screen and (min-width : $breakpointDesktop) {
       display : flex;
       flex-direction : row;
       padding-left : $paddingMini;
       padding-right : $paddingMini;
-
-      &::before {
-        content: "";
-        width : 100%;
-        background-color : $colorBlack;
-        height : 3px;
-        position : absolute;
-        top : 1.5em;
-        transform: translateX(-50%);
-        left: 50%;
-
-        @media only screen and (min-width: $maxWidthLayout) {
-          width: calc(100% + #{$paddingMini * 2});
-        }
-      }
     }
 
     @media only screen and (min-width: $maxWidthLayout) {
