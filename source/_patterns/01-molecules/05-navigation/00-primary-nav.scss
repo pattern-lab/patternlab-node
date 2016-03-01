@@ -112,12 +112,10 @@
         text-align: left;
         background: rgba($colorWhite, 0.95);
         min-width: 7.5em;
-        left:50%;
+        left:0;
         margin-top: 21.5px;
-        transform:translate(-50%, $marginMini);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        transform-origin:left top;
         backface-visibility:hidden;
         opacity:0;
         pointer-events:none;
@@ -140,7 +138,6 @@
 
       &__item:hover &--secondLevel {
         opacity:1;
-        transform:translate(-50%, 0);
         pointer-events:all;
       }
 
