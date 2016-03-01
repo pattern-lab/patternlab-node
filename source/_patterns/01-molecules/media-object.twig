@@ -15,7 +15,17 @@
 </style>
 
 
+{% set foo = "world!" %}
+
+
 <div class="Media">
   {% include "atoms-image" %}
-  <p class="Media-body">Media Object body text</p>
+
+  <div class="Media-body">
+
+    {# Testing if we can also pull in non-twig templates without breaking anything (it works!). Good idea though? Eh... #}
+    {% include "atoms-paragraph" %}
+
+    <p>Oh, hello {{ foo }}</p>
+  </div>
 </div>

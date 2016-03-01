@@ -9,7 +9,10 @@
     "fs-extra": "^0.26.5",
     "glob": "^7.0.0",
     "html-entities": "^1.2.0",
-    "mustache": "^2.2.1"
+    "mustache": "^2.2.1",
+    "handlebars": "^4.0.5",
+    "twig": "^0.8.8",
+    "underscore": "^1.8.3",
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",

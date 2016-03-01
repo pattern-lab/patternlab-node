@@ -34,7 +34,7 @@
 
     // regexes, stored here so they're only compiled once
     findPartialsRE: /{%([ ]+)?(?:extends|include|embed)(\s\S)(.*)%}/g,
-    findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
+    findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
 
     // render it
     renderPattern: function renderPattern(template, data) {
@@ -70,7 +70,8 @@
     // return it.
     findPartialKey: function(partialString) {
 
-      // var partialKey = partialString.replace(this.findPartialsRE, '$1');
+
+      //var partialKey = partialString.replace(this.findPartialsRE, '$1');
       var partialKey = partialString.match(/"((?:\\.|[^"\\])*)"/)[0];
       partialKey = partialKey.replace(/"/g, '');
 
