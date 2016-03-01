@@ -47,12 +47,15 @@
       return Mustache.render(template, data);
     },
 
-    // find partials based on regex.
-    // @param {string|object} pattern - either a string or a pattern object.
-    // @param {object} regex - a JavaScript RegExp object.
-    // @returns {array}
+    /**
+     * Find partials based on regex.
+     *
+     * @param {string|object} pattern Either a string or a pattern object.
+     * @param {object} regex A JavaScript RegExp object.
+     * @returns {array|null} An array if a match is found, null if not.
+     */
     partialsFinder: function partialsFinder(pattern, regex){
-      var matches = [];
+      var matches;
 
       if(typeof pattern === 'string'){
         matches = pattern.match(regex);
