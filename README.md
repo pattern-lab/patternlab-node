@@ -6,6 +6,11 @@ The Node version of [Pattern Lab](http://patternlab.io/) is, at its core, a stat
 
 This repository contains the vanilla builder logic, grunt and gulp configurations, and some sample template/css/data to illustrate the power and flexibility of the tool.
 
+###### Core Team
+
+* [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) - Lead Maintainer
+* [@geoffp](https://github.com/geoffp) - Core Contributor
+
 ### Prerequisites
 
 Make sure Node and npm are installed. A great guide can be found here: [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
