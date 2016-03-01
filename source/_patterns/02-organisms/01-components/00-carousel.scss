@@ -42,7 +42,6 @@
     padding:3.225vw;
     background:transparentize($colorWhite, 0.5);
     text-align:center;
-    box-shadow:$shadowMedium;
 
     &--primary {
       @include font-secondary-medium-uppercase(4.35vw);
