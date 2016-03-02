@@ -113,7 +113,7 @@ var patternlab_engine = function (config) {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, path.resolve(file));
       });
 
 
