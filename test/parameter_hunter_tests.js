@@ -278,7 +278,11 @@
       pattern_assembler.process_pattern_iterative(path.resolve('test/files/_patterns/00-test/13-another-parameter-partial.mustache'), pl);
 
       //act
-      pattern_assembler.process_pattern_recursive(path.resolve('test/files/_patterns/00-test/13-another-parameter-partial.mustache'), pl);
+
+      pattern_assembler.process_pattern_recursive(path.resolve('test/files/_patterns/00-test/01-bar.mustache'), pl, path.resolve('test/files/_patterns/00-test/01-bar.mustache'));
+      pattern_assembler.process_pattern_recursive(path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache'), pl, path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache'));
+      pattern_assembler.process_pattern_recursive(path.resolve('test/files/_patterns/00-test/12-parameter-partial.mustache'), pl, path.resolve('test/files/_patterns/00-test/12-parameter-partial.mustache'));
+      pattern_assembler.process_pattern_recursive(path.resolve('test/files/_patterns/00-test/13-another-parameter-partial.mustache'), pl, path.resolve('test/files/_patterns/00-test/13-another-parameter-partial.mustache'));
       var outerParameteredPattern = pattern_assembler.get_pattern_by_key(path.resolve('test/files/_patterns/00-test/13-another-parameter-partial.mustache'), pl);
 
       //assert.

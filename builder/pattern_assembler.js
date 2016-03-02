@@ -206,15 +206,6 @@
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
-    //do the same with extendedTemplate to avoid undefined type errors
-    currentPattern.extendedTemplate = currentPattern.template;
-
-    //find any stylemodifiers that may be in the current pattern
-    currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
-
-    //find any pattern parameters that may be in the current pattern
-    currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
-
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
   }
@@ -254,10 +245,13 @@
     //need to start with a fresh extendedTemplate for each recursion step
     currentPattern.extendedTemplate = currentPattern.template;
 
-    //if at top level of recursion, make sure to reset stylePartials and parameteredPartials
-    //in case we are processing a pseudopattern variant
+    //if at top level of recursion, make sure to set stylePartials and parameteredPartials
     if (file === startFile) {
+
+      //find any stylemodifiers that may be in the current pattern
       currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+
+      //find any pattern parameters that may be in the current pattern
       currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
     }
 
