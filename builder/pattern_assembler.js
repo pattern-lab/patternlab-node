@@ -206,6 +206,9 @@
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
+    //do the same with extendedTemplate to avoid undefined type errors
+    currentPattern.extendedTemplate = currentPattern.template;
+
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
 
@@ -222,8 +225,9 @@
    *
    * @param {string} file The abspath of pattern being processed.
    * @param {Object} patternlab The patternlab object.
+   * @param {string} startFile The abspath of the pattern at the top level of recursion.
    */
-  function processPatternRecursive(file, patternlab) {
+  function processPatternRecursive(file, patternlab, startFile) {
     var lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
@@ -247,15 +251,18 @@
       return;
     }
 
-      //return if processing an ignored file
-      if(typeof currentPattern === 'undefined'){
-        return;
-      }
+    //need to start with a fresh extendedTemplate for each recursion step
+    currentPattern.extendedTemplate = currentPattern.template;
 
-      //determine if the template contains any pattern parameters. if so they must be immediately consumed
-      //this initial run of find_parameters() resets currentPattern.template with
-//      parameter_hunter.find_parameters(currentPattern, patternlab);
-      var extendedTemplate;
+    //if at top level of recursion, make sure to reset stylePartials and parameteredPartials
+    //in case we are processing a pseudopattern variant
+    if (file === startFile) {
+      currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
+    }
+
+    //find how many partials there may be for the given pattern
+    var foundPatternPartials = findPartials(currentPattern);
 
       if(currentPattern.parameteredTemplate){
         extendedTemplate = currentPattern.parameteredTemplate;
@@ -295,7 +302,7 @@
 
           } else {
             //recurse through nested partials to fill out this extended template.
-            processPatternRecursive(partialPattern.abspath, patternlab);
+            processPatternRecursive(partialPattern.abspath, patternlab, startFile);
 
             //if partial has style modifier data, replace the styleModifier value
             if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
@@ -475,8 +482,8 @@ if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab) {
-      processPatternRecursive(file, patternlab);
+    process_pattern_recursive: function (file, patternlab, startFile) {
+      processPatternRecursive(file, patternlab, startFile);
     },
     get_pattern_by_key: function (key, patternlab) {
       return getpatternbykey(key, patternlab);

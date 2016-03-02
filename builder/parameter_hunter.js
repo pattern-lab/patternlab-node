@@ -183,6 +183,8 @@ var parameter_hunter = function () {
           }
 
           //assemble the allData object to render non-partial Mustache tags.
+          //need a fresh start on the allData object to work with the paramData specific to this iteration.
+          allData = pattern_assembler.merge_data(globalData, localData);
           allData = pattern_assembler.merge_data(allData, paramData);
 
           //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
