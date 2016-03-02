@@ -245,9 +245,6 @@
       return;
     }
 
-    //need to start with a fresh extendedTemplate for each recursion step
-    currentPattern.extendedTemplate = currentPattern.template;
-
     //if at top level of recursion, make sure to set stylePartials and parameteredPartials
     if (file === startFile) {
 
@@ -256,6 +253,10 @@
 
       //find any pattern parameters that may be in the current pattern
       currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
+
+    //need to start with a fresh extendedTemplate for each subsequent recursion step
+    } else {
+      currentPattern.extendedTemplate = currentPattern.template;
     }
 
     //find how many partials there may be for the given pattern
