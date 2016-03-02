@@ -1,7 +1,7 @@
 (function () {
 	"use strict";
 
-	var lh = require('../builder/lineage_hunter');
+	var lh = require('../core/lib/lineage_hunter');
 
 	exports['lineage hunter '] = {
 		'find_lineage - finds lineage' : function(test){

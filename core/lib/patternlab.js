@@ -22,7 +22,7 @@ var patternlab_engine = function (config) {
     patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
-  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../config.json'));
+  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../config.json'));
 
   var paths = patternlab.config.paths;
 

@@ -34,8 +34,8 @@ This repository ships with two `package.json` files, a `Gruntfile.js`, and a `gu
 To run patternlab-node using grunt, do the following in the directory you downloaded and extracted the zipped release:
 
 1. Run `npm install` from the command line
-2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `builder/patternlab_gulp.js` files if you are certain you don't need it.
-* Not deleting `builder/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
+2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `core/lib/patternlab_gulp.js` files if you are certain you don't need it.
+* Not deleting `core/lib/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
 3. Run `grunt` or `grunt serve` from the command line
 
 This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to have BrowserSync spin up and serve the files to you.

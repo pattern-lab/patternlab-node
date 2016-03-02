@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var ph = require('../builder/parameter_hunter');
+  var ph = require('../core/lib/parameter_hunter');
 
   //setup current pattern from what we would have during execution
   function currentPatternClosure() {
