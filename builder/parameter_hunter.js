@@ -140,7 +140,7 @@ var parameter_hunter = function () {
       //in order to token-replace parameterized tags, prepare for rendering Mustache
       //replace global and file-specific data. however, since partial inclusion
       //is not done here, escape partial tags by switching them to ERB syntax.
-      var templateEscaped = renderedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
+      var templateEscaped = renderedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
       templateEscaped = pattern_assembler.renderPattern(templateEscaped, allData);
 
       //after that's done, switch back to standard Mustache tags
@@ -193,7 +193,7 @@ var parameter_hunter = function () {
           //in order to token-replace parameterized tags, prepare for rendering Mustache
           //replace global, file-specific, and param data. however, since partial inclusion
           //is not done here, escape partial tags by switching them to ERB syntax.
-          var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/{{>([^}]+)}}/g, '<%>$1%>');
+          var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
           extendedTemplateEscaped = pattern_assembler.renderPattern(extendedTemplateEscaped, allData);
 
           //after that's done, switch back to standard Mustache tags
