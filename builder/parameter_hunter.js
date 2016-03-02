@@ -137,7 +137,7 @@ var parameter_hunter = function () {
       //compile this partial immediately, essentially consuming it.
       //the reasoning for rendering at this point is to eliminate the unwanted
       //recursion paths that would remain if irrelevant Mustache conditionals persisted.
-      //in order to token-replace parameterized tags, prepare for rendering Mustache
+      //in order to token-replace parameterized tags, prepare for rendering Mustache.
       //replace global and file-specific data. however, since partial inclusion
       //is not done here, escape partial tags by switching them to ERB syntax.
       var templateEscaped = renderedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
@@ -190,7 +190,7 @@ var parameter_hunter = function () {
 
           //the reasoning for rendering at this point is to eliminate the unwanted
           //recursion paths that would remain if irrelevant Mustache conditionals persisted.
-          //in order to token-replace parameterized tags, prepare for rendering Mustache
+          //in order to token-replace parameterized tags, prepare for rendering Mustache.
           //replace global, file-specific, and param data. however, since partial inclusion
           //is not done here, escape partial tags by switching them to ERB syntax.
           var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
