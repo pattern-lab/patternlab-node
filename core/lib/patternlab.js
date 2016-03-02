@@ -57,8 +57,8 @@ var patternlab_engine = function (config) {
   function buildPatterns(deletePatternDir) {
     patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
-    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'source/_meta/header.html'), 'utf8');
+    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'source/_meta/footer.html'), 'utf8');
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
@@ -212,7 +212,7 @@ var patternlab_engine = function (config) {
     }
 
     //build the styleguide
-    var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'styleguide.mustache'), 'utf8'),
+    var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8'),
       styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
 
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
@@ -255,7 +255,7 @@ var patternlab_engine = function (config) {
           }
         }
 
-        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
         fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', viewAllHtml);
       }
@@ -282,14 +282,14 @@ var patternlab_engine = function (config) {
           }
         }
 
-        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
         fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', viewAllHtml);
       }
     }
 
     //build the patternlab website
-    var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'index.mustache'), 'utf8');
+    var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/index.mustache'), 'utf8');
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
@@ -462,20 +462,20 @@ var patternlab_engine = function (config) {
 
     //the patternlab site requires a lot of partials to be rendered.
     //patternNav
-    var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternNav.mustache'), 'utf8');
+    var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternNav.mustache'), 'utf8');
     var patternNavPartialHtml = pattern_assembler.renderPattern(patternNavTemplate, patternlab);
 
     //ishControls
-    var ishControlsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/ishControls.mustache'), 'utf8');
+    var ishControlsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/ishControls.mustache'), 'utf8');
     patternlab.config.mqs = patternlab.mediaQueries;
     var ishControlsPartialHtml = pattern_assembler.renderPattern(ishControlsTemplate, patternlab.config);
 
     //patternPaths
-    var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternPaths.mustache'), 'utf8');
+    var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternPaths.mustache'), 'utf8');
     var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
 
     //viewAllPaths
-    var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/viewAllPaths.mustache'), 'utf8');
+    var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/viewAllPaths.mustache'), 'utf8');
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials

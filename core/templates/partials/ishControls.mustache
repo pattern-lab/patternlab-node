@@ -1,0 +1,64 @@
+<!--sg-controls-->
+<div class="sg-controls" id="sg-controls">
+		<div class="sg-control-content">
+			<ul class="sg-control">
+				<li class="sg-size">
+					<div class="sg-current-size">
+						<form id="sg-form">
+							Size <input type="text" class="sg-input sg-size-px" value="---">px /
+							<input type="text" class="sg-input sg-size-em" value="---">em
+						</form><!--end #sg-form-->
+					</div><!--end #sg-current-size-->
+					<ul class="sg-acc-panel sg-size-options">
+						{{# ishControlsVisible.s }}<li><a href="#" id="sg-size-s">S</a></li>{{/ ishControlsVisible.s }}
+						{{# ishControlsVisible.m }}<li><a href="#" id="sg-size-m">M</a></li>{{/ ishControlsVisible.m }}
+						{{# ishControlsVisible.l }}<li><a href="#" id="sg-size-l">L</a></li>{{/ ishControlsVisible.l }}
+						{{# ishControlsVisible.full }}<li><a href="#" id="sg-size-full">Full</a></li>{{/ ishControlsVisible.full }}
+						{{# ishControlsVisible.random }}<li><a href="#" id="sg-size-random">Random</a></li>{{/ ishControlsVisible.random }}
+						{{# ishControlsVisible.disco }}<li><a href="#" class="mode-link" id="sg-size-disco">Disco</a></li>{{/ ishControlsVisible.disco }}
+						{{# ishControlsVisible.hay }}<li><a href="#" class="mode-link" id="sg-size-hay">Hay!</a></li>{{/ ishControlsVisible.hay }}
+					</ul>
+				</li>
+				{{# ishControlsVisible.mqs }}
+				<li class="sg-mqs">
+					<a href="#" class="mode-link sg-acc-handle" id="sg-size-mq" title="Media queries in stylesheet">MQ</a>
+					<ul class="sg-acc-panel sg-left" id="sg-mq">
+						{{# mqs }}
+							<li><a href="#">{{ . }}</a></li>
+						{{/ mqs }}
+					</ul>
+				</li>
+				{{/ ishControlsVisible.mqs }}
+				{{# ishControlsVisible.find }}
+				<li class="sg-find">
+					<a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-search" id="sg-f-toggle" title="Search Patterns"><span class="is-vishidden">Search Patterns</span></a>
+					<ul class="sg-view sg-acc-panel sg-right sg-checklist" id="sg-find" style="margin-top: 33px;">
+							<li><input class="typeahead" id="typeahead" type="text" placeholder="search for a pattern..."></li>
+					</ul>
+				</li>
+				{{/ ishControlsVisible.find }}
+				{{# ishControlsVisible.views-all }}
+				<li class="sg-view">
+					<a href="#" class="sg-acc-handle sg-control-trigger sg-icon sg-icon-eye" id="sg-t-toggle" title="View"><span class="is-vishidden">View</span></a>
+					<ul class="sg-view sg-acc-panel sg-right sg-checklist" id="sg-view">
+						{{# ishControlsVisible.views-annotations }}<li><a href="#" class="sg-checkbox" id="sg-t-annotations">Annotations</a></li>{{/ ishControlsVisible.views-annotations }}
+						{{# ishControlsVisible.views-code }}<li><a href="#" class="sg-checkbox" id="sg-t-code">Code</a></li>{{/ ishControlsVisible.views-code }}
+						{{# ishControlsVisible.views-new }}<li><a href="#" target="_blank" id="sg-raw" class="sg-icon-link">Open in new window</a></li>{{/ ishControlsVisible.views-new }}
+					</ul>
+				</li>
+				{{/ ishControlsVisible.views-all }}
+				{{# ishControlsVisible.tools-all }}
+				<li class="sg-tools">
+					<a href="#" class="sg-acc-handle sg-tools-toggle sg-icon sg-icon-cog" id="sg-tools-toggle" title="Tools"><span class="is-vishidden">Tools</span></a>
+					<ul class="sg-acc-panel sg-right sg-checklist">
+						{{# ishControlsVisible.tools-sync }}<li><a href="http://localhost:3001" target="_blank" id="syncButton" class="sg-checkbox sg-auto-reload" data-state="off">BrowserSync UI</a></li>{{/ ishControlsVisible.tools-sync }}
+						{{# ishControlsVisible.tools-shortcuts }}<li><a href="http://pattern-lab.info/docs/advanced-keyboard-shortcuts.html" class="sg-icon-keyboard" target="_blank">Keyboard Shortcuts</a>{{/ ishControlsVisible.tools-shortcuts }}
+						{{# ishControlsVisible.tools-docs }}<li><a href="http://pattern-lab.info/docs/" class="sg-icon-file" target="_blank">Pattern Lab Docs</a>{{/ ishControlsVisible.tools-docs }}
+					</ul>
+				</li>
+				{{/ ishControlsVisible.tools-all }}
+			</ul>
+
+		</div>
+</div>
+<!--End #sg-controls-->
