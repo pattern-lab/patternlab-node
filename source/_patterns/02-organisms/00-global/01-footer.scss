@@ -87,6 +87,7 @@
     flex: none;
     width : 3em;
     margin-right: $marginMini;
+    margin-top: 0.75em;
 
     @media only screen and (min-width : $breakpointDesktop) {
       margin-top : 2.375em;
@@ -96,6 +97,11 @@
   .fieldset--inline {
     @media only screen and (max-width : $breakpointMobile) {
       flex-flow : column wrap;
+
+      .button {
+        margin-left: 0;
+        margin-right: 0;
+      }
     }
 
     @media only screen and (min-width : $breakpointDesktop) {
