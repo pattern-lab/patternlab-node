@@ -48,13 +48,13 @@
     },
 
     /**
-     * Find partials based on regex.
+     * Find regex matches within both pattern strings and pattern objects.
      *
      * @param {string|object} pattern Either a string or a pattern object.
      * @param {object} regex A JavaScript RegExp object.
      * @returns {array|null} An array if a match is found, null if not.
      */
-    partialsFinder: function partialsFinder(pattern, regex){
+    patternMatcher: function patternMatcher(pattern, regex){
       var matches;
 
       if(typeof pattern === 'string'){
@@ -67,21 +67,21 @@
     },
     // find and return any {{> template-name }} within pattern
     findPartials: function findPartials(pattern) {
-      var matches = this.partialsFinder(pattern, this.findPartialsRE);
+      var matches = this.patternMatcher(pattern, this.findPartialsRE);
       return matches;
     },
     findPartialsWithStyleModifiers: function(pattern) {
-      var matches = this.partialsFinder(pattern, this.findPartialsWithStyleModifiersRE);
+      var matches = this.patternMatcher(pattern, this.findPartialsWithStyleModifiersRE);
       return matches;
     },
     // returns any patterns that match {{> value(foo:"bar") }} or {{>
     // value:mod(foo:"bar") }} within the pattern
     findPartialsWithPatternParameters: function(pattern) {
-      var matches = this.partialsFinder(pattern, this.findPartialsWithPatternParametersRE);
+      var matches = this.patternMatcher(pattern, this.findPartialsWithPatternParametersRE);
       return matches;
     },
     findListItems: function(pattern) {
-      var matches = this.partialsFinder(pattern, this.findListItemsRE);
+      var matches = this.patternMatcher(pattern, this.findListItemsRE);
       return matches;
     },
     // given a pattern, and a partial string, tease out the "pattern key" and
