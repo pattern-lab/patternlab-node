@@ -73,16 +73,6 @@ var patternlab_engine = function (config) {
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
-      {
-        filter: function (filePath, dir) {
-          if (dir) {
-            var remainingPath = filePath.replace(patterns_dir, '');
-            var isValidPath = remainingPath.indexOf('/_') === -1;
-            return isValidPath;
-          }
-          return true;
-        }
-      },
       function (err, file) {
         //log any errors
         if (err) {
@@ -97,16 +87,6 @@ var patternlab_engine = function (config) {
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(
       patterns_dir,
-      {
-        filter: function (filePath, dir) {
-          if (dir) {
-            var remainingPath = filePath.replace(patterns_dir, '');
-            var isValidPath = remainingPath.indexOf('/_') === -1;
-            return isValidPath;
-          }
-          return true;
-        }
-      },
       function (err, file) {
         //log any errors
         if (err) {

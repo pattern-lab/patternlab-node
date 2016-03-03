@@ -19,20 +19,15 @@ var parameter_hunter = function () {
     pattern_assembler = new pa();
 
   function paramToJson(pString) {
-    var paramStringWellFormed = '';
-    var paramStringTmp;
     var colonPos;
     var delimitPos;
-    var quotePos;
+    var paramKey;
     var paramString = pString;
+    var paramStringWellFormed = '';
+    var paramStringTmp;
+    var quotePos;
 
     do {
-
-      //if param key is wrapped in single quotes, replace with double quotes.
-      paramString = paramString.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
-
-      //if params key is not wrapped in any quotes, wrap in double quotes.
-      paramString = paramString.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
 
       //move param key to paramStringWellFormed var.
       colonPos = paramString.indexOf(':');
@@ -43,7 +38,19 @@ var parameter_hunter = function () {
       } else {
         colonPos += 1;
       }
-      paramStringWellFormed += paramString.substring(0, colonPos);
+
+      paramKey = paramString.substring(0, colonPos);
+
+      //if param key is wrapped in single quotes, replace with double quotes.
+      paramKey = paramKey.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
+
+      //if params key is not wrapped in any quotes, wrap in double quotes.
+      paramKey = paramKey.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
+
+      //this is just here to match the escaping scheme in Pattern Lab PHP.
+      paramKey = paramKey.replace(/\\/g, '');
+
+      paramStringWellFormed += paramKey;
       paramString = paramString.substring(colonPos, paramString.length).trim();
 
       //if param value is wrapped in single quotes, replace with double quotes.
@@ -115,36 +122,13 @@ var parameter_hunter = function () {
   }
 
   function findparameters(pattern, patternlab) {
-    var renderedPartial;
-    var renderedTemplate = pattern.extendedTemplate;
 
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
 
-      var globalData = {};
-      var localData = {};
-      var paramData = {};
-
-      try {
-        globalData = JSON.parse(JSON.stringify(patternlab.data));
-        localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
-      } catch (e) {
-        console.log(e);
-      }
-
-      //assemble the allData object to render non-partial Mustache tags.
-      var allData = pattern_assembler.merge_data(globalData, localData);
-
-      //compile this partial immediately, essentially consuming it.
-      //the reasoning for rendering at this point is to eliminate the unwanted
-      //recursion paths that would remain if irrelevant Mustache conditionals persisted.
-      //in order to token-replace parameterized tags, prepare for rendering Mustache.
-      //replace global and file-specific data. however, since partial inclusion
-      //is not done here, escape partial tags by switching them to ERB syntax.
-      var templateEscaped = renderedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
-      templateEscaped = pattern_assembler.renderPattern(templateEscaped, allData);
-
-      //after that's done, switch back to standard Mustache tags
-      renderedTemplate = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+      //the reason for rendering at this point is to eliminate the unwanted
+      //recursion paths that would remain if irrelevant conditional tags persisted.
+      var renderedPartial;
+      var renderedTemplate = pattern_assembler.escape_render_unescape_partials(pattern.extendedTemplate, pattern.jsonFileData);
 
       //re-evaluate parameteredPartials after rendering
       pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(renderedTemplate);
@@ -167,6 +151,7 @@ var parameter_hunter = function () {
           //strip out the additional data, convert string to JSON.
           var leftParen = pMatch.indexOf('(');
           var rightParen = pMatch.indexOf(')');
+          var paramData = {};
           var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
           var paramStringWellFormed = '{}';
           paramStringWellFormed = paramToJson(paramString);
@@ -182,24 +167,14 @@ var parameter_hunter = function () {
             style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
           }
 
-          //assemble the allData object to render non-partial Mustache tags.
-          //need a fresh start on the allData object to work with the paramData specific to this iteration.
-          allData = pattern_assembler.merge_data(globalData, localData);
-          allData = pattern_assembler.merge_data(allData, paramData);
+          var allData = pattern_assembler.merge_data(partialPattern.jsonFileData, paramData);
 
           //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
           allData.link = extend({}, patternlab.data.link);
 
-          //the reasoning for rendering at this point is to eliminate the unwanted
-          //recursion paths that would remain if irrelevant Mustache conditionals persisted.
-          //in order to token-replace parameterized tags, prepare for rendering Mustache.
-          //replace global, file-specific, and param data. however, since partial inclusion
-          //is not done here, escape partial tags by switching them to ERB syntax.
-          var extendedTemplateEscaped = partialPattern.extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
-          extendedTemplateEscaped = pattern_assembler.renderPattern(extendedTemplateEscaped, allData);
-
-          //after that's done, switch back to standard Mustache tags
-          renderedPartial = extendedTemplateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+          //the reason for rendering at this point is to eliminate the unwanted
+          //recursion paths that would remain if irrelevant conditional tags persisted.
+          renderedPartial = pattern_assembler.escape_render_unescape_partials(partialPattern.extendedTemplate, allData);
 
           //remove the parameter from the partial and replace it with the rendered partial + paramData
           renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
