@@ -1,36 +1,52 @@
 .carousel {
   overflow:hidden;
   margin-bottom : $marginStandard;
+  position:relative;
+
+  &__slide {
+    display:none;
+    flex-flow:row nowrap;
+    margin:0 (-$marginMini/2);
+    opacity:0;
+
+    &s {
+      position:relative;
+    }
+
+    &--visible {
+      display:flex;
+      animation: fade-in $animationTimingLong;
+      opacity:1;
+    }
+
+    &--fadeOut {
+      position:absolute;
+      display:flex;
+      animation: fade-out $animationTimingLong;
+      left:0;
+      right:0;
+      top:0;
+      z-index:1;
+      pointer-events:none;
+    }
+  }
 
   &__image {
     position:relative;
-    display:none;
     flex:1;
+    padding-top:calc(37.5% - #{$marginMini / 2});
+    width:100%;
     margin:0 ($marginMini/2);
     overflow:hidden;
+    background-size:cover;
+    background-position:center center;
 
-    &--visible {
-      display:block;
-      animation: slide-fade-in-left $animationTimingLong;
-    }
+    @media only screen and (max-width: $breakpointTabletEnd) {
+      padding-top:75%;
 
-    &--visible + &--visible {
-      animation: slide-fade-in-right $animationTimingLong;
-
-      @media only screen and (max-width: $breakpointTabletEnd) {
+      &:nth-child(2) {
         display:none;
       }
-    }
-
-    &s {
-      display:flex;
-      flex-flow:row nowrap;
-      margin:0 (-$marginMini/2);
-    }
-
-    img {
-      display:block;
-      width:100%;
     }
   }
 
