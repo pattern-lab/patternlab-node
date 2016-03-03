@@ -16,9 +16,9 @@ var pattern_assembler = function () {
   function patternMatcher(pattern, regex) {
     var matches;
 
-    if(typeof pattern === 'string'){
+    if (typeof pattern === 'string') {
       matches = pattern.match(regex);
-    } else if(typeof pattern === 'object' && typeof pattern.template === 'string'){
+    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
       matches = pattern.template.match(regex);
     }
 
@@ -54,27 +54,6 @@ var pattern_assembler = function () {
     var matches = patternMatcher(pattern, regex);
 
     return matches;
-  }
-
-  /**
-   * Render the extendedTemplate excluding partials. The reason for this is to
-   * eliminate the unwanted recursion paths that would remain if irrelevant
-   * conditional tags persisted.
-   *
-   * @param {string} extendedTemplate The template to render.
-   * @param {object} data The data to render with.
-   * @returns {string} templateRendered
-   */
-  function escapeRenderUnescapePartials(extendedTemplate, data) {
-
-    //escape partial tags by switching them to ERB syntax.
-    var templateEscaped = extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
-    templateEscaped = renderPattern(templateEscaped, data);
-
-    //after that's done, switch back to standard Mustache tags and return.
-    var templateRendered = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
-
-    return templateRendered;
   }
 
   function setState(pattern, patternlab) {
@@ -149,6 +128,27 @@ var pattern_assembler = function () {
     }
   }
 
+  /**
+   * Render the extendedTemplate excluding partials. The reason for this is to
+   * eliminate the unwanted recursion paths that would remain if irrelevant
+   * conditional tags persisted.
+   *
+   * @param {string} extendedTemplate The template to render.
+   * @param {object} data The data to render with.
+   * @returns {string} templateRendered
+   */
+  function escapeRenderUnescapePartials(extendedTemplate, data) {
+
+    //escape partial tags by switching them to ERB syntax.
+    var templateEscaped = extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+    templateEscaped = renderPattern(templateEscaped, data);
+
+    //after that's done, switch back to standard Mustache tags and return.
+    var templateRendered = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+
+    return templateRendered;
+  }
+
   function getpatternbykey(key, patternlab) {
     var i; // for the for loops
 
@@ -180,6 +180,36 @@ var pattern_assembler = function () {
     }
 
     return null;
+  }
+
+  function mergeData(obj1, obj2) {
+    if (typeof obj2 === 'undefined') {
+      obj2 = {}; //eslint-disable-line no-param-reassign
+    }
+
+    for (var p in obj1) { //eslint-disable-line guard-for-in
+      try {
+        // Only recurse if obj1[p] is an object.
+        if (obj1[p].constructor === Object) {
+          // Requires 2 objects as params; create obj2[p] if undefined.
+          if (typeof obj2[p] === 'undefined') {
+            obj2[p] = {};
+          }
+          obj2[p] = mergeData(obj1[p], obj2[p]);
+
+          // Pop when recursion meets a non-object. If obj1[p] is a non-object,
+          // only copy to undefined obj2[p]. This way, obj2 maintains priority.
+        } else if (typeof obj2[p] === 'undefined') {
+          obj2[p] = obj1[p];
+        }
+      } catch (e) {
+        // Property in destination object not set; create it and set its value.
+        if (typeof obj2[p] === 'undefined') {
+          obj2[p] = obj1[p];
+        }
+      }
+    }
+    return obj2;
   }
 
   function processPatternIterative(file, patternlab) {
@@ -369,36 +399,6 @@ var pattern_assembler = function () {
     pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
   }
 
-  function mergeData(obj1, obj2) {
-    if (typeof obj2 === 'undefined') {
-      obj2 = {}; //eslint-disable-line no-param-reassign
-    }
-
-    for (var p in obj1) { //eslint-disable-line guard-for-in
-      try {
-        // Only recurse if obj1[p] is an object.
-        if (obj1[p].constructor === Object) {
-          // Requires 2 objects as params; create obj2[p] if undefined.
-          if (typeof obj2[p] === 'undefined') {
-            obj2[p] = {};
-          }
-          obj2[p] = mergeData(obj1[p], obj2[p]);
-
-          // Pop when recursion meets a non-object. If obj1[p] is a non-object,
-          // only copy to undefined obj2[p]. This way, obj2 maintains priority.
-        } else if (typeof obj2[p] === 'undefined') {
-          obj2[p] = obj1[p];
-        }
-      } catch (e) {
-        // Property in destination object not set; create it and set its value.
-        if (typeof obj2[p] === 'undefined') {
-          obj2[p] = obj1[p];
-        }
-      }
-    }
-    return obj2;
-  }
-
   function parseDataLinksHelper(patternlab, obj, key) {
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
@@ -446,9 +446,6 @@ var pattern_assembler = function () {
     find_list_items: function (pattern) {
       return findListItems(pattern);
     },
-    escape_render_unescape_partials: function (extendedTemplate, data) {
-      return escapeRenderUnescapePartials(extendedTemplate, data);
-    },
     setPatternState: function (pattern, patternlab) {
       setState(pattern, patternlab);
     },
@@ -458,11 +455,11 @@ var pattern_assembler = function () {
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
     },
-    process_pattern_iterative: function (file, patternlab) {
-      processPatternIterative(file, patternlab);
+    combine_listItems: function (patternlab) {
+      buildListItems(patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, startFile) {
-      processPatternRecursive(file, patternlab, startFile);
+    escape_render_unescape_partials: function (extendedTemplate, data) {
+      return escapeRenderUnescapePartials(extendedTemplate, data);
     },
     get_pattern_by_key: function (key, patternlab) {
       return getpatternbykey(key, patternlab);
@@ -470,8 +467,11 @@ var pattern_assembler = function () {
     merge_data: function (existingData, newData) {
       return mergeData(existingData, newData);
     },
-    combine_listItems: function (patternlab) {
-      buildListItems(patternlab);
+    process_pattern_iterative: function (file, patternlab) {
+      processPatternIterative(file, patternlab);
+    },
+    process_pattern_recursive: function (file, patternlab, startFile) {
+      processPatternRecursive(file, patternlab, startFile);
     },
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);

@@ -72,6 +72,7 @@
       patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
       patternlab.data.foo = 'Bar';
       patternlab.data.description = 'Baz';
+      patternlab.patterns[0].jsonFileData = patternlab.data;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
