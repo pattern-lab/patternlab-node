@@ -11,41 +11,76 @@
 (function () {
   "use strict";
 
+  // find regex matches within both pattern strings and pattern objects.
+  function patternMatcher(pattern, regex) {
+    var matches;
+
+    if(typeof pattern === 'string'){
+      matches = pattern.match(regex);
+    } else if(typeof pattern === 'object' && typeof pattern.template === 'string'){
+      matches = pattern.template.match(regex);
+    }
+
+    return matches;
+  }
+
   // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithStyleModifiers(pattern) {
-    var matches;
-    if (typeof pattern === 'string') {
-      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g);
-    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
-      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g);
-    }
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g;
+    var matches = patternMatcher(pattern, regex);
+
     return matches;
   }
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithPatternParameters(pattern) {
-    var matches;
-    if (typeof pattern === 'string') {
-      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g);
-    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
-      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g);
-    }
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g;
+    var matches = patternMatcher(pattern, regex);
+
     return matches;
   }
 
   //find and return any {{> template-name* }} within pattern
   function findPartials(pattern) {
-    var matches;
-    if (typeof pattern === 'string') {
-      matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g);
-    } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
-      matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g);
-    }
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g;
+    var matches = patternMatcher(pattern, regex);
 
-    // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
-    function findPartialsWithStyleModifiers(pattern){
-      var matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g);
-      return matches;
+    return matches;
+  }
+
+  function findListItems(pattern) {
+    var regex = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
+    var matches = patternMatcher(pattern, regex);
+
+    return matches;
+  }
+
+  /**
+   * Render the extendedTemplate excluding partials. The reason for this is to
+   * eliminate the unwanted recursion paths that would remain if irrelevant
+   * conditional tags persisted.
+   *
+   * @param {string} extendedTemplate The template to render.
+   * @param {object} data The data to render with.
+   * @returns {string} templateRendered
+   */
+  function escapeRenderUnescapePartials(extendedTemplate, data) {
+
+    //escape partial tags by switching them to ERB syntax.
+    var templateEscaped = extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+    templateEscaped = renderPattern(templateEscaped, data);
+
+    //after that's done, switch back to standard Mustache tags and return.
+    var templateRendered = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+
+    return templateRendered;
+  }
+
+  function setState(pattern, patternlab) {
+    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]) {
+      pattern.patternState = patternlab.config.patternStates[pattern.patternName];
+    } else {
+      pattern.patternState = "";
     }
 
     // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
@@ -167,16 +202,19 @@
       //see if this file has a state
       setState(currentPattern, patternlab);
 
-      //look for a json file for this template
-      try {
-        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
-        if(patternlab.config.debug){
-          console.log('found pattern-specific data.json for ' + currentPattern.key);
-        }
+    //look for a json file for this template
+    var globalData = patternlab.data;
+    try {
+      var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
+      var localData = fs.readJSONSync(jsonFilename);
+      currentPattern.jsonFileData = mergeData(globalData, localData);
+      if (patternlab.config.debug) {
+        console.log('found pattern-specific data.json for ' + currentPattern.key);
       }
-      catch(e) {
-      }
+    }
+    catch (error) {
+      currentPattern.jsonFileData = globalData;
+    }
 
       //look for a listitems.json file for this template
       try {
@@ -218,7 +256,7 @@
    * Build out the final output for writing to the public/patterns directory.
    *
    * @param {string} file The abspath of pattern being processed.
-   * @param {Object} patternlab The patternlab object.
+   * @param {object} patternlab The patternlab object.
    * @param {string} startFile The abspath of the pattern at the top level of recursion.
    */
   function processPatternRecursive(file, patternlab, startFile) {
@@ -251,9 +289,6 @@
       //find any stylemodifiers that may be in the current pattern
       currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
 
-      //find any pattern parameters that may be in the current pattern
-      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
-
     //need to start with a fresh extendedTemplate for each subsequent recursion step
     } else {
       currentPattern.extendedTemplate = currentPattern.template;
@@ -262,19 +297,23 @@
     //find how many partials there may be for the given pattern
     var foundPatternPartials = findPartials(currentPattern);
 
-      if(currentPattern.parameteredTemplate){
-        extendedTemplate = currentPattern.parameteredTemplate;
-        //for each recursion, unset parameteredTemplate property
-        currentPattern.parameteredTemplate = null;
+    if (foundPatternPartials !== null && foundPatternPartials.length > 0) {
+      currentPattern.extendedTemplate = escapeRenderUnescapePartials(currentPattern.extendedTemplate, currentPattern.jsonFileData);
 
-      } else{
-//        extendedTemplate = currentPattern.template;
-        //for each recursion, reset extendedTemplate property
-        currentPattern.extendedTemplate = currentPattern.template;
+      //re-evaluate persistent partials
+      foundPatternPartials = findPartials(currentPattern.extendedTemplate);
+    }
+
+    if (foundPatternPartials !== null && foundPatternPartials.length > 0) {
+      if (patternlab.config.debug) {
+        console.log('found partials for ' + currentPattern.key);
       }
 
       //find how many partials there may be for the given pattern
       var foundPatternPartials = findPartials(currentPattern);
+
+      //evaluate parameteredPartials after rendering
+      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
 
       //determine if the template contains any pattern parameters
       if (currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0) {
@@ -467,6 +506,9 @@ if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
     },
     find_list_items: function (pattern) {
       return findListItems(pattern);
+    },
+    escape_render_unescape_partials: function (extendedTemplate, data) {
+      return escapeRenderUnescapePartials(extendedTemplate, data);
     },
     setPatternState: function (pattern, patternlab) {
       setState(pattern, patternlab);
