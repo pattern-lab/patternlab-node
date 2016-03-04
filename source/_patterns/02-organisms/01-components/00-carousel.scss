@@ -34,7 +34,7 @@
   &__image {
     position:relative;
     flex:1;
-    padding-top:calc(37.5% - #{$marginMini / 2});
+    padding-top:calc(37.5vw - #{$marginMini / 2});
     width:100%;
     margin:0 ($marginMini/2);
     overflow:hidden;
@@ -42,7 +42,7 @@
     background-position:center center;
 
     @media only screen and (max-width: $breakpointTabletEnd) {
-      padding-top:75%;
+      padding-top:75vw;
 
       &:nth-child(2) {
         display:none;
