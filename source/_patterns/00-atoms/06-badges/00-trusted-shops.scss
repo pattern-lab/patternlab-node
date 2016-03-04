@@ -6,4 +6,16 @@
   max-height:100%;
   background:inline('../images/trusted-shops-60px.png') center center no-repeat;
   background-size:contain;
+
+  @media only screen and (min-width: $breakpointDesktop) {
+    display : none;
+  }
+
+  &--dynamic {
+    padding-top : 6px;
+
+    @media only screen and (max-width: $breakpointTabletEnd) {
+      display : none;
+    }
+  }
 }
