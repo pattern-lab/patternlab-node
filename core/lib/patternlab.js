@@ -57,8 +57,9 @@ var patternlab_engine = function (config) {
   function buildPatterns(deletePatternDir) {
     patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'source/_meta/header.html'), 'utf8');
-    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'source/_meta/footer.html'), 'utf8');
+    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+    patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
+    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
@@ -116,6 +117,25 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
       });
 
+    //set user defined head and foot if they exist
+    try {
+      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+    }
+    catch(ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
+      }
+    }
+    try {
+      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+    }
+    catch(ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
+      }
+    }
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
@@ -126,21 +146,40 @@ var patternlab_engine = function (config) {
       fs.emptyDirSync(paths.public.patterns);
     }
 
+    //set pattern-specific header if necessary
+    var head;
+    if (patternlab.userHead) {
+      head = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+    } else {
+      head = patternlab.header;
+    }
+
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function (pattern) {
+
+      pattern.header = head;
 
       //render the pattern, but first consolidate any data we may have
       var allData = JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
+      //render the pattern-specific header
+      var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
+
       //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
 
-      //add footer info before writing
-      var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
+      //set the pattern-specific footer if necessary
+      if (patternlab.userFoot) {
+        console.log('found custom userFoot')
+        var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
+        pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
+      } else {
+        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, pattern);
+      }
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml +  pattern.patternPartial + pattern.footer);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
@@ -211,11 +250,17 @@ var patternlab_engine = function (config) {
       styleguidePatterns = patternlab.patterns;
     }
 
+    //get the main page head and foot
+    var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+    var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
+    var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
+    var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, patternlab.data);
+
     //build the styleguide
     var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8'),
       styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
 
-    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
+    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
 
     //build the viewall pages
     var prevSubdir = '',
@@ -257,7 +302,7 @@ var patternlab_engine = function (config) {
 
         var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
-        fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', viewAllHtml);
+        fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHead + viewAllHtml + mainPageFoot);
       }
 
       // create the view all for the subsection
@@ -284,7 +329,7 @@ var patternlab_engine = function (config) {
 
         var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
-        fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', viewAllHtml);
+        fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
       }
     }
 
