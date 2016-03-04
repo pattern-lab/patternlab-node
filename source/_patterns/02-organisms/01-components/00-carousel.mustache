@@ -1,15 +1,24 @@
 <div class="carousel">
-    <div class="carousel__images">
-        <a class="carousel__image carousel__image--visible" href="#">
-            <img src="{{ img.landscape-4x3.src }}" alt="{{ img.landscape-4x3.alt }}" />
-        </a>
-        <a class="carousel__image carousel__image--visible" href="#">
-            <img src="{{ img.landscape-4x3.src }}" alt="{{ img.landscape-4x3.alt }}" />
-            <span class="carousel__text">
-                <h2 class="carousel__text--primary">Red is the new black</h2>
-                <h3 class="carousel__text--secondary">The new horizn backpack has arrived</h3>
-            </span>
-        </a>
+    <div class="carousel__slides">
+        <div class="carousel__slide carousel__slide--fadeOut">
+            <a class="carousel__image" href="#" style="background-image:url({{ img.landscape-4x3.src }})" title="{{ img.landscape-4x3.alt }}"></a>
+            <a class="carousel__image" href="#" style="background-image:url({{ img.landscape-4x3.src }})" title="{{ img.landscape-4x3.alt }}">
+                <span class="carousel__text">
+                    <h2 class="carousel__text--primary">Red is the new black</h2>
+                    <h3 class="carousel__text--secondary">The new horizn backpack has arrived</h3>
+                </span>
+            </a>
+        </div>
+
+        <div class="carousel__slide carousel__slide--visible">
+            <a class="carousel__image" href="#" style="background-image:url(../../images/placeholder_banner.jpg)" title="{{ img.landscape-4x3.alt }}">
+                <span class="carousel__text">
+                    <h2 class="carousel__text--primary">Red is the new black</h2>
+                    <h3 class="carousel__text--secondary">The new horizn backpack has arrived</h3>
+                </span>
+            </a>
+            <a class="carousel__image" href="#" style="background-image:url(../../images/placeholder_banner.jpg)" title="{{ img.landscape-4x3.alt }}"></a>
+        </div>
     </div>
 
     <div class="carousel__handles">
