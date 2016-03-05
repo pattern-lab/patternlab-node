@@ -13,8 +13,10 @@ var patternlab_engine = require('./patternlab.js');
 module.exports = function (gulp) {
 
   gulp.task('patternlab', ['clean'], function (cb) {
+console.log(Date.now() / 1000);
     var patternlab = patternlab_engine();
     patternlab.build(false);
+console.log(Date.now() / 1000);
     cb();
   });
 

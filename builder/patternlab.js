@@ -60,7 +60,6 @@ var patternlab_engine = function (config) {
     patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
     patternlab.patterns = [];
-    patternlab.partials = {};
     patternlab.data.link = {};
 
     var pattern_assembler = new pa(),
@@ -93,9 +92,9 @@ var patternlab_engine = function (config) {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, path.resolve(file));
-      });
-
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, true);
+      }
+    );
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference

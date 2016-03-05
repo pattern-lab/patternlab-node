@@ -12,6 +12,7 @@ var patternlab_engine = require('./patternlab.js');
 
 module.exports = function (grunt) {
   grunt.registerTask('patternlab', 'create design systems with atomic design', function (arg) {
+console.log(Date.now() / 1000);
     var patternlab = patternlab_engine();
 
     if (arguments.length === 0) {
@@ -33,6 +34,7 @@ module.exports = function (grunt) {
     if (arg && (arg !== "v" && arg !== "only_patterns" && arg !== "help")) {
       patternlab.help();
     }
+console.log(Date.now() / 1000);
   });
 
 };
