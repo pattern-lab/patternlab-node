@@ -73,7 +73,6 @@ var patternlab_engine = function (config) {
     patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
     patternlab.patterns = [];
-    patternlab.partials = {};
     patternlab.data.link = {};
 
     setCacheBust();
@@ -109,28 +108,9 @@ var patternlab_engine = function (config) {
           console.log(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, path.resolve(file));
-      });
-
-    //set user defined head and foot if they exist
-    try {
-      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
-    }
-    catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, true);
       }
-    }
-    try {
-      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
-    }
-    catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
-      }
-    }
+    );
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference

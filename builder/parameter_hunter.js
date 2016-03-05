@@ -123,77 +123,135 @@ var parameter_hunter = function () {
 
   function findparameters(pattern, patternlab) {
 
+    //the reason for rendering at this point is to eliminate the unwanted
+    //recursion paths that would remain if irrelevant conditional tags persisted.
+    //however, we only want to render the parameter data, so we need to identify
+    //those tags, switch them to ERB syntax, and render for ERB syntax.
+    var tmpTemplate = pattern.tmpTemplate;
+
+    //evaluate parameteredPartials within tmpTemplate
+    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
+
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
 
-      //the reason for rendering at this point is to eliminate the unwanted
-      //recursion paths that would remain if irrelevant conditional tags persisted.
-      var renderedPartial;
-      var renderedTemplate = pattern_assembler.escape_render_unescape_partials(pattern.extendedTemplate, pattern.jsonFileData);
+      //iterate through most recently evaluated parameteredPartials
+      pattern.parameteredPartials.forEach(function (pMatch) {
+        //find the partial's name and retrieve it
+        var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
-      //re-evaluate parameteredPartials after rendering
-      pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(renderedTemplate);
+        //if we retrieved a pattern we should make sure that its tmpTemplate is reset. looks to fix #190
+        var renderedPartial = partialPattern.template;
 
-      if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
+        if (patternlab.config.debug) {
+          console.log('found patternParameters for ' + partialName);
+        }
 
-        //iterate through most recently evaluated parameteredPartials
-        pattern.parameteredPartials.forEach(function (pMatch) {
-          //find the partial's name and retrieve it
-          var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-          var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+        //strip out the additional data, convert string to JSON.
+        var leftParen = pMatch.indexOf('(');
+        var rightParen = pMatch.indexOf(')');
+        var paramData = {};
+        var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+        var paramStringWellFormed = '{}';
+        paramStringWellFormed = paramToJson(paramString);
 
-          //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
-          partialPattern.extendedTemplate = partialPattern.template;
+        try {
+          paramData = JSON.parse(paramStringWellFormed);
+        } catch (e) {
+          console.log(e);
+        }
 
-          if (patternlab.config.debug) {
-            console.log('found patternParameters for ' + partialName);
+        //if partial has style modifier data, replace the styleModifier value
+        if (pattern.stylePartials && pattern.stylePartials.length > 0) {
+          style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
+        }
+
+/*
+        var allData = pattern_assembler.merge_data(startPattern.jsonFileData, paramData);
+
+        //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
+        allData.link = extend({}, patternlab.data.link);
+*/
+
+        var regex;
+        var escapedKey;
+        for (var j in paramData) {
+          if (paramData.hasOwnProperty(j) && (typeof paramData[j] === 'boolean' || typeof paramData[j] === 'number' || typeof paramData[j] === 'string')) {
+            //escape regex special characters as per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_special_characters
+            escapedKey = j.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+//  console.log(escapedKey);
+//  console.log('before');
+//  console.log(renderedPartial);
+}
+            //apply replacement based on allowable characters from lines 78 and 79 of mustache.js
+            //of the Mustache for JS project.
+            regex = new RegExp('\\{\\{([{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+            renderedPartial = renderedPartial.replace(regex, '<%$1%>');
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+//  console.log('after');
+//  console.log(renderedPartial);
+}
           }
+        }
 
-          //strip out the additional data, convert string to JSON.
-          var leftParen = pMatch.indexOf('(');
-          var rightParen = pMatch.indexOf(')');
-          var paramData = {};
-          var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-          var paramStringWellFormed = '{}';
-          paramStringWellFormed = paramToJson(paramString);
+        //then set the new delimiter at the beginning of the extended template
+        renderedPartial = '{{=<% %>=}}' + renderedPartial;
 
-          try {
-            paramData = JSON.parse(paramStringWellFormed);
-          } catch (e) {
-            console.log(e);
-          }
+        //the reason for rendering at this point is to eliminate the unwanted
+        //recursion paths that would remain if irrelevant conditional tags persisted.
+        renderedPartial = pattern_assembler.renderPattern(renderedPartial, paramData);
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+//  console.log('render');
+//  console.log(renderedPartial);
+}
 
-          //if partial has style modifier data, replace the styleModifier value
-          if (pattern.stylePartials && pattern.stylePartials.length > 0) {
-            style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
-          }
+        tmpTemplate = tmpTemplate.replace(pMatch, renderedPartial);
+      });
+    }
 
-          var allData = pattern_assembler.merge_data(partialPattern.jsonFileData, paramData);
+    //after iterating through parameteredPartials, reassign the current pattern's
+    //stylePartials, parameteredPartials, and tmpTemplate properties based on
+    //the most recent evaluation of tmpTemplate.
+/*
+    pattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(tmpTemplate);
+*/
+    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
+    pattern.tmpTemplate = tmpTemplate;
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+//  console.log(tmpTemplate);
+}
 
-          //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-          allData.link = extend({}, patternlab.data.link);
+    //recurse if tmpTemplate still has parametered partials.
+    if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
+//      findparameters(pattern, patternlab);
+    }
+  }
 
-          //the reason for rendering at this point is to eliminate the unwanted
-          //recursion paths that would remain if irrelevant conditional tags persisted.
-          renderedPartial = pattern_assembler.escape_render_unescape_partials(partialPattern.extendedTemplate, allData);
+  /**
+   * Reset the tmpTemplate on each pattern corresponding to the parametered
+   * partial. This is to start fresh in case the pattern had been processed by
+   * findparameters or processPatternRecursive before.
+   *
+   * @param {object} currentPattern 
+   * @param {object} patternlab
+   */
+  function resetTmpTemplates(currentPattern, patternlab) {
+if (currentPattern.parameteredPartials === null) {
+console.log('currentPattern.parameteredPartials === null');
+}
+    var parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(currentPattern.tmpTemplate);
 
-          //remove the parameter from the partial and replace it with the rendered partial + paramData
-          renderedTemplate = renderedTemplate.replace(pMatch, renderedPartial);
+    if (parameteredPartials && parameteredPartials.length > 0) {
+      for (var i = 0; i < parameteredPartials.length; i++) {
 
-          //update the extendedTemplate in the partials object in case this pattern is consumed later
-          patternlab.partials[pattern.key] = renderedTemplate;
-        });
-      }
+        //find the partial's name and retrieve it
+        var partialName = parameteredPartials[i].match(/([\w\-\.\/~]+)/g)[0];
+        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
-      //after iterating through parameteredPartials, reassign the current pattern's
-      //stylePartials, parameteredPartials, and extendedTemplate properties based on
-      //the most recent evaluation of renderedTemplate.
-      pattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(renderedTemplate);
-      pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(renderedTemplate);
-      pattern.extendedTemplate = renderedTemplate;
-
-      //recurse if renderedTemplate still has parametered partials.
-      if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
-        findparameters(pattern, patternlab);
+        //reset tmpTemplate for this partialPattern before recursing
+        partialPattern.tmpTemplate = partialPattern.template;
       }
     }
   }
@@ -201,6 +259,9 @@ var parameter_hunter = function () {
   return {
     find_parameters: function (pattern, patternlab) {
       findparameters(pattern, patternlab);
+    },
+    reset_tmp_templates: function(currentPattern, patternlab) {
+      resetTmpTemplates(currentPattern, patternlab);
     }
   };
 

@@ -62,6 +62,7 @@
       pattern.patternState = "";
     }
 
+<<<<<<< bd5ff0ec5f8829aca7104a008fe810410db46897
     // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
     function findPartialsWithPatternParameters(pattern){
       var matches;
@@ -69,10 +70,26 @@
         matches = pattern.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g);
       } else if(typeof pattern === 'object' && typeof pattern.template === 'string'){
         matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g);
+=======
+  function addPattern(pattern, patternlab) {
+    //add the link to the global object
+    patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
+
+    //only push to array if the array doesn't contain this pattern
+    var isNew = true, i;
+    for (i = 0; i < patternlab.patterns.length; i++) {
+      //so we need the identifier to be unique, which patterns[i].abspath is
+      if (pattern.abspath === patternlab.patterns[i].abspath) {
+        //if abspath already exists, overwrite that element
+        patternlab.patterns[i] = pattern;
+        isNew = false;
+        break;
+>>>>>>> new recursion scheme - processPatternRecursive stays within pattern while recursing
       }
       return matches;
     }
 
+<<<<<<< bd5ff0ec5f8829aca7104a008fe810410db46897
     //find and return any {{> template-name* }} within pattern
     function findPartials(pattern){
       var matches;
@@ -82,6 +99,11 @@
         matches = pattern.template.match(/{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g);
       }
       return matches;
+=======
+    //if the pattern is new, just push to the array
+    if (isNew) {
+      patternlab.patterns.push(pattern);
+>>>>>>> new recursion scheme - processPatternRecursive stays within pattern while recursing
     }
 
     function findListItems(pattern){
@@ -121,14 +143,14 @@
    * eliminate the unwanted recursion paths that would remain if irrelevant
    * conditional tags persisted.
    *
-   * @param {string} extendedTemplate The template to render.
+   * @param {string} template The template to render.
    * @param {object} data The data to render with.
    * @returns {string} templateRendered
    */
-  function escapeRenderUnescapePartials(extendedTemplate, data) {
+  function escapeRenderUnescapePartials(template, data) {
 
     //escape partial tags by switching them to ERB syntax.
-    var templateEscaped = extendedTemplate.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+    var templateEscaped = template.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
     templateEscaped = renderPattern(templateEscaped, data);
 
     //after that's done, switch back to standard Mustache tags and return.
@@ -277,6 +299,15 @@
     //do the same with extendedTemplate to avoid undefined type errors
     currentPattern.extendedTemplate = currentPattern.template;
 
+    //do the same with tmpTemplate to avoid undefined type errors
+    currentPattern.tmpTemplate = currentPattern.template;
+
+    //find any stylemodifiers that may be in the current pattern
+    currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+
+    //save parameteredPartials before render
+//    currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
+
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
   }
@@ -287,9 +318,9 @@
    *
    * @param {string} file The abspath of pattern being processed.
    * @param {object} patternlab The patternlab object.
-   * @param {string} startFile The abspath of the pattern at the top level of recursion.
+   * @param {boolean} startRecurse True if and only if at top level of recursion.
    */
-  function processPatternRecursive(file, patternlab, startFile) {
+  function processPatternRecursive(file, patternlab, startRecurse) {
     var lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
@@ -307,57 +338,60 @@
 
     //find current pattern in patternlab object using var file as a key
     var currentPattern = getpatternbykey(file, patternlab);
+    var startPattern = getpatternbykey(file, patternlab);
+    var startFile = file;
 
     //return if processing an ignored file
-    if (currentPattern === null) {
+    if (currentPattern === null || typeof currentPattern.tmpTemplate === 'undefined') {
       return;
     }
 
-    //if at top level of recursion, make sure to set stylePartials and parameteredPartials
-    if (file === startFile) {
+    //render the template, excepting for partial includes, using the startRecurse's data
+    currentPattern.tmpTemplate = escapeRenderUnescapePartials(currentPattern.tmpTemplate, startPattern.jsonFileData);
 
-      //find any stylemodifiers that may be in the current pattern
-      currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+    var parameteredPartials = findPartialsWithPatternParameters(currentPattern.tmpTemplate);
 
-    //need to start with a fresh extendedTemplate for each subsequent recursion step
-    } else {
-      currentPattern.extendedTemplate = currentPattern.template;
-    }
-
-    //find how many partials there may be for the given pattern
-    var foundPatternPartials = findPartials(currentPattern);
-
-    if (foundPatternPartials !== null && foundPatternPartials.length > 0) {
-      currentPattern.extendedTemplate = escapeRenderUnescapePartials(currentPattern.extendedTemplate, currentPattern.jsonFileData);
-
-      //re-evaluate persistent partials
-      foundPatternPartials = findPartials(currentPattern.extendedTemplate);
-    }
-
-    if (foundPatternPartials !== null && foundPatternPartials.length > 0) {
+/*
+    if (foundPatternPartials && foundPatternPartials.length > 0) {
       if (patternlab.config.debug) {
         console.log('found partials for ' + currentPattern.key);
       }
+*/
 
       //find how many partials there may be for the given pattern
       var foundPatternPartials = findPartials(currentPattern);
 
-      //evaluate parameteredPartials after rendering
-      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
+//      var foundPatternPartials2 = foundPatternPartials;
 
-      //determine if the template contains any pattern parameters
-      if (currentPattern.parameteredPartials && currentPattern.parameteredPartials.length > 0) {
-
-        //reset currentPattern.extendedTemplate via parameter_hunter.find_parameters()
-        parameter_hunter.find_parameters(currentPattern, patternlab);
-
-        //re-evaluate foundPatternPartials
-        foundPatternPartials = findPartials(currentPattern.extendedTemplate);
+      //if the template contains any pattern parameters
+      if (parameteredPartials && parameteredPartials.length > 0) {
+      if (patternlab.config.debug) {
+        console.log('found parametered partials for ' + currentPattern.key);
       }
 
-      if (foundPatternPartials && foundPatternPartials.length > 0) {
+        //first, iterate through parameteredPartials and reset tmpTemplate for each
+        parameter_hunter.reset_tmp_templates(currentPattern, patternlab);
 
-        //do something with the regular old partials
+        //recursively render currentPattern.tmpTemplate via parameter_hunter.find_parameters()
+        parameter_hunter.find_parameters(currentPattern, patternlab);
+
+        //re-evaluate found pattern partials
+//        foundPatternPartials2 = findPartials(currentPattern.tmpTemplate);
+
+        //recurse, going a level deeper, with each render eliminating nested parameteredPartials
+        //when there are no more nested parameteredPartials, we'll pop back up
+        processPatternRecursive(currentPattern.abspath, patternlab, false);
+      }
+
+    var foundPatternPartials = findPartials(currentPattern.tmpTemplate);
+      //do something with re-evaluated partials
+      if (foundPatternPartials && foundPatternPartials.length > 0) {
+      if (patternlab.config.debug) {
+        console.log('found partials for ' + currentPattern.key);
+      }
+//        var partialKey;
+//        var partialPattern;
+
         for (i = 0; i < foundPatternPartials.length; i++) {
           var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
 
@@ -366,23 +400,13 @@
 
           if (partialPattern === null) {
             throw 'Could not find pattern with key ' + partialKey;
-
           } else {
-            //recurse through nested partials to fill out this extended template.
-            processPatternRecursive(partialPattern.abspath, patternlab, startFile);
 
-            //if partial has style modifier data, replace the styleModifier value
-            if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-              style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-            }
-
-            //complete assembly of extended template
-            currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
-
-            //update the extendedTemplate in the partials object in case this pattern is consumed later
-            patternlab.partials[currentPattern.key] = currentPattern.extendedTemplate;
+            //replace each partial tag with the partial's template.
+            currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(foundPatternPartials[i], partialPattern.tmpTemplate);
           }
         }
+<<<<<<< bd5ff0ec5f8829aca7104a008fe810410db46897
       } else{
         //find any listItem blocks that within the pattern, even if there are no partials
         list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -414,6 +438,45 @@ if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
             return patternlab.patterns[i];
         }
       }
+=======
+if (startFile.indexOf('04-pages/faq.mustache') > -1) {
+//console.log(startRecurse);
+//console.log(currentPattern.tmpTemplate);
+//console.log('\n');
+//console.log('\n');
+//console.log('\n');
+//console.log('\n');
+}
+
+        //recurse, going a level deeper, with each render eliminating nested partials
+        //when there are no more nested partials, we'll pop back up
+        processPatternRecursive(currentPattern.abspath, patternlab, false);
+      }
+
+
+//    }
+
+    //do only at the end of the top level of recursion
+    if (startRecurse) {
+
+      //if partial has style modifier data, replace the styleModifier value
+      if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
+        style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
+      }
+
+      currentPattern.extendedTemplate = currentPattern.tmpTemplate;
+
+      //find any listItem blocks that within the pattern, even if there are no partials
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+
+      //find pattern lineage
+      lineage_hunter.find_lineage(currentPattern, patternlab);
+
+      //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+    }
+  }
+>>>>>>> new recursion scheme - processPatternRecursive stays within pattern while recursing
 
   function parseDataLinksHelper(patternlab, obj, key) {
     var linkRE, dataObjAsString, linkMatches, expandedLink;
@@ -524,8 +587,8 @@ if(currentPattern.abspath.indexOf('04-pages/00-homepage') > -1){
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, startFile) {
-      processPatternRecursive(file, patternlab, startFile);
+    process_pattern_recursive: function (file, patternlab, startRecurse) {
+      processPatternRecursive(file, patternlab, startRecurse);
     },
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);
