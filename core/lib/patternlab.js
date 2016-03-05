@@ -171,7 +171,6 @@ var patternlab_engine = function (config) {
 
       //set the pattern-specific footer if necessary
       if (patternlab.userFoot) {
-        console.log('found custom userFoot')
         var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
         pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
       } else {
