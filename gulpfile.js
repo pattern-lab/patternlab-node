@@ -23,7 +23,7 @@ var banner = [ '/** ',
   ' * ', ' **/'].join(eol);
 
 function paths() {
-  return require('./config.json').paths;
+  return require('./patternlab-config.json').paths;
 }
 
 //load patternlab-node tasks
