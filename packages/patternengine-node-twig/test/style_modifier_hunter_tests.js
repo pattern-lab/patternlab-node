@@ -1,7 +1,7 @@
 (function () {
 	"use strict";
 
-	var smh = require('../builder/style_modifier_hunter');
+	var smh = require('../core/lib/style_modifier_hunter');
 
 	exports['consume_style_modifier'] = {
 		'uses the partial stylemodifer to modify the patterns extendedTemplate' : function(test){

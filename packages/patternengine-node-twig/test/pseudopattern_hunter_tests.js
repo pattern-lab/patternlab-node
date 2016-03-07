@@ -1,9 +1,9 @@
 (function () {
 	"use strict";
 
-	var pha = require('../builder/pseudopattern_hunter');
-  var pa = require('../builder/pattern_assembler');
-	var object_factory = require('../builder/object_factory');
+	var pha = require('../core/lib/pseudopattern_hunter');
+  var pa = require('../core/lib/pattern_assembler');
+	var object_factory = require('../core/lib/object_factory');
 
 	exports['pseudopattern_hunter'] = {
 		'pseudpattern found and added as a pattern' : function(test){
