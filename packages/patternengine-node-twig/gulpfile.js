@@ -109,7 +109,7 @@ gulp.task('cp:styleguide', function(){
 
 // watch task utility functions
 function getSupportedTemplateExtensions() {
-  var engines = require('./builder/pattern_engines/pattern_engines');
+  var engines = require('./core/lib/pattern_engines/pattern_engines');
   return engines.getSupportedFileExtensions();
 }
 function getTemplateWatches() {

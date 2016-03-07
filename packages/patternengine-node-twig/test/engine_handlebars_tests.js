@@ -6,8 +6,8 @@
   catch (err) { return; }
 
   var path = require('path');
-  var pa = require('../builder/pattern_assembler');
-  var object_factory = require('../builder/object_factory');
+  var pa = require('../core/lib/pattern_assembler');
+  var object_factory = require('../core/lib/object_factory');
   var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 
   try {
@@ -31,7 +31,7 @@
       data: {
         link: {}
       },
-      config: require('../config.json'),
+      config: require('../patternlab-config.json'),
       package: {}
     };
 
