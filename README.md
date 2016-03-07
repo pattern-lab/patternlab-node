@@ -164,6 +164,16 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 
 Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
 
+##### cacheBust
+`config.json` has this flag to instruct Pattern Lab to append a unique query string to Javascript and CSS assets throughout the frontend.
+
+```
+"cacheBust": true
+```
+
+Default: true
+
+
 ##### baseurl
 
 If your instance of Pattern Lab lives in a subdirectory of your server, for instance on github pages (ex: yourusername.github.io/patterns-demo/), then add the baseurl here. The baseurl is everything after the hostname - ie: `patterns-demo`

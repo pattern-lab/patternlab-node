@@ -54,6 +54,17 @@ var patternlab_engine = function (config) {
     }
   }
 
+  function setCacheBust() {
+    if (patternlab.config.cacheBust) {
+      if (patternlab.config.debug) {
+        console.log('setting cacheBuster value for frontend assets.');
+      }
+      patternlab.cacheBuster = new Date().getTime();
+    } else {
+      patternlab.cacheBuster = 0;
+    }
+  }
+
   function buildPatterns(deletePatternDir) {
     patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
@@ -63,6 +74,8 @@ var patternlab_engine = function (config) {
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
+
+    setCacheBust();
 
     var pattern_assembler = new pa(),
       entity_encoder = new he(),
@@ -163,6 +176,10 @@ var patternlab_engine = function (config) {
       var allData = JSON.parse(JSON.stringify(patternlab.data));
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
+      //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+      allData.cacheBuster = patternlab.cacheBuster;
+      pattern.cacheBuster = patternlab.cacheBuster;
+
       //render the pattern-specific header
       var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
 
@@ -249,6 +266,9 @@ var patternlab_engine = function (config) {
       styleguidePatterns = patternlab.patterns;
     }
 
+    //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+    patternlab.data.cacheBuster = patternlab.cacheBuster;
+
     //get the main page head and foot
     var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
     var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
@@ -257,7 +277,7 @@ var patternlab_engine = function (config) {
 
     //build the styleguide
     var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8'),
-      styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
+      styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns, cacheBuster: patternlab.cacheBuster});
 
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
 
@@ -300,7 +320,7 @@ var patternlab_engine = function (config) {
         }
 
         var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
-        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
+        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster });
         fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHead + viewAllHtml + mainPageFoot);
       }
 
@@ -327,7 +347,7 @@ var patternlab_engine = function (config) {
         }
 
         var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
-        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
+        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster});
         fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
       }
     }
@@ -523,7 +543,7 @@ var patternlab_engine = function (config) {
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
-    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {}, {
+    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {cacheBuster: patternlab.cacheBuster}, {
       'ishControls': ishControlsPartialHtml,
       'patternNav': patternNavPartialHtml,
       'patternPaths': patternPathsPartialHtml,
