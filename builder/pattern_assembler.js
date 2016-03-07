@@ -127,9 +127,47 @@ var pattern_assembler = function () {
   }
 
   /**
-   * Render the extendedTemplate excluding partials. The reason for this is to
-   * eliminate the unwanted recursion paths that would remain if irrelevant
-   * conditional tags persisted.
+   * Render the template excluding partials. The reason for this is to eliminate
+   * the unwanted recursion paths that would remain if irrelevant conditional
+   * tags persisted. Targeting non-partial tags that are not keyed in the JSON
+   * data for this pattern. Those will be deleted after this runs.
+   *
+   * @param {string} template The template to render.
+   * @param {object} data The data to render with.
+   * @param {object} dataKeys The data to render with.
+   * @returns {string} templateRendered
+   */
+  function escapeRenderUnescape(pattern) {
+
+    //escape partial tags by switching them to ERB syntax.
+    var escapedKey;
+    var regex;
+    var templateEscaped = pattern.tmpTemplate;
+
+    for (var i = 0; i < pattern.dataKeys.length; i++) {
+      escapedKey = pattern.dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+      templateEscaped = templateEscaped.replace(regex, '<%$1%>');
+    }
+    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+console.log(templateEscaped);
+}
+
+    var templateRendered = renderPattern(templateEscaped, pattern.jsonFileData);
+    templateRendered = templateRendered.replace(/<%([^%]+)%>/g, '{{$1}}');
+
+    //after that's done, switch back to standard Mustache tags and return.
+//    var templateRendered = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+
+    return templateRendered;
+  }
+
+  /**
+   * Render the template excluding partials. The reason for this is to eliminate
+   * the unwanted recursion paths that would remain if irrelevant conditional
+   * tags persisted. Escaping partial tags so a full render of non-partial tags
+   * eliminate irrelevant conditional tags.
    *
    * @param {string} template The template to render.
    * @param {object} data The data to render with.
@@ -145,6 +183,30 @@ var pattern_assembler = function () {
     var templateRendered = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
 
     return templateRendered;
+  }
+
+  /**
+   * Recursively get all the property keys from the JSON data for a pattern.
+   *
+   * @param {object} data
+   * @param {array} keys At top level of recursion, this should be undefined.
+   * @returns {array} keys A flat, one-dimensional array.
+   */
+  function getDataKeys(data) {
+    var keys = [];
+
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (!(typeof data === 'object' && data instanceof Array)) {
+          keys.push(key);
+        }
+        if (typeof data[key] === 'object') {
+          keys = keys.concat(getDataKeys(data[key]));
+        }
+      }
+    }
+
+    return keys;
   }
 
   function getpatternbykey(key, patternlab) {
@@ -255,6 +317,7 @@ var pattern_assembler = function () {
     catch (error) {
       currentPattern.jsonFileData = globalData;
     }
+    currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
 
     //look for a listitems.json file for this template
     try {
@@ -281,9 +344,6 @@ var pattern_assembler = function () {
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
 
-    //save parameteredPartials before render
-//    currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
-
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
   }
@@ -294,9 +354,23 @@ var pattern_assembler = function () {
    *
    * @param {string} file The abspath of pattern being processed.
    * @param {object} patternlab The patternlab object.
-   * @param {boolean} startRecurse True if and only if at top level of recursion.
+   * @param {number} recursionLevel Top level === 0. Increments by 1 after that.
    */
-  function processPatternRecursive(file, patternlab, startRecurse) {
+  function processPatternRecursive(file, patternlab, recursionLevel) {
+console.log(file);
+if (file.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+  /*
+console.log('RECURSION LEVEL: ' + recursionLevel);
+//  console.log(currentPattern.jsonFileData);
+//  console.log(getDataKeys(currentPattern.jsonFileData));
+console.log('currentPattern.tmpTemplate size: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+console.log('currentPattern.extendedTemplate');
+console.log(currentPattern.extendedTemplate);
+//  console.log('getDataKeys(currentPattern.jsonFileData)');
+//  console.log(currentPattern.dataKeys);
+*/
+}
     var lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
@@ -313,100 +387,178 @@ var pattern_assembler = function () {
 
     //find current pattern in patternlab object using var file as a key
     var currentPattern = getpatternbykey(file, patternlab);
-    var startPattern = getpatternbykey(file, patternlab);
-    var startFile = file;
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+//  console.log(file);
+}
 
     //return if processing an ignored file
     if (currentPattern === null || typeof currentPattern.tmpTemplate === 'undefined') {
       return;
     }
 
-    //render the template, excepting for partial includes, using the startRecurse's data
-    currentPattern.tmpTemplate = escapeRenderUnescapePartials(currentPattern.tmpTemplate, startPattern.jsonFileData);
+    //find any listItem blocks
+    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
-    var parameteredPartials = findPartialsWithPatternParameters(currentPattern.tmpTemplate);
+    //render the template, excepting for partial includes, using jsonFileData
+if (typeof currentPattern.dataKeys === 'undefined') {
+console.log(typeof currentPattern.jsonFileData);
+  console.log('UNDEFINED');
+}
+if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+console.log('RECURSION LEVEL: ' + recursionLevel);
+//  console.log(currentPattern.jsonFileData);
+//  console.log(getDataKeys(currentPattern.jsonFileData));
+console.log('currentPattern.tmpTemplate before: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+//  console.log('getDataKeys(currentPattern.jsonFileData)');
+//  console.log(currentPattern.dataKeys);
+}
+    currentPattern.tmpTemplate = escapeRenderUnescape(currentPattern);
+    var tmpTemplate = escapeRenderUnescape(currentPattern);
+if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+//  console.log(currentPattern.jsonFileData);
+//  console.log(getDataKeys(currentPattern.jsonFileData));
+console.log('currentPattern.tmpTemplate after: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+//  console.log('getDataKeys(currentPattern.jsonFileData)');
+//  console.log(currentPattern.dataKeys);
+}
 
-/*
-    if (foundPatternPartials && foundPatternPartials.length > 0) {
-      if (patternlab.config.debug) {
-        console.log('found partials for ' + currentPattern.key);
-      }
-*/
+    var parameteredPartials = findPartialsWithPatternParameters(tmpTemplate);
 
-      //find any listItem blocks
-      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-
-//      var foundPatternPartials2 = foundPatternPartials;
-
-      //if the template contains any pattern parameters
-      if (parameteredPartials && parameteredPartials.length > 0) {
+    //if the template contains any pattern parameters
+    if (parameteredPartials && parameteredPartials.length) {
       if (patternlab.config.debug) {
         console.log('found parametered partials for ' + currentPattern.key);
       }
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+  /*
+console.log('RECURSION LEVEL: ' + recursionLevel);
+console.log('parameteredPartials before');
+console.log(parameteredPartials);
+console.log('currentPattern.tmpTemplate size: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+//console.log('tmpTemplate');
+//console.log(tmpTemplate);
+*/
+}
 
-        //first, iterate through parameteredPartials and reset tmpTemplate for each
-        parameter_hunter.reset_tmp_templates(currentPattern, patternlab);
+      //first, iterate through parameteredPartials and reset tmpTemplate for each
+//      parameter_hunter.reset_tmp_templates(parameteredPartials, patternlab);
 
-        //recursively render currentPattern.tmpTemplate via parameter_hunter.find_parameters()
-        parameter_hunter.find_parameters(currentPattern, patternlab);
+      //recursively render currentPattern.tmpTemplate via parameter_hunter.find_parameters()
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+  /*
+console.log('parameteredPartials after');
+console.log(parameteredPartials);
+console.log('currentPattern.tmpTemplate size: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+//console.log('tmpTemplate');
+//console.log(tmpTemplate);
+*/
+}
 
-        //re-evaluate found pattern partials
-//        foundPatternPartials2 = findPartials(currentPattern.tmpTemplate);
+      //recurse, going a level deeper, with each render eliminating nested parameteredPartials
+      //when there are no more nested parameteredPartials, we'll pop back up
+      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1);
 
-        //recurse, going a level deeper, with each render eliminating nested parameteredPartials
-        //when there are no more nested parameteredPartials, we'll pop back up
-        processPatternRecursive(currentPattern.abspath, patternlab, false);
-      }
+      tmpTemplate = escapeRenderUnescapePartials(currentPattern.tmpTemplate, currentPattern.jsonFileData);
+    }
 
-    var foundPatternPartials = findPartials(currentPattern.tmpTemplate);
-      //do something with re-evaluated partials
-      if (foundPatternPartials && foundPatternPartials.length > 0) {
+tmpTemplate = tmpTemplate.replace(/^$\n/gm, '');
+    var foundPatternPartials = findPartials(tmpTemplate);
+
+    //since we're done with tmpTemplate, free it from memory
+    tmpTemplate = '';
+
+    //recurse through non-parametered partials
+    if (foundPatternPartials && foundPatternPartials.length) {
       if (patternlab.config.debug) {
         console.log('found partials for ' + currentPattern.key);
       }
-//        var partialKey;
-//        var partialPattern;
 
-        for (i = 0; i < foundPatternPartials.length; i++) {
-          var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+  /*
+console.log('RECURSION LEVEL: ' + recursionLevel);
+console.log('foundPatternPartials before');
+console.log(foundPatternPartials);
+console.log('currentPattern.tmpTemplate size: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+//console.log('tmpTemplate size: ' + tmpTemplate.length + 'B');
+//console.log(tmpTemplate);
+*/
+}
+      for (i = 0; i < foundPatternPartials.length; i++) {
+        var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
 
-          //identify which pattern this partial corresponds to
-          var partialPattern = getpatternbykey(partialKey, patternlab);
+        //identify which pattern this partial corresponds to
+        var partialPattern = getpatternbykey(partialKey, patternlab);
 
-          if (partialPattern === null) {
-            throw 'Could not find pattern with key ' + partialKey;
-          } else {
+        if (partialPattern === null) {
+          throw 'Could not find pattern with key ' + partialKey;
+        } else {
 
-            //replace each partial tag with the partial's template.
-            currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(foundPatternPartials[i], partialPattern.tmpTemplate);
-          }
+          //replace each partial tag with the partial's template.
+          //escape regex special characters as per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_special_characters
+          var escapedPartial = foundPatternPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+          var regex = new RegExp(escapedPartial, 'g');
+
+//console.log(currentPattern.abspath);
+if (currentPattern.abspath.indexOf('01-molecules/sections/title-synopsis.mustache') > -1) {
+//  console.log(regex);
+}
+          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(regex, partialPattern.template);
+currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^$\n/gm, '');
+//tmpTemplate = tmpTemplate.replace(regex, partialPattern.tmpTemplate);
+//tmpTemplate = tmpTemplate.replace(/^$\n/gm, '');
         }
-if (startFile.indexOf('04-pages/faq.mustache') > -1) {
-//console.log(startRecurse);
-//console.log(currentPattern.tmpTemplate);
-//console.log('\n');
-//console.log('\n');
-//console.log('\n');
-//console.log('\n');
+      }
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+
+  /*
+console.log('foundPatternPartials after');
+console.log(foundPatternPartials);
+console.log('currentPattern.tmpTemplate size: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+//console.log('tmpTemplate size: ' + tmpTemplate.length + 'B');
+//console.log(tmpTemplate);
+*/
 }
 
-        //recurse, going a level deeper, with each render eliminating nested partials
-        //when there are no more nested partials, we'll pop back up
-        processPatternRecursive(currentPattern.abspath, patternlab, false);
-      }
+      //recurse, going a level deeper, with each render eliminating nested partials
+      //when there are no more nested partials, we'll pop back up
+      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1);
+if (currentPattern.abspath.indexOf('01-molecules/sections/title-synopsis.mustache') > -1) {
+  /*
+console.log('currentPattern.tmpTemplate');
+console.log(currentPattern.tmpTemplate);
+*/
+}
+    }
 
-
-//    }
-
+//if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+//if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
     //do only at the end of the top level of recursion
-    if (startRecurse) {
+    if (recursionLevel === 0) {
 
       //if partial has style modifier data, replace the styleModifier value
-      if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
+      if (currentPattern.stylePartials && currentPattern.stylePartials.length) {
         style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
       }
 
-      currentPattern.extendedTemplate = currentPattern.tmpTemplate;
+      currentPattern.extendedTemplate = renderPattern(currentPattern.tmpTemplate, currentPattern.jsonFileData);
+//if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+  /*
+//  console.log(currentPattern.jsonFileData);
+//  console.log(getDataKeys(currentPattern.jsonFileData));
+console.log('currentPattern.tmpTemplate size: ' + currentPattern.tmpTemplate.length + 'B');
+console.log(currentPattern.tmpTemplate);
+console.log('currentPattern.extendedTemplate');
+console.log(currentPattern.extendedTemplate);
+*/
+}
 
       //find any listItem blocks that within the pattern, even if there are no partials
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -416,6 +568,9 @@ if (startFile.indexOf('04-pages/faq.mustache') > -1) {
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
       pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+
+      //since we're done with currentPattern.tmpTemplate, free it from memory
+      currentPattern.tmpTemplate = '';
     }
   }
 
@@ -490,8 +645,8 @@ if (startFile.indexOf('04-pages/faq.mustache') > -1) {
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, startRecurse) {
-      processPatternRecursive(file, patternlab, startRecurse);
+    process_pattern_recursive: function (file, patternlab, recursionLevel) {
+      processPatternRecursive(file, patternlab, recursionLevel);
     },
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);
@@ -501,5 +656,3 @@ if (startFile.indexOf('04-pages/faq.mustache') > -1) {
 };
 
 module.exports = pattern_assembler;
-
-

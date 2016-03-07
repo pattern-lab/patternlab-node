@@ -121,37 +121,38 @@ var parameter_hunter = function () {
     return paramStringWellFormed;
   }
 
-  function findparameters(pattern, patternlab) {
+  function findparameters(pattern, patternlab, parameteredPartials) {
 
     //the reason for rendering at this point is to eliminate the unwanted
     //recursion paths that would remain if irrelevant conditional tags persisted.
     //however, we only want to render the parameter data, so we need to identify
     //those tags, switch them to ERB syntax, and render for ERB syntax.
-    var tmpTemplate = pattern.tmpTemplate;
+//    var tmpTemplate = pattern.tmpTemplate;
 
     //evaluate parameteredPartials within tmpTemplate
-    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
+//    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
 
-    if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
+//    if (pattern.parameteredPartials && pattern.parameteredPartials.length) {
 
       //iterate through most recently evaluated parameteredPartials
-      pattern.parameteredPartials.forEach(function (pMatch) {
+//      pattern.parameteredPartials.forEach(function (pMatch) {
+      for (var i = 0; i < parameteredPartials.length; i++) {
         //find the partial's name and retrieve it
-        var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+        var partialName = parameteredPartials[i].match(/([\w\-\.\/~]+)/g)[0];
         var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
         //if we retrieved a pattern we should make sure that its tmpTemplate is reset. looks to fix #190
-        var renderedPartial = partialPattern.template;
+        partialPattern.tmpTemplate = partialPattern.template;
 
         if (patternlab.config.debug) {
           console.log('found patternParameters for ' + partialName);
         }
 
         //strip out the additional data, convert string to JSON.
-        var leftParen = pMatch.indexOf('(');
-        var rightParen = pMatch.indexOf(')');
+        var leftParen = parameteredPartials[i].indexOf('(');
+        var rightParen = parameteredPartials[i].indexOf(')');
         var paramData = {};
-        var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+        var paramString = '{' + parameteredPartials[i].substring(leftParen + 1, rightParen) + '}';
         var paramStringWellFormed = '{}';
         paramStringWellFormed = paramToJson(paramString);
 
@@ -162,8 +163,8 @@ var parameter_hunter = function () {
         }
 
         //if partial has style modifier data, replace the styleModifier value
-        if (pattern.stylePartials && pattern.stylePartials.length > 0) {
-          style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
+        if (pattern.stylePartials && pattern.stylePartials.length) {
+          style_modifier_hunter.consume_style_modifier(partialPattern, parameteredPartials[i], patternlab);
         }
 
 /*
@@ -180,36 +181,43 @@ var parameter_hunter = function () {
             //escape regex special characters as per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_special_characters
             escapedKey = j.replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
 
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-//  console.log(escapedKey);
-//  console.log('before');
-//  console.log(renderedPartial);
-}
             //apply replacement based on allowable characters from lines 78 and 79 of mustache.js
             //of the Mustache for JS project.
-            regex = new RegExp('\\{\\{([{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
-            renderedPartial = renderedPartial.replace(regex, '<%$1%>');
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-//  console.log('after');
-//  console.log(renderedPartial);
-}
+            regex = new RegExp('\\{\\{([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+            partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%$1%>');
           }
         }
 
         //then set the new delimiter at the beginning of the extended template
-        renderedPartial = '{{=<% %>=}}' + renderedPartial;
+        partialPattern.tmpTemplate = '{{=<% %>=}}' + partialPattern.tmpTemplate;
 
         //the reason for rendering at this point is to eliminate the unwanted
         //recursion paths that would remain if irrelevant conditional tags persisted.
-        renderedPartial = pattern_assembler.renderPattern(renderedPartial, paramData);
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-//  console.log('render');
-//  console.log(renderedPartial);
-}
+        partialPattern.tmpTemplate = pattern_assembler.renderPattern(partialPattern.tmpTemplate, paramData);
 
-        tmpTemplate = tmpTemplate.replace(pMatch, renderedPartial);
-      });
-    }
+        //replace parameteredPartials with their rendered values.
+        var pMatch = parameteredPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+        regex = new RegExp(pMatch, 'g');
+        pattern.tmpTemplate = pattern.tmpTemplate.replace(regex, partialPattern.tmpTemplate);
+if (pattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+if(j.indexOf('02_global_header') > -1) {
+  console.log(escapedKey);
+  console.log(pattern.tmpTemplate);
+}
+}
+        pattern.tmpTemplate = pattern.tmpTemplate.replace(/^$\n/gm, '');
+//        return tmpTemplate;
+if (pattern.abspath.indexOf('01-molecules/sections/title-synopsis.mustache') > -1) {
+  if (pMatch === '{{> 03-templates/field/field(title_synopsis\\?: true) }}') {
+    /*
+  console.log(pMatch);
+  console.log('tmpTemplate after');
+  console.log(tmpTemplate);
+  */
+  }
+}
+      }
+//    }
 
     //after iterating through parameteredPartials, reassign the current pattern's
     //stylePartials, parameteredPartials, and tmpTemplate properties based on
@@ -217,14 +225,14 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
 /*
     pattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(tmpTemplate);
 */
-    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
-    pattern.tmpTemplate = tmpTemplate;
+//    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
+//    pattern.tmpTemplate = tmpTemplate;
 if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
 //  console.log(tmpTemplate);
 }
 
     //recurse if tmpTemplate still has parametered partials.
-    if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
+    if (pattern.parameteredPartials && pattern.parameteredPartials.length) {
 //      findparameters(pattern, patternlab);
     }
   }
@@ -234,16 +242,12 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
    * partial. This is to start fresh in case the pattern had been processed by
    * findparameters or processPatternRecursive before.
    *
-   * @param {object} currentPattern 
+   * @param {object} currentPattern
+   * @param {array} parameteredPartials
    * @param {object} patternlab
    */
-  function resetTmpTemplates(currentPattern, patternlab) {
-if (currentPattern.parameteredPartials === null) {
-console.log('currentPattern.parameteredPartials === null');
-}
-    var parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(currentPattern.tmpTemplate);
-
-    if (parameteredPartials && parameteredPartials.length > 0) {
+  function resetTmpTemplates(parameteredPartials, patternlab) {
+    if (parameteredPartials && parameteredPartials.length) {
       for (var i = 0; i < parameteredPartials.length; i++) {
 
         //find the partial's name and retrieve it
@@ -257,11 +261,11 @@ console.log('currentPattern.parameteredPartials === null');
   }
 
   return {
-    find_parameters: function (pattern, patternlab) {
-      findparameters(pattern, patternlab);
+    find_parameters: function (pattern, patternlab, parameteredPartials, tmpTemplate) {
+      findparameters(pattern, patternlab, parameteredPartials, tmpTemplate);
     },
-    reset_tmp_templates: function(currentPattern, patternlab) {
-      resetTmpTemplates(currentPattern, patternlab);
+    reset_tmp_templates: function(parameteredPartials, patternlab) {
+      resetTmpTemplates(parameteredPartials, patternlab);
     }
   };
 
