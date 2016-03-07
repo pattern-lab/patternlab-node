@@ -1,7 +1,7 @@
 (function () {
 "use strict";
 
-	var MediaHunter = require('../builder/media_hunter');
+	var MediaHunter = require('../core/lib/media_hunter');
 
 	exports['media_query hunter basic support '] = {
 		'test media hunter finds query' : function(test){

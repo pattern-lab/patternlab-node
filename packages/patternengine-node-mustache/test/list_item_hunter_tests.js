@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var lih = require('../builder/list_item_hunter');
-  var of = require('../builder/object_factory');
+  var lih = require('../core/lib/list_item_hunter');
+  var of = require('../core/lib/object_factory');
   var extend = require('util')._extend;
 
   // fake pattern creators
@@ -288,7 +288,7 @@
     'process_list_item_partials - correctly ignores bookended partials without a style modifier when the same partial has a style modifier between' : function(test){
       //arrange
       var fs = require('fs-extra');
-      var pa = require('../builder/pattern_assembler');
+      var pa = require('../core/lib/pattern_assembler');
       var pattern_assembler = new pa();
       var list_item_hunter = new lih();
       var patterns_dir = './test/files/_patterns';
