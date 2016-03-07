@@ -34,8 +34,8 @@ This repository ships with two `package.json` files, a `Gruntfile.js`, and a `gu
 To run patternlab-node using grunt, do the following in the directory you downloaded and extracted the zipped release:
 
 1. Run `npm install` from the command line
-2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `builder/patternlab_gulp.js` files if you are certain you don't need it.
-* Not deleting `builder/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
+2. Optionally, delete `package.gulp.json`, `gulpfile.js`, and `core/lib/patternlab_gulp.js` files if you are certain you don't need it.
+* Not deleting `core/lib/patternlab_gulp.js` may cause a harmless error when running grunt. Delete it.
 3. Run `grunt` or `grunt serve` from the command line
 
 This creates all patterns, the styleguide, and the pattern lab site. It's strongly recommended to run `grunt serve` to have BrowserSync spin up and serve the files to you.
@@ -86,7 +86,7 @@ Get more information about patternlab-node, pattern lab in general, and where to
 To have patternlab-node watch for changes to either a mustache template, data, or stylesheets, run `grunt|gulp watch` or `grunt|gulp serve`. The `Gruntfile|Gulpfile` governs what is watched. It should be easy to add scss or whatever preprocessor you fancy.
 
 ##### Configurable Paths
-Pattern Lab Node ships with a particular source and public workflow intended to separate the code you work on with the code generated for consumption elsewhere. If you wish to change any paths, you may do so within `config.json`. The contents are here:
+Pattern Lab Node ships with a particular source and public workflow intended to separate the code you work on with the code generated for consumption elsewhere. If you wish to change any paths, you may do so within `patternlab-config.json`. The contents are here:
 
 ```
 "paths" : {
@@ -117,7 +117,7 @@ Pattern Lab Node ships with a particular source and public workflow intended to 
 Note the intentional repitition of the nested structure, made this way for maximum flexibility. Relative paths are default but absolute paths should work too. You may also use these paths within Grunt or Gulp files by referring to the paths() object.
 
 ##### Nav Bar Controls
-If you don't have a need for some of the nav-bar tools in the Pattern Lab frontend, you can turn them off in `config.json`.
+If you don't have a need for some of the nav-bar tools in the Pattern Lab frontend, you can turn them off in `patternlab-config.json`.
 
 The current selection is as follows.
 
@@ -144,7 +144,7 @@ The current selection is as follows.
 }
 ```
 ##### Pattern States
-You can set the state of a pattern by including it in `config.json` too. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
+You can set the state of a pattern by including it in `patternlab-config.json` too. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
 Pattern states should be lowercase and use hyphens where spaces are present.
 ```
 "patternStates": {
@@ -155,7 +155,7 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 ```
 
 ##### Pattern Export
-`config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory.
+`patternlab-config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory.
 
 ```
 "patternExportKeys": ["molecules-primary-nav", "organisms-header", "organisms-header"],
@@ -163,6 +163,28 @@ Pattern states should be lowercase and use hyphens where spaces are present.
 ```
 
 Coupled with exported css (much easier to extract with existing tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy)), pattern export can help to maintain the relevancy of the design system by directly placing partials in a directory of your choosing.
+
+##### cacheBust
+`patternlab-config.json` has this flag to instruct Pattern Lab to append a unique query string to Javascript and CSS assets throughout the frontend.
+
+```
+"cacheBust": true
+```
+
+Default: true
+
+##### defaultPattter
+`patternlab-config.json` has an entry that allows you to specifiy a specific pattern upon launch of the main site. It works even without BrowserSync running. Set it like this:
+
+```
+"defaultPattern": "pages-homepage",
+```
+Default: "all"
+If running with BrowserSync, you may also set [this BrowserSync options](https://www.browsersync.io/docs/options/#option-startPath) to achieve the same result via your Gruntfile or Gulpfile.
+
+```
+startPath: '/?p=pages-homepage',
+```
 
 ##### baseurl
 
@@ -182,7 +204,7 @@ You can also exclude complete directories by prepending the directory name with 
 
 ##### Style Guide Excludes
 
-Exclude whole pattern types from the "All patterns" styleguide by adding entries to `config.json`. This is quite useful to make speedier. Pattern Lab Node ships with the following:
+Exclude whole pattern types from the "All patterns" styleguide by adding entries to `patternlab-config.json`. This is quite useful to make speedier. Pattern Lab Node ships with the following:
 
 ```
 "styleGuideExcludes": [
@@ -193,7 +215,7 @@ Exclude whole pattern types from the "All patterns" styleguide by adding entries
 
 
 ##### Debug Mode
-`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.config.json` to see all the secrets.
+`patternlab.json` is a file created for debugging purposes. Set `debug` to true in `.patternlab-config.json` to see all the secrets.
 
 ##### Server &amp; BrowserSync
 Running `grunt serve` or `gulp serve` will compile the Pattern Lab frontend and host it by default on <a href="http://localhost:3000">http://localhost:3000</a> via [BrowserSync](http://www.browsersync.io/docs/). After it starts, templates, `data.json`, and scss/css changes in your source code will be automatically injected into the page.
