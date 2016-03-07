@@ -2,7 +2,7 @@
   "use strict";
 
   var path = require('path');
-  var pa = require('../builder/pattern_assembler');
+  var pa = require('../core/lib/pattern_assembler');
   var testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
 
   try {
@@ -26,7 +26,7 @@
       data: {
         link: {}
       },
-      config: require('../config.json'),
+      config: require('../patternlab-config.json'),
       package: {}
     };
 
