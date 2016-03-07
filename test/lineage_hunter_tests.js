@@ -1,8 +1,8 @@
 (function () {
-	"use strict";
+  "use strict";
 
-	var lh = require('../builder/lineage_hunter');
-  var of = require('../builder/object_factory');
+  var lh = require('../core/lib/lineage_hunter');
+  var of = require('../core/lib/object_factory');
   var extend = require('util')._extend;
 
   // fake pattern creators

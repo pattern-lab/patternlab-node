@@ -24,7 +24,7 @@ var patternlab_engine = function (config) {
     patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
-  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../config.json'));
+  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
 
   var paths = patternlab.config.paths;
 
@@ -60,21 +60,35 @@ var patternlab_engine = function (config) {
       return value;
     }
 
-    //debug file can be written by setting flag on config.json
+    //debug file can be written by setting flag on patternlab-config.json
     if (patternlab.config.debug) {
       console.log('writing patternlab debug file to ./patternlab.json');
       fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
     }
   }
 
+  function setCacheBust() {
+    if (patternlab.config.cacheBust) {
+      if (patternlab.config.debug) {
+        console.log('setting cacheBuster value for frontend assets.');
+      }
+      patternlab.cacheBuster = new Date().getTime();
+    } else {
+      patternlab.cacheBuster = 0;
+    }
+  }
+
   function buildPatterns(deletePatternDir) {
     patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
-    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+    patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
+    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
+
+    setCacheBust();
 
     var pattern_assembler = new pa(),
       entity_encoder = new he(),
@@ -128,6 +142,25 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
       });
 
+    //set user defined head and foot if they exist
+    try {
+      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+    }
+    catch (ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
+      }
+    }
+    try {
+      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+    }
+    catch (ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
+      }
+    }
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
@@ -138,21 +171,43 @@ var patternlab_engine = function (config) {
       fs.emptyDirSync(paths.public.patterns);
     }
 
+    //set pattern-specific header if necessary
+    var head;
+    if (patternlab.userHead) {
+      head = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+    } else {
+      head = patternlab.header;
+    }
+
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function (pattern) {
+
+      pattern.header = head;
 
       //render the pattern, but first consolidate any data we may have
       var allData = JSON.parse(JSON.stringify(patternlab.data));
       allData = plutils.mergeData(allData, pattern.jsonFileData);
 
+      //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+      allData.cacheBuster = patternlab.cacheBuster;
+      pattern.cacheBuster = patternlab.cacheBuster;
+
+      //render the pattern-specific header
+      var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
+
       //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
 
-      //add footer info before writing
-      var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
+      //set the pattern-specific footer if necessary
+      if (patternlab.userFoot) {
+        var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
+        pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
+      } else {
+        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, pattern);
+      }
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartial + pattern.footer);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
@@ -216,11 +271,20 @@ var patternlab_engine = function (config) {
       styleguidePatterns = patternlab.patterns;
     }
 
-    //build the styleguide
-    var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'styleguide.mustache'), 'utf8'),
-      styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
+    //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+    patternlab.data.cacheBuster = patternlab.cacheBuster;
 
-    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
+    //get the main page head and foot
+    var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+    var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
+    var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
+    var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, patternlab.data);
+
+    //build the styleguide
+    var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8'),
+      styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns, cacheBuster: patternlab.cacheBuster});
+
+    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
 
     //build the viewall pages
     var prevSubdir = '',
@@ -261,9 +325,9 @@ var patternlab_engine = function (config) {
           }
         }
 
-        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
-        fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', viewAllHtml);
+        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
+        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster });
+        fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHead + viewAllHtml + mainPageFoot);
       }
 
       //create the view all for the subsection
@@ -288,14 +352,14 @@ var patternlab_engine = function (config) {
           }
         }
 
-        viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-        viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
-        fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', viewAllHtml);
+        var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
+        var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster});
+        fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
       }
     }
 
     //build the patternlab website
-    var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'index.mustache'), 'utf8');
+    var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/index.mustache'), 'utf8');
 
     //loop through all patterns.to build the navigation
     //todo: refactor this someday
@@ -471,24 +535,27 @@ var patternlab_engine = function (config) {
 
     //the patternlab site requires a lot of partials to be rendered.
     //patternNav
-    var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternNav.mustache'), 'utf8');
+    var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternNav.mustache'), 'utf8');
     var patternNavPartialHtml = pattern_assembler.renderPattern(patternNavTemplate, patternlab);
 
     //ishControls
-    var ishControlsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/ishControls.mustache'), 'utf8');
+    var ishControlsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/ishControls.mustache'), 'utf8');
     patternlab.config.mqs = patternlab.mediaQueries;
     var ishControlsPartialHtml = pattern_assembler.renderPattern(ishControlsTemplate, patternlab.config);
 
     //patternPaths
-    var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternPaths.mustache'), 'utf8');
+    var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternPaths.mustache'), 'utf8');
     var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
 
     //viewAllPaths
-    var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/viewAllPaths.mustache'), 'utf8');
+    var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/viewAllPaths.mustache'), 'utf8');
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
-    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {}, {
+    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {
+      defaultPattern: patternlab.config.defaultPattern || 'all',
+      cacheBuster: patternlab.cacheBuster
+    }, {
       'ishControls': ishControlsPartialHtml,
       'patternNav': patternNavPartialHtml,
       'patternPaths': patternPathsPartialHtml,
