@@ -152,8 +152,7 @@
     isPatternFile: function (filename) {
       // skip hidden patterns/files without a second thought
       var extension = path.extname(filename);
-      if(filename.charAt(0) === '.' ||
-         filename.charAt(0) === '_' ||
+      if (filename.charAt(0) === '.' ||
          (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))) {
         return false;
       }
