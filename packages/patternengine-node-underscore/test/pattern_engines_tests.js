@@ -71,7 +71,7 @@
         '00-comment-thread.mustache': true,
         '00-comment-thread.fakeextthatdoesntexist': false,
         '00-comment-thread': false,
-        '_00-comment-thread.mustache': false,
+        '_00-comment-thread.mustache': true,
         '.00-comment-thread.mustache': false,
         '00-comment-thread.json': false,
         '00-homepage~emergency.json': true
