@@ -543,7 +543,10 @@ var patternlab_engine = function (config) {
     var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
-    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {cacheBuster: patternlab.cacheBuster}, {
+    var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {
+      defaultPattern: patternlab.config.defaultPattern || 'all',
+      cacheBuster: patternlab.cacheBuster
+    }, {
       'ishControls': ishControlsPartialHtml,
       'patternNav': patternNavPartialHtml,
       'patternPaths': patternPathsPartialHtml,
