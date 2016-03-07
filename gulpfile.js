@@ -27,7 +27,7 @@ function paths() {
 }
 
 //load patternlab-node tasks
-gulp.loadTasks(__dirname + '/builder/patternlab_gulp.js');
+gulp.loadTasks(__dirname + '/core/lib/patternlab_gulp.js');
 
 //clean patterns dir
 gulp.task('clean', function (cb) {
@@ -38,25 +38,25 @@ gulp.task('clean', function (cb) {
 //build the banner
 gulp.task('banner', function () {
   return gulp.src([
-    './builder/patternlab.js',
-    './builder/object_factory.js',
-    './builder/lineage_hunter.js',
-    './builder/media_hunter.js',
-    './builder/patternlab_grunt.js',
-    './builder/patternlab_gulp.js',
-    './builder/parameter_hunter.js',
-    './builder/pattern_exporter.js',
-    './builder/pattern_assembler.js',
-    './builder/pseudopattern_hunter.js',
-    './builder/list_item_hunter.js',
-    './builder/style_modifier_hunter.js'
+    './core/lib/patternlab.js',
+    './core/lib/object_factory.js',
+    './core/lib/lineage_hunter.js',
+    './core/lib/media_hunter.js',
+    './core/lib/patternlab_grunt.js',
+    './core/lib/patternlab_gulp.js',
+    './core/lib/parameter_hunter.js',
+    './core/lib/pattern_exporter.js',
+    './core/lib/pattern_assembler.js',
+    './core/lib/pseudopattern_hunter.js',
+    './core/lib/list_item_hunter.js',
+    './core/lib/style_modifier_hunter.js'
   ])
     .pipe(strip_banner())
     .pipe(header(banner, {
       pkg : pkg,
       today : new Date().getFullYear() }
     ))
-    .pipe(gulp.dest('./builder'));
+    .pipe(gulp.dest('./core/lib'));
 });
 
 
@@ -154,7 +154,7 @@ gulp.task('connect', ['lab'], function () {
 
 //lint
 gulp.task('eslint', function () {
-  return gulp.src(['./builder/*.js', '!node_modules/**'])
+  return gulp.src(['./core/lib/*.js', '!node_modules/**'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
