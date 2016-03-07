@@ -3,7 +3,7 @@ module.exports = function (grunt) {
   var path = require('path');
 
   function paths() {
-    return require('./config.json').paths;
+    return require('./patternlab-config.json').paths;
   }
 
   // Project configuration.

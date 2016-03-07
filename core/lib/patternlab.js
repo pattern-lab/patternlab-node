@@ -22,7 +22,7 @@ var patternlab_engine = function (config) {
     patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
-  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../config.json'));
+  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
 
   var paths = patternlab.config.paths;
 
@@ -47,7 +47,7 @@ var patternlab_engine = function (config) {
   }
 
   function printDebug() {
-    //debug file can be written by setting flag on config.json
+    //debug file can be written by setting flag on patternlab-config.json
     if (patternlab.config.debug) {
       console.log('writing patternlab debug file to ./patternlab.json');
       fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, null, 3));

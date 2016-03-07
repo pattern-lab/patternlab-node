@@ -197,7 +197,7 @@
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
-			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
@@ -525,7 +525,7 @@
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
 			//THIS IS BAD.
-			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
@@ -618,7 +618,7 @@
 			var patterns_dir = './test/files/_patterns/';
 			var patternlab = {};
 			//THIS IS BAD
-			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
