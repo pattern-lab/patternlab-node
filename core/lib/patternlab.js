@@ -134,7 +134,7 @@ var patternlab_engine = function (config) {
     try {
       patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
     }
-    catch(ex) {
+    catch (ex) {
       if (patternlab.config.debug) {
         console.log(ex);
         console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
@@ -143,7 +143,7 @@ var patternlab_engine = function (config) {
     try {
       patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
     }
-    catch(ex) {
+    catch (ex) {
       if (patternlab.config.debug) {
         console.log(ex);
         console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
@@ -195,7 +195,7 @@ var patternlab_engine = function (config) {
       }
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml +  pattern.patternPartial + pattern.footer);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartial + pattern.footer);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
