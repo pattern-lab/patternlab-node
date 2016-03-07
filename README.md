@@ -173,6 +173,18 @@ Coupled with exported css (much easier to extract with existing tools like [grun
 
 Default: true
 
+##### defaultPattter
+`config.json` has an entry that allows you to specifiy a specific pattern upon launch of the main site. It works even without BrowserSync running. Set it like this:
+
+```
+"defaultPattern": "pages-homepage",
+```
+Default: "all"
+If running with BrowserSync, you may also set [this BrowserSync options](https://www.browsersync.io/docs/options/#option-startPath) to achieve the same result via your Gruntfile or Gulpfile.
+
+```
+startPath: '/?p=pages-homepage',
+```
 
 ##### baseurl
 
