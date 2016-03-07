@@ -469,16 +469,18 @@
 	}
 
 	// load the iframe source
-	var patternName = "all";
+	var patternName = window.defaultPattern || "all";
 	var patternPath = "";
-	var iFramePath  = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"styleguide/html/styleguide.html";
+	var iFramePath  = window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.html","") + "styleguide/html/styleguide.html";
+
+  // if we were passed some url parameters, deal with it
 	if ((oGetVars.p != undefined) || (oGetVars.pattern != undefined)) {
 		patternName = (oGetVars.p != undefined) ? oGetVars.p : oGetVars.pattern;
-		patternPath = urlHandler.getFileName(patternName);
-		iFramePath  = (patternPath != "") ? window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+patternPath : iFramePath;
 	}
 
 	if (patternName != "all") {
+		patternPath = urlHandler.getFileName(patternName);
+		iFramePath  = (patternPath != "") ? window.location.protocol + "//" + window.location.host + window.location.pathname.replace("index.html","") + patternPath : iFramePath;
 		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
 		history.replaceState({ "pattern": patternName }, null, null);
 	}
