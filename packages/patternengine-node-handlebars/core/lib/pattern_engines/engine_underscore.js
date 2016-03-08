@@ -25,12 +25,12 @@
   // extend underscore with partial-ing methods
   // HANDLESCORE! UNDERBARS!
   _.mixin({
-    renderPartial: function(partial, data) {
+    renderPartial: function (partial, data) {
       var data = data || {};
       var compiled = _.template(partial);
       return compiled(data);
     },
-    assignContext: function(viewModel, data) {
+    assignContext: function (viewModel, data) {
       return viewModel(data);
     }
   });
@@ -69,21 +69,23 @@
       var matches = pattern.template.match(this.findPartialsRE);
       return matches;
     },
-    findPartialsWithStyleModifiers: function(pattern) {
+    findPartialsWithStyleModifiers: function () {
       return [];
     },
+
     // returns any patterns that match {{> value(foo:"bar") }} or {{>
     // value:mod(foo:"bar") }} within the pattern
-    findPartialsWithPatternParameters: function(pattern) {
+    findPartialsWithPatternParameters: function () {
       return [];
     },
-    findListItems: function(pattern) {
+    findListItems: function (pattern) {
       var matches = pattern.template.match(this.findListItemsRE);
       return matches;
     },
+
     // given a pattern, and a partial string, tease out the "pattern key" and
     // return it.
-    findPartialKey: function(partialString) {
+    findPartialKey: function (partialString) {
       var partialKey = partialString.replace(this.findPartialsRE, '$1');
       return partialKey;
     }
