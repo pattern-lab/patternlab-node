@@ -12,7 +12,6 @@
 
 var patternEngines = require('./pattern_engines/pattern_engines');
 var path = require('path');
-var fs = require('fs-extra');
 var extend = require('util')._extend;
 
 // oPattern properties
@@ -25,7 +24,7 @@ var oPattern = function (abspath, subdir, filename, data) {
   this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
   this.jsonFileData = data || {};
   this.patternName = this.fileName.replace(/^\d*\-/, '');
-  this.patternDisplayName = this.patternName.split('-').reduce(function(val, working){
+  this.patternDisplayName = this.patternName.split('-').reduce(function (val, working) {
     return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
   }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
   this.patternLink = this.name + '/' + this.name + '.html';
