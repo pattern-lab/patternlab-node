@@ -230,7 +230,7 @@
   }
 
   function mergeData(obj1, obj2) {
-    if (typeof obj2 === 'undefined') {
+    if (!obj2) {
       obj2 = {}; //eslint-disable-line no-param-reassign
     }
 
@@ -341,6 +341,9 @@
    * @param {number} recursionLevel Top level === 0. Increments by 1 after that.
    */
   function processPatternRecursive(file, patternlab, recursionLevel) {
+    var fs = require('fs-extra'),
+      path = require('path');
+
     var lh = require('./lineage_hunter'),
       ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
@@ -373,6 +376,12 @@ console.log(currentPattern.abspath);
 console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
       //look for a json file for this template
       var globalData = patternlab.data;
+//        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
+//        var localData = fs.readJSONSync(jsonFilename);
+if (!globalData) {
+console.log('localData === null');
+  console.log(currentPattern.abspath);
+}
       try {
         var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
         var localData = fs.readJSONSync(jsonFilename);
