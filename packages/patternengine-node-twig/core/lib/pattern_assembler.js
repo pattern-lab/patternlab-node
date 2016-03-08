@@ -18,6 +18,64 @@ var pattern_assembler = function () {
     plutils = require('./utilities'),
     patternEngines = require('./pattern_engines/pattern_engines');
 
+
+  // HELPER FUNCTIONS
+
+  function getpatternbykey(key, patternlab) {
+
+    //look for exact key matches
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+      if (patternlab.patterns[i].key === key) {
+        return patternlab.patterns[i];
+      }
+    }
+
+    //else look by verbose syntax
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+      switch (key) {
+        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
+        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
+          return patternlab.patterns[i];
+      }
+    }
+
+    //return the fuzzy match if all else fails
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+      var keyParts = key.split('-'),
+        keyType = keyParts[0],
+        keyName = keyParts.slice(1).join('-');
+
+      if (patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1) {
+        return patternlab.patterns[i];
+      }
+    }
+    throw 'Could not find pattern with key ' + key;
+  }
+
+  function buildListItems(container) {
+    //combine all list items into one structure
+    var list = [];
+    for (var item in container.listitems) {
+      if (container.listitems.hasOwnProperty(item)) {
+        list.push(container.listitems[item]);
+      }
+    }
+    container.listItemArray = plutils.shuffle(list);
+
+    for (var i = 1; i <= container.listItemArray.length; i++) {
+      var tempItems = [];
+      if (i === 1) {
+        tempItems.push(container.listItemArray[0]);
+        container.listitems['' + i ] = tempItems;
+      } else {
+        for (var c = 1; c <= i; c++) {
+          tempItems.push(container.listItemArray[c - 1]);
+          container.listitems['' + i ] = tempItems;
+        }
+      }
+    }
+  }
+
   function setState(pattern, patternlab) {
     if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]) {
       pattern.patternState = patternlab.config.patternStates[pattern.patternName];
@@ -226,63 +284,6 @@ var pattern_assembler = function () {
     //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
     pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
   }
-
-  function getpatternbykey(key, patternlab) {
-
-    //look for exact key matches
-    for (var i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].key === key) {
-        return patternlab.patterns[i];
-      }
-    }
-
-    //else look by verbose syntax
-    for (var i = 0; i < patternlab.patterns.length; i++) {
-      switch (key) {
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
-          return patternlab.patterns[i];
-      }
-    }
-
-    //return the fuzzy match if all else fails
-    for (var i = 0; i < patternlab.patterns.length; i++) {
-      var keyParts = key.split('-'),
-        keyType = keyParts[0],
-        keyName = keyParts.slice(1).join('-');
-      if (patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1) {
-        return patternlab.patterns[i];
-      }
-    }
-    throw 'Could not find pattern with key ' + key;
-  }
-
-
-
-  function buildListItems(container) {
-    //combine all list items into one structure
-    var list = [];
-    for (var item in container.listitems) {
-      if (container.listitems.hasOwnProperty(item)) {
-        list.push(container.listitems[item]);
-      }
-    }
-    container.listItemArray = plutils.shuffle(list);
-
-    for (var i = 1; i <= container.listItemArray.length; i++) {
-      var tempItems = [];
-      if (i === 1) {
-        tempItems.push(container.listItemArray[0]);
-        container.listitems['' + i ] = tempItems;
-      } else {
-        for (var c = 1; c <= i; c++) {
-          tempItems.push(container.listItemArray[c - 1]);
-          container.listitems['' + i ] = tempItems;
-        }
-      }
-    }
-  }
-
 
 
   function parseDataLinksHelper(patternlab, obj, key) {
