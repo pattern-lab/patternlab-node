@@ -84,8 +84,7 @@ module.exports = function (grunt) {
         files: [
           path.resolve(paths().source.css + '**/*.css'),
           path.resolve(paths().source.styleguide + 'css/*.css'),
-          path.resolve(paths().source.patterns + '**/*.mustache'),
-          path.resolve(paths().source.patterns + '**/*.json'),
+          path.resolve(paths().source.patterns + '**/*'),
           path.resolve(paths().source.fonts + '/*'),
           path.resolve(paths().source.images + '/*'),
           path.resolve(paths().source.data + '*.json')
