@@ -11,16 +11,16 @@
 /*
  * ENGINE SUPPORT LEVEL:
  *
- * Full. Partial calls and lineage hunting are supported. Handlebars does not
- * support the mustache-specific syntax extensions, style modifiers and pattern
- * parameters, because their use cases are addressed by the core Handlebars
- * feature set.
+ * Full. Partial calls and lineage hunting are supported. Twig does not support
+ * the mustache-specific syntax extensions, style modifiers and pattern
+ * parameters, because their use cases are addressed by the core Twig feature
+ * set.
  *
  */
 
 "use strict";
 
-var Twig = require('twig/twig.js');
+var Twig = require('twig');
 var twig = Twig.twig;
 
 var engine_twig = {
@@ -32,7 +32,7 @@ var engine_twig = {
   expandPartials: true,
 
   // regexes, stored here so they're only compiled once
-  findPartialsRE: /{%([ ]+)?(?:extends|include|embed)(\s\S)(.*)%}/g,
+  findPartialsRE: /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?%}/g,
   findPartialKeyRE: /"((?:\\.|[^"\\])*)"/,
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
 
@@ -45,7 +45,7 @@ var engine_twig = {
     return result;
   },
 
-  // find and return any {{> template-name }} within pattern
+  // find and return any {% include 'template-name' %} within pattern
   findPartials: function findPartials(pattern) {
     var matches = pattern.template.match(this.findPartialsRE);
     return matches;
