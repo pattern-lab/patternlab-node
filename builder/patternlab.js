@@ -113,11 +113,11 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
     patternlab.patterns.forEach(function (pattern) {
 
       //render the pattern, but first consolidate any data we may have
-      var allData = JSON.parse(JSON.stringify(patternlab.data));
-      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
+//      var allData = JSON.parse(JSON.stringify(patternlab.data));
+//      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
       //render the extendedTemplate with all data
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
+      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
       //add footer info before writing
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
