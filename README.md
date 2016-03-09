@@ -148,11 +148,25 @@ You can set the state of a pattern by including it in `patternlab-config.json` t
 Pattern states should be lowercase and use hyphens where spaces are present.
 ```
 "patternStates": {
-	"colors" : "inprogress",
-	"fonts" : "inreview",
-	"three-up" : "complete"
+	"atoms-colors" : "complete",
+	"molecules-primary-nav" : "inreview",
+	"organisms-header" : "inprogress"
 }
 ```
+
+Note that patterns inherit the lowest common denominator pattern state of their lineage.
+Consider:
+```
+"patternStates": {
+  "molecules-single-comment" : "complete",
+  "organisms-sticky-comment" : "inreview",
+  "templates-article" : "complete"
+}
+```
+In this case, two things are of note:
+
+* templates-article will display inreview since it inherits `organisms-sticky-comment`
+* pages-article will not display any pattern state, as it does not define one
 
 ##### Pattern Export
 `patternlab-config.json` also has two properties that work together to export completed patterns for use in a production environment. Provide an array of keys and an output directory. Pattern Lab doesn't ship with any pattern export keys, but the default directory is `"./pattern_exports/"` created inside the install directory.

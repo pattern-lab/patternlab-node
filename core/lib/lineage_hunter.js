@@ -12,9 +12,10 @@
 
 var lineage_hunter = function () {
 
+  var pa = require('./pattern_assembler');
+
   function findlineage(pattern, patternlab) {
 
-    var pa = require('./pattern_assembler');
     var pattern_assembler = new pa();
 
     //find the {{> template-name }} within patterns
@@ -50,7 +51,11 @@ var lineage_hunter = function () {
             "lineagePattern": ancestorPattern.key,
             "lineagePath": "../../patterns/" + ancestorPattern.patternLink
           };
-          pattern.lineage.push(JSON.stringify(l));
+          if (ancestorPattern.patternState) {
+            l.lineageState = ancestorPattern.patternState;
+          }
+
+          pattern.lineage.push(l);
 
           //also, add the lineageR entry if it doesn't exist
           if (ancestorPattern.lineageRIndex.indexOf(pattern.key) === -1) {
@@ -61,16 +66,90 @@ var lineage_hunter = function () {
               "lineagePattern": pattern.key,
               "lineagePath": "../../patterns/" + pattern.patternLink
             };
-            ancestorPattern.lineageR.push(JSON.stringify(lr));
+            if (pattern.patternState) {
+              lr.lineageState = pattern.patternState;
+            }
+
+            ancestorPattern.lineageR.push(lr);
           }
         }
       });
     }
   }
 
+  function setPatternState(direction, pattern, targetPattern) {
+    // if the request came from the past, apply target pattern state to current pattern lineage
+    if (direction === 'fromPast') {
+      for (var i = 0; i < pattern.lineageIndex.length; i++) {
+        if (pattern.lineageIndex[i] === targetPattern.key) {
+          pattern.lineage[i].lineageState = targetPattern.patternState;
+        }
+      }
+    } else {
+      //the request came from the future, apply target pattern state to current pattern reverse lineage
+      for (var i = 0; i < pattern.lineageRIndex.length; i++) {
+        if (pattern.lineageRIndex[i] === targetPattern.key) {
+          pattern.lineageR[i].lineageState = targetPattern.patternState;
+        }
+      }
+    }
+  }
+
+
+  function cascadePatternStates(patternlab) {
+
+    var pattern_assembler = new pa();
+
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+      var pattern = patternlab.patterns[i];
+
+      //for each pattern with a defined state
+      if (pattern.patternState) {
+
+        if (pattern.lineageIndex && pattern.lineageIndex.length > 0) {
+
+          //find all lineage - patterns being consumed by this one
+          for (var h = 0; h < pattern.lineageIndex.length; h++) {
+            var lineagePattern = pattern_assembler.get_pattern_by_key(pattern.lineageIndex[h], patternlab);
+            setPatternState('fromFuture', lineagePattern, pattern);
+          }
+        }
+
+        if (pattern.lineageRIndex && pattern.lineageRIndex.length > 0) {
+
+          //find all reverse lineage - that is, patterns consuming this one
+          for (var j = 0; j < pattern.lineageRIndex.length; j++) {
+
+            var lineageRPattern = pattern_assembler.get_pattern_by_key(pattern.lineageRIndex[j], patternlab);
+
+            //only set patternState if pattern.patternState "is less than" the lineageRPattern.patternstate
+            //this makes patternlab apply the lowest common ancestor denominator
+            if (patternlab.config.patternStateCascade.indexOf(pattern.patternState)
+              < patternlab.config.patternStateCascade.indexOf(lineageRPattern.patternState)) {
+
+              if (patternlab.config.debug) {
+                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.key + '. Setting reverse lineage pattern ' + lineageRPattern.key + ' from ' + lineageRPattern.patternState);
+              }
+
+              lineageRPattern.patternState = pattern.patternState;
+
+              //take this opportunity to overwrite the lineageRPattern's lineage state too
+              setPatternState('fromPast', lineageRPattern, pattern);
+            } else {
+              setPatternState('fromPast', pattern, lineageRPattern);
+            }
+          }
+        }
+      }
+    }
+  }
+
   return {
     find_lineage: function (pattern, patternlab) {
       findlineage(pattern, patternlab);
+    },
+    cascade_pattern_states : function (patternlab) {
+      cascadePatternStates(patternlab);
     }
   };
 
