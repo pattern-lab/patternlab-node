@@ -12,7 +12,7 @@
     "mustache": "^2.2.1",
     "handlebars": "^4.0.5",
     "twig": "^0.8.8",
-    "underscore": "^1.8.3",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "browser-sync": "^2.11.1",
