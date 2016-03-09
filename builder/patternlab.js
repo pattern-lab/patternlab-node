@@ -69,6 +69,7 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
+console.log('DIVESYNC ITERATIVE BEGIN: ' + (Date.now() / 1000));
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
@@ -81,7 +82,9 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
       }
     );
+console.log('DIVESYNC ITERATIVE END: ' + (Date.now() / 1000));
 
+console.log('DIVESYNC RECURSIVE BEGIN: ' + (Date.now() / 1000));
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(
@@ -95,6 +98,7 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, 0);
       }
     );
+console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
@@ -130,6 +134,7 @@ var patternlab_engine = function (config) {
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
+console.log('BUILD PATTERNS END: ' + (Date.now() / 1000));
   }
 
   function addToPatternPaths(bucketName, pattern) {

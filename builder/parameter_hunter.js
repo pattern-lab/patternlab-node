@@ -136,7 +136,30 @@ var parameter_hunter = function () {
 
       //iterate through most recently evaluated parameteredPartials
 //      pattern.parameteredPartials.forEach(function (pMatch) {
+
+    var uniquePartials = [];
+    var uniquePartial;
+
     for (var i = 0; i < parameteredPartials.length; i++) {
+      uniquePartial = true;
+
+      for (var j = 0; j < uniquePartials.length; j++) {
+        if (parameteredPartials[i] === uniquePartials[j]) {
+          uniquePartial = false;
+          break;
+        }
+      }
+
+      if (uniquePartial) {
+        uniquePartials.push(parameteredPartials[i]);
+      } else {
+        continue;
+      }
+if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('unique parameteredPartials');
+  console.log(uniquePartials);
+}
+
       //find the partial's name and retrieve it
       var partialName = parameteredPartials[i].match(/([\w\-\.\/~]+)/g)[0];
       var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
