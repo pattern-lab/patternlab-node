@@ -238,6 +238,8 @@
 
   function processPatternIterative(file, patternlab) {
     var fs = require('fs-extra'),
+      lh = require('./lineage_hunter'),
+      lineage_hunter = new lh(),
       of = require('./object_factory'),
       path = require('path');
 
@@ -302,8 +304,11 @@
     //trying to keep memory footprint small, so set it to empty string at first
     currentPattern.tmpTemplate = '';
 
-    //find any stylemodifiers that may be in the current pattern
-    currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
+    //find pattern lineage
+    //TODO: consider removing the lineage hunter. it only works at the
+    //iterative level, and isn't called upon any further. we need to keep the
+    //patternlab object as light as possible.
+    lineage_hunter.find_lineage(currentPattern, patternlab);
 
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
@@ -322,20 +327,18 @@
     var fs = require('fs-extra'),
       path = require('path');
 
-    var lh = require('./lineage_hunter'),
-      ph = require('./parameter_hunter'),
+    var ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
       lih = require('./list_item_hunter'),
       smh = require('./style_modifier_hunter'),
       path = require('path');
 
-      var parameter_hunter = new ph(),
-      lineage_hunter = new lh(),
+    var parameter_hunter = new ph(),
       list_item_hunter = new lih(),
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
 
-    var i, j; // for the for loops
+    var i; // for the for loops
 
 var processBegin;
 var processEnd;
@@ -383,7 +386,7 @@ console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
       currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
       currentPattern.tmpTemplate = currentPattern.template;
 
-      //find any listItem blocks that within the pattern
+      //find any listItem blocks within the pattern
       //do this before winnowing unused tags
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
@@ -432,7 +435,6 @@ console.log(parameteredPartials);
     //find non-parametered partials.
     var foundPatternPartials = findPartials(currentPattern.tmpTemplate);
     var uniquePartials = [];
-    var uniquePartial;
 
     //recurse through non-parametered partials
     if (foundPatternPartials && foundPatternPartials.length) {
@@ -445,19 +447,12 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
       }
 
       for (i = 0; i < foundPatternPartials.length; i++) {
-        uniquePartial = true;
 
-        for (j = 0; j < uniquePartials.length; j++) {
-          if (foundPatternPartials[i] === uniquePartials[j]) {
-            uniquePartial = false;
-            break;
-          }
-        }
-
-        if (uniquePartial) {
-          uniquePartials.push(foundPatternPartials[i]);
-        } else {
+        //limit iteration to one time per partial. eliminate duplicates.
+        if (uniquePartials.indexOf(foundPatternPartials[i]) > -1) {
           continue;
+        } else {
+          uniquePartials.push(foundPatternPartials[i]);
         }
 
         var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
@@ -468,10 +463,15 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
         if (!partialPattern) {
           throw 'Could not find pattern with key ' + partialKey;
         } else {
-
-          //find any listItem blocks that within the partial
-          //do this before winnowing unused tags within that partial
           partialPattern.tmpTemplate = partialPattern.template;
+
+          //if the current tag has styleModifier data, replace the styleModifier value in the partial
+          if (findPartialsWithStyleModifiers(foundPatternPartials[i])) {
+            style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
+          }
+
+          //find any listItem blocks within the partial
+          //do this before winnowing unused tags within that partial
           list_item_hunter.process_list_item_partials(partialPattern, patternlab);
 
           var winnowedPartial = winnowUnusedTags(partialPattern.tmpTemplate, currentPattern);
@@ -516,20 +516,9 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
   console.log('SWITCHED ERB TO MUSTACHE at: ' + (Date.now() / 1000));
 }
 
-      //if partial has style modifier data, replace the styleModifier value
-      if (currentPattern.stylePartials && currentPattern.stylePartials.length) {
-//        style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-      }
-
-      currentPattern.extendedTemplate = renderPattern(currentPattern.tmpTemplate, currentPattern.jsonFileData);
+      currentPattern.extendedTemplate = currentPattern.tmpTemplate;
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('RENDERED PATTERN at: ' + (Date.now() / 1000));
-}
-
-      //find pattern lineage
-      lineage_hunter.find_lineage(currentPattern, patternlab);
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('FOUND LINEAGE at: ' + (Date.now() / 1000));
 }
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
@@ -540,7 +529,7 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
 
       //since we're done with currentPattern.tmpTemplate, free it from memory
       currentPattern.tmpTemplate = '';
-      currentPattern.jsonFileData = null;
+//      currentPattern.jsonFileData = null;
       currentPattern.dataKeys = null;
 
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {

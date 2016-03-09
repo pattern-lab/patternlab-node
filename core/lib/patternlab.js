@@ -155,8 +155,8 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
       pattern.lineageR = lineageRArray;
 
       //render the pattern, but first consolidate any data we may have
-      var allData = JSON.parse(JSON.stringify(patternlab.data));
-      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
+//      var allData = JSON.parse(JSON.stringify(patternlab.data));
+//      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
       //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
       allData.cacheBuster = patternlab.cacheBuster;
@@ -166,10 +166,7 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
       var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
 
       //render the extendedTemplate with all data
-if(typeof pattern.extendedTemplate === 'undefined') {
-console.log(pattern);
-}
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
+      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
       //set the pattern-specific footer if necessary
       if (patternlab.userFoot) {

@@ -124,38 +124,15 @@ var parameter_hunter = function () {
   }
 
   function findparameters(pattern, patternlab, parameteredPartials) {
-
-    //the reason for rendering at this point is to eliminate the unwanted
-    //recursion paths that would remain if irrelevant conditional tags persisted.
-    //however, we only want to render the parameter data, so we need to identify
-    //those tags, switch them to ERB syntax, and render for ERB syntax.
-//    var tmpTemplate = pattern.tmpTemplate;
-
-    //evaluate parameteredPartials within tmpTemplate
-//    pattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(tmpTemplate);
-
-//    if (pattern.parameteredPartials && pattern.parameteredPartials.length) {
-
-      //iterate through most recently evaluated parameteredPartials
-//      pattern.parameteredPartials.forEach(function (pMatch) {
-
     var uniquePartials = [];
-    var uniquePartial;
 
     for (var i = 0; i < parameteredPartials.length; i++) {
-      uniquePartial = true;
 
-      for (var j = 0; j < uniquePartials.length; j++) {
-        if (parameteredPartials[i] === uniquePartials[j]) {
-          uniquePartial = false;
-          break;
-        }
-      }
-
-      if (uniquePartial) {
-        uniquePartials.push(parameteredPartials[i]);
-      } else {
+      //limit iteration to one time per partial. eliminate duplicates.
+      if (uniquePartials.indexOf(parameteredPartials[i]) > -1) {
         continue;
+      } else {
+        uniquePartials.push(parameteredPartials[i]);
       }
 if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
   console.log('unique parameteredPartials');
@@ -178,6 +155,16 @@ if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache
         console.log('found patternParameters for ' + partialName);
       }
 
+      //if the current tag has styleModifier data, replace the styleModifier value in the partial
+      //do this before rendering parametered tags
+      if (pattern_assembler.find_pattern_partials_with_style_modifiers(parameteredPartials[i])) {
+        style_modifier_hunter.consume_style_modifier(partialPattern, parameteredPartials[i], patternlab);
+      }
+
+      //find any listItem blocks within the partial
+      //do this before rendering parametered tags
+      list_item_hunter.process_list_item_partials(partialPattern, patternlab);
+
       //strip out the additional data, convert string to JSON.
       var leftParen = parameteredPartials[i].indexOf('(');
       var rightParen = parameteredPartials[i].indexOf(')');
@@ -191,15 +178,6 @@ if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache
       } catch (e) {
         console.log(e);
       }
-
-      //if partial has style modifier data, replace the styleModifier value
-      if (pattern.stylePartials && pattern.stylePartials.length) {
-        style_modifier_hunter.consume_style_modifier(partialPattern, parameteredPartials[i], patternlab);
-      }
-
-      //find any listItem blocks that within the partial
-      //do this before rendering parametered tags
-      list_item_hunter.process_list_item_partials(partialPattern, patternlab);
 
       var regex;
       var escapedKey;

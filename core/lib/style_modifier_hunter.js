@@ -25,7 +25,7 @@ var style_modifier_hunter = function () {
       }
 
       //replace the stylemodifier placeholder with the class name
-      pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
+      pattern.tmpTemplate = pattern.tmpTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
     }
   }
 

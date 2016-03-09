@@ -33,6 +33,9 @@ var pseudopattern_hunter = function () {
     });
 
     if (pseudoPatterns.length > 0) {
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+          console.log('found pseudoPattern variant of ' + currentPattern.key);
+}
       for (var i = 0; i < pseudoPatterns.length; i++) {
         if (patternlab.config.debug) {
           console.log('found pseudoPattern variant of ' + currentPattern.key);
@@ -48,6 +51,12 @@ var pseudopattern_hunter = function () {
         var variantFilePath = path.resolve(paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
         var variantFileName = currentPattern.fileName + '-' + variantName + '.';
         var patternVariant = new of.oPattern(variantFilePath, currentPattern.subdir, variantFileName, variantFileData);
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+          console.log(pseudoPatterns[i]);
+          console.log(variantName);
+          console.log(variantFilePath);
+          console.log(variantFileName);
+}
 
         //see if this file has a state
         pattern_assembler.setPatternState(patternVariant, patternlab);
