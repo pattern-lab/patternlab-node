@@ -230,9 +230,7 @@
   }
 
   function mergeData(obj1, obj2) {
-    if (!obj2) {
-      obj2 = {}; //eslint-disable-line no-param-reassign
-    }
+    obj2 = obj2 || {}; //eslint-disable-line no-param-reassign
 
     for (var p in obj1) { //eslint-disable-line guard-for-in
       try {
@@ -339,8 +337,9 @@
    * @param {string} file The abspath of pattern being processed.
    * @param {object} patternlab The patternlab object.
    * @param {number} recursionLevel Top level === 0. Increments by 1 after that.
+   * @param {object} currentPattern Only submitted on recursionLevel > 0.
    */
-  function processPatternRecursive(file, patternlab, recursionLevel) {
+  function processPatternRecursive(file, patternlab, recursionLevel, currentPattern) {
     var fs = require('fs-extra'),
       path = require('path');
 
@@ -357,52 +356,79 @@
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
 
-    var i; // for the for loops
+    var i, j; // for the for loops
 
-    //find current pattern in patternlab object using var file as a key
-    var currentPattern = getpatternbykey(file, patternlab);
+var processBegin;
+var processEnd;
+    if (recursionLevel === 0) {
 
-    //return if processing an ignored file
-    if (!currentPattern || typeof currentPattern.tmpTemplate === 'undefined') {
-      return;
+//console.log(file);
+if (file.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+processBegin = Date.now() / 1000;
+console.log('PROCESS BEGIN: ' + processBegin);
+}
+      //skip .json files
+      if (path.extname(file) === '.json') {
+        return;
+      }
+    
+      //look for a json file for this template
+      var globalData = patternlab.data;
+      var jsonFilename;
+      var localData;
+
+      //first, determine if this is a recursible pattern. no point continuing if it isn't.
+      try {
+        jsonFilename = file.substr(0, file.lastIndexOf('.')) + '.json';
+        localData = fs.readJSONSync(jsonFilename);
+      }
+      catch (error) {
+        return;
+      }
+
+      if (patternlab.config.debug) {
+        console.log('found pattern-specific data.json for ' + currentPattern.key);
+      }
+
+      //find current pattern in patternlab object using var file as a key
+      currentPattern = getpatternbykey(file, patternlab);
+if (file.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
+}
+
+      //return if processing an ignored file
+      if (!currentPattern || typeof currentPattern.tmpTemplate === 'undefined') {
+        return;
+      }
+
+      currentPattern.jsonFileData = mergeData(globalData, localData);
+      currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
+      currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
+
     }
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+console.log('RECURSION LEVEL: ' + recursionLevel);
+console.log('RECURSION LEVEL BEGIN: ' + (Date.now() / 1000));
+console.log('DATA SIZE: ' + JSON.stringify(currentPattern).length + 'B');
+}
+
+      //find current pattern in patternlab object using var file as a key
+//      var currentPattern = getpatternbykey(file, patternlab);
 
     //find any listItem blocks
     list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
     //render the template, excepting for partial includes, using jsonFileData
-    if (recursionLevel === 0) {
-console.log(currentPattern.abspath);
-console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
-      //look for a json file for this template
-      var globalData = patternlab.data;
-//        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
-//        var localData = fs.readJSONSync(jsonFilename);
-if (!globalData) {
-console.log('localData === null');
-  console.log(currentPattern.abspath);
-}
-      try {
-        var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
-        var localData = fs.readJSONSync(jsonFilename);
-        currentPattern.jsonFileData = mergeData(globalData, localData);
-        if (patternlab.config.debug) {
-          console.log('found pattern-specific data.json for ' + currentPattern.key);
-        }
-      }
-      catch (error) {
-        currentPattern.jsonFileData = globalData;
-      }
-      currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
-
-      currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
-console.log('DATA SIZE MIDDLE: ' + JSON.stringify(currentPattern).length + 'B');
-    }
 
     var parameteredPartials = findPartialsWithPatternParameters(currentPattern.tmpTemplate);
 
     //if the template contains any pattern parameters
     if (parameteredPartials && parameteredPartials.length) {
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+console.log('parameteredPartials');
+console.log(parameteredPartials);
+}
+
       if (patternlab.config.debug) {
         console.log('found parametered partials for ' + currentPattern.key);
       }
@@ -412,22 +438,43 @@ console.log('DATA SIZE MIDDLE: ' + JSON.stringify(currentPattern).length + 'B');
 
       //recurse, going a level deeper, with each render eliminating nested parameteredPartials
       //when there are no more nested parameteredPartials, we'll pop back up
-      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1);
+      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1, currentPattern);
     }
 
     //delete empty lines. good for memory management and debugging.
-    currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
+//    currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
 
     //find non-parametered partials.
     var foundPatternPartials = findPartials(currentPattern.tmpTemplate);
+    var uniquePartials = [];
+    var uniquePartial;
 
     //recurse through non-parametered partials
     if (foundPatternPartials && foundPatternPartials.length) {
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('foundPatternPartials');
+  console.log(foundPatternPartials);
+}
       if (patternlab.config.debug) {
         console.log('found partials for ' + currentPattern.key);
       }
 
       for (i = 0; i < foundPatternPartials.length; i++) {
+        uniquePartial = true;
+
+        for (j = 0; j < uniquePartials.length; j++) {
+          if (foundPatternPartials[i] === uniquePartials[j]) {
+            uniquePartial = false;
+            break;
+          }
+        }
+
+        if (uniquePartial) {
+          uniquePartials.push(foundPatternPartials[i]);
+        } else {
+          continue;
+        }
+
         var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
 
         //identify which pattern this partial corresponds to
@@ -443,24 +490,32 @@ console.log('DATA SIZE MIDDLE: ' + JSON.stringify(currentPattern).length + 'B');
           var regex = new RegExp(escapedPartial, 'g');
 
           currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(regex, winnowUnusedTags(partialPattern.template, currentPattern));
-          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
+//          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
         }
       }
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('unique foundPatternPartials');
+  console.log(uniquePartials);
+}
 
       //recurse, going a level deeper, with each render eliminating nested partials
       //when there are no more nested partials, we'll pop back up
-      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1);
+      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1, currentPattern);
     }
 
     //delete empty lines again. good for memory management and debugging.
-    currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
+//    currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
 
-    //do only at the end of the top level of recursion
+    //do only when popped to the top level of recursion
     if (recursionLevel === 0) {
-//if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
-//}
-      // Switched ERB escaped tags back to standard Mustache tags.
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('POPPED TO RECURSION LEVEL 0 at: ' + (Date.now() / 1000));
+}
+      //switched ERB escaped tags back to standard Mustache tags
       currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('SWITCHED ERB TO MUSTACHE at: ' + (Date.now() / 1000));
+}
 
       //if partial has style modifier data, replace the styleModifier value
       if (currentPattern.stylePartials && currentPattern.stylePartials.length) {
@@ -468,22 +523,39 @@ console.log('DATA SIZE MIDDLE: ' + JSON.stringify(currentPattern).length + 'B');
       }
 
       currentPattern.extendedTemplate = renderPattern(currentPattern.tmpTemplate, currentPattern.jsonFileData);
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('RENDERED PATTERN at: ' + (Date.now() / 1000));
+}
 
       //find any listItem blocks that within the pattern, even if there are no partials
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('LIST ITEMS at: ' + (Date.now() / 1000));
+}
 
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('FOUND LINEAGE at: ' + (Date.now() / 1000));
+}
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
       pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+  console.log('FOUND PSEUDOPATTERNS at: ' + (Date.now() / 1000));
+}
 
       //since we're done with currentPattern.tmpTemplate, free it from memory
       currentPattern.tmpTemplate = '';
       currentPattern.jsonFileData = null;
       currentPattern.dataKeys = null;
 
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
 console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
+processEnd = Date.now() / 1000;
+console.log('PROCESS END: ' + processEnd);
+console.log('PROCESS TIME: ' + (processEnd - processBegin));
+}
     }
   }
 
