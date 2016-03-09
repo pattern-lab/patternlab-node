@@ -64,7 +64,6 @@ function testFindPartials(test, partialTests) {
   var results = currentPattern.findPartials();
 
   // assert
-  debugger;
   test.equals(results.length, partialTests.length);
   partialTests.forEach(function (testString, index) {
     test.equals(results[index], testString);
