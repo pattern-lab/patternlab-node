@@ -152,7 +152,7 @@ module.exports = function (grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   //load the patternlab task
-  grunt.task.loadTasks('./core/lib/');
+  require('./core/lib/patternlab_grunt')(grunt);
 
   grunt.registerTask('default', ['patternlab', 'copy:main', 'copy:styleguide']);
 
