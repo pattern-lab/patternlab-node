@@ -79,7 +79,7 @@ var list_item_hunter = function () {
               }
 
               //replace its reference within the block with the extended template
-              thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], cleanPartialPattern.extendedTemplate);
+              thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], cleanPartialPattern.template);
             }
 
             //render with data
@@ -94,8 +94,8 @@ var list_item_hunter = function () {
         }
 
         //replace the block with our generated HTML
-        var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
-        pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
+        var repeatingBlock = pattern.tmpTemplate.substring(pattern.tmpTemplate.indexOf(liMatch), pattern.tmpTemplate.indexOf(end) + end.length);
+        pattern.tmpTemplate = pattern.tmpTemplate.replace(repeatingBlock, repeatedBlockHtml);
 
       });
     }

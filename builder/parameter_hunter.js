@@ -13,10 +13,12 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
+    lih = require('./list_item_hunter'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    style_modifier_hunter = new smh(),
-    pattern_assembler = new pa();
+    list_item_hunter = new lih(),
+    pattern_assembler = new pa(),
+    style_modifier_hunter = new smh();
 
   function paramToJson(pString) {
     var colonPos;
@@ -194,6 +196,10 @@ if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache
       if (pattern.stylePartials && pattern.stylePartials.length) {
         style_modifier_hunter.consume_style_modifier(partialPattern, parameteredPartials[i], patternlab);
       }
+
+      //find any listItem blocks that within the partial
+      //do this before rendering parametered tags
+      list_item_hunter.process_list_item_partials(partialPattern, patternlab);
 
       var regex;
       var escapedKey;

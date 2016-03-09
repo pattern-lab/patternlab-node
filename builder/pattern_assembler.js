@@ -135,7 +135,7 @@
     //escaped all tags that match keys in the JSON data.
     for (var i = 0; i < pattern.dataKeys.length; i++) {
       escapedKey = pattern.dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
-      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?[^\\}]*' + escapedKey + '[^\\}]*\\}?)\\}\\}', 'g');
       templateEscaped = templateEscaped.replace(regex, '<%$1%>');
     }
 
@@ -147,27 +147,6 @@
 
     //after that's done, switch only partial tags back to standard Mustache tags and return.
     templateRendered = templateRendered.replace(/<%>([^%]+)%>/g, '{{>$1}}');
-
-    return templateRendered;
-  }
-
-  /**
-   * Render the template excluding partials. The reason for this is to eliminate
-   * the unwanted recursion paths that would remain if irrelevant conditional
-   * tags persisted. Escaping partial tags so a full render of non-partial tags
-   * eliminate irrelevant conditional tags.
-   *
-   * @param {string} template The template to render.
-   * @param {object} data The data to render with.
-   * @returns {string} templateRendered
-   */
-  function escapeRenderUnescapePartials(template, data) {
-    //escape partial tags by switching them to ERB syntax.
-    var templateEscaped = template.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
-    templateEscaped = renderPattern(templateEscaped, data);
-
-    //after that's done, switch back to standard Mustache tags and return.
-    var templateRendered = templateEscaped.replace(/<%>([^%]+)%>/g, '{{>$1}}');
 
     return templateRendered;
   }
@@ -316,11 +295,11 @@
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
-    //do the same with extendedTemplate to avoid undefined type errors.
-    //trying to keep memory footprint small, so set it to empty string at first.
+    //do the same with extendedTemplate
     currentPattern.extendedTemplate = '';
 
     //do the same with tmpTemplate to avoid undefined type errors
+    //trying to keep memory footprint small, so set it to empty string at first
     currentPattern.tmpTemplate = '';
 
     //find any stylemodifiers that may be in the current pattern
@@ -363,7 +342,7 @@ var processEnd;
     if (recursionLevel === 0) {
 
 //console.log(file);
-if (file.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (file.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 processBegin = Date.now() / 1000;
 console.log('PROCESS BEGIN: ' + processBegin);
 }
@@ -375,48 +354,54 @@ console.log('PROCESS BEGIN: ' + processBegin);
       //look for a json file for this template
       var globalData = patternlab.data;
       var jsonFilename;
-      var localData;
+      var localData = null;
 
-      //first, determine if this is a recursible pattern. no point continuing if it isn't.
+      //get json data local to this pattern
       try {
         jsonFilename = file.substr(0, file.lastIndexOf('.')) + '.json';
         localData = fs.readJSONSync(jsonFilename);
+
+        if (patternlab.config.debug) {
+          console.log('found pattern-specific data.json for ' + currentPattern.key);
+        }
       }
       catch (error) {
-        return;
-      }
-
-      if (patternlab.config.debug) {
-        console.log('found pattern-specific data.json for ' + currentPattern.key);
       }
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
-if (file.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (file.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
 }
 
       //return if processing an ignored file
-      if (!currentPattern || typeof currentPattern.tmpTemplate === 'undefined') {
+      if (!currentPattern || typeof currentPattern.extendedTemplate === 'undefined') {
         return;
       }
 
       currentPattern.jsonFileData = mergeData(globalData, localData);
       currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
-      currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
+      currentPattern.tmpTemplate = currentPattern.template;
+
+      //find any listItem blocks that within the pattern
+      //do this before winnowing unused tags
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+  console.log('LIST ITEMS at: ' + (Date.now() / 1000));
+  console.log(currentPattern.tmpTemplate);
+}
+
+      currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.tmpTemplate, currentPattern);
 
     }
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 console.log('RECURSION LEVEL: ' + recursionLevel);
 console.log('RECURSION LEVEL BEGIN: ' + (Date.now() / 1000));
-console.log('DATA SIZE: ' + JSON.stringify(currentPattern).length + 'B');
+console.log(currentPattern.tmpTemplate);
 }
 
       //find current pattern in patternlab object using var file as a key
 //      var currentPattern = getpatternbykey(file, patternlab);
-
-    //find any listItem blocks
-    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
     //render the template, excepting for partial includes, using jsonFileData
 
@@ -424,7 +409,7 @@ console.log('DATA SIZE: ' + JSON.stringify(currentPattern).length + 'B');
 
     //if the template contains any pattern parameters
     if (parameteredPartials && parameteredPartials.length) {
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 console.log('parameteredPartials');
 console.log(parameteredPartials);
 }
@@ -451,7 +436,7 @@ console.log(parameteredPartials);
 
     //recurse through non-parametered partials
     if (foundPatternPartials && foundPatternPartials.length) {
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('foundPatternPartials');
   console.log(foundPatternPartials);
 }
@@ -484,16 +469,30 @@ if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.m
           throw 'Could not find pattern with key ' + partialKey;
         } else {
 
+          //find any listItem blocks that within the partial
+          //do this before winnowing unused tags within that partial
+          partialPattern.tmpTemplate = partialPattern.template;
+          list_item_hunter.process_list_item_partials(partialPattern, patternlab);
+
+          var winnowedPartial = winnowUnusedTags(partialPattern.tmpTemplate, currentPattern);
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//  console.log('winnowedPartial');
+//  console.log(winnowedPartial);
+  console.log('partialPattern.tmpTemplate');
+  console.log(partialPattern.tmpTemplate);
+}
+
           //replace each partial tag with the partial's template.
           //escape regex special characters as per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_special_characters
           var escapedPartial = foundPatternPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
           var regex = new RegExp(escapedPartial, 'g');
 
-          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(regex, winnowUnusedTags(partialPattern.template, currentPattern));
+          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(regex, winnowedPartial);
+          partialPattern.tmpTemplate = '';
 //          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
         }
       }
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('unique foundPatternPartials');
   console.log(uniquePartials);
 }
@@ -508,12 +507,12 @@ if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.m
 
     //do only when popped to the top level of recursion
     if (recursionLevel === 0) {
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('POPPED TO RECURSION LEVEL 0 at: ' + (Date.now() / 1000));
 }
       //switched ERB escaped tags back to standard Mustache tags
       currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('SWITCHED ERB TO MUSTACHE at: ' + (Date.now() / 1000));
 }
 
@@ -523,25 +522,19 @@ if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.m
       }
 
       currentPattern.extendedTemplate = renderPattern(currentPattern.tmpTemplate, currentPattern.jsonFileData);
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('RENDERED PATTERN at: ' + (Date.now() / 1000));
-}
-
-      //find any listItem blocks that within the pattern, even if there are no partials
-      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
-  console.log('LIST ITEMS at: ' + (Date.now() / 1000));
 }
 
       //find pattern lineage
       lineage_hunter.find_lineage(currentPattern, patternlab);
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('FOUND LINEAGE at: ' + (Date.now() / 1000));
 }
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
       pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
   console.log('FOUND PSEUDOPATTERNS at: ' + (Date.now() / 1000));
 }
 
@@ -550,7 +543,7 @@ if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.m
       currentPattern.jsonFileData = null;
       currentPattern.dataKeys = null;
 
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
 processEnd = Date.now() / 1000;
 console.log('PROCESS END: ' + processEnd);
