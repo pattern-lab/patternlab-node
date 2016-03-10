@@ -83,8 +83,6 @@ var patternlab_engine = function (config) {
     );
 
     patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
-//console.log('patternlab.data');
-//console.log(patternlab.data);
 
     //delete the contents of config.patterns.public before writing
     if (deletePatternDir) {
@@ -104,36 +102,6 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, 0);
       }
     );
-
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-//    pattern_assembler.parse_data_links(patternlab);
-
-    //render all patterns last, so lineageR works
-    patternlab.patterns.forEach(function (pattern) {
-
-      //render the pattern, but first consolidate any data we may have
-//      var allData = JSON.parse(JSON.stringify(patternlab.data));
-//      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-/*
-      //render the extendedTemplate with all data
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
-*/
-
-      //add footer info before writing
-      var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
-
-/*
-      //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
-
-      //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
-
-      //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
-*/
-    });
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
