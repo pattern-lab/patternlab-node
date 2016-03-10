@@ -19,9 +19,13 @@ var list_item_hunter = function () {
     style_modifier_hunter = new smh(),
     items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
+  function getListItemKeys() {
+    return items;
+  }
+
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
-    var matches = pattern_assembler.find_list_items(pattern, patternlab);
+    var matches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
     if (matches !== null) {
       matches.forEach(function (liMatch) {
 
@@ -32,7 +36,12 @@ var list_item_hunter = function () {
         //find the boundaries of the block
         var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
         var end = liMatch.replace('#', '/');
-        var patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
+        var patternBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch) + liMatch.length, pattern.extendedTemplate.indexOf(end)).trim();
+if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+  console.log(pattern.extendedTemplate);
+  console.log('patternBlock');
+  console.log(patternBlock);
+}
 
         //build arrays that repeat the block, however large we need to
         var repeatedBlockTemplate = [];
@@ -62,6 +71,7 @@ var list_item_hunter = function () {
           allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block
+          /*
           var foundPartials = pattern_assembler.find_pattern_partials({ 'template' : thisBlockTemplate });
 
           if (foundPartials && foundPartials.length > 0) {
@@ -88,20 +98,29 @@ var list_item_hunter = function () {
             //just render with mergedData
             thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
           }
+          */
 
+          thisBlockHTML = pattern_assembler.renderPattern(patternBlock, allData);
           //add the rendered HTML to our string
           repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML;
         }
 
         //replace the block with our generated HTML
-        var repeatingBlock = pattern.tmpTemplate.substring(pattern.tmpTemplate.indexOf(liMatch), pattern.tmpTemplate.indexOf(end) + end.length);
-        pattern.tmpTemplate = pattern.tmpTemplate.replace(repeatingBlock, repeatedBlockHtml);
+        var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
+        pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
+if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+  console.log('repeatedBlockHtml');
+  console.log(repeatedBlockHtml);
+}
 
       });
     }
   }
 
   return {
+    get_list_item_keys: function() {
+      return getListItemKeys();
+    },
     process_list_item_partials: function (pattern, patternlab) {
       processListItemPartials(pattern, patternlab);
     }
