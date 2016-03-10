@@ -64,33 +64,52 @@ module.exports = function (grunt) {
       }
     },
     copy: {
-      main: {
+      all: {
         files: [
           { expand: true, cwd: path.resolve(paths().source.js), src: '*.js', dest: path.resolve(paths().public.js) },
           { expand: true, cwd: path.resolve(paths().source.css), src: '*.css', dest: path.resolve(paths().public.css) },
-          { expand: true, cwd: path.resolve(paths().source.images), src: ['**/*.png', '**/*.jpg', '**/*.gif', '**/*.jpeg'], dest: path.resolve(paths().public.images) },
+          { expand: true, cwd: path.resolve(paths().source.images), src: ['**/*.png', '**/*.gif', '**/*.jpg', '**/*.jpeg', '**/*.svg'], dest: path.resolve(paths().public.images) },
           { expand: true, cwd: path.resolve(paths().source.fonts), src: '*', dest: path.resolve(paths().public.fonts) },
-          { expand: true, cwd: path.resolve(paths().source.data), src: 'annotations.js', dest: path.resolve(paths().public.data) }
+          { expand: true, cwd: path.resolve(paths().source.data), src: 'annotations.js', dest: path.resolve(paths().public.data) },
+          { expand: true, cwd: path.resolve(paths().source.styleguide), src: ['*.*', '**/*.*'], dest: path.resolve(paths().public.styleguide) }
         ]
       },
-      styleguide: {
+      styles: {
         files: [
-          { expand: true, cwd: path.resolve(paths().source.styleguide), src: ['*.*', '**/*.*'], dest: path.resolve(paths().public.styleguide) }
+          { expand: true, cwd: path.resolve(paths().source.css), src: '*.css', dest: path.resolve(paths().public.css) },
+          { expand: true, cwd: path.resolve(paths().source.images), src: ['**/*.png', '**/*.gif', '**/*.jpg', '**/*.jpeg', '**/*.svg'], dest: path.resolve(paths().public.images) },
+          { expand: true, cwd: path.resolve(paths().source.fonts), src: '*', dest: path.resolve(paths().public.fonts) }
+        ]
+      },
+      js: {
+        files: [
+          { expand: true, cwd: path.resolve(paths().source.js), src: '*.js', dest: path.resolve(paths().public.js) }
         ]
       }
     },
     watch: {
-      all: {
+      patterns : {
         files: [
-          path.resolve(paths().source.css + '**/*.css'),
-          path.resolve(paths().source.styleguide + 'css/*.css'),
           path.resolve(paths().source.patterns + '**/*.mustache'),
           path.resolve(paths().source.patterns + '**/*.json'),
-          path.resolve(paths().source.fonts + '/*'),
-          path.resolve(paths().source.images + '/*'),
           path.resolve(paths().source.data + '*.json')
         ],
-        tasks: ['default', 'bsReload:css']
+        tasks: ['patternlab', 'bsReload']
+      },
+      styles: {
+        files: [
+          path.resolve(paths().source.styleguide + 'css/*.css'),
+          path.resolve(paths().source.css + '**/*.css'),
+          path.resolve(paths().source.fonts + '/*'),
+          path.resolve(paths().source.images + '/*')
+        ],
+        tasks: ['copy:styles', 'bsReload:css']
+      },
+      js: {
+        files: [
+          path.resolve(paths().source.js + '**/*.js'),
+        ],
+        tasks: ['copy:js', 'bsReload:js']
       }
     },
     nodeunit: {
@@ -145,7 +164,12 @@ module.exports = function (grunt) {
       target: ['./core/lib/*']
     },
     bsReload: {
-      css: path.resolve(paths().public.root + '**/*.css')
+      css: {
+        reload: path.resolve(paths().public.root + '**/*.css')
+      },
+      js: {
+        reload: path.resolve(paths().public.js + '*.js')
+      }
     }
   });
 
