@@ -67,7 +67,7 @@
         }
       }
 
-      @media only screen and (min-width: $maxWidthLayout) {
+      @media only screen and (min-width: $breakpointDesktop) {
         &:first-child {
           padding-left: 0;
         }
