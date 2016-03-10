@@ -236,6 +236,31 @@
     return obj2;
   }
 
+  function outputPatternToFS(pattern, patternlab) {
+    var fs = require('fs-extra');
+    var he = require('html-entities').AllHtmlEntities;
+    var entity_encoder = new he();
+    var paths = patternlab.config.paths;
+    var patternFooter;
+
+    pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
+
+    //render the extendedTemplate with all data
+    pattern.extendedTemplate = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
+
+    //add footer info before writing
+    patternFooter = renderPattern(patternlab.footer, pattern);
+
+    //write the compiled template to the public patterns directory
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.extendedTemplate + patternFooter);
+
+    //write the mustache file too
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
+
+    //write the encoded version too
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.extendedTemplate));
+  }
+
   function processPatternIterative(file, patternlab) {
     var fs = require('fs-extra'),
       lh = require('./lineage_hunter'),
@@ -333,7 +358,6 @@
   function processPatternRecursive(file, patternlab, recursionLevel, currentPattern) {
     var fs = require('fs-extra'),
       glob = require('glob'),
-      he = require('html-entities').AllHtmlEntities,
       path = require('path');
 
     var ph = require('./parameter_hunter'),
@@ -343,14 +367,12 @@
       path = require('path');
 
     var parameter_hunter = new ph(),
-      entity_encoder = new he(),
       list_item_hunter = new lih(),
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
 
     var i; // for the for loops
     var paths = patternlab.config.paths;
-    var patternFooter;
 
 var processBegin;
 var processEnd;
@@ -364,31 +386,12 @@ var processEnd;
         return;
       }
 
-      //output .json variant files and return
-      //these variants should occur after their primaries, given that tildes come
-      //after periods in ASCII order. as such, their extendedTemplates should be
-      //filled out and renderable.
+      //output .json pseudoPattern variants to the file system and return.
+      //diveSync should process these variants after their primaries, given that
+      //tildes come after periods in ASCII order. as such, their extendedTemplates
+      //should be filled out and renderable.
       if (path.extname(file) === '.json') {
-        currentPattern.jsonFileData = parseDataLinksHelper(patternlab, currentPattern.jsonFileData, currentPattern.key);
-
-        //render the extendedTemplate with all data
-        currentPattern.extendedTemplate = renderPattern(currentPattern.extendedTemplate, currentPattern.jsonFileData);
-
-        //add footer info before writing
-        patternFooter = renderPattern(patternlab.footer, currentPattern);
-if (currentPattern.abspath.indexOf('00-homepage') > -1) {
-  console.log(patternFooter);
-}
-
-        //write the compiled template to the public patterns directory
-        fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate + patternFooter);
-
-        //write the mustache file too
-        fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(currentPattern.template));
-
-        //write the encoded version too
-        fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(currentPattern.extendedTemplate));
-
+        outputPatternToFS(currentPattern, patternlab);
         return;
       }
 
@@ -537,27 +540,10 @@ if (currentPattern.abspath.indexOf('00-homepage') > -1) {
         pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab, pseudoPatternsArray);
       }
 
-      currentPattern.jsonFileData = parseDataLinksHelper(patternlab, currentPattern.jsonFileData, currentPattern.key);
+      //output rendered pattern to the file system
+      outputPatternToFS(currentPattern, patternlab);
 
-      //render the extendedTemplate with all data
-      currentPattern.extendedTemplate = renderPattern(currentPattern.extendedTemplate, currentPattern.jsonFileData);
-
-      //add footer info before writing
-      patternFooter = renderPattern(patternlab.footer, currentPattern);
-if (currentPattern.abspath.indexOf('00-homepage') > -1) {
-  console.log(patternFooter);
-}
-
-      //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate + patternFooter);
-
-      //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(currentPattern.template));
-
-      //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(currentPattern.extendedTemplate));
-
-      //since we're done with currentPattern.tmpTemplate, free it from memory
+      //since we're done with these currentPattern properties, free them from memory
       currentPattern.extendedTemplate = '';
       currentPattern.tmpTemplate = '';
       currentPattern.jsonFileData = null;
@@ -583,9 +569,9 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
       for (var i = 0; i < linkMatches.length; i++) {
         expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
         if (expandedLink) {
-//          if (patternlab.config.debug) {
+          if (patternlab.config.debug) {
             console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
-//          }
+          }
           dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
         }
       }

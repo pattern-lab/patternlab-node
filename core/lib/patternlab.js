@@ -99,8 +99,6 @@ var patternlab_engine = function (config) {
     );
 
     patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
-//console.log('patternlab.data');
-//console.log(patternlab.data);
 
     //delete the contents of config.patterns.public before writing
     if (deletePatternDir) {
@@ -120,64 +118,6 @@ var patternlab_engine = function (config) {
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, 0);
       }
     );
-
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-//    pattern_assembler.parse_data_links(patternlab);
-
-    //set pattern-specific header if necessary
-    var head;
-    if (patternlab.userHead) {
-      head = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
-    } else {
-      head = patternlab.header;
-    }
-
-    //render all patterns last, so lineageR works
-    patternlab.patterns.forEach(function (pattern) {
-
-      pattern.header = head;
-
-      //json stringify lineage and lineageR
-      var lineageArray = [];
-      for (var i = 0; i < pattern.lineage.length; i++) {
-        lineageArray.push(JSON.stringify(pattern.lineage[i]));
-      }
-      pattern.lineage = lineageArray;
-
-      var lineageRArray = [];
-      for (var i = 0; i < pattern.lineageR.length; i++) {
-        lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
-      }
-      pattern.lineageR = lineageRArray;
-
-      //render the pattern, but first consolidate any data we may have
-//      var allData = JSON.parse(JSON.stringify(patternlab.data));
-//      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-/*
-      //render the extendedTemplate with all data
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
-*/
-
-      //set the pattern-specific footer if necessary
-      if (patternlab.userFoot) {
-        var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
-        pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
-      } else {
-        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, pattern);
-      }
-
-/*
-      //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartial + pattern.footer);
-
-      //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
-
-      //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
-*/
-    });
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
