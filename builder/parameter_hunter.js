@@ -161,10 +161,6 @@ if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache
         style_modifier_hunter.consume_style_modifier(partialPattern, parameteredPartials[i], patternlab);
       }
 
-      //find any listItem blocks within the partial
-      //do this before rendering parametered tags
-      list_item_hunter.process_list_item_partials(partialPattern, patternlab);
-
       //strip out the additional data, convert string to JSON.
       var leftParen = parameteredPartials[i].indexOf('(');
       var rightParen = parameteredPartials[i].indexOf(')');

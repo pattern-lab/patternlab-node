@@ -444,15 +444,17 @@ var processEnd;
         }
       }
 
+      //add allData keys to currentPattern.dataKeys
       currentPattern.dataKeys = getDataKeys(allData);
-      currentPattern.extendedTemplate = currentPattern.template;
 
-      //find any listItem blocks within the pattern
-      //do this before winnowing unused tags
-      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+      //add listItem keys to currentPattern.dataKeys
+      currentPattern.dataKeys = currentPattern.dataKeys.concat(list_item_hunter.get_list_item_keys());
 
-      currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.extendedTemplate, currentPattern);
+      //add listitems.json keys to currentPattern.dataKeys
+      currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(patternlab.listitems));
 
+      //copy winnowed template to extendedTemplate
+      currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
     }
 
     //find parametered partials
@@ -506,10 +508,6 @@ var processEnd;
             style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
           }
 
-          //find any listItem blocks within the partial
-          //do this before winnowing unused tags within that partial
-          list_item_hunter.process_list_item_partials(partialPattern, patternlab);
-
           var winnowedPartial = winnowUnusedTags(partialPattern.tmpTemplate, currentPattern);
 
           //replace each partial tag with the partial's template.
@@ -521,17 +519,33 @@ var processEnd;
           partialPattern.tmpTemplate = '';
         }
       }
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//  console.log('currentPattern.extendedTemplate');
+//  console.log(currentPattern.extendedTemplate);
+}
 
       //recurse, going a level deeper, with each render eliminating nested partials
       //when there are no more nested partials, we'll pop back up
       processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1, currentPattern);
     }
 
-    //do only when popped to the top level of recursion
+    //do only when popped back to the top level of recursion
     if (recursionLevel === 0) {
 
       //switched ERB escaped tags back to standard Mustache tags
       currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//  console.log('currentPattern.extendedTemplate');
+//  console.log(currentPattern.extendedTemplate);
+}
+
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//console.log(patternlab.listitems);
+//console.log(currentPattern.dataKeys);
+}
+
+      //find and process any listItem blocks within the pattern
+      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //look through pseudoPatternsArray again, and update their patternlab objects
       if (pseudoPatternsArray.length) {
@@ -544,14 +558,19 @@ var processEnd;
       //since we're done with these currentPattern properties, free them from memory
       currentPattern.extendedTemplate = '';
       currentPattern.tmpTemplate = '';
-      currentPattern.jsonFileData = null;
       currentPattern.dataKeys = null;
+      currentPattern.jsonFileData = null;
+      currentPattern.listitems = null;
 
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 //console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
 //processEnd = Date.now() / 1000;
 //console.log('PROCESS END: ' + processEnd);
 //console.log('PROCESS TIME: ' + (processEnd - processBegin));
+}
+
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//console.log(currentPattern.dataKeys);
 }
     }
   }
