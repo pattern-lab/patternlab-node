@@ -100,6 +100,13 @@ console.log('DIVESYNC ITERATIVE BEGIN: ' + (Date.now() / 1000));
     );
 console.log('DIVESYNC ITERATIVE END: ' + (Date.now() / 1000));
 
+    patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
+
+    //delete the contents of config.patterns.public before writing
+    if (deletePatternDir) {
+      fs.emptyDirSync(paths.public.patterns);
+    }
+
 console.log('DIVESYNC RECURSIVE BEGIN: ' + (Date.now() / 1000));
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
@@ -118,15 +125,7 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
-
-    //cascade any patternStates
-    lineage_hunter.cascade_pattern_states(patternlab);
-
-    //delete the contents of config.patterns.public before writing
-    if (deletePatternDir) {
-      fs.emptyDirSync(paths.public.patterns);
-    }
+//    pattern_assembler.parse_data_links(patternlab);
 
     //set pattern-specific header if necessary
     var head;
@@ -157,14 +156,7 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
       //render the pattern, but first consolidate any data we may have
 //      var allData = JSON.parse(JSON.stringify(patternlab.data));
 //      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-
-      //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-      allData.cacheBuster = patternlab.cacheBuster;
-      pattern.cacheBuster = patternlab.cacheBuster;
-
-      //render the pattern-specific header
-      var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
-
+/*
       //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
@@ -184,6 +176,7 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
 
       //write the encoded version too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+      */
     });
 
     //export patterns if necessary
