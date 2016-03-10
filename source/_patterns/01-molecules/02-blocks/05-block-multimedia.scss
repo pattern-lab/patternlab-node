@@ -33,8 +33,10 @@
     &.columns {
       @media only screen and (min-width: $breakpointMobile) {
         display : flex;
-        margin-right : $paddingMini;
-        margin-left: $paddingMini;
+        padding-left : $paddingMini;
+        padding-right: $paddingMini;
+        margin-right : auto;
+        margin-left: auto;
       }
 
       @media only screen and (min-width : $breakpointTablet) {
