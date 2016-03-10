@@ -350,6 +350,7 @@
 
     var i; // for the for loops
     var paths = patternlab.config.paths;
+    var patternFooter;
 
 var processBegin;
 var processEnd;
@@ -364,7 +365,21 @@ var processEnd;
       }
 
       //output .json variant files and return
+      //these variants should occur after their primaries, given that tildes come
+      //after periods in ASCII order. as such, their extendedTemplates should be
+      //filled out and renderable.
       if (path.extname(file) === '.json') {
+        currentPattern.jsonFileData = parseDataLinksHelper(patternlab, currentPattern.jsonFileData, currentPattern.key);
+
+        //render the extendedTemplate with all data
+        currentPattern.extendedTemplate = renderPattern(currentPattern.extendedTemplate, currentPattern.jsonFileData);
+
+        //add footer info before writing
+        patternFooter = renderPattern(patternlab.footer, currentPattern);
+if (currentPattern.abspath.indexOf('00-homepage') > -1) {
+  console.log(patternFooter);
+}
+
         //write the compiled template to the public patterns directory
         fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate + patternFooter);
 
@@ -376,7 +391,8 @@ var processEnd;
 
         return;
       }
-    
+
+      //continue with regular mustache templates    
       //look for a json file for this template
       var globalData = patternlab.data;
       var jsonFilename;
@@ -502,7 +518,6 @@ var processEnd;
 
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(regex, winnowedPartial);
           partialPattern.tmpTemplate = '';
-//          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/^\s*$\n/gm, '');
         }
       }
 
@@ -517,8 +532,6 @@ var processEnd;
       //switched ERB escaped tags back to standard Mustache tags
       currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
 
-//      currentPattern.extendedTemplate = currentPattern.tmpTemplate;
-
       //look through pseudoPatternsArray again, and update their patternlab objects
       if (pseudoPatternsArray.length) {
         pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab, pseudoPatternsArray);
@@ -530,13 +543,12 @@ var processEnd;
       currentPattern.extendedTemplate = renderPattern(currentPattern.extendedTemplate, currentPattern.jsonFileData);
 
       //add footer info before writing
-      var patternFooter = renderPattern(patternlab.footer, currentPattern);
+      patternFooter = renderPattern(patternlab.footer, currentPattern);
 if (currentPattern.abspath.indexOf('00-homepage') > -1) {
   console.log(patternFooter);
 }
 
       //write the compiled template to the public patterns directory
-//      fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate);
       fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate + patternFooter);
 
       //write the mustache file too
@@ -546,8 +558,9 @@ if (currentPattern.abspath.indexOf('00-homepage') > -1) {
       fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(currentPattern.extendedTemplate));
 
       //since we're done with currentPattern.tmpTemplate, free it from memory
+      currentPattern.extendedTemplate = '';
       currentPattern.tmpTemplate = '';
-//      currentPattern.jsonFileData = null;
+      currentPattern.jsonFileData = null;
       currentPattern.dataKeys = null;
 
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
