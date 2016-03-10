@@ -64,15 +64,19 @@ body {
 
 .fontPrimary {
   font-family : $fontPrimary;
-  &__light {
-    font-weight : 300;
+
+  @media only screen and (min-width: $breakpointTablet) {
+    &__light {
+      font-weight : 300;
+    }
+    &__black {
+      font-weight : 900;
+    }
   }
   &__normal {
     font-weight : 500;
   }
-  &__black {
-    font-weight : 900;
-  }
+
 }
 
 .fontSecondary {
