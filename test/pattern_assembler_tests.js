@@ -599,7 +599,7 @@
 			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-				patternName: "pages-homepage"
+        key: "pages-homepage"
 			};
 
 			//act
