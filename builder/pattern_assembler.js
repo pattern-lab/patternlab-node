@@ -304,11 +304,11 @@
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
-    //do the same with extendedTemplate
+    //do the same with extendedTemplate to avoid undefined type errors
+    //trying to keep memory footprint small, so set it to empty string at first
     currentPattern.extendedTemplate = '';
 
-    //do the same with tmpTemplate to avoid undefined type errors
-    //trying to keep memory footprint small, so set it to empty string at first
+    //do the same with tmpTemplate
     currentPattern.tmpTemplate = '';
 
     //find pattern lineage
@@ -349,21 +349,31 @@
       pseudopattern_hunter = new pph();
 
     var i; // for the for loops
+    var paths = patternlab.config.paths;
 
 var processBegin;
 var processEnd;
     if (recursionLevel === 0) {
-
-      //skip .json files
-      if (path.extname(file) === '.json') {
-        return;
-      }
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
 
       //return if processing an ignored file
       if (!currentPattern || typeof currentPattern.extendedTemplate === 'undefined') {
+        return;
+      }
+
+      //output .json variant files and return
+      if (path.extname(file) === '.json') {
+        //write the compiled template to the public patterns directory
+        fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate + patternFooter);
+
+        //write the mustache file too
+        fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(currentPattern.template));
+
+        //write the encoded version too
+        fs.outputFileSync(paths.public.patterns + currentPattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(currentPattern.extendedTemplate));
+
         return;
       }
     
@@ -397,7 +407,6 @@ var processEnd;
       mergeData(globalData, allData);
       mergeData(globalData, currentPattern.jsonFileData);
       var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
-      var paths = patternlab.config.paths;
       var pseudoPatternFiles = glob.sync(needle, {
         cwd: paths.source.patterns,
         debug: false,
@@ -419,18 +428,18 @@ var processEnd;
       }
 
       currentPattern.dataKeys = getDataKeys(allData);
-      currentPattern.tmpTemplate = currentPattern.template;
+      currentPattern.extendedTemplate = currentPattern.template;
 
       //find any listItem blocks within the pattern
       //do this before winnowing unused tags
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
-      currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.tmpTemplate, currentPattern);
+      currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.extendedTemplate, currentPattern);
 
     }
 
     //find parametered partials
-    var parameteredPartials = findPartialsWithPatternParameters(currentPattern.tmpTemplate);
+    var parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
 
     //if the template contains any pattern parameters, recurse through them
     if (parameteredPartials && parameteredPartials.length) {
@@ -438,7 +447,7 @@ var processEnd;
         console.log('found parametered partials for ' + currentPattern.key);
       }
 
-      //recursively render currentPattern.tmpTemplate via parameter_hunter.find_parameters()
+      //recursively render currentPattern.extendedTemplate via parameter_hunter.find_parameters()
       parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
 
       //recurse, going a level deeper, with each render eliminating nested parameteredPartials
@@ -447,7 +456,7 @@ var processEnd;
     }
 
     //find non-parametered partials.
-    var foundPatternPartials = findPartials(currentPattern.tmpTemplate);
+    var foundPatternPartials = findPartials(currentPattern.extendedTemplate);
     var uniquePartials = [];
 
     //recurse through non-parametered partials
@@ -491,9 +500,9 @@ var processEnd;
           var escapedPartial = foundPatternPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
           var regex = new RegExp(escapedPartial, 'g');
 
-          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(regex, winnowedPartial);
+          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(regex, winnowedPartial);
           partialPattern.tmpTemplate = '';
-//          currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/^\s*$\n/gm, '');
+//          currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/^\s*$\n/gm, '');
         }
       }
 
@@ -506,9 +515,9 @@ var processEnd;
     if (recursionLevel === 0) {
 
       //switched ERB escaped tags back to standard Mustache tags
-      currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
+      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
 
-      currentPattern.extendedTemplate = currentPattern.tmpTemplate;
+//      currentPattern.extendedTemplate = currentPattern.tmpTemplate;
 
       //look through pseudoPatternsArray again, and update their patternlab objects
       if (pseudoPatternsArray.length) {
@@ -521,9 +530,13 @@ var processEnd;
       currentPattern.extendedTemplate = renderPattern(currentPattern.extendedTemplate, currentPattern.jsonFileData);
 
       //add footer info before writing
-      var patternFooter = renderPattern(patternlab.footer, currentPattern.jsonFileData);
+      var patternFooter = renderPattern(patternlab.footer, currentPattern);
+if (currentPattern.abspath.indexOf('00-homepage') > -1) {
+  console.log(patternFooter);
+}
 
       //write the compiled template to the public patterns directory
+//      fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate);
       fs.outputFileSync(paths.public.patterns + currentPattern.patternLink, patternlab.header + currentPattern.extendedTemplate + patternFooter);
 
       //write the mustache file too
@@ -549,19 +562,18 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
   function parseDataLinksHelper(patternlab, obj, key) {
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
-    /**
-     * Recurse through data object and apply a function at each step.
-     *
-     * @param {Object} data JSON object.
-     * @param {Object} callback The function to be applied on the data at the recursion step.
-     */
-    function traverseData(dataObj, callback){
-      for(var i in dataObj){
-        if(dataObj.hasOwnProperty(i)){
-          callback.apply(this, [i, dataObj[i]]);
-          if(dataObj[i] !== null && typeof dataObj[i] === 'object'){
-            traverseData(dataObj[i], callback);
-          }
+    linkRE = /link\.[A-z0-9-_]+/g;
+    dataObjAsString = JSON.stringify(obj);
+    linkMatches = dataObjAsString.match(linkRE);
+
+    if (linkMatches) {
+      for (var i = 0; i < linkMatches.length; i++) {
+        expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+        if (expandedLink) {
+//          if (patternlab.config.debug) {
+            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
+//          }
+          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
         }
       }
     }
