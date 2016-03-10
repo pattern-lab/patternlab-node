@@ -204,7 +204,7 @@ if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache
       //replace parameteredPartials with their rendered values.
       var pMatch = parameteredPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
       regex = new RegExp(pMatch, 'g');
-      pattern.tmpTemplate = pattern.tmpTemplate.replace(regex, partialPattern.tmpTemplate);
+      pattern.extendedTemplate = pattern.extendedTemplate.replace(regex, partialPattern.tmpTemplate);
 
       // Free tmpTemplate from memory.
       partialPattern.tmpTemplate = '';

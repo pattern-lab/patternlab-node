@@ -69,7 +69,6 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
-console.log('DIVESYNC ITERATIVE BEGIN: ' + (Date.now() / 1000));
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
@@ -82,16 +81,16 @@ console.log('DIVESYNC ITERATIVE BEGIN: ' + (Date.now() / 1000));
         pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
       }
     );
-console.log('DIVESYNC ITERATIVE END: ' + (Date.now() / 1000));
 
     patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
+//console.log('patternlab.data');
+//console.log(patternlab.data);
 
     //delete the contents of config.patterns.public before writing
     if (deletePatternDir) {
       fs.emptyDirSync(paths.public.patterns);
     }
 
-console.log('DIVESYNC RECURSIVE BEGIN: ' + (Date.now() / 1000));
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     diveSync(
@@ -105,7 +104,6 @@ console.log('DIVESYNC RECURSIVE BEGIN: ' + (Date.now() / 1000));
         pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, 0);
       }
     );
-console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
@@ -120,10 +118,12 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
 /*
       //render the extendedTemplate with all data
       pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
+*/
 
       //add footer info before writing
       var patternFooter = pattern_assembler.renderPattern(patternlab.footer, pattern);
 
+/*
       //write the compiled template to the public patterns directory
       fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
 
@@ -132,7 +132,7 @@ console.log('DIVESYNC RECURSIVE END: ' + (Date.now() / 1000));
 
       //write the encoded version too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
-      */
+*/
     });
 
     //export patterns if necessary
