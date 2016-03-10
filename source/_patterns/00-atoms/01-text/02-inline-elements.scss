@@ -18,6 +18,28 @@ strong, b {
   font-weight: inherit;
 }
 
+.anchorCTA {
+  text-transform : uppercase;
+  font-size : 0.75em;
+  letter-spacing : 1px;
+
+  &:hover {
+    color: $colorTussock;
+  }
+
+  &:active {
+    color: lighten($colorTussock, 10%);
+  }
+
+  @media only screen and (min-width: $breakpointDesktop) {
+    transition: all $animationTimingFast ease-in;
+
+    &:hover,
+    &:active {
+      transition-timing-function: ease-out;
+    }
+  }
+}
 //
 //del {
 //}
