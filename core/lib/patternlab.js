@@ -18,6 +18,7 @@ var patternlab_engine = function (config) {
     pa = require('./pattern_assembler'),
     mh = require('./media_hunter'),
     pe = require('./pattern_exporter'),
+    lh = require('./lineage_hunter'),
     he = require('html-entities').AllHtmlEntities,
     patternlab = {};
 
@@ -80,6 +81,7 @@ var patternlab_engine = function (config) {
     var pattern_assembler = new pa(),
       entity_encoder = new he(),
       pattern_exporter = new pe(),
+      lineage_hunter = new lh(),
       patterns_dir = paths.source.patterns;
 
     pattern_assembler.combine_listItems(patternlab);
@@ -154,6 +156,9 @@ var patternlab_engine = function (config) {
     //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
     pattern_assembler.parse_data_links(patternlab);
 
+    //cascade any patternStates
+    lineage_hunter.cascade_pattern_states(patternlab);
+
     //delete the contents of config.patterns.public before writing
     if (deletePatternDir) {
       fs.emptyDirSync(paths.public.patterns);
@@ -171,6 +176,19 @@ var patternlab_engine = function (config) {
     patternlab.patterns.forEach(function (pattern) {
 
       pattern.header = head;
+
+      //json stringify lineage and lineageR
+      var lineageArray = [];
+      for (var i = 0; i < pattern.lineage.length; i++) {
+        lineageArray.push(JSON.stringify(pattern.lineage[i]));
+      }
+      pattern.lineage = lineageArray;
+
+      var lineageRArray = [];
+      for (var i = 0; i < pattern.lineageR.length; i++) {
+        lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
+      }
+      pattern.lineageR = lineageRArray;
 
       //render the pattern, but first consolidate any data we may have
       var allData = JSON.parse(JSON.stringify(patternlab.data));

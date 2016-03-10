@@ -36,8 +36,8 @@ var pattern_assembler = function () {
   }
 
   function setState(pattern, patternlab) {
-    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]) {
-      pattern.patternState = patternlab.config.patternStates[pattern.patternName];
+    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.key]) {
+      pattern.patternState = patternlab.config.patternStates[pattern.key];
     } else {
       pattern.patternState = "";
     }
