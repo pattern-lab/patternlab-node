@@ -22,4 +22,12 @@
       }
     }
   }
+
+  &--product {
+    text-align : center;
+
+    .image__wrapper {
+      padding-bottom : $paddingMini;
+    }
+  }
 }
