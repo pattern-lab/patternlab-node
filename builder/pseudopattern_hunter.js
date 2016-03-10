@@ -12,7 +12,7 @@
 
 var pseudopattern_hunter = function () {
 
-  function findpseudopatterns(currentPattern, patternlab) {
+  function findpseudopatterns(currentPattern, patternlab, pseudoPatternsArray) {
     var glob = require('glob'),
       fs = require('fs-extra'),
       pa = require('./pattern_assembler'),
@@ -24,59 +24,53 @@ var pseudopattern_hunter = function () {
     var lineage_hunter = new lh();
     var paths = patternlab.config.paths;
 
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
-    var pseudoPatterns = glob.sync(needle, {
-      cwd: paths.source.patterns,
-      debug: false,
-      nodir: true
-    });
-
-    if (pseudoPatterns.length > 0) {
 if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
           console.log('found pseudoPattern variant of ' + currentPattern.key);
 }
-      for (var i = 0; i < pseudoPatterns.length; i++) {
-        if (patternlab.config.debug) {
-          console.log('found pseudoPattern variant of ' + currentPattern.key);
-        }
-
-        //we want to do everything we normally would here, except instead read the pseudoPattern data
-        var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
-
-        //extend any existing data with variant data
-        variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, variantFileData);
-
-        var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-        var variantFilePath = path.resolve(paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
-        var variantFileName = currentPattern.fileName + '-' + variantName + '.';
-        var patternVariant = new of.oPattern(variantFilePath, currentPattern.subdir, variantFileName, variantFileData);
-if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
-          console.log(pseudoPatterns[i]);
-          console.log(variantName);
-          console.log(variantFilePath);
-          console.log(variantFileName);
-}
-
-        //see if this file has a state
-        pattern_assembler.setPatternState(patternVariant, patternlab);
-
-        //use the same template as the non-variant
-        patternVariant.template = currentPattern.template;
-        patternVariant.extendedTemplate = currentPattern.extendedTemplate;
-
-        //find pattern lineage
-        lineage_hunter.find_lineage(patternVariant, patternlab);
-
-        //add to patternlab object so we can look these up later.
-        pattern_assembler.addPattern(patternVariant, patternlab);
+    for (var i = 0; i < pseudoPatternsArray.length; i++) {
+      if (patternlab.config.debug) {
+        console.log('found pseudoPattern variant of ' + currentPattern.key);
       }
+
+      //we want to do everything we normally would here, except instead read the pseudoPattern data
+//      var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
+
+      //extend any existing data with variant data
+      var variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, pseudoPatternsArray[i].jsonFileData);
+/*
+      var variantName = pseudoPatternsArray[i].substring(pseudoPatternsArray[i].indexOf('~') + 1).split('.')[0];
+      var variantFilePath = path.resolve(paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
+      var variantFileName = currentPattern.fileName + '-' + variantName + '.';
+      var patternVariant = new of.oPattern(variantFilePath, currentPattern.subdir, variantFileName, variantFileData);
+      */
+
+      //see if this file has a state
+      pattern_assembler.setPatternState(pseudoPatternsArray[i], patternlab);
+
+      //use the same template as the non-variant
+//      pseudoPatternsArray.template = currentPattern.template;
+//      pseudoPatternsArray[i].tmpTemplate = currentPattern.extendedTemplate;
+      pseudoPatternsArray[i].extendedTemplate = currentPattern.extendedTemplate;
+if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
+  /*
+        console.log('pseudoPatternsArray[i].extendedTemplate');
+        console.log(pseudoPatternsArray[i].extendedTemplate);
+        console.log('pseudoPatternsArray[i].jsonFileData');
+        console.log(pseudoPatternsArray[i].jsonFileData);
+        */
+}
+
+      //find pattern lineage
+//      lineage_hunter.find_lineage(patternVariant, patternlab);
+
+      //add to patternlab object so we can look these up later.
+//       pattern_assembler.addPattern(patternVariant, patternlab);
     }
   }
 
   return {
-    find_pseudopatterns: function (pattern, patternlab) {
-      findpseudopatterns(pattern, patternlab);
+    find_pseudopatterns: function (pattern, patternlab, pseudoPatternsArray) {
+      findpseudopatterns(pattern, patternlab, pseudoPatternsArray);
     }
   };
 

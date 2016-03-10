@@ -266,9 +266,16 @@ var pattern_assembler = function () {
     //make a new Pattern Object
     var currentPattern = new of.oPattern(file, subdir, filename);
 
-    //if file is named in the syntax for variants, no need to process further
-    //processPatternRecursive() will run find_pseudopatterns() and look at each pattern for a variant
+    //if file is named in the syntax for variants, add the variant data to memory.
+    //processPatternRecursive() will run find_pseudopatterns() to render with the variant data.
     if (ext === '.json' && filename.indexOf('~') > -1) {
+      try {
+        currentPattern.jsonFileData = fs.readJSONSync(file);
+        addPattern(currentPattern, patternlab);
+      }
+      catch (err) {
+        // do nothing
+      }
       return;
     }
 
@@ -324,6 +331,7 @@ var pattern_assembler = function () {
    */
   function processPatternRecursive(file, patternlab, recursionLevel, currentPattern) {
     var fs = require('fs-extra'),
+      glob = require('glob'),
       path = require('path');
 
     var ph = require('./parameter_hunter'),
@@ -344,61 +352,120 @@ var processEnd;
 
 //console.log(file);
 if (file.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-processBegin = Date.now() / 1000;
-console.log('PROCESS BEGIN: ' + processBegin);
+//processBegin = Date.now() / 1000;
+//console.log('PROCESS BEGIN: ' + processBegin);
 }
       //skip .json files
       if (path.extname(file) === '.json') {
         return;
       }
-    
-      //look for a json file for this template
-      var globalData = patternlab.data;
-      var jsonFilename;
-      var localData = null;
-
-      //get json data local to this pattern
-      try {
-        jsonFilename = file.substr(0, file.lastIndexOf('.')) + '.json';
-        localData = fs.readJSONSync(jsonFilename);
-
-        if (patternlab.config.debug) {
-          console.log('found pattern-specific data.json for ' + currentPattern.key);
-        }
-      }
-      catch (error) {
-      }
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
 if (file.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
+//console.log('DATA SIZE BEGIN: ' + JSON.stringify(currentPattern).length + 'B');
 }
 
       //return if processing an ignored file
       if (!currentPattern || typeof currentPattern.extendedTemplate === 'undefined') {
         return;
       }
+    
+      //look for a json file for this template
+      var globalData = patternlab.data;
+      var jsonFilename;
+      var jsonString;
+      //allData will get overwritten by mergeData, so keep it scoped to this function.
+      var allData = null;
 
-      currentPattern.jsonFileData = mergeData(globalData, localData);
-      currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
+      //get json data local to this pattern
+      try {
+        jsonFilename = file.substr(0, file.lastIndexOf('.')) + '.json';
+        jsonString = fs.readFileSync(jsonFilename);
+
+        //since mergeData will overwrite its 2nd param, we need to keep allData
+        //and currentPattern.jsonFileData distinct.
+        allData = JSON.parse(jsonString);
+        currentPattern.jsonFileData = JSON.parse(jsonString);
+
+        if (patternlab.config.debug) {
+          console.log('found pattern-specific data.json for ' + currentPattern.key);
+        }
+      }
+      catch (error) {
+        //do nothing
+      }
+
+      //get data keys for globalData, currentPattern data, and pseudoPattern data.
+      mergeData(globalData, allData);
+      mergeData(globalData, currentPattern.jsonFileData);
+      var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
+      var paths = patternlab.config.paths;
+      var pseudoPatternFiles = glob.sync(needle, {
+        cwd: paths.source.patterns,
+        debug: false,
+        nodir: true
+      });
+      var pseudoPatternsArray = [];
+
+      var pseudoPattern;
+      if (pseudoPatternFiles.length) {
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+console.log('pseudoPatternFiless');
+console.log(pseudoPatternFiles);
+}
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+console.log('allData');
+console.log(allData);
+}
+        for (i = 0; i < pseudoPatternFiles.length; i++) {
+          pseudoPattern = getpatternbykey(path.resolve(paths.source.patterns, pseudoPatternFiles[i]), patternlab);
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+console.log('pseudoPattern');
+console.log(pseudoPattern);
+}
+          if (pseudoPattern) {
+            pseudoPatternsArray.push(pseudoPattern);
+            //mergeData() overwrites the 2nd param, so we don't need an assignment statement
+            //we also don't care about the priority of similarly named properties
+            //because we just want to populate the dataKeys array
+            mergeData(pseudoPattern.jsonFileData, allData);
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+console.log('pseudoPattern.jsonFileData');
+console.log(pseudoPattern.jsonFileData);
+}
+          }
+        }
+      }
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+console.log('globalData');
+console.log(globalData);
+}
+
+      currentPattern.dataKeys = getDataKeys(allData);
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+console.log('currentPattern.dataKeys');
+console.log(currentPattern.dataKeys);
+console.log('currentPattern.jsonFileData');
+console.log(currentPattern.jsonFileData);
+}
       currentPattern.tmpTemplate = currentPattern.template;
 
       //find any listItem blocks within the pattern
       //do this before winnowing unused tags
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('LIST ITEMS at: ' + (Date.now() / 1000));
-  console.log(currentPattern.tmpTemplate);
+//  console.log('LIST ITEMS at: ' + (Date.now() / 1000));
+//  console.log(currentPattern.tmpTemplate);
 }
 
       currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.tmpTemplate, currentPattern);
 
     }
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-console.log('RECURSION LEVEL: ' + recursionLevel);
-console.log('RECURSION LEVEL BEGIN: ' + (Date.now() / 1000));
-console.log(currentPattern.tmpTemplate);
+//console.log('RECURSION LEVEL: ' + recursionLevel);
+//console.log('RECURSION LEVEL BEGIN: ' + (Date.now() / 1000));
+//console.log(currentPattern.tmpTemplate);
 }
 
       //find current pattern in patternlab object using var file as a key
@@ -411,8 +478,8 @@ console.log(currentPattern.tmpTemplate);
     //if the template contains any pattern parameters
     if (parameteredPartials && parameteredPartials.length) {
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-console.log('parameteredPartials');
-console.log(parameteredPartials);
+//console.log('parameteredPartials');
+//console.log(parameteredPartials);
 }
 
       if (patternlab.config.debug) {
@@ -437,8 +504,8 @@ console.log(parameteredPartials);
     //recurse through non-parametered partials
     if (foundPatternPartials && foundPatternPartials.length) {
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('foundPatternPartials');
-  console.log(foundPatternPartials);
+//  console.log('foundPatternPartials');
+//  console.log(foundPatternPartials);
 }
       if (patternlab.config.debug) {
         console.log('found partials for ' + currentPattern.key);
@@ -476,8 +543,8 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 //  console.log('winnowedPartial');
 //  console.log(winnowedPartial);
-  console.log('partialPattern.tmpTemplate');
-  console.log(partialPattern.tmpTemplate);
+//  console.log('partialPattern.tmpTemplate');
+//  console.log(partialPattern.tmpTemplate);
 }
 
           //replace each partial tag with the partial's template.
@@ -491,8 +558,8 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
         }
       }
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('unique foundPatternPartials');
-  console.log(uniquePartials);
+//  console.log('unique foundPatternPartials');
+//  console.log(uniquePartials);
 }
 
       //recurse, going a level deeper, with each render eliminating nested partials
@@ -506,24 +573,26 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
     //do only when popped to the top level of recursion
     if (recursionLevel === 0) {
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('POPPED TO RECURSION LEVEL 0 at: ' + (Date.now() / 1000));
+//  console.log('POPPED TO RECURSION LEVEL 0 at: ' + (Date.now() / 1000));
 }
       //switched ERB escaped tags back to standard Mustache tags
       currentPattern.tmpTemplate = currentPattern.tmpTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('SWITCHED ERB TO MUSTACHE at: ' + (Date.now() / 1000));
+//  console.log('SWITCHED ERB TO MUSTACHE at: ' + (Date.now() / 1000));
 }
 
       currentPattern.extendedTemplate = currentPattern.tmpTemplate;
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('RENDERED PATTERN at: ' + (Date.now() / 1000));
+//  console.log('RENDERED PATTERN at: ' + (Date.now() / 1000));
 }
 
       //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+      if (pseudoPatternsArray.length) {
+        pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab, pseudoPatternsArray);
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('FOUND PSEUDOPATTERNS at: ' + (Date.now() / 1000));
+//  console.log('FOUND PSEUDOPATTERNS at: ' + (Date.now() / 1000));
 }
+      }
 
       //since we're done with currentPattern.tmpTemplate, free it from memory
       currentPattern.tmpTemplate = '';
@@ -531,10 +600,10 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
       currentPattern.dataKeys = null;
 
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
-processEnd = Date.now() / 1000;
-console.log('PROCESS END: ' + processEnd);
-console.log('PROCESS TIME: ' + (processEnd - processBegin));
+//console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
+//processEnd = Date.now() / 1000;
+//console.log('PROCESS END: ' + processEnd);
+//console.log('PROCESS TIME: ' + (processEnd - processBegin));
 }
     }
   }
