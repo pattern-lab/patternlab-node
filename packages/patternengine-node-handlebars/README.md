@@ -144,13 +144,50 @@ The current selection is as follows.
 }
 ```
 ##### Pattern States
-You can set the state of a pattern by including it in `patternlab-config.json` too. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
-Pattern states should be lowercase and use hyphens where spaces are present.
+You can set the state of a pattern by including its key in the `patternStates` object in `patternlab-config.json`, along with a style defined inside `patternStateCascade`. The out of the box styles are in progress (orange), in review (yellow), and complete (green).
 ```
 "patternStates": {
-	"colors" : "inprogress",
-	"fonts" : "inreview",
-	"three-up" : "complete"
+	"atoms-colors" : "complete",
+	"molecules-primary-nav" : "inreview",
+	"organisms-header" : "inprogress"
+}
+```
+
+Note that patterns inherit the lowest common denominator pattern state of their lineage.
+Consider:
+```
+"patternStates": {
+  "molecules-single-comment" : "complete",
+  "organisms-sticky-comment" : "inreview",
+  "templates-article" : "complete"
+}
+```
+In this case, two things are of note:
+
+* templates-article will display inreview since it inherits `organisms-sticky-comment`
+* pages-article will not display any pattern state, as it does not define one
+
+The `patternStateCascade` array is important in that the order is hierarchical.
+The default is below:
+
+```
+"patternStateCascade": ["inprogress", "inreview", "complete"],
+```
+
+which correspond to classes defined inside `./core/styleguide/css/styleguide.css`
+
+```
+/* pattern states */
+.inprogress:before {
+  color: #FF4136 !important;
+}
+
+.inreview:before {
+  color: #FFCC00 !important;
+}
+
+.complete:before {
+  color: #2ECC40 !important;
 }
 ```
 
