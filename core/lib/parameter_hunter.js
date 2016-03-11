@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.0 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.0 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -140,7 +140,7 @@ var parameter_hunter = function () {
 
         //strip out the additional data, convert string to JSON.
         var leftParen = pMatch.indexOf('(');
-        var rightParen = pMatch.indexOf(')');
+        var rightParen = pMatch.lastIndexOf(')');
         var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
         var paramStringWellFormed = paramToJson(paramString);
 
