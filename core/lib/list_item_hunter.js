@@ -25,18 +25,18 @@ var list_item_hunter = function () {
 
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
-    var matches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
-    if (matches !== null) {
-      matches.forEach(function (liMatch) {
+    var liMatches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
+    if (liMatches !== null) {
+      for (var i = 0; i < liMatches.length; i++) {
 
         if (patternlab.config.debug) {
-          console.log('found listItem of size ' + liMatch + ' inside ' + pattern.key);
+          console.log('found listItem of size ' + liMatches[i] + ' inside ' + pattern.key);
         }
 
         //find the boundaries of the block
-        var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
-        var end = liMatch.replace('#', '/');
-        var patternBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch) + liMatch.length, pattern.extendedTemplate.indexOf(end)).trim();
+        var loopNumberString = liMatches[i].split('.')[1].split('}')[0].trim();
+        var end = liMatches[i].replace('#', '/');
+        var patternBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatches[i]) + liMatches[i].length, pattern.extendedTemplate.indexOf(end)).trim();
 if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 //  console.log(pattern.extendedTemplate);
 //  console.log('patternBlock');
@@ -46,74 +46,40 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
         //build arrays that repeat the block, however large we need to
         var repeatedBlockTemplate = [];
         var repeatedBlockHtml = '';
-        var i; // for loops
+        var j; // for loops
 
-        for (i = 0; i < items.indexOf(loopNumberString); i++) {
+        for (j = 0; j < items.indexOf(loopNumberString); j++) {
           repeatedBlockTemplate.push(patternBlock);
         }
 
         //check for a local listitems.json file
-//        var listData = JSON.parse(JSON.stringify(patternlab.listitems));
         var listData = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
 
-        //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
-        for (i = 0; i < repeatedBlockTemplate.length; i++) {
-          var thisBlockTemplate = repeatedBlockTemplate[i];
+        //iterate over each copied block, rendering its contents along with pattenlab.listitems[j]
+        for (j = 0; j < repeatedBlockTemplate.length; j++) {
+          var thisBlockTemplate = repeatedBlockTemplate[j];
           var thisBlockHTML = "";
 
           //combine listItem data with pattern data with global data
           var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
-//          var globalData = JSON.parse(JSON.stringify(patternlab.data));
           var patternData = pattern.jsonFileData;
-
-//          var allData = pattern_assembler.merge_data(globalData, localData);
           var allData = pattern_assembler.merge_data(patternData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
-//          allData.link = extend({}, patternlab.data.link);
-
-          //check for partials within the repeated block
-          /*
-          var foundPartials = pattern_assembler.find_pattern_partials({ 'template' : thisBlockTemplate });
-
-          if (foundPartials && foundPartials.length > 0) {
-            for (var j = 0; j < foundPartials.length; j++) {
-              //get the partial
-              var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
-
-              //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
-              var cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
-
-              //if partial has style modifier data, replace the styleModifier value
-              if (foundPartials[j].indexOf(':') > -1) {
-                style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPartials[j], patternlab);
-              }
-
-              //replace its reference within the block with the extended template
-              thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], cleanPartialPattern.template);
-            }
-
-            //render with data
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
-          } else {
-            //just render with mergedData
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
-          }
-          */
 
           thisBlockHTML = pattern_assembler.renderPattern(patternBlock, allData);
+
           //add the rendered HTML to our string
           repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML;
         }
 
         //replace the block with our generated HTML
-        var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
+        var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatches[i]), pattern.extendedTemplate.indexOf(end) + end.length);
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 //  console.log('repeatedBlockHtml');
 //  console.log(repeatedBlockHtml);
 }
 
-      });
+      }
     }
   }
 

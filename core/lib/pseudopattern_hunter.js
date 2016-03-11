@@ -47,7 +47,10 @@ if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
 }
 
       //find pattern lineage
-//      lineage_hunter.find_lineage(patternVariant, patternlab);
+      //TODO: consider removing the lineage hunter. it only works at the
+      //iterative level, and isn't called upon any further. we need to keep the
+      //patternlab object as light as possible.
+      lineage_hunter.find_lineage(pseudoPatternsArray[i], patternlab);
     }
   }
 
