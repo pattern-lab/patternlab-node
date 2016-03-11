@@ -1,8 +1,8 @@
 (function () {
 	"use strict";
 
-	var pa = require('../builder/pattern_assembler');
-  var object_factory = require('../builder/object_factory');
+	var pa = require('../core/lib/pattern_assembler');
+  var object_factory = require('../core/lib/object_factory');
   var path = require('path');
 
 	exports['pattern_assembler'] = {
@@ -193,17 +193,17 @@
 			//prepare to diveSync
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
-			var pa = require('../builder/pattern_assembler');
+			var pa = require('../core/lib/pattern_assembler');
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
-			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
-			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -520,18 +520,18 @@
 			//arrange
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
-			var pa = require('../builder/pattern_assembler');
+			var pa = require('../core/lib/pattern_assembler');
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
 			//THIS IS BAD.
-			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
-			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -571,15 +571,15 @@
 		},
 		'setState - applies any patternState matching the pattern' : function(test){
 			//arrange
-			var pa = require('../builder/pattern_assembler');
+			var pa = require('../core/lib/pattern_assembler');
 			var pattern_assembler = new pa();
 			var patternlab = {};
 			patternlab.config = {};
 			patternlab.config.patternStates = {};
-			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-				patternName: "homepage-emergency"
+        key: "pages-homepage-emergency"
 			};
 
 			//act
@@ -591,15 +591,15 @@
 		},
 		'setState - does not apply any patternState if nothing matches the pattern' : function(test){
 			//arrange
-			var pa = require('../builder/pattern_assembler');
+			var pa = require('../core/lib/pattern_assembler');
 			var pattern_assembler = new pa();
 			var patternlab = {};
 			patternlab.config = {};
 			patternlab.config.patternStates = {};
-			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-				patternName: "homepage"
+        key: "pages-homepage"
 			};
 
 			//act
@@ -613,17 +613,17 @@
 			//arrange
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
-			var pa = require('../builder/pattern_assembler');
+			var pa = require('../core/lib/pattern_assembler');
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns/';
 			var patternlab = {};
 			//THIS IS BAD
-			patternlab.config = fs.readJSONSync('./config.json');
+			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
-			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
+			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};

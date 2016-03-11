@@ -1,7 +1,7 @@
 (function () {
 "use strict";
 
-	var of = require('../builder/object_factory');
+	var of = require('../core/lib/object_factory');
 
 	exports['oPattern initialization'] = {
 		'test oPattern initializes correctly' : function(test){
