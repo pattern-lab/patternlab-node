@@ -267,19 +267,19 @@ var pattern_assembler = function () {
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
 
     //render the extendedTemplate with all data
-    pattern.extendedTemplate = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
+    pattern.patternPartial = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
     //add footer info before writing
     patternFooter = renderPattern(patternlab.footer, pattern);
 
     //write the compiled template to the public patterns directory
-    fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.extendedTemplate + patternFooter);
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
 
     //write the mustache file too
     fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
 
     //write the encoded version too
-    fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.extendedTemplate));
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
   }
 
   function processPatternIterative(file, patternlab) {
