@@ -69,6 +69,11 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
+    patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data);
+    patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems));
+//console.log('patternlab.dataKeys');
+//console.log(patternlab.dataKeys);
+
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
