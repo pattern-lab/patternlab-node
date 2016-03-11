@@ -38,9 +38,9 @@ var list_item_hunter = function () {
         var end = liMatch.replace('#', '/');
         var patternBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch) + liMatch.length, pattern.extendedTemplate.indexOf(end)).trim();
 if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log(pattern.extendedTemplate);
-  console.log('patternBlock');
-  console.log(patternBlock);
+//  console.log(pattern.extendedTemplate);
+//  console.log('patternBlock');
+//  console.log(patternBlock);
 }
 
         //build arrays that repeat the block, however large we need to
@@ -53,8 +53,8 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
         }
 
         //check for a local listitems.json file
-        var listData = JSON.parse(JSON.stringify(patternlab.listitems));
-        listData = pattern_assembler.merge_data(listData, pattern.listitems);
+//        var listData = JSON.parse(JSON.stringify(patternlab.listitems));
+        var listData = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
         for (i = 0; i < repeatedBlockTemplate.length; i++) {
@@ -63,12 +63,12 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
 
           //combine listItem data with pattern data with global data
           var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
-          var globalData = JSON.parse(JSON.stringify(patternlab.data));
-          var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
+//          var globalData = JSON.parse(JSON.stringify(patternlab.data));
+          var patternData = pattern.jsonFileData;
 
-          var allData = pattern_assembler.merge_data(globalData, localData);
-          allData = pattern_assembler.merge_data(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
-          allData.link = extend({}, patternlab.data.link);
+//          var allData = pattern_assembler.merge_data(globalData, localData);
+          var allData = pattern_assembler.merge_data(patternData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+//          allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block
           /*
@@ -109,8 +109,8 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
         var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log('repeatedBlockHtml');
-  console.log(repeatedBlockHtml);
+//  console.log('repeatedBlockHtml');
+//  console.log(repeatedBlockHtml);
 }
 
       });

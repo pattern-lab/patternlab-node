@@ -172,7 +172,18 @@
       }
     }
 
-    return keys;
+    var uniqueKeys = [];
+
+    //check keys array against uniqueKeys array to eliminate duplicates.
+    for (var i = 0; i < keys.length; i++) {
+      if (uniqueKeys.indexOf(keys[i]) > -1) {
+        continue;
+      } else {
+        uniqueKeys.push(keys[i]);
+      }
+    }
+
+    return uniqueKeys;
   }
 
   function getpatternbykey(key, patternlab) {
@@ -571,9 +582,6 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
 //console.log('PROCESS TIME: ' + (processEnd - processBegin));
 }
 
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//console.log(currentPattern.dataKeys);
-}
     }
   }
 
@@ -675,6 +683,9 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
     },
     winnow_unused_tags: function (template, pattern) {
       return winnowUnusedTags(template, pattern);
+    },
+    get_data_keys: function (data) {
+      return getDataKeys(data);
     },
     get_pattern_by_key: function (key, patternlab) {
       return getpatternbykey(key, patternlab);
