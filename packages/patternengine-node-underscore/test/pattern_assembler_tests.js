@@ -658,10 +658,10 @@
 			var patternlab = {};
 			patternlab.config = {};
 			patternlab.config.patternStates = {};
-			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-				patternName: "homepage-emergency"
+        key: "pages-homepage-emergency"
 			};
 
 			//act
@@ -678,10 +678,10 @@
 			var patternlab = {};
 			patternlab.config = {};
 			patternlab.config.patternStates = {};
-			patternlab.config.patternStates["homepage-emergency"] = "inprogress";
+			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-				patternName: "homepage"
+        key: "pages-homepage"
 			};
 
 			//act
