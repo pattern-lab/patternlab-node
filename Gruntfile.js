@@ -88,7 +88,8 @@ module.exports = function (grunt) {
           path.resolve(paths().source.patterns + '**/*.json'),
           path.resolve(paths().source.fonts + '/*'),
           path.resolve(paths().source.images + '/*'),
-          path.resolve(paths().source.data + '*.json')
+          path.resolve(paths().source.data + '*.json'),
+          path.resolve(paths().source.js + '/*.js')
         ],
         tasks: ['default', 'bsReload:css']
       }
