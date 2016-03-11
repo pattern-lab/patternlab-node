@@ -49,8 +49,11 @@
     "tools-shortcuts": true,
     "tools-docs": true
   },
+  "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternStates": {
-    "homepage-emergency" : "inprogress"
+    "molecules-single-comment" : "complete",
+    "organisms-sticky-comment" : "inreview",
+    "templates-article" : "complete"
   },
   "patternExportKeys": [],
   "patternExportDirectory": "./pattern_exports/",

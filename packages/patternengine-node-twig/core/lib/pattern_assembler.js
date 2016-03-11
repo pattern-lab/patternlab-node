@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.1.3 - 2016
+ * patternlab-node - v1.2.0 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -77,8 +77,8 @@ var pattern_assembler = function () {
   }
 
   function setState(pattern, patternlab) {
-    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]) {
-      pattern.patternState = patternlab.config.patternStates[pattern.patternName];
+    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.key]) {
+      pattern.patternState = patternlab.config.patternStates[pattern.key];
     } else {
       pattern.patternState = "";
     }
