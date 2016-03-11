@@ -233,6 +233,21 @@
       test.done();
     },
 
+    'parameter hunter parses parameters with values containing a closing parenthesis' : function(test){
+      var currentPattern = currentPatternClosure();
+      var patternlab = patternlabClosure();
+      var parameter_hunter = new ph();
+
+      currentPattern.template = "{{> molecules-single-comment(description: 'Hello ) World') }}";
+      currentPattern.extendedTemplate = currentPattern.template;
+      currentPattern.parameteredPartials[0] = currentPattern.template;
+
+      parameter_hunter.find_parameters(currentPattern, patternlab);
+      test.equals(currentPattern.extendedTemplate, '<p>Hello ) World</p>');
+
+      test.done();
+    },
+
     'parameter hunter finds and extends templates with multiple parameters' : function(test){
 
       var currentPattern = currentPatternClosure();
