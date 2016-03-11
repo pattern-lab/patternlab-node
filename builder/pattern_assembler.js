@@ -280,6 +280,13 @@ var pattern_assembler = function () {
 
     //write the encoded version too
     fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+
+    //since we're done with these pattern properties, free them from memory
+    pattern.extendedTemplate = '';
+    pattern.tmpTemplate = '';
+    pattern.dataKeys = null;
+    pattern.jsonFileData = null;
+    pattern.listitems = null;
   }
 
   function processPatternIterative(file, patternlab) {
@@ -302,10 +309,14 @@ var pattern_assembler = function () {
     //make a new Pattern Object
     var currentPattern = new of.oPattern(file, subdir, filename);
 
+    //see if this file has a state
+    setState(currentPattern, patternlab);
+
     //if file is named in the syntax for variants, add the variant data to memory.
     //processPatternRecursive() will run find_pseudopatterns() to render with the variant data.
     if (ext === '.json' && filename.indexOf('~') > -1) {
       try {
+        currentPattern.patternName = currentPattern.patternName.replace('~', '-');
         currentPattern.jsonFileData = fs.readJSONSync(file);
         addPattern(currentPattern, patternlab);
       }
@@ -319,9 +330,6 @@ var pattern_assembler = function () {
     if (ext !== '.mustache') {
       return;
     }
-
-    //see if this file has a state
-    setState(currentPattern, patternlab);
 
     //look for a listitems.json file for this template
     try {
@@ -396,7 +404,7 @@ var processEnd;
       }
 
       //output .json pseudoPattern variants to the file system and return.
-      //diveSync should process these variants after their primaries, given that
+      //diveSync should process these variants after their originals, given that
       //tildes come after periods in ASCII order. as such, their extendedTemplates
       //should be filled out and renderable.
       if (path.extname(file) === '.json') {
@@ -565,13 +573,6 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
 
       //output rendered pattern to the file system
       outputPatternToFS(currentPattern, patternlab);
-
-      //since we're done with these currentPattern properties, free them from memory
-      currentPattern.extendedTemplate = '';
-      currentPattern.tmpTemplate = '';
-      currentPattern.dataKeys = null;
-      currentPattern.jsonFileData = null;
-      currentPattern.listitems = null;
 
 if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
 //console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
