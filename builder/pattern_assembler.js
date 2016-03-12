@@ -87,12 +87,13 @@ var pattern_assembler = function () {
   }
 
   function renderPattern(template, data, partials) {
-    var mustache = require('mustache');
+    var hogan = require('hogan');
+    var compiled = hogan.compile(template);
 
     if (partials) {
-      return mustache.render(template, data, partials);
+      return compiled.render(data, partials);
     } else {
-      return mustache.render(template, data);
+      return compiled.render(data);
     }
   }
 
@@ -127,72 +128,46 @@ var pattern_assembler = function () {
   }
 
   /**
-   * Render the template excluding partials. The reason for this is to eliminate
-   * the unwanted recursion paths that would remain if irrelevant conditional
-   * tags persisted. Targeting non-partial tags that are not keyed in the JSON
-   * data for this pattern. Those will be deleted after this runs.
-   *
-   * @param {string} template The template to render.
-   * @param {object} data The data to render with.
-   * @param {object} dataKeys The data to render with.
-   * @returns {string} templateRendered
-   */
-  function winnowUnusedTags(template, pattern) {
-    var escapedKey;
-    var regex;
-    var templateEscaped = template;
-
-    //escaped all tags that match keys in the JSON data.
-    for (var i = 0; i < pattern.dataKeys.length; i++) {
-      escapedKey = pattern.dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
-      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?[^\\}]*' + escapedKey + '[^\\}]*\\}?)\\}\\}', 'g');
-      templateEscaped = templateEscaped.replace(regex, '<%$1%>');
-    }
-
-    //escape partial tags by switching them to ERB syntax.
-    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
-
-    //render to winnow used tags.
-    var templateRendered = renderPattern(templateEscaped, pattern.jsonFileData);
-
-    //after that's done, switch only partial tags back to standard Mustache tags and return.
-    templateRendered = templateRendered.replace(/<%>([^%]+)%>/g, '{{>$1}}');
-
-    return templateRendered;
-  }
-
-  /**
    * Recursively get all the property keys from the JSON data for a pattern.
    *
    * @param {object} data
-   * @param {array} keys At top level of recursion, this should be undefined.
+   * @param {array} uniqueKeys At top level of recursion, this should be an empty array.
    * @returns {array} keys A flat, one-dimensional array.
    */
-  function getDataKeys(data) {
-    var keys = [];
+  function getDataKeys(data, uniqueKeys, file) {
+    var keys;
 
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
         if (!(typeof data === 'object' && data instanceof Array)) {
-          keys.push(key);
+          if (uniqueKeys.indexOf(key) === -1) {
+//            keys.push(key);
+            uniqueKeys.push(key);
+          } else {
+            continue;
+          }
         }
         if (typeof data[key] === 'object') {
-          keys = keys.concat(getDataKeys(data[key]));
+if (file) {
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+//  console.log(uniqueKeys);
+}
+}
+          getDataKeys(data[key], uniqueKeys, file);
+//          uniqueKeys = uniqueKeys.concat(keys);
         }
       }
     }
-
-    var uniqueKeys = [];
-
-    //check keys array against uniqueKeys array to eliminate duplicates.
-    for (var i = 0; i < keys.length; i++) {
-      if (uniqueKeys.indexOf(keys[i]) > -1) {
-        continue;
-      } else {
-        uniqueKeys.push(keys[i]);
-      }
-    }
-
+/*
+if (file) {
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+  console.log(key);
+  if (key === 'headline') {
+  console.log(uniqueKeys);
+  }
+}
+}
+*/
     return uniqueKeys;
   }
 
@@ -289,6 +264,41 @@ var pattern_assembler = function () {
     pattern.listitems = null;
   }
 
+  /**
+   * Render the template excluding partials. The reason for this is to eliminate
+   * the unwanted recursion paths that would remain if irrelevant conditional
+   * tags persisted. Targeting non-partial tags that are not keyed in the JSON
+   * data for this pattern. Those will be deleted after this runs.
+   *
+   * @param {string} template The template to render.
+   * @param {object} data The data to render with.
+   * @param {object} dataKeys The data to render with.
+   * @returns {string} templateRendered
+   */
+  function winnowUnusedTags(template, pattern) {
+    var escapedKey;
+    var regex;
+    var templateEscaped = template;
+
+    //escaped all tags that match keys in the JSON data.
+    for (var i = 0; i < pattern.dataKeys.length; i++) {
+      escapedKey = pattern.dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+      templateEscaped = templateEscaped.replace(regex, '<%$1%>');
+    }
+
+    //escape partial tags by switching them to ERB syntax.
+    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+
+    //render to winnow used tags.
+    var templateRendered = renderPattern(templateEscaped, pattern.jsonFileData);
+
+    //after that's done, switch only partial tags back to standard Mustache tags and return.
+    templateRendered = templateRendered.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+
+    return templateRendered;
+  }
+
   function processPatternIterative(file, patternlab) {
     var fs = require('fs-extra'),
       lh = require('./lineage_hunter'),
@@ -355,9 +365,10 @@ var pattern_assembler = function () {
     currentPattern.tmpTemplate = '';
 
     //find pattern lineage
-    //TODO: consider removing the lineage hunter. it only works at the
-    //iterative level, and isn't called upon any further. we need to keep the
-    //patternlab object as light as possible.
+    //TODO: consider repurposing lineage hunter. it currently only works at the
+    //iterative level, and isn't called upon any further. however, it could be
+    //repurposed to target and render only those files affected by a template edit.
+    //this could bring an enormous performance improvement on large projects.
     lineage_hunter.find_lineage(currentPattern, patternlab);
 
     //add currentPattern to patternlab.patterns array
@@ -391,9 +402,11 @@ var pattern_assembler = function () {
     var i; // for the for loops
     var paths = patternlab.config.paths;
 
-var processBegin;
+var processBegin = Date.now() / 1000;
 var processEnd;
     if (recursionLevel === 0) {
+//console.log('PROCESS START: ' + processBegin);
+//console.log(file);
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
@@ -463,14 +476,37 @@ var processEnd;
         }
       }
 
+//console.log('ALLDATA SIZE: ' + JSON.stringify(allData).length + 'B');
+processBegin = Date.now() / 1000;
       //add allData keys to currentPattern.dataKeys
-      currentPattern.dataKeys = getDataKeys(allData);
+      currentPattern.dataKeys = getDataKeys(allData, [], file);
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+//  console.log('currentPattern.dataKeys');
+//  console.log(currentPattern.dataKeys);
+}
+processEnd = Date.now() / 1000;
+//console.log('ALLDATA PREPARE END: ' + processEnd);
+//console.log('ALLDATA PREPARE TIME: ' + (processEnd - processBegin));
 
       //add listItem keys to currentPattern.dataKeys
       currentPattern.dataKeys = currentPattern.dataKeys.concat(list_item_hunter.get_list_item_keys());
 
+processBegin = Date.now() / 1000;
+//console.log('LIST ITEM DATA SIZE: ' + JSON.stringify(patternlab.listitems).length + 'B');
+var listItemKeys = getDataKeys(patternlab.listitems, []);
+if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
+  console.log(listItemKeys);
+  /*
+  console.log('currentPattern.dataKeys');
+  console.log(currentPattern.dataKeys);
+  */
+}
+processEnd = Date.now() / 1000;
+//console.log('LIST ITEM DATA PREPARE END: ' + processEnd);
+//console.log('LIST ITEM DATA PREPARE TIME: ' + (processEnd - processBegin));
+
       //add listitems.json keys to currentPattern.dataKeys
-      currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(patternlab.listitems));
+      currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(patternlab.listitems, []));
 
       //copy winnowed template to extendedTemplate
       currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
@@ -478,6 +514,13 @@ var processEnd;
 
     //find parametered partials
     var parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
+//parameteredPartials = null;
+if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
+//  console.log('RECURSION LEVEL: ' + recursionLevel);
+//  console.log('currentPattern.extendedTemplate: ' + currentPattern.extendedTemplate.length + 'B');
+//console.log('DATA SIZE: ' + JSON.stringify(currentPattern).length + 'B');
+//  console.log(currentPattern.extendedTemplate);
+}
 
     //if the template contains any pattern parameters, recurse through them
     if (parameteredPartials && parameteredPartials.length) {
@@ -495,6 +538,7 @@ var processEnd;
 
     //find non-parametered partials.
     var foundPatternPartials = findPartials(currentPattern.extendedTemplate);
+//foundPatternPartials = null;
     var uniquePartials = [];
 
     //recurse through non-parametered partials
@@ -506,10 +550,10 @@ var processEnd;
       for (i = 0; i < foundPatternPartials.length; i++) {
 
         //limit iteration to one time per partial. eliminate duplicates.
-        if (uniquePartials.indexOf(foundPatternPartials[i]) > -1) {
-          continue;
-        } else {
+        if (uniquePartials.indexOf(foundPatternPartials[i]) === -1) {
           uniquePartials.push(foundPatternPartials[i]);
+        } else {
+          continue;
         }
 
         var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
@@ -538,10 +582,6 @@ var processEnd;
           partialPattern.tmpTemplate = '';
         }
       }
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//  console.log('currentPattern.extendedTemplate');
-//  console.log(currentPattern.extendedTemplate);
-}
 
       //recurse, going a level deeper, with each render eliminating nested partials
       //when there are no more nested partials, we'll pop back up
@@ -553,15 +593,6 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
 
       //switched ERB escaped tags back to standard Mustache tags
       currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//  console.log('currentPattern.extendedTemplate');
-//  console.log(currentPattern.extendedTemplate);
-}
-
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//console.log(patternlab.listitems);
-//console.log(currentPattern.dataKeys);
-}
 
       //find and process any listItem blocks within the pattern
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -573,14 +604,6 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
 
       //output rendered pattern to the file system
       outputPatternToFS(currentPattern, patternlab);
-
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//console.log('DATA SIZE END: ' + JSON.stringify(currentPattern).length + 'B');
-//processEnd = Date.now() / 1000;
-//console.log('PROCESS END: ' + processEnd);
-//console.log('PROCESS TIME: ' + (processEnd - processBegin));
-}
-
     }
   }
 
@@ -643,17 +666,17 @@ if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.m
     combine_listItems: function (patternlab) {
       buildListItems(patternlab);
     },
-    winnow_unused_tags: function (template, pattern) {
-      return winnowUnusedTags(template, pattern);
-    },
-    get_data_keys: function (data) {
-      return getDataKeys(data);
+    get_data_keys: function (data, uniqueKeys) {
+      return getDataKeys(data, uniqueKeys);
     },
     get_pattern_by_key: function (key, patternlab) {
       return getpatternbykey(key, patternlab);
     },
     merge_data: function (existingData, newData) {
       return mergeData(existingData, newData);
+    },
+    winnow_unused_tags: function (template, pattern) {
+      return winnowUnusedTags(template, pattern);
     },
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);

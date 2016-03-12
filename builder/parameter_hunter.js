@@ -129,15 +129,11 @@ var parameter_hunter = function () {
     for (var i = 0; i < parameteredPartials.length; i++) {
 
       //limit iteration to one time per partial. eliminate duplicates.
-      if (uniquePartials.indexOf(parameteredPartials[i]) > -1) {
-        continue;
-      } else {
+      if (uniquePartials.indexOf(parameteredPartials[i]) === -1) {
         uniquePartials.push(parameteredPartials[i]);
+      } else {
+        continue;
       }
-if (pattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
-  console.log('unique parameteredPartials');
-  console.log(uniquePartials);
-}
 
       //find the partial's name and retrieve it
       var partialName = parameteredPartials[i].match(/([\w\-\.\/~]+)/g)[0];

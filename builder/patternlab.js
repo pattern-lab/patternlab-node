@@ -69,11 +69,11 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
-    patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data);
-    patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems));
-//console.log('patternlab.dataKeys');
-//console.log(patternlab.dataKeys);
+    patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
+    patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));
 
+var processBegin = Date.now() / 1000;
+console.log('BUILD PATTERNS BEGIN: ' + processBegin);
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
@@ -110,7 +110,10 @@ var patternlab_engine = function (config) {
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
-console.log('BUILD PATTERNS END: ' + (Date.now() / 1000));
+var processEnd = Date.now() / 1000;
+console.log('PATTERNLAB DATA SIZE: ' + JSON.stringify(patternlab).length + 'B');
+console.log('BUILD PATTERNS END: ' + processEnd);
+console.log('BUILD PATTERNS TIME: ' + (processEnd - processBegin) + 'sec');
   }
 
   function addToPatternPaths(bucketName, pattern) {
@@ -176,6 +179,9 @@ console.log('BUILD PATTERNS END: ' + (Date.now() / 1000));
       styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns});
 
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), styleguideHtml);
+
+    //unset styleguidePatterns
+    styleguidePatterns = [];
 
     //build the viewall pages
     var prevSubdir = '',
@@ -246,6 +252,9 @@ console.log('BUILD PATTERNS END: ' + (Date.now() / 1000));
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial});
         fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', viewAllHtml);
       }
+
+      //unset viewAllPatterns
+      viewAllPatterns = [];
     }
 
     //build the patternlab website
@@ -256,6 +265,11 @@ console.log('BUILD PATTERNS END: ' + (Date.now() / 1000));
     for (i = 0; i < patternlab.patterns.length; i++) {
 
       var pattern = patternlab.patterns[i];
+
+      //unset all pattern.patternPartials here since they take up a lot of memory
+      //and we won't be needing them again
+      pattern.patternPartial = '';
+
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
 
       //check if the bucket already exists
