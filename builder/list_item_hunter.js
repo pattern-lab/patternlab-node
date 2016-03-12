@@ -19,7 +19,7 @@ var list_item_hunter = function () {
     style_modifier_hunter = new smh(),
     items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
-  function getListItemKeys() {
+  function getListItemIterationKeys() {
     return items;
   }
 
@@ -27,6 +27,7 @@ var list_item_hunter = function () {
     //find any listitem blocks
     var liMatches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
     if (liMatches !== null) {
+//console.log('patternBlock');
       for (var i = 0; i < liMatches.length; i++) {
 
         if (patternlab.config.debug) {
@@ -35,13 +36,11 @@ var list_item_hunter = function () {
 
         //find the boundaries of the block
         var loopNumberString = liMatches[i].split('.')[1].split('}')[0].trim();
+if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//console.log(loopNumberString);
+}
         var end = liMatches[i].replace('#', '/');
         var patternBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatches[i]) + liMatches[i].length, pattern.extendedTemplate.indexOf(end)).trim();
-if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//  console.log(pattern.extendedTemplate);
-//  console.log('patternBlock');
-//  console.log(patternBlock);
-}
 
         //build arrays that repeat the block, however large we need to
         var repeatedBlockTemplate = [];
@@ -53,18 +52,36 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
         }
 
         //check for a local listitems.json file
-        var listData = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
+//        var listData = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
+if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//  console.log(pattern.extendedTemplate);
+//  console.log(patternBlock);
+//console.log(pattern.listitems);
+}
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[j]
         for (j = 0; j < repeatedBlockTemplate.length; j++) {
           var thisBlockTemplate = repeatedBlockTemplate[j];
           var thisBlockHTML = "";
 
-          //combine listItem data with pattern data with global data
-          var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
+          var itemData = pattern.listitems['' + items.indexOf(loopNumberString)]; //this is a property like "2"
           var patternData = pattern.jsonFileData;
-          var allData = pattern_assembler.merge_data(patternData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+          var allData = pattern_assembler.merge_data(patternData, itemData !== undefined ? itemData[j] : {}); //itemData could be undefined if the listblock contains no partial, just markup
 
+if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+  console.log(pattern.abspath);
+//  console.log(thisBlockTemplate);
+//  console.log(loopNumberString);
+/*
+console.log('BEGIN pattern.listitems[\'5\']');
+console.log(pattern.listitems['5']);
+
+console.log('END pattern.listitems[\'5\']');
+*/
+console.log('BEGIN ' + i);
+console.log(allData);
+console.log('END ' + i);
+}
           thisBlockHTML = pattern_assembler.renderPattern(patternBlock, allData);
 
           //add the rendered HTML to our string
@@ -84,8 +101,8 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
   }
 
   return {
-    get_list_item_keys: function() {
-      return getListItemKeys();
+    get_list_item_iteration_keys: function() {
+      return getListItemIterationKeys();
     },
     process_list_item_partials: function (pattern, patternlab) {
       processListItemPartials(pattern, patternlab);
