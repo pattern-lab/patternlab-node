@@ -125,43 +125,27 @@
    * Recursively get all the property keys from the JSON data for a pattern.
    *
    * @param {object} data
-   * @param {array} uniqueKeys At top level of recursion, this should be an empty array.
+   * @param {array} uniqueKeys The array of unique keys to be added to and returned.
    * @returns {array} keys A flat, one-dimensional array.
    */
-  function getDataKeys(data, uniqueKeys, file) {
+  function getDataKeys(data, uniqueKeys) {
     var keys;
 
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
         if (!(typeof data === 'object' && data instanceof Array)) {
           if (uniqueKeys.indexOf(key) === -1) {
-//            keys.push(key);
             uniqueKeys.push(key);
           } else {
             continue;
           }
         }
         if (typeof data[key] === 'object') {
-if (file) {
-if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
-//  console.log(uniqueKeys);
-}
-}
-          getDataKeys(data[key], uniqueKeys, file);
-//          uniqueKeys = uniqueKeys.concat(keys);
+          getDataKeys(data[key], uniqueKeys);
         }
       }
     }
-/*
-if (file) {
-if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
-  console.log(key);
-  if (key === 'headline') {
-  console.log(uniqueKeys);
-  }
-}
-}
-*/
+
     return uniqueKeys;
   }
 
@@ -343,20 +327,9 @@ if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
       if (patternlab.config.debug) {
         console.log('found pattern-specific listitems.json for ' + currentPattern.key);
       }
-      catch(e) {
-      }
-
-      //add the raw template to memory
-      currentPattern.template = fs.readFileSync(file, 'utf8');
-
-      //find any stylemodifiers that may be in the current pattern
-      currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);
-
-      //find any pattern parameters that may be in the current pattern
-      currentPattern.parameteredPartials = findPartialsWithPatternParameters(currentPattern);
-
-      //add currentPattern to patternlab.patterns array
-      addPattern(currentPattern, patternlab);
+    }
+    catch (err) {
+      currentPattern.listitems = {};
     }
 
     //add the raw template to memory
@@ -485,7 +458,7 @@ var processEnd;
 //console.log('ALLDATA SIZE: ' + JSON.stringify(allData).length + 'B');
 processBegin = Date.now() / 1000;
       //add allData keys to currentPattern.dataKeys
-      currentPattern.dataKeys = getDataKeys(allData, [], file);
+      currentPattern.dataKeys = getDataKeys(allData, []);
 if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
 //  console.log('currentPattern.dataKeys');
 //  console.log(currentPattern.dataKeys);
@@ -494,14 +467,14 @@ processEnd = Date.now() / 1000;
 //console.log('ALLDATA PREPARE END: ' + processEnd);
 //console.log('ALLDATA PREPARE TIME: ' + (processEnd - processBegin));
 
-      //add listItem keys to currentPattern.dataKeys
-      currentPattern.dataKeys = currentPattern.dataKeys.concat(list_item_hunter.get_list_item_keys());
+      //add listitem iteration keys to currentPattern.dataKeys
+      currentPattern.dataKeys = currentPattern.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
 
 processBegin = Date.now() / 1000;
 //console.log('LIST ITEM DATA SIZE: ' + JSON.stringify(patternlab.listitems).length + 'B');
 var listItemKeys = getDataKeys(patternlab.listitems, []);
 if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
-  console.log(listItemKeys);
+//  console.log(listItemKeys);
   /*
   console.log('currentPattern.dataKeys');
   console.log(currentPattern.dataKeys);
@@ -511,8 +484,20 @@ processEnd = Date.now() / 1000;
 //console.log('LIST ITEM DATA PREPARE END: ' + processEnd);
 //console.log('LIST ITEM DATA PREPARE TIME: ' + (processEnd - processBegin));
 
-      //add listitems.json keys to currentPattern.dataKeys
-      currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(patternlab.listitems, []));
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+  //  console.log(pattern.extendedTemplate);
+  //  console.log('patternBlock');
+  //  console.log(patternBlock);
+//  console.log(patternlab.listitems);
+}
+      //first merge global and local listitem data
+      mergeData(patternlab.listitems, currentPattern.listitems);
+if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+//  console.log(currentPattern.listitems);
+}
+
+      //add merged listitem keys to currentPattern.dataKeys
+      currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(currentPattern.listitems, currentPattern.dataKeys));
 
       //copy winnowed template to extendedTemplate
       currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
