@@ -47,9 +47,10 @@ if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
 }
 
       //find pattern lineage
-      //TODO: consider removing the lineage hunter. it only works at the
-      //iterative level, and isn't called upon any further. we need to keep the
-      //patternlab object as light as possible.
+      //TODO: consider repurposing lineage hunter. it currently only works at the
+      //iterative level, and isn't called upon any further. however, it could be
+      //repurposed to target and render only those files affected by a template edit.
+      //this could bring an enormous performance improvement on large projects.
       lineage_hunter.find_lineage(pseudoPatternsArray[i], patternlab);
     }
   }

@@ -7,9 +7,9 @@
     "diveSync": "^0.3.0",
     "fs-extra": "^0.26.2",
     "glob": "^7.0.0",
+    "hogan": "^1.0.2",
     "html-entities": "^1.2.0",
-    "matchdep": "^1.0.0",
-    "mustache": "^2.2.0"
+    "matchdep": "^1.0.0"
   },
   "devDependencies": {
     "bs-html-injector": "^3.0.0",
