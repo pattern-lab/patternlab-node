@@ -29,8 +29,8 @@ var pseudopattern_hunter = function () {
         console.log('found pseudoPattern variant of ' + currentPattern.key);
       }
 
-      //extend any existing data with variant data
-      var variantFileData = pattern_assembler.merge_data(currentPattern.jsonFileData, pseudoPatternsArray[i].jsonFileData);
+      //extend any existing data with variant data.
+      pattern_assembler.merge_data(currentPattern.jsonFileData, pseudoPatternsArray[i].jsonFileData);
 
       //see if this file has a state
       pattern_assembler.setPatternState(pseudoPatternsArray[i], patternlab);

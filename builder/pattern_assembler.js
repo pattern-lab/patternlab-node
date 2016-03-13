@@ -190,6 +190,10 @@ var pattern_assembler = function () {
 
   function mergeData(obj1, obj2) {
     obj2 = obj2 || {}; //eslint-disable-line no-param-reassign
+if (obj1.hasOwnProperty('1')) {
+  console.log('listitems mergeData');
+  console.log(obj2);
+}
 
     for (var p in obj1) { //eslint-disable-line guard-for-in
       try {
@@ -225,8 +229,21 @@ var pattern_assembler = function () {
 
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
 
+var begin = Date.now() / 1000;
+if (pattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log(pattern.abspath);
+console.log('RENDER BEGIN: ' + begin);
+console.log('pattern.extendedTemplate: ' + pattern.extendedTemplate.length + 'B');
+//console.log(pattern.extendedTemplate);
+console.log('pattern.jsonFileData: ' + JSON.stringify(pattern.jsonFileData).length + 'B');
+}
     //render the extendedTemplate with all data
     pattern.patternPartial = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
+var processEnd = Date.now() / 1000;
+if (pattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('RENDER END: ' + processEnd);
+console.log('RENDER TIME: ' + (processEnd - begin));
+}
 
     //add footer info before writing
     patternFooter = renderPattern(patternlab.footer, pattern);
@@ -244,8 +261,11 @@ var pattern_assembler = function () {
     pattern.extendedTemplate = '';
     pattern.tmpTemplate = '';
     pattern.dataKeys = null;
-    pattern.jsonFileData = null;
     pattern.listitems = null;
+
+    if (pattern.jsonFileData !== patternlab.data) {
+      pattern.jsonFileData = null;
+    }
   }
 
   /**
@@ -273,6 +293,9 @@ var pattern_assembler = function () {
 
     //escape partial tags by switching them to ERB syntax.
     templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+
+    //removing empty lines for some reason reduced rendering time considerably.
+    templateEscaped = templateEscaped.replace(/^\s*$\n/gm, '');
 
     //render to winnow used tags.
     var templateRendered = renderPattern(templateEscaped, pattern.jsonFileData);
@@ -325,28 +348,20 @@ var pattern_assembler = function () {
       return;
     }
 
-    //look for a listitems.json file for this template
-    try {
-      var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
-      currentPattern.listitems = fs.readJSONSync(listJsonFileName);
-      buildListItems(currentPattern);
-      if (patternlab.config.debug) {
-        console.log('found pattern-specific listitems.json for ' + currentPattern.key);
-      }
-    }
-    catch (err) {
-      currentPattern.listitems = {};
-    }
-
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
-    //do the same with extendedTemplate to avoid undefined type errors
-    //trying to keep memory footprint small, so set it to empty string at first
-    currentPattern.extendedTemplate = '';
-
-    //do the same with tmpTemplate
+    //define tmpTemplate and listitems to avoid undefined type errors
+    //trying to keep memory footprint small, so set it empty at first
     currentPattern.tmpTemplate = '';
+    currentPattern.listitems = null;
+
+    //do the same with extendedTemplate
+    //skip this on underscore prefixed files, as they don't use extendedTemplate
+    //and since it will need to skip in processPatternRecursive
+    if (filename.charAt(0) !== '_') {
+      currentPattern.extendedTemplate = '';
+    }
 
     //find pattern lineage
     //TODO: consider repurposing lineage hunter. it currently only works at the
@@ -389,8 +404,12 @@ var pattern_assembler = function () {
 var processBegin = Date.now() / 1000;
 var processEnd;
     if (recursionLevel === 0) {
-//console.log('PROCESS START: ' + processBegin);
+processBegin = Date.now() / 1000;
 //console.log(file);
+if (file.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log(file);
+console.log('PROCESS START: ' + processBegin);
+}
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
@@ -399,6 +418,7 @@ var processEnd;
       if (!currentPattern || typeof currentPattern.extendedTemplate === 'undefined') {
         return;
       }
+console.log(file);
 
       //output .json pseudoPattern variants to the file system and return.
       //diveSync should process these variants after their originals, given that
@@ -413,32 +433,45 @@ var processEnd;
       //look for a json file for this template
       var globalData = patternlab.data;
       var jsonFilename;
-      var jsonString;
+      var localJsonString;
       //allData will get overwritten by mergeData, so keep it scoped to this function.
       var allData = null;
 
-      //get json data local to this pattern
       try {
-        jsonFilename = file.substr(0, file.lastIndexOf('.')) + '.json';
-        jsonString = fs.readFileSync(jsonFilename);
 
-        //since mergeData will overwrite its 2nd param, we need to keep allData
-        //and currentPattern.jsonFileData distinct.
-        allData = JSON.parse(jsonString);
-        currentPattern.jsonFileData = JSON.parse(jsonString);
+        //check if there is json data local to this pattern
+        jsonFilename = file.substr(0, file.lastIndexOf('.')) + '.json';
+
+        //if so, load it into memory as a string (to create 2 non-referencing objects).
+        localJsonString = fs.readFileSync(jsonFilename);
 
         if (patternlab.config.debug) {
           console.log('found pattern-specific data.json for ' + currentPattern.key);
         }
       }
-      catch (error) {
+      catch (err) {
+
         //do nothing
       }
 
-      //get data keys for globalData, currentPattern data, and pseudoPattern data.
-      //mergeData() overwrites the 2nd param, so we don't need assignment statements
-      mergeData(globalData, allData);
-      mergeData(globalData, currentPattern.jsonFileData);
+      //set currentPattern.jsonFileData
+      if (localJsonString) {
+        try {
+          allData = mergeData(patternlab.data, JSON.parse(localJsonString));
+          currentPattern.jsonFileData = mergeData(patternlab.data, JSON.parse(localJsonString));
+        }
+        catch (err) {
+
+          //since we're parsing json, output errors for debugging
+          console.log(err);
+        }
+
+      //if this pattern doesn't have a local .json file, save
+      //CPU steps by just creating a reference to the patternlab.data object.
+      } else {
+        currentPattern.jsonFileData = patternlab.data;
+      }
+
       var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
       var pseudoPatternFiles = glob.sync(needle, {
         cwd: paths.source.patterns,
@@ -447,75 +480,99 @@ var processEnd;
       });
       var pseudoPatternsArray = [];
       var pseudoPattern;
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('AFTER GLOB: ' + ((Date.now() / 1000) - processBegin));
+}
 
       if (pseudoPatternFiles.length) {
+        mergeData(patternlab.data, allData);
+
         for (i = 0; i < pseudoPatternFiles.length; i++) {
           pseudoPattern = getpatternbykey(path.resolve(paths.source.patterns, pseudoPatternFiles[i]), patternlab);
           if (pseudoPattern) {
             pseudoPatternsArray.push(pseudoPattern);
 
             //update the allData object.
+            //pseudoPattern.jsonFileData set in processPatternIterative.
             mergeData(pseudoPattern.jsonFileData, allData);
           }
         }
+
+
+      //get data keys for patternlab data, currentPattern data, and pseudoPattern data.
+      //mergeData() overwrites the 2nd param, so we don't need assignment statements
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('BEFORE FIRST MERGEDATA: ' + ((Date.now() / 1000) - processBegin));
+}
+      //if this pattern doesn't have pseudoPatterns or a local .json file, save
+      //CPU steps by just creating a reference to the patternlab.data object.
+      } else if (!localJsonString) {
+        allData = patternlab.data;
       }
 
-//console.log('ALLDATA SIZE: ' + JSON.stringify(allData).length + 'B');
-processBegin = Date.now() / 1000;
+      //look for a listitems.json file for this template
+      var localListItemsString;
+      try {
+        var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '.listitems.json');
+  //      localListItemsString = fs.readFileSync(listJsonFileName);
+        currentPattern.listitems = fs.readJSONsync(listJsonFileName);
+
+        if (patternlab.config.debug) {
+          console.log('found pattern-specific listitems.json for ' + currentPattern.key);
+        }
+      }
+      catch (err) {
+        //do nothing
+      }
+
+
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('AFTER FIRST MERGEDATA: ' + ((Date.now() / 1000) - processBegin));
+}
+
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('AFTER SECOND MERGEDATA: ' + ((Date.now() / 1000) - processBegin));
+}
+var alldataBegin = Date.now() / 1000;
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('DATA SIZE: ' + JSON.stringify(allData).length + 'B');
+console.log('DATA PREPARE BEGIN: ' + alldataBegin);
+}
+
       //add allData keys to currentPattern.dataKeys
       currentPattern.dataKeys = getDataKeys(allData, []);
-if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
-//  console.log('currentPattern.dataKeys');
-//  console.log(currentPattern.dataKeys);
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('AFTER GETDATAKEYS: ' + ((Date.now() / 1000) - alldataBegin));
 }
-processEnd = Date.now() / 1000;
-//console.log('ALLDATA PREPARE END: ' + processEnd);
-//console.log('ALLDATA PREPARE TIME: ' + (processEnd - processBegin));
 
       //add listitem iteration keys to currentPattern.dataKeys
       currentPattern.dataKeys = currentPattern.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
-
-processBegin = Date.now() / 1000;
-//console.log('LIST ITEM DATA SIZE: ' + JSON.stringify(patternlab.listitems).length + 'B');
-var listItemKeys = getDataKeys(patternlab.listitems, []);
-if (file.indexOf('04-pages/00-homepage.mustache') > -1) {
-//  console.log(listItemKeys);
-  /*
-  console.log('currentPattern.dataKeys');
-  console.log(currentPattern.dataKeys);
-  */
-}
-processEnd = Date.now() / 1000;
-//console.log('LIST ITEM DATA PREPARE END: ' + processEnd);
-//console.log('LIST ITEM DATA PREPARE TIME: ' + (processEnd - processBegin));
-
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  //  console.log(pattern.extendedTemplate);
-  //  console.log('patternBlock');
-  //  console.log(patternBlock);
-//  console.log(patternlab.listitems);
-}
-      //first merge global and local listitem data
-      mergeData(patternlab.listitems, currentPattern.listitems);
-if (currentPattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//  console.log(currentPattern.listitems);
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('AFTER FIRST DATAKEYS CONCAT: ' + ((Date.now() / 1000) - alldataBegin));
 }
 
       //add merged listitem keys to currentPattern.dataKeys
-      currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(currentPattern.listitems, currentPattern.dataKeys));
+      if (currentPattern.listitems) {
+        currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(currentPattern.listitems, currentPattern.dataKeys));
+  if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+  console.log('AFTER SECOND DATAKEYS CONCAT: ' + ((Date.now() / 1000) - alldataBegin));
+  }
+      }
 
       //copy winnowed template to extendedTemplate
       currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.template, currentPattern);
+processEnd = Date.now() / 1000;
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+console.log('DATA PREPARE END: ' + processEnd);
+console.log('DATA PREPARE TIME: ' + (processEnd - alldataBegin));
+}
     }
 
     //find parametered partials
     var parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
-//parameteredPartials = null;
-if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.mustache') > -1) {
-//  console.log('RECURSION LEVEL: ' + recursionLevel);
-//  console.log('currentPattern.extendedTemplate: ' + currentPattern.extendedTemplate.length + 'B');
-//console.log('DATA SIZE: ' + JSON.stringify(currentPattern).length + 'B');
-//  console.log(currentPattern.extendedTemplate);
+if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
+  console.log('RECURSION LEVEL: ' + recursionLevel);
+  console.log('TIME: ' + (Date.now() / 1000));
 }
 
     //if the template contains any pattern parameters, recurse through them
@@ -600,6 +657,7 @@ if (currentPattern.abspath.indexOf('02-organisms/accordions/format-editions-tv.m
 
       //output rendered pattern to the file system
       outputPatternToFS(currentPattern, patternlab);
+processEnd = Date.now() / 1000;
     }
   }
 

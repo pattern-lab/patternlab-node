@@ -433,6 +433,7 @@ console.log('BUILD PATTERNS TIME: ' + (processEnd - processBegin) + 'sec');
       patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
 
     }
+console.log('PATTERNLAB DATA SIZE: ' + JSON.stringify(patternlab).length + 'B');
 
     //the patternlab site requires a lot of partials to be rendered.
     //patternNav
