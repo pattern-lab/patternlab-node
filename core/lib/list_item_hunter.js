@@ -24,10 +24,18 @@ var list_item_hunter = function () {
   }
 
   function processListItemPartials(pattern, patternlab) {
+
     //find any listitem blocks
     var liMatches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
     if (liMatches !== null) {
-//console.log('patternBlock');
+      pattern_assembler.combine_listItems(pattern);
+console.log('list_item_hunter');
+console.log(patternlab.listitems);
+
+      //merge global and local listitem data and save it to currentPatterns.listitems
+      pattern.listitems = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
+console.log(pattern.listitems);
+
       for (var i = 0; i < liMatches.length; i++) {
 
         if (patternlab.config.debug) {
@@ -36,9 +44,6 @@ var list_item_hunter = function () {
 
         //find the boundaries of the block
         var loopNumberString = liMatches[i].split('.')[1].split('}')[0].trim();
-if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//console.log(loopNumberString);
-}
         var end = liMatches[i].replace('#', '/');
         var patternBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatches[i]) + liMatches[i].length, pattern.extendedTemplate.indexOf(end)).trim();
 
@@ -51,14 +56,6 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
           repeatedBlockTemplate.push(patternBlock);
         }
 
-        //check for a local listitems.json file
-//        var listData = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
-if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//  console.log(pattern.extendedTemplate);
-//  console.log(patternBlock);
-//console.log(pattern.listitems);
-}
-
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[j]
         for (j = 0; j < repeatedBlockTemplate.length; j++) {
           var thisBlockTemplate = repeatedBlockTemplate[j];
@@ -68,33 +65,18 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
           var patternData = pattern.jsonFileData;
           var allData = pattern_assembler.merge_data(patternData, itemData !== undefined ? itemData[j] : {}); //itemData could be undefined if the listblock contains no partial, just markup
 
-if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log(pattern.abspath);
-//  console.log(thisBlockTemplate);
-//  console.log(loopNumberString);
-/*
-console.log('BEGIN pattern.listitems[\'5\']');
-console.log(pattern.listitems['5']);
-
-console.log('END pattern.listitems[\'5\']');
-*/
-console.log('BEGIN ' + i);
-console.log(allData);
-console.log('END ' + i);
-}
           thisBlockHTML = pattern_assembler.renderPattern(patternBlock, allData);
 
           //add the rendered HTML to our string
           repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML;
+
+          //unset the allData reference to free up memory
+          allData = null;
         }
 
         //replace the block with our generated HTML
         var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatches[i]), pattern.extendedTemplate.indexOf(end) + end.length);
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
-if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-//  console.log('repeatedBlockHtml');
-//  console.log(repeatedBlockHtml);
-}
 
       }
     }
