@@ -19,8 +19,6 @@ var patternlab_engine = function (config) {
     lih = require('./list_item_hunter'),
     mh = require('./media_hunter'),
     pe = require('./pattern_exporter'),
-    lh = require('./lineage_hunter'),
-    he = require('html-entities').AllHtmlEntities,
     patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
@@ -79,7 +77,6 @@ var patternlab_engine = function (config) {
     setCacheBust();
 
     var pattern_assembler = new pa(),
-      entity_encoder = new he(),
       list_item_hunter = new lih(),
       pattern_exporter = new pe(),
       lineage_hunter = new lh(),
@@ -91,8 +88,6 @@ var patternlab_engine = function (config) {
     patternlab.dataKeys = patternlab.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
     patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));
 
-var processBegin = Date.now() / 1000;
-console.log('BUILD PATTERNS BEGIN: ' + processBegin);
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
@@ -129,10 +124,6 @@ console.log('BUILD PATTERNS BEGIN: ' + processBegin);
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
-var processEnd = Date.now() / 1000;
-console.log('PATTERNLAB DATA SIZE: ' + JSON.stringify(patternlab).length + 'B');
-console.log('BUILD PATTERNS END: ' + processEnd);
-console.log('BUILD PATTERNS TIME: ' + (processEnd - processBegin) + 'sec');
   }
 
   function addToPatternPaths(bucketName, pattern) {
@@ -216,6 +207,10 @@ console.log('BUILD PATTERNS TIME: ' + (processEnd - processBegin) + 'sec');
       prevGroup = '';
 
     for (i = 0; i < patternlab.patterns.length; i++) {
+
+      //unset escapedTemplates
+      patternlab.patterns[i].escapedTemplate = '';
+
       // skip underscore-prefixed files
       if (isPatternExcluded(patternlab.patterns[i])) {
         if (patternlab.config.debug) {
@@ -461,7 +456,6 @@ console.log('BUILD PATTERNS TIME: ' + (processEnd - processBegin) + 'sec');
       patternlab.viewAllPaths[bucketName][pattern.patternSubGroup] = pattern.flatPatternPath;
 
     }
-console.log('PATTERNLAB DATA SIZE: ' + JSON.stringify(patternlab).length + 'B');
 
     //the patternlab site requires a lot of partials to be rendered.
     //patternNav
@@ -511,7 +505,6 @@ console.log('PATTERNLAB DATA SIZE: ' + JSON.stringify(patternlab).length + 'B');
       printDebug();
     }
   };
-
 };
 
 module.exports = patternlab_engine;

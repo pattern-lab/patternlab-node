@@ -129,8 +129,6 @@
    * @returns {array} keys A flat, one-dimensional array.
    */
   function getDataKeys(data, uniqueKeys) {
-    var keys;
-
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
         if (!(typeof data === 'object' && data instanceof Array)) {
@@ -194,10 +192,6 @@
    */
   function mergeData(obj1, obj2) {
     obj2 = obj2 || {}; //eslint-disable-line no-param-reassign
-if (obj1.hasOwnProperty('1')) {
-  console.log('listitems mergeData');
-  console.log(obj2);
-}
 
     for (var p in obj1) { //eslint-disable-line guard-for-in
       try {
@@ -224,6 +218,40 @@ if (obj1.hasOwnProperty('1')) {
     return obj2;
   }
 
+  function parseDataLinksHelper(patternlab, obj, key) {
+    var linkRE, dataObjAsString, linkMatches, expandedLink;
+
+    linkRE = /link\.[A-z0-9-_]+/g;
+    dataObjAsString = JSON.stringify(obj);
+    linkMatches = dataObjAsString.match(linkRE);
+
+    if (linkMatches) {
+      for (var i = 0; i < linkMatches.length; i++) {
+        expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+        if (expandedLink) {
+          if (patternlab.config.debug) {
+            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
+          }
+          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
+        }
+      }
+    }
+    return JSON.parse(dataObjAsString);
+  }
+
+  //look for pattern links included in data files.
+  //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
+  function parseDataLinks(patternlab) {
+    //look for link.* such as link.pages-blog as a value
+
+    patternlab.data = parseDataLinksHelper(patternlab, patternlab.data, 'data.json');
+
+    //loop through all patterns
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+      patternlab.patterns[i].jsonFileData = parseDataLinksHelper(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].key);
+    }
+  }
+
   function outputPatternToFS(pattern, patternlab) {
     var fs = require('fs-extra');
     var he = require('html-entities').AllHtmlEntities;
@@ -233,21 +261,8 @@ if (obj1.hasOwnProperty('1')) {
 
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
 
-var begin = Date.now() / 1000;
-if (pattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-console.log(pattern.abspath);
-console.log('RENDER BEGIN: ' + begin);
-console.log('pattern.extendedTemplate: ' + pattern.extendedTemplate.length + 'B');
-//console.log(pattern.extendedTemplate);
-console.log('pattern.jsonFileData: ' + JSON.stringify(pattern.jsonFileData).length + 'B');
-}
     //render the extendedTemplate with all data
     pattern.patternPartial = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
-var processEnd = Date.now() / 1000;
-if (pattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-console.log('RENDER END: ' + processEnd);
-console.log('RENDER TIME: ' + (processEnd - begin));
-}
 
     //add footer info before writing
     patternFooter = renderPattern(patternlab.footer, pattern);
@@ -263,6 +278,7 @@ console.log('RENDER TIME: ' + (processEnd - begin));
 
     //since we're done with these pattern properties, free them from memory
     pattern.extendedTemplate = '';
+    pattern.template = '';
     pattern.tmpTemplate = '';
     pattern.dataKeys = null;
     pattern.listitems = null;
@@ -292,23 +308,13 @@ console.log('RENDER TIME: ' + (processEnd - begin));
     var templateEscaped;
     var templateWinnowed;
 
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('winnowUnusedTags');
-}
     if (template === null) {
       dataKeys = patternlab.dataKeys;
       templateEscaped = pattern.template;
     } else {
       dataKeys = pattern.dataKeys;
       templateEscaped = template;
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('dataKeys');
-  console.log(dataKeys);
-}
     }
-
-var processBegin = Date.now() / 1000;
-
 
     //escaped all tags that match keys in the JSON data.
     //it can be 10% faster to process large dataKeys arrays in one read with a
@@ -324,9 +330,6 @@ var processBegin = Date.now() / 1000;
       escapedKeys += ')';
       regex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)' + escapedKeys + '\\s*\\}?)\\}\\}', 'g');
       templateEscaped = templateEscaped.replace(regex, '<%$1%>');
-if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
-  console.log(templateEscaped);
-}
     }
 
     //escape partial tags by switching them to ERB syntax.
@@ -334,13 +337,8 @@ if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache
 
     //removing empty lines for some reason reduced rendering time considerably.
     templateEscaped = templateEscaped.replace(/^\s*$\n/gm, '');
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('templateEscaped');
-  console.log(templateEscaped);
-}
 
     if (template === null) {
-//    if (!template) {
       pattern.escapedTemplate = templateEscaped;
 
     } else {
@@ -353,23 +351,6 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
     if (templateWinnowed) {
       templateWinnowed = templateWinnowed.replace(/<%>([^%]+)%>/g, '{{>$1}}');
     }
-
-var processEnd = Date.now() / 1000;
-/*
-if (pattern.abspath.indexOf('02-organisms/00-global/00-header.mustache') > -1) {
-  console.log('WINNOW BEGIN: ' + processBegin);
-  console.log('WINNOW END: ' + processEnd);
-  console.log('WINNOW TIME: ' + (processEnd - processBegin));
-}
-*/
-if (typeof templateWinnowed === 'undefined') {
-//  console.log('templateWinnowed UNDEFINED');
-//  console.log(pattern.abspath);
-}
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('templateWinnowed');
-  console.log(templateWinnowed);
-}
 
     return templateWinnowed;
   }
@@ -454,9 +435,9 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
    * @param {string} file The abspath of pattern being processed.
    * @param {object} patternlab The patternlab object.
    * @param {number} recursionLevel Top level === 0. Increments by 1 after that.
-   * @param {object} currentPattern Only submitted on recursionLevel > 0.
+   * @param {object} currentPatternAsParam Only submitted on recursionLevel > 0.
    */
-  function processPatternRecursive(file, patternlab, recursionLevel, currentPattern) {
+  function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam) {
     var fs = require('fs-extra'),
       glob = require('glob'),
       path = require('path');
@@ -472,17 +453,11 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
 
+    var currentPattern;
     var i; // for the for loops
     var paths = patternlab.config.paths;
 
-var processBegin = Date.now() / 1000;
-var processEnd;
     if (recursionLevel === 0) {
-processBegin = Date.now() / 1000;
-if (file.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-console.log(file);
-console.log('PROCESS BEGIN: ' + processBegin);
-}
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
@@ -503,9 +478,9 @@ console.log('PROCESS BEGIN: ' + processBegin);
 
       //continue with regular mustache templates    
       //look for a json file for this template
-      var globalData = patternlab.data;
       var jsonFilename;
       var localJsonString;
+
       //localData will get overwritten by mergeData, so keep it scoped to this function.
       var localData = null;
 
@@ -552,7 +527,6 @@ console.log('PROCESS BEGIN: ' + processBegin);
       var pseudoPattern;
 
       if (pseudoPatternFiles.length) {
-//        mergeData(patternlab.data, localData);
 
         for (i = 0; i < pseudoPatternFiles.length; i++) {
           pseudoPattern = getpatternbykey(path.resolve(paths.source.patterns, pseudoPatternFiles[i]), patternlab);
@@ -564,21 +538,7 @@ console.log('PROCESS BEGIN: ' + processBegin);
             mergeData(pseudoPattern.jsonFileData, localData);
           }
         }
-
-
-      //get data keys for patternlab data, currentPattern data, and pseudoPattern data.
-      //mergeData() overwrites the 2nd param, so we don't need assignment statements
-      //if this pattern doesn't have pseudoPatterns or a local .json file, save
-      //CPU steps by just creating a reference to the patternlab.data object.
-//      } else if (!localJsonString) {
-//        localData = patternlab.data;
       }
-
-      //look for a listitems.json file for this template
-var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '.listitems.json');
-if (currentPattern.abspath.indexOf('00-comment-thread.mustache') > -1) {
-console.log(listJsonFileName);
-}
 
       var hasLocalListItems = false;
       var listJsonFileName;
@@ -586,20 +546,12 @@ console.log(listJsonFileName);
         var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '.listitems.json');
         hasLocalListItems = fs.statSync(listJsonFileName);
       } catch (err) {
+
         //do nothing
       }
-if (currentPattern.abspath.indexOf('00-atoms/00-global/00-colors') > -1) {
-  console.log(currentPattern.abspath);
-  console.log('hasLocalListItems');
-  console.log(hasLocalListItems);
-}
       if (hasLocalListItems) {
         try {
-  //      localListItemsString = fs.readFileSync(listJsonFileName);
-//console.log('currentPattern.listitems');
           currentPattern.listitems = fs.readJSONSync(listJsonFileName);
-  //console.log('guh');
-
           if (patternlab.config.debug) {
             console.log('found pattern-specific listitems.json for ' + currentPattern.key);
           }
@@ -610,80 +562,24 @@ if (currentPattern.abspath.indexOf('00-atoms/00-global/00-colors') > -1) {
         }
       }
 
-    currentPattern.extendedTemplate = currentPattern.template;
-/*
-    for (i = 0; i < patternlab.dataKeys.length; i++) {
-      escapedKey = patternlab.dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
-      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
-      templateEscaped = currentPattern.template.replace(regex, '<%$1%>');
-    }
-
-    //escape partial tags by switching them to ERB syntax.
-    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
-
-    //removing empty lines for some reason reduces rendering time considerably.
-    templateEscaped = templateEscaped.replace(/^\s*$\n/gm, '');
-    currentPattern.escapedTemplate = templateEscaped;
-    */
-if (currentPattern.abspath.indexOf('02-organisms/00-global/00-header.mustache') > -1) {
-//  console.log('templateEscaped BEFORE');
-//  console.log(templateEscaped);
-}
+      currentPattern.extendedTemplate = currentPattern.template;
 
       //add localData keys to currentPattern.dataKeys
       currentPattern.dataKeys = getDataKeys(localData, []);
-if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-console.log('AFTER GETDATAKEYS: ' + ((Date.now() / 1000) - alldataBegin));
-}
-
-      //add listitem iteration keys to currentPattern.dataKeys
-//      currentPattern.dataKeys = currentPattern.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
-if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-console.log('AFTER FIRST DATAKEYS CONCAT: ' + ((Date.now() / 1000) - alldataBegin));
-}
 
       //add merged listitem keys to currentPattern.dataKeys
       if (currentPattern.listitems) {
-console.log('dataKeys');
         currentPattern.dataKeys = currentPattern.dataKeys.concat(getDataKeys(currentPattern.listitems, currentPattern.dataKeys));
-  if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-  console.log('AFTER SECOND DATAKEYS CONCAT: ' + ((Date.now() / 1000) - alldataBegin));
-  }
       }
 
-if (currentPattern.abspath.indexOf('02-organisms/00-global/00-header.mustache') > -1) {
-//  console.log('templateEscaped BEFORE');
-//  console.log(templateEscaped);
-//  console.log(currentPattern.escapedTemplate);
-//  console.log(currentPattern.dataKeys);
-}
-
-
-
-
-
-//      currentPattern.extendedTemplate = currentPattern.template;
-processEnd = Date.now() / 1000;
-if (currentPattern.abspath.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-console.log('DATA PREPARE END: ' + processEnd);
-console.log('DATA PREPARE TIME: ' + (processEnd - alldataBegin));
-}
+    //set currentPattern for recursionLevel > 0
+    } else {
+      currentPattern = currentPatternAsParam;
     }
-
-
-if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-console.log('RECURSION LEVEL: ' + recursionLevel);
-}
 
     //find parametered partials
     var parameteredPartials = findPartialsWithPatternParameters(currentPattern.extendedTemplate);
-//parameteredPartials = null;
 
-//if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('parameteredPartials');
-  console.log(parameteredPartials);
-}
     //if the template contains any pattern parameters, recurse through them
     if (parameteredPartials && parameteredPartials.length) {
       if (patternlab.config.debug) {
@@ -691,8 +587,6 @@ if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache')
       }
 
       if (recursionLevel === 0 && currentPattern.extendedTemplate === currentPattern.template) {
-//console.log('RECURSION LEVEL: ' + recursionLevel);
-//console.log('WINNOWING parameteredPartials');
         currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.escapedTemplate, currentPattern);
       }
 
@@ -706,13 +600,7 @@ if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache')
 
     //find non-parametered partials.
     var foundPatternPartials = findPartials(currentPattern.extendedTemplate);
-//foundPatternPartials = null;
     var uniquePartials = [];
-
-if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('foundPatternPartials');
-  console.log(foundPatternPartials);
-}
 
     //recurse through non-parametered partials
     if (foundPatternPartials && foundPatternPartials.length) {
@@ -722,8 +610,6 @@ if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache')
 
       //copy winnowed template to extendedTemplate
       if (recursionLevel === 0 && currentPattern.extendedTemplate === currentPattern.template) {
-//console.log('RECURSION LEVEL: ' + recursionLevel);
-//console.log('WINNOWING foundPatternPartials');
         currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.escapedTemplate, currentPattern);
       }
 
@@ -752,14 +638,7 @@ if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache')
               style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
             }
 
-if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-console.log(partialPattern.abspath);
-console.log('partialPattern.escapedTemplate');
-console.log(partialPattern.escapedTemplate);
-}
-
             var winnowedPartial = winnowUnusedTags(partialPattern.tmpTemplate, currentPattern);
-  //          var winnowedPartial = partialPattern.tmpTemplate;
 
             partialPattern.tmpTemplate = winnowedPartial;
           }
@@ -769,15 +648,8 @@ console.log(partialPattern.escapedTemplate);
           var escapedPartial = foundPatternPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
           var regex = new RegExp(escapedPartial, 'g');
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(regex, partialPattern.tmpTemplate);
-
-//          partialPattern.tmpTemplate = '';
-          //since these partials do not process parameters, there's no need to
-          //unset the tmpTemplates until after the currentPattern completes
-          //processing. this will save some cpu cycles by reducing the number
-          //of times this tmpTemplate needs to be re-generated for this pattern
         }
       }
-//      currentPattern.tmpTemplate = winnowUnusedTags(currentPattern.tmpTemplate, currentPattern);
 
       //recurse, going a level deeper, with each render eliminating nested partials
       //when there are no more nested partials, we'll pop back up
@@ -799,106 +671,13 @@ console.log(partialPattern.escapedTemplate);
         pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab, pseudoPatternsArray);
       }
 
-if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('BEFORE OUTPUT');
-  console.log('currentPattern.extendedTemplate');
-  console.log(currentPattern.extendedTemplate);
-}
       //output rendered pattern to the file system
       outputPatternToFS(currentPattern, patternlab);
-processEnd = Date.now() / 1000;
-var processTime = processEnd - processBegin;
-//if (file.indexOf('00-atoms/00-meta/_00-head.mustache') > -1) {
-if (processTime > 0.1) {
-console.log(file);
-console.log('PROCESS START: ' + processBegin);
-console.log('PROCESS END: ' + processEnd);
-console.log('PROCESS TIME: ' + processTime);
-
-}
-
-if (currentPattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-console.log('PROCESS START: ' + processBegin);
-console.log('PROCESS END: ' + processEnd);
-console.log('PROCESS TIME: ' + processTime);
-
-}
 
       //unset all tmpTemplates
       for (i = 0; i < patternlab.patterns.length; i++) {
         patternlab.patterns[i].tmpTemplate = '';
       }
-    }
-  }
-
-  function parseDataLinksHelper(patternlab, obj, key) {
-    var linkRE, dataObjAsString, linkMatches, expandedLink;
-
-    linkRE = /link\.[A-z0-9-_]+/g;
-    dataObjAsString = JSON.stringify(obj);
-    linkMatches = dataObjAsString.match(linkRE);
-
-    if (linkMatches) {
-      for (var i = 0; i < linkMatches.length; i++) {
-        expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
-        if (expandedLink) {
-          if (patternlab.config.debug) {
-            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
-          }
-          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
-        }
-      }
-    }
-
-    function buildListItems(container){
-      //combine all list items into one structure
-      var list = [];
-      for (var item in container.listitems) {
-        if( container.listitems.hasOwnProperty(item)) {
-          list.push(container.listitems[item]);
-        }
-      }
-      container.listItemArray = shuffle(list);
-
-      for(var i = 1; i <= container.listItemArray.length; i++){
-        var tempItems = [];
-        if( i === 1){
-          tempItems.push(container.listItemArray[0]);
-          container.listitems['' + i ] = tempItems;
-        } else{
-          for(var c = 1; c <= i; c++){
-            tempItems.push(container.listItemArray[c - 1]);
-            container.listitems['' + i ] = tempItems;
-          }
-        }
-      }
-    }
-
-    //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-    function shuffle(o){
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o;
-    }
-
-    function parseDataLinksHelper (patternlab, obj, key) {
-      var linkRE, dataObjAsString, linkMatches, expandedLink;
-
-      linkRE = /link\.[A-z0-9-_]+/g
-      dataObjAsString = JSON.stringify(obj);
-      linkMatches = dataObjAsString.match(linkRE)
-
-      if(linkMatches) {
-        for (var i = 0; i < linkMatches.length; i++) {
-          expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
-          if (expandedLink) {
-            if(patternlab.config.debug){
-              console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
-            }
-            dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
-          }
-        }
-      }
-      return JSON.parse(dataObjAsString)
     }
   }
 
@@ -936,6 +715,12 @@ console.log('PROCESS TIME: ' + processTime);
     merge_data: function (existingData, newData) {
       return mergeData(existingData, newData);
     },
+    parse_data_links_helper: function (patternlab, obj, key) {
+      return parseDataLinksHelper(patternlab, obj, key);
+    },
+    parse_data_links: function (patternlab) {
+      parseDataLinks(patternlab);
+    },
     winnow_unused_tags: function (template, pattern) {
       return winnowUnusedTags(template, pattern);
     },
@@ -944,12 +729,6 @@ console.log('PROCESS TIME: ' + processTime);
     },
     process_pattern_recursive: function (file, patternlab, recursionLevel) {
       processPatternRecursive(file, patternlab, recursionLevel);
-    },
-    parse_data_links_helper: function (patternlab, obj, key) {
-      return parseDataLinksHelper(patternlab, obj, key);
-    },
-    parse_data_links: function (patternlab) {
-      parseDataLinks(patternlab);
     }
 
     return {

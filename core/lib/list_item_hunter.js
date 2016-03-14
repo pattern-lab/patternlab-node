@@ -12,11 +12,8 @@
 
 var list_item_hunter = function () {
 
-  var extend = require('util')._extend,
-    pa = require('./pattern_assembler'),
-    smh = require('./style_modifier_hunter'),
+  var pa = require('./pattern_assembler'),
     pattern_assembler = new pa(),
-    style_modifier_hunter = new smh(),
     items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function getListItemIterationKeys() {
@@ -29,12 +26,9 @@ var list_item_hunter = function () {
     var liMatches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
     if (liMatches !== null) {
       pattern_assembler.combine_listItems(pattern);
-//console.log('list_item_hunter');
-//console.log(patternlab.listitems);
 
       //merge global and local listitem data and save it to currentPatterns.listitems
       pattern.listitems = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
-//console.log(pattern.listitems);
 
       for (var i = 0; i < liMatches.length; i++) {
 
@@ -58,7 +52,6 @@ var list_item_hunter = function () {
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[j]
         for (j = 0; j < repeatedBlockTemplate.length; j++) {
-          var thisBlockTemplate = repeatedBlockTemplate[j];
           var thisBlockHTML = "";
 
           var itemData = pattern.listitems['' + items.indexOf(loopNumberString)]; //this is a property like "2"
@@ -83,7 +76,7 @@ var list_item_hunter = function () {
   }
 
   return {
-    get_list_item_iteration_keys: function() {
+    get_list_item_iteration_keys: function () {
       return getListItemIterationKeys();
     },
     process_list_item_partials: function (pattern, patternlab) {

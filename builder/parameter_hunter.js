@@ -12,11 +12,8 @@
 
 var parameter_hunter = function () {
 
-  var extend = require('util')._extend,
-    lih = require('./list_item_hunter'),
-    pa = require('./pattern_assembler'),
+  var pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    list_item_hunter = new lih(),
     pattern_assembler = new pa(),
     style_modifier_hunter = new smh();
 
@@ -140,7 +137,7 @@ var parameter_hunter = function () {
       var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
       if (!partialPattern) {
-        throw 'Could not find pattern with key ' + partialName;
+        console.log('Could not find pattern with key ' + partialName);
         continue;
       }
 
@@ -181,6 +178,7 @@ var parameter_hunter = function () {
           //apply replacement based on allowable characters from lines 78 and 79 of mustache.js
           //of the Mustache for JS project.
           regex = new RegExp('\\{\\{([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+
           //since ERB is already used for escaping in partialPattern.escapedTemplate,
           //using <%% %%> as escaping tags.
           partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%%$1%%>');
@@ -189,13 +187,6 @@ var parameter_hunter = function () {
         }
       }
 
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('partialPattern.abspath');
-  console.log(partialPattern.abspath);
-  console.log('partialPattern.tmpTemplate BEFORE');
-  console.log(partialPattern.tmpTemplate);
-}
-
       //then set the new delimiter at the beginning of the extended template
       partialPattern.tmpTemplate = '{{=<%% %%>=}}' + partialPattern.tmpTemplate;
 
@@ -203,16 +194,7 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
       //recursion paths that would remain if irrelevant conditional tags persisted.
       partialPattern.tmpTemplate = pattern_assembler.renderPattern(partialPattern.tmpTemplate, paramData);
 
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('partialPattern.tmpTemplate AFTER');
-  console.log(partialPattern.tmpTemplate);
-}
       partialPattern.tmpTemplate = pattern_assembler.winnow_unused_tags(partialPattern.tmpTemplate, pattern);
-
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log('parameter_hunter winnow AFTER');
-  console.log(partialPattern.tmpTemplate);
-}
 
       //replace parameteredPartials with their rendered values.
       var pMatch = parameteredPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
