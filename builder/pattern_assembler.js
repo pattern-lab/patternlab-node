@@ -292,7 +292,7 @@ console.log('RENDER TIME: ' + (processEnd - begin));
    */
   function winnowUnusedTags(template, pattern, patternlab) {
     var dataKeys;
-    var escapedKey;
+    var escapedKeys;
     var i;
     var regex;
     var templateEscaped;
@@ -314,25 +314,26 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
     }
 
 var processBegin = Date.now() / 1000;
-if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
-  console.log(pattern.abspath);
-  console.log('template');
-  console.log(template);
-}
+
 
     //escaped all tags that match keys in the JSON data.
     //it can be 10% faster to process large dataKeys arrays in one read with a
     //large regex than to read many timesi and process with small regexes.
-    escapedKey = '(';
     if (dataKeys.length) {
+      escapedKeys = '(';
       for (i = 0; i < dataKeys.length; i++) {
-        escapedKey += dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&') + '|';
+        escapedKeys += dataKeys[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
+        if (i < dataKeys.length - 1) {
+          escapedKeys += '|';
+        }
       }
-      escapedKey = escapedKey.slice(0, escapedKey.length - 1);
-    }
-    escapedKey += ')';
-      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
+      escapedKeys += ')';
+      regex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)' + escapedKeys + '\\s*\\}?)\\}\\}', 'g');
       templateEscaped = templateEscaped.replace(regex, '<%$1%>');
+if (pattern.abspath.indexOf('02-organisms/02-comments/00-comment-thread.mustache') > -1) {
+  console.log(templateEscaped);
+}
+    }
 
     //escape partial tags by switching them to ERB syntax.
     templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');

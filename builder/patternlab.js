@@ -16,6 +16,7 @@ var patternlab_engine = function (config) {
     diveSync = require('diveSync'),
     of = require('./object_factory'),
     pa = require('./pattern_assembler'),
+    lih = require('./list_item_hunter'),
     mh = require('./media_hunter'),
     pe = require('./pattern_exporter'),
     he = require('html-entities').AllHtmlEntities,
@@ -64,12 +65,14 @@ var patternlab_engine = function (config) {
 
     var pattern_assembler = new pa(),
       entity_encoder = new he(),
+      list_item_hunter = new lih(),
       pattern_exporter = new pe(),
       patterns_dir = paths.source.patterns;
 
     pattern_assembler.combine_listItems(patternlab);
 
     patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
+    patternlab.dataKeys = patternlab.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
     patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));
 
 var processBegin = Date.now() / 1000;
