@@ -269,6 +269,7 @@
       };
       pl.data = {};
       pl.data.link = {};
+      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
       pl.config.debug = false;
       pl.patterns = [];
       pl.partials = {};
@@ -284,10 +285,10 @@
       pattern_assembler.process_pattern_iterative(outerParameteredFile, pl);
 
       //act
-      pattern_assembler.process_pattern_recursive(atomFile, pl, atomFile);
-      pattern_assembler.process_pattern_recursive(styleFile, pl, styleFile);
-      pattern_assembler.process_pattern_recursive(innerParameteredFile, pl, innerParameteredFile);
-      pattern_assembler.process_pattern_recursive(outerParameteredFile, pl, outerParameteredFile);
+      pattern_assembler.process_pattern_recursive(atomFile, pl, 0, null, true);
+      pattern_assembler.process_pattern_recursive(styleFile, pl, 0, null, true);
+      pattern_assembler.process_pattern_recursive(innerParameteredFile, pl, 0, null, true);
+      pattern_assembler.process_pattern_recursive(outerParameteredFile, pl, 0, null, true);
       var outerParameteredPattern = pattern_assembler.get_pattern_by_key(outerParameteredFile, pl);
 
       //assert.

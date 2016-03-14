@@ -2,8 +2,8 @@
 	"use strict";
 
 	var pa = require('../builder/pattern_assembler');
-  var object_factory = require('../builder/object_factory');
-  var path = require('path');
+	var object_factory = require('../builder/object_factory');
+	var path = require('path');
 
 	exports['pattern_assembler'] = {
 		'find_pattern_partials finds partials' : function(test){
@@ -251,7 +251,7 @@
 						return;
 					}
 
-					pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, path.resolve(file));
+					pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, 0, null, true);
 				}
 			);
 
@@ -292,6 +292,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
 			pl.config.debug = false;
 			pl.patterns = [];
 			pl.partials = {};
@@ -304,7 +305,7 @@
 			pattern_assembler.process_pattern_iterative(groupFile, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive(groupFile, pl, groupFile);
+			pattern_assembler.process_pattern_recursive(groupFile, pl, 0, null, true);
 			var groupPattern = pattern_assembler.get_pattern_by_key(groupFile, pl);
 
 			//assert
@@ -328,6 +329,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
 			pl.config.debug = false;
 			pl.patterns = [];
 			pl.partials = {};
@@ -339,7 +341,7 @@
 			pattern_assembler.process_pattern_iterative(groupFile, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive(groupFile, pl, groupFile);
+			pattern_assembler.process_pattern_recursive(groupFile, pl, 0, null, true);
 			var groupPattern = pattern_assembler.get_pattern_by_key(groupFile, pl);
 
 			//assert
@@ -363,6 +365,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
 			pl.config.debug = false;
 			pl.patterns = [];
 			pl.partials = {};
@@ -374,7 +377,7 @@
 			pattern_assembler.process_pattern_iterative(mixedFile, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive(mixedFile, pl, mixedFile);
+			pattern_assembler.process_pattern_recursive(mixedFile, pl, 0, null, true);
 			var mixedPattern = pattern_assembler.get_pattern_by_key(mixedFile, pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
@@ -382,7 +385,7 @@
 			test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
-		'processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier  between' : function(test){
+		'processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier	between' : function(test){
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
@@ -398,6 +401,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
 			pl.config.debug = false;
 			pl.patterns = [];
 			pl.partials = {};
@@ -409,7 +413,7 @@
 			pattern_assembler.process_pattern_iterative(bookendFile, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive(bookendFile, pl, bookendFile);
+			pattern_assembler.process_pattern_recursive(bookendFile, pl, 0, null, true);
 			var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
@@ -433,6 +437,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
 			pl.config.debug = false;
 			pl.patterns = [];
 			pl.partials = {};
@@ -444,7 +449,7 @@
 			pattern_assembler.process_pattern_iterative(mixedFile, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive(mixedFile, pl, mixedFile);
+			pattern_assembler.process_pattern_recursive(mixedFile, pl, 0, null, true);
 			var mixedPattern = pattern_assembler.get_pattern_by_key(mixedFile, pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
@@ -468,6 +473,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
 			pl.config.debug = false;
 			pl.patterns = [];
 			pl.partials = {};
@@ -479,7 +485,7 @@
 			pattern_assembler.process_pattern_iterative(bookendFile, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive(bookendFile, pl, bookendFile);
+			pattern_assembler.process_pattern_recursive(bookendFile, pl, 0, null, true);
 			var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
 			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
@@ -592,6 +598,7 @@
 			patternlab.config = fs.readJSONSync('./config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, [])
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
 			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
 			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
@@ -599,24 +606,29 @@
 			patternlab.data.link = {};
 			patternlab.partials = {};
 
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
+			diveSync(
+				patterns_dir,
+				function (err, file) {
 					//log any errors
-					if(err){
+					if (err) {
 						console.log(err);
 						return;
 					}
-					pattern_assembler.process_pattern_iterative(file, patternlab);
+					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
+				}
+			);
+
+			//diveSync again to recursively include partials, filling out the
+			//extendedTemplate property of the patternlab.patterns elements
+			diveSync(
+				patterns_dir,
+				function (err, file) {
+					//log any errors
+					if (err) {
+						console.log(err);
+						return;
+					}
+					pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab, 0, null, true);
 				}
 			);
 
@@ -712,8 +724,8 @@
 
 			//assert
 			test.equals(patternlab.patterns.length, 1);
-			test.equals(patternlab.partials['test-bar'] != undefined, true);
-			test.equals(patternlab.partials['test-bar'], 'barExtended');
+			test.equals(patternlab.patterns[0] != undefined, true);
+			test.equals(patternlab.patterns[0].extendedTemplate, 'barExtended');
 			test.done();
 		},
 		'addPattern - adds pattern template to patternlab partial object if extendedtemplate does not exist yet' : function(test){
@@ -733,8 +745,8 @@
 
 			//assert
 			test.equals(patternlab.patterns.length, 1);
-			test.equals(patternlab.partials['test-bar'] != undefined, true);
-			test.equals(patternlab.partials['test-bar'], 'bar');
+			test.equals(patternlab.patterns[0] != undefined, true);
+			test.equals(patternlab.patterns[0].template, 'bar');
 			test.done();
 		}
 	};
