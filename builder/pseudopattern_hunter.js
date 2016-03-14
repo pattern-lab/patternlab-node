@@ -13,16 +13,11 @@
 var pseudopattern_hunter = function () {
 
   function findpseudopatterns(currentPattern, patternlab, pseudoPatternsArray) {
-    var glob = require('glob'),
-      fs = require('fs-extra'),
-      pa = require('./pattern_assembler'),
-      lh = require('./lineage_hunter'),
-      of = require('./object_factory'),
-      path = require('path');
+    var pa = require('./pattern_assembler'),
+      lh = require('./lineage_hunter');
 
     var pattern_assembler = new pa();
     var lineage_hunter = new lh();
-    var paths = patternlab.config.paths;
 
     for (var i = 0; i < pseudoPatternsArray.length; i++) {
       if (patternlab.config.debug) {
@@ -37,14 +32,6 @@ var pseudopattern_hunter = function () {
 
       //use the same template as the non-variant
       pseudoPatternsArray[i].extendedTemplate = currentPattern.extendedTemplate;
-if (currentPattern.abspath.indexOf('04-pages/00-homepage.mustache') > -1) {
-  /*
-        console.log('pseudoPatternsArray[i].extendedTemplate');
-        console.log(pseudoPatternsArray[i].extendedTemplate);
-        console.log('pseudoPatternsArray[i].jsonFileData');
-        console.log(pseudoPatternsArray[i].jsonFileData);
-        */
-}
 
       //find pattern lineage
       //TODO: consider repurposing lineage hunter. it currently only works at the
