@@ -145,7 +145,7 @@ var parameter_hunter = function () {
       }
 
       //if we retrieved a pattern we should make sure that its tmpTemplate is reset. looks to fix #190
-      partialPattern.tmpTemplate = partialPattern.template;
+      partialPattern.tmpTemplate = partialPattern.escapedTemplate;
 
       if (patternlab.config.debug) {
         console.log('found patternParameters for ' + partialName);
@@ -181,17 +181,38 @@ var parameter_hunter = function () {
           //apply replacement based on allowable characters from lines 78 and 79 of mustache.js
           //of the Mustache for JS project.
           regex = new RegExp('\\{\\{([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)\\}\\}', 'g');
-          partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%$1%>');
+          //since ERB is already used for escaping in partialPattern.escapedTemplate,
+          //using <%% %%> as escaping tags.
+          partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%%$1%%>');
+          regex = new RegExp('<%([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)%>', 'g');
+          partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%%$1%%>');
         }
       }
 
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+  console.log('partialPattern.abspath');
+  console.log(partialPattern.abspath);
+  console.log('partialPattern.tmpTemplate BEFORE');
+  console.log(partialPattern.tmpTemplate);
+}
+
       //then set the new delimiter at the beginning of the extended template
-      partialPattern.tmpTemplate = '{{=<% %>=}}' + partialPattern.tmpTemplate;
+      partialPattern.tmpTemplate = '{{=<%% %%>=}}' + partialPattern.tmpTemplate;
 
       //the reason for rendering at this point is to eliminate the unwanted
       //recursion paths that would remain if irrelevant conditional tags persisted.
       partialPattern.tmpTemplate = pattern_assembler.renderPattern(partialPattern.tmpTemplate, paramData);
+
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+  console.log('partialPattern.tmpTemplate AFTER');
+  console.log(partialPattern.tmpTemplate);
+}
       partialPattern.tmpTemplate = pattern_assembler.winnow_unused_tags(partialPattern.tmpTemplate, pattern);
+
+if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) {
+  console.log('parameter_hunter winnow AFTER');
+  console.log(partialPattern.tmpTemplate);
+}
 
       //replace parameteredPartials with their rendered values.
       var pMatch = parameteredPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
