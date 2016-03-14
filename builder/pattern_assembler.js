@@ -411,7 +411,7 @@ if (pattern.abspath.indexOf('01-molecules/components/user-menu.mustache') > -1) 
         currentPattern.jsonFileData = fs.readJSONSync(file);
         addPattern(currentPattern, patternlab);
       } catch (err) {
-        // do nothing
+        console.log(err); 
       }
       return;
     }
@@ -580,17 +580,39 @@ console.log('PROCESS BEGIN: ' + processBegin);
       }
 
       //look for a listitems.json file for this template
-      var localListItemsString;
+var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '.listitems.json');
+if (currentPattern.abspath.indexOf('00-comment-thread.mustache') > -1) {
+console.log(listJsonFileName);
+}
+
+      var hasLocalListItems = false;
+      var listJsonFileName;
       try {
         var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + '.listitems.json');
-  //      localListItemsString = fs.readFileSync(listJsonFileName);
-        currentPattern.listitems = fs.readJSONsync(listJsonFileName);
-
-        if (patternlab.config.debug) {
-          console.log('found pattern-specific listitems.json for ' + currentPattern.key);
-        }
+        hasLocalListItems = fs.statSync(listJsonFileName);
       } catch (err) {
         //do nothing
+      }
+if (currentPattern.abspath.indexOf('00-atoms/00-global/00-colors') > -1) {
+  console.log(currentPattern.abspath);
+  console.log('hasLocalListItems');
+  console.log(hasLocalListItems);
+}
+      if (hasLocalListItems) {
+        try {
+  //      localListItemsString = fs.readFileSync(listJsonFileName);
+//console.log('currentPattern.listitems');
+          currentPattern.listitems = fs.readJSONSync(listJsonFileName);
+  //console.log('guh');
+
+          if (patternlab.config.debug) {
+            console.log('found pattern-specific listitems.json for ' + currentPattern.key);
+          }
+        } catch (err) {
+
+          //to troubleshoot malformed json
+          console.log(err);
+        }
       }
 
     currentPattern.extendedTemplate = currentPattern.template;

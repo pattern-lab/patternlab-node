@@ -29,12 +29,12 @@ var list_item_hunter = function () {
     var liMatches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
     if (liMatches !== null) {
       pattern_assembler.combine_listItems(pattern);
-console.log('list_item_hunter');
-console.log(patternlab.listitems);
+//console.log('list_item_hunter');
+//console.log(patternlab.listitems);
 
       //merge global and local listitem data and save it to currentPatterns.listitems
       pattern.listitems = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
-console.log(pattern.listitems);
+//console.log(pattern.listitems);
 
       for (var i = 0; i < liMatches.length; i++) {
 
