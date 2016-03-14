@@ -419,6 +419,7 @@
       pl.config = {};
       pl.data = {};
       pl.data.link = {};
+      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
       pl.config.debug = false;
       pl.patterns = [];
       pl.partials = {};

@@ -434,10 +434,11 @@
    *
    * @param {string} file The abspath of pattern being processed.
    * @param {object} patternlab The patternlab object.
-   * @param {number} recursionLevel Top level === 0. Increments by 1 after that.
+   * @param {number|undefined} recursionLevel Top level === 0. Increments by 1 after that.
    * @param {object} currentPatternAsParam Only submitted on recursionLevel > 0.
+   * @param {boolean} test When unit testing, pass in true to not output to file system.
    */
-  function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam) {
+  function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test) {
     var fs = require('fs-extra'),
       glob = require('glob'),
       path = require('path');
@@ -457,7 +458,8 @@
     var i; // for the for loops
     var paths = patternlab.config.paths;
 
-    if (recursionLevel === 0) {
+    if (!recursionLevel) {
+      recursionLevel = 0;
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
@@ -472,7 +474,9 @@
       //tildes come after periods in ASCII order. as such, their extendedTemplates
       //should be filled out and renderable.
       if (path.extname(file) === '.json') {
-        outputPatternToFS(currentPattern, patternlab);
+        if (!test) {
+          outputPatternToFS(currentPattern, patternlab);
+        }
         return;
       }
 
@@ -672,7 +676,9 @@
       }
 
       //output rendered pattern to the file system
-      outputPatternToFS(currentPattern, patternlab);
+      if (!test) {
+        outputPatternToFS(currentPattern, patternlab);
+      }
 
       //unset all tmpTemplates
       for (i = 0; i < patternlab.patterns.length; i++) {
@@ -727,8 +733,8 @@
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, recursionLevel) {
-      processPatternRecursive(file, patternlab, recursionLevel);
+    process_pattern_recursive: function (file, patternlab, recursionLevel, currentPatternAsParam, test) {
+      processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test);
     }
 
     return {
