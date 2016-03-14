@@ -325,15 +325,15 @@ var parameter_hunter = function () {
       else {
         // Add parsed key:val pair to output
         if (wellFormedKeyVals !== '') {
-          wellFormedKeyVals += ",\n";
+          wellFormedKeyVals += ",";
         }
-        wellFormedKeyVals += "\t" + lastKeyVal.key + ': ' + lastKeyVal.val;
+        wellFormedKeyVals += lastKeyVal.key + ':' + lastKeyVal.val;
       }
 
       remainder = lastKeyVal.remainder;
     }
 
-    return "{\n" + wellFormedKeyVals + "\n}";
+    return "{" + wellFormedKeyVals + "}";
   }
 
 
