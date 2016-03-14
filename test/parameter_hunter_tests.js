@@ -234,6 +234,7 @@
     },
 
     'parameter hunter parses parameters with values containing a closing parenthesis' : function(test){
+      // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
@@ -248,21 +249,59 @@
       test.done();
     },
 
-    'parameter hunter finds and extends templates with multiple parameters' : function(test){
-
+    'parameter hunter parses parameters that follow a non-quoted value' : function(test){
+      // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      patternlab.patterns[0].template = "<p>{{foo}}</p><p>{{bar}}</p><p>{{baz}}</p>";
+      patternlab.patterns[0].template = "<p>{{foo}}</p><p>{{bar}}</p>";
       patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
 
-      currentPattern.template = "{{> molecules-single-comment(foo: true, bar: \"Hello World\", baz: 42) }}";
+      currentPattern.template = "{{> molecules-single-comment(foo: true, bar: \"Hello World\") }}";
+      currentPattern.extendedTemplate = currentPattern.template;
+      currentPattern.parameteredPartials[0] = currentPattern.template;
+
+      parameter_hunter.find_parameters(currentPattern, patternlab);
+      test.equals(currentPattern.extendedTemplate, '<p>true</p><p>Hello World</p>');
+
+      test.done();
+    },
+
+    'parameter hunter parses parameters whose keys contain escaped quotes' : function(test){
+      // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
+      var currentPattern = currentPatternClosure();
+      var patternlab = patternlabClosure();
+      var parameter_hunter = new ph();
+
+      patternlab.patterns[0].template = "<p>{{ silly'key }}</p><p>{{bar}}</p><p>{{ another\"silly-key }}</p>";
+      patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+
+      currentPattern.template = "{{> molecules-single-comment('silly\\\'key': true, bar: \"Hello World\", \"another\\\"silly-key\": 42 ) }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p><p>Hello World</p><p>42</p>');
+
+      test.done();
+    },
+
+    'parameter hunter skips malformed parameters' : function(test){
+      // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
+      var currentPattern = currentPatternClosure();
+      var patternlab = patternlabClosure();
+      var parameter_hunter = new ph();
+
+      patternlab.patterns[0].template = "<p>{{foo}}</p>";
+      patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+
+      currentPattern.template = "{{> molecules-single-comment( missing-val: , : missing-key, : , , foo: \"Hello World\") }}";
+      currentPattern.extendedTemplate = currentPattern.template;
+      currentPattern.parameteredPartials[0] = currentPattern.template;
+
+      parameter_hunter.find_parameters(currentPattern, patternlab);
+      test.equals(currentPattern.extendedTemplate, '<p>Hello World</p>');
 
       test.done();
     }
