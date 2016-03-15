@@ -273,7 +273,7 @@
 
 			//check initial values
 			test.equals(fooPattern.template.trim(), '{{> test-bar }}');
-			test.equals(barPattern.template.trim(), 'bar');
+			test.equals(barPattern.template.trim(), '{{message}}bar');
 			//test that 00-foo.mustache included partial 01-bar.mustache
 			test.equals(fooPattern.extendedTemplate.trim(), 'bar');
 
@@ -295,7 +295,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+			pl.dataKeys = [];
 			pl.config.debug = false;
 			pl.patterns = [];
 
@@ -330,7 +330,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+			pl.dataKeys = [];
 			pl.config.debug = false;
 			pl.patterns = [];
 
@@ -365,7 +365,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+			pl.dataKeys = [];
 			pl.config.debug = false;
 			pl.patterns = [];
 
@@ -380,7 +380,7 @@
 			var mixedPattern = pattern_assembler.get_pattern_by_key(mixedFile, pl);
 
 			//assert. here we expect {{styleModifier}} and {{message}} to be rendered as empty strings in the first group,
-            //and {{message}} to be rendered as an empty strings in the second, third, and last groups, since they did not receive any value submissions.
+			//and {{message}} to be rendered as an empty strings in the second, third, and last groups, since they did not receive any value submissions.
 			var expectedValue = '<div class="test_group"> <span class="test_base "> </span> <span class="test_base test_2"> </span> <span class="test_base test_3"> </span> <span class="test_base test_4"> </span> </div>';
 			test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
@@ -401,7 +401,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+			pl.dataKeys = [];
 			pl.config.debug = false;
 			pl.patterns = [];
 
@@ -416,7 +416,7 @@
 			var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
 			//assert. here we expect {{styleModifier}} and {{message}} to be rendered as empty strings in the first and last group,
-            //and {{message}} to be rendered as an empty strings in the second and third groups, since they did not receive any value submissions.
+			//and {{message}} to be rendered as an empty strings in the second and third groups, since they did not receive any value submissions.
 			var expectedValue = '<div class="test_group"> <span class="test_base "> </span> <span class="test_base test_2"> </span> <span class="test_base test_3"> </span> <span class="test_base "> </span> </div>';
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
@@ -437,7 +437,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+			pl.dataKeys = [];
 			pl.config.debug = false;
 			pl.patterns = [];
 
@@ -472,7 +472,7 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+			pl.dataKeys = [];
 			pl.config.debug = false;
 			pl.patterns = [];
 
@@ -504,6 +504,7 @@
 			patternlab.config.paths.source.patterns = patterns_dir;
 
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
 			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
 			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
@@ -511,36 +512,32 @@
 			patternlab.data.link = {};
 
 			//act
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
+			diveSync(
+				patterns_dir,
+				function (err, file) {
 					//log any errors
-					if(err){
+					if (err) {
 						console.log(err);
 						return;
 					}
-
 					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
 				}
 			);
 
 			//assert
 			var foundVariant = false;
+			var variantIgnored = false;
 			for(var i = 0; i < patternlab.patterns.length; i++){
 				if(patternlab.patterns[i].fileName.indexOf('~') > -1){
 					foundVariant = true;
+					if(typeof patternlab.patterns[i].extendedTemplate === 'undefined'){
+						variantIgnored = true;
+					}
 				}
 			}
-			test.equals(foundVariant, false);
+
+			test.equals(foundVariant, true);
+			test.equals(variantIgnored, true);
 			test.done();
 		},
 		'setState - applies any patternState matching the pattern' : function(test){

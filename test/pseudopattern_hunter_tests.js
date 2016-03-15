@@ -24,7 +24,7 @@
       };
       pl.data = {};
       pl.data.link = {};
-      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
+      pl.dataKeys = [];
       pl.config.debug = false;
       pl.patterns = [];
       pl.config.patternStates = {};

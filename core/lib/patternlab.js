@@ -82,8 +82,6 @@ var patternlab_engine = function (config) {
       lineage_hunter = new lh(),
       patterns_dir = paths.source.patterns;
 
-    pattern_assembler.combine_listItems(patternlab);
-
     patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
     patternlab.dataKeys = patternlab.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
     patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));

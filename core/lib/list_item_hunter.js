@@ -25,10 +25,23 @@ var list_item_hunter = function () {
     //find any listitem blocks
     var liMatches = pattern_assembler.find_list_items(pattern.extendedTemplate, patternlab);
     if (liMatches !== null) {
-      pattern_assembler.combine_listItems(pattern);
 
-      //merge global and local listitem data and save it to currentPatterns.listitems
-      pattern.listitems = pattern_assembler.merge_data(patternlab.listitems, pattern.listitems);
+      if (pattern.listitemsRaw) {
+
+        //copy, don't reference
+        pattern.listitems = JSON.parse(JSON.stringify(pattern.listitemsRaw));
+
+      //if no local listitems.json file, use global listitems data
+      } else {
+
+        //copy, don't reference
+        pattern.listitems = JSON.parse(JSON.stringify(patternlab.listitems));
+        pattern.listitemsRaw = JSON.parse(JSON.stringify(patternlab.listitems));
+      }
+
+      //this shuffles listitemsRaw, and builds it into an object of array of
+      //objects and saves that in listitems
+      pattern_assembler.combine_listItems(pattern);
 
       for (var i = 0; i < liMatches.length; i++) {
 
@@ -53,10 +66,10 @@ var list_item_hunter = function () {
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[j]
         for (j = 0; j < repeatedBlockTemplate.length; j++) {
           var thisBlockHTML = "";
-
           var itemData = pattern.listitems['' + items.indexOf(loopNumberString)]; //this is a property like "2"
           var patternData = pattern.jsonFileData;
           var allData = pattern_assembler.merge_data(patternData, itemData !== undefined ? itemData[j] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+
 
           thisBlockHTML = pattern_assembler.renderPattern(patternBlock, allData);
 
