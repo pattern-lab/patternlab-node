@@ -137,7 +137,7 @@ var pattern_assembler = function () {
   function getDataKeys(data, uniqueKeys) {
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
-        if (!(typeof data === 'object' && data instanceof Array)) {
+        if (data.constructor !== Array) {
           if (uniqueKeys.indexOf(key) === -1) {
             uniqueKeys.push(key);
           } else {
@@ -288,6 +288,7 @@ var pattern_assembler = function () {
     pattern.tmpTemplate = '';
     pattern.dataKeys = null;
     pattern.listitems = null;
+    pattern.listitemsRaw = null;
 
     if (pattern.jsonFileData !== patternlab.data) {
       pattern.jsonFileData = null;
@@ -408,9 +409,14 @@ var pattern_assembler = function () {
     //define tmpTemplate and listitems to avoid undefined type errors
     //trying to keep memory footprint small, so set it empty at first
     currentPattern.tmpTemplate = '';
-    currentPattern.listitems = null;
 
-    //needs to be initialized as {} in order to run winnowUnusedTags
+    //needs to be empty object so buildListItems can work
+    currentPattern.listitems = {};
+
+    //needs to be null so list_item_hunter.process_list_item_partials can work
+    currentPattern.listitemsRaw = null;
+
+    //needs to be initialized as {} so winnowUnusedTags can work
     currentPattern.jsonFileData = {};
 
     //this writes currentPattern.escapedTemplate which needs to be initialized
@@ -560,7 +566,10 @@ var pattern_assembler = function () {
       }
       if (hasLocalListItems) {
         try {
-          currentPattern.listitems = fs.readJSONSync(listJsonFileName);
+          currentPattern.listitems = pattern_assembler.merge_data(patternlab.listitems, fs.readJSONSync(listJsonFileName));
+          currentPattern.listitemsRaw = pattern_assembler.merge_data(patternlab.listitems, fs.readJSONSync(listJsonFileName));
+          buildListItems(currentPattern);
+
           if (patternlab.config.debug) {
             console.log('found pattern-specific listitems.json for ' + currentPattern.key);
           }

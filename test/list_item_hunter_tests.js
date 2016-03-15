@@ -19,26 +19,17 @@
 
       var patternlab = {
         "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
+          "1": {
+            "title": "Foo"
+          },
+          "2": {
+            "title": "Bar"
+          }
         },
         "data": {
-          "link": {},
-          "partials": []
+          "link": {}
         },
-        "config": {"debug": false},
-        "partials" : {}
+        "config": {"debug": false}
       };
 
       var list_item_hunter = new lih();
@@ -47,7 +38,7 @@
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
-      test.equals(currentPattern.extendedTemplate, "FooBar" );
+      test.ok(currentPattern.extendedTemplate.match(/(FooBar|BarFoo)/));
 
       test.done();
     },
@@ -64,26 +55,17 @@
 
       var patternlab = {
         "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
+          "1": {
+            "title": "Foo"
+          },
+          "2": {
+            "title": "Bar"
+          }
         },
         "data": {
-          "link": {},
-          "partials": []
+          "link": {}
         },
-        "config": {"debug": false},
-        "partials" : {}
+        "config": {"debug": false}
       };
 
       var list_item_hunter = new lih();
@@ -92,130 +74,63 @@
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
-      test.equals(currentPattern.extendedTemplate, "FooBar" );
+      test.ok(currentPattern.extendedTemplate.match(/(FooBar|BarFoo)/));
 
       test.done();
     },
 
     'process_list_item_partials finds partials and outputs repeated renders' : function(test){
-      //arrange
-      //setup current pattern from what we would have during execution
-      var currentPattern = {
-         "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-         "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
-         "key": "test-patternName",
-         "jsonFileData" : {}
-      };
+      //will test recursion and verbose partial inclusion syntax
+      var fs = require('fs-extra');
+      var pattern_assembler = new pa();
+      var patterns_dir = './test/files/_patterns';
 
-      var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
-        "patterns": [
-          {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "key": "test-simple",
-           "jsonFileData" : {}
+      var pl = {};
+      pl.config = {
+        paths: {
+          source: {
+            patterns: patterns_dir
           }
-        ],
-        "partials" : {}
+        }
+      };
+      pl.data = {};
+      pl.data.link = {};
+      pl.dataKeys = ['one', 'message'];
+      pl.config.debug = false;
+      pl.patterns = [];
+      pl.config.patterns = { source: patterns_dir};
+      pl.listitems = {
+        "1": {
+          "message": "Foo"
+        },
+        "2": {
+          "message": "Bar"
+        }
       };
 
-      var list_item_hunter = new lih();
+      var fooFile = path.resolve('test/files/_patterns/00-test/00-foo.mustache');
+      var barFile = path.resolve('test/files/_patterns/00-test/01-bar.mustache');
+      var listitemsFile = path.resolve('test/files/_patterns/00-test/02-listitems.mustache');
+
+      //the contents of these files:
+      //00-foo.mustache:
+      //  {{> test-bar }}
+      //01-bar.mustache:
+      //  {{message}}bar
+      //02-listitems.mustache
+      //  {{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}
+      //  {{#listItems.one}}{{> 00-test/01-bar.mustache }}{{/listItems.one}}
+
+      pattern_assembler.process_pattern_iterative(fooFile, pl);
+      pattern_assembler.process_pattern_iterative(barFile, pl);
+      pattern_assembler.process_pattern_iterative(listitemsFile, pl);
 
       //act
-      list_item_hunter.process_list_item_partials(currentPattern, patternlab);
+      pattern_assembler.process_pattern_recursive(listitemsFile, pl, 0, null, true);
+      var listitemsPattern = pattern_assembler.get_pattern_by_key(listitemsFile, pl);
 
       //assert
-      test.equals(currentPattern.extendedTemplate, "FooBar" );
-
-      test.done();
-    },
-
-    'process_list_item_partials finds verbose partials and outputs repeated renders' : function(test){
-      var pattern1 = {
-        "template": "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
-        "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo }}{{/listItems.one}}",
-        "key": "test-foo",
-        "jsonFileData" : {}
-      };
-
-      var pattern2 = {
-        "template": "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
-        "extendedTemplate" : "{{#listItems.two}}{{> 00-test/01-bar.mustache }}{{/listItems.two}}",
-        "key": "test-bar",
-        "jsonFileData" : {}
-      };
-
-      var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
-        },
-        "data": {
-          "link": {},
-          "partials": []
-        },
-        "config": {"debug": false},
-        "patterns": [
-          {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "subdir": "00-test",
-           "fileName": "00-foo",
-           "jsonFileData" : {},
-           "key": "test-foo",
-          },
-          {
-           "template": "{{ title }}",
-           "extendedTemplate" : "{{ title }}",
-           "subdir": "00-test",
-           "fileName": "01-bar",
-           "jsonFileData" : {},
-           "key": "test-bar",
-          }
-        ],
-        "partials" : {}
-      };
-
-      var list_item_hunter = new lih();
-
-      //act
-      list_item_hunter.process_list_item_partials(pattern1, patternlab);
-      list_item_hunter.process_list_item_partials(pattern2, patternlab);
-
-      //assert
-      test.equals(pattern1.extendedTemplate, "Foo" );
-      test.equals(pattern2.extendedTemplate, "FooBar" );
+      test.ok(listitemsPattern.extendedTemplate.replace(/\n/g, '').match(/(FoobarFoobar|BarbarBarbar)/));
 
       test.done();
     },
@@ -226,9 +141,10 @@
       var currentPattern = {
         "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
         "extendedTemplate" : "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-        "key": "test-patternName",
+        "key": "test-patternName1",
         "jsonFileData" : {},
-        "listitems" : {
+        "listitems": {},
+        "listitemsRaw": {
           "1": {
             "title": "One"
           },
@@ -239,24 +155,16 @@
       };
 
       var patternlab = {
-        "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
+        "listitems" : {
+          "1": {
+            "title": "Foo"
+          },
+          "2": {
+            "title": "Bar"
+          }
         },
         "data": {
-          "link": {},
-          "partials": []
+          "link": {}
         },
         "config": {"debug": false},
         "patterns": [
@@ -266,8 +174,7 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ],
-        "partials" : {}
+        ]
       };
 
       var list_item_hunter = new lih();
@@ -289,35 +196,22 @@
         "extendedTemplate" : "{{#listItems.one}}{{ title }}{{/listItems.one}}",
         "key": "test-patternName",
         "jsonFileData" : {},
-        "listitems" : {
+        "listitems": {},
+        "listitemsRaw": {
           "1": {
             "number": "One"
-          },
-          "2": {
-            "number": "Two"
           }
         }
       };
 
       var patternlab = {
         "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
+          "1": {
+            "title": "Foo"
+          }
         },
         "data": {
-          "link": {},
-          "partials": []
+          "link": {}
         },
         "config": {"debug": false},
         "patterns": [
@@ -327,13 +221,14 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ],
-        "partials" : {}
+        ]
       };
 
       var list_item_hunter = new lih();
+      var pattern_assembler = new pa();
 
       //act
+      currentPattern.listitemsRaw = pattern_assembler.merge_data(patternlab.listitems, currentPattern.listitemsRaw);
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
@@ -346,36 +241,32 @@
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = {
-        "template": "{{#listItems.one}}{{ number }}{{/listItems.one}}",
-        "extendedTemplate" : "{{#listItems.one}}{{ number }}{{/listItems.one}}",
+        "template": "{{#listItems.two}}{{ number }}{{/listItems.two}}",
+        "extendedTemplate" : "{{#listItems.two}}{{ number }}{{/listItems.two}}",
         "key": "test-patternName",
         "jsonFileData" : {},
-        "listitems" : {
+        "listitems": {},
+        "listitemsRaw" : {
           "1": {
             "number": "One"
+          },
+          "2": {
+            "number": "Two"
           }
         }
       };
 
       var patternlab = {
         "listitems": {
-          "1": [
-             {
-                "title": "Foo"
-             }
-          ],
-          "2": [
-             {
-                "title": "Foo"
-             },
-             {
-                "title": "Bar"
-             }
-          ]
+          "1": {
+            "title": "Foo"
+          },
+          "2": {
+            "title": "Bar"
+          }
         },
         "data": {
-          "link": {},
-          "partials": []
+          "link": {}
         },
         "config": {"debug": false},
         "patterns": [
@@ -385,17 +276,18 @@
            "key": "test-simple",
            "jsonFileData" : {}
           }
-        ],
-        "partials" : {}
+        ]
       };
 
       var list_item_hunter = new lih();
+      var pattern_assembler = new pa();
 
       //act
+      currentPattern.listitemsRaw = pattern_assembler.merge_data(patternlab.listitems, currentPattern.listitemsRaw);
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
-      test.equals(currentPattern.extendedTemplate, "One");
+      test.ok(currentPattern.extendedTemplate.match(/(OneTwo|TwoOne)/));
 
       test.done();
     },
@@ -417,24 +309,17 @@
       };
       pl.data = {};
       pl.data.link = {};
-      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, ['two', 'message']);
+      pl.dataKeys = ['two', 'message'];
       pl.config.debug = false;
       pl.patterns = [];
       pl.config.patterns = { source: patterns_dir};
       pl.listitems = {
-        "1": [
-           {
-              "message": "Foo"
-           }
-        ],
-        "2": [
-           {
-              "message": "Foo"
-           },
-           {
-              "message": "Bar"
-           }
-        ]
+        "1": {
+          "message": "Foo"
+        },
+        "2": {
+          "message": "Bar"
+        }
       };
 
       var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
@@ -448,8 +333,8 @@
       var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
       //assert. here we expect {{styleModifier}} to be replaced with an empty string or the styleModifier value from the found partial with the :styleModifier
-      var expectedValue = '<div class="test_group"> <span class="test_base "> Foo </span> <span class="test_base test_1"> Foo </span> <span class="test_base "> Foo </span><span class="test_base "> Bar </span> <span class="test_base test_1"> Bar </span> <span class="test_base "> Bar </span> </div>';
-      test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+      var expectedValue = /<div class="test_group"> <span class="test_base "> (Foo|Bar) <\/span> <span class="test_base test_1"> (Foo|Bar) <\/span> <span class="test_base "> (Foo|Bar) <\/span><span class="test_base "> (Foo|Bar) <\/span> <span class="test_base test_1"> (Foo|Bar) <\/span> <span class="test_base "> (Foo|Bar) <\/span> <\/div>/;
+      test.ok(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim().match(expectedValue));
       test.done();
     }
 
