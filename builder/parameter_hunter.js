@@ -137,7 +137,7 @@ var parameter_hunter = function () {
       var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
       if (!partialPattern) {
-        throw('Could not find pattern with key ' + partialName);
+        throw ('Could not find pattern with key ' + partialName);
       }
 
       //if we retrieved a pattern we should make sure that its tmpTemplate is reset. looks to fix #190
