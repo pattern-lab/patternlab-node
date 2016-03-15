@@ -16,7 +16,9 @@
       "flatPatternPath": "02-organisms-02-comments",
       "key": "organisms-sticky-comment",
       "template": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
+      "escapedTemplate": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
       "extendedTemplate": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
+      "dataKeys": [],
       "parameteredPartials": [
         "{{> molecules-single-comment(description: 'We are all in the gutter, but some of us are looking at the stars.') }}",
         "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}"
@@ -38,6 +40,7 @@
           "flatPatternPath": "01-molecules-06-components",
           "key": "molecules-single-comment",
           "template": "<p>{{description}}</p>",
+          "escapedTemplate": "<p>{{description}}</p>",
           "extendedTemplate": "<p>{{description}}</p>"
         }
       ],
@@ -57,7 +60,7 @@
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, currentPattern.parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
 
       test.done();
@@ -67,14 +70,15 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var pa = require('../builder/pattern_assembler');
+      var pattern_assembler = new pa();
 
-      patternlab.patterns[0].template = "<h1>{{foo}}</h1><p>{{description}}</p>";
-      patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+      currentPattern.escapedTemplate = '<h1>{{foo}}</h1>' + currentPattern.template;
+      currentPattern.extendedTemplate = currentPattern.escapedTemplate;
       patternlab.data.foo = 'Bar';
-      patternlab.data.description = 'Baz';
-      patternlab.patterns[0].jsonFileData = patternlab.data;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, currentPattern.parameteredPartials);
+      currentPattern.extendedTemplate = pattern_assembler.renderPattern(currentPattern.extendedTemplate, patternlab.data);
       test.equals(currentPattern.extendedTemplate, '<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
 
       test.done();
@@ -84,13 +88,15 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = "{{> 01-molecules/06-components/02-single-comment(description: 'We are all in the gutter, but some of us are looking at the stars.') }}";
-      currentPattern.parameteredPartials[1] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = "{{> 01-molecules/06-components/02-single-comment(description: 'We are all in the gutter, but some of us are looking at the stars.') }}";
+      parameteredPartials[1] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
 
       test.done();
@@ -100,13 +106,15 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'We are all in the gutter, but some of us are looking at the stars.') }}";
-      currentPattern.parameteredPartials[1] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'We are all in the gutter, but some of us are looking at the stars.') }}";
+      parameteredPartials[1] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
 
       test.done();
@@ -118,12 +126,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment(description: true) }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
       test.done();
@@ -133,12 +143,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment(description: \"true\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
       test.done();
@@ -148,12 +160,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment('description': true) }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
       test.done();
@@ -163,12 +177,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment('description': 'true not,\\'true\\'') }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true not,&#39;true&#39;</p>');
 
       test.done();
@@ -178,12 +194,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment('description': \"true not:'true'\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true not:&#39;true&#39;</p>');
 
       test.done();
@@ -193,12 +211,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment(\"description\": true) }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
       test.done();
@@ -208,12 +228,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not \",true\"') }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true not &quot;,true&quot;</p>');
 
       test.done();
@@ -223,12 +245,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not \\\":true\\\"\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true not &quot;:true&quot;</p>');
 
       test.done();
@@ -238,12 +262,14 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
+      var parameteredPartials = [];
 
       currentPattern.template = "{{> molecules-single-comment(description: true, 'foo': false, \"bar\": false, 'single': true, 'singlesingle': 'true', 'singledouble': \"true\", \"double\": true, \"doublesingle\": 'true', \"doubledouble\": \"true\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
-      currentPattern.parameteredPartials[0] = currentPattern.template;
+      currentPattern.dataKeys = [];
+      parameteredPartials[0] = currentPattern.template;
 
-      parameter_hunter.find_parameters(currentPattern, patternlab);
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
       test.done();
@@ -269,10 +295,9 @@
       };
       pl.data = {};
       pl.data.link = {};
-      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
       pl.config.debug = false;
       pl.patterns = [];
-      pl.partials = {};
 
       var atomFile = path.resolve('test/files/_patterns/00-test/01-bar.mustache');
       var styleFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');

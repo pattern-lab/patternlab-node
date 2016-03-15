@@ -201,7 +201,7 @@ var parameter_hunter = function () {
       regex = new RegExp(pMatch, 'g');
       pattern.extendedTemplate = pattern.extendedTemplate.replace(regex, partialPattern.tmpTemplate);
 
-      // Free tmpTemplate from memory.
+      //free tmpTemplate from memory.
       partialPattern.tmpTemplate = '';
     }
   }

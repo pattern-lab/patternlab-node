@@ -3,6 +3,7 @@
 
   var lih = require('../builder/list_item_hunter');
   var pa = require('../builder/pattern_assembler');
+  var path = require('path');
   var object_factory = require('../builder/object_factory');
 
   exports['list_item_hunter'] = {
@@ -223,20 +224,18 @@
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = {
-         "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
-         "extendedTemplate" : "{{#listItems.two}}{{> test-simple }}{{/listItems.two}}",
-         "key": "test-patternName",
-         "jsonFileData" : {},
-         "listitems" : {
-            "2": [
-                   {
-                      "title": "One"
-                   },
-                   {
-                      "title": "Two"
-                   },
-                ]
+        "template": "{{#listItems.two}}{{ title }}{{/listItems.two}}",
+        "extendedTemplate" : "{{#listItems.two}}{{ title }}{{/listItems.two}}",
+        "key": "test-patternName",
+        "jsonFileData" : {},
+        "listitems" : {
+          "1": {
+            "title": "One"
+          },
+          "2": {
+            "title": "Two"
           }
+        }
       };
 
       var patternlab = {
@@ -277,7 +276,7 @@
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
-      test.equals(currentPattern.extendedTemplate, "OneTwo" );
+      test.ok(currentPattern.extendedTemplate.match(/OneTwo|TwoOne/));
 
       test.done();
     },
@@ -286,20 +285,18 @@
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = {
-         "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
-         "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
-         "key": "test-patternName",
-         "jsonFileData" : {},
-         "listitems" : {
-            "2": [
-                   {
-                      "title": "One"
-                   },
-                   {
-                      "title": "Two"
-                   },
-                ]
+        "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
+        "extendedTemplate" : "{{#listItems.one}}{{ title }}{{/listItems.one}}",
+        "key": "test-patternName",
+        "jsonFileData" : {},
+        "listitems" : {
+          "1": {
+            "number": "One"
+          },
+          "2": {
+            "number": "Two"
           }
+        }
       };
 
       var patternlab = {
@@ -349,29 +346,24 @@
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = {
-         "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
-         "extendedTemplate" : "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
-         "key": "test-patternName",
-         "jsonFileData" : {},
-         "listitems" : {
-            "1": [
-               {
-                  "title": "One"
-               }
-            ],
-            "2": [
-                   {
-                      "title": "One"
-                   },
-                   {
-                      "title": "Two"
-                   },
-                ]
+        "template": "{{#listItems.one}}{{ number }}{{/listItems.one}}",
+        "extendedTemplate" : "{{#listItems.one}}{{ number }}{{/listItems.one}}",
+        "key": "test-patternName",
+        "jsonFileData" : {},
+        "listitems" : {
+          "1": {
+            "number": "One"
           }
+        }
       };
 
       var patternlab = {
         "listitems": {
+          "1": [
+             {
+                "title": "Foo"
+             }
+          ],
           "2": [
              {
                 "title": "Foo"
@@ -403,7 +395,7 @@
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
       //assert
-      test.equals(currentPattern.extendedTemplate, "One" );
+      test.equals(currentPattern.extendedTemplate, "One");
 
       test.done();
     },
@@ -416,13 +408,18 @@
       var patterns_dir = './test/files/_patterns';
 
       var pl = {};
-      pl.config = {};
+      pl.config = {
+        paths: {
+          source: {
+            patterns: patterns_dir
+          }
+        }
+      };
       pl.data = {};
       pl.data.link = {};
-      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, ['two', 'message']);
       pl.config.debug = false;
       pl.patterns = [];
-      pl.partials = {};
       pl.config.patterns = { source: patterns_dir};
       pl.listitems = {
         "1": [
@@ -440,24 +437,18 @@
         ]
       };
 
-      var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
-      atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
-      atomPattern.extendedTemplate = atomPattern.template;
-      atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+      var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
+      var bookendFile = path.resolve('test/files/_patterns/00-test/11-bookend-listitem.mustache');
 
-      var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/11-bookend-listitem.mustache', '00-test', '11-bookend-listitem.mustache');
-      bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/11-bookend-listitem.mustache', 'utf8');
-      bookendPattern.extendedTemplate = bookendPattern.template;
-      bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
-
-      pl.patterns.push(atomPattern);
-      pl.patterns.push(bookendPattern);
+      pattern_assembler.process_pattern_iterative(atomFile, pl);
+      pattern_assembler.process_pattern_iterative(bookendFile, pl);
 
       //act
-      list_item_hunter.process_list_item_partials(bookendPattern, pl);
+      pattern_assembler.process_pattern_recursive(bookendFile, pl, 0, null, true);
+      var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
       //assert. here we expect {{styleModifier}} to be replaced with an empty string or the styleModifier value from the found partial with the :styleModifier
-      var expectedValue = '<div class="test_group"> <span class="test_base "> Foo </span> <span class="test_base test_1"> Foo </span> <span class="test_base "> Foo </span> <span class="test_base "> Bar </span> <span class="test_base test_1"> Bar </span> <span class="test_base "> Bar </span> </div>';
+      var expectedValue = '<div class="test_group"> <span class="test_base "> Foo </span> <span class="test_base test_1"> Foo </span> <span class="test_base "> Foo </span><span class="test_base "> Bar </span> <span class="test_base test_1"> Bar </span> <span class="test_base "> Bar </span> </div>';
       test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
       test.done();
     }

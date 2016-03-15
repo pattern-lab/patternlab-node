@@ -201,12 +201,12 @@
 			patternlab.config.paths.source.patterns = patterns_dir;
 
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+			patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
 			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
 			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
-			patternlab.partials = {};
 
 			//diveSync once to perform iterative populating of patternlab object
 			diveSync(patterns_dir,
@@ -259,20 +259,23 @@
 			var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
 			var bar = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8').trim();
 			var fooExtended;
+			var fooFile = path.resolve(patterns_dir + '/00-test/00-foo.mustache');
+			var barFile = path.resolve(patterns_dir + '/00-test/01-bar.mustache');
 
-			//get extended pattern
-			for(var i = 0; i < patternlab.patterns.length; i++){
-				if(patternlab.patterns[i].fileName === '00-foo'){
-					fooExtended = patternlab.patterns[i].extendedTemplate.trim();
-					break;
-				}
-			}
+			pattern_assembler.process_pattern_iterative(fooFile, patternlab);
+			pattern_assembler.process_pattern_iterative(barFile, patternlab);
+
+			//act
+			pattern_assembler.process_pattern_recursive(fooFile, patternlab, 0, null, true);
+			pattern_assembler.process_pattern_recursive(barFile, patternlab, 0, null, true);
+			var fooPattern = pattern_assembler.get_pattern_by_key(fooFile, patternlab);
+			var barPattern = pattern_assembler.get_pattern_by_key(barFile, patternlab);
 
 			//check initial values
-			test.equals(foo, '{{> test-bar }}');
-			test.equals(bar, 'bar');
+			test.equals(fooPattern.template.trim(), '{{> test-bar }}');
+			test.equals(barPattern.template.trim(), 'bar');
 			//test that 00-foo.mustache included partial 01-bar.mustache
-			test.equals(fooExtended, 'bar');
+			test.equals(fooPattern.extendedTemplate.trim(), 'bar');
 
 			test.done();
 		},
@@ -292,11 +295,9 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.partials = {};
-
 
 			var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
 			var groupFile = path.resolve('test/files/_patterns/00-test/04-group.mustache');
@@ -309,7 +310,7 @@
 			var groupPattern = pattern_assembler.get_pattern_by_key(groupFile, pl);
 
 			//assert
-			var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+			var expectedValue = '<div class="test_group"> <span class="test_base test_1"> </span> <span class="test_base test_2"> </span> <span class="test_base test_3"> </span> <span class="test_base test_4"> </span> </div>';
 			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
@@ -329,10 +330,9 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.partials = {};
 
 			var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
 			var groupFile = path.resolve('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache');
@@ -345,7 +345,7 @@
 			var groupPattern = pattern_assembler.get_pattern_by_key(groupFile, pl);
 
 			//assert
-			var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
+			var expectedValue = '<div class="test_group"> <span class="test_base foo1"> </span> <span class="test_base foo1 foo2"> </span> <span class="test_base foo1 foo2"> bar </span> </div>';
 			test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
@@ -365,10 +365,9 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.partials = {};
 
 			var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
 			var mixedFile = path.resolve('test/files/_patterns/00-test/06-mixed.mustache');
@@ -380,8 +379,9 @@
 			pattern_assembler.process_pattern_recursive(mixedFile, pl, 0, null, true);
 			var mixedPattern = pattern_assembler.get_pattern_by_key(mixedFile, pl);
 
-			//assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
-			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+			//assert. here we expect {{styleModifier}} and {{message}} to be rendered as empty strings in the first group,
+            //and {{message}} to be rendered as an empty strings in the second, third, and last groups, since they did not receive any value submissions.
+			var expectedValue = '<div class="test_group"> <span class="test_base "> </span> <span class="test_base test_2"> </span> <span class="test_base test_3"> </span> <span class="test_base test_4"> </span> </div>';
 			test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
@@ -401,10 +401,9 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.partials = {};
 
 			var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
 			var bookendFile = path.resolve('test/files/_patterns/00-test/09-bookend.mustache');
@@ -416,8 +415,9 @@
 			pattern_assembler.process_pattern_recursive(bookendFile, pl, 0, null, true);
 			var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
-			//assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
-			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
+			//assert. here we expect {{styleModifier}} and {{message}} to be rendered as empty strings in the first and last group,
+            //and {{message}} to be rendered as an empty strings in the second and third groups, since they did not receive any value submissions.
+			var expectedValue = '<div class="test_group"> <span class="test_base "> </span> <span class="test_base test_2"> </span> <span class="test_base test_3"> </span> <span class="test_base "> </span> </div>';
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
@@ -437,10 +437,9 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.partials = {};
 
 			var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
 			var mixedFile = path.resolve('test/files/_patterns/00-test/07-mixed-params.mustache');
@@ -452,8 +451,8 @@
 			pattern_assembler.process_pattern_recursive(mixedFile, pl, 0, null, true);
 			var mixedPattern = pattern_assembler.get_pattern_by_key(mixedFile, pl);
 
-			//assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
-			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
+			//assert. here we expect {{styleModifier}} and {{message}} to be rendered as empty strings in the first span, since they did not receive any value submissions.
+			var expectedValue = '<div class="test_group"> <span class="test_base "> </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
 			test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
@@ -473,10 +472,9 @@
 			};
 			pl.data = {};
 			pl.data.link = {};
-			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+			pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
 			pl.config.debug = false;
 			pl.patterns = [];
-			pl.partials = {};
 
 			var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
 			var bookendFile = path.resolve('test/files/_patterns/00-test/08-bookend-params.mustache');
@@ -488,8 +486,8 @@
 			pattern_assembler.process_pattern_recursive(bookendFile, pl, 0, null, true);
 			var bookendPattern = pattern_assembler.get_pattern_by_key(bookendFile, pl);
 
-			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
-			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
+			//assert. here we expect {{styleModifier}} and {{message}} to be rendered as empty strings in the first and last span, since they did not receive any value submissions.
+			var expectedValue = '<div class="test_group"> <span class="test_base "> </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base "> </span> </div>';
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
@@ -511,7 +509,6 @@
 			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
-			patternlab.partials = {};
 
 			//act
 			diveSync(patterns_dir,
@@ -598,13 +595,12 @@
 			patternlab.config = fs.readJSONSync('./config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-			patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, [])
+			patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
 			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
 			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/header.html'), 'utf8');
 			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
-			patternlab.partials = {};
 
 			diveSync(
 				patterns_dir,
@@ -712,7 +708,6 @@
 			var pattern_assembler = new pa();
 			var patternlab = {};
 			patternlab.patterns = [];
-			patternlab.partials = {};
 			patternlab.data = {link: {}};
 
 			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
@@ -733,7 +728,6 @@
 			var pattern_assembler = new pa();
 			var patternlab = {};
 			patternlab.patterns = [];
-			patternlab.partials = {};
 			patternlab.data = {link: {}};
 
 			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');

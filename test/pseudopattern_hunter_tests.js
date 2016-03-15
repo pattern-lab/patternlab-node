@@ -24,10 +24,9 @@
       };
       pl.data = {};
       pl.data.link = {};
-      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, [])
+      pl.dataKeys = pattern_assembler.get_data_keys(pl.data, []);
       pl.config.debug = false;
       pl.patterns = [];
-      pl.partials = {};
       pl.config.patternStates = {};
 
       var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
