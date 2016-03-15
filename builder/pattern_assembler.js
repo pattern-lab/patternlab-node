@@ -470,7 +470,6 @@ var pattern_assembler = function () {
     var paths = patternlab.config.paths;
 
     if (!recursionLevel) {
-      recursionLevel = 0;
 
       //find current pattern in patternlab object using var file as a key
       currentPattern = getpatternbykey(file, patternlab);
@@ -604,7 +603,7 @@ var pattern_assembler = function () {
         console.log('found parametered partials for ' + currentPattern.key);
       }
 
-      if (recursionLevel === 0 && currentPattern.extendedTemplate === currentPattern.template) {
+      if (!recursionLevel && currentPattern.extendedTemplate === currentPattern.template) {
         currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.escapedTemplate, currentPattern);
       }
 
@@ -613,7 +612,7 @@ var pattern_assembler = function () {
 
       //recurse, going a level deeper, with each render eliminating nested parameteredPartials
       //when there are no more nested parameteredPartials, we'll pop back up
-      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1, currentPattern);
+      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel ? recursionLevel + 1 : 1, currentPattern);
     }
 
     //find non-parametered partials.
@@ -627,7 +626,7 @@ var pattern_assembler = function () {
       }
 
       //copy winnowed template to extendedTemplate
-      if (recursionLevel === 0 && currentPattern.extendedTemplate === currentPattern.template) {
+      if (!recursionLevel && currentPattern.extendedTemplate === currentPattern.template) {
         currentPattern.extendedTemplate = winnowUnusedTags(currentPattern.escapedTemplate, currentPattern);
       }
 
@@ -672,11 +671,11 @@ var pattern_assembler = function () {
 
       //recurse, going a level deeper, with each render eliminating nested partials
       //when there are no more nested partials, we'll pop back up
-      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel + 1, currentPattern);
+      processPatternRecursive(currentPattern.abspath, patternlab, recursionLevel ? recursionLevel + 1 : 1, currentPattern);
     }
 
     //do only when popped back to the top level of recursion
-    if (recursionLevel === 0) {
+    if (!recursionLevel) {
       if (currentPattern.extendedTemplate !== currentPattern.template) {
         //switch ERB escaped tags back to standard Mustache tags
         currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
