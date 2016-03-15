@@ -634,24 +634,25 @@
         if (!partialPattern) {
           throw 'Could not find pattern with key ' + partialKey;
         } else {
-          if (!partialPattern.tmpTemplate) {
-            partialPattern.tmpTemplate = partialPattern.escapedTemplate;
+          partialPattern.tmpTemplate = partialPattern.escapedTemplate;
 
-            //if the current tag has styleModifier data, replace the styleModifier value in the partial
-            if (findPartialsWithStyleModifiers(foundPatternPartials[i])) {
-              style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-            }
-
-            var winnowedPartial = winnowUnusedTags(partialPattern.tmpTemplate, currentPattern);
-
-            partialPattern.tmpTemplate = winnowedPartial;
+          //if the current tag has styleModifier data, replace the styleModifier value in the partial
+          if (findPartialsWithStyleModifiers(foundPatternPartials[i])) {
+            style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
           }
+
+          var winnowedPartial = winnowUnusedTags(partialPattern.tmpTemplate, currentPattern);
+
+          partialPattern.tmpTemplate = winnowedPartial;
 
           //replace each partial tag with the partial's template.
           //escape regex special characters as per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_special_characters
           var escapedPartial = foundPatternPartials[i].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&');
           var regex = new RegExp(escapedPartial, 'g');
           currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(regex, partialPattern.tmpTemplate);
+
+          //free tmpTemplate from memory.
+          partialPattern.tmpTemplate = '';
         }
       }
 
