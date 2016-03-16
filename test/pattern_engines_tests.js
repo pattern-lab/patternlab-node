@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  var patternEngines = require('../builder/pattern_engines/pattern_engines');
-  var of = require('../builder/object_factory');
+  var patternEngines = require('../core/lib/pattern_engines/pattern_engines');
+  var of = require('../core/lib/object_factory');
 
   // the mustache test pattern, stolen from object_factory unit tests
   var mustacheTestPattern = new of.oPattern('source/_patterns/00-atoms/00-global/00-colors-alt.mustache', '00-atoms/00-global', '00-colors-alt.mustache', {d: 123});
@@ -71,7 +71,7 @@
         '00-comment-thread.mustache': true,
         '00-comment-thread.fakeextthatdoesntexist': false,
         '00-comment-thread': false,
-        '_00-comment-thread.mustache': false,
+        '_00-comment-thread.mustache': true,
         '.00-comment-thread.mustache': false,
         '00-comment-thread.json': false,
         '00-homepage~emergency.json': true
@@ -116,7 +116,7 @@
       }).reduce(function(isPrevType, isCurrentType) {
         return isPrevType || isCurrentType;
       });
-      
+
       test.ok(object.hasOwnProperty(propName), '"' + propName + '" prop should be present');
       test.ok(isOneOfTheseTypes, '"' + propName + '" prop should be one of types ' + possibleTypes);
     }

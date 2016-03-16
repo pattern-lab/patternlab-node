@@ -1,0 +1,62 @@
+{
+  "paths" : {
+    "source" : {
+      "root": "./source/",
+      "patterns" : "./source/_patterns/",
+      "data" : "./source/_data/",
+      "styleguide" : "./core/styleguide/",
+      "patternlabFiles" : "./core/",
+      "js" : "./source/js",
+      "images" : "./source/images",
+      "fonts" : "./source/fonts",
+      "css" : "./source/css/"
+    },
+    "public" : {
+      "root" : "./public/",
+      "patterns" : "./public/patterns/",
+      "data" : "./public/data/",
+      "styleguide" : "./public/styleguide/",
+      "js" : "./public/js",
+      "images" : "./public/images",
+      "fonts" : "./public/fonts",
+      "css" : "./public/css"
+    }
+  },
+  "styleGuideExcludes": [
+    "templates",
+    "pages"
+  ],
+  "defaultPattern": "all",
+  "ignored-extensions" : ["scss", "DS_Store", "less"],
+  "ignored-directories" : ["scss"],
+  "debug": false,
+  "ishControlsVisible": {
+    "s": true,
+    "m": true,
+    "l": true,
+    "full": true,
+    "random": true,
+    "disco": true,
+    "hay": true,
+    "mqs": true,
+    "find": true,
+    "views-all": true,
+    "views-annotations": true,
+    "views-code": true,
+    "views-new": true,
+    "tools-all": true,
+    "tools-sync": true,
+    "tools-shortcuts": true,
+    "tools-docs": true
+  },
+  "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternStates": {
+    "molecules-single-comment" : "complete",
+    "organisms-sticky-comment" : "inreview",
+    "templates-article" : "complete"
+  },
+  "patternExportKeys": [],
+  "patternExportDirectory": "./pattern_exports/",
+  "baseurl" : "",
+  "cacheBust": true
+}
