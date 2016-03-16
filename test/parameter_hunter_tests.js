@@ -208,12 +208,12 @@
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not{\"true\"') }}";
+      currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not \"true\"') }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true not{&quot;true&quot;</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not &quot;true&quot;</p>');
 
       test.done();
     },
@@ -223,12 +223,27 @@
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not}\\\"true\\\"\") }}";
+      currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not \\\"true\\\"\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true not}&quot;true&quot;</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not &quot;true&quot;</p>');
+
+      test.done();
+    },
+
+    'parameter hunter parses parameters with combination of quoting schemes for keys and values' : function(test){
+      var currentPattern = currentPatternClosure();
+      var patternlab = patternlabClosure();
+      var parameter_hunter = new ph();
+
+      currentPattern.template = "{{> molecules-single-comment(description: true, 'foo': false, \"bar\": false, 'single': true, 'singlesingle': 'true', 'singledouble': \"true\", \"double\": true, \"doublesingle\": 'true', \"doubledouble\": \"true\") }}";
+      currentPattern.extendedTemplate = currentPattern.template;
+      currentPattern.parameteredPartials[0] = currentPattern.template;
+
+      parameter_hunter.find_parameters(currentPattern, patternlab);
+      test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
       test.done();
     }
