@@ -19,20 +19,15 @@ var parameter_hunter = function () {
     pattern_assembler = new pa();
 
   function paramToJson(pString) {
-    var paramStringWellFormed = '';
-    var paramStringTmp;
     var colonPos;
     var delimitPos;
-    var quotePos;
+    var paramKey;
     var paramString = pString;
+    var paramStringWellFormed = '';
+    var paramStringTmp;
+    var quotePos;
 
     do {
-
-      //if param key is wrapped in single quotes, replace with double quotes.
-      paramString = paramString.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
-
-      //if params key is not wrapped in any quotes, wrap in double quotes.
-      paramString = paramString.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
 
       //move param key to paramStringWellFormed var.
       colonPos = paramString.indexOf(':');
@@ -40,11 +35,22 @@ var parameter_hunter = function () {
       //except to prevent infinite loops.
       if (colonPos === -1) {
         colonPos = paramString.length - 1;
-      }
-      else {
+      } else {
         colonPos += 1;
       }
-      paramStringWellFormed += paramString.substring(0, colonPos);
+
+      paramKey = paramString.substring(0, colonPos);
+
+      //if param key is wrapped in single quotes, replace with double quotes.
+      paramKey = paramKey.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
+
+      //if params key is not wrapped in any quotes, wrap in double quotes.
+      paramKey = paramKey.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
+
+      //this is just here to match the escaping scheme in Pattern Lab PHP.
+      paramKey = paramKey.replace(/\\/g, '');
+
+      paramStringWellFormed += paramKey;
       paramString = paramString.substring(colonPos, paramString.length).trim();
 
       //if param value is wrapped in single quotes, replace with double quotes.
@@ -54,8 +60,7 @@ var parameter_hunter = function () {
         //except for unclosed quotes to prevent infinite loops.
         if (quotePos === -1) {
           quotePos = paramString.length - 1;
-        }
-        else {
+        } else {
           quotePos += 2;
         }
 
@@ -75,42 +80,37 @@ var parameter_hunter = function () {
         //move param key to paramStringWellFormed var.
         paramStringWellFormed += paramStringTmp;
         paramString = paramString.substring(quotePos, paramString.length).trim();
-      }
 
       //if param value is wrapped in double quotes, just move to paramStringWellFormed var.
-      else if (paramString[0] === '"') {
+      } else if (paramString[0] === '"') {
         quotePos = paramString.search(/[^\\]"/);
 
         //except for unclosed quotes to prevent infinite loops.
         if (quotePos === -1) {
           quotePos = paramString.length - 1;
-        }
-        else {
+        } else {
           quotePos += 2;
         }
 
         //move param key to paramStringWellFormed var.
         paramStringWellFormed += paramString.substring(0, quotePos);
         paramString = paramString.substring(quotePos, paramString.length).trim();
-      }
 
       //if param value is not wrapped in quotes, move everthing up to the delimiting comma to paramStringWellFormed var.
-      else {
+      } else {
         delimitPos = paramString.indexOf(',');
 
         //except to prevent infinite loops.
         if (delimitPos === -1) {
           delimitPos = paramString.length - 1;
         }
-        else {
-          delimitPos += 1;
-        }
+
         paramStringWellFormed += paramString.substring(0, delimitPos);
         paramString = paramString.substring(delimitPos, paramString.length).trim();
       }
 
       //break at the end.
-      if (paramString.length === 1) {
+      if (paramString.length <= 1) {
         paramStringWellFormed += paramString.trim();
         paramString = '';
         break;
