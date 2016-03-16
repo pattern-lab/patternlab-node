@@ -15,8 +15,8 @@ var parameter_hunter = function () {
   var extend = require('util')._extend,
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    style_modifier_hunter = new smh(),
-    pattern_assembler = new pa();
+    pattern_assembler = new pa(),
+    style_modifier_hunter = new smh();
 
   function paramToJson(pString) {
     var colonPos;
