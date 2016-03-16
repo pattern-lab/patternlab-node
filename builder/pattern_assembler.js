@@ -447,8 +447,8 @@ var pattern_assembler = function () {
    * @param {string} file The abspath of pattern being processed.
    * @param {object} patternlab The patternlab object.
    * @param {number|undefined} recursionLevel Top level === 0. Increments by 1 after that.
-   * @param {object} currentPatternAsParam Only submitted on recursionLevel > 0.
-   * @param {boolean} test When unit testing, pass in true to not output to file system.
+   * @param {object|undefined} currentPatternAsParam Only submitted on recursionLevel > 0.
+   * @param {boolean|undefined} test When unit testing, pass in true to not output to file system.
    */
   function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test) {
     var fs = require('fs-extra'),
@@ -747,6 +747,9 @@ var pattern_assembler = function () {
     process_pattern_iterative: function (file, patternlab) {
       processPatternIterative(file, patternlab);
     },
+
+    //only submit all 5 params within the function itself and in unit tests.
+    //when calling outside of these circumstances, only submit file and patternlab.
     process_pattern_recursive: function (file, patternlab, recursionLevel, currentPatternAsParam, test) {
       processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test);
     }
