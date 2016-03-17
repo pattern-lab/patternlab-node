@@ -9,6 +9,7 @@
     "fs-extra": "^0.26.5",
     "glob": "^7.0.0",
     "html-entities": "^1.2.0",
+    "json5": "^0.5.0",
     "mustache": "^2.2.1"
   },
   "devDependencies": {
