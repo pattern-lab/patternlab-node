@@ -38,7 +38,7 @@
   var engine_underscore = {
     engine: _,
     engineName: 'underscore',
-    engineFileExtension: '.underscore',
+    engineFileExtension: '.html',
 
     // partial expansion is only necessary for Mustache templates that have
     // style modifiers or pattern parameters (I think)
