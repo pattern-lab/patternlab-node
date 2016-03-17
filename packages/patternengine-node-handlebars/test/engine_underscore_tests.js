@@ -45,7 +45,7 @@
         testPatternsPath,
         '00-atoms',
         '00-global',
-        '00-helloworld.underscore'
+        '00-helloworld.html'
       );
 
       // do all the normal processing of the pattern
@@ -65,7 +65,7 @@
         testPatternsPath,
         '00-atoms',
         '00-global',
-        '00-helloworld-withdata.underscore'
+        '00-helloworld-withdata.html'
       );
 
       // set up environment
