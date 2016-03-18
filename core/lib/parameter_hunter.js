@@ -23,7 +23,7 @@ var parameter_hunter = function () {
     var keyCandidate = '';
     var keys = [];
     var paramString;
-    var paramStringPrepared;
+    var paramStringWellFormed;
     var regex;
     var values = [];
     var wrapper;
@@ -129,59 +129,59 @@ var parameter_hunter = function () {
       }
     } while (paramString);
 
-    //build paramStringPrepared string for JSON parsing
-    paramStringPrepared = '{';
+    //build paramStringWellFormed string for JSON parsing
+    paramStringWellFormed = '{';
     for (var i = 0; i < keys.length; i++) {
 
       //keys
       //replace single-quote wrappers with double-quotes
       if (keys[i][0] === '\'' && keys[i][keys[i].length - 1] === '\'') {
-        paramStringPrepared += '"';
+        paramStringWellFormed += '"';
 
         //any enclosed double-quotes must be escaped
-        paramStringPrepared += keys[i].substring(1, keys[i].length - 1).replace(/"/g, '\\"');
-        paramStringPrepared += '"';
+        paramStringWellFormed += keys[i].substring(1, keys[i].length - 1).replace(/"/g, '\\"');
+        paramStringWellFormed += '"';
       } else {
 
         //open wrap with double-quotes if no wrapper
         if (keys[i][0] !== '"' && keys[i][0] !== '\'') {
-          paramStringPrepared += '"';
+          paramStringWellFormed += '"';
 
           //this is to clean up vestiges from Pattern Lab PHP's escaping scheme
           keys[i] = keys[i].replace(/\\/g, '');
         }
 
-        paramStringPrepared += keys[i];
+        paramStringWellFormed += keys[i];
 
         //close wrap with double-quotes if no wrapper
         if (keys[i][keys[i].length - 1] !== '"' && keys[i][keys[i].length - 1] !== '\'') {
-          paramStringPrepared += '"';
+          paramStringWellFormed += '"';
         }
       }
 
       //colon delimiter.
-      paramStringPrepared += ':'; + values[i];
+      paramStringWellFormed += ':'; + values[i];
 
       //values
       //replace single-quote wrappers with double-quotes
       if (values[i][0] === '\'' && values[i][values[i].length - 1] === '\'') {
-        paramStringPrepared += '"';
+        paramStringWellFormed += '"';
 
         //any enclosed double-quotes must be escaped
-        paramStringPrepared += values[i].substring(1, values[i].length - 1).replace(/"/g, '\\"');
-        paramStringPrepared += '"';
+        paramStringWellFormed += values[i].substring(1, values[i].length - 1).replace(/"/g, '\\"');
+        paramStringWellFormed += '"';
 
       //for everything else, just add the colon and the value however it's wrapped
       } else {
-        paramStringPrepared += values[i];
+        paramStringWellFormed += values[i];
       }
 
       //comma delimiter
       if (i < keys.length - 1) {
-        paramStringPrepared += ',';
+        paramStringWellFormed += ',';
       }
     }
-    paramStringPrepared += '}';
+    paramStringWellFormed += '}';
 
     //unescape unicodes for double-quotes
     paramString = pString.replace(/\\u0022/g, '\u0022');
@@ -189,7 +189,7 @@ var parameter_hunter = function () {
     //unescape unicodes for single-quotes
     paramString = paramString.replace(/\\u0027/g, '\u0027');
 
-    return paramStringPrepared;
+    return paramStringWellFormed;
   }
 
   function findparameters(pattern, patternlab) {
@@ -213,14 +213,14 @@ var parameter_hunter = function () {
         var leftParen = pMatch.indexOf('(');
         var rightParen = pMatch.lastIndexOf(')');
         var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        var paramStringPrepared = paramToJson(paramString);
+        var paramStringWellFormed = paramToJson(paramString);
 
         var paramData = {};
         var globalData = {};
         var localData = {};
 
         try {
-          paramData = JSON.parse(paramStringPrepared);
+          paramData = JSON.parse(paramStringWellFormed);
           globalData = JSON.parse(JSON.stringify(patternlab.data));
           localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
         } catch (e) {
