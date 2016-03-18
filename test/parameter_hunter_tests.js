@@ -208,12 +208,12 @@
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not \"true\"') }}";
+      currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not{\"true\"') }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true not &quot;true&quot;</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not{&quot;true&quot;</p>');
 
       test.done();
     },
@@ -223,12 +223,12 @@
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
 
-      currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not \\\"true\\\"\") }}";
+      currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not}\\\"true\\\"\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>true not &quot;true&quot;</p>');
+      test.equals(currentPattern.extendedTemplate, '<p>true not}&quot;true&quot;</p>');
 
       test.done();
     },
