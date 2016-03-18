@@ -32,8 +32,11 @@
 
       @media only screen and (min-width: $breakpointDesktop) {
         position: static;
-        margin-top: $marginSemiMedium;
         width: auto;
+
+        &:nth-child(n+2) {
+          margin-top: $marginSemiMedium;
+        }
       }
     }
   }
