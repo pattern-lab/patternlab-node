@@ -19,21 +19,69 @@ var parameter_hunter = function () {
     pattern_assembler = new pa(),
     style_modifier_hunter = new smh();
 
+  /**
+   * This function is really to accommodate the lax JSON-like syntax allowed by
+   * Pattern Lab PHP for paramater submissions to partials. Unfortunately, no
+   * easily searchable library was discovered for this. What we had to do was
+   * write a custom script to crawl through the parameter string, and wrap the
+   * keys and values in double-quotes as necessary.
+   * The steps on a high-level are as follows:
+   *   * Further escape all escaped quotes, commas, and colons. Use the string
+   *     representation of their unicodes for this. This has the added bonus
+   *     of being interpreted correctly by JSON5.parse() without modification.
+   *     This will be useful later in the function.
+   *   * Once escaped quotes are out of the way, we know the remaining quotes
+   *     are either key/value wrappers or wrapped within those wrappers. We know
+   *     that remaining commas and colons are either delimiters, or wrapped
+   *     within quotes to not be recognized as such.
+   *   * A do/while loop crawls paramString to write keys to a keys array and
+   *     values to a values array.
+   *   * Start by parsing the first key. Determine the type of wrapping quote,
+   *     if any.
+   *   * By knowing the open wrapper, we know that the next quote of that kind
+   *     (if the key is wrapped in quotes), HAS to be the close wrapper.
+   *     Similarly, if the key is unwrapped, we know the next colon HAS to be
+   *     the delimiter between key and value.
+   *   * Save the key to the keys array.
+   *   * Next, search for a value. It will either be the next block of text
+   *     wrapped in quotes, or a string of alphanumerics.
+   *   * Save the value to the values array.
+   *   * The do/while loop truncates the paramString value while parsing. Its
+   *     condition for completion is when the paramString is whittled down to an
+   *     empty string.
+   *   * After the keys and values arrays are built, a for loop iterates through
+   *     them to build the final paramStringWellFormed string.
+   *   * No quote substitution had been done prior to this loop. In this loop,
+   *     all keys are ensured to be wrapped in double-quotes. String values are
+   *     also ensured to be wrapped in double-quotes.
+   *   * Unescape escaped unicodes except for double-quotes. Everything beside
+   *     double-quotes will be safely wrapped in double-quotes.
+   *   * Return paramStringWellFormed.
+   *
+   * @param {string} pString
+   * @returns {string} paramStringWellFormed
+   */
   function paramToJson(pString) {
     var colonPos;
     var keyCandidate = '';
     var keys = [];
-    var paramString;
+    var paramString = pString; // to not reassign param
     var paramStringWellFormed;
     var regex;
     var values = [];
     var wrapper;
 
     //replace all escaped double-quotes with escaped unicode
-    paramString = pString.replace(/\\"/g, '\\u0022');
+    paramString = paramString.replace(/\\"/g, '\\u0022');
 
     //replace all escaped single-quotes with escaped unicode
     paramString = paramString.replace(/\\'/g, '\\u0027');
+
+    //replace all escaped commas with escaped unicode
+    paramString = paramString.replace(/\\,/g, '\\u0044');
+
+    //replace all escaped colons with escaped unicode
+    paramString = paramString.replace(/\\:/g, '\\u0058');
 
     //with escaped quotes out of the way, crawl through paramString looking for
     //keys and values
@@ -148,7 +196,11 @@ var parameter_hunter = function () {
         if (keys[i][0] !== '"' && keys[i][0] !== '\'') {
           paramStringWellFormed += '"';
 
-          //this is to clean up vestiges from Pattern Lab PHP's escaping scheme
+          //this is to clean up vestiges from Pattern Lab PHP's escaping scheme.
+          //F.Y.I. Pattern Lab PHP would allow special characters like question
+          //marks in parameter keys so long as the key was unwrapped and the
+          //special character escaped with a backslash. In Node, we need to wrap
+          //those keys and unescape those characters.
           keys[i] = keys[i].replace(/\\/g, '');
         }
 
@@ -184,11 +236,10 @@ var parameter_hunter = function () {
     }
     paramStringWellFormed += '}';
 
-    //unescape unicodes for double-quotes
-    paramString = pString.replace(/\\u0022/g, '\u0022');
-
-    //unescape unicodes for single-quotes
-    paramString = paramString.replace(/\\u0027/g, '\u0027');
+    //unescape escaped unicode except for double-quotes
+    paramStringWellFormed = paramStringWellFormed.replace(/\\u0027/g, '\'');
+    paramStringWellFormed = paramStringWellFormed.replace(/\\u0044/g, ',');
+    paramStringWellFormed = paramStringWellFormed.replace(/\\u0058/g, ':');
 
     return paramStringWellFormed;
   }
