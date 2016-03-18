@@ -134,7 +134,7 @@ var parameter_hunter = function () {
 
       //now, search for a value
       if (paramString[0] === ':') {
-        paramString = paramString.substring([1], paramString.length).trim();
+        paramString = paramString.substring(1, paramString.length).trim();
 
         //since a quote of same type as its wrappers would be escaped, and we
         //escaped those even further with their unicode, it is safe to look for
