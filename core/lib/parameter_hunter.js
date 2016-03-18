@@ -43,8 +43,8 @@ var parameter_hunter = function () {
    *     Similarly, if the key is unwrapped, we know the next colon HAS to be
    *     the delimiter between key and value.
    *   * Save the key to the keys array.
-   *   * Next, search for a value. It will either be the next block of text
-   *     wrapped in quotes, or a string of alphanumerics.
+   *   * Next, search for a value. It will either be the next block wrapped in
+   *     quotes, or a string of alphanumerics, decimal points, or hyphens.
    *   * Save the value to the values array.
    *   * The do-while loop truncates the paramString value while parsing. Its
    *     condition for completion is when the paramString is whittled down to an
@@ -147,9 +147,10 @@ var parameter_hunter = function () {
             regex = /^'(.|\s)*?'/;
             break;
 
-          //if there is no value wrapper, regex for alphanumerics
+          //if there is no value wrapper, regex for alphanumerics. also regex
+          //for points for decimals and hyphens for exponentials.
           default:
-            regex = /^\w*/;
+            regex = /^[\w\-\.]*/;
         }
         values.push(paramString.match(regex)[0].trim());
 
