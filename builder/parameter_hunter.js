@@ -133,12 +133,19 @@ var parameter_hunter = function () {
 
       //now, search for a value
       if (paramString[0] === ':') {
-        paramString = paramString.substring([1], paramString.length).trim();
+        paramString = paramString.substring(1, paramString.length).trim();
 
-        //since a quote of same type as its wrappers would be escaped, and we
-        //escaped those even further with their unicode, it is safe to look for
-        //wrapper pairs and conclude that their contents are values
+        //the only reason we're using regexes here, instead of indexOf(), is
+        //because we don't know if the next delimiter is going to be a comma or
+        //a closing curly brace. since it's not much of a performance hit to
+        //use regexes as sparingly as here, and it's much more concise and
+        //readable, we'll use a regex for match() and replace() instead of
+        //performing conditional logic with indexOf().
         switch (paramString[0]) {
+
+          //since a quote of same type as its wrappers would be escaped, and we
+          //escaped those even further with their unicodes, it is safe to look
+          //for wrapper pairs and conclude that their contents are values
           case '"':
             regex = /^"(.|\s)*?"/;
             break;
