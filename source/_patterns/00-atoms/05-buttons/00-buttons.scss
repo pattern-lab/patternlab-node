@@ -49,6 +49,11 @@
     border-color : $colorSilver;
   }
 
+  &--contrastive {
+    background-color : transparent;
+    border-color : $colorWhite;
+  }
+
   @media only screen and (min-width: $breakpointDesktop) {
     transition:all $animationTimingFast ease-in;
 

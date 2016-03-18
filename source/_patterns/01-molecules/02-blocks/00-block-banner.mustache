@@ -2,5 +2,8 @@
     <div class="blockBanner__image">
       {{> atoms-landscape-18x5() }}
     </div>
-    <h1 class="blockBanner__text">{{ headline.mini }}</h1>
+    <div class="blockBanner__content">
+        <h1 class="blockBanner__text">{{ headline.mini }}</h1>
+        {{> atoms-button(type: true, class: 'contrastive') }}
+    </div>
 </div>
