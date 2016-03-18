@@ -44,7 +44,7 @@ var parameter_hunter = function () {
    *     the delimiter between key and value.
    *   * Save the key to the keys array.
    *   * Next, search for a value. It will either be the next block wrapped in
-   *     quotes, or a string of alphanumerics, decimal points, or hyphens.
+   *     quotes, or a string of alphanumerics, decimal points, or minus signs.
    *   * Save the value to the values array.
    *   * The do-while loop truncates the paramString value while parsing. Its
    *     condition for completion is when the paramString is whittled down to an
@@ -147,8 +147,8 @@ var parameter_hunter = function () {
             regex = /^'(.|\s)*?'/;
             break;
 
-          //if there is no value wrapper, regex for alphanumerics. also regex
-          //for points for decimals and hyphens for exponentials.
+          //if there is no value wrapper, regex for alphanumerics, decimal
+          //points, and minus signs for exponential notation.
           default:
             regex = /^[\w\-\.]*/;
         }
