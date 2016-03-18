@@ -143,6 +143,7 @@ var parameter_hunter = function () {
         //readable, we'll use a regex for match() and replace() instead of
         //performing conditional logic with indexOf().
         switch (paramString[0]) {
+
           //since a quote of same type as its wrappers would be escaped, and we
           //escaped those even further with their unicodes, it is safe to look
           //for wrapper pairs and conclude that their contents are values
