@@ -20,15 +20,10 @@
     height: 100%;
 
     .button {
-      display:none;
-
-      @media only screen and (min-width: $breakpointMobile) {
-        position: absolute;
-        display: block;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-      }
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
 
       @media only screen and (min-width: $breakpointDesktop) {
         position: static;
@@ -57,11 +52,15 @@
 
     &:after {
       content: '';
-      display:block;
+      display: none;
       width: 55px;
       height: 10px;
       border-bottom: 3px solid $colorWhite;
       margin: 0 auto;
+
+      @media only screen and (min-width: $breakpointMobile) {
+        display: block;
+      }
 
       @media only screen and (min-width: $breakpointTablet) {
         height:20px;
@@ -70,12 +69,12 @@
   }
 
   .blockBanner__text {
-    margin-top : -10px;
+    margin-top : -48px;
     margin-bottom : 0;
     color : $colorWhite;
 
     @media only screen and (min-width: $breakpointTablet) {
-      margin-top : -20px;
+      margin-top : 0;
     }
 
     &--noImage {
