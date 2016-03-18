@@ -69,9 +69,13 @@
   }
 
   .blockBanner__text {
-    margin-top : -48px;
+    margin-top: -48px;
     margin-bottom : 0;
     color : $colorWhite;
+
+    &:only-child {
+      margin-top : 0;
+    }
 
     @media only screen and (min-width: $breakpointTablet) {
       margin-top : 0;
