@@ -21,20 +21,20 @@ var parameter_hunter = function () {
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
-   * Pattern Lab PHP for paramater submissions to partials. Unfortunately, no
+   * Pattern Lab PHP for parameter submissions to partials. Unfortunately, no
    * easily searchable library was discovered for this. What we had to do was
    * write a custom script to crawl through the parameter string, and wrap the
    * keys and values in double-quotes as necessary.
    * The steps on a high-level are as follows:
    *   * Further escape all escaped quotes, commas, and colons. Use the string
    *     representation of their unicodes for this. This has the added bonus
-   *     of being interpreted correctly by JSON5.parse() without modification.
-   *     This will be useful later in the function.
+   *     of being interpreted correctly by JSON5.parse() without further
+   *     modification. This will be useful later in the function.
    *   * Once escaped quotes are out of the way, we know the remaining quotes
    *     are either key/value wrappers or wrapped within those wrappers. We know
    *     that remaining commas and colons are either delimiters, or wrapped
    *     within quotes to not be recognized as such.
-   *   * A do/while loop crawls paramString to write keys to a keys array and
+   *   * A do-while loop crawls paramString to write keys to a keys array and
    *     values to a values array.
    *   * Start by parsing the first key. Determine the type of wrapping quote,
    *     if any.
@@ -46,7 +46,7 @@ var parameter_hunter = function () {
    *   * Next, search for a value. It will either be the next block of text
    *     wrapped in quotes, or a string of alphanumerics.
    *   * Save the value to the values array.
-   *   * The do/while loop truncates the paramString value while parsing. Its
+   *   * The do-while loop truncates the paramString value while parsing. Its
    *     condition for completion is when the paramString is whittled down to an
    *     empty string.
    *   * After the keys and values arrays are built, a for loop iterates through
@@ -55,7 +55,7 @@ var parameter_hunter = function () {
    *     all keys are ensured to be wrapped in double-quotes. String values are
    *     also ensured to be wrapped in double-quotes.
    *   * Unescape escaped unicodes except for double-quotes. Everything beside
-   *     double-quotes will be safely wrapped in double-quotes.
+   *     double-quotes will be wrapped in double-quotes without need for escape.
    *   * Return paramStringWellFormed.
    *
    * @param {string} pString
