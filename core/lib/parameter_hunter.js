@@ -13,6 +13,7 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
+    JSON = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     pattern_assembler = new pa(),
@@ -223,8 +224,9 @@ var parameter_hunter = function () {
           paramData = JSON.parse(paramStringWellFormed);
           globalData = JSON.parse(JSON.stringify(patternlab.data));
           localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
-        } catch (e) {
-          console.log(e);
+        } catch (err) {
+          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log(err);
         }
 
         var allData = pattern_assembler.merge_data(globalData, localData);

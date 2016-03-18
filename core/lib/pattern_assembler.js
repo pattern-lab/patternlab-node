@@ -332,6 +332,7 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
+    var JSON = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
@@ -349,7 +350,16 @@ var pattern_assembler = function () {
         }
       }
     }
-    return JSON.parse(dataObjAsString);
+
+    var dataObj;
+    try {
+      dataObj = JSON.parse(dataObjAsString);
+    } catch (err) {
+      console.log('There was an error parsing JSON for ' + key);
+      console.log(err);
+    }
+
+    return dataObj;
   }
 
   //look for pattern links included in data files.

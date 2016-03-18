@@ -12,6 +12,7 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var path = require('path'),
+    JSON = require('json5'),
     fs = require('fs-extra'),
     diveSync = require('diveSync'),
     of = require('./object_factory'),
@@ -191,7 +192,13 @@ var patternlab_engine = function (config) {
       pattern.lineageR = lineageRArray;
 
       //render the pattern, but first consolidate any data we may have
-      var allData = JSON.parse(JSON.stringify(patternlab.data));
+      var allData;
+      try {
+        allData = JSON.parse(JSON.stringify(patternlab.data));
+      } catch (err) {
+        console.log('There was an error parsing JSON for ' + pattern.abspath);
+        console.log(err);
+      }
       allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
 
       //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value

@@ -311,12 +311,14 @@
       patternlab.patterns[0].template = "<p>{{foo}}</p>";
       patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
 
+      currentPattern.abspath = __filename;
       currentPattern.template = "{{> molecules-single-comment( missing-val: , : missing-key, : , , foo: \"Hello World\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
       currentPattern.parameteredPartials[0] = currentPattern.template;
 
+      console.log('\nPattern Lab should catch JSON.parse() errors and output useful debugging information...');
       parameter_hunter.find_parameters(currentPattern, patternlab);
-      test.equals(currentPattern.extendedTemplate, '<p>Hello World</p>');
+      test.equals(currentPattern.extendedTemplate, '<p></p>');
 
       test.done();
     }
