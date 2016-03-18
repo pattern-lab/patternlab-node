@@ -13,7 +13,6 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
-    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     pattern_assembler = new pa(),
@@ -26,25 +25,24 @@ var parameter_hunter = function () {
     var paramString;
     var paramStringPrepared;
     var regex;
-    var value;
     var values = [];
     var wrapper;
 
-    //replace all escaped double-quotes with escaped unicode.
+    //replace all escaped double-quotes with escaped unicode
     paramString = pString.replace(/\\"/g, '\\u0022');
 
-    //replace all escaped single-quotes with escaped unicode.
+    //replace all escaped single-quotes with escaped unicode
     paramString = paramString.replace(/\\'/g, '\\u0027');
 
     //with escaped quotes out of the way, crawl through paramString looking for
-    //keys and values.
+    //keys and values
     do {
 
       //check if searching for a key
       if (paramString[0] === '{' || paramString[0] === ',' || keyCandidate) {
         paramString = paramString.substring([1], paramString.length).trim();
 
-        //find what, if any, type of quote wraps the key.
+        //find what, if any, type of quote wraps the key
         switch (paramString[0]) {
           case '"':
             wrapper = '"';
@@ -56,7 +54,7 @@ var parameter_hunter = function () {
             wrapper = '';
         }
 
-        //find index of next colon. try to determine if that delimits a key.
+        //find index of next colon. try to determine if that delimits a key
         colonPos = paramString.indexOf(':');
 
         if (colonPos) {
@@ -92,13 +90,13 @@ var parameter_hunter = function () {
         }
       }
 
-      //now, search for a value.
+      //now, search for a value
       if (paramString[0] === ':' && !keyCandidate) {
         paramString = paramString.substring([1], paramString.length).trim();
 
         //since a quote of same type as its wrappers would be escaped, and we
         //escaped those even further with their unicode, it is safe to look for
-        //wrapper pairs and conclude that their contents are values.
+        //wrapper pairs and conclude that their contents are values
         switch (paramString[0]) {
           case '"':
             regex = /^"(.|\s)*?"/;
@@ -106,7 +104,8 @@ var parameter_hunter = function () {
           case '\'':
             regex = /^'(.|\s)*?'/;
             break;
-          //if there is no value wrapper, regex for alphanumerics.
+
+          //if there is no value wrapper, regex for alphanumerics
           default:
             regex = /^\w*/;
         }
@@ -130,27 +129,64 @@ var parameter_hunter = function () {
       }
     } while (paramString);
 
-    //build paramStringPrepared string for JSON5 parsing.
+    //build paramStringPrepared string for JSON parsing
     paramStringPrepared = '{';
     for (var i = 0; i < keys.length; i++) {
-      if (keys[i][0] !== '"' && keys[i][0] !== '\'') {
+
+      //keys
+      //replace single-quote wrappers with double-quotes
+      if (keys[i][0] === '\'' && keys[i][keys[i].length - 1] === '\'') {
         paramStringPrepared += '"';
-      }
-      paramStringPrepared += keys[i];
-      if (keys[i][keys[i].length - 1] !== '"' && keys[i][keys[i].length - 1] !== '\'') {
+
+        //any enclosed double-quotes must be escaped
+        paramStringPrepared += keys[i].substring(1, keys[i].length - 1).replace(/"/g, '\\"');
         paramStringPrepared += '"';
+      } else {
+
+        //open wrap with double-quotes if no wrapper
+        if (keys[i][0] !== '"' && keys[i][0] !== '\'') {
+          paramStringPrepared += '"';
+
+          //this is to clean up vestiges from Pattern Lab PHP's escaping scheme
+          keys[i] = keys[i].replace(/\\/g, '');
+        }
+
+        paramStringPrepared += keys[i];
+
+        //close wrap with double-quotes if no wrapper
+        if (keys[i][keys[i].length - 1] !== '"' && keys[i][keys[i].length - 1] !== '\'') {
+          paramStringPrepared += '"';
+        }
       }
-      paramStringPrepared += ':' + values[i];
+
+      //colon delimiter.
+      paramStringPrepared += ':'; + values[i];
+
+      //values
+      //replace single-quote wrappers with double-quotes
+      if (values[i][0] === '\'' && values[i][values[i].length - 1] === '\'') {
+        paramStringPrepared += '"';
+
+        //any enclosed double-quotes must be escaped
+        paramStringPrepared += values[i].substring(1, values[i].length - 1).replace(/"/g, '\\"');
+        paramStringPrepared += '"';
+
+      //for everything else, just add the colon and the value however it's wrapped
+      } else {
+        paramStringPrepared += values[i];
+      }
+
+      //comma delimiter
       if (i < keys.length - 1) {
         paramStringPrepared += ',';
       }
     }
     paramStringPrepared += '}';
 
-    //unescape unicodes for double quotes.
+    //unescape unicodes for double-quotes
     paramString = pString.replace(/\\u0022/g, '\u0022');
 
-    //unescape unicodes for single quotes.
+    //unescape unicodes for single-quotes
     paramString = paramString.replace(/\\u0027/g, '\u0027');
 
     return paramStringPrepared;
@@ -184,7 +220,7 @@ var parameter_hunter = function () {
         var localData = {};
 
         try {
-          paramData = JSON5.parse(paramStringPrepared);
+          paramData = JSON.parse(paramStringPrepared);
           globalData = JSON.parse(JSON.stringify(patternlab.data));
           localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
         } catch (e) {
