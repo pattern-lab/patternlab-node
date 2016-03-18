@@ -68,7 +68,6 @@ var parameter_hunter = function () {
     var paramStringWellFormed;
     var regex;
     var values = [];
-    var wrapper;
 
     //replace all escaped double-quotes with escaped unicode
     paramString = paramString.replace(/\\"/g, '\\u0022');
@@ -82,25 +81,13 @@ var parameter_hunter = function () {
     //replace all escaped colons with escaped unicode
     paramString = paramString.replace(/\\:/g, '\\u0058');
 
-    //with escaped quotes out of the way, crawl through paramString looking for
+    //with escaped chars out of the way, crawl through paramString looking for
     //keys and values
     do {
 
       //check if searching for a key
       if (paramString[0] === '{' || paramString[0] === ',') {
         paramString = paramString.substring([1], paramString.length).trim();
-
-        //find what, if any, type of quote wraps the key
-        switch (paramString[0]) {
-          case '"':
-            wrapper = '"';
-            break;
-          case '\'':
-            wrapper = '\'';
-            break;
-          default:
-            wrapper = '';
-        }
 
         //find index of next colon. try to determine if that delimits a key
         colonPos = paramString.indexOf(':');
