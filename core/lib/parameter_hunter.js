@@ -62,12 +62,14 @@ var parameter_hunter = function () {
    * @returns {string} paramStringWellFormed
    */
   function paramToJson(pString) {
-    var colonPos;
+    var colonPos = -1;
     var keys = [];
     var paramString = pString; // to not reassign param
     var paramStringWellFormed;
+    var quotePos = -1;
     var regex;
     var values = [];
+    var wrapper;
 
     //replace all escaped double-quotes with escaped unicode
     paramString = paramString.replace(/\\"/g, '\\u0022');
@@ -89,14 +91,36 @@ var parameter_hunter = function () {
       if (paramString[0] === '{' || paramString[0] === ',') {
         paramString = paramString.substring([1], paramString.length).trim();
 
-        //find index of next colon. try to determine if that delimits a key
-        colonPos = paramString.indexOf(':');
+        //search for end quote if wrapped in quotes. else search for colon.
+        switch (paramString[0]) {
+          //need to search for end quote pos in case the quotes wrap a colon
+          case '"':
+          case '\'':
+            wrapper = paramString[0];
+            quotePos = paramString.indexOf(wrapper, 1);
+            break;
 
-        if (colonPos) {
+          default:
+            colonPos = paramString.indexOf(':');
+        }
+
+        if (quotePos > -1) {
+          keys.push(paramString.substring(0, quotePos + 1).trim());
+
+          //truncate the beginning from paramString and look for a value
+          paramString = paramString.substring(quotePos + 1, paramString.length).trim();
+
+          //unset quotePos
+          quotePos = -1;
+
+        } else if (colonPos > -1) {
           keys.push(paramString.substring(0, colonPos).trim());
 
           //truncate the beginning from paramString and look for a value
           paramString = paramString.substring(colonPos, paramString.length);
+
+          //unset colonPos
+          colonPos = -1;
 
         //if there are no more colons, and we're looking for a key, there is
         //probably a problem. stop any further processing.
