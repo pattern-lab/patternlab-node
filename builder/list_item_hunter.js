@@ -12,7 +12,8 @@
 
 var list_item_hunter = function () {
 
-  var pa = require('./pattern_assembler'),
+  var JSON = require('json5'),
+    pa = require('./pattern_assembler'),
     pattern_assembler = new pa(),
     items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
@@ -29,14 +30,24 @@ var list_item_hunter = function () {
       if (pattern.listitemsRaw) {
 
         //copy, don't reference
-        pattern.listitems = JSON.parse(JSON.stringify(pattern.listitemsRaw));
+        try {
+          pattern.listitems = JSON.parse(JSON.stringify(pattern.listitemsRaw));
+        } catch (err) {
+          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log(err);
+        }
 
       //if no local listitems.json file, use global listitems data
       } else {
 
         //copy, don't reference
-        pattern.listitems = JSON.parse(JSON.stringify(patternlab.listitems));
-        pattern.listitemsRaw = JSON.parse(JSON.stringify(patternlab.listitems));
+        try {
+          pattern.listitems = JSON.parse(JSON.stringify(patternlab.listitems));
+          pattern.listitemsRaw = JSON.parse(JSON.stringify(patternlab.listitems));
+        } catch (err) {
+          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log(err);
+        }
       }
 
       //this shuffles listitemsRaw, and builds it into an object of array of
