@@ -191,7 +191,7 @@ var parameter_hunter = function () {
         paramStringWellFormed += values[i].substring(1, values[i].length - 1).replace(/"/g, '\\"');
         paramStringWellFormed += '"';
 
-      //for everything else, just add the colon and the value however it's wrapped
+      //for everything else, just add the value however it's wrapped
       } else {
         paramStringWellFormed += values[i];
       }
