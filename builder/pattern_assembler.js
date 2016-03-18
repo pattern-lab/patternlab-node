@@ -219,6 +219,7 @@
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
+    var JSON = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
@@ -236,7 +237,16 @@
         }
       }
     }
-    return JSON.parse(dataObjAsString);
+
+    var dataObj;
+    try {
+      dataObj = JSON.parse(dataObjAsString);
+    } catch (err) {
+      console.log('There was an error parsing JSON for ' + key);
+      console.log(err);
+    }
+
+    return dataObj;
   }
 
   //look for pattern links included in data files.
@@ -447,6 +457,7 @@
   function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test) {
     var fs = require('fs-extra'),
       glob = require('glob'),
+      JSON = require('json5'),
       path = require('path');
 
     var ph = require('./parameter_hunter'),
@@ -515,8 +526,7 @@
           localData = JSON.parse(localJsonString);
           currentPattern.jsonFileData = mergeData(patternlab.data, JSON.parse(localJsonString));
         } catch (err) {
-
-          //since we're parsing json, output errors for debugging
+          console.log('There was an error parsing JSON for ' + file);
           console.log(err);
         }
 
