@@ -63,7 +63,6 @@ var parameter_hunter = function () {
    */
   function paramToJson(pString) {
     var colonPos;
-    var keyCandidate = '';
     var keys = [];
     var paramString = pString; // to not reassign param
     var paramStringWellFormed;
@@ -88,7 +87,7 @@ var parameter_hunter = function () {
     do {
 
       //check if searching for a key
-      if (paramString[0] === '{' || paramString[0] === ',' || keyCandidate) {
+      if (paramString[0] === '{' || paramString[0] === ',') {
         paramString = paramString.substring([1], paramString.length).trim();
 
         //find what, if any, type of quote wraps the key
@@ -107,29 +106,10 @@ var parameter_hunter = function () {
         colonPos = paramString.indexOf(':');
 
         if (colonPos) {
-          if (keyCandidate) {
-            keyCandidate += ':' + paramString.substring(0, colonPos).trim();
-          } else {
-            keyCandidate = paramString.substring(0, colonPos).trim();
-          }
+          keys.push(paramString.substring(0, colonPos).trim());
 
-          if (keyCandidate[keyCandidate.length - 1] === wrapper) {
-            keys.push(keyCandidate);
-            keyCandidate = '';
-          } else if (wrapper === '' && keyCandidate[keyCandidate.length - 1] !== '"' && keyCandidate[keyCandidate.length - 1] !== '\'') {
-            keys.push(keyCandidate);
-            keyCandidate = '';
-          }
-
-          //if we have a persistent keyCandidate, continue looking for a key
-          if (keyCandidate) {
-            continue;
-
-          //truncate the beginning from paramString and continue looking
-          //for a value
-          } else {
-            paramString = paramString.substring(colonPos, paramString.length);
-          }
+          //truncate the beginning from paramString and look for a value
+          paramString = paramString.substring(colonPos, paramString.length);
 
         //if there are no more colons, and we're looking for a key, there is
         //probably a problem. stop any further processing.
@@ -140,7 +120,7 @@ var parameter_hunter = function () {
       }
 
       //now, search for a value
-      if (paramString[0] === ':' && !keyCandidate) {
+      if (paramString[0] === ':') {
         paramString = paramString.substring([1], paramString.length).trim();
 
         //since a quote of same type as its wrappers would be escaped, and we
