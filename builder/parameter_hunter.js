@@ -76,9 +76,6 @@ var parameter_hunter = function () {
     //replace all escaped single-quotes with escaped unicode
     paramString = paramString.replace(/\\'/g, '\\u0027');
 
-    //replace all escaped commas with escaped unicode
-    paramString = paramString.replace(/\\,/g, '\\u0044');
-
     //replace all escaped colons with escaped unicode
     paramString = paramString.replace(/\\:/g, '\\u0058');
 
@@ -238,7 +235,6 @@ var parameter_hunter = function () {
 
     //unescape escaped unicode except for double-quotes
     paramStringWellFormed = paramStringWellFormed.replace(/\\u0027/g, '\'');
-    paramStringWellFormed = paramStringWellFormed.replace(/\\u0044/g, ',');
     paramStringWellFormed = paramStringWellFormed.replace(/\\u0058/g, ':');
 
     return paramStringWellFormed;
