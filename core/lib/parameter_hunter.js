@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.0 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.0 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -86,7 +86,7 @@ var parameter_hunter = function () {
 
       //check if searching for a key
       if (paramString[0] === '{' || paramString[0] === ',') {
-        paramString = paramString.substring([1], paramString.length).trim();
+        paramString = paramString.substring(1, paramString.length).trim();
 
         //search for end quote if wrapped in quotes. else search for colon.
         //everything up to that position will be saved in the keys array.
@@ -159,7 +159,7 @@ var parameter_hunter = function () {
         values.push(paramString.match(regex)[0].trim());
 
         //truncate the beginning from paramString and continue either
-        //looking for a key, or returning 
+        //looking for a key, or returning
         paramString = paramString.replace(regex, '').trim();
 
         //exit do while if the final char is '}'
