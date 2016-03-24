@@ -10,6 +10,8 @@
 
 "use strict";
 
+var path = require('path');
+var fs = require('fs-extra');
 
 // PRIVATE FUNCTIONS
 
@@ -58,58 +60,8 @@ function assembleStyleguidePatterns(patternlab) {
 
 // MAIN BUILDER FUNCTION
 
-function buildFrontEnd(patternlab) {
-  var path = require('path');
-  var fs = require('fs-extra');
-  var pa = require('./pattern_assembler');
-  var of = require('./object_factory');
-  var mh = require('./media_hunter');
-  var pattern_assembler = new pa();
-  var media_hunter = new mh();
-  var styleguidePatterns = [];
+function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab) {
   var paths = patternlab.config.paths;
-  var i;
-
-  patternlab.buckets = [];
-  patternlab.bucketIndex = [];
-  patternlab.patternPaths = {};
-  patternlab.viewAllPaths = {};
-
-  //sort all patterns explicitly.
-  patternlab.patterns = patternlab.patterns.sort(function (a, b) {
-    if (a.name > b.name) {
-      return 1;
-    }
-    if (a.name < b.name) {
-      return -1;
-    }
-
-    // a must be equal to b
-    return 0;
-  });
-
-  //find mediaQueries
-  media_hunter.find_media_queries('./source/css', patternlab);
-
-  // check if patterns are excluded, if not add them to styleguidePatterns
-  styleguidePatterns = assembleStyleguidePatterns(patternlab);
-
-  //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-  patternlab.data.cacheBuster = patternlab.cacheBuster;
-
-  //get the main page head and foot
-  var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
-  var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
-  var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
-  var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, patternlab.data);
-
-  //build the styleguide
-  var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8');
-  var styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns, cacheBuster: patternlab.cacheBuster});
-
-  fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
-
-  //build the viewall pages
   var prevSubdir = '';
   var prevGroup = '';
   var i;
@@ -180,6 +132,59 @@ function buildFrontEnd(patternlab) {
       fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
     }
   }
+}
+
+function buildFrontEnd(patternlab) {
+  var pa = require('./pattern_assembler');
+  var of = require('./object_factory');
+  var mh = require('./media_hunter');
+  var pattern_assembler = new pa();
+  var media_hunter = new mh();
+  var styleguidePatterns = [];
+  var paths = patternlab.config.paths;
+  var i;
+
+  patternlab.buckets = [];
+  patternlab.bucketIndex = [];
+  patternlab.patternPaths = {};
+  patternlab.viewAllPaths = {};
+
+  //sort all patterns explicitly.
+  patternlab.patterns = patternlab.patterns.sort(function (a, b) {
+    if (a.name > b.name) {
+      return 1;
+    }
+    if (a.name < b.name) {
+      return -1;
+    }
+
+    // a must be equal to b
+    return 0;
+  });
+
+  //find mediaQueries
+  media_hunter.find_media_queries('./source/css', patternlab);
+
+  // check if patterns are excluded, if not add them to styleguidePatterns
+  styleguidePatterns = assembleStyleguidePatterns(patternlab);
+
+  //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+  patternlab.data.cacheBuster = patternlab.cacheBuster;
+
+  //get the main page head and foot
+  var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+  var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
+  var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
+  var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, patternlab.data);
+
+  //build the styleguide
+  var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8');
+  var styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns, cacheBuster: patternlab.cacheBuster});
+
+  fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
+
+  //build the viewall pages
+  buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab);
 
   //build the patternlab website
   var patternlabSiteTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/index.mustache'), 'utf8');
@@ -188,7 +193,7 @@ function buildFrontEnd(patternlab) {
   //todo: refactor this someday
   for (i = 0; i < patternlab.patterns.length; i++) {
 
-    pattern = patternlab.patterns[i];
+    var pattern = patternlab.patterns[i];
     var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
 
     //check if the bucket already exists
