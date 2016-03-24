@@ -24,6 +24,37 @@ function isPatternExcluded(pattern) {
   return pattern.fileName.charAt(0) === '_';
 }
 
+// Returns the array of patterns to be rendered in the styleguide view and
+// linked to in the pattern navigation. Checks if patterns are excluded.
+function assembleStyleguidePatterns(patternlab) {
+  var styleguideExcludes = patternlab.config.styleGuideExcludes;
+  var styleguidePatterns = [];
+
+  if (styleguideExcludes && styleguideExcludes.length) {
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+
+      // skip underscore-prefixed files
+      if (isPatternExcluded(patternlab.patterns[i])) {
+        if (patternlab.config.debug) {
+          console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
+        }
+        continue;
+      }
+
+      var key = patternlab.patterns[i].key;
+      var typeKey = key.substring(0, key.indexOf('-'));
+      var isExcluded = (styleguideExcludes.indexOf(typeKey) > -1);
+      if (!isExcluded) {
+        styleguidePatterns.push(patternlab.patterns[i]);
+      }
+    }
+  } else {
+    styleguidePatterns = patternlab.patterns;
+  }
+
+  return styleguidePatterns;
+}
+
 
 // MAIN BUILDER FUNCTION
 
@@ -35,7 +66,6 @@ function buildFrontEnd(patternlab) {
   var mh = require('./media_hunter');
   var pattern_assembler = new pa();
   var media_hunter = new mh();
-  var styleGuideExcludes = patternlab.config.styleGuideExcludes;
   var styleguidePatterns = [];
   var paths = patternlab.config.paths;
   var i;
@@ -62,27 +92,7 @@ function buildFrontEnd(patternlab) {
   media_hunter.find_media_queries('./source/css', patternlab);
 
   // check if patterns are excluded, if not add them to styleguidePatterns
-  if (styleGuideExcludes && styleGuideExcludes.length) {
-    for (i = 0; i < patternlab.patterns.length; i++) {
-
-      // skip underscore-prefixed files
-      if (isPatternExcluded(patternlab.patterns[i])) {
-        if (patternlab.config.debug) {
-          console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
-        }
-        continue;
-      }
-
-      var key = patternlab.patterns[i].key;
-      var typeKey = key.substring(0, key.indexOf('-'));
-      var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
-      if (!isExcluded) {
-        styleguidePatterns.push(patternlab.patterns[i]);
-      }
-    }
-  } else {
-    styleguidePatterns = patternlab.patterns;
-  }
+  styleguidePatterns = assembleStyleguidePatterns(patternlab);
 
   //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
   patternlab.data.cacheBuster = patternlab.cacheBuster;
