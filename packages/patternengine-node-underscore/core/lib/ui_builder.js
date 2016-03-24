@@ -346,7 +346,7 @@ function buildFrontEnd(patternlab) {
   //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
   patternlab.data.cacheBuster = patternlab.cacheBuster;
 
-  //get the main page head and foot
+  //get the main page head and foot and render them
   var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
   var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
   var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
@@ -366,9 +366,11 @@ function buildFrontEnd(patternlab) {
 
   //loop through all patterns.to build the navigation
   //todo: refactor this someday
+  //GTP: totally doing that right now
   buildNavigation(patternlab);
 
-  //the patternlab site requires a lot of partials to be rendered.
+  //the patternlab site requires a lot of partials to be rendered!
+
   //patternNav
   var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternNav.mustache'), 'utf8');
   var patternNavPartialHtml = pattern_assembler.renderPattern(patternNavTemplate, patternlab);
