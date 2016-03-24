@@ -304,6 +304,20 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
   }
 }
 
+function sortPatterns(patternsArray) {
+  return patternsArray.sort(function (a, b) {
+    if (a.name > b.name) {
+      return 1;
+    }
+    if (a.name < b.name) {
+      return -1;
+    }
+
+    // a must be equal to b
+    return 0;
+  });
+}
+
 
 // MAIN BUILDER FUNCTION
 
@@ -321,17 +335,7 @@ function buildFrontEnd(patternlab) {
   patternlab.viewAllPaths = {};
 
   //sort all patterns explicitly.
-  patternlab.patterns = patternlab.patterns.sort(function (a, b) {
-    if (a.name > b.name) {
-      return 1;
-    }
-    if (a.name < b.name) {
-      return -1;
-    }
-
-    // a must be equal to b
-    return 0;
-  });
+  patternlab.patterns = sortPatterns(patternlab.patterns);
 
   //find mediaQueries
   media_hunter.find_media_queries('./source/css', patternlab);
