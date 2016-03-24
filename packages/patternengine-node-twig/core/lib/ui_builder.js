@@ -230,9 +230,6 @@ function buildNavigation(patternlab) {
   return bucketIndex;
 }
 
-
-// MAIN BUILDER FUNCTION
-
 function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab) {
   var paths = patternlab.config.paths;
   var prevSubdir = '';
@@ -306,6 +303,9 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
     }
   }
 }
+
+
+// MAIN BUILDER FUNCTION
 
 function buildFrontEnd(patternlab) {
   var pa = require('./pattern_assembler');
