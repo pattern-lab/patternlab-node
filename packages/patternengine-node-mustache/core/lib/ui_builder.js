@@ -77,13 +77,20 @@ function buildNavigation(patternlab) {
     var navSubItem;
     var navViewAllItem;
 
-    //get the navItem
+    //get the navItem.
     //if there is one or more slashes in the subdir, get everything after
     //the last slash. if no slash, get the whole subdir string and strip
     //any numeric + hyphen prefix
     navItemName = pattern.subdir.split('/').pop().replace(/^\d*\-/, '');
+
     //get the navSubItem
     navSubItemName = pattern.patternName.replace(/-/g, ' ');
+
+    //assume the navSubItem does not exist.
+    navSubItem = new of.oNavSubItem(navSubItemName);
+    navSubItem.patternPath = pattern.patternLink;
+    navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
+
 
 
     //check if the bucket already exists
@@ -104,11 +111,6 @@ function buildNavigation(patternlab) {
 
       //assume the navItem does not exist.
       navItem = new of.oNavItem(navItemName);
-
-      //assume the navSubItem does not exist.
-      navSubItem = new of.oNavSubItem(navSubItemName);
-      navSubItem.patternPath = pattern.patternLink;
-      navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
       //add the patternState if it exists
       if (pattern.patternState) {
@@ -152,11 +154,6 @@ function buildNavigation(patternlab) {
     } else {
       //find the bucket
       bucket = patternlab.buckets[bucketIndex];
-
-      //assume the navSubItem does not exist.
-      navSubItem = new of.oNavSubItem(navSubItemName);
-      navSubItem.patternPath = pattern.patternLink;
-      navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
       //add the patternState if it exists
       if (pattern.patternState) {
