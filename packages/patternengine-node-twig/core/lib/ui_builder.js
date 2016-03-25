@@ -70,6 +70,22 @@ function buildNavigation(patternlab) {
       continue;
     }
 
+    var navItemName;
+    var navSubItemName;
+    var flatPatternItem;
+    var navItem;
+    var navSubItem;
+    var navViewAllItem;
+
+    //get the navItem
+    //if there is one or more slashes in the subdir, get everything after
+    //the last slash. if no slash, get the whole subdir string and strip
+    //any numeric + hyphen prefix
+    navItemName = pattern.subdir.split('/').pop().replace(/^\d*\-/, '');
+    //get the navSubItem
+    navSubItemName = pattern.patternName.replace(/-/g, ' ');
+
+
     //check if the bucket already exists
     var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
     if (bucketIndex === -1) {
@@ -80,24 +96,17 @@ function buildNavigation(patternlab) {
       patternlab.patternPaths[bucketName] = {};
       patternlab.viewAllPaths[bucketName] = {};
 
-      //get the navItem
-      var navItemName = pattern.subdir.split('/').pop();
-      navItemName = navItemName.replace(/(\d).(-)/g, '');
-
-      //get the navSubItem
-      var navSubItemName = pattern.patternName.replace(/-/g, ' ');
-
       //test whether the pattern struture is flat or not - usually due to a template or page
-      var flatPatternItem = false;
+      flatPatternItem = false;
       if (navItemName === bucketName) {
         flatPatternItem = true;
       }
 
       //assume the navItem does not exist.
-      var navItem = new of.oNavItem(navItemName);
+      navItem = new of.oNavItem(navItemName);
 
       //assume the navSubItem does not exist.
-      var navSubItem = new of.oNavSubItem(navSubItemName);
+      navSubItem = new of.oNavSubItem(navSubItemName);
       navSubItem.patternPath = pattern.patternLink;
       navSubItem.patternPartial = bucketName + "-" + pattern.patternName; //add the hyphenated name
 
@@ -125,7 +134,7 @@ function buildNavigation(patternlab) {
         addToPatternPaths(patternlab, bucketName, pattern);
 
         //add the navViewAllItem
-        var navViewAllItem = new of.oNavSubItem("View All");
+        navViewAllItem = new of.oNavSubItem("View All");
         navViewAllItem.patternPath = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + "/index.html";
         navViewAllItem.patternPartial = "viewall-" + pattern.patternGroup;
 
@@ -143,15 +152,6 @@ function buildNavigation(patternlab) {
     } else {
       //find the bucket
       bucket = patternlab.buckets[bucketIndex];
-
-      //get the navItem
-      //if there is one or more slashes in the subdir, get everything after
-      //the last slash. if no slash, get the whole subdir string and strip
-      //any numeric + hyphen prefix
-      navItemName = pattern.subdir.split('/').pop().replace(/^\d*\-/, '');
-
-      //get the navSubItem
-      navSubItemName = pattern.patternName.replace(/-/g, ' ');
 
       //assume the navSubItem does not exist.
       navSubItem = new of.oNavSubItem(navSubItemName);
