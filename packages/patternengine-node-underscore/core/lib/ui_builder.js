@@ -65,15 +65,14 @@ function buildNavigation(patternlab) {
     var pattern = patternlab.patterns[i];
     var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
 
+    // skip underscore-prefixed files. don't create a bucket on account of an underscored pattern
+    if (isPatternExcluded(pattern)) {
+      continue;
+    }
+
     //check if the bucket already exists
     var bucketIndex = patternlab.bucketIndex.indexOf(bucketName);
     if (bucketIndex === -1) {
-
-      // skip underscore-prefixed files. don't create a bucket on account of an underscored pattern
-      if (isPatternExcluded(pattern)) {
-        continue;
-      }
-
       //add the bucket
       var bucket = new of.oBucket(bucketName);
 
@@ -172,12 +171,6 @@ function buildNavigation(patternlab) {
 
       //if it is flat - we should not add the pattern to patternPaths
       if (flatPatternItem) {
-
-        // skip underscore-prefixed files
-        if (isPatternExcluded(pattern)) {
-          continue;
-        }
-
         //add the navItem to patternItems
         bucket.patternItems.push(navSubItem);
 
@@ -187,24 +180,22 @@ function buildNavigation(patternlab) {
       } else {
 
         // only do this if pattern is included
-        if (!isPatternExcluded(pattern)) {
-          //check to see if navItem exists
-          var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
-          if (navItemIndex === -1) {
-            navItem = new of.oNavItem(navItemName);
+        //check to see if navItem exists
+        var navItemIndex = bucket.navItemsIndex.indexOf(navItemName);
+        if (navItemIndex === -1) {
+          navItem = new of.oNavItem(navItemName);
 
-            //add the navItem and navSubItem
-            navItem.navSubItems.push(navSubItem);
-            navItem.navSubItemsIndex.push(navSubItemName);
-            bucket.navItems.push(navItem);
-            bucket.navItemsIndex.push(navItemName);
+          //add the navItem and navSubItem
+          navItem.navSubItems.push(navSubItem);
+          navItem.navSubItemsIndex.push(navSubItemName);
+          bucket.navItems.push(navItem);
+          bucket.navItemsIndex.push(navItemName);
 
-          } else {
-            //add the navSubItem
-            navItem = bucket.navItems[navItemIndex];
-            navItem.navSubItems.push(navSubItem);
-            navItem.navSubItemsIndex.push(navSubItemName);
-          }
+        } else {
+          //add the navSubItem
+          navItem = bucket.navItems[navItemIndex];
+          navItem.navSubItems.push(navSubItem);
+          navItem.navSubItemsIndex.push(navSubItemName);
         }
 
         //check if we are moving to a new sub section in the next loop
