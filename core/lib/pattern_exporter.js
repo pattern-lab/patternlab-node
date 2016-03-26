@@ -18,7 +18,6 @@ var pattern_exporter = function () {
     //read the config export options
     var exportKeys = patternlab.config.patternExportKeys;
 
-
     //find the chosen patterns to export
     for (var i = 0; i < exportKeys.length; i++) {
       for (var j = 0; j < patternlab.patterns.length; j++) {
