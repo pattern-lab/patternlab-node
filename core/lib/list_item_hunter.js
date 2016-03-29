@@ -13,7 +13,7 @@
 var list_item_hunter = function () {
 
   var extend = require('util')._extend,
-    JSON = require('json5'),
+    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     pattern_assembler = new pa(),
@@ -47,7 +47,7 @@ var list_item_hunter = function () {
         //check for a local listitems.json file
         var listData;
         try {
-          listData = JSON.parse(JSON.stringify(patternlab.listitems));
+          listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.abspath);
           console.log(err);
@@ -64,8 +64,8 @@ var list_item_hunter = function () {
           var globalData;
           var localData;
           try {
-            globalData = JSON.parse(JSON.stringify(patternlab.data));
-            localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
+            globalData = JSON5.parse(JSON5.stringify(patternlab.data));
+            localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
           } catch (err) {
             console.log('There was an error parsing JSON for ' + pattern.abspath);
             console.log(err);
@@ -87,7 +87,7 @@ var list_item_hunter = function () {
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
               var cleanPartialPattern;
               try {
-                cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+                cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
               } catch (err) {
                 console.log('There was an error parsing JSON for ' + pattern.abspath);
                 console.log(err);

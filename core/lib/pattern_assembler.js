@@ -332,11 +332,11 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
-    var JSON = require('json5');
+    var JSON5 = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
-    dataObjAsString = JSON.stringify(obj);
+    dataObjAsString = JSON5.stringify(obj);
     linkMatches = dataObjAsString.match(linkRE);
 
     if (linkMatches) {
@@ -353,7 +353,7 @@ var pattern_assembler = function () {
 
     var dataObj;
     try {
-      dataObj = JSON.parse(dataObjAsString);
+      dataObj = JSON5.parse(dataObjAsString);
     } catch (err) {
       console.log('There was an error parsing JSON for ' + key);
       console.log(err);
