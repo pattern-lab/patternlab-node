@@ -1,6 +1,6 @@
 .blockMedia {
   &__verticallyCentered {
-    @media only screen and (min-width : $breakpointTablet) {
+    @media only screen and (min-width : $breakpointDesktop) {
       display : flex;
       align-items: center;
     }
@@ -10,14 +10,14 @@
     .blockMedia__text {
       text-align : center;
 
-      @media only screen and (min-width : $breakpointTablet) {
+      @media only screen and (min-width : $breakpointDesktop) {
         text-align : right;
         max-width : 100%;
       }
     }
 
     &--reverse {
-      @media only screen and (min-width : $breakpointTablet) {
+      @media only screen and (min-width : $breakpointDesktop) {
         flex-direction : row-reverse;
 
         .blockMedia__text {
