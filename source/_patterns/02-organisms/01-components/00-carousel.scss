@@ -1,104 +1,124 @@
 .carousel {
-  overflow:hidden;
+  overflow: hidden;
   margin-bottom : $marginStandard;
-  position:relative;
+  position: relative;
 
   &__slide {
-    display:none;
-    flex-flow:row nowrap;
-    margin:0 (-$marginMini/2);
-    opacity:0;
+    display: none;
+    flex-flow: row nowrap;
+    margin: 0 (-$marginMini/2);
+    opacity: 0;
 
     &s {
-      position:relative;
+      position: relative;
     }
 
     &--visible {
-      display:flex;
+      display: flex;
       animation: fade-in $animationTimingLong;
-      opacity:1;
+      opacity: 1;
     }
 
     &--fadeOut {
-      position:absolute;
-      display:flex;
+      position: absolute;
+      display: flex;
       animation: fade-out $animationTimingLong;
-      left:0;
-      right:0;
-      top:0;
-      z-index:1;
-      pointer-events:none;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 1;
+      pointer-events: none;
     }
   }
 
   &__image {
-    position:relative;
-    flex:1;
-    padding-top:calc(37.5vw - #{$marginMini / 2});
-    width:100%;
-    margin:0 ($marginMini/2);
-    overflow:hidden;
-    background-size:cover;
-    background-position:center center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    position: relative;
+    flex: 1;
+    height: calc(37.5vw - #{$marginMini / 2});
+    width: 100%;
+    margin: 0 ($marginMini/2);
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
 
     @media only screen and (max-width: $breakpointTabletEnd) {
-      padding-top:75vw;
+      height: 75vw;
 
       &:nth-child(2) {
-        display:none;
+        display: none;
       }
     }
   }
 
   &__text {
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    padding:3.225vw;
-    background:transparentize($colorWhite, 0.5);
-    text-align:center;
+    display: block;
+    //position: absolute;
+    //left: 0;
+    //right: 0;
+    //bottom: 0;
+    padding: 3.225vw;
+    color: $colorWhite;
+
+    &--center {
+      text-align: center;
+      padding-left: 10%;
+      padding-right: 10%;
+    }
 
     &--primary {
-      @include font-secondary-medium-uppercase(4.35vw);
-      letter-spacing:0;
-      margin:0;
-      padding:0;
+      @include font-primary-medium-uppercase(5.85vw);
+      line-height:1.5em;
+      letter-spacing: 0;
+      margin: 0;
+      padding: 0;
     }
     &--secondary {
-      @include font-secondary-medium-uppercase(2.3vw);
-      letter-spacing:0;
-      margin:0;
-      padding:0;
+      @include font-primary-medium-lowercase(2.55vw);
+      line-height:1.5em;
+      letter-spacing: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    button {
+      margin-top:$marginStandard;
     }
 
     @media only screen and (min-width: $breakpointDesktop) {
-      padding:1.6vw;
+      padding: 1.6vw;
+
+      &--center {
+        padding-left: 10%;
+        padding-right: 10%;
+      }
 
       &--primary {
-        font-size:2.15vw;
+        font-size: 2.9vw;
       }
 
       &--secondary {
-        font-size:1.125vw;
+        font-size: 1.25vw;
       }
     }
   }
 
   &__handle {
-    display:inline-block;
-    width:50px;
-    height:50px;
-    border-radius:100%;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
     background-color: transparent;
-    padding:0;
-    margin:0;
-    border:0 none;
-    cursor:pointer;
+    padding: 0;
+    margin: 0;
+    border: 0 none;
+    cursor: pointer;
 
     &:after {
       content : "";
-      transition:background-color $animationTimingNormal;
+      transition: background-color $animationTimingNormal;
       width : 6px;
       height : 6px;
       position : absolute;
@@ -108,21 +128,21 @@
     }
 
     &--active {
-      cursor:default;
+      cursor: default;
 
       &:after {
-        background-color:$colorBlack;
+        background-color: $colorBlack;
       }
     }
 
     &s {
-      margin:$marginMini 0;
-      text-align:center;
-      white-space:nowrap;
-      cursor:default;
-      font-size:$fontSizeNormal;
-      line-height:$fontSizeNormal;
-      letter-spacing:0.2em;
+      margin: $marginMini 0;
+      text-align: center;
+      white-space: nowrap;
+      cursor: default;
+      font-size: $fontSizeNormal;
+      line-height: $fontSizeNormal;
+      letter-spacing: 0.2em;
     }
   }
 }
