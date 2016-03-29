@@ -12,7 +12,7 @@
 
 var parameter_hunter = function () {
 
-  var JSON = require('json5'),
+  var JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     pattern_assembler = new pa(),
@@ -85,7 +85,7 @@ var parameter_hunter = function () {
 
       //check if searching for a key
       if (paramString[0] === '{' || paramString[0] === ',') {
-        paramString = paramString.substring([1], paramString.length).trim();
+        paramString = paramString.substring(1, paramString.length).trim();
 
         //search for end quote if wrapped in quotes. else search for colon.
         //everything up to that position will be saved in the keys array.
@@ -281,7 +281,7 @@ var parameter_hunter = function () {
 
       var paramData = {};
       try {
-        paramData = JSON.parse(paramStringWellFormed);
+        paramData = JSON5.parse(paramStringWellFormed);
       } catch (e) {
         console.log(e);
       }

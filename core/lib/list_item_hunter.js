@@ -12,7 +12,7 @@
 
 var list_item_hunter = function () {
 
-  var JSON = require('json5'),
+  var JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     pattern_assembler = new pa(),
     items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
@@ -31,7 +31,7 @@ var list_item_hunter = function () {
 
         //copy, don't reference
         try {
-          pattern.listitems = JSON.parse(JSON.stringify(pattern.listitemsRaw));
+          pattern.listitems = JSON5.parse(JSON5.stringify(pattern.listitemsRaw));
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.abspath);
           console.log(err);
@@ -42,8 +42,8 @@ var list_item_hunter = function () {
 
         //copy, don't reference
         try {
-          pattern.listitems = JSON.parse(JSON.stringify(patternlab.listitems));
-          pattern.listitemsRaw = JSON.parse(JSON.stringify(patternlab.listitems));
+          pattern.listitems = JSON5.parse(JSON5.stringify(patternlab.listitems));
+          pattern.listitemsRaw = JSON5.parse(JSON5.stringify(patternlab.listitems));
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.abspath);
           console.log(err);

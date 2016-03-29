@@ -225,11 +225,11 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
-    var JSON = require('json5');
+    var JSON5 = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
-    dataObjAsString = JSON.stringify(obj);
+    dataObjAsString = JSON5.stringify(obj);
     linkMatches = dataObjAsString.match(linkRE);
 
     if (linkMatches) {
@@ -246,7 +246,7 @@ var pattern_assembler = function () {
 
     var dataObj;
     try {
-      dataObj = JSON.parse(dataObjAsString);
+      dataObj = JSON5.parse(dataObjAsString);
     } catch (err) {
       console.log('There was an error parsing JSON for ' + key);
       console.log(err);
@@ -480,7 +480,7 @@ var pattern_assembler = function () {
   function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test) {
     var fs = require('fs-extra'),
       glob = require('glob'),
-      JSON = require('json5'),
+      JSON5 = require('json5'),
       path = require('path');
 
     var ph = require('./parameter_hunter'),
@@ -545,8 +545,8 @@ var pattern_assembler = function () {
       //set currentPattern.jsonFileData
       if (localJsonString) {
         try {
-          localData = JSON.parse(localJsonString);
-          currentPattern.jsonFileData = mergeData(patternlab.data, JSON.parse(localJsonString));
+          localData = JSON5.parse(localJsonString);
+          currentPattern.jsonFileData = mergeData(patternlab.data, JSON5.parse(localJsonString));
         } catch (err) {
           console.log('There was an error parsing JSON for ' + file);
           console.log(err);
