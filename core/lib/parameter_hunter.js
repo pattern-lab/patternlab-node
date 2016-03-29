@@ -86,7 +86,7 @@ var parameter_hunter = function () {
 
       //check if searching for a key
       if (paramString[0] === '{' || paramString[0] === ',') {
-        paramString = paramString.substring([1], paramString.length).trim();
+        paramString = paramString.substring(1, paramString.length).trim();
 
         //search for end quote if wrapped in quotes. else search for colon.
         //everything up to that position will be saved in the keys array.
