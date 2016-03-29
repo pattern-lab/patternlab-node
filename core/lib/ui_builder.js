@@ -104,10 +104,7 @@ function buildNavigation(patternlab) {
       patternlab.viewAllPaths[bucketName] = {};
 
       //test whether the pattern struture is flat or not - usually due to a template or page
-      flatPatternItem = false;
-      if (navItemName === bucketName) {
-        flatPatternItem = true;
-      }
+      flatPatternItem = navItemName === bucketName;
 
       //assume the navItem does not exist.
       navItem = new of.oNavItem(navItemName);
@@ -161,10 +158,7 @@ function buildNavigation(patternlab) {
       }
 
       //test whether the pattern struture is flat or not - usually due to a template or page
-      flatPatternItem = false;
-      if (navItemName === bucketName) {
-        flatPatternItem = true;
-      }
+      flatPatternItem = navItemName === bucketName;
 
       //if it is flat - we should not add the pattern to patternPaths
       if (flatPatternItem) {
