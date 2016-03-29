@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.1.1 - 2016 
+ * patternlab-node - v1.2.0 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -8,8 +8,9 @@
  *
  */
 
-(function () {
-  "use strict";
+"use strict";
+
+var pattern_assembler = function () {
 
   // find regex matches within both pattern strings and pattern objects.
   function patternMatcher(pattern, regex) {
@@ -26,7 +27,7 @@
 
   // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithStyleModifiers(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g;
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -34,7 +35,7 @@
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithPatternParameters(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g;
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -42,7 +43,7 @@
 
   //find and return any {{> template-name* }} within pattern
   function findPartials(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g;
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -61,6 +62,7 @@
     } else {
       pattern.patternState = "";
     }
+  }
 
   function addPattern(pattern, patternlab) {
     //add the link to the global object
@@ -76,13 +78,13 @@
         isNew = false;
         break;
       }
-      return matches;
     }
 
     //if the pattern is new, just push to the array
     if (isNew) {
       patternlab.patterns.push(pattern);
     }
+  }
 
   function renderPattern(template, data, partials) {
     var hogan = require('hogan');
@@ -93,29 +95,33 @@
     } else {
       return compiled.render(data);
     }
+  }
 
-    function setState(pattern, patternlab){
-      if(patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]){
-        pattern.patternState = patternlab.config.patternStates[pattern.patternName];
-      } else{
-        pattern.patternState = "";
+  //http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+  function shuffle(o) {
+    for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x); //eslint-disable-line curly
+    return o;
+  }
+
+  function buildListItems(container) {
+    //combine all list items into one structure
+    var list = [];
+    for (var item in container.listitems) {
+      if (container.listitems.hasOwnProperty(item)) {
+        list.push(container.listitems[item]);
       }
     }
+    container.listItemArray = shuffle(list);
 
-    function addPattern(pattern, patternlab){
-      //add the link to the global object
-      patternlab.data.link[pattern.patternGroup + '-' + pattern.patternName] = '/patterns/' + pattern.patternLink;
-
-      //only push to array if the array doesn't contain this pattern
-      var isNew = true;
-      for(var i = 0; i < patternlab.patterns.length; i++){
-        //so we need the identifier to be unique, which patterns[i].abspath is
-        if(pattern.abspath === patternlab.patterns[i].abspath){
-          //if abspath already exists, overwrite that element
-          patternlab.patterns[i] = pattern;
-          patternlab.partials[pattern.key] = pattern.extendedTemplate || pattern.template;
-          isNew = false;
-          break;
+    for (var i = 1; i <= container.listItemArray.length; i++) {
+      var tempItems = [];
+      if (i === 1) {
+        tempItems.push(container.listItemArray[0]);
+        container.listitems['' + i] = tempItems;
+      } else {
+        for (var c = 1; c <= i; c++) {
+          tempItems.push(container.listItemArray[c - 1]);
+          container.listitems['' + i] = tempItems;
         }
       }
     }
@@ -164,16 +170,14 @@
         case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
           return patternlab.patterns[i];
       }
-    }
 
-    function renderPattern(template, data, partials) {
+      //return the fuzzy match if all else fails
+      var keyParts = key.split('-'),
+        keyType = keyParts[0],
+        keyName = keyParts.slice(1).join('-');
 
-      var mustache = require('mustache');
-
-      if(partials) {
-        return mustache.render(template, data, partials);
-      } else{
-        return mustache.render(template, data);
+      if (patternlab.patterns[i].key.split('-')[0] === keyType && patternlab.patterns[i].key.indexOf(keyName) > -1) {
+        return patternlab.patterns[i];
       }
     }
 
@@ -402,10 +406,10 @@
       return;
     }
 
-      //can ignore all non-mustache files at this point
-      if(ext !== '.mustache'){
-        return;
-      }
+    //can ignore all non-mustache files at this point
+    if(ext !== '.mustache'){
+      return;
+    }
 
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
@@ -463,8 +467,7 @@
     var ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
       lih = require('./list_item_hunter'),
-      smh = require('./style_modifier_hunter'),
-      path = require('path');
+      smh = require('./style_modifier_hunter');
 
     var parameter_hunter = new ph(),
       list_item_hunter = new lih(),
@@ -758,53 +761,8 @@
     process_pattern_recursive: function (file, patternlab, recursionLevel, currentPatternAsParam, test) {
       processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test);
     }
+  };
 
-    return {
-      find_pattern_partials: function(pattern){
-        return findPartials(pattern);
-      },
-      find_pattern_partials_with_style_modifiers: function(pattern){
-        return findPartialsWithStyleModifiers(pattern);
-      },
-      find_pattern_partials_with_parameters: function(pattern){
-        return findPartialsWithPatternParameters(pattern);
-      },
-      find_list_items: function(pattern){
-        return findListItems(pattern)
-      },
-      setPatternState: function(pattern, patternlab){
-        setState(pattern, patternlab);
-      },
-      addPattern: function(pattern, patternlab){
-        addPattern(pattern, patternlab);
-      },
-      renderPattern: function(template, data, partials){
-        return renderPattern(template, data, partials);
-      },
-      process_pattern_iterative: function(file, patternlab){
-        processPatternIterative(file, patternlab);
-      },
-      process_pattern_recursive: function(file, patternlab, startFile){
-        processPatternRecursive(file, patternlab, startFile);
-      },
-      get_pattern_by_key: function(key, patternlab){
-        return getpatternbykey(key, patternlab);
-      },
-      merge_data: function(existingData, newData){
-        return mergeData(existingData, newData);
-      },
-      traverse_data: function(dataObj, callback){
-        return traverseData(dataObj, callback);
-      },
-      combine_listItems: function(patternlab){
-        buildListItems(patternlab);
-      },
-      is_object_empty: function(obj){
-        return isObjectEmpty(obj);
-      },
-      parse_data_links: function(patternlab){
-        parseDataLinks(patternlab);
-      }
-    };
+};
 
 module.exports = pattern_assembler;

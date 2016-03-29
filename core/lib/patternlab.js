@@ -86,6 +86,26 @@ var patternlab_engine = function (config) {
     patternlab.dataKeys = patternlab.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
     patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));
 
+    //set user defined head and foot if they exist
+    try {
+      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+    }
+    catch (ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
+      }
+    }
+    try {
+      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+    }
+    catch (ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
+      }
+    }
+
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
@@ -100,6 +120,9 @@ var patternlab_engine = function (config) {
     );
 
     patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
+
+    //cascade any patternStates
+    lineage_hunter.cascade_pattern_states(patternlab);
 
     //delete the contents of config.patterns.public before writing
     if (deletePatternDir) {
