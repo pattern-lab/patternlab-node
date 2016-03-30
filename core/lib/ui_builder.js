@@ -377,7 +377,8 @@ function buildFrontEnd(patternlab) {
     defaultPattern: patternlab.config.defaultPattern || 'all',
     cacheBuster: patternlab.cacheBuster
   });
-  fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+  //testing if this is no longer necessary
+  //fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
   //write out the data
   var output = '';
