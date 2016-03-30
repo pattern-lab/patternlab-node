@@ -1,28 +1,12 @@
 {
-  "name": "patternlab-node",
-  "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
-  "version": "1.2.0",
-  "main": "./core/lib/patternlab.js",
+  "name": "patternengine-node-mustache",
+  "description": "The Mustache engine for Pattern Lab / Node",
+  "version": "0.0.1",
+  "main": "lib/engine_mustache.js",
   "dependencies": {
-    "diveSync": "^0.3.0",
-    "fs-extra": "^0.26.2",
-    "glob": "^7.0.0",
-    "html-entities": "^1.2.0",
-    "matchdep": "^1.0.0",
-    "mustache": "^2.2.0",
-    "handlebars": "^4.0.5",
-    "underscore": "^1.8.3",
-    "twig": "^0.8.8"
+    "mustache": "^2.2.0"
   },
   "devDependencies": {
-    "bs-html-injector": "^3.0.0",
-    "grunt": "~0.4.5",
-    "grunt-browser-sync": "^2.2.0",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-copy": "^0.8.2",
-    "grunt-contrib-nodeunit": "^0.4.1",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-eslint": "^18.0.0"
   },
   "keywords": [
     "Pattern Lab",
@@ -30,14 +14,15 @@
     "Node",
     "Grunt",
     "Gulp",
-    "Javascript"
+    "Javascript",
+    "Mustache"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/pattern-lab/patternlab-node.git"
+    "url": "https://github.com/pattern-lab/patternengine-node-mustache.git"
   },
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
-  "author": "Brian Muenzenmeyer",
+  "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {
     "test": "grunt travis --verbose"
