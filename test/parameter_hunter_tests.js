@@ -355,8 +355,8 @@
       test.done();
     },
 
-    'pattern hunter findPatterns calls itself when encountering a partial that has parameters itself' : function(test){
-      // this test utilizes pattern_assembler for the heavy lifting, but the actual code being tested resides inside pattern_hunter.js
+    'pattern assembler recursively includes and processes a partial that has parameters itself' : function(test){
+      // this test utilizes pattern_assembler for the heavy lifting, but the actual code being tested resides inside parameter_hunter.js
       //arrange
       var fs = require('fs-extra');
       var path = require('path');
@@ -398,6 +398,55 @@
 
       //assert.
       var expectedValue = 'bar <span class="test_base baz"> foo </span> bar bar';
+      test.equals(outerParameteredPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+      test.done();
+    },
+
+    'pattern assembler escapes closing ERB tags written by end-users in templates' : function(test){
+      //in order for pattern assembler to recursively include and process partials that have parameters,
+      //it must temporarily switch standard Mustache syntax to ERB syntax. this presents a problem if end-
+      //users write "%>" in user-facing templates. therefore, such instances must escaped and unescaped.
+      //arrange
+      var fs = require('fs-extra');
+      var path = require('path');
+      var object_factory = require('../core/lib/object_factory');
+      var pa = require('../core/lib/pattern_assembler');
+      var pattern_assembler = new pa();
+      var patterns_dir = './test/files/_patterns';
+
+      var pl = {};
+      pl.config = {
+        paths: {
+          source: {
+            patterns: patterns_dir
+          }
+        }
+      };
+      pl.data = {};
+      pl.data.link = {};
+      pl.dataKeys = [];
+      pl.config.debug = false;
+      pl.patterns = [];
+
+      var atomFile = path.resolve('test/files/_patterns/00-test/01-bar.mustache');
+      var styleFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
+      var innerParameteredFile = path.resolve('test/files/_patterns/00-test/12-parameter-partial.mustache');
+      var outerParameteredFile = path.resolve('test/files/_patterns/00-test/14-template-with-erb-tag.mustache');
+
+      pattern_assembler.process_pattern_iterative(atomFile, pl);
+      pattern_assembler.process_pattern_iterative(styleFile, pl);
+      pattern_assembler.process_pattern_iterative(innerParameteredFile, pl);
+      pattern_assembler.process_pattern_iterative(outerParameteredFile, pl);
+
+      //act
+      pattern_assembler.process_pattern_recursive(atomFile, pl, 0, null, true);
+      pattern_assembler.process_pattern_recursive(styleFile, pl, 0, null, true);
+      pattern_assembler.process_pattern_recursive(innerParameteredFile, pl, 0, null, true);
+      pattern_assembler.process_pattern_recursive(outerParameteredFile, pl, 0, null, true);
+      var outerParameteredPattern = pattern_assembler.get_pattern_by_key(outerParameteredFile, pl);
+
+      //assert.
+      var expectedValue = 'bar <span class="test_base baz"> foo </span> bar bar <% erb %>';
       test.equals(outerParameteredPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
       test.done();
     }

@@ -16,6 +16,7 @@ var patternlab_engine = function (config) {
     diveSync = require('diveSync'),
     of = require('./object_factory'),
     pa = require('./pattern_assembler'),
+    lh = require('./lineage_hunter'),
     lih = require('./list_item_hunter'),
     mh = require('./media_hunter'),
     pe = require('./pattern_exporter'),

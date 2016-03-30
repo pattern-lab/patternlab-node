@@ -275,10 +275,6 @@ var pattern_assembler = function () {
     var paths = patternlab.config.paths;
     var patternFooter;
 
-    //unescape escaped closing ERB tags
-    pattern.extendedTemplate = pattern.extendedTemplate.replace(/\\u0025\\u003E/g, '%>');
-
-    //parse data links in this pattern's json
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
 
     //render the extendedTemplate with all data
@@ -430,10 +426,10 @@ var pattern_assembler = function () {
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
     //since we'll need to recognize ERB syntax tags, escape anything in the
-    //template that looks like closing ERB tags.
-    //the Pattern Lab docs do not forbid them, so it shouldn't be on users to
-    //avoid them, however extreme an edge case it may be.
-    //we'll unescape them later.
+    //template that looks like ERB tags. the Pattern Lab docs do not forbid them,
+    //so it shouldn't be on users to avoid them, however extreme an edge case it
+    //may be. we'll unescape them later.
+    currentPattern.template = currentPattern.template.replace(/<%/g, '\\u003C\\u0025');
     currentPattern.template = currentPattern.template.replace(/%>/g, '\\u0025\\u003E');
 
     //define tmpTemplate and listitems to avoid undefined type errors
@@ -706,10 +702,15 @@ var pattern_assembler = function () {
 
     //do only when popped back to the top level of recursion
     if (!recursionLevel) {
+
+      //switch Mustache escaped as ERB back to Mustache
       if (currentPattern.extendedTemplate !== currentPattern.template) {
-        //switch ERB escaped tags back to standard Mustache tags
         currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
       }
+
+      //switch escaped unicodes for ERB back to ERB
+      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/\\u003C\\u0025/g, '<%');
+      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/\\u0025\\u003E/g, '%>');
 
       //find and process any listItem blocks within the pattern
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
