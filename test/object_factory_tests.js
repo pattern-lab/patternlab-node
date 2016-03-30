@@ -41,21 +41,21 @@
 		}
 	};
 
-	exports['oBucket initialization'] = {
-		'test oBucket initializes correctly' : function(test){
-			var b = new of.oBucket('test');
-			test.equals(b.bucketNameLC, 'test');
-			test.equals(b.bucketNameUC, 'Test');
-			test.equals(b.navItems.length, 0);
-			test.equals(b.navItemsIndex.length, 0);
+	exports['oPatternType initialization'] = {
+		'test oPatternType initializes correctly' : function(test){
+			var b = new of.oPatternType('test');
+			test.equals(b.patternTypeLC, 'test');
+			test.equals(b.patternTypeUC, 'Test');
+			test.equals(b.patternTypeItems.length, 0);
+			test.equals(b.patternTypeItemsIndex.length, 0);
 			test.equals(b.patternItems.length, 0);
 			test.equals(b.patternItemsIndex.length, 0);
 			test.done();
 		},
-		'test oBucket capitalizes bucketNameUC' : function(test){
-			var b = new of.oBucket('page-templates');
-			test.equals(b.bucketNameLC, 'page-templates');
-			test.equals(b.bucketNameUC, 'Page Templates');
+		'test oPatternType capitalizes patternTypeUC' : function(test){
+			var b = new of.oPatternType('page-templates');
+			test.equals(b.patternTypeLC, 'page-templates');
+			test.equals(b.patternTypeUC, 'Page Templates');
 			test.done();
 		}
 	};
@@ -63,16 +63,16 @@
 	exports['oNavItem initialization'] = {
 		'test oNavItem initializes correctly' : function(test){
 			var ni = new of.oNavItem('test');
-			test.equals(ni.sectionNameLC, 'test');
-			test.equals(ni.sectionNameUC, 'Test');
-			test.equals(ni.navSubItems.length, 0);
-			test.equals(ni.navSubItemsIndex.length, 0);
+			test.equals(ni.patternSubtypeLC, 'test');
+			test.equals(ni.patternSubtypeUC, 'Test');
+			test.equals(ni.patternSubtypeItems.length, 0);
+			test.equals(ni.patternSubtypeItemsIndex.length, 0);
 			test.done();
 		},
 		'test oNavItem correctly capitalizes sectionNameUC' : function(test){
 			var ni = new of.oNavItem('global-concepts');
-			test.equals(ni.sectionNameLC, 'global-concepts');
-			test.equals(ni.sectionNameUC, 'Global Concepts');
+			test.equals(ni.patternSubtypeLC, 'global-concepts');
+			test.equals(ni.patternSubtypeUC, 'Global Concepts');
 			test.done();
 		}
 	};
