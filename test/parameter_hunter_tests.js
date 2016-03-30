@@ -69,7 +69,7 @@
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
-      var pa = require('../builder/pattern_assembler');
+      var pa = require('../core/lib/pattern_assembler');
       var pattern_assembler = new pa();
 
       currentPattern.escapedTemplate = '<h1>{{foo}}</h1>' + currentPattern.template;
@@ -360,8 +360,8 @@
       //arrange
       var fs = require('fs-extra');
       var path = require('path');
-      var object_factory = require('../builder/object_factory');
-      var pa = require('../builder/pattern_assembler');
+      var object_factory = require('../core/lib/object_factory');
+      var pa = require('../core/lib/pattern_assembler');
       var pattern_assembler = new pa();
       var patterns_dir = './test/files/_patterns';
 

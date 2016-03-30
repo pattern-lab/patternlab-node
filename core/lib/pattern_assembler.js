@@ -57,8 +57,8 @@ var pattern_assembler = function () {
   }
 
   function setState(pattern, patternlab) {
-    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]) {
-      pattern.patternState = patternlab.config.patternStates[pattern.patternName];
+    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.key]) {
+      pattern.patternState = patternlab.config.patternStates[pattern.key];
     } else {
       pattern.patternState = "";
     }
@@ -275,6 +275,10 @@ var pattern_assembler = function () {
     var paths = patternlab.config.paths;
     var patternFooter;
 
+    //unescape escaped closing ERB tags
+    pattern.extendedTemplate = pattern.extendedTemplate.replace(/\\u0025\\u003E/g, '%>');
+
+    //parse data links in this pattern's json
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
 
     //render the extendedTemplate with all data
@@ -333,7 +337,7 @@ var pattern_assembler = function () {
       templateEscaped = template;
     }
 
-    //escaped all tags that match keys in the JSON data.
+    //escape all tags that match keys in the JSON data.
     //it can be 10% faster to process large dataKeys arrays in one read with a
     //large regex than to read many times and process with small regexes.
     if (dataKeys.length) {
@@ -350,20 +354,15 @@ var pattern_assembler = function () {
     }
 
     //escape partial tags by switching them to ERB syntax.
-    //first, escape anything in the template that looks like closing ERB tags.
-    //the Pattern Lab docs do not forbid them, so it shouldn't be on users to
-    //avoid them, however extreme an edge case it may be.
-    templateEscaped = templateEscaped.replace(/%>/g, '\\u0025\\u003E');
-
-    //next, account for the fact that curly braces might be submitted as param values.
-    //however, ')}}' or any spaced variant should NEVER be submitted as param values
+    //first, account for the fact that curly braces might be submitted as part of params.
+    //however, ')}}' or any spaced variant should NEVER be submitted as part of params
     //enclosed in quotes or otherwise. It is not valid JSON, and if it's to be rendered
     //as HTML, it should be via HTML entities. while this is not explicitly forbidden
     //in the Pattern Lab docs, it can be inferred that it is forbidden after users see
     //resulting rendering errors.
     templateEscaped = templateEscaped.replace(/\{\{>([^\}]+(?:\((.|\s)*?\))\s*)\}\}/g, '<%>$1%>');
 
-    //in all other cases, curly braces should not be part of filenames or non-string param values.
+    //in all other cases, curly braces should not be part of filenames or styleModifiers.
     templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
 
     //removing empty lines for some reason reduces rendering time considerably.
@@ -381,9 +380,6 @@ var pattern_assembler = function () {
     //after that's done, switch only partial tags back to standard Mustache tags and return.
     if (templateWinnowed) {
       templateWinnowed = templateWinnowed.replace(/<%>((.|\s)*?)%>/g, '{{>$1}}');
-
-      //also unescape escaped closing ERB tags
-      templateWinnowed = templateWinnowed.replace(/\\u0025\\u003E/g, '%>');
     }
 
     return templateWinnowed;
@@ -432,6 +428,13 @@ var pattern_assembler = function () {
 
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
+
+    //since we'll need to recognize ERB syntax tags, escape anything in the
+    //template that looks like closing ERB tags.
+    //the Pattern Lab docs do not forbid them, so it shouldn't be on users to
+    //avoid them, however extreme an edge case it may be.
+    //we'll unescape them later.
+    currentPattern.template = currentPattern.template.replace(/%>/g, '\\u0025\\u003E');
 
     //define tmpTemplate and listitems to avoid undefined type errors
     //trying to keep memory footprint small, so set it empty at first
