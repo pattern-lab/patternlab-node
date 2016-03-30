@@ -251,7 +251,7 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
         }
       }
 
-      var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
+      var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
       var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster });
       fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHead + viewAllHtml + mainPageFoot);
     }
@@ -278,7 +278,7 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
         }
       }
 
-      var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/viewall.mustache'), 'utf8');
+      var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
       var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster});
       fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
     }
@@ -337,7 +337,7 @@ function buildFrontEnd(patternlab) {
   var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/styleguide.mustache'), 'utf8');
   var styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate, {partials: styleguidePatterns, cacheBuster: patternlab.cacheBuster});
 
-  fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
+  //fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
 
   //build the viewall pages
   buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab);
@@ -378,7 +378,7 @@ function buildFrontEnd(patternlab) {
     cacheBuster: patternlab.cacheBuster
   });
   //testing if this is no longer necessary
-  //fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+  fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
   //write out the data
   var output = '';
