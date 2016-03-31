@@ -280,25 +280,19 @@ var pattern_assembler = function () {
     pattern.jsonFileData.patternName = pattern.patternName;
     pattern.jsonFileData.patternState = pattern.patternState;
 
-    try {
-      pattern.jsonFileData.lineage = JSON.stringify(pattern.lineage[0]);
-    } catch (err) {
+    //json stringify lineage and lineageR
+    var i;
+    var lineageArray = [];
+    for (i = 0; i < pattern.lineage.length; i++) {
+      lineageArray.push(JSON.stringify(pattern.lineage[i]));
+    }
+    pattern.jsonFileData.lineage = lineageArray;
 
-      // Do nothing
+    var lineageRArray = [];
+    for (i = 0; i < pattern.lineageR.length; i++) {
+      lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
     }
-    if (!pattern.jsonFileData.lineage) {
-      pattern.jsonFileData.lineage = '';
-    }
-
-    try {
-      pattern.jsonFileData.lineageR = JSON.stringify(pattern.lineageR[0]);
-    } catch (err) {
-
-      // Do nothing
-    }
-    if (!pattern.jsonFileData.lineageR) {
-      pattern.jsonFileData.lineageR = '';
-    }
+    pattern.jsonFileData.lineageR = lineageRArray;
 
     //render the header
     var userHeader = renderPattern(patternlab.userHead.extendedTemplate, pattern.jsonFileData);
