@@ -276,11 +276,33 @@ var pattern_assembler = function () {
 
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
     pattern.jsonFileData.baseurl = patternlab.config.baseurl;
-    pattern.jsonFileData.lineage = pattern.lineage;
-    pattern.jsonFileData.lineageR = pattern.lineageR;
     pattern.jsonFileData.patternGroup = pattern.patternGroup;
     pattern.jsonFileData.patternName = pattern.patternName;
     pattern.jsonFileData.patternState = pattern.patternState;
+
+    try {
+      pattern.jsonFileData.lineage = JSON.stringify(pattern.lineage[0]);
+    } catch (err) {
+
+      // Do nothing
+    }
+    if (!pattern.jsonFileData.lineage) {
+      pattern.jsonFileData.lineage = '';
+    }
+
+    try {
+      pattern.jsonFileData.lineageR = JSON.stringify(pattern.lineageR[0]);
+    } catch (err) {
+
+      // Do nothing
+    }
+    if (!pattern.jsonFileData.lineageR) {
+      pattern.jsonFileData.lineageR = '';
+    }
+if (pattern.abspath.indexOf('00-homepage') > -1) {
+  console.log(pattern.jsonFileData.lineage);
+  console.log(pattern.jsonFileData.lineageR);
+}
 
     //render the header
     var userHeader = renderPattern(patternlab.userHead.extendedTemplate, pattern);
