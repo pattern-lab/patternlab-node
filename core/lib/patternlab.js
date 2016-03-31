@@ -77,6 +77,9 @@ var patternlab_engine = function (config) {
 
     setCacheBust();
 
+    //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+    patternlab.data.cacheBuster = patternlab.cacheBuster;
+
     var pattern_assembler = new pa(),
       list_item_hunter = new lih(),
       pattern_exporter = new pe(),
@@ -86,26 +89,6 @@ var patternlab_engine = function (config) {
     patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
     patternlab.dataKeys = patternlab.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
     patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));
-
-    //set user defined head and foot if they exist
-    try {
-      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
-    }
-    catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
-      }
-    }
-    try {
-      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
-    }
-    catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
-      }
-    }
 
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
@@ -121,6 +104,49 @@ var patternlab_engine = function (config) {
     );
 
     patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
+
+    //set user defined head and foot if they exist
+    var userHeader;
+    try {
+      userHeader = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+      patternlab.userHead = JSON.parse(JSON.stringify(userHeader));
+    }
+    catch (ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
+      }
+    }
+
+    if (patternlab.userHead) {
+      patternlab.userHead.extendedTemplate = patternlab.userHead.template.replace('{% pattern-lab-head %}', patternlab.header);
+    } else {
+      patternlab.userHead = {
+        template: patternlab.header,
+        extendedTemplate: patternlab.header
+      };
+    }
+
+    var userFooter;
+    try {
+      userFooter = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+      patternlab.userFoot = JSON.parse(JSON.stringify(userFooter));
+    }
+    catch (ex) {
+      if (patternlab.config.debug) {
+        console.log(ex);
+        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
+      }
+    }
+
+    if (patternlab.userFoot) {
+      patternlab.userFoot.extendedTemplate = patternlab.userFoot.template.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
+    } else {
+      patternlab.userFoot = {
+        template: patternlab.footerPattern,
+        extendedTemplate: patternlab.footerPattern
+      };
+    }
 
     //cascade any patternStates
     lineage_hunter.cascade_pattern_states(patternlab);
@@ -206,13 +232,10 @@ var patternlab_engine = function (config) {
       styleguidePatterns = patternlab.patterns;
     }
 
-    //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-    patternlab.data.cacheBuster = patternlab.cacheBuster;
-
     //get the main page head and foot
-    var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+    var mainPageHead = patternlab.userHead.template.replace('{% pattern-lab-head %}', patternlab.header);
     var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
-    var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
+    var mainPageFoot = patternlab.userFoot.template.replace('{% pattern-lab-foot %}', patternlab.footer);
     var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, patternlab.data);
 
     //build the styleguide

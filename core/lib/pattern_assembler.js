@@ -273,18 +273,26 @@ var pattern_assembler = function () {
     var he = require('html-entities').AllHtmlEntities;
     var entity_encoder = new he();
     var paths = patternlab.config.paths;
-    var patternFooter;
 
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
+    pattern.jsonFileData.baseurl = patternlab.config.baseurl;
+    pattern.jsonFileData.lineage = pattern.lineage;
+    pattern.jsonFileData.lineageR = pattern.lineageR;
+    pattern.jsonFileData.patternGroup = pattern.patternGroup;
+    pattern.jsonFileData.patternName = pattern.patternName;
+    pattern.jsonFileData.patternState = pattern.patternState;
+
+    //render the header
+    var userHeader = renderPattern(patternlab.userHead.extendedTemplate, pattern);
 
     //render the extendedTemplate with all data
     pattern.patternPartial = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
-    //add footer info before writing
-    patternFooter = renderPattern(patternlab.footer, pattern);
+    //render the footer
+    var userFooter = renderPattern(patternlab.userFoot.extendedTemplate, pattern);
 
     //write the compiled template to the public patterns directory
-    fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink, userHeader + pattern.patternPartial + userFooter);
 
     //write the mustache file too
     fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
