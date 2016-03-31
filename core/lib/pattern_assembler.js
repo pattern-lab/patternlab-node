@@ -299,19 +299,15 @@ var pattern_assembler = function () {
     if (!pattern.jsonFileData.lineageR) {
       pattern.jsonFileData.lineageR = '';
     }
-if (pattern.abspath.indexOf('00-homepage') > -1) {
-  console.log(pattern.jsonFileData.lineage);
-  console.log(pattern.jsonFileData.lineageR);
-}
 
     //render the header
-    var userHeader = renderPattern(patternlab.userHead.extendedTemplate, pattern);
+    var userHeader = renderPattern(patternlab.userHead.extendedTemplate, pattern.jsonFileData);
 
     //render the extendedTemplate with all data
     pattern.patternPartial = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
     //render the footer
-    var userFooter = renderPattern(patternlab.userFoot.extendedTemplate, pattern);
+    var userFooter = renderPattern(patternlab.userFoot.extendedTemplate, pattern.jsonFileData);
 
     //write the compiled template to the public patterns directory
     fs.outputFileSync(paths.public.patterns + pattern.patternLink, userHeader + pattern.patternPartial + userFooter);
