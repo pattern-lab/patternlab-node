@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v1.1.3 - 2016
- *
+/* 
+ * patternlab-node - v1.2.1 - 2016 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -27,7 +27,7 @@ var pattern_assembler = function () {
 
   // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithStyleModifiers(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\([^\)]*\))?([ ])?}}/g;
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -35,7 +35,7 @@ var pattern_assembler = function () {
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithPatternParameters(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))+([ ])?}}/g;
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -43,7 +43,7 @@ var pattern_assembler = function () {
 
   //find and return any {{> template-name* }} within pattern
   function findPartials(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\([^\)]*\))?([ ])?}}/g;
+    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -57,8 +57,8 @@ var pattern_assembler = function () {
   }
 
   function setState(pattern, patternlab) {
-    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternName]) {
-      pattern.patternState = patternlab.config.patternStates[pattern.patternName];
+    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.key]) {
+      pattern.patternState = patternlab.config.patternStates[pattern.key];
     } else {
       pattern.patternState = "";
     }
@@ -190,7 +190,7 @@ var pattern_assembler = function () {
    * Merge the properties of two JSON objects, with the 2nd taking priority over
    * the 1st when the same property key exists for both.
    *
-   * @param {object} obj1 
+   * @param {object} obj1
    * @param {object} obj2 If obj2 is null or undefined, be sure to make an
    *   assignment to the output of this function. In other cases, obj2 get
    *   mutated, and no assignment is necessary.
@@ -225,11 +225,11 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
-    var JSON = require('json5');
+    var JSON5 = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
-    dataObjAsString = JSON.stringify(obj);
+    dataObjAsString = JSON5.stringify(obj);
     linkMatches = dataObjAsString.match(linkRE);
 
     if (linkMatches) {
@@ -246,7 +246,7 @@ var pattern_assembler = function () {
 
     var dataObj;
     try {
-      dataObj = JSON.parse(dataObjAsString);
+      dataObj = JSON5.parse(dataObjAsString);
     } catch (err) {
       console.log('There was an error parsing JSON for ' + key);
       console.log(err);
@@ -273,18 +273,38 @@ var pattern_assembler = function () {
     var he = require('html-entities').AllHtmlEntities;
     var entity_encoder = new he();
     var paths = patternlab.config.paths;
-    var patternFooter;
 
     pattern.jsonFileData = parseDataLinksHelper(patternlab, pattern.jsonFileData, pattern.key);
+    pattern.jsonFileData.baseurl = patternlab.config.baseurl;
+    pattern.jsonFileData.patternGroup = pattern.patternGroup;
+    pattern.jsonFileData.patternName = pattern.patternName;
+    pattern.jsonFileData.patternState = pattern.patternState;
+
+    //json stringify lineage and lineageR
+    var i;
+    var lineageArray = [];
+    for (i = 0; i < pattern.lineage.length; i++) {
+      lineageArray.push(JSON.stringify(pattern.lineage[i]));
+    }
+    pattern.jsonFileData.lineage = lineageArray;
+
+    var lineageRArray = [];
+    for (i = 0; i < pattern.lineageR.length; i++) {
+      lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
+    }
+    pattern.jsonFileData.lineageR = lineageRArray;
+
+    //render the header
+    var userHeader = renderPattern(patternlab.userHead.extendedTemplate, pattern.jsonFileData);
 
     //render the extendedTemplate with all data
     pattern.patternPartial = renderPattern(pattern.extendedTemplate, pattern.jsonFileData);
 
-    //add footer info before writing
-    patternFooter = renderPattern(patternlab.footer, pattern);
+    //render the footer
+    var userFooter = renderPattern(patternlab.userFoot.extendedTemplate, pattern.jsonFileData);
 
     //write the compiled template to the public patterns directory
-    fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternlab.header + pattern.patternPartial + patternFooter);
+    fs.outputFileSync(paths.public.patterns + pattern.patternLink, userHeader + pattern.patternPartial + userFooter);
 
     //write the mustache file too
     fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
@@ -333,9 +353,9 @@ var pattern_assembler = function () {
       templateEscaped = template;
     }
 
-    //escaped all tags that match keys in the JSON data.
+    //escape all tags that match keys in the JSON data.
     //it can be 10% faster to process large dataKeys arrays in one read with a
-    //large regex than to read many timesi and process with small regexes.
+    //large regex than to read many times and process with small regexes.
     if (dataKeys.length) {
       escapedKeys = '(';
       for (i = 0; i < dataKeys.length; i++) {
@@ -350,9 +370,18 @@ var pattern_assembler = function () {
     }
 
     //escape partial tags by switching them to ERB syntax.
+    //first, account for the fact that curly braces might be submitted as part of params.
+    //however, ')}}' or any spaced variant should NEVER be submitted as part of params
+    //enclosed in quotes or otherwise. It is not valid JSON, and if it's to be rendered
+    //as HTML, it should be via HTML entities. while this is not explicitly forbidden
+    //in the Pattern Lab docs, it can be inferred that it is forbidden after users see
+    //resulting rendering errors.
+    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+(?:\((.|\s)*?\))\s*)\}\}/g, '<%>$1%>');
+
+    //in all other cases, curly braces should not be part of filenames or styleModifiers.
     templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
 
-    //removing empty lines for some reason reduced rendering time considerably.
+    //removing empty lines for some reason reduces rendering time considerably.
     templateEscaped = templateEscaped.replace(/^\s*$\n/gm, '');
 
     if (template === null) {
@@ -366,7 +395,7 @@ var pattern_assembler = function () {
 
     //after that's done, switch only partial tags back to standard Mustache tags and return.
     if (templateWinnowed) {
-      templateWinnowed = templateWinnowed.replace(/<%>([^%]+)%>/g, '{{>$1}}');
+      templateWinnowed = templateWinnowed.replace(/<%>((.|\s)*?)%>/g, '{{>$1}}');
     }
 
     return templateWinnowed;
@@ -403,7 +432,7 @@ var pattern_assembler = function () {
         currentPattern.jsonFileData = fs.readJSONSync(file);
         addPattern(currentPattern, patternlab);
       } catch (err) {
-        console.log(err); 
+        console.log(err);
       }
       return;
     }
@@ -415,6 +444,13 @@ var pattern_assembler = function () {
 
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
+
+    //since we'll need to recognize ERB syntax tags, escape anything in the
+    //template that looks like ERB tags. the Pattern Lab docs do not forbid them,
+    //so it shouldn't be on users to avoid them, however extreme an edge case it
+    //may be. we'll unescape them later.
+    currentPattern.template = currentPattern.template.replace(/<%/g, '\\u003C\\u0025');
+    currentPattern.template = currentPattern.template.replace(/%>/g, '\\u0025\\u003E');
 
     //define tmpTemplate and listitems to avoid undefined type errors
     //trying to keep memory footprint small, so set it empty at first
@@ -463,15 +499,17 @@ var pattern_assembler = function () {
   function processPatternRecursive(file, patternlab, recursionLevel, currentPatternAsParam, test) {
     var fs = require('fs-extra'),
       glob = require('glob'),
-      JSON = require('json5'),
+      JSON5 = require('json5'),
       path = require('path');
 
     var ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
+      lh = require('./lineage_hunter'),
       lih = require('./list_item_hunter'),
       smh = require('./style_modifier_hunter');
 
     var parameter_hunter = new ph(),
+      lineage_hunter = new lh(),
       list_item_hunter = new lih(),
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
@@ -496,12 +534,15 @@ var pattern_assembler = function () {
       //should be filled out and renderable.
       if (path.extname(file) === '.json') {
         if (!test) {
+
+          //pseudoPatterns skipped lineage hunt earlier so do it now
+          lineage_hunter.find_lineage(currentPattern, patternlab);
           outputPatternToFS(currentPattern, patternlab);
         }
         return;
       }
 
-      //continue with regular mustache templates    
+      //continue with regular mustache templates
       //look for a json file for this template
       var jsonFilename;
       var localJsonString;
@@ -528,8 +569,8 @@ var pattern_assembler = function () {
       //set currentPattern.jsonFileData
       if (localJsonString) {
         try {
-          localData = JSON.parse(localJsonString);
-          currentPattern.jsonFileData = mergeData(patternlab.data, JSON.parse(localJsonString));
+          localData = JSON5.parse(localJsonString);
+          currentPattern.jsonFileData = mergeData(patternlab.data, JSON5.parse(localJsonString));
         } catch (err) {
           console.log('There was an error parsing JSON for ' + file);
           console.log(err);
@@ -649,7 +690,7 @@ var pattern_assembler = function () {
           continue;
         }
 
-        var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\([^\)]*\))?([ ])?}}/g, '$2');
+        var partialKey = foundPatternPartials[i].replace(/{{>([ ])?([\w\-\.\/~]+)(:[A-z0-9-_|]+)?(?:\:[A-Za-z0-9-_]+)?(?:(| )\(.*)?([ ])?}}/g, '$2');
 
         //identify which pattern this partial corresponds to
         var partialPattern = getpatternbykey(partialKey, patternlab);
@@ -686,10 +727,15 @@ var pattern_assembler = function () {
 
     //do only when popped back to the top level of recursion
     if (!recursionLevel) {
+
+      //switch Mustache escaped as ERB back to Mustache
       if (currentPattern.extendedTemplate !== currentPattern.template) {
-        //switch ERB escaped tags back to standard Mustache tags
         currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
       }
+
+      //switch escaped unicodes for ERB back to ERB
+      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/\\u003C\\u0025/g, '<%');
+      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/\\u0025\\u003E/g, '%>');
 
       //find and process any listItem blocks within the pattern
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);

@@ -1,10 +1,10 @@
 (function () {
   "use strict";
 
-  var lih = require('../builder/list_item_hunter');
-  var pa = require('../builder/pattern_assembler');
+  var lih = require('../core/lib/list_item_hunter');
+  var object_factory = require('../core/lib/object_factory');
+  var pa = require('../core/lib/pattern_assembler');
   var path = require('path');
-  var object_factory = require('../builder/object_factory');
 
   exports['list_item_hunter'] = {
     'process_list_item_partials finds and outputs basic repeating blocks' : function(test){

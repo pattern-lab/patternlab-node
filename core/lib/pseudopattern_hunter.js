@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v1.1.3 - 2016
- *
+/* 
+ * patternlab-node - v1.2.1 - 2016 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -31,6 +31,7 @@ var pseudopattern_hunter = function () {
       pattern_assembler.setPatternState(pseudoPatternsArray[i], patternlab);
 
       //use the same template as the non-variant
+      pseudoPatternsArray[i].template = currentPattern.template;
       pseudoPatternsArray[i].extendedTemplate = currentPattern.extendedTemplate;
 
       //find pattern lineage

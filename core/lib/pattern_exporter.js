@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v1.1.3 - 2016
- *
+/* 
+ * patternlab-node - v1.2.1 - 2016 
+ * 
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -17,7 +17,6 @@ var pattern_exporter = function () {
   function exportPatterns(patternlab) {
     //read the config export options
     var exportKeys = patternlab.config.patternExportKeys;
-
 
     //find the chosen patterns to export
     for (var i = 0; i < exportKeys.length; i++) {
