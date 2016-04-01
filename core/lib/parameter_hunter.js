@@ -25,7 +25,7 @@ var parameter_hunter = function () {
    * write a custom script to crawl through the parameter string, and wrap the
    * keys and values in double-quotes as necessary.
    * The steps on a high-level are as follows:
-   *   * Further escape all escaped quotes, commas, and colons. Use the string
+   *   * Further escape all escaped quotes and colons. Use the string
    *     representation of their unicodes for this. This has the added bonus
    *     of being interpreted correctly by JSON5.parse() without further
    *     modification. This will be useful later in the function.

@@ -12,6 +12,7 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var path = require('path'),
+    JSON5 = require('json5'),
     fs = require('fs-extra'),
     diveSync = require('diveSync'),
     of = require('./object_factory'),
@@ -514,11 +515,11 @@ var patternlab_engine = function (config) {
 
     //patternPaths
     var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternPaths.mustache'), 'utf8');
-    var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
+    var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON5.stringify(patternlab.patternPaths)});
 
     //viewAllPaths
     var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/viewAllPaths.mustache'), 'utf8');
-    var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
+    var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON5.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
     var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {
