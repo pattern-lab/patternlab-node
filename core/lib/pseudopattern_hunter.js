@@ -31,6 +31,7 @@ var pseudopattern_hunter = function () {
       pattern_assembler.setPatternState(pseudoPatternsArray[i], patternlab);
 
       //use the same template as the non-variant
+      pseudoPatternsArray[i].template = currentPattern.template;
       pseudoPatternsArray[i].extendedTemplate = currentPattern.extendedTemplate;
 
       //find pattern lineage

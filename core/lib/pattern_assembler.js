@@ -504,10 +504,12 @@ var pattern_assembler = function () {
 
     var ph = require('./parameter_hunter'),
       pph = require('./pseudopattern_hunter'),
+      lh = require('./lineage_hunter'),
       lih = require('./list_item_hunter'),
       smh = require('./style_modifier_hunter');
 
     var parameter_hunter = new ph(),
+      lineage_hunter = new lh(),
       list_item_hunter = new lih(),
       style_modifier_hunter = new smh(),
       pseudopattern_hunter = new pph();
@@ -532,6 +534,9 @@ var pattern_assembler = function () {
       //should be filled out and renderable.
       if (path.extname(file) === '.json') {
         if (!test) {
+
+          //pseudoPatterns skipped lineage hunt earlier so do it now
+          lineage_hunter.find_lineage(currentPattern, patternlab);
           outputPatternToFS(currentPattern, patternlab);
         }
         return;
