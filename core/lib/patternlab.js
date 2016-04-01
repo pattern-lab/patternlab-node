@@ -81,7 +81,7 @@ var patternlab_engine = function (config) {
     patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
-    patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
+    //patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
     patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
     patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
@@ -219,9 +219,9 @@ var patternlab_engine = function (config) {
       //set the pattern-specific footer if necessary
       if (patternlab.userFoot) {
         var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
-        pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
+        pattern.footer = pattern_assembler.renderPattern(userFooter, {patternData: JSON.stringify(pattern)});
       } else {
-        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, pattern);
+        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, {patternData: JSON.stringify(pattern)});
       }
 
       //write the compiled template to the public patterns directory
