@@ -370,16 +370,11 @@ var pattern_assembler = function () {
     }
 
     //escape partial tags by switching them to ERB syntax.
-    //first, account for the fact that curly braces might be submitted as part of params.
-    //however, ')}}' or any spaced variant should NEVER be submitted as part of params
-    //enclosed in quotes or otherwise. It is not valid JSON, and if it's to be rendered
-    //as HTML, it should be via HTML entities. while this is not explicitly forbidden
-    //in the Pattern Lab docs, it can be inferred that it is forbidden after users see
-    //resulting rendering errors.
-    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+(?:\((.|\s)*?\))\s*)\}\}/g, '<%>$1%>');
-
-    //in all other cases, curly braces should not be part of filenames or styleModifiers.
-    templateEscaped = templateEscaped.replace(/\{\{>([^\}]+)\}\}/g, '<%>$1%>');
+    //the regex is mostly copied from function findPartials(). however, we need
+    //to specify a capture group for the replace() method and not capture other
+    //parenthetical groups for the nominal performance gain.
+    regex = /{{>(\s*(?:[\w\-\.\/~]+)(?:\:[\w\-|]+)?(?:\s*\((?:.|\s)*?\))?\s*)}}/g;
+    templateEscaped = templateEscaped.replace(regex, '<%>$1%>');
 
     //removing empty lines for some reason reduces rendering time considerably.
     templateEscaped = templateEscaped.replace(/^\s*$\n/gm, '');
@@ -395,7 +390,7 @@ var pattern_assembler = function () {
 
     //after that's done, switch only partial tags back to standard Mustache tags and return.
     if (templateWinnowed) {
-      templateWinnowed = templateWinnowed.replace(/<%>((.|\s)*?)%>/g, '{{>$1}}');
+      templateWinnowed = templateWinnowed.replace(/<%>((?:.|\s)*?)%>/g, '{{>$1}}');
     }
 
     return templateWinnowed;
@@ -730,7 +725,7 @@ var pattern_assembler = function () {
 
       //switch Mustache escaped as ERB back to Mustache
       if (currentPattern.extendedTemplate !== currentPattern.template) {
-        currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%([^%]+)%>/g, '{{$1}}');
+        currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(/<%((?:.|\s)*?)%>/g, '{{$1}}');
       }
 
       //switch escaped unicodes for ERB back to ERB
