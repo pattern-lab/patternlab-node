@@ -80,10 +80,10 @@ partialsWithStyleModifiersStr += '(?!\\()';
 // of alphanumerics, hyphens, and pipes
 partialsWithStyleModifiersStr += '(\\:[\\w\\-\\|]+)';
 
-// an optional group of characters starting with >=0 whitespaces, followed by
-// an opening parenthesis, followed by any number of characters that are not
-// closing parentheses, followed by a closing parenthesis
-partialsWithStyleModifiersStr += '(\\s*\\([^\\)]*\\))?';
+// an optional group of characters starting with >=0 whitespaces, followed by an
+// opening parenthesis, followed by any number of characters (lazy searched and
+// able to include newlines and parentheses) that lead up to closing parenthesis
+partialsWithStyleModifiersStr += '(\\s*\\((.|\\s)*?\\))?';
 
 // look for >=0 whitespaces, followed by closing mustache tag
 partialsWithStyleModifiersStr += '\\s*}}';
@@ -102,9 +102,9 @@ partialsWithPatternParametersStr += '([\\w\\-\\.\\/~]+)';
 partialsWithPatternParametersStr += '(\\:[\\w\\-\\|]+)?';
 
 // a group of characters starting with >=0 whitespaces, followed by an opening
-// parenthesis, followed by any number of characters that are not closing
-// parentheses, followed by a closing parenthesis
-partialsWithPatternParametersStr += '(\\s*\\([^\\)]*\\))';
+// parenthesis, followed by any number of characters (lazy searched and able to
+// include newlines and parentheses) that lead up to closing parenthesis
+partialsWithPatternParametersStr += '(\\s*\\((.|\\s)*?\\))';
 
 // look for >=0 whitespaces, followed by closing mustache tag
 partialsWithPatternParametersStr += '\\s*}}';
@@ -138,10 +138,10 @@ partialKeyStr += '(\\:[\\w\\-|]+)?';
 // alphanumerics or hyphens
 partialKeyStr += '(\\:[\\w\\-]+)?';
 
-// an optional group of characters starting with >=0 whitespaces, followed by
-// an opening parenthesis, followed by any number of characters that are not
-// closing parentheses, followed by a closing parenthesis
-partialKeyStr += '(\\s*\\([^\\)]*\\))?';
+// an optional group of characters starting with >=0 whitespaces, followed by an
+// opening parenthesis, followed by any number of characters (lazy searched and
+// able to include newlines and parentheses) that lead up to closing parenthesis
+partialKeyStr += '(\\s*\\((.|\\s)*?\\))?';
 
 // look for >=0 whitespaces, followed by closing mustache tag
 partialKeyStr += '\\s*}}';
