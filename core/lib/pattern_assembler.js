@@ -27,7 +27,7 @@ var pattern_assembler = function () {
 
   // returns any patterns that match {{> value:mod }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithStyleModifiers(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?!\()(\:[A-Za-z0-9-_|]+)+(?:(| )\(.*)?([ ])?}}/g;
+    var regex = /{{>\s*([\w\-\.\/~]+)(?!\()(\:[\w\-\|]+)(\s*\((.|\s)*?\))?\s*}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -35,7 +35,7 @@ var pattern_assembler = function () {
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{> value:mod(foo:"bar") }} within the pattern
   function findPartialsWithPatternParameters(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)+([ ])?}}/g;
+    var regex = /{{>\s*([\w\-\.\/~]+)(\:[\w\-\|]+)?(\s*\((.|\s)*?\))\s*}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
@@ -43,14 +43,14 @@ var pattern_assembler = function () {
 
   //find and return any {{> template-name* }} within pattern
   function findPartials(pattern) {
-    var regex = /{{>([ ])?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(| )\(.*)?([ ])?}}/g;
+    var regex = /{{>\s*([\w\-\.\/~]+)(\:[\w\-|]+)?(\s*\((.|\s)*?\))?\s*}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
   }
 
   function findListItems(pattern) {
-    var regex = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
+    var regex = /{{#\s*(list(I|i)tems\.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)\s*}}/g;
     var matches = patternMatcher(pattern, regex);
 
     return matches;
