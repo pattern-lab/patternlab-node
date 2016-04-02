@@ -87,7 +87,7 @@ var pattern_assembler = function () {
   }
 
   function renderPattern(template, data, partials) {
-    var hogan = require('hogan');
+    var hogan = require('hogan.js');
     var compiled = hogan.compile(template);
 
     if (partials) {
