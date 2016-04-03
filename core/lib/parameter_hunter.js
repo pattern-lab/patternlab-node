@@ -302,6 +302,11 @@ var parameter_hunter = function () {
           partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%%$1%%>');
           regex = new RegExp('<%([\\{#\\^\\/&]?\\s*' + escapedKey + '\\s*\\}?)%>', 'g');
           partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(regex, '<%%$1%%>');
+
+          //when using alternate delimiters, triple-Mustache syntax won't work.
+          //<%{ must be replaced with <%# and }%> with %>.
+          partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(/<%%\{/g, '<%%&');
+          partialPattern.tmpTemplate = partialPattern.tmpTemplate.replace(/\}%%>/g, '%%>');
         }
       }
 
@@ -311,7 +316,6 @@ var parameter_hunter = function () {
       //the reason for rendering at this point is to eliminate the unwanted
       //recursion paths that would remain if irrelevant conditional tags persisted.
       partialPattern.tmpTemplate = pattern_assembler.renderPattern(partialPattern.tmpTemplate, paramData);
-
       partialPattern.tmpTemplate = pattern_assembler.winnow_unused_tags(partialPattern.tmpTemplate, pattern);
 
       //replace parameteredPartials with their rendered values.
