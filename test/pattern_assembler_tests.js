@@ -743,7 +743,7 @@
 
 			var pattern;
 			for(var i = 0; i < patternlab.patterns.length; i++){
-				if(patternlab.patterns[i].key === 'test-nav'){
+				if(patternlab.patterns[i].patternPartial === 'test-nav'){
 					pattern = patternlab.patterns[i];
 				}
 			}
@@ -773,13 +773,13 @@
 			patternlab.patterns = [];
 
 			patternlab.patterns.push({
-				key: 'character-han-solo',
+        patternPartial: 'character-han-solo',
 				subdir: 'character',
 				fileName: 'han-solo'
 			});
 
 			//act
-			var result = pattern_assembler.get_pattern_by_key('character-han', patternlab);
+			var result = pattern_assembler.findPartial('character-han', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[0]);
 			test.done();
@@ -791,17 +791,17 @@
 			patternlab.patterns = [];
 
 			patternlab.patterns.push({
-				key: 'molecules-primary-nav-jagged',
+        patternPartial: 'molecules-primary-nav-jagged',
 				subdir: 'molecules',
 				fileName: 'primary-nav-jagged'
 			}, {
-				key: 'molecules-primary-nav',
+        patternPartial: 'molecules-primary-nav',
 				subdir: 'molecules',
 				fileName: 'molecules-primary-nav'
 			});
 
 			//act
-			var result = pattern_assembler.get_pattern_by_key('molecules-primary-nav', patternlab);
+			var result = pattern_assembler.findPartial('molecules-primary-nav', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[1]);
 			test.done();

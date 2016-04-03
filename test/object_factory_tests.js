@@ -18,9 +18,9 @@
 			test.equals(p.patternGroup, 'atoms');
 			test.equals(p.patternSubGroup, 'global');
 			test.equals(p.flatPatternPath, '00-atoms-00-global');
-			test.equals(p.key, 'atoms-colors');
+			test.equals(p.patternPartial, 'atoms-colors');
 			test.equals(p.template, '');
-			test.equals(p.patternPartial, '');
+			test.equals(p.patternPartialCode, '');
 			test.equals(p.lineage.length, 0);
 			test.equals(p.lineageIndex.length, 0);
 			test.equals(p.lineageR.length, 0);

@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.0 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.0 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -21,14 +21,14 @@ var style_modifier_hunter = function () {
       styleModifier = styleModifier.replace(/\|/g, ' ');
 
       if (patternlab.config.debug) {
-        console.log('found partial styleModifier within pattern ' + pattern.key);
+        console.log('found partial styleModifier within pattern ' + pattern.patternPartial);
       }
 
       //replace the stylemodifier placeholder with the class name
       pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
 
       //update the extendedTemplate in the partials object in case this pattern is consumed later
-      patternlab.partials[pattern.key] = pattern.extendedTemplate;
+      patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
     }
   }
 

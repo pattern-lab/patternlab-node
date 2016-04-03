@@ -31,9 +31,9 @@ var oPattern = function (abspath, subdir, filename, data) {
   this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
   this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
   this.flatPatternPath = subdir.replace(/[\/\\]/g, '-');
-  this.key = this.patternGroup + '-' + this.patternName;
+  this.patternPartial = this.patternGroup + '-' + this.patternName;
   this.template = '';
-  this.patternPartial = '';
+  this.patternPartialCode = '';
   this.lineage = [];
   this.lineageIndex = [];
   this.lineageR = [];
@@ -76,8 +76,8 @@ oPattern.prototype = {
     return this.engine.findListItems(this);
   },
 
-  findPartialKey: function (partialString) {
-    return this.engine.findPartialKey(partialString);
+  findPartial: function (partialString) {
+    return this.engine.findPartial(partialString);
   }
 };
 
@@ -123,7 +123,7 @@ var oPatternSubType = function (name) {
 
 var oPatternSubTypeItem = function (name) {
   this.patternPath = '';
-  this.patternPartial = '';
+  this.patternPartialCode = '';
   this.patternName = name.split(' ').reduce(function (val, working) {
     return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
   }, '').trim();

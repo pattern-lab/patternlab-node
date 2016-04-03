@@ -40,14 +40,14 @@ function assembleStyleguidePatterns(patternlab) {
       // skip underscore-prefixed files
       if (isPatternExcluded(patternlab.patterns[i])) {
         if (patternlab.config.debug) {
-          console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
+          console.log('Omitting ' + patternlab.patterns[i].patternPartial + " from styleguide pattern exclusion.");
         }
         continue;
       }
 
-      var key = patternlab.patterns[i].key;
-      var typeKey = key.substring(0, key.indexOf('-'));
-      var isExcluded = (styleguideExcludes.indexOf(typeKey) > -1);
+      var partial = patternlab.patterns[i].patternPartial;
+      var partialType = partial.substring(0, partial.indexOf('-'));
+      var isExcluded = (styleguideExcludes.indexOf(partialType) > -1);
       if (!isExcluded) {
         styleguidePatterns.push(patternlab.patterns[i]);
       }
@@ -90,7 +90,7 @@ function buildNavigation(patternlab) {
     //assume the patternSubTypeItem does not exist.
     patternSubTypeItem = new of.oPatternSubTypeItem(patternSubTypeItemName);
     patternSubTypeItem.patternPath = pattern.patternLink;
-    //todo: isnt this just the pattern.key?
+    //todo: isnt this just the pattern.patternPartial?
     patternSubTypeItem.patternPartial = patternTypeName + "-" + pattern.patternName; //add the hyphenated name
 
     //check if the patternType already exists
@@ -221,7 +221,7 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
     // skip underscore-prefixed files
     if (isPatternExcluded(patternlab.patterns[i])) {
       if (patternlab.config.debug) {
-        console.log('Omitting ' + patternlab.patterns[i].key + " from view all rendering.");
+        console.log('Omitting ' + patternlab.patterns[i].patternPartial + " from view all rendering.");
       }
       continue;
     }
@@ -242,7 +242,7 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
           //again, skip any sibling patterns to the current one that may have underscores
           if (isPatternExcluded(patternlab.patterns[j])) {
             if (patternlab.config.debug) {
-              console.log('Omitting ' + patternlab.patterns[j].key + " from view all sibling rendering.");
+              console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
             }
             continue;
           }
@@ -277,7 +277,7 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
           //again, skip any sibling patterns to the current one that may have underscores
           if (isPatternExcluded(patternlab.patterns[j])) {
             if (patternlab.config.debug) {
-              console.log('Omitting ' + patternlab.patterns[j].key + " from view all sibling rendering.");
+              console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
             }
             continue;
           }

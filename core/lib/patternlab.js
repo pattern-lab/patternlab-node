@@ -146,7 +146,8 @@ var patternlab_engine = function (config) {
 
     //set user defined head and foot if they exist
     try {
-      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+      patternlab.userHead = pattern_assembler.findPartial('atoms-_00-head', patternlab);
+      patternlab.userHead.extendedTemplate = patternlab.userHead.template;
     }
     catch (ex) {
       if (patternlab.config.debug) {
@@ -155,7 +156,8 @@ var patternlab_engine = function (config) {
       }
     }
     try {
-      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+      patternlab.userFoot = pattern_assembler.findPartial('atoms-_01-foot', patternlab);
+      patternlab.userFoot.extendedTemplate = patternlab.userFoot.template;
     }
     catch (ex) {
       if (patternlab.config.debug) {
@@ -214,24 +216,20 @@ var patternlab_engine = function (config) {
       var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
 
       //render the extendedTemplate with all data
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
+      pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
 
       //set the pattern-specific footer if necessary
-      if (patternlab.userFoot) {
-        var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
-        pattern.footer = pattern_assembler.renderPattern(userFooter, {patternData: JSON.stringify(pattern)});
-      } else {
-        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, {patternData: JSON.stringify(pattern)});
-      }
+      var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
+      pattern.footer = pattern_assembler.renderPattern(userFooter, {patternData: JSON.stringify(pattern)});
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartial + pattern.footer);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartialCode + pattern.footer);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartialCode));
     });
 
     //export patterns if necessary

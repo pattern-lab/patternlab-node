@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.0 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.0 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -29,13 +29,13 @@ var parameter_hunter = function () {
 
     do {
 
-      //if param key is wrapped in single quotes, replace with double quotes.
+      //if param partial is wrapped in single quotes, replace with double quotes.
       paramString = paramString.replace(/(^\s*[\{|\,]\s*)'([^']+)'(\s*\:)/, '$1"$2"$3');
 
-      //if params key is not wrapped in any quotes, wrap in double quotes.
+      //if params partial is not wrapped in any quotes, wrap in double quotes.
       paramString = paramString.replace(/(^\s*[\{|\,]\s*)([^\s"'\:]+)(\s*\:)/, '$1"$2"$3');
 
-      //move param key to paramStringWellFormed var.
+      //move param partial to paramStringWellFormed var.
       colonPos = paramString.indexOf(':');
 
       //except to prevent infinite loops.
@@ -73,7 +73,7 @@ var parameter_hunter = function () {
         paramStringTmp = paramStringTmp.replace(/^'/, '"');
         paramStringTmp = paramStringTmp.replace(/'$/, '"');
 
-        //move param key to paramStringWellFormed var.
+        //move param partial to paramStringWellFormed var.
         paramStringWellFormed += paramStringTmp;
         paramString = paramString.substring(quotePos, paramString.length).trim();
       }
@@ -90,7 +90,7 @@ var parameter_hunter = function () {
           quotePos += 2;
         }
 
-        //move param key to paramStringWellFormed var.
+        //move param partial to paramStringWellFormed var.
         paramStringWellFormed += paramString.substring(0, quotePos);
         paramString = paramString.substring(quotePos, paramString.length).trim();
       }
@@ -130,7 +130,7 @@ var parameter_hunter = function () {
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
         var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+        var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
 
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
@@ -174,7 +174,7 @@ var parameter_hunter = function () {
         pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.key] = pattern.extendedTemplate;
+        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
       });
     }
   }

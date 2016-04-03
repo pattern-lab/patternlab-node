@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.0 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.0 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -38,7 +38,7 @@ var pseudopattern_hunter = function () {
     if (pseudoPatterns.length > 0) {
       for (var i = 0; i < pseudoPatterns.length; i++) {
         if (patternlab.config.debug) {
-          console.log('found pseudoPattern variant of ' + currentPattern.key);
+          console.log('found pseudoPattern variant of ' + currentPattern.patternPartial);
         }
 
         //we want to do everything we normally would here, except instead read the pseudoPattern data
