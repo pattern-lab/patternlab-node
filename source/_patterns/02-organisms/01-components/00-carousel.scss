@@ -53,7 +53,7 @@
     video {
       display:none;
 
-      @media only screen and (min-width: $breakpointTablet) {
+      @media only screen and (min-width: $breakpointDesktop) {
         display:block;
         position:relative;
         width:100%;
