@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.1 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.1 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -281,7 +281,16 @@ var patternlab_engine = function (config) {
         }
       }
     } else {
-      styleguidePatterns = patternlab.patterns;
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        // skip underscore-prefixed files
+        if (isPatternExcluded(patternlab.patterns[i])) {
+          if (patternlab.config.debug) {
+            console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
+          }
+          continue;
+        }
+        styleguidePatterns.push(patternlab.patterns[i]);
+      }
     }
 
     //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
