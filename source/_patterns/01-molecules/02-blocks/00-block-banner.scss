@@ -5,7 +5,23 @@
   text-align: center;
 
   &__image {
+    position: relative;
     width: 100%;
+    overflow: hidden;
+
+    &--img {
+      display: block;
+    }
+
+    &--video {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      z-index: 0;
+      transform: translateY(-50%);
+    }
   }
 
   &__content {
@@ -18,6 +34,7 @@
     top: 0;
     width: 100%;
     height: 100%;
+    z-index: 0;
 
     .button {
       position: absolute;
