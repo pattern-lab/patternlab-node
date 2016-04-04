@@ -43,7 +43,7 @@
     box-sizing:border-box;
 
     @media only screen and (max-width: $breakpointTabletEnd) {
-      padding-top:75vw;
+      height:75vw;
 
       &:nth-child(2) {
         display:none;
