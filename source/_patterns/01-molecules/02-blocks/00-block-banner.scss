@@ -14,13 +14,17 @@
     }
 
     &--video {
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100%;
-      z-index: 0;
-      transform: translateY(-50%);
+      display: none;
+
+      @media only screen and (min-width: $breakpointDesktop) {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        z-index: 0;
+        transform: translateY(-50%);
+      }
     }
   }
 
