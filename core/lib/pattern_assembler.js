@@ -120,9 +120,9 @@ var pattern_assembler = function () {
       return pattern.render(data, partials);
     } else {
       // otherwise, assume it's a plain mustache template string, and we
-      // therefore just need to create a container pattern to be able to render
+      // therefore just need to create a dummpy pattern to be able to render
       // it
-      var dummyPattern = of.oPattern.create({extendedTemplate: pattern});
+      var dummyPattern = of.oPattern.createEmpty({extendedTemplate: pattern});
       return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
     }
   }
