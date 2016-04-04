@@ -34,12 +34,13 @@
   &__image {
     position:relative;
     flex:1;
-    padding-top:calc(37.5vw - #{$marginMini / 2});
+    height:calc(37.5vw - #{$marginMini / 2});
     width:100%;
     margin:0 ($marginMini/2);
     overflow:hidden;
     background-size:cover;
     background-position:center center;
+    box-sizing:border-box;
 
     @media only screen and (max-width: $breakpointTabletEnd) {
       padding-top:75vw;
@@ -47,6 +48,17 @@
       &:nth-child(2) {
         display:none;
       }
+    }
+
+    video {
+      display:block;
+      position:relative;
+      min-width:100%;
+      min-height:100%;
+      box-sizing:border-box;
+      padding:0;
+      margin:0;
+      z-index:0;
     }
   }
 
