@@ -15,13 +15,17 @@ var list_item_hunter = function () {
   var extend = require('util')._extend,
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    pattern_assembler = new pa(),
+    plutils = require('./utilities'),
+    of = require('./object_factory');
+
+  var pattern_assembler = new pa(),
     style_modifier_hunter = new smh(),
-    items = [ 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+    items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
-    var matches = pattern_assembler.find_list_items(pattern, patternlab);
+    var matches = pattern.findListItems();
+
     if (matches !== null) {
       matches.forEach(function (liMatch) {
 
@@ -37,18 +41,20 @@ var list_item_hunter = function () {
         //build arrays that repeat the block, however large we need to
         var repeatedBlockTemplate = [];
         var repeatedBlockHtml = '';
-        var i; // for loops
-
-        for (i = 0; i < items.indexOf(loopNumberString); i++) {
+        for (var i = 0; i < items.indexOf(loopNumberString); i++) {
+          if (patternlab.config.debug) {
+            console.log('list item(s) in pattern', pattern.patternName, 'adding', patternBlock, 'to repeatedBlockTemplate');
+          }
           repeatedBlockTemplate.push(patternBlock);
         }
 
         //check for a local listitems.json file
         var listData = JSON.parse(JSON.stringify(patternlab.listitems));
-        listData = pattern_assembler.merge_data(listData, pattern.listitems);
+        listData = plutils.mergeData(listData, pattern.listitems);
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
-        for (i = 0; i < repeatedBlockTemplate.length; i++) {
+        for (var i = 0; i < repeatedBlockTemplate.length; i++) {
+
           var thisBlockTemplate = repeatedBlockTemplate[i];
           var thisBlockHTML = "";
 
@@ -57,15 +63,17 @@ var list_item_hunter = function () {
           var globalData = JSON.parse(JSON.stringify(patternlab.data));
           var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
 
-          var allData = pattern_assembler.merge_data(globalData, localData);
-          allData = pattern_assembler.merge_data(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+          var allData = plutils.mergeData(globalData, localData);
+          allData = plutils.mergeData(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
           allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block
-          var foundPartials = pattern_assembler.find_pattern_partials({ 'template' : thisBlockTemplate });
+          var foundPartials = of.oPattern.createEmpty({'template': thisBlockTemplate}).findPartials();
 
           if (foundPartials && foundPartials.length > 0) {
+
             for (var j = 0; j < foundPartials.length; j++) {
+
               //get the partial
               var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
               var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
@@ -84,6 +92,7 @@ var list_item_hunter = function () {
 
             //render with data
             thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
+
           } else {
             //just render with mergedData
             thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
@@ -109,7 +118,6 @@ var list_item_hunter = function () {
       processListItemPartials(pattern, patternlab);
     }
   };
-
 };
 
 module.exports = list_item_hunter;

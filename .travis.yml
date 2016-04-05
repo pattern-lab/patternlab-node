@@ -16,3 +16,5 @@ branches:
   only:
     - master
     - dev
+    - pattern-engines
+    - dev-2.0-core

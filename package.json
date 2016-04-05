@@ -9,7 +9,10 @@
     "glob": "^7.0.0",
     "html-entities": "^1.2.0",
     "matchdep": "^1.0.0",
-    "mustache": "^2.2.0"
+    "mustache": "^2.2.0",
+    "handlebars": "^4.0.5",
+    "underscore": "^1.8.3",
+    "twig": "^0.8.8"
   },
   "devDependencies": {
     "bs-html-injector": "^3.0.0",

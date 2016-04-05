@@ -15,6 +15,7 @@ var parameter_hunter = function () {
   var extend = require('util')._extend,
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
+    plutils = require('./utilities'),
     style_modifier_hunter = new smh(),
     pattern_assembler = new pa();
 
@@ -156,8 +157,8 @@ var parameter_hunter = function () {
           console.log(e);
         }
 
-        var allData = pattern_assembler.merge_data(globalData, localData);
-        allData = pattern_assembler.merge_data(allData, paramData);
+        var allData = plutils.mergeData(globalData, localData);
+        allData = plutils.mergeData(allData, paramData);
 
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {

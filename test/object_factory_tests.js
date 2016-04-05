@@ -10,6 +10,7 @@
 			test.equals(p.abspath, 'source/_patterns/00-atoms/00-global/00-colors.mustache');
 			test.equals(p.subdir, '00-atoms/00-global');
 			test.equals(p.fileName, '00-colors');
+			test.equals(p.fileExtension, '.mustache');
 			test.equals(p.jsonFileData.d, 123);
 			test.equals(p.patternName, 'colors');
 			test.equals(p.patternDisplayName, 'Colors');
