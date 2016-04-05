@@ -77,14 +77,7 @@
     padding: 10%;
     color: $colorWhite;
     z-index: 1;
-
-    &--center {
-      text-align: center;
-    }
-
-    &--right {
-      text-align: right;
-    }
+    text-align: center;
 
     &--primary {
       @include font-primary-medium-uppercase(5.85vw);
@@ -106,6 +99,14 @@
     }
 
     @media only screen and (min-width: $breakpointDesktop) {
+      &--left {
+        text-align: left;
+      }
+
+      &--right {
+        text-align: right;
+      }
+
       &--primary {
         font-size: 2.9vw;
       }
