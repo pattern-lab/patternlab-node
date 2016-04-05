@@ -32,10 +32,10 @@
   }
 
   &__image {
+    position: relative;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    position: relative;
     flex: 1;
     height: calc(37.5vw - #{$marginMini / 2});
     width: 100%;
@@ -43,12 +43,28 @@
     overflow: hidden;
     background-size: cover;
     background-position: center center;
+    box-sizing: border-box;
 
     @media only screen and (max-width: $breakpointTabletEnd) {
       height: 75vw;
 
       &:nth-child(2) {
         display: none;
+      }
+    }
+
+    video {
+      display:none;
+
+      @media only screen and (min-width: $breakpointDesktop) {
+        display:block;
+        position:relative;
+        width:100%;
+        min-height:100%;
+        box-sizing:border-box;
+        padding:0;
+        margin:0;
+        z-index:0;
       }
     }
   }

@@ -127,4 +127,30 @@
   .section--shipping-address + .section--optional p {
     display:none;
   }
+
+  .section__hanging-icon.exclamation-mark {
+    height:0;
+    margin-top:$marginStandard;
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      margin-top:0;
+    }
+  }
+
+  .stock-problems-table {
+    width:100%;
+
+    th {
+      &:first-child {
+        text-align:left;
+      }
+      &:last-child {
+        text-align:right;
+      }
+    }
+
+    .product__status {
+      text-align:right;
+    }
+  }
 }
