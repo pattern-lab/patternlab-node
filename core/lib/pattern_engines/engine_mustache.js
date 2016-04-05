@@ -39,11 +39,11 @@ var engine_mustache = {
   findPartialKeyRE: utilMustache.partialKeyRE,
 
   // render it
-  renderPattern: function renderPattern(template, data, partials) {
+  renderPattern: function renderPattern(pattern, data, partials) {
     if (partials) {
-      return Mustache.render(template, data, partials);
+      return Mustache.render(pattern.extendedTemplate, data, partials);
     }
-    return Mustache.render(template, data);
+    return Mustache.render(pattern.extendedTemplate, data);
   },
 
   /**

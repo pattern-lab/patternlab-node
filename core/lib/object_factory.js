@@ -1,6 +1,6 @@
-/* 
- * patternlab-node - v1.2.1 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.1 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -49,7 +49,7 @@ oPattern.prototype = {
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
   render: function (data, partials) {
-    return this.engine.renderPattern(this.extendedTemplate, data || this.jsonFileData, partials);
+    return this.engine.renderPattern(this, data || this.jsonFileData, partials);
   },
 
   registerPartial: function () {
