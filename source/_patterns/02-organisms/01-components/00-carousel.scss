@@ -54,46 +54,48 @@
     }
 
     video {
-      display:none;
+      display: none;
 
       @media only screen and (min-width: $breakpointDesktop) {
-        display:block;
-        position:relative;
-        width:100%;
-        min-height:100%;
-        box-sizing:border-box;
-        padding:0;
-        margin:0;
-        z-index:0;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        min-height: 100%;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        z-index: 0;
       }
     }
   }
 
   &__text {
     display: block;
-    //position: absolute;
-    //left: 0;
-    //right: 0;
-    //bottom: 0;
-    padding: 3.225vw;
+    position: relative;
+    padding: 10%;
     color: $colorWhite;
+    z-index: 1;
 
     &--center {
       text-align: center;
-      padding-left: 10%;
-      padding-right: 10%;
+    }
+
+    &--right {
+      text-align: right;
     }
 
     &--primary {
       @include font-primary-medium-uppercase(5.85vw);
-      line-height:1.5em;
+      line-height: 1.5em;
       letter-spacing: 0;
       margin: 0;
       padding: 0;
     }
     &--secondary {
-      @include font-primary-medium-lowercase(2.55vw);
-      line-height:1.5em;
+      @include font-primary-medium-lowercase(2.85vw);
+      line-height: 1.5em;
       letter-spacing: 0;
       margin: 0;
       padding: 0;
@@ -104,19 +106,12 @@
     }
 
     @media only screen and (min-width: $breakpointDesktop) {
-      padding: 1.6vw;
-
-      &--center {
-        padding-left: 10%;
-        padding-right: 10%;
-      }
-
       &--primary {
         font-size: 2.9vw;
       }
 
       &--secondary {
-        font-size: 1.25vw;
+        font-size: 1.4vw;
       }
     }
   }
