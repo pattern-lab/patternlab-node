@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.2.1 - 2016 
+ * patternlab-node - v1.2.2 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -230,7 +230,16 @@ var patternlab_engine = function (config) {
         }
       }
     } else {
-      styleguidePatterns = patternlab.patterns;
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        // skip underscore-prefixed files
+        if (isPatternExcluded(patternlab.patterns[i])) {
+          if (patternlab.config.debug) {
+            console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
+          }
+          continue;
+        }
+        styleguidePatterns.push(patternlab.patterns[i]);
+      }
     }
 
     //get the main page head and foot
