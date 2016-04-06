@@ -81,7 +81,6 @@ var patternlab_engine = function (config) {
     patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
-    //patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
     patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
     patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
@@ -186,6 +185,11 @@ var patternlab_engine = function (config) {
       head = patternlab.header;
     }
 
+    //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+    patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
+      cacheBuster: patternlab.cacheBuster
+    });
+
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function (pattern) {
 
@@ -208,28 +212,40 @@ var patternlab_engine = function (config) {
       var allData = JSON.parse(JSON.stringify(patternlab.data));
       allData = plutils.mergeData(allData, pattern.jsonFileData);
 
-      //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-      allData.cacheBuster = patternlab.cacheBuster;
-      pattern.cacheBuster = patternlab.cacheBuster;
-
-      //render the pattern-specific header
-      var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
+      var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
 
       //render the extendedTemplate with all data
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
 
-      //set the pattern-specific footer if necessary
-      var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
-      pattern.footer = pattern_assembler.renderPattern(userFooter, {patternData: JSON.stringify(pattern)});
+      //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+      var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+        patternData: JSON.stringify({
+          cssEnabled: false,
+          lineage: pattern.lineage,
+          lineageR: pattern.lineageR,
+          patternBreadcrumb: 'TODO',
+          patternExtension: pattern.fileExtension,
+          patternName: pattern.patternName,
+          patternPartial: pattern.patternPartial,
+          patternState: pattern.patternState,
+          extraOutput: {}
+        }),
+        cacheBuster: patternlab.cacheBuster
+      });
+
+      var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
+        patternLabFoot : footerPartial
+      });
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartialCode + pattern.footer);
+      var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternPage);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartialCode));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(patternPage));
     });
 
     //export patterns if necessary

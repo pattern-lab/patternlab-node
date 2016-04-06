@@ -53,7 +53,16 @@ function assembleStyleguidePatterns(patternlab) {
       }
     }
   } else {
-    styleguidePatterns = patternlab.patterns;
+    for (i = 0; i < patternlab.patterns.length; i++) {
+      // skip underscore-prefixed files
+      if (isPatternExcluded(patternlab.patterns[i])) {
+        if (patternlab.config.debug) {
+          console.log('Omitting ' + patternlab.patterns[i].patternPartial + " from styleguide pattern exclusion.");
+        }
+        continue;
+      }
+      styleguidePatterns.push(patternlab.patterns[i]);
+    }
   }
 
   return styleguidePatterns;
@@ -211,7 +220,7 @@ function buildNavigation(patternlab) {
   return patternTypeIndex;
 }
 
-function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab) {
+function buildViewAllPages(mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab) {
   var paths = patternlab.config.paths;
   var prevSubdir = '';
   var prevGroup = '';
@@ -261,7 +270,7 @@ function buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPag
           patternSection: patternlab.patternSection,
           patternSectionSubType: patternlab.patternSectionSubType
         });
-      fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHead + viewAllHtml + mainPageFoot);
+      fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
     }
 
     //create the view all for the subsection
@@ -340,14 +349,22 @@ function buildFrontEnd(patternlab) {
   // check if patterns are excluded, if not add them to styleguidePatterns
   styleguidePatterns = assembleStyleguidePatterns(patternlab);
 
-  //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-  patternlab.data.cacheBuster = patternlab.cacheBuster;
+  //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+  var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
+    cacheBuster: patternlab.cacheBuster
+  });
+  var headerHTML = pattern_assembler.renderPattern(patternlab.userHead, {
+    patternLabHead : headerPartial
+  });
 
-  //get the main page head and foot and render them
-  var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
-  var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
-  var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
-  var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, {patternData: JSON.stringify(patternlab.data)});
+  //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+  var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    patternData: '{}',
+    cacheBuster: patternlab.cacheBuster
+  });
+  var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
+    patternLabFoot : footerPartial
+  });
 
   //build the styleguide
   var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
@@ -360,46 +377,13 @@ function buildFrontEnd(patternlab) {
       patternSectionSubType: patternlab.patternSectionSubType
     });
 
-  fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
+  fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
   //build the viewall pages
-  buildViewAllPages(mainPageHead, mainPageFoot, mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab);
+  buildViewAllPages(headerHTML, footerHTML, pattern_assembler, patternlab);
 
   //build the patternlab website
-  //
-
-  //loop through all patterns.to build the navigation
-  //todo: refactor this someday
-  //GTP: totally doing that right now
   buildNavigation(patternlab);
-
-  //the patternlab site requires a lot of partials to be rendered!
-
-  //patternNav
-  //TODO: this file was moved to client side hogam rendering
-  //var patternNavTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternNav.mustache'), 'utf8');
-  //var patternNavPartialHtml = pattern_assembler.renderPattern(patternNavTemplate, patternlab);
-
-  //ishControls
-  //TODO: this file was moved to client side hogan rendering
-  //var ishControlsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/ishControls.mustache'), 'utf8');
-  //patternlab.config.mqs = patternlab.mediaQueries;
-  //var ishControlsPartialHtml = pattern_assembler.renderPattern(ishControlsTemplate, patternlab.config);
-
-  //TODO: write these two things to patternlab-data.js ala https://github.com/pattern-lab/patternlab-php-core/blob/c2c4bc6a8bda2b2f9c08b197669ebc94c025e7c6/src/PatternLab/Builder.php#L199
-  //patternPaths
-  //var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternPaths.mustache'), 'utf8');
-  //var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
-
-  //viewAllPaths
-  //var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/viewAllPaths.mustache'), 'utf8');
-  //var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
-
-  //render the patternlab template, with all partials
-  //var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {
-  //  defaultPattern: patternlab.config.defaultPattern || 'all',
-  //  cacheBuster: patternlab.cacheBuster
-  //});
 
   //move the index file from its asset location into public root
   var patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'html/index.html'), 'utf8');
@@ -418,15 +402,13 @@ function buildFrontEnd(patternlab) {
   output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
 
   //patternPaths
-  output += 'var patternPaths = {"patternPaths":' + JSON.stringify(patternlab.patternPaths) + '};' + eol;
+  output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
 
   //viewAllPaths
   output += 'var viewAllPaths = {"viewAllPaths":' + JSON.stringify(patternlab.viewAllPaths) + '};' + eol;
 
   //plugins someday
   output += 'var plugins = [];' + eol;
-  //TODO
-  console.log(path.resolve(paths.public.data));
   fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
 
   //annotations
