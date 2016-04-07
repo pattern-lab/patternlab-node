@@ -152,5 +152,10 @@
     .product__status {
       text-align:right;
     }
+
+    .product__quantity,
+    .product__clear-btn {
+      display:none;
+    }
   }
 }

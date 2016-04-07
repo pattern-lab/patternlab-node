@@ -52,6 +52,15 @@
   &--contrastive {
     background-color : transparent;
     border-color : $colorWhite;
+
+    &:hover {
+      background-color: transparent;
+      color:$colorTussock;
+    }
+    &:active {
+      background-color: transparent;
+      color: lighten($colorTussock, 10%);
+    }
   }
 
   @media only screen and (min-width: $breakpointDesktop) {
