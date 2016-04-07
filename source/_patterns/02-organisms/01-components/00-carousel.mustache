@@ -12,17 +12,24 @@
 
         <div class="carousel__slide carousel__slide--visible">
             <a class="carousel__image" href="#" style="background-image:url(../../images/placeholder_banner.jpg)" title="{{ img.landscape-4x3.alt }}">
-                <span class="carousel__text">
-                    <h2 class="carousel__text--primary">Red is the new black</h2>
+                <span class="carousel__text carousel__text--center">
+                    <h2 class="carousel__text--primary">Lorem ipsum lorem ipsum lorem lorem</h2>
                     <h3 class="carousel__text--secondary">The new horizn backpack has arrived</h3>
+                    {{> atoms-button(type: true, class: 'contrastive') }}
                 </span>
             </a>
-            <a class="carousel__image" href="#" style="background-image:url(../../images/placeholder_banner.jpg)" title="{{ img.landscape-4x3.alt }}"></a>
+            <a class="carousel__image" href="#" style="background-image:url(../../images/placeholder_banner.jpg)" title="{{ img.landscape-4x3.alt }}">
+                <span class="carousel__text carousel__text--center">
+                    <h2 class="carousel__text--primary">Lorem ipsum</h2>
+                    <h3 class="carousel__text--secondary">The new horizn backpack has arrived</h3>
+                    {{> atoms-button(type: true, class: 'contrastive') }}
+                </span>
+            </a>
         </div>
     </div>
 
-    <div class="carousel__handles">
+    <!--<div class="carousel__handles">
         <button type="button" class="carousel__handle carousel__handle--active"></button>
         <button type="button" class="carousel__handle"></button>
-    </div>
+    </div>-->
 </div>
