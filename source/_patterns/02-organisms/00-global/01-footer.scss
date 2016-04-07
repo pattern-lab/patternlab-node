@@ -9,7 +9,7 @@
       content: "";
       width : 100%;
       background-color : $colorBlack;
-      height : 3px;
+      height : $blackDividerHeight;
       position : absolute;
       top : 1.5em;
       transform: translateX(-50%);

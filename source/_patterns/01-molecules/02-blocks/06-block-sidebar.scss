@@ -1,7 +1,7 @@
 .blockSidebar {
   &__innerWrapper {
     max-width : 28em;
-    border-top : 3px solid $colorBlack;
+    border-top : $blackDividerHeight solid $colorBlack;
     margin-right : auto;
     margin-left : auto;
     padding-right: $paddingMini;

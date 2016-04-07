@@ -34,7 +34,7 @@
   &__header {
     display: flex;
     flex: none;
-    border-bottom: 3px solid $colorBlack;
+    border-bottom: $blackDividerHeight solid $colorBlack;
 
     &__title {
       padding: 0.75em 0.75em 0.75em 1em;

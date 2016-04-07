@@ -79,7 +79,7 @@
       display: none;
       width: 55px;
       height: 10px;
-      border-bottom: 3px solid $colorWhite;
+      border-bottom: $blackDividerHeight solid $colorWhite;
       margin: 0 auto;
 
       @media only screen and (min-width: $breakpointMobile) {
