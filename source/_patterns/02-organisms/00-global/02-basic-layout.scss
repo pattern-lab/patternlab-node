@@ -9,16 +9,7 @@
     position:relative;
     width:100%;
     margin:0;
-
-    display:flex;
-    flex-flow:column nowrap;
     min-height:100%;
-
-    > .pageContent {
-      flex:1;
-      -ms-flex-preferred-size : auto;
-      width:100%;
-    }
 
     &:before {
       transition:all $animationTimingNormal ease-in-out;
