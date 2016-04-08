@@ -1,6 +1,7 @@
 .pageContent {
   max-width : $maxWidthLayout;
   margin : 0 auto;
+  box-sizing: border-box;
 
   @media only screen and (min-width : $breakpointDesktop) {
     padding-top : 0;
