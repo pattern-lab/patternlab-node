@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v1.2.0 - 2016 
+ * patternlab-node - v1.2.2 - 2016 
  * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license. 
@@ -12,7 +12,7 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var path = require('path'),
-    JSON = require('json5'),
+    JSON5 = require('json5'),
     fs = require('fs-extra'),
     diveSync = require('diveSync'),
     of = require('./object_factory'),
@@ -181,20 +181,20 @@ var patternlab_engine = function (config) {
       //json stringify lineage and lineageR
       var lineageArray = [];
       for (var i = 0; i < pattern.lineage.length; i++) {
-        lineageArray.push(JSON.stringify(pattern.lineage[i]));
+        lineageArray.push(JSON5.stringify(pattern.lineage[i]));
       }
       pattern.lineage = lineageArray;
 
       var lineageRArray = [];
       for (var i = 0; i < pattern.lineageR.length; i++) {
-        lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
+        lineageRArray.push(JSON5.stringify(pattern.lineageR[i]));
       }
       pattern.lineageR = lineageRArray;
 
       //render the pattern, but first consolidate any data we may have
       var allData;
       try {
-        allData = JSON.parse(JSON.stringify(patternlab.data));
+        allData = JSON5.parse(JSON5.stringify(patternlab.data));
       } catch (err) {
         console.log('There was an error parsing JSON for ' + pattern.abspath);
         console.log(err);
@@ -288,7 +288,16 @@ var patternlab_engine = function (config) {
         }
       }
     } else {
-      styleguidePatterns = patternlab.patterns;
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        // skip underscore-prefixed files
+        if (isPatternExcluded(patternlab.patterns[i])) {
+          if (patternlab.config.debug) {
+            console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
+          }
+          continue;
+        }
+        styleguidePatterns.push(patternlab.patterns[i]);
+      }
     }
 
     //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
@@ -561,11 +570,11 @@ var patternlab_engine = function (config) {
 
     //patternPaths
     var patternPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/patternPaths.mustache'), 'utf8');
-    var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON.stringify(patternlab.patternPaths)});
+    var patternPathsPartialHtml = pattern_assembler.renderPattern(patternPathsTemplate, {'patternPaths': JSON5.stringify(patternlab.patternPaths)});
 
     //viewAllPaths
     var viewAllPathsTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/partials/viewAllPaths.mustache'), 'utf8');
-    var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON.stringify(patternlab.viewAllPaths)});
+    var viewAllPathsPartialHtml = pattern_assembler.renderPattern(viewAllPathsTemplate, {'viewallpaths': JSON5.stringify(patternlab.viewAllPaths)});
 
     //render the patternlab template, with all partials
     var patternlabSiteHtml = pattern_assembler.renderPattern(patternlabSiteTemplate, {

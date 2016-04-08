@@ -1,6 +1,6 @@
-/*
- * patternlab-node - v1.2.0 - 2016
- *
+/* 
+ * patternlab-node - v1.2.2 - 2016 
+ * 
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
  *
@@ -13,7 +13,7 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
-    JSON = require('json5'),
+    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     pattern_assembler = new pa(),
@@ -26,7 +26,7 @@ var parameter_hunter = function () {
    * write a custom script to crawl through the parameter string, and wrap the
    * keys and values in double-quotes as necessary.
    * The steps on a high-level are as follows:
-   *   * Further escape all escaped quotes, commas, and colons. Use the string
+   *   * Further escape all escaped quotes and colons. Use the string
    *     representation of their unicodes for this. This has the added bonus
    *     of being interpreted correctly by JSON5.parse() without further
    *     modification. This will be useful later in the function.
@@ -269,9 +269,9 @@ var parameter_hunter = function () {
         var localData = {};
 
         try {
-          paramData = JSON.parse(paramStringWellFormed);
-          globalData = JSON.parse(JSON.stringify(patternlab.data));
-          localData = JSON.parse(JSON.stringify(pattern.jsonFileData || {}));
+          paramData = JSON5.parse(paramStringWellFormed);
+          globalData = JSON5.parse(JSON5.stringify(patternlab.data));
+          localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData || {}));
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.abspath);
           console.log(err);
