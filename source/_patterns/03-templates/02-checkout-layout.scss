@@ -131,6 +131,7 @@
   .section__hanging-icon.exclamation-mark {
     height:0;
     margin-top:$marginStandard;
+    overflow:hidden;
 
     @media only screen and (min-width: $breakpointDesktop) {
       margin-top:0;
@@ -151,6 +152,7 @@
 
     .product__status {
       text-align:right;
+      white-space:nowrap;
     }
 
     .product__quantity,
