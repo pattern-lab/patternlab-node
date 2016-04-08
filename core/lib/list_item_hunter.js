@@ -13,6 +13,7 @@
 var list_item_hunter = function () {
 
   var extend = require('util')._extend,
+    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     pattern_assembler = new pa(),
@@ -44,7 +45,13 @@ var list_item_hunter = function () {
         }
 
         //check for a local listitems.json file
-        var listData = JSON.parse(JSON.stringify(patternlab.listitems));
+        var listData;
+        try {
+          listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
+        } catch (err) {
+          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log(err);
+        }
         listData = pattern_assembler.merge_data(listData, pattern.listitems);
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
@@ -54,8 +61,15 @@ var list_item_hunter = function () {
 
           //combine listItem data with pattern data with global data
           var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
-          var globalData = JSON.parse(JSON.stringify(patternlab.data));
-          var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
+          var globalData;
+          var localData;
+          try {
+            globalData = JSON5.parse(JSON5.stringify(patternlab.data));
+            localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
+          } catch (err) {
+            console.log('There was an error parsing JSON for ' + pattern.abspath);
+            console.log(err);
+          }
 
           var allData = pattern_assembler.merge_data(globalData, localData);
           allData = pattern_assembler.merge_data(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
@@ -71,7 +85,13 @@ var list_item_hunter = function () {
               var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
 
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
-              var cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+              var cleanPartialPattern;
+              try {
+                cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+              } catch (err) {
+                console.log('There was an error parsing JSON for ' + pattern.abspath);
+                console.log(err);
+              }
 
               //if partial has style modifier data, replace the styleModifier value
               if (foundPartials[j].indexOf(':') > -1) {
