@@ -84,6 +84,7 @@ var patternlab_engine = function (config) {
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
     patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
     patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
+    patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};

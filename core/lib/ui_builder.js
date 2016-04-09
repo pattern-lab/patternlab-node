@@ -13,6 +13,8 @@
 var path = require('path');
 var fs = require('fs-extra');
 var of = require('./object_factory');
+var pa = require('./pattern_assembler');
+var pattern_assembler = new pa();
 var eol = require('os').EOL;
 
 // PRIVATE FUNCTIONS
@@ -99,8 +101,7 @@ function buildNavigation(patternlab) {
     //assume the patternSubTypeItem does not exist.
     patternSubTypeItem = new of.oPatternSubTypeItem(patternSubTypeItemName);
     patternSubTypeItem.patternPath = pattern.patternLink;
-    //todo: isnt this just the pattern.patternPartial?
-    patternSubTypeItem.patternPartial = patternTypeName + "-" + pattern.patternName; //add the hyphenated name
+    patternSubTypeItem.patternPartial = pattern.patternPartial;
 
     //check if the patternType already exists
     var patternTypeIndex = patternlab.patternTypeIndex.indexOf(patternTypeName);
@@ -219,8 +220,34 @@ function buildNavigation(patternlab) {
   }
   return patternTypeIndex;
 }
+function buildFooterHTML(patternlab, patternPartial){
+  //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+  var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    patternData: JSON.stringify({
+      patternPartial: patternPartial,
+    }),
+    cacheBuster: patternlab.cacheBuster
+  });
+  var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
+    patternLabFoot : footerPartial
+  });
+  return footerHTML;
+}
 
-function buildViewAllPages(mainPageHeadHtml, mainPageFootHtml, pattern_assembler, patternlab) {
+function buildViewAllHTML(patternlab, patterns, patternPartial){
+  var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
+    {
+      partials: patterns,
+      patternPartial: patternPartial,
+      cacheBuster: patternlab.cacheBuster
+    }, {
+      patternSection: patternlab.patternSection,
+      patternSectionSubType: patternlab.patternSectionSubType
+    });
+  return viewAllHTML;
+}
+
+function buildViewAllPages(mainPageHeadHtml, patternlab) {
   var paths = patternlab.config.paths;
   var prevSubdir = '';
   var prevGroup = '';
@@ -260,17 +287,13 @@ function buildViewAllPages(mainPageHeadHtml, mainPageFootHtml, pattern_assembler
         }
       }
 
-      var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-      var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate,
-        {
-          partials: viewAllPatterns,
-          patternPartial: patternPartial,
-          cacheBuster: patternlab.cacheBuster
-        }, {
-          patternSection: patternlab.patternSection,
-          patternSectionSubType: patternlab.patternSectionSubType
-        });
-      fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
+      //render the footer needed for the viewall template
+      var footerHTML = buildFooterHTML(patternlab, patternPartial);
+
+      //render the viewall template
+      var viewAllHTML = buildViewAllHTML(patternlab, viewAllPatterns, patternPartial);
+
+      fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
     }
 
     //create the view all for the subsection
@@ -295,17 +318,13 @@ function buildViewAllPages(mainPageHeadHtml, mainPageFootHtml, pattern_assembler
         }
       }
 
-      var viewAllTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-      var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate,
-        {
-          partials: viewAllPatterns,
-          patternPartial: patternPartial,
-          cacheBuster: patternlab.cacheBuster},
-        {
-          patternSection: patternlab.patternSection,
-          patternSectionSubType: patternlab.patternSectionSubType
-        });
-      fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
+      //render the footer needed for the viewall template
+      var footerHTML = buildFooterHTML(patternlab, patternPartial);
+
+      //render the viewall template
+      var viewAllHTML = buildViewAllHTML(patternlab, viewAllPatterns, patternPartial);
+
+      fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
     }
   }
 }
@@ -328,9 +347,7 @@ function sortPatterns(patternsArray) {
 // MAIN BUILDER FUNCTION
 
 function buildFrontEnd(patternlab) {
-  var pa = require('./pattern_assembler');
   var mh = require('./media_hunter');
-  var pattern_assembler = new pa();
   var media_hunter = new mh();
   var styleguidePatterns = [];
   var paths = patternlab.config.paths;
@@ -380,7 +397,7 @@ function buildFrontEnd(patternlab) {
   fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
   //build the viewall pages
-  buildViewAllPages(headerHTML, footerHTML, pattern_assembler, patternlab);
+  buildViewAllPages(headerHTML, patternlab);
 
   //build the patternlab website
   buildNavigation(patternlab);
@@ -405,7 +422,7 @@ function buildFrontEnd(patternlab) {
   output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
 
   //viewAllPaths
-  output += 'var viewAllPaths = {"viewAllPaths":' + JSON.stringify(patternlab.viewAllPaths) + '};' + eol;
+  output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
 
   //plugins someday
   output += 'var plugins = [];' + eol;
