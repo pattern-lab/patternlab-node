@@ -78,8 +78,16 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
-    patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
-    patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    try{
+      patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
+    } catch(ex){
+      patternlab.data = {};
+    }
+    try{
+      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    } catch(ex){
+      patternlab.listitems = {};
+    }
     patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
     patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
