@@ -50,7 +50,7 @@ exports['lineage hunter '] = {
     );
     extend(currentPattern, {
       "template": "<!-- Begin .header -->\r\n<header class=\"header cf\" role=\"banner\">\r\n\t{{> atoms-logo }}\r\n\t<a href=\"#\" class=\"nav-toggle nav-toggle-search icon-search\"><span class=\"is-vishidden\">Search</span></a>\r\n\t<a href=\"#\" class=\"nav-toggle nav-toggle-menu icon-menu\"><span class=\"is-vishidden\">Menu</span></a>\r\n\t{{> molecules-primary-nav }}\r\n\t{{> molecules-search }}\r\n</header>\r\n<!-- End .header -->\r\n",
-      "patternPartial": "<!-- Begin .header -->\r\n<header class=\"header cf\" role=\"banner\">\r\n<a href=\"/\"><img src=\"../../images/logo.png\" class=\"logo\" alt=\"Logo Alt Text\" /></a>\t<a href=\"#\" class=\"nav-toggle nav-toggle-search icon-search\"><span class=\"is-vishidden\">Search</span></a>\r\n\t<a href=\"#\" class=\"nav-toggle nav-toggle-menu icon-menu\"><span class=\"is-vishidden\">Menu</span></a>\r\n<nav id=\"nav\" class=\"nav\">\r\n\t<ul>\r\n\t\t<li><a href=\"#\">Home</a></li>\r\n\t\t<li><a href=\"#\">About</a></li>\r\n\t\t<li><a href=\"#\">Blog</a></li>\r\n\t\t<li><a href=\"#\">Contact</a></li>\r\n\t</ul>\r\n</nav><!--end .nav-->\r\n<form action=\"#\" method=\"post\" class=\"inline-form search-form\">           \r\n    <fieldset>\r\n\t    <legend class=\"is-vishidden\">Search</legend>\r\n\t    <label for=\"search-field\" class=\"is-vishidden\">Search</label>\r\n\t    <input type=\"search\" placeholder=\"Search\" id=\"search-field\" class=\"search-field\" />\r\n\t    <button class=\"search-submit\">\r\n\t    \t<span class=\"icon-search\" aria-hidden=\"true\"></span>\r\n\t    \t<span class=\"is-vishidden\">Search</span>\r\n\t    </button>\r\n    </fieldset>\r\n</form></header>\r\n<!-- End .header -->\r\n"
+      "patternPartialCode": "<!-- Begin .header -->\r\n<header class=\"header cf\" role=\"banner\">\r\n<a href=\"/\"><img src=\"../../images/logo.png\" class=\"logo\" alt=\"Logo Alt Text\" /></a>\t<a href=\"#\" class=\"nav-toggle nav-toggle-search icon-search\"><span class=\"is-vishidden\">Search</span></a>\r\n\t<a href=\"#\" class=\"nav-toggle nav-toggle-menu icon-menu\"><span class=\"is-vishidden\">Menu</span></a>\r\n<nav id=\"nav\" class=\"nav\">\r\n\t<ul>\r\n\t\t<li><a href=\"#\">Home</a></li>\r\n\t\t<li><a href=\"#\">About</a></li>\r\n\t\t<li><a href=\"#\">Blog</a></li>\r\n\t\t<li><a href=\"#\">Contact</a></li>\r\n\t</ul>\r\n</nav><!--end .nav-->\r\n<form action=\"#\" method=\"post\" class=\"inline-form search-form\">           \r\n    <fieldset>\r\n\t    <legend class=\"is-vishidden\">Search</legend>\r\n\t    <label for=\"search-field\" class=\"is-vishidden\">Search</label>\r\n\t    <input type=\"search\" placeholder=\"Search\" id=\"search-field\" class=\"search-field\" />\r\n\t    <button class=\"search-submit\">\r\n\t    \t<span class=\"icon-search\" aria-hidden=\"true\"></span>\r\n\t    \t<span class=\"is-vishidden\">Search</span>\r\n\t    </button>\r\n    </fieldset>\r\n</form></header>\r\n<!-- End .header -->\r\n"
     });
 
     var patternlab = {
@@ -131,7 +131,7 @@ exports['lineage hunter '] = {
     var currentPattern = createFakeEmptyErrorPattern();
     extend(currentPattern, {
       "template": "{{> atoms-error(message: 'That\\'s no moon...') }}",
-      "patternPartial": "{{> atoms-error(message: 'That\\'s no moon...') }}"
+      "patternPartialCode": "{{> atoms-error(message: 'That\\'s no moon...') }}"
     });
 
     var patternlab = {
@@ -143,7 +143,7 @@ exports['lineage hunter '] = {
           null,
           {
             "template": "<h1> {{message}} </h1>",
-            "patternPartial": "<h1> {{message}} </h1>"
+            "patternPartialCode": "<h1> {{message}} </h1>"
           }
         )
       ]
@@ -163,7 +163,7 @@ exports['lineage hunter '] = {
     var currentPattern = createFakeEmptyErrorPattern();
     extend(currentPattern, {
       "template": "{{>atoms-error(message: 'That\\'s no moon...')}}",
-      "patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}"
+      "patternPartialCode": "{{>atoms-error(message: 'That\\'s no moon...')}}"
     });
 
     var patternlab = {
@@ -368,7 +368,7 @@ exports['lineage hunter '] = {
     var currentPattern = createFakeEmptyErrorPattern();
     extend(currentPattern, {
       "template": "{{>atoms-error(message: 'That\\'s no moon...')}}",
-      "patternPartial": "{{>atoms-error(message: 'That\\'s no moon...')}}"
+      "patternPartialCode": "{{>atoms-error(message: 'That\\'s no moon...')}}"
     });
     var patternlab = {
       patterns: [

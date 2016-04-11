@@ -4,6 +4,7 @@
   var path = require('path');
   var pa = require('../core/lib/pattern_assembler');
   var testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
+  var eol = require('os').EOL;
 
   try {
     require('underscore');
@@ -54,7 +55,7 @@
       var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
       assembler.process_pattern_recursive(patternPath, patternlab);
 
-      test.equals(helloWorldPattern.render(), 'Hello world!\n');
+      test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
       test.done();
     },
     'underscore partials can render JSON values': function (test) {
@@ -77,7 +78,7 @@
       assembler.process_pattern_recursive(pattern1Path, patternlab);
 
       // test
-      test.equals(helloWorldWithData.render(), 'Hello world!\nYeah, we got the subtitle from the JSON.\n');
+      test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
       test.done();
     }
   };

@@ -60,33 +60,33 @@
 		}
 	};
 
-	exports['oNavItem initialization'] = {
-		'test oNavItem initializes correctly' : function(test){
-			var ni = new of.oNavItem('test');
+	exports['oPatternSubType initialization'] = {
+		'test oPatternSubType initializes correctly' : function(test){
+			var ni = new of.oPatternSubType('test');
 			test.equals(ni.patternSubtypeLC, 'test');
 			test.equals(ni.patternSubtypeUC, 'Test');
 			test.equals(ni.patternSubtypeItems.length, 0);
 			test.equals(ni.patternSubtypeItemsIndex.length, 0);
 			test.done();
 		},
-		'test oNavItem correctly capitalizes sectionNameUC' : function(test){
-			var ni = new of.oNavItem('global-concepts');
+		'test oPatternSubType correctly capitalizes sectionNameUC' : function(test){
+			var ni = new of.oPatternSubType('global-concepts');
 			test.equals(ni.patternSubtypeLC, 'global-concepts');
 			test.equals(ni.patternSubtypeUC, 'Global Concepts');
 			test.done();
 		}
 	};
 
-	exports['oSubNavItem initialization'] = {
-		'test oSubNavItem initializes correctly' : function(test){
-			var sni = new of.oNavSubItem('test');
+	exports['oPatternSubTypeItem initialization'] = {
+		'test oPatternSubTypeItem initializes correctly' : function(test){
+			var sni = new of.oPatternSubTypeItem('test');
 			test.equals(sni.patternName, 'Test');
 			test.equals(sni.patternPath, '');
-			test.equals(sni.patternPartial, '');
+			test.equals(sni.patternPartialCode, '');
 			test.done();
 		},
-		'test oSubNavItem capitalizes patternName' : function(test){
-			var sni = new of.oNavSubItem('nav button');
+		'test oPatternSubTypeItem capitalizes patternName' : function(test){
+			var sni = new of.oPatternSubTypeItem('nav button');
 			test.equals(sni.patternName, 'Nav Button');
 			test.done();
 		}
