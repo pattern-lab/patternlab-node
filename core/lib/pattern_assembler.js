@@ -16,7 +16,7 @@ var pattern_assembler = function () {
     fs = require('fs-extra'),
     of = require('./object_factory'),
     plutils = require('./utilities'),
-    patternEngines = require('./pattern_engines/pattern_engines');
+    patternEngines = require('./pattern_engines');
 
 
   // HELPER FUNCTIONS

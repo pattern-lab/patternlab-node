@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var patternEngines = require('../core/lib/pattern_engines/pattern_engines');
+  var patternEngines = require('../core/lib/pattern_engines');
   var of = require('../core/lib/object_factory');
 
   // the mustache test pattern, stolen from object_factory unit tests
