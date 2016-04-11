@@ -324,6 +324,7 @@
     },
 
     'parameter hunter parses parameters containing html tags' : function(test){
+      // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
       var parameter_hunter = new ph();
