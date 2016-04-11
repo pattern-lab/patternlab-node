@@ -78,14 +78,14 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
-    try{
+    try {
       patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
-    } catch(ex){
+    } catch (ex) {
       patternlab.data = {};
     }
-    try{
+    try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    } catch(ex){
+    } catch (ex) {
       patternlab.listitems = {};
     }
     patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');

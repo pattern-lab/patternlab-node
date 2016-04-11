@@ -74,6 +74,7 @@ function buildNavigation(patternlab) {
   for (var i = 0; i < patternlab.patterns.length; i++) {
 
     var pattern = patternlab.patterns[i];
+
     //todo: check if this is already available
     var patternTypeName = pattern.name.replace(/\\/g, '-').split('-')[1];
 
@@ -220,7 +221,8 @@ function buildNavigation(patternlab) {
   }
   return patternTypeIndex;
 }
-function buildFooterHTML(patternlab, patternPartial){
+
+function buildFooterHTML(patternlab, patternPartial) {
   //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
   var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
     patternData: JSON.stringify({
@@ -234,7 +236,7 @@ function buildFooterHTML(patternlab, patternPartial){
   return footerHTML;
 }
 
-function buildViewAllHTML(patternlab, patterns, patternPartial){
+function buildViewAllHTML(patternlab, patterns, patternPartial) {
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: patterns,
@@ -408,13 +410,14 @@ function buildFrontEnd(patternlab) {
 
   //write out the data
   var output = '';
+
   //config
   output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
 
   //ishControls
   output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
-  //todo add media queries to this
 
+  //todo add media queries to this
   //navItems
   output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
 
