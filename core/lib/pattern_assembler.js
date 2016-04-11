@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.0 - 2016
+ * patternlab-node - v1.2.1 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -117,15 +117,18 @@ var pattern_assembler = function () {
     }
   }
 
+  // Render a pattern on request. Long-term, this should probably go away.
   function renderPattern(pattern, data, partials) {
     // if we've been passed a full oPattern, it knows what kind of template it
     // is, and how to render itself, so we just call its render method
     if (pattern instanceof of.oPattern) {
       return pattern.render(data, partials);
     } else {
-      // otherwise, assume it's a plain mustache template string and act
-      // accordingly
-      return patternEngines.mustache.renderPattern(pattern, data, partials);
+      // otherwise, assume it's a plain mustache template string, and we
+      // therefore just need to create a dummpy pattern to be able to render
+      // it
+      var dummyPattern = of.oPattern.createEmpty({extendedTemplate: pattern});
+      return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
     }
   }
 

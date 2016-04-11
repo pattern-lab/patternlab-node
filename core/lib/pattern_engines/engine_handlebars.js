@@ -36,11 +36,11 @@ var engine_handlebars = {
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
   // render it
-  renderPattern: function renderPattern(template, data, partials) {
+  renderPattern: function renderPattern(pattern, data, partials) {
     if (partials) {
       Handlebars.registerPartial(partials);
     }
-    var compiled = Handlebars.compile(template);
+    var compiled = Handlebars.compile(pattern.extendedTemplate);
     return compiled(data);
   },
 

@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.0 - 2016
+ * patternlab-node - v1.2.1 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -253,8 +253,6 @@ var patternlab_engine = function (config) {
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
   }
-
-
 
   return {
     version: function () {

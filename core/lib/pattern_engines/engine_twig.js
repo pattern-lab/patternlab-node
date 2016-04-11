@@ -37,9 +37,9 @@ var engine_twig = {
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
 
   // render it
-  renderPattern: function renderPattern(template, data) {
+  renderPattern: function renderPattern(pattern, data) {
     var result = twig({
-      data: template
+      data: pattern.extendedTemplate
     }).render(data);
 
     return result;

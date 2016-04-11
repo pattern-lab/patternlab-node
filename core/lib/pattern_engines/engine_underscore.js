@@ -51,8 +51,8 @@
     findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
     // render it
-    renderPattern: function renderPattern(template, data, partials) {
-      var compiled = _.template(template);
+    renderPattern: function renderPattern(pattern, data, partials) {
+      var compiled = _.template(pattern.extendedTemplate);
       var renderedHTML;
 
       // This try-catch is necessary because references to undefined variables
@@ -65,7 +65,7 @@
           _partials: partials
         }));
       } catch (e) {
-        var errorMessage = "WARNING: the underscore template " + template.fileName + " threw an exception; it probably just tried to reference an undefined variable. Is this pattern maybe missing a .json file?";
+        var errorMessage = "WARNING: the underscore template " + pattern.fileName + " threw an exception; it probably just tried to reference an undefined variable. Is this pattern maybe missing a .json file?";
         console.log(errorMessage, e);
         renderedHTML = "<h1>Error in underscore template</h1>" + errorMessage;
       }
