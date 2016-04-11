@@ -158,7 +158,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['patternlab', 'copy:main', 'copy:styleguide']);
 
   //travis CI task
-  grunt.registerTask('travis', ['nodeunit', 'eslint', 'patternlab']);
+  grunt.registerTask('travis', ['nodeunit', 'eslint']);
 
   grunt.registerTask('serve', ['patternlab', 'copy:main', 'copy:styleguide', 'browserSync', 'watch:all']);
 
