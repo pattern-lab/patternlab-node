@@ -217,6 +217,7 @@ var patternlab_engine = function (config) {
 
       //render the extendedTemplate with all data
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+      pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
 
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
       var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
