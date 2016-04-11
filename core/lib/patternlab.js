@@ -81,18 +81,26 @@ var patternlab_engine = function (config) {
     try {
       patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     } catch (ex) {
+      console.log('missing ' + paths.source.data + '/data.json  Pattern Lab may not work without this file.');
       patternlab.data = {};
     }
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
+      console.log('missing ' + paths.source.data + '/listitems.json  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
-    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
-    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
-    patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
-    patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
-    patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+    try {
+
+      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
+      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
+      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
+      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
+      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+    } catch (ex) {
+      console.log(ex);
+      console.log('missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab may not work without this file.');
+    }
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
