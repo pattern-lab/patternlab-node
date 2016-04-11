@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.2.1 - 2016 
- * 
+/*
+ * patternlab-node - v1.2.1 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -30,7 +30,7 @@ var list_item_hunter = function () {
       matches.forEach(function (liMatch) {
 
         if (patternlab.config.debug) {
-          console.log('found listItem of size ' + liMatch + ' inside ' + pattern.key);
+          console.log('found listItem of size ' + liMatch + ' inside ' + pattern.patternPartial);
         }
 
         //find the boundaries of the block
@@ -76,9 +76,9 @@ var list_item_hunter = function () {
 
               //get the partial
               var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+              var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
 
-              //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
+              //create a copy of the partial so as to not pollute it after the findPartial call.
               var cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
 
               //if partial has style modifier data, replace the styleModifier value
@@ -107,7 +107,7 @@ var list_item_hunter = function () {
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.key] = pattern.extendedTemplate;
+        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
 
       });
     }

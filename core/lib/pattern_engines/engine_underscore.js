@@ -75,7 +75,7 @@
 
     // registerPartial: function (oPattern) {
     //   debugger;
-    //   _.registerPartial(oPattern.key, oPattern.template);
+    //   _.registerPartial(oPattern.patternPartial, oPattern.template);
     // },
 
     // find and return any {{> template-name }} within pattern
@@ -97,11 +97,11 @@
       return matches;
     },
 
-    // given a pattern, and a partial string, tease out the "pattern key" and
+    // given a pattern, and a partial string, tease out the "pattern partial" and
     // return it.
-    findPartialKey: function (partialString) {
-      var partialKey = partialString.replace(this.findPartialsRE, '$1');
-      return partialKey;
+    findPartial: function (partialString) {
+      var partial = partialString.replace(this.findPartialsRE, '$1');
+      return partial;
     }
   };
 

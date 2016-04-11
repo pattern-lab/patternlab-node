@@ -33,7 +33,7 @@ var engine_twig = {
 
   // regexes, stored here so they're only compiled once
   findPartialsRE: /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?%}/g,
-  findPartialKeyRE: /"((?:\\.|[^"\\])*)"/,
+  findPartialRE: /"((?:\\.|[^"\\])*)"/,
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
 
   // render it
@@ -68,14 +68,14 @@ var engine_twig = {
     return matches;
   },
 
-  // given a pattern, and a partial string, tease out the "pattern key" and
+  // given a pattern, and a partial string, tease out the "pattern partial" and
   // return it.
-  findPartialKey: function (partialString) {
-    //var partialKey = partialString.replace(this.findPartialsRE, '$1');
-    var partialKey = partialString.match(this.findPartialKeyRE)[0];
-    partialKey = partialKey.replace(/"/g, '');
+  findPartial: function (partialString) {
+    //var partial = partialString.replace(this.findPartialsRE, '$1');
+    var partial = partialString.match(this.findPartialRE)[0];
+    partial = partial.replace(/"/g, '');
 
-    return partialKey;
+    return partial;
   }
 };
 

@@ -124,35 +124,35 @@ listItemsStr += '\\s*}}';
 var listItemsRE = new RegExp(listItemsStr, 'g');
 
 // look for an opening mustache loop tag, followed by >=0 whitespaces
-var partialKeyStr = '{{>\\s*';
+var partialStr = '{{>\\s*';
 
 // one or more characters comprising any combination of alphanumerics,
 // hyphens, periods, slashses, and tildes
-partialKeyStr += '([\\w\\-\\.\\/~]+)';
+partialStr += '([\\w\\-\\.\\/~]+)';
 
 // an optional group of characters starting with a colon, followed by >0
 // alphanumerics, hyphens, or pipes
-partialKeyStr += '(\\:[\\w\\-|]+)?';
+partialStr += '(\\:[\\w\\-|]+)?';
 
 // an optional group of characters starting with a colon, followed by >0
 // alphanumerics or hyphens
-partialKeyStr += '(\\:[\\w\\-]+)?';
+partialStr += '(\\:[\\w\\-]+)?';
 
 // an optional group of characters starting with >=0 whitespaces, followed by
 // an opening parenthesis, followed by any number of characters that are not
 // closing parentheses, followed by a closing parenthesis
-partialKeyStr += '(\\s*\\([^\\)]*\\))?';
+partialStr += '(\\s*\\([^\\)]*\\))?';
 
 // look for >=0 whitespaces, followed by closing mustache tag
-partialKeyStr += '\\s*}}';
-var partialKeyRE = new RegExp(partialKeyStr, 'g');
+partialStr += '\\s*}}';
+var partialRE = new RegExp(partialStr, 'g');
 
 var utilMustache = {
   partialsRE: partialsRE,
   partialsWithStyleModifiersRE: partialsWithStyleModifiersRE,
   partialsWithPatternParametersRE: partialsWithPatternParametersRE,
   listItemsRE: listItemsRE,
-  partialKeyRE: partialKeyRE
+  partialRE: partialRE
 };
 
 module.exports = utilMustache;

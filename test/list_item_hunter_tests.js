@@ -95,7 +95,7 @@
           {
             "template": "{{ title }}",
             "extendedTemplate" : "{{ title }}",
-            "key": "test-simple",
+            "patternPartial": "test-simple",
             "jsonFileData" : {}
           }
 
@@ -138,14 +138,14 @@
           })
         ]
       });
-      
+
       // {
       //  "template": "{{ title }}",
       //  "extendedTemplate" : "{{ title }}",
       //  "subdir": "00-test",
       //  "fileName": "00-foo",
       //  "jsonFileData" : {},
-      //  "key": "test-foo",
+      //  "patternPartial": "test-foo",
       // },
       // {
       //  "template": "{{ title }}",
@@ -153,7 +153,7 @@
       //  "subdir": "00-test",
       //  "fileName": "01-bar",
       //  "jsonFileData" : {},
-      //  "key": "test-bar",
+      //  "patternPartial": "test-bar",
       // }
 
       var list_item_hunter = new lih();
@@ -189,7 +189,7 @@
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
-            "key": "test-simple",
+            "patternPartial": "test-simple",
             "jsonFileData": {}
           })
         ]
@@ -225,7 +225,7 @@
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
-            "key": "test-simple",
+            "patternPartial": "test-simple",
             "jsonFileData" : {}
           })
         ]
@@ -266,7 +266,7 @@
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
-            "key": "test-simple",
+            "patternPartial": "test-simple",
             "jsonFileData": {}
           })
         ]

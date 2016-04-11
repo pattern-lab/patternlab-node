@@ -78,11 +78,29 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
-    patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
-    patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-    patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
-    patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
+    try {
+      patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
+    } catch (ex) {
+      console.log('missing ' + paths.source.data + '/data.json  Pattern Lab may not work without this file.');
+      patternlab.data = {};
+    }
+    try {
+      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    } catch (ex) {
+      console.log('missing ' + paths.source.data + '/listitems.json  Pattern Lab may not work without this file.');
+      patternlab.listitems = {};
+    }
+    try {
+
+      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
+      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
+      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
+      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
+      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+    } catch (ex) {
+      console.log(ex);
+      console.log('missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab may not work without this file.');
+    }
     patternlab.patterns = [];
     patternlab.partials = {};
     patternlab.data.link = {};
@@ -144,7 +162,8 @@ var patternlab_engine = function (config) {
 
     //set user defined head and foot if they exist
     try {
-      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+      patternlab.userHead = pattern_assembler.findPartial('atoms-_00-head', patternlab);
+      patternlab.userHead.extendedTemplate = patternlab.userHead.template;
     }
     catch (ex) {
       if (patternlab.config.debug) {
@@ -153,7 +172,8 @@ var patternlab_engine = function (config) {
       }
     }
     try {
-      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+      patternlab.userFoot = pattern_assembler.findPartial('atoms-_01-foot', patternlab);
+      patternlab.userFoot.extendedTemplate = patternlab.userFoot.template;
     }
     catch (ex) {
       if (patternlab.config.debug) {
@@ -182,6 +202,11 @@ var patternlab_engine = function (config) {
       head = patternlab.header;
     }
 
+    //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+    patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
+      cacheBuster: patternlab.cacheBuster
+    });
+
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function (pattern) {
 
@@ -204,32 +229,41 @@ var patternlab_engine = function (config) {
       var allData = JSON.parse(JSON.stringify(patternlab.data));
       allData = plutils.mergeData(allData, pattern.jsonFileData);
 
-      //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-      allData.cacheBuster = patternlab.cacheBuster;
-      pattern.cacheBuster = patternlab.cacheBuster;
-
-      //render the pattern-specific header
-      var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
+      var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
 
       //render the extendedTemplate with all data
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern, allData);
+      pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+      pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
 
-      //set the pattern-specific footer if necessary
-      if (patternlab.userFoot) {
-        var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
-        pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
-      } else {
-        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, pattern);
-      }
+      //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+      var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+        patternData: JSON.stringify({
+          cssEnabled: false,
+          lineage: pattern.lineage,
+          lineageR: pattern.lineageR,
+          patternBreadcrumb: 'TODO',
+          patternExtension: pattern.fileExtension,
+          patternName: pattern.patternName,
+          patternPartial: pattern.patternPartial,
+          patternState: pattern.patternState,
+          extraOutput: {}
+        }),
+        cacheBuster: patternlab.cacheBuster
+      });
+
+      var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
+        patternLabFoot : footerPartial
+      });
 
       //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartial + pattern.footer);
+      var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternPage);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(patternPage));
     });
 
     //export patterns if necessary
