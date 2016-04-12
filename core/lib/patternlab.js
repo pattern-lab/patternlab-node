@@ -91,15 +91,15 @@ var patternlab_engine = function (config) {
       patternlab.listitems = {};
     }
     try {
-
-      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
-      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
-      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
+      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.mustache'), 'utf8');
+      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.mustache'), 'utf8');
+      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.mustache'), 'utf8');
+      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.mustache'), 'utf8');
       patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
     } catch (ex) {
       console.log(ex);
-      console.log('missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab may not work without this file.');
+      console.log('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      process.exit(1);
     }
     patternlab.patterns = [];
     patternlab.partials = {};
