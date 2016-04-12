@@ -279,10 +279,14 @@
 			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 
-			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
+			//patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+      patternlab.data = {};
+			//patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+      patternlab.listitems = {};
+			//patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+      patternlab.header = '';
+			//patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
+      patternlab.footer = '';
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -610,10 +614,14 @@
 			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
 
-			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
+			//patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+      patternlab.data = {};
+			//patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+      patternlab.listitems = {};
+			//patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+      patternlab.header = '';
+			//patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
+      patternlab.footer = '';
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -661,7 +669,7 @@
 			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-        key: "pages-homepage-emergency"
+        patternPartial: "pages-homepage-emergency"
 			};
 
 			//act
@@ -702,10 +710,14 @@
 			//THIS IS BAD
 			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
-			patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-			patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-			patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-			patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
+      patternlab.data = {};
+      patternlab.listitems = {};
+      patternlab.header = {};
+      patternlab.footer = {};
+      //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
+      //patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
+		  //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
+		  //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
 			patternlab.patterns = [];
 			patternlab.data.link = {};
 			patternlab.partials = {};
@@ -743,7 +755,7 @@
 
 			var pattern;
 			for(var i = 0; i < patternlab.patterns.length; i++){
-				if(patternlab.patterns[i].key === 'test-nav'){
+				if(patternlab.patterns[i].patternPartial === 'test-nav'){
 					pattern = patternlab.patterns[i];
 				}
 			}
@@ -773,13 +785,13 @@
 			patternlab.patterns = [];
 
 			patternlab.patterns.push({
-				key: 'character-han-solo',
+        patternPartial: 'character-han-solo',
 				subdir: 'character',
 				fileName: 'han-solo'
 			});
 
 			//act
-			var result = pattern_assembler.get_pattern_by_key('character-han', patternlab);
+			var result = pattern_assembler.findPartial('character-han', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[0]);
 			test.done();
@@ -791,17 +803,17 @@
 			patternlab.patterns = [];
 
 			patternlab.patterns.push({
-				key: 'molecules-primary-nav-jagged',
+        patternPartial: 'molecules-primary-nav-jagged',
 				subdir: 'molecules',
 				fileName: 'primary-nav-jagged'
 			}, {
-				key: 'molecules-primary-nav',
+        patternPartial: 'molecules-primary-nav',
 				subdir: 'molecules',
 				fileName: 'molecules-primary-nav'
 			});
 
 			//act
-			var result = pattern_assembler.get_pattern_by_key('molecules-primary-nav', patternlab);
+			var result = pattern_assembler.findPartial('molecules-primary-nav', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[1]);
 			test.done();
@@ -813,6 +825,7 @@
 			patternlab.patterns = [];
 			patternlab.partials = {};
 			patternlab.data = {link: {}};
+      patternlab.config = { debug: false };
 
 			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
 			pattern.extendedTemplate = 'barExtended';
@@ -834,6 +847,7 @@
 			patternlab.patterns = [];
 			patternlab.partials = {};
 			patternlab.data = {link: {}};
+      patternlab.config = { debug: false };
 
 			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
 			pattern.extendedTemplate = undefined;
