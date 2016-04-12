@@ -36,14 +36,19 @@ var engine_mustache = {
   findPartialsWithStyleModifiersRE: utilMustache.partialsWithStyleModifiersRE,
   findPartialsWithPatternParametersRE: utilMustache.partialsWithPatternParametersRE,
   findListItemsRE: utilMustache.listItemsRE,
-  findPartialKeyRE: utilMustache.partialKeyRE,
+  findPartialRE: utilMustache.partialRE,
 
   // render it
-  renderPattern: function renderPattern(template, data, partials) {
-    if (partials) {
-      return Mustache.render(template, data, partials);
+  renderPattern: function renderPattern(pattern, data, partials) {
+    try {
+      if (partials) {
+        return Mustache.render(pattern.extendedTemplate, data, partials);
+      }
+      return Mustache.render(pattern.extendedTemplate, data);
+    } catch (e) {
+      debugger;
+      console.log("e = ", e);
     }
-    return Mustache.render(template, data);
   },
 
   /**
@@ -88,26 +93,26 @@ var engine_mustache = {
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartialKey_new: function (partialString) {
-    var partialKey = partialString.replace(this.findPartialKeyRE, '$1');
-    return partialKey;
+  findPartial_new: function (partialString) {
+    var partial = partialString.replace(this.findPartialRE, '$1');
+    return partial;
   },
 
   // GTP: the old implementation works better. We might not need
-  // this.findPartialKeyRE anymore if it works in all cases!
-  findPartialKey: function (partialString) {
+  // this.findPartialRE anymore if it works in all cases!
+  findPartial: function (partialString) {
     //strip out the template cruft
-    var foundPatternKey = partialString.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
+    var foundPatternPartial = partialString.replace("{{> ", "").replace(" }}", "").replace("{{>", "").replace("}}", "");
 
     // remove any potential pattern parameters. this and the above are rather brutish but I didn't want to do a regex at the time
-    if (foundPatternKey.indexOf('(') > 0) {
-      foundPatternKey = foundPatternKey.substring(0, foundPatternKey.indexOf('('));
+    if (foundPatternPartial.indexOf('(') > 0) {
+      foundPatternPartial = foundPatternPartial.substring(0, foundPatternPartial.indexOf('('));
     }
 
     //remove any potential stylemodifiers.
-    foundPatternKey = foundPatternKey.split(':')[0];
+    foundPatternPartial = foundPatternPartial.split(':')[0];
 
-    return foundPatternKey;
+    return foundPatternPartial;
   }
 };
 
