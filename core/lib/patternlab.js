@@ -212,18 +212,14 @@ var patternlab_engine = function (config) {
 
       pattern.header = head;
 
-      //json stringify lineage and lineageR
-      var lineageArray = [];
-      for (var i = 0; i < pattern.lineage.length; i++) {
-        lineageArray.push(JSON.stringify(pattern.lineage[i]));
-      }
-      pattern.lineage = lineageArray;
+      //todo move this into lineage_hunter
+      pattern.patternLineages = pattern.lineage;
+      pattern.patternLineageExists = pattern.lineage.length > 0;
 
-      var lineageRArray = [];
-      for (var i = 0; i < pattern.lineageR.length; i++) {
-        lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
-      }
-      pattern.lineageR = lineageRArray;
+      pattern.patternLineagesR = pattern.lineageR;
+      pattern.patternLineageRExists = pattern.lineageR.length > 0;
+
+      pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
       //render the pattern, but first consolidate any data we may have
       var allData = JSON.parse(JSON.stringify(patternlab.data));
@@ -239,10 +235,11 @@ var patternlab_engine = function (config) {
       var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
         patternData: JSON.stringify({
           cssEnabled: false,
-          patternLineageExists: pattern.lineage.length > 0,
-          patternLineages: pattern.lineage,
-          patternLineageRExists: pattern.lineageR.length > 0,
-          patternLineagesR: pattern.lineageR,
+          patternLineageExists: pattern.patternLineageExists,
+          patternLineages: pattern.patternLineages,
+          patternLineageRExists: pattern.patternLineageRExists,
+          patternLineagesR: pattern.patternLineagesR,
+          patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
           patternBreadcrumb: 'TODO',
           patternExtension: pattern.fileExtension,
           patternName: pattern.patternName,
