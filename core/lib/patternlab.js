@@ -239,8 +239,10 @@ var patternlab_engine = function (config) {
       var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
         patternData: JSON.stringify({
           cssEnabled: false,
-          lineage: pattern.lineage,
-          lineageR: pattern.lineageR,
+          patternLineageExists: pattern.lineage.length > 0,
+          patternLineages: pattern.lineage,
+          patternLineageRExists: pattern.lineageR.length > 0,
+          patternLineagesR: pattern.lineageR,
           patternBreadcrumb: 'TODO',
           patternExtension: pattern.fileExtension,
           patternName: pattern.patternName,
