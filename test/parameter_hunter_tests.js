@@ -355,6 +355,27 @@
       test.done();
     },
 
+    'parameter hunter parses parameters containing html tags' : function(test){
+      // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
+      var currentPattern = currentPatternClosure();
+      var patternlab = patternlabClosure();
+      var parameter_hunter = new ph();
+      var parameteredPartials = [];
+
+      patternlab.patterns[0].template = "<p>{{{ tag1 }}}</p><p>{{{ tag2 }}}</p><p>{{{ tag3 }}}</p>";
+      patternlab.patterns[0].escapedTemplate = patternlab.patterns[0].template;
+      patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+
+      currentPattern.template = "{{> molecules-single-comment(tag1: '<strong>Single-quoted</strong>', tag2: \"<em>Double-quoted</em>\", tag3: '<strong class=\\\"foo\\\" id=\\\'bar\\\'>With attributes</strong>') }}";
+      currentPattern.extendedTemplate = currentPattern.template;
+      parameteredPartials[0] = currentPattern.template;
+
+      parameter_hunter.find_parameters(currentPattern, patternlab, parameteredPartials);
+      test.equals(currentPattern.extendedTemplate, '<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>');
+
+      test.done();
+    },
+
     'pattern assembler recursively includes and processes a partial that has parameters itself' : function(test){
       // this test utilizes pattern_assembler for the heavy lifting, but the actual code being tested resides inside parameter_hunter.js
       //arrange
