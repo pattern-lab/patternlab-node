@@ -9,7 +9,8 @@
     "glob": "^7.0.0",
     "hogan.js": "^3.0.2",
     "html-entities": "^1.2.0",
-    "json5": "^0.5.0"
+    "json5": "^0.5.0",
+    "matchdep": "^1.0.0"
   },
   "devDependencies": {
     "bs-html-injector": "^3.0.0",
