@@ -611,8 +611,8 @@ var pattern_assembler = function () {
       }
       if (hasLocalListItems) {
         try {
-          currentPattern.listitems = pattern_assembler.merge_data(patternlab.listitems, fs.readJSONSync(listJsonFileName));
-          currentPattern.listitemsRaw = pattern_assembler.merge_data(patternlab.listitems, fs.readJSONSync(listJsonFileName));
+          currentPattern.listitems = mergeData(patternlab.listitems, fs.readJSONSync(listJsonFileName));
+          currentPattern.listitemsRaw = mergeData(patternlab.listitems, fs.readJSONSync(listJsonFileName));
           buildListItems(currentPattern);
 
           if (patternlab.config.debug) {
