@@ -51,9 +51,7 @@
   },
   "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternStates": {
-    "molecules-single-comment" : "complete",
-    "organisms-sticky-comment" : "inreview",
-    "templates-article" : "complete"
+    "molecules-block-hero" : "inreview"
   },
   "patternExportKeys": [],
   "patternExportDirectory": "./pattern_exports/",
