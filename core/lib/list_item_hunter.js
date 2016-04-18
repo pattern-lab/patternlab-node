@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.1 - 2016
+ * patternlab-node - v1.3.0 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -13,6 +13,7 @@
 var list_item_hunter = function () {
 
   var extend = require('util')._extend,
+    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     plutils = require('./utilities'),
@@ -49,7 +50,13 @@ var list_item_hunter = function () {
         }
 
         //check for a local listitems.json file
-        var listData = JSON.parse(JSON.stringify(patternlab.listitems));
+        var listData;
+        try {
+          listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
+        } catch (err) {
+          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log(err);
+        }
         listData = plutils.mergeData(listData, pattern.listitems);
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
@@ -60,8 +67,15 @@ var list_item_hunter = function () {
 
           //combine listItem data with pattern data with global data
           var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
-          var globalData = JSON.parse(JSON.stringify(patternlab.data));
-          var localData = JSON.parse(JSON.stringify(pattern.jsonFileData));
+          var globalData;
+          var localData;
+          try {
+            globalData = JSON5.parse(JSON5.stringify(patternlab.data));
+            localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
+          } catch (err) {
+            console.log('There was an error parsing JSON for ' + pattern.abspath);
+            console.log(err);
+          }
 
           var allData = plutils.mergeData(globalData, localData);
           allData = plutils.mergeData(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
@@ -78,8 +92,14 @@ var list_item_hunter = function () {
               var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
               var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
 
-              //create a copy of the partial so as to not pollute it after the findPartial call.
-              var cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+              //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
+              var cleanPartialPattern;
+              try {
+                cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+              } catch (err) {
+                console.log('There was an error parsing JSON for ' + pattern.abspath);
+                console.log(err);
+              }
 
               //if partial has style modifier data, replace the styleModifier value
               if (foundPartials[j].indexOf(':') > -1) {

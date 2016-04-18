@@ -51,9 +51,7 @@
   "ishMaximum": "2600",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternStates": {
-    "molecules-single-comment" : "complete",
-    "organisms-sticky-comment" : "inreview",
-    "templates-article" : "complete"
+    "molecules-block-hero" : "inreview"
   },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",

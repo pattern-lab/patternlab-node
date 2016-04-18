@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.1 - 2016
+ * patternlab-node - v1.3.0 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -12,6 +12,7 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var path = require('path'),
+    JSON5 = require('json5'),
     fs = require('fs-extra'),
     diveSync = require('diveSync'),
     pa = require('./pattern_assembler'),
@@ -222,9 +223,14 @@ var patternlab_engine = function (config) {
       pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
       //render the pattern, but first consolidate any data we may have
-      var allData = JSON.parse(JSON.stringify(patternlab.data));
+      var allData;
+      try {
+        allData = JSON5.parse(JSON5.stringify(patternlab.data));
+      } catch (err) {
+        console.log('There was an error parsing JSON for ' + pattern.abspath);
+        console.log(err);
+      }
       allData = plutils.mergeData(allData, pattern.jsonFileData);
-
       var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
 
       //render the extendedTemplate with all data
