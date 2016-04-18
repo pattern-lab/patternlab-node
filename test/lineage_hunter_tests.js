@@ -543,7 +543,7 @@
       test.done();
     },
 
-    'cascade_pattern_states does not promote lower pattern state when consumer does not display its own state' : function(test){
+    'cascade_pattern_states promotes lower pattern state when consumer does not have its own state' : function(test){
       //arrange
       var pl = createBasePatternLabObject();
       pl.config.patternStates = {
@@ -572,7 +572,7 @@
       var consumerPatternReturned = pattern_assembler.get_pattern_by_key('test-foo', pl);
       test.equals(consumerPatternReturned.lineage.length, 1);
       test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
-      test.equals(consumerPatternReturned.patternState, '');
+      test.equals(consumerPatternReturned.patternState, 'inreview');
       test.done();
     }
 
