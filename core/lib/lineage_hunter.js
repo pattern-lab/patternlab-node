@@ -19,36 +19,19 @@ var lineage_hunter = function () {
     var pattern_assembler = new pa();
 
     //find the {{> template-name }} within patterns
-    var matches = pattern_assembler.find_pattern_partials(pattern);
+    var matches = pattern.findPartials();
     if (matches !== null) {
       matches.forEach(function (match) {
-        //strip out the template cruft
-        var foundPatternKey = match
-              .replace("{{> ", "")
-              .replace(" }}", "")
-              .replace("{{>", "")
-              .replace("}}", "");
-
-        // remove any potential pattern parameters. this and the above are
-        // rather brutish but I didn't want to do a regex at the time
-        if (foundPatternKey.indexOf('(') > 0) {
-          foundPatternKey = foundPatternKey.substring(0, foundPatternKey.indexOf('('));
-        }
-
-        //remove any potential stylemodifiers.
-        foundPatternKey = foundPatternKey.split(':')[0];
-
         //get the ancestorPattern
-        var ancestorPattern = pattern_assembler.get_pattern_by_key(foundPatternKey, patternlab);
+        var ancestorPattern = pattern_assembler.findPartial(pattern.findPartial(match), patternlab);
 
-        if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.key) === -1) {
-
+        if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) === -1) {
           //add it since it didnt exist
-          pattern.lineageIndex.push(ancestorPattern.key);
+          pattern.lineageIndex.push(ancestorPattern.patternPartial);
 
           //create the more complex patternLineage object too
           var l = {
-            "lineagePattern": ancestorPattern.key,
+            "lineagePattern": ancestorPattern.patternPartial,
             "lineagePath": "../../patterns/" + ancestorPattern.patternLink
           };
           if (ancestorPattern.patternState) {
@@ -58,12 +41,12 @@ var lineage_hunter = function () {
           pattern.lineage.push(l);
 
           //also, add the lineageR entry if it doesn't exist
-          if (ancestorPattern.lineageRIndex.indexOf(pattern.key) === -1) {
-            ancestorPattern.lineageRIndex.push(pattern.key);
+          if (ancestorPattern.lineageRIndex.indexOf(pattern.patternPartial) === -1) {
+            ancestorPattern.lineageRIndex.push(pattern.patternPartial);
 
             //create the more complex patternLineage object in reverse
             var lr = {
-              "lineagePattern": pattern.key,
+              "lineagePattern": pattern.patternPartial,
               "lineagePath": "../../patterns/" + pattern.patternLink
             };
             if (pattern.patternState) {
@@ -81,14 +64,14 @@ var lineage_hunter = function () {
     // if the request came from the past, apply target pattern state to current pattern lineage
     if (direction === 'fromPast') {
       for (var i = 0; i < pattern.lineageIndex.length; i++) {
-        if (pattern.lineageIndex[i] === targetPattern.key) {
+        if (pattern.lineageIndex[i] === targetPattern.patternPartial) {
           pattern.lineage[i].lineageState = targetPattern.patternState;
         }
       }
     } else {
       //the request came from the future, apply target pattern state to current pattern reverse lineage
       for (var i = 0; i < pattern.lineageRIndex.length; i++) {
-        if (pattern.lineageRIndex[i] === targetPattern.key) {
+        if (pattern.lineageRIndex[i] === targetPattern.patternPartial) {
           pattern.lineageR[i].lineageState = targetPattern.patternState;
         }
       }
@@ -110,7 +93,7 @@ var lineage_hunter = function () {
 
           //find all lineage - patterns being consumed by this one
           for (var h = 0; h < pattern.lineageIndex.length; h++) {
-            var lineagePattern = pattern_assembler.get_pattern_by_key(pattern.lineageIndex[h], patternlab);
+            var lineagePattern = pattern_assembler.findPartial(pattern.lineageIndex[h], patternlab);
             setPatternState('fromFuture', lineagePattern, pattern);
           }
         }
@@ -120,7 +103,7 @@ var lineage_hunter = function () {
           //find all reverse lineage - that is, patterns consuming this one
           for (var j = 0; j < pattern.lineageRIndex.length; j++) {
 
-            var lineageRPattern = pattern_assembler.get_pattern_by_key(pattern.lineageRIndex[j], patternlab);
+            var lineageRPattern = pattern_assembler.findPartial(pattern.lineageRIndex[j], patternlab);
 
             //only set patternState if pattern.patternState "is less than" the lineageRPattern.patternstate
             //or if lineageRPattern.patternstate (the consuming pattern) does not have a state
@@ -129,7 +112,7 @@ var lineage_hunter = function () {
               < patternlab.config.patternStateCascade.indexOf(lineageRPattern.patternState))) {
 
               if (patternlab.config.debug) {
-                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.key + '. Setting reverse lineage pattern ' + lineageRPattern.key + ' from ' + (lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState));
+                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.key + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + (lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState));
               }
 
               lineageRPattern.patternState = pattern.patternState;
@@ -153,7 +136,6 @@ var lineage_hunter = function () {
       cascadePatternStates(patternlab);
     }
   };
-
 };
 
 module.exports = lineage_hunter;

@@ -16,8 +16,9 @@ var parameter_hunter = function () {
     JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    pattern_assembler = new pa(),
-    style_modifier_hunter = new smh();
+    plutils = require('./utilities'),
+    style_modifier_hunter = new smh(),
+    pattern_assembler = new pa();
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -249,7 +250,7 @@ var parameter_hunter = function () {
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
         var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+        var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
 
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
@@ -277,8 +278,8 @@ var parameter_hunter = function () {
           console.log(err);
         }
 
-        var allData = pattern_assembler.merge_data(globalData, localData);
-        allData = pattern_assembler.merge_data(allData, paramData);
+        var allData = plutils.mergeData(globalData, localData);
+        allData = plutils.mergeData(allData, paramData);
 
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {
@@ -294,7 +295,7 @@ var parameter_hunter = function () {
         pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.key] = pattern.extendedTemplate;
+        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
       });
     }
   }

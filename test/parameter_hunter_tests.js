@@ -14,7 +14,7 @@
       "patternGroup": "organisms",
       "patternSubGroup": "comments",
       "flatPatternPath": "02-organisms-02-comments",
-      "key": "organisms-sticky-comment",
+      "patternPartial": "organisms-sticky-comment",
       "template": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
       "extendedTemplate": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
       "parameteredPartials": [
@@ -36,7 +36,7 @@
           "patternGroup": "molecules",
           "patternSubGroup": "components",
           "flatPatternPath": "01-molecules-06-components",
-          "key": "molecules-single-comment",
+          "patternPartial": "molecules-single-comment",
           "template": "<p>{{description}}</p>",
           "extendedTemplate": "<p>{{description}}</p>"
         }
