@@ -210,7 +210,7 @@ Coupled with exported css (much easier to extract with existing tools like [grun
 
 Default: true
 
-##### defaultPattter
+##### defaultPatttern
 `patternlab-config.json` has an entry that allows you to specifiy a specific pattern upon launch of the main site. It works even without BrowserSync running. Set it like this:
 
 ```
