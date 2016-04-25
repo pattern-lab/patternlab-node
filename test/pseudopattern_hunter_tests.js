@@ -1,12 +1,13 @@
 (function () {
-	"use strict";
+  "use strict";
 
-	var pha = require('../core/lib/pseudopattern_hunter');
+  var path = require('path');
+  var pha = require('../core/lib/pseudopattern_hunter');
   var pa = require('../core/lib/pattern_assembler');
-	var object_factory = require('../core/lib/object_factory');
+  var object_factory = require('../core/lib/object_factory');
 
-	exports['pseudopattern_hunter'] = {
-		'pseudpattern found and added as a pattern' : function(test){
+  exports['pseudopattern_hunter'] = {
+    'pseudopattern found and added as a pattern' : function(test){
       //arrange
       var fs = require('fs-extra');
       var pattern_assembler = new pa();
@@ -23,27 +24,26 @@
       };
       pl.data = {};
       pl.data.link = {};
+      pl.dataKeys = [];
       pl.config.debug = false;
       pl.patterns = [];
-      pl.partials = {};
       pl.config.patternStates = {};
 
-      var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
-      atomPattern.template = fs.readFileSync(patterns_dir + '00-test/03-styled-atom.mustache', 'utf8');
-      atomPattern.extendedTemplate = atomPattern.template;
-      atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+      var atomFile = path.resolve('test/files/_patterns/00-test/03-styled-atom.mustache');
+      var atomVariantFile = path.resolve('test/files/_patterns/00-test/03-styled-atom~alt.json');
 
-      pattern_assembler.addPattern(atomPattern, pl);
+      pattern_assembler.process_pattern_iterative(atomFile, pl);
+      pattern_assembler.process_pattern_iterative(atomVariantFile, pl);
 
       //act
-      var patternCountBefore = pl.patterns.length;
-      pseudopattern_hunter.find_pseudopatterns(atomPattern, pl);
+      pattern_assembler.process_pattern_recursive(atomFile, pl, 0, null, true);
+      var atomPattern = pattern_assembler.get_pattern_by_key(atomFile, pl);
+      var atomVariantPattern = pattern_assembler.get_pattern_by_key(atomVariantFile, pl);
 
       //assert
-      test.equals(patternCountBefore + 1, pl.patterns.length);
-      test.equals(pl.patterns[1].key, 'test-styled-atom-alt');
+      test.equals(pl.patterns[1].key, 'test-styled-atom~alt');
       test.equals(pl.patterns[1].extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '<span class="test_base {{styleModifier}}"> {{message}} </span>');
-      test.equals(JSON.stringify(pl.patterns[1].jsonFileData), JSON.stringify({"message": "alternateMessage"}));
+      test.equals(JSON.stringify(pl.patterns[1].jsonFileData), JSON.stringify({"message":"alternateMessage","link":{"test-styled-atom":"/patterns/00-test-03-styled-atom/00-test-03-styled-atom.html","test-styled-atom-alt":"/patterns/00-test-03-styled-atom~alt/00-test-03-styled-atom~alt.html"}}));
 
       test.done();
     }

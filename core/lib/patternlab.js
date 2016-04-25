@@ -17,10 +17,10 @@ var patternlab_engine = function (config) {
     diveSync = require('diveSync'),
     of = require('./object_factory'),
     pa = require('./pattern_assembler'),
+    lh = require('./lineage_hunter'),
+    lih = require('./list_item_hunter'),
     mh = require('./media_hunter'),
     pe = require('./pattern_exporter'),
-    lh = require('./lineage_hunter'),
-    he = require('html-entities').AllHtmlEntities,
     patternlab = {};
 
   patternlab.package = fs.readJSONSync('./package.json');
@@ -74,32 +74,26 @@ var patternlab_engine = function (config) {
     patternlab.footerPattern = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer-pattern.html'), 'utf8');
     patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
     patternlab.patterns = [];
-    patternlab.partials = {};
     patternlab.data.link = {};
 
     setCacheBust();
 
+    //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
+    patternlab.data.cacheBuster = patternlab.cacheBuster;
+
     var pattern_assembler = new pa(),
-      entity_encoder = new he(),
+      list_item_hunter = new lih(),
       pattern_exporter = new pe(),
       lineage_hunter = new lh(),
       patterns_dir = paths.source.patterns;
 
-    pattern_assembler.combine_listItems(patternlab);
+    patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data, []);
+    patternlab.dataKeys = patternlab.dataKeys.concat(list_item_hunter.get_list_item_iteration_keys());
+    patternlab.dataKeys = patternlab.dataKeys.concat(pattern_assembler.get_data_keys(patternlab.listitems, []));
 
     //diveSync once to perform iterative populating of patternlab object
     diveSync(
       patterns_dir,
-      {
-        filter: function (filePath, dir) {
-          if (dir) {
-            var remainingPath = filePath.replace(patterns_dir, '');
-            var isValidPath = remainingPath.indexOf('/_') === -1;
-            return isValidPath;
-          }
-          return true;
-        }
-      },
       function (err, file) {
         //log any errors
         if (err) {
@@ -110,32 +104,13 @@ var patternlab_engine = function (config) {
       }
     );
 
-    //diveSync again to recursively include partials, filling out the
-    //extendedTemplate property of the patternlab.patterns elements
-    diveSync(
-      patterns_dir,
-      {
-        filter: function (filePath, dir) {
-          if (dir) {
-            var remainingPath = filePath.replace(patterns_dir, '');
-            var isValidPath = remainingPath.indexOf('/_') === -1;
-            return isValidPath;
-          }
-          return true;
-        }
-      },
-      function (err, file) {
-        //log any errors
-        if (err) {
-          console.log(err);
-          return;
-        }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
-      });
+    patternlab.data = pattern_assembler.parse_data_links_helper(patternlab, patternlab.data, 'data.json');
 
     //set user defined head and foot if they exist
+    var userHeader;
     try {
-      patternlab.userHead = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+      userHeader = pattern_assembler.get_pattern_by_key('atoms-head', patternlab);
+      patternlab.userHead = JSON.parse(JSON.stringify(userHeader));
     }
     catch (ex) {
       if (patternlab.config.debug) {
@@ -143,8 +118,20 @@ var patternlab_engine = function (config) {
         console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
       }
     }
+
+    if (patternlab.userHead) {
+      patternlab.userHead.extendedTemplate = patternlab.userHead.template.replace('{% pattern-lab-head %}', patternlab.header);
+    } else {
+      patternlab.userHead = {
+        template: patternlab.header,
+        extendedTemplate: patternlab.header
+      };
+    }
+
+    var userFooter;
     try {
-      patternlab.userFoot = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+      userFooter = pattern_assembler.get_pattern_by_key('atoms-foot', patternlab);
+      patternlab.userFoot = JSON.parse(JSON.stringify(userFooter));
     }
     catch (ex) {
       if (patternlab.config.debug) {
@@ -153,9 +140,14 @@ var patternlab_engine = function (config) {
       }
     }
 
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
+    if (patternlab.userFoot) {
+      patternlab.userFoot.extendedTemplate = patternlab.userFoot.template.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
+    } else {
+      patternlab.userFoot = {
+        template: patternlab.footerPattern,
+        extendedTemplate: patternlab.footerPattern
+      };
+    }
 
     //cascade any patternStates
     lineage_hunter.cascade_pattern_states(patternlab);
@@ -165,69 +157,19 @@ var patternlab_engine = function (config) {
       fs.emptyDirSync(paths.public.patterns);
     }
 
-    //set pattern-specific header if necessary
-    var head;
-    if (patternlab.userHead) {
-      head = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
-    } else {
-      head = patternlab.header;
-    }
-
-    //render all patterns last, so lineageR works
-    patternlab.patterns.forEach(function (pattern) {
-
-      pattern.header = head;
-
-      //json stringify lineage and lineageR
-      var lineageArray = [];
-      for (var i = 0; i < pattern.lineage.length; i++) {
-        lineageArray.push(JSON5.stringify(pattern.lineage[i]));
+    //diveSync again to recursively include partials, filling out the
+    //extendedTemplate property of the patternlab.patterns elements
+    diveSync(
+      patterns_dir,
+      function (err, file) {
+        //log any errors
+        if (err) {
+          console.log(err);
+          return;
+        }
+        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
       }
-      pattern.lineage = lineageArray;
-
-      var lineageRArray = [];
-      for (var i = 0; i < pattern.lineageR.length; i++) {
-        lineageRArray.push(JSON5.stringify(pattern.lineageR[i]));
-      }
-      pattern.lineageR = lineageRArray;
-
-      //render the pattern, but first consolidate any data we may have
-      var allData;
-      try {
-        allData = JSON5.parse(JSON5.stringify(patternlab.data));
-      } catch (err) {
-        console.log('There was an error parsing JSON for ' + pattern.abspath);
-        console.log(err);
-      }
-      allData = pattern_assembler.merge_data(allData, pattern.jsonFileData);
-
-      //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-      allData.cacheBuster = patternlab.cacheBuster;
-      pattern.cacheBuster = patternlab.cacheBuster;
-
-      //render the pattern-specific header
-      var headHtml = pattern_assembler.renderPattern(pattern.header, allData);
-
-      //render the extendedTemplate with all data
-      pattern.patternPartial = pattern_assembler.renderPattern(pattern.extendedTemplate, allData);
-
-      //set the pattern-specific footer if necessary
-      if (patternlab.userFoot) {
-        var userFooter = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footerPattern + patternlab.footer);
-        pattern.footer = pattern_assembler.renderPattern(userFooter, pattern);
-      } else {
-        pattern.footer = pattern_assembler.renderPattern(patternlab.footerPattern, pattern);
-      }
-
-      //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, headHtml + pattern.patternPartial + pattern.footer);
-
-      //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
-
-      //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
-    });
+    );
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
@@ -268,45 +210,33 @@ var patternlab_engine = function (config) {
     //find mediaQueries
     media_hunter.find_media_queries('./source/css', patternlab);
 
-    // check if patterns are excluded, if not add them to styleguidePatterns
-    if (styleGuideExcludes && styleGuideExcludes.length) {
-      for (i = 0; i < patternlab.patterns.length; i++) {
+    for (i = 0; i < patternlab.patterns.length; i++) {
 
-        // skip underscore-prefixed files
-        if (isPatternExcluded(patternlab.patterns[i])) {
-          if (patternlab.config.debug) {
-            console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
-          }
-          continue;
+      // skip underscore-prefixed files
+      if (isPatternExcluded(patternlab.patterns[i])) {
+        if (patternlab.config.debug) {
+          console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
         }
+        continue;
+      }
 
+      // check if patterns are excluded, if not add them to styleguidePatterns
+      var isExcluded = false;
+      if (styleGuideExcludes && styleGuideExcludes.length) {
         var key = patternlab.patterns[i].key;
         var typeKey = key.substring(0, key.indexOf('-'));
-        var isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
-        if (!isExcluded) {
-          styleguidePatterns.push(patternlab.patterns[i]);
-        }
+        isExcluded = (styleGuideExcludes.indexOf(typeKey) > -1);
       }
-    } else {
-      for (i = 0; i < patternlab.patterns.length; i++) {
-        // skip underscore-prefixed files
-        if (isPatternExcluded(patternlab.patterns[i])) {
-          if (patternlab.config.debug) {
-            console.log('Omitting ' + patternlab.patterns[i].key + " from styleguide pattern exclusion.");
-          }
-          continue;
-        }
+
+      if (!isExcluded) {
         styleguidePatterns.push(patternlab.patterns[i]);
       }
     }
 
-    //also add the cachebuster value. slight chance this could collide with a user that has defined cacheBuster as a value
-    patternlab.data.cacheBuster = patternlab.cacheBuster;
-
     //get the main page head and foot
-    var mainPageHead = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+    var mainPageHead = patternlab.userHead.template.replace('{% pattern-lab-head %}', patternlab.header);
     var mainPageHeadHtml = pattern_assembler.renderPattern(mainPageHead, patternlab.data);
-    var mainPageFoot = patternlab.userFoot.extendedTemplate.replace('{% pattern-lab-foot %}', patternlab.footer);
+    var mainPageFoot = patternlab.userFoot.template.replace('{% pattern-lab-foot %}', patternlab.footer);
     var mainPageFootHtml = pattern_assembler.renderPattern(mainPageFoot, patternlab.data);
 
     //build the styleguide
@@ -315,11 +245,18 @@ var patternlab_engine = function (config) {
 
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), mainPageHeadHtml + styleguideHtml + mainPageFootHtml);
 
+    //unset styleguidePatterns
+    styleguidePatterns = [];
+
     //build the viewall pages
     var prevSubdir = '',
       prevGroup = '';
 
     for (i = 0; i < patternlab.patterns.length; i++) {
+
+      //unset escapedTemplates
+      patternlab.patterns[i].escapedTemplate = '';
+
       // skip underscore-prefixed files
       if (isPatternExcluded(patternlab.patterns[i])) {
         if (patternlab.config.debug) {
@@ -384,6 +321,9 @@ var patternlab_engine = function (config) {
         var viewAllHtml = pattern_assembler.renderPattern(viewAllTemplate, {partials: viewAllPatterns, patternPartial: patternPartial, cacheBuster: patternlab.cacheBuster});
         fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHtml + mainPageFootHtml);
       }
+
+      //unset viewAllPatterns
+      viewAllPatterns = [];
     }
 
     //build the patternlab website
@@ -394,6 +334,11 @@ var patternlab_engine = function (config) {
     for (i = 0; i < patternlab.patterns.length; i++) {
 
       var pattern = patternlab.patterns[i];
+
+      //unset all pattern.patternPartials here since they take up a lot of memory
+      //and we won't be needing them again
+      pattern.patternPartial = '';
+
       var bucketName = pattern.name.replace(/\\/g, '-').split('-')[1];
 
       //check if the bucket already exists
@@ -606,7 +551,6 @@ var patternlab_engine = function (config) {
       printDebug();
     }
   };
-
 };
 
 module.exports = patternlab_engine;
