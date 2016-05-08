@@ -216,10 +216,8 @@ var patternlab_engine = function (config) {
       //todo move this into lineage_hunter
       pattern.patternLineages = pattern.lineage;
       pattern.patternLineageExists = pattern.lineage.length > 0;
-
       pattern.patternLineagesR = pattern.lineageR;
       pattern.patternLineageRExists = pattern.lineageR.length > 0;
-
       pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
       //render the pattern, but first consolidate any data we may have
@@ -237,22 +235,30 @@ var patternlab_engine = function (config) {
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
       pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
 
+      // stringify this data for individual pattern rendering and use on the styleguide
+      // see if patternData really needs these other duped values
+      pattern.patternData = JSON.stringify({
+        isPattern: true,
+        cssEnabled: false,
+        patternLineageExists: pattern.patternLineageExists,
+        patternLineages: pattern.patternLineages,
+        lineage: pattern.patternLineages,
+        patternLineageRExists: pattern.patternLineageRExists,
+        patternLineagesR: pattern.patternLineagesR,
+        lineageR: pattern.patternLineagesR,
+        patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
+        patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
+        patternBreadcrumb: 'TODO',
+        patternExtension: pattern.fileExtension,
+        patternName: pattern.patternName,
+        patternPartial: pattern.patternPartial,
+        patternState: pattern.patternState,
+        extraOutput: {}
+      });
+
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
       var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
-        patternData: JSON.stringify({
-          cssEnabled: false,
-          patternLineageExists: pattern.patternLineageExists,
-          patternLineages: pattern.patternLineages,
-          patternLineageRExists: pattern.patternLineageRExists,
-          patternLineagesR: pattern.patternLineagesR,
-          patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
-          patternBreadcrumb: 'TODO',
-          patternExtension: pattern.fileExtension,
-          patternName: pattern.patternName,
-          patternPartial: pattern.patternPartial,
-          patternState: pattern.patternState,
-          extraOutput: {}
-        }),
+        patternData: pattern.patternData,
         cacheBuster: patternlab.cacheBuster
       });
 

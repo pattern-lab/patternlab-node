@@ -15,6 +15,7 @@ var pattern_assembler = function () {
   var path = require('path'),
     fs = require('fs-extra'),
     of = require('./object_factory'),
+    md = require('markdown-it')(),
     plutils = require('./utilities'),
     patternEngines = require('./pattern_engines/pattern_engines');
 
@@ -176,6 +177,20 @@ var pattern_assembler = function () {
       buildListItems(currentPattern);
       if (patternlab.config.debug) {
         console.log('found pattern-specific listitems.json for ' + currentPattern.patternPartial);
+      }
+    }
+    catch (e) {
+      // do nothing
+    }
+
+    //look for a markdown file for this template
+    try {
+      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
+      var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
+      currentPattern.patternDescExists = true;
+      currentPattern.patternDesc = md.render(markdownFileContents);
+      if (patternlab.config.debug) {
+        console.log('found pattern-specific markdown-documentation.md for ' + currentPattern.patternPartial);
       }
     }
     catch (e) {
