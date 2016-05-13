@@ -5,7 +5,7 @@
   }
 
   &__container {
-    @extend .field__container;
+    @extend .field__container !optional;
     display : flex;
     flex-direction : row;
     justify-content : space-between;
@@ -15,7 +15,7 @@
       margin-right : 0.5em;
     }
     &--input {
-      @extend .field__container--input;
+      @extend .field__container--input !optional;
       height : 40px;
       width : 100%;
       @media only screen and (min-width : $breakpointDesktop) {

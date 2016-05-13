@@ -124,7 +124,8 @@
     }
   }
 
-  .section--shipping-address + .section--optional p {
+  .section--shipping-address + .section--optional,
+  .section--shipping-address + .section--optional + .section--optional {
     display:none;
   }
 
