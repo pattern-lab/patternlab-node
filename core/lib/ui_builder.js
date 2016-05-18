@@ -409,7 +409,7 @@ function buildFrontEnd(patternlab) {
   //move the index file from its asset location into public root
   var patternlabSiteHtml;
   try {
-    patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'html', 'index.html'), 'utf8');
+    patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
   } catch (error) {
     console.log(error);
     console.log("\nERROR: Could not load one or more styleguidekit assets from", paths.source.styleguide, '\n');
