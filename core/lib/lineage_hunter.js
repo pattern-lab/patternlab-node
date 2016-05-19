@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.0 - 2016
+ * patternlab-node - v1.3.0 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -106,12 +106,13 @@ var lineage_hunter = function () {
             var lineageRPattern = pattern_assembler.findPartial(pattern.lineageRIndex[j], patternlab);
 
             //only set patternState if pattern.patternState "is less than" the lineageRPattern.patternstate
+            //or if lineageRPattern.patternstate (the consuming pattern) does not have a state
             //this makes patternlab apply the lowest common ancestor denominator
-            if (patternlab.config.patternStateCascade.indexOf(pattern.patternState)
-              < patternlab.config.patternStateCascade.indexOf(lineageRPattern.patternState)) {
+            if (lineageRPattern.patternState === '' || (patternlab.config.patternStateCascade.indexOf(pattern.patternState)
+              < patternlab.config.patternStateCascade.indexOf(lineageRPattern.patternState))) {
 
               if (patternlab.config.debug) {
-                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.patternPartial + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + lineageRPattern.patternState);
+                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.key + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + (lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState));
               }
 
               lineageRPattern.patternState = pattern.patternState;

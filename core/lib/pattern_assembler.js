@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.1 - 2016
+ * patternlab-node - v1.3.0 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -15,6 +15,7 @@ var pattern_assembler = function () {
   var path = require('path'),
     fs = require('fs-extra'),
     of = require('./object_factory'),
+    md = require('markdown-it')(),
     plutils = require('./utilities'),
     patternEngines = require('./pattern_engines');
 
@@ -182,6 +183,20 @@ var pattern_assembler = function () {
       // do nothing
     }
 
+    //look for a markdown file for this template
+    try {
+      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
+      var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
+      currentPattern.patternDescExists = true;
+      currentPattern.patternDesc = md.render(markdownFileContents);
+      if (patternlab.config.debug) {
+        console.log('found pattern-specific markdown-documentation.md for ' + currentPattern.patternPartial);
+      }
+    }
+    catch (e) {
+      // do nothing
+    }
+
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
 
@@ -292,10 +307,11 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
+    var JSON5 = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
-    dataObjAsString = JSON.stringify(obj);
+    dataObjAsString = JSON5.stringify(obj);
     linkMatches = dataObjAsString.match(linkRE);
 
     if (linkMatches) {
@@ -309,7 +325,16 @@ var pattern_assembler = function () {
         }
       }
     }
-    return JSON.parse(dataObjAsString);
+
+    var dataObj;
+    try {
+      dataObj = JSON5.parse(dataObjAsString);
+    } catch (err) {
+      console.log('There was an error parsing JSON for ' + key);
+      console.log(err);
+    }
+
+    return dataObj;
   }
 
   //look for pattern links included in data files.

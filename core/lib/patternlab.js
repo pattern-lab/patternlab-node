@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v1.2.1 - 2016
+ * patternlab-node - v1.3.0 - 2016
  *
  * Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -12,6 +12,7 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var path = require('path'),
+    JSON5 = require('json5'),
     fs = require('fs-extra'),
     diveSync = require('diveSync'),
     pa = require('./pattern_assembler'),
@@ -91,15 +92,15 @@ var patternlab_engine = function (config) {
       patternlab.listitems = {};
     }
     try {
-
-      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-header.mustache'), 'utf8');
-      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/general-footer.mustache'), 'utf8');
-      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSection.mustache'), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials/patternSectionSubtype.mustache'), 'utf8');
+      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.mustache'), 'utf8');
+      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.mustache'), 'utf8');
+      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.mustache'), 'utf8');
+      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.mustache'), 'utf8');
       patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
     } catch (ex) {
       console.log(ex);
-      console.log('missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab may not work without this file.');
+      console.log('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      process.exit(1);
     }
     patternlab.patterns = [];
     patternlab.partials = {};
@@ -212,42 +213,52 @@ var patternlab_engine = function (config) {
 
       pattern.header = head;
 
-      //json stringify lineage and lineageR
-      var lineageArray = [];
-      for (var i = 0; i < pattern.lineage.length; i++) {
-        lineageArray.push(JSON.stringify(pattern.lineage[i]));
-      }
-      pattern.lineage = lineageArray;
-
-      var lineageRArray = [];
-      for (var i = 0; i < pattern.lineageR.length; i++) {
-        lineageRArray.push(JSON.stringify(pattern.lineageR[i]));
-      }
-      pattern.lineageR = lineageRArray;
+      //todo move this into lineage_hunter
+      pattern.patternLineages = pattern.lineage;
+      pattern.patternLineageExists = pattern.lineage.length > 0;
+      pattern.patternLineagesR = pattern.lineageR;
+      pattern.patternLineageRExists = pattern.lineageR.length > 0;
+      pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
       //render the pattern, but first consolidate any data we may have
-      var allData = JSON.parse(JSON.stringify(patternlab.data));
+      var allData;
+      try {
+        allData = JSON5.parse(JSON5.stringify(patternlab.data));
+      } catch (err) {
+        console.log('There was an error parsing JSON for ' + pattern.abspath);
+        console.log(err);
+      }
       allData = plutils.mergeData(allData, pattern.jsonFileData);
-
       var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
 
       //render the extendedTemplate with all data
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
       pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
 
+      // stringify this data for individual pattern rendering and use on the styleguide
+      // see if patternData really needs these other duped values
+      pattern.patternData = JSON.stringify({
+        isPattern: true,
+        cssEnabled: false,
+        patternLineageExists: pattern.patternLineageExists,
+        patternLineages: pattern.patternLineages,
+        lineage: pattern.patternLineages,
+        patternLineageRExists: pattern.patternLineageRExists,
+        patternLineagesR: pattern.patternLineagesR,
+        lineageR: pattern.patternLineagesR,
+        patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
+        patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
+        patternBreadcrumb: 'TODO',
+        patternExtension: pattern.fileExtension,
+        patternName: pattern.patternName,
+        patternPartial: pattern.patternPartial,
+        patternState: pattern.patternState,
+        extraOutput: {}
+      });
+
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
       var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
-        patternData: JSON.stringify({
-          cssEnabled: false,
-          lineage: pattern.lineage,
-          lineageR: pattern.lineageR,
-          patternBreadcrumb: 'TODO',
-          patternExtension: pattern.fileExtension,
-          patternName: pattern.patternName,
-          patternPartial: pattern.patternPartial,
-          patternState: pattern.patternState,
-          extraOutput: {}
-        }),
+        patternData: pattern.patternData,
         cacheBuster: patternlab.cacheBuster
       });
 

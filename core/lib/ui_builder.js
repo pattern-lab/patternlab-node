@@ -351,6 +351,8 @@ function sortPatterns(patternsArray) {
 function buildFrontEnd(patternlab) {
   var mh = require('./media_hunter');
   var media_hunter = new mh();
+  var ae = require('./annotation_exporter');
+  var annotation_exporter = new ae(patternlab);
   var styleguidePatterns = [];
   var paths = patternlab.config.paths;
 
@@ -405,7 +407,14 @@ function buildFrontEnd(patternlab) {
   buildNavigation(patternlab);
 
   //move the index file from its asset location into public root
-  var patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'html/index.html'), 'utf8');
+  var patternlabSiteHtml;
+  try {
+    patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
+  } catch (error) {
+    console.log(error);
+    console.log("\nERROR: Could not load one or more styleguidekit assets from", paths.source.styleguide, '\n');
+    process.exit(1);
+  }
   fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
   //write out the data
@@ -432,8 +441,8 @@ function buildFrontEnd(patternlab) {
   fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
 
   //annotations
-  //todo: build this from _source/annotations/ https://github.com/pattern-lab/patternlab-php-core/blob/c2c4bc6a8bda2b2f9c08b197669ebc94c025e7c6/src/PatternLab/Annotations.php
-  var annotations = 'var comments = [];' + eol;
+  var annotationsJSON = annotation_exporter.gather();
+  var annotations = 'var comments = ' + JSON.stringify(annotationsJSON);
   fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
 
 }
