@@ -44,8 +44,8 @@ var engine_handlebars = {
     return compiled(data);
   },
 
-  registerPartial: function (oPattern) {
-    Handlebars.registerPartial(oPattern.patternPartial, oPattern.template);
+  registerPartial: function (Pattern) {
+    Handlebars.registerPartial(Pattern.key, Pattern.template);
   },
 
   // find and return any {{> template-name }} within pattern
@@ -54,7 +54,7 @@ var engine_handlebars = {
     return matches;
   },
   findPartialsWithStyleModifiers: function () {
-    // TODO: make the call to this from oPattern objects conditional on their
+    // TODO: make the call to this from Pattern objects conditional on their
     // being implemented here.
     return [];
   },
@@ -62,7 +62,7 @@ var engine_handlebars = {
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
   findPartialsWithPatternParameters: function () {
-    // TODO: make the call to this from oPattern objects conditional on their
+    // TODO: make the call to this from Pattern objects conditional on their
     // being implemented here.
     return [];
   },

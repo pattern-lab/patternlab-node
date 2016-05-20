@@ -51,7 +51,7 @@ var engine_twig = {
     return matches;
   },
   findPartialsWithStyleModifiers: function () {
-    // TODO: make the call to this from oPattern objects conditional on their
+    // TODO: make the call to this from Pattern objects conditional on their
     // being implemented here.
     return [];
   },
@@ -59,7 +59,7 @@ var engine_twig = {
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
   findPartialsWithPatternParameters: function () {
-    // TODO: make the call to this from oPattern objects conditional on their
+    // TODO: make the call to this from Pattern objects conditional on their
     // being implemented here.
     return [];
   },

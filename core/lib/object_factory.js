@@ -14,24 +14,48 @@ var patternEngines = require('./pattern_engines/pattern_engines');
 var path = require('path');
 var extend = require('util')._extend;
 
-// oPattern properties
+// Pattern properties
 
-var oPattern = function (abspath, subdir, filename, data) {
-  this.fileName = filename.substring(0, filename.indexOf('.'));
-  this.fileExtension = path.extname(abspath);
-  this.abspath = abspath;
-  this.subdir = subdir;
-  this.name = subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; //this is the unique name with the subDir
+var Pattern = function (relPath, data) {
+  // We expect relPath to be the path of the pattern template, relative to the
+  // root of the pattern tree. Parse out the path parts and save the useful ones.
+  var pathObj = path.parse(relPath);
+  this.relPath = relPath;           // '00-atoms/00-global/00-colors.mustache'
+  this.fileName = pathObj.name;     // '00-colors'
+  this.subdir = pathObj.dir;        // '00-atoms/00-global'
+  this.fileExtension = pathObj.ext; // '.mustache'
+
+  // this is the unique name, subDir + fileName (sans extension)
+  this.name = this.subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; // '00-atoms-00-global-00-colors'
+
+  // the JSON used to render values in the pattern
   this.jsonFileData = data || {};
-  this.patternName = this.fileName.replace(/^\d*\-/, '');
+
+  // strip leading "00-" from the file name and flip tildes to dashes
+  this.patternName = this.fileName.replace(/^\d*\-/, '').replace('~', '-'); // 'colors'
+
+  // Fancy name. No idea how this works. 'Colors'
   this.patternDisplayName = this.patternName.split('-').reduce(function (val, working) {
     return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
   }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
-  this.patternLink = this.name + '/' + this.name + '.html';
+
+  // calculated path from the root of the public directory to the generated html
+  // file for this pattern
+  this.patternLink = this.name + '/' + this.name + '.html'; // '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+
+  // the top-level pattern group this pattern belongs to. 'atoms'
   this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
-  this.patternSubGroup = subdir.substring(subdir.indexOf('/') + 4);
-  this.flatPatternPath = subdir.replace(/[\/\\]/g, '-');
-  this.patternPartial = this.patternGroup + '-' + this.patternName;
+
+  // the sub-group this pattern belongs to.
+  this.patternSubGroup = this.subdir.substring(this.subdir.indexOf('/') + 4); // 'global'
+
+  // Not sure what this is used for.
+  this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
+
+  // The canonical "key" by which this pattern is known. This is the callable
+  // name of the pattern.
+  this.key = this.patternGroup + '-' + this.patternName;
+
   this.template = '';
   this.patternPartialCode = '';
   this.lineage = [];
@@ -42,9 +66,9 @@ var oPattern = function (abspath, subdir, filename, data) {
   this.engine = patternEngines.getEngineForPattern(this);
 };
 
-// oPattern methods
+// Pattern methods
 
-oPattern.prototype = {
+Pattern.prototype = {
 
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
@@ -81,20 +105,20 @@ oPattern.prototype = {
   }
 };
 
-// oPattern static methods
+// Pattern static methods
 
-// factory: creates an empty oPattern for miscellaneous internal use, such as
+// factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
-oPattern.createEmpty = function (customProps) {
-  var pattern = new oPattern('', '', '', null);
+Pattern.createEmpty = function (customProps) {
+  var pattern = new Pattern('', null);
   return extend(pattern, customProps);
 };
 
-// factory: creates an oPattern object on-demand from a hash; the hash accepts
-// parameters that replace the positional parameters that the oPattern
+// factory: creates an Pattern object on-demand from a hash; the hash accepts
+// parameters that replace the positional parameters that the Pattern
 // constructor takes.
-oPattern.create = function (abspath, subdir, filename, data, customProps) {
-  var newPattern = new oPattern(abspath || '', subdir || '', filename || '', data || null);
+Pattern.create = function (relPath, data, customProps) {
+  var newPattern = new Pattern(relPath || '', data || null);
   return extend(newPattern, customProps);
 };
 
@@ -131,7 +155,7 @@ var oPatternSubTypeItem = function (name) {
 
 
 module.exports = {
-  oPattern: oPattern,
+  Pattern: Pattern,
   oPatternType: oPatternType,
   oPatternSubType: oPatternSubType,
   oPatternSubTypeItem: oPatternSubTypeItem

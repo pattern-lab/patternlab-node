@@ -2,7 +2,7 @@
 	"use strict";
 
 	var pa = require('../core/lib/pattern_assembler');
-  var object_factory = require('../core/lib/object_factory');
+  var Pattern = require('../core/lib/object_factory').Pattern;
   var path = require('path');
 
 	exports['pattern_assembler'] = {
@@ -18,10 +18,8 @@
       // setup current pattern from what we would have during execution
       // docs on partial syntax are here:
       // http://patternlab.io/docs/pattern-including.html
-      var currentPattern = object_factory.oPattern.create(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = Pattern.create(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null, // data
         {
           template: "{{> molecules-comment-header}}asdfasdf" +
@@ -70,10 +68,8 @@
       test.expect(3);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
       currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
@@ -89,10 +85,8 @@
 
 			//setup current pattern from what we would have during execution
 
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div><div>{{> molecules-single-comment:foo_1 }}</div><div>{{> molecules-single-comment:foo-1 }}</div>";
@@ -110,10 +104,8 @@
 
 			//setup current pattern from what we would have during execution
 
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
@@ -128,10 +120,8 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>";
@@ -146,10 +136,8 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
@@ -163,10 +151,8 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>";
@@ -180,10 +166,8 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>";
@@ -199,10 +183,8 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
@@ -217,10 +199,8 @@
       test.expect(2);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>";
@@ -235,10 +215,8 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
@@ -252,10 +230,8 @@
       test.expect(1);
 
 			//setup current pattern from what we would have during execution
-      var currentPattern = new object_factory.oPattern(
-        '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.mustache', // abspath
-        '01-molecules\\00-testing', // subdir
-        '00-test-mol.mustache', // filename,
+      var currentPattern = new Pattern(
+        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
         null // data
       );
 			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
@@ -359,7 +335,7 @@
 
 			test.done();
 		},
-		'processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found' : function(test){
+	  'processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found' : function(test){
 			//arrange
 			var fs = require('fs-extra');
 			var pattern_assembler = new pa();
@@ -379,11 +355,11 @@
 			pl.patterns = [];
 			pl.partials = {};
 
-			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-			var groupPattern = new object_factory.oPattern('test/files/_patterns/00-test/04-group.mustache', '00-test', '04-group.mustache');
+			var groupPattern = new Pattern('00-test/04-group.mustache');
 			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/04-group.mustache', 'utf8');
 			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
 
@@ -391,7 +367,8 @@
 			pattern_assembler.addPattern(groupPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/04-group.mustache', pl, {});
+
+			pattern_assembler.process_pattern_recursive('00-test/04-group.mustache', pl, {});
 
 			//assert
 			var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
@@ -418,12 +395,12 @@
 			pl.patterns = [];
 			pl.partials = {};
 
-			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 			atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-			var groupPattern = new object_factory.oPattern('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', '00-test', '10-multiple-classes-numeric.mustache');
+			var groupPattern = new Pattern('00-test/10-multiple-classes-numeric.mustache');
 			groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/10-multiple-classes-numeric.mustache', 'utf8');
 			groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
 			groupPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(groupPattern);
@@ -432,7 +409,7 @@
 			pattern_assembler.addPattern(groupPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/10-multiple-classes-numeric.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('00-test/10-multiple-classes-numeric.mustache', pl, {});
 
 			//assert
 			var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
@@ -459,11 +436,11 @@
 			pl.patterns = [];
 			pl.partials = {};
 
-			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-			var mixedPattern = new object_factory.oPattern('test/files/_patterns/00-test/06-mixed.mustache', '00-test', '06-mixed.mustache');
+			var mixedPattern = new Pattern('00-test/06-mixed.mustache');
 			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/06-mixed.mustache', 'utf8');
 			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
 
@@ -471,7 +448,7 @@
 			pattern_assembler.addPattern(mixedPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/06-mixed.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('00-test/06-mixed.mustache', pl, {});
 
 			//assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
@@ -498,21 +475,19 @@
 			pl.patterns = [];
 			pl.partials = {};
 
-			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-			var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/09-bookend.mustache', '00-test', '09-bookend.mustache');
+			var bookendPattern = new Pattern('00-test/09-bookend.mustache');
 			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/09-bookend.mustache', 'utf8');
 			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
 
 			pattern_assembler.addPattern(atomPattern, pl);
 			pattern_assembler.addPattern(bookendPattern, pl);
 
-      debugger;
-
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/09-bookend.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('00-test/09-bookend.mustache', pl, {});
 
 			//assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
@@ -540,12 +515,12 @@
 			pl.patterns = [];
 			pl.partials = {};
 
-			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 			atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-			var mixedPattern = new object_factory.oPattern('test/files/_patterns/00-test/07-mixed-params.mustache', '00-test', '07-mixed-params.mustache');
+			var mixedPattern = new Pattern('00-test/07-mixed-params.mustache');
 			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/07-mixed-params.mustache', 'utf8');
 			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
       		mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
@@ -554,7 +529,7 @@
 			pattern_assembler.addPattern(mixedPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/07-mixed-params.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('00-test/07-mixed-params.mustache', pl, {});
 
 			//assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
@@ -581,12 +556,12 @@
 			pl.patterns = [];
 			pl.partials = {};
 
-			var atomPattern = new object_factory.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
       		atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-			var bookendPattern = new object_factory.oPattern('test/files/_patterns/00-test/08-bookend-params.mustache', '00-test', '08-bookend-params.mustache');
+			var bookendPattern = new Pattern('00-test/08-bookend-params.mustache');
 			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/08-bookend-params.mustache', 'utf8');
 			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
       		bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
@@ -595,7 +570,7 @@
 			pattern_assembler.addPattern(bookendPattern, pl);
 
 			//act
-			pattern_assembler.process_pattern_recursive('test/files/_patterns/00-test/08-bookend-params.mustache', pl, {});
+			pattern_assembler.process_pattern_recursive('00-test/08-bookend-params.mustache', pl, {});
 
 			//assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
 			var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
@@ -748,9 +723,9 @@
 			patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
 			patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
 
-			patternlab.data.brad = { url: "link.twitter-brad" }
-			patternlab.data.dave = {	url: "link.twitter-dave" }
-			patternlab.data.brian = {	url: "link.twitter-brian" }
+		    patternlab.data.brad = { url: "link.twitter-brad" };
+            patternlab.data.dave = {	url: "link.twitter-dave" };
+            patternlab.data.brian = {	url: "link.twitter-brian" };
 
 
 			var pattern;
@@ -827,7 +802,7 @@
 			patternlab.data = {link: {}};
       patternlab.config = { debug: false };
 
-			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+			var pattern = new Pattern('00-test/01-bar.mustache');
 			pattern.extendedTemplate = 'barExtended';
 			pattern.template = 'bar';
 
@@ -849,7 +824,7 @@
 			patternlab.data = {link: {}};
       patternlab.config = { debug: false };
 
-			var pattern = new object_factory.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+			var pattern = new Pattern('00-test/01-bar.mustache');
 			pattern.extendedTemplate = undefined;
 			pattern.template = 'bar';
 
