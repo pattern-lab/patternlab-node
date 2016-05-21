@@ -2,9 +2,11 @@
 
 var lh = require('../core/lib/lineage_hunter');
 var pa = require('../core/lib/pattern_assembler');
+var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
 
 var fs = require('fs-extra');
+var path = require('path');
 
 var extend = require('util')._extend;
 var pattern_assembler = new pa();
@@ -162,14 +164,14 @@ exports['lineage hunter '] = {
       "test-bar": "inreview"
     };
 
-    var atomPattern = new of.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
 
     pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.oPattern('test/files/_patterns/00-test/00-foo.mustache', '00-test', '00-foo.mustache');
+    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
     pattern_assembler.setPatternState(consumerPattern, pl);
@@ -194,14 +196,14 @@ exports['lineage hunter '] = {
       "test-bar": "inreview"
     };
 
-    var atomPattern = new of.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
 
     pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.oPattern('test/files/_patterns/00-test/00-foo.mustache', '00-test', '00-foo.mustache');
+    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
     pattern_assembler.setPatternState(consumerPattern, pl);
@@ -226,14 +228,14 @@ exports['lineage hunter '] = {
       "test-bar": "inreview"
     };
 
-    var atomPattern = new of.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
+    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
 
     pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.oPattern('test/files/_patterns/00-test/00-foo.mustache', '00-test', '00-foo.mustache');
+    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
     pattern_assembler.setPatternState(consumerPattern, pl);
@@ -258,15 +260,15 @@ exports['lineage hunter '] = {
       "test-bar": "inreview"
     };
 
-    var atomPattern = new of.oPattern('test/files/_patterns/00-test/01-bar.mustache', '00-test', '01-bar.mustache');
-    atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
+    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
+    atomPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/01-bar.mustache'), 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
 
     pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.oPattern('test/files/_patterns/00-test/00-foo.mustache', '00-test', '00-foo.mustache');
-    consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
+    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
+    consumerPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/00-foo.mustache'), 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
     pattern_assembler.setPatternState(consumerPattern, pl);
     pattern_assembler.addPattern(consumerPattern, pl);
@@ -544,15 +546,13 @@ exports['lineage hunter '] = {
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
     pattern_assembler.setPatternState(atomPattern, pl);
-    
-    debugger;
+
     pattern_assembler.addPattern(atomPattern, pl);
 
     var consumerPattern = new Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
     pattern_assembler.setPatternState(consumerPattern, pl);
-    debugger;
     pattern_assembler.addPattern(consumerPattern, pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
@@ -561,7 +561,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumerPatternReturned = pattern_assembler.get_pattern_by_key('test-foo', pl);
+    var consumerPatternReturned = pattern_assembler.findPartial('test-foo', pl);
     test.equals(consumerPatternReturned.patternState, 'inreview');
     test.done();
   },
@@ -593,7 +593,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumerPatternReturned = pattern_assembler.get_pattern_by_key('test-foo', pl);
+    var consumerPatternReturned = pattern_assembler.findPartial('test-foo', pl);
     test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
     test.done();
   },
@@ -625,7 +625,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumedPatternReturned = pattern_assembler.get_pattern_by_key('test-bar', pl);
+    var consumedPatternReturned = pattern_assembler.findPartial('test-bar', pl);
     test.equals(consumedPatternReturned.lineageR[0].lineageState, 'inreview');
 
     test.done();
@@ -657,7 +657,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumerPatternReturned = pattern_assembler.get_pattern_by_key('test-foo', pl);
+    var consumerPatternReturned = pattern_assembler.findPartial('test-foo', pl);
     test.equals(consumerPatternReturned.lineage.length, 1);
     test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
     test.equals(consumerPatternReturned.patternState, '');

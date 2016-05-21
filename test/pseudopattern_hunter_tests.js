@@ -40,11 +40,10 @@ exports['pseudopattern_hunter'] = {
 
     //assert
     test.equals(patternCountBefore + 1, pl.patterns.length);
-    test.equals(pl.patterns[1].key, 'test-styled-atom-alt');
+    test.equals(pl.patterns[1].patternPartial, 'test-styled-atom-alt');
     test.equals(pl.patterns[1].extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '<span class="test_base {{styleModifier}}"> {{message}} </span>');
     test.equals(JSON.stringify(pl.patterns[1].jsonFileData), JSON.stringify({"message": "alternateMessage"}));
 
     test.done();
   }
-}
-
+};

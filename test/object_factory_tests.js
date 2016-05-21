@@ -28,7 +28,7 @@
 			test.equals(p.lineageRIndex.length, 0);
 			test.done();
 		},
-        'test Pattern with one-directory subdir works as expected' : function (test) {
+    'test Pattern with one-directory subdir works as expected' : function (test) {
 		  var p = new Pattern('00-atoms/00-colors.mustache', { d: 123});
           test.equals(p.relPath, '00-atoms/00-colors.mustache');
 		  test.equals(p.name, '00-atoms-00-colors');
@@ -41,9 +41,8 @@
 		  test.equals(p.patternLink, '00-atoms-00-colors/00-atoms-00-colors.html');
 		  test.equals(p.patternGroup, 'atoms');
 		  test.equals(p.flatPatternPath, '00-atoms');
-		  test.equals(p.key, 'atoms-colors');
+		  test.equals(p.patternPartial, 'atoms-colors');
 		  test.equals(p.template, '');
-		  test.equals(p.patternPartial, '');
 		  test.equals(p.lineage.length, 0);
 		  test.equals(p.lineageIndex.length, 0);
 		  test.equals(p.lineageR.length, 0);

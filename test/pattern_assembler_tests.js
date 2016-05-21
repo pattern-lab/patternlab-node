@@ -249,6 +249,7 @@
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
 			var pa = require('../core/lib/pattern_assembler');
+      var plMain = require('../core/lib/patternlab');
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns';
 			var patternlab = {};
@@ -268,51 +269,11 @@
 			patternlab.partials = {};
 
 			//diveSync once to perform iterative populating of patternlab object
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
-					//log any errors
-					if(err){
-						console.log(err);
-						return;
-					}
-
-					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
-				}
-			);
+			plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab);
 
 			//diveSync again to recursively include partials, filling out the
 			//extendedTemplate property of the patternlab.patterns elements
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
-					//log any errors
-					if(err){
-						console.log(err);
-						return;
-					}
-
-					pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
-				}
-			);
+			plMain.process_all_patterns_recursive(pattern_assembler, patterns_dir, patternlab);
 
 			//get test output for comparison
 			var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
@@ -679,6 +640,7 @@
 			var diveSync = require('diveSync');
 			var fs = require('fs-extra');
 			var pa = require('../core/lib/pattern_assembler');
+      var plMain = require('../core/lib/patternlab');
 			var pattern_assembler = new pa();
 			var patterns_dir = './test/files/_patterns/';
 			var patternlab = {};
@@ -697,26 +659,8 @@
 			patternlab.data.link = {};
 			patternlab.partials = {};
 
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
-					//log any errors
-					if(err){
-						console.log(err);
-						return;
-					}
-					pattern_assembler.process_pattern_iterative(file, patternlab);
-				}
-			);
+			//diveSync once to perform iterative populating of patternlab object
+			plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab);
 
 			//for the sake of the test, also imagining I have the following pages...
 			patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
