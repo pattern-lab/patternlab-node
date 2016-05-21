@@ -227,6 +227,16 @@ var patternlab_engine = function (config) {
 
       //write the encoded version too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(pattern.patternPartial));
+      
+      //write the css file too
+      if(pattern.cssExists){
+        fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.css'), pattern.css);
+      }
+
+      //write the js file too
+      if(pattern.jsExists){
+        fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.js'), pattern.js);
+      }
     });
 
     //export patterns if necessary

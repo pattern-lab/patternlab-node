@@ -7,7 +7,8 @@
   var lineageR = [{{{ lineageR }}}];
   var patternState = "{{patternState}}";
   var baseurl = "{{{baseurl}}}";
-  var cssEnabled = false; //TODO
+  var cssEnabled = ("{{cssExists}}" === "true");
+  var jsEnabled = ("{{jsExists}}" === "true");
 </script>
 
 <script type="text/html" id="sg-pattern-html">
