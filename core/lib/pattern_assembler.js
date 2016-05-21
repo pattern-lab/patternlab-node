@@ -285,9 +285,9 @@ var pattern_assembler = function () {
       //identify which pattern this partial corresponds to
       for (var j = 0; j < patternlab.patterns.length; j++) {
         if (patternlab.patterns[j].patternPartial === partial ||
-           patternlab.patterns[j].abspath.indexOf(partial) > -1)
+           patternlab.patterns[j].relPath.indexOf(partial) > -1)
         {
-          partialPath = patternlab.patterns[j].abspath;
+          partialPath = patternlab.patterns[j].relPath;
         }
       }
 

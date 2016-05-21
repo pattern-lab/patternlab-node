@@ -54,7 +54,7 @@ var list_item_hunter = function () {
         try {
           listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
         } catch (err) {
-          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
         }
         listData = plutils.mergeData(listData, pattern.listitems);
@@ -73,7 +73,7 @@ var list_item_hunter = function () {
             globalData = JSON5.parse(JSON5.stringify(patternlab.data));
             localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
           } catch (err) {
-            console.log('There was an error parsing JSON for ' + pattern.abspath);
+            console.log('There was an error parsing JSON for ' + pattern.relPath);
             console.log(err);
           }
 
@@ -97,7 +97,7 @@ var list_item_hunter = function () {
               try {
                 cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
               } catch (err) {
-                console.log('There was an error parsing JSON for ' + pattern.abspath);
+                console.log('There was an error parsing JSON for ' + pattern.relPath);
                 console.log(err);
               }
 
