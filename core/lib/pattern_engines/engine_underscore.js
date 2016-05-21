@@ -75,7 +75,7 @@
 
     // registerPartial: function (Pattern) {
     //   debugger;
-    //   _.registerPartial(Pattern.key, Pattern.template);
+    //   _.registerPartial(Pattern.patternPartial, Pattern.template);
     // },
 
     // find and return any {{> template-name }} within pattern

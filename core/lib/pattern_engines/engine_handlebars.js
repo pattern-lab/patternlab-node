@@ -45,7 +45,7 @@ var engine_handlebars = {
   },
 
   registerPartial: function (Pattern) {
-    Handlebars.registerPartial(Pattern.key, Pattern.template);
+    Handlebars.registerPartial(Pattern.patternPartial, Pattern.template);
   },
 
   // find and return any {{> template-name }} within pattern

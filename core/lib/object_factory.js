@@ -53,8 +53,8 @@ var Pattern = function (relPath, data) {
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
 
   // The canonical "key" by which this pattern is known. This is the callable
-  // name of the pattern.
-  this.key = this.patternGroup + '-' + this.patternName;
+  // name of the pattern. UPDATE: this.key is now known as this.patternPartial
+  this.patternPartial = this.patternGroup + '-' + this.patternName;
 
   this.template = '';
   this.patternPartialCode = '';
