@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v1.3.0 - 2016 
- * 
+/*
+ * patternlab-node - v1.3.0 - 2016
+ *
  * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -149,8 +149,11 @@ var pattern_assembler = function () {
     var filename = path.basename(file);
     var ext = path.extname(filename);
 
-    //ignore dotfiles, underscored files, and non-variant .json files
-    if (filename.charAt(0) === '.' || (ext === '.json' && filename.indexOf('~') === -1)) {
+    //ignore dotfiles, underscored files, non-variant .json files, css and js files
+    if (filename.charAt(0) === '.' ||
+        (ext === '.json' && filename.indexOf('~') === -1) ||
+        ext === '.css' || ext === '.js'
+    ) {
       return;
     }
 
@@ -198,6 +201,24 @@ var pattern_assembler = function () {
 
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(file, 'utf8');
+
+    //look for a css file for this template
+    var cssPath = currentPattern.abspath.substr(0, currentPattern.abspath.lastIndexOf(".")) + ".css";
+    var cssExists = fs.existsSync(cssPath);
+
+    if (cssExists) {
+      currentPattern.cssExists = true;
+      currentPattern.css = fs.readFileSync(cssPath, 'utf8');
+    }
+
+    //look for a js file for this template
+    var jsPath = currentPattern.abspath.substr(0, currentPattern.abspath.lastIndexOf(".")) + ".js";
+    var jsExists = fs.existsSync(jsPath);
+
+    if (jsExists) {
+      currentPattern.jsExists = true;
+      currentPattern.js = fs.readFileSync(jsPath, 'utf8');
+    }
 
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = findPartialsWithStyleModifiers(currentPattern);

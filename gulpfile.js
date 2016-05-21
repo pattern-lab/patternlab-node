@@ -141,6 +141,8 @@ gulp.task('connect', ['lab'], function () {
     [
       path.resolve(paths().source.patterns, '**/*.mustache'),
       path.resolve(paths().source.patterns, '**/*.json'),
+      path.resolve(paths().source.patterns, '**/*.css'),
+      path.resolve(paths().source.patterns, '**/*.js'),
       path.resolve(paths().source.data, '*.json'),
       path.resolve(paths().source.fonts + '/*'),
       path.resolve(paths().source.images + '/*'),
