@@ -212,50 +212,6 @@ var pattern_assembler = function () {
     return currentPattern;
   }
 
-  function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
-    var smh = require('./style_modifier_hunter'),
-      ph = require('./parameter_hunter');
-
-    var style_modifier_hunter = new smh(),
-      parameter_hunter = new ph();
-
-    if (patternlab.config.debug) {
-      console.log('found partials for ' + currentPattern.key);
-    }
-
-    // determine if the template contains any pattern parameters. if so they
-    // must be immediately consumed
-    parameter_hunter.find_parameters(currentPattern, patternlab);
-
-    //do something with the regular old partials
-    for (var i = 0; i < foundPatternPartials.length; i++) {
-      var partialKey = currentPattern.findPartialKey(foundPatternPartials[i]);
-      var partialPath;
-
-      //identify which pattern this partial corresponds to
-      for (var j = 0; j < patternlab.patterns.length; j++) {
-        if (patternlab.patterns[j].key === partialKey ||
-           patternlab.patterns[j].relPath.indexOf(partialKey) > -1)
-        {
-          partialPath = patternlab.patterns[j].relPath;
-        }
-      }
-
-      //recurse through nested partials to fill out this extended template.
-      processPatternRecursive(partialPath, patternlab);
-
-      //complete assembly of extended template
-      var partialPattern = getpatternbykey(partialKey, patternlab);
-
-      //if partial has style modifier data, replace the styleModifier value
-      if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-        style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-      }
-
-      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
-    }
-  }
-
   function processPatternRecursive(file, patternlab) {
     var lh = require('./lineage_hunter'),
       pph = require('./pseudopattern_hunter'),
