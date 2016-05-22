@@ -9,6 +9,7 @@ var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var testPatternsPath = path.resolve(__dirname, 'files', '_twig-test-patterns');
+var eol = require('os').EOL;
 
 try {
   require('twig');
@@ -75,7 +76,7 @@ exports['engine_twig'] = {
     test.expect(1);
 
     var patternPath = path.join('00-atoms', '00-general', '08-button.twig');
-    var expectedValue = '<style>\n  .btn {\n    padding: 10px;\n    border-radius: 10px;\n    display: inline-block;\n    text-align: center;\n  }\n</style>\n\n<a href="#" class="btn">Button</a>\n';
+    var expectedValue = '<style>' + eol + '  .btn {' + eol + '    padding: 10px;' + eol + '    border-radius: 10px;' + eol + '    display: inline-block;' + eol + '    text-align: center;' + eol + '  }' + eol + '</style>' + eol + eol + '<a href="#" class="btn">Button</a>' + eol;
 
     // do all the normal processing of the pattern
     var patternlab = new fakePatternLab();
@@ -109,7 +110,8 @@ exports['engine_twig'] = {
     assembler.process_pattern_recursive(mediaObjectPatternPath, patternlab);
 
     // test
-    test.equals(mediaObjectPattern.render(), expectedValue);
+    // this pattern is too long - so just remove line endings on both sides and compare output
+    test.equals(mediaObjectPattern.render().replace(/\r?\n|\r/gm, ""), expectedValue.replace(/\r?\n|\r/gm, ""));
     test.done();
   },
   // 'twig partials can render JSON values': function (test) {

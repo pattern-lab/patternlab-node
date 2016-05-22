@@ -149,7 +149,7 @@ exports['engine_handlebars'] = {
     testFindPartials(test, [
       "{{> molecules-comment-header}}",
       "{{>  molecules-comment-header}}",
-      "{{> \n	molecules-comment-header\n}}",
+      "{{> " + eol + "	molecules-comment-header" + eol + "}}",
       "{{>  molecules-weird-spacing     }}",
       "{{>  molecules-ba_d-cha*rs     }}"
     ]);
@@ -178,7 +178,7 @@ exports['engine_handlebars'] = {
   'find_pattern_partials finds partials with handlebars parameters': function (test) {
     testFindPartials(test, [
       '{{> atoms-title title="bravo" headingLevel="2" headingSize="bravo" position="left"}}',
-      '{{> atoms-title title="bravo"\n  headingLevel="2"\n  headingSize="bravo"\n  position="left"}}',
+      '{{> atoms-title title="bravo"' + eol + '  headingLevel="2"' + eol + '  headingSize="bravo"' + eol + '  position="left"}}',
       '{{> atoms-title title="color &nbsp;<span style=\'font-weight:normal\'>midnight blue</span>" headingSize="charlie"}}',
       '{{> atoms-input label="city" required=true}}',
       '{{> organisms-product-filter filterData}}',
