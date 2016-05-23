@@ -157,7 +157,10 @@
 			</p>
 		</div>
 		{{/ lineageRExists }}
-		{{ patternDesc }}
+		<!-- @todo Add `patternDescExists` conditional -->
+		<div id="sg-code-desc">
+			{{{ patternDesc }}}
+		</div>
 		{{# patternDescAdditions }}
 			{{{ . }}}
 		{{/ patternDescAdditions }}
