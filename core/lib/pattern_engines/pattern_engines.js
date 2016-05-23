@@ -107,7 +107,7 @@ PatternEngines = Object.create({
     // avoid circular dependency by putting this in here. TODO: is this slow?
     var of = require('../object_factory');
 
-    if (pattern instanceof of.oPattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
+    if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
       return engineNameForExtension[pattern.fileExtension];
     }
 

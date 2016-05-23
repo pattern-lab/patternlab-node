@@ -73,9 +73,9 @@
       return renderedHTML;
     },
 
-    // registerPartial: function (oPattern) {
+    // registerPartial: function (Pattern) {
     //   debugger;
-    //   _.registerPartial(oPattern.patternPartial, oPattern.template);
+    //   _.registerPartial(Pattern.patternPartial, Pattern.template);
     // },
 
     // find and return any {{> template-name }} within pattern

@@ -17,7 +17,7 @@ var list_item_hunter = function () {
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     plutils = require('./utilities'),
-    of = require('./object_factory');
+    Pattern = require('./object_factory').Pattern;
 
   var pattern_assembler = new pa(),
     style_modifier_hunter = new smh(),
@@ -54,7 +54,7 @@ var list_item_hunter = function () {
         try {
           listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
         } catch (err) {
-          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
         }
         listData = plutils.mergeData(listData, pattern.listitems);
@@ -73,7 +73,7 @@ var list_item_hunter = function () {
             globalData = JSON5.parse(JSON5.stringify(patternlab.data));
             localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
           } catch (err) {
-            console.log('There was an error parsing JSON for ' + pattern.abspath);
+            console.log('There was an error parsing JSON for ' + pattern.relPath);
             console.log(err);
           }
 
@@ -82,7 +82,7 @@ var list_item_hunter = function () {
           allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block
-          var foundPartials = of.oPattern.createEmpty({'template': thisBlockTemplate}).findPartials();
+          var foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
 
           if (foundPartials && foundPartials.length > 0) {
 
@@ -97,7 +97,7 @@ var list_item_hunter = function () {
               try {
                 cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
               } catch (err) {
-                console.log('There was an error parsing JSON for ' + pattern.abspath);
+                console.log('There was an error parsing JSON for ' + pattern.relPath);
                 console.log(err);
               }
 

@@ -8,13 +8,65 @@
  *
  */
 
+var diveSync = require('diveSync'),
+  path = require('path');
+
+// GTP: these two diveSync pattern processors factored out so they can be reused
+// from unit tests to reduce code dupe!
+
+function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
+  diveSync(
+    patterns_dir,
+    {
+      filter: function (thisPath, dir) {
+        if (dir) {
+          var remainingPath = thisPath.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+        return true;
+      }
+    },
+    function (err, file) {
+      //log any errors
+      if (err) {
+        console.log(err);
+        return;
+      }
+      pattern_assembler.process_pattern_iterative(path.relative(patterns_dir, file), patternlab);
+    }
+  );
+}
+
+function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
+  diveSync(
+    patterns_dir,
+    {
+      filter: function (thisPath, dir) {
+        if (dir) {
+          var remainingPath = thisPath.replace(patterns_dir, '');
+          var isValidPath = remainingPath.indexOf('/_') === -1;
+          return isValidPath;
+        }
+        return true;
+      }
+    },
+    function (err, file) {
+      //log any errors
+      if (err) {
+        console.log(err);
+        return;
+      }
+      pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), patternlab);
+    }
+  );
+}
+
 var patternlab_engine = function (config) {
   'use strict';
 
-  var path = require('path'),
-    JSON5 = require('json5'),
+  var JSON5 = require('json5'),
     fs = require('fs-extra'),
-    diveSync = require('diveSync'),
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
@@ -78,6 +130,8 @@ var patternlab_engine = function (config) {
     }
   }
 
+
+
   function buildPatterns(deletePatternDir) {
     try {
       patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
@@ -116,50 +170,12 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
-    //diveSync once to perform iterative populating of patternlab object
-    diveSync(
-      patterns_dir,
-      {
-        filter: function (thisPath, dir) {
-          if (dir) {
-            var remainingPath = thisPath.replace(patterns_dir, '');
-            var isValidPath = remainingPath.indexOf('/_') === -1;
-            return isValidPath;
-          }
-          return true;
-        }
-      },
-      function (err, file) {
-        //log any errors
-        if (err) {
-          console.log(err);
-          return;
-        }
-        pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
-      });
+    // diveSync once to perform iterative populating of patternlab object
+    processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab);
 
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
-    diveSync(
-      patterns_dir,
-      {
-        filter: function (thisPath, dir) {
-          if (dir) {
-            var remainingPath = thisPath.replace(patterns_dir, '');
-            var isValidPath = remainingPath.indexOf('/_') === -1;
-            return isValidPath;
-          }
-          return true;
-        }
-      },
-      function (err, file) {
-        //log any errors
-        if (err) {
-          console.log(err);
-          return;
-        }
-        pattern_assembler.process_pattern_recursive(path.resolve(file), patternlab);
-      });
+    processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab);
 
     //set user defined head and foot if they exist
     try {
@@ -225,7 +241,7 @@ var patternlab_engine = function (config) {
       try {
         allData = JSON5.parse(JSON5.stringify(patternlab.data));
       } catch (err) {
-        console.log('There was an error parsing JSON for ' + pattern.abspath);
+        console.log('There was an error parsing JSON for ' + pattern.relPath);
         console.log(err);
       }
       allData = plutils.mergeData(allData, pattern.jsonFileData);
@@ -298,7 +314,12 @@ var patternlab_engine = function (config) {
       printDebug();
     }
   };
-
 };
+
+// export these free functions so they're available without calling the exported
+// function, for use in reducing code dupe in unit tests. At least, until we
+// have a better way to do this
+patternlab_engine.process_all_patterns_iterative = processAllPatternsIterative;
+patternlab_engine.process_all_patterns_recursive = processAllPatternsRecursive;
 
 module.exports = patternlab_engine;

@@ -7,8 +7,9 @@ catch (err) { return; }
 
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
-var object_factory = require('../core/lib/object_factory');
+var Pattern = require('../core/lib/object_factory').Pattern;
 var testPatternsPath = path.resolve(__dirname, 'files', '_twig-test-patterns');
+var eol = require('os').EOL;
 
 try {
   require('twig');
@@ -50,10 +51,8 @@ function testFindPartials(test, partialTests) {
   // setup current pattern from what we would have during execution
   // docs on partial syntax are here:
   // http://patternlab.io/docs/pattern-including.html
-  var currentPattern = object_factory.oPattern.create(
-    '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.twig', // abspath
-    '01-molecules\\00-testing', // subdir
-    '00-test-mol.twig', // filename,
+  var currentPattern = Pattern.create(
+    '01-molecules/00-testing/00-test-mol.twig', // relative path now
     null, // data
     {
       template: partialTests.join()
@@ -76,14 +75,8 @@ exports['engine_twig'] = {
   'button twig pattern renders': function (test) {
     test.expect(1);
 
-    var patternPath = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-general',
-      '08-button.twig'
-    );
-
-    var expectedValue = '<style>\n  .btn {\n    padding: 10px;\n    border-radius: 10px;\n    display: inline-block;\n    text-align: center;\n  }\n</style>\n\n<a href="#" class="btn">Button</a>\n';
+    var patternPath = path.join('00-atoms', '00-general', '08-button.twig');
+    var expectedValue = '<style>' + eol + '  .btn {' + eol + '    padding: 10px;' + eol + '    border-radius: 10px;' + eol + '    display: inline-block;' + eol + '    text-align: center;' + eol + '  }' + eol + '</style>' + eol + eol + '<a href="#" class="btn">Button</a>' + eol;
 
     // do all the normal processing of the pattern
     var patternlab = new fakePatternLab();
@@ -98,24 +91,9 @@ exports['engine_twig'] = {
     test.expect(1);
 
     // pattern paths
-    var buttonPatternPath = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-general',
-      '08-button.twig'
-    );
-    var imagePatternPath = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-general',
-      '09-image.twig'
-    );
-    var mediaObjectPatternPath = path.resolve(
-      testPatternsPath,
-      '00-molecules',
-      '00-general',
-      '00-media-object.twig'
-    );
+    var buttonPatternPath = path.join('00-atoms', '00-general', '08-button.twig');
+    var imagePatternPath = path.join('00-atoms', '00-general', '09-image.twig');
+    var mediaObjectPatternPath = path.join('00-molecules', '00-general', '00-media-object.twig');
 
     var expectedValue = '<style>\n  .Media {\n    display: flex;\n    align-items: flex-start;\n  }\n\n  .Media > img {\n    margin-right: 1em;\n    max-width: 200px;\n  }\n\n  .Media-body {\n    flex: 1;\n  }\n</style>\n\n\n\n\n<div class="Media">\n  <img src="http://placeholdit.imgix.net/~text?txtsize=33&txt=280%C3%97220&w=280&h=220&fm=pjpg"\n  srcset="http://placeholdit.imgix.net/~text?txtsize=33&txt=280%C3%97220&w=280&h=220&fm=pjpg 280w,\n          http://placeholdit.imgix.net/~text?txtsize=33&txt=560%C3%97440&w=560&h=440&fm=pjpg 560w,\n          http://placeholdit.imgix.net/~text?txtsize=33&txt=840%C3%97660&w=840&h=660&fm=pjpg 840w"\n  sizes="100vw">\n\n  <style>\n  .btn {\n    padding: 10px;\n    border-radius: 10px;\n    display: inline-block;\n    text-align: center;\n  }\n</style>\n\n<a href="#" class="btn">Button</a>\n\n\n  <div class="Media-body">\n\n    \n    \n\n    <p>Oh, hello world!</p>\n  </div>\n</div>\n';
 
@@ -132,7 +110,8 @@ exports['engine_twig'] = {
     assembler.process_pattern_recursive(mediaObjectPatternPath, patternlab);
 
     // test
-    test.equals(mediaObjectPattern.render(), expectedValue);
+    // this pattern is too long - so just remove line endings on both sides and compare output
+    test.equals(mediaObjectPattern.render().replace(/\r?\n|\r/gm, ""), expectedValue.replace(/\r?\n|\r/gm, ""));
     test.done();
   },
   // 'twig partials can render JSON values': function (test) {
