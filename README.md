@@ -1,6 +1,6 @@
-## Access to the Horizn Studios Patternlab version (Migration Branch)
+## Access to the Horizn Studios Patternlab version
 
-http://horizn-styleguide.s3-website.eu-central-1.amazonaws.com/branch/HSK-386-migration/
+http://styleguide.horizn-studios.com/
 
 
 ## About the Node Version of Pattern Lab
