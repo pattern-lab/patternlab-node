@@ -9,6 +9,7 @@ public/fonts/*
 public/js/*
 public/images/*
 public/patterns/*
+public/favicon.ico
 latest-change.txt
 patternlab.json
 .sass-cache/*

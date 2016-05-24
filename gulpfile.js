@@ -75,6 +75,12 @@ gulp.task('cp:img', function(){
     .pipe(gulp.dest(paths().public.images));
 });
 
+// Favicon copy
+gulp.task('cp:favicon', function(){
+  return gulp.src('favicon.ico', {cwd:paths().source.root} )
+    .pipe(gulp.dest(paths().public.root));
+});
+
 // Fonts copy
 gulp.task('cp:font', function(){
   return gulp.src('*', {cwd:paths().source.fonts})
@@ -152,7 +158,7 @@ gulp.task('lab-pipe', ['lab'], function(cb){
 
 gulp.task('default', ['lab']);
 
-gulp.task('assets', ['cp:js', 'cp:img', 'cp:font', 'cp:data', 'cp:css' /*'sass:style', 'sass:styleguide'*/]);
+gulp.task('assets', ['cp:js', 'cp:img', 'cp:favicon', 'cp:font', 'cp:data', 'cp:css' /*'sass:style', 'sass:styleguide'*/]);
 gulp.task('prelab', ['clean', 'assets']);
 gulp.task('lab', ['prelab', 'patternlab'], function(cb){cb();});
 gulp.task('patterns', ['patternlab:only_patterns']);
