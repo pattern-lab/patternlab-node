@@ -42,14 +42,28 @@ exports['annotaton_exporter'] = {
     //act
     var annotations = ae.gatherMD();
 
-    console.log(annotations);
-
     //assert
-    test.equals(annotations.length, 2);
+    test.equals(annotations.length, 3);
     test.equals(annotations[1].el, '.logo');
     test.equals(annotations[1].title, 'Logo');
     test.equals(annotations[1].comment.replace(/\r?\n|\r/gm, ""), '<p>The <em>logo image</em> is an SVG file.</p>');
 
     test.done();
+  },
+
+  'merges both annotation methods into one array' : function (test) {
+    //arrange
+
+    //act
+    var annotations = ae.gather();
+
+    //assert
+    test.equals(annotations.length, 3);
+    test.equals(annotations[2].el, '#nav');
+    test.equals(annotations[2].title, 'Navigation');
+    test.equals(annotations[2].comment.replace(/\r?\n|\r/gm, ""), '<p>Navigation for adaptive web experiences can be tricky. Refer to <a href="https://bradfrost.github.io/this-is-responsive/patterns.html#navigation">these repsonsive patterns</a> when evaluating solutions.</p>');
+
+    test.done();
+
   }
 };

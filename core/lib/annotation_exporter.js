@@ -35,6 +35,7 @@ var annotations_exporter = function (pl) {
    */
   function parseAnnotationsMD() {
     var annotations = [];
+
     //attempt to read the file
     var annotationsMD = '';
     try {
@@ -88,7 +89,7 @@ var annotations_exporter = function (pl) {
   function gatherAnnotations() {
     var annotationsJS = parseAnnotationsJS();
     var annotationsMD = parseAnnotationsMD();
-    var mergedAnnotations = _.union(annotationsJS, annotationsMD);
+    var mergedAnnotations = _.unionBy(annotationsJS, annotationsMD, 'el');
     return mergedAnnotations;
   }
 
