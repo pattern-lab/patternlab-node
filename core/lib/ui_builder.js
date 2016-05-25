@@ -1,13 +1,3 @@
-/*
- * patternlab-node - v1.2.0 - 2016
- *
- * Brian Muenzenmeyer, Geoffrey Pursell, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- */
-
 "use strict";
 
 var path = require('path');
@@ -365,7 +355,7 @@ function buildFrontEnd(patternlab) {
   patternlab.patterns = sortPatterns(patternlab.patterns);
 
   //find mediaQueries
-  media_hunter.find_media_queries('./source/css', patternlab);
+  media_hunter.find_media_queries(path.resolve(paths.source.css), patternlab);
 
   // check if patterns are excluded, if not add them to styleguidePatterns
   styleguidePatterns = assembleStyleguidePatterns(patternlab);

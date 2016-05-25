@@ -1,20 +1,9 @@
-/*
- * patternlab-node - v1.3.0 - 2016
- *
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- */
-
-
 "use strict";
 
 var pattern_assembler = function () {
   var path = require('path'),
     fs = require('fs-extra'),
-    of = require('./object_factory'),
+    Pattern = require('./object_factory').Pattern,
     md = require('markdown-it')(),
     plutils = require('./utilities'),
     patternEngines = require('./pattern_engines');
@@ -92,9 +81,9 @@ var pattern_assembler = function () {
     //only push to array if the array doesn't contain this pattern
     var isNew = true;
     for (var i = 0; i < patternlab.patterns.length; i++) {
-      //so we need the identifier to be unique, which patterns[i].abspath is
-      if (pattern.abspath === patternlab.patterns[i].abspath) {
-        //if abspath already exists, overwrite that element
+      //so we need the identifier to be unique, which patterns[i].relPath is
+      if (pattern.relPath === patternlab.patterns[i].relPath) {
+        //if relPath already exists, overwrite that element
         patternlab.patterns[i] = pattern;
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
         isNew = false;
@@ -120,30 +109,30 @@ var pattern_assembler = function () {
 
   // Render a pattern on request. Long-term, this should probably go away.
   function renderPattern(pattern, data, partials) {
-    // if we've been passed a full oPattern, it knows what kind of template it
+    // if we've been passed a full Pattern, it knows what kind of template it
     // is, and how to render itself, so we just call its render method
-    if (pattern instanceof of.oPattern) {
+    if (pattern instanceof Pattern) {
       return pattern.render(data, partials);
     } else {
       // otherwise, assume it's a plain mustache template string, and we
       // therefore just need to create a dummpy pattern to be able to render
       // it
-      var dummyPattern = of.oPattern.createEmpty({extendedTemplate: pattern});
+      var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
       return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
     }
   }
 
-  function processPatternIterative(file, patternlab) {
+  function processPatternIterative(relPath, patternlab) {
     //extract some information
-    var subdir = path.dirname(path.relative(patternlab.config.paths.source.patterns, file)).replace('\\', '/');
-    var filename = path.basename(file);
+    var filename = path.basename(relPath);
     var ext = path.extname(filename);
+    var patternsPath = patternlab.config.paths.source.patterns;
 
     // skip non-pattern files
     if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
 
     //make a new Pattern Object
-    var currentPattern = new of.oPattern(file, subdir, filename);
+    var currentPattern = new Pattern(relPath);
 
     //if file is named in the syntax for variants
     if (patternEngines.isPseudoPatternJSON(filename)) {
@@ -160,7 +149,7 @@ var pattern_assembler = function () {
 
     //look for a json file for this template
     try {
-      var jsonFilename = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".json");
+      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
       currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
       if (patternlab.config.debug) {
         console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
@@ -172,7 +161,7 @@ var pattern_assembler = function () {
 
     //look for a listitems.json file for this template
     try {
-      var listJsonFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
+      var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
       currentPattern.listitems = fs.readJSONSync(listJsonFileName);
       buildListItems(currentPattern);
       if (patternlab.config.debug) {
@@ -198,7 +187,7 @@ var pattern_assembler = function () {
     }
 
     //add the raw template to memory
-    currentPattern.template = fs.readFileSync(file, 'utf8');
+    currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
 
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
@@ -225,7 +214,7 @@ var pattern_assembler = function () {
     var currentPattern, i;
 
     for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].abspath === file) {
+      if (patternlab.patterns[i].relPath === file) {
         currentPattern = patternlab.patterns[i];
       }
     }
@@ -285,9 +274,9 @@ var pattern_assembler = function () {
       //identify which pattern this partial corresponds to
       for (var j = 0; j < patternlab.patterns.length; j++) {
         if (patternlab.patterns[j].patternPartial === partial ||
-           patternlab.patterns[j].abspath.indexOf(partial) > -1)
+           patternlab.patterns[j].relPath.indexOf(partial) > -1)
         {
-          partialPath = patternlab.patterns[j].abspath;
+          partialPath = patternlab.patterns[j].relPath;
         }
       }
 

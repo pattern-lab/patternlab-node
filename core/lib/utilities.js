@@ -1,12 +1,4 @@
-/*
- * patternlab-node - v0.14.0 - 2015
- *
- * Brian Muenzenmeyer, Geoffrey Pursell and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- */
+"use strict";
 
 var util = {
   // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript

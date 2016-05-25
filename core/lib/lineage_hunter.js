@@ -1,13 +1,3 @@
-/*
- * patternlab-node - v1.3.0 - 2016
- *
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- */
-
 "use strict";
 
 var lineage_hunter = function () {
@@ -112,7 +102,7 @@ var lineage_hunter = function () {
               < patternlab.config.patternStateCascade.indexOf(lineageRPattern.patternState))) {
 
               if (patternlab.config.debug) {
-                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.key + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + (lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState));
+                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.patternPartial + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + (lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState));
               }
 
               lineageRPattern.patternState = pattern.patternState;

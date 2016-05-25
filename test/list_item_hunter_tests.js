@@ -2,18 +2,16 @@
   "use strict";
 
   var lih = require('../core/lib/list_item_hunter');
-  var of = require('../core/lib/object_factory');
+  var Pattern = require('../core/lib/object_factory').Pattern;
   var extend = require('util')._extend;
 
   // fake pattern creators
   function createFakeListPattern(customProps) {
     var inputs = {
-      abspath: '/home/fakeuser/pl/source/_patterns/01-molecules/01-lists/00-list.mustache',
-      subdir: '01-molecules\\01-lists',
-      filename: '00-list.mustache',
+      relPath: '01-molecules/01-lists/00-list.mustache',
       data: {}
     };
-    var pattern = new of.oPattern(inputs.abspath, inputs.subdir, inputs.filename, inputs.data);
+    var pattern = new Pattern(inputs.relPath);
 
     return extend(pattern, customProps);
   }
@@ -128,11 +126,11 @@
 
       var patternlab = createFakePatternLab({
         "patterns": [
-          of.oPattern.create('/home/fakeuser/pl/source/_patterns/00-atoms/00-test/00-foo.mustache', "00-atoms/00-test", "00-foo.mustache", null, {
+          Pattern.create('00-atoms/00-test/00-foo.mustache', null, {
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}"
           }),
-          of.oPattern.create('/home/fakeuser/pl/source/_patterns/00-atoms/00-test/00-bar.mustache', "00-atoms/00-test", "00-bar.mustache", null, {
+          Pattern.create('00-atoms/00-test/00-bar.mustache', null, {
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}"
           })
@@ -300,7 +298,7 @@
       pl.config.debug = false;
       pl.patterns = [];
       pl.partials = {};
-      pl.config.patterns = { source: patterns_dir};
+      pl.config.patterns = { source: patterns_dir };
       pl.listitems = {
         "1": [
            {
@@ -317,12 +315,12 @@
         ]
       };
 
-      var atomPattern = new of.oPattern('test/files/_patterns/00-test/03-styled-atom.mustache', '00-test', '03-styled-atom.mustache');
+      var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
       atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
       atomPattern.extendedTemplate = atomPattern.template;
       atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-      var bookendPattern = new of.oPattern('test/files/_patterns/00-test/11-bookend-listitem.mustache', '00-test', '11-bookend-listitem.mustache');
+      var bookendPattern = new Pattern('00-test/11-bookend-listitem.mustache');
       bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/11-bookend-listitem.mustache', 'utf8');
       bookendPattern.extendedTemplate = bookendPattern.template;
       bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);

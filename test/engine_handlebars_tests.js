@@ -6,8 +6,9 @@ catch (err) { return; }
 
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
-var object_factory = require('../core/lib/object_factory');
+var Pattern = require('../core/lib/object_factory').Pattern;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
+var eol = require('os').EOL;
 
 try {
   require('handlebars');
@@ -36,7 +37,7 @@ function fakePatternLab() {
 
   // patch the pattern source so the pattern assembler can correctly determine
   // the "subdir"
-  fpl.config.paths.source.patterns = './test/files/_handlebars-test-patterns';
+  fpl.config.paths.source.patterns = testPatternsPath;
 
   return fpl;
 }
@@ -49,10 +50,8 @@ function testFindPartials(test, partialTests) {
   // setup current pattern from what we would have during execution
   // docs on partial syntax are here:
   // http://patternlab.io/docs/pattern-including.html
-  var currentPattern = object_factory.oPattern.create(
-    '/home/fakeuser/pl/source/_patterns/01-molecules/00-testing/00-test-mol.hbs', // abspath
-    '01-molecules\\00-testing', // subdir
-    '00-test-mol.hbs', // filename,
+  var currentPattern = Pattern.create(
+    '01-molecules/00-testing/00-test-mol.hbs', // relative path now
     null, // data
     {
       template: partialTests.join()
@@ -75,12 +74,7 @@ exports['engine_handlebars'] = {
   'hello world handlebars pattern renders': function (test) {
     test.expect(1);
 
-    var patternPath = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-global',
-      '00-helloworld.hbs'
-    );
+    var patternPath = path.join('00-atoms', '00-global', '00-helloworld.hbs');
 
     // do all the normal processing of the pattern
     var patternlab = new fakePatternLab();
@@ -88,25 +82,15 @@ exports['engine_handlebars'] = {
     var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
     assembler.process_pattern_recursive(patternPath, patternlab);
 
-    test.equals(helloWorldPattern.render(), 'Hello world!\n');
+    test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
     test.done();
   },
   'hello worlds handlebars pattern can see the atoms-helloworld partial and renders it twice': function (test) {
     test.expect(1);
 
     // pattern paths
-    var pattern1Path = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-global',
-      '00-helloworld.hbs'
-    );
-    var pattern2Path = path.resolve(
-      testPatternsPath,
-      '00-molecules',
-      '00-global',
-      '00-helloworlds.hbs'
-    );
+    var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld.hbs');
+    var pattern2Path = path.join('00-molecules', '00-global', '00-helloworlds.hbs');
 
     // set up environment
     var patternlab = new fakePatternLab(); // environment
@@ -119,19 +103,14 @@ exports['engine_handlebars'] = {
     assembler.process_pattern_recursive(pattern2Path, patternlab);
 
     // test
-    test.equals(helloWorldsPattern.render(), 'Hello world!\n and Hello world!\n\n');
+    test.equals(helloWorldsPattern.render(), 'Hello world!' + eol + ' and Hello world!' + eol + eol);
     test.done();
   },
   'handlebars partials can render JSON values': function (test) {
     test.expect(1);
 
     // pattern paths
-    var pattern1Path = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-global',
-      '00-helloworld-withdata.hbs'
-    );
+    var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
 
     // set up environment
     var patternlab = new fakePatternLab(); // environment
@@ -142,45 +121,35 @@ exports['engine_handlebars'] = {
     assembler.process_pattern_recursive(pattern1Path, patternlab);
 
     // test
-    test.equals(helloWorldWithData.render(), 'Hello world!\nYeah, we got the subtitle from the JSON.\n');
+    test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
     test.done();
   },
   'handlebars partials use the JSON environment from the calling pattern and can accept passed parameters': function (test) {
     test.expect(1);
 
     // pattern paths
-    var atomPath = path.resolve(
-      testPatternsPath,
-      '00-atoms',
-      '00-global',
-      '00-helloworld-withdata.hbs'
-    );
-    var molPath = path.resolve(
-      testPatternsPath,
-      '00-molecules',
-      '00-global',
-      '00-call-atom-with-molecule-data.hbs'
-    );
+    var atomPath = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
+    var molPath = path.join('00-molecules', '00-global', '00-call-atom-with-molecule-data.hbs');
 
     // set up environment
     var patternlab = new fakePatternLab(); // environment
     var assembler = new pa();
 
     // do all the normal processing of the pattern
-    var atom = assembler.process_pattern_iterative(atomPath, patternlab);
+    assembler.process_pattern_iterative(atomPath, patternlab);
     var mol = assembler.process_pattern_iterative(molPath, patternlab);
     assembler.process_pattern_recursive(atomPath, patternlab);
     assembler.process_pattern_recursive(molPath, patternlab);
 
     // test
-    test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>\nThis is Hello world!\nfrom the default JSON.\n\n\n<h2>Call with passed parameter:</h2>\nHowever, this is Hello world!\nfrom a totally different blob.\n\n');
+    test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>' + eol + 'This is Hello world!' + eol + 'from the default JSON.' + eol + eol + eol +'<h2>Call with passed parameter:</h2>' + eol + 'However, this is Hello world!' + eol + 'from a totally different blob.' + eol + eol);
     test.done();
   },
   'find_pattern_partials finds partials': function (test) {
     testFindPartials(test, [
       "{{> molecules-comment-header}}",
       "{{>  molecules-comment-header}}",
-      "{{> \n	molecules-comment-header\n}}",
+      "{{> " + eol + "	molecules-comment-header" + eol + "}}",
       "{{>  molecules-weird-spacing     }}",
       "{{>  molecules-ba_d-cha*rs     }}"
     ]);
@@ -209,7 +178,7 @@ exports['engine_handlebars'] = {
   'find_pattern_partials finds partials with handlebars parameters': function (test) {
     testFindPartials(test, [
       '{{> atoms-title title="bravo" headingLevel="2" headingSize="bravo" position="left"}}',
-      '{{> atoms-title title="bravo"\n  headingLevel="2"\n  headingSize="bravo"\n  position="left"}}',
+      '{{> atoms-title title="bravo"' + eol + '  headingLevel="2"' + eol + '  headingSize="bravo"' + eol + '  position="left"}}',
       '{{> atoms-title title="color &nbsp;<span style=\'font-weight:normal\'>midnight blue</span>" headingSize="charlie"}}',
       '{{> atoms-input label="city" required=true}}',
       '{{> organisms-product-filter filterData}}',
