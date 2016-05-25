@@ -18,3 +18,10 @@ branches:
     - dev
     - pattern-engines
     - dev-2.0-core
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/a14f537f16b0756d9470
+    on_success: always
+    on_failure: always
+    on_start: never
