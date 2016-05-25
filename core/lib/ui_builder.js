@@ -355,7 +355,7 @@ function buildFrontEnd(patternlab) {
   patternlab.patterns = sortPatterns(patternlab.patterns);
 
   //find mediaQueries
-  media_hunter.find_media_queries('./source/css', patternlab);
+  media_hunter.find_media_queries(path.resolve(paths.source.css), patternlab);
 
   // check if patterns are excluded, if not add them to styleguidePatterns
   styleguidePatterns = assembleStyleguidePatterns(patternlab);
