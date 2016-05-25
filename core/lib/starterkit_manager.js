@@ -12,7 +12,7 @@ var starterkit_manager = function (pl) {
   }
 
   function listStarterkits() {
-
+    console.log('https://github.com/search?utf8=%E2%9C%93&q=starterkit+in%3Aname%2C+user%3Apattern-lab&type=Repositories&ref=searchresults');
   }
 
   function packStarterkit() {
