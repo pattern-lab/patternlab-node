@@ -1,12 +1,14 @@
-/*
- * patternlab-node - v1.3.0 - 2016
- *
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+/* 
+ * patternlab-node - v2.0.0 - 2016 
+ * 
+ * Brian Muenzenmeyer, Geoff Pursell, and the web community.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
+
+"use strict";
 
 var diveSync = require('diveSync'),
   path = require('path');
