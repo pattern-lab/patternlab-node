@@ -1,13 +1,3 @@
-/*
- * patternlab-node - v1.2.0 - 2016
- *
- * Brian Muenzenmeyer, Geoffrey Pursell, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- */
-
 "use strict";
 
 var path = require('path');
