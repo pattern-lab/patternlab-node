@@ -51,7 +51,7 @@ var annotations_exporter = function (pl) {
 
       //for each annotation process the yaml frontmatter and markdown
       var annotationSnippet = annotationsYAML[i];
-      var annotationsRE = /---\n{1}([\s\S]*)---\n{1}([\s\S]*)+/gm;
+      var annotationsRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
       var chunks = annotationsRE.exec(annotationSnippet);
       if (chunks && chunks[1] && chunks[2]) {
 
