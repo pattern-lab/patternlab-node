@@ -181,23 +181,21 @@ var patternlab_engine = function (config) {
 
     //set user defined head and foot if they exist
     try {
-      patternlab.userHead = pattern_assembler.findPartial('atoms-_00-head', patternlab);
-      patternlab.userHead.extendedTemplate = patternlab.userHead.template;
+      patternlab.userHead = fs.readFileSync(path.resolve(paths.source.root, '_meta', '_00-head.mustache'), 'utf8');
     }
     catch (ex) {
       if (patternlab.config.debug) {
         console.log(ex);
-        console.log('Could not find optional user-defined header, atoms-head  pattern. It was likely deleted.');
+        console.log('Could not find optional user-defined header, usually found at ./source/_meta/_001-head.mustache. It was likely deleted.');
       }
     }
     try {
-      patternlab.userFoot = pattern_assembler.findPartial('atoms-_01-foot', patternlab);
-      patternlab.userFoot.extendedTemplate = patternlab.userFoot.template;
+      patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.root, '_meta', '_01-foot.mustache'), 'utf8');
     }
     catch (ex) {
       if (patternlab.config.debug) {
         console.log(ex);
-        console.log('Could not find optional user-defined footer, atoms-foot pattern. It was likely deleted.');
+        console.log('Could not find optional user-defined footer, usually found at ./source/_meta/_01-foot.mustache. It was likely deleted.');
       }
     }
 
@@ -216,7 +214,7 @@ var patternlab_engine = function (config) {
     //set pattern-specific header if necessary
     var head;
     if (patternlab.userHead) {
-      head = patternlab.userHead.extendedTemplate.replace('{% pattern-lab-head %}', patternlab.header);
+      head = patternlab.userHead.replace('{% pattern-lab-head %}', patternlab.header);
     } else {
       head = patternlab.header;
     }
@@ -247,7 +245,8 @@ var patternlab_engine = function (config) {
         console.log(err);
       }
       allData = plutils.mergeData(allData, pattern.jsonFileData);
-      var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
+      //var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
+      var headHTML = pattern_assembler.renderPattern(pattern.header, allData);
 
       //render the extendedTemplate with all data
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
