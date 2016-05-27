@@ -14,7 +14,8 @@
     "markdown-it": "^6.0.1",
     "mustache": "^2.2.0",
     "twig": "^0.9.5",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "patternengine-node-mustache": "^0.0.1"
   },
   "devDependencies": {
     "grunt": "~1.0.1",
