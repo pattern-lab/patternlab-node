@@ -258,6 +258,7 @@ var patternlab_engine = function (config) {
 
       //render the extendedTemplate with all data
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+      //todo see if this is still needed
       pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
 
       // stringify this data for individual pattern rendering and use on the styleguide
@@ -296,10 +297,10 @@ var patternlab_engine = function (config) {
       fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.mustache'), entity_encoder.encode(pattern.template));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', pattern.fileExtension), pattern.template);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.escaped.html'), entity_encoder.encode(patternPage));
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.markup-only.html'), pattern.patternPartialCode);
     });
 
     //export patterns if necessary
