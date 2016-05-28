@@ -9,12 +9,26 @@ var starterkit_manager = function (pl) {
 
   function loadStarterKit(starterkitName) {
     try {
-      var kit = require(starterkitName);
+      var kitPath = path.resolve(
+        path.join(process.cwd(), 'node_modules', starterkitName, pl.config.starterkitSubDir)
+      );
+      var kitPathDirExists = fs.statSync(kitPath).isDirectory();
+      if (kitPathDirExists) {
+
+        //todo check and prompt user is paths().source is not empty
+
+        fs.copy(kitPath, paths.source.root, function(ex) {
+          if (ex) {
+            console.error(ex);
+          }
+          console.log('starterkit ' + starterkitName + ' loaded successfully.');
+        });
+
+      }
     } catch (ex) {
       console.log(ex);
       console.log(starterkitName + ' not found, please use npm to install it first');
     }
-    console.log(kit);
   }
 
   function listStarterkits() {
