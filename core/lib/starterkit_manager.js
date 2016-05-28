@@ -15,8 +15,6 @@ var starterkit_manager = function (pl) {
       console.log(starterkitName + ' not found, please use npm to install it first');
     }
     console.log(kit);
-
-
   }
 
   function listStarterkits() {

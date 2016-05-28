@@ -137,6 +137,11 @@ var patternlab_engine = function (config) {
     return starterkit_manager.list_starterkits();
   }
 
+  function loadStarterKit(starterkitName) {
+    var starterkit_manager = new sm(patternlab);
+    starterkit_manager.load_starterkit(starterkitName);
+  }
+
   function buildPatterns(deletePatternDir) {
     try {
       patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
@@ -319,6 +324,9 @@ var patternlab_engine = function (config) {
     },
     list_starterkits: function () {
       return listStarterkits();
+    },
+    load_starterkit: function (starterkitName) {
+      loadStarterKit(starterkitName);
     }
   };
 };
