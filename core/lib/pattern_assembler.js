@@ -6,7 +6,7 @@ var pattern_assembler = function () {
     Pattern = require('./object_factory').Pattern,
     md = require('markdown-it')(),
     plutils = require('./utilities'),
-    patternEngines = require('./pattern_engines/pattern_engines');
+    patternEngines = require('./pattern_engines');
 
 
   // HELPER FUNCTIONS
