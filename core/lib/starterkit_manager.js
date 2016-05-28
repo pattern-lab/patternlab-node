@@ -8,6 +8,14 @@ var starterkit_manager = function (pl) {
     paths = pl.config.paths;
 
   function loadStarterKit(starterkitName) {
+    try {
+      var kit = require(starterkitName);
+    } catch (ex) {
+      console.log(ex);
+      console.log(starterkitName + ' not found, please use npm to install it first');
+    }
+    console.log(kit);
+
 
   }
 
