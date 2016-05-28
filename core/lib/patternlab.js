@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.0.0 - 2016 
- * 
+/*
+ * patternlab-node - v2.0.0 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -75,13 +75,13 @@ var patternlab_engine = function (config) {
     buildFrontEnd = require('./ui_builder'),
     he = require('html-entities').AllHtmlEntities,
     plutils = require('./utilities'),
+    sm = require('./starterkit_manager'),
     patternlab = {};
 
-  patternlab.package = fs.readJSONSync('./package.json');
+  patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
 
   var paths = patternlab.config.paths;
-
 
   function getVersion() {
     console.log(patternlab.package.version);
@@ -132,7 +132,15 @@ var patternlab_engine = function (config) {
     }
   }
 
+  function listStarterkits() {
+    var starterkit_manager = new sm(patternlab);
+    return starterkit_manager.list_starterkits();
+  }
 
+  function loadStarterKit(starterkitName) {
+    var starterkit_manager = new sm(patternlab);
+    starterkit_manager.load_starterkit(starterkitName);
+  }
 
   function buildPatterns(deletePatternDir) {
     try {
@@ -313,6 +321,12 @@ var patternlab_engine = function (config) {
     build_patterns_only: function (deletePatternDir) {
       buildPatterns(deletePatternDir);
       printDebug();
+    },
+    list_starterkits: function () {
+      return listStarterkits();
+    },
+    load_starterkit: function (starterkitName) {
+      loadStarterKit(starterkitName);
     }
   };
 };
