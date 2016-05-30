@@ -53,13 +53,10 @@
     background-color : transparent;
     border-color : $colorWhite;
 
-    &:hover {
-      background-color: transparent;
-      color:$colorTussock;
-    }
-    &:active {
-      background-color: transparent;
-      color: lighten($colorTussock, 10%);
+    &:hover, &:active {
+      background-color: $colorWhite;
+      border-color : $colorWhite;
+      color: $colorText;
     }
   }
 

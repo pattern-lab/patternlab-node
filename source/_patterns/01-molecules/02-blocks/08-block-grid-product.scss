@@ -1,0 +1,157 @@
+$default-figure-h3-width: 30%;
+$default-figure-h3-left: 35%;
+
+.blockMultimediaGrid {
+  justify-content : center;
+  margin-right : auto;
+  margin-left: auto;
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+
+  .columns__column {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .block {
+    margin-bottom: $paddingMini / 1.3;
+    &.text {
+      &-black {
+        color: $colorBlack;
+        border-color: $colorBlack;
+        a {
+          &:hover {
+            color: $colorWhite;
+            border-color: $colorWhite;
+            h3 {
+              &:before {
+                color: $colorWhite;
+                border-color: $colorWhite;
+              }
+            }
+          }
+        }
+      }
+      &-white {
+        color: $colorWhite;
+        border-color: $colorWhite;
+      }
+    }
+    a {
+      color: inherit;
+      border-color: inherit;
+      position: relative;
+      img {
+        -webkit-transition: opacity .3s ease;
+        -moz-transition: opacity .3s ease;
+        transition: all .3s ease;
+        -webkit-column-break-inside: avoid;
+        -moz-column-break-inside: avoid;
+        -o-column-break-inside: avoid;
+        -ms-column-break-inside: avoid;
+        column-break-inside: avoid;
+        -webkit-backface-visibility: hidden;
+      }
+      figure {
+        color: inherit;
+        border-color: inherit;
+        h3 {
+          text-transform: uppercase;
+          position: absolute;
+          top: 30%;
+          width: 100%;
+          color: inherit;
+          border-color: inherit;
+          display: table;
+          opacity: 0;
+          -webkit-transition: opacity .3s ease;
+          -moz-transition: opacity .3s ease;
+          transition: all .3s ease;
+          &:before {
+            content: '';
+            border-top: 2px solid;
+            border-color: inherit;
+            position: absolute;
+            display: table;
+            width: $default-figure-h3-width;
+            margin-left: $default-figure-h3-left;
+            bottom: 38px;
+            opacity: 0;
+            -webkit-transition: opacity .3s ease;
+            -moz-transition: opacity .3s ease;
+            transition: all .3s ease;
+          }
+        }
+        p {
+          display: none;
+        }
+      }
+      &:hover {
+        img {
+          opacity: .6;
+          transform: scale(1.2);
+          -ms-transform: scale(1.2);
+          -webkit-transform: scale(1.2);
+        }
+        figure {
+          background-color: $colorBlack;
+          h3 {
+            &:before {
+              opacity: 1;
+            }
+            opacity: 1;
+          }
+        }
+      }
+      .anchorCTA {
+        color: inherit;
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
+        display: table;
+      }
+    }
+  }
+
+  &--product {
+    text-align:center;
+    .image {
+      overflow:hidden;
+      position:relative;
+      margin-bottom: $paddingMini;
+      &:only-child {
+        margin-bottom:0;
+      }
+      .button__area {
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        display:flex;
+        flex-flow:column nowrap;
+        justify-content:center;
+        align-items:center;
+        padding:$paddingMini / 2;
+      }
+    }
+
+    &.columns {
+      @media only screen and (min-width: $breakpointMobile) {
+        display : flex;
+        padding-left : $paddingMini;
+        padding-right: $paddingMini;
+        margin-right : auto;
+        margin-left: auto;
+      }
+
+      @media only screen and (min-width : $breakpointTablet) {
+        margin-left : -$marginMini;
+        margin-right : -$marginMini;
+      }
+    }
+
+  }
+}
