@@ -52,11 +52,19 @@
   &--contrastive {
     background-color : transparent;
     border-color : $colorWhite;
-
     &:hover, &:active {
       background-color: $colorWhite;
       border-color : $colorWhite;
       color: $colorText;
+    }
+    &.black {
+      border-color : $colorBlack;
+      color: $colorText;
+      &:hover, &:active {
+        border-color : $colorWhite;
+        background-color: $colorWhite;
+        color: $colorText;
+      }
     }
   }
 

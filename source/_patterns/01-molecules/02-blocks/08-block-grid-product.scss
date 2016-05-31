@@ -5,9 +5,23 @@ $default-figure-h3-left: 35%;
   justify-content : center;
   margin-right : auto;
   margin-left: auto;
-  -webkit-column-count: 2;
-  -moz-column-count: 2;
-  column-count: 2;
+
+  @media only screen and (min-width: $breakpointMobile) {
+  -webkit-column-count: 1;
+  -moz-column-count: 1;
+  column-count: 1;
+  }
+  @media only screen and (min-width: $breakpointTablet) {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    margin-right: $paddingMini;
+    margin-left: $paddingMini;
+  }
+  @media only screen and (min-width: $breakpointDesktop) {
+    margin-right : auto;
+    margin-left: auto;
+  }
 
   .columns__column {
     margin-right: auto;
@@ -69,6 +83,9 @@ $default-figure-h3-left: 35%;
           -webkit-transition: opacity .3s ease;
           -moz-transition: opacity .3s ease;
           transition: all .3s ease;
+          @media only screen and (min-width: $breakpointTablet) {
+            top: 22%;
+          }
           &:before {
             content: '';
             border-top: 2px solid;
