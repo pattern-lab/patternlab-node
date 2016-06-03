@@ -3,8 +3,6 @@
 var starterkit_manager = function (pl) {
   var path = require('path'),
     fs = require('fs-extra'),
-    JSON5 = require('json5'),
-    _ = require('lodash'),
     paths = pl.config.paths;
 
   function loadStarterKit(starterkitName) {
@@ -17,7 +15,7 @@ var starterkit_manager = function (pl) {
 
         //todo check and prompt user is paths().source is not empty
 
-        fs.copy(kitPath, paths.source.root, function(ex) {
+        fs.copy(kitPath, paths.source.root, function (ex) {
           if (ex) {
             console.error(ex);
           }

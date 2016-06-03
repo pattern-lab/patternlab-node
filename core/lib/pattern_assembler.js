@@ -234,6 +234,7 @@ var pattern_assembler = function () {
     // the template and replace their calls in this template with rendered
     // results
     if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
+      // eslint-disable-next-line
       expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
 
       // update the extendedTemplate in the partials object in case this

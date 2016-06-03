@@ -253,11 +253,13 @@ var patternlab_engine = function (config) {
         console.log(err);
       }
       allData = plutils.mergeData(allData, pattern.jsonFileData);
+
       //var headHTML = pattern_assembler.renderPattern(patternlab.userHead, allData);
       var headHTML = pattern_assembler.renderPattern(pattern.header, allData);
 
       //render the extendedTemplate with all data
       pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+
       //todo see if this is still needed
       pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
 
