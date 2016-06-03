@@ -2,27 +2,48 @@ $default-figure-h3-width: 30%;
 $default-figure-h3-left: 35%;
 
 .blockMultimediaGrid {
+  opacity: 0;
+  -webkit-transition: opacity .2s ease;
+  -moz-transition: opacity .2s ease;
+  transition: all .2s ease;
   justify-content : center;
   margin-right : auto;
   margin-left: auto;
 
   @media only screen and (min-width: $breakpointMobile) {
-  -webkit-column-count: 1;
-  -moz-column-count: 1;
-  column-count: 1;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
   }
   @media only screen and (min-width: $breakpointTablet) {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
     margin-right: $paddingMini;
     margin-left: $paddingMini;
   }
+  @media only (min-width: $breakpointTablet) and (max-width: $breakpointDesktop) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
   @media only screen and (min-width: $breakpointDesktop) {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
     margin-right : auto;
     margin-left: auto;
   }
-
+  > figure {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    > div {
+      &:first-child {
+        margin-right: $paddingMini !important;
+      }
+    }
+  }
   .columns__column {
     margin-right: auto;
     margin-left: auto;
@@ -31,18 +52,26 @@ $default-figure-h3-left: 35%;
   }
   .block {
     margin-bottom: $paddingMini / 1.3;
+    &.flex-grow-two {
+      flex-grow: 2;
+    }
+    > figure {
+      position: relative;
+    }
     &.text {
       &-black {
         color: $colorBlack;
         border-color: $colorBlack;
         a {
-          &:hover {
-            color: $colorWhite;
-            border-color: $colorWhite;
-            h3 {
-              &:before {
-                color: $colorWhite;
-                border-color: $colorWhite;
+          @media only (min-width: $breakpointTablet) {
+            &:hover {
+              color: $colorWhite;
+              border-color: $colorWhite;
+              h3 {
+                &:before {
+                  color: $colorWhite;
+                  border-color: $colorWhite;
+                }
               }
             }
           }
@@ -61,6 +90,7 @@ $default-figure-h3-left: 35%;
         -webkit-transition: opacity .3s ease;
         -moz-transition: opacity .3s ease;
         transition: all .3s ease;
+
         -webkit-column-break-inside: avoid;
         -moz-column-break-inside: avoid;
         -o-column-break-inside: avoid;
@@ -71,20 +101,28 @@ $default-figure-h3-left: 35%;
       figure {
         color: inherit;
         border-color: inherit;
+        position: relative;
         h3 {
           text-transform: uppercase;
-          position: absolute;
-          top: 30%;
           width: 100%;
           color: inherit;
           border-color: inherit;
-          display: table;
-          opacity: 0;
-          -webkit-transition: opacity .3s ease;
-          -moz-transition: opacity .3s ease;
-          transition: all .3s ease;
+          font-size: $fontSizeSlightlySmaller;
+          display:inline-block;
+          @media only (max-width: $breakpointTablet) {
+            padding: $paddingMini 0;
+          }
           @media only screen and (min-width: $breakpointTablet) {
+            -webkit-transition: opacity .3s ease;
+            -moz-transition: opacity .3s ease;
+            transition: all .3s ease;
             top: 22%;
+            opacity: 0;
+            position: absolute;
+            left: 0;
+          }
+          @media only (min-width: $breakpointTablet) and (max-width: $breakpointDesktop) {
+            font-size: 1.2vw;
           }
           &:before {
             content: '';
@@ -94,55 +132,77 @@ $default-figure-h3-left: 35%;
             display: table;
             width: $default-figure-h3-width;
             margin-left: $default-figure-h3-left;
-            bottom: 38px;
+            bottom: 35px;
             opacity: 0;
             -webkit-transition: opacity .3s ease;
             -moz-transition: opacity .3s ease;
             transition: all .3s ease;
+            @media only (min-width: $breakpointTablet) and (max-width: $breakpointDesktop) {
+              bottom: 25px;
+            }
           }
-        }
-        p {
-          display: none;
         }
       }
       &:hover {
-        img {
-          opacity: .6;
-          transform: scale(1.2);
-          -ms-transform: scale(1.2);
-          -webkit-transform: scale(1.2);
-        }
-        figure {
-          background-color: $colorBlack;
-          h3 {
-            &:before {
+        @media only (min-width: $breakpointTablet) {
+          img {
+            opacity: .6;
+            transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            -webkit-transform: scale(1.2);
+          }
+          figure {
+            background-color: $colorBlack;
+            h3 {
+              &:before {
+                opacity: 1;
+              }
               opacity: 1;
             }
-            opacity: 1;
           }
         }
       }
       .anchorCTA {
         color: inherit;
-        position: absolute;
-        bottom: 40px;
         width: 100%;
         display: table;
+        font-size: $fontSizeSlightlySmaller;
+        display:inline-block;
+        width:100%;
+        padding: $paddingMini 0 0;
+        @media only (min-width: $breakpointTablet) {
+          font-size: 1.2vw;
+          position: absolute;
+          bottom: 1.5vw;
+          left: 0;
+          padding: 0;
+        }
       }
     }
   }
-
   &--product {
     text-align:center;
     .image {
-      overflow:hidden;
-      position:relative;
-      margin-bottom: $paddingMini;
-      &:only-child {
-        margin-bottom:0;
+      overflow: hidden;
+      position: relative;
+    }
+    .button__area {
+      @media only screen and (max-width: $breakpointTablet) {
+        color: $colorBlack;
+        button {
+          &.white {
+            border-color: $colorBlack;
+            color: inherit;
+            &:hover {
+              border-color: $colorWhite;
+            }
+          }
+        }
       }
-      .button__area {
+      @media only screen and (min-width: $breakpointTablet) {
+        padding:$paddingMini / 2;
         position:absolute;
+        color: inherit;
         left:0;
         top:0;
         width:100%;
@@ -151,10 +211,8 @@ $default-figure-h3-left: 35%;
         flex-flow:column nowrap;
         justify-content:center;
         align-items:center;
-        padding:$paddingMini / 2;
       }
     }
-
     &.columns {
       @media only screen and (min-width: $breakpointMobile) {
         display : flex;
@@ -163,12 +221,10 @@ $default-figure-h3-left: 35%;
         margin-right : auto;
         margin-left: auto;
       }
-
       @media only screen and (min-width : $breakpointTablet) {
         margin-left : -$marginMini;
         margin-right : -$marginMini;
       }
     }
-
   }
 }
