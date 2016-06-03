@@ -275,7 +275,7 @@ var patternlab_engine = function (config) {
         lineageR: pattern.patternLineagesR,
         patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
         patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
-        patternBreadcrumb: pattern.patternGroup + ' > ' + pattern.patternSubGroup,
+        patternBreadcrumb: pattern.patternGroup === pattern.patternSubGroup ? pattern.patternGroup : pattern.patternGroup + ' > ' + pattern.patternSubGroup,
         patternExtension: pattern.fileExtension,
         patternName: pattern.patternName,
         patternPartial: pattern.patternPartial,
