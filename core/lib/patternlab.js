@@ -266,7 +266,6 @@ var patternlab_engine = function (config) {
       // stringify this data for individual pattern rendering and use on the styleguide
       // see if patternData really needs these other duped values
       pattern.patternData = JSON.stringify({
-        isPattern: true,
         cssEnabled: false,
         patternLineageExists: pattern.patternLineageExists,
         patternLineages: pattern.patternLineages,
@@ -286,6 +285,7 @@ var patternlab_engine = function (config) {
 
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
       var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+        isPattern: true,
         patternData: pattern.patternData,
         cacheBuster: patternlab.cacheBuster
       });
