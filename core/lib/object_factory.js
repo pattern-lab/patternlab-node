@@ -37,7 +37,7 @@ var Pattern = function (relPath, data) {
   this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
 
   // the sub-group this pattern belongs to.
-  this.patternSubGroup = this.subdir.substring(this.subdir.indexOf('/') + 4); // 'global'
+  this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
 
   // Not sure what this is used for.
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'

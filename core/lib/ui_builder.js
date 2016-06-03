@@ -84,7 +84,7 @@ function buildNavigation(patternlab) {
     //if there is one or more slashes in the subdir, get everything after
     //the last slash. if no slash, get the whole subdir string and strip
     //any numeric + hyphen prefix
-    patternSubTypeName = pattern.subdir.split('/').pop().replace(/^\d*\-/, '');
+    patternSubTypeName = pattern.subdir.split(path.sep).pop().replace(/^\d*\-/, '');
 
     //get the patternSubTypeItem
     patternSubTypeItemName = pattern.patternName.replace(/-/g, ' ');
