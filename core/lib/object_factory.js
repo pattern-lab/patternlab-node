@@ -22,10 +22,10 @@ var Pattern = function (relPath, data) {
   this.jsonFileData = data || {};
 
   // strip leading "00-" from the file name and flip tildes to dashes
-  this.patternName = this.fileName.replace(/^\d*\-/, '').replace('~', '-'); // 'colors'
+  this.patternBaseName = this.fileName.replace(/^\d*\-/, '').replace('~', '-'); // 'colors'
 
   // Fancy name. No idea how this works. 'Colors'
-  this.patternDisplayName = this.patternName.split('-').reduce(function (val, working) {
+  this.patternName = this.patternBaseName.split('-').reduce(function (val, working) {
     return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
   }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
@@ -44,7 +44,7 @@ var Pattern = function (relPath, data) {
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
-  this.patternPartial = this.patternGroup + '-' + this.patternName;
+  this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
 
   this.template = '';
   this.patternPartialCode = '';
