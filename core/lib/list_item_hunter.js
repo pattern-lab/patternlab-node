@@ -34,7 +34,7 @@ var list_item_hunter = function () {
         var repeatedBlockHtml = '';
         for (var i = 0; i < items.indexOf(loopNumberString); i++) {
           if (patternlab.config.debug) {
-            console.log('list item(s) in pattern', pattern.patternName, 'adding', patternBlock, 'to repeatedBlockTemplate');
+            console.log('list item(s) in pattern', pattern.patternPartial, 'adding', patternBlock, 'to repeatedBlockTemplate');
           }
           repeatedBlockTemplate.push(patternBlock);
         }

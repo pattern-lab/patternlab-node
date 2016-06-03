@@ -13,8 +13,8 @@
 			test.equals(p.fileName, '00-colors');
 			test.equals(p.fileExtension, '.mustache');
 			test.equals(p.jsonFileData.d, 123);
-			test.equals(p.patternName, 'colors');
-			test.equals(p.patternDisplayName, 'Colors');
+			test.equals(p.patternBaseName, 'colors');
+			test.equals(p.patternName, 'Colors');
 			test.equals(p.patternLink, '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html');
 			test.equals(p.patternGroup, 'atoms');
 			test.equals(p.patternSubGroup, 'global');
@@ -36,8 +36,8 @@
 		  test.equals(p.fileName, '00-colors');
 		  test.equals(p.fileExtension, '.mustache');
 		  test.equals(p.jsonFileData.d, 123);
-		  test.equals(p.patternName, 'colors');
-		  test.equals(p.patternDisplayName, 'Colors');
+		  test.equals(p.patternBaseName, 'colors');
+		  test.equals(p.patternName, 'Colors');
 		  test.equals(p.patternLink, '00-atoms-00-colors/00-atoms-00-colors.html');
 		  test.equals(p.patternGroup, 'atoms');
 		  test.equals(p.flatPatternPath, '00-atoms');
@@ -51,14 +51,8 @@
 	    },
 		'test Pattern capitalizes patternDisplayName correctly' : function(test){
 			var p = new Pattern('00-atoms/00-global/00-colors-alt.mustache', { d: 123});
-			test.equals(p.patternName, 'colors-alt');
-			test.equals(p.patternDisplayName, 'Colors Alt');
-			test.done();
-		},
-		'test Pattern removes pattern paramter from key correctly' : function(test){
-			var p = new Pattern('00-atoms/00-global/00-colors-alt.mustache', { d: 123});
-			test.equals(p.patternName, 'colors-alt');
-			test.equals(p.patternDisplayName, 'Colors Alt');
+			test.equals(p.patternBaseName, 'colors-alt');
+			test.equals(p.patternName, 'Colors Alt');
 			test.done();
 		}
 	};
