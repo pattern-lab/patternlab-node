@@ -13,14 +13,23 @@
 var path = require('path');
 var diveSync = require('diveSync');
 var engineMatcher = /^patternengine-node-(.*)$/;
-var enginesDirectory = path.join(process.cwd(), 'node_modules');
+var enginesDirectories = [
+  {
+    displayName: 'the core',
+    path: path.resolve(__dirname, '..', '..', 'node_modules')
+  },
+  {
+    displayName: 'the edition or test directory',
+    path: path.join(process.cwd(), 'node_modules')
+  }
+];
 var PatternEngines; // the main export object
 var engineNameForExtension; // generated mapping of extension to engine name
 
 
 // free "private" functions, for internal setup only
 
-// given a path: return the engine name is the path points to a valid engine
+// given a path: return the engine name if the path points to a valid engine
 // module directory, or false if it doesn't
 function isEngineModule(filePath) {
   var baseName = path.basename(filePath);
@@ -30,53 +39,63 @@ function isEngineModule(filePath) {
   return false;
 }
 
-function getEngineModulePath(engineName) {
-  return path.resolve(enginesDirectory, "patternengine-node-" + engineName);
-}
+function findEngineModulesInDirectory(dir) {
+  var foundEngines = [];
 
-// go find the names of all found engines
-function findSupportedPatternEngineNames() {
-  var foundPatternEngineNames = [];
-
-  // iterate over module directory and build a list of available pattern engine
-  // names
-  diveSync(enginesDirectory, {
+  diveSync(dir, {
     recursive: false,
     directories: true
   }, function (err, filePath) {
     if (err) { throw err; }
     var foundEngineName = isEngineModule(filePath);
     if (foundEngineName) {
-      foundPatternEngineNames.push(foundEngineName);
+      foundEngines.push({
+        name: foundEngineName,
+        modulePath: filePath
+      });
     }
   });
 
-  return foundPatternEngineNames;
+  return foundEngines;
 }
 
-
-// try to load all supported engines
+// Try to load engines! We scan for engines at each path specified above. This
+// function is kind of a big deal.
 function loadAllEngines(enginesObject) {
   console.log('\nLoading engines...');
 
-  enginesObject.supportedPatternEngineNames.forEach(function (engineName) {
-    var notLoaded = false;
+  enginesDirectories.forEach(function (engineDirectory) {
+    var enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
+    console.log("...scanning for engines in", engineDirectory.displayName + "...");
 
-    try {
-      enginesObject[engineName] = require(getEngineModulePath(engineName));
-    } catch (err) {
-      // Handle errors loading each pattern engine. This will usually be
-      // because the engine's renderer hasn't been installed by the end user
-      // -- we don't include any of them (except mustache) by default as
-      // depedencies in package.json.
-      notLoaded = (err.code === 'MODULE_NOT_FOUND');
-    } finally {
-      console.log('-', engineName, 'engine:',
-                  notLoaded ? 'renderer not installed; engine disabled' : 'good to go');
-    }
+    // find all engine-named things in this directory and try to load them,
+    // unless it's already been loaded.
+    enginesInThisDir.forEach(function (engineDiscovery) {
+      var errorMessage;
+      var successMessage = "good to go";
+
+      try {
+        // give it a try! load 'er up. But not if we already have, of course.
+        if (enginesObject[engineDiscovery.name]) {
+          throw new Error("already loaded, skipping.");
+        }
+        enginesObject[engineDiscovery.name] = require(engineDiscovery.modulePath);
+      } catch (err) {
+        errorMessage = err.message;
+      } finally {
+        // report on the status of the engine, one way or another!
+        console.log('-', engineDiscovery.name, 'engine:', errorMessage ? errorMessage : successMessage);
+      }
+    });
   });
+
+  // Complain if for some reason we haven't loaded any engines.
+  if (Object.keys(enginesObject).length === 0) {
+    throw new Error('No engines loaded! Something is seriously wrong.');
+  }
   console.log('...done loading engines.\n');
 }
+
 
 // produce a mapping between file extension and engine name for each of the
 // loaded engines
@@ -108,10 +127,6 @@ function createFileExtensionToEngineNameMap(enginesObject) {
 // methods and properites below should therefore be on its prototype.
 
 PatternEngines = Object.create({
-  // build the list of supported pattern engines based on what plugins we have
-  // in the pattern_engines directory
-  supportedPatternEngineNames: findSupportedPatternEngineNames(),
-
   getEngineNameForPattern: function (pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
     var of = require('./object_factory');
