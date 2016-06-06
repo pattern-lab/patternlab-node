@@ -116,7 +116,7 @@ $default-figure-h3-left: 35%;
             -webkit-transition: opacity .3s ease;
             -moz-transition: opacity .3s ease;
             transition: all .3s ease;
-            top: 22%;
+            margin-top: -38px;
             opacity: 0;
             position: absolute;
             left: 0;
@@ -159,6 +159,9 @@ $default-figure-h3-left: 35%;
               }
               opacity: 1;
             }
+          }
+          .anchorCTA {
+            opacity: 0;
           }
         }
       }
