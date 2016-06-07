@@ -17,6 +17,7 @@ var annotations_exporter = function (pl) {
       var oldAnnotations = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.js'), 'utf8');
     } catch (ex) {
       console.log('annotations.js file missing from ' + paths.source.annotations + '. This may be expected.');
+      return [];
     }
 
     //parse as JSON by removing the old wrapping js syntax. comments and the trailing semi-colon
@@ -26,6 +27,7 @@ var annotations_exporter = function (pl) {
     } catch (ex) {
       console.log('There was an error parsing JSON for ' + paths.source.annotations + 'annotations.js');
       console.log(ex);
+      return [];
     }
     return oldAnnotationsJSON.comments;
   }
@@ -42,6 +44,7 @@ var annotations_exporter = function (pl) {
       annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.md'), 'utf8');
     } catch (ex) {
       console.log('annotations.md file missing from ' + paths.source.annotations + '. This may be expected.');
+      return [];
     }
 
     //take the annotation snippets and split them on our custom delimiter
