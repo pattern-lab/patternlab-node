@@ -1,22 +1,10 @@
 "use strict";
 /*eslint-disable dot-notation*/
 
-// don't run these tests unless twig is installed
-try { var twig = require('twig'); }
-catch (err) { return; }
-
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
-var testPatternsPath = path.resolve(__dirname, 'files', '_twig-test-patterns');
 var eol = require('os').EOL;
-
-try {
-  require('twig');
-} catch (err) {
-  console.log('twig renderer not installed; skipping tests');
-  return;
-}
 
 // fake pattern lab constructor:
 // sets up a fake patternlab object, which is needed by the pattern processing
@@ -193,3 +181,11 @@ exports['engine_twig'] = {
     ]);
   }
 };
+
+
+// don't run these tests unless twig is installed
+var engineLoader = require('../core/lib/pattern_engines');
+if (!engineLoader.twig) {
+  console.log("Twig engine not installed, skipping tests.");
+  delete exports.engine_twig;
+}
