@@ -1,21 +1,10 @@
 "use strict";
 
-// don't run these tests unless handlebars is installed
-try { var handlebars = require('handlebars'); }
-catch (err) { return; }
-
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 var eol = require('os').EOL;
-
-try {
-  require('handlebars');
-} catch (err) {
-  console.log('handlebars renderer not installed; skipping tests');
-  return;
-}
 
 // fake pattern lab constructor:
 // sets up a fake patternlab object, which is needed by the pattern processing
@@ -194,3 +183,11 @@ exports['engine_handlebars'] = {
     ]);
   }
 };
+
+
+// don't run these tests unless handlebars is installed
+var engineLoader = require('../core/lib/pattern_engines');
+if (!engineLoader.handlebars) {
+  console.log("Handlebars engine not installed, skipping tests.");
+  delete exports.engine_handlebars;
+}
