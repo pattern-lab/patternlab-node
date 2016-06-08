@@ -2,13 +2,16 @@ $default-figure-h3-width: 30%;
 $default-figure-h3-left: 35%;
 
 .blockMultimediaGrid {
-  opacity: 0;
-  -webkit-transition: opacity .2s ease;
-  -moz-transition: opacity .2s ease;
+  visibility: hidden;
+  -webkit-transition: visibility .2s ease;
+  -moz-transition: visibility .2s ease;
   transition: all .2s ease;
   justify-content : center;
   margin-right : auto;
   margin-left: auto;
+  &.visible {
+    visibility: visible;
+  }
 
   @media only screen and (min-width: $breakpointMobile) {
     -webkit-column-count: 1;
