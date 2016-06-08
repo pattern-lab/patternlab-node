@@ -2,7 +2,6 @@ $default-figure-h3-width: 30%;
 $default-figure-h3-left: 35%;
 
 .blockMultimediaGrid {
-  visibility: hidden;
   -webkit-transition: visibility .2s ease;
   -moz-transition: visibility .2s ease;
   transition: all .2s ease;
@@ -29,6 +28,7 @@ $default-figure-h3-left: 35%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    visibility: hidden;
   }
   @media only screen and (min-width: $breakpointDesktop) {
     -webkit-column-count: 2;
