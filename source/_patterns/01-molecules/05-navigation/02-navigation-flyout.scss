@@ -1,0 +1,35 @@
+.navigation-flyout {
+  position: absolute;
+  background-color: $colorWhite;
+  left: 0;
+  right: 0;
+  min-width: 1200px;
+  margin-top: 19px;
+  padding: 10px 100px;
+  &.flyout-open {
+    animation-duration: .2s;
+    animation-fill-mode: both;
+    animation-name: fade-in;
+    display: block !important;
+  }
+  &[data-type=block_nav_link] {
+    .columns {
+      > div {
+        text-align: left;
+        p {
+          padding-top: 10px;
+          a {
+            text-transform: none;
+            line-height: 25px;
+          }
+        }
+        hr {
+          margin-right: 50%;
+        }
+        h2 {
+          padding-top: 20px;
+        }
+      }
+    }
+  }
+}
