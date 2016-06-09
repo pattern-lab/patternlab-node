@@ -32,9 +32,9 @@ var pattern_assembler = function () {
     for (var i = 0; i < patternlab.patterns.length; i++) {
       var partialParts = partialName.split('-'),
         partialType = partialParts[0],
-        partialName = partialParts.slice(1).join('-');
+        partialNameEnd = partialParts.slice(1).join('-');
 
-      if (patternlab.patterns[i].patternPartial.split('-')[0] === partialType && patternlab.patterns[i].patternPartial.indexOf(partialName) > -1) {
+      if (patternlab.patterns[i].patternPartial.split('-')[0] === partialType && patternlab.patterns[i].patternPartial.indexOf(partialNameEnd) > -1) {
         return patternlab.patterns[i];
       }
     }
