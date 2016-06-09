@@ -146,13 +146,13 @@ var patternlab_engine = function (config) {
     try {
       patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     } catch (ex) {
-      console.log('missing ' + paths.source.data + '/data.json  Pattern Lab may not work without this file.');
+      console.log('missing ' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       patternlab.data = {};
     }
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
-      console.log('missing ' + paths.source.data + '/listitems.json  Pattern Lab may not work without this file.');
+      console.log('missing ' + paths.source.data + 'listitems.json  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
     try {
