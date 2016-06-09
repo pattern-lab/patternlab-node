@@ -189,16 +189,16 @@ var patternlab_engine = function (config) {
 
     //set user defined head and foot if they exist
     try {
-      patternlab.userHead = fs.readFileSync(path.resolve(paths.source.root, '_meta', '_00-head.mustache'), 'utf8');
+      patternlab.userHead = fs.readFileSync(path.resolve(paths.source.meta, '_00-head.mustache'), 'utf8');
     }
     catch (ex) {
       if (patternlab.config.debug) {
         console.log(ex);
-        console.log('Could not find optional user-defined header, usually found at ./source/_meta/_001-head.mustache. It was likely deleted.');
+        console.log('Could not find optional user-defined header, usually found at ./source/_meta/_00-head.mustache. It was likely deleted.');
       }
     }
     try {
-      patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.root, '_meta', '_01-foot.mustache'), 'utf8');
+      patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.meta, '_01-foot.mustache'), 'utf8');
     }
     catch (ex) {
       if (patternlab.config.debug) {
