@@ -3,7 +3,6 @@
   background-color: $colorWhite;
   left: 0;
   right: 0;
-  min-width: 1200px;
   margin-top: 19px;
   padding: 10px 100px;
   &.flyout-open {
@@ -28,6 +27,24 @@
         }
         h2 {
           padding-top: 20px;
+        }
+      }
+      figure {
+        a {
+          color: $colorWhite;
+          position: relative;
+          display: block;
+          h3 {
+            display: flex;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            flex-flow: column;
+            align-items: center;
+            left: 0;
+            justify-content: center;
+            top: -20%;
+          }
         }
       }
     }
