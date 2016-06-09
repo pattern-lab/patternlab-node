@@ -75,7 +75,7 @@
 
       @media only screen and (min-width: $breakpointTablet) {
         padding-right: $paddingMini;
-        padding-left: $paddingMini;
+        padding-left: 0;
 
         &:first-child {
           padding-left: $paddingMini;

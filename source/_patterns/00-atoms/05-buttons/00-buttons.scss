@@ -52,14 +52,19 @@
   &--contrastive {
     background-color : transparent;
     border-color : $colorWhite;
-
-    &:hover {
-      background-color: transparent;
-      color:$colorTussock;
+    &:hover, &:active {
+      background-color: $colorWhite;
+      border-color : $colorWhite;
+      color: $colorText;
     }
-    &:active {
-      background-color: transparent;
-      color: lighten($colorTussock, 10%);
+    &.black {
+      border-color : $colorBlack;
+      color: $colorText;
+      &:hover, &:active {
+        border-color : $colorWhite;
+        background-color: $colorWhite;
+        color: $colorText;
+      }
     }
   }
 
