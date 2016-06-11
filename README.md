@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Pattern Lab Node Core
 
@@ -38,3 +38,7 @@ Two files combine within the project to define and maintain our coding style.
 
 * The `.editorconfig` controls spaces / tabs within supported editors. Check out their [site](http://editorconfig.org/).
 * The `.eslintrc` defines our javascript standards. Some editors will evaluate this real-time - otherwise it's run using `grunt|gulp build`
+
+## Gitter
+
+The Pattern Lab Node team uses [our gitter.im channel, pattern-lab/node](https://gitter.im/pattern-lab/node) to keep in sync, share updates, and talk shop. Please stop by to say hello or as a first place to turn if stuck. Other channels in the Pattern Lab organization can be found on gitter too.
