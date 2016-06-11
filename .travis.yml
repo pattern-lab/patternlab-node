@@ -1,9 +1,10 @@
 language: node_js
 
 node_js:
-  - stable
-  - 5.0
-  - 4.0
+  - node
+  - 6
+  - 5
+  - 4
 
 before_install:
   - phantomjs --version
@@ -15,7 +16,6 @@ branches:
   only:
     - master
     - dev
-    - pattern-engines
     - dev-2.0-core
 
 notifications:
