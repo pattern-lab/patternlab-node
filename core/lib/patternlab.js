@@ -93,7 +93,7 @@ var patternlab_engine = function (config) {
     console.log('');
 
     console.log('|=======================================|');
-    plutils.logGreen('     Pattern Lab Node Help v ' + patternlab.package.version);
+    plutils.logGreen('     Pattern Lab Node Help v' + patternlab.package.version);
     console.log('|=======================================|');
 
     console.log('');
