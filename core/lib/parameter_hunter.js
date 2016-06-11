@@ -1,13 +1,3 @@
-/* 
- * patternlab-node - v1.3.0 - 2016 
- * 
- * Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
- *
- */
-
 "use strict";
 
 var parameter_hunter = function () {
@@ -16,8 +6,9 @@ var parameter_hunter = function () {
     JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    pattern_assembler = new pa(),
-    style_modifier_hunter = new smh();
+    plutils = require('./utilities'),
+    style_modifier_hunter = new smh(),
+    pattern_assembler = new pa();
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -159,7 +150,7 @@ var parameter_hunter = function () {
         values.push(paramString.match(regex)[0].trim());
 
         //truncate the beginning from paramString and continue either
-        //looking for a key, or returning 
+        //looking for a key, or returning
         paramString = paramString.replace(regex, '').trim();
 
         //exit do while if the final char is '}'
@@ -249,7 +240,7 @@ var parameter_hunter = function () {
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
         var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        var partialPattern = pattern_assembler.get_pattern_by_key(partialName, patternlab);
+        var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
 
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
@@ -273,12 +264,12 @@ var parameter_hunter = function () {
           globalData = JSON5.parse(JSON5.stringify(patternlab.data));
           localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData || {}));
         } catch (err) {
-          console.log('There was an error parsing JSON for ' + pattern.abspath);
+          console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
         }
 
-        var allData = pattern_assembler.merge_data(globalData, localData);
-        allData = pattern_assembler.merge_data(allData, paramData);
+        var allData = plutils.mergeData(globalData, localData);
+        allData = plutils.mergeData(allData, paramData);
 
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {
@@ -294,7 +285,7 @@ var parameter_hunter = function () {
         pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.key] = pattern.extendedTemplate;
+        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
       });
     }
   }
