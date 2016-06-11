@@ -5,6 +5,9 @@
 This repository contains the core functionality for Pattern Lab Node. Pattern Lab Core is designed to be included as a dependency within [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
 If this looks **REALLY DIFFERENT** from what you expected, check out the [ChangeLog](https://github.com/pattern-lab/patternlab-node/wiki/ChangeLog).
 
+* [Pattern Lab/Node: Gulp Edition](https://github.com/pattern-lab/edition-node-gulp) contains info how to get started within a Gulp task running environment.
+* [Pattern Lab/Node: Grunt Node Edition](https://github.com/pattern-lab/edition-node-grunt) contains info how to get started within a Grunt task running environment.
+
 ## Core Team
 
 * [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) - Lead Maintainer
