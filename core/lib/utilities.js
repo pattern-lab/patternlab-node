@@ -8,6 +8,14 @@ var util = {
     return o;
   },
 
+  logGreen: function (message) {
+    console.log('\x1b[32m', message, '\x1b[0m');
+  },
+
+  logRed: function (message) {
+    console.log('\x1b[41m', message, '\x1b[0m');
+  },
+
   /**
    * Recursively merge properties of two objects.
    *

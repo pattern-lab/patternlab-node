@@ -87,19 +87,57 @@ var patternlab_engine = function (config) {
     console.log(patternlab.package.version);
   }
 
+
   function help() {
-    console.log('Patternlab Node Help');
+
+    console.log('');
+
+    console.log('|=======================================|');
+    plutils.logGreen('     Pattern Lab Node Help v ' + patternlab.package.version);
+    console.log('|=======================================|');
+
+    console.log('');
+    console.log('Command Line Interface - usually consumed by an edition');
+    console.log('');
+
+    plutils.logGreen(' patternlab:build');
+    console.log('   > Compiles the patterns and frontend, outputting to config.paths.public');
+    console.log('');
+
+    plutils.logGreen(' patternlab:patternsonly');
+    console.log('   > Compiles the patterns only, outputting to config.paths.public');
+    console.log('');
+
+    plutils.logGreen(' patternlab:version');
+    console.log('   > Return the version of patternlab-node you have installed');
+    console.log('');
+
+    plutils.logGreen(' patternlab:help');
+    console.log('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
+    console.log('');
+
+    plutils.logGreen(' patternlab:liststarterkits');
+    console.log('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
+    console.log('');
+
+    plutils.logGreen(' patternlab:loadstarterkit');
+    console.log('   > Load a starterkit into config.paths.soource/*');
+    console.log('   > NOTE: This does overwrite any existing contents, and does not clean the directory first.');
+    console.log('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
+    console.log('   > arguments:');
+    console.log('      -- kit ');
+    console.log('      > the name of the starter kit to load');
+    console.log('   > example (gulp):');
+    console.log('    `gulp patternlab:starterkit-load --kit=starterkit-mustache-demo`');
+    console.log('');
+
     console.log('===============================');
-    console.log('Command Line Arguments');
-    console.log('patternlab:only_patterns');
-    console.log(' > Compiles the patterns only, outputting to config.patterns.public');
-    console.log('patternlab:v');
-    console.log(' > Retrieve the version of patternlab-node you have installed');
-    console.log('patternlab:help');
-    console.log(' > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
+    console.log('');
+    console.log('Visit http://patternlab.io/ for more info about Pattern Lab');
+    console.log('Visit https://github.com/pattern-lab/patternlab-node/issues to open an issue.');
+    console.log('Visit https://github.com/pattern-lab/patternlab-node/wiki to view the changelog, roadmap, and other info.');
+    console.log('');
     console.log('===============================');
-    console.log('Visit http://patternlab.io/docs/index.html for general help on pattern-lab');
-    console.log('Visit https://github.com/pattern-lab/patternlab-node/issues to open a bug.');
   }
 
   function printDebug() {
@@ -321,14 +359,14 @@ var patternlab_engine = function (config) {
     help: function () {
       help();
     },
-    build_patterns_only: function (deletePatternDir) {
+    patternsonly: function (deletePatternDir) {
       buildPatterns(deletePatternDir);
       printDebug();
     },
-    list_starterkits: function () {
+    liststarterkits: function () {
       return listStarterkits();
     },
-    load_starterkit: function (starterkitName) {
+    loadstarterkit: function (starterkitName) {
       loadStarterKit(starterkitName);
     }
   };
