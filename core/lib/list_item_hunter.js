@@ -91,6 +91,9 @@ var list_item_hunter = function () {
                 console.log(err);
               }
 
+              //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #356
+              cleanPartialPattern.extendedTemplate = cleanPartialPattern.template;
+
               //if partial has style modifier data, replace the styleModifier value
               if (foundPartials[j].indexOf(':') > -1) {
                 style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPartials[j], patternlab);

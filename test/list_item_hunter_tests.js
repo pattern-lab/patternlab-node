@@ -4,6 +4,8 @@
   var lih = require('../core/lib/list_item_hunter');
   var Pattern = require('../core/lib/object_factory').Pattern;
   var extend = require('util')._extend;
+  var pa = require('../core/lib/pattern_assembler');
+  var pattern_assembler = new pa();
 
   // fake pattern creators
   function createFakeListPattern(customProps) {
@@ -17,22 +19,56 @@
   }
 
   function createFakePatternLab(customProps) {
+
+    //NOTE: These listitems are faked so that pattern_assembler.combine_listitems has already clobbered them.
+
     var pl = {
       "listitems": {
         "1": [
-          { "title": "Foo" }
+          {
+            "title": "Foo",
+            "message": "FooM"
+          }
         ],
-        "2": [
-          { "title": "Foo" },
-          { "title": "Bar" }
+        "2" : [
+          {
+            "title": "Foo",
+            "message": "FooM"
+          },
+          {
+            "title": "Bar",
+            "message": "BarM"
+          }
+        ],
+        "3": [
+          {
+            "title": "Foo",
+            "message": "FooM"
+          },
+          {
+            "title": "Bar",
+            "message": "BarM"
+          },
+          {
+            "title": "Baz",
+            "message": "BazM"
+          },
         ]
       },
       "data": {
         "link": {},
         "partials": []
       },
-      "config": {"debug": false},
-      "partials" : {}
+      "config": {
+        "debug": false,
+        "paths": {
+          "source": {
+            "patterns": "./test/files/_patterns"
+          }
+        }
+      },
+      "partials" : {},
+      "patterns" : []
     };
 
     return extend(pl, customProps);
@@ -335,7 +371,46 @@
       var expectedValue = '<div class="test_group"> <span class="test_base "> Foo </span> <span class="test_base test_1"> Foo </span> <span class="test_base "> Foo </span> <span class="test_base "> Bar </span> <span class="test_base test_1"> Bar </span> <span class="test_base "> Bar </span> </div>';
       test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
       test.done();
-    }
+    },
+
+    'process_list_item_partials - correctly ignores already processed partial that had a style modifier when the same partial no longer has one' : function(test){
+      //arrange
+      var fs = require('fs-extra');
+      var list_item_hunter = new lih();
+
+      var pl = createFakePatternLab();
+
+      var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+      atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '/00-test/03-styled-atom.mustache', 'utf8');
+      atomPattern.extendedTemplate = atomPattern.template;
+      atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+
+      var anotherStyledAtomPattern = new Pattern('00-test/12-another-styled-atom.mustache');
+      anotherStyledAtomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '/00-test/12-another-styled-atom.mustache', 'utf8');
+      anotherStyledAtomPattern.extendedTemplate = anotherStyledAtomPattern.template;
+      anotherStyledAtomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(anotherStyledAtomPattern);
+
+      var listPattern = new Pattern('00-test/13-listitem.mustache');
+      listPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '/00-test/13-listitem.mustache', 'utf8');
+      listPattern.extendedTemplate = listPattern.template;
+      listPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(listPattern);
+
+      pl.patterns.push(atomPattern);
+      pl.patterns.push(anotherStyledAtomPattern);
+      pl.patterns.push(listPattern);
+
+      //act
+
+      //might need to cal processPatternRecursive instead
+      pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl);
+      pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl);
+      pattern_assembler.process_pattern_recursive(listPattern.relPath, pl);
+
+      //assert.
+      var expectedValue = '<div class="test_group"> <span class="test_base "> FooM </span> </div>';
+      test.equals(listPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+      test.done();
+    },
 
   };
 
