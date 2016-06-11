@@ -1,0 +1,30 @@
+{
+  "name": "edition-node-gulp",
+  "description": "The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.",
+  "version": "1.0.0",
+  "dependencies": {
+    "browser-sync": "^2.11.2",
+    "gulp": "^3.9.1",
+    "minimist": "^1.2.0",
+    "patternlab-node": "pattern-lab/patternlab-node#dev",
+    "styleguidekit-assets-default": "pattern-lab/styleguidekit-assets-default#feature-panels",
+    "styleguidekit-mustache-default": "pattern-lab/styleguidekit-mustache-default#feature-panels"
+  },
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Gulp",
+    "Javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pattern-lab/edition-node-gulp.git"
+  },
+  "bugs": "https://github.com/pattern-lab/edition-node-gulp/issues",
+  "author": "Brian Muenzenmeyer",
+  "license": "MIT",
+  "engines": {
+    "node": ">=5.0"
+  }
+}

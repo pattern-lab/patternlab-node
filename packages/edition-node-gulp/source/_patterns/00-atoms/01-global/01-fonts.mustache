@@ -1,0 +1,6 @@
+<div>Primary font: "HelveticaNeue", "Helvetica", "Arial", sans-serif;</div>
+<div><em>Primary font italic: "HelveticaNeue", "Helvetica", "Arial", sans-serif;</em></div>
+<div><strong>Primary font bold: "HelveticaNeue", "Helvetica", "Arial", sans-serif;</strong></div>
+<div class="font-secondary">Secondary font: Georgia, Times, "Times New Roman", serif;</div>
+<div class="font-secondary"><em>Secondary font italic: Georgia, Times, "Times New Roman", serif;</em></div>
+<div class="font-secondary"><strong>Secondary font bold; Georgia, Times, "Times New Roman", serif;</strong></div>
