@@ -13,8 +13,11 @@ The Gulp Edition comes with the following components:
 
 ## Prerequisites
 
-Pattern Lab Node uses [Node](https://nodejs.org) and  [npm](https://www.npmjs.com/) to manage project dependencies.
+Pattern Lab Node uses [Node](https://nodejs.org) and  [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp](http://gulpjs.com/) to run tasks and interface with core.
+
 Please follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website. This should include `npm`.
+
+It's also highly recommended that you [install gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) globally.
 
 ## Installing
 
