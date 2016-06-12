@@ -24,7 +24,7 @@ It's also highly recommended that you [install gulp](https://github.com/gulpjs/g
 There are two methods for downloading and installing the Gulp Edition:
 
 * [Download a pre-built package](#download-a-pre-built-package)
-* [Use Composer to create a project](#use-npm)
+* [Use npm](#use-npm)
 
 ### Download a pre-built package
 
@@ -34,11 +34,21 @@ The fastest way to get started with the Gulp Edition is to [download the pre-bui
 
 ### Use npm
 
+`npm` is a dependency management and package system which can pull in all of the Gulp Edition's dependencies for you. To accomplish this:
+
+* download or clone this repository to an install location.
+
+* run the following
+    cd install/location
+    npm install
+
+Running `npm install` from a directory containing a `package.json` file will download all dependencies defined within.
+
+#### Install the Gulp Edition of Pattern Lab Node as a Dependency
+
 Most people want to run Pattern Lab Node standalone and not as a dependency. If you wish to install as a dependency you can do the following:
 
-#### 1. Install the Gulp Edition of Pattern Lab Node
-
-Use npm's [`install` command](https://docs.npmjs.com/cli/install) to install the Gulp Edition into a location of your choosing. In Terminal type:
+Use npm's [`install` command](https://docs.npmjs.com/cli/install) with an argument to install the Gulp Edition into a location of your choosing. In Terminal type:
 
     cd install/location/
     npm install edition-node-gulp
