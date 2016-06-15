@@ -3,29 +3,41 @@
 var starterkit_manager = function (pl) {
   var path = require('path'),
     fs = require('fs-extra'),
+    util = require('./utilities'),
     paths = pl.config.paths;
 
-  function loadStarterKit(starterkitName) {
+  function loadStarterKit(starterkitName, clean) {
     try {
       var kitPath = path.resolve(
         path.join(process.cwd(), 'node_modules', starterkitName, pl.config.starterkitSubDir)
       );
-      var kitPathDirExists = fs.statSync(kitPath).isDirectory();
+      console.log('Attempting to load starterkit from', kitPath);
+      try {
+        var kitDirStats = fs.statSync(kitPath);
+      } catch (ex) {
+        util.logRed(starterkitName + ' not found, please use npm to install it first.');
+        util.logRed(starterkitName + ' not loaded.');
+        return;
+      }
+      var kitPathDirExists = kitDirStats.isDirectory();
       if (kitPathDirExists) {
 
-        //todo check and prompt user is paths().source is not empty
+        if (clean) {
+          console.log('Deleting contents of', paths.source.root, 'prior to starterkit load.');
+          util.emptyDirectory(paths.source.root);
+        } else {
+          console.log('Overwriting contents of', paths.source.root, 'during starterkit load.');
+        }
 
         fs.copy(kitPath, paths.source.root, function (ex) {
           if (ex) {
             console.error(ex);
           }
-          console.log('starterkit ' + starterkitName + ' loaded successfully.');
+          util.logGreen('starterkit ' + starterkitName + ' loaded successfully.');
         });
-
       }
     } catch (ex) {
       console.log(ex);
-      console.log(starterkitName + ' not found, please use npm to install it first');
     }
   }
 
@@ -38,8 +50,8 @@ var starterkit_manager = function (pl) {
   }
 
   return {
-    load_starterkit: function (starterkitName) {
-      loadStarterKit(starterkitName);
+    load_starterkit: function (starterkitName, clean) {
+      loadStarterKit(starterkitName, clean);
     },
     list_starterkits: function () {
       listStarterkits();

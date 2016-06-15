@@ -121,14 +121,16 @@ var patternlab_engine = function (config) {
     console.log('');
 
     plutils.logGreen(' patternlab:loadstarterkit');
-    console.log('   > Load a starterkit into config.paths.soource/*');
-    console.log('   > NOTE: This does overwrite any existing contents, and does not clean the directory first.');
+    console.log('   > Load a starterkit into config.paths.source/*');
+    console.log('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
     console.log('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
     console.log('   > arguments:');
     console.log('      -- kit ');
     console.log('      > the name of the starter kit to load');
+    console.log('      -- clean ');
+    console.log('      > removes all files from config.paths.source/ prior to load');
     console.log('   > example (gulp):');
-    console.log('    `gulp patternlab:starterkit-load --kit=starterkit-mustache-demo`');
+    console.log('    `gulp patternlab:loadstarterkit --kit=starterkit-mustache-demo`');
     console.log('');
 
     console.log('===============================');
@@ -175,9 +177,9 @@ var patternlab_engine = function (config) {
     return starterkit_manager.list_starterkits();
   }
 
-  function loadStarterKit(starterkitName) {
+  function loadStarterKit(starterkitName, clean) {
     var starterkit_manager = new sm(patternlab);
-    starterkit_manager.load_starterkit(starterkitName);
+    starterkit_manager.load_starterkit(starterkitName, clean);
   }
 
   function buildPatterns(deletePatternDir) {
@@ -369,8 +371,8 @@ var patternlab_engine = function (config) {
     liststarterkits: function () {
       return listStarterkits();
     },
-    loadstarterkit: function (starterkitName) {
-      loadStarterKit(starterkitName);
+    loadstarterkit: function (starterkitName, clean) {
+      loadStarterKit(starterkitName, clean);
     }
   };
 };
