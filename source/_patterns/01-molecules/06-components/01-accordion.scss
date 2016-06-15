@@ -1,3 +1,68 @@
+@mixin mobileAccordion {
+  width : 100%;
+
+  &__handle {
+    @include font-primary-light-uppercase(0.875em);
+    transition:background-color $animationTimingFast ease-in-out;
+    display:block;
+    position:relative;
+    border-bottom:1px solid $colorSilver;
+    background-color: $colorGallery;
+    padding:2em $paddingMini;
+    cursor:pointer;
+    text-align: center;
+
+    &:before {
+      float:left;
+      font-size:0.9em;
+    }
+
+    &--expanded {
+      background-color: $colorBlack !important;
+      color: $colorWhite;
+      &:before {
+        @include arrow('left', $colorWhite, 8px);
+        margin-left: 12.5%;
+        position: absolute;
+        display: block;
+      }
+    }
+  }
+
+  &__panel {
+    display:none;
+  }
+  &__handle--expanded + &__panel {
+    display:block;
+  }
+
+  &__panel__content {
+    font-size : 0.875em;
+    transition:background-color $animationTimingFast ease-in-out;
+    display:block;
+    line-height : 1.325em;
+    list-style-type : none;
+    letter-spacing : 0.1em;
+    text-transform : uppercase;
+    border-bottom : 1px solid $colorSilver;
+    padding : 2em $paddingMini;
+    font-weight : 300;
+
+    &--link {
+      display : block;
+
+      &:hover {
+        background-color : $colorGallery;
+      }
+
+      &:active {
+        background-color : lighten(#c0c0c0, 20%);
+      }
+    }
+  }
+}
+
+
 @mixin baseAccordion {
   width : 100%;
 
@@ -65,7 +130,7 @@
 
 @media only screen and (max-width : $breakpointTabletEnd) {
   .mobile-accordion {
-    @include baseAccordion;
+    @include mobileAccordion;
   }
 }
 

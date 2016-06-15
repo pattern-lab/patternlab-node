@@ -1,0 +1,37 @@
+.tabs {
+  display: inline-block;
+  li {
+    list-style-type : none;
+    float: left;
+    border-bottom:1px solid $colorSilver;
+    border-right :1px solid $colorSilver;
+    &:last-child {
+      border-right: none;
+    }
+    a {
+      transition: background-color .2s ease-in-out;
+      padding:2em $paddingMini;
+      display: inherit;
+      color: $colorSilver;
+      text-align: center;
+      &:hover {
+        background-color: $colorGallery;
+      }
+    }
+    &.tabs__active {
+      a {
+        color: $colorBlack;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.tab--content {
+  > div {
+    display: none;
+    &.tab--content__active {
+      display: block;
+    }
+  }
+}

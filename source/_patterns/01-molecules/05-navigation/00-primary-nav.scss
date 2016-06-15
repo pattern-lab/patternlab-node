@@ -1,25 +1,66 @@
+@mixin hamburger($size, $barSize, $spacing, $color) {
+  width: $size;
+  height: $size;
+  transform: rotate(0deg);
+  transition: .5s ease-in-out;
+  cursor: pointer;
+  display: block;
+  span {
+    display: block;
+    position: absolute;
+    height: $barSize;
+    width: 100%;
+    background: $color;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .15s ease-in-out;
+    margin-top: 10%;
+    &:nth-child(1) {
+      top: 0;
+    }
+    &:nth-child(2) {
+      top: (($barSize + $spacing) * 2);
+    }
+    &:nth-child(3) {
+      top: (($barSize + $spacing) * 2);
+    }
+    &:nth-child(4) {
+      top: (($barSize + $spacing) * 4);
+    }
+  }
+  &__open span {
+    &:nth-child(1) {
+      top: (($barSize + $spacing) * 2);
+      width: 0;
+      left: 50%;
+    }
+    &:nth-child(2) {
+      transform: rotate(45deg);
+    }
+    &:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+    &:nth-child(4) {
+      top: (($barSize + $spacing) * 2);
+      width: 0;
+      left: 50%;
+    }
+  }
+}
+
 .navigation {
   &--primary {
     @include font-primary-light-uppercase(0.75em);
     letter-spacing:0.1em;
 
     &__hamburger {
-      //@todo: refactor positioning method!
-      @include icon('hamburgerMenu');
       position: absolute;
-      right: -1.35em;
-      top: 0.2175em;
+      right: 0.55em;
       font-size: 3.25em;
-      display: block;
-      cursor:pointer;
+      top: .4em;
 
-      &:before {
-        display: block;
-        height: 0.9em;
-        line-height: 0.9em;
-        text-align: center;
-        padding-left: 0.065em;
-      }
+      @include hamburger(22px, 3px, 1px, $colorBlack);
 
       &:focus {
         outline:none;
@@ -48,14 +89,7 @@
   .navigation {
     background:$colorWhite;
     line-height:1.5em;
-
-    &--primary {
-      position:fixed;
-      top:0;
-      z-index:20;
-      height:100%;
-    }
-
+    display: none;
     &__link {
       background-color:transparent;
       font-weight:300;
@@ -80,12 +114,75 @@
     }
 
     &__list {
+      &__item {
+        border-top: 1px solid $colorSilver;
+        &--lang {
+          display: flex;
+          a {
+            float: left;
+            text-align: center;
+            width: 50%;
+            color: $colorSilver;
+            &:first-child {
+              border-right: 1px solid $colorSilver;
+            }
+            > strong {
+              font-weight: 700;
+              color: $colorBlack;
+            }
+          }
+        }
+      }
       &--firstLevel {
         max-height:100%;
         overflow-y:auto;
       }
       &--secondLevel {
-        text-indent:$marginMini;
+        &[data-type=block_nav_list] {
+          p {
+            margin-bottom: 7.5vw;
+          }
+          br {
+            display: none;
+          }
+          a {
+            text-transform: none;
+            margin: 5.5vw 16.5vw 2.5vw;
+            display: flex;
+            font-size: 1.2em;
+            &:hover {
+              border-color: transparent;
+            }
+          }
+        }
+        &[data-type=block_two_tabs] {
+          .tabs {
+            width: 100%;
+            li {
+              width: 50%;
+            }
+          }
+          .tab--content {
+            > div {
+              p {
+                margin-bottom: 7.5vw;
+              }
+              br {
+                display: none;
+              }
+              a {
+                text-transform: none;
+                margin: 5.5vw 16.5vw 2.5vw;
+                display: flex;
+                font-size: 1.2em;
+                &:hover {
+                  border-color: transparent;
+                }
+              }
+
+            }
+          }
+        }
       }
     }
   }
@@ -108,7 +205,7 @@
       }
 
       &--secondLevel {
-        display:block;
+        display:none;
         transition:transform $animationTimingFast, opacity $animationTimingFast;
         position: absolute;
         text-align: left;

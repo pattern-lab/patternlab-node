@@ -2,24 +2,36 @@
   position:relative;
   width:100%;
   margin:0;
-  padding:$paddingMini;
   font-size:1rem;
   background:$colorWhite;
   z-index:9;
   box-sizing:border-box;
-
+  @media only screen and (min-width: $breakpointDesktop) {
+    display: table;
+  }
   &--sticky {
-    position:fixed;
+    @media only screen and (min-width: $breakpointDesktop) {
+      position:fixed;
+      height: 4.5em;
+      border-bottom:1px solid $colorSilver;
+    }
   }
   &--scrolled {
-    box-shadow: $shadowTiny;
-    background-color: transparentize($colorWhite, 0.05);
   }
 
   &__logo {
     line-height:0;
     text-align:center;
 
+    position: absolute;
+    top: 1.8em;
+    left: 1.5em;
+    @media only screen and (min-width: $breakpointDesktop) {
+      top: 3.4em;
+      left: 1.9em;
+      font-size: .56em;
+      position: relative;
+    }
     .logo {
       display:inline-block;
     }
@@ -28,14 +40,18 @@
   &__container {
     display:flex;
     flex-flow:row nowrap;
-    height : 0.9em;
+    height : 2.5em;
     line-height:0.9em;
     margin-bottom:-0.9em;
 
     @media only screen and (min-width: $breakpointDesktop) {
-      height : 1.25em;
+      height : 4.4em;
       line-height:1.25em;
       margin-bottom:-1.25em;
+
+      max-width: 75rem;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -58,15 +74,36 @@
   &__language {
     flex:none;
     margin:0 $marginMini;
+    @media only screen and (min-width: $breakpointDesktop) {
+      margin: 1.6em $marginMini;
+    }
   }
 
   &__cart {
     flex:none;
+    right: 4.8em;
+    position: absolute;
+    top: 1.7em;
+    @media only screen and (min-width: $breakpointDesktop) {
+      right: 7.5em;
+      top: 1.6em;
+      position: relative;
+      a {
+        display: block;
+      }
+    }
   }
 
   &__navigation {
+    top: 4.1em;
+    position: absolute;
+    width: 100%;
+    border-bottom:1px solid $colorSilver;
     @media only screen and (min-width: $breakpointDesktop) {
-      margin-top:$marginMini;
+      margin-top: -2.7em;
+      border: none;
+      flex: 1;
+      position: initial;
     }
   }
 }

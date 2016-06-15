@@ -64,3 +64,14 @@
   font-weight: 500;
   font-size: $fontSize;
 }
+
+@mixin arrow ($direction, $color, $size) {
+  @if $direction == left {
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+  }
+}
