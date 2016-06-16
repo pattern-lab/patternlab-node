@@ -1,9 +1,10 @@
 .navigation-flyout {
-  position: absolute;
+  position: fixed;
   background-color: $colorWhite;
   left: 0;
   right: 0;
-  margin-top: 2em;
+  top: 0;
+  margin-top: 6em;
   padding: 1.625em 6.250em;
   width: 100%;
   &.flyout-open {

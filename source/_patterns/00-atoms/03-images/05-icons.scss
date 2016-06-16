@@ -78,14 +78,23 @@
 	@if $filename == x-small {
 		$char: "\E011";
 	}
-	@if $filename == facebook {
+	@if $filename == facebook-block {
 		$char: "\E012";
 	}
-	@if $filename == instagram {
+	@if $filename == facebook {
 		$char: "\E013";
 	}
-	@if $filename == twitter {
+	@if $filename == instagram-block {
 		$char: "\E014";
+	}
+	@if $filename == instagram {
+		$char: "\E015";
+	}
+	@if $filename == twitter-block {
+		$char: "\E016";
+	}
+	@if $filename == twitter {
+		$char: "\E017";
 	}
 
 	@return $char;
@@ -153,11 +162,20 @@
 .icon-x-small {
 	@include icon(x-small);
 }
+.icon-facebook-block {
+	@include icon(facebook-block);
+}
 .icon-facebook {
 	@include icon(facebook);
 }
+.icon-instagram-block {
+	@include icon(instagram-block);
+}
 .icon-instagram {
 	@include icon(instagram);
+}
+.icon-twitter-block {
+	@include icon(twitter-block);
 }
 .icon-twitter {
 	@include icon(twitter);
