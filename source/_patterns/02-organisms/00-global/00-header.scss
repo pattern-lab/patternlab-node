@@ -59,18 +59,6 @@
     flex:1;
   }
 
-  &__claim {
-    display:none;
-    flex:none;
-    @include font-secondary-medium(0.875em);
-    letter-spacing:0;
-    text-transform : none;
-
-    @media only screen and (min-width: $breakpointDesktop) {
-      display:block;
-    }
-  }
-
   &__language {
     flex:none;
     margin:0 $marginMini;
