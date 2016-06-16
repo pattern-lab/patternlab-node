@@ -132,6 +132,16 @@
             }
           }
         }
+        .socialShare {
+          width: 100%;
+          text-align: center;
+          height: 5em;
+          &__link {
+            &--icon {
+              margin: 1.3rem .6rem;
+            }
+          }
+        }
       }
       &--firstLevel {
         max-height:100%;

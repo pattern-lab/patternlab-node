@@ -3,22 +3,25 @@
   li {
     list-style-type : none;
     float: left;
-    border-bottom:1px solid $colorSilver;
-    border-right :1px solid $colorSilver;
+    border-right: 0.063em solid $colorSilver;
+    border-bottom: 0.063em solid $colorSilver;
+    height: 5.375em;
     &:last-child {
       border-right: none;
     }
     a {
       transition: background-color .2s ease-in-out;
-      padding:2em $paddingMini;
+      padding: 2em $paddingMini;
       display: inherit;
       color: $colorSilver;
       text-align: center;
+      height: 5.313em;
       &:hover {
         background-color: $colorGallery;
       }
     }
     &.tabs__active {
+      border-bottom: 0.063em solid transparent;
       a {
         color: $colorBlack;
         font-weight: 700;

@@ -5,6 +5,7 @@
   right: 0;
   margin-top: 2em;
   padding: 1.625em 6.250em;
+  width: 100%;
   &.flyout-open {
     animation-duration: .2s;
     animation-fill-mode: both;
@@ -44,10 +45,22 @@
         width: 30%;
         margin: 1.250em 0;
         figure {
+          hr {
+            display: none;
+          }
           a {
             color: $colorWhite;
             position: relative;
             display: block;
+            hr {
+              display: block;
+              margin: auto 25%;
+              top: 2.188em;
+              position: absolute;
+              width: 50%;
+              border: 0;
+              border-bottom: 0.125em solid;
+            }
             h3 {
               display: flex;
               position: absolute;
@@ -57,16 +70,6 @@
               align-items: center;
               left: 0;
               justify-content: center;
-              &:before {
-                content: '';
-                border-top: 0.125em solid;
-                border-color: inherit;
-                position: absolute;
-                display: table;
-                width: 38.8%;
-                margin-left: 30.5%;
-                top: 2.188em;
-              }
             }
           }
         }
@@ -91,10 +94,22 @@
             margin-bottom: 0.250em;
           }
         }
+        hr {
+          display: none;
+        }
         a {
           color: $colorWhite;
           position: relative;
           display: block;
+          hr {
+            display: block;
+            margin: auto 25%;
+            top: 2.188em;
+            position: absolute;
+            width: 50%;
+            border: 0;
+            border-bottom: 0.125em solid;
+          }
           h3 {
             display: flex;
             position: absolute;
@@ -104,16 +119,6 @@
             align-items: center;
             left: 0;
             justify-content: center;
-            &:before {
-              content: '';
-              border-top: 0.125em solid;
-              border-color: inherit;
-              position: absolute;
-              display: table;
-              width: 38.8%;
-              margin-left: 30.5%;
-              top: 3.188em;
-            }
           }
           &:hover {
             figcaption {
@@ -147,10 +152,22 @@
             margin-bottom: 0.250em;
           }
         }
+        hr {
+          display: none;
+        }
         a {
           color: $colorWhite;
           position: relative;
           display: block;
+          hr {
+            display: block;
+            margin: auto 25%;
+            top: 2.188em;
+            position: absolute;
+            width: 50%;
+            border: 0;
+            border-bottom: 0.125em solid;
+          }
           h3 {
             display: flex;
             position: absolute;
@@ -160,16 +177,6 @@
             align-items: center;
             left: 0;
             justify-content: center;
-            &:before {
-              content: '';
-              border-top: 0.125em solid;
-              border-color: inherit;
-              position: absolute;
-              display: table;
-              width: 38.8%;
-              margin-left: 30.5%;
-              top: 3.188em;
-            }
           }
           &:hover {
             figcaption {
@@ -185,7 +192,6 @@
       }
     }
   }
-
 
   &[data-type=block_nav_4_images] {
     .columns {
@@ -204,10 +210,22 @@
             margin-bottom: 0.250em;
           }
         }
+        hr {
+          display: none;
+        }
         a {
           color: $colorWhite;
           position: relative;
           display: block;
+          hr {
+            display: block;
+            margin: auto 25%;
+            top: 2.188em;
+            position: absolute;
+            width: 50%;
+            border:0;
+            border-bottom: 0.125em solid;
+          }
           h3 {
             display: flex;
             position: absolute;
@@ -217,16 +235,6 @@
             align-items: center;
             left: 0;
             justify-content: center;
-            &:before {
-              content: '';
-              border-top: 0.125em solid;
-              border-color: inherit;
-              position: absolute;
-              display: table;
-              width: 38.8%;
-              margin-left: 30.5%;
-              top: 3.188em;
-            }
           }
           &:hover {
             figcaption {
