@@ -16,7 +16,9 @@ var annotations_exporter = function (pl) {
     try {
       var oldAnnotations = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.js'), 'utf8');
     } catch (ex) {
-      console.log('annotations.js file missing from ' + paths.source.annotations + '. This may be expected.');
+      if (pl.config.debug) {
+        console.log('annotations.js file missing from ' + paths.source.annotations + '. This may be expected.');
+      }
       return [];
     }
 
@@ -43,7 +45,9 @@ var annotations_exporter = function (pl) {
     try {
       annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.md'), 'utf8');
     } catch (ex) {
-      console.log('annotations.md file missing from ' + paths.source.annotations + '. This may be expected.');
+      if (pl.config.debug) {
+        console.log('annotations.md file missing from ' + paths.source.annotations + '. This may be expected.');
+      }
       return [];
     }
 
