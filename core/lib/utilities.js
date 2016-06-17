@@ -1,5 +1,8 @@
 "use strict";
 
+var fs = require('fs-extra'),
+  path = require('path');
+
 var util = {
   // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
   shuffle: function (o) {
@@ -58,6 +61,28 @@ var util = {
       if (obj.hasOwnProperty(prop)) { return false; }
     }
     return true;
+  },
+
+  // recursively delete the contents of directory
+  // adapted from https://gist.github.com/tkihira/2367067
+  emptyDirectory: function (dir, cleanDir) {
+    var list = fs.readdirSync(dir);
+    for (var i = 0; i < list.length; i++) {
+      var filename = path.join(dir, list[i]);
+      var stat = fs.statSync(filename);
+
+      if (filename === "." || filename === "..") {
+        // pass these files
+      } else if (stat.isDirectory()) {
+        this.emptyDirectory(filename);
+      } else {
+        // rm fiilename
+        fs.unlinkSync(filename);
+      }
+    }
+    if (cleanDir) {
+      fs.rmdirSync(dir);
+    }
   }
 };
 
