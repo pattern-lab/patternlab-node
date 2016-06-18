@@ -40,8 +40,7 @@ var patternFinder = {
 		$('#sg-find .typeahead').typeahead({ highlight: true }, {
 			displayKey: 'patternPartial',
 			source: patterns.ttAdapter()
-		});
-		//.on('typeahead:selected', patternFinder.onAutocompleted).on('typeahead:autocompleted', patternFinder.onSelected);
+		}).on('typeahead:selected', patternFinder.onSelected).on('typeahead:autocompleted', patternFinder.onAutocompleted);
 		
 	},
 	
@@ -70,15 +69,15 @@ var patternFinder = {
 	
 	openFinder: function() {
 		patternFinder.active = true;
-		// $('#sg-find .typeahead').val("");
-		// $("#sg-find").addClass('show-overflow');
-		// $('#sg-find .typeahead').focus();
+		$('#sg-find .typeahead').val("");
+		$("#sg-find").addClass('show-overflow');
 	},
 	
 	closeFinder: function() {
 		patternFinder.active = false;
-		// $("#sg-find").removeClass('show-overflow');
-		// $('#sg-find .typeahead').val("");
+		document.activeElement.blur();
+		$("#sg-find").removeClass('show-overflow');
+		$('#sg-find .typeahead').val("");
 	},
 	
 	receiveIframeMessage: function(event) {
@@ -88,7 +87,10 @@ var patternFinder = {
 			return;
 		}
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
+		var data = {};
+		try {
+			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+		} catch(e) {}
 		
 		if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
 			

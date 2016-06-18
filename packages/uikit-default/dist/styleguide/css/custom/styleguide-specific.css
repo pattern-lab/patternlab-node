@@ -26,19 +26,16 @@
 
 .sg-colors {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   list-style: none !important;
   padding: 0 !important;
   margin: 0 !important;
 }
 .sg-colors li {
   -webkit-box-flex: 1;
-  -webkit-flex: auto;
       -ms-flex: auto;
           flex: auto;
   padding: 0.3em;

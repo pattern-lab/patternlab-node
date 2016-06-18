@@ -15,11 +15,11 @@
 		$sizePx = $('.sg-size-px'), //Px size input element in toolbar
 		$sizeEms = $('.sg-size-em'), //Em size input element in toolbar
 		$bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document,
-		$headerHeight = $('.sg-header').height(), // The height of Pattern Lab's header
-		fullMode = true, // // Turn Full viewport mode on by default
-		discoID = false, //Placeholder for Disco Mode's setInterval
-		discoMode = false, // Turn Disco mode off by default
-		hayMode = false; // Turn Hay mode off by default
+		$headerHeight = $('.sg-header').height(),
+		discoID = false,
+		discoMode = false,
+		fullMode = true,
+		hayMode = false;
 
 
 
@@ -69,16 +69,6 @@
 		$('.sg-nav-container').toggleClass('active');
 	});
 
-	// Toggle Pattern Info
-	$('#sg-t-pattern-info').on("click", function(e){
-		if($(this).hasClass('active')) {
-			$(this).removeClass('active').text('Show Pattern Info');
-		} else {
-			$(this).addClass('active').text('Hide Pattern Info');
-		}
-
-	});
-
 	// "View (containing clean, code, raw, etc options) Trigger
 	$('#sg-t-toggle').on("click", function(e){
 		e.preventDefault();
@@ -118,7 +108,6 @@
 		sizeiframe(getRandom(minViewportWidth,500));
 	}
 
-	// Click Small-ish Button
 	$('#sg-size-s').on("click", function(e){
 		e.preventDefault();
 		goSmall();
@@ -137,7 +126,6 @@
 		sizeiframe(getRandom(500,800));
 	}
 
-	// Click Medium-ish Button
 	$('#sg-size-m').on("click", function(e){
 		e.preventDefault();
 		goMedium();
@@ -156,7 +144,6 @@
 		sizeiframe(getRandom(800,1200));
 	}
 
-	// Click Large-ish button
 	$('#sg-size-l').on("click", function(e){
 		e.preventDefault();
 		goLarge();
@@ -581,61 +568,69 @@
 			return;
 		}
 
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
+		var data = {};
+		try {
+			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+		} catch(e) {}
+		
+		if (data.event !== undefined) {
+			
+			if (data.event == "patternLab.bodyclick") {
 
-		if (data.event == "patternLab.bodyclick") {
+				closePanels();
 
-			closePanels();
+			} else if (data.event == "patternLab.pageLoad") {
 
-		} else if (data.event == "patternLab.pageLoad") {
+				if (!urlHandler.skipBack) {
 
-			if (!urlHandler.skipBack) {
+					if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
+						urlHandler.pushPattern(data.patternpartial, data.path);
+					}
 
-				if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
-					urlHandler.pushPattern(data.patternpartial, data.path);
+					/*
+					if (wsnConnected) {
+						var iFramePath = urlHandler.getFileName(data.patternpartial);
+						wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
+					}
+					*/
 				}
 
-				/*
-				if (wsnConnected) {
-					var iFramePath = urlHandler.getFileName(data.patternpartial);
-					wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
+				// reset the defaults
+				urlHandler.skipBack = false;
+
+			} else if (data.event == "patternLab.keyPress") {
+				if (data.keyPress == 'ctrl+shift+s') {
+					goSmall();
+				} else if (data.keyPress == 'ctrl+shift+m') {
+					goMedium();
+				} else if (data.keyPress == 'ctrl+shift+l') {
+					goLarge();
+				} else if (data.keyPress == 'ctrl+shift+d') {
+					if (!discoMode) {
+						startDisco();
+					} else {
+						killDisco();
+					}
+				} else if (data.keyPress == 'ctrl+shift+h') {
+					if (!hayMode) {
+						startHay();
+					} else {
+						killHay();
+					}
+				} else if (data.keyPress == 'ctrl+shift+0') {
+					sizeiframe(320,true);
+				} else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
+					var val = mqs[(found[1]-1)];
+					var type = (val.indexOf("px") !== -1) ? "px" : "em";
+					val = val.replace(type,"");
+					var width = (type === "px") ? val*1 : val*$bodySize;
+					sizeiframe(width,true);
 				}
-				*/
+				return false;
 			}
-
-			// reset the defaults
-			urlHandler.skipBack = false;
-
-		} else if (data.event == "patternLab.keyPress") {
-			if (data.keyPress == 'ctrl+shift+s') {
-				goSmall();
-			} else if (data.keyPress == 'ctrl+shift+m') {
-				goMedium();
-			} else if (data.keyPress == 'ctrl+shift+l') {
-				goLarge();
-			} else if (data.keyPress == 'ctrl+shift+d') {
-				if (!discoMode) {
-					startDisco();
-				} else {
-					killDisco();
-				}
-			} else if (data.keyPress == 'ctrl+shift+h') {
-				if (!hayMode) {
-					startHay();
-				} else {
-					killHay();
-				}
-			} else if (data.keyPress == 'ctrl+shift+0') {
-				sizeiframe(320,true);
-			} else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
-				var val = mqs[(found[1]-1)];
-				var type = (val.indexOf("px") !== -1) ? "px" : "em";
-				val = val.replace(type,"");
-				var width = (type === "px") ? val*1 : val*$bodySize;
-				sizeiframe(width,true);
-			}
-			return false;
+			
 		}
+		
 	}
 	window.addEventListener("message", receiveIframeMessage, false);
 

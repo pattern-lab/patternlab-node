@@ -338,7 +338,7 @@ var urlHandler = {
 			return;
 		} else if (state !== null) {
 			patternName = state.pattern;
-		} 
+		}
 		
 		var iFramePath = "";
 		iFramePath = this.getFileName(patternName);
@@ -368,6 +368,7 @@ window.onpopstate = function (event) {
 	urlHandler.skipBack = true;
 	urlHandler.popPattern(event);
 };
+
 /*!
  * Modal for the Viewer Layer
  * For both annotations and code/info
@@ -380,66 +381,70 @@ window.onpopstate = function (event) {
  */
 
 var modalViewer = {
-  
+
   // set up some defaults
   active:        false,
   template:      'info',
   patternData:   {},
   targetOrigin:  (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
-  
+
   /**
   * initialize the modal window
   */
   onReady: function() {
-    
+
     // watch for resizes and hide the modal container as appropriate when the modal is already hidden
     $(window).on('resize', function() {
       if (modalViewer.active === false) {
         modalViewer.slide($('#sg-modal-container').outerHeight());
       }
     });
-    
+
     // make sure the listener for checkpanels is set-up
     Dispatcher.addListener('insertPanels', modalViewer.insert);
-    
+
     // add the info/code panel onclick handler
-    $('#sg-t-info').click(function(e) {
+    $('#sg-t-patterninfo').click(function(e) {
       e.preventDefault();
-      modalViewer.toggle('info');
+      $('#sg-tools-toggle').removeClass('active');
+      $(this).parents('ul').removeClass('active');
+      modalViewer.toggle();
     });
-    
-    // add the annotations panel onclick handler
-    $('#sg-t-annotations').click(function(e) {
-      e.preventDefault();
-      modalViewer.toggle('annotations');
-    });
-    
+
     // if the iframe loads a new page query the pattern for its info if the modal is active
     $('#sg-viewport').on('load', function() {
       if (modalViewer.active) {
         modalViewer.queryPattern();
       }
     });
-    
+
     // make sure the modal viewer is not viewable
     modalViewer.hide();
-    
+
     // make sure the close button handles the click
     $('#sg-modal-close-btn').on('click', function(e) {
+      
       e.preventDefault();
+      
+      // hide any open annotations
+      obj = JSON.stringify({ 'event': 'patternLab.annotationsHighlightHide' });
+      document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+      
+      // hide the viewer
       modalViewer.close();
+      
     });
-    
+
     // review the query strings in case there is something the modal viewer is supposed to handle by default
     var queryStringVars = urlHandler.getRequestVars();
-    
+
     // code panel related query string info
     if ((queryStringVars.view !== undefined) && ((queryStringVars.view === 'code') || (queryStringVars.view === 'c'))) {
       panelsViewer.initCopy = ((queryStringVars.copy !== undefined) && (queryStringVars.copy === 'true')) ? true : false;
       modalViewer.template = 'info';
       modalViewer.queryPattern();
     }
-    
+
     // annotation panel related query string info
     if ((queryStringVars.view !== undefined) && ((queryStringVars.view === 'annotations') || (queryStringVars.view === 'a'))) {
       if (queryStringVars.number !== undefined) {
@@ -448,101 +453,122 @@ var modalViewer = {
       modalViewer.template = 'comments';
       modalViewer.queryPattern();
     }
-    
+
   },
-  
+
   /**
   * toggle the modal window open and closed
   */
   toggle: function() {
-    
-    if (!modalViewer.active) {
+    var message;
+    if (modalViewer.active === false) {
+      message = "Hide Pattern Info";
       modalViewer.active = true;
       modalViewer.queryPattern();
     } else {
+      message = "Show Pattern Info";
+      obj = JSON.stringify({ 'event': 'patternLab.annotationsHighlightHide' });
+      document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
       modalViewer.close();
     }
     
   },
-  
+
   /**
   * open the modal window
   */
   open: function() {
-    
+
     // make sure the modal viewer and other options are off just in case
     modalViewer.close();
-    
+
     // note it's turned on in the viewer
     modalViewer.active = true;
-    
+
     // add an active class to the button that matches this template
     $('#sg-t-'+modalViewer.template+' .sg-checkbox').addClass('active');
+
+    //Add active class to modal
+    $('#sg-modal-container').addClass('active');
     
     // show the modal
     modalViewer.show();
-    
+
   },
-  
+
   /**
   * close the modal window
   */
   close: function() {
+
+    var obj;
     
     // not that the modal viewer is no longer active
     modalViewer.active = false;
-    
+
+    //Add active class to modal
+    $('#sg-modal-container').removeClass('active');
+
     // remove the active class from all of the checkbox items
     $('.sg-checkbox').removeClass('active');
     
     // hide the modal
     modalViewer.hide();
     
+    // update the wording
+    $('#sg-t-patterninfo').html("Show Pattern Info");
+    
+    // tell the styleguide to close
+    obj = JSON.stringify({ 'event': 'patternLab.patternModalClose' });
+    document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+    
   },
-  
+
   hide: function() {
     modalViewer.slide($('#sg-modal-container').outerHeight());
   },
-  
+
   insert: function(templateRendered, patternPartial, iframePassback) {
-    
+
     if (iframePassback) {
-      
+
       // send a message to the pattern
       var obj = JSON.stringify({ 'event': 'patternLab.patternModalInsert', 'patternPartial': patternPartial, 'modalContent': templateRendered.outerHTML });
       document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
       
     } else {
-      
+
       // insert the panels
-      $('#sg-modal-container-content').html(templateRendered);
-      
+      $('#sg-modal-content').html(templateRendered);
+
       // with the content inserted open the modal
       modalViewer.open();
-      
+
     }
     
+    // update the wording
+    $('#sg-t-patterninfo').html("Hide Pattern Info");
     
   },
-  
+
   /**
   * refresh the modal if a new pattern is loaded and the modal is active
   */
   refresh: function(patternData, iframePassback) {
-    
+
     // if this is a styleguide view close the modal
     if (iframePassback) {
       modalViewer.hide();
     }
-    
+
     // clear any selections that might have been made
     panelsViewer.clear();
-    
+
     // gather the data that will fill the modal window
     panelsViewer.gatherPanels(patternData, iframePassback);
-    
+
   },
-  
+
   /**
   * slides the modal window into or out of view
   */
@@ -550,43 +576,67 @@ var modalViewer = {
     pos = (pos === 0) ? 0 : -pos;
     $('#sg-modal-container').css('bottom',pos);
   },
-  
+
   show: function() {
     modalViewer.slide(0);
   },
-  
+
   /**
   * ask the pattern for info so we can open the modal window and populate it
   */
   queryPattern: function() {
-    
+
     // send a message to the pattern
     var obj = JSON.stringify({ 'event': 'patternLab.patternQuery' });
     document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
-    
+
   },
-  
+
   /**
   * toggle the comment pop-up based on a user clicking on the pattern
   * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
   * @param  {Object}      event info
   */
   receiveIframeMessage: function(event) {
+
+    var els, i, displayNumberCheck;
     
     // does the origin sending the message match the current host? if not dev/null the request
     if ((window.location.protocol !== 'file:') && (event.origin !== window.location.protocol+'//'+window.location.host)) {
       return;
     }
+
+    var data = {};
+    try {
+      data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+    } catch(e) {}
+
     
-    var data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-    
-    // refresh the modal if a new pattern is loaded and the modal is active
     if ((data.event !== undefined) && (data.event == 'patternLab.patternQueryInfo')) {
+      
+      // refresh the modal if a new pattern is loaded and the modal is active
       modalViewer.refresh(data.patternData, data.iframePassback);
+      
+    } else if ((data.event !== undefined) && (data.event == 'patternLab.annotationNumberClicked')) {
+      
+      // remove active class
+      els = document.querySelectorAll('#sg-annotations > .sg-annotations-list > li');
+      for (i = 0; i < els.length; ++i) {
+        els[i].classList.remove('active');
+      }
+      
+      // add active class to called element and scroll to it
+      for (i = 0; i < els.length; ++i) {
+        if ((i+1) == data.displayNumber) {
+          els[i].classList.add('active');
+          $('.sg-pattern-extra-info').animate({scrollTop: els[i].offsetTop - 10}, 600);
+        }
+      }
+      
     }
-    
+
   }
-  
+
 };
 
 // when the document is ready make sure the modal is ready
@@ -605,53 +655,54 @@ window.addEventListener("message", modalViewer.receiveIframeMessage, false);
  */
 
 var panelsUtil = {
-  
+
   addClickEvents: function(templateRendered, patternPartial) {
-    
+
     var els = templateRendered.querySelectorAll('#sg-'+patternPartial+'-tabs li');
     for (var i = 0; i < els.length; ++i) {
-      els[i].onclick = (function() {
+      els[i].onclick = function(e) {
+        e.preventDefault();
         var patternPartial = this.getAttribute('data-patternpartial');
         var panelID = this.getAttribute('data-panelid');
         panelsUtil.show(patternPartial, panelID);
-      });
+      };
     }
-    
+
     return templateRendered;
-    
+
   },
-  
+
   show: function(patternPartial, panelID) {
-    
+
     var els;
-    
+
     // turn off all of the active tabs
-    els = document.querySelectorAll('sg-'+patternPartial+'-tabs li');
+    els = document.querySelectorAll('#sg-'+patternPartial+'-tabs li');
     for (i = 0; i < els.length; ++i) {
-      els[i].classList.remove('sg-code-title-active');
+      els[i].classList.remove('sg-tab-title-active');
     }
-    
+
     // hide all of the panels
-    els = document.querySelectorAll('sg-'+patternPartial+'-tabs li');
+    els = document.querySelectorAll('#sg-'+patternPartial+'-panels div.sg-tabs-panel');
     for (i = 0; i < els.length; ++i) {
       els[i].style.display = 'none';
     }
-    
+
     // add active tab class
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('sg-tab-title-active');
-    
+
     // show the panel
-    document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'block';
-    
+    document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
+
     /*
     if (codeViewer.copyOnInit) {
       codeViewer.selectCode();
       codeViewer.copyOnInit = false;
     }
     */
-    
+
   }
-    
+
 };
 
 /*!
@@ -745,8 +796,8 @@ var Panels = {
 
 // add the default panels
 // Panels.add({ 'id': 'sg-panel-info', 'name': 'info', 'default': true, 'templateID': 'pl-panel-template-info', 'httpRequest': false, 'prismHighlight': false, 'keyCombo': '' });
-Panels.add({ 'id': 'sg-panel-pattern', 'name': config.patternExtension, 'default': false, 'templateID': 'pl-panel-template-code', 'httpRequest': true, 'httpRequestReplace': '.'+config.patternExtension, 'httpRequestCompleted': false, 'prismHighlight': true, 'language': PrismLanguages.get(config.patternExtension), 'keyCombo': 'ctrl+shift+u' });
-Panels.add({ 'id': 'sg-panel-html', 'name': 'html', 'default': false, 'templateID': 'pl-panel-template-code', 'httpRequest': true, 'httpRequestReplace': '.escaped.html', 'httpRequestCompleted': false, 'prismHighlight': true, 'language': 'markup', 'keyCombo': 'ctrl+shift+y' });
+Panels.add({ 'id': 'sg-panel-pattern', 'name': config.patternExtension.toUpperCase(), 'default': true, 'templateID': 'pl-panel-template-code', 'httpRequest': true, 'httpRequestReplace': '.'+config.patternExtension, 'httpRequestCompleted': false, 'prismHighlight': true, 'language': PrismLanguages.get(config.patternExtension), 'keyCombo': 'ctrl+shift+u' });
+Panels.add({ 'id': 'sg-panel-html', 'name': 'HTML', 'default': false, 'templateID': 'pl-panel-template-code', 'httpRequest': true, 'httpRequestReplace': '.markup-only.html', 'httpRequestCompleted': false, 'prismHighlight': true, 'language': 'markup', 'keyCombo': 'ctrl+shift+y' });
 
 // gather panels from plugins
 Dispatcher.trigger('setupPanels');
@@ -762,14 +813,14 @@ Dispatcher.trigger('setupPanels');
  */
 
 var panelsViewer = {
-  
+
   // set up some defaults
   targetOrigin: (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
   initCopy:     false,
   initMoveTo:   0,
-  
+
   checkPanels: function(panels, patternData, iframePassback) {
-    
+
     // count how many panels have rendered content
     var panelContentCount = 0;
     for (var i = 0; i < panels.length; ++i) {
@@ -782,34 +833,28 @@ var panelsViewer = {
     if (panelContentCount === Panels.count()) {
       panelsViewer.renderPanels(panels, patternData, iframePassback);
     }
-    
+
   },
-  
+
   gatherPanels: function(patternData, iframePassback) {
-    
+
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
-        
+
     // set-up defaults
     var template, templateCompiled, templateRendered, panel;
-    
+
     // get the base panels
     var panels = Panels.get();
-    
-    // figure out if lineage should be drawn
-    patternData.lineageExists = (patternData.lineage.length !== 0);
-    
-    // figure out if reverse lineage should be drawn
-    patternData.lineageRExists = (patternData.lineageR.length !== 0);
-    
+
     // evaluate panels array and create content
     for (var i = 0; i < panels.length; ++i) {
-      
+
       panel = panels[i];
-      
+
       if ((panel.templateID !== undefined) && (panel.templateID)) {
-        
+
         if ((panel.httpRequest !== undefined) && (panel.httpRequest)) {
-          
+
           // need a file and then render
           var fileName = urlHandler.getFileName(patternData.patternPartial);
           var e        = new XMLHttpRequest();
@@ -825,107 +870,180 @@ var panelsViewer = {
           })(i, panels, patternData, iframePassback);
           e.open('GET', fileName.replace(/\.html/,panel.httpRequestReplace)+'?'+(new Date()).getTime(), true);
           e.send();
-          
+
         } else {
-          
+
           // vanilla render of pattern data
           template          = document.getElementById(panel.templateID);
           templateCompiled  = Hogan.compile(template.innerHTML);
           templateRendered  = templateCompiled.render(patternData);
           panels[i].content = templateRendered;
           Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback]);
-          
+
         }
-        
+
       }
-      
+
     }
-    
+
   },
-  
+
   renderPanels: function(panels, patternData, iframePassback) {
     
     // set-up defaults
     var template, templateCompiled, templateRendered;
+    var annotation, comment, count, div, els, item, markup, i;
     var patternPartial = patternData.patternPartial;
     patternData.panels = panels;
+
+    // set a default pattern description for modal pop-up
+    if (!iframePassback && (patternData.patternDesc.length === 0)) {
+      patternData.patternDesc = "There is no description for this pattern.";
+    }
     
+    // capitilize the pattern name
+    patternData.patternNameCaps = patternData.patternName.toUpperCase();
+    
+    // check for annotations in the given mark-up
+    markup           = document.createElement('div');
+    markup.innerHTML = patternData.patternMarkup;
+    
+    count = 1;
+    patternData.annotations = [];
+    delete patternData['patternMarkup'];
+    
+    for (i = 0; i < comments.comments.length; ++i) {
+      
+      item = comments.comments[i];
+      els  = markup.querySelectorAll(item.el);
+      
+      if (els.length > 0) {
+        annotation = { 'displayNumber': count, 'el': item.el, 'title': item.title, 'comment': item.comment };
+        patternData.annotations.push(annotation);
+        count++;
+      }
+        
+    }
+    
+    // alert the pattern that annotations should be highlighted
+    if (patternData.annotations.length > 0) {
+      var obj = JSON.stringify({ 'event': 'patternLab.annotationsHighlightShow', 'annotations': patternData.annotations });
+      document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
+    }
+    
+    // add hasComma property to lineage
+    if (patternData.lineage.length > 0) {
+      for (i = 0; i < patternData.lineage.length; ++i) {
+        if (i < (patternData.lineage.length - 1)) {
+          patternData.lineage[i].hasComma = true;
+        }
+      }
+    }
+    
+    // add hasComma property to lineageR
+    if (patternData.lineageR.length > 0) {
+      for (i = 0; i < patternData.lineageR.length; ++i) {
+        if (i < (patternData.lineageR.length - 1)) {
+          patternData.lineageR[i].hasComma = true;
+        }
+      }
+    }
+    
+    // add *Exists attributes for Hogan templates
+    // figure out if the description exists
+    patternData.patternDescExists = ((patternData.patternDesc.length > 0) || ((patternData.patternDescAdditions !== undefined) && (patternData.patternDescAdditions.length > 0)));
+    
+    // figure out if lineage should be drawn
+    patternData.lineageExists = (patternData.lineage.length !== 0);
+
+    // figure out if reverse lineage should be drawn
+    patternData.lineageRExists = (patternData.lineageR.length !== 0);
+
+    // figure out if pattern state should be drawn
+    patternData.patternStateExists = (patternData.patternState.length > 0);
+
+    // figure if the entire desc block should be drawn
+    patternData.descBlockExists = (patternData.patternDescExists || patternData.lineageExists || patternData.lineageRExists || patternData.patternStateExists);
+    
+    // figure if annotations should be drawn
+    patternData.annotationExists = (patternData.annotations.length > 0);
+
+    // set isPatternView based on if we have to pass it back to the styleguide level
+    patternData.isPatternView = (iframePassback === false);
+
     // render all of the panels in the base panel template
     template         = document.getElementById('pl-panel-template-base');
     templateCompiled = Hogan.compile(template.innerHTML);
     templateRendered = templateCompiled.render(patternData);
-    
+
     // make sure templateRendered is modified to be an HTML element
-    var temp         = document.createElement('div');
-    temp.innerHTML   = templateRendered;
-    templateRendered = temp.querySelector('div');
-    
+    div              = document.createElement('div');
+    div.className    = 'sg-modal-content-inner';
+    div.innerHTML    = templateRendered;
+    templateRendered = div;
+
     // add click events
     templateRendered = panelsUtil.addClickEvents(templateRendered, patternPartial);
-    
+
     // add onclick events to the tabs in the rendered content
-    for (var i = 0; i < panels.length; ++i) {
-      
+    for (i = 0; i < panels.length; ++i) {
+
       panel = panels[i];
-      
+
       // default IDs
       panelTab   = '#sg-'+patternPartial+'-'+panel.id+'-tab';
       panelBlock = '#sg-'+patternPartial+'-'+panel.id+'-panel';
-      
+
       // show default options
       if ((templateRendered.querySelector(panelTab) !== null) && (panel.default)) {
-        
         templateRendered.querySelector(panelTab).classList.add('sg-tab-title-active');
         templateRendered.querySelector(panelBlock).style.display = 'block';
-        
       }
-      
+
     }
-    
+
     // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
     $('#sg-code-lineage-fill a, #sg-code-lineager-fill a', templateRendered).on('click', function(e){
       e.preventDefault();
-      if (modalViewer !== undefined) {
-        var obj = JSON.stringify({ 'event': 'patternLab.pathUpdate', 'path': urlHandler.getFileName($(this).attr('data-patternpartial')) });
-        document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
-      }
+      var obj = JSON.stringify({ 'event': 'patternLab.updatePath', 'path': urlHandler.getFileName($(this).attr('data-patternpartial')) });
+      document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
     });
-    
+
     // gather panels from plugins
     Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback]);
-    
+
   },
-  
+
   /**
   * select the some range to copy
   */
   select: function(id) {
-    
-    if (modalViewer.active) {
+
+    if ((modalViewer !== undefined) && (modalViewer.active)) {
       selection = window.getSelection();
       range = document.createRange();
       range.selectNodeContents(document.getElementById(id));
       selection.removeAllRanges();
       selection.addRange(range);
     }
-    
+
   },
-  
+
   /**
   * clear any selection of code when swapping tabs or opening a new pattern
   */
   clear: function() {
-    
-    if (modalViewer.active) {
+
+    if ((modalViewer !== undefined) && modalViewer.active) {
       if (window.getSelection().empty) {
         window.getSelection().empty();
       } else if (window.getSelection().removeAllRanges) {
         window.getSelection().removeAllRanges();
       }
     }
-    
+
   }
-  
+
 };
 
 /*!
@@ -1017,7 +1135,10 @@ var patternFinder = {
 			return;
 		}
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
+		var data = {};
+		try {
+			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+		} catch(e) {}
 		
 		if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
 			
@@ -1112,9 +1233,12 @@ function receiveIframeMessage(event) {
 	}
 	
 	var path;
-	var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
+	var data = {};
+	try {
+		data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+	} catch(e) {}
 	
-	if (data.event == "patternLab.updatePath") {
+	if ((data.event !== undefined) && (data.event == "patternLab.updatePath")) {
 		
 		if (patternData.patternPartial !== undefined) {
 			
@@ -1131,7 +1255,7 @@ function receiveIframeMessage(event) {
 			
 		}
 		
-	} else if (data.event == "patternLab.reload") {
+	} else if ((data.event !== undefined) && (data.event == "patternLab.reload")) {
 		
 		// reload the location if there was a message to do so
 		window.location.reload();
@@ -1148,7 +1272,7 @@ window.addEventListener("message", receiveIframeMessage, false);
  */
 
 (function (w) {
-	
+
 	var sw = document.body.clientWidth, //Viewport Width
 		sh = $(document).height(), //Viewport Height
 		minViewportWidth = parseInt(config.ishMinimum), //Minimum Size for Viewport
@@ -1163,16 +1287,16 @@ window.addEventListener("message", receiveIframeMessage, false);
 		discoMode = false,
 		fullMode = true,
 		hayMode = false;
-		
-	
-	
+
+
+
 	//Update dimensions on resize
 	$(w).resize(function() {
 		sw = document.body.clientWidth;
 		sh = $(document).height();
 
 		setAccordionHeight();
-		
+
 		if(fullMode === true) {
 			sizeiframe(sw, false);
 		}
@@ -1203,7 +1327,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 		var $activeAccordion = $('.sg-acc-panel.active').first(),
 			accordionHeight = $activeAccordion.height(),
 			availableHeight = sh-$headerHeight; //Screen height minus the height of the header
-		
+
 		$activeAccordion.height(availableHeight); //Set height of accordion to the available height
 	}
 
@@ -1211,7 +1335,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 		e.preventDefault();
 		$('.sg-nav-container').toggleClass('active');
 	});
-	
+
 	// "View (containing clean, code, raw, etc options) Trigger
 	$('#sg-t-toggle').on("click", function(e){
 		e.preventDefault();
@@ -1223,24 +1347,24 @@ window.addEventListener("message", receiveIframeMessage, false);
 		e.preventDefault();
 		$(this).parents('ul').toggleClass('active');
 	});
-	
+
 	//Phase View Events
 	$('.sg-size[data-size]').on("click", function(e){
 		e.preventDefault();
 		killDisco();
 		killHay();
 		fullMode = false;
-		
+
 		var val = $(this).attr('data-size');
-		
+
 		if (val.indexOf('px') > -1) {
 			$bodySize = 1;
 		}
-		
+
 		val = val.replace(/[^\d.-]/g,'');
 		sizeiframe(Math.floor(val*$bodySize));
 	});
-	
+
 	//Size View Events
 
 	// handle small button
@@ -1250,17 +1374,17 @@ window.addEventListener("message", receiveIframeMessage, false);
 		fullMode = false;
 		sizeiframe(getRandom(minViewportWidth,500));
 	}
-	
+
 	$('#sg-size-s').on("click", function(e){
 		e.preventDefault();
 		goSmall();
 	});
-	
+
 	jwerty.key('ctrl+shift+s', function(e) {
 		goSmall();
 		return false;
 	});
-	
+
 	// handle medium button
 	function goMedium() {
 		killDisco();
@@ -1268,17 +1392,17 @@ window.addEventListener("message", receiveIframeMessage, false);
 		fullMode = false;
 		sizeiframe(getRandom(500,800));
 	}
-	
+
 	$('#sg-size-m').on("click", function(e){
 		e.preventDefault();
 		goMedium();
 	});
-	
+
 	jwerty.key('ctrl+shift+m', function(e) {
 		goLarge();
 		return false;
 	});
-	
+
 	// handle large button
 	function goLarge() {
 		killDisco();
@@ -1286,12 +1410,12 @@ window.addEventListener("message", receiveIframeMessage, false);
 		fullMode = false;
 		sizeiframe(getRandom(800,1200));
 	}
-	
+
 	$('#sg-size-l').on("click", function(e){
 		e.preventDefault();
 		goLarge();
 	});
-	
+
 	jwerty.key('ctrl+shift+l', function(e) {
 		goLarge();
 		return false;
@@ -1305,7 +1429,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 		fullMode = true;
 		sizeiframe(sw);
 	});
-	
+
 	//Click Random Size Button
 	$('#sg-size-random').on("click", function(e){
 		e.preventDefault();
@@ -1314,7 +1438,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 		fullMode = false;
 		sizeiframe(getRandom(minViewportWidth,sw));
 	});
-	
+
 	//Click for Disco Mode, which resizes the viewport randomly
 	$('#sg-size-disco').on("click", function(e){
 		e.preventDefault();
@@ -1333,18 +1457,18 @@ window.addEventListener("message", receiveIframeMessage, false);
 	function disco() {
 		sizeiframe(getRandom(minViewportWidth,sw));
 	}
-	
+
 	function killDisco() {
 		discoMode = false;
 		clearInterval(discoID);
 		discoID = false;
 	}
-	
+
 	function startDisco() {
 		discoMode = true;
 		discoID = setInterval(disco, 800);
 	}
-	
+
 	jwerty.key('ctrl+shift+d', function(e) {
 		if (!discoMode) {
 			startDisco();
@@ -1373,21 +1497,21 @@ window.addEventListener("message", receiveIframeMessage, false);
 		$('#sg-gen-container').removeClass('hay-mode');
 		sizeiframe(Math.floor(currentWidth));
 	}
-	
+
 	// start Hay! mode
 	function startHay() {
 		hayMode = true;
 		$('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth+viewportResizeHandleWidth);
 		$sgViewport.removeClass("vp-animate").width(minViewportWidth);
-		
+
 		var timeoutID = window.setTimeout(function(){
 			$('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth+viewportResizeHandleWidth);
 			$sgViewport.addClass('hay-mode').width(maxViewportWidth);
-			
+
 			setInterval(function(){ var vpSize = $sgViewport.width(); updateSizeReading(vpSize); },100);
 		}, 200);
 	}
-	
+
 	// start hay from a keyboard shortcut
 	jwerty.key('ctrl+shift+h', function(e) {
 		if (!hayMode) {
@@ -1439,20 +1563,20 @@ window.addEventListener("message", receiveIframeMessage, false);
 		var val = parseFloat($(this).val());
 		updateSizeReading(val,'em','updatePxInput');
 	});
-	
+
 	// set 0 to 320px as a default
 	jwerty.key('ctrl+shift+0', function(e) {
 		e.preventDefault();
 		sizeiframe(320,true);
 		return false;
 	});
-	
+
 	// handle the MQ click
 	var mqs = [];
 	$('#sg-mq a').each(function(i) {
-		
+
 		mqs.push($(this).html());
-		
+
 		// bind the click
 		$(this).on("click", function(i,k) {
 			return function(e) {
@@ -1464,7 +1588,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 				sizeiframe(width,true);
 			};
 		}(i,this));
-		
+
 		// bind the keyboard shortcut. can't use cmd on a mac because 3 & 4 are for screenshots
 		jwerty.key('ctrl+shift+'+(i+1), function (k) {
 			return function(e) {
@@ -1476,15 +1600,15 @@ window.addEventListener("message", receiveIframeMessage, false);
 				return false;
 			};
 		}(this));
-		
+
 	});
-	
+
 	//Resize the viewport
 	//'size' is the target size of the viewport
 	//'animate' is a boolean for switching the CSS animation on or off. 'animate' is true by default, but can be set to false for things like nudging and dragging
 	function sizeiframe(size,animate) {
 		var theSize;
-		
+
 		if(size>maxViewportWidth) { //If the entered size is larger than the max allowed viewport size, cap value at max vp size
 			theSize = maxViewportWidth;
 		} else if(size<minViewportWidth) { //If the entered size is less than the minimum allowed viewport size, cap value at min vp size
@@ -1492,31 +1616,31 @@ window.addEventListener("message", receiveIframeMessage, false);
 		} else {
 			theSize = size;
 		}
-		
+
 		//Conditionally remove CSS animation class from viewport
 		if(animate===false) {
 			$('#sg-gen-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
 		} else {
 			$('#sg-gen-container,#sg-viewport').addClass("vp-animate");
 		}
-		
+
 		$('#sg-gen-container').width(theSize+viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
 		$sgViewport.width(theSize); //Resize viewport to desired size
-		
+
 		var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host;
 		var obj = JSON.stringify({ "event": "patternLab.resize", "resize": "true" });
 		document.getElementById('sg-viewport').contentWindow.postMessage(obj,targetOrigin);
-		
+
 		updateSizeReading(theSize); //Update values in toolbar
 		saveSize(theSize); //Save current viewport to cookie
 	}
-	
+
 	$("#sg-gen-container").on('transitionend webkitTransitionEnd', function(e){
 		var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host;
 		var obj = JSON.stringify({ "event": "patternLab.resize", "resize": "true" });
 		document.getElementById('sg-viewport').contentWindow.postMessage(obj,targetOrigin);
 	});
-	
+
 	function saveSize(size) {
 		if (!DataSaver.findValue('vpWidth')) {
 			DataSaver.addValue("vpWidth",size);
@@ -1524,8 +1648,8 @@ window.addEventListener("message", receiveIframeMessage, false);
 			DataSaver.updateValue("vpWidth",size);
 		}
 	}
-	
-	
+
+
 	//Update Pixel and Em inputs
 	//'size' is the input number
 	//'unit' is the type of unit: either px or em. Default is px. Accepted values are 'px' and 'em'
@@ -1540,7 +1664,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 			pxSize = size;
 			emSize = size/$bodySize;
 		}
-		
+
 		if (target === 'updatePxInput') {
 			$sizePx.val(pxSize);
 		} else if (target === 'updateEmInput') {
@@ -1550,32 +1674,20 @@ window.addEventListener("message", receiveIframeMessage, false);
 			$sizePx.val(pxSize);
 		}
 	}
-	
+
 	/* Returns a random number between min and max */
 	function getRandom (min, max) {
 		return Math.floor(Math.random() * (max - min) + min);
 	}
-	
+
 	//Update The viewport size
 	function updateViewportWidth(size) {
 		$("#sg-viewport").width(size);
 		$("#sg-gen-container").width(size*1 + 14);
-		
+
 		updateSizeReading(size);
 	}
 
-	//Detect larger screen and no touch support
-	/*
-	if('ontouchstart' in document.documentElement && window.matchMedia("(max-width: 700px)").matches) {
-		$('body').addClass('no-resize');
-		$('#sg-viewport ').width(sw);
-
-		alert('workit');
-	} else {
-		
-	}
-	*/
-	
 	$('#sg-gen-container').on('touchstart', function(event){});
 
 	// handles widening the "viewport"
@@ -1583,36 +1695,36 @@ window.addEventListener("message", receiveIframeMessage, false);
 	//   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
 	//   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
 	$('#sg-rightpull').mousedown(function(event) {
-		
+
 		// capture default data
 		var origClientX = event.clientX;
 		var origViewportWidth = $sgViewport.width();
-		
+
 		fullMode = false;
-		
+
 		// show the cover
 		$("#sg-cover").css("display","block");
-		
+
 		// add the mouse move event and capture data. also update the viewport width
 		$('#sg-cover').mousemove(function(event) {
 			var viewportWidth;
-			
+
 			viewportWidth = origViewportWidth + 2*(event.clientX - origClientX);
-			
+
 			if (viewportWidth > minViewportWidth) {
-				
+
 				if (!DataSaver.findValue('vpWidth')) {
 					DataSaver.addValue("vpWidth",viewportWidth);
 				} else {
 					DataSaver.updateValue("vpWidth",viewportWidth);
 				}
-				
+
 				sizeiframe(viewportWidth,false);
 			}
 		});
-		
+
 		return false;
-		
+
 	});
 
 	// on "mouseup" we unbind the "mousemove" event and hide the cover again
@@ -1625,7 +1737,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 	// capture the viewport width that was loaded and modify it so it fits with the pull bar
 	var origViewportWidth = $("#sg-viewport").width();
 	$("#sg-gen-container").width(origViewportWidth);
-	
+
 	var testWidth = screen.width;
 	if (window.orientation !== undefined) {
 		testWidth = (window.orientation === 0) ? screen.width : screen.height;
@@ -1636,10 +1748,10 @@ window.addEventListener("message", receiveIframeMessage, false);
 		$("#sg-viewport").width(origViewportWidth - 14);
 	}
 	updateSizeReading($("#sg-viewport").width());
-	
+
 	// get the request vars
 	var oGetVars = urlHandler.getRequestVars();
-	
+
 	// pre-load the viewport width
 	var vpWidth = 0;
 	var trackViewportWidth = true; // can toggle this feature on & off
@@ -1656,7 +1768,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 	} else if (trackViewportWidth && (vpWidth = DataSaver.findValue("vpWidth"))) {
 		updateViewportWidth(vpWidth);
 	}
-	
+
 	// load the iframe source
 	var patternName = "all";
 	var patternPath = "";
@@ -1666,16 +1778,16 @@ window.addEventListener("message", receiveIframeMessage, false);
 		patternPath = urlHandler.getFileName(patternName);
 		iFramePath  = (patternPath !== "") ? window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+patternPath+"?"+Date.now() : iFramePath;
 	}
-	
+
 	if (patternName !== "all") {
 		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
 		history.replaceState({ "pattern": patternName }, null, null);
 	}
-	
+
 	if (document.getElementById("sg-raw") !== undefined) {
 		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
 	}
-	
+
 	urlHandler.skipBack = true;
 	document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
 
@@ -1699,7 +1811,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 	$('#sg-vp-wrap').click(function() {
 		closePanels();
 	});
-	
+
 	// Listen for resize changes
 	if (window.orientation !== undefined) {
 		var origOrientation = window.orientation;
@@ -1711,76 +1823,84 @@ window.addEventListener("message", receiveIframeMessage, false);
 				origOrientation = window.orientation;
 			}
 		}, false);
-		
+
 	}
-	
+
 	// watch the iframe source so that it can be sent back to everyone else.
 	// based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
 	function receiveIframeMessage(event) {
-		
+
 		// does the origin sending the message match the current host? if not dev/null the request
 		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
 			return;
 		}
+
+		var data = {};
+		try {
+			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+		} catch(e) {}
 		
-		var data = (typeof event.data !== "string") ? event.data : JSON.parse(event.data);
-		
-		if (data.event == "patternLab.bodyclick") {
+		if (data.event !== undefined) {
 			
-			closePanels();
-			
-		} else if (data.event == "patternLab.pageLoad") {
-			
-			if (!urlHandler.skipBack) {
-				
-				if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
-					urlHandler.pushPattern(data.patternpartial, data.path);
+			if (data.event == "patternLab.bodyclick") {
+
+				closePanels();
+
+			} else if (data.event == "patternLab.pageLoad") {
+
+				if (!urlHandler.skipBack) {
+
+					if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
+						urlHandler.pushPattern(data.patternpartial, data.path);
+					}
+
+					/*
+					if (wsnConnected) {
+						var iFramePath = urlHandler.getFileName(data.patternpartial);
+						wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
+					}
+					*/
 				}
-				
-				/*
-				if (wsnConnected) {
-					var iFramePath = urlHandler.getFileName(data.patternpartial);
-					wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
+
+				// reset the defaults
+				urlHandler.skipBack = false;
+
+			} else if (data.event == "patternLab.keyPress") {
+				if (data.keyPress == 'ctrl+shift+s') {
+					goSmall();
+				} else if (data.keyPress == 'ctrl+shift+m') {
+					goMedium();
+				} else if (data.keyPress == 'ctrl+shift+l') {
+					goLarge();
+				} else if (data.keyPress == 'ctrl+shift+d') {
+					if (!discoMode) {
+						startDisco();
+					} else {
+						killDisco();
+					}
+				} else if (data.keyPress == 'ctrl+shift+h') {
+					if (!hayMode) {
+						startHay();
+					} else {
+						killHay();
+					}
+				} else if (data.keyPress == 'ctrl+shift+0') {
+					sizeiframe(320,true);
+				} else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
+					var val = mqs[(found[1]-1)];
+					var type = (val.indexOf("px") !== -1) ? "px" : "em";
+					val = val.replace(type,"");
+					var width = (type === "px") ? val*1 : val*$bodySize;
+					sizeiframe(width,true);
 				}
-				*/
+				return false;
 			}
 			
-			// reset the defaults
-			urlHandler.skipBack = false;
-			
-		} else if (data.event == "patternLab.keyPress") {
-			if (data.keyPress == 'ctrl+shift+s') {
-				goSmall();
-			} else if (data.keyPress == 'ctrl+shift+m') {
-				goMedium();
-			} else if (data.keyPress == 'ctrl+shift+l') {
-				goLarge();
-			} else if (data.keyPress == 'ctrl+shift+d') {
-				if (!discoMode) {
-					startDisco();
-				} else {
-					killDisco();
-				}
-			} else if (data.keyPress == 'ctrl+shift+h') {
-				if (!hayMode) {
-					startHay();
-				} else {
-					killHay();
-				}
-			} else if (data.keyPress == 'ctrl+shift+0') {
-				sizeiframe(320,true);
-			} else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
-				var val = mqs[(found[1]-1)];
-				var type = (val.indexOf("px") !== -1) ? "px" : "em";
-				val = val.replace(type,"");
-				var width = (type === "px") ? val*1 : val*$bodySize;
-				sizeiframe(width,true);
-			}
-			return false;
 		}
+		
 	}
 	window.addEventListener("message", receiveIframeMessage, false);
-	
+
 })(this);
 
 /*!

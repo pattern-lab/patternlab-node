@@ -163,7 +163,7 @@ var urlHandler = {
 			return;
 		} else if (state !== null) {
 			patternName = state.pattern;
-		} 
+		}
 		
 		var iFramePath = "";
 		iFramePath = this.getFileName(patternName);

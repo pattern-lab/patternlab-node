@@ -2,19 +2,34 @@
     $PATTERN LAB STYLES
 \*------------------------------------*/
 /**
- * NOTE: These styles are specific to Pattern Lab and should not be modified.
- * Edit all project styles in /source/css/
+ * NOTES:
+ * 1) These styles are specific to Pattern Lab and should not be modified.
+ * All project styles should be modified in /source/css/
  *
- * Second note: Any important declarations are to prevent brand styles from overriding style guide
+ * 2) Any !important declarations are to prevent brand styles from overriding
+ * style guide styles
  */
 
 
 /*------------------------------------*\
-     $CONTENTS
+     #TABLE OF CONTENTS
 \*------------------------------------*/
+
 /**
- * STYLE GUIDE VARIABLES------------------Declarations of Sass variables
- * GLOBAL ELEMENTS------------------------Establish global styles
+ * PATTERN LAB VARIABLES
+ * Fonts.......................
+ * Colors......................
+ * Typography..................
+ * Spacing & Padding...........
+ * Breakpoints.................
+ * Animation...................
+ * Borders.....................
+ *
+ * RESET.......................CSS reset
+ *
+ * UTILITY CLASSES.............Establish global styles
+ *
+ * GLOBAL ELEMENTS.............Establish global styles
  * -----Main
  * -----Headings
  * -----Text-related elements (p, blockquote, lists)
@@ -35,12 +50,17 @@
 
 
 /*------------------------------------*\
-    $PATTERN LAB VARIABLES
+    #PATTERN LAB VARIABLES
 \*------------------------------------*/
+/**
+ * These variables are specific to the Pattern Lab shell and exist
+ * indepenedently of any project-specific styles
+ */
+
 // Fonts
 $sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
 
-// Style Guide Interface Colors
+// Colors
 $sg-black : #000;
 $sg-white : #fff;
 $sg-gray-light : #eee;
@@ -59,13 +79,11 @@ $sg-font-size-sm : 70%;
 $sg-font-size-norm : 100%;
 $sg-font-size-large : 120%;
 
-// Defaults
+// Spacing & Padding
 $sg-space : 1em;
 $sg-doublespace : $sg-space*2;
 $sg-pad : 1em;
 $sg-pad-half : $sg-pad/2;
-
-// Dimensions
 $offset-top : 2em;
 
 // Breakpoints
@@ -76,29 +94,40 @@ $sg-bp-large : 53em;
 // Animations
 $sg-animate-quick : 0.1s;
 
-// Border
+// Borders
 $sg-border-radius : 3px;
 $sg-border-radius-med : 6px;
+
+
+/*------------------------------------*\
+    #RESET
+\*------------------------------------*/
+
+/**
+ * Apply border-box to all elements
+ *
+ * 1) This is a broadly-applied style that affects every
+ * element on the screen. This can bleed into user's styles
+ * but since it's been a best practice for years now we're
+ * going to default to this.
+ */
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 
 
 
 
 /*------------------------------------*\
-    $PATTERN LAB INTERFACE
+    #UTILITIES
 \*------------------------------------*/
 
-#patternlab-html, #patternlab-body {
-	margin: 0;
-	padding: 0;
-	background: $sg-gray-light-2;
-	-webkit-text-size-adjust: 100%;
-}
-
-.sg-nav-wrapper {
-	overflow: hidden;
-	background: $sg-gray-light-2;
-}
-
+/**
+ * Visibilly hidden but still accessible to screen readers
+ */
 .is-vishidden {
   position: absolute !important;
   overflow: hidden;
@@ -110,26 +139,36 @@ $sg-border-radius-med : 6px;
 }
 
 
-//Clearfix
-.sg-cf {
-    /**zoom: 1;*/
-
-    &:before, &:after {
-    	content: " ";
-    	display: table;
-    }
-
-    &:after {
-	    clear: both;
-	}
-}
 
 
 
 /*------------------------------------*\
-    $PATTERN LAB HEADER
+    #PATTERN LAB INTERFACE
 \*------------------------------------*/
-/* Header */
+
+/**
+ * html & body tag
+ */
+#patternlab-html, #patternlab-body {
+	margin: 0;
+	padding: 0;
+	background: $sg-gray-light-2;
+	-webkit-text-size-adjust: 100%;
+}
+
+
+
+
+
+/*------------------------------------*\
+    #HEADER
+\*------------------------------------*/
+
+/**
+ * Pattern Lab's header is fixed across the top of the viewport and
+ * contains the primary pattern navigation, viewport resizing items,
+ * and tools.
+ */
 .sg-header {
 	background: $sg-black;
 	color: $sg-white;
@@ -138,29 +177,25 @@ $sg-border-radius-med : 6px;
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 2;
+	z-index: 4;
 	width: 100%;
 
-	* {
-	  -moz-box-sizing: border-box;
-	  -webkit-box-sizing: border-box;
-	  box-sizing: border-box;
-	}
-
-	ul, ol {
+    /**
+     * All lists appearing in the header
+     */
+	ul {
 		padding: 0;
 		margin: 0;
+        list-style: none;
 	}
 
-	li {
-		list-style: none;
-	}
-
+    /**
+     * All links appearing in the header
+     */
 	a {
 		font-size: $sg-font-size-sm;
 		color: $sg-gray;
 		text-decoration: none;
-		display: block;
 		line-height: 1;
 		padding: 1em 0.7em;
 		transition: background $sg-animate-quick ease-out;
@@ -171,17 +206,20 @@ $sg-border-radius-med : 6px;
 			background: $sg-gray-dark;
 		}
 	}
-
-	ol ol ol a { //3rd level nav item
-		padding-left: 2em;
-		text-transform: none;
-    }
 }
 
 
 
-/* Navigation */
-.sg-header .sg-nav-toggle {
+/*------------------------------------*\
+    #NAVIGATION
+\*------------------------------------*/
+
+/**
+ * Nav toggle expands and collapses .sg-nav
+ * 1) On larger viewports, the toggle gets hidden and
+ * the full nav is displayed across the top.
+ */
+.sg-nav-toggle {
 	display: inline-block;
 	position: relative;
 	text-transform: uppercase;
@@ -192,6 +230,9 @@ $sg-border-radius-med : 6px;
 	}
 }
 
+/**
+ * Navigation container
+ */
 .sg-nav-container {
 	@media all and (max-width: $sg-bp-med) {
 		overflow: hidden;
@@ -204,12 +245,19 @@ $sg-border-radius-med : 6px;
 	}
 }
 
+/**
+ * Nav list
+ * 1) appears as an <ol>
+ */
 .sg-nav {
 	z-index: 1;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 
+    /**
+     * Nav <ol> list
+     */
 	> li {
 		cursor: pointer;
 
@@ -226,11 +274,32 @@ $sg-border-radius-med : 6px;
 
 		}
 	}
+
+    /**
+     * Links within the nav
+     */
+    a {
+        display: block;
+    }
 }
 
-/* Accordion */
+
+
+
+
+/*------------------------------------*\
+    #ACCORDION
+\*------------------------------------*/
+
+/**
+ * Accordions are dropdowns used for the primary nav and
+ * tools dropdowns.
+ */
 .sg-acc-handle {
 
+    /**
+     * Dropdown caret after accordion handle
+     */
 	&:after {
 		content: '▼';
 		color: $sg-tint-2;
@@ -264,55 +333,87 @@ $sg-border-radius-med : 6px;
 			transform: rotate(180deg);
 		}
 	}
-
-	&.sg-tools-toggle {
-		padding: 0.9em 0.7em 0.6em;
-
-		&:after {
-			display: none;
-			content: "";
-		}
-	}
 }
 
+/**
+ * Accordion panel
+ */
 .sg-acc-panel {
 	overflow: hidden;
 	max-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 	min-width: 10em;
 	transition: max-height $sg-animate-quick ease-out;
 
+    /**
+     * List items appearing in each accordion panel
+     */
 	li {
 		background: $sg-gray-dark;
+
+        &:last-child {
+    		border-bottom-left-radius: $sg-border-radius-med;
+    		border-bottom-right-radius: $sg-border-radius-med;
+
+    		a {
+    			border-bottom-left-radius: $sg-border-radius-med;
+    			border-bottom-right-radius: $sg-border-radius-med;
+    		}
+    	}
 	}
 
-	li:last-child {
-		border-bottom-left-radius: $sg-border-radius-med;
-		border-bottom-right-radius: $sg-border-radius-med;
+    /**
+     * Links appearing in each accordion panel
+     */
+    a {
+        display: block;
+    }
 
-		a {
-			border-bottom-left-radius: $sg-border-radius-med;
-			border-bottom-right-radius: $sg-border-radius-med;
-		}
-	}
-
+    /**
+     * Active is when accordion panel is open
+     */
 	&.active {
 		max-height: 120em;
 		overflow: auto;
 	}
 
+    /**
+     * Right align accordion dropdown
+     */
 	&.sg-right {
 		position: absolute;
 		left: auto;
 		right: 0;
 	}
-
-	&.sg-left {
-		position: absolute;
-		left: auto;
-	}
 }
 
-/* Controls (sizing, view mode) */
+/**
+ * Sub-navigation
+ * 1) Third-level links are stylistically different
+ * than first and second nav links.
+ */
+.sg-sub-nav {
+    list-style: none;
+
+    a {
+        text-transform: none;
+        padding-left: 1rem;
+    }
+}
+
+
+
+
+
+/*------------------------------------*\
+    #CONTROLS
+\*------------------------------------*/
+
+/**
+ * Controls contains viewport resizer and tools dropdown
+ */
 .sg-controls {
 	border: 0;
 	position: absolute;
@@ -321,19 +422,43 @@ $sg-border-radius-med : 6px;
 	z-index: 2;
 }
 
-.sg-control-trigger {
-	@media all and (min-width: $sg-bp-large) {
-		float: left;
-		width: 6em;
-	}
-}
-
+/**
+ * Control list
+ */
 .sg-control {
 	> li {
 		float: left;
 	}
 }
 
+
+
+
+/*------------------------------------*\
+    #ISH STYLES
+\*------------------------------------*/
+
+/**
+ * 1) ish. (http://bradfrost.com/demo/ish/) is a viewport-resizing tool
+ * that's built into Pattern Lab.
+ */
+
+/**
+ * Size Container
+ */
+.sg-size {
+	width: 135px;
+
+	@media all and (min-width: $sg-bp-med) {
+		width: auto;
+	}
+}
+
+/**
+ * Current size
+ * 1) This is the wrapper for the form that houses the current
+ * viewport size in px and em
+ */
 .sg-current-size {
 	font-size: 70%;
 	color: $sg-gray;
@@ -344,34 +469,18 @@ $sg-border-radius-med : 6px;
 	}
 }
 
-.sg-size {
-	width: 135px;
-
-	@media all and (min-width: $sg-bp-med) {
-		width: auto;
-	}
-}
-
-.sg-size-options {
-	display: none;
-
-	@media all and (min-width: $sg-bp-large) {
-		display: block;
-		float: left;
-		position: static;
-
-		> li {
-			float: left;
-		}
-	}
-}
-
+/**
+ * The <form> for the current size
+ */
 #sg-form {
 	margin: 0;
 	border: 0;
 	padding: 0;
 }
 
+/**
+ * Size input fields
+ */
 .sg-input {
 	margin: -2px 0 0 0;
 	padding: 0.1em;
@@ -403,595 +512,85 @@ $sg-border-radius-med : 6px;
 	}
 }
 
-.sg-view {
-	position: relative;
+/**
+ * Size options
+ * 1) This holds the S, M, L, Rand, Disco links
+ * 2) Depending on the config, these number of options may be
+ * larger or smaller.
+ */
+.sg-size-options {
+	display: none;
 
-	> ul {
-		position: absolute;
-		top: $offset-top;
-		left: 0;
+    a {
+        display: block;
+    }
+
+	@media all and (min-width: $sg-bp-large) {
+		display: block;
+		float: left;
+		position: static;
+
+		> li {
+			float: left;
+		}
 	}
 }
+
+
+
+
+
+/*------------------------------------*\
+    #TOOLS DROPDOWN
+\*------------------------------------*/
+
+/**
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
+
+ /**
+  * Tools dropdown button
+  */
+.sg-tools-toggle {
+    font-size: $sg-font-size-sm;
+    background: $sg-black;
+    color: $sg-gray;
+    text-decoration: none;
+    line-height: 1;
+    border: 0;
+    cursor: pointer;
+    padding: 0.9em 0.7em 0.6em;
+
+    &:after {
+        display: none;
+        content: "";
+    }
+}
+
+/**
+ * Pattern Finder
+ * 1) This is the container for pattern search, which
+ * is handled by Typeahead (see below styles)
+ */
 
 .sg-find {
 	position: relative;
 }
 
-//Pattern States (active, inprogress, complete, etc)
-
-/* basic styling */
-.sg-pattern-state:before {
-	margin-right: 4px;
-	content: "\2022";
-	display: inline-block;
-	margin-bottom: -4px;
-	font-size: 18px;
-	vertical-align: bottom;
-}
-
-/* nav styling */
-.sg-nav .sg-pattern-state:before {
-	margin-top: -4px;
-	margin-bottom: 0;
-	margin-left: -4px;
-	height: 20px;
-	display: block;
-	float: left;
-}
-
-.sg-sub-nav .sg-pattern-state:before {
-	margin-left: -11px;
-	margin-right: 4px;
-}
-
-/* call out for pattern's pattern state */
-span.sg-pattern-state {
-	color: $sg-gray-light-4;
-}
-
-span.sg-pattern-state:before {
-	margin-bottom: -3px;
-	margin-left: 4px;
-}
-
-// Pattern states
-.inprogress:before {
-	color: #FF4136 !important;
-}
-
-.inreview:before {
-	color: #FFCC00 !important;
-}
-
-.complete:before {
-	color: #2ECC40 !important;
-}
-
-
-/*------------------------------------*\
-    $PATTERN LAB VIEWPORT
-\*------------------------------------*/
-
-// Viewport
-#sg-vp-wrap {
-	text-align: center;
-	width: 100%;
-	position: fixed;
-	top: $offset-top;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 0;
-
-	&.wrap-animate {
-	    transition: left 0.3s ease-out;
-	}
-
-}
-
-#sg-viewport {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	border: 0;
-	padding: 0;
-	margin: 0;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: white;
-
-  &.hay-mode {
-	    transition: all 40s linear;
-	}
-}
-
-.no-resize {
-	#sg-cover, #sg-rightpull-container {
-		display: none;
-	}
-
-	#sg-viewport {
-		overflow: hidden !important;
-	}
-
-}
-
-#sg-cover {
-	width: 100%;
-	height: 100%;
-	display: none;
-	position: absolute;
-	z-index: 20;
-	cursor: col-resize;
-}
-
-#sg-gen-container {
-	height: 100%;
-	position: relative;
-	text-align: center;
-	margin: 0 auto;
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto;
-	overflow-x: hidden;
-
-	&.hay-mode {
-	    transition: all 40s linear;
-	}
-}
-
-#sg-rightpull-container {
-	width: 14px;
-	float: right;
-	margin: 0;
-	height: 100%;
-	cursor: col-resize;
-}
-
-#sg-rightpull {
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	background: #c2c2c2;
-    transition: background $sg-animate-quick ease-out;
-
-	&:hover {
-		background: $sg-gray;
-	}
-
-	&:active {
-		cursor: col-resize;
-		background: #666;
-	}
-}
-
-.vp-animate {
-  transition: width 0.8s ease-out;
-}
-
 
 
 
 
 /*------------------------------------*\
-    $PATTERN LAB CONTENT
+    #TYPEAHEAD
 \*------------------------------------*/
 
-/* Section Pattern */
-.sg-pattern {
-	margin-bottom: $sg-doublespace;
-	position: relative; //Prevents absolutely-positioned elements from floating to the top
-	box-sizing: border-box !important;
-	@extend .sg-cf;
-}
-
-/* Section Head */
-.sg-pattern-head {
-	margin: $sg-doublespace 0 0;
-	font-family: $sg-font;
-	font-weight: normal;
-	position: relative;
-
-	h3 {
-		font-size: 1.2rem !important;
-		font-weight: bold !important;
-		margin: 0 !important;
-	}
-
-	h3 a {
-		display: inline-block;
-		padding: $sg-pad 0 0.5rem;
-		color: $sg-gray !important;
-		text-decoration: none;
-		cursor: pointer;
-
-		&:hover {
-			color: $sg-black  !important;
-		}
-	}
-}
-
-// Toggle for pattern info
-.sg-pattern-extra-toggle {
-	font-size: 9px;
-	position: absolute;
-	bottom: -1px;
-	right: 0;
-	z-index: 1;
-	padding: 0.65em;
-	line-height: 1;
-	color: $sg-gray;
-	font-weight: normal;
-	border: 1px solid $sg-gray-light-2;
-	border-top-left-radius: $sg-border-radius-med;
-	border-top-right-radius: $sg-border-radius-med;
-	transition: background $sg-animate-quick ease-out;
-
-	span {
-		display: inline-block;
-	}
-
-	&:hover, &.active {
-		background: $sg-gray-light;
-		color: $sg-black;
-	}
-
-	&.active {
-		border-bottom-color: $sg-gray-light;
-
-		span {
-			-webkit-transform: rotate(180deg);
-			-ms-transform: rotate(180deg);
-			transform: rotate(180deg);
-		}
-	}
-}
-
-
-// Pattern Info Panel
-.sg-pattern-extra {
-	background: $sg-gray-light;
-	border-top: 1px solid $sg-gray-light-2;
-	margin-bottom: $sg-space;
-	overflow: hidden;
-	max-height: 1px;
-	transition: all $sg-animate-quick ease-out;
-
-	&.active {
-		border: 1px solid $sg-gray-light-2;
-		border-radius: $sg-border-radius-med;
-		border-top-right-radius: 0;
-		max-height: 30em;
-	}
-
-    @media all and (min-width: 42em) {
-        display: flex;
-        align-items: stretch;
-        width: 100%;
-    }
-}
-
-.sg-pattern-extra--dark {
-    background: $sg-black;
-    color: $sg-gray-light;
-    border: 0;
-
-    &.active {
-        border: 0;
-    }
-
-    .sg-tab-list a {
-        border-color: $sg-gray;
-        color: $sg-gray-light;
-
-        &:hover, &:focus {
-            color: $sg-white;
-        }
-
-        &.active {
-            color: $sg-white;
-            border-bottom-color: $sg-black;
-        }
-    }
-
-    .sg-tab-content {
-        border-color: $sg-gray;
-    }
-}
-
-// Pattern Extra Info and Code
-.sg-pattern-extra-info {
-	padding: $sg-pad;
-	box-sizing: border-box;
-	line-height: 1.3;
-	font-size: 90%;
-    flex: 1;
-}
-
-.sg-pattern-desc {
-	margin-bottom: 1em;
-	padding-bottom: 1em;
-	border-bottom: 1px solid $sg-gray-light-3;
-
-	p:last-child {
-		margin: 0;
-	}
-}
-
-.sg-pattern-extra-lineage {
-	font-size: 90%;
-	font-style: italic;
-	color: $sg-gray;
-}
-
-.sg-pattern-extra-code {
-	padding: $sg-pad;
-	box-sizing: border-box;
-	font-size: 90%;
-    flex: 1;
-    display: flex;
-
-	pre {
-		margin: 0;
-		background: $sg-gray-dark;
-		color: $sg-white;
-		padding: 0.5em;
-		border-radius: $sg-border-radius-med;
-        overflow: scroll;
-	}
-}
-
-// Tabs
-.sg-tab {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.sg-tab-list {
-	overflow: hidden;
-	position: relative;
-	bottom: -1px;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-
-	li {
-		float: left;
-		margin-right: 3px;
-	}
-
-	a {
-		display: block;
-		font-size: 90%;
-		font-weight: bold;
-		line-height: 1;
-		padding: 0.5em 1em;
-		border: 1px solid $sg-gray-light-3;
-		color: $sg-gray;
-		border-top-right-radius: $sg-border-radius-med;
-		border-top-left-radius: $sg-border-radius-med;
-		transition: color $sg-animate-quick ease-out;
-		text-decoration: none;
-
-		&:hover {
-			color: $sg-gray-dark;
-		}
-
-		&.active {
-			border-bottom-color: $sg-gray-light;
-			color: $sg-gray-dark;
-		}
-	}
-}
-
-.sg-tab-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-	border: 1px solid $sg-gray-light-3;
-	border-radius: $sg-border-radius-med;
-	border-top-left-radius: 0;
-	padding: 0.7em;
-
-    pre {
-        flex: 1;
-    }
-}
-
-.sg-tab-panel {
-	display: none;
-
-	&.active {
-		display: flex;
-        flex-direction: column;
-        flex: 1;
-	}
-}
-
-// Annotations and code view container
-.sg-view-container {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	font-family: $sg-font;
-	line-height: 1.4;
-	font-size: 90%;
-	background: $sg-black;
-	color: $sg-gray;
-	position: fixed;
-	top: auto;
-	padding: 4em 1em 1em;
-	bottom: 0;
-	left: 0;
-	z-index: 2;
-	width: 100%;
-	height: 50%;
-	overflow-y: auto;
-	overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-
-	&.anim-ready {
-	  	transition:  bottom 0.3s ease-out;
-	}
-
-    .sg-pattern-extra {
-        flex: 1;
-        max-height: none;
-        padding: 0;
-
-        &.active {
-            max-height: none;
-        }
-    }
-}
-
-//Annotation and code view close button
-.sg-view-close-btn {
-	font-size: 0.7em;
-    background: $sg-black;
-	color: $sg-gray;
-	border: 1px solid $sg-gray;
-    border-radius: $sg-border-radius-med;
-	display: inline-block;
-	padding: 0.5em;
-	text-transform: uppercase;
-	text-decoration: none;
-	cursor: pointer;
-	position: absolute;
-	right: 1em;
-	top: 1em;
-    transition: all $sg-animate-quick ease-out;
-
-	&:hover, &:focus {
-		color: $sg-gray-light;
-		border-color: $sg-gray-light;
-	}
-}
-
-//Annotated elements Styles
-.has-annotation {
-	cursor: help !important;
-	box-shadow: 0 0 10px $sg-gray;
-
-	a, input {
-		cursor: help !important;
-	}
-
-	&:hover {
-		box-shadow: 0 0 10px $sg-black;
-	}
-
-	&.active {
-		box-shadow: inset 0 0 20px $sg-gray;
-	}
-
-}
-
-.annotation-tip {
-	display: block;
-	position: absolute;
-	margin-top: -10px !important;
-	margin-left: -10px !important;
-	width: 25px !important;
-	height: 25px !important;
-	border-radius: 13px !important;
-	text-align: center !important;
-	background: #444 !important;
-	color: #fff !important;
-	font-weight: bold !important;
-	font-size: 16px !important;
-	z-index: 100;
-}
-
-#sg-comments-container {
-	max-width: 60em;
-	margin: 0 auto;
-}
-
-.sg-comment-container {
-	padding-bottom: 2em;
-	margin-bottom: $sg-space;
-	border-bottom: 1px solid $sg-tint-2;
-
-	p:last-child {
-		margin-bottom: 0;
-	}
-
-	h2 {
-		margin-bottom: 0.25em;
-	}
-}
-
-.sg-code, .sg-annotations {
-	clear: both;
-	background: $sg-gray-light-2;
-	color: $sg-black;
-	padding: $sg-pad $sg-pad-half;
-	margin: $sg-space 0;
-
-	a {
-		text-decoration: underline;
-	}
-}
-
-.sg-code {
-	pre {
-		white-space: -moz-pre-line;
-		white-space: -pre-line;
-		white-space: -o-pre-line;
-		word-wrap: break-word;
-		white-space: pre-line;
-		border: 1px solid $sg-tone;
-		padding: $sg-pad-half;
-	}
-}
-
-.sg-code-contains {
-	margin-bottom: 1rem;
-	font-size: 85%;
-	color: $sg-gray;
-
-	code {
-		padding: 0.2em;
-		background: $sg-tone-2;
-		color: $sg-gray-light-4;
-		position: relative;
-		top: -2px;
-	}
-}
-
-.sg-code-head {
-	color: $sg-gray;
-	font-size: 1em;
-}
-
-.sg-code-patternname {
-	color: #aaa;
-}
-
-#sg-code-loader {
-	display: none;
-	position: absolute;
-	left: 45%;
-	top: 20%;
-	width: 150px;
-	padding: 10px;
-	text-align: center;
-	border-radius: 10px;
-	background-color: #000;
-	z-index: 100;
-}
-
-.show-overflow {
-	overflow: visible;
-}
-
-/*------------------------------------*\
-    $TYPEAHEAD
-\*------------------------------------*/
+/**
+ * We're using Twitter Typeahead to autocomplete pattern
+ * searches. https://twitter.github.io/typeahead.js/
+ */
 
 .twitter-typeahead {
 	width: 100%;
@@ -1051,5 +650,776 @@ span.sg-pattern-state:before {
   margin: 0;
 }
 
-/******************************************************************/
-/* End Pattern Lab Interface code */
+
+
+
+
+/*------------------------------------*\
+    #PATTERN STATES
+\*------------------------------------*/
+
+/**
+ * Pattern states add color-coded dots next to patterns
+ * in the dropdown navigation.
+ */
+
+ /**
+  * Pattern State bullet
+  */
+.sg-pattern-state:before {
+    content: "\2022";
+    margin-right: 4px;
+    font-size: 18px;
+    vertical-align: bottom;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.sg-pattern-lineage .sg-pattern-state:before {
+  font-size: 12px;
+}
+
+/**
+ * Pattern States that appear in the dropdown nav
+ */
+.sg-nav .sg-pattern-state:before {
+  margin-top: -4px;
+  margin-bottom: 0;
+  margin-left: -4px;
+  height: 20px;
+  display: block;
+  float: left;
+}
+
+/**
+ * In Progress state
+ */
+.inprogress:before {
+	color: #FF4136 !important;
+}
+
+/**
+ * In Review state
+ */
+.inreview:before {
+	color: #FFCC00 !important;
+}
+
+/**
+ * Complete state
+ */
+.complete:before {
+	color: #2ECC40 !important;
+}
+
+
+
+
+
+/*------------------------------------*\
+    #PATTERN LAB VIEWPORT
+\*------------------------------------*/
+
+/**
+ * To keep user code and PL code separate, and to make
+ * resizing the viewport possible, PL contains an iframe
+ * that houses all user code.
+ */
+
+/**
+ * Viewport wrapper div
+ * 1) This wrapper div occupies all remaining viewport space after PL's header
+ */
+#sg-vp-wrap {
+	text-align: center;
+	width: 100%;
+	position: fixed;
+	top: $offset-top;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 0;
+}
+
+/**
+ * Cover
+ * 1) This is an invisible div that sits above the iframe and is
+ * used in JS for manual viewport resizing purposes.
+ */
+#sg-cover {
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: absolute;
+	z-index: 20;
+	cursor: col-resize;
+}
+
+/**
+ * Gen Cover
+ * 1) This is
+ */
+#sg-gen-container {
+	height: 100%;
+	position: relative;
+	text-align: center;
+	margin: 0 auto;
+	-webkit-overflow-scrolling: touch;
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	&.hay-mode {
+	    transition: all 40s linear;
+	}
+}
+
+/**
+ * Viewport iframe
+ * 1) this is the actual <iframe>
+ */
+#sg-viewport {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: white;
+
+    /**
+     * Hay Mode transition
+     * 1) Hay Mode (disabled by default) starts with the smallest
+     * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
+     */
+    &.hay-mode {
+	    transition: all 40s linear;
+	}
+}
+
+/**
+ * Right pull container
+ * 1) Container used for manual resizing
+ */
+#sg-rightpull-container {
+	width: 14px;
+	float: right;
+	margin: 0;
+	height: 100%;
+	cursor: col-resize;
+}
+
+/**
+ * Right pull
+ * 1) This is the handle that lets the user resize the viewport
+ */
+#sg-rightpull {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	background: #c2c2c2;
+    transition: background $sg-animate-quick ease-out;
+
+	&:hover {
+		background: $sg-gray;
+	}
+
+	&:active {
+		cursor: col-resize;
+		background: #666;
+	}
+}
+
+/**
+ * VP animate
+ * 1) This is an added class that is activated by JS to
+ * transition the width of the viewport
+ */
+.vp-animate {
+  transition: width 0.8s ease-out;
+}
+
+
+
+
+
+/*------------------------------------*\
+    #PATTERN LAB CONTENT
+\*------------------------------------*/
+
+/**
+ * Pattern
+ * 1) This is an individual pattern that appears in the "view all" template.
+ * It contains pattern title and toggle to view more information, such as
+ * description, lineage, code, etc.
+ * 2) Prevents absolutely-positioned elements from floating to the top
+ * 3) Prevents floated patterns from floating wraps
+ */
+.sg-pattern {
+	margin-bottom: $sg-doublespace;
+	position: relative; /* 2 */
+    clear: both; /* 3 */
+}
+
+
+/**
+ * Pattern Header
+ */
+.sg-pattern-head {
+    position: relative;
+    padding: 0.5rem 0 0;
+	line-height: 1.3;
+	font-size: 90%;
+    color: $sg-gray;
+
+    &:empty {
+        padding: 0;
+    }
+}
+
+
+/**
+ * Pattern Title
+ */
+.sg-pattern-title {
+    font-family: $sg-font !important;
+    font-size: 0.85rem !important;
+    line-height: 1 !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    a {
+		display: inline-block;
+		padding: $sg-pad 0 0.3rem;
+		color: $sg-gray !important;
+		text-decoration: none;
+		cursor: pointer;
+        font-weight: bold;
+
+		&:hover, &:focus {
+			color: $sg-black  !important;
+		}
+	}
+
+    /**
+     * Pattern State that appears within a pattern title
+     */
+    .sg-pattern-state {
+        font-size: 80%;
+        font-weight: normal;
+        color: $sg-gray-light-3;
+    }
+}
+
+/**
+ * Pattern Extra Toggle Button
+ * 1) This is the button that twirls down extra pattern info
+ */
+.sg-pattern-extra-toggle {
+	font-size: 9px;
+	position: absolute;
+	bottom: -1px;
+	right: 0;
+	z-index: 1;
+	padding: 0.65em;
+	line-height: 1;
+	color: $sg-gray;
+	font-weight: normal;
+	border: 1px solid $sg-gray-light-2;
+	border-top-left-radius: $sg-border-radius-med;
+	border-top-right-radius: $sg-border-radius-med;
+	transition: background $sg-animate-quick ease-out;
+
+	span {
+		display: inline-block;
+	}
+
+	&:hover, &:focus, &.active {
+		background: $sg-gray-light;
+		color: $sg-black;
+	}
+
+	&.active {
+		border-bottom-color: $sg-gray-light;
+
+		span {
+			-webkit-transform: rotate(180deg);
+			-ms-transform: rotate(180deg);
+			transform: rotate(180deg);
+		}
+	}
+}
+
+
+/**
+ * Pattern Extra
+ * 1) This is the info panel that contains extra pattern info
+ * like pattern description, lineage, code, and more
+ */
+.sg-pattern-extra {
+	background: $sg-gray-light;
+	border-top: 1px solid $sg-gray-light-2;
+	margin-bottom: $sg-space;
+	overflow: hidden;
+	max-height: 1px;
+	transition: all $sg-animate-quick ease-out;
+
+    a {
+        text-decoration: underline;
+        color: $sg-gray-dark;
+
+        &:hover, &:focus {
+            color: $sg-gray;
+        }
+    }
+
+	&.active {
+		border: 1px solid $sg-gray-light-2;
+		border-radius: $sg-border-radius-med;
+		border-top-right-radius: 0;
+		max-height: 50em;
+	}
+}
+
+/**
+ * Pattern Extra
+ * 1) This is the info panel that contains extra pattern info
+ * like pattern description, lineage, code, and more
+ */
+.sg-pattern-extra-inner {
+    @media all and (min-width: 42em) {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+        flex: 1;
+    }
+}
+
+/**
+ * Pattern Extra Info
+ * 1) This div contains pattern description, lineage, status, and other info
+ */
+.sg-pattern-extra-info {
+    padding: 0.5rem 0.5rem 0;
+	line-height: 1.4;
+	font-size: 90%;
+    color: $sg-gray;
+    overflow: auto; //allows scrolling on modals with extra long descriptions
+
+    &:empty {
+        padding: 0;
+    }
+
+    @media all and (min-width: 42em) {
+        padding: $sg-pad;
+        width: 40%;
+    }
+}
+
+/**
+ * Pattern Description
+ */
+.sg-pattern-desc {
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid $sg-gray;
+
+	p:last-child {
+		margin: 0;
+	}
+}
+
+/**
+ * Pattern Lineage info
+ */
+.sg-pattern-lineage {
+	font-size: 90%;
+	font-style: italic;
+}
+
+/**
+ * Pattern Code Container
+ */
+.sg-pattern-extra-code {
+    display: flex;
+    flex-direction: column;
+    font-size: 90%;
+    padding: 0.5rem;
+    flex: 1;
+
+    /**
+     * Code blocks
+     */
+	pre {
+        overflow: scroll !important;
+        padding: 0 0.5rem 0.5rem !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+        flex: 1;
+        border-radius: 0 $sg-border-radius-med $sg-border-radius-med $sg-border-radius-med !important;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+	}
+
+    code {
+        display: block;
+        tab-size: 2 !important; //Overrides plugin default tab-size so we can fit more code before the overflow
+    }
+
+    @media all and (min-width: 42em) {
+        width: 60%;
+        padding: $sg-pad;
+    }
+}
+
+
+
+
+
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+
+.sg-tabs {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sg-tabs-list {
+	overflow: hidden;
+	position: relative;
+	bottom: -1px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		float: left;
+		margin-right: 3px;
+	}
+
+	a {
+		display: block;
+		font-size: 90%;
+		font-weight: bold;
+		line-height: 1;
+		padding: 0.5em 1em;
+        background: $sg-gray-light;
+		border: 1px solid $sg-gray-light-3;
+        border-bottom: 0;
+		color: $sg-gray;
+		border-top-right-radius: $sg-border-radius-med;
+		border-top-left-radius: $sg-border-radius-med;
+        text-decoration: none;
+        text-transform: capitalize;
+
+		&:hover {
+			color: $sg-gray-dark;
+		}
+	}
+}
+
+/**
+ * Active Tab
+ * 1) Note: the active tab color corresponds with the Prism code block
+ * background color.
+ */
+.sg-tab-title-active {
+    a {
+        background: #f5f2f0; /* 1 */
+        color: $sg-gray-dark;
+
+        &:hover, &:focus {
+            color: $sg-gray-dark;
+        }
+    }
+}
+
+.sg-tabs-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+	border: 1px solid $sg-gray-light-3;
+    border-radius: 0 $sg-border-radius-med $sg-border-radius-med $sg-border-radius-med;
+    overflow: hidden;
+}
+
+.sg-tabs-panel {
+	display: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    min-height: 12em;
+
+    @media all and (min-width: 42em) {
+        min-height: 7em;
+    }
+}
+
+
+
+
+
+/*------------------------------------*\
+    #MODAL
+\*------------------------------------*/
+/**
+ * The modal appears when "show pattern info" is selected
+ * on the pattern detail screen.
+ */
+
+.sg-modal {
+	font-family: $sg-font;
+	line-height: 1.4;
+	font-size: 90%;
+	background: $sg-black;
+	color: $sg-gray-light-3;
+	position: fixed;
+	top: auto;
+	bottom: 0;
+	left: 0;
+	z-index: 2;
+	width: 100%;
+	height: 50%;
+    display: flex;
+    flex-direction: column;
+
+	&.anim-ready {
+	  	transition:  bottom 0.3s ease-out;
+	}
+
+    /**
+     * Pattern Breadcrumbs inside modal
+     */
+    .sg-pattern-breadcrumb {
+         font-size: $sg-font-size-sm;
+         color: $sg-gray;
+         margin-bottom: 0.5rem;
+     }
+
+    /**
+     * Pattern Header inside modal
+     */
+    .sg-pattern-head {
+        margin-bottom: 0.5rem;
+     }
+
+    /**
+     * Pattern Title inside modal
+     */
+    .sg-pattern-title {
+        font-size: 1.4rem !important;
+        color: $sg-gray-light;
+    }
+
+    /**
+     * Pattern Information inside modal
+     */
+    .sg-pattern-extra {
+        flex: 1;
+        max-height: none;
+        padding: 0;
+
+        &.active {
+            max-height: none;
+        }
+    }
+
+    /**
+     * Pattern info links inside modal
+     */
+    .sg-pattern-extra-info {
+        a {
+            color: $sg-gray-light-3;
+
+            &:hover, &:focus {
+                color: $sg-gray-light;
+            }
+        }
+    }
+
+    /**
+     * Pattern Description inside modal
+     */
+    .sg-pattern-desc {
+        border-bottom-color: $sg-gray;
+    }
+
+    /**
+     * Pattern tab panel inside modal
+     */
+    .sg-tabs-content {
+        border: 0;
+    }
+}
+
+/**
+ * Modal close button
+ * 1) Closes the modal popup
+ * 2) Reposition to jut out of modal if parent modal has class of active
+ */
+.sg-modal-close-btn {
+	font-size: 70%;
+    background: $sg-black;
+	color: $sg-gray;
+    border: 0;
+    border-radius: $sg-border-radius-med $sg-border-radius-med 0 0;
+	display: inline-block;
+	padding: 0.9em 0.7em 0.1em;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 1rem;
+    transition: all $sg-animate-quick ease-out;
+
+    /* 2 */
+    .sg-modal.active & {
+        top: -1.5rem;
+    }
+
+	&:hover, &:focus {
+        background: $sg-gray-dark;
+		color: $sg-gray-light;
+	}
+}
+
+/**
+ * Modal Content
+ */
+.sg-modal-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/**
+ * Modal Content Inner Wrapper
+ */
+.sg-modal-content-inner {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+/**
+ * Annotations
+ * 1) Annotation styles that appear in the modal
+ */
+
+ /**
+ * Annotated elements styles
+ * 1) For elements in the DOM that have an annotation, we want to
+ * provide styles that help the user understand that annotations are available.
+ * We do this with some cursor helpers and a
+ */
+ .has-annotation {
+    cursor: help !important;
+    box-shadow: 0 0 10px $sg-gray;
+
+    a, input {
+        cursor: help !important;
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px $sg-black;
+    }
+
+    &.active {
+        box-shadow: inset 0 0 20px $sg-gray;
+    }
+ }
+
+.annotation-tip {
+	display: block;
+	position: absolute;
+	margin-top: -10px !important;
+	margin-left: -10px !important;
+	width: 25px !important;
+	height: 25px !important;
+	border-radius: 13px !important;
+	text-align: center !important;
+	background: #444 !important;
+	color: #fff !important;
+	font-weight: bold !important;
+	font-size: 16px !important;
+	z-index: 100;
+}
+
+.sg-annotations {
+    margin: 1rem 0;
+    border-top: 1px solid $sg-gray;
+    padding-top: 1rem;
+}
+
+.sg-annotations-title {
+    margin: 0 0 0.5rem;
+}
+
+.sg-annotations-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    counter-reset: the-count;
+
+    > li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+        border-radius: $sg-border-radius-med;
+        transition: background $sg-animate-quick ease;
+
+        &:before {
+	        content: counter(the-count);
+	        counter-increment: the-count;
+            font-size: 90%;
+            display: block;
+            width: 16px;
+        	height: 16px;
+        	border-radius: 8px;
+            padding: 2px;
+        	text-align: center;
+        	background: #444;
+        	color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        &.active {
+            background: rgba(255,255,255,0.15);
+        }
+    }
+}
+
+#sg-comments-container {
+	max-width: 60em;
+	margin: 0 auto;
+}
+
+.sg-comment-container {
+	padding-bottom: 2em;
+	margin-bottom: $sg-space;
+	border-bottom: 1px solid $sg-tint-2;
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+
+	h2 {
+		margin-bottom: 0.25em;
+	}
+}

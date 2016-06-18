@@ -1,0 +1,17 @@
+<div id="sg-annotation-close" class="sg-view-close">
+  <a href="#" id="sg-annotation-close-btn" class="sg-view-close-btn">Close</a>
+  <div id="sg-comments-container">
+    {{# comments }}
+      <div id="annotation-{{ number }}" class="sg-comment-container">
+        <h2>{{ number }}. {{ title }} <span id="annotation-state-{{ number }}" style="font-size: 0.8em; color: #666;">{{^ state }}hidden{{/ state }}</span></h2>
+        <div>{{{ comment }}}</div>
+      </div>
+    {{/ comments}}
+    {{^ comments }}
+      <div class="sg-comment-container">
+        <h2>No Annotations</h2>
+        <div>There are no annotations for this pattern.</div>
+      </div>
+    {{/ comments }}
+  </div>
+</div>

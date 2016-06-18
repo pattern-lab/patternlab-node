@@ -23,20 +23,14 @@
 		"wiki":           "http://patternlab.io/docs/",
 		"source":         "https://github.com/pattern-lab/styleguidekit-assets-default/releases"
 	},
-	"require": {
-		"pattern-lab/core": "dev-dev"
-	},
 	"extra": {
 		"patternlab": {
 			"dist": {
 				"publicDir": [
-					{ "bower_components/*": "styleguide/bower_components/*" },
-					{ "css/patternlab/*": "styleguide/css/*" },
-					{ "html/index.html": "index.html" },
-					{ "js/*": "styleguide/js/*" }
+					{ "*": "*" }
 				],
 				"sourceDir": [
-					{ "css/custom/*": "styleguide/css/*" }
+					{ "styleguide/css/custom/*": "styleguide/css/*" }
 				]
 			},
 			"config": {

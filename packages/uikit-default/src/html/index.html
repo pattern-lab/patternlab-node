@@ -17,7 +17,7 @@
 
 	<!-- load the pattern lab css -->
 	<link rel="stylesheet" href="styleguide/css/styleguide.min.css" media="all" />
-	<link rel="stylesheet" href="styleguide/css/styleguide-specific.min.css" media="all" />
+	<link rel="stylesheet" href="styleguide/css/prism-typeahead.min.css" media="all" />
 
 	<!-- not sure why jquery is loaded here... -->
 	<script src="styleguide/bower_components/jquery.min.js"></script>
@@ -47,205 +47,45 @@
 	</div>
 	<!--end iFrame-->
 
+	<!-- modal window -->
+	<div id="sg-modal-container" class="sg-modal anim-ready" style="bottom: -2000px">
+
+        <!-- modal close btn -->
+        <button id="sg-modal-close-btn" class="sg-modal-close-btn" title="Hide pattern info">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12">
+              <title>Close</title>
+              <path fill="#808080" d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"></path>
+            </svg>
+        </button><!--end .sg-modal-close-btn-->
+
+		<div id="sg-modal-content" class="sg-modal-content"></div><!--end .sg-modal-content-->
+
+	</div><!--end .sg-modal-->
+	<!-- end modal window -->
+
+
 	<!-- mustache templates -->
 	<script type="text/mustache" id="pl-pattern-nav-template">
-		{{# patternTypes }}
-			<li class="sg-nav-{{ patternTypeLC }}"><a class="sg-acc-handle">{{ patternTypeUC }}</a><ol class="sg-acc-panel">
-			{{# patternTypeItems }}
-				<li class="sg-nav-{{ patternSubtypeLC }}"><a class="sg-acc-handle">{{ patternSubtypeUC }}</a><ol class="sg-acc-panel sg-sub-nav">
-				{{# patternSubtypeItems }}
-					<li><a href="patterns/{{ patternPath }}" class="sg-pop  {{# patternState }}sg-pattern-state {{ . }}{{/ patternState }}" data-patternpartial="{{ patternPartial }}">{{ patternName }}</a></li>
-				{{/ patternSubtypeItems }}
-				</ol></li>
-			{{/ patternTypeItems }}
-			{{# patternItems }}
-				<li><a href="patterns/{{ patternPath }}" class="sg-pop {{# patternState }}sg-pattern-state {{ . }}{{/ patternState }}" data-patternpartial="{{ patternPartial }}">{{ patternName }}</a></li>
-			{{/ patternItems }}
-			</ol></li>
-		{{/ patternTypes }}
-		<li><a href="styleguide/html/styleguide.html" class="sg-pop" data-patternpartial="all">All</a></li>
+		@@include('./partials/pattern-nav.html')
 	</script>
 
 	<script type="text/mustache" id="pl-ish-controls-template">
-		<div class="sg-control-content">
-			<ul class="sg-control">
-				<li class="sg-size">
-					<div class="sg-current-size">
-						<form id="sg-form">
-							Size <input type="text" class="sg-input sg-size-px" value="---">px /
-							<input type="text" class="sg-input sg-size-em" value="---">em
-						</form><!--end #sg-form-->
-					</div><!--end #sg-current-size-->
-					<ul class="sg-size-options">
-						{{^ ishControlsHide.s }}<li><a href="#" id="sg-size-s">S</a></li>{{/ ishControlsHide.s }}
-						{{^ ishControlsHide.m }}<li><a href="#" id="sg-size-m">M</a></li>{{/ ishControlsHide.m }}
-						{{^ ishControlsHide.l }}<li><a href="#" id="sg-size-l">L</a></li>{{/ ishControlsHide.l }}
-						{{^ ishControlsHide.full }}<li><a href="#" id="sg-size-full">Full</a></li>{{/ ishControlsHide.full }}
-						{{^ ishControlsHide.random }}<li><a href="#" id="sg-size-random">Rand</a></li>{{/ ishControlsHide.random }}
-						{{^ ishControlsHide.disco }}<li><a href="#" class="mode-link" id="sg-size-disco">Disco</a></li>{{/ ishControlsHide.disco }}
-						{{^ ishControlsHide.hay }}<li><a href="#" class="mode-link" id="sg-size-hay">Hay!</a></li>{{/ ishControlsHide.hay }}
-					</ul>
-				</li>
-				{{^ ishControlsHide.tools-all }}
-				<li class="sg-tools">
-					<a href="#" class="sg-acc-handle sg-tools-toggle" id="sg-tools-toggle" title="Tools">
-						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
-<title>Pattern Lab Tools</title>
-<path fill="#808080" d="M12.767 8.343c-0.735-1.272-0.293-2.903 0.986-3.643l-1.376-2.383c-0.393 0.23-0.85 0.363-1.338 0.363-1.47 0-2.662-1.2-2.662-2.68h-2.752c0.004 0.457-0.11 0.92-0.355 1.343-0.735 1.272-2.367 1.705-3.649 0.967l-1.376 2.383c0.396 0.225 0.739 0.555 0.983 0.977 0.733 1.27 0.294 2.897-0.98 3.64l1.376 2.383c0.392-0.228 0.847-0.359 1.332-0.359 1.466 0 2.654 1.192 2.662 2.665h2.752c-0.001-0.452 0.113-0.91 0.355-1.329 0.733-1.27 2.362-1.703 3.642-0.971l1.376-2.383c-0.393-0.225-0.734-0.554-0.977-0.974zM7 9.835c-1.566 0-2.835-1.269-2.835-2.835s1.269-2.835 2.835-2.835c1.566 0 2.835 1.269 2.835 2.835s-1.269 2.835-2.835 2.835z"></path>
-</svg>
-					</a>
-					<ul class="sg-acc-panel sg-right sg-checklist">
-						<li><a href="#" id="sg-t-pattern-info">Show Pattern Info</a></li>
-						{{^ ishControlsHide.views-annotations }}
-						<li><a href="#" id="sg-t-annotations">Annotations</a></li>
-						{{/ ishControlsHide.views-annotations }}
-						{{^ ishControlsHide.views-code }}
-						<li><a href="#" id="sg-t-code">Code</a></li>
-						{{/ ishControlsHide.views-code }}
-						{{^ ishControlsHide.views-new }}
-						<li><a href="#" target="_blank" id="sg-raw">Open in new window</a></li>
-						{{/ ishControlsHide.views-new }}
-						{{^ ishControlsHide.tools-docs }}
-						<li><a href="http://pattern-lab.info/docs/" target="_blank">Pattern Lab Docs</a></li>
-						{{/ ishControlsHide.tools-docs }}
-						{{^ ishControlsHide.find }}
-						<li id="sg-find"><input class="typeahead" id="typeahead" type="text" placeholder="Find pattern" /></li>
-						{{/ ishControlsHide.find }}
-					</ul>
-				</li>
-				{{/ ishControlsHide.tools-all }}
-			</ul>
-		</div>
+		@@include('./partials/ish-controls.html')
 	</script>
 
 	<!-- the template for the code view slider -->
-	<script type="text/mustache" id="pl-code-template">
-		<button id="sg-code-close-btn" class="sg-view-close-btn">Close</button>
+	<script type="text/mustache" id="pl-panel-template-base">
+		@@include('./partials/base-template.html')
+	</script>
 
-		<div id="sg-code-loader">
-			<div class="spinner"></div>
-			Loading pattern...
-		</div>
-		{{# patternStateExists }}
-		<div id="sg-code-patternstate">
-			<p>
-				The state of the <span class="sg-code-patternname">{{ patternName }}</span> pattern is: <span id="sg-code-patternstate-fill"></span>
-			</p>
-		</div>
-		{{/ patternStateExists }}
-		{{# lineageExists }}
-		<div id="sg-code-lineage">
-			<p>
-				The <span class="sg-code-patternname">{{ patternName }}</span> pattern contains the following patterns:
-				<span id="sg-code-lineage-fill">
-				{{# lineage }}
-					<a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ . }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>
-				{{/ lineage }}
-				</span>
-			</p>
-		</div>
-		{{/ lineageExists }}
-		{{# lineageRExists }}
-		<div id="sg-code-lineager">
-			<p>
-				The <span class="sg-code-patternname">{{ patternName }}</span> pattern is included in the following patterns:
-				<span id="sg-code-lineager-fill">
-				{{# lineageR }}
-					<a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ . }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>
-				{{/ lineageR }}
-				</span>
-			</p>
-		</div>
-		{{/ lineageRExists }}
-		<!-- @todo Add `patternDescExists` conditional -->
-		<div id="sg-code-desc">
-			{{{ patternDesc }}}
-		</div>
-		{{# patternDescAdditions }}
-			{{{ . }}}
-		{{/ patternDescAdditions }}
-		<div id="sg-code-extra-output"></div>
-
-			<div class="sg-pattern-extra-code">
-				<div class="sg-tab">
-					<ul class="sg-tab-list" id="sg-code-tabs">
-					    <li><a href="#" id="sg-code-title-html" class="active">HTML</a></li>
-					    <li><a href="#"  id="sg-code-title-{{ patternExtension }}">{{ patternExtension }}</a></li>
-					</ul>
-					<div class="sg-tab-content">
-						<div class="sg-tab-panel active" id="atoms-colors-tab-panel-1">
-							<div class="sg-pattern-extra-html">
-								<pre><code id="sg-code-fill"></code></pre>
-							</div>
-						</div><!--end .sg-tab-panel-->
-					</div><!--end .sg-tab-content-->
-				</div><!--end .sg-tab-->
-			</div><!--end .sg-pattern-extra-code-->
+	<!-- the tempalte for code-related tabs in the code view slider -->
+	<script type="text/mustache" id="pl-panel-template-code">
+		@@include('./partials/panel-code-template.html')
 	</script>
 
 	<!-- the template for the annotations viewer slider -->
 	<script type="text/mustache" id="pl-annotations-template">
-			<button id="sg-annotation-close-btn" class="sg-view-close-btn">Close</button>
-
-			<div class="sg-pattern-extra sg-pattern-extra--dark active">
-					<div class="sg-pattern-extra-info">
-						<div class="sg-pattern-desc">
-							<h2>Pattern Name</h2>
-							{{# comments }}
-								<div id="annotation-{{ number }}" class="sg-comment-container">
-									<h2>{{ number }}. {{ title }} <span id="annotation-state-{{ number }}">{{^ state }}hidden{{/ state }}</span></h2>
-									<div>{{{ comment }}}</div>
-								</div>
-							{{/ comments}}
-
-							{{^ comments }}
-								<div class="sg-comment-container">
-									<div>There are no annotations for this pattern.</div>
-								</div>
-							{{/ comments }}
-						</div>
-						<div class="sg-pattern-extra-annotations">
-							<div id="sg-pattern-extra-annotations-container">
-							</div>
-						</div><!--end .sg-pattern-extra-annotations-->
-						<div class="sg-pattern-extra-lineage">
-							<div class="sg-pattern-extra-lineage">
-								The <span class="sg-pattern-extra-lineage-name">atoms-colors</span> pattern is included in the following pattern(s):
-								<ul>
-								</ul>
-							</div>
-						</div><!--end .sg-pattern-extra-lineage-->
-					</div><!--end .sg-pattern-extra-info-->
-					<div class="sg-pattern-extra-code">
-						<div class="sg-tab">
-							<ul class="sg-tab-list">
-							    <li><a href="#atoms-colors-tab-panel-1" class="active">HTML</a></li>
-							    <li><a href="#atoms-colors-tab-panel-2">Mustache</a></li>
-							    <li><a href="#atoms-colors-tab-panel-3">CSS</a></li>
-							    <li><a href="#atoms-colors-tab-panel-4">JS</a></li>
-							</ul>
-							<div class="sg-tab-content">
-								<div class="sg-tab-panel sg-pattern-extra-html active" id="atoms-colors-tab-panel-1">
-									<pre>
-										<code id="sg-pattern-extra-html-container" class="language-markup">
-										</code>
-									</pre>
-								</div><!--end .sg-tab-panel-->
-								<div class="sg-tab-panel sg-pattern-extra-engine" id="atoms-colors-tab-panel-2">
-									<pre>												
-										<code id="sg-pattern-extra-engine-container" class="language-markup">
-										</code>
-									</pre>
-								</div><!--end .sg-tab-panel-->
-							</div><!--end .sg-tab-content-->
-						</div><!--end .sg-tab-->
-					</div><!--end .sg-pattern-extra-code-->
-				</div>
-
-			<div id="sg-comments-container">
-
-			</div>
-		</div>
+		@@include('./partials/annotations-template.html')
 	</script>
 
 	<!-- load the data generated by pattern lab -->
@@ -268,5 +108,6 @@
 
 	<!-- load the pattern lab viewer js -->
 	<script src="styleguide/js/patternlab-viewer.min.js"></script>
+
 </body>
 </html>
