@@ -6,6 +6,9 @@
     border-right: 0.063em solid $colorSilver;
     border-bottom: 0.063em solid $colorSilver;
     height: 5.375em;
+    &:first-child {
+      margin-right: -1px;
+    }
     &:last-child {
       border-right: none;
     }
@@ -15,7 +18,6 @@
       display: inherit;
       color: $colorSilver;
       text-align: center;
-      height: 5.313em;
       &:hover {
         background-color: $colorGallery;
       }

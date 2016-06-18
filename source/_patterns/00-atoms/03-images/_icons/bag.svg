@@ -1,12 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="24px" height="21px" viewBox="0 0 24 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.8.2 (29753) - http://www.bohemiancoding.com/sketch -->
-    <title>Combined Shape</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="bag" fill="#000000">
-            <path d="M15.6670237,4 L21.5540384,4 L23.1578947,20.8421053 L-1.59872116e-14,20.8421053 L1.60385638,4 L7.98646193,4 C8.69781673,1.92908076 10.1240312,0.5 11.8267428,0.5 C13.5294545,0.5 14.9556689,1.92908076 15.6670237,4 Z M14.6011933,4 L9.0522924,4 C9.65832866,2.48710679 10.6964096,1.5 11.8267428,1.5 C12.9570761,1.5 13.995157,2.48710679 14.6011933,4 Z" id="Combined-Shape"></path>
-        </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30"  xml:space="preserve">
+    <g id="group">
+        <path id="rectangle" stroke="none" fill="rgb(0, 0, 0)" d="M 1,27 L 29,27 26.57,5.95 3.43,5.95 1,27 Z M 1,27" />
+        <path id="bezier" stroke="none" fill="rgb(0, 0, 0)" d="M 10.44,6.44 C 10.52,5.87 10.74,5.07 11.21,4.25 12.01,2.84 13.26,1.95 14.99,1.93 16.74,1.91 18.01,2.81 18.81,4.26 19.26,5.08 19.48,5.88 19.56,6.45 L 17.75,6.7 C 17.74,6.62 17.71,6.46 17.65,6.24 17.55,5.87 17.4,5.5 17.22,5.17 16.72,4.27 16.03,3.77 15.01,3.79 13.99,3.8 13.29,4.29 12.79,5.18 12.6,5.51 12.46,5.88 12.35,6.24 12.29,6.46 12.26,6.62 12.25,6.7 L 10.44,6.44 Z M 10.44,6.44" />
     </g>
 </svg>
