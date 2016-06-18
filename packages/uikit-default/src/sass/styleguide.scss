@@ -675,8 +675,22 @@ $sg-border-radius-med : 6px;
     text-decoration: none;
 }
 
+/**
+ * when part of a lineage muck with the size
+ */
 .sg-pattern-lineage .sg-pattern-state:before {
   font-size: 12px;
+}
+
+/**
+ * when part of a view all view muck with the size
+ */
+#sg-patterns .sg-pattern-state:before {
+  font-size: 14px;
+}
+
+#sg-patterns .sg-pattern-state {
+  color: #666;
 }
 
 /**
