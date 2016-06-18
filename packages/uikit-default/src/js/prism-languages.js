@@ -23,7 +23,7 @@ var PrismLanguages = {
     return 'markup';
     
   },
-
+  
   add: function(language) {
     
     // see if the language already exists, overwrite if it does

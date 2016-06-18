@@ -150,10 +150,10 @@ $sg-border-radius-med : 6px;
  * html & body tag
  */
 #patternlab-html, #patternlab-body {
-	margin: 0;
-	padding: 0;
-	background: $sg-gray-light-2;
-	-webkit-text-size-adjust: 100%;
+  margin: 0;
+  padding: 0;
+  background: $sg-gray-light-2;
+  -webkit-text-size-adjust: 100%;
 }
 
 
@@ -170,42 +170,42 @@ $sg-border-radius-med : 6px;
  * and tools.
  */
 .sg-header {
-	background: $sg-black;
-	color: $sg-white;
-	font-family: $sg-font;
-	text-transform: uppercase;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 4;
-	width: 100%;
+  background: $sg-black;
+  color: $sg-white;
+  font-family: $sg-font;
+  text-transform: uppercase;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
 
     /**
      * All lists appearing in the header
      */
-	ul {
-		padding: 0;
-		margin: 0;
+  ul {
+    padding: 0;
+    margin: 0;
         list-style: none;
-	}
+  }
 
     /**
      * All links appearing in the header
      */
-	a {
-		font-size: $sg-font-size-sm;
-		color: $sg-gray;
-		text-decoration: none;
-		line-height: 1;
-		padding: 1em 0.7em;
-		transition: background $sg-animate-quick ease-out;
-		transition: color $sg-animate-quick ease-out;
+  a {
+    font-size: $sg-font-size-sm;
+    color: $sg-gray;
+    text-decoration: none;
+    line-height: 1;
+    padding: 1em 0.7em;
+    transition: background $sg-animate-quick ease-out;
+    transition: color $sg-animate-quick ease-out;
 
-		&:hover, &:focus, &.active {
-			color: $sg-white;
-			background: $sg-gray-dark;
-		}
-	}
+    &:hover, &:focus, &.active {
+      color: $sg-white;
+      background: $sg-gray-dark;
+    }
+  }
 }
 
 
@@ -220,29 +220,29 @@ $sg-border-radius-med : 6px;
  * the full nav is displayed across the top.
  */
 .sg-nav-toggle {
-	display: inline-block;
-	position: relative;
-	text-transform: uppercase;
-	z-index: 2;
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 2;
 
-	@media all and (min-width: $sg-bp-med) {
-		display: none;
-	}
+  @media all and (min-width: $sg-bp-med) {
+    display: none;
+  }
 }
 
 /**
  * Navigation container
  */
 .sg-nav-container {
-	@media all and (max-width: $sg-bp-med) {
-		overflow: hidden;
-		max-height: 0;
-		transition: max-height $sg-animate-quick ease-out;
+  @media all and (max-width: $sg-bp-med) {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height $sg-animate-quick ease-out;
 
-		&.active {
-			max-height: 50em;
-		}
-	}
+    &.active {
+      max-height: 50em;
+    }
+  }
 }
 
 /**
@@ -250,30 +250,30 @@ $sg-border-radius-med : 6px;
  * 1) appears as an <ol>
  */
 .sg-nav {
-	z-index: 1;
-	margin: 0;
-	padding: 0;
-	list-style: none;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
     /**
      * Nav <ol> list
      */
-	> li {
-		cursor: pointer;
+  > li {
+    cursor: pointer;
 
-		@media all and (min-width: $sg-bp-med) {
-			border-bottom: 0;
-			float: left;
-			position: relative;
+    @media all and (min-width: $sg-bp-med) {
+      border-bottom: 0;
+      float: left;
+      position: relative;
 
-			> ol {
-				position: absolute;
-				top: $offset-top;
-				left: 0;
-			}
+      > ol {
+        position: absolute;
+        top: $offset-top;
+        left: 0;
+      }
 
-		}
-	}
+    }
+  }
 
     /**
      * Links within the nav
@@ -300,69 +300,69 @@ $sg-border-radius-med : 6px;
     /**
      * Dropdown caret after accordion handle
      */
-	&:after {
-		content: '▼';
-		color: $sg-tint-2;
-		display: inline-block;
-		font-size: 7px;
-		position: relative;
-		top: -1px;
-		right: -2px;
-		transition: all $sg-animate-quick ease-out;
+  &:after {
+    content: '▼';
+    color: $sg-tint-2;
+    display: inline-block;
+    font-size: 7px;
+    position: relative;
+    top: -1px;
+    right: -2px;
+    transition: all $sg-animate-quick ease-out;
 
-		@media all and (min-width: $sg-bp-med) {
-			float: none;
-		}
-	}
+    @media all and (min-width: $sg-bp-med) {
+      float: none;
+    }
+  }
 
-	&:hover, &:focus {
-		&:after {
-			color: $sg-gray;
-		}
-	}
+  &:hover, &:focus {
+    &:after {
+      color: $sg-gray;
+    }
+  }
 
-	&.active {
-		color: $sg-white;
-		background: $sg-gray-dark;
+  &.active {
+    color: $sg-white;
+    background: $sg-gray-dark;
 
-		&:after {
-			top: -2px;
-			color: $sg-gray;
-			-webkit-transform: rotate(180deg);
-			-ms-transform: rotate(180deg);
-			transform: rotate(180deg);
-		}
-	}
+    &:after {
+      top: -2px;
+      color: $sg-gray;
+      -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      transform: rotate(180deg);
+    }
+  }
 }
 
 /**
  * Accordion panel
  */
 .sg-acc-panel {
-	overflow: hidden;
-	max-height: 0;
+  overflow: hidden;
+  max-height: 0;
     margin: 0;
     padding: 0;
     list-style: none;
-	min-width: 10em;
-	transition: max-height $sg-animate-quick ease-out;
+  min-width: 10em;
+  transition: max-height $sg-animate-quick ease-out;
 
     /**
      * List items appearing in each accordion panel
      */
-	li {
-		background: $sg-gray-dark;
+  li {
+    background: $sg-gray-dark;
 
         &:last-child {
-    		border-bottom-left-radius: $sg-border-radius-med;
-    		border-bottom-right-radius: $sg-border-radius-med;
+        border-bottom-left-radius: $sg-border-radius-med;
+        border-bottom-right-radius: $sg-border-radius-med;
 
-    		a {
-    			border-bottom-left-radius: $sg-border-radius-med;
-    			border-bottom-right-radius: $sg-border-radius-med;
-    		}
-    	}
-	}
+        a {
+          border-bottom-left-radius: $sg-border-radius-med;
+          border-bottom-right-radius: $sg-border-radius-med;
+        }
+      }
+  }
 
     /**
      * Links appearing in each accordion panel
@@ -374,19 +374,19 @@ $sg-border-radius-med : 6px;
     /**
      * Active is when accordion panel is open
      */
-	&.active {
-		max-height: 120em;
-		overflow: auto;
-	}
+  &.active {
+    max-height: 120em;
+    overflow: auto;
+  }
 
     /**
      * Right align accordion dropdown
      */
-	&.sg-right {
-		position: absolute;
-		left: auto;
-		right: 0;
-	}
+  &.sg-right {
+    position: absolute;
+    left: auto;
+    right: 0;
+  }
 }
 
 /**
@@ -415,20 +415,20 @@ $sg-border-radius-med : 6px;
  * Controls contains viewport resizer and tools dropdown
  */
 .sg-controls {
-	border: 0;
-	position: absolute;
-	top: 0;
-	right: 0;
-	z-index: 2;
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
 }
 
 /**
  * Control list
  */
 .sg-control {
-	> li {
-		float: left;
-	}
+  > li {
+    float: left;
+  }
 }
 
 
@@ -447,11 +447,11 @@ $sg-border-radius-med : 6px;
  * Size Container
  */
 .sg-size {
-	width: 135px;
+  width: 135px;
 
-	@media all and (min-width: $sg-bp-med) {
-		width: auto;
-	}
+  @media all and (min-width: $sg-bp-med) {
+    width: auto;
+  }
 }
 
 /**
@@ -460,56 +460,56 @@ $sg-border-radius-med : 6px;
  * viewport size in px and em
  */
 .sg-current-size {
-	font-size: 70%;
-	color: $sg-gray;
-	padding: 0.85em 0.7em;
+  font-size: 70%;
+  color: $sg-gray;
+  padding: 0.85em 0.7em;
 
-	@media all and (min-width: $sg-bp-large) {
-		float: left;
-	}
+  @media all and (min-width: $sg-bp-large) {
+    float: left;
+  }
 }
 
 /**
  * The <form> for the current size
  */
 #sg-form {
-	margin: 0;
-	border: 0;
-	padding: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
 }
 
 /**
  * Size input fields
  */
 .sg-input {
-	margin: -2px 0 0 0;
-	padding: 0.1em;
-	border: 0;
-	border-radius: $sg-border-radius;
-	background: $sg-black;
-	color: $sg-gray;
-	width: 25px;
-	text-align: right;
-	transition: all $sg-animate-quick ease-out;
+  margin: -2px 0 0 0;
+  padding: 0.1em;
+  border: 0;
+  border-radius: $sg-border-radius;
+  background: $sg-black;
+  color: $sg-gray;
+  width: 25px;
+  text-align: right;
+  transition: all $sg-animate-quick ease-out;
 
     &:hover {
-	    color: $sg-white;
-	    background: $sg-gray-dark;
+      color: $sg-white;
+      background: $sg-gray-dark;
     }
 
-	&:active, &:focus {
-		outline: 0;
-		background: $sg-gray;
-		color: $sg-white;
-	}
+  &:active, &:focus {
+    outline: 0;
+    background: $sg-gray;
+    color: $sg-white;
+  }
 
-	@media all and (min-width: $sg-bp-med) {
-		width: 35px;
+  @media all and (min-width: $sg-bp-med) {
+    width: 35px;
 
-		&.sg-size-px {
-			width: 30px;
-		}
-	}
+    &.sg-size-px {
+      width: 30px;
+    }
+  }
 }
 
 /**
@@ -519,21 +519,21 @@ $sg-border-radius-med : 6px;
  * larger or smaller.
  */
 .sg-size-options {
-	display: none;
+  display: none;
 
     a {
         display: block;
     }
 
-	@media all and (min-width: $sg-bp-large) {
-		display: block;
-		float: left;
-		position: static;
+  @media all and (min-width: $sg-bp-large) {
+    display: block;
+    float: left;
+    position: static;
 
-		> li {
-			float: left;
-		}
-	}
+    > li {
+      float: left;
+    }
+  }
 }
 
 
@@ -576,7 +576,7 @@ $sg-border-radius-med : 6px;
  */
 
 .sg-find {
-	position: relative;
+  position: relative;
 }
 
 
@@ -593,52 +593,52 @@ $sg-border-radius-med : 6px;
  */
 
 .twitter-typeahead {
-	width: 100%;
+  width: 100%;
 }
 
 .typeahead {
-	border: 0;
-	background: $sg-gray-dark;
-	color: $sg-gray;
-	width: 100%;
-	right: 0;
-	padding: 0.8em;
-	text-transform: lowercase;
+  border: 0;
+  background: $sg-gray-dark;
+  color: $sg-gray;
+  width: 100%;
+  right: 0;
+  padding: 0.8em;
+  text-transform: lowercase;
 
-	&:focus {
-		background: $sg-gray;
-		color: $sg-white;
-	}
+  &:focus {
+    background: $sg-gray;
+    color: $sg-white;
+  }
 }
 
 .tt-input {
-	background: $sg-gray;
-	color: $sg-white;
-	text-transform: uppercase;
+  background: $sg-gray;
+  color: $sg-white;
+  text-transform: uppercase;
 
-	&:focus {
-		text-transform: lowercase;
-	}
+  &:focus {
+    text-transform: lowercase;
+  }
 }
 
 .tt-hint {
-	text-transform: lowercase;
-	border-bottom-right-radius: $sg-border-radius-med;
-	border-bottom-left-radius: $sg-border-radius-med;
+  text-transform: lowercase;
+  border-bottom-right-radius: $sg-border-radius-med;
+  border-bottom-left-radius: $sg-border-radius-med;
 }
 
 .tt-dropdown-menu {
-	text-transform: lowercase;
-	background-color: $sg-gray;
-	width: 100%;
-	border-bottom-right-radius: $sg-border-radius-med;
-	border-bottom-left-radius: $sg-border-radius-med;
+  text-transform: lowercase;
+  background-color: $sg-gray;
+  width: 100%;
+  border-bottom-right-radius: $sg-border-radius-med;
+  border-bottom-left-radius: $sg-border-radius-med;
 }
 
 .tt-suggestion {
-	color: $sg-gray-light;
-	font-size: 75%;
-	padding: 0.8em;
+  color: $sg-gray-light;
+  font-size: 75%;
+  padding: 0.8em;
 }
 
 .tt-suggestion.tt-cursor {
@@ -695,21 +695,21 @@ $sg-border-radius-med : 6px;
  * In Progress state
  */
 .inprogress:before {
-	color: #FF4136 !important;
+  color: #FF4136 !important;
 }
 
 /**
  * In Review state
  */
 .inreview:before {
-	color: #FFCC00 !important;
+  color: #FFCC00 !important;
 }
 
 /**
  * Complete state
  */
 .complete:before {
-	color: #2ECC40 !important;
+  color: #2ECC40 !important;
 }
 
 
@@ -731,14 +731,14 @@ $sg-border-radius-med : 6px;
  * 1) This wrapper div occupies all remaining viewport space after PL's header
  */
 #sg-vp-wrap {
-	text-align: center;
-	width: 100%;
-	position: fixed;
-	top: $offset-top;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 0;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: $offset-top;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
 }
 
 /**
@@ -747,12 +747,12 @@ $sg-border-radius-med : 6px;
  * used in JS for manual viewport resizing purposes.
  */
 #sg-cover {
-	width: 100%;
-	height: 100%;
-	display: none;
-	position: absolute;
-	z-index: 20;
-	cursor: col-resize;
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: absolute;
+  z-index: 20;
+  cursor: col-resize;
 }
 
 /**
@@ -760,17 +760,17 @@ $sg-border-radius-med : 6px;
  * 1) This is
  */
 #sg-gen-container {
-	height: 100%;
-	position: relative;
-	text-align: center;
-	margin: 0 auto;
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto;
-	overflow-x: hidden;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
 
-	&.hay-mode {
-	    transition: all 40s linear;
-	}
+  &.hay-mode {
+      transition: all 40s linear;
+  }
 }
 
 /**
@@ -778,17 +778,17 @@ $sg-border-radius-med : 6px;
  * 1) this is the actual <iframe>
  */
 #sg-viewport {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	border: 0;
-	padding: 0;
-	margin: 0;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: white;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
 
     /**
      * Hay Mode transition
@@ -796,8 +796,8 @@ $sg-border-radius-med : 6px;
      * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
      */
     &.hay-mode {
-	    transition: all 40s linear;
-	}
+      transition: all 40s linear;
+  }
 }
 
 /**
@@ -805,11 +805,11 @@ $sg-border-radius-med : 6px;
  * 1) Container used for manual resizing
  */
 #sg-rightpull-container {
-	width: 14px;
-	float: right;
-	margin: 0;
-	height: 100%;
-	cursor: col-resize;
+  width: 14px;
+  float: right;
+  margin: 0;
+  height: 100%;
+  cursor: col-resize;
 }
 
 /**
@@ -817,20 +817,20 @@ $sg-border-radius-med : 6px;
  * 1) This is the handle that lets the user resize the viewport
  */
 #sg-rightpull {
-	margin: 0;
-	width: 100%;
-	height: 100%;
-	background: #c2c2c2;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #c2c2c2;
     transition: background $sg-animate-quick ease-out;
 
-	&:hover {
-		background: $sg-gray;
-	}
+  &:hover {
+    background: $sg-gray;
+  }
 
-	&:active {
-		cursor: col-resize;
-		background: #666;
-	}
+  &:active {
+    cursor: col-resize;
+    background: #666;
+  }
 }
 
 /**
@@ -859,8 +859,8 @@ $sg-border-radius-med : 6px;
  * 3) Prevents floated patterns from floating wraps
  */
 .sg-pattern {
-	margin-bottom: $sg-doublespace;
-	position: relative; /* 2 */
+  margin-bottom: $sg-doublespace;
+  position: relative; /* 2 */
     clear: both; /* 3 */
 }
 
@@ -871,8 +871,8 @@ $sg-border-radius-med : 6px;
 .sg-pattern-head {
     position: relative;
     padding: 0.5rem 0 0;
-	line-height: 1.3;
-	font-size: 90%;
+  line-height: 1.3;
+  font-size: 90%;
     color: $sg-gray;
 
     &:empty {
@@ -893,17 +893,17 @@ $sg-border-radius-med : 6px;
     padding: 0 !important;
 
     a {
-		display: inline-block;
-		padding: $sg-pad 0 0.3rem;
-		color: $sg-gray !important;
-		text-decoration: none;
-		cursor: pointer;
+    display: inline-block;
+    padding: $sg-pad 0 0.3rem;
+    color: $sg-gray !important;
+    text-decoration: none;
+    cursor: pointer;
         font-weight: bold;
 
-		&:hover, &:focus {
-			color: $sg-black  !important;
-		}
-	}
+    &:hover, &:focus {
+      color: $sg-black  !important;
+    }
+  }
 
     /**
      * Pattern State that appears within a pattern title
@@ -920,38 +920,38 @@ $sg-border-radius-med : 6px;
  * 1) This is the button that twirls down extra pattern info
  */
 .sg-pattern-extra-toggle {
-	font-size: 9px;
-	position: absolute;
-	bottom: -1px;
-	right: 0;
-	z-index: 1;
-	padding: 0.65em;
-	line-height: 1;
-	color: $sg-gray;
-	font-weight: normal;
-	border: 1px solid $sg-gray-light-2;
-	border-top-left-radius: $sg-border-radius-med;
-	border-top-right-radius: $sg-border-radius-med;
-	transition: background $sg-animate-quick ease-out;
+  font-size: 9px;
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  z-index: 1;
+  padding: 0.65em;
+  line-height: 1;
+  color: $sg-gray;
+  font-weight: normal;
+  border: 1px solid $sg-gray-light-2;
+  border-top-left-radius: $sg-border-radius-med;
+  border-top-right-radius: $sg-border-radius-med;
+  transition: background $sg-animate-quick ease-out;
 
-	span {
-		display: inline-block;
-	}
+  span {
+    display: inline-block;
+  }
 
-	&:hover, &:focus, &.active {
-		background: $sg-gray-light;
-		color: $sg-black;
-	}
+  &:hover, &:focus, &.active {
+    background: $sg-gray-light;
+    color: $sg-black;
+  }
 
-	&.active {
-		border-bottom-color: $sg-gray-light;
+  &.active {
+    border-bottom-color: $sg-gray-light;
 
-		span {
-			-webkit-transform: rotate(180deg);
-			-ms-transform: rotate(180deg);
-			transform: rotate(180deg);
-		}
-	}
+    span {
+      -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      transform: rotate(180deg);
+    }
+  }
 }
 
 
@@ -961,12 +961,12 @@ $sg-border-radius-med : 6px;
  * like pattern description, lineage, code, and more
  */
 .sg-pattern-extra {
-	background: $sg-gray-light;
-	border-top: 1px solid $sg-gray-light-2;
-	margin-bottom: $sg-space;
-	overflow: hidden;
-	max-height: 1px;
-	transition: all $sg-animate-quick ease-out;
+  background: $sg-gray-light;
+  border-top: 1px solid $sg-gray-light-2;
+  margin-bottom: $sg-space;
+  overflow: hidden;
+  max-height: 1px;
+  transition: all $sg-animate-quick ease-out;
 
     a {
         text-decoration: underline;
@@ -977,12 +977,12 @@ $sg-border-radius-med : 6px;
         }
     }
 
-	&.active {
-		border: 1px solid $sg-gray-light-2;
-		border-radius: $sg-border-radius-med;
-		border-top-right-radius: 0;
-		max-height: 50em;
-	}
+  &.active {
+    border: 1px solid $sg-gray-light-2;
+    border-radius: $sg-border-radius-med;
+    border-top-right-radius: 0;
+    max-height: 50em;
+  }
 }
 
 /**
@@ -1005,8 +1005,8 @@ $sg-border-radius-med : 6px;
  */
 .sg-pattern-extra-info {
     padding: 0.5rem 0.5rem 0;
-	line-height: 1.4;
-	font-size: 90%;
+  line-height: 1.4;
+  font-size: 90%;
     color: $sg-gray;
     overflow: auto; //allows scrolling on modals with extra long descriptions
 
@@ -1024,21 +1024,21 @@ $sg-border-radius-med : 6px;
  * Pattern Description
  */
 .sg-pattern-desc {
-	margin-bottom: 1em;
-	padding-bottom: 1em;
-	border-bottom: 1px solid $sg-gray;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid $sg-gray;
 
-	p:last-child {
-		margin: 0;
-	}
+  p:last-child {
+    margin: 0;
+  }
 }
 
 /**
  * Pattern Lineage info
  */
 .sg-pattern-lineage {
-	font-size: 90%;
-	font-style: italic;
+  font-size: 90%;
+  font-style: italic;
 }
 
 /**
@@ -1054,7 +1054,7 @@ $sg-border-radius-med : 6px;
     /**
      * Code blocks
      */
-	pre {
+  pre {
         overflow: scroll !important;
         padding: 0 0.5rem 0.5rem !important;
         margin: 0 !important;
@@ -1066,7 +1066,7 @@ $sg-border-radius-med : 6px;
         bottom: 0;
         left: 0;
         right: 0;
-	}
+  }
 
     code {
         display: block;
@@ -1095,37 +1095,37 @@ $sg-border-radius-med : 6px;
 }
 
 .sg-tabs-list {
-	overflow: hidden;
-	position: relative;
-	bottom: -1px;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+  overflow: hidden;
+  position: relative;
+  bottom: -1px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
-	li {
-		float: left;
-		margin-right: 3px;
-	}
+  li {
+    float: left;
+    margin-right: 3px;
+  }
 
-	a {
-		display: block;
-		font-size: 90%;
-		font-weight: bold;
-		line-height: 1;
-		padding: 0.5em 1em;
+  a {
+    display: block;
+    font-size: 90%;
+    font-weight: bold;
+    line-height: 1;
+    padding: 0.5em 1em;
         background: $sg-gray-light;
-		border: 1px solid $sg-gray-light-3;
+    border: 1px solid $sg-gray-light-3;
         border-bottom: 0;
-		color: $sg-gray;
-		border-top-right-radius: $sg-border-radius-med;
-		border-top-left-radius: $sg-border-radius-med;
+    color: $sg-gray;
+    border-top-right-radius: $sg-border-radius-med;
+    border-top-left-radius: $sg-border-radius-med;
         text-decoration: none;
         text-transform: capitalize;
 
-		&:hover {
-			color: $sg-gray-dark;
-		}
-	}
+    &:hover {
+      color: $sg-gray-dark;
+    }
+  }
 }
 
 /**
@@ -1148,13 +1148,13 @@ $sg-border-radius-med : 6px;
     flex: 1;
     display: flex;
     flex-direction: column;
-	border: 1px solid $sg-gray-light-3;
+  border: 1px solid $sg-gray-light-3;
     border-radius: 0 $sg-border-radius-med $sg-border-radius-med $sg-border-radius-med;
     overflow: hidden;
 }
 
 .sg-tabs-panel {
-	display: none;
+  display: none;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -1179,24 +1179,24 @@ $sg-border-radius-med : 6px;
  */
 
 .sg-modal {
-	font-family: $sg-font;
-	line-height: 1.4;
-	font-size: 90%;
-	background: $sg-black;
-	color: $sg-gray-light-3;
-	position: fixed;
-	top: auto;
-	bottom: 0;
-	left: 0;
-	z-index: 2;
-	width: 100%;
-	height: 50%;
+  font-family: $sg-font;
+  line-height: 1.4;
+  font-size: 90%;
+  background: $sg-black;
+  color: $sg-gray-light-3;
+  position: fixed;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 50%;
     display: flex;
     flex-direction: column;
 
-	&.anim-ready {
-	  	transition:  bottom 0.3s ease-out;
-	}
+  &.anim-ready {
+      transition:  bottom 0.3s ease-out;
+  }
 
     /**
      * Pattern Breadcrumbs inside modal
@@ -1269,19 +1269,19 @@ $sg-border-radius-med : 6px;
  * 2) Reposition to jut out of modal if parent modal has class of active
  */
 .sg-modal-close-btn {
-	font-size: 70%;
+  font-size: 70%;
     background: $sg-black;
-	color: $sg-gray;
+  color: $sg-gray;
     border: 0;
     border-radius: $sg-border-radius-med $sg-border-radius-med 0 0;
-	display: inline-block;
-	padding: 0.9em 0.7em 0.1em;
-	text-transform: uppercase;
-	text-decoration: none;
-	cursor: pointer;
-	position: absolute;
-	right: 0;
-	top: 1rem;
+  display: inline-block;
+  padding: 0.9em 0.7em 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 1rem;
     transition: all $sg-animate-quick ease-out;
 
     /* 2 */
@@ -1289,10 +1289,10 @@ $sg-border-radius-med : 6px;
         top: -1.5rem;
     }
 
-	&:hover, &:focus {
+  &:hover, &:focus {
         background: $sg-gray-dark;
-		color: $sg-gray-light;
-	}
+    color: $sg-gray-light;
+  }
 }
 
 /**
@@ -1303,7 +1303,7 @@ $sg-border-radius-med : 6px;
     flex: 1;
     flex-direction: column;
     overflow-y: auto;
-	overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 /**
@@ -1344,19 +1344,19 @@ $sg-border-radius-med : 6px;
  }
 
 .annotation-tip {
-	display: block;
-	position: absolute;
-	margin-top: -10px !important;
-	margin-left: -10px !important;
-	width: 25px !important;
-	height: 25px !important;
-	border-radius: 13px !important;
-	text-align: center !important;
-	background: #444 !important;
-	color: #fff !important;
-	font-weight: bold !important;
-	font-size: 16px !important;
-	z-index: 100;
+  display: block;
+  position: absolute;
+  margin-top: -10px !important;
+  margin-left: -10px !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 13px !important;
+  text-align: center !important;
+  background: #444 !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  z-index: 100;
 }
 
 .sg-annotations {
@@ -1383,17 +1383,17 @@ $sg-border-radius-med : 6px;
         transition: background $sg-animate-quick ease;
 
         &:before {
-	        content: counter(the-count);
-	        counter-increment: the-count;
+          content: counter(the-count);
+          counter-increment: the-count;
             font-size: 90%;
             display: block;
             width: 16px;
-        	height: 16px;
-        	border-radius: 8px;
+          height: 16px;
+          border-radius: 8px;
             padding: 2px;
-        	text-align: center;
-        	background: #444;
-        	color: #fff;
+          text-align: center;
+          background: #444;
+          color: #fff;
             position: absolute;
             top: 0;
             left: 0;
@@ -1406,20 +1406,20 @@ $sg-border-radius-med : 6px;
 }
 
 #sg-comments-container {
-	max-width: 60em;
-	margin: 0 auto;
+  max-width: 60em;
+  margin: 0 auto;
 }
 
 .sg-comment-container {
-	padding-bottom: 2em;
-	margin-bottom: $sg-space;
-	border-bottom: 1px solid $sg-tint-2;
+  padding-bottom: 2em;
+  margin-bottom: $sg-space;
+  border-bottom: 1px solid $sg-tint-2;
 
-	p:last-child {
-		margin-bottom: 0;
-	}
+  p:last-child {
+    margin-bottom: 0;
+  }
 
-	h2 {
-		margin-bottom: 0.25em;
-	}
+  h2 {
+    margin-bottom: 0.25em;
+  }
 }

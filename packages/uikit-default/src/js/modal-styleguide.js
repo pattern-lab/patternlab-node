@@ -11,7 +11,7 @@
 */
 
 var modalStyleguide = {
-
+  
   // set up some defaults
   active:       [ ],
   targetOrigin: (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
@@ -46,7 +46,7 @@ var modalStyleguide = {
     }
     
   },
-
+  
   /**
   * open the modal window
   */
@@ -78,10 +78,6 @@ var modalStyleguide = {
     // show the modal
     document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('active');
     document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('active');
-    
-  },
-  
-  clean: function(el, tag) {
     
   },
   
