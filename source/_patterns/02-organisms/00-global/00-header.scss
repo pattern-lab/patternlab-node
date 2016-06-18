@@ -2,7 +2,7 @@
   position:relative;
   width:100%;
   margin:0;
-  font-size:1rem;
+  font-size: $fontSizeNormal;
   background:$colorWhite;
   z-index:9;
   box-sizing:border-box;
@@ -43,7 +43,7 @@
     height : 2.5em;
     line-height:0.9em;
     margin-bottom:-0.9em;
-
+    position: relative;
     @media only screen and (min-width: $breakpointDesktop) {
       height : 4.4em;
       line-height:1.25em;
