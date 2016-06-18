@@ -19,6 +19,8 @@ if (self != top) {
   var parts = path.split("?");
   var options = { "event": "patternLab.pageLoad", "path": parts[0] };
   
+  patternData = document.getElementById('sg-pattern-data-footer').innerHTML;
+  patternData = JSON.parse(patternData);
   options.patternpartial = (patternData.patternPartial !== undefined) ? patternData.patternPartial : "all";
   if (patternData.lineage !== "") {
     options.lineage = patternData.lineage;
