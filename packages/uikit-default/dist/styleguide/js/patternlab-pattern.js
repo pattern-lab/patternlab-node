@@ -10,89 +10,91 @@
 
 // alert the iframe parent that the pattern has loaded assuming this view was loaded in an iframe
 if (self != top) {
-	
-	// handle the options that could be sent to the parent window
-	//   - all get path
-	//   - pattern & view all get a pattern partial, styleguide gets all
-	//   - pattern shares lineage
-	var path = window.location.toString();
-	var parts = path.split("?");
-	var options = { "event": "patternLab.pageLoad", "path": parts[0] };
-	
-	options.patternpartial = (patternData.patternPartial !== undefined) ? patternData.patternPartial : "all";
-	if (patternData.lineage !== "") {
-		options.lineage = patternData.lineage;
-	}
-	
-	var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-	parent.postMessage(options, targetOrigin);
-	
-	// find all links and add an onclick handler for replacing the iframe address so the history works
-	var aTags = document.getElementsByTagName('a');
-	for (var i = 0; i < aTags.length; i++) {
-		aTags[i].onclick = function(e) {
-			var href   = this.getAttribute("href");
-			var target = this.getAttribute("target");
-			if ((target !== undefined) && ((target == "_parent") || (target == "_blank"))) {
-				// just do normal stuff
-			} else if (href && href !== "#") {
-				e.preventDefault();
-				window.location.replace(href);
-			} else {
-				e.preventDefault();
-				return false;
-			}
-		};
-	}
-	
+  
+  // handle the options that could be sent to the parent window
+  //   - all get path
+  //   - pattern & view all get a pattern partial, styleguide gets all
+  //   - pattern shares lineage
+  var path = window.location.toString();
+  var parts = path.split("?");
+  var options = { "event": "patternLab.pageLoad", "path": parts[0] };
+  
+  patternData = document.getElementById('sg-pattern-data-footer').innerHTML;
+  patternData = JSON.parse(patternData);
+  options.patternpartial = (patternData.patternPartial !== undefined) ? patternData.patternPartial : "all";
+  if (patternData.lineage !== "") {
+    options.lineage = patternData.lineage;
+  }
+  
+  var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+  parent.postMessage(options, targetOrigin);
+  
+  // find all links and add an onclick handler for replacing the iframe address so the history works
+  var aTags = document.getElementsByTagName('a');
+  for (var i = 0; i < aTags.length; i++) {
+    aTags[i].onclick = function(e) {
+      var href   = this.getAttribute("href");
+      var target = this.getAttribute("target");
+      if ((target !== undefined) && ((target == "_parent") || (target == "_blank"))) {
+        // just do normal stuff
+      } else if (href && href !== "#") {
+        e.preventDefault();
+        window.location.replace(href);
+      } else {
+        e.preventDefault();
+        return false;
+      }
+    };
+  }
+  
 }
 
 // if there are clicks on the iframe make sure the nav in the iframe parent closes
 var body = document.getElementsByTagName('body');
 body[0].onclick = function() {
-	var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-	var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
-	parent.postMessage(obj,targetOrigin);
+  var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+  var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
+  parent.postMessage(obj,targetOrigin);
 };
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
-	
-	// does the origin sending the message match the current host? if not dev/null the request
-	if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
-		return;
-	}
-	
-	var path;
-	var data = {};
-	try {
-		data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-	} catch(e) {}
-	
-	if ((data.event !== undefined) && (data.event == "patternLab.updatePath")) {
-		
-		if (patternData.patternPartial !== undefined) {
-			
-			// handle patterns and the view all page
-			var re = /(patterns|snapshots)\/(.*)$/;
-			path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
-			window.location.replace(path);
-			
-		} else {
-			
-			// handle the style guide
-			path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("styleguide\/html\/styleguide.html","")+data.path+'?'+Date.now();
-			window.location.replace(path);
-			
-		}
-		
-	} else if ((data.event !== undefined) && (data.event == "patternLab.reload")) {
-		
-		// reload the location if there was a message to do so
-		window.location.reload();
-		
-	}
-	
+  
+  // does the origin sending the message match the current host? if not dev/null the request
+  if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
+    return;
+  }
+  
+  var path;
+  var data = {};
+  try {
+    data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+  } catch(e) {}
+  
+  if ((data.event !== undefined) && (data.event == "patternLab.updatePath")) {
+    
+    if (patternData.patternPartial !== undefined) {
+      
+      // handle patterns and the view all page
+      var re = /(patterns|snapshots)\/(.*)$/;
+      path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
+      window.location.replace(path);
+      
+    } else {
+      
+      // handle the style guide
+      path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("styleguide\/html\/styleguide.html","")+data.path+'?'+Date.now();
+      window.location.replace(path);
+      
+    }
+    
+  } else if ((data.event !== undefined) && (data.event == "patternLab.reload")) {
+    
+    // reload the location if there was a message to do so
+    window.location.reload();
+    
+  }
+  
 }
 window.addEventListener("message", receiveIframeMessage, false);
 
@@ -109,187 +111,187 @@ window.addEventListener("message", receiveIframeMessage, false);
  */
 
 var urlHandler = {
-	
-	// set-up some default vars
-	skipBack: false,
-	targetOrigin: (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host,
-	
-	/**
-	* get the real file name for a given pattern name
-	* @param  {String}       the shorthand partials syntax for a given pattern
-	*
-	* @return {String}       the real file path
-	*/
-	getFileName: function (name) {
-		
-		var baseDir     = "patterns";
-		var fileName    = "";
-		
-		if (name === undefined) {
-			return fileName;
-		}
-		
-		if (name == "all") {
-			return "styleguide/html/styleguide.html";
-		} else if (name == "snapshots") {
-			return "snapshots/index.html";
-		}
-		
-		var paths = (name.indexOf("viewall-") != -1) ? viewAllPaths : patternPaths;
-		var nameClean = name.replace("viewall-","");
-		
-		// look at this as a regular pattern
-		var bits        = this.getPatternInfo(nameClean, paths);
-		var patternType = bits[0];
-		var pattern     = bits[1];
-		
-		if ((paths[patternType] !== undefined) && (paths[patternType][pattern] !== undefined)) {
-			
-			fileName = paths[patternType][pattern];
-			
-		} else if (paths[patternType] !== undefined) {
-			
-			for (var patternMatchKey in paths[patternType]) {
-				if (patternMatchKey.indexOf(pattern) != -1) {
-					fileName = paths[patternType][patternMatchKey];
-					break;
-				}
-			}
-		
-		}
-		
-		if (fileName === "") {
-			return fileName;
-		}
-		
-		var regex = /\//g;
-		if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
-			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/index.html";
-		} else if (fileName !== "") {
-			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-")+".html";
-		}
-		
-		return fileName;
-	},
-	
-	/**
-	* break up a pattern into its parts, pattern type and pattern name
-	* @param  {String}       the shorthand partials syntax for a given pattern
-	* @param  {Object}       the paths to be compared
-	*
-	* @return {Array}        the pattern type and pattern name
-	*/
-	getPatternInfo: function (name, paths) {
-		
-		var patternBits = name.split("-");
-		
-		var i = 1;
-		var c = patternBits.length;
-		
-		var patternType = patternBits[0];
-		while ((paths[patternType] === undefined) && (i < c)) {
-			patternType += "-"+patternBits[i];
-			i++;
-		}
-		
-		var pattern = name.slice(patternType.length+1,name.length);
-		
-		return [patternType, pattern];
-		
-	},
-	
-	/**
-	* search the request vars for a particular item
-	*
-	* @return {Object}       a search of the window.location.search vars
-	*/
-	getRequestVars: function() {
-		
-		// the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-		var oGetVars = new (function (sSearch) {
-			if (sSearch.length > 1) {
-				for (var aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split("&"); nKeyId < aCouples.length; nKeyId++) {
-					aItKey = aCouples[nKeyId].split("=");
-					this[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : "";
-				}
-			}
-		})(window.location.search);
-		
-		return oGetVars;
-		
-	},
-	
-	/**
-	* push a pattern onto the current history based on a click
-	* @param  {String}       the shorthand partials syntax for a given pattern
-	* @param  {String}       the path given by the loaded iframe
-	*/
-	pushPattern: function (pattern, givenPath) {
-		var data         = { "pattern": pattern };
-		var fileName     = urlHandler.getFileName(pattern);
-		var path         = window.location.pathname;
-		path             = (window.location.protocol === "file") ? path.replace("/public/index.html","public/") : path.replace(/\/index\.html/,"/");
-		var expectedPath = window.location.protocol+"//"+window.location.host+path+fileName;
-		if (givenPath != expectedPath) {
-			// make sure to update the iframe because there was a click
-			var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": fileName });
-			document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
-		} else {
-			// add to the history
-			var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
-			if (history.pushState !== undefined) {
-				history.pushState(data, null, addressReplacement);
-			}
-			document.getElementById("title").innerHTML = "Pattern Lab - "+pattern;
-			if (document.getElementById("sg-raw") !== undefined) {
-				document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(pattern));
-			}
-		}
-	},
-	
-	/**
-	* based on a click forward or backward modify the url and iframe source
-	* @param  {Object}      event info like state and properties set in pushState()
-	*/
-	popPattern: function (e) {
-		
-		var patternName;
-		var state = e.state;
-		
-		if (state === null) {
-			this.skipBack = false;
-			return;
-		} else if (state !== null) {
-			patternName = state.pattern;
-		}
-		
-		var iFramePath = "";
-		iFramePath = this.getFileName(patternName);
-		if (iFramePath === "") {
-			iFramePath = "styleguide/html/styleguide.html";
-		}
-		
-		var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": iFramePath });
-		document.getElementById("sg-viewport").contentWindow.postMessage( obj, urlHandler.targetOrigin);
-		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
-		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
-		
-		/*
-		if (wsnConnected !== undefined) {
-			wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );
-		}
-		*/
-		
-	}
-	
+  
+  // set-up some default vars
+  skipBack: false,
+  targetOrigin: (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host,
+  
+  /**
+  * get the real file name for a given pattern name
+  * @param  {String}       the shorthand partials syntax for a given pattern
+  *
+  * @return {String}       the real file path
+  */
+  getFileName: function (name) {
+    
+    var baseDir     = "patterns";
+    var fileName    = "";
+    
+    if (name === undefined) {
+      return fileName;
+    }
+    
+    if (name == "all") {
+      return "styleguide/html/styleguide.html";
+    } else if (name == "snapshots") {
+      return "snapshots/index.html";
+    }
+    
+    var paths = (name.indexOf("viewall-") != -1) ? viewAllPaths : patternPaths;
+    var nameClean = name.replace("viewall-","");
+    
+    // look at this as a regular pattern
+    var bits        = this.getPatternInfo(nameClean, paths);
+    var patternType = bits[0];
+    var pattern     = bits[1];
+    
+    if ((paths[patternType] !== undefined) && (paths[patternType][pattern] !== undefined)) {
+      
+      fileName = paths[patternType][pattern];
+      
+    } else if (paths[patternType] !== undefined) {
+      
+      for (var patternMatchKey in paths[patternType]) {
+        if (patternMatchKey.indexOf(pattern) != -1) {
+          fileName = paths[patternType][patternMatchKey];
+          break;
+        }
+      }
+    
+    }
+    
+    if (fileName === "") {
+      return fileName;
+    }
+    
+    var regex = /\//g;
+    if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
+      fileName = baseDir+"/"+fileName.replace(regex,"-")+"/index.html";
+    } else if (fileName !== "") {
+      fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-")+".html";
+    }
+    
+    return fileName;
+  },
+  
+  /**
+  * break up a pattern into its parts, pattern type and pattern name
+  * @param  {String}       the shorthand partials syntax for a given pattern
+  * @param  {Object}       the paths to be compared
+  *
+  * @return {Array}        the pattern type and pattern name
+  */
+  getPatternInfo: function (name, paths) {
+    
+    var patternBits = name.split("-");
+    
+    var i = 1;
+    var c = patternBits.length;
+    
+    var patternType = patternBits[0];
+    while ((paths[patternType] === undefined) && (i < c)) {
+      patternType += "-"+patternBits[i];
+      i++;
+    }
+    
+    var pattern = name.slice(patternType.length+1,name.length);
+    
+    return [patternType, pattern];
+    
+  },
+  
+  /**
+  * search the request vars for a particular item
+  *
+  * @return {Object}       a search of the window.location.search vars
+  */
+  getRequestVars: function() {
+    
+    // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
+    var oGetVars = new (function (sSearch) {
+      if (sSearch.length > 1) {
+        for (var aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split("&"); nKeyId < aCouples.length; nKeyId++) {
+          aItKey = aCouples[nKeyId].split("=");
+          this[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : "";
+        }
+      }
+    })(window.location.search);
+    
+    return oGetVars;
+    
+  },
+  
+  /**
+  * push a pattern onto the current history based on a click
+  * @param  {String}       the shorthand partials syntax for a given pattern
+  * @param  {String}       the path given by the loaded iframe
+  */
+  pushPattern: function (pattern, givenPath) {
+    var data         = { "pattern": pattern };
+    var fileName     = urlHandler.getFileName(pattern);
+    var path         = window.location.pathname;
+    path             = (window.location.protocol === "file") ? path.replace("/public/index.html","public/") : path.replace(/\/index\.html/,"/");
+    var expectedPath = window.location.protocol+"//"+window.location.host+path+fileName;
+    if (givenPath != expectedPath) {
+      // make sure to update the iframe because there was a click
+      var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": fileName });
+      document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+    } else {
+      // add to the history
+      var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
+      if (history.pushState !== undefined) {
+        history.pushState(data, null, addressReplacement);
+      }
+      document.getElementById("title").innerHTML = "Pattern Lab - "+pattern;
+      if (document.getElementById("sg-raw") !== undefined) {
+        document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(pattern));
+      }
+    }
+  },
+  
+  /**
+  * based on a click forward or backward modify the url and iframe source
+  * @param  {Object}      event info like state and properties set in pushState()
+  */
+  popPattern: function (e) {
+    
+    var patternName;
+    var state = e.state;
+    
+    if (state === null) {
+      this.skipBack = false;
+      return;
+    } else if (state !== null) {
+      patternName = state.pattern;
+    }
+    
+    var iFramePath = "";
+    iFramePath = this.getFileName(patternName);
+    if (iFramePath === "") {
+      iFramePath = "styleguide/html/styleguide.html";
+    }
+    
+    var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": iFramePath });
+    document.getElementById("sg-viewport").contentWindow.postMessage( obj, urlHandler.targetOrigin);
+    document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
+    document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
+    
+    /*
+    if (wsnConnected !== undefined) {
+      wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );
+    }
+    */
+    
+  }
+  
 };
 
 /**
 * handle the onpopstate event
 */
 window.onpopstate = function (event) {
-	urlHandler.skipBack = true;
-	urlHandler.popPattern(event);
+  urlHandler.skipBack = true;
+  urlHandler.popPattern(event);
 };
 
 /*!
@@ -304,9 +306,14 @@ window.onpopstate = function (event) {
  */
 
 var panelsUtil = {
-
+  
+  /**
+  * Add click events to the template that was rendered
+  * @param  {String}      the rendered template for the modal
+  * @param  {String}      the pattern partial for the modal
+  */
   addClickEvents: function(templateRendered, patternPartial) {
-
+    
     var els = templateRendered.querySelectorAll('#sg-'+patternPartial+'-tabs li');
     for (var i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
@@ -316,42 +323,47 @@ var panelsUtil = {
         panelsUtil.show(patternPartial, panelID);
       };
     }
-
+    
     return templateRendered;
-
+    
   },
-
+  
+  /**
+  * Show a specific modal
+  * @param  {String}      the pattern partial for the modal
+  * @param  {String}      the ID of the panel to be shown
+  */
   show: function(patternPartial, panelID) {
-
+    
     var els;
-
+    
     // turn off all of the active tabs
     els = document.querySelectorAll('#sg-'+patternPartial+'-tabs li');
     for (i = 0; i < els.length; ++i) {
       els[i].classList.remove('sg-tab-title-active');
     }
-
+    
     // hide all of the panels
     els = document.querySelectorAll('#sg-'+patternPartial+'-panels div.sg-tabs-panel');
     for (i = 0; i < els.length; ++i) {
       els[i].style.display = 'none';
     }
-
+    
     // add active tab class
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('sg-tab-title-active');
-
+    
     // show the panel
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
-
+    
     /*
     if (codeViewer.copyOnInit) {
       codeViewer.selectCode();
       codeViewer.copyOnInit = false;
     }
     */
-
+    
   }
-
+  
 };
 
 /*!
@@ -367,7 +379,7 @@ var panelsUtil = {
 */
 
 var modalStyleguide = {
-
+  
   // set up some defaults
   active:       [ ],
   targetOrigin: (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
@@ -402,7 +414,7 @@ var modalStyleguide = {
     }
     
   },
-
+  
   /**
   * open the modal window
   */
@@ -434,10 +446,6 @@ var modalStyleguide = {
     // show the modal
     document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('active');
     document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('active');
-    
-  },
-  
-  clean: function(el, tag) {
     
   },
   

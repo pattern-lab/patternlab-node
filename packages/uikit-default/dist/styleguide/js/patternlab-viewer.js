@@ -9,65 +9,65 @@
  */
 (function ($, document, undefined) {
 
-	var pluses = /\+/g;
-	
-	function raw(s) {
-		return s;
-	}
-	
-	function decoded(s) {
-		return decodeURIComponent(s.replace(pluses, ' '));
-	}
-	
-	var config = $.cookie = function (key, value, options) {
-		
-		// write
-		if (value !== undefined) {
-			options = $.extend({}, config.defaults, options);
-			
-			if (value === null) {
-				options.expires = -1;
-			}
-			
-			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
-				t.setDate(t.getDate() + days);
-			}
-			
-			value = config.json ? JSON.stringify(value) : String(value);
-			
-			return (document.cookie = [
-				encodeURIComponent(key), '=', config.raw ? value : encodeURIComponent(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
-			].join(''));
-		}
-		
-		// read
-		var decode = config.raw ? raw : decoded;
-		var cookies = document.cookie.split('; ');
-		for (var i = 0, l = cookies.length; i < l; i++) {
-			var parts = cookies[i].split('=');
-			if (decode(parts.shift()) === key) {
-				var cookie = decode(parts.join('='));
-				return config.json ? JSON.parse(cookie) : cookie;
-			}
-		}
-		
-		return null;
-	};
-	
-	config.defaults = {};
-	
-	$.removeCookie = function (key, options) {
-		if ($.cookie(key) !== null) {
-			$.cookie(key, null, options);
-			return true;
-		}
-		return false;
-	};
+  var pluses = /\+/g;
+  
+  function raw(s) {
+    return s;
+  }
+  
+  function decoded(s) {
+    return decodeURIComponent(s.replace(pluses, ' '));
+  }
+  
+  var config = $.cookie = function (key, value, options) {
+    
+    // write
+    if (value !== undefined) {
+      options = $.extend({}, config.defaults, options);
+      
+      if (value === null) {
+        options.expires = -1;
+      }
+      
+      if (typeof options.expires === 'number') {
+        var days = options.expires, t = options.expires = new Date();
+        t.setDate(t.getDate() + days);
+      }
+      
+      value = config.json ? JSON.stringify(value) : String(value);
+      
+      return (document.cookie = [
+        encodeURIComponent(key), '=', config.raw ? value : encodeURIComponent(value),
+        options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+        options.path    ? '; path=' + options.path : '',
+        options.domain  ? '; domain=' + options.domain : '',
+        options.secure  ? '; secure' : ''
+      ].join(''));
+    }
+    
+    // read
+    var decode = config.raw ? raw : decoded;
+    var cookies = document.cookie.split('; ');
+    for (var i = 0, l = cookies.length; i < l; i++) {
+      var parts = cookies[i].split('=');
+      if (decode(parts.shift()) === key) {
+        var cookie = decode(parts.join('='));
+        return config.json ? JSON.parse(cookie) : cookie;
+      }
+    }
+    
+    return null;
+  };
+  
+  config.defaults = {};
+  
+  $.removeCookie = function (key, options) {
+    if ($.cookie(key) !== null) {
+      $.cookie(key, null, options);
+      return true;
+    }
+    return false;
+  };
 
 })(jQuery, document);
 
@@ -79,80 +79,80 @@
  */
 
 var DataSaver = {
-	
-	// the name of the cookie to store the data in
-	cookieName: "patternlab",
-	
-	/**
-	* Add a given value to the cookie
-	* @param  {String}       the name of the key
-	* @param  {String}       the value
-	*/
-	addValue: function (name,val) {
-		var cookieVal = $.cookie(this.cookieName);
-		cookieVal = ((cookieVal === null) || (cookieVal === "")) ? name+"~"+val : cookieVal+"|"+name+"~"+val;
-		$.cookie(this.cookieName,cookieVal);
-	},
-	
-	/**
-	* Update a value found in the cookie. If the key doesn't exist add the value
-	* @param  {String}       the name of the key
-	* @param  {String}       the value
-	*/
-	updateValue: function (name,val) {
-		if (this.findValue(name)) {
-			var updateCookieVals = "";
-			var cookieVals = $.cookie(this.cookieName).split("|");
-			for (var i = 0; i < cookieVals.length; i++) {
-				var fieldVals = cookieVals[i].split("~");
-				if (fieldVals[0] == name) {
-					fieldVals[1] = val;
-				}
-				updateCookieVals += (i > 0) ? "|"+fieldVals[0]+"~"+fieldVals[1] : fieldVals[0]+"~"+fieldVals[1];
-			}
-			$.cookie(this.cookieName,updateCookieVals);
-		} else {
-			this.addValue(name,val);
-		}
-	},
-	
-	/**
-	* Remove the given key
-	* @param  {String}       the name of the key
-	*/
-	removeValue: function (name) {
-		var updateCookieVals = "";
-		var cookieVals = $.cookie(this.cookieName).split("|");
-		var k = 0;
-		for (var i = 0; i < cookieVals.length; i++) {
-			var fieldVals = cookieVals[i].split("~");
-			if (fieldVals[0] != name) {
-				updateCookieVals += (k === 0) ? fieldVals[0]+"~"+fieldVals[1] : "|"+fieldVals[0]+"~"+fieldVals[1];
-				k++;
-			}
-		}
-		$.cookie(this.cookieName,updateCookieVals);
-	},
-	
-	/**
-	* Find the value using the given key
-	* @param  {String}       the name of the key
-	*
-	* @return {String}       the value of the key or false if the value isn't found
-	*/
-	findValue: function (name) {
-		if ($.cookie(this.cookieName)) {
-			var cookieVals = $.cookie(this.cookieName).split("|");
-			for (var i = 0; i < cookieVals.length; i++) {
-				var fieldVals = cookieVals[i].split("~");
-				if (fieldVals[0] == name) {
-					return fieldVals[1];
-				}
-			}
-		} 
-		return false;
-	}
-	
+  
+  // the name of the cookie to store the data in
+  cookieName: "patternlab",
+  
+  /**
+  * Add a given value to the cookie
+  * @param  {String}       the name of the key
+  * @param  {String}       the value
+  */
+  addValue: function (name,val) {
+    var cookieVal = $.cookie(this.cookieName);
+    cookieVal = ((cookieVal === null) || (cookieVal === "")) ? name+"~"+val : cookieVal+"|"+name+"~"+val;
+    $.cookie(this.cookieName,cookieVal);
+  },
+  
+  /**
+  * Update a value found in the cookie. If the key doesn't exist add the value
+  * @param  {String}       the name of the key
+  * @param  {String}       the value
+  */
+  updateValue: function (name,val) {
+    if (this.findValue(name)) {
+      var updateCookieVals = "";
+      var cookieVals = $.cookie(this.cookieName).split("|");
+      for (var i = 0; i < cookieVals.length; i++) {
+        var fieldVals = cookieVals[i].split("~");
+        if (fieldVals[0] == name) {
+          fieldVals[1] = val;
+        }
+        updateCookieVals += (i > 0) ? "|"+fieldVals[0]+"~"+fieldVals[1] : fieldVals[0]+"~"+fieldVals[1];
+      }
+      $.cookie(this.cookieName,updateCookieVals);
+    } else {
+      this.addValue(name,val);
+    }
+  },
+  
+  /**
+  * Remove the given key
+  * @param  {String}       the name of the key
+  */
+  removeValue: function (name) {
+    var updateCookieVals = "";
+    var cookieVals = $.cookie(this.cookieName).split("|");
+    var k = 0;
+    for (var i = 0; i < cookieVals.length; i++) {
+      var fieldVals = cookieVals[i].split("~");
+      if (fieldVals[0] != name) {
+        updateCookieVals += (k === 0) ? fieldVals[0]+"~"+fieldVals[1] : "|"+fieldVals[0]+"~"+fieldVals[1];
+        k++;
+      }
+    }
+    $.cookie(this.cookieName,updateCookieVals);
+  },
+  
+  /**
+  * Find the value using the given key
+  * @param  {String}       the name of the key
+  *
+  * @return {String}       the value of the key or false if the value isn't found
+  */
+  findValue: function (name) {
+    if ($.cookie(this.cookieName)) {
+      var cookieVals = $.cookie(this.cookieName).split("|");
+      for (var i = 0; i < cookieVals.length; i++) {
+        var fieldVals = cookieVals[i].split("~");
+        if (fieldVals[0] == name) {
+          return fieldVals[1];
+        }
+      }
+    }
+    return false;
+  }
+  
 };
 
 /*!
@@ -173,6 +173,7 @@ var template         = document.getElementById("pl-ish-controls-template");
 var templateCompiled = Hogan.compile(template.innerHTML);
 var templateRendered = templateCompiled.render(ishControls);
 document.getElementById("sg-controls").innerHTML = templateRendered;
+
 /*!
  * URL Handler
  *
@@ -186,187 +187,187 @@ document.getElementById("sg-controls").innerHTML = templateRendered;
  */
 
 var urlHandler = {
-	
-	// set-up some default vars
-	skipBack: false,
-	targetOrigin: (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host,
-	
-	/**
-	* get the real file name for a given pattern name
-	* @param  {String}       the shorthand partials syntax for a given pattern
-	*
-	* @return {String}       the real file path
-	*/
-	getFileName: function (name) {
-		
-		var baseDir     = "patterns";
-		var fileName    = "";
-		
-		if (name === undefined) {
-			return fileName;
-		}
-		
-		if (name == "all") {
-			return "styleguide/html/styleguide.html";
-		} else if (name == "snapshots") {
-			return "snapshots/index.html";
-		}
-		
-		var paths = (name.indexOf("viewall-") != -1) ? viewAllPaths : patternPaths;
-		var nameClean = name.replace("viewall-","");
-		
-		// look at this as a regular pattern
-		var bits        = this.getPatternInfo(nameClean, paths);
-		var patternType = bits[0];
-		var pattern     = bits[1];
-		
-		if ((paths[patternType] !== undefined) && (paths[patternType][pattern] !== undefined)) {
-			
-			fileName = paths[patternType][pattern];
-			
-		} else if (paths[patternType] !== undefined) {
-			
-			for (var patternMatchKey in paths[patternType]) {
-				if (patternMatchKey.indexOf(pattern) != -1) {
-					fileName = paths[patternType][patternMatchKey];
-					break;
-				}
-			}
-		
-		}
-		
-		if (fileName === "") {
-			return fileName;
-		}
-		
-		var regex = /\//g;
-		if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
-			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/index.html";
-		} else if (fileName !== "") {
-			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-")+".html";
-		}
-		
-		return fileName;
-	},
-	
-	/**
-	* break up a pattern into its parts, pattern type and pattern name
-	* @param  {String}       the shorthand partials syntax for a given pattern
-	* @param  {Object}       the paths to be compared
-	*
-	* @return {Array}        the pattern type and pattern name
-	*/
-	getPatternInfo: function (name, paths) {
-		
-		var patternBits = name.split("-");
-		
-		var i = 1;
-		var c = patternBits.length;
-		
-		var patternType = patternBits[0];
-		while ((paths[patternType] === undefined) && (i < c)) {
-			patternType += "-"+patternBits[i];
-			i++;
-		}
-		
-		var pattern = name.slice(patternType.length+1,name.length);
-		
-		return [patternType, pattern];
-		
-	},
-	
-	/**
-	* search the request vars for a particular item
-	*
-	* @return {Object}       a search of the window.location.search vars
-	*/
-	getRequestVars: function() {
-		
-		// the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-		var oGetVars = new (function (sSearch) {
-			if (sSearch.length > 1) {
-				for (var aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split("&"); nKeyId < aCouples.length; nKeyId++) {
-					aItKey = aCouples[nKeyId].split("=");
-					this[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : "";
-				}
-			}
-		})(window.location.search);
-		
-		return oGetVars;
-		
-	},
-	
-	/**
-	* push a pattern onto the current history based on a click
-	* @param  {String}       the shorthand partials syntax for a given pattern
-	* @param  {String}       the path given by the loaded iframe
-	*/
-	pushPattern: function (pattern, givenPath) {
-		var data         = { "pattern": pattern };
-		var fileName     = urlHandler.getFileName(pattern);
-		var path         = window.location.pathname;
-		path             = (window.location.protocol === "file") ? path.replace("/public/index.html","public/") : path.replace(/\/index\.html/,"/");
-		var expectedPath = window.location.protocol+"//"+window.location.host+path+fileName;
-		if (givenPath != expectedPath) {
-			// make sure to update the iframe because there was a click
-			var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": fileName });
-			document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
-		} else {
-			// add to the history
-			var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
-			if (history.pushState !== undefined) {
-				history.pushState(data, null, addressReplacement);
-			}
-			document.getElementById("title").innerHTML = "Pattern Lab - "+pattern;
-			if (document.getElementById("sg-raw") !== undefined) {
-				document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(pattern));
-			}
-		}
-	},
-	
-	/**
-	* based on a click forward or backward modify the url and iframe source
-	* @param  {Object}      event info like state and properties set in pushState()
-	*/
-	popPattern: function (e) {
-		
-		var patternName;
-		var state = e.state;
-		
-		if (state === null) {
-			this.skipBack = false;
-			return;
-		} else if (state !== null) {
-			patternName = state.pattern;
-		}
-		
-		var iFramePath = "";
-		iFramePath = this.getFileName(patternName);
-		if (iFramePath === "") {
-			iFramePath = "styleguide/html/styleguide.html";
-		}
-		
-		var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": iFramePath });
-		document.getElementById("sg-viewport").contentWindow.postMessage( obj, urlHandler.targetOrigin);
-		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
-		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
-		
-		/*
-		if (wsnConnected !== undefined) {
-			wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );
-		}
-		*/
-		
-	}
-	
+  
+  // set-up some default vars
+  skipBack: false,
+  targetOrigin: (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host,
+  
+  /**
+  * get the real file name for a given pattern name
+  * @param  {String}       the shorthand partials syntax for a given pattern
+  *
+  * @return {String}       the real file path
+  */
+  getFileName: function (name) {
+    
+    var baseDir     = "patterns";
+    var fileName    = "";
+    
+    if (name === undefined) {
+      return fileName;
+    }
+    
+    if (name == "all") {
+      return "styleguide/html/styleguide.html";
+    } else if (name == "snapshots") {
+      return "snapshots/index.html";
+    }
+    
+    var paths = (name.indexOf("viewall-") != -1) ? viewAllPaths : patternPaths;
+    var nameClean = name.replace("viewall-","");
+    
+    // look at this as a regular pattern
+    var bits        = this.getPatternInfo(nameClean, paths);
+    var patternType = bits[0];
+    var pattern     = bits[1];
+    
+    if ((paths[patternType] !== undefined) && (paths[patternType][pattern] !== undefined)) {
+      
+      fileName = paths[patternType][pattern];
+      
+    } else if (paths[patternType] !== undefined) {
+      
+      for (var patternMatchKey in paths[patternType]) {
+        if (patternMatchKey.indexOf(pattern) != -1) {
+          fileName = paths[patternType][patternMatchKey];
+          break;
+        }
+      }
+    
+    }
+    
+    if (fileName === "") {
+      return fileName;
+    }
+    
+    var regex = /\//g;
+    if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
+      fileName = baseDir+"/"+fileName.replace(regex,"-")+"/index.html";
+    } else if (fileName !== "") {
+      fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-")+".html";
+    }
+    
+    return fileName;
+  },
+  
+  /**
+  * break up a pattern into its parts, pattern type and pattern name
+  * @param  {String}       the shorthand partials syntax for a given pattern
+  * @param  {Object}       the paths to be compared
+  *
+  * @return {Array}        the pattern type and pattern name
+  */
+  getPatternInfo: function (name, paths) {
+    
+    var patternBits = name.split("-");
+    
+    var i = 1;
+    var c = patternBits.length;
+    
+    var patternType = patternBits[0];
+    while ((paths[patternType] === undefined) && (i < c)) {
+      patternType += "-"+patternBits[i];
+      i++;
+    }
+    
+    var pattern = name.slice(patternType.length+1,name.length);
+    
+    return [patternType, pattern];
+    
+  },
+  
+  /**
+  * search the request vars for a particular item
+  *
+  * @return {Object}       a search of the window.location.search vars
+  */
+  getRequestVars: function() {
+    
+    // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
+    var oGetVars = new (function (sSearch) {
+      if (sSearch.length > 1) {
+        for (var aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split("&"); nKeyId < aCouples.length; nKeyId++) {
+          aItKey = aCouples[nKeyId].split("=");
+          this[unescape(aItKey[0])] = aItKey.length > 1 ? unescape(aItKey[1]) : "";
+        }
+      }
+    })(window.location.search);
+    
+    return oGetVars;
+    
+  },
+  
+  /**
+  * push a pattern onto the current history based on a click
+  * @param  {String}       the shorthand partials syntax for a given pattern
+  * @param  {String}       the path given by the loaded iframe
+  */
+  pushPattern: function (pattern, givenPath) {
+    var data         = { "pattern": pattern };
+    var fileName     = urlHandler.getFileName(pattern);
+    var path         = window.location.pathname;
+    path             = (window.location.protocol === "file") ? path.replace("/public/index.html","public/") : path.replace(/\/index\.html/,"/");
+    var expectedPath = window.location.protocol+"//"+window.location.host+path+fileName;
+    if (givenPath != expectedPath) {
+      // make sure to update the iframe because there was a click
+      var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": fileName });
+      document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+    } else {
+      // add to the history
+      var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
+      if (history.pushState !== undefined) {
+        history.pushState(data, null, addressReplacement);
+      }
+      document.getElementById("title").innerHTML = "Pattern Lab - "+pattern;
+      if (document.getElementById("sg-raw") !== undefined) {
+        document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(pattern));
+      }
+    }
+  },
+  
+  /**
+  * based on a click forward or backward modify the url and iframe source
+  * @param  {Object}      event info like state and properties set in pushState()
+  */
+  popPattern: function (e) {
+    
+    var patternName;
+    var state = e.state;
+    
+    if (state === null) {
+      this.skipBack = false;
+      return;
+    } else if (state !== null) {
+      patternName = state.pattern;
+    }
+    
+    var iFramePath = "";
+    iFramePath = this.getFileName(patternName);
+    if (iFramePath === "") {
+      iFramePath = "styleguide/html/styleguide.html";
+    }
+    
+    var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": iFramePath });
+    document.getElementById("sg-viewport").contentWindow.postMessage( obj, urlHandler.targetOrigin);
+    document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
+    document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
+    
+    /*
+    if (wsnConnected !== undefined) {
+      wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+patternName+'" }' );
+    }
+    */
+    
+  }
+  
 };
 
 /**
 * handle the onpopstate event
 */
 window.onpopstate = function (event) {
-	urlHandler.skipBack = true;
-	urlHandler.popPattern(event);
+  urlHandler.skipBack = true;
+  urlHandler.popPattern(event);
 };
 
 /*!
@@ -381,28 +382,28 @@ window.onpopstate = function (event) {
  */
 
 var modalViewer = {
-
+  
   // set up some defaults
   active:        false,
   template:      'info',
   patternData:   {},
   targetOrigin:  (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
-
+  
   /**
   * initialize the modal window
   */
   onReady: function() {
-
+    
     // watch for resizes and hide the modal container as appropriate when the modal is already hidden
     $(window).on('resize', function() {
       if (modalViewer.active === false) {
         modalViewer.slide($('#sg-modal-container').outerHeight());
       }
     });
-
+    
     // make sure the listener for checkpanels is set-up
     Dispatcher.addListener('insertPanels', modalViewer.insert);
-
+    
     // add the info/code panel onclick handler
     $('#sg-t-patterninfo').click(function(e) {
       e.preventDefault();
@@ -410,17 +411,17 @@ var modalViewer = {
       $(this).parents('ul').removeClass('active');
       modalViewer.toggle();
     });
-
+    
     // if the iframe loads a new page query the pattern for its info if the modal is active
     $('#sg-viewport').on('load', function() {
       if (modalViewer.active) {
         modalViewer.queryPattern();
       }
     });
-
+    
     // make sure the modal viewer is not viewable
     modalViewer.hide();
-
+    
     // make sure the close button handles the click
     $('#sg-modal-close-btn').on('click', function(e) {
       
@@ -434,17 +435,17 @@ var modalViewer = {
       modalViewer.close();
       
     });
-
+    
     // review the query strings in case there is something the modal viewer is supposed to handle by default
     var queryStringVars = urlHandler.getRequestVars();
-
+    
     // code panel related query string info
     if ((queryStringVars.view !== undefined) && ((queryStringVars.view === 'code') || (queryStringVars.view === 'c'))) {
       panelsViewer.initCopy = ((queryStringVars.copy !== undefined) && (queryStringVars.copy === 'true')) ? true : false;
       modalViewer.template = 'info';
       modalViewer.queryPattern();
     }
-
+    
     // annotation panel related query string info
     if ((queryStringVars.view !== undefined) && ((queryStringVars.view === 'annotations') || (queryStringVars.view === 'a'))) {
       if (queryStringVars.number !== undefined) {
@@ -453,9 +454,9 @@ var modalViewer = {
       modalViewer.template = 'comments';
       modalViewer.queryPattern();
     }
-
+    
   },
-
+  
   /**
   * toggle the modal window open and closed
   */
@@ -473,12 +474,12 @@ var modalViewer = {
     }
     
   },
-
+  
   /**
   * open the modal window
   */
   open: function() {
-
+    
     // make sure the modal viewer and other options are off just in case
     modalViewer.close();
 
@@ -493,22 +494,22 @@ var modalViewer = {
     
     // show the modal
     modalViewer.show();
-
+    
   },
-
+  
   /**
   * close the modal window
   */
   close: function() {
-
+    
     var obj;
     
     // not that the modal viewer is no longer active
     modalViewer.active = false;
-
+    
     //Add active class to modal
     $('#sg-modal-container').removeClass('active');
-
+    
     // remove the active class from all of the checkbox items
     $('.sg-checkbox').removeClass('active');
     
@@ -523,52 +524,52 @@ var modalViewer = {
     document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
     
   },
-
+  
   hide: function() {
     modalViewer.slide($('#sg-modal-container').outerHeight());
   },
-
+  
   insert: function(templateRendered, patternPartial, iframePassback) {
-
+    
     if (iframePassback) {
-
+      
       // send a message to the pattern
       var obj = JSON.stringify({ 'event': 'patternLab.patternModalInsert', 'patternPartial': patternPartial, 'modalContent': templateRendered.outerHTML });
       document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
       
     } else {
-
+      
       // insert the panels
       $('#sg-modal-content').html(templateRendered);
-
+      
       // with the content inserted open the modal
       modalViewer.open();
-
+      
     }
     
     // update the wording
     $('#sg-t-patterninfo').html("Hide Pattern Info");
     
   },
-
+  
   /**
   * refresh the modal if a new pattern is loaded and the modal is active
   */
   refresh: function(patternData, iframePassback) {
-
+    
     // if this is a styleguide view close the modal
     if (iframePassback) {
       modalViewer.hide();
     }
-
+    
     // clear any selections that might have been made
     panelsViewer.clear();
-
+    
     // gather the data that will fill the modal window
     panelsViewer.gatherPanels(patternData, iframePassback);
-
+    
   },
-
+  
   /**
   * slides the modal window into or out of view
   */
@@ -576,41 +577,43 @@ var modalViewer = {
     pos = (pos === 0) ? 0 : -pos;
     $('#sg-modal-container').css('bottom',pos);
   },
-
+  
+  /**
+  * alias for slide
+  */
   show: function() {
     modalViewer.slide(0);
   },
-
+  
   /**
   * ask the pattern for info so we can open the modal window and populate it
   */
   queryPattern: function() {
-
+    
     // send a message to the pattern
     var obj = JSON.stringify({ 'event': 'patternLab.patternQuery' });
     document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
-
+    
   },
-
+  
   /**
   * toggle the comment pop-up based on a user clicking on the pattern
   * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
   * @param  {Object}      event info
   */
   receiveIframeMessage: function(event) {
-
+    
     var els, i, displayNumberCheck;
     
     // does the origin sending the message match the current host? if not dev/null the request
     if ((window.location.protocol !== 'file:') && (event.origin !== window.location.protocol+'//'+window.location.host)) {
       return;
     }
-
+    
     var data = {};
     try {
       data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
     } catch(e) {}
-
     
     if ((data.event !== undefined) && (data.event == 'patternLab.patternQueryInfo')) {
       
@@ -634,9 +637,9 @@ var modalViewer = {
       }
       
     }
-
+    
   }
-
+  
 };
 
 // when the document is ready make sure the modal is ready
@@ -655,9 +658,14 @@ window.addEventListener("message", modalViewer.receiveIframeMessage, false);
  */
 
 var panelsUtil = {
-
+  
+  /**
+  * Add click events to the template that was rendered
+  * @param  {String}      the rendered template for the modal
+  * @param  {String}      the pattern partial for the modal
+  */
   addClickEvents: function(templateRendered, patternPartial) {
-
+    
     var els = templateRendered.querySelectorAll('#sg-'+patternPartial+'-tabs li');
     for (var i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
@@ -667,42 +675,47 @@ var panelsUtil = {
         panelsUtil.show(patternPartial, panelID);
       };
     }
-
+    
     return templateRendered;
-
+    
   },
-
+  
+  /**
+  * Show a specific modal
+  * @param  {String}      the pattern partial for the modal
+  * @param  {String}      the ID of the panel to be shown
+  */
   show: function(patternPartial, panelID) {
-
+    
     var els;
-
+    
     // turn off all of the active tabs
     els = document.querySelectorAll('#sg-'+patternPartial+'-tabs li');
     for (i = 0; i < els.length; ++i) {
       els[i].classList.remove('sg-tab-title-active');
     }
-
+    
     // hide all of the panels
     els = document.querySelectorAll('#sg-'+patternPartial+'-panels div.sg-tabs-panel');
     for (i = 0; i < els.length; ++i) {
       els[i].style.display = 'none';
     }
-
+    
     // add active tab class
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('sg-tab-title-active');
-
+    
     // show the panel
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
-
+    
     /*
     if (codeViewer.copyOnInit) {
       codeViewer.selectCode();
       codeViewer.copyOnInit = false;
     }
     */
-
+    
   }
-
+  
 };
 
 /*!
@@ -730,7 +743,7 @@ var PrismLanguages = {
     return 'markup';
     
   },
-
+  
   add: function(language) {
     
     // see if the language already exists, overwrite if it does
@@ -813,14 +826,20 @@ Dispatcher.trigger('setupPanels');
  */
 
 var panelsViewer = {
-
+  
   // set up some defaults
   targetOrigin: (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
   initCopy:     false,
   initMoveTo:   0,
-
+  
+  /**
+  * Check to see if all of the panels have been collected before rendering
+  * @param  {String}      the collected panels
+  * @param  {String}      the data from the pattern
+  * @param  {Boolean}     if this is going to be passed back to the styleguide
+  */
   checkPanels: function(panels, patternData, iframePassback) {
-
+    
     // count how many panels have rendered content
     var panelContentCount = 0;
     for (var i = 0; i < panels.length; ++i) {
@@ -833,28 +852,33 @@ var panelsViewer = {
     if (panelContentCount === Panels.count()) {
       panelsViewer.renderPanels(panels, patternData, iframePassback);
     }
-
+    
   },
-
+  
+  /**
+  * Gather the panels related to the modal
+  * @param  {String}      the data from the pattern
+  * @param  {Boolean}     if this is going to be passed back to the styleguide
+  */
   gatherPanels: function(patternData, iframePassback) {
-
+    
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
-
+    
     // set-up defaults
     var template, templateCompiled, templateRendered, panel;
-
+    
     // get the base panels
     var panels = Panels.get();
-
+    
     // evaluate panels array and create content
     for (var i = 0; i < panels.length; ++i) {
-
+      
       panel = panels[i];
-
+      
       if ((panel.templateID !== undefined) && (panel.templateID)) {
-
+        
         if ((panel.httpRequest !== undefined) && (panel.httpRequest)) {
-
+          
           // need a file and then render
           var fileName = urlHandler.getFileName(patternData.patternPartial);
           var e        = new XMLHttpRequest();
@@ -870,24 +894,30 @@ var panelsViewer = {
           })(i, panels, patternData, iframePassback);
           e.open('GET', fileName.replace(/\.html/,panel.httpRequestReplace)+'?'+(new Date()).getTime(), true);
           e.send();
-
+          
         } else {
-
+          
           // vanilla render of pattern data
           template          = document.getElementById(panel.templateID);
           templateCompiled  = Hogan.compile(template.innerHTML);
           templateRendered  = templateCompiled.render(patternData);
           panels[i].content = templateRendered;
           Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback]);
-
+          
         }
-
+        
       }
-
+      
     }
-
+    
   },
-
+  
+  /**
+  * Render the panels that have been collected
+  * @param  {String}      the collected panels
+  * @param  {String}      the data from the pattern
+  * @param  {Boolean}     if this is going to be passed back to the styleguide
+  */
   renderPanels: function(panels, patternData, iframePassback) {
     
     // set-up defaults
@@ -895,7 +925,7 @@ var panelsViewer = {
     var annotation, comment, count, div, els, item, markup, i;
     var patternPartial = patternData.patternPartial;
     patternData.panels = panels;
-
+    
     // set a default pattern description for modal pop-up
     if (!iframePassback && (patternData.patternDesc.length === 0)) {
       patternData.patternDesc = "There is no description for this pattern.";
@@ -922,7 +952,7 @@ var panelsViewer = {
         patternData.annotations.push(annotation);
         count++;
       }
-        
+      
     }
     
     // alert the pattern that annotations should be highlighted
@@ -955,70 +985,70 @@ var panelsViewer = {
     
     // figure out if lineage should be drawn
     patternData.lineageExists = (patternData.lineage.length !== 0);
-
+    
     // figure out if reverse lineage should be drawn
     patternData.lineageRExists = (patternData.lineageR.length !== 0);
-
+    
     // figure out if pattern state should be drawn
     patternData.patternStateExists = (patternData.patternState.length > 0);
-
+    
     // figure if the entire desc block should be drawn
     patternData.descBlockExists = (patternData.patternDescExists || patternData.lineageExists || patternData.lineageRExists || patternData.patternStateExists);
     
     // figure if annotations should be drawn
     patternData.annotationExists = (patternData.annotations.length > 0);
-
+    
     // set isPatternView based on if we have to pass it back to the styleguide level
     patternData.isPatternView = (iframePassback === false);
-
+    
     // render all of the panels in the base panel template
     template         = document.getElementById('pl-panel-template-base');
     templateCompiled = Hogan.compile(template.innerHTML);
     templateRendered = templateCompiled.render(patternData);
-
+    
     // make sure templateRendered is modified to be an HTML element
     div              = document.createElement('div');
     div.className    = 'sg-modal-content-inner';
     div.innerHTML    = templateRendered;
     templateRendered = div;
-
+    
     // add click events
     templateRendered = panelsUtil.addClickEvents(templateRendered, patternPartial);
-
+    
     // add onclick events to the tabs in the rendered content
     for (i = 0; i < panels.length; ++i) {
-
+      
       panel = panels[i];
-
+      
       // default IDs
       panelTab   = '#sg-'+patternPartial+'-'+panel.id+'-tab';
       panelBlock = '#sg-'+patternPartial+'-'+panel.id+'-panel';
-
+      
       // show default options
       if ((templateRendered.querySelector(panelTab) !== null) && (panel.default)) {
         templateRendered.querySelector(panelTab).classList.add('sg-tab-title-active');
         templateRendered.querySelector(panelBlock).style.display = 'block';
       }
-
+      
     }
-
+    
     // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
     $('#sg-code-lineage-fill a, #sg-code-lineager-fill a', templateRendered).on('click', function(e){
       e.preventDefault();
       var obj = JSON.stringify({ 'event': 'patternLab.updatePath', 'path': urlHandler.getFileName($(this).attr('data-patternpartial')) });
       document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
     });
-
+    
     // gather panels from plugins
     Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback]);
-
+    
   },
-
+  
   /**
   * select the some range to copy
   */
   select: function(id) {
-
+    
     if ((modalViewer !== undefined) && (modalViewer.active)) {
       selection = window.getSelection();
       range = document.createRange();
@@ -1026,14 +1056,14 @@ var panelsViewer = {
       selection.removeAllRanges();
       selection.addRange(range);
     }
-
+    
   },
-
+  
   /**
   * clear any selection of code when swapping tabs or opening a new pattern
   */
   clear: function() {
-
+    
     if ((modalViewer !== undefined) && modalViewer.active) {
       if (window.getSelection().empty) {
         window.getSelection().empty();
@@ -1041,9 +1071,9 @@ var panelsViewer = {
         window.getSelection().removeAllRanges();
       }
     }
-
+    
   }
-
+  
 };
 
 /*!
@@ -1057,100 +1087,100 @@ var panelsViewer = {
  */
 
 var patternFinder = {
-	
-	data:   [],
-	active: false,
-	
-	init: function() {
-		
-		for (var patternType in patternPaths) {
-			if (patternPaths.hasOwnProperty(patternType)) {
-				for (var pattern in patternPaths[patternType]) {
-					var obj = {};
-					obj.patternPartial = patternType+"-"+pattern;
-					obj.patternPath    = patternPaths[patternType][pattern];
-					this.data.push(obj);
-				}
-			}
-		}
-		
-		// instantiate the bloodhound suggestion engine
-		var patterns = new Bloodhound({
-			datumTokenizer: function(d) { return Bloodhound.tokenizers.nonword(d.patternPartial); },
-			queryTokenizer: Bloodhound.tokenizers.nonword,
-			limit: 10,
-			local: this.data
-		});
-		
-		// initialize the bloodhound suggestion engine
-		patterns.initialize();
-		
-		$('#sg-find .typeahead').typeahead({ highlight: true }, {
-			displayKey: 'patternPartial',
-			source: patterns.ttAdapter()
-		}).on('typeahead:selected', patternFinder.onSelected).on('typeahead:autocompleted', patternFinder.onAutocompleted);
-		
-	},
-	
-	passPath: function(item) {
-		// update the iframe via the history api handler
-		patternFinder.closeFinder();
-		var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName(item.patternPartial) });
-		document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
-	},
-	
-	onSelected: function(e,item) {
-		patternFinder.passPath(item);
-	},
-	
-	onAutocompleted: function(e,item) {
-		patternFinder.passPath(item);
-	},
-	
-	toggleFinder: function() {
-		if (!patternFinder.active) {
-			patternFinder.openFinder();
-		} else {
-			patternFinder.closeFinder();
-		}
-	},
-	
-	openFinder: function() {
-		patternFinder.active = true;
-		$('#sg-find .typeahead').val("");
-		$("#sg-find").addClass('show-overflow');
-	},
-	
-	closeFinder: function() {
-		patternFinder.active = false;
-		document.activeElement.blur();
-		$("#sg-find").removeClass('show-overflow');
-		$('#sg-find .typeahead').val("");
-	},
-	
-	receiveIframeMessage: function(event) {
-		
-		// does the origin sending the message match the current host? if not dev/null the request
-		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
-			return;
-		}
-		
-		var data = {};
-		try {
-			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-		} catch(e) {}
-		
-		if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
-			
-			if (data.keyPress == 'ctrl+shift+f') {
-				patternFinder.toggleFinder();
-				return false;
-			}
-			
-		}
-		
-	}
-	
+  
+  data:   [],
+  active: false,
+  
+  init: function() {
+    
+    for (var patternType in patternPaths) {
+      if (patternPaths.hasOwnProperty(patternType)) {
+        for (var pattern in patternPaths[patternType]) {
+          var obj = {};
+          obj.patternPartial = patternType+"-"+pattern;
+          obj.patternPath    = patternPaths[patternType][pattern];
+          this.data.push(obj);
+        }
+      }
+    }
+    
+    // instantiate the bloodhound suggestion engine
+    var patterns = new Bloodhound({
+      datumTokenizer: function(d) { return Bloodhound.tokenizers.nonword(d.patternPartial); },
+      queryTokenizer: Bloodhound.tokenizers.nonword,
+      limit: 10,
+      local: this.data
+    });
+    
+    // initialize the bloodhound suggestion engine
+    patterns.initialize();
+    
+    $('#sg-find .typeahead').typeahead({ highlight: true }, {
+      displayKey: 'patternPartial',
+      source: patterns.ttAdapter()
+    }).on('typeahead:selected', patternFinder.onSelected).on('typeahead:autocompleted', patternFinder.onAutocompleted);
+    
+  },
+  
+  passPath: function(item) {
+    // update the iframe via the history api handler
+    patternFinder.closeFinder();
+    var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName(item.patternPartial) });
+    document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+  },
+  
+  onSelected: function(e,item) {
+    patternFinder.passPath(item);
+  },
+  
+  onAutocompleted: function(e,item) {
+    patternFinder.passPath(item);
+  },
+  
+  toggleFinder: function() {
+    if (!patternFinder.active) {
+      patternFinder.openFinder();
+    } else {
+      patternFinder.closeFinder();
+    }
+  },
+  
+  openFinder: function() {
+    patternFinder.active = true;
+    $('#sg-find .typeahead').val("");
+    $("#sg-find").addClass('show-overflow');
+  },
+  
+  closeFinder: function() {
+    patternFinder.active = false;
+    document.activeElement.blur();
+    $("#sg-find").removeClass('show-overflow');
+    $('#sg-find .typeahead').val("");
+  },
+  
+  receiveIframeMessage: function(event) {
+    
+    // does the origin sending the message match the current host? if not dev/null the request
+    if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
+      return;
+    }
+    
+    var data = {};
+    try {
+      data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+    } catch(e) {}
+    
+    if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
+      
+      if (data.keyPress == 'ctrl+shift+f') {
+        patternFinder.toggleFinder();
+        return false;
+      }
+      
+    }
+    
+  }
+  
 };
 
 patternFinder.init();
@@ -1158,13 +1188,13 @@ patternFinder.init();
 window.addEventListener("message", patternFinder.receiveIframeMessage, false);
 
 $('#sg-find .typeahead').focus(function() {
-	if (!patternFinder.active) {
-		patternFinder.openFinder();
-	}
+  if (!patternFinder.active) {
+    patternFinder.openFinder();
+  }
 });
 
 $('#sg-find .typeahead').blur(function() {
-	patternFinder.closeFinder();
+  patternFinder.closeFinder();
 });
 
 /*!
@@ -1179,89 +1209,91 @@ $('#sg-find .typeahead').blur(function() {
 
 // alert the iframe parent that the pattern has loaded assuming this view was loaded in an iframe
 if (self != top) {
-	
-	// handle the options that could be sent to the parent window
-	//   - all get path
-	//   - pattern & view all get a pattern partial, styleguide gets all
-	//   - pattern shares lineage
-	var path = window.location.toString();
-	var parts = path.split("?");
-	var options = { "event": "patternLab.pageLoad", "path": parts[0] };
-	
-	options.patternpartial = (patternData.patternPartial !== undefined) ? patternData.patternPartial : "all";
-	if (patternData.lineage !== "") {
-		options.lineage = patternData.lineage;
-	}
-	
-	var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-	parent.postMessage(options, targetOrigin);
-	
-	// find all links and add an onclick handler for replacing the iframe address so the history works
-	var aTags = document.getElementsByTagName('a');
-	for (var i = 0; i < aTags.length; i++) {
-		aTags[i].onclick = function(e) {
-			var href   = this.getAttribute("href");
-			var target = this.getAttribute("target");
-			if ((target !== undefined) && ((target == "_parent") || (target == "_blank"))) {
-				// just do normal stuff
-			} else if (href && href !== "#") {
-				e.preventDefault();
-				window.location.replace(href);
-			} else {
-				e.preventDefault();
-				return false;
-			}
-		};
-	}
-	
+  
+  // handle the options that could be sent to the parent window
+  //   - all get path
+  //   - pattern & view all get a pattern partial, styleguide gets all
+  //   - pattern shares lineage
+  var path = window.location.toString();
+  var parts = path.split("?");
+  var options = { "event": "patternLab.pageLoad", "path": parts[0] };
+  
+  patternData = document.getElementById('sg-pattern-data-footer').innerHTML;
+  patternData = JSON.parse(patternData);
+  options.patternpartial = (patternData.patternPartial !== undefined) ? patternData.patternPartial : "all";
+  if (patternData.lineage !== "") {
+    options.lineage = patternData.lineage;
+  }
+  
+  var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+  parent.postMessage(options, targetOrigin);
+  
+  // find all links and add an onclick handler for replacing the iframe address so the history works
+  var aTags = document.getElementsByTagName('a');
+  for (var i = 0; i < aTags.length; i++) {
+    aTags[i].onclick = function(e) {
+      var href   = this.getAttribute("href");
+      var target = this.getAttribute("target");
+      if ((target !== undefined) && ((target == "_parent") || (target == "_blank"))) {
+        // just do normal stuff
+      } else if (href && href !== "#") {
+        e.preventDefault();
+        window.location.replace(href);
+      } else {
+        e.preventDefault();
+        return false;
+      }
+    };
+  }
+  
 }
 
 // if there are clicks on the iframe make sure the nav in the iframe parent closes
 var body = document.getElementsByTagName('body');
 body[0].onclick = function() {
-	var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-	var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
-	parent.postMessage(obj,targetOrigin);
+  var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+  var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
+  parent.postMessage(obj,targetOrigin);
 };
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
-	
-	// does the origin sending the message match the current host? if not dev/null the request
-	if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
-		return;
-	}
-	
-	var path;
-	var data = {};
-	try {
-		data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-	} catch(e) {}
-	
-	if ((data.event !== undefined) && (data.event == "patternLab.updatePath")) {
-		
-		if (patternData.patternPartial !== undefined) {
-			
-			// handle patterns and the view all page
-			var re = /(patterns|snapshots)\/(.*)$/;
-			path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
-			window.location.replace(path);
-			
-		} else {
-			
-			// handle the style guide
-			path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("styleguide\/html\/styleguide.html","")+data.path+'?'+Date.now();
-			window.location.replace(path);
-			
-		}
-		
-	} else if ((data.event !== undefined) && (data.event == "patternLab.reload")) {
-		
-		// reload the location if there was a message to do so
-		window.location.reload();
-		
-	}
-	
+  
+  // does the origin sending the message match the current host? if not dev/null the request
+  if ((window.location.protocol != "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
+    return;
+  }
+  
+  var path;
+  var data = {};
+  try {
+    data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+  } catch(e) {}
+  
+  if ((data.event !== undefined) && (data.event == "patternLab.updatePath")) {
+    
+    if (patternData.patternPartial !== undefined) {
+      
+      // handle patterns and the view all page
+      var re = /(patterns|snapshots)\/(.*)$/;
+      path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace(re,'')+data.path+'?'+Date.now();
+      window.location.replace(path);
+      
+    } else {
+      
+      // handle the style guide
+      path = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("styleguide\/html\/styleguide.html","")+data.path+'?'+Date.now();
+      window.location.replace(path);
+      
+    }
+    
+  } else if ((data.event !== undefined) && (data.event == "patternLab.reload")) {
+    
+    // reload the location if there was a message to do so
+    window.location.reload();
+    
+  }
+  
 }
 window.addEventListener("message", receiveIframeMessage, false);
 
@@ -1273,633 +1305,633 @@ window.addEventListener("message", receiveIframeMessage, false);
 
 (function (w) {
 
-	var sw = document.body.clientWidth, //Viewport Width
-		sh = $(document).height(), //Viewport Height
-		minViewportWidth = parseInt(config.ishMinimum), //Minimum Size for Viewport
-		maxViewportWidth = parseInt(config.ishMaximum), //Maxiumum Size for Viewport
-		viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
-		$sgViewport = $('#sg-viewport'), //Viewport element
-		$sizePx = $('.sg-size-px'), //Px size input element in toolbar
-		$sizeEms = $('.sg-size-em'), //Em size input element in toolbar
-		$bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document,
-		$headerHeight = $('.sg-header').height(),
-		discoID = false,
-		discoMode = false,
-		fullMode = true,
-		hayMode = false;
-
-
-
-	//Update dimensions on resize
-	$(w).resize(function() {
-		sw = document.body.clientWidth;
-		sh = $(document).height();
-
-		setAccordionHeight();
-
-		if(fullMode === true) {
-			sizeiframe(sw, false);
-		}
-	});
-
-	// Accordion dropdown
-	$('.sg-acc-handle').on("click", function(e){
-		e.preventDefault();
-
-		var $this = $(this),
-			$panel = $this.next('.sg-acc-panel'),
-			subnav = $this.parent().parent().hasClass('sg-acc-panel');
-
-		//Close other panels if link isn't a subnavigation item
-		if (!subnav) {
-			$('.sg-acc-handle').not($this).removeClass('active');
-			$('.sg-acc-panel').not($panel).removeClass('active');
-		}
-
-		//Activate selected panel
-		$this.toggleClass('active');
-		$panel.toggleClass('active');
-		setAccordionHeight();
-	});
-
-	//Accordion Height
-	function setAccordionHeight() {
-		var $activeAccordion = $('.sg-acc-panel.active').first(),
-			accordionHeight = $activeAccordion.height(),
-			availableHeight = sh-$headerHeight; //Screen height minus the height of the header
-
-		$activeAccordion.height(availableHeight); //Set height of accordion to the available height
-	}
-
-	$('.sg-nav-toggle').on("click", function(e){
-		e.preventDefault();
-		$('.sg-nav-container').toggleClass('active');
-	});
-
-	// "View (containing clean, code, raw, etc options) Trigger
-	$('#sg-t-toggle').on("click", function(e){
-		e.preventDefault();
-		$(this).parents('ul').toggleClass('active');
-	});
-
-	//Size Trigger
-	$('#sg-size-toggle').on("click", function(e){
-		e.preventDefault();
-		$(this).parents('ul').toggleClass('active');
-	});
-
-	//Phase View Events
-	$('.sg-size[data-size]').on("click", function(e){
-		e.preventDefault();
-		killDisco();
-		killHay();
-		fullMode = false;
-
-		var val = $(this).attr('data-size');
-
-		if (val.indexOf('px') > -1) {
-			$bodySize = 1;
-		}
-
-		val = val.replace(/[^\d.-]/g,'');
-		sizeiframe(Math.floor(val*$bodySize));
-	});
-
-	//Size View Events
-
-	// handle small button
-	function goSmall() {
-		killDisco();
-		killHay();
-		fullMode = false;
-		sizeiframe(getRandom(minViewportWidth,500));
-	}
-
-	$('#sg-size-s').on("click", function(e){
-		e.preventDefault();
-		goSmall();
-	});
-
-	jwerty.key('ctrl+shift+s', function(e) {
-		goSmall();
-		return false;
-	});
-
-	// handle medium button
-	function goMedium() {
-		killDisco();
-		killHay();
-		fullMode = false;
-		sizeiframe(getRandom(500,800));
-	}
-
-	$('#sg-size-m').on("click", function(e){
-		e.preventDefault();
-		goMedium();
-	});
-
-	jwerty.key('ctrl+shift+m', function(e) {
-		goLarge();
-		return false;
-	});
-
-	// handle large button
-	function goLarge() {
-		killDisco();
-		killHay();
-		fullMode = false;
-		sizeiframe(getRandom(800,1200));
-	}
-
-	$('#sg-size-l').on("click", function(e){
-		e.preventDefault();
-		goLarge();
-	});
-
-	jwerty.key('ctrl+shift+l', function(e) {
-		goLarge();
-		return false;
-	});
-
-	//Click Full Width Button
-	$('#sg-size-full').on("click", function(e){ //Resets
-		e.preventDefault();
-		killDisco();
-		killHay();
-		fullMode = true;
-		sizeiframe(sw);
-	});
-
-	//Click Random Size Button
-	$('#sg-size-random').on("click", function(e){
-		e.preventDefault();
-		killDisco();
-		killHay();
-		fullMode = false;
-		sizeiframe(getRandom(minViewportWidth,sw));
-	});
-
-	//Click for Disco Mode, which resizes the viewport randomly
-	$('#sg-size-disco').on("click", function(e){
-		e.preventDefault();
-		killHay();
-		fullMode = false;
-
-		if (discoMode) {
-			killDisco();
-
-		} else {
-			startDisco();
-		}
-	});
-
-	/* Disco Mode */
-	function disco() {
-		sizeiframe(getRandom(minViewportWidth,sw));
-	}
-
-	function killDisco() {
-		discoMode = false;
-		clearInterval(discoID);
-		discoID = false;
-	}
-
-	function startDisco() {
-		discoMode = true;
-		discoID = setInterval(disco, 800);
-	}
-
-	jwerty.key('ctrl+shift+d', function(e) {
-		if (!discoMode) {
-			startDisco();
-		} else {
-			killDisco();
-		}
-		return false;
-	});
-
-	//Stephen Hay Mode - "Start with the small screen first, then expand until it looks like shit. Time for a breakpoint!"
-	$('#sg-size-hay').on("click", function(e){
-		e.preventDefault();
-		killDisco();
-		if (hayMode) {
-			killHay();
-		} else {
-			startHay();
-		}
-	});
-
-	//Stop Hay! Mode
-	function killHay() {
-		var currentWidth = $sgViewport.width();
-		hayMode = false;
-		$sgViewport.removeClass('hay-mode');
-		$('#sg-gen-container').removeClass('hay-mode');
-		sizeiframe(Math.floor(currentWidth));
-	}
-
-	// start Hay! mode
-	function startHay() {
-		hayMode = true;
-		$('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth+viewportResizeHandleWidth);
-		$sgViewport.removeClass("vp-animate").width(minViewportWidth);
-
-		var timeoutID = window.setTimeout(function(){
-			$('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth+viewportResizeHandleWidth);
-			$sgViewport.addClass('hay-mode').width(maxViewportWidth);
-
-			setInterval(function(){ var vpSize = $sgViewport.width(); updateSizeReading(vpSize); },100);
-		}, 200);
-	}
-
-	// start hay from a keyboard shortcut
-	jwerty.key('ctrl+shift+h', function(e) {
-		if (!hayMode) {
-			startHay();
-		} else {
-			killHay();
-		}
-	});
-
-	//Pixel input
-	$sizePx.on('keydown', function(e){
-		var val = Math.floor($(this).val());
-
-		if(e.keyCode === 38) { //If the up arrow key is hit
-			val++;
-			sizeiframe(val,false);
-		} else if(e.keyCode === 40) { //If the down arrow key is hit
-			val--;
-			sizeiframe(val,false);
-		} else if(e.keyCode === 13) { //If the Enter key is hit
-			e.preventDefault();
-			sizeiframe(val); //Size Iframe to value of text box
-			$(this).blur();
-		}
-	});
-
-	$sizePx.on('keyup', function(){
-		var val = Math.floor($(this).val());
-		updateSizeReading(val,'px','updateEmInput');
-	});
-
-	//Em input
-	$sizeEms.on('keydown', function(e){
-		var val = parseFloat($(this).val());
-
-		if(e.keyCode === 38) { //If the up arrow key is hit
-			val++;
-			sizeiframe(Math.floor(val*$bodySize),false);
-		} else if(e.keyCode === 40) { //If the down arrow key is hit
-			val--;
-			sizeiframe(Math.floor(val*$bodySize),false);
-		} else if(e.keyCode === 13) { //If the Enter key is hit
-			e.preventDefault();
-			sizeiframe(Math.floor(val*$bodySize)); //Size Iframe to value of text box
-		}
-	});
-
-	$sizeEms.on('keyup', function(){
-		var val = parseFloat($(this).val());
-		updateSizeReading(val,'em','updatePxInput');
-	});
-
-	// set 0 to 320px as a default
-	jwerty.key('ctrl+shift+0', function(e) {
-		e.preventDefault();
-		sizeiframe(320,true);
-		return false;
-	});
-
-	// handle the MQ click
-	var mqs = [];
-	$('#sg-mq a').each(function(i) {
-
-		mqs.push($(this).html());
-
-		// bind the click
-		$(this).on("click", function(i,k) {
-			return function(e) {
-				e.preventDefault();
-				var val = $(k).html();
-				var type = (val.indexOf("px") !== -1) ? "px" : "em";
-				val = val.replace(type,"");
-				var width = (type === "px") ? val*1 : val*$bodySize;
-				sizeiframe(width,true);
-			};
-		}(i,this));
-
-		// bind the keyboard shortcut. can't use cmd on a mac because 3 & 4 are for screenshots
-		jwerty.key('ctrl+shift+'+(i+1), function (k) {
-			return function(e) {
-				var val = $(k).html();
-				var type = (val.indexOf("px") !== -1) ? "px" : "em";
-				val = val.replace(type,"");
-				var width = (type === "px") ? val*1 : val*$bodySize;
-				sizeiframe(width,true);
-				return false;
-			};
-		}(this));
-
-	});
-
-	//Resize the viewport
-	//'size' is the target size of the viewport
-	//'animate' is a boolean for switching the CSS animation on or off. 'animate' is true by default, but can be set to false for things like nudging and dragging
-	function sizeiframe(size,animate) {
-		var theSize;
-
-		if(size>maxViewportWidth) { //If the entered size is larger than the max allowed viewport size, cap value at max vp size
-			theSize = maxViewportWidth;
-		} else if(size<minViewportWidth) { //If the entered size is less than the minimum allowed viewport size, cap value at min vp size
-			theSize = minViewportWidth;
-		} else {
-			theSize = size;
-		}
-
-		//Conditionally remove CSS animation class from viewport
-		if(animate===false) {
-			$('#sg-gen-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
-		} else {
-			$('#sg-gen-container,#sg-viewport').addClass("vp-animate");
-		}
-
-		$('#sg-gen-container').width(theSize+viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
-		$sgViewport.width(theSize); //Resize viewport to desired size
-
-		var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-		var obj = JSON.stringify({ "event": "patternLab.resize", "resize": "true" });
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj,targetOrigin);
-
-		updateSizeReading(theSize); //Update values in toolbar
-		saveSize(theSize); //Save current viewport to cookie
-	}
-
-	$("#sg-gen-container").on('transitionend webkitTransitionEnd', function(e){
-		var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-		var obj = JSON.stringify({ "event": "patternLab.resize", "resize": "true" });
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj,targetOrigin);
-	});
-
-	function saveSize(size) {
-		if (!DataSaver.findValue('vpWidth')) {
-			DataSaver.addValue("vpWidth",size);
-		} else {
-			DataSaver.updateValue("vpWidth",size);
-		}
-	}
-
-
-	//Update Pixel and Em inputs
-	//'size' is the input number
-	//'unit' is the type of unit: either px or em. Default is px. Accepted values are 'px' and 'em'
-	//'target' is what inputs to update. Defaults to both
-	function updateSizeReading(size,unit,target) {
-		var emSize, pxSize;
-
-		if(unit==='em') { //If size value is in em units
-			emSize = size;
-			pxSize = Math.floor(size*$bodySize);
-		} else { //If value is px or absent
-			pxSize = size;
-			emSize = size/$bodySize;
-		}
-
-		if (target === 'updatePxInput') {
-			$sizePx.val(pxSize);
-		} else if (target === 'updateEmInput') {
-			$sizeEms.val(emSize.toFixed(2));
-		} else {
-			$sizeEms.val(emSize.toFixed(2));
-			$sizePx.val(pxSize);
-		}
-	}
-
-	/* Returns a random number between min and max */
-	function getRandom (min, max) {
-		return Math.floor(Math.random() * (max - min) + min);
-	}
-
-	//Update The viewport size
-	function updateViewportWidth(size) {
-		$("#sg-viewport").width(size);
-		$("#sg-gen-container").width(size*1 + 14);
-
-		updateSizeReading(size);
-	}
-
-	$('#sg-gen-container').on('touchstart', function(event){});
-
-	// handles widening the "viewport"
-	//   1. on "mousedown" store the click location
-	//   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
-	//   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
-	$('#sg-rightpull').mousedown(function(event) {
-
-		// capture default data
-		var origClientX = event.clientX;
-		var origViewportWidth = $sgViewport.width();
-
-		fullMode = false;
-
-		// show the cover
-		$("#sg-cover").css("display","block");
-
-		// add the mouse move event and capture data. also update the viewport width
-		$('#sg-cover').mousemove(function(event) {
-			var viewportWidth;
-
-			viewportWidth = origViewportWidth + 2*(event.clientX - origClientX);
-
-			if (viewportWidth > minViewportWidth) {
-
-				if (!DataSaver.findValue('vpWidth')) {
-					DataSaver.addValue("vpWidth",viewportWidth);
-				} else {
-					DataSaver.updateValue("vpWidth",viewportWidth);
-				}
-
-				sizeiframe(viewportWidth,false);
-			}
-		});
-
-		return false;
-
-	});
-
-	// on "mouseup" we unbind the "mousemove" event and hide the cover again
-	$('body').mouseup(function() {
-		$('#sg-cover').unbind('mousemove');
-		$('#sg-cover').css("display","none");
-	});
-
-
-	// capture the viewport width that was loaded and modify it so it fits with the pull bar
-	var origViewportWidth = $("#sg-viewport").width();
-	$("#sg-gen-container").width(origViewportWidth);
-
-	var testWidth = screen.width;
-	if (window.orientation !== undefined) {
-		testWidth = (window.orientation === 0) ? screen.width : screen.height;
-	}
-	if (($(window).width() == testWidth) && ('ontouchstart' in document.documentElement) && ($(window).width() <= 1024)) {
-		$("#sg-rightpull-container").width(0);
-	} else {
-		$("#sg-viewport").width(origViewportWidth - 14);
-	}
-	updateSizeReading($("#sg-viewport").width());
-
-	// get the request vars
-	var oGetVars = urlHandler.getRequestVars();
-
-	// pre-load the viewport width
-	var vpWidth = 0;
-	var trackViewportWidth = true; // can toggle this feature on & off
-
-	if ((oGetVars.h !== undefined) || (oGetVars.hay !== undefined)) {
-		startHay();
-	} else if ((oGetVars.d !== undefined) || (oGetVars.disco !== undefined)) {
-		startDisco();
-	} else if ((oGetVars.w !== undefined) || (oGetVars.width !== undefined)) {
-		vpWidth = (oGetVars.w !== undefined) ? oGetVars.w : oGetVars.width;
-		vpWidth = (vpWidth.indexOf("em") !== -1) ? Math.floor(Math.floor(vpWidth.replace("em",""))*$bodySize) : Math.floor(vpWidth.replace("px",""));
-		DataSaver.updateValue("vpWidth",vpWidth);
-		updateViewportWidth(vpWidth);
-	} else if (trackViewportWidth && (vpWidth = DataSaver.findValue("vpWidth"))) {
-		updateViewportWidth(vpWidth);
-	}
-
-	// load the iframe source
-	var patternName = "all";
-	var patternPath = "";
-	var iFramePath  = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"styleguide/html/styleguide.html?"+Date.now();
-	if ((oGetVars.p !== undefined) || (oGetVars.pattern !== undefined)) {
-		patternName = (oGetVars.p !== undefined) ? oGetVars.p : oGetVars.pattern;
-		patternPath = urlHandler.getFileName(patternName);
-		iFramePath  = (patternPath !== "") ? window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+patternPath+"?"+Date.now() : iFramePath;
-	}
-
-	if (patternName !== "all") {
-		document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
-		history.replaceState({ "pattern": patternName }, null, null);
-	}
-
-	if (document.getElementById("sg-raw") !== undefined) {
-		document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
-	}
-
-	urlHandler.skipBack = true;
-	document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
-
-	//Close all dropdowns and navigation
-	function closePanels() {
-		$('.sg-nav-container, .sg-nav-toggle, .sg-acc-handle, .sg-acc-panel').removeClass('active');
-		patternFinder.closeFinder();
-	}
-
-	// update the iframe with the source from clicked element in pull down menu. also close the menu
-	// having it outside fixes an auto-close bug i ran into
-	$('a[data-patternpartial]').on("click", function(e){
-		e.preventDefault();
-		// update the iframe via the history api handler
-		var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName($(this).attr("data-patternpartial")) });
-		document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
-		closePanels();
-	});
-
-	// handle when someone clicks on the grey area of the viewport so it auto-closes the nav
-	$('#sg-vp-wrap').click(function() {
-		closePanels();
-	});
-
-	// Listen for resize changes
-	if (window.orientation !== undefined) {
-		var origOrientation = window.orientation;
-		window.addEventListener("orientationchange", function() {
-			if (window.orientation != origOrientation) {
-				$("#sg-gen-container").width($(window).width());
-				$("#sg-viewport").width($(window).width());
-				updateSizeReading($(window).width());
-				origOrientation = window.orientation;
-			}
-		}, false);
-
-	}
-
-	// watch the iframe source so that it can be sent back to everyone else.
-	// based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
-	function receiveIframeMessage(event) {
-
-		// does the origin sending the message match the current host? if not dev/null the request
-		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
-			return;
-		}
-
-		var data = {};
-		try {
-			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-		} catch(e) {}
-		
-		if (data.event !== undefined) {
-			
-			if (data.event == "patternLab.bodyclick") {
-
-				closePanels();
-
-			} else if (data.event == "patternLab.pageLoad") {
-
-				if (!urlHandler.skipBack) {
-
-					if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
-						urlHandler.pushPattern(data.patternpartial, data.path);
-					}
-
-					/*
-					if (wsnConnected) {
-						var iFramePath = urlHandler.getFileName(data.patternpartial);
-						wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
-					}
-					*/
-				}
-
-				// reset the defaults
-				urlHandler.skipBack = false;
-
-			} else if (data.event == "patternLab.keyPress") {
-				if (data.keyPress == 'ctrl+shift+s') {
-					goSmall();
-				} else if (data.keyPress == 'ctrl+shift+m') {
-					goMedium();
-				} else if (data.keyPress == 'ctrl+shift+l') {
-					goLarge();
-				} else if (data.keyPress == 'ctrl+shift+d') {
-					if (!discoMode) {
-						startDisco();
-					} else {
-						killDisco();
-					}
-				} else if (data.keyPress == 'ctrl+shift+h') {
-					if (!hayMode) {
-						startHay();
-					} else {
-						killHay();
-					}
-				} else if (data.keyPress == 'ctrl+shift+0') {
-					sizeiframe(320,true);
-				} else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
-					var val = mqs[(found[1]-1)];
-					var type = (val.indexOf("px") !== -1) ? "px" : "em";
-					val = val.replace(type,"");
-					var width = (type === "px") ? val*1 : val*$bodySize;
-					sizeiframe(width,true);
-				}
-				return false;
-			}
-			
-		}
-		
-	}
-	window.addEventListener("message", receiveIframeMessage, false);
+  var sw = document.body.clientWidth, //Viewport Width
+    sh = $(document).height(), //Viewport Height
+    minViewportWidth = parseInt(config.ishMinimum), //Minimum Size for Viewport
+    maxViewportWidth = parseInt(config.ishMaximum), //Maxiumum Size for Viewport
+    viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
+    $sgViewport = $('#sg-viewport'), //Viewport element
+    $sizePx = $('.sg-size-px'), //Px size input element in toolbar
+    $sizeEms = $('.sg-size-em'), //Em size input element in toolbar
+    $bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document,
+    $headerHeight = $('.sg-header').height(),
+    discoID = false,
+    discoMode = false,
+    fullMode = true,
+    hayMode = false;
+
+
+
+  //Update dimensions on resize
+  $(w).resize(function() {
+    sw = document.body.clientWidth;
+    sh = $(document).height();
+
+    setAccordionHeight();
+
+    if(fullMode === true) {
+      sizeiframe(sw, false);
+    }
+  });
+
+  // Accordion dropdown
+  $('.sg-acc-handle').on("click", function(e){
+    e.preventDefault();
+
+    var $this = $(this),
+      $panel = $this.next('.sg-acc-panel'),
+      subnav = $this.parent().parent().hasClass('sg-acc-panel');
+
+    //Close other panels if link isn't a subnavigation item
+    if (!subnav) {
+      $('.sg-acc-handle').not($this).removeClass('active');
+      $('.sg-acc-panel').not($panel).removeClass('active');
+    }
+
+    //Activate selected panel
+    $this.toggleClass('active');
+    $panel.toggleClass('active');
+    setAccordionHeight();
+  });
+
+  //Accordion Height
+  function setAccordionHeight() {
+    var $activeAccordion = $('.sg-acc-panel.active').first(),
+      accordionHeight = $activeAccordion.height(),
+      availableHeight = sh-$headerHeight; //Screen height minus the height of the header
+
+    $activeAccordion.height(availableHeight); //Set height of accordion to the available height
+  }
+
+  $('.sg-nav-toggle').on("click", function(e){
+    e.preventDefault();
+    $('.sg-nav-container').toggleClass('active');
+  });
+
+  // "View (containing clean, code, raw, etc options) Trigger
+  $('#sg-t-toggle').on("click", function(e){
+    e.preventDefault();
+    $(this).parents('ul').toggleClass('active');
+  });
+
+  //Size Trigger
+  $('#sg-size-toggle').on("click", function(e){
+    e.preventDefault();
+    $(this).parents('ul').toggleClass('active');
+  });
+
+  //Phase View Events
+  $('.sg-size[data-size]').on("click", function(e){
+    e.preventDefault();
+    killDisco();
+    killHay();
+    fullMode = false;
+
+    var val = $(this).attr('data-size');
+
+    if (val.indexOf('px') > -1) {
+      $bodySize = 1;
+    }
+
+    val = val.replace(/[^\d.-]/g,'');
+    sizeiframe(Math.floor(val*$bodySize));
+  });
+
+  //Size View Events
+
+  // handle small button
+  function goSmall() {
+    killDisco();
+    killHay();
+    fullMode = false;
+    sizeiframe(getRandom(minViewportWidth,500));
+  }
+
+  $('#sg-size-s').on("click", function(e){
+    e.preventDefault();
+    goSmall();
+  });
+
+  jwerty.key('ctrl+shift+s', function(e) {
+    goSmall();
+    return false;
+  });
+
+  // handle medium button
+  function goMedium() {
+    killDisco();
+    killHay();
+    fullMode = false;
+    sizeiframe(getRandom(500,800));
+  }
+
+  $('#sg-size-m').on("click", function(e){
+    e.preventDefault();
+    goMedium();
+  });
+
+  jwerty.key('ctrl+shift+m', function(e) {
+    goLarge();
+    return false;
+  });
+
+  // handle large button
+  function goLarge() {
+    killDisco();
+    killHay();
+    fullMode = false;
+    sizeiframe(getRandom(800,1200));
+  }
+
+  $('#sg-size-l').on("click", function(e){
+    e.preventDefault();
+    goLarge();
+  });
+
+  jwerty.key('ctrl+shift+l', function(e) {
+    goLarge();
+    return false;
+  });
+
+  //Click Full Width Button
+  $('#sg-size-full').on("click", function(e){ //Resets
+    e.preventDefault();
+    killDisco();
+    killHay();
+    fullMode = true;
+    sizeiframe(sw);
+  });
+
+  //Click Random Size Button
+  $('#sg-size-random').on("click", function(e){
+    e.preventDefault();
+    killDisco();
+    killHay();
+    fullMode = false;
+    sizeiframe(getRandom(minViewportWidth,sw));
+  });
+
+  //Click for Disco Mode, which resizes the viewport randomly
+  $('#sg-size-disco').on("click", function(e){
+    e.preventDefault();
+    killHay();
+    fullMode = false;
+
+    if (discoMode) {
+      killDisco();
+
+    } else {
+      startDisco();
+    }
+  });
+
+  /* Disco Mode */
+  function disco() {
+    sizeiframe(getRandom(minViewportWidth,sw));
+  }
+
+  function killDisco() {
+    discoMode = false;
+    clearInterval(discoID);
+    discoID = false;
+  }
+
+  function startDisco() {
+    discoMode = true;
+    discoID = setInterval(disco, 800);
+  }
+
+  jwerty.key('ctrl+shift+d', function(e) {
+    if (!discoMode) {
+      startDisco();
+    } else {
+      killDisco();
+    }
+    return false;
+  });
+
+  //Stephen Hay Mode - "Start with the small screen first, then expand until it looks like shit. Time for a breakpoint!"
+  $('#sg-size-hay').on("click", function(e){
+    e.preventDefault();
+    killDisco();
+    if (hayMode) {
+      killHay();
+    } else {
+      startHay();
+    }
+  });
+
+  //Stop Hay! Mode
+  function killHay() {
+    var currentWidth = $sgViewport.width();
+    hayMode = false;
+    $sgViewport.removeClass('hay-mode');
+    $('#sg-gen-container').removeClass('hay-mode');
+    sizeiframe(Math.floor(currentWidth));
+  }
+
+  // start Hay! mode
+  function startHay() {
+    hayMode = true;
+    $('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth+viewportResizeHandleWidth);
+    $sgViewport.removeClass("vp-animate").width(minViewportWidth);
+
+    var timeoutID = window.setTimeout(function(){
+      $('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth+viewportResizeHandleWidth);
+      $sgViewport.addClass('hay-mode').width(maxViewportWidth);
+
+      setInterval(function(){ var vpSize = $sgViewport.width(); updateSizeReading(vpSize); },100);
+    }, 200);
+  }
+
+  // start hay from a keyboard shortcut
+  jwerty.key('ctrl+shift+h', function(e) {
+    if (!hayMode) {
+      startHay();
+    } else {
+      killHay();
+    }
+  });
+
+  //Pixel input
+  $sizePx.on('keydown', function(e){
+    var val = Math.floor($(this).val());
+
+    if(e.keyCode === 38) { //If the up arrow key is hit
+      val++;
+      sizeiframe(val,false);
+    } else if(e.keyCode === 40) { //If the down arrow key is hit
+      val--;
+      sizeiframe(val,false);
+    } else if(e.keyCode === 13) { //If the Enter key is hit
+      e.preventDefault();
+      sizeiframe(val); //Size Iframe to value of text box
+      $(this).blur();
+    }
+  });
+
+  $sizePx.on('keyup', function(){
+    var val = Math.floor($(this).val());
+    updateSizeReading(val,'px','updateEmInput');
+  });
+
+  //Em input
+  $sizeEms.on('keydown', function(e){
+    var val = parseFloat($(this).val());
+
+    if(e.keyCode === 38) { //If the up arrow key is hit
+      val++;
+      sizeiframe(Math.floor(val*$bodySize),false);
+    } else if(e.keyCode === 40) { //If the down arrow key is hit
+      val--;
+      sizeiframe(Math.floor(val*$bodySize),false);
+    } else if(e.keyCode === 13) { //If the Enter key is hit
+      e.preventDefault();
+      sizeiframe(Math.floor(val*$bodySize)); //Size Iframe to value of text box
+    }
+  });
+
+  $sizeEms.on('keyup', function(){
+    var val = parseFloat($(this).val());
+    updateSizeReading(val,'em','updatePxInput');
+  });
+
+  // set 0 to 320px as a default
+  jwerty.key('ctrl+shift+0', function(e) {
+    e.preventDefault();
+    sizeiframe(320,true);
+    return false;
+  });
+
+  // handle the MQ click
+  var mqs = [];
+  $('#sg-mq a').each(function(i) {
+
+    mqs.push($(this).html());
+
+    // bind the click
+    $(this).on("click", function(i,k) {
+      return function(e) {
+        e.preventDefault();
+        var val = $(k).html();
+        var type = (val.indexOf("px") !== -1) ? "px" : "em";
+        val = val.replace(type,"");
+        var width = (type === "px") ? val*1 : val*$bodySize;
+        sizeiframe(width,true);
+      };
+    }(i,this));
+
+    // bind the keyboard shortcut. can't use cmd on a mac because 3 & 4 are for screenshots
+    jwerty.key('ctrl+shift+'+(i+1), function (k) {
+      return function(e) {
+        var val = $(k).html();
+        var type = (val.indexOf("px") !== -1) ? "px" : "em";
+        val = val.replace(type,"");
+        var width = (type === "px") ? val*1 : val*$bodySize;
+        sizeiframe(width,true);
+        return false;
+      };
+    }(this));
+
+  });
+
+  //Resize the viewport
+  //'size' is the target size of the viewport
+  //'animate' is a boolean for switching the CSS animation on or off. 'animate' is true by default, but can be set to false for things like nudging and dragging
+  function sizeiframe(size,animate) {
+    var theSize;
+
+    if(size>maxViewportWidth) { //If the entered size is larger than the max allowed viewport size, cap value at max vp size
+      theSize = maxViewportWidth;
+    } else if(size<minViewportWidth) { //If the entered size is less than the minimum allowed viewport size, cap value at min vp size
+      theSize = minViewportWidth;
+    } else {
+      theSize = size;
+    }
+
+    //Conditionally remove CSS animation class from viewport
+    if(animate===false) {
+      $('#sg-gen-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
+    } else {
+      $('#sg-gen-container,#sg-viewport').addClass("vp-animate");
+    }
+
+    $('#sg-gen-container').width(theSize+viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
+    $sgViewport.width(theSize); //Resize viewport to desired size
+
+    var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+    var obj = JSON.stringify({ "event": "patternLab.resize", "resize": "true" });
+    document.getElementById('sg-viewport').contentWindow.postMessage(obj,targetOrigin);
+
+    updateSizeReading(theSize); //Update values in toolbar
+    saveSize(theSize); //Save current viewport to cookie
+  }
+
+  $("#sg-gen-container").on('transitionend webkitTransitionEnd', function(e){
+    var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+    var obj = JSON.stringify({ "event": "patternLab.resize", "resize": "true" });
+    document.getElementById('sg-viewport').contentWindow.postMessage(obj,targetOrigin);
+  });
+
+  function saveSize(size) {
+    if (!DataSaver.findValue('vpWidth')) {
+      DataSaver.addValue("vpWidth",size);
+    } else {
+      DataSaver.updateValue("vpWidth",size);
+    }
+  }
+
+
+  //Update Pixel and Em inputs
+  //'size' is the input number
+  //'unit' is the type of unit: either px or em. Default is px. Accepted values are 'px' and 'em'
+  //'target' is what inputs to update. Defaults to both
+  function updateSizeReading(size,unit,target) {
+    var emSize, pxSize;
+
+    if(unit==='em') { //If size value is in em units
+      emSize = size;
+      pxSize = Math.floor(size*$bodySize);
+    } else { //If value is px or absent
+      pxSize = size;
+      emSize = size/$bodySize;
+    }
+
+    if (target === 'updatePxInput') {
+      $sizePx.val(pxSize);
+    } else if (target === 'updateEmInput') {
+      $sizeEms.val(emSize.toFixed(2));
+    } else {
+      $sizeEms.val(emSize.toFixed(2));
+      $sizePx.val(pxSize);
+    }
+  }
+
+  /* Returns a random number between min and max */
+  function getRandom (min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  //Update The viewport size
+  function updateViewportWidth(size) {
+    $("#sg-viewport").width(size);
+    $("#sg-gen-container").width(size*1 + 14);
+
+    updateSizeReading(size);
+  }
+
+  $('#sg-gen-container').on('touchstart', function(event){});
+
+  // handles widening the "viewport"
+  //   1. on "mousedown" store the click location
+  //   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
+  //   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
+  $('#sg-rightpull').mousedown(function(event) {
+
+    // capture default data
+    var origClientX = event.clientX;
+    var origViewportWidth = $sgViewport.width();
+
+    fullMode = false;
+
+    // show the cover
+    $("#sg-cover").css("display","block");
+
+    // add the mouse move event and capture data. also update the viewport width
+    $('#sg-cover').mousemove(function(event) {
+      var viewportWidth;
+
+      viewportWidth = origViewportWidth + 2*(event.clientX - origClientX);
+
+      if (viewportWidth > minViewportWidth) {
+
+        if (!DataSaver.findValue('vpWidth')) {
+          DataSaver.addValue("vpWidth",viewportWidth);
+        } else {
+          DataSaver.updateValue("vpWidth",viewportWidth);
+        }
+
+        sizeiframe(viewportWidth,false);
+      }
+    });
+
+    return false;
+
+  });
+
+  // on "mouseup" we unbind the "mousemove" event and hide the cover again
+  $('body').mouseup(function() {
+    $('#sg-cover').unbind('mousemove');
+    $('#sg-cover').css("display","none");
+  });
+
+
+  // capture the viewport width that was loaded and modify it so it fits with the pull bar
+  var origViewportWidth = $("#sg-viewport").width();
+  $("#sg-gen-container").width(origViewportWidth);
+
+  var testWidth = screen.width;
+  if (window.orientation !== undefined) {
+    testWidth = (window.orientation === 0) ? screen.width : screen.height;
+  }
+  if (($(window).width() == testWidth) && ('ontouchstart' in document.documentElement) && ($(window).width() <= 1024)) {
+    $("#sg-rightpull-container").width(0);
+  } else {
+    $("#sg-viewport").width(origViewportWidth - 14);
+  }
+  updateSizeReading($("#sg-viewport").width());
+
+  // get the request vars
+  var oGetVars = urlHandler.getRequestVars();
+
+  // pre-load the viewport width
+  var vpWidth = 0;
+  var trackViewportWidth = true; // can toggle this feature on & off
+
+  if ((oGetVars.h !== undefined) || (oGetVars.hay !== undefined)) {
+    startHay();
+  } else if ((oGetVars.d !== undefined) || (oGetVars.disco !== undefined)) {
+    startDisco();
+  } else if ((oGetVars.w !== undefined) || (oGetVars.width !== undefined)) {
+    vpWidth = (oGetVars.w !== undefined) ? oGetVars.w : oGetVars.width;
+    vpWidth = (vpWidth.indexOf("em") !== -1) ? Math.floor(Math.floor(vpWidth.replace("em",""))*$bodySize) : Math.floor(vpWidth.replace("px",""));
+    DataSaver.updateValue("vpWidth",vpWidth);
+    updateViewportWidth(vpWidth);
+  } else if (trackViewportWidth && (vpWidth = DataSaver.findValue("vpWidth"))) {
+    updateViewportWidth(vpWidth);
+  }
+
+  // load the iframe source
+  var patternName = "all";
+  var patternPath = "";
+  var iFramePath  = window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"styleguide/html/styleguide.html?"+Date.now();
+  if ((oGetVars.p !== undefined) || (oGetVars.pattern !== undefined)) {
+    patternName = (oGetVars.p !== undefined) ? oGetVars.p : oGetVars.pattern;
+    patternPath = urlHandler.getFileName(patternName);
+    iFramePath  = (patternPath !== "") ? window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+patternPath+"?"+Date.now() : iFramePath;
+  }
+
+  if (patternName !== "all") {
+    document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
+    history.replaceState({ "pattern": patternName }, null, null);
+  }
+
+  if (document.getElementById("sg-raw") !== undefined) {
+    document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
+  }
+
+  urlHandler.skipBack = true;
+  document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
+
+  //Close all dropdowns and navigation
+  function closePanels() {
+    $('.sg-nav-container, .sg-nav-toggle, .sg-acc-handle, .sg-acc-panel').removeClass('active');
+    patternFinder.closeFinder();
+  }
+
+  // update the iframe with the source from clicked element in pull down menu. also close the menu
+  // having it outside fixes an auto-close bug i ran into
+  $('a[data-patternpartial]').on("click", function(e){
+    e.preventDefault();
+    // update the iframe via the history api handler
+    var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName($(this).attr("data-patternpartial")) });
+    document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+    closePanels();
+  });
+
+  // handle when someone clicks on the grey area of the viewport so it auto-closes the nav
+  $('#sg-vp-wrap').click(function() {
+    closePanels();
+  });
+
+  // Listen for resize changes
+  if (window.orientation !== undefined) {
+    var origOrientation = window.orientation;
+    window.addEventListener("orientationchange", function() {
+      if (window.orientation != origOrientation) {
+        $("#sg-gen-container").width($(window).width());
+        $("#sg-viewport").width($(window).width());
+        updateSizeReading($(window).width());
+        origOrientation = window.orientation;
+      }
+    }, false);
+
+  }
+
+  // watch the iframe source so that it can be sent back to everyone else.
+  // based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
+  function receiveIframeMessage(event) {
+
+    // does the origin sending the message match the current host? if not dev/null the request
+    if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
+      return;
+    }
+
+    var data = {};
+    try {
+      data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+    } catch(e) {}
+    
+    if (data.event !== undefined) {
+      
+      if (data.event == "patternLab.bodyclick") {
+
+        closePanels();
+
+      } else if (data.event == "patternLab.pageLoad") {
+
+        if (!urlHandler.skipBack) {
+
+          if ((history.state === undefined) || (history.state === null) || (history.state.pattern !== data.patternpartial)) {
+            urlHandler.pushPattern(data.patternpartial, data.path);
+          }
+
+          /*
+          if (wsnConnected) {
+            var iFramePath = urlHandler.getFileName(data.patternpartial);
+            wsn.send( '{"url": "'+iFramePath+'", "patternpartial": "'+event.data.patternpartial+'" }' );
+          }
+          */
+        }
+
+        // reset the defaults
+        urlHandler.skipBack = false;
+
+      } else if (data.event == "patternLab.keyPress") {
+        if (data.keyPress == 'ctrl+shift+s') {
+          goSmall();
+        } else if (data.keyPress == 'ctrl+shift+m') {
+          goMedium();
+        } else if (data.keyPress == 'ctrl+shift+l') {
+          goLarge();
+        } else if (data.keyPress == 'ctrl+shift+d') {
+          if (!discoMode) {
+            startDisco();
+          } else {
+            killDisco();
+          }
+        } else if (data.keyPress == 'ctrl+shift+h') {
+          if (!hayMode) {
+            startHay();
+          } else {
+            killHay();
+          }
+        } else if (data.keyPress == 'ctrl+shift+0') {
+          sizeiframe(320,true);
+        } else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
+          var val = mqs[(found[1]-1)];
+          var type = (val.indexOf("px") !== -1) ? "px" : "em";
+          val = val.replace(type,"");
+          var width = (type === "px") ? val*1 : val*$bodySize;
+          sizeiframe(width,true);
+        }
+        return false;
+      }
+      
+    }
+    
+  }
+  window.addEventListener("message", receiveIframeMessage, false);
 
 })(this);
 
@@ -1916,52 +1948,52 @@ window.addEventListener("message", receiveIframeMessage, false);
  */
 
 var pluginLoader = {
-	
-	init: function () {
-		
-		var s, t, l, c, n;
-		
-		for (var i = 0; i < plugins.length; ++i) {
-			
-			var plugin = plugins[i];
-			
-			// load the templates
-			for (var key in plugin.templates) {
-				if (plugin.templates.hasOwnProperty(key)) {
-					t           = document.getElementsByTagName('script');
-					l           = t.length - 1;
-					s           = t[l];
-					n           = document.createElement('script');
-					n.type      = 'text/mustache';
-					n.id        = plugin.name.replace("\/","-")+"-"+key+"-template";
-					n.innerHTML = plugin.templates[key];
-					s.parentNode.insertBefore(n, s.nextSibling);
-				}
-			}
-			
-			// load the stylesheets
-			for (var k = 0; k < plugin.stylesheets.length; ++k) {
-				s       = plugin.stylesheets[k];
-				t       = document.getElementsByTagName('link');
-				l       = t.length - 1;
-				c       = t[l];
-				n       = document.createElement('link');
-				n.type  = 'text/css';
-				n.rel   = 'stylesheet';
-				n.href  = 'patternlab-components/'+plugin.name+'/'+s;
-				n.media = 'screen';
-				c.parentNode.insertBefore(n, c.nextSibling);
-			}
-			
-			// load the javascript
-			// $script.path('patternlab-components/'+plugin.name+'/');
-			$script(plugin.javascripts, plugin.name, eval('(function() { '+plugin.callback+' })'));
-			$script.ready([plugin.name], eval('(function() { '+plugin.onready+' })'));
-			
-		}
-		
-	}
-	
+  
+  init: function () {
+    
+    var s, t, l, c, n;
+    
+    for (var i = 0; i < plugins.length; ++i) {
+      
+      var plugin = plugins[i];
+      
+      // load the templates
+      for (var key in plugin.templates) {
+        if (plugin.templates.hasOwnProperty(key)) {
+          t           = document.getElementsByTagName('script');
+          l           = t.length - 1;
+          s           = t[l];
+          n           = document.createElement('script');
+          n.type      = 'text/mustache';
+          n.id        = plugin.name.replace("\/","-")+"-"+key+"-template";
+          n.innerHTML = plugin.templates[key];
+          s.parentNode.insertBefore(n, s.nextSibling);
+        }
+      }
+      
+      // load the stylesheets
+      for (var k = 0; k < plugin.stylesheets.length; ++k) {
+        s       = plugin.stylesheets[k];
+        t       = document.getElementsByTagName('link');
+        l       = t.length - 1;
+        c       = t[l];
+        n       = document.createElement('link');
+        n.type  = 'text/css';
+        n.rel   = 'stylesheet';
+        n.href  = 'patternlab-components/'+plugin.name+'/'+s;
+        n.media = 'screen';
+        c.parentNode.insertBefore(n, c.nextSibling);
+      }
+      
+      // load the javascript
+      // $script.path('patternlab-components/'+plugin.name+'/');
+      $script(plugin.javascripts, plugin.name, eval('(function() { '+plugin.callback+' })'));
+      $script.ready([plugin.name], eval('(function() { '+plugin.onready+' })'));
+      
+    }
+    
+  }
+  
 };
 
 pluginLoader.init();
