@@ -38,7 +38,7 @@
         position: absolute;
         width: 50%;
         border: 0;
-        border-bottom: 0.125em solid;
+        border-bottom: 0.125em solid $colorWhite;
       }
       h3 {
         display: flex;
@@ -79,7 +79,7 @@
   left: 0;
   right: 0;
   top: 0;
-  margin-top: 4.5rem;
+  margin-top: 4.55rem;
   padding: 1.625em 6.250em;
   font-size:1rem;
   &.flyout-open {
