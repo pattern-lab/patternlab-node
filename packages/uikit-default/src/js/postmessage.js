@@ -47,15 +47,17 @@ if (self != top) {
     };
   }
   
+  // if there are clicks on the iframe make sure the nav in the iframe parent closes
+  var body = document.getElementsByTagName('body');
+  body[0].onclick = function() {
+    var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+    var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
+    parent.postMessage(obj,targetOrigin);
+  };
+  
 }
 
-// if there are clicks on the iframe make sure the nav in the iframe parent closes
-var body = document.getElementsByTagName('body');
-body[0].onclick = function() {
-  var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-  var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
-  parent.postMessage(obj,targetOrigin);
-};
+
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {

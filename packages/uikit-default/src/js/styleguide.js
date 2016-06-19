@@ -575,7 +575,7 @@
     
     if (data.event !== undefined) {
       
-      if (data.event == "patternLab.bodyclick") {
+      if (data.event == "patternLab.bodyClick") {
 
         closePanels();
 
