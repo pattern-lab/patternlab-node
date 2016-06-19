@@ -47,15 +47,17 @@ if (self != top) {
     };
   }
   
+  // if there are clicks on the iframe make sure the nav in the iframe parent closes
+  var body = document.getElementsByTagName('body');
+  body[0].onclick = function() {
+    var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
+    var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
+    parent.postMessage(obj,targetOrigin);
+  };
+  
 }
 
-// if there are clicks on the iframe make sure the nav in the iframe parent closes
-var body = document.getElementsByTagName('body');
-body[0].onclick = function() {
-  var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-  var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
-  parent.postMessage(obj,targetOrigin);
-};
+
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
@@ -402,15 +404,13 @@ var modalStyleguide = {
   },
   
   /**
-  * toggle the modal window open and closed
+  * toggle the modal window open and closed based on clicking the pip
+  * @param  {String}       the patternPartial that identifies what needs to be toggled
   */
   toggle: function(patternPartial) {
     if ((modalStyleguide.active[patternPartial] === undefined) || !modalStyleguide.active[patternPartial]) {
       var el = document.getElementById('sg-pattern-data-'+patternPartial);
-      var patternData     = JSON.parse(el.innerHTML);
-      patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
-      patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
-      modalStyleguide.patternQueryInfo(patternData, true);
+      modalStyleguide.collectAndSend(el, true, false);
     } else {
       modalStyleguide.close(patternPartial);
     }
@@ -418,7 +418,9 @@ var modalStyleguide = {
   },
   
   /**
-  * open the modal window
+  * open the modal window for a view-all entry
+  * @param  {String}       the patternPartial that identifies what needs to be opened
+  * @param  {String}       the content that should be inserted
   */
   open: function(patternPartial, content) {
     
@@ -452,7 +454,8 @@ var modalStyleguide = {
   },
   
   /**
-  * close the modal window
+  * close the modal window for a view-all entry
+  * @param  {String}       the patternPartial that identifies what needs to be closed
   */
   close: function(patternPartial) {
     
@@ -466,7 +469,25 @@ var modalStyleguide = {
   },
   
   /**
+  * get the data that needs to be send to the viewer for rendering
+  * @param  {Element}      the identifier for the element that needs to be collected
+  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+  * @param  {Boolean}      if the text in the dropdown should be switched
+  */
+  collectAndSend: function(el, iframePassback, switchText) {
+    var patternData = JSON.parse(el.innerHTML);
+    if (patternData.patternName !== undefined) {
+      patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
+      patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
+      modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+    }
+  },
+  
+  /**
   * return the pattern info to the top level
+  * @param  {Object}       the content that will be sent to the viewer for rendering
+  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+  * @param  {Boolean}      if the text in the dropdown should be switched
   */
   patternQueryInfo: function(patternData, iframePassback, switchText) {
     
@@ -508,10 +529,7 @@ var modalStyleguide = {
       
       // send each up to the parent to be read and compiled into panels
       for (i = 0; i < els.length; i++) {
-        patternData     = JSON.parse(els[i].innerHTML);
-        patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
-        patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
-        modalStyleguide.patternQueryInfo(patternData, iframePassback, data.switchText);
+        modalStyleguide.collectAndSend(els[i], iframePassback, data.switchText);
       }
       
     } else if ((data.event !== undefined) && (data.event == 'patternLab.patternModalInsert')) {
