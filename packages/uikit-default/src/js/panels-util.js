@@ -59,13 +59,6 @@ var panelsUtil = {
     // show the panel
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
     
-    /*
-    if (codeViewer.copyOnInit) {
-      codeViewer.selectCode();
-      codeViewer.copyOnInit = false;
-    }
-    */
-    
   }
   
 };
