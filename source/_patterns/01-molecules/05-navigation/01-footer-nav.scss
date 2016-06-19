@@ -1,4 +1,3 @@
-
 .navigation__footer{
   width : 100%;
 
@@ -12,33 +11,57 @@
     white-space: nowrap;
   }
 
+  @media only screen and (max-width : $breakpointTabletEnd) {
+    &--headline {
+      background-color: $colorDarkGrey;
+    }
+    .mobile-accordion__panel {
+      a {
+        &:hover {
+          background-color: lighten($colorDarkGrey, 10%);
+        }
+      }
+    }
+  }
+
   &--headline {
     @media only screen and (min-width : $breakpointDesktop) {
       border-bottom : none;
       padding-top : 0;
       padding-bottom : 0;
       padding-left : 0;
-      margin-bottom : 2em;
+      margin-bottom : 1.2rem;
       background-color : transparent;
+      font-family: $fontPrimary;
       font-size : 0.875em;
-      font-weight : normal;
+      font-weight : 300;
       text-transform : uppercase;
+      position: relative;
+      display: inline-block;
+      margin-top: 0.125rem;
+      &:before {
+        content: '';
+        border-bottom: 0.125rem solid $colorWhite;
+        width: 3.125rem;
+        position: absolute;
+        margin-top: 1.688rem;
+      }
     }
   }
 
   &--item {
     @media only screen and (min-width : $breakpointDesktop) {
       font-size : 0.875em;
-      line-height : 1.625em;
+      line-height : 1.77rem;
       display : block;
       letter-spacing : 0;
       text-transform : none;
       border-bottom : none;
-      font-family : $fontSecondary;
+      font-family : $fontPrimary;
       padding-top : 0;
       padding-bottom : 0;
       padding-left : 0;
-      font-weight : 500;
+      font-weight : 300;
       transition-duration: 500ms;
       transition-timing-function: ease-in;
 

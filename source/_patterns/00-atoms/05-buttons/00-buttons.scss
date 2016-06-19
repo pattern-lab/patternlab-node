@@ -67,6 +67,14 @@
       }
     }
   }
+  &--quaternary {
+    border: 0.125rem solid $colorWhite;
+    background-color: $colorDarkGrey;
+    &:hover, &:active {
+      background-color: lighten($colorDarkGrey, 10%);
+      border-color: $colorSilver;
+    }
+  }
 
   @media only screen and (min-width: $breakpointDesktop) {
     transition:all $animationTimingFast ease-in;
