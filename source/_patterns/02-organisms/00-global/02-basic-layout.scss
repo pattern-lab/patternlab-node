@@ -25,6 +25,14 @@
       z-index:99;
     }
   }
+  .pageContent {
+    padding-top: 4.2rem;
+  }
+  .main {
+    @media only screen and (min-width: $breakpointDesktop) {
+      padding-top: $marginMini;
+    }
+  }
 
   .navigation--cart {
     transition:right $animationTimingNormal ease-in-out;
