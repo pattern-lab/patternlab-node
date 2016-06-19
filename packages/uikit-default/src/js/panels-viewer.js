@@ -21,7 +21,7 @@ var panelsViewer = {
   * @param  {String}      the data from the pattern
   * @param  {Boolean}     if this is going to be passed back to the styleguide
   */
-  checkPanels: function(panels, patternData, iframePassback) {
+  checkPanels: function(panels, patternData, iframePassback, switchText) {
     
     // count how many panels have rendered content
     var panelContentCount = 0;
@@ -33,7 +33,7 @@ var panelsViewer = {
     
     // see if the count of panels with content matches number of panels
     if (panelContentCount === Panels.count()) {
-      panelsViewer.renderPanels(panels, patternData, iframePassback);
+      panelsViewer.renderPanels(panels, patternData, iframePassback, switchText);
     }
     
   },
@@ -43,7 +43,7 @@ var panelsViewer = {
   * @param  {String}      the data from the pattern
   * @param  {Boolean}     if this is going to be passed back to the styleguide
   */
-  gatherPanels: function(patternData, iframePassback) {
+  gatherPanels: function(patternData, iframePassback, switchText) {
     
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
     
@@ -72,7 +72,7 @@ var panelsViewer = {
               templateCompiled  = Hogan.compile(template.innerHTML);
               templateRendered  = templateCompiled.render({ 'language': panels[i].language, 'code': prismedContent });
               panels[i].content = templateRendered;
-              Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback]);
+              Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
             };
           })(i, panels, patternData, iframePassback);
           e.open('GET', fileName.replace(/\.html/,panel.httpRequestReplace)+'?'+(new Date()).getTime(), true);
@@ -85,7 +85,7 @@ var panelsViewer = {
           templateCompiled  = Hogan.compile(template.innerHTML);
           templateRendered  = templateCompiled.render(patternData);
           panels[i].content = templateRendered;
-          Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback]);
+          Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
           
         }
         
@@ -101,7 +101,7 @@ var panelsViewer = {
   * @param  {String}      the data from the pattern
   * @param  {Boolean}     if this is going to be passed back to the styleguide
   */
-  renderPanels: function(panels, patternData, iframePassback) {
+  renderPanels: function(panels, patternData, iframePassback, switchText) {
     
     // set-up defaults
     var template, templateCompiled, templateRendered;
@@ -223,7 +223,7 @@ var panelsViewer = {
     });
     
     // gather panels from plugins
-    Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback]);
+    Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback, switchText]);
     
   },
   

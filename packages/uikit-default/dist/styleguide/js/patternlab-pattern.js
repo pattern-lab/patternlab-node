@@ -408,6 +408,8 @@ var modalStyleguide = {
     if ((modalStyleguide.active[patternPartial] === undefined) || !modalStyleguide.active[patternPartial]) {
       var el = document.getElementById('sg-pattern-data-'+patternPartial);
       var patternData     = JSON.parse(el.innerHTML);
+      patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
+      patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
       modalStyleguide.patternQueryInfo(patternData, true);
     } else {
       modalStyleguide.close(patternPartial);
@@ -466,11 +468,11 @@ var modalStyleguide = {
   /**
   * return the pattern info to the top level
   */
-  patternQueryInfo: function(patternData, iframePassback) {
+  patternQueryInfo: function(patternData, iframePassback, switchText) {
     
     // send a message to the pattern
     try {
-      var obj = JSON.stringify({ 'event': 'patternLab.patternQueryInfo', 'patternData': patternData, 'iframePassback': iframePassback});
+      var obj = JSON.stringify({ 'event': 'patternLab.patternQueryInfo', 'patternData': patternData, 'iframePassback': iframePassback, 'switchText': switchText});
       parent.postMessage(obj, modalStyleguide.targetOrigin);
     } catch(e) {}
     
@@ -509,7 +511,7 @@ var modalStyleguide = {
         patternData     = JSON.parse(els[i].innerHTML);
         patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
         patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
-        modalStyleguide.patternQueryInfo(patternData, iframePassback);
+        modalStyleguide.patternQueryInfo(patternData, iframePassback, data.switchText);
       }
       
     } else if ((data.event !== undefined) && (data.event == 'patternLab.patternModalInsert')) {

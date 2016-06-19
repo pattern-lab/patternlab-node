@@ -39,8 +39,7 @@ var modalStyleguide = {
   toggle: function(patternPartial) {
     if ((modalStyleguide.active[patternPartial] === undefined) || !modalStyleguide.active[patternPartial]) {
       var el = document.getElementById('sg-pattern-data-'+patternPartial);
-      var patternData     = JSON.parse(el.innerHTML);
-      modalStyleguide.patternQueryInfo(patternData, true);
+      modalStyleguide.collectAndSend(el, true, false);
     } else {
       modalStyleguide.close(patternPartial);
     }
@@ -95,14 +94,21 @@ var modalStyleguide = {
     
   },
   
+  collectAndSend: function(el, iframePassback, switchText) {
+    var patternData = JSON.parse(el.innerHTML);
+    patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
+    patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
+    modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+  },
+  
   /**
   * return the pattern info to the top level
   */
-  patternQueryInfo: function(patternData, iframePassback) {
+  patternQueryInfo: function(patternData, iframePassback, switchText) {
     
     // send a message to the pattern
     try {
-      var obj = JSON.stringify({ 'event': 'patternLab.patternQueryInfo', 'patternData': patternData, 'iframePassback': iframePassback});
+      var obj = JSON.stringify({ 'event': 'patternLab.patternQueryInfo', 'patternData': patternData, 'iframePassback': iframePassback, 'switchText': switchText});
       parent.postMessage(obj, modalStyleguide.targetOrigin);
     } catch(e) {}
     
@@ -138,10 +144,7 @@ var modalStyleguide = {
       
       // send each up to the parent to be read and compiled into panels
       for (i = 0; i < els.length; i++) {
-        patternData     = JSON.parse(els[i].innerHTML);
-        patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
-        patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
-        modalStyleguide.patternQueryInfo(patternData, iframePassback);
+        modalStyleguide.collectAndSend(els[i], iframePassback, data.switchText);
       }
       
     } else if ((data.event !== undefined) && (data.event == 'patternLab.patternModalInsert')) {

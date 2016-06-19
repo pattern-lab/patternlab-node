@@ -378,6 +378,7 @@ window.onpopstate = function (event) {
  * Licensed under the MIT license
  *
  * @requires url-handler.js
+ * @requires data-saver.js
  *
  */
 
@@ -385,6 +386,7 @@ var modalViewer = {
   
   // set up some defaults
   active:        false,
+  switchText:    true,
   template:      'info',
   patternData:   {},
   targetOrigin:  (window.location.protocol === 'file:') ? '*' : window.location.protocol+'//'+window.location.host,
@@ -394,9 +396,14 @@ var modalViewer = {
   */
   onReady: function() {
     
+    if (DataSaver.findValue('modalActive') === 'true') {
+      modalViewer.active = true;
+      $('#sg-t-patterninfo').html("Hide Pattern Info");
+    }
+    
     // watch for resizes and hide the modal container as appropriate when the modal is already hidden
     $(window).on('resize', function() {
-      if (modalViewer.active === false) {
+      if (DataSaver.findValue('modalActive') === 'false') {
         modalViewer.slide($('#sg-modal-container').outerHeight());
       }
     });
@@ -410,13 +417,6 @@ var modalViewer = {
       $('#sg-tools-toggle').removeClass('active');
       $(this).parents('ul').removeClass('active');
       modalViewer.toggle();
-    });
-    
-    // if the iframe loads a new page query the pattern for its info if the modal is active
-    $('#sg-viewport').on('load', function() {
-      if (modalViewer.active) {
-        modalViewer.queryPattern();
-      }
     });
     
     // make sure the modal viewer is not viewable
@@ -439,19 +439,13 @@ var modalViewer = {
     // review the query strings in case there is something the modal viewer is supposed to handle by default
     var queryStringVars = urlHandler.getRequestVars();
     
-    // code panel related query string info
+    // show the modal if code view is called via query string
     if ((queryStringVars.view !== undefined) && ((queryStringVars.view === 'code') || (queryStringVars.view === 'c'))) {
-      panelsViewer.initCopy = ((queryStringVars.copy !== undefined) && (queryStringVars.copy === 'true')) ? true : false;
-      modalViewer.template = 'info';
       modalViewer.queryPattern();
     }
     
-    // annotation panel related query string info
+    // show the modal if the old annotations view is called via query string
     if ((queryStringVars.view !== undefined) && ((queryStringVars.view === 'annotations') || (queryStringVars.view === 'a'))) {
-      if (queryStringVars.number !== undefined) {
-        panelsViewer.initMoveTo = queryStringVars.number;
-      }
-      modalViewer.template = 'comments';
       modalViewer.queryPattern();
     }
     
@@ -461,18 +455,13 @@ var modalViewer = {
   * toggle the modal window open and closed
   */
   toggle: function() {
-    var message;
     if (modalViewer.active === false) {
-      message = "Hide Pattern Info";
-      modalViewer.active = true;
       modalViewer.queryPattern();
     } else {
-      message = "Show Pattern Info";
       obj = JSON.stringify({ 'event': 'patternLab.annotationsHighlightHide' });
       document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
       modalViewer.close();
     }
-    
   },
   
   /**
@@ -484,6 +473,7 @@ var modalViewer = {
     modalViewer.close();
 
     // note it's turned on in the viewer
+    DataSaver.updateValue('modalActive', 'true');
     modalViewer.active = true;
 
     // add an active class to the button that matches this template
@@ -505,6 +495,7 @@ var modalViewer = {
     var obj;
     
     // not that the modal viewer is no longer active
+    DataSaver.updateValue('modalActive', 'false');
     modalViewer.active = false;
     
     //Add active class to modal
@@ -529,7 +520,7 @@ var modalViewer = {
     modalViewer.slide($('#sg-modal-container').outerHeight());
   },
   
-  insert: function(templateRendered, patternPartial, iframePassback) {
+  insert: function(templateRendered, patternPartial, iframePassback, switchText) {
     
     if (iframePassback) {
       
@@ -547,15 +538,17 @@ var modalViewer = {
       
     }
     
-    // update the wording
-    $('#sg-t-patterninfo').html("Hide Pattern Info");
+    // update the wording unless this is a default viewall opening
+    if (switchText === true) {
+      $('#sg-t-patterninfo').html("Hide Pattern Info");
+    }
     
   },
   
   /**
   * refresh the modal if a new pattern is loaded and the modal is active
   */
-  refresh: function(patternData, iframePassback) {
+  refresh: function(patternData, iframePassback, switchText) {
     
     // if this is a styleguide view close the modal
     if (iframePassback) {
@@ -566,7 +559,7 @@ var modalViewer = {
     panelsViewer.clear();
     
     // gather the data that will fill the modal window
-    panelsViewer.gatherPanels(patternData, iframePassback);
+    panelsViewer.gatherPanels(patternData, iframePassback, switchText);
     
   },
   
@@ -576,6 +569,24 @@ var modalViewer = {
   slide: function(pos) {
     pos = (pos === 0) ? 0 : -pos;
     $('#sg-modal-container').css('bottom',pos);
+  },
+  
+  slideToAnnotation: function(pos) {
+    
+    // remove active class
+    els = document.querySelectorAll('#sg-annotations > .sg-annotations-list > li');
+    for (i = 0; i < els.length; ++i) {
+      els[i].classList.remove('active');
+    }
+    
+    // add active class to called element and scroll to it
+    for (i = 0; i < els.length; ++i) {
+      if ((i+1) == pos) {
+        els[i].classList.add('active');
+        $('.sg-pattern-extra-info').animate({scrollTop: els[i].offsetTop - 10}, 600);
+      }
+    }
+    
   },
   
   /**
@@ -588,10 +599,17 @@ var modalViewer = {
   /**
   * ask the pattern for info so we can open the modal window and populate it
   */
-  queryPattern: function() {
+  queryPattern: function(switchText) {
+    
+    // note that the modal is active and set switchText
+    if ((switchText === undefined) || (switchText)) {
+      switchText = true;
+      DataSaver.updateValue('modalActive', 'true');
+      modalViewer.active = true;
+    }
     
     // send a message to the pattern
-    var obj = JSON.stringify({ 'event': 'patternLab.patternQuery' });
+    var obj = JSON.stringify({ 'event': 'patternLab.patternQuery', 'switchText': switchText });
     document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
     
   },
@@ -615,26 +633,22 @@ var modalViewer = {
       data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
     } catch(e) {}
     
-    if ((data.event !== undefined) && (data.event == 'patternLab.patternQueryInfo')) {
+    if ((data.event !== undefined) && (data.event == "patternLab.pageLoad")) {
+      
+      if ((modalViewer.active === false) && (data.patternpartial !== undefined) && (data.patternpartial.indexOf('viewall-') === 0) && (config.defaultShowPatternInfo !== undefined) && (config.defaultShowPatternInfo)) {
+        modalViewer.queryPattern(false);
+      } else if (modalViewer.active === true) {
+        modalViewer.queryPattern();
+      }
+      
+    } else if ((data.event !== undefined) && (data.event == 'patternLab.patternQueryInfo')) {
       
       // refresh the modal if a new pattern is loaded and the modal is active
-      modalViewer.refresh(data.patternData, data.iframePassback);
+      modalViewer.refresh(data.patternData, data.iframePassback, data.switchText);
       
     } else if ((data.event !== undefined) && (data.event == 'patternLab.annotationNumberClicked')) {
       
-      // remove active class
-      els = document.querySelectorAll('#sg-annotations > .sg-annotations-list > li');
-      for (i = 0; i < els.length; ++i) {
-        els[i].classList.remove('active');
-      }
-      
-      // add active class to called element and scroll to it
-      for (i = 0; i < els.length; ++i) {
-        if ((i+1) == data.displayNumber) {
-          els[i].classList.add('active');
-          $('.sg-pattern-extra-info').animate({scrollTop: els[i].offsetTop - 10}, 600);
-        }
-      }
+      modalViewer.slideToAnnotation(data.displayNumber);
       
     }
     
@@ -838,7 +852,7 @@ var panelsViewer = {
   * @param  {String}      the data from the pattern
   * @param  {Boolean}     if this is going to be passed back to the styleguide
   */
-  checkPanels: function(panels, patternData, iframePassback) {
+  checkPanels: function(panels, patternData, iframePassback, switchText) {
     
     // count how many panels have rendered content
     var panelContentCount = 0;
@@ -850,7 +864,7 @@ var panelsViewer = {
     
     // see if the count of panels with content matches number of panels
     if (panelContentCount === Panels.count()) {
-      panelsViewer.renderPanels(panels, patternData, iframePassback);
+      panelsViewer.renderPanels(panels, patternData, iframePassback, switchText);
     }
     
   },
@@ -860,7 +874,7 @@ var panelsViewer = {
   * @param  {String}      the data from the pattern
   * @param  {Boolean}     if this is going to be passed back to the styleguide
   */
-  gatherPanels: function(patternData, iframePassback) {
+  gatherPanels: function(patternData, iframePassback, switchText) {
     
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
     
@@ -889,7 +903,7 @@ var panelsViewer = {
               templateCompiled  = Hogan.compile(template.innerHTML);
               templateRendered  = templateCompiled.render({ 'language': panels[i].language, 'code': prismedContent });
               panels[i].content = templateRendered;
-              Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback]);
+              Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
             };
           })(i, panels, patternData, iframePassback);
           e.open('GET', fileName.replace(/\.html/,panel.httpRequestReplace)+'?'+(new Date()).getTime(), true);
@@ -902,7 +916,7 @@ var panelsViewer = {
           templateCompiled  = Hogan.compile(template.innerHTML);
           templateRendered  = templateCompiled.render(patternData);
           panels[i].content = templateRendered;
-          Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback]);
+          Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
           
         }
         
@@ -918,7 +932,7 @@ var panelsViewer = {
   * @param  {String}      the data from the pattern
   * @param  {Boolean}     if this is going to be passed back to the styleguide
   */
-  renderPanels: function(panels, patternData, iframePassback) {
+  renderPanels: function(panels, patternData, iframePassback, switchText) {
     
     // set-up defaults
     var template, templateCompiled, templateRendered;
@@ -1040,7 +1054,7 @@ var panelsViewer = {
     });
     
     // gather panels from plugins
-    Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback]);
+    Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback, switchText]);
     
   },
   
