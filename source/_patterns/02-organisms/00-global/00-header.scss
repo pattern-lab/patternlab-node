@@ -13,7 +13,6 @@
   &--sticky {
     @media only screen and (min-width: $breakpointDesktop) {
       position:fixed;
-      height: 4.5em;
       border-bottom:1px solid $colorSilver;
     }
   }
