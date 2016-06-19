@@ -57,8 +57,6 @@ if (self != top) {
   
 }
 
-
-
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
   
