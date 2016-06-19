@@ -57,8 +57,6 @@ if (self != top) {
   
 }
 
-
-
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {
   
@@ -356,13 +354,6 @@ var panelsUtil = {
     
     // show the panel
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
-    
-    /*
-    if (codeViewer.copyOnInit) {
-      codeViewer.selectCode();
-      codeViewer.copyOnInit = false;
-    }
-    */
     
   }
   

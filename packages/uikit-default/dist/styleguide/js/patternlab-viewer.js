@@ -737,13 +737,6 @@ var panelsUtil = {
     // show the panel
     document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
     
-    /*
-    if (codeViewer.copyOnInit) {
-      codeViewer.selectCode();
-      codeViewer.copyOnInit = false;
-    }
-    */
-    
   }
   
 };
@@ -1072,36 +1065,6 @@ var panelsViewer = {
     // gather panels from plugins
     Dispatcher.trigger('insertPanels', [templateRendered, patternPartial, iframePassback, switchText]);
     
-  },
-  
-  /**
-  * select the some range to copy
-  */
-  select: function(id) {
-    
-    if ((modalViewer !== undefined) && (modalViewer.active)) {
-      selection = window.getSelection();
-      range = document.createRange();
-      range.selectNodeContents(document.getElementById(id));
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-    
-  },
-  
-  /**
-  * clear any selection of code when swapping tabs or opening a new pattern
-  */
-  clear: function() {
-    
-    if ((modalViewer !== undefined) && modalViewer.active) {
-      if (window.getSelection().empty) {
-        window.getSelection().empty();
-      } else if (window.getSelection().removeAllRanges) {
-        window.getSelection().removeAllRanges();
-      }
-    }
-    
   }
   
 };
@@ -1285,8 +1248,6 @@ if (self != top) {
   };
   
 }
-
-
 
 // watch the iframe source so that it can be sent back to everyone else.
 function receiveIframeMessage(event) {

@@ -27,10 +27,6 @@ gulp.task('clean:css-patternlab', function (cb) {
 	return plugins.del(['dist/styleguide/css/*'],cb);
 });
 
-gulp.task('clean:css-custom', function (cb) {
-	return plugins.del(['dist/styleguide/css/custom/*'],cb);
-});
-
 gulp.task('clean:fonts', function (cb) {
 	return plugins.del(['dist/styleguide/fonts/*'],cb);
 });
@@ -74,16 +70,6 @@ gulp.task('build:css-patternlab', ['build:css-general'], function() {
 		.pipe(plugins.minifyCss())
 		.pipe(gulp.dest('dist/styleguide/css'))
 		.pipe(copyPublic("styleguide/css"));
-});
-
-gulp.task('build:css-custom', ['clean:css-custom'], function() {
-	return plugins.rubySass('src/sass/styleguide-specific.scss', { style: 'expanded', "sourcemap=none": true })
-		.pipe(plugins.autoprefixer({browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'android 4']}, {map: false }))
-		.pipe(gulp.dest('dist/styleguide/css/custom'))
-		.pipe(plugins.rename({suffix: '.min'}))
-		.pipe(plugins.minifyCss())
-		.pipe(gulp.dest('dist/styleguide/css/custom'))
-		.pipe(copyPublic("styleguide/css/custom"));
 });
 
 gulp.task('build:fonts', ['clean:fonts'], function() {
@@ -139,12 +125,11 @@ gulp.task('build:js-pattern', ['build:js-viewer'], function() {
 		.pipe(copyPublic("styleguide/js"));
 });
 
-gulp.task('default', ['build:bower', 'build:css-custom', 'build:css-patternlab', 'build:html', 'build:js-pattern'], function () {
+gulp.task('default', ['build:bower', 'build:css-patternlab', 'build:html', 'build:js-pattern'], function () {
 	if (args.watch !== undefined) {
 		gulp.watch(['src/bower_components/**/*'], ['build:bower']);
 		gulp.watch(['src/css/prism-okaidia.css'],['build:css-general']);
 		gulp.watch(['src/sass/styleguide.scss'], ['build:css-patternlab']);
-		gulp.watch(['src/sass/styleguide-specific.scss'], ['build:css-custom']);
 		gulp.watch(['src/html/*'], ['build:html']);
 		gulp.watch(['src/js/*'], ['build:js-pattern']);
 	}

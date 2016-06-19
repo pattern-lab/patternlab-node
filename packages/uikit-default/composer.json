@@ -28,9 +28,6 @@
 			"dist": {
 				"publicDir": [
 					{ "*": "*" }
-				],
-				"sourceDir": [
-					{ "styleguide/css/custom/*": "styleguide/css/*" }
 				]
 			},
 			"config": {
