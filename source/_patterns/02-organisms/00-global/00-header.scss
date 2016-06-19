@@ -6,9 +6,9 @@
   background:$colorWhite;
   z-index:99999;
   box-sizing:border-box;
-  height: 66px;
+  height: 68px;
   @media only screen and (min-width: $breakpointDesktop) {
-    display: table;
+    //display: table;
   }
   &--sticky {
     @media only screen and (min-width: $breakpointDesktop) {
@@ -45,9 +45,9 @@
     margin-bottom:-0.9em;
     position: relative;
     @media only screen and (min-width: $breakpointDesktop) {
-      height: 66px;
+      height: 68px;
       line-height:1.25em;
-      margin-bottom:-1.25em;
+      margin-bottom: -22px;
 
       max-width: 75rem;
       margin-left: auto;
@@ -93,7 +93,7 @@
       margin-right: auto;
       max-width: 38rem;
       position: relative;
-      top: -1.3em;
+      top: -1.23em;
     }
   }
 }
