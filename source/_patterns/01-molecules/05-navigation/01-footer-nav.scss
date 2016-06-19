@@ -9,6 +9,11 @@
     flex-direction: column;
     align-items: baseline;
     white-space: nowrap;
+    position: relative;
+    .mobile-accordion__panel {
+      left: 0;
+      position:absolute;
+    }
   }
 
   @media only screen and (max-width : $breakpointTabletEnd) {
