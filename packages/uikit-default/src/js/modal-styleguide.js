@@ -106,9 +106,11 @@ var modalStyleguide = {
   */
   collectAndSend: function(el, iframePassback, switchText) {
     var patternData = JSON.parse(el.innerHTML);
-    patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
-    patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
-    modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+    if (patternData.patternName !== undefined) {
+      patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
+      patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
+      modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+    }
   },
   
   /**
