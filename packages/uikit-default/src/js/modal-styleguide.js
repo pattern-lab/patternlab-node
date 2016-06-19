@@ -34,7 +34,8 @@ var modalStyleguide = {
   },
   
   /**
-  * toggle the modal window open and closed
+  * toggle the modal window open and closed based on clicking the pip
+  * @param  {String}       the patternPartial that identifies what needs to be toggled
   */
   toggle: function(patternPartial) {
     if ((modalStyleguide.active[patternPartial] === undefined) || !modalStyleguide.active[patternPartial]) {
@@ -47,7 +48,9 @@ var modalStyleguide = {
   },
   
   /**
-  * open the modal window
+  * open the modal window for a view-all entry
+  * @param  {String}       the patternPartial that identifies what needs to be opened
+  * @param  {String}       the content that should be inserted
   */
   open: function(patternPartial, content) {
     
@@ -81,7 +84,8 @@ var modalStyleguide = {
   },
   
   /**
-  * close the modal window
+  * close the modal window for a view-all entry
+  * @param  {String}       the patternPartial that identifies what needs to be closed
   */
   close: function(patternPartial) {
     
@@ -94,6 +98,12 @@ var modalStyleguide = {
     
   },
   
+  /**
+  * get the data that needs to be send to the viewer for rendering
+  * @param  {Element}      the identifier for the element that needs to be collected
+  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+  * @param  {Boolean}      if the text in the dropdown should be switched
+  */
   collectAndSend: function(el, iframePassback, switchText) {
     var patternData = JSON.parse(el.innerHTML);
     patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
@@ -103,6 +113,9 @@ var modalStyleguide = {
   
   /**
   * return the pattern info to the top level
+  * @param  {Object}       the content that will be sent to the viewer for rendering
+  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+  * @param  {Boolean}      if the text in the dropdown should be switched
   */
   patternQueryInfo: function(patternData, iframePassback, switchText) {
     
