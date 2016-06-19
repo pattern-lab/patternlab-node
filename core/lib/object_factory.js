@@ -16,7 +16,7 @@ var Pattern = function (relPath, data) {
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
-  this.name = this.subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName; // '00-atoms-00-global-00-colors'
+  this.name = this.subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
 
   // the JSON used to render values in the pattern
   this.jsonFileData = data || {};

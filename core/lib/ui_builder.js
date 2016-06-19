@@ -11,7 +11,7 @@ var eol = require('os').EOL;
 
 function addToPatternPaths(patternlab, patternTypeName, pattern) {
   //this is messy, could use a refactor.
-  patternlab.patternPaths[patternTypeName][pattern.patternBaseName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName;
+  patternlab.patternPaths[patternTypeName][pattern.patternBaseName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName.replace('~', '-');
 }
 
 //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
