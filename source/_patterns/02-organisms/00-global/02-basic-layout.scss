@@ -33,6 +33,19 @@
     right:-$widthCartSidebar;
   }
   &--expanded-top {
+    .pageContent {
+      &:before {
+        transition:all $animationTimingNormal ease-in-out;
+        display:block;
+        position:absolute;
+        content:'';
+        width:100%;
+        top:0;
+        bottom:0;
+        background:transparentize($colorBlack, 0.5);
+        z-index:99;
+      }
+    }
     .header {
       &__navigation {
         .navigation {

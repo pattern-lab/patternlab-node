@@ -4,8 +4,9 @@
   margin:0;
   font-size: $fontSizeNormal;
   background:$colorWhite;
-  z-index:9;
+  z-index:99999;
   box-sizing:border-box;
+  height: 66px;
   @media only screen and (min-width: $breakpointDesktop) {
     display: table;
   }
@@ -45,7 +46,7 @@
     margin-bottom:-0.9em;
     position: relative;
     @media only screen and (min-width: $breakpointDesktop) {
-      height : 4.4em;
+      height: 66px;
       line-height:1.25em;
       margin-bottom:-1.25em;
 

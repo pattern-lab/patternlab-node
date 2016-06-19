@@ -59,7 +59,7 @@
 
     &__hamburger {
       position: absolute;
-      right: 0.55em;
+      right: .99rem;
       font-size: 3.25em;
       top: .38em;
 
@@ -95,7 +95,7 @@
     display: none;
     &__link {
       background-color:transparent;
-      font-weight:300;
+      font-weight: 500;
       border:0 none;
 
       &:focus {
@@ -243,6 +243,7 @@
       &__item {
         display:inline-block;
         position:relative;
+        padding: .25em .625em;
       }
 
       &__item:hover &--secondLevel {
@@ -258,7 +259,8 @@
 
     &__link {
       transition:color $animationTimingFast;
-      padding:0.25em 0.625em;
+      font-weight: 500;
+      position: relative;
       display:block;
 
       .navigation__list--secondLevel & {
@@ -266,12 +268,16 @@
       }
 
       &--active {
-        color: $colorTussock;
+        &:before {
+          border-bottom: 2px solid $colorBlack;
+          content:"";
+          position: absolute;
+          width: 100%;
+          bottom: -8px;
+          left: 0;
+        }
       }
 
-      &:hover {
-        color: $colorTussock;
-      }
     }
   }
 }
