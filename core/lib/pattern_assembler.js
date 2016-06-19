@@ -4,6 +4,7 @@ var pattern_assembler = function () {
   var path = require('path'),
     fs = require('fs-extra'),
     Pattern = require('./object_factory').Pattern,
+    pph = require('./pseudopattern_hunter'),
     md = require('markdown-it')(),
     plutils = require('./utilities'),
     patternEngines = require('./pattern_engines');
@@ -123,6 +124,9 @@ var pattern_assembler = function () {
   }
 
   function processPatternIterative(relPath, patternlab) {
+
+    var pseudopattern_hunter = new pph();
+
     //extract some information
     var filename = path.basename(relPath);
     var ext = path.extname(filename);
@@ -198,17 +202,18 @@ var pattern_assembler = function () {
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
 
+    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+
     return currentPattern;
   }
 
   function processPatternRecursive(file, patternlab) {
     var lh = require('./lineage_hunter'),
-      pph = require('./pseudopattern_hunter'),
       lih = require('./list_item_hunter');
 
     var lineage_hunter = new lh(),
-      list_item_hunter = new lih(),
-      pseudopattern_hunter = new pph();
+      list_item_hunter = new lih();
 
     //find current pattern in patternlab object using var file as a partial
     var currentPattern, i;
@@ -247,9 +252,6 @@ var pattern_assembler = function () {
 
     //add to patternlab object so we can look these up later.
     addPattern(currentPattern, patternlab);
-
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -376,6 +378,9 @@ var pattern_assembler = function () {
     },
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);
+    },
+    parse_data_links_specific: function (patternlab, data, label){
+      return parseDataLinksHelper(patternlab, data, label)
     }
   };
 

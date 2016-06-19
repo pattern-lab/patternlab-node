@@ -47,7 +47,9 @@ var list_item_hunter = function () {
           console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
         }
+
         listData = plutils.mergeData(listData, pattern.listitems);
+        listData = pattern_assembler.parse_data_links_specific(patternlab, listData, 'listitems.json + any pattern listitems.json');
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
         for (var i = 0; i < repeatedBlockTemplate.length; i++) {

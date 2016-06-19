@@ -42,6 +42,7 @@ var pseudopattern_hunter = function () {
         var patternVariant = Pattern.create(variantFilePath, variantFileData, {
           //use the same template as the non-variant
           template: currentPattern.template,
+          fileExtension: currentPattern.fileExtension,
           extendedTemplate: currentPattern.extendedTemplate,
           isPseudoPattern: true,
           basePattern: currentPattern,

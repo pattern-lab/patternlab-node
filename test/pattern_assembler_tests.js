@@ -538,63 +538,6 @@
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
-		'processPatternIterative - ignores files that are variants' : function(test){
-			//arrange
-			var diveSync = require('diveSync');
-			var fs = require('fs-extra');
-			var pa = require('../core/lib/pattern_assembler');
-			var pattern_assembler = new pa();
-			var patterns_dir = './test/files/_patterns';
-			var patternlab = {};
-			//THIS IS BAD.
-			patternlab.config = fs.readJSONSync('./patternlab-config.json');
-			patternlab.config.paths.source.patterns = patterns_dir;
-
-			//patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-      patternlab.data = {};
-			//patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-      patternlab.listitems = {};
-			//patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-      patternlab.header = '';
-			//patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
-      patternlab.footer = '';
-			patternlab.patterns = [];
-			patternlab.data.link = {};
-			patternlab.partials = {};
-
-			//act
-			diveSync(patterns_dir,
-				{
-					filter: function(path, dir){
-						if(dir){
-							var remainingPath = path.replace(patterns_dir, '');
-							var isValidPath = remainingPath.indexOf('/_') === -1;
-							return isValidPath;
-						}
-						return true;
-					}
-				},
-				function(err, file){
-					//log any errors
-					if(err){
-						console.log(err);
-						return;
-					}
-
-					pattern_assembler.process_pattern_iterative(path.resolve(file), patternlab);
-				}
-			);
-
-			//assert
-			var foundVariant = false;
-			for(var i = 0; i < patternlab.patterns.length; i++){
-				if(patternlab.patterns[i].fileName.indexOf('~') > -1){
-					foundVariant = true;
-				}
-			}
-			test.equals(foundVariant, false);
-			test.done();
-		},
 		'setState - applies any patternState matching the pattern' : function(test){
 			//arrange
 			var pa = require('../core/lib/pattern_assembler');
