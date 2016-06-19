@@ -24,10 +24,8 @@ var modalViewer = {
   */
   onReady: function() {
     
-    if (DataSaver.findValue('modalActive') === 'true') {
-      modalViewer.active = true;
-      $('#sg-t-patterninfo').html("Hide Pattern Info");
-    }
+    // make sure the listener for checkpanels is set-up
+    Dispatcher.addListener('insertPanels', modalViewer.insert);
     
     // watch for resizes and hide the modal container as appropriate when the modal is already hidden
     $(window).on('resize', function() {
@@ -36,9 +34,6 @@ var modalViewer = {
       }
     });
     
-    // make sure the listener for checkpanels is set-up
-    Dispatcher.addListener('insertPanels', modalViewer.insert);
-    
     // add the info/code panel onclick handler
     $('#sg-t-patterninfo').click(function(e) {
       e.preventDefault();
@@ -46,9 +41,6 @@ var modalViewer = {
       $(this).parents('ul').removeClass('active');
       modalViewer.toggle();
     });
-    
-    // make sure the modal viewer is not viewable
-    modalViewer.hide();
     
     // make sure the close button handles the click
     $('#sg-modal-close-btn').on('click', function(e) {
@@ -63,6 +55,15 @@ var modalViewer = {
       modalViewer.close();
       
     });
+    
+    // see if the modal is already active, if so update attributes as appropriate
+    if (DataSaver.findValue('modalActive') === 'true') {
+      modalViewer.active = true;
+      $('#sg-t-patterninfo').html("Hide Pattern Info");
+    }
+    
+    // make sure the modal viewer is not viewable, it's alway hidden by default. the pageLoad event determines when it actually opens
+    modalViewer.hide();
     
     // review the query strings in case there is something the modal viewer is supposed to handle by default
     var queryStringVars = urlHandler.getRequestVars();
@@ -144,10 +145,20 @@ var modalViewer = {
     
   },
   
+  /**
+  * hide the modal window
+  */
   hide: function() {
     modalViewer.slide($('#sg-modal-container').outerHeight());
   },
   
+  /**
+  * insert the copy for the modal window. if it's meant to be sent back to the iframe do do
+  * @param  {String}       the rendered template that should be inserted
+  * @param  {String}       the patternPartial that the rendered template is related to
+  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+  * @param  {Boolean}      if the text in the dropdown should be switched
+  */
   insert: function(templateRendered, patternPartial, iframePassback, switchText) {
     
     if (iframePassback) {
@@ -158,10 +169,8 @@ var modalViewer = {
       
     } else {
       
-      // insert the panels
+      // insert the panels and open the viewer
       $('#sg-modal-content').html(templateRendered);
-      
-      // with the content inserted open the modal
       modalViewer.open();
       
     }
@@ -175,6 +184,9 @@ var modalViewer = {
   
   /**
   * refresh the modal if a new pattern is loaded and the modal is active
+  * @param  {Object}       the patternData sent back from the query
+  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+  * @param  {Boolean}      if the text in the dropdown should be switched
   */
   refresh: function(patternData, iframePassback, switchText) {
     
@@ -183,9 +195,6 @@ var modalViewer = {
       modalViewer.hide();
     }
     
-    // clear any selections that might have been made
-    panelsViewer.clear();
-    
     // gather the data that will fill the modal window
     panelsViewer.gatherPanels(patternData, iframePassback, switchText);
     
@@ -193,12 +202,17 @@ var modalViewer = {
   
   /**
   * slides the modal window into or out of view
+  * @param  {Integer}      where the modal window should be slide to
   */
   slide: function(pos) {
     pos = (pos === 0) ? 0 : -pos;
     $('#sg-modal-container').css('bottom',pos);
   },
   
+  /**
+  * slides the modal window to a particular annotation
+  * @param  {Integer}      the number for the element that should be highlighted
+  */
   slideToAnnotation: function(pos) {
     
     // remove active class
@@ -226,6 +240,7 @@ var modalViewer = {
   
   /**
   * ask the pattern for info so we can open the modal window and populate it
+  * @param  {Boolean}      if the dropdown text should be changed
   */
   queryPattern: function(switchText) {
     
@@ -249,7 +264,7 @@ var modalViewer = {
   */
   receiveIframeMessage: function(event) {
     
-    var els, i, displayNumberCheck;
+    var els, i;
     
     // does the origin sending the message match the current host? if not dev/null the request
     if ((window.location.protocol !== 'file:') && (event.origin !== window.location.protocol+'//'+window.location.host)) {
@@ -276,6 +291,7 @@ var modalViewer = {
       
     } else if ((data.event !== undefined) && (data.event == 'patternLab.annotationNumberClicked')) {
       
+      // slide to a given annoation
       modalViewer.slideToAnnotation(data.displayNumber);
       
     }
