@@ -25,11 +25,11 @@
       z-index:99;
     }
   }
-  .pageContent {
-    padding-top: 4.2rem;
-  }
-  .main {
-    @media only screen and (min-width: $breakpointDesktop) {
+  @media only screen and (min-width: $breakpointDesktop) {
+    .pageContent {
+      padding-top: 4.2rem;
+    }
+    .main {
       padding-top: $marginMini;
     }
   }
