@@ -120,7 +120,13 @@
     .fieldset {
       margin: 0;
       width: calc(100%);
-
+      .field {
+        &__message {
+          &--success, &--error {
+            color: $colorWhite;
+          }
+        }
+      }
       input {
         border-color: $colorWhite;
         text-align: center;
