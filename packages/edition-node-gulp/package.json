@@ -1,7 +1,7 @@
 {
   "name": "edition-node-gulp",
   "description": "The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "dependencies": {
     "browser-sync": "^2.11.2",
     "gulp": "gulpjs/gulp#4.0",
