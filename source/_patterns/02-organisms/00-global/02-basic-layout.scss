@@ -33,6 +33,11 @@
       padding-top: $marginMini;
     }
   }
+  main {
+    &:before {
+      content: initial;
+    }
+  }
 
   .navigation--cart {
     transition:right $animationTimingNormal ease-in-out;
