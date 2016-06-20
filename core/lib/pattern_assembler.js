@@ -379,7 +379,7 @@ var pattern_assembler = function () {
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);
     },
-    parse_data_links_specific: function (patternlab, data, label){
+    parse_data_links_specific: function (patternlab, data, label) {
       return parseDataLinksHelper(patternlab, data, label)
     }
   };
