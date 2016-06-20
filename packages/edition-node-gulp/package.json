@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "dependencies": {
     "browser-sync": "^2.11.2",
-    "gulp": "^3.9.1",
+    "gulp": "gulpjs/gulp#4.0",
     "minimist": "^1.2.0",
     "patternlab-node": "pattern-lab/patternlab-node#v2.0.0-alpha",
-    "styleguidekit-assets-default": "pattern-lab/styleguidekit-assets-default#feature-panels",
-    "styleguidekit-mustache-default": "pattern-lab/styleguidekit-mustache-default#feature-panels"
+    "styleguidekit-assets-default": "pattern-lab/styleguidekit-assets-default#dev",
+    "styleguidekit-mustache-default": "pattern-lab/styleguidekit-mustache-default#dev"
   },
   "keywords": [
     "Pattern Lab",

@@ -3,61 +3,13 @@
  * EDITION-NODE-GULP
  * The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.
 ******************************************************/
-var pkg = require('./package.json'),
-    gulp = require('gulp'),
-    path = require('path'),
-    browserSync = require('browser-sync').create(),
-    argv = require('minimist')(process.argv.slice(2));;
+var gulp = require('gulp'),
+  path = require('path'),
+  browserSync = require('browser-sync').create(),
+  argv = require('minimist')(process.argv.slice(2));
 
 /******************************************************
- * PATTERN LAB CONFIGURATION
-******************************************************/
-//read all paths from our namespaced config file
-var config = require('./patternlab-config.json'),
-    pl = require('patternlab-node')(config);
-
-function paths() {
-  return config.paths;
-}
-
-function getConfiguredCleanOption() {
-  return config.cleanPublic;
-}
-
-gulp.task('patternlab', ['pl-prelab'], function (done) {
-  pl.build(getConfiguredCleanOption());
-  done();
-});
-
-gulp.task('patternlab:version', function (done) {
-  pl.version();
-  done();
-});
-
-gulp.task('patternlab:help', function (done) {
-  console.log(getConfiguredCleanOption());
-  pl.help();
-  done();
-});
-
-
-gulp.task('patternlab:patternsonly', function (done) {
-  pl.patternsonly(getConfiguredCleanOption());
-  done();
-});
-
-gulp.task('patternlab:starterkit-list', function (done) {
-  pl.liststarterkits();
-  done();
-});
-
-gulp.task('patternlab:starterkit-load', function (done) {
-  pl.loadstarterkit(argv.kit);
-  done();
-});
-
-/******************************************************
- * COPY TASKS
+ * COPY TASKS - stream assets from source to destination
 ******************************************************/
 // JS copy
 gulp.task('pl-copy:js', function(){
@@ -67,9 +19,7 @@ gulp.task('pl-copy:js', function(){
 
 // Images copy
 gulp.task('pl-copy:img', function(){
-  return gulp.src(
-    [ '**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'  ],
-    {cwd: path.resolve(paths().source.images)} )
+  return gulp.src('*',{cwd: path.resolve(paths().source.images)} )
     .pipe(gulp.dest(path.resolve(paths().public.images)));
 });
 
@@ -83,12 +33,6 @@ gulp.task('pl-copy:favicon', function(){
 gulp.task('pl-copy:font', function(){
   return gulp.src('*', {cwd: path.resolve(paths().source.fonts)})
     .pipe(gulp.dest(path.resolve(paths().public.fonts)));
-});
-
-// Data copy
-gulp.task('pl-copy:data', function(){
-  return gulp.src('annotations.js', {cwd: path.resolve(paths().source.data)})
-    .pipe(gulp.dest(path.resolve(paths().public.data)));
 });
 
 // CSS Copy
@@ -116,6 +60,67 @@ gulp.task('pl-copy:styleguide-css', function(){
     .pipe(browserSync.stream());
 });
 
+/******************************************************
+ * PATTERN LAB CONFIGURATION - API with core library
+******************************************************/
+//read all paths from our namespaced config file
+var config = require('./patternlab-config.json'),
+  patternlab = require('patternlab-node')(config);
+
+function paths() {
+  return config.paths;
+}
+
+function getConfiguredCleanOption() {
+  return config.cleanPublic;
+}
+
+function build(done) {
+  patternlab.build(done, getConfiguredCleanOption());
+}
+
+gulp.task('pl-assets', gulp.series(
+  gulp.parallel(
+    'pl-copy:js',
+    'pl-copy:img',
+    'pl-copy:favicon',
+    'pl-copy:font',
+    'pl-copy:css',
+    'pl-copy:styleguide',
+    'pl-copy:styleguide-css'
+  ),
+  function(done){
+    done();
+  })
+);
+
+gulp.task('patternlab:version', function (done) {
+  patternlab.version();
+  done();
+});
+
+gulp.task('patternlab:help', function (done) {
+  patternlab.help();
+  done();
+});
+
+gulp.task('patternlab:patternsonly', function (done) {
+  patternlab.patternsonly(done, getConfiguredCleanOption());
+});
+
+gulp.task('patternlab:liststarterkits', function (done) {
+  patternlab.liststarterkits();
+  done();
+});
+
+gulp.task('patternlab:loadstarterkit', function (done) {
+  patternlab.loadstarterkit(argv.kit, argv.clean);
+  done();
+});
+
+gulp.task('pl-build', gulp.series('pl-assets', build, function(done){
+  done();
+}));
 
 /******************************************************
  * SERVER AND WATCH TASKS
@@ -131,7 +136,28 @@ function getTemplateWatches() {
   });
 }
 
-gulp.task('pl-connect', ['pl-build'], function() {
+function reload() {
+  browserSync.reload();
+}
+
+function watch() {
+  gulp.watch(path.resolve(paths().source.css, '**/*.css')).on('change', gulp.series('pl-copy:css', reload));
+  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*')).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reload));
+
+  var patternWatches = [
+    path.resolve(paths().source.patterns, '**/*.json'),
+    path.resolve(paths().source.patterns, '**/*.md'),
+    path.resolve(paths().source.data, '*.json'),
+    path.resolve(paths().source.fonts + '/*'),
+    path.resolve(paths().source.images + '/*'),
+    path.resolve(paths().source.meta, '*'),
+    path.resolve(paths().source.annotations + '/*')
+  ].concat(getTemplateWatches());
+
+  gulp.watch(patternWatches).on('change', gulp.series(build, reload));
+}
+
+gulp.task('pl-connect', gulp.series(function(done) {
   browserSync.init({
     server: {
       baseDir: path.resolve(paths().public.root)
@@ -158,39 +184,15 @@ gulp.task('pl-connect', ['pl-build'], function() {
         'text-align: center'
       ]
     }
+  }, function(){
+    console.log('PATTERN LAB NODE WATCHING FOR CHANGES');
   });
-  gulp.watch(path.resolve(paths().source.css, '**/*.css'), ['pl-copy:css']);
-
-  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*'), ['pl-copy:styleguide', 'pl-copy:styleguide-css']);
-
-  var patternWatches = [
-    path.resolve(paths().source.patterns, '**/*.json'),
-    path.resolve(paths().source.patterns, '**/*.md'),
-    path.resolve(paths().source.data, '*.json'),
-    path.resolve(paths().source.fonts + '/*'),
-    path.resolve(paths().source.images + '/*'),
-    path.resolve(paths().source.meta, '*'),
-    path.resolve(paths().source.annotations + '/*')
-  ].concat(getTemplateWatches());
-
-  gulp.watch(patternWatches, ['pl-pipe'], function () { browserSync.reload(); });
-});
-
-gulp.task('pl-pipe', ['pl-build'], function(cb){
-  cb();
-  browserSync.reload();
-});
+  done();
+}));
 
 /******************************************************
- * COMPOUND AND ALIASED TASKS
+ * COMPOUND TASKS
 ******************************************************/
-gulp.task('default', ['pl-build']);
-
-gulp.task('pl-assets', ['pl-copy:js', 'pl-copy:img', 'pl-copy:favicon', 'pl-copy:font', 'pl-copy:data', 'pl-copy:css', 'pl-copy:styleguide', 'pl-copy:styleguide-css' ]);
-gulp.task('pl-prelab', ['pl-assets']);
-gulp.task('pl-build', ['pl-prelab', 'patternlab'], function(cb){cb();});
-gulp.task('pl-serve', ['pl-build', 'pl-connect']);
-
-//Aliases
-gulp.task('pl-help', ['patternlab:help']);
-gulp.task('pl-patterns', ['patternlab:patternsonly']);
+gulp.task('default', gulp.series('pl-build'));
+gulp.task('patternlab:watch', gulp.series('pl-build', watch));
+gulp.task('patternlab:serve', gulp.series('pl-build', 'pl-connect', watch));
