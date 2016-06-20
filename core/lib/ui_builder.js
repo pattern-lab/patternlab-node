@@ -11,6 +11,9 @@ var eol = require('os').EOL;
 
 function addToPatternPaths(patternlab, patternTypeName, pattern) {
   //this is messy, could use a refactor.
+  if (!patternlab.patternPaths[patternTypeName]) {
+    patternlab.patternPaths[patternTypeName] = {};
+  }
   patternlab.patternPaths[patternTypeName][pattern.patternBaseName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName.replace('~', '-');
 }
 
@@ -29,31 +32,52 @@ function assembleStyleguidePatterns(patternlab) {
   if (styleguideExcludes && styleguideExcludes.length) {
     for (var i = 0; i < patternlab.patterns.length; i++) {
 
+      var pattern = patternlab.patterns[i];
+
       // skip underscore-prefixed files
-      if (isPatternExcluded(patternlab.patterns[i])) {
+      if (isPatternExcluded(pattern)) {
         if (patternlab.config.debug) {
-          console.log('Omitting ' + patternlab.patterns[i].patternPartial + " from styleguide pattern exclusion.");
+          console.log('Omitting ' + pattern.patternPartial + " from styleguide pattern exclusion.");
         }
         continue;
       }
 
-      var partial = patternlab.patterns[i].patternPartial;
+      //this is meant to be a homepage that is not present anywhere else
+      if (pattern.patternPartial === patternlab.config.defaultPattern) {
+        if (patternlab.config.debug) {
+          console.log('omitting ' + pattern.patternPartial + ' from styleguide patterns because it is defined as a defaultPattern');
+        }
+        continue;
+      }
+
+      var partial = pattern.patternPartial;
       var partialType = partial.substring(0, partial.indexOf('-'));
       var isExcluded = (styleguideExcludes.indexOf(partialType) > -1);
       if (!isExcluded) {
-        styleguidePatterns.push(patternlab.patterns[i]);
+        styleguidePatterns.push(pattern);
       }
     }
   } else {
     for (i = 0; i < patternlab.patterns.length; i++) {
+      var pattern = patternlab.patterns[i];
+
       // skip underscore-prefixed files
-      if (isPatternExcluded(patternlab.patterns[i])) {
+      if (isPatternExcluded(pattern)) {
         if (patternlab.config.debug) {
-          console.log('Omitting ' + patternlab.patterns[i].patternPartial + " from styleguide pattern exclusion.");
+          console.log('Omitting ' + pattern.patternPartial + " from styleguide pattern exclusion.");
         }
         continue;
       }
-      styleguidePatterns.push(patternlab.patterns[i]);
+
+      //this is meant to be a homepage that is not present anywhere else
+      if (pattern.patternPartial === patternlab.config.defaultPattern) {
+        if (patternlab.config.debug) {
+          console.log('omitting ' + pattern.patternPartial + ' from styleguide patterns because it is defined as a defaultPattern');
+        }
+        continue;
+      }
+
+      styleguidePatterns.push(pattern);
     }
   }
 
@@ -67,6 +91,19 @@ function buildNavigation(patternlab) {
 
     //todo: check if this is already available
     var patternTypeName = pattern.name.replace(/\\/g, '-').split('-')[1];
+
+    //exclude any named defaultPattern from the navigation.
+    //this is meant to be a homepage that is not navigable
+    if (pattern.patternPartial === patternlab.config.defaultPattern) {
+      if (patternlab.config.debug) {
+        console.log('omitting ' + pattern.patternPartial + ' from navigation because it is defined as a defaultPattern');
+      }
+
+      //add to patternPaths before continuing
+      addToPatternPaths(patternlab, patternTypeName, pattern);
+
+      continue;
+    }
 
     // skip underscore-prefixed files. don't create a patternType on account of an underscored pattern
     if (isPatternExcluded(pattern)) {
@@ -101,7 +138,7 @@ function buildNavigation(patternlab) {
       var patternType = new of.oPatternType(patternTypeName);
 
       //add patternPath and viewAllPath
-      patternlab.patternPaths[patternTypeName] = {};
+      patternlab.patternPaths[patternTypeName] = patternlab.patternPaths[patternTypeName] || {};
       patternlab.viewAllPaths[patternTypeName] = {};
 
       //test whether the pattern structure is flat or not - usually due to a template or page
@@ -246,15 +283,24 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
   var i;
 
   for (i = 0; i < patternlab.patterns.length; i++) {
+
+    var pattern = patternlab.patterns[i];
+
     // skip underscore-prefixed files
-    if (isPatternExcluded(patternlab.patterns[i])) {
+    if (isPatternExcluded(pattern)) {
       if (patternlab.config.debug) {
-        console.log('Omitting ' + patternlab.patterns[i].patternPartial + " from view all rendering.");
+        console.log('Omitting ' + pattern.patternPartial + " from view all rendering.");
       }
       continue;
     }
 
-    var pattern = patternlab.patterns[i];
+    //this is meant to be a homepage that is not present anywhere else
+    if (pattern.patternPartial === patternlab.config.defaultPattern) {
+      if (patternlab.config.debug) {
+        console.log('Omitting ' + pattern.patternPartial + ' from view all rendering because it is defined as a defaultPattern');
+      }
+      continue;
+    }
 
     //create the view all for the section
     // check if the current section is different from the previous one
@@ -271,6 +317,14 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
           if (isPatternExcluded(patternlab.patterns[j])) {
             if (patternlab.config.debug) {
               console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
+            }
+            continue;
+          }
+
+          //this is meant to be a homepage that is not present anywhere else
+          if (patternlab.patterns[j].patternPartial === patternlab.config.defaultPattern) {
+            if (patternlab.config.debug) {
+              console.log('Omitting ' + pattern.patternPartial + ' from view all sibling rendering because it is defined as a defaultPattern');
             }
             continue;
           }
@@ -302,6 +356,14 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
           if (isPatternExcluded(patternlab.patterns[j])) {
             if (patternlab.config.debug) {
               console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
+            }
+            continue;
+          }
+
+          //this is meant to be a homepage that is not present anywhere else
+          if (patternlab.patterns[j].patternPartial === patternlab.config.defaultPattern) {
+            if (patternlab.config.debug) {
+              console.log('Omitting ' + pattern.patternPartial + ' from view all sibling rendering because it is defined as a defaultPattern');
             }
             continue;
           }
@@ -428,11 +490,17 @@ function buildFrontEnd(patternlab) {
 
   //plugins someday
   output += 'var plugins = [];' + eol;
+
+  //smaller config elements
+  output += 'var defaultShowPatternInfo = ' + (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
+  output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all') + '";' + eol;
+
+  //write all ouytput to patternlab-data
   fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
 
   //annotations
   var annotationsJSON = annotation_exporter.gather();
-  var annotations = 'var comments = ' + JSON.stringify(annotationsJSON);
+  var annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
   fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
 
 }

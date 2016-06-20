@@ -55,6 +55,5 @@
   },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
-  "baseurl" : "",
   "cacheBust": true
 }
