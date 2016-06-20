@@ -1,40 +1,32 @@
 .footer {
   position : relative;
+  background-color: $colorDarkGrey;
+  color: $colorWhite;
+  bottom: -1px;
+  a {
+    color: inherit;
+  }
   @media only screen and (min-width : $breakpointDesktop) {
     padding-left : $paddingMini;
     padding-right : $paddingMini;
     margin-top : $marginStandard;
-
-    &::before {
-      content: "";
-      width : 100%;
-      background-color : $colorBlack;
-      height : $blackDividerHeight;
-      position : absolute;
-      top : 1.5em;
-      transform: translateX(-50%);
-      left: 50%;
-
-      @media only screen and (min-width: $maxWidthLayout) {
-        width: calc(100% + #{$paddingMini * 2});
-      }
-    }
   }
 
   &__wrapper {
-    max-width : 1500px;
+    max-width : 75rem;
     margin : 0 auto;
-
+    padding-top: 1.875rem;
     @media only screen and (min-width : $breakpointDesktop) {
       display : flex;
       flex-direction : row;
-      padding-left : $paddingMini;
-      padding-right : $paddingMini;
     }
 
     @media only screen and (min-width: $maxWidthLayout) {
-      padding-left : 0;
-      padding-right : 0;
+      //padding-left : 0;
+      //padding-right : 0;
+    }
+    @media only screen and (max-width : $breakpointTabletEnd) {
+      padding-top: 0;
     }
   }
 
@@ -47,23 +39,43 @@
     }
 
     &--groupedContent {
+      position: relative;
       display: flex;
       flex-flow: row;
       flex-grow : 2;
+      text-align: center;
 
-      @media only screen and (max-width : $breakpointMobile) {
+      @media only screen and (max-width : $breakpointTabletEnd) {
         align-items: center;
+        text-align: right;
       }
 
       .socialShare {
         margin-left : $marginMini;
         padding-top : $paddingMini;
         margin-bottom : 0.3em;
-        flex : 1;
-
+        min-width: auto;
+        position: absolute;
+        text-align: left;
         @media only screen and (min-width : $breakpointDesktop) {
           padding-top : 0;
           margin-left : 0;
+          right: 6.5rem;
+        }
+        &__link {
+          margin-right: 0.4375rem;
+          margin-top: 0.5625rem;
+          display: inline-block;
+          background-color: $colorWhite;
+          width: 2.75rem;
+          height: 2.75rem;
+          color: $colorDarkGrey;
+          text-align: center;
+          &--icon {
+            width: 100%;
+            padding-top: 0.3125rem;
+            margin: 0 auto;
+          }
         }
       }
     }
@@ -77,6 +89,61 @@
       margin : 0;
       width : 25em;
     }
+    .navigation__footer {
+      &--headline {
+        border-bottom : none;
+        padding-top : 0;
+        padding-bottom : 0;
+        padding-left : 0;
+        margin-bottom : 1.2rem;
+        background-color : transparent;
+        font-family: $fontPrimary;
+        font-size : 0.875em;
+        font-weight : 300;
+        text-transform : uppercase;
+        position: relative;
+        display: inline-block;
+        margin-top: 0.125rem;
+        &:before {
+          content: '';
+          border-bottom: 0.125rem solid $colorWhite;
+          width: 3.125rem;
+          position: absolute;
+          margin-top: 1.688rem;
+        }
+        @media only screen and (max-width : $breakpointTabletEnd) {
+          padding-top: $paddingMini;
+          padding-bottom : $paddingMini;
+        }
+      }
+    }
+    .fieldset {
+      margin: 0;
+      width: calc(100%);
+      .field {
+        &__message {
+          &--success, &--error {
+            color: $colorWhite;
+          }
+        }
+      }
+      input {
+        border-color: $colorWhite;
+        text-align: center;
+        &::-webkit-input-placeholder {
+          color: $colorTussock;
+        }
+        &:-moz-placeholder { /* Firefox 18- */
+           color: $colorTussock;
+        }
+        &::-moz-placeholder {  /* Firefox 19+ */
+           color: $colorTussock;
+        }
+        &:-ms-input-placeholder {
+           color: $colorTussock;
+        }
+      }
+    }
   }
 
   .navigation__footer {
@@ -84,13 +151,18 @@
   }
 
   &__trustedShops {
-    flex: none;
+    flex: 1;
     width : 3em;
-    margin-right: $marginMini;
+    margin-right: 14.375em;
     margin-top: 0.75em;
 
     @media only screen and (min-width : $breakpointDesktop) {
       margin-top : 2.47em;
+    }
+
+    @media only screen and (max-width : $breakpointTabletEnd) {
+      margin-top: 1.3em;
+      margin-right: $paddingStandard;
     }
   }
 
@@ -105,7 +177,10 @@
     }
 
     @media only screen and (min-width : $breakpointDesktop) {
-      margin-top : 0;
+      margin-top : 8px;
+      .button {
+        margin-right: 0;
+      }
     }
 
     .field {
@@ -122,10 +197,11 @@
   }
 
   &__copyright {
-    padding : 1.25rem 0;
+    padding : 2.6rem 0;
     text-align : center;
     font-size : 0.75em;
     text-transform : uppercase;
     letter-spacing : 0.1em;
+    color: $colorWhite;
   }
 }

@@ -25,11 +25,13 @@
       z-index:99;
     }
   }
-
-  .navigation--primary {
-    transition:left $animationTimingNormal ease-in-out;
-    min-width:$widthMobileNavigation;
-    left:-$widthMobileNavigation;
+  @media only screen and (min-width: $breakpointDesktop) {
+    .pageContent {
+      padding-top: 4.2rem;
+    }
+    main {
+      padding-top: $marginMini;
+    }
   }
 
   .navigation--cart {
@@ -38,7 +40,35 @@
     max-width:100%;
     right:-$widthCartSidebar;
   }
-
+  &--expanded-top {
+    .pageContent {
+      &:before {
+        transition:all $animationTimingNormal ease-in-out;
+        display:block;
+        position:absolute;
+        content:'';
+        width:100%;
+        top:0;
+        bottom:0;
+        background:transparentize($colorBlack, 0.5);
+        z-index:99;
+      }
+    }
+    .header {
+      &__navigation {
+        .navigation {
+          display: block;
+        }
+      }
+    }
+  }
+  &--expanded-left {
+    .navigation--primary {
+      transition:left $animationTimingNormal ease-in-out;
+      min-width:$widthMobileNavigation;
+      left:-$widthMobileNavigation;
+    }
+  }
   &--expanded-left &--inner {
     margin-left:$widthMobileNavigation;
 

@@ -1,0 +1,152 @@
+@mixin flyout-figure() {
+  figure {
+    figcaption {
+      color: $colorBlack;
+      display: inline-block;
+      font-size: $fontSizeSmall;
+      border-bottom: 0.125em solid transparent;
+      padding-top: 1.8em;
+      text-align: center;
+      &:after {
+        content: '';
+        border-bottom: 0.125em solid transparent;
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 0.250em;
+      }
+    }
+    hr {
+      display: none;
+    }
+    a {
+      color: $colorWhite;
+      position: relative;
+      display: block;
+      text-align: center;
+      .image-container {
+        transition: all .2s ease;
+        overflow: hidden;
+        img {
+          //transition: all .2s ease;
+          opacity: 1;
+        }
+      }
+      hr {
+        display: block;
+        margin: auto 25%;
+        top: 2.188em;
+        position: absolute;
+        width: 50%;
+        border: 0;
+        border-bottom: 0.125em solid $colorWhite;
+      }
+      h3 {
+        display: flex;
+        font-size: $fontSizeSmall;
+        position: absolute;
+        width: 100%;
+        height: 52%;
+        flex-flow: column;
+        align-items: center;
+        left: 0;
+        justify-content: center;
+        text-transform: uppercase;
+      }
+      &:hover {
+        .image-container {
+            background-color: $colorBlack;
+            img {
+              opacity: .6;
+              //transform: scale(1.2);
+            }
+        }
+        figcaption {
+          &:after {
+            content: '';
+            border-bottom: 0.125em solid $colorBlack;
+            width: 100%;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
+
+.navigation-flyout {
+  position: absolute;
+  background-color: $colorWhite;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-top: 68px;
+  padding: 1.625em 6.250em;
+  font-size:1rem;
+  &.flyout-open {
+    animation-duration: .2s;
+    animation-fill-mode: both;
+    animation-name: fade-in;
+    display: block !important;
+  }
+  .blockWrapper {
+    max-width: initial;
+  }
+  &[data-type=block_nav_1_image_with_links] {
+    .columns {
+      margin: 0;
+      width: 70%;
+      float: left;
+      > div {
+        text-align: left;
+        p {
+          padding-top: 0.625em;
+          a {
+            text-transform: none;
+            line-height: 2.1em;
+            font-family: $fontPrimary;
+            font-size: $fontSizeSmall;
+          }
+        }
+        hr {
+          margin-right: 50%;
+          border: 0;
+          border-bottom: 0.125em solid $colorBlack;
+        }
+        h2 {
+          font-size: $fontSizeSmall;
+          text-transform: uppercase;
+          padding-top: 1.250em;
+          font-weight: initial;
+        }
+      }
+      &__column {
+        padding-left: 0;
+      }
+      &__image {
+        display: inline-block;
+        width: 30%;
+        margin: 1.250em 0;
+        @include flyout-figure();
+      }
+    }
+  }
+  &[data-type=block_nav_2_images] {
+    .columns {
+      padding: 0 18%;
+      @include flyout-figure();
+    }
+  }
+
+  &[data-type=block_nav_3_images] {
+    .columns {
+      @include flyout-figure();
+    }
+  }
+
+  &[data-type=block_nav_4_images] {
+    .columns {
+      @include flyout-figure();
+    }
+  }
+
+}
