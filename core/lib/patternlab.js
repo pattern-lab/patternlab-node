@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v2.0.0-alpha.3 - 2016
- *
+/* 
+ * patternlab-node - v2.0.0 - 2016 
+ * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -186,13 +186,13 @@ var patternlab_engine = function (config) {
     try {
       patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
     } catch (ex) {
-      console.log('missing ' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      plutils.logRed('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       patternlab.data = {};
     }
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
-      console.log('missing ' + paths.source.data + 'listitems.json  Pattern Lab may not work without this file.');
+      plutils.logRed('missing or malformed' + paths.source.data + 'listitems.json  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
     try {
@@ -203,7 +203,7 @@ var patternlab_engine = function (config) {
       patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
     } catch (ex) {
       console.log(ex);
-      console.log('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      plutils.logRed('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
       process.exit(1);
     }
     patternlab.patterns = [];
