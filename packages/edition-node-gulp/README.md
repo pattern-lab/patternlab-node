@@ -69,19 +69,19 @@ These are some helpful commands you can use on the command line for working with
 
 To list all available commands type:
 
-    gulp pl-help
+    gulp patternlab:help
 
 ### Generate Pattern Lab
 
 To generate the front-end for Pattern Lab type:
 
-    gulp pl-build
+    gulp patternlab:build
 
 ### Watch for changes and re-generate Pattern Lab
 
 To watch for changes, re-generate the front-end, and server it via a BrowserSync server,  type:
 
-    gulp pl-serve
+    gulp patternlab:serve
 
 BrowserSync should open [http://localhost:3000](http://localhost:3000) in your browser.
 
@@ -91,4 +91,4 @@ To install a specific StarterKit from GitHub type:
 
     npm install [starterkit-vendor/starterkit-name]
 
-    gulp patternlab:starterkit-load --kit=[starterkit-name]
+    gulp patternlab:loadstarterkit --kit=[starterkit-name]
