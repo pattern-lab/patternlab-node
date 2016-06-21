@@ -22,7 +22,7 @@
       bottom:0;
       opacity:0;
       background:transparentize($colorBlack, 0.5);
-      z-index:99;
+      z-index:5;
     }
   }
   @media only screen and (min-width: $breakpointDesktop) {
