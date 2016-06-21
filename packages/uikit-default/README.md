@@ -1,3 +1,6 @@
+![license](https://img.shields.io/github/license/pattern-lab/styleguidekit-assets-default.svg?maxAge=2592000)
+[![Packagist](https://img.shields.io/packagist/v/pattern-lab/styleguidekit-assets-default.svg?maxAge=2592000)](https://packagist.org/packages/pattern-lab/patternengine-mustache) [![Gitter](https://img.shields.io/gitter/room/pattern-lab/front-end.svg?maxAge=2592000)](https://gitter.im/pattern-lab/frontend-viewer)
+
 # Static Assets for the Default StyleguideKit
 
 These static assets are meant to be used with the default [Mustache](https://github.com/pattern-lab/styleguidekit-mustache-default) and [Twig](https://github.com/pattern-lab/styleguidekit-twig-default) StyleguideKits. They control the look, feel, and functionality of the front-end of Pattern Lab PHP.
@@ -30,10 +33,10 @@ Once you've installed the requirements do the following to set-up for developmen
 
 To make changes **always edit files in `src/`**. To make sure that these changes are reflected in the front-end and `dist/` folder run the following:
 
-    gulp
+    gulp --copy-dist=../../../public
 
 To watch for changes you can use:
 
-    gulp --watch
+    gulp --watch --copy-dist=../../../public
 
 At this point changes to the static assets should compile to the correct locations in the project as well as `dist/`.
