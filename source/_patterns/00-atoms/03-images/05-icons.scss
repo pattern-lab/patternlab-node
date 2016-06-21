@@ -36,65 +36,71 @@
 	@if $filename == bag {
 		$char: "\E003";
 	}
-	@if $filename == check {
+	@if $filename == bracket_left {
 		$char: "\E004";
 	}
-	@if $filename == checkmark {
+	@if $filename == bracket_right {
 		$char: "\E005";
 	}
-	@if $filename == chevron-down {
+	@if $filename == check {
 		$char: "\E006";
 	}
-	@if $filename == chevron-left {
+	@if $filename == checkmark {
 		$char: "\E007";
 	}
-	@if $filename == chevron-right {
+	@if $filename == chevron-down {
 		$char: "\E008";
 	}
-	@if $filename == chevron-up {
+	@if $filename == chevron-left {
 		$char: "\E009";
 	}
-	@if $filename == hamburgerMenu {
+	@if $filename == chevron-right {
 		$char: "\E00A";
 	}
-	@if $filename == help {
+	@if $filename == chevron-up {
 		$char: "\E00B";
 	}
-	@if $filename == logo {
+	@if $filename == hamburgerMenu {
 		$char: "\E00C";
 	}
-	@if $filename == minus {
+	@if $filename == help {
 		$char: "\E00D";
 	}
-	@if $filename == phone_message {
+	@if $filename == logo {
 		$char: "\E00E";
 	}
-	@if $filename == plus {
+	@if $filename == minus {
 		$char: "\E00F";
 	}
-	@if $filename == x-large {
+	@if $filename == phone_message {
 		$char: "\E010";
 	}
-	@if $filename == x-small {
+	@if $filename == plus {
 		$char: "\E011";
 	}
-	@if $filename == facebook-block {
+	@if $filename == x-large {
 		$char: "\E012";
 	}
-	@if $filename == facebook {
+	@if $filename == x-small {
 		$char: "\E013";
 	}
-	@if $filename == instagram-block {
+	@if $filename == facebook-block {
 		$char: "\E014";
 	}
-	@if $filename == instagram {
+	@if $filename == facebook {
 		$char: "\E015";
 	}
-	@if $filename == twitter-block {
+	@if $filename == instagram-block {
 		$char: "\E016";
 	}
-	@if $filename == twitter {
+	@if $filename == instagram {
 		$char: "\E017";
+	}
+	@if $filename == twitter-block {
+		$char: "\E018";
+	}
+	@if $filename == twitter {
+		$char: "\E019";
 	}
 
 	@return $char;
@@ -119,6 +125,12 @@
 }
 .icon-bag {
 	@include icon(bag);
+}
+.icon-bracket_left {
+	@include icon(bracket_left);
+}
+.icon-bracket_right {
+	@include icon(bracket_right);
 }
 .icon-check {
 	@include icon(check);

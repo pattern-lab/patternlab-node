@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17" height="30"  xml:space="preserve">
+    <path id="bezier" stroke="none" fill="rgb(0, 0, 0)" d="M 1.71,0.15 L 15.85,14.29 16.56,15 15.85,15.71 1.71,29.85 0.29,28.44 14.44,14.29 14.44,15.71 0.29,1.56 1.71,0.15 Z M 1.71,0.15" />
+</svg>

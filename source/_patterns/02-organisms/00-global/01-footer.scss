@@ -73,7 +73,7 @@
           text-align: center;
           &--icon {
             width: 100%;
-            padding-top: 0.3125rem;
+            padding-top: 0.4375rem;
             margin: 0 auto;
           }
         }
@@ -130,6 +130,7 @@
       input {
         border-color: $colorWhite;
         text-align: center;
+        margin: 0;
         &::-webkit-input-placeholder {
           color: $colorTussock;
         }
