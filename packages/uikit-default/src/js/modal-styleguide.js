@@ -42,6 +42,7 @@ var modalStyleguide = {
       var el = document.getElementById('sg-pattern-data-'+patternPartial);
       modalStyleguide.collectAndSend(el, true, false);
     } else {
+      modalStyleguide.highlightsHide();
       modalStyleguide.close(patternPartial);
     }
     
@@ -110,6 +111,21 @@ var modalStyleguide = {
       patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
       patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
       modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+    }
+  },
+  
+  /**
+  * hide the highlights
+  */
+  highlightsHide: function(patternPartial) {
+    var patternPartialSelector = (patternPartial !== undefined) ? '#'+patternPartial+" > " : "";
+    elsToHide = document.querySelectorAll(patternPartialSelector+'.has-annotation');
+    for (i = 0; i < elsToHide.length; i++) {
+      elsToHide[i].classList.remove('has-annotation');
+    }
+    elsToHide = document.querySelectorAll(patternPartialSelector+'.annotation-tip');
+    for (i = 0; i < elsToHide.length; i++) {
+      elsToHide[i].style.display = 'none';
     }
   },
   
@@ -215,14 +231,7 @@ var modalStyleguide = {
           
     } else if ((data.event !== undefined) && (data.event == 'patternLab.annotationsHighlightHide')) {
       
-      elsToHide = document.querySelectorAll('.has-annotation');
-      for (i = 0; i < elsToHide.length; i++) {
-        elsToHide[i].classList.remove('has-annotation');
-      }
-      elsToHide = document.querySelectorAll('.annotation-tip');
-      for (i = 0; i < elsToHide.length; i++) {
-        elsToHide[i].style.display = 'none';
-      }
+      modalStyleguide.highlightsHide();
       
     } else if ((data.event !== undefined) && (data.event == 'patternLab.patternModalClose')) {
       
