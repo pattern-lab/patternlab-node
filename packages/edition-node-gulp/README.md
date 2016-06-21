@@ -1,6 +1,6 @@
 # Pattern Lab Node - Gulp Edition
 
-The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node), currently in 2.0.0-alpha, providing tasks to interact with the core library and move supporting frontend assets.
+The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node) providing tasks to interact with the core library and move supporting frontend assets.
 
 ## Packaged Components
 
