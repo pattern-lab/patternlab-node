@@ -32,8 +32,13 @@ var pseudopattern_hunter = function () {
         }
 
         //we want to do everything we normally would here, except instead read the pseudoPattern data
-        var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
-
+        try {
+          var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
+        } catch (err) {
+          console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
+          console.log(err);
+        }
+        
         //extend any existing data with variant data
         variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 

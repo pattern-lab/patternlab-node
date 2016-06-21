@@ -154,26 +154,42 @@ var pattern_assembler = function () {
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
-      currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
-      if (patternlab.config.debug) {
-        console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
+      try {
+        var jsonFilenameStats = fs.statSync(jsonFilename);
+      } catch (err) {
+        //not a file
+      }
+      if (jsonFilenameStats && jsonFilenameStats.isFile()) {
+        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+        if (patternlab.config.debug) {
+          console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
+        }
       }
     }
-    catch (e) {
-      // do nothing
+    catch (err) {
+      console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
+      console.log(err);
     }
 
     //look for a listitems.json file for this template
     try {
       var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
-      currentPattern.listitems = fs.readJSONSync(listJsonFileName);
-      buildListItems(currentPattern);
-      if (patternlab.config.debug) {
-        console.log('found pattern-specific listitems.json for ' + currentPattern.patternPartial);
+      try {
+        var listJsonFileStats = fs.statSync(listJsonFileName);
+      } catch (err) {
+        //not a file
+      }
+      if (listJsonFileStats && listJsonFileStats.isFile()) {
+        currentPattern.listitems = fs.readJSONSync(listJsonFileName);
+        buildListItems(currentPattern);
+        if (patternlab.config.debug) {
+          console.log('found pattern-specific listitems.json for ' + currentPattern.patternPartial);
+        }
       }
     }
-    catch (e) {
-      // do nothing
+    catch (err) {
+      console.log('There was an error parsing sibling listitem JSON for ' + currentPattern.relPath);
+      console.log(err);
     }
 
     //look for a markdown file for this template
