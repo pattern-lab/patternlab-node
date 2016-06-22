@@ -28,7 +28,7 @@
   "styleGuideExcludes": [
   ],
   "defaultPattern": "all",
-  "defaultShowPatternInfo": true,
+  "defaultShowPatternInfo": false,
   "cleanPublic" : true,
   "patternExtension": "mustache",
   "ignored-extensions" : ["scss", "DS_Store", "less"],
