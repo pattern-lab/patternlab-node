@@ -104,12 +104,14 @@
         position: relative;
         display: inline-block;
         margin-top: 0.125rem;
-        &:before {
-          content: '';
-          border-bottom: 0.125rem solid $colorWhite;
-          width: 3.125rem;
-          position: absolute;
-          margin-top: 1.688rem;
+        @media only screen and (min-width : $breakpointDesktop) {
+          &:before {
+            content: '';
+            border-bottom: 0.125rem solid $colorWhite;
+            width: 3.125rem;
+            position: absolute;
+            margin-top: 1.688rem;
+          }
         }
         @media only screen and (max-width : $breakpointTabletEnd) {
           padding-top: $paddingMini;
