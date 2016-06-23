@@ -6,11 +6,37 @@
 
   &__image {
     position: relative;
-    width: 100%;
+    //width: 100%;
     overflow: hidden;
 
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 64vw;
+
+    @media only screen and (min-width: $breakpointTablet) {
+      width: 240%;
+      height: 61vw;
+    }
+
+    @media only screen and (min-width: $breakpointDesktop) {
+      height: 29vw;
+      display: table-row;
+    }
+    @media only screen and (min-width: $maxWidthLayout) {
+      height: 30em;
+    }
     &--img {
       display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      min-width: 50%;
+      min-height: 50%;
+      overflow-x: hidden;
     }
 
     &--video {
@@ -30,6 +56,9 @@
 
   &__content {
     position: absolute;
+    @media only screen and (max-width: $breakpointMobileEnd) {
+      position: relative;
+    }
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -48,13 +77,17 @@
       border-width: 0;
       border-top-width: 1px;
 
-      @media only screen and (min-width: $breakpointDesktop) {
-        position: static;
-        width: auto;
-        border-width: 1px;
-
-        &:nth-child(n+2) {
-          margin-top: $marginSemiMedium;
+      position: static;
+      width: auto;
+      border-width: 1px;
+      @media only screen and (max-width: $breakpointMobileEnd) {
+        border-color: $colorBlack;
+        color: $colorBlack;
+      }
+      &:nth-child(n+2) {
+        margin-top: $marginSemiMedium;
+        @media only screen and (max-width: $breakpointMobileEnd) {
+          margin-top: $marginMini;
         }
       }
     }
@@ -76,26 +109,26 @@
 
     &:after {
       content: '';
-      display: none;
-      width: 55px;
-      height: 10px;
+      width: 3.438em;
+      height: 0.625em;
       border-bottom: $blackDividerHeight solid $colorWhite;
       margin: 0 auto;
-
-      @media only screen and (min-width: $breakpointMobile) {
-        display: block;
+      display: block;
+      @media only screen and (max-width: $breakpointMobileEnd) {
+        border-bottom: $blackDividerHeight solid $colorBlack;
       }
-
       @media only screen and (min-width: $breakpointTablet) {
-        height:20px;
+        height:1.250em;
       }
     }
   }
 
   .blockBanner__text {
-    margin-top: -48px;
     margin-bottom : 0;
-    color : $colorWhite;
+    @media only screen and (min-width: $breakpointTablet) {
+      margin-top: -48px;
+      color: $colorWhite;
+    }
 
     &:only-child {
       margin-top : 0;
