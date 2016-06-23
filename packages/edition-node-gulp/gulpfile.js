@@ -19,7 +19,7 @@ gulp.task('pl-copy:js', function(){
 
 // Images copy
 gulp.task('pl-copy:img', function(){
-  return gulp.src('*',{cwd: path.resolve(paths().source.images)} )
+  return gulp.src('**/*.*',{cwd: path.resolve(paths().source.images)} )
     .pipe(gulp.dest(path.resolve(paths().public.images)));
 });
 
@@ -118,7 +118,7 @@ gulp.task('patternlab:loadstarterkit', function (done) {
   done();
 });
 
-gulp.task('pl-build', gulp.series('pl-assets', build, function(done){
+gulp.task('patternlab:build', gulp.series('pl-assets', build, function(done){
   done();
 }));
 
@@ -157,7 +157,7 @@ function watch() {
   gulp.watch(patternWatches).on('change', gulp.series(build, reload));
 }
 
-gulp.task('pl-connect', gulp.series(function(done) {
+gulp.task('patternlab:connect', gulp.series(function(done) {
   browserSync.init({
     server: {
       baseDir: path.resolve(paths().public.root)
@@ -193,6 +193,6 @@ gulp.task('pl-connect', gulp.series(function(done) {
 /******************************************************
  * COMPOUND TASKS
 ******************************************************/
-gulp.task('default', gulp.series('pl-build'));
-gulp.task('patternlab:watch', gulp.series('pl-build', watch));
-gulp.task('patternlab:serve', gulp.series('pl-build', 'pl-connect', watch));
+gulp.task('default', gulp.series('patternlab:build'));
+gulp.task('patternlab:watch', gulp.series('patternlab:build', watch));
+gulp.task('patternlab:serve', gulp.series('patternlab:build', 'patternlab:connect', watch));
