@@ -71,8 +71,9 @@
     border: 0.125rem solid $colorWhite;
     background-color: $colorDarkGrey;
     &:hover, &:active {
-      background-color: lighten($colorDarkGrey, 10%);
-      border-color: $colorSilver;
+      background-color: $colorWhite;
+      border-color: $colorWhite;
+      color: $colorBlack;
     }
   }
 

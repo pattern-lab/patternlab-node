@@ -21,10 +21,6 @@
       flex-direction : row;
     }
 
-    @media only screen and (min-width: $maxWidthLayout) {
-      //padding-left : 0;
-      //padding-right : 0;
-    }
     @media only screen and (max-width : $breakpointTabletEnd) {
       padding-top: 0;
     }
@@ -71,10 +67,17 @@
           height: 2.75rem;
           color: $colorDarkGrey;
           text-align: center;
+          &:hover {
+              background-color: $colorDarkGrey;
+              color: $colorWhite;
+          }
           &--icon {
             width: 100%;
             padding-top: 0.4375rem;
             margin: 0 auto;
+            &:hover {
+                color: inherit;
+            }
           }
         }
       }
@@ -133,18 +136,6 @@
         border-color: $colorWhite;
         text-align: center;
         margin: 0;
-        &::-webkit-input-placeholder {
-          color: $colorTussock;
-        }
-        &:-moz-placeholder { /* Firefox 18- */
-           color: $colorTussock;
-        }
-        &::-moz-placeholder {  /* Firefox 19+ */
-           color: $colorTussock;
-        }
-        &:-ms-input-placeholder {
-           color: $colorTussock;
-        }
       }
     }
   }

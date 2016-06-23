@@ -67,12 +67,13 @@
       transition-timing-function: ease-in;
 
       &:hover {
-        color: $colorTussock;
+        color: $colorWhite;
         transition-timing-function: ease-out;
+        text-decoration: underline;
       }
 
       &:active {
-        color: lighten($colorTussock, 10%);
+        color: $colorWhite;
       }
     }
   }
