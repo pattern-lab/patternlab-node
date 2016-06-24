@@ -23,6 +23,7 @@
     @media only screen and (min-width: $breakpointDesktop) {
       height: 29vw;
       display: table-row;
+      display: -moz-inline-grid;
     }
     @media only screen and (min-width: $maxWidthLayout) {
       height: 30em;
