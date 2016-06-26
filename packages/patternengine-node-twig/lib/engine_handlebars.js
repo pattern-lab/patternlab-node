@@ -36,11 +36,11 @@ var engine_handlebars = {
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
   // render it
-  renderPattern: function renderPattern(template, data, partials) {
+  renderPattern: function renderPattern(pattern, data, partials) {
     if (partials) {
       Handlebars.registerPartial(partials);
     }
-    var compiled = Handlebars.compile(template);
+    var compiled = Handlebars.compile(pattern.extendedTemplate);
     return compiled(data);
   },
 
@@ -73,9 +73,9 @@ var engine_handlebars = {
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartialKey: function (partialString) {
-    var partialKey = partialString.replace(this.findPartialsRE, '$1');
-    return partialKey;
+  findPartial: function (partialString) {
+    var partial = partialString.replace(this.findPartialsRE, '$1');
+    return partial;
   }
 };
 
