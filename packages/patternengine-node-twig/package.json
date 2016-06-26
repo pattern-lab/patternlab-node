@@ -1,13 +1,12 @@
 {
-  "name": "patternengine-node-mustache",
-  "description": "The Mustache engine for Pattern Lab / Node",
+  "name": "patternengine-node-handlebars",
+  "description": "The Handlebars engine for Pattern Lab / Node",
   "version": "1.0.0",
-  "main": "lib/engine_mustache.js",
+  "main": "lib/engine_handlebars.js",
   "dependencies": {
-    "mustache": "^2.2.0"
+    "handlebars": "^4.0.5"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -15,11 +14,11 @@
     "Grunt",
     "Gulp",
     "Javascript",
-    "Mustache"
+    "Handlebars"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pattern-lab/patternengine-node-mustache.git"
+    "url": "https://github.com/pattern-lab/patternengine-node-handlebars.git"
   },
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
