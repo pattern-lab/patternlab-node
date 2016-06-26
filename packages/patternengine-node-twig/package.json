@@ -27,6 +27,6 @@
     "test": "grunt travis --verbose"
   },
   "engines": {
-    "node": ">=0.1"
+    "node": ">=4.0"
   }
 }
