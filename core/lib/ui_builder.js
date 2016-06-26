@@ -401,8 +401,6 @@ function sortPatterns(patternsArray) {
 // MAIN BUILDER FUNCTION
 
 function buildFrontEnd(patternlab) {
-  var mh = require('./media_hunter');
-  var media_hunter = new mh();
   var ae = require('./annotation_exporter');
   var annotation_exporter = new ae(patternlab);
   var styleguidePatterns = [];
@@ -415,9 +413,6 @@ function buildFrontEnd(patternlab) {
 
   //sort all patterns explicitly.
   patternlab.patterns = sortPatterns(patternlab.patterns);
-
-  //find mediaQueries
-  media_hunter.find_media_queries(path.resolve(paths.source.css), patternlab);
 
   // check if patterns are excluded, if not add them to styleguidePatterns
   styleguidePatterns = assembleStyleguidePatterns(patternlab);
@@ -478,7 +473,6 @@ function buildFrontEnd(patternlab) {
   //ishControls
   output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
 
-  //todo add media queries to this
   //navItems
   output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
 
