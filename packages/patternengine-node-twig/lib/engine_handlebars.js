@@ -44,8 +44,8 @@ var engine_handlebars = {
     return compiled(data);
   },
 
-  registerPartial: function (oPattern) {
-    Handlebars.registerPartial(oPattern.key, oPattern.template);
+  registerPartial: function (pattern) {
+    Handlebars.registerPartial(pattern.patternPartial, pattern.template);
   },
 
   // find and return any {{> template-name }} within pattern
