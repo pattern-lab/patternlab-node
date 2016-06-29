@@ -575,11 +575,7 @@
     
     if (data.event !== undefined) {
       
-      if (data.event == "patternLab.bodyClick") {
-
-        closePanels();
-
-      } else if (data.event == "patternLab.pageLoad") {
+      if (data.event == "patternLab.pageLoad") {
 
         if (!urlHandler.skipBack) {
 
