@@ -10,8 +10,9 @@
   }
 
   &__item {
+    font-family: $fontQuaternary;
     &--active a {
-      font-weight : 500;
+      font-family: $fontTertiary;
     }
 
     & + &:before {

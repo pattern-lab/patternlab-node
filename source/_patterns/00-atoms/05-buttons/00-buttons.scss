@@ -68,6 +68,7 @@
     }
   }
   &--quaternary {
+    @include font-tertiary-heavy(0.75em);
     border: 0.125rem solid $colorWhite;
     background-color: $colorDarkGrey;
     &:hover, &:active {

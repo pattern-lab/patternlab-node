@@ -259,9 +259,9 @@
 
     &__link {
       transition:color $animationTimingFast;
-      font-weight: 500;
       position: relative;
       display:block;
+      font-family: $fontTertiary;
 
       .navigation__list--secondLevel & {
         padding:0.625em;
