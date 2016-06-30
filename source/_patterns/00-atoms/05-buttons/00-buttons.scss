@@ -4,10 +4,8 @@
   outline: none;
   border: 1px solid $colorBlack;
   padding: 1em 2em;
-  font-family : $fontPrimary;
+  @include font-tertiary-heavy($fontSizeSmall);
   line-height: 1.85em;
-  font-size: 0.75em;
-  font-weight: 300;
   text-align: center;
   text-transform: uppercase;
   text-decoration: none;
@@ -52,6 +50,7 @@
   &--contrastive {
     background-color : transparent;
     border-color : $colorWhite;
+    @include font-tertiary-heavy(0.750em);
     &:hover, &:active {
       background-color: $colorWhite;
       border-color : $colorWhite;

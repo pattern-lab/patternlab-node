@@ -2,24 +2,17 @@
 .headlineGroup{
   margin-bottom : $marginStandard;
   &__headline {
-    font-family : $fontPrimary;
-    text-transform : uppercase;
     letter-spacing : 0.12em;
-    font-size : 21px;
-    font-weight : 500;
+    @include font-quaternary-uppercase(1.313em);
   }
   &__subHeadline {
-    font-family : $fontPrimary;
-    font-size : 12px;
+    @include font-tertiary-heavy($fontSizeSmall);
     text-transform : uppercase;
     letter-spacing : 0.12em;
-    font-weight : 500;
-    color : $colorDarkGrey;
+    color : $colorSilverChalice;
   }
   &__headline--alt {
-    font-family : $fontPrimary;
-    font-size : 20px;
-    font-weight : 500;
+    @include font-quaternary-lowercase(1.125em);
     text-transform : none;
   }
   &__subHeadline--alt {

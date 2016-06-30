@@ -46,14 +46,18 @@
   &__text {
     margin-right : $marginMini;
     margin-left : $marginMini;
+    p {
+      @include font-fira-light(1.063em);
+    }
   }
 
   &__date {
-    @include font-secondary-medium-lowercase(0.875em);
-    margin-bottom : $marginMini;
+    @include font-quaternary-lowercase($fontSizeSmall);
+    margin : $marginMini;
     display: inline-block;
   }
   &__readMore {
     color: $colorTussock;
+    @include font-tertiary-heavy($fontSizeSmall);
   }
 }

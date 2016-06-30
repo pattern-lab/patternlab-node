@@ -83,7 +83,7 @@
 }
 
 @mixin font-quaternary-uppercase($fontSize: 1em) {
-  font-family: $fontTertiary;
+  font-family: $fontQuaternary;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: $fontSize;

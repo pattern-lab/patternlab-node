@@ -19,8 +19,7 @@ strong, b {
 }
 
 .anchorCTA {
-  text-transform : uppercase;
-  font-size : 0.75em;
+  @include font-tertiary-heavy($fontSizeSmall);
   letter-spacing : 1px;
 
   &:hover {

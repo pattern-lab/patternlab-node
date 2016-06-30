@@ -10,7 +10,9 @@
     flex-direction : row-reverse;
     .blockMedia__text {
       text-align : center;
-
+      p {
+        @include font-fira-light(1.063em);
+      }
       @media only screen and (min-width : $breakpointDesktop) {
         text-align : right;
         max-width : 100%;
@@ -44,7 +46,10 @@
 
   &__text {
     padding : 0 $marginMini;
-
+    h6 {
+      margin-bottom: 1em;
+      @include font-fira-medium(1.063em);
+    }
     @media only screen and (min-width : $maxWidthLayout) {
       padding : 0;
     }

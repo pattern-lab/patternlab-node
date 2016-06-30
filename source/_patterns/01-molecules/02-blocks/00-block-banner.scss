@@ -96,7 +96,9 @@
   }
 
   &__text {
-    @include font-primary-bold-uppercase();
+    //@include font-primary-bold-uppercase();
+    @include font-tertiary-heavy();
+    text-transform: uppercase;
     font-size : 1.3125em;
     display : block;
     text-align : center;
@@ -106,7 +108,7 @@
     margin-bottom : $marginStandard;
 
     @media only screen and (min-width: $breakpointTablet) {
-      font-size : 2.1428571429em;
+      font-size : 2.813em;
     }
 
     &:after {

@@ -48,7 +48,7 @@
   }
 
   &__input {
-    font-family: $fontSecondary;
+    @include font-quaternary-lowercase($fontSizeSmall);
     width: 100%;
     padding: 0.9875em 0.625em 0.7875em;
     font-size: 0.875em;
@@ -59,6 +59,19 @@
     border: 1px solid $colorBlack;
     background-color: $colorWhite;
     box-sizing:border-box;
+
+    &::-webkit-input-placeholder {
+      @include font-quaternary-lowercase();
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      @include font-quaternary-lowercase();
+    }
+    &::-moz-placeholder {  /* Firefox 19+ */
+       @include font-quaternary-lowercase();
+    }
+    &:-ms-input-placeholder {
+       @include font-quaternary-lowercase();
+    }
 
     &--select {
       line-height: 1.4em;

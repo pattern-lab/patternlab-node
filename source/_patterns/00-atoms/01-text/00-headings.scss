@@ -10,7 +10,7 @@
 }
 
 .headlineH3 {
-  @include font-primary-light-uppercase();
+  @include font-quaternary-uppercase();
 }
 
 .headlineH4 {
@@ -18,7 +18,8 @@
 }
 
 .headlineH5 {
-  @include font-primary-medium-uppercase(0.875em);
+  @include font-tertiary-heavy(0.875em);
+  text-transform: uppercase;
 }
 
 .headlineH6 {
