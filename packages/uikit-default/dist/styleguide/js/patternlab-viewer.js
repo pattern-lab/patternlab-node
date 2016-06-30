@@ -1248,19 +1248,6 @@ if (self != top) {
     };
   }
   
-  // if there are clicks on the iframe make sure the nav in the iframe parent closes
-  var body = document.getElementsByTagName('body');
-  body[0].onclick = function(e) {
-    e.preventDefault();
-    e.stopProgation();
-    var targetOrigin = (window.location.protocol == "file:") ? "*" : window.location.protocol+"//"+window.location.host;
-    var obj = JSON.stringify({ "event": "patternLab.bodyClick", "bodyclick": "bodyclick" });
-    parent.postMessage(obj,targetOrigin);
-    console.log(document.activeElement);
-    document.activeElement.focus();
-    //return false;
-  };
-  
 }
 
 // watch the iframe source so that it can be sent back to everyone else.
@@ -1881,11 +1868,7 @@ window.addEventListener("message", receiveIframeMessage, false);
     
     if (data.event !== undefined) {
       
-      if (data.event == "patternLab.bodyClick") {
-
-        closePanels();
-
-      } else if (data.event == "patternLab.pageLoad") {
+      if (data.event == "patternLab.pageLoad") {
 
         if (!urlHandler.skipBack) {
 
