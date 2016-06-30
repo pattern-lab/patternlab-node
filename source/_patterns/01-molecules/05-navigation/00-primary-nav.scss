@@ -83,6 +83,7 @@
   &__link {
     user-select:none;
     font-size:1em;
+    @include font-tertiary-heavy();
   }
 }
 
@@ -119,6 +120,9 @@
     &__list {
       &__item {
         border-top: 1px solid $colorSilver;
+        p {
+          @include font-quaternary-lowercase();
+        }
         &--lang {
           display: flex;
           a {
@@ -130,8 +134,8 @@
               border-right: 1px solid $colorSilver;
             }
             > strong {
-              font-weight: 700;
               color: $colorBlack;
+              font-weight: bolder;
             }
           }
         }
