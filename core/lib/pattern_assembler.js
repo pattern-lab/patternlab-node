@@ -5,7 +5,7 @@ var pattern_assembler = function () {
     fs = require('fs-extra'),
     Pattern = require('./object_factory').Pattern,
     pph = require('./pseudopattern_hunter'),
-    md = require('markdown-it')(),
+    mp = require('./markdown_parser'),
     plutils = require('./utilities'),
     patternEngines = require('./pattern_engines');
 
@@ -66,6 +66,9 @@ var pattern_assembler = function () {
     }
   }
 
+  /*
+   * Deprecated in favor of .md 'status' frontmatter inside a pattern. Still used for unit tests at this time.
+   */
   function setState(pattern, patternlab) {
     if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternPartial]) {
       pattern.patternState = patternlab.config.patternStates[pattern.patternPartial];
@@ -123,6 +126,54 @@ var pattern_assembler = function () {
     }
   }
 
+  function parsePatternMarkdown(currentPattern, patternlab) {
+
+    var markdown_parser = new mp();
+
+    try {
+      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
+      var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
+
+      var markdownObject = markdown_parser.parse(markdownFileContents);
+      if (!plutils.isObjectEmpty(markdownObject)) {
+        //set keys and markdown itself
+        currentPattern.patternDescExists = true;
+        currentPattern.patternDesc = markdownObject.markdown;
+
+        //consider looping through all keys eventually. would need to blacklist some properties and whitelist others
+        if (markdownObject.status) {
+          currentPattern.patternState = markdownObject.status;
+        }
+        if (markdownObject.order) {
+          currentPattern.order = markdownObject.order;
+        }
+        if (markdownObject.hidden) {
+          currentPattern.hidden = markdownObject.hidden;
+        }
+        if (markdownObject.excludeFromStyleguide) {
+          currentPattern.excludeFromStyleguide = markdownObject.excludeFromStyleguide;
+        }
+        if (markdownObject.tags) {
+          currentPattern.tags = markdownObject.tags;
+        }
+        if (markdownObject.links) {
+          currentPattern.links = markdownObject.links;
+        }
+      } else {
+        if (patternlab.config.debug) {
+          console.log('error processing markdown for ' + currentPattern.patternPartial);
+        }
+      }
+
+      if (patternlab.config.debug) {
+        console.log('found pattern-specific markdown for ' + currentPattern.patternPartial);
+      }
+    }
+    catch (e) {
+      // do nothing
+    }
+  }
+
   function processPatternIterative(relPath, patternlab) {
 
     var pseudopattern_hunter = new pph();
@@ -149,7 +200,7 @@ var pattern_assembler = function () {
     }
 
     //see if this file has a state
-    setState(currentPattern, patternlab);
+    //setState(currentPattern, patternlab);
 
     //look for a json file for this template
     try {
@@ -193,18 +244,7 @@ var pattern_assembler = function () {
     }
 
     //look for a markdown file for this template
-    try {
-      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
-      var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
-      currentPattern.patternDescExists = true;
-      currentPattern.patternDesc = md.render(markdownFileContents);
-      if (patternlab.config.debug) {
-        console.log('found pattern-specific markdown-documentation.md for ' + currentPattern.patternPartial);
-      }
-    }
-    catch (e) {
-      // do nothing
-    }
+    parsePatternMarkdown(currentPattern, patternlab);
 
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
@@ -397,6 +437,9 @@ var pattern_assembler = function () {
     },
     parse_data_links_specific: function (patternlab, data, label) {
       return parseDataLinksHelper(patternlab, data, label)
+    },
+    parse_pattern_markdown: function (pattern, patternlab) {
+      parsePatternMarkdown(pattern, patternlab);
     }
   };
 
