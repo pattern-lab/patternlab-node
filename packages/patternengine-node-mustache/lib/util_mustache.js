@@ -1,5 +1,5 @@
 /*
- * mustache utilities for patternlab-node - v0.10.1 - 2015
+ * mustache utilities for patternlab-node - v2.X.X - 2016
  *
  * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
