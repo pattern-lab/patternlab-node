@@ -1,5 +1,5 @@
 /*
- * mustache pattern engine for patternlab-node - v0.10.1 - 2015
+ * mustache pattern engine for patternlab-node - v2.X.X - 2016
  *
  * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -60,13 +60,11 @@ var engine_mustache = {
    */
   patternMatcher: function patternMatcher(pattern, regex) {
     var matches;
-
     if (typeof pattern === 'string') {
       matches = pattern.match(regex);
     } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
       matches = pattern.template.match(regex);
     }
-
     return matches;
   },
 

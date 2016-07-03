@@ -1,5 +1,5 @@
 /*
- * mustache utilities for patternlab-node - v0.10.1 - 2015
+ * mustache utilities for patternlab-node - v2.X.X - 2016
  *
  * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
@@ -12,59 +12,8 @@
 
 // the term "alphanumeric" includes underscores.
 
-// look for an opening mustache include tag, followed by >=0 whitespaces
-var partialsStr = '{{>\\s*';
-
-// begin 1st exterior group, a mandatory group
-// look for >0 of an interior group comprising
-// >0 digits, followed by a hyphen, followed by >0 alphanumerics
-partialsStr += '((\\d+-[\\w-]+\\/)+';
-
-// then an interior group comprising
-// >0 digits, followed by a hyphen, followed by >0 alphanumerics,
-// followed by an optional group of a period followed by >0 alphanumerics
-partialsStr += '(\\d+-[\\w-]+(\\.\\w+)?)';
-
-// if the previous two interior groups are not found, look for any number of
-// alphanumerics or hyphens
-partialsStr += '|[\\w\\-]+)';
-
-// end 1st exterior group
-// begin 2nd exterior group, an optional group
-// look for a colon, followed by >0 alphanumerics or hyphens,
-// followed by >=0 interior groups
-// comprising a pipe, followed by >0 alphanumerics or hyphens
-partialsStr += '(\\:[\\w\\-]+(\\|[\\w\\-]+)*)?';
-
-// end 2nd exterior group
-// begin 3rd exterior group, an optional group
-// look for an opening parenthesis, followed by >=0 whitespaces, followed by
-// >0 alphanumerics, followed by >=0 whitespaces, followed by a colon,
-// followed by >=0 whitespaces
-partialsStr += '(\\(\\s*\\w+\\s*\\:\\s*';
-
-// followed by an interior group
-// comprising a single quote, followed by an interior group comprising
-// >=0 characters that are not single quotes or backslashes
-// or >=0 character pairs comprising a backlash, followed by any character.
-// look for a single quote to terminate this pattern
-partialsStr += '(\'([^\'\\\\]|\\\\.)*\'';
-
-// if the pattern wrapped in single quotes is not found, look for one wrapped
-// in double quotes
-// look for a double quote, followed by an interior group comprising
-// >=0 characters that are not double quotes or backslashes
-// or >=0 character pairs comprising a backlash, followed by any character.
-// look for a double quote to terminate this pattern
-partialsStr += '|"([^"\\\\]|\\\\.)*")';
-
-// look for a closing parenthesis
-partialsStr += '\\))?';
-
-// end 3rd exterior group
-// look for >=0 whitespaces, followed by closing mustache tag
-partialsStr += '\\s*}}';
-var partialsRE = new RegExp(partialsStr, 'g');
+// todo: document this exact regex long form.
+var partialsRE = new RegExp(/{{>\s*?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(?:| )\(.*)?(?:\s*)?}}/, 'g');
 
 // look for an opening mustache include tag, followed by >=0 whitespaces
 var partialsWithStyleModifiersStr = '{{>\\s*';
