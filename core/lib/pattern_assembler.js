@@ -286,7 +286,7 @@ var pattern_assembler = function () {
     currentPattern.extendedTemplate = currentPattern.template;
 
     //find how many partials there may be for the given pattern
-    var foundPatternPartials = currentPattern.findPartials(currentPattern);
+    var foundPatternPartials = currentPattern.findPartials();
 
     //find any listItem blocks that within the pattern, even if there are no partials
     list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -294,6 +294,7 @@ var pattern_assembler = function () {
     // expand any partials present in this pattern; that is, drill down into
     // the template and replace their calls in this template with rendered
     // results
+
     if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
       // eslint-disable-next-line
       expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
