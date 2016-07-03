@@ -60,13 +60,11 @@ var engine_mustache = {
    */
   patternMatcher: function patternMatcher(pattern, regex) {
     var matches;
-
     if (typeof pattern === 'string') {
       matches = pattern.match(regex);
     } else if (typeof pattern === 'object' && typeof pattern.template === 'string') {
       matches = pattern.template.match(regex);
     }
-
     return matches;
   },
 
