@@ -6,241 +6,86 @@
   var path = require('path');
 
 	exports['pattern_assembler'] = {
-		'find_pattern_partials finds partials' : function(test){
-      // NOTES from GTP:
-      // it's nice to have so much test coverage, but it retrospect, I'm not
-      // happy with the structure I wound up with in this test; it's too
-      // difficult to add test cases and test failure reporting is not very
-      // granular.
 
-      test.expect(16);
-
-      // setup current pattern from what we would have during execution
-      // docs on partial syntax are here:
-      // http://patternlab.io/docs/pattern-including.html
-      var currentPattern = Pattern.create(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null, // data
-        {
-          template: "{{> molecules-comment-header}}asdfasdf" +
-            "{{>  molecules-comment-header}}" +
-            "{{> \n	molecules-comment-header\n}}" +
-            "{{> }}" +
-            "{{>  molecules-weird-spacing     }}" +
-            "{{>  molecules-ba_d-cha*rs     }}" +
-            "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
-            '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}' +
-            "{{> molecules-single-comment:foo }}" +
-            // verbose partial syntax, introduced in v0.12.0, with file extension
-            "{{> 01-molecules/06-components/03-comment-header.mustache }}" +
-            "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}" +
-            "{{> molecules-single-comment:foo }}" +
-            "{{>atoms-error(message: 'That\\'s no moon...')}}" +
-            '{{>atoms-error(message: \'That\\\'s no moon...\')}}' +
-            "{{> 00-atoms/00-global/ }}" +
-            // verbose partial syntax, introduced in v0.12.0, no file extension
-            "{{> 00-atoms/00-global/06-test }}" +
-            "{{> molecules-single-comment:foo_1 }}" +
-            "{{> molecules-single-comment:foo-1 }}"
-        }
-      );
-
-			var results = currentPattern.findPartials();
-			test.equals(results.length, 15);
-      test.equals(results[0], "{{> molecules-comment-header}}");
-      test.equals(results[1], "{{>  molecules-comment-header}}");
-      test.equals(results[2], "{{> \n	molecules-comment-header\n}}");
-      test.equals(results[3], "{{>  molecules-weird-spacing     }}");
-      test.equals(results[4], "{{> molecules-single-comment(description: 'A life isn\\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}");
-      test.equals(results[5], '{{> molecules-single-comment(description: "A life is like a \\"garden\\". Perfect moments can be had, but not preserved, except in memory.") }}');
-      test.equals(results[6], "{{> molecules-single-comment:foo }}");
-      test.equals(results[7], "{{> 01-molecules/06-components/03-comment-header.mustache }}");
-      test.equals(results[8], "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}");
-      test.equals(results[9], "{{> molecules-single-comment:foo }}");
-      test.equals(results[10], "{{>atoms-error(message: 'That\\'s no moon...')}}");
-      test.equals(results[11], "{{>atoms-error(message: 'That\\'s no moon...')}}");
-      test.equals(results[12], "{{> 00-atoms/00-global/06-test }}");
-      test.equals(results[13], '{{> molecules-single-comment:foo_1 }}');
-      test.equals(results[14], '{{> molecules-single-comment:foo-1 }}');
-			test.done();
-		},
-		'find_pattern_partials finds verbose partials' : function(test){
-      test.expect(3);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-      currentPattern.template = "<h1>{{> 01-molecules/06-components/03-comment-header.mustache }}</h1><div>{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}</div>";
-
-			var results = currentPattern.findPartials();
-			test.equals(results.length, 2);
-			test.equals(results[0], '{{> 01-molecules/06-components/03-comment-header.mustache }}');
-			test.equals(results[1], '{{> 01-molecules/06-components/02-single-comment.mustache(description: \'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.\') }}');
-			test.done();
-		},
-		'find_pattern_partials_with_style_modifiers finds style modifiers' : function(test){
-      test.expect(4);
-
-			//setup current pattern from what we would have during execution
-
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div><div>{{> molecules-single-comment:foo_1 }}</div><div>{{> molecules-single-comment:foo-1 }}</div>";
-
-			var results = currentPattern.findPartialsWithStyleModifiers();
-			test.equals(results.length, 3);
-			test.equals(results[0], '{{> molecules-single-comment:foo }}');
-      test.equals(results[1], '{{> molecules-single-comment:foo_1 }}');
-      test.equals(results[2], '{{> molecules-single-comment:foo-1 }}');
-
-			test.done();
-		},
-		'find_pattern_partials_with_style_modifiers finds style modifiers with parameters present too' : function(test){
-      test.expect(2);
-
-			//setup current pattern from what we would have during execution
-
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
-
-			var results = currentPattern.findPartialsWithStyleModifiers();
-			test.equals(results.length, 1);
-			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
-
-			test.done();
-		},
-		'find_pattern_partials_with_style_modifiers finds style modifiers with verbose partials' : function(test){
-      test.expect(2);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment:foo }}</div>";
-
-			var results = currentPattern.findPartialsWithStyleModifiers();
-			test.equals(results.length, 1);
-			test.equals(results[0], '{{> 01-molecules/06-components/molecules-single-comment:foo }}');
-
-			test.done();
-		},
-		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials present' : function(test){
-      test.expect(1);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
-
-      var results = currentPattern.findPartialsWithStyleModifiers();
-			test.equals(results, null);
-
-			test.done();
-		},
-		'find_pattern_partials_with_style_modifiers finds no style modifiers when only partials with pattern parameters present' : function(test){
-      test.expect(1);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(foo: 'bar') }}</div>";
-
-      var results = currentPattern.findPartialsWithStyleModifiers();
-			test.equals(results, null);
-
-			test.done();
-		},
-		'find_pattern_partials_with_parameters finds parameters' : function(test){
-      test.expect(2);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>";
-
-      var results = currentPattern.findPartialsWithPatternParameters();
-			test.equals(results.length, 1);
-			test.equals(results[0], "{{> molecules-single-comment(bar:'baz') }}");
-
-			test.done();
-
-		},
-		'find_pattern_partials_with_parameters finds parameters when stylemodifiers present too' : function(test){
-      test.expect(2);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
-
-      var results = currentPattern.findPartialsWithPatternParameters();
-			test.equals(results.length, 1);
-			test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
-
-			test.done();
-		},
-		'find_pattern_partials_with_parameters finds parameters with verbose partials' : function(test){
-      test.expect(2);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>";
-
-      var results = currentPattern.findPartialsWithPatternParameters();
-			test.equals(results.length, 1);
-			test.equals(results[0], "{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}");
-
-			test.done();
-		},
-		'find_pattern_partials_with_parameters finds no style modifiers when only partials present' : function(test){
-      test.expect(1);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
-
-      var results = currentPattern.findPartialsWithPatternParameters();
-			test.equals(results, null);
-
-			test.done();
-		},
-		'find_pattern_partials_with_parameters finds no style modifiers when only partials with style modifiers present' : function(test){
-      test.expect(1);
-
-			//setup current pattern from what we would have during execution
-      var currentPattern = new Pattern(
-        '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-        null // data
-      );
-			currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
-
-      var results = currentPattern.findPartialsWithPatternParameters();
-			test.equals(results, null);
-
-			test.done();
-		},
+		//'find_pattern_partials_with_parameters finds parameters' : function(test){
+      //test.expect(2);
+      //
+		//	//setup current pattern from what we would have during execution
+      //var currentPattern = new Pattern(
+      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+      //  null // data
+      //);
+		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>";
+      //
+      //var results = currentPattern.findPartialsWithPatternParameters();
+		//	test.equals(results.length, 1);
+		//	test.equals(results[0], "{{> molecules-single-comment(bar:'baz') }}");
+      //
+		//	test.done();
+      //
+		//},
+		//'find_pattern_partials_with_parameters finds parameters when stylemodifiers present too' : function(test){
+      //test.expect(2);
+      //
+		//	//setup current pattern from what we would have during execution
+      //var currentPattern = new Pattern(
+      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+      //  null // data
+      //);
+		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
+      //
+      //var results = currentPattern.findPartialsWithPatternParameters();
+		//	test.equals(results.length, 1);
+		//	test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
+      //
+		//	test.done();
+		//},
+		//'find_pattern_partials_with_parameters finds parameters with verbose partials' : function(test){
+      //test.expect(2);
+      //
+		//	//setup current pattern from what we would have during execution
+      //var currentPattern = new Pattern(
+      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+      //  null // data
+      //);
+		//	currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>";
+      //
+      //var results = currentPattern.findPartialsWithPatternParameters();
+		//	test.equals(results.length, 1);
+		//	test.equals(results[0], "{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}");
+      //
+		//	test.done();
+		//},
+		//'find_pattern_partials_with_parameters finds no style modifiers when only partials present' : function(test){
+      //test.expect(1);
+      //
+		//	//setup current pattern from what we would have during execution
+      //var currentPattern = new Pattern(
+      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+      //  null // data
+      //);
+		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
+      //
+      //var results = currentPattern.findPartialsWithPatternParameters();
+		//	test.equals(results, null);
+      //
+		//	test.done();
+		//},
+		//'find_pattern_partials_with_parameters finds no style modifiers when only partials with style modifiers present' : function(test){
+      //test.expect(1);
+      //
+		//	//setup current pattern from what we would have during execution
+      //var currentPattern = new Pattern(
+      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+      //  null // data
+      //);
+		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
+      //
+      //var results = currentPattern.findPartialsWithPatternParameters();
+		//	test.equals(results, null);
+      //
+		//	test.done();
+		//},
 		'process_pattern_recursive recursively includes partials' : function(test){
       test.expect(3);
 
