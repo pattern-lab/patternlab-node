@@ -38,7 +38,7 @@ var pseudopattern_hunter = function () {
           console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
           console.log(err);
         }
-        
+
         //extend any existing data with variant data
         variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 
@@ -56,8 +56,8 @@ var pseudopattern_hunter = function () {
           engine: currentPattern.engine
         });
 
-        //see if this file has a state
-        pattern_assembler.setPatternState(patternVariant, patternlab);
+        //process the companion markdown file if it exists
+        pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);
 
         //find pattern lineage
         lineage_hunter.find_lineage(patternVariant, patternlab);

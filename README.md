@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) ![current release](https://img.shields.io/github/release/pattern-lab/patternlab-node.svg?maxAge=2592000) ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg?maxAge=2592000) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Pattern Lab Node Core
 
@@ -6,7 +6,7 @@ This repository contains the core functionality for Pattern Lab Node. Pattern La
 If this looks **REALLY DIFFERENT** from what you expected, check out the [ChangeLog](https://github.com/pattern-lab/patternlab-node/wiki/ChangeLog).
 
 * [Pattern Lab/Node: Gulp Edition](https://github.com/pattern-lab/edition-node-gulp) contains info how to get started within a Gulp task running environment.
-* [Pattern Lab/Node: Grunt Node Edition](https://github.com/pattern-lab/edition-node-grunt) contains info how to get started within a Grunt task running environment.
+* [Pattern Lab/Node: Grunt Edition](https://github.com/pattern-lab/edition-node-grunt) contains info how to get started within a Grunt task running environment.
 
 ## Core Team
 

@@ -46,6 +46,7 @@ var Pattern = function (relPath, data) {
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
   this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
 
+  this.patternState = '';
   this.template = '';
   this.patternPartialCode = '';
   this.lineage = [];

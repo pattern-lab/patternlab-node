@@ -26,6 +26,7 @@
 			test.equals(p.lineageIndex.length, 0);
 			test.equals(p.lineageR.length, 0);
 			test.equals(p.lineageRIndex.length, 0);
+      test.equals(p.patternState, '');
 			test.done();
 		},
     'test Pattern with one-directory subdir works as expected' : function (test) {
