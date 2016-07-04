@@ -6,86 +6,6 @@
   var path = require('path');
 
 	exports['pattern_assembler'] = {
-
-		//'find_pattern_partials_with_parameters finds parameters' : function(test){
-      //test.expect(2);
-      //
-		//	//setup current pattern from what we would have during execution
-      //var currentPattern = new Pattern(
-      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-      //  null // data
-      //);
-		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment(bar:'baz') }}</div>";
-      //
-      //var results = currentPattern.findPartialsWithPatternParameters();
-		//	test.equals(results.length, 1);
-		//	test.equals(results[0], "{{> molecules-single-comment(bar:'baz') }}");
-      //
-		//	test.done();
-      //
-		//},
-		//'find_pattern_partials_with_parameters finds parameters when stylemodifiers present too' : function(test){
-      //test.expect(2);
-      //
-		//	//setup current pattern from what we would have during execution
-      //var currentPattern = new Pattern(
-      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-      //  null // data
-      //);
-		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo(bar:'baz') }}</div>";
-      //
-      //var results = currentPattern.findPartialsWithPatternParameters();
-		//	test.equals(results.length, 1);
-		//	test.equals(results[0], "{{> molecules-single-comment:foo(bar:'baz') }}");
-      //
-		//	test.done();
-		//},
-		//'find_pattern_partials_with_parameters finds parameters with verbose partials' : function(test){
-      //test.expect(2);
-      //
-		//	//setup current pattern from what we would have during execution
-      //var currentPattern = new Pattern(
-      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-      //  null // data
-      //);
-		//	currentPattern.template = "<h1>{{> 01-molecules/06-components/molecules-comment-header}}</h1><div>{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}</div>";
-      //
-      //var results = currentPattern.findPartialsWithPatternParameters();
-		//	test.equals(results.length, 1);
-		//	test.equals(results[0], "{{> 01-molecules/06-components/molecules-single-comment(bar:'baz') }}");
-      //
-		//	test.done();
-		//},
-		//'find_pattern_partials_with_parameters finds no style modifiers when only partials present' : function(test){
-      //test.expect(1);
-      //
-		//	//setup current pattern from what we would have during execution
-      //var currentPattern = new Pattern(
-      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-      //  null // data
-      //);
-		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment }}</div>";
-      //
-      //var results = currentPattern.findPartialsWithPatternParameters();
-		//	test.equals(results, null);
-      //
-		//	test.done();
-		//},
-		//'find_pattern_partials_with_parameters finds no style modifiers when only partials with style modifiers present' : function(test){
-      //test.expect(1);
-      //
-		//	//setup current pattern from what we would have during execution
-      //var currentPattern = new Pattern(
-      //  '01-molecules/00-testing/00-test-mol.mustache', // relative path now
-      //  null // data
-      //);
-		//	currentPattern.template = "<h1>{{> molecules-comment-header}}</h1><div>{{> molecules-single-comment:foo }}</div>";
-      //
-      //var results = currentPattern.findPartialsWithPatternParameters();
-		//	test.equals(results, null);
-      //
-		//	test.done();
-		//},
 		'process_pattern_recursive recursively includes partials' : function(test){
       test.expect(3);
 
@@ -413,7 +333,8 @@
 			patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
 
 			var pattern = {
-        key: "pages-homepage"
+        key: "pages-homepage",
+        patternState: ""
 			};
 
 			//act
