@@ -159,22 +159,18 @@ exports['lineage hunter '] = {
   'cascade_pattern_states promotes a lower pattern state up to the consumer': function (test) {
     //arrange
     var pl = createBasePatternLabObject();
-    pl.config.patternStates = {
-      "test-foo": "complete",
-      "test-bar": "inreview"
-    };
 
     var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
+    atomPattern.patternState = "inreview";
 
-    pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
     var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
-    pattern_assembler.setPatternState(consumerPattern, pl);
+    consumerPattern.patternState = "complete";
     pattern_assembler.addPattern(consumerPattern, pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
@@ -191,22 +187,18 @@ exports['lineage hunter '] = {
   'cascade_pattern_states promotes a lower pattern state up to the consumers lineage': function (test) {
     //arrange
     var pl = createBasePatternLabObject();
-    pl.config.patternStates = {
-      "test-foo": "complete",
-      "test-bar": "inreview"
-    };
 
     var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
+    atomPattern.patternState = "inreview";
 
-    pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
     var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
-    pattern_assembler.setPatternState(consumerPattern, pl);
+    consumerPattern.patternState = "complete";
     pattern_assembler.addPattern(consumerPattern, pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
@@ -223,22 +215,17 @@ exports['lineage hunter '] = {
   'cascade_pattern_states sets the pattern state on any lineage patterns reverse lineage': function (test) {
     //arrange
     var pl = createBasePatternLabObject();
-    pl.config.patternStates = {
-      "test-foo": "complete",
-      "test-bar": "inreview"
-    };
 
     var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
-
-    pattern_assembler.setPatternState(atomPattern, pl);
+    atomPattern.patternState = "inreview";
     pattern_assembler.addPattern(atomPattern, pl);
 
     var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
-    pattern_assembler.setPatternState(consumerPattern, pl);
+    consumerPattern.patternState = "complete";
     pattern_assembler.addPattern(consumerPattern, pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
@@ -256,21 +243,17 @@ exports['lineage hunter '] = {
   'cascade_pattern_states promotes lower pattern state when consumer does not have its own state': function (test) {
     //arrange
     var pl = createBasePatternLabObject();
-    pl.config.patternStates = {
-      "test-bar": "inreview"
-    };
 
     var atomPattern = new of.Pattern('00-test/01-bar.mustache');
     atomPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/01-bar.mustache'), 'utf8');
     atomPattern.extendedTemplate = atomPattern.template;
+    atomPattern.patternState = "inreview";
 
-    pattern_assembler.setPatternState(atomPattern, pl);
     pattern_assembler.addPattern(atomPattern, pl);
 
     var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
     consumerPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/00-foo.mustache'), 'utf8');
     consumerPattern.extendedTemplate = consumerPattern.template;
-    pattern_assembler.setPatternState(consumerPattern, pl);
     pattern_assembler.addPattern(consumerPattern, pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);

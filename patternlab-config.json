@@ -51,7 +51,6 @@
   "ishMaximum": "2600",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternStates": {
-    "molecules-block-hero" : "inreview"
   },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
