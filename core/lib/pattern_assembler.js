@@ -146,8 +146,8 @@ var pattern_assembler = function () {
         currentPattern.patternDesc = markdownObject.markdown;
 
         //consider looping through all keys eventually. would need to blacklist some properties and whitelist others
-        if (markdownObject.status) {
-          currentPattern.patternState = markdownObject.status;
+        if (markdownObject.state) {
+          currentPattern.patternState = markdownObject.state;
         }
         if (markdownObject.order) {
           currentPattern.order = markdownObject.order;
