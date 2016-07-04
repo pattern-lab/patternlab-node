@@ -13,7 +13,7 @@
 // the term "alphanumeric" includes underscores.
 
 // todo: document this exact regex long form.
-var partialsRE = new RegExp(/{{>\s*?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(?:| )\(.*)?(?:\s*)?}}/, 'g');
+var partialsRE = new RegExp(/{{>\s*?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(?:| )\(.*)?(?:\s*)?}}/g);
 
 // look for an opening mustache include tag, followed by >=0 whitespaces
 var partialsWithStyleModifiersStr = '{{>\\s*';
