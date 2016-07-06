@@ -11,7 +11,7 @@ var markdown_parser = function () {
       //for each block process the yaml frontmatter and markdown
       var frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
       var chunks = frontmatterRE.exec(block);
-      if (chunks && chunks[1] && chunks[2]) {
+      if (chunks && chunks[1]) {
 
         //convert each yaml frontmatter key / value into an object key
         var frontmatter = chunks[1];
@@ -25,17 +25,23 @@ var markdown_parser = function () {
             var frontmatterKey = frontmatterLineChunks[0].toLowerCase().trim();
             var frontmatterValueString = frontmatterLineChunks[1].trim();
 
-            returnObject[frontmatterKey] = frontmatterValueString.substring(1, frontmatterValueString.length - 1);
+            returnObject[frontmatterKey] = frontmatterValueString;
           }
 
         }
+      }
 
+      if (chunks && chunks[2]) {
         //parse the actual markdown
         returnObject.markdown = md.render(chunks[2]);
+      } else {
+        //assume the passed in block is raw markdown
+        returnObject.markdown = md.render(block);
       }
     } catch (ex) {
       console.log(ex);
       console.log('error parsing markdown block', block);
+      return undefined;
     }
 
     //return the frontmatter keys and markdown for a consumer to decide what to do with
