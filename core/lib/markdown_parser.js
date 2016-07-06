@@ -25,7 +25,7 @@ var markdown_parser = function () {
             var frontmatterKey = frontmatterLineChunks[0].toLowerCase().trim();
             var frontmatterValueString = frontmatterLineChunks[1].trim();
 
-            returnObject[frontmatterKey] = frontmatterValueString.substring(1, frontmatterValueString.length - 1);
+            returnObject[frontmatterKey] = frontmatterValueString;
           }
 
         }
