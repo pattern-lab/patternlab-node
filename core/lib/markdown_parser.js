@@ -34,7 +34,7 @@ var markdown_parser = function () {
       if (chunks && chunks[2]) {
         //parse the actual markdown
         returnObject.markdown = md.render(chunks[2]);
-      } else{
+      } else {
         //assume the passed in block is raw markdown
         returnObject.markdown = md.render(block);
       }
