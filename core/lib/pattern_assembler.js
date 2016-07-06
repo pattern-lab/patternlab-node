@@ -176,7 +176,7 @@ var pattern_assembler = function () {
     }
     catch (err) {
       // do nothing when file not found
-      if (err.errno !== -4058) {
+      if (err.code !== 'ENOENT') {
         console.log('there was an error setting pattern keys after markdown parsing of the companion file for pattern ' + currentPattern.patternPartial);
         console.log(err);
       }
