@@ -174,8 +174,12 @@ var pattern_assembler = function () {
         console.log('found pattern-specific markdown for ' + currentPattern.patternPartial);
       }
     }
-    catch (e) {
-      // do nothing
+    catch (err) {
+      // do nothing when file not found
+      if (err.errno !== -4058) {
+        console.log('there was an error setting pattern keys after markdown parsing of the companion file for pattern ' + currentPattern.patternPartial);
+        console.log(err);
+      }
     }
   }
 
