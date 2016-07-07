@@ -106,12 +106,14 @@ var panelsViewer = {
     // set-up defaults
     var template, templateCompiled, templateRendered;
     var annotation, comment, count, div, els, item, markup, i;
+    var noDescription = "There is no description for this pattern.";
     var patternPartial = patternData.patternPartial;
     patternData.panels = panels;
     
+    
     // set a default pattern description for modal pop-up
     if (!iframePassback && (patternData.patternDesc.length === 0)) {
-      patternData.patternDesc = "There is no description for this pattern.";
+      patternData.patternDesc = noDescription;
     }
     
     // capitilize the pattern name
@@ -175,11 +177,11 @@ var panelsViewer = {
     // figure out if pattern state should be drawn
     patternData.patternStateExists = (patternData.patternState.length > 0);
     
-    // figure if the entire desc block should be drawn
-    patternData.descBlockExists = (patternData.patternDescExists || patternData.lineageExists || patternData.lineageRExists || patternData.patternStateExists);
-    
     // figure if annotations should be drawn
     patternData.annotationExists = (patternData.annotations.length > 0);
+    
+    // figure if the entire desc block should be drawn
+    patternData.descBlockExists = (patternData.patternDescExists || patternData.lineageExists || patternData.lineageRExists || patternData.patternStateExists || patternData.annotationExists);
     
     // set isPatternView based on if we have to pass it back to the styleguide level
     patternData.isPatternView = (iframePassback === false);
