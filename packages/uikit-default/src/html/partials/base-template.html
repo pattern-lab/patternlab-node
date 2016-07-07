@@ -2,13 +2,13 @@
 
   <!-- description, etc. -->
   {{# descBlockExists }}
-    
+
     <div class="sg-pattern-extra-info">
-      
+
       {{# isPatternView }}
         <!-- if this is for a single pattern provide some extra info -->
         <div class="sg-pattern-head">
-          
+
           <div class="sg-pattern-breadcrumb">
             {{# patternBreadcrumb }}
               {{ patternType }}
@@ -17,17 +17,17 @@
               {{/ patternSubtype }}
             {{/ patternBreadcrumb }}
           </div>
-          
+
           <h2 class="sg-pattern-title">
             {{ patternNameCaps }}
             {{# patternState }}
               <span class="sg-pattern-state {{ patternState }}">{{ patternState }}</span>
             {{/ patternState }}
           </h2>
-          
+
         </div><!--end .sg-pattern-head-->
       {{/ isPatternView }}
-      
+
       {{# patternDescExists }}
         <div class="sg-pattern-desc">
           {{{ patternDesc }}}
@@ -36,7 +36,7 @@
           {{/ patternDescAdditions }}
         </div><!--end .sg-pattern-desc-->
       {{/ patternDescExists }}
-      
+
       {{# lineageExists }}
         <p class="sg-pattern-lineage">
           The <strong>{{ patternName }}</strong> pattern contains the following patterns:
@@ -47,7 +47,7 @@
           </span>
         </p><!--end .sg-pattern-lineage-->
       {{/ lineageExists }}
-      
+
       {{# lineageRExists }}
         <p class="sg-pattern-lineage">
           The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
@@ -58,30 +58,30 @@
           </span>
         </p><!--end .sg-pattern-lineage-->
       {{/ lineageRExists }}
-      
+
       {{# annotationExists }}
         <div class="sg-annotations" id="sg-annotations">
           <h2 class="sg-annotations-title">Annotations</h2>
           <ol class="sg-annotations-list">
             {{# annotations }}
-              <li><strong>{{ title }}</strong>{{{ comment }}}</li>
+              <li><h4 class="sg-annotations-list-title">{{ title }}</h4> {{{ comment }}}</li>
             {{/ annotations }}
           </ol>
         </div>
       {{/ annotationExists }}
-      
+
     </div><!--end .sg-pattern-extra-info-->
   {{/ descBlockExists }}
-  
+
   <div class="sg-pattern-extra-code">
-    
+
     <div id="sg-{{ patternPartial }}-tabs" class="sg-tabs">
       <ul class="sg-tabs-list">
         {{# panels }}
           <li id="sg-{{ patternPartial }}-{{ id }}-tab" data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}"><a href="#sg-{{ patternPartial }}-{{ id }}-panel" class="active">{{ name }}</a></li>
         {{/ panels }}
       </ul><!--end .sg-tabs-list-->
-      
+
       <div id="sg-{{ patternPartial }}-panels" class="sg-tabs-content">
         {{# panels }}
           <div id="sg-{{ patternPartial }}-{{ id }}-panel"  class="sg-tabs-panel" style="display: none">
@@ -89,9 +89,9 @@
           </div>
         {{/ panels }}
       </div><!--end .sg-tabs-content-->
-      
+
     </div><!--end .sg-tabs-->
-    
+
   </div><!--end .sg-pattern-extra-code-->
-  
+
 </div><!--end .sg-pattern-extra-inner-->

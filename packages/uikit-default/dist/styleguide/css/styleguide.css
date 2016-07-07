@@ -1,76 +1,76 @@
 @charset "UTF-8";
 /*------------------------------------*\
-    $PATTERN LAB STYLES
+#PATTERN LAB STYLES
 \*------------------------------------*/
 /**
- * NOTES:
- * 1) These styles are specific to Pattern Lab and should not be modified.
- * All project styles should be modified in /source/css/
- *
- * 2) Any !important declarations are to prevent brand styles from overriding
- * style guide styles
- */
+* NOTES:
+* 1) These styles are specific to Pattern Lab and should not be modified.
+* All project styles should be modified in /source/css/
+*
+* 2) Any !important declarations are to prevent brand styles from overriding
+* style guide styles
+*/
 /*------------------------------------*\
-     #TABLE OF CONTENTS
+#TABLE OF CONTENTS
 \*------------------------------------*/
 /**
- * PATTERN LAB VARIABLES
- * Fonts.......................
- * Colors......................
- * Typography..................
- * Spacing & Padding...........
- * Breakpoints.................
- * Animation...................
- * Borders.....................
- *
- * RESET.......................CSS reset
- *
- * UTILITY CLASSES.............Establish global styles
- *
- * GLOBAL ELEMENTS.............Establish global styles
- * -----Main
- * -----Headings
- * -----Text-related elements (p, blockquote, lists)
- * -----Defaults
- * -----Breakpoints
- * STYLE GUIDE INTERFACE------------------CSS for the Pattern Lab Container.
- * -----Header
- * -----Navigation
- * -----Controls
- * -----Main Container
- * -----Viewport
- * -----Section Headers
- * -----Code View
- */
+* PATTERN LAB VARIABLES
+* Fonts.......................
+* Colors......................
+* Typography..................
+* Spacing & Padding...........
+* Breakpoints.................
+* Animation...................
+* Borders.....................
+*
+* RESET.......................CSS reset
+*
+* UTILITY CLASSES.............Establish global styles
+*
+* GLOBAL ELEMENTS.............Establish global styles
+* -----Main
+* -----Headings
+* -----Text-related elements (p, blockquote, lists)
+* -----Defaults
+* -----Breakpoints
+* STYLE GUIDE INTERFACE------------------CSS for the Pattern Lab Container.
+* -----Header
+* -----Navigation
+* -----Controls
+* -----Main Container
+* -----Viewport
+* -----Section Headers
+* -----Code View
+*/
 /*------------------------------------*\
-    #PATTERN LAB VARIABLES
+#VARIABLES
 \*------------------------------------*/
 /**
- * These variables are specific to the Pattern Lab shell and exist
- * indepenedently of any project-specific styles
- */
+* These variables are specific to the Pattern Lab shell and exist
+* indepenedently of any project-specific styles
+*/
 /*------------------------------------*\
-    #RESET
+#RESET
 \*------------------------------------*/
 /**
- * Apply border-box to all elements
- *
- * 1) This is a broadly-applied style that affects every
- * element on the screen. This can bleed into user's styles
- * but since it's been a best practice for years now we're
- * going to default to this.
- */
+* Apply border-box to all elements
+*
+* 1) This is a broadly-applied style that affects every
+* element on the screen. This can bleed into user's styles
+* but since it's been a best practice for years now we're
+* going to default to this.
+*/
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 /*------------------------------------*\
-    #UTILITIES
+#UTILITIES
 \*------------------------------------*/
 /**
- * Visibilly hidden but still accessible to screen readers
- */
+* Visibilly hidden but still accessible to screen readers
+*/
 .is-vishidden {
   position: absolute !important;
   overflow: hidden;
@@ -82,11 +82,11 @@
 }
 
 /*------------------------------------*\
-    #PATTERN LAB INTERFACE
+#PATTERN LAB INTERFACE
 \*------------------------------------*/
 /**
- * html & body tag
- */
+* html & body tag
+*/
 #patternlab-html, #patternlab-body {
   margin: 0;
   padding: 0;
@@ -95,13 +95,13 @@
 }
 
 /*------------------------------------*\
-    #HEADER
+#HEADER
 \*------------------------------------*/
 /**
- * Pattern Lab's header is fixed across the top of the viewport and
- * contains the primary pattern navigation, viewport resizing items,
- * and tools.
- */
+* Pattern Lab's header is fixed across the top of the viewport and
+* contains the primary pattern navigation, viewport resizing items,
+* and tools.
+*/
 .sg-header {
   background: #000;
   color: #fff;
@@ -113,11 +113,11 @@
   z-index: 4;
   width: 100%;
   /**
-   * All lists appearing in the header
-   */
+  * All lists appearing in the header
+  */
   /**
-   * All links appearing in the header
-   */
+  * All links appearing in the header
+  */
 }
 .sg-header ul {
   padding: 0;
@@ -141,13 +141,13 @@
 }
 
 /*------------------------------------*\
-    #NAVIGATION
+#NAVIGATION
 \*------------------------------------*/
 /**
- * Nav toggle expands and collapses .sg-nav
- * 1) On larger viewports, the toggle gets hidden and
- * the full nav is displayed across the top.
- */
+* Nav toggle expands and collapses .sg-nav
+* 1) On larger viewports, the toggle gets hidden and
+* the full nav is displayed across the top.
+*/
 .sg-nav-toggle {
   display: inline-block;
   position: relative;
@@ -161,8 +161,8 @@
 }
 
 /**
- * Navigation container
- */
+* Navigation container
+*/
 @media all and (max-width: 42em) {
   .sg-nav-container {
     overflow: hidden;
@@ -176,20 +176,20 @@
 }
 
 /**
- * Nav list
- * 1) appears as an <ol>
- */
+* Nav list
+* 1) appears as an <ol>
+*/
 .sg-nav {
   z-index: 1;
   margin: 0;
   padding: 0;
   list-style: none;
   /**
-   * Nav <ol> list
-   */
+  * Nav <ol> list
+  */
   /**
-   * Links within the nav
-   */
+  * Links within the nav
+  */
 }
 .sg-nav > li {
   cursor: pointer;
@@ -211,16 +211,16 @@
 }
 
 /*------------------------------------*\
-    #ACCORDION
+#ACCORDION
 \*------------------------------------*/
 /**
- * Accordions are dropdowns used for the primary nav and
- * tools dropdowns.
- */
+* Accordions are dropdowns used for the primary nav and
+* tools dropdowns.
+*/
 .sg-acc-handle {
   /**
-   * Dropdown caret after accordion handle
-   */
+  * Dropdown caret after accordion handle
+  */
 }
 .sg-acc-handle:after {
   content: '▼';
@@ -254,8 +254,8 @@
 }
 
 /**
- * Accordion panel
- */
+* Accordion panel
+*/
 .sg-acc-panel {
   overflow: hidden;
   max-height: 0;
@@ -266,17 +266,17 @@
   -webkit-transition: max-height 0.1s ease-out;
           transition: max-height 0.1s ease-out;
   /**
-   * List items appearing in each accordion panel
-   */
+  * List items appearing in each accordion panel
+  */
   /**
-   * Links appearing in each accordion panel
-   */
+  * Links appearing in each accordion panel
+  */
   /**
-   * Active is when accordion panel is open
-   */
+  * Active is when accordion panel is open
+  */
   /**
-   * Right align accordion dropdown
-   */
+  * Right align accordion dropdown
+  */
 }
 .sg-acc-panel li {
   background: #222;
@@ -303,10 +303,10 @@
 }
 
 /**
- * Sub-navigation
- * 1) Third-level links are stylistically different
- * than first and second nav links.
- */
+* Sub-navigation
+* 1) Third-level links are stylistically different
+* than first and second nav links.
+*/
 .sg-sub-nav {
   list-style: none;
 }
@@ -316,11 +316,11 @@
 }
 
 /*------------------------------------*\
-    #CONTROLS
+#CONTROLS
 \*------------------------------------*/
 /**
- * Controls contains viewport resizer and tools dropdown
- */
+* Controls contains viewport resizer and tools dropdown
+*/
 .sg-controls {
   border: 0;
   position: absolute;
@@ -330,22 +330,22 @@
 }
 
 /**
- * Control list
- */
+* Control list
+*/
 .sg-control > li {
   float: left;
 }
 
 /*------------------------------------*\
-    #ISH STYLES
+#ISH STYLES
 \*------------------------------------*/
 /**
- * 1) ish. (http://bradfrost.com/demo/ish/) is a viewport-resizing tool
- * that's built into Pattern Lab.
- */
+* 1) ish. (http://bradfrost.com/demo/ish/) is a viewport-resizing tool
+* that's built into Pattern Lab.
+*/
 /**
- * Size Container
- */
+* Size Container
+*/
 .sg-size {
   width: 135px;
 }
@@ -356,10 +356,10 @@
 }
 
 /**
- * Current size
- * 1) This is the wrapper for the form that houses the current
- * viewport size in px and em
- */
+* Current size
+* 1) This is the wrapper for the form that houses the current
+* viewport size in px and em
+*/
 .sg-current-size {
   font-size: 70%;
   color: #808080;
@@ -372,8 +372,8 @@
 }
 
 /**
- * The <form> for the current size
- */
+* The <form> for the current size
+*/
 #sg-form {
   margin: 0;
   border: 0;
@@ -381,8 +381,8 @@
 }
 
 /**
- * Size input fields
- */
+* Size input fields
+*/
 .sg-input {
   margin: -2px 0 0 0;
   padding: 0.1em;
@@ -414,11 +414,11 @@
 }
 
 /**
- * Size options
- * 1) This holds the S, M, L, Rand, Disco links
- * 2) Depending on the config, these number of options may be
- * larger or smaller.
- */
+* Size options
+* 1) This holds the S, M, L, Rand, Disco links
+* 2) Depending on the config, these number of options may be
+* larger or smaller.
+*/
 .sg-size-options {
   display: none;
 }
@@ -437,16 +437,16 @@
 }
 
 /*------------------------------------*\
-    #TOOLS DROPDOWN
+#TOOLS DROPDOWN
 \*------------------------------------*/
 /**
- * The tools dropdown contains more utilities such as show/hide
- * pattern info and pattern search, and also links to open in a
- * new window and view the documentation
- */
+* The tools dropdown contains more utilities such as show/hide
+* pattern info and pattern search, and also links to open in a
+* new window and view the documentation
+*/
 /**
- * Tools dropdown button
- */
+* Tools dropdown button
+*/
 .sg-tools-toggle {
   font-size: 70%;
   background: #000;
@@ -463,21 +463,21 @@
 }
 
 /**
- * Pattern Finder
- * 1) This is the container for pattern search, which
- * is handled by Typeahead (see below styles)
- */
+* Pattern Finder
+* 1) This is the container for pattern search, which
+* is handled by Typeahead (see below styles)
+*/
 .sg-find {
   position: relative;
 }
 
 /*------------------------------------*\
-    #TYPEAHEAD
+#TYPEAHEAD
 \*------------------------------------*/
 /**
- * We're using Twitter Typeahead to autocomplete pattern
- * searches. https://twitter.github.io/typeahead.js/
- */
+* We're using Twitter Typeahead to autocomplete pattern
+* searches. https://twitter.github.io/typeahead.js/
+*/
 .twitter-typeahead {
   width: 100%;
 }
@@ -535,15 +535,15 @@
 }
 
 /*------------------------------------*\
-    #PATTERN STATES
+#PATTERN STATES
 \*------------------------------------*/
 /**
- * Pattern states add color-coded dots next to patterns
- * in the dropdown navigation.
- */
+* Pattern states add color-coded dots next to patterns
+* in the dropdown navigation.
+*/
 /**
- * Pattern State bullet
- */
+* Pattern State bullet
+*/
 .sg-pattern-state:before {
   content: "\2022";
   margin-right: 4px;
@@ -554,15 +554,15 @@
 }
 
 /**
- * when part of a lineage muck with the size
- */
+* when part of a lineage muck with the size
+*/
 .sg-pattern-lineage .sg-pattern-state:before {
   font-size: 12px;
 }
 
 /**
- * when part of a view all view muck with the size
- */
+* when part of a view all view muck with the size
+*/
 #sg-patterns .sg-pattern-state:before {
   font-size: 14px;
 }
@@ -572,8 +572,8 @@
 }
 
 /**
- * Pattern States that appear in the dropdown nav
- */
+* Pattern States that appear in the dropdown nav
+*/
 .sg-nav .sg-pattern-state:before {
   margin-top: -4px;
   margin-bottom: 0;
@@ -584,38 +584,38 @@
 }
 
 /**
- * In Progress state
- */
+* In Progress state
+*/
 .inprogress:before {
   color: #FF4136 !important;
 }
 
 /**
- * In Review state
- */
+* In Review state
+*/
 .inreview:before {
   color: #FFCC00 !important;
 }
 
 /**
- * Complete state
- */
+* Complete state
+*/
 .complete:before {
   color: #2ECC40 !important;
 }
 
 /*------------------------------------*\
-    #PATTERN LAB VIEWPORT
+#PATTERN LAB VIEWPORT
 \*------------------------------------*/
 /**
- * To keep user code and PL code separate, and to make
- * resizing the viewport possible, PL contains an iframe
- * that houses all user code.
- */
+* To keep user code and PL code separate, and to make
+* resizing the viewport possible, PL contains an iframe
+* that houses all user code.
+*/
 /**
- * Viewport wrapper div
- * 1) This wrapper div occupies all remaining viewport space after PL's header
- */
+* Viewport wrapper div
+* 1) This wrapper div occupies all remaining viewport space after PL's header
+*/
 #sg-vp-wrap {
   text-align: center;
   width: 100%;
@@ -628,10 +628,10 @@
 }
 
 /**
- * Cover
- * 1) This is an invisible div that sits above the iframe and is
- * used in JS for manual viewport resizing purposes.
- */
+* Cover
+* 1) This is an invisible div that sits above the iframe and is
+* used in JS for manual viewport resizing purposes.
+*/
 #sg-cover {
   width: 100%;
   height: 100%;
@@ -642,9 +642,9 @@
 }
 
 /**
- * Gen Cover
- * 1) This is
- */
+* Gen Cover
+* 1) This is
+*/
 #sg-gen-container {
   height: 100%;
   position: relative;
@@ -660,9 +660,9 @@
 }
 
 /**
- * Viewport iframe
- * 1) this is the actual <iframe>
- */
+* Viewport iframe
+* 1) this is the actual <iframe>
+*/
 #sg-viewport {
   position: absolute;
   height: 100%;
@@ -676,10 +676,10 @@
   right: 0;
   background-color: white;
   /**
-   * Hay Mode transition
-   * 1) Hay Mode (disabled by default) starts with the smallest
-   * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
-   */
+  * Hay Mode transition
+  * 1) Hay Mode (disabled by default) starts with the smallest
+  * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
+  */
 }
 #sg-viewport.hay-mode {
   -webkit-transition: all 40s linear;
@@ -687,9 +687,9 @@
 }
 
 /**
- * Right pull container
- * 1) Container used for manual resizing
- */
+* Right pull container
+* 1) Container used for manual resizing
+*/
 #sg-rightpull-container {
   width: 14px;
   float: right;
@@ -699,9 +699,9 @@
 }
 
 /**
- * Right pull
- * 1) This is the handle that lets the user resize the viewport
- */
+* Right pull
+* 1) This is the handle that lets the user resize the viewport
+*/
 #sg-rightpull {
   margin: 0;
   width: 100%;
@@ -719,26 +719,26 @@
 }
 
 /**
- * VP animate
- * 1) This is an added class that is activated by JS to
- * transition the width of the viewport
- */
+* VP animate
+* 1) This is an added class that is activated by JS to
+* transition the width of the viewport
+*/
 .vp-animate {
   -webkit-transition: width 0.8s ease-out;
           transition: width 0.8s ease-out;
 }
 
 /*------------------------------------*\
-    #PATTERN LAB CONTENT
+#PATTERN LAB CONTENT
 \*------------------------------------*/
 /**
- * Pattern
- * 1) This is an individual pattern that appears in the "view all" template.
- * It contains pattern title and toggle to view more information, such as
- * description, lineage, code, etc.
- * 2) Prevents absolutely-positioned elements from floating to the top
- * 3) Prevents floated patterns from floating wraps
- */
+* Pattern
+* 1) This is an individual pattern that appears in the "view all" template.
+* It contains pattern title and toggle to view more information, such as
+* description, lineage, code, etc.
+* 2) Prevents absolutely-positioned elements from floating to the top
+* 3) Prevents floated patterns from floating wraps
+*/
 .sg-pattern {
   margin-bottom: 2em;
   position: relative;
@@ -748,8 +748,8 @@
 }
 
 /**
- * Pattern Header
- */
+* Pattern Header
+*/
 .sg-pattern-head {
   position: relative;
   padding: 0.5rem 0 0;
@@ -762,8 +762,8 @@
 }
 
 /**
- * Pattern Title
- */
+* Pattern Title
+*/
 .sg-pattern-title {
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
   font-size: 0.85rem !important;
@@ -772,8 +772,8 @@
   margin: 0 !important;
   padding: 0 !important;
   /**
-   * Pattern State that appears within a pattern title
-   */
+  * Pattern State that appears within a pattern title
+  */
 }
 .sg-pattern-title a {
   display: inline-block;
@@ -793,9 +793,9 @@
 }
 
 /**
- * Pattern Extra Toggle Button
- * 1) This is the button that twirls down extra pattern info
- */
+* Pattern Extra Toggle Button
+* 1) This is the button that twirls down extra pattern info
+*/
 .sg-pattern-extra-toggle {
   font-size: 9px;
   position: absolute;
@@ -829,10 +829,10 @@
 }
 
 /**
- * Pattern Extra
- * 1) This is the info panel that contains extra pattern info
- * like pattern description, lineage, code, and more
- */
+* Pattern Extra
+* 1) This is the info panel that contains extra pattern info
+* like pattern description, lineage, code, and more
+*/
 .sg-pattern-extra {
   background: #eee;
   border-top: 1px solid #ddd;
@@ -857,10 +857,10 @@
 }
 
 /**
- * Pattern Extra
- * 1) This is the info panel that contains extra pattern info
- * like pattern description, lineage, code, and more
- */
+* Pattern Extra
+* 1) This is the info panel that contains extra pattern info
+* like pattern description, lineage, code, and more
+*/
 @media all and (min-width: 42em) {
   .sg-pattern-extra-inner {
     display: -webkit-box;
@@ -871,21 +871,22 @@
             align-items: stretch;
     width: 100%;
     -webkit-box-flex: 1;
-        -ms-flex: 1;
-            flex: 1;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
   }
 }
 
 /**
- * Pattern Extra Info
- * 1) This div contains pattern description, lineage, status, and other info
- */
+* Pattern Extra Info
+* 1) This div contains pattern description, lineage, status, and other info
+*/
 .sg-pattern-extra-info {
   padding: 0.5rem 0.5rem 0;
   line-height: 1.4;
   font-size: 90%;
   color: #808080;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .sg-pattern-extra-info:empty {
   padding: 0;
@@ -898,28 +899,28 @@
 }
 
 /**
- * Pattern Description
- */
+* Pattern Description
+*/
 .sg-pattern-desc {
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-  border-bottom: 1px solid #808080;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
 }
 .sg-pattern-desc p:last-child {
   margin: 0;
 }
 
 /**
- * Pattern Lineage info
- */
+* Pattern Lineage info
+*/
 .sg-pattern-lineage {
   font-size: 90%;
   font-style: italic;
 }
 
 /**
- * Pattern Code Container
- */
+* Pattern Code Container
+*/
 .sg-pattern-extra-code {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -931,20 +932,21 @@
   font-size: 90%;
   padding: 0.5rem;
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   /**
-   * Code blocks
-   */
+  * Code blocks
+  */
 }
 .sg-pattern-extra-code pre {
   overflow: scroll !important;
+  -webkit-overflow-scrolling: touch;
   padding: 0 0.5rem 0.5rem !important;
   margin: 0 !important;
   line-height: 1 !important;
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   border-radius: 0 6px 6px 6px !important;
   position: absolute;
   top: 0;
@@ -965,13 +967,52 @@
   }
 }
 
+/**
+* Pattern Category
+* 1) This appears in the index page and delineates a major section,
+*    such as "global", "blocks", "etc".
+* 2) The category contains a title and optional description
+*/
+.sg-pattern-category {
+  margin-top: 6rem;
+  font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
+}
+.sg-pattern-category:first-of-type {
+  margin-top: 2rem;
+}
+
+/**
+* Pattern Category Title
+*/
+.sg-pattern-category-title {
+  font-size: 1.4rem !important;
+  color: #222 !important;
+  margin: 0 0 0.2rem;
+}
+.sg-pattern-category-title a {
+  -webkit-transition: color 0.1s ease-out;
+          transition: color 0.1s ease-out;
+}
+
+/**
+* Pattern Category Description
+* 1) This is an optional description that sits below the category title.
+*/
+.sg-pattern-category-body {
+  font-size: 80%;
+  line-height: 1.3;
+}
+.sg-pattern-category-body:empty {
+  display: none;
+}
+
 /*------------------------------------*\
-    #TABS
+#TABS
 \*------------------------------------*/
 .sg-tabs {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -980,6 +1021,7 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
 }
 
 .sg-tabs-list {
@@ -1014,10 +1056,10 @@
 }
 
 /**
- * Active Tab
- * 1) Note: the active tab color corresponds with the Prism code block
- * background color.
- */
+* Active Tab
+* 1) Note: the active tab color corresponds with the Prism code block
+* background color.
+*/
 .sg-tab-title-active a {
   background: #f5f2f0;
   /* 1 */
@@ -1029,8 +1071,8 @@
 
 .sg-tabs-content {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1053,8 +1095,8 @@
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   position: relative;
   min-height: 12em;
 }
@@ -1065,12 +1107,12 @@
 }
 
 /*------------------------------------*\
-    #MODAL
+#MODAL
 \*------------------------------------*/
 /**
- * The modal appears when "show pattern info" is selected
- * on the pattern detail screen.
- */
+* The modal appears when "show pattern info" is selected
+* on the pattern detail screen.
+*/
 .sg-modal {
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   line-height: 1.4;
@@ -1092,26 +1134,29 @@
       -ms-flex-direction: column;
           flex-direction: column;
   /**
-   * Pattern Breadcrumbs inside modal
-   */
+  * Pattern Breadcrumbs inside modal
+  */
   /**
-   * Pattern Header inside modal
-   */
+  * Pattern Header inside modal
+  */
   /**
-   * Pattern Title inside modal
-   */
+  * Pattern Title inside modal
+  */
   /**
-   * Pattern Information inside modal
-   */
+  * Pattern Information inside modal
+  */
   /**
-   * Pattern info links inside modal
-   */
+  * Pattern info links inside modal
+  */
   /**
-   * Pattern Description inside modal
-   */
+  * Pattern Description inside modal
+  */
   /**
-   * Pattern tab panel inside modal
-   */
+  * Pattern Annotations inside modal
+  */
+  /**
+  * Pattern tab panel inside modal
+  */
 }
 .sg-modal.anim-ready {
   -webkit-transition: bottom 0.3s ease-out;
@@ -1131,8 +1176,8 @@
 }
 .sg-modal .sg-pattern-extra {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   max-height: none;
   padding: 0;
 }
@@ -1148,15 +1193,18 @@
 .sg-modal .sg-pattern-desc {
   border-bottom-color: #808080;
 }
+.sg-modal .sg-annotations {
+  border-top-color: #808080;
+}
 .sg-modal .sg-tabs-content {
   border: 0;
 }
 
 /**
- * Modal close button
- * 1) Closes the modal popup
- * 2) Reposition to jut out of modal if parent modal has class of active
- */
+* Modal close button
+* 1) Closes the modal popup
+* 2) Reposition to jut out of modal if parent modal has class of active
+*/
 .sg-modal-close-btn {
   font-size: 70%;
   background: #000;
@@ -1184,15 +1232,15 @@
 }
 
 /**
- * Modal Content
- */
+* Modal Content
+*/
 .sg-modal-content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1202,15 +1250,15 @@
 }
 
 /**
- * Modal Content Inner Wrapper
- */
+* Modal Content Inner Wrapper
+*/
 .sg-modal-content-inner {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1218,9 +1266,9 @@
 }
 
 /**
- * Annotations
- * 1) Annotation styles that appear in the modal
- */
+* Annotations
+* 1) Annotation styles that appear in the modal
+*/
 /**
 * Annotated elements styles
 * 1) For elements in the DOM that have an annotation, we want to
@@ -1262,11 +1310,12 @@
 
 .sg-annotations {
   margin: 1rem 0;
-  border-top: 1px solid #808080;
-  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
 }
 
 .sg-annotations-title {
+  font-size: 1rem !important;
   margin: 0 0 0.5rem;
 }
 
@@ -1287,21 +1336,37 @@
 .sg-annotations-list > li:before {
   content: counter(the-count);
   counter-increment: the-count;
-  font-size: 90%;
-  display: block;
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
+  font-size: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
   padding: 2px;
   text-align: center;
-  background: #444;
-  color: #fff;
+  background: #ccc;
+  color: #222;
   position: absolute;
-  top: 0;
+  top: 1px;
   left: 0;
 }
 .sg-annotations-list > li.active {
   background: rgba(255, 255, 255, 0.15);
+}
+
+.sg-annotations-list-title {
+  display: inline;
+  font-size: 100%;
+}
+.sg-annotations-list-title:after {
+  content: "—";
 }
 
 #sg-comments-container {
