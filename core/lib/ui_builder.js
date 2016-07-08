@@ -21,7 +21,7 @@ function addToPatternPaths(patternlab, patternTypeName, pattern) {
 //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
 function isPatternExcluded(pattern) {
   // returns whether or not the first character of the pattern filename is an underscore, or excluded
-  return pattern.fileName.charAt(0) === '_';
+  return pattern.isPattern && pattern.fileName.charAt(0) === '_';
 }
 
 // Returns the array of patterns to be rendered in the styleguide view and
@@ -30,6 +30,7 @@ function assembleStyleguidePatterns(patternlab) {
   var styleguideExcludes = patternlab.config.styleGuideExcludes;
   var styleguidePatterns = [];
 
+  //todo this loop can be made more efficient
   if (styleguideExcludes && styleguideExcludes.length) {
     for (var i = 0; i < patternlab.patterns.length; i++) {
 
@@ -81,7 +82,6 @@ function assembleStyleguidePatterns(patternlab) {
       styleguidePatterns.push(pattern);
     }
   }
-
   return styleguidePatterns;
 }
 
@@ -266,14 +266,6 @@ function buildFooterHTML(patternlab, patternPartial) {
 
 function buildViewAllHTML(patternlab, patterns, patternPartial) {
 
-  patterns.push({
-    "patternName": "awesome",
-    "patternLink": "00-atoms-01-global/index.html",
-    "patternPartial": "viewall-atoms-global",
-    "patternDesc": "<p>This is the description of the category.</p>\n",
-    "patternSectionSubtype": true
-  })
-
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: patterns,
@@ -286,31 +278,15 @@ function buildViewAllHTML(patternlab, patterns, patternPartial) {
   return viewAllHTML;
 }
 
-function buildViewAllPages(mainPageHeadHtml, patternlab) {
+function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
   var paths = patternlab.config.paths;
   var prevSubdir = '';
   var prevGroup = '';
   var i;
 
-  for (i = 0; i < patternlab.patterns.length; i++) {
+  for (i = 0; i < patterns.length; i++) {
 
-    var pattern = patternlab.patterns[i];
-
-    // skip underscore-prefixed files
-    if (isPatternExcluded(pattern)) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + " from view all rendering.");
-      }
-      continue;
-    }
-
-    //this is meant to be a homepage that is not present anywhere else
-    if (pattern.patternPartial === patternlab.config.defaultPattern) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from view all rendering because it is defined as a defaultPattern');
-      }
-      continue;
-    }
+    var pattern = patterns[i];
 
     //create the view all for the section
     // check if the current section is different from the previous one
@@ -321,25 +297,9 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
       var patternPartial = "viewall-" + pattern.patternGroup;
       var j;
 
-      for (j = 0; j < patternlab.patterns.length; j++) {
-        if (patternlab.patterns[j].patternGroup === pattern.patternGroup) {
-          //again, skip any sibling patterns to the current one that may have underscores
-          if (isPatternExcluded(patternlab.patterns[j])) {
-            if (patternlab.config.debug) {
-              console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
-            }
-            continue;
-          }
-
-          //this is meant to be a homepage that is not present anywhere else
-          if (patternlab.patterns[j].patternPartial === patternlab.config.defaultPattern) {
-            if (patternlab.config.debug) {
-              console.log('Omitting ' + pattern.patternPartial + ' from view all sibling rendering because it is defined as a defaultPattern');
-            }
-            continue;
-          }
-
-          viewAllPatterns.push(patternlab.patterns[j]);
+      for (j = 0; j < patterns.length; j++) {
+        if (patterns[j].patternGroup === pattern.patternGroup) {
+          viewAllPatterns.push(patterns[j]);
         }
       }
 
@@ -360,24 +320,8 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
       viewAllPatterns = [];
       patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
 
-      for (j = 0; j < patternlab.patterns.length; j++) {
-        if (patternlab.patterns[j].subdir === pattern.subdir) {
-          //again, skip any sibling patterns to the current one that may have underscores
-          if (isPatternExcluded(patternlab.patterns[j])) {
-            if (patternlab.config.debug) {
-              console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
-            }
-            continue;
-          }
-
-          //this is meant to be a homepage that is not present anywhere else
-          if (patternlab.patterns[j].patternPartial === patternlab.config.defaultPattern) {
-            if (patternlab.config.debug) {
-              console.log('Omitting ' + pattern.patternPartial + ' from view all sibling rendering because it is defined as a defaultPattern');
-            }
-            continue;
-          }
-
+      for (j = 0; j < patterns.length; j++) {
+        if (patterns[j].subdir === pattern.subdir) {
           viewAllPatterns.push(patternlab.patterns[j]);
         }
       }
@@ -395,6 +339,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
 
 function sortPatterns(patternsArray) {
   return patternsArray.sort(function (a, b) {
+
     if (a.name > b.name) {
       return 1;
     }
@@ -420,11 +365,11 @@ function buildFrontEnd(patternlab) {
   patternlab.patternPaths = {};
   patternlab.viewAllPaths = {};
 
-  //sort all patterns explicitly.
-  patternlab.patterns = sortPatterns(patternlab.patterns);
-
   // check if patterns are excluded, if not add them to styleguidePatterns
   styleguidePatterns = assembleStyleguidePatterns(patternlab);
+
+  //sort all patterns explicitly.
+  patternlab.patterns = sortPatterns(styleguidePatterns);
 
   //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
   var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
@@ -443,9 +388,10 @@ function buildFrontEnd(patternlab) {
     patternLabFoot : footerPartial
   });
 
-  console.log(styleguidePatterns);
-
   //build the styleguide
+
+  fs.outputFileSync('./patternlab-s.json', JSON.stringify(styleguidePatterns));
+
   var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: styleguidePatterns,
@@ -458,7 +404,7 @@ function buildFrontEnd(patternlab) {
   fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
   //build the viewall pages
-  buildViewAllPages(headerHTML, patternlab);
+  buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
   //build the patternlab website
   buildNavigation(patternlab);

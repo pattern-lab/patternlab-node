@@ -121,7 +121,7 @@ var pattern_assembler = function () {
         // do plugin-specific registration
         pattern.registerPartial();
       } else{
-        patternlab.partials['viewall-' + pattern.patternPartial] = pattern.patternDesc;
+        patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
 
       patternlab.patterns.push(pattern);
@@ -140,7 +140,6 @@ var pattern_assembler = function () {
       // therefore just need to create a dummpy pattern to be able to render
       // it
       var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
-      plutils.logGreen(data);
       return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
     }
   }
