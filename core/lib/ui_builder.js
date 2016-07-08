@@ -2,6 +2,7 @@
 
 var path = require('path');
 var fs = require('fs-extra');
+var ae = require('./annotation_exporter');
 var of = require('./object_factory');
 var pa = require('./pattern_assembler');
 var pattern_assembler = new pa();
@@ -264,6 +265,15 @@ function buildFooterHTML(patternlab, patternPartial) {
 }
 
 function buildViewAllHTML(patternlab, patterns, patternPartial) {
+
+  patterns.push({
+    "patternName": "awesome",
+    "patternLink": "00-atoms-01-global/index.html",
+    "patternPartial": "viewall-atoms-global",
+    "patternDesc": "<p>This is the description of the category.</p>\n",
+    "patternSectionSubtype": true
+  })
+
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: patterns,
@@ -271,7 +281,7 @@ function buildViewAllHTML(patternlab, patterns, patternPartial) {
       cacheBuster: patternlab.cacheBuster
     }, {
       patternSection: patternlab.patternSection,
-      patternSectionSubType: patternlab.patternSectionSubType
+      patternSectionSubtype: patternlab.patternSectionSubType
     });
   return viewAllHTML;
 }
@@ -401,7 +411,6 @@ function sortPatterns(patternsArray) {
 // MAIN BUILDER FUNCTION
 
 function buildFrontEnd(patternlab) {
-  var ae = require('./annotation_exporter');
   var annotation_exporter = new ae(patternlab);
   var styleguidePatterns = [];
   var paths = patternlab.config.paths;
@@ -434,9 +443,10 @@ function buildFrontEnd(patternlab) {
     patternLabFoot : footerPartial
   });
 
+  console.log(styleguidePatterns);
+
   //build the styleguide
-  var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-  var styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate,
+  var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: styleguidePatterns,
       cacheBuster: patternlab.cacheBuster

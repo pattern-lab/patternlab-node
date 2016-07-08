@@ -1,15 +1,21 @@
 "use strict";
 
+var path = require('path'),
+  fs = require('fs-extra'),
+  Pattern = require('./object_factory').Pattern,
+  pph = require('./pseudopattern_hunter'),
+  mp = require('./markdown_parser'),
+  plutils = require('./utilities'),
+  patternEngines = require('./pattern_engines'),
+  lh = require('./lineage_hunter'),
+  lih = require('./list_item_hunter'),
+  smh = require('./style_modifier_hunter'),
+  ph = require('./parameter_hunter'),
+  JSON5 = require('json5');
+
+var markdown_parser = new mp();
+
 var pattern_assembler = function () {
-  var path = require('path'),
-    fs = require('fs-extra'),
-    Pattern = require('./object_factory').Pattern,
-    pph = require('./pseudopattern_hunter'),
-    mp = require('./markdown_parser'),
-    plutils = require('./utilities'),
-    patternEngines = require('./pattern_engines');
-
-
   // HELPER FUNCTIONS
 
   function getPartial(partialName, patternlab) {
@@ -108,11 +114,18 @@ var pattern_assembler = function () {
       }
 
       // do global registration
-      patternlab.patterns.push(pattern);
-      patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
 
-      // do plugin-specific registration
-      pattern.registerPartial();
+
+      if(pattern.isPattern){
+        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
+        // do plugin-specific registration
+        pattern.registerPartial();
+      } else{
+        patternlab.partials['viewall-' + pattern.patternPartial] = pattern.patternDesc;
+      }
+
+      patternlab.patterns.push(pattern);
+
     }
   }
 
@@ -127,13 +140,12 @@ var pattern_assembler = function () {
       // therefore just need to create a dummpy pattern to be able to render
       // it
       var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
+      plutils.logGreen(data);
       return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
     }
   }
 
   function parsePatternMarkdown(currentPattern, patternlab) {
-
-    var markdown_parser = new mp();
 
     try {
       var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
@@ -185,11 +197,40 @@ var pattern_assembler = function () {
 
   function processPatternIterative(relPath, patternlab) {
 
+    //check if the found file is a top-level markdown file
+    var fileObject = path.parse(relPath);
+    if(fileObject.ext === '.md'){
+      try{
+        var proposedDirectory = path.resolve(patternlab.config.paths.source.patterns, fileObject.dir, fileObject.name);
+        var proposedDirectoryStats = fs.statSync(proposedDirectory);
+        if (proposedDirectoryStats.isDirectory()) {
+          var subTypeMarkdownFileContents = fs.readFileSync(proposedDirectory + '.md', 'utf8');
+          var subTypeMarkdown = markdown_parser.parse(subTypeMarkdownFileContents);
+          var subTypePattern = new Pattern(relPath);
+          subTypePattern.patternSectionSubtype = true;
+          subTypePattern.patternLink = subTypePattern.name + '/index.html';
+          subTypePattern.patternPartial = 'viewall-' + subTypePattern.patternPartial;
+          subTypePattern.patternDesc = subTypeMarkdown.markdown;
+          subTypePattern.isPattern = false;
+          subTypePattern.engine = null;
+
+          addPattern(subTypePattern, patternlab);
+          return subTypePattern;
+        }
+      } catch (err) {
+        // no file exists, meaning it's a pattern markdown file
+        if (err.code !== 'ENOENT') {
+          console.log(err);
+        }
+      }
+
+    }
+
     var pseudopattern_hunter = new pph();
 
     //extract some information
-    var filename = path.basename(relPath);
-    var ext = path.extname(filename);
+    var filename = fileObject.base;
+    var ext = fileObject.ext;
     var patternsPath = patternlab.config.paths.source.patterns;
 
     // skip non-pattern files
@@ -274,8 +315,6 @@ var pattern_assembler = function () {
   }
 
   function processPatternRecursive(file, patternlab) {
-    var lh = require('./lineage_hunter'),
-      lih = require('./list_item_hunter');
 
     var lineage_hunter = new lh(),
       list_item_hunter = new lih();
@@ -291,6 +330,9 @@ var pattern_assembler = function () {
 
     //return if processing an ignored file
     if (typeof currentPattern === 'undefined') { return; }
+
+    //we are processing a markdown only pattern
+    if (currentPattern.engine === null) { return; }
 
     currentPattern.extendedTemplate = currentPattern.template;
 
@@ -321,8 +363,6 @@ var pattern_assembler = function () {
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
-    var smh = require('./style_modifier_hunter'),
-      ph = require('./parameter_hunter');
 
     var style_modifier_hunter = new smh(),
       parameter_hunter = new ph();
@@ -365,7 +405,6 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
-    var JSON5 = require('json5');
     var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
