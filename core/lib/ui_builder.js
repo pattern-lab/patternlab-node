@@ -266,6 +266,16 @@ function buildFooterHTML(patternlab, patternPartial) {
 
 function buildViewAllHTML(patternlab, patterns, patternPartial) {
 
+  //console.log(patterns);
+
+  // patterns.push({
+  //   "patternName": "awesome",
+  //   "patternLink": "00-atoms-01-global/index.html",
+  //   "patternPartial": "viewall-atoms-global",
+  //   "patternDesc": "<p>This is the description of the category.</p>\n",
+  //   "patternSectionSubtype": true
+  // })
+
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: patterns,
@@ -284,22 +294,69 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
   var prevGroup = '';
   var i;
 
-  for (i = 0; i < patterns.length; i++) {
+  for (i = 0; i < patternlab.patterns.length; i++) {
 
-    var pattern = patterns[i];
+    var pattern = patternlab.patterns[i];
+    console.log(1, pattern.patternPartial);
+
+    // skip underscore-prefixed files
+    if (isPatternExcluded(pattern)) {
+      if (patternlab.config.debug) {
+        console.log('Omitting ' + pattern.patternPartial + " from view all rendering.");
+      }
+      console.log('2 pattern excluded');
+      continue;
+    }
+
+    //this is meant to be a homepage that is not present anywhere else
+    if (pattern.patternPartial === patternlab.config.defaultPattern) {
+      if (patternlab.config.debug) {
+        console.log('Omitting ' + pattern.patternPartial + ' from view all rendering because it is defined as a defaultPattern');
+      }
+      console.log('3 pattern excluded');
+      continue;
+    }
 
     //create the view all for the section
     // check if the current section is different from the previous one
     if (pattern.patternGroup !== prevGroup) {
       prevGroup = pattern.patternGroup;
 
+      console.log('4 comparing ', pattern.patternGroup, 'to', prevGroup);
+
       var viewAllPatterns = [];
       var patternPartial = "viewall-" + pattern.patternGroup;
       var j;
 
-      for (j = 0; j < patterns.length; j++) {
-        if (patterns[j].patternGroup === pattern.patternGroup) {
-          viewAllPatterns.push(patterns[j]);
+      console.log('built' + patternPartial);
+
+      for (j = 0; j < patternlab.patterns.length; j++) {
+
+        console.log('5 comparing ', patternlab.patterns[j].patternGroup, 'to', pattern.patternGroup);
+
+        if (patternlab.patterns[j].patternGroup === pattern.patternGroup) {
+          //again, skip any sibling patterns to the current one that may have underscores
+
+          if (isPatternExcluded(patternlab.patterns[j])) {
+            if (patternlab.config.debug) {
+              console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
+            }
+            console.log('6 pattern excluded');
+            continue;
+          }
+
+          //this is meant to be a homepage that is not present anywhere else
+          if (patternlab.patterns[j].patternPartial === patternlab.config.defaultPattern) {
+            if (patternlab.config.debug) {
+              console.log('Omitting ' + pattern.patternPartial + ' from view all sibling rendering because it is defined as a defaultPattern');
+            }
+            console.log('7 pattern excluded');
+            continue;
+          }
+
+          console.log('8 adding ', patternlab.patterns[j].patternPartial, ' to viewAllPatterns');
+
+          viewAllPatterns.push(patternlab.patterns[j]);
         }
       }
 
@@ -312,6 +369,10 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
       fs.outputFileSync(paths.public.patterns + pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
     }
 
+    console.log('9 same group, checking subgroup');
+
+    console.log('10 comparing ', pattern.subdir, 'to', prevSubdir);
+
     //create the view all for the subsection
     // check if the current sub section is different from the previous one
     if (pattern.subdir !== prevSubdir) {
@@ -320,10 +381,38 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
       viewAllPatterns = [];
       patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
 
-      for (j = 0; j < patterns.length; j++) {
-        if (patterns[j].subdir === pattern.subdir) {
+      console.log('11 built ', patternPartial);
+
+      for (j = 0; j < patternlab.patterns.length; j++) {
+
+        console.log('12 comparing ', patternlab.patterns[j].subdir, 'to', pattern.subdir);
+
+        if (patternlab.patterns[j].subdir === pattern.subdir) {
+          //again, skip any sibling patterns to the current one that may have underscores
+          if (isPatternExcluded(patternlab.patterns[j])) {
+            if (patternlab.config.debug) {
+              console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
+            }
+            console.log('13 pattern excluded');
+            continue;
+          }
+
+          //this is meant to be a homepage that is not present anywhere else
+          if (patternlab.patterns[j].patternPartial === patternlab.config.defaultPattern) {
+            if (patternlab.config.debug) {
+              console.log('Omitting ' + pattern.patternPartial + ' from view all sibling rendering because it is defined as a defaultPattern');
+            }
+            console.log('14 pattern excluded');
+            continue;
+          }
+
+          console.log('15 adding ', patternlab.patterns[j].patternPartial, ' to viewAllPatterns');
+
           viewAllPatterns.push(patternlab.patterns[j]);
         }
+
+        console.log('16 fell through!');
+
       }
 
       //render the footer needed for the viewall template
@@ -332,7 +421,11 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
       //render the viewall template
       var viewAllHTML = buildViewAllHTML(patternlab, viewAllPatterns, patternPartial);
 
+      console.log('17 writing view all file ', pattern.flatPatternPath);
+
       fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+    } else {
+      console.log('18 fell through!');
     }
   }
 }
