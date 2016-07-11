@@ -129,6 +129,11 @@ var pattern_assembler = function () {
     }
   }
 
+  function addSubstypePattern(subtypePattern, patternlab) {
+    console.log('adding ', subtypePattern.patternPartial, 'to subtypePatterns');
+    patternlab.subtypePatterns[subtypePattern.patternPartial] = subtypePattern;
+  }
+
   // Render a pattern on request. Long-term, this should probably go away.
   function renderPattern(pattern, data, partials) {
     // if we've been passed a full Pattern, it knows what kind of template it
@@ -208,12 +213,12 @@ var pattern_assembler = function () {
           var subTypePattern = new Pattern(relPath);
           subTypePattern.patternSectionSubtype = true;
           subTypePattern.patternLink = subTypePattern.name + '/index.html';
-          subTypePattern.patternPartial = subTypePattern.patternPartial;
           subTypePattern.patternDesc = subTypeMarkdown.markdown;
+          subTypePattern.patternPartial = 'viewall-' + subTypePattern.patternPartial;
           subTypePattern.isPattern = false;
           subTypePattern.engine = null;
 
-          addPattern(subTypePattern, patternlab);
+          addSubstypePattern(subTypePattern, patternlab)
           return subTypePattern;
         }
       } catch (err) {
@@ -464,6 +469,9 @@ var pattern_assembler = function () {
     },
     addPattern: function (pattern, patternlab) {
       addPattern(pattern, patternlab);
+    },
+    addSubtypePattern: function(subtypePattern, patternlab){
+      addSubtypePattern(subtypePattern, patternlab);
     },
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);

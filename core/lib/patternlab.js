@@ -207,6 +207,7 @@ var patternlab_engine = function (config) {
       process.exit(1);
     }
     patternlab.patterns = [];
+    patternlab.subtypePatterns = {};
     patternlab.partials = {};
     patternlab.data.link = {};
 
