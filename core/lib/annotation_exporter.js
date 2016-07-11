@@ -1,6 +1,7 @@
 "use strict";
 
 var path = require('path'),
+  readDir = require('readdir'),
   fs = require('fs-extra'),
   JSON5 = require('json5'),
   _ = require('lodash'),
@@ -42,32 +43,35 @@ var annotations_exporter = function (pl) {
   function parseAnnotationsMD() {
     var markdown_parser = new mp();
     var annotations = [];
+    var mdFiles = readDir.readSync(paths.source.annotations, ['*.md'])
 
-    //attempt to read the file
-    var annotationsMD = '';
-    try {
-      annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.md'), 'utf8');
-    } catch (ex) {
-      if (pl.config.debug) {
-        console.log('annotations.md file missing from ' + paths.source.annotations + '. This may be expected.');
+    mdFiles.forEach(function (file) {
+      var annotationsMD = '';
+      try {
+        annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, file), 'utf8');
+      } catch (ex) {
+        if (pl.config.debug) {
+          console.log('annotations.md file missing from ' + paths.source.annotations + '. This may be expected.');
+        }
+        return [];
       }
-      return [];
-    }
 
     //take the annotation snippets and split them on our custom delimiter
-    var annotationsYAML = annotationsMD.split('~*~');
+      var annotationsYAML = annotationsMD.split('~*~');
 
-    for (var i = 0; i < annotationsYAML.length; i++) {
-      var annotation = {};
+      for (var i = 0; i < annotationsYAML.length; i++) {
+        var annotation = {};
 
-      var markdownObj = markdown_parser.parse(annotationsYAML[i]);
+        var markdownObj = markdown_parser.parse(annotationsYAML[i]);
 
-      annotation.el = markdownObj.el || markdownObj.selector;
-      annotation.title = markdownObj.title;
-      annotation.comment = markdownObj.markdown;
+        annotation.el = markdownObj.el || markdownObj.selector;
+        annotation.title = markdownObj.title;
+        annotation.comment = markdownObj.markdown;
 
-      annotations.push(annotation);
-    }
+        annotations.push(annotation);
+      }
+      return false;
+    })
     return annotations;
   }
 
