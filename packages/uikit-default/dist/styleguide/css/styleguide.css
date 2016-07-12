@@ -771,6 +771,7 @@
   font-weight: bold !important;
   margin: 0 !important;
   padding: 0 !important;
+  text-transform: capitalize !important;
   /**
   * Pattern State that appears within a pattern title
   */
@@ -988,6 +989,7 @@
   font-size: 1.4rem !important;
   color: #222 !important;
   margin: 0 0 0.2rem;
+  text-transform: capitalize;
 }
 .sg-pattern-category-title a {
   -webkit-transition: color 0.1s ease-out;

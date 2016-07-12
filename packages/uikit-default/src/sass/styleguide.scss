@@ -905,6 +905,7 @@ $sg-border-radius-med : 6px;
     font-weight: bold !important;
     margin: 0 !important;
     padding: 0 !important;
+    text-transform: capitalize !important;
 
     a {
         display: inline-block;
@@ -1117,6 +1118,7 @@ $sg-border-radius-med : 6px;
     font-size: 1.4rem !important;
     color: $sg-gray-dark !important;
     margin: 0 0 0.2rem;
+    text-transform: capitalize;
 
     a {
         transition: color $sg-animate-quick ease-out;
