@@ -1,7 +1,7 @@
 "use strict";
 
 var path = require('path'),
-  readDir = require('readdir'),
+  glob = require('glob'),
   fs = require('fs-extra'),
   JSON5 = require('json5'),
   _ = require('lodash'),
@@ -51,8 +51,8 @@ var annotations_exporter = function (pl) {
     var annotations = annotations;
     var markdown_parser = parser;
 
-    return function (file) {
-      var annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, file), 'utf8');
+    return function (filePath) {
+      var annotationsMD = fs.readFileSync(path.resolve(filePath), 'utf8');
 
     //take the annotation snippets and split them on our custom delimiter
       var annotationsYAML = annotationsMD.split('~*~');
@@ -70,7 +70,7 @@ var annotations_exporter = function (pl) {
   function parseAnnotationsMD() {
     var markdown_parser = new mp();
     var annotations = [];
-    var mdFiles = readDir.readSync(paths.source.annotations, ['*.md'])
+    var mdFiles = glob.sync(paths.source.annotations + '/*.md')
 
     mdFiles.forEach(parseMDFile(annotations, markdown_parser));
     return annotations;
