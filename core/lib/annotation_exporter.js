@@ -37,41 +37,42 @@ var annotations_exporter = function (pl) {
     return oldAnnotationsJSON.comments;
   }
 
+  function buildAnnotationMD(annotationsYAML, markdown_parser) {
+    var annotation = {};
+    var markdownObj = markdown_parser.parse(annotationsYAML);
+
+    annotation.el = markdownObj.el || markdownObj.selector;
+    annotation.title = markdownObj.title;
+    annotation.comment = markdownObj.markdown;
+    return annotation;
+  }
+
+  function parseMDFile(annotations, parser) {
+    var annotations = annotations;
+    var markdown_parser = parser;
+
+    return function (file) {
+      var annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, file), 'utf8');
+
+    //take the annotation snippets and split them on our custom delimiter
+      var annotationsYAML = annotationsMD.split('~*~');
+      for (var i = 0; i < annotationsYAML.length; i++) {
+        var annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser)
+        annotations.push(annotation);
+      }
+      return false;
+    }
+  }
+
   /*
-   Converts the annotations.md file yaml list into an array of annotations
+   Converts the *.md file yaml list into an array of annotations
    */
   function parseAnnotationsMD() {
     var markdown_parser = new mp();
     var annotations = [];
     var mdFiles = readDir.readSync(paths.source.annotations, ['*.md'])
 
-    mdFiles.forEach(function (file) {
-      var annotationsMD = '';
-      try {
-        annotationsMD = fs.readFileSync(path.resolve(paths.source.annotations, file), 'utf8');
-      } catch (ex) {
-        if (pl.config.debug) {
-          console.log('annotations.md file missing from ' + paths.source.annotations + '. This may be expected.');
-        }
-        return [];
-      }
-
-    //take the annotation snippets and split them on our custom delimiter
-      var annotationsYAML = annotationsMD.split('~*~');
-
-      for (var i = 0; i < annotationsYAML.length; i++) {
-        var annotation = {};
-
-        var markdownObj = markdown_parser.parse(annotationsYAML[i]);
-
-        annotation.el = markdownObj.el || markdownObj.selector;
-        annotation.title = markdownObj.title;
-        annotation.comment = markdownObj.markdown;
-
-        annotations.push(annotation);
-      }
-      return false;
-    })
+    mdFiles.forEach(parseMDFile(annotations, markdown_parser));
     return annotations;
   }
 
