@@ -541,6 +541,10 @@
 * Pattern states add color-coded dots next to patterns
 * in the dropdown navigation.
 */
+.sg-pattern-state {
+  text-transform: none !important;
+}
+
 /**
 * Pattern State bullet
 */

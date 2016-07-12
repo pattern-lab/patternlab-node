@@ -663,6 +663,10 @@ $sg-border-radius-med : 6px;
 * in the dropdown navigation.
 */
 
+.sg-pattern-state {
+    text-transform: none !important;
+}
+
 /**
 * Pattern State bullet
 */
