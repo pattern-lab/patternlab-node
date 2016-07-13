@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs-extra');
 var ae = require('./annotation_exporter');
 var of = require('./object_factory');
+var Pattern = of.Pattern;
 var pa = require('./pattern_assembler');
 var pattern_assembler = new pa();
 var eol = require('os').EOL;
@@ -264,13 +265,27 @@ function buildFooterHTML(patternlab, patternPartial) {
   return footerHTML;
 }
 
-function buildViewAllHTML(patternlab, patterns, patternPartial) {
-
+function insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial) {
   //attempt to find a subtype pattern before rendering
   var subtypePattern = patternlab.subtypePatterns[patternPartial];
   if(subtypePattern) {
     patterns.unshift(subtypePattern);
-  } // confirm else scenario
+  } else {
+    var stubbedSubtypePattern = Pattern.createEmpty({
+      patternSectionSubtype: true,
+      isPattern: false,
+      patternPartial: 'viewall-' + patternPartial,
+      patternName: patterns[0].patternSubGroup,
+      patternLink:  patterns[0].flatPatternPath + '/index.html'
+    });
+    patterns.unshift(stubbedSubtypePattern);
+  }
+  return patterns;
+}
+
+function buildViewAllHTML(patternlab, patterns, patternPartial) {
+
+  patterns = insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial)
 
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
@@ -395,7 +410,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
       var viewAllHTML = buildViewAllHTML(patternlab, viewAllPatterns, patternPartial);
 
       fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-    }
+}
   }
 }
 
@@ -451,7 +466,6 @@ function buildFrontEnd(patternlab) {
   });
 
   //build the styleguide
-
   var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: styleguidePatterns,
