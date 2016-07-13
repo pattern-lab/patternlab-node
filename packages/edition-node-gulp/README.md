@@ -13,13 +13,11 @@ The Gulp Edition comes with the following components:
 
 ## Prerequisites
 
-Pattern Lab Node uses [Node](https://nodejs.org) and [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp](http://gulpjs.com/) to run tasks and interface with core.
+The Pattern Lab Node - Gulp Edition uses [Node](https://nodejs.org) for core processing, [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp.js](http://gulpjs.com/) to run tasks and interface with the core library. Node version 4 or higher suffices. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
 
-Please follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website. This should include `npm`.
+It's also highly recommended that you [install gulp](hhttps://github.com/gulpjs/gulp/blob/4.0/docs/getting-started.md) globally.
 
-It's also highly recommended that you [install gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md) globally.
-
-* Note: The Gulp Edition uses Gulp 4, which may require a new global install of the CLI tool Gulp uses. Follow the [gulp upgrade instructions](https://github.com/pattern-lab/edition-node-gulp/wiki/Updating-to-Gulp-4) if you already have gulp installed and need to upgrade.
+> Note: The Gulp Edition of Pattern Lab uses Gulp 4, which may require a new global install of the Gulp command line interface. Follow the [gulp upgrade instructions](https://github.com/pattern-lab/edition-node-gulp/wiki/Updating-to-Gulp-4) if you already have gulp installed and need to upgrade. Gulp 4 is in alpha, but brings many benefits to the table and is relatively stable.
 
 ## Installing
 
@@ -30,7 +28,7 @@ There are two methods for downloading and installing the Gulp Edition:
 
 ### Download a pre-built package
 
-The fastest way to get started with the Gulp Edition is to [download the pre-built version](https://github.com/pattern-lab/edition-node-gulp/releases) from the [releases page](https://github.com/pattern-lab/edition-node-gulp/releases). The pre-built project comes with the [Default Starterkit for Mustache](https://github.com/pattern-lab/starterkit-mustache-default/tree/dev) installed by default.
+The fastest way to get started with the Gulp Edition is to [download the pre-built version](https://github.com/pattern-lab/edition-node-gulp/releases) from the [releases page](https://github.com/pattern-lab/edition-node-gulp/releases). The pre-built project comes with the [Base Starterkit for Mustache](https://github.com/pattern-lab/starterkit-mustache-base) installed by default.
 
 **Please note:** Pattern Lab Node uses [npm](https://www.npmjs.com/) to manage project dependencies. To upgrade the Gulp Edition or to install plug-ins you'll need to be familiar with npm.
 
@@ -38,11 +36,14 @@ The fastest way to get started with the Gulp Edition is to [download the pre-bui
 
 `npm` is a dependency management and package system which can pull in all of the Gulp Edition's dependencies for you. To accomplish this:
 
-* download or clone this repository to an install location.
+* download or `git clone` this repository to an install location.
 
 * run the following
+
+    ```
     cd install/location
     npm install
+    ```
 
 Running `npm install` from a directory containing a `package.json` file will download all dependencies defined within.
 
