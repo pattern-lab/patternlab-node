@@ -65,9 +65,10 @@ Pattern.prototype = {
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
   render: function (data, partials) {
-    if (this.engine){
+    if (this.engine) {
       return this.engine.renderPattern(this, data || this.jsonFileData, partials);
     }
+    return null;
   },
 
   registerPartial: function () {

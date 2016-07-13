@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v2.1.1 - 2016
- *
+/* 
+ * patternlab-node - v2.2.0 - 2016 
+ * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -73,7 +73,6 @@ var patternlab_engine = function (config) {
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
     buildFrontEnd = require('./ui_builder'),
-    he = require('html-entities').AllHtmlEntities,
     plutils = require('./utilities'),
     sm = require('./starterkit_manager'),
     patternlab = {};
@@ -214,7 +213,6 @@ var patternlab_engine = function (config) {
     setCacheBust();
 
     var pattern_assembler = new pa(),
-      entity_encoder = new he(),
       pattern_exporter = new pe(),
       lineage_hunter = new lh(),
       patterns_dir = paths.source.patterns;
@@ -277,7 +275,7 @@ var patternlab_engine = function (config) {
     //render all patterns last, so lineageR works
     patternlab.patterns.forEach(function (pattern) {
 
-      if(!pattern.isPattern) {
+      if (!pattern.isPattern) {
         return false;
       }
 
@@ -356,6 +354,8 @@ var patternlab_engine = function (config) {
 
       //write the encoded version too
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.markup-only.html'), pattern.patternPartialCode);
+
+      return true;
     });
 
     //export patterns if necessary

@@ -116,11 +116,12 @@ var pattern_assembler = function () {
       // do global registration
 
 
-      if(pattern.isPattern){
+      if (pattern.isPattern) {
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
+
         // do plugin-specific registration
         pattern.registerPartial();
-      } else{
+      } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
 
@@ -129,8 +130,7 @@ var pattern_assembler = function () {
     }
   }
 
-  function addSubstypePattern(subtypePattern, patternlab) {
-    console.log('adding ', subtypePattern.patternPartial, 'to subtypePatterns');
+  function addSubtypePattern(subtypePattern, patternlab) {
     patternlab.subtypePatterns[subtypePattern.patternPartial] = subtypePattern;
   }
 
@@ -203,8 +203,8 @@ var pattern_assembler = function () {
 
     //check if the found file is a top-level markdown file
     var fileObject = path.parse(relPath);
-    if(fileObject.ext === '.md'){
-      try{
+    if (fileObject.ext === '.md') {
+      try {
         var proposedDirectory = path.resolve(patternlab.config.paths.source.patterns, fileObject.dir, fileObject.name);
         var proposedDirectoryStats = fs.statSync(proposedDirectory);
         if (proposedDirectoryStats.isDirectory()) {
@@ -218,7 +218,7 @@ var pattern_assembler = function () {
           subTypePattern.isPattern = false;
           subTypePattern.engine = null;
 
-          addSubstypePattern(subTypePattern, patternlab)
+          addSubtypePattern(subTypePattern, patternlab)
           return subTypePattern;
         }
       } catch (err) {
@@ -470,7 +470,7 @@ var pattern_assembler = function () {
     addPattern: function (pattern, patternlab) {
       addPattern(pattern, patternlab);
     },
-    addSubtypePattern: function(subtypePattern, patternlab){
+    addSubtypePattern: function (subtypePattern, patternlab) {
       addSubtypePattern(subtypePattern, patternlab);
     },
     renderPattern: function (template, data, partials) {

@@ -268,7 +268,7 @@ function buildFooterHTML(patternlab, patternPartial) {
 function insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial) {
   //attempt to find a subtype pattern before rendering
   var subtypePattern = patternlab.subtypePatterns[patternPartial];
-  if(subtypePattern) {
+  if (subtypePattern) {
     patterns.unshift(subtypePattern);
   } else {
     var stubbedSubtypePattern = Pattern.createEmpty({
@@ -285,11 +285,11 @@ function insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternP
 
 function buildViewAllHTML(patternlab, patterns, patternPartial) {
 
-  patterns = insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial)
+  var patternsPlusSubtpe = insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial);
 
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
-      partials: patterns,
+      partials: patternsPlusSubtpe,
       patternPartial: patternPartial,
       cacheBuster: patternlab.cacheBuster
     }, {
@@ -299,7 +299,7 @@ function buildViewAllHTML(patternlab, patterns, patternPartial) {
   return viewAllHTML;
 }
 
-function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
+function buildViewAllPages(mainPageHeadHtml, patternlab) {
   var paths = patternlab.config.paths;
   var prevSubdir = '';
   var prevGroup = '';
@@ -410,7 +410,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab, patterns) {
       var viewAllHTML = buildViewAllHTML(patternlab, viewAllPatterns, patternPartial);
 
       fs.outputFileSync(paths.public.patterns + pattern.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-}
+    }
   }
 }
 
