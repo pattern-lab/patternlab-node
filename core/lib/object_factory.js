@@ -46,6 +46,7 @@ var Pattern = function (relPath, data) {
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
   this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
 
+  this.isPattern = true;
   this.patternState = '';
   this.template = '';
   this.patternPartialCode = '';
@@ -64,11 +65,14 @@ Pattern.prototype = {
   // render method on oPatterns; this acts as a proxy for the PatternEngine's
   // render function
   render: function (data, partials) {
-    return this.engine.renderPattern(this, data || this.jsonFileData, partials);
+    if (this.engine) {
+      return this.engine.renderPattern(this, data || this.jsonFileData, partials);
+    }
+    return null;
   },
 
   registerPartial: function () {
-    if (typeof this.engine.registerPartial === 'function') {
+    if (this.engine && typeof this.engine.registerPartial === 'function') {
       this.engine.registerPartial(this);
     }
   },

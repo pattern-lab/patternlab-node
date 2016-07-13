@@ -2,7 +2,9 @@
 
 var path = require('path');
 var fs = require('fs-extra');
+var ae = require('./annotation_exporter');
 var of = require('./object_factory');
+var Pattern = of.Pattern;
 var pa = require('./pattern_assembler');
 var pattern_assembler = new pa();
 var eol = require('os').EOL;
@@ -20,7 +22,7 @@ function addToPatternPaths(patternlab, patternTypeName, pattern) {
 //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
 function isPatternExcluded(pattern) {
   // returns whether or not the first character of the pattern filename is an underscore, or excluded
-  return pattern.fileName.charAt(0) === '_';
+  return pattern.isPattern && pattern.fileName.charAt(0) === '_';
 }
 
 // Returns the array of patterns to be rendered in the styleguide view and
@@ -29,6 +31,7 @@ function assembleStyleguidePatterns(patternlab) {
   var styleguideExcludes = patternlab.config.styleGuideExcludes;
   var styleguidePatterns = [];
 
+  //todo this loop can be made more efficient
   if (styleguideExcludes && styleguideExcludes.length) {
     for (var i = 0; i < patternlab.patterns.length; i++) {
 
@@ -80,7 +83,6 @@ function assembleStyleguidePatterns(patternlab) {
       styleguidePatterns.push(pattern);
     }
   }
-
   return styleguidePatterns;
 }
 
@@ -263,15 +265,36 @@ function buildFooterHTML(patternlab, patternPartial) {
   return footerHTML;
 }
 
+function insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial) {
+  //attempt to find a subtype pattern before rendering
+  var subtypePattern = patternlab.subtypePatterns[patternPartial];
+  if (subtypePattern) {
+    patterns.unshift(subtypePattern);
+  } else {
+    var stubbedSubtypePattern = Pattern.createEmpty({
+      patternSectionSubtype: true,
+      isPattern: false,
+      patternPartial: 'viewall-' + patternPartial,
+      patternName: patterns[0].patternSubGroup,
+      patternLink:  patterns[0].flatPatternPath + '/index.html'
+    });
+    patterns.unshift(stubbedSubtypePattern);
+  }
+  return patterns;
+}
+
 function buildViewAllHTML(patternlab, patterns, patternPartial) {
+
+  var patternsPlusSubtpe = insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial);
+
   var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
     {
-      partials: patterns,
+      partials: patternsPlusSubtpe,
       patternPartial: patternPartial,
       cacheBuster: patternlab.cacheBuster
     }, {
       patternSection: patternlab.patternSection,
-      patternSectionSubType: patternlab.patternSectionSubType
+      patternSectionSubtype: patternlab.patternSectionSubType
     });
   return viewAllHTML;
 }
@@ -307,13 +330,18 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
     if (pattern.patternGroup !== prevGroup) {
       prevGroup = pattern.patternGroup;
 
+
       var viewAllPatterns = [];
       var patternPartial = "viewall-" + pattern.patternGroup;
       var j;
 
+
       for (j = 0; j < patternlab.patterns.length; j++) {
+
+
         if (patternlab.patterns[j].patternGroup === pattern.patternGroup) {
           //again, skip any sibling patterns to the current one that may have underscores
+
           if (isPatternExcluded(patternlab.patterns[j])) {
             if (patternlab.config.debug) {
               console.log('Omitting ' + patternlab.patterns[j].patternPartial + " from view all sibling rendering.");
@@ -328,6 +356,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
             }
             continue;
           }
+
 
           viewAllPatterns.push(patternlab.patterns[j]);
         }
@@ -351,6 +380,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
       patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
 
       for (j = 0; j < patternlab.patterns.length; j++) {
+
         if (patternlab.patterns[j].subdir === pattern.subdir) {
           //again, skip any sibling patterns to the current one that may have underscores
           if (isPatternExcluded(patternlab.patterns[j])) {
@@ -370,6 +400,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
 
           viewAllPatterns.push(patternlab.patterns[j]);
         }
+
       }
 
       //render the footer needed for the viewall template
@@ -385,6 +416,7 @@ function buildViewAllPages(mainPageHeadHtml, patternlab) {
 
 function sortPatterns(patternsArray) {
   return patternsArray.sort(function (a, b) {
+
     if (a.name > b.name) {
       return 1;
     }
@@ -401,7 +433,6 @@ function sortPatterns(patternsArray) {
 // MAIN BUILDER FUNCTION
 
 function buildFrontEnd(patternlab) {
-  var ae = require('./annotation_exporter');
   var annotation_exporter = new ae(patternlab);
   var styleguidePatterns = [];
   var paths = patternlab.config.paths;
@@ -411,11 +442,11 @@ function buildFrontEnd(patternlab) {
   patternlab.patternPaths = {};
   patternlab.viewAllPaths = {};
 
-  //sort all patterns explicitly.
-  patternlab.patterns = sortPatterns(patternlab.patterns);
-
   // check if patterns are excluded, if not add them to styleguidePatterns
   styleguidePatterns = assembleStyleguidePatterns(patternlab);
+
+  //sort all patterns explicitly.
+  patternlab.patterns = sortPatterns(styleguidePatterns);
 
   //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
   var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
@@ -435,8 +466,7 @@ function buildFrontEnd(patternlab) {
   });
 
   //build the styleguide
-  var styleguideTemplate = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-  var styleguideHtml = pattern_assembler.renderPattern(styleguideTemplate,
+  var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
     {
       partials: styleguidePatterns,
       cacheBuster: patternlab.cacheBuster
@@ -448,7 +478,7 @@ function buildFrontEnd(patternlab) {
   fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
   //build the viewall pages
-  buildViewAllPages(headerHTML, patternlab);
+  buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
   //build the patternlab website
   buildNavigation(patternlab);

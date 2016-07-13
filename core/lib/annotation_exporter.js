@@ -26,8 +26,10 @@ var annotations_exporter = function (pl) {
 
     //parse as JSON by removing the old wrapping js syntax. comments and the trailing semi-colon
     oldAnnotations = oldAnnotations.replace('var comments = ', '');
+    oldAnnotations = oldAnnotations.replace('};', '}');
+
     try {
-      var oldAnnotationsJSON = JSON5.parse(oldAnnotations.trim().slice(0, -1));
+      var oldAnnotationsJSON = JSON5.parse(oldAnnotations);
     } catch (ex) {
       console.log('There was an error parsing JSON for ' + paths.source.annotations + 'annotations.js');
       console.log(ex);
