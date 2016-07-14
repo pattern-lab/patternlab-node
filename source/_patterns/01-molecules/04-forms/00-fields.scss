@@ -26,8 +26,7 @@
   }
 
   &__label {
-    font-family: $fontSecondary;
-    color: $colorNevada;
+    color: $colorSilverChalice;
     user-select: none;
     box-sizing: border-box;
     font-size: 0.75em;
@@ -45,6 +44,7 @@
     width: 100%;
     z-index: 1;
     transition: opacity $animationTimingFast ease-out;
+    @include font-quaternary-lowercase(10px);
   }
 
   &__input {

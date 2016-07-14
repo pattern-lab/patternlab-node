@@ -6,7 +6,7 @@
 }
 
 .headlineH2 {
-  @include font-primary-medium-uppercase(1.3125em);
+  @include font-quaternary-uppercase();
 }
 
 .headlineH3 {

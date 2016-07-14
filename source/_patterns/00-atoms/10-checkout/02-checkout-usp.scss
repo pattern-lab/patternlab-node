@@ -1,10 +1,10 @@
 .checkoutUsp {
-  @include font-primary-light-uppercase(0.75em);
+  @include font-quaternary-lowercase($fontSizeSmall);
   @include icon(check);
   position : relative;
   margin-bottom : 0.25em;
   text-transform : none;
-
+  color: $colorSilverChalice;
   &:last-child {
     margin-bottom : 0;
   }

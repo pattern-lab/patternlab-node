@@ -20,13 +20,12 @@
   line-height: 1em;
   &__price {
     text-align: right;
-    font-family: $fontSecondary;
+    @include font-quaternary-lowercase($fontSizeSmall);
   }
   &__name,
   &__price {
     .order-summary__section--total & {
-      @include font-primary-medium-uppercase();
-      font-size: 1.3125em;
+      @include font-quaternary-lowercase($fontSizeSmall);
     }
     .order-summary__small-text {
       font-family: $fontSecondary;
@@ -40,7 +39,7 @@
     }
   }
   &__name {
-    @include font-primary-medium-lowercase();
+    @include font-quaternary-lowercase($fontSizeSmall);
     letter-spacing: 0;
     text-transform: none;
   }

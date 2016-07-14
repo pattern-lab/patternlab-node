@@ -1,8 +1,7 @@
 .checkout__trustedShops {
   display : flex;
   flex-direction : row;
-  align-items : center;
-
+  color: $colorSilverChalice;
   &__badge {
     width : 2em;
     height : 2em;
@@ -13,11 +12,10 @@
   }
 
   &__description {
-    @include font-primary-light-uppercase(0.75em);
-    line-height : 1.5em;
-    margin-top : 0.5em;
+    @include font-quaternary-lowercase($fontSizeSmall);
+    margin-top : 0.75em;
     margin-left : 0.5em;
-    width : 5.5em;
+    width : 9.5em;
     text-transform : none;
     @media only screen and (min-width : $breakpointTablet) {
       margin-left : 1em;

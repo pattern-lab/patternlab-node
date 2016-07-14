@@ -7,11 +7,8 @@
 
   &__image {
     position: relative;
-    //width: 100%;
     overflow: hidden;
 
-    top: -50%;
-    left: -50%;
     width: 200%;
     height: 64vw;
 
@@ -23,7 +20,6 @@
     @media only screen and (min-width: $breakpointDesktop) {
       height: 29vw;
       display: table-row;
-      display: -moz-inline-grid;
     }
     @media only screen and (min-width: $maxWidthLayout) {
       height: 29em;
