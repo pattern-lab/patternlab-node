@@ -3,13 +3,14 @@
 var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
+var anPath = './test/files/';
 
-function createFakePatternLab(customProps) {
+function createFakePatternLab(anPath, customProps) {
   var pl = {
     "config": {
       "paths": {
         "source": {
-          "annotations": './test/files/'
+          "annotations": anPath
         }
       }
     }
@@ -18,7 +19,7 @@ function createFakePatternLab(customProps) {
   return extend(pl, customProps);
 }
 
-var patternlab = createFakePatternLab();
+var patternlab = createFakePatternLab(anPath);
 var ae = require('../core/lib/annotation_exporter')(patternlab);
 
 exports['annotaton_exporter'] = {
@@ -65,5 +66,15 @@ exports['annotaton_exporter'] = {
 
     test.done();
 
+  },
+
+  'when there are 0 annotation files' : function (test) {
+    var emptyAnPath = './test/files/empty/';
+    var patternlab2 = createFakePatternLab(emptyAnPath);
+    var ae2 = require('../core/lib/annotation_exporter')(patternlab2);
+
+    var annotations = ae2.gather();
+    test.equals(annotations.length, 0);
+    test.done();
   }
 };
