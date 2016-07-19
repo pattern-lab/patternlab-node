@@ -94,9 +94,7 @@
   &__message {
     &,
     &--warning {
-      font-family: $fontSecondary;
-      font-weight: 300;
-      font-size: 0.85714em;
+      @include font-quaternary-lowercase(0.85714em);
       margin: 0.75em 0.575em 0.25em;
     }
 

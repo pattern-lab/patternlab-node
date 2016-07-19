@@ -18,11 +18,16 @@
       &:last-child {
         .activateTA {
           margin-left: $marginMini;
-            &__number {
-              color : $colorNevada;
-            }
           }
       }
+    }
+
+    &:last-child {
+      .activateTA {
+          &__number {
+            color : $colorNevada;
+          }
+        }
     }
   }
 }
