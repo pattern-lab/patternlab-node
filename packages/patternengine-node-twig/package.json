@@ -1,10 +1,10 @@
 {
-  "name": "patternengine-node-handlebars",
-  "description": "The Handlebars engine for Pattern Lab / Node",
+  "name": "patternengine-node-underscore",
+  "description": "The Underscore engine for Pattern Lab / Node",
   "version": "1.0.0",
-  "main": "lib/engine_handlebars.js",
+  "main": "lib/engine_underscore.js",
   "dependencies": {
-    "handlebars": "^4.0.5"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "keywords": [
@@ -14,11 +14,11 @@
     "Grunt",
     "Gulp",
     "Javascript",
-    "Handlebars"
+    "Underscore"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pattern-lab/patternengine-node-handlebars.git"
+    "url": "https://github.com/pattern-lab/patternengine-node-underscore.git"
   },
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
