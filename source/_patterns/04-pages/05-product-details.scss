@@ -1,0 +1,55 @@
+main {
+  &.product {
+    article {
+      &.product {
+        hgroup {
+          h2 {
+            //avenir medium 18px
+            @include font-quaternary-lowercase(1.125em);
+            span {
+              //avenir medium 12px
+              @include font-quaternary-lowercase($fontSizeSmall);
+            }
+          }
+          h3 {
+            @include font-fira-medium();
+            span {
+              //fira medium 17px
+            }
+          }
+          .vat {
+            //fira medium 12px
+            @include font-fira-medium($fontSizeSmall);
+          }
+        }
+
+        .select {
+          label {
+            @include font-quaternary-lowercase($fontSizeSmall);
+          }
+          .dropdown {
+            li {
+              .label {
+                @include font-quaternary-lowercase($fontSizeSmall);
+              }
+            }
+          }
+        }
+
+        section {
+          h4 {
+            @include font-tertiary-heavy($fontSizeSmall);
+          }
+        }
+
+        .shippingNote {
+          span {
+            @include font-fira-medium($fontSizeSmall);
+            text-transform: none;
+          }
+        }
+
+      }
+    }
+  }
+}

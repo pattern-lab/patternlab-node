@@ -9,6 +9,7 @@
     margin-right : auto;
     margin-left : auto;
     margin-bottom : $marginMini;
+    @include font-fira-light(1.063em);
   }
 
   &__headline {
@@ -24,7 +25,8 @@
   }
 
   &__number {
-    @include font-secondary-medium-uppercase(7.5em);
+    @include font-tertiary-heavy(7.5em);
+    text-transform: uppercase;
     letter-spacing : 0;
     margin-top: -0.5rem;
     margin-bottom: -0.3rem;
@@ -34,11 +36,12 @@
     letter-spacing : 0;
     text-align: left;
     margin-left : 0.3em;
+    @include font-quaternary-uppercase();
   }
 
   &__footNote {
     margin-top : $marginMini;
-    font-size : 0.75em;
+    @include font-quaternary-lowercase($fontSizeSmall);
   }
 
   .button {

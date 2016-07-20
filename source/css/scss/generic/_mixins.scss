@@ -1,3 +1,9 @@
+@mixin font-primary($fontSize: 1em, $fontWight: 300){
+  font-family: $fontPrimary;
+  font-weight: $fontWight;
+  font-size: $fontSize;
+}
+
 @mixin font-primary-light-uppercase($fontSize: 1em) {
   font-family: $fontPrimary;
   text-transform: uppercase;
@@ -62,6 +68,42 @@
 @mixin font-secondary-medium-lowercase($fontSize: 1em) {
   font-family: $fontSecondary;
   font-weight: 500;
+  font-size: $fontSize;
+}
+
+@mixin font-tertiary-heavy($fontSize: 1em){
+  font-family: $fontTertiary;
+  font-size: $fontSize;
+  letter-spacing: 0.063em;
+}
+
+@mixin font-quaternary-lowercase($fontSize: 1em) {
+  font-family: $fontQuaternary;
+  font-size: $fontSize;
+}
+
+@mixin font-quaternary-uppercase($fontSize: 1em) {
+  font-family: $fontQuaternary;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: $fontSize;
+}
+
+@mixin font-fira-italic($fontSize: 1em){
+  font-family: $fontQuinary;
+  font-style: italic;
+  font-size: $fontSize;
+}
+
+@mixin font-fira-light($fontSize: 1em){
+  font-family: $fontQuinary;
+  font-weight: 300;
+  font-size: $fontSize;
+}
+
+@mixin font-fira-medium($fontSize: 1em){
+  font-family: $fontQuinary;
+  font-weight: normal;
   font-size: $fontSize;
 }
 

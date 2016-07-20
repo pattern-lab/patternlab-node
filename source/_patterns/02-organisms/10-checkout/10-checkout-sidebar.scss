@@ -1,0 +1,20 @@
+.checkout {
+  &__sidebar {
+    &-container {
+      .product {
+        &__image {
+          .product-thumbnail__quantity {
+            display: none;
+          }
+        }
+        &__description {
+          padding: 0 $marginMini / 2;
+        }
+        &__quantity {
+          display: table-cell !important;
+        }
+      }
+
+    }
+  }
+}

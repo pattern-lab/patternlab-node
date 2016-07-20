@@ -35,12 +35,15 @@ $colorBorder: $colorSilver;
 //Typography
 $fontPrimary: 'Avenir', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
 $fontSecondary: 'Baskerville', 'Palatino', 'Palatino Linotype', 'Garamond', 'Times New Roman', 'Times', serif;
+$fontTertiary: 'AvenirLTStd-Heavy', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
+$fontQuaternary: 'AvenirLTStd-Medium', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
+$fontQuinary: 'FiraSans', 'HelveticaNeue', 'Helvetica', 'Arial', 'Verdana', sans-serif;
 
 $fontSizeNormal: 1em;
 $fontSizeSlightlyLarger: 1.0625em;
 $fontSizeSlightlySmaller: 0.875em;
-$fontSizeSmall: 0.75em;
-$fontSizeLarge: 1.4375em;
+$fontSizeSmall: 0.75rem;
+$fontSizeLarge: 1.4375rem;
 
 $lineHeightNormal: 1.625em;
 

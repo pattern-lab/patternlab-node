@@ -24,7 +24,7 @@
       }
     }
     &__quantity {
-      font-family: $fontSecondary;
+      /*font-family: $fontSecondary;
       display: block;
       background-color: $colorBlack;
       color: $colorTextInvert;
@@ -38,7 +38,10 @@
       left: 0;
       top: 50%;
       text-align: center;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);*/
+      width: 30px;
+      text-align: center;
+      position: relative;
     }
     &__description {
       vertical-align: middle;
@@ -46,15 +49,16 @@
       &__name,
       &__variant {
         display: block;
+        @include font-quaternary-lowercase($fontSizeSmall);
       }
       &__name {
-        @include font-primary-medium-lowercase();
+        @include font-quaternary-lowercase(1.125em);
         margin-bottom: 0.25em;
         letter-spacing: 0;
       }
     }
     &__price {
-      font-family: $fontSecondary;
+      @include font-quaternary-lowercase(1.125em);
       vertical-align: middle;
       text-align: right;
       padding-right: $checkoutSidebarHorizontalPadding;

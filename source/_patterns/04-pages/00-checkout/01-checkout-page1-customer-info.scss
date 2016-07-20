@@ -1,0 +1,60 @@
+.alt-payment-list {
+  display: inline-block;
+  li {
+    float: left;
+    &.alt-payment-list {
+      &__item {
+        margin-right: $marginMini;
+        img {
+          max-height: 25px;
+        }
+        &--paypal {
+          > a {
+            text-transform: uppercase;
+            @include font-quaternary-uppercase();
+            img {
+              margin-top: 20px;
+            }
+          }
+        }
+        &--amazon {
+          font-size: 0 !important;
+          .alt-payment-list__item__logo {
+            display: none;
+          }
+          img {
+            margin-top: 40px;
+          }
+        }
+      }
+    }
+  }
+}
+.alternative-payment-separator {
+  margin-top: $marginMini;
+  color: $colorSilverChalice;
+}
+
+.section {
+  &--contact-information {
+
+  }
+  &__content {
+    .checkbox__label {
+      @include font-tertiary-heavy($fontSizeSmall);
+    }
+    .amazon-payments {
+      &__link {
+        @extend .button;
+      }
+      &__widget {
+          width: 100%;
+          height: 400px;
+          padding-bottom: $marginMini;
+      }
+    }
+  }
+  &--optional {
+    padding: $marginMini / 2;
+  }
+}

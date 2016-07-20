@@ -1,0 +1,26 @@
+main.collection {
+  figure {
+    figcaption {
+      h3 {
+        //avenir medium 18px
+        @include font-quaternary-lowercase(1.125em);
+      }
+      p {
+        // fira light 17px
+        @include font-fira-light(1.063em);
+      }
+    }
+  }
+  .filter {
+    li {
+      &.selected {
+        button {
+          @include font-tertiary-heavy();
+        }
+      }
+      button {
+        @include font-quaternary-uppercase();
+      }
+    }
+  }
+}

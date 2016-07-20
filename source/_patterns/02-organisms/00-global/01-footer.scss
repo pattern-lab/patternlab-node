@@ -94,15 +94,13 @@
     }
     .navigation__footer {
       &--headline {
+        @include font-tertiary-heavy(0.75em);
         border-bottom : none;
         padding-top : 0;
         padding-bottom : 0;
         padding-left : 0;
         margin-bottom : 1.2rem;
         background-color : transparent;
-        font-family: $fontPrimary;
-        font-size : 0.875em;
-        font-weight : 300;
         text-transform : uppercase;
         position: relative;
         display: inline-block;
@@ -121,6 +119,7 @@
           padding-bottom : $paddingMini;
         }
       }
+
     }
     .fieldset {
       margin: 0;
@@ -133,15 +132,41 @@
         }
       }
       input {
+        @include font-primary(0.75em);
+
         border-color: $colorWhite;
         text-align: center;
         margin: 0;
+        line-height: 2.1em;
+        &::-webkit-input-placeholder {
+           @include font-primary(0.975em);
+        }
+        &:-moz-placeholder { /* Firefox 18- */
+          @include font-primary(0.975em);
+        }
+        &::-moz-placeholder {  /* Firefox 19+ */
+           @include font-primary(0.975em);
+        }
+        &:-ms-input-placeholder {
+           @include font-primary(0.975em);
+        }
       }
     }
   }
 
   .navigation__footer {
     margin: 0 $marginStandard 0 0;
+    &--headline {
+      @include font-tertiary-heavy(0.75em);
+    }
+    .mobile-accordion {
+      &__panel {
+        a {
+          font-size: 0.75em;
+          //@include font-fira-light(0.75em);
+        }
+      }
+    }
   }
 
   &__trustedShops {
@@ -191,6 +216,7 @@
   }
 
   &__copyright {
+    @include font-tertiary-heavy(0.75em);
     padding : 2.6rem 0;
     text-align : center;
     font-size : 0.75em;

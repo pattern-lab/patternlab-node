@@ -18,12 +18,12 @@
       display: inherit;
       color: $colorSilver;
       text-align: center;
+      @include font-tertiary-heavy();
     }
     &.tabs__active {
       border-bottom: 0.063em solid transparent;
       a {
         color: $colorBlack;
-        font-weight: 700;
       }
     }
   }
@@ -32,6 +32,9 @@
 .tab--content {
   > div {
     display: none;
+    p {
+      @include font-quaternary-lowercase();
+    }
     &.tab--content__active {
       display: block;
     }

@@ -96,7 +96,7 @@
     }
 
     &--primary {
-      @include font-primary-medium-uppercase(5.85vw);
+      @include font-quaternary-uppercase(5.85vw);
       line-height: 1.5em;
       letter-spacing: 0;
       margin: 0;
@@ -104,7 +104,7 @@
       color: inherit
     }
     &--secondary {
-      @include font-primary-medium-lowercase(2.85vw);
+      @include font-quaternary-lowercase(2.85vw);
       line-height: 1.5em;
       letter-spacing: 0;
       margin: 0;
