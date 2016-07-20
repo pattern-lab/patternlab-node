@@ -1,7 +1,7 @@
 {
   "name": "patternengine-node-underscore",
   "description": "The Underscore engine for Pattern Lab / Node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/engine_underscore.js",
   "dependencies": {
     "underscore": "^1.8.3"
@@ -20,7 +20,7 @@
     "type": "git",
     "url": "https://github.com/pattern-lab/patternengine-node-underscore.git"
   },
-  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "bugs": "https://github.com/pattern-lab/patternengine-node-underscore/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {
