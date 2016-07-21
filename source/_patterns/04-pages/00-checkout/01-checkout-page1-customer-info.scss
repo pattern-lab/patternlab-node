@@ -58,3 +58,9 @@
     padding: $marginMini / 2;
   }
 }
+
+.checkout__sidebar {
+  .order-summary__scroll-indicator {
+    display: none;
+  }
+}
