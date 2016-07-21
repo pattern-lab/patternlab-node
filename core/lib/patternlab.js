@@ -11,10 +11,23 @@
 "use strict";
 
 var diveSync = require('diveSync'),
+  glob = require('glob'),
+  _ = require('lodash'),
   path = require('path');
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
 // from unit tests to reduce code dupe!
+
+function buildPatternData(dataFilesPath, fs) {
+  var dataFilesPath = dataFilesPath;
+  var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
+  var mergeObject = {}
+  dataFiles.forEach(function (filePath) {
+    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8')
+    mergeObject = _.merge(mergeObject, jsonData)
+  })
+  return mergeObject;
+}
 
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
@@ -183,7 +196,7 @@ var patternlab_engine = function (config) {
 
   function buildPatterns(deletePatternDir) {
     try {
-      patternlab.data = fs.readJSONSync(path.resolve(paths.source.data, 'data.json'));
+      patternlab.data = buildPatternData(paths.source.data, fs);
     } catch (ex) {
       plutils.logRed('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       patternlab.data = {};
@@ -392,6 +405,7 @@ var patternlab_engine = function (config) {
 // export these free functions so they're available without calling the exported
 // function, for use in reducing code dupe in unit tests. At least, until we
 // have a better way to do this
+patternlab_engine.build_pattern_data = buildPatternData;
 patternlab_engine.process_all_patterns_iterative = processAllPatternsIterative;
 patternlab_engine.process_all_patterns_recursive = processAllPatternsRecursive;
 
