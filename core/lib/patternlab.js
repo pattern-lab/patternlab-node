@@ -340,7 +340,7 @@ var patternlab_engine = function (config) {
             patternType: pattern.patternGroup,
             patternSubtype: pattern.patternSubGroup
           },
-        patternExtension: pattern.fileExtension,
+        patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
         patternName: pattern.patternName,
         patternPartial: pattern.patternPartial,
         patternState: pattern.patternState,
