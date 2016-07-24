@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.2.1 - 2016 
- * 
+/*
+ * patternlab-node - v2.2.1 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -358,15 +358,23 @@ var patternlab_engine = function (config) {
         patternLabFoot : footerPartial
       });
 
+      //default the output suffixes if not present
+      var outputFileSuffixes = {
+        rendered: '',
+        rawTemplate: '',
+        markupOnly: '.markup-only'
+      }
+      outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
+
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink, patternPage);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.rendered + '.html'), patternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', pattern.fileExtension), pattern.template);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.rawTemplate + pattern.fileExtension), pattern.template);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', '.markup-only.html'), pattern.patternPartialCode);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.markupOnly + '.html'), pattern.patternPartialCode);
 
       return true;
     });
