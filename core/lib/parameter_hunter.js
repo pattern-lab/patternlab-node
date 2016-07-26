@@ -202,7 +202,7 @@ var parameter_hunter = function () {
       }
 
       //colon delimiter.
-      paramStringWellFormed += ':'; + values[i];
+      paramStringWellFormed += ':';
 
       //values
       //replace single-quote wrappers with double-quotes

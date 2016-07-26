@@ -146,7 +146,6 @@ exports['lineage hunter '] = {
     };
 
     lineage_hunter.find_lineage(currentPattern, patternlab);
-    lineage_hunter.find_lineage(currentPattern, patternlab);
 
     test.equals(currentPattern.lineageIndex.length, 1);
     test.equals(currentPattern.lineageIndex[0], "atoms-error");

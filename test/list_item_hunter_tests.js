@@ -149,24 +149,24 @@
 
     'process_list_item_partials finds verbose partials and outputs repeated renders' : function(test){
       var pattern1 = createFakeListPattern({
-        "template": "{{#listItems.one}}{{> 00-atoms/00-test/00-foo.mustache }}{{/listItems.one}}",
-        "extendedTemplate" : "{{#listItems.one}}{{> 00-atoms/00-test/00-foo.mustache }}{{/listItems.one}}",
+        "template": "{{#listItems.one}}{{> 00-test/00-foo.mustache }}{{/listItems.one}}",
+        "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo.mustache }}{{/listItems.one}}",
         "key": "test-patternName1"
       });
 
       var pattern2 = createFakeListPattern({
-        "template": "{{#listItems.two}}{{> 00-atoms/00-test/00-bar.mustache }}{{/listItems.two}}",
-        "extendedTemplate" : "{{#listItems.two}}{{> 00-atoms/00-test/00-bar.mustache }}{{/listItems.two}}",
+        "template": "{{#listItems.two}}{{> 00-test/00-bar.mustache }}{{/listItems.two}}",
+        "extendedTemplate" : "{{#listItems.two}}{{> 00-test/00-bar.mustache }}{{/listItems.two}}",
         "key": "test-patternName2"
       });
 
       var patternlab = createFakePatternLab({
         "patterns": [
-          Pattern.create('00-atoms/00-test/00-foo.mustache', null, {
+          Pattern.create('00-test/00-foo.mustache', null, {
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}"
           }),
-          Pattern.create('00-atoms/00-test/00-bar.mustache', null, {
+          Pattern.create('00-test/00-bar.mustache', null, {
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}"
           })

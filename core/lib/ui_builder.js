@@ -11,12 +11,11 @@ var eol = require('os').EOL;
 
 // PRIVATE FUNCTIONS
 
-function addToPatternPaths(patternlab, patternTypeName, pattern) {
-  //this is messy, could use a refactor.
-  if (!patternlab.patternPaths[patternTypeName]) {
-    patternlab.patternPaths[patternTypeName] = {};
+function addToPatternPaths(patternlab, pattern) {
+  if (!patternlab.patternPaths[pattern.patternGroup]) {
+    patternlab.patternPaths[pattern.patternGroup] = {};
   }
-  patternlab.patternPaths[patternTypeName][pattern.patternBaseName] = pattern.subdir.replace(/\\/g, '/') + "/" + pattern.fileName.replace('~', '-');
+  patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] = pattern.name;
 }
 
 //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
@@ -91,9 +90,6 @@ function buildNavigation(patternlab) {
 
     var pattern = patternlab.patterns[i];
 
-    //todo: check if this is already available
-    var patternTypeName = pattern.name.replace(/\\/g, '-').split('-')[1];
-
     //exclude any named defaultPattern from the navigation.
     //this is meant to be a homepage that is not navigable
     if (pattern.patternPartial === patternlab.config.defaultPattern) {
@@ -102,7 +98,7 @@ function buildNavigation(patternlab) {
       }
 
       //add to patternPaths before continuing
-      addToPatternPaths(patternlab, patternTypeName, pattern);
+      addToPatternPaths(patternlab, pattern);
 
       continue;
     }
@@ -134,17 +130,17 @@ function buildNavigation(patternlab) {
     patternSubTypeItem.patternPartial = pattern.patternPartial;
 
     //check if the patternType already exists
-    var patternTypeIndex = patternlab.patternTypeIndex.indexOf(patternTypeName);
+    var patternTypeIndex = patternlab.patternTypeIndex.indexOf(pattern.patternGroup);
     if (patternTypeIndex === -1) {
       //add the patternType
-      var patternType = new of.oPatternType(patternTypeName);
+      var patternType = new of.oPatternType(pattern.patternGroup);
 
       //add patternPath and viewAllPath
-      patternlab.patternPaths[patternTypeName] = patternlab.patternPaths[patternTypeName] || {};
-      patternlab.viewAllPaths[patternTypeName] = {};
+      patternlab.patternPaths[pattern.patternGroup] = patternlab.patternPaths[pattern.patternGroup] || {};
+      patternlab.viewAllPaths[pattern.patternGroup] = {};
 
       //test whether the pattern structure is flat or not - usually due to a template or page
-      flatPatternItem = patternSubTypeName === patternTypeName;
+      flatPatternItem = patternSubTypeName === pattern.patternGroup;
 
       //assume the patternSubType does not exist.
       patternSubType = new of.oPatternSubType(patternSubTypeName);
@@ -160,7 +156,7 @@ function buildNavigation(patternlab) {
         patternType.patternItems.push(patternSubTypeItem);
 
         //add to patternPaths
-        addToPatternPaths(patternlab, patternTypeName, pattern);
+        addToPatternPaths(patternlab, pattern);
 
       } else {
 
@@ -170,7 +166,7 @@ function buildNavigation(patternlab) {
         patternSubType.patternSubtypeItemsIndex.push(patternSubTypeItemName);
 
         //add to patternPaths
-        addToPatternPaths(patternlab, patternTypeName, pattern);
+        addToPatternPaths(patternlab, pattern);
 
         //add the view all PatternSubTypeItem
         viewAllPatternSubTypeItem = new of.oPatternSubTypeItem("View All");
@@ -178,13 +174,13 @@ function buildNavigation(patternlab) {
         viewAllPatternSubTypeItem.patternPartial = "viewall-" + pattern.patternGroup;
 
         patternType.patternItems.push(viewAllPatternSubTypeItem);
-        patternlab.viewAllPaths[patternTypeName].viewall = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
+        patternlab.viewAllPaths[pattern.patternGroup].viewall = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
 
       }
 
       //add the patternType.
       patternlab.patternTypes.push(patternType);
-      patternlab.patternTypeIndex.push(patternTypeName);
+      patternlab.patternTypeIndex.push(pattern.patternGroup);
 
       //done
 
@@ -198,7 +194,7 @@ function buildNavigation(patternlab) {
       }
 
       //test whether the pattern structure is flat or not - usually due to a template or page
-      flatPatternItem = patternSubTypeName === patternTypeName;
+      flatPatternItem = patternSubTypeName === pattern.patternGroup;
 
       //if it is flat - we should not add the pattern to patternPaths
       if (flatPatternItem) {
@@ -206,7 +202,7 @@ function buildNavigation(patternlab) {
         patternType.patternItems.push(patternSubTypeItem);
 
         //add to patternPaths
-        addToPatternPaths(patternlab, patternTypeName, pattern);
+        addToPatternPaths(patternlab, pattern);
 
       } else {
 
@@ -242,11 +238,11 @@ function buildNavigation(patternlab) {
         }
 
         // just add to patternPaths
-        addToPatternPaths(patternlab, patternTypeName, pattern);
+        addToPatternPaths(patternlab, pattern);
       }
     }
 
-    patternlab.viewAllPaths[patternTypeName][pattern.patternSubGroup] = pattern.flatPatternPath;
+    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
   }
   return patternTypeIndex;
 }

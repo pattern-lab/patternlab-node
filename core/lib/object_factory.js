@@ -9,8 +9,8 @@ var extend = require('util')._extend;
 var Pattern = function (relPath, data) {
   // We expect relPath to be the path of the pattern template, relative to the
   // root of the pattern tree. Parse out the path parts and save the useful ones.
-  var pathObj = path.parse(relPath);
-  this.relPath = relPath;           // '00-atoms/00-global/00-colors.mustache'
+  var pathObj = path.parse(path.normalize(relPath));
+  this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name;     // '00-colors'
   this.subdir = pathObj.dir;        // '00-atoms/00-global'
   this.fileExtension = pathObj.ext; // '.mustache'
@@ -31,10 +31,10 @@ var Pattern = function (relPath, data) {
 
   // calculated path from the root of the public directory to the generated html
   // file for this pattern
-  this.patternLink = this.name + '/' + this.name + '.html'; // '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+  this.patternLink = this.name + path.sep + this.name + '.html'; // '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
 
   // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.name.substring(this.name.indexOf('-') + 1, this.name.indexOf('-', 4) + 1 - this.name.indexOf('-') + 1);
+  this.patternGroup = this.subdir.split(path.sep)[0].replace(/^\d*-/, '');
 
   // the sub-group this pattern belongs to.
   this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
