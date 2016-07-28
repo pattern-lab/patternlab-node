@@ -128,7 +128,8 @@ var list_item_hunter = function () {
   return {
     process_list_item_partials: function (pattern, patternlab) {
       processListItemPartials(pattern, patternlab);
-    }
+    },
+    items: items
   };
 };
 

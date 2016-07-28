@@ -277,6 +277,7 @@ var pattern_assembler = function () {
 
     //add allData keys to currentPattern.dataKeys
     currentPattern.dataKeys = getDataKeys(currentPattern.allData, []);
+    //add listItem keys to currentPattern.dataKeys
     for (var i = 0; i < list_item_hunter.items.length; i++) {
       currentPattern.dataKeys.push('listItems.' + list_item_hunter.items[i]);
       currentPattern.dataKeys.push('listitems.' + list_item_hunter.items[i]);
