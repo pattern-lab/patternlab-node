@@ -100,7 +100,6 @@ var pattern_assembler = function () {
       if (pattern.relPath === patternlab.patterns[i].relPath) {
         //if relPath already exists, overwrite that element
         patternlab.patterns[i] = pattern;
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
         isNew = false;
         break;
       }
@@ -117,12 +116,8 @@ var pattern_assembler = function () {
 
 
       if (pattern.isPattern) {
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
-
         // do plugin-specific registration
         pattern.registerPartial();
-      } else {
-        patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
 
       patternlab.patterns.push(pattern);
@@ -353,10 +348,6 @@ var pattern_assembler = function () {
     if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
       // eslint-disable-next-line
       expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
-
-      // update the extendedTemplate in the partials object in case this
-      // pattern is consumed later
-      patternlab.partials[currentPattern.patternPartial] = currentPattern.extendedTemplate;
     }
 
     //find pattern lineage

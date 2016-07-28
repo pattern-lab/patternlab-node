@@ -106,11 +106,11 @@ var list_item_hunter = function () {
             }
 
             //render with data
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
+            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
 
           } else {
             //just render with mergedData
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
+            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
           }
 
           //add the rendered HTML to our string
@@ -120,9 +120,6 @@ var list_item_hunter = function () {
         //replace the block with our generated HTML
         var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
-
-        //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
 
       });
     }
