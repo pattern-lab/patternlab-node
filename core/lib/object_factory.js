@@ -56,6 +56,7 @@ var Pattern = function (relPath, data) {
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
   this.engine = patternEngines.getEngineForPattern(this);
+  this.patternPartials = null;
 };
 
 // Pattern methods
