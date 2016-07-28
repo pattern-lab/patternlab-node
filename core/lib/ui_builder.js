@@ -449,7 +449,8 @@ function buildFrontEnd(patternlab) {
     cacheBuster: patternlab.cacheBuster
   });
   var headerHTML = pattern_assembler.renderPattern(patternlab.userHead, {
-    patternLabHead : headerPartial
+    patternLabHead : headerPartial,
+    cacheBuster: patternlab.cacheBuster
   });
 
   //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer

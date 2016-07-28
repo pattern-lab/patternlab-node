@@ -91,7 +91,7 @@ var pattern_assembler = function () {
   function addPattern(pattern, patternlab) {
 
     //add the link to the global object
-    patternlab.data.link[pattern.patternGroup + '-' + pattern.patternBaseName] = '/patterns/' + pattern.patternLink;
+    patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
 
     //only push to array if the array doesn't contain this pattern
     var isNew = true;
@@ -410,6 +410,7 @@ var pattern_assembler = function () {
       for (var i = 0; i < linkMatches.length; i++) {
         expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
         if (expandedLink) {
+          expandedLink = expandedLink.replace('\\', '/');
           if (patternlab.config.debug) {
             console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
           }
