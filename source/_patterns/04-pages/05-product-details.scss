@@ -30,7 +30,7 @@ main {
           .dropdown {
             li {
               .label {
-                @include font-quaternary-lowercase($fontSizeSmall);
+                @include font-quaternary-lowercase(inherit);
               }
             }
           }

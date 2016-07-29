@@ -29,11 +29,9 @@
     .pageContent {
       padding-top: 4.2rem;
     }
-    main {
-      padding-top: $marginMini;
-    }
   }
   main {
+    padding-top: $marginMini;
     &:before {
       content: initial;
     }
