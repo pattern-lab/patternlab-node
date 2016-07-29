@@ -46,6 +46,7 @@ var pattern_assembler = function () {
       }
     }
     console.error('Could not find pattern with partial ' + partialName);
+    return undefined;
   }
 
   function buildListItems(container) {
