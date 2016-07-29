@@ -45,7 +45,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    throw 'Could not find pattern with partial ' + partialName;
+    console.error('Could not find pattern with partial ' + partialName);
   }
 
   function buildListItems(container) {
