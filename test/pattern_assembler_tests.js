@@ -419,7 +419,7 @@
 			});
 
 			//act
-			var result = pattern_assembler.findPartial('character-han', patternlab);
+			var result = pattern_assembler.getPartial('character-han', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[0]);
 			test.done();
@@ -441,7 +441,7 @@
 			});
 
 			//act
-			var result = pattern_assembler.findPartial('molecules-primary-nav', patternlab);
+			var result = pattern_assembler.getPartial('molecules-primary-nav', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[1]);
 			test.done();
