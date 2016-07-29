@@ -29,8 +29,8 @@ var pattern_assembler = function () {
     //else look by verbose syntax
     for (var i = 0; i < patternlab.patterns.length; i++) {
       switch (partialName) {
+        case patternlab.patterns[i].relPath:
         case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
           return patternlab.patterns[i];
       }
     }

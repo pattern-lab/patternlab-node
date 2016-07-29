@@ -6,6 +6,7 @@
   //setup current pattern from what we would have during execution
   function currentPatternClosure() {
     return {
+      "relPath": "02-organisms/02-comments/01-sticky-comment.mustache",
       "fileName": "01-sticky-comment",
       "subdir": "02-organisms/02-comments",
       "name": "02-organisms-02-comments-01-sticky-comment",
@@ -28,6 +29,7 @@
     return {
       patterns: [
         {
+          "relPath": "01-molecules/06-components/02-single-comment.mustache",
           "fileName": "02-single-comment",
           "subdir": "01-molecules/06-components",
           "name": "01-molecules-06-components-02-single-comment",
