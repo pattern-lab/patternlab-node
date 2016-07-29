@@ -30,7 +30,7 @@ function addParentContext(data, currentContext) {
 }
 
 _.mixin({
-  renderAtomicPartial: function (partialKey, data, currentContext) {
+  renderNamedPartial: function (partialKey, data, currentContext) {
     return _.renderPartial(partialRegistry[partialKey], data, currentContext);
   },
   renderPartial: function (partial, dataIn, currentContext) {
@@ -94,6 +94,9 @@ var engine_underscore = {
     // such will throw very real exceptions that will shatter the whole build
     // process if we don't handle them.
     try {
+      // console.log('got here for pattern', pattern.patternName, pattern.extendedTemplate);
+      // console.log('testing:', _.template('<%- foo %>')({foo: 'bar'}));
+      // console.log('data:', data);
       renderedHTML = compiled(_.extend(data || {}, {
         _allData: data,
         _partials: partials
@@ -103,7 +106,7 @@ var engine_underscore = {
       console.log(errorMessage);
       renderedHTML = `<h1>Error in underscore template ${pattern.patternName} (${pattern.relPath})</h1><p>${e.toString()}</p>`;
     }
-
+    
     return renderedHTML;
   },
 
