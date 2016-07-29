@@ -112,10 +112,10 @@ var pattern_assembler = function () {
         console.log('found new pattern ' + pattern.patternPartial);
       }
 
-      // do global registration
-
-
       if (pattern.isPattern) {
+        //TODO: Next line slated for deletion. Here only to pass unit tests.
+        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
+
         // do plugin-specific registration
         pattern.registerPartial(patternlab);
       }
@@ -225,6 +225,7 @@ var pattern_assembler = function () {
 
     }
 
+    var list_item_hunter = new lih();
     var pseudopattern_hunter = new pph();
 
     //extract some information
