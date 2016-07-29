@@ -45,10 +45,6 @@ _.mixin({
 
     return compiled(data);
   },
-  assignContext: function (viewModel, data) {
-    return viewModel(data);
-  },
-
   /* eslint-disable no-eval, no-unused-vars */
   getPath: function (pathString, currentContext, debug) {
     try {
