@@ -74,9 +74,9 @@ Pattern.prototype = {
     return null;
   },
 
-  registerPartial: function () {
+  registerPartial: function (patternlab) {
     if (this.engine && typeof this.engine.registerPartial === 'function') {
-      this.engine.registerPartial(this);
+      this.engine.registerPartial(this, patternlab);
     }
   },
 

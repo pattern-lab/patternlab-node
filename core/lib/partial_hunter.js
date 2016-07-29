@@ -93,12 +93,15 @@ if (pattern.relPath === '02-organisms/social/social-quiz.mustache') {
         }
       }
     }
-    return newTemplate;
+console.info(pattern.extendedTemplate);
+console.info(newTemplate);
+
+    pattern.extendedTemplate = newTemplate;
   }
 
   return {
     replace_partials: function (pattern, patternlab) {
-      return replacePartials(pattern, patternlab);
+      replacePartials(pattern, patternlab);
     }
   };
 };
