@@ -483,7 +483,7 @@ var pattern_assembler = function () {
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);
     },
-    findPartial: function (partial, patternlab) {
+    getPartial: function (partial, patternlab) {
       return getPartial(partial, patternlab);
     },
     combine_listItems: function (patternlab) {
