@@ -111,6 +111,9 @@ var pattern_assembler = function () {
         console.log('found new pattern ' + pattern.patternPartial);
       }
 
+      // do global registration
+
+
       if (pattern.isPattern) {
         // do plugin-specific registration
         pattern.registerPartial(patternlab);
@@ -274,7 +277,6 @@ var pattern_assembler = function () {
 
     //add allData keys to currentPattern.dataKeys
     currentPattern.dataKeys = getDataKeys(currentPattern.allData, []);
-    //add listItem keys to currentPattern.dataKeys
     for (var i = 0; i < list_item_hunter.items.length; i++) {
       currentPattern.dataKeys.push('listItems.' + list_item_hunter.items[i]);
       currentPattern.dataKeys.push('listitems.' + list_item_hunter.items[i]);
@@ -318,13 +320,12 @@ var pattern_assembler = function () {
     addPattern(currentPattern, patternlab);
 
     //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+//    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
 
     return currentPattern;
   }
 
   function processPatternRecursive(file, patternlab, origPatternParam) {
-
     var lineage_hunter = new lh();
 
     //find current pattern in patternlab object using var file as a partial
@@ -340,6 +341,28 @@ var pattern_assembler = function () {
         }
       }
     }
+//console.info(file);
+if (file !== '02-organisms/accordions/_format-editions~format.mustache') {
+//  return;
+  /*
+console.info(file);
+console.info(currentPattern.extendedTemplate);
+console.info();
+console.info();
+*/
+}
+//console.info(currentPattern.dataKeys);
+//console.info(currentPattern.extendedTemplate);
+if (file.indexOf('04-pages/video-page.mustache') > -1) {
+//console.info('currentPattern.extendedTemplate');
+//console.info(currentPattern.extendedTemplate);
+//console.info(patternlab.partialsCompiled['03-templates/system/page(04_video_page\\?: true)']);
+  /*
+  console.info('GUH');
+  console.info(file);
+  process.exit();
+  */
+}
 
     //return if processing an ignored file
     if (typeof currentPattern === 'undefined') { return; }
@@ -349,22 +372,26 @@ var pattern_assembler = function () {
 
     //find how many partials there may be for the given pattern
     currentPattern.patternPartials = currentPattern.findPartials();
+if (currentPattern.relPath === '01-molecules/listing-items/titles-item.mustache') {
+//  console.info(currentPattern.template);
+//  console.info(currentPattern.patternPartials);
+}
 
     //expand any partials present in this pattern; that is, drill down into the
     //template and replace their calls in this template with rendered results
     if (currentPattern.engine.expandPartials && (currentPattern.patternPartials !== null && currentPattern.patternPartials.length > 0)) {
       // eslint-disable-next-line
-      expandPartials(currentPattern, patternlab);
+      expandPartials(patternlab, currentPattern);
     }
 
     //find pattern lineage
     lineage_hunter.find_lineage(currentPattern, patternlab);
   }
 
-  function expandPartials(currentPattern, patternlab) {
+  function expandPartials(patternlab, currentPattern) {
 
-    var list_item_hunter = new lih();
     var partial_hunter = new ph();
+    var list_item_hunter = new lih();
 
     if (patternlab.config.debug) {
       console.log('found partials for ' + currentPattern.patternPartial);
@@ -389,7 +416,6 @@ var pattern_assembler = function () {
       for (var i = 0; i < linkMatches.length; i++) {
         expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
         if (expandedLink) {
-          expandedLink = expandedLink.replace('\\', '/');
           if (patternlab.config.debug) {
             console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
           }
