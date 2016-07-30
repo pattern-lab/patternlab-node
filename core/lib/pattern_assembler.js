@@ -363,6 +363,7 @@ var pattern_assembler = function () {
 
   function expandPartials(currentPattern, patternlab) {
 
+    var list_item_hunter = new lih();
     var partial_hunter = new ph();
 
     if (patternlab.config.debug) {
@@ -370,6 +371,9 @@ var pattern_assembler = function () {
     }
 
     partial_hunter.replace_partials(currentPattern, patternlab);
+
+    //find any listItem blocks within the pattern
+    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
     processPatternRecursive(currentPattern.relPath, patternlab, currentPattern);
   }
