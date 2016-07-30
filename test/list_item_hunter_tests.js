@@ -130,7 +130,6 @@
 
       //act
 	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
-      pattern.registerPartial(patternlab);
       pattern.engine.preprocessPartials(pattern_assembler, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
@@ -159,12 +158,10 @@
 
       //act
 	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-verbose-foo.mustache", patternlab);
-      pattern1.registerPartial(patternlab);
       pattern1.engine.preprocessPartials(pattern_assembler, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern1.relPath, patternlab, pattern1);
 
 	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/02-listitem-verbose-bar.mustache", patternlab);
-      pattern2.registerPartial(patternlab);
       pattern2.engine.preprocessPartials(pattern_assembler, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern2.relPath, patternlab, pattern2);
 
@@ -195,7 +192,6 @@
           { "title": "Two" }
         ]
       };
-      pattern.registerPartial(patternlab);
       pattern.engine.preprocessPartials(pattern_assembler, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
@@ -241,7 +237,6 @@
           { "title": "Two" }
         ]
       };
-      pattern.registerPartial(patternlab);
       pattern.engine.preprocessPartials(pattern_assembler, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
@@ -277,7 +272,6 @@
           { "title": "Two" }
         ]
       };
-      pattern.registerPartial(patternlab);
       pattern.engine.preprocessPartials(pattern_assembler, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
@@ -324,13 +318,11 @@
       //act
       var atomPattern = pattern_assembler.process_pattern_iterative('00-test/03-styled-atom.mustache', pl);
       pl.patterns.push(atomPattern);
-      atomPattern.registerPartial(pl);
       atomPattern.engine.preprocessPartials(pattern_assembler, pl);
 	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
 
       var bookendPattern = pattern_assembler.process_pattern_iterative('00-test/11-bookend-listitem.mustache', pl);
       pl.patterns.push(bookendPattern);
-      bookendPattern.registerPartial(pl);
       bookendPattern.engine.preprocessPartials(pattern_assembler, pl);
 	  pattern_assembler.process_pattern_recursive(bookendPattern.relPath, pl, bookendPattern);
 
@@ -347,19 +339,16 @@
       //act
       var atomPattern = pattern_assembler.process_pattern_iterative('00-test/03-styled-atom.mustache', pl);
       pl.patterns.push(atomPattern);
-      atomPattern.registerPartial(pl);
       atomPattern.engine.preprocessPartials(pattern_assembler, pl);
 	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
 
       var anotherStyledAtomPattern = pattern_assembler.process_pattern_iterative('00-test/12-another-styled-atom.mustache', pl);
       pl.patterns.push(anotherStyledAtomPattern);
-      anotherStyledAtomPattern.registerPartial(pl);
       anotherStyledAtomPattern.engine.preprocessPartials(pattern_assembler, pl);
 	  pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl, anotherStyledAtomPattern);
 
       var listPattern = pattern_assembler.process_pattern_iterative('00-test/13-listitem.mustache', pl);
       pl.patterns.push(listPattern);
-      listPattern.registerPartial(pl);
       listPattern.engine.preprocessPartials(pattern_assembler, pl);
 	  pattern_assembler.process_pattern_recursive(listPattern.relPath, pl, listPattern);
 
