@@ -369,7 +369,7 @@ var pattern_assembler = function () {
       console.log('found partials for ' + currentPattern.patternPartial);
     }
 
-    currentPattern.extendedTemplate = partial_hunter.replace_partials(currentPattern, patternlab);
+    partial_hunter.replace_partials(currentPattern, patternlab);
 
     processPatternRecursive(currentPattern.relPath, patternlab, currentPattern);
   }
