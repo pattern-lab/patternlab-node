@@ -93,8 +93,6 @@ if (pattern.relPath === '02-organisms/social/social-quiz.mustache') {
         }
       }
     }
-console.info(pattern.extendedTemplate);
-console.info(newTemplate);
 
     pattern.extendedTemplate = newTemplate;
   }
