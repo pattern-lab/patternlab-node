@@ -193,6 +193,32 @@ var pattern_assembler = function () {
     }
   }
 
+  /**
+   * Recursively get all the property keys from the JSON data for a pattern.
+   *
+   * @param {object} data
+   * @param {array} uniqueKeys The array of unique keys to be added to and returned.
+   * @returns {array} keys A flat, one-dimensional array.
+   */
+  function getDataKeys(data, uniqueKeys) {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data.constructor !== Array) {
+          if (uniqueKeys.indexOf(key) === -1) {
+            uniqueKeys.push(key);
+          } else {
+            continue;
+          }
+        }
+        if (typeof data[key] === 'object') {
+          getDataKeys(data[key], uniqueKeys);
+        }
+      }
+    }
+
+    return uniqueKeys;
+  }
+
   function processPatternIterative(relPath, patternlab) {
 
     //check if the found file is a top-level markdown file
@@ -320,7 +346,7 @@ var pattern_assembler = function () {
     addPattern(currentPattern, patternlab);
 
     //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-//    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
 
     return currentPattern;
   }
@@ -341,28 +367,6 @@ var pattern_assembler = function () {
         }
       }
     }
-//console.info(file);
-if (file !== '02-organisms/accordions/_format-editions~format.mustache') {
-//  return;
-  /*
-console.info(file);
-console.info(currentPattern.extendedTemplate);
-console.info();
-console.info();
-*/
-}
-//console.info(currentPattern.dataKeys);
-//console.info(currentPattern.extendedTemplate);
-if (file.indexOf('04-pages/video-page.mustache') > -1) {
-//console.info('currentPattern.extendedTemplate');
-//console.info(currentPattern.extendedTemplate);
-//console.info(patternlab.partialsCompiled['03-templates/system/page(04_video_page\\?: true)']);
-  /*
-  console.info('GUH');
-  console.info(file);
-  process.exit();
-  */
-}
 
     //return if processing an ignored file
     if (typeof currentPattern === 'undefined') { return; }
@@ -372,10 +376,6 @@ if (file.indexOf('04-pages/video-page.mustache') > -1) {
 
     //find how many partials there may be for the given pattern
     currentPattern.patternPartials = currentPattern.findPartials();
-if (currentPattern.relPath === '01-molecules/listing-items/titles-item.mustache') {
-//  console.info(currentPattern.template);
-//  console.info(currentPattern.patternPartials);
-}
 
     //expand any partials present in this pattern; that is, drill down into the
     //template and replace their calls in this template with rendered results
@@ -446,32 +446,6 @@ if (currentPattern.relPath === '01-molecules/listing-items/titles-item.mustache'
     for (var i = 0; i < patternlab.patterns.length; i++) {
       patternlab.patterns[i].jsonFileData = parseDataLinksHelper(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].partial);
     }
-  }
-
-  /**
-   * Recursively get all the property keys from the JSON data for a pattern.
-   *
-   * @param {object} data
-   * @param {array} uniqueKeys The array of unique keys to be added to and returned.
-   * @returns {array} keys A flat, one-dimensional array.
-   */
-  function getDataKeys(data, uniqueKeys) {
-    for (var key in data) {
-      if (data.hasOwnProperty(key)) {
-        if (data.constructor !== Array) {
-          if (uniqueKeys.indexOf(key) === -1) {
-            uniqueKeys.push(key);
-          } else {
-            continue;
-          }
-        }
-        if (typeof data[key] === 'object') {
-          getDataKeys(data[key], uniqueKeys);
-        }
-      }
-    }
-
-    return uniqueKeys;
   }
 
   return {
