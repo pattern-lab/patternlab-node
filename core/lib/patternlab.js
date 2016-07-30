@@ -235,6 +235,19 @@ var patternlab_engine = function (config) {
     // diveSync once to perform iterative populating of patternlab object
     processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab);
 
+    // preprocess partials so they can be recursively included respecting any parameters they may be submitting
+    var engine;
+    for (var i = 0; i < patternlab.patterns.length; i++) {
+      if (patternlab.patterns[i].isPattern) {
+        engine = patternlab.patterns[i].engine;
+        break;
+      }
+    }
+
+    if (typeof engine.preprocessPartials === 'function') {
+      engine.preprocessPartials(pattern_assembler, patternlab);
+    }
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab);
