@@ -13,7 +13,53 @@ var list_item_hunter = function () {
     style_modifier_hunter = new smh(),
     items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
+  function getEnd(liMatch) {
+    return liMatch.replace('#', '/');
+  };
+
+  function getPatternBlock(pattern, liMatch, end) {
+    return pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch) + liMatch.length, pattern.extendedTemplate.indexOf(end));
+  }
+
+  function preprocessListItemPartials(pattern, patternlab) {
+    //find any listitem blocks
+    var matches = pattern.findListItems();
+
+    if (matches !== null) {
+      matches.forEach(function (liMatch) {
+        var end = getEnd(liMatch);
+        var patternBlock = getPatternBlock(pattern, liMatch, end);
+        var partials = pattern.engine.findPartials(patternBlock);
+
+        //escape listitem blocks with partials
+        if (partials) {
+          var liMatchEscaped = '\u0002' + liMatch.slice(2);
+          var endEscaped = '\u0002' + end.slice(2);
+          var find = liMatch + patternBlock + end;
+          var replace = liMatchEscaped + patternBlock + endEscaped;
+
+          pattern.extendedTemplate = pattern.extendedTemplate.replace(find, replace);
+        }
+      });
+    }
+  }
+
+  function postprocessListItemPartials(pattern, patternlab) {
+    //find any listitem blocks
+    var matches = pattern.extendedTemplate.match(/\u0002(.|\s)*?\}\}/g);
+
+    if (matches !== null) {
+      matches.forEach(function (liMatch) {
+        var replace = '{{' + liMatch.slice(1);
+
+        pattern.extendedTemplate = pattern.extendedTemplate.replace(liMatch, replace);
+      });
+    }
+  }
+
   function processListItemPartials(pattern, patternlab) {
+    preprocessListItemPartials(pattern, patternlab);
+
     //find any listitem blocks
     var matches = pattern.findListItems();
 
@@ -26,8 +72,8 @@ var list_item_hunter = function () {
 
         //find the boundaries of the block
         var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
-        var end = liMatch.replace('#', '/');
-        var patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
+        var end = getEnd(liMatch);
+        var patternBlock = getPatternBlock(pattern, liMatch, end).trim();
 
         //build arrays that repeat the block, however large we need to
         var repeatedBlockTemplate = [];
@@ -59,59 +105,11 @@ var list_item_hunter = function () {
 
           //combine listItem data with pattern data with global data
           var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
-          var globalData;
-          var localData;
-          try {
-            globalData = JSON5.parse(JSON5.stringify(patternlab.data));
-            localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
-          } catch (err) {
-            console.log('There was an error parsing JSON for ' + pattern.relPath);
-            console.log(err);
-          }
-
-          var allData = plutils.mergeData(globalData, localData);
-          allData = plutils.mergeData(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+          var allData = plutils.mergeData(pattern.allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
           allData.link = extend({}, patternlab.data.link);
 
-          //check for partials within the repeated block
-          var foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
-
-          if (foundPartials && foundPartials.length > 0) {
-
-            for (var j = 0; j < foundPartials.length; j++) {
-
-              //get the partial
-              var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
-
-              //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
-              var cleanPartialPattern;
-              try {
-                cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
-              } catch (err) {
-                console.log('There was an error parsing JSON for ' + pattern.relPath);
-                console.log(err);
-              }
-
-              //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #356
-              cleanPartialPattern.extendedTemplate = cleanPartialPattern.template;
-
-              //if partial has style modifier data, replace the styleModifier value
-              if (foundPartials[j].indexOf(':') > -1) {
-                style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPartials[j], patternlab);
-              }
-
-              //replace its reference within the block with the extended template
-              thisBlockTemplate = thisBlockTemplate.replace(foundPartials[j], cleanPartialPattern.extendedTemplate);
-            }
-
-            //render with data
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
-
-          } else {
-            //just render with mergedData
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
-          }
+          //just render with mergedData
+          thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData);
 
           //add the rendered HTML to our string
           repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML;
@@ -123,6 +121,8 @@ var list_item_hunter = function () {
 
       });
     }
+
+    postprocessListItemPartials(pattern, patternlab);
   }
 
   return {
