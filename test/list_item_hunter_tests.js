@@ -121,7 +121,7 @@
           {
             "template": "{{ title }}",
             "extendedTemplate" : "{{ title }}",
-            "patternPartial": "test-simple",
+            "patternPartial": "test1-simple",
             "jsonFileData" : {}
           }
 
@@ -147,7 +147,7 @@
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}"
           }),
-          Pattern.create('00-test/00-bar.mustache', null, {
+          Pattern.create('00-test/01-bar.mustache', null, {
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}"
           })
@@ -181,7 +181,7 @@
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
-            "patternPartial": "test-simple",
+            "patternPartial": "test1-simple",
             "jsonFileData": {}
           })
         ]
@@ -209,8 +209,8 @@
       //arrange
       //setup current pattern from what we would have during execution
       var currentPattern = createFakeListPattern({
-        "template": "{{#listItems.one}}{{ title }}{{/listItems.one}}",
-        "extendedTemplate": "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}",
+        "template": "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}",
+        "extendedTemplate": "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}",
         "key": "test-patternName",
         "jsonFileData": {},
         "listitems": {
@@ -225,7 +225,7 @@
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
-            "patternPartial": "test-simple",
+            "patternPartial": "test1-simple",
             "jsonFileData" : {}
           })
         ]
@@ -233,7 +233,7 @@
 
       //act
 	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
-      pattern.template = "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}";
+      pattern.template = "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}";
       pattern.extendedTemplate = pattern.template;
       pattern.listitems = {
         "2": [
@@ -257,7 +257,7 @@
           createFakeListPattern({
             "template": "{{ title }}",
             "extendedTemplate": "{{ title }}",
-            "patternPartial": "test-simple",
+            "patternPartial": "test1-simple",
             "jsonFileData": {}
           })
         ]
@@ -266,7 +266,7 @@
 
       //act
 	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
-      pattern.template = "{{#listItems.one}}{{> test-simple }}{{/listItems.one}}";
+      pattern.template = "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}";
       pattern.extendedTemplate = pattern.template;
       pattern.listitems = {
         "1": [
