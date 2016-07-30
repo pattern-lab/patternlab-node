@@ -112,15 +112,17 @@
       test.done();
     },
 
-/*
     'partial hunter finds and extends templates with verbose partials' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
 
@@ -130,11 +132,14 @@
     'partial hunter finds and extends templates with fully-pathed partials' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
 
@@ -146,11 +151,14 @@
     'partial hunter parses parameters with unquoted keys and unquoted values' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(description: true) }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
@@ -160,11 +168,14 @@
     'partial hunter parses parameters with unquoted keys and double-quoted values' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(description: \"true\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
@@ -174,11 +185,14 @@
     'partial hunter parses parameters with single-quoted keys and unquoted values' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment('description': true) }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
@@ -188,11 +202,14 @@
     'partial hunter parses parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment('description': 'true not,\\'true\\'') }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true not,&#39;true&#39;</p>');
 
@@ -202,11 +219,14 @@
     'partial hunter parses parameters with single-quoted keys and double-quoted values wrapping internal single-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment('description': \"true not:'true'\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true not:&#39;true&#39;</p>');
 
@@ -216,11 +236,14 @@
     'partial hunter parses parameters with double-unquoted keys and unquoted values' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(\"description\": true) }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
@@ -230,11 +253,14 @@
     'partial hunter parses parameters with double-quoted keys and single-quoted values wrapping internal double-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not{\"true\"') }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true not{&quot;true&quot;</p>');
 
@@ -244,11 +270,14 @@
     'partial hunter parses parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not}\\\"true\\\"\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true not}&quot;true&quot;</p>');
 
@@ -258,11 +287,14 @@
     'partial hunter parses parameters with combination of quoting schemes for keys and values' : function(test){
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(description: true, 'foo': false, \"bar\": false, 'single': true, 'singlesingle': 'true', 'singledouble': \"true\", \"double\": true, \"doublesingle\": 'true', \"doubledouble\": \"true\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p>');
 
@@ -273,11 +305,14 @@
       // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       currentPattern.template = "{{> molecules-single-comment(description: 'Hello ) World') }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>Hello ) World</p>');
 
@@ -288,6 +323,7 @@
       // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       patternlab.patterns[0].template = "<p>{{foo}}</p><p>{{bar}}</p>";
@@ -296,6 +332,8 @@
       currentPattern.template = "{{> molecules-single-comment(foo: true, bar: \"Hello World\") }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p><p>Hello World</p>');
 
@@ -306,6 +344,7 @@
       // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       patternlab.patterns[0].template = "<p>{{ silly'key }}</p><p>{{bar}}</p><p>{{ another\"silly-key }}</p>";
@@ -314,6 +353,8 @@
       currentPattern.template = "{{> molecules-single-comment('silly\\\'key': true, bar: \"Hello World\", \"another\\\"silly-key\": 42 ) }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p>true</p><p>Hello World</p><p>42</p>');
 
@@ -324,6 +365,7 @@
       // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       patternlab.patterns[0].template = "<p>{{foo}}</p>";
@@ -334,7 +376,10 @@
       currentPattern.extendedTemplate = currentPattern.template;
 
       console.log('\nPattern Lab should catch JSON.parse() errors and output useful debugging information...');
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
+      currentPattern.extendedTemplate = pattern_assembler.renderPattern(currentPattern.extendedTemplate, patternlab.data);
       test.equals(currentPattern.extendedTemplate, '<p></p>');
 
       test.done();
@@ -344,6 +389,7 @@
       // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
       var currentPattern = currentPatternClosure();
       var patternlab = patternlabClosure();
+      var pattern_assembler = new pa();
       var partial_hunter = new ph();
 
       patternlab.patterns[0].template = "<p>{{{ tag1 }}}</p><p>{{{ tag2 }}}</p><p>{{{ tag3 }}}</p>";
@@ -352,12 +398,13 @@
       currentPattern.template = "{{> molecules-single-comment(tag1: '<strong>Single-quoted</strong>', tag2: \"<em>Double-quoted</em>\", tag3: '<strong class=\\\"foo\\\" id=\\\'bar\\\'>With attributes</strong>') }}";
       currentPattern.extendedTemplate = currentPattern.template;
 
+      currentPattern.registerPartial(patternlab);
+      currentPattern.engine.preprocessPartials(pattern_assembler, patternlab);
       partial_hunter.replace_partials(currentPattern, patternlab);
       test.equals(currentPattern.extendedTemplate, '<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>');
 
       test.done();
     }
-*/
 
 
   };
