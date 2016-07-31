@@ -80,8 +80,7 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
 var patternlab_engine = function (config) {
   'use strict';
 
-  var JSON5 = require('json5'),
-    fs = require('fs-extra'),
+  var fs = require('fs-extra'),
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
@@ -314,21 +313,13 @@ var patternlab_engine = function (config) {
       pattern.patternLineageRExists = pattern.lineageR.length > 0;
       pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
-      //render the pattern, but first consolidate any data we may have
-      var allData;
-      try {
-        allData = JSON5.parse(JSON5.stringify(patternlab.data));
-      } catch (err) {
-        console.log('There was an error parsing JSON for ' + pattern.relPath);
-        console.log(err);
-      }
-      allData = plutils.mergeData(allData, pattern.jsonFileData);
-      allData.cacheBuster = patternlab.cacheBuster;
+      //set cacheBuster property
+      pattern.allData.cacheBuster = patternlab.cacheBuster;
 
-      var headHTML = pattern_assembler.renderPattern(pattern.header, allData);
+      var headHTML = pattern_assembler.renderPattern(pattern.header, pattern.allData);
 
       //render the extendedTemplate with all data
-      pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+      pattern.extendedTemplate = pattern_assembler.renderPattern(pattern, pattern.allData);
 
       //todo see if this is still needed
       //pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
@@ -380,7 +371,7 @@ var patternlab_engine = function (config) {
       outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 
       //write the compiled template to the public patterns directory
-      var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+      var patternPage = headHTML + pattern.extendedTemplate + footerHTML;
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.rendered + '.html'), patternPage);
 
       //write the mustache file too
