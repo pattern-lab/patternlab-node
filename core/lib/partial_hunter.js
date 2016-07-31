@@ -14,8 +14,8 @@ var partial_hunter = function () {
       isMatch,
       newTemplate = pattern.extendedTemplate,
       partialContent,
-      partialsAfter,
-      partialsBefore = pattern.findPartials() || [],
+      partials,
+      partialsUnique,
       pMatch,
       regex,
       regexStr,
@@ -37,41 +37,18 @@ var partial_hunter = function () {
 
     //unescape data keys and partial includes
     newTemplate = newTemplate.replace(/\u0002/g, '{{');
-if (pattern.relPath === '02-organisms/social/social-quiz.mustache') {
-//  console.info(patternlab.partials);
-//process.exit();
-  console.info(pattern.relPath);
-  console.info(newTemplate);
-}
 
-    //render this pattern immediately, so as to delete false conditions
-//    tmpTemplate = pattern.engine.renderPattern(tmpTemplate, pattern.allData);
+    //find all remaining partial tags
+    partials = pattern.engine.findPartials(newTemplate) || [];
 
-    //unescape partial includes
-//    newTemplate = newTemplate.replace(/\u0002/g, '{{>');
-    partialsAfter = pattern.engine.findPartials(newTemplate) || [];
-
-    //delete partials within false conditions
-    /*
-    for (i = 0; i < partialsBefore.length; i++) {
-      isMatch = false;
-
-      for (j = 0; j < partialsAfter.length; j++) {
-        if (partialsBefore[i] === partialsAfter[j]) {
-          isMatch = true;
-          break;
-        }
-      }
-
-      if (!isMatch) {
-        newTemplate = newTemplate.replace(partialsBefore[i], '');
-      }
-    }
-    */
+    //create array of unique elements so the tags can be use for global replace
+    partialsUnique = partials.filter(function (value, index, thisArray) {
+      return thisArray.indexOf(value) === index;
+    });
 
     //replace remaining partials with their content
-    for (i = 0; i < partialsAfter.length; i++) {
-      pMatch = partialsAfter[i];
+    for (i = 0; i < partialsUnique.length; i++) {
+      pMatch = partialsUnique[i];
 
       for (j in patternlab.partials) {
         if (patternlab.partials.hasOwnProperty(j)) {
@@ -88,7 +65,11 @@ if (pattern.relPath === '02-organisms/social/social-quiz.mustache') {
               partialContent = tmpPattern.extendedTemplate;
             }
 
-            newTemplate = newTemplate.replace(tag, partialContent);
+            //we want to globally replace instances of this tag in case it was
+            //included within a partial from within this for loop
+            regexStr = pattern.engine.escapeReservedRegexChars(tag);
+            regex = new RegExp(regexStr, 'g');
+            newTemplate = newTemplate.replace(regex, partialContent);
           }
         }
       }
