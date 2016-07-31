@@ -208,24 +208,34 @@ var pattern_assembler = function () {
 
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
+
         if (data.constructor !== Array) {
           if (uniqueKeys.indexOf(key) === -1) {
             uniqueKeys.push(key);
-            if (prefix) {
-              prefixSplit = prefix.split('.');
-              prefixTmp = '';
-              for (var i = prefixSplit.length - 2; i >= 0; i--) {
-                prefixTmp = prefixSplit[i] + '.' + prefixTmp;
+          }
+
+          if (prefix) {
+            prefixSplit = prefix.split('.');
+            prefixTmp = '';
+
+            for (var i = prefixSplit.length - 2; i >= 0; i--) {
+              prefixTmp = prefixSplit[i] + '.' + prefixTmp;
+
+              if (uniqueKeys.indexOf(prefixTmp + key) === -1) {
                 uniqueKeys.push(prefixTmp + key);
               }
             }
-          } else {
-            continue;
           }
         }
-        if (typeof data[key] === 'object') {
-          prefix += key + '.';
-          getDataKeys(data[key], uniqueKeys, prefix);
+
+        if (data[key] instanceof Object) {
+          prefixTmp = '';
+
+          if (data.constructor !== Array) {
+            prefixTmp = prefix + key + '.';
+          }
+
+          getDataKeys(data[key], uniqueKeys, prefixTmp);
         }
       }
     }
@@ -292,27 +302,36 @@ var pattern_assembler = function () {
     setState(currentPattern, patternlab, true);
 
     //look for a json file for this template
+    var jsonFilename = '';
+    var jsonFilenameStats;
+    var jsonFileStr = '';
     try {
-      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
+      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + '.json');
+      var jsonFilenameStats = fs.statSync(jsonFilename);
+    } catch (err) {
+      //not a file
+    }
+
+    if (jsonFilenameStats && jsonFilenameStats.isFile()) {
       try {
-        var jsonFilenameStats = fs.statSync(jsonFilename);
-      } catch (err) {
-        //not a file
-      }
-      if (jsonFilenameStats && jsonFilenameStats.isFile()) {
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+        jsonFileStr = fs.readFileSync(jsonFilename, 'utf8');
+        currentPattern.jsonFileData = JSON5.parse(jsonFileStr);
         if (patternlab.config.debug) {
           console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
         }
+      } catch (err) {
+        console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
+        console.log(err);
       }
-    }
-    catch (err) {
-      console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
-      console.log(err);
     }
 
     //merge global data into a clone of local jsonFileData
-    var localDataClone = JSON.parse(JSON.stringify(currentPattern.jsonFileData));
+    var localDataClone = {};
+    try {
+      localDataClone = JSON5.parse(jsonFileStr);
+    } catch (err) {
+      //already threw error in last try/catch
+    }
     currentPattern.allData = plutils.mergeData(patternlab.data, localDataClone);
 
     //add allData keys to currentPattern.dataKeys
@@ -365,18 +384,19 @@ var pattern_assembler = function () {
     return currentPattern;
   }
 
-  function processPatternRecursive(file, patternlab, origPatternParam) {
+  function processPatternRecursive(relPath, patternlab, origPatternParam) {
     var lineage_hunter = new lh();
 
-    //find current pattern in patternlab object using var file as a partial
     var currentPattern, i;
 
+    //find current pattern in patternlab object either as passed as a param
+    //or by identifying by relPath
     if (origPatternParam) {
       currentPattern = origPatternParam;
 
     } else {
       for (i = 0; i < patternlab.patterns.length; i++) {
-        if (patternlab.patterns[i].relPath === file) {
+        if (patternlab.patterns[i].relPath === relPath) {
           currentPattern = patternlab.patterns[i];
         }
       }
