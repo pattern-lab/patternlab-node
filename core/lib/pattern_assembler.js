@@ -197,14 +197,15 @@ var pattern_assembler = function () {
    * Recursively get all the property keys from the JSON data for a pattern.
    *
    * @param {object} data
-   * @param {array} uniqueKeys The array of unique keys to be added to and returned.
+   * @param {array} uniqueKeysParam The array of unique keys to be added to and returned.
    * @param {string} prefixParam The dotted-object-key notation tracing the lineage of nested objects.
    * @returns {array} keys A flat, one-dimensional array.
    */
-  function getDataKeys(data, uniqueKeys, prefixParam) {
+  function getDataKeys(data, uniqueKeysParam, prefixParam) {
     var prefix = prefixParam || '';
     var prefixSplit;
     var prefixTmp;
+    var uniqueKeys = uniqueKeysParam || [];
 
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
@@ -335,7 +336,7 @@ var pattern_assembler = function () {
     currentPattern.allData = plutils.mergeData(patternlab.data, localDataClone);
 
     //add allData keys to currentPattern.dataKeys
-    currentPattern.dataKeys = getDataKeys(currentPattern.allData, []);
+    currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
     for (var i = 0; i < list_item_hunter.items.length; i++) {
       currentPattern.dataKeys.push('listItems.' + list_item_hunter.items[i]);
       currentPattern.dataKeys.push('listitems.' + list_item_hunter.items[i]);
@@ -386,8 +387,8 @@ var pattern_assembler = function () {
 
   function processPatternRecursive(relPath, patternlab, origPatternParam) {
     var lineage_hunter = new lh();
-
-    var currentPattern, i;
+    var currentPattern;
+    var i;
 
     //find current pattern in patternlab object either as passed as a param
     //or by identifying by relPath

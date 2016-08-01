@@ -10,7 +10,6 @@ var partial_hunter = function () {
   function replacePartials(pattern, patternlab) {
     var i,
       j,
-      dataKeys = pattern.dataKeys,
       isMatch,
       newTemplate = pattern.extendedTemplate,
       partialContent,
@@ -23,9 +22,15 @@ var partial_hunter = function () {
       tmpPattern,
       tmpTemplate;
 
-    //escape data keys so they are not erased by a render
-    for (i = 0; i < dataKeys.length; i++) {
-      regex = new RegExp('\\{\\{(\\S?\\s*' + dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
+    //escape global data keys so they are not erased by a render
+    for (i = 0; i < patternlab.dataKeys.length; i++) {
+      regex = new RegExp('\\{\\{(\\S?\\s*' + patternlab.dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
+      newTemplate = newTemplate.replace(regex, '\u0002$1');
+    }
+
+    //escape local data keys so they are not erased by a render
+    for (i = 0; i < pattern.dataKeys.length; i++) {
+      regex = new RegExp('\\{\\{(\\S?\\s*' + pattern.dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
       newTemplate = newTemplate.replace(regex, '\u0002$1');
     }
 

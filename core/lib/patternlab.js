@@ -201,6 +201,13 @@ var patternlab_engine = function (config) {
       patternlab.data = {};
     }
     try {
+      var pattern_assembler = new pa();
+      patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data);
+    } catch (ex) {
+      plutils.logRed(ex);
+      patternlab.dataKeys = [];
+    }
+    try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
       plutils.logRed('missing or malformed' + paths.source.data + 'listitems.json  Pattern Lab may not work without this file.');
