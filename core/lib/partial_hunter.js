@@ -26,16 +26,7 @@ var partial_hunter = function () {
     //with a large regex than to read many times and process with small regexes.
     //this is especially true with large templates.
     //escape global data keys
-    for (i = 0; i < patternlab.dataKeys.length; i++) {
-      dataKey = patternlab.dataKeys[i];
-      if (typeof pattern.engine.escapeReservedRegexChars === 'function') {
-        dataKey = pattern.engine.escapeReservedRegexChars(dataKey);
-      }
-      escapedKeys += dataKey;
-      if (i < patternlab.dataKeys.length - 1) {
-        escapedKeys += '|';
-      }
-    }
+    escapedKeys = patternlab.dataKeysEscape;
 
     //escape local data keys
     for (i = 0; i < pattern.dataKeys.length; i++) {
