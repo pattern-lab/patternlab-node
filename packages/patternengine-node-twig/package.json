@@ -1,10 +1,10 @@
 {
-  "name": "patternengine-node-underscore",
-  "description": "The Underscore engine for Pattern Lab / Node",
-  "version": "1.1.1",
-  "main": "lib/engine_underscore.js",
+  "name": "patternengine-node-twig",
+  "description": "The Twig engine for Pattern Lab / Node",
+  "version": "0.1.0",
+  "main": "lib/engine_twig.js",
   "dependencies": {
-    "underscore": "^1.8.3"
+    "twig": "^0.9.5"
   },
   "devDependencies": {},
   "keywords": [
@@ -14,13 +14,13 @@
     "Grunt",
     "Gulp",
     "Javascript",
-    "Underscore"
+    "Twig"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pattern-lab/patternengine-node-underscore.git"
+    "url": "https://github.com/pattern-lab/patternengine-node-twig.git"
   },
-  "bugs": "https://github.com/pattern-lab/patternengine-node-underscore/issues",
+  "bugs": "https://github.com/pattern-lab/patternengine-node-twig/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {
