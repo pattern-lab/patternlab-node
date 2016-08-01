@@ -40,7 +40,6 @@ _.mixin({
         dataIn instanceof Object && currentContext instanceof Object) {
       data = addParentContext(data, currentContext);
     }
-
     compiled = _.template(partial);
 
     return compiled(data);
@@ -106,8 +105,8 @@ var engine_underscore = {
     return renderedHTML;
   },
 
-  registerPartial: function (oPattern) {
-    partialRegistry[oPattern.key] = oPattern.template;
+  registerPartial: function (pattern) {
+    partialRegistry[pattern.patternPartial] = pattern.template;
   },
 
   // find and return any {{> template-name }} within pattern
