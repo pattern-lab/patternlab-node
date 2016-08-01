@@ -2,35 +2,67 @@
 
 var partial_hunter = function () {
 
-  var lih = require('./list_item_hunter'),
-    smh = require('./style_modifier_hunter'),
-    list_item_hunter = new lih(),
-    style_modifier_hunter = new smh();
+  var smh = require('./style_modifier_hunter');
+  var style_modifier_hunter = new smh();
 
   function replacePartials(pattern, patternlab) {
-    var i,
-      j,
-      isMatch,
-      newTemplate = pattern.extendedTemplate,
-      partialContent,
-      partials,
-      partialsUnique,
-      pMatch,
-      regex,
-      regexStr,
-      tag,
-      tmpPattern,
-      tmpTemplate;
+    var dataKey;
+    var dataKeysRegex;
+    var escapedKeys = '';
+    var i;
+    var j;
+    var newTemplate = pattern.extendedTemplate;
+    var partialContent;
+    var partials;
+    var partialsUnique;
+    var pMatch;
+    var regex;
+    var regexStr;
+    var tag;
+    var tmpPattern;
 
-    //escape global data keys so they are not erased by a render
+    //escape all tags that match keys in the JSON data.
+    //it can be significantly faster to process large dataKey arrays in one read
+    //with a large regex than to read many times and process with small regexes.
+    //this is especially true with large templates.
+    //escape global data keys
     for (i = 0; i < patternlab.dataKeys.length; i++) {
-      regex = new RegExp('\\{\\{(\\S?\\s*' + patternlab.dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
-      newTemplate = newTemplate.replace(regex, '\u0002$1');
+      dataKey = patternlab.dataKeys[i];
+      if (typeof pattern.engine.escapeReservedRegexChars === 'function') {
+        dataKey = pattern.engine.escapeReservedRegexChars(dataKey);
+      }
+      escapedKeys += dataKey;
+      if (i < patternlab.dataKeys.length - 1) {
+        escapedKeys += '|';
+      }
     }
 
-    //escape local data keys so they are not erased by a render
+    //escape local data keys
     for (i = 0; i < pattern.dataKeys.length; i++) {
-      regex = new RegExp('\\{\\{(\\S?\\s*' + pattern.dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
+      dataKey = pattern.dataKeys[i];
+      if (typeof pattern.engine.escapeReservedRegexChars === 'function') {
+        dataKey = pattern.engine.escapeReservedRegexChars(dataKey);
+      }
+      if (i === 0) {
+        escapedKeys += '|';
+      }
+      escapedKeys += dataKey;
+      if (i < patternlab.dataKeys.length - 1) {
+        escapedKeys += '|';
+      }
+    }
+
+    escapedKeys += ')';
+
+    dataKeysRegex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)(' + escapedKeys + '\\s*)\\}\\}', 'g');
+
+    newTemplate = newTemplate.replace(dataKeysRegex, '\u0002$1}}');
+
+    //removing empty lines for some reason reduces rendering time considerably.
+    newTemplate = newTemplate.replace(/^\s*$\n/gm, '');
+
+    for (i = 0; i < patternlab.dataKeys.length; i++) {
+      regex = new RegExp('\\{\\{(\\S?\\s*' + patternlab.dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
       newTemplate = newTemplate.replace(regex, '\u0002$1');
     }
 

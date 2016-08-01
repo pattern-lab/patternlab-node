@@ -5,23 +5,20 @@ var list_item_hunter = function () {
   var extend = require('util')._extend,
     JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
-    smh = require('./style_modifier_hunter'),
-    plutils = require('./utilities'),
-    Pattern = require('./object_factory').Pattern;
+    plutils = require('./utilities');
 
   var pattern_assembler = new pa(),
-    style_modifier_hunter = new smh(),
     items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function getEnd(liMatch) {
     return liMatch.replace('#', '/');
-  };
+  }
 
   function getPatternBlock(pattern, liMatch, end) {
     return pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch) + liMatch.length, pattern.extendedTemplate.indexOf(end));
   }
 
-  function preprocessListItemPartials(pattern, patternlab) {
+  function preprocessListItemPartials(pattern) {
     //find any listitem blocks
     var matches = pattern.findListItems();
 
@@ -44,7 +41,7 @@ var list_item_hunter = function () {
     }
   }
 
-  function postprocessListItemPartials(pattern, patternlab) {
+  function postprocessListItemPartials(pattern) {
     //find any listitem blocks
     var matches = pattern.extendedTemplate.match(/\u0002(.|\s)*?\}\}/g);
 
@@ -58,7 +55,7 @@ var list_item_hunter = function () {
   }
 
   function processListItemPartials(pattern, patternlab) {
-    preprocessListItemPartials(pattern, patternlab);
+    preprocessListItemPartials(pattern);
 
     //find any listitem blocks
     var matches = pattern.findListItems();
@@ -122,7 +119,7 @@ var list_item_hunter = function () {
       });
     }
 
-    postprocessListItemPartials(pattern, patternlab);
+    postprocessListItemPartials(pattern);
   }
 
   return {

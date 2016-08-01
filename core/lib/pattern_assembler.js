@@ -198,45 +198,22 @@ var pattern_assembler = function () {
    *
    * @param {object} data
    * @param {array} uniqueKeysParam The array of unique keys to be added to and returned.
-   * @param {string} prefixParam The dotted-object-key notation tracing the lineage of nested objects.
    * @returns {array} keys A flat, one-dimensional array.
    */
-  function getDataKeys(data, uniqueKeysParam, prefixParam) {
-    var prefix = prefixParam || '';
-    var prefixSplit;
-    var prefixTmp;
+  function getDataKeys(data, uniqueKeysParam) {
     var uniqueKeys = uniqueKeysParam || [];
 
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
-
         if (data.constructor !== Array) {
           if (uniqueKeys.indexOf(key) === -1) {
             uniqueKeys.push(key);
-          }
-
-          if (prefix) {
-            prefixSplit = prefix.split('.');
-            prefixTmp = '';
-
-            for (var i = prefixSplit.length - 2; i >= 0; i--) {
-              prefixTmp = prefixSplit[i] + '.' + prefixTmp;
-
-              if (uniqueKeys.indexOf(prefixTmp + key) === -1) {
-                uniqueKeys.push(prefixTmp + key);
-              }
-            }
+          } else {
+            continue;
           }
         }
-
-        if (data[key] instanceof Object) {
-          prefixTmp = '';
-
-          if (data.constructor !== Array) {
-            prefixTmp = prefix + key + '.';
-          }
-
-          getDataKeys(data[key], uniqueKeys, prefixTmp);
+        if (typeof data[key] === 'object') {
+          getDataKeys(data[key], uniqueKeys);
         }
       }
     }
