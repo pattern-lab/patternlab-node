@@ -52,11 +52,6 @@ var partial_hunter = function () {
     //removing empty lines for some reason reduces rendering time considerably.
     newTemplate = newTemplate.replace(/^\s*$\n/gm, '');
 
-    for (i = 0; i < patternlab.dataKeys.length; i++) {
-      regex = new RegExp('\\{\\{(\\S?\\s*' + patternlab.dataKeys[i] + '\\s*\\}?\\}\\})', 'g');
-      newTemplate = newTemplate.replace(regex, '\u0002$1');
-    }
-
     //escape partial includes so they are not erased by a render
     newTemplate = newTemplate.replace(/\{\{>/g, '\u0002>');
 
