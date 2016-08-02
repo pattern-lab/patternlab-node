@@ -358,7 +358,7 @@ var patternlab_engine = function (config) {
       var headHTML = pattern_assembler.renderPattern(pattern.header, pattern.allData);
 
       //render the extendedTemplate with all data
-      pattern.extendedTemplate = pattern_assembler.renderPattern(pattern, pattern.allData);
+      pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, pattern.allData);
 
       //todo see if this is still needed
       //pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
@@ -410,7 +410,7 @@ var patternlab_engine = function (config) {
       outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 
       //write the compiled template to the public patterns directory
-      var patternPage = headHTML + pattern.extendedTemplate + footerHTML;
+      var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
       fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.rendered + '.html'), patternPage);
 
       //write the mustache file too
