@@ -122,7 +122,7 @@ function buildNavigation(patternlab) {
     patternSubTypeName = pattern.subdir.split(path.sep).pop().replace(/^\d*\-/, '');
 
     //get the patternSubTypeItem
-    patternSubTypeItemName = pattern.patternName.replace(/-/g, ' ');
+    patternSubTypeItemName = pattern.patternName.replace(/[\-~]/g, ' ');
 
     //assume the patternSubTypeItem does not exist.
     patternSubTypeItem = new of.oPatternSubTypeItem(patternSubTypeItemName);
