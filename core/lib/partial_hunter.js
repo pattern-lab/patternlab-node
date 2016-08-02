@@ -45,6 +45,8 @@ var partial_hunter = function () {
 
     escapedKeys += ')';
 
+    //apply replacement based on allowable characters from lines 78 and 79 of mustache.js
+    //of the Mustache for JS project.
     dataKeysRegex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)(' + escapedKeys + '\\s*)\\}\\}', 'g');
 
     newTemplate = newTemplate.replace(dataKeysRegex, '\u0002$1}}');

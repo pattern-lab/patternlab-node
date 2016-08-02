@@ -9,7 +9,8 @@ var pseudopattern_hunter = function () {
       lh = require('./lineage_hunter'),
       Pattern = require('./object_factory').Pattern,
       plutils = require('./utilities'),
-      path = require('path');
+      path = require('path'),
+      JSON5 = require('json5');
 
 
     var pattern_assembler = new pa();
@@ -32,25 +33,31 @@ var pseudopattern_hunter = function () {
         }
 
         //we want to do everything we normally would here, except instead read the pseudoPattern data
+        var variantFileData = {};
+        var variantFilename = path.resolve(paths.source.patterns, pseudoPatterns[i]);
+        var variantFileStr = '';
         try {
-          var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
+          variantFileStr = fs.readFileSync(variantFilename, 'utf8');
+          variantFileData = JSON5.parse(variantFileStr);
         } catch (err) {
           console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
           console.log(err);
         }
 
         //extend any existing data with variant data
-        variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
+        var variantLocalData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
+        var variantAllData = plutils.mergeData(currentPattern.allData, variantFileData);
 
         var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
         var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
-        var patternVariant = Pattern.create(variantFilePath, variantFileData, {
+        var patternVariant = Pattern.create(variantFilePath, variantLocalData, {
           //use the same template as the non-variant
           template: currentPattern.template,
           fileExtension: currentPattern.fileExtension,
           extendedTemplate: currentPattern.extendedTemplate,
           isPseudoPattern: true,
           basePattern: currentPattern,
+          allData: variantAllData,
 
           // use the same template engine as the non-variant
           engine: currentPattern.engine
