@@ -33,20 +33,23 @@ var pseudopattern_hunter = function () {
         }
 
         //we want to do everything we normally would here, except instead read the pseudoPattern data
-        var variantFileData = {};
         var variantFilename = path.resolve(paths.source.patterns, pseudoPatterns[i]);
         var variantFileStr = '';
+        var variantLocalData = {};
+        var variantAllData = {};
         try {
           variantFileStr = fs.readFileSync(variantFilename, 'utf8');
-          variantFileData = JSON5.parse(variantFileStr);
+          variantLocalData = JSON5.parse(variantFileStr);
+          //clone. do not reference
+          variantAllData = JSON5.parse(variantFileStr);
         } catch (err) {
           console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
           console.log(err);
         }
 
         //extend any existing data with variant data
-        var variantLocalData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
-        var variantAllData = plutils.mergeData(currentPattern.allData, variantFileData);
+        plutils.mergeData(currentPattern.jsonFileData, variantLocalData);
+        plutils.mergeData(currentPattern.allData, variantAllData);
 
         var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
         var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
@@ -58,6 +61,7 @@ var pseudopattern_hunter = function () {
           isPseudoPattern: true,
           basePattern: currentPattern,
           allData: variantAllData,
+          dataKeys: pattern_assembler.get_data_keys(variantLocalData),
 
           // use the same template engine as the non-variant
           engine: currentPattern.engine
