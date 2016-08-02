@@ -222,6 +222,7 @@ var pattern_assembler = function () {
   }
 
   function processPatternIterative(relPath, patternlab) {
+    var list_item_hunter = new lih();
 
     //check if the found file is a top-level markdown file
     var fileObject = path.parse(relPath);
@@ -251,9 +252,6 @@ var pattern_assembler = function () {
       }
 
     }
-
-    var list_item_hunter = new lih();
-    var pseudopattern_hunter = new pph();
 
     //extract some information
     var filename = fileObject.base;
@@ -352,14 +350,12 @@ var pattern_assembler = function () {
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
 
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-
     return currentPattern;
   }
 
-  function processPatternRecursive(relPath, patternlab, origPatternParam) {
+  function processPatternRecursive(relPath, patternlab, origPatternParam, levelParam) {
     var lineage_hunter = new lh();
+    var pseudopattern_hunter = new pph();
     var currentPattern;
     var i;
 
@@ -382,6 +378,16 @@ var pattern_assembler = function () {
     //we are processing a markdown only pattern
     if (currentPattern.engine === null) { return; }
 
+    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+    //only do this at the top level of recursion
+    var level;
+    if (typeof levelParam === 'undefined') {
+      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+      level = 1;
+    } else {
+      level++;
+    }
+
     //find how many partials there may be for the given pattern
     currentPattern.patternPartials = currentPattern.findPartials();
 
@@ -389,14 +395,14 @@ var pattern_assembler = function () {
     //template and replace their calls in this template with rendered results
     if (currentPattern.engine.expandPartials && (currentPattern.patternPartials !== null && currentPattern.patternPartials.length > 0)) {
       // eslint-disable-next-line
-      expandPartials(patternlab, currentPattern);
+      expandPartials(patternlab, currentPattern, level);
     }
 
     //find pattern lineage
     lineage_hunter.find_lineage(currentPattern, patternlab);
   }
 
-  function expandPartials(patternlab, currentPattern) {
+  function expandPartials(patternlab, currentPattern, level) {
 
     var partial_hunter = new ph();
     var list_item_hunter = new lih();
@@ -410,7 +416,7 @@ var pattern_assembler = function () {
     //find any listItem blocks within the pattern
     list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
-    processPatternRecursive(currentPattern.relPath, patternlab, currentPattern);
+    processPatternRecursive(currentPattern.relPath, patternlab, currentPattern, level);
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {

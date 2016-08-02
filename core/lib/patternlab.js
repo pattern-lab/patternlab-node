@@ -260,8 +260,8 @@ var patternlab_engine = function (config) {
       }
     }
 
-    //create this properties to later escape all tags that match keys in the
-    //JSON data so these tags persist through recursive partial includes.
+    //create properties to later escape all tags that match keys in the JSON
+    //data so these tags persist through recursive partial includes.
     patternlab.dataKeysEscape = '';
     var dataKey;
     for (var i = 0; i < patternlab.dataKeys.length; i++) {

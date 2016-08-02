@@ -12,7 +12,6 @@ var pseudopattern_hunter = function () {
       path = require('path'),
       JSON5 = require('json5');
 
-
     var pattern_assembler = new pa();
     var lineage_hunter = new lh();
     var paths = patternlab.config.paths;
