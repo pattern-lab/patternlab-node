@@ -16,13 +16,13 @@ var Pattern = function (relPath, data) {
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
-  this.name = this.subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
+  this.name = this.subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName.replace(/~/g, '-'); // '00-atoms-00-global-00-colors'
 
   // the JSON used to render values in the pattern
   this.jsonFileData = data || {};
 
-  // strip leading "00-" from the file name and flip tildes to dashes
-  this.patternBaseName = this.fileName.replace(/^\d*\-/, '').replace('~', '-'); // 'colors'
+  // strip leading "00-" from the file name and underscores from ui-hidden patterns
+  this.patternBaseName = this.fileName.replace(/^\d*\-/, '').replace(/^_/, ''); // 'colors'
 
   // Fancy name. No idea how this works. 'Colors'
   this.patternName = this.patternBaseName.split('-').reduce(function (val, working) {
