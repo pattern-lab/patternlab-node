@@ -53,6 +53,43 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
   );
 }
 
+function preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patternlab) {
+  // get the templating engine used for this implementation of pattern lab
+  var engine;
+  for (i = 0; i < patternlab.patterns.length; i++) {
+    if (patternlab.patterns[i].isPattern) {
+      engine = patternlab.patterns[i].engine;
+      break;
+    }
+  }
+
+  // push list item keywords into dataKeys property
+  for (i = 0; i < list_item_hunter.items.length; i++) {
+    patternlab.dataKeys.push('listItems.' + list_item_hunter.items[i]);
+    patternlab.dataKeys.push('listitems.' + list_item_hunter.items[i]);
+  }
+
+  // create properties to later escape all tags that match keys in the JSON
+  // data so these tags persist through recursive partial includes.
+  patternlab.dataKeysEscape = '';
+  var dataKey;
+  for (var i = 0; i < patternlab.dataKeys.length; i++) {
+    dataKey = patternlab.dataKeys[i];
+    if (typeof engine.escapeReservedRegexChars === 'function') {
+      dataKey = engine.escapeReservedRegexChars(dataKey);
+    }
+    patternlab.dataKeysEscape += dataKey;
+    if (i < patternlab.dataKeys.length - 1) {
+      patternlab.dataKeysEscape += '|';
+    }
+  }
+
+  // preprocess partials so they can be recursively included respecting any parameters they may be submitting
+  if (typeof engine.preprocessPartials === 'function') {
+    engine.preprocessPartials(pattern_assembler, patternlab);
+  }
+}
+
 function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
@@ -243,42 +280,11 @@ var patternlab_engine = function (config) {
       patterns_dir = paths.source.patterns;
 
     pattern_assembler.combine_listItems(patternlab);
-    for (i = 0; i < list_item_hunter.items.length; i++) {
-      patternlab.dataKeys.push('listItems.' + list_item_hunter.items[i]);
-      patternlab.dataKeys.push('listitems.' + list_item_hunter.items[i]);
-    }
 
     // diveSync once to perform iterative populating of patternlab object
     processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab);
 
-    // get the templating engine used for this implementation of pattern lab
-    var engine;
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].isPattern) {
-        engine = patternlab.patterns[i].engine;
-        break;
-      }
-    }
-
-    //create properties to later escape all tags that match keys in the JSON
-    //data so these tags persist through recursive partial includes.
-    patternlab.dataKeysEscape = '';
-    var dataKey;
-    for (var i = 0; i < patternlab.dataKeys.length; i++) {
-      dataKey = patternlab.dataKeys[i];
-      if (typeof engine.escapeReservedRegexChars === 'function') {
-        dataKey = engine.escapeReservedRegexChars(dataKey);
-      }
-      patternlab.dataKeysEscape += dataKey;
-      if (i < patternlab.dataKeys.length - 1) {
-        patternlab.dataKeysEscape += '|';
-      }
-    }
-
-    // preprocess partials so they can be recursively included respecting any parameters they may be submitting
-    if (typeof engine.preprocessPartials === 'function') {
-      engine.preprocessPartials(pattern_assembler, patternlab);
-    }
+    preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patternlab);
 
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
@@ -452,6 +458,7 @@ var patternlab_engine = function (config) {
 // have a better way to do this
 patternlab_engine.build_pattern_data = buildPatternData;
 patternlab_engine.process_all_patterns_iterative = processAllPatternsIterative;
+patternlab_engine.preprocess_patternlab_partials = preprocessPatternlabPartials;
 patternlab_engine.process_all_patterns_recursive = processAllPatternsRecursive;
 
 module.exports = patternlab_engine;

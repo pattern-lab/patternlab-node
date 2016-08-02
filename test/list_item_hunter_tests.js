@@ -5,6 +5,8 @@
   var Pattern = require('../core/lib/object_factory').Pattern;
   var extend = require('util')._extend;
   var pa = require('../core/lib/pattern_assembler');
+  var patternEngine = require('../core/lib/patternlab');
+  var list_item_hunter = new lih();
   var pattern_assembler = new pa();
 
   // fake pattern creators
@@ -59,6 +61,7 @@
         "link": {},
         "partials": []
       },
+      "dataKeys": [],
       "config": {
         "debug": false,
         "paths": {
@@ -84,7 +87,6 @@
         "key": "test-patternName"
       });
       var patternlab = createFakePatternLab();
-      var list_item_hunter = new lih();
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -104,7 +106,6 @@
         "key": "test-patternName"
       });
       var patternlab = createFakePatternLab();
-      var list_item_hunter = new lih();
 
       //act
       list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -130,7 +131,7 @@
 
       //act
 	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
-      pattern.engine.preprocessPartials(pattern_assembler, patternlab);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
@@ -158,11 +159,9 @@
 
       //act
 	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-verbose-foo.mustache", patternlab);
-      pattern1.engine.preprocessPartials(pattern_assembler, patternlab);
-	  pattern_assembler.process_pattern_recursive(pattern1.relPath, patternlab, pattern1);
-
 	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/02-listitem-verbose-bar.mustache", patternlab);
-      pattern2.engine.preprocessPartials(pattern_assembler, patternlab);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
+	  pattern_assembler.process_pattern_recursive(pattern1.relPath, patternlab, pattern1);
 	  pattern_assembler.process_pattern_recursive(pattern2.relPath, patternlab, pattern2);
 
       //assert
@@ -193,6 +192,7 @@
         ]
       };
       pattern.engine.preprocessPartials(pattern_assembler, patternlab);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
@@ -237,7 +237,7 @@
           { "title": "Two" }
         ]
       };
-      pattern.engine.preprocessPartials(pattern_assembler, patternlab);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
@@ -272,7 +272,7 @@
           { "title": "Two" }
         ]
       };
-      pattern.engine.preprocessPartials(pattern_assembler, patternlab);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
@@ -289,6 +289,7 @@
       var pl = {};
       pl.config = {};
       pl.data = {};
+      pl.dataKeys = [];
       pl.data.link = {};
       pl.config.debug = false;
       pl.config.paths = {
@@ -318,12 +319,12 @@
       //act
       var atomPattern = pattern_assembler.process_pattern_iterative('00-test/03-styled-atom.mustache', pl);
       pl.patterns.push(atomPattern);
-      atomPattern.engine.preprocessPartials(pattern_assembler, pl);
-	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
 
       var bookendPattern = pattern_assembler.process_pattern_iterative('00-test/11-bookend-listitem.mustache', pl);
       pl.patterns.push(bookendPattern);
-      bookendPattern.engine.preprocessPartials(pattern_assembler, pl);
+
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, pl);
+	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
 	  pattern_assembler.process_pattern_recursive(bookendPattern.relPath, pl, bookendPattern);
 
       //assert. here we expect {{styleModifier}} to be replaced with an empty string or the styleModifier value from the found partial with the :styleModifier
@@ -339,17 +340,16 @@
       //act
       var atomPattern = pattern_assembler.process_pattern_iterative('00-test/03-styled-atom.mustache', pl);
       pl.patterns.push(atomPattern);
-      atomPattern.engine.preprocessPartials(pattern_assembler, pl);
-	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
 
       var anotherStyledAtomPattern = pattern_assembler.process_pattern_iterative('00-test/12-another-styled-atom.mustache', pl);
       pl.patterns.push(anotherStyledAtomPattern);
-      anotherStyledAtomPattern.engine.preprocessPartials(pattern_assembler, pl);
-	  pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl, anotherStyledAtomPattern);
 
       var listPattern = pattern_assembler.process_pattern_iterative('00-test/13-listitem.mustache', pl);
       pl.patterns.push(listPattern);
-      listPattern.engine.preprocessPartials(pattern_assembler, pl);
+
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, pl);
+	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
+	  pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl, anotherStyledAtomPattern);
 	  pattern_assembler.process_pattern_recursive(listPattern.relPath, pl, listPattern);
 
       //assert.
