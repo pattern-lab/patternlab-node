@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.3.0 - 2016 
- * 
+/*
+ * patternlab-node - v2.3.0 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -85,7 +85,8 @@ var patternlab_engine = function (config) {
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
-    buildFrontEnd = require('./ui_builder'),
+    ui = require('./ui_builder'),
+    ui2 = require('./ui_builder'),
     plutils = require('./utilities'),
     sm = require('./starterkit_manager'),
     patternlab = {};
@@ -389,7 +390,8 @@ var patternlab_engine = function (config) {
     },
     build: function (callback, deletePatternDir) {
       buildPatterns(deletePatternDir);
-      buildFrontEnd(patternlab);
+      new ui().buildFrontend(patternlab);
+      //new ui2().buildFrontend2(patternlab);
       printDebug();
       callback();
     },
