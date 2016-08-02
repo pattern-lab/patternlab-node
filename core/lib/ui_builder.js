@@ -20,7 +20,7 @@ function addToPatternPaths(patternlab, pattern) {
 
 //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
 function isPatternExcluded(pattern) {
-  // returns whether or not the first character of the pattern type, subtype, other nested dirs, or filename is an underscore
+  // returns whether or not the first character of the pattern type, subtype, further nested dirs, or filename is an underscore
   if (pattern.isPattern) {
     if (
       pattern.relPath.charAt(0) === '_' ||
