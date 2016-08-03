@@ -140,11 +140,9 @@ var ui_builder = function() {
     var docPattern = patternlab.subtypePatterns['viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
 
     if (docPattern) {
+      docPattern.isDocPattern = true;
       return docPattern;
     }
-
-
-    console.log(pattern);
 
     var docPattern = new Pattern.createEmpty(
       {
@@ -155,7 +153,9 @@ var ui_builder = function() {
         patternLink: pattern.flatPatternPath + path.sep + 'index.html',
         isPattern: false,
         engine: null,
-        flatPatternPath: pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup: '')
+        //todo this might be broken yet
+        flatPatternPath: pattern.flatPatternPath + (isSubtypePattern ? '-' + pattern.patternSubGroup: ''),
+        isDocPattern: true
       }
     );
 
@@ -518,14 +518,16 @@ var ui_builder = function() {
 
   function buildViewAllPages2(mainPageHeadHtml, patternlab, styleguidePatterns) {
 
-    console.log(mainPageHeadHtml);
-
     var paths = patternlab.config.paths;
 
     //loop through the grouped styleguide patterns, building at each level
     _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
 
+      console.log(patternType);
+
       _.forOwn(patternTypeObj, function(patternSubtypes, patternSubtype) {
+
+        console.log(patternSubtype);
 
         var patternPartial = patternType + '-' + patternSubtype;
         console.log(patternPartial);
@@ -537,11 +539,17 @@ var ui_builder = function() {
         var subtypePatterns = _.values(patternSubtypes);
         var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
 
-        //todo this feels brittle, why doesn't [0] work?
-        console.log(subtypePatterns[0]);
-        writeFile(paths.public.patterns + subtypePatterns[1].flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+        var p = _.find(subtypePatterns, function(pat) {
+          return pat.isDocPattern;
+        });
+
+        console.log('------');
+        writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
       });
+
+
+      console.log('~~~~~~');
 
     });
   }
@@ -679,6 +687,8 @@ var ui_builder = function() {
 
     //sort all the patterns explicitly
     //TODO
+
+    //todo - remove patterns that are supposed to be omitted
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
     var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
