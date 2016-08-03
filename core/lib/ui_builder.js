@@ -22,6 +22,14 @@ var ui_builder = function() {
     patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] = pattern.name;
   }
 
+  function writeFile(filePath, data, callback) {
+    if (callback) {
+      fs.outputFile(filePath, data, callback);
+    } else {
+      fs.outputFile(filePath, data);
+    }
+  }
+
   /*
    * isPatternExcluded
    * returns whether or not the pattern should be excluded from direct rendering or navigation on the front end
@@ -124,26 +132,61 @@ var ui_builder = function() {
   }
 
   /*
+   * injectDocumentationBlock
+   * take the given pattern, fina and construct the view-all pattern block for the group
+   */
+  function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
+
+    var docPattern = patternlab.subtypePatterns['viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
+
+    if (docPattern) {
+      return docPattern;
+    }
+
+
+    console.log(pattern);
+
+    var docPattern = new Pattern.createEmpty(
+      {
+        name: pattern.flatPatternPath,
+        patternDesc: '',
+        patternPartial: 'viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
+        patternSectionSubtype : true,
+        patternLink: pattern.flatPatternPath + path.sep + 'index.html',
+        isPattern: false,
+        engine: null,
+        flatPatternPath: pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup: '')
+      }
+    );
+
+    return docPattern;
+  }
+
+  /*
    * groupPatterns
    * returns an object representing how the front end styleguide and navigation is structured
    */
   function groupPatterns(patternlab) {
-    var groupedPatterns = {};
+    var groupedPatterns = {
+      patternGroups: {}
+    };
 
     _.forEach(patternlab.patterns, function(pattern) {
 
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
 
-      if(pattern.omitFromStyleguide) { return; }
+      if (pattern.omitFromStyleguide) { return; }
 
       if (!groupedPatterns.patternGroups[pattern.patternGroup]) {
         groupedPatterns.patternGroups[pattern.patternGroup] = {};
+        //todo: test this
+        //groupedPatterns.patternGroups[pattern.patternGroup]['viewall-' + pattern.patternGroup] = injectDocumentationBlock(pattern, patternlab, false);
       }
       if (!groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]) {
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup] = {};
+        groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup] = injectDocumentationBlock(pattern, patternlab, true);
       }
       groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
-
     });
     return groupedPatterns;
   }
@@ -473,6 +516,36 @@ var ui_builder = function() {
     }
   }
 
+  function buildViewAllPages2(mainPageHeadHtml, patternlab, styleguidePatterns) {
+
+    console.log(mainPageHeadHtml);
+
+    var paths = patternlab.config.paths;
+
+    //loop through the grouped styleguide patterns, building at each level
+    _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
+
+      _.forOwn(patternTypeObj, function(patternSubtypes, patternSubtype) {
+
+        var patternPartial = patternType + '-' + patternSubtype;
+        console.log(patternPartial);
+
+        //render the footer needed for the viewall template
+        var footerHTML = buildFooterHTML(patternlab, patternPartial);
+
+        //render the viewall template
+        var subtypePatterns = _.values(patternSubtypes);
+        var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
+
+        //todo this feels brittle, why doesn't [0] work?
+        console.log(subtypePatterns[0]);
+        writeFile(paths.public.patterns + subtypePatterns[1].flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+
+      });
+
+    });
+  }
+
   function sortPatterns(patternsArray) {
     return patternsArray.sort(function (a, b) {
 
@@ -553,6 +626,14 @@ var ui_builder = function() {
     }
     writeFile(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
+    //write out the data to be read by the client
+    exportData(patternlab);
+  }
+
+  function exportData (patternlab) {
+    var annotation_exporter = new ae(patternlab);
+    var paths = patternlab.config.paths;
+
     //write out the data
     var output = '';
 
@@ -587,43 +668,69 @@ var ui_builder = function() {
     writeFile(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
   }
 
-  function writeFile(filePath, data, callback) {
-    if (callback) {
-      fs.outputFile(filePath, data, callback);
-    } else {
-      fs.outputFile(filePath, data);
-    }
-  }
+
 
   function buildFrontend2(patternlab){
+
+    var paths = patternlab.config.paths;
 
     //determine which patterns should be included in the front-end rendering
     var styleguidePatterns = groupPatterns(patternlab);
 
-
     //sort all the patterns explicitly
-
+    //TODO
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-
+    var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
+      cacheBuster: patternlab.cacheBuster
+    });
+    var headerHTML = pattern_assembler.renderPattern(patternlab.userHead, {
+      patternLabHead : headerPartial,
+      cacheBuster: patternlab.cacheBuster
+    });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-
+    var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+      patternData: '{}',
+      cacheBuster: patternlab.cacheBuster
+    });
+    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
+      patternLabFoot : footerPartial
+    });
 
     //build the viewall pages
-
+    //todo so close
+    buildViewAllPages2(headerHTML, patternlab, styleguidePatterns);
 
     //build the main styleguide page
+    //todo broken
+    var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
+      {
+        partials: _.values(styleguidePatterns),
+        cacheBuster: patternlab.cacheBuster
+      }, {
+        patternSection: patternlab.patternSection,
+        patternSectionSubType: patternlab.patternSectionSubType
+      });
 
+    //writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
     //build the patternlab navigation
-
+    //todo
 
     //move the index file from its asset location into public root
+    var patternlabSiteHtml;
+    try {
+      patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
+    } catch (error) {
+      console.log(error);
+      console.log("\nERROR: Could not load one or more styleguidekit assets from", paths.source.styleguide, '\n');
+      process.exit(1);
+    }
+    //writeFile(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
-
-    //write out patternlab.data object
-
+    //write out patternlab.data object to be read by the client
+    //exportData(patternlab);
   }
 
   return {
@@ -635,6 +742,9 @@ var ui_builder = function() {
     },
     isPatternExcluded: function (pattern, patternlab) {
       return isPatternExcluded(pattern, patternlab);
+    },
+    groupPatterns: function(patternlab) {
+      return groupPatterns(patternlab);
     }
   };
 

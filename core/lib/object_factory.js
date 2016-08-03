@@ -39,7 +39,7 @@ var Pattern = function (relPath, data) {
   // the sub-group this pattern belongs to.
   this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
 
-  // Not sure what this is used for.
+  // the joined pattern group and subgroup directory
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
 
   // The canonical "key" by which this pattern is known. This is the callable

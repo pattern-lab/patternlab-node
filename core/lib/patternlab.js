@@ -390,8 +390,8 @@ var patternlab_engine = function (config) {
     },
     build: function (callback, deletePatternDir) {
       buildPatterns(deletePatternDir);
-      new ui().buildFrontend(patternlab);
-      //new ui2().buildFrontend2(patternlab);
+      //new ui().buildFrontend(patternlab);
+      new ui2().buildFrontend2(patternlab);
       printDebug();
       callback();
     },
