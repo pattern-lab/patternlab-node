@@ -21,6 +21,10 @@ var partial_hunter = function () {
     var tag;
     var tmpPattern;
 
+    if (!pattern.engine) {
+      return;
+    }
+
     //escape all tags that match keys in the JSON data.
     //it can be significantly faster to process large dataKey arrays in one read
     //with a large regex than to read many times and process with small regexes.
@@ -92,7 +96,11 @@ var partial_hunter = function () {
 
             //we want to globally replace instances of this tag in case it was
             //included within a partial from within this for loop
-            regexStr = pattern.engine.escapeReservedRegexChars(tag);
+            if (typeof pattern.engine.escapeReservedRegexChars === 'function') {
+              regexStr = pattern.engine.escapeReservedRegexChars(tag);
+            } else {
+              regexStr = tag;
+            }
             regex = new RegExp(regexStr, 'g');
             newTemplate = newTemplate.replace(regex, partialContent);
           }

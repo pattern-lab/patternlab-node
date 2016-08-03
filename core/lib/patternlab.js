@@ -76,7 +76,7 @@ function preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patte
   var dataKey;
   for (var i = 0; i < patternlab.dataKeys.length; i++) {
     dataKey = patternlab.dataKeys[i];
-    if (typeof engine.escapeReservedRegexChars === 'function') {
+    if (engine && typeof engine.escapeReservedRegexChars === 'function') {
       dataKey = engine.escapeReservedRegexChars(dataKey);
     }
     patternlab.dataKeysEscape += dataKey;
@@ -86,7 +86,7 @@ function preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patte
   }
 
   // preprocess partials so they can be recursively included respecting any parameters they may be submitting
-  if (typeof engine.preprocessPartials === 'function') {
+  if (engine && typeof engine.preprocessPartials === 'function') {
     engine.preprocessPartials(pattern_assembler, patternlab);
   }
 }

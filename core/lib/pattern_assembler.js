@@ -135,11 +135,20 @@ var pattern_assembler = function () {
     if (pattern instanceof Pattern) {
       return pattern.render(data, partials);
     } else {
-      // otherwise, assume it's a plain mustache template string, and we
-      // therefore just need to create a dummpy pattern to be able to render
+      // otherwise, check for the first loaded templating engine, and we
+      // therefore just need to create a dummy pattern to be able to render
       // it
       var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
-      return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
+      var engine;
+      var engineName = Object.keys(patternEngines)[0];
+      if (engineName) {
+        engine = patternEngines[engineName];
+      }
+      if (engine) {
+        return engine.renderPattern(dummyPattern, data, partials);
+      } else {
+        return pattern;
+      }
     }
   }
 
