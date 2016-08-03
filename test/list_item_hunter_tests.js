@@ -130,7 +130,7 @@
       });
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
+	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
@@ -158,8 +158,8 @@
       });
 
       //act
-	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-verbose-foo.mustache", patternlab);
-	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/02-listitem-verbose-bar.mustache", patternlab);
+	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/02-listitem-verbose-foo.mustache", patternlab);
+	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/03-listitem-verbose-bar.mustache", patternlab);
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
 	  pattern_assembler.process_pattern_recursive(pattern1.relPath, patternlab, pattern1);
 	  pattern_assembler.process_pattern_recursive(pattern2.relPath, patternlab, pattern2);
@@ -184,7 +184,7 @@
       });
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
+	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       pattern.listitems = {
         "2": [
           { "title": "One" },
@@ -228,7 +228,7 @@
       });
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
+	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       pattern.template = "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}";
       pattern.extendedTemplate = pattern.template;
       pattern.listitems = {
@@ -260,7 +260,7 @@
       delete patternlab.listitems["1"]; // remove the "1" list
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/00-listitem-partial.mustache", patternlab);
+	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       pattern.template = "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}";
       pattern.extendedTemplate = pattern.template;
       pattern.listitems = {

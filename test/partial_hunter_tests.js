@@ -1,9 +1,11 @@
 (function () {
   "use strict";
 
+  var lih = require('../core/lib/list_item_hunter');
   var pa = require('../core/lib/pattern_assembler');
   var ph = require('../core/lib/partial_hunter');
   var Pattern = require('../core/lib/object_factory').Pattern;
+  var patternEngine = require('../core/lib/patternlab');
 
   //setup current pattern from what we would have during execution
   function currentPatternClosure() {
@@ -404,9 +406,81 @@
       test.equals(currentPattern.extendedTemplate, '<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>');
 
       test.done();
+    },
+
+    'partial hunter correctly parses partial parameters for recursion beyond a single level' : function(test){
+      var list_item_hunter = new lih();
+      var pattern_assembler = new pa();
+      var patterns_dir = './test/files/_patterns';
+
+      // this test utilizes pattern_assembler for the heavy lifting, but the actual code being tested resides inside pattern_hunter.js
+      //arrange
+      var pl = {};
+      pl.config = {
+        debug: false,
+        paths: {
+          source: {
+            patterns: patterns_dir
+          }
+        }
+      };
+      pl.data = {
+        link: {}
+      }
+      pl.dataKeys = [];
+      pl.partials = {};
+      pl.patterns = [];
+
+	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/05-recursive-includer.mustache", pl);
+	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/04-parametered-partial.mustache", pl);
+	  var pattern3 = pattern_assembler.process_pattern_iterative("01-test1/00-simple.mustache", pl);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, pl);
+	  pattern_assembler.process_pattern_recursive(pattern1.relPath, pl, pattern1);
+	  pattern_assembler.process_pattern_recursive(pattern2.relPath, pl, pattern2);
+	  pattern_assembler.process_pattern_recursive(pattern3.relPath, pl, pattern3);
+
+      //assert.
+      var expectedValue = 'foo';
+      test.equals(pattern1.extendedTemplate.trim(), expectedValue);
+      test.done();
+    },
+
+    'partial hunter correctly limits recursion on partials that call themselves but within restricted conditions' : function(test){
+      var list_item_hunter = new lih();
+      var pattern_assembler = new pa();
+      var patterns_dir = './test/files/_patterns';
+
+      // this test utilizes pattern_assembler for the heavy lifting, but the actual code being tested resides inside pattern_hunter.js
+      //arrange
+      var pl = {};
+      pl.config = {
+        debug: false,
+        paths: {
+          source: {
+            patterns: patterns_dir
+          }
+        }
+      };
+      pl.data = {
+        link: {}
+      }
+      pl.dataKeys = [];
+      pl.partials = {};
+      pl.patterns = [];
+
+	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/06-anti-infinity-tester.mustache", pl);
+	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/04-parametered-partial.mustache", pl);
+	  var pattern3 = pattern_assembler.process_pattern_iterative("01-test1/00-simple.mustache", pl);
+      patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, pl);
+	  pattern_assembler.process_pattern_recursive(pattern1.relPath, pl, pattern1);
+	  pattern_assembler.process_pattern_recursive(pattern2.relPath, pl, pattern2);
+	  pattern_assembler.process_pattern_recursive(pattern3.relPath, pl, pattern3);
+
+      //assert.
+      var expectedValue = 'foo\n  foo\n\n  bar';
+      test.equals(pattern1.extendedTemplate.trim(), expectedValue);
+      test.done();
     }
-
-
   };
 
 }());
