@@ -130,9 +130,9 @@
       });
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
+      var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
-	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
+      pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
       test.equals(pattern.extendedTemplate.trim(), "FooBar" );
@@ -158,11 +158,11 @@
       });
 
       //act
-	  var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/02-listitem-verbose-foo.mustache", patternlab);
-	  var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/03-listitem-verbose-bar.mustache", patternlab);
+      var pattern1 = pattern_assembler.process_pattern_iterative("01-test1/02-listitem-verbose-foo.mustache", patternlab);
+      var pattern2 = pattern_assembler.process_pattern_iterative("01-test1/03-listitem-verbose-bar.mustache", patternlab);
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
-	  pattern_assembler.process_pattern_recursive(pattern1.relPath, patternlab, pattern1);
-	  pattern_assembler.process_pattern_recursive(pattern2.relPath, patternlab, pattern2);
+      pattern_assembler.process_pattern_recursive(pattern1.relPath, patternlab, pattern1);
+      pattern_assembler.process_pattern_recursive(pattern2.relPath, patternlab, pattern2);
 
       //assert
       test.equals(pattern1.extendedTemplate.trim(), "Foo" );
@@ -184,7 +184,7 @@
       });
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
+      var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       pattern.listitems = {
         "2": [
           { "title": "One" },
@@ -193,7 +193,7 @@
       };
       pattern.engine.preprocessPartials(pattern_assembler, patternlab);
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
-	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
+      pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
       test.equals(pattern.extendedTemplate.trim(), "OneTwo" );
@@ -228,7 +228,7 @@
       });
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
+      var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       pattern.template = "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}";
       pattern.extendedTemplate = pattern.template;
       pattern.listitems = {
@@ -238,7 +238,7 @@
         ]
       };
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
-	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
+      pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
       test.equals(pattern.extendedTemplate.trim(), "Foo" );
@@ -260,7 +260,7 @@
       delete patternlab.listitems["1"]; // remove the "1" list
 
       //act
-	  var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
+      var pattern = pattern_assembler.process_pattern_iterative("01-test1/01-listitem-partial.mustache", patternlab);
       pattern.template = "{{#listItems.one}}{{> test1-simple }}{{/listItems.one}}";
       pattern.extendedTemplate = pattern.template;
       pattern.listitems = {
@@ -273,7 +273,7 @@
         ]
       };
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, patternlab);
-	  pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
+      pattern_assembler.process_pattern_recursive(pattern.relPath, patternlab, pattern);
 
       //assert
       test.equals(typeof patternlab.listitems["1"], "undefined");
@@ -324,8 +324,8 @@
       pl.patterns.push(bookendPattern);
 
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, pl);
-	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
-	  pattern_assembler.process_pattern_recursive(bookendPattern.relPath, pl, bookendPattern);
+      pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
+      pattern_assembler.process_pattern_recursive(bookendPattern.relPath, pl, bookendPattern);
 
       //assert. here we expect {{styleModifier}} to be replaced with an empty string or the styleModifier value from the found partial with the :styleModifier
       var expectedValue = '<div class="test_group"> <span class="test_base "> Foo </span> <span class="test_base test_1"> Foo </span> <span class="test_base "> Foo </span><span class="test_base "> Bar </span> <span class="test_base test_1"> Bar </span> <span class="test_base "> Bar </span> </div>';
@@ -348,9 +348,9 @@
       pl.patterns.push(listPattern);
 
       patternEngine.preprocess_patternlab_partials(pattern_assembler, list_item_hunter, pl);
-	  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
-	  pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl, anotherStyledAtomPattern);
-	  pattern_assembler.process_pattern_recursive(listPattern.relPath, pl, listPattern);
+      pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl, atomPattern);
+      pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl, anotherStyledAtomPattern);
+      pattern_assembler.process_pattern_recursive(listPattern.relPath, pl, listPattern);
 
       //assert.
       var expectedValue = '<div class="test_group"> <span class="test_base "> FooM </span> </div>';
