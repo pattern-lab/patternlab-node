@@ -83,10 +83,6 @@ partialKeyStr += '([\\w\\-\\.\\/~]+)';
 // alphanumerics, hyphens, or pipes
 partialKeyStr += '(\\:[\\w\\-|]+)?';
 
-// an optional group of characters starting with a colon, followed by >0
-// alphanumerics or hyphens
-partialKeyStr += '(\\:[\\w\\-]+)?';
-
 // an optional group of characters starting with >=0 whitespaces, followed by
 // an opening parenthesis, followed by any number of characters that are not
 // closing parentheses, followed by a closing parenthesis
