@@ -56,6 +56,7 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
 function preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patternlab) {
   // get the templating engine used for this implementation of pattern lab
   var engine;
+  var i;
   for (i = 0; i < patternlab.patterns.length; i++) {
     if (patternlab.patterns[i].isPattern) {
       engine = patternlab.patterns[i].engine;
@@ -232,7 +233,6 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
-    var i;
     var list_item_hunter = new lih();
     var pattern_assembler = new pa();
 

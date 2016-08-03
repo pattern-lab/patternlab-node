@@ -39,6 +39,7 @@ var pseudopattern_hunter = function () {
         try {
           variantFileStr = fs.readFileSync(variantFilename, 'utf8');
           variantLocalData = JSON5.parse(variantFileStr);
+
           //clone. do not reference
           variantAllData = JSON5.parse(variantFileStr);
         } catch (err) {
