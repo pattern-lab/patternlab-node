@@ -25,6 +25,7 @@ var partialRegistry = {};
 
 // extend underscore with partial-ing methods and other necessary tooling
 // HANDLESCORE! UNDERBARS!
+
 function addParentContext(data, currentContext) {
   return Object.assign({}, currentContext, data);
 }
@@ -58,6 +59,7 @@ _.mixin({
   }
 });
 
+
 var engine_underscore = {
   engine: _,
   engineName: 'underscore',
@@ -68,9 +70,7 @@ var engine_underscore = {
   expandPartials: false,
 
   // regexes, stored here so they're only compiled once
-  findPartialsRE: /<%=[ \t]*_\.renderPartial[ \t]*\((?:"([^"].*?)"|'([^'].*?)')/g, // TODO,
-  findPartialsWithStyleModifiersRE: /<%= _.renderPartial\((.*?)\).*?%>/g, // TODO
-  findPartialsWithPatternParametersRE: /<%= _.renderPartial\((.*?)\).*?%>/g, // TODO
+  findPartialsRE: /<%=\s*_\.renderNamedPartial[ \t]*\(\s*("(?:[^"].*?)"|'(?:[^'].*?)').*?%>/g, // TODO
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
   // render it
@@ -101,7 +101,7 @@ var engine_underscore = {
       console.log(errorMessage);
       renderedHTML = `<h1>Error in underscore template ${pattern.patternName} (${pattern.relPath})</h1><p>${e.toString()}</p>`;
     }
-    
+
     return renderedHTML;
   },
 
@@ -131,8 +131,11 @@ var engine_underscore = {
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
   findPartial: function (partialString) {
-    var partial = partialString.replace(this.findPartialsRE, '$1');
-    return partial;
+    var edgeQuotesMatcher = /^["']|["']$/g;
+    var partialIDWithQuotes = partialString.replace(this.findPartialsRE, '$1');
+    var partialID = partialIDWithQuotes.replace(edgeQuotesMatcher, '');
+
+    return partialID;
   }
 };
 
