@@ -182,7 +182,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumerPatternReturned = pattern_assembler.findPartial('test-foo', pl);
+    var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
     test.equals(consumerPatternReturned.patternState, 'inreview');
     test.done();
   },
@@ -210,7 +210,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumerPatternReturned = pattern_assembler.findPartial('test-foo', pl);
+    var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
     test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
     test.done();
   },
@@ -237,7 +237,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumedPatternReturned = pattern_assembler.findPartial('test-bar', pl);
+    var consumedPatternReturned = pattern_assembler.getPartial('test-bar', pl);
     test.equals(consumedPatternReturned.lineageR[0].lineageState, 'inreview');
 
     test.done();
@@ -265,7 +265,7 @@ exports['lineage hunter '] = {
     lineage_hunter.cascade_pattern_states(pl);
 
     //assert
-    var consumerPatternReturned = pattern_assembler.findPartial('test-foo', pl);
+    var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
     test.equals(consumerPatternReturned.lineage.length, 1);
     test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
     test.equals(consumerPatternReturned.patternState, 'inreview');
