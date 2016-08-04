@@ -9,8 +9,7 @@ var path = require('path'),
   patternEngines = require('./pattern_engines'),
   lh = require('./lineage_hunter'),
   lih = require('./list_item_hunter'),
-  smh = require('./style_modifier_hunter'),
-  ph = require('./parameter_hunter'),
+  ph = require('./partial_hunter'),
   JSON5 = require('json5');
 
 var markdown_parser = new mp();
@@ -29,8 +28,8 @@ var pattern_assembler = function () {
     //else look by verbose syntax
     for (var i = 0; i < patternlab.patterns.length; i++) {
       switch (partialName) {
+        case patternlab.patterns[i].relPath:
         case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
           return patternlab.patterns[i];
       }
     }
@@ -100,7 +99,6 @@ var pattern_assembler = function () {
       if (pattern.relPath === patternlab.patterns[i].relPath) {
         //if relPath already exists, overwrite that element
         patternlab.patterns[i] = pattern;
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
         isNew = false;
         break;
       }
@@ -117,12 +115,8 @@ var pattern_assembler = function () {
 
 
       if (pattern.isPattern) {
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
-
         // do plugin-specific registration
-        pattern.registerPartial();
-      } else {
-        patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
+        pattern.registerPartial(patternlab);
       }
 
       patternlab.patterns.push(pattern);
@@ -141,11 +135,20 @@ var pattern_assembler = function () {
     if (pattern instanceof Pattern) {
       return pattern.render(data, partials);
     } else {
-      // otherwise, assume it's a plain mustache template string, and we
-      // therefore just need to create a dummpy pattern to be able to render
+      // otherwise, check for the first loaded templating engine, and we
+      // therefore just need to create a dummy pattern to be able to render
       // it
       var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
-      return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
+      var engine;
+      var engineName = Object.keys(patternEngines)[0];
+      if (engineName) {
+        engine = patternEngines[engineName];
+      }
+      if (engine) {
+        return engine.renderPattern(dummyPattern, data, partials);
+      } else {
+        return pattern;
+      }
     }
   }
 
@@ -199,7 +202,36 @@ var pattern_assembler = function () {
     }
   }
 
+  /**
+   * Recursively get all the property keys from the JSON data for a pattern.
+   *
+   * @param {object} data
+   * @param {array} uniqueKeysParam The array of unique keys to be added to and returned.
+   * @returns {array} keys A flat, one-dimensional array.
+   */
+  function getDataKeys(data, uniqueKeysParam) {
+    var uniqueKeys = uniqueKeysParam || [];
+
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data.constructor !== Array) {
+          if (uniqueKeys.indexOf(key) === -1) {
+            uniqueKeys.push(key);
+          } else {
+            continue;
+          }
+        }
+        if (typeof data[key] === 'object') {
+          getDataKeys(data[key], uniqueKeys);
+        }
+      }
+    }
+
+    return uniqueKeys;
+  }
+
   function processPatternIterative(relPath, patternlab) {
+    var list_item_hunter = new lih();
 
     //check if the found file is a top-level markdown file
     var fileObject = path.parse(relPath);
@@ -230,8 +262,6 @@ var pattern_assembler = function () {
 
     }
 
-    var pseudopattern_hunter = new pph();
-
     //extract some information
     var filename = fileObject.base;
     var ext = fileObject.ext;
@@ -257,24 +287,40 @@ var pattern_assembler = function () {
     setState(currentPattern, patternlab, true);
 
     //look for a json file for this template
+    var jsonFilename = '';
+    var jsonFilenameStats;
+    var jsonFileStr = '';
     try {
-      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
+      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + '.json');
+      var jsonFilenameStats = fs.statSync(jsonFilename);
+    } catch (err) {
+      //not a file
+    }
+
+    if (jsonFilenameStats && jsonFilenameStats.isFile()) {
       try {
-        var jsonFilenameStats = fs.statSync(jsonFilename);
-      } catch (err) {
-        //not a file
-      }
-      if (jsonFilenameStats && jsonFilenameStats.isFile()) {
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+        jsonFileStr = fs.readFileSync(jsonFilename, 'utf8');
+        currentPattern.jsonFileData = JSON5.parse(jsonFileStr);
         if (patternlab.config.debug) {
           console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
         }
+      } catch (err) {
+        console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
+        console.log(err);
       }
     }
-    catch (err) {
-      console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
-      console.log(err);
+
+    //merge global data into a clone of local jsonFileData
+    var localDataClone = {};
+    try {
+      localDataClone = JSON5.parse(jsonFileStr);
+    } catch (err) {
+      //already threw error in last try/catch
     }
+    currentPattern.allData = plutils.mergeData(patternlab.data, localDataClone);
+
+    //add allData keys to currentPattern.dataKeys
+    currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
 
     //look for a listitems.json file for this template
     try {
@@ -302,33 +348,36 @@ var pattern_assembler = function () {
 
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
+    currentPattern.extendedTemplate = currentPattern.template;
+
+    //find any listItem blocks within the pattern
+    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
 
-    //find any pattern parameters that may be in the current pattern
-    currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
-
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
-
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
 
     return currentPattern;
   }
 
-  function processPatternRecursive(file, patternlab) {
+  function processPatternRecursive(relPath, patternlab, origPatternParam, levelParam) {
+    var lineage_hunter = new lh();
+    var pseudopattern_hunter = new pph();
+    var currentPattern;
+    var i;
 
-    var lineage_hunter = new lh(),
-      list_item_hunter = new lih();
+    //find current pattern in patternlab object either as passed as a param
+    //or by identifying by relPath
+    if (origPatternParam) {
+      currentPattern = origPatternParam;
 
-    //find current pattern in patternlab object using var file as a partial
-    var currentPattern, i;
-
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].relPath === file) {
-        currentPattern = patternlab.patterns[i];
+    } else {
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].relPath === relPath) {
+          currentPattern = patternlab.patterns[i];
+        }
       }
     }
 
@@ -338,74 +387,45 @@ var pattern_assembler = function () {
     //we are processing a markdown only pattern
     if (currentPattern.engine === null) { return; }
 
-    currentPattern.extendedTemplate = currentPattern.template;
+    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+    //only do this at the top level of recursion
+    var level;
+    if (typeof levelParam === 'undefined') {
+      pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
+      level = 1;
+    } else {
+      level++;
+    }
 
     //find how many partials there may be for the given pattern
-    var foundPatternPartials = currentPattern.findPartials();
+    currentPattern.patternPartials = currentPattern.findPartials();
 
-    //find any listItem blocks that within the pattern, even if there are no partials
-    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-
-    // expand any partials present in this pattern; that is, drill down into
-    // the template and replace their calls in this template with rendered
-    // results
-
-    if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
+    //expand any partials present in this pattern; that is, drill down into the
+    //template and replace their calls in this template with rendered results
+    if (currentPattern.engine.expandPartials && (currentPattern.patternPartials !== null && currentPattern.patternPartials.length > 0)) {
       // eslint-disable-next-line
-      expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
-
-      // update the extendedTemplate in the partials object in case this
-      // pattern is consumed later
-      patternlab.partials[currentPattern.patternPartial] = currentPattern.extendedTemplate;
+      expandPartials(patternlab, currentPattern, level);
     }
 
     //find pattern lineage
     lineage_hunter.find_lineage(currentPattern, patternlab);
-
-    //add to patternlab object so we can look these up later.
-    addPattern(currentPattern, patternlab);
   }
 
-  function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
+  function expandPartials(patternlab, currentPattern, level) {
 
-    var style_modifier_hunter = new smh(),
-      parameter_hunter = new ph();
+    var partial_hunter = new ph();
+    var list_item_hunter = new lih();
 
     if (patternlab.config.debug) {
       console.log('found partials for ' + currentPattern.patternPartial);
     }
 
-    // determine if the template contains any pattern parameters. if so they
-    // must be immediately consumed
-    parameter_hunter.find_parameters(currentPattern, patternlab);
+    partial_hunter.replace_partials(currentPattern, patternlab);
 
-    //do something with the regular old partials
-    for (var i = 0; i < foundPatternPartials.length; i++) {
-      var partial = currentPattern.findPartial(foundPatternPartials[i]);
-      var partialPath;
+    //find any listItem blocks within the pattern
+    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
 
-      //identify which pattern this partial corresponds to
-      for (var j = 0; j < patternlab.patterns.length; j++) {
-        if (patternlab.patterns[j].patternPartial === partial ||
-           patternlab.patterns[j].relPath.indexOf(partial) > -1)
-        {
-          partialPath = patternlab.patterns[j].relPath;
-        }
-      }
-
-      //recurse through nested partials to fill out this extended template.
-      processPatternRecursive(partialPath, patternlab);
-
-      //complete assembly of extended template
-      var partialPattern = getPartial(partial, patternlab);
-
-      //if partial has style modifier data, replace the styleModifier value
-      if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-        style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
-      }
-
-      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
-    }
+    processPatternRecursive(currentPattern.relPath, patternlab, currentPattern, level);
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
@@ -419,7 +439,6 @@ var pattern_assembler = function () {
       for (var i = 0; i < linkMatches.length; i++) {
         expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
         if (expandedLink) {
-          expandedLink = expandedLink.replace('\\', '/');
           if (patternlab.config.debug) {
             console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
           }
@@ -497,6 +516,9 @@ var pattern_assembler = function () {
     },
     parse_pattern_markdown: function (pattern, patternlab) {
       parsePatternMarkdown(pattern, patternlab);
+    },
+    get_data_keys: function (data, uniqueKeys) {
+      return getDataKeys(data, uniqueKeys);
     }
   };
 

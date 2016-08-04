@@ -16,9 +16,6 @@ var style_modifier_hunter = function () {
 
       //replace the stylemodifier placeholder with the class name
       pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
-
-      //update the extendedTemplate in the partials object in case this pattern is consumed later
-      patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
     }
   }
 

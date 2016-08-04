@@ -1,0 +1,7 @@
+{{> test1-simple(title: 'foo') }}
+{{# foo }}
+  {{> test1-parametered-partial(bar: true) }}
+{{/ foo }}
+{{# bar }}
+  {{> test1-simple(title: 'bar') }}
+{{/ bar }}

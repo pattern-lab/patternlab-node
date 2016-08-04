@@ -42,7 +42,8 @@ function testFindPartials(test, partialTests) {
     '01-molecules/00-testing/00-test-mol.mustache', // relative path now
     null, // data
     {
-      template: partialTests.join(eol)
+      template: partialTests.join(eol),
+      extendedTemplate: partialTests.join(eol)
     }
   );
 
@@ -68,7 +69,8 @@ function testFindPartialsWithStyleModifiers(test, partialTests) {
     '01-molecules/00-testing/00-test-mol.mustache', // relative path now
     null, // data
     {
-      template: partialTests.join(eol)
+      template: partialTests.join(eol),
+      extendedTemplate: partialTests.join(eol)
     }
   );
 
@@ -94,7 +96,8 @@ function testFindPartialsWithPatternParameters(test, partialTests) {
     '01-molecules/00-testing/00-test-mol.mustache', // relative path now
     null, // data
     {
-      template: partialTests.join(eol)
+      template: partialTests.join(eol),
+      extendedTemplate: partialTests.join(eol)
     }
   );
 

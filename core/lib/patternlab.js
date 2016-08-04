@@ -53,6 +53,44 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
   );
 }
 
+function preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patternlab) {
+  // get the templating engine used for this implementation of pattern lab
+  var engine;
+  var i;
+  for (i = 0; i < patternlab.patterns.length; i++) {
+    if (patternlab.patterns[i].isPattern) {
+      engine = patternlab.patterns[i].engine;
+      break;
+    }
+  }
+
+  // push list item keywords into dataKeys property
+  for (i = 0; i < list_item_hunter.items.length; i++) {
+    patternlab.dataKeys.push('listItems.' + list_item_hunter.items[i]);
+    patternlab.dataKeys.push('listitems.' + list_item_hunter.items[i]);
+  }
+
+  // create properties to later escape all tags that match keys in the JSON
+  // data so these tags persist through recursive partial includes.
+  patternlab.dataKeysEscape = '';
+  var dataKey;
+  for (var i = 0; i < patternlab.dataKeys.length; i++) {
+    dataKey = patternlab.dataKeys[i];
+    if (engine && typeof engine.escapeReservedRegexChars === 'function') {
+      dataKey = engine.escapeReservedRegexChars(dataKey);
+    }
+    patternlab.dataKeysEscape += dataKey;
+    if (i < patternlab.dataKeys.length - 1) {
+      patternlab.dataKeysEscape += '|';
+    }
+  }
+
+  // preprocess partials so they can be recursively included respecting any parameters they may be submitting
+  if (engine && typeof engine.preprocessPartials === 'function') {
+    engine.preprocessPartials(pattern_assembler, patternlab);
+  }
+}
+
 function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
@@ -80,11 +118,11 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
 var patternlab_engine = function (config) {
   'use strict';
 
-  var JSON5 = require('json5'),
-    fs = require('fs-extra'),
+  var fs = require('fs-extra'),
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
+    lih = require('./list_item_hunter'),
     buildFrontEnd = require('./ui_builder'),
     plutils = require('./utilities'),
     sm = require('./starterkit_manager'),
@@ -195,11 +233,22 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
+    var list_item_hunter = new lih();
+    var pattern_assembler = new pa();
+
     try {
       patternlab.data = buildPatternData(paths.source.data, fs);
     } catch (ex) {
       plutils.logRed('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       patternlab.data = {};
+    }
+    try {
+      //create this properties to later escape all tags that match keys in the
+      //JSON data so these tags persist through recursive partial includes.
+      patternlab.dataKeys = pattern_assembler.get_data_keys(patternlab.data);
+    } catch (ex) {
+      plutils.logRed(ex);
+      patternlab.dataKeys = [];
     }
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
@@ -234,6 +283,8 @@ var patternlab_engine = function (config) {
 
     // diveSync once to perform iterative populating of patternlab object
     processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab);
+
+    preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patternlab);
 
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
@@ -301,21 +352,13 @@ var patternlab_engine = function (config) {
       pattern.patternLineageRExists = pattern.lineageR.length > 0;
       pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
-      //render the pattern, but first consolidate any data we may have
-      var allData;
-      try {
-        allData = JSON5.parse(JSON5.stringify(patternlab.data));
-      } catch (err) {
-        console.log('There was an error parsing JSON for ' + pattern.relPath);
-        console.log(err);
-      }
-      allData = plutils.mergeData(allData, pattern.jsonFileData);
-      allData.cacheBuster = patternlab.cacheBuster;
+      //set cacheBuster property
+      pattern.allData.cacheBuster = patternlab.cacheBuster;
 
-      var headHTML = pattern_assembler.renderPattern(pattern.header, allData);
+      var headHTML = pattern_assembler.renderPattern(pattern.header, pattern.allData);
 
       //render the extendedTemplate with all data
-      pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+      pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, pattern.allData);
 
       //todo see if this is still needed
       //pattern.patternPartialCodeE = entity_encoder.encode(pattern.patternPartialCode);
@@ -415,6 +458,7 @@ var patternlab_engine = function (config) {
 // have a better way to do this
 patternlab_engine.build_pattern_data = buildPatternData;
 patternlab_engine.process_all_patterns_iterative = processAllPatternsIterative;
+patternlab_engine.preprocess_patternlab_partials = preprocessPatternlabPartials;
 patternlab_engine.process_all_patterns_recursive = processAllPatternsRecursive;
 
 module.exports = patternlab_engine;

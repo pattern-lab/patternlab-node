@@ -56,6 +56,9 @@ var Pattern = function (relPath, data) {
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
   this.engine = patternEngines.getEngineForPattern(this);
+  this.patternPartials = null;
+  this.allData = {};
+  this.dataKeys = [];
 };
 
 // Pattern methods
@@ -71,9 +74,9 @@ Pattern.prototype = {
     return null;
   },
 
-  registerPartial: function () {
+  registerPartial: function (patternlab) {
     if (this.engine && typeof this.engine.registerPartial === 'function') {
-      this.engine.registerPartial(this);
+      this.engine.registerPartial(this, patternlab);
     }
   },
 

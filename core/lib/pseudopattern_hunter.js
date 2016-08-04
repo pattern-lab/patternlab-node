@@ -9,8 +9,8 @@ var pseudopattern_hunter = function () {
       lh = require('./lineage_hunter'),
       Pattern = require('./object_factory').Pattern,
       plutils = require('./utilities'),
-      path = require('path');
-
+      path = require('path'),
+      JSON5 = require('json5');
 
     var pattern_assembler = new pa();
     var lineage_hunter = new lh();
@@ -32,25 +32,36 @@ var pseudopattern_hunter = function () {
         }
 
         //we want to do everything we normally would here, except instead read the pseudoPattern data
+        var variantFilename = path.resolve(paths.source.patterns, pseudoPatterns[i]);
+        var variantFileStr = '';
+        var variantLocalData = {};
+        var variantAllData = {};
         try {
-          var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
+          variantFileStr = fs.readFileSync(variantFilename, 'utf8');
+          variantLocalData = JSON5.parse(variantFileStr);
+
+          //clone. do not reference
+          variantAllData = JSON5.parse(variantFileStr);
         } catch (err) {
           console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
           console.log(err);
         }
 
         //extend any existing data with variant data
-        variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
+        plutils.mergeData(currentPattern.jsonFileData, variantLocalData);
+        plutils.mergeData(currentPattern.allData, variantAllData);
 
         var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
         var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
-        var patternVariant = Pattern.create(variantFilePath, variantFileData, {
+        var patternVariant = Pattern.create(variantFilePath, variantLocalData, {
           //use the same template as the non-variant
           template: currentPattern.template,
           fileExtension: currentPattern.fileExtension,
           extendedTemplate: currentPattern.extendedTemplate,
           isPseudoPattern: true,
           basePattern: currentPattern,
+          allData: variantAllData,
+          dataKeys: pattern_assembler.get_data_keys(variantLocalData),
 
           // use the same template engine as the non-variant
           engine: currentPattern.engine
