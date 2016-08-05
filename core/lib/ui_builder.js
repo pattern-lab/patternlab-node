@@ -119,7 +119,7 @@ var ui_builder = function () {
       patternGroups: {}
     };
 
-    _.forEach(patternlab.patterns, function (pattern) {
+    _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
 
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
 
@@ -152,6 +152,10 @@ var ui_builder = function () {
 
     if(!patternlab.patternTypeIndex) {
       patternlab.patternTypeIndex = [];
+    }
+
+    if(!patternlab.patternTypes){
+      patternlab.patternTypes = [];
     }
 
 
@@ -205,8 +209,6 @@ var ui_builder = function () {
 
           patternType.patternItems.push(patternSubTypeItem);
 
-          //add to patternPaths
-          addToPatternPaths(patternlab, pattern);
 
         } else {
 
@@ -215,8 +217,6 @@ var ui_builder = function () {
           patternSubType.patternSubtypeItems.push(patternSubTypeItem);
           patternSubType.patternSubtypeItemsIndex.push(patternSubTypeItemName);
 
-          //add to patternPaths
-          addToPatternPaths(patternlab, pattern);
 
           //add the view all PatternSubTypeItem
           viewAllPatternSubTypeItem = new of.oPatternSubTypeItem("View All");
@@ -251,8 +251,6 @@ var ui_builder = function () {
           //add the patternSubType to patternItems
           patternType.patternItems.push(patternSubTypeItem);
 
-          //add to patternPaths
-          addToPatternPaths(patternlab, pattern);
 
         } else {
 
@@ -287,8 +285,6 @@ var ui_builder = function () {
             patternSubType.patternSubtypeItemsIndex.push("View All");
           }
 
-          // just add to patternPaths
-          addToPatternPaths(patternlab, pattern);
         }
       }
 
@@ -309,24 +305,6 @@ var ui_builder = function () {
       patternLabFoot : footerPartial
     });
     return footerHTML;
-  }
-
-  function insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial) {
-    //attempt to find a subtype pattern before rendering
-    var subtypePattern = patternlab.subtypePatterns[patternPartial];
-    if (subtypePattern) {
-      patterns.unshift(subtypePattern);
-    } else {
-      var stubbedSubtypePattern = Pattern.createEmpty({
-        patternSectionSubtype: true,
-        isPattern: false,
-        patternPartial: 'viewall-' + patternPartial,
-        patternName: patterns[0].patternSubGroup,
-        patternLink:  patterns[0].flatPatternPath + '/index.html'
-      });
-      patterns.unshift(stubbedSubtypePattern);
-    }
-    return patterns;
   }
 
   function buildViewAllHTML(patternlab, patterns, patternPartial, isPatternType) {
@@ -472,13 +450,8 @@ var ui_builder = function () {
 
     var paths = patternlab.config.paths;
 
-    patternlab.patternTypes = [];
-
     //determine which patterns should be included in the front-end rendering
     var styleguidePatterns = groupPatterns(patternlab);
-
-    //sort all the patterns explicitly
-    //TODO
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
     var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
@@ -516,8 +489,7 @@ var ui_builder = function () {
     writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
     //build the patternlab navigation
-    //todo
-    buildNavigation(patternlab)
+    buildNavigation(patternlab);
 
     //move the index file from its asset location into public root
     var patternlabSiteHtml;
