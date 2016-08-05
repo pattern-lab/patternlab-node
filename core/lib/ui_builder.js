@@ -13,6 +13,18 @@ var _ = require('lodash');
 var ui_builder = function () {
 
   function addToPatternPaths(patternlab, pattern) {
+
+    console.log('adding',pattern.patternPartial, pattern.patternGroup, pattern.patternBaseName, pattern.name, 'to paths');
+
+
+    if(!patternlab.patternPaths) {
+      patternlab.patternPaths = {};
+    }
+
+    if(!patternlab.viewAllPaths) {
+      patternlab.viewAllPaths = {};
+    }
+
     if (!patternlab.patternPaths[pattern.patternGroup]) {
       patternlab.patternPaths[pattern.patternGroup] = {};
     }
@@ -129,33 +141,23 @@ var ui_builder = function () {
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup] = injectDocumentationBlock(pattern, patternlab, true);
       }
       groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
+
+      addToPatternPaths(patternlab, pattern);
+
     });
     return groupedPatterns;
   }
 
   function buildNavigation(patternlab) {
+
+    if(!patternlab.patternTypeIndex) {
+      patternlab.patternTypeIndex = [];
+    }
+
+
     for (var i = 0; i < patternlab.patterns.length; i++) {
 
       var pattern = patternlab.patterns[i];
-
-      //exclude any named defaultPattern from the navigation.
-      //this is meant to be a homepage that is not navigable
-      if (pattern.patternPartial === patternlab.config.defaultPattern) {
-        if (patternlab.config.debug) {
-          console.log('omitting ' + pattern.patternPartial + ' from navigation because it is defined as a defaultPattern');
-        }
-
-        //add to patternPaths before continuing
-        addToPatternPaths(patternlab, pattern);
-
-        continue;
-      }
-
-      // skip underscore-prefixed files. don't create a patternType on account of an underscored pattern
-      if (isPatternExcluded(pattern, patternlab)) {
-        continue;
-      }
-
       var patternSubTypeName;
       var patternSubTypeItemName;
       var flatPatternItem;
@@ -470,13 +472,13 @@ var ui_builder = function () {
 
     var paths = patternlab.config.paths;
 
+    patternlab.patternTypes = [];
+
     //determine which patterns should be included in the front-end rendering
     var styleguidePatterns = groupPatterns(patternlab);
 
     //sort all the patterns explicitly
     //TODO
-
-    //todo - remove patterns that are supposed to be omitted
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
     var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
@@ -515,7 +517,7 @@ var ui_builder = function () {
 
     //build the patternlab navigation
     //todo
-    // buildNavigation(patternlab)
+    buildNavigation(patternlab)
 
     //move the index file from its asset location into public root
     var patternlabSiteHtml;
