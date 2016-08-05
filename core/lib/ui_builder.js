@@ -154,7 +154,7 @@ var ui_builder = function() {
         isPattern: false,
         engine: null,
         //todo this might be broken yet
-        flatPatternPath: pattern.flatPatternPath + (isSubtypePattern ? '-' + pattern.patternSubGroup: ''),
+        flatPatternPath: pattern.flatPatternPath,// + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
         isDocPattern: true
       }
     );
@@ -523,14 +523,14 @@ var ui_builder = function() {
     //loop through the grouped styleguide patterns, building at each level
     _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
 
-      console.log(patternType);
+      console.log(1, patternType);
 
       _.forOwn(patternTypeObj, function(patternSubtypes, patternSubtype) {
 
-        console.log(patternSubtype);
+        console.log(2, patternSubtype);
 
         var patternPartial = patternType + '-' + patternSubtype;
-        console.log(patternPartial);
+        console.log(3, patternPartial);
 
         //render the footer needed for the viewall template
         var footerHTML = buildFooterHTML(patternlab, patternPartial);
@@ -542,6 +542,8 @@ var ui_builder = function() {
         var p = _.find(subtypePatterns, function(pat) {
           return pat.isDocPattern;
         });
+
+        console.log(4, 'about to write view all file to patterns/', p.flatPatternPath);
 
         console.log('------');
         writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
