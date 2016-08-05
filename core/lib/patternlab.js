@@ -86,7 +86,6 @@ var patternlab_engine = function (config) {
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
     ui = require('./ui_builder'),
-    ui2 = require('./ui_builder'),
     plutils = require('./utilities'),
     sm = require('./starterkit_manager'),
     patternlab = {};
@@ -390,8 +389,7 @@ var patternlab_engine = function (config) {
     },
     build: function (callback, deletePatternDir) {
       buildPatterns(deletePatternDir);
-      //new ui().buildFrontend(patternlab);
-      new ui2().buildFrontend2(patternlab);
+      new ui().buildFrontend(patternlab);
       printDebug();
       callback();
     },
