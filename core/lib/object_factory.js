@@ -47,6 +47,7 @@ var Pattern = function (relPath, data) {
   this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
 
   this.isPattern = true;
+  this.isFlatPattern = this.patternGroup === this.patternSubGroup;
   this.patternState = '';
   this.template = '';
   this.patternPartialCode = '';

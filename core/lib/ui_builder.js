@@ -111,6 +111,8 @@ var ui_builder = function () {
 
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
 
+      console.log('sorting', pattern.patternPartial, 'into group', pattern.patternGroup, 'and subtype', pattern.patternSubGroup);
+
       if (pattern.omitFromStyleguide) { return; }
 
       if (!groupedPatterns.patternGroups[pattern.patternGroup]) {
@@ -333,7 +335,6 @@ var ui_builder = function () {
       patternPartial = patternPartial.substring(patternPartial.indexOf('viewall-'));
     }
 
-
     var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
       {
         partials: patterns,
@@ -347,9 +348,7 @@ var ui_builder = function () {
   }
 
   function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
-
     var paths = patternlab.config.paths;
-
     var patterns = [];
 
     //loop through the grouped styleguide patterns, building at each level
@@ -372,20 +371,23 @@ var ui_builder = function () {
 
         //render the viewall template
         var subtypePatterns = _.values(patternSubtypes);
-        typePatterns = typePatterns.concat(subtypePatterns);
-        var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
 
+        //determine if we should write at this time by checking if these are flat patterns or grouped patterns
         p = _.find(subtypePatterns, function (pat) {
+          console.log(pat.patternPartial, pat.isFlatPattern, pat.patternGroup, pat.patternSubGroup);
           return pat.isDocPattern;
         });
 
-        console.log(4, 'about to write view all file to patterns/', p.flatPatternPath);
+        typePatterns = typePatterns.concat(subtypePatterns);
+        var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
+
+        console.log(4, 'about to write view all file to patterns/', p.flatPatternPath, p.patternGroup, p.patternSubGroup);
         writeFile(paths.public.patterns + p.flatPatternPath + '/subtypePatterns.json', JSON.stringify(subtypePatterns));
 
-
-        console.log('------');
-        writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-
+        console.log(5, '------');
+        if(p.patternGroup && p.patternSubGroup){
+          writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+        }
       });
 
 
@@ -513,6 +515,7 @@ var ui_builder = function () {
 
     //build the patternlab navigation
     //todo
+    // buildNavigation(patternlab)
 
     //move the index file from its asset location into public root
     var patternlabSiteHtml;
