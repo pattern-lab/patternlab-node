@@ -149,7 +149,7 @@ var ui_builder = function() {
         name: pattern.flatPatternPath,
         patternDesc: '',
         patternPartial: 'viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
-        patternSectionSubtype : true,
+        patternSectionSubtype : isSubtypePattern,
         patternLink: pattern.flatPatternPath + path.sep + 'index.html',
         isPattern: false,
         engine: null,
@@ -158,7 +158,6 @@ var ui_builder = function() {
         isDocPattern: true
       }
     );
-
     return docPattern;
   }
 
@@ -178,11 +177,14 @@ var ui_builder = function() {
       if (pattern.omitFromStyleguide) { return; }
 
       if (!groupedPatterns.patternGroups[pattern.patternGroup]) {
+        pattern.isSubtypePattern = false;
+
         groupedPatterns.patternGroups[pattern.patternGroup] = {};
         //todo: test this
         //groupedPatterns.patternGroups[pattern.patternGroup]['viewall-' + pattern.patternGroup] = injectDocumentationBlock(pattern, patternlab, false);
       }
       if (!groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]) {
+        pattern.isSubtypePattern = true;
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup] = {};
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup] = injectDocumentationBlock(pattern, patternlab, true);
       }
@@ -385,13 +387,18 @@ var ui_builder = function() {
     return patterns;
   }
 
-  function buildViewAllHTML(patternlab, patterns, patternPartial) {
+  function buildViewAllHTML(patternlab, patterns, patternPartial, isPatternType) {
 
-    var patternsPlusSubtpe = insertPatternSubtypeDocumentationPattern(patternlab, patterns, patternPartial);
+    console.log('building viewall HTML for ', patternPartial);
+
+    if(isPatternType){
+      patternPartial = patternPartial.substring(patternPartial.indexOf('viewall-'));
+    }
+
 
     var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
       {
-        partials: patternsPlusSubtpe,
+        partials: patterns,
         patternPartial: patternPartial,
         cacheBuster: patternlab.cacheBuster
       }, {
@@ -520,10 +527,15 @@ var ui_builder = function() {
 
     var paths = patternlab.config.paths;
 
+    var patterns = [];
+
     //loop through the grouped styleguide patterns, building at each level
     _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
 
       console.log(1, patternType);
+
+      var p;
+      var typePatterns = [];
 
       _.forOwn(patternTypeObj, function(patternSubtypes, patternSubtype) {
 
@@ -537,13 +549,16 @@ var ui_builder = function() {
 
         //render the viewall template
         var subtypePatterns = _.values(patternSubtypes);
+        typePatterns = typePatterns.concat(subtypePatterns);
         var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
 
-        var p = _.find(subtypePatterns, function(pat) {
+        p = _.find(subtypePatterns, function(pat) {
           return pat.isDocPattern;
         });
 
         console.log(4, 'about to write view all file to patterns/', p.flatPatternPath);
+        writeFile(paths.public.patterns + p.flatPatternPath + '/subtypePatterns.json', JSON.stringify(subtypePatterns));
+
 
         console.log('------');
         writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
@@ -553,7 +568,24 @@ var ui_builder = function() {
 
       console.log('~~~~~~');
 
+      //render the footer needed for the viewall template
+      var footerHTML = buildFooterHTML(patternlab, patternType);
+
+      //render the viewall template
+      var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType, true);
+
+      writeFile(paths.public.patterns + p.subdir + '/index.json', JSON.stringify(typePatterns));
+      console.log(5, 'trying to write view all file to patterns/', p.subdir );
+
+      writeFile(paths.public.patterns + p.subdir + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+
+      patterns = patterns.concat(typePatterns);
+
     });
+
+    writeFile(paths.public.patterns + '/patterns.json', JSON.stringify(patterns));
+
+    return patterns;
   }
 
   function sortPatterns(patternsArray) {
@@ -712,20 +744,20 @@ var ui_builder = function() {
 
     //build the viewall pages
     //todo so close
-    buildViewAllPages2(headerHTML, patternlab, styleguidePatterns);
+    var patterns = buildViewAllPages2(headerHTML, patternlab, styleguidePatterns);
 
     //build the main styleguide page
     //todo broken
     var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
       {
-        partials: _.values(styleguidePatterns),
+        partials: patterns,
         cacheBuster: patternlab.cacheBuster
       }, {
         patternSection: patternlab.patternSection,
         patternSectionSubType: patternlab.patternSectionSubType
       });
 
-    //writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
+    writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
     //build the patternlab navigation
     //todo
@@ -739,10 +771,10 @@ var ui_builder = function() {
       console.log("\nERROR: Could not load one or more styleguidekit assets from", paths.source.styleguide, '\n');
       process.exit(1);
     }
-    //writeFile(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+    writeFile(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
     //write out patternlab.data object to be read by the client
-    //exportData(patternlab);
+    exportData(patternlab);
   }
 
   return {
