@@ -132,21 +132,17 @@ exports['ui_builder'] = {
     test.done();
   },
 
-  'buildViewAllPages2 - does something': function (test) {
+  'groupPatterns - adds each pattern to the patternPaths object': function (test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
-      header: 'Header',
-      userHead: 'Head',
-      footer: 'Footer',
-      userFoot: 'Foot'
+      subtypePatterns: {}
     });
 
     patternlab.patterns.push(
-      //new Pattern('00-test/foo.mustache'),
-      //new Pattern('00-test/bar.mustache'),
+      new Pattern('00-test/foo.mustache'),
+      new Pattern('00-test/bar.mustache'),
       new Pattern('patternType1/patternSubType1/blue.mustache'),
       new Pattern('patternType1/patternSubType1/red.mustache'),
       new Pattern('patternType1/patternSubType1/yellow.mustache'),
@@ -156,11 +152,20 @@ exports['ui_builder'] = {
     );
 
     //act
-    ui.buildFrontend2(patternlab);
+    var result = ui.groupPatterns(patternlab);
 
     //assert
+    test.equals(patternlab.patternPaths['test']['foo'], '00-test-foo');
+    test.equals(patternlab.patternPaths['test']['bar'], '00-test-bar');
+    test.equals(patternlab.patternPaths['patternType1']['blue'], 'patternType1-patternSubType1-blue');
+    test.equals(patternlab.patternPaths['patternType1']['red'], 'patternType1-patternSubType1-red');
+    test.equals(patternlab.patternPaths['patternType1']['yellow'], 'patternType1-patternSubType1-yellow');
+    test.equals(patternlab.patternPaths['patternType1']['black'], 'patternType1-patternSubType2-black');
+    test.equals(patternlab.patternPaths['patternType1']['grey'], 'patternType1-patternSubType2-grey');
+    test.equals(patternlab.patternPaths['patternType1']['white'], 'patternType1-patternSubType2-white');
 
     test.done();
-  }
+  },
+
 
 };
