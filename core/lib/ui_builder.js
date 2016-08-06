@@ -14,21 +14,39 @@ var ui_builder = function () {
 
   function addToPatternPaths(patternlab, pattern) {
 
-    console.log('adding',pattern.patternPartial, pattern.patternGroup, pattern.patternBaseName, pattern.name, 'to paths');
+    //console.log('adding',pattern.patternPartial, pattern.patternGroup, pattern.patternBaseName, pattern.name, 'to paths');
 
-
-    if(!patternlab.patternPaths) {
+    if (!patternlab.patternPaths) {
       patternlab.patternPaths = {};
-    }
-
-    if(!patternlab.viewAllPaths) {
-      patternlab.viewAllPaths = {};
     }
 
     if (!patternlab.patternPaths[pattern.patternGroup]) {
       patternlab.patternPaths[pattern.patternGroup] = {};
     }
-    patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] = pattern.name;
+
+    if (pattern.isPattern && !pattern.isDocPattern){
+      patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] = pattern.name;
+    }
+  }
+
+  function addToViewAllPaths(patternlab, pattern) {
+
+    console.log('adding',pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup, pattern.flatPatternPath, 'to viewallpaths');
+
+    if (!patternlab.viewAllPaths) {
+      patternlab.viewAllPaths = {};
+    }
+
+    if (!patternlab.viewAllPaths[pattern.patternGroup]) {
+      patternlab.viewAllPaths[pattern.patternGroup] = {};
+    }
+
+    if (!patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup]) {
+      patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = {};
+    }
+
+    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
+
   }
 
   function writeFile(filePath, data, callback) {
@@ -139,6 +157,9 @@ var ui_builder = function () {
         pattern.isSubtypePattern = !pattern.isPattern;
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup] = {};
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup] = injectDocumentationBlock(pattern, patternlab, true);
+
+        addToViewAllPaths(patternlab, pattern);
+
       }
       groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
 
