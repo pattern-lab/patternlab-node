@@ -240,7 +240,7 @@ var parameter_hunter = function () {
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
         var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
+        var partialPattern = pattern_assembler.getPartial(partialName, patternlab);
 
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
