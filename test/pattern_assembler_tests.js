@@ -249,7 +249,7 @@
 			var mixedPattern = new Pattern('00-test/07-mixed-params.mustache');
 			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/07-mixed-params.mustache', 'utf8');
 			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
-      		mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
+	mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
 
 			pattern_assembler.addPattern(atomPattern, pl);
 			pattern_assembler.addPattern(mixedPattern, pl);
@@ -285,12 +285,12 @@
 			var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
 			atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
 			atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
-      		atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+	atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
 			var bookendPattern = new Pattern('00-test/08-bookend-params.mustache');
 			bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/08-bookend-params.mustache', 'utf8');
 			bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
-      		bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
+	bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
 
 			pattern_assembler.addPattern(atomPattern, pl);
 			pattern_assembler.addPattern(bookendPattern, pl);
@@ -419,7 +419,7 @@
 			});
 
 			//act
-			var result = pattern_assembler.findPartial('character-han', patternlab);
+			var result = pattern_assembler.getPartial('character-han', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[0]);
 			test.done();
@@ -441,7 +441,7 @@
 			});
 
 			//act
-			var result = pattern_assembler.findPartial('molecules-primary-nav', patternlab);
+			var result = pattern_assembler.getPartial('molecules-primary-nav', patternlab);
 			//assert
 			test.equals(result, patternlab.patterns[1]);
 			test.done();

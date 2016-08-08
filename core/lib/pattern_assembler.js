@@ -18,7 +18,7 @@ var markdown_parser = new mp();
 var pattern_assembler = function () {
   // HELPER FUNCTIONS
 
-  function getPartial(partialName, patternlab) {
+  function getPartialPattern(partialName, patternlab) {
     //look for exact partial matches
     for (var i = 0; i < patternlab.patterns.length; i++) {
       if (patternlab.patterns[i].patternPartial === partialName) {
@@ -397,7 +397,7 @@ var pattern_assembler = function () {
       processPatternRecursive(partialPath, patternlab);
 
       //complete assembly of extended template
-      var partialPattern = getPartial(partial, patternlab);
+      var partialPattern = getPartialPattern(partial, patternlab);
 
       //if partial has style modifier data, replace the styleModifier value
       if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
@@ -483,8 +483,8 @@ var pattern_assembler = function () {
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);
     },
-    findPartial: function (partial, patternlab) {
-      return getPartial(partial, patternlab);
+    getPartial: function (partial, patternlab) {
+      return getPartialPattern(partial, patternlab);
     },
     combine_listItems: function (patternlab) {
       buildListItems(patternlab);
