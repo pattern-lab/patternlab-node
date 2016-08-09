@@ -45,11 +45,14 @@ var ui_builder = function () {
       patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = {};
     }
 
-    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '-' +pattern.patternSubGroup;
+
+    console.log('0000<><><><>><>>><>', pattern.patternPartial);
+
+    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.patternType + '-' + pattern.patternSubType;
 
 
     if (!patternlab.viewAllPaths[pattern.patternGroup]['all']) {
-      patternlab.viewAllPaths[pattern.patternGroup]['all'] = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
+      patternlab.viewAllPaths[pattern.patternGroup]['all'] = pattern.flatPatternPath;
     }
   }
 
@@ -205,7 +208,7 @@ var ui_builder = function () {
     if(createViewAllVariant) {
       patternSubType.patternSubtypeItems.push(
         {
-          patternPartial: 'viewall-' + pattern.patternPartial,
+          patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
           patternName: 'View All',
           patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
           patternType: pattern.patternType,
@@ -355,9 +358,10 @@ var ui_builder = function () {
         writeFile(paths.public.patterns + p.flatPatternPath + '/subtypePatterns.json', JSON.stringify(subtypePatterns));
 
         console.log(5, '------');
-        if(p.patternGroup && p.patternSubGroup){
+        //todo review this conditional
+        //if(p.patternGroup && p.patternSubGroup){
           writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-        }
+        //}
       });
 
 

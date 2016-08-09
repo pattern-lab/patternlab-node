@@ -215,7 +215,8 @@ var pattern_assembler = function () {
           subTypePattern.patternLink = subTypePattern.name + '/index.html';
           subTypePattern.patternDesc = subTypeMarkdown.markdown;
           subTypePattern.flatPatternPath = subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
-          subTypePattern.patternPartial = 'viewall-' + subTypePattern.patternPartial;
+          //experiment
+          subTypePattern.patternPartial = function(){return 'viewall-' + subTypePattern.patternPartial; };
           subTypePattern.isPattern = false;
           subTypePattern.engine = null;
 
