@@ -36,8 +36,14 @@ var Pattern = function (relPath, data) {
   // the top-level pattern group this pattern belongs to. 'atoms'
   this.patternGroup = this.subdir.split(path.sep)[0].replace(/^\d*-/, '');
 
+  //00-atoms if needed
+  this.patternType = this.subdir.split(path.sep)[0];
+
   // the sub-group this pattern belongs to.
   this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
+
+  //00-colors if needed
+  this.patternSubType = path.basename(this.subdir);
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'

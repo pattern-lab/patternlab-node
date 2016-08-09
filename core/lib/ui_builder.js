@@ -31,7 +31,7 @@ var ui_builder = function () {
 
   function addToViewAllPaths(patternlab, pattern) {
 
-    console.log('adding',pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup, pattern.flatPatternPath, 'to viewallpaths');
+    console.log('6 adding',pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup, pattern.flatPatternPath, 'to viewallpaths');
 
     if (!patternlab.viewAllPaths) {
       patternlab.viewAllPaths = {};
@@ -45,8 +45,12 @@ var ui_builder = function () {
       patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = {};
     }
 
-    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
+    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + '-' +pattern.patternSubGroup;
 
+
+    if (!patternlab.viewAllPaths[pattern.patternGroup]['all']) {
+      patternlab.viewAllPaths[pattern.patternGroup]['all'] = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
+    }
   }
 
   function writeFile(filePath, data, callback) {
@@ -128,6 +132,100 @@ var ui_builder = function () {
     return docPattern;
   }
 
+  function createPatternType(patternlab, pattern) {
+
+    patternlab.patternTypes.push(
+      {
+        patternTypeLC: pattern.patternGroup.toLowerCase(),
+        patternTypeUC: pattern.patternGroup.charAt(0).toUpperCase() + pattern.patternGroup.slice(1),
+        patternType: pattern.patternType,
+        patternTypeDash: pattern.patternGroup, //todo verify
+        patternTypeItems: []
+      }
+    );
+  }
+
+  function getPatternType(patternlab, pattern) {
+
+    console.log('10 searching for', pattern.patternType, 'within', patternlab.patternTypes);
+
+    var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
+
+    if(!patternType) {
+      console.log('something went wrong looking for patternType');
+      process.exit(1);
+    }
+    console.log('returning', patternType.patternType);
+
+    return patternType;
+  }
+
+  function getPatternSubType(patternlab, pattern) {
+    var patternType = getPatternType(patternlab, pattern);
+
+    console.log(14, 'found patternType', patternType.patternType);
+
+    if(!patternType) {
+      console.log('something went wrong looking for patternType');
+      process.exit(1);
+    }
+
+
+    console.log(15, 'going to look in ', patternType.patternTypeItems, 'for patternSubType', pattern.patternSubType);
+    var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
+
+    if(!patternSubType) {
+      console.log('something went wrong looking for patternSubType', pattern.patternType, '-', pattern.patternSubType);
+      process.exit(1);
+    }
+
+    return patternSubType;
+  }
+
+  function createPatternSubType(patternlab, pattern) {
+
+    var patternType = getPatternType(patternlab, pattern);
+
+    patternType.patternTypeItems.push(
+      {
+        patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
+        patternSubtypeUC: pattern.patternSubGroup.charAt(0).toUpperCase() + pattern.patternSubGroup.slice(1),
+        patternSubtype: pattern.patternSubType,
+        patternSubtypeDash: pattern.patternSubGroup, //todo verify
+        patternSubtypeItems: []
+      }
+    );
+
+    console.log(11, patternlab.patternTypes);
+  }
+
+  function createPatternSubTypeItem(patternlab, pattern, createViewAllVariant) {
+    var patternSubType = getPatternSubType(patternlab, pattern);
+
+    if(createViewAllVariant) {
+      patternSubType.patternSubtypeItems.push(
+        {
+          patternPartial: 'viewall-' + pattern.patternPartial,
+          patternName: 'View All',
+          patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
+          patternType: pattern.patternType,
+          patternSubtype: pattern.patternSubtype
+        }
+      );
+    } else {
+      patternSubType.patternSubtypeItems.push(
+        {
+          patternPartial: pattern.patternPartial,
+          patternName: pattern.patternName,
+          patternState: pattern.patternState,
+          patternSrcPath: encodeURI(pattern.subdir + pattern.filename),
+          patternPath: encodeURI(pattern.flatPatternPath + '/' + pattern.flatPatternPath + '.html')
+        }
+      );
+    }
+
+  }
+
   /*
    * groupPatterns
    * returns an object representing how the front end styleguide and navigation is structured
@@ -136,6 +234,10 @@ var ui_builder = function () {
     var groupedPatterns = {
       patternGroups: {}
     };
+
+    if(!patternlab.patternTypes){
+      patternlab.patternTypes = [];
+    }
 
     _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
 
@@ -150,168 +252,34 @@ var ui_builder = function () {
 
         groupedPatterns.patternGroups[pattern.patternGroup] = {};
 
+        createPatternType(patternlab, pattern);
+
         //todo: test this
         //groupedPatterns.patternGroups[pattern.patternGroup]['viewall-' + pattern.patternGroup] = injectDocumentationBlock(pattern, patternlab, false);
       }
       if (!groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]) {
+
+        createPatternSubType(patternlab, pattern);
+
         pattern.isSubtypePattern = !pattern.isPattern;
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup] = {};
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup] = injectDocumentationBlock(pattern, patternlab, true);
 
         addToViewAllPaths(patternlab, pattern);
+        createPatternSubTypeItem(patternlab, pattern, true);
 
       }
       groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
 
       addToPatternPaths(patternlab, pattern);
-
+      console.log(12, 'about to create patternsubtypeitem derived from', pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup);
+      createPatternSubTypeItem(patternlab, pattern);
     });
     return groupedPatterns;
   }
 
-  function buildNavigation(patternlab) {
+  function buildNavigation(patternlab, patterns) {
 
-    if(!patternlab.patternTypeIndex) {
-      patternlab.patternTypeIndex = [];
-    }
-
-    if(!patternlab.patternTypes){
-      patternlab.patternTypes = [];
-    }
-
-
-    for (var i = 0; i < patternlab.patterns.length; i++) {
-
-      var pattern = patternlab.patterns[i];
-      var patternSubTypeName;
-      var patternSubTypeItemName;
-      var flatPatternItem;
-      var patternSubType;
-      var patternSubTypeItem;
-      var viewAllPatternSubTypeItem;
-
-      //get the patternSubType.
-      //if there is one or more slashes in the subdir, get everything after
-      //the last slash. if no slash, get the whole subdir string and strip
-      //any numeric + hyphen prefix
-      patternSubTypeName = pattern.subdir.split(path.sep).pop().replace(/^\d*\-/, '');
-
-      //get the patternSubTypeItem
-      patternSubTypeItemName = pattern.patternName.replace(/-/g, ' ');
-
-      //assume the patternSubTypeItem does not exist.
-      patternSubTypeItem = new of.oPatternSubTypeItem(patternSubTypeItemName);
-      patternSubTypeItem.patternPath = pattern.patternLink;
-      patternSubTypeItem.patternPartial = pattern.patternPartial;
-
-      //check if the patternType already exists
-      var patternTypeIndex = patternlab.patternTypeIndex.indexOf(pattern.patternGroup);
-      if (patternTypeIndex === -1) {
-        //add the patternType
-        var patternType = new of.oPatternType(pattern.patternGroup);
-
-        //add patternPath and viewAllPath
-        patternlab.patternPaths[pattern.patternGroup] = patternlab.patternPaths[pattern.patternGroup] || {};
-        patternlab.viewAllPaths[pattern.patternGroup] = {};
-
-        //test whether the pattern structure is flat or not - usually due to a template or page
-        flatPatternItem = patternSubTypeName === pattern.patternGroup;
-
-        //assume the patternSubType does not exist.
-        patternSubType = new of.oPatternSubType(patternSubTypeName);
-
-        //add the patternState if it exists
-        if (pattern.patternState) {
-          patternSubTypeItem.patternState = pattern.patternState;
-        }
-
-        //if it is flat - we should not add the pattern to patternPaths
-        if (flatPatternItem) {
-
-          patternType.patternItems.push(patternSubTypeItem);
-
-
-        } else {
-
-          patternType.patternTypeItems.push(patternSubType);
-          patternType.patternTypeItemsIndex.push(patternSubTypeName);
-          patternSubType.patternSubtypeItems.push(patternSubTypeItem);
-          patternSubType.patternSubtypeItemsIndex.push(patternSubTypeItemName);
-
-
-          //add the view all PatternSubTypeItem
-          viewAllPatternSubTypeItem = new of.oPatternSubTypeItem("View All");
-          viewAllPatternSubTypeItem.patternPath = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length) + "/index.html";
-          viewAllPatternSubTypeItem.patternPartial = "viewall-" + pattern.patternGroup;
-
-          patternType.patternItems.push(viewAllPatternSubTypeItem);
-          patternlab.viewAllPaths[pattern.patternGroup].viewall = pattern.subdir.slice(0, pattern.subdir.indexOf(pattern.patternGroup) + pattern.patternGroup.length);
-
-        }
-
-        //add the patternType.
-        patternlab.patternTypes.push(patternType);
-        patternlab.patternTypeIndex.push(pattern.patternGroup);
-
-        //done
-
-      } else {
-        //find the patternType
-        patternType = patternlab.patternTypes[patternTypeIndex];
-
-        //add the patternState if it exists
-        if (pattern.patternState) {
-          patternSubTypeItem.patternState = pattern.patternState;
-        }
-
-        //test whether the pattern structure is flat or not - usually due to a template or page
-        flatPatternItem = patternSubTypeName === pattern.patternGroup;
-
-        //if it is flat - we should not add the pattern to patternPaths
-        if (flatPatternItem) {
-          //add the patternSubType to patternItems
-          patternType.patternItems.push(patternSubTypeItem);
-
-
-        } else {
-
-          // only do this if pattern is included
-          //check to see if patternSubType exists
-          var patternTypeItemsIndex = patternType.patternTypeItemsIndex.indexOf(patternSubTypeName);
-          if (patternTypeItemsIndex === -1) {
-            patternSubType = new of.oPatternSubType(patternSubTypeName);
-
-            //add the patternSubType and patternSubTypeItem
-            patternSubType.patternSubtypeItems.push(patternSubTypeItem);
-            patternSubType.patternSubtypeItemsIndex.push(patternSubTypeItemName);
-            patternType.patternTypeItems.push(patternSubType);
-            patternType.patternTypeItemsIndex.push(patternSubTypeName);
-
-          } else {
-            //add the patternSubTypeItem
-            patternSubType = patternType.patternTypeItems[patternTypeItemsIndex];
-            patternSubType.patternSubtypeItems.push(patternSubTypeItem);
-            patternSubType.patternSubtypeItemsIndex.push(patternSubTypeItemName);
-          }
-
-          //check if we are moving to a new subgroup in the next loop
-          if (!patternlab.patterns[i + 1] || pattern.patternSubGroup !== patternlab.patterns[i + 1].patternSubGroup) {
-
-            //add the viewall SubTypeItem
-            var viewAllPatternSubTypeItem = new of.oPatternSubTypeItem("View All");
-            viewAllPatternSubTypeItem.patternPath = pattern.flatPatternPath + "/index.html";
-            viewAllPatternSubTypeItem.patternPartial = "viewall-" + pattern.patternGroup + "-" + pattern.patternSubGroup;
-
-            patternSubType.patternSubtypeItems.push(viewAllPatternSubTypeItem);
-            patternSubType.patternSubtypeItemsIndex.push("View All");
-          }
-
-        }
-      }
-
-      patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.flatPatternPath;
-    }
-    return patternTypeIndex;
   }
 
   function buildFooterHTML(patternlab, patternPartial) {
@@ -334,6 +302,7 @@ var ui_builder = function () {
 
     if (isPatternType) {
       patternPartial = patternPartial.substring(patternPartial.indexOf('viewall-'));
+      console.log(patternPartial);
     }
 
     var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
@@ -493,7 +462,6 @@ var ui_builder = function () {
     });
 
     //build the viewall pages
-    //todo so close
     var patterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
     //build the main styleguide page
@@ -508,9 +476,6 @@ var ui_builder = function () {
       });
 
     writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
-
-    //build the patternlab navigation
-    buildNavigation(patternlab);
 
     //move the index file from its asset location into public root
     var patternlabSiteHtml;

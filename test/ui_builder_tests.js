@@ -167,5 +167,32 @@ exports['ui_builder'] = {
     test.done();
   },
 
+  'groupPatterns - adds each pattern to the view all paths object': function (test) {
+    //arrange
+    var patternlab = createFakePatternLab({
+      patterns: [],
+      patternGroups: {},
+      subtypePatterns: {}
+    });
+
+    patternlab.patterns.push(
+      new Pattern('00-test/foo.mustache'),
+      new Pattern('00-test/bar.mustache'),
+      new Pattern('patternType1/patternSubType1/blue.mustache'),
+      new Pattern('patternType1/patternSubType1/red.mustache'),
+      new Pattern('patternType1/patternSubType1/yellow.mustache'),
+      new Pattern('patternType1/patternSubType2/black.mustache'),
+      new Pattern('patternType1/patternSubType2/grey.mustache'),
+      new Pattern('patternType1/patternSubType2/white.mustache')
+    );
+
+    //act
+    var result = ui.groupPatterns(patternlab);
+
+    //assert
+    test.equals('todo', 'todo');
+
+    test.done();
+  }
 
 };
