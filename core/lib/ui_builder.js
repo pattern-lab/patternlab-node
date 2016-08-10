@@ -31,7 +31,7 @@ var ui_builder = function () {
 
   function addToViewAllPaths(patternlab, pattern) {
 
-    console.log('6 adding',pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup, pattern.flatPatternPath, 'to viewallpaths');
+    //console.log('6 adding',pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup, pattern.flatPatternPath, 'to viewallpaths');
 
     if (!patternlab.viewAllPaths) {
       patternlab.viewAllPaths = {};
@@ -46,7 +46,7 @@ var ui_builder = function () {
     }
 
 
-    console.log('0000<><><><>><>>><>', pattern.patternPartial);
+    //console.log('0000<><><><>><>>><>', pattern.patternPartial);
 
     patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.patternType + '-' + pattern.patternSubType;
 
@@ -110,16 +110,23 @@ var ui_builder = function () {
    */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
 
-    var docPattern = patternlab.subtypePatterns['viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
+
+    writeFile('./subtypePatternsNow.json', JSON.stringify(patternlab.subtypePatterns));
+
+    var docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
 
     if (docPattern) {
       docPattern.isDocPattern = true;
+      console.log(99, 'returning  doc pattern for', pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''));
+      console.log(99, docPattern.patternDesc);
       return docPattern;
     }
 
+    console.log(100, 'creating empty doc pattern for', pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''));
     var docPattern = new Pattern.createEmpty(
       {
         name: pattern.flatPatternPath,
+        patternName:   isSubtypePattern ?  pattern.patternSubGroup : pattern.patternGroup,
         patternDesc: '',
         patternPartial: 'viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
         patternSectionSubtype : isSubtypePattern,
@@ -150,31 +157,23 @@ var ui_builder = function () {
 
   function getPatternType(patternlab, pattern) {
 
-    console.log('10 searching for', pattern.patternType, 'within', patternlab.patternTypes);
-
     var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if(!patternType) {
       console.log('something went wrong looking for patternType');
       process.exit(1);
     }
-    console.log('returning', patternType.patternType);
-
     return patternType;
   }
 
   function getPatternSubType(patternlab, pattern) {
     var patternType = getPatternType(patternlab, pattern);
 
-    console.log(14, 'found patternType', patternType.patternType);
-
     if(!patternType) {
       console.log('something went wrong looking for patternType');
       process.exit(1);
     }
 
-
-    console.log(15, 'going to look in ', patternType.patternTypeItems, 'for patternSubType', pattern.patternSubType);
     var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if(!patternSubType) {
@@ -198,8 +197,6 @@ var ui_builder = function () {
         patternSubtypeItems: []
       }
     );
-
-    console.log(11, patternlab.patternTypes);
   }
 
   function createPatternSubTypeItem(patternlab, pattern, createViewAllVariant) {
@@ -246,7 +243,7 @@ var ui_builder = function () {
 
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
 
-      console.log('sorting', pattern.patternPartial, 'into group', pattern.patternGroup, 'and subtype', pattern.patternSubGroup);
+      //console.log('sorting', pattern.patternPartial, 'into group', pattern.patternGroup, 'and subtype', pattern.patternSubGroup);
 
       if (pattern.omitFromStyleguide) { return; }
 
@@ -275,7 +272,7 @@ var ui_builder = function () {
       groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
 
       addToPatternPaths(patternlab, pattern);
-      console.log(12, 'about to create patternsubtypeitem derived from', pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup);
+      //console.log(12, 'about to create patternsubtypeitem derived from', pattern.patternPartial, pattern.patternGroup, pattern.patternSubGroup);
       createPatternSubTypeItem(patternlab, pattern);
     });
     return groupedPatterns;
@@ -351,6 +348,8 @@ var ui_builder = function () {
           console.log(pat.patternPartial, pat.isFlatPattern, pat.patternGroup, pat.patternSubGroup);
           return pat.isDocPattern;
         });
+
+        console.log(3.5, p.patternDesc);
 
         typePatterns = typePatterns.concat(subtypePatterns);
         var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
