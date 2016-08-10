@@ -301,17 +301,18 @@ var ui_builder = function () {
 
   function buildViewAllHTML(patternlab, patterns, patternPartial, isPatternType) {
 
-    console.log('building viewall HTML for ', patternPartial);
+    console.log(20, 'building viewall HTML for', patternPartial);
 
-    if (isPatternType) {
-      patternPartial = patternPartial.substring(patternPartial.indexOf('viewall-'));
-      console.log(patternPartial);
-    }
+    //if (isPatternType) {
+    //  patternPartial = patternPartial.substring(patternPartial.indexOf('viewall-'));
+    //  console.log(21, patternPartial);
+    //}
+
 
     var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
       {
         partials: patterns,
-        patternPartial: patternPartial,
+        patternPartial: 'viewall-' + patternPartial,
         cacheBuster: patternlab.cacheBuster
       }, {
         patternSection: patternlab.patternSection,
@@ -340,7 +341,7 @@ var ui_builder = function () {
         console.log(3, patternPartial);
 
         //render the footer needed for the viewall template
-        var footerHTML = buildFooterHTML(patternlab, patternPartial);
+        var footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternPartial);
 
         //render the viewall template
         var subtypePatterns = _.values(patternSubtypes);
