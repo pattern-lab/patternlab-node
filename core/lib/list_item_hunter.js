@@ -82,7 +82,7 @@ var list_item_hunter = function () {
 
               //get the partial
               var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              var partialPattern = pattern_assembler.findPartial(partialName, patternlab);
+              var partialPattern = pattern_assembler.getPartial(partialName, patternlab);
 
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
               var cleanPartialPattern;
