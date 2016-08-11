@@ -508,31 +508,16 @@ var ui_builder = function () {
 
     //build the viewall pages
     var patterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
-
     writeFile('./all.json', JSON.stringify(patterns));
 
     //build the main styleguide page
-    //todo broken
     var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
       {
-        //partials: patterns
-        partials: [
-          {
-            "patternSectionSubtype" : {
-              "patternName": "global",
-              "patternLink": "00-atoms-00-global\\index.html",
-              "patternPartial": "viewall-atoms-global",
-              "patternSectionSubtype": true,
-              "patternDesc": ""
-            }
-
-          }
-        ]
+        partials: patterns
       }, {
         patternSection: patternlab.patternSection,
-        patternSectionSubType: patternlab.patternSectionSubType
+        patternSectionSubtype: patternlab.patternSectionSubType
       });
-
     writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
     //move the index file from its asset location into public root
