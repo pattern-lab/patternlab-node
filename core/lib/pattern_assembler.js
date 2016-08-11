@@ -418,7 +418,7 @@ var pattern_assembler = function () {
 
     if (linkMatches) {
       for (var i = 0; i < linkMatches.length; i++) {
-        expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+        expandedLink = encodeURI(patternlab.data.link[linkMatches[i].split('.')[1]]);
         if (expandedLink) {
           expandedLink = expandedLink.replace('\\', '/');
           if (patternlab.config.debug) {
