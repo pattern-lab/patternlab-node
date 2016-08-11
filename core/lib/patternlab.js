@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.3.0 - 2016 
- * 
+/*
+ * patternlab-node - v2.3.0 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -244,19 +244,17 @@ var patternlab_engine = function (config) {
       patternlab.userHead = fs.readFileSync(path.resolve(paths.source.meta, '_00-head.mustache'), 'utf8');
     }
     catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined header, usually found at ./source/_meta/_00-head.mustache. It was likely deleted.');
-      }
+      console.log('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      if (patternlab.config.debug) { console.log(ex); }
+      process.exit(1);
     }
     try {
       patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.meta, '_01-foot.mustache'), 'utf8');
     }
     catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined footer, usually found at ./source/_meta/_01-foot.mustache. It was likely deleted.');
-      }
+      console.log('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      if (patternlab.config.debug) { console.log(ex); }
+      process.exit(1);
     }
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
