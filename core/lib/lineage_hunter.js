@@ -13,7 +13,7 @@ var lineage_hunter = function () {
     if (matches !== null) {
       matches.forEach(function (match) {
         //get the ancestorPattern
-        var ancestorPattern = pattern_assembler.findPartial(pattern.findPartial(match), patternlab);
+        var ancestorPattern = pattern_assembler.getPartial(pattern.findPartial(match), patternlab);
 
         if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) === -1) {
           //add it since it didnt exist
@@ -83,7 +83,7 @@ var lineage_hunter = function () {
 
           //find all lineage - patterns being consumed by this one
           for (var h = 0; h < pattern.lineageIndex.length; h++) {
-            var lineagePattern = pattern_assembler.findPartial(pattern.lineageIndex[h], patternlab);
+            var lineagePattern = pattern_assembler.getPartial(pattern.lineageIndex[h], patternlab);
             setPatternState('fromFuture', lineagePattern, pattern);
           }
         }
@@ -93,7 +93,7 @@ var lineage_hunter = function () {
           //find all reverse lineage - that is, patterns consuming this one
           for (var j = 0; j < pattern.lineageRIndex.length; j++) {
 
-            var lineageRPattern = pattern_assembler.findPartial(pattern.lineageRIndex[j], patternlab);
+            var lineageRPattern = pattern_assembler.getPartial(pattern.lineageRIndex[j], patternlab);
 
             //only set patternState if pattern.patternState "is less than" the lineageRPattern.patternstate
             //or if lineageRPattern.patternstate (the consuming pattern) does not have a state

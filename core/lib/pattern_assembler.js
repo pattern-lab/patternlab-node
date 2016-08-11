@@ -29,8 +29,8 @@ var pattern_assembler = function () {
     //else look by verbose syntax
     for (var i = 0; i < patternlab.patterns.length; i++) {
       switch (partialName) {
+        case patternlab.patterns[i].relPath:
         case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
           return patternlab.patterns[i];
       }
     }
@@ -45,7 +45,8 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    throw 'Could not find pattern with partial ' + partialName;
+    console.error('Could not find pattern with partial ' + partialName);
+    return undefined;
   }
 
   function buildListItems(container) {
@@ -483,7 +484,7 @@ var pattern_assembler = function () {
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);
     },
-    findPartial: function (partial, patternlab) {
+    getPartial: function (partial, patternlab) {
       return getPartial(partial, patternlab);
     },
     combine_listItems: function (patternlab) {
