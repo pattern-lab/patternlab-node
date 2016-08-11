@@ -132,7 +132,7 @@ var pattern_assembler = function () {
 
   function addSubtypePattern(subtypePattern, patternlab) {
     patternlab.subtypePatterns[subtypePattern.patternPartial] = subtypePattern;
-    console.log(55, patternlab.subtypePatterns[subtypePattern.patternPartial]);
+    //console.log(55, patternlab.subtypePatterns[subtypePattern.patternPartial]);
   }
 
   // Render a pattern on request. Long-term, this should probably go away.
