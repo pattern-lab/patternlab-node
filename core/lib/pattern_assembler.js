@@ -132,7 +132,6 @@ var pattern_assembler = function () {
 
   function addSubtypePattern(subtypePattern, patternlab) {
     patternlab.subtypePatterns[subtypePattern.patternPartial] = subtypePattern;
-    //console.log(55, patternlab.subtypePatterns[subtypePattern.patternPartial]);
   }
 
   // Render a pattern on request. Long-term, this should probably go away.
@@ -216,10 +215,8 @@ var pattern_assembler = function () {
           subTypePattern.patternLink = subTypePattern.name + '/index.html';
           subTypePattern.patternDesc = subTypeMarkdown.markdown;
           subTypePattern.flatPatternPath = subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
-          //experiment
-          //subTypePattern.patternPartial = function(){ return 'viewall-' + subTypePattern.patternPartial; };
           subTypePattern.isPattern = false;
-          //subTypePattern.engine = null;
+          subTypePattern.engine = null;
 
           addSubtypePattern(subTypePattern, patternlab)
           return subTypePattern;
