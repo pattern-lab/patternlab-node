@@ -219,7 +219,7 @@ var pattern_assembler = function () {
           //experiment
           //subTypePattern.patternPartial = function(){ return 'viewall-' + subTypePattern.patternPartial; };
           subTypePattern.isPattern = false;
-          subTypePattern.engine = null;
+          //subTypePattern.engine = null;
 
           addSubtypePattern(subTypePattern, patternlab)
           return subTypePattern;

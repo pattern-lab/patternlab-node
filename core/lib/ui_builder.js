@@ -52,7 +52,7 @@ var ui_builder = function () {
 
 
     if (!patternlab.viewAllPaths[pattern.patternGroup]['all']) {
-      patternlab.viewAllPaths[pattern.patternGroup]['all'] = pattern.flatPatternPath;
+      patternlab.viewAllPaths[pattern.patternGroup]['all'] = pattern.patternType ;
     }
   }
 
@@ -132,7 +132,7 @@ var ui_builder = function () {
         patternSectionSubtype : isSubtypePattern,
         patternLink: pattern.flatPatternPath + path.sep + 'index.html',
         isPattern: false,
-        engine: null,
+        engine: pattern.engine,
 
         //todo this might be broken yet
         flatPatternPath: pattern.flatPatternPath, // + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
@@ -320,10 +320,6 @@ var ui_builder = function () {
     return groupedPatterns;
   }
 
-  function buildNavigation(patternlab, patterns) {
-
-  }
-
   function buildFooterHTML(patternlab, patternPartial) {
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
     var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
@@ -338,15 +334,9 @@ var ui_builder = function () {
     return footerHTML;
   }
 
-  function buildViewAllHTML(patternlab, patterns, patternPartial, isPatternType) {
+  function buildViewAllHTML(patternlab, patterns, patternPartial) {
 
-    console.log(343, 'building viewall HTML for', patternPartial);
-
-    //if (isPatternType) {
-    //  patternPartial = patternPartial.substring(patternPartial.indexOf('viewall-'));
-    //  console.log(21, patternPartial);
-    //}
-
+    //console.log(343, 'building viewall HTML for', patternPartial);
 
     var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
       {
@@ -422,16 +412,14 @@ var ui_builder = function () {
       var footerHTML = buildFooterHTML(patternlab, patternType);
 
       //render the viewall template
-      var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType, true);
+      var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
 
-      //writeFile(paths.public.patterns + p.subdir + '/index.json', JSON.stringify(typePatterns));
+      writeFile(paths.public.patterns + p.subdir + '/index.json', JSON.stringify(typePatterns));
       console.log(5, 'trying to write view all file to patterns/', p.subdir);
 
       writeFile(paths.public.patterns + p.subdir + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
       patterns = patterns.concat(typePatterns);
-
-      console.log(3.57, patterns.length);
 
     });
 
@@ -521,16 +509,25 @@ var ui_builder = function () {
     //build the viewall pages
     var patterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
-
     writeFile('./all.json', JSON.stringify(patterns));
-
 
     //build the main styleguide page
     //todo broken
     var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
       {
-        partials: patterns,
-        cacheBuster: patternlab.cacheBuster
+        //partials: patterns
+        partials: [
+          {
+            "patternSectionSubtype" : {
+              "patternName": "global",
+              "patternLink": "00-atoms-00-global\\index.html",
+              "patternPartial": "viewall-atoms-global",
+              "patternSectionSubtype": true,
+              "patternDesc": ""
+            }
+
+          }
+        ]
       }, {
         patternSection: patternlab.patternSection,
         patternSectionSubType: patternlab.patternSectionSubType
