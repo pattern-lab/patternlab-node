@@ -101,6 +101,8 @@ exports['ui_builder'] = {
     test.equals(patternlab.patternTypes[0].patternItems[0].patternPartial, 'test-bar');
     test.equals(patternlab.patternTypes[0].patternItems[1].patternPartial, 'test-foo');
 
+    //todo: patternlab.patternTypes[0].patternItems[1] looks malformed
+
     test.done();
   },
 
