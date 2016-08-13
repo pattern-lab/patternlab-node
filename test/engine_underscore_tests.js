@@ -72,6 +72,17 @@ exports['engine_underscore'] = {
     // test
     test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
     test.done();
+  },
+  'findPartial return the ID of the partial, given a whole partial call': function (test) {
+    var engineLoader = require('../core/lib/pattern_engines');
+    var underscoreEngine = engineLoader.underscore;
+
+    test.expect(1);
+
+    // do all the normal processing of the pattern
+    // test
+    test.equals(underscoreEngine.findPartial("<%= _.renderNamedPartial('molecules-details', obj) %>"), 'molecules-details');
+    test.done();
   }
 };
 

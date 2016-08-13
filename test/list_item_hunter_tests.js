@@ -151,24 +151,28 @@
       var pattern1 = createFakeListPattern({
         "template": "{{#listItems.one}}{{> 00-test/00-foo.mustache }}{{/listItems.one}}",
         "extendedTemplate" : "{{#listItems.one}}{{> 00-test/00-foo.mustache }}{{/listItems.one}}",
-        "key": "test-patternName1"
+        "patternPartial": "test-patternName1",
+        "relPath": "00-test/02-patternName1.mustache"
       });
 
       var pattern2 = createFakeListPattern({
         "template": "{{#listItems.two}}{{> 00-test/00-bar.mustache }}{{/listItems.two}}",
         "extendedTemplate" : "{{#listItems.two}}{{> 00-test/00-bar.mustache }}{{/listItems.two}}",
-        "key": "test-patternName2"
+        "patternPartial": "test-patternName2",
+        "relPath": "00-test/03-patternName2.mustache"
       });
 
       var patternlab = createFakePatternLab({
         "patterns": [
           Pattern.create('00-test/00-foo.mustache', null, {
             "template": "{{ title }}",
-            "extendedTemplate": "{{ title }}"
+            "extendedTemplate": "{{ title }}",
+            "relPath": "00-test/00-foo.mustache"
           }),
           Pattern.create('00-test/00-bar.mustache', null, {
             "template": "{{ title }}",
-            "extendedTemplate": "{{ title }}"
+            "extendedTemplate": "{{ title }}",
+            "relPath": "00-test/00-bar.mustache"
           })
         ]
       });
