@@ -7,11 +7,18 @@ var of = require('./object_factory');
 var Pattern = of.Pattern;
 var pa = require('./pattern_assembler');
 var pattern_assembler = new pa();
+var plutils = require('./utilities');
 var eol = require('os').EOL;
 var _ = require('lodash');
 
 var ui_builder = function () {
 
+  /**
+   * Registers the pattern to the patternPaths object for the appropriate patternGroup and basename
+   * patternGroup + patternBaseName are what comprise the patternPartial (atoms-colors)
+   * @param patternlab - global data store
+   * @param pattern - the pattern to add
+     */
   function addToPatternPaths(patternlab, pattern) {
     if (!patternlab.patternPaths) {
       patternlab.patternPaths = {};
@@ -21,11 +28,17 @@ var ui_builder = function () {
       patternlab.patternPaths[pattern.patternGroup] = {};
     }
 
+    //only add real patterns
     if (pattern.isPattern && !pattern.isDocPattern) {
       patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] = pattern.name;
     }
   }
 
+  /**
+   * Registers the pattern with the viewAllPaths object for the appropriate patternGroup and patternSubGroup
+   * @param patternlab - global data store
+   * @param pattern -  the pattern to add
+     */
   function addToViewAllPaths(patternlab, pattern) {
     if (!patternlab.viewAllPaths) {
       patternlab.viewAllPaths = {};
@@ -39,13 +52,21 @@ var ui_builder = function () {
       patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = {};
     }
 
+    //note these retain any number prefixes if present, because these paths match the filesystem
     patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.patternType + '-' + pattern.patternSubType;
 
+    //add all if it does not exist yet
     if (!patternlab.viewAllPaths[pattern.patternGroup].all) {
-      patternlab.viewAllPaths[pattern.patternGroup].all = pattern.patternType ;
+      patternlab.viewAllPaths[pattern.patternGroup].all = pattern.patternType;
     }
   }
 
+  /**
+   * Writes a file to disk, with an optional callback
+   * @param filePath - the path to write to with filename
+   * @param data - the file contents
+   * @param callback - an optional callback
+     */
   function writeFile(filePath, data, callback) {
     if (callback) {
       fs.outputFile(filePath, data, callback);
@@ -54,10 +75,12 @@ var ui_builder = function () {
     }
   }
 
-  /*
-   * isPatternExcluded
-   * returns whether or not the pattern should be excluded from direct rendering or navigation on the front end
-   */
+  /**
+   * Returns whether or not the pattern should be excluded from direct rendering or navigation on the front end
+   * @param pattern - the pattern to test for inclusion/exclusion
+   * @param patternlab - global data store
+   * @returns boolean - whether or not the pattern is excluded
+     */
   function isPatternExcluded(pattern, patternlab) {
     var styleGuideExcludes = patternlab.config.styleGuideExcludes;
     var isOmitted;
@@ -94,19 +117,23 @@ var ui_builder = function () {
     return isOmitted;
   }
 
-  /*
-   * injectDocumentationBlock
-   * take the given pattern, fina and construct the view-all pattern block for the group
-   */
+  /**
+   * For the given pattern, find or construct the view-all pattern block for the group
+   * @param pattern - the pattern to derive our documentation pattern from
+   * @param patternlab - global data store
+   * @param isSubtypePattern - whether or not this is a subtypePattern or a typePattern (typePatterns not supported yet)
+   * @returns the found or created pattern object
+     */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
+    //first see if pattern_assembler processed one already
     var docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
-
     if (docPattern) {
       docPattern.isDocPattern = true;
       return docPattern;
     }
 
-    var docPattern = new Pattern.createEmpty(
+    //if not, create one now
+    docPattern = new Pattern.createEmpty(
       {
         name: pattern.flatPatternPath,
         patternName:   isSubtypePattern ? pattern.patternSubGroup : pattern.patternGroup,
@@ -123,8 +150,13 @@ var ui_builder = function () {
     return docPattern;
   }
 
+  /**
+   * Registers flat patterns with the patternTypes object
+   * This is a new menu group like atoms
+   * @param patternlab - global data store
+   * @param pattern - the pattern to register
+     */
   function addPatternType(patternlab, pattern) {
-
     patternlab.patternTypes.push(
       {
         patternTypeLC: pattern.patternGroup.toLowerCase(),
@@ -136,37 +168,48 @@ var ui_builder = function () {
     );
   }
 
+  /**
+   * Return the patternType object for the given pattern. Exits application if not found.
+   * @param patternlab - global data store
+   * @param pattern - the pattern to derive the pattern Type from
+   * @returns the found pattern type object
+     */
   function getPatternType(patternlab, pattern) {
-
     var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if (!patternType) {
-      console.log('something went wrong looking for patternType');
+      plutils.logRed("Could not find patternType", pattern.patternType, "This is a critical error.");
       process.exit(1);
     }
+
     return patternType;
   }
 
+  /**
+   * Return the patternSubType object for the given pattern. Exits application if not found.
+   * @param patternlab - global data store
+   * @param pattern - the pattern to derive the pattern subType from
+   * @returns the found patternSubType object
+   */
   function getPatternSubType(patternlab, pattern) {
     var patternType = getPatternType(patternlab, pattern);
-
-    if (!patternType) {
-      console.log('something went wrong looking for patternType');
-      process.exit(1);
-    }
-
     var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if (!patternSubType) {
-      console.log('something went wrong looking for patternSubType', pattern.patternType, '-', pattern.patternSubType);
+      plutils.logRed("Could not find patternType", pattern.patternType + '-' + pattern.patternType, "This is a critical error.");
       process.exit(1);
     }
 
     return patternSubType;
   }
 
+  /**
+   * Registers the pattern with the appropriate patternType.patternTypeItems object
+   * This is a new menu group like atoms/global
+   * @param patternlab - global data store
+   * @param pattern - the pattern to register
+     */
   function addPatternSubType(patternlab, pattern) {
-
     var patternType = getPatternType(patternlab, pattern);
 
     patternType.patternTypeItems.push(
@@ -180,6 +223,12 @@ var ui_builder = function () {
     );
   }
 
+  /**
+   * Creates a patternSubTypeItem object from a pattern
+   * This is a menu item you click on
+   * @param pattern - the pattern to derive the subtypeitem from
+   * @returns {{patternPartial: string, patternName: (*|string), patternState: string, patternSrcPath: string, patternPath: string}}
+     */
   function createPatternSubTypeItem(pattern) {
     return {
       patternPartial: pattern.patternPartial,
@@ -190,6 +239,13 @@ var ui_builder = function () {
     }
   }
 
+  /**
+   * Registers the pattern with the appropriate patternType.patternSubType.patternSubtypeItems array
+   * These are the actual menu items you click on
+   * @param patternlab - global data store
+   * @param pattern - the pattern to derive the subtypeitem from
+   * @param createViewAllVariant - whether or not to create the special view all item
+     */
   function addPatternSubTypeItem(patternlab, pattern, createViewAllVariant) {
     var patternSubType = getPatternSubType(patternlab, pattern);
     if (createViewAllVariant) {
@@ -209,10 +265,15 @@ var ui_builder = function () {
     }
   }
 
+  /**
+   * Registers flat patterns to the appropriate type
+   * @param patternlab - global data store
+   * @param pattern - the pattern to add
+     */
   function addPatternItem(patternlab, pattern) {
     var patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
-      console.log('something went wrong looking for patternType', pattern.patternType);
+      plutils.logRed("Could not find patternType", pattern.patternType, "This is a critical error.");
       process.exit(1);
     }
 
@@ -232,6 +293,12 @@ var ui_builder = function () {
   //   return [];
   // }
 
+  /**
+   * Sorts patterns based on name.
+   * Will be expanded to use explicit order in the near future
+   * @param patternsArray - patterns to sort
+   * @returns sorted patterns
+     */
   function sortPatterns(patternsArray) {
     return patternsArray.sort(function (a, b) {
 
@@ -241,16 +308,15 @@ var ui_builder = function () {
       if (a.name < b.name) {
         return -1;
       }
-
-      // a must be equal to b
       return 0;
     });
   }
 
-  /*
-   * groupPatterns
-   * returns an object representing how the front end styleguide and navigation is structured
-   */
+  /**
+   * Returns an object representing how the front end styleguide and navigation is structured
+   * @param patternlab - global data store
+   * @returns ptterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
+     */
   function groupPatterns(patternlab) {
     var groupedPatterns = {
       patternGroups: {}
@@ -262,12 +328,14 @@ var ui_builder = function () {
 
     _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
 
+      //ignore patterns we can omit from rendering directly
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
       if (pattern.omitFromStyleguide) { return; }
 
       if (!groupedPatterns.patternGroups[pattern.patternGroup]) {
-        pattern.isSubtypePattern = false;
+
         groupedPatterns.patternGroups[pattern.patternGroup] = {};
+        pattern.isSubtypePattern = false;
         addPatternType(patternlab, pattern);
 
         //todo: Pattern Type View All and Documentation
@@ -289,6 +357,7 @@ var ui_builder = function () {
           addPatternSubTypeItem(patternlab, pattern, true);
 
         }
+
         groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
 
         addToPatternPaths(patternlab, pattern);
@@ -297,24 +366,42 @@ var ui_builder = function () {
         addPatternItem(patternlab, pattern);
         addToPatternPaths(patternlab, pattern);
       }
+
     });
+
     return groupedPatterns;
   }
 
+  /**
+   * Builds footer HTML from the general footer and user-defined footer
+   * @param patternlab - global data store
+   * @param patternPartial - the partial key to build this for //todo test for relevancy
+   * @returns HTML
+     */
   function buildFooterHTML(patternlab, patternPartial) {
-    //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+    //first render the general footer
     var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
       patternData: JSON.stringify({
         patternPartial: patternPartial,
       }),
       cacheBuster: patternlab.cacheBuster
     });
+
+    //then add it to the user footer
     var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
       patternLabFoot : footerPartial
     });
     return footerHTML;
   }
 
+  /**
+   * Takes a set of patterns and builds a viewall HTML page for them
+   * Used by the type and subtype viewall sets
+   * @param patternlab - global data store
+   * @param patterns - the set of patterns to build the viewall page for
+   * @param patternPartial - a key used to identify the viewall pager
+   * @returns HTML
+     */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
     var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
       {
@@ -328,6 +415,13 @@ var ui_builder = function () {
     return viewAllHTML;
   }
 
+  /**
+   * Constructs viewall pages for each set of grouped patterns
+   * @param mainPageHeadHtml - the already built main page HTML
+   * @param patternlab - global data store
+   * @param styleguidePatterns - the grouped set of patterns
+   * @returns every built pattern and set of viewall patterns, so the styleguide can use it
+     */
   function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
     var paths = patternlab.config.paths;
     var patterns = [];
@@ -343,6 +437,7 @@ var ui_builder = function () {
 
         var patternPartial = patternType + '-' + patternSubtype;
 
+        //do not create a viewall page for flat patterns
         if (patternType === patternSubtype) {
           writeViewAllFile = false;
           return false;
@@ -367,6 +462,7 @@ var ui_builder = function () {
       });
 
 
+      //do not create a viewall page for flat patterns
       if (!writeViewAllFile || !p) {
         return false;
       }
@@ -389,7 +485,10 @@ var ui_builder = function () {
   }
 
 
-
+  /**
+   * Write out our pattern information for use by the front end
+   * @param patternlab - global data store
+     */
   function exportData(patternlab) {
     var annotation_exporter = new ae(patternlab);
     var paths = patternlab.config.paths;
@@ -428,6 +527,10 @@ var ui_builder = function () {
     writeFile(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
   }
 
+  /**
+   * The main entry point for ui_builder
+   * @param patternlab - global data store
+     */
   function buildFrontend(patternlab) {
 
     var paths = patternlab.config.paths;
@@ -454,13 +557,12 @@ var ui_builder = function () {
     });
 
     //build the viewall pages
-    var patterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
-    writeFile('./all.json', JSON.stringify(patterns));
+    var allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
     //build the main styleguide page
     var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
       {
-        partials: patterns
+        partials: allPatterns
       }, {
         patternSection: patternlab.patternSection,
         patternSectionSubtype: patternlab.patternSectionSubType
