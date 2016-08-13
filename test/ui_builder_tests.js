@@ -91,14 +91,15 @@ exports['ui_builder'] = {
     var result = ui.groupPatterns(patternlab);
 
     //assert
-    test.equals(result.patternGroups.test.test.foo.patternPartial, 'test-foo');
-    test.equals(result.patternGroups.test.test.bar.patternPartial, 'test-bar');
     test.equals(result.patternGroups.patternType1.patternSubType1.blue.patternPartial, 'patternType1-blue');
     test.equals(result.patternGroups.patternType1.patternSubType1.red.patternPartial, 'patternType1-red');
     test.equals(result.patternGroups.patternType1.patternSubType1.yellow.patternPartial, 'patternType1-yellow');
     test.equals(result.patternGroups.patternType1.patternSubType2.black.patternPartial, 'patternType1-black');
     test.equals(result.patternGroups.patternType1.patternSubType2.grey.patternPartial, 'patternType1-grey');
     test.equals(result.patternGroups.patternType1.patternSubType2.white.patternPartial, 'patternType1-white');
+
+    test.equals(patternlab.patternTypes[0].patternItems[0].patternPartial, 'test-bar');
+    test.equals(patternlab.patternTypes[0].patternItems[1].patternPartial, 'test-foo');
 
     test.done();
   },
