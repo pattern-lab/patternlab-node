@@ -68,6 +68,42 @@ exports['ui_builder'] = {
     test.done();
   },
 
+  'isPatternExcluded - returns true when pattern within underscored directory - top level': function (test) {
+    //arrange
+    var patternlab = createFakePatternLab({});
+    var pattern = Pattern.createEmpty({
+      relPath: '_hidden/patternsubtype/foo.mustache',
+      isPattern: true,
+      fileName : 'foo.mustache',
+      patternPartial: 'hidden-foo'
+    });
+
+    //act
+    var result = ui.isPatternExcluded(pattern, patternlab);
+
+    //assert
+    test.equals(result, true);
+    test.done();
+  },
+
+  'isPatternExcluded - returns true when pattern within underscored directory - subtype level': function (test) {
+    //arrange
+    var patternlab = createFakePatternLab({});
+    var pattern = Pattern.createEmpty({
+      relPath: 'shown/_patternsubtype/foo.mustache',
+      isPattern: true,
+      fileName : 'foo.mustache',
+      patternPartial: 'shown-foo'
+    });
+
+    //act
+    var result = ui.isPatternExcluded(pattern, patternlab);
+
+    //assert
+    test.equals(result, true);
+    test.done();
+  },
+
   'groupPatterns - creates pattern groups correctly': function (test) {
     //arrange
     var patternlab = createFakePatternLab({

@@ -113,6 +113,15 @@ var ui_builder = function () {
       return true;
     }
 
+    //this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
+    isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf('/_') > -1;
+    if (isOmitted) {
+      if (patternlab.config.debug) {
+        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns its contained within an underscored directory.');
+      }
+      return true;
+    }
+
     //yay, let's include this on the front end
     return isOmitted;
   }
