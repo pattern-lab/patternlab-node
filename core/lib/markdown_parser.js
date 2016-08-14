@@ -5,6 +5,11 @@ var yaml = require('js-yaml');
 
 var markdown_parser = function () {
 
+  /**
+   * Converts a markdown block with frontmatter (each is optional, technically) to a well-formed object.
+   * @param block - the ".md" file, which can contain frontmatter or not, or only frontmatter.
+   * @returns an object with any frontmatter keys, plus a .markdown key
+     */
   function parseMarkdownBlock(block) {
     var returnObject = {};
 
