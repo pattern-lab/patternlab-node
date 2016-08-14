@@ -1,10 +1,10 @@
-/*
- * patternlab-node - v2.3.0 - 2016
- *
+/* 
+ * patternlab-node - v2.4.0 - 2016 
+ * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -21,11 +21,11 @@ var diveSync = require('diveSync'),
 function buildPatternData(dataFilesPath, fs) {
   var dataFilesPath = dataFilesPath;
   var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
-  var mergeObject = {}
+  var mergeObject = {};
   dataFiles.forEach(function (filePath) {
-    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8')
-    mergeObject = _.merge(mergeObject, jsonData)
-  })
+    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8');
+    mergeObject = _.merge(mergeObject, jsonData);
+  });
   return mergeObject;
 }
 
@@ -98,7 +98,6 @@ var patternlab_engine = function (config) {
   function getVersion() {
     console.log(patternlab.package.version);
   }
-
 
   function help() {
 
@@ -185,7 +184,7 @@ var patternlab_engine = function (config) {
   }
 
   function listStarterkits() {
-    var starterkit_manager = new sm(patternlab);
+    var starterkit_manager = new sm(patternlab.config);
     return starterkit_manager.list_starterkits();
   }
 
@@ -273,7 +272,7 @@ var patternlab_engine = function (config) {
     //set pattern-specific header if necessary
     var head;
     if (patternlab.userHead) {
-      head = patternlab.userHead.replace('{% pattern-lab-head %}', patternlab.header);
+      head = patternlab.userHead;
     } else {
       head = patternlab.header;
     }
