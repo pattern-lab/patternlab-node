@@ -1,6 +1,7 @@
 "use strict";
 
 var md = require('markdown-it')();
+var yaml = require('js-yaml');
 
 var markdown_parser = function () {
 
@@ -11,31 +12,23 @@ var markdown_parser = function () {
       //for each block process the yaml frontmatter and markdown
       var frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
       var chunks = frontmatterRE.exec(block);
-      if (chunks && chunks[1]) {
 
-        //convert each yaml frontmatter key / value into an object key
-        var frontmatter = chunks[1];
-        var frontmatterLines = frontmatter.split(/\n/gm);
-        for (var j = 0; j < frontmatterLines.length; j++) {
-
-          var frontmatterLine = frontmatterLines[j];
-          if (frontmatterLine.length > 0) {
-
-            var frontmatterLineChunks = frontmatterLine.split(':'); //test this
-            var frontmatterKey = frontmatterLineChunks[0].toLowerCase().trim();
-            var frontmatterValueString = frontmatterLineChunks[1].trim();
-
-            returnObject[frontmatterKey] = frontmatterValueString;
-          }
-
+      if (chunks) {
+        //we got some frontmatter
+        if (chunks && chunks[1]) {
+          //parse the yaml if we got it
+          var frontmatter = chunks[1];
+          returnObject = yaml.safeLoad(frontmatter);
         }
-      }
 
-      if (chunks && chunks[2]) {
-        //parse the actual markdown
-        returnObject.markdown = md.render(chunks[2]);
+        if (chunks[2]) {
+          //parse the actual markdown if it exists
+          returnObject.markdown = md.render(chunks[2]);
+        } else {
+          returnObject.markdown = '';
+        }
       } else {
-        //assume the passed in block is raw markdown
+        //assume the block was only markdown
         returnObject.markdown = md.render(block);
       }
     } catch (ex) {
