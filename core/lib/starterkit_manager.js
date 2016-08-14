@@ -1,15 +1,15 @@
 "use strict";
 
-var starterkit_manager = function (pl) {
+var starterkit_manager = function (config) {
   var path = require('path'),
     fs = require('fs-extra'),
     util = require('./utilities'),
-    paths = pl.config.paths;
+    paths = config.paths;
 
   function loadStarterKit(starterkitName, clean) {
     try {
       var kitPath = path.resolve(
-        path.join(process.cwd(), 'node_modules', starterkitName, pl.config.starterkitSubDir)
+        path.join(process.cwd(), 'node_modules', starterkitName, config.starterkitSubDir)
       );
       console.log('Attempting to load starterkit from', kitPath);
       try {
@@ -49,6 +49,15 @@ var starterkit_manager = function (pl) {
 
   }
 
+  function detectStarterKits() {
+    var node_modules_path = path.join(process.cwd(), 'node_modules');
+    var npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {
+      var module_path = path.join(process.cwd(), 'node_modules', dir);
+      return fs.statSync(module_path).isDirectory() && dir.indexOf('starterkit-') === 0;
+    });
+    return npm_modules;
+  }
+
   return {
     load_starterkit: function (starterkitName, clean) {
       loadStarterKit(starterkitName, clean);
@@ -58,6 +67,9 @@ var starterkit_manager = function (pl) {
     },
     pack_starterkit: function () {
       packStarterkit();
+    },
+    detect_starterkits: function () {
+      return detectStarterKits();
     }
   };
 
