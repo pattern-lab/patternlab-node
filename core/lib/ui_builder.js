@@ -20,8 +20,16 @@ function addToPatternPaths(patternlab, pattern) {
 
 //todo: refactor this as a method on the pattern object itself once we merge dev with pattern-engines branch
 function isPatternExcluded(pattern) {
-  // returns whether or not the first character of the pattern filename is an underscore, or excluded
-  return pattern.isPattern && pattern.fileName.charAt(0) === '_';
+  // returns whether or not the first character of the pattern type, subtype, further nested dirs, or filename is an underscore
+  if (pattern.isPattern) {
+    if (
+      pattern.relPath.charAt(0) === '_' ||
+      pattern.relPath.indexOf('/_') > -1
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // Returns the array of patterns to be rendered in the styleguide view and

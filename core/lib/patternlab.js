@@ -32,16 +32,6 @@ function buildPatternData(dataFilesPath, fs) {
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
-    {
-      filter: function (thisPath, dir) {
-        if (dir) {
-          var remainingPath = thisPath.replace(patterns_dir, '');
-          var isValidPath = remainingPath.indexOf('/_') === -1;
-          return isValidPath;
-        }
-        return true;
-      }
-    },
     function (err, file) {
       //log any errors
       if (err) {
@@ -56,16 +46,6 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
 function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
-    {
-      filter: function (thisPath, dir) {
-        if (dir) {
-          var remainingPath = thisPath.replace(patterns_dir, '');
-          var isValidPath = remainingPath.indexOf('/_') === -1;
-          return isValidPath;
-        }
-        return true;
-      }
-    },
     function (err, file) {
       //log any errors
       if (err) {
