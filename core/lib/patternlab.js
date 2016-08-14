@@ -273,7 +273,7 @@ var patternlab_engine = function (config) {
     //set pattern-specific header if necessary
     var head;
     if (patternlab.userHead) {
-      head = patternlab.userHead.replace('{% pattern-lab-head %}', patternlab.header);
+      head = patternlab.userHead;
     } else {
       head = patternlab.header;
     }
