@@ -124,41 +124,6 @@ Pattern.create = function (relPath, data, customProps) {
   return extend(newPattern, customProps);
 };
 
-
-var oPatternType = function (name) {
-  this.patternTypeLC = name;
-  this.patternTypeUC = name.split('-').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim();
-  this.patternTypeItems = [];
-  this.patternTypeItemsIndex = [];
-  this.patternItems = [];
-  this.patternItemsIndex = [];
-};
-
-
-var oPatternSubType = function (name) {
-  this.patternSubtypeLC = name;
-  this.patternSubtypeUC = name.split('-').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim();
-  this.patternSubtypeItems = [];
-  this.patternSubtypeItemsIndex = [];
-};
-
-
-var oPatternSubTypeItem = function (name) {
-  this.patternPath = '';
-  this.patternPartialCode = '';
-  this.patternName = name.split(' ').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim();
-};
-
-
 module.exports = {
-  Pattern: Pattern,
-  oPatternType: oPatternType,
-  oPatternSubType: oPatternSubType,
-  oPatternSubTypeItem: oPatternSubTypeItem
+  Pattern: Pattern
 };
