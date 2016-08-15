@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v2.3.0 - 2016 
+ * patternlab-node - v2.4.0 - 2016 
  * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license. 
@@ -21,27 +21,17 @@ var diveSync = require('diveSync'),
 function buildPatternData(dataFilesPath, fs) {
   var dataFilesPath = dataFilesPath;
   var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
-  var mergeObject = {}
+  var mergeObject = {};
   dataFiles.forEach(function (filePath) {
-    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8')
-    mergeObject = _.merge(mergeObject, jsonData)
-  })
+    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8');
+    mergeObject = _.merge(mergeObject, jsonData);
+  });
   return mergeObject;
 }
 
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
-    {
-      filter: function (thisPath, dir) {
-        if (dir) {
-          var remainingPath = thisPath.replace(patterns_dir, '');
-          var isValidPath = remainingPath.indexOf('/_') === -1;
-          return isValidPath;
-        }
-        return true;
-      }
-    },
     function (err, file) {
       //log any errors
       if (err) {
@@ -56,16 +46,6 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
 function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
-    {
-      filter: function (thisPath, dir) {
-        if (dir) {
-          var remainingPath = thisPath.replace(patterns_dir, '');
-          var isValidPath = remainingPath.indexOf('/_') === -1;
-          return isValidPath;
-        }
-        return true;
-      }
-    },
     function (err, file) {
       //log any errors
       if (err) {
@@ -85,7 +65,7 @@ var patternlab_engine = function (config) {
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
-    buildFrontEnd = require('./ui_builder'),
+    ui = require('./ui_builder'),
     plutils = require('./utilities'),
     sm = require('./starterkit_manager'),
     patternlab = {};
@@ -98,7 +78,6 @@ var patternlab_engine = function (config) {
   function getVersion() {
     console.log(patternlab.package.version);
   }
-
 
   function help() {
 
@@ -185,7 +164,7 @@ var patternlab_engine = function (config) {
   }
 
   function listStarterkits() {
-    var starterkit_manager = new sm(patternlab);
+    var starterkit_manager = new sm(patternlab.config);
     return starterkit_manager.list_starterkits();
   }
 
@@ -244,19 +223,17 @@ var patternlab_engine = function (config) {
       patternlab.userHead = fs.readFileSync(path.resolve(paths.source.meta, '_00-head.mustache'), 'utf8');
     }
     catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined header, usually found at ./source/_meta/_00-head.mustache. It was likely deleted.');
-      }
+      plutils.logRed('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      if (patternlab.config.debug) { console.log(ex); }
+      process.exit(1);
     }
     try {
       patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.meta, '_01-foot.mustache'), 'utf8');
     }
     catch (ex) {
-      if (patternlab.config.debug) {
-        console.log(ex);
-        console.log('Could not find optional user-defined footer, usually found at ./source/_meta/_01-foot.mustache. It was likely deleted.');
-      }
+      plutils.logRed('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      if (patternlab.config.debug) { console.log(ex); }
+      process.exit(1);
     }
 
     //now that all the main patterns are known, look for any links that might be within data and expand them
@@ -275,7 +252,7 @@ var patternlab_engine = function (config) {
     //set pattern-specific header if necessary
     var head;
     if (patternlab.userHead) {
-      head = patternlab.userHead.replace('{% pattern-lab-head %}', patternlab.header);
+      head = patternlab.userHead;
     } else {
       head = patternlab.header;
     }
@@ -389,7 +366,7 @@ var patternlab_engine = function (config) {
     },
     build: function (callback, deletePatternDir) {
       buildPatterns(deletePatternDir);
-      buildFrontEnd(patternlab);
+      new ui().buildFrontend(patternlab);
       printDebug();
       callback();
     },

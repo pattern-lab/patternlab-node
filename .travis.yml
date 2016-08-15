@@ -16,7 +16,6 @@ branches:
   only:
     - master
     - dev
-    - dev-2.0-core
 
 notifications:
   webhooks:

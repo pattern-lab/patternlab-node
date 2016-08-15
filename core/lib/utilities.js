@@ -15,6 +15,10 @@ var util = {
     console.log('\x1b[32m', message, '\x1b[0m');
   },
 
+  logOrange: function (message) {
+    console.log('\x1b[33m', message, '\x1b[0m');
+  },
+
   logRed: function (message) {
     console.log('\x1b[41m', message, '\x1b[0m');
   },

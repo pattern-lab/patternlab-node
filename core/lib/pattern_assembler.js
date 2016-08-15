@@ -29,8 +29,8 @@ var pattern_assembler = function () {
     //else look by verbose syntax
     for (var i = 0; i < patternlab.patterns.length; i++) {
       switch (partialName) {
+        case patternlab.patterns[i].relPath:
         case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName + '.mustache':
           return patternlab.patterns[i];
       }
     }
@@ -45,7 +45,8 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    throw 'Could not find pattern with partial ' + partialName;
+    console.error('Could not find pattern with partial ' + partialName);
+    return undefined;
   }
 
   function buildListItems(container) {
@@ -91,7 +92,7 @@ var pattern_assembler = function () {
   function addPattern(pattern, patternlab) {
 
     //add the link to the global object
-    patternlab.data.link[pattern.patternGroup + '-' + pattern.patternBaseName] = '/patterns/' + pattern.patternLink;
+    patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
 
     //only push to array if the array doesn't contain this pattern
     var isNew = true;
@@ -214,7 +215,7 @@ var pattern_assembler = function () {
           subTypePattern.patternSectionSubtype = true;
           subTypePattern.patternLink = subTypePattern.name + '/index.html';
           subTypePattern.patternDesc = subTypeMarkdown.markdown;
-          subTypePattern.patternPartial = 'viewall-' + subTypePattern.patternPartial;
+          subTypePattern.flatPatternPath = subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
           subTypePattern.isPattern = false;
           subTypePattern.engine = null;
 
@@ -417,8 +418,9 @@ var pattern_assembler = function () {
 
     if (linkMatches) {
       for (var i = 0; i < linkMatches.length; i++) {
-        expandedLink = patternlab.data.link[linkMatches[i].split('.')[1]];
+        expandedLink = encodeURI(patternlab.data.link[linkMatches[i].split('.')[1]]);
         if (expandedLink) {
+          expandedLink = expandedLink.replace('\\', '/');
           if (patternlab.config.debug) {
             console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
           }
@@ -482,7 +484,7 @@ var pattern_assembler = function () {
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);
     },
-    findPartial: function (partial, patternlab) {
+    getPartial: function (partial, patternlab) {
       return getPartial(partial, patternlab);
     },
     combine_listItems: function (patternlab) {

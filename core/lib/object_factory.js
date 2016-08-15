@@ -16,7 +16,7 @@ var Pattern = function (relPath, data) {
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
-  this.name = this.subdir.replace(/[\/\\]/g, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
+  this.name = this.subdir.replace(path.sep, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
 
   // the JSON used to render values in the pattern
   this.jsonFileData = data || {};
@@ -36,10 +36,16 @@ var Pattern = function (relPath, data) {
   // the top-level pattern group this pattern belongs to. 'atoms'
   this.patternGroup = this.subdir.split(path.sep)[0].replace(/^\d*-/, '');
 
+  //00-atoms if needed
+  this.patternType = this.subdir.split(path.sep)[0];
+
   // the sub-group this pattern belongs to.
   this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
 
-  // Not sure what this is used for.
+  //00-colors if needed
+  this.patternSubType = path.basename(this.subdir);
+
+  // the joined pattern group and subgroup directory
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
 
   // The canonical "key" by which this pattern is known. This is the callable
@@ -47,6 +53,7 @@ var Pattern = function (relPath, data) {
   this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
 
   this.isPattern = true;
+  this.isFlatPattern = this.patternGroup === this.patternSubGroup;
   this.patternState = '';
   this.template = '';
   this.patternPartialCode = '';
@@ -117,41 +124,6 @@ Pattern.create = function (relPath, data, customProps) {
   return extend(newPattern, customProps);
 };
 
-
-var oPatternType = function (name) {
-  this.patternTypeLC = name;
-  this.patternTypeUC = name.split('-').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim();
-  this.patternTypeItems = [];
-  this.patternTypeItemsIndex = [];
-  this.patternItems = [];
-  this.patternItemsIndex = [];
-};
-
-
-var oPatternSubType = function (name) {
-  this.patternSubtypeLC = name;
-  this.patternSubtypeUC = name.split('-').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim();
-  this.patternSubtypeItems = [];
-  this.patternSubtypeItemsIndex = [];
-};
-
-
-var oPatternSubTypeItem = function (name) {
-  this.patternPath = '';
-  this.patternPartialCode = '';
-  this.patternName = name.split(' ').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim();
-};
-
-
 module.exports = {
-  Pattern: Pattern,
-  oPatternType: oPatternType,
-  oPatternSubType: oPatternSubType,
-  oPatternSubTypeItem: oPatternSubTypeItem
+  Pattern: Pattern
 };
