@@ -187,7 +187,8 @@ var ui_builder = function () {
     var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if (!patternType) {
-      plutils.logRed("Could not find patternType", pattern.patternType, "This is a critical error.");
+      plutils.logRed('Could not find patternType' + pattern.patternType + '. This is a critical error.');
+      console.trace();
       process.exit(1);
     }
 
@@ -205,7 +206,8 @@ var ui_builder = function () {
     var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if (!patternSubType) {
-      plutils.logRed("Could not find patternType", pattern.patternType + '-' + pattern.patternType, "This is a critical error.");
+      plutils.logRed('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
+      console.trace();
       process.exit(1);
     }
 
@@ -220,7 +222,6 @@ var ui_builder = function () {
      */
   function addPatternSubType(patternlab, pattern) {
     var patternType = getPatternType(patternlab, pattern);
-
     patternType.patternTypeItems.push(
       {
         patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
@@ -255,9 +256,9 @@ var ui_builder = function () {
    * @param pattern - the pattern to derive the subtypeitem from
    * @param createViewAllVariant - whether or not to create the special view all item
      */
-  function addPatternSubTypeItem(patternlab, pattern, createViewAllVariant) {
+  function addPatternSubTypeItem(patternlab, pattern, createSubtypeViewAllVarient) {
     var patternSubType = getPatternSubType(patternlab, pattern);
-    if (createViewAllVariant) {
+    if (createSubtypeViewAllVarient) {
       patternSubType.patternSubtypeItems.push(
         {
           patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
@@ -267,7 +268,8 @@ var ui_builder = function () {
           patternSubtype: pattern.patternSubtype
         }
       );
-    } else {
+    }
+    else {
       patternSubType.patternSubtypeItems.push(
         createPatternSubTypeItem(pattern)
       );
@@ -279,10 +281,11 @@ var ui_builder = function () {
    * @param patternlab - global data store
    * @param pattern - the pattern to add
      */
-  function addPatternItem(patternlab, pattern) {
+  function addPatternItem(patternlab, pattern, isViewAllVariant) {
     var patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
-      plutils.logRed("Could not find patternType", pattern.patternType, "This is a critical error.");
+      plutils.logRed('Could not find patternType' + pattern.patternType + '. This is a critical error.');
+      console.trace();
       process.exit(1);
     }
 
@@ -290,8 +293,20 @@ var ui_builder = function () {
       patternType.patternItems = [];
     }
 
-    patternType.patternItems.push(createPatternSubTypeItem(pattern));
+    if (isViewAllVariant) {
+      if (!pattern.isFlatPattern) {
+        //todo: it'd be nice if we could get this into createPatternSubTypeItem someday
+        patternType.patternItems.push({
+          patternPartial: 'viewall-' + pattern.patternGroup + '-all',
+          patternName: 'View All',
+          patternSrcPath: encodeURI(pattern.patternType + '/index.html'),
+          patternPath: encodeURI(pattern.patternType + '/index.html')
+        });
+      }
 
+    } else {
+      patternType.patternItems.push(createPatternSubTypeItem(pattern));
+    }
   }
 
   // function getPatternItems(patternlab, patternType) {
@@ -349,6 +364,7 @@ var ui_builder = function () {
 
         //todo: Pattern Type View All and Documentation
         //groupedPatterns.patternGroups[pattern.patternGroup]['viewall-' + pattern.patternGroup] = injectDocumentationBlock(pattern, patternlab, false);
+        addPatternItem(patternlab, pattern, true);
       }
 
       //continue building navigation for nested patterns
@@ -384,7 +400,7 @@ var ui_builder = function () {
   /**
    * Builds footer HTML from the general footer and user-defined footer
    * @param patternlab - global data store
-   * @param patternPartial - the partial key to build this for //todo test for relevancy
+   * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
    * @returns HTML
      */
   function buildFooterHTML(patternlab, patternPartial) {
@@ -408,7 +424,7 @@ var ui_builder = function () {
    * Used by the type and subtype viewall sets
    * @param patternlab - global data store
    * @param patterns - the set of patterns to build the viewall page for
-   * @param patternPartial - a key used to identify the viewall pager
+   * @param patternPartial - a key used to identify the viewall page
    * @returns HTML
      */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
@@ -477,7 +493,7 @@ var ui_builder = function () {
       }
 
       //render the footer needed for the viewall template
-      var footerHTML = buildFooterHTML(patternlab, patternType);
+      var footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternType + '-all');
 
       //add any flat patterns
       //todo this isn't quite working yet
