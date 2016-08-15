@@ -16,7 +16,6 @@ branches:
   only:
     - master
     - dev
-    - ui-rewrite
 
 notifications:
   webhooks:
