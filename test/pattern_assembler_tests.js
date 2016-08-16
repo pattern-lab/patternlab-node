@@ -20,6 +20,7 @@
 			var patternlab = {};
 			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
+			patternlab.config.outputFileSuffixes = {rendered : ''};
 
 			//patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
       patternlab.data = {};
@@ -73,6 +74,9 @@
 					source: {
 						patterns: patterns_dir
 					}
+				},
+				outputFileSuffixes: {
+					rendered : ''
 				}
 			};
 			pl.data = {};
@@ -113,6 +117,9 @@
 					source: {
 						patterns: patterns_dir
 					}
+				},
+				outputFileSuffixes: {
+					rendered : ''
 				}
 			};
 			pl.data = {};
@@ -154,6 +161,9 @@
 					source: {
 						patterns: patterns_dir
 					}
+				},
+				outputFileSuffixes: {
+					rendered : ''
 				}
 			};
 			pl.data = {};
@@ -193,6 +203,9 @@
 					source: {
 						patterns: patterns_dir
 					}
+				},
+				outputFileSuffixes: {
+					rendered : ''
 				}
 			};
 			pl.data = {};
@@ -233,6 +246,9 @@
 					source: {
 						patterns: patterns_dir
 					}
+				},
+				outputFileSuffixes: {
+					rendered : ''
 				}
 			};
 			pl.data = {};
@@ -274,6 +290,9 @@
 					source: {
 						patterns: patterns_dir
 					}
+				},
+				outputFileSuffixes: {
+					rendered : ''
 				}
 			};
 			pl.data = {};
@@ -356,6 +375,7 @@
 			//THIS IS BAD
 			patternlab.config = fs.readJSONSync('./patternlab-config.json');
 			patternlab.config.paths.source.patterns = patterns_dir;
+			patternlab.config.outputFileSuffixes = { rendered : '' };
       patternlab.data = {};
       patternlab.listitems = {};
       patternlab.header = {};
@@ -364,7 +384,17 @@
       //patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
 		  //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
 		  //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
-			patternlab.patterns = [];
+			patternlab.patterns = [
+				{
+					patternPartial: 'twitter-brad'
+				},
+				{
+					patternPartial: 'twitter-dave'
+				},
+				{
+					patternPartial: 'twitter-brian'
+				}
+			];
 			patternlab.data.link = {};
 			patternlab.partials = {};
 
@@ -454,6 +484,7 @@
 			patternlab.partials = {};
 			patternlab.data = {link: {}};
       patternlab.config = { debug: false };
+			patternlab.config.outputFileSuffixes = {rendered : ''};
 
 			var pattern = new Pattern('00-test/01-bar.mustache');
 			pattern.extendedTemplate = 'barExtended';
@@ -476,6 +507,7 @@
 			patternlab.partials = {};
 			patternlab.data = {link: {}};
       patternlab.config = { debug: false };
+			patternlab.config.outputFileSuffixes = {rendered : ''};
 
 			var pattern = new Pattern('00-test/01-bar.mustache');
 			pattern.extendedTemplate = undefined;

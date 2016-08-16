@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v2.4.0 - 2016 
+ * patternlab-node - v2.4.1 - 2016 
  * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license. 
@@ -169,7 +169,7 @@ var patternlab_engine = function (config) {
   }
 
   function loadStarterKit(starterkitName, clean) {
-    var starterkit_manager = new sm(patternlab);
+    var starterkit_manager = new sm(patternlab.config);
     starterkit_manager.load_starterkit(starterkitName, clean);
   }
 
