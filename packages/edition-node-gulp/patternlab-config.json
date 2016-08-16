@@ -59,5 +59,10 @@
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "cacheBust": true,
-  "starterkitSubDir": "dist"
+  "starterkitSubDir": "dist",
+  "outputFileSuffixes": {
+    "rendered": ".rendered",
+    "rawTemplate": "",
+    "markupOnly": ".markup-only"
+  }
 }
