@@ -219,7 +219,7 @@ var pattern_assembler = function () {
           subTypePattern.isPattern = false;
           subTypePattern.engine = null;
 
-          addSubtypePattern(subTypePattern, patternlab);
+          addSubtypePattern(subTypePattern, patternlab)
           return subTypePattern;
         }
       } catch (err) {
@@ -410,7 +410,7 @@ var pattern_assembler = function () {
   }
 
   function parseDataLinksHelper(patternlab, obj, key) {
-    var linkRE, dataObjAsString, linkMatches;
+    var linkRE, dataObjAsString, linkMatches, expandedLink;
 
     linkRE = /link\.[A-z0-9-_]+/g;
     dataObjAsString = JSON5.stringify(obj);
@@ -418,22 +418,13 @@ var pattern_assembler = function () {
 
     if (linkMatches) {
       for (var i = 0; i < linkMatches.length; i++) {
-        var dataLink = linkMatches[i];
-        if (dataLink && dataLink.split('.').length >= 2) {
-          var linkPatternPartial = dataLink.split('.')[1];
-          var pattern = getPartial(linkPatternPartial, patternlab);
-          if (pattern !== undefined) {
-            var fullLink = patternlab.data.link[linkPatternPartial];
-            if (fullLink) {
-              fullLink = path.normalize(fullLink).replace(/\\/g, '/');
-              if (patternlab.config.debug) {
-                console.log('expanded data link from ' + dataLink + ' to ' + fullLink + ' inside ' + key);
-              }
-              dataObjAsString = dataObjAsString.replace(dataLink, fullLink);
-            }
-          } else {
-            console.log('pattern not found for', dataLink, 'inside', key);
+        expandedLink = encodeURI(patternlab.data.link[linkMatches[i].split('.')[1]]);
+        if (expandedLink) {
+          expandedLink = expandedLink.replace('\\', '/');
+          if (patternlab.config.debug) {
+            console.log('expanded data link from ' + linkMatches[i] + ' to ' + expandedLink + ' inside ' + key);
           }
+          dataObjAsString = dataObjAsString.replace(linkMatches[i], expandedLink);
         }
       }
     }
@@ -458,7 +449,7 @@ var pattern_assembler = function () {
 
     //loop through all patterns
     for (var i = 0; i < patternlab.patterns.length; i++) {
-      patternlab.patterns[i].jsonFileData = parseDataLinksHelper(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].patternPartial);
+      patternlab.patterns[i].jsonFileData = parseDataLinksHelper(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].partial);
     }
   }
 

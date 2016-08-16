@@ -240,19 +240,12 @@ var ui_builder = function () {
    * @returns {{patternPartial: string, patternName: (*|string), patternState: string, patternSrcPath: string, patternPath: string}}
      */
   function createPatternSubTypeItem(pattern) {
-    var patternPath = '';
-    if (pattern.isFlatPattern) {
-      patternPath = pattern.flatPatternPath + '-' + pattern.fileName + '/' + pattern.flatPatternPath + '-' + pattern.fileName + '.html';
-    } else {
-      patternPath = pattern.flatPatternPath + '/' + pattern.flatPatternPath + '.html';
-    }
-
     return {
       patternPartial: pattern.patternPartial,
       patternName: pattern.patternName,
       patternState: pattern.patternState,
-      patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
-      patternPath: patternPath
+      patternSrcPath: encodeURI(pattern.subdir + pattern.filename),
+      patternPath: encodeURI(pattern.flatPatternPath + '/' + pattern.flatPatternPath + '.html')
     }
   }
 
@@ -306,6 +299,7 @@ var ui_builder = function () {
         patternType.patternItems.push({
           patternPartial: 'viewall-' + pattern.patternGroup + '-all',
           patternName: 'View All',
+          patternSrcPath: encodeURI(pattern.patternType + '/index.html'),
           patternPath: encodeURI(pattern.patternType + '/index.html')
         });
       }
