@@ -26,6 +26,7 @@ exports['pseudopattern_hunter'] = {
     pl.patterns = [];
     pl.partials = {};
     pl.config.patternStates = {};
+    pl.config.outputFileSuffixes = { rendered: ''}
 
     var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
     atomPattern.template = fs.readFileSync(patterns_dir + '00-test/03-styled-atom.mustache', 'utf8');
