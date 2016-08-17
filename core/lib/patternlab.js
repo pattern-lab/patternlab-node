@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v2.4.1 - 2016 
+ * patternlab-node - v2.4.2 - 2016 
  * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license. 
@@ -13,10 +13,8 @@
 var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
-  path = require('path');
-
-// GTP: these two diveSync pattern processors factored out so they can be reused
-// from unit tests to reduce code dupe!
+  path = require('path'),
+  plutils = require('./utilities');
 
 function buildPatternData(dataFilesPath, fs) {
   var dataFilesPath = dataFilesPath;
@@ -29,6 +27,8 @@ function buildPatternData(dataFilesPath, fs) {
   return mergeObject;
 }
 
+// GTP: these two diveSync pattern processors factored out so they can be reused
+// from unit tests to reduce code dupe!
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
@@ -57,6 +57,23 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
   );
 }
 
+function checkConfiguration(patternlab) {
+  //default the output suffixes if not present
+  var outputFileSuffixes = {
+    rendered: '',
+    rawTemplate: '',
+    markupOnly: '.markup-only'
+  }
+
+  if (!patternlab.config.outputFileSuffixes) {
+    plutils.logOrange('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
+    console.log(outputFileSuffixes);
+    plutils.logOrange('Since Pattern Lab Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+    console.log();
+  }
+  patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
+}
+
 var patternlab_engine = function (config) {
   'use strict';
 
@@ -66,12 +83,13 @@ var patternlab_engine = function (config) {
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
     ui = require('./ui_builder'),
-    plutils = require('./utilities'),
     sm = require('./starterkit_manager'),
     patternlab = {};
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+
+  checkConfiguration(patternlab);
 
   var paths = patternlab.config.paths;
 
@@ -335,23 +353,15 @@ var patternlab_engine = function (config) {
         patternLabFoot : footerPartial
       });
 
-      //default the output suffixes if not present
-      var outputFileSuffixes = {
-        rendered: '',
-        rawTemplate: '',
-        markupOnly: '.markup-only'
-      }
-      outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
-
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.rendered + '.html'), patternPage);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rendered + '.html'), patternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.rawTemplate + pattern.fileExtension), pattern.template);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rawTemplate + pattern.fileExtension), pattern.template);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', outputFileSuffixes.markupOnly + '.html'), pattern.patternPartialCode);
+      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.markupOnly + '.html'), pattern.patternPartialCode);
 
       return true;
     });
