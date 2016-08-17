@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.4.2 - 2016 
- * 
+/*
+ * patternlab-node - v2.4.2 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -60,10 +60,10 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
 function checkConfiguration(patternlab) {
   //default the output suffixes if not present
   var outputFileSuffixes = {
-    rendered: '',
+    rendered: '.rendered',
     rawTemplate: '',
     markupOnly: '.markup-only'
-  }
+  };
 
   if (!patternlab.config.outputFileSuffixes) {
     plutils.logOrange('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
