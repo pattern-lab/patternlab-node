@@ -19,7 +19,7 @@ branches:
   only:
     - master
     - dev
-    - 438-runAllTestsTravis
+    - issue/438-runAllTestsTravis
 
 notifications:
   webhooks:
