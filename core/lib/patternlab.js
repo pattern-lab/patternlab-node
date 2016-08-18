@@ -355,13 +355,13 @@ var patternlab_engine = function (config) {
 
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rendered + '.html'), patternPage);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), patternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rawTemplate + pattern.fileExtension), pattern.template);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), pattern.template);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.markupOnly + '.html'), pattern.patternPartialCode);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), pattern.patternPartialCode);
 
       return true;
     });

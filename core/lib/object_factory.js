@@ -29,10 +29,6 @@ var Pattern = function (relPath, data) {
     return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
   }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
-  // calculated path from the root of the public directory to the generated html
-  // file for this pattern
-  this.patternLink = this.name + path.sep + this.name + '.html'; // '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
-
   // the top-level pattern group this pattern belongs to. 'atoms'
   this.patternGroup = this.subdir.split(path.sep)[0].replace(/^\d*-/, '');
 
@@ -82,6 +78,22 @@ Pattern.prototype = {
     if (this.engine && typeof this.engine.registerPartial === 'function') {
       this.engine.registerPartial(this);
     }
+  },
+
+  // calculated path from the root of the public directory to the generated html
+  // file for this pattern.
+  // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+  getPatternLink: function (patternlab, suffixType) {
+    // if no suffixType is provided, we default to rendered
+    var suffixConfig = patternlab.config.outputFileSuffixes;
+    var suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
+
+    if (this.patternLink) {
+      // Someone or something has explicitly set a patternLink on this pattern.
+      // We had better respect that.
+      return this.patternLink;
+    }
+    return this.name + path.sep + this.name + suffix + '.html';
   },
 
   // the finders all delegate to the PatternEngine, which also encapsulates all
