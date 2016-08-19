@@ -403,12 +403,12 @@ var pattern_assembler = function () {
     //expand any partials present in this pattern; that is, drill down into the
     //template and replace their calls in this template with rendered results
     if (currentPattern.engine.expandPartials && (currentPattern.patternPartials !== null && currentPattern.patternPartials.length > 0)) {
+      //find pattern lineage
+      lineage_hunter.find_lineage(currentPattern, patternlab);
+
       // eslint-disable-next-line
       expandPartials(patternlab, currentPattern, level);
     }
-
-    //find pattern lineage
-    lineage_hunter.find_lineage(currentPattern, patternlab);
   }
 
   function expandPartials(patternlab, currentPattern, level) {
