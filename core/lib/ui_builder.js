@@ -69,9 +69,9 @@ var ui_builder = function () {
      */
   function writeFile(filePath, data, callback) {
     if (callback) {
-      fs.outputFile(filePath, data, callback);
+      fs.outputFileSync(filePath, data, callback);
     } else {
-      fs.outputFile(filePath, data);
+      fs.outputFileSync(filePath, data);
     }
   }
 
