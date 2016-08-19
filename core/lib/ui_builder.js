@@ -108,9 +108,11 @@ var ui_builder = function () {
       return exclude === pattern.patternGroup; });
     if (isOmitted) {
       if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns its patternGroup is specified in styleguideExcludes.');
+        console.log('Omitting ' + pattern.patternPartial + ' from future viewall pages because its patternGroup is specified in styleguideExcludes.');
       }
-      return true;
+      //these patterns should not be omitted from later processing, just viewall pages
+      pattern.omitFromViewAll = true;
+      isOmitted = false;
     }
 
     //this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
