@@ -45,7 +45,9 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    console.error('Could not find pattern with partial ' + partialName);
+    if (patternlab.config.debug) {
+      console.error('Could not find pattern with partial ' + partialName);
+    }
     return undefined;
   }
 
@@ -92,7 +94,7 @@ var pattern_assembler = function () {
   function addPattern(pattern, patternlab) {
 
     //add the link to the global object
-    patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
+    patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rendered + '.html');
 
     //only push to array if the array doesn't contain this pattern
     var isNew = true;
@@ -412,27 +414,42 @@ var pattern_assembler = function () {
   function parseDataLinksHelper(patternlab, obj, key) {
     var linkRE, dataObjAsString, linkMatches;
 
+    //check for link.patternPartial
     linkRE = /link\.[A-z0-9-_]+/g;
+
+    //stringify the passed in object
     dataObjAsString = JSON5.stringify(obj);
+    if (!dataObjAsString) { return obj; }
+
+    //find matches
     linkMatches = dataObjAsString.match(linkRE);
 
     if (linkMatches) {
       for (var i = 0; i < linkMatches.length; i++) {
         var dataLink = linkMatches[i];
         if (dataLink && dataLink.split('.').length >= 2) {
+
+          //get the partial the link refers to
           var linkPatternPartial = dataLink.split('.')[1];
           var pattern = getPartial(linkPatternPartial, patternlab);
           if (pattern !== undefined) {
+
+            //get the full built link and replace it
             var fullLink = patternlab.data.link[linkPatternPartial];
             if (fullLink) {
               fullLink = path.normalize(fullLink).replace(/\\/g, '/');
               if (patternlab.config.debug) {
                 console.log('expanded data link from ' + dataLink + ' to ' + fullLink + ' inside ' + key);
               }
+
+              //also make sure our global replace didn't mess up a protocol
+              fullLink = fullLink.replace(/:\//g, '://');
               dataObjAsString = dataObjAsString.replace(dataLink, fullLink);
             }
           } else {
-            console.log('pattern not found for', dataLink, 'inside', key);
+            if (patternlab.config.debug) {
+              console.log('pattern not found for', dataLink, 'inside', key);
+            }
           }
         }
       }

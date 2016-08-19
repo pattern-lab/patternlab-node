@@ -28,6 +28,9 @@ function createBasePatternLabObject() {
       source: {
         patterns: patterns_dir
       }
+    },
+    outputFileSuffixes: {
+      rendered: ''
     }
   };
   pl.data = {};
@@ -111,7 +114,12 @@ exports['lineage hunter '] = {
           "lineageR": [],
           "lineageRIndex": []
         }
-      ]
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: ''
+        }
+      }
     };
 
     var lineage_hunter = new lh();

@@ -65,7 +65,10 @@
           "source": {
             "patterns": "./test/files/_patterns"
           }
-        }
+        },
+        "outputFileSuffixes": {
+          "rendered": ''
+        }        
       },
       "partials" : {},
       "patterns" : []
