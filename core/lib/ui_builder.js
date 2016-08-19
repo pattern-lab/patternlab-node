@@ -82,7 +82,6 @@ var ui_builder = function () {
    * @returns boolean - whether or not the pattern is excluded
      */
   function isPatternExcluded(pattern, patternlab) {
-    var styleGuideExcludes = patternlab.config.styleGuideExcludes;
     var isOmitted;
 
     // skip underscore-prefixed files
@@ -506,7 +505,7 @@ var ui_builder = function () {
         });
       if (omitPatternType) {
         if (patternlab.config.debug) {
-          console.log('Omitting ' +  patternType+ ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
+          console.log('Omitting ' + patternType + ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
         }
       } else {
         patterns = patterns.concat(typePatterns);
