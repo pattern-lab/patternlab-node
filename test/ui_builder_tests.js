@@ -53,21 +53,6 @@ exports['ui_builder'] = {
     test.done();
   },
 
-  'isPatternExcluded - returns true when patterngroup is specified in styleguideExcludes': function (test) {
-    //arrange
-    var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('00-test/foo.mustache');
-    patternlab.config.defaultPattern = 'test-boaz';
-    patternlab.config.styleGuideExcludes.push('test');
-
-    //act
-    var result = ui.isPatternExcluded(pattern, patternlab);
-
-    //assert
-    test.equals(result, true);
-    test.done();
-  },
-
   'isPatternExcluded - returns true when pattern within underscored directory - top level': function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
