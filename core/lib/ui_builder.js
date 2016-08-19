@@ -154,7 +154,8 @@ var ui_builder = function () {
         engine: null,
         flatPatternPath: pattern.flatPatternPath,
         isDocPattern: true
-      }
+      },
+      patternlab
     );
     return docPattern;
   }

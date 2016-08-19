@@ -6,7 +6,7 @@ var extend = require('util')._extend;
 
 // Pattern properties
 
-var Pattern = function (relPath, data) {
+var Pattern = function (relPath, data, patternlab) {
   // We expect relPath to be the path of the pattern template, relative to the
   // root of the pattern tree. Parse out the path parts and save the useful ones.
   var pathObj = path.parse(path.normalize(relPath));
@@ -43,6 +43,10 @@ var Pattern = function (relPath, data) {
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
+
+  // calculated path from the root of the public directory to the generated
+  // (rendered!) html file for this pattern, to be shown in the iframe
+  this.patternLink = patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
@@ -88,11 +92,6 @@ Pattern.prototype = {
     var suffixConfig = patternlab.config.outputFileSuffixes;
     var suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
 
-    if (this.patternLink) {
-      // Someone or something has explicitly set a patternLink on this pattern.
-      // We had better respect that.
-      return this.patternLink;
-    }
     return this.name + path.sep + this.name + suffix + '.html';
   },
 
@@ -123,16 +122,16 @@ Pattern.prototype = {
 
 // factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
-Pattern.createEmpty = function (customProps) {
-  var pattern = new Pattern('', null);
+Pattern.createEmpty = function (customProps, patternlab) {
+  var pattern = new Pattern('', null, patternlab);
   return extend(pattern, customProps);
 };
 
 // factory: creates an Pattern object on-demand from a hash; the hash accepts
 // parameters that replace the positional parameters that the Pattern
 // constructor takes.
-Pattern.create = function (relPath, data, customProps) {
-  var newPattern = new Pattern(relPath || '', data || null);
+Pattern.create = function (relPath, data, customProps, patternlab) {
+  var newPattern = new Pattern(relPath || '', data || null, patternlab);
   return extend(newPattern, customProps);
 };
 
