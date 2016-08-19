@@ -1,7 +1,7 @@
 {
   "name": "patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "main": "./core/lib/patternlab.js",
   "dependencies": {
     "diveSync": "^0.3.0",
