@@ -69,9 +69,9 @@ var ui_builder = function () {
      */
   function writeFile(filePath, data, callback) {
     if (callback) {
-      fs.outputFile(filePath, data, callback);
+      fs.outputFileSync(filePath, data, callback);
     } else {
-      fs.outputFile(filePath, data);
+      fs.outputFileSync(filePath, data);
     }
   }
 
@@ -99,16 +99,6 @@ var ui_builder = function () {
     if (isOmitted) {
       if (patternlab.config.debug) {
         console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because it is defined as a defaultPattern.');
-      }
-      return true;
-    }
-
-    //this pattern is a member of any excluded pattern groups
-    isOmitted = styleGuideExcludes && styleGuideExcludes.length && _.some(styleGuideExcludes, function (exclude) {
-      return exclude === pattern.patternGroup; });
-    if (isOmitted) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns its patternGroup is specified in styleguideExcludes.');
       }
       return true;
     }
@@ -463,6 +453,7 @@ var ui_builder = function () {
 
       var p;
       var typePatterns = [];
+      var styleGuideExcludes = patternlab.config.styleGuideExcludes;
 
       _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
 
@@ -492,7 +483,6 @@ var ui_builder = function () {
         return true; //stop yelling at us eslint we know we know
       });
 
-
       //do not create a viewall page for flat patterns
       if (!writeViewAllFile || !p) {
         return false;
@@ -509,7 +499,19 @@ var ui_builder = function () {
       var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
       writeFile(paths.public.patterns + p.subdir + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
-      patterns = patterns.concat(typePatterns);
+      //determine if we should omit this patterntype completely from the viewall page
+      var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
+        && _.some(styleGuideExcludes, function (exclude) {
+          return exclude === patternType;
+        });
+      if (omitPatternType) {
+        if (patternlab.config.debug) {
+          console.log('Omitting ' +  patternType+ ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
+        }
+      } else {
+        patterns = patterns.concat(typePatterns);
+      }
+
       return true; //stop yelling at us eslint we know we know
     });
     return patterns;
