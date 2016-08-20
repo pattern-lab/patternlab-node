@@ -94,7 +94,7 @@ exports['Pattern initialization'] = {
     var p = new Pattern('00-atoms/00-global/00-colors.hbs');
     test.equals(p.getPatternLink(pl), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.rendered.html');
     test.equals(p.getPatternLink(pl, 'rendered'), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.rendered.html');
-    test.equals(p.getPatternLink(pl, 'rawTemplate'), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.html');
+    test.equals(p.getPatternLink(pl, 'rawTemplate'), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.hbs');
     test.equals(p.getPatternLink(pl, 'markupOnly'), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.markup-only.html');
     test.done();
   }

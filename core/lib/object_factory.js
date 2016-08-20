@@ -92,6 +92,9 @@ Pattern.prototype = {
     var suffixConfig = patternlab.config.outputFileSuffixes;
     var suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
 
+    if (suffixType === 'rawTemplate') {
+      return this.name + path.sep + this.name + suffix + this.fileExtension;
+    }
     return this.name + path.sep + this.name + suffix + '.html';
   },
 
