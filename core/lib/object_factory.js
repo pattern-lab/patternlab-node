@@ -6,7 +6,7 @@ var extend = require('util')._extend;
 
 // Pattern properties
 
-var Pattern = function (relPath, data) {
+var Pattern = function (relPath, data, patternlab) {
   // We expect relPath to be the path of the pattern template, relative to the
   // root of the pattern tree. Parse out the path parts and save the useful ones.
   var pathObj = path.parse(path.normalize(relPath));
@@ -29,10 +29,6 @@ var Pattern = function (relPath, data) {
     return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
   }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
-  // calculated path from the root of the public directory to the generated html
-  // file for this pattern
-  this.patternLink = this.name + path.sep + this.name + '.html'; // '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
-
   // the top-level pattern group this pattern belongs to. 'atoms'
   this.patternGroup = this.subdir.split(path.sep)[0].replace(/^\d*-/, '');
 
@@ -47,6 +43,10 @@ var Pattern = function (relPath, data) {
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
+
+  // calculated path from the root of the public directory to the generated
+  // (rendered!) html file for this pattern, to be shown in the iframe
+  this.patternLink = patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
@@ -84,6 +84,20 @@ Pattern.prototype = {
     }
   },
 
+  // calculated path from the root of the public directory to the generated html
+  // file for this pattern.
+  // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+  getPatternLink: function (patternlab, suffixType) {
+    // if no suffixType is provided, we default to rendered
+    var suffixConfig = patternlab.config.outputFileSuffixes;
+    var suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
+
+    if (suffixType === 'rawTemplate') {
+      return this.name + path.sep + this.name + suffix + this.fileExtension;
+    }
+    return this.name + path.sep + this.name + suffix + '.html';
+  },
+
   // the finders all delegate to the PatternEngine, which also encapsulates all
   // appropriate regexes
   findPartials: function () {
@@ -111,16 +125,16 @@ Pattern.prototype = {
 
 // factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
-Pattern.createEmpty = function (customProps) {
-  var pattern = new Pattern('', null);
+Pattern.createEmpty = function (customProps, patternlab) {
+  var pattern = new Pattern('', null, patternlab);
   return extend(pattern, customProps);
 };
 
 // factory: creates an Pattern object on-demand from a hash; the hash accepts
 // parameters that replace the positional parameters that the Pattern
 // constructor takes.
-Pattern.create = function (relPath, data, customProps) {
-  var newPattern = new Pattern(relPath || '', data || null);
+Pattern.create = function (relPath, data, customProps, patternlab) {
+  var newPattern = new Pattern(relPath || '', data || null, patternlab);
   return extend(newPattern, customProps);
 };
 

@@ -30,15 +30,18 @@ function createBasePatternLabObject() {
       }
     },
     outputFileSuffixes: {
-      rendered: ''
-    }
+      rendered: '.rendered',
+      rawTemplate: '',
+      markupOnly: '.markup-only'
+    },
+    patternStateCascade: ["inprogress", "inreview", "complete"]
   };
   pl.data = {};
   pl.data.link = {};
   pl.config.debug = false;
   pl.patterns = [];
   pl.partials = {};
-  pl.config.patternStateCascade = ["inprogress", "inreview", "complete"];
+
   return pl;
 }
 
@@ -57,7 +60,7 @@ exports['lineage hunter '] = {
 
     var patternlab = {
       patterns: [
-        {
+        Pattern.createEmpty({
           "name": "00-atoms-03-images-00-logo",
           "subdir": "00-atoms\\03-images",
           "filename": "00-logo.mustache",
@@ -75,8 +78,8 @@ exports['lineage hunter '] = {
           "lineageIndex": [],
           "lineageR": [],
           "lineageRIndex": []
-        },
-        {
+        }),
+        Pattern.createEmpty({
           "name": "01-molecules-05-navigation-00-primary-nav",
           "subdir": "01-molecules\\05-navigation",
           "filename": "00-primary-nav.mustache",
@@ -94,8 +97,8 @@ exports['lineage hunter '] = {
           "lineageIndex": [],
           "lineageR": [],
           "lineageRIndex": []
-        },
-        {
+        }),
+        Pattern.createEmpty({
           "name": "01-molecules-04-forms-00-search",
           "subdir": "01-molecules\\04-forms",
           "filename": "00-search.mustache",
@@ -113,11 +116,13 @@ exports['lineage hunter '] = {
           "lineageIndex": [],
           "lineageR": [],
           "lineageRIndex": []
-        }
+        })
       ],
       config: {
         outputFileSuffixes: {
-          rendered: ''
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
         }
       }
     };
@@ -150,7 +155,14 @@ exports['lineage hunter '] = {
             "template": "<h1> {{message}} </h1>",
             "extendedTemplate": "<h1> {{message}} </h1>"
           })
-      ]
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
+        }
+      }
     };
 
     lineage_hunter.find_lineage(currentPattern, patternlab);
@@ -286,7 +298,7 @@ exports['lineage hunter '] = {
 
     var patternlab = {
       patterns: [
-        {
+        Pattern.createEmpty({
           "name": "01-atoms-05-alerts-00-error",
           "subdir": "01-atoms\\05-alerts",
           "filename": "00-error.mustache",
@@ -304,8 +316,15 @@ exports['lineage hunter '] = {
           "lineageIndex": [],
           "lineageR": [],
           "lineageRIndex": []
+        })
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
         }
-      ]
+      }
     };
 
     var lineage_hunter = new lh();
@@ -361,7 +380,14 @@ exports['lineage hunter '] = {
           "lineageR": [],
           "lineageRIndex": []
         })
-      ]
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
+        }
+      }
     };
 
     var lineage_hunter = new lh();
@@ -415,7 +441,14 @@ exports['lineage hunter '] = {
           "lineageR": [],
           "lineageRIndex": []
         })
-      ]
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
+        }
+      }
     };
 
     var lineage_hunter = new lh();
@@ -469,7 +502,14 @@ exports['lineage hunter '] = {
           "lineageR": [],
           "lineageRIndex": []
         })
-      ]
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
+        }
+      }
     };
 
     var lineage_hunter = new lh();
@@ -490,7 +530,7 @@ exports['lineage hunter '] = {
     });
     var patternlab = {
       patterns: [
-        {
+        Pattern.createEmpty({
           "name": "01-atoms-05-alerts-00-error",
           "subdir": "01-atoms\\05-alerts",
           "filename": "00-error.mustache",
@@ -508,8 +548,15 @@ exports['lineage hunter '] = {
           "lineageIndex": [],
           "lineageR": [],
           "lineageRIndex": []
+        })
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only'
         }
-      ]
+      }
     };
 
     var lineage_hunter = new lh();

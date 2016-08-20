@@ -16,7 +16,12 @@ function createFakePatternLab(customProps) {
         }
       },
       styleGuideExcludes: [ 'templates' ],
-      debug: false
+      debug: false,
+      outputFileSuffixes: {
+        rendered: '.rendered',
+        rawTemplate: '',
+        markupOnly: '.markup-only'
+      }
     }
   };
   return extend(pl, customProps);

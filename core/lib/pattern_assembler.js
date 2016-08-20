@@ -94,7 +94,7 @@ var pattern_assembler = function () {
   function addPattern(pattern, patternlab) {
 
     //add the link to the global object
-    patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rendered + '.html');
+    patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
 
     //only push to array if the array doesn't contain this pattern
     var isNew = true;
@@ -213,7 +213,7 @@ var pattern_assembler = function () {
         if (proposedDirectoryStats.isDirectory()) {
           var subTypeMarkdownFileContents = fs.readFileSync(proposedDirectory + '.md', 'utf8');
           var subTypeMarkdown = markdown_parser.parse(subTypeMarkdownFileContents);
-          var subTypePattern = new Pattern(relPath);
+          var subTypePattern = new Pattern(relPath, null, patternlab);
           subTypePattern.patternSectionSubtype = true;
           subTypePattern.patternLink = subTypePattern.name + '/index.html';
           subTypePattern.patternDesc = subTypeMarkdown.markdown;
@@ -244,7 +244,7 @@ var pattern_assembler = function () {
     if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
 
     //make a new Pattern Object
-    var currentPattern = new Pattern(relPath);
+    var currentPattern = new Pattern(relPath, null, patternlab);
 
     //if file is named in the syntax for variants
     if (patternEngines.isPseudoPatternJSON(filename)) {
