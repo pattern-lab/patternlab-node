@@ -54,5 +54,10 @@
   },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
-  "cacheBust": true
+  "cacheBust": true,
+  "outputFileSuffixes": {
+    "rendered": ".rendered",
+    "rawTemplate": "",
+    "markupOnly": ".markup-only"
+  }
 }

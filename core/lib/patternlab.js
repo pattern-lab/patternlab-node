@@ -1,10 +1,10 @@
 /* 
- * patternlab-node - v2.4.2 - 2016 
+ * patternlab-node - v2.4.3 - 2016 
  * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -60,10 +60,10 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
 function checkConfiguration(patternlab) {
   //default the output suffixes if not present
   var outputFileSuffixes = {
-    rendered: '',
+    rendered: '.rendered',
     rawTemplate: '',
     markupOnly: '.markup-only'
-  }
+  };
 
   if (!patternlab.config.outputFileSuffixes) {
     plutils.logOrange('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
@@ -355,13 +355,13 @@ var patternlab_engine = function (config) {
 
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rendered + '.html'), patternPage);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), patternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.rawTemplate + pattern.fileExtension), pattern.template);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), pattern.template);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.patternLink.replace('.html', patternlab.config.outputFileSuffixes.markupOnly + '.html'), pattern.patternPartialCode);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), pattern.patternPartialCode);
 
       return true;
     });
