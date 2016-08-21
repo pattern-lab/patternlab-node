@@ -103,7 +103,6 @@ var pattern_assembler = function () {
       if (pattern.relPath === patternlab.patterns[i].relPath) {
         //if relPath already exists, overwrite that element
         patternlab.patterns[i] = pattern;
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
         isNew = false;
         break;
       }
@@ -116,16 +115,12 @@ var pattern_assembler = function () {
         console.log('found new pattern ' + pattern.patternPartial);
       }
 
-      // do global registration
-
-
       if (pattern.isPattern) {
+        //TODO: Next line slated for deletion. Here only to pass unit tests.
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
 
         // do plugin-specific registration
-        pattern.registerPartial();
-      } else {
-        patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
+        pattern.registerPartial(patternlab);
       }
 
       patternlab.patterns.push(pattern);
@@ -233,6 +228,7 @@ var pattern_assembler = function () {
 
     }
 
+    var list_item_hunter = new lih();
     var pseudopattern_hunter = new pph();
 
     //extract some information
@@ -277,6 +273,18 @@ var pattern_assembler = function () {
     catch (err) {
       console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
       console.log(err);
+    }
+
+    //merge global data into a clone of local jsonFileData
+    var localDataClone = JSON.parse(JSON.stringify(currentPattern.jsonFileData));
+    currentPattern.allData = plutils.mergeData(patternlab.data, localDataClone);
+
+    //add allData keys to currentPattern.dataKeys
+    currentPattern.dataKeys = getDataKeys(currentPattern.allData, []);
+    //add listItem keys to currentPattern.dataKeys
+    for (var i = 0; i < list_item_hunter.items.length; i++) {
+      currentPattern.dataKeys.push('listItems.' + list_item_hunter.items[i]);
+      currentPattern.dataKeys.push('listitems.' + list_item_hunter.items[i]);
     }
 
     //look for a listitems.json file for this template
@@ -344,7 +352,7 @@ var pattern_assembler = function () {
     currentPattern.extendedTemplate = currentPattern.template;
 
     //find how many partials there may be for the given pattern
-    var foundPatternPartials = currentPattern.findPartials();
+    currentPattern.patternPartials = currentPattern.findPartials();
 
     //find any listItem blocks that within the pattern, even if there are no partials
     list_item_hunter.process_list_item_partials(currentPattern, patternlab);
@@ -353,13 +361,9 @@ var pattern_assembler = function () {
     // the template and replace their calls in this template with rendered
     // results
 
-    if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
+    if (currentPattern.engine.expandPartials && (currentPattern.patternPartials !== null && currentPattern.patternPartials.length > 0)) {
       // eslint-disable-next-line
-      expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
-
-      // update the extendedTemplate in the partials object in case this
-      // pattern is consumed later
-      patternlab.partials[currentPattern.patternPartial] = currentPattern.extendedTemplate;
+      expandPartials(currentPattern.patternPartials, list_item_hunter, patternlab, currentPattern);
     }
 
     //find pattern lineage
@@ -479,6 +483,32 @@ var pattern_assembler = function () {
     }
   }
 
+  /**
+   * Recursively get all the property keys from the JSON data for a pattern.
+   *
+   * @param {object} data
+   * @param {array} uniqueKeys The array of unique keys to be added to and returned.
+   * @returns {array} keys A flat, one-dimensional array.
+   */
+  function getDataKeys(data, uniqueKeys) {
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        if (data.constructor !== Array) {
+          if (uniqueKeys.indexOf(key) === -1) {
+            uniqueKeys.push(key);
+          } else {
+            continue;
+          }
+        }
+        if (typeof data[key] === 'object') {
+          getDataKeys(data[key], uniqueKeys);
+        }
+      }
+    }
+
+    return uniqueKeys;
+  }
+
   return {
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
@@ -524,6 +554,9 @@ var pattern_assembler = function () {
     },
     parse_pattern_markdown: function (pattern, patternlab) {
       parsePatternMarkdown(pattern, patternlab);
+    },
+    get_data_keys: function (data, uniqueKeys) {
+      return getDataKeys(data, uniqueKeys);
     }
   };
 

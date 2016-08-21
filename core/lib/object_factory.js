@@ -63,6 +63,9 @@ var Pattern = function (relPath, data, patternlab) {
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
   this.engine = patternEngines.getEngineForPattern(this);
+  this.patternPartials = null;
+  this.allData = {};
+  this.dataKeys = [];
 };
 
 // Pattern methods
