@@ -339,6 +339,7 @@ var patternlab_engine = function (config) {
         patternName: pattern.patternName,
         patternPartial: pattern.patternPartial,
         patternState: pattern.patternState,
+        patternEngineName: pattern.engine.engineName,
         extraOutput: {}
       });
 
