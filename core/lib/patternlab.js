@@ -238,18 +238,18 @@ var patternlab_engine = function (config) {
 
     //set user defined head and foot if they exist
     try {
-      patternlab.userHead = fs.readFileSync(path.resolve(paths.source.meta, '_00-head.mustache'), 'utf8');
+      patternlab.userHead = fs.readFileSync(path.resolve(paths.source.meta, '_00-head.' + patternlab.config.patternExtension), 'utf8');
     }
     catch (ex) {
-      plutils.logRed('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.logRed('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head' + patternlab.config.patternExtension) + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
     try {
-      patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.meta, '_01-foot.mustache'), 'utf8');
+      patternlab.userFoot = fs.readFileSync(path.resolve(paths.source.meta, '_01-foot.' + patternlab.config.patternExtension), 'utf8');
     }
     catch (ex) {
-      plutils.logRed('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.logRed('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot' + patternlab.config.patternExtension) + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
