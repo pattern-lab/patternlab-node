@@ -342,9 +342,9 @@ var ui_builder = function () {
       patternGroups: {}
     };
 
-    if (!patternlab.patternTypes) {
+    //if (!patternlab.patternTypes) {
       patternlab.patternTypes = [];
-    }
+    //}
 
     _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
 
