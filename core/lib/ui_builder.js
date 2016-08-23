@@ -343,6 +343,8 @@ var ui_builder = function () {
     };
 
     //if (!patternlab.patternTypes) {
+      patternlab.counter = (patternlab.counter ? patternlab.counter + 1: 1);
+      console.log('build counts:', patternlab.counter);
       patternlab.patternTypes = [];
     //}
 
