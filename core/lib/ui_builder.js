@@ -20,10 +20,6 @@ var ui_builder = function () {
    * @param pattern - the pattern to add
      */
   function addToPatternPaths(patternlab, pattern) {
-    if (!patternlab.patternPaths) {
-      patternlab.patternPaths = {};
-    }
-
     if (!patternlab.patternPaths[pattern.patternGroup]) {
       patternlab.patternPaths[pattern.patternGroup] = {};
     }
@@ -40,10 +36,6 @@ var ui_builder = function () {
    * @param pattern -  the pattern to add
      */
   function addToViewAllPaths(patternlab, pattern) {
-    if (!patternlab.viewAllPaths) {
-      patternlab.viewAllPaths = {};
-    }
-
     if (!patternlab.viewAllPaths[pattern.patternGroup]) {
       patternlab.viewAllPaths[pattern.patternGroup] = {};
     }
@@ -342,10 +334,6 @@ var ui_builder = function () {
       patternGroups: {}
     };
 
-    if (!patternlab.patternTypes) {
-      patternlab.patternTypes = [];
-    }
-
     _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
 
       //ignore patterns we can omit from rendering directly
@@ -561,10 +549,21 @@ var ui_builder = function () {
   }
 
   /**
+   * Reset any global data we use between builds to guard against double adding things
+   */
+  function resetUIBuilderState(patternlab) {
+    patternlab.patternPaths = {};
+    patternlab.viewAllPaths = {};
+    patternlab.patternTypes = [];
+  }
+
+  /**
    * The main entry point for ui_builder
    * @param patternlab - global data store
      */
   function buildFrontend(patternlab) {
+
+    resetUIBuilderState(patternlab);
 
     var paths = patternlab.config.paths;
 
@@ -626,6 +625,9 @@ var ui_builder = function () {
     },
     groupPatterns: function (patternlab) {
       return groupPatterns(patternlab);
+    },
+    resetUIBuilderState: function (patternlab) {
+      resetUIBuilderState(patternlab);
     }
   };
 

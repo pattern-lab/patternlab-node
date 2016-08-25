@@ -1,10 +1,10 @@
 /* 
- * patternlab-node - v2.4.3 - 2016 
+ * patternlab-node - v2.4.4 - 2016 
  * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
+ * Licensed under the MIT license. 
+ * 
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
  *
  */
 
@@ -339,6 +339,7 @@ var patternlab_engine = function (config) {
         patternName: pattern.patternName,
         patternPartial: pattern.patternPartial,
         patternState: pattern.patternState,
+        patternEngineName: pattern.engine.engineName,
         extraOutput: {}
       });
 
@@ -375,17 +376,29 @@ var patternlab_engine = function (config) {
       return getVersion();
     },
     build: function (callback, deletePatternDir) {
+      if (patternlab && patternlab.isBusy) {
+        console.log('Pattern Lab is busy building a previous run - returning early.');
+        return;
+      }
+      patternlab.isBusy = true;
       buildPatterns(deletePatternDir);
       new ui().buildFrontend(patternlab);
       printDebug();
+      patternlab.isBusy = false;
       callback();
     },
     help: function () {
       help();
     },
     patternsonly: function (callback, deletePatternDir) {
+      if (patternlab && patternlab.isBusy) {
+        console.log('Pattern Lab is busy building a previous run - returning early.');
+        return;
+      }
+      patternlab.isBusy = true;
       buildPatterns(deletePatternDir);
       printDebug();
+      patternlab.isBusy = false;
       callback();
     },
     liststarterkits: function () {
