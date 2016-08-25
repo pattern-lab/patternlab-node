@@ -140,9 +140,13 @@ function reload() {
   browserSync.reload();
 }
 
+function reloadCSS() {
+  browserSync.reload('*.css');
+}
+
 function watch() {
-  gulp.watch(path.resolve(paths().source.css, '**/*.css')).on('change', gulp.series('pl-copy:css', reload));
-  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*')).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reload));
+  gulp.watch(path.resolve(paths().source.css, '**/*.css'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:css', reloadCSS));
+  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS));
 
   var patternWatches = [
     path.resolve(paths().source.patterns, '**/*.json'),
@@ -154,7 +158,7 @@ function watch() {
     path.resolve(paths().source.annotations + '/*')
   ].concat(getTemplateWatches());
 
-  gulp.watch(patternWatches).on('change', gulp.series(build, reload));
+  gulp.watch(patternWatches, { awaitWriteFinish: true }).on('change', gulp.series(build, reload));
 }
 
 gulp.task('patternlab:connect', gulp.series(function(done) {
@@ -186,8 +190,8 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
     }
   }, function(){
     console.log('PATTERN LAB NODE WATCHING FOR CHANGES');
+    done();
   });
-  done();
 }));
 
 /******************************************************
