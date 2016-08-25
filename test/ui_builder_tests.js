@@ -112,6 +112,7 @@ exports['ui_builder'] = {
       new Pattern('patternType1/patternSubType2/grey.mustache'),
       new Pattern('patternType1/patternSubType2/white.mustache')
     );
+    ui.resetUIBuilderState(patternlab);
 
     //act
     var result = ui.groupPatterns(patternlab);
@@ -150,6 +151,7 @@ exports['ui_builder'] = {
       new Pattern('patternType1/patternSubType2/grey.mustache'),
       new Pattern('patternType1/patternSubType2/white.mustache')
     );
+    ui.resetUIBuilderState(patternlab);
 
     //act
     var result = ui.groupPatterns(patternlab);
@@ -179,6 +181,7 @@ exports['ui_builder'] = {
       new Pattern('patternType1/patternSubType2/grey.mustache'),
       new Pattern('patternType1/patternSubType2/white.mustache')
     );
+    ui.resetUIBuilderState(patternlab);
 
     //act
     var result = ui.groupPatterns(patternlab);
@@ -214,12 +217,32 @@ exports['ui_builder'] = {
       new Pattern('patternType1/patternSubType2/grey.mustache'),
       new Pattern('patternType1/patternSubType2/white.mustache')
     );
+    ui.resetUIBuilderState(patternlab);
 
     //act
     var result = ui.groupPatterns(patternlab);
 
     //assert
     test.equals('todo', 'todo');
+
+    test.done();
+  },
+
+  'resetUIBuilderState - reset global objects' : function (test) {
+    //arrange
+    var patternlab = createFakePatternLab({
+      patternPaths: { foo: 1},
+      viewAllPaths: { bar: 2},
+      patternTypes: ['baz']
+    });
+
+    //act
+    ui.resetUIBuilderState(patternlab);
+
+    //assert
+    test.equals(patternlab.patternPaths.foo, undefined);
+    test.equals(patternlab.viewAllPaths.bar, undefined);
+    test.equals(patternlab.patternTypes.length, 0);
 
     test.done();
   }
