@@ -117,8 +117,6 @@ var pattern_assembler = function () {
       }
 
       // do global registration
-
-
       if (pattern.isPattern) {
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
 
@@ -200,6 +198,48 @@ var pattern_assembler = function () {
         console.log(err);
       }
     }
+  }
+
+  /**
+   * A helper that unravels a pattern looking for partials or listitems to unravel.
+   * The goal is really to convert pattern.template into pattern.extendedTemplate
+   * @param pattern - the pattern to decompose
+   * @param patternlab - global data store
+   * @param ignoreLineage - whether or not to hunt for lineage for this pattern
+     */
+  function decomposePattern(pattern, patternlab, ignoreLineage) {
+
+    var lineage_hunter = new lh(),
+      list_item_hunter = new lih();
+
+    pattern.extendedTemplate = pattern.template;
+
+    //find how many partials there may be for the given pattern
+    var foundPatternPartials = pattern.findPartials();
+
+    //find any listItem blocks that within the pattern, even if there are no partials
+    list_item_hunter.process_list_item_partials(pattern, patternlab);
+
+    // expand any partials present in this pattern; that is, drill down into
+    // the template and replace their calls in this template with rendered
+    // results
+
+    if (pattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
+      // eslint-disable-next-line
+      expandPartials(foundPatternPartials, list_item_hunter, patternlab, pattern);
+
+      // update the extendedTemplate in the partials object in case this
+      // pattern is consumed later
+      patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
+    }
+
+    //find pattern lineage
+    if (!ignoreLineage) {
+      lineage_hunter.find_lineage(pattern, patternlab);
+    }
+
+    //add to patternlab object so we can look these up later.
+    addPattern(pattern, patternlab);
   }
 
   function processPatternIterative(relPath, patternlab) {
@@ -323,9 +363,6 @@ var pattern_assembler = function () {
 
   function processPatternRecursive(file, patternlab) {
 
-    var lineage_hunter = new lh(),
-      list_item_hunter = new lih();
-
     //find current pattern in patternlab object using var file as a partial
     var currentPattern, i;
 
@@ -341,32 +378,8 @@ var pattern_assembler = function () {
     //we are processing a markdown only pattern
     if (currentPattern.engine === null) { return; }
 
-    currentPattern.extendedTemplate = currentPattern.template;
-
-    //find how many partials there may be for the given pattern
-    var foundPatternPartials = currentPattern.findPartials();
-
-    //find any listItem blocks that within the pattern, even if there are no partials
-    list_item_hunter.process_list_item_partials(currentPattern, patternlab);
-
-    // expand any partials present in this pattern; that is, drill down into
-    // the template and replace their calls in this template with rendered
-    // results
-
-    if (currentPattern.engine.expandPartials && (foundPatternPartials !== null && foundPatternPartials.length > 0)) {
-      // eslint-disable-next-line
-      expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern);
-
-      // update the extendedTemplate in the partials object in case this
-      // pattern is consumed later
-      patternlab.partials[currentPattern.patternPartial] = currentPattern.extendedTemplate;
-    }
-
-    //find pattern lineage
-    lineage_hunter.find_lineage(currentPattern, patternlab);
-
-    //add to patternlab object so we can look these up later.
-    addPattern(currentPattern, patternlab);
+    //call our helper method to actually unravel the pattern with any partials
+    decomposePattern(currentPattern, patternlab);
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -500,6 +513,9 @@ var pattern_assembler = function () {
     },
     addSubtypePattern: function (subtypePattern, patternlab) {
       addSubtypePattern(subtypePattern, patternlab);
+    },
+    decomposePattern: function (pattern, patternlab, ignoreLineage) {
+      decomposePattern(pattern, patternlab, ignoreLineage);
     },
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
