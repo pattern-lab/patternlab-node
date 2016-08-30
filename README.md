@@ -15,7 +15,7 @@ If this looks **REALLY DIFFERENT** from what you expected, check out the [Change
 
 ## Upgrading
 
-If you find yourself here and are looking to ugpgrade, check out how to upgrade from version to version of Pattern Lab Node here: [https://github.com/pattern-lab/patternlab-node/wiki/Upgrading](https://github.com/pattern-lab/patternlab-node/wiki/Upgrading)
+If you find yourself here and are looking to upgrade, check out how to upgrade from version to version of Pattern Lab Node here: [https://github.com/pattern-lab/patternlab-node/wiki/Upgrading](https://github.com/pattern-lab/patternlab-node/wiki/Upgrading)
 
 ## Command Line Interface
 
