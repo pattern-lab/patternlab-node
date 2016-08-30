@@ -244,6 +244,19 @@ var pattern_assembler = function () {
 
   function processPatternIterative(relPath, patternlab) {
 
+    var relativeDepth = relPath.match(/\w(?=\\)|\w(?=\/)/g || []).length;
+    if (relativeDepth > 2) {
+      console.log('');
+      plutils.logOrange('Warning:');
+      plutils.logOrange('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
+      plutils.logOrange('It\'s strongly suggested to not deviate from the following structure under _patterns/');
+      plutils.logOrange('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
+      console.log('');
+      plutils.logOrange('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
+      plutils.logOrange('Read More: http://patternlab.io/docs/pattern-organization.html');
+      console.log('');
+    }
+
     //check if the found file is a top-level markdown file
     var fileObject = path.parse(relPath);
     if (fileObject.ext === '.md') {
