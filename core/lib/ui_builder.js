@@ -500,9 +500,13 @@ var ui_builder = function () {
       //todo this isn't quite working yet
       //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
 
-      //render the viewall template
+      //get the appropriate patternType
+      var anyPatternOfType = _.find(typePatterns, function (pat) {
+        return pat.patternType && pat.patternType !== '';});
+
+      //render the viewall template for the type
       var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
-      writeFile(paths.public.patterns + p.subdir + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+      writeFile(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
       //determine if we should omit this patterntype completely from the viewall page
       var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
