@@ -265,7 +265,7 @@
 			var mixedPattern = new Pattern('00-test/07-mixed-params.mustache');
 			mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/07-mixed-params.mustache', 'utf8');
 			mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
-      		mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
+      mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
 
 			pattern_assembler.addPattern(atomPattern, pl);
 			pattern_assembler.addPattern(mixedPattern, pl);
@@ -322,6 +322,53 @@
 			test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
 			test.done();
 		},
+    'processPatternRecursive - does not pollute previous patterns when a later one is found with a styleModifier' : function(test){
+      //arrange
+      var fs = require('fs-extra');
+      var pattern_assembler = new pa();
+      var patterns_dir = './test/files/_patterns';
+
+      var pl = {};
+      pl.config = {
+        paths: {
+          source: {
+            patterns: patterns_dir
+          }
+        },
+        outputFileSuffixes: {
+          rendered : ''
+        }
+      };
+      pl.data = {};
+      pl.data.link = {};
+      pl.config.debug = false;
+      pl.patterns = [];
+      pl.partials = {};
+
+      var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+      atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+      atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+      atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+
+      var anotherPattern = new Pattern('00-test/12-another-styled-atom.mustache');
+      anotherPattern.template = fs.readFileSync(patterns_dir + '/00-test/12-another-styled-atom.mustache', 'utf8');
+      anotherPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(anotherPattern);
+      anotherPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(anotherPattern);
+
+      pattern_assembler.addPattern(atomPattern, pl);
+      pattern_assembler.addPattern(anotherPattern, pl);
+
+      //act
+      pattern_assembler.process_pattern_recursive('00-test' + path.sep + '12-another-styled-atom.mustache', pl, {});
+
+      //assert
+      var expectedCleanValue = '<span class="test_base {{styleModifier}}"> {{message}} </span>';
+      var expectedSetValue = '<span class="test_base test_1"> {{message}} </span>';
+      test.equals(anotherPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
+      test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
+      test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
+      test.done();
+    },
 		'setState - applies any patternState matching the pattern' : function(test){
 			//arrange
 			var pa = require('../core/lib/pattern_assembler');

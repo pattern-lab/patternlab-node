@@ -426,14 +426,17 @@ var pattern_assembler = function () {
       processPatternRecursive(partialPath, patternlab);
 
       //complete assembly of extended template
+      //create a copy of the partial so as to not pollute it after the getPartial call.
       var partialPattern = getPartial(partial, patternlab);
+      var cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+      cleanPartialPattern.extendedTemplate = cleanPartialPattern.template;
 
       //if partial has style modifier data, replace the styleModifier value
       if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-        style_modifier_hunter.consume_style_modifier(partialPattern, foundPatternPartials[i], patternlab);
+        style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPatternPartials[i], patternlab);
       }
 
-      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], partialPattern.extendedTemplate);
+      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], cleanPartialPattern.extendedTemplate);
     }
   }
 
