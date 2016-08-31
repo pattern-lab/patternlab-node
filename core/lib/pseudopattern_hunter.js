@@ -54,7 +54,7 @@ var pseudopattern_hunter = function () {
 
           // use the same template engine as the non-variant
           engine: currentPattern.engine
-        });
+        }, patternlab);
 
         //process the companion markdown file if it exists
         pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);
