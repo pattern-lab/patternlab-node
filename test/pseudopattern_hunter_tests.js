@@ -1,5 +1,6 @@
 "use strict";
 
+var path = require('path');
 var pha = require('../core/lib/pseudopattern_hunter');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
@@ -44,6 +45,7 @@ exports['pseudopattern_hunter'] = {
     test.equals(pl.patterns[1].patternPartial, 'test-styled-atom-alt');
     test.equals(pl.patterns[1].extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '<span class="test_base {{styleModifier}}"> {{message}} </span>');
     test.equals(JSON.stringify(pl.patterns[1].jsonFileData), JSON.stringify({"message": "alternateMessage"}));
+    test.equals(pl.patterns[1].patternLink, '00-test-03-styled-atom-alt' + path.sep + '00-test-03-styled-atom-alt.html');
 
     test.done();
   }

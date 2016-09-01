@@ -1,13 +1,4 @@
-/*
- * patternlab-node - v0.10.1 - 2015
- *
- * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
- */
-
+// special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible!
 'use strict';
 
 var path = require('path');

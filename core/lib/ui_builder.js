@@ -1,6 +1,7 @@
 "use strict";
 
 var path = require('path');
+var JSON5 = require('json5');
 var fs = require('fs-extra');
 var ae = require('./annotation_exporter');
 var of = require('./object_factory');
@@ -98,7 +99,16 @@ var ui_builder = function () {
     isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf('/_') > -1;
     if (isOmitted) {
       if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns its contained within an underscored directory.');
+        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because its contained within an underscored directory.');
+      }
+      return true;
+    }
+
+    //this pattern is a head or foot pattern
+    isOmitted = pattern.isMetaPattern;
+    if (isOmitted) {
+      if (patternlab.config.debug) {
+        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because its a meta pattern.');
       }
       return true;
     }
@@ -396,10 +406,17 @@ var ui_builder = function () {
       cacheBuster: patternlab.cacheBuster
     });
 
+    var allFooterData;
+    try {
+      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+    } catch (err) {
+      console.log('There was an error parsing JSON for patternlab.data');
+      console.log(err);
+    }
+    allFooterData.patternLabFoot = footerPartial;
+
     //then add it to the user footer
-    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
-      patternLabFoot : footerPartial
-    });
+    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
     return footerHTML;
   }
 
@@ -483,9 +500,13 @@ var ui_builder = function () {
       //todo this isn't quite working yet
       //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
 
-      //render the viewall template
+      //get the appropriate patternType
+      var anyPatternOfType = _.find(typePatterns, function (pat) {
+        return pat.patternType && pat.patternType !== '';});
+
+      //render the viewall template for the type
       var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
-      writeFile(paths.public.patterns + p.subdir + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+      writeFile(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
       //determine if we should omit this patterntype completely from the viewall page
       var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
@@ -504,7 +525,6 @@ var ui_builder = function () {
     });
     return patterns;
   }
-
 
   /**
    * Write out our pattern information for use by the front end
@@ -574,19 +594,19 @@ var ui_builder = function () {
     var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
       cacheBuster: patternlab.cacheBuster
     });
-    var headerHTML = pattern_assembler.renderPattern(patternlab.userHead, {
-      patternLabHead : headerPartial,
-      cacheBuster: patternlab.cacheBuster
-    });
+
+    var headFootData = patternlab.data;
+    headFootData.patternLabHead = headerPartial;
+    headFootData.cacheBuster = patternlab.cacheBuster;
+    var headerHTML = pattern_assembler.renderPattern(patternlab.userHead, headFootData);
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
     var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
       patternData: '{}',
       cacheBuster: patternlab.cacheBuster
     });
-    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, {
-      patternLabFoot : footerPartial
-    });
+    headFootData.patternLabFoot = footerPartial;
+    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, headFootData);
 
     //build the viewall pages
     var allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
