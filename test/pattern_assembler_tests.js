@@ -364,9 +364,77 @@
       //assert
       var expectedCleanValue = '<span class="test_base {{styleModifier}}"> {{message}} </span>';
       var expectedSetValue = '<span class="test_base test_1"> {{message}} </span>';
-      test.equals(anotherPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
+
+      //this is the "atom" - it should remain unchanged
       test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
       test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
+
+      // this is the style modifier pattern, which should resolve correctly
+      test.equals(anotherPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-styled-atom:test_1 }}');
+      test.equals(anotherPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
+
+      test.done();
+    },
+    'processPatternRecursive - ensure deep-nesting works' : function(test){
+      //arrange
+      var fs = require('fs-extra');
+      var pattern_assembler = new pa();
+      var patterns_dir = './test/files/_patterns';
+
+      var pl = {};
+      pl.config = {
+        paths: {
+          source: {
+            patterns: patterns_dir
+          }
+        },
+        outputFileSuffixes: {
+          rendered : ''
+        }
+      };
+      pl.data = {};
+      pl.data.link = {};
+      pl.config.debug = false;
+      pl.patterns = [];
+      pl.partials = {};
+
+      var atomPattern = new Pattern('00-test/01-bar.mustache');
+      atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8');
+      atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
+      atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
+
+      var templatePattern = new Pattern('00-test/00-foo.mustache');
+      templatePattern.template = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8');
+      templatePattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(templatePattern);
+      templatePattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(templatePattern);
+
+      var pagesPattern = new Pattern('00-test/14-inception.mustache');
+      pagesPattern.template = fs.readFileSync(patterns_dir + '/00-test/14-inception.mustache', 'utf8');
+      pagesPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(pagesPattern);
+      pagesPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(pagesPattern);
+
+      pattern_assembler.addPattern(atomPattern, pl);
+      pattern_assembler.addPattern(templatePattern, pl);
+      pattern_assembler.addPattern(pagesPattern, pl);
+
+      //act
+      pattern_assembler.process_pattern_recursive('00-test' + path.sep + '14-inception.mustache', pl, {});
+
+      //assert
+      var expectedCleanValue = 'bar';
+      var expectedSetValue = 'bar';
+
+      //this is the "atom" - it should remain unchanged
+      test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue);
+      test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue);
+
+      //this is the "template pattern" - it should have an updated extendedTemplate but an unchanged template
+      test.equals(templatePattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-bar }}');
+      test.equals(templatePattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
+
+      //this is the "pages pattern" - it should have an updated extendedTemplate equal to the template pattern but an unchanged template
+      test.equals(pagesPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-foo }}');
+      test.equals(pagesPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
       test.done();
     },
 		'setState - applies any patternState matching the pattern' : function(test){
