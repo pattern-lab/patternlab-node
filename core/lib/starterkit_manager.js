@@ -1,10 +1,11 @@
 "use strict";
 
 var starterkit_manager = function (config) {
-  var path = require('path'),
-    fs = require('fs-extra'),
-    util = require('./utilities'),
-    paths = config.paths;
+  var path  = require('path'),
+      fetch = require('node-fetch'),
+      fs    = require('fs-extra'),
+      util  = require('./utilities'),
+      paths = config.paths;
 
   function loadStarterKit(starterkitName, clean) {
     try {
@@ -41,8 +42,35 @@ var starterkit_manager = function (config) {
     }
   }
 
+  /**
+   * @func listStarterkits
+   * @desc Fetches starterkit repos from GH API that contain 'starterkit' in their name for the user 'pattern-lab'
+   * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
+   */
   function listStarterkits() {
-    console.log('https://github.com/search?utf8=%E2%9C%93&q=starterkit+in%3Aname%2C+user%3Apattern-lab&type=Repositories&ref=searchresults');
+    return fetch('https://api.github.com/search/repositories?q=starterkit+in:name+user:pattern-lab&sort=stars&order=desc', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(function (res) {
+      var contentType = res.headers.get('content-type');
+      if (contentType && contentType.indexOf('application/json') === -1) {
+        throw new TypeError("StarterkitManager->listStarterkits: Not valid JSON");
+      }
+      return res.json()
+    }).then(function (json) {
+      if (!json.items || !Array.isArray(json.items)) {
+        return false;
+      }
+      return json.items
+        .map(function (repo) {
+          return {name: repo.name, url: repo.html_url}
+        });
+    }).catch(function (err) {
+      console.error(err);
+      return false;
+    });
   }
 
   function packStarterkit() {
@@ -63,7 +91,7 @@ var starterkit_manager = function (config) {
       loadStarterKit(starterkitName, clean);
     },
     list_starterkits: function () {
-      listStarterkits();
+      return listStarterkits();
     },
     pack_starterkit: function () {
       packStarterkit();
