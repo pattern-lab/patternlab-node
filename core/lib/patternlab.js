@@ -387,10 +387,10 @@ var patternlab_engine = function (config) {
 
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      var cleanedPatternPage = cleanHtml(patternPage);
-      var cleanedPatternPartialCode = cleanHtml(pattern.patternPartialCode);
+      var cleanedPatternPage = config.cleanOutputHtml ? cleanHtml(patternPage) : patternPage;
+      var cleanedPatternPartialCode = config.cleanOutputHtml ? cleanHtml(pattern.patternPartialCode) : pattern.patternPartialCode;
 
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), patternPage);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), cleanedPatternPage);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), pattern.template);
