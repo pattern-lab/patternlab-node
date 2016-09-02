@@ -14,7 +14,8 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
-  plutils = require('./utilities');
+  plutils = require('./utilities'),
+  cleanHtml = require('js-beautify').html;
 
 function buildPatternData(dataFilesPath, fs) {
   var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
@@ -386,13 +387,16 @@ var patternlab_engine = function (config) {
 
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+      var cleanedPatternPage = cleanHtml(patternPage);
+      var cleanedPatternPartialCode = cleanHtml(pattern.patternPartialCode);
+
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), patternPage);
 
       //write the mustache file too
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), pattern.template);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), pattern.patternPartialCode);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), cleanedPatternPartialCode);
 
       return true;
     });

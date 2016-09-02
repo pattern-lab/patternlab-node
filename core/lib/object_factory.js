@@ -3,7 +3,6 @@
 var patternEngines = require('./pattern_engines');
 var path = require('path');
 var extend = require('util')._extend;
-var cleanHtml = require('js-beautify').html;
 
 // Pattern properties
 
@@ -74,7 +73,7 @@ Pattern.prototype = {
   // render function
   render: function (data, partials) {
     if (this.engine) {
-      return cleanHtml(this.engine.renderPattern(this, data || this.jsonFileData, partials));
+      return this.engine.renderPattern(this, data || this.jsonFileData, partials);
     }
     return null;
   },
