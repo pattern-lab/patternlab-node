@@ -92,6 +92,7 @@ var ui_builder = function () {
       if (patternlab.config.debug) {
         console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because it is defined as a defaultPattern.');
       }
+      patternlab.defaultPattern = pattern;
       return true;
     }
 
@@ -610,6 +611,12 @@ var ui_builder = function () {
 
     //build the viewall pages
     var allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
+
+    //add the defaultPattern if we found one
+    if (patternlab.defaultPattern) {
+      allPatterns.push(patternlab.defaultPattern);
+      addToPatternPaths(patternlab, patternlab.defaultPattern);
+    }
 
     //build the main styleguide page
     var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
