@@ -2,9 +2,16 @@
   display: none;
   .field__input-wrapper {
     text-align: left;
+    input {
+      border-color: $colorSilverChalice;
+    }
   }
   button {
-    width: 100%;
+    margin-top: $marginStandard;
+    width: 280px !important;
+    @media only screen and (min-width : $breakpointTablet) {
+      width: 100% !important;
+    }
   }
 
   .field {
@@ -19,6 +26,12 @@
       }
     }
     .tool-tip {
+      &.mobile, &.desktop {
+        div {
+          display: flex;
+          align-items: center;
+        }
+      }
       &.mobile {
         margin: 15px 0;
         display: none;
