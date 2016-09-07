@@ -1,0 +1,96 @@
+.travel-assistant-form-container {
+  display: none;
+  .field__input-wrapper {
+    text-align: left;
+    input {
+      border-color: $colorSilverChalice;
+    }
+  }
+  button {
+    margin-top: $marginStandard;
+    width: 280px !important;
+    @media only screen and (min-width : $breakpointTablet) {
+      width: 100% !important;
+    }
+  }
+
+  .field {
+    &__input {
+      &.error {
+        border-color: $colorBurntSienna;
+      }
+      &:focus {
+        & + .mobile {
+          display: flex !important;
+        }
+      }
+    }
+    .tool-tip {
+      &.mobile, &.desktop {
+        div {
+          display: flex;
+          align-items: center;
+        }
+      }
+      &.mobile {
+        margin: 15px 0;
+        display: none;
+        span {
+          float: left;
+          margin-right: 10px;
+          border: 1px solid black;
+          padding: 0 11px;
+          border-radius: 50%;
+          margin-top: 15px;
+          width: 28px;
+          height: 28px;
+        }
+        div {
+          line-height: 20px;
+          width: 200px;
+          float: left;
+          height: 60px;
+          background-color: $colorGallery;
+          padding: 0 7px;
+          font-size: 12px;
+          position: relative;
+          flex: 1;
+        }
+      }
+      &.desktop {
+        float: right;
+        position: absolute;
+        right: -260px;
+        top: 25px;
+        span {
+          cursor: pointer;
+          float: left;
+          margin-right: 10px;
+          position: absolute;
+          border: 1px solid black;
+          padding: 0 11px;
+          border-radius: 50%;
+          left: -37px;
+          top: 9px;
+          &:hover {
+            & + div {
+              visibility: visible;
+            }
+          }
+        }
+        div {
+          visibility: hidden;
+          line-height: 20px;
+          width: 200px;
+          height: 60px;
+          background-color: $colorGallery;
+          padding: 0 7px;
+          font-size: 12px;
+          top: -6px;
+          position: relative;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
