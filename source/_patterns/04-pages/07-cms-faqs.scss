@@ -1,0 +1,35 @@
+.block {
+  .blockText__body--base {
+    border-bottom: 1px solid $colorSilverChalice;
+  }
+  &.faqs {
+    h2 {
+      border-top: 1px solid $colorSilverChalice;
+      padding-top: $paddingMini / 2;
+      padding-bottom: $paddingMini / 2;
+      cursor: pointer;
+      display: flex;
+      clear: both;
+      &:after {
+        @include icon-styles;
+        content: "\E011";
+        padding: 0 $paddingMini / 2;
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+      }
+      &.open {
+        &:after {
+          content: '\E00F';
+        }
+      }
+    }
+    p {
+      display: none;
+      padding-top: $paddingMini / 2;
+      a {
+        margin-top: $paddingMini;
+      }
+    }
+  }
+}
