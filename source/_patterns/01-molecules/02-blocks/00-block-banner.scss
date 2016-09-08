@@ -31,10 +31,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      margin: auto;
-      min-width: 50%;
       min-height: 50%;
       overflow-x: hidden;
+      object-fit: cover;
+      width: 100vw;
+      height: 100vh;
     }
 
     &--video {
