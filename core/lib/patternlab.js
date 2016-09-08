@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.4.4 - 2016 
- * 
+/*
+ * patternlab-node - v2.4.4 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -84,12 +84,14 @@ var patternlab_engine = function (config) {
     lh = require('./lineage_hunter'),
     ui = require('./ui_builder'),
     sm = require('./starterkit_manager'),
+    pm = require('./plugin_manager'),
     patternlab = {};
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
 
   checkConfiguration(patternlab);
+  initializePlugins(patternlab);
 
   var paths = patternlab.config.paths;
 
@@ -167,6 +169,19 @@ var patternlab_engine = function (config) {
     if (patternlab.config.debug) {
       console.log('writing patternlab debug file to ./patternlab.json');
       fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
+    }
+  }
+
+  function initializePlugins(patternlab) {
+    var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
+    var foundPlugins = plugin_manager.detect_plugins();
+
+    if (foundPlugins && foundPlugins.length > 0) {
+
+      for (var i = 0; i < foundPlugins.length; i++) {
+        var plugin = plugin_manager.load_plugin(foundPlugins[i]);
+        plugin(patternlab);
+      }
     }
   }
 

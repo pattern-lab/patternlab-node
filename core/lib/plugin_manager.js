@@ -59,7 +59,7 @@ var plugin_manager = function (config, configPath) {
       installPlugin(pluginName);
     },
     load_plugin: function (pluginName) {
-      loadPlugin(pluginName);
+      return loadPlugin(pluginName);
     },
     detect_plugins: function () {
       return detectPlugins();
