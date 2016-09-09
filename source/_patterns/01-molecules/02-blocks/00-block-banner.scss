@@ -40,12 +40,7 @@
       @media only screen and (max-width: $breakpointTabletEnd) {
         object-fit: cover;
         width: 100vw;
-        height: 72vh;
-      }
-      @media only screen and (max-width: $breakpointMobileEnd) {
-        object-fit: cover;
-        width: 100vw;
-        height: 50vh;
+        height: 100%;
       }
     }
 
