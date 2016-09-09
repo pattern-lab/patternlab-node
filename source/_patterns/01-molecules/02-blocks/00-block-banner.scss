@@ -33,9 +33,20 @@
       bottom: 0;
       min-height: 50%;
       overflow-x: hidden;
-      object-fit: cover;
-      width: 100vw;
-      height: 100vh;
+      @media only screen and (min-width: $breakpointTabletEnd) {
+        margin: auto;
+        min-width: 50%;
+      }
+      @media only screen and (max-width: $breakpointTabletEnd) {
+        object-fit: cover;
+        width: 100vw;
+        height: 72vh;
+      }
+      @media only screen and (max-width: $breakpointMobileEnd) {
+        object-fit: cover;
+        width: 100vw;
+        height: 50vh;
+      }
     }
 
     &--video {
