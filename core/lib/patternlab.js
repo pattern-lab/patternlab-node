@@ -14,6 +14,7 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
+  pm = require('./plugin_manager'),
   plutils = require('./utilities');
 
 function buildPatternData(dataFilesPath, fs) {
@@ -74,6 +75,19 @@ function checkConfiguration(patternlab) {
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 }
 
+function initializePlugins(patternlab) {
+  var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
+  var foundPlugins = plugin_manager.detect_plugins();
+
+  if (foundPlugins && foundPlugins.length > 0) {
+
+    for (var i = 0; i < foundPlugins.length; i++) {
+      var plugin = plugin_manager.load_plugin(foundPlugins[i]);
+      plugin(patternlab);
+    }
+  }
+}
+
 var patternlab_engine = function (config) {
   'use strict';
 
@@ -84,7 +98,6 @@ var patternlab_engine = function (config) {
     lh = require('./lineage_hunter'),
     ui = require('./ui_builder'),
     sm = require('./starterkit_manager'),
-    pm = require('./plugin_manager'),
     patternlab = {};
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
@@ -169,19 +182,6 @@ var patternlab_engine = function (config) {
     if (patternlab.config.debug) {
       console.log('writing patternlab debug file to ./patternlab.json');
       fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
-    }
-  }
-
-  function initializePlugins(patternlab) {
-    var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
-    var foundPlugins = plugin_manager.detect_plugins();
-
-    if (foundPlugins && foundPlugins.length > 0) {
-
-      for (var i = 0; i < foundPlugins.length; i++) {
-        var plugin = plugin_manager.load_plugin(foundPlugins[i]);
-        plugin(patternlab);
-      }
     }
   }
 

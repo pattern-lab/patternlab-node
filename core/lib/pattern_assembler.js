@@ -520,7 +520,7 @@ var pattern_assembler = function () {
       parseDataLinks(patternlab);
     },
     parse_data_links_specific: function (patternlab, data, label) {
-      return parseDataLinksHelper(patternlab, data, label)
+      return parseDataLinksHelper(patternlab, data, label);
     },
     parse_pattern_markdown: function (pattern, patternlab) {
       parsePatternMarkdown(pattern, patternlab);

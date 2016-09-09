@@ -235,7 +235,7 @@ var ui_builder = function () {
       patternState: pattern.patternState,
       patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
       patternPath: patternPath
-    }
+    };
   }
 
   /**
@@ -618,7 +618,7 @@ var ui_builder = function () {
 
   return {
     buildFrontend: function (patternlab) {
-      buildFrontend(patternlab)
+      buildFrontend(patternlab);
     },
     isPatternExcluded: function (pattern, patternlab) {
       return isPatternExcluded(pattern, patternlab);

@@ -3,12 +3,10 @@
 var plugin_manager = function (config, configPath) {
   var path = require('path'),
     fs = require('fs-extra'),
-    util = require('./utilities'),
-    paths = config.paths;
+    util = require('./utilities');
 
   function loadPlugin(pluginName) {
-    var pluginInstance = require(path.join(process.cwd(), 'node_modules', pluginName));
-    return pluginInstance;
+    return require(path.join(process.cwd(), 'node_modules', pluginName));
   }
 
   function installPlugin(pluginName) {
@@ -39,11 +37,10 @@ var plugin_manager = function (config, configPath) {
 
   function detectPlugins() {
     var node_modules_path = path.join(process.cwd(), 'node_modules');
-    var npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {
+    return fs.readdirSync(node_modules_path).filter(function (dir) {
       var module_path = path.join(process.cwd(), 'node_modules', dir);
       return fs.statSync(module_path).isDirectory() && dir.indexOf('plugin-node-') === 0;
     });
-    return npm_modules;
   }
 
   function disablePlugin(pluginName) {
@@ -55,7 +52,7 @@ var plugin_manager = function (config, configPath) {
   }
 
   return {
-    install_plugin: function(pluginName) {
+    install_plugin: function (pluginName) {
       installPlugin(pluginName);
     },
     load_plugin: function (pluginName) {
