@@ -14,8 +14,11 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
+  inherits = require('util').inherits,
   pm = require('./plugin_manager'),
   plutils = require('./utilities');
+
+var EventEmitter = require('events').EventEmitter;
 
 function buildPatternData(dataFilesPath, fs) {
   var dataFilesPath = dataFilesPath;
@@ -88,6 +91,11 @@ function initializePlugins(patternlab) {
   }
 }
 
+function PatternLabEventEmitter() {
+  EventEmitter.call(this);
+}
+inherits(PatternLabEventEmitter, EventEmitter);
+
 var patternlab_engine = function (config) {
   'use strict';
 
@@ -102,8 +110,11 @@ var patternlab_engine = function (config) {
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+  patternlab.events = new PatternLabEventEmitter();
 
   checkConfiguration(patternlab);
+
+  //todo: determine if this is the best place to wire up plugins
   initializePlugins(patternlab);
 
   var paths = patternlab.config.paths;
@@ -207,6 +218,9 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
+
+    patternlab.events.emit('patternlab-build-pattern-start', patternlab);
+
     try {
       patternlab.data = buildPatternData(paths.source.data, fs);
     } catch (ex) {
@@ -244,8 +258,12 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
+    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
+
     // diveSync once to perform iterative populating of patternlab object
     processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab);
+
+    patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
@@ -369,6 +387,8 @@ var patternlab_engine = function (config) {
         patternLabFoot : footerPartial
       });
 
+      patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
+
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), patternPage);
@@ -378,6 +398,8 @@ var patternlab_engine = function (config) {
 
       //write the encoded version too
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), pattern.patternPartialCode);
+
+      patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
 
       return true;
     });

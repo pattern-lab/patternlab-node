@@ -36,10 +36,6 @@ try{
     }
   }
 
-
-
-
-
   u.logGreen('Pattern Lab postinstall complete.');
 
 } catch (ex) {

@@ -27,8 +27,13 @@ var plugin_manager = function (config, configPath) {
 
         //write config entry back
         var diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
-        diskConfig[pluginName] = true;
+        diskConfig[pluginName] = false;
         fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
+
+        util.logGreen('Plugin ' + pluginName + ' installed.');
+
+        //todo, tell them how to uninstall or disable
+
       }
     } catch (ex) {
       console.log(ex);
