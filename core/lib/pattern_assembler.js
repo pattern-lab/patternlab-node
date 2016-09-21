@@ -21,8 +21,17 @@ var pattern_assembler = function () {
   function getPartial(partialName, patternlab) {
     //look for exact partial matches
     for (var i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].patternPartial === partialName) {
-        return patternlab.patterns[i];
+      var pattern = patternlab.patterns[i];
+
+      if (pattern.patternPartial === partialName) {
+        return pattern;
+
+      //also check for Pattern Lab PHP syntax for hidden patterns
+      //Pattern Lab PHP strips leading underscores from pattern filenames,
+      //strips leading digits plus hyphen,
+      //and retains the first tilde instead of replacing it with a hyphen
+      } else if (partialName === pattern.patternGroup + '-' + pattern.fileName.replace(/^_/, '').replace(/^\d*\-/, '')) {
+        return pattern;
       }
     }
 

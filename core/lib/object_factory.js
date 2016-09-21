@@ -21,8 +21,8 @@ var Pattern = function (relPath, data) {
   // the JSON used to render values in the pattern
   this.jsonFileData = data || {};
 
-  // strip leading "00-" from the file name and underscores from ui-hidden patterns
-  this.patternBaseName = this.fileName.replace(/^\d*\-/, '').replace(/^_/, ''); // 'colors'
+  // strip leading "00-" from the file name and flip tildes to dashes
+  this.patternBaseName = this.fileName.replace(/^\d*\-/, '').replace('~', '-'); // 'colors'
 
   // Fancy name. No idea how this works. 'Colors'
   this.patternName = this.patternBaseName.split('-').reduce(function (val, working) {
