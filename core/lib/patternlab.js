@@ -245,7 +245,7 @@ var patternlab_engine = function (config) {
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
-      plutils.logRed('missing or malformed' + paths.source.data + 'listitems.json  Pattern Lab may not work without this file.');
+      plutils.logOrange('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
     try {
