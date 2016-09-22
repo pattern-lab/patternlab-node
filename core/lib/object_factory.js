@@ -57,7 +57,7 @@ var Pattern = function (relPath, data) {
   this.isPseudoPattern = false;
   this.engine = patternEngines.getEngineForPattern(this);
   this.patternPartials = null;
-  this.allData = {};
+  this.allData = null;
   this.dataKeys = [];
 };
 

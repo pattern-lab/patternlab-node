@@ -310,15 +310,6 @@ var pattern_assembler = function () {
       }
     }
 
-    //merge global data into a clone of local jsonFileData
-    var localDataClone = {};
-    try {
-      localDataClone = JSON5.parse(jsonFileStr);
-    } catch (err) {
-      //already threw error in last try/catch
-    }
-    currentPattern.allData = plutils.mergeData(patternlab.data, localDataClone);
-
     //add allData keys to currentPattern.dataKeys
     currentPattern.dataKeys = getDataKeys(currentPattern.jsonFileData);
 
@@ -386,6 +377,12 @@ var pattern_assembler = function () {
 
     //we are processing a markdown only pattern
     if (currentPattern.engine === null) { return; }
+
+    //merge global data into local data after iterating through all patterns
+    //but not after first recursion
+    if (!currentPattern.allData) {
+      currentPattern.allData = plutils.mergeData(patternlab.data, currentPattern.jsonFileData);
+    }
 
     //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
     //only do this at the top level of recursion
