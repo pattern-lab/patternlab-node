@@ -51,6 +51,8 @@ var pseudopattern_hunter = function () {
           extendedTemplate: currentPattern.extendedTemplate,
           isPseudoPattern: true,
           basePattern: currentPattern,
+          stylePartials: currentPattern.stylePartials,
+          parameteredPartials: currentPattern.parameteredPartials,
 
           // use the same template engine as the non-variant
           engine: currentPattern.engine
