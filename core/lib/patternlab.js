@@ -78,6 +78,10 @@ function checkConfiguration(patternlab) {
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 }
 
+/**
+ * Finds and calls the main method of any found plugins.
+ * @param patternlab - global data store
+ */
 function initializePlugins(patternlab) {
   var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
   var foundPlugins = plugin_manager.detect_plugins();
