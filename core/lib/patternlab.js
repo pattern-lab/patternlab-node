@@ -385,15 +385,18 @@ var patternlab_engine = function (config) {
 
       var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
 
-      //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      var cleanedPatternPage = config.cleanOutputHtml ? cleanHtml(patternPage) : patternPage;
-      var cleanedPatternPartialCode = config.cleanOutputHtml ? cleanHtml(pattern.patternPartialCode) : pattern.patternPartialCode;
 
+      //beautify the output if configured to do so
+      var cleanedPatternPage = config.cleanOutputHtml ? cleanHtml(patternPage, {indent_size: 2}) : patternPage;
+      var cleanedPatternPartialCode = config.cleanOutputHtml ? cleanHtml(pattern.patternPartialCode, {indent_size: 2}) : pattern.patternPartialCode;
+      var cleanedPatternTemplateCode = config.cleanOutputHtml ? cleanHtml(pattern.template, {indent_size: 2}) : pattern.template;
+
+      //write the compiled template to the public patterns directory
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), cleanedPatternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), pattern.template);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), cleanedPatternTemplateCode);
 
       //write the encoded version too
       fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), cleanedPatternPartialCode);
