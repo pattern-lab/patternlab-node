@@ -59,5 +59,6 @@
     "rendered": ".rendered",
     "rawTemplate": "",
     "markupOnly": ".markup-only"
-  }
+  },
+  "cleanOutputHtml": true
 }
