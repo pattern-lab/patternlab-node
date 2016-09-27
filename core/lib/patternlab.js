@@ -1,5 +1,5 @@
 /* 
- * patternlab-node - v2.5.1 - 2016 
+ * patternlab-node - v2.6.0-alpha - 2016 
  * 
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license. 
@@ -14,7 +14,12 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
+  cleanHtml = require('js-beautify').html,
+  inherits = require('util').inherits,
+  pm = require('./plugin_manager'),
   plutils = require('./utilities');
+
+var EventEmitter = require('events').EventEmitter;
 
 function buildPatternData(dataFilesPath, fs) {
   var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
@@ -73,6 +78,28 @@ function checkConfiguration(patternlab) {
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 }
 
+/**
+ * Finds and calls the main method of any found plugins.
+ * @param patternlab - global data store
+ */
+function initializePlugins(patternlab) {
+  var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
+  var foundPlugins = plugin_manager.detect_plugins();
+
+  if (foundPlugins && foundPlugins.length > 0) {
+
+    for (var i = 0; i < foundPlugins.length; i++) {
+      var plugin = plugin_manager.load_plugin(foundPlugins[i]);
+      plugin(patternlab);
+    }
+  }
+}
+
+function PatternLabEventEmitter() {
+  EventEmitter.call(this);
+}
+inherits(PatternLabEventEmitter, EventEmitter);
+
 var patternlab_engine = function (config) {
   'use strict';
 
@@ -92,8 +119,12 @@ var patternlab_engine = function (config) {
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+  patternlab.events = new PatternLabEventEmitter();
 
   checkConfiguration(patternlab);
+
+  //todo: determine if this is the best place to wire up plugins
+  initializePlugins(patternlab);
 
   var paths = patternlab.config.paths;
 
@@ -236,6 +267,9 @@ var patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
+
+    patternlab.events.emit('patternlab-build-pattern-start', patternlab);
+
     try {
       patternlab.data = buildPatternData(paths.source.data, fs);
     } catch (ex) {
@@ -245,7 +279,7 @@ var patternlab_engine = function (config) {
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
-      plutils.logRed('missing or malformed' + paths.source.data + 'listitems.json  Pattern Lab may not work without this file.');
+      plutils.logOrange('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
     try {
@@ -268,8 +302,12 @@ var patternlab_engine = function (config) {
 
     pattern_assembler.combine_listItems(patternlab);
 
+    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
+
     // diveSync once to perform iterative populating of patternlab object
     processAllPatternsIterative(pattern_assembler, paths.source.patterns, patternlab);
+
+    patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
@@ -384,15 +422,26 @@ var patternlab_engine = function (config) {
 
       var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
 
+      patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
+
       //write the compiled template to the public patterns directory
       var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), patternPage);
+
+      //beautify the output if configured to do so
+      var cleanedPatternPage = config.cleanOutputHtml ? cleanHtml(patternPage, {indent_size: 2}) : patternPage;
+      var cleanedPatternPartialCode = config.cleanOutputHtml ? cleanHtml(pattern.patternPartialCode, {indent_size: 2}) : pattern.patternPartialCode;
+      var cleanedPatternTemplateCode = config.cleanOutputHtml ? cleanHtml(pattern.template, {indent_size: 2}) : pattern.template;
+
+      //write the compiled template to the public patterns directory
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), cleanedPatternPage);
 
       //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), pattern.template);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), cleanedPatternTemplateCode);
 
       //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), pattern.patternPartialCode);
+      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), cleanedPatternPartialCode);
+
+      patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
 
       return true;
     });

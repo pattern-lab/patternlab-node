@@ -59,11 +59,11 @@ var annotations_exporter = function (pl) {
     //take the annotation snippets and split them on our custom delimiter
       var annotationsYAML = annotationsMD.split('~*~');
       for (var i = 0; i < annotationsYAML.length; i++) {
-        var annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser)
+        var annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser);
         annotations.push(annotation);
       }
       return false;
-    }
+    };
   }
 
   /*
@@ -72,7 +72,7 @@ var annotations_exporter = function (pl) {
   function parseAnnotationsMD() {
     var markdown_parser = new mp();
     var annotations = [];
-    var mdFiles = glob.sync(paths.source.annotations + '/*.md')
+    var mdFiles = glob.sync(paths.source.annotations + '/*.md');
 
     mdFiles.forEach(parseMDFile(annotations, markdown_parser));
     return annotations;

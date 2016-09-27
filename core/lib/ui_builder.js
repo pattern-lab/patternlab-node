@@ -92,6 +92,7 @@ var ui_builder = function () {
       if (patternlab.config.debug) {
         console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because it is defined as a defaultPattern.');
       }
+      patternlab.defaultPattern = pattern;
       return true;
     }
 
@@ -245,7 +246,7 @@ var ui_builder = function () {
       patternState: pattern.patternState,
       patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
       patternPath: patternPath
-    }
+    };
   }
 
   /**
@@ -552,8 +553,8 @@ var ui_builder = function () {
     //viewAllPaths
     output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
 
-    //plugins someday
-    output += 'var plugins = [];' + eol;
+    //plugins
+    output += 'var plugins = ' + JSON.stringify(patternlab.plugins) + ';' + eol;
 
     //smaller config elements
     output += 'var defaultShowPatternInfo = ' + (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
@@ -611,6 +612,12 @@ var ui_builder = function () {
     //build the viewall pages
     var allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
+    //add the defaultPattern if we found one
+    if (patternlab.defaultPattern) {
+      allPatterns.push(patternlab.defaultPattern);
+      addToPatternPaths(patternlab, patternlab.defaultPattern);
+    }
+
     //build the main styleguide page
     var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
       {
@@ -638,7 +645,7 @@ var ui_builder = function () {
 
   return {
     buildFrontend: function (patternlab) {
-      buildFrontend(patternlab)
+      buildFrontend(patternlab);
     },
     isPatternExcluded: function (pattern, patternlab) {
       return isPatternExcluded(pattern, patternlab);
