@@ -1,11 +1,11 @@
 "use strict";
 
 var starterkit_manager = function (config) {
-  var path  = require('path'),
-      fetch = require('node-fetch'),
-      fs    = require('fs-extra'),
-      util  = require('./utilities'),
-      paths = config.paths;
+  var path = require('path'),
+    fetch = require('node-fetch'),
+    fs = require('fs-extra'),
+    util = require('./utilities'),
+    paths = config.paths;
 
   function loadStarterKit(starterkitName, clean) {
     try {
