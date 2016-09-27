@@ -1,12 +1,13 @@
 "use strict";
-try{
-
+try {
   console.log('Beginning Pattern Lab postinstall...');
 
-  var sm = require('../lib/starterkit_manager.js');
-  var u = require('../lib/utilities.js');
   var path = require('path');
   var fs = require('fs-extra');
+  var smPath = path.resolve(__dirname, '..', 'lib/starterkit_manager.js');
+  var uPath = path.resolve(__dirname, '..', 'lib/utilities.js');
+  var sm = require(smPath);
+  var u = require(uPath);
 
   //get the config
   var configPath = path.resolve(process.cwd(), 'patternlab-config.json');
@@ -17,7 +18,7 @@ try{
   var foundStarterkits = starterkit_manager.detect_starterkits();
 
   //todo - enhance to support multiple kits with prompt for each or all
-  if(foundStarterkits && foundStarterkits.length > 0) {
+  if (foundStarterkits && foundStarterkits.length > 0) {
     starterkit_manager.load_starterkit(foundStarterkits[0], true);
   } else {
     console.log('No starterkits found to automatically load.')
@@ -25,9 +26,7 @@ try{
   u.logGreen('Pattern Lab postinstall complete.');
 
 } catch (ex) {
-  u.logOrange(ex);
+  console.log(ex);
   u.logOrange('An error occurred during Pattern Lab Node postinstall.');
   u.logOrange('Pattern Lab postinstall completed with errors.');
 }
-
-
