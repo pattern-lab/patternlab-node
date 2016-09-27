@@ -6,6 +6,8 @@
 
 The Tab Plugin allows Pattern Lab Node users to see sibling files next to a pattern in the filesystem, displaying them as additional tabs alongside the template and HTML tabs in both the Style Guide frontend and the single-pattern info modal.
 
+[Read more about Pattern Lab Node Plugins](https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins)
+
 ## Installation
 
 To add the Tab Plugin to your project using [npm](http://npmjs.com/) type:
