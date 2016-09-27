@@ -87,7 +87,7 @@ Pattern.prototype = {
   // calculated path from the root of the public directory to the generated html
   // file for this pattern.
   // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
-  getPatternLink: function (patternlab, suffixType) {
+  getPatternLink: function (patternlab, suffixType, customfileExtension) {
     // if no suffixType is provided, we default to rendered
     var suffixConfig = patternlab.config.outputFileSuffixes;
     var suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
@@ -95,6 +95,11 @@ Pattern.prototype = {
     if (suffixType === 'rawTemplate') {
       return this.name + path.sep + this.name + suffix + this.fileExtension;
     }
+
+    if (suffixType === 'custom') {
+      return this.name + path.sep + this.name + customfileExtension;
+    }
+
     return this.name + path.sep + this.name + suffix + '.html';
   },
 

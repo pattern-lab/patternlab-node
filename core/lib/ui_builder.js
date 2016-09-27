@@ -246,7 +246,7 @@ var ui_builder = function () {
       patternState: pattern.patternState,
       patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
       patternPath: patternPath
-    }
+    };
   }
 
   /**
@@ -553,8 +553,8 @@ var ui_builder = function () {
     //viewAllPaths
     output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
 
-    //plugins someday
-    output += 'var plugins = [];' + eol;
+    //plugins
+    output += 'var plugins = ' + JSON.stringify(patternlab.plugins) + ';' + eol;
 
     //smaller config elements
     output += 'var defaultShowPatternInfo = ' + (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
@@ -645,7 +645,7 @@ var ui_builder = function () {
 
   return {
     buildFrontend: function (patternlab) {
-      buildFrontend(patternlab)
+      buildFrontend(patternlab);
     },
     isPatternExcluded: function (pattern, patternlab) {
       return isPatternExcluded(pattern, patternlab);

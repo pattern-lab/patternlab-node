@@ -5,8 +5,10 @@ try {
   var path = require('path');
   var fs = require('fs-extra');
   var smPath = path.resolve(__dirname, '..', 'lib/starterkit_manager.js');
+  var pmPath = path.resolve(__dirname, '..', 'lib/plugin_manager.js');
   var uPath = path.resolve(__dirname, '..', 'lib/utilities.js');
   var sm = require(smPath);
+  var pm = require(pmPath);
   var u = require(uPath);
 
   //get the config
@@ -21,8 +23,21 @@ try {
   if (foundStarterkits && foundStarterkits.length > 0) {
     starterkit_manager.load_starterkit(foundStarterkits[0], true);
   } else {
-    console.log('No starterkits found to automatically load.')
+    console.log('No starterkits found to automatically load.');
   }
+
+  //determine if any plugins are already installed
+  var plugin_manager = new pm(config, configPath);
+  var foundPlugins = plugin_manager.detect_plugins();
+
+  if (foundPlugins && foundPlugins.length > 0) {
+
+    for (var i = 0; i < foundPlugins.length; i++) {
+      console.log('Found plugin', foundPlugins[i]);
+      plugin_manager.install_plugin(foundPlugins[i]);
+    }
+  }
+
   u.logGreen('Pattern Lab postinstall complete.');
 
 } catch (ex) {

@@ -58,14 +58,14 @@ var starterkit_manager = function (config) {
       if (contentType && contentType.indexOf('application/json') === -1) {
         throw new TypeError("StarterkitManager->listStarterkits: Not valid JSON");
       }
-      return res.json()
+      return res.json();
     }).then(function (json) {
       if (!json.items || !Array.isArray(json.items)) {
         return false;
       }
       return json.items
         .map(function (repo) {
-          return {name: repo.name, url: repo.html_url}
+          return {name: repo.name, url: repo.html_url};
         });
     }).catch(function (err) {
       console.error(err);
