@@ -1,7 +1,7 @@
 {
   "name": "edition-node-gulp",
   "description": "The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "dependencies": {
     "browser-sync": "^2.0.0",
     "gulp": "gulpjs/gulp#4.0",
@@ -24,7 +24,8 @@
   "bugs": "https://github.com/pattern-lab/edition-node-gulp/issues",
   "author": "Brian Muenzenmeyer",
   "scripts": {
-    "postinstall": "node node_modules/patternlab-node/core/scripts/postinstall.js"
+    "postinstall": "node scripts/postinstall.js",
+    "gulp": "gulp -- "
   },
   "license": "MIT",
   "engines": {
