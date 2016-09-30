@@ -4,21 +4,45 @@ var fs = require('fs-extra'),
   path = require('path');
 
 var util = {
-  // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+  /**
+   * Shuffles an array in place.
+   * http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+   *
+   * @param {Array} o
+   * @returns {Array} o
+   */
   shuffle: function (o) {
     /*eslint-disable curly*/
     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     return o;
   },
 
+  /**
+   * Logs a message to the console with green text.
+   *
+   * @param {string} message
+   * @returns {string} message
+   */
   logGreen: function (message) {
     console.log('\x1b[32m', message, '\x1b[0m');
   },
 
+  /**
+   * Logs a message to the console with orange text.
+   *
+   * @param {string} message
+   * @returns {string} message
+   */
   logOrange: function (message) {
     console.log('\x1b[33m', message, '\x1b[0m');
   },
 
+  /**
+   * Logs a message to the console with red text.
+   *
+   * @param {string} message
+   * @returns {string} message
+   */
   logRed: function (message) {
     console.log('\x1b[41m', message, '\x1b[0m');
   },
@@ -60,6 +84,12 @@ var util = {
     return obj2;
   },
 
+  /**
+   * Determines whether or not an object is empty.
+   *
+   * @param {Object} obj
+   * @returns {Boolean}
+   */
   isObjectEmpty: function (obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) { return false; }
@@ -67,8 +97,14 @@ var util = {
     return true;
   },
 
-  // recursively delete the contents of directory
-  // adapted from https://gist.github.com/tkihira/2367067
+  /**
+   * Recursively delete the contents of directory.
+   * Adapted from https://gist.github.com/tkihira/2367067
+   *
+   * @param {string} dir - directory to empty
+   * @param {string} cleanDir - already empty directory
+   * @returns {undefined}
+   */
   emptyDirectory: function (dir, cleanDir) {
     var list = fs.readdirSync(dir);
     for (var i = 0; i < list.length; i++) {
