@@ -19,6 +19,13 @@ module.exports = function (grunt) {
     nodeunit: {
       all: ['test/*_tests.js']
     },
+    tape: {
+      options: {
+        pretty: true,
+        output: 'console'
+      },
+      files: ['test/*_tests.js']
+    },
     eslint: {
       options: {
         configFile: './.eslintrc'
@@ -31,11 +38,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-tape');
 
   //travis CI task
-  grunt.registerTask('travis', ['nodeunit', 'eslint']);
+  grunt.registerTask('travis', ['nodeunit', 'tape', 'eslint']);
 
   //to be run prior to releasing a version
-  grunt.registerTask('build', ['nodeunit', 'eslint', 'concat']);
+  grunt.registerTask('build', ['nodeunit', 'tape', 'eslint', 'concat']);
 
 };
