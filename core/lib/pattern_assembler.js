@@ -243,6 +243,7 @@ var pattern_assembler = function () {
   }
 
   function processPatternIterative(relPath, patternlab) {
+
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
       console.log('');
