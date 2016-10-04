@@ -386,13 +386,11 @@ var pattern_assembler = function () {
 
     //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
     //only do this at the top level of recursion
-    var level;
-    if (typeof levelParam === 'undefined') {
+    var level = levelParam ? levelParam : 0;
+    if (!level) {
       pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-      level = 1;
-    } else {
-      level++;
     }
+    level++;
 
     //find how many partials there may be for the given pattern
     currentPattern.patternPartials = currentPattern.findPartials();
