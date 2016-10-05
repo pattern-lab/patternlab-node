@@ -2,6 +2,13 @@
 
 var style_modifier_hunter = function () {
 
+  /**
+   * Modifies a partial based on the pattern supplied
+   *
+   * @param pattern {object} the pattern to extend
+   * @param partial {string} class name
+   * @param patternlab {object} the patternlab instance
+   */
   function consumestylemodifier(pattern, partial, patternlab) {
     //extract the classname from the stylemodifier which comes in the format of :className
     var styleModifier = partial.match(/:([\w\-_|])+/g) ? partial.match(/:([\w\-_|])+/g)[0].slice(1) : null;
