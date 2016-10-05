@@ -5,9 +5,11 @@ var fs = require('fs-extra');
 var pattern_exporter = function () {
 
   /**
-   * Exports pattern to a location
+   * Exports all pattern's final HTML as defined in patternlab-config.json to desired location.
+   * Originally created to help facilitate easier consumption by jekyll.
+   * This method is off spec with PL PHP and will change or be augmented some day.
    *
-   * @param patternlab {object} patternlab reference 
+   * @param patternlab {object} patternlab reference
    */
   function exportPatterns(patternlab) {
     //read the config export options
