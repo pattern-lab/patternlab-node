@@ -3,10 +3,10 @@
 var style_modifier_hunter = function () {
 
   /**
-   * Modifies a partial based on the pattern supplied
+   * Modifies a patterns partial with any styleModifiers found on the supplied partial
    *
    * @param pattern {object} the pattern to extend
-   * @param partial {string} class name
+   * @param partial {string} partial containing styleModifiers
    * @param patternlab {object} the patternlab instance
    */
   function consumestylemodifier(pattern, partial, patternlab) {
