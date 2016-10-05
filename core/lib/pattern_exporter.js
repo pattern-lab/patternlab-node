@@ -4,6 +4,11 @@ var fs = require('fs-extra');
 
 var pattern_exporter = function () {
 
+  /**
+   * Exports pattern to a location
+   *
+   * @param patternlab {object} patternlab reference 
+   */
   function exportPatterns(patternlab) {
     //read the config export options
     var exportPartials = patternlab.config.patternExportPatternPartials;
