@@ -181,6 +181,31 @@ exports['engine_handlebars'] = {
     testFindPartials(test, [
       '{{#> myPartial }}'
     ]);
+  },
+  'hidden handlebars patterns can be called by their nice names' : function(test){
+    const util = require('./util/test_utils.js');
+
+    //arrange
+    const testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
+    const pl = util.fakePatternLab(testPatternsPath);
+    var pattern_assembler = new pa();
+
+    var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.hbs');
+    var hiddenPattern = pattern_assembler.process_pattern_iterative(hiddenPatternPath, pl);
+    pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
+
+    var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.hbs');
+    var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+    //act
+    test.equals(testPattern.render(), 'Hello there!\nHere\'s the hidden atom: [This is the hidden atom]\n');
+
+    //assert
+    // test.equals(patternlab.patterns.length, 1);
+    // test.equals(patternlab.partials['test-bar'] != undefined, true);
+    // test.equals(patternlab.partials['test-bar'], 'bar');
+    test.done();
   }
 };
 

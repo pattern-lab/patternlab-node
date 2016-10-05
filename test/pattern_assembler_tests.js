@@ -636,6 +636,27 @@
 			test.equals(patternlab.partials['test-bar'] != undefined, true);
 			test.equals(patternlab.partials['test-bar'], 'bar');
 			test.done();
-		}
+		},
+    'hidden patterns can be called by their nice names' : function(test){
+      const util = require('./util/test_utils.js');
+
+      //arrange
+      const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+      const pl = util.fakePatternLab(testPatternsPath);
+      var pattern_assembler = new pa();
+
+      //act
+      var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
+      var hiddenPattern = pattern_assembler.process_pattern_iterative(hiddenPatternPath, pl);
+      pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
+
+      var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
+      var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
+      pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+      //assert
+      test.equals(testPattern.render(), 'Hello there!\nHere\'s the hidden atom: [This is the hidden atom]\n');
+      test.done();
+    }
 	};
 })();
