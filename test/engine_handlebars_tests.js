@@ -199,7 +199,7 @@ exports['engine_handlebars'] = {
     pattern_assembler.process_pattern_recursive(testPatternPath, pl);
 
     //act
-    test.equals(testPattern.render(), 'Hello there!\nHere\'s the hidden atom: [This is the hidden atom]\n');
+    test.equals(testPattern.render(), 'Here\'s the hidden atom: [I\'m the hidden atom\n]\n');
 
     //assert
     // test.equals(patternlab.patterns.length, 1);
