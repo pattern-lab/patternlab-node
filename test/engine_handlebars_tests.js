@@ -200,11 +200,6 @@ exports['engine_handlebars'] = {
 
     //act
     test.equals(testPattern.render(), 'Here\'s the hidden atom: [I\'m the hidden atom\n]\n');
-
-    //assert
-    // test.equals(patternlab.patterns.length, 1);
-    // test.equals(patternlab.partials['test-bar'] != undefined, true);
-    // test.equals(patternlab.partials['test-bar'], 'bar');
     test.done();
   }
 };
