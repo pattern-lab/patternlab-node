@@ -42,7 +42,7 @@ var partial_hunter = function () {
         escapedKeys += '|';
       }
       escapedKeys += dataKey;
-      if (i < patternlab.dataKeys.length - 1) {
+      if (i < pattern.dataKeys.length - 1) {
         escapedKeys += '|';
       }
     }
