@@ -25,5 +25,13 @@ module.exports = {
     fpl.config.paths.source.patterns = testPatternsPath;
 
     return fpl;
+  },
+
+  /**
+   * Strip out control characters from output if needed so make comparisons easier
+   * @param output - the template to strip
+   */
+  sanitized: (outputTemplate) => {
+    return outputTemplate.replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\s\s+/g, ' ').trim();
   }
 };
