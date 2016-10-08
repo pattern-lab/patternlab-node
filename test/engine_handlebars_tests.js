@@ -1,10 +1,20 @@
 "use strict";
+/*eslint-disable no-shadow*/
 
+var test = require('tape');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 var eol = require('os').EOL;
+
+// don't run these tests unless handlebars is installed
+var engineLoader = require('../core/lib/pattern_engines');
+if (!engineLoader.handlebars) {
+  test.only('Handlebars engine not installed, skipping tests.', function (test) {
+    test.end();
+  });
+};
 
 // fake pattern lab constructor:
 // sets up a fake patternlab object, which is needed by the pattern processing
@@ -34,7 +44,7 @@ function fakePatternLab() {
 
 // function for testing sets of partials
 function testFindPartials(test, partialTests) {
-  test.expect(partialTests.length + 1);
+  test.plan(partialTests.length + 1);
 
   // setup current pattern from what we would have during execution
   // docs on partial syntax are here:
@@ -56,138 +66,136 @@ function testFindPartials(test, partialTests) {
     test.equals(results[index], testString);
   });
 
-  test.done();
+  test.end();
 }
 
-exports['engine_handlebars'] = {
-  'hello world handlebars pattern renders': function (test) {
-    test.expect(1);
+test('hello world handlebars pattern renders', function (test) {
+  test.plan(1);
 
-    var patternPath = path.join('00-atoms', '00-global', '00-helloworld.hbs');
+  var patternPath = path.join('00-atoms', '00-global', '00-helloworld.hbs');
 
-    // do all the normal processing of the pattern
-    var patternlab = new fakePatternLab();
-    var assembler = new pa();
-    var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
-    assembler.process_pattern_recursive(patternPath, patternlab);
+  // do all the normal processing of the pattern
+  var patternlab = new fakePatternLab();
+  var assembler = new pa();
+  var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
+  assembler.process_pattern_recursive(patternPath, patternlab);
 
-    test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
-    test.done();
-  },
-  'hello worlds handlebars pattern can see the atoms-helloworld partial and renders it twice': function (test) {
-    test.expect(1);
+  test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
+  test.end();
+});
 
-    // pattern paths
-    var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld.hbs');
-    var pattern2Path = path.join('00-molecules', '00-global', '00-helloworlds.hbs');
+test('hello worlds handlebars pattern can see the atoms-helloworld partial and renders it twice', function (test) {
+  test.plan(1);
 
-    // set up environment
-    var patternlab = new fakePatternLab(); // environment
-    var assembler = new pa();
+  // pattern paths
+  var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld.hbs');
+  var pattern2Path = path.join('00-molecules', '00-global', '00-helloworlds.hbs');
 
-    // do all the normal processing of the pattern
-    assembler.process_pattern_iterative(pattern1Path, patternlab);
-    var helloWorldsPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
-    assembler.process_pattern_recursive(pattern1Path, patternlab);
-    assembler.process_pattern_recursive(pattern2Path, patternlab);
+  // set up environment
+  var patternlab = new fakePatternLab(); // environment
+  var assembler = new pa();
 
-    // test
-    test.equals(helloWorldsPattern.render(), 'Hello world!' + eol + ' and Hello world!' + eol + eol);
-    test.done();
-  },
-  'handlebars partials can render JSON values': function (test) {
-    test.expect(1);
+  // do all the normal processing of the pattern
+  assembler.process_pattern_iterative(pattern1Path, patternlab);
+  var helloWorldsPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
+  assembler.process_pattern_recursive(pattern1Path, patternlab);
+  assembler.process_pattern_recursive(pattern2Path, patternlab);
 
-    // pattern paths
-    var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
+  // test
+  test.equals(helloWorldsPattern.render(), 'Hello world!' + eol + ' and Hello world!' + eol + eol);
+  test.end();
+});
 
-    // set up environment
-    var patternlab = new fakePatternLab(); // environment
-    var assembler = new pa();
+test('handlebars partials can render JSON values', function (test) {
+  test.plan(1);
 
-    // do all the normal processing of the pattern
-    var helloWorldWithData = assembler.process_pattern_iterative(pattern1Path, patternlab);
-    assembler.process_pattern_recursive(pattern1Path, patternlab);
+  // pattern paths
+  var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
 
-    // test
-    test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
-    test.done();
-  },
-  'handlebars partials use the JSON environment from the calling pattern and can accept passed parameters': function (test) {
-    test.expect(1);
+  // set up environment
+  var patternlab = new fakePatternLab(); // environment
+  var assembler = new pa();
 
-    // pattern paths
-    var atomPath = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
-    var molPath = path.join('00-molecules', '00-global', '00-call-atom-with-molecule-data.hbs');
+  // do all the normal processing of the pattern
+  var helloWorldWithData = assembler.process_pattern_iterative(pattern1Path, patternlab);
+  assembler.process_pattern_recursive(pattern1Path, patternlab);
 
-    // set up environment
-    var patternlab = new fakePatternLab(); // environment
-    var assembler = new pa();
+  // test
+  test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
+  test.end();
+});
 
-    // do all the normal processing of the pattern
-    assembler.process_pattern_iterative(atomPath, patternlab);
-    var mol = assembler.process_pattern_iterative(molPath, patternlab);
-    assembler.process_pattern_recursive(atomPath, patternlab);
-    assembler.process_pattern_recursive(molPath, patternlab);
+test('handlebars partials use the JSON environment from the calling pattern and can accept passed parameters', function (test) {
+  test.plan(1);
 
-    // test
-    test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>' + eol + 'This is Hello world!' + eol + 'from the default JSON.' + eol + eol + eol +'<h2>Call with passed parameter:</h2>' + eol + 'However, this is Hello world!' + eol + 'from a totally different blob.' + eol + eol);
-    test.done();
-  },
-  'find_pattern_partials finds partials': function (test) {
-    testFindPartials(test, [
-      "{{> molecules-comment-header}}",
-      "{{>  molecules-comment-header}}",
-      "{{> " + eol + "	molecules-comment-header" + eol + "}}",
-      "{{>  molecules-weird-spacing     }}",
-      "{{>  molecules-ba_d-cha*rs     }}"
-    ]);
-  },
-  'find_pattern_partials finds verbose partials': function (test) {
-    testFindPartials(test, [
-      '{{> 01-molecules/06-components/03-comment-header.hbs }}',
-      "{{> 01-molecules/06-components/02-single-comment.hbs(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
-      '{{> molecules-single-comment:foo }}',
-      "{{>atoms-error(message: 'That\'s no moon...')}}",
-      "{{> atoms-error(message: 'That\'s no moon...') }}",
-      '{{> 00-atoms/00-global/06-test }}'
-    ]);
-  },
-  'find_pattern_partials finds simple partials with parameters': function (test) {
-    testFindPartials(test, [
-      "{{> molecules-single-comment(description: 'A life isn\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
-      '{{> molecules-single-comment(description:"A life is like a \"garden\". Perfect moments can be had, but not preserved, except in memory.") }}'
-    ]);
-  },
-  'find_pattern_partials finds simple partials with style modifiers': function (test) {
-    testFindPartials(test, [
-      '{{> molecules-single-comment:foo }}'
-    ]);
-  },
-  'find_pattern_partials finds partials with handlebars parameters': function (test) {
-    testFindPartials(test, [
-      '{{> atoms-title title="bravo" headingLevel="2" headingSize="bravo" position="left"}}',
-      '{{> atoms-title title="bravo"' + eol + '  headingLevel="2"' + eol + '  headingSize="bravo"' + eol + '  position="left"}}',
-      '{{> atoms-title title="color &nbsp;<span style=\'font-weight:normal\'>midnight blue</span>" headingSize="charlie"}}',
-      '{{> atoms-input label="city" required=true}}',
-      '{{> organisms-product-filter filterData}}',
-      '{{> atoms-input email required=true}}',
-      '{{> molecules-storycard variants.flex }}',
-      '{{> myPartial name=../name }}'
-    ]);
-  },
+  // pattern paths
+  var atomPath = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
+  var molPath = path.join('00-molecules', '00-global', '00-call-atom-with-molecule-data.hbs');
 
-  'find_pattern_partials finds handlebars block partials': function (test) {
-    testFindPartials(test, [
-      '{{#> myPartial }}'
-    ]);
-  }
-};
+  // set up environment
+  var patternlab = new fakePatternLab(); // environment
+  var assembler = new pa();
 
+  // do all the normal processing of the pattern
+  assembler.process_pattern_iterative(atomPath, patternlab);
+  var mol = assembler.process_pattern_iterative(molPath, patternlab);
+  assembler.process_pattern_recursive(atomPath, patternlab);
+  assembler.process_pattern_recursive(molPath, patternlab);
 
-// don't run these tests unless handlebars is installed
-var engineLoader = require('../core/lib/pattern_engines');
-if (!engineLoader.handlebars) {
-  console.log("Handlebars engine not installed, skipping tests.");
-  delete exports.engine_handlebars;
-}
+  // test
+  test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>' + eol + 'This is Hello world!' + eol + 'from the default JSON.' + eol + eol + eol +'<h2>Call with passed parameter:</h2>' + eol + 'However, this is Hello world!' + eol + 'from a totally different blob.' + eol + eol);
+  test.end();
+});
+
+test('find_pattern_partials finds partials', function (test) {
+  testFindPartials(test, [
+    "{{> molecules-comment-header}}",
+    "{{>  molecules-comment-header}}",
+    "{{> " + eol + "	molecules-comment-header" + eol + "}}",
+    "{{>  molecules-weird-spacing     }}",
+    "{{>  molecules-ba_d-cha*rs     }}"
+  ]);
+});
+
+test('find_pattern_partials finds verbose partials', function (test) {
+  testFindPartials(test, [
+    '{{> 01-molecules/06-components/03-comment-header.hbs }}',
+    "{{> 01-molecules/06-components/02-single-comment.hbs(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
+    '{{> molecules-single-comment:foo }}',
+    "{{>atoms-error(message: 'That\'s no moon...')}}",
+    "{{> atoms-error(message: 'That\'s no moon...') }}",
+    '{{> 00-atoms/00-global/06-test }}'
+  ]);
+});
+
+test('find_pattern_partials finds simple partials with parameters', function (test) {
+  testFindPartials(test, [
+    "{{> molecules-single-comment(description: 'A life isn\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
+    '{{> molecules-single-comment(description:"A life is like a \"garden\". Perfect moments can be had, but not preserved, except in memory.") }}'
+  ]);
+});
+
+test('find_pattern_partials finds simple partials with style modifiers', function (test) {
+  testFindPartials(test, [
+    '{{> molecules-single-comment:foo }}'
+  ]);
+});
+
+test('find_pattern_partials finds partials with handlebars parameters', function (test) {
+  testFindPartials(test, [
+    '{{> atoms-title title="bravo" headingLevel="2" headingSize="bravo" position="left"}}',
+    '{{> atoms-title title="bravo"' + eol + '  headingLevel="2"' + eol + '  headingSize="bravo"' + eol + '  position="left"}}',
+    '{{> atoms-title title="color &nbsp;<span style=\'font-weight:normal\'>midnight blue</span>" headingSize="charlie"}}',
+    '{{> atoms-input label="city" required=true}}',
+    '{{> organisms-product-filter filterData}}',
+    '{{> atoms-input email required=true}}',
+    '{{> molecules-storycard variants.flex }}',
+    '{{> myPartial name=../name }}'
+  ]);
+});
+
+test('find_pattern_partials finds handlebars block partials', function (test) {
+  testFindPartials(test, [
+    '{{#> myPartial }}'
+  ]);
+});
