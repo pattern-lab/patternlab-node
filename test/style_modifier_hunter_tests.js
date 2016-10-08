@@ -1,86 +1,89 @@
 "use strict";
 
+var tap = require('tap');
+
 var smh = require('../core/lib/style_modifier_hunter');
 
-exports['consume_style_modifier'] = {
-	'uses the partial stylemodifer to modify the patterns extendedTemplate' : function(test){
-		//arrange
-		var pl = {};
-		pl.partials = {};
-		pl.config = {};
-		pl.config.debug = false;
+tap.test('uses the partial stylemodifer to modify the patterns extendedTemplate', function(test){
+  //arrange
+  var pl = {};
+  pl.partials = {};
+  pl.config = {};
+  pl.config.debug = false;
 
-		var pattern = {
-			extendedTemplate: '<div class="foo {{styleModifier}}"></div>'
-		};
+  var pattern = {
+    extendedTemplate: '<div class="foo {{styleModifier}}"></div>'
+  };
 
-		var style_modifier_hunter = new smh();
+  var style_modifier_hunter = new smh();
 
-		//act
-		style_modifier_hunter.consume_style_modifier(pattern, '{{> partial:bar}}', pl);
+  //act
+  style_modifier_hunter.consume_style_modifier(pattern, '{{> partial:bar}}', pl);
 
-		//assert
-		test.equals(pattern.extendedTemplate, '<div class="foo bar"></div>');
-		test.done();
-	},
-	'replaces style modifiers with spaces in the syntax' : function(test){
-		//arrange
-		var pl = {};
-		pl.partials = {};
-		pl.config = {};
-		pl.config.debug = false;
+  //assert
+  test.equals(pattern.extendedTemplate, '<div class="foo bar"></div>');
+  test.end();
+});
 
-		var pattern = {
-			extendedTemplate: '<div class="foo {{ styleModifier }}"></div>'
-		};
+tap.test('replaces style modifiers with spaces in the syntax', function(test){
+  //arrange
+  var pl = {};
+  pl.partials = {};
+  pl.config = {};
+  pl.config.debug = false;
 
-		var style_modifier_hunter = new smh();
+  var pattern = {
+    extendedTemplate: '<div class="foo {{ styleModifier }}"></div>'
+  };
 
-		//act
-		style_modifier_hunter.consume_style_modifier(pattern, '{{> partial:bar}}', pl);
+  var style_modifier_hunter = new smh();
 
-		//assert
-		test.equals(pattern.extendedTemplate, '<div class="foo bar"></div>');
-		test.done();
-	},
-	'replaces multiple style modifiers' : function(test){
-		//arrange
-		var pl = {};
-		pl.partials = {};
-		pl.config = {};
-		pl.config.debug = false;
+  //act
+  style_modifier_hunter.consume_style_modifier(pattern, '{{> partial:bar}}', pl);
 
-		var pattern = {
-			extendedTemplate: '<div class="foo {{ styleModifier }}"></div>'
-		};
+  //assert
+  test.equals(pattern.extendedTemplate, '<div class="foo bar"></div>');
+  test.end();
+});
 
-		var style_modifier_hunter = new smh();
+tap.test('replaces multiple style modifiers', function(test){
+  //arrange
+  var pl = {};
+  pl.partials = {};
+  pl.config = {};
+  pl.config.debug = false;
 
-		//act
-		style_modifier_hunter.consume_style_modifier(pattern, '{{> partial:bar|baz|dum}}', pl);
+  var pattern = {
+    extendedTemplate: '<div class="foo {{ styleModifier }}"></div>'
+  };
 
-		//assert
-		test.equals(pattern.extendedTemplate, '<div class="foo bar baz dum"></div>');
-		test.done();
-	},
-	'does not alter pattern extendedTemplate if styleModifier not found in partial' : function(test){
-		//arrange
-		var pl = {};
-		pl.partials = {};
-		pl.config = {};
-		pl.config.debug = false;
+  var style_modifier_hunter = new smh();
 
-		var pattern = {
-			extendedTemplate: '<div class="foo {{styleModifier}}"></div>'
-		};
+  //act
+  style_modifier_hunter.consume_style_modifier(pattern, '{{> partial:bar|baz|dum}}', pl);
 
-		var style_modifier_hunter = new smh();
+  //assert
+  test.equals(pattern.extendedTemplate, '<div class="foo bar baz dum"></div>');
+  test.end();
+});
 
-		//act
-		style_modifier_hunter.consume_style_modifier(pattern, '{{> partial}}', pl);
+tap.test('does not alter pattern extendedTemplate if styleModifier not found in partial', function(test){
+  //arrange
+  var pl = {};
+  pl.partials = {};
+  pl.config = {};
+  pl.config.debug = false;
 
-		//assert
-		test.equals(pattern.extendedTemplate, '<div class="foo {{styleModifier}}"></div>');
-		test.done();
-	}
-};
+  var pattern = {
+    extendedTemplate: '<div class="foo {{styleModifier}}"></div>'
+  };
+
+  var style_modifier_hunter = new smh();
+
+  //act
+  style_modifier_hunter.consume_style_modifier(pattern, '{{> partial}}', pl);
+
+  //assert
+  test.equals(pattern.extendedTemplate, '<div class="foo {{styleModifier}}"></div>');
+  test.end();
+});

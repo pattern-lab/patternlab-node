@@ -21,7 +21,7 @@ module.exports = function (grunt) {
     },
     tape: {
       options: {
-        pretty: true,
+        pretty: false,
         output: 'console'
       },
       files: ['test/*_tests.js']
