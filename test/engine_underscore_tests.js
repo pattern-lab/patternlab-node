@@ -1,6 +1,6 @@
 "use strict";
 
-var test = require('tape');
+var tap = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
@@ -9,9 +9,10 @@ var eol = require('os').EOL;
 // don't run tests unless underscore is installed
 var engineLoader = require('../core/lib/pattern_engines');
 if (!engineLoader.underscore) {
-  test.only('Underscore engine not installed, skipping tests', function (test){
+  tap.test('Underscore engine not installed, skipping tests', function (test) {
     test.end();
   });
+  return;
 }
 
 // fake pattern lab constructor:
@@ -39,7 +40,7 @@ function fakePatternLab() {
   return fpl;
 }
 
-test('hello world underscore pattern renders', function (test) {
+tap.test('hello world underscore pattern renders', function (test) {
   test.plan(1);
 
   var patternPath = path.resolve(
@@ -53,7 +54,6 @@ test('hello world underscore pattern renders', function (test) {
   var patternlab = new fakePatternLab();
   var assembler = new pa();
   var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
-  //test.comment(helloWorldPattern);
   assembler.process_pattern_recursive(patternPath, patternlab);
 
   test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
@@ -61,7 +61,7 @@ test('hello world underscore pattern renders', function (test) {
 
 });
 
-test('underscore partials can render JSON values', function (test) {
+tap.test('underscore partials can render JSON values', function (test) {
 
   test.plan(1);
 
@@ -87,7 +87,7 @@ test('underscore partials can render JSON values', function (test) {
 
 });
 
-test('findPartial return the ID of the partial, given a whole partial call', function (test) {
+tap.test('findPartial return the ID of the partial, given a whole partial call', function (test) {
   var engineLoader = require('../core/lib/pattern_engines');
   var underscoreEngine = engineLoader.underscore;
 
