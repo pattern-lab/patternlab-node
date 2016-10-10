@@ -1,7 +1,7 @@
 "use strict";
 /*eslint-disable no-shadow*/
 
-var test = require('tape');
+var tap  = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
@@ -11,9 +11,10 @@ var eol = require('os').EOL;
 // don't run these tests unless mustache is installed
 var engineLoader = require('../core/lib/pattern_engines');
 if (!engineLoader.mustache) {
-  test.only('Mustache engine not installed, skipping tests.', function (test) {
+  tap.test('Mustache engine not installed, skipping tests.', function (test) {
     test.end();
   });
+  return;
 }
 
 // fake pattern lab constructor:
@@ -121,13 +122,13 @@ function testFindPartialsWithPatternParameters(test, partialTests) {
 }
 
 
-test('find_pattern_partials finds one simple partial', function (test) {
+tap.test('find_pattern_partials finds one simple partial', function (test) {
   testFindPartials(test, [
     "{{> molecules-comment-header}}"
   ]);
 });
 
-test('find_pattern_partials finds simple partials under stressed circumstances', function (test) {
+tap.test('find_pattern_partials finds simple partials under stressed circumstances', function (test) {
   testFindPartials(test, [
     "{{>molecules-comment-header}}",
     "{{> " + eol + " molecules-comment-header" + eol + "}}",
@@ -135,13 +136,13 @@ test('find_pattern_partials finds simple partials under stressed circumstances',
   ]);
 });
 
-test('find_pattern_partials finds one simple verbose partial', function (test) {
+tap.test('find_pattern_partials finds one simple verbose partial', function (test) {
   testFindPartials(test, [
     '{{> 00-atoms/00-global/06-test }}'
   ]);
 });
 
-test('find_pattern_partials finds partials with parameters', function (test) {
+tap.test('find_pattern_partials finds partials with parameters', function (test) {
   testFindPartials(test, [
     "{{> molecules-single-comment(description: true) }}",
     "{{> molecules-single-comment(description: 42) }}",
@@ -153,33 +154,33 @@ test('find_pattern_partials finds partials with parameters', function (test) {
   ]);
 });
 
-test('find_pattern_partials finds simple partials with style modifiers', function (test) {
+tap.test('find_pattern_partials finds simple partials with style modifiers', function (test) {
   testFindPartials(test, [
     '{{> molecules-single-comment:foo }}',
     '{{> molecules-single-comment:foo|bar }}'
   ]);
 });
 
-test('find_pattern_partials finds mixed partials', function (test) {
+tap.test('find_pattern_partials finds mixed partials', function (test) {
   testFindPartials(test, [
     '{{> molecules-single-comment:foo(description: "test", anotherThing: true) }}',
     '{{> molecules-single-comment:foo|bar(description: true) }}'
   ]);
 });
 
-test('find_pattern_partials finds one simple partial with styleModifier', function (test) {
+tap.test('find_pattern_partials finds one simple partial with styleModifier', function (test) {
   testFindPartialsWithStyleModifiers(test, [
     "{{> molecules-comment-header:test}}"
   ]);
 });
 
-test('find_pattern_partials finds partial with many styleModifiers', function (test) {
+tap.test('find_pattern_partials finds partial with many styleModifiers', function (test) {
   testFindPartialsWithStyleModifiers(test, [
     "{{> molecules-comment-header:test|test2|test3}}"
   ]);
 });
 
-test('find_pattern_partials finds partials with differing styleModifiers', function (test) {
+tap.test('find_pattern_partials finds partials with differing styleModifiers', function (test) {
   testFindPartialsWithStyleModifiers(test, [
     "{{> molecules-comment-header:test|test2|test3}}",
     "{{> molecules-comment-header:foo-1}}",
@@ -187,7 +188,7 @@ test('find_pattern_partials finds partials with differing styleModifiers', funct
   ]);
 });
 
-test('find_pattern_partials finds partials with styleModifiers when parameters present', function (test) {
+tap.test('find_pattern_partials finds partials with styleModifiers when parameters present', function (test) {
   testFindPartialsWithStyleModifiers(test, [
     "{{> molecules-comment-header:test|test2|test3(description: true)}}",
     "{{> molecules-comment-header:foo-1(description: 'foo')}}",
@@ -195,13 +196,13 @@ test('find_pattern_partials finds partials with styleModifiers when parameters p
   ]);
 });
 
-test('find_pattern_partials_with_parameters finds one simple partial with parameters', function (test) {
+tap.test('find_pattern_partials_with_parameters finds one simple partial with parameters', function (test) {
   testFindPartialsWithPatternParameters(test, [
     "{{> molecules-comment-header(description: 'test')}}"
   ]);
 });
 
-test('find_pattern_partials_with_parameters finds partials with parameters', function (test) {
+tap.test('find_pattern_partials_with_parameters finds partials with parameters', function (test) {
   testFindPartialsWithPatternParameters(test, [
     "{{> molecules-single-comment(description: true) }}",
     "{{> molecules-single-comment(description: 42) }}",
@@ -213,7 +214,7 @@ test('find_pattern_partials_with_parameters finds partials with parameters', fun
   ]);
 });
 
-test('find_pattern_partials finds partials with parameters when styleModifiers present', function (test) {
+tap.test('find_pattern_partials finds partials with parameters when styleModifiers present', function (test) {
   testFindPartialsWithPatternParameters(test, [
     "{{> molecules-comment-header:test|test2|test3(description: true)}}",
     "{{> molecules-comment-header:foo-1(description: 'foo')}}",
