@@ -1,7 +1,7 @@
 "use strict";
 /*eslint-disable no-shadow*/
 
-var test = require('tape');
+var tap = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
@@ -11,9 +11,10 @@ var eol = require('os').EOL;
 // don't run these tests unless handlebars is installed
 var engineLoader = require('../core/lib/pattern_engines');
 if (!engineLoader.handlebars) {
-  test.only('Handlebars engine not installed, skipping tests.', function (test) {
-    test.end();
-  });
+  tap.test('Handlebars engine not installed, skipping tests.', function (test) {
+    test.end()
+  })
+  return
 };
 
 // fake pattern lab constructor:
@@ -69,7 +70,7 @@ function testFindPartials(test, partialTests) {
   test.end();
 }
 
-test('hello world handlebars pattern renders', function (test) {
+tap.test('hello world handlebars pattern renders', function (test) {
   test.plan(1);
 
   var patternPath = path.join('00-atoms', '00-global', '00-helloworld.hbs');
@@ -84,7 +85,7 @@ test('hello world handlebars pattern renders', function (test) {
   test.end();
 });
 
-test('hello worlds handlebars pattern can see the atoms-helloworld partial and renders it twice', function (test) {
+tap.test('hello worlds handlebars pattern can see the atoms-helloworld partial and renders it twice', function (test) {
   test.plan(1);
 
   // pattern paths
@@ -106,7 +107,7 @@ test('hello worlds handlebars pattern can see the atoms-helloworld partial and r
   test.end();
 });
 
-test('handlebars partials can render JSON values', function (test) {
+tap.test('handlebars partials can render JSON values', function (test) {
   test.plan(1);
 
   // pattern paths
@@ -125,7 +126,7 @@ test('handlebars partials can render JSON values', function (test) {
   test.end();
 });
 
-test('handlebars partials use the JSON environment from the calling pattern and can accept passed parameters', function (test) {
+tap.test('handlebars partials use the JSON environment from the calling pattern and can accept passed parameters', function (test) {
   test.plan(1);
 
   // pattern paths
@@ -147,7 +148,7 @@ test('handlebars partials use the JSON environment from the calling pattern and 
   test.end();
 });
 
-test('find_pattern_partials finds partials', function (test) {
+tap.test('find_pattern_partials finds partials', function (test) {
   testFindPartials(test, [
     "{{> molecules-comment-header}}",
     "{{>  molecules-comment-header}}",
@@ -157,7 +158,7 @@ test('find_pattern_partials finds partials', function (test) {
   ]);
 });
 
-test('find_pattern_partials finds verbose partials', function (test) {
+tap.test('find_pattern_partials finds verbose partials', function (test) {
   testFindPartials(test, [
     '{{> 01-molecules/06-components/03-comment-header.hbs }}',
     "{{> 01-molecules/06-components/02-single-comment.hbs(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
@@ -168,20 +169,20 @@ test('find_pattern_partials finds verbose partials', function (test) {
   ]);
 });
 
-test('find_pattern_partials finds simple partials with parameters', function (test) {
+tap.test('find_pattern_partials finds simple partials with parameters', function (test) {
   testFindPartials(test, [
     "{{> molecules-single-comment(description: 'A life isn\'t like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
     '{{> molecules-single-comment(description:"A life is like a \"garden\". Perfect moments can be had, but not preserved, except in memory.") }}'
   ]);
 });
 
-test('find_pattern_partials finds simple partials with style modifiers', function (test) {
+tap.test('find_pattern_partials finds simple partials with style modifiers', function (test) {
   testFindPartials(test, [
     '{{> molecules-single-comment:foo }}'
   ]);
 });
 
-test('find_pattern_partials finds partials with handlebars parameters', function (test) {
+tap.test('find_pattern_partials finds partials with handlebars parameters', function (test) {
   testFindPartials(test, [
     '{{> atoms-title title="bravo" headingLevel="2" headingSize="bravo" position="left"}}',
     '{{> atoms-title title="bravo"' + eol + '  headingLevel="2"' + eol + '  headingSize="bravo"' + eol + '  position="left"}}',
@@ -194,7 +195,7 @@ test('find_pattern_partials finds partials with handlebars parameters', function
   ]);
 });
 
-test('find_pattern_partials finds handlebars block partials', function (test) {
+tap.test('find_pattern_partials finds handlebars block partials', function (test) {
   testFindPartials(test, [
     '{{#> myPartial }}'
   ]);
