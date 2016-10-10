@@ -2,7 +2,7 @@
 /*eslint-disable dot-notation*/
 /*eslint-disable no-shadow*/
 
-var test = require('tape');
+var tap = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
@@ -11,9 +11,10 @@ var eol = require('os').EOL;
 // don't run these tests unless twig is installed
 var engineLoader = require('../core/lib/pattern_engines');
 if (!engineLoader.twig) {
-  test.only('Twig engine not installed, skipping tests.', function (test) {
+  tap.test('Twig engine not installed, skipping tests.', function (test) {
     test.end();
   });
+  return;
 }
 
 // fake pattern lab constructor:
@@ -69,7 +70,7 @@ function testFindPartials(test, partialTests) {
   test.end();
 }
 
-test('button twig pattern renders', function (test) {
+tap.test('button twig pattern renders', function (test) {
   test.plan(1);
 
   var patternPath = path.join('00-atoms', '00-general', '08-button.twig');
@@ -85,7 +86,7 @@ test('button twig pattern renders', function (test) {
   test.end();
 });
 
-test('media object twig pattern can see the atoms-button and atoms-image partials and renders them', function (test) {
+tap.test('media object twig pattern can see the atoms-button and atoms-image partials and renders them', function (test) {
   test.plan(1);
 
   // pattern paths
@@ -113,7 +114,7 @@ test('media object twig pattern can see the atoms-button and atoms-image partial
   test.end();
 });
 
-test.skip('twig partials can render JSON values', function (test) {
+tap.test('twig partials can render JSON values', {skip: true}, function (test) {
   test.plan(1);
 
   // pattern paths
@@ -137,7 +138,7 @@ test.skip('twig partials can render JSON values', function (test) {
   test.end();
 });
 
-test.skip('twig partials use the JSON environment from the calling pattern and can accept passed parameters', function (test) {
+tap.test('twig partials use the JSON environment from the calling pattern and can accept passed parameters', {skip: true}, function (test) {
   test.plan(1);
 
   // pattern paths
@@ -169,7 +170,7 @@ test.skip('twig partials use the JSON environment from the calling pattern and c
   test.end();
 });
 
-test('find_pattern_partials finds partials', function (test) {
+tap.test('find_pattern_partials finds partials', function (test) {
   testFindPartials(test, [
     '{% include "atoms-image" %}',
     "{% include 'atoms-image' %}",
@@ -180,14 +181,14 @@ test('find_pattern_partials finds partials', function (test) {
   ]);
 });
 
-test('find_pattern_partials finds verbose partials', function (test) {
+tap.test('find_pattern_partials finds verbose partials', function (test) {
   testFindPartials(test, [
     "{% include '01-molecules/06-components/03-comment-header.twig' %}",
     "{% include '00-atoms/00-global/06-test' %}"
   ]);
 });
 
-test('find_pattern_partials finds partials with twig parameters', function (test) {
+tap.test('find_pattern_partials finds partials with twig parameters', function (test) {
   testFindPartials(test, [
     "{% include 'molecules-template' with {'foo': 'bar'} %}",
     "{% include 'molecules-template' with vars %}",
