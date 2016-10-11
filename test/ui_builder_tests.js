@@ -242,7 +242,7 @@ tap.test('resetUIBuilderState - reset global objects', function (test) {
   //assert
   test.equals(patternlab.patternPaths.foo, undefined);
   test.equals(patternlab.viewAllPaths.bar, undefined);
-  test.equals(patternlab.patternTypes.length, 0);
+  test.equals(patternlab.patternTypes.length, 1);
 
   test.end();
 });
