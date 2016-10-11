@@ -18,7 +18,6 @@
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-nodeunit": "^1.0.0",
     "grunt-eslint": "^18.0.0",
     "grunt-tape": "^0.1.0",
     "tap": "^7.1.2"

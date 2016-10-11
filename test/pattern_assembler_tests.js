@@ -6,6 +6,8 @@ var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var path = require('path');
 
+
+
 tap.test('process_pattern_recursive recursively includes partials', function(test) {
 
   //tests inclusion of partial that will be discovered by diveSync later in iteration than parent
@@ -649,6 +651,27 @@ tap.test('addPattern - adds pattern template to patternlab partial object if ext
   test.equals(patternlab.patterns.length, 1);
   test.equals(patternlab.partials['test-bar'] != undefined, true);
   test.equals(patternlab.partials['test-bar'], 'bar');
-  test.done();
+  test.end();
 });
 
+tap.test('hidden patterns can be called by their nice names', function(test){
+  var util = require('./util/test_utils.js');
+
+  //arrange
+  var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+  var pl = util.fakePatternLab(testPatternsPath);
+  var pattern_assembler = new pa();
+
+  //act
+  var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
+  var hiddenPattern = pattern_assembler.process_pattern_iterative(hiddenPatternPath, pl);
+  pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
+
+  var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
+  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
+  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+  //assert
+  test.equals(util.sanitized(testPattern.render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
+  test.end();
+});

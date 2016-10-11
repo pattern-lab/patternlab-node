@@ -100,3 +100,23 @@ tap.test('findPartial return the ID of the partial, given a whole partial call',
 
 });
 
+tap.test('hidden underscore patterns can be called by their nice names', function(test){
+    const util = require('./util/test_utils.js');
+
+    //arrange
+    const testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
+    const pl = util.fakePatternLab(testPatternsPath);
+    var pattern_assembler = new pa();
+
+    var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.html');
+    var hiddenPattern = pattern_assembler.process_pattern_iterative(hiddenPatternPath, pl);
+    pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
+
+    var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.html');
+    var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+    //act
+    test.equals(util.sanitized(testPattern.render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
+    test.end();
+  });

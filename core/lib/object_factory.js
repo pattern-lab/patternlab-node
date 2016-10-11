@@ -3,6 +3,10 @@
 var patternEngines = require('./pattern_engines');
 var path = require('path');
 var extend = require('util')._extend;
+// patternPrefixMatcher is intended to match the leading maybe-underscore,
+// zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
+// off and get at the good part.
+var patternPrefixMatcher = /^_?(\d+-)?/;
 
 // Pattern properties
 
@@ -22,7 +26,7 @@ var Pattern = function (relPath, data, patternlab) {
   this.jsonFileData = data || {};
 
   // strip leading "00-" from the file name and flip tildes to dashes
-  this.patternBaseName = this.fileName.replace(/^\d*\-/, '').replace('~', '-'); // 'colors'
+  this.patternBaseName = this.fileName.replace(patternPrefixMatcher, '').replace('~', '-'); // 'colors'
 
   // Fancy name. No idea how this works. 'Colors'
   this.patternName = this.patternBaseName.split('-').reduce(function (val, working) {
@@ -30,13 +34,13 @@ var Pattern = function (relPath, data, patternlab) {
   }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
   // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.subdir.split(path.sep)[0].replace(/^\d*-/, '');
+  this.patternGroup = this.subdir.split(path.sep)[0].replace(patternPrefixMatcher, '');
 
   //00-atoms if needed
   this.patternType = this.subdir.split(path.sep)[0];
 
   // the sub-group this pattern belongs to.
-  this.patternSubGroup = path.basename(this.subdir).replace(/^\d*-/, ''); // 'global'
+  this.patternSubGroup = path.basename(this.subdir).replace(patternPrefixMatcher, ''); // 'global'
 
   //00-colors if needed
   this.patternSubType = path.basename(this.subdir);
@@ -51,6 +55,10 @@ var Pattern = function (relPath, data, patternlab) {
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
   this.patternPartial = this.patternGroup + '-' + this.patternBaseName;
+
+  // Let's calculate the verbose name ahead of time! We don't use path.sep here
+  // on purpose. This isn't a file name!
+  this.verbosePartial = this.subdir + '/' + this.fileName;
 
   this.isPattern = true;
   this.isFlatPattern = this.patternGroup === this.patternSubGroup;

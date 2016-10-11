@@ -16,12 +16,9 @@ module.exports = function (grunt) {
         dest: './core/lib/patternlab.js'
       }
     },
-    nodeunit: {
-      all: ['test/*_tests.js']
-    },
     tape: {
       options: {
-        pretty: true,
+        pretty: false,
         output: 'console'
       },
       files: ['test/*_tests.js']
@@ -37,13 +34,12 @@ module.exports = function (grunt) {
   // load all grunt tasks
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-tape');
 
   //travis CI task
-  grunt.registerTask('travis', ['nodeunit', 'tape', 'eslint']);
+  grunt.registerTask('travis', ['tape', 'eslint']);
 
   //to be run prior to releasing a version
-  grunt.registerTask('build', ['nodeunit', 'tape', 'eslint', 'concat']);
+  grunt.registerTask('build', ['tape', 'eslint', 'concat']);
 
 };
