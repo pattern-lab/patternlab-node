@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.6.0-alpha - 2016 
- * 
+/*
+ * patternlab-node - v2.6.0-alpha - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -356,6 +356,8 @@ var patternlab_engine = function (config) {
       pattern.patternLineagesR = pattern.lineageR;
       pattern.patternLineageRExists = pattern.lineageR.length > 0;
       pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
+
+      patternlab.events.emit('patternlab-pattern-before-data-merge', patternlab, pattern);
 
       //render the pattern, but first consolidate any data we may have
       var allData;
