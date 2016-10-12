@@ -21,7 +21,27 @@
 "use strict";
 
 var _ = require('underscore');
+
 var partialRegistry = {};
+var errorStyling = `
+<style>
+  .plError {
+    background: linear-gradient(to bottom, #f1f1f1 0%,#ffffff 60%);
+    color: #444;
+    padding: 30px;
+  }
+  .plError h1 {
+    font-size: 16pt;
+    color: #733;
+    background: #fcfcfc;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 17px 30px;
+    margin: -30px -30px 0 -30px;
+  }
+  .plError dt { font-weight: bold; }
+</style>
+`;
+
 
 // extend underscore with partial-ing methods and other necessary tooling
 // HANDLESCORE! UNDERBARS!
@@ -32,18 +52,20 @@ function addParentContext(data, currentContext) {
 
 _.mixin({
   renderNamedPartial: function (partialKey, data, currentContext) {
-    return _.renderPartial(partialRegistry[partialKey], data, currentContext);
+    var compiledPartial = partialRegistry[partialKey];
+    if (typeof compiledPartial !== 'function') { throw `Pattern ${partialKey} not found.`; }
+
+    return _.renderPartial(compiledPartial, data, currentContext);
   },
-  renderPartial: function (partial, dataIn, currentContext) {
+  renderPartial: function (compiledPartial, dataIn, currentContext) {
     var data = dataIn || {};
-    var compiled;
+
     if (dataIn && currentContext &&
         dataIn instanceof Object && currentContext instanceof Object) {
       data = addParentContext(data, currentContext);
     }
-    compiled = _.template(partial);
 
-    return compiled(data);
+    return compiledPartial(data);
   },
   /* eslint-disable no-eval, no-unused-vars */
   getPath: function (pathString, currentContext, debug) {
@@ -79,9 +101,9 @@ var engine_underscore = {
     var compiled;
 
     try {
-      compiled = _.template(pattern.extendedTemplate);
+      compiled = partialRegistry[pattern.patternPartial];
     } catch (e) {
-      console.log(`Error compiling template ${pattern.patternName}:`, pattern.extendedTemplate);
+      console.log(`Error looking up underscore template ${pattern.patternName}:`, pattern.extendedTemplate, e);
     }
 
     // This try-catch is necessary because references to undefined variables
@@ -89,24 +111,37 @@ var engine_underscore = {
     // such will throw very real exceptions that will shatter the whole build
     // process if we don't handle them.
     try {
-      // console.log('got here for pattern', pattern.patternName, pattern.extendedTemplate);
-      // console.log('testing:', _.template('<%- foo %>')({foo: 'bar'}));
-      // console.log('data:', data);
       renderedHTML = compiled(_.extend(data || {}, {
         _allData: data,
         _partials: partials
       }));
     } catch (e) {
-      var errorMessage = `Error in underscore template ${pattern.patternName} (${pattern.relPath}): [${e.toString()}]`;
+      var errorMessage = `Error rendering underscore pattern "${pattern.patternName}" (${pattern.relPath}): [${e.toString()}]`;
       console.log(errorMessage);
-      renderedHTML = `<h1>Error in underscore template ${pattern.patternName} (${pattern.relPath})</h1><p>${e.toString()}</p>`;
+      renderedHTML = `${errorStyling} <div class="plError">
+<h1>Error rendering underscore pattern "${pattern.patternName}"</h1>
+<dl>
+  <dt>Message</dt><dd>${e.toString()}</dd>
+  <dt>Partial name</dt><dd>${pattern.patternName}</dd>
+  <dt>Template path</dt><dd>${pattern.relPath}</dd>
+</dl>
+</div>
+`;
     }
 
     return renderedHTML;
   },
 
   registerPartial: function (pattern) {
-    partialRegistry[pattern.patternPartial] = pattern.template;
+    var compiled;
+
+    try {
+      var templateString = pattern.extendedTemplate || pattern.template;
+      compiled = _.template(templateString);
+    } catch (e) {
+      console.log(`Error compiling underscore template ${pattern.patternName}:`, pattern.extendedTemplate, e);
+    }
+    partialRegistry[pattern.patternPartial] = compiled;
   },
 
   // find and return any {{> template-name }} within pattern
