@@ -11,7 +11,7 @@ To install the Underscore engine in your edition, `npm install patternengine-nod
 - [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59) mixin function)
 - [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59) mixin function)
 
-## The extensions to basic Underscore functionality.
+## Extensions to basic Underscore functionality
 
 ### Pattern including
 Underscore templates include no native support for calling other templates, so support for pattern including is accomplished through an included Underscore mixin function, [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59), and is considered experimental, but seems to work just fine.
@@ -49,6 +49,6 @@ If you feed that template JSON that (for whatever reason) has `foo.bar` as `null
 </p>
 ```
 
-and know that the output will be more safely "To be, or, not to be, null" instead of just throwing and error and crashing the pattern. This is mainly useful for operationalized templates that will be provided with JSON from services that you can't control in Pattern Lab.
+and know that the output will be more safely "To be, or, not to be, null" instead of just throwing an error and crashing the pattern. This is mainly useful for operationalized pattern templates that will be provided with JSON from services that you can't control in Pattern Lab.
 
 Note that `obj` is an Underscore pattern's current data context. See [Dr. Axel Rauschmeyer's article](http://www.2ality.com/2012/06/underscore-templates.html) for more.
