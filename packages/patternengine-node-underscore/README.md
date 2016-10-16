@@ -1,5 +1,6 @@
 # The Underscore engine for Pattern Lab / Node
 
+## Installing
 To install the Underscore engine in your edition, `npm install patternengine-node-underscore` should do the trick.
 
 ## Supported features
