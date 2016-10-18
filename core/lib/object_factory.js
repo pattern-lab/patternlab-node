@@ -3,6 +3,7 @@
 var patternEngines = require('./pattern_engines');
 var path = require('path');
 var extend = require('util')._extend;
+
 // patternPrefixMatcher is intended to match the leading maybe-underscore,
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
 // off and get at the good part.

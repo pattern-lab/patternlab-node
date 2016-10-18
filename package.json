@@ -16,10 +16,7 @@
     "patternengine-node-mustache": "^1.0.0"
   },
   "devDependencies": {
-    "grunt": "~1.0.1",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-eslint": "^18.0.0",
-    "grunt-tape": "^0.1.0",
+    "eslint": "^3.5.0",
     "tap": "^7.1.2"
   },
   "keywords": [
@@ -45,7 +42,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "node_modules/grunt/bin/grunt travis --verbose"
+    "test": "eslint core/**/*.js && tap test/*_tests.js --reporter spec",
+    "lint": "eslint core/**/*.js"
   },
   "engines": {
     "node": ">=4.0"
