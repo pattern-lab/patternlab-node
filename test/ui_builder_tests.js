@@ -40,7 +40,7 @@ tap.test('isPatternExcluded - returns true when pattern filename starts with und
   var result = ui.isPatternExcluded(pattern, patternlab);
 
   //assert
-  test.equals(result, false);
+  test.equals(result, true);
   test.end();
 });
 
