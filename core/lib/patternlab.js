@@ -267,8 +267,9 @@ var patternlab_engine = function (config) {
   }
 
   function writePatternFiles(headHTML, pattern, footerHTML) {
-    const nullFormatter = codeString => codeString;
+    const nullFormatter = str => str;
     const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
+    const makePath = type => path.join(paths.public.patterns, pattern.getPatternLink(patternlab, type));
     const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
     const eng = pattern.engine;
 
@@ -284,25 +285,16 @@ var patternlab_engine = function (config) {
     };
 
     //prepare the path and contents of each output file
-    const outputFiles = {
-      rendered: {
-        path: path.join(paths.public.patterns, pattern.getPatternLink(patternlab, 'rendered')),
-        content: formatters.rendered(patternPage, pattern)
-      },
-      rawTemplate: {
-        path: path.join(paths.public.patterns, pattern.getPatternLink(patternlab, 'rawTemplate')),
-        content: formatters.rawTemplate(pattern.template, pattern)
-      },
-      markupOnly: {
-        path: path.join(paths.public.patterns, pattern.getPatternLink(patternlab, 'markupOnly')),
-        content: formatters.markupOnly(pattern.patternPartialCode, pattern)
-      }
-    };
-
-    Object.assign(outputFiles, eng.addOutputFiles ? eng.addOutputFiles(paths, patternlab) : {});
+    const outputFiles = [
+      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
+      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
+      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
+    ].concat(
+      eng.addOutputFiles ? eng.addOutputFiles(paths, patternlab) : []
+    );
 
     //write the compiled template to the public patterns directory
-    _.each(outputFiles, outputFile => fs.outputFileSync(outputFile.path, outputFile.content));
+    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
   }
 
   function buildPatterns(deletePatternDir) {
