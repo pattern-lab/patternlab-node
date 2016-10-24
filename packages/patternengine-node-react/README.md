@@ -1,5 +1,5 @@
-# patternengine-node-react
-The (**very preliminary almost not-working-at-all**) React engine for Patternlab/Node
+# The React engine for Pattern Lab / Node
+This is the **very preliminary barely worth mentioning** React engine for Patternlab/Node. It's more or less a proof of concept.
 
 ## Status
 You can author standalone React components that include only the main React module, which I know isn't much yet. We're still working out how React components will resolve and load the modules they depend on, including other patterns. We believe this is tricky, but doable.
