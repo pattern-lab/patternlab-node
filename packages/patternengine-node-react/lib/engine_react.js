@@ -8,14 +8,6 @@
  *
  */
 
-/*
- * ENGINE SUPPORT LEVEL:
- *
- * Full + extensions. Partial calls and lineage hunting are supported. Style
- * modifiers and pattern parameters are used to extend the core feature set of
- * React templates.
- *
- */
 
 "use strict";
 
