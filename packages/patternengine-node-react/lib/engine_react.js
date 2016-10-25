@@ -19,6 +19,8 @@ const Babel = require('babel-core');
 const Hogan = require('hogan.js');
 const beautify = require('js-beautify');
 const cheerio = require('cheerio');
+const webpack = require('webpack');
+const _require = require;
 
 const outputTemplate = Hogan.compile(
   fs.readFileSync(
@@ -26,6 +28,15 @@ const outputTemplate = Hogan.compile(
     'utf8'
   )
 );
+
+let registeredComponents = {
+  byModuleName: {},
+  byGroup: {}
+};
+
+function moduleCodeString(pattern) {
+  return pattern.template || pattern.extendedTemplate;
+}
 
 var engine_react = {
   engine: React,
@@ -45,33 +56,54 @@ var engine_react = {
   // render it
   renderPattern(pattern, data, partials) {
     try {
-      /* eslint-disable no-eval */
-      const componentString = pattern.template || pattern.extendedTemplate;
-      const nodeComponent = Babel.transform(componentString, {
-        presets: [ require('babel-preset-react') ],
-        plugins: [ require('babel-plugin-transform-es2015-modules-commonjs') ]
-      });
-      const runtimeComponent = Babel.transform(componentString, {
+      let runtimeCode = [];
+
+      // the all-important Babel transform, runtime version
+      runtimeCode.push(Babel.transform(moduleCodeString(pattern), {
         presets: [ require('babel-preset-react') ],
         plugins: [[require('babel-plugin-transform-es2015-modules-umd'), {
           globals: {
             "react": "React"
           }
         }]]
-      });
-      const Component = React.createFactory(eval(nodeComponent.code));
+      }).code);
 
       return outputTemplate.render({
         patternPartial: pattern.patternPartial,
         json: JSON.stringify(data),
-        htmlOutput: ReactDOMServer.renderToStaticMarkup(Component(data)),
-        runtimeCode: runtimeComponent.code
+        htmlOutput: ReactDOMServer.renderToStaticMarkup(
+          React.createFactory(pattern.module)(data)
+        ),
+        runtimeCode: runtimeCode.join(';')
       });
     }
     catch (e) {
 	    console.log("Error rendering React pattern.", e);
 	    return "";
     }
+  },
+
+  registerPartial(pattern) {
+    const customRequire = function (id) {
+      const registeredPattern = registeredComponents.byModuleName[id];
+      return registeredPattern ? registeredPattern.module : _require(id);
+    };
+
+    // the all-important Babel transform, server-side version
+    const compiledModule = Babel.transform(moduleCodeString(pattern), {
+      presets: [ require('babel-preset-react') ],
+      plugins: [ require('babel-plugin-transform-es2015-modules-commonjs') ]
+    });
+
+    // add to registry
+    registeredComponents.byModuleName[pattern.patternBaseName] = pattern;
+
+    // eval() module code in this little scope that injects our
+    // custom wrap of require();
+    ((require) => {
+      /* eslint-disable no-eval */
+      pattern.module = eval(compiledModule.code);
+    })(customRequire);
   },
 
   /**
@@ -134,6 +166,7 @@ var engine_react = {
    * each with two properties: path, and content
    */
   addOutputFiles(paths, patternlab) {
+
     return [];
   }
 };
