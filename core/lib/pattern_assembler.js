@@ -45,7 +45,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    plutils.logOrange('Could not find pattern referenced with partial synxtax "' + partialName + '". This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.')
+    plutils.logOrange('Could not find pattern referenced with partial synxtax "' + partialName + '". This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
     return undefined;
   }
 
