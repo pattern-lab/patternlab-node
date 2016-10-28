@@ -266,6 +266,37 @@ var patternlab_engine = function (config) {
     }
   }
 
+  function writePatternFiles(headHTML, pattern, footerHTML) {
+    const nullFormatter = str => str;
+    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
+    const makePath = type => path.join(paths.public.patterns, pattern.getPatternLink(patternlab, type));
+    const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+    const eng = pattern.engine;
+
+    //beautify the output if configured to do so
+    const formatters = config.cleanOutputHtml ? {
+      rendered:     eng.renderedCodeFormatter || defaultFormatter,
+      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
+      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
+    } : {
+      rendered:     nullFormatter,
+      rawTemplate:  nullFormatter,
+      markupOnly:   nullFormatter
+    };
+
+    //prepare the path and contents of each output file
+    const outputFiles = [
+      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
+      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
+      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
+    ].concat(
+      eng.addOutputFiles ? eng.addOutputFiles(paths, patternlab) : []
+    );
+
+    //write the compiled template to the public patterns directory
+    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
+  }
+
   function buildPatterns(deletePatternDir) {
 
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
@@ -427,21 +458,7 @@ var patternlab_engine = function (config) {
       patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
 
       //write the compiled template to the public patterns directory
-      var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-
-      //beautify the output if configured to do so
-      var cleanedPatternPage = config.cleanOutputHtml ? cleanHtml(patternPage, {indent_size: 2}) : patternPage;
-      var cleanedPatternPartialCode = config.cleanOutputHtml ? cleanHtml(pattern.patternPartialCode, {indent_size: 2}) : pattern.patternPartialCode;
-      var cleanedPatternTemplateCode = config.cleanOutputHtml ? cleanHtml(pattern.template, {indent_size: 2}) : pattern.template;
-
-      //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), cleanedPatternPage);
-
-      //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), cleanedPatternTemplateCode);
-
-      //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), cleanedPatternPartialCode);
+      writePatternFiles(headHTML, pattern, footerHTML);
 
       patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
 
