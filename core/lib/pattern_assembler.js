@@ -3,6 +3,7 @@
 var path = require('path'),
   fs = require('fs-extra'),
   Pattern = require('./object_factory').Pattern,
+  CompileState = require('./object_factory').CompileState,
   pph = require('./pseudopattern_hunter'),
   mp = require('./markdown_parser'),
   plutils = require('./utilities'),
@@ -123,7 +124,7 @@ var pattern_assembler = function () {
       } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
-
+      patternlab.graph.add(pattern);
       patternlab.patterns.push(pattern);
 
     }
@@ -240,6 +241,30 @@ var pattern_assembler = function () {
     addPattern(pattern, patternlab);
   }
 
+  function checkBuildState (pattern, patternlab) {
+    //write the compiled template to the public patterns directory
+    var renderedTemplatePath =
+      patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered');
+
+    if (!pattern.compileState) {
+      pattern.compileState = CompileState.NEEDS_REBUILD;
+    }
+
+    try {
+      // Prevent error message if file does not exist
+      fs.accessSync(renderedTemplatePath, fs.F_OK);
+      var outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
+
+      if (pattern.lastModified && outputLastModified > pattern.lastModified) {
+        pattern.compileState = CompileState.CLEAN;
+      }
+    } catch (e) {
+      // Output does not exist yet, needs recompile
+    }
+    // Make the pattern known to the PatternGraph and remember its compileState
+    patternlab.graph.add(pattern);
+  }
+
   function processPatternIterative(relPath, patternlab) {
 
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
@@ -309,7 +334,7 @@ var pattern_assembler = function () {
 
     //see if this file has a state
     setState(currentPattern, patternlab, true);
-
+    var jsonFileLastModified = null;
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
@@ -320,6 +345,7 @@ var pattern_assembler = function () {
       }
       if (jsonFilenameStats && jsonFilenameStats.isFile()) {
         currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+        jsonFileLastModified = jsonFilenameStats.mtime.getTime();
         if (patternlab.config.debug) {
           console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
         }
@@ -355,7 +381,20 @@ var pattern_assembler = function () {
     parsePatternMarkdown(currentPattern, patternlab);
 
     //add the raw template to memory
-    currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
+    var templatePath = path.resolve(patternsPath, currentPattern.relPath);
+    if (templatePath) {
+      try {
+        var stat = fs.statSync(templatePath);
+        // Needs recompile whenever either the JSON or the source file has been changed
+        currentPattern.lastModified = Math.max(stat.mtime.getTime(), jsonFileLastModified);
+      } catch (e) {
+        // Ignore, not a regular file
+      }
+    }
+
+    checkBuildState(currentPattern, patternlab);
+
+    currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
@@ -391,6 +430,15 @@ var pattern_assembler = function () {
 
     //call our helper method to actually unravel the pattern with any partials
     decomposePattern(currentPattern, patternlab);
+  }
+
+  function findModifiedPatterns(lastModified, patternlab) {
+    return patternlab.patterns.filter( p => {
+      if (p.compileState !== CompileState.CLEAN || ! p.lastModified) {
+        return true;
+      }
+      return p.lastModified >= lastModified;
+    });
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -506,6 +554,9 @@ var pattern_assembler = function () {
   }
 
   return {
+    find_modified_patterns: function (lastModified, patternlab) {
+      return findModifiedPatterns(lastModified, patternlab)
+    },
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
     },
@@ -532,6 +583,9 @@ var pattern_assembler = function () {
     },
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
+    },
+    check_build_state: function (pattern, patternlab) {
+      return checkBuildState(pattern, patternlab);
     },
     process_pattern_iterative: function (file, patternlab) {
       return processPatternIterative(file, patternlab);

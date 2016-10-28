@@ -73,6 +73,11 @@ var Pattern = function (relPath, data, patternlab) {
   this.isPseudoPattern = false;
   this.order = Number.MAX_SAFE_INTEGER;
   this.engine = patternEngines.getEngineForPattern(this);
+  // For completeness
+  this.compileState = null;
+  // The unix timestamp when the pattern was last modified
+  this.lastModified = null;
+
 };
 
 // Pattern methods
@@ -153,6 +158,13 @@ Pattern.create = function (relPath, data, customProps, patternlab) {
   return extend(newPattern, customProps);
 };
 
+var CompileState = {
+  NEEDS_REBUILD: "needs rebuild",
+  BUILDING: "building",
+  CLEAN: "clean"
+};
+
 module.exports = {
-  Pattern: Pattern
+  Pattern: Pattern,
+  CompileState: CompileState
 };
