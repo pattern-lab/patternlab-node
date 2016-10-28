@@ -1,6 +1,8 @@
 "use strict";
 
 var patternEngines = require('./pattern_engines');
+var fs = require('fs');
+var _ = require("lodash");
 var path = require('path');
 var extend = require('util')._extend;
 
@@ -63,6 +65,11 @@ var Pattern = function (relPath, data, patternlab) {
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
   this.engine = patternEngines.getEngineForPattern(this);
+  // For completeness
+  this.compileState = null;
+  // The unix timestamp when the pattern was last modified
+  this.lastModified = null;
+
 };
 
 // Pattern methods
@@ -143,6 +150,13 @@ Pattern.create = function (relPath, data, customProps, patternlab) {
   return extend(newPattern, customProps);
 };
 
+var CompileState = {
+  NEEDS_REBUILD: "needs rebuild",
+  BUILDING: "building",
+  CLEAN: "clean"
+};
+
 module.exports = {
-  Pattern: Pattern
+  Pattern: Pattern,
+  CompileState: CompileState
 };
