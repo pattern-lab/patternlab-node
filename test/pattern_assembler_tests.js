@@ -546,21 +546,21 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   }
 
   //assert before
-  test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad");
-  test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave");
-  test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian");
+  test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
+  test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
+  test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
 
   //act
   pattern_assembler.parse_data_links(patternlab);
 
   //assert after
-  test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost");
-  test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen");
-  test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer");
+  test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
+  test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
+  test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
 
-  test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost");
-  test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen");
-  test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer");
+  test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
+  test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
+  test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
   test.end();
 });
 
