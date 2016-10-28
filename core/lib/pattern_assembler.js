@@ -45,9 +45,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    if (patternlab.config.debug) {
-      console.error('Could not find pattern with partial ' + partialName);
-    }
+    plutils.logOrange('Could not find pattern referenced with partial synxtax "' + partialName + '". This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.')
     return undefined;
   }
 
@@ -443,7 +441,7 @@ var pattern_assembler = function () {
     var linkRE, dataObjAsString, linkMatches;
 
     //check for link.patternPartial
-    linkRE = /link\.[A-z0-9-_]+/g;
+    linkRE = /link\.[A-z0-9-_]+(?!.)/g;
 
     //stringify the passed in object
     dataObjAsString = JSON5.stringify(obj);
