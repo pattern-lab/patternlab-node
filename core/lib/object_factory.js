@@ -1,8 +1,6 @@
 "use strict";
 
 var patternEngines = require('./pattern_engines');
-var fs = require('fs');
-var _ = require("lodash");
 var path = require('path');
 var extend = require('util')._extend;
 
