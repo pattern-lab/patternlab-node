@@ -545,7 +545,7 @@ var ui_builder = function () {
     output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
 
     //navItems
-    output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + '};' + eol;
+    output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + ', "ishControlsHide": ' + JSON.stringify(patternlab.config.ishControlsHide) +'};' + eol;
 
     //patternPaths
     output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
