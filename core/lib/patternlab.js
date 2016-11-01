@@ -96,8 +96,10 @@ function initializePlugins(patternlab) {
 
       let pluginKey = foundPlugins[i];
 
-      console.log(pluginKey);
-      console.log(patternlab.config.plugins[pluginKey]);
+      if (patternlab.config.debug) {
+        console.log('Found plugin: ', pluginKey);
+        console.log('Attempting to load and initialize plugin.');
+      }
 
       var plugin = plugin_manager.load_plugin(pluginKey);
       plugin(patternlab);

@@ -69,7 +69,6 @@ var plugin_manager = function (config, configPath) {
     var node_modules_path = path.join(process.cwd(), 'node_modules');
     return fs.readdirSync(node_modules_path).filter(function (dir) {
       var module_path = path.join(process.cwd(), 'node_modules', dir);
-      console.log(module_path);
       return fs.statSync(module_path).isDirectory() && dir.indexOf('plugin-node-') === 0;
     });
   }
