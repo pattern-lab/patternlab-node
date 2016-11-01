@@ -16,10 +16,23 @@ To add the Tab Plugin to your project using [npm](http://npmjs.com/) type:
 
 Or add it directly to your project's `package.json` file and run `npm install`
 
-Post installation, the plugin will prompt you for what filetypes you want to add tabs for.
+At time of installation, the plugin will prompt you for what filetypes you want to add tabs for.
 
 ```
 $ Specify filetype(s) to create a tab for. Separate multiple filetypes with a space, pipe or comma. Example: js css >>>
+```
+
+Post-installation,  the plugin should be added as a key to the `plugins` object in your main Pattern Lab project's `patternlab-config.json` file.
+
+Example:
+
+```
+"plugins": {
+  "plugin-node-tab": {
+    "enabled": true,
+    "initialized": false
+  }
+}
 ```
 
 ## Expected Structure
@@ -38,4 +51,4 @@ For example, if we added a` css` tab:
 
 ## Enabling / Disabling the Plugin
 
-After install, you may manually enable or disable the plugin by removing it from the `patternlab-config.json` file. Installation added a key called `plugin-node-tab` to it. In the future this will be possible via CLI.
+After install, you may manually enable or disable the plugin by finding the `plugin-node-tab` key within your main Pattern Lab project's `patternlab-config.json` file and setting the `enabled` flag. In the future this will be possible via CLI.
