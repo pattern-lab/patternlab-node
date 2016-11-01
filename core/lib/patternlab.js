@@ -79,10 +79,10 @@ function preprocessPatternlabPartials(pattern_assembler, list_item_hunter, patte
     if (engine && typeof engine.escapeReservedRegexChars === 'function') {
       dataKey = engine.escapeReservedRegexChars(dataKey);
     }
-    patternlab.dataKeysEscape += dataKey;
-    if (i < patternlab.dataKeys.length - 1) {
+    if (i > 0) {
       patternlab.dataKeysEscape += '|';
     }
+    patternlab.dataKeysEscape += dataKey;
   }
 
   // preprocess partials so they can be recursively included respecting any parameters they may be submitting

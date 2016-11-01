@@ -38,20 +38,15 @@ var partial_hunter = function () {
       if (typeof pattern.engine.escapeReservedRegexChars === 'function') {
         dataKey = pattern.engine.escapeReservedRegexChars(dataKey);
       }
-      if (i === 0) {
+      if (i > 0) {
         escapedKeys += '|';
       }
       escapedKeys += dataKey;
-      if (i < pattern.dataKeys.length - 1) {
-        escapedKeys += '|';
-      }
     }
-
-    escapedKeys += ')';
 
     //apply replacement based on allowable characters from lines 78 and 79 of mustache.js
     //of the Mustache for JS project.
-    dataKeysRegex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)(' + escapedKeys + '\\s*)\\}\\}', 'g');
+    dataKeysRegex = new RegExp('\\{\\{([\\{#\\^\\/&]?(\\s*|[^\\}]*\\.)(' + escapedKeys + ')\\s*)\\}\\}', 'g');
 
     newTemplate = newTemplate.replace(dataKeysRegex, '\u0002$1}}');
 
