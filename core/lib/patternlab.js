@@ -17,15 +17,16 @@ var diveSync = require('diveSync'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
+  fs = require('fs-extra'),
   plutils = require('./utilities');
 
 var EventEmitter = require('events').EventEmitter;
 
-function buildPatternData(dataFilesPath, fs) {
+function buildPatternData(dataFilesPath, fsDep) {
   var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
   var mergeObject = {};
   dataFiles.forEach(function (filePath) {
-    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8');
+    var jsonData = fsDep.readJSONSync(path.resolve(filePath), 'utf8');
     mergeObject = _.merge(mergeObject, jsonData);
   });
   return mergeObject;
@@ -83,16 +84,40 @@ function checkConfiguration(patternlab) {
  * @param patternlab - global data store
  */
 function initializePlugins(patternlab) {
+
+  if (!patternlab.config.plugins) { return; }
+
   var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
   var foundPlugins = plugin_manager.detect_plugins();
 
   if (foundPlugins && foundPlugins.length > 0) {
 
     for (var i = 0; i < foundPlugins.length; i++) {
-      var plugin = plugin_manager.load_plugin(foundPlugins[i]);
+
+      let pluginKey = foundPlugins[i];
+
+      if (patternlab.config.debug) {
+        console.log('Found plugin: ', pluginKey);
+        console.log('Attempting to load and initialize plugin.');
+      }
+
+      var plugin = plugin_manager.load_plugin(pluginKey);
       plugin(patternlab);
     }
   }
+}
+
+/**
+ * Installs a given plugin. Assumes it has already been pulled down via npm
+ * @param pluginName - the name of the plugin
+ */
+function installPlugin(pluginName) {
+  //get the config
+  var configPath = path.resolve(process.cwd(), 'patternlab-config.json');
+  var config = fs.readJSONSync(path.resolve(configPath), 'utf8');
+  var plugin_manager = new pm(config, configPath);
+
+  plugin_manager.install_plugin(pluginName);
 }
 
 function PatternLabEventEmitter() {
@@ -104,7 +129,6 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var JSON5 = require('json5'),
-    fs = require('fs-extra'),
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
@@ -123,7 +147,6 @@ var patternlab_engine = function (config) {
 
   checkConfiguration(patternlab);
 
-  //todo: determine if this is the best place to wire up plugins
   initializePlugins(patternlab);
 
   var paths = patternlab.config.paths;
@@ -504,6 +527,9 @@ var patternlab_engine = function (config) {
     },
     loadstarterkit: function (starterkitName, clean) {
       loadStarterKit(starterkitName, clean);
+    },
+    installplugin: function (pluginName) {
+      installPlugin(pluginName);
     }
   };
 };

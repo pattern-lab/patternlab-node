@@ -36,9 +36,18 @@ var plugin_manager = function (config, configPath) {
       var pluginPathDirExists = pluginDirStats.isDirectory();
       if (pluginPathDirExists) {
 
-        //write config entry back
         var diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
-        diskConfig[pluginName] = false;
+
+        //add the plugin entry to patternlab-config.json
+        if (!diskConfig.plugins) {
+          diskConfig.plugins = {};
+        }
+        diskConfig.plugins[pluginName] = {
+          enabled: true,
+          initialized: false
+        };
+
+        //write config entry back
         fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
 
         util.logGreen('Plugin ' + pluginName + ' installed.');
