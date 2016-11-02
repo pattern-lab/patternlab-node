@@ -73,8 +73,17 @@ var list_item_hunter = function () {
           allData = plutils.mergeData(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
           allData.link = extend({}, patternlab.data.link);
 
-          //check for partials within the repeated block
-          var foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
+          var foundPartials;
+          var thisBlockPattern;
+          // Don't explode the partials if using handlebars
+          if (pattern.engine.engineName === 'handlebars') {
+            thisBlockPattern = Pattern.createEmpty({extendedTemplate: thisBlockTemplate});
+            // assume the children are also handlebars patterns
+            thisBlockPattern.engine = pattern.engine;
+          } else {
+            //check for partials within the repeated block
+            var foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
+          }
 
           if (foundPartials && foundPartials.length > 0) {
 
@@ -110,7 +119,7 @@ var list_item_hunter = function () {
 
           } else {
             //just render with mergedData
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
+            thisBlockHTML = pattern_assembler.renderPattern(thisBlockPattern || thisBlockTemplate, allData, patternlab.partials);
           }
 
           //add the rendered HTML to our string
