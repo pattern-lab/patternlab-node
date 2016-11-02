@@ -8,54 +8,58 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync').create(),
   argv = require('minimist')(process.argv.slice(2));
 
+function resolvePath(pathInput) {
+  return path.resolve(pathInput).replace(/\\/g,"/");
+}
+
 /******************************************************
  * COPY TASKS - stream assets from source to destination
 ******************************************************/
 // JS copy
 gulp.task('pl-copy:js', function(){
-  return gulp.src('**/*.js', {cwd: path.resolve(paths().source.js)} )
-    .pipe(gulp.dest(path.resolve(paths().public.js)));
+  return gulp.src('**/*.js', {cwd: resolvePath(paths().source.js)} )
+    .pipe(gulp.dest(resolvePath(paths().public.js)));
 });
 
 // Images copy
 gulp.task('pl-copy:img', function(){
-  return gulp.src('**/*.*',{cwd: path.resolve(paths().source.images)} )
-    .pipe(gulp.dest(path.resolve(paths().public.images)));
+  return gulp.src('**/*.*',{cwd: resolvePath(paths().source.images)} )
+    .pipe(gulp.dest(resolvePath(paths().public.images)));
 });
 
 // Favicon copy
 gulp.task('pl-copy:favicon', function(){
-  return gulp.src('favicon.ico', {cwd: path.resolve(paths().source.root)} )
-    .pipe(gulp.dest(path.resolve(paths().public.root)));
+  return gulp.src('favicon.ico', {cwd: resolvePath(paths().source.root)} )
+    .pipe(gulp.dest(resolvePath(paths().public.root)));
 });
 
 // Fonts copy
 gulp.task('pl-copy:font', function(){
-  return gulp.src('*', {cwd: path.resolve(paths().source.fonts)})
-    .pipe(gulp.dest(path.resolve(paths().public.fonts)));
+  return gulp.src('*', {cwd: resolvePath(paths().source.fonts)})
+    .pipe(gulp.dest(resolvePath(paths().public.fonts)));
 });
 
 // CSS Copy
 gulp.task('pl-copy:css', function(){
-  return gulp.src(path.resolve(paths().source.css, '*.css'))
-    .pipe(gulp.dest(path.resolve(paths().public.css)))
+  return gulp.src(resolvePath(paths().source.css, '*.css'))
+    .pipe(gulp.dest(resolvePath(paths().public.css)))
     .pipe(browserSync.stream());
 });
 
 // Styleguide Copy everything but css
 gulp.task('pl-copy:styleguide', function(){
-  return gulp.src(path.resolve(paths().source.styleguide, '**/!(*.css)'))
-    .pipe(gulp.dest(path.resolve(paths().public.root)))
+  return gulp.src(resolvePath(paths().source.styleguide, '**/!(*.css)'))
+    .pipe(gulp.dest(resolvePath(paths().public.root)))
     .pipe(browserSync.stream());
 });
 
 // Styleguide Copy and flatten css
 gulp.task('pl-copy:styleguide-css', function(){
-  return gulp.src(path.resolve(paths().source.styleguide, '**/*.css'))
+  return gulp.src(resolvePath(paths().source.styleguide, '**/*.css'))
     .pipe(gulp.dest(function(file){
       //flatten anything inside the styleguide into a single output dir per http://stackoverflow.com/a/34317320/1790362
       file.path = path.join(file.base, path.basename(file.path));
-      return path.resolve(path.join(paths().public.styleguide, 'css'));
+      return resolvePath(path.join(paths().public.styleguide, 'css'));
     }))
     .pipe(browserSync.stream());
 });
@@ -122,6 +126,11 @@ gulp.task('patternlab:build', gulp.series('pl-assets', build, function(done){
   done();
 }));
 
+gulp.task('patternlab:installplugin', function (done) {
+  patternlab.installplugin(argv.plugin);
+  done();
+});
+
 /******************************************************
  * SERVER AND WATCH TASKS
 ******************************************************/
@@ -132,7 +141,7 @@ function getSupportedTemplateExtensions() {
 }
 function getTemplateWatches() {
   return getSupportedTemplateExtensions().map(function (dotExtension) {
-    return path.resolve(paths().source.patterns, '**/*' + dotExtension);
+    return resolvePath(paths().source.patterns, '**/*' + dotExtension);
   });
 }
 
@@ -145,17 +154,17 @@ function reloadCSS() {
 }
 
 function watch() {
-  gulp.watch(path.resolve(paths().source.css, '**/*.css'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:css', reloadCSS));
-  gulp.watch(path.resolve(paths().source.styleguide, '**/*.*'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS));
+  gulp.watch(resolvePath(paths().source.css, '**/*.css'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:css', reloadCSS));
+  gulp.watch(resolvePath(paths().source.styleguide, '**/*.*'), { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS));
 
   var patternWatches = [
-    path.resolve(paths().source.patterns, '**/*.json'),
-    path.resolve(paths().source.patterns, '**/*.md'),
-    path.resolve(paths().source.data, '*.json'),
-    path.resolve(paths().source.fonts + '/*'),
-    path.resolve(paths().source.images + '/*'),
-    path.resolve(paths().source.meta, '*'),
-    path.resolve(paths().source.annotations + '/*')
+    resolvePath(paths().source.patterns, '**/*.json'),
+    resolvePath(paths().source.patterns, '**/*.md'),
+    resolvePath(paths().source.data, '*.json'),
+    resolvePath(paths().source.fonts + '/*'),
+    resolvePath(paths().source.images + '/*'),
+    resolvePath(paths().source.meta, '*'),
+    resolvePath(paths().source.annotations + '/*')
   ].concat(getTemplateWatches());
 
   gulp.watch(patternWatches, { awaitWriteFinish: true }).on('change', gulp.series(build, reload));
@@ -164,7 +173,7 @@ function watch() {
 gulp.task('patternlab:connect', gulp.series(function(done) {
   browserSync.init({
     server: {
-      baseDir: path.resolve(paths().public.root)
+      baseDir: resolvePath(paths().public.root)
     },
     snippetOptions: {
       // Ignore all HTML files within the templates folder
