@@ -5,10 +5,21 @@ var plugin_manager = function (config, configPath) {
     fs = require('fs-extra'),
     util = require('./utilities');
 
+  /**
+   * Loads a plugin
+   *
+   * @param pluginName {string} the name of the plugin
+   * @return {object} the loaded plugin
+   */
   function loadPlugin(pluginName) {
     return require(path.join(process.cwd(), 'node_modules', pluginName));
   }
 
+  /**
+   * Installs a plugin
+   *
+   * @param pluginName {string} the name of the plugin
+   */
   function installPlugin(pluginName) {
     try {
       var pluginPath = path.resolve(
@@ -25,9 +36,18 @@ var plugin_manager = function (config, configPath) {
       var pluginPathDirExists = pluginDirStats.isDirectory();
       if (pluginPathDirExists) {
 
-        //write config entry back
         var diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
-        diskConfig[pluginName] = false;
+
+        //add the plugin entry to patternlab-config.json
+        if (!diskConfig.plugins) {
+          diskConfig.plugins = {};
+        }
+        diskConfig.plugins[pluginName] = {
+          enabled: true,
+          initialized: false
+        };
+
+        //write config entry back
         fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
 
         util.logGreen('Plugin ' + pluginName + ' installed.');
@@ -40,6 +60,11 @@ var plugin_manager = function (config, configPath) {
     }
   }
 
+  /**
+   * Detect installed plugins
+   *
+   * @return {array} list of installed plugins
+   */
   function detectPlugins() {
     var node_modules_path = path.join(process.cwd(), 'node_modules');
     return fs.readdirSync(node_modules_path).filter(function (dir) {
@@ -48,10 +73,18 @@ var plugin_manager = function (config, configPath) {
     });
   }
 
+  /**
+   * Disables an installed plugin
+   * Not implemented yet
+   */
   function disablePlugin(pluginName) {
     console.log('disablePlugin not implemented yet. No change made to state of plugin', pluginName);
   }
 
+  /**
+   * Enables an installed plugin
+   * Not implemented yet
+   */
   function enablePlugin(pluginName) {
     console.log('enablePlugin not implemented yet. No change made to state of plugin', pluginName);
   }

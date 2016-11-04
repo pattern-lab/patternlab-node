@@ -45,9 +45,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    if (patternlab.config.debug) {
-      console.error('Could not find pattern with partial ' + partialName);
-    }
+    plutils.logOrange('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
     return undefined;
   }
 
@@ -442,8 +440,8 @@ var pattern_assembler = function () {
   function parseDataLinksHelper(patternlab, obj, key) {
     var linkRE, dataObjAsString, linkMatches;
 
-    //check for link.patternPartial
-    linkRE = /link\.[A-z0-9-_]+/g;
+    //check for 'link.patternPartial'
+    linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
 
     //stringify the passed in object
     dataObjAsString = JSON5.stringify(obj);
@@ -458,7 +456,7 @@ var pattern_assembler = function () {
         if (dataLink && dataLink.split('.').length >= 2) {
 
           //get the partial the link refers to
-          var linkPatternPartial = dataLink.split('.')[1];
+          var linkPatternPartial = dataLink.split('.')[1].replace('"', '').replace("'", "");
           var pattern = getPartial(linkPatternPartial, patternlab);
           if (pattern !== undefined) {
 
@@ -472,7 +470,7 @@ var pattern_assembler = function () {
 
               //also make sure our global replace didn't mess up a protocol
               fullLink = fullLink.replace(/:\//g, '://');
-              dataObjAsString = dataObjAsString.replace(dataLink, fullLink);
+              dataObjAsString = dataObjAsString.replace('link.' + linkPatternPartial, fullLink);
             }
           } else {
             if (patternlab.config.debug) {

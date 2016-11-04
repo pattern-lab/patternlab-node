@@ -1,7 +1,7 @@
 {
   "name": "patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
-  "version": "2.6.0-alpha",
+  "version": "2.6.1",
   "main": "./core/lib/patternlab.js",
   "dependencies": {
     "diveSync": "^0.3.0",
@@ -16,10 +16,8 @@
     "patternengine-node-mustache": "^1.0.0"
   },
   "devDependencies": {
-    "grunt": "~1.0.1",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-nodeunit": "^1.0.0",
-    "grunt-eslint": "^18.0.0"
+    "eslint": "^3.5.0",
+    "tap": "^7.1.2"
   },
   "keywords": [
     "Pattern Lab",
@@ -44,7 +42,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "grunt travis --verbose"
+    "test": "eslint core/**/*.js && tap test/*_tests.js --reporter spec",
+    "lint": "eslint core/**/*.js"
   },
   "engines": {
     "node": ">=4.0"

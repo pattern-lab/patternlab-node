@@ -3,7 +3,6 @@ language: node_js
 node_js:
   - node
   - 6
-  - 5
   - 4
 
 before_install:
@@ -19,7 +18,6 @@ branches:
   only:
     - master
     - dev
-    - issue/438-runAllTestsTravis
 
 notifications:
   webhooks:

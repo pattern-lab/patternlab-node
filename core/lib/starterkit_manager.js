@@ -7,6 +7,12 @@ var starterkit_manager = function (config) {
     util = require('./utilities'),
     paths = config.paths;
 
+  /**
+   * Loads npm module identified by the starterkitName parameter. 
+   *
+   * @param starterkitName {string} Kit name
+   * @param clean {boolean}  Indicates if the directory should be cleaned before loading
+  */
   function loadStarterKit(starterkitName, clean) {
     try {
       var kitPath = path.resolve(
@@ -43,9 +49,9 @@ var starterkit_manager = function (config) {
   }
 
   /**
-   * @func listStarterkits
-   * @desc Fetches starterkit repos from GH API that contain 'starterkit' in their name for the user 'pattern-lab'
-   * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
+   * Fetches starterkit repos from GH API that contain 'starterkit' in their name for the user 'pattern-lab'
+   *
+   * @return {Promise} Returns an Array<{name,url}> for the starterkit repos
    */
   function listStarterkits() {
     return fetch('https://api.github.com/search/repositories?q=starterkit+in:name+user:pattern-lab&sort=stars&order=desc', {
@@ -77,6 +83,11 @@ var starterkit_manager = function (config) {
 
   }
 
+  /**
+   * Detects installed starter kits
+   *
+   * @return {array} List of starter kits installed
+   */
   function detectStarterKits() {
     var node_modules_path = path.join(process.cwd(), 'node_modules');
     var npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {

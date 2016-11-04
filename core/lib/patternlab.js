@@ -1,10 +1,10 @@
-/* 
- * patternlab-node - v2.6.0-alpha - 2016 
- * 
+/*
+ * patternlab-node - v2.6.1 - 2016
+ *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
- * Licensed under the MIT license. 
- * 
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice. 
+ * Licensed under the MIT license.
+ *
+ * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
 
@@ -17,15 +17,16 @@ var diveSync = require('diveSync'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
+  fs = require('fs-extra'),
   plutils = require('./utilities');
 
 var EventEmitter = require('events').EventEmitter;
 
-function buildPatternData(dataFilesPath, fs) {
+function buildPatternData(dataFilesPath, fsDep) {
   var dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
   var mergeObject = {};
   dataFiles.forEach(function (filePath) {
-    var jsonData = fs.readJSONSync(path.resolve(filePath), 'utf8');
+    var jsonData = fsDep.readJSONSync(path.resolve(filePath), 'utf8');
     mergeObject = _.merge(mergeObject, jsonData);
   });
   return mergeObject;
@@ -83,16 +84,40 @@ function checkConfiguration(patternlab) {
  * @param patternlab - global data store
  */
 function initializePlugins(patternlab) {
+
+  if (!patternlab.config.plugins) { return; }
+
   var plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
   var foundPlugins = plugin_manager.detect_plugins();
 
   if (foundPlugins && foundPlugins.length > 0) {
 
     for (var i = 0; i < foundPlugins.length; i++) {
-      var plugin = plugin_manager.load_plugin(foundPlugins[i]);
+
+      let pluginKey = foundPlugins[i];
+
+      if (patternlab.config.debug) {
+        console.log('Found plugin: ', pluginKey);
+        console.log('Attempting to load and initialize plugin.');
+      }
+
+      var plugin = plugin_manager.load_plugin(pluginKey);
       plugin(patternlab);
     }
   }
+}
+
+/**
+ * Installs a given plugin. Assumes it has already been pulled down via npm
+ * @param pluginName - the name of the plugin
+ */
+function installPlugin(pluginName) {
+  //get the config
+  var configPath = path.resolve(process.cwd(), 'patternlab-config.json');
+  var config = fs.readJSONSync(path.resolve(configPath), 'utf8');
+  var plugin_manager = new pm(config, configPath);
+
+  plugin_manager.install_plugin(pluginName);
 }
 
 function PatternLabEventEmitter() {
@@ -104,7 +129,6 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var JSON5 = require('json5'),
-    fs = require('fs-extra'),
     pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
@@ -123,7 +147,6 @@ var patternlab_engine = function (config) {
 
   checkConfiguration(patternlab);
 
-  //todo: determine if this is the best place to wire up plugins
   initializePlugins(patternlab);
 
   var paths = patternlab.config.paths;
@@ -266,6 +289,37 @@ var patternlab_engine = function (config) {
     }
   }
 
+  function writePatternFiles(headHTML, pattern, footerHTML) {
+    const nullFormatter = str => str;
+    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
+    const makePath = type => path.join(paths.public.patterns, pattern.getPatternLink(patternlab, type));
+    const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+    const eng = pattern.engine;
+
+    //beautify the output if configured to do so
+    const formatters = config.cleanOutputHtml ? {
+      rendered:     eng.renderedCodeFormatter || defaultFormatter,
+      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
+      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
+    } : {
+      rendered:     nullFormatter,
+      rawTemplate:  nullFormatter,
+      markupOnly:   nullFormatter
+    };
+
+    //prepare the path and contents of each output file
+    const outputFiles = [
+      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
+      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
+      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
+    ].concat(
+      eng.addOutputFiles ? eng.addOutputFiles(paths, patternlab) : []
+    );
+
+    //write the compiled template to the public patterns directory
+    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
+  }
+
   function buildPatterns(deletePatternDir) {
 
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
@@ -357,6 +411,8 @@ var patternlab_engine = function (config) {
       pattern.patternLineageRExists = pattern.lineageR.length > 0;
       pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
+      patternlab.events.emit('patternlab-pattern-before-data-merge', patternlab, pattern);
+
       //render the pattern, but first consolidate any data we may have
       var allData;
       try {
@@ -425,21 +481,7 @@ var patternlab_engine = function (config) {
       patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
 
       //write the compiled template to the public patterns directory
-      var patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-
-      //beautify the output if configured to do so
-      var cleanedPatternPage = config.cleanOutputHtml ? cleanHtml(patternPage, {indent_size: 2}) : patternPage;
-      var cleanedPatternPartialCode = config.cleanOutputHtml ? cleanHtml(pattern.patternPartialCode, {indent_size: 2}) : pattern.patternPartialCode;
-      var cleanedPatternTemplateCode = config.cleanOutputHtml ? cleanHtml(pattern.template, {indent_size: 2}) : pattern.template;
-
-      //write the compiled template to the public patterns directory
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered'), cleanedPatternPage);
-
-      //write the mustache file too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'rawTemplate'), cleanedPatternTemplateCode);
-
-      //write the encoded version too
-      fs.outputFileSync(paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly'), cleanedPatternPartialCode);
+      writePatternFiles(headHTML, pattern, footerHTML);
 
       patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
 
@@ -485,6 +527,9 @@ var patternlab_engine = function (config) {
     },
     loadstarterkit: function (starterkitName, clean) {
       loadStarterKit(starterkitName, clean);
+    },
+    installplugin: function (pluginName) {
+      installPlugin(pluginName);
     }
   };
 };
