@@ -1,5 +1,7 @@
 "use strict";
 
+var extend = require("util")._extend;
+
 var lineage_hunter = function () {
 
   var pa = require('./pattern_assembler');
@@ -7,7 +9,7 @@ var lineage_hunter = function () {
   function findlineage(pattern, patternlab) {
 
     var pattern_assembler = new pa();
-
+    patternlab.graph.add(pattern);
     //find the {{> template-name }} within patterns
     var matches = pattern.findPartials();
     if (matches !== null) {
@@ -28,6 +30,9 @@ var lineage_hunter = function () {
             l.lineageState = ancestorPattern.patternState;
           }
 
+          patternlab.graph.add(ancestorPattern);
+          patternlab.graph.link(pattern, ancestorPattern);
+
           pattern.lineage.push(l);
 
           //also, add the lineageR entry if it doesn't exist
@@ -44,6 +49,7 @@ var lineage_hunter = function () {
             }
 
             ancestorPattern.lineageR.push(lr);
+            extend(patternlab.graph.node(ancestorPattern), lr);
           }
         }
       });

@@ -17,7 +17,8 @@ var diveSync = require('diveSync'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
-  plutils = require('./utilities');
+  plutils = require('./utilities'),
+  PatternGraph = require('./pattern_graph').PatternGraph;
 
 var EventEmitter = require('events').EventEmitter;
 
@@ -121,6 +122,7 @@ var patternlab_engine = function (config) {
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
   patternlab.events = new PatternLabEventEmitter();
+  patternlab.graph = PatternGraph.loadFromFile(patternlab.config.paths.public);
 
   checkConfiguration(patternlab);
 

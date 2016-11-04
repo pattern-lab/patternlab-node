@@ -6,6 +6,7 @@ var lh = require('../core/lib/lineage_hunter');
 var pa = require('../core/lib/pattern_assembler');
 var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
 var fs = require('fs-extra');
 var path = require('path');
@@ -25,6 +26,7 @@ function createFakeEmptyErrorPattern() {
 function createBasePatternLabObject() {
   var patterns_dir = './test/files/_patterns/';
   var pl = {};
+  pl.graph = new PatternGraph(null, 0);
   pl.config = {
     paths: {
       source: {
@@ -60,6 +62,7 @@ tap.test('find_lineage - finds lineage', function (test) {
   });
 
   var patternlab = {
+    graph: new PatternGraph(null, 0),
     patterns: [
       Pattern.createEmpty({
         "name": "00-atoms-03-images-00-logo",
@@ -131,10 +134,15 @@ tap.test('find_lineage - finds lineage', function (test) {
   var lineage_hunter = new lh();
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
-  test.equals(currentPattern.lineageIndex.length, 3);
-  test.equals(currentPattern.lineageIndex[0], "atoms-logo");
-  test.equals(currentPattern.lineageIndex[1], "molecules-primary-nav");
-  test.equals(currentPattern.lineageIndex[2], "molecules-search");
+  var graphLineageIndex = patternlab.graph.lineageIndex(currentPattern);
+
+  // Ensure compatibility
+  for (let i of [ currentPattern.lineageIndex, graphLineageIndex ]) {
+    test.equals(i.length, 3);
+    test.equals(i[0], "atoms-logo");
+    test.equals(i[1], "molecules-primary-nav");
+    test.equals(i[2], "molecules-search");
+  }
 
   test.end();
 });
@@ -148,6 +156,7 @@ tap.test('find_lineage - finds lineage with spaced pattern parameters', function
   });
 
   var patternlab = {
+    graph: new PatternGraph(null, 0),
     patterns: [
       Pattern.create(
         '00-atoms/05-alerts/00-error.mustache',
@@ -172,6 +181,21 @@ tap.test('find_lineage - finds lineage with spaced pattern parameters', function
   test.equals(currentPattern.lineageIndex[0], "atoms-error");
   test.equals(patternlab.patterns[0].lineageRIndex.length, 1);
   test.equals(patternlab.patterns[0].lineageR[0].lineagePattern, 'molecules-error');
+
+  // Same as above, but as graph based variant
+  var graph = patternlab.graph;
+  // Test if there is an edge from molecule-toast-error to atoms-alerts-error
+  test.equals(
+    graph.graph.hasEdge('molecules-error', "atoms-error"),
+    true, "There is an edge from the test-error molecule to the alerts-error atom");
+  var currentPatternLineageIndex = graph.lineageIndex(currentPattern);
+
+  test.equals(currentPatternLineageIndex.length, 1);
+  test.equals(currentPatternLineageIndex[0], "atoms-error");
+
+  var patternlabPattern0_lineageRIndex = graph.lineageRIndex(patternlab.patterns[0]);
+  test.equals(patternlabPattern0_lineageRIndex.length, 1);
+  test.equals(patternlabPattern0_lineageRIndex[0], 'molecules-error');
 
   test.end();
 });
@@ -298,6 +322,7 @@ tap.test('find_lineage - finds lineage with unspaced pattern parameters', functi
   });
 
   var patternlab = {
+    graph: PatternGraph.empty(),
     patterns: [
       Pattern.createEmpty({
         "name": "01-atoms-05-alerts-00-error",
@@ -314,7 +339,7 @@ tap.test('find_lineage - finds lineage with unspaced pattern parameters', functi
         "patternPartial": "atoms-error",
         "patternState": "",
         "lineage": [],
-        "lineageIndex": [],
+        "currentPatternLineageIndex": [],
         "lineageR": [],
         "lineageRIndex": []
       })
@@ -335,6 +360,14 @@ tap.test('find_lineage - finds lineage with unspaced pattern parameters', functi
   test.equals(currentPattern.lineageIndex[0], "atoms-error");
   test.equals(patternlab.patterns[0].lineageRIndex.length, 1);
   test.equals(patternlab.patterns[0].lineageR[0].lineagePattern, 'molecules-error');
+
+  var currentPatternLineageIndex = patternlab.graph.lineageIndex(currentPattern);
+  test.equals(currentPatternLineageIndex.length, 1);
+  test.equals(currentPatternLineageIndex[0], "atoms-error");
+
+  var pattern0LineageRIndex = patternlab.graph.lineageRIndex(patternlab.patterns[0]);
+  test.equals(pattern0LineageRIndex.length, 1);
+  test.equals(pattern0LineageRIndex[0], 'molecules-error');
 
   test.end();
 });
@@ -361,6 +394,7 @@ tap.test('find_lineage - finds lineage with spaced styleModifier', function (tes
     "lineageRIndex": []
   });
   var patternlab = {
+    graph: new PatternGraph(null, 0),
     patterns: [
       Pattern.createEmpty({
         "name": "01-atoms-05-alerts-00-error",
@@ -422,6 +456,7 @@ tap.test('find_lineage - finds lineage with unspaced styleModifier', function (t
     "lineageRIndex": []
   });
   var patternlab = {
+    graph: PatternGraph.empty(),
     patterns: [
       Pattern.createEmpty({
         "name": "01-atoms-05-alerts-00-error",
@@ -483,6 +518,7 @@ tap.test('find_lineage - finds lineage with fuzzy partial with styleModifier', f
     "lineageRIndex": []
   });
   var patternlab = {
+    graph: PatternGraph.empty(),
     patterns: [
       Pattern.createEmpty({
         "name": "01-atoms-05-alerts-00-error",
@@ -530,6 +566,7 @@ tap.test('find_lineage - does not apply lineage twice', function (test) {
     "extendedTemplate": "{{>atoms-error(message: 'That\\'s no moon...')}}"
   });
   var patternlab = {
+    graph: PatternGraph.empty(),
     patterns: [
       Pattern.createEmpty({
         "name": "01-atoms-05-alerts-00-error",
@@ -568,6 +605,15 @@ tap.test('find_lineage - does not apply lineage twice', function (test) {
   test.equals(currentPattern.lineageIndex[0], "atoms-error");
   test.equals(patternlab.patterns[0].lineageRIndex.length, 1);
   test.equals(patternlab.patterns[0].lineageR[0].lineagePattern, 'molecules-error');
+
+  var graph = patternlab.graph;
+
+  var currentPatternLineageIndex = graph.lineageIndex(currentPattern);
+  test.equals(currentPatternLineageIndex.length, 1);
+  test.equals(currentPatternLineageIndex[0], "atoms-error");
+  var patternZeroLineageR = graph.lineageR(patternlab.patterns[0]);
+  test.equals(patternZeroLineageR.length, 1);
+  test.equals(patternZeroLineageR[0].patternPartial, 'molecules-error');
 
   test.end();
 });
