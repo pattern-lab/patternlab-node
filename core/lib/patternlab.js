@@ -13,6 +13,7 @@
 var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
+  fs = require('fs-extra'),
   path = require('path'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
@@ -60,25 +61,6 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
       pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), patternlab);
     }
   );
-}
-
-/**
- * Processes any patterns that were added, removed or modified since the last run.
- * @param pattern_assembler
- * @param patterns_dir
- * @param patternlab
- */
-function processChangedPatternsRecursive(pattern_assembler, patternlab) {
-  // TODO Find added or deleted files
-  let now = new Date().getTime();
-  var modified = pattern_assembler.find_modified_patterns(now, patternlab);
-  // First mark all modified files
-  for (let p of modified) {
-    p.compileState = CompileState.NEEDS_REBUILD;
-  }
-  var patterns = patternlab.graph.compileOrder();
-
-  patternlab.buildPatterns(false, patterns);
 }
 
 function checkConfiguration(patternlab) {
@@ -141,7 +123,7 @@ var patternlab_engine = function (config) {
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
   patternlab.events = new PatternLabEventEmitter();
-  patternlab.graph = PatternGraph.loadFromFile(patternlab.config.paths.public);
+  patternlab.graph = PatternGraph.loadFromFile(patternlab);
 
   checkConfiguration(patternlab);
 
@@ -362,22 +344,10 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
-    let patternsToBuild = null;
-
-    // Either there was a previous run, only need to reprocess changes (worst case=everything)
-    if (patternlab.graph.lastModified > 0) {
-      patternsToBuild =
-        processChangedPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
-    } else {
-
-      // Or this is the first run/output directory was wiped, process everything again
-
-      //diveSync again to recursively include partials, filling out the
-      //extendedTemplate property of the patternlab.patterns elements
-      processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
-      patternsToBuild = patternlab.patterns;
-    }
-
+    //diveSync again to recursively include partials, filling out the
+    //extendedTemplate property of the patternlab.patterns elements
+    // TODO we can reduce the time needed by only processing changed patterns and their partials
+    processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
 
     //take the user defined head and foot and process any data and patterns that apply
     processHeadPattern();
@@ -389,12 +359,6 @@ var patternlab_engine = function (config) {
 
     //cascade any patternStates
     lineage_hunter.cascade_pattern_states(patternlab);
-
-    //delete the contents of config.patterns.public before writing
-    if (deletePatternDir) {
-      fs.removeSync(paths.public.patterns);
-      fs.emptyDirSync(paths.public.patterns);
-    }
 
     //set pattern-specific header if necessary
     var head;
@@ -409,11 +373,29 @@ var patternlab_engine = function (config) {
       cacheBuster: patternlab.cacheBuster
     });
 
+    let patternsToBuild = patternlab.patterns;
+
+    //delete the contents of config.patterns.public before writing
+    if (deletePatternDir) {
+      fs.removeSync(paths.public.patterns);
+      fs.emptyDirSync(paths.public.patterns);
+    } else {
+      // TODO Find created or deleted files
+      let now = new Date().getTime();
+      var modified = pattern_assembler.find_modified_patterns(now, patternlab);
+      // First mark all modified files
+      for (let p of modified) {
+        p.compileState = CompileState.NEEDS_REBUILD;
+      }
+      patternsToBuild = patternlab.graph.compileOrder();
+    }
+
+
     //render all patterns last, so lineageR works
     patternsToBuild.forEach( pattern => renderSinglePattern(pattern, head));
     // Saves the pattern graph when all files have been compiled
     PatternGraph.storeToFile(patternlab);
-
+    PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
   }
@@ -426,13 +408,11 @@ var patternlab_engine = function (config) {
     // Allows serializing the compile state
     patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.BUILDING;
 
-    let lineage = patternlab.graph.lineage(pattern);
-    let lineageR = patternlab.graph.lineageR(pattern);
     //todo move this into lineage_hunter
-    pattern.patternLineages = lineage;
-    pattern.patternLineageExists = lineage.length > 0;
-    pattern.patternLineagesR = lineageR;
-    pattern.patternLineageRExists = lineageR.length > 0;
+    pattern.patternLineages = pattern.lineage;
+    pattern.patternLineageExists = pattern.lineage.length > 0;
+    pattern.patternLineagesR = pattern.lineageR;
+    pattern.patternLineageRExists = pattern.lineageR.length > 0;
     pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
     patternlab.events.emit('patternlab-pattern-before-data-merge', patternlab, pattern);

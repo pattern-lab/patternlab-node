@@ -92,6 +92,7 @@ var pattern_assembler = function () {
 
   function addPattern(pattern, patternlab) {
 
+    patternlab.graph.add(pattern);
     //add the link to the global object
     patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
 
@@ -124,7 +125,7 @@ var pattern_assembler = function () {
       } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
-
+      patternlab.graph.add(pattern);
       patternlab.patterns.push(pattern);
 
     }
@@ -261,6 +262,8 @@ var pattern_assembler = function () {
     } catch (e) {
       // Output does not exist yet, needs recompile
     }
+    patternlab.graph.add(pattern);
+    patternlab.graph.node(pattern).compileState = pattern.compileState;
   }
 
   function processPatternIterative(relPath, patternlab) {
@@ -432,7 +435,10 @@ var pattern_assembler = function () {
   }
 
   function findModifiedPatterns(lastModified, patternlab) {
-    return patternlab.patterns.filter(p => p.lastModified > lastModified);
+    return patternlab.patterns.filter(
+      p => p.compileState !== CompileState.CLEAN
+      || !p.lastModified
+      || p.lastModified >= lastModified);
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {

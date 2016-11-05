@@ -6,6 +6,7 @@ var path = require('path');
 var fs = require("fs-extra");
 var Pattern = require('./object_factory').Pattern;
 var CompileState = require('./object_factory').CompileState;
+var PatternGraphDot = require('./pattern_graph_dot');
 
 /**
  * Wrapper around a graph library to build a dependency graph of patterns and
@@ -32,7 +33,7 @@ var PatternGraph = function (graph, timestamp) {
 
 // shorthand
 var nodeName =
-  p => p instanceof Pattern ? p.patternPartial : p;
+  p => p instanceof Pattern ? p.name : p;
 
 /**
  * Creates an independent copy of the graph where nodes and edges can be modified without
@@ -54,8 +55,10 @@ PatternGraph.prototype = {
    */
   add: function (pattern) {
     var n = nodeName(pattern);
-    if (!this.graph.hasNode(n)) {
-      this.graph.setNode(n, {});
+    if (!this.patterns.has(n)) {
+      this.graph.setNode(n, {
+        compileState: pattern.compileState
+      });
       this.patterns.set(n, pattern);
     }
   },
@@ -84,25 +87,41 @@ PatternGraph.prototype = {
   },
 
   compileOrder: function () {
-    let g = new Graph({
+    var compileStateFilter = function (patterns, n) {
+      var node = patterns.get(n);
+      return node.compileState !== CompileState.CLEAN;
+    };
+    // A graph with reveresed edges for topological ordering
+    let compileGraph = new Graph({
       directed: true
     });
-    let changedNodes =
-      this.graph.nodes().filter(n => this.patterns.get(n).compileState !== CompileState.NEEDS_REBUILD);
-    for (let n of changedNodes) {
-      this.applyReverse(n, (from, to) => {
-        if (to.compileState === CompileState.NEEDS_REBUILD) {
-          from.compileState = to.compileState;
-          g.setNode(from);
-          g.setNode(to);
-          // reverse!
-          g.setEdge(to, from);
+
+    let changedNodes = this.graph.nodes().filter(n => compileStateFilter(this.patterns, n));
+    this.nodes2patterns(changedNodes).forEach(pattern => {
+      let patternNode = nodeName(pattern);
+      if (!compileGraph.hasNode(patternNode)) {
+        compileGraph.setNode(patternNode);
+      }
+      this.applyReverse(pattern, (from, to) => {
+        // FIXME to.compileState == null for pseudopatterns!
+        from.compileState = CompileState.NEEDS_REBUILD;
+        let fromName = nodeName(from);
+        let toName = nodeName(to);
+        for (let nodeName of [fromName, toName]) {
+          if (!compileGraph.hasNode(nodeName)) {
+            compileGraph.setNode(nodeName);
+          }
         }
+        if (!compileGraph.hasNode(toName)) {
+          compileGraph.setNode(toName);
+        }
+        // reverse!
+        compileGraph.setEdge({v:toName, w:fromName});
       });
-    }
+    });
     // Apply topological sorting, Start at the leafs of the graphs (e.g. atoms) and go further
     // up in the hierarchy
-    var o = graphlib.alg.topsort(g);
+    var o = graphlib.alg.topsort(compileGraph);
     return this.nodes2patterns(o);
   },
 
@@ -115,7 +134,7 @@ PatternGraph.prototype = {
   applyReverse: function (pattern, fn) {
     for (let p of this.lineageR(pattern)) {
       fn(p, pattern);
-      this.applyReverse(p);
+      this.applyReverse(p, fn);
     }
   },
 
@@ -190,18 +209,23 @@ PatternGraph.empty = function () {
  * Parse the graph from a JSON string.
  * @param s
  */
-PatternGraph.fromJson = function (s) {
-  var o = JSON.parse(s);
+PatternGraph.fromJson = function (o) {
   var graph = graphlib.json.read(o.graph);
   var timestamp = new Date(o.timestamp);
   return new PatternGraph(graph, timestamp);
 };
 
 PatternGraph.resolveJsonGraphFile = function (patternlab, file) {
-  return path.resolve(patternlab.config.paths.public, file || 'dependencyGraph.json');
+  return path.resolve(patternlab.config.paths.public.root, file || 'dependencyGraph.json');
 };
 
-// Second argument is for unit testing only
+/**
+ * Loads a graph from the file. Does not add any patterns from the patternlab object,
+ * i.e. graph.patterns will be still empty until all patterns have been processed.
+ *
+ * @param patternlab
+ * @param [file] Optional
+ */
 PatternGraph.loadFromFile = function (patternlab, file) {
   var jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
 
@@ -217,15 +241,15 @@ PatternGraph.loadFromFile = function (patternlab, file) {
 // Second argument is for unit testing only
 PatternGraph.storeToFile = function (patternlab, file) {
   var jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
-
-  // File is fresh, so simply constuct an empty graph in memory
-  if (!fs.existsSync(jsonGraphFile)) {
-    return new PatternGraph(null, new Date().getTime());
-  }
-
+  patternlab.graph.timestamp = new Date().getTime();
   fs.writeJSONSync(jsonGraphFile, patternlab.graph.toJson());
 };
 
+PatternGraph.exportToDot = function (patternlab, file) {
+  var dotFile = this.resolveJsonGraphFile(patternlab, file);
+  var g = PatternGraphDot.write(patternlab.graph);
+  fs.outputFileSync(dotFile, g);
+};
 
 module.exports = {
   PatternGraph: PatternGraph

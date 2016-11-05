@@ -62,6 +62,8 @@ var pseudopattern_hunter = function () {
           engine: currentPattern.engine
         }, patternlab);
 
+        patternlab.graph.add(patternVariant);
+        patternlab.graph.link(patternVariant, currentPattern);
         pattern_assembler.check_build_state(currentPattern, patternlab);
         //process the companion markdown file if it exists
         pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);
