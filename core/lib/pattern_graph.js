@@ -5,6 +5,7 @@ var Graph = graphlib.Graph;
 var path = require('path');
 var fs = require("fs-extra");
 var Pattern = require('./object_factory').Pattern;
+var CompileState = require('./object_factory').CompileState;
 
 /**
  * Wrapper around a graph library to build a dependency graph of patterns and
@@ -19,18 +20,18 @@ var Pattern = require('./object_factory').Pattern;
  */
 var PatternGraph = function (graph, timestamp) {
 
-  this.graph = graph
-    || new Graph({
-      directed: true
+  this.graph = graph || new Graph({
+    directed: true
   });
   this.graph.setDefaultEdgeLabel({});
+
   // Allows faster lookups for patterns by name for each element in the graph
   this.patterns = new Map();
   this.timestamp = timestamp || new Date().getTime();
 };
 
 // shorthand
-var name =
+var nodeName =
   p => p instanceof Pattern ? p.patternPartial : p;
 
 /**
@@ -51,8 +52,8 @@ PatternGraph.prototype = {
    *
    * @param pattern {Pattern}
    */
-  add: function(pattern) {
-    var n = name(pattern);
+  add: function (pattern) {
+    var n = nodeName(pattern);
     if (!this.graph.hasNode(n)) {
       this.graph.setNode(n, {});
       this.patterns.set(n, pattern);
@@ -60,33 +61,66 @@ PatternGraph.prototype = {
   },
 
   remove: function (pattern) {
-    var n = name(pattern);
+    var n = nodeName(pattern);
     this.graph.removeNode(n);
     this.patterns.remove(n);
   },
 
-  filter: function(fn) {
+  filter: function (fn) {
     this.graph.nodes().forEach(n => {
-        if (!fn(n)) {
-          this.remove(n);
-        }
+      if (!fn(n)) {
+        this.remove(n);
       }
-    );
+    });
   },
-
 
   link: function (patternFrom, patternTo) {
     this.add(patternFrom);
     this.add(patternTo);
-    // maybe we also can put reverse edges here
 
-    let nameFrom = name(patternFrom);
-    let nameTo = name(patternTo);
+    let nameFrom = nodeName(patternFrom);
+    let nameTo = nodeName(patternTo);
     this.graph.setEdge(nameFrom, nameTo);
   },
 
+  compileOrder: function () {
+    let g = new Graph({
+      directed: true
+    });
+    let changedNodes =
+      this.graph.nodes().filter(n => this.patterns.get(n).compileState !== CompileState.NEEDS_REBUILD);
+    for (let n of changedNodes) {
+      this.applyReverse(n, (from, to) => {
+        if (to.compileState === CompileState.NEEDS_REBUILD) {
+          from.compileState = to.compileState;
+          g.setNode(from);
+          g.setNode(to);
+          // reverse!
+          g.setEdge(to, from);
+        }
+      });
+    }
+    // Apply topological sorting, Start at the leafs of the graphs (e.g. atoms) and go further
+    // up in the hierarchy
+    var o = graphlib.alg.topsort(g);
+    return this.nodes2patterns(o);
+  },
+
+  /**
+   * Given a node and its predecessor, allows exchanging states between nodes.
+   * @param pattern
+   * @param fn A function that takes the currently viewed pattern and node data. Allows synching data
+   * between patterns and node metadata.
+   */
+  applyReverse: function (pattern, fn) {
+    for (let p of this.lineageR(pattern)) {
+      fn(p, pattern);
+      this.applyReverse(p);
+    }
+  },
+
   node: function (pattern) {
-    return this.graph.node(name(pattern));
+    return this.graph.node(nodeName(pattern));
   },
 
   /**
@@ -98,9 +132,11 @@ PatternGraph.prototype = {
     return nodes.map(n => this.patterns.get(n));
   },
 
+  // TODO cache result in a Map[String, Array]?
+  // We trade the pattern.lineage array - O(pattern.lineage.length << |V|) - vs. O(|V|) of the graph.
+  // As long as no edges are added or removed, we can cache the result in a Map and just return it.
   lineage: function (pattern) {
-    var outEdges = this.graph.outEdges(name(pattern));
-    var nodes = outEdges.map(edge => edge['w']);
+    var nodes = this.graph.successors(nodeName(pattern));
     return this.nodes2patterns(nodes);
   },
 
@@ -110,27 +146,26 @@ PatternGraph.prototype = {
    * @return {*|Array}
    */
   lineageR: function (pattern) {
-    var inEdges = this.graph.inEdges(name(pattern));
-    var nodes = inEdges.map(edge => edge['v']);
+    var nodes = this.graph.predecessors(nodeName(pattern));
     return this.nodes2patterns(nodes);
   },
 
   /**
-   * Given a {Pattern}, return all {Pattern} objectes included in this one
+   * Given a {Pattern}, return all {Pattern} objects included in this the given pattern
    * @param pattern
    */
   lineageIndex: function (pattern) {
     var lineage = this.lineage(pattern);
-    return lineage.map( p => p.patternPartial);
+    return lineage.map(p => p.patternPartial);
   },
 
   /**
-   * Given a {Pattern}, return all {Pattern} objectes included in this one
+   * Given a {Pattern}, return all {Pattern} objects which include the given pattern
    * @param pattern
    */
   lineageRIndex: function (pattern) {
     var lineageR = this.lineageR(pattern);
-    return lineageR.map( p => p.patternPartial);
+    return lineageR.map(p => p.patternPartial);
   },
 
   /**
@@ -141,11 +176,15 @@ PatternGraph.prototype = {
     return {
       timestamp: new Date().getTime(),
       graph: graphlib.json.write(this.graph)
-    }
+    };
   }
 };
 
 PatternGraph.prototype.nodes = () => this.graph.nodes();
+
+PatternGraph.empty = function () {
+  return new PatternGraph(null, 0);
+};
 
 /**
  * Parse the graph from a JSON string.
@@ -158,7 +197,6 @@ PatternGraph.fromJson = function (s) {
   return new PatternGraph(graph, timestamp);
 };
 
-// Seperate method, makes testing easier
 PatternGraph.resolveJsonGraphFile = function (patternlab, file) {
   return path.resolve(patternlab.config.paths.public, file || 'dependencyGraph.json');
 };
@@ -166,18 +204,28 @@ PatternGraph.resolveJsonGraphFile = function (patternlab, file) {
 // Second argument is for unit testing only
 PatternGraph.loadFromFile = function (patternlab, file) {
   var jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
+
   // File is fresh, so simply constuct an empty graph in memory
   if (!fs.existsSync(jsonGraphFile)) {
-    return new PatternGraph(null, new Date().getTime());
+    return PatternGraph.empty();
   }
 
   var obj = fs.readJSONSync(jsonGraphFile);
   return this.fromJson(obj);
 };
 
-PatternGraph.empty = function () {
-  return new PatternGraph(null, 0);
+// Second argument is for unit testing only
+PatternGraph.storeToFile = function (patternlab, file) {
+  var jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
+
+  // File is fresh, so simply constuct an empty graph in memory
+  if (!fs.existsSync(jsonGraphFile)) {
+    return new PatternGraph(null, new Date().getTime());
+  }
+
+  fs.writeJSONSync(jsonGraphFile, patternlab.graph.toJson());
 };
+
 
 module.exports = {
   PatternGraph: PatternGraph

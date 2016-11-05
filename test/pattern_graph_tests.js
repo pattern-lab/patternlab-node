@@ -13,7 +13,7 @@ var patternlab = {
 };
 
 tap.test("Loading an empty graph works", (test) => {
-  var g = PatternGraph.loadFromFile(patternlab.config.paths.public);
+  var g = PatternGraph.loadFromFile(patternlab);
   tap.equal(g.graph.nodes().length, 0,"foo");
   test.end();
 });

@@ -431,6 +431,10 @@ var pattern_assembler = function () {
     decomposePattern(currentPattern, patternlab);
   }
 
+  function findModifiedPatterns(lastModified, patternlab) {
+    return patternlab.patterns.filter(p => p.lastModified > lastModified);
+  }
+
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
 
     var style_modifier_hunter = new smh(),
@@ -544,6 +548,9 @@ var pattern_assembler = function () {
   }
 
   return {
+    find_modified_patterns: function (lastModified, patternlab) {
+      return findModifiedPatterns(lastModified, patternlab)
+    },
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
     },

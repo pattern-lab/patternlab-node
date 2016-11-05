@@ -26,7 +26,7 @@ function createFakeEmptyErrorPattern() {
 function createBasePatternLabObject() {
   var patterns_dir = './test/files/_patterns/';
   var pl = {};
-  pl.graph = new PatternGraph(null, 0);
+  pl.graph = PatternGraph.empty(),
   pl.config = {
     paths: {
       source: {
@@ -252,7 +252,8 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
 
   //assert
   var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
-  test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
+  let lineage = pl.graph.lineage(consumerPatternReturned);
+  test.equals(lineage[0].lineageState, 'inreview');
   test.end();
 });
 
@@ -279,7 +280,8 @@ tap.test('cascade_pattern_states sets the pattern state on any lineage patterns 
 
   //assert
   var consumedPatternReturned = pattern_assembler.getPartial('test-bar', pl);
-  test.equals(consumedPatternReturned.lineageR[0].lineageState, 'inreview');
+  let lineageR = pl.graph.lineageR(consumedPatternReturned);
+  test.equals(lineageR[0].lineageState, 'inreview');
 
   test.end();
 });

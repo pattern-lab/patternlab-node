@@ -62,6 +62,25 @@ function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab
   );
 }
 
+/**
+ * Processes any patterns that were added, removed or modified since the last run.
+ * @param pattern_assembler
+ * @param patterns_dir
+ * @param patternlab
+ */
+function processChangedPatternsRecursive(pattern_assembler, patternlab) {
+  // TODO Find added or deleted files
+  let now = new Date().getTime();
+  var modified = pattern_assembler.find_modified_patterns(now, patternlab);
+  // First mark all modified files
+  for (let p of modified) {
+    p.compileState = CompileState.NEEDS_REBUILD;
+  }
+  var patterns = patternlab.graph.compileOrder();
+
+  patternlab.buildPatterns(false, patterns);
+}
+
 function checkConfiguration(patternlab) {
   //default the output suffixes if not present
   var outputFileSuffixes = {
@@ -343,9 +362,22 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
-    //diveSync again to recursively include partials, filling out the
-    //extendedTemplate property of the patternlab.patterns elements
-    processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
+    let patternsToBuild = null;
+
+    // Either there was a previous run, only need to reprocess changes (worst case=everything)
+    if (patternlab.graph.lastModified > 0) {
+      patternsToBuild =
+        processChangedPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
+    } else {
+
+      // Or this is the first run/output directory was wiped, process everything again
+
+      //diveSync again to recursively include partials, filling out the
+      //extendedTemplate property of the patternlab.patterns elements
+      processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
+      patternsToBuild = patternlab.patterns;
+    }
+
 
     //take the user defined head and foot and process any data and patterns that apply
     processHeadPattern();
@@ -377,14 +409,10 @@ var patternlab_engine = function (config) {
       cacheBuster: patternlab.cacheBuster
     });
 
-    // FIXME This simply iterates over all patterns, now we need to iterate over changed files
-    // with a defined order
-
-
-    var patternsToBuild = patternlab.patterns;
-
     //render all patterns last, so lineageR works
     patternsToBuild.forEach( pattern => renderSinglePattern(pattern, head));
+    // Saves the pattern graph when all files have been compiled
+    PatternGraph.storeToFile(patternlab);
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
@@ -395,13 +423,16 @@ var patternlab_engine = function (config) {
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
       return false;
     }
-    pattern.compileState = CompileState.BUILDING;
+    // Allows serializing the compile state
+    patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.BUILDING;
 
+    let lineage = patternlab.graph.lineage(pattern);
+    let lineageR = patternlab.graph.lineageR(pattern);
     //todo move this into lineage_hunter
-    pattern.patternLineages = pattern.lineage;
-    pattern.patternLineageExists = pattern.lineage.length > 0;
-    pattern.patternLineagesR = pattern.lineageR;
-    pattern.patternLineageRExists = pattern.lineageR.length > 0;
+    pattern.patternLineages = lineage;
+    pattern.patternLineageExists = lineage.length > 0;
+    pattern.patternLineagesR = lineageR;
+    pattern.patternLineageRExists = lineageR.length > 0;
     pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
 
     patternlab.events.emit('patternlab-pattern-before-data-merge', patternlab, pattern);
@@ -477,7 +508,8 @@ var patternlab_engine = function (config) {
     writePatternFiles(headHTML, pattern, footerHTML);
 
     patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
-    pattern.compileState = CompileState.CLEAN;
+    // Allows serializing the compile state
+    patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
     return true;
   }
 

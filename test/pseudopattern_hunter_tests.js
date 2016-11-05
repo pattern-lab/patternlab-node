@@ -6,6 +6,7 @@ var path = require('path');
 var pha = require('../core/lib/pseudopattern_hunter');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
 var fs = require('fs-extra');
 var pattern_assembler = new pa();
@@ -15,6 +16,7 @@ var public_patterns_dir = './test/public/patterns';
 
 function stubPatternlab() {
   var pl = {};
+  pl.graph = PatternGraph.empty();
   pl.config = {
     paths: {
       source: {

@@ -4,9 +4,14 @@ var tap = require('tap');
 
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var path = require('path');
 
-
+function emptyPatternLab() {
+  return {
+    graph: PatternGraph.empty()
+  }
+}
 
 tap.test('process_pattern_recursive recursively includes partials', function(test) {
 
@@ -18,9 +23,11 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
-  var patternlab = {};
+  var public_dir = './test/public';
+  var patternlab = emptyPatternLab();
   patternlab.config = fs.readJSONSync('./patternlab-config.json');
   patternlab.config.paths.source.patterns = patterns_dir;
+  patternlab.config.paths.public = public_dir;
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
   //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
@@ -70,7 +77,7 @@ tap.test('processPatternRecursive - correctly replaces all stylemodifiers when m
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -114,7 +121,7 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -159,7 +166,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -202,7 +209,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -246,7 +253,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -291,7 +298,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -336,7 +343,7 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -390,7 +397,7 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -498,7 +505,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns/';
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   //THIS IS BAD
   patternlab.config = fs.readJSONSync('./patternlab-config.json');
   patternlab.config.paths.source.patterns = patterns_dir;
@@ -567,7 +574,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
 tap.test('get_pattern_by_key - returns the fuzzy result when no others found', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();;
   patternlab.patterns = [];
 
   patternlab.patterns.push({
@@ -586,7 +593,7 @@ tap.test('get_pattern_by_key - returns the fuzzy result when no others found', f
 tap.test('get_pattern_by_key - returns the exact key if found', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();;
   patternlab.patterns = [];
 
   patternlab.patterns.push({
@@ -609,7 +616,7 @@ tap.test('get_pattern_by_key - returns the exact key if found', function(test) {
 tap.test('addPattern - adds pattern extended template to patternlab partial object', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   patternlab.patterns = [];
   patternlab.partials = {};
   patternlab.data = {link: {}};
@@ -633,7 +640,7 @@ tap.test('addPattern - adds pattern extended template to patternlab partial obje
 tap.test('addPattern - adds pattern template to patternlab partial object if extendedtemplate does not exist yet', function(test){
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   patternlab.patterns = [];
   patternlab.partials = {};
   patternlab.data = {link: {}};
@@ -651,6 +658,30 @@ tap.test('addPattern - adds pattern template to patternlab partial object if ext
   test.equals(patternlab.patterns.length, 1);
   test.equals(patternlab.partials['test-bar'] != undefined, true);
   test.equals(patternlab.partials['test-bar'], 'bar');
+  test.end();
+});
+
+tap.test('findModifiedPatterns - finds patterns modified since a given date', function(test){
+  //arrange
+  var pattern_assembler = new pa();
+  var patternlab = emptyPatternLab();
+  patternlab.partials = {};
+  patternlab.data = {link: {}};
+  patternlab.config = { debug: false };
+  patternlab.config.outputFileSuffixes = {rendered : ''};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = 100;
+  patternlab.patterns = [pattern];
+
+  var p = pattern_assembler.find_modified_patterns(10000, patternlab);
+
+  test.equals(p.length, 0);
+
+  p = pattern_assembler.find_modified_patterns(0, patternlab);
+  test.equals(p.length, 1);
   test.end();
 });
 
