@@ -246,3 +246,13 @@ tap.test('resetUIBuilderState - reset global objects', function (test) {
 
   test.end();
 });
+
+tap.test('buildViewAllPages - adds viewall page for each type and subtype', function (test) {
+  //arrange
+
+  //act
+
+  //assert
+
+  test.end();
+});
