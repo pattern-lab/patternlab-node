@@ -6,8 +6,7 @@ var fs = require('fs-extra');
 var ae = require('./annotation_exporter');
 var of = require('./object_factory');
 var Pattern = of.Pattern;
-var pa = require('./pattern_assembler');
-var pattern_assembler = new pa();
+var pattern_assembler = require('./pattern_assembler')();
 var plutils = require('./utilities');
 var eol = require('os').EOL;
 var _ = require('lodash');
@@ -640,7 +639,7 @@ var ui_builder = function () {
       resetUIBuilderState(patternlab);
     },
     buildViewAllPages: function (mainPageHeadHtml, patternlab, styleguidePatterns) {
-      buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns);
+      return buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns);
     }
   };
 

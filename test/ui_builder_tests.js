@@ -1,10 +1,28 @@
 "use strict";
 
 var tap = require('tap');
-
+var rewire = require("rewire");
 var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
+var uiModule = rewire('../core/lib/ui_builder');
+
+//set up a global mocks - we don't want to be writing/rendering any files right now
+var fsMock = {
+  outputFileSync: function (path, data, cb) { }
+};
+
+var patternAssemblerMock = {
+  renderPattern: function (template, data, partials) { return ''; }
+};
+
+//set our mocks in place of usual require()
+uiModule.__set__({
+  'fs': fsMock,
+  'pattern_assembler': patternAssemblerMock
+});
+
+var ui = uiModule();
 
 function createFakePatternLab(customProps) {
   var pl = {
@@ -24,12 +42,11 @@ function createFakePatternLab(customProps) {
         rawTemplate: '',
         markupOnly: '.markup-only'
       }
-    }
+    },
+    data: {}
   };
   return extend(pl, customProps);
 }
-
-var ui = require('../core/lib/ui_builder')();
 
 tap.test('isPatternExcluded - returns true when pattern filename starts with underscore', function (test) {
   //arrange
@@ -249,10 +266,42 @@ tap.test('resetUIBuilderState - reset global objects', function (test) {
 
 tap.test('buildViewAllPages - adds viewall page for each type and subtype', function (test) {
   //arrange
+  let mainPageHeadHtml = '<head></head>';
+  let patternlab = createFakePatternLab({
+    patterns: [],
+    patternGroups: {},
+    subtypePatterns: {}
+  });
+
+  patternlab.patterns.push(
+    //this flat pattern is found and causes trouble for the rest of the crew
+    new Pattern('00-test/foo.mustache'),
+    new Pattern('patternType1/patternSubType1/blue.mustache'),
+    new Pattern('patternType1/patternSubType1/red.mustache'),
+    new Pattern('patternType1/patternSubType1/yellow.mustache'),
+    new Pattern('patternType1/patternSubType2/black.mustache'),
+    new Pattern('patternType1/patternSubType2/grey.mustache'),
+    new Pattern('patternType1/patternSubType2/white.mustache')
+  );
+  ui.resetUIBuilderState(patternlab);
+
+  let styleguidePatterns = ui.groupPatterns(patternlab);
 
   //act
+  var patterns = ui.buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns);
 
   //assert
+  //this was a nuanced one. buildViewAllPages() had return false; statements
+  //within _.forOwn(...) loops, causing premature termination of the entire loop
+  //when what was intended was a continue
+  //we expect 8 here because:
+  //  - foo.mustache is flat and therefore does not have a viewall page
+  //  - the colors.mustache files make 6
+  //  - patternSubType1 and patternSubType2 make 8
+  //while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
+  //it's important to ensure that this method does not get prematurely terminated
+  //we choose to do that by checking it's return number of patterns
+  test.equals(patterns.length, 8, '2 viewall pages should be added');
 
   test.end();
 });
