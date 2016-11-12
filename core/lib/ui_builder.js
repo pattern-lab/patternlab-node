@@ -6,8 +6,7 @@ var fs = require('fs-extra');
 var ae = require('./annotation_exporter');
 var of = require('./object_factory');
 var Pattern = of.Pattern;
-var pa = require('./pattern_assembler');
-var pattern_assembler = new pa();
+var pattern_assembler = require('./pattern_assembler')();
 var plutils = require('./utilities');
 var eol = require('os').EOL;
 var _ = require('lodash');
@@ -51,20 +50,6 @@ var ui_builder = function () {
     //add all if it does not exist yet
     if (!patternlab.viewAllPaths[pattern.patternGroup].all) {
       patternlab.viewAllPaths[pattern.patternGroup].all = pattern.patternType;
-    }
-  }
-
-  /**
-   * Writes a file to disk, with an optional callback
-   * @param filePath - the path to write to with filename
-   * @param data - the file contents
-   * @param callback - an optional callback
-     */
-  function writeFile(filePath, data, callback) {
-    if (callback) {
-      fs.outputFileSync(filePath, data, callback);
-    } else {
-      fs.outputFileSync(filePath, data);
     }
   }
 
@@ -468,7 +453,7 @@ var ui_builder = function () {
         //do not create a viewall page for flat patterns
         if (patternType === patternSubtype) {
           writeViewAllFile = false;
-          return false;
+          return;
         }
 
         //render the footer needed for the viewall template
@@ -485,13 +470,12 @@ var ui_builder = function () {
         typePatterns = typePatterns.concat(subtypePatterns);
 
         var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
-        writeFile(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-        return true; //stop yelling at us eslint we know we know
+        fs.outputFileSync(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
       });
 
       //do not create a viewall page for flat patterns
       if (!writeViewAllFile || !p) {
-        return false;
+        return;
       }
 
       //render the footer needed for the viewall template
@@ -507,7 +491,7 @@ var ui_builder = function () {
 
       //render the viewall template for the type
       var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
-      writeFile(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+      fs.outputFileSync(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
       //determine if we should omit this patterntype completely from the viewall page
       var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
@@ -521,8 +505,6 @@ var ui_builder = function () {
       } else {
         patterns = patterns.concat(typePatterns);
       }
-
-      return true; //stop yelling at us eslint we know we know
     });
     return patterns;
   }
@@ -561,12 +543,12 @@ var ui_builder = function () {
     output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all') + '";' + eol;
 
     //write all output to patternlab-data
-    writeFile(path.resolve(paths.public.data, 'patternlab-data.js'), output);
+    fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
 
     //annotations
     var annotationsJSON = annotation_exporter.gather();
     var annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-    writeFile(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
+    fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
   }
 
   /**
@@ -626,7 +608,7 @@ var ui_builder = function () {
         patternSection: patternlab.patternSection,
         patternSectionSubtype: patternlab.patternSectionSubType
       });
-    writeFile(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
+    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
     //move the index file from its asset location into public root
     var patternlabSiteHtml;
@@ -637,7 +619,7 @@ var ui_builder = function () {
       console.log("\nERROR: Could not load one or more styleguidekit assets from", paths.source.styleguide, '\n');
       process.exit(1);
     }
-    writeFile(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+    fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 
     //write out patternlab.data object to be read by the client
     exportData(patternlab);
@@ -655,6 +637,9 @@ var ui_builder = function () {
     },
     resetUIBuilderState: function (patternlab) {
       resetUIBuilderState(patternlab);
+    },
+    buildViewAllPages: function (mainPageHeadHtml, patternlab, styleguidePatterns) {
+      return buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns);
     }
   };
 
