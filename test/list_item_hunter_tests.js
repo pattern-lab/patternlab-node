@@ -7,6 +7,7 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
 var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
+var testPatternsPath = './test/files/_patterns/';
 
 // fake pattern creators
 function createFakeListPattern(customProps) {
@@ -14,7 +15,7 @@ function createFakeListPattern(customProps) {
     relPath: '01-molecules/01-lists/00-list.mustache',
     data: {}
   };
-  var pattern = new Pattern(inputs.relPath);
+  var pattern = new Pattern(testPatternsPath, inputs.relPath);
 
   return extend(pattern, customProps);
 }
@@ -168,12 +169,12 @@ tap.test('process_list_item_partials finds verbose partials and outputs repeated
 
   var patternlab = createFakePatternLab({
     "patterns": [
-      Pattern.create('00-test/00-foo.mustache', null, {
+      Pattern.create(testPatternsPath, '00-test/00-foo.mustache', null, {
         "template": "{{ title }}",
         "extendedTemplate": "{{ title }}",
         "relPath": "00-test/00-foo.mustache"
       }),
-      Pattern.create('00-test/00-bar.mustache', null, {
+      Pattern.create(testPatternsPath, '00-test/00-bar.mustache', null, {
         "template": "{{ title }}",
         "extendedTemplate": "{{ title }}",
         "relPath": "00-test/00-bar.mustache"
@@ -359,12 +360,12 @@ tap.test('process_list_item_partials - correctly ignores bookended partials with
     ]
   };
 
-  var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
   atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-  var bookendPattern = new Pattern('00-test/11-bookend-listitem.mustache');
+  var bookendPattern = new Pattern(testPatternsPath, '00-test/11-bookend-listitem.mustache');
   bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/11-bookend-listitem.mustache', 'utf8');
   bookendPattern.extendedTemplate = bookendPattern.template;
   bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
@@ -388,17 +389,17 @@ tap.test('process_list_item_partials - correctly ignores already processed parti
 
   var pl = createFakePatternLab();
 
-  var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
   atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-  var anotherStyledAtomPattern = new Pattern('00-test/12-another-styled-atom.mustache');
+  var anotherStyledAtomPattern = new Pattern(testPatternsPath, '00-test/12-another-styled-atom.mustache');
   anotherStyledAtomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '/00-test/12-another-styled-atom.mustache', 'utf8');
   anotherStyledAtomPattern.extendedTemplate = anotherStyledAtomPattern.template;
   anotherStyledAtomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(anotherStyledAtomPattern);
 
-  var listPattern = new Pattern('00-test/13-listitem.mustache');
+  var listPattern = new Pattern(testPatternsPath, '00-test/13-listitem.mustache');
   listPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '/00-test/13-listitem.mustache', 'utf8');
   listPattern.extendedTemplate = listPattern.template;
   listPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(listPattern);
@@ -410,9 +411,9 @@ tap.test('process_list_item_partials - correctly ignores already processed parti
   //act
 
   //might need to cal processPatternRecursive instead
-  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl);
-  pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl);
-  pattern_assembler.process_pattern_recursive(listPattern.relPath, pl);
+  pattern_assembler.process_pattern_recursive(testPatternsPath, atomPattern.relPath, pl);
+  pattern_assembler.process_pattern_recursive(testPatternsPath, anotherStyledAtomPattern.relPath, pl);
+  pattern_assembler.process_pattern_recursive(testPatternsPath, listPattern.relPath, pl);
 
   //assert.
   var expectedValue = '<div class="test_group"> <span class="test_base "> FooM </span> </div>';

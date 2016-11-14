@@ -5,13 +5,14 @@ var tap = require('tap');
 var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
+var patterns_dir = './test/files/_patterns';
 
 function createFakePatternLab(customProps) {
   var pl = {
     config: {
       paths: {
         source: {
-          patterns: './test/files/_patterns'
+          patterns: patterns_dir
         },
         public: {
           patterns: './test/output'
@@ -34,7 +35,7 @@ var ui = require('../core/lib/ui_builder')();
 tap.test('isPatternExcluded - returns true when pattern filename starts with underscore', function (test) {
   //arrange
   var patternlab = createFakePatternLab({});
-  var pattern = new Pattern('00-test/_ignored-pattern.mustache');
+  var pattern = new Pattern(patterns_dir, '00-test/_ignored-pattern.mustache');
 
   //act
   var result = ui.isPatternExcluded(pattern, patternlab);
@@ -47,7 +48,7 @@ tap.test('isPatternExcluded - returns true when pattern filename starts with und
 tap.test('isPatternExcluded - returns true when pattern is defaultPattern', function (test) {
   //arrange
   var patternlab = createFakePatternLab({});
-  var pattern = new Pattern('00-test/foo.mustache');
+  var pattern = new Pattern(patterns_dir, '00-test/foo.mustache');
   patternlab.config.defaultPattern = 'test-foo';
 
   //act
@@ -103,14 +104,14 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   });
 
   patternlab.patterns.push(
-    new Pattern('00-test/foo.mustache'),
-    new Pattern('00-test/bar.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType2/black.mustache'),
-    new Pattern('patternType1/patternSubType2/grey.mustache'),
-    new Pattern('patternType1/patternSubType2/white.mustache')
+    new Pattern(patterns_dir, '00-test/foo.mustache'),
+    new Pattern(patterns_dir, '00-test/bar.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/black.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/grey.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/white.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -142,14 +143,14 @@ tap.test('groupPatterns - creates documentation patterns for each type and subty
   });
 
   patternlab.patterns.push(
-    new Pattern('00-test/foo.mustache'),
-    new Pattern('00-test/bar.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType2/black.mustache'),
-    new Pattern('patternType1/patternSubType2/grey.mustache'),
-    new Pattern('patternType1/patternSubType2/white.mustache')
+    new Pattern(patterns_dir, '00-test/foo.mustache'),
+    new Pattern(patterns_dir, '00-test/bar.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/black.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/grey.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/white.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -172,14 +173,14 @@ tap.test('groupPatterns - adds each pattern to the patternPaths object', functio
   });
 
   patternlab.patterns.push(
-    new Pattern('00-test/foo.mustache'),
-    new Pattern('00-test/bar.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType2/black.mustache'),
-    new Pattern('patternType1/patternSubType2/grey.mustache'),
-    new Pattern('patternType1/patternSubType2/white.mustache')
+    new Pattern(patterns_dir, '00-test/foo.mustache'),
+    new Pattern(patterns_dir, '00-test/bar.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/black.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/grey.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/white.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -208,14 +209,14 @@ tap.test('groupPatterns - adds each pattern to the view all paths object', funct
   });
 
   patternlab.patterns.push(
-    new Pattern('00-test/foo.mustache'),
-    new Pattern('00-test/bar.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType2/black.mustache'),
-    new Pattern('patternType1/patternSubType2/grey.mustache'),
-    new Pattern('patternType1/patternSubType2/white.mustache')
+    new Pattern(patterns_dir, '00-test/foo.mustache'),
+    new Pattern(patterns_dir, '00-test/bar.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/black.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/grey.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/white.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 

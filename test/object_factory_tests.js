@@ -27,9 +27,10 @@ var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var path = require('path');
 var pl = fakePatternLab();
+var testPatternsPath = './test/files/_patterns/';
 
 tap.test('test Pattern initializes correctly', function (test) {
-  var p = new Pattern('00-atoms/00-global/00-colors.mustache', { d: 123});
+  var p = new Pattern(testPatternsPath, '00-atoms/00-global/00-colors.mustache', { d: 123});
   test.equals(p.relPath, '00-atoms' + path.sep + '00-global' + path.sep + '00-colors.mustache');
   test.equals(p.name, '00-atoms-00-global-00-colors');
   test.equals(p.subdir, '00-atoms' + path.sep + '00-global');
@@ -54,7 +55,7 @@ tap.test('test Pattern initializes correctly', function (test) {
 });
 
 tap.test('test Pattern with one-directory subdir works as expected', function (test) {
-  var p = new Pattern('00-atoms/00-colors.mustache', { d: 123});
+  var p = new Pattern(testPatternsPath, '00-atoms/00-colors.mustache', { d: 123});
   test.equals(p.relPath, '00-atoms' + path.sep + '00-colors.mustache');
   test.equals(p.name, '00-atoms-00-colors');
   test.equals(p.subdir, '00-atoms');
@@ -76,7 +77,7 @@ tap.test('test Pattern with one-directory subdir works as expected', function (t
 });
 
 tap.test('test Pattern with no numbers in pattern group works as expected', function (test) {
-  var p = new Pattern('atoms/colors.mustache', { d: 123});
+  var p = new Pattern(testPatternsPath, 'atoms/colors.mustache', { d: 123});
   test.equals(p.relPath, 'atoms' + path.sep + 'colors.mustache');
   test.equals(p.name, 'atoms-colors');
   test.equals(p.subdir, 'atoms');
@@ -89,14 +90,14 @@ tap.test('test Pattern with no numbers in pattern group works as expected', func
 });
 
 tap.test('test Pattern capitalizes patternDisplayName correctly', function (test) {
-  var p = new Pattern('00-atoms/00-global/00-colors-alt.mustache', { d: 123});
+  var p = new Pattern(testPatternsPath, '00-atoms/00-global/00-colors-alt.mustache', { d: 123});
   test.equals(p.patternBaseName, 'colors-alt');
   test.equals(p.patternName, 'Colors Alt');
   test.end();
 });
 
 tap.test('The forms of Pattern.getPatternLink() work as expected', function (test) {
-    var p = new Pattern('00-atoms/00-global/00-colors.hbs');
+    var p = new Pattern(testPatternsPath, '00-atoms/00-global/00-colors.hbs');
     test.equals(p.getPatternLink(pl), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.rendered.html');
     test.equals(p.getPatternLink(pl, 'rendered'), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.rendered.html');
     test.equals(p.getPatternLink(pl, 'rawTemplate'), '00-atoms-00-global-00-colors' + path.sep + '00-atoms-00-global-00-colors.hbs');

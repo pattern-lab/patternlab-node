@@ -34,32 +34,45 @@ function buildPatternData(dataFilesPath, fsDep) {
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
 // from unit tests to reduce code dupe!
-function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
-  diveSync(
-    patterns_dir,
-    function (err, file) {
-      //log any errors
-      if (err) {
-        console.log(err);
-        return;
+function processAllPatternsIterative(pattern_assembler, patterns_dirs, patternlab) {
+  var dirs = patterns_dirs;
+  if (!(patterns_dirs instanceof Array)) {
+    dirs = [patterns_dirs];
+  }
+  dirs.forEach(function (patterns_dir) {
+    diveSync(
+      patterns_dir,
+      function (err, file) {
+        //log any errors
+        if (err) {
+          console.log(err);
+          return;
+        }
+        pattern_assembler.process_pattern_iterative(patterns_dir, path.relative(patterns_dir, file), patternlab);
       }
-      pattern_assembler.process_pattern_iterative(path.relative(patterns_dir, file), patternlab);
-    }
-  );
+    );
+  });
+
 }
 
-function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
-  diveSync(
-    patterns_dir,
-    function (err, file) {
-      //log any errors
-      if (err) {
-        console.log(err);
-        return;
+function processAllPatternsRecursive(pattern_assembler, patterns_dirs, patternlab) {
+  var dirs = patterns_dirs;
+  if (!(patterns_dirs instanceof Array)) {
+    dirs = [patterns_dirs];
+  }
+  dirs.forEach(function (patterns_dir) {
+    diveSync(
+      patterns_dir,
+      function (err, file) {
+        //log any errors
+        if (err) {
+          console.log(err);
+          return;
+        }
+        pattern_assembler.process_pattern_recursive(patterns_dir, path.relative(patterns_dir, file), patternlab);
       }
-      pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), patternlab);
-    }
-  );
+    );
+  });
 }
 
 function checkConfiguration(patternlab) {
@@ -255,7 +268,7 @@ var patternlab_engine = function (config) {
   function processHeadPattern() {
     try {
       var headPath = path.resolve(paths.source.meta, '_00-head.mustache');
-      var headPattern = new Pattern(headPath, null, patternlab);
+      var headPattern = new Pattern(paths.source.meta, '_00-head.mustache', null, patternlab);
       headPattern.template = fs.readFileSync(headPath, 'utf8');
       headPattern.isPattern = false;
       headPattern.isMetaPattern = true;
@@ -275,7 +288,7 @@ var patternlab_engine = function (config) {
   function processFootPattern() {
     try {
       var footPath = path.resolve(paths.source.meta, '_01-foot.mustache');
-      var footPattern = new Pattern(footPath, null, patternlab);
+      var footPattern = new Pattern(paths.source.meta, '_01-foot.mustache', null, patternlab);
       footPattern.template = fs.readFileSync(footPath, 'utf8');
       footPattern.isPattern = false;
       footPattern.isMetaPattern = true;

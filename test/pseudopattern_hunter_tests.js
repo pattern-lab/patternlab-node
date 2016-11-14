@@ -36,7 +36,7 @@ tap.test('pseudpattern found and added as a pattern', function (test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
   atomPattern.template = fs.readFileSync(patterns_dir + '00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
@@ -61,13 +61,13 @@ tap.test('pseudpattern variant includes stylePartials and parameteredPartials', 
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
   atomPattern.template = fs.readFileSync(patterns_dir + '00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.stylePartials = atomPattern.findPartialsWithStyleModifiers(atomPattern);
   atomPattern.parameteredPartials = atomPattern.findPartialsWithPatternParameters(atomPattern);
 
-  var pseudoPattern = new Pattern('00-test/474-pseudomodifier.mustache');
+  var pseudoPattern = new Pattern(patterns_dir, '00-test/474-pseudomodifier.mustache');
   pseudoPattern.template = fs.readFileSync(patterns_dir + '00-test/474-pseudomodifier.mustache', 'utf8');
   pseudoPattern.extendedTemplate = atomPattern.template;
   pseudoPattern.stylePartials = pseudoPattern.findPartialsWithStyleModifiers(pseudoPattern);

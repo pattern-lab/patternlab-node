@@ -2,7 +2,7 @@
   "paths" : {
     "source" : {
       "root": "./source/",
-      "patterns" : "./source/_patterns/",
+      "patterns" : ["./source/_patterns/"],
       "data" : "./source/_data/",
       "styleguide" : "./core/styleguide/",
       "patternlabFiles" : "./core/",

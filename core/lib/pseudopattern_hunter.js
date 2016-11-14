@@ -44,7 +44,7 @@ var pseudopattern_hunter = function () {
 
         var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
         var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
-        var patternVariant = Pattern.create(variantFilePath, variantFileData, {
+        var patternVariant = Pattern.create(currentPattern.sourceDir, variantFilePath, variantFileData, {
           //use the same template as the non-variant
           template: currentPattern.template,
           fileExtension: currentPattern.fileExtension,

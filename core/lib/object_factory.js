@@ -11,13 +11,14 @@ var patternPrefixMatcher = /^_?(\d+-)?/;
 
 // Pattern properties
 
-var Pattern = function (relPath, data, patternlab) {
+var Pattern = function (sourcePath, relPath, data, patternlab) {
   // We expect relPath to be the path of the pattern template, relative to the
   // root of the pattern tree. Parse out the path parts and save the useful ones.
   var pathObj = path.parse(path.normalize(relPath));
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name;     // '00-colors'
   this.subdir = pathObj.dir;        // '00-atoms/00-global'
+  this.sourcePath = sourcePath;        // 'source/_patterns/'
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
@@ -140,15 +141,15 @@ Pattern.prototype = {
 // factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
 Pattern.createEmpty = function (customProps, patternlab) {
-  var pattern = new Pattern('', null, patternlab);
+  var pattern = new Pattern('', '', null, patternlab);
   return extend(pattern, customProps);
 };
 
 // factory: creates an Pattern object on-demand from a hash; the hash accepts
 // parameters that replace the positional parameters that the Pattern
 // constructor takes.
-Pattern.create = function (relPath, data, customProps, patternlab) {
-  var newPattern = new Pattern(relPath || '', data || null, patternlab);
+Pattern.create = function (sourcePath, relPath, data, customProps, patternlab) {
+  var newPattern = new Pattern(sourcePath || '', relPath || '', data || null, patternlab);
   return extend(newPattern, customProps);
 };
 

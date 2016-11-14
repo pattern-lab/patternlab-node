@@ -7,6 +7,7 @@ var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var eol = require('os').EOL;
+var testPatternsPath;
 
 // don't run these tests unless twig is installed
 var engineLoader = require('../core/lib/pattern_engines');
@@ -37,7 +38,7 @@ function fakePatternLab() {
 
   // patch the pattern source so the pattern assembler can correctly determine
   // the "subdir"
-  fpl.config.paths.source.patterns = './test/files/_twig-test-patterns';
+  testPatternsPath = fpl.config.paths.source.patterns = './test/files/_twig-test-patterns';
 
   return fpl;
 }
@@ -51,6 +52,7 @@ function testFindPartials(test, partialTests) {
   // docs on partial syntax are here:
   // http://patternlab.io/docs/pattern-including.html
   var currentPattern = Pattern.create(
+    testPatternsPath,
     '01-molecules/00-testing/00-test-mol.twig', // relative path now
     null, // data
     {
@@ -79,8 +81,8 @@ tap.test('button twig pattern renders', function (test) {
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
-  assembler.process_pattern_recursive(patternPath, patternlab);
+  var helloWorldPattern = assembler.process_pattern_iterative(testPatternsPath, patternPath, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, patternPath, patternlab);
 
   test.equals(helloWorldPattern.render(), expectedValue);
   test.end();
@@ -101,12 +103,12 @@ tap.test('media object twig pattern can see the atoms-button and atoms-image par
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  assembler.process_pattern_iterative(buttonPatternPath, patternlab);
-  assembler.process_pattern_iterative(imagePatternPath, patternlab);
-  var mediaObjectPattern = assembler.process_pattern_iterative(mediaObjectPatternPath, patternlab);
-  assembler.process_pattern_recursive(buttonPatternPath, patternlab);
-  assembler.process_pattern_recursive(imagePatternPath, patternlab);
-  assembler.process_pattern_recursive(mediaObjectPatternPath, patternlab);
+  assembler.process_pattern_iterative(testPatternsPath, buttonPatternPath, patternlab);
+  assembler.process_pattern_iterative(testPatternsPath, imagePatternPath, patternlab);
+  var mediaObjectPattern = assembler.process_pattern_iterative(testPatternsPath, mediaObjectPatternPath, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, buttonPatternPath, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, imagePatternPath, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, mediaObjectPatternPath, patternlab);
 
   // test
   // this pattern is too long - so just remove line endings on both sides and compare output
@@ -130,8 +132,8 @@ tap.test('twig partials can render JSON values', {skip: true}, function (test) {
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  var helloWorldWithData = assembler.process_pattern_iterative(pattern1Path, patternlab);
-  assembler.process_pattern_recursive(pattern1Path, patternlab);
+  var helloWorldWithData = assembler.process_pattern_iterative(testPatternsPath, pattern1Path, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, pattern1Path, patternlab);
 
   // test
   test.equals(helloWorldWithData.render(), 'Hello world!\nYeah, we got the subtitle from the JSON.\n');
@@ -160,10 +162,10 @@ tap.test('twig partials use the JSON environment from the calling pattern and ca
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  var atom = assembler.process_pattern_iterative(atomPath, patternlab);
-  var mol = assembler.process_pattern_iterative(molPath, patternlab);
-  assembler.process_pattern_recursive(atomPath, patternlab);
-  assembler.process_pattern_recursive(molPath, patternlab);
+  var atom = assembler.process_pattern_iterative(testPatternsPath, atomPath, patternlab);
+  var mol = assembler.process_pattern_iterative(testPatternsPath, molPath, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, atomPath, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, molPath, patternlab);
 
   // test
   test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>\nThis is Hello world!\nfrom the default JSON.\n\n\n<h2>Call with passed parameter:</h2>\nHowever, this is Hello world!\nfrom a totally different blob.\n\n');

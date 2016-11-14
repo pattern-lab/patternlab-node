@@ -50,6 +50,7 @@ function testFindPartials(test, partialTests) {
   // docs on partial syntax are here:
   // http://patternlab.io/docs/pattern-including.html
   var currentPattern = Pattern.create(
+    testPatternsPath,
     '01-molecules/00-testing/00-test-mol.mustache', // relative path now
     null, // data
     {
@@ -76,6 +77,7 @@ function testFindPartialsWithStyleModifiers(test, partialTests) {
   // docs on partial syntax are here:
   // http://patternlab.io/docs/pattern-including.html
   var currentPattern = Pattern.create(
+    testPatternsPath,
     '01-molecules/00-testing/00-test-mol.mustache', // relative path now
     null, // data
     {
@@ -102,6 +104,7 @@ function testFindPartialsWithPatternParameters(test, partialTests) {
   // docs on partial syntax are here:
   // http://patternlab.io/docs/pattern-including.html
   var currentPattern = Pattern.create(
+    testPatternsPath,
     '01-molecules/00-testing/00-test-mol.mustache', // relative path now
     null, // data
     {

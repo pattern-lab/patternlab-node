@@ -240,13 +240,13 @@ var pattern_assembler = function () {
     addPattern(pattern, patternlab);
   }
 
-  function processPatternIterative(relPath, patternlab) {
+  function processPatternIterative(sourcePath, relPath, patternlab) {
 
     var relativeDepth = relPath.match(/\w(?=\\)|\w(?=\/)/g || []).length;
     if (relativeDepth > 2) {
       console.log('');
       plutils.logOrange('Warning:');
-      plutils.logOrange('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
+      plutils.logOrange('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + sourcePath + '.');
       plutils.logOrange('It\'s strongly suggested to not deviate from the following structure under _patterns/');
       plutils.logOrange('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
       console.log('');
@@ -264,7 +264,7 @@ var pattern_assembler = function () {
         if (proposedDirectoryStats.isDirectory()) {
           var subTypeMarkdownFileContents = fs.readFileSync(proposedDirectory + '.md', 'utf8');
           var subTypeMarkdown = markdown_parser.parse(subTypeMarkdownFileContents);
-          var subTypePattern = new Pattern(relPath, null, patternlab);
+          var subTypePattern = new Pattern(sourcePath, relPath, null, patternlab);
           subTypePattern.patternSectionSubtype = true;
           subTypePattern.patternLink = subTypePattern.name + '/index.html';
           subTypePattern.patternDesc = subTypeMarkdown.markdown;
@@ -295,7 +295,7 @@ var pattern_assembler = function () {
     if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
 
     //make a new Pattern Object
-    var currentPattern = new Pattern(relPath, null, patternlab);
+    var currentPattern = new Pattern(sourcePath, relPath, null, patternlab);
 
     //if file is named in the syntax for variants
     if (patternEngines.isPseudoPatternJSON(filename)) {
@@ -372,7 +372,7 @@ var pattern_assembler = function () {
     return currentPattern;
   }
 
-  function processPatternRecursive(file, patternlab) {
+  function processPatternRecursive(sourcePath, file, patternlab) {
 
     //find current pattern in patternlab object using var file as a partial
     var currentPattern, i;
@@ -421,7 +421,8 @@ var pattern_assembler = function () {
       }
 
       //recurse through nested partials to fill out this extended template.
-      processPatternRecursive(partialPath, patternlab);
+      console.log('currentPattern', currentPattern.sourcePath)
+      processPatternRecursive(currentPattern.sourcePath, partialPath, patternlab);
 
       //complete assembly of extended template
       //create a copy of the partial so as to not pollute it after the getPartial call.
@@ -533,11 +534,11 @@ var pattern_assembler = function () {
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
     },
-    process_pattern_iterative: function (file, patternlab) {
-      return processPatternIterative(file, patternlab);
+    process_pattern_iterative: function (sourcePath, file, patternlab) {
+      return processPatternIterative(sourcePath, file, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, additionalData) {
-      processPatternRecursive(file, patternlab, additionalData);
+    process_pattern_recursive: function (sourcePath, file, patternlab, additionalData) {
+      processPatternRecursive(sourcePath, file, patternlab, additionalData);
     },
     getPartial: function (partial, patternlab) {
       return getPartial(partial, patternlab);
