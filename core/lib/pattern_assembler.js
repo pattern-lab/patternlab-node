@@ -151,7 +151,7 @@ var pattern_assembler = function () {
   function parsePatternMarkdown(currentPattern, patternlab) {
 
     try {
-      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
+      var markdownFileName = path.resolve(currentPattern.sourcePath, currentPattern.subdir, currentPattern.fileName + ".md");
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
@@ -259,7 +259,7 @@ var pattern_assembler = function () {
     var fileObject = path.parse(relPath);
     if (fileObject.ext === '.md') {
       try {
-        var proposedDirectory = path.resolve(patternlab.config.paths.source.patterns, fileObject.dir, fileObject.name);
+        var proposedDirectory = path.resolve(sourcePath, fileObject.dir, fileObject.name);
         var proposedDirectoryStats = fs.statSync(proposedDirectory);
         if (proposedDirectoryStats.isDirectory()) {
           var subTypeMarkdownFileContents = fs.readFileSync(proposedDirectory + '.md', 'utf8');
@@ -289,7 +289,7 @@ var pattern_assembler = function () {
     //extract some information
     var filename = fileObject.base;
     var ext = fileObject.ext;
-    var patternsPath = patternlab.config.paths.source.patterns;
+    var patternsPath = sourcePath;
 
     // skip non-pattern files
     if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }

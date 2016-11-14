@@ -36,7 +36,7 @@ function buildPatternData(dataFilesPath, fsDep) {
 // from unit tests to reduce code dupe!
 function processAllPatternsIterative(pattern_assembler, patterns_dirs, patternlab) {
   var dirs = patterns_dirs;
-  if (!(patterns_dirs instanceof Array)) {
+  if (!Array.isArray(patterns_dirs)) {
     dirs = [patterns_dirs];
   }
   dirs.forEach(function (patterns_dir) {
@@ -57,7 +57,7 @@ function processAllPatternsIterative(pattern_assembler, patterns_dirs, patternla
 
 function processAllPatternsRecursive(pattern_assembler, patterns_dirs, patternlab) {
   var dirs = patterns_dirs;
-  if (!(patterns_dirs instanceof Array)) {
+  if (!Array.isArray(patterns_dirs)) {
     dirs = [patterns_dirs];
   }
   dirs.forEach(function (patterns_dir) {
