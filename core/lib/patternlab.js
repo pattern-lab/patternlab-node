@@ -11,6 +11,7 @@
 "use strict";
 
 var diveSync = require('diveSync'),
+  dive = require('dive'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
@@ -34,18 +35,35 @@ function buildPatternData(dataFilesPath, fsDep) {
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
 // from unit tests to reduce code dupe!
-function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
-  diveSync(
-    patterns_dir,
-    function (err, file) {
-      //log any errors
-      if (err) {
-        console.log(err);
-        return;
+function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab){
+  return new Promise(function (resolve, reject) {
+    dive(
+      patterns_dir,
+      (err, file) => {
+        //log any errors
+        if (err) {
+          console.log('error in processAllPatternsIterative():', err);
+          return;
+        }
+
+        // We now have the loading and process phases spearated; this
+        // loads all the patterns before beginning any analysis, so we
+        // can load them asynchronously and be sure we know about all
+        // of them before we start lineage hunting, for
+        // example. Incidentally, this should also allow people to do
+        // horrifying things like include a page in a atom. But
+        // please, if you're reading this: don't.
+        pattern_assembler.load_pattern_iterative(path.relative(patterns_dir, file), patternlab);
+      }, () => {
+        // This is the second phase: once we've loaded all patterns,
+        // start analysis.
+        patternlab.patterns.forEach((pattern) => {
+          pattern_assembler.process_pattern_iterative(pattern, patternlab);
+        });
+        resolve();
       }
-      pattern_assembler.process_pattern_iterative(path.relative(patterns_dir, file), patternlab);
-    }
-  );
+    );
+  });
 }
 
 function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
@@ -124,6 +142,7 @@ function PatternLabEventEmitter() {
   EventEmitter.call(this);
 }
 inherits(PatternLabEventEmitter, EventEmitter);
+
 
 var patternlab_engine = function (config) {
   'use strict';
@@ -320,84 +339,7 @@ var patternlab_engine = function (config) {
     outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
   }
 
-  function buildPatterns(deletePatternDir) {
-
-    patternlab.events.emit('patternlab-build-pattern-start', patternlab);
-
-    try {
-      patternlab.data = buildPatternData(paths.source.data, fs);
-    } catch (ex) {
-      plutils.logRed('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
-      patternlab.data = {};
-    }
-    try {
-      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    } catch (ex) {
-      plutils.logOrange('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
-      patternlab.listitems = {};
-    }
-    try {
-      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.mustache'), 'utf8');
-      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.mustache'), 'utf8');
-      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.mustache'), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.mustache'), 'utf8');
-      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
-    } catch (ex) {
-      console.log(ex);
-      plutils.logRed('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
-      process.exit(1);
-    }
-    patternlab.patterns = [];
-    patternlab.subtypePatterns = {};
-    patternlab.partials = {};
-    patternlab.data.link = {};
-
-    setCacheBust();
-
-    pattern_assembler.combine_listItems(patternlab);
-
-    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
-
-    // diveSync once to perform iterative populating of patternlab object
-    processAllPatternsIterative(pattern_assembler, paths.source.patterns, patternlab);
-
-    patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
-
-    //diveSync again to recursively include partials, filling out the
-    //extendedTemplate property of the patternlab.patterns elements
-    processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
-
-    //take the user defined head and foot and process any data and patterns that apply
-    processHeadPattern();
-    processFootPattern();
-
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
-
-    //cascade any patternStates
-    lineage_hunter.cascade_pattern_states(patternlab);
-
-    //delete the contents of config.patterns.public before writing
-    if (deletePatternDir) {
-      fs.removeSync(paths.public.patterns);
-      fs.emptyDirSync(paths.public.patterns);
-    }
-
-    //set pattern-specific header if necessary
-    var head;
-    if (patternlab.userHead) {
-      head = patternlab.userHead;
-    } else {
-      head = patternlab.header;
-    }
-
-    //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
-      cacheBuster: patternlab.cacheBuster
-    });
-
-    //render all patterns last, so lineageR works
+  function renderAllPatterns(head) {
     patternlab.patterns.forEach(function (pattern) {
 
       if (!pattern.isPattern) {
@@ -444,7 +386,7 @@ var patternlab_engine = function (config) {
         patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
         patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
         patternBreadcrumb:
-          pattern.patternGroup === pattern.patternSubGroup ?
+        pattern.patternGroup === pattern.patternSubGroup ?
           {
             patternType: pattern.patternGroup
           } : {
@@ -487,9 +429,92 @@ var patternlab_engine = function (config) {
 
       return true;
     });
+  }
 
-    //export patterns if necessary
-    pattern_exporter.export_patterns(patternlab);
+
+  function buildPatterns(deletePatternDir) {
+    patternlab.events.emit('patternlab-build-pattern-start', patternlab);
+
+    try {
+      patternlab.data = buildPatternData(paths.source.data, fs);
+    } catch (ex) {
+      plutils.logRed('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      patternlab.data = {};
+    }
+    try {
+      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    } catch (ex) {
+      plutils.logOrange('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      patternlab.listitems = {};
+    }
+    try {
+      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.mustache'), 'utf8');
+      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.mustache'), 'utf8');
+      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.mustache'), 'utf8');
+      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.mustache'), 'utf8');
+      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
+    } catch (ex) {
+      console.log(ex);
+      plutils.logRed('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      process.exit(1);
+    }
+    patternlab.patterns = [];
+    patternlab.subtypePatterns = {};
+    patternlab.partials = {};
+    patternlab.data.link = {};
+
+    setCacheBust();
+
+    pattern_assembler.combine_listItems(patternlab);
+
+    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
+
+    // diveSync once to perform iterative populating of patternlab object
+    return processAllPatternsIterative(pattern_assembler, paths.source.patterns, patternlab).then(() => {
+      patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
+
+      //diveSync again to recursively include partials, filling out the
+      //extendedTemplate property of the patternlab.patterns elements
+      processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
+
+      //take the user defined head and foot and process any data and patterns that apply
+      processHeadPattern();
+      processFootPattern();
+
+      //now that all the main patterns are known, look for any links that might be within data and expand them
+      //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+      pattern_assembler.parse_data_links(patternlab);
+
+      //cascade any patternStates
+      lineage_hunter.cascade_pattern_states(patternlab);
+
+      //delete the contents of config.patterns.public before writing
+      if (deletePatternDir) {
+        fs.removeSync(paths.public.patterns);
+        fs.emptyDirSync(paths.public.patterns);
+      }
+
+      //set pattern-specific header if necessary
+      var head;
+      if (patternlab.userHead) {
+        head = patternlab.userHead;
+      } else {
+        head = patternlab.header;
+      }
+
+      //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+      patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
+        cacheBuster: patternlab.cacheBuster
+      });
+
+      //render all patterns last, so lineageR works
+      renderAllPatterns(head);
+
+      //export patterns if necessary
+      pattern_exporter.export_patterns(patternlab);
+    }).catch((err) => {
+      console.log('Error in buildPatterns():', err);
+    });
   }
 
   return {
@@ -499,14 +524,15 @@ var patternlab_engine = function (config) {
     build: function (callback, deletePatternDir) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
-        return;
+        return Promise.resolve();
       }
       patternlab.isBusy = true;
-      buildPatterns(deletePatternDir);
-      new ui().buildFrontend(patternlab);
-      printDebug();
-      patternlab.isBusy = false;
-      callback();
+      return buildPatterns(deletePatternDir).then(() => {
+        new ui().buildFrontend(patternlab);
+        printDebug();
+        patternlab.isBusy = false;
+        callback();
+      });
     },
     help: function () {
       help();
@@ -514,13 +540,14 @@ var patternlab_engine = function (config) {
     patternsonly: function (callback, deletePatternDir) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
-        return;
+        return Promise.resolve();
       }
       patternlab.isBusy = true;
-      buildPatterns(deletePatternDir);
-      printDebug();
-      patternlab.isBusy = false;
-      callback();
+      return buildPatterns(deletePatternDir).then(() => {
+        printDebug();
+        patternlab.isBusy = false;
+        callback();
+      });
     },
     liststarterkits: function () {
       return listStarterkits();

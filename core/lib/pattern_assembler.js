@@ -1,7 +1,7 @@
 "use strict";
 
 var path = require('path'),
-  fs = require('fs-extra'),
+  fs = require('fs-promise'),
   Pattern = require('./object_factory').Pattern,
   pph = require('./pseudopattern_hunter'),
   mp = require('./markdown_parser'),
@@ -14,6 +14,7 @@ var path = require('path'),
   JSON5 = require('json5');
 
 var markdown_parser = new mp();
+var pseudopattern_hunter = new pph();
 
 var pattern_assembler = function () {
   // HELPER FUNCTIONS
@@ -45,6 +46,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
+    console.trace("Here I am!");
     plutils.logOrange('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
     return undefined;
   }
@@ -240,7 +242,9 @@ var pattern_assembler = function () {
     addPattern(pattern, patternlab);
   }
 
-  function processPatternIterative(relPath, patternlab) {
+  // loads a pattern from disk, creates a Pattern object from it and
+  // all its associated files, and records it in patternlab.patterns[]
+  function loadPatternIterative(relPath, patternlab) {
 
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
@@ -284,7 +288,6 @@ var pattern_assembler = function () {
 
     }
 
-    var pseudopattern_hunter = new pph();
 
     //extract some information
     var filename = fileObject.base;
@@ -357,19 +360,23 @@ var pattern_assembler = function () {
     //add the raw template to memory
     currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
 
-    //find any stylemodifiers that may be in the current pattern
-    currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
-
-    //find any pattern parameters that may be in the current pattern
-    currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
-
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
 
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-
     return currentPattern;
+  }
+
+  // This is now solely for analysis; loading of the pattern file is
+  // above, in loadPatternIterative()
+  function processPatternIterative(pattern, patternlab) {
+    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
+    pseudopattern_hunter.find_pseudopatterns(pattern, patternlab);
+
+    //find any stylemodifiers that may be in the current pattern
+    pattern.stylePartials = pattern.findPartialsWithStyleModifiers();
+
+    //find any pattern parameters that may be in the current pattern
+    pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
   }
 
   function processPatternRecursive(file, patternlab) {
@@ -533,8 +540,11 @@ var pattern_assembler = function () {
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
     },
-    process_pattern_iterative: function (file, patternlab) {
-      return processPatternIterative(file, patternlab);
+    load_pattern_iterative: function (file, patternlab) {
+      return loadPatternIterative(file, patternlab);
+    },
+    process_pattern_iterative: function (pattern, patternlab) {
+      return processPatternIterative(pattern, patternlab);
     },
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);
