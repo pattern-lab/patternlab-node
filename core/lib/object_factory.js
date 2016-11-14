@@ -17,7 +17,7 @@ var Pattern = function (relPath, data, patternlab) {
   var pathObj = path.parse(path.normalize(relPath));
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name;     // '00-colors'
-  this.subdir = pathObj.dir;        // '00-atoms/00-global'
+  this.subdir = pathObj.dir.replace('\\', '/');        // '00-atoms/00-global'
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
