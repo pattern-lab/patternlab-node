@@ -36,6 +36,8 @@ function buildPatternData(dataFilesPath, fsDep) {
 // GTP: these two diveSync pattern processors factored out so they can be reused
 // from unit tests to reduce code dupe!
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab){
+  const async = require('async');
+
   return new Promise(function (resolve, reject) {
     dive(
       patterns_dir,
@@ -57,8 +59,12 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
       }, () => {
         // This is the second phase: once we've loaded all patterns,
         // start analysis.
-        patternlab.patterns.forEach((pattern) => {
+        // patternlab.patterns.forEach((pattern) => {
+        //   pattern_assembler.process_pattern_iterative(pattern, patternlab);
+        // });
+        async.each(patternlab.patterns, (pattern, done) => {
           pattern_assembler.process_pattern_iterative(pattern, patternlab);
+          done();
         });
         resolve();
       }

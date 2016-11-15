@@ -4,6 +4,7 @@
   "version": "2.6.2",
   "main": "./core/lib/patternlab.js",
   "dependencies": {
+    "async": "^2.1.2",
     "dive": "^0.5.0",
     "diveSync": "^0.3.0",
     "fs-extra": "^0.30.0",
