@@ -1,6 +1,6 @@
 'use strict';
 
-const copy = require('./utils').copy;
+const copy = require('./utils').copyWithPattern;
 const debug = require('./utils').debug;
 const wrapAsync = require('./utils').wrapAsync;
 

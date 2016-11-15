@@ -16,7 +16,7 @@
     "child-process-promise": "2.2.0",
     "colors": "1.1.2",
     "commander": "2.9.0",
-    "fs-extra": "1.0.0",
+    "fs-promise": "1.0.0",
     "glob": "7.1.1",
     "inquirer": "1.2.3",
     "lodash": "4.17.1",

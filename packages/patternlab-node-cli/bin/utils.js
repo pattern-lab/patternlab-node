@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs-extra');
+const fs = require('fs-promise');
 const spawn = require('child-process-promise').spawn;
 const glob = require('glob');
 const path = require('path');
@@ -66,18 +66,18 @@ const asyncGlob = (pattern, opts) => new Promise(
 );
 
 /**
- * @func copy
- * @desc Copies multiple files snychronously from one dir to another according to a glob pattern specified
+ * @func copyWithPattern
+ * @desc Copies multiple files asynchronously from one dir to another according to a glob pattern specified
  * @param  {string} cwd - The path to search for file(s) at
  * @param  {string} pattern - A glob pattern to match the file(s)
  * @param  {string} dest - The destination dir path
  * @return {Promise}
  */
-const copy = (cwd, pattern, dest) => wrapAsync(function*() {
+const copyWithPattern = (cwd, pattern, dest) => wrapAsync(function*() {
 	const files = yield asyncGlob(pattern, {cwd: cwd});
 	if (files.length === 0) debug('patternlab→util→copy: Nothing to copy');
 	// Copy concurrently
-	const promises = files.map(file => copyAsync(
+	const promises = files.map(file => fs.copy(
 		path.join(cwd, file),
 		path.join(dest, file))
 	);
@@ -126,57 +126,13 @@ const checkAndInstallPackage = (packageName, url) => wrapAsync(function*() {
  */
 const noop = () => {};
 
-/**
- * Promisified helper functions based on fs-extra
- * 1. copyAsync
- * 2. mkdirsAsync
- * 3. moveAsync
- * 4. writeJsonAsync
- * 5. readJsonAsync
- */
-
-const copyAsync = (src, target) => new Promise((resolve, reject) => {
-	fs.copy(src, target, function (err) {
-		if (err) return reject(err);
-		return resolve();
-	})
-});
-
-const mkdirsAsync = dir => new Promise((resolve, reject) => {
-	fs.mkdirs(dir, function (err) {
-		if (err) return reject(err);
-		return resolve();
-	})
-});
-
-const moveAsync = (dir, target) => new Promise((resolve, reject) => {
-	fs.move(dir, target, function (err) {
-		if (err) return reject(err);
-		return resolve();
-	})
-});
-
-const writeJsonAsync = (file, data) => new Promise((resolve, reject) => {
-	fs.outputJson(file, data, function (err) {
-		if (err) return reject(err);
-		return resolve();
-	});
-});
-
-const readJsonAsync = file => new Promise((resolve, reject) => {
-	fs.readJson(file, function (err, data) {
-		if (err) return reject(err);
-		return resolve(data);
-	});
-});
-
 module.exports = {
-	copy,
-	copyAsync,
-	mkdirsAsync,
-	moveAsync,
-	writeJsonAsync,
-	readJsonAsync,
+	copyWithPattern,
+	copyAsync: fs.copy,
+	mkdirsAsync: fs.mkdirs,
+	moveAsync: fs.move,
+	writeJsonAsync: fs.outputJson,
+	readJsonAsync: fs.readJson,
 	error,
 	debug,
 	wrapAsync,

@@ -6,7 +6,7 @@
 Coming soon …
 
 ## Usage
-```bash
+```
 Usage: patternlab <cmd> [options]
 	Commands:
 		build|compile [options]   Build the PatternLab. Optionally (re-)build only the patterns
@@ -20,7 +20,7 @@ Usage: patternlab <cmd> [options]
 		-c, --config <path>       Specify config file. Default looks up the project dir
 ```
 ## Examples
-```bash
+```
     $ patternlab init # Initialize a PatternLab project.
     $ patternlab <cmd> # Builds the PatternLab from the current dir
     $ patternlab <cmd> --config <path/to/patternlab-config> # PatternLab from a config in a specified directory

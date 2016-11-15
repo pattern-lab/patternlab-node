@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs-extra');
+const fs = require('fs-promise');
 const path = require('path');
 const Archiver = require('archiver');
 const isValidConfig = require('./is_valid_config');
