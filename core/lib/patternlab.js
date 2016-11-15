@@ -38,7 +38,7 @@ function buildPatternData(dataFilesPath, fsDep) {
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab){
   const async = require('async');
 
-  return new Promise(function (resolve, reject) {
+  const promiseAllPatternFiles = new Promise(function (resolve, reject) {
     dive(
       patterns_dir,
       (err, file) => {
@@ -55,20 +55,22 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
         // example. Incidentally, this should also allow people to do
         // horrifying things like include a page in a atom. But
         // please, if you're reading this: don't.
+
+        // NOTE: sync for now
         pattern_assembler.load_pattern_iterative(path.relative(patterns_dir, file), patternlab);
-      }, () => {
-        // This is the second phase: once we've loaded all patterns,
-        // start analysis.
-        // patternlab.patterns.forEach((pattern) => {
-        //   pattern_assembler.process_pattern_iterative(pattern, patternlab);
-        // });
-        async.each(patternlab.patterns, (pattern, done) => {
-          pattern_assembler.process_pattern_iterative(pattern, patternlab);
-          done();
-        });
-        resolve();
-      }
+      },
+      resolve
     );
+  });
+  return promiseAllPatternFiles.then(() => {
+    // This is the second phase: once we've loaded all patterns,
+    // start analysis.
+    // patternlab.patterns.forEach((pattern) => {
+    //   pattern_assembler.process_pattern_iterative(pattern, patternlab);
+    // });
+    return Promise.all(patternlab.patterns.map((pattern) => {
+      return pattern_assembler.process_pattern_iterative(pattern, patternlab);
+    }));
   });
 }
 

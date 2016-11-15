@@ -370,8 +370,6 @@ var pattern_assembler = function () {
   function processPatternIterative(pattern, patternlab) {
     //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
     return pph.find_pseudopatterns(pattern, patternlab).then(() => {
-      console.log('done with pseudopatternsfind_pseudopatterns');
-
       //find any stylemodifiers that may be in the current pattern
       pattern.stylePartials = pattern.findPartialsWithStyleModifiers();
 

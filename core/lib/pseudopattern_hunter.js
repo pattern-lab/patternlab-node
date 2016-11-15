@@ -36,14 +36,12 @@ function findpseudopatterns(currentPattern, patternlab) {
 
   return promiseGlobMatches(currentPattern, paths).then((pseudoPatterns) => {
     const promises = pseudoPatterns.map((pseudoPattern) => {
-      console.log('found pseudoPattern variant of ' + currentPattern.patternPartial);
       if (patternlab.config.debug) {
         console.log('found pseudoPattern variant of ' + currentPattern.patternPartial);
       }
 
       //we want to do everything we normally would here, except instead read the pseudoPattern data
       return fs.readJSON(path.resolve(paths.source.patterns, pseudoPattern)).then((variantFileData) => {
-        console.log('found a pseudopattern file!');
         //extend any existing data with variant data
         variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 
@@ -62,7 +60,6 @@ function findpseudopatterns(currentPattern, patternlab) {
           // use the same template engine as the non-variant
           engine: currentPattern.engine
         }, patternlab);
-        console.log('- variant name:', variantName);
 
         //process the companion markdown file if it exists
         pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);
@@ -71,7 +68,6 @@ function findpseudopatterns(currentPattern, patternlab) {
         lineage_hunter.find_lineage(patternVariant, patternlab);
 
         //add to patternlab object so we can look these up later.
-        console.log("adding pattern variant", patternVariant.verbosePartial);
         pattern_assembler.addPattern(patternVariant, patternlab);
       }).catch((err) => {
         console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
