@@ -123,6 +123,19 @@ var util = {
     if (cleanDir) {
       fs.rmdirSync(dir);
     }
+  },
+
+
+  /**
+   * Useful for reporting errors in .catch() on Promises
+   * @param {string} a message to report
+   * @returns {function} a callback to be passed to a Promise's .catch()
+   */
+  reportError: function (message) {
+    return function (err) {
+      console.log(message);
+      console.log(err);
+    };
   }
 };
 
