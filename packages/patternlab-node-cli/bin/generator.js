@@ -92,8 +92,6 @@ function replaceConfigPaths(config, projectDir, sourceDir, publicDir, exportDir)
 	const conf = _.assign({}, config);
 	_.map(conf.paths.source, (value, key) => { conf.paths.source[key] = value.replace(/^\.\/source/g, path.join(projectDir, sourceDir)) });
 	_.map(conf.paths.public, (value, key) => { conf.paths.public[key] = value.replace(/^\.\/public/g, path.join(projectDir, publicDir)) });
-	conf.styleguide = 'node_modules/styleguidekit-assets-default/dist/';
-	conf.patternlabFiles = 'node_modules/styleguidekit-mustache-default/views/';
 	conf.patternExportDirectory = path.join(projectDir, exportDir);
 	return conf;
 }

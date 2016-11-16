@@ -6,9 +6,13 @@ const patternLabMock = require('./mocks/patternlab.mock');
 // Require build and mock patternlab.build() so that we only test the build module behavior
 const build = proxyquire('../bin/build', {'patternlab-node': patternLabMock});
 const opts = {patternsOnly: true};
-tap.throws(() => { build() }, {}, 'build throws when config is empty');
-tap.throws(() => { build(123) }, {}, 'build throws when config is not of type object');
-tap.throws(() => { build(undefined, opts) }, {}, 'build --patterns-only throws when config is empty');
-tap.throws(() => { build(undefined, opts) }, {}, 'build --patterns-only throws when config is not of type object');
-tap.type(build(config), 'boolean', 'build returns a bool');
-tap.type(build(config, opts), 'boolean', 'build --patterns-only returns a bool');
+
+tap.test('Build ->', t => {
+	t.throws(() => { build() }, {}, 'throws when config is empty');
+	t.throws(() => { build(123) }, {}, 'throws when config is not of type object');
+	t.throws(() => { build(undefined, opts) }, {}, '--patterns-only throws when config is empty');
+	t.throws(() => { build(undefined, opts) }, {}, '--patterns-only throws when config is not of type object');
+	t.type(build(config), 'boolean', 'returns a bool');
+	t.type(build(config, opts), 'boolean', '--patterns-only returns a bool');
+	t.end();
+});
