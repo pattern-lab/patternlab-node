@@ -1,6 +1,6 @@
 'use strict';
 const bs = require('browser-sync').create('PatternLab');
-const htmlInjector = require("bs-html-injector");
+const htmlInjector = require('bs-html-injector');
 const path = require('path');
 const _ = require('lodash');
 const isValidConfig = require('./is_valid_config');

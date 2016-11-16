@@ -5,12 +5,24 @@ const spawn = require('child-process-promise').spawn;
 const glob = require('glob');
 const path = require('path');
 const colors = require('colors');
+const EventEmitter = require('events').EventEmitter;
 
 /**
- * @func log
- * @desc Bind console to allow shorter log func.
+ * @name log
+ * @desc tiny event-based logger
+ * @type {*}
  */
-const log = console.log.bind(console); // eslint-disable-next-line
+const log = Object.assign({
+	debug(msg) {
+		this.emit('debug', colors.green(msg));
+	},
+	info(msg) {
+		this.emit('info', msg);
+	},
+	error(msg) {
+		this.emit('error', colors.red(msg));
+	}
+}, EventEmitter.prototype);
 
 /**
  * @func debug
@@ -18,9 +30,7 @@ const log = console.log.bind(console); // eslint-disable-next-line
  * @param  {*} msg - The variadic messages to log out.
  * @return {void}
  */
-const debug = function (msg) {
-	log(colors.green(msg));
-};
+const debug = log.debug.bind(log);
 
 /**
  * @func error
@@ -28,9 +38,7 @@ const debug = function (msg) {
  * @param  {*} e - The variadic messages to log out.
  * @return {void}
  */
-const error = function (e) {
-	log(colors.red(e));
-};
+const error = log.debug.bind(log);
 
 /**
  * @func wrapAsync
@@ -135,6 +143,7 @@ module.exports = {
 	readJsonAsync: fs.readJson,
 	error,
 	debug,
+	log,
 	wrapAsync,
 	checkAndInstallPackage,
 	noop

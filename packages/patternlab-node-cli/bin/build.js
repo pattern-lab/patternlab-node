@@ -24,12 +24,12 @@ function build(config, options) {
 	if (options && options.patternsOnly) { // 1
 		debug(`patternlab→build: Building only patterns now into ${config.paths.public.root}`);
 		return patternLab.patternsonly(function () {
-			debug(`patternlab→build: Yay, your patterns were successfully built ☺`);
+			console.log(`patternlab→build: Yay, your patterns were successfully built ☺`); // eslint-disable-line
 		}, config.cleanPublic);
 	} else { // 2
 		debug(`patternlab→build: Building your project now into ${config.paths.public.root}`);
 		return patternLab.build(function () {
-			debug(`patternlab→build: Yay, your PatternLab project was successfully built ☺`);
+			console.log(`patternlab→build: Yay, your PatternLab project was successfully built ☺`); // eslint-disable-line
 		}, config.cleanPublic);
 	}
 }

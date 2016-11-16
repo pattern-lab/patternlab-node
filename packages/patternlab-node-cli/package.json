@@ -38,6 +38,10 @@
     "Node",
     "Javascript"
   ],
+  "scripts": {
+    "lint": "eslint bin/",
+    "test": "tap test/*.test.js --reporter spec"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/pattern-lab/patternlab-node-cli.git"

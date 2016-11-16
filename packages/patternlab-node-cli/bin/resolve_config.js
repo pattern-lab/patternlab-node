@@ -13,7 +13,6 @@ const wrapAsync = require('./utils').wrapAsync;
  */
 function resolveConfig(configPath) {
 	return wrapAsync(function*() {
-
 		// If config path is set but not a string
 		if (arguments.length && typeof configPath !== 'string') {
 			throw new TypeError('patternlab→resolveConfig: If configPath is set, it is expected to be of type string.');

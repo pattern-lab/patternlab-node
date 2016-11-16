@@ -93,7 +93,7 @@ function replaceConfigPaths(config, projectDir, sourceDir, publicDir, exportDir)
 	_.map(conf.paths.source, (value, key) => { conf.paths.source[key] = value.replace(/^\.\/source/g, path.join(projectDir, sourceDir)) });
 	_.map(conf.paths.public, (value, key) => { conf.paths.public[key] = value.replace(/^\.\/public/g, path.join(projectDir, publicDir)) });
 	conf.styleguide = 'node_modules/styleguidekit-assets-default/dist/';
-	conf.patternlabFiles =  'node_modules/styleguidekit-mustache-default/views/';
+	conf.patternlabFiles = 'node_modules/styleguidekit-mustache-default/views/';
 	conf.patternExportDirectory = path.join(projectDir, exportDir);
 	return conf;
 }
@@ -107,7 +107,7 @@ function replaceConfigPaths(config, projectDir, sourceDir, publicDir, exportDir)
  * @param {string} exportDir - The export root directory path.
  * @return {void}
  */
-const scaffold = (projectDir, sourceDir, publicDir, exportDir) => wrapAsync(function* () {
+const scaffold = (projectDir, sourceDir, publicDir, exportDir) => wrapAsync(function*() {
 	/**
 	 * Create mandatory files structure
 	 * 1. Create project source directory
@@ -117,7 +117,7 @@ const scaffold = (projectDir, sourceDir, publicDir, exportDir) => wrapAsync(func
 	yield Promise.all([
 		mkdirsAsync(path.resolve(projectDir, path.normalize(sourceDir))), // 1
 		mkdirsAsync(path.resolve(projectDir, path.normalize(publicDir))), // 2
-		mkdirsAsync(path.resolve(projectDir, path.normalize(exportDir))), // 3
+		mkdirsAsync(path.resolve(projectDir, path.normalize(exportDir)))  // 3
 	]);
 });
 

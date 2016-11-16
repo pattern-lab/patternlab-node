@@ -302,11 +302,11 @@ const init = options => wrapsAsync(function*() {
 		
 		// Finally :>
 		if (!edition && !starterkit) {
-			debug(`patternlab→init: You haven't picked an edition nor a starterkit. PatternLab won't work without those. Please add them manually.`)
+			console.log(`patternlab→init: You haven't picked an edition nor a starterkit. PatternLab won't work without those. Please add them manually.`); // eslint-disable-line
 		} else {
-			debug(`patternlab→init: Additional packages installed - ${edition ? 'edition: ' + edition : ''} ${starterkit ? ', starterkit: ' + starterkit.name : ''}`);
+			console.log(`patternlab→init: Additional packages installed - ${edition ? 'edition: ' + edition : ''} ${starterkit ? ', starterkit: ' + starterkit.name : ''}`); // eslint-disable-line
 		}
-		debug(`patternlab→init: Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`);
+		console.log(`patternlab→init: Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`); // eslint-disable-line
 		return true;
 	} catch (err) {
 		error(`patternlab→init: Failed to init project. ${err}`);
