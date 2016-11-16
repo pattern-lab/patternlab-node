@@ -514,15 +514,9 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
   //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
   patternlab.patterns = [
-    {
-      patternPartial: 'twitter-brad'
-    },
-    {
-      patternPartial: 'twitter-dave'
-    },
-    {
-      patternPartial: 'twitter-brian'
-    }
+    Pattern.createEmpty({ patternPartial: 'twitter-brad' }, patternlab),
+    Pattern.createEmpty({ patternPartial: 'twitter-dave' }, patternlab),
+    Pattern.createEmpty({ patternPartial: 'twitter-brian' }, patternlab)
   ];
   patternlab.data.link = {};
   patternlab.partials = {};
