@@ -4,7 +4,6 @@ const config = require('./fixtures/patternlab-config.json');
 
 tap.test('replaceConfigPaths ->', t => {
 	const newConfig = replaceConfigPaths(config, 'projectDir', 'sourceDir', 'publicDir', 'exportDir');
-	console.log(newConfig.patternExportDirectory);
 	
 	for (const k of Object.keys(newConfig.paths.source)) {
 		t.ok(/^projectDir\/sourceDir\/|^node_modules/.test(newConfig.paths.source[k]), `should be ok for newConfig.paths.source.${k}`);
