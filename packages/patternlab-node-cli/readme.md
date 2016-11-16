@@ -5,7 +5,13 @@
 ## Installation
 Coming soon …
 
-## Usage
+## Getting Started
+1. In order to use PatternLab you need to initialize a PatternLab project with `patternlab init`. The CLI will ask you some setup question and scaffold your project based on it.
+2. Build your patterns use `patternlab build`. The PatternLab CLI will assume that the `patternlab-config.json` is in the project root. Othewise specify a custom path to config with `patternlab build --config path/to/config`
+3. To view your patterns in the browser run `patternlab serve` or again specify a custom config location `patternlab serve --config path/to/config`
+4. To export your patterns in the browser run `patternlab export` or again specify a custom config location `patternlab export --config path/to/config`
+
+## API & Usage
 ```
 Usage: patternlab <cmd> [options]
 	Commands:
