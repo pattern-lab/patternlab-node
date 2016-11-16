@@ -58,6 +58,15 @@ function processPseudoPattern(patternVariant, patternlab) {
   pattern_assembler.addPattern(patternVariant, patternlab);
 }
 
+/**
+ * The only public API in this module. This will search for pseudo
+ * patterns and returns a Promise that resolves when it's done. It
+ * doesn't return anything; processPseudoPattern() just updates the
+ * global state.
+ * @param {Object} currentPattern
+ * @param {Object} patternlab
+ * @returns {Promise}
+ */
 function findPseudoPatterns(currentPattern, patternlab) {
   /* eslint-disable no-shadow */
   const paths = patternlab.config.paths;

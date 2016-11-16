@@ -3,13 +3,12 @@
 var tap = require('tap');
 
 var path = require('path');
-var pha = require('../core/lib/pseudopattern_hunter');
+var pph = require('../core/lib/pseudopattern_hunter');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 
 var fs = require('fs-extra');
 var pattern_assembler = new pa();
-var pseudopattern_hunter = new pha();
 var patterns_dir = './test/files/_patterns/';
 
 function stubPatternlab() {
@@ -27,7 +26,7 @@ function stubPatternlab() {
   pl.patterns = [];
   pl.partials = {};
   pl.config.patternStates = {};
-  pl.config.outputFileSuffixes = { rendered: ''}
+  pl.config.outputFileSuffixes = { rendered: ''};
 
   return pl;
 }
@@ -45,16 +44,14 @@ tap.test('pseudpattern found and added as a pattern', function (test) {
 
   //act
   var patternCountBefore = pl.patterns.length;
-  pseudopattern_hunter.find_pseudopatterns(atomPattern, pl);
-
-  //assert
-  test.equals(patternCountBefore + 1, pl.patterns.length);
-  test.equals(pl.patterns[1].patternPartial, 'test-styled-atom-alt');
-  test.equals(pl.patterns[1].extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '<span class="test_base {{styleModifier}}"> {{message}} </span>');
-  test.equals(JSON.stringify(pl.patterns[1].jsonFileData), JSON.stringify({"message": "alternateMessage"}));
-  test.equals(pl.patterns[1].patternLink, '00-test-03-styled-atom-alt' + path.sep + '00-test-03-styled-atom-alt.html');
-
-  test.end();
+  return pph.find_pseudopatterns(atomPattern, pl).then(() => {
+    //assert
+    test.equals(patternCountBefore + 1, pl.patterns.length);
+    test.equals(pl.patterns[1].patternPartial, 'test-styled-atom-alt');
+    test.equals(pl.patterns[1].extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '<span class="test_base {{styleModifier}}"> {{message}} </span>');
+    test.equals(JSON.stringify(pl.patterns[1].jsonFileData), JSON.stringify({"message": "alternateMessage"}));
+    test.equals(pl.patterns[1].patternLink, '00-test-03-styled-atom-alt' + path.sep + '00-test-03-styled-atom-alt.html');
+  });
 });
 
 tap.test('pseudpattern variant includes stylePartials and parameteredPartials', function (test) {
@@ -77,12 +74,10 @@ tap.test('pseudpattern variant includes stylePartials and parameteredPartials', 
   pattern_assembler.addPattern(pseudoPattern, pl);
 
   //act
-  pseudopattern_hunter.find_pseudopatterns(pseudoPattern, pl);
-
-  //assert
-  test.equals(pl.patterns[2].patternPartial, 'test-pseudomodifier-test');
-  test.equals(pl.patterns[2].stylePartials, pseudoPattern.stylePartials);
-  test.equals(pl.patterns[2].parameteredPartials, pseudoPattern.parameteredPartials);
-
-  test.end();
+  return pph.find_pseudopatterns(pseudoPattern, pl).then(() => {
+    //assert
+    test.equals(pl.patterns[2].patternPartial, 'test-pseudomodifier-test');
+    test.equals(pl.patterns[2].stylePartials, pseudoPattern.stylePartials);
+    test.equals(pl.patterns[2].parameteredPartials, pseudoPattern.parameteredPartials);
+  });
 });
