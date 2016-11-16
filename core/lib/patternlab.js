@@ -18,7 +18,8 @@ var diveSync = require('diveSync'),
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
   fs = require('fs-extra'),
-  plutils = require('./utilities');
+  plutils = require('./utilities'),
+  patternEngines = require('./pattern_engines');
 
 var EventEmitter = require('events').EventEmitter;
 
@@ -136,6 +137,8 @@ var patternlab_engine = function (config) {
     sm = require('./starterkit_manager'),
     Pattern = require('./object_factory').Pattern,
     patternlab = {};
+
+    patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
     pattern_exporter = new pe(),
