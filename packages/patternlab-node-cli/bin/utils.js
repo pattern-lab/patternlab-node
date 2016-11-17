@@ -38,7 +38,7 @@ const debug = log.debug.bind(log);
  * @param  {*} e - The variadic messages to log out.
  * @return {void}
  */
-const error = log.debug.bind(log);
+const error = log.error.bind(log);
 
 /**
  * @func wrapAsync
