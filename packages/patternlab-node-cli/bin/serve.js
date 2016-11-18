@@ -22,7 +22,6 @@ function serve(config) {
 	}
 	
 	try {
-		const sourceDir = path.resolve(config.paths.source.root);
 		const publicDir = path.resolve(config.paths.public.root);
 		
 		// The browser-sync
@@ -50,22 +49,6 @@ function serve(config) {
 				]
 			}
 		};
-		
-		/**
-		 * @func reloadCSS
-		 * @desc Calls browser-sync's reload method to tell browsers to refresh their page's CSS
-		 */
-		const reloadCSS = function () {
-			bs.reload(publicDir + '**/*.css');
-		};
-		
-		// Watch the source dir for changes and reload CSS
-		bs
-			.watch(sourceDir + '**/*', {
-				ignoreInitial: true,
-				ignored: '*.html'
-			})
-			.on('change', reloadCSS);
 		
 		// Register plugins
 		bs.use(htmlInjector, {
