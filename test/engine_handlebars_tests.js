@@ -251,13 +251,15 @@ tap.test('@partial-block template should render without throwing (@geoffp repo i
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  var atPartialBlockPattern = assembler.process_pattern_iterative(patternPath, patternlab);
-  assembler.process_pattern_recursive(patternPath, patternlab);
+  var atPartialBlockPattern = assembler.load_pattern_iterative(patternPath, patternlab);
 
-  var results = '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
-  test.equal(atPartialBlockPattern.render(), results);
-  test.end();
-})
+  return assembler.process_pattern_iterative(atPartialBlockPattern, patternlab).then(() => {
+    assembler.process_pattern_recursive(patternPath, patternlab);
+
+    var results = '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
+    test.equal(atPartialBlockPattern.render(), results);
+  });
+});
 
 tap.test('A template calling a @partial-block template should render correctly', function(test) {
   test.plan(1);
@@ -271,13 +273,19 @@ tap.test('A template calling a @partial-block template should render correctly',
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  assembler.process_pattern_iterative(pattern1Path, patternlab);
-  var callAtPartialBlockPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
-  assembler.process_pattern_recursive(pattern1Path, patternlab);
-  assembler.process_pattern_recursive(pattern2Path, patternlab);
+  const pattern1 = assembler.load_pattern_iterative(pattern1Path, patternlab);
+  const callAtPartialBlockPattern = assembler.load_pattern_iterative(pattern2Path, patternlab);
 
-  // test
-  var results = 'Hello World!' + eol + 'It worked!' + eol;
-  test.equals(callAtPartialBlockPattern.render(), results);
-  test.end();
-})
+  return Promise.all([
+    assembler.process_pattern_iterative(pattern1Path, patternlab),
+    assembler.process_pattern_iterative(pattern2Path, patternlab)
+  ]).then(() => {
+    assembler.process_pattern_recursive(pattern1Path, patternlab);
+    assembler.process_pattern_recursive(pattern2Path, patternlab);
+
+    // test
+    var results = 'Hello World!' + eol + 'It worked!' + eol;
+    test.equals(callAtPartialBlockPattern.render(), results);
+  });
+
+});
