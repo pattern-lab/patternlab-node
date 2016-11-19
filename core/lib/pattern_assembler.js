@@ -238,7 +238,7 @@ var pattern_assembler = function () {
     //add to patternlab object so we can look these up later.
     addPattern(pattern, patternlab);
 
-    return Promise.resolve();
+    return Promise.resolve(pattern);
   }
 
   /**
@@ -411,6 +411,12 @@ var pattern_assembler = function () {
   // This is now solely for analysis; loading of the pattern file is
   // above, in loadPatternIterative()
   function processPatternIterative(pattern, patternlab) {
+    if (!(pattern instanceof Pattern)) {
+      const errMessage = 'processPatternIterative() expects a Pattern object, but got ' + pattern;
+      console.log(errMessage);
+      return Promise.reject(errMessage);
+    }
+
     //look for a pseudo pattern by checking if there is a file
     //containing same name, with ~ in it, ending in .json
     return pph.find_pseudopatterns(pattern, patternlab).then(() => {
@@ -426,8 +432,6 @@ var pattern_assembler = function () {
 
   function processPatternRecursive(patternOrPath, patternlab) {
     var pattern, i;
-
-    console.log("patternOrPath = ", patternOrPath);
 
     // hold up -- were we passed a path or a pattern object?
     if (typeof patternOrPath === 'string') {
@@ -480,7 +484,6 @@ var pattern_assembler = function () {
       }
 
       //recurse through nested partials to fill out this extended template.
-      console.log("in expandPartials(), partialPath = ", partialPath);
       processPatternRecursive(partialPath, patternlab);
 
       //complete assembly of extended template
@@ -599,8 +602,8 @@ var pattern_assembler = function () {
     process_pattern_iterative: function (pattern, patternlab) {
       return processPatternIterative(pattern, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, additionalData) {
-      processPatternRecursive(file, patternlab, additionalData);
+    process_pattern_recursive: function (pathOrPattern, patternlab, additionalData) {
+      return processPatternRecursive(pathOrPattern, patternlab, additionalData);
     },
     getPartial: function (partial, patternlab) {
       return getPartial(partial, patternlab);

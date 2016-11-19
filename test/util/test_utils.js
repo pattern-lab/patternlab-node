@@ -33,5 +33,24 @@ module.exports = {
    */
   sanitized: (outputTemplate) => {
     return outputTemplate.replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\s\s+/g, ' ').trim();
+  },
+
+  loadPatterns: function (patternPaths, patternlab) {
+    const pa = require('../../core/lib/pattern_assembler');
+    const assembler = new pa();
+
+    return Promise.resolve().then(() => {
+      return Promise.all(
+        patternPaths.map(path => assembler.load_pattern_iterative(path, patternlab))
+      );
+    }).then(patterns => {
+      return Promise.all(
+        patterns.map(pattern => assembler.process_pattern_iterative(pattern, patternlab))
+      );
+    }).then(patterns => {
+      return Promise.all(
+        patterns.map(pattern => assembler.process_pattern_recursive(pattern, patternlab))
+      );
+    });
   }
 };

@@ -14,7 +14,6 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   //prepare to diveSync
   var diveSync = require('diveSync');
   var fs = require('fs-extra');
-  var pa = require('../core/lib/pattern_assembler');
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
@@ -36,11 +35,12 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab)
+  return plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab)
     .then(() => {
       //diveSync again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
-      plMain.process_all_patterns_recursive(pattern_assembler, patterns_dir, patternlab);
+      return plMain.process_all_patterns_recursive(pattern_assembler, patterns_dir, patternlab);
+    }).then(() => {
 
       //get test output for comparison
       var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
@@ -60,8 +60,6 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
       test.equals(bar, 'bar', 'bar template not as expected');
       //test that 00-foo.mustache included partial 01-bar.mustache
       test.equals(fooExtended, 'bar', 'foo includes bar');
-
-      test.end();
     })
     .catch(test.threw);
 });
@@ -102,12 +100,11 @@ tap.test('processPatternRecursive - correctly replaces all stylemodifiers when m
 
   //act
 
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '04-group.mustache', pl, {});
-
-  //assert
-  var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
-  test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-  test.end();
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '04-group.mustache', pl, {}).then(() => {
+    //assert
+    var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+    test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  }).catch(test.threw);
 });
 
 tap.test('processPatternRecursive - correctly replaces multiple stylemodifier classes on same partial', function(test) {
@@ -147,12 +144,11 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   pattern_assembler.addPattern(groupPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '10-multiple-classes-numeric.mustache', pl, {});
-
-  //assert
-  var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
-  test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-  test.end();
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '10-multiple-classes-numeric.mustache', pl, {}).then(() => {
+    //assert
+    var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
+    test.equals(groupPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  }).catch(test.threw);;
 });
 
 tap.test('processPatternRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier', function(test) {
@@ -190,12 +186,13 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   pattern_assembler.addPattern(mixedPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '06-mixed.mustache', pl, {});
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '06-mixed.mustache', pl, {}).then(() => {
+    //assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
+    var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
+    test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  }).catch(test.threw);;
 
-  //assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
-  var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
-  test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-  test.end();
+
 });
 
 tap.test('processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier  between', function(test) {
@@ -233,13 +230,12 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   pattern_assembler.addPattern(bookendPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '09-bookend.mustache', pl, {});
-
-  //assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
-  var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
-  var actualValue = bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ');
-  test.equals(actualValue.trim(), expectedValue.trim(), 'actual value:\n' + actualValue + '\nexpected value:\n' + expectedValue);
-  test.end();
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '09-bookend.mustache', pl, {}).then(() => {
+    //assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
+    var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
+    var actualValue = bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ');
+    test.equals(actualValue.trim(), expectedValue.trim(), 'actual value:\n' + actualValue + '\nexpected value:\n' + expectedValue);
+  }).catch(test.threw);
 });
 
 tap.test('processPatternRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier and pattern parameters', function(test) {
@@ -279,12 +275,11 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   pattern_assembler.addPattern(mixedPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '07-mixed-params.mustache', pl, {});
-
-  //assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
-  var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
-  test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-  test.end();
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '07-mixed-params.mustache', pl, {}).then(() => {
+    //assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
+    var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
+    test.equals(mixedPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  }).catch(test.threw);
 });
 
 tap.test('processPatternRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier and pattern parameters between', function(test) {
@@ -324,12 +319,11 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   pattern_assembler.addPattern(bookendPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '08-bookend-params.mustache', pl, {});
-
-  //assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
-  var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
-  test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-  test.end();
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '08-bookend-params.mustache', pl, {}).then(() => {
+    //assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
+    var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
+    test.equals(bookendPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  }).catch(test.threw);
 });
 
 tap.test('processPatternRecursive - does not pollute previous patterns when a later one is found with a styleModifier', function(test) {
@@ -369,21 +363,19 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   pattern_assembler.addPattern(anotherPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '12-another-styled-atom.mustache', pl, {});
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '12-another-styled-atom.mustache', pl, {}).then(() => {
+    //assert
+    var expectedCleanValue = '<span class="test_base {{styleModifier}}"> {{message}} </span>';
+    var expectedSetValue = '<span class="test_base test_1"> {{message}} </span>';
 
-  //assert
-  var expectedCleanValue = '<span class="test_base {{styleModifier}}"> {{message}} </span>';
-  var expectedSetValue = '<span class="test_base test_1"> {{message}} </span>';
+    //this is the "atom" - it should remain unchanged
+    test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
+    test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
 
-  //this is the "atom" - it should remain unchanged
-  test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
-  test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue.trim());
-
-  // this is the style modifier pattern, which should resolve correctly
-  test.equals(anotherPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-styled-atom:test_1 }}');
-  test.equals(anotherPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
-
-  test.end();
+    // this is the style modifier pattern, which should resolve correctly
+    test.equals(anotherPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-styled-atom:test_1 }}');
+    test.equals(anotherPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
+  }).catch(test.threw);
 });
 
 tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
@@ -429,29 +421,27 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   pattern_assembler.addPattern(pagesPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '14-inception.mustache', pl, {});
+  return pattern_assembler.process_pattern_recursive('00-test' + path.sep + '14-inception.mustache', pl, {}).then(() => {
+    //assert
+    var expectedCleanValue = 'bar';
+    var expectedSetValue = 'bar';
 
-  //assert
-  var expectedCleanValue = 'bar';
-  var expectedSetValue = 'bar';
+    //this is the "atom" - it should remain unchanged
+    test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue);
+    test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue);
 
-  //this is the "atom" - it should remain unchanged
-  test.equals(atomPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue);
-  test.equals(atomPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedCleanValue);
+    //this is the "template pattern" - it should have an updated extendedTemplate but an unchanged template
+    test.equals(templatePattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-bar }}');
+    test.equals(templatePattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
 
-  //this is the "template pattern" - it should have an updated extendedTemplate but an unchanged template
-  test.equals(templatePattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-bar }}');
-  test.equals(templatePattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
-
-  //this is the "pages pattern" - it should have an updated extendedTemplate equal to the template pattern but an unchanged template
-  test.equals(pagesPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-foo }}');
-  test.equals(pagesPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
-  test.end();
+    //this is the "pages pattern" - it should have an updated extendedTemplate equal to the template pattern but an unchanged template
+    test.equals(pagesPattern.template.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), '{{> test-foo }}');
+    test.equals(pagesPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedSetValue.trim());
+  }).catch(test.threw);
 });
 
 tap.test('setState - applies any patternState matching the pattern', function(test) {
   //arrange
-  var pa = require('../core/lib/pattern_assembler');
   var pattern_assembler = new pa();
   var patternlab = {};
   patternlab.config = {};
@@ -472,7 +462,6 @@ tap.test('setState - applies any patternState matching the pattern', function(te
 
 tap.test('setState - does not apply any patternState if nothing matches the pattern', function(test) {
   //arrange
-  var pa = require('../core/lib/pattern_assembler');
   var pattern_assembler = new pa();
   var patternlab = {};
   patternlab.config = {};
@@ -494,9 +483,7 @@ tap.test('setState - does not apply any patternState if nothing matches the patt
 
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
   //arrange
-  var diveSync = require('diveSync');
   var fs = require('fs-extra');
-  var pa = require('../core/lib/pattern_assembler');
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns/';
@@ -576,6 +563,7 @@ tap.test('get_pattern_by_key - returns the fuzzy result when no others found', f
 
   //act
   var result = pattern_assembler.getPartial('character-han', patternlab);
+
   //assert
   test.equals(result, patternlab.patterns[0]);
   test.end();
@@ -599,12 +587,13 @@ tap.test('get_pattern_by_key - returns the exact key if found', function(test) {
 
   //act
   var result = pattern_assembler.getPartial('molecules-primary-nav', patternlab);
+
   //assert
   test.equals(result, patternlab.patterns[1]);
   test.end();
 });
 
-tap.test('addPattern - adds pattern extended template to patternlab partial object', function(test) {
+tap.test('addPattern - adds pattern extended template to patternlab partial object', function (test) {
   //arrange
   var pattern_assembler = new pa();
   var patternlab = {};
@@ -623,7 +612,7 @@ tap.test('addPattern - adds pattern extended template to patternlab partial obje
 
   //assert
   test.equals(patternlab.patterns.length, 1);
-  test.equals(patternlab.partials['test-bar'] != undefined, true);
+  test.equals(patternlab.partials['test-bar'] !== undefined, true);
   test.equals(patternlab.partials['test-bar'], 'barExtended');
   test.end();
 });
@@ -647,7 +636,7 @@ tap.test('addPattern - adds pattern template to patternlab partial object if ext
 
   //assert
   test.equals(patternlab.patterns.length, 1);
-  test.equals(patternlab.partials['test-bar'] != undefined, true);
+  test.equals(patternlab.partials['test-bar'] !== undefined, true);
   test.equals(patternlab.partials['test-bar'], 'bar');
   test.end();
 });
@@ -658,24 +647,13 @@ tap.test('hidden patterns can be called by their nice names', function(test){
   //arrange
   var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
   var pl = util.fakePatternLab(testPatternsPath);
-  var pattern_assembler = new pa();
 
   //act
   var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
   var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
+  const patternPaths = [hiddenPatternPath, testPatternPath];
 
-
-  return Promise.all([
-    pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl),
-    pattern_assembler.load_pattern_iterative(testPatternPath, pl)
-  ]).then((results) => {
-    return Promise.all(results.map(
-      pattern => pattern_assembler.process_pattern_iterative(pattern, pl)
-    ));
-  }).then((results) => {
-    pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
-    pattern_assembler.process_pattern_recursive(testPatternPath, pl);
-
+  return util.loadPatterns(patternPaths, pl).then(results => {
     //assert
     test.equals(util.sanitized(results[1].render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
   }).catch(test.threw);

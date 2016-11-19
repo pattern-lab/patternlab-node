@@ -22,6 +22,7 @@ function promiseGlobMatches(currentPattern, paths) {
         resolve(matches);
       }
     );
+
   });
 }
 
