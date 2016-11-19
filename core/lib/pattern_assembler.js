@@ -389,16 +389,13 @@ var pattern_assembler = function () {
     setState(currentPattern, patternlab, true);
 
     //look for a json file for this template
-    return parsePatternJSON(patternsPath, currentPattern, relPath, patternlab).then(() => {
-      //look for a listitems.json file for this template
-      return parsePatternListItemsJSON(patternsPath, currentPattern, relPath, patternlab);
-    }).then(() => {
-      //look for a markdown file for this template
-      return parsePatternMarkdown(currentPattern, patternlab);
-    }).then(() => {
-      //add the raw template to memory
-      return fs.readFile(path.resolve(patternsPath, relPath), 'utf8');
-    }).then((fileContents) => {
+    return Promise.all([
+      parsePatternJSON(patternsPath, currentPattern, relPath, patternlab),
+      parsePatternListItemsJSON(patternsPath, currentPattern, relPath, patternlab),
+      parsePatternMarkdown(currentPattern, patternlab),
+      fs.readFile(path.resolve(patternsPath, relPath), 'utf8')
+    ]).then((results) => {
+      const fileContents = results[3];
       currentPattern.template = fileContents;
 
       // add currentPattern to patternlab.patterns array
