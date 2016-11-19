@@ -32,7 +32,7 @@ tap.test('hello world underscore pattern renders', function (test) {
 
   return util.loadPatterns([patternPath], patternlab).then((patterns) => {
     test.equals(patterns[0].render(), 'Hello world!' + eol);
-  });
+  }).catch(test.threw);
 });
 
 tap.test('underscore partials can render JSON values', function (test) {
@@ -55,7 +55,7 @@ tap.test('underscore partials can render JSON values', function (test) {
   return util.loadPatterns([pattern1Path], patternlab).then(patterns => {
     // test
     test.equals(patterns[0].render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
-  });
+  }).catch(test.threw);
 });
 
 tap.test('findPartial return the ID of the partial, given a whole partial call', function (test) {
@@ -83,5 +83,5 @@ tap.test('hidden underscore patterns can be called by their nice names', functio
 
   return util.loadPatterns(patternPaths, pl).then(patterns => {
     test.equals(util.sanitized(patterns[1].render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
-  });
+  }).catch(test.threw);
 });
