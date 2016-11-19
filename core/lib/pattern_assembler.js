@@ -194,8 +194,6 @@ var pattern_assembler = function () {
         plutils.reportError('there was an error setting pattern keys after markdown parsing of the companion file for pattern ' + currentPattern.patternPartial)();
       }
     });
-
-    console.log();
   }
 
   /**
@@ -204,7 +202,8 @@ var pattern_assembler = function () {
    * @param pattern - the pattern to decompose
    * @param patternlab - global data store
    * @param ignoreLineage - whether or not to hunt for lineage for this pattern
-     */
+   * @returns {Promise}
+   */
   function decomposePattern(pattern, patternlab, ignoreLineage) {
 
     var lineage_hunter = new lh(),
@@ -238,6 +237,8 @@ var pattern_assembler = function () {
 
     //add to patternlab object so we can look these up later.
     addPattern(pattern, patternlab);
+
+    return Promise.resolve();
   }
 
   /**
@@ -423,25 +424,32 @@ var pattern_assembler = function () {
     }).catch(plutils.reportError('There was an error in processPatternIterative():'));
   }
 
-  function processPatternRecursive(file, patternlab) {
+  function processPatternRecursive(patternOrPath, patternlab) {
+    var pattern, i;
 
-    //find current pattern in patternlab object using var file as a partial
-    var currentPattern, i;
+    console.log("patternOrPath = ", patternOrPath);
 
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].relPath === file) {
-        currentPattern = patternlab.patterns[i];
+    // hold up -- were we passed a path or a pattern object?
+    if (typeof patternOrPath === 'string') {
+      // find current pattern in patternlab object using var file as a partial
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].relPath === patternOrPath) {
+          pattern = patternlab.patterns[i];
+        }
       }
+    } else {
+      // it's a pattern object!
+      pattern = patternOrPath;
     }
 
     //return if processing an ignored file
-    if (typeof currentPattern === 'undefined') { return; }
+    if (typeof pattern === 'undefined') { return Promise.resolve(); }
 
     //we are processing a markdown only pattern
-    if (currentPattern.engine === null) { return; }
+    if (pattern.engine === null) { return Promise.resolve(); }
 
     //call our helper method to actually unravel the pattern with any partials
-    decomposePattern(currentPattern, patternlab);
+    return decomposePattern(pattern, patternlab);
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -472,6 +480,7 @@ var pattern_assembler = function () {
       }
 
       //recurse through nested partials to fill out this extended template.
+      console.log("in expandPartials(), partialPath = ", partialPath);
       processPatternRecursive(partialPath, patternlab);
 
       //complete assembly of extended template
