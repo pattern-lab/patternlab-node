@@ -40,6 +40,7 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
   const async = require('async');
 
   const promiseAllPatternFiles = new Promise(function (resolve, reject) {
+    const patternFilePromises = [];
     dive(
       patterns_dir,
       (err, file) => {
@@ -58,17 +59,20 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
         // please, if you're reading this: don't.
 
         // NOTE: sync for now
-        pattern_assembler.load_pattern_iterative(path.relative(patterns_dir, file), patternlab);
+        patternFilePromises.push(pattern_assembler.load_pattern_iterative(
+          path.relative(patterns_dir, file),
+          patternlab
+        ));
       },
-      resolve
+      () => {
+        Promise.all(patternFilePromises).then(resolve);
+      }
     );
   });
+
   return promiseAllPatternFiles.then(() => {
     // This is the second phase: once we've loaded all patterns,
     // start analysis.
-    // patternlab.patterns.forEach((pattern) => {
-    //   pattern_assembler.process_pattern_iterative(pattern, patternlab);
-    // });
     return Promise.all(patternlab.patterns.map((pattern) => {
       return pattern_assembler.process_pattern_iterative(pattern, patternlab);
     }));
@@ -482,6 +486,7 @@ var patternlab_engine = function (config) {
 
     // diveSync once to perform iterative populating of patternlab object
     return processAllPatternsIterative(pattern_assembler, paths.source.patterns, patternlab).then(() => {
+      console.log('processAllPatternsIterative()');
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
       //diveSync again to recursively include partials, filling out the

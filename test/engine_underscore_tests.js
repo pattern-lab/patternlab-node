@@ -53,11 +53,11 @@ tap.test('hello world underscore pattern renders', function (test) {
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  const helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
 
-  return assembler.process_pattern_iterative(helloWorldPattern, patternlab).then(() => {
+  return assembler.load_pattern_iterative(patternPath, patternlab).then((helloWorldPattern) => {
+    return assembler.process_pattern_iterative(helloWorldPattern, patternlab);
+  }).then((helloWorldPattern) => {
     assembler.process_pattern_recursive(patternPath, patternlab);
-
     test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
   });
 });
@@ -79,8 +79,9 @@ tap.test('underscore partials can render JSON values', function (test) {
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  const helloWorldWithData = assembler.load_pattern_iterative(pattern1Path, patternlab);
-  return assembler.process_pattern_iterative(helloWorldWithData, patternlab).then(() => {
+  assembler.load_pattern_iterative(pattern1Path, patternlab).then(helloWorldWithData => {
+    return assembler.process_pattern_iterative(helloWorldWithData, patternlab);
+  }).then(helloWorldWithData => {
     assembler.process_pattern_recursive(pattern1Path, patternlab);
 
     // test
@@ -112,18 +113,18 @@ tap.test('hidden underscore patterns can be called by their nice names', functio
   var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.html');
   var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.html');
 
-  var hiddenPattern = pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl);
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
 
   return Promise.all([
-    pattern_assembler.process_pattern_iterative(hiddenPattern, pl),
-    pattern_assembler.process_pattern_iterative(testPattern, pl)
-  ]).then(() => {
+    pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl),
+    pattern_assembler.load_pattern_iterative(testPatternPath, pl)
+  ]).then((results) => {
+    return Promise.all(results.map(pattern => pattern_assembler.process_pattern_iterative(pattern, pl)));
+  }).then((results) => {
     pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
     pattern_assembler.process_pattern_recursive(testPatternPath, pl);
-
     //act
-    test.equals(util.sanitized(testPattern.render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
-    test.end();
+    test.equals(util.sanitized(results[1].render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
   });
+
 });

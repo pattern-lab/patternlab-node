@@ -14,7 +14,6 @@ if (!engineLoader.twig) {
   tap.test('Twig engine not installed, skipping tests.', function (test) {
     test.end();
   });
-  return;
 }
 
 // fake pattern lab constructor:
@@ -79,11 +78,13 @@ tap.test('button twig pattern renders', function (test) {
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  var helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
 
-  return assembler.process_pattern_iterative(patternPath, patternlab).then(() => {
+  return assembler.load_pattern_iterative(patternPath, patternlab).then(helloWorldPattern => {
+    console.log('helloWorldPattern:', helloWorldPattern);
+    return assembler.process_pattern_iterative(helloWorldPattern, patternlab);
+  }).then(helloWorldPattern => {
+    console.log('helloWorldPattern:', helloWorldPattern);
     assembler.process_pattern_recursive(patternPath, patternlab);
-
     test.equals(helloWorldPattern.render(), expectedValue);
   });
 });
@@ -103,22 +104,20 @@ tap.test('media object twig pattern can see the atoms-button and atoms-image par
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  const buttonPattern = assembler.load_pattern_iterative(buttonPatternPath, patternlab);
-  const imagePattern = assembler.load_pattern_iterative(imagePatternPath, patternlab);
-  const mediaObjectPattern = assembler.load_pattern_iterative(mediaObjectPatternPath, patternlab);
-
   return Promise.all([
-    assembler.process_pattern_iterative(buttonPattern, patternlab),
-    assembler.process_pattern_iterative(imagePattern, patternlab),
-    assembler.process_pattern_iterative(mediaObjectPattern, patternlab)
-  ]).then(() => {
+    assembler.load_pattern_iterative(buttonPatternPath, patternlab),
+    assembler.load_pattern_iterative(imagePatternPath, patternlab),
+    assembler.load_pattern_iterative(mediaObjectPatternPath, patternlab)
+  ]).then((results) => {
+    return Promise.all(results.map(pattern => assembler.process_pattern_iterative(pattern, patternlab)));
+  }).then((results) => {
     assembler.process_pattern_recursive(buttonPatternPath, patternlab);
     assembler.process_pattern_recursive(imagePatternPath, patternlab);
     assembler.process_pattern_recursive(mediaObjectPatternPath, patternlab);
 
     // test
     // this pattern is too long - so just remove line endings on both sides and compare output
-    test.equals(mediaObjectPattern.render().replace(/\r?\n|\r/gm, ""), expectedValue.replace(/\r?\n|\r/gm, ""));
+    test.equals(results[2].render().replace(/\r?\n|\r/gm, ""), expectedValue.replace(/\r?\n|\r/gm, ""));
   });
 });
 

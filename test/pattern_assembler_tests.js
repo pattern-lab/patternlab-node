@@ -664,13 +664,15 @@ tap.test('hidden patterns can be called by their nice names', function(test){
   var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
   var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
 
-  var hiddenPattern = pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl);
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
   return Promise.all([
-    pattern_assembler.process_pattern_iterative(hiddenPattern, pl),
-    pattern_assembler.process_pattern_iterative(testPattern, pl)
+    pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl),
+    pattern_assembler.load_pattern_iterative(testPatternPath, pl)
   ]).then((results) => {
+    return Promise.all(results.map(
+      pattern => pattern_assembler.process_pattern_iterative(pattern, pl)
+    ));
+  }).then((results) => {
     pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
     pattern_assembler.process_pattern_recursive(testPatternPath, pl);
 
