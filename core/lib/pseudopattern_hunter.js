@@ -11,7 +11,7 @@ const glob = require('glob'),
 function promiseGlobMatches(currentPattern, paths) {
   //look for a pseudo pattern by checking if there is a file containing same
   //name, with ~ in it, ending in .json
-  const needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
+  const needle = path.join(currentPattern.subdir, `${currentPattern.fileName}~*.json`);
 
   return new Promise((resolve, reject) => {
     glob(
@@ -28,7 +28,7 @@ function promiseGlobMatches(currentPattern, paths) {
 
 function createPseudoPatternObject(variantFileData, pattern, pseudoPattern, patternlab) {
   const variantName = pseudoPattern.substring(pseudoPattern.indexOf('~') + 1).split('.')[0];
-  const variantFilePath = path.join(pattern.subdir, pattern.fileName + '~' + variantName + '.json');
+  const variantFilePath = path.join(pattern.subdir, `${pattern.fileName}~${variantName}.json`);
 
   return Pattern.create(variantFilePath, variantFileData, {
     //use the same template as the non-variant
@@ -76,7 +76,7 @@ function findPseudoPatterns(currentPattern, patternlab) {
     .then(pseudoPatternsPaths => {
       return Promise.all(pseudoPatternsPaths.map(pseudoPatternPath => {
         if (patternlab.config.debug) {
-          console.log('found pseudoPattern variant of ' + currentPattern.patternPartial);
+          console.log(`found pseudoPattern variant of ${currentPattern.patternPartial}`);
         }
 
         // we return a Promise for each file descriptor to form an array
@@ -95,12 +95,12 @@ function findPseudoPatterns(currentPattern, patternlab) {
             processPseudoPattern(patternVariant, patternlab);
           })
           .catch(plutils.reportError(
-            'There was an error processing the pseudopattern' + pseudoPatternPath
+            `There was an error processing the pseudopattern $(pseudoPatternPath)`
           ));
       }));
     })
     .catch(plutils.reportError(
-      'There was an error parsing pseudopattern JSON for ' + currentPattern.relPath
+      `There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`
     ));
 }
 
