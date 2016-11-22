@@ -48,8 +48,11 @@ var engine_handlebars = {
     if (partials) {
       Handlebars.registerPartial(partials);
     }
-    pattern.extendedTemplate = escapeAtPartialBlock(pattern.extendedTemplate);
-    var compiled = Handlebars.compile(pattern.extendedTemplate);
+
+    var compiled = Handlebars.compile(
+      escapeAtPartialBlock(pattern.template)
+    );
+
     return compiled(data);
   },
 
