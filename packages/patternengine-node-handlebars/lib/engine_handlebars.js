@@ -30,7 +30,7 @@ const findListItemsRE = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|s
 const findAtPartialBlockRE = /{{#?>\s*@partial-block\s*}}/g;
 
 function escapeAtPartialBlock(partialString) {
-  var partial = partialString.replace(findAtPartialBlockRE, '&#123;{> @partial-block }&#125;')
+  var partial = partialString.replace(findAtPartialBlockRE, '&#123;{> @partial-block }&#125;');
   return partial;
 }
 
