@@ -17,31 +17,6 @@ if (!engineLoader.handlebars) {
   return;
 }
 
-// fake pattern lab constructor:
-// sets up a fake patternlab object, which is needed by the pattern processing
-// apparatus.
-function fakePatternLab() {
-  var fpl = {
-    partials: {},
-    patterns: [],
-    footer: '',
-    header: '',
-    listitems: {},
-    listItemArray: [],
-    data: {
-      link: {}
-    },
-    config: require('../patternlab-config.json'),
-    package: {}
-  };
-
-  // patch the pattern source so the pattern assembler can correctly determine
-  // the "subdir"
-  fpl.config.paths.source.patterns = testPatternsPath;
-
-  return fpl;
-}
-
 
 // function for testing sets of partials
 function testFindPartials(test, partialTests) {
@@ -75,7 +50,7 @@ tap.test('hello world handlebars pattern renders', function (test) {
   test.plan(1);
 
   var patternPath = path.join('00-atoms', '00-global', '00-helloworld.hbs');
-  var patternlab = new fakePatternLab();
+  var patternlab = util.fakePatternLab(testPatternsPath);
 
   return util.loadPatterns([patternPath], patternlab).then(patterns => {
     test.equals(patterns[0].render(), 'Hello world!' + eol);
@@ -91,7 +66,7 @@ tap.test('hello worlds handlebars pattern can see the atoms-helloworld partial a
   const patternPaths = [pattern1Path, pattern2Path];
 
   // set up environment
-  var patternlab = new fakePatternLab(); // environment
+  var patternlab = util.fakePatternLab(testPatternsPath); // environment
 
   return util.loadPatterns(patternPaths, patternlab).then(patterns => {
     // test
@@ -106,7 +81,7 @@ tap.test('handlebars partials can render JSON values', function (test) {
   var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld-withdata.hbs');
 
   // set up environment
-  var patternlab = new fakePatternLab(); // environment
+  var patternlab = util.fakePatternLab(testPatternsPath); // environment
 
   return util.loadPatterns([pattern1Path], patternlab).then((patterns) => {
     // test
@@ -123,7 +98,7 @@ tap.test('handlebars partials use the JSON environment from the calling pattern 
   const patternPaths = [atomPath, molPath];
 
   // set up environment
-  var patternlab = new fakePatternLab(); // environment
+  var patternlab = util.fakePatternLab(testPatternsPath); // environment
 
   return util.loadPatterns(patternPaths, patternlab).then((patterns) => {
     // test
@@ -206,7 +181,7 @@ tap.test('@partial-block template should render without throwing (@geoffp repo i
   test.plan(1);
 
   var patternPath = path.join('00-atoms', '00-global', '10-at-partial-block.hbs');
-  var patternlab = new fakePatternLab();
+  var patternlab = util.fakePatternLab(testPatternsPath);
 
   return util.loadPatterns([patternPath], patternlab).then((patterns) => {
     //act
@@ -224,7 +199,7 @@ tap.test('A template calling a @partial-block template should render correctly',
   const patternPaths = [pattern1Path, pattern2Path];
 
   // set up environment
-  var patternlab = new fakePatternLab(); // environment
+  var patternlab = util.fakePatternLab(testPatternsPath); // environment
 
   return util.loadPatterns(patternPaths, patternlab).then((patterns) => {
     // test
