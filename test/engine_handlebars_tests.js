@@ -204,6 +204,6 @@ tap.test('A template calling a @partial-block template should render correctly',
   return util.loadPatterns(patternPaths, patternlab).then((patterns) => {
     // test
     var results = 'Hello World!' + eol + 'It worked!' + eol;
-    test.equals(patterns[0].render(), results);
+    test.equals(patterns[1].render(), results);
   }).catch(test.threw);
 });
