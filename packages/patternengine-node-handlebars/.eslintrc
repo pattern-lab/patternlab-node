@@ -1,7 +1,8 @@
 {
   "env": {
     "node": true,
-    "builtin": true
+    "builtin": true,
+    "es6": true
   },
   "globals": {},
   "rules": {
