@@ -146,7 +146,7 @@ var patternlab_engine = function (config) {
     Pattern = require('./object_factory').Pattern,
     patternlab = {};
 
-    patternlab.engines = patternEngines;
+  patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
     pattern_exporter = new pe(),
