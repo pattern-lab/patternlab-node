@@ -14,13 +14,21 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
+  chalk = require('chalk'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
   fs = require('fs-extra'),
-  plutils = require('./utilities'),
-  patternEngines = require('./pattern_engines');
+  packageInfo = require('../../package.json'),
+  plutils = require('./utilities');
 
+console.log(
+  chalk.bold('\n====[ Pattern Lab / Node'),
+  `- v${packageInfo.version}`,
+  chalk.bold(']====\n')
+);
+
+var patternEngines = require('./pattern_engines');
 var EventEmitter = require('events').EventEmitter;
 
 function buildPatternData(dataFilesPath, fsDep) {
