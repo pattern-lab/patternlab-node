@@ -22,6 +22,12 @@ var diveSync = require('diveSync'),
   packageInfo = require('../../package.json'),
   plutils = require('./utilities');
 
+//register our log events
+plutils.log.on('error', msg => console.log(msg));
+plutils.log.on('debug', msg => console.log(msg));
+plutils.log.on('warning', msg => console.log(msg));
+plutils.log.on('info', msg => console.log(msg));
+
 console.log(
   chalk.bold('\n====[ Pattern Lab / Node'),
   `- v${packageInfo.version}`,
