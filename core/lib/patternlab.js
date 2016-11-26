@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.6.2 - 2016
+ * patternlab-node - v2.7.0 - 2016
  *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license.
@@ -146,7 +146,7 @@ var patternlab_engine = function (config) {
     Pattern = require('./object_factory').Pattern,
     patternlab = {};
 
-    patternlab.engines = patternEngines;
+  patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
     pattern_exporter = new pe(),
