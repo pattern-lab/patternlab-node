@@ -38,10 +38,10 @@ try {
     }
   }
 
-  u.logGreen('Pattern Lab postinstall complete.');
+  u.debug('Pattern Lab postinstall complete.');
 
 } catch (ex) {
   console.log(ex);
-  u.logOrange('An error occurred during Pattern Lab Node postinstall.');
-  u.logOrange('Pattern Lab postinstall completed with errors.');
+  u.warning('An error occurred during Pattern Lab Node postinstall.');
+  u.warning('Pattern Lab postinstall completed with errors.');
 }
