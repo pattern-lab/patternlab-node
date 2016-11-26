@@ -18,7 +18,7 @@ const log = Object.assign({
     this.emit('info', msg);
   },
   warning(msg) {
-    this.emit('warning', chalk.orange(msg));
+    this.emit('warning', chalk.yellow(msg));
   },
   error(msg) {
     this.emit('error', chalk.red(msg));
