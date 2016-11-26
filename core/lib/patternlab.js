@@ -80,9 +80,9 @@ function checkConfiguration(patternlab) {
   };
 
   if (!patternlab.config.outputFileSuffixes) {
-    plutils.logOrange('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
+    plutils.warning('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
     console.log(outputFileSuffixes);
-    plutils.logOrange('Since Pattern Lab Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+    plutils.warning('Since Pattern Lab Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
     console.log();
   }
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
@@ -171,34 +171,34 @@ var patternlab_engine = function (config) {
     console.log('');
 
     console.log('|=======================================|');
-    plutils.logGreen('     Pattern Lab Node Help v' + patternlab.package.version);
+    plutils.debug('     Pattern Lab Node Help v' + patternlab.package.version);
     console.log('|=======================================|');
 
     console.log('');
     console.log('Command Line Interface - usually consumed by an edition');
     console.log('');
 
-    plutils.logGreen(' patternlab:build');
+    plutils.debug(' patternlab:build');
     console.log('   > Compiles the patterns and frontend, outputting to config.paths.public');
     console.log('');
 
-    plutils.logGreen(' patternlab:patternsonly');
+    plutils.debug(' patternlab:patternsonly');
     console.log('   > Compiles the patterns only, outputting to config.paths.public');
     console.log('');
 
-    plutils.logGreen(' patternlab:version');
+    plutils.debug(' patternlab:version');
     console.log('   > Return the version of patternlab-node you have installed');
     console.log('');
 
-    plutils.logGreen(' patternlab:help');
+    plutils.debug(' patternlab:help');
     console.log('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
     console.log('');
 
-    plutils.logGreen(' patternlab:liststarterkits');
+    plutils.debug(' patternlab:liststarterkits');
     console.log('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
     console.log('');
 
-    plutils.logGreen(' patternlab:loadstarterkit');
+    plutils.debug(' patternlab:loadstarterkit');
     console.log('   > Load a starterkit into config.paths.source/*');
     console.log('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
     console.log('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
@@ -274,7 +274,7 @@ var patternlab_engine = function (config) {
       patternlab.userHead = headPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.logRed('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
@@ -294,7 +294,7 @@ var patternlab_engine = function (config) {
       patternlab.userFoot = footPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.logRed('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
@@ -338,13 +338,13 @@ var patternlab_engine = function (config) {
     try {
       patternlab.data = buildPatternData(paths.source.data, fs);
     } catch (ex) {
-      plutils.logRed('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       patternlab.data = {};
     }
     try {
       patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
-      plutils.logOrange('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
     try {
@@ -355,7 +355,7 @@ var patternlab_engine = function (config) {
       patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.mustache'), 'utf8');
     } catch (ex) {
       console.log(ex);
-      plutils.logRed('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
       process.exit(1);
     }
     patternlab.patterns = [];

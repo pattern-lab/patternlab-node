@@ -45,7 +45,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    plutils.logOrange('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
+    plutils.warning('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
     return undefined;
   }
 
@@ -81,7 +81,7 @@ var pattern_assembler = function () {
     if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternPartial]) {
 
       if (displayDeprecatedWarning) {
-        plutils.logRed("Deprecation Warning: Using patternlab-config.json patternStates object will be deprecated in favor of the state frontmatter key associated with individual pattern markdown files.");
+        plutils.error("Deprecation Warning: Using patternlab-config.json patternStates object will be deprecated in favor of the state frontmatter key associated with individual pattern markdown files.");
         console.log("This feature will still work in it's current form this release (but still be overridden by the new parsing method), and will be removed in the future.");
       }
 
@@ -245,13 +245,13 @@ var pattern_assembler = function () {
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
       console.log('');
-      plutils.logOrange('Warning:');
-      plutils.logOrange('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
-      plutils.logOrange('It\'s strongly suggested to not deviate from the following structure under _patterns/');
-      plutils.logOrange('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
+      plutils.warning('Warning:');
+      plutils.warning('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
+      plutils.warning('It\'s strongly suggested to not deviate from the following structure under _patterns/');
+      plutils.warning('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
       console.log('');
-      plutils.logOrange('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
-      plutils.logOrange('Read More: http://patternlab.io/docs/pattern-organization.html');
+      plutils.warning('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
+      plutils.warning('Read More: http://patternlab.io/docs/pattern-organization.html');
       console.log('');
     }
 
