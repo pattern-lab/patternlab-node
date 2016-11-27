@@ -1,0 +1,62 @@
+.blockBannerSplit {
+  margin: 0 -35px !important;
+  padding-bottom: 30px;
+  @media only screen and (max-width: $breakpointTablet) {
+    flex-direction: column;
+  }
+  .block {
+    width: 50%;
+    margin: 0 10px;
+    @media only screen and (max-width: $breakpointTablet) {
+      width: 100%;
+      margin: 0;
+    }
+    .button__area {
+      @media only screen and (max-width: $breakpointTablet) {
+        display: none;
+      }
+      color: white;
+      p {
+        padding-top: 20px;
+        @media only screen and (max-width: $breakpointTabletEnd) {
+          padding-top: 10px;
+          min-height: 62px;
+        }
+        margin-bottom: 0;
+      }
+      h1, h3 {
+        font-size: 3em;
+        text-transform: uppercase;
+        @media only screen and (max-width: $breakpointTabletEnd) {
+          font-size: 1.2em;
+        }
+      }
+    }
+    a {
+      span {
+        @media only screen and (min-width: $breakpointTablet) {
+          display: none;
+        }
+      }
+    }
+    figure {
+      .image {
+        margin-bottom: 0.975em;
+      }
+      button {
+        margin-bottom: 36px;
+      }
+      > h1, h3 {
+        text-transform: uppercase;
+      }
+      > p {
+        margin: 12px 38px;
+      }
+      > h1, > h3, > span, > p, > button {
+        @media only screen and (min-width: $breakpointTablet) {
+          display: none;
+        }
+      }
+    }
+  }
+}
