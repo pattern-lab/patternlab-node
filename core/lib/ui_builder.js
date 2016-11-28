@@ -167,7 +167,7 @@ var ui_builder = function () {
     var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if (!patternType) {
-      plutils.logRed('Could not find patternType' + pattern.patternType + '. This is a critical error.');
+      plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
       console.trace();
       process.exit(1);
     }
@@ -186,7 +186,7 @@ var ui_builder = function () {
     var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if (!patternSubType) {
-      plutils.logRed('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
+      plutils.error('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
       console.trace();
       process.exit(1);
     }
@@ -274,7 +274,7 @@ var ui_builder = function () {
   function addPatternItem(patternlab, pattern, isViewAllVariant) {
     var patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
-      plutils.logRed('Could not find patternType' + pattern.patternType + '. This is a critical error.');
+      plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
       console.trace();
       process.exit(1);
     }
