@@ -277,8 +277,8 @@ tap.test('A template calling a @partial-block template should render correctly',
   const callAtPartialBlockPattern = assembler.load_pattern_iterative(pattern2Path, patternlab);
 
   return Promise.all([
-    assembler.process_pattern_iterative(pattern1Path, patternlab),
-    assembler.process_pattern_iterative(pattern2Path, patternlab)
+    assembler.process_pattern_iterative(pattern1, patternlab),
+    assembler.process_pattern_iterative(callAtPartialBlockPattern, patternlab)
   ]).then(() => {
     assembler.process_pattern_recursive(pattern1Path, patternlab);
     assembler.process_pattern_recursive(pattern2Path, patternlab);

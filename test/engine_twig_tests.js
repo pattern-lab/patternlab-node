@@ -81,7 +81,7 @@ tap.test('button twig pattern renders', function (test) {
   var assembler = new pa();
   var helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
 
-  return assembler.process_pattern_iterative(patternPath, patternlab).then(() => {
+  return assembler.process_pattern_iterative(helloWorldPattern, patternlab).then(() => {
     assembler.process_pattern_recursive(patternPath, patternlab);
 
     test.equals(helloWorldPattern.render(), expectedValue);
