@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.6.2 - 2016
+ * patternlab-node - v2.7.0 - 2016
  *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license.
@@ -15,13 +15,21 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
+  chalk = require('chalk'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
   fs = require('fs-extra'),
-  plutils = require('./utilities'),
-  patternEngines = require('./pattern_engines');
+  packageInfo = require('../../package.json'),
+  plutils = require('./utilities');
 
+console.log(
+  chalk.bold('\n====[ Pattern Lab / Node'),
+  `- v${packageInfo.version}`,
+  chalk.bold(']====\n')
+);
+
+var patternEngines = require('./pattern_engines');
 var EventEmitter = require('events').EventEmitter;
 
 function buildPatternData(dataFilesPath, fsDep) {
@@ -165,7 +173,7 @@ var patternlab_engine = function (config) {
     Pattern = require('./object_factory').Pattern,
     patternlab = {};
 
-    patternlab.engines = patternEngines;
+  patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
     pattern_exporter = new pe(),

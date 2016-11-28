@@ -71,6 +71,7 @@ var Pattern = function (relPath, data, patternlab) {
   this.lineageR = [];
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
+  this.order = Number.MAX_SAFE_INTEGER;
   this.engine = patternEngines.getEngineForPattern(this);
 };
 
