@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.6.2 - 2016
+ * patternlab-node - v2.7.0 - 2016
  *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license.
@@ -15,13 +15,27 @@ var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
+  chalk = require('chalk'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
   fs = require('fs-extra'),
-  plutils = require('./utilities'),
-  patternEngines = require('./pattern_engines');
+  packageInfo = require('../../package.json'),
+  plutils = require('./utilities');
 
+//register our log events
+plutils.log.on('error', msg => console.log(msg));
+plutils.log.on('debug', msg => console.log(msg));
+plutils.log.on('warning', msg => console.log(msg));
+plutils.log.on('info', msg => console.log(msg));
+
+console.log(
+  chalk.bold('\n====[ Pattern Lab / Node'),
+  `- v${packageInfo.version}`,
+  chalk.bold(']====\n')
+);
+
+var patternEngines = require('./pattern_engines');
 var EventEmitter = require('events').EventEmitter;
 
 function buildPatternData(dataFilesPath, fsDep) {
@@ -106,9 +120,9 @@ function checkConfiguration(patternlab) {
   };
 
   if (!patternlab.config.outputFileSuffixes) {
-    plutils.logOrange('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
+    plutils.warning('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
     console.log(outputFileSuffixes);
-    plutils.logOrange('Since Pattern Lab Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+    plutils.warning('Since Pattern Lab Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
     console.log();
   }
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
@@ -173,7 +187,7 @@ var patternlab_engine = function (config) {
     Pattern = require('./object_factory').Pattern,
     patternlab = {};
 
-    patternlab.engines = patternEngines;
+  patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
     pattern_exporter = new pe(),
@@ -198,34 +212,34 @@ var patternlab_engine = function (config) {
     console.log('');
 
     console.log('|=======================================|');
-    plutils.logGreen('     Pattern Lab Node Help v' + patternlab.package.version);
+    plutils.debug('     Pattern Lab Node Help v' + patternlab.package.version);
     console.log('|=======================================|');
 
     console.log('');
     console.log('Command Line Interface - usually consumed by an edition');
     console.log('');
 
-    plutils.logGreen(' patternlab:build');
+    plutils.debug(' patternlab:build');
     console.log('   > Compiles the patterns and frontend, outputting to config.paths.public');
     console.log('');
 
-    plutils.logGreen(' patternlab:patternsonly');
+    plutils.debug(' patternlab:patternsonly');
     console.log('   > Compiles the patterns only, outputting to config.paths.public');
     console.log('');
 
-    plutils.logGreen(' patternlab:version');
+    plutils.debug(' patternlab:version');
     console.log('   > Return the version of patternlab-node you have installed');
     console.log('');
 
-    plutils.logGreen(' patternlab:help');
+    plutils.debug(' patternlab:help');
     console.log('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
     console.log('');
 
-    plutils.logGreen(' patternlab:liststarterkits');
+    plutils.debug(' patternlab:liststarterkits');
     console.log('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
     console.log('');
 
-    plutils.logGreen(' patternlab:loadstarterkit');
+    plutils.debug(' patternlab:loadstarterkit');
     console.log('   > Load a starterkit into config.paths.source/*');
     console.log('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
     console.log('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
@@ -301,7 +315,7 @@ var patternlab_engine = function (config) {
       patternlab.userHead = headPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.logRed('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
@@ -321,7 +335,7 @@ var patternlab_engine = function (config) {
       patternlab.userFoot = footPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.logRed('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }

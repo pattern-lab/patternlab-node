@@ -115,6 +115,7 @@ var ui_builder = function () {
     var docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
     if (docPattern) {
       docPattern.isDocPattern = true;
+      docPattern.order = -Number.MAX_SAFE_INTEGER;
       return docPattern;
     }
 
@@ -130,7 +131,8 @@ var ui_builder = function () {
         isPattern: false,
         engine: null,
         flatPatternPath: pattern.flatPatternPath,
-        isDocPattern: true
+        isDocPattern: true,
+        order: -Number.MAX_SAFE_INTEGER
       },
       patternlab
     );
@@ -165,7 +167,7 @@ var ui_builder = function () {
     var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if (!patternType) {
-      plutils.logRed('Could not find patternType' + pattern.patternType + '. This is a critical error.');
+      plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
       console.trace();
       process.exit(1);
     }
@@ -184,7 +186,7 @@ var ui_builder = function () {
     var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if (!patternSubType) {
-      plutils.logRed('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
+      plutils.error('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
       console.trace();
       process.exit(1);
     }
@@ -199,16 +201,16 @@ var ui_builder = function () {
    * @param pattern - the pattern to register
      */
   function addPatternSubType(patternlab, pattern) {
+    let newSubType = {
+      patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
+      patternSubtypeUC: pattern.patternSubGroup.charAt(0).toUpperCase() + pattern.patternSubGroup.slice(1),
+      patternSubtype: pattern.patternSubType,
+      patternSubtypeDash: pattern.patternSubGroup, //todo verify
+      patternSubtypeItems: []
+    };
     var patternType = getPatternType(patternlab, pattern);
-    patternType.patternTypeItems.push(
-      {
-        patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
-        patternSubtypeUC: pattern.patternSubGroup.charAt(0).toUpperCase() + pattern.patternSubGroup.slice(1),
-        patternSubtype: pattern.patternSubType,
-        patternSubtypeDash: pattern.patternSubGroup, //todo verify
-        patternSubtypeItems: []
-      }
-    );
+    let insertIndex = _.sortedIndexBy(patternType.patternTypeItems, newSubType, 'patternSubtype');
+    patternType.patternTypeItems.splice(insertIndex, 0, newSubType);
   }
 
   /**
@@ -230,7 +232,8 @@ var ui_builder = function () {
       patternName: pattern.patternName,
       patternState: pattern.patternState,
       patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
-      patternPath: patternPath
+      patternPath: patternPath,
+      order: pattern.order
     };
   }
 
@@ -242,23 +245,25 @@ var ui_builder = function () {
    * @param createViewAllVariant - whether or not to create the special view all item
      */
   function addPatternSubTypeItem(patternlab, pattern, createSubtypeViewAllVarient) {
-    var patternSubType = getPatternSubType(patternlab, pattern);
+    let newSubTypeItem;
+
     if (createSubtypeViewAllVarient) {
-      patternSubType.patternSubtypeItems.push(
-        {
-          patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
-          patternName: 'View All',
-          patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
-          patternType: pattern.patternType,
-          patternSubtype: pattern.patternSubtype
-        }
-      );
+      newSubTypeItem = {
+        patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
+        patternName: 'View All',
+        patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
+        patternType: pattern.patternType,
+        patternSubtype: pattern.patternSubtype,
+        order: 0
+      };
     }
     else {
-      patternSubType.patternSubtypeItems.push(
-        createPatternSubTypeItem(pattern)
-      );
+      newSubTypeItem = createPatternSubTypeItem(pattern);
     }
+
+    let patternSubType = getPatternSubType(patternlab, pattern);
+    patternSubType.patternSubtypeItems.push(newSubTypeItem);
+    patternSubType.patternSubtypeItems = _.sortBy(patternSubType.patternSubtypeItems, ['order', 'name']);
   }
 
   /**
@@ -269,7 +274,7 @@ var ui_builder = function () {
   function addPatternItem(patternlab, pattern, isViewAllVariant) {
     var patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
-      plutils.logRed('Could not find patternType' + pattern.patternType + '. This is a critical error.');
+      plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
       console.trace();
       process.exit(1);
     }
@@ -284,13 +289,15 @@ var ui_builder = function () {
         patternType.patternItems.push({
           patternPartial: 'viewall-' + pattern.patternGroup + '-all',
           patternName: 'View All',
-          patternPath: encodeURI(pattern.patternType + '/index.html')
+          patternPath: encodeURI(pattern.patternType + '/index.html'),
+          order: -Number.MAX_SAFE_INTEGER
         });
       }
 
     } else {
       patternType.patternItems.push(createPatternSubTypeItem(pattern));
     }
+    patternType.patternItems = _.sortBy(patternType.patternItems, ['order', 'name']);
   }
 
   // function getPatternItems(patternlab, patternType) {
@@ -302,19 +309,53 @@ var ui_builder = function () {
   // }
 
   /**
-   * Sorts patterns based on name.
-   * Will be expanded to use explicit order in the near future
+   * Sorts patterns based on order property found within pattern markdown, falling back on name.
    * @param patternsArray - patterns to sort
    * @returns sorted patterns
      */
   function sortPatterns(patternsArray) {
     return patternsArray.sort(function (a, b) {
 
-      if (a.name > b.name) {
+      let aOrder = parseInt(a.order, 10);
+      let bOrder = parseInt(b.order, 10);
+
+      if (aOrder === NaN) {
+        aOrder = Number.MAX_SAFE_INTEGER;
+      }
+
+      if (bOrder === NaN) {
+        aOrder = Number.MAX_SAFE_INTEGER;
+      }
+
+      //alwasy return a docPattern first
+      if (a.isDocPattern && !b.isDocPattern) {
+        return -1;
+      }
+
+      if (!a.isDocPattern && b.isDocPattern) {
         return 1;
       }
-      if (a.name < b.name) {
-        return -1;
+
+      //use old alphabetical ordering if we have nothing else to use
+      //pattern.order will be Number.MAX_SAFE_INTEGER if never defined by markdown, or markdown parsing fails
+      if (aOrder === Number.MAX_SAFE_INTEGER && bOrder === Number.MAX_SAFE_INTEGER) {
+
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -1;
+        }
+      }
+
+      //if we get this far, we can sort safely
+      if (aOrder && bOrder) {
+        if (aOrder > bOrder) {
+          return 1;
+        }
+        if (aOrder < bOrder) {
+          return -1;
+        }
       }
       return 0;
     });
@@ -330,7 +371,7 @@ var ui_builder = function () {
       patternGroups: {}
     };
 
-    _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
+    _.forEach(patternlab.patterns, function (pattern) {
 
       //ignore patterns we can omit from rendering directly
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
@@ -459,8 +500,8 @@ var ui_builder = function () {
         //render the footer needed for the viewall template
         var footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternPartial);
 
-        //render the viewall template
-        var subtypePatterns = _.values(patternSubtypes);
+        //render the viewall template by finding these smallest subtype-grouped patterns
+        var subtypePatterns = sortPatterns(_.values(patternSubtypes));
 
         //determine if we should write at this time by checking if these are flat patterns or grouped patterns
         p = _.find(subtypePatterns, function (pat) {

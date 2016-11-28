@@ -3,6 +3,7 @@
 
 var path = require('path');
 var diveSync = require('diveSync');
+const chalk = require('chalk');
 var engineMatcher = /^patternengine-node-(.*)$/;
 var enginesDirectories = [
   {
@@ -53,17 +54,15 @@ function findEngineModulesInDirectory(dir) {
 // Try to load engines! We scan for engines at each path specified above. This
 // function is kind of a big deal.
 function loadAllEngines(enginesObject) {
-  console.log('\nLoading engines...');
-
   enginesDirectories.forEach(function (engineDirectory) {
     var enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
-    console.log("...scanning for engines in", engineDirectory.displayName + "...");
+    console.log(chalk.bold(`Loading engines from ${engineDirectory.displayName}...\n`));
 
     // find all engine-named things in this directory and try to load them,
     // unless it's already been loaded.
     enginesInThisDir.forEach(function (engineDiscovery) {
       var errorMessage;
-      var successMessage = "good to go";
+      var successMessage = chalk.green("good to go");
 
       try {
         // give it a try! load 'er up. But not if we already have, of course.
@@ -75,16 +74,17 @@ function loadAllEngines(enginesObject) {
         errorMessage = err.message;
       } finally {
         // report on the status of the engine, one way or another!
-        console.log('-', engineDiscovery.name, 'engine:', errorMessage ? errorMessage : successMessage);
+        console.log(`  ${engineDiscovery.name}:`, errorMessage ? chalk.red(errorMessage) : successMessage);
       }
     });
+    console.log('');
   });
 
   // Complain if for some reason we haven't loaded any engines.
   if (Object.keys(enginesObject).length === 0) {
     throw new Error('No engines loaded! Something is seriously wrong.');
   }
-  console.log('...done loading engines.\n');
+  console.log(chalk.bold('Done loading engines.\n'));
 }
 
 

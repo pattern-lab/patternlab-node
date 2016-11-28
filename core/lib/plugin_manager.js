@@ -29,8 +29,8 @@ var plugin_manager = function (config, configPath) {
       try {
         var pluginDirStats = fs.statSync(pluginPath);
       } catch (ex) {
-        util.logRed(pluginName + ' not found, please use npm to install it first.');
-        util.logRed(pluginName + ' not loaded.');
+        util.error(pluginName + ' not found, please use npm to install it first.');
+        util.error(pluginName + ' not loaded.');
         return;
       }
       var pluginPathDirExists = pluginDirStats.isDirectory();
@@ -50,7 +50,7 @@ var plugin_manager = function (config, configPath) {
         //write config entry back
         fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
 
-        util.logGreen('Plugin ' + pluginName + ' installed.');
+        util.debug('Plugin ' + pluginName + ' installed.');
 
         //todo, tell them how to uninstall or disable
 
