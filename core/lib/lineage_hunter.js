@@ -7,6 +7,8 @@ var lineage_hunter = function () {
   var pa = require('./pattern_assembler');
 
   function findlineage(pattern, patternlab) {
+    // As we are adding edges from pattern to ancestor patterns, ensure it is known to the graph
+    patternlab.graph.add(pattern);
 
     var pattern_assembler = new pa();
 
