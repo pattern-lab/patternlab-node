@@ -12,9 +12,11 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
+  ch = require('./changes_hunter'),
   JSON5 = require('json5');
 
 var markdown_parser = new mp();
+var changes_hunter = new ch();
 
 var pattern_assembler = function () {
   // HELPER FUNCTIONS
@@ -241,30 +243,6 @@ var pattern_assembler = function () {
     addPattern(pattern, patternlab);
   }
 
-  function checkBuildState (pattern, patternlab) {
-    //write the compiled template to the public patterns directory
-    var renderedTemplatePath =
-      patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered');
-
-    if (!pattern.compileState) {
-      pattern.compileState = CompileState.NEEDS_REBUILD;
-    }
-
-    try {
-      // Prevent error message if file does not exist
-      fs.accessSync(renderedTemplatePath, fs.F_OK);
-      var outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
-
-      if (pattern.lastModified && outputLastModified > pattern.lastModified) {
-        pattern.compileState = CompileState.CLEAN;
-      }
-    } catch (e) {
-      // Output does not exist yet, needs recompile
-    }
-    // Make the pattern known to the PatternGraph and remember its compileState
-    patternlab.graph.add(pattern);
-  }
-
   function processPatternIterative(relPath, patternlab) {
 
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
@@ -334,7 +312,7 @@ var pattern_assembler = function () {
 
     //see if this file has a state
     setState(currentPattern, patternlab, true);
-    var jsonFileLastModified = null;
+
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
@@ -345,7 +323,6 @@ var pattern_assembler = function () {
       }
       if (jsonFilenameStats && jsonFilenameStats.isFile()) {
         currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
-        jsonFileLastModified = jsonFilenameStats.mtime.getTime();
         if (patternlab.config.debug) {
           console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
         }
@@ -382,17 +359,6 @@ var pattern_assembler = function () {
 
     //add the raw template to memory
     var templatePath = path.resolve(patternsPath, currentPattern.relPath);
-    if (templatePath) {
-      try {
-        var stat = fs.statSync(templatePath);
-        // Needs recompile whenever either the JSON or the source file has been changed
-        currentPattern.lastModified = Math.max(stat.mtime.getTime(), jsonFileLastModified);
-      } catch (e) {
-        // Ignore, not a regular file
-      }
-    }
-
-    checkBuildState(currentPattern, patternlab);
 
     currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
@@ -401,6 +367,12 @@ var pattern_assembler = function () {
 
     //find any pattern parameters that may be in the current pattern
     currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
+
+    [templatePath, jsonFilename, listJsonFileName].forEach(file => {
+      changes_hunter.checkLastModified(currentPattern, file)
+    });
+
+    changes_hunter.checkBuildState(currentPattern, patternlab);
 
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
@@ -583,9 +555,6 @@ var pattern_assembler = function () {
     },
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
-    },
-    check_build_state: function (pattern, patternlab) {
-      return checkBuildState(pattern, patternlab);
     },
     process_pattern_iterative: function (file, patternlab) {
       return processPatternIterative(file, patternlab);

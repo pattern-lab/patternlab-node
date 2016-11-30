@@ -1,5 +1,7 @@
 "use strict";
 
+var ch = require('./changes_hunter');
+
 var pseudopattern_hunter = function () {
 
   function findpseudopatterns(currentPattern, patternlab) {
@@ -14,6 +16,7 @@ var pseudopattern_hunter = function () {
 
     var pattern_assembler = new pa();
     var lineage_hunter = new lh();
+    var changes_hunter = new ch();
     var paths = patternlab.config.paths;
 
     //look for a pseudo pattern by checking if there is a file containing same
@@ -62,9 +65,10 @@ var pseudopattern_hunter = function () {
           engine: currentPattern.engine
         }, patternlab);
 
+        changes_hunter.checkBuildState(patternVariant, patternlab);
         patternlab.graph.add(patternVariant);
         patternlab.graph.link(patternVariant, currentPattern);
-        pattern_assembler.check_build_state(currentPattern, patternlab);
+
         //process the companion markdown file if it exists
         pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);
 
