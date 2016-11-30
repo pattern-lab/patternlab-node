@@ -435,7 +435,7 @@ var patternlab_engine = function (config) {
 
 
     //render all patterns last, so lineageR works
-    patternsToBuild.forEach( pattern => renderSinglePattern(pattern, head));
+    patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
     // Saves the pattern graph when all files have been compiled
     PatternGraph.storeToFile(patternlab);
     PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
@@ -533,6 +533,7 @@ var patternlab_engine = function (config) {
     patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
     // Allows serializing the compile state
     patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
+    plutils.log.info("Built pattern: " + pattern.patternPartial);
     return true;
   }
 
