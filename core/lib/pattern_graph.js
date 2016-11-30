@@ -85,11 +85,12 @@ PatternGraph.prototype = {
   },
 
   link: function (patternFrom, patternTo) {
-    this.add(patternFrom);
-    this.add(patternTo);
-
     let nameFrom = nodeName(patternFrom);
     let nameTo = nodeName(patternTo);
+    for (let name of [nameFrom, nameTo])
+    if (!this.patterns.has(name)) {
+      throw new Error("Pattern not known: " + name);
+    }
     this.graph.setEdge(nameFrom, nameTo);
   },
 
@@ -110,7 +111,8 @@ PatternGraph.prototype = {
       directed: true
     });
 
-    let changedNodes = this.graph.nodes().filter(n => compileStateFilter(this.patterns, n));
+    let nodes = this.graph.nodes();
+    let changedNodes = nodes.filter(n => compileStateFilter(this.patterns, n));
     this.nodes2patterns(changedNodes).forEach(pattern => {
       let patternNode = nodeName(pattern);
       if (!compileGraph.hasNode(patternNode)) {
