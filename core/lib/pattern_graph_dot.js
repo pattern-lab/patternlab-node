@@ -70,7 +70,7 @@ PatternGraphDot.write = function (patternGraph) {
   var colors = ["darkgreen", "firebrick", "slateblue", "darkgoldenrod", "black"];
   var colorMap = new Map();
   var colIdx = 0;
-  for (let p of patterns.values()) {
+  for (let p of patterns.partials.values()) {
     if (p.isPseudoPattern || !p.patternType) {
       continue;
     }
