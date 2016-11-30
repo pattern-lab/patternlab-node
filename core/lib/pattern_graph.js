@@ -119,7 +119,6 @@ PatternGraph.prototype = {
         compileGraph.setNode(patternNode);
       }
       this.applyReverse(pattern, (from, to) => {
-        // FIXME to.compileState == null for pseudopatterns!
         from.compileState = CompileState.NEEDS_REBUILD;
         let fromName = nodeName(from);
         let toName = nodeName(to);
