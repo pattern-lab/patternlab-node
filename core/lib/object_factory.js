@@ -146,7 +146,16 @@ Pattern.prototype = {
 // factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
 Pattern.createEmpty = function (customProps, patternlab) {
-  var pattern = new Pattern('', null, patternlab);
+  let relPath = '';
+  if (customProps) {
+    if (customProps.relPath) {
+      relPath = customProps.relPath;
+    } else if (customProps.subdir && customProps.filename) {
+      relPath = customProps.subdir + path.sep + customProps.filename;
+    }
+  }
+
+  var pattern = new Pattern(relPath, null, patternlab);
   return extend(pattern, customProps);
 };
 
