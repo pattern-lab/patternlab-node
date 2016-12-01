@@ -369,7 +369,7 @@ var pattern_assembler = function () {
     currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
 
     [templatePath, jsonFilename, listJsonFileName].forEach(file => {
-      changes_hunter.checkLastModified(currentPattern, file)
+      changes_hunter.checkLastModified(currentPattern, file);
     });
 
     changes_hunter.checkBuildState(currentPattern, patternlab);
@@ -405,7 +405,7 @@ var pattern_assembler = function () {
   }
 
   function findModifiedPatterns(lastModified, patternlab) {
-    return patternlab.patterns.filter( p => {
+    return patternlab.patterns.filter(p => {
       if (p.compileState !== CompileState.CLEAN || ! p.lastModified) {
         return true;
       }
@@ -527,7 +527,7 @@ var pattern_assembler = function () {
 
   return {
     find_modified_patterns: function (lastModified, patternlab) {
-      return findModifiedPatterns(lastModified, patternlab)
+      return findModifiedPatterns(lastModified, patternlab);
     },
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();

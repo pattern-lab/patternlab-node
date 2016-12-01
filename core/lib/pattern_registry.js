@@ -4,25 +4,24 @@
  * Allows lookups for patterns via a central registry.
  * @constructor
  */
-// Future idea:
-var PatternRegistry = function() {
+const PatternRegistry = function () {
   this.key2pattern = new Map();
-  /** For lookups by {Pattern#partialKey} */
+
+  /** For lookups by {@link Pattern#partialKey} */
   this.partials = new Map();
 };
 
-//noinspection JSUnusedLocalSymbols
 PatternRegistry.prototype = {
 
-  allPatterns: function() {
-    return Array.from(this.key2pattern.values())
+  allPatterns: function () {
+    return Array.from(this.key2pattern.values());
   },
 
-  has: function(name) {
+  has: function (name) {
     return this.key2pattern.has(name);
   },
 
-  get: function(name) {
+  get: function (name) {
     return this.key2pattern.get(name);
   },
 
@@ -31,9 +30,9 @@ PatternRegistry.prototype = {
    * @param pattern {Pattern|*}
    */
   put: function (pattern) {
-    var name = PatternRegistry.partialName(pattern);
+    const name = PatternRegistry.partialName(pattern);
     this.partials.set(name, pattern);
-    var key = PatternRegistry.patternKey(pattern);
+    const key = PatternRegistry.patternKey(pattern);
     this.key2pattern.set(key, pattern);
   },
 
@@ -58,6 +57,7 @@ PatternRegistry.prototype = {
 
 
     let patterns = this.allPatterns();
+
     //else look by verbose syntax
     for (let thisPattern of patterns) {
       switch (partialName) {
@@ -69,11 +69,11 @@ PatternRegistry.prototype = {
 
     //return the fuzzy match if all else fails
     for (let thisPattern of patterns) {
-      var partialParts = partialName.split('-'),
+      const partialParts = partialName.split('-'),
         partialType = partialParts[0],
         partialNameEnd = partialParts.slice(1).join('-');
 
-      var patternPartial = thisPattern.patternPartial;
+      const patternPartial = thisPattern.patternPartial;
       if (patternPartial.split('-')[0] === partialType
         && patternPartial.indexOf(partialNameEnd) > -1) {
         return thisPattern;

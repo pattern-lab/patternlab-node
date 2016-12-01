@@ -1,14 +1,16 @@
 "use strict";
-var graphlib = require('graphlib');
-var path = require('path');
-var fs = require("fs-extra");
 
+/**
+ * Overall settings
+ * @return {[string,string,string,string,string,string,string]}
+ */
 function header() {
   return [
-  "strict digraph {",
+    "strict digraph {",
     'graph [fontname = "helvetica" size=20]',
+
     /*compound=true;*/
-     "concentrate=true;",
+    "concentrate=true;",
     "rankdir=LR;",
     "ranksep=\"4 equally·\";",
     "node [style=filled,color=white];",
@@ -16,12 +18,48 @@ function header() {
   ];
 }
 
-var niceKey = function (s) {
-  return "O" + s.replace("-", "");
+/**
+ * Graph nodes cannot start with numbers in GrahViz and must not contain dashes.
+ * @param name
+ * @return {string}
+ */
+const niceKey = function (name) {
+  return "O" + name.replace("-", "");
 };
 
-function subgraph(group, patterns, color) {
-  var s = niceKey(group);
+/**
+ * Adds the output for defining a node in GraphViz.
+ *
+ * @param {Pattern} pattern
+ * @return {string}
+ */
+function addNode(pattern) {
+  let more = "";
+  if (pattern.isPseudoPattern) {
+    more = " [fillcolor=grey]";
+  }
+  return "\"" + pattern.name + "\"" + more + ";\n";
+}
+
+/**
+ *
+ * @param {Pattern} from
+ * @param {Pattern} to
+ * @param {string} color A valid color, e.g. HTMl or a color name
+ * @return {string}
+ */
+function addEdge(from, to, color) {
+  return `"${from.name}" -> "${to.name}" [color=${color}];\n`;
+}
+
+/**
+ * Creates a sub-graph which is used to group atoms, molecules, etc.
+ * @param group
+ * @param patterns
+ * @return {[*,*,string,string,*,*,string]}
+ */
+function subGraph(group, patterns) {
+  const s = niceKey(group);
   return [
     "subgraph cluster_X" + s + " {",
     "label=<<b>" + group + "</b>>;",
@@ -29,9 +67,10 @@ function subgraph(group, patterns, color) {
     "color=lightgrey;",
     s + " [shape=box];",
     patterns.map(addNode).join(""),
+
     //patterns.map(p => "\"" + p.name + "\"").join(" -> ") + "[style=invis]",
     "}"
-    ];
+  ];
 
 }
 
@@ -39,93 +78,62 @@ function footer() {
   return ["}"];
 }
 
-  /**
-   *
-   * @param pattern {Pattern}
-   * @return {string}
-   */
-function addNode(pattern) {
-  let more = "";
-  if (pattern.isPseudoPattern) {
-    more = " [fillcolor=grey]"
-  }
-  return "\"" + pattern.name + "\"" + more + ";\n";
-}
+const PatternGraphDot = {};
 
-  /**
-   *
-   * @param from {Pattern}
-   * @param to {Pattern}
-   * @return {string}
-   */
-function addEdge (from, to, color) {
-  return "\"" + from.name + "\" -> " +  "\"" + to.name + "\" [color=" + color + "];\n";
-}
-
-var PatternGraphDot = {};
-PatternGraphDot.write = function (patternGraph) {
-  var g = patternGraph.graph;
-  var patterns = patternGraph.patterns;
+/**
+ * Create the GraphViz representation of the given graph
+ * @param patternGraph
+ * @return {string}
+ */
+PatternGraphDot.generate = function (patternGraph) {
+  const g = patternGraph.graph;
+  const patterns = patternGraph.patterns;
   let buckets = new Map();
-  var colors = ["darkgreen", "firebrick", "slateblue", "darkgoldenrod", "black"];
-  var colorMap = new Map();
-  var colIdx = 0;
+  const colors = ["darkgreen", "firebrick", "slateblue", "darkgoldenrod", "black"];
+  const colorMap = new Map();
+  let colIdx = 0;
   for (let p of patterns.partials.values()) {
     if (p.isPseudoPattern || !p.patternType) {
       continue;
     }
     let bucket = buckets.get(p.patternType);
     if (bucket) {
-      bucket.push(p)
+      bucket.push(p);
     } else {
       bucket = [p];
       colorMap.set(p.patternType, colors[colIdx++]);
+
       // Repeat if there are more categories
       colIdx = colIdx % colors.length;
     }
     buckets.set(p.patternType, bucket);
   }
 
-  /*
+  let res = header();
+  const sortedKeys = Array.from(buckets.keys()).sort();
 
+  const niceKeys = sortedKeys.map(niceKey);
 
-   edge[style=\"\", fontsize=12];
-
-   { rank=same;
-   0 [style = \"\"];
-   01 [style = \"\"];
-   02 [style=\"\"];
-   0 -> 01 -> 02;
-   }
-   0 -> "0A"[style=solid];
-   01 -> "0B"[style=invis];
-   02 -> "0C"[style=invis];
-   */
-  var res = header();
-  var sortedKeys = Array.from(buckets.keys()).sort();
-
-  var niceKeys = sortedKeys.map(niceKey);
-
-  var subgraphLines = [];
+  let subGraphLines = [];
 
 
   for (let key of sortedKeys) {
-    var subpatterns = buckets.get(key);
-    subgraphLines = subgraphLines.concat(subgraph(key, subpatterns));
+    const subPatterns = buckets.get(key);
+    subGraphLines = subGraphLines.concat(subGraph(key, subPatterns));
   }
-  res = res.concat(subgraphLines);
+  res = res.concat(subGraphLines);
   res.push("edge[style=solid];");
 
 
-  foo: for (let e of g.edges()) {
-    let vw = patternGraph.nodes2patterns([e.v, e.w]);
-    for (let p of vw) {
-      if (p.isPseudoPattern || !p.patternType) {
+  foo: for (let edge of g.edges()) {
+    let fromTo = patternGraph.nodes2patterns([edge.v, edge.w]);
+    for (let pattern of fromTo) {
+      if (pattern.isPseudoPattern || !pattern.patternType) {
         continue foo;
       }
     }
-    var thisColor = colorMap.get(vw[0].patternType);
-    res.push(addEdge(vw[0], vw[1], thisColor));
+    const thisColor = colorMap.get(fromTo[0].patternType);
+    res.push(addEdge(fromTo[0], fromTo[1], thisColor));
   }
 
   res.push(niceKeys.reverse().join(" -> ") + "[constraint=true];");

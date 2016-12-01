@@ -33,6 +33,7 @@ var lineage_hunter = function () {
           }
 
           patternlab.graph.add(ancestorPattern);
+
           // Confusing: pattern includes "ancestorPattern", not the other way round
           patternlab.graph.link(pattern, ancestorPattern);
 
@@ -70,10 +71,11 @@ var lineage_hunter = function () {
   function setPatternState(direction, pattern, targetPattern, graph) {
     var index = null;
     if (direction === 'fromPast') {
-      index  = graph.lineage(pattern);
+      index = graph.lineage(pattern);
     } else {
       index = graph.lineageR(pattern);
     }
+
     // if the request came from the past, apply target pattern state to current pattern lineage
     for (var i = 0; i < index.length; i++) {
       if (index[i].patternPartial === targetPattern.patternPartial) {

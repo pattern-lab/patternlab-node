@@ -13,7 +13,6 @@
 var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
-  fs = require('fs-extra'),
   path = require('path'),
   chalk = require('chalk'),
   cleanHtml = require('js-beautify').html,
@@ -164,6 +163,7 @@ var patternlab_engine = function (config) {
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
   patternlab.events = new PatternLabEventEmitter();
+
   // Initialized when building
   patternlab.graph = null;
 
@@ -343,6 +343,101 @@ var patternlab_engine = function (config) {
     outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
   }
 
+  function renderSinglePattern(pattern, head) {
+    // Pattern does not need to be built and recompiled more than once
+    if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
+      return false;
+    }
+
+    // Allows serializing the compile state
+    patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.BUILDING;
+
+    //todo move this into lineage_hunter
+    pattern.patternLineages = pattern.lineage;
+    pattern.patternLineageExists = pattern.lineage.length > 0;
+    pattern.patternLineagesR = pattern.lineageR;
+    pattern.patternLineageRExists = pattern.lineageR.length > 0;
+    pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
+
+    patternlab.events.emit('patternlab-pattern-before-data-merge', patternlab, pattern);
+
+    //render the pattern, but first consolidate any data we may have
+    var allData;
+    try {
+      allData = JSON5.parse(JSON5.stringify(patternlab.data));
+    } catch (err) {
+      console.log('There was an error parsing JSON for ' + pattern.relPath);
+      console.log(err);
+    }
+    allData = plutils.mergeData(allData, pattern.jsonFileData);
+    allData.cacheBuster = patternlab.cacheBuster;
+
+    //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
+    pattern.header = head;
+    var headHTML = pattern_assembler.renderPattern(pattern.header, allData);
+
+    //render the extendedTemplate with all data
+    pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+
+    // stringify this data for individual pattern rendering and use on the styleguide
+    // see if patternData really needs these other duped values
+    pattern.patternData = JSON.stringify({
+      cssEnabled: false,
+      patternLineageExists: pattern.patternLineageExists,
+      patternLineages: pattern.patternLineages,
+      lineage: pattern.patternLineages,
+      patternLineageRExists: pattern.patternLineageRExists,
+      patternLineagesR: pattern.patternLineagesR,
+      lineageR: pattern.patternLineagesR,
+      patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
+      patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
+      patternBreadcrumb:
+        pattern.patternGroup === pattern.patternSubGroup ? {
+          patternType: pattern.patternGroup
+        } : {
+          patternType: pattern.patternGroup,
+          patternSubtype: pattern.patternSubGroup
+        },
+      patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
+      patternName: pattern.patternName,
+      patternPartial: pattern.patternPartial,
+      patternState: pattern.patternState,
+      patternEngineName: pattern.engine.engineName,
+      extraOutput: {}
+    });
+
+    //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+    var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+      isPattern: pattern.isPattern,
+      patternData: pattern.patternData,
+      cacheBuster: patternlab.cacheBuster
+    });
+
+    var allFooterData;
+    try {
+      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+    } catch (err) {
+      console.log('There was an error parsing JSON for ' + pattern.relPath);
+      console.log(err);
+    }
+    allFooterData = plutils.mergeData(allFooterData, pattern.jsonFileData);
+    allFooterData.patternLabFoot = footerPartial;
+
+    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
+
+    patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
+
+    //write the compiled template to the public patterns directory
+    writePatternFiles(headHTML, pattern, footerHTML);
+
+    patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
+
+    // Allows serializing the compile state
+    patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
+    plutils.log.info("Built pattern: " + pattern.patternPartial);
+    return true;
+  }
+
   function buildPatterns(deletePatternDir) {
 
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
@@ -426,6 +521,7 @@ var patternlab_engine = function (config) {
       // TODO Find created or deleted files
       let now = new Date().getTime();
       var modified = pattern_assembler.find_modified_patterns(now, patternlab);
+
       // First mark all modified files
       for (let p of modified) {
         p.compileState = CompileState.NEEDS_REBUILD;
@@ -436,105 +532,13 @@ var patternlab_engine = function (config) {
 
     //render all patterns last, so lineageR works
     patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
+
     // Saves the pattern graph when all files have been compiled
     PatternGraph.storeToFile(patternlab);
     PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
+
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
-  }
-
-  function renderSinglePattern(pattern, head) {
-    // Pattern does not need to be built and recompiled more than once
-    if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
-      return false;
-    }
-    // Allows serializing the compile state
-    patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.BUILDING;
-
-    //todo move this into lineage_hunter
-    pattern.patternLineages = pattern.lineage;
-    pattern.patternLineageExists = pattern.lineage.length > 0;
-    pattern.patternLineagesR = pattern.lineageR;
-    pattern.patternLineageRExists = pattern.lineageR.length > 0;
-    pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
-
-    patternlab.events.emit('patternlab-pattern-before-data-merge', patternlab, pattern);
-
-    //render the pattern, but first consolidate any data we may have
-    var allData;
-    try {
-      allData = JSON5.parse(JSON5.stringify(patternlab.data));
-    } catch (err) {
-      console.log('There was an error parsing JSON for ' + pattern.relPath);
-      console.log(err);
-    }
-    allData = plutils.mergeData(allData, pattern.jsonFileData);
-    allData.cacheBuster = patternlab.cacheBuster;
-
-    //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
-    pattern.header = head;
-    var headHTML = pattern_assembler.renderPattern(pattern.header, allData);
-
-    //render the extendedTemplate with all data
-    pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
-
-    // stringify this data for individual pattern rendering and use on the styleguide
-    // see if patternData really needs these other duped values
-    pattern.patternData = JSON.stringify({
-      cssEnabled: false,
-      patternLineageExists: pattern.patternLineageExists,
-      patternLineages: pattern.patternLineages,
-      lineage: pattern.patternLineages,
-      patternLineageRExists: pattern.patternLineageRExists,
-      patternLineagesR: pattern.patternLineagesR,
-      lineageR: pattern.patternLineagesR,
-      patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
-      patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
-      patternBreadcrumb:
-        pattern.patternGroup === pattern.patternSubGroup ?
-        {
-          patternType: pattern.patternGroup
-        } : {
-          patternType: pattern.patternGroup,
-          patternSubtype: pattern.patternSubGroup
-        },
-      patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
-      patternName: pattern.patternName,
-      patternPartial: pattern.patternPartial,
-      patternState: pattern.patternState,
-      patternEngineName: pattern.engine.engineName,
-      extraOutput: {}
-    });
-
-    //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
-      isPattern: pattern.isPattern,
-      patternData: pattern.patternData,
-      cacheBuster: patternlab.cacheBuster
-    });
-
-    var allFooterData;
-    try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
-    } catch (err) {
-      console.log('There was an error parsing JSON for ' + pattern.relPath);
-      console.log(err);
-    }
-    allFooterData = plutils.mergeData(allFooterData, pattern.jsonFileData);
-    allFooterData.patternLabFoot = footerPartial;
-
-    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
-
-    patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
-
-    //write the compiled template to the public patterns directory
-    writePatternFiles(headHTML, pattern, footerHTML);
-
-    patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
-    // Allows serializing the compile state
-    patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
-    plutils.log.info("Built pattern: " + pattern.patternPartial);
-    return true;
   }
 
   return {

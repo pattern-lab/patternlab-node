@@ -2,15 +2,29 @@
 const fs = require("fs-extra"),
   CompileState = require('./object_factory').CompileState;
 
-
-
-let changesHunter = function() {
+/**
+ * For detecting changed patterns.
+ * @constructor
+ */
+let ChangesHunter = function () {
 };
 
-changesHunter.prototype = {
+ChangesHunter.prototype = {
+
+  /**
+   * Checks the build state of a pattern by comparing the modification date of the rendered output
+   * file with the {@link Pattern.lastModified}. If the pattern was modified after the last
+   * time it has been rendered, it is flagged for rebuilding via {@link CompileState.NEEDS_REBUILD}.
+   *
+   * @param {Pattern} pattern
+   * @param patternlab
+   *
+   * @see {@link CompileState}
+   */
   checkBuildState: function (pattern, patternlab) {
+
     //write the compiled template to the public patterns directory
-    var renderedTemplatePath =
+    let renderedTemplatePath =
       patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered');
 
     if (!pattern.compileState) {
@@ -20,7 +34,7 @@ changesHunter.prototype = {
     try {
       // Prevent error message if file does not exist
       fs.accessSync(renderedTemplatePath, fs.F_OK);
-      var outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
+      let outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
 
       if (pattern.lastModified && outputLastModified > pattern.lastModified) {
         pattern.compileState = CompileState.CLEAN;
@@ -45,6 +59,7 @@ changesHunter.prototype = {
   /**
    * Updates {Pattern#lastModified} to the files modification date if the file was modified
    * after {Pattern#lastModified}.
+   *
    * @param {Pattern} currentPattern
    * @param {string} file
    */
@@ -52,6 +67,7 @@ changesHunter.prototype = {
     if (file) {
       try {
         let stat = fs.statSync(file);
+
         // Needs recompile whenever one of the patterns files (template, json, pseudopatterns) changed
         currentPattern.lastModified =
           Math.max(stat.mtime.getTime(), currentPattern.lastModified || 0);
@@ -62,4 +78,4 @@ changesHunter.prototype = {
   }
 };
 
-module.exports = changesHunter;
+module.exports = ChangesHunter;

@@ -58,9 +58,11 @@ var pseudopattern_hunter = function () {
           basePattern: currentPattern,
           stylePartials: currentPattern.stylePartials,
           parameteredPartials: currentPattern.parameteredPartials,
+
           // Only regular patterns are discovered during iterative walks
           // Need to recompile on data change or template change
           lastModified: Math.max(currentPattern.lastModified, lm.mtime),
+
           // use the same template engine as the non-variant
           engine: currentPattern.engine
         }, patternlab);

@@ -73,9 +73,19 @@ var Pattern = function (relPath, data, patternlab) {
   this.isPseudoPattern = false;
   this.order = Number.MAX_SAFE_INTEGER;
   this.engine = patternEngines.getEngineForPattern(this);
-  // For completeness
+
+  /**
+   * Determines if this pattern needs to be recompiled.
+   *
+   * @ee {@link CompileState}*/
   this.compileState = null;
-  // The unix timestamp when the pattern was last modified
+
+  /**
+   * Timestamp in milliseconds when the pattern template or auxilary file (e.g. json) were modified.
+   * If multiple files are affected, this is the timestamp of the most recent change.
+   *
+   * @see {@link pattern}
+   */
   this.lastModified = null;
 
 };
