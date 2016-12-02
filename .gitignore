@@ -7,4 +7,6 @@ patternlab.json
 Thumbs.db
 source/css/style.css.map
 .idea/
-public/patterns
+public
+!test/patterns/public/.gitkeep
+!test/patterns/testDependencyGraph.json
