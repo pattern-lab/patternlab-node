@@ -371,7 +371,7 @@ var ui_builder = function () {
       patternGroups: {}
     };
 
-    _.forEach(sortPatterns(patternlab.patterns), function (pattern) {
+    _.forEach(patternlab.patterns, function (pattern) {
 
       //ignore patterns we can omit from rendering directly
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
