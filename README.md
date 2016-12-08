@@ -25,7 +25,7 @@ The [command line interface](https://github.com/pattern-lab/patternlab-node/wiki
 
 If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.
 
-No pull request is too small. Check out any [up for grabs issues](https://github.com/pattern-lab/patternlab-node/labels/up%20for%20grabs) as a good way to get your feet wet, or add some more unit tests.
+No pull request is too small. Check out any [up for grabs issues](https://github.com/pattern-lab/patternlab-node/labels/help%20wanted%20%2F%20up%20for%20grabs) as a good way to get your feet wet, or add some more unit tests.
 
 ## Guidelines
 1. Please keep your pull requests concise and limited to **ONE** substantive change at a time. This makes reviewing and testing so much easier.
