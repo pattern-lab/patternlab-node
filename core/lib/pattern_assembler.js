@@ -11,6 +11,7 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
+  _ = require('lodash'),
   JSON5 = require('json5');
 
 var markdown_parser = new mp();
@@ -124,8 +125,8 @@ var pattern_assembler = function () {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
 
-      patternlab.patterns.push(pattern);
-
+      //patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+      patternlab.patterns.splice(_.sortedIndexBy(patternlab.patterns, pattern, 'name'), 0, pattern);
     }
   }
 
