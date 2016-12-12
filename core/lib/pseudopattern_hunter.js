@@ -1,5 +1,7 @@
 "use strict";
 
+var ch = require('./changes_hunter');
+
 var pseudopattern_hunter = function () {
 
   function findpseudopatterns(currentPattern, patternlab) {
@@ -14,6 +16,7 @@ var pseudopattern_hunter = function () {
 
     var pattern_assembler = new pa();
     var lineage_hunter = new lh();
+    var changes_hunter = new ch();
     var paths = patternlab.config.paths;
 
     //look for a pseudo pattern by checking if there is a file containing same
@@ -33,7 +36,8 @@ var pseudopattern_hunter = function () {
 
         //we want to do everything we normally would here, except instead read the pseudoPattern data
         try {
-          var variantFileData = fs.readJSONSync(path.resolve(paths.source.patterns, pseudoPatterns[i]));
+          var variantFileFullPath = path.resolve(paths.source.patterns, pseudoPatterns[i]);
+          var variantFileData = fs.readJSONSync(variantFileFullPath);
         } catch (err) {
           console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
           console.log(err);
@@ -44,6 +48,7 @@ var pseudopattern_hunter = function () {
 
         var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
         var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
+        var lm = fs.statSync(variantFileFullPath);
         var patternVariant = Pattern.create(variantFilePath, variantFileData, {
           //use the same template as the non-variant
           template: currentPattern.template,
@@ -54,9 +59,17 @@ var pseudopattern_hunter = function () {
           stylePartials: currentPattern.stylePartials,
           parameteredPartials: currentPattern.parameteredPartials,
 
+          // Only regular patterns are discovered during iterative walks
+          // Need to recompile on data change or template change
+          lastModified: Math.max(currentPattern.lastModified, lm.mtime),
+
           // use the same template engine as the non-variant
           engine: currentPattern.engine
         }, patternlab);
+
+        changes_hunter.checkBuildState(patternVariant, patternlab);
+        patternlab.graph.add(patternVariant);
+        patternlab.graph.link(patternVariant, currentPattern);
 
         //process the companion markdown file if it exists
         pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);

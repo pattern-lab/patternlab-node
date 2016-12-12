@@ -3,6 +3,7 @@
 var path = require('path'),
   fs = require('fs-extra'),
   Pattern = require('./object_factory').Pattern,
+  CompileState = require('./object_factory').CompileState,
   pph = require('./pseudopattern_hunter'),
   mp = require('./markdown_parser'),
   plutils = require('./utilities'),
@@ -11,9 +12,11 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
+  ch = require('./changes_hunter'),
   JSON5 = require('json5');
 
 var markdown_parser = new mp();
+var changes_hunter = new ch();
 
 var pattern_assembler = function () {
   // HELPER FUNCTIONS
@@ -123,7 +126,7 @@ var pattern_assembler = function () {
       } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
-
+      patternlab.graph.add(pattern);
       patternlab.patterns.push(pattern);
 
     }
@@ -355,13 +358,21 @@ var pattern_assembler = function () {
     parsePatternMarkdown(currentPattern, patternlab);
 
     //add the raw template to memory
-    currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
+    var templatePath = path.resolve(patternsPath, currentPattern.relPath);
+
+    currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
 
     //find any pattern parameters that may be in the current pattern
     currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
+
+    [templatePath, jsonFilename, listJsonFileName].forEach(file => {
+      changes_hunter.checkLastModified(currentPattern, file);
+    });
+
+    changes_hunter.checkBuildState(currentPattern, patternlab);
 
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
@@ -391,6 +402,15 @@ var pattern_assembler = function () {
 
     //call our helper method to actually unravel the pattern with any partials
     decomposePattern(currentPattern, patternlab);
+  }
+
+  function findModifiedPatterns(lastModified, patternlab) {
+    return patternlab.patterns.filter(p => {
+      if (p.compileState !== CompileState.CLEAN || ! p.lastModified) {
+        return true;
+      }
+      return p.lastModified >= lastModified;
+    });
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -506,6 +526,9 @@ var pattern_assembler = function () {
   }
 
   return {
+    find_modified_patterns: function (lastModified, patternlab) {
+      return findModifiedPatterns(lastModified, patternlab);
+    },
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
     },
