@@ -311,7 +311,7 @@ PatternGraph.empty = function (version) {
  * @param {PatternGraph|Object} graphOrJson
  * @return {boolean}
  */
-PatternGraph.checkVersion = function(graphOrJson) {
+PatternGraph.checkVersion = function (graphOrJson) {
   return graphOrJson.version === PATTERN_GRAPH_VERSION;
 };
 
@@ -369,7 +369,7 @@ PatternGraph.loadFromFile = function (patternlab, file) {
 
   const obj = fs.readJSONSync(jsonGraphFile);
   if (!PatternGraph.checkVersion(obj)) {
-    return PatternGraph.empty(obj.version)
+    return PatternGraph.empty(obj.version);
   }
   return this.fromJson(obj);
 };

@@ -514,13 +514,16 @@ var patternlab_engine = function (config) {
     let patternsToBuild = patternlab.patterns;
 
     let graphNeedsUpgrade = !PatternGraph.checkVersion(patternlab.graph);
+
     // Incremental builds are enabled, but we cannot use them
     if (!deletePatternDir && graphNeedsUpgrade) {
       plutils.log.info("Due to an upgrade, a complete rebuild is required. " +
         "Incremental build is available again on the next run.");
+
       // Ensure that the freshly built graph has the latest version again.
       patternlab.graph.upgradeVersion();
     }
+    
     //delete the contents of config.patterns.public before writing
     //Also if the serialized graph must be updated
     if (deletePatternDir || graphNeedsUpgrade) {
