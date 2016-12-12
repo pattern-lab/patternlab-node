@@ -10,6 +10,13 @@ const PatternGraphDot = require('./pattern_graph_dot');
 const PatternRegistry = require('./pattern_registry');
 
 /**
+ * The most recent version of the pattern graph. This is used to rebuild the graph when
+ * the version of a serialized graph does not match the current version.
+ * @type {number}
+ */
+const PATTERN_GRAPH_VERSION = 1;
+
+/**
  * Wrapper around a graph library to build a dependency graph of patterns.
  * Each node in the graph will maintain a {@link CompileState}. This allows finding all
  * changed patterns and their transitive dependencies.
@@ -21,13 +28,14 @@ const PatternRegistry = require('./pattern_registry');
  *
  * @param {Graph} graph  The graphlib graph object
  * @param {int} timestamp The unix timestamp
+ * @param {int} version The graph version.
  *
  * @returns {{PatternGraph: PatternGraph}}
 
  * @see PatternGraph#fromJson
  * @see <a href="https://github.com/pattern-lab/patternlab-node/issues/540">#540</a>
  */
-const PatternGraph = function (graph, timestamp) {
+const PatternGraph = function (graph, timestamp, version) {
 
   this.graph = graph || new Graph({
     directed: true
@@ -38,6 +46,7 @@ const PatternGraph = function (graph, timestamp) {
   // The idea here is to make a pattern known to the graph as soon as it exists
   this.patterns = new PatternRegistry();
   this.timestamp = timestamp || new Date().getTime();
+  this.version = version || PATTERN_GRAPH_VERSION;
 };
 
 // shorthand. Use relPath as it is always unique, even with subPatternType
@@ -53,7 +62,7 @@ PatternGraph.prototype = {
   clone: function () {
     const json = graphlib.json.write(this.graph);
     const graph = graphlib.json.read(json);
-    return new PatternGraph(graph, this.timestamp);
+    return new PatternGraph(graph, this.timestamp, this.version);
   },
 
   /**
@@ -267,6 +276,7 @@ PatternGraph.prototype = {
    */
   toJson: function () {
     return {
+      version: this.version,
       timestamp: this.timestamp,
       graph: graphlib.json.write(this.graph)
     };
@@ -277,17 +287,44 @@ PatternGraph.prototype = {
    */
   nodes: function () {
     return this.graph.nodes();
+  },
+
+  /**
+   * Updates the version to the most recent one
+   */
+  upgradeVersion: function () {
+    this.version = PATTERN_GRAPH_VERSION;
   }
 };
 
 /**
  * Creates an empty graph with a unix timestamp of 0 as last compilation date.
- *
+ * @param {int} [version=PATTERN_GRAPH_VERSION]
  * @return {PatternGraph}
  */
-PatternGraph.empty = function () {
-  return new PatternGraph(null, 0);
+PatternGraph.empty = function (version) {
+  return new PatternGraph(null, 0, version || PATTERN_GRAPH_VERSION);
 };
+
+/**
+ * Checks if the version of
+ * @param {PatternGraph|Object} graphOrJson
+ * @return {boolean}
+ */
+PatternGraph.checkVersion = function(graphOrJson) {
+  return graphOrJson.version === PATTERN_GRAPH_VERSION;
+};
+
+/**
+ * Error that is thrown if the given version does not match the current graph version.
+ *
+ * @param oldVersion
+ * @constructor
+ */
+function VersionMismatch(oldVersion) {
+  this.message = `Version of graph on disk ${oldVersion} != current version ${PATTERN_GRAPH_VERSION}. Please clean your patterns output directory.`;
+  this.name = "VersionMismatch";
+}
 
 /**
  * Parse the graph from a JSON object.
@@ -295,8 +332,11 @@ PatternGraph.empty = function () {
  * @return {PatternGraph}
  */
 PatternGraph.fromJson = function (o) {
+  if (!PatternGraph.checkVersion(o)) {
+    throw new VersionMismatch(o.version);
+  }
   const graph = graphlib.json.read(o.graph);
-  return new PatternGraph(graph, o.timestamp);
+  return new PatternGraph(graph, o.timestamp, o.version);
 };
 
 /**
@@ -328,6 +368,9 @@ PatternGraph.loadFromFile = function (patternlab, file) {
   }
 
   const obj = fs.readJSONSync(jsonGraphFile);
+  if (!PatternGraph.checkVersion(obj)) {
+    return PatternGraph.empty(obj.version)
+  }
   return this.fromJson(obj);
 };
 
@@ -356,5 +399,6 @@ PatternGraph.exportToDot = function (patternlab, file) {
 };
 
 module.exports = {
-  PatternGraph: PatternGraph
+  PatternGraph: PatternGraph,
+  PATTERN_GRAPH_VERSION: PATTERN_GRAPH_VERSION
 };

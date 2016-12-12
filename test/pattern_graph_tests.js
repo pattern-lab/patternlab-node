@@ -2,6 +2,7 @@
 
 
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var VERSION = require('../core/lib/pattern_graph').PATTERN_GRAPH_VERSION;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var tap = require('tap');
@@ -20,6 +21,16 @@ var mockGraph = function () {
   return PatternGraph.empty();
 };
 
+tap.test("checkVersion - Current version returns true", (test) => {
+  test.same(PatternGraph.checkVersion({"version": VERSION}), true);
+  test.end();
+});
+
+tap.test("checkVersion - Older version returns false", (test) => {
+  test.same(PatternGraph.checkVersion({"version": VERSION - 1}), false);
+  test.end();
+});
+
 tap.test("Loading an empty graph works", (test) => {
   var g = PatternGraph.loadFromFile(patternlab, "does not exist");
   tap.equal(g.graph.nodes().length, 0,"foo");
@@ -34,6 +45,14 @@ tap.test("PatternGraph.fromJson() - Loading a graph from JSON", (test) => {
   test.end();
 });
 
+tap.test("PatternGraph.fromJson() - Loading a graph from JSON using an older version throws error", (test) => {
+  test.throws(function () {
+    PatternGraph.fromJson({version: 0});
+  }, {}, /Version of graph on disk.*/g);
+
+  test.end();
+});
+
 tap.test("toJson() - Storing a graph to JSON correctly", (test) => {
   var graph = mockGraph();
   graph.timestamp = 1337;
@@ -43,7 +62,7 @@ tap.test("toJson() - Storing a graph to JSON correctly", (test) => {
   graph.add(moleculeFoo);
   graph.link(moleculeFoo, atomFoo);
   test.same(graph.toJson(),
-  {"timestamp":1337,"graph":{"options":{"directed":true,"multigraph":false,"compound":false},"nodes":[{"v":"atom-foo","value":{"compileState":"clean"}},{"v":"molecule-foo","value":{"compileState":"clean"}}],"edges":[{"v":"molecule-foo","w":"atom-foo","value":{}}]}});
+  {"version": VERSION, "timestamp":1337,"graph":{"options":{"directed":true,"multigraph":false,"compound":false},"nodes":[{"v":"atom-foo","value":{"compileState":"clean"}},{"v":"molecule-foo","value":{"compileState":"clean"}}],"edges":[{"v":"molecule-foo","w":"atom-foo","value":{}}]}});
   // For generating the above output:console.log(JSON.stringify(graph.toJson()));
   test.end();
 });
@@ -61,6 +80,7 @@ tap.test("Storing and loading a graph from JSON return the identical graph", (te
   var newGraph = PatternGraph.fromJson(oldGraph.toJson());
 
   // assert
+  test.same(newGraph.version, VERSION);
   test.same(newGraph.timestamp, 1337);
   test.same(newGraph.graph.nodes(), ["atom-foo", "molecule-foo"]);
   test.same(newGraph.graph.edges(), [ {w: "atom-foo", v:"molecule-foo"}]);
@@ -83,6 +103,7 @@ tap.test("clone()", (test) => {
   var newGraph = oldGraph.clone();
 
   // assert
+  test.same(newGraph.version, VERSION);
   test.same(newGraph.timestamp, 1337);
   test.same(newGraph.graph.nodes(), ["atom-foo", "molecule-foo"]);
   test.same(newGraph.graph.edges(), [ {w: "atom-foo", v:"molecule-foo"}]);
