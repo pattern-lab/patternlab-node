@@ -11,6 +11,7 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
+  _ = require('lodash'),
   JSON5 = require('json5');
 
 var markdown_parser = new mp();
@@ -124,8 +125,8 @@ var pattern_assembler = function () {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
 
-      patternlab.patterns.push(pattern);
-
+      //patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+      patternlab.patterns.splice(_.sortedIndexBy(patternlab.patterns, pattern, 'name'), 0, pattern);
     }
   }
 
@@ -149,11 +150,9 @@ var pattern_assembler = function () {
   }
 
   function parsePatternMarkdown(currentPattern, patternlab) {
+    var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
 
-    try {
-      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
-      var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
-
+    return fs.readFile(markdownFileName, 'utf8').then((markdownFileContents) => {
       var markdownObject = markdown_parser.parse(markdownFileContents);
       if (!plutils.isObjectEmpty(markdownObject)) {
         //set keys and markdown itself
@@ -188,14 +187,13 @@ var pattern_assembler = function () {
       if (patternlab.config.debug) {
         console.log('found pattern-specific markdown for ' + currentPattern.patternPartial);
       }
-    }
-    catch (err) {
-      // do nothing when file not found
-      if (err.code !== 'ENOENT') {
-        console.log('there was an error setting pattern keys after markdown parsing of the companion file for pattern ' + currentPattern.patternPartial);
-        console.log(err);
+    }).catch(err => {
+      // if errno === -2, it's just a file not found, which is not an
+      // error condition for us.
+      if (err.errno !== -2) {
+        plutils.reportError('there was an error setting pattern keys after markdown parsing of the companion file for pattern ' + currentPattern.patternPartial)();
       }
-    }
+    });
   }
 
   /**
@@ -204,7 +202,8 @@ var pattern_assembler = function () {
    * @param pattern - the pattern to decompose
    * @param patternlab - global data store
    * @param ignoreLineage - whether or not to hunt for lineage for this pattern
-     */
+   * @returns {Promise}
+   */
   function decomposePattern(pattern, patternlab, ignoreLineage) {
 
     var lineage_hunter = new lh(),
@@ -238,12 +237,64 @@ var pattern_assembler = function () {
 
     //add to patternlab object so we can look these up later.
     addPattern(pattern, patternlab);
+
+    return Promise.resolve(pattern);
   }
 
-  // loads a pattern from disk, creates a Pattern object from it and
-  // all its associated files, and records it in patternlab.patterns[]
-  function loadPatternIterative(relPath, patternlab) {
+  /**
+   * Look for the pattern's JSON file and load it up if it exists.
+   * @param {string} patternsPath - the base path to the patterns source directory
+   * @param {Pattern} currentPattern - the pattern object
+   * @param {string} relPath - relative path of the pattern file
+   * @param {object} patternlab - the global patternlab state
+   */
+  function parsePatternJSON(patternsPath, currentPattern, relPath, patternlab) {
+    var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
 
+    return fs.readJSON(jsonFilename).then((jsonFileData) => {
+      if (patternlab.config.debug) {
+        console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
+      }
+      currentPattern.jsonFileData = jsonFileData;
+    }).catch(err => {
+      // if errno === -2, it's just a file not found, which is not an
+      // error condition for us.
+      if (err.errno !== -2) {
+        plutils.reportError('Error during reading of pattern JSON for pattern at', relPath)();
+      }
+    });
+  }
+
+  /**
+   * Check for a list items JSON file and load it if it exists
+   * @param {string} patternsPath - the base path to the patterns source directory
+   * @param {Pattern} currentPattern - the pattern object
+   * @param {string} relPath - relative path of the pattern file
+   * @param {object} patternlab - the global patternlab state
+   */
+  function parsePatternListItemsJSON(patternsPath, currentPattern, relPath, patternlab) {
+    var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
+    currentPattern.listitems = fs.readJSON(listJsonFileName).then(() => {
+      buildListItems(currentPattern);
+      if (patternlab.config.debug) {
+        console.log('found pattern-specific listitems.json for ' + currentPattern.patternPartial);
+      }
+    }).catch(err => {
+      // if errno === -2, it's just a file not found, which is not an
+      // error condition for us.
+      if (err.errno !== -2) {
+        plutils.reportError('Error during reading of list items JSON for pattern at', relPath)();
+      }
+    });
+  }
+
+  /**
+   * loads a pattern from disk, creates a Pattern object from it and
+   * all its associated files, and records it in patternlab.patterns[]
+   * @param {string} relPath - relative path of the pattern file
+   * @param {object} patternlab - the global patternlab state
+   */
+  function checkRelativeDepth(relPath, patternlab) {
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
       console.log('');
@@ -256,12 +307,21 @@ var pattern_assembler = function () {
       plutils.warning('Read More: http://patternlab.io/docs/pattern-organization.html');
       console.log('');
     }
+  }
 
-    //check if the found file is a top-level markdown file
-    var fileObject = path.parse(relPath);
-    if (fileObject.ext === '.md') {
+
+  /**
+   * Checks for top-level markdown files. GTP: not sure how this
+   * works, so I've left it mostly intact.
+   * @param {object} pathObject - the object that results from path.parse()
+   * @param {string} relPath - relative path of the pattern file
+   * @param {object} patternlab - the global patternlab state
+   * @returns {Pattern}
+   */
+  function checkForTopLevelMarkdown(pathObject, relPath, patternlab) {
+    if (pathObject.ext === '.md') {
       try {
-        var proposedDirectory = path.resolve(patternlab.config.paths.source.patterns, fileObject.dir, fileObject.name);
+        var proposedDirectory = path.resolve(patternlab.config.paths.source.patterns, pathObject.dir, pathObject.name);
         var proposedDirectoryStats = fs.statSync(proposedDirectory);
         if (proposedDirectoryStats.isDirectory()) {
           var subTypeMarkdownFileContents = fs.readFileSync(proposedDirectory + '.md', 'utf8');
@@ -282,90 +342,78 @@ var pattern_assembler = function () {
         if (err.code !== 'ENOENT') {
           console.log(err);
         }
+        return null;
       }
     }
+    return null;
+  }
 
 
-    //extract some information
+  /**
+   * The main function for loading patterns.
+   * @param {string} relPath - relative path of the pattern file
+   * @param {object} patternlab - the global patternlab state
+   * @returns {Promise}
+   */
+  function loadPatternIterative(relPath, patternlab) {
+    var fileObject = path.parse(relPath);
     var filename = fileObject.base;
     var ext = fileObject.ext;
     var patternsPath = patternlab.config.paths.source.patterns;
 
+    checkRelativeDepth(relPath, patternlab);
+
+     //check if the found file is a top-level markdown file
+    const subTypePattern = checkForTopLevelMarkdown(fileObject, relPath, patternlab);
+    if (subTypePattern) { return Promise.resolve(subTypePattern); }
+
     // skip non-pattern files
-    if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
+    if (!patternEngines.isPatternFile(filename, patternlab)) {
+      return Promise.resolve(null);
+    }
 
     //make a new Pattern Object
-    var currentPattern = new Pattern(relPath, null, patternlab);
+    const currentPattern = new Pattern(relPath, null, patternlab);
 
     //if file is named in the syntax for variants
     if (patternEngines.isPseudoPatternJSON(filename)) {
-      return currentPattern;
+      return Promise.resolve(currentPattern);
     }
 
     //can ignore all non-supported files at this point
     if (patternEngines.isFileExtensionSupported(ext) === false) {
-      return currentPattern;
+      return Promise.resolve(currentPattern);
     }
 
     //see if this file has a state
     setState(currentPattern, patternlab, true);
 
     //look for a json file for this template
-    try {
-      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
-      try {
-        var jsonFilenameStats = fs.statSync(jsonFilename);
-      } catch (err) {
-        //not a file
-      }
-      if (jsonFilenameStats && jsonFilenameStats.isFile()) {
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
-        if (patternlab.config.debug) {
-          console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
-        }
-      }
-    }
-    catch (err) {
-      console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
-      console.log(err);
-    }
+    return Promise.all([
+      parsePatternJSON(patternsPath, currentPattern, relPath, patternlab),
+      parsePatternListItemsJSON(patternsPath, currentPattern, relPath, patternlab),
+      parsePatternMarkdown(currentPattern, patternlab),
+      fs.readFile(path.resolve(patternsPath, relPath), 'utf8')
+    ]).then((results) => {
+      const fileContents = results[3];
+      currentPattern.template = fileContents;
 
-    //look for a listitems.json file for this template
-    try {
-      var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
-      try {
-        var listJsonFileStats = fs.statSync(listJsonFileName);
-      } catch (err) {
-        //not a file
-      }
-      if (listJsonFileStats && listJsonFileStats.isFile()) {
-        currentPattern.listitems = fs.readJSONSync(listJsonFileName);
-        buildListItems(currentPattern);
-        if (patternlab.config.debug) {
-          console.log('found pattern-specific listitems.json for ' + currentPattern.patternPartial);
-        }
-      }
-    }
-    catch (err) {
-      console.log('There was an error parsing sibling listitem JSON for ' + currentPattern.relPath);
-      console.log(err);
-    }
+      // add currentPattern to patternlab.patterns array
+      addPattern(currentPattern, patternlab);
 
-    //look for a markdown file for this template
-    parsePatternMarkdown(currentPattern, patternlab);
-
-    //add the raw template to memory
-    currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
-
-    //add currentPattern to patternlab.patterns array
-    addPattern(currentPattern, patternlab);
-
-    return currentPattern;
+      return currentPattern;
+    });
   }
 
   // This is now solely for analysis; loading of the pattern file is
   // above, in loadPatternIterative()
   function processPatternIterative(pattern, patternlab) {
+    if (!(pattern instanceof Pattern)) {
+      const errMessage = 'processPatternIterative() expects a Pattern object, but got ' + pattern;
+      console.log(errMessage);
+      return Promise.reject(errMessage);
+    }
+
     //look for a pseudo pattern by checking if there is a file
     //containing same name, with ~ in it, ending in .json
     return pph.find_pseudopatterns(pattern, patternlab).then(() => {
@@ -374,29 +422,35 @@ var pattern_assembler = function () {
 
       //find any pattern parameters that may be in the current pattern
       pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
+
       return pattern;
     }).catch(plutils.reportError('There was an error in processPatternIterative():'));
   }
 
-  function processPatternRecursive(file, patternlab) {
+  function processPatternRecursive(patternOrPath, patternlab) {
+    var pattern, i;
 
-    //find current pattern in patternlab object using var file as a partial
-    var currentPattern, i;
-
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].relPath === file) {
-        currentPattern = patternlab.patterns[i];
+    // hold up -- were we passed a path or a pattern object?
+    if (typeof patternOrPath === 'string') {
+      // find current pattern in patternlab object using var file as a partial
+      for (i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].relPath === patternOrPath) {
+          pattern = patternlab.patterns[i];
+        }
       }
+    } else {
+      // it's a pattern object!
+      pattern = patternOrPath;
     }
 
     //return if processing an ignored file
-    if (typeof currentPattern === 'undefined') { return; }
+    if (typeof pattern === 'undefined') { return Promise.resolve(); }
 
     //we are processing a markdown only pattern
-    if (currentPattern.engine === null) { return; }
+    if (pattern.engine === null) { return Promise.resolve(); }
 
     //call our helper method to actually unravel the pattern with any partials
-    decomposePattern(currentPattern, patternlab);
+    return decomposePattern(pattern, patternlab);
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -545,8 +599,8 @@ var pattern_assembler = function () {
     process_pattern_iterative: function (pattern, patternlab) {
       return processPatternIterative(pattern, patternlab);
     },
-    process_pattern_recursive: function (file, patternlab, additionalData) {
-      processPatternRecursive(file, patternlab, additionalData);
+    process_pattern_recursive: function (pathOrPattern, patternlab, additionalData) {
+      return processPatternRecursive(pathOrPattern, patternlab, additionalData);
     },
     getPartial: function (partial, patternlab) {
       return getPartial(partial, patternlab);

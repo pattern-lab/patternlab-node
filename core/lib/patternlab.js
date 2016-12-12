@@ -51,9 +51,8 @@ function buildPatternData(dataFilesPath, fsDep) {
 // GTP: these two diveSync pattern processors factored out so they can be reused
 // from unit tests to reduce code dupe!
 function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab){
-  const async = require('async');
-
   const promiseAllPatternFiles = new Promise(function (resolve, reject) {
+    const patternFilePromises = [];
     dive(
       patterns_dir,
       (err, file) => {
@@ -70,19 +69,20 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
         // example. Incidentally, this should also allow people to do
         // horrifying things like include a page in a atom. But
         // please, if you're reading this: don't.
-
-        // NOTE: sync for now
-        pattern_assembler.load_pattern_iterative(path.relative(patterns_dir, file), patternlab);
+        patternFilePromises.push(pattern_assembler.load_pattern_iterative(
+          path.relative(patterns_dir, file),
+          patternlab
+        ));
       },
-      resolve
+      () => {
+        Promise.all(patternFilePromises).then(resolve);
+      }
     );
   });
+
   return promiseAllPatternFiles.then(() => {
     // This is the second phase: once we've loaded all patterns,
     // start analysis.
-    // patternlab.patterns.forEach((pattern) => {
-    //   pattern_assembler.process_pattern_iterative(pattern, patternlab);
-    // });
     return Promise.all(patternlab.patterns.map((pattern) => {
       return pattern_assembler.process_pattern_iterative(pattern, patternlab);
     }));
@@ -90,17 +90,25 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
 }
 
 function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
-  diveSync(
-    patterns_dir,
-    function (err, file) {
-      //log any errors
-      if (err) {
-        console.log(err);
-        return;
+  return new Promise(function (resolve, reject) {
+    const patternFilePromises = [];
+    dive(
+      patterns_dir,
+      (err, file) => {
+        //log any errors
+        if (err) {
+          console.log('an error occurred in processAllPatternsRecursive():', err);
+          return;
+        }
+        patternFilePromises.push(
+          pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), patternlab)
+        );
+      },
+      () => {
+        Promise.all(patternFilePromises).then(resolve);
       }
-      pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), patternlab);
-    }
-  );
+    );
+  });
 }
 
 function checkConfiguration(patternlab) {
@@ -494,14 +502,14 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-build-global-data-end', patternlab);
 
-    // diveSync once to perform iterative populating of patternlab object
+    // dive() once to perform iterative populating of patternlab object
     return processAllPatternsIterative(pattern_assembler, paths.source.patterns, patternlab).then(() => {
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
-      //diveSync again to recursively include partials, filling out the
+      //dive() again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
-      processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
-
+      return processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
+    }).then(() => {
       //take the user defined head and foot and process any data and patterns that apply
       processHeadPattern();
       processFootPattern();

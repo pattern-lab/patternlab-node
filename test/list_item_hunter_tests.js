@@ -408,16 +408,14 @@ tap.test('process_list_item_partials - correctly ignores already processed parti
   pl.patterns.push(listPattern);
 
   //act
-
   //might need to cal processPatternRecursive instead
-  pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl);
-  pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl);
-  pattern_assembler.process_pattern_recursive(listPattern.relPath, pl);
-
-  //assert.
-  var expectedValue = '<div class="test_group"> <span class="test_base "> FooM </span> </div>';
-  test.equals(listPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
-  test.end();
+  return Promise.all([
+    pattern_assembler.process_pattern_recursive(atomPattern.relPath, pl),
+    pattern_assembler.process_pattern_recursive(anotherStyledAtomPattern.relPath, pl),
+    pattern_assembler.process_pattern_recursive(listPattern.relPath, pl)
+  ]).then(() => {
+    //assert.
+    var expectedValue = '<div class="test_group"> <span class="test_base "> FooM </span> </div>';
+    test.equals(listPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  });
 });
-
-
