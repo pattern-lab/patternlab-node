@@ -61,5 +61,5 @@
     "markupOnly": ".markup-only"
   },
   "cleanOutputHtml": true,
-  "export_graphviz": false
+  "exportToGraphViz": false
 }

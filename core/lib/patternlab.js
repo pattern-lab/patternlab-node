@@ -544,7 +544,10 @@ var patternlab_engine = function (config) {
 
     // Saves the pattern graph when all files have been compiled
     PatternGraph.storeToFile(patternlab);
-    PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
+    if (patternlab.config.exportToGraphViz) {
+      PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
+      plutils.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+    }
 
     //export patterns if necessary
     pattern_exporter.export_patterns(patternlab);
