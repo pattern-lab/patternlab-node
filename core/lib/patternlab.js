@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.7.0 - 2016
+ * patternlab-node - v2.7.1-alpha - 2016
  *
  * Brian Muenzenmeyer, Geoff Pursell, and the web community.
  * Licensed under the MIT license.
@@ -523,7 +523,7 @@ var patternlab_engine = function (config) {
       // Ensure that the freshly built graph has the latest version again.
       patternlab.graph.upgradeVersion();
     }
-    
+
     //delete the contents of config.patterns.public before writing
     //Also if the serialized graph must be updated
     if (deletePatternDir || graphNeedsUpgrade) {
