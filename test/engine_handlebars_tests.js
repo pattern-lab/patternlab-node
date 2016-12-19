@@ -5,6 +5,7 @@ var tap = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 var eol = require('os').EOL;
 
@@ -22,6 +23,7 @@ if (!engineLoader.handlebars) {
 // apparatus.
 function fakePatternLab() {
   var fpl = {
+    graph: PatternGraph.empty(),
     partials: {},
     patterns: [],
     footer: '',
@@ -222,3 +224,42 @@ tap.test('hidden handlebars patterns can be called by their nice names', functio
   test.equals(util.sanitized(testPattern.render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
   test.end();
 });
+
+tap.test('@partial-block template should render without throwing (@geoffp repo issue #3)', function(test) {
+  test.plan(1);
+
+  var patternPath = path.join('00-atoms', '00-global', '10-at-partial-block.hbs');
+
+  // do all the normal processing of the pattern
+  var patternlab = new fakePatternLab();
+  var assembler = new pa();
+  var atPartialBlockPattern = assembler.process_pattern_iterative(patternPath, patternlab);
+  assembler.process_pattern_recursive(patternPath, patternlab);
+
+  var results = '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
+  test.equal(atPartialBlockPattern.render(), results);
+  test.end();
+})
+
+tap.test('A template calling a @partial-block template should render correctly', function(test) {
+  test.plan(1);
+
+  // pattern paths
+  var pattern1Path = path.join('00-atoms', '00-global', '10-at-partial-block.hbs');
+  var pattern2Path = path.join('00-molecules', '00-global', '10-call-at-partial-block.hbs');
+
+  // set up environment
+  var patternlab = new fakePatternLab(); // environment
+  var assembler = new pa();
+
+  // do all the normal processing of the pattern
+  assembler.process_pattern_iterative(pattern1Path, patternlab);
+  var callAtPartialBlockPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
+  assembler.process_pattern_recursive(pattern1Path, patternlab);
+  assembler.process_pattern_recursive(pattern2Path, patternlab);
+
+  // test
+  var results = 'Hello World!' + eol + 'It worked!' + eol;
+  test.equals(callAtPartialBlockPattern.render(), results);
+  test.end();
+})

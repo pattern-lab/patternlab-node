@@ -71,7 +71,23 @@ var Pattern = function (relPath, data, patternlab) {
   this.lineageR = [];
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
+  this.order = Number.MAX_SAFE_INTEGER;
   this.engine = patternEngines.getEngineForPattern(this);
+
+  /**
+   * Determines if this pattern needs to be recompiled.
+   *
+   * @ee {@link CompileState}*/
+  this.compileState = null;
+
+  /**
+   * Timestamp in milliseconds when the pattern template or auxilary file (e.g. json) were modified.
+   * If multiple files are affected, this is the timestamp of the most recent change.
+   *
+   * @see {@link pattern}
+   */
+  this.lastModified = null;
+
 };
 
 // Pattern methods
@@ -140,7 +156,16 @@ Pattern.prototype = {
 // factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
 Pattern.createEmpty = function (customProps, patternlab) {
-  var pattern = new Pattern('', null, patternlab);
+  let relPath = '';
+  if (customProps) {
+    if (customProps.relPath) {
+      relPath = customProps.relPath;
+    } else if (customProps.subdir && customProps.filename) {
+      relPath = customProps.subdir + path.sep + customProps.filename;
+    }
+  }
+
+  var pattern = new Pattern(relPath, null, patternlab);
   return extend(pattern, customProps);
 };
 
@@ -152,6 +177,13 @@ Pattern.create = function (relPath, data, customProps, patternlab) {
   return extend(newPattern, customProps);
 };
 
+var CompileState = {
+  NEEDS_REBUILD: "needs rebuild",
+  BUILDING: "building",
+  CLEAN: "clean"
+};
+
 module.exports = {
-  Pattern: Pattern
+  Pattern: Pattern,
+  CompileState: CompileState
 };

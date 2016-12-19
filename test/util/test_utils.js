@@ -1,5 +1,7 @@
 "use strict";
 
+var PatternGraph = require('./../../core/lib/pattern_graph').PatternGraph;
+
 module.exports = {
 
   // fake pattern lab constructor:
@@ -7,6 +9,7 @@ module.exports = {
   // apparatus.
   fakePatternLab: (testPatternsPath) => {
     var fpl = {
+      graph: PatternGraph.empty(),
       partials: {},
       patterns: [],
       footer: '',

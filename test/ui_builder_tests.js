@@ -2,6 +2,7 @@
 
 var tap = require('tap');
 var rewire = require("rewire");
+var _ = require('lodash');
 var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
@@ -120,8 +121,8 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   });
 
   patternlab.patterns.push(
-    new Pattern('00-test/foo.mustache'),
     new Pattern('00-test/bar.mustache'),
+    new Pattern('00-test/foo.mustache'),
     new Pattern('patternType1/patternSubType1/blue.mustache'),
     new Pattern('patternType1/patternSubType1/red.mustache'),
     new Pattern('patternType1/patternSubType1/yellow.mustache'),
@@ -134,7 +135,6 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   //act
   var result = ui.groupPatterns(patternlab);
 
-  //assert
   test.equals(result.patternGroups.patternType1.patternSubType1.blue.patternPartial, 'patternType1-blue');
   test.equals(result.patternGroups.patternType1.patternSubType1.red.patternPartial, 'patternType1-red');
   test.equals(result.patternGroups.patternType1.patternSubType1.yellow.patternPartial, 'patternType1-yellow');
@@ -142,10 +142,109 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   test.equals(result.patternGroups.patternType1.patternSubType2.grey.patternPartial, 'patternType1-grey');
   test.equals(result.patternGroups.patternType1.patternSubType2.white.patternPartial, 'patternType1-white');
 
-  test.equals(patternlab.patternTypes[0].patternItems[0].patternPartial, 'test-bar');
-  test.equals(patternlab.patternTypes[0].patternItems[1].patternPartial, 'test-foo');
+  test.equals(patternlab.patternTypes[0].patternItems[0].patternPartial, 'test-bar', 'first pattern item should be test-bar');
+  test.equals(patternlab.patternTypes[0].patternItems[1].patternPartial, 'test-foo', 'second pattern item should be test-foo');
 
   //todo: patternlab.patternTypes[0].patternItems[1] looks malformed
+
+  test.end();
+});
+
+tap.test('groupPatterns - orders patterns when provided from md', function (test) {
+  //arrange
+  var patternlab = createFakePatternLab({
+    patterns: [],
+    patternGroups: {},
+    subtypePatterns: {}
+  });
+
+  patternlab.patterns.push(
+    new Pattern('patternType1/patternSubType1/blue.mustache'),
+    new Pattern('patternType1/patternSubType1/red.mustache'),
+    new Pattern('patternType1/patternSubType1/yellow.mustache')
+  );
+  ui.resetUIBuilderState(patternlab);
+
+  patternlab.patterns[1].order = 1;
+
+  //act
+  ui.groupPatterns(patternlab);
+
+  let patternType = _.find(patternlab.patternTypes, ['patternType', 'patternType1']);
+  let patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', 'patternSubType1']);
+  var items = patternSubType.patternSubtypeItems;
+
+  //zero is viewall
+  test.equals(items[1].patternPartial, 'patternType1-red');
+  test.equals(items[2].patternPartial, 'patternType1-blue');
+  test.equals(items[3].patternPartial, 'patternType1-yellow');
+
+  test.end();
+});
+
+tap.test('groupPatterns - retains pattern order from name when order provided from md is malformed', function (test) {
+  //arrange
+  var patternlab = createFakePatternLab({
+    patterns: [],
+    patternGroups: {},
+    subtypePatterns: {}
+  });
+
+  patternlab.patterns.push(
+    new Pattern('patternType1/patternSubType1/blue.mustache'),
+    new Pattern('patternType1/patternSubType1/red.mustache'),
+    new Pattern('patternType1/patternSubType1/yellow.mustache')
+  );
+  ui.resetUIBuilderState(patternlab);
+
+  patternlab.patterns[1].order = 'notanumber!';
+
+  //act
+  ui.groupPatterns(patternlab);
+
+  let patternType = _.find(patternlab.patternTypes, ['patternType', 'patternType1']);
+  let patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', 'patternSubType1']);
+  var items = patternSubType.patternSubtypeItems;
+
+  //zero is viewall
+  test.equals(items[1].patternPartial, 'patternType1-blue');
+  test.equals(items[2].patternPartial, 'patternType1-red');
+  test.equals(items[3].patternPartial, 'patternType1-yellow');
+
+  test.end();
+});
+
+tap.test('groupPatterns - sorts viewall subtype pattern to the beginning', function (test) {
+  //arrange
+  var patternlab = createFakePatternLab({
+    patterns: [],
+    patternGroups: {},
+    subtypePatterns: {}
+  });
+
+  patternlab.patterns.push(
+    new Pattern('patternType1/patternSubType1/blue.mustache'),
+    new Pattern('patternType1/patternSubType1/red.mustache'),
+    new Pattern('patternType1/patternSubType1/yellow.mustache')
+  );
+  ui.resetUIBuilderState(patternlab);
+
+  patternlab.patterns[0].order = 1;
+  patternlab.patterns[1].order = 3;
+  patternlab.patterns[2].order = 2;
+
+  //act
+  ui.groupPatterns(patternlab);
+
+  let patternType = _.find(patternlab.patternTypes, ['patternType', 'patternType1']);
+  let patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', 'patternSubType1']);
+  var items = patternSubType.patternSubtypeItems;
+
+  //zero is viewall
+  test.equals(items[0].patternPartial, 'viewall-patternType1-patternSubType1');
+  test.equals(items[1].patternPartial, 'patternType1-blue');
+  test.equals(items[2].patternPartial, 'patternType1-yellow');
+  test.equals(items[3].patternPartial, 'patternType1-red');
 
   test.end();
 });
