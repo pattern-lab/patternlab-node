@@ -15,8 +15,8 @@ var path = require('path'),
   ch = require('./changes_hunter'),
   JSON5 = require('json5');
 
-var markdown_parser = new mp();
-var changes_hunter = new ch();
+const markdown_parser = new mp();
+const changes_hunter = new ch();
 
 var pattern_assembler = function () {
   // HELPER FUNCTIONS
@@ -155,6 +155,8 @@ var pattern_assembler = function () {
 
     try {
       var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
+      changes_hunter.checkLastModified(currentPattern, markdownFileName);
+
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
