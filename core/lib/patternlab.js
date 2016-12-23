@@ -448,7 +448,7 @@ var patternlab_engine = function (config) {
    * @param {boolean} deletePatternDir When {@code true}, an empty graph is returned
    * @return {PatternGraph}
    */
-  function loadPatternGraph(patternlab, deletePatternDir) {
+  function loadPatternGraph(deletePatternDir) {
     // Sanity check to prevent problems when code is refactored
     if (deletePatternDir) {
       return PatternGraph.empty();
@@ -460,7 +460,7 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
-    let graph = patternlab.graph = loadPatternGraph(patternlab, deletePatternDir);
+    let graph = patternlab.graph = loadPatternGraph(deletePatternDir);
 
     let graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
 
@@ -476,7 +476,7 @@ var patternlab_engine = function (config) {
     let incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
 
     if (incrementalBuildsEnabled) {
-      plutils.log.info("Incremental builds enabled.")
+      plutils.log.info("Incremental builds enabled.");
     } else {
       // needs to be done BEFORE processing patterns
       fs.removeSync(paths.public.patterns);
@@ -559,7 +559,7 @@ var patternlab_engine = function (config) {
       // When the graph was loaded from file, some patterns might have been moved/deleted between runs
       // so the graph data become out of sync
       patternlab.graph.sync().forEach(n => {
-        plutils.log.info("[Deleted/Moved] " + n)
+        plutils.log.info("[Deleted/Moved] " + n);
       });
 
       // TODO Find created or deleted files
@@ -599,8 +599,6 @@ var patternlab_engine = function (config) {
       return getVersion();
     },
     build: function (callback, deletePatternDir) {
-      console.log("console log");
-      plutils.log.info("plutils log")
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
         return;
