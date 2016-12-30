@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * @func isValidConfig
  * @desc Checks validity of a patternlab config

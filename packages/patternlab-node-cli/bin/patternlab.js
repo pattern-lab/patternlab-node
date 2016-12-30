@@ -1,24 +1,20 @@
 #!/usr/bin/env node
 'use strict';
 const cli = require('commander');
-const build = require('./build');
-const checkArgs = require('./check_args');
-const copyFiles = require('./copy_source_files');
-const exportPatterns = require('./export');
-const init = require('./init');
-const resolveConfig = require('./resolve_config');
-const serve = require('./serve');
+const checkArgs = require('./check-args');
+const build = require('./cli-actions/build');
+const help = require('./cli-actions/help');
+const init = require('./cli-actions/init');
+const exportPatterns = require('./cli-actions/export');
+const serve = require('./cli-actions/serve');
 const log = require('./utils').log;
-const error = require('./utils').error;
-const wrapAsync = require('./utils').wrapAsync;
 const pkg = require('../package.json');
 
 // Register error logging
-log.on('error', msg => console.log(msg)); // eslint-disable-line
+log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
 
-const registerDebugLogger = () => {
-	log.on('debug', msg => console.log(msg)); // eslint-disable-line
-};
+// Conditionally register verbose logging
+const checkVerbose = verbose => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
 
 /**
  * Hook up cli version, usage and options
@@ -27,11 +23,9 @@ cli
 	.version(pkg.version, '-V, --version')
 	.usage('<cmd> [options]')
 	.arguments('<cmd> [options]')
-	.action(function (cmd) {
-		checkArgs(cmd);
-	})
+	.action(checkArgs)
 	.option('-c, --config <path>', 'Specify config file. Default looks up the project dir', val => val.trim(), './patternlab-config.json')
-	.option('-v, --verbose', 'Show verbose logging');
+	.option('-v, --verbose', 'Show verbose logging', checkVerbose);
 
 /**
  * build
@@ -42,17 +36,7 @@ cli
 	.alias('compile')
 	.description('Build the PatternLab. Optionally (re-)build only the patterns')
 	.option('-p, --patterns-only', 'Whether to only build patterns')
-	.action(options => wrapAsync(function*() {
-		try {
-			if (options.parent.verbose) registerDebugLogger();
-			const config = yield resolveConfig(options.parent.config);
-			yield copyFiles(config.paths);
-			build(config, options);
-		} catch (err) {
-			error(err);
-			process.exit(1);
-		}
-	}));
+	.action(build);
 
 /**
  * export
@@ -61,11 +45,7 @@ cli
 cli
 	.command('export')
 	.description('Export a PatternLab patterns into a compressed format')
-	.action(options => wrapAsync(function*() {
-		if (options.parent.verbose) registerDebugLogger();
-		const config = yield resolveConfig(options.parent.config);
-		exportPatterns(config);
-	}));
+	.action(exportPatterns);
 
 /**
  * init
@@ -74,11 +54,10 @@ cli
 cli
 	.command('init')
 	.description('Initialize a PatternLab project from scratch or import an edition and/or starterkit')
-	.option('-f, --force', 'Overwrite existing files and folders')  // TODO: Make a global --clean flag to avoid repetition
-	.action(options => wrapAsync(function*() {
-		if (options.parent.verbose) registerDebugLogger();
-		yield init(options);
-	}));
+	.option('-p, --project-dir <path>', 'Specify a project directory')
+	.option('-e, --edition <name>', 'Specify an edition to install')
+	.option('-k, --starterkit <name>', 'Specify a starterkit to install')
+	.action(init);
 
 /**
  * serve
@@ -88,23 +67,10 @@ cli
 	.command('serve')
 	.alias('browse')
 	.description('Starts a server to inspect files in browser')
-	.action(options => wrapAsync(function*() {
-		if (options.parent.verbose) registerDebugLogger();
-		const config = yield resolveConfig(options.parent.config);
-		serve(config);
-	}));
+	.action(serve);
 
 // Show additional help
-cli.on('--help', () => {
-	/* eslint-disable */
-	console.log('  Examples:');
-	console.log('');
-	console.log('    $ patternlab init # Initialize a PatternLab project.');
-	console.log('    $ patternlab <cmd> # Builds the PatternLab from the current dir');
-	console.log('    $ patternlab <cmd> --config <path/to/patternlab-config> # PatternLab from a config in a specified directory');
-	console.log('');
-	/* eslint-enable */
-});
+cli.on('--help', help);
 
 // Parse at the end because Node emit is immediate
 cli.parse(process.argv);

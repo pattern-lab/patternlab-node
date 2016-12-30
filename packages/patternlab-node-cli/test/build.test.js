@@ -1,7 +1,7 @@
 const proxyquire = require('proxyquire');
 const tap = require('tap');
-const config = require('../bin/generator').defaultPatternlabConfig;
-const patternLabMock = require('./mocks/patternlab.mock');
+const config = require('../bin/default-config');
+const patternLabMock = require('./mocks/patternlab.mock.js');
 
 // Require build and mock patternlab.build() so that we only test the build module behavior
 const build = proxyquire('../bin/build', {'patternlab-node': patternLabMock});

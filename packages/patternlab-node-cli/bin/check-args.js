@@ -1,5 +1,4 @@
 'use strict';
-
 const error = require('./utils').error;
 
 /**
@@ -12,9 +11,8 @@ const error = require('./utils').error;
 function checkArgs(cmd) {
 	/**
 	 * An immutable whitelist to check incoming <cmd> against
-	 * TODO: Need to complete the whitelist and add note to main file when adding new commands
 	 */
-	const CMD_WHITELIST = Object.freeze(['build', 'compile', 'init', 'export', 'serve', 'browse']);
+	const CMD_WHITELIST = Object.freeze(['browse', 'build', 'compile', 'init', 'export', 'serve']);
 	
 	// Check if a <cmd> was specified. If not → bail out
 	if (typeof cmd === 'undefined') {

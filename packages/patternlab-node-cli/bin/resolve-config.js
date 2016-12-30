@@ -1,5 +1,5 @@
 'use strict';
-
+const exists = require('path-exists');
 const path = require('path');
 const error = require('./utils').error;
 const readJsonAsync = require('./utils').readJsonAsync;
@@ -13,9 +13,13 @@ const wrapAsync = require('./utils').wrapAsync;
  */
 function resolveConfig(configPath) {
 	return wrapAsync(function*() {
-		// If config path is set but not a string
-		if (arguments.length && typeof configPath !== 'string') {
-			throw new TypeError('patternlab→resolveConfig: If configPath is set, it is expected to be of type string.');
+		if (typeof configPath !== 'string') {
+			error('patternlab→resolveConfig: If configPath is set, it is expected to be of type string.');
+			return false;
+		}
+		if (!exists.sync(configPath)) {
+			error(`patternlab→resolveConfig: configPath ${configPath} does not exists`);
+			return false;
 		}
 		
 		/**
@@ -27,10 +31,10 @@ function resolveConfig(configPath) {
 			const absoluteConfigPath = path.resolve(configPath); // 1
 			return yield readJsonAsync(absoluteConfigPath); // 2
 		} catch (err) {
-			error('patternlab→resolveConfig: Oops, got an error during parsing your PatternLab config. Please make sure your config file exists.');
-			error(err);
+			error('patternlab→resolveConfig: Got an error during parsing your PatternLab config. Please make sure your config file exists.');
+			error(err)
+			return false;
 		}
-		return false;
 	});
 }
 

@@ -1,8 +1,7 @@
 'use strict';
-
 const pl = require('patternlab-node');
 const debug = require('./utils').debug;
-const isValidConfig = require('./is_valid_config');
+const isValidConfig = require('./validate-config');
 
 /**
  * @func build

@@ -1,7 +1,6 @@
 'use strict';
-
 const fs = require('fs-promise');
-const spawn = require('child-process-promise').spawn;
+const spawn = require('execa');
 const glob = require('glob');
 const path = require('path');
 const colors = require('colors');
@@ -14,13 +13,13 @@ const EventEmitter = require('events').EventEmitter;
  */
 const log = Object.assign({
 	debug(msg) {
-		this.emit('debug', colors.green(msg));
+		this.emit('patternlab.debug', colors.green(msg));
 	},
 	info(msg) {
-		this.emit('info', msg);
+		this.emit('patternlab.info', colors.orange(msg));
 	},
 	error(msg) {
-		this.emit('error', colors.red(msg));
+		this.emit('patternlab.error', colors.red(msg));
 	}
 }, EventEmitter.prototype);
 
@@ -101,7 +100,7 @@ const copyWithPattern = (cwd, pattern, dest) => wrapAsync(function*() {
 const fetchPackage = (packageName, url) => wrapAsync(function*() {
 	try {
 		if (packageName || url) {
-			const cmd = yield spawn('npm', ['install', '--save', url || packageName], {capture: ['stdout', 'stderr']});
+			const cmd = yield spawn('npm', ['install', url || packageName]);
 			error(cmd.stderr);
 		}
 	} catch (err) {

@@ -1,7 +1,7 @@
 const tap = require('tap');
 const path = require('path');
 const exists = require('path-exists');
-const scaffold = require('../bin/generator').scaffold;
+const scaffold = require('../bin/scaffold');
 const wrapAsync = require('../bin/utils').wrapAsync;
 
 const projectDir = './test/tmp';

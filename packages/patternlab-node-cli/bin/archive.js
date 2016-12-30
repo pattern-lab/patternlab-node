@@ -1,15 +1,14 @@
 'use strict';
-
 const fs = require('fs-promise');
 const path = require('path');
 const Archiver = require('archiver');
-const isValidConfig = require('./is_valid_config');
+const isValidConfig = require('./validate-config');
 const debug = require('./utils').debug;
 
 /**
  * @func exportPatterns
  * @desc Exports the patterns into the patternExportDirectory.
- * @param {object} [config] - The passed PatternLab config.
+ * @param {object} config - The passed PatternLab config.
  */
 function exportPatterns(config) {
 	if (!isValidConfig) throw new TypeError('export→Expects config not to be empty OR of type object if not empty.');
