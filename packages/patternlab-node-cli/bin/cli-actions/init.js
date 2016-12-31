@@ -25,10 +25,7 @@ const init = options => wrapAsync(function*() {
 	 * 3. If `edition` is present:
 	 *    3.1 Install edition
 	 *    3.2 Reassign adjustedconfig
-	 * 3. If `starterkit` is present
-	 *    3.1 Install it
-	 *    3.2 Copy over the mandatory starterkit files to sourceDir
-	 * 4. Check for starterkit and install it
+	 * 4. If `starterkit` is present install it and copy over the mandatory starterkit files to sourceDir
 	 * 5. Save patternlab-config.json in projectDir
 	 */
 	let patternlabConfig = replaceConfigPaths(defaultPatternlabConfig, projectDir, sourceDir, publicDir, exportDir); // 1
@@ -40,7 +37,7 @@ const init = options => wrapAsync(function*() {
 		patternlabConfig = Object.assign(patternlabConfig, newConf); // 3.2
 	}
 	if (starterkit) yield installStarterkit(starterkit, patternlabConfig); // 4
-	yield writeJsonAsync(path.resolve(projectDir, 'patternlab-config.json'), patternlabConfig); // 4.2
+	yield writeJsonAsync(path.resolve(projectDir, 'patternlab-config.json'), patternlabConfig); // 5
 	
 	// Finally :>
 	if (!edition && !starterkit) {
