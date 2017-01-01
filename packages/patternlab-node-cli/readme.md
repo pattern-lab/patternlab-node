@@ -2,6 +2,9 @@
 
 > Command-line interface (CLI) for the patternlab-node core.
 
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node-cli.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node-cli)
+
+
 ## Installation
 `npm install pattern-lab/patternlab-node-cli`
 
