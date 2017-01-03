@@ -438,10 +438,50 @@ var patternlab_engine = function (config) {
     return true;
   }
 
+  /**
+   * If a graph was serialized and then {@code deletePatternDir == true}, there is a mismatch in the
+   * pattern metadata and not all patterns might be recompiled.
+   * For that reason an empty graph is returned in this case, so every pattern will be flagged as
+   * "needs recompile". Otherwise the pattern graph is loaded from the meta data.
+   *
+   * @param patternlab
+   * @param {boolean} deletePatternDir When {@code true}, an empty graph is returned
+   * @return {PatternGraph}
+   */
+  function loadPatternGraph(deletePatternDir) {
+    // Sanity check to prevent problems when code is refactored
+    if (deletePatternDir) {
+      return PatternGraph.empty();
+    }
+    return PatternGraph.loadFromFile(patternlab);
+  }
+
   function buildPatterns(deletePatternDir) {
 
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
-    patternlab.graph = PatternGraph.loadFromFile(patternlab);
+
+    let graph = patternlab.graph = loadPatternGraph(deletePatternDir);
+
+    let graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
+
+    if (graphNeedsUpgrade) {
+      plutils.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
+        "Incremental build is available again on the next successful run.");
+
+      // Ensure that the freshly built graph has the latest version again.
+      patternlab.graph.upgradeVersion();
+    }
+
+    // Flags
+    let incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
+
+    if (incrementalBuildsEnabled) {
+      plutils.log.info("Incremental builds enabled.");
+    } else {
+      // needs to be done BEFORE processing patterns
+      fs.removeSync(paths.public.patterns);
+      fs.emptyDirSync(paths.public.patterns);
+    }
 
     try {
       patternlab.data = buildPatternData(paths.source.data, fs);
@@ -511,34 +551,32 @@ var patternlab_engine = function (config) {
       cacheBuster: patternlab.cacheBuster
     });
 
-    let patternsToBuild = patternlab.patterns;
+    // If deletePatternDir == true or graph needs to be updated
+    // rebuild all patterns
+    let patternsToBuild = null;
 
-    let graphNeedsUpgrade = !PatternGraph.checkVersion(patternlab.graph);
+    if (incrementalBuildsEnabled) {
+      // When the graph was loaded from file, some patterns might have been moved/deleted between runs
+      // so the graph data become out of sync
+      patternlab.graph.sync().forEach(n => {
+        plutils.log.info("[Deleted/Moved] " + n);
+      });
 
-    // Incremental builds are enabled, but we cannot use them
-    if (!deletePatternDir && graphNeedsUpgrade) {
-      plutils.log.info("Due to an upgrade, a complete rebuild is required. " +
-        "Incremental build is available again on the next run.");
-
-      // Ensure that the freshly built graph has the latest version again.
-      patternlab.graph.upgradeVersion();
-    }
-
-    //delete the contents of config.patterns.public before writing
-    //Also if the serialized graph must be updated
-    if (deletePatternDir || graphNeedsUpgrade) {
-      fs.removeSync(paths.public.patterns);
-      fs.emptyDirSync(paths.public.patterns);
-    } else {
       // TODO Find created or deleted files
       let now = new Date().getTime();
-      var modified = pattern_assembler.find_modified_patterns(now, patternlab);
+      let modified = pattern_assembler.find_modified_patterns(now, patternlab);
 
       // First mark all modified files
       for (let p of modified) {
         p.compileState = CompileState.NEEDS_REBUILD;
       }
       patternsToBuild = patternlab.graph.compileOrder();
+    } else {
+      // build all patterns, mark all to be rebuilt
+      patternsToBuild = patternlab.patterns;
+      for (let p of patternsToBuild) {
+        p.compileState = CompileState.NEEDS_REBUILD;
+      }
     }
 
 

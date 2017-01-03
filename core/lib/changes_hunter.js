@@ -40,7 +40,8 @@ ChangesHunter.prototype = {
         pattern.compileState = CompileState.CLEAN;
       }
     } catch (e) {
-      // Output does not exist yet, needs recompile
+      // Output does not exist yet, force recompile
+      pattern.compileState = CompileState.NEEDS_REBUILD;
     }
 
     let node = patternlab.graph.node(pattern);
