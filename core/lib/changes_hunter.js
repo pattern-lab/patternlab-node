@@ -27,13 +27,23 @@ ChangesHunter.prototype = {
     let renderedTemplatePath =
       patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered');
 
+    //write the compiled template to the public patterns directory
+    let markupOnlyPath =
+      patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly');
+
     if (!pattern.compileState) {
       pattern.compileState = CompileState.NEEDS_REBUILD;
     }
 
     try {
-      // Prevent error message if file does not exist
-      fs.accessSync(renderedTemplatePath, fs.F_OK);
+
+      // renderedTemplatePath required to display a single element
+      // Markup only is required for "View All" pages. It will get loaded later on.
+      // If any of these is missing, mark pattern for recompile
+      [renderedTemplatePath, markupOnlyPath].forEach(renderedFile =>
+        // Prevent error message if file does not exist
+        fs.accessSync(renderedFile, fs.F_OK)
+      );
       let outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
 
       if (pattern.lastModified && outputLastModified > pattern.lastModified) {
@@ -76,6 +86,13 @@ ChangesHunter.prototype = {
         // Ignore, not a regular file
       }
     }
+  },
+
+  needsRebuild: function(lastModified, p) {
+    if (p.compileState !== CompileState.CLEAN || ! p.lastModified) {
+      return true;
+    }
+    return p.lastModified >= lastModified;
   }
 };
 

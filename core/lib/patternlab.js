@@ -564,12 +564,7 @@ var patternlab_engine = function (config) {
 
       // TODO Find created or deleted files
       let now = new Date().getTime();
-      let modified = pattern_assembler.find_modified_patterns(now, patternlab);
-
-      // First mark all modified files
-      for (let p of modified) {
-        p.compileState = CompileState.NEEDS_REBUILD;
-      }
+      pattern_assembler.mark_modified_patterns(now, patternlab);
       patternsToBuild = patternlab.graph.compileOrder();
     } else {
       // build all patterns, mark all to be rebuilt
