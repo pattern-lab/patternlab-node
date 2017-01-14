@@ -1,7 +1,7 @@
 /*
- * patternlab-node - v2.7.1-alpha - 2016
+ * patternlab-node - v2.7.1 - 2017
  *
- * Brian Muenzenmeyer, Geoff Pursell, and the web community.
+ * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
  *
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
