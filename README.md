@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.png?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) ![current release](https://img.shields.io/github/release/pattern-lab/patternlab-node.svg) ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) ![current release](https://img.shields.io/github/release/pattern-lab/patternlab-node.svg) ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Pattern Lab Node Core
 
@@ -12,6 +12,8 @@ If this looks **REALLY DIFFERENT** from what you expected, check out the [Change
 
 * [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) - Lead Maintainer
 * [@geoffp](https://github.com/geoffp) - Core Contributor
+* [@raphaelokon](https://github.com/raphaelokon) - CLI Contributor
+* [@tburny](https://github.com/tburny) - Core Contributor
 
 ## Upgrading
 
@@ -19,7 +21,8 @@ If you find yourself here and are looking to upgrade, check out how to upgrade f
 
 ## Command Line Interface
 
-The [command line interface](https://github.com/pattern-lab/patternlab-node/wiki/Command-Line-Interface) is documented in the wiki, and already implemented for you within [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
+The rudimentary [command line interface](https://github.com/pattern-lab/patternlab-node/wiki/Command-Line-Interface) is documented in the wiki, and already implemented for you within [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
+A [full-featured command line interface](https://github.com/pattern-lab/patternlab-node-cli) is in the works, courtesy of [@raphaelokon](https://github.com/raphaelokon).
 
 ## Contributing
 

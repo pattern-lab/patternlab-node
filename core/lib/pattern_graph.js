@@ -56,6 +56,21 @@ var nodeName =
 PatternGraph.prototype = {
 
   /**
+   * Synchronizes the graph nodes with the set of all known patterns.
+   * For instance when a pattern is deleted or moved, it might still have a node from the serialized
+   * JSON, but there is no source pattern.
+   *
+   * @see {@link https://github.com/pattern-lab/patternlab-node/issues/580|Issue #580}
+   */
+  sync: function () {
+    // Remove any patterns that are in the graph data, but that haven't been discovered when
+    // walking all patterns iteratively
+    const nodesToRemove = this.nodes().filter(n => !this.patterns.has(n));
+    nodesToRemove.forEach(n => this.remove(n));
+    return nodesToRemove;
+  },
+
+  /**
    * Creates an independent copy of the graph where nodes and edges can be modified without
    * affecting the source.
    */
@@ -362,7 +377,7 @@ PatternGraph.resolveJsonGraphFile = function (patternlab, file) {
 PatternGraph.loadFromFile = function (patternlab, file) {
   const jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
 
-  // File is fresh, so simply constuct an empty graph in memory
+  // File is fresh, so simply construct an empty graph in memory
   if (!fs.existsSync(jsonGraphFile)) {
     return PatternGraph.empty();
   }

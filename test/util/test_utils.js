@@ -36,5 +36,23 @@ module.exports = {
    */
   sanitized: (outputTemplate) => {
     return outputTemplate.replace(/\n/g, ' ').replace(/\r/g, ' ').replace(/\s\s+/g, ' ').trim();
+  },
+
+  /**
+   * normalize a string (probably a path) to posix - style
+   * @param s - the string or array of strings to normalize path separators to posix - style
+   */
+  posixPath: (s) => {
+    if (Array.isArray(s)) {
+      var paths = [];
+      for (let i = 0; i < s.length; i++) {
+        paths.push(s[i].replace(/\\/g,"/"));
+      }
+      return paths;
+    } else {
+      return s.replace(/\\/g,"/");
+    }
   }
+
+
 };
