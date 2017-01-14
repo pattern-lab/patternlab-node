@@ -6,6 +6,7 @@ var VERSION = require('../core/lib/pattern_graph').PATTERN_GRAPH_VERSION;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var tap = require('tap');
+const posixPath = require('./util/test_utils.js').posixPath;
 
 var patternlab = {
   config: {
@@ -150,7 +151,7 @@ tap.test("Adding two nodes with only different subpattern types", (test) => {
   g.add(atomFoo);
   g.add(moleculeFoo);
   var actual = g.nodes();
-  test.same(actual, ["00-atoms/00-foo/baz.html", "00-atoms/00-bar/baz.html"]);
+  test.same(posixPath(actual), ["00-atoms/00-foo/baz.html", "00-atoms/00-bar/baz.html"]);
   test.end();
 });
 
@@ -224,10 +225,10 @@ tap.test("filter() - Removing nodes via filter", (test) => {
   g.link(moleculeBar, atomFoo);
 
   tap.test("lineage() - Calculate the lineage of a node", (test) => {
-    test.same(g.lineage(organismFoo).map(p => p.relPath), ["01-molecule/xy/foo"]);
-    test.same(g.lineage(organismBar).map(p => p.relPath), ["01-molecule/xy/foo","01-molecule/xy/bar"]);
-    test.same(g.lineage(moleculeFoo).map(p => p.relPath), ["00-atom/xy/foo"]);
-    test.same(g.lineage(moleculeBar).map(p => p.relPath), ["00-atom/xy/foo"]);
+    test.same(posixPath(g.lineage(organismFoo).map(p => p.relPath)), ["01-molecule/xy/foo"]);
+    test.same(posixPath(g.lineage(organismBar).map(p => p.relPath)), ["01-molecule/xy/foo","01-molecule/xy/bar"]);
+    test.same(posixPath(g.lineage(moleculeFoo).map(p => p.relPath)), ["00-atom/xy/foo"]);
+    test.same(posixPath(g.lineage(moleculeBar).map(p => p.relPath)), ["00-atom/xy/foo"]);
     test.same(g.lineage(atomFoo).map(p => p.relPath), []);
     test.same(g.lineage(atomIsolated).map(p => p.relPath), []);
     test.end();
@@ -246,9 +247,9 @@ tap.test("filter() - Removing nodes via filter", (test) => {
   tap.test("lineageR() - Calculate the reverse lineage of a node", (test) => {
     test.same(g.lineageR(organismFoo).map(p => p.relPath), []);
     test.same(g.lineageR(organismBar).map(p => p.relPath), []);
-    test.same(g.lineageR(moleculeFoo).map(p => p.relPath), ["02-organism/xy/foo", "02-organism/xy/bar"]);
-    test.same(g.lineageR(moleculeBar).map(p => p.relPath), ["02-organism/xy/bar"]);
-    test.same(g.lineageR(atomFoo).map(p => p.relPath), ["01-molecule/xy/foo", "01-molecule/xy/bar"]);
+    test.same(posixPath(g.lineageR(moleculeFoo).map(p => p.relPath)), ["02-organism/xy/foo", "02-organism/xy/bar"]);
+    test.same(posixPath(g.lineageR(moleculeBar).map(p => p.relPath)), ["02-organism/xy/bar"]);
+    test.same(posixPath(g.lineageR(atomFoo).map(p => p.relPath)), ["01-molecule/xy/foo", "01-molecule/xy/bar"]);
     test.same(g.lineageR(atomIsolated).map(p => p.relPath), []);
     test.end();
   });
