@@ -41,6 +41,7 @@ ChangesHunter.prototype = {
       // Markup only is required for "View All" pages. It will get loaded later on.
       // If any of these is missing, mark pattern for recompile
       [renderedTemplatePath, markupOnlyPath].forEach(renderedFile =>
+
         // Prevent error message if file does not exist
         fs.accessSync(renderedFile, fs.F_OK)
       );
@@ -88,7 +89,7 @@ ChangesHunter.prototype = {
     }
   },
 
-  needsRebuild: function(lastModified, p) {
+  needsRebuild: function (lastModified, p) {
     if (p.compileState !== CompileState.CLEAN || ! p.lastModified) {
       return true;
     }
