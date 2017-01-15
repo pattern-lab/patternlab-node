@@ -15,6 +15,7 @@
 4. To export your patterns in the browser preview `patternlab export` or again specify a custom config location `patternlab export --config path/to/config`
 
 ## API & Usage
+### General usage
 ```
 Usage: patternlab <cmd> [options]
 	Commands:
@@ -24,10 +25,58 @@ Usage: patternlab <cmd> [options]
 		serve|browse              Starts a server to inspect files in browser
 	
 	Options:
-		-h, --help                output usage information
-		-V, --version             output the version number
-		-c, --config <path>       Specify config file. Default looks up the project dir
+		-h, --help           output usage information
+		-V, --version        output the version number
+		-c, --config <path>  Specify config file. Default looks up the project dir
+		-v, --verbose        Show verbose logging
 ```
+
+### Build/Compile PatternLab
+```
+Usage: build|compile [options]
+	
+Build the PatternLab. Optionally (re-)build only the patterns
+	
+	Options:
+		-h, --help           output usage information
+		-p, --patterns-only  Whether to only build patterns
+```
+
+### Initialize PatternLab
+```
+Usage: init [options]
+
+Initialize a PatternLab project from scratch or import an edition and/or starterkit
+Passing no options starts the init in interactive mode
+
+	Options:
+		-h, --help                output usage information
+		-p, --project-dir <path>  Specify a project directory. Default: ./
+		-e, --edition <name>      Specify an edition to install. Default: edition-node
+		-k, --starterkit <name>   Specify a starterkit to install. Default: starterkit-mustache-demo
+```
+
+### Serve PatternLab
+```
+Usage: serve|browse [options]
+
+Starts a server to inspect files in browser
+
+
+	Options:
+		-h, --help  output usage information
+```
+
+### Export PatternLab
+```
+Usage: export [options]
+
+Export a PatternLab patterns into a compressed format
+
+	Options:
+		-h, --help  output usage information
+```
+
 ## Examples
 ```
     $ patternlab init # Initialize a PatternLab project.

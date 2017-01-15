@@ -21,7 +21,7 @@
     "inquirer": "2.0.0",
     "lodash": "4.17.4",
     "path-exists": "3.0.0",
-    "patternlab-node": " 2.7.1",
+    "patternlab-node": " 2.7.2",
     "sanitize-filename": "1.6.1"
   },
   "devDependencies": {
