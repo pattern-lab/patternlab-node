@@ -14,6 +14,17 @@ var pattern_exporter = function () {
   function exportPatterns(patternlab) {
     //read the config export options
     var exportPartials = patternlab.config.patternExportPatternPartials;
+    var exportAll = patternlab.config.patternExportAll;
+
+    if (exportAll) {
+      for (var i = 0; i < patternlab.patterns.length; i++) {
+        if (!patternlab.patterns[i].patternPartial.startsWith('-')) {
+          fs.outputFileSync(patternlab.config.patternExportDirectory + patternlab.patterns[i].patternPartial + '.html', patternlab.patterns[i].patternPartialCode);
+        }
+      }
+
+      return;
+    }
 
     //find the chosen patterns to export
     for (var i = 0; i < exportPartials.length; i++) {
