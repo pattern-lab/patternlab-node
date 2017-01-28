@@ -42,6 +42,8 @@ var pattern_exporter = function () {
     var preserveDirStructure = patternlab.config.patternExportPreserveDirectoryStructure;
     var patternName = pattern.patternPartial;
     var patternDir = patternlab.config.patternExportDirectory;
+    var patternCode = pattern.patternPartialCode;
+    var patternFileExtension = ".html";
     if (preserveDirStructure) {
       // Extract the first part of the pattern partial as the directory in which
       // it should go.
@@ -49,7 +51,12 @@ var pattern_exporter = function () {
       patternName = pattern.patternPartial.split('-').slice(1).join('-');
     }
 
-    fs.outputFileSync(path.join(patternDir, patternName) + '.html', pattern.patternPartialCode);
+    if (patternlab.config.patternExportRaw) {
+      patternCode = pattern.extendedTemplate;
+      patternFileExtension = "." + JSON.parse(pattern.patternData).patternExtension;
+    }
+
+    fs.outputFileSync(path.join(patternDir, patternName) + patternFileExtension, patternCode);
   }
 
   return {

@@ -54,6 +54,7 @@
   },
   "patternExportAll": false,
   "patternExportPreserveDirectoryStructure": false,
+  "patternExportRaw": false,
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "cacheBust": true,
