@@ -53,6 +53,7 @@
   "patternStates": {
   },
   "patternExportAll": false,
+  "patternExportPreserveDirectoryStructure": false,
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "cacheBust": true,

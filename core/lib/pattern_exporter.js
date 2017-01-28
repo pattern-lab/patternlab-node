@@ -1,6 +1,7 @@
 "use strict";
 
 var fs = require('fs-extra');
+var path = require('path');
 
 var pattern_exporter = function () {
 
@@ -19,7 +20,7 @@ var pattern_exporter = function () {
     if (exportAll) {
       for (var i = 0; i < patternlab.patterns.length; i++) {
         if (!patternlab.patterns[i].patternPartial.startsWith('-')) {
-          fs.outputFileSync(patternlab.config.patternExportDirectory + patternlab.patterns[i].patternPartial + '.html', patternlab.patterns[i].patternPartialCode);
+          exportSinglePattern(patternlab, patternlab.patterns[i]);
         }
       }
 
@@ -31,10 +32,24 @@ var pattern_exporter = function () {
       for (var j = 0; j < patternlab.patterns.length; j++) {
         if (exportPartials[i] === patternlab.patterns[j].patternPartial) {
           //write matches to the desired location
-          fs.outputFileSync(patternlab.config.patternExportDirectory + patternlab.patterns[j].patternPartial + '.html', patternlab.patterns[j].patternPartialCode);
+          exportSinglePattern(patternlab, patternlab.patterns[j]);
         }
       }
     }
+  }
+
+  function exportSinglePattern(patternlab, pattern) {
+    var preserveDirStructure = patternlab.config.patternExportPreserveDirectoryStructure;
+    var patternName = pattern.patternPartial;
+    var patternDir = patternlab.config.patternExportDirectory;
+    if (preserveDirStructure) {
+      // Extract the first part of the pattern partial as the directory in which
+      // it should go.
+      patternDir = path.join(patternDir, pattern.patternPartial.split('-')[0]);
+      patternName = pattern.patternPartial.split('-').slice(1).join('-');
+    }
+
+    fs.outputFileSync(path.join(patternDir, patternName) + '.html', pattern.patternPartialCode);
   }
 
   return {
