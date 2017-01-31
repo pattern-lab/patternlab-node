@@ -3,6 +3,7 @@
 var tap = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
 var eol = require('os').EOL;
 
@@ -20,6 +21,7 @@ if (!engineLoader.underscore) {
 // apparatus.
 function fakePatternLab() {
   var fpl = {
+    graph: PatternGraph.empty(),
     partials: {},
     patterns: [],
     footer: '',

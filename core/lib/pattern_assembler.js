@@ -2,7 +2,9 @@
 
 var path = require('path'),
   fs = require('fs-promise'),
+  _ = require('lodash'),
   Pattern = require('./object_factory').Pattern,
+  CompileState = require('./object_factory').CompileState,
   pph = require('./pseudopattern_hunter'),
   mp = require('./markdown_parser'),
   plutils = require('./utilities'),
@@ -11,11 +13,13 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
+  ch = require('./changes_hunter'),
   JSON5 = require('json5');
 
-var markdown_parser = new mp();
+const markdown_parser = new mp();
+const changes_hunter = new ch();
 
-var pattern_assembler = function () {
+const pattern_assembler = function () {
   // HELPER FUNCTIONS
 
   function getPartial(partialName, patternlab) {
@@ -123,7 +127,7 @@ var pattern_assembler = function () {
       } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
-
+      patternlab.graph.add(pattern);
       patternlab.patterns.push(pattern);
 
     }
@@ -152,6 +156,8 @@ var pattern_assembler = function () {
 
     try {
       var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
+      changes_hunter.checkLastModified(currentPattern, markdownFileName);
+
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
@@ -355,7 +361,21 @@ var pattern_assembler = function () {
     parsePatternMarkdown(currentPattern, patternlab);
 
     //add the raw template to memory
-    currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
+    var templatePath = path.resolve(patternsPath, currentPattern.relPath);
+
+    currentPattern.template = fs.readFileSync(templatePath, 'utf8');
+
+    //find any stylemodifiers that may be in the current pattern
+    currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
+
+    //find any pattern parameters that may be in the current pattern
+    currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
+
+    [templatePath, jsonFilename, listJsonFileName].forEach(file => {
+      changes_hunter.checkLastModified(currentPattern, file);
+    });
+
+    changes_hunter.checkBuildState(currentPattern, patternlab);
 
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
@@ -397,6 +417,42 @@ var pattern_assembler = function () {
 
     //call our helper method to actually unravel the pattern with any partials
     decomposePattern(currentPattern, patternlab);
+  }
+
+
+  /**
+   * Finds patterns that were modified and need to be rebuilt. For clean patterns load the already
+   * rendered markup.
+   *
+   * @param lastModified
+   * @param patternlab
+   */
+  function markModifiedPatterns(lastModified, patternlab) {
+    /**
+     * If the given array exists, apply a function to each of its elements
+     * @param {Array} array
+     * @param {Function} func
+     */
+    const forEachExisting = (array, func) => {
+      if (array) {
+        array.forEach(func);
+      }
+    };
+    const modifiedOrNot = _.groupBy(
+      patternlab.patterns,
+      p => changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified');
+
+    // For all unmodified patterns load their rendered template output
+    forEachExisting(modifiedOrNot.notModified, cleanPattern => {
+      const xp = path.join(patternlab.config.paths.public.patterns, cleanPattern.getPatternLink(patternlab, 'markupOnly'));
+
+      // Pattern with non-existing markupOnly files were already marked for rebuild and thus are not "CLEAN"
+      cleanPattern.patternPartialCode = fs.readFileSync(xp, 'utf8');
+    });
+
+    // For all patterns that were modified, schedule them for rebuild
+    forEachExisting(modifiedOrNot.modified, p => p.compileState = CompileState.NEEDS_REBUILD);
+    return modifiedOrNot;
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -512,6 +568,9 @@ var pattern_assembler = function () {
   }
 
   return {
+    mark_modified_patterns: function (lastModified, patternlab) {
+      return markModifiedPatterns(lastModified, patternlab);
+    },
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
     },

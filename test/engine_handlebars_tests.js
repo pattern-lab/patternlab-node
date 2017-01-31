@@ -5,6 +5,7 @@ var tap = require('tap');
 var path = require('path');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 var eol = require('os').EOL;
 
@@ -22,6 +23,7 @@ if (!engineLoader.handlebars) {
 // apparatus.
 function fakePatternLab() {
   var fpl = {
+    graph: PatternGraph.empty(),
     partials: {},
     patterns: [],
     footer: '',

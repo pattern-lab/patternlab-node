@@ -4,9 +4,18 @@ var tap = require('tap');
 
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var CompileState = require('../core/lib/object_factory').CompileState;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var path = require('path');
 
+function emptyPatternLab() {
+  return {
+    graph: PatternGraph.empty()
+  }
+}
 
+const patterns_dir = './test/files/_patterns';
+const public_dir = './test/public';
 
 tap.test('process_pattern_recursive recursively includes partials', function(test) {
 
@@ -17,10 +26,10 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   var pa = require('../core/lib/pattern_assembler');
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   patternlab.config = fs.readJSONSync('./patternlab-config.json');
   patternlab.config.paths.source.patterns = patterns_dir;
+  patternlab.config.paths.public = public_dir;
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
   //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
@@ -72,7 +81,7 @@ tap.test('processPatternRecursive - correctly replaces all stylemodifiers when m
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -116,7 +125,7 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -161,7 +170,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -204,7 +213,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -248,7 +257,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -293,7 +302,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -338,7 +347,7 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -392,7 +401,7 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns';
 
-  var pl = {};
+  var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
@@ -500,7 +509,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns/';
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   //THIS IS BAD
   patternlab.config = fs.readJSONSync('./patternlab-config.json');
   patternlab.config.paths.source.patterns = patterns_dir;
@@ -565,7 +574,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
 tap.test('get_pattern_by_key - returns the fuzzy result when no others found', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();;
   patternlab.patterns = [];
 
   patternlab.patterns.push({
@@ -584,7 +593,7 @@ tap.test('get_pattern_by_key - returns the fuzzy result when no others found', f
 tap.test('get_pattern_by_key - returns the exact key if found', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();;
   patternlab.patterns = [];
 
   patternlab.patterns.push({
@@ -607,7 +616,7 @@ tap.test('get_pattern_by_key - returns the exact key if found', function(test) {
 tap.test('addPattern - adds pattern extended template to patternlab partial object', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   patternlab.patterns = [];
   patternlab.partials = {};
   patternlab.data = {link: {}};
@@ -631,7 +640,7 @@ tap.test('addPattern - adds pattern extended template to patternlab partial obje
 tap.test('addPattern - adds pattern template to patternlab partial object if extendedtemplate does not exist yet', function(test){
   //arrange
   var pattern_assembler = new pa();
-  var patternlab = {};
+  var patternlab = emptyPatternLab();
   patternlab.patterns = [];
   patternlab.partials = {};
   patternlab.data = {link: {}};
@@ -651,6 +660,90 @@ tap.test('addPattern - adds pattern template to patternlab partial object if ext
   test.equals(patternlab.partials['test-bar'], 'bar');
   test.end();
 });
+
+tap.test('markModifiedPatterns - finds patterns modified since a given date', function(test){
+  const fs = require('fs-extra');
+  // test/myModule.test.js
+  var rewire = require("rewire");
+
+  var pattern_assembler_mock = rewire("../core/lib/pattern_assembler");
+  var fsMock = {
+    readFileSync: function (path, encoding, cb) {
+      return "";
+    }
+  };
+  pattern_assembler_mock.__set__("fs", fsMock);
+  //arrange
+  var pattern_assembler = new pattern_assembler_mock();
+  var patternlab = emptyPatternLab();
+  patternlab.config = fs.readJSONSync('./patternlab-config.json');
+  patternlab.config.paths.public.patterns = public_dir + "/patterns";
+  patternlab.config.outputFileSuffixes = {rendered: '', markupOnly: '.markup-only'};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = new Date("2016-01-31").getTime();
+  // Initially the compileState is clean,
+  // but we would change this after detecting that the file was modified
+  pattern.compileState = CompileState.CLEAN;
+  patternlab.patterns = [pattern];
+
+  var lastCompilationRun = new Date("2016-01-01").getTime();
+  var modifiedOrNot = pattern_assembler.mark_modified_patterns(lastCompilationRun, patternlab);
+
+  test.same(modifiedOrNot.modified.length, 1, "The pattern was modified after the last compilation");
+
+  // Reset the compile state as it was previously set by pattern_assembler.mark_modified_patterns
+  pattern.compileState = CompileState.CLEAN;
+  lastCompilationRun = new Date("2016-12-31").getTime();
+  modifiedOrNot = pattern_assembler.mark_modified_patterns(lastCompilationRun, patternlab);
+  test.same(modifiedOrNot.notModified.length, 1, "Pattern was already compiled and hasn't been modified since last compile");
+  test.end();
+});
+
+tap.test('markModifiedPatterns - finds patterns when modification date is missing', function(test){
+  //arrange
+  var pattern_assembler = new pa();
+  var patternlab = emptyPatternLab();
+  patternlab.partials = {};
+  patternlab.data = {link: {}};
+  patternlab.config = { debug: false };
+  patternlab.config.outputFileSuffixes = {rendered : ''};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = undefined;
+  patternlab.patterns = [pattern];
+
+  let p = pattern_assembler.mark_modified_patterns(1000, patternlab);
+  test.same(p.modified.length, 1);
+  test.end();
+});
+
+// This is the case when we want to force recompilation
+tap.test('markModifiedPatterns - finds patterns via compile state', function(test){
+  //arrange
+  var pattern_assembler = new pa();
+  var patternlab = emptyPatternLab();
+  patternlab.partials = {};
+  patternlab.data = {link: {}};
+  patternlab.config = { debug: false };
+  patternlab.config.outputFileSuffixes = {rendered : ''};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = 100000;
+  pattern.compileState = CompileState.NEEDS_REBUILD;
+  patternlab.patterns = [pattern];
+
+  let p = pattern_assembler.mark_modified_patterns(1000, patternlab);
+  test.same(p.modified.length, 1);
+  test.end();
+});
+
 
 tap.test('hidden patterns can be called by their nice names', function(test){
   var util = require('./util/test_utils.js');
