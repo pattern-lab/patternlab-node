@@ -6,17 +6,23 @@ var path = require('path');
 var pph = require('../core/lib/pseudopattern_hunter');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
 var fs = require('fs-extra');
 var pattern_assembler = new pa();
 var patterns_dir = './test/files/_patterns/';
+var public_patterns_dir = './test/public/patterns';
 
 function stubPatternlab() {
   var pl = {};
+  pl.graph = PatternGraph.empty();
   pl.config = {
     paths: {
       source: {
         patterns: patterns_dir
+      },
+      public: {
+        patterns: public_patterns_dir
       }
     }
   };

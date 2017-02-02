@@ -60,5 +60,6 @@
     "rawTemplate": "",
     "markupOnly": ".markup-only"
   },
-  "cleanOutputHtml": true
+  "cleanOutputHtml": true,
+  "exportToGraphViz": false
 }
