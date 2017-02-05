@@ -490,7 +490,10 @@ const pattern_assembler = function () {
       //complete assembly of extended template
       //create a copy of the partial so as to not pollute it after the getPartial call.
       var partialPattern = getPartial(partial, patternlab);
+      console.log('partialPattern', partialPattern);
       var cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+      console.log('cleanPartialPattern', cleanPartialPattern);
+      console.log('partialPath', partialPath);
 
       //if partial has style modifier data, replace the styleModifier value
       if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
