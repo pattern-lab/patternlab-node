@@ -1,4 +1,5 @@
 // special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible!
+'use strict';
 const path = require('path');
 const diveSync = require('diveSync');
 const chalk = require('chalk');

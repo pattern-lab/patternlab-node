@@ -1,20 +1,20 @@
 "use strict";
 
-var list_item_hunter = function () {
-  var extend = require('util')._extend,
-    JSON5 = require('json5'),
-    pa = require('./pattern_assembler'),
-    smh = require('./style_modifier_hunter'),
-    plutils = require('./utilities'),
-    Pattern = require('./object_factory').Pattern;
+let list_item_hunter = function () {
+  const extend = require('util')._extend;
+  const JSON5 = require('json5');
+  const pa = require('./pattern_assembler');
+  const smh = require('./style_modifier_hunter');
+  const plutils = require('./utilities');
+  const Pattern = require('./object_factory').Pattern;
 
-  var pattern_assembler = new pa(),
+  let pattern_assembler = new pa(),
     style_modifier_hunter = new smh(),
     items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
-    var matches = pattern.findListItems();
+    let matches = pattern.findListItems();
 
     if (matches !== null) {
       matches.forEach(function (liMatch) {
@@ -24,14 +24,14 @@ var list_item_hunter = function () {
         }
 
         //find the boundaries of the block
-        var loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
-        var end = liMatch.replace('#', '/');
-        var patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
+        let loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
+        let end = liMatch.replace('#', '/');
+        let patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
 
         //build arrays that repeat the block, however large we need to
-        var repeatedBlockTemplate = [];
-        var repeatedBlockHtml = '';
-        for (var i = 0; i < items.indexOf(loopNumberString); i++) {
+        let repeatedBlockTemplate = [];
+        let repeatedBlockHtml = '';
+        for (let i = 0; i < items.indexOf(loopNumberString); i++) {
           if (patternlab.config.debug) {
             console.log('list item(s) in pattern', pattern.patternPartial, 'adding', patternBlock, 'to repeatedBlockTemplate');
           }
@@ -39,7 +39,7 @@ var list_item_hunter = function () {
         }
 
         //check for a local listitems.json file
-        var listData;
+        let listData;
         try {
           listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
         } catch (err) {
@@ -51,15 +51,15 @@ var list_item_hunter = function () {
         listData = pattern_assembler.parse_data_links_specific(patternlab, listData, 'listitems.json + any pattern listitems.json');
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
-        for (var i = 0; i < repeatedBlockTemplate.length; i++) {
+        for (let i = 0; i < repeatedBlockTemplate.length; i++) {
 
-          var thisBlockTemplate = repeatedBlockTemplate[i];
-          var thisBlockHTML = "";
+          let thisBlockTemplate = repeatedBlockTemplate[i];
+          let thisBlockHTML = "";
 
           //combine listItem data with pattern data with global data
-          var itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
-          var globalData;
-          var localData;
+          let itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
+          let globalData;
+          let localData;
           try {
             globalData = JSON5.parse(JSON5.stringify(patternlab.data));
             localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
@@ -68,23 +68,23 @@ var list_item_hunter = function () {
             console.log(err);
           }
 
-          var allData = plutils.mergeData(globalData, localData);
+          let allData = plutils.mergeData(globalData, localData);
           allData = plutils.mergeData(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
           allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block
-          var foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
+          let foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
 
           if (foundPartials && foundPartials.length > 0) {
 
-            for (var j = 0; j < foundPartials.length; j++) {
+            for (let j = 0; j < foundPartials.length; j++) {
 
               //get the partial
-              var partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              var partialPattern = pattern_assembler.getPartial(partialName, patternlab);
+              let partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
+              let partialPattern = pattern_assembler.getPartial(partialName, patternlab);
 
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
-              var cleanPartialPattern;
+              let cleanPartialPattern;
               try {
                 cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
               } catch (err) {
@@ -117,7 +117,7 @@ var list_item_hunter = function () {
         }
 
         //replace the block with our generated HTML
-        var repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
+        let repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later

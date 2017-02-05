@@ -1,3 +1,4 @@
+'use strict';
 const patternEngines = require('./pattern_engines');
 const path = require('path');
 const extend = require('util')._extend;

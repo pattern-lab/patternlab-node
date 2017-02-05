@@ -1,3 +1,4 @@
+'use strict';
 const extend = require("util")._extend;
 
 let lineage_hunter = function () {

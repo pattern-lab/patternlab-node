@@ -1,4 +1,4 @@
-
+'use strict';
 
 let parameter_hunter = function () {
   const extend = require('util')._extend;

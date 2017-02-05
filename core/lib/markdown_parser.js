@@ -1,3 +1,4 @@
+'use strict';
 const md = require('markdown-it')();
 const yaml = require('js-yaml');
 
