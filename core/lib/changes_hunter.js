@@ -1,6 +1,5 @@
-"use strict";
-const fs = require("fs-extra"),
-  CompileState = require('./object_factory').CompileState;
+const fs = require("fs-extra");
+const CompileState = require('./object_factory').CompileState;
 
 /**
  * For detecting changed patterns.

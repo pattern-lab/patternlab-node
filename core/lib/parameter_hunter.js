@@ -1,14 +1,13 @@
-"use strict";
 
-var parameter_hunter = function () {
 
-  var extend = require('util')._extend,
-    JSON5 = require('json5'),
-    pa = require('./pattern_assembler'),
-    smh = require('./style_modifier_hunter'),
-    plutils = require('./utilities'),
-    style_modifier_hunter = new smh(),
-    pattern_assembler = new pa();
+let parameter_hunter = function () {
+  const extend = require('util')._extend;
+  const JSON5 = require('json5');
+  const pa = require('./pattern_assembler');
+  const smh = require('./style_modifier_hunter');
+  const plutils = require('./utilities');
+  const style_modifier_hunter = new smh();
+  const pattern_assembler = new pa();
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by

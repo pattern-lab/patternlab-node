@@ -1,7 +1,6 @@
 "use strict";
 
 var list_item_hunter = function () {
-
   var extend = require('util')._extend,
     JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
