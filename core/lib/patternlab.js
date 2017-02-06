@@ -36,6 +36,7 @@ console.log(
   chalk.bold(']====\n')
 );
 
+var patternEngines = require('./pattern_engines');
 var EventEmitter = require('events').EventEmitter;
 
 function buildPatternData(dataFilesPath, fsDep) {
@@ -176,7 +177,6 @@ var patternlab_engine = function (config) {
     lh = require('./lineage_hunter'),
     ui = require('./ui_builder'),
     sm = require('./starterkit_manager'),
-    patternEngines = require('./pattern_engines'),
     Pattern = require('./object_factory').Pattern,
     CompileState = require('./object_factory').CompileState,
     patternlab = {};
