@@ -13,7 +13,7 @@ const patternPrefixMatcher = /^_?(\d+-)?/;
  * Pattern constructor
  * @constructor
  */
-let Pattern = function (relPath, data, patternlab) {
+const Pattern = function (relPath, data, patternlab) {
   /**
   * We expect relPath to be the path of the pattern template, relative to the
   * root of the pattern tree. Parse out the path parts and save the useful ones.
@@ -21,7 +21,7 @@ let Pattern = function (relPath, data, patternlab) {
   * @param {data} The JSON used to render values in the pattern.
   * @param {patternlab} rendered html files for the pattern
   */
-  let pathObj = path.parse(path.normalize(relPath));
+  const pathObj = path.parse(path.normalize(relPath));
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name;     // '00-colors'
   this.subdir = pathObj.dir;        // '00-atoms/00-global'
@@ -121,8 +121,8 @@ Pattern.prototype = {
   // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
   getPatternLink: function (patternlab, suffixType, customfileExtension) {
     // if no suffixType is provided, we default to rendered
-    let suffixConfig = patternlab.config.outputFileSuffixes;
-    let suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
+    const suffixConfig = patternlab.config.outputFileSuffixes;
+    const suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
 
     if (suffixType === 'rawTemplate') {
       return this.name + path.sep + this.name + suffix + this.fileExtension;
@@ -172,7 +172,7 @@ Pattern.createEmpty = function (customProps, patternlab) {
     }
   }
 
-  let pattern = new Pattern(relPath, null, patternlab);
+  const pattern = new Pattern(relPath, null, patternlab);
   return extend(pattern, customProps);
 };
 
@@ -180,11 +180,11 @@ Pattern.createEmpty = function (customProps, patternlab) {
 // parameters that replace the positional parameters that the Pattern
 // constructor takes.
 Pattern.create = function (relPath, data, customProps, patternlab) {
-  let newPattern = new Pattern(relPath || '', data || null, patternlab);
+  const newPattern = new Pattern(relPath || '', data || null, patternlab);
   return extend(newPattern, customProps);
 };
 
-let CompileState = {
+const CompileState = {
   NEEDS_REBUILD: "needs rebuild",
   BUILDING: "building",
   CLEAN: "clean"

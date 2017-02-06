@@ -2,7 +2,7 @@
 const md = require('markdown-it')();
 const yaml = require('js-yaml');
 
-let markdown_parser = function () {
+const markdown_parser = function () {
 
   /**
    * Converts a markdown block with frontmatter (each is optional, technically) to a well-formed object.
@@ -14,14 +14,14 @@ let markdown_parser = function () {
 
     try {
       //for each block process the yaml frontmatter and markdown
-      let frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
-      let chunks = frontmatterRE.exec(block);
+      const frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
+      const chunks = frontmatterRE.exec(block);
 
       if (chunks) {
         //we got some frontmatter
         if (chunks && chunks[1]) {
           //parse the yaml if we got it
-          let frontmatter = chunks[1];
+          const frontmatter = chunks[1];
           returnObject = yaml.safeLoad(frontmatter);
         }
 

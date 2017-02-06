@@ -1,6 +1,6 @@
 "use strict";
 
-let list_item_hunter = function () {
+const list_item_hunter = function () {
   const extend = require('util')._extend;
   const JSON5 = require('json5');
   const pa = require('./pattern_assembler');
@@ -8,13 +8,13 @@ let list_item_hunter = function () {
   const plutils = require('./utilities');
   const Pattern = require('./object_factory').Pattern;
 
-  let pattern_assembler = new pa(),
-    style_modifier_hunter = new smh(),
-    items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+  const pattern_assembler = new pa();
+  const style_modifier_hunter = new smh();
+  const items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
   function processListItemPartials(pattern, patternlab) {
     //find any listitem blocks
-    let matches = pattern.findListItems();
+    const matches = pattern.findListItems();
 
     if (matches !== null) {
       matches.forEach(function (liMatch) {
@@ -24,12 +24,12 @@ let list_item_hunter = function () {
         }
 
         //find the boundaries of the block
-        let loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
-        let end = liMatch.replace('#', '/');
-        let patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
+        const loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
+        const end = liMatch.replace('#', '/');
+        const patternBlock = pattern.template.substring(pattern.template.indexOf(liMatch) + liMatch.length, pattern.template.indexOf(end)).trim();
 
         //build arrays that repeat the block, however large we need to
-        let repeatedBlockTemplate = [];
+        const repeatedBlockTemplate = [];
         let repeatedBlockHtml = '';
         for (let i = 0; i < items.indexOf(loopNumberString); i++) {
           if (patternlab.config.debug) {
@@ -57,7 +57,7 @@ let list_item_hunter = function () {
           let thisBlockHTML = "";
 
           //combine listItem data with pattern data with global data
-          let itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
+          const itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
           let globalData;
           let localData;
           try {
@@ -73,15 +73,15 @@ let list_item_hunter = function () {
           allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block
-          let foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
+          const foundPartials = Pattern.createEmpty({'template': thisBlockTemplate}).findPartials();
 
           if (foundPartials && foundPartials.length > 0) {
 
             for (let j = 0; j < foundPartials.length; j++) {
 
               //get the partial
-              let partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              let partialPattern = pattern_assembler.getPartial(partialName, patternlab);
+              const partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
+              const partialPattern = pattern_assembler.getPartial(partialName, patternlab);
 
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
               let cleanPartialPattern;
@@ -117,7 +117,7 @@ let list_item_hunter = function () {
         }
 
         //replace the block with our generated HTML
-        let repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
+        const repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
         pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later

@@ -1,29 +1,29 @@
 'use strict';
 const extend = require("util")._extend;
 
-let lineage_hunter = function () {
+const lineage_hunter = function () {
 
-  let pa = require('./pattern_assembler');
+  const pa = require('./pattern_assembler');
 
   function findlineage(pattern, patternlab) {
     // As we are adding edges from pattern to ancestor patterns, ensure it is known to the graph
     patternlab.graph.add(pattern);
 
-    let pattern_assembler = new pa();
+    const pattern_assembler = new pa();
 
     //find the {{> template-name }} within patterns
-    let matches = pattern.findPartials();
+    const matches = pattern.findPartials();
     if (matches !== null) {
       matches.forEach(function (match) {
         //get the ancestorPattern
-        let ancestorPattern = pattern_assembler.getPartial(pattern.findPartial(match), patternlab);
+        const ancestorPattern = pattern_assembler.getPartial(pattern.findPartial(match), patternlab);
 
         if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) === -1) {
           //add it since it didnt exist
           pattern.lineageIndex.push(ancestorPattern.patternPartial);
 
           //create the more complex patternLineage object too
-          let l = {
+          const l = {
             "lineagePattern": ancestorPattern.patternPartial,
             "lineagePath": "../../patterns/" + ancestorPattern.patternLink
           };
@@ -43,7 +43,7 @@ let lineage_hunter = function () {
             ancestorPattern.lineageRIndex.push(pattern.patternPartial);
 
             //create the more complex patternLineage object in reverse
-            let lr = {
+            const lr = {
               "lineagePattern": pattern.patternPartial,
               "lineagePath": "../../patterns/" + pattern.patternLink
             };
@@ -87,11 +87,11 @@ let lineage_hunter = function () {
   function cascadePatternStates(patternlab) {
 
     for (let i = 0; i < patternlab.patterns.length; i++) {
-      let pattern = patternlab.patterns[i];
+      const pattern = patternlab.patterns[i];
 
       //for each pattern with a defined state
       if (pattern.patternState) {
-        let lineage = patternlab.graph.lineage(pattern);
+        const lineage = patternlab.graph.lineage(pattern);
 
         if (lineage && lineage.length > 0) {
 
@@ -102,20 +102,20 @@ let lineage_hunter = function () {
             setPatternState('fromFuture', lineage[h], pattern, patternlab.graph);
           }
         }
-        let lineageR = patternlab.graph.lineageR(pattern);
+        const lineageR = patternlab.graph.lineageR(pattern);
         if (lineageR && lineageR.length > 0) {
 
           //find all reverse lineage - that is, patterns consuming this one
           for (let j = 0; j < lineageR.length; j++) {
 
-            let lineageRPattern = lineageR[j];
+            const lineageRPattern = lineageR[j];
 
             //only set patternState if pattern.patternState "is less than" the lineageRPattern.patternstate
             //or if lineageRPattern.patternstate (the consuming pattern) does not have a state
             //this makes patternlab apply the lowest common ancestor denominator
-            let patternStateCascade = patternlab.config.patternStateCascade;
-            let patternStateIndex = patternStateCascade.indexOf(pattern.patternState);
-            let patternReverseStateIndex = patternStateCascade.indexOf(lineageRPattern.patternState);
+            const patternStateCascade = patternlab.config.patternStateCascade;
+            const patternStateIndex = patternStateCascade.indexOf(pattern.patternState);
+            const patternReverseStateIndex = patternStateCascade.indexOf(lineageRPattern.patternState);
             if (lineageRPattern.patternState === '' || (patternStateIndex < patternReverseStateIndex)) {
 
               if (patternlab.config.debug) {

@@ -6,7 +6,7 @@ const CompileState = require('./object_factory').CompileState;
  * For detecting changed patterns.
  * @constructor
  */
-let ChangesHunter = function () {
+const ChangesHunter = function () {
 };
 
 ChangesHunter.prototype = {
@@ -24,11 +24,11 @@ ChangesHunter.prototype = {
   checkBuildState: function (pattern, patternlab) {
 
     //write the compiled template to the public patterns directory
-    let renderedTemplatePath =
+    const renderedTemplatePath =
       patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered');
 
     //write the compiled template to the public patterns directory
-    let markupOnlyPath =
+    const markupOnlyPath =
       patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly');
 
     if (!pattern.compileState) {
@@ -45,7 +45,7 @@ ChangesHunter.prototype = {
         // Prevent error message if file does not exist
         fs.accessSync(renderedFile, fs.F_OK)
       );
-      let outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
+      const outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
 
       if (pattern.lastModified && outputLastModified > pattern.lastModified) {
         pattern.compileState = CompileState.CLEAN;
@@ -55,7 +55,7 @@ ChangesHunter.prototype = {
       pattern.compileState = CompileState.NEEDS_REBUILD;
     }
 
-    let node = patternlab.graph.node(pattern);
+    const node = patternlab.graph.node(pattern);
 
     // Make the pattern known to the PatternGraph and remember its compileState
     if (!node) {
@@ -78,7 +78,7 @@ ChangesHunter.prototype = {
   checkLastModified: function (currentPattern, file) {
     if (file) {
       try {
-        let stat = fs.statSync(file);
+        const stat = fs.statSync(file);
 
         // Needs recompile whenever one of the patterns files (template, json, pseudopatterns) changed
         currentPattern.lastModified =

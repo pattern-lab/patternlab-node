@@ -14,31 +14,34 @@ const enginesDirectories = [
     path: path.join(process.cwd(), 'node_modules')
   }
 ];
-let PatternEngines; // the main export object
-let engineNameForExtension; // generated mapping of extension to engine name
 
+// the main export object
+let PatternEngines;
 
+// generated mapping of extension to engine name
 // free "private" functions, for internal setup only
 
 // given a path: return the engine name if the path points to a valid engine
 // module directory, or false if it doesn't
+
+var engineNameForExtension;
 function isEngineModule(filePath) {
-  let baseName = path.basename(filePath);
-  let engineMatch = baseName.match(engineMatcher);
+  const baseName = path.basename(filePath);
+  const engineMatch = baseName.match(engineMatcher);
 
   if (engineMatch) { return engineMatch[1]; }
   return false;
 }
 
 function findEngineModulesInDirectory(dir) {
-  let foundEngines = [];
+  const foundEngines = [];
 
   diveSync(dir, {
     recursive: false,
     directories: true
   }, function (err, filePath) {
     if (err) { throw err; }
-    let foundEngineName = isEngineModule(filePath);
+    const foundEngineName = isEngineModule(filePath);
     if (foundEngineName) {
       foundEngines.push({
         name: foundEngineName,
@@ -54,14 +57,14 @@ function findEngineModulesInDirectory(dir) {
 // function is kind of a big deal.
 function loadAllEngines(enginesObject) {
   enginesDirectories.forEach(function (engineDirectory) {
-    let enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
+    const enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
     console.log(chalk.bold(`Loading engines from ${engineDirectory.displayName}...\n`));
 
     // find all engine-named things in this directory and try to load them,
     // unless it's already been loaded.
     enginesInThisDir.forEach(function (engineDiscovery) {
       let errorMessage;
-      let successMessage = chalk.green("good to go");
+      const successMessage = chalk.green("good to go");
 
       try {
         // give it a try! load 'er up. But not if we already have, of course.
@@ -90,10 +93,10 @@ function loadAllEngines(enginesObject) {
 // produce a mapping between file extension and engine name for each of the
 // loaded engines
 function createFileExtensionToEngineNameMap(enginesObject) {
-  let mapping = {};
+  const mapping = {};
 
   Object.keys(enginesObject).forEach(function (engineName) {
-    let extensionForEngine = enginesObject[engineName].engineFileExtension;
+    const extensionForEngine = enginesObject[engineName].engineFileExtension;
     mapping[extensionForEngine] = engineName;
   });
 
@@ -116,10 +119,10 @@ function createFileExtensionToEngineNameMap(enginesObject) {
 // only the engine names so we can easily iterate over them; all the handy
 // methods and properites below should therefore be on its prototype.
 
-PatternEngines = Object.create({
+let PatternEngines = Object.create({
   getEngineNameForPattern: function (pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
-    let of = require('./object_factory');
+    const of = require('./object_factory');
 
     if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
       return engineNameForExtension[pattern.fileExtension];
@@ -134,27 +137,27 @@ PatternEngines = Object.create({
     if (pattern.isPseudoPattern) {
       return this.getEngineForPattern(pattern.basePattern);
     } else {
-      let engineName = this.getEngineNameForPattern(pattern);
+      const engineName = this.getEngineNameForPattern(pattern);
       return this[engineName];
     }
   },
 
   getSupportedFileExtensions: function () {
-    let engineNames = Object.keys(PatternEngines);
+    const engineNames = Object.keys(PatternEngines);
     return engineNames.map(function (engineName) {
       return PatternEngines[engineName].engineFileExtension;
     });
   },
 
   isFileExtensionSupported: function (fileExtension) {
-    let supportedExtensions = PatternEngines.getSupportedFileExtensions();
+    const supportedExtensions = PatternEngines.getSupportedFileExtensions();
     return (supportedExtensions.lastIndexOf(fileExtension) !== -1);
   },
 
   // given a filename, return a boolean: whether or not the filename indicates
   // that the file is pseudopattern JSON
   isPseudoPatternJSON: function (filename) {
-    let extension = path.extname(filename);
+    const extension = path.extname(filename);
     return (extension === '.json' && filename.indexOf('~') > -1);
   },
 
@@ -164,14 +167,14 @@ PatternEngines = Object.create({
   // pattern files!
   isPatternFile: function (filename) {
     // skip hidden patterns/files without a second thought
-    let extension = path.extname(filename);
+    const extension = path.extname(filename);
     if (filename.charAt(0) === '.' ||
         (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))) {
       return false;
     }
 
     // not a hidden pattern, let's dig deeper
-    let supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
+    const supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
     return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
             PatternEngines.isPseudoPatternJSON(filename));
   }

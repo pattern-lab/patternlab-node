@@ -1,35 +1,35 @@
 "use strict";
 
-var ch = require('./changes_hunter');
+const ch = require('./changes_hunter');
 
-var pseudopattern_hunter = function () {
+const pseudopattern_hunter = function () {
 
   function findpseudopatterns(currentPattern, patternlab) {
-    var glob = require('glob'),
-      fs = require('fs-extra'),
-      pa = require('./pattern_assembler'),
-      lh = require('./lineage_hunter'),
-      Pattern = require('./object_factory').Pattern,
-      plutils = require('./utilities'),
-      path = require('path');
+    const glob = require('glob');
+    const fs = require('fs-extra');
+    const pa = require('./pattern_assembler');
+    const lh = require('./lineage_hunter');
+    const Pattern = require('./object_factory').Pattern;
+    const plutils = require('./utilities');
+    const path = require('path');
 
 
-    var pattern_assembler = new pa();
-    var lineage_hunter = new lh();
-    var changes_hunter = new ch();
-    var paths = patternlab.config.paths;
+    const pattern_assembler = new pa();
+    const lineage_hunter = new lh();
+    const changes_hunter = new ch();
+    const paths = patternlab.config.paths;
 
     //look for a pseudo pattern by checking if there is a file containing same
     //name, with ~ in it, ending in .json
-    var needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
-    var pseudoPatterns = glob.sync(needle, {
+    const needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
+    const pseudoPatterns = glob.sync(needle, {
       cwd: paths.source.patterns,
       debug: false,
       nodir: true
     });
 
     if (pseudoPatterns.length > 0) {
-      for (var i = 0; i < pseudoPatterns.length; i++) {
+      for (let i = 0; i < pseudoPatterns.length; i++) {
         if (patternlab.config.debug) {
           console.log('found pseudoPattern variant of ' + currentPattern.patternPartial);
         }
@@ -46,10 +46,10 @@ var pseudopattern_hunter = function () {
         //extend any existing data with variant data
         variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
 
-        var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
-        var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
-        var lm = fs.statSync(variantFileFullPath);
-        var patternVariant = Pattern.create(variantFilePath, variantFileData, {
+        const variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
+        const variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
+        const lm = fs.statSync(variantFileFullPath);
+        const patternVariant = Pattern.create(variantFilePath, variantFileData, {
           //use the same template as the non-variant
           template: currentPattern.template,
           fileExtension: currentPattern.fileExtension,

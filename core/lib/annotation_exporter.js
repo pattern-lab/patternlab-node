@@ -6,9 +6,9 @@ const JSON5 = require('json5');
 const _ = require('lodash');
 const mp = require('./markdown_parser');
 
-let annotations_exporter = function (pl) {
+const annotations_exporter = function (pl) {
 
-  let paths = pl.config.paths;
+  const paths = pl.config.paths;
   let oldAnnotations;
 
   /*
@@ -40,8 +40,8 @@ let annotations_exporter = function (pl) {
   }
 
   function buildAnnotationMD(annotationsYAML, markdown_parser) {
-    let annotation = {};
-    let markdownObj = markdown_parser.parse(annotationsYAML);
+    const annotation = {};
+    const markdownObj = markdown_parser.parse(annotationsYAML);
 
     annotation.el = markdownObj.el || markdownObj.selector;
     annotation.title = markdownObj.title;
@@ -51,15 +51,15 @@ let annotations_exporter = function (pl) {
 
   function parseMDFile(annotations, parser) {
     //let annotations = annotations;
-    let markdown_parser = parser;
+    const markdown_parser = parser;
 
     return function (filePath) {
-      let annotationsMD = fs.readFileSync(path.resolve(filePath), 'utf8');
+      const annotationsMD = fs.readFileSync(path.resolve(filePath), 'utf8');
 
     //take the annotation snippets and split them on our custom delimiter
-      let annotationsYAML = annotationsMD.split('~*~');
+      const annotationsYAML = annotationsMD.split('~*~');
       for (let i = 0; i < annotationsYAML.length; i++) {
-        let annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser);
+        const annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser);
         annotations.push(annotation);
       }
       return false;
@@ -70,17 +70,17 @@ let annotations_exporter = function (pl) {
    Converts the *.md file yaml list into an array of annotations
    */
   function parseAnnotationsMD() {
-    let markdown_parser = new mp();
-    let annotations = [];
-    let mdFiles = glob.sync(paths.source.annotations + '/*.md');
+    const markdown_parser = new mp();
+    const annotations = [];
+    const mdFiles = glob.sync(paths.source.annotations + '/*.md');
 
     mdFiles.forEach(parseMDFile(annotations, markdown_parser));
     return annotations;
   }
 
   function gatherAnnotations() {
-    let annotationsJS = parseAnnotationsJS();
-    let annotationsMD = parseAnnotationsMD();
+    const annotationsJS = parseAnnotationsJS();
+    const annotationsMD = parseAnnotationsMD();
     return _.unionBy(annotationsJS, annotationsMD, 'el');
   }
 
