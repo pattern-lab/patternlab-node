@@ -55,7 +55,7 @@
 .navigation {
   &--primary {
     @include font-primary-light-uppercase(0.75em);
-    letter-spacing:0.1em;
+    letter-spacing: 0.1em;
 
     &__hamburger {
       position: absolute;
@@ -66,7 +66,7 @@
       @include hamburger(30px, 3px, 1px, $colorBlack, 24px);
 
       &:focus {
-        outline:none;
+        outline: none;
       }
 
       @media only screen and (min-width: $breakpointDesktop) {
@@ -81,38 +81,47 @@
   }
 
   &__link {
-    user-select:none;
-    font-size:1em;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1em;
     @include font-tertiary-heavy();
+
+    &--sale {
+      color: $colorRed;
+    }
   }
 }
 
-
-
 @media only screen and (max-width: $breakpointTabletEnd) {
   .navigation {
-    background:$colorWhite;
-    line-height:1.5em;
+    background: $colorWhite;
+    line-height: 1.5em;
     display: none;
     &__link {
-      background-color:transparent;
+      background-color: transparent;
       font-weight: 500;
-      border:0 none;
+      border: 0 none;
 
       &:focus {
-        outline:none;
+        outline: none;
       }
 
       &--childless:before {
-        display:none;
+        display: none;
       }
 
       &--active {
-        background-color:$colorBlack;
-        color:$colorWhite;
-
+        color: $colorWhite;
+        &,
         &:hover {
-          background-color:$colorBlack;
+          background-color: $colorBlack;
+        }
+        &.navigation__link--sale {
+          color: $colorWhite;
+          &,
+          &:hover {
+            background-color: $colorRed;
+          }
         }
       }
     }
@@ -151,8 +160,8 @@
         }
       }
       &--firstLevel {
-        max-height:100%;
-        overflow-y:auto;
+        max-height: 100%;
+        overflow-y: auto;
       }
       &--secondLevel {
         &[data-type=block_nav_list] {
@@ -210,7 +219,7 @@
     &--primary {
       width: 100%;
       text-align: center;
-      cursor:default;
+      cursor: default;
     }
     &__list {
       &--firstLevel {
@@ -219,69 +228,73 @@
       }
 
       &--secondLevel {
-        display:none;
-        transition:transform $animationTimingFast, opacity $animationTimingFast;
+        display: none;
+        transition: transform $animationTimingFast, opacity $animationTimingFast;
         position: absolute;
         text-align: left;
         background: rgba($colorWhite, 0.95);
         min-width: 7.5em;
-        left:0;
+        left: 0;
         margin-top: 18.5px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        backface-visibility:hidden;
-        opacity:0;
-        pointer-events:none;
+        backface-visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
 
         &:before {
-          display:block;
-          content:'';
-          position:absolute;
-          left:0;
-          right:0;
-          top:-22px;
+          display: block;
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: -22px;
           border-top: 22px solid transparent;
         }
       }
 
       &__item {
-        display:inline-block;
-        position:relative;
+        display: inline-block;
+        position: relative;
         padding: .25em .625em;
       }
 
       &__item:hover &--secondLevel {
-        opacity:1;
-        pointer-events:all;
+        opacity: 1;
+        pointer-events: all;
       }
 
       &--secondLevel &__item {
-        display:block;
-        white-space:nowrap;
+        display: block;
+        white-space: nowrap;
       }
     }
 
     &__link {
-      transition:color $animationTimingFast;
+      transition: color $animationTimingFast;
       position: relative;
-      display:block;
+      display: block;
       font-family: $fontTertiary;
 
       .navigation__list--secondLevel & {
-        padding:0.625em;
+        padding: 0.625em;
       }
 
       &--active {
         &:before {
           border-bottom: 2px solid $colorBlack;
-          content:"";
+          content: "";
           position: absolute;
           width: 100%;
           bottom: -8px;
           left: 0;
         }
+        &.navigation__link--sale {
+          &:before {
+            border-bottom-color: $colorRed;
+          }
+        }
       }
-
     }
   }
 }
