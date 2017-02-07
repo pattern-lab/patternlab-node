@@ -81,14 +81,9 @@
   }
 
   &__link {
-    cursor: pointer;
     user-select: none;
     font-size: 1em;
     @include font-tertiary-heavy();
-
-    &--sale {
-      color: $colorRed;
-    }
   }
 }
 
@@ -115,13 +110,6 @@
         &,
         &:hover {
           background-color: $colorBlack;
-        }
-        &.navigation__link--sale {
-          color: $colorWhite;
-          &,
-          &:hover {
-            background-color: $colorRed;
-          }
         }
       }
     }
@@ -288,11 +276,6 @@
           width: 100%;
           bottom: -8px;
           left: 0;
-        }
-        &.navigation__link--sale {
-          &:before {
-            border-bottom-color: $colorRed;
-          }
         }
       }
     }
