@@ -21,5 +21,8 @@
     display: inline-block;
     margin: -.25em 0 -.25em .3em;
 
+    .price.price--collection-page & {
+      display: none;
+    }
   }
 }
