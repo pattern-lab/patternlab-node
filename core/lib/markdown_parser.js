@@ -28,7 +28,6 @@ const markdown_parser = function () {
         if (chunks[2]) {
           //parse the actual markdown if it exists
           returnObject.markdown = md.render(chunks[2]);
-          console.log('rendered markdown', returnObject.markdown);
         } else {
           returnObject.markdown = '';
         }
