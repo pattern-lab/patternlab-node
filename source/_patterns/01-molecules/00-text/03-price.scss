@@ -1,0 +1,25 @@
+.price {
+  @include font-fira-medium();
+  text-align: center;
+
+  &__compare-price{
+    text-decoration: line-through;
+    color: $colorSilver;
+    display: inline-block;
+    margin: -.25em .3em -.25em 0;
+  }
+
+  &__price{
+    color: $colorBlack;
+  }
+
+  &__compare-percentage {
+    background: $colorBlack;
+    color: $colorWhite;
+    padding: .25em .35em 0;
+    line-height: 1.1em;
+    display: inline-block;
+    margin: -.25em 0 -.25em .3em;
+
+  }
+}
