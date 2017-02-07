@@ -45,23 +45,6 @@ function findEngineModulesInDirectory(dir) {
   return foundEngines;
 }
 
-
-
-
-// produce a mapping between file extension and engine name for each of the
-// loaded engines
-function createFileExtensionToEngineNameMap(enginesObject) {
-  const mapping = {};
-
-  Object.keys(enginesObject).forEach(function (engineName) {
-    const extensionForEngine = enginesObject[engineName].engineFileExtension;
-    mapping[extensionForEngine] = engineName;
-  });
-
-  return mapping;
-}
-
-
 //
 // PatternEngines: the main export of this module
 //
@@ -115,18 +98,20 @@ const PatternEngines = Object.create({
       throw new Error('No engines loaded! Something is seriously wrong.');
     }
 
-    // mapping of file extensions to engine names, for lookup use
-    self.engineNameForExtension = createFileExtensionToEngineNameMap(self);
-
     console.log(chalk.bold('Done loading engines.\n'));
   },
 
   getEngineNameForPattern: function (pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
     const of = require('./object_factory');
-
     if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
-      return this.engineNameForExtension[pattern.fileExtension];
+      //loop through known engines and find the one that supports the pattern's fileExtension
+      //TODO: support multiple extensions someday, such as .handlebars and .hbs
+      for (const engine in this) {
+        if (engine.engineFileExtension === pattern.fileExtension) {
+          return engine.engineName;
+        }
+      }
     }
 
     // otherwise, assume it's a plain mustache template string and act
