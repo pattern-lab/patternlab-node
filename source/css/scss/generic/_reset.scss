@@ -5,17 +5,18 @@
 /* Border-Box http:/paulirish.com/2012/box-sizing-border-box-ftw/ */
 *,
 .patternlab * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, ol, ul, li, form, legend, label, table, header, footer, nav, section, figure, fieldset, span {
-	margin: 0;
-	padding: 0;
-    font-weight: inherit;
-    font-size: inherit;
+  margin: 0;
+  padding: 0;
+  font-weight: inherit;
+  font-size: inherit;
 }
+
 header, footer, nav, section, article, hgroup, figure {
-	display: block;
+  display: block;
 }
 
 html {
@@ -23,17 +24,21 @@ html {
 }
 
 body {
-	height: 100%;
-	height: 100vh;
-	box-sizing : border-box;
-	color: $colorText;
-  	overflow-x: hidden;
+  height: 100%;
+  height: 100vh;
+  box-sizing: border-box;
+  color: $colorText;
+  overflow-x: hidden;
+
+  & > img {
+    opacity: 0
+  }
 }
 
-fieldset{
-  border : 0;
+fieldset {
+  border: 0;
 }
 
 * {
-	-webkit-tap-highlight-color: transparent;  // i.e. Nexus5/Chrome and Kindle Fire HD 7
+  -webkit-tap-highlight-color: transparent; // i.e. Nexus5/Chrome and Kindle Fire HD 7
 }
