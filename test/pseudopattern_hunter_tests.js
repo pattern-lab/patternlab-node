@@ -4,9 +4,13 @@ var tap = require('tap');
 
 var path = require('path');
 var pph = require('../core/lib/pseudopattern_hunter');
+
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
 
 var fs = require('fs-extra');
 var pattern_assembler = new pa();

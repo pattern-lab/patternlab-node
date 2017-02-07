@@ -8,6 +8,9 @@ var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var path = require('path');
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 function emptyPatternLab() {
   return {
     graph: PatternGraph.empty()

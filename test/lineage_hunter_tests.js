@@ -8,6 +8,9 @@ var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 var fs = require('fs-extra');
 var path = require('path');
 

@@ -1,24 +1,24 @@
 "use strict";
 
-var path = require('path'),
-  fs = require('fs-promise'),
-  _ = require('lodash'),
-  Pattern = require('./object_factory').Pattern,
-  CompileState = require('./object_factory').CompileState,
-  pph = require('./pseudopattern_hunter'),
-  mp = require('./markdown_parser'),
-  plutils = require('./utilities'),
-  patternEngines = require('./pattern_engines'),
-  lh = require('./lineage_hunter'),
-  lih = require('./list_item_hunter'),
-  smh = require('./style_modifier_hunter'),
-  ph = require('./parameter_hunter'),
-  _ = require('lodash'),
-  ch = require('./changes_hunter'),
-  JSON5 = require('json5');
-
+const path = require('path');
+const _ = require('lodash');
+const Pattern = require('./object_factory').Pattern;
+const CompileState = require('./object_factory').CompileState;
+const pph = require('./pseudopattern_hunter');
+const mp = require('./markdown_parser');
+const plutils = require('./utilities');
+const patternEngines = require('./pattern_engines');
+const lh = require('./lineage_hunter');
+const lih = require('./list_item_hunter');
+const smh = require('./style_modifier_hunter');
+const ph = require('./parameter_hunter');
+const ch = require('./changes_hunter');
+const JSON5 = require('json5');
 const markdown_parser = new mp();
 const changes_hunter = new ch();
+
+//this is mocked in unit tests
+let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 const pattern_assembler = function () {
   // HELPER FUNCTIONS

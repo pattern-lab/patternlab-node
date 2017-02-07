@@ -50,16 +50,16 @@ PatternRegistry.prototype = {
      */
 
     // This previously has been a for loop over an array in pattern_
-    let byPartialName = this.partials.get(partialName);
+    const byPartialName = this.partials.get(partialName);
     if (this.partials.has(partialName)) {
       return byPartialName;
     }
 
 
-    let patterns = this.allPatterns();
+    const patterns = this.allPatterns();
 
     //else look by verbose syntax
-    for (let thisPattern of patterns) {
+    for (const thisPattern of patterns) {
       switch (partialName) {
         case thisPattern.relPath:
         case thisPattern.subdir + '/' + thisPattern.fileName:
@@ -68,7 +68,7 @@ PatternRegistry.prototype = {
     }
 
     //return the fuzzy match if all else fails
-    for (let thisPattern of patterns) {
+    for (const thisPattern of patterns) {
       const partialParts = partialName.split('-'),
         partialType = partialParts[0],
         partialNameEnd = partialParts.slice(1).join('-');

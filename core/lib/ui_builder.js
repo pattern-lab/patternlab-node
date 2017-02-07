@@ -1,17 +1,19 @@
 "use strict";
 
-var path = require('path');
-var JSON5 = require('json5');
-var fs = require('fs-extra');
-var ae = require('./annotation_exporter');
-var of = require('./object_factory');
-var Pattern = of.Pattern;
-var pattern_assembler = require('./pattern_assembler')();
-var plutils = require('./utilities');
-var eol = require('os').EOL;
-var _ = require('lodash');
+const path = require('path');
+const JSON5 = require('json5');
+const ae = require('./annotation_exporter');
+const of = require('./object_factory');
+const Pattern = of.Pattern;
+const plutils = require('./utilities');
+const eol = require('os').EOL;
+const _ = require('lodash');
 
-var ui_builder = function () {
+//these are mocked in unit tests, so let them be overridden
+let fs = require('fs-extra'); //eslint-disable-line prefer-const
+let pattern_assembler = require('./pattern_assembler')(); //eslint-disable-line prefer-const
+
+const ui_builder = function () {
 
   /**
    * Registers the pattern to the patternPaths object for the appropriate patternGroup and basename
@@ -60,7 +62,7 @@ var ui_builder = function () {
    * @returns boolean - whether or not the pattern is excluded
      */
   function isPatternExcluded(pattern, patternlab) {
-    var isOmitted;
+    let isOmitted;
 
     // skip underscore-prefixed files
     isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
@@ -112,7 +114,7 @@ var ui_builder = function () {
      */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
     //first see if pattern_assembler processed one already
-    var docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
+    let docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
     if (docPattern) {
       docPattern.isDocPattern = true;
       docPattern.order = -Number.MAX_SAFE_INTEGER;
@@ -164,7 +166,7 @@ var ui_builder = function () {
    * @returns the found pattern type object
      */
   function getPatternType(patternlab, pattern) {
-    var patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
+    const patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if (!patternType) {
       plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
@@ -182,8 +184,8 @@ var ui_builder = function () {
    * @returns the found patternSubType object
    */
   function getPatternSubType(patternlab, pattern) {
-    var patternType = getPatternType(patternlab, pattern);
-    var patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
+    const patternType = getPatternType(patternlab, pattern);
+    const patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if (!patternSubType) {
       plutils.error('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
@@ -201,15 +203,15 @@ var ui_builder = function () {
    * @param pattern - the pattern to register
      */
   function addPatternSubType(patternlab, pattern) {
-    let newSubType = {
+    const newSubType = {
       patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
       patternSubtypeUC: pattern.patternSubGroup.charAt(0).toUpperCase() + pattern.patternSubGroup.slice(1),
       patternSubtype: pattern.patternSubType,
       patternSubtypeDash: pattern.patternSubGroup, //todo verify
       patternSubtypeItems: []
     };
-    var patternType = getPatternType(patternlab, pattern);
-    let insertIndex = _.sortedIndexBy(patternType.patternTypeItems, newSubType, 'patternSubtype');
+    const patternType = getPatternType(patternlab, pattern);
+    const insertIndex = _.sortedIndexBy(patternType.patternTypeItems, newSubType, 'patternSubtype');
     patternType.patternTypeItems.splice(insertIndex, 0, newSubType);
   }
 
@@ -220,7 +222,7 @@ var ui_builder = function () {
    * @returns {{patternPartial: string, patternName: (*|string), patternState: string, patternSrcPath: string, patternPath: string}}
      */
   function createPatternSubTypeItem(pattern) {
-    var patternPath = '';
+    let patternPath = '';
     if (pattern.isFlatPattern) {
       patternPath = pattern.flatPatternPath + '-' + pattern.fileName + '/' + pattern.flatPatternPath + '-' + pattern.fileName + '.html';
     } else {
@@ -261,7 +263,7 @@ var ui_builder = function () {
       newSubTypeItem = createPatternSubTypeItem(pattern);
     }
 
-    let patternSubType = getPatternSubType(patternlab, pattern);
+    const patternSubType = getPatternSubType(patternlab, pattern);
     patternSubType.patternSubtypeItems.push(newSubTypeItem);
     patternSubType.patternSubtypeItems = _.sortBy(patternSubType.patternSubtypeItems, ['order', 'name']);
   }
@@ -272,7 +274,7 @@ var ui_builder = function () {
    * @param pattern - the pattern to add
      */
   function addPatternItem(patternlab, pattern, isViewAllVariant) {
-    var patternType = getPatternType(patternlab, pattern);
+    const patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
       plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
       console.trace();
@@ -317,7 +319,7 @@ var ui_builder = function () {
     return patternsArray.sort(function (a, b) {
 
       let aOrder = parseInt(a.order, 10);
-      let bOrder = parseInt(b.order, 10);
+      const bOrder = parseInt(b.order, 10);
 
       if (aOrder === NaN) {
         aOrder = Number.MAX_SAFE_INTEGER;
@@ -367,7 +369,7 @@ var ui_builder = function () {
    * @returns ptterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
      */
   function groupPatterns(patternlab) {
-    var groupedPatterns = {
+    const groupedPatterns = {
       patternGroups: {}
     };
 
@@ -426,14 +428,14 @@ var ui_builder = function () {
      */
   function buildFooterHTML(patternlab, patternPartial) {
     //first render the general footer
-    var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    const footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
       patternData: JSON.stringify({
         patternPartial: patternPartial,
       }),
       cacheBuster: patternlab.cacheBuster
     });
 
-    var allFooterData;
+    let allFooterData;
     try {
       allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
     } catch (err) {
@@ -443,7 +445,7 @@ var ui_builder = function () {
     allFooterData.patternLabFoot = footerPartial;
 
     //then add it to the user footer
-    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
+    const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
     return footerHTML;
   }
 
@@ -456,7 +458,7 @@ var ui_builder = function () {
    * @returns HTML
      */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
-    var viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
+    const viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
       {
         partials: patterns,
         patternPartial: 'viewall-' + patternPartial,
@@ -476,20 +478,20 @@ var ui_builder = function () {
    * @returns every built pattern and set of viewall patterns, so the styleguide can use it
      */
   function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
-    var paths = patternlab.config.paths;
-    var patterns = [];
-    var writeViewAllFile = true;
+    const paths = patternlab.config.paths;
+    let patterns = [];
+    let writeViewAllFile = true;
 
     //loop through the grouped styleguide patterns, building at each level
     _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
 
-      var p;
-      var typePatterns = [];
-      var styleGuideExcludes = patternlab.config.styleGuideExcludes;
+      let p;
+      let typePatterns = [];
+      const styleGuideExcludes = patternlab.config.styleGuideExcludes;
 
       _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
 
-        var patternPartial = patternType + '-' + patternSubtype;
+        const patternPartial = patternType + '-' + patternSubtype;
 
         //do not create a viewall page for flat patterns
         if (patternType === patternSubtype) {
@@ -498,10 +500,10 @@ var ui_builder = function () {
         }
 
         //render the footer needed for the viewall template
-        var footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternPartial);
+        const footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternPartial);
 
         //render the viewall template by finding these smallest subtype-grouped patterns
-        var subtypePatterns = sortPatterns(_.values(patternSubtypes));
+        const subtypePatterns = sortPatterns(_.values(patternSubtypes));
 
         //determine if we should write at this time by checking if these are flat patterns or grouped patterns
         p = _.find(subtypePatterns, function (pat) {
@@ -510,7 +512,7 @@ var ui_builder = function () {
 
         typePatterns = typePatterns.concat(subtypePatterns);
 
-        var viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
+        const viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
         fs.outputFileSync(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
       });
 
@@ -520,22 +522,22 @@ var ui_builder = function () {
       }
 
       //render the footer needed for the viewall template
-      var footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternType + '-all');
+      const footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternType + '-all');
 
       //add any flat patterns
       //todo this isn't quite working yet
       //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
 
       //get the appropriate patternType
-      var anyPatternOfType = _.find(typePatterns, function (pat) {
+      const anyPatternOfType = _.find(typePatterns, function (pat) {
         return pat.patternType && pat.patternType !== '';});
 
       //render the viewall template for the type
-      var viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
+      const viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
       fs.outputFileSync(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
 
       //determine if we should omit this patterntype completely from the viewall page
-      var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
+      const omitPatternType = styleGuideExcludes && styleGuideExcludes.length
         && _.some(styleGuideExcludes, function (exclude) {
           return exclude === patternType;
         });
@@ -555,11 +557,11 @@ var ui_builder = function () {
    * @param patternlab - global data store
      */
   function exportData(patternlab) {
-    var annotation_exporter = new ae(patternlab);
-    var paths = patternlab.config.paths;
+    const annotation_exporter = new ae(patternlab);
+    const paths = patternlab.config.paths;
 
     //write out the data
-    var output = '';
+    let output = '';
 
     //config
     output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
@@ -587,8 +589,8 @@ var ui_builder = function () {
     fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
 
     //annotations
-    var annotationsJSON = annotation_exporter.gather();
-    var annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
+    const annotationsJSON = annotation_exporter.gather();
+    const annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
     fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
   }
 
@@ -609,31 +611,31 @@ var ui_builder = function () {
 
     resetUIBuilderState(patternlab);
 
-    var paths = patternlab.config.paths;
+    const paths = patternlab.config.paths;
 
     //determine which patterns should be included in the front-end rendering
-    var styleguidePatterns = groupPatterns(patternlab);
+    const styleguidePatterns = groupPatterns(patternlab);
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    var headerPartial = pattern_assembler.renderPattern(patternlab.header, {
+    const headerPartial = pattern_assembler.renderPattern(patternlab.header, {
       cacheBuster: patternlab.cacheBuster
     });
 
-    var headFootData = patternlab.data;
+    const headFootData = patternlab.data;
     headFootData.patternLabHead = headerPartial;
     headFootData.cacheBuster = patternlab.cacheBuster;
-    var headerHTML = pattern_assembler.renderPattern(patternlab.userHead, headFootData);
+    const headerHTML = pattern_assembler.renderPattern(patternlab.userHead, headFootData);
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    var footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    const footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
       patternData: '{}',
       cacheBuster: patternlab.cacheBuster
     });
     headFootData.patternLabFoot = footerPartial;
-    var footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, headFootData);
+    const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, headFootData);
 
     //build the viewall pages
-    var allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
+    const allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
 
     //add the defaultPattern if we found one
     if (patternlab.defaultPattern) {
@@ -642,7 +644,7 @@ var ui_builder = function () {
     }
 
     //build the main styleguide page
-    var styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
+    const styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
       {
         partials: allPatterns
       }, {
@@ -652,7 +654,7 @@ var ui_builder = function () {
     fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
 
     //move the index file from its asset location into public root
-    var patternlabSiteHtml;
+    let patternlabSiteHtml;
     try {
       patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
     } catch (error) {
