@@ -88,11 +88,11 @@ const PatternGraphDot = {};
 PatternGraphDot.generate = function (patternGraph) {
   const g = patternGraph.graph;
   const patterns = patternGraph.patterns;
-  let buckets = new Map();
+  const buckets = new Map();
   const colors = ["darkgreen", "firebrick", "slateblue", "darkgoldenrod", "black"];
   const colorMap = new Map();
   let colIdx = 0;
-  for (let p of patterns.partials.values()) {
+  for (const p of patterns.partials.values()) {
     if (p.isPseudoPattern || !p.patternType) {
       continue;
     }
@@ -117,7 +117,7 @@ PatternGraphDot.generate = function (patternGraph) {
   let subGraphLines = [];
 
 
-  for (let key of sortedKeys) {
+  for (const key of sortedKeys) {
     const subPatterns = buckets.get(key);
     subGraphLines = subGraphLines.concat(subGraph(key, subPatterns));
   }
@@ -125,9 +125,9 @@ PatternGraphDot.generate = function (patternGraph) {
   res.push("edge[style=solid];");
 
 
-  foo: for (let edge of g.edges()) {
-    let fromTo = patternGraph.nodes2patterns([edge.v, edge.w]);
-    for (let pattern of fromTo) {
+  foo: for (const edge of g.edges()) {
+    const fromTo = patternGraph.nodes2patterns([edge.v, edge.w]);
+    for (const pattern of fromTo) {
       if (pattern.isPseudoPattern || !pattern.patternType) {
         continue foo;
       }

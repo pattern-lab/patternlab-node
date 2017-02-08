@@ -1,9 +1,9 @@
 "use strict";
 
-var plugin_manager = function (config, configPath) {
-  var path = require('path'),
-    fs = require('fs-extra'),
-    util = require('./utilities');
+const plugin_manager = function (config, configPath) {
+  const path = require('path');
+  const fs = require('fs-extra');
+  const util = require('./utilities');
 
   /**
    * Loads a plugin
@@ -22,7 +22,7 @@ var plugin_manager = function (config, configPath) {
    */
   function installPlugin(pluginName) {
     try {
-      var pluginPath = path.resolve(
+      const pluginPath = path.resolve(
         path.join(process.cwd(), 'node_modules', pluginName)
       );
       console.log('Attempting to load plugin from', pluginPath);
@@ -33,10 +33,10 @@ var plugin_manager = function (config, configPath) {
         util.error(pluginName + ' not loaded.');
         return;
       }
-      var pluginPathDirExists = pluginDirStats.isDirectory();
+      const pluginPathDirExists = pluginDirStats.isDirectory();
       if (pluginPathDirExists) {
 
-        var diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
+        const diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
 
         //add the plugin entry to patternlab-config.json
         if (!diskConfig.plugins) {
@@ -66,9 +66,9 @@ var plugin_manager = function (config, configPath) {
    * @return {array} list of installed plugins
    */
   function detectPlugins() {
-    var node_modules_path = path.join(process.cwd(), 'node_modules');
+    const node_modules_path = path.join(process.cwd(), 'node_modules');
     return fs.readdirSync(node_modules_path).filter(function (dir) {
-      var module_path = path.join(process.cwd(), 'node_modules', dir);
+      const module_path = path.join(process.cwd(), 'node_modules', dir);
       return fs.statSync(module_path).isDirectory() && dir.indexOf('plugin-node-') === 0;
     });
   }

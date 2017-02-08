@@ -9,8 +9,10 @@ var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 var eol = require('os').EOL;
 
-// don't run these tests unless handlebars is installed
 var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
+// don't run these tests unless handlebars is installed
 if (!engineLoader.handlebars) {
   tap.test('Handlebars engine not installed, skipping tests.', function (test) {
     test.end();

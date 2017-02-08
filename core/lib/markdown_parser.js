@@ -1,9 +1,8 @@
-"use strict";
+'use strict';
+const md = require('markdown-it')();
+const yaml = require('js-yaml');
 
-var md = require('markdown-it')();
-var yaml = require('js-yaml');
-
-var markdown_parser = function () {
+const markdown_parser = function () {
 
   /**
    * Converts a markdown block with frontmatter (each is optional, technically) to a well-formed object.
@@ -11,18 +10,18 @@ var markdown_parser = function () {
    * @returns an object with any frontmatter keys, plus a .markdown key
      */
   function parseMarkdownBlock(block) {
-    var returnObject = {};
+    let returnObject = {};
 
     try {
       //for each block process the yaml frontmatter and markdown
-      var frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
-      var chunks = frontmatterRE.exec(block);
+      const frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
+      const chunks = frontmatterRE.exec(block);
 
       if (chunks) {
         //we got some frontmatter
         if (chunks && chunks[1]) {
           //parse the yaml if we got it
-          var frontmatter = chunks[1];
+          const frontmatter = chunks[1];
           returnObject = yaml.safeLoad(frontmatter);
         }
 
