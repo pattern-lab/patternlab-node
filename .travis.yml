@@ -17,7 +17,7 @@ branches:
   only:
     - master
     - dev
-    - dev3.0
+    - dev-3.0
 
 notifications:
   webhooks:
