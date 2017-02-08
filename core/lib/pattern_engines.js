@@ -107,7 +107,9 @@ const PatternEngines = Object.create({
     if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
       //loop through known engines and find the one that supports the pattern's fileExtension
       //TODO: support multiple extensions someday, such as .handlebars and .hbs
-      for (const engine in this) {
+      const engineNames = Object.keys(this);
+      for (let i = 0; i < engineNames.length; i++) {
+        const engine = this[engineNames[i]];
         if (engine.engineFileExtension === pattern.fileExtension) {
           return engine.engineName;
         }
