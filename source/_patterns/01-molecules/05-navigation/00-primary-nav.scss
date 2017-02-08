@@ -213,6 +213,7 @@
       &--firstLevel {
         display: inline;
         list-style: none;
+        white-space: nowrap;
       }
 
       &--secondLevel {
@@ -244,7 +245,7 @@
       &__item {
         display: inline-block;
         position: relative;
-        padding: .25em .625em;
+        padding: .25em .5em;
       }
 
       &__item:hover &--secondLevel {
