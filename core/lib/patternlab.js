@@ -124,6 +124,8 @@ function checkConfiguration(patternlab) {
  * Finds and calls the main method of any found plugins.
  * @param patternlab - global data store
  */
+
+//todo, move this to plugin_manager
 function initializePlugins(patternlab) {
 
   if (!patternlab.config.plugins) { return; }

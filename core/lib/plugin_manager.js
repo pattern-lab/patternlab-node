@@ -42,10 +42,25 @@ const plugin_manager = function (config, configPath) {
         if (!diskConfig.plugins) {
           diskConfig.plugins = {};
         }
-        diskConfig.plugins[pluginName] = {
-          enabled: true,
-          initialized: false
-        };
+
+        if (!diskConfig.plugins[pluginName]) {
+          diskConfig.plugins[pluginName] = {
+            enabled: true,
+            initialized: false,
+            options: {}
+          };
+        }
+
+        const pluginPathConfig = path.resolve(pluginPath, 'config.json');
+        try {
+          var pluginConfigJSON = require(pluginPathConfig);
+          if (!diskConfig.plugins[pluginName].options) {
+
+            diskConfig.plugins[pluginName].options = pluginConfigJSON;
+          }
+        } catch (ex) {
+          //a config.json file is not required at this time
+        }
 
         //write config entry back
         fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
