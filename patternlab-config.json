@@ -50,8 +50,6 @@
   "ishMinimum": "240",
   "ishMaximum": "2600",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
-  "patternStates": {
-  },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "cacheBust": true,

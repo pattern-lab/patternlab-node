@@ -77,21 +77,7 @@ var pattern_assembler = function () {
     }
   }
 
-  /*
-   * Deprecated in favor of .md 'status' frontmatter inside a pattern. Still used for unit tests at this time.
-   * Will be removed in future versions
-   */
-  function setState(pattern, patternlab, displayDeprecatedWarning) {
-    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternPartial]) {
 
-      if (displayDeprecatedWarning) {
-        plutils.error("Deprecation Warning: Using patternlab-config.json patternStates object will be deprecated in favor of the state frontmatter key associated with individual pattern markdown files.");
-        console.log("This feature will still work in it's current form this release (but still be overridden by the new parsing method), and will be removed in the future.");
-      }
-
-      pattern.patternState = patternlab.config.patternStates[pattern.patternPartial];
-    }
-  }
 
   function addPattern(pattern, patternlab) {
 
@@ -312,9 +298,6 @@ var pattern_assembler = function () {
     if (patternEngines.isFileExtensionSupported(ext) === false) {
       return currentPattern;
     }
-
-    //see if this file has a state
-    setState(currentPattern, patternlab, true);
 
     //look for a json file for this template
     try {
@@ -570,9 +553,6 @@ var pattern_assembler = function () {
     },
     find_list_items: function (pattern) {
       return pattern.findListItems();
-    },
-    setPatternState: function (pattern, patternlab, displayDeprecatedWarning) {
-      setState(pattern, patternlab, displayDeprecatedWarning);
     },
     addPattern: function (pattern, patternlab) {
       addPattern(pattern, patternlab);
