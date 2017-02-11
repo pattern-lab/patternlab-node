@@ -65,11 +65,6 @@
     "inreview",
     "complete"
   ],
-  "patternStates": {
-    "molecules-single-comment": "complete",
-    "organisms-sticky-comment": "inreview",
-    "templates-article": "complete"
-  },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "test/fixtures/pattern_exports",
   "baseurl": "",

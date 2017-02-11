@@ -55,11 +55,6 @@ const patternLabConf = {
 	'ishMinimum': '240',
 	'ishMaximum': '2600',
 	'patternStateCascade': ['inprogress', 'inreview', 'complete'],
-	'patternStates': {
-		'molecules-single-comment': 'complete',
-		'organisms-sticky-comment': 'inreview',
-		'templates-article': 'complete'
-	},
 	'patternExportPatternPartials': [],
 	'patternExportDirectory': './pattern_exports/',
 	'baseurl': '',
