@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "eslint": "^3.5.0",
+    "nyc": "10.1.2",
     "rewire": "^2.5.2",
     "tap": "^7.1.2"
   },
@@ -51,7 +52,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "eslint core/**/*.js && tap test/*_tests.js --reporter spec",
+    "test": "eslint core/**/*.js && nyc tap test/*_tests.js --reporter spec",
     "lint": "eslint core/**/*.js"
   },
   "engines": {
