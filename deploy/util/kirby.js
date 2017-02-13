@@ -4,31 +4,71 @@ var
   gulp = require('gulp'),
   q = require('q'),
   util = require('gulp-util'),
-  sshClient = require('node-sshclient').SSH,
+  https = require('https'),
+  objectMerge = require('object-merge'),
   packageJson = require('../../package.json'),
 
-  deployData = {},
+  deployData = {};
 
-  ssh = new sshClient({
+function requestKirbyEndpoint(options, deferred, body, hash) {
+
+  var defaultOptions = {
     hostname: packageJson.kirby.hostname,
-    user: packageJson.kirby.username,
-    port: 22
-  });
-
-function storeVersionOnKirbyInstance(namespace) {
+    path: packageJson.kirby.path + '/' + hash,
+    port: packageJson.kirby.port || 443
+  };
+  options = objectMerge(defaultOptions, options);
 
   var
-    deferred = q.defer(),
-    deployDataJson = JSON.stringify(deployData),
-    filename = packageJson.kirby.baseDestination + '/content/'+namespace+'-version.json';
+    req = https.request(options, function (res) {
 
-  ssh.command('echo \'' + deployDataJson + '\' > ' + filename + ' && chmod 777 ' + filename, '', deferred.resolve);
+      var payload = '';
+      res
+        .on('error', deferred.reject)
+        .on('data', function (chunk) {
+          payload += chunk.toString('utf8');
+        })
+        .on('end', function () {
+          try {
+            var body = JSON.parse(payload);
+            deferred.resolve(body);
+          }
+          catch (error) {
+            console.log(payload);
+            deferred.reject(error);
+          }
+        });
+    });
 
-  util.log(util.colors.green("Update '" + filename + "' on Kirby instance '" + packageJson.kirby.hostname + "'. (" + deployDataJson + ")"));
+  if (options.method === 'POST') {
+    req.write(body);
+  }
+
+  req.end();
 
   return deferred.promise;
 }
 
+function storeVersionOnKirbyInstance(namespace) {
+  var
+    deferred = q.defer(),
+    body = JSON.stringify(deployData),
+    hash = require('crypto').createHash('md5').update(deployData.commit + '-----' + deployData.version).digest('hex'),
+    options = {
+      method: 'POST',
+      path: packageJson.kirby[namespace + "Endpoint"] + '/' + hash,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Accept': 'application/json',
+        'Content-Length': body.length
+      }
+    };
+
+  util.log(util.colors.green("Update " + namespace + " version on Kirby instance '" + packageJson.kirby.hostname + "'. (" + body + ")"));
+
+
+  return requestKirbyEndpoint(options, deferred, body, hash);
+}
 
 function kirbyConstructor(sharedDeployData) {
 

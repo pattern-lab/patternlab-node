@@ -1,7 +1,7 @@
 {
   "name": "patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "aws": {
     "bucket": {
       "name": "horizn-styleguide",
@@ -15,9 +15,9 @@
     "metafieldsApiEndpoint": "/admin/metafields"
   },
   "kirby": {
-    "hostname": "vwp5005.webpack.hosteurope.de",
-    "username": "ftp12458752",
-    "baseDestination": "~/www/magazine/kirby-content"
+    "hostname": "www.horizn-studios.com",
+    "port": 443,
+    "styleguideEndpoint": "update/styleguide-version"
   },
   "devDependencies": {
     "browser-sync": "^2.8.2",
@@ -44,7 +44,6 @@
     "html-entities": "^1.1.1",
     "mostache": "github:jonathan-reisdorf/mostache",
     "node-sass-globbing": "0.0.23",
-    "node-sshclient": "^0.2.0",
     "object-merge": "^2.5.1",
     "q": "~1.4",
     "run-sequence": "^1.1.2",
@@ -82,6 +81,7 @@
     "gutil": "^1.6.4",
     "jquery": "^2.1.4",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "crypto": "^0.0.3"
   }
 }
