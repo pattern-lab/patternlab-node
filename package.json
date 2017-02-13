@@ -15,9 +15,9 @@
     "metafieldsApiEndpoint": "/admin/metafields"
   },
   "kirby": {
-    "hostname": "www.horizn-studios.com",
+    "hostname": "horizn-studios.com",
     "port": 443,
-    "styleguideEndpoint": "update/styleguide-version"
+    "styleguideEndpoint": "/update/styleguide-version"
   },
   "devDependencies": {
     "browser-sync": "^2.8.2",

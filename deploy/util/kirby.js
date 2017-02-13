@@ -30,7 +30,7 @@ function requestKirbyEndpoint(options, deferred, body, hash) {
         })
         .on('end', function () {
           try {
-            var body = JSON.parse(payload);
+            // var body = JSON.parse(payload);
             deferred.resolve(body);
           }
           catch (error) {
