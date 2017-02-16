@@ -185,4 +185,4 @@ gulp.task('patterns', gulp.series('patternlab:only_patterns'));
 gulp.task('travis', gulp.series('lab', 'nodeunit'));
 gulp.task('version', gulp.series('patternlab:version'));
 gulp.task('help', gulp.series('patternlab:help'));
-gulp.task('deploy', gulp.series('lab', 'deployAws', 'notifyAboutNewVersion'));
+gulp.task('deploy', gulp.series('lab', 'deployAws'/*, 'notifyAboutNewVersion'*/));

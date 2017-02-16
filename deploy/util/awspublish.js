@@ -15,29 +15,31 @@ function upload() {
 
   var
     download = require('gulp-download'),
+    deployDir = 'styleguide/' + deployData.version,
     deferred = q.defer();
 
-  util.log(util.colors.green("Downloading cache file if exists in S3 bucket '" + awsSettings.params.Bucket + "' from dir '" + deployData.version + "'..."));
+  util.log(util.colors.green("Downloading cache file if exists in S3 bucket '" + awsSettings.params.Bucket + "' from dir '" + deployDir + "'..."));
 
-  download(packageJson.aws.publicUrl + '/' + awsSettings.params.Bucket + '/' + deployData.version + '/' + '.awspublish-' + awsSettings.params.Bucket)
+  download(packageJson.aws.publicUrl + '/' + awsSettings.params.Bucket + '/' + deployDir + '/' + '.awspublish-' + awsSettings.params.Bucket)
     .pipe(gulp.dest('./'))
     .on('end', function() {
       var
         awspublish = require('gulp-awspublish'),
         publisher = awspublish.create(awsSettings),
+        maxAge = deployData.isMaster ? 1209600 : 120,
         s3Headers = {
-          'Cache-Control' : 'max-age=1209600, public'
+        'Cache-Control': 'max-age=' + maxAge + ', no-transform, public'
         };
 
-      util.log(util.colors.green("Deploying to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'."));
+      util.log(util.colors.green("Deploying to S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployDir + "'. [Cache-Control: "+s3Headers['Cache-Control']+"]"));
 
       gulp.src(helper.getTargetDir() + '/**/*')
         .pipe(rename(function (path) {
-          path.dirname = deployData.version + '/' + path.dirname;
+          path.dirname = deployDir + '/' + path.dirname;
         }))
         .pipe(awspublish.gzip({}))
         .pipe(publisher.publish(s3Headers))
-        .pipe(publisher.sync(deployData.version))
+        .pipe(publisher.sync(deployDir))
         .pipe(publisher.cache())
         .pipe(awspublish.reporter())
         .on('end', function(err) {
@@ -45,11 +47,11 @@ function upload() {
             return deferred.reject(err);
           }
 
-          util.log(util.colors.green("Done. Re-uploading cache file into S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployData.version + "'..."));
+          util.log(util.colors.green("Done. Re-uploading cache file into S3 bucket '" + awsSettings.params.Bucket + "' to target dir '" + deployDir + "'..."));
 
           gulp.src('.awspublish-' + awsSettings.params.Bucket)
             .pipe(rename(function (path) {
-              path.dirname = deployData.version + '/' + path.dirname;
+              path.dirname = deployDir + '/' + path.dirname;
             }))
             .pipe(publisher.publish())
             .pipe(awspublish.reporter())
