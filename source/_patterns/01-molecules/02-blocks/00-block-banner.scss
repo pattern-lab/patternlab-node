@@ -32,6 +32,7 @@
       right: 0;
       bottom: 0;
       min-height: 50%;
+      width: auto;
       overflow-x: hidden;
       @media only screen and (min-width: $breakpointTabletEnd) {
         margin: auto;
