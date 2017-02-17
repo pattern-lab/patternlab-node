@@ -25,15 +25,14 @@
       height: 29em;
     }
     &--img {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      min-height: 50%;
-      width: auto;
-      overflow-x: hidden;
+      //display: block;
+      //position: absolute;
+      //top: 0;
+      //left: 0;
+      //right: 0;
+      //bottom: 0;
+      //min-height: 50%;
+      //overflow-x: hidden;
       @media only screen and (min-width: $breakpointTabletEnd) {
         margin: auto;
         min-width: 50%;
