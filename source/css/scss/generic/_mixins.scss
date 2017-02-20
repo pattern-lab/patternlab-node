@@ -74,6 +74,7 @@
 @mixin font-tertiary-heavy($fontSize: 1em){
   font-family: $fontTertiary;
   font-size: $fontSize;
+  font-weight: 500;
   letter-spacing: 0.063em;
 }
 

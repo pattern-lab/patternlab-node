@@ -8,6 +8,8 @@ var
   sass = require('gulp-sass'),
   nodeSassGlobbing = require('node-sass-globbing'),
   autoprefixer = require('gulp-autoprefixer'),
+  font64 = require('gulp-simplefont64'),
+  concat = require('gulp-concat'),
   browserSync = require('browser-sync').create();
 
 gulp.task('deployAws', require('./deploy/tasks/deployAws'));
@@ -35,10 +37,6 @@ gulp.task('cp:img', function () {
     .pipe(imagemin())
     .pipe(gulp.dest('./public/images'))
 });
-gulp.task('cp:font', function () {
-  return gulp.src('*.*', {cwd: './source/fonts'})
-    .pipe(gulp.dest('./public/fonts'))
-});
 gulp.task('cp:data', function () {
   return gulp.src('annotations.js', {cwd: './source/_data'})
     .pipe(gulp.dest('./public/data'))
@@ -48,6 +46,15 @@ gulp.task('cp:css', function () {
     .pipe(gulp.dest('./public/css'))
     .pipe(browserSync.stream());
 });
+
+gulp.task('fonts', function (){
+  return gulp.src(['./source/fonts/**/*.woff', '!./source/fonts/_/*.woff'])
+    .pipe(font64())
+    .pipe(concat('fonts.css'))
+    .pipe(gulp.dest('./public/css'))
+    .pipe(browserSync.stream());
+});
+
 
 //script task
 gulp.task('js', function () {
@@ -86,7 +93,7 @@ gulp.task('sass:style', function () {
       precision: 8
     }))
     .pipe(base64Inline(''))
-    .pipe(cssNano())
+    // .pipe(cssNano())
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
@@ -116,13 +123,13 @@ gulp.task('iconfont', function() {
 
   return gulp.src('./source/_patterns/00-atoms/03-images/_icons/**/*.svg')
     .pipe(iconfontCss({
-      fontName: 'horizn-icons',
-      path: 'scss',
-      targetPath: '../../source/_patterns/00-atoms/03-images/05-icons.scss',
+      fontName: 'Horizn Icons',
+      path: './source/_patterns/00-atoms/03-images/_icons.template',
+      targetPath: '../../../source/_patterns/00-atoms/03-images/05-icons.scss',
       fontPath: '../fonts/'
     }))
     .pipe(iconfont({
-      fontName: 'horizn-icons',
+      fontName: 'Horizn Icons',
       appendUnicode: true,
       normalize:true,
       formats: ['ttf', 'woff', 'woff2', 'svg'],
@@ -134,11 +141,11 @@ gulp.task('iconfont', function() {
         }).join('\n\n') + '\n</div>';
       fs.writeFile('source/_patterns/00-atoms/03-images/05-icons.mustache', html);
     })
-    .pipe(gulp.dest('public/fonts'))
+    .pipe(gulp.dest('source/fonts/Horizn Icons'))
     ;
 });
 
-gulp.task('assets', gulp.series('iconfont', 'cp:img', gulp.parallel('cp:js', 'cp:font', 'cp:data', 'sass:style', 'sass:styleguide', 'js')));
+gulp.task('assets', gulp.series('iconfont', 'cp:img', gulp.parallel('cp:js', 'cp:data', 'sass:style', 'sass:styleguide', 'js', 'fonts')));
 gulp.task('prelab', gulp.series('clean', 'assets'));
 gulp.task('lab', gulp.series('prelab', 'patternlab'));
 
