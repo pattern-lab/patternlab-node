@@ -1,0 +1,122 @@
+@font-face {
+	font-family: "Horizn Icons";
+	src: url('../fonts/Horizn Icons.eot');
+	src: url('../fonts/Horizn Icons.eot?#iefix') format('eot'),
+		url('../fonts/Horizn Icons.woff2') format('woff2'),
+		url('../fonts/Horizn Icons.woff') format('woff'),
+		url('../fonts/Horizn Icons.ttf') format('truetype'),
+		url('../fonts/Horizn Icons.svg#Horizn Icons') format('svg');
+}
+
+.icon:before {
+	font-family: "Horizn Icons";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	/* speak: none; only necessary if not using the private unicode range (firstGlyph option) */
+	text-decoration: none;
+	text-transform: none;
+}
+
+
+.icon-arrowDown:before {
+	content: "\E001";
+}
+
+.icon-bag-outline:before {
+	content: "\E002";
+}
+
+.icon-bag:before {
+	content: "\E003";
+}
+
+.icon-bracket_left:before {
+	content: "\E004";
+}
+
+.icon-bracket_right:before {
+	content: "\E005";
+}
+
+.icon-check:before {
+	content: "\E006";
+}
+
+.icon-checkmark:before {
+	content: "\E007";
+}
+
+.icon-chevron-down:before {
+	content: "\E008";
+}
+
+.icon-chevron-left:before {
+	content: "\E009";
+}
+
+.icon-chevron-right:before {
+	content: "\E00A";
+}
+
+.icon-chevron-up:before {
+	content: "\E00B";
+}
+
+.icon-hamburgerMenu:before {
+	content: "\E00C";
+}
+
+.icon-help:before {
+	content: "\E00D";
+}
+
+.icon-logo:before {
+	content: "\E00E";
+}
+
+.icon-minus:before {
+	content: "\E00F";
+}
+
+.icon-phone_message:before {
+	content: "\E010";
+}
+
+.icon-plus:before {
+	content: "\E011";
+}
+
+.icon-x-large:before {
+	content: "\E012";
+}
+
+.icon-x-small:before {
+	content: "\E013";
+}
+
+.icon-facebook-block:before {
+	content: "\E014";
+}
+
+.icon-facebook:before {
+	content: "\E015";
+}
+
+.icon-instagram-block:before {
+	content: "\E016";
+}
+
+.icon-instagram:before {
+	content: "\E017";
+}
+
+.icon-twitter-block:before {
+	content: "\E018";
+}
+
+.icon-twitter:before {
+	content: "\E019";
+}
