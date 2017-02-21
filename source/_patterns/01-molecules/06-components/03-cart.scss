@@ -18,13 +18,13 @@
   &__qty {
     display: block;
     position: absolute;
-    font-size: 0.5em;
+    font-size: 0.65em;
     white-space: nowrap;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 0;
     color: $colorWhite;
-    margin-top: -2px;
+    margin-top: 1px;
   }
 }
