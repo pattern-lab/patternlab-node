@@ -1,26 +1,30 @@
 .cart {
-  &__link {
-    position:relative;
-    @include icon('bag');
-    display:block;
-    font-size:1.375em;
-
-    &:before {
-      position: relative;
-      top: -3px;
+  &__svg {
+    position: relative;
+    display: block;
+    width: 1.3em;
+    height: 1.3em;
+    margin-top: -.4em;
+    svg {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+    @media only screen and (min-width: $breakpointDesktop) {
+      margin-top: -.2em;
     }
   }
 
   &__qty {
-    display:block;
-    position:absolute;
-    font-size:0.5em;
-    white-space:nowrap;
-    left:50%;
-    top:50%;
-    transform:translate(-50%, -50%);
-    z-index:0;
-    color:$colorWhite;
+    display: block;
+    position: absolute;
+    font-size: 0.5em;
+    white-space: nowrap;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    color: $colorWhite;
     margin-top: -2px;
   }
 }

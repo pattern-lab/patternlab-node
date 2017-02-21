@@ -1,9 +1,13 @@
 .logo {
   text-align:center;
-  height : 0.9em;
+  height : .875em;
+  width: 11.5em;
+  margin-top: -.15em;
 
   @media only screen and (min-width: $breakpointDesktop) {
-    height : 1.25em;
+    height: 1.55em;
+    width: 16.75em;
+    margin-top: -.25em;
   }
 
   &__text {
@@ -13,14 +17,13 @@
     overflow:hidden;
   }
 
-  .icon-logo {
+  &__svg {
     display:block;
-    font-size:0.7em;
-    line-height:0.7em;
+    height: 100%;
+    svg {
+      display: block;
+      height: 100%;
 
-    @media only screen and (min-width: $breakpointDesktop) {
-      font-size:1.25em;
-      line-height:1em;
     }
   }
 }
