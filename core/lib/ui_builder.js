@@ -515,7 +515,7 @@ var ui_builder = function () {
           });
         if (omitPatternType) {
           if (patternlab.config.debug) {
-            console.log('Omitting ' + patternType + '/' + patternSubtype + ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
+            console.log('Omitting ' + patternType + '/' + patternSubtype + ' from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.');
           }
         } else {
           styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
