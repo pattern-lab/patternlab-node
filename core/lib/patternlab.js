@@ -180,6 +180,10 @@ var patternlab_engine = function (config) {
     console.log(patternlab.package.version);
   }
 
+  function getSupportedTemplateExtensions(){
+    return patternlab.engines.getSupportedFileExtensions();
+  }
+
   function help() {
 
     console.log('');
@@ -629,6 +633,9 @@ var patternlab_engine = function (config) {
     },
     installplugin: function (pluginName) {
       installPlugin(pluginName);
+    },
+    getSupportedTemplateExtensions: function () {
+      return getSupportedTemplateExtensions();
     }
   };
 };
