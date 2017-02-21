@@ -2,11 +2,22 @@
 
 const pluginName = 'plugin-node-tab';
 
-const fs = require('fs-extra'),
-  glob = require('glob'),
-  path = require('path'),
-  EOL = require('os').EOL,
-  tab_loader = require('./src/tab-loader');
+const fs = require('fs-extra');
+const glob = require('glob');
+const path = require('path');
+const EOL = require('os').EOL;
+const tab_loader = require('./src/tab-loader');
+const config = require('./config.json');
+
+function writeConfigToOutput(patternlab, pluginConfig) {
+  var pluginConfigPathName = path.resolve(patternlab.config.paths.public.root, 'patternlab-components', 'packages');
+  try {
+    fs.outputFileSync(pluginConfigPathName + '/' + pluginName + '.json', JSON.stringify(pluginConfig, null, 2));
+  } catch (ex) {
+    console.trace(pluginName + ': Error occurred while writing pluginFile configuration');
+    console.log(ex);
+  }
+}
 
 function onPatternIterate(patternlab, pattern) {
   tab_loader(patternlab, pattern);
@@ -49,10 +60,11 @@ function pluginInit(patternlab) {
     process.exit(1);
   }
 
-  let fileTypes = require('./package.json').fileTypes;
-
   //write the plugin json to public/patternlab-components
   var pluginConfig = getPluginFrontendConfig();
+  pluginConfig.tabsToAdd = patternlab.config.plugins[pluginName].options.tabsToAdd;
+  writeConfigToOutput(patternlab, pluginConfig);
+
   var pluginConfigPathName = path.resolve(patternlab.config.paths.public.root, 'patternlab-components', 'packages');
   try {
     fs.outputFileSync(pluginConfigPathName + '/' + pluginName + '.json', JSON.stringify(pluginConfig, null, 2));
@@ -90,8 +102,8 @@ function pluginInit(patternlab) {
           //we are also being a bit lazy here, since we only expect one file
           let tabJSFileContents = fs.readFileSync(pluginFiles[i], 'utf8');
           var snippetString = '';
-          for (let j = 0; j < fileTypes.length; j++) {
-            let tabSnippetLocal = tab_frontend_snippet.replace(/<<type>>/g, fileTypes[j]).replace(/<<typeUC>>/g, fileTypes[j].toUpperCase());
+          for (let j = 0; j < pluginConfig.tabsToAdd.length; j++) {
+            let tabSnippetLocal = tab_frontend_snippet.replace(/<<type>>/g, pluginConfig.tabsToAdd[j]).replace(/<<typeUC>>/g, pluginConfig.tabsToAdd[j].toUpperCase());
             snippetString += tabSnippetLocal + EOL;
           }
           tabJSFileContents = tabJSFileContents.replace('/*SNIPPETS*/', snippetString);

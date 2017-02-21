@@ -16,13 +16,11 @@ To add the Tab Plugin to your project using [npm](http://npmjs.com/) type:
 
 Or add it directly to your project's `package.json` file and run `npm install`
 
-At time of installation, the plugin will prompt you for what filetypes you want to add tabs for.
+During installation, the plugin is added as a key to the `plugins` object in your main Pattern Lab project's `patternlab-config.json` file
 
-```
-$ Specify filetype(s) to create a tab for. Separate multiple filetypes with a space, pipe or comma. Example: js css >>>
-```
+## Configuration
 
-Post-installation,  the plugin should be added as a key to the `plugins` object in your main Pattern Lab project's `patternlab-config.json` file.
+Post-installation, you will see the following in your `patternlab-config.json`:
 
 Example:
 
@@ -30,23 +28,28 @@ Example:
 "plugins": {
   "plugin-node-tab": {
     "enabled": true,
-    "initialized": false
+    "initialized": false,
+    "options": {
+      "tabsToAdd": []
+    }
   }
 }
 ```
+
+Add file extensions to this array as strings. Example: `"tabsToAdd": ['scss', 'js']`. You are all set now.
 
 ## Expected Structure
 
 With the Tab Plugin installed, you can now accompany pattern template files with the file types of your choice and expect Pattern Lab to show them as tabs. The file structure would be similar to that of `pattern.json` or `pattern.md` files, except that it will be `pattern.<<type>>`.
 
-For example, if we added a` css` tab:
+For example, if we added an `scss` tab:
 
 ```
 ./_patterns/foo/bar
 ├── pattern.mustache (the pattern template)
 ├── pattern.md (optional pattern-specific documentation and metadata)
 ├── pattern.json (optional pattern-specific data)
-└── pattern.css (the tab you added.)
+└── pattern.scss (a file matching the tab you added.)
 ```
 
 ## Enabling / Disabling the Plugin
