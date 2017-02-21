@@ -46,8 +46,7 @@ var plugin_manager = function (config, configPath) {
         if (!diskConfig.plugins[pluginName]) {
           diskConfig.plugins[pluginName] = {
             enabled: true,
-            initialized: false,
-            options: {}
+            initialized: false
           };
         }
 
@@ -55,7 +54,6 @@ var plugin_manager = function (config, configPath) {
         try {
           var pluginConfigJSON = require(pluginPathConfig);
           if (!diskConfig.plugins[pluginName].options) {
-
             diskConfig.plugins[pluginName].options = pluginConfigJSON;
           }
         } catch (ex) {
