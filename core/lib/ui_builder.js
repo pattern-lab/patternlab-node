@@ -484,7 +484,7 @@ var ui_builder = function () {
     _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
 
       var p;
-      var typePatterns = [], styleGuidePatterns = [];
+      var typePatterns = [], styleguideTypePatterns = [];
       var styleGuideExcludes = patternlab.config.styleGuideExcludes;
 
       _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
@@ -518,7 +518,7 @@ var ui_builder = function () {
             console.log('Omitting ' + patternType + '/' + patternSubtype + ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
           }
         } else {
-          styleguidePatterns = styleguidePatterns.concat(subtypePatterns);
+          styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
         }
 
         typePatterns = typePatterns.concat(subtypePatterns);
@@ -557,7 +557,7 @@ var ui_builder = function () {
           console.log('Omitting ' + patternType + ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
         }
       } else {
-        patterns = patterns.concat(styleguidePatterns);
+        patterns = patterns.concat(styleguideTypePatterns);
       }
     });
     return patterns;
