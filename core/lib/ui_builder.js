@@ -485,7 +485,7 @@ var ui_builder = function () {
 
       var p;
       var typePatterns = [], styleguideTypePatterns = [];
-      var styleGuideExcludes = patternlab.config.styleGuideExcludes;
+      var styleGuideExcludes = patternlab.config.styleGuideExcludes || patternlab.config.styleguideExcludes;
 
       _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
 
