@@ -23,74 +23,65 @@
 	@if $filename == bag-outline {
 		$char: "\E002";
 	}
-	@if $filename == bag {
+	@if $filename == bracket_left {
 		$char: "\E003";
 	}
-	@if $filename == bracket_left {
+	@if $filename == bracket_right {
 		$char: "\E004";
 	}
-	@if $filename == bracket_right {
+	@if $filename == check {
 		$char: "\E005";
 	}
-	@if $filename == check {
+	@if $filename == checkmark {
 		$char: "\E006";
 	}
-	@if $filename == checkmark {
+	@if $filename == chevron-down {
 		$char: "\E007";
 	}
-	@if $filename == chevron-down {
+	@if $filename == chevron-left {
 		$char: "\E008";
 	}
-	@if $filename == chevron-left {
+	@if $filename == chevron-right {
 		$char: "\E009";
 	}
-	@if $filename == chevron-right {
+	@if $filename == chevron-up {
 		$char: "\E00A";
 	}
-	@if $filename == chevron-up {
+	@if $filename == help {
 		$char: "\E00B";
 	}
-	@if $filename == hamburgerMenu {
+	@if $filename == minus {
 		$char: "\E00C";
 	}
-	@if $filename == help {
+	@if $filename == phone_message {
 		$char: "\E00D";
 	}
-	@if $filename == logo {
+	@if $filename == plus {
 		$char: "\E00E";
 	}
-	@if $filename == minus {
+	@if $filename == x-large {
 		$char: "\E00F";
 	}
-	@if $filename == phone_message {
+	@if $filename == x-small {
 		$char: "\E010";
 	}
-	@if $filename == plus {
+	@if $filename == facebook-block {
 		$char: "\E011";
 	}
-	@if $filename == x-large {
+	@if $filename == facebook {
 		$char: "\E012";
 	}
-	@if $filename == x-small {
+	@if $filename == instagram-block {
 		$char: "\E013";
 	}
-	@if $filename == facebook-block {
+	@if $filename == instagram {
 		$char: "\E014";
 	}
-	@if $filename == facebook {
+	@if $filename == twitter-block {
 		$char: "\E015";
 	}
-	@if $filename == instagram-block {
-		$char: "\E016";
-	}
-	@if $filename == instagram {
-		$char: "\E017";
-	}
-	@if $filename == twitter-block {
-		$char: "\E018";
-	}
 	@if $filename == twitter {
-		$char: "\E019";
+		$char: "\E016";
 	}
 
 	@return $char;
@@ -112,9 +103,6 @@
 }
 .icon-bag-outline {
 	@include icon(bag-outline);
-}
-.icon-bag {
-	@include icon(bag);
 }
 .icon-bracket_left {
 	@include icon(bracket_left);
@@ -140,14 +128,8 @@
 .icon-chevron-up {
 	@include icon(chevron-up);
 }
-.icon-hamburgerMenu {
-	@include icon(hamburgerMenu);
-}
 .icon-help {
 	@include icon(help);
-}
-.icon-logo {
-	@include icon(logo);
 }
 .icon-minus {
 	@include icon(minus);
