@@ -16,12 +16,12 @@ try {
   var config = fs.readJSONSync(path.resolve(configPath), 'utf8');
 
   //determine if any starterkits are already installed
-  var starterkit_manager = new sm(config);
+  var starterkit_manager = new sm(config, configPath);
   var foundStarterkits = starterkit_manager.detect_starterkits();
 
   //todo - enhance to support multiple kits with prompt for each or all
   if (foundStarterkits && foundStarterkits.length > 0) {
-    starterkit_manager.load_starterkit(foundStarterkits[0], true);
+    starterkit_manager.load_starterkit(foundStarterkits[0], configPath, true);
   } else {
     console.log('No starterkits found to automatically load.');
   }

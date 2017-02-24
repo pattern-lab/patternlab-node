@@ -1,11 +1,72 @@
 "use strict";
 
-var starterkit_manager = function (config) {
-  var path = require('path'),
-    fetch = require('node-fetch'),
-    fs = require('fs-extra'),
-    util = require('./utilities'),
-    paths = config.paths;
+// needs to be mutable for "rewire"
+let fs = require('fs-extra');
+let path = require('path');
+
+const fetch = require('node-fetch');
+const util = require('./utilities');
+const _ = require('lodash');
+
+const starterkit_manager = function (config, configPath) {
+  const paths = config.paths;
+
+  /**
+   * Ovewrites any values in the Pattern Lab config file with values from starterkit-config.json.
+   * If no starterkit configuration exists, nothing will be done.
+   *
+   * @param starterKitRoot
+   */
+  function updateConfig(starterKitRoot) {
+
+    let starterKitRootStats;
+    try {
+      starterKitRootStats = fs.statSync(starterKitRoot);
+    } catch (ex) {
+      util.error(starterKitRoot + ' not found, please use npm to install it first.');
+      util.error(starterKitRoot + ' not loaded.');
+      return;
+    }
+    if (starterKitRootStats.isDirectory()) {
+
+      const diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
+      const starterKitConfig = path.resolve(starterKitRoot, 'starterkit-config.json');
+      let success = true;
+      try {
+        const starterKitConfigJSON = fs.readJSONSync(starterKitConfig, 'utf8');
+
+        // Idea: Merge objects so that paths and templateExtension can be changed
+        // Also overwrite arrays instead of appending to them
+        // Use case:
+        // "ignored-extensions" : ["scss", "DS_Store", "less"],
+        // "ignored-directories" : ["less"],
+
+        // Attention: If the array contains any objects, it gets replaced completely!
+        _.mergeWith(diskConfig, starterKitConfigJSON, (target, source) => {
+          if (_.isArray(source)) {
+            return source;
+          }
+
+          // Delegate to default behaviour
+          return undefined;
+        });
+
+      } catch (ex) {
+        //a starterkit-config.json file is not required at this time
+        success = false;
+      }
+
+      //write config entry back
+      // Also used for unit testing the result...
+      fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
+
+      // Only output if we changed some values so users are not confused
+      // We want to tell the user that something was changed
+      if (success) {
+        console.log("Using starterkit-config.json to update patternlab-config.json");
+      }
+    }
+  }
 
   /**
    * Loads npm module identified by the starterkitName parameter.
@@ -15,19 +76,25 @@ var starterkit_manager = function (config) {
   */
   function loadStarterKit(starterkitName, clean) {
     try {
-      var kitPath = path.resolve(
-        path.join(process.cwd(), 'node_modules', starterkitName, config.starterkitSubDir)
+      const kitRoot = path.resolve(
+        path.join(process.cwd(), 'node_modules', starterkitName)
+      );
+      const kitPath = path.resolve(
+        path.join(kitRoot, config.starterkitSubDir)
       );
       console.log('Attempting to load starterkit from', kitPath);
+      let kitRootStats;
+      let kitDirStats;
+
       try {
-        var kitDirStats = fs.statSync(kitPath);
+        kitRootStats = fs.statSync(kitRoot);
+        kitDirStats = fs.statSync(kitPath);
       } catch (ex) {
         util.error(starterkitName + ' not found, please use npm to install it first.');
         util.error(starterkitName + ' not loaded.');
         return;
       }
-      var kitPathDirExists = kitDirStats.isDirectory();
-      if (kitPathDirExists) {
+      if (kitDirStats.isDirectory() && kitRootStats.isDirectory()) {
 
         if (clean) {
           console.log('Deleting contents of', paths.source.root, 'prior to starterkit load.');
@@ -42,6 +109,7 @@ var starterkit_manager = function (config) {
           util.error(ex);
           return;
         }
+        updateConfig(kitRoot);
         util.debug('starterkit ' + starterkitName + ' loaded successfully.');
       }
     } catch (ex) {
@@ -61,7 +129,7 @@ var starterkit_manager = function (config) {
         'Accept': 'application/json'
       }
     }).then(function (res) {
-      var contentType = res.headers.get('content-type');
+      const contentType = res.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') === -1) {
         throw new TypeError("StarterkitManager->listStarterkits: Not valid JSON");
       }
@@ -90,9 +158,9 @@ var starterkit_manager = function (config) {
    * @return {array} List of starter kits installed
    */
   function detectStarterKits() {
-    var node_modules_path = path.join(process.cwd(), 'node_modules');
-    var npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {
-      var module_path = path.join(process.cwd(), 'node_modules', dir);
+    const node_modules_path = path.join(process.cwd(), 'node_modules');
+    const npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {
+      const module_path = path.join(process.cwd(), 'node_modules', dir);
       return fs.statSync(module_path).isDirectory() && dir.indexOf('starterkit-') === 0;
     });
     return npm_modules;
