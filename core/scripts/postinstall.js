@@ -21,7 +21,7 @@ try {
 
   //todo - enhance to support multiple kits with prompt for each or all
   if (foundStarterkits && foundStarterkits.length > 0) {
-    starterkit_manager.load_starterkit(foundStarterkits[0], configPath, true);
+    starterkit_manager.load_starterkit(foundStarterkits[0], true);
   } else {
     console.log('No starterkits found to automatically load.');
   }
