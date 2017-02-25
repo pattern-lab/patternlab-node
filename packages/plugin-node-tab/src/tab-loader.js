@@ -1,8 +1,7 @@
 "use strict";
 
-const fs = require('fs-extra'),
-  path = require('path'),
-  fileTypes = require('./../package.json').fileTypes;
+const fs = require('fs-extra');
+const path = require('path');
 
 /**
  * The backend method that is called during the patternlab-pattern-write-end event.
@@ -11,6 +10,9 @@ const fs = require('fs-extra'),
  * @param pattern - the pattern object being iterated over
  */
 function findTab(patternlab, pattern) {
+
+  //read the filetypes from the configuration
+  const fileTypes = patternlab.config.plugins['plugin-node-tab'].options.tabsToAdd;
 
   //exit if either of these two parameters are missing
   if (!patternlab) {
@@ -28,9 +30,10 @@ function findTab(patternlab, pattern) {
 
   //loop through all configured types
   for (let i = 0; i < fileTypes.length; i++) {
+    const fileType = fileTypes[i].toLowerCase();
 
-    customFileTypePath = customFileTypePath.substr(0, customFileTypePath.lastIndexOf(".")) + '.' + fileTypes[i];
-    var customFileTypeOutputPath = patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'custom', '.' + fileTypes[i]);
+    customFileTypePath = customFileTypePath.substr(0, customFileTypePath.lastIndexOf(".")) + '.' + fileType;
+    var customFileTypeOutputPath = patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'custom', '.' + fileType);
 
     //look for a custom filetype for this template
     try {

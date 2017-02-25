@@ -18,6 +18,8 @@ Or add it directly to your project's `package.json` file and run `npm install`
 
 During installation, the plugin is added as a key to the `plugins` object in your main Pattern Lab project's `patternlab-config.json` file
 
+> If you don't see this object, try running `npm run postinstall` within the root of your project.
+
 ## Configuration
 
 Post-installation, you will see the following in your `patternlab-config.json`:

@@ -1,6 +1,6 @@
 {
   "name": "plugin-node-tab",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/pattern-lab/plugin-node-tab.git"
   },
   "scripts": {
-    "test": "eslint dist/** src/** index.js postinstall.js",
+    "test": "eslint src/** index.js postinstall.js",
     "postinstall": "node ./postinstall.js"
   },
   "author": "Brian Muenzenmeyer",

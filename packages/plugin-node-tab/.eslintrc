@@ -4,6 +4,10 @@
     "builtin": true,
     "es6": true
   },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "globals": {},
   "rules": {
     "block-scoped-var": 0,
@@ -61,14 +65,14 @@
     "no-undef": 2,
     "no-underscore-dangle": 0,
     "no-unreachable": 1,
-    "no-unused-vars": 0,
+    "no-unused-vars": 1,
     "no-use-before-define": 1,
     "no-useless-call": 2,
     "no-useless-concat": 2,
     "no-with": 2,
     "quotes": [0, "single"],
     "radix": 2,
-    "semi": [0, "never"],
+    "semi": [1, "always"],
     "strict": 0,
     "space-before-blocks": 1,
     "space-before-function-paren": [1, {
