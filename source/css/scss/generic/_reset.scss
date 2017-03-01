@@ -42,3 +42,10 @@ fieldset {
 * {
   -webkit-tap-highlight-color: transparent; // i.e. Nexus5/Chrome and Kindle Fire HD 7
 }
+
+:active,
+:hover,
+:focus,
+:focus {
+  outline: none
+}
