@@ -10,11 +10,12 @@
 
 "use strict";
 
-const diveSync = require('diveSync'),
+var diveSync = require('diveSync'),
   glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
   chalk = require('chalk'),
+  yaml = require('js-yaml'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
@@ -35,10 +36,8 @@ console.log(
   chalk.bold(']====\n')
 );
 
-const patternEngines = require('./pattern_engines');
-const EventEmitter = require('events').EventEmitter;
-
-const yaml = require('js-yaml');
+var patternEngines = require('./pattern_engines');
+var EventEmitter = require('events').EventEmitter;
 
 /**
  * Given a path, load info from the folder to compile into a single config object.
