@@ -162,13 +162,15 @@
     }
     z-index: 1;
     &--left, &--right {
-      width: 2.25rem;
-      height: $arrow-height;
+      dsiplay: block;
+      box-sizing: content-box;
+      height: 1em;
+      line-height: 1em;
       font-size: 1.375rem;
       text-align: center;
       color: $colorWhite;
       background-color: rgba(0, 0, 0, .3);
-      padding-top: 0.5rem;
+      padding: .5em .65em;
       cursor: pointer;
       border: none;
       appearance: none;
@@ -178,11 +180,9 @@
     }
     &--left {
       float: left;
-      padding-right: 0.3125rem;
     }
     &--right {
       float: right;
-      padding-left: 0.3125rem;
     }
   }
 
