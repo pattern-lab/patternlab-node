@@ -48,7 +48,7 @@ gulp.task('cp:css', function () {
 });
 
 gulp.task('fonts', function (){
-  return gulp.src(['./source/fonts/**/*.woff', '!./source/fonts/_/*.woff'])
+  return gulp.src(['./source/fonts/**/*.woff', '!./source/fonts/_**/*.woff'])
     .pipe(font64())
     .pipe(concat('fonts.css'))
     .pipe(gulp.dest('./public/css'))
