@@ -154,7 +154,7 @@
     position:absolute;
     width: 100%;
     top: calc(50% - (#{$arrow-height} / 1.3));
-    height: 0;
+    left: 0;
     @media only screen and (max-width : $breakpointMobileEnd) {
       body[data-page-type="home"] & {
         top: calc(28% - (#{$arrow-height} / 1.3));
@@ -164,6 +164,8 @@
     &--left, &--right {
       dsiplay: block;
       box-sizing: content-box;
+      position: absolute;
+      top: 0;
       height: 1em;
       line-height: 1em;
       font-size: 1.375rem;
@@ -174,15 +176,16 @@
       cursor: pointer;
       border: none;
       appearance: none;
+      margin: 0;
       &:hover {
         background-color: rgba(0, 0, 0, .4);
       }
     }
     &--left {
-      float: left;
+      left: 0;
     }
     &--right {
-      float: right;
+      right: 0;
     }
   }
 
