@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.7.2 - 2017
+ * patternlab-node - v2.8.0 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -99,6 +99,8 @@ function checkConfiguration(patternlab) {
  * Finds and calls the main method of any found plugins.
  * @param patternlab - global data store
  */
+
+//todo, move this to plugin_manager
 function initializePlugins(patternlab) {
 
   if (!patternlab.config.plugins) { return; }
@@ -176,6 +178,10 @@ var patternlab_engine = function (config) {
 
   function getVersion() {
     console.log(patternlab.package.version);
+  }
+
+  function getSupportedTemplateExtensions(){
+    return patternlab.engines.getSupportedFileExtensions();
   }
 
   function help() {
@@ -627,6 +633,9 @@ var patternlab_engine = function (config) {
     },
     installplugin: function (pluginName) {
       installPlugin(pluginName);
+    },
+    getSupportedTemplateExtensions: function () {
+      return getSupportedTemplateExtensions();
     }
   };
 };
