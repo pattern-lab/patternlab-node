@@ -12,7 +12,7 @@
       clear: both;
       &:after {
         @include icon-styles;
-        content: "\E011";
+        content: "\E00E";
         padding: 0 $paddingMini / 2;
         display: flex;
         align-items: center;
@@ -20,7 +20,7 @@
       }
       &.open {
         &:after {
-          content: '\E00F';
+          content: '\E00C';
         }
       }
     }
