@@ -1,13 +1,11 @@
 .logo {
   text-align:center;
-  height : .7em;
   width: 11.5em;
-  margin-top: -.15em;
+  margin-top: -.155em;
 
   @media only screen and (min-width: $breakpointDesktop) {
-    height: 1.25em;
     width: 16.75em;
-    margin-top: -.25em;
+    margin-top: 0;
   }
 
   &__text {
