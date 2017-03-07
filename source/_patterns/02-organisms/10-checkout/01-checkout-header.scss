@@ -5,7 +5,13 @@
       margin-bottom : 2em;
     }
     .logo {
+      width: auto;
       margin: 0.81em 0.75em;
+
+      &__svg svg {
+        margin: 0 auto;
+      }
+
       @media only screen and (min-width: $breakpointTablet) {
         margin: 1.5em 0.75em;
         height: 1.1em;
