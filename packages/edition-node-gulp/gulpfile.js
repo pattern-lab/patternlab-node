@@ -6,60 +6,77 @@
 var gulp = require('gulp'),
   path = require('path'),
   browserSync = require('browser-sync').create(),
-  argv = require('minimist')(process.argv.slice(2));
+  argv = require('minimist')(process.argv.slice(2)),
+  chalk = require('chalk');
 
-function resolvePath(pathInput) {
-  return path.resolve(pathInput).replace(/\\/g,"/");
+/**
+ * Normalize all paths to be plain, paths with no leading './',
+ * relative to the process root, and with backslashes converted to
+ * forward slashes. Should work regardless of how the path was
+ * written. Accepts any number of parameters, and passes them along to
+ * path.resolve().
+ *
+ * This is intended to avoid all known limitations of gulp.watch().
+ *
+ * @param {...string} pathFragment - A directory, filename, or glob.
+*/
+function normalizePath() {
+  return path
+    .relative(
+      process.cwd(),
+      path.resolve.apply(this, arguments)
+    )
+    .replace(/\\/g, "/");
 }
 
 /******************************************************
  * COPY TASKS - stream assets from source to destination
 ******************************************************/
 // JS copy
-gulp.task('pl-copy:js', function(){
-  return gulp.src('**/*.js', {cwd: resolvePath(paths().source.js)} )
-    .pipe(gulp.dest(resolvePath(paths().public.js)));
+gulp.task('pl-copy:js', function () {
+  return gulp.src('**/*.js', {cwd: normalizePath(paths().source.js)} )
+    .pipe(gulp.dest(normalizePath(paths().public.js)));
 });
 
 // Images copy
-gulp.task('pl-copy:img', function(){
-  return gulp.src('**/*.*',{cwd: resolvePath(paths().source.images)} )
-    .pipe(gulp.dest(resolvePath(paths().public.images)));
+gulp.task('pl-copy:img', function () {
+  return gulp.src('**/*.*',{cwd: normalizePath(paths().source.images)} )
+    .pipe(gulp.dest(normalizePath(paths().public.images)));
 });
 
 // Favicon copy
-gulp.task('pl-copy:favicon', function(){
-  return gulp.src('favicon.ico', {cwd: resolvePath(paths().source.root)} )
-    .pipe(gulp.dest(resolvePath(paths().public.root)));
+gulp.task('pl-copy:favicon', function () {
+  return gulp.src('favicon.ico', {cwd: normalizePath(paths().source.root)} )
+    .pipe(gulp.dest(normalizePath(paths().public.root)));
 });
 
 // Fonts copy
-gulp.task('pl-copy:font', function(){
-  return gulp.src('*', {cwd: resolvePath(paths().source.fonts)})
-    .pipe(gulp.dest(resolvePath(paths().public.fonts)));
+gulp.task('pl-copy:font', function () {
+  return gulp.src('*', {cwd: normalizePath(paths().source.fonts)})
+    .pipe(gulp.dest(normalizePath(paths().public.fonts)));
 });
 
 // CSS Copy
-gulp.task('pl-copy:css', function(){
-  return gulp.src(resolvePath(paths().source.css) + '/*.css')
-    .pipe(gulp.dest(resolvePath(paths().public.css)))
+gulp.task('pl-copy:css', function () {
+  return gulp.src(normalizePath(paths().source.css) + '/*.css')
+    .pipe(gulp.dest(normalizePath(paths().public.css)))
     .pipe(browserSync.stream());
 });
 
 // Styleguide Copy everything but css
-gulp.task('pl-copy:styleguide', function(){
-  return gulp.src(resolvePath(paths().source.styleguide) + '/**/!(*.css)')
-    .pipe(gulp.dest(resolvePath(paths().public.root)))
+gulp.task('pl-copy:styleguide', function () {
+  return gulp.src(normalizePath(paths().source.styleguide) + '/**/!(*.css)')
+    .pipe(gulp.dest(normalizePath(paths().public.root)))
     .pipe(browserSync.stream());
 });
 
 // Styleguide Copy and flatten css
-gulp.task('pl-copy:styleguide-css', function(){
-  return gulp.src(resolvePath(paths().source.styleguide) + '/**/*.css')
-    .pipe(gulp.dest(function(file){
+gulp.task('pl-copy:styleguide-css', function () {
+  return gulp.src(normalizePath(paths().source.styleguide) + '/**/*.css')
+    .pipe(gulp.dest(function (file) {
       //flatten anything inside the styleguide into a single output dir per http://stackoverflow.com/a/34317320/1790362
       file.path = path.join(file.base, path.basename(file.path));
-      return resolvePath(path.join(paths().public.styleguide, '/css'));
+      return normalizePath(path.join(paths().public.styleguide, '/css'));
     }))
     .pipe(browserSync.stream());
 });
@@ -79,24 +96,33 @@ function getConfiguredCleanOption() {
   return config.cleanPublic;
 }
 
+/**
+ * Performs the actual build step. Accomodates both async and sync
+ * versions of Pattern Lab.
+ * @param {function} done - Gulp done callback
+ */
 function build(done) {
-  patternlab.build(done, getConfiguredCleanOption());
+  const buildResult = patternlab.build(() => {}, getConfiguredCleanOption());
+
+  // handle async version of Pattern Lab
+  if (buildResult instanceof Promise) {
+    return buildResult.then(done);
+  }
+
+  // handle sync version of Pattern Lab
+  done();
+  return null;
 }
 
 gulp.task('pl-assets', gulp.series(
-  gulp.parallel(
-    'pl-copy:js',
-    'pl-copy:img',
-    'pl-copy:favicon',
-    'pl-copy:font',
-    'pl-copy:css',
-    'pl-copy:styleguide',
-    'pl-copy:styleguide-css'
-  ),
-  function(done){
-    done();
-  })
-);
+  'pl-copy:js',
+  'pl-copy:img',
+  'pl-copy:favicon',
+  'pl-copy:font',
+  'pl-copy:css',
+  'pl-copy:styleguide',
+  'pl-copy:styleguide-css'
+));
 
 gulp.task('patternlab:version', function (done) {
   patternlab.version();
@@ -122,9 +148,7 @@ gulp.task('patternlab:loadstarterkit', function (done) {
   done();
 });
 
-gulp.task('patternlab:build', gulp.series('pl-assets', build, function(done){
-  done();
-}));
+gulp.task('patternlab:build', gulp.series('pl-assets', build));
 
 gulp.task('patternlab:installplugin', function (done) {
   patternlab.installplugin(argv.plugin);
@@ -141,41 +165,71 @@ function getSupportedTemplateExtensions() {
 }
 function getTemplateWatches() {
   return getSupportedTemplateExtensions().map(function (dotExtension) {
-    return resolvePath(paths().source.patterns) + '/**/*' + dotExtension;
+    return normalizePath(paths().source.patterns, '**', '*' + dotExtension);
   });
 }
 
-function reload() {
+/**
+ * Reloads BrowserSync.
+ * Note: Exits more reliably when used with a done callback.
+ */
+function reload(done) {
   browserSync.reload();
+  done();
 }
 
-function reloadCSS() {
+/**
+ * Reloads BrowserSync, with CSS injection.
+ * Note: Exits more reliably when used with a done callback.
+ */
+function reloadCSS(done) {
   browserSync.reload('*.css');
+  done();
 }
 
 function watch() {
-  gulp.watch(resolvePath(paths().source.css) + '/**/*.css', { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:css', reloadCSS));
-  gulp.watch(resolvePath(paths().source.styleguide) + '/**/*.*', { awaitWriteFinish: true }).on('change', gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS));
+  const watchers = [
+    {
+      name: 'CSS',
+      paths: [normalizePath(paths().source.css, '**', '*.css')],
+      config: { awaitWriteFinish: true },
+      tasks: gulp.series('pl-copy:css', reloadCSS)
+    },
+    {
+      name: 'Styleguide Files',
+      paths: [normalizePath(paths().source.styleguide, '**', '*')],
+      config: { awaitWriteFinish: true },
+      tasks: gulp.series('pl-copy:styleguide', 'pl-copy:styleguide-css', reloadCSS)
+    },
+    {
+      name: 'Source Files',
+      paths: [
+        normalizePath(paths().source.patterns, '**', '*.json'),
+        normalizePath(paths().source.patterns, '**', '*.md'),
+        normalizePath(paths().source.data, '**', '*.json'),
+        normalizePath(paths().source.fonts, '**', '*'),
+        normalizePath(paths().source.images, '**', '*'),
+        normalizePath(paths().source.js, '**', '*'),
+        normalizePath(paths().source.meta, '**', '*'),
+        normalizePath(paths().source.annotations, '**', '*')
+      ].concat(getTemplateWatches()),
+      config: { awaitWriteFinish: true },
+      tasks: gulp.series(build, reload)
+    }
+  ];
 
-  var patternWatches = [
-    resolvePath(paths().source.patterns) + '/**/*.json',
-    resolvePath(paths().source.patterns) + '/**/*.md',
-    resolvePath(paths().source.data) + '/*.json',
-    resolvePath(paths().source.fonts) + '/*',
-    resolvePath(paths().source.images) + '/*',
-    resolvePath(paths().source.meta) + '/*',
-    resolvePath(paths().source.annotations) + '/*'
-  ].concat(getTemplateWatches());
-
-  console.log(patternWatches);
-
-  gulp.watch(patternWatches, { awaitWriteFinish: true }).on('change', gulp.series(build, reload));
+  watchers.forEach(watcher => {
+    console.log('\n' + chalk.bold('Watching ' + watcher.name + ':'));
+    watcher.paths.forEach(p => console.log('  ' + p));
+    gulp.watch(watcher.paths, watcher.config, watcher.tasks);
+  });
+  console.log();
 }
 
-gulp.task('patternlab:connect', gulp.series(function(done) {
+gulp.task('patternlab:connect', gulp.series(function (done) {
   browserSync.init({
     server: {
-      baseDir: resolvePath(paths().public.root)
+      baseDir: normalizePath(paths().public.root)
     },
     snippetOptions: {
       // Ignore all HTML files within the templates folder
@@ -199,8 +253,7 @@ gulp.task('patternlab:connect', gulp.series(function(done) {
         'text-align: center'
       ]
     }
-  }, function(){
-    console.log('PATTERN LAB NODE WATCHING FOR CHANGES');
+  }, function () {
     done();
   });
 }));
