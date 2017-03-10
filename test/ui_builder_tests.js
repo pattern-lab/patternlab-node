@@ -7,6 +7,7 @@ var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
 var uiModule = rewire('../core/lib/ui_builder');
+var path = require('path');
 
 var engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines();
@@ -83,7 +84,7 @@ tap.test('isPatternExcluded - returns true when pattern within underscored direc
   //arrange
   var patternlab = createFakePatternLab({});
   var pattern = Pattern.createEmpty({
-    relPath: '_hidden/patternsubtype/foo.mustache',
+    relPath: path.sep + '_hidden' + path.sep + 'patternsubtype' + path.sep + 'foo.mustache',
     isPattern: true,
     fileName : 'foo.mustache',
     patternPartial: 'hidden-foo'
@@ -101,7 +102,7 @@ tap.test('isPatternExcluded - returns true when pattern within underscored direc
   //arrange
   var patternlab = createFakePatternLab({});
   var pattern = Pattern.createEmpty({
-    relPath: 'shown/_patternsubtype/foo.mustache',
+    relPath: 'shown' + path.sep + '_patternsubtype' + path.sep + 'foo.mustache',
     isPattern: true,
     fileName : 'foo.mustache',
     patternPartial: 'shown-foo'

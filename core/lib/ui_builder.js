@@ -84,7 +84,7 @@ const ui_builder = function () {
     }
 
     //this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
-    isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf('/_') > -1;
+    isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
       if (patternlab.config.debug) {
         console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because its contained within an underscored directory.');
@@ -487,7 +487,8 @@ const ui_builder = function () {
 
       let p;
       let typePatterns = [];
-      const styleGuideExcludes = patternlab.config.styleGuideExcludes;
+      let styleguideTypePatterns = [];
+      const styleGuideExcludes = patternlab.config.styleGuideExcludes || patternlab.config.styleguideExcludes;
 
       _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
 
@@ -509,6 +510,19 @@ const ui_builder = function () {
         p = _.find(subtypePatterns, function (pat) {
           return pat.isDocPattern;
         });
+
+        //determine if we should omit this subpatterntype completely from the viewall page
+        var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
+          && _.some(styleGuideExcludes, function (exclude) {
+            return exclude === patternType + '/' + patternSubtype;
+          });
+        if (omitPatternType) {
+          if (patternlab.config.debug) {
+            console.log('Omitting ' + patternType + '/' + patternSubtype + ' from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.');
+          }
+        } else {
+          styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
+        }
 
         typePatterns = typePatterns.concat(subtypePatterns);
 
@@ -546,7 +560,7 @@ const ui_builder = function () {
           console.log('Omitting ' + patternType + ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
         }
       } else {
-        patterns = patterns.concat(typePatterns);
+        patterns = patterns.concat(styleguideTypePatterns);
       }
     });
     return patterns;

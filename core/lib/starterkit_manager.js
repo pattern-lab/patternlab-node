@@ -36,12 +36,13 @@ const starterkit_manager = function (config) {
           console.log('Overwriting contents of', paths.source.root, 'during starterkit load.');
         }
 
-        fs.copy(kitPath, paths.source.root, function (ex) {
-          if (ex) {
-            console.error(ex);
-          }
-          util.debug('starterkit ' + starterkitName + ' loaded successfully.');
-        });
+        try {
+          fs.copySync(kitPath, paths.source.root);
+        } catch (ex) {
+          util.error(ex);
+          return;
+        }
+        util.debug('starterkit ' + starterkitName + ' loaded successfully.');
       }
     } catch (ex) {
       console.log(ex);
