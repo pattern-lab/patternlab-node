@@ -11,16 +11,15 @@
 "use strict";
 
 var diveSync = require('diveSync'),
-  glob = require('glob'),
   _ = require('lodash'),
   path = require('path'),
   chalk = require('chalk'),
-  yaml = require('js-yaml'),
   cleanHtml = require('js-beautify').html,
   inherits = require('util').inherits,
   pm = require('./plugin_manager'),
   fs = require('fs-extra'),
   packageInfo = require('../../package.json'),
+  configLoader = require('./config_file_loader')(),
   plutils = require('./utilities'),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
@@ -46,14 +45,7 @@ var EventEmitter = require('events').EventEmitter;
  * @returns {{}}
  */
 function buildPatternData(dataFilesPath, fsDep) {
-  let dataFiles = glob.sync(dataFilesPath + '*.{json,yml,yaml}', {"ignore" : [dataFilesPath + 'listitems.{json,yml,yaml}']});
-  let mergeObject = {};
-  dataFiles.forEach(function (filePath) {
-    let jsonData = yaml.safeLoad(fsDep.readFileSync(path.resolve(filePath), 'utf8'));
-    mergeObject = _.merge(mergeObject, jsonData);
-  });
-
-  return mergeObject;
+  return configLoader.loadConfigFromFolder(dataFilesPath, 'listitems', fsDep);
 }
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
@@ -500,13 +492,7 @@ var patternlab_engine = function (config) {
       patternlab.data = {};
     }
     try {
-      let dataFiles = glob.sync(paths.source.data + 'listitems.{json,yml,yaml}');
-      let mergeObject = {};
-      dataFiles.forEach(function (filePath) {
-        let jsonData = yaml.safeLoad(fs.readFileSync(path.resolve(filePath), 'utf8'));
-        mergeObject = _.merge(mergeObject, jsonData);
-      });
-      patternlab.listitems = mergeObject;
+      patternlab.listitems = configLoader.loadConfigFromFile(path.resolve(paths.source.data, 'listitems.{json,yml,yaml}'));
     } catch (ex) {
       plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
