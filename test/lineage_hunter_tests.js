@@ -34,6 +34,9 @@ function createBasePatternLabObject() {
     paths: {
       source: {
         patterns: patterns_dir
+      },
+      public: {
+        patterns: './test/public/_patterns'
       }
     },
     outputFileSuffixes: {
@@ -48,6 +51,8 @@ function createBasePatternLabObject() {
   pl.config.debug = false;
   pl.patterns = [];
   pl.partials = {};
+  pl.patternGroups = {};
+  pl.subtypePatterns = {};
 
   return pl;
 }
@@ -266,17 +271,8 @@ tap.test('cascade_pattern_states sets the pattern state on any lineage patterns 
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = new of.Pattern('00-test/01-bar.mustache');
-  atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
-  atomPattern.extendedTemplate = atomPattern.template;
-  atomPattern.patternState = "inreview";
-  pattern_assembler.addPattern(atomPattern, pl);
-
-  var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
-  consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
-  consumerPattern.extendedTemplate = consumerPattern.template;
-  consumerPattern.patternState = "complete";
-  pattern_assembler.addPattern(consumerPattern, pl);
+  var atomPattern = pattern_assembler.load_pattern_iterative('00-test/01-bar.mustache', pl);
+  var consumerPattern = pattern_assembler.load_pattern_iterative('00-test/00-foo.mustache', pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 
