@@ -1,23 +1,25 @@
-const serve = require('../bin/cli-actions/serve');
+const proxyquire = require('proxyquire');
 const tap = require('tap');
+const _ = require('lodash');
+const resolveConfig = require('../bin/resolve-config');
+const browserSyncMock = require('./mocks/browsersync.mock.js');
 const wrapAsync = require('../bin/utils').wrapAsync;
 
-tap.test('Serve ->', t => {
-	t.plan(2)
-	t.test('with options empty', t => wrapAsync(function*() {
-		try {
-			yield serve()
-		} catch (err) {
-			t.type(err, TypeError, 'throws when options are empty');
-			t.end();
-		}
-	}));
-	t.test('with options not an object', t => wrapAsync(function*() {
-		try {
-			yield serve(123)
-		} catch (err) {
-			t.type(err, TypeError, 'throws when passed options are not of type object');
-			t.end();
-		}
-	}));
-});
+// Require preview but mock patternlab so that we only test the module behavior
+const preview = proxyquire('../bin/serve', {'browser-sync': browserSyncMock});
+
+tap.test('Serve ->', t => wrapAsync(function*() {
+	const config = yield resolveConfig('./test/fixtures/patternlab-config.json');
+	config.paths.source.root = undefined;
+	t.throws(() => { preview(); }, {}, 'throws when config is empty');
+	t.throws(() => { preview(123); }, {}, 'throws when config is not of type object');
+	t.throws(() => {
+		_.unset(config, 'paths.source.root');
+		preview(config);
+	}, {}, 'throws when no source root dir is set on config');
+	t.throws(() => {
+		_.unset(config, 'paths.public.root');
+		preview(config);
+	}, {}, 'throws when no public root dir is set on config');
+	t.end();
+}));

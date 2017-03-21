@@ -22,7 +22,7 @@ Usage: patternlab <cmd> [options]
 		build|compile [options]   Build the PatternLab. Optionally (re-)build only the patterns
 		export                    Export a PatternLab patterns into a compressed format
 		init [options]            Initialize a PatternLab project from scratch or import an edition and/or starterkit
-		serve|browse              Starts a server to inspect files in browser
+		serve|browse [options]    Starts a server to inspect files in browser
 	
 	Options:
 		-h, --help           output usage information
@@ -54,7 +54,7 @@ Passing no options starts the init in interactive mode
 		-h, --help                output usage information
 		-p, --project-dir <path>  Specify a project directory. Default: ./
 		-e, --edition <name>      Specify an edition to install. Default: edition-node
-		-k, --starterkit <name>   Specify a starterkit to install. Default: starterkit-mustache-demo
+		-k, --starterkit <name>   Specify a starterkit to install. Default: starterkit-mustache-base
 ```
 
 ### Serve PatternLab
@@ -65,7 +65,8 @@ Starts a server to inspect files in browser
 
 
 	Options:
-		-h, --help  output usage information
+		-h, --help   output usage information
+		-w, --watch  Start watching for changes
 ```
 
 ### Export PatternLab

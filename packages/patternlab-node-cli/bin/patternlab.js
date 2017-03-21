@@ -73,6 +73,7 @@ cli
 	.command('serve')
 	.alias('browse')
 	.description('Starts a server to inspect files in browser')
+	.option('-w, --watch', 'Start watching for changes')
 	.action(serve);
 
 // Show additional help
