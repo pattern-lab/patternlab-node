@@ -1,7 +1,6 @@
 "use strict";
 
 var path = require('path');
-var JSON5 = require('json5');
 var fs = require('fs-extra');
 var ae = require('./annotation_exporter');
 var of = require('./object_factory');
@@ -10,6 +9,7 @@ var pattern_assembler = require('./pattern_assembler')();
 var plutils = require('./utilities');
 var eol = require('os').EOL;
 var _ = require('lodash');
+var jsonCopy = require('./json_copy');
 
 var ui_builder = function () {
 
@@ -435,7 +435,7 @@ var ui_builder = function () {
 
     var allFooterData;
     try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
     } catch (err) {
       console.log('There was an error parsing JSON for patternlab.data');
       console.log(err);

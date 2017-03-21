@@ -13,8 +13,8 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
-  ch = require('./changes_hunter'),
-  JSON5 = require('json5');
+  jsonCopy = require('./json_copy'),
+  ch = require('./changes_hunter');
 
 const markdown_parser = new mp();
 const changes_hunter = new ch();
@@ -476,7 +476,7 @@ var pattern_assembler = function () {
       //complete assembly of extended template
       //create a copy of the partial so as to not pollute it after the getPartial call.
       var partialPattern = getPartial(partial, patternlab);
-      var cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+      var cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partial}`);
 
       //if partial has style modifier data, replace the styleModifier value
       if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
@@ -494,7 +494,7 @@ var pattern_assembler = function () {
     linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
 
     //stringify the passed in object
-    dataObjAsString = JSON5.stringify(obj);
+    dataObjAsString = JSON.stringify(obj);
     if (!dataObjAsString) { return obj; }
 
     //find matches
@@ -533,7 +533,7 @@ var pattern_assembler = function () {
 
     var dataObj;
     try {
-      dataObj = JSON5.parse(dataObjAsString);
+      dataObj = JSON.parse(dataObjAsString);
     } catch (err) {
       console.log('There was an error parsing JSON for ' + key);
       console.log(err);
