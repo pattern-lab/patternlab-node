@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.9.0 - 2017
+ * patternlab-node - v2.9.1 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
