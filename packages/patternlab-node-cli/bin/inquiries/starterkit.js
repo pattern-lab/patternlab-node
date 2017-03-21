@@ -52,7 +52,7 @@ const starterkitSetup = [{
 			value: false
 		}],
 	default: {
-		name: 'starterkit-mustache-demo',
-		value: 'starterkit-mustache-demo'}
+		name: 'starterkit-mustache-base',
+		value: 'starterkit-mustache-base'}
 }];
 module.exports = starterkitSetup;
