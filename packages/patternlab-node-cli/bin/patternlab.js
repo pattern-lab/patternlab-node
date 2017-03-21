@@ -16,6 +16,12 @@ log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
 // Conditionally register verbose logging
 const verboseLogs = verbose => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
 
+// Conditionally unregister all logging
+const silenceLogs = () => {
+	log.removeAllListeners('patternlab.debug');
+	log.removeAllListeners('patternlab.error');
+};
+
 /**
  * Hook up cli version, usage and options
  */
@@ -25,6 +31,7 @@ cli
 	.arguments('<cmd> [options]')
 	.option('-c, --config <path>', 'Specify config file. Default looks up the project dir', val => val.trim(), './patternlab-config.json')
 	.option('-v, --verbose', 'Show verbose console logs', verboseLogs)
+	.option('--silent', 'Turn off console logs', silenceLogs);
 
 /**
  * build

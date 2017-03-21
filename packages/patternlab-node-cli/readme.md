@@ -29,6 +29,7 @@ Usage: patternlab <cmd> [options]
 		-V, --version        output the version number
 		-c, --config <path>  Specify config file. Default looks up the project dir
 		-v, --verbose        Show verbose logging
+		--silent             Turn off console logs
 ```
 
 ### Build/Compile PatternLab
