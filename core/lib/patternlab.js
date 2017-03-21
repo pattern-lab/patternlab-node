@@ -180,7 +180,7 @@ var patternlab_engine = function (config) {
     console.log(patternlab.package.version);
   }
 
-  function getSupportedTemplateExtensions(){
+  function getSupportedTemplateExtensions() {
     return patternlab.engines.getSupportedFileExtensions();
   }
 
