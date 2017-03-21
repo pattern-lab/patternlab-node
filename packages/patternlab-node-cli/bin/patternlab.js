@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 const cli = require('commander');
-const checkArgs = require('./check-args');
 const build = require('./cli-actions/build');
 const help = require('./cli-actions/help');
 const init = require('./cli-actions/init');
 const exportPatterns = require('./cli-actions/export');
 const serve = require('./cli-actions/serve');
+const error = require('./utils').error;
 const log = require('./utils').log;
 const pkg = require('../package.json');
 
@@ -14,7 +14,7 @@ const pkg = require('../package.json');
 log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
 
 // Conditionally register verbose logging
-const checkVerbose = verbose => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
+const verboseLogs = verbose => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
 
 /**
  * Hook up cli version, usage and options
@@ -23,9 +23,8 @@ cli
 	.version(pkg.version, '-V, --version')
 	.usage('<cmd> [options]')
 	.arguments('<cmd> [options]')
-	.action(checkArgs)
 	.option('-c, --config <path>', 'Specify config file. Default looks up the project dir', val => val.trim(), './patternlab-config.json')
-	.option('-v, --verbose', 'Show verbose logging', checkVerbose);
+	.option('-v, --verbose', 'Show verbose console logs', verboseLogs)
 
 /**
  * build
@@ -72,6 +71,14 @@ cli
 // Show additional help
 cli.on('--help', help);
 
-// Parse at the end because Node emit is immediate
-cli.parse(process.argv);
+/**
+ * Catch all unsupported commands and delegate to the cli's help
+ * Parse at the end because Node emit is immediate
+ */
+cli
+	.on('*', () => {
+		error('Invalid command provided. See the help for available commands/options.');
+		cli.help();
+	})
+	.parse(process.argv);
 

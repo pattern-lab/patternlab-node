@@ -3,7 +3,7 @@ const fs = require('fs-promise');
 const spawn = require('execa');
 const glob = require('glob');
 const path = require('path');
-const colors = require('colors');
+const chalk = require('chalk');
 const EventEmitter = require('events').EventEmitter;
 
 /**
@@ -13,13 +13,10 @@ const EventEmitter = require('events').EventEmitter;
  */
 const log = Object.assign({
 	debug(msg) {
-		this.emit('patternlab.debug', colors.green(msg));
-	},
-	info(msg) {
-		this.emit('patternlab.info', colors.orange(msg));
+		this.emit('patternlab.debug', `${chalk.cyan('⊙ patternlab →')} ${chalk.dim(msg)}`);
 	},
 	error(msg) {
-		this.emit('patternlab.error', colors.red(msg));
+		this.emit('patternlab.error', `${chalk.red('⊙ patternlab →')} ${chalk.dim(msg)}`);
 	}
 }, EventEmitter.prototype);
 
