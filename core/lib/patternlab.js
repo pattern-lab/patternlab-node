@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.8.0 - 2017
+ * patternlab-node - v2.9.0 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -21,6 +21,7 @@ var diveSync = require('diveSync'),
   fs = require('fs-extra'),
   packageInfo = require('../../package.json'),
   plutils = require('./utilities'),
+  jsonCopy = require('./json_copy'),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
 //register our log events
@@ -146,8 +147,7 @@ inherits(PatternLabEventEmitter, EventEmitter);
 var patternlab_engine = function (config) {
   'use strict';
 
-  var JSON5 = require('json5'),
-    pa = require('./pattern_assembler'),
+  var pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
     ui = require('./ui_builder'),
@@ -180,7 +180,7 @@ var patternlab_engine = function (config) {
     console.log(patternlab.package.version);
   }
 
-  function getSupportedTemplateExtensions(){
+  function getSupportedTemplateExtensions() {
     return patternlab.engines.getSupportedFileExtensions();
   }
 
@@ -370,7 +370,7 @@ var patternlab_engine = function (config) {
     //render the pattern, but first consolidate any data we may have
     var allData;
     try {
-      allData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
@@ -421,7 +421,7 @@ var patternlab_engine = function (config) {
 
     var allFooterData;
     try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);

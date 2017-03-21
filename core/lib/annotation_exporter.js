@@ -3,7 +3,6 @@
 var path = require('path'),
   glob = require('glob'),
   fs = require('fs-extra'),
-  JSON5 = require('json5'),
   _ = require('lodash'),
   mp = require('./markdown_parser');
 
@@ -30,7 +29,7 @@ var annotations_exporter = function (pl) {
     oldAnnotations = oldAnnotations.replace('};', '}');
 
     try {
-      var oldAnnotationsJSON = JSON5.parse(oldAnnotations);
+      var oldAnnotationsJSON = JSON.parse(oldAnnotations);
     } catch (ex) {
       console.log('There was an error parsing JSON for ' + paths.source.annotations + 'annotations.js');
       console.log(ex);
