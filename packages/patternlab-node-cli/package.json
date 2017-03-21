@@ -29,7 +29,7 @@
     "starterkit-mustache-demo": "4.0.2",
     "eslint": "3.13.1",
     "proxyquire": "1.7.10",
-    "tap": "9.0.3"
+    "tap": "10.3.0"
   },
   "files": [
     "bin"
@@ -41,9 +41,9 @@
     "JavaScript"
   ],
   "scripts": {
-    "lint": "eslint bin/",
-    "test": "tap test/*.js --reporter spec",
-    "pretest": "npm install --only=dev"
+    "lint": "eslint ./{bin,test}",
+    "test": "tap './test/*.test.js' --reporter spec --timeout=120",
+    "pretest": "npm run lint && npm install --only=dev"
   },
   "repository": {
     "type": "git",

@@ -2,9 +2,10 @@ const tap = require('tap');
 const path = require('path');
 const exists = require('path-exists');
 const scaffold = require('../bin/scaffold');
+const getUniqueProjectPath = require('./utils/getUniqueProjectPath');
 const wrapAsync = require('../bin/utils').wrapAsync;
 
-const projectDir = './test/tmp';
+const projectDir = getUniqueProjectPath();
 const sourceDir = 'source';
 const publicDir = 'public';
 const exportDir = 'patterns_export';
