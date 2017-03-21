@@ -370,7 +370,7 @@ var patternlab_engine = function (config) {
     //render the pattern, but first consolidate any data we may have
     var allData;
     try {
-      allData = jsonCopy(patternlab.data, 'config.paths.source.data');
+      allData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
@@ -421,7 +421,7 @@ var patternlab_engine = function (config) {
 
     var allFooterData;
     try {
-      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data');
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
