@@ -1,5 +1,5 @@
 ---
-status: complete
+state: complete
 ---
 ## A Simple Bit of Markup
 
