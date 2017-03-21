@@ -22,6 +22,7 @@ const pm = require('./plugin_manager');
 const fs = require('fs-extra');
 const packageInfo = require('../../package.json');
 const plutils = require('./utilities');
+const jsonCopy = require('./json_copy');
 const PatternGraph = require('./pattern_graph').PatternGraph;
 
 //register our log events
@@ -171,7 +172,6 @@ inherits(PatternLabEventEmitter, EventEmitter);
 const patternlab_engine = function (config) {
   'use strict';
 
-  const JSON5 = require('json5');
   const pa = require('./pattern_assembler');
   const pe = require('./pattern_exporter');
   const lh = require('./lineage_hunter');
@@ -206,7 +206,7 @@ const patternlab_engine = function (config) {
     console.log(patternlab.package.version);
   }
 
-  function getSupportedTemplateExtensions(){
+  function getSupportedTemplateExtensions() {
     return patternlab.engines.getSupportedFileExtensions();
   }
 
@@ -396,7 +396,7 @@ const patternlab_engine = function (config) {
     //render the pattern, but first consolidate any data we may have
     let allData;
     try {
-      allData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
@@ -447,7 +447,7 @@ const patternlab_engine = function (config) {
 
     let allFooterData;
     try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);

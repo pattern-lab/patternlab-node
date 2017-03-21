@@ -1,7 +1,7 @@
 "use strict";
 
 const path = require('path');
-const JSON5 = require('json5');
+const jsonCopy = require('./json_copy');
 const ae = require('./annotation_exporter');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
@@ -437,7 +437,7 @@ const ui_builder = function () {
 
     let allFooterData;
     try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
     } catch (err) {
       console.log('There was an error parsing JSON for patternlab.data');
       console.log(err);

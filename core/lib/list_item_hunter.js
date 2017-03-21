@@ -2,7 +2,6 @@
 
 const list_item_hunter = function () {
   const extend = require('util')._extend;
-  const JSON5 = require('json5');
   const pa = require('./pattern_assembler');
   const smh = require('./style_modifier_hunter');
   const plutils = require('./utilities');
@@ -41,7 +40,7 @@ const list_item_hunter = function () {
         //check for a local listitems.json file
         let listData;
         try {
-          listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
+          listData = jsonCopy(patternlab.listitems, 'config.paths.source.data listitems');
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
@@ -61,8 +60,8 @@ const list_item_hunter = function () {
           let globalData;
           let localData;
           try {
-            globalData = JSON5.parse(JSON5.stringify(patternlab.data));
-            localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
+            globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
+            localData = jsonCopy(pattern.jsonFileData, `${pattern.patternPartial} data`);
           } catch (err) {
             console.log('There was an error parsing JSON for ' + pattern.relPath);
             console.log(err);
@@ -86,7 +85,8 @@ const list_item_hunter = function () {
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
               let cleanPartialPattern;
               try {
-                cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+                cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+                cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partialName}`);
               } catch (err) {
                 console.log('There was an error parsing JSON for ' + pattern.relPath);
                 console.log(err);
