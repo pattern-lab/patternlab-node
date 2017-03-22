@@ -123,8 +123,8 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   });
 
   patternlab.patterns.push(
-    new Pattern(patterns_dir, '00-test/foo.mustache'),
     new Pattern(patterns_dir, '00-test/bar.mustache'),
+    new Pattern(patterns_dir, '00-test/foo.mustache'),
     new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
     new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
     new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache'),
@@ -161,9 +161,9 @@ tap.test('groupPatterns - orders patterns when provided from md', function (test
   });
 
   patternlab.patterns.push(
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache')
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -193,9 +193,9 @@ tap.test('groupPatterns - retains pattern order from name when order provided fr
   });
 
   patternlab.patterns.push(
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache')
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -225,9 +225,9 @@ tap.test('groupPatterns - sorts viewall subtype pattern to the beginning', funct
   });
 
   patternlab.patterns.push(
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache')
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -376,13 +376,13 @@ tap.test('buildViewAllPages - adds viewall page for each type and subtype', func
 
   patternlab.patterns.push(
     //this flat pattern is found and causes trouble for the rest of the crew
-    new Pattern('00-test/foo.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType2/black.mustache'),
-    new Pattern('patternType1/patternSubType2/grey.mustache'),
-    new Pattern('patternType1/patternSubType2/white.mustache')
+    new Pattern(patterns_dir, '00-test/foo.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/blue.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/red.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType1/yellow.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/black.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/grey.mustache'),
+    new Pattern(patterns_dir, 'patternType1/patternSubType2/white.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
