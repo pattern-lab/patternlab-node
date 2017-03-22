@@ -125,9 +125,9 @@ PatternGraph.prototype = {
    * @throws {Error} If the pattern is unknown
    */
   link: function (patternFrom, patternTo) {
-    let nameFrom = nodeName(patternFrom);
-    let nameTo = nodeName(patternTo);
-    for (let name of [nameFrom, nameTo]) {
+    const nameFrom = nodeName(patternFrom);
+    const nameTo = nodeName(patternTo);
+    for (const name of [nameFrom, nameTo]) {
       if (!this.patterns.has(name)) {
         throw new Error("Pattern not known: " + name);
       }
@@ -144,8 +144,8 @@ PatternGraph.prototype = {
    * @return {boolean}
    */
   hasLink: function (patternFrom, patternTo) {
-    let nameFrom = nodeName(patternFrom);
-    let nameTo = nodeName(patternTo);
+    const nameFrom = nodeName(patternFrom);
+    const nameTo = nodeName(patternTo);
     return this.graph.hasEdge(nameFrom, nameTo);
   },
 
@@ -170,22 +170,22 @@ PatternGraph.prototype = {
      * Edges are added in reverse order for topological sorting(e.g. atom -> molecule -> organism,
      * where "->" means "included by").
      */
-    let compileGraph = new Graph({
+    const compileGraph = new Graph({
       directed: true
     });
 
-    let nodes = this.graph.nodes();
-    let changedNodes = nodes.filter(n => compileStateFilter(this.patterns, n));
+    const nodes = this.graph.nodes();
+    const changedNodes = nodes.filter(n => compileStateFilter(this.patterns, n));
     this.nodes2patterns(changedNodes).forEach(pattern => {
-      let patternNode = nodeName(pattern);
+      const patternNode = nodeName(pattern);
       if (!compileGraph.hasNode(patternNode)) {
         compileGraph.setNode(patternNode);
       }
       this.applyReverse(pattern, (from, to) => {
         from.compileState = CompileState.NEEDS_REBUILD;
-        let fromName = nodeName(from);
-        let toName = nodeName(to);
-        for (let name of [fromName, toName]) {
+        const fromName = nodeName(from);
+        const toName = nodeName(to);
+        for (const name of [fromName, toName]) {
           if (!compileGraph.hasNode(name)) {
             compileGraph.setNode(name);
           }
@@ -212,7 +212,7 @@ PatternGraph.prototype = {
    * between patterns and node metadata.
    */
   applyReverse: function (pattern, fn) {
-    for (let p of this.lineageR(pattern)) {
+    for (const p of this.lineageR(pattern)) {
       fn(p, pattern);
       this.applyReverse(p, fn);
     }

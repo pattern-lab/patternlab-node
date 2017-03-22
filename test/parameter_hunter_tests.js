@@ -1,8 +1,9 @@
 "use strict";
 
 var tap = require('tap');
-
 var ph = require('../core/lib/parameter_hunter');
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
 
 //setup current pattern from what we would have during execution
 function currentPatternClosure() {

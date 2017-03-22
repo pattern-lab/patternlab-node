@@ -31,7 +31,7 @@ tap.test('parses pattern description block correctly when frontmatter present', 
 
     //assert
     test.equals(returnObject.markdown, '<h2>A Simple Bit of Markup</h2>\n<p>Foo cannot get simpler than bar, amiright?</p>\n');
-    test.equals(returnObject.status, 'complete');
+    test.equals(returnObject.state, 'complete');
   test.end();
 });
 
@@ -45,6 +45,6 @@ tap.test('parses frontmatter only when no markdown present', function (test) {
 
   //assert
   test.equals(returnObject.markdown, '');
-  test.equals(returnObject.status, 'inprogress');
+  test.equals(returnObject.state, 'inprogress');
   test.end();
 });
