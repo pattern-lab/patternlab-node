@@ -11,3 +11,5 @@ public
 !test/patterns/public/.gitkeep
 !test/patterns/testDependencyGraph.json
 .nyc_output/
+out
+npm-debug.log

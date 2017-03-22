@@ -2,7 +2,7 @@
 
 /**
  * Overall settings
- * @return {[string,string,string,string,string,string,string]}
+ * @return {string}
  */
 function header() {
   return [
@@ -56,7 +56,7 @@ function addEdge(from, to, color) {
  * Creates a sub-graph which is used to group atoms, molecules, etc.
  * @param group
  * @param patterns
- * @return {[*,*,string,string,*,*,string]}
+ * @return {string}
  */
 function subGraph(group, patterns) {
   const s = niceKey(group);
