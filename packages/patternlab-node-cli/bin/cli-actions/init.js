@@ -5,6 +5,7 @@ const installEdition = require('../install-edition');
 const installStarterkit = require('../install-starterkit');
 const defaultPatternlabConfig = require('../default-config');
 const replaceConfigPaths = require('../replace-config');
+const ora = require('ora');
 const path = require('path');
 const wrapAsync = require('../utils').wrapAsync;
 const writeJsonAsync = require('../utils').writeJsonAsync;
@@ -28,24 +29,26 @@ const init = options => wrapAsync(function*() {
 	 * 4. If `starterkit` is present install it and copy over the mandatory starterkit files to sourceDir
 	 * 5. Save patternlab-config.json in projectDir
 	 */
+	const spinner = ora(`Setting up PatternLab project in ${projectDir}`).start();
 	let patternlabConfig = replaceConfigPaths(defaultPatternlabConfig, projectDir, sourceDir, publicDir, exportDir); // 1
 	
 	yield scaffold(projectDir, sourceDir, publicDir, exportDir); // 2
 	
 	if (edition) {
+		spinner.text = `Installing edition: ${edition}`;
 		const newConf = yield installEdition(edition, patternlabConfig); // 3.1
 		patternlabConfig = Object.assign(patternlabConfig, newConf); // 3.2
+		spinner.succeed(`Installed edition: ${edition}`);
 	}
-	if (starterkit) yield installStarterkit(starterkit, patternlabConfig); // 4
+	if (starterkit) {
+		spinner.text = `Installing starterkit ${starterkit}`;
+		spinner.start();
+		yield installStarterkit(starterkit, patternlabConfig);
+		spinner.succeed(`Installed starterkit: ${starterkit}`);
+	} // 4
 	yield writeJsonAsync(path.resolve(projectDir, 'patternlab-config.json'), patternlabConfig); // 5
 	
-	// Finally :>
-	if (!edition && !starterkit) {
-		console.log(`patternlab→init: You haven't picked an edition nor a starterkit. PatternLab won't work without those. Please add them manually.`); // eslint-disable-line
-	} else {
-		console.log(`patternlab→init: Additional packages installed - ${edition ? 'edition: ' + edition : ''} ${starterkit ? ', starterkit: ' + starterkit.name : ''}`); // eslint-disable-line
-	}
-	console.log(`patternlab→init: Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`); // eslint-disable-line
+	spinner.succeed(`Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`);
 	return true;
 });
 

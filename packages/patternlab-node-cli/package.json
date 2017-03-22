@@ -20,6 +20,7 @@
     "glob": "7.1.1",
     "inquirer": "2.0.0",
     "lodash": "4.17.4",
+    "ora": "1.1.0",
     "path-exists": "3.0.0",
     "patternlab-node": "2.8.0",
     "sanitize-filename": "1.6.1"

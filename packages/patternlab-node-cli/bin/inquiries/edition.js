@@ -1,6 +1,5 @@
 'use strict';
 const inquirer = require('inquirer');
-const checkOverwrites = require('../check-overwrites');
 
 /** editionSetup {Array} - Inquirer question logic for first question regarding editions */
 const editionSetup = [
@@ -8,8 +7,7 @@ const editionSetup = [
 		type: 'input',
 		name: 'project_root',
 		message: 'Please specify a directory for your PatternLab project.',
-		default: () => './',
-		validate: input => checkOverwrites(input)
+		default: () => './'
 	},
 	{
 		type: 'list',
