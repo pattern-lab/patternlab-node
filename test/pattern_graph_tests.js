@@ -5,6 +5,7 @@ var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var VERSION = require('../core/lib/pattern_graph').PATTERN_GRAPH_VERSION;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
+var patterns_dir = './test/files/_patterns';
 var tap = require('tap');
 const posixPath = require('./util/test_utils.js').posixPath;
 
@@ -57,8 +58,8 @@ tap.test("PatternGraph.fromJson() - Loading a graph from JSON using an older ver
 tap.test("toJson() - Storing a graph to JSON correctly", (test) => {
   var graph = mockGraph();
   graph.timestamp = 1337;
-  var atomFoo = Pattern.create('', "atom-foo", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", null, {compileState:CompileState.CLEAN});
   graph.add(atomFoo);
   graph.add(moleculeFoo);
   graph.link(moleculeFoo, atomFoo);
@@ -71,8 +72,8 @@ tap.test("toJson() - Storing a graph to JSON correctly", (test) => {
 tap.test("Storing and loading a graph from JSON return the identical graph", (test) => {
   var oldGraph = mockGraph();
   oldGraph.timestamp = 1337;
-  var atomFoo = Pattern.create('', "atom-foo", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", null, {compileState:CompileState.CLEAN});
   oldGraph.add(atomFoo);
   oldGraph.add(moleculeFoo);
   oldGraph.link(moleculeFoo, atomFoo);
@@ -94,8 +95,8 @@ tap.test("Storing and loading a graph from JSON return the identical graph", (te
 tap.test("clone()", (test) => {
   var oldGraph = mockGraph();
   oldGraph.timestamp = 1337;
-  var atomFoo = Pattern.create('', "atom-foo", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", null, {compileState:CompileState.CLEAN});
   oldGraph.add(atomFoo);
   oldGraph.add(moleculeFoo);
   oldGraph.link(moleculeFoo, atomFoo);
@@ -115,7 +116,7 @@ tap.test("clone()", (test) => {
 
 tap.test("Adding a node", (test) => {
   var g = mockGraph();
-  var pattern = Pattern.create('', "atom-foo", null, {compileState:CompileState.CLEAN});
+  var pattern = Pattern.create(patterns_dir, "atom-foo", null, {compileState:CompileState.CLEAN});
   g.add(pattern);
   test.same({compileState:CompileState.CLEAN}, g.node("atom-foo"), "Data were set correctly");
   var actual = g.nodes();
@@ -125,7 +126,7 @@ tap.test("Adding a node", (test) => {
 
 tap.test("Adding a node twice", (test) => {
   var g = mockGraph();
-  var pattern = Pattern.create('', "atom-foo", null, {compileState:CompileState.CLEAN});
+  var pattern = Pattern.create(patterns_dir, "atom-foo", null, {compileState:CompileState.CLEAN});
   g.add(pattern);
   g.add(pattern);
   var actual = g.nodes();
@@ -135,8 +136,8 @@ tap.test("Adding a node twice", (test) => {
 
 tap.test("Adding two nodes", (test) => {
   var g = mockGraph();
-  var atomFoo = Pattern.create('', "atom-foo", {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", {compileState:CompileState.CLEAN});
   g.add(atomFoo);
   g.add(moleculeFoo);
   var actual = g.nodes();
@@ -146,8 +147,8 @@ tap.test("Adding two nodes", (test) => {
 
 tap.test("Adding two nodes with only different subpattern types", (test) => {
   var g = mockGraph();
-  var atomFoo = Pattern.create('', "00-atoms/00-foo/baz.html", {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "00-atoms/00-bar/baz.html", {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "00-atoms/00-foo/baz.html", {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "00-atoms/00-bar/baz.html", {compileState:CompileState.CLEAN});
   g.add(atomFoo);
   g.add(moleculeFoo);
   var actual = g.nodes();
@@ -157,8 +158,8 @@ tap.test("Adding two nodes with only different subpattern types", (test) => {
 
 tap.test("Linking two nodes", (test) => {
   var g = mockGraph();
-  var atomFoo = Pattern.create('', "atom-foo", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", null, {compileState:CompileState.CLEAN});
   g.add(atomFoo);
   g.add(moleculeFoo);
   g.link(moleculeFoo, atomFoo);
@@ -169,8 +170,8 @@ tap.test("Linking two nodes", (test) => {
 
 tap.test("remove() - Removing a node", (test) => {
   var g = mockGraph();
-  var atomFoo = Pattern.create('', "atom-foo", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", null, {compileState:CompileState.CLEAN});
   g.add(atomFoo);
   g.add(moleculeFoo);
   test.same(g.nodes(), ["atom-foo", "molecule-foo"]);
@@ -182,8 +183,8 @@ tap.test("remove() - Removing a node", (test) => {
 
 tap.test("filter() - Removing nodes via filter", (test) => {
   var g = mockGraph();
-  var atomFoo = Pattern.create('', "atom-foo", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "molecule-foo", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "atom-foo", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "molecule-foo", null, {compileState:CompileState.CLEAN});
   g.add(atomFoo);
   g.add(moleculeFoo);
   test.same(g.nodes(), ["atom-foo", "molecule-foo"]);
@@ -196,12 +197,12 @@ tap.test("filter() - Removing nodes via filter", (test) => {
 // Prevents nodes from escaping the scope, at the same time have some default graph for lineage to
 // test on
 (function () {
-  var atomFoo = Pattern.create('', "00-atom/xy/foo", null , {compileState:CompileState.CLEAN});
-  var atomIsolated = Pattern.create('', "00-atom/xy/isolated", null , {compileState:CompileState.CLEAN});
-  var moleculeFoo = Pattern.create('', "01-molecule/xy/foo", null, {compileState:CompileState.CLEAN});
-  var moleculeBar = Pattern.create('', "01-molecule/xy/bar", null, {compileState:CompileState.CLEAN});
-  var organismFoo = Pattern.create('', "02-organism/xy/foo", null, {compileState:CompileState.CLEAN});
-  var organismBar = Pattern.create('', "02-organism/xy/bar", null, {compileState:CompileState.CLEAN});
+  var atomFoo = Pattern.create(patterns_dir, "00-atom/xy/foo", null , {compileState:CompileState.CLEAN});
+  var atomIsolated = Pattern.create(patterns_dir, "00-atom/xy/isolated", null , {compileState:CompileState.CLEAN});
+  var moleculeFoo = Pattern.create(patterns_dir, "01-molecule/xy/foo", null, {compileState:CompileState.CLEAN});
+  var moleculeBar = Pattern.create(patterns_dir, "01-molecule/xy/bar", null, {compileState:CompileState.CLEAN});
+  var organismFoo = Pattern.create(patterns_dir, "02-organism/xy/foo", null, {compileState:CompileState.CLEAN});
+  var organismBar = Pattern.create(patterns_dir, "02-organism/xy/bar", null, {compileState:CompileState.CLEAN});
 
   var g = mockGraph();
 
@@ -273,12 +274,12 @@ tap.test("filter() - Removing nodes via filter", (test) => {
       return {compileState: args[idx] || CompileState.CLEAN}
     }
     var i = 0;
-    var atomFoo = this.atomFoo = Pattern.create('', "00-atom/xy/foo", null, csAt(arguments,i++));
-    var atomIsolated = this.atomIsolated = Pattern.create('', "00-atom/xy/isolated", null, csAt(arguments,i++));
-    var moleculeFoo = this.moleculeFoo = Pattern.create('', "01-molecule/xy/foo", null, csAt(arguments,i++));
-    var moleculeBar = this.moleculeBar = Pattern.create('', "01-molecule/xy/bar", null, csAt(arguments,i++));
-    var organismFoo = this.organismFoo = Pattern.create('', "02-organism/xy/foo", null, csAt(arguments,i++));
-    var organismBar = this.organismBar = Pattern.create('', "02-organism/xy/bar", null, csAt(arguments,i++));
+    var atomFoo = this.atomFoo = Pattern.create(patterns_dir, "00-atom/xy/foo", null, csAt(arguments,i++));
+    var atomIsolated = this.atomIsolated = Pattern.create(patterns_dir, "00-atom/xy/isolated", null, csAt(arguments,i++));
+    var moleculeFoo = this.moleculeFoo = Pattern.create(patterns_dir, "01-molecule/xy/foo", null, csAt(arguments,i++));
+    var moleculeBar = this.moleculeBar = Pattern.create(patterns_dir, "01-molecule/xy/bar", null, csAt(arguments,i++));
+    var organismFoo = this.organismFoo = Pattern.create(patterns_dir, "02-organism/xy/foo", null, csAt(arguments,i++));
+    var organismBar = this.organismBar = Pattern.create(patterns_dir, "02-organism/xy/bar", null, csAt(arguments,i++));
 
     var graph = this.graph = mockGraph();
 
