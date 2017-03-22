@@ -254,10 +254,10 @@ tap.test('A template calling a @partial-block template should render correctly',
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  assembler.process_pattern_iterative(pattern1Path, patternlab);
-  var callAtPartialBlockPattern = assembler.process_pattern_iterative(pattern2Path, patternlab);
-  assembler.process_pattern_recursive(pattern1Path, patternlab);
-  assembler.process_pattern_recursive(pattern2Path, patternlab);
+  assembler.process_pattern_iterative(testPatternsPath, pattern1Path, patternlab);
+  var callAtPartialBlockPattern = assembler.process_pattern_iterative(testPatternsPath, pattern2Path, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, pattern1Path, patternlab);
+  assembler.process_pattern_recursive(testPatternsPath, pattern2Path, patternlab);
 
   // test
   var results = 'Hello World!' + eol + 'It worked!' + eol;
