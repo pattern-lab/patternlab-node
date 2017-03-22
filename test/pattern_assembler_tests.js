@@ -684,7 +684,7 @@ tap.test('markModifiedPatterns - finds patterns modified since a given date', fu
   patternlab.config.paths.public.patterns = public_dir + "/patterns";
   patternlab.config.outputFileSuffixes = {rendered: '', markupOnly: '.markup-only'};
 
-  var pattern = new Pattern('', '00-test/01-bar.mustache');
+  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = new Date("2016-01-31").getTime();
@@ -715,7 +715,7 @@ tap.test('markModifiedPatterns - finds patterns when modification date is missin
   patternlab.config = { debug: false };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
-  var pattern = new Pattern('', '00-test/01-bar.mustache');
+  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = undefined;
@@ -736,7 +736,7 @@ tap.test('markModifiedPatterns - finds patterns via compile state', function(tes
   patternlab.config = { debug: false };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
-  var pattern = new Pattern('', '00-test/01-bar.mustache');
+  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = 100000;
