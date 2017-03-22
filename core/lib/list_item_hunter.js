@@ -3,10 +3,10 @@
 var list_item_hunter = function () {
 
   var extend = require('util')._extend,
-    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     plutils = require('./utilities'),
+    jsonCopy = require('./json_copy'),
     Pattern = require('./object_factory').Pattern;
 
   var pattern_assembler = new pa(),
@@ -42,7 +42,7 @@ var list_item_hunter = function () {
         //check for a local listitems.json file
         var listData;
         try {
-          listData = JSON5.parse(JSON5.stringify(patternlab.listitems));
+          listData = jsonCopy(patternlab.listitems, 'config.paths.source.data listitems');
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
@@ -62,8 +62,8 @@ var list_item_hunter = function () {
           var globalData;
           var localData;
           try {
-            globalData = JSON5.parse(JSON5.stringify(patternlab.data));
-            localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData));
+            globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
+            localData = jsonCopy(pattern.jsonFileData, `${pattern.patternPartial} data`);
           } catch (err) {
             console.log('There was an error parsing JSON for ' + pattern.relPath);
             console.log(err);
@@ -87,7 +87,8 @@ var list_item_hunter = function () {
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
               var cleanPartialPattern;
               try {
-                cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+                cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
+                cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partialName}`);
               } catch (err) {
                 console.log('There was an error parsing JSON for ' + pattern.relPath);
                 console.log(err);

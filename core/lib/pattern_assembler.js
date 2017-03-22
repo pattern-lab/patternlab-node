@@ -1,8 +1,10 @@
 "use strict";
 
 var path = require('path'),
+  _ = require('lodash'),
   fs = require('fs-extra'),
   Pattern = require('./object_factory').Pattern,
+  CompileState = require('./object_factory').CompileState,
   pph = require('./pseudopattern_hunter'),
   mp = require('./markdown_parser'),
   plutils = require('./utilities'),
@@ -11,9 +13,11 @@ var path = require('path'),
   lih = require('./list_item_hunter'),
   smh = require('./style_modifier_hunter'),
   ph = require('./parameter_hunter'),
-  JSON5 = require('json5');
+  jsonCopy = require('./json_copy'),
+  ch = require('./changes_hunter');
 
-var markdown_parser = new mp();
+const markdown_parser = new mp();
+const changes_hunter = new ch();
 
 var pattern_assembler = function () {
   // HELPER FUNCTIONS
@@ -45,7 +49,7 @@ var pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    plutils.logOrange('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
+    plutils.warning('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
     return undefined;
   }
 
@@ -81,7 +85,7 @@ var pattern_assembler = function () {
     if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternPartial]) {
 
       if (displayDeprecatedWarning) {
-        plutils.logRed("Deprecation Warning: Using patternlab-config.json patternStates object will be deprecated in favor of the state frontmatter key associated with individual pattern markdown files.");
+        plutils.error("Deprecation Warning: Using patternlab-config.json patternStates object will be deprecated in favor of the state frontmatter key associated with individual pattern markdown files.");
         console.log("This feature will still work in it's current form this release (but still be overridden by the new parsing method), and will be removed in the future.");
       }
 
@@ -123,7 +127,7 @@ var pattern_assembler = function () {
       } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
-
+      patternlab.graph.add(pattern);
       patternlab.patterns.push(pattern);
 
     }
@@ -152,6 +156,8 @@ var pattern_assembler = function () {
 
     try {
       var markdownFileName = path.resolve(currentPattern.sourcePath, currentPattern.subdir, currentPattern.fileName + ".md");
+      changes_hunter.checkLastModified(currentPattern, markdownFileName);
+
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
@@ -242,16 +248,16 @@ var pattern_assembler = function () {
 
   function processPatternIterative(sourcePath, relPath, patternlab) {
 
-    var relativeDepth = relPath.match(/\w(?=\\)|\w(?=\/)/g || []).length;
+    var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
       console.log('');
-      plutils.logOrange('Warning:');
-      plutils.logOrange('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + sourcePath + '.');
-      plutils.logOrange('It\'s strongly suggested to not deviate from the following structure under _patterns/');
-      plutils.logOrange('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
+      plutils.warning('Warning:');
+      plutils.warning('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + sourcePath + '.');
+      plutils.warning('It\'s strongly suggested to not deviate from the following structure under _patterns/');
+      plutils.warning('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
       console.log('');
-      plutils.logOrange('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
-      plutils.logOrange('Read More: http://patternlab.io/docs/pattern-organization.html');
+      plutils.warning('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
+      plutils.warning('Read More: http://patternlab.io/docs/pattern-organization.html');
       console.log('');
     }
 
@@ -355,13 +361,21 @@ var pattern_assembler = function () {
     parsePatternMarkdown(currentPattern, patternlab);
 
     //add the raw template to memory
-    currentPattern.template = fs.readFileSync(path.resolve(patternsPath, relPath), 'utf8');
+    var templatePath = path.resolve(patternsPath, currentPattern.relPath);
+
+    currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
     //find any stylemodifiers that may be in the current pattern
     currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
 
     //find any pattern parameters that may be in the current pattern
     currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
+
+    [templatePath, jsonFilename, listJsonFileName].forEach(file => {
+      changes_hunter.checkLastModified(currentPattern, file);
+    });
+
+    changes_hunter.checkBuildState(currentPattern, patternlab);
 
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
@@ -391,6 +405,42 @@ var pattern_assembler = function () {
 
     //call our helper method to actually unravel the pattern with any partials
     decomposePattern(currentPattern, patternlab);
+  }
+
+
+  /**
+   * Finds patterns that were modified and need to be rebuilt. For clean patterns load the already
+   * rendered markup.
+   *
+   * @param lastModified
+   * @param patternlab
+   */
+  function markModifiedPatterns(lastModified, patternlab) {
+    /**
+     * If the given array exists, apply a function to each of its elements
+     * @param {Array} array
+     * @param {Function} func
+     */
+    const forEachExisting = (array, func) => {
+      if (array) {
+        array.forEach(func);
+      }
+    };
+    const modifiedOrNot = _.groupBy(
+      patternlab.patterns,
+      p => changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified');
+
+    // For all unmodified patterns load their rendered template output
+    forEachExisting(modifiedOrNot.notModified, cleanPattern => {
+      const xp = path.join(patternlab.config.paths.public.patterns, cleanPattern.getPatternLink(patternlab, 'markupOnly'));
+
+      // Pattern with non-existing markupOnly files were already marked for rebuild and thus are not "CLEAN"
+      cleanPattern.patternPartialCode = fs.readFileSync(xp, 'utf8');
+    });
+
+    // For all patterns that were modified, schedule them for rebuild
+    forEachExisting(modifiedOrNot.modified, p => p.compileState = CompileState.NEEDS_REBUILD);
+    return modifiedOrNot;
   }
 
   function expandPartials(foundPatternPartials, list_item_hunter, patternlab, currentPattern) {
@@ -427,7 +477,7 @@ var pattern_assembler = function () {
       //complete assembly of extended template
       //create a copy of the partial so as to not pollute it after the getPartial call.
       var partialPattern = getPartial(partial, patternlab);
-      var cleanPartialPattern = JSON5.parse(JSON5.stringify(partialPattern));
+      var cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partial}`);
 
       //if partial has style modifier data, replace the styleModifier value
       if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
@@ -445,7 +495,7 @@ var pattern_assembler = function () {
     linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
 
     //stringify the passed in object
-    dataObjAsString = JSON5.stringify(obj);
+    dataObjAsString = JSON.stringify(obj);
     if (!dataObjAsString) { return obj; }
 
     //find matches
@@ -484,7 +534,7 @@ var pattern_assembler = function () {
 
     var dataObj;
     try {
-      dataObj = JSON5.parse(dataObjAsString);
+      dataObj = JSON.parse(dataObjAsString);
     } catch (err) {
       console.log('There was an error parsing JSON for ' + key);
       console.log(err);
@@ -507,6 +557,9 @@ var pattern_assembler = function () {
   }
 
   return {
+    mark_modified_patterns: function (lastModified, patternlab) {
+      return markModifiedPatterns(lastModified, patternlab);
+    },
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
     },

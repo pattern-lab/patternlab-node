@@ -8,7 +8,7 @@ var starterkit_manager = function (config) {
     paths = config.paths;
 
   /**
-   * Loads npm module identified by the starterkitName parameter. 
+   * Loads npm module identified by the starterkitName parameter.
    *
    * @param starterkitName {string} Kit name
    * @param clean {boolean}  Indicates if the directory should be cleaned before loading
@@ -22,8 +22,8 @@ var starterkit_manager = function (config) {
       try {
         var kitDirStats = fs.statSync(kitPath);
       } catch (ex) {
-        util.logRed(starterkitName + ' not found, please use npm to install it first.');
-        util.logRed(starterkitName + ' not loaded.');
+        util.error(starterkitName + ' not found, please use npm to install it first.');
+        util.error(starterkitName + ' not loaded.');
         return;
       }
       var kitPathDirExists = kitDirStats.isDirectory();
@@ -36,12 +36,13 @@ var starterkit_manager = function (config) {
           console.log('Overwriting contents of', paths.source.root, 'during starterkit load.');
         }
 
-        fs.copy(kitPath, paths.source.root, function (ex) {
-          if (ex) {
-            console.error(ex);
-          }
-          util.logGreen('starterkit ' + starterkitName + ' loaded successfully.');
-        });
+        try {
+          fs.copySync(kitPath, paths.source.root);
+        } catch (ex) {
+          util.error(ex);
+          return;
+        }
+        util.debug('starterkit ' + starterkitName + ' loaded successfully.');
       }
     } catch (ex) {
       console.log(ex);

@@ -4,6 +4,7 @@ var tap = require('tap');
 
 var lih = require('../core/lib/list_item_hunter');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var extend = require('util')._extend;
 var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
@@ -25,6 +26,7 @@ function createFakePatternLab(customProps) {
   //NOTE: These listitems are faked so that pattern_assembler.combine_listitems has already clobbered them.
 
   var pl = {
+    graph: PatternGraph.empty(),
     "listitems": {
       "1": [
         {
