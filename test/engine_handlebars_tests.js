@@ -229,13 +229,14 @@ tap.test('hidden handlebars patterns can be called by their nice names', functio
 tap.test('@partial-block template should render without throwing (@geoffp repo issue #3)', function(test) {
   test.plan(1);
 
-  var patternPath = path.join('00-atoms', '00-global', '10-at-partial-block.hbs');
+  var fileName = path.join('10-at-partial-block.hbs');
+  var patternFolder = path.join('00-atoms', '00-global');
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  var atPartialBlockPattern = assembler.process_pattern_iterative(patternPath, patternlab);
-  assembler.process_pattern_recursive(patternPath, patternlab);
+  var atPartialBlockPattern = assembler.process_pattern_iterative(patternFolder, fileName, patternlab);
+  assembler.process_pattern_recursive(patternFolder, fileName, patternlab);
 
   var results = '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
   test.equal(atPartialBlockPattern.render(), results);
