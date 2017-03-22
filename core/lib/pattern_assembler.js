@@ -471,7 +471,7 @@ var pattern_assembler = function () {
       }
 
       //recurse through nested partials to fill out this extended template.
-      console.log('currentPattern', currentPattern.sourcePath)
+      // console.log('currentPattern', currentPattern.sourcePath)
       processPatternRecursive(currentPattern.sourcePath, partialPath, patternlab);
 
       //complete assembly of extended template
