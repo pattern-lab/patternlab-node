@@ -5,6 +5,7 @@ const list_item_hunter = function () {
   const pa = require('./pattern_assembler');
   const smh = require('./style_modifier_hunter');
   const plutils = require('./utilities');
+  const jsonCopy = require('./json_copy');
   const Pattern = require('./object_factory').Pattern;
 
   const pattern_assembler = new pa();
