@@ -5,6 +5,7 @@ const glob = require('glob');
 const path = require('path');
 const chalk = require('chalk');
 const EventEmitter = require('events').EventEmitter;
+const hasYarn = require('has-yarn');
 
 /**
  * @name log
@@ -95,13 +96,16 @@ const copyWithPattern = (cwd, pattern, dest) => wrapAsync(function*() {
  * @param {string} [url] - A URL which will be used to fetch the package from
  */
 const fetchPackage = (packageName, url) => wrapAsync(function*() {
+	const useYarn = hasYarn();
+	const pm = useYarn ? 'yarn' : 'npm';
+	const installCmd = useYarn ? 'add' : 'install';
 	try {
 		if (packageName || url) {
-			const cmd = yield spawn('npm', ['install', url || packageName]);
+			const cmd = yield spawn(pm, [installCmd, url || packageName]);
 			error(cmd.stderr);
 		}
 	} catch (err) {
-		error(`patternlab→fetchPackage: Fetching required dependencies from NPM failed for ${packageName} with ${err}`);
+		error(`fetchPackage: Fetching required dependencies from ${pm} failed for ${packageName} with ${err}`);
 		throw err; // Rethrow error
 	}
 });
@@ -118,7 +122,7 @@ const checkAndInstallPackage = (packageName, url) => wrapAsync(function*() {
 		require.resolve(packageName);
 		return true;
 	} catch (err) {
-		debug(`patternlab→checkAndInstallPackage: ${packageName} not installed. Fetching it now from NPM …`);
+		debug(`checkAndInstallPackage: ${packageName} not installed. Fetching it now …`);
 		yield fetchPackage(packageName, url);
 		return false;
 	}

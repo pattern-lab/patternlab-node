@@ -18,6 +18,7 @@
     "execa": "0.6.1",
     "fs-promise": "2.0.0",
     "glob": "7.1.1",
+    "has-yarn": "1.0.0",
     "inquirer": "2.0.0",
     "lodash": "4.17.4",
     "ora": "1.1.0",
