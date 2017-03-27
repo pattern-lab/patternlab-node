@@ -1,8 +1,8 @@
 "use strict";
 
 var path = require('path'),
+  fs = require('fs-promise'),
   _ = require('lodash'),
-  fs = require('fs-extra'),
   Pattern = require('./object_factory').Pattern,
   CompileState = require('./object_factory').CompileState,
   pph = require('./pseudopattern_hunter'),
@@ -19,7 +19,7 @@ var path = require('path'),
 const markdown_parser = new mp();
 const changes_hunter = new ch();
 
-var pattern_assembler = function () {
+const pattern_assembler = function () {
   // HELPER FUNCTIONS
 
   function getPartial(partialName, patternlab) {
@@ -246,7 +246,9 @@ var pattern_assembler = function () {
     addPattern(pattern, patternlab);
   }
 
-  function processPatternIterative(relPath, patternlab) {
+  // loads a pattern from disk, creates a Pattern object from it and
+  // all its associated files, and records it in patternlab.patterns[]
+  function loadPatternIterative(relPath, patternlab) {
 
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
@@ -287,10 +289,8 @@ var pattern_assembler = function () {
           console.log(err);
         }
       }
-
     }
 
-    var pseudopattern_hunter = new pph();
 
     //extract some information
     var filename = fileObject.base;
@@ -380,10 +380,22 @@ var pattern_assembler = function () {
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
 
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-
     return currentPattern;
+  }
+
+  // This is now solely for analysis; loading of the pattern file is
+  // above, in loadPatternIterative()
+  function processPatternIterative(pattern, patternlab) {
+    //look for a pseudo pattern by checking if there is a file
+    //containing same name, with ~ in it, ending in .json
+    return pph.find_pseudopatterns(pattern, patternlab).then(() => {
+      //find any stylemodifiers that may be in the current pattern
+      pattern.stylePartials = pattern.findPartialsWithStyleModifiers();
+
+      //find any pattern parameters that may be in the current pattern
+      pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
+      return pattern;
+    }).catch(plutils.reportError('There was an error in processPatternIterative():'));
   }
 
   function processPatternRecursive(file, patternlab) {
@@ -586,8 +598,11 @@ var pattern_assembler = function () {
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
     },
-    process_pattern_iterative: function (file, patternlab) {
-      return processPatternIterative(file, patternlab);
+    load_pattern_iterative: function (file, patternlab) {
+      return loadPatternIterative(file, patternlab);
+    },
+    process_pattern_iterative: function (pattern, patternlab) {
+      return processPatternIterative(pattern, patternlab);
     },
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);
