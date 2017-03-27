@@ -19,7 +19,7 @@ var diveSync = require('diveSync'),
   pm = require('./plugin_manager'),
   fs = require('fs-extra'),
   packageInfo = require('../../package.json'),
-  configLoader = require('./config_file_loader')(),
+  dataLoader = require('./data_loader')(),
   plutils = require('./utilities'),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
@@ -45,7 +45,7 @@ var EventEmitter = require('events').EventEmitter;
  * @returns {{}}
  */
 function buildPatternData(dataFilesPath, fsDep) {
-  return configLoader.loadConfigFromFolder(dataFilesPath, 'listitems', fsDep);
+  return dataLoader.loadDataFromFolder(dataFilesPath, 'listitems', fsDep);
 }
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
@@ -492,7 +492,7 @@ var patternlab_engine = function (config) {
       patternlab.data = {};
     }
     try {
-      patternlab.listitems = configLoader.loadConfigFromFile(path.resolve(paths.source.data, 'listitems.{json,yml,yaml}'));
+      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems.{json,yml,yaml}'));
     } catch (ex) {
       plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};

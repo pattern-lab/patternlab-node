@@ -8,7 +8,7 @@ var path = require('path'),
   pph = require('./pseudopattern_hunter'),
   mp = require('./markdown_parser'),
   plutils = require('./utilities'),
-  configLoader = require('./config_file_loader')(),
+  dataLoader = require('./data_loader')(),
   patternEngines = require('./pattern_engines'),
   lh = require('./lineage_hunter'),
   lih = require('./list_item_hunter'),
@@ -320,7 +320,7 @@ var pattern_assembler = function () {
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
-      let configData = configLoader.loadConfigFromFile(jsonFilename, fs);
+      let configData = dataLoader.loadDataFromFile(jsonFilename, fs);
 
       if (configData) {
         currentPattern.jsonFileData = configData;
@@ -337,7 +337,7 @@ var pattern_assembler = function () {
     //look for a listitems.json file for this template
     try {
       var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems");
-      let listItemsConfig = configLoader.loadConfigFromFile(listJsonFileName, fs);
+      let listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
       if (listItemsConfig) {
         currentPattern.listitems = listItemsConfig;
