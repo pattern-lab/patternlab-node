@@ -1,19 +1,9 @@
 .pageContent {
-  max-width : $maxWidthLayout;
-  margin : 0 auto;
-  box-sizing: border-box;
-
-  @media only screen and (min-width : $breakpointDesktop) {
-    padding-top : 0;
-  }
-
-  &--stickyHeader {
-    @media only screen and (min-width : $breakpointDesktop) {
-      padding-top : 8.25em;
-    }
-  }
+  max-width: $maxWidthLayout;
+  margin: 0 auto;
+  flex: 2 2 100%;
 }
 
 .page--full-width .pageContent {
-  max-width : none;
+  max-width: none;
 }

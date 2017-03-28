@@ -32,7 +32,12 @@ body {
   overflow-x: hidden;
 
   & > img {
-    opacity: 0
+    opacity: 0;
+    display: block;
+    position: fixed;
+    z-index: -1000;
+    left: -1000px;
+    bottom: -1000px;
   }
 }
 

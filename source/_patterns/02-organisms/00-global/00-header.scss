@@ -8,13 +8,8 @@
   box-sizing:border-box;
   height: 68px;
   @media only screen and (min-width: $breakpointDesktop) {
-    //display: table;
-  }
-  &--sticky {
-    @media only screen and (min-width: $breakpointDesktop) {
-      position:fixed;
-      border-bottom:1px solid $colorSilver;
-    }
+    position:fixed;
+    border-bottom:1px solid $colorSilver;
   }
   &--scrolled {
   }
