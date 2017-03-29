@@ -1,7 +1,7 @@
 .pageContent {
   max-width: $maxWidthLayout;
   margin: 0 auto;
-  flex: 2 2;
+  flex-grow: 2;
 }
 
 .page--full-width .pageContent {
