@@ -1,162 +1,98 @@
-@mixin flyout-figure() {
-  figure {
-    figcaption {
-      @include font-tertiary-heavy($fontSizeSmall);
-      color: $colorBlack;
-      display: inline-block;
-      border-bottom: 0.125em solid transparent;
-      padding-top: 1.8em;
-      text-align: center;
-      &:after {
-        content: '';
-        border-bottom: 0.125em solid transparent;
-        width: 100%;
-        display: inline-block;
-        margin-bottom: 0.250em;
-      }
-    }
-    hr {
-      display: none;
-    }
-    a {
-      color: $colorWhite;
-      position: relative;
-      display: block;
-      text-align: center;
-      .image-container {
-        transition: all .2s ease;
-        overflow: hidden;
-        img {
-          //transition: all .2s ease;
-          opacity: 1;
-        }
-      }
-      hr {
-        display: block;
-        margin: auto 25%;
-        top: 2.188em;
-        position: absolute;
-        width: 50%;
-        border: 0;
-        border-bottom: 0.125em solid $colorWhite;
-      }
-      h3 {
-        top: 0;
-        display: flex;
-        font-size: $fontSizeSmall;
-        position: absolute;
-        width: 100%;
-        height: 52%;
-        flex-flow: column;
-        align-items: center;
-        left: 0;
-        justify-content: center;
-        text-transform: uppercase;
-        @include font-tertiary-heavy($fontSizeSmall);
-      }
-      &:hover {
-        .image-container {
-            background-color: $colorBlack;
-            img {
-              opacity: .6;
-              //transform: scale(1.2);
-            }
-        }
-        figcaption {
-          &:after {
-            content: '';
-            border-bottom: 0.125em solid $colorBlack;
-            width: 100%;
-            display: inline-block;
-          }
-        }
-      }
-    }
-  }
-}
-
 .navigation-flyout {
-  position: absolute;
+  position: fixed;
   background-color: $colorWhite;
-  left: 0;
-  right: 0;
-  top: 0;
-  margin-top: 68px;
-  padding: 1.625em 6.250em;
-  font-size:1rem;
-  &.flyout-open {
-    animation-duration: .2s;
-    animation-fill-mode: both;
-    animation-name: fade-in;
+
+  font-size: 1rem;
+  z-index: 10;
+  max-width: 75rem;
+  margin-left: auto;
+  margin-right: auto;
+  animation-duration: .2s;
+  animation-delay: .3s;
+  animation-fill-mode: both;
+  animation-name: fade-in;
+
+  @media only screen and (min-width: $breakpointDesktop) {
     display: block !important;
-  }
-  .blockWrapper {
-    max-width: initial;
-  }
-  &[data-type=block_nav_1_image_with_links] {
-    .columns {
-      margin: 0;
-      width: 70%;
-      float: left;
-      > div {
-        text-align: left;
-        p {
-          padding-top: 0.625em;
-          a {
-            text-transform: none;
-            line-height: 2.1em;
-            font-family: $fontPrimary;
-            font-size: $fontSizeSmall;
-            &:hover {
-              color: $colorBlack;
-              border-color: $colorBlack;
-              @include font-tertiary-heavy();
-              font-size: $fontSizeSmall;
-              letter-spacing: 0;
-            }
-          }
-        }
-        hr {
-          margin-right: 50%;
-          border: 0;
-          border-bottom: 0.125em solid $colorBlack;
-        }
-        h2 {
-          @include font-tertiary-heavy();
-          font-size: $fontSizeSmall;
-          text-transform: uppercase;
-          padding-top: 1.250em;
-          font-weight: initial;
-        }
-      }
-      &__column {
-        padding-left: 0;
-      }
-      &__image {
-        display: inline-block;
-        width: 30%;
-        margin: 1.250em 0;
-        @include flyout-figure();
-      }
-    }
-  }
-  &[data-type=block_nav_2_images] {
-    .columns {
-      padding: 0 18%;
-      @include flyout-figure();
+    left: -20000px;
+    right: auto;
+    top: -20000px;
+    opacity: 0;
+
+    &.flyout-open {
+      animation-delay: 0s;
+      left: 0;
+      right: 0;
+      top: 0;
+      opacity: 1;
+      margin-top: 68px;
     }
   }
 
-  &[data-type=block_nav_3_images] {
-    .columns {
-      @include flyout-figure();
+  &__columns {
+    padding: 1.625em (1.625em * 2.5) 1.75em;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  &__column {
+    flex: 0;
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    &:first-child:nth-last-child(2) {
+      &, & ~ * {
+        flex-basis: calc(50% - 20px);
+      }
+    }
+    &:first-child:nth-last-child(3) {
+      &, & ~ * {
+        flex-basis: calc(33.3% - 20px);
+      }
+    }
+    &:first-child:nth-last-child(4) {
+      &, & ~ * {
+        flex-basis: calc(25% - 20px);
+      }
     }
   }
 
-  &[data-type=block_nav_4_images] {
-    .columns {
-      @include flyout-figure();
-    }
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center;
+    background-color: #f1f1f1;
   }
 
+  &__title {
+    color: $colorWhite;
+    top: 27%;
+    width: 50%;
+    max-width: 125px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: $fontSizeSmall;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    @include font-tertiary-heavy($fontSizeSmall);
+    z-index: 2;
+    &:after {
+      content: '';
+      position: absolute;
+      height: 2px;
+      left: 0;
+      right: 0;
+      top: -1.5em;
+      background: $colorWhite;
+
+    }
+  }
 }
