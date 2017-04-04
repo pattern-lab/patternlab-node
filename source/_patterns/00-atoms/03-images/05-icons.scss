@@ -94,6 +94,7 @@
 		} @else {
 			@include icon-styles;
 		}
+		visibility: hidden;
 		content: icon-char($filename);
 	}
 }

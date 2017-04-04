@@ -31,6 +31,7 @@
 		} @else {
 			@include <%= cssClass%>-styles;
 		}
+		visibility: hidden;
 		content: <%= cssClass%>-char($filename);
 	}
 }
