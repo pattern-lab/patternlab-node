@@ -22,6 +22,10 @@ const cheerio = require('cheerio');
 const webpack = require('webpack');
 const _require = require;
 
+// This holds the config from from core. The core has to call
+// usePatternLabConfig() at load time for this to be populated.
+let patternLabConfig = {};
+
 const outputTemplate = Hogan.compile(
   fs.readFileSync(
     path.join(__dirname, './outputTemplate.mustache'),
@@ -168,7 +172,19 @@ var engine_react = {
   addOutputFiles(paths, patternlab) {
 
     return [];
+  },
+
+
+  /**
+   * Accept a Pattern Lab config object from the core and put it in
+   * this module's closure scope so we can configure engine behavior.
+   *
+   * @param {object} config - the global config object from core
+   */
+  usePatternLabConfig: function (config) {
+    patternLabConfig = config;
   }
+
 };
 
 module.exports = engine_react;
