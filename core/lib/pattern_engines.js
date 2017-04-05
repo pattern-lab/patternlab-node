@@ -62,7 +62,7 @@ function findEngineModulesInDirectory(dir) {
 
 const PatternEngines = Object.create({
 
-  loadAllEngines: function () {
+  loadAllEngines: function (patternLabConfig) {
     var self = this;
 
     // Try to load engines! We scan for engines at each path specified above. This
@@ -78,11 +78,17 @@ const PatternEngines = Object.create({
         const successMessage = chalk.green("good to go");
 
         try {
-          // give it a try! load 'er up. But not if we already have, of course.
+          // Give it a try! load 'er up. But not if we already have,
+          // of course.  Also pass the pattern lab config object into
+          // the engine's closure scope so it can know things about
+          // things.
           if (self[engineDiscovery.name]) {
             throw new Error("already loaded, skipping.");
           }
           self[engineDiscovery.name] = require(engineDiscovery.modulePath);
+          if (typeof self[engineDiscovery.name].usePatternLabConfig === 'function') {
+            self[engineDiscovery.name].usePatternLabConfig(patternLabConfig);
+          }
         } catch (err) {
           errorMessage = err.message;
         } finally {

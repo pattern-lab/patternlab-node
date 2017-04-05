@@ -182,7 +182,7 @@ const patternlab_engine = function (config) {
   const patternlab = {};
 
   patternlab.engines = patternEngines;
-  patternlab.engines.loadAllEngines();
+  patternlab.engines.loadAllEngines(config);
 
   const pattern_assembler = new pa();
   const pattern_exporter = new pe();
