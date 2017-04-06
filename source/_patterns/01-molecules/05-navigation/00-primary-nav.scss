@@ -152,49 +152,18 @@
         overflow-y: auto;
       }
       &--secondLevel {
-        &[data-type=block_nav_list] {
-          p {
-            margin-bottom: 7.5vw;
-          }
-          br {
-            display: none;
-          }
-          a {
-            text-transform: none;
-            margin: 5.5vw 16.5vw 2.5vw;
-            display: flex;
-            font-size: 1.2em;
-            &:hover {
-              border-color: transparent;
-            }
-          }
+        p {
+          margin-bottom: 7.5vw;
         }
-        &[data-type=block_two_tabs] {
-          .tabs {
-            width: 100%;
-            li {
-              width: 50%;
-            }
-          }
-          .tab--content {
-            > div {
-              p {
-                margin-bottom: 7.5vw;
-              }
-              br {
-                display: none;
-              }
-              a {
-                text-transform: none;
-                margin: 5.5vw 16.5vw 2.5vw;
-                display: flex;
-                font-size: 1.2em;
-                &:hover {
-                  border-color: transparent;
-                }
-              }
-
-            }
+        br {
+          display: none;
+        }
+        a {
+          margin: 5.5vw 16.5vw 2.5vw;
+          display: flex;
+          font-size: 1.2em;
+          &:hover {
+            border-color: transparent;
           }
         }
       }
@@ -214,32 +183,6 @@
         display: inline;
         list-style: none;
         white-space: nowrap;
-      }
-
-      &--secondLevel {
-        display: none;
-        transition: transform $animationTimingFast, opacity $animationTimingFast;
-        position: absolute;
-        text-align: left;
-        background: rgba($colorWhite, 0.95);
-        min-width: 7.5em;
-        left: 0;
-        margin-top: 18.5px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        backface-visibility: hidden;
-        opacity: 0;
-        pointer-events: none;
-
-        &:before {
-          display: block;
-          content: '';
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: -22px;
-          border-top: 22px solid transparent;
-        }
       }
 
       &__item {
