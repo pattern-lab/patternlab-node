@@ -8,13 +8,16 @@ var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var path = require('path');
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 function emptyPatternLab() {
   return {
     graph: PatternGraph.empty()
   }
 }
 
-const patterns_dir = './test/files/_patterns';
+const testPatternsPath = './test/files/_patterns';
 const public_dir = './test/public';
 
 tap.test('process_pattern_recursive recursively includes partials', function(test) {
@@ -28,7 +31,7 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   var pattern_assembler = new pa();
   var patternlab = emptyPatternLab();
   patternlab.config = fs.readJSONSync('./patternlab-config.json');
-  patternlab.config.paths.source.patterns = patterns_dir;
+  patternlab.config.paths.source.patterns = testPatternsPath;
   patternlab.config.paths.public = public_dir;
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
@@ -45,45 +48,47 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab);
+  plMain.process_all_patterns_iterative(pattern_assembler, testPatternsPath, patternlab)
+    .then(() => {
+      //diveSync again to recursively include partials, filling out the
+      //extendedTemplate property of the patternlab.patterns elements
+      plMain.process_all_patterns_recursive(pattern_assembler, testPatternsPath, patternlab);
 
-  //diveSync again to recursively include partials, filling out the
-  //extendedTemplate property of the patternlab.patterns elements
-  plMain.process_all_patterns_recursive(pattern_assembler, patterns_dir, patternlab);
+      //get test output for comparison
+      var foo = fs.readFileSync(testPatternsPath + '/00-test/00-foo.mustache', 'utf8').trim();
+      var bar = fs.readFileSync(testPatternsPath + '/00-test/01-bar.mustache', 'utf8').trim();
+      var fooExtended;
 
-  //get test output for comparison
-  var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
-  var bar = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8').trim();
-  var fooExtended;
+      //get extended pattern
+      for (var i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].fileName === '00-foo') {
+          fooExtended = patternlab.patterns[i].extendedTemplate.trim();
+          break;
+        }
+      }
 
-  //get extended pattern
-  for (var i = 0; i < patternlab.patterns.length; i++) {
-    if (patternlab.patterns[i].fileName === '00-foo') {
-      fooExtended = patternlab.patterns[i].extendedTemplate.trim();
-      break;
-    }
-  }
+      //check initial values
+      test.equals(foo, '{{> test-bar }}', 'foo template not as expected');
+      test.equals(bar, 'bar', 'bar template not as expected');
+      //test that 00-foo.mustache included partial 01-bar.mustache
+      test.equals(fooExtended, 'bar', 'foo includes bar');
 
-  //check initial values
-  test.equals(foo, '{{> test-bar }}', 'foo template not as expected');
-  test.equals(bar, 'bar', 'bar template not as expected');
-  //test that 00-foo.mustache included partial 01-bar.mustache
-  test.equals(fooExtended, 'bar', 'foo includes bar');
-
-  test.end();
+      test.end();
+    })
+    .catch(test.threw);
 });
 
 tap.test('processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found', function(test) {
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -96,12 +101,12 @@ tap.test('processPatternRecursive - correctly replaces all stylemodifiers when m
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-  var groupPattern = new Pattern(patterns_dir, '00-test/04-group.mustache');
-  groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/04-group.mustache', 'utf8');
+  var groupPattern = new Pattern(testPatternsPath, '00-test/04-group.mustache');
+  groupPattern.template = fs.readFileSync(testPatternsPath + '/00-test/04-group.mustache', 'utf8');
   groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
 
   pattern_assembler.addPattern(atomPattern, pl);
@@ -109,7 +114,7 @@ tap.test('processPatternRecursive - correctly replaces all stylemodifiers when m
 
   //act
 
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '04-group.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '04-group.mustache', pl, {});
 
   //assert
   var expectedValue = '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
@@ -121,13 +126,13 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -140,13 +145,13 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
   atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-  var groupPattern = new Pattern(patterns_dir, '00-test/10-multiple-classes-numeric.mustache');
-  groupPattern.template = fs.readFileSync(patterns_dir + '/00-test/10-multiple-classes-numeric.mustache', 'utf8');
+  var groupPattern = new Pattern(testPatternsPath, '00-test/10-multiple-classes-numeric.mustache');
+  groupPattern.template = fs.readFileSync(testPatternsPath + '/00-test/10-multiple-classes-numeric.mustache', 'utf8');
   groupPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(groupPattern);
   groupPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(groupPattern);
 
@@ -154,7 +159,7 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   pattern_assembler.addPattern(groupPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '10-multiple-classes-numeric.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '10-multiple-classes-numeric.mustache', pl, {});
 
   //assert
   var expectedValue = '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
@@ -166,13 +171,13 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -185,19 +190,19 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-  var mixedPattern = new Pattern(patterns_dir, '00-test/06-mixed.mustache');
-  mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/06-mixed.mustache', 'utf8');
+  var mixedPattern = new Pattern(testPatternsPath, '00-test/06-mixed.mustache');
+  mixedPattern.template = fs.readFileSync(testPatternsPath + '/00-test/06-mixed.mustache', 'utf8');
   mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
 
   pattern_assembler.addPattern(atomPattern, pl);
   pattern_assembler.addPattern(mixedPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '06-mixed.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '06-mixed.mustache', pl, {});
 
   //assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
   var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
@@ -209,13 +214,13 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -228,19 +233,19 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
 
-  var bookendPattern = new Pattern(patterns_dir, '00-test/09-bookend.mustache');
-  bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/09-bookend.mustache', 'utf8');
+  var bookendPattern = new Pattern(testPatternsPath, '00-test/09-bookend.mustache');
+  bookendPattern.template = fs.readFileSync(testPatternsPath + '/00-test/09-bookend.mustache', 'utf8');
   bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
 
   pattern_assembler.addPattern(atomPattern, pl);
   pattern_assembler.addPattern(bookendPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '09-bookend.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '09-bookend.mustache', pl, {});
 
   //assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
   var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
@@ -253,13 +258,13 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -272,13 +277,13 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
   atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-  var mixedPattern = new Pattern(patterns_dir, '00-test/07-mixed-params.mustache');
-  mixedPattern.template = fs.readFileSync(patterns_dir + '/00-test/07-mixed-params.mustache', 'utf8');
+  var mixedPattern = new Pattern(testPatternsPath, '00-test/07-mixed-params.mustache');
+  mixedPattern.template = fs.readFileSync(testPatternsPath + '/00-test/07-mixed-params.mustache', 'utf8');
   mixedPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(mixedPattern);
   mixedPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(mixedPattern);
 
@@ -286,7 +291,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   pattern_assembler.addPattern(mixedPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '07-mixed-params.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '07-mixed-params.mustache', pl, {});
 
   //assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
   var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
@@ -298,13 +303,13 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -317,13 +322,13 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
   atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-  var bookendPattern = new Pattern(patterns_dir, '00-test/08-bookend-params.mustache');
-  bookendPattern.template = fs.readFileSync(patterns_dir + '/00-test/08-bookend-params.mustache', 'utf8');
+  var bookendPattern = new Pattern(testPatternsPath, '00-test/08-bookend-params.mustache');
+  bookendPattern.template = fs.readFileSync(testPatternsPath + '/00-test/08-bookend-params.mustache', 'utf8');
   bookendPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bookendPattern);
   bookendPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bookendPattern);
 
@@ -331,7 +336,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   pattern_assembler.addPattern(bookendPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '08-bookend-params.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '08-bookend-params.mustache', pl, {});
 
   //assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
   var expectedValue = '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
@@ -343,13 +348,13 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -362,13 +367,13 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/03-styled-atom.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/03-styled-atom.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/03-styled-atom.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/03-styled-atom.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
   atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-  var anotherPattern = new Pattern(patterns_dir, '00-test/12-another-styled-atom.mustache');
-  anotherPattern.template = fs.readFileSync(patterns_dir + '/00-test/12-another-styled-atom.mustache', 'utf8');
+  var anotherPattern = new Pattern(testPatternsPath, '00-test/12-another-styled-atom.mustache');
+  anotherPattern.template = fs.readFileSync(testPatternsPath + '/00-test/12-another-styled-atom.mustache', 'utf8');
   anotherPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(anotherPattern);
   anotherPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(anotherPattern);
 
@@ -376,7 +381,7 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   pattern_assembler.addPattern(anotherPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '12-another-styled-atom.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '12-another-styled-atom.mustache', pl, {});
 
   //assert
   var expectedCleanValue = '<span class="test_base {{styleModifier}}"> {{message}} </span>';
@@ -397,13 +402,13 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   //arrange
   var fs = require('fs-extra');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   var pl = emptyPatternLab();
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
       }
     },
     outputFileSuffixes: {
@@ -416,18 +421,18 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   pl.patterns = [];
   pl.partials = {};
 
-  var atomPattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
-  atomPattern.template = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8');
+  var atomPattern = new Pattern(testPatternsPath, '00-test/01-bar.mustache');
+  atomPattern.template = fs.readFileSync(testPatternsPath + '/00-test/01-bar.mustache', 'utf8');
   atomPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(atomPattern);
   atomPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(atomPattern);
 
-  var templatePattern = new Pattern(patterns_dir, '00-test/00-foo.mustache');
-  templatePattern.template = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8');
+  var templatePattern = new Pattern(testPatternsPath, '00-test/00-foo.mustache');
+  templatePattern.template = fs.readFileSync(testPatternsPath + '/00-test/00-foo.mustache', 'utf8');
   templatePattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(templatePattern);
   templatePattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(templatePattern);
 
-  var pagesPattern = new Pattern(patterns_dir, '00-test/14-inception.mustache');
-  pagesPattern.template = fs.readFileSync(patterns_dir + '/00-test/14-inception.mustache', 'utf8');
+  var pagesPattern = new Pattern(testPatternsPath, '00-test/14-inception.mustache');
+  pagesPattern.template = fs.readFileSync(testPatternsPath + '/00-test/14-inception.mustache', 'utf8');
   pagesPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(pagesPattern);
   pagesPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(pagesPattern);
 
@@ -436,7 +441,7 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   pattern_assembler.addPattern(pagesPattern, pl);
 
   //act
-  pattern_assembler.process_pattern_recursive(patterns_dir, '00-test' + path.sep + '14-inception.mustache', pl, {});
+  pattern_assembler.process_pattern_recursive(testPatternsPath, '00-test' + path.sep + '14-inception.mustache', pl, {});
 
   //assert
   var expectedCleanValue = 'bar';
@@ -456,49 +461,6 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   test.end();
 });
 
-tap.test('setState - applies any patternState matching the pattern', function(test) {
-  //arrange
-  var pa = require('../core/lib/pattern_assembler');
-  var pattern_assembler = new pa();
-  var patternlab = {};
-  patternlab.config = {};
-  patternlab.config.patternStates = {};
-  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
-
-  var pattern = {
-    patternPartial: "pages-homepage-emergency"
-  };
-
-  //act
-  pattern_assembler.setPatternState(pattern, patternlab);
-
-  //assert
-  test.equals(pattern.patternState, "inprogress");
-  test.end();
-});
-
-tap.test('setState - does not apply any patternState if nothing matches the pattern', function(test) {
-  //arrange
-  var pa = require('../core/lib/pattern_assembler');
-  var pattern_assembler = new pa();
-  var patternlab = {};
-  patternlab.config = {};
-  patternlab.config.patternStates = {};
-  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
-
-  var pattern = {
-    key: "pages-homepage",
-    patternState: ""
-  };
-
-  //act
-  pattern_assembler.setPatternState(pattern, patternlab);
-
-  //assert
-  test.equals(pattern.patternState, "");
-  test.end();
-});
-
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
   //arrange
   var diveSync = require('diveSync');
@@ -506,11 +468,11 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   var pa = require('../core/lib/pattern_assembler');
   var plMain = require('../core/lib/patternlab');
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns/';
+  var testPatternsPath = './test/files/_patterns/';
   var patternlab = emptyPatternLab();
   //THIS IS BAD
   patternlab.config = fs.readJSONSync('./patternlab-config.json');
-  patternlab.config.paths.source.patterns = patterns_dir;
+  patternlab.config.paths.source.patterns = testPatternsPath;
   patternlab.config.outputFileSuffixes = {rendered: ''};
   patternlab.data = {};
   patternlab.listitems = {};
@@ -521,56 +483,52 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
   //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
   patternlab.patterns = [
-    {
-      patternPartial: 'twitter-brad'
-    },
-    {
-      patternPartial: 'twitter-dave'
-    },
-    {
-      patternPartial: 'twitter-brian'
-    }
+    Pattern.createEmpty({ patternPartial: 'twitter-brad' }, patternlab),
+    Pattern.createEmpty({ patternPartial: 'twitter-dave' }, patternlab),
+    Pattern.createEmpty({ patternPartial: 'twitter-brian' }, patternlab)
   ];
   patternlab.data.link = {};
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab);
+  plMain.process_all_patterns_iterative(pattern_assembler, testPatternsPath, patternlab)
+    .then(() => {
+      //for the sake of the test, also imagining I have the following pages...
+      patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
+      patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
+      patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
 
-  //for the sake of the test, also imagining I have the following pages...
-  patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
-  patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
-  patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
-
-  patternlab.data.brad = {url: "link.twitter-brad"};
-  patternlab.data.dave = {url: "link.twitter-dave"};
-  patternlab.data.brian = {url: "link.twitter-brian"};
+      patternlab.data.brad = {url: "link.twitter-brad"};
+      patternlab.data.dave = {url: "link.twitter-dave"};
+      patternlab.data.brian = {url: "link.twitter-brian"};
 
 
-  var pattern;
-  for (var i = 0; i < patternlab.patterns.length; i++) {
-    if (patternlab.patterns[i].patternPartial === 'test-nav') {
-      pattern = patternlab.patterns[i];
-    }
-  }
+      var pattern;
+      for (var i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].patternPartial === 'test-nav') {
+          pattern = patternlab.patterns[i];
+        }
+      }
 
-  //assert before
-  test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
-  test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
-  test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
+      //assert before
+      test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
+      test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
+      test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
 
-  //act
-  pattern_assembler.parse_data_links(patternlab);
+      //act
+      pattern_assembler.parse_data_links(patternlab);
 
-  //assert after
-  test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
-  test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
-  test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
+      //assert after
+      test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
+      test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
+      test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
 
-  test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
-  test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
-  test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
-  test.end();
+      test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
+      test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
+      test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
+      test.end();
+    })
+    .catch(test.threw);
 });
 
 tap.test('get_pattern_by_key - returns the fuzzy result when no others found', function(test) {
@@ -618,7 +576,7 @@ tap.test('get_pattern_by_key - returns the exact key if found', function(test) {
 tap.test('addPattern - adds pattern extended template to patternlab partial object', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
   var patternlab = emptyPatternLab();
   patternlab.patterns = [];
   patternlab.partials = {};
@@ -626,7 +584,7 @@ tap.test('addPattern - adds pattern extended template to patternlab partial obje
   patternlab.config = {debug: false};
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
-  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var pattern = new Pattern(testPatternsPath, '00-test/01-bar.mustache');
   pattern.extendedTemplate = 'barExtended';
   pattern.template = 'bar';
 
@@ -643,7 +601,7 @@ tap.test('addPattern - adds pattern extended template to patternlab partial obje
 tap.test('addPattern - adds pattern template to patternlab partial object if extendedtemplate does not exist yet', function(test){
   //arrange
   var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
   var patternlab = emptyPatternLab();
   patternlab.patterns = [];
   patternlab.partials = {};
@@ -651,7 +609,7 @@ tap.test('addPattern - adds pattern template to patternlab partial object if ext
   patternlab.config = { debug: false };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
-  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var pattern = new Pattern(testPatternsPath, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
 
@@ -684,7 +642,7 @@ tap.test('markModifiedPatterns - finds patterns modified since a given date', fu
   patternlab.config.paths.public.patterns = public_dir + "/patterns";
   patternlab.config.outputFileSuffixes = {rendered: '', markupOnly: '.markup-only'};
 
-  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var pattern = new Pattern(testPatternsPath, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = new Date("2016-01-31").getTime();
@@ -715,7 +673,7 @@ tap.test('markModifiedPatterns - finds patterns when modification date is missin
   patternlab.config = { debug: false };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
-  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var pattern = new Pattern(testPatternsPath, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = undefined;
@@ -736,7 +694,7 @@ tap.test('markModifiedPatterns - finds patterns via compile state', function(tes
   patternlab.config = { debug: false };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
-  var pattern = new Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var pattern = new Pattern(testPatternsPath, '00-test/01-bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = 100000;
@@ -751,7 +709,7 @@ tap.test('markModifiedPatterns - finds patterns via compile state', function(tes
 
 tap.test('hidden patterns can be called by their nice names', function(test){
   var util = require('./util/test_utils.js');
-  var patterns_dir = './test/files/_patterns';
+  var testPatternsPath = './test/files/_patterns';
 
   //arrange
   var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
@@ -760,14 +718,19 @@ tap.test('hidden patterns can be called by their nice names', function(test){
 
   //act
   var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
-  var hiddenPattern = pattern_assembler.process_pattern_iterative(patterns_dir, hiddenPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(patterns_dir, hiddenPatternPath, pl);
+  var testPatternPath = path.join(testPatternsPath, '00-test', '15-hidden-pattern-tester.mustache');
 
-  var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
-  var testPattern = pattern_assembler.process_pattern_iterative(patterns_dir, testPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(patterns_dir, testPatternPath, pl);
+  var hiddenPattern = pattern_assembler.load_pattern_iterative(testPatternsPath, hiddenPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternsPath, testPatternPath, pl);
 
-  //assert
-  test.equals(util.sanitized(testPattern.render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
-  test.end();
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(testPatternsPath, hiddenPattern, pl),
+    pattern_assembler.process_pattern_iterative(testPatternsPath, testPattern, pl)
+  ]).then((results) => {
+    pattern_assembler.process_pattern_recursive(testPatternsPath, hiddenPatternPath, pl);
+    pattern_assembler.process_pattern_recursive(testPatternsPath, testPatternPath, pl);
+
+    //assert
+    test.equals(util.sanitized(results[1].render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
+  }).catch(test.threw);
 });

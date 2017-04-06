@@ -5,6 +5,8 @@ var tap = require('tap');
 var patternEngines = require('../core/lib/pattern_engines');
 var Pattern = require('../core/lib/object_factory').Pattern;
 
+patternEngines.loadAllEngines();
+
 // the mustache test pattern, stolen from object_factory unit tests
 var mustacheTestPattern = new Pattern('', 'source/_patterns/00-atoms/00-global/00-colors-alt.mustache', {d: 123});
 var mustacheTestPseudoPatternBasePattern = new Pattern('', 'source/_patterns/04-pages/00-homepage.mustache', {d: 123});
@@ -161,4 +163,3 @@ engineNames.forEach(function (engineName) {
       test.end();
   });
 });
-

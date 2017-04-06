@@ -29,6 +29,9 @@ var path = require('path');
 var pl = fakePatternLab();
 var testPatternsPath = './test/files/_patterns/';
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 tap.test('test Pattern initializes correctly', function (test) {
   var p = new Pattern(testPatternsPath, '00-atoms/00-global/00-colors.mustache', { d: 123});
   test.equals(p.relPath, '00-atoms' + path.sep + '00-global' + path.sep + '00-colors.mustache');

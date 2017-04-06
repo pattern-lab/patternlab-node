@@ -140,6 +140,19 @@ const emptyDirectory = function (dir, cleanDir) {
   }
 };
 
+/**
+ * Useful for reporting errors in .catch() on Promises
+ * @param {string} - a message to report
+ * @returns {function} - a callback to be passed to a Promise's .catch()
+ */
+const reportError = function (message) {
+  return function (err) {
+    console.log(message);
+    console.log(err);
+  };
+};
+
+
 module.exports = {
   debug,
   warning,
@@ -148,6 +161,6 @@ module.exports = {
   shuffle,
   mergeData,
   isObjectEmpty,
-  emptyDirectory
+  emptyDirectory,
+  reportError
 };
-

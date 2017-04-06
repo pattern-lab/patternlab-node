@@ -55,12 +55,13 @@ tap.test('hello world underscore pattern renders', function (test) {
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  var helloWorldPattern = assembler.process_pattern_iterative(testPatternsPath, patternPath, patternlab);
-  assembler.process_pattern_recursive(testPatternsPath, patternPath, patternlab);
+  const helloWorldPattern = assembler.load_pattern_iterative(testPatternsPath, patternPath, patternlab);
 
-  test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
-  test.end();
+  return assembler.process_pattern_iterative(testPatternsPath, helloWorldPattern, patternlab).then(() => {
+    assembler.process_pattern_recursive(testPatternsPath, patternPath, patternlab);
 
+    test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
+  });
 });
 
 tap.test('underscore partials can render JSON values', function (test) {
@@ -80,13 +81,13 @@ tap.test('underscore partials can render JSON values', function (test) {
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  var helloWorldWithData = assembler.process_pattern_iterative(testPatternsPath, pattern1Path, patternlab);
-  assembler.process_pattern_recursive(testPatternsPath, pattern1Path, patternlab);
+  const helloWorldWithData = assembler.load_pattern_iterative(testPatternsPath, pattern1Path, patternlab);
+  return assembler.process_pattern_iterative(testPatternsPath, helloWorldWithData, patternlab).then(() => {
+    assembler.process_pattern_recursive(testPatternsPath, pattern1Path, patternlab);
 
-  // test
-  test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
-  test.end();
-
+    // test
+    test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
+  });
 });
 
 tap.test('findPartial return the ID of the partial, given a whole partial call', function (test) {
@@ -103,22 +104,28 @@ tap.test('findPartial return the ID of the partial, given a whole partial call',
 });
 
 tap.test('hidden underscore patterns can be called by their nice names', function(test){
-    const util = require('./util/test_utils.js');
+  const util = require('./util/test_utils.js');
 
-    //arrange
-    const testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
-    const pl = util.fakePatternLab(testPatternsPath);
-    var pattern_assembler = new pa();
+  //arrange
+  const testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
+  const pl = util.fakePatternLab(testPatternsPath);
+  var pattern_assembler = new pa();
 
-    var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.html');
-    var hiddenPattern = pattern_assembler.process_pattern_iterative(testPatternsPath, hiddenPatternPath, pl);
+  var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.html');
+  var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.html');
+
+  var hiddenPattern = pattern_assembler.load_pattern_iterative(testPatternsPath, hiddenPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternsPath, testPatternPath, pl);
+
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(testPatternsPath, hiddenPattern, pl),
+    pattern_assembler.process_pattern_iterative(testPatternsPath, testPattern, pl)
+  ]).then(() => {
     pattern_assembler.process_pattern_recursive(testPatternsPath, hiddenPatternPath, pl);
-
-    var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.html');
-    var testPattern = pattern_assembler.process_pattern_iterative(testPatternsPath, testPatternPath, pl);
     pattern_assembler.process_pattern_recursive(testPatternsPath, testPatternPath, pl);
 
     //act
     test.equals(util.sanitized(testPattern.render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
     test.end();
   });
+});

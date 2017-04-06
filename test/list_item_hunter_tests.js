@@ -10,6 +10,9 @@ var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
 var testPatternsPath = './test/files/_patterns/';
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 // fake pattern creators
 function createFakeListPattern(customProps) {
   var inputs = {
@@ -422,5 +425,3 @@ tap.test('process_list_item_partials - correctly ignores already processed parti
   test.equals(listPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
   test.end();
 });
-
-

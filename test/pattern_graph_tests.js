@@ -9,6 +9,9 @@ var patterns_dir = './test/files/_patterns';
 var tap = require('tap');
 const posixPath = require('./util/test_utils.js').posixPath;
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 var patternlab = {
   config: {
     paths: {

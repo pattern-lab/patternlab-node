@@ -8,9 +8,12 @@ var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 var fs = require('fs-extra');
 var path = require('path');
-var patterns_dir = './test/files/_patterns/';
+var testPatternsPath = './test/files/_patterns/';
 
 var extend = require('util')._extend;
 var pattern_assembler = new pa();
@@ -19,7 +22,7 @@ var lineage_hunter = new lh();
 // fake pattern creators
 function createFakeEmptyErrorPattern() {
   return new Pattern(
-    patterns_dir,
+    testPatternsPath,
     '01-molecules/01-toast/00-error.mustache', // relative path now
     null // data
   );
@@ -31,7 +34,10 @@ function createBasePatternLabObject() {
   pl.config = {
     paths: {
       source: {
-        patterns: patterns_dir
+        patterns: testPatternsPath
+      },
+      public: {
+        patterns: './test/public/_patterns'
       }
     },
     outputFileSuffixes: {
@@ -46,6 +52,8 @@ function createBasePatternLabObject() {
   pl.config.debug = false;
   pl.patterns = [];
   pl.partials = {};
+  pl.patternGroups = {};
+  pl.subtypePatterns = {};
 
   return pl;
 }
@@ -54,7 +62,7 @@ tap.test('find_lineage - finds lineage', function (test) {
 
   //setup current pattern from what we would have during execution
   var currentPattern = new Pattern(
-    patterns_dir,
+    testPatternsPath,
     '02-organisms/00-global/00-header.mustache', // relative path now
     null // data
   );
@@ -163,7 +171,7 @@ tap.test('find_lineage - finds lineage with spaced pattern parameters', function
     graph: new PatternGraph(null, 0),
     patterns: [
       Pattern.create(
-        patterns_dir,
+        testPatternsPath,
         '00-atoms/05-alerts/00-error.mustache',
         null,
         {
@@ -209,14 +217,14 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = new of.Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var atomPattern = new of.Pattern(testPatternsPath, '00-test/01-bar.mustache');
   atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.patternState = "inreview";
 
   pattern_assembler.addPattern(atomPattern, pl);
 
-  var consumerPattern = new of.Pattern(patterns_dir, '00-test/00-foo.mustache');
+  var consumerPattern = new of.Pattern(testPatternsPath, '00-test/00-foo.mustache');
   consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
   consumerPattern.extendedTemplate = consumerPattern.template;
   consumerPattern.patternState = "complete";
@@ -237,14 +245,14 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = new of.Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var atomPattern = new of.Pattern(testPatternsPath, '00-test/01-bar.mustache');
   atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.patternState = "inreview";
 
   pattern_assembler.addPattern(atomPattern, pl);
 
-  var consumerPattern = new of.Pattern(patterns_dir, '00-test/00-foo.mustache');
+  var consumerPattern = new of.Pattern(testPatternsPath, '00-test/00-foo.mustache');
   consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
   consumerPattern.extendedTemplate = consumerPattern.template;
   consumerPattern.patternState = "complete";
@@ -266,17 +274,8 @@ tap.test('cascade_pattern_states sets the pattern state on any lineage patterns 
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = new of.Pattern(patterns_dir, '00-test/01-bar.mustache');
-  atomPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/01-bar.mustache', 'utf8');
-  atomPattern.extendedTemplate = atomPattern.template;
-  atomPattern.patternState = "inreview";
-  pattern_assembler.addPattern(atomPattern, pl);
-
-  var consumerPattern = new of.Pattern(patterns_dir, '00-test/00-foo.mustache');
-  consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
-  consumerPattern.extendedTemplate = consumerPattern.template;
-  consumerPattern.patternState = "complete";
-  pattern_assembler.addPattern(consumerPattern, pl);
+  var atomPattern = pattern_assembler.load_pattern_iterative(testPatternsPath, '00-test/01-bar.mustache', pl);
+  var consumerPattern = pattern_assembler.load_pattern_iterative(testPatternsPath, '00-test/00-foo.mustache', pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -295,14 +294,14 @@ tap.test('cascade_pattern_states promotes lower pattern state when consumer does
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = new of.Pattern(patterns_dir, '00-test/01-bar.mustache');
+  var atomPattern = new of.Pattern(testPatternsPath, '00-test/01-bar.mustache');
   atomPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/01-bar.mustache'), 'utf8');
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.patternState = "inreview";
 
   pattern_assembler.addPattern(atomPattern, pl);
 
-  var consumerPattern = new of.Pattern(patterns_dir, '00-test/00-foo.mustache');
+  var consumerPattern = new of.Pattern(testPatternsPath, '00-test/00-foo.mustache');
   consumerPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/00-foo.mustache'), 'utf8');
   consumerPattern.extendedTemplate = consumerPattern.template;
   pattern_assembler.addPattern(consumerPattern, pl);
