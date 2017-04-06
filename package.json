@@ -76,6 +76,7 @@
     "bulkify": "^1.1.1",
     "crypto": "^0.0.3",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-iconfont": "^5.0.1",
     "gulp-iconfont-css": "^2.0.0",

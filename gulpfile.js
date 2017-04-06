@@ -6,6 +6,7 @@ var
   del = require('del'),
   nodeunit = require('gulp-nodeunit'),
   sass = require('gulp-sass'),
+  addsrc = require('gulp-add-src'),
   nodeSassGlobbing = require('node-sass-globbing'),
   autoprefixer = require('gulp-autoprefixer'),
   font64 = require('gulp-simplefont64'),
@@ -50,6 +51,7 @@ gulp.task('cp:css', function () {
 gulp.task('fonts', function (){
   return gulp.src(['./source/fonts/**/*.woff', '!./source/fonts/_**/*.woff'])
     .pipe(font64())
+    .pipe(addsrc('./source/fonts/*.css'))
     .pipe(concat('fonts.css'))
     .pipe(gulp.dest('./public/css'))
     .pipe(browserSync.stream());
