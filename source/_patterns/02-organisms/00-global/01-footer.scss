@@ -48,7 +48,7 @@
 
       .socialShare {
         margin-left : $marginMini;
-        padding-top : $paddingMini;
+        padding-top : ($paddingMini/2);
         margin-bottom : 0.3em;
         min-width: auto;
         position: absolute;
@@ -171,9 +171,11 @@
 
   &__trustedShops {
     flex: 1;
-    width : 3em;
+    width : 75px;
+    height: 75px;
     margin-right: 14.375em;
     margin-top: 0.75em;
+    display: block;
 
     @media only screen and (min-width : $breakpointDesktop) {
       margin-top : 2.47em;
@@ -181,7 +183,16 @@
 
     @media only screen and (max-width : $breakpointTabletEnd) {
       margin-top: 1.3em;
-      margin-right: $paddingStandard;
+      margin-right: $marginMini;
+      width : 60px;
+      height: 60px;
+      text-align: right;
+    }
+
+    img {
+      height: 100%;
+      width: auto;
+      display: inline;
     }
   }
 
@@ -210,7 +221,7 @@
     }
 
     .field__input-wrapper {
-      margin-bottom : 0.5em;
+      margin: 0;
     }
 
   }
