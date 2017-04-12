@@ -184,7 +184,9 @@
         list-style: none;
         white-space: nowrap;
       }
-
+      &--secondLevel {
+        display: none;
+      }
       &__item {
         display: inline-block;
         position: relative;
