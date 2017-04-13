@@ -7,7 +7,7 @@
   margin-bottom : 0;
   cursor: pointer;
   line-height: 1.5em;
-  font-family: $fontPrimary;
+  font-family: $fontSecondary;
   font-size: $fontSizeSlightlyLarger;
   @media only screen and (min-width: $breakpointTablet) {
     border-top-width: 1px;
@@ -31,8 +31,14 @@
     }
   }
 
+  &__dropdown {
+    height: .5em;
+    transform: scale(1.4);
+    padding-left: .25em;
+    box-sizing: content-box;
+  }
   &__icon {
-    display : none;
+    display: none;
   }
 
   &__text {
@@ -41,7 +47,6 @@
     flex: 1;
     text-align: left;
     padding-right: 3em;
-    padding-left : 1.25em;
     line-height : 1em;
     padding-top : 0.25em;
     position : relative;

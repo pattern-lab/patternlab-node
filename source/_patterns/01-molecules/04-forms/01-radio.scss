@@ -3,8 +3,9 @@
     display: flex;
     flex-flow: row nowrap;
     align-content: space-between;
-    font-family : $fontSecondary;
-    align-items: top;
+    font-family: $fontSecondary;
+    font-weight: 300;
+    align-items: center;
     padding: 1.3em 1em;
     border-bottom: 1px solid $colorBorder;
     border-top: 1px solid $colorBorder;
@@ -15,6 +16,11 @@
     & & {
       border: none;
       padding: 0;
+    }
+    &[data-shipping-method*="shipping-0.00"] {
+      .radio__label__accessory {
+        display: none;
+      }
     }
   }
   &__input {

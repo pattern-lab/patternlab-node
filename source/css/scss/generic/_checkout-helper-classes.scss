@@ -106,6 +106,25 @@
         border-top: none;
       }
     }
+    #{&}#{&}--secondary {
+      border-top: none;
+      background: transparent;
+      &.radio-wrapper {
+        background: #F6F6F6;
+      }
+    }
+  }
+  &__header {
+    margin-bottom: .5em;
+    &__action {
+      @include font-quaternary-lowercase(.75em);
+      span[aria-hidden] {
+        display: none;
+      }
+      .visually-hidden {
+        display: block!important;
+      }
+    }
   }
 }
 

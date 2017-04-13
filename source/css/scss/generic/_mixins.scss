@@ -79,7 +79,7 @@
 }
 
 @mixin font-quaternary-lowercase($fontSize: 1em) {
-  font-family: $fontQuaternary;
+  font-family: $fontSecondary;
   font-size: $fontSize;
 }
 

@@ -34,23 +34,12 @@
     }
   }
   &__previous-link {
-    @include icon('chevron-left');
     position : relative;
-    padding-left : 1.25em;
-    &:before {
-      font-size : 1rem;
-      position : absolute;
-      top : 50%;
-      left : 0;
-      transform: translateY(-50%);
-      vertical-align: middle;
-      margin-top: -2px;
-      @media only screen and (min-width: $breakpointTablet) {
-        margin-top: -1px;
-      }
-    }
-    .icon--chevron {
-      display : none;
+    .icon-svg {
+      height: .75em;
+      display: inline-block;
+      vertical-align: baseline;
+      padding-right : .5em;
     }
   }
 }

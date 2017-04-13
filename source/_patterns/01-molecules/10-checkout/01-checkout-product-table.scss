@@ -48,6 +48,7 @@
       font-family: $fontSecondary;
       &__name,
       &__variant {
+        line-height: 1.2em;
         display: block;
         @include font-quaternary-lowercase($fontSizeSmall);
       }
@@ -55,6 +56,9 @@
         @include font-quaternary-lowercase(1.125em);
         margin-bottom: 0.25em;
         letter-spacing: 0;
+      }
+      &__variant {
+        font-weight: 300;
       }
     }
     &__price {

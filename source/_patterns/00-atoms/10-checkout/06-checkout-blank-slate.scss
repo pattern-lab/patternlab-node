@@ -8,4 +8,7 @@
     line-height: 1.5em;
     display: inline-block;
   }
+  p:last-child {
+    margin-bottom: 0;
+  }
 }

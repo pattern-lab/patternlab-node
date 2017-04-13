@@ -40,6 +40,7 @@
   }
   &__name {
     @include font-quaternary-lowercase($fontSizeSmall);
+    font-weight: 300;
     letter-spacing: 0;
     text-transform: none;
   }

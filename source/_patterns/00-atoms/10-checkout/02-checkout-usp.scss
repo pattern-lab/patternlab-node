@@ -1,5 +1,6 @@
 .checkoutUsp {
   @include font-quaternary-lowercase($fontSizeSmall);
+  font-weight: 300;
   @include icon(check);
   position : relative;
   margin-bottom : 0.25em;
