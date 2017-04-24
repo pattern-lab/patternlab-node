@@ -528,6 +528,10 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     // TODO we can reduce the time needed by only processing changed patterns and their partials
@@ -536,10 +540,6 @@ var patternlab_engine = function (config) {
     //take the user defined head and foot and process any data and patterns that apply
     processHeadPattern();
     processFootPattern();
-
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
 
     //cascade any patternStates
     lineage_hunter.cascade_pattern_states(patternlab);
