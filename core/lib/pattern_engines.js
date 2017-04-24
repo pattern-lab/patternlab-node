@@ -1,7 +1,7 @@
 // special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible!
 'use strict';
 const path = require('path');
-const diveSync = require('diveSync');
+const glob = require('glob');
 const chalk = require('chalk');
 const engineMatcher = /^patternengine-node-(.*)$/;
 const enginesDirectories = [
@@ -27,18 +27,21 @@ function isEngineModule(filePath) {
 
 function findEngineModulesInDirectory(dir) {
   const foundEngines = [];
+  glob(dir, function (err, filePath) {
+    if (err) {
+      console.log(`Error: ${chalk.red(err)}`);
+      throw err;
 
-  diveSync(dir, {
-    recursive: false,
-    directories: true
-  }, function (err, filePath) {
-    if (err) { throw err; }
+    }
+    console.log('files', filePath);
     const foundEngineName = isEngineModule(filePath);
     if (foundEngineName) {
       foundEngines.push({
         name: foundEngineName,
         modulePath: filePath
       });
+    } else {
+      console.log(chalk.red("No engines found"));
     }
   });
 
