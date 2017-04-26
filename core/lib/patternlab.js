@@ -22,6 +22,8 @@ var diveSync = require('diveSync'),
   packageInfo = require('../../package.json'),
   plutils = require('./utilities'),
   jsonCopy = require('./json_copy'),
+  ui = require('./ui_builder'),
+  ui_builder = new ui(),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
 //register our log events
@@ -150,7 +152,6 @@ var patternlab_engine = function (config) {
   var pa = require('./pattern_assembler'),
     pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
-    ui = require('./ui_builder'),
     sm = require('./starterkit_manager'),
     Pattern = require('./object_factory').Pattern,
     CompileState = require('./object_factory').CompileState,
@@ -606,7 +607,7 @@ var patternlab_engine = function (config) {
       }
       patternlab.isBusy = true;
       buildPatterns(deletePatternDir);
-      new ui().buildFrontend(patternlab);
+      ui_builder.buildFrontend(patternlab);
       printDebug();
       patternlab.isBusy = false;
       callback();
