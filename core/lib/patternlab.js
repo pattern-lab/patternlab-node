@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.9.1 - 2017
+ * patternlab-node - v2.9.2 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -22,6 +22,10 @@ var diveSync = require('diveSync'),
   packageInfo = require('../../package.json'),
   plutils = require('./utilities'),
   jsonCopy = require('./json_copy'),
+  ui = require('./ui_builder'),
+  ui_builder = new ui(),
+  pe = require('./pattern_exporter'),
+  pattern_exporter = new pe(),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
 //register our log events
@@ -148,9 +152,7 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var pa = require('./pattern_assembler'),
-    pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
-    ui = require('./ui_builder'),
     sm = require('./starterkit_manager'),
     Pattern = require('./object_factory').Pattern,
     CompileState = require('./object_factory').CompileState,
@@ -159,7 +161,6 @@ var patternlab_engine = function (config) {
   patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
-    pattern_exporter = new pe(),
     lineage_hunter = new lh();
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
@@ -528,6 +529,10 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     // TODO we can reduce the time needed by only processing changed patterns and their partials
@@ -536,10 +541,6 @@ var patternlab_engine = function (config) {
     //take the user defined head and foot and process any data and patterns that apply
     processHeadPattern();
     processFootPattern();
-
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
 
     //cascade any patternStates
     lineage_hunter.cascade_pattern_states(patternlab);
@@ -580,7 +581,6 @@ var patternlab_engine = function (config) {
       }
     }
 
-
     //render all patterns last, so lineageR works
     patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
 
@@ -606,7 +606,7 @@ var patternlab_engine = function (config) {
       }
       patternlab.isBusy = true;
       buildPatterns(deletePatternDir);
-      new ui().buildFrontend(patternlab);
+      ui_builder.buildFrontend(patternlab);
       printDebug();
       patternlab.isBusy = false;
       callback();

@@ -1,0 +1,67 @@
+{
+  "paths" : {
+    "source" : {
+      "root": "./test/files/",
+      "patterns" : "./test/files/_patterns/",
+      "data" : "./test/files/_data/",
+      "meta": "./test/files/_meta/",
+      "styleguide" : "./test/files/styleguide/",
+      "patternlabFiles" : "./test/files/",
+      "js" : "./test/files/js",
+      "images" : "./test/files/images",
+      "fonts" : "./test/files/fonts",
+      "css" : "./test/files/css/"
+    },
+    "public" : {
+      "root" : "./test/public/",
+      "patterns" : "./test/public/patterns/",
+      "data" : "./test/public/data/",
+      "styleguide" : "./test/public/styleguide/",
+      "js" : "./test/public/js",
+      "images" : "./test/public/images",
+      "fonts" : "./test/public/fonts",
+      "css" : "./test/public/css"
+    }
+  },
+  "styleGuideExcludes": [
+    "templates",
+    "pages"
+  ],
+  "defaultPattern": "all",
+  "ignored-extensions" : ["scss", "DS_Store", "less"],
+  "ignored-directories" : ["scss"],
+  "debug": false,
+  "ishControlsHide": {
+    "s": false,
+    "m": false,
+    "l": false,
+    "full": false,
+    "random": false,
+    "disco": false,
+    "hay": true,
+    "mqs": false,
+    "find": false,
+    "views-all": false,
+    "views-annotations": false,
+    "views-code": false,
+    "views-new": false,
+    "tools-all": false,
+    "tools-docs": false
+  },
+  "ishMinimum": "240",
+  "ishMaximum": "2600",
+  "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternStates": {
+  },
+  "patternExportPatternPartials": [],
+  "patternExportDirectory": "./pattern_exports/",
+  "cacheBust": true,
+  "outputFileSuffixes": {
+    "rendered": ".rendered",
+    "rawTemplate": "",
+    "markupOnly": ".markup-only"
+  },
+  "cleanOutputHtml": true,
+  "exportToGraphViz": false,
+  "cleanPublic": true
+}
