@@ -24,6 +24,8 @@ var diveSync = require('diveSync'),
   jsonCopy = require('./json_copy'),
   ui = require('./ui_builder'),
   ui_builder = new ui(),
+  pe = require('./pattern_exporter'),
+  pattern_exporter = new pe(),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
 //register our log events
@@ -150,7 +152,6 @@ var patternlab_engine = function (config) {
   'use strict';
 
   var pa = require('./pattern_assembler'),
-    pe = require('./pattern_exporter'),
     lh = require('./lineage_hunter'),
     sm = require('./starterkit_manager'),
     Pattern = require('./object_factory').Pattern,
@@ -160,7 +161,6 @@ var patternlab_engine = function (config) {
   patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
-    pattern_exporter = new pe(),
     lineage_hunter = new lh();
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
@@ -580,7 +580,6 @@ var patternlab_engine = function (config) {
         p.compileState = CompileState.NEEDS_REBUILD;
       }
     }
-
 
     //render all patterns last, so lineageR works
     patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
