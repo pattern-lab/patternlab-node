@@ -286,7 +286,7 @@ var patternlab_engine = function (config) {
     var possibleExtensions = patternlab.engines.getSupportedFileExtensions();
     console.log(possibleExtensions);
     try {
-      var headPath = path.resolve(paths.source.meta, '_00-head.'+patterlab.config.patternExtension);
+      var headPath = path.resolve(paths.source.meta, '_00-head.'+patternlab.config.patternExtension);
       var headPattern = new Pattern(headPath, null, patternlab);
       headPattern.template = fs.readFileSync(headPath, 'utf8');
       headPattern.isPattern = false;
@@ -295,7 +295,7 @@ var patternlab_engine = function (config) {
       patternlab.userHead = headPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.'+patterlab.config.patternExtension) + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.'+patternlab.config.patternExtension) + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
@@ -306,7 +306,7 @@ var patternlab_engine = function (config) {
    */
   function processFootPattern() {
     try {
-      var footPath = path.resolve(paths.source.meta, '_01-foot.'+patterlab.config.patternExtension);
+      var footPath = path.resolve(paths.source.meta, '_01-foot.'+patternlab.config.patternExtension);
       var footPattern = new Pattern(footPath, null, patternlab);
       footPattern.template = fs.readFileSync(footPath, 'utf8');
       footPattern.isPattern = false;
@@ -315,7 +315,7 @@ var patternlab_engine = function (config) {
       patternlab.userFoot = footPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.'+patterlab.config.patternExtension) + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.'+patternlab.config.patternExtension) + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (patternlab.config.debug) { console.log(ex); }
       process.exit(1);
     }
@@ -505,11 +505,11 @@ var patternlab_engine = function (config) {
       patternlab.listitems = {};
     }
     try {
-      // patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.'+patterlab.config.patternExtension), 'utf8');
-      // patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.'+patterlab.config.patternExtension), 'utf8');
-      // patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.'+patterlab.config.patternExtension), 'utf8');
-      // patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.'+patterlab.config.patternExtension), 'utf8');
-      // patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.'+patterlab.config.patternExtension), 'utf8');
+      // patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.'+patternlab.config.patternExtension), 'utf8');
+      // patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.'+patternlab.config.patternExtension), 'utf8');
+      // patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.'+patternlab.config.patternExtension), 'utf8');
+      // patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSectionSubtype.'+patternlab.config.patternExtension), 'utf8');
+      // patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'viewall.'+patternlab.config.patternExtension), 'utf8');
       patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-header.mustache'), 'utf8');
       patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'general-footer.mustache'), 'utf8');
       patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles, 'partials', 'patternSection.mustache'), 'utf8');
