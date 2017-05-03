@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.7.2 - 2017
+ * patternlab-node - v2.9.2 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -21,6 +21,11 @@ var diveSync = require('diveSync'),
   fs = require('fs-extra'),
   packageInfo = require('../../package.json'),
   plutils = require('./utilities'),
+  jsonCopy = require('./json_copy'),
+  ui = require('./ui_builder'),
+  ui_builder = new ui(),
+  pe = require('./pattern_exporter'),
+  pattern_exporter = new pe(),
   PatternGraph = require('./pattern_graph').PatternGraph;
 
 //register our log events
@@ -99,6 +104,8 @@ function checkConfiguration(patternlab) {
  * Finds and calls the main method of any found plugins.
  * @param patternlab - global data store
  */
+
+//todo, move this to plugin_manager
 function initializePlugins(patternlab) {
 
   if (!patternlab.config.plugins) { return; }
@@ -144,11 +151,8 @@ inherits(PatternLabEventEmitter, EventEmitter);
 var patternlab_engine = function (config) {
   'use strict';
 
-  var JSON5 = require('json5'),
-    pa = require('./pattern_assembler'),
-    pe = require('./pattern_exporter'),
+  var pa = require('./pattern_assembler'),
     lh = require('./lineage_hunter'),
-    ui = require('./ui_builder'),
     sm = require('./starterkit_manager'),
     Pattern = require('./object_factory').Pattern,
     CompileState = require('./object_factory').CompileState,
@@ -157,7 +161,6 @@ var patternlab_engine = function (config) {
   patternlab.engines = patternEngines;
 
   var pattern_assembler = new pa(),
-    pattern_exporter = new pe(),
     lineage_hunter = new lh();
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
@@ -176,6 +179,10 @@ var patternlab_engine = function (config) {
 
   function getVersion() {
     console.log(patternlab.package.version);
+  }
+
+  function getSupportedTemplateExtensions() {
+    return patternlab.engines.getSupportedFileExtensions();
   }
 
   function help() {
@@ -366,7 +373,7 @@ var patternlab_engine = function (config) {
     //render the pattern, but first consolidate any data we may have
     var allData;
     try {
-      allData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
@@ -417,7 +424,7 @@ var patternlab_engine = function (config) {
 
     var allFooterData;
     try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
@@ -524,6 +531,10 @@ var patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
+    //now that all the main patterns are known, look for any links that might be within data and expand them
+    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+    pattern_assembler.parse_data_links(patternlab);
+
     //diveSync again to recursively include partials, filling out the
     //extendedTemplate property of the patternlab.patterns elements
     // TODO we can reduce the time needed by only processing changed patterns and their partials
@@ -532,10 +543,6 @@ var patternlab_engine = function (config) {
     //take the user defined head and foot and process any data and patterns that apply
     processHeadPattern();
     processFootPattern();
-
-    //now that all the main patterns are known, look for any links that might be within data and expand them
-    //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-    pattern_assembler.parse_data_links(patternlab);
 
     //cascade any patternStates
     lineage_hunter.cascade_pattern_states(patternlab);
@@ -576,7 +583,6 @@ var patternlab_engine = function (config) {
       }
     }
 
-
     //render all patterns last, so lineageR works
     patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
 
@@ -602,7 +608,7 @@ var patternlab_engine = function (config) {
       }
       patternlab.isBusy = true;
       buildPatterns(deletePatternDir);
-      new ui().buildFrontend(patternlab);
+      ui_builder.buildFrontend(patternlab);
       printDebug();
       patternlab.isBusy = false;
       callback();
@@ -629,6 +635,9 @@ var patternlab_engine = function (config) {
     },
     installplugin: function (pluginName) {
       installPlugin(pluginName);
+    },
+    getSupportedTemplateExtensions: function () {
+      return getSupportedTemplateExtensions();
     }
   };
 };

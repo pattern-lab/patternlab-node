@@ -3,11 +3,11 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
-    JSON5 = require('json5'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
     plutils = require('./utilities'),
     style_modifier_hunter = new smh(),
+    jsonCopy = require('./json_copy'),
     pattern_assembler = new pa();
 
   /**
@@ -19,7 +19,7 @@ var parameter_hunter = function () {
    * The steps on a high-level are as follows:
    *   * Further escape all escaped quotes and colons. Use the string
    *     representation of their unicodes for this. This has the added bonus
-   *     of being interpreted correctly by JSON5.parse() without further
+   *     of being interpreted correctly by JSON.parse() without further
    *     modification. This will be useful later in the function.
    *   * Once escaped quotes are out of the way, we know the remaining quotes
    *     are either key/value wrappers or wrapped within those wrappers. We know
@@ -260,9 +260,9 @@ var parameter_hunter = function () {
         var localData = {};
 
         try {
-          paramData = JSON5.parse(paramStringWellFormed);
-          globalData = JSON5.parse(JSON5.stringify(patternlab.data));
-          localData = JSON5.parse(JSON5.stringify(pattern.jsonFileData || {}));
+          paramData = JSON.parse(paramStringWellFormed);
+          globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
+          localData = jsonCopy(pattern.jsonFileData || {}, `pattern ${pattern.patternPartial} data`);
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);

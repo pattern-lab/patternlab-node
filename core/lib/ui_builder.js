@@ -1,7 +1,6 @@
 "use strict";
 
 var path = require('path');
-var JSON5 = require('json5');
 var fs = require('fs-extra');
 var ae = require('./annotation_exporter');
 var of = require('./object_factory');
@@ -10,6 +9,7 @@ var pattern_assembler = require('./pattern_assembler')();
 var plutils = require('./utilities');
 var eol = require('os').EOL;
 var _ = require('lodash');
+var jsonCopy = require('./json_copy');
 
 var ui_builder = function () {
 
@@ -82,7 +82,7 @@ var ui_builder = function () {
     }
 
     //this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
-    isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf('/_') > -1;
+    isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
       if (patternlab.config.debug) {
         console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because its contained within an underscored directory.');
@@ -435,7 +435,7 @@ var ui_builder = function () {
 
     var allFooterData;
     try {
-      allFooterData = JSON5.parse(JSON5.stringify(patternlab.data));
+      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
     } catch (err) {
       console.log('There was an error parsing JSON for patternlab.data');
       console.log(err);
@@ -485,7 +485,7 @@ var ui_builder = function () {
 
       var p;
       var typePatterns = [], styleguideTypePatterns = [];
-      var styleGuideExcludes = patternlab.config.styleGuideExcludes;
+      var styleGuideExcludes = patternlab.config.styleGuideExcludes || patternlab.config.styleguideExcludes;
 
       _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
 
