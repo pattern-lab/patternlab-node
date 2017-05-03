@@ -3,9 +3,9 @@
 var parameter_hunter = function () {
 
   var extend = require('util')._extend,
+    _ = require('lodash'),
     pa = require('./pattern_assembler'),
     smh = require('./style_modifier_hunter'),
-    plutils = require('./utilities'),
     style_modifier_hunter = new smh(),
     jsonCopy = require('./json_copy'),
     pattern_assembler = new pa();
@@ -268,8 +268,8 @@ var parameter_hunter = function () {
           console.log(err);
         }
 
-        var allData = plutils.mergeData(globalData, localData);
-        allData = plutils.mergeData(allData, paramData);
+        var allData = _.merge(globalData, localData);
+        allData = _.merge(allData, paramData);
 
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {

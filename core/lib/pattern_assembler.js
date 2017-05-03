@@ -61,7 +61,7 @@ var pattern_assembler = function () {
         list.push(container.listitems[item]);
       }
     }
-    container.listItemArray = plutils.shuffle(list);
+    container.listItemArray = _.shuffle(list);
 
     for (var i = 1; i <= container.listItemArray.length; i++) {
       var tempItems = [];
@@ -161,7 +161,7 @@ var pattern_assembler = function () {
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
-      if (!plutils.isObjectEmpty(markdownObject)) {
+      if (!_.empty(markdownObject)) {
         //set keys and markdown itself
         currentPattern.patternDescExists = true;
         currentPattern.patternDesc = markdownObject.markdown;

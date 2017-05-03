@@ -7,10 +7,10 @@ var pseudopattern_hunter = function () {
   function findpseudopatterns(currentPattern, patternlab) {
     var glob = require('glob'),
       fs = require('fs-extra'),
+      _ = require('lodash'),
       pa = require('./pattern_assembler'),
       lh = require('./lineage_hunter'),
       Pattern = require('./object_factory').Pattern,
-      plutils = require('./utilities'),
       path = require('path');
 
 
@@ -44,7 +44,7 @@ var pseudopattern_hunter = function () {
         }
 
         //extend any existing data with variant data
-        variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
+        variantFileData = _.merge(currentPattern.jsonFileData, variantFileData);
 
         var variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
         var variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
