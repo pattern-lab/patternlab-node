@@ -1,20 +1,27 @@
-"use strict";
-
-var patternEngines = require('./pattern_engines');
-var path = require('path');
-var extend = require('util')._extend;
+'use strict';
+const patternEngines = require('./pattern_engines');
+const path = require('path');
+const extend = require('util')._extend;
 
 // patternPrefixMatcher is intended to match the leading maybe-underscore,
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
 // off and get at the good part.
-var patternPrefixMatcher = /^_?(\d+-)?/;
+const patternPrefixMatcher = /^_?(\d+-)?/;
 
 // Pattern properties
-
-var Pattern = function (relPath, data, patternlab) {
-  // We expect relPath to be the path of the pattern template, relative to the
-  // root of the pattern tree. Parse out the path parts and save the useful ones.
-  var pathObj = path.parse(path.normalize(relPath));
+/**
+ * Pattern constructor
+ * @constructor
+ */
+const Pattern = function (relPath, data, patternlab) {
+  /**
+  * We expect relPath to be the path of the pattern template, relative to the
+  * root of the pattern tree. Parse out the path parts and save the useful ones.
+  * @param {relPath} relative directory
+  * @param {data} The JSON used to render values in the pattern.
+  * @param {patternlab} rendered html files for the pattern
+  */
+  const pathObj = path.parse(path.normalize(relPath));
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name;     // '00-colors'
   this.subdir = pathObj.dir;        // '00-atoms/00-global'
@@ -114,8 +121,8 @@ Pattern.prototype = {
   // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
   getPatternLink: function (patternlab, suffixType, customfileExtension) {
     // if no suffixType is provided, we default to rendered
-    var suffixConfig = patternlab.config.outputFileSuffixes;
-    var suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
+    const suffixConfig = patternlab.config.outputFileSuffixes;
+    const suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
 
     if (suffixType === 'rawTemplate') {
       return this.name + path.sep + this.name + suffix + this.fileExtension;
@@ -165,7 +172,7 @@ Pattern.createEmpty = function (customProps, patternlab) {
     }
   }
 
-  var pattern = new Pattern(relPath, null, patternlab);
+  const pattern = new Pattern(relPath, null, patternlab);
   return extend(pattern, customProps);
 };
 
@@ -173,11 +180,11 @@ Pattern.createEmpty = function (customProps, patternlab) {
 // parameters that replace the positional parameters that the Pattern
 // constructor takes.
 Pattern.create = function (relPath, data, customProps, patternlab) {
-  var newPattern = new Pattern(relPath || '', data || null, patternlab);
+  const newPattern = new Pattern(relPath || '', data || null, patternlab);
   return extend(newPattern, customProps);
 };
 
-var CompileState = {
+const CompileState = {
   NEEDS_REBUILD: "needs rebuild",
   BUILDING: "building",
   CLEAN: "clean"

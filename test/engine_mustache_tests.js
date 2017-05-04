@@ -10,6 +10,7 @@ var eol = require('os').EOL;
 
 // don't run these tests unless mustache is installed
 var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
 if (!engineLoader.mustache) {
   tap.test('Mustache engine not installed, skipping tests.', function (test) {
     test.end();

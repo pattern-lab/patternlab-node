@@ -9,6 +9,9 @@ var extend = require('util')._extend;
 var uiModule = rewire('../core/lib/ui_builder');
 var path = require('path');
 
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines();
+
 //set up a global mocks - we don't want to be writing/rendering any files right now
 var fsMock = {
   outputFileSync: function (path, data, cb) { }

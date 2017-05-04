@@ -1,3 +1,3 @@
 ---
-status: inprogress
+state: inprogress
 ---

@@ -47,10 +47,24 @@ const warning = log.warning.bind(log);
  */
 const error = log.error.bind(log);
 
+
+/**
+ * Useful for reporting errors in .catch() on Promises
+ * @param {string} - a message to report
+ * @returns {function} - a callback to be passed to a Promise's .catch()
+ */
+const reportError = function (message) {
+  return function (err) {
+    console.log(message);
+    console.log(err);
+  };
+};
+
+
 module.exports = {
   debug,
   warning,
   error,
-  log
+  log,
+  reportError
 };
-
