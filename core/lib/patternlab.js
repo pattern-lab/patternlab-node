@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.8.0 - 2017
+ * patternlab-node - v2.9.2 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -401,7 +401,7 @@ const patternlab_engine = function (config) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
     }
-    allData = plutils.mergeData(allData, pattern.jsonFileData);
+    allData = _.merge(allData, pattern.jsonFileData);
     allData.cacheBuster = patternlab.cacheBuster;
 
     //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
@@ -452,7 +452,7 @@ const patternlab_engine = function (config) {
       console.log('There was an error parsing JSON for ' + pattern.relPath);
       console.log(err);
     }
-    allFooterData = plutils.mergeData(allFooterData, pattern.jsonFileData);
+    allFooterData = _.merge(allFooterData, pattern.jsonFileData);
     allFooterData.patternLabFoot = footerPartial;
 
     const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
@@ -646,6 +646,7 @@ const patternlab_engine = function (config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
+      
       return buildPatterns(deletePatternDir).then(() => {
         new ui().buildFrontend(patternlab);
         printDebug();

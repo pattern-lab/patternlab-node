@@ -31,7 +31,7 @@ const starterkit_manager = function (config) {
 
         if (clean) {
           console.log('Deleting contents of', paths.source.root, 'prior to starterkit load.');
-          util.emptyDirectory(paths.source.root);
+          fs.emptyDirSync(paths.source.root);
         } else {
           console.log('Overwriting contents of', paths.source.root, 'during starterkit load.');
         }
