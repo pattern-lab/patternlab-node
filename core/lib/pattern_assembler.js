@@ -149,7 +149,7 @@ const pattern_assembler = function () {
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
-      if (!_.empty(markdownObject)) {
+      if (!_.isEmpty(markdownObject)) {
         //set keys and markdown itself
         currentPattern.patternDescExists = true;
         currentPattern.patternDesc = markdownObject.markdown;
