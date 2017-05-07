@@ -2,9 +2,9 @@
 
 const list_item_hunter = function () {
   const extend = require('util')._extend;
+  const _ = require('lodash');
   const pa = require('./pattern_assembler');
   const smh = require('./style_modifier_hunter');
-  const plutils = require('./utilities');
   const jsonCopy = require('./json_copy');
   const Pattern = require('./object_factory').Pattern;
 
@@ -47,7 +47,7 @@ const list_item_hunter = function () {
           console.log(err);
         }
 
-        listData = plutils.mergeData(listData, pattern.listitems);
+        listData = _.merge(listData, pattern.listitems);
         listData = pattern_assembler.parse_data_links_specific(patternlab, listData, 'listitems.json + any pattern listitems.json');
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
@@ -68,8 +68,8 @@ const list_item_hunter = function () {
             console.log(err);
           }
 
-          let allData = plutils.mergeData(globalData, localData);
-          allData = plutils.mergeData(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
+          let allData = _.merge(globalData, localData);
+          allData = _.merge(allData, itemData !== undefined ? itemData[i] : {}); //itemData could be undefined if the listblock contains no partial, just markup
           allData.link = extend({}, patternlab.data.link);
 
           //check for partials within the repeated block

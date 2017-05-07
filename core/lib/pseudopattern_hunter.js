@@ -3,9 +3,9 @@
 const ch = require('./changes_hunter');
 const glob = require('glob');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const lh = require('./lineage_hunter');
 const Pattern = require('./object_factory').Pattern;
-const plutils = require('./utilities');
 const path = require('path');
 const lineage_hunter = new lh();
 const changes_hunter = new ch();
@@ -43,7 +43,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, p
       }
 
       //extend any existing data with variant data
-      variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
+      variantFileData = _.merge(currentPattern.jsonFileData, variantFileData);
 
       let variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
       let variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
@@ -89,7 +89,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, p
       }
 
       //extend any existing data with variant data
-      variantFileData = plutils.mergeData(currentPattern.jsonFileData, variantFileData);
+      variantFileData = _.merge(currentPattern.jsonFileData, variantFileData);
 
       variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
       variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
