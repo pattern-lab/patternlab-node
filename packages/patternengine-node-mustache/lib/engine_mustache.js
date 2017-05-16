@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * mustache pattern engine for patternlab-node - v2.X.X - 2016
  *
@@ -17,10 +19,10 @@
  *
  */
 
-"use strict";
-
-var Mustache = require('mustache');
-var utilMustache = require('./util_mustache');
+const fs = require('fs-extra');
+const path = require('path');
+const Mustache = require('mustache');
+const utilMustache = require('./util_mustache');
 
 // This holds the config from from core. The core has to call
 // usePatternLabConfig() at load time for this to be populated, which
@@ -73,6 +75,20 @@ var engine_mustache = {
     return matches;
   },
 
+  spawnFile: function (config, fileName) {
+    const paths = config.paths;
+    const metaFilePath = path.resolve(paths.source.meta, fileName);
+    try {
+      fs.statSync(metaFilePath);
+    } catch (err) {
+      
+      //not a file, so spawn it from the included file
+      const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      fs.outputFileSync(metaFilePath, metaFileContent);
+    }
+  },
+
   /**
   * Checks to see if the _meta directory has engine-specific head and foot files,
   * spawning them if not found.
@@ -81,7 +97,8 @@ var engine_mustache = {
   * assume it's already present
   */
   spawnMeta: function (config) {
-
+    this.spawnFile(config, '_00-head.mustache');
+    this.spawnFile(config, '_01-foot.mustache');
   },
 
   // find and return any {{> template-name }} within pattern
