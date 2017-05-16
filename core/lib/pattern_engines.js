@@ -89,6 +89,9 @@ const PatternEngines = Object.create({
           if (typeof self[engineDiscovery.name].usePatternLabConfig === 'function') {
             self[engineDiscovery.name].usePatternLabConfig(patternLabConfig);
           }
+          if (typeof self[engineDiscovery.name].spawnMeta === 'function') {
+            self[engineDiscovery.name].spawnMeta(patternLabConfig);
+          }
         } catch (err) {
           errorMessage = err.message;
         } finally {
