@@ -81,9 +81,8 @@ var engine_mustache = {
     try {
       fs.statSync(metaFilePath);
     } catch (err) {
-      
+
       //not a file, so spawn it from the included file
-      const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
       const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
       fs.outputFileSync(metaFilePath, metaFileContent);
     }
