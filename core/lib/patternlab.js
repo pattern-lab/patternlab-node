@@ -31,12 +31,6 @@ plutils.log.on('debug', msg => console.log(msg));
 plutils.log.on('warning', msg => console.log(msg));
 plutils.log.on('info', msg => console.log(msg));
 
-console.log(
-  chalk.bold('\n====[ Pattern Lab / Node'),
-  `- v${packageInfo.version}`,
-  chalk.bold(']====\n')
-);
-
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
 
@@ -489,6 +483,15 @@ const patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
+
+    if (patternlab.config.debug) {
+      console.log(
+        chalk.bold('\n====[ Pattern Lab / Node'),
+        `- v${packageInfo.version}`,
+        chalk.bold(']====\n')
+      );
+    }
+
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
     const graph = patternlab.graph = loadPatternGraph(deletePatternDir);
