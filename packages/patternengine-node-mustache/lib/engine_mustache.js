@@ -22,6 +22,11 @@
 var Mustache = require('mustache');
 var utilMustache = require('./util_mustache');
 
+// This holds the config from from core. The core has to call
+// usePatternLabConfig() at load time for this to be populated, which
+// it does, so we're cool, right?
+let patternLabConfig = {};
+
 var engine_mustache = {
   engine: Mustache,
   engineName: 'mustache',
@@ -122,6 +127,16 @@ var engine_mustache = {
     foundPatternPartial = foundPatternPartial.split(':')[0];
 
     return foundPatternPartial;
+  },
+
+  /**
+   * Accept a Pattern Lab config object from the core and put it in
+   * this module's closure scope so we can configure engine behavior.
+   *
+   * @param {object} config - the global config object from core
+   */
+  usePatternLabConfig: function (config) {
+    patternLabConfig = config;
   }
 };
 
