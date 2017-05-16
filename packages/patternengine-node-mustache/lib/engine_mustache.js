@@ -68,6 +68,17 @@ var engine_mustache = {
     return matches;
   },
 
+  /**
+  * Checks to see if the _meta directory has engine-specific head and foot files,
+  * spawning them if not found.
+  *
+  * @param {object} config - the global config object from core, since we won't
+  * assume it's already present
+  */
+  spawnMeta: function (config) {
+
+  },
+
   // find and return any {{> template-name }} within pattern
   findPartials: function findPartials(pattern) {
     var matches = this.patternMatcher(pattern, this.findPartialsRE);
