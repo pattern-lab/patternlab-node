@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * twig pattern engine for patternlab-node - v0.15.1 - 2015
  *
@@ -18,10 +20,10 @@
  *
  */
 
-"use strict";
-
-var Twig = require('twig');
-var twig = Twig.twig;
+const fs = require('fs-extra');
+const path = require('path');
+const Twig = require('twig');
+const twig = Twig.twig;
 
 var engine_twig = {
   engine: Twig,
@@ -76,7 +78,33 @@ var engine_twig = {
     partial = partial.replace(/"/g, '');
 
     return partial;
+  },
+
+  spawnFile: function (config, fileName) {
+    const paths = config.paths;
+    const metaFilePath = path.resolve(paths.source.meta, fileName);
+    try {
+      fs.statSync(metaFilePath);
+    } catch (err) {
+
+      //not a file, so spawn it from the included file
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      fs.outputFileSync(metaFilePath, metaFileContent);
+    }
+  },
+
+  /**
+  * Checks to see if the _meta directory has engine-specific head and foot files,
+  * spawning them if not found.
+  *
+  * @param {object} config - the global config object from core, since we won't
+  * assume it's already present
+  */
+  spawnMeta: function (config) {
+    this.spawnFile(config, '_00-head.twig');
+    this.spawnFile(config, '_01-foot.twig');
   }
+
 };
 
 module.exports = engine_twig;

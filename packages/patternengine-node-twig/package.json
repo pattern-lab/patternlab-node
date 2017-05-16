@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "main": "lib/engine_twig.js",
   "dependencies": {
+    "fs-extra": "^0.30.0",
     "twig": "^0.9.5"
   },
   "devDependencies": {},
