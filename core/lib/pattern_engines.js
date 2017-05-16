@@ -69,13 +69,18 @@ const PatternEngines = Object.create({
     // function is kind of a big deal.
     enginesDirectories.forEach(function (engineDirectory) {
       const enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
-      console.log(chalk.bold(`Loading engines from ${engineDirectory.displayName}...\n`));
+      if (patternLabConfig.debug) {
+        console.log(chalk.bold(`Loading engines from ${engineDirectory.displayName}...\n`));
+      }
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
       enginesInThisDir.forEach(function (engineDiscovery) {
         let errorMessage;
-        const successMessage = chalk.green("good to go");
+        const successMessage = "good to go";
+        if (patternLabConfig.debug) {
+          chalk.green(successMessage);
+        }
 
         try {
           // Give it a try! load 'er up. But not if we already have,
@@ -96,7 +101,9 @@ const PatternEngines = Object.create({
           errorMessage = err.message;
         } finally {
           // report on the status of the engine, one way or another!
-          console.log(`  ${engineDiscovery.name}:`, errorMessage ? chalk.red(errorMessage) : successMessage);
+          if (patternLabConfig.debug) {
+            console.log(`  ${engineDiscovery.name}:`, errorMessage ? chalk.red(errorMessage) : successMessage);
+          }
         }
       });
       console.log('');
@@ -106,8 +113,9 @@ const PatternEngines = Object.create({
     if (Object.keys(self).length === 0) {
       throw new Error('No engines loaded! Something is seriously wrong.');
     }
-
-    console.log(chalk.bold('Done loading engines.\n'));
+    if (patternLabConfig.debug) {
+      console.log(chalk.bold('Done loading engines.\n'));
+    }
   },
 
   getEngineNameForPattern: function (pattern) {
