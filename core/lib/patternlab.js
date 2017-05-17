@@ -197,6 +197,10 @@ const patternlab_engine = function (config) {
   const paths = patternlab.config.paths;
 
   function getVersion() {
+    return patternlab.package.version;
+  }
+
+  function logVersion() {
     console.log(patternlab.package.version);
   }
 
@@ -641,6 +645,9 @@ const patternlab_engine = function (config) {
 
   return {
     version: function () {
+      return logVersion();
+    },
+    v: function () {
       return getVersion();
     },
     build: function (callback, deletePatternDir) {
