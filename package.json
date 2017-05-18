@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "eslint": "^3.5.0",
+    "jsdoc": "3.4.3",
     "rewire": "^2.5.2",
     "tap": "^7.1.2"
   },
@@ -54,8 +55,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint core/**/*.js",
-    "pretest" : "npm run lint",
-    "test": "tap test/*_tests.js --reporter spec --coverage"
+    "pretest": "npm run lint",
+    "test": "tap test/*_tests.js --reporter spec --coverage",
+    "docs": "jsdoc ~/projects/patternlab-node/core/lib/*.js -r"
   },
   "engines": {
     "node": ">=4.0"

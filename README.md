@@ -55,6 +55,8 @@ The above is a bit verbose, but illustrates:
 4. use the local copy of patternlab-node in your edition
 
 > Make sure to change to whichever branch you intend to hack on or test within your cloned repository, such as `dev` or `bugfix/fixes-broken-unittest`
+## Documentation
+run `npm run docs` to generate the Documentation.
 
 ## Upgrading
 
