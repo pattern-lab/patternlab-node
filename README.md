@@ -8,6 +8,15 @@ This repository contains the core functionality for Pattern Lab Node. Pattern La
 
 [Online Demo of Pattern Lab Output](http://demo.patternlab.io/)
 
+## Support for Pattern Lab Node
+
+Pattern Lab Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [these wonderful project supporters](https://github.com/pattern-lab/patternlab-node/wiki/Thanks). If you want to learn more about supporting the project, visit the [Pattern Lab Node Patreon page](https://www.patreon.com/patternlab).   
+
+**:100: Thanks for support from the following:** 
+
+* **[Brad Frost](http://bradfrost.com/)**
+* Marcos Peebles
+
 ## Installation
 
 Pattern Lab Node Core is designed to be consumed, and by default is included as a dependency within two example [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
@@ -83,15 +92,6 @@ The Pattern Lab Node team uses [our gitter.im channel, pattern-lab/node](https:/
 There is also a dedicated Pattern Lab channel on the [design system slack](designsystems.herokuapp.com) run by [@jina](https://twitter.com/jina).
 
 Ask or answer Pattern Lab questions on Stack Overflow: http://stackoverflow.com/questions/tagged/patternlab.io
-
-## Support Pattern Lab Node
-
-Pattern Lab Node is on [Patreon account](https://www.patreon.com/patternlab) to allow users and organizations to directly support continued work on the Pattern Lab Node project.
-
-I (Brian talking) need help and support to make Pattern Lab Node a sustained success. I devote a lot of free time and would-be sleep to make the project what it is, but nothing compares to hearing back from users. It means the world to me when people find value in Pattern Lab Node. I am ridiculously humbled to hear and see what you all build with it.
-
-If you find yourself here and balk and the idea of supporting open source software monetarily - I understand.  Carry on, but please do share what you build - we all learn more together.
-- [Pattern Lab on Patreon](https://www.patreon.com/patternlab)
 
 ## License
 
