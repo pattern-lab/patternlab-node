@@ -272,7 +272,7 @@ var parameter_hunter = function () {
         allData = plutils.mergeData(allData, paramData);
 
         //if the partial has pattern parameters itself, we need to handle those
-        // findparameters(partialPattern, patternlab);
+        findparameters(partialPattern, patternlab);
 
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {
