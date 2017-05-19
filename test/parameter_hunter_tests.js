@@ -1,8 +1,15 @@
 "use strict";
 
 var tap = require('tap');
+var pa = require('../core/lib/pattern_assembler');
+var Pattern = require('../core/lib/object_factory').Pattern;
+var CompileState = require('../core/lib/object_factory').CompileState;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+
+var fs = require('fs-extra');
 
 var ph = require('../core/lib/parameter_hunter');
+
 
 //setup current pattern from what we would have during execution
 function currentPatternClosure() {
@@ -48,9 +55,11 @@ function patternlabClosure() {
       debug: false
     },
     data: {
-      description: 'Not a quote from a smart man'
+      description: 'Not a quote from a smart man',
+      link: {}
     },
-    partials: {}
+    partials: {},
+    graph: PatternGraph.empty()
   }
 };
 
@@ -61,6 +70,57 @@ tap.test('parameter hunter finds and extends templates', function(test) {
 
   parameter_hunter.find_parameters(currentPattern, patternlab);
   test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+
+  test.end();
+});
+
+tap.test('parameter hunter finds partials with their own parameters and renders them too', function(test) {
+  //arrange
+
+  var pattern_assembler = new pa();
+  var patterns_dir = './test/files/_patterns/';
+
+  var pl = patternlabClosure();
+
+
+  var aPattern = new Pattern('00-test/539-a.mustache');
+  aPattern.template = fs.readFileSync(patterns_dir + '00-test/539-a.mustache', 'utf8');
+  aPattern.extendedTemplate = aPattern.template;
+  aPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(aPattern);
+  aPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(aPattern);
+
+  var bPattern = new Pattern('00-test/539-b.mustache');
+  bPattern.template = fs.readFileSync(patterns_dir + '00-test/539-b.mustache', 'utf8');
+  bPattern.extendedTemplate = bPattern.template;
+  bPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bPattern);
+  bPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bPattern);
+
+  var cPattern = new Pattern('00-test/539-c.mustache');
+  cPattern.template = fs.readFileSync(patterns_dir + '00-test/539-c.mustache', 'utf8');
+  cPattern.extendedTemplate = cPattern.template;
+  cPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(cPattern);
+  cPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(cPattern);
+
+  pattern_assembler.addPattern(aPattern, pl);
+  pattern_assembler.addPattern(bPattern, pl);
+  pattern_assembler.addPattern(cPattern, pl);
+
+  var currentPattern = cPattern;
+  var parameter_hunter = new ph();
+
+  //act
+  parameter_hunter.find_parameters(currentPattern, pl);
+
+  //assert
+  test.equals(currentPattern.extendedTemplate,
+    `<b>c</b>
+<b>b</b>
+<i>b!</i>
+<b>a</b>
+<i>a!</i>
+
+
+`);
 
   test.end();
 });
