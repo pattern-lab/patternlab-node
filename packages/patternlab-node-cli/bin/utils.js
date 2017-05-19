@@ -80,7 +80,7 @@ const asyncGlob = (pattern, opts) => new Promise(
  */
 const copyWithPattern = (cwd, pattern, dest) => wrapAsync(function*() {
 	const files = yield asyncGlob(pattern, {cwd: cwd});
-	if (files.length === 0) debug('patternlab→util→copy: Nothing to copy');
+	if (files.length === 0) debug('copy: Nothing to copy');
 	// Copy concurrently
 	const promises = files.map(file => fs.copy(
 		path.join(cwd, file),

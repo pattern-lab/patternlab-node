@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const path = require('path');
 const wrapAsync = require('./utils').wrapAsync;
 const mkdirsAsync = require('./utils').mkdirsAsync;

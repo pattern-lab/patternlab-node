@@ -5,12 +5,12 @@ const _ = require('lodash');
 /**
  * @func replaceConfigPaths
  * @desc Immutable replace source and public paths in the passed config.
- * @param {object} config - The passed PatternLab config.
+ * @param {config} config - The passed PatternLab config.
  * @param {string} projectDir - The project directory path, defaults to ./
  * @param {string} sourceDir - The source root directory path.
  * @param {string} publicDir - The public root directory path.
  * @param {string} exportDir - The export root directory path.
- * @return {object|Error} - Returns a modified config. Original stays unaltered.
+ * @return {config} - Returns a modified config. Original stays unaltered.
  */
 function replaceConfigPaths(config, projectDir, sourceDir, publicDir, exportDir) {
 	const conf = Object.assign({}, config);

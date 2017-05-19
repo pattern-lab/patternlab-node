@@ -19,7 +19,7 @@ const copyFilesFromSourceToPublic = paths => wrapAsync(function*() {
 		copy(paths.source.fonts, '*', paths.public.fonts),
 		copy(paths.source.root, 'favicon.ico', paths.public.root)
 	];
-	debug('patternlab→build: Your files were copied over to ' + paths.public.root);
+	debug(`build: Your files were copied over to ${paths.public.root}`);
 	return yield Promise.all(copiedFiles);
 });
 
