@@ -6,7 +6,7 @@
 
 
 ## Installation
-`npm install pattern-lab/patternlab-node-cli`
+`npm install pattern-lab/patternlab-node-cli` or `yarn add pattern-lab/patternlab-node-cli`
 
 ## Getting Started
 1. In order to use PatternLab you need to initialize a PatternLab project with `patternlab init`. The CLI will ask you some setup question and scaffold your project based on it.
