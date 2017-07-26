@@ -62,6 +62,14 @@ var parameter_hunter = function () {
     var values = [];
     var wrapper;
 
+    // attempt to parse the data incase it is already well formed JSON
+    try {
+      paramStringWellFormed = JSON.stringify(JSON.parse(pString));
+      return paramStringWellFormed;
+    } catch(err) {
+      console.log('Not valid JSON - will attempt to parse manually...');
+    }
+
     //replace all escaped double-quotes with escaped unicode
     paramString = paramString.replace(/\\"/g, '\\u0022');
 
