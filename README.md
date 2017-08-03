@@ -89,7 +89,7 @@ Please read the guidelines: https://github.com/pattern-lab/patternlab-node/blob/
 
 The Pattern Lab Node team uses [our gitter.im channel, pattern-lab/node](https://gitter.im/pattern-lab/node) to keep in sync, share updates, and talk shop. Please stop by to say hello or as a first place to turn if stuck. Other channels in the Pattern Lab organization can be found on gitter too.
 
-There is also a dedicated Pattern Lab channel on the [design system slack](designsystems.herokuapp.com) run by [@jina](https://twitter.com/jina).
+There is also a dedicated Pattern Lab channel on the [design system slack](http://designsystems.herokuapp.com) run by [@jina](https://twitter.com/jina).
 
 Ask or answer Pattern Lab questions on Stack Overflow: http://stackoverflow.com/questions/tagged/patternlab.io
 
