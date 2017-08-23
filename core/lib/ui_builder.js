@@ -250,7 +250,7 @@ var ui_builder = function () {
     if (createSubtypeViewAllVarient) {
       newSubTypeItem = {
         patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
-        patternName: 'View All',
+        patternName: (patternlab.config.i18n.viewall !== undefined ? patternlab.config.i18n.viewall :  "View all"),
         patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
         patternType: pattern.patternType,
         patternSubtype: pattern.patternSubtype,
@@ -288,7 +288,7 @@ var ui_builder = function () {
         //todo: it'd be nice if we could get this into createPatternSubTypeItem someday
         patternType.patternItems.push({
           patternPartial: 'viewall-' + pattern.patternGroup + '-all',
-          patternName: 'View All',
+          patternName: (patternlab.config.i18n.viewall !== undefined ? patternlab.config.i18n.viewall :  "View all"),
           patternPath: encodeURI(pattern.patternType + '/index.html'),
           order: -Number.MAX_SAFE_INTEGER
         });
