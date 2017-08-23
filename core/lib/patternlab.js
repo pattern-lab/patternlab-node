@@ -26,7 +26,8 @@ var diveSync = require('diveSync'),
   ui_builder = new ui(),
   pe = require('./pattern_exporter'),
   pattern_exporter = new pe(),
-  PatternGraph = require('./pattern_graph').PatternGraph;
+  PatternGraph = require('./pattern_graph').PatternGraph,
+  i18n = require('./i18n.js');
 
 //register our log events
 plutils.log.on('error', msg => console.log(msg));
@@ -388,6 +389,11 @@ var patternlab_engine = function (config) {
 
     // stringify this data for individual pattern rendering and use on the styleguide
     // see if patternData really needs these other duped values
+    var pGroup = i18n(patternlab.config, pattern.patternGroup);
+    var pSubGroup = i18n(patternlab.config, pattern.patternSubGroup);
+
+
+
     pattern.patternData = JSON.stringify({
       cssEnabled: false,
       patternLineageExists: pattern.patternLineageExists,
@@ -398,12 +404,19 @@ var patternlab_engine = function (config) {
       lineageR: pattern.patternLineagesR,
       patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
       patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
+      // patternBreadcrumb:
+      //   pattern.patternGroup === pattern.patternSubGroup ? {
+      //     patternType: pattern.patternGroup
+      //   } : {
+      //     patternType: pattern.patternGroup,
+      //     patternSubtype: pattern.patternSubGroup
+      //   },
       patternBreadcrumb:
-        pattern.patternGroup === pattern.patternSubGroup ? {
-          patternType: pattern.patternGroup
+        pGroup === pSubGroup ? {
+          patternType: pGroup
         } : {
-          patternType: pattern.patternGroup,
-          patternSubtype: pattern.patternSubGroup
+          patternType: pGroup,
+          patternSubtype: pSubGroup
         },
       patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
       patternName: pattern.patternName,

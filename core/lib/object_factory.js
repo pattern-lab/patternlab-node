@@ -62,6 +62,7 @@ var Pattern = function (relPath, data, patternlab) {
   this.verbosePartial = this.subdir + '/' + this.fileName;
 
   this.isPattern = true;
+  this.joche = "Räksmörgås";
   this.isFlatPattern = this.patternGroup === this.patternSubGroup;
   this.patternState = '';
   this.template = '';

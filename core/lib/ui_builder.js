@@ -10,6 +10,7 @@ var plutils = require('./utilities');
 var eol = require('os').EOL;
 var _ = require('lodash');
 var jsonCopy = require('./json_copy');
+var i18n = require('./i18n.js');
 
 var ui_builder = function () {
 
@@ -146,10 +147,13 @@ var ui_builder = function () {
    * @param pattern - the pattern to register
      */
   function addPatternType(patternlab, pattern) {
+    var fName = i18n(patternlab.config, pattern.patternGroup);
+
     patternlab.patternTypes.push(
       {
         patternTypeLC: pattern.patternGroup.toLowerCase(),
         patternTypeUC: pattern.patternGroup.charAt(0).toUpperCase() + pattern.patternGroup.slice(1),
+        patternTypeFN: fName,
         patternType: pattern.patternType,
         patternTypeDash: pattern.patternGroup, //todo verify
         patternTypeItems: []
@@ -201,9 +205,12 @@ var ui_builder = function () {
    * @param pattern - the pattern to register
      */
   function addPatternSubType(patternlab, pattern) {
+    var fName = i18n(patternlab.config, pattern.patternSubGroup);
+
     let newSubType = {
       patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
       patternSubtypeUC: pattern.patternSubGroup.charAt(0).toUpperCase() + pattern.patternSubGroup.slice(1),
+      patternSubtypeFN : fName,
       patternSubtype: pattern.patternSubType,
       patternSubtypeDash: pattern.patternSubGroup, //todo verify
       patternSubtypeItems: []
@@ -250,7 +257,7 @@ var ui_builder = function () {
     if (createSubtypeViewAllVarient) {
       newSubTypeItem = {
         patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
-        patternName: 'View All',
+        patternName: i18n(patternlab.config, "View all"),
         patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
         patternType: pattern.patternType,
         patternSubtype: pattern.patternSubtype,
@@ -288,7 +295,7 @@ var ui_builder = function () {
         //todo: it'd be nice if we could get this into createPatternSubTypeItem someday
         patternType.patternItems.push({
           patternPartial: 'viewall-' + pattern.patternGroup + '-all',
-          patternName: 'View All',
+          patternName: i18n(patternlab.config, "View all"),
           patternPath: encodeURI(pattern.patternType + '/index.html'),
           order: -Number.MAX_SAFE_INTEGER
         });
