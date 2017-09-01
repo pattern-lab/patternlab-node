@@ -768,3 +768,39 @@ tap.test('hidden patterns can be called by their nice names', function(test){
   test.equals(util.sanitized(testPattern.render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
   test.end();
 });
+
+tap.test('parses pattern title correctly when frontmatter present', function(test){
+  var util = require('./util/test_utils.js');
+
+  //arrange
+  var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+  var pl = util.fakePatternLab(testPatternsPath);
+  var pattern_assembler = new pa();
+
+  //act
+  var testPatternPath = path.join('00-test', '01-bar.mustache');
+  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
+  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+  //assert
+  test.equals(testPattern.patternName, 'An Atom Walks Into a Bar','patternName not overridden');
+  test.end();
+});
+
+tap.test('parses pattern extra frontmatter correctly when frontmatter present', function(test){
+  var util = require('./util/test_utils.js');
+
+  //arrange
+  var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+  var pl = util.fakePatternLab(testPatternsPath);
+  var pattern_assembler = new pa();
+
+  //act
+  var testPatternPath = path.join('00-test', '01-bar.mustache');
+  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
+  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+  //assert
+  test.equals(testPattern.allMarkdown.joke, 'bad','extra key not added');
+  test.end();
+});

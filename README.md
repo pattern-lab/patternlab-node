@@ -15,7 +15,8 @@ Pattern Lab Node wouldn't be what it is today without the support of the communi
 **:100: Thanks for support from the following:** 
 
 * **[Brad Frost](http://bradfrost.com/)**
-* Marcos Peebles
+* [Marcos Peebles](https://twitter.com/marcospeebles)
+* [Susan Simkins](https://twitter.com/susanmsimkins)
 
 ## Installation
 

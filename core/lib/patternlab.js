@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.9.3 - 2017
+ * patternlab-node - v2.10.0 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -388,6 +388,13 @@ var patternlab_engine = function (config) {
 
     // stringify this data for individual pattern rendering and use on the styleguide
     // see if patternData really needs these other duped values
+
+    // construct our extraOutput dump
+    var extraOutput = Object.assign({}, pattern.extraOutput, pattern.allMarkdown);
+    delete(extraOutput.title);
+    delete(extraOutput.state);
+    delete(extraOutput.markdown);
+
     pattern.patternData = JSON.stringify({
       cssEnabled: false,
       patternLineageExists: pattern.patternLineageExists,
@@ -410,7 +417,7 @@ var patternlab_engine = function (config) {
       patternPartial: pattern.patternPartial,
       patternState: pattern.patternState,
       patternEngineName: pattern.engine.engineName,
-      extraOutput: {}
+      extraOutput: extraOutput
     });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer

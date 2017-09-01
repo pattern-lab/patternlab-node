@@ -7,6 +7,7 @@ var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
 var fs = require('fs-extra');
+var util = require('./util/test_utils.js');
 
 var ph = require('../core/lib/parameter_hunter');
 
@@ -112,16 +113,12 @@ tap.test('parameter hunter finds partials with their own parameters and renders 
   parameter_hunter.find_parameters(currentPattern, pl);
 
   //assert
-  test.equals(currentPattern.extendedTemplate,
-    `<b>c</b>
+  test.equals(util.sanitized(currentPattern.extendedTemplate),
+    util.sanitized(`<b>c</b>
 <b>b</b>
 <i>b!</i>
 <b>a</b>
-<i>a!</i>
-
-
-`);
-
+<i>a!</i>`));
   test.end();
 });
 
