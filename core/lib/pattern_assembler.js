@@ -154,6 +154,9 @@ const pattern_assembler = function () {
         currentPattern.patternDescExists = true;
         currentPattern.patternDesc = markdownObject.markdown;
 
+        //Add all markdown to the currentPattern, including frontmatter
+        currentPattern.allMarkdown = markdownObject;
+
         //consider looping through all keys eventually. would need to blacklist some properties and whitelist others
         if (markdownObject.state) {
           currentPattern.patternState = markdownObject.state;
@@ -169,6 +172,9 @@ const pattern_assembler = function () {
         }
         if (markdownObject.tags) {
           currentPattern.tags = markdownObject.tags;
+        }
+        if (markdownObject.title) {
+          currentPattern.patternName = markdownObject.title;
         }
         if (markdownObject.links) {
           currentPattern.links = markdownObject.links;

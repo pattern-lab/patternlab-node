@@ -270,6 +270,9 @@ const parameter_hunter = function () {
         let allData = _.merge(globalData, localData);
         allData = _.merge(allData, paramData);
 
+        //if the partial has pattern parameters itself, we need to handle those
+        findparameters(partialPattern, patternlab);
+
         //if partial has style modifier data, replace the styleModifier value
         if (pattern.stylePartials && pattern.stylePartials.length > 0) {
           style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);

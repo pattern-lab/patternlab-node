@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.8.0 - 2017
+ * patternlab-node - v2.10.0 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -411,6 +411,13 @@ const patternlab_engine = function (config) {
 
     // stringify this data for individual pattern rendering and use on the styleguide
     // see if patternData really needs these other duped values
+
+    // construct our extraOutput dump
+    var extraOutput = Object.assign({}, pattern.extraOutput, pattern.allMarkdown);
+    delete(extraOutput.title);
+    delete(extraOutput.state);
+    delete(extraOutput.markdown);
+
     pattern.patternData = JSON.stringify({
       cssEnabled: false,
       patternLineageExists: pattern.patternLineageExists,
@@ -433,7 +440,7 @@ const patternlab_engine = function (config) {
       patternPartial: pattern.patternPartial,
       patternState: pattern.patternState,
       patternEngineName: pattern.engine.engineName,
-      extraOutput: {}
+      extraOutput: extraOutput
     });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
@@ -560,6 +567,10 @@ const patternlab_engine = function (config) {
 
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
+      //now that all the main patterns are known, look for any links that might be within data and expand them
+      //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+      pattern_assembler.parse_data_links(patternlab);      
+
       //diveSync again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
       // TODO we can reduce the time needed by only processing changed patterns and their partials
@@ -568,10 +579,6 @@ const patternlab_engine = function (config) {
       //take the user defined head and foot and process any data and patterns that apply
       processHeadPattern();
       processFootPattern();
-
-      //now that all the main patterns are known, look for any links that might be within data and expand them
-      //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-      pattern_assembler.parse_data_links(patternlab);
 
       //cascade any patternStates
       lineage_hunter.cascade_pattern_states(patternlab);
@@ -592,11 +599,6 @@ const patternlab_engine = function (config) {
       // If deletePatternDir == true or graph needs to be updated
       // rebuild all patterns
       let patternsToBuild = null;
-
-      //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-      patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
-        cacheBuster: patternlab.cacheBuster
-      });
 
       // If deletePatternDir == true or graph needs to be updated
       // rebuild all patterns
@@ -621,13 +623,8 @@ const patternlab_engine = function (config) {
         }
       }
 
-      //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-      patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
-        cacheBuster: patternlab.cacheBuster
-      });
-
-      //render all patterns last, so lineageR works
-      patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
+    //render all patterns last, so lineageR works
+    patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
 
       // Saves the pattern graph when all files have been compiled
       PatternGraph.storeToFile(patternlab);
