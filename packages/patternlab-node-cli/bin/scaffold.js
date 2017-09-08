@@ -22,7 +22,7 @@ const scaffold = (projectDir, sourceDir, publicDir, exportDir) => wrapAsync(func
 	yield Promise.all([
 		mkdirsAsync(path.resolve(projectDir, path.normalize(sourceDir))), // 1
 		mkdirsAsync(path.resolve(projectDir, path.normalize(publicDir))), // 2
-		mkdirsAsync(path.resolve(projectDir, path.normalize(exportDir)))  // 3
+		mkdirsAsync(path.resolve(projectDir, path.normalize(exportDir))) // 3
 	]);
 });
 
