@@ -4,8 +4,9 @@ var tap = require('tap');
 
 var patternEngines = require('../core/lib/pattern_engines');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var config = require('./util/patternlab-config.json');
 
-patternEngines.loadAllEngines();
+patternEngines.loadAllEngines(config);
 
 // the mustache test pattern, stolen from object_factory unit tests
 var mustacheTestPattern = new Pattern('source/_patterns/00-atoms/00-global/00-colors-alt.mustache', {d: 123});

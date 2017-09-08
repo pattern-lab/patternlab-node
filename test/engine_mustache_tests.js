@@ -7,10 +7,11 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 var eol = require('os').EOL;
+var config = require('./util/patternlab-config.json');
 
 // don't run these tests unless mustache is installed
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
+engineLoader.loadAllEngines(config);
 if (!engineLoader.mustache) {
   tap.test('Mustache engine not installed, skipping tests.', function (test) {
     test.end();
@@ -33,7 +34,7 @@ function fakePatternLab() {
     data: {
       link: {}
     },
-    config: require('../patternlab-config.json'),
+    config: config,
     package: {}
   };
 

@@ -8,9 +8,9 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 var eol = require('os').EOL;
-
+var config = require('./util/patternlab-config.json');
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
+engineLoader.loadAllEngines(config);
 
 // don't run these tests unless handlebars is installed
 if (!engineLoader.handlebars) {

@@ -8,9 +8,9 @@ var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var extend = require('util')._extend;
 var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
-
+var config = require('./util/patternlab-config.json');
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
+engineLoader.loadAllEngines(config);
 
 // fake pattern creators
 function createFakeListPattern(customProps) {

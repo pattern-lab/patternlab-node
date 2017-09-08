@@ -7,9 +7,9 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var path = require('path');
-
+var config = require('./util/patternlab-config.json');
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
+engineLoader.loadAllEngines(config);
 
 function emptyPatternLab() {
   return {

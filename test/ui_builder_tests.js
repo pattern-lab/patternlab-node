@@ -8,9 +8,10 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
 var uiModule = rewire('../core/lib/ui_builder');
 var path = require('path');
+var config = require('./util/patternlab-config.json');
 
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
+engineLoader.loadAllEngines(config);
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
 var fsMock = {

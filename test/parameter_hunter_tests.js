@@ -10,9 +10,9 @@ var fs = require('fs-extra');
 var util = require('./util/test_utils.js');
 
 var ph = require('../core/lib/parameter_hunter');
+var config = require('./util/patternlab-config.json');
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
-
+engineLoader.loadAllEngines(config);
 
 //setup current pattern from what we would have during execution
 function currentPatternClosure() {

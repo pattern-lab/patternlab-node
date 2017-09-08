@@ -7,9 +7,10 @@ var pa = require('../core/lib/pattern_assembler');
 var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var config = require('./util/patternlab-config.json');
 
 var engineLoader = require('../core/lib/pattern_engines');
-engineLoader.loadAllEngines();
+engineLoader.loadAllEngines(config);
 
 var fs = require('fs-extra');
 var path = require('path');
