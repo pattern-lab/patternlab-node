@@ -623,8 +623,8 @@ const patternlab_engine = function (config) {
         }
       }
 
-    //render all patterns last, so lineageR works
-    patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
+      //render all patterns last, so lineageR works
+      patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
 
       // Saves the pattern graph when all files have been compiled
       PatternGraph.storeToFile(patternlab);
