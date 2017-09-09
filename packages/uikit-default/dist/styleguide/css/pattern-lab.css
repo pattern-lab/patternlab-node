@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*------------------------------------*\
-#PATTERN LAB STYLES
+    #PATTERN LAB STYLES
 \*------------------------------------*/
 /**
 * NOTES:
@@ -8,49 +8,33 @@
 * All project styles should be modified in /source/css/
 *
 * 2) Any !important declarations are to prevent brand styles from overriding
-* style guide styles
+* pattern lab-specific styles
 */
 /*------------------------------------*\
-#TABLE OF CONTENTS
+    #TABLE OF CONTENTS
 \*------------------------------------*/
 /**
-* PATTERN LAB VARIABLES
-* Fonts.......................
-* Colors......................
-* Typography..................
-* Spacing & Padding...........
-* Breakpoints.................
-* Animation...................
-* Borders.....................
-*
-* RESET.......................CSS reset
-*
-* UTILITY CLASSES.............Establish global styles
-*
-* GLOBAL ELEMENTS.............Establish global styles
-* -----Main
-* -----Headings
-* -----Text-related elements (p, blockquote, lists)
-* -----Defaults
-* -----Breakpoints
-* STYLE GUIDE INTERFACE------------------CSS for the Pattern Lab Container.
-* -----Header
-* -----Navigation
-* -----Controls
-* -----Main Container
-* -----Viewport
-* -----Section Headers
-* -----Code View
-*/
+ * ABSTRACTS.................Variables
+ * BASE......................Reset & Base elements
+ * COMPONENTS................Components
+ * UTILITIES.................Helper classes
+ * VENDOR....................Styles out of PL control
+ */
 /*------------------------------------*\
-#VARIABLES
+    #ABSTRACTS
+\*------------------------------------*/
+/*------------------------------------*\
+    #VARIABLES
 \*------------------------------------*/
 /**
 * These variables are specific to the Pattern Lab shell and exist
 * indepenedently of any project-specific styles
 */
 /*------------------------------------*\
-#RESET
+    #BASE
+\*------------------------------------*/
+/*------------------------------------*\
+    #RESET
 \*------------------------------------*/
 /**
 * Apply border-box to all elements
@@ -66,26 +50,11 @@
 }
 
 /*------------------------------------*\
-#UTILITIES
+    #PATTERN LAB BODY
 \*------------------------------------*/
 /**
-* Visibilly hidden but still accessible to screen readers
-*/
-.is-vishidden {
-  position: absolute !important;
-  overflow: hidden;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  border: 0;
-  clip: rect(1px, 1px, 1px, 1px);
-}
-
-/*------------------------------------*\
-#PATTERN LAB INTERFACE
-\*------------------------------------*/
-/**
-* html & body tag
+* The HTML and body elements for the Pattern Lab shell.
+* These exist indepenedent of any project-specific styles
 */
 #patternlab-html, #patternlab-body {
   margin: 0;
@@ -95,7 +64,13 @@
 }
 
 /*------------------------------------*\
-#HEADER
+    #COMPONENTS
+\*------------------------------------*/
+/**
+ * Pattern Lab Header
+ */
+/*------------------------------------*\
+    #HEADER
 \*------------------------------------*/
 /**
 * Pattern Lab's header is fixed across the top of the viewport and
@@ -125,7 +100,7 @@
   list-style: none;
 }
 .sg-header a {
-  font-size: 70%;
+  font-size: 0.7rem;
   color: #808080;
   text-decoration: none;
   line-height: 1;
@@ -141,7 +116,7 @@
 }
 
 /*------------------------------------*\
-#NAVIGATION
+    #NAVIGATION
 \*------------------------------------*/
 /**
 * Nav toggle expands and collapses .sg-nav
@@ -202,104 +177,12 @@
   }
   .sg-nav > li > ol {
     position: absolute;
-    top: 2em;
+    top: 2rem;
     left: 0;
   }
 }
 .sg-nav a {
   display: block;
-}
-
-/*------------------------------------*\
-#ACCORDION
-\*------------------------------------*/
-/**
-* Accordions are dropdowns used for the primary nav and
-* tools dropdowns.
-*/
-.sg-acc-handle {
-  /**
-  * Dropdown caret after accordion handle
-  */
-}
-.sg-acc-handle:after {
-  content: '▼';
-  color: rgba(255, 255, 255, 0.25);
-  display: inline-block;
-  font-size: 7px;
-  position: relative;
-  top: -1px;
-  right: -2px;
-  -webkit-transition: all 0.1s ease-out;
-          transition: all 0.1s ease-out;
-}
-@media all and (min-width: 42em) {
-  .sg-acc-handle:after {
-    float: none;
-  }
-}
-.sg-acc-handle:hover:after, .sg-acc-handle:focus:after {
-  color: #808080;
-}
-.sg-acc-handle.active {
-  color: #fff;
-  background: #222;
-}
-.sg-acc-handle.active:after {
-  top: -2px;
-  color: #808080;
-  -webkit-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-
-/**
-* Accordion panel
-*/
-.sg-acc-panel {
-  overflow: hidden;
-  max-height: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  min-width: 10em;
-  -webkit-transition: max-height 0.1s ease-out;
-          transition: max-height 0.1s ease-out;
-  /**
-  * List items appearing in each accordion panel
-  */
-  /**
-  * Links appearing in each accordion panel
-  */
-  /**
-  * Active is when accordion panel is open
-  */
-  /**
-  * Right align accordion dropdown
-  */
-}
-.sg-acc-panel li {
-  background: #222;
-}
-.sg-acc-panel li:last-child {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-.sg-acc-panel li:last-child a {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-.sg-acc-panel a {
-  display: block;
-}
-.sg-acc-panel.active {
-  max-height: 120em;
-  overflow: auto;
-}
-.sg-acc-panel.sg-right {
-  position: absolute;
-  left: auto;
-  right: 0;
 }
 
 /**
@@ -316,28 +199,7 @@
 }
 
 /*------------------------------------*\
-#CONTROLS
-\*------------------------------------*/
-/**
-* Controls contains viewport resizer and tools dropdown
-*/
-.sg-controls {
-  border: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
-}
-
-/**
-* Control list
-*/
-.sg-control > li {
-  float: left;
-}
-
-/*------------------------------------*\
-#ISH STYLES
+    #ISH SIZING
 \*------------------------------------*/
 /**
 * 1) ish. (http://bradfrost.com/demo/ish/) is a viewport-resizing tool
@@ -437,7 +299,120 @@
 }
 
 /*------------------------------------*\
-#TOOLS DROPDOWN
+    #CONTROLS
+\*------------------------------------*/
+/**
+* Controls contains viewport resizer and tools dropdown
+*/
+.sg-controls {
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+/**
+* Control list
+*/
+.sg-control > li {
+  float: left;
+}
+
+/*------------------------------------*\
+    #ACCORDION
+\*------------------------------------*/
+/**
+* Accordions are dropdowns used for the primary nav and
+* tools dropdowns.
+*/
+.sg-acc-handle {
+  /**
+  * Dropdown caret after accordion handle
+  */
+}
+.sg-acc-handle:after {
+  content: '▼';
+  color: rgba(255, 255, 255, 0.25);
+  display: inline-block;
+  font-size: 7px;
+  position: relative;
+  top: -1px;
+  right: -2px;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+@media all and (min-width: 42em) {
+  .sg-acc-handle:after {
+    float: none;
+  }
+}
+.sg-acc-handle:hover:after, .sg-acc-handle:focus:after {
+  color: #808080;
+}
+.sg-acc-handle.active {
+  color: #fff;
+  background: #222;
+}
+.sg-acc-handle.active:after {
+  top: -2px;
+  color: #808080;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+/**
+* Accordion panel
+*/
+.sg-acc-panel {
+  overflow: hidden;
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 10em;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+  * List items appearing in each accordion panel
+  */
+  /**
+  * Links appearing in each accordion panel
+  */
+  /**
+  * Active is when accordion panel is open
+  */
+  /**
+  * Right align accordion dropdown
+  */
+}
+.sg-acc-panel li {
+  background: #222;
+}
+.sg-acc-panel li:last-child {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.sg-acc-panel li:last-child a {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.sg-acc-panel a {
+  display: block;
+}
+.sg-acc-panel.active {
+  max-height: 120em;
+  overflow: auto;
+}
+.sg-acc-panel.sg-right {
+  position: absolute;
+  left: auto;
+  right: 0;
+}
+
+/*------------------------------------*\
+    #TOOLS
 \*------------------------------------*/
 /**
 * The tools dropdown contains more utilities such as show/hide
@@ -448,7 +423,7 @@
 * Tools dropdown button
 */
 .sg-tools-toggle {
-  font-size: 70%;
+  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -465,151 +440,17 @@
 /**
 * Pattern Finder
 * 1) This is the container for pattern search, which
-* is handled by Typeahead (see below styles)
+* is handled by Typeahead (see vendor styles)
 */
 .sg-find {
   position: relative;
 }
 
+/**
+ * Viewport
+ */
 /*------------------------------------*\
-#TYPEAHEAD
-\*------------------------------------*/
-/**
-* We're using Twitter Typeahead to autocomplete pattern
-* searches. https://twitter.github.io/typeahead.js/
-*/
-.twitter-typeahead {
-  width: 100%;
-}
-
-.typeahead {
-  border: 0;
-  background: #222;
-  color: #808080;
-  width: 100%;
-  right: 0;
-  padding: 0.8em;
-  text-transform: lowercase;
-}
-.typeahead:focus {
-  background: #808080;
-  color: #fff;
-}
-
-.tt-input {
-  background: #808080;
-  color: #fff;
-  text-transform: uppercase;
-}
-.tt-input:focus {
-  text-transform: lowercase;
-}
-
-.tt-hint {
-  text-transform: lowercase;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-
-.tt-dropdown-menu {
-  text-transform: lowercase;
-  background-color: #808080;
-  width: 100%;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-
-.tt-suggestion {
-  color: #eee;
-  font-size: 75%;
-  padding: 0.8em;
-}
-
-.tt-suggestion.tt-cursor {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.tt-suggestion p {
-  margin: 0;
-}
-
-/*------------------------------------*\
-#PATTERN STATES
-\*------------------------------------*/
-/**
-* Pattern states add color-coded dots next to patterns
-* in the dropdown navigation.
-*/
-.sg-pattern-state {
-  text-transform: none !important;
-}
-
-/**
-* Pattern State bullet
-*/
-.sg-pattern-state:before {
-  content: "\2022";
-  margin-right: 4px;
-  font-size: 18px;
-  vertical-align: bottom;
-  display: inline-block;
-  text-decoration: none;
-}
-
-/**
-* when part of a lineage muck with the size
-*/
-.sg-pattern-lineage .sg-pattern-state:before {
-  font-size: 12px;
-}
-
-/**
-* when part of a view all view muck with the size
-*/
-#sg-patterns .sg-pattern-state:before {
-  font-size: 14px;
-}
-
-#sg-patterns .sg-pattern-state {
-  color: #666;
-}
-
-/**
-* Pattern States that appear in the dropdown nav
-*/
-.sg-nav .sg-pattern-state:before {
-  margin-top: -4px;
-  margin-bottom: 0;
-  margin-left: -4px;
-  height: 20px;
-  display: block;
-  float: left;
-}
-
-/**
-* In Progress state
-*/
-.inprogress:before {
-  color: #FF4136 !important;
-}
-
-/**
-* In Review state
-*/
-.inreview:before {
-  color: #FFCC00 !important;
-}
-
-/**
-* Complete state
-*/
-.complete:before {
-  color: #2ECC40 !important;
-}
-
-/*------------------------------------*\
-#PATTERN LAB VIEWPORT
+    #VIEWPORT
 \*------------------------------------*/
 /**
 * To keep user code and PL code separate, and to make
@@ -624,7 +465,7 @@
   text-align: center;
   width: 100%;
   position: fixed;
-  top: 2em;
+  top: 2rem;
   bottom: 0;
   left: 0;
   right: 0;
@@ -732,8 +573,11 @@
           transition: width 0.8s ease-out;
 }
 
+/**
+ * Pattern Styles
+ */
 /*------------------------------------*\
-#PATTERN LAB CONTENT
+    #PATTERN
 \*------------------------------------*/
 /**
 * Pattern
@@ -744,7 +588,7 @@
 * 3) Prevents floated patterns from floating wraps
 */
 .sg-pattern {
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
   position: relative;
   /* 2 */
   clear: both;
@@ -782,7 +626,7 @@
 }
 .sg-pattern-title a {
   display: inline-block;
-  padding: 1em 0 0.3rem;
+  padding: 1rem 0 0.3rem;
   color: #808080 !important;
   text-decoration: none;
   cursor: pointer;
@@ -841,7 +685,7 @@
 .sg-pattern-extra {
   background: #eee;
   border-top: 1px solid #ddd;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   overflow: hidden;
   max-height: 1px;
   -webkit-transition: all 0.1s ease-out;
@@ -898,7 +742,7 @@
 }
 @media all and (min-width: 42em) {
   .sg-pattern-extra-info {
-    padding: 1em;
+    padding: 1rem;
     width: 40%;
   }
 }
@@ -915,14 +759,52 @@
   margin: 0;
 }
 
+/*------------------------------------*\
+    #PATTERN CATEGORY
+\*------------------------------------*/
 /**
-* Pattern Lineage info
+* Pattern Category
+* 1) This appears in the index page and delineates a major section,
+*    such as "global", "blocks", "etc".
+* 2) The category contains a title and optional description
 */
-.sg-pattern-lineage {
-  font-size: 90%;
-  font-style: italic;
+.sg-pattern-category {
+  margin-top: 6rem;
+  font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
+}
+.sg-pattern-category:first-of-type {
+  margin-top: 2rem;
 }
 
+/**
+* Pattern Category Title
+*/
+.sg-pattern-category-title {
+  font-size: 1.4rem !important;
+  color: #222 !important;
+  margin: 0 0 0.2rem;
+  text-transform: capitalize;
+}
+.sg-pattern-category-title a {
+  -webkit-transition: color 0.1s ease-out;
+          transition: color 0.1s ease-out;
+}
+
+/**
+* Pattern Category Description
+* 1) This is an optional description that sits below the category title.
+*/
+.sg-pattern-category-body {
+  font-size: 80%;
+  line-height: 1.3;
+}
+.sg-pattern-category-body:empty {
+  display: none;
+}
+
+/*------------------------------------*\
+    #PATTERN CODE
+\*------------------------------------*/
 /**
 * Pattern Code Container
 */
@@ -968,52 +850,97 @@
 @media all and (min-width: 42em) {
   .sg-pattern-extra-code {
     width: 60%;
-    padding: 1em;
+    padding: 1rem;
   }
 }
 
+/*------------------------------------*\
+    #PATTERN STATES
+\*------------------------------------*/
 /**
-* Pattern Category
-* 1) This appears in the index page and delineates a major section,
-*    such as "global", "blocks", "etc".
-* 2) The category contains a title and optional description
+* Pattern states add color-coded dots next to patterns
+* in the dropdown navigation.
 */
-.sg-pattern-category {
-  margin-top: 6rem;
-  font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
-}
-.sg-pattern-category:first-of-type {
-  margin-top: 2rem;
+.sg-pattern-state {
+  text-transform: none !important;
 }
 
 /**
-* Pattern Category Title
+* Pattern State bullet
 */
-.sg-pattern-category-title {
-  font-size: 1.4rem !important;
-  color: #222 !important;
-  margin: 0 0 0.2rem;
-  text-transform: capitalize;
-}
-.sg-pattern-category-title a {
-  -webkit-transition: color 0.1s ease-out;
-          transition: color 0.1s ease-out;
+.sg-pattern-state:before {
+  content: "\2022";
+  margin-right: 4px;
+  font-size: 18px;
+  vertical-align: bottom;
+  display: inline-block;
+  text-decoration: none;
 }
 
 /**
-* Pattern Category Description
-* 1) This is an optional description that sits below the category title.
+* when part of a lineage muck with the size
 */
-.sg-pattern-category-body {
-  font-size: 80%;
-  line-height: 1.3;
+.sg-pattern-lineage .sg-pattern-state:before {
+  font-size: 12px;
 }
-.sg-pattern-category-body:empty {
-  display: none;
+
+/**
+* when part of a view all view muck with the size
+*/
+#sg-patterns .sg-pattern-state:before {
+  font-size: 14px;
+}
+
+#sg-patterns .sg-pattern-state {
+  color: #666;
+}
+
+/**
+* Pattern States that appear in the dropdown nav
+*/
+.sg-nav .sg-pattern-state:before {
+  margin-top: -4px;
+  margin-bottom: 0;
+  margin-left: -4px;
+  height: 20px;
+  display: block;
+  float: left;
+}
+
+/**
+* In Progress state
+*/
+.inprogress:before {
+  color: #FF4136 !important;
+}
+
+/**
+* In Review state
+*/
+.inreview:before {
+  color: #FFCC00 !important;
+}
+
+/**
+* Complete state
+*/
+.complete:before {
+  color: #2ECC40 !important;
 }
 
 /*------------------------------------*\
-#TABS
+    #PATTERN LINEAGE
+\*------------------------------------*/
+/**
+* Pattern Lineage info
+*/
+.sg-pattern-lineage {
+  font-size: 90%;
+  font-style: italic;
+}
+
+/*------------------------------------*\
+    #TABS
 \*------------------------------------*/
 .sg-tabs {
   -webkit-box-flex: 1;
@@ -1113,11 +1040,167 @@
 }
 
 /*------------------------------------*\
-#MODAL
+    #TOOLS
 \*------------------------------------*/
 /**
-* The modal appears when "show pattern info" is selected
-* on the pattern detail screen.
+* The tools dropdown contains more utilities such as show/hide
+* pattern info and pattern search, and also links to open in a
+* new window and view the documentation
+*/
+/**
+* Tools dropdown button
+*/
+.sg-tools-toggle {
+  font-size: 0.7rem;
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  border: 0;
+  cursor: pointer;
+  padding: 0.9em 0.7em 0.6em;
+}
+.sg-tools-toggle:after {
+  display: none;
+  content: "";
+}
+
+/**
+* Pattern Finder
+* 1) This is the container for pattern search, which
+* is handled by Typeahead (see vendor styles)
+*/
+.sg-find {
+  position: relative;
+}
+
+/*------------------------------------*\
+    #ANNOTATIONS
+\*------------------------------------*/
+/**
+* Annotated elements styles
+* 1) Annotation styles that appear in the modal
+* 2) For elements in the DOM that have an annotation, we want to
+* provide styles that help the user understand that annotations are available.
+* We do this with some cursor helpers and a
+*/
+.has-annotation {
+  cursor: help !important;
+  -webkit-box-shadow: 0 0 10px #808080;
+          box-shadow: 0 0 10px #808080;
+}
+.has-annotation a, .has-annotation input {
+  cursor: help !important;
+}
+.has-annotation:hover {
+  -webkit-box-shadow: 0 0 10px #000;
+          box-shadow: 0 0 10px #000;
+}
+.has-annotation.active {
+  -webkit-box-shadow: inset 0 0 20px #808080;
+          box-shadow: inset 0 0 20px #808080;
+}
+
+.annotation-tip {
+  display: block;
+  position: absolute;
+  margin-top: -10px !important;
+  margin-left: -10px !important;
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 13px !important;
+  text-align: center !important;
+  background: #444 !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  z-index: 100;
+}
+
+.sg-annotations {
+  margin: 1rem 0;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
+}
+
+.sg-annotations-title {
+  font-size: 1rem !important;
+  margin: 0 0 0.5rem;
+}
+
+.sg-annotations-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  counter-reset: the-count;
+}
+.sg-annotations-list > li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  -webkit-transition: background 0.1s ease;
+          transition: background 0.1s ease;
+}
+.sg-annotations-list > li:before {
+  content: counter(the-count);
+  counter-increment: the-count;
+  font-size: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  padding: 2px;
+  text-align: center;
+  background: #ccc;
+  color: #222;
+  position: absolute;
+  top: 1px;
+  left: 0;
+}
+.sg-annotations-list > li.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sg-annotations-list-title {
+  display: inline;
+  font-size: 1rem;
+}
+.sg-annotations-list-title:after {
+  content: "—";
+}
+
+#sg-comments-container {
+  max-width: 60em;
+  margin: 0 auto;
+}
+
+.sg-comment-container {
+  padding-bottom: 2em;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+.sg-comment-container p:last-child {
+  margin-bottom: 0;
+}
+.sg-comment-container h2 {
+  margin-bottom: 0.25em;
+}
+
+/*------------------------------------*\
+    #MODAL
+\*------------------------------------*/
+/**
+* 1) The modal appears when "show pattern info" is selected
+*    on the pattern detail screen.
 */
 .sg-modal {
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
@@ -1169,7 +1252,7 @@
           transition: bottom 0.3s ease-out;
 }
 .sg-modal .sg-pattern-breadcrumb {
-  font-size: 70%;
+  font-size: 0.7rem;
   color: #808080;
   margin-bottom: 0.5rem;
 }
@@ -1271,123 +1354,87 @@
           flex-direction: column;
 }
 
+/*------------------------------------*\
+    #UTILITIES
+\*------------------------------------*/
+/*------------------------------------*\
+    #VISIBILITY
+\*------------------------------------*/
 /**
-* Annotations
-* 1) Annotation styles that appear in the modal
+* Visibilly hidden but still accessible to screen readers
 */
-/**
-* Annotated elements styles
-* 1) For elements in the DOM that have an annotation, we want to
-* provide styles that help the user understand that annotations are available.
-* We do this with some cursor helpers and a
-*/
-.has-annotation {
-  cursor: help !important;
-  -webkit-box-shadow: 0 0 10px #808080;
-          box-shadow: 0 0 10px #808080;
-}
-.has-annotation a, .has-annotation input {
-  cursor: help !important;
-}
-.has-annotation:hover {
-  -webkit-box-shadow: 0 0 10px #000;
-          box-shadow: 0 0 10px #000;
-}
-.has-annotation.active {
-  -webkit-box-shadow: inset 0 0 20px #808080;
-          box-shadow: inset 0 0 20px #808080;
-}
-
-.annotation-tip {
-  display: block;
-  position: absolute;
-  margin-top: -10px !important;
-  margin-left: -10px !important;
-  width: 25px !important;
-  height: 25px !important;
-  border-radius: 13px !important;
-  text-align: center !important;
-  background: #444 !important;
-  color: #fff !important;
-  font-weight: bold !important;
-  font-size: 16px !important;
-  z-index: 100;
-}
-
-.sg-annotations {
-  margin: 1rem 0;
-  border-top: 1px solid #ddd;
-  padding-top: 0.5rem;
-}
-
-.sg-annotations-title {
-  font-size: 1rem !important;
-  margin: 0 0 0.5rem;
-}
-
-.sg-annotations-list {
+.is-vishidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
   padding: 0;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/*------------------------------------*\
+    #VENDOR
+\*------------------------------------*/
+/*------------------------------------*\
+    #TWITTER
+\*------------------------------------*/
+/**
+* We're using Twitter Typeahead to autocomplete pattern
+* searches. https://twitter.github.io/typeahead.js/
+*/
+.twitter-typeahead {
+  width: 100%;
+}
+
+.typeahead {
+  border: 0;
+  background: #222;
+  color: #808080;
+  width: 100%;
+  right: 0;
+  padding: 0.8em;
+  text-transform: lowercase;
+}
+.typeahead:focus {
+  background: #808080;
+  color: #fff;
+}
+
+.tt-input {
+  background: #808080;
+  color: #fff;
+  text-transform: uppercase;
+}
+.tt-input:focus {
+  text-transform: lowercase;
+}
+
+.tt-hint {
+  text-transform: lowercase;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.tt-dropdown-menu {
+  text-transform: lowercase;
+  background-color: #808080;
+  width: 100%;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.tt-suggestion {
+  color: #eee;
+  font-size: 75%;
+  padding: 0.8em;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.tt-suggestion p {
   margin: 0;
-  list-style: none;
-  counter-reset: the-count;
-}
-.sg-annotations-list > li {
-  position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: 6px;
-  -webkit-transition: background 0.1s ease;
-          transition: background 0.1s ease;
-}
-.sg-annotations-list > li:before {
-  content: counter(the-count);
-  counter-increment: the-count;
-  font-size: 85%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  padding: 2px;
-  text-align: center;
-  background: #ccc;
-  color: #222;
-  position: absolute;
-  top: 1px;
-  left: 0;
-}
-.sg-annotations-list > li.active {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.sg-annotations-list-title {
-  display: inline;
-  font-size: 100%;
-}
-.sg-annotations-list-title:after {
-  content: "—";
-}
-
-#sg-comments-container {
-  max-width: 60em;
-  margin: 0 auto;
-}
-
-.sg-comment-container {
-  padding-bottom: 2em;
-  margin-bottom: 1em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-}
-.sg-comment-container p:last-child {
-  margin-bottom: 0;
-}
-.sg-comment-container h2 {
-  margin-bottom: 0.25em;
 }
