@@ -7,7 +7,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    font: $sg-font !important;
+    font: $pl-font !important;
 }
 
 .sg-tabs-list {
@@ -29,17 +29,17 @@
         font-weight: bold;
         line-height: 1;
         padding: 0.5em 1em;
-        background: $sg-gray-light;
-        border: 1px solid $sg-gray-light-3;
+        background: $pl-color-gray-07;
+        border: 1px solid $pl-color-gray-20;
         border-bottom: 0;
-        color: $sg-gray;
-        border-top-right-radius: $sg-border-radius-med;
-        border-top-left-radius: $sg-border-radius-med;
+        color: $pl-color-gray-50;
+        border-top-right-radius: $pl-border-radius-med;
+        border-top-left-radius: $pl-border-radius-med;
         text-decoration: none;
         text-transform: capitalize;
 
         &:hover {
-            color: $sg-gray-dark;
+            color: $pl-color-gray-87;
         }
     }
 }
@@ -52,10 +52,10 @@
 .sg-tab-title-active {
     a {
         background: #f5f2f0; /* 1 */
-        color: $sg-gray-dark;
+        color: $pl-color-gray-87;
 
         &:hover, &:focus {
-            color: $sg-gray-dark;
+            color: $pl-color-gray-87;
         }
     }
 }
@@ -64,8 +64,8 @@
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    border: 1px solid $sg-gray-light-3;
-    border-radius: 0 $sg-border-radius-med $sg-border-radius-med $sg-border-radius-med;
+    border: 1px solid $pl-color-gray-20;
+    border-radius: 0 $pl-border-radius-med $pl-border-radius-med $pl-border-radius-med;
     overflow: hidden;
 }
 

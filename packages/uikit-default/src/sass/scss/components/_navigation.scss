@@ -13,7 +13,7 @@
     text-transform: uppercase;
     z-index: 2;
 
-    @media all and (min-width: $sg-bp-med) {
+    @media all and (min-width: $pl-bp-med) {
         display: none;
     }
 }
@@ -22,10 +22,10 @@
 * Navigation container
 */
 .sg-nav-container {
-    @media all and (max-width: $sg-bp-med) {
+    @media all and (max-width: $pl-bp-med) {
         overflow: hidden;
         max-height: 0;
-        transition: max-height $sg-animate-quick ease-out;
+        transition: max-height $pl-animate-quick ease-out;
 
         &.active {
             max-height: 50em;
@@ -49,7 +49,7 @@
     > li {
         cursor: pointer;
 
-        @media all and (min-width: $sg-bp-med) {
+        @media all and (min-width: $pl-bp-med) {
             border-bottom: 0;
             float: left;
             position: relative;

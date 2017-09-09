@@ -10,7 +10,7 @@
 */
 .sg-pattern-category {
     margin-top: 6rem;
-    font: $sg-font !important;
+    font: $pl-font !important;
 
     &:first-of-type {
         margin-top: 2rem;
@@ -22,12 +22,12 @@
 */
 .sg-pattern-category-title {
     font-size: 1.4rem !important;
-    color: $sg-gray-dark !important;
+    color: $pl-color-gray-87 !important;
     margin: 0 0 0.2rem;
     text-transform: capitalize;
 
     a {
-        transition: color $sg-animate-quick ease-out;
+        transition: color $pl-animate-quick ease-out;
     }
 }
 

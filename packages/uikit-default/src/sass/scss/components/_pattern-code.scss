@@ -22,7 +22,7 @@
         margin: 0 !important;
         line-height: 1 !important;
         flex: 1 1 auto;
-        border-radius: 0 $sg-border-radius-med $sg-border-radius-med $sg-border-radius-med !important;
+        border-radius: 0 $pl-border-radius-med $pl-border-radius-med $pl-border-radius-med !important;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -37,6 +37,6 @@
 
     @media all and (min-width: 42em) {
         width: 60%;
-        padding: $sg-pad;
+        padding: $pl-pad;
     }
 }

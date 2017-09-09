@@ -13,32 +13,32 @@
         */
         &:after {
             content: '▼';
-            color: $sg-tint-2;
+            color: $pl-color-trans-white-25;
             display: inline-block;
             font-size: 7px;
             position: relative;
             top: -1px;
             right: -2px;
-            transition: all $sg-animate-quick ease-out;
+            transition: all $pl-animate-quick ease-out;
     
-            @media all and (min-width: $sg-bp-med) {
+            @media all and (min-width: $pl-bp-med) {
                 float: none;
             }
         }
     
         &:hover, &:focus {
             &:after {
-                color: $sg-gray;
+                color: $pl-color-gray-50;
             }
         }
     
         &.active {
-            color: $sg-white;
-            background: $sg-gray-dark;
+            color: $pl-color-white;
+            background: $pl-color-gray-87;
     
             &:after {
                 top: -2px;
-                color: $sg-gray;
+                color: $pl-color-gray-50;
                 -webkit-transform: rotate(180deg);
                 -ms-transform: rotate(180deg);
                 transform: rotate(180deg);
@@ -58,21 +58,21 @@
     padding: 0;
     list-style: none;
     min-width: 10em;
-    transition: max-height $sg-animate-quick ease-out;
+    transition: max-height $pl-animate-quick ease-out;
 
     /**
     * List items appearing in each accordion panel
     */
     li {
-        background: $sg-gray-dark;
+        background: $pl-color-gray-87;
 
         &:last-child {
-            border-bottom-left-radius: $sg-border-radius-med;
-            border-bottom-right-radius: $sg-border-radius-med;
+            border-bottom-left-radius: $pl-border-radius-med;
+            border-bottom-right-radius: $pl-border-radius-med;
 
             a {
-                border-bottom-left-radius: $sg-border-radius-med;
-                border-bottom-right-radius: $sg-border-radius-med;
+                border-bottom-left-radius: $pl-border-radius-med;
+                border-bottom-right-radius: $pl-border-radius-med;
             }
         }
     }

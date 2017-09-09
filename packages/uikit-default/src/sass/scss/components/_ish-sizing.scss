@@ -13,7 +13,7 @@
 .sg-size {
     width: 135px;
 
-    @media all and (min-width: $sg-bp-med) {
+    @media all and (min-width: $pl-bp-med) {
         width: auto;
     }
 }
@@ -25,10 +25,10 @@
 */
 .sg-current-size {
     font-size: 70%;
-    color: $sg-gray;
+    color: $pl-color-gray-50;
     padding: 0.85em 0.7em;
 
-    @media all and (min-width: $sg-bp-large) {
+    @media all and (min-width: $pl-bp-large) {
         float: left;
     }
 }
@@ -49,25 +49,25 @@
     margin: -2px 0 0 0;
     padding: 0.1em;
     border: 0;
-    border-radius: $sg-border-radius;
-    background: $sg-black;
-    color: $sg-gray;
+    border-radius: $pl-border-radius;
+    background: $pl-color-black;
+    color: $pl-color-gray-50;
     width: 25px;
     text-align: right;
-    transition: all $sg-animate-quick ease-out;
+    transition: all $pl-animate-quick ease-out;
 
     &:hover {
-        color: $sg-white;
-        background: $sg-gray-dark;
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
     }
 
     &:active, &:focus {
         outline: 0;
-        background: $sg-gray;
-        color: $sg-white;
+        background: $pl-color-gray-50;
+        color: $pl-color-white;
     }
 
-    @media all and (min-width: $sg-bp-med) {
+    @media all and (min-width: $pl-bp-med) {
         width: 35px;
 
         &.sg-size-px {
@@ -89,7 +89,7 @@
         display: block;
     }
 
-    @media all and (min-width: $sg-bp-large) {
+    @media all and (min-width: $pl-bp-large) {
         display: block;
         float: left;
         position: static;

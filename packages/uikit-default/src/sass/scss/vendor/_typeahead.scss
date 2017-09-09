@@ -13,22 +13,22 @@
 
 .typeahead {
     border: 0;
-    background: $sg-gray-dark;
-    color: $sg-gray;
+    background: $pl-color-gray-87;
+    color: $pl-color-gray-50;
     width: 100%;
     right: 0;
     padding: 0.8em;
     text-transform: lowercase;
 
     &:focus {
-        background: $sg-gray;
-        color: $sg-white;
+        background: $pl-color-gray-50;
+        color: $pl-color-white;
     }
 }
 
 .tt-input {
-    background: $sg-gray;
-    color: $sg-white;
+    background: $pl-color-gray-50;
+    color: $pl-color-white;
     text-transform: uppercase;
 
     &:focus {
@@ -38,27 +38,27 @@
 
 .tt-hint {
     text-transform: lowercase;
-    border-bottom-right-radius: $sg-border-radius-med;
-    border-bottom-left-radius: $sg-border-radius-med;
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
 }
 
 .tt-dropdown-menu {
     text-transform: lowercase;
-    background-color: $sg-gray;
+    background-color: $pl-color-gray-50;
     width: 100%;
-    border-bottom-right-radius: $sg-border-radius-med;
-    border-bottom-left-radius: $sg-border-radius-med;
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
 }
 
 .tt-suggestion {
-    color: $sg-gray-light;
+    color: $pl-color-gray-07;
     font-size: 75%;
     padding: 0.8em;
 }
 
 .tt-suggestion.tt-cursor {
-    color: $sg-white;
-    background: $sg-tint-2;
+    color: $pl-color-white;
+    background: $pl-color-trans-white-25;
 }
 
 .tt-suggestion p {

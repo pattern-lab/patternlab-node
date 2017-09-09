@@ -8,9 +8,9 @@
 * and tools.
 */
 .sg-header {
-    background: $sg-black;
-    color: $sg-white;
-    font-family: $sg-font;
+    background: $pl-color-black;
+    color: $pl-color-white;
+    font-family: $pl-font;
     text-transform: uppercase;
     position: fixed;
     top: 0;
@@ -31,17 +31,17 @@
     * All links appearing in the header
     */
     a {
-        font-size: $sg-font-size-sm;
-        color: $sg-gray;
+        font-size: $pl-font-size-sm;
+        color: $pl-color-gray-50;
         text-decoration: none;
         line-height: 1;
         padding: 1em 0.7em;
-        transition: background $sg-animate-quick ease-out;
-        transition: color $sg-animate-quick ease-out;
+        transition: background $pl-animate-quick ease-out;
+        transition: color $pl-animate-quick ease-out;
 
         &:hover, &:focus, &.active {
-            color: $sg-white;
-            background: $sg-gray-dark;
+            color: $pl-color-white;
+            background: $pl-color-gray-87;
         }
     }
 }

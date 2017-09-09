@@ -7,43 +7,39 @@
 * indepenedently of any project-specific styles
 */
 
-// Fonts
-$sg-font : "HelveticaNeue", "Helvetica", "Arial", sans-serif;
-
 // Colors
-$sg-black : #000;
-$sg-white : #fff;
-$sg-gray-light : #eee;
-$sg-gray-light-2 : #ddd;
-$sg-gray-light-3 : #ccc;
-$sg-gray-light-4 : #999;
-$sg-gray : #808080;
-$sg-gray-dark : #222;
-$sg-tint : rgba(255,255,255,0.05);
-$sg-tint-2 : rgba(255,255,255,0.25);
-$sg-tone : rgba(0,0,0,0.1);
-$sg-tone-2 : rgba(0,0,0,0.3);
+$pl-color-white: #fff;
+$pl-color-gray-07: #eee;
+$pl-color-gray-13: #ddd;
+$pl-color-gray-20: #ccc;
+$pl-color-gray-50: #808080;
+$pl-color-gray-87: #222;
+$pl-color-black: #000;
 
-// Typography
-$sg-font-size-sm : 70%;
-$sg-font-size-norm : 100%;
-$sg-font-size-large : 120%;
+$pl-color-trans-white-25: rgba(255,255,255,0.25);
+
+// Font Family
+$pl-font: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+
+// Font sizes
+$pl-font-size-sm: 0.7rem;
+$pl-font-size-norm: 1rem;
+$pl-font-size-large: 1.2rem;
 
 // Spacing & Padding
-$sg-space : 1em;
-$sg-doublespace : $sg-space*2;
-$sg-pad : 1em;
-$sg-pad-half : $sg-pad/2;
-$offset-top : 2em;
+$pl-space: 1rem;
+$pl-doublespace: $pl-space*2;
+$pl-pad: 1rem;
+$pl-pad-half: $pl-pad/2;
+$offset-top: 2rem;
 
 // Breakpoints
-$sg-bp-small : 24em;
-$sg-bp-med : 42em;
-$sg-bp-large : 53em;
+$pl-bp-med: 42em;
+$pl-bp-large: 53em;
 
 // Animations
-$sg-animate-quick : 0.1s;
+$pl-animate-quick: 0.1s;
 
 // Borders
-$sg-border-radius : 3px;
-$sg-border-radius-med : 6px;
+$pl-border-radius: 3px;
+$pl-border-radius-med: 6px;

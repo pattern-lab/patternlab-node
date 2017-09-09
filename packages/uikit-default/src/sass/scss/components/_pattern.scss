@@ -11,7 +11,7 @@
 * 3) Prevents floated patterns from floating wraps
 */
 .sg-pattern {
-    margin-bottom: $sg-doublespace;
+    margin-bottom: $pl-doublespace;
     position: relative; /* 2 */
     clear: both; /* 3 */
 }
@@ -25,7 +25,7 @@
     padding: 0.5rem 0 0;
     line-height: 1.3;
     font-size: 90%;
-    color: $sg-gray;
+    color: $pl-color-gray-50;
 
     &:empty {
         padding: 0;
@@ -37,7 +37,7 @@
 * Pattern Title
 */
 .sg-pattern-title {
-    font-family: $sg-font !important;
+    font-family: $pl-font !important;
     font-size: 0.85rem !important;
     line-height: 1 !important;
     font-weight: bold !important;
@@ -47,14 +47,14 @@
 
     a {
         display: inline-block;
-        padding: $sg-pad 0 0.3rem;
-        color: $sg-gray !important;
+        padding: $pl-pad 0 0.3rem;
+        color: $pl-color-gray-50 !important;
         text-decoration: none;
         cursor: pointer;
         font-weight: bold;
 
         &:hover, &:focus {
-            color: $sg-black  !important;
+            color: $pl-color-black  !important;
         }
     }
 
@@ -64,7 +64,7 @@
     .sg-pattern-state {
         font-size: 80%;
         font-weight: normal;
-        color: $sg-gray-light-3;
+        color: $pl-color-gray-20;
     }
 }
 
@@ -80,24 +80,24 @@
     z-index: 1;
     padding: 0.65em;
     line-height: 1;
-    color: $sg-gray;
+    color: $pl-color-gray-50;
     font-weight: normal;
-    border: 1px solid $sg-gray-light-2;
-    border-top-left-radius: $sg-border-radius-med;
-    border-top-right-radius: $sg-border-radius-med;
-    transition: background $sg-animate-quick ease-out;
+    border: 1px solid $pl-color-gray-13;
+    border-top-left-radius: $pl-border-radius-med;
+    border-top-right-radius: $pl-border-radius-med;
+    transition: background $pl-animate-quick ease-out;
 
     span {
         display: inline-block;
     }
 
     &:hover, &:focus, &.active {
-        background: $sg-gray-light;
-        color: $sg-black;
+        background: $pl-color-gray-07;
+        color: $pl-color-black;
     }
 
     &.active {
-        border-bottom-color: $sg-gray-light;
+        border-bottom-color: $pl-color-gray-07;
 
         span {
             -webkit-transform: rotate(180deg);
@@ -114,25 +114,25 @@
 * like pattern description, lineage, code, and more
 */
 .sg-pattern-extra {
-    background: $sg-gray-light;
-    border-top: 1px solid $sg-gray-light-2;
-    margin-bottom: $sg-space;
+    background: $pl-color-gray-07;
+    border-top: 1px solid $pl-color-gray-13;
+    margin-bottom: $pl-space;
     overflow: hidden;
     max-height: 1px;
-    transition: all $sg-animate-quick ease-out;
+    transition: all $pl-animate-quick ease-out;
 
     a {
         text-decoration: underline;
-        color: $sg-gray-dark;
+        color: $pl-color-gray-87;
 
         &:hover, &:focus {
-            color: $sg-gray;
+            color: $pl-color-gray-50;
         }
     }
 
     &.active {
-        border: 1px solid $sg-gray-light-2;
-        border-radius: $sg-border-radius-med;
+        border: 1px solid $pl-color-gray-13;
+        border-radius: $pl-border-radius-med;
         border-top-right-radius: 0;
         max-height: 50em;
     }
@@ -160,7 +160,7 @@
     padding: 0.5rem 0.5rem 0;
     line-height: 1.4;
     font-size: 90%;
-    color: $sg-gray;
+    color: $pl-color-gray-50;
     overflow: auto; //allows scrolling on modals with extra long descriptions
     -webkit-overflow-scrolling: touch;
 
@@ -169,7 +169,7 @@
     }
 
     @media all and (min-width: 42em) {
-        padding: $sg-pad;
+        padding: $pl-pad;
         width: 40%;
     }
 }
@@ -180,7 +180,7 @@
 .sg-pattern-desc {
     margin-bottom: 0.5rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid $sg-gray-light-3;
+    border-bottom: 1px solid $pl-color-gray-20;
 
     p:last-child {
         margin: 0;
