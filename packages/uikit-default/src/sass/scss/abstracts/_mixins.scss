@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+
+/**
+* Header Link Style
+*/
+
+// _mixins.scss
+@mixin linkStyle() {
+    font-size: $pl-font-size-sm;
+    background: $pl-color-black;
+    color: $pl-color-gray-50;
+    text-decoration: none;
+    line-height: 1;
+    padding: 0.7rem 0.5rem;
+    text-transform: uppercase;
+    transition: background $pl-animate-quick ease-out, color $pl-animate-quick ease-out;
+
+    &:hover {
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
+    }
+
+    &:focus, &.active {
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
+        outline: 1px dotted $pl-color-gray-50;
+        outline-offset: -1px;
+    }
+}
