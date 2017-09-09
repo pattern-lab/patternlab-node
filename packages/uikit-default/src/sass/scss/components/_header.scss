@@ -1,0 +1,47 @@
+/*------------------------------------*\
+#HEADER
+\*------------------------------------*/
+
+/**
+* Pattern Lab's header is fixed across the top of the viewport and
+* contains the primary pattern navigation, viewport resizing items,
+* and tools.
+*/
+.sg-header {
+    background: $sg-black;
+    color: $sg-white;
+    font-family: $sg-font;
+    text-transform: uppercase;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    width: 100%;
+
+    /**
+    * All lists appearing in the header
+    */
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    /**
+    * All links appearing in the header
+    */
+    a {
+        font-size: $sg-font-size-sm;
+        color: $sg-gray;
+        text-decoration: none;
+        line-height: 1;
+        padding: 1em 0.7em;
+        transition: background $sg-animate-quick ease-out;
+        transition: color $sg-animate-quick ease-out;
+
+        &:hover, &:focus, &.active {
+            color: $sg-white;
+            background: $sg-gray-dark;
+        }
+    }
+}

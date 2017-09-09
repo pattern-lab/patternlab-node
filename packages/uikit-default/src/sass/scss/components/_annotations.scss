@@ -1,0 +1,120 @@
+/**
+* Annotations
+* 1) Annotation styles that appear in the modal
+*/
+
+/**
+* Annotated elements styles
+* 1) For elements in the DOM that have an annotation, we want to
+* provide styles that help the user understand that annotations are available.
+* We do this with some cursor helpers and a
+*/
+.has-annotation {
+    cursor: help !important;
+    box-shadow: 0 0 10px $sg-gray;
+
+    a, input {
+        cursor: help !important;
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px $sg-black;
+    }
+
+    &.active {
+        box-shadow: inset 0 0 20px $sg-gray;
+    }
+}
+
+.annotation-tip {
+    display: block;
+    position: absolute;
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+    width: 25px !important;
+    height: 25px !important;
+    border-radius: 13px !important;
+    text-align: center !important;
+    background: #444 !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    z-index: 100;
+}
+
+.sg-annotations {
+    margin: 1rem 0;
+    border-top: 1px solid $sg-gray-light-2;
+    padding-top: 0.5rem;
+}
+
+.sg-annotations-title {
+    font-size: 1rem !important;
+    margin: 0 0 0.5rem;
+}
+
+.sg-annotations-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    counter-reset: the-count;
+
+    > li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+        border-radius: $sg-border-radius-med;
+        transition: background $sg-animate-quick ease;
+
+        &:before {
+            content: counter(the-count);
+            counter-increment: the-count;
+            font-size: 85%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            padding: 2px;
+            text-align: center;
+            background: $sg-gray-light-3;
+            color: $sg-gray-dark;
+            position: absolute;
+            top: 1px;
+            left: 0;
+        }
+
+        &.active {
+            background: rgba(255,255,255,0.15);
+        }
+    }
+}
+
+.sg-annotations-list-title {
+    display: inline;
+    font-size: $sg-font-size-norm;
+
+    &:after {
+        content: "—";
+    }
+}
+
+#sg-comments-container {
+    max-width: 60em;
+    margin: 0 auto;
+}
+
+.sg-comment-container {
+    padding-bottom: 2em;
+    margin-bottom: $sg-space;
+    border-bottom: 1px solid $sg-tint-2;
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    h2 {
+        margin-bottom: 0.25em;
+    }
+}

@@ -1,0 +1,75 @@
+/*------------------------------------*\
+#PATTERN STATES
+\*------------------------------------*/
+
+/**
+* Pattern states add color-coded dots next to patterns
+* in the dropdown navigation.
+*/
+
+.sg-pattern-state {
+    text-transform: none !important;
+}
+
+/**
+* Pattern State bullet
+*/
+.sg-pattern-state:before {
+    content: "\2022";
+    margin-right: 4px;
+    font-size: 18px;
+    vertical-align: bottom;
+    display: inline-block;
+    text-decoration: none;
+}
+
+/**
+* when part of a lineage muck with the size
+*/
+.sg-pattern-lineage .sg-pattern-state:before {
+    font-size: 12px;
+}
+
+/**
+* when part of a view all view muck with the size
+*/
+#sg-patterns .sg-pattern-state:before {
+    font-size: 14px;
+}
+
+#sg-patterns .sg-pattern-state {
+    color: #666;
+}
+
+/**
+* Pattern States that appear in the dropdown nav
+*/
+.sg-nav .sg-pattern-state:before {
+    margin-top: -4px;
+    margin-bottom: 0;
+    margin-left: -4px;
+    height: 20px;
+    display: block;
+    float: left;
+}
+
+/**
+* In Progress state
+*/
+.inprogress:before {
+    color: #FF4136 !important;
+}
+
+/**
+* In Review state
+*/
+.inreview:before {
+    color: #FFCC00 !important;
+}
+
+/**
+* Complete state
+*/
+.complete:before {
+    color: #2ECC40 !important;
+}

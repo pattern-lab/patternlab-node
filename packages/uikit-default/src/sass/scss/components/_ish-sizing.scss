@@ -1,0 +1,101 @@
+/*------------------------------------*\
+#ISH STYLES
+\*------------------------------------*/
+
+/**
+* 1) ish. (http://bradfrost.com/demo/ish/) is a viewport-resizing tool
+* that's built into Pattern Lab.
+*/
+
+/**
+* Size Container
+*/
+.sg-size {
+    width: 135px;
+
+    @media all and (min-width: $sg-bp-med) {
+        width: auto;
+    }
+}
+
+/**
+* Current size
+* 1) This is the wrapper for the form that houses the current
+* viewport size in px and em
+*/
+.sg-current-size {
+    font-size: 70%;
+    color: $sg-gray;
+    padding: 0.85em 0.7em;
+
+    @media all and (min-width: $sg-bp-large) {
+        float: left;
+    }
+}
+
+/**
+* The <form> for the current size
+*/
+#sg-form {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+/**
+* Size input fields
+*/
+.sg-input {
+    margin: -2px 0 0 0;
+    padding: 0.1em;
+    border: 0;
+    border-radius: $sg-border-radius;
+    background: $sg-black;
+    color: $sg-gray;
+    width: 25px;
+    text-align: right;
+    transition: all $sg-animate-quick ease-out;
+
+    &:hover {
+        color: $sg-white;
+        background: $sg-gray-dark;
+    }
+
+    &:active, &:focus {
+        outline: 0;
+        background: $sg-gray;
+        color: $sg-white;
+    }
+
+    @media all and (min-width: $sg-bp-med) {
+        width: 35px;
+
+        &.sg-size-px {
+            width: 30px;
+        }
+    }
+}
+
+/**
+* Size options
+* 1) This holds the S, M, L, Rand, Disco links
+* 2) Depending on the config, these number of options may be
+* larger or smaller.
+*/
+.sg-size-options {
+    display: none;
+
+    a {
+        display: block;
+    }
+
+    @media all and (min-width: $sg-bp-large) {
+        display: block;
+        float: left;
+        position: static;
+
+        > li {
+            float: left;
+        }
+    }
+}

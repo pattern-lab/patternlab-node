@@ -1,0 +1,38 @@
+/*------------------------------------*\
+#TOOLS DROPDOWN
+\*------------------------------------*/
+
+/**
+* The tools dropdown contains more utilities such as show/hide
+* pattern info and pattern search, and also links to open in a
+* new window and view the documentation
+*/
+
+/**
+* Tools dropdown button
+*/
+.sg-tools-toggle {
+    font-size: $sg-font-size-sm;
+    background: $sg-black;
+    color: $sg-gray;
+    text-decoration: none;
+    line-height: 1;
+    border: 0;
+    cursor: pointer;
+    padding: 0.9em 0.7em 0.6em;
+
+    &:after {
+        display: none;
+        content: "";
+    }
+}
+
+/**
+* Pattern Finder
+* 1) This is the container for pattern search, which
+* is handled by Typeahead (see vendor styles)
+*/
+
+.sg-find {
+    position: relative;
+}

@@ -1,0 +1,103 @@
+/*------------------------------------*\
+#ACCORDION
+\*------------------------------------*/
+
+/**
+* Accordions are dropdowns used for the primary nav and
+* tools dropdowns.
+*/
+.sg-acc-handle {
+    
+        /**
+        * Dropdown caret after accordion handle
+        */
+        &:after {
+            content: '▼';
+            color: $sg-tint-2;
+            display: inline-block;
+            font-size: 7px;
+            position: relative;
+            top: -1px;
+            right: -2px;
+            transition: all $sg-animate-quick ease-out;
+    
+            @media all and (min-width: $sg-bp-med) {
+                float: none;
+            }
+        }
+    
+        &:hover, &:focus {
+            &:after {
+                color: $sg-gray;
+            }
+        }
+    
+        &.active {
+            color: $sg-white;
+            background: $sg-gray-dark;
+    
+            &:after {
+                top: -2px;
+                color: $sg-gray;
+                -webkit-transform: rotate(180deg);
+                -ms-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+
+
+/**
+* Accordion panel
+*/
+.sg-acc-panel {
+    overflow: hidden;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    min-width: 10em;
+    transition: max-height $sg-animate-quick ease-out;
+
+    /**
+    * List items appearing in each accordion panel
+    */
+    li {
+        background: $sg-gray-dark;
+
+        &:last-child {
+            border-bottom-left-radius: $sg-border-radius-med;
+            border-bottom-right-radius: $sg-border-radius-med;
+
+            a {
+                border-bottom-left-radius: $sg-border-radius-med;
+                border-bottom-right-radius: $sg-border-radius-med;
+            }
+        }
+    }
+
+    /**
+    * Links appearing in each accordion panel
+    */
+    a {
+        display: block;
+    }
+
+    /**
+    * Active is when accordion panel is open
+    */
+    &.active {
+        max-height: 120em;
+        overflow: auto;
+    }
+
+    /**
+    * Right align accordion dropdown
+    */
+    &.sg-right {
+        position: absolute;
+        left: auto;
+        right: 0;
+    }
+}

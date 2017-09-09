@@ -1,0 +1,83 @@
+/*------------------------------------*\
+#TABS
+\*------------------------------------*/
+
+.sg-tabs {
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font: $sg-font !important;
+}
+
+.sg-tabs-list {
+    overflow: hidden;
+    position: relative;
+    bottom: -1px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        float: left;
+        margin-right: 3px;
+    }
+
+    a {
+        display: block;
+        font-size: 90%;
+        font-weight: bold;
+        line-height: 1;
+        padding: 0.5em 1em;
+        background: $sg-gray-light;
+        border: 1px solid $sg-gray-light-3;
+        border-bottom: 0;
+        color: $sg-gray;
+        border-top-right-radius: $sg-border-radius-med;
+        border-top-left-radius: $sg-border-radius-med;
+        text-decoration: none;
+        text-transform: capitalize;
+
+        &:hover {
+            color: $sg-gray-dark;
+        }
+    }
+}
+
+/**
+* Active Tab
+* 1) Note: the active tab color corresponds with the Prism code block
+* background color.
+*/
+.sg-tab-title-active {
+    a {
+        background: #f5f2f0; /* 1 */
+        color: $sg-gray-dark;
+
+        &:hover, &:focus {
+            color: $sg-gray-dark;
+        }
+    }
+}
+
+.sg-tabs-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $sg-gray-light-3;
+    border-radius: 0 $sg-border-radius-med $sg-border-radius-med $sg-border-radius-med;
+    overflow: hidden;
+}
+
+.sg-tabs-panel {
+    display: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 12em;
+
+    @media all and (min-width: 42em) {
+        min-height: 7em;
+    }
+}

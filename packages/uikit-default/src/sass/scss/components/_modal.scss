@@ -1,0 +1,151 @@
+/*------------------------------------*\
+#MODAL
+\*------------------------------------*/
+/**
+* The modal appears when "show pattern info" is selected
+* on the pattern detail screen.
+*/
+
+.sg-modal {
+    font-family: $sg-font;
+    line-height: 1.4;
+    font-size: 90%;
+    background: $sg-black;
+    color: $sg-gray-light-3;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+
+    &.anim-ready {
+        transition:  bottom 0.3s ease-out;
+    }
+
+    /**
+    * Pattern Breadcrumbs inside modal
+    */
+    .sg-pattern-breadcrumb {
+        font-size: $sg-font-size-sm;
+        color: $sg-gray;
+        margin-bottom: 0.5rem;
+    }
+
+    /**
+    * Pattern Header inside modal
+    */
+    .sg-pattern-head {
+        margin-bottom: 0.5rem;
+    }
+
+    /**
+    * Pattern Title inside modal
+    */
+    .sg-pattern-title {
+        font-size: 1.4rem !important;
+        color: $sg-gray-light;
+    }
+
+    /**
+    * Pattern Information inside modal
+    */
+    .sg-pattern-extra {
+        flex: 1 1 auto;
+        max-height: none;
+        padding: 0;
+
+        &.active {
+            max-height: none;
+        }
+    }
+
+    /**
+    * Pattern info links inside modal
+    */
+    .sg-pattern-extra-info {
+        a {
+            color: $sg-gray-light-3;
+
+            &:hover, &:focus {
+                color: $sg-gray-light;
+            }
+        }
+    }
+
+    /**
+    * Pattern Description inside modal
+    */
+    .sg-pattern-desc {
+        border-bottom-color: $sg-gray;
+    }
+
+    /**
+    * Pattern Annotations inside modal
+    */
+    .sg-annotations {
+        border-top-color: $sg-gray;
+    }
+
+    /**
+    * Pattern tab panel inside modal
+    */
+    .sg-tabs-content {
+        border: 0;
+    }
+}
+
+/**
+* Modal close button
+* 1) Closes the modal popup
+* 2) Reposition to jut out of modal if parent modal has class of active
+*/
+.sg-modal-close-btn {
+    font-size: 70%;
+    background: $sg-black;
+    color: $sg-gray;
+    border: 0;
+    border-radius: $sg-border-radius-med $sg-border-radius-med 0 0;
+    display: inline-block;
+    padding: 0.9em 0.7em 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 1rem;
+    transition: all $sg-animate-quick ease-out;
+
+    /* 2 */
+    .sg-modal.active & {
+        top: -1.5rem;
+    }
+
+    &:hover, &:focus {
+        background: $sg-gray-dark;
+        color: $sg-gray-light;
+    }
+}
+
+/**
+* Modal Content
+*/
+.sg-modal-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/**
+* Modal Content Inner Wrapper
+*/
+.sg-modal-content-inner {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+}

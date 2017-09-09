@@ -1,0 +1,188 @@
+/*------------------------------------*\
+#PATTERN LAB CONTENT
+\*------------------------------------*/
+
+/**
+* Pattern
+* 1) This is an individual pattern that appears in the "view all" template.
+* It contains pattern title and toggle to view more information, such as
+* description, lineage, code, etc.
+* 2) Prevents absolutely-positioned elements from floating to the top
+* 3) Prevents floated patterns from floating wraps
+*/
+.sg-pattern {
+    margin-bottom: $sg-doublespace;
+    position: relative; /* 2 */
+    clear: both; /* 3 */
+}
+
+
+/**
+* Pattern Header
+*/
+.sg-pattern-head {
+    position: relative;
+    padding: 0.5rem 0 0;
+    line-height: 1.3;
+    font-size: 90%;
+    color: $sg-gray;
+
+    &:empty {
+        padding: 0;
+    }
+}
+
+
+/**
+* Pattern Title
+*/
+.sg-pattern-title {
+    font-family: $sg-font !important;
+    font-size: 0.85rem !important;
+    line-height: 1 !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-transform: capitalize !important;
+
+    a {
+        display: inline-block;
+        padding: $sg-pad 0 0.3rem;
+        color: $sg-gray !important;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: bold;
+
+        &:hover, &:focus {
+            color: $sg-black  !important;
+        }
+    }
+
+    /**
+    * Pattern State that appears within a pattern title
+    */
+    .sg-pattern-state {
+        font-size: 80%;
+        font-weight: normal;
+        color: $sg-gray-light-3;
+    }
+}
+
+/**
+* Pattern Extra Toggle Button
+* 1) This is the button that twirls down extra pattern info
+*/
+.sg-pattern-extra-toggle {
+    font-size: 9px;
+    position: absolute;
+    bottom: -1px;
+    right: 0;
+    z-index: 1;
+    padding: 0.65em;
+    line-height: 1;
+    color: $sg-gray;
+    font-weight: normal;
+    border: 1px solid $sg-gray-light-2;
+    border-top-left-radius: $sg-border-radius-med;
+    border-top-right-radius: $sg-border-radius-med;
+    transition: background $sg-animate-quick ease-out;
+
+    span {
+        display: inline-block;
+    }
+
+    &:hover, &:focus, &.active {
+        background: $sg-gray-light;
+        color: $sg-black;
+    }
+
+    &.active {
+        border-bottom-color: $sg-gray-light;
+
+        span {
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    }
+}
+
+
+/**
+* Pattern Extra
+* 1) This is the info panel that contains extra pattern info
+* like pattern description, lineage, code, and more
+*/
+.sg-pattern-extra {
+    background: $sg-gray-light;
+    border-top: 1px solid $sg-gray-light-2;
+    margin-bottom: $sg-space;
+    overflow: hidden;
+    max-height: 1px;
+    transition: all $sg-animate-quick ease-out;
+
+    a {
+        text-decoration: underline;
+        color: $sg-gray-dark;
+
+        &:hover, &:focus {
+            color: $sg-gray;
+        }
+    }
+
+    &.active {
+        border: 1px solid $sg-gray-light-2;
+        border-radius: $sg-border-radius-med;
+        border-top-right-radius: 0;
+        max-height: 50em;
+    }
+}
+
+/**
+* Pattern Extra
+* 1) This is the info panel that contains extra pattern info
+* like pattern description, lineage, code, and more
+*/
+.sg-pattern-extra-inner {
+    @media all and (min-width: 42em) {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+        flex: 1 1 auto;
+    }
+}
+
+/**
+* Pattern Extra Info
+* 1) This div contains pattern description, lineage, status, and other info
+*/
+.sg-pattern-extra-info {
+    padding: 0.5rem 0.5rem 0;
+    line-height: 1.4;
+    font-size: 90%;
+    color: $sg-gray;
+    overflow: auto; //allows scrolling on modals with extra long descriptions
+    -webkit-overflow-scrolling: touch;
+
+    &:empty {
+        padding: 0;
+    }
+
+    @media all and (min-width: 42em) {
+        padding: $sg-pad;
+        width: 40%;
+    }
+}
+
+/**
+* Pattern Description
+*/
+.sg-pattern-desc {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $sg-gray-light-3;
+
+    p:last-child {
+        margin: 0;
+    }
+}

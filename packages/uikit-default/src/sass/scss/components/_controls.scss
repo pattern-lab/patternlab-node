@@ -1,0 +1,23 @@
+/*------------------------------------*\
+#CONTROLS
+\*------------------------------------*/
+
+/**
+* Controls contains viewport resizer and tools dropdown
+*/
+.sg-controls {
+    border: 0; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+/**
+* Control list
+*/
+.sg-control {
+    > li {
+        float: left;
+    }
+}

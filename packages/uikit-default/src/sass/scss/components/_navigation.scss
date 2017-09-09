@@ -1,0 +1,82 @@
+/**
+* Nav toggle expands and collapses .sg-nav
+* 1) On larger viewports, the toggle gets hidden and
+* the full nav is displayed across the top.
+*/
+.sg-nav-toggle {
+    display: inline-block;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 2;
+
+    @media all and (min-width: $sg-bp-med) {
+        display: none;
+    }
+}
+
+/**
+* Navigation container
+*/
+.sg-nav-container {
+    @media all and (max-width: $sg-bp-med) {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height $sg-animate-quick ease-out;
+
+        &.active {
+            max-height: 50em;
+        }
+    }
+}
+
+/**
+* Nav list
+* 1) appears as an <ol>
+*/
+.sg-nav {
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    /**
+    * Nav <ol> list
+    */
+    > li {
+        cursor: pointer;
+
+        @media all and (min-width: $sg-bp-med) {
+            border-bottom: 0;
+            float: left;
+            position: relative;
+
+            > ol {
+                position: absolute;
+                top: $offset-top;
+                left: 0;
+            }
+
+        }
+    }
+
+    /**
+    * Links within the nav
+    */
+    a {
+        display: block;
+    }
+}
+
+/**
+* Sub-navigation
+* 1) Third-level links are stylistically different
+* than first and second nav links.
+*/
+.sg-sub-nav {
+    list-style: none;
+
+    a {
+        text-transform: none;
+        padding-left: 1rem;
+    }
+}

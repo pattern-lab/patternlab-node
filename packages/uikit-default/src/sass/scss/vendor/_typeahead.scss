@@ -1,0 +1,66 @@
+/*------------------------------------*\
+#TYPEAHEAD
+\*------------------------------------*/
+
+/**
+* We're using Twitter Typeahead to autocomplete pattern
+* searches. https://twitter.github.io/typeahead.js/
+*/
+
+.twitter-typeahead {
+    width: 100%;
+}
+
+.typeahead {
+    border: 0;
+    background: $sg-gray-dark;
+    color: $sg-gray;
+    width: 100%;
+    right: 0;
+    padding: 0.8em;
+    text-transform: lowercase;
+
+    &:focus {
+        background: $sg-gray;
+        color: $sg-white;
+    }
+}
+
+.tt-input {
+    background: $sg-gray;
+    color: $sg-white;
+    text-transform: uppercase;
+
+    &:focus {
+        text-transform: lowercase;
+    }
+}
+
+.tt-hint {
+    text-transform: lowercase;
+    border-bottom-right-radius: $sg-border-radius-med;
+    border-bottom-left-radius: $sg-border-radius-med;
+}
+
+.tt-dropdown-menu {
+    text-transform: lowercase;
+    background-color: $sg-gray;
+    width: 100%;
+    border-bottom-right-radius: $sg-border-radius-med;
+    border-bottom-left-radius: $sg-border-radius-med;
+}
+
+.tt-suggestion {
+    color: $sg-gray-light;
+    font-size: 75%;
+    padding: 0.8em;
+}
+
+.tt-suggestion.tt-cursor {
+    color: $sg-white;
+    background: $sg-tint-2;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
