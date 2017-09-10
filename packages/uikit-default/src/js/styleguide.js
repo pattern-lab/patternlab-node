@@ -21,8 +21,6 @@
     fullMode = true,
     hayMode = false;
 
-
-
   //Update dimensions on resize
   $(w).resize(function() {
     sw = document.body.clientWidth;
@@ -36,37 +34,37 @@
   });
 
   // Accordion dropdown
-  $('.sg-acc-handle').on("click", function(e){
+  $('.pl-js-acc-handle').on("click", function(e){
     e.preventDefault();
 
     var $this = $(this),
-      $panel = $this.next('.sg-acc-panel'),
-      subnav = $this.parent().parent().hasClass('sg-acc-panel');
+      $panel = $this.next('.pl-js-acc-panel'),
+      subnav = $this.parent().parent().hasClass('pl-js-acc-panel');
 
     //Close other panels if link isn't a subnavigation item
     if (!subnav) {
-      $('.sg-acc-handle').not($this).removeClass('active');
-      $('.sg-acc-panel').not($panel).removeClass('active');
+      $('.pl-js-acc-handle').not($this).removeClass('active');
+      $('.pl-js--acc-panel').not($panel).removeClass('active');
     }
 
     //Activate selected panel
-    $this.toggleClass('active');
-    $panel.toggleClass('active');
+    $this.toggleClass('pl-is-active');
+    $panel.toggleClass('pl-is-active');
     setAccordionHeight();
   });
 
   //Accordion Height
   function setAccordionHeight() {
-    var $activeAccordion = $('.sg-acc-panel.active').first(),
+    var $activeAccordion = $('.pl-js-acc-panel.pl-is-active').first(),
       accordionHeight = $activeAccordion.height(),
       availableHeight = sh-$headerHeight; //Screen height minus the height of the header
 
     $activeAccordion.height(availableHeight); //Set height of accordion to the available height
   }
 
-  $('.sg-nav-toggle').on("click", function(e){
+  $('.pl-js-nav-trigger').on("click", function(e){
     e.preventDefault();
-    $('.sg-nav-container').toggleClass('active');
+    $('.pl-js-nav-target').toggleClass('pl-is-active');
   });
 
   // "View (containing clean, code, raw, etc options) Trigger
@@ -526,7 +524,7 @@
 
   //Close all dropdowns and navigation
   function closePanels() {
-    $('.sg-nav-container, .sg-nav-toggle, .sg-acc-handle, .sg-acc-panel').removeClass('active');
+    $('.sg-nav-container, .sg-nav-toggle, .sg-js-acc-handle, .pl-js-acc-panel').removeClass('active');
     patternFinder.closeFinder();
   }
 

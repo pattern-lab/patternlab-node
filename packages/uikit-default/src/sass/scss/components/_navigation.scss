@@ -3,71 +3,136 @@
 \*------------------------------------*/
 
 /**
-* Nav toggle expands and collapses .sg-nav
-* 1) On larger viewports, the toggle gets hidden and
-* the full nav is displayed across the top.
-*/
-.sg-nav-toggle {
-    display: inline-block;
-    position: relative;
-    text-transform: uppercase;
-    z-index: 2;
-
-    @media all and (min-width: $pl-bp-med) {
-        display: none;
-    }
-}
-
-/**
-* Navigation container
-*/
-.sg-nav-container {
+ * Navigation container
+ * 1) Collapse height on small screens. Menu trigger button
+ *    activates nav
+ */
+.pl-c-nav {
     @media all and (max-width: $pl-bp-med) {
         overflow: hidden;
-        max-height: 0;
+        max-height: 0; /* 1 */
         transition: max-height $pl-animate-quick ease-out;
 
-        &.active {
-            max-height: 50em;
+        /**
+        * Active navigaiton
+        */
+        &.pl-is-active {
+            max-height: 50rem;  /* 1 */
         }
     }
 }
 
 /**
-* Nav list
-* 1) appears as an <ol>
-*/
-.sg-nav {
+ * Nav list
+ * 1) appears as an <ol>
+ */
+.pl-c-nav__list {
     z-index: 1;
     margin: 0;
     padding: 0;
     list-style: none;
 
+    @media all and (min-width: $pl-bp-med) {
+        display: flex;
+    }
+}
+
+/**
+ * Nav list item
+*/
+.pl-c-nav__item {
+    cursor: pointer;
+    position: relative;
+}
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link {
+    display: block;
+}
+
+/**
+* Nav link
+*/
+.pl-c-nav__link--dropdown {
+    background: pink;
+
     /**
-    * Nav <ol> list
+    * Dropdown caret after accordion handle
     */
-    > li {
-        cursor: pointer;
+    &:after {
+        content: '▼';
+        color: $pl-color-trans-white-25;
+        display: inline-block;
+        font-size: 7px;
+        position: relative;
+        top: -1px;
+        right: -2px;
+        transition: all $pl-animate-quick ease-out;
 
         @media all and (min-width: $pl-bp-med) {
-            border-bottom: 0;
-            float: left;
-            position: relative;
-
-            > ol {
-                position: absolute;
-                top: $offset-top;
-                left: 0;
-            }
-
+            float: none;
         }
     }
 
+    &:hover, &:focus {
+        &:after {
+            color: $pl-color-gray-50;
+        }
+    }
+
+    &.pl-is-active {
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
+
+        &:after {
+            top: -2px;
+            color: $pl-color-gray-50;
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    }
+}
+
+/**
+* Nav sublist
+* 1) On larger screens, display as dropdowns that
+*    hang over the header
+*/
+.pl-c-nav__sublist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @media all and (min-width: $pl-bp-med) {
+        position: absolute;
+        top: $offset-top; /* 1 */
+        left: 0;
+        min-width: 10rem;
+        border-bottom-left-radius: $pl-border-radius-med;
+        border-bottom-right-radius: $pl-border-radius-med;
+    }
+}
+
+/**
+* Dropdown sublist
+*/
+.pl-c-nav__sublist--dropdown, .pl-c-nav__subsublist--dropdown {
+    overflow: hidden;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transition: max-height $pl-animate-quick ease-out;
+
     /**
-    * Links within the nav
+    * Active is when accordion panel is open
     */
-    a {
-        display: block;
+    &.pl-is-active {
+        max-height: 120em;
+        overflow: auto;
     }
 }
 
@@ -76,8 +141,10 @@
 * 1) Third-level links are stylistically different
 * than first and second nav links.
 */
-.sg-sub-nav {
+.pl-c-nav__subsublist {
     list-style: none;
+    margin: 0;
+    padding: 0;
 
     a {
         text-transform: none;

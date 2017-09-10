@@ -1,15 +1,46 @@
 {{# patternTypes }}
-  <li class="sg-nav-{{ patternTypeLC }}"><a class="sg-acc-handle">{{ patternTypeUC }}</a><ol class="sg-acc-panel">
-  {{# patternTypeItems }}
-    <li class="sg-nav-{{ patternSubtypeLC }}"><a class="sg-acc-handle">{{ patternSubtypeUC }}</a><ol class="sg-acc-panel sg-sub-nav">
-    {{# patternSubtypeItems }}
-      <li><a href="patterns/{{ patternPath }}" class="sg-pop  {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}" data-patternpartial="{{ patternPartial }}">{{ patternName }}</a></li>
-    {{/ patternSubtypeItems }}
-    </ol></li>
-  {{/ patternTypeItems }}
-  {{# patternItems }}
-    <li><a href="patterns/{{ patternPath }}" class="sg-pop {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}" data-patternpartial="{{ patternPartial }}">{{ patternName }}</a></li>
-  {{/ patternItems }}
-  </ol></li>
+<li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
+  
+  <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternTypeUC }}</a>
+
+	<ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel">
+    
+    {{# patternTypeItems }}
+		<li class="pl-c-nav__item pl-c-nav__item--{{ patternSubtypeLC }}">
+      
+      <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternSubtypeUC }}</a>
+
+			<ol class="pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel">
+				{{# patternSubtypeItems }}
+				<li class="pl-c-nav__item">
+        
+          <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
+              data-patternpartial="{{ patternPartial }}">{{ patternName }}</a>
+              
+				</li><!--end pl-c-nav__item-->
+        {{/ patternSubtypeItems }}
+        
+      </ol><!--end pl-c-nav__subsublist-->
+      
+		</li><!--end pl-c-nav__item-->
+    {{/ patternTypeItems }} 
+    
+    {{# patternItems }}
+		<li class="pl-c-nav__item">
+      
+      <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
+          data-patternpartial="{{ patternPartial }}">{{ patternName }}</a>
+          
+    </li><!--end pl-c-nav__item-->
+    {{/ patternItems }}
+    
+  </ol><!--end pl-c-nav__sublist-->
+  
+</li><!--end pl-c-nav__item-->
 {{/ patternTypes }}
-<li><a href="styleguide/html/styleguide.html" class="sg-pop" data-patternpartial="all">All</a></li>
+
+<li class="pl-c-nav__item">
+
+    <a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all">All</a>
+
+</li><!--end pl-c-nav__item-->
