@@ -9,8 +9,10 @@ var config = require('./util/patternlab-config.json');
 var plEngineModule = rewire('../core/lib/patternlab');
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
-const uiBuilderMock = {
-  buildFrontend: function (patternlab) { }
+const uiBuilderMock = function(){
+  return {
+    buildFrontend: function () { }
+  };
 };
 
 const fsMock = {
@@ -49,8 +51,8 @@ tap.test('buildPatterns - should replace data link even when pattern parameter p
      only on the order of events within build.
      */
     export_patterns: function (patternlab) {
-      var pattern = _.find(patternlab.patterns, (pattern) => {
-        return pattern.patternPartial === 'test-paramParent';
+      var pattern = _.find(patternlab.patterns, (p) => {
+        return p.patternPartial === 'test-paramParent';
       });
       //assert
       test.equals(pattern.patternPartialCode.indexOf('00-test-00-foo.rendered.html') > -1, true, 'data link should be replaced properly');

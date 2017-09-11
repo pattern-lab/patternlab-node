@@ -19,11 +19,24 @@ const chalk = require('chalk');
 const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
-const fs = require('fs-extra');
 const packageInfo = require('../../package.json');
 const plutils = require('./utilities');
 const jsonCopy = require('./json_copy');
 const PatternGraph = require('./pattern_graph').PatternGraph;
+const pa = require('./pattern_assembler');
+const lh = require('./lineage_hunter');
+const sm = require('./starterkit_manager');
+const pe = require('./pattern_exporter');
+const Pattern = require('./object_factory').Pattern;
+const CompileState = require('./object_factory').CompileState;
+
+//these are mocked in unit tests, so let them be overridden
+let fs = require('fs-extra'); // eslint-disable-line
+let ui_builder = require('./ui_builder'); // eslint-disable-line
+let pattern_exporter = new pe(); // eslint-disable-line
+
+const pattern_assembler = new pa();
+const lineage_hunter = new lh();
 
 //register our log events
 plutils.log.on('error', msg => console.log(msg));
@@ -46,7 +59,7 @@ function buildPatternData(dataFilesPath, fsDep) {
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
 // from unit tests to reduce code dupe!
-function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab) {
+function processAllPatternsIterative(patterns_dir, patternlab) {
 
   const promiseAllPatternFiles = new Promise(function (resolve) {
     dive(
@@ -84,7 +97,7 @@ function processAllPatternsIterative(pattern_assembler, patterns_dir, patternlab
   });
 }
 
-function processAllPatternsRecursive(pattern_assembler, patterns_dir, patternlab) {
+function processAllPatternsRecursive(patterns_dir, patternlab) {
   diveSync(
     patterns_dir,
     function (err, file) {
@@ -164,23 +177,10 @@ function PatternLabEventEmitter() {
 inherits(PatternLabEventEmitter, EventEmitter);
 
 const patternlab_engine = function (config) {
-  'use strict';
-
-  const pa = require('./pattern_assembler');
-  const pe = require('./pattern_exporter');
-  const lh = require('./lineage_hunter');
-  const ui = require('./ui_builder');
-  const sm = require('./starterkit_manager');
-  const Pattern = require('./object_factory').Pattern;
-  const CompileState = require('./object_factory').CompileState;
   const patternlab = {};
 
   patternlab.engines = patternEngines;
   patternlab.engines.loadAllEngines(config);
-
-  const pattern_assembler = new pa();
-  const pattern_exporter = new pe();
-  const lineage_hunter = new lh();
 
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
@@ -563,18 +563,18 @@ const patternlab_engine = function (config) {
     patternlab.events.emit('patternlab-build-global-data-end', patternlab);
 
     // diveSync once to perform iterative populating of patternlab object
-    return processAllPatternsIterative(pattern_assembler, paths.source.patterns, patternlab).then(() => {
+    return processAllPatternsIterative(paths.source.patterns, patternlab).then(() => {
 
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
       //now that all the main patterns are known, look for any links that might be within data and expand them
       //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-      pattern_assembler.parse_data_links(patternlab);      
+      pattern_assembler.parse_data_links(patternlab);
 
       //diveSync again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
       // TODO we can reduce the time needed by only processing changed patterns and their partials
-      processAllPatternsRecursive(pattern_assembler, paths.source.patterns, patternlab);
+      processAllPatternsRecursive(paths.source.patterns, patternlab);
 
       //take the user defined head and foot and process any data and patterns that apply
       processHeadPattern();
@@ -654,7 +654,7 @@ const patternlab_engine = function (config) {
       }
       patternlab.isBusy = true;
       return buildPatterns(deletePatternDir).then(() => {
-        new ui().buildFrontend(patternlab);
+        new ui_builder().buildFrontend(patternlab);
         printDebug();
         patternlab.isBusy = false;
         callback();

@@ -48,11 +48,11 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab)
+  plMain.process_all_patterns_iterative(patterns_dir, patternlab)
     .then(() => {
       //diveSync again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
-      plMain.process_all_patterns_recursive(pattern_assembler, patterns_dir, patternlab);
+      plMain.process_all_patterns_recursive(patterns_dir, patternlab);
 
       //get test output for comparison
       var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
@@ -491,7 +491,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab)
+  plMain.process_all_patterns_iterative( patterns_dir, patternlab)
     .then(() => {
       //for the sake of the test, also imagining I have the following pages...
       patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
@@ -740,14 +740,17 @@ tap.test('parses pattern title correctly when frontmatter present', function(tes
   var pl = util.fakePatternLab(testPatternsPath);
   var pattern_assembler = new pa();
 
-  //act
   var testPatternPath = path.join('00-test', '01-bar.mustache');
-  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  //assert
-  test.equals(testPattern.patternName, 'An Atom Walks Into a Bar','patternName not overridden');
-  test.end();
+  //act
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(testPattern, pl),
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl)
+  ]).then((results) => {
+    //assert
+    test.equals(results[0].patternName, 'An Atom Walks Into a Bar','patternName not overridden');
+  }).catch(test.threw);
 });
 
 tap.test('parses pattern extra frontmatter correctly when frontmatter present', function(test){
@@ -758,12 +761,16 @@ tap.test('parses pattern extra frontmatter correctly when frontmatter present', 
   var pl = util.fakePatternLab(testPatternsPath);
   var pattern_assembler = new pa();
 
-  //act
   var testPatternPath = path.join('00-test', '01-bar.mustache');
-  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  //assert
-  test.equals(testPattern.allMarkdown.joke, 'bad','extra key not added');
-  test.end();
+  //act
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(testPattern, pl),
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl)
+  ]).then((results) => {
+    //assert
+    test.equals(results[0].allMarkdown.joke, 'bad','extra key not added');
+
+  }).catch(test.threw);
 });
