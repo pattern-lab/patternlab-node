@@ -1,12 +1,8 @@
-<div class="pl-c-current-size">
-	
-	<form method="post" action="#">
-		<label for="sg-size-px">Size</label>
-		<input type="text" class="pl-input sg-size-px" id="sg-size-px" value="---">px /
-		<input type="text" class="pl-input sg-size-em" value="---">em
-	</form>
 
-</div><!--end pl-c-current-size-->
+<form class="pl-c-viewport-size" method="post" action="#">
+	<input type="text" class="pl-c-viewport-size__input sg-size-px" id="sg-size-px" value="---"><label for="sg-size-px" class="pl-c-viewport-size__label">px /</label>
+	<input type="text" class="pl-c-viewport-size__input sg-size-em" id="sg-size-em" value="---"><label for="sg-size-em" class="pl-c-viewport-size__label">em</label>
+</form><!--end pl-c-viewport-size-->
 
 <ul class="pl-c-size-list">
 	{{^ ishControlsHide.s }}
