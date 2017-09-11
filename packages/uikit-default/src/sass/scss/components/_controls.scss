@@ -7,9 +7,17 @@
  * 2) Right-align inside of header
  */
 .pl-c-controls {
-    margin-left: auto; /* 2 */
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
     display: flex;
     flex-wrap: nowrap;
+
+    @media all and (min-width: $pl-bp-med) {
+        position: static;
+        margin-left: auto; /* 2 */
+    }
 }
 
 /**

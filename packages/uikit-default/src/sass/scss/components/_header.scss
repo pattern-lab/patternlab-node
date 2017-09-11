@@ -19,7 +19,15 @@
     font-family: $pl-font;
     font-size: $pl-font-size-sm;
     text-transform: uppercase;
-    display: flex; /* 2 */
+    
+    @media all and (min-width: $pl-bp-med) {
+        display: flex; /* 2 */
+    }
+
+    .pl-theme--light & {
+        background: $pl-color-white;
+        border-bottom: 1px solid $pl-color-gray-20;
+    }
 }
 
 /**
