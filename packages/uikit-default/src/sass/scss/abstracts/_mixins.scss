@@ -3,10 +3,17 @@
 \*------------------------------------*/
 
 /**
+* List Reset
+*/
+@mixin listReset() {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/**
 * Header Link Style
 */
-
-// _mixins.scss
 @mixin linkStyle() {
     font-size: $pl-font-size-sm;
     background: $pl-color-black;
@@ -14,6 +21,7 @@
     text-decoration: none;
     line-height: 1;
     padding: 0.7rem 0.5rem;
+    border: 0;
     text-transform: uppercase;
     transition: background $pl-animate-quick ease-out, color $pl-animate-quick ease-out;
 
@@ -27,5 +35,26 @@
         background: $pl-color-gray-87;
         outline: 1px dotted $pl-color-gray-50;
         outline-offset: -1px;
+    }
+}
+
+/**
+* Accordion panel
+*/
+@mixin accordionPanel() {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height $pl-animate-quick ease-out;
+
+    /**
+    * Active is when accordion panel is open
+    */
+    &.pl-is-active {
+        max-height: none;
+        overflow: auto;
+
+        @media all and (min-width: $pl-bp-med) {
+            max-height: 50rem;
+        }
     }
 }
