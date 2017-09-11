@@ -3,28 +3,23 @@
 \*------------------------------------*/
 
 /**
-* The tools dropdown contains more utilities such as show/hide
-* pattern info and pattern search, and also links to open in a
-* new window and view the documentation
-*/
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
 .pl-c-tools {
     position: relative;
 }
 
 /**
-* Tools menu button
-* 1) This is the button that contains the toggle and 
-*    triggers the tools dropdown list
-*/
+ * Tools menu button
+ * 1) This is the button that contains the toggle and 
+ *    triggers the tools dropdown list
+ */
 .pl-c-tools__toggle {
     @include linkStyle();
     padding-top: 0.6rem;
     padding-bottom: 0.5rem;
-
-    &:after {
-        display: none;
-        content: "";
-    }
 
     .pl-theme--comfy & {
         padding: 1.1rem 1rem 0.95rem
@@ -32,8 +27,8 @@
 }
 
 /**
-* Tools dropdown list
-*/
+ * Tools dropdown list
+ */
 .pl-c-tools__list {
     @include listReset();
     @include accordionPanel();
@@ -43,22 +38,20 @@
     z-index: 1;
     width: 10rem;
 
+    /**
+     * Tools dropdown list
+     */
     &.pl-is-active {
         height: 100vh;
     }
 }
 
+/**
+ * Tools dropdown actions
+ * 1) Links and buttons inside of the tools dropdown
+ */
 .pl-c-tools__action {
     @include linkStyle();
     display: block;
     width: 100%;
-}
-
-/**
-* Pattern Finder
-* 1) This is the container for pattern search, which
-* is handled by Typeahead (see vendor styles)
-*/
-.sg-find {
-    position: relative;
 }

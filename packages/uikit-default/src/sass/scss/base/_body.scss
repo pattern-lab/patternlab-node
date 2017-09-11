@@ -4,9 +4,9 @@
 
 /**
 * The HTML and body elements for the Pattern Lab shell.
-* These exist indepenedent of any project-specific styles
+* 1)These exist indepenedent of any project-specific styles
+* 2) Styled as IDs to avoid collisions with user <body> tag
 */
-
 #patternlab-html, #patternlab-body {
     margin: 0;
     padding: 0;
