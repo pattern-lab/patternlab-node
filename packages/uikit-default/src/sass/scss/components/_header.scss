@@ -3,9 +3,10 @@
 \*------------------------------------*/
 
 /**
-* Pattern Lab's header is fixed across the top of the viewport and
-* contains the primary pattern navigation, viewport resizing items,
-* and tools.
+* 1) Pattern Lab's header is fixed across the top of the viewport and
+*    contains the primary pattern navigation, viewport resizing items,
+*    and tools.
+* 2) Display nav and controls horizontally
 */
 .pl-c-header {
     position: fixed;
@@ -18,15 +19,13 @@
     font-family: $pl-font;
     font-size: $pl-font-size-sm;
     text-transform: uppercase;
-
-    @media all and (min-width: $pl-bp-med) {
-        display: flex;
-    }
+    display: flex; /* 2 */
 }
 
 /**
  * Nav toggle button
- * 1) Styles for the general nav toggle button
+ * 1) Styles for the general nav toggle button, which
+ *    only appears on small screens
  */
  .pl-c-header__nav-toggle {
     @include linkStyle();
