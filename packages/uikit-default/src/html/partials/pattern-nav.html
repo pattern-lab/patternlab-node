@@ -1,9 +1,9 @@
 {{# patternTypes }}
 <li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
   
-  <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternTypeUC }}</a>
+  <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" tabindex="0" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</a>
 
-	<ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel">
+	<ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel" id="{{ patternTypeLC }}">
     
     {{# patternTypeItems }}
 		<li class="pl-c-nav__item pl-c-nav__item--{{ patternSubtypeLC }}">
@@ -29,7 +29,7 @@
 		<li class="pl-c-nav__item">
       
       <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
-          data-patternpartial="{{ patternPartial }}">{{ patternName }}</a>
+          data-patternpartial="{{ patternPartial }}" tabindex="0">{{ patternName }}</a>
           
     </li><!--end pl-c-nav__item-->
     {{/ patternItems }}
@@ -41,6 +41,6 @@
 
 <li class="pl-c-nav__item">
 
-    <a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all">All</a>
+    <a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all" tabindex="0">All</a>
 
 </li><!--end pl-c-nav__item-->
