@@ -71,10 +71,6 @@
         top: -1px;
         right: -2px;
         transition: all $pl-animate-quick ease-out;
-
-        @media all and (min-width: $pl-bp-med) {
-            float: none;
-        }
     }
 
     &:hover, &:focus {
@@ -94,6 +90,14 @@
             -ms-transform: rotate(180deg);
             transform: rotate(180deg);
         }
+
+        /**
+         * Light theme
+         */
+        .pl-theme--light & {
+            color: $pl-color-gray-87;
+            background: $pl-color-gray-07;
+        }
     }
 }
 
@@ -107,7 +111,7 @@
 
     @media all and (min-width: $pl-bp-med) {
         position: absolute;
-        top: $offset-top; /* 1 */
+        top: 100%; /* 1 */
         left: 0;
         min-width: 10rem;
         overflow: hidden;
