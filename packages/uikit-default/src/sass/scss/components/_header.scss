@@ -14,24 +14,13 @@
     z-index: 4;
     width: 100%;
     background: $pl-color-black;
-    color: $pl-color-white;
+    color: $pl-color-gray-50;
     font-family: $pl-font;
+    font-size: $pl-font-size-sm;
     text-transform: uppercase;
 
-    /**
-    * All lists appearing in the header
-    */
-    ul {
-        padding: 0;
-        margin: 0;
-        list-style: none;
-    }
-
-    /**
-    * All links appearing in the header
-    */
-    a {
-        @include linkStyle();
+    @media all and (min-width: $pl-bp-med) {
+        display: flex;
     }
 }
 
@@ -45,10 +34,5 @@
 
 	@media all and (min-width: $pl-bp-med) {
 		display: none;
-	}
-
-	@media all and (max-width: 17em) {
-		padding-left: 0.2rem;
-		padding-right: 0.2rem;
 	}
 }
