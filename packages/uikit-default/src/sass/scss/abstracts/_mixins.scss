@@ -36,6 +36,21 @@
         outline: 1px dotted $pl-color-gray-50;
         outline-offset: -1px;
     }
+
+    /**
+     * Header link styles inside light theme
+     */
+    .pl-theme--light & {
+        background: $pl-color-white;
+        color: $pl-color-gray-50;
+    }
+
+    /**
+     * Header link styles inside light theme
+     */
+    .pl-theme--comfy & {
+        padding: 1.2rem 1rem;
+    }
 }
 
 /**
