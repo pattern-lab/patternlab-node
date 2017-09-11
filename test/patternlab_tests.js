@@ -49,8 +49,8 @@ tap.test('buildPatterns - should replace data link even when pattern parameter p
      only on the order of events within build.
      */
     export_patterns: function (patternlab) {
-      var pattern = _.find(patternlab.patterns, (pattern) => {
-        return pattern.patternPartial === 'test-paramParent';
+      var pattern = _.find(patternlab.patterns, (p) => {
+        return p.patternPartial === 'test-paramParent';
       });
       //assert
       test.equals(pattern.patternPartialCode.indexOf('00-test-00-foo.rendered.html') > -1, true, 'data link should be replaced properly');
@@ -68,6 +68,14 @@ tap.test('buildPatterns - should replace data link even when pattern parameter p
   pl.build(function() {
     test.end();
   }, true);
+});
 
+tap.test('buildPatternData - can load json, yaml, and yml files', function(test) {
+  const data_dir = './test/files/_data/';
 
+  let dataResult = plEngineModule.build_pattern_data(data_dir, fs);
+  test.equals(dataResult.from_yml, "from_yml");
+  test.equals(dataResult.from_yaml, "from_yaml");
+  test.equals(dataResult.from_json, "from_json");
+  test.end();
 });
