@@ -89,10 +89,16 @@
         }
     }
 
+    /**
+    * Active dropdown
+    */
     &.pl-is-active {
         color: $pl-color-white;
         background: $pl-color-gray-87;
 
+        /**
+        * Caret rotation and positioning in active dropdown
+        */
         &:after {
             top: -2px;
             color: $pl-color-gray-50;
