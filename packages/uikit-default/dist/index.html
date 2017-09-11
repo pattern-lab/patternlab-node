@@ -1,147 +1,215 @@
 <!DOCTYPE html>
 <html id="patternlab-html">
-  <head id="patternlab-head">
-    
+
+<head id="patternlab-head">
+
     <title id="title">Pattern Lab</title>
     <meta charset="UTF-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- never cache patterns -->
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
-    
-    <!-- handle the viewport -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- load the pattern lab css -->
+
+    <!-- load Pattern Lab css -->
     <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
     <link rel="stylesheet" href="styleguide/css/prism-typeahead.min.css" media="all" />
-    
-  </head>
-  <body id="patternlab-body">
-    
-    <!--Style Guide Header-->
-    <header class="sg-header" role="banner">
-      <a href="#sg-nav-container" class="sg-nav-toggle">Menu</a>
-      <div class="sg-nav-container" id="sg-nav-container">
-        <ol class="sg-nav" id="pl-pattern-nav-target"><!-- pattern lab nav will be inserted here --></ol>
-        <div class="sg-controls" id="sg-controls"><!-- ish Controls will be inserted here --></div>
-      </div>
-    </header>
-    <!--End Style Guide Header-->
+
+</head>
+
+<body id="patternlab-body">
+
+    <header class="pl-c-header" role="banner">
+    <button class="pl-c-header__nav-toggle pl-js-nav-trigger">Menu</button>
+
+    <nav class="pl-c-nav pl-js-nav-target" id="sg-nav-container" role="navigation">
+        
+        <ol class="pl-c-nav__list" id="pl-pattern-nav-target">
+            <!-- pattern lab nav will be inserted here -->
+        </ol>
+
+    </nav><!--end pl-c-nav-->
+
+    <div class="pl-c-controls" id="sg-controls">
+        <!-- ish and tools controls will be inserted here -->
+    </div>
+
+</header><!--end pl-c-header--> 
     
     <!-- iFrame -->
-    <div id="sg-vp-wrap">
-      <div id="sg-cover"></div>
-      <div id="sg-gen-container">
+<div id="sg-vp-wrap">
+    <div id="sg-cover"></div>
+    <div id="sg-gen-container">
         <iframe id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
         <div id="sg-rightpull-container">
-          <div id="sg-rightpull"></div>
+            <div id="sg-rightpull"></div>
         </div>
-      </div>
     </div>
-    <!--end iFrame-->
+</div>
+<!--end iFrame--> 
     
     <!-- modal window -->
-    <div id="sg-modal-container" class="sg-modal anim-ready" style="bottom: -2000px">
-      
-      <!-- modal close btn -->
-      <button id="sg-modal-close-btn" class="sg-modal-close-btn" title="Hide pattern info">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12">
-            <title>Close</title>
-            <path fill="#808080" d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"></path>
-          </svg>
-      </button><!--end .sg-modal-close-btn-->
-      
-      <div id="sg-modal-content" class="sg-modal-content"></div><!--end .sg-modal-content-->
-      
-    </div><!--end .sg-modal-->
-    <!-- end modal window -->
+<div id="sg-modal-container" class="sg-modal anim-ready" style="bottom: -2000px">
     
+    <!-- modal close btn -->
+    <button id="sg-modal-close-btn" class="sg-modal-close-btn" title="Hide pattern info">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12">
+        <title>Close</title>
+        <path fill="#808080" d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"></path>
+        </svg>
+    </button>
+    <!--end .sg-modal-close-btn-->
+
+    <div id="sg-modal-content" class="sg-modal-content"></div>
+    <!--end .sg-modal-content-->
+
+</div>
+<!--end .sg-modal-->
+<!-- end modal window -->
+
     <!-- mustache templates -->
     <script type="text/mustache" id="pl-pattern-nav-template">
       {{# patternTypes }}
-  <li class="sg-nav-{{ patternTypeLC }}"><a class="sg-acc-handle">{{ patternTypeUC }}</a><ol class="sg-acc-panel">
-  {{# patternTypeItems }}
-    <li class="sg-nav-{{ patternSubtypeLC }}"><a class="sg-acc-handle">{{ patternSubtypeUC }}</a><ol class="sg-acc-panel sg-sub-nav">
-    {{# patternSubtypeItems }}
-      <li><a href="patterns/{{ patternPath }}" class="sg-pop  {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}" data-patternpartial="{{ patternPartial }}">{{ patternName }}</a></li>
-    {{/ patternSubtypeItems }}
-    </ol></li>
-  {{/ patternTypeItems }}
-  {{# patternItems }}
-    <li><a href="patterns/{{ patternPath }}" class="sg-pop {{# patternState }}sg-pattern-state {{ patternState }}{{/ patternState }}" data-patternpartial="{{ patternPartial }}">{{ patternName }}</a></li>
-  {{/ patternItems }}
-  </ol></li>
+<li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
+  
+  <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" tabindex="0" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</a>
+
+	<ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel" id="{{ patternTypeLC }}">
+    
+    {{# patternTypeItems }}
+		<li class="pl-c-nav__item pl-c-nav__item--{{ patternSubtypeLC }}">
+      
+      <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternSubtypeUC }}</a>
+
+			<ol class="pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel">
+				{{# patternSubtypeItems }}
+				<li class="pl-c-nav__item">
+        
+          <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
+              data-patternpartial="{{ patternPartial }}">{{ patternName }}</a>
+              
+				</li><!--end pl-c-nav__item-->
+        {{/ patternSubtypeItems }}
+        
+      </ol><!--end pl-c-nav__subsublist-->
+      
+		</li><!--end pl-c-nav__item-->
+    {{/ patternTypeItems }} 
+    
+    {{# patternItems }}
+		<li class="pl-c-nav__item">
+      
+      <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
+          data-patternpartial="{{ patternPartial }}" tabindex="0">{{ patternName }}</a>
+          
+    </li><!--end pl-c-nav__item-->
+    {{/ patternItems }}
+    
+  </ol><!--end pl-c-nav__sublist-->
+  
+</li><!--end pl-c-nav__item-->
 {{/ patternTypes }}
-<li><a href="styleguide/html/styleguide.html" class="sg-pop" data-patternpartial="all">All</a></li>
+
+<li class="pl-c-nav__item">
+
+    <a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all" tabindex="0">All</a>
+
+</li><!--end pl-c-nav__item-->
 
     </script>
-    
+
     <script type="text/mustache" id="pl-ish-controls-template">
-      <div class="sg-control-content">
-  <ul class="sg-control">
-    <li class="sg-size">
-      <div class="sg-current-size">
-        <form id="sg-form">
-          <label for="sg-size-px">Size</label>
-          <input type="text" class="sg-input sg-size-px" id="sg-size-px" value="---">px /
-          <input type="text" class="sg-input sg-size-em" value="---">em
-        </form><!--end #sg-form-->
-      </div><!--end #sg-current-size-->
-      <ul class="sg-size-options">
-        {{^ ishControlsHide.s }}
-          <li><a href="#" id="sg-size-s">S</a></li>
-        {{/ ishControlsHide.s }}
-        {{^ ishControlsHide.m }}
-          <li><a href="#" id="sg-size-m">M</a></li>
-        {{/ ishControlsHide.m }}
-        {{^ ishControlsHide.l }}
-          <li><a href="#" id="sg-size-l">L</a></li>
-        {{/ ishControlsHide.l }}
-        {{^ ishControlsHide.full }}
-          <li><a href="#" id="sg-size-full">Full</a></li>
-        {{/ ishControlsHide.full }}
-        {{^ ishControlsHide.random }}
-          <li><a href="#" id="sg-size-random">Rand</a></li>
-        {{/ ishControlsHide.random }}
-        {{^ ishControlsHide.disco }}
-          <li><a href="#" class="mode-link" id="sg-size-disco">Disco</a></li>
-        {{/ ishControlsHide.disco }}
-        {{^ ishControlsHide.hay }}
-          <li><a href="#" class="mode-link" id="sg-size-hay">Hay!</a></li>
-        {{/ ishControlsHide.hay }}
-      </ul>
-    </li>
-    {{^ ishControlsHide.tools-all }}
-      <li class="sg-tools">
-        <button class="sg-acc-handle sg-tools-toggle" id="sg-tools-toggle" title="Tools">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
-            <title>Pattern Lab Tools</title>
-            <path fill="#808080" d="M12.767 8.343c-0.735-1.272-0.293-2.903 0.986-3.643l-1.376-2.383c-0.393 0.23-0.85 0.363-1.338 0.363-1.47 0-2.662-1.2-2.662-2.68h-2.752c0.004 0.457-0.11 0.92-0.355 1.343-0.735 1.272-2.367 1.705-3.649 0.967l-1.376 2.383c0.396 0.225 0.739 0.555 0.983 0.977 0.733 1.27 0.294 2.897-0.98 3.64l1.376 2.383c0.392-0.228 0.847-0.359 1.332-0.359 1.466 0 2.654 1.192 2.662 2.665h2.752c-0.001-0.452 0.113-0.91 0.355-1.329 0.733-1.27 2.362-1.703 3.642-0.971l1.376-2.383c-0.393-0.225-0.734-0.554-0.977-0.974zM7 9.835c-1.566 0-2.835-1.269-2.835-2.835s1.269-2.835 2.835-2.835c1.566 0 2.835 1.269 2.835 2.835s-1.269 2.835-2.835 2.835z"></path>
-          </svg>
-        </button>
-        <ul class="sg-acc-panel sg-right sg-checklist">
-          <li><a href="#" id="sg-t-patterninfo">Show Pattern Info</a></li>
-          {{^ ishControlsHide.views-new }}
-            <li><a href="#" target="_blank" id="sg-raw">Open in new window</a></li>
-          {{/ ishControlsHide.views-new }}
-          {{^ ishControlsHide.tools-docs }}
-            <li><a href="http://patternlab.io/docs/" target="_blank">Pattern Lab Docs</a></li>
-          {{/ ishControlsHide.tools-docs }}
-          {{^ ishControlsHide.find }}
-            <li id="sg-find"><input class="typeahead" id="typeahead" type="text" placeholder="Find pattern" /></li>
-          {{/ ishControlsHide.find }}
-        </ul>
-      </li>
-    {{/ ishControlsHide.tools-all }}
-  </ul>
-</div>
+      
+<form class="pl-c-viewport-size" method="post" action="#">
+	<input type="text" class="pl-c-viewport-size__input sg-size-px" id="sg-size-px" value="---"><label for="sg-size-px" class="pl-c-viewport-size__label">px /</label>
+	<input type="text" class="pl-c-viewport-size__input sg-size-em" id="sg-size-em" value="---"><label for="sg-size-em" class="pl-c-viewport-size__label">em</label>
+</form><!--end pl-c-viewport-size-->
 
+<ul class="pl-c-size-list">
+	{{^ ishControlsHide.s }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="sg-size-s">S</button>
+	</li>
+	{{/ ishControlsHide.s }}
+
+	{{^ ishControlsHide.m }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="sg-size-m">M</button>
+	</li>
+	{{/ ishControlsHide.m }} 
+	
+	{{^ ishControlsHide.l }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="sg-size-l">L</button>
+	</li>
+	{{/ ishControlsHide.l }} 
+	
+	{{^ ishControlsHide.full }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="sg-size-full">Full</button>
+	</li>
+	{{/ ishControlsHide.full }} 
+	
+	{{^ ishControlsHide.random }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="sg-size-random">Rand</button>
+	</li>
+	{{/ ishControlsHide.random }} 
+	
+	{{^ ishControlsHide.disco }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action mode-link" id="sg-size-disco">Disco</button>
+	</li>
+	{{/ ishControlsHide.disco }} 
+	
+	{{^ ishControlsHide.hay }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action mode-link" id="sg-size-hay">Hay!</button>
+	</li>
+	{{/ ishControlsHide.hay }}
+</ul>
+
+{{^ ishControlsHide.tools-all }}
+<div class="pl-c-tools">
+	<button class="pl-c-tools__toggle pl-js-acc-handle" id="sg-tools-toggle" title="Tools">
+		
+		<svg class="pl-c-tools__toggle-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
+			<title>Pattern Lab Tools</title>
+			<path fill="currentColor" d="M12.767 8.343c-0.735-1.272-0.293-2.903 0.986-3.643l-1.376-2.383c-0.393 0.23-0.85 0.363-1.338 0.363-1.47 0-2.662-1.2-2.662-2.68h-2.752c0.004 0.457-0.11 0.92-0.355 1.343-0.735 1.272-2.367 1.705-3.649 0.967l-1.376 2.383c0.396 0.225 0.739 0.555 0.983 0.977 0.733 1.27 0.294 2.897-0.98 3.64l1.376 2.383c0.392-0.228 0.847-0.359 1.332-0.359 1.466 0 2.654 1.192 2.662 2.665h2.752c-0.001-0.452 0.113-0.91 0.355-1.329 0.733-1.27 2.362-1.703 3.642-0.971l1.376-2.383c-0.393-0.225-0.734-0.554-0.977-0.974zM7 9.835c-1.566 0-2.835-1.269-2.835-2.835s1.269-2.835 2.835-2.835c1.566 0 2.835 1.269 2.835 2.835s-1.269 2.835-2.835 2.835z"></path>
+		</svg>
+
+	</button>
+
+	<ul class="pl-c-tools__list pl-js-acc-panel">
+		<li class="pl-c-tools__item">
+			<button class="pl-c-tools__action" id="sg-t-patterninfo">Show Pattern Info</button>
+		</li>
+		{{^ ishControlsHide.views-new }}
+		<li class="pl-c-tools__item">
+			<a href="#" class="pl-c-tools__action" target="_blank" id="sg-raw">Open in new window</a>
+		</li>
+		{{/ ishControlsHide.views-new }} 
+
+		{{^ ishControlsHide.tools-docs }}
+		<li class="pl-c-tools__item">
+			<a href="http://patternlab.io/docs/" class="pl-c-tools__action" target="_blank">Pattern Lab Docs</a>
+		</li>
+		{{/ ishControlsHide.tools-docs }} 
+
+		{{^ ishControlsHide.find }}
+		<li class="pl-c-tools__item" id="sg-find">
+			<input class="typeahead" id="typeahead" type="text" placeholder="Find pattern" />
+		</li>
+		{{/ ishControlsHide.find }}
+
+	</ul>
+</div><!--end pl-c-tools-->
+{{/ ishControlsHide.tools-all }}
     </script>
-    
+
     <!-- the template for the modal slider -->
     <script type="text/mustache" id="pl-panel-template-base">
       <div class="sg-pattern-extra-inner">
@@ -243,7 +311,7 @@
 </div><!--end .sg-pattern-extra-inner-->
 
     </script>
-    
+
     <!-- the tempalte for code-related tabs in the code view slider -->
     <script type="text/mustache" id="pl-panel-template-code">
       <pre class="language-markup">
@@ -251,12 +319,12 @@
 </pre>
 
     </script>
-    
-    <!-- load the data generated by pattern lab -->
+
+    <!-- load Pattern Lab data -->
     <script src="styleguide/data/patternlab-data.js"></script>
     <script src="annotations/annotations.js"></script>
-    
-    <!-- load the external library js -->
+
+    <!-- load Pattern Lab external library js -->
     <script src="styleguide/bower_components/jquery.min.js"></script>
     <script src="styleguide/bower_components/hogan-3.0.2.min.js"></script>
     <script src="styleguide/bower_components/prism.min.js"></script>
@@ -265,14 +333,16 @@
     <script src="styleguide/bower_components/typeahead.bundle.min.js"></script>
     <script src="styleguide/bower_components/EventEmitter.min.js"></script>
     <script src="styleguide/bower_components/script.min.js"></script>
-    
+
     <!-- set-up the dispatcher -->
     <script>
       var Dispatcher = new EventEmitter();
     </script>
-    
-    <!-- load the pattern lab viewer js -->
+
+    <!-- load the Pattern Lab viewer js -->
     <script src="styleguide/js/patternlab-viewer.min.js"></script>
-    
-  </body>
+
+</body>
+
 </html>
+

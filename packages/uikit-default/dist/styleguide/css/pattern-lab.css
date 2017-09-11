@@ -31,6 +31,18 @@
 * indepenedently of any project-specific styles
 */
 /*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+/**
+* List Reset
+*/
+/**
+* Header Link Style
+*/
+/**
+* Accordion panel
+*/
+/*------------------------------------*\
     #BASE
 \*------------------------------------*/
 /*------------------------------------*\
@@ -54,7 +66,8 @@
 \*------------------------------------*/
 /**
 * The HTML and body elements for the Pattern Lab shell.
-* These exist indepenedent of any project-specific styles
+* 1)These exist indepenedent of any project-specific styles
+* 2) Styled as IDs to avoid collisions with user <body> tag
 */
 #patternlab-html, #patternlab-body {
   margin: 0;
@@ -73,265 +86,187 @@
     #HEADER
 \*------------------------------------*/
 /**
-* Pattern Lab's header is fixed across the top of the viewport and
-* contains the primary pattern navigation, viewport resizing items,
-* and tools.
+* 1) Pattern Lab's header is fixed across the top of the viewport and
+*    contains the primary pattern navigation, viewport resizing items,
+*    and tools.
+* 2) Display nav and controls horizontally
 */
-.sg-header {
-  background: #000;
-  color: #fff;
-  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
-  text-transform: uppercase;
+.pl-c-header {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 4;
   width: 100%;
-  /**
-  * All lists appearing in the header
-  */
-  /**
-  * All links appearing in the header
-  */
-}
-.sg-header ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-.sg-header a {
+  background: #000;
+  color: #808080;
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   font-size: 0.7rem;
+  text-transform: uppercase;
+}
+@media all and (min-width: 42em) {
+  .pl-c-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* 2 */
+  }
+}
+.pl-theme--light .pl-c-header {
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+/**
+ * Nav toggle button
+ * 1) Styles for the general nav toggle button, which
+ *    only appears on small screens
+ */
+.pl-c-header__nav-toggle {
+  font-size: 0.7rem;
+  background: #000;
   color: #808080;
   text-decoration: none;
   line-height: 1;
-  padding: 1em 0.7em;
-  -webkit-transition: background 0.1s ease-out;
-          transition: background 0.1s ease-out;
-  -webkit-transition: color 0.1s ease-out;
-          transition: color 0.1s ease-out;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
+  border: 0;
 }
-.sg-header a:hover, .sg-header a:focus, .sg-header a.active {
+.pl-c-header__nav-toggle:hover {
   color: #fff;
   background: #222;
+}
+.pl-c-header__nav-toggle:focus, .pl-c-header__nav-toggle.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-theme--light .pl-c-header__nav-toggle {
+  background: #fff;
+  color: #808080;
+}
+.pl-theme--comfy .pl-c-header__nav-toggle {
+  padding: 1.2rem 1rem;
+}
+@media all and (min-width: 42em) {
+  .pl-c-header__nav-toggle {
+    display: none;
+  }
 }
 
 /*------------------------------------*\
     #NAVIGATION
 \*------------------------------------*/
 /**
-* Nav toggle expands and collapses .sg-nav
-* 1) On larger viewports, the toggle gets hidden and
-* the full nav is displayed across the top.
-*/
-.sg-nav-toggle {
-  display: inline-block;
-  position: relative;
-  text-transform: uppercase;
-  z-index: 2;
-}
-@media all and (min-width: 42em) {
-  .sg-nav-toggle {
-    display: none;
-  }
-}
-
-/**
-* Navigation container
-*/
+ * Navigation container
+ * 1) Collapse height on small screens. Menu trigger button
+ *    activates nav
+ */
 @media all and (max-width: 42em) {
-  .sg-nav-container {
+  .pl-c-nav {
     overflow: hidden;
     max-height: 0;
+    /* 1 */
     -webkit-transition: max-height 0.1s ease-out;
             transition: max-height 0.1s ease-out;
+    /**
+    * Active navigaiton
+    */
   }
-  .sg-nav-container.active {
-    max-height: 50em;
+  .pl-c-nav.pl-is-active {
+    max-height: 50rem;
+    /* 1 */
   }
 }
 
 /**
-* Nav list
-* 1) appears as an <ol>
-*/
-.sg-nav {
+ * Nav list
+ * 1) appears as an <ol>
+ * 2) display as a horizontal list on larger screens
+ */
+.pl-c-nav__list {
   z-index: 1;
   margin: 0;
   padding: 0;
   list-style: none;
-  /**
-  * Nav <ol> list
-  */
-  /**
-  * Links within the nav
-  */
 }
-.sg-nav > li {
+@media all and (min-width: 42em) {
+  .pl-c-nav__list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* 2 */
+  }
+}
+
+/**
+ * Nav list item
+*/
+.pl-c-nav__item {
   cursor: pointer;
+  position: relative;
 }
-@media all and (min-width: 42em) {
-  .sg-nav > li {
-    border-bottom: 0;
-    float: left;
-    position: relative;
-  }
-  .sg-nav > li > ol {
-    position: absolute;
-    top: 2rem;
-    left: 0;
-  }
-}
-.sg-nav a {
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link {
   display: block;
-}
-
-/**
-* Sub-navigation
-* 1) Third-level links are stylistically different
-* than first and second nav links.
-*/
-.sg-sub-nav {
-  list-style: none;
-}
-.sg-sub-nav a {
-  text-transform: none;
-  padding-left: 1rem;
-}
-
-/*------------------------------------*\
-    #ISH SIZING
-\*------------------------------------*/
-/**
-* 1) ish. (http://bradfrost.com/demo/ish/) is a viewport-resizing tool
-* that's built into Pattern Lab.
-*/
-/**
-* Size Container
-*/
-.sg-size {
-  width: 135px;
-}
-@media all and (min-width: 42em) {
-  .sg-size {
-    width: auto;
-  }
-}
-
-/**
-* Current size
-* 1) This is the wrapper for the form that houses the current
-* viewport size in px and em
-*/
-.sg-current-size {
-  font-size: 70%;
-  color: #808080;
-  padding: 0.85em 0.7em;
-}
-@media all and (min-width: 53em) {
-  .sg-current-size {
-    float: left;
-  }
-}
-
-/**
-* The <form> for the current size
-*/
-#sg-form {
-  margin: 0;
-  border: 0;
-  padding: 0;
-}
-
-/**
-* Size input fields
-*/
-.sg-input {
-  margin: -2px 0 0 0;
-  padding: 0.1em;
-  border: 0;
-  border-radius: 3px;
+  font-size: 0.7rem;
   background: #000;
   color: #808080;
-  width: 25px;
-  text-align: right;
-  -webkit-transition: all 0.1s ease-out;
-          transition: all 0.1s ease-out;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
 }
-.sg-input:hover {
+.pl-c-nav__link:hover {
   color: #fff;
   background: #222;
 }
-.sg-input:active, .sg-input:focus {
-  outline: 0;
-  background: #808080;
+.pl-c-nav__link:focus, .pl-c-nav__link.active {
   color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
 }
-@media all and (min-width: 42em) {
-  .sg-input {
-    width: 35px;
-  }
-  .sg-input.sg-size-px {
-    width: 30px;
-  }
+.pl-theme--light .pl-c-nav__link {
+  background: #fff;
+  color: #808080;
 }
-
-/**
-* Size options
-* 1) This holds the S, M, L, Rand, Disco links
-* 2) Depending on the config, these number of options may be
-* larger or smaller.
-*/
-.sg-size-options {
-  display: none;
-}
-.sg-size-options a {
-  display: block;
-}
-@media all and (min-width: 53em) {
-  .sg-size-options {
-    display: block;
-    float: left;
-    position: static;
-  }
-  .sg-size-options > li {
-    float: left;
-  }
-}
-
-/*------------------------------------*\
-    #CONTROLS
-\*------------------------------------*/
-/**
-* Controls contains viewport resizer and tools dropdown
-*/
-.sg-controls {
-  border: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 2;
+.pl-theme--comfy .pl-c-nav__link {
+  padding: 1.2rem 1rem;
 }
 
 /**
-* Control list
+* Nav link
 */
-.sg-control > li {
-  float: left;
-}
-
-/*------------------------------------*\
-    #ACCORDION
-\*------------------------------------*/
-/**
-* Accordions are dropdowns used for the primary nav and
-* tools dropdowns.
-*/
-.sg-acc-handle {
+.pl-c-nav__link--dropdown {
   /**
   * Dropdown caret after accordion handle
   */
 }
-.sg-acc-handle:after {
+.pl-c-nav__link--dropdown:after {
   content: '▼';
   color: rgba(255, 255, 255, 0.25);
   display: inline-block;
@@ -342,108 +277,391 @@
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
-@media all and (min-width: 42em) {
-  .sg-acc-handle:after {
-    float: none;
-  }
-}
-.sg-acc-handle:hover:after, .sg-acc-handle:focus:after {
+.pl-c-nav__link--dropdown:hover:after, .pl-c-nav__link--dropdown:focus:after {
   color: #808080;
 }
-.sg-acc-handle.active {
+.pl-c-nav__link--dropdown.pl-is-active {
   color: #fff;
   background: #222;
+  /**
+   * Light theme
+   */
 }
-.sg-acc-handle.active:after {
+.pl-c-nav__link--dropdown.pl-is-active:after {
   top: -2px;
   color: #808080;
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
+.pl-theme--light .pl-c-nav__link--dropdown.pl-is-active {
+  color: #222;
+  background: #eee;
+}
 
 /**
-* Accordion panel
+* Nav sublist
+* 1) On larger screens, display as dropdowns that
+*    hang over the header
 */
-.sg-acc-panel {
-  overflow: hidden;
-  max-height: 0;
+.pl-c-nav__sublist {
+  list-style: none;
   margin: 0;
   padding: 0;
+}
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist {
+    position: absolute;
+    top: 100%;
+    /* 1 */
+    left: 0;
+    min-width: 10rem;
+    overflow: hidden;
+    background: #000;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+}
+
+/**
+* Dropdown sublist
+*/
+.pl-c-nav__sublist--dropdown, .pl-c-nav__subsublist--dropdown {
   list-style: none;
-  min-width: 10em;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
   -webkit-transition: max-height 0.1s ease-out;
           transition: max-height 0.1s ease-out;
   /**
-  * List items appearing in each accordion panel
-  */
-  /**
-  * Links appearing in each accordion panel
-  */
-  /**
   * Active is when accordion panel is open
   */
-  /**
-  * Right align accordion dropdown
-  */
 }
-.sg-acc-panel li {
-  background: #222;
-}
-.sg-acc-panel li:last-child {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-.sg-acc-panel li:last-child a {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-}
-.sg-acc-panel a {
-  display: block;
-}
-.sg-acc-panel.active {
-  max-height: 120em;
+.pl-c-nav__sublist--dropdown.pl-is-active, .pl-c-nav__subsublist--dropdown.pl-is-active {
+  max-height: none;
   overflow: auto;
 }
-.sg-acc-panel.sg-right {
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist--dropdown.pl-is-active, .pl-c-nav__subsublist--dropdown.pl-is-active {
+    max-height: 50rem;
+  }
+}
+
+/**
+* Sub-navigation
+* 1) Third-level links are stylistically different
+* than first and second nav links.
+*/
+.pl-c-nav__subsublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pl-c-nav__subsublist a {
+  text-transform: none;
+  padding-left: 1rem;
+}
+
+/*------------------------------------*\
+    #ISH SIZING
+\*------------------------------------*/
+/**
+* Viewport size form
+* 1) This is the form for the form that houses the current
+*    viewport size in px and em
+*/
+.pl-c-viewport-size {
+  margin: 0;
+  border: 0;
+  padding: 0.3rem 0.5rem 0.4rem;
+  line-height: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+/**
+* Size input fields
+*/
+.pl-c-viewport-size__input {
+  padding: 0.1rem;
+  border: 0;
+  line-height: 1;
+  border-radius: 3px;
+  background: transparent;
+  color: #808080;
+  width: 25px;
+  text-align: right;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.pl-c-viewport-size__input:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-viewport-size__input:active, .pl-c-viewport-size__input:focus {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+@media all and (min-width: 42em) {
+  .pl-c-viewport-size__input {
+    width: 35px;
+  }
+}
+
+/**
+* Size input labels
+*/
+.pl-c-viewport-size__label {
+  display: block;
+  padding: 0.1rem 0;
+  line-height: 1;
+}
+
+/**
+* Size options
+* 1) This holds the S, M, L, Rand, Disco links
+* 2) Depending on the config, these number of options may be
+* larger or smaller.
+*/
+.pl-c-size-list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media all and (min-width: 53em) {
+  .pl-c-size-list {
+    display: block;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+/**
+* Size actions
+* 1) These are the buttons that control the viewport resizing
+*/
+.pl-c-size-list__action {
+  font-size: 0.7rem;
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
+}
+.pl-c-size-list__action:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-size-list__action:focus, .pl-c-size-list__action.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-theme--light .pl-c-size-list__action {
+  background: #fff;
+  color: #808080;
+}
+.pl-theme--comfy .pl-c-size-list__action {
+  padding: 1.2rem 1rem;
+}
+
+/*------------------------------------*\
+    #CONTROLS
+\*------------------------------------*/
+/**
+ * 1) Controls contains viewport resizer and tools dropdown
+ * 2) Right-align inside of header
+ */
+.pl-c-controls {
   position: absolute;
-  left: auto;
+  top: 0;
   right: 0;
+  z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+@media all and (min-width: 42em) {
+  .pl-c-controls {
+    position: static;
+    margin-left: auto;
+    /* 2 */
+  }
+}
+
+/**
+* Control list
+*/
+.pl-c-controls__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
 }
 
 /*------------------------------------*\
     #TOOLS
 \*------------------------------------*/
 /**
-* The tools dropdown contains more utilities such as show/hide
-* pattern info and pattern search, and also links to open in a
-* new window and view the documentation
-*/
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
+.pl-c-tools {
+  position: relative;
+}
+
 /**
-* Tools dropdown button
-*/
-.sg-tools-toggle {
+ * Tools menu button
+ * 1) This is the button that contains the toggle and 
+ *    triggers the tools dropdown list
+ */
+.pl-c-tools__toggle {
   font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
   line-height: 1;
+  padding: 0.7rem 0.5rem;
   border: 0;
-  cursor: pointer;
-  padding: 0.9em 0.7em 0.6em;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
+  padding-top: 0.6rem;
+  padding-bottom: 0.5rem;
 }
-.sg-tools-toggle:after {
-  display: none;
-  content: "";
+.pl-c-tools__toggle:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__toggle:focus, .pl-c-tools__toggle.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-theme--light .pl-c-tools__toggle {
+  background: #fff;
+  color: #808080;
+}
+.pl-theme--comfy .pl-c-tools__toggle {
+  padding: 1.2rem 1rem;
+}
+.pl-theme--comfy .pl-c-tools__toggle {
+  padding: 1.1rem 1rem 0.95rem;
 }
 
 /**
-* Pattern Finder
-* 1) This is the container for pattern search, which
-* is handled by Typeahead (see vendor styles)
-*/
-.sg-find {
-  position: relative;
+ * Tools dropdown list
+ */
+.pl-c-tools__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+  * Active is when accordion panel is open
+  */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1;
+  width: 10rem;
+  /**
+   * Tools dropdown list
+   */
+}
+.pl-c-tools__list.pl-is-active {
+  max-height: none;
+  overflow: auto;
+}
+@media all and (min-width: 42em) {
+  .pl-c-tools__list.pl-is-active {
+    max-height: 50rem;
+  }
+}
+.pl-c-tools__list.pl-is-active {
+  height: 100vh;
+}
+
+/**
+ * Tools dropdown actions
+ * 1) Links and buttons inside of the tools dropdown
+ */
+.pl-c-tools__action {
+  font-size: 0.7rem;
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
+  display: block;
+  width: 100%;
+}
+.pl-c-tools__action:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__action:focus, .pl-c-tools__action.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-theme--light .pl-c-tools__action {
+  background: #fff;
+  color: #808080;
+}
+.pl-theme--comfy .pl-c-tools__action {
+  padding: 1.2rem 1rem;
 }
 
 /**
@@ -1043,35 +1261,138 @@
     #TOOLS
 \*------------------------------------*/
 /**
-* The tools dropdown contains more utilities such as show/hide
-* pattern info and pattern search, and also links to open in a
-* new window and view the documentation
-*/
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
+.pl-c-tools {
+  position: relative;
+}
+
 /**
-* Tools dropdown button
-*/
-.sg-tools-toggle {
+ * Tools menu button
+ * 1) This is the button that contains the toggle and 
+ *    triggers the tools dropdown list
+ */
+.pl-c-tools__toggle {
   font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
   line-height: 1;
+  padding: 0.7rem 0.5rem;
   border: 0;
-  cursor: pointer;
-  padding: 0.9em 0.7em 0.6em;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
+  padding-top: 0.6rem;
+  padding-bottom: 0.5rem;
 }
-.sg-tools-toggle:after {
-  display: none;
-  content: "";
+.pl-c-tools__toggle:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__toggle:focus, .pl-c-tools__toggle.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-theme--light .pl-c-tools__toggle {
+  background: #fff;
+  color: #808080;
+}
+.pl-theme--comfy .pl-c-tools__toggle {
+  padding: 1.2rem 1rem;
+}
+.pl-theme--comfy .pl-c-tools__toggle {
+  padding: 1.1rem 1rem 0.95rem;
 }
 
 /**
-* Pattern Finder
-* 1) This is the container for pattern search, which
-* is handled by Typeahead (see vendor styles)
-*/
-.sg-find {
-  position: relative;
+ * Tools dropdown list
+ */
+.pl-c-tools__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+  * Active is when accordion panel is open
+  */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1;
+  width: 10rem;
+  /**
+   * Tools dropdown list
+   */
+}
+.pl-c-tools__list.pl-is-active {
+  max-height: none;
+  overflow: auto;
+}
+@media all and (min-width: 42em) {
+  .pl-c-tools__list.pl-is-active {
+    max-height: 50rem;
+  }
+}
+.pl-c-tools__list.pl-is-active {
+  height: 100vh;
+}
+
+/**
+ * Tools dropdown actions
+ * 1) Links and buttons inside of the tools dropdown
+ */
+.pl-c-tools__action {
+  font-size: 0.7rem;
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  text-transform: uppercase;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside light theme
+   */
+  display: block;
+  width: 100%;
+}
+.pl-c-tools__action:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__action:focus, .pl-c-tools__action.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-theme--light .pl-c-tools__action {
+  background: #fff;
+  color: #808080;
+}
+.pl-theme--comfy .pl-c-tools__action {
+  padding: 1.2rem 1rem;
 }
 
 /*------------------------------------*\
@@ -1389,11 +1710,11 @@
 
 .typeahead {
   border: 0;
-  background: #222;
+  background: #000;
   color: #808080;
   width: 100%;
   right: 0;
-  padding: 0.8em;
+  padding: 0.7rem 0.5rem;
   text-transform: lowercase;
 }
 .typeahead:focus {
@@ -1405,9 +1726,26 @@
   background: #808080;
   color: #fff;
   text-transform: uppercase;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.tt-input:hover {
+  color: #fff;
+  background: #222 !important;
+}
+.tt-input:hover::-webkit-input-placeholder {
+  color: #fff;
+}
+.tt-input:hover::-moz-input-placeholder {
+  color: #fff;
 }
 .tt-input:focus {
+  border-radius: 0;
   text-transform: lowercase;
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
 }
 
 .tt-hint {
@@ -1426,7 +1764,7 @@
 
 .tt-suggestion {
   color: #eee;
-  font-size: 75%;
+  font-size: 0.7rem;
   padding: 0.8em;
 }
 
