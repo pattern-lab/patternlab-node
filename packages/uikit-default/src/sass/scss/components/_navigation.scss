@@ -25,6 +25,7 @@
 /**
  * Nav list
  * 1) appears as an <ol>
+ * 2) display as a horizontal list on larger screens
  */
 .pl-c-nav__list {
     z-index: 1;
@@ -33,7 +34,7 @@
     list-style: none;
 
     @media all and (min-width: $pl-bp-med) {
-        display: flex;
+        display: flex; /* 2 */
     }
 }
 
@@ -50,13 +51,13 @@
  */
 .pl-c-nav__link {
     display: block;
+    @include linkStyle();
 }
 
 /**
 * Nav link
 */
 .pl-c-nav__link--dropdown {
-    background: pink;
 
     /**
     * Dropdown caret after accordion handle
@@ -102,15 +103,15 @@
 *    hang over the header
 */
 .pl-c-nav__sublist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    @include listReset();
 
     @media all and (min-width: $pl-bp-med) {
         position: absolute;
         top: $offset-top; /* 1 */
         left: 0;
         min-width: 10rem;
+        overflow: hidden;
+        background: $pl-color-black;
         border-bottom-left-radius: $pl-border-radius-med;
         border-bottom-right-radius: $pl-border-radius-med;
     }
@@ -120,20 +121,8 @@
 * Dropdown sublist
 */
 .pl-c-nav__sublist--dropdown, .pl-c-nav__subsublist--dropdown {
-    overflow: hidden;
-    max-height: 0;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    transition: max-height $pl-animate-quick ease-out;
-
-    /**
-    * Active is when accordion panel is open
-    */
-    &.pl-is-active {
-        max-height: 120em;
-        overflow: auto;
-    }
+    @include listReset();
+    @include accordionPanel();
 }
 
 /**
@@ -142,9 +131,7 @@
 * than first and second nav links.
 */
 .pl-c-nav__subsublist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    @include listReset();
 
     a {
         text-transform: none;
