@@ -12,8 +12,8 @@
     maxViewportWidth = parseInt(config.ishMaximum), //Maxiumum Size for Viewport
     viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
     $sgViewport = $('#sg-viewport'), //Viewport element
-    $sizePx = $('.sg-size-px'), //Px size input element in toolbar
-    $sizeEms = $('.sg-size-em'), //Em size input element in toolbar
+    $sizePx = $('#sg-size-px'), //Px size input element in toolbar
+    $sizeEms = $('#sg-size-em'), //Em size input element in toolbar
     $bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document,
     $headerHeight = $('.sg-header').height(),
     discoID = false,
@@ -513,7 +513,7 @@
 
   //Close all dropdowns and navigation
   function closePanels() {
-    $('.sg-nav-container, .sg-nav-toggle, .sg-js-acc-handle, .pl-js-acc-panel').removeClass('pl-is-active');
+    $('.sg-nav-container, .sg-nav-toggle, .pl-js-acc-handle, .pl-js-acc-panel').removeClass('pl-is-active');
     patternFinder.closeFinder();
   }
 
