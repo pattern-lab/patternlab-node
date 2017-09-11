@@ -13,11 +13,11 @@
 
 .typeahead {
     border: 0;
-    background: $pl-color-gray-87;
+    background: $pl-color-black;
     color: $pl-color-gray-50;
     width: 100%;
     right: 0;
-    padding: 0.8em;
+    padding: 0.7rem 0.5rem;
     text-transform: lowercase;
 
     &:focus {
@@ -30,9 +30,29 @@
     background: $pl-color-gray-50;
     color: $pl-color-white;
     text-transform: uppercase;
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+
+    &:hover {
+        color: $pl-color-white;
+        background: $pl-color-gray-87 !important;
+
+        &::-webkit-input-placeholder {
+            color: $pl-color-white;
+        }
+
+        &::-moz-input-placeholder {
+            color: $pl-color-white;
+        }
+    }
 
     &:focus {
+        border-radius: 0;
         text-transform: lowercase;
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
+        outline: 1px dotted $pl-color-gray-50;
+        outline-offset: -1px;
     }
 }
 
@@ -52,7 +72,7 @@
 
 .tt-suggestion {
     color: $pl-color-gray-07;
-    font-size: 75%;
+    font-size: $pl-font-size-sm;
     padding: 0.8em;
 }
 
