@@ -19,11 +19,15 @@
 .pl-c-tools__toggle {
     @include linkStyle();
     padding-top: 0.6rem;
-    padding-bottom: 0.4rem;
+    padding-bottom: 0.5rem;
 
     &:after {
         display: none;
         content: "";
+    }
+
+    .pl-theme--comfy & {
+        padding: 1.1rem 1rem 0.95rem
     }
 }
 
@@ -34,7 +38,7 @@
     @include listReset();
     @include accordionPanel();
     position: absolute;
-    top: $offset-top; /* 1 */
+    top: 100%;
     right: 0;
     z-index: 1;
     width: 10rem;
