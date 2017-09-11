@@ -26,8 +26,6 @@
     sw = document.body.clientWidth;
     sh = $(document).height();
 
-    setAccordionHeight();
-
     if(fullMode === true) {
       sizeiframe(sw, false);
     }
@@ -38,30 +36,21 @@
     e.preventDefault();
 
     var $this = $(this),
-      $panel = $this.next('.pl-js-acc-panel'),
-      subnav = $this.parent().parent().hasClass('pl-js-acc-panel');
+        $panel = $this.next('.pl-js-acc-panel'),
+        subnav = $this.parent().parent().hasClass('pl-js-acc-panel');
 
     //Close other panels if link isn't a subnavigation item
     if (!subnav) {
-      $('.pl-js-acc-handle').not($this).removeClass('active');
-      $('.pl-js--acc-panel').not($panel).removeClass('active');
+      $('.pl-js-acc-handle').not($this).removeClass('pl-is-active');
+      $('.pl-js-acc-panel').not($panel).removeClass('pl-is-active');
     }
 
     //Activate selected panel
     $this.toggleClass('pl-is-active');
     $panel.toggleClass('pl-is-active');
-    setAccordionHeight();
   });
 
-  //Accordion Height
-  function setAccordionHeight() {
-    var $activeAccordion = $('.pl-js-acc-panel.pl-is-active').first(),
-      accordionHeight = $activeAccordion.height(),
-      availableHeight = sh-$headerHeight; //Screen height minus the height of the header
-
-    $activeAccordion.height(availableHeight); //Set height of accordion to the available height
-  }
-
+  // Menu button on small screens
   $('.pl-js-nav-trigger').on("click", function(e){
     e.preventDefault();
     $('.pl-js-nav-target').toggleClass('pl-is-active');
@@ -70,13 +59,13 @@
   // "View (containing clean, code, raw, etc options) Trigger
   $('#sg-t-toggle').on("click", function(e){
     e.preventDefault();
-    $(this).parents('ul').toggleClass('active');
+    $(this).parents('ul').toggleClass('pl-is-active');
   });
 
   //Size Trigger
   $('#sg-size-toggle').on("click", function(e){
     e.preventDefault();
-    $(this).parents('ul').toggleClass('active');
+    $(this).parents('ul').toggleClass('pl-is-active');
   });
 
   //Phase View Events
@@ -524,7 +513,7 @@
 
   //Close all dropdowns and navigation
   function closePanels() {
-    $('.sg-nav-container, .sg-nav-toggle, .sg-js-acc-handle, .pl-js-acc-panel').removeClass('active');
+    $('.sg-nav-container, .sg-nav-toggle, .sg-js-acc-handle, .pl-js-acc-panel').removeClass('pl-is-active');
     patternFinder.closeFinder();
   }
 
