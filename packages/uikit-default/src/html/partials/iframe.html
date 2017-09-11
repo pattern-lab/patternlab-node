@@ -1,11 +1,15 @@
-<!-- iFrame -->
-<div id="sg-vp-wrap">
-    <div id="sg-cover"></div>
-    <div id="sg-gen-container">
-        <iframe id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-        <div id="sg-rightpull-container">
-            <div id="sg-rightpull"></div>
-        </div>
-    </div>
-</div>
-<!--end iFrame-->
+<div class="pl-c-viewport pl-js-viewport">
+    
+    <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
+
+    <div class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container">
+        
+        <iframe class="pl-c-viewport__iframe pl-js-iframe" id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        
+        <div class="pl-c-viewport__resizer pl-js-resize-container">
+            <div class="pl-c-viewport__resizer-handle pl-js-resize-handle" />
+        </div><!--end pl-c-viewport__resizer-->
+
+    </div><!--end pl-c-viewport__iframe-wrapper-->
+
+</div><!--end pl-c-viewport-->

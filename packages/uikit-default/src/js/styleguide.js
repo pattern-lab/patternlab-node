@@ -11,11 +11,10 @@
 		minViewportWidth = parseInt(config.ishMinimum), //Minimum Size for Viewport
 		maxViewportWidth = parseInt(config.ishMaximum), //Maxiumum Size for Viewport
 		viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
-		$sgViewport = $('#sg-viewport'), //Viewport element
+		$sgIframe = $('.pl-js-iframe'), //Viewport element
 		$sizePx = $('#pl-size-px'), //Px size input element in toolbar
 		$sizeEms = $('#pl-size-em'), //Em size input element in toolbar
-		$bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document,
-		$headerHeight = $('.sg-header').height(),
+		$bodySize = (config.ishFontSize !== undefined) ? parseInt(config.ishFontSize) : parseInt($('body').css('font-size')), //Body size of the document
 		discoID = false,
 		discoMode = false,
 		fullMode = true,
@@ -29,6 +28,12 @@
 		if (fullMode === true) {
 			sizeiframe(sw, false);
 		}
+	});
+
+	// Nav menu button on small screens
+	$('.pl-js-nav-trigger').on("click", function (e) {
+		e.preventDefault();
+		$('.pl-js-nav-target').toggleClass('pl-is-active');
 	});
 
 	// Accordion dropdown
@@ -48,35 +53,6 @@
 		//Activate selected panel
 		$this.toggleClass('pl-is-active');
 		$panel.toggleClass('pl-is-active');
-	});
-
-	// Menu button on small screens
-	$('.pl-js-nav-trigger').on("click", function (e) {
-		e.preventDefault();
-		$('.pl-js-nav-target').toggleClass('pl-is-active');
-	});
-
-	// "View (containing clean, code, raw, etc options) Trigger
-	$('#sg-t-toggle').on("click", function (e) {
-		e.preventDefault();
-		$(this).parents('ul').toggleClass('pl-is-active');
-	});
-
-	//Phase View Events
-	$('.pl-size[data-size]').on("click", function (e) {
-		e.preventDefault();
-		killDisco();
-		killHay();
-		fullMode = false;
-
-		var val = $(this).attr('data-size');
-
-		if (val.indexOf('px') > -1) {
-			$bodySize = 1;
-		}
-
-		val = val.replace(/[^\d.-]/g, '');
-		sizeiframe(Math.floor(val * $bodySize));
 	});
 
 	//Size View Events
@@ -205,25 +181,25 @@
 
 	//Stop Hay! Mode
 	function killHay() {
-		var currentWidth = $sgViewport.width();
+		var currentWidth = $sgIframe.width();
 		hayMode = false;
-		$sgViewport.removeClass('hay-mode');
-		$('#sg-gen-container').removeClass('hay-mode');
+		$sgIframe.removeClass('hay-mode');
+		$('.pl-js-vp-iframe-container').removeClass('hay-mode');
 		sizeiframe(Math.floor(currentWidth));
 	}
 
 	// start Hay! mode
 	function startHay() {
 		hayMode = true;
-		$('#sg-gen-container').removeClass("vp-animate").width(minViewportWidth + viewportResizeHandleWidth);
-		$sgViewport.removeClass("vp-animate").width(minViewportWidth);
+		$('.pl-js-vp-iframe-container').removeClass("vp-animate").width(minViewportWidth + viewportResizeHandleWidth);
+		$sgIframe.removeClass("vp-animate").width(minViewportWidth);
 
 		var timeoutID = window.setTimeout(function () {
-			$('#sg-gen-container').addClass('hay-mode').width(maxViewportWidth + viewportResizeHandleWidth);
-			$sgViewport.addClass('hay-mode').width(maxViewportWidth);
+			$('.pl-js-vp-iframe-container').addClass('hay-mode').width(maxViewportWidth + viewportResizeHandleWidth);
+			$sgIframe.addClass('hay-mode').width(maxViewportWidth);
 
 			setInterval(function () {
-				var vpSize = $sgViewport.width();
+				var vpSize = $sgIframe.width();
 				updateSizeReading(vpSize);
 			}, 100);
 		}, 200);
@@ -336,13 +312,13 @@
 
 		//Conditionally remove CSS animation class from viewport
 		if (animate === false) {
-			$('#sg-gen-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
+			$('.pl-js-vp-iframe-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
 		} else {
-			$('#sg-gen-container,#sg-viewport').addClass("vp-animate");
+			$('.pl-js-vp-iframe-container,#sg-viewport').addClass("vp-animate");
 		}
 
-		$('#sg-gen-container').width(theSize + viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
-		$sgViewport.width(theSize); //Resize viewport to desired size
+		$('.pl-js-vp-iframe-container').width(theSize + viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
+		$sgIframe.width(theSize); //Resize viewport to desired size
 
 		var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol + "//" + window.location.host;
 		var obj = JSON.stringify({
@@ -355,7 +331,7 @@
 		saveSize(theSize); //Save current viewport to cookie
 	}
 
-	$("#sg-gen-container").on('transitionend webkitTransitionEnd', function (e) {
+	$(".pl-js-vp-iframe-container").on('transitionend webkitTransitionEnd', function (e) {
 		var targetOrigin = (window.location.protocol === "file:") ? "*" : window.location.protocol + "//" + window.location.host;
 		var obj = JSON.stringify({
 			"event": "patternLab.resize",
@@ -406,30 +382,30 @@
 	//Update The viewport size
 	function updateViewportWidth(size) {
 		$("#sg-viewport").width(size);
-		$("#sg-gen-container").width(size * 1 + 14);
+		$(".pl-js-vp-iframe-container").width(size * 1 + 14);
 
 		updateSizeReading(size);
 	}
 
-	$('#sg-gen-container').on('touchstart', function (event) {});
+	$('.pl-js-vp-iframe-container').on('touchstart', function (event) {});
 
 	// handles widening the "viewport"
 	//   1. on "mousedown" store the click location
 	//   2. make a hidden div visible so that it can track mouse movements and make sure the pointer doesn't get lost in the iframe
 	//   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
-	$('#sg-rightpull').mousedown(function (event) {
+	$('.pl-js-resize-handle').mousedown(function (event) {
 
 		// capture default data
 		var origClientX = event.clientX;
-		var origViewportWidth = $sgViewport.width();
+		var origViewportWidth = $sgIframe.width();
 
 		fullMode = false;
 
 		// show the cover
-		$("#sg-cover").css("display", "block");
+		$(".pl-js-viewport-cover").css("display", "block");
 
 		// add the mouse move event and capture data. also update the viewport width
-		$('#sg-cover').mousemove(function (event) {
+		$('.pl-js-viewport-cover').mousemove(function (event) {
 			var viewportWidth;
 
 			viewportWidth = origViewportWidth + 2 * (event.clientX - origClientX);
@@ -452,21 +428,21 @@
 
 	// on "mouseup" we unbind the "mousemove" event and hide the cover again
 	$('body').mouseup(function () {
-		$('#sg-cover').unbind('mousemove');
-		$('#sg-cover').css("display", "none");
+		$('.pl-js-viewport-cover').unbind('mousemove');
+		$('.pl-js-viewport-cover').css("display", "none");
 	});
 
 
 	// capture the viewport width that was loaded and modify it so it fits with the pull bar
 	var origViewportWidth = $("#sg-viewport").width();
-	$("#sg-gen-container").width(origViewportWidth);
+	$(".pl-js-vp-iframe-container").width(origViewportWidth);
 
 	var testWidth = screen.width;
 	if (window.orientation !== undefined) {
 		testWidth = (window.orientation === 0) ? screen.width : screen.height;
 	}
 	if (($(window).width() == testWidth) && ('ontouchstart' in document.documentElement) && ($(window).width() <= 1024)) {
-		$("#sg-rightpull-container").width(0);
+		$(".pl-js-resize-container").width(0);
 	} else {
 		$("#sg-viewport").width(origViewportWidth - 14);
 	}
@@ -536,7 +512,7 @@
 	});
 
 	// handle when someone clicks on the grey area of the viewport so it auto-closes the nav
-	$('#sg-vp-wrap').click(function () {
+	$('.pl-js-viewport').click(function () {
 		closePanels();
 	});
 
@@ -545,7 +521,7 @@
 		var origOrientation = window.orientation;
 		window.addEventListener("orientationchange", function () {
 			if (window.orientation != origOrientation) {
-				$("#sg-gen-container").width($(window).width());
+				$(".pl-js-vp-iframe-container").width($(window).width());
 				$("#sg-viewport").width($(window).width());
 				updateSizeReading($(window).width());
 				origOrientation = window.orientation;
