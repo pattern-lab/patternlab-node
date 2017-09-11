@@ -55,6 +55,16 @@
 }
 
 /**
+ * Nav sublink
+ * 1) Visually differentiate sub-item links from
+ *    the other links. Creates better hierarchy.
+ */
+.pl-c-nav__link--sublink {
+    text-transform: none;
+    padding-left: 1rem;
+}
+
+/**
 * Nav link
 */
 .pl-c-nav__link--dropdown {
@@ -136,10 +146,5 @@
 */
 .pl-c-nav__subsublist {
     @include listReset();
-
-    a {
-        text-transform: none;
-        padding-left: 1rem;
-    }
 }
 
