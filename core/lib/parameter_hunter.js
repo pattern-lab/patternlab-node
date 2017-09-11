@@ -50,9 +50,10 @@ var parameter_hunter = function () {
    *   * Return paramStringWellFormed.
    *
    * @param {string} pString
+   * @param {object} patternlab
    * @returns {string} paramStringWellFormed
    */
-  function paramToJson(pString) {
+  function paramToJson(pString, patternlab) {
     var colonPos = -1;
     var keys = [];
     var paramString = pString; // to not reassign param
@@ -62,12 +63,15 @@ var parameter_hunter = function () {
     var values = [];
     var wrapper;
 
-    // attempt to parse the data incase it is already well formed JSON
+    // attempt to parse the data in case it is already well formed JSON
     try {
       paramStringWellFormed = JSON.stringify(JSON.parse(pString));
       return paramStringWellFormed;
-    } catch(err) {
-      console.log('Not valid JSON - will attempt to parse manually...');
+    } catch (err) {
+      //todo this might be a good candidate for a different log level, should we implement that someday
+      if (patternlab.config.debug) {
+        console.log(`Not valid JSON found for passed pattern parameter ${pString} will attempt to parse manually...`);
+      }
     }
 
     //replace all escaped double-quotes with escaped unicode
@@ -261,7 +265,7 @@ var parameter_hunter = function () {
         var leftParen = pMatch.indexOf('(');
         var rightParen = pMatch.lastIndexOf(')');
         var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        var paramStringWellFormed = paramToJson(paramString);
+        var paramStringWellFormed = paramToJson(paramString, patternlab);
 
         var paramData = {};
         var globalData = {};
