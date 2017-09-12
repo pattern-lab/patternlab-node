@@ -1,5 +1,5 @@
 /*
- * handlebars pattern engine for patternlab-node - v0.15.1 - 2015
+ * handlebars pattern engine for patternlab-node
  *
  * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
