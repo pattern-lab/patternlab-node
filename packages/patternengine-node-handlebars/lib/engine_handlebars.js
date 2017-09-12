@@ -60,8 +60,7 @@ var engine_handlebars = {
     // register exact partial name
     Handlebars.registerPartial(pattern.patternPartial, pattern.template);
 
-    // register verbose syntax? No, it seems that Handlebars can't tolerate
-    // slashes in partial names.
+    Handlebars.registerPartial(pattern.verbosePartial, pattern.template);
   },
 
   // find and return any {{> template-name }} within pattern
