@@ -6,7 +6,13 @@
       "data" : "./test/files/_data/",
       "meta": "./test/files/_meta/",
       "styleguide" : "./test/files/styleguide/",
-      "patternlabFiles" : "./test/files/",
+      "patternlabFiles" : {
+        "general-header": "./test/files/partials/general-header.mustache",
+        "general-footer": "./test/files/partials/general-footer.mustache",
+        "patternSection": "./test/files/partials/patternSection.mustache",
+        "patternSectionSubtype": "./test/files/partials/patternSectionSubtype.mustache",
+        "viewall": "./test/files/viewall.mustache"
+      },
       "js" : "./test/files/js",
       "images" : "./test/files/images",
       "fonts" : "./test/files/fonts",
