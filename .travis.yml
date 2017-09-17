@@ -8,6 +8,7 @@ before_install:
   - phantomjs --version
 
 before_script:
+  - npm install patternengine-node-mustache
   - npm install patternengine-node-underscore
   - npm install patternengine-node-handlebars
   - npm install patternengine-node-twig
