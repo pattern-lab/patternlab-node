@@ -35,13 +35,9 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   patternlab.config.paths.public = public_dir;
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
-  //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
   patternlab.data = {};
-  //patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
   patternlab.listitems = {};
-  //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
   patternlab.header = '';
-  //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
   patternlab.footer = '';
   patternlab.patterns = [];
   patternlab.data.link = {};
@@ -478,10 +474,6 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   patternlab.listitems = {};
   patternlab.header = {};
   patternlab.footer = {};
-  //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-  //patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-  //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-  //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
   patternlab.patterns = [
     Pattern.createEmpty({ patternPartial: 'twitter-brad' }, patternlab),
     Pattern.createEmpty({ patternPartial: 'twitter-dave' }, patternlab),
