@@ -58,6 +58,6 @@
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },
   "engines": {
-    "node": ">=4.0"
+    "node": ">=6.0"
   }
 }
