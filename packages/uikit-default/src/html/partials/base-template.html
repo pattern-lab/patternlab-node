@@ -1,97 +1,100 @@
-<div class="sg-pattern-extra-inner">
+<!-- description, etc. -->
+{{# descBlockExists }}
 
-  <!-- description, etc. -->
-  {{# descBlockExists }}
+  <div class="pl-c-pattern-info__panel pl-js-pattern-info">
 
-    <div class="sg-pattern-extra-info">
+    {{# isPatternView }}
+      <!-- if this is for a single pattern provide some extra info -->
+      <div class="pl-c-pattern-head">
 
-      {{# isPatternView }}
-        <!-- if this is for a single pattern provide some extra info -->
-        <div class="sg-pattern-head">
+        <ul class="pl-c-breadcrumb">
+          {{# patternBreadcrumb }}
+            <li class="pl-c-breadcrumb__item">{{ patternType }}</li>
+            
+            {{# patternSubtype }}
+            <li class="pl-c-breadcrumb__item">{{ patternSubtype }}</li>
+            {{/ patternSubtype }}
 
-          <div class="sg-pattern-breadcrumb">
-            {{# patternBreadcrumb }}
-              {{ patternType }}
-              {{# patternSubtype }}
-                / {{ patternSubtype }}
-              {{/ patternSubtype }}
-            {{/ patternBreadcrumb }}
-          </div>
+          {{/ patternBreadcrumb }}
+        </ul><!--end pl-c-breadcrumb-->
 
-          <h2 class="sg-pattern-title">
-            {{ patternNameCaps }}
-            {{# patternState }}
-              <span class="sg-pattern-state {{ patternState }}">{{ patternState }}</span>
-            {{/ patternState }}
-          </h2>
+        <h2 class="pl-c-pattern-title">
+          {{ patternName }}
 
-        </div><!--end .sg-pattern-head-->
-      {{/ isPatternView }}
+          {{# patternState }}
+          <span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}">{{ patternState }}</span>
+          {{/ patternState }}
+        </h2>
 
-      {{# patternDescExists }}
-        <div class="sg-pattern-desc">
-          {{{ patternDesc }}}
-          {{# patternDescAdditions }}
-            {{{ patternDescAdditions }}}
-          {{/ patternDescAdditions }}
-        </div><!--end .sg-pattern-desc-->
-      {{/ patternDescExists }}
+      </div><!--end pl-c-pattern-head-->
+    {{/ isPatternView }}
 
-      {{# lineageExists }}
-        <p class="sg-pattern-lineage">
-          The <strong>{{ patternName }}</strong> pattern contains the following patterns:
-          <span id="sg-code-lineage-fill">
-          {{# lineage }}
-            <a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
-          {{/ lineage }}
-          </span>
-        </p><!--end .sg-pattern-lineage-->
-      {{/ lineageExists }}
+    {{# patternDescExists }}
+      <div class="pl-c-pattern-desc">
+        {{{ patternDesc }}}
+        {{# patternDescAdditions }}
+          {{{ patternDescAdditions }}}
+        {{/ patternDescAdditions }}
+      </div><!--end .sg-pattern-desc-->
+    {{/ patternDescExists }}
 
-      {{# lineageRExists }}
-        <p class="sg-pattern-lineage">
-          The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
-          <span id="sg-code-lineager-fill">
-          {{# lineageR }}
-            <a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
-          {{/ lineageR }}
-          </span>
-        </p><!--end .sg-pattern-lineage-->
-      {{/ lineageRExists }}
+    {{# lineageExists }}
+      <p class="pl-c-lineage">
+        The <strong>{{ patternName }}</strong> pattern contains the following patterns:
+        <span id="sg-code-lineage-fill">
+        {{# lineage }}
+          <a href="{{ lineagePath }}" class="{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}" data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
+        {{/ lineage }}
+        </span>
+      </p><!--end pl-c-lineage-->
+    {{/ lineageExists }}
 
-      {{# annotationExists }}
-        <div class="sg-annotations" id="sg-annotations">
-          <h2 class="sg-annotations-title">Annotations</h2>
-          <ol class="sg-annotations-list">
-            {{# annotations }}
-              <li><h4 class="sg-annotations-list-title">{{ title }}</h4> {{{ comment }}}</li>
-            {{/ annotations }}
-          </ol>
-        </div>
-      {{/ annotationExists }}
+    {{# lineageRExists }}
+      <p class="pl-c-lineage">
+        The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
+        <span id="sg-code-lineager-fill">
+        {{# lineageR }}
+          <a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
+        {{/ lineageR }}
+        </span>
+      </p><!--end pl-c-lineage-->
+    {{/ lineageRExists }}
 
-    </div><!--end .sg-pattern-extra-info-->
-  {{/ descBlockExists }}
+    {{# annotationExists }}
+      <div class="pl-c-annotations" id="sg-annotations">
+        <h2 class="pl-c-annotations-title">Annotations</h2>
+        <ol class="pl-c-annotations-list">
+          {{# annotations }}
+            <li><h4 class="pl-c-annotations-list-title">{{ title }}</h4> {{{ comment }}}</li>
+          {{/ annotations }}
+        </ol>
+      </div>
+    {{/ annotationExists }}
 
-  <div class="sg-pattern-extra-code">
+  </div><!--end pl-c-pattern-info__panel-->
+{{/ descBlockExists }}
 
-    <div id="sg-{{ patternPartial }}-tabs" class="sg-tabs">
-      <ul class="sg-tabs-list">
-        {{# panels }}
-          <li id="sg-{{ patternPartial }}-{{ id }}-tab" data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}"><a href="#sg-{{ patternPartial }}-{{ id }}-panel" class="active">{{ name }}</a></li>
-        {{/ panels }}
-      </ul><!--end .sg-tabs-list-->
+<div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--code">
 
-      <div id="sg-{{ patternPartial }}-panels" class="sg-tabs-content">
-        {{# panels }}
-          <div id="sg-{{ patternPartial }}-{{ id }}-panel"  class="sg-tabs-panel" style="display: none">
-            {{{ content }}}
-          </div>
-        {{/ panels }}
-      </div><!--end .sg-tabs-content-->
+  <div id="sg-{{ patternPartial }}-tabs" class="pl-c-tabs pl-js-tabs">
+    <ul class="pl-c-tabs__list">
+      {{# panels }}
+        <li class="pl-c-tabs__list-item">
+          <a class="pl-c-tabs__link pl-js-tab-link" href="#sg-{{ patternPartial }}-{{ id }}-panel"  id="sg-{{ patternPartial }}-{{ id }}-tab" data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}">{{ name }}</a>
+        </li><!--end pl-c-tabs__list-item-->
+      {{/ panels }}
+    </ul><!--end pl-c-tabs__list-->
 
-    </div><!--end .sg-tabs-->
+    <div id="sg-{{ patternPartial }}-panels" class="pl-c-tabs__content">
+      
+      {{# panels }}
+        <div id="sg-{{ patternPartial }}-{{ id }}-panel"  class="pl-c-tabs__panel pl-js-tab-panel">
+          {{{ content }}}
+        </div><!--end pl-c-tabs__panel-->
+      {{/ panels }}
 
-  </div><!--end .sg-pattern-extra-code-->
+    </div><!--end pl-c-tabs__content-->
 
-</div><!--end .sg-pattern-extra-inner-->
+  </div><!--end pl-c-tabs-->
+
+</div><!--end pl-c-pattern-info__panel-->
