@@ -2,82 +2,133 @@
     #TABS
 \*------------------------------------*/
 
-.sg-tabs {
-    flex: 1 1 auto;
-    width: 100%;
+/**
+ * 1) Tabs contain a set of horintally-arranged tabs
+ *    with accompanying panels. When a tab link is clicked
+ *    the corresponding panel becomes visible
+ */
+.pl-c-tabs {
     display: flex;
     flex-direction: column;
+    flex: 1 0 auto;
+    width: 100%;
     font: $pl-font !important;
+
+    @media all and (min-width: $pl-bp-large) {
+        padding-left: 1rem;
+    }
 }
 
-.sg-tabs-list {
+/**
+ * Tab List
+ * 1) A unordered list that contains the tab links
+ */
+.pl-c-tabs__list {
     overflow: hidden;
     position: relative;
     bottom: -1px;
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+}
 
-    li {
-        float: left;
-        margin-right: 3px;
+/**
+ * Tab List Item
+ */
+.pl-c-tabs__list-item {
+    margin-right: 3px;    
+}
+
+/**
+ * Tab Link
+ */
+.pl-c-tabs__link {
+    display: block;
+    font-size: 90%;
+    font-weight: bold;
+    line-height: 1;
+    padding: 0.5em 1em;
+    background: $pl-color-gray-13;
+    border: 1px solid $pl-color-gray-20;
+    border-bottom: 0;
+    color: $pl-color-gray-50;
+    cursor: pointer;
+    border-top-right-radius: $pl-border-radius-med;
+    border-top-left-radius: $pl-border-radius-med;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all $pl-animate-quick ease-out;
+
+    &:hover {
+        color: $pl-color-gray-87;
     }
 
-    a {
-        display: block;
-        font-size: 90%;
-        font-weight: bold;
-        line-height: 1;
-        padding: 0.5em 1em;
-        background: $pl-color-gray-07;
-        border: 1px solid $pl-color-gray-20;
-        border-bottom: 0;
-        color: $pl-color-gray-50;
-        border-top-right-radius: $pl-border-radius-med;
-        border-top-left-radius: $pl-border-radius-med;
-        text-decoration: none;
-        text-transform: capitalize;
+    /**
+     * Active Tab
+     * 1) Note: the active tab color corresponds with the Prism code block
+     *    background color, which is why it doesn't use a Sass variable
+     */
+    &.pl-is-active-tab {
+        background: #f5f2f0;
+        color: $pl-color-black;
+    }
 
-        &:hover {
-            color: $pl-color-gray-87;
-        }
+    /**
+     * Tab link inside modal
+     */
+    .pl-c-modal & {
+        border: 0;
     }
 }
 
 /**
-* Active Tab
-* 1) Note: the active tab color corresponds with the Prism code block
-* background color.
-*/
-.sg-tab-title-active {
-    a {
-        background: #f5f2f0; /* 1 */
-        color: $pl-color-gray-87;
-
-        &:hover, &:focus {
-            color: $pl-color-gray-87;
-        }
-    }
-}
-
-.sg-tabs-content {
-    flex: 1 1 auto;
+ * Tab Content
+ * 1) Tab content contains the tab panels
+ */
+.pl-c-tabs__content {
     display: flex;
     flex-direction: column;
+    flex: 1 0 auto;
     border: 1px solid $pl-color-gray-20;
     border-radius: 0 $pl-border-radius-med $pl-border-radius-med $pl-border-radius-med;
     overflow: hidden;
+
+    /**
+     *  Tab content inside modal
+     */
+    .pl-c-modal & {
+        border: 0;
+    }
 }
 
-.sg-tabs-panel {
+/**
+ * Tab panel
+ * 1) Note: the active tab color corresponds with the Prism code block
+ *    background color, which is why it doesn't use a Sass variable
+ */
+.pl-c-tabs__panel {
     display: none;
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
     position: relative;
-    min-height: 12em;
+    min-height: 12rem;
+    background: #f5f2f0; /* 1 #f5f2f0 */
 
-    @media all and (min-width: 42em) {
-        min-height: 7em;
+    /**
+     * Active tab panel
+     */
+    &.pl-is-active-tab {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto;
+    }
+
+    /**
+     * Tab panel
+     * 1) Targeting pre tag in here as 
+     */
+    pre[class*=language-] {
+        margin: 0;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
     }
 }
