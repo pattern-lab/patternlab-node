@@ -1,0 +1,29 @@
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+
+/**
+ * 1) Breadcrumbs display a pattern's path inside the modal
+ */
+.pl-c-breadcrumb {
+    @include listReset();
+    margin-bottom: 0.5rem;
+    display: flex;
+    font-size: $pl-font-size-sm;
+    color: $pl-color-gray-50;
+    text-transform: capitalize;
+}
+
+/**
+ * Breadcrumb Item
+ */
+.pl-c-breadcrumb__item {
+    &:after {
+        content: '▼';
+        font-size: 0.4rem;
+        color: $pl-color-gray-70;
+        transform: rotate(-90deg);
+        display: inline-block;
+        margin: 0 0.3rem;
+    }
+}
