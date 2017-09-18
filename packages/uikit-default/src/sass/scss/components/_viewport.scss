@@ -13,7 +13,6 @@
 * 1) This wrapper div occupies all remaining viewport space after PL's header
 */
 .pl-c-viewport {
-    text-align: center;
     width: 100%;
     position: fixed;
     top: $offset-top;
@@ -45,7 +44,6 @@
 .pl-c-viewport__iframe-wrapper {
     height: 100%;
     position: relative;
-    text-align: center;
     margin: 0 auto;
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
