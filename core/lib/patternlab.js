@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.11.0 - 2017
+ * patternlab-node - v2.11.1 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -504,7 +504,7 @@ var patternlab_engine = function (config) {
       patternlab.data = {};
     }
     try {
-      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems.{json,yml,yaml}'));
+      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems'), fs);
     } catch (ex) {
       plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
