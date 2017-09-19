@@ -504,7 +504,7 @@ var patternlab_engine = function (config) {
       patternlab.data = {};
     }
     try {
-      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems.{json,yml,yaml}'));
+      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems'), fs);
     } catch (ex) {
       plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
