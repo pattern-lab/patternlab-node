@@ -1,14 +1,12 @@
 language: node_js
-
 node_js:
   - node
   - 6
   - 4
-
 before_script:
-  - npm install edition-node
-  - npm install starterkit-mustache-base
-
+  - yarn add edition-node
+  - yarn add starterkit-mustache-base
+  - yarn add eslint
 branches:
   only:
     - master
