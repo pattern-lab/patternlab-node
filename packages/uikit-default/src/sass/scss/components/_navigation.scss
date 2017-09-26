@@ -65,6 +65,18 @@
 }
 
 /**
+ * States
+ */
+.pl-c-nav__link--state-inreview {
+    &:after {
+        content: "o"; //TODO
+        color: yellow; //TODO
+        display: inline-block;
+        margin-left: 0.3rem;
+    }
+}
+
+/**
 * Nav link
 */
 .pl-c-nav__link--dropdown {
