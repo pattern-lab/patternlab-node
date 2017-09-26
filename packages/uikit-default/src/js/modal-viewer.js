@@ -45,8 +45,6 @@ var modalViewer = {
     // make sure the close button handles the click
     $('#sg-modal-close-btn').on('click', function(e) {
       
-      e.preventDefault();
-      
       // hide any open annotations
       obj = JSON.stringify({ 'event': 'patternLab.annotationsHighlightHide' });
       document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
@@ -104,12 +102,6 @@ var modalViewer = {
     // note it's turned on in the viewer
     DataSaver.updateValue('modalActive', 'true');
     modalViewer.active = true;
-
-    // add an active class to the button that matches this template
-    $('#sg-t-'+modalViewer.template+' .sg-checkbox').addClass('active');
-
-    //Add active class to modal
-    $('#sg-modal-container').addClass('active');
     
     // show the modal
     modalViewer.show();
@@ -128,13 +120,7 @@ var modalViewer = {
     modalViewer.active = false;
     
     //Add active class to modal
-    $('#sg-modal-container').removeClass('active');
-    
-    // remove the active class from all of the checkbox items
-    $('.sg-checkbox').removeClass('active');
-    
-    // hide the modal
-    modalViewer.hide();
+    $('#sg-modal-container').removeClass('pl-is-active');
     
     // update the wording
     $('#sg-t-patterninfo').html("Show Pattern Info");
@@ -205,8 +191,7 @@ var modalViewer = {
   * @param  {Integer}      where the modal window should be slide to
   */
   slide: function(pos) {
-    pos = (pos === 0) ? 0 : -pos;
-    $('#sg-modal-container').css('bottom',pos);
+    $('#sg-modal-container').toggleClass('pl-is-active');
   },
   
   /**
@@ -225,7 +210,7 @@ var modalViewer = {
     for (i = 0; i < els.length; ++i) {
       if ((i+1) == pos) {
         els[i].classList.add('active');
-        $('.sg-pattern-extra-info').animate({scrollTop: els[i].offsetTop - 10}, 600);
+        $('.pl-js-pattern-info').animate({scrollTop: els[i].offsetTop - 10}, 600);
       }
     }
     
