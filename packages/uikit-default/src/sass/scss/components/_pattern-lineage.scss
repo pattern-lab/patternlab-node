@@ -5,7 +5,11 @@
 /**
 * Pattern Lineage info
 */
-.sg-pattern-lineage {
+.pl-c-lineage {
     font-size: 90%;
     font-style: italic;
+
+    a {
+        color: $pl-color-gray-50;
+    }
 }
