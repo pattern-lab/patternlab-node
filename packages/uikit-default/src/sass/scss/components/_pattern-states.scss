@@ -73,3 +73,11 @@
 .complete:before {
     color: #2ECC40 !important;
 }
+
+/**
+ * Pattern State
+ */
+.pl-c-pattern-state {
+    font-size: $pl-font-size-sm;
+    color: $pl-color-gray-50;
+}
