@@ -1,7 +1,7 @@
 /*!
  * Panel Builder. Supports building the panels to be included in the modal or styleguide
  *
- * Copyright (c) 2013-16 Brad Frost, http://bradfrostweb.com & Dave Olsen, http://dmolsen.com
+ * Copyright (c) 2013-16 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
  *
  * @requires panels.js
@@ -191,13 +191,16 @@ var panelsViewer = {
 
     // make sure templateRendered is modified to be an HTML element
     div              = document.createElement('div');
-    div.className    = 'sg-modal-content-inner';
+    div.className    = 'pl-c-pattern-info';
     div.innerHTML    = templateRendered;
     templateRendered = div;
 
     // add click events
     templateRendered = panelsUtil.addClickEvents(templateRendered, patternPartial);
 
+
+
+    
     // add onclick events to the tabs in the rendered content
     for (i = 0; i < panels.length; ++i) {
 
@@ -209,8 +212,8 @@ var panelsViewer = {
 
       // show default options
       if ((templateRendered.querySelector(panelTab) !== null) && (panel.default)) {
-        templateRendered.querySelector(panelTab).classList.add('sg-tab-title-active');
-        templateRendered.querySelector(panelBlock).style.display = 'block';
+        templateRendered.querySelector(panelTab).classList.add('pl-is-active-tab');
+        templateRendered.querySelector(panelBlock).classList.add('pl-is-active-tab');
       }
 
     }
