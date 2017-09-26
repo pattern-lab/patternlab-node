@@ -28,6 +28,8 @@
     color: $pl-color-gray-50;
     width: 25px;
     text-align: right;
+    position: relative;
+    top: 1px;
     transition: all $pl-animate-quick ease-out;
 
     &:hover {
