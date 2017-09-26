@@ -19,10 +19,10 @@
  */
 .pl-c-breadcrumb__item {
     &:after {
-        content: '▼';
-        font-size: 0.4rem;
+        content: '▶';
+        opacity: 0.8;
+        font-size: 0.3rem;
         color: $pl-color-gray-70;
-        transform: rotate(-90deg);
         display: inline-block;
         margin: 0 0.3rem;
     }
