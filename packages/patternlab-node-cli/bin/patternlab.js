@@ -3,6 +3,7 @@
 const cli = require('commander');
 const build = require('./cli-actions/build');
 const help = require('./cli-actions/help');
+const version = require('./cli-actions/version');
 const init = require('./cli-actions/init');
 const exportPatterns = require('./cli-actions/export');
 const serve = require('./cli-actions/serve');
@@ -26,7 +27,7 @@ const silenceLogs = () => {
  * Hook up cli version, usage and options
  */
 cli
-	.version(pkg.version, '-V, --version')
+	.version(version(pkg), '-V, --version')
 	.usage('<cmd> [options]')
 	.arguments('<cmd> [options]')
 	.option('-c, --config <path>', 'Specify config file. Default looks up the project dir', val => val.trim(), './patternlab-config.json')
