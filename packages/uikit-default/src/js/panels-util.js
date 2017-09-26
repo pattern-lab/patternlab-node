@@ -18,10 +18,11 @@ var panelsUtil = {
   */
   addClickEvents: function(templateRendered, patternPartial) {
     
-    var els = templateRendered.querySelectorAll('#sg-'+patternPartial+'-tabs li');
+    var els = templateRendered.querySelectorAll('.pl-js-tab-link');
     for (var i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
         e.preventDefault();
+
         var patternPartial = this.getAttribute('data-patternpartial');
         var panelID = this.getAttribute('data-panelid');
         panelsUtil.show(patternPartial, panelID);
@@ -42,22 +43,22 @@ var panelsUtil = {
     var els;
     
     // turn off all of the active tabs
-    els = document.querySelectorAll('#sg-'+patternPartial+'-tabs li');
+    els = document.querySelectorAll('#sg-'+patternPartial+'-tabs .pl-js-tab-link');
     for (i = 0; i < els.length; ++i) {
-      els[i].classList.remove('sg-tab-title-active');
+      els[i].classList.remove('pl-is-active-tab');
     }
     
     // hide all of the panels
-    els = document.querySelectorAll('#sg-'+patternPartial+'-panels div.sg-tabs-panel');
+    els = document.querySelectorAll('#sg-'+patternPartial+'-panels .pl-js-tab-panel');
     for (i = 0; i < els.length; ++i) {
-      els[i].style.display = 'none';
+      els[i].classList.remove('pl-is-active-tab');
     }
     
     // add active tab class
-    document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('sg-tab-title-active');
+    document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('pl-is-active-tab');
     
     // show the panel
-    document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
+    document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').classList.add('pl-is-active-tab');
     
   }
   
