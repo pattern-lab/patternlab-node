@@ -3,149 +3,153 @@
 \*------------------------------------*/
 
 /**
-* 1) The modal appears when "show pattern info" is selected
-*    on the pattern detail screen.
-*/
-
-.sg-modal {
+ * 1) The modal slides up from the bottom of the viewport when 
+ *    "show pattern info" is selected on the pattern detail screen.
+ */
+.pl-c-modal {
     font-family: $pl-font;
-    line-height: 1.4;
-    font-size: 90%;
     background: $pl-color-black;
     color: $pl-color-gray-20;
     position: fixed;
     top: auto;
-    bottom: 0;
+    bottom: -50%;
     left: 0;
-    z-index: 2;
+    z-index: 5;
     width: 100%;
     height: 50%;
     display: flex;
     flex-direction: column;
+    transition:  bottom 0.3s ease-out;
 
-    &.anim-ready {
-        transition:  bottom 0.3s ease-out;
+    /**
+     * Active modal
+     */
+    &.pl-is-active {
+        bottom: 0;
     }
 
     /**
-    * Pattern Breadcrumbs inside modal
-    */
-    .sg-pattern-breadcrumb {
-        font-size: $pl-font-size-sm;
-        color: $pl-color-gray-50;
-        margin-bottom: 0.5rem;
-    }
-
-    /**
-    * Pattern Header inside modal
-    */
-    .sg-pattern-head {
-        margin-bottom: 0.5rem;
-    }
-
-    /**
-    * Pattern Title inside modal
-    */
-    .sg-pattern-title {
-        font-size: 1.4rem !important;
-        color: $pl-color-gray-07;
-    }
-
-    /**
-    * Pattern Information inside modal
-    */
-    .sg-pattern-extra {
-        flex: 1 1 auto;
-        max-height: none;
-        padding: 0;
-
-        &.active {
-            max-height: none;
-        }
-    }
-
-    /**
-    * Pattern info links inside modal
-    */
-    .sg-pattern-extra-info {
-        a {
-            color: $pl-color-gray-20;
-
-            &:hover, &:focus {
-                color: $pl-color-gray-07;
-            }
-        }
-    }
-
-    /**
-    * Pattern Description inside modal
-    */
-    .sg-pattern-desc {
-        border-bottom-color: $pl-color-gray-50;
-    }
-
-    /**
-    * Pattern Annotations inside modal
-    */
-    .sg-annotations {
-        border-top-color: $pl-color-gray-50;
-    }
-
-    /**
-    * Pattern tab panel inside modal
-    */
-    .sg-tabs-content {
-        border: 0;
+     * Modal inside a light theme
+     */
+    .pl-theme--light & {
+        background: $pl-color-white;
+        color: $pl-color-gray-87;
     }
 }
 
 /**
-* Modal close button
-* 1) Closes the modal popup
-* 2) Reposition to jut out of modal if parent modal has class of active
-*/
-.sg-modal-close-btn {
+ * Modal close button
+ * 1) Closes the modal popup
+ */
+.pl-c-modal__close-btn {
     font-size: 70%;
     background: $pl-color-black;
     color: $pl-color-gray-50;
     border: 0;
-    border-radius: $pl-border-radius-med $pl-border-radius-med 0 0;
+    border-radius: $pl-border-radius-med;
     display: inline-block;
-    padding: 0.9em 0.7em 0.1em;
+    padding: 0.5rem 0.5rem 0.3rem;
     text-decoration: none;
     cursor: pointer;
     position: absolute;
     right: 0;
-    top: 1rem;
+    top: 0.4rem;
     transition: all $pl-animate-quick ease-out;
-
-    /* 2 */
-    .sg-modal.active & {
-        top: -1.5rem;
-    }
 
     &:hover, &:focus {
         background: $pl-color-gray-87;
-        color: $pl-color-gray-07;
+        color: $pl-color-white;
+    }
+
+    &:focus, &:active {
+        outline: 1px dotted $pl-color-gray-50;
+        outline-offset: -2px;
+    }
+
+    /**
+     * Modal inside a light theme
+     */
+    .pl-theme--light & {
+        background: $pl-color-white;
+        color: $pl-color-gray-87;
     }
 }
 
 /**
-* Modal Content
-*/
-.sg-modal-content {
+ * Close button icon
+ * 1) Displayed as an e
+ */
+.pl-c-modal__close-btn-icon {
+    width: 14px;
+    height: 14px;
+    color: $pl-color-gray-50;
+    fill: $pl-color-gray-50;
+    transition: fill $pl-animate-quick ease-out;
+
+    .pl-c-modal__close-btn:hover &, .pl-c-modal__close-btn:focus &, .pl-c-modal__close-btn:active & {
+        color: $pl-color-white;
+        fill: $pl-color-white;
+    }
+}
+
+/**
+ * Modal Content
+ */
+.pl-c-modal__content {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 1.5rem 1rem 1rem;
+
+    @media all and (min-width: $pl-bp-large) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 }
 
 /**
-* Modal Content Inner Wrapper
-*/
-.sg-modal-content-inner {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
+ * Pattern Header inside modal
+ */
+.pl-c-pattern-head {
+    margin-bottom: 0.5rem;
+}
+
+/**
+ * Pattern Title inside modal
+ */
+.pl-c-pattern-title {
+    font-size: 1.4rem !important;
+    margin-top: 0;
+    color: $pl-color-gray-07;
+    text-transform: capitalize;
+}
+
+/**
+ * Pattern info links inside modal
+ */
+.pl-c-pattern-extra-info {
+
+    a {
+        color: $pl-color-gray-20;
+
+        &:hover, &:focus {
+            color: $pl-color-gray-07;
+        }
+    }
+}
+
+/**
+ * Pattern Description inside modal
+ */
+.pl-c-pattern-desc {
+    border-bottom-color: $pl-color-gray-50;
+}
+
+/**
+ * Pattern Annotations inside modal
+ */
+.pl-c-annotations {
+    border-top-color: $pl-color-gray-50;
 }
