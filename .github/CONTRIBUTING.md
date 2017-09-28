@@ -4,9 +4,13 @@ If you'd like to contribute to Pattern Lab Node, please do so! There is always a
 No pull request is too small. Check out any [up for grabs issues](https://github.com/pattern-lab/patternlab-node/labels/up%20for%20grabs) as a good way to get your feet wet, or add some more unit tests.
 
 ## Guidelines
-1. Please keep your pull requests concise and limited to **ONE** substantive change at a time. This makes reviewing and testing so much easier.
-2. _ALWAYS_ submit pull requests against the [dev branch](https://github.com/pattern-lab/patternlab-node/tree/dev). If this does not occur, I will first, try to redirect you gently, second, port over your contribution manually if time allows, and/or third, close your pull request. If you have a major feature to stabilize over time, talk to @bmuenzenmeyer about making a dedicated `feature-branch`
-3. If you can, add some unit tests using the existing patterns in the `./test` directory
+* Fork the repo on Github and install the developer version using Git. 
+* Create a new branch in your fork and push your changes in that fork.
+* _ALWAYS_ submit pull requests against the [dev branch](https://github.com/pattern-lab/patternlab-node/tree/dev). If this does not occur, I will first, try to redirect you gently, second, port over your contribution manually if time allows, and/or third, close your pull request. If you have a major feature to stabilize over time, talk to @bmuenzenmeyer about making a dedicated `feature-branch`
+* Please keep your pull requests concise and limited to **ONE** substantive change at a time. This makes reviewing and testing so much easier.
+* Whatever commits you make in the project through a pull request , it should reference the issue you are adressing. For any Pull Request that you send, you should mention the issues which you are working for. This makes a lot more easier to review the PR.
+* If you can, add some unit tests using the existing patterns in the `./test` directory
+* If you are working on a large enhancement that might include multiple file changes, please make sure that you first open an issue adressing what enhancements you want to include and then open the Pull Request. This will result in a more systematic way for us to review your contribution also.
 
 ## Coding style
 Two files combine within the project to define and maintain our coding style.
