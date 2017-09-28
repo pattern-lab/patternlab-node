@@ -58,7 +58,7 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
       mergeObject = _.merge(mergeObject, jsonData);
     }
     catch (err) {
-      throw new Error(`Error loading file: ${dataFile} - ${err.message}`);
+      throw new Error(`Error loading file: ${filePath} - ${err.message}`);
     }
   });
 
