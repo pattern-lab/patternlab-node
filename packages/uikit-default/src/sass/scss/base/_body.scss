@@ -7,7 +7,7 @@
 * 1)These exist indepenedent of any project-specific styles
 * 2) Styled as IDs to avoid collisions with user <body> tag
 */
-#patternlab-html, #patternlab-body {
+.pl-c-body {
     margin: 0;
     padding: 0;
     background: $pl-color-gray-13;
