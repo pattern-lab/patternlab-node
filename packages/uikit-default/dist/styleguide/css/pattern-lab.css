@@ -101,7 +101,6 @@
   color: #808080;
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   font-size: 0.7rem;
-  text-transform: uppercase;
 }
 @media all and (min-width: 42em) {
   .pl-c-header {
@@ -130,7 +129,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -230,7 +228,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -259,11 +256,34 @@
 }
 
 /**
+ * Nav sublink
+ * 1) Visually differentiate sub-item links from
+ *    the other links. Creates better hierarchy.
+ */
+.pl-c-nav__link--sublink {
+  text-transform: none;
+  padding-left: 1rem;
+}
+
+/**
+ * States
+ */
+.pl-c-nav__link--state-inreview:after {
+  content: "o";
+  color: yellow;
+  display: inline-block;
+  margin-left: 0.3rem;
+}
+
+/**
 * Nav link
 */
 .pl-c-nav__link--dropdown {
   /**
   * Dropdown caret after accordion handle
+  */
+  /**
+  * Active dropdown
   */
 }
 .pl-c-nav__link--dropdown:after {
@@ -283,6 +303,9 @@
 .pl-c-nav__link--dropdown.pl-is-active {
   color: #fff;
   background: #222;
+  /**
+  * Caret rotation and positioning in active dropdown
+  */
   /**
    * Light theme
    */
@@ -358,10 +381,6 @@
   margin: 0;
   padding: 0;
 }
-.pl-c-nav__subsublist a {
-  text-transform: none;
-  padding-left: 1rem;
-}
 
 /*------------------------------------*\
     #ISH SIZING
@@ -396,6 +415,8 @@
   color: #808080;
   width: 25px;
   text-align: right;
+  position: relative;
+  top: 1px;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
@@ -458,7 +479,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -552,7 +572,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -618,7 +637,7 @@
   }
 }
 .pl-c-tools__list.pl-is-active {
-  height: 100vh;
+  overflow: visible;
 }
 
 /**
@@ -634,7 +653,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -676,11 +694,10 @@
 * that houses all user code.
 */
 /**
-* Viewport wrapper div
+* Viewport
 * 1) This wrapper div occupies all remaining viewport space after PL's header
 */
-#sg-vp-wrap {
-  text-align: center;
+.pl-c-viewport {
   width: 100%;
   position: fixed;
   top: 2rem;
@@ -695,29 +712,29 @@
 * 1) This is an invisible div that sits above the iframe and is
 * used in JS for manual viewport resizing purposes.
 */
-#sg-cover {
+.pl-c-viewport__cover {
   width: 100%;
   height: 100%;
   display: none;
   position: absolute;
   z-index: 20;
-  cursor: col-resize;
+  cursor: move;
 }
 
 /**
-* Gen Cover
-* 1) This is
+* Viewport iframe wrapper
+* 1) This is the container that houses the
+*    iframe and the manual resize handle
 */
-#sg-gen-container {
+.pl-c-viewport__iframe-wrapper {
   height: 100%;
   position: relative;
-  text-align: center;
   margin: 0 auto;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   overflow-x: hidden;
 }
-#sg-gen-container.hay-mode {
+.pl-c-viewport__iframe-wrapper.hay-mode {
   -webkit-transition: all 40s linear;
           transition: all 40s linear;
 }
@@ -726,7 +743,7 @@
 * Viewport iframe
 * 1) this is the actual <iframe>
 */
-#sg-viewport {
+.pl-c-viewport__iframe {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -737,14 +754,14 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: white;
+  background-color: #fff;
   /**
   * Hay Mode transition
   * 1) Hay Mode (disabled by default) starts with the smallest
   * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
   */
 }
-#sg-viewport.hay-mode {
+.pl-c-viewport__iframe.hay-mode {
   -webkit-transition: all 40s linear;
           transition: all 40s linear;
 }
@@ -753,38 +770,38 @@
 * Right pull container
 * 1) Container used for manual resizing
 */
-#sg-rightpull-container {
+.pl-c-viewport__resizer {
   width: 14px;
   float: right;
   margin: 0;
   height: 100%;
-  cursor: col-resize;
+  cursor: move;
 }
 
 /**
 * Right pull
 * 1) This is the handle that lets the user resize the viewport
 */
-#sg-rightpull {
+.pl-c-viewport__resizer-handle {
   margin: 0;
   width: 100%;
   height: 100%;
-  background: #c2c2c2;
+  background: #ccc;
   -webkit-transition: background 0.1s ease-out;
           transition: background 0.1s ease-out;
 }
-#sg-rightpull:hover {
+.pl-c-viewport__resizer-handle:hover {
   background: #808080;
 }
-#sg-rightpull:active {
-  cursor: col-resize;
-  background: #666;
+.pl-c-viewport__resizer-handle:active {
+  cursor: move;
+  background: #4d4c4c;
 }
 
 /**
 * VP animate
 * 1) This is an added class that is activated by JS to
-* transition the width of the viewport
+*    transition the width of the viewport
 */
 .vp-animate {
   -webkit-transition: width 0.8s ease-out;
@@ -805,7 +822,7 @@
 * 2) Prevents absolutely-positioned elements from floating to the top
 * 3) Prevents floated patterns from floating wraps
 */
-.sg-pattern {
+.pl-c-pattern {
   margin-bottom: 2rem;
   position: relative;
   /* 2 */
@@ -816,21 +833,21 @@
 /**
 * Pattern Header
 */
-.sg-pattern-head {
+.pl-c-pattern__header {
   position: relative;
   padding: 0.5rem 0 0;
   line-height: 1.3;
   font-size: 90%;
   color: #808080;
 }
-.sg-pattern-head:empty {
+.pl-c-pattern__header:empty {
   padding: 0;
 }
 
 /**
 * Pattern Title
 */
-.sg-pattern-title {
+.pl-c-pattern__title {
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
   font-size: 0.85rem !important;
   line-height: 1 !important;
@@ -838,11 +855,9 @@
   margin: 0 !important;
   padding: 0 !important;
   text-transform: capitalize !important;
-  /**
-  * Pattern State that appears within a pattern title
-  */
 }
-.sg-pattern-title a {
+
+.pl-c-pattern__title-link {
   display: inline-block;
   padding: 1rem 0 0.3rem;
   color: #808080 !important;
@@ -850,20 +865,15 @@
   cursor: pointer;
   font-weight: bold;
 }
-.sg-pattern-title a:hover, .sg-pattern-title a:focus {
+.pl-c-pattern__title-link:hover, .pl-c-pattern__title-link:focus {
   color: #000 !important;
-}
-.sg-pattern-title .sg-pattern-state {
-  font-size: 80%;
-  font-weight: normal;
-  color: #ccc;
 }
 
 /**
 * Pattern Extra Toggle Button
 * 1) This is the button that twirls down extra pattern info
 */
-.sg-pattern-extra-toggle {
+.pl-c-pattern__extra-toggle {
   font-size: 9px;
   position: absolute;
   bottom: -1px;
@@ -872,6 +882,7 @@
   padding: 0.65em;
   line-height: 1;
   color: #808080;
+  background: transparent;
   font-weight: normal;
   border: 1px solid #ddd;
   border-top-left-radius: 6px;
@@ -879,17 +890,20 @@
   -webkit-transition: background 0.1s ease-out;
           transition: background 0.1s ease-out;
 }
-.sg-pattern-extra-toggle span {
+.pl-c-pattern__extra-toggle .pl-c-pattern__toggle-icon {
   display: inline-block;
 }
-.sg-pattern-extra-toggle:hover, .sg-pattern-extra-toggle:focus, .sg-pattern-extra-toggle.active {
+.pl-c-pattern__extra-toggle:hover, .pl-c-pattern__extra-toggle:focus, .pl-c-pattern__extra-toggle.pl-is-active {
   background: #eee;
   color: #000;
 }
-.sg-pattern-extra-toggle.active {
+.pl-c-pattern__extra-toggle:focus {
+  outline: 1px dotted #4d4c4c;
+}
+.pl-c-pattern__extra-toggle.pl-is-active {
   border-bottom-color: #eee;
 }
-.sg-pattern-extra-toggle.active span {
+.pl-c-pattern__extra-toggle.pl-is-active .pl-c-pattern__toggle-icon {
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
@@ -900,7 +914,7 @@
 * 1) This is the info panel that contains extra pattern info
 * like pattern description, lineage, code, and more
 */
-.sg-pattern-extra {
+.pl-c-pattern__extra {
   background: #eee;
   border-top: 1px solid #ddd;
   margin-bottom: 1rem;
@@ -909,14 +923,7 @@
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
-.sg-pattern-extra a {
-  text-decoration: underline;
-  color: #222;
-}
-.sg-pattern-extra a:hover, .sg-pattern-extra a:focus {
-  color: #808080;
-}
-.sg-pattern-extra.active {
+.pl-c-pattern__extra.pl-is-active {
   border: 1px solid #ddd;
   border-radius: 6px;
   border-top-right-radius: 0;
@@ -986,24 +993,28 @@
 *    such as "global", "blocks", "etc".
 * 2) The category contains a title and optional description
 */
-.sg-pattern-category {
+.pl-c-category {
   margin-top: 6rem;
   font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
 }
-.sg-pattern-category:first-of-type {
+.pl-c-category:first-of-type {
   margin-top: 2rem;
 }
 
 /**
 * Pattern Category Title
 */
-.sg-pattern-category-title {
+.pl-c-category__title {
   font-size: 1.4rem !important;
   color: #222 !important;
   margin: 0 0 0.2rem;
   text-transform: capitalize;
 }
-.sg-pattern-category-title a {
+
+/**
+ * Pattern Category Link 
+ */
+.pl-c-category__title-link {
   -webkit-transition: color 0.1s ease-out;
           transition: color 0.1s ease-out;
 }
@@ -1011,13 +1022,73 @@
 /**
 * Pattern Category Description
 * 1) This is an optional description that sits below the category title.
+* 2) Hide the pattern category description is it's empty
 */
-.sg-pattern-category-body {
-  font-size: 80%;
-  line-height: 1.3;
+.pl-c-category__description {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  max-width: 30rem;
 }
-.sg-pattern-category-body:empty {
+.pl-c-category__description:empty {
   display: none;
+  /* 2 */
+}
+
+/*------------------------------------*\
+    #PATTERN INFO
+\*------------------------------------*/
+/**
+ * 1) Pattern info contains two sidy-by-side panels that
+ *    house a pattern's information, such as title, lineage,
+ *    code, annotations, and more.
+ */
+.pl-c-pattern-info {
+  /**
+   * Pattern Info inside a view all pattern 
+   */
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+  }
+}
+.pl-c-pattern__extra .pl-c-pattern-info {
+  padding: 1rem;
+}
+
+/**
+ * Pattern Info Panel
+ * 1) Individual panel. Left side contains pattern info
+ *    Right side contains pattern code
+ */
+.pl-c-pattern-info__panel {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  max-height: none;
+  padding: 0;
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel {
+    min-width: 40%;
+    -webkit-box-flex: 1;
+        -ms-flex: auto;
+            flex: auto;
+  }
+}
+
+/**
+ * Pattern Code Panel
+ */
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel--code {
+    min-width: 60%;
+  }
 }
 
 /*------------------------------------*\
@@ -1146,25 +1217,68 @@
   color: #2ECC40 !important;
 }
 
+/**
+ * Pattern State
+ */
+.pl-c-pattern-state {
+  font-size: 0.7rem;
+  color: #808080;
+}
+
 /*------------------------------------*\
     #PATTERN LINEAGE
 \*------------------------------------*/
 /**
 * Pattern Lineage info
 */
-.sg-pattern-lineage {
+.pl-c-lineage {
   font-size: 90%;
   font-style: italic;
+}
+.pl-c-lineage a {
+  color: #808080;
+}
+
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+/**
+ * 1) Breadcrumbs display a pattern's path inside the modal
+ */
+.pl-c-breadcrumb {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 0.7rem;
+  color: #808080;
+  text-transform: capitalize;
+}
+
+/**
+ * Breadcrumb Item
+ */
+.pl-c-breadcrumb__item:after {
+  content: '▶';
+  opacity: 0.8;
+  font-size: 0.3rem;
+  color: #4d4c4c;
+  display: inline-block;
+  margin: 0 0.3rem;
 }
 
 /*------------------------------------*\
     #TABS
 \*------------------------------------*/
-.sg-tabs {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  width: 100%;
+/**
+ * 1) Tabs contain a set of horintally-arranged tabs
+ *    with accompanying panels. When a tab link is clicked
+ *    the corresponding panel becomes visible
+ */
+.pl-c-tabs {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1172,58 +1286,86 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+  width: 100%;
   font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
 }
+@media all and (min-width: 53em) {
+  .pl-c-tabs {
+    padding-left: 1rem;
+  }
+}
 
-.sg-tabs-list {
+/**
+ * Tab List
+ * 1) A unordered list that contains the tab links
+ */
+.pl-c-tabs__list {
   overflow: hidden;
   position: relative;
   bottom: -1px;
   list-style: none;
   margin: 0;
   padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
-.sg-tabs-list li {
-  float: left;
+
+/**
+ * Tab List Item
+ */
+.pl-c-tabs__list-item {
   margin-right: 3px;
 }
-.sg-tabs-list a {
+
+/**
+ * Tab Link
+ */
+.pl-c-tabs__link {
   display: block;
   font-size: 90%;
   font-weight: bold;
   line-height: 1;
   padding: 0.5em 1em;
-  background: #eee;
+  background: #ddd;
   border: 1px solid #ccc;
   border-bottom: 0;
   color: #808080;
+  cursor: pointer;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   text-decoration: none;
   text-transform: capitalize;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+  /**
+   * Active Tab
+   * 1) Note: the active tab color corresponds with the Prism code block
+   *    background color, which is why it doesn't use a Sass variable
+   */
+  /**
+   * Tab link inside modal
+   */
 }
-.sg-tabs-list a:hover {
+.pl-c-tabs__link:hover {
   color: #222;
+}
+.pl-c-tabs__link.pl-is-active-tab {
+  background: #f5f2f0;
+  color: #000;
+}
+.pl-c-modal .pl-c-tabs__link {
+  border: 0;
 }
 
 /**
-* Active Tab
-* 1) Note: the active tab color corresponds with the Prism code block
-* background color.
-*/
-.sg-tab-title-active a {
-  background: #f5f2f0;
-  /* 1 */
-  color: #222;
-}
-.sg-tab-title-active a:hover, .sg-tab-title-active a:focus {
-  color: #222;
-}
-
-.sg-tabs-content {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+ * Tab Content
+ * 1) Tab content contains the tab panels
+ */
+.pl-c-tabs__content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1231,13 +1373,40 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
   border: 1px solid #ccc;
   border-radius: 0 6px 6px 6px;
   overflow: hidden;
+  /**
+   *  Tab content inside modal
+   */
+}
+.pl-c-modal .pl-c-tabs__content {
+  border: 0;
 }
 
-.sg-tabs-panel {
+/**
+ * Tab panel
+ * 1) Note: the active tab color corresponds with the Prism code block
+ *    background color, which is why it doesn't use a Sass variable
+ */
+.pl-c-tabs__panel {
   display: none;
+  position: relative;
+  min-height: 12rem;
+  background: #f5f2f0;
+  /* 1 #f5f2f0 */
+  /**
+   * Active tab panel
+   */
+  /**
+   * Tab panel
+   * 1) Targeting pre tag in here as 
+   */
+}
+.pl-c-tabs__panel.pl-is-active-tab {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1246,15 +1415,13 @@
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  position: relative;
-  min-height: 12em;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
 }
-@media all and (min-width: 42em) {
-  .sg-tabs-panel {
-    min-height: 7em;
-  }
+.pl-c-tabs__panel pre[class*=language-] {
+  margin: 0;
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
 }
 
 /*------------------------------------*\
@@ -1283,7 +1450,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -1349,7 +1515,7 @@
   }
 }
 .pl-c-tools__list.pl-is-active {
-  height: 100vh;
+  overflow: visible;
 }
 
 /**
@@ -1365,7 +1531,6 @@
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  text-transform: uppercase;
   -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
           transition: background 0.1s ease-out, color 0.1s ease-out;
   /**
@@ -1520,20 +1685,18 @@
     #MODAL
 \*------------------------------------*/
 /**
-* 1) The modal appears when "show pattern info" is selected
-*    on the pattern detail screen.
-*/
-.sg-modal {
+ * 1) The modal slides up from the bottom of the viewport when 
+ *    "show pattern info" is selected on the pattern detail screen.
+ */
+.pl-c-modal {
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
-  line-height: 1.4;
-  font-size: 90%;
   background: #000;
   color: #ccc;
   position: fixed;
   top: auto;
-  bottom: 0;
+  bottom: -50%;
   left: 0;
-  z-index: 2;
+  z-index: 5;
   width: 100%;
   height: 50%;
   display: -webkit-box;
@@ -1543,108 +1706,80 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  /**
-  * Pattern Breadcrumbs inside modal
-  */
-  /**
-  * Pattern Header inside modal
-  */
-  /**
-  * Pattern Title inside modal
-  */
-  /**
-  * Pattern Information inside modal
-  */
-  /**
-  * Pattern info links inside modal
-  */
-  /**
-  * Pattern Description inside modal
-  */
-  /**
-  * Pattern Annotations inside modal
-  */
-  /**
-  * Pattern tab panel inside modal
-  */
-}
-.sg-modal.anim-ready {
   -webkit-transition: bottom 0.3s ease-out;
           transition: bottom 0.3s ease-out;
+  /**
+   * Active modal
+   */
+  /**
+   * Modal inside a light theme
+   */
 }
-.sg-modal .sg-pattern-breadcrumb {
-  font-size: 0.7rem;
-  color: #808080;
-  margin-bottom: 0.5rem;
+.pl-c-modal.pl-is-active {
+  bottom: 0;
 }
-.sg-modal .sg-pattern-head {
-  margin-bottom: 0.5rem;
-}
-.sg-modal .sg-pattern-title {
-  font-size: 1.4rem !important;
-  color: #eee;
-}
-.sg-modal .sg-pattern-extra {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  max-height: none;
-  padding: 0;
-}
-.sg-modal .sg-pattern-extra.active {
-  max-height: none;
-}
-.sg-modal .sg-pattern-extra-info a {
-  color: #ccc;
-}
-.sg-modal .sg-pattern-extra-info a:hover, .sg-modal .sg-pattern-extra-info a:focus {
-  color: #eee;
-}
-.sg-modal .sg-pattern-desc {
-  border-bottom-color: #808080;
-}
-.sg-modal .sg-annotations {
-  border-top-color: #808080;
-}
-.sg-modal .sg-tabs-content {
-  border: 0;
+.pl-theme--light .pl-c-modal {
+  background: #fff;
+  color: #222;
 }
 
 /**
-* Modal close button
-* 1) Closes the modal popup
-* 2) Reposition to jut out of modal if parent modal has class of active
-*/
-.sg-modal-close-btn {
+ * Modal close button
+ * 1) Closes the modal popup
+ */
+.pl-c-modal__close-btn {
   font-size: 70%;
   background: #000;
   color: #808080;
   border: 0;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
   display: inline-block;
-  padding: 0.9em 0.7em 0.1em;
-  text-transform: uppercase;
+  padding: 0.5rem 0.5rem 0.3rem;
   text-decoration: none;
   cursor: pointer;
   position: absolute;
   right: 0;
-  top: 1rem;
+  top: 0.4rem;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
-  /* 2 */
+  /**
+   * Modal inside a light theme
+   */
 }
-.sg-modal.active .sg-modal-close-btn {
-  top: -1.5rem;
-}
-.sg-modal-close-btn:hover, .sg-modal-close-btn:focus {
+.pl-c-modal__close-btn:hover, .pl-c-modal__close-btn:focus {
   background: #222;
-  color: #eee;
+  color: #fff;
+}
+.pl-c-modal__close-btn:focus, .pl-c-modal__close-btn:active {
+  outline: 1px dotted #808080;
+  outline-offset: -2px;
+}
+.pl-theme--light .pl-c-modal__close-btn {
+  background: #fff;
+  color: #222;
 }
 
 /**
-* Modal Content
-*/
-.sg-modal-content {
+ * Close button icon
+ * 1) Displayed as an e
+ */
+.pl-c-modal__close-btn-icon {
+  width: 14px;
+  height: 14px;
+  color: #808080;
+  fill: #808080;
+  -webkit-transition: fill 0.1s ease-out;
+          transition: fill 0.1s ease-out;
+}
+.pl-c-modal__close-btn:hover .pl-c-modal__close-btn-icon, .pl-c-modal__close-btn:focus .pl-c-modal__close-btn-icon, .pl-c-modal__close-btn:active .pl-c-modal__close-btn-icon {
+  color: #fff;
+  fill: #fff;
+}
+
+/**
+ * Modal Content
+ */
+.pl-c-modal__content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1657,22 +1792,148 @@
           flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 1.5rem 1rem 1rem;
+}
+@media all and (min-width: 53em) {
+  .pl-c-modal__content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 /**
-* Modal Content Inner Wrapper
-*/
-.sg-modal-content-inner {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+ * Pattern Header inside modal
+ */
+.pl-c-pattern-head {
+  margin-bottom: 0.5rem;
+}
+
+/**
+ * Pattern Title inside modal
+ */
+.pl-c-pattern-title {
+  font-size: 1.4rem !important;
+  margin-top: 0;
+  color: #eee;
+  text-transform: capitalize;
+}
+
+/**
+ * Pattern info links inside modal
+ */
+.pl-c-pattern-extra-info a {
+  color: #ccc;
+}
+.pl-c-pattern-extra-info a:hover, .pl-c-pattern-extra-info a:focus {
+  color: #eee;
+}
+
+/**
+ * Pattern Description inside modal
+ */
+.pl-c-pattern-desc {
+  border-bottom-color: #808080;
+}
+
+/**
+ * Pattern Annotations inside modal
+ */
+.pl-c-annotations {
+  border-top-color: #808080;
+}
+
+/*------------------------------------*\
+    #TEXT PASSAGE
+\*------------------------------------*/
+/**
+ * 1) A passage of text which includes free-form tags (ul, blockquote, p, h2, etc)
+ *    generated by markdown
+ */
+.pl-c-text-passage {
+  /**
+   * Link within the text passage
+   */
+  /**
+   * Blockquote within text passage
+   */
+  /**
+   * First-level heading within text passage
+   */
+  /**
+   * Second-level heading within text passage
+   */
+  /**
+   * Third-level heading within text passage
+   */
+  /**
+   * Fourth-level heading within text passage
+   */
+  /**
+   * Fifth-level heading within text passage
+   */
+  /**
+   * Sixth-level heading within text passage
+   */
+  /**
+   * Unordered list within text passage
+   */
+  /**
+   * Ordered list within text passage
+   */
+}
+.pl-c-text-passage p {
+  margin-bottom: 1rem;
+}
+.pl-c-text-passage a {
+  text-decoration: underline;
+}
+.pl-c-text-passage blockquote {
+  padding-left: 0.8rem;
+  border-left: 3px solid inherit;
+}
+.pl-c-text-passage h1 {
+  margin-bottom: 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h2 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h3 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h4 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h5 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h6 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage ul {
+  list-style: square;
+  margin-left: 0.9rem;
+  margin-bottom: 1rem;
+}
+.pl-c-text-passage ul li:last-child {
+  margin-bottom: 0;
+}
+.pl-c-text-passage ol {
+  list-style: decimal;
+  margin-left: 0.9rem;
+  margin-bottom: 1rem;
+}
+.pl-c-text-passage ol li:last-child {
+  margin-bottom: 0;
+}
+.pl-c-text-passage li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
 }
 
 /*------------------------------------*\
@@ -1715,7 +1976,6 @@
   width: 100%;
   right: 0;
   padding: 0.7rem 0.5rem;
-  text-transform: lowercase;
 }
 .typeahead:focus {
   background: #808080;
@@ -1725,7 +1985,6 @@
 .tt-input {
   background: #808080;
   color: #fff;
-  text-transform: uppercase;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
 }

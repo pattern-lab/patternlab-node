@@ -306,10 +306,11 @@ var panelsUtil = {
   */
   addClickEvents: function(templateRendered, patternPartial) {
     
-    var els = templateRendered.querySelectorAll('#sg-'+patternPartial+'-tabs li');
+    var els = templateRendered.querySelectorAll('.pl-js-tab-link');
     for (var i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
         e.preventDefault();
+
         var patternPartial = this.getAttribute('data-patternpartial');
         var panelID = this.getAttribute('data-panelid');
         panelsUtil.show(patternPartial, panelID);
@@ -330,22 +331,22 @@ var panelsUtil = {
     var els;
     
     // turn off all of the active tabs
-    els = document.querySelectorAll('#sg-'+patternPartial+'-tabs li');
+    els = document.querySelectorAll('#sg-'+patternPartial+'-tabs .pl-js-tab-link');
     for (i = 0; i < els.length; ++i) {
-      els[i].classList.remove('sg-tab-title-active');
+      els[i].classList.remove('pl-is-active-tab');
     }
     
     // hide all of the panels
-    els = document.querySelectorAll('#sg-'+patternPartial+'-panels div.sg-tabs-panel');
+    els = document.querySelectorAll('#sg-'+patternPartial+'-panels .pl-js-tab-panel');
     for (i = 0; i < els.length; ++i) {
-      els[i].style.display = 'none';
+      els[i].classList.remove('pl-is-active-tab');
     }
     
     // add active tab class
-    document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('sg-tab-title-active');
+    document.getElementById('sg-'+patternPartial+'-'+panelID+'-tab').classList.add('pl-is-active-tab');
     
     // show the panel
-    document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').style.display = 'flex';
+    document.getElementById('sg-'+patternPartial+'-'+panelID+'-panel').classList.add('pl-is-active-tab');
     
   }
   
@@ -374,11 +375,10 @@ var modalStyleguide = {
   */
   onReady: function() {
     
-    // go through the panel toggles and add click event
-    var els = document.querySelectorAll('.sg-pattern-extra-toggle');
+    // go through the panel toggles and add click event to the pattern extra toggle button
+    var els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
     for (var i = 0; i < els.length; ++i) {
       els[i].onclick = (function(e) {
-          e.preventDefault();
           var patternPartial = this.getAttribute('data-patternpartial');
           modalStyleguide.toggle(patternPartial);
       });
@@ -432,8 +432,8 @@ var modalStyleguide = {
     document.getElementById('sg-pattern-extra-'+patternPartial).appendChild(content);
     
     // show the modal
-    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('active');
-    document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('active');
+    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('pl-is-active');
+    document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('pl-is-active');
     
   },
   
@@ -447,8 +447,8 @@ var modalStyleguide = {
     modalStyleguide.active[patternPartial] = false;
     
     // hide the modal, look at info-panel.js
-    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.remove('active');
-    document.getElementById('sg-pattern-extra-'+patternPartial).classList.remove('active');
+    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.remove('pl-is-active');
+    document.getElementById('sg-pattern-extra-'+patternPartial).classList.remove('pl-is-active');
     
   },
   

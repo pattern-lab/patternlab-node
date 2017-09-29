@@ -39,36 +39,37 @@
 
 </header><!--end pl-c-header--> 
     
-    <!-- iFrame -->
-<div id="sg-vp-wrap">
-    <div id="sg-cover"></div>
-    <div id="sg-gen-container">
-        <iframe id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-        <div id="sg-rightpull-container">
-            <div id="sg-rightpull"></div>
-        </div>
-    </div>
-</div>
-<!--end iFrame--> 
+    <div class="pl-c-viewport pl-js-viewport">
     
-    <!-- modal window -->
-<div id="sg-modal-container" class="sg-modal anim-ready" style="bottom: -2000px">
+    <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
+
+    <div class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container">
+        
+        <iframe class="pl-c-viewport__iframe pl-js-iframe" id="sg-viewport" name="sg-viewport" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        
+        <div class="pl-c-viewport__resizer pl-js-resize-container">
+
+            <div class="pl-c-viewport__resizer-handle pl-js-resize-handle" />
+            
+        </div><!--end pl-c-viewport__resizer-->
+
+    </div><!--end pl-c-viewport__iframe-wrapper-->
+
+</div><!--end pl-c-viewport--> 
     
-    <!-- modal close btn -->
-    <button id="sg-modal-close-btn" class="sg-modal-close-btn" title="Hide pattern info">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12">
-        <title>Close</title>
-        <path fill="#808080" d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"></path>
+    <div class="pl-c-modal pl-js-modal" id="sg-modal-container">
+    
+    <button class="pl-c-modal__close-btn" id="sg-modal-close-btn" title="Hide pattern info">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12" class="pl-c-modal__close-btn-icon">
+            <title>Close</title>
+            <path fill="currentColor" d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"></path>
         </svg>
-    </button>
-    <!--end .sg-modal-close-btn-->
+    </button><!--end pl-c-modal__close-btn-->
 
-    <div id="sg-modal-content" class="sg-modal-content"></div>
-    <!--end .sg-modal-content-->
+    <div class="pl-c-modal__content" id="sg-modal-content" />
 
-</div>
-<!--end .sg-modal-->
-<!-- end modal window -->
+</div><!--end pl-c-modal-->
+
 
     <!-- mustache templates -->
     <script type="text/mustache" id="pl-pattern-nav-template">
@@ -88,7 +89,7 @@
 				{{# patternSubtypeItems }}
 				<li class="pl-c-nav__item">
         
-          <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
+          <a href="patterns/{{ patternPath }}" class="pl-c-nav__link pl-c-nav__link--sublink {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
               data-patternpartial="{{ patternPartial }}">{{ patternName }}</a>
               
 				</li><!--end pl-c-nav__item-->
@@ -124,50 +125,50 @@
     <script type="text/mustache" id="pl-ish-controls-template">
       
 <form class="pl-c-viewport-size" method="post" action="#">
-	<input type="text" class="pl-c-viewport-size__input sg-size-px" id="sg-size-px" value="---"><label for="sg-size-px" class="pl-c-viewport-size__label">px /</label>
-	<input type="text" class="pl-c-viewport-size__input sg-size-em" id="sg-size-em" value="---"><label for="sg-size-em" class="pl-c-viewport-size__label">em</label>
+	<input type="text" class="pl-c-viewport-size__input" id="pl-size-px" value="---"><label for="pl-size-px" class="pl-c-viewport-size__label">px /</label>
+	<input type="text" class="pl-c-viewport-size__input" id="pl-size-em" value="---"><label for="pl-size-em" class="pl-c-viewport-size__label">em</label>
 </form><!--end pl-c-viewport-size-->
 
 <ul class="pl-c-size-list">
 	{{^ ishControlsHide.s }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action" id="sg-size-s">S</button>
+		<button class="pl-c-size-list__action" id="pl-size-s">S</button>
 	</li>
 	{{/ ishControlsHide.s }}
 
 	{{^ ishControlsHide.m }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action" id="sg-size-m">M</button>
+		<button class="pl-c-size-list__action" id="pl-size-m">M</button>
 	</li>
 	{{/ ishControlsHide.m }} 
 	
 	{{^ ishControlsHide.l }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action" id="sg-size-l">L</button>
+		<button class="pl-c-size-list__action" id="pl-size-l">L</button>
 	</li>
 	{{/ ishControlsHide.l }} 
 	
 	{{^ ishControlsHide.full }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action" id="sg-size-full">Full</button>
+		<button class="pl-c-size-list__action" id="pl-size-full">Full</button>
 	</li>
 	{{/ ishControlsHide.full }} 
 	
 	{{^ ishControlsHide.random }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action" id="sg-size-random">Rand</button>
+		<button class="pl-c-size-list__action" id="pl-size-random">Rand</button>
 	</li>
 	{{/ ishControlsHide.random }} 
 	
 	{{^ ishControlsHide.disco }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action mode-link" id="sg-size-disco">Disco</button>
+		<button class="pl-c-size-list__action mode-link" id="pl-size-disco">Disco</button>
 	</li>
 	{{/ ishControlsHide.disco }} 
 	
 	{{^ ishControlsHide.hay }}
 	<li class="pl-c-size-list__item">
-		<button class="pl-c-size-list__action mode-link" id="sg-size-hay">Hay!</button>
+		<button class="pl-c-size-list__action mode-link" id="pl-size-hay">Hay!</button>
 	</li>
 	{{/ ishControlsHide.hay }}
 </ul>
@@ -189,7 +190,7 @@
 		</li>
 		{{^ ishControlsHide.views-new }}
 		<li class="pl-c-tools__item">
-			<a href="#" class="pl-c-tools__action" target="_blank" id="sg-raw">Open in new window</a>
+			<a href="#" class="pl-c-tools__action" target="_blank" id="sg-raw">Open In New Window</a>
 		</li>
 		{{/ ishControlsHide.views-new }} 
 
@@ -201,7 +202,7 @@
 
 		{{^ ishControlsHide.find }}
 		<li class="pl-c-tools__item" id="sg-find">
-			<input class="typeahead" id="typeahead" type="text" placeholder="Find pattern" />
+			<input class="typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
 		</li>
 		{{/ ishControlsHide.find }}
 
@@ -212,103 +213,106 @@
 
     <!-- the template for the modal slider -->
     <script type="text/mustache" id="pl-panel-template-base">
-      <div class="sg-pattern-extra-inner">
+      <!-- description, etc. -->
+{{# descBlockExists }}
 
-  <!-- description, etc. -->
-  {{# descBlockExists }}
+  <div class="pl-c-pattern-info__panel pl-js-pattern-info">
 
-    <div class="sg-pattern-extra-info">
+    {{# isPatternView }}
+      <!-- if this is for a single pattern provide some extra info -->
+      <div class="pl-c-pattern-head">
 
-      {{# isPatternView }}
-        <!-- if this is for a single pattern provide some extra info -->
-        <div class="sg-pattern-head">
+        <ul class="pl-c-breadcrumb">
+          {{# patternBreadcrumb }}
+            <li class="pl-c-breadcrumb__item">{{ patternType }}</li>
+            
+            {{# patternSubtype }}
+            <li class="pl-c-breadcrumb__item">{{ patternSubtype }}</li>
+            {{/ patternSubtype }}
 
-          <div class="sg-pattern-breadcrumb">
-            {{# patternBreadcrumb }}
-              {{ patternType }}
-              {{# patternSubtype }}
-                / {{ patternSubtype }}
-              {{/ patternSubtype }}
-            {{/ patternBreadcrumb }}
-          </div>
+          {{/ patternBreadcrumb }}
+        </ul><!--end pl-c-breadcrumb-->
 
-          <h2 class="sg-pattern-title">
-            {{ patternNameCaps }}
-            {{# patternState }}
-              <span class="sg-pattern-state {{ patternState }}">{{ patternState }}</span>
-            {{/ patternState }}
-          </h2>
+        <h2 class="pl-c-pattern-title">
+          {{ patternName }}
 
-        </div><!--end .sg-pattern-head-->
-      {{/ isPatternView }}
+          {{# patternState }}
+          <span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}">{{ patternState }}</span>
+          {{/ patternState }}
+        </h2>
 
-      {{# patternDescExists }}
-        <div class="sg-pattern-desc">
-          {{{ patternDesc }}}
-          {{# patternDescAdditions }}
-            {{{ patternDescAdditions }}}
-          {{/ patternDescAdditions }}
-        </div><!--end .sg-pattern-desc-->
-      {{/ patternDescExists }}
+      </div><!--end pl-c-pattern-head-->
+    {{/ isPatternView }}
 
-      {{# lineageExists }}
-        <p class="sg-pattern-lineage">
-          The <strong>{{ patternName }}</strong> pattern contains the following patterns:
-          <span id="sg-code-lineage-fill">
-          {{# lineage }}
-            <a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
-          {{/ lineage }}
-          </span>
-        </p><!--end .sg-pattern-lineage-->
-      {{/ lineageExists }}
+    {{# patternDescExists }}
+      <div class="pl-c-pattern-desc pl-c-text-passage">
+        {{{ patternDesc }}}
+        {{# patternDescAdditions }}
+          {{{ patternDescAdditions }}}
+        {{/ patternDescAdditions }}
+      </div><!--end .sg-pattern-desc-->
+    {{/ patternDescExists }}
 
-      {{# lineageRExists }}
-        <p class="sg-pattern-lineage">
-          The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
-          <span id="sg-code-lineager-fill">
-          {{# lineageR }}
-            <a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
-          {{/ lineageR }}
-          </span>
-        </p><!--end .sg-pattern-lineage-->
-      {{/ lineageRExists }}
+    {{# lineageExists }}
+      <p class="pl-c-lineage">
+        The <strong>{{ patternName }}</strong> pattern contains the following patterns:
+        <span id="sg-code-lineage-fill">
+        {{# lineage }}
+          <a href="{{ lineagePath }}" class="{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}" data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
+        {{/ lineage }}
+        </span>
+      </p><!--end pl-c-lineage-->
+    {{/ lineageExists }}
 
-      {{# annotationExists }}
-        <div class="sg-annotations" id="sg-annotations">
-          <h2 class="sg-annotations-title">Annotations</h2>
-          <ol class="sg-annotations-list">
-            {{# annotations }}
-              <li><h4 class="sg-annotations-list-title">{{ title }}</h4> {{{ comment }}}</li>
-            {{/ annotations }}
-          </ol>
-        </div>
-      {{/ annotationExists }}
+    {{# lineageRExists }}
+      <p class="pl-c-lineage">
+        The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
+        <span id="sg-code-lineager-fill">
+        {{# lineageR }}
+          <a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
+        {{/ lineageR }}
+        </span>
+      </p><!--end pl-c-lineage-->
+    {{/ lineageRExists }}
 
-    </div><!--end .sg-pattern-extra-info-->
-  {{/ descBlockExists }}
+    {{# annotationExists }}
+      <div class="pl-c-annotations" id="sg-annotations">
+        <h2 class="pl-c-annotations-title">Annotations</h2>
+        <ol class="pl-c-annotations-list">
+          {{# annotations }}
+            <li><h4 class="pl-c-annotations-list-title">{{ title }}</h4> {{{ comment }}}</li>
+          {{/ annotations }}
+        </ol>
+      </div>
+    {{/ annotationExists }}
 
-  <div class="sg-pattern-extra-code">
+  </div><!--end pl-c-pattern-info__panel-->
+{{/ descBlockExists }}
 
-    <div id="sg-{{ patternPartial }}-tabs" class="sg-tabs">
-      <ul class="sg-tabs-list">
-        {{# panels }}
-          <li id="sg-{{ patternPartial }}-{{ id }}-tab" data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}"><a href="#sg-{{ patternPartial }}-{{ id }}-panel" class="active">{{ name }}</a></li>
-        {{/ panels }}
-      </ul><!--end .sg-tabs-list-->
+<div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--code">
 
-      <div id="sg-{{ patternPartial }}-panels" class="sg-tabs-content">
-        {{# panels }}
-          <div id="sg-{{ patternPartial }}-{{ id }}-panel"  class="sg-tabs-panel" style="display: none">
-            {{{ content }}}
-          </div>
-        {{/ panels }}
-      </div><!--end .sg-tabs-content-->
+  <div id="sg-{{ patternPartial }}-tabs" class="pl-c-tabs pl-js-tabs">
+    <ul class="pl-c-tabs__list">
+      {{# panels }}
+        <li class="pl-c-tabs__list-item">
+          <a class="pl-c-tabs__link pl-js-tab-link" href="#sg-{{ patternPartial }}-{{ id }}-panel"  id="sg-{{ patternPartial }}-{{ id }}-tab" data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}">{{ name }}</a>
+        </li><!--end pl-c-tabs__list-item-->
+      {{/ panels }}
+    </ul><!--end pl-c-tabs__list-->
 
-    </div><!--end .sg-tabs-->
+    <div id="sg-{{ patternPartial }}-panels" class="pl-c-tabs__content">
+      
+      {{# panels }}
+        <div id="sg-{{ patternPartial }}-{{ id }}-panel"  class="pl-c-tabs__panel pl-js-tab-panel">
+          {{{ content }}}
+        </div><!--end pl-c-tabs__panel-->
+      {{/ panels }}
 
-  </div><!--end .sg-pattern-extra-code-->
+    </div><!--end pl-c-tabs__content-->
 
-</div><!--end .sg-pattern-extra-inner-->
+  </div><!--end pl-c-tabs-->
+
+</div><!--end pl-c-pattern-info__panel-->
 
     </script>
 
