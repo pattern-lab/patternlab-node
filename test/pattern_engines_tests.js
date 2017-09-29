@@ -125,7 +125,7 @@ function testProps(object, propTests, test) {
     });
 
     test.ok(object.hasOwnProperty(propName), '"' + propName + '" prop should be present');
-    test.ok(isOneOfTheseTypes, '"' + propName + '" prop should be one of types ' + possibleTypes);
+    test.ok(isOneOfTheseTypes, '"' + propName + '" prop should be one of types ' + possibleTypes + ' but was instead ' + typeof propName);
   }
 
   // go over each property test and run it
@@ -154,7 +154,7 @@ engineNames.forEach(function (engineName) {
       var propertyTests = {
         'engine': ['object', 'function'],
         'engineName': 'string',
-        'engineFileExtension': 'string',
+        'engineFileExtension': ['string', 'object'],
         'renderPattern': 'function',
         'findPartials': 'function'
       };
@@ -163,4 +163,25 @@ engineNames.forEach(function (engineName) {
       testProps(patternEngines[engineName], propertyTests, test);
       test.end();
   });
+});
+
+tap.test('patternEngines getSupportedFileExtensions flattens known engine extensions into a single array', function (test) {
+
+  //arrange
+  patternEngines.fooEngine = {
+    engineFileExtension : ['.foo1', '.foo2']
+  };
+  patternEngines.barEngine = {
+    engineFileExtension : '.bar'
+  };
+
+  const exts = patternEngines.getSupportedFileExtensions();
+  test.ok(exts.includes('.foo1'));
+  test.ok(exts.includes('.foo2'));
+  test.ok(exts.includes('.bar'));
+
+  delete patternEngines.fooEngine;
+  delete patternEngines.barEngine;
+
+  test.end();
 });
