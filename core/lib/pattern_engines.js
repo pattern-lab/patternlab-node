@@ -123,12 +123,19 @@ const PatternEngines = Object.create({
     const of = require('./object_factory');
     if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
       //loop through known engines and find the one that supports the pattern's fileExtension
-      //TODO: support multiple extensions someday, such as .handlebars and .hbs
       const engineNames = Object.keys(this);
       for (let i = 0; i < engineNames.length; i++) {
         const engine = this[engineNames[i]];
-        if (engine.engineFileExtension === pattern.fileExtension) {
-          return engine.engineName;
+
+        if (Array.isArray(engine.engineFileExtension)) {
+          if (engine.engineFileExtension.includes(pattern.fileExtension)) {
+            return engine.engineName;
+          }
+        } else {
+          //this likely means the users engines are out of date. todo: tell them to upgrade
+          if (engine.engineFileExtension === pattern.fileExtension) {
+            return engine.engineName;
+          }
         }
       }
     }
@@ -147,11 +154,13 @@ const PatternEngines = Object.create({
     }
   },
 
+  // combine all found engines into a single array of supported extensions
   getSupportedFileExtensions: function () {
     const engineNames = Object.keys(PatternEngines);
-    return engineNames.map(function (engineName) {
+    const allEnginesExtensions = engineNames.map((engineName) => {
       return PatternEngines[engineName].engineFileExtension;
     });
+    return [].concat.apply([], allEnginesExtensions);
   },
 
   isFileExtensionSupported: function (fileExtension) {
