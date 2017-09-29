@@ -21,11 +21,10 @@ var modalStyleguide = {
   */
   onReady: function() {
     
-    // go through the panel toggles and add click event
-    var els = document.querySelectorAll('.sg-pattern-extra-toggle');
+    // go through the panel toggles and add click event to the pattern extra toggle button
+    var els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
     for (var i = 0; i < els.length; ++i) {
       els[i].onclick = (function(e) {
-          e.preventDefault();
           var patternPartial = this.getAttribute('data-patternpartial');
           modalStyleguide.toggle(patternPartial);
       });
@@ -79,8 +78,8 @@ var modalStyleguide = {
     document.getElementById('sg-pattern-extra-'+patternPartial).appendChild(content);
     
     // show the modal
-    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('active');
-    document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('active');
+    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('pl-is-active');
+    document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('pl-is-active');
     
   },
   
@@ -94,8 +93,8 @@ var modalStyleguide = {
     modalStyleguide.active[patternPartial] = false;
     
     // hide the modal, look at info-panel.js
-    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.remove('active');
-    document.getElementById('sg-pattern-extra-'+patternPartial).classList.remove('active');
+    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.remove('pl-is-active');
+    document.getElementById('sg-pattern-extra-'+patternPartial).classList.remove('pl-is-active');
     
   },
   
