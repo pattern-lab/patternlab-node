@@ -123,12 +123,17 @@
     }
 
     /**
-     * Tab panel
-     * 1) Targeting pre tag in here as 
+     * Tab code
+     * 1) Targeting pre tag in here as Prism is being used for the majority of the styles
      */
     pre[class*=language-] {
         margin: 0;
         padding-left: 0.2rem;
         padding-right: 0.2rem;
+        border: 0;
+    }
+
+    code[class*=language-] {
+        margin: 0;
     }
 }
