@@ -28,10 +28,6 @@ gulp.task('clean:css-patternlab', function (cb) {
 	return plugins.del(['dist/styleguide/css/*'],cb);
 });
 
-gulp.task('clean:fonts', function (cb) {
-	return plugins.del(['dist/styleguide/fonts/*'],cb);
-});
-
 gulp.task('clean:html', function (cb) {
 	return plugins.del(['dist/*.html'],cb);
 });
@@ -66,12 +62,6 @@ gulp.task('build:css-patternlab', ['build:css-general'], function() {
 		.pipe(plugins.autoprefixer({browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'android 4']}, {map: false }))
 		.pipe(gulp.dest('dist/styleguide/css'))
 		.pipe(copyPublic("styleguide/css"));
-});
-
-gulp.task('build:fonts', ['clean:fonts'], function() {
-	return gulp.src('src/fonts/*')
-		.pipe(gulp.dest('dist/styleguide/fonts'))
-		.pipe(copyPublic("styleguide/fonts"));
 });
 
 gulp.task('build:html', ['clean:html'], function() {

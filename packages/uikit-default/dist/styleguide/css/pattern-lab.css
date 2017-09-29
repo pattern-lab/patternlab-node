@@ -1402,8 +1402,8 @@
    * Active tab panel
    */
   /**
-   * Tab panel
-   * 1) Targeting pre tag in here as 
+   * Tab code
+   * 1) Targeting pre tag in here as Prism is being used for the majority of the styles
    */
 }
 .pl-c-tabs__panel.pl-is-active-tab {
@@ -1422,6 +1422,10 @@
   margin: 0;
   padding-left: 0.2rem;
   padding-right: 0.2rem;
+  border: 0;
+}
+.pl-c-tabs__panel code[class*=language-] {
+  margin: 0;
 }
 
 /*------------------------------------*\
