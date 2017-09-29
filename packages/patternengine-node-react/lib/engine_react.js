@@ -45,7 +45,7 @@ function moduleCodeString(pattern) {
 var engine_react = {
   engine: React,
   engineName: 'react',
-  engineFileExtension: '.jsx',
+  engineFileExtension: ['.jsx', '.js'],
 
   // hell no
   expandPartials: false,
