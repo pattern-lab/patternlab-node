@@ -13,6 +13,14 @@
         display: flex;
         flex: 1 1 auto;
     }
+
+
+    /**
+     * Pattern Info inside a view all pattern 
+     */
+    .pl-c-pattern__extra & {
+        padding: 1rem;
+    }
 }
 
 /**
@@ -24,10 +32,6 @@
     flex: 1 1 auto;
     max-height: none;
     padding: 0;
-
-    &.active {
-        max-height: none;
-    }
 
     @media all and (min-width: $pl-bp-large) {
         min-width: 40%;
