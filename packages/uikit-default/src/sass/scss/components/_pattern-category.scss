@@ -8,10 +8,9 @@
 *    such as "global", "blocks", "etc".
 * 2) The category contains a title and optional description
 */
-.sg-pattern-category {
+.pl-c-category {
     margin-top: 6rem;
     font: $pl-font !important;
-    max-width: 30rem;
 
     &:first-of-type {
         margin-top: 2rem;
@@ -21,26 +20,31 @@
 /**
 * Pattern Category Title
 */
-.sg-pattern-category-title {
+.pl-c-category__title {
     font-size: 1.4rem !important;
     color: $pl-color-gray-87 !important;
     margin: 0 0 0.2rem;
     text-transform: capitalize;
+}
 
-    a {
-        transition: color $pl-animate-quick ease-out;
-    }
+/**
+ * Pattern Category Link 
+ */
+.pl-c-category__title-link {
+    transition: color $pl-animate-quick ease-out;
 }
 
 /**
 * Pattern Category Description
 * 1) This is an optional description that sits below the category title.
+* 2) Hide the pattern category description is it's empty
 */
-.sg-pattern-category-body {
-    font-size: $pl-font-size-sm;
-    line-height: 1.3;
+.pl-c-category__description {
+    font-size: $pl-font-size-sm-2;
+    line-height: 1.5;
+    max-width: 30rem;
 
     &:empty {
-        display: none;
+        display: none; /* 2 */
     }
 }
