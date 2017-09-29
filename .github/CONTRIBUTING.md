@@ -26,7 +26,7 @@ Two files combine within the project to define and maintain our coding style.
 Branching Scheme
 ----------------
 
-![alt text](branching-scheme.png) While activilely maintaining `2.X` on `master`, there is heavy development going on for Patternlab `3.X`. Currently Pattern Lab has the following branches:
+![alt text](branching-scheme.png) While actively maintaining `2.X` on `master`, there is heavy development going on for Patternlab `3.X`. Currently Pattern Lab has the following branches:
 
 -	**master** contains the latext stable, released `2.X` version</dd>
 -	**dev**: for `2.X` development. Please target pull requests against this branch
@@ -39,3 +39,5 @@ Development mainly happens in the `dev` branch, but you can help us a lot if you
 Feature branches may target either `dev` and/or `dev-3.0` and should be updated regularly.
 
 Long running branches should only target the latest version of Pattern Lab, currently `dev-3.0`, and may be lagging behind a lot.
+
+If you have any questions or you would like to help, feel free to ask on [our Gitter.im](https://gitter.im/pattern-lab/node-team)
