@@ -22,11 +22,6 @@
     @media all and (min-width: $pl-bp-med) {
         display: flex; /* 2 */
     }
-
-    .pl-theme--light & {
-        background: $pl-color-white;
-        border-bottom: 1px solid $pl-color-gray-20;
-    }
 }
 
 /**

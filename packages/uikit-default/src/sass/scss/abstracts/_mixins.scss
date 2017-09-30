@@ -40,15 +40,15 @@
     /**
      * Header link styles inside light theme
      */
-    .pl-theme--light & {
+    .pl-c-body--theme-light & {
         background: $pl-color-white;
-        color: $pl-color-gray-50;
+        color: $pl-color-gray-70;
     }
 
     /**
      * Header link styles inside light theme
      */
-    .pl-theme--comfy & {
+    .pl-c-body--theme-comfy & {
         padding: 1.2rem 1rem;
     }
 }

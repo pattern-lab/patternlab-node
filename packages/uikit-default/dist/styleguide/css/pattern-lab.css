@@ -110,10 +110,6 @@
     /* 2 */
   }
 }
-.pl-theme--light .pl-c-header {
-  background: #fff;
-  border-bottom: 1px solid #ccc;
-}
 
 /**
  * Nav toggle button
@@ -149,11 +145,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-header__nav-toggle {
+.pl-c-body--theme-light .pl-c-header__nav-toggle {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-header__nav-toggle {
+.pl-c-body--theme-comfy .pl-c-header__nav-toggle {
   padding: 1.2rem 1rem;
 }
 @media all and (min-width: 42em) {
@@ -247,11 +243,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-nav__link {
+.pl-c-body--theme-light .pl-c-nav__link {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-nav__link {
+.pl-c-body--theme-comfy .pl-c-nav__link {
   padding: 1.2rem 1rem;
 }
 
@@ -306,9 +302,6 @@
   /**
   * Caret rotation and positioning in active dropdown
   */
-  /**
-   * Light theme
-   */
 }
 .pl-c-nav__link--dropdown.pl-is-active:after {
   top: -2px;
@@ -316,10 +309,6 @@
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
-}
-.pl-theme--light .pl-c-nav__link--dropdown.pl-is-active {
-  color: #222;
-  background: #eee;
 }
 
 /**
@@ -498,11 +487,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-size-list__action {
+.pl-c-body--theme-light .pl-c-size-list__action {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-size-list__action {
+.pl-c-body--theme-comfy .pl-c-size-list__action {
   padding: 1.2rem 1rem;
 }
 
@@ -593,11 +582,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-tools__toggle {
+.pl-c-body--theme-light .pl-c-tools__toggle {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-tools__toggle {
+.pl-c-body--theme-comfy .pl-c-tools__toggle {
   padding: 1.2rem 1rem;
 }
 .pl-theme--comfy .pl-c-tools__toggle {
@@ -623,6 +612,8 @@
   right: 0;
   z-index: 1;
   width: 10rem;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
   /**
    * Tools dropdown list
    */
@@ -674,11 +665,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-tools__action {
+.pl-c-body--theme-light .pl-c-tools__action {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-tools__action {
+.pl-c-body--theme-comfy .pl-c-tools__action {
   padding: 1.2rem 1rem;
 }
 
@@ -851,7 +842,7 @@
   font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
   font-size: 0.85rem !important;
   line-height: 1 !important;
-  font-weight: bold !important;
+  font-weight: normal !important;
   margin: 0 !important;
   padding: 0 !important;
   text-transform: capitalize !important;
@@ -863,7 +854,6 @@
   color: #808080 !important;
   text-decoration: none;
   cursor: pointer;
-  font-weight: bold;
 }
 .pl-c-pattern__title-link:hover, .pl-c-pattern__title-link:focus {
   color: #000 !important;
@@ -879,7 +869,7 @@
   bottom: -1px;
   right: 0;
   z-index: 1;
-  padding: 0.65em;
+  padding: 0.65em 0.65em 0.5em;
   line-height: 1;
   color: #808080;
   background: transparent;
@@ -894,14 +884,14 @@
   display: inline-block;
 }
 .pl-c-pattern__extra-toggle:hover, .pl-c-pattern__extra-toggle:focus, .pl-c-pattern__extra-toggle.pl-is-active {
-  background: #eee;
+  background: #f7f7f7;
   color: #000;
 }
 .pl-c-pattern__extra-toggle:focus {
   outline: 1px dotted #4d4c4c;
 }
 .pl-c-pattern__extra-toggle.pl-is-active {
-  border-bottom-color: #eee;
+  border-bottom-color: #f7f7f7;
 }
 .pl-c-pattern__extra-toggle.pl-is-active .pl-c-pattern__toggle-icon {
   -webkit-transform: rotate(180deg);
@@ -915,7 +905,7 @@
 * like pattern description, lineage, code, and more
 */
 .pl-c-pattern__extra {
-  background: #eee;
+  background: #f7f7f7;
   border-top: 1px solid #ddd;
   margin-bottom: 1rem;
   overflow: hidden;
@@ -1475,11 +1465,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-tools__toggle {
+.pl-c-body--theme-light .pl-c-tools__toggle {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-tools__toggle {
+.pl-c-body--theme-comfy .pl-c-tools__toggle {
   padding: 1.2rem 1rem;
 }
 .pl-theme--comfy .pl-c-tools__toggle {
@@ -1505,6 +1495,8 @@
   right: 0;
   z-index: 1;
   width: 10rem;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
   /**
    * Tools dropdown list
    */
@@ -1556,11 +1548,11 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-.pl-theme--light .pl-c-tools__action {
+.pl-c-body--theme-light .pl-c-tools__action {
   background: #fff;
-  color: #808080;
+  color: #4d4c4c;
 }
-.pl-theme--comfy .pl-c-tools__action {
+.pl-c-body--theme-comfy .pl-c-tools__action {
   padding: 1.2rem 1rem;
 }
 
@@ -1715,16 +1707,9 @@
   /**
    * Active modal
    */
-  /**
-   * Modal inside a light theme
-   */
 }
 .pl-c-modal.pl-is-active {
   bottom: 0;
-}
-.pl-theme--light .pl-c-modal {
-  background: #fff;
-  color: #222;
 }
 
 /**
@@ -2215,4 +2200,77 @@ pre.line-numbers > code {
 
 .token a {
   color: inherit;
+}
+
+/*------------------------------------*\
+    #VENDOR
+\*------------------------------------*/
+/*------------------------------------*\
+    #LIGHT THEME
+\*------------------------------------*/
+/**
+ * A light-color theme for Pattern Lab, where the
+ * PL header and modal are light instead of dark
+ */
+.pl-c-body--theme-light {
+  /**
+   * Header
+   */
+  /**
+   * Nav Sublist dropdown
+   */
+  /**
+   * Tools dropdown
+   */
+  /**
+   * Nav link dropdown
+   */
+  /**
+   * Size input
+   */
+  /**
+   * Typeahead container
+   */
+  /**
+   * Typeahead input
+   */
+  /**
+   * Modal inside a light theme
+   */
+}
+.pl-c-body--theme-light .pl-c-header {
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+}
+.pl-c-body--theme-light .pl-c-nav__sublist--dropdown.pl-is-active {
+  border: 1px solid #ccc;
+  border-top: 0;
+}
+.pl-c-body--theme-light .pl-c-tools__list.pl-is-active {
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+.pl-c-body--theme-light .pl-c-nav__link--dropdown {
+  color: #4d4c4c;
+  background: #fff;
+}
+.pl-c-body--theme-light .pl-c-nav__link--dropdown:after {
+  color: #ccc;
+}
+.pl-c-body--theme-light .pl-c-viewport-size__input {
+  color: #4d4c4c;
+}
+.pl-c-body--theme-light .pl-c-viewport-size__input:hover, .pl-c-body--theme-light .pl-c-viewport-size__input:focus {
+  background: #ddd;
+}
+.pl-c-body--theme-light .typeahead {
+  background: #ddd !important;
+}
+.pl-c-body--theme-light .tt-input {
+  background: #ddd !important;
+  color: #4d4c4c !important;
+}
+.pl-c-body--theme-light .pl-c-modal {
+  background: #fff;
+  color: #222;
 }

@@ -27,14 +27,6 @@
     &.pl-is-active {
         bottom: 0;
     }
-
-    /**
-     * Modal inside a light theme
-     */
-    .pl-theme--light & {
-        background: $pl-color-white;
-        color: $pl-color-gray-87;
-    }
 }
 
 /**

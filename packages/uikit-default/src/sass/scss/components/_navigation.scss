@@ -118,14 +118,6 @@
             -ms-transform: rotate(180deg);
             transform: rotate(180deg);
         }
-
-        /**
-         * Light theme
-         */
-        .pl-theme--light & {
-            color: $pl-color-gray-87;
-            background: $pl-color-gray-07;
-        }
     }
 }
 

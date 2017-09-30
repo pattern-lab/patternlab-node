@@ -40,7 +40,7 @@
     font-family: $pl-font !important;
     font-size: 0.85rem !important;
     line-height: 1 !important;
-    font-weight: bold !important;
+    font-weight: normal !important;
     margin: 0 !important;
     padding: 0 !important;
     text-transform: capitalize !important;
@@ -52,7 +52,6 @@
     color: $pl-color-gray-50 !important;
     text-decoration: none;
     cursor: pointer;
-    font-weight: bold;
 
     &:hover, &:focus {
         color: $pl-color-black  !important;
@@ -69,7 +68,7 @@
     bottom: -1px;
     right: 0;
     z-index: 1;
-    padding: 0.65em;
+    padding: 0.65em 0.65em 0.5em;
     line-height: 1;
     color: $pl-color-gray-50;
     background: transparent;
@@ -84,7 +83,7 @@
     }
 
     &:hover, &:focus, &.pl-is-active {
-        background: $pl-color-gray-07;
+        background: $pl-color-gray-03;
         color: $pl-color-black;
     }
 
@@ -93,7 +92,7 @@
     }
 
     &.pl-is-active {
-        border-bottom-color: $pl-color-gray-07;
+        border-bottom-color: $pl-color-gray-03;
 
         .pl-c-pattern__toggle-icon {
             -webkit-transform: rotate(180deg);
@@ -110,7 +109,7 @@
 * like pattern description, lineage, code, and more
 */
 .pl-c-pattern__extra {
-    background: $pl-color-gray-07;
+    background: $pl-color-gray-03;
     border-top: 1px solid $pl-color-gray-13;
     margin-bottom: $pl-space;
     overflow: hidden;

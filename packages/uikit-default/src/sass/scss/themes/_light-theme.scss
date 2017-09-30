@@ -1,0 +1,80 @@
+/*------------------------------------*\
+    #LIGHT THEME
+\*------------------------------------*/
+
+/**
+ * A light-color theme for Pattern Lab, where the
+ * PL header and modal are light instead of dark
+ */
+.pl-c-body--theme-light {
+
+    /**
+     * Header
+     */
+    .pl-c-header {
+        background: $pl-color-white;
+        border-bottom: 1px solid $pl-color-gray-20;
+    }
+
+    /**
+     * Nav Sublist dropdown
+     */
+    .pl-c-nav__sublist--dropdown.pl-is-active {
+        border: 1px solid $pl-color-gray-20;
+        border-top: 0;
+    }
+
+    /**
+     * Tools dropdown
+     */
+    .pl-c-tools__list.pl-is-active {
+        border-bottom: 1px solid $pl-color-gray-20;
+        border-left: 1px solid $pl-color-gray-20;
+    }
+
+    /**
+     * Nav link dropdown
+     */
+    .pl-c-nav__link--dropdown {
+        color: $pl-color-gray-70;
+        background: $pl-color-white;
+
+        &:after {
+            color: $pl-color-gray-20;
+        }
+    }
+
+    /**
+     * Size input
+     */
+    .pl-c-viewport-size__input {
+        color: $pl-color-gray-70;
+
+        &:hover, &:focus {
+            background: $pl-color-gray-13;
+        }
+    }
+
+    /**
+     * Typeahead container
+     */
+    .typeahead {
+        background: $pl-color-gray-13 !important;
+    }
+
+    /**
+     * Typeahead input
+     */
+    .tt-input {
+        background: $pl-color-gray-13 !important;
+        color: $pl-color-gray-70 !important;
+    }
+
+    /**
+     * Modal inside a light theme
+     */
+    .pl-c-modal {
+        background: $pl-color-white;
+        color: $pl-color-gray-87;
+    }
+}
