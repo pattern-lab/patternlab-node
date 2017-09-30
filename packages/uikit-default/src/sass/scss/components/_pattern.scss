@@ -34,8 +34,8 @@
 
 
 /**
-* Pattern Title
-*/
+ * Pattern Title
+ */
 .pl-c-pattern__title {
     font-family: $pl-font !important;
     font-size: 0.85rem !important;
@@ -46,6 +46,9 @@
     text-transform: capitalize !important;
 }
 
+/**
+ * Pattern Title Link
+ */
 .pl-c-pattern__title-link {
     display: inline-block;
     padding: $pl-pad 0 0.3rem;

@@ -19,6 +19,13 @@
     /**
      * Nav Sublist dropdown
      */
+     .pl-c-nav__sublist {
+         background: transparent;
+     }
+
+    /**
+     * Nav Sublist dropdown
+     */
     .pl-c-nav__sublist--dropdown.pl-is-active {
         border: 1px solid $pl-color-gray-20;
         border-top: 0;
@@ -75,6 +82,19 @@
      */
     .pl-c-modal {
         background: $pl-color-white;
-        color: $pl-color-gray-87;
+        color: $pl-color-gray-70;
+        border-top: 1px solid $pl-color-gray-20;
+    }
+
+
+    /**
+    * Modal close button
+    * 1) Closes the modal popup
+    */
+    .pl-c-modal__close-btn {
+        &:hover, &:focus {
+            background: $pl-color-gray-13;
+            color: $pl-color-gray-70;
+        }
     }
 }

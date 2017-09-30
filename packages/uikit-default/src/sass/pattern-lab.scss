@@ -50,6 +50,7 @@
  * Pattern Lab Header
  */
 @import "scss/components/header";
+@import "scss/components/logo";
 @import "scss/components/navigation";
 @import "scss/components/ish-sizing";
 @import "scss/components/controls";
@@ -103,3 +104,4 @@
     #VENDOR
 \*------------------------------------*/
 @import "scss/themes/light-theme";
+@import "scss/themes/sidebar-theme";

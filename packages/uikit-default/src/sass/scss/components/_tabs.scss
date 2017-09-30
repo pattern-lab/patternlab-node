@@ -45,19 +45,12 @@
  */
 .pl-c-tabs__link {
     display: block;
-    font-size: 90%;
-    font-weight: bold;
     line-height: 1;
-    padding: 0.5em 1em;
-    background: $pl-color-gray-13;
-    border: 1px solid $pl-color-gray-20;
-    border-bottom: 0;
+    margin-right: 0.5rem;
     color: $pl-color-gray-50;
     cursor: pointer;
-    border-top-right-radius: $pl-border-radius-med;
-    border-top-left-radius: $pl-border-radius-med;
     text-decoration: none;
-    text-transform: capitalize;
+    text-transform: lowercase;
     transition: all $pl-animate-quick ease-out;
 
     &:hover {
@@ -72,6 +65,7 @@
     &.pl-is-active-tab {
         background: #f5f2f0;
         color: $pl-color-black;
+        border-bottom: 1px solid $pl-color-gray-50;
     }
 
     /**

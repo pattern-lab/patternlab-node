@@ -35,7 +35,7 @@
  */
 .pl-c-modal__close-btn {
     font-size: 70%;
-    background: $pl-color-black;
+    background: transparent;
     color: $pl-color-gray-50;
     border: 0;
     border-radius: $pl-border-radius-med;
@@ -57,14 +57,6 @@
         outline: 1px dotted $pl-color-gray-50;
         outline-offset: -2px;
     }
-
-    /**
-     * Modal inside a light theme
-     */
-    .pl-theme--light & {
-        background: $pl-color-white;
-        color: $pl-color-gray-87;
-    }
 }
 
 /**
@@ -74,14 +66,9 @@
 .pl-c-modal__close-btn-icon {
     width: 14px;
     height: 14px;
-    color: $pl-color-gray-50;
-    fill: $pl-color-gray-50;
+    color: currentColor;
+    fill: currentColor;
     transition: fill $pl-animate-quick ease-out;
-
-    .pl-c-modal__close-btn:hover &, .pl-c-modal__close-btn:focus &, .pl-c-modal__close-btn:active & {
-        color: $pl-color-white;
-        fill: $pl-color-white;
-    }
 }
 
 /**
@@ -99,49 +86,4 @@
         padding-left: 2rem;
         padding-right: 2rem;
     }
-}
-
-/**
- * Pattern Header inside modal
- */
-.pl-c-pattern-head {
-    margin-bottom: 0.5rem;
-}
-
-/**
- * Pattern Title inside modal
- */
-.pl-c-pattern-title {
-    font-size: 1.4rem !important;
-    margin-top: 0;
-    color: $pl-color-gray-07;
-    text-transform: capitalize;
-}
-
-/**
- * Pattern info links inside modal
- */
-.pl-c-pattern-extra-info {
-
-    a {
-        color: $pl-color-gray-20;
-
-        &:hover, &:focus {
-            color: $pl-color-gray-07;
-        }
-    }
-}
-
-/**
- * Pattern Description inside modal
- */
-.pl-c-pattern-desc {
-    border-bottom-color: $pl-color-gray-50;
-}
-
-/**
- * Pattern Annotations inside modal
- */
-.pl-c-annotations {
-    border-top-color: $pl-color-gray-50;
 }

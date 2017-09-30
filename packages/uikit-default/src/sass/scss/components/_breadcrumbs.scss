@@ -20,9 +20,8 @@
 .pl-c-breadcrumb__item {
     &:after {
         content: '▶';
-        opacity: 0.8;
+        opacity: 0.4;
         font-size: 0.3rem;
-        color: $pl-color-gray-70;
         display: inline-block;
         margin: 0 0.3rem;
     }

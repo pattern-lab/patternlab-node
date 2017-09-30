@@ -1,0 +1,88 @@
+/*------------------------------------*\
+    #SIDEBAR THEME
+\*------------------------------------*/
+
+$pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
+
+/**
+ * A theme that places displays the header as a sidebar
+ */
+.pl-c-body--theme-sidebar {
+    
+    /**
+     * Header
+     * 1) Stack header items on top of each other
+     * 2) void bottom border for light theme
+     */
+    .pl-c-header {
+        width: $pl-sidebar-width;
+        height: 100vh;
+        flex-direction: column;  /* 1 */
+        border-bottom: 0; /* 2 */
+        padding: 1rem;
+        border-right: 1px solid $pl-color-gray-20;
+    }
+
+    /**
+     * Nav list
+     * 1) Stack main categories on top of each other
+     */
+    .pl-c-nav__list {
+        flex-direction: column; /* 1 */
+    }
+
+    /**
+     * Nav link
+     */
+    .pl-c-nav__link {
+        font-size: $pl-font-size-sm-2;
+    }
+
+    /**
+     * Nav sublist
+     */
+    .pl-c-nav__sublist {
+        position: relative;
+        margin-left: 0.5rem;
+        border-radius: 0;
+    }
+
+    /**
+     * Nav sublist
+     */
+    .pl-c-nav__sublist--dropdown.pl-is-active {
+        border: 0;
+        border-left: 1px solid $pl-color-gray-07;
+    }
+
+    /**
+     * Nav sub sub list
+     */
+    .pl-c-nav__subsublist {
+        border-left: 1px solid $pl-color-gray-07;
+        margin-left: 1rem;
+    }
+
+    /**
+     * Nav controls
+     * 1) Push off of navigation in flex container so
+     *    they appear at the bottom 
+     */
+    .pl-c-controls {
+        margin-top: auto; /* 1 */
+    }
+
+    .pl-c-viewport {
+        top: 0;
+        left: $pl-sidebar-width;
+        width: auto;
+    }
+
+    .pl-c-viewport__iframe-wrapper {
+        width: 100% !important;
+    }
+
+    .pl-c-viewport__iframe {
+        width: 100% !important;
+    }
+}

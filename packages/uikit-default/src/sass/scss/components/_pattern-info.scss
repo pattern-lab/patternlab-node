@@ -14,7 +14,6 @@
         flex: 1 1 auto;
     }
 
-
     /**
      * Pattern Info inside a view all pattern 
      */
@@ -46,4 +45,38 @@
     @media all and (min-width: $pl-bp-large) {
         min-width: 60%;
     }
+}
+
+
+/**
+ * Pattern Header inside modal
+ */
+ .pl-c-pattern-info__header {
+    margin-bottom: 0.5rem;
+}
+
+/**
+ * Pattern Title inside modal
+ */
+.pl-c-pattern-info__title {
+    font-size: 1.4rem !important;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: inherit;
+    text-transform: capitalize;
+}
+
+/**
+ * Pattern Description inside modal
+ */
+ .pl-c-pattern-info__description {
+    border-bottom-color: $pl-color-gray-50;
+}
+
+/**
+ * Pattern Annotations inside modal
+ */
+.pl-c-annotations {
+    border-top-color: $pl-color-gray-50;
 }
