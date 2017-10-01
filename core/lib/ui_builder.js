@@ -592,6 +592,9 @@ var ui_builder = function () {
     //plugins
     output += 'var plugins = ' + JSON.stringify(patternlab.plugins || []) + ';' + eol;
 
+    //theme
+    output += 'var theme = ' + JSON.stringify(patternlab.config.theme) + ';' + eol;
+
     //smaller config elements
     output += 'var defaultShowPatternInfo = ' + (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
     output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all') + '";' + eol;
