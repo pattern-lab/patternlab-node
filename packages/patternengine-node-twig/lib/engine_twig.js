@@ -41,11 +41,8 @@ var engine_twig = {
 
   // render it
   renderPattern: function renderPattern(pattern, data) {
-
-    console.log(path.resolve(process.cwd(), pattern.relPath))
-
     twig(pattern.relPath, {
-      root: process.cwd(),
+      root: path.relative(__dirname, path.resolve(process.cwd(), 'source', '_patterns')),
       context: data
     }, (error, template) => {
       if (error) {
