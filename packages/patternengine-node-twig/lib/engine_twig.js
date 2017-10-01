@@ -22,8 +22,9 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const Twig = require('twig');
-const twig = Twig.twig;
+const process = require('process');
+const Twig = require('node-twig');
+const twig = Twig.renderFile;
 
 var engine_twig = {
   engine: Twig,
@@ -40,11 +41,19 @@ var engine_twig = {
 
   // render it
   renderPattern: function renderPattern(pattern, data) {
-    var result = twig({
-      data: pattern.extendedTemplate
-    }).render(data);
 
-    return result;
+    console.log(path.resolve(process.cwd(), pattern.relPath))
+
+    twig(pattern.relPath, {
+      root: process.cwd(),
+      context: data
+    }, (error, template) => {
+      if (error) {
+        console.log(error);
+      }
+      console.log(template);
+      return template;
+    });
   },
 
   // find and return any {% include 'template-name' %} within pattern
