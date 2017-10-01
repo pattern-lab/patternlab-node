@@ -13,7 +13,7 @@ const glob = require('glob'),
  * @returns {*}
  */
 function loadFile(dataFilesPath, fsDep) {
-  const dataFilesFullPath = dataFilesPath + '*.{json,yml,yaml}';
+  const dataFilesFullPath = dataFilesPath + '{.,[!-]*.}{json,yml,yaml}';
 
   if (dataFilesPath) {
     const dataFiles = glob.sync(dataFilesFullPath),
