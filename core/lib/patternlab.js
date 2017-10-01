@@ -282,7 +282,8 @@ var patternlab_engine = function (config) {
   }
 
   function loadStarterKit(starterkitName, clean) {
-    var starterkit_manager = new sm(patternlab.config);
+    const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
+    const starterkit_manager = new sm(patternlab.config, configPath);
     starterkit_manager.load_starterkit(starterkitName, clean);
   }
 

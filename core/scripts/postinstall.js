@@ -16,7 +16,7 @@ try {
   var config = fs.readJSONSync(path.resolve(configPath), 'utf8');
 
   //determine if any starterkits are already installed
-  var starterkit_manager = new sm(config);
+  var starterkit_manager = new sm(config, configPath);
   var foundStarterkits = starterkit_manager.detect_starterkits();
 
   //todo - enhance to support multiple kits with prompt for each or all
