@@ -140,6 +140,68 @@ tap.test('parameter hunter finds and extends templates with mixed parameter and 
   test.end();
 });
 
+tap.test('parameter hunter finds and extends templates with mixed template and parameter data', function(test) {
+  var currentPattern = currentPatternClosure();
+  var patternlab = patternlabClosure();
+  var parameter_hunter = new ph();
+
+  patternlab.patterns[0].template = "<h1>{{foo}}</h1><p>{{description}}</p>";
+  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+  currentPattern.jsonFileData = {foo: 'Bar'};
+
+  parameter_hunter.find_parameters(currentPattern, patternlab);
+  test.equals(currentPattern.extendedTemplate, '<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+
+  test.end();
+});
+
+tap.test('parameter hunter finds and extends templates with mixed included template and parameter data', function(test) {
+  var currentPattern = currentPatternClosure();
+  var patternlab = patternlabClosure();
+  var parameter_hunter = new ph();
+
+  patternlab.patterns[0].template = "<h1>{{foo}}</h1><p>{{description}}</p>";
+  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+  patternlab.patterns[0].jsonFileData = {foo: 'Bar'};
+
+  parameter_hunter.find_parameters(currentPattern, patternlab);
+  test.equals(currentPattern.extendedTemplate, '<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+
+  test.end();
+});
+
+tap.test('parameter hunter finds and extends templates with mixed data. Data weights from weakest to strongest: global data < includee data < includer data < parameter data', function(test) {
+  var currentPattern = currentPatternClosure();
+  var patternlab = patternlabClosure();
+  var parameter_hunter = new ph();
+
+  patternlab.patterns[0].template = "<h1>{{h1Text}}</h1><h2>{{h2Text}}</h2><h3>{{h3Text}}</h3><p>{{description}}</p>";
+  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+    
+  patternlab.data.h1Text = 'globalH1';
+  patternlab.data.h2Text = 'globalH2';
+  patternlab.data.h3Text = 'globalH3';
+  patternlab.data.description = 'globalDescription';
+  
+  patternlab.patterns[0].jsonFileData = {
+      h2Text: 'includeeH2',
+      h3Text: 'includeeH3',
+      h4Text: 'includeeH4',
+      description: 'includeeDescription'
+  };
+  
+  currentPattern.jsonFileData = {
+      h3Text: 'includerH3',
+      h4Text: 'includerH4',
+      description: 'includerDescription'
+  };
+
+  parameter_hunter.find_parameters(currentPattern, patternlab);
+  test.equals(currentPattern.extendedTemplate, '<h1>globalH1</h1><h2>includeeH2</h2><h3>includerH3</h3><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+
+  test.end();
+});
+
 tap.test('parameter hunter finds and extends templates with verbose partials', function(test) {
   var currentPattern = currentPatternClosure();
   var patternlab = patternlabClosure();

@@ -270,17 +270,20 @@ var parameter_hunter = function () {
         var paramData = {};
         var globalData = {};
         var localData = {};
+        var partialData = {};
 
         try {
           paramData = JSON.parse(paramStringWellFormed);
           globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
           localData = jsonCopy(pattern.jsonFileData || {}, `pattern ${pattern.patternPartial} data`);
+          partialData = jsonCopy(partialPattern.jsonFileData || {}, `pattern ${partialPattern.patternPartial} data`);
         } catch (err) {
           console.log('There was an error parsing JSON for ' + pattern.relPath);
           console.log(err);
         }
 
-        var allData = plutils.mergeData(globalData, localData);
+        var allData = plutils.mergeData(globalData, partialData);
+        allData = plutils.mergeData(allData, localData);
         allData = plutils.mergeData(allData, paramData);
 
         //if the partial has pattern parameters itself, we need to handle those
