@@ -20,7 +20,12 @@ function loadFile(dataFilesPath, fsDep) {
       dataFile = _.head(dataFiles);
 
     if (dataFile && fsDep.existsSync(path.resolve(dataFile))) {
-      return yaml.safeLoad(fsDep.readFileSync(path.resolve(dataFile), 'utf8'));
+      try {
+        return yaml.safeLoad(fsDep.readFileSync(path.resolve(dataFile), 'utf8'));
+      }
+      catch (err) {
+        throw new Error(`Error loading file: ${dataFile} - ${err.message}`);
+      }
     }
   }
 
@@ -48,8 +53,13 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
   let mergeObject = {};
 
   dataFiles.forEach(function (filePath) {
-    let jsonData = yaml.safeLoad(fsDep.readFileSync(path.resolve(filePath), 'utf8'));
-    mergeObject = _.merge(mergeObject, jsonData);
+    try {
+      let jsonData = yaml.safeLoad(fsDep.readFileSync(path.resolve(filePath), 'utf8'));
+      mergeObject = _.merge(mergeObject, jsonData);
+    }
+    catch (err) {
+      throw new Error(`Error loading file: ${filePath} - ${err.message}`);
+    }
   });
 
   return mergeObject;
