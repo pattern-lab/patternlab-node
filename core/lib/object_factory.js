@@ -66,7 +66,7 @@ const Pattern = function (relPath, data, patternlab) {
 
   // Let's calculate the verbose name ahead of time! We don't use path.sep here
   // on purpose. This isn't a file name!
-  this.verbosePartial = this.subdir + '/' + this.fileName;
+  this.verbosePartial = this.subdir.split(path.sep).join('/') + '/' + this.fileName;
 
   this.isPattern = true;
   this.isFlatPattern = this.patternGroup === this.patternSubGroup;

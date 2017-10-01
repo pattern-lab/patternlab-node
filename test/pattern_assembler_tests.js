@@ -457,6 +457,83 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   test.end();
 });
 
+tap.test('processPatternRecursive - 685 ensure listitems data is used', function(test) {
+  //arrange
+  var pattern_assembler = new pa();
+  var util = require('./util/test_utils.js');
+  var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+  var pl = util.fakePatternLab(testPatternsPath);
+  pl.data.title = "0";
+  pl.listitems = {
+    "1": {
+      "title": "1"
+    },
+    "2": {
+      "title": "2"
+    },
+    "3": {
+      "title": "3"
+    }
+  };
+
+  pattern_assembler.combine_listItems(pl);
+
+  var listPatternPath = path.join('00-test', '685-list.mustache');
+  var listPattern = pattern_assembler.process_pattern_iterative(listPatternPath, pl);
+
+  //act
+  pattern_assembler.process_pattern_recursive(listPatternPath, pl);
+
+  //assert
+  test.true(listPattern.extendedTemplate.indexOf(1) > -1);
+  test.true(listPattern.extendedTemplate.indexOf(2) > -1);
+  test.true(listPattern.extendedTemplate.indexOf(3) > -1);
+  test.end();
+});
+
+tap.test('setState - applies any patternState matching the pattern', function(test) {
+  //arrange
+  var pa = require('../core/lib/pattern_assembler');
+  var pattern_assembler = new pa();
+  var patternlab = {};
+  patternlab.config = {};
+  patternlab.config.patternStates = {};
+  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
+
+  var pattern = {
+    patternPartial: "pages-homepage-emergency"
+  };
+
+  //act
+  pattern_assembler.setPatternState(pattern, patternlab);
+
+  //assert
+  test.equals(pattern.patternState, "inprogress");
+  test.end();
+});
+
+tap.test('setState - does not apply any patternState if nothing matches the pattern', function(test) {
+  //arrange
+  var pa = require('../core/lib/pattern_assembler');
+  var pattern_assembler = new pa();
+  var patternlab = {};
+  patternlab.config = {};
+  patternlab.config.patternStates = {};
+  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
+
+  var pattern = {
+    key: "pages-homepage",
+    patternState: ""
+  };
+
+  //act
+  pattern_assembler.setPatternState(pattern, patternlab);
+
+  //assert
+  test.equals(pattern.patternState, "");
+  test.end();
+});
+
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
   //arrange
   var diveSync = require('diveSync');
