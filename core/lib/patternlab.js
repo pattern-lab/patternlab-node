@@ -26,7 +26,8 @@ var diveSync = require('diveSync'),
   ui_builder = new ui(),
   pe = require('./pattern_exporter'),
   pattern_exporter = new pe(),
-  PatternGraph = require('./pattern_graph').PatternGraph;
+  PatternGraph = require('./pattern_graph').PatternGraph,
+  updateNotifier = require('update-notifier');
 
 //register our log events
 plutils.log.on('error', msg => console.log(msg));
@@ -42,6 +43,12 @@ console.log(
 
 var patternEngines = require('./pattern_engines');
 var EventEmitter = require('events').EventEmitter;
+
+//bootstrap update notifier
+updateNotifier({
+  pkg: packageInfo,
+  updateCheckInterval: 1000 * 60 * 60 * 24 // notify at most once a day
+}).notify();
 
 /**
  * Given a path, load info from the folder to compile into a single config object.
