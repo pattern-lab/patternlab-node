@@ -34,6 +34,7 @@ const CompileState = require('./object_factory').CompileState;
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./ui_builder'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
+let assetCopy = require('./asset_copy');
 
 const pattern_assembler = new pa();
 const lineage_hunter = new lh();
@@ -692,6 +693,11 @@ const patternlab_engine = function (config) {
     },
     getSupportedTemplateExtensions: function () {
       return getSupportedTemplateExtensions();
+    },
+    copyAssets: function () {
+
+      // accept a filtered list of assets to copy. or use the default inferred from the config
+      assetCopy()
     }
   };
 };
