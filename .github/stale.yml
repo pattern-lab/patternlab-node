@@ -4,7 +4,8 @@ daysUntilStale: 60
 daysUntilClose: 7
 # Issues with these labels will never be considered stale
 exemptLabels:
-  - staged of next release
+  - staged for next release
+  - pinned
 # Label to use when marking an issue as stale
 staleLabel: needs response
 # Comment to post when marking an issue as stale. Set to `false` to disable
