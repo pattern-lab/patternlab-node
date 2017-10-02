@@ -19,7 +19,7 @@ if (self != top) {
   var parts = path.split("?");
   var options = { "event": "patternLab.pageLoad", "path": parts[0] };
   
-  patternData = document.getElementById('sg-pattern-data-footer').innerHTML;
+  patternData = document.getElementById('pl-pattern-data-footer').innerHTML;
   patternData = JSON.parse(patternData);
   options.patternpartial = (patternData.patternPartial !== undefined) ? patternData.patternPartial : "all";
   if (patternData.lineage !== "") {
@@ -392,7 +392,7 @@ var modalStyleguide = {
   */
   toggle: function(patternPartial) {
     if ((modalStyleguide.active[patternPartial] === undefined) || !modalStyleguide.active[patternPartial]) {
-      var el = document.getElementById('sg-pattern-data-'+patternPartial);
+      var el = document.getElementById('pl-pattern-data-'+patternPartial);
       modalStyleguide.collectAndSend(el, true, false);
     } else {
       modalStyleguide.highlightsHide();
@@ -423,17 +423,17 @@ var modalStyleguide = {
     modalStyleguide.active[patternPartial] = true;
     
     // make sure there's no content
-    div = document.getElementById('sg-pattern-extra-'+patternPartial);
+    div = document.getElementById('pl-pattern-extra-'+patternPartial);
     if (div.childNodes.length > 0) {
       div.removeChild(div.childNodes[0]);
     }
     
     // add the content
-    document.getElementById('sg-pattern-extra-'+patternPartial).appendChild(content);
+    document.getElementById('pl-pattern-extra-'+patternPartial).appendChild(content);
     
     // show the modal
-    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.add('pl-is-active');
-    document.getElementById('sg-pattern-extra-'+patternPartial).classList.add('pl-is-active');
+    document.getElementById('pl-pattern-extra-toggle-'+patternPartial).classList.add('pl-is-active');
+    document.getElementById('pl-pattern-extra-'+patternPartial).classList.add('pl-is-active');
     
   },
   
@@ -447,8 +447,8 @@ var modalStyleguide = {
     modalStyleguide.active[patternPartial] = false;
     
     // hide the modal, look at info-panel.js
-    document.getElementById('sg-pattern-extra-toggle-'+patternPartial).classList.remove('pl-is-active');
-    document.getElementById('sg-pattern-extra-'+patternPartial).classList.remove('pl-is-active');
+    document.getElementById('pl-pattern-extra-toggle-'+patternPartial).classList.remove('pl-is-active');
+    document.getElementById('pl-pattern-extra-'+patternPartial).classList.remove('pl-is-active');
     
   },
   
@@ -523,7 +523,7 @@ var modalStyleguide = {
       var els, iframePassback, patternData, patternMarkupEl;
       
       // find all elements related to pattern info
-      els = document.querySelectorAll('.sg-pattern-data');
+      els = document.querySelectorAll('.pl-js-pattern-data');
       iframePassback = (els.length > 1);
       
       // send each up to the parent to be read and compiled into panels

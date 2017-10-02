@@ -30,7 +30,7 @@ var modalViewer = {
     // watch for resizes and hide the modal container as appropriate when the modal is already hidden
     $(window).on('resize', function() {
       if (DataSaver.findValue('modalActive') === 'false') {
-        modalViewer.slide($('#sg-modal-container').outerHeight());
+        // modalViewer.slide($('#sg-modal-container').outerHeight());
       }
     });
     
@@ -119,7 +119,7 @@ var modalViewer = {
     DataSaver.updateValue('modalActive', 'false');
     modalViewer.active = false;
     
-    //Add active class to modal
+    //Remove active class to modal
     $('#sg-modal-container').removeClass('pl-is-active');
     
     // update the wording
@@ -135,7 +135,7 @@ var modalViewer = {
   * hide the modal window
   */
   hide: function() {
-    modalViewer.slide($('#sg-modal-container').outerHeight());
+    $('#sg-modal-container').removeClass('pl-is-active');
   },
   
   /**
@@ -217,16 +217,16 @@ var modalViewer = {
   },
   
   /**
-  * alias for slide
-  */
+   * Show modal
+   */
   show: function() {
-    modalViewer.slide(0);
+    $('#sg-modal-container').addClass('pl-is-active');
   },
   
   /**
-  * ask the pattern for info so we can open the modal window and populate it
-  * @param  {Boolean}      if the dropdown text should be changed
-  */
+   * ask the pattern for info so we can open the modal window and populate it
+   * @param  {Boolean}      if the dropdown text should be changed
+   */
   queryPattern: function(switchText) {
     
     // note that the modal is active and set switchText
