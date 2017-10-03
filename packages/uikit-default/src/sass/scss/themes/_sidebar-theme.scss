@@ -4,178 +4,200 @@
 
 $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
 
-/**
- * A theme that places displays the header as a sidebar
- */
-.pl-c-body--theme-sidebar {
-    
+@media all and (min-width: 48em) {
     /**
-     * Header
-     * 1) Stack header items on top of each other
-     * 2) void bottom border for light theme
-     */
-    .pl-c-header {
-        width: $pl-sidebar-width;
-        height: 100vh;
-        flex-direction: column;  /* 1 */
-        border-bottom: 0; /* 2 */
-        padding: 1rem;
-        border-right: 1px solid $pl-color-gray-20;
-    }
+    * A theme that places displays the header as a sidebar
+    */
+    .pl-c-body--theme-sidebar {
+        
+        /**
+        * Header
+        * 1) Stack header items on top of each other
+        * 2) void bottom border for light theme
+        */
+        .pl-c-header {
+            width: $pl-sidebar-width;
+            height: 100vh;
+            flex-direction: column;  /* 1 */
+            border-bottom: 0; /* 2 */
+            padding: 1rem;
+            border-right: 1px solid $pl-color-gray-20;
+        }
 
-    /**
-     * Logo
-     */
-    .pl-c-logo {
-        max-width: 7rem;
-        margin: 0 auto 1rem;
-    }
+        /**
+        * Logo
+        */
+        .pl-c-logo {
+            max-width: 7rem;
+            margin: 0 auto 1rem;
+        }
 
-    /**
-     * Nav list
-     * 1) Stack main categories on top of each other
-     */
-    .pl-c-nav__list {
-        flex-direction: column; /* 1 */
-    }
+        /**
+        * Nav sub sub list
+        */
+        .pl-c-nav {
+            flex-direction: column;
+        }
 
-    /**
-     * Nav link
-     */
-    .pl-c-nav__link {
-        font-size: $pl-font-size-sm-2;
-    }
+        /**
+        * Nav list
+        * 1) Stack main categories on top of each other
+        * 2) Put typeahead search above nav list
+        */
+        .pl-c-nav__list {
+            flex-direction: column; /* 1 */
+            order: 2; /* 2 */
+        }
 
-    /**
-     * Nav sublist
-     */
-    .pl-c-nav__sublist {
-        position: relative;
-        margin-left: 0.5rem;
-        border-radius: 0;
-    }
+        /**
+        * Nav link
+        */
+        .pl-c-nav__link {
+            font-size: $pl-font-size-sm-2;
+        }
 
-    /**
-     * Nav sublist
-     */
-    .pl-c-nav__sublist--dropdown.pl-is-active {
-        border: 0;
-        border-left: 1px solid $pl-color-gray-70;
-    }
+        /**
+        * Nav sublist
+        */
+        .pl-c-nav__sublist {
+            position: relative;
+            margin-left: 0.5rem;
+            border-radius: 0;
+        }
 
-    /**
-     * Nav sublist inside the light theme
-     */
-    &.pl-c-body--theme-light {
+        /**
+        * Nav sublist
+        */
         .pl-c-nav__sublist--dropdown.pl-is-active {
-            border-left-color: $pl-color-gray-07;
+            border: 0;
+            border-left: 1px solid $pl-color-gray-70;
         }
-    }
 
-    /**
-     * Nav sub sub list
-     */
-    .pl-c-nav__subsublist {
-        border-left: 1px solid $pl-color-gray-70;
-        margin-left: 1rem;
-    }
-    
-    /**
-     * Nav sub sub list inside the light theme
-     */
-    &.pl-c-body--theme-light {
+        /**
+        * Nav sublist inside the light theme
+        */
+        &.pl-c-body--theme-light {
+            .pl-c-nav__sublist--dropdown.pl-is-active {
+                border-left-color: $pl-color-gray-07;
+            }
+        }
+
+        /**
+        * Nav sub sub list
+        */
         .pl-c-nav__subsublist {
-            border-left-color: $pl-color-gray-07;
+            border-left: 1px solid $pl-color-gray-70;
+            margin-left: 1rem;
         }
-    }
 
-    /**
-     * Nav controls
-     * 1) Push off of navigation in flex container so
-     *    they appear at the bottom 
-     */
-    .pl-c-controls {
-        margin-top: auto; /* 1 */
-        margin-left: 0;
-        flex-direction: column;
-    }
+        /**
+        * Nav sub sub list inside the light theme
+        */
+        &.pl-c-body--theme-light {
+            .pl-c-nav__subsublist {
+                border-left-color: $pl-color-gray-07;
+            }
+        }
 
-    .pl-c-size-list {
-        display: none;
-    }
+        /**
+        * Nav controls
+        * 1) Push off of navigation in flex container so
+        *    they appear at the bottom 
+        */
+        .pl-c-controls {
+            margin-top: auto; /* 1 */
+            margin-left: 0;
+            flex-direction: column;
+        }
 
-    .pl-c-viewport-size {
-        display: none;
-    }
+        .pl-c-size-list {
+            display: none;
+        }
 
-    /**
-     * Tools toggle button
-     */
-    .pl-c-tools__toggle {
-        display: none;
-    }
+        .pl-c-viewport-size {
+            display: none;
+        }
 
-    /**
-     * Tools list
-     */
-    .pl-c-tools__list {
-        max-height: none;
-        overflow: visible;
-        position: relative;
-        border-radius: 0;
-        display: flex;
-        flex-direction: column;
-    }
+        .pl-c-typeahead {
+            border-radius: $pl-border-radius-med;
+        }
+
+        /**
+         * Dynamically added wrapper around typeahead input
+         */
+        .twitter-typeahead {
+            margin-bottom: 0.5rem;
+        }
+
+        /**
+         * Tools toggle button
+         */
+        .pl-c-tools__toggle {
+            display: none;
+        }
+
+        /**
+         * Tools list
+         */
+        .pl-c-tools__list {
+            max-height: none;
+            overflow: visible;
+            position: relative;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+        }
 
 
-    /**
-     * Viewport 
-     * 1) Position viewport (that contains all the content)
-     *    so it fits in remaining available space 
-     */
-    .pl-c-viewport {
-        top: 0; /* 1 */
-        left: $pl-sidebar-width; /* 1 */
-        width: auto;
-    }
+        /**
+         * Viewport 
+         * 1) Position viewport (that contains all the content)
+         *    so it fits in remaining available space 
+         */
+        .pl-c-viewport {
+            top: 0; /* 1 */
+            left: $pl-sidebar-width; /* 1 */
+            width: auto;
+        }
 
-    /**
-     * Iframe wrapper div
-     * 1) Wipe out dynamic resizing functionality for sidebar mode 
-     */
-    .pl-c-viewport__iframe-wrapper {
-        width: 100% !important; /* 1 */
-    }
+        /**
+         * Iframe wrapper div
+         * 1) Wipe out dynamic resizing functionality for sidebar mode 
+         */
+        .pl-c-viewport__iframe-wrapper {
+            width: 100% !important; /* 1 */
+        }
 
-    /**
-     * Iframe
-     * 1) Wipe out dynamic resizing  functionality for sidebar mode 
-     *    TODO: revisit to find ways to resize 
-     */
-    .pl-c-viewport__iframe {
-        width: 100% !important; /* 1 */
-    }
+        /**
+         * Iframe
+         * 1) Wipe out dynamic resizing  functionality for sidebar mode 
+         *    TODO: revisit to find ways to resize 
+         */
+        .pl-c-viewport__iframe {
+            width: 100% !important; /* 1 */
+        }
 
-    /**
-     * Viewport 
-     * 1) Position viewport (that contains all the content)
-     *    so it fits in remaining available space 
-     *    TODO: revisit to find ways to resize 
-     */
-     .pl-c-viewport {
-        top: 0; /* 1 */
-        left: $pl-sidebar-width; /* 1 */
-        width: auto;
-    }
+        /**
+         * Viewport 
+         * 1) Position viewport (that contains all the content)
+         *    so it fits in remaining available space 
+         *    TODO: revisit to find ways to resize 
+         */
+        .pl-c-viewport {
+            top: 0; /* 1 */
+            left: $pl-sidebar-width; /* 1 */
+            width: auto;
+        }
 
-    /**
-     * Modal 
-     * 1) Position modal (that contains all the content)
-     *    so it fits in remaining available space 
-     *    TODO: revisit to find ways to resize 
-     */
-     .pl-c-modal {
-        left: $pl-sidebar-width; /* 1 */
-        width: auto;
+        /**
+         * Modal 
+         * 1) Position modal (that contains all the content)
+         *    so it fits in remaining available space 
+         *    TODO: revisit to find ways to resize 
+         */
+        .pl-c-modal {
+            left: $pl-sidebar-width; /* 1 */
+            width: auto;
+        }
     }
 }

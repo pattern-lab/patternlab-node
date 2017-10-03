@@ -9,6 +9,9 @@
  */
 .pl-c-nav {
     @media all and (max-width: $pl-bp-med) {
+        position: absolute;
+        top: $offset-top;
+        width: 100%;
         overflow: hidden;
         max-height: 0; /* 1 */
         transition: max-height $pl-animate-quick ease-out;
@@ -19,6 +22,10 @@
         &.pl-is-active {
             max-height: 50rem;  /* 1 */
         }
+    }
+
+    @media all and (min-width: $pl-bp-med) {
+        display: flex;
     }
 }
 
@@ -50,7 +57,8 @@
  * Nav link
  */
 .pl-c-nav__link {
-    display: block;
+    display: flex;
+    align-items: center;
     @include linkStyle();
 }
 
@@ -90,7 +98,7 @@
         display: inline-block;
         font-size: 7px;
         position: relative;
-        top: -1px;
+        top: 2px;
         right: -2px;
         transition: all $pl-animate-quick ease-out;
     }
@@ -112,7 +120,7 @@
         * Caret rotation and positioning in active dropdown
         */
         &:after {
-            top: -2px;
+            top: 2px;
             color: $pl-color-gray-50;
             -webkit-transform: rotate(180deg);
             -ms-transform: rotate(180deg);

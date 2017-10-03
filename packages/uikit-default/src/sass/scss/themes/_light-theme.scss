@@ -72,9 +72,30 @@
     /**
      * Typeahead input
      */
-    .tt-input {
+     .pl-c-typeahead {
         background: $pl-color-gray-13 !important;
         color: $pl-color-gray-70 !important;
+    }
+
+    /**
+     * Typeahead input
+     */
+    .tt-input {
+        background: $pl-color-gray-07 !important;
+        color: $pl-color-gray-70 !important;
+
+        &:hover {
+            color: $pl-color-gray-87;
+            background: $pl-color-gray-13 !important;
+    
+            &::-webkit-input-placeholder {
+                color: $pl-color-gray-87;
+            }
+    
+            &::-moz-input-placeholder {
+                color: $pl-color-gray-87;
+            }
+        }
     }
 
     /**

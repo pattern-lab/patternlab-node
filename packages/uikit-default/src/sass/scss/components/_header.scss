@@ -13,15 +13,12 @@
     top: 0;
     left: 0;
     z-index: 4;
+    display: flex; /* 2 */
     width: 100%;
     background: $pl-color-black;
     color: $pl-color-gray-50;
     font-family: $pl-font;
     font-size: $pl-font-size-sm;
-    
-    @media all and (min-width: $pl-bp-med) {
-        display: flex; /* 2 */
-    }
 }
 
 /**

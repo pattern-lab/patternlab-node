@@ -3,7 +3,7 @@
 \*------------------------------------*/
 
 /**
-* We're using Twitter Typeahead to autocomplete pattern
+* Using Twitter Typeahead to autocomplete pattern
 * searches. https://twitter.github.io/typeahead.js/
 */
 
@@ -11,13 +11,17 @@
     width: 100%;
 }
 
-.typeahead {
+/**
+ * Typeahead input
+ * 1) the primary DOM element that initiates the JS library 
+ */
+.pl-c-typeahead {
     border: 0;
-    background: $pl-color-black;
+    background: $pl-color-gray-87 !important;
     color: $pl-color-gray-50;
     width: 100%;
     right: 0;
-    padding: 0.7rem 0.5rem;
+    padding: 0.61rem 0.5rem;
 
     &:focus {
         background: $pl-color-gray-50;
@@ -28,8 +32,6 @@
 .tt-input {
     background: $pl-color-gray-50;
     color: $pl-color-white;
-    border-bottom-right-radius: $pl-border-radius-med;
-    border-bottom-left-radius: $pl-border-radius-med;
 
     &:hover {
         color: $pl-color-white;
@@ -56,8 +58,6 @@
 
 .tt-hint {
     text-transform: lowercase;
-    border-bottom-right-radius: $pl-border-radius-med;
-    border-bottom-left-radius: $pl-border-radius-med;
 }
 
 .tt-dropdown-menu {
