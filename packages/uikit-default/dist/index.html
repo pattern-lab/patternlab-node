@@ -8,9 +8,13 @@
 	<link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
 </head>
 
-<body class="pl-c-body">
+<body class="pl-c-body pl-c-body--theme-light pl-c-body--theme-sidebar">
 
 	<header class="pl-c-header" role="banner">
+    
+    <div class="pl-c-logo">
+        <img class="pl-c-logo__img" src="http://editorial.designtaxi.com/editorial-images/news-FamousLogos250517/Famous-Logo-Lessons-Takeaways-5.jpg" />
+    </div><!--end pl-c-logo-->
 
     <button class="pl-c-header__nav-toggle pl-js-nav-trigger">Menu</button>
 
@@ -205,7 +209,7 @@
 		<!-- description, etc. -->
 {{# descBlockExists }}
 
-	<div class="pl-c-pattern-info__panel pl-js-pattern-info">
+	<div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--info pl-js-pattern-info">
 
 	{{# isPatternView }}
 	<!-- extra info for modal view -->
@@ -244,7 +248,7 @@
 
 	{{# lineageExists }}
 	<p class="pl-c-lineage">
-		The <strong>{{ patternName }}</strong> pattern contains the following patterns:
+		The <em>{{ patternName }}</em> pattern contains the following patterns:
 		<span id="sg-code-lineage-fill">
 		{{# lineage }}
 		<a href="{{ lineagePath }}" class="{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}" data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
@@ -255,7 +259,7 @@
 
 	{{# lineageRExists }}
 	<p class="pl-c-lineage">
-		The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
+		The <em>{{ patternName }}</em> pattern is included in the following patterns:
 		<span id="sg-code-lineager-fill">
 		{{# lineageR }}
 			<a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
