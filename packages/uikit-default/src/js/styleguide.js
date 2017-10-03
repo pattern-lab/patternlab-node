@@ -494,7 +494,7 @@
 
 	//Close all dropdowns and navigation
 	function closePanels() {
-		$('.sg-nav-container, .sg-nav-toggle, .pl-js-acc-handle, .pl-js-acc-panel').removeClass('pl-is-active');
+		$('.pl-js-nav-container, .pl-js-acc-handle, .pl-js-acc-panel').removeClass('pl-is-active');
 		patternFinder.closeFinder();
 	}
 
