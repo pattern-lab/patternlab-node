@@ -24,6 +24,14 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
     }
 
     /**
+     * Logo
+     */
+    .pl-c-logo {
+        max-width: 7rem;
+        margin: 0 auto 1rem;
+    }
+
+    /**
      * Nav list
      * 1) Stack main categories on top of each other
      */
@@ -52,15 +60,33 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
      */
     .pl-c-nav__sublist--dropdown.pl-is-active {
         border: 0;
-        border-left: 1px solid $pl-color-gray-07;
+        border-left: 1px solid $pl-color-gray-70;
+    }
+
+    /**
+     * Nav sublist inside the light theme
+     */
+    &.pl-c-body--theme-light {
+        .pl-c-nav__sublist--dropdown.pl-is-active {
+            border-left-color: $pl-color-gray-07;
+        }
     }
 
     /**
      * Nav sub sub list
      */
     .pl-c-nav__subsublist {
-        border-left: 1px solid $pl-color-gray-07;
+        border-left: 1px solid $pl-color-gray-70;
         margin-left: 1rem;
+    }
+    
+    /**
+     * Nav sub sub list inside the light theme
+     */
+    &.pl-c-body--theme-light {
+        .pl-c-nav__subsublist {
+            border-left-color: $pl-color-gray-07;
+        }
     }
 
     /**
@@ -70,19 +96,86 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
      */
     .pl-c-controls {
         margin-top: auto; /* 1 */
+        margin-left: 0;
+        flex-direction: column;
     }
 
+    .pl-c-size-list {
+        display: none;
+    }
+
+    .pl-c-viewport-size {
+        display: none;
+    }
+
+    /**
+     * Tools toggle button
+     */
+    .pl-c-tools__toggle {
+        display: none;
+    }
+
+    /**
+     * Tools list
+     */
+    .pl-c-tools__list {
+        max-height: none;
+        overflow: visible;
+        position: relative;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    /**
+     * Viewport 
+     * 1) Position viewport (that contains all the content)
+     *    so it fits in remaining available space 
+     */
     .pl-c-viewport {
-        top: 0;
-        left: $pl-sidebar-width;
+        top: 0; /* 1 */
+        left: $pl-sidebar-width; /* 1 */
         width: auto;
     }
 
+    /**
+     * Iframe wrapper div
+     * 1) Wipe out dynamic resizing functionality for sidebar mode 
+     */
     .pl-c-viewport__iframe-wrapper {
-        width: 100% !important;
+        width: 100% !important; /* 1 */
     }
 
+    /**
+     * Iframe
+     * 1) Wipe out dynamic resizing  functionality for sidebar mode 
+     *    TODO: revisit to find ways to resize 
+     */
     .pl-c-viewport__iframe {
-        width: 100% !important;
+        width: 100% !important; /* 1 */
+    }
+
+    /**
+     * Viewport 
+     * 1) Position viewport (that contains all the content)
+     *    so it fits in remaining available space 
+     *    TODO: revisit to find ways to resize 
+     */
+     .pl-c-viewport {
+        top: 0; /* 1 */
+        left: $pl-sidebar-width; /* 1 */
+        width: auto;
+    }
+
+    /**
+     * Modal 
+     * 1) Position modal (that contains all the content)
+     *    so it fits in remaining available space 
+     *    TODO: revisit to find ways to resize 
+     */
+     .pl-c-modal {
+        left: $pl-sidebar-width; /* 1 */
+        width: auto;
     }
 }
