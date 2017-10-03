@@ -37,7 +37,7 @@ var patternFinder = {
     // initialize the bloodhound suggestion engine
     patterns.initialize();
     
-    $('#sg-find .typeahead').typeahead({ highlight: true }, {
+    $('.pl-js-typeahead').typeahead({ highlight: true }, {
       displayKey: 'patternPartial',
       source: patterns.ttAdapter()
     }).on('typeahead:selected', patternFinder.onSelected).on('typeahead:autocompleted', patternFinder.onAutocompleted);
@@ -69,15 +69,13 @@ var patternFinder = {
   
   openFinder: function() {
     patternFinder.active = true;
-    $('#sg-find .typeahead').val("");
-    $("#sg-find").addClass('show-overflow');
+    $('.pl-js-typeahead').val("");
   },
   
   closeFinder: function() {
     patternFinder.active = false;
     document.activeElement.blur();
-    $("#sg-find").removeClass('show-overflow');
-    $('#sg-find .typeahead').val("");
+    $('.pl-js-typeahead').val("");
   },
   
   receiveIframeMessage: function(event) {
@@ -109,12 +107,12 @@ patternFinder.init();
 
 window.addEventListener("message", patternFinder.receiveIframeMessage, false);
 
-$('#sg-find .typeahead').focus(function() {
+$('.pl-js-typeahead').focus(function() {
   if (!patternFinder.active) {
     patternFinder.openFinder();
   }
 });
 
-$('#sg-find .typeahead').blur(function() {
+$('.pl-js-typeahead').blur(function() {
   patternFinder.closeFinder();
 });
