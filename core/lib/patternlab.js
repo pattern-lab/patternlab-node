@@ -280,11 +280,13 @@ const patternlab_engine = function (config) {
       return value;
     }
 
+    // GTP: this commented out now on the advice of Brian, because we think nobody looks at it,
+    // and it causes problems.
     //debug file can be written by setting flag on patternlab-config.json
-    if (patternlab.config.debug) {
-      console.log('writing patternlab debug file to ./patternlab.json');
-      fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
-    }
+    // if (patternlab.config.debug) {
+    //   console.log('writing patternlab debug file to ./patternlab.json');
+    //   fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
+    // }
   }
 
   function setCacheBust() {
@@ -382,7 +384,7 @@ const patternlab_engine = function (config) {
   function renderSinglePattern(pattern, head) {
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
-      return false;
+      return Promise.resolve(false);
     }
 
     // Allows serializing the compile state
@@ -478,7 +480,8 @@ const patternlab_engine = function (config) {
     // Allows serializing the compile state
     patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
     plutils.log.info("Built pattern: " + pattern.patternPartial);
-    return true;
+
+    return Promise.resolve(true);
   }
 
   /**
@@ -630,17 +633,21 @@ const patternlab_engine = function (config) {
       }
 
       //render all patterns last, so lineageR works
-      patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
+      return patternsToBuild
+        .reduce((previousPromise, pattern) => {
+          return previousPromise.then(() => renderSinglePattern(pattern, head));
+        }, Promise.resolve())
+        .then(() => {
+          // Saves the pattern graph when all files have been compiled
+          PatternGraph.storeToFile(patternlab);
+          if (patternlab.config.exportToGraphViz) {
+            PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
+            plutils.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+          }
 
-      // Saves the pattern graph when all files have been compiled
-      PatternGraph.storeToFile(patternlab);
-      if (patternlab.config.exportToGraphViz) {
-        PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
-        plutils.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
-      }
-
-      //export patterns if necessary
-      pattern_exporter.export_patterns(patternlab);
+          //export patterns if necessary
+          pattern_exporter.export_patterns(patternlab);
+        });
     }).catch((err) => {
       console.log('Error in buildPatterns():', err);
     });
