@@ -33,8 +33,17 @@
     padding: 0;
 
     @media all and (min-width: $pl-bp-large) {
-        min-width: 40%;
+        min-width: 45%;
         flex: auto;
+    }
+}
+
+/**
+ * Pattern Info Panel
+ */
+.pl-c-pattern-info__panel--info {
+    @media all and (min-width: $pl-bp-large) {
+        padding-right: 1rem;
     }
 }
 
@@ -43,7 +52,7 @@
  */
 .pl-c-pattern-info__panel--code {
     @media all and (min-width: $pl-bp-large) {
-        min-width: 60%;
+        min-width: 55%;
     }
 }
 
