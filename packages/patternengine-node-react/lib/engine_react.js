@@ -19,6 +19,25 @@ const beautify = require('js-beautify');
 const cheerio = require('cheerio');
 const _require = require;
 
+var errorStyling = `
+<style>
+  .plError {
+    background: linear-gradient(to bottom, #f1f1f1 0%,#ffffff 60%);
+    color: #444;
+    padding: 30px;
+  }
+  .plError h1 {
+    font-size: 16pt;
+    color: #733;
+    background: #fcfcfc;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 17px 30px;
+    margin: -30px -30px 0 -30px;
+  }
+  .plError dt { font-weight: bold; }
+</style>
+`;
+
 // This holds the config from from core. The core has to call
 // usePatternLabConfig() at load time for this to be populated.
 let patternLabConfig = {};
@@ -83,6 +102,8 @@ var engine_react = {
 
   // render it
   renderPattern (pattern, data, partials) {
+    let renderedHTML = '';
+
     try {
       const transpiledModule = babelTransform(pattern);
 
@@ -90,13 +111,23 @@ var engine_react = {
         React.createFactory(transpiledModule)(data)
       );
 
-      return outputTemplate.render({
+      renderedHTML = outputTemplate.render({
         htmlOutput: staticMarkup
       });
-    }
-    catch (e) {
-      console.log('Error rendering React pattern.', e);
-      return '';
+    } catch (e) {
+      var errorMessage = `Error rendering React pattern "${pattern.patternName}" (${pattern.relPath}): [${e.toString()}]`;
+      console.log(errorMessage);
+      renderedHTML = `${errorStyling} <div class="plError">
+<h1>Error rendering React pattern "${pattern.patternName}"</h1>
+<dl>
+  <dt>Message</dt><dd>${e.toString()}</dd>
+  <dt>Partial name</dt><dd>${pattern.patternName}</dd>
+  <dt>Template path</dt><dd>${pattern.relPath}</dd>
+</dl>
+</div>
+`;
+    } finally {
+      return renderedHTML;
     }
   },
 
