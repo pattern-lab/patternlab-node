@@ -410,9 +410,6 @@ var modalViewer = {
     
     // add the info/code panel onclick handler
     $('.pl-js-pattern-info-toggle').click(function(e) {
-		e.preventDefault();
-		$('#sg-tools-toggle').removeClass('active');
-		$(this).parents('ul').removeClass('active');
 		modalViewer.toggle();
     });
     
