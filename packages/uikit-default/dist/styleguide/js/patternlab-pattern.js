@@ -461,15 +461,15 @@ var modalStyleguide = {
   collectAndSend: function(el, iframePassback, switchText) {
     var patternData = JSON.parse(el.innerHTML);
     if (patternData.patternName !== undefined) {
-      patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .sg-pattern-example');
+      patternMarkupEl = document.querySelector('#'+patternData.patternPartial+' > .pl-js-pattern-example');
       patternData.patternMarkup = (patternMarkupEl !== null) ? patternMarkupEl.innerHTML : document.querySelector('body').innerHTML;
       modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
     }
   },
   
   /**
-  * hide the highlights
-  */
+   * hide the annotation highlights
+   */
   highlightsHide: function(patternPartial) {
     var patternPartialSelector = (patternPartial !== undefined) ? '#'+patternPartial+" > " : "";
     elsToHide = document.querySelectorAll(patternPartialSelector+'.has-annotation');
@@ -483,11 +483,11 @@ var modalStyleguide = {
   },
   
   /**
-  * return the pattern info to the top level
-  * @param  {Object}       the content that will be sent to the viewer for rendering
-  * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
-  * @param  {Boolean}      if the text in the dropdown should be switched
-  */
+   * return the pattern info to the top level
+   * @param  {Object}       the content that will be sent to the viewer for rendering
+   * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
+   * @param  {Boolean}      if the text in the dropdown should be switched
+   */
   patternQueryInfo: function(patternData, iframePassback, switchText) {
     
     // send a message to the pattern
@@ -499,10 +499,10 @@ var modalStyleguide = {
   },
   
   /**
-  * toggle the comment pop-up based on a user clicking on the pattern
-  * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
-  * @param  {Object}      event info
-  */
+   * toggle the comment pop-up based on a user clicking on the pattern
+   * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
+   * @param  {Object}      event info
+   */
   receiveIframeMessage: function(event) {
     
     var i;

@@ -63,7 +63,7 @@
 
 
 	<!-- mustache templates -->
-	<script type="text/mustache" id="pl-pattern-nav-template">
+	<script type="text/mustache" class="pl-js-pattern-nav-template">
 		{{# patternTypes }}
 <li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
   
@@ -113,7 +113,7 @@
 
 	</script>
 
-	<script type="text/mustache" id="pl-ish-controls-template">
+	<script type="text/mustache" class="pl-js-ish-controls-template">
 		
 <form class="pl-c-viewport-size" method="post" action="#">
 	<input type="text" class="pl-c-viewport-size__input" id="pl-size-px" value="---"><label for="pl-size-px" class="pl-c-viewport-size__label">px /</label>
@@ -177,7 +177,7 @@
 
 	<ul class="pl-c-tools__list pl-js-acc-panel">
 		<li class="pl-c-tools__item">
-			<button class="pl-c-tools__action" id="sg-t-patterninfo">Show Pattern Info</button>
+			<button class="pl-c-tools__action pl-js-pattern-info-toggle">Show Pattern Info</button>
 		</li>
 		{{^ ishControlsHide.views-new }}
 		<li class="pl-c-tools__item">
@@ -197,7 +197,7 @@
 	</script>
 
 	<!-- the template for the modal slider -->
-	<script type="text/mustache" id="pl-panel-template-base">
+	<script type="text/mustache" class="pl-js-panel-template-base">
 		<!-- description, etc. -->
 {{# descBlockExists }}
 
@@ -304,7 +304,7 @@
 
 	</script>
 
-	<!-- the tempalte for code-related tabs in the code view slider -->
+	<!-- the template for code-related tabs in the code view slider -->
 	<script type="text/mustache" id="pl-panel-template-code">
 		<pre class="language-markup">
   <code id="sg-code-fill-{{ language }}" class="language-{{ language }}">{{{ code }}}</code>
