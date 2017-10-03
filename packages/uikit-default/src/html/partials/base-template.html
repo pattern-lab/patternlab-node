@@ -1,7 +1,7 @@
 <!-- description, etc. -->
 {{# descBlockExists }}
 
-	<div class="pl-c-pattern-info__panel pl-js-pattern-info">
+	<div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--info pl-js-pattern-info">
 
 	{{# isPatternView }}
 	<!-- extra info for modal view -->
@@ -40,7 +40,7 @@
 
 	{{# lineageExists }}
 	<p class="pl-c-lineage">
-		The <strong>{{ patternName }}</strong> pattern contains the following patterns:
+		The <em>{{ patternName }}</em> pattern contains the following patterns:
 		<span id="sg-code-lineage-fill">
 		{{# lineage }}
 		<a href="{{ lineagePath }}" class="{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}" data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
@@ -51,7 +51,7 @@
 
 	{{# lineageRExists }}
 	<p class="pl-c-lineage">
-		The <strong>{{ patternName }}</strong> pattern is included in the following patterns:
+		The <em>{{ patternName }}</em> pattern is included in the following patterns:
 		<span id="sg-code-lineager-fill">
 		{{# lineageR }}
 			<a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
@@ -61,11 +61,14 @@
 	{{/ lineageRExists }}
 
 	{{# annotationExists }}
-	<div class="pl-c-annotations" id="sg-annotations">
+	<div class="pl-c-annotations pl-c-text-passage" id="sg-annotations">
 		<h2 class="pl-c-annotations-title">Annotations</h2>
 		<ol class="pl-c-annotations-list">
 		  {{# annotations }}
-			<li><h4 class="pl-c-annotations-list-title">{{ title }}</h4> {{{ comment }}}</li>
+			<li class="pl-c-annotations-list__item">
+				<h4 class="pl-c-annotations-list-title">{{ title }}</h4> 
+				{{{ comment }}}
+			</li>
 		  {{/ annotations }}
 		</ol>
 	</div><!--end pl-c-annotations-->
