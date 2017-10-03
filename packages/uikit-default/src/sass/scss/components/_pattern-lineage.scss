@@ -6,10 +6,10 @@
 * Pattern Lineage info
 */
 .pl-c-lineage {
-    font-size: 90%;
-    font-style: italic;
 
     a {
+        font-style: italic;
         color: $pl-color-gray-50;
+        text-decoration: underline;
     }
 }
