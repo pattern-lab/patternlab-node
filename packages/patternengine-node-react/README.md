@@ -18,7 +18,10 @@ We're still working out how React components will resolve and load the modules t
 - [x] Incremental builds
 
 ## Usage
-* `*.jsx` files are detected as patterns.
+* `*.js` and `*.jsx` files are detected as patterns.
+* To include patterns, import components using the standard Pattern Lab naming convention, as in: ```javascript
+import HelloWorld from 'atoms-hello-world';
+```
 * Standard pattern JSON is passed into React components as props.
 
 ## Notes
