@@ -185,7 +185,7 @@ var panelsViewer = {
     patternData.isPatternView = (iframePassback === false);
 
     // render all of the panels in the base panel template
-    template         = document.getElementById('pl-panel-template-base');
+    template         = document.querySelector('.pl-js-panel-template-base');
     templateCompiled = Hogan.compile(template.innerHTML);
     templateRendered = templateCompiled.render(patternData);
 
