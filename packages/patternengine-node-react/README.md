@@ -1,19 +1,21 @@
 # The React engine for Pattern Lab / Node
-This is the **very preliminary barely worth mentioning** React engine for Patternlab/Node. It's more or less a proof of concept.
+This is the **very preliminary** React engine for Patternlab/Node.
 
 ## Status
-You can author standalone React components that include only the main React module, which I know isn't much yet. We're still working out how React components will resolve and load the modules they depend on, including other patterns. We believe this is tricky, but doable.
+You can author standalone React components that include only the main React module, which I know isn't much yet.
+We're still working out how React components will resolve and load the modules they depend on. We believe this is tricky, but doable.
 
-## Supported features
-Kind of nothing works yet. **Very early in development.**
+## Supported Pattern Lab
 
-- [ ] [Includes](http://patternlab.io/docs/pattern-including.html)
-- [ ] Lineage
-- [ ] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
-- [ ] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
-- [ ] [Pattern States](http://patternlab.io/docs/pattern-states.html)
-- [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
-- [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html)
+- [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+- [x] Data inheritance: This can be achieved by combining react `props` & `defaultProps`
+- [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
+- [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
+- [x] [Pattern States](http://patternlab.io/docs/pattern-states.html#node)
+- [x] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html): With react props
+- [x] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html): With react props
+- [x] Lineage
+- [x] Incremental builds
 
 ## Usage
 * `*.jsx` files are detected as patterns.

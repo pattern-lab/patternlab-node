@@ -7,9 +7,7 @@
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
-
-
-"use strict";
+'use strict';
 
 const fs = require('fs');
 const path = require('path');
@@ -19,12 +17,13 @@ const Babel = require('babel-core');
 const Hogan = require('hogan.js');
 const beautify = require('js-beautify');
 const cheerio = require('cheerio');
-const webpack = require('webpack');
 const _require = require;
 
 // This holds the config from from core. The core has to call
 // usePatternLabConfig() at load time for this to be populated.
 let patternLabConfig = {};
+
+let enableRuntimeCode = true;
 
 const outputTemplate = Hogan.compile(
   fs.readFileSync(
@@ -34,12 +33,37 @@ const outputTemplate = Hogan.compile(
 );
 
 let registeredComponents = {
-  byModuleName: {},
-  byGroup: {}
+  byPatternPartial: {}
 };
 
-function moduleCodeString(pattern) {
+function moduleCodeString (pattern) {
   return pattern.template || pattern.extendedTemplate;
+}
+
+function babelTransform (pattern) {
+  let transpiledModule = Babel.transform(moduleCodeString(pattern), {
+    presets: [ require('babel-preset-react') ],
+    plugins: [ require('babel-plugin-transform-es2015-modules-commonjs') ]
+  });
+
+  // eval() module code in this little scope that injects our
+  // custom wrap of require();
+  ((require) => {
+    /* eslint-disable no-eval */
+    transpiledModule = eval(transpiledModule.code);
+  })(customRequire);
+
+  return transpiledModule;
+}
+
+function customRequire (id) {
+  const registeredPattern = registeredComponents.byPatternPartial[id];
+
+  if (registeredPattern) {
+    return babelTransform(registeredPattern);
+  } else {
+    return _require(id);
+  }
 }
 
 var engine_react = {
@@ -51,64 +75,36 @@ var engine_react = {
   expandPartials: false,
 
   // regexes, stored here so they're only compiled once
-  findPartialsRE: null,
+  findPartialsRE: /import .* from '[^']+'/g,
   findPartialsWithStyleModifiersRE: null,
   findPartialsWithPatternParametersRE: null,
   findListItemsRE: null,
-  findPartialRE: null,
+  findPartialRE: /from '([^']+)'/,
 
   // render it
-  renderPattern(pattern, data, partials) {
+  renderPattern (pattern, data, partials) {
     try {
-      let runtimeCode = [];
+      const transpiledModule = babelTransform(pattern);
 
-      // the all-important Babel transform, runtime version
-      runtimeCode.push(Babel.transform(moduleCodeString(pattern), {
-        presets: [ require('babel-preset-react') ],
-        plugins: [[require('babel-plugin-transform-es2015-modules-umd'), {
-          globals: {
-            "react": "React"
-          }
-        }]]
-      }).code);
+      const staticMarkup = ReactDOMServer.renderToStaticMarkup(
+        React.createFactory(transpiledModule)(data)
+      );
 
       return outputTemplate.render({
-        patternPartial: pattern.patternPartial,
-        json: JSON.stringify(data),
-        htmlOutput: ReactDOMServer.renderToStaticMarkup(
-          React.createFactory(pattern.module)(data)
-        ),
-        runtimeCode: runtimeCode.join(';')
+        htmlOutput: staticMarkup
       });
     }
     catch (e) {
-	    console.log("Error rendering React pattern.", e);
-	    return "";
+      console.log('Error rendering React pattern.', e);
+      return '';
     }
   },
 
-  registerPartial(pattern) {
-    const customRequire = function (id) {
-      const registeredPattern = registeredComponents.byModuleName[id];
-      return registeredPattern ? registeredPattern.module : _require(id);
-    };
-
-    // the all-important Babel transform, server-side version
-    const compiledModule = Babel.transform(moduleCodeString(pattern), {
-      presets: [ require('babel-preset-react') ],
-      plugins: [ require('babel-plugin-transform-es2015-modules-commonjs') ]
-    });
-
+  registerPartial (pattern) {
     // add to registry
-    registeredComponents.byModuleName[pattern.patternBaseName] = pattern;
-
-    // eval() module code in this little scope that injects our
-    // custom wrap of require();
-    ((require) => {
-      /* eslint-disable no-eval */
-      pattern.module = eval(compiledModule.code);
-    })(customRequire);
+    registeredComponents.byPatternPartial[pattern.patternPartial] = pattern;
   },
+
 
   /**
    * Find regex matches within both pattern strings and pattern objects.
@@ -117,7 +113,7 @@ var engine_react = {
    * @param {object} regex A JavaScript RegExp object.
    * @returns {array|null} An array if a match is found, null if not.
    */
-  patternMatcher(pattern, regex) {
+  patternMatcher (pattern, regex) {
     var matches;
     if (typeof pattern === 'string') {
       matches = pattern.match(regex);
@@ -127,40 +123,60 @@ var engine_react = {
     return matches;
   },
 
-  // find and return any {{> template-name }} within pattern
-  findPartials(pattern) {
-    return [];
+  // find and return any `import X from 'template-name'` within pattern
+  findPartials (pattern) {
+    const self = this;
+    const matches = pattern.template.match(this.findPartialsRE);
+    if (!matches) {
+      return [];
+    }
+
+    // Remove unregistered imports from the matches
+    matches.map(m => {
+      const key = self.findPartial(m);
+      if (!registeredComponents.byPatternPartial[key]) {
+        const i = matches.indexOf(m);
+        if (i > -1) {
+          matches.splice(i, 1);
+        }
+      }
+    });
+
+    return matches;
   },
-  findPartialsWithStyleModifiers(pattern) {
+
+  findPartialsWithStyleModifiers (pattern) {
     return [];
   },
 
-  // returns any patterns that match {{> value(foo:"bar") }} or {{>
-  // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters(pattern) {
+  // returns any patterns that match {{> value(foo:'bar') }} or {{>
+  // value:mod(foo:'bar') }} within the pattern
+  findPartialsWithPatternParameters (pattern) {
     return [];
   },
-  findListItems(pattern) {
+  findListItems (pattern) {
     return [];
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial(partialString) {
-    return [];
+  findPartial (partialString) {
+    let partial = partialString.match(this.findPartialRE)[1];
+    return partial;
   },
 
-  rawTemplateCodeFormatter(unformattedString) {
+  rawTemplateCodeFormatter (unformattedString) {
     return beautify(unformattedString, {e4x: true, indent_size: 2});
   },
 
-  renderedCodeFormatter(unformattedString) {
+  renderedCodeFormatter (unformattedString) {
     return unformattedString;
   },
 
-  markupOnlyCodeFormatter(unformattedString, pattern) {
-    const $ = cheerio.load(unformattedString);
-    return beautify.html($('.reactPatternContainer').html(), {indent_size: 2});
+  markupOnlyCodeFormatter (unformattedString, pattern) {
+    // const $ = cheerio.load(unformattedString);
+    // return beautify.html($('.reactPatternContainer').html(), {indent_size: 2});
+    return unformattedString;
   },
 
   /**
@@ -169,8 +185,7 @@ var engine_react = {
    * @returns {(object|object[])} - an object or array of objects,
    * each with two properties: path, and content
    */
-  addOutputFiles(paths, patternlab) {
-
+  addOutputFiles (paths, patternlab) {
     return [];
   },
 
@@ -183,6 +198,12 @@ var engine_react = {
    */
   usePatternLabConfig: function (config) {
     patternLabConfig = config;
+
+    try {
+      enableRuntimeCode = patternLabConfig.engines.react.enableRuntimeCode;
+    } catch (error) {
+      console.log('You’re missing the engines.react.enableRuntimeCode setting in your config file.');
+    }
   }
 
 };
