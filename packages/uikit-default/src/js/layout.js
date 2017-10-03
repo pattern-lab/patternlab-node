@@ -17,11 +17,11 @@ try {
   var template         = document.getElementById("pl-ish-controls-template");
   var templateCompiled = Hogan.compile(template.innerHTML);
   var templateRendered = templateCompiled.render(ishControls);
-  document.getElementById("sg-controls").innerHTML = templateRendered;
+  document.querySelector(".pl-js-controls").innerHTML = templateRendered;
   
 } catch(e) {
   
-  var message = "<h1>Nothing Here Yet</h1><p>Please generate your site before trying to view it.</p>";
+  var message = "<p>Please generate your site before trying to view it.</p>";
   document.getElementById("pl-pattern-nav-target").innerHTML = message;
   
 }
