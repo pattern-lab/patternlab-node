@@ -11,7 +11,7 @@ try {
   var template         = document.getElementById("pl-pattern-nav-template");
   var templateCompiled = Hogan.compile(template.innerHTML);
   var templateRendered = templateCompiled.render(navItems);
-  document.getElementById("pl-pattern-nav-target").innerHTML = templateRendered;
+  document.querySelector(".pl-js-pattern-nav-target").innerHTML = templateRendered;
   
   /* load ish controls */
   var template         = document.getElementById("pl-ish-controls-template");
@@ -22,6 +22,6 @@ try {
 } catch(e) {
   
   var message = "<p>Please generate your site before trying to view it.</p>";
-  document.getElementById("pl-pattern-nav-target").innerHTML = message;
+  document.querySelector(".pl-js-pattern-nav-target").innerHTML = message;
   
 }
