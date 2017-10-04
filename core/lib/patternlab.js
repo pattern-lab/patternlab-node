@@ -34,7 +34,7 @@ const CompileState = require('./object_factory').CompileState;
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./ui_builder'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
-let assetCopy = require('./asset_copy');
+let assetCopier = require('./asset_copy'); // eslint-disable-line
 
 const pattern_assembler = new pa();
 const lineage_hunter = new lh();
@@ -654,7 +654,7 @@ const patternlab_engine = function (config) {
     v: function () {
       return getVersion();
     },
-    build: function (callback, deletePatternDir) {
+    build: function (callback, deletePatternDir, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
@@ -662,6 +662,7 @@ const patternlab_engine = function (config) {
       patternlab.isBusy = true;
       return buildPatterns(deletePatternDir).then(() => {
         new ui_builder().buildFrontend(patternlab);
+        assetCopier().copyAssets(patternlab.config.paths, patternlab, {watch: false});
         printDebug();
         patternlab.isBusy = false;
         callback();
@@ -693,11 +694,6 @@ const patternlab_engine = function (config) {
     },
     getSupportedTemplateExtensions: function () {
       return getSupportedTemplateExtensions();
-    },
-    copyAssets: function () {
-
-      // accept a filtered list of assets to copy. or use the default inferred from the config
-      assetCopy()
     }
   };
 };
