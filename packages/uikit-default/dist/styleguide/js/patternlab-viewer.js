@@ -204,16 +204,21 @@ var urlHandler = {
 	/**
 	 * get the real file name for a given pattern name
 	 * @param  {String}       the shorthand partials syntax for a given pattern
+	 * @param  {Boolean}      with the file name should be returned with the full rendered suffix or not
 	 *
 	 * @return {String}       the real file path
 	 */
-	getFileName: function (name) {
+	getFileName: function (name, withRenderedSuffix) {
 
 		var baseDir = "patterns";
 		var fileName = "";
 
 		if (name === undefined) {
 			return fileName;
+		}
+
+		if (withRenderedSuffix === undefined) {
+			withRenderedSuffix = true;
 		}
 
 		if (name == "all") {
@@ -253,7 +258,11 @@ var urlHandler = {
 		if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
 			fileName = baseDir + "/" + fileName.replace(regex, "-") + "/index.html";
 		} else if (fileName !== "") {
-			fileName = baseDir + "/" + fileName.replace(regex, "-") + "/" + fileName.replace(regex, "-") + ".html";
+			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-");
+			if (withRenderedSuffix) {
+				var fileSuffixRendered = ((config.outputFileSuffixes !== undefined) && (config.outputFileSuffixes.rendered !== undefined)) ? config.outputFileSuffixes.rendered : '';
+				fileName = fileName+fileSuffixRendered+".html";
+			}
 		}
 
 		return fileName;
@@ -382,6 +391,7 @@ window.onpopstate = function (event) {
 	urlHandler.skipBack = true;
 	urlHandler.popPattern(event);
 };
+
 /*!
  * Modal for the Viewer Layer
  * For both annotations and code/info
@@ -843,6 +853,9 @@ var Panels = {
 
 };
 
+var fileSuffixPattern = ((config.outputFileSuffixes !== undefined) && (config.outputFileSuffixes.rawTemplate !== undefined)) ? config.outputFileSuffixes.rawTemplate : '';
+var fileSuffixMarkup  = ((config.outputFileSuffixes !== undefined) && (config.outputFileSuffixes.markupOnly !== undefined)) ? config.outputFileSuffixes.markupOnly : '.markup-only';
+
 // add the default panels
 // Panels.add({ 'id': 'pl-panel-info', 'name': 'info', 'default': true, 'templateID': 'pl-panel-template-info', 'httpRequest': false, 'prismHighlight': false, 'keyCombo': '' });
 // TODO: sort out pl-panel-html
@@ -852,7 +865,7 @@ Panels.add({
 	'default': true,
 	'templateID': 'pl-panel-template-code',
 	'httpRequest': true,
-	'httpRequestReplace': '.' + config.patternExtension,
+	'httpRequestReplace': fileSuffixPattern,
 	'httpRequestCompleted': false,
 	'prismHighlight': true,
 	'language': PrismLanguages.get(config.patternExtension),
@@ -865,7 +878,7 @@ Panels.add({
 	'default': false,
 	'templateID': 'pl-panel-template-code',
 	'httpRequest': true,
-	'httpRequestReplace': '.markup-only.html',
+	'httpRequestReplace': fileSuffixMarkup + '.html',
 	'httpRequestCompleted': false,
 	'prismHighlight': true,
 	'language': 'markup',
@@ -941,7 +954,7 @@ var panelsViewer = {
 				if ((panel.httpRequest !== undefined) && (panel.httpRequest)) {
 
 					// need a file and then render
-					var fileName = urlHandler.getFileName(patternData.patternPartial);
+					var fileBase = urlHandler.getFileName(patternData.patternPartial, false);
 					var e = new XMLHttpRequest();
 					e.onload = (function (i, panels, patternData, iframeRequest) {
 						return function () {
@@ -956,7 +969,7 @@ var panelsViewer = {
 							Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
 						};
 					})(i, panels, patternData, iframePassback);
-					e.open('GET', fileName.replace(/\.html/, panel.httpRequestReplace) + '?' + (new Date()).getTime(), true);
+					e.open('GET', fileBase + panel.httpRequestReplace + '?' + (new Date()).getTime(), true);
 					e.send();
 
 				} else {

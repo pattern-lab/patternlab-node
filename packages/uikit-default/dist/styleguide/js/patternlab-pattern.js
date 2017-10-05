@@ -113,16 +113,21 @@ var urlHandler = {
 	/**
 	 * get the real file name for a given pattern name
 	 * @param  {String}       the shorthand partials syntax for a given pattern
+	 * @param  {Boolean}      with the file name should be returned with the full rendered suffix or not
 	 *
 	 * @return {String}       the real file path
 	 */
-	getFileName: function (name) {
+	getFileName: function (name, withRenderedSuffix) {
 
 		var baseDir = "patterns";
 		var fileName = "";
 
 		if (name === undefined) {
 			return fileName;
+		}
+
+		if (withRenderedSuffix === undefined) {
+			withRenderedSuffix = true;
 		}
 
 		if (name == "all") {
@@ -162,7 +167,11 @@ var urlHandler = {
 		if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
 			fileName = baseDir + "/" + fileName.replace(regex, "-") + "/index.html";
 		} else if (fileName !== "") {
-			fileName = baseDir + "/" + fileName.replace(regex, "-") + "/" + fileName.replace(regex, "-") + ".html";
+			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-");
+			if (withRenderedSuffix) {
+				var fileSuffixRendered = ((config.outputFileSuffixes !== undefined) && (config.outputFileSuffixes.rendered !== undefined)) ? config.outputFileSuffixes.rendered : '';
+				fileName = fileName+fileSuffixRendered+".html";
+			}
 		}
 
 		return fileName;
@@ -291,6 +300,7 @@ window.onpopstate = function (event) {
 	urlHandler.skipBack = true;
 	urlHandler.popPattern(event);
 };
+
 /*!
  * Panels Util
  * For both styleguide and viewer

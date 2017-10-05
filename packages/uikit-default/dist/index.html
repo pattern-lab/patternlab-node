@@ -12,23 +12,24 @@
 
 	<header class="pl-c-header" role="banner">
 
-    <button class="pl-c-header__nav-toggle pl-js-nav-trigger">Menu</button>
+	<button class="pl-c-header__nav-toggle pl-js-nav-trigger">Menu</button>
 
-    <nav class="pl-c-nav pl-js-nav-target pl-js-nav-container" role="navigation">
-        
-        <ol class="pl-c-nav__list pl-js-pattern-nav-target">
-            <!-- pattern lab nav will be inserted here -->
-        </ol><!--end pl-c-nav__list-->
+	<nav class="pl-c-nav pl-js-nav-target pl-js-nav-container" role="navigation">
 
-        <input class="pl-c-typeahead pl-js-typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
+		<ol class="pl-c-nav__list pl-js-pattern-nav-target">
+			<!-- pattern lab nav will be inserted here -->
+		</ol><!--end pl-c-nav__list-->
 
-    </nav><!--end pl-c-nav-->
+		<input class="pl-c-typeahead pl-js-typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
 
-    <div class="pl-c-controls pl-js-controls">
-        <!-- ish and tools controls will be inserted here -->
-    </div><!--end pl-c-controls-->
+	</nav><!--end pl-c-nav-->
 
-</header><!--end pl-c-header--> 
+	<div class="pl-c-controls pl-js-controls">
+		<!-- ish and tools controls will be inserted here -->
+	</div><!--end pl-c-controls-->
+
+</header><!--end pl-c-header-->
+ 
 	
 	<div class="pl-c-viewport pl-js-viewport">
     
@@ -238,7 +239,7 @@
 			{{ patternName }} 
 			
 			{{# patternState }}
-			<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}"></span>
+			<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}"></span>
 			{{/ patternState }}
 		</h2><!--end pl-c-pattern-info__title-->
 
@@ -357,7 +358,7 @@
 	</script>
 
 	<!-- load the Pattern Lab viewer js -->
-	<script src="styleguide/js/patternlab-viewer.min.js"></script>
+	<script src="styleguide/js/patternlab-viewer.js"></script>
 
 </body>
 
