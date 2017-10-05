@@ -239,24 +239,20 @@
 	{{/ patternDescExists }}
 
 	{{# lineageExists }}
-	<p class="pl-c-lineage">
+	<p class="pl-c-lineage pl-js-lineage">
 		The <em>{{ patternName }}</em> pattern contains the following patterns:
-		<span id="sg-code-lineage-fill">
 		{{# lineage }}
-		<a href="{{ lineagePath }}" class="{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}" data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
+		<a href="{{ lineagePath }}" class="pl-c-lineage__link pl-js-lineage-link {{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}" data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
 		{{/ lineage }}
-		</span>
 	</p><!--end pl-c-lineage-->
 	{{/ lineageExists }}
 
 	{{# lineageRExists }}
 	<p class="pl-c-lineage">
 		The <em>{{ patternName }}</em> pattern is included in the following patterns:
-		<span id="sg-code-lineager-fill">
 		{{# lineageR }}
-			<a href='{{ lineagePath }}' class='{{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
+			<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link {{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}' data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }}
 		{{/ lineageR }}
-		</span>
 	</p><!--end pl-c-lineage-->
 	{{/ lineageRExists }}
 

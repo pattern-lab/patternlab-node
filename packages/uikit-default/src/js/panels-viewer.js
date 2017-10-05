@@ -230,7 +230,7 @@ var panelsViewer = {
 		}
 
 		// find lineage links in the rendered content and add postmessage handlers in case it's in the modal
-		$('#sg-code-lineage-fill a, #sg-code-lineager-fill a', templateRendered).on('click', function (e) {
+		$('.pl-js-lineage-link', templateRendered).on('click', function (e) {
 			e.preventDefault();
 			var obj = JSON.stringify({
 				'event': 'patternLab.updatePath',
