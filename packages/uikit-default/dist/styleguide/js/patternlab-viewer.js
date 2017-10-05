@@ -1128,113 +1128,121 @@ var panelsViewer = {
  */
 
 var patternFinder = {
-  
-  data:   [],
-  active: false,
-  
-  init: function() {
-    
-    for (var patternType in patternPaths) {
-      if (patternPaths.hasOwnProperty(patternType)) {
-        for (var pattern in patternPaths[patternType]) {
-          var obj = {};
-          obj.patternPartial = patternType+"-"+pattern;
-          obj.patternPath    = patternPaths[patternType][pattern];
-          this.data.push(obj);
-        }
-      }
-    }
-    
-    // instantiate the bloodhound suggestion engine
-    var patterns = new Bloodhound({
-      datumTokenizer: function(d) { return Bloodhound.tokenizers.nonword(d.patternPartial); },
-      queryTokenizer: Bloodhound.tokenizers.nonword,
-      limit: 10,
-      local: this.data
-    });
-    
-    // initialize the bloodhound suggestion engine
-    patterns.initialize();
-    
-    $('.pl-js-typeahead').typeahead({ highlight: true }, {
-      displayKey: 'patternPartial',
-      source: patterns.ttAdapter()
-    }).on('typeahead:selected', patternFinder.onSelected).on('typeahead:autocompleted', patternFinder.onAutocompleted);
-    
-  },
-  
-  passPath: function(item) {
-    // update the iframe via the history api handler
-    patternFinder.closeFinder();
-    var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName(item.patternPartial) });
-    document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
-  },
-  
-  onSelected: function(e,item) {
-    patternFinder.passPath(item);
-  },
-  
-  onAutocompleted: function(e,item) {
-    patternFinder.passPath(item);
-  },
-  
-  toggleFinder: function() {
-    if (!patternFinder.active) {
-      patternFinder.openFinder();
-    } else {
-      patternFinder.closeFinder();
-    }
-  },
-  
-  openFinder: function() {
-    patternFinder.active = true;
-    $('.pl-js-typeahead').val("");
-  },
-  
-  closeFinder: function() {
-    patternFinder.active = false;
-    document.activeElement.blur();
-    $('.pl-js-typeahead').val("");
-  },
-  
-  receiveIframeMessage: function(event) {
-    
-    // does the origin sending the message match the current host? if not dev/null the request
-    if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol+"//"+window.location.host)) {
-      return;
-    }
-    
-    var data = {};
-    try {
-      data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-    } catch(e) {}
-    
-    if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
-      
-      if (data.keyPress == 'ctrl+shift+f') {
-        patternFinder.toggleFinder();
-        return false;
-      }
-      
-    }
-    
-  }
-  
+
+	data: [],
+	active: false,
+
+	init: function () {
+
+		for (var patternType in patternPaths) {
+			if (patternPaths.hasOwnProperty(patternType)) {
+				for (var pattern in patternPaths[patternType]) {
+					var obj = {};
+					obj.patternPartial = patternType + "-" + pattern;
+					obj.patternPath = patternPaths[patternType][pattern];
+					this.data.push(obj);
+				}
+			}
+		}
+
+		// instantiate the bloodhound suggestion engine
+		var patterns = new Bloodhound({
+			datumTokenizer: function (d) {
+				return Bloodhound.tokenizers.nonword(d.patternPartial);
+			},
+			queryTokenizer: Bloodhound.tokenizers.nonword,
+			limit: 10,
+			local: this.data
+		});
+
+		// initialize the bloodhound suggestion engine
+		patterns.initialize();
+
+		$('.pl-js-typeahead').typeahead({
+			highlight: true
+		}, {
+			displayKey: 'patternPartial',
+			source: patterns.ttAdapter()
+		}).on('typeahead:selected', patternFinder.onSelected).on('typeahead:autocompleted', patternFinder.onAutocompleted);
+
+	},
+
+	passPath: function (item) {
+		// update the iframe via the history api handler
+		patternFinder.closeFinder();
+		var obj = JSON.stringify({
+			"event": "patternLab.updatePath",
+			"path": urlHandler.getFileName(item.patternPartial)
+		});
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
+	},
+
+	onSelected: function (e, item) {
+		patternFinder.passPath(item);
+	},
+
+	onAutocompleted: function (e, item) {
+		patternFinder.passPath(item);
+	},
+
+	toggleFinder: function () {
+		if (!patternFinder.active) {
+			patternFinder.openFinder();
+		} else {
+			patternFinder.closeFinder();
+		}
+	},
+
+	openFinder: function () {
+		patternFinder.active = true;
+		$('.pl-js-typeahead').val("");
+	},
+
+	closeFinder: function () {
+		patternFinder.active = false;
+		document.activeElement.blur();
+		$('.pl-js-typeahead').val("");
+	},
+
+	receiveIframeMessage: function (event) {
+
+		// does the origin sending the message match the current host? if not dev/null the request
+		if ((window.location.protocol !== "file:") && (event.origin !== window.location.protocol + "//" + window.location.host)) {
+			return;
+		}
+
+		var data = {};
+		try {
+			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+		} catch (e) {}
+
+		if ((data.event !== undefined) && (data.event == "patternLab.keyPress")) {
+
+			if (data.keyPress == 'ctrl+shift+f') {
+				patternFinder.toggleFinder();
+				return false;
+			}
+
+		}
+
+	}
+
 };
 
 patternFinder.init();
 
 window.addEventListener("message", patternFinder.receiveIframeMessage, false);
 
-$('.pl-js-typeahead').focus(function() {
-  if (!patternFinder.active) {
-    patternFinder.openFinder();
-  }
+$('.pl-js-typeahead').focus(function () {
+	if (!patternFinder.active) {
+		patternFinder.openFinder();
+	}
 });
 
-$('.pl-js-typeahead').blur(function() {
-  patternFinder.closeFinder();
+$('.pl-js-typeahead').blur(function () {
+	patternFinder.closeFinder();
 });
+
 
 /*!
  * Basic postMessage Support
