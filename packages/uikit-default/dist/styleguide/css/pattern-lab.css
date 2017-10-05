@@ -1114,58 +1114,6 @@
 }
 
 /*------------------------------------*\
-    #PATTERN CODE
-\*------------------------------------*/
-/**
-* Pattern Code Container
-*/
-.sg-pattern-extra-code {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  font-size: 90%;
-  padding: 0.5rem;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  /**
-  * Code blocks
-  */
-}
-.sg-pattern-extra-code pre {
-  overflow: scroll !important;
-  -webkit-overflow-scrolling: touch;
-  padding: 0 0.5rem 0.5rem !important;
-  margin: 0 !important;
-  line-height: 1 !important;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  border-radius: 0 6px 6px 6px !important;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-.sg-pattern-extra-code code {
-  display: block;
-  -moz-tab-size: 2 !important;
-    -o-tab-size: 2 !important;
-       tab-size: 2 !important;
-}
-@media all and (min-width: 42em) {
-  .sg-pattern-extra-code {
-    width: 60%;
-    padding: 1rem;
-  }
-}
-
-/*------------------------------------*\
     #PATTERN STATES
 \*------------------------------------*/
 /**
