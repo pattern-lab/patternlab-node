@@ -19,7 +19,15 @@
 	 * Link within the text passage
 	 */
 	a {
+		color: inherit;
 		text-decoration: underline;
+	}
+
+	/**
+	 * Code
+	 */
+	code[class*="language-"], pre[class*="language-"] {
+		color: inherit;
 	}
 
 	/**
