@@ -37,6 +37,9 @@ var Panels = {
 
 };
 
+var fileSuffixPattern = ((config.outputFileSuffixes !== undefined) && (config.outputFileSuffixes.rawTemplate !== undefined)) ? config.outputFileSuffixes.rawTemplate : '';
+var fileSuffixMarkup  = ((config.outputFileSuffixes !== undefined) && (config.outputFileSuffixes.markupOnly !== undefined)) ? config.outputFileSuffixes.markupOnly : '.markup-only';
+
 // add the default panels
 // Panels.add({ 'id': 'pl-panel-info', 'name': 'info', 'default': true, 'templateID': 'pl-panel-template-info', 'httpRequest': false, 'prismHighlight': false, 'keyCombo': '' });
 // TODO: sort out pl-panel-html
@@ -46,7 +49,7 @@ Panels.add({
 	'default': true,
 	'templateID': 'pl-panel-template-code',
 	'httpRequest': true,
-	'httpRequestReplace': '.' + config.patternExtension,
+	'httpRequestReplace': fileSuffixPattern,
 	'httpRequestCompleted': false,
 	'prismHighlight': true,
 	'language': PrismLanguages.get(config.patternExtension),
@@ -59,7 +62,7 @@ Panels.add({
 	'default': false,
 	'templateID': 'pl-panel-template-code',
 	'httpRequest': true,
-	'httpRequestReplace': '.markup-only.html',
+	'httpRequestReplace': fileSuffixMarkup + '.html',
 	'httpRequestCompleted': false,
 	'prismHighlight': true,
 	'language': 'markup',
