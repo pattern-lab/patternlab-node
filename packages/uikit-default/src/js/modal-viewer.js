@@ -178,16 +178,16 @@ var modalViewer = {
 
 	/**
 	 * slides the modal window into or out of view
-	* @param  {Integer}      where the modal window should be slide to
-	*/
+	 * @param  {Integer}      where the modal window should be slide to
+	 */
 	slide: function(pos) {
-	$('#sg-modal-container').toggleClass('pl-is-active');
+		$('#sg-modal-container').toggleClass('pl-is-active');
 	},
 
 	/**
 	 * slides the modal window to a particular annotation
-	* @param  {Integer}      the number for the element that should be highlighted
-	*/
+	 * @param  {Integer}      the number for the element that should be highlighted
+	 */
 	slideToAnnotation: function(pos) {
 
 	// remove active class
@@ -234,47 +234,50 @@ var modalViewer = {
 
 	/**
 	 * toggle the comment pop-up based on a user clicking on the pattern
-	* based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
-	* @param  {Object}      event info
-	*/
+	 * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
+	 * @param  {Object}      event info
+	 */
 	receiveIframeMessage: function(event) {
 
-	var els, i;
+		var els, i;
 
-	// does the origin sending the message match the current host? if not dev/null the request
-	if ((window.location.protocol !== 'file:') && (event.origin !== window.location.protocol+'//'+window.location.host)) {
-		return;
-	}
-
-	var data = {};
-	try {
-		data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
-	} catch(e) {}
-
-	if ((data.event !== undefined) && (data.event == "patternLab.pageLoad")) {
-		
-		if ((modalViewer.active === false) && (data.patternpartial !== undefined) && (data.patternpartial.indexOf('viewall-') === 0) && (config.defaultShowPatternInfo !== undefined) && (config.defaultShowPatternInfo)) {
-		modalViewer.queryPattern(false);
-		} else if (modalViewer.active === true) {
-		modalViewer.queryPattern();
+		// does the origin sending the message match the current host? if not dev/null the request
+		if ((window.location.protocol !== 'file:') && (event.origin !== window.location.protocol+'//'+window.location.host)) {
+			return;
 		}
+
+		var data = {};
 		
-	} else if ((data.event !== undefined) && (data.event == 'patternLab.patternQueryInfo')) {
-		
-		// refresh the modal if a new pattern is loaded and the modal is active
-		modalViewer.refresh(data.patternData, data.iframePassback, data.switchText);
-		
-	} else if ((data.event !== undefined) && (data.event == 'patternLab.annotationNumberClicked')) {
-		
-		// slide to a given annoation
-		modalViewer.slideToAnnotation(data.displayNumber);
-		
-	}
+		try {
+			data = (typeof event.data !== 'string') ? event.data : JSON.parse(event.data);
+		} catch(e) {}
+
+		if ((data.event !== undefined) && (data.event == "patternLab.pageLoad")) {
+			
+			if ((modalViewer.active === false) && (data.patternpartial !== undefined) && (data.patternpartial.indexOf('viewall-') === 0) && (config.defaultShowPatternInfo !== undefined) && (config.defaultShowPatternInfo)) {
+			modalViewer.queryPattern(false);
+			} else if (modalViewer.active === true) {
+			modalViewer.queryPattern();
+			}
+			
+		} else if ((data.event !== undefined) && (data.event == 'patternLab.patternQueryInfo')) {
+			
+			// refresh the modal if a new pattern is loaded and the modal is active
+			modalViewer.refresh(data.patternData, data.iframePassback, data.switchText);
+			
+		} else if ((data.event !== undefined) && (data.event == 'patternLab.annotationNumberClicked')) {
+			
+			// slide to a given annoation
+			modalViewer.slideToAnnotation(data.displayNumber);
+		}
 
 	}
   
 };
 
 // when the document is ready make sure the modal is ready
-$(document).ready(function() { modalViewer.onReady(); });
+$(document).ready(function() { 
+	modalViewer.onReady(); 
+});
+
 window.addEventListener("message", modalViewer.receiveIframeMessage, false);
