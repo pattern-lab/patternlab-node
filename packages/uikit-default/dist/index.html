@@ -252,15 +252,23 @@
 	
 	{{# annotationExists }}
 	<div class="pl-c-annotations pl-c-text-passage pl-js-annotations">
-		<h2 class="pl-c-annotations-title">Annotations</h2>
-		<ol class="pl-c-annotations-list">
+		<h2 class="pl-c-annotations__title">Annotations</h2>
+		<ol class="pl-c-annotations__list">
+			
 			{{# annotations }}
-			<li class="pl-c-annotations-list__item">
-				<h4 class="pl-c-annotations-list-title">{{ title }}</h4>
-				{{{ comment }}}
-			</li>
+			<li class="pl-c-annotations__item">
+
+				<h4 class="pl-c-annotations__item-title">{{ title }}</h4>
+
+				<div class="pl-c-annotations__item-body">
+					{{{ comment }}}
+				</div><!--end pl-c-annotations__item-body-->
+
+			</li><!--end pl-c-annotations__item-->
 			{{/ annotations }}
-		</ol>
+
+		</ol><!--end pl-c-annotations__list-->
+
 	</div><!--end pl-c-annotations-->
 	{{/ annotationExists }}
 
@@ -297,9 +305,8 @@
 	<!-- the template for code-related tabs in the code view slider -->
 	<script type="text/mustache" id="pl-panel-template-code">
 		<pre class="language-markup">
-  <code id="sg-code-fill-{{ language }}" class="language-{{ language }}">{{{ code }}}</code>
+	<code id="pl-code-fill-{{ language }}" class="language-{{ language }}">{{{ code }}}</code>
 </pre>
-
 	</script>
 
 	<!-- load Pattern Lab data -->

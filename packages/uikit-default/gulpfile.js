@@ -24,7 +24,7 @@ gulp.task('clean:bower', function (cb) {
 	return plugins.del(['dist/styleguide/bower_components/*'],cb);
 });
 
-gulp.task('clean:css-patternlab', function (cb) {
+gulp.task('clean:css', function (cb) {
 	return plugins.del(['dist/styleguide/css/*'],cb);
 });
 
@@ -49,15 +49,7 @@ gulp.task('build:bower', ['clean:bower'], function(){
 		.pipe(copyPublic("styleguide/bower_components"));
 });
 
-gulp.task('build:css-general', ['clean:css-patternlab'], function() {
-	return gulp.src(['src/css/prism-okaidia.css','src/css/typeahead.css'])
-		.pipe(plugins.concat('prism-typeahead.css'))
-		.pipe(gulp.dest('dist/styleguide/css'))
-		.pipe(gulp.dest('dist/styleguide/css'))
-		.pipe(copyPublic("styleguide/css"));
-});
-
-gulp.task('build:css-patternlab', ['build:css-general'], function() {
+gulp.task('build:css', function() {
 	return plugins.rubySass('src/sass/pattern-lab.scss', { style: 'expanded', "sourcemap=none": true })
 		.pipe(plugins.autoprefixer({browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'android 4']}, {map: false }))
 		.pipe(gulp.dest('dist/styleguide/css'))
@@ -111,11 +103,10 @@ gulp.task('build:js-pattern', ['build:js-viewer'], function() {
 		.pipe(copyPublic("styleguide/js"));
 });
 
-gulp.task('default', ['build:bower', 'build:css-patternlab', 'build:html', 'build:js-pattern'], function () {
+gulp.task('default', ['build:bower', 'build:css', 'build:html', 'build:js-pattern'], function () {
 	if (args.watch !== undefined) {
 		gulp.watch(['src/bower_components/**/*'], ['build:bower']);
-		gulp.watch(['src/css/prism-okaidia.css'],['build:css-general']);
-		gulp.watch(['src/sass/pattern-lab.scss', 'src/sass/scss/**/*'], ['build:css-patternlab']);
+		gulp.watch(['src/sass/pattern-lab.scss', 'src/sass/scss/**/*'], ['build:css']);
 		gulp.watch(['src/html/*'], ['build:html']);
 		gulp.watch(['src/js/*'], ['build:js-pattern']);
 	}
