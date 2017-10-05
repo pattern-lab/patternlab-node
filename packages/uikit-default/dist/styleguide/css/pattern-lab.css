@@ -964,60 +964,6 @@
   max-height: 150rem;
 }
 
-/**
-* Pattern Extra
-* 1) This is the info panel that contains extra pattern info
-* like pattern description, lineage, code, and more
-*/
-@media all and (min-width: 42em) {
-  .sg-pattern-extra-inner {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: stretch;
-        -ms-flex-align: stretch;
-            align-items: stretch;
-    width: 100%;
-    -webkit-box-flex: 1;
-        -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
-  }
-}
-
-/**
-* Pattern Extra Info
-* 1) This div contains pattern description, lineage, status, and other info
-*/
-.sg-pattern-extra-info {
-  padding: 0.5rem 0.5rem 0;
-  line-height: 1.4;
-  font-size: 90%;
-  color: #808080;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.sg-pattern-extra-info:empty {
-  padding: 0;
-}
-@media all and (min-width: 42em) {
-  .sg-pattern-extra-info {
-    padding: 1rem;
-    width: 40%;
-  }
-}
-
-/**
-* Pattern Description
-*/
-.sg-pattern-desc {
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #ccc;
-}
-.sg-pattern-desc p:last-child {
-  margin: 0;
-}
-
 /*------------------------------------*\
     #PATTERN CATEGORY
 \*------------------------------------*/
