@@ -48,9 +48,11 @@
 
 /**
  * Pattern Title Link
+ * 1) Vertically align pattern label and pattern state badge
  */
 .pl-c-pattern__title-link {
-    display: inline-block;
+    display: inline-flex; /* 1 */
+    align-items: center; /* 1 */
     padding: $pl-pad 0 0.3rem;
     color: $pl-color-gray-50 !important;
     text-decoration: none;

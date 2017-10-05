@@ -891,9 +891,17 @@
 
 /**
  * Pattern Title Link
+ * 1) Vertically align pattern label and pattern state badge
  */
 .pl-c-pattern__title-link {
-  display: inline-block;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  /* 1 */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  /* 1 */
   padding: 1rem 0 0.3rem;
   color: #808080 !important;
   text-decoration: none;
@@ -1097,6 +1105,12 @@
   margin-bottom: 0;
   color: inherit;
   text-transform: capitalize;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 /**
@@ -1151,12 +1165,21 @@
     #PATTERN LINEAGE
 \*------------------------------------*/
 /**
-* Pattern Lineage info
-*/
-.pl-c-lineage a {
+ * Pattern Lineage info
+ */
+/**
+ * Lineage link 
+ */
+.pl-c-lineage__link {
   font-style: italic;
   color: #808080;
   text-decoration: underline;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 /*------------------------------------*\

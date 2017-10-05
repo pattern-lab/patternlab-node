@@ -3,13 +3,19 @@
 \*------------------------------------*/
 
 /**
-* Pattern Lineage info
-*/
+ * Pattern Lineage info
+ */
 .pl-c-lineage {
 
-    a {
-        font-style: italic;
-        color: $pl-color-gray-50;
-        text-decoration: underline;
-    }
+}
+
+/**
+ * Lineage link 
+ */
+.pl-c-lineage__link {
+    font-style: italic;
+    color: $pl-color-gray-50;
+    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
 }
