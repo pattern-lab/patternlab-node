@@ -3,9 +3,12 @@
 
 # Static Assets for the Default StyleguideKit
 
-These static assets are meant to be used with the default [Mustache](https://github.com/pattern-lab/styleguidekit-mustache-default) and [Twig](https://github.com/pattern-lab/styleguidekit-twig-default) StyleguideKits. They control the look, feel, and functionality of the front-end of Pattern Lab PHP.
+This code is responsible for creating Pattern Lab's UI look, feel, and functionality. These assets are are meant to be used in conjunction with the default [Mustache](https://github.com/pattern-lab/styleguidekit-mustache-default) and [Twig](https://github.com/pattern-lab/styleguidekit-twig-default) StyleguideKits, which control Pattern Lab-specific UI _inside_ the iframe.
 
 ## Installation
+Pattern Lab Node uses [npm](https://www.npmjs.com/) to manage project dependencies. To install the default static assets run:
+
+    npm install styleguidekit-assets-default
 
 Pattern Lab PHP uses [Composer](https://getcomposer.org/) to manage project dependencies. To install the default static assets run:
 
@@ -15,7 +18,7 @@ Pattern Lab PHP uses [Composer](https://getcomposer.org/) to manage project depe
 
 In order to modify these assets you need to install the following:
 
-* the [Development Edition of Pattern Lab PHP](https://github.com/pattern-lab/edition-php-development)
+* the [Development Edition of Pattern Lab](https://github.com/pattern-lab/edition-php-development)
 * [Node.js](http://nodejs.org) and NPM
 * [Bower](http://bower.io)
 * [Ruby Sass](http://sass-lang.com/install)
