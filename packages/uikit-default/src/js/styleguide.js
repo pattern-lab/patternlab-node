@@ -143,7 +143,7 @@
 		}
 	});
 
-	/* Disco Mode */
+	// Disco Mode
 	function disco() {
 		sizeiframe(getRandom(minViewportWidth, sw));
 	}
@@ -262,38 +262,6 @@
 		e.preventDefault();
 		sizeiframe(320, true);
 		return false;
-	});
-
-	// handle the MQ click
-	var mqs = [];
-	$('#sg-mq a').each(function (i) {
-
-		mqs.push($(this).html());
-
-		// bind the click
-		$(this).on("click", function (i, k) {
-			return function (e) {
-				e.preventDefault();
-				var val = $(k).html();
-				var type = (val.indexOf("px") !== -1) ? "px" : "em";
-				val = val.replace(type, "");
-				var width = (type === "px") ? val * 1 : val * $bodySize;
-				sizeiframe(width, true);
-			};
-		}(i, this));
-
-		// bind the keyboard shortcut. can't use cmd on a mac because 3 & 4 are for screenshots
-		jwerty.key('ctrl+shift+' + (i + 1), function (k) {
-			return function (e) {
-				var val = $(k).html();
-				var type = (val.indexOf("px") !== -1) ? "px" : "em";
-				val = val.replace(type, "");
-				var width = (type === "px") ? val * 1 : val * $bodySize;
-				sizeiframe(width, true);
-				return false;
-			};
-		}(this));
-
 	});
 
 	//Resize the viewport
@@ -485,14 +453,16 @@
 		}, null, null);
 	}
 
-	if (document.getElementById("sg-raw") !== undefined) {
-		document.getElementById("sg-raw").setAttribute("href", urlHandler.getFileName(patternName));
+	// Open in new window link
+	if (document.querySelector('.pl-js-open-new-window') !== undefined) {
+		// Set value of href to the path to the pattern
+		document.querySelector('.pl-js-open-new-window').setAttribute("href", urlHandler.getFileName(patternName));
 	}
 
 	urlHandler.skipBack = true;
 	document.querySelector('.pl-js-iframe').contentWindow.location.replace(iFramePath);
 
-	//Close all dropdowns and navigation
+	// Close all dropdowns and navigation
 	function closePanels() {
 		$('.pl-js-nav-container, .pl-js-acc-handle, .pl-js-acc-panel').removeClass('pl-is-active');
 		patternFinder.closeFinder();
