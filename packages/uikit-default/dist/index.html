@@ -66,50 +66,63 @@
 	<script type="text/mustache" class="pl-js-pattern-nav-template">
 		{{# patternTypes }}
 <li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
-  
-  <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" tabindex="0" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</a>
+
+	<a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" tabindex="0" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</a>
 
 	<ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel" id="{{ patternTypeLC }}">
-    
-    {{# patternTypeItems }}
+
+		{{# patternTypeItems }}
 		<li class="pl-c-nav__item pl-c-nav__item--{{ patternSubtypeLC }}">
-      
-      <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternSubtypeUC }}</a>
+
+			<a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternSubtypeUC }}</a>
 
 			<ol class="pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel">
+				
 				{{# patternSubtypeItems }}
 				<li class="pl-c-nav__item">
-        
-          <a href="patterns/{{ patternPath }}" class="pl-c-nav__link pl-c-nav__link--sublink {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
-              data-patternpartial="{{ patternPartial }}">{{ patternName }}</a>
-              
+
+					<a href="patterns/{{ patternPath }}" class="pl-c-nav__link pl-c-nav__link--sublink" data-patternpartial="{{ patternPartial }}">
+						{{ patternName }}
+
+						{{# patternState }}
+						<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}" />
+						{{/ patternState }}
+					
+					</a><!--end pl-c-nav__link-->
+
 				</li><!--end pl-c-nav__item-->
-        {{/ patternSubtypeItems }}
-        
-      </ol><!--end pl-c-nav__subsublist-->
-      
+				{{/ patternSubtypeItems }}
+
+			</ol><!--end pl-c-nav__subsublist-->
+
 		</li><!--end pl-c-nav__item-->
-    {{/ patternTypeItems }} 
-    
-    {{# patternItems }}
+		{{/ patternTypeItems }} 
+		{{# patternItems }}
 		<li class="pl-c-nav__item">
-      
-      <a href="patterns/{{ patternPath }}" class="pl-c-nav__link {{# patternState }}pl-c-nav__link--state-{{ patternState }}{{/ patternState }}"
-          data-patternpartial="{{ patternPartial }}" tabindex="0">{{ patternName }}</a>
-          
-    </li><!--end pl-c-nav__item-->
-    {{/ patternItems }}
-    
-  </ol><!--end pl-c-nav__sublist-->
-  
+
+			<a href="patterns/{{ patternPath }}" class="pl-c-nav__link" data-patternpartial="{{ patternPartial }}" tabindex="0">
+				{{ patternName }}
+
+				{{# patternState }}
+				<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}" />
+				{{/ patternState }}
+			
+			</a><!--end pl-c-nav__link-->
+
+		</li><!--end pl-c-nav__item-->
+		{{/ patternItems }}
+
+	</ol><!--end pl-c-nav__sublist-->
+
 </li><!--end pl-c-nav__item-->
 {{/ patternTypes }}
 
 <li class="pl-c-nav__item">
 
-    <a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all" tabindex="0">All</a>
+	<a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all" tabindex="0">All</a>
 
 </li><!--end pl-c-nav__item-->
+
 
 	</script>
 
@@ -222,32 +235,47 @@
 		</ul><!--end pl-c-breadcrumb-->
 
 		<h2 class="pl-c-pattern-info__title">
-			{{ patternName }} {{# patternState }}
-			<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}">{{ patternState }}</span> {{/ patternState }}
-		</h2>
-		<!--end pl-c-pattern-info__title-->
+			{{ patternName }} 
+			
+			{{# patternState }}
+			<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}"></span>
+			{{/ patternState }}
+		</h2><!--end pl-c-pattern-info__title-->
 
-	</div>
-	<!--end pl-c-pattern-info__header-->
-	{{/ isPatternView }} {{# patternDescExists }}
+	</div><!--end pl-c-pattern-info__header-->
+	{{/ isPatternView }} 
+	
+	{{# patternDescExists }}
 	<div class="pl-c-pattern-info__description pl-c-text-passage">
 		{{{ patternDesc }}} {{# patternDescAdditions }} {{{ patternDescAdditions }}} {{/ patternDescAdditions }}
-	</div>
-	<!--end pl-c-pattern-info__description-->
-	{{/ patternDescExists }} {{# lineageExists }}
+	</div><!--end pl-c-pattern-info__description-->
+	{{/ patternDescExists }} 
+	
+	{{# lineageExists }}
 	<p class="pl-c-lineage pl-js-lineage">
-		The <em>{{ patternName }}</em> pattern contains the following patterns: {{# lineage }}
-		<a href="{{ lineagePath }}" class="pl-c-lineage__link pl-js-lineage-link {{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}"
-		    data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }} {{/ lineage }}
-	</p>
-	<!--end pl-c-lineage-->
-	{{/ lineageExists }} {{# lineageRExists }}
+		The <em>{{ patternName }}</em> pattern contains the following patterns: 
+		{{# lineage }}
+		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link' data-patternPartial='{{ lineagePattern }}'>
+			{{ lineagePattern }} 
+			{{# lineageState }}<span class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}" title="{{ lineageState }}" />{{/ lineageState }}
+		</a><!--end pl-c-lineage__link-->
+		{{# hasComma }}, {{/ hasComma }} 
+		{{/ lineage }}
+
+	</p><!--end pl-c-lineage-->
+	{{/ lineageExists }} 
+	
+	{{# lineageRExists }}
 	<p class="pl-c-lineage">
-		The <em>{{ patternName }}</em> pattern is included in the following patterns: {{# lineageR }}
-		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link {{# lineageState }}sg-pattern-state {{ lineageState }}{{/ lineageState }}'
-		    data-patternPartial='{{ lineagePattern }}'>{{ lineagePattern }}</a>{{# hasComma }}, {{/ hasComma }} {{/ lineageR }}
-	</p>
-	<!--end pl-c-lineage-->
+		The <em>{{ patternName }}</em> pattern is included in the following patterns: 
+		{{# lineageR }}
+		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link' data-patternPartial='{{ lineagePattern }}'>
+			{{ lineagePattern }} 
+			{{# lineageState }}<span class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}" title="{{ lineageState }}" />{{/ lineageState }}
+		</a><!--end pl-c-lineage__link-->
+		{{# hasComma }}, {{/ hasComma }}
+		{{/ lineageR }}
+	</p><!--end pl-c-lineage-->
 	{{/ lineageRExists }} 
 	
 	{{# annotationExists }}
