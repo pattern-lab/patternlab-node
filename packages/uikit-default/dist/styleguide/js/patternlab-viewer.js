@@ -724,22 +724,22 @@ var panelsUtil = {
 		var els;
 
 		// turn off all of the active tabs
-		els = document.querySelectorAll('#sg-' + patternPartial + '-tabs .pl-js-tab-link');
+		els = document.querySelectorAll('#pl-' + patternPartial + '-tabs .pl-js-tab-link');
 		for (i = 0; i < els.length; ++i) {
 			els[i].classList.remove('pl-is-active-tab');
 		}
 
 		// hide all of the panels
-		els = document.querySelectorAll('#sg-' + patternPartial + '-panels .pl-js-tab-panel');
+		els = document.querySelectorAll('#pl-' + patternPartial + '-panels .pl-js-tab-panel');
 		for (i = 0; i < els.length; ++i) {
 			els[i].classList.remove('pl-is-active-tab');
 		}
 
 		// add active tab class
-		document.getElementById('sg-' + patternPartial + '-' + panelID + '-tab').classList.add('pl-is-active-tab');
+		document.getElementById('pl-' + patternPartial + '-' + panelID + '-tab').classList.add('pl-is-active-tab');
 
 		// show the panel
-		document.getElementById('sg-' + patternPartial + '-' + panelID + '-panel').classList.add('pl-is-active-tab');
+		document.getElementById('pl-' + patternPartial + '-' + panelID + '-panel').classList.add('pl-is-active-tab');
 
 	}
 
@@ -1053,8 +1053,8 @@ var panelsViewer = {
       panel = panels[i];
 
       // default IDs
-      panelTab   = '#sg-'+patternPartial+'-'+panel.id+'-tab';
-      panelBlock = '#sg-'+patternPartial+'-'+panel.id+'-panel';
+      panelTab   = '#pl-'+patternPartial+'-'+panel.id+'-tab';
+      panelBlock = '#pl-'+patternPartial+'-'+panel.id+'-panel';
 
       // show default options
       if ((templateRendered.querySelector(panelTab) !== null) && (panel.default)) {

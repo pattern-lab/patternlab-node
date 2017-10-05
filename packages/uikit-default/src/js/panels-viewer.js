@@ -207,8 +207,8 @@ var panelsViewer = {
       panel = panels[i];
 
       // default IDs
-      panelTab   = '#sg-'+patternPartial+'-'+panel.id+'-tab';
-      panelBlock = '#sg-'+patternPartial+'-'+panel.id+'-panel';
+      panelTab   = '#pl-'+patternPartial+'-'+panel.id+'-tab';
+      panelBlock = '#pl-'+patternPartial+'-'+panel.id+'-panel';
 
       // show default options
       if ((templateRendered.querySelector(panelTab) !== null) && (panel.default)) {
