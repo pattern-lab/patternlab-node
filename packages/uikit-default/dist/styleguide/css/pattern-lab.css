@@ -1861,6 +1861,9 @@
    * Link within the text passage
    */
   /**
+   * Code
+   */
+  /**
    * Blockquote within text passage
    */
   /**
@@ -1893,7 +1896,11 @@
   margin-bottom: 1rem;
 }
 .pl-c-text-passage a {
+  color: inherit;
   text-decoration: underline;
+}
+.pl-c-text-passage code[class*="language-"], .pl-c-text-passage pre[class*="language-"] {
+  color: inherit;
 }
 .pl-c-text-passage blockquote {
   padding-left: 0.8rem;
