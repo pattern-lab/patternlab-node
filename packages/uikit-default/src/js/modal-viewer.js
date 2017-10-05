@@ -156,7 +156,7 @@ var modalViewer = {
 		} else {
 
 			// insert the panels and open the viewer
-			$('#sg-modal-content').html(templateRendered);
+			$('.pl-js-modal-content').html(templateRendered);
 			modalViewer.open();
 
 		}
