@@ -495,7 +495,7 @@ var modalViewer = {
 		modalViewer.active = false;
 
 		//Remove active class to modal
-		$('#sg-modal-container').removeClass('pl-is-active');
+		$('.pl-js-modal').removeClass('pl-is-active');
 
 		// update the wording
 		$('.pl-js-pattern-info-toggle').html("Show Pattern Info");
@@ -512,7 +512,7 @@ var modalViewer = {
 	 * hide the modal window
 	 */
 	hide: function () {
-		$('#sg-modal-container').removeClass('pl-is-active');
+		$('.pl-js-modal').removeClass('pl-is-active');
 	},
 
 	/**
@@ -572,7 +572,7 @@ var modalViewer = {
 	 * @param  {Integer}      where the modal window should be slide to
 	 */
 	slide: function (pos) {
-		$('#sg-modal-container').toggleClass('pl-is-active');
+		$('.pl-js-modal').toggleClass('pl-is-active');
 	},
 
 	/**
@@ -603,7 +603,7 @@ var modalViewer = {
 	 * Show modal
 	 */
 	show: function () {
-		$('#sg-modal-container').addClass('pl-is-active');
+		$('.pl-js-modal').addClass('pl-is-active');
 	},
 
 	/**
