@@ -78,7 +78,7 @@ var panelsViewer = {
 							Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
 						};
 					})(i, panels, patternData, iframePassback);
-					e.open('GET', fileBase + panel.httpRequestReplace) + '?' + (new Date()).getTime(), true);
+					e.open('GET', fileBase + panel.httpRequestReplace + '?' + (new Date()).getTime(), true);
 					e.send();
 
 				} else {
