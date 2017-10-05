@@ -201,15 +201,15 @@ var modalViewer = {
 	slideToAnnotation: function (pos) {
 
 		// remove active class
-		els = document.querySelectorAll('#sg-annotations > .sg-annotations-list > li');
+		els = document.querySelectorAll('.pl-js-annotations li');
 		for (i = 0; i < els.length; ++i) {
-			els[i].classList.remove('active');
+			els[i].classList.remove('pl-is-active');
 		}
 
 		// add active class to called element and scroll to it
 		for (i = 0; i < els.length; ++i) {
 			if ((i + 1) == pos) {
-				els[i].classList.add('active');
+				els[i].classList.add('pl-is-active');
 				$('.pl-js-pattern-info').animate({
 					scrollTop: els[i].offsetTop - 10
 				}, 600);

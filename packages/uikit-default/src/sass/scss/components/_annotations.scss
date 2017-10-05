@@ -3,12 +3,12 @@
 \*------------------------------------*/
 
 /**
-* Annotated elements styles
-* 1) Annotation styles that appear in the modal
-* 2) For elements in the DOM that have an annotation, we want to
-* provide styles that help the user understand that annotations are available.
-* We do this with some cursor helpers and a
-*/
+ * Annotated elements styles
+ * 1) Annotation styles that appear inside the iframe
+ * 2) For elements in the DOM that have an annotation, we want to
+ * provide styles that help the user understand that annotations are available.
+ * We do this with some cursor helpers and a
+ */
 .has-annotation {
     cursor: help !important;
     box-shadow: 0 0 10px $pl-color-gray-50;
@@ -42,79 +42,75 @@
     z-index: 100;
 }
 
-.sg-annotations {
+
+
+
+
+/*------------------------------------*\
+    #ANNOTATIONS INSIDE MODAL
+\*------------------------------------*/
+
+/**
+ * Annotations area
+ * 1) Appears inside of modal  
+ */
+.pl-c-annotations {
     margin: 1rem 0;
     border-top: 1px solid $pl-color-gray-13;
     padding-top: 0.5rem;
 }
 
-.sg-annotations-title {
+/**
+ * Annotations Title
+ * Says the world "Annotations" 
+ */
+.pl-c-annotations__title {
     font-size: 1rem !important;
     margin: 0 0 0.5rem;
 }
 
-.sg-annotations-list {
+/**
+ * Annotations list
+ * 1) Ordered list of annotations 
+ */
+.pl-c-annotations__list {
     padding: 0;
     margin: 0;
     list-style: none;
     counter-reset: the-count;
-
-    > li {
-        position: relative;
-        padding-left: 1.5rem;
-        margin-bottom: 1rem;
-        border-radius: $pl-border-radius-med;
-        transition: background $pl-animate-quick ease;
-
-        &:before {
-            content: counter(the-count);
-            counter-increment: the-count;
-            font-size: 85%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            padding: 2px;
-            text-align: center;
-            background: $pl-color-gray-20;
-            color: $pl-color-gray-87;
-            position: absolute;
-            top: 1px;
-            left: 0;
-        }
-
-        &.active {
-            background: rgba(255,255,255,0.15);
-        }
-    }
 }
 
-.sg-annotations-list-title {
-    display: inline;
-    font-size: $pl-font-size-norm;
+/**
+ * Annotations list item
+ * 1) Displays each item as a number
+ */
+.pl-c-annotations__item {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: $pl-border-radius-med;
+    transition: background $pl-animate-quick ease;
 
-    &:after {
-        content: "—";
+    &:before {
+        content: counter(the-count);
+        counter-increment: the-count;
+        font-size: 85%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        padding: 2px;
+        text-align: center;
+        background: $pl-color-gray-20;
+        color: $pl-color-gray-87;
+        position: absolute;
+        top: 1px;
+        left: 0;
     }
-}
 
-#sg-comments-container {
-    max-width: 60em;
-    margin: 0 auto;
-}
-
-.sg-comment-container {
-    padding-bottom: 2em;
-    margin-bottom: $pl-space;
-    border-bottom: 1px solid $pl-color-trans-white-25;
-
-    p:last-child {
-        margin-bottom: 0;
-    }
-
-    h2 {
-        margin-bottom: 0.25em;
+    &.pl-is-active {
+        background: rgba(255,255,255,0.15);
     }
 }
