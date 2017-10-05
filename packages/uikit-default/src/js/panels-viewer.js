@@ -152,7 +152,7 @@ var panelsViewer = {
 				'event': 'patternLab.annotationsHighlightShow',
 				'annotations': patternData.annotations
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
 		}
 
 		// add hasComma property to lineage
@@ -236,7 +236,7 @@ var panelsViewer = {
 				'event': 'patternLab.updatePath',
 				'path': urlHandler.getFileName($(this).attr('data-patternpartial'))
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
 		});
 
 		// gather panels from plugins

@@ -48,7 +48,7 @@ var patternFinder = {
     // update the iframe via the history api handler
     patternFinder.closeFinder();
     var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName(item.patternPartial) });
-    document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+    document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
   },
   
   onSelected: function(e,item) {

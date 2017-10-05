@@ -39,7 +39,7 @@ var modalViewer = {
 			obj = JSON.stringify({
 				'event': 'patternLab.annotationsHighlightHide'
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 			// hide the viewer
 			modalViewer.close();
@@ -80,7 +80,7 @@ var modalViewer = {
 			obj = JSON.stringify({
 				'event': 'patternLab.annotationsHighlightHide'
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 			modalViewer.close();
 		}
 	},
@@ -123,7 +123,7 @@ var modalViewer = {
 		obj = JSON.stringify({
 			'event': 'patternLab.patternModalClose'
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 	},
 
@@ -151,7 +151,7 @@ var modalViewer = {
 				'patternPartial': patternPartial,
 				'modalContent': templateRendered.outerHTML
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 		} else {
 
@@ -243,7 +243,7 @@ var modalViewer = {
 			'event': 'patternLab.patternQuery',
 			'switchText': switchText
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 	},
 

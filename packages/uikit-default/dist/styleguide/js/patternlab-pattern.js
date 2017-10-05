@@ -227,7 +227,7 @@ var urlHandler = {
     if (givenPath != expectedPath) {
       // make sure to update the iframe because there was a click
       var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": fileName });
-      document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+      document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
     } else {
       // add to the history
       var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
@@ -264,7 +264,7 @@ var urlHandler = {
     }
     
     var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": iFramePath });
-    document.getElementById("sg-viewport").contentWindow.postMessage( obj, urlHandler.targetOrigin);
+    document.querySelector('.pl-js-iframe').contentWindow.postMessage( obj, urlHandler.targetOrigin);
     document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
     document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
     

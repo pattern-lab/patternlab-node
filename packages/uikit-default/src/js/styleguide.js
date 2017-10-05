@@ -312,9 +312,9 @@
 
 		//Conditionally remove CSS animation class from viewport
 		if (animate === false) {
-			$('.pl-js-vp-iframe-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
+			$('.pl-js-vp-iframe-container, .pl-js-iframe').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
 		} else {
-			$('.pl-js-vp-iframe-container,#sg-viewport').addClass("vp-animate");
+			$('.pl-js-vp-iframe-container, .pl-js-iframe').addClass("vp-animate");
 		}
 
 		$('.pl-js-vp-iframe-container').width(theSize + viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
@@ -325,7 +325,7 @@
 			"event": "patternLab.resize",
 			"resize": "true"
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, targetOrigin);
 
 		updateSizeReading(theSize); //Update values in toolbar
 		saveSize(theSize); //Save current viewport to cookie
@@ -337,7 +337,7 @@
 			"event": "patternLab.resize",
 			"resize": "true"
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, targetOrigin);
 	});
 
 	function saveSize(size) {
@@ -381,7 +381,7 @@
 
 	//Update The viewport size
 	function updateViewportWidth(size) {
-		$("#sg-viewport").width(size);
+		$(".pl-js-iframe").width(size);
 		$(".pl-js-vp-iframe-container").width(size * 1 + 14);
 
 		updateSizeReading(size);
@@ -434,7 +434,7 @@
 
 
 	// capture the viewport width that was loaded and modify it so it fits with the pull bar
-	var origViewportWidth = $("#sg-viewport").width();
+	var origViewportWidth = $(".pl-js-iframe").width();
 	$(".pl-js-vp-iframe-container").width(origViewportWidth);
 
 	var testWidth = screen.width;
@@ -444,9 +444,9 @@
 	if (($(window).width() == testWidth) && ('ontouchstart' in document.documentElement) && ($(window).width() <= 1024)) {
 		$(".pl-js-resize-container").width(0);
 	} else {
-		$("#sg-viewport").width(origViewportWidth - 14);
+		$(".pl-js-iframe").width(origViewportWidth - 14);
 	}
-	updateSizeReading($("#sg-viewport").width());
+	updateSizeReading($(".pl-js-iframe").width());
 
 	// get the request vars
 	var oGetVars = urlHandler.getRequestVars();
@@ -490,7 +490,7 @@
 	}
 
 	urlHandler.skipBack = true;
-	document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
+	document.querySelector('.pl-js-iframe').contentWindow.location.replace(iFramePath);
 
 	//Close all dropdowns and navigation
 	function closePanels() {
@@ -507,7 +507,7 @@
 			"event": "patternLab.updatePath",
 			"path": urlHandler.getFileName($(this).attr("data-patternpartial"))
 		});
-		document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
 		closePanels();
 	});
 
@@ -522,7 +522,7 @@
 		window.addEventListener("orientationchange", function () {
 			if (window.orientation != origOrientation) {
 				$(".pl-js-vp-iframe-container").width($(window).width());
-				$("#sg-viewport").width($(window).width());
+				$(".pl-js-iframe").width($(window).width());
 				updateSizeReading($(window).width());
 				origOrientation = window.orientation;
 			}

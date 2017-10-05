@@ -320,7 +320,7 @@ var urlHandler = {
     if (givenPath != expectedPath) {
       // make sure to update the iframe because there was a click
       var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": fileName });
-      document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+      document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
     } else {
       // add to the history
       var addressReplacement = (window.location.protocol == "file:") ? null : window.location.protocol+"//"+window.location.host+window.location.pathname.replace("index.html","")+"?p="+pattern;
@@ -357,7 +357,7 @@ var urlHandler = {
     }
     
     var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": iFramePath });
-    document.getElementById("sg-viewport").contentWindow.postMessage( obj, urlHandler.targetOrigin);
+    document.querySelector('.pl-js-iframe').contentWindow.postMessage( obj, urlHandler.targetOrigin);
     document.getElementById("title").innerHTML = "Pattern Lab - "+patternName;
     document.getElementById("sg-raw").setAttribute("href",urlHandler.getFileName(patternName));
     
@@ -420,7 +420,7 @@ var modalViewer = {
 			obj = JSON.stringify({
 				'event': 'patternLab.annotationsHighlightHide'
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 			// hide the viewer
 			modalViewer.close();
@@ -461,7 +461,7 @@ var modalViewer = {
 			obj = JSON.stringify({
 				'event': 'patternLab.annotationsHighlightHide'
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 			modalViewer.close();
 		}
 	},
@@ -504,7 +504,7 @@ var modalViewer = {
 		obj = JSON.stringify({
 			'event': 'patternLab.patternModalClose'
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 	},
 
@@ -532,7 +532,7 @@ var modalViewer = {
 				'patternPartial': patternPartial,
 				'modalContent': templateRendered.outerHTML
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 		} else {
 
@@ -624,7 +624,7 @@ var modalViewer = {
 			'event': 'patternLab.patternQuery',
 			'switchText': switchText
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, modalViewer.targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, modalViewer.targetOrigin);
 
 	},
 
@@ -998,7 +998,7 @@ var panelsViewer = {
 				'event': 'patternLab.annotationsHighlightShow',
 				'annotations': patternData.annotations
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
 		}
 
 		// add hasComma property to lineage
@@ -1082,7 +1082,7 @@ var panelsViewer = {
 				'event': 'patternLab.updatePath',
 				'path': urlHandler.getFileName($(this).attr('data-patternpartial'))
 			});
-			document.getElementById('sg-viewport').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
+			document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, panelsViewer.targetOrigin);
 		});
 
 		// gather panels from plugins
@@ -1143,7 +1143,7 @@ var patternFinder = {
     // update the iframe via the history api handler
     patternFinder.closeFinder();
     var obj = JSON.stringify({ "event": "patternLab.updatePath", "path": urlHandler.getFileName(item.patternPartial) });
-    document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+    document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
   },
   
   onSelected: function(e,item) {
@@ -1618,9 +1618,9 @@ window.addEventListener("message", receiveIframeMessage, false);
 
 		//Conditionally remove CSS animation class from viewport
 		if (animate === false) {
-			$('.pl-js-vp-iframe-container,#sg-viewport').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
+			$('.pl-js-vp-iframe-container, .pl-js-iframe').removeClass("vp-animate"); //If aninate is set to false, remove animate class from viewport
 		} else {
-			$('.pl-js-vp-iframe-container,#sg-viewport').addClass("vp-animate");
+			$('.pl-js-vp-iframe-container, .pl-js-iframe').addClass("vp-animate");
 		}
 
 		$('.pl-js-vp-iframe-container').width(theSize + viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
@@ -1631,7 +1631,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 			"event": "patternLab.resize",
 			"resize": "true"
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, targetOrigin);
 
 		updateSizeReading(theSize); //Update values in toolbar
 		saveSize(theSize); //Save current viewport to cookie
@@ -1643,7 +1643,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 			"event": "patternLab.resize",
 			"resize": "true"
 		});
-		document.getElementById('sg-viewport').contentWindow.postMessage(obj, targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, targetOrigin);
 	});
 
 	function saveSize(size) {
@@ -1687,7 +1687,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 
 	//Update The viewport size
 	function updateViewportWidth(size) {
-		$("#sg-viewport").width(size);
+		$(".pl-js-iframe").width(size);
 		$(".pl-js-vp-iframe-container").width(size * 1 + 14);
 
 		updateSizeReading(size);
@@ -1740,7 +1740,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 
 
 	// capture the viewport width that was loaded and modify it so it fits with the pull bar
-	var origViewportWidth = $("#sg-viewport").width();
+	var origViewportWidth = $(".pl-js-iframe").width();
 	$(".pl-js-vp-iframe-container").width(origViewportWidth);
 
 	var testWidth = screen.width;
@@ -1750,9 +1750,9 @@ window.addEventListener("message", receiveIframeMessage, false);
 	if (($(window).width() == testWidth) && ('ontouchstart' in document.documentElement) && ($(window).width() <= 1024)) {
 		$(".pl-js-resize-container").width(0);
 	} else {
-		$("#sg-viewport").width(origViewportWidth - 14);
+		$(".pl-js-iframe").width(origViewportWidth - 14);
 	}
-	updateSizeReading($("#sg-viewport").width());
+	updateSizeReading($(".pl-js-iframe").width());
 
 	// get the request vars
 	var oGetVars = urlHandler.getRequestVars();
@@ -1796,7 +1796,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 	}
 
 	urlHandler.skipBack = true;
-	document.getElementById("sg-viewport").contentWindow.location.replace(iFramePath);
+	document.querySelector('.pl-js-iframe').contentWindow.location.replace(iFramePath);
 
 	//Close all dropdowns and navigation
 	function closePanels() {
@@ -1813,7 +1813,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 			"event": "patternLab.updatePath",
 			"path": urlHandler.getFileName($(this).attr("data-patternpartial"))
 		});
-		document.getElementById("sg-viewport").contentWindow.postMessage(obj, urlHandler.targetOrigin);
+		document.querySelector('.pl-js-iframe').contentWindow.postMessage(obj, urlHandler.targetOrigin);
 		closePanels();
 	});
 
@@ -1828,7 +1828,7 @@ window.addEventListener("message", receiveIframeMessage, false);
 		window.addEventListener("orientationchange", function () {
 			if (window.orientation != origOrientation) {
 				$(".pl-js-vp-iframe-container").width($(window).width());
-				$("#sg-viewport").width($(window).width());
+				$(".pl-js-iframe").width($(window).width());
 				updateSizeReading($(window).width());
 				origOrientation = window.orientation;
 			}
