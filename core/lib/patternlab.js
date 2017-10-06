@@ -12,7 +12,6 @@
 
 const diveSync = require('diveSync');
 const dive = require('dive');
-const glob = require('glob');
 const _ = require('lodash');
 const path = require('path');
 const chalk = require('chalk');

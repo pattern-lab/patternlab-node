@@ -39,7 +39,7 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
   const dataFilesFullPath = dataFilesPath + '*.{json,yml,yaml}',
     excludeFullPath = dataFilesPath + excludeFileNames + '.{json,yml,yaml}';
 
-  let globOptions = {};
+  const globOptions = {};
   if (excludeFileNames) {
     globOptions.ignore = [excludeFullPath];
   }
@@ -48,7 +48,7 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
   let mergeObject = {};
 
   dataFiles.forEach(function (filePath) {
-    let jsonData = yaml.safeLoad(fsDep.readFileSync(path.resolve(filePath), 'utf8'));
+    const jsonData = yaml.safeLoad(fsDep.readFileSync(path.resolve(filePath), 'utf8'));
     mergeObject = _.merge(mergeObject, jsonData);
   });
 

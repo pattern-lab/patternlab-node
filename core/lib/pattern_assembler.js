@@ -14,8 +14,10 @@ const smh = require('./style_modifier_hunter');
 const ph = require('./parameter_hunter');
 const ch = require('./changes_hunter');
 const jsonCopy = require('./json_copy');
+const da = require('./data_loader');
 const markdown_parser = new mp();
 const changes_hunter = new ch();
+const dataLoader = new da();
 
 //this is mocked in unit tests
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
@@ -310,7 +312,7 @@ const pattern_assembler = function () {
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
-      let configData = dataLoader.loadDataFromFile(jsonFilename, fs);
+      const configData = dataLoader.loadDataFromFile(jsonFilename, fs);
 
       if (configData) {
         currentPattern.jsonFileData = configData;
@@ -327,7 +329,7 @@ const pattern_assembler = function () {
     //look for a listitems.json file for this template
     try {
       var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems");
-      let listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
+      const listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
       if (listItemsConfig) {
         currentPattern.listitems = listItemsConfig;
