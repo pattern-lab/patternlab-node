@@ -58,6 +58,17 @@ var panelsViewer = {
 
 			panel = panels[i];
 
+			// catch pattern panel since it doesn't have a name defined by default
+			if (panel.name === undefined) {
+				panel.name = patternData.patternExtension;
+		        panel.language = patternData.patternExtension;
+			}
+
+			// if httpRequestReplace has not been set, use the extension. this is likely for the raw template
+			if (panel.httpRequestReplace === '') {
+				panel.httpRequestReplace = panel.httpRequestReplace + '.' + patternData.patternExtension;
+			}
+
 			if ((panel.templateID !== undefined) && (panel.templateID)) {
 
 				if ((panel.httpRequest !== undefined) && (panel.httpRequest)) {
@@ -67,17 +78,18 @@ var panelsViewer = {
 					var e = new XMLHttpRequest();
 					e.onload = (function (i, panels, patternData, iframeRequest) {
 						return function () {
-							prismedContent = Prism.highlight(this.responseText, Prism.languages[panels[i].language]);
+							prismedContent = Prism.highlight(this.responseText, Prism.languages['html']);
 							template = document.getElementById(panels[i].templateID);
 							templateCompiled = Hogan.compile(template.innerHTML);
 							templateRendered = templateCompiled.render({
-								'language': panels[i].language,
+								'language': 'html',
 								'code': prismedContent
 							});
 							panels[i].content = templateRendered;
 							Dispatcher.trigger('checkPanels', [panels, patternData, iframePassback, switchText]);
 						};
 					})(i, panels, patternData, iframePassback);
+
 					e.open('GET', fileBase + panel.httpRequestReplace + '?' + (new Date()).getTime(), true);
 					e.send();
 
