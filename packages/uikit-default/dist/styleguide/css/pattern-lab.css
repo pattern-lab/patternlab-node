@@ -324,7 +324,7 @@
   */
 }
 .pl-c-nav__link--dropdown:after {
-  content: 'Γû╝';
+  content: '▼';
   color: rgba(255, 255, 255, 0.25);
   display: inline-block;
   font-size: 7px;
@@ -655,9 +655,6 @@
   width: 10rem;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  /**
-   * Tools dropdown list
-   */
 }
 .pl-c-tools__list.pl-is-active {
   max-height: none;
@@ -667,9 +664,6 @@
   .pl-c-tools__list.pl-is-active {
     max-height: 50rem;
   }
-}
-.pl-c-tools__list.pl-is-active {
-  overflow: visible;
 }
 
 /**
@@ -1063,7 +1057,6 @@
 }
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel {
-    min-width: 45%;
     -webkit-box-flex: 1;
         -ms-flex: auto;
             flex: auto;
@@ -1075,7 +1068,15 @@
  */
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel--info {
+    width: 50%;
     padding-right: 1rem;
+    overflow: scroll;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-pattern-info__panel--info {
+    padding-right: 2rem;
+    width: 45%;
   }
 }
 
@@ -1084,7 +1085,12 @@
  */
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel--code {
-    min-width: 55%;
+    width: 50%;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-pattern-info__panel--code {
+    width: 55%;
   }
 }
 
@@ -1138,7 +1144,7 @@
   display: inline-block;
   width: 5px;
   height: 5px;
-  margin-left: 3px;
+  margin-left: 5px;
   position: relative;
   top: 1px;
   border-radius: 50%;
@@ -1167,6 +1173,12 @@
 /**
  * Pattern Lineage info
  */
+.pl-c-lineage {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-top: 0;
+}
+
 /**
  * Lineage link 
  */
@@ -1180,6 +1192,11 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-transition: opacity 0.1s ease;
+          transition: opacity 0.1s ease;
+}
+.pl-c-lineage__link:hover, .pl-c-lineage__link:focus {
+  opacity: 0.8;
 }
 
 /*------------------------------------*\
@@ -1205,7 +1222,7 @@
  * Breadcrumb Item
  */
 .pl-c-breadcrumb__item:after {
-  content: 'Γû╢';
+  content: '▶';
   opacity: 0.4;
   font-size: 0.3rem;
   display: inline-block;
@@ -1434,9 +1451,6 @@
   width: 10rem;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  /**
-   * Tools dropdown list
-   */
 }
 .pl-c-tools__list.pl-is-active {
   max-height: none;
@@ -1446,9 +1460,6 @@
   .pl-c-tools__list.pl-is-active {
     max-height: 50rem;
   }
-}
-.pl-c-tools__list.pl-is-active {
-  overflow: visible;
 }
 
 /**
@@ -1503,41 +1514,56 @@
  * provide styles that help the user understand that annotations are available.
  * We do this with some cursor helpers and a
  */
-.has-annotation {
+.pl-has-annotation {
   cursor: help !important;
-  -webkit-box-shadow: 0 0 10px #808080;
-          box-shadow: 0 0 10px #808080;
+  outline: 1px dotted #808080;
+  outline-offset: -4px;
+  -webkit-transition: -webkit-box-shadow 0.1s ease;
+          transition: box-shadow 0.1s ease;
 }
-.has-annotation a, .has-annotation input {
+.pl-has-annotation a, .pl-has-annotation input {
   cursor: help !important;
 }
-.has-annotation:hover {
-  -webkit-box-shadow: 0 0 10px #000;
-          box-shadow: 0 0 10px #000;
+.pl-has-annotation:hover {
+  -webkit-box-shadow: 0 0 3px #808080;
+          box-shadow: 0 0 3px #808080;
 }
-.has-annotation.active {
-  -webkit-box-shadow: inset 0 0 20px #808080;
-          box-shadow: inset 0 0 20px #808080;
+.pl-has-annotation.active {
+  -webkit-box-shadow: inset 0 0 6px #4d4c4c;
+          box-shadow: inset 0 0 6px #4d4c4c;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
 }
 
-.annotation-tip {
-  display: block;
-  position: absolute;
-  margin-top: -10px !important;
-  margin-left: -10px !important;
-  width: 25px !important;
-  height: 25px !important;
-  border-radius: 13px !important;
-  text-align: center !important;
-  background: #444 !important;
+/**
+ * Annotation tooltip
+ * 1) Appears inside the iframe over any element that has an
+ *    anootation attached to it. 
+ */
+.pl-c-annotation-tip {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 24px !important;
+  height: 24px !important;
+  margin-top: 6px !important;
+  margin-left: 6px !important;
+  border-radius: 50% !important;
+  background: #222 !important;
   color: #fff !important;
-  font-weight: bold !important;
   font-size: 16px !important;
+  position: absolute;
   z-index: 100;
 }
 
 /*------------------------------------*\
-┬á┬á┬á #ANNOTATIONS INSIDE MODAL
+    #ANNOTATIONS INSIDE MODAL
 \*------------------------------------*/
 /**
  * Annotations area
@@ -1545,8 +1571,6 @@
  */
 .pl-c-annotations {
   margin: 1rem 0;
-  border-top: 1px solid #ddd;
-  padding-top: 0.5rem;
 }
 
 /**
@@ -1554,19 +1578,21 @@
  * Says the world "Annotations" 
  */
 .pl-c-annotations__title {
-  font-size: 1rem !important;
+  font-size: 1.2rem !important;
   margin: 0 0 0.5rem;
 }
 
 /**
  * Annotations list
  * 1) Ordered list of annotations 
+ * 2) Presented with parent selector to force styles
+ *    over pl-c-text-passage
  */
-.pl-c-annotations__list {
+.pl-c-annotations .pl-c-annotations__list {
+  counter-reset: the-count;
   padding: 0;
   margin: 0;
   list-style: none;
-  counter-reset: the-count;
 }
 
 /**
@@ -1599,14 +1625,19 @@
   border-radius: 50%;
   padding: 2px;
   text-align: center;
-  background: #ccc;
-  color: #222;
+  background: #808080;
+  color: #fff;
   position: absolute;
-  top: 1px;
+  top: 4px;
   left: 0;
 }
 .pl-c-annotations__item.pl-is-active {
-  background: rgba(255, 255, 255, 0.15);
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+
+.pl-c-annotations .pl-c-annotations__item-title {
+  margin-bottom: 0;
 }
 
 /*------------------------------------*\
@@ -1660,7 +1691,7 @@
   cursor: pointer;
   position: absolute;
   right: 0;
-  top: 0.4rem;
+  top: 0;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
@@ -1678,8 +1709,8 @@
  * 1) Displayed as an e
  */
 .pl-c-modal__close-btn-icon {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   color: currentColor;
   fill: currentColor;
   -webkit-transition: fill 0.1s ease-out;
@@ -1704,7 +1735,7 @@
   overflow-x: hidden;
   padding: 1.5rem 1rem 1rem;
 }
-@media all and (min-width: 53em) {
+@media all and (min-width: 62em) {
   .pl-c-modal__content {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -1720,7 +1751,7 @@
  */
 .pl-c-text-passage {
   font-size: 0.85rem;
-  line-height: 1.4;
+  line-height: 1.7;
   /**
    * Link within the text passage
    */
@@ -1729,6 +1760,9 @@
    */
   /**
    * Blockquote within text passage
+   */
+  /**
+   * Horizontal rule
    */
   /**
    * First-level heading within text passage
@@ -1760,8 +1794,13 @@
   margin-bottom: 1rem;
 }
 .pl-c-text-passage a {
-  color: inherit;
+  color: #808080;
   text-decoration: underline;
+  -webkit-transition: opacity 0.1s ease;
+          transition: opacity 0.1s ease;
+}
+.pl-c-text-passage a:hover, .pl-c-text-passage a:focus {
+  opacity: 0.8;
 }
 .pl-c-text-passage code[class*="language-"], .pl-c-text-passage pre[class*="language-"] {
   color: inherit;
@@ -1769,6 +1808,12 @@
 .pl-c-text-passage blockquote {
   padding-left: 0.8rem;
   border-left: 3px solid inherit;
+}
+.pl-c-text-passage hr {
+  height: 1px;
+  background: #808080;
+  margin: 2rem 0;
+  border: 0;
 }
 .pl-c-text-passage h1 {
   margin-bottom: 1rem;
@@ -1812,7 +1857,6 @@
 }
 .pl-c-text-passage li {
   margin-bottom: 0.5rem;
-  line-height: 1.6;
 }
 
 /*------------------------------------*\
