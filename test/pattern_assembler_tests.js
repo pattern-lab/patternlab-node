@@ -496,49 +496,6 @@ tap.test('processPatternRecursive - 685 ensure listitems data is used', function
   }).catch(test.threw);
 });
 
-tap.test('setState - applies any patternState matching the pattern', function(test) {
-  //arrange
-  var pa = require('../core/lib/pattern_assembler');
-  var pattern_assembler = new pa();
-  var patternlab = {};
-  patternlab.config = {};
-  patternlab.config.patternStates = {};
-  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
-
-  var pattern = {
-    patternPartial: "pages-homepage-emergency"
-  };
-
-  //act
-  pattern_assembler.setPatternState(pattern, patternlab);
-
-  //assert
-  test.equals(pattern.patternState, "inprogress");
-  test.end();
-});
-
-tap.test('setState - does not apply any patternState if nothing matches the pattern', function(test) {
-  //arrange
-  var pa = require('../core/lib/pattern_assembler');
-  var pattern_assembler = new pa();
-  var patternlab = {};
-  patternlab.config = {};
-  patternlab.config.patternStates = {};
-  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
-
-  var pattern = {
-    key: "pages-homepage",
-    patternState: ""
-  };
-
-  //act
-  pattern_assembler.setPatternState(pattern, patternlab);
-
-  //assert
-  test.equals(pattern.patternState, "");
-  test.end();
-});
-
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
   //arrange
   var diveSync = require('diveSync');
