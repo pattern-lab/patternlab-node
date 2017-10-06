@@ -20,7 +20,7 @@
     text-decoration: underline;
     display: inline-flex;
     align-items: center;
-    transition: color $pl-animate-quick ease;
+    transition: opacity $pl-animate-quick ease;
 
     &:hover, &:focus {
         opacity: 0.8;
