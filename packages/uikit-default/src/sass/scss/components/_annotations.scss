@@ -9,20 +9,24 @@
  * provide styles that help the user understand that annotations are available.
  * We do this with some cursor helpers and a
  */
-.has-annotation {
+.pl-has-annotation {
     cursor: help !important;
-    box-shadow: 0 0 10px $pl-color-gray-50;
+    outline: 1px dotted $pl-color-gray-50;
+    outline-offset: -4px;
+    transition: box-shadow $pl-animate-quick ease;
 
     a, input {
         cursor: help !important;
     }
 
     &:hover {
-        box-shadow: 0 0 10px $pl-color-black;
+        box-shadow: 0 0 3px $pl-color-gray-50;
     }
 
     &.active {
-        box-shadow: inset 0 0 20px $pl-color-gray-50;
+        box-shadow: inset 0 0 6px $pl-color-gray-70;
+        outline: 1px dotted $pl-color-gray-50;
+        outline-offset: -1px;
     }
 }
 
@@ -31,14 +35,14 @@
  * 1) Appears inside the iframe over any element that has an
  *    anootation attached to it. 
  */
-.annotation-tip {
+.pl-c-annotation-tip {
     display: flex !important;
     align-items: center;
     justify-content: center;
     width: 24px !important;
     height: 24px !important;
-    margin-top: -10px !important;
-    margin-left: -10px !important;
+    margin-top: 6px !important;
+    margin-left: 6px !important;
     border-radius: 50% !important;
     background: $pl-color-gray-87 !important;
     color: $pl-color-white !important;
@@ -116,7 +120,8 @@
     }
 
     &.pl-is-active {
-        background: rgba(255,255,255,0.15);
+        outline: 1px dotted $pl-color-gray-50;
+        outline-offset: -1px;
     }
 }
 
