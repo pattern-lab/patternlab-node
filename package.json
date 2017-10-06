@@ -1,7 +1,7 @@
 {
   "name": "patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
-  "version": "3.0.0",
+  "version": "3.0.0-alpha.1",
   "main": "./core/lib/patternlab.js",
   "dependencies": {
     "async": "^2.1.2",
@@ -54,7 +54,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint core/**/*.js",
-    "pretest" : "npm run lint",
+    "pretest": "npm run lint",
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },
   "engines": {
