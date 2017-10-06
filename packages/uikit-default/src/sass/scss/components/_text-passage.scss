@@ -8,7 +8,7 @@
  */
  .pl-c-text-passage {
 	font-size: $pl-font-size-sm-2;
-	line-height: 1.4;
+	line-height: 1.7;
 
 	p {
 		margin-top: 0;
@@ -19,8 +19,13 @@
 	 * Link within the text passage
 	 */
 	a {
-		color: inherit;
+		color: $pl-color-gray-50;
 		text-decoration: underline;
+		transition: color $pl-animate-quick ease;
+	
+		&:hover, &:focus {
+			opacity: 0.8;
+		}
 	}
 
 	/**
@@ -115,6 +120,5 @@
 
 	li {
 		margin-bottom: 0.5rem;
-		line-height: 1.6;
 	}
 }
