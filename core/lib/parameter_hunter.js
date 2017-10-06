@@ -279,6 +279,10 @@ const parameter_hunter = function () {
           console.log(err);
         }
 
+        // resolve any pattern links that might be present
+        paramData = pattern_assembler.parse_data_links_specific(patternlab, paramData, pattern.patternPartial)
+
+        //combine all data: GLOBAL DATA => PATTERN.JSON DATA => PARAMETER DATA
         let allData = _.merge(globalData, localData);
         allData = _.merge(allData, paramData);
 

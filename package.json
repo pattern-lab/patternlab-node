@@ -17,13 +17,12 @@
     "lodash": "~4.13.1",
     "markdown-it": "^6.0.1",
     "node-fetch": "^1.6.0",
-    "graphlib": "^2.1.1",
     "update-notifier": "^2.2.0"
   },
   "devDependencies": {
-    "eslint": "^3.5.0",
-    "rewire": "^2.5.2",
-    "tap": "^7.1.2"
+    "eslint": "3.5.0",
+    "rewire": "2.5.2",
+    "tap": "7.1.2"
   },
   "keywords": [
     "Pattern Lab",
