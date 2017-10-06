@@ -26,19 +26,24 @@
     }
 }
 
+/**
+ * Annotation tooltip
+ * 1) Appears inside the iframe over any element that has an
+ *    anootation attached to it. 
+ */
 .annotation-tip {
-    display: block;
-    position: absolute;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 24px !important;
+    height: 24px !important;
     margin-top: -10px !important;
     margin-left: -10px !important;
-    width: 25px !important;
-    height: 25px !important;
-    border-radius: 13px !important;
-    text-align: center !important;
-    background: #444 !important;
-    color: #fff !important;
-    font-weight: bold !important;
+    border-radius: 50% !important;
+    background: $pl-color-gray-87 !important;
+    color: $pl-color-white !important;
     font-size: 16px !important;
+    position: absolute;
     z-index: 100;
 }
 
@@ -56,8 +61,6 @@
  */
 .pl-c-annotations {
     margin: 1rem 0;
-    border-top: 1px solid $pl-color-gray-13;
-    padding-top: 0.5rem;
 }
 
 /**
@@ -65,19 +68,21 @@
  * Says the world "Annotations" 
  */
 .pl-c-annotations__title {
-    font-size: 1rem !important;
+    font-size: 1.2rem !important;
     margin: 0 0 0.5rem;
 }
 
 /**
  * Annotations list
  * 1) Ordered list of annotations 
+ * 2) Presented with parent selector to force styles
+ *    over pl-c-text-passage
  */
-.pl-c-annotations__list {
+.pl-c-annotations .pl-c-annotations__list {
+    counter-reset: the-count;
     padding: 0;
     margin: 0;
     list-style: none;
-    counter-reset: the-count;
 }
 
 /**
@@ -103,14 +108,18 @@
         border-radius: 50%;
         padding: 2px;
         text-align: center;
-        background: $pl-color-gray-20;
-        color: $pl-color-gray-87;
+        background: $pl-color-gray-50;
+        color: $pl-color-white;
         position: absolute;
-        top: 1px;
+        top: 4px;
         left: 0;
     }
 
     &.pl-is-active {
         background: rgba(255,255,255,0.15);
     }
+}
+
+.pl-c-annotations .pl-c-annotations__item-title {
+    margin-bottom: 0;
 }
