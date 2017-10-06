@@ -21,7 +21,7 @@
 	a {
 		color: $pl-color-gray-50;
 		text-decoration: underline;
-		transition: color $pl-animate-quick ease;
+		transition: opacity $pl-animate-quick ease;
 	
 		&:hover, &:focus {
 			opacity: 0.8;
@@ -41,15 +41,25 @@
 	blockquote {
 		padding-left: 0.8rem;
 		border-left: 3px solid inherit;
-	 }
+	}
+
+	/**
+	 * Horizontal rule
+	 */
+	hr {
+		height: 1px;
+		background: $pl-color-gray-50;
+		margin: 2rem 0;
+		border: 0;
+	}
 
 	 /**
 	  * First-level heading within text passage
 	  */
-	 h1 {
+	h1 {
          margin-bottom: 1rem;
          font-weight: normal;
-	 }
+	}
 
 	/**
 	 * Second-level heading within text passage
