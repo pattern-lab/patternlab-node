@@ -479,16 +479,21 @@ tap.test('processPatternRecursive - 685 ensure listitems data is used', function
   pattern_assembler.combine_listItems(pl);
 
   var listPatternPath = path.join('00-test', '685-list.mustache');
-  var listPattern = pattern_assembler.process_pattern_iterative(listPatternPath, pl);
+  var listPattern = pattern_assembler.load_pattern_iterative(listPatternPath, pl);
 
-  //act
-  pattern_assembler.process_pattern_recursive(listPatternPath, pl);
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(listPattern, pl)
+  ]).then((results) => {
 
-  //assert
-  test.true(listPattern.extendedTemplate.indexOf(1) > -1);
-  test.true(listPattern.extendedTemplate.indexOf(2) > -1);
-  test.true(listPattern.extendedTemplate.indexOf(3) > -1);
-  test.end();
+     //act
+    pattern_assembler.process_pattern_recursive(listPatternPath, pl);
+
+    //assert
+    test.true(results[0].extendedTemplate.indexOf(1) > -1);
+    test.true(results[0].extendedTemplate.indexOf(2) > -1);
+    test.true(results[0].extendedTemplate.indexOf(3) > -1);
+    test.end();
+  }).catch(test.threw);
 });
 
 tap.test('setState - applies any patternState matching the pattern', function(test) {
