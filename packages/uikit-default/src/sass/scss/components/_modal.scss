@@ -45,7 +45,7 @@
     cursor: pointer;
     position: absolute;
     right: 0;
-    top: 0.4rem;
+    top: 0;
     transition: all $pl-animate-quick ease-out;
 
     &:hover, &:focus {
@@ -64,8 +64,8 @@
  * 1) Displayed as an e
  */
 .pl-c-modal__close-btn-icon {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     color: currentColor;
     fill: currentColor;
     transition: fill $pl-animate-quick ease-out;
@@ -82,7 +82,7 @@
     overflow-x: hidden;
     padding: 1.5rem 1rem 1rem;
 
-    @media all and (min-width: $pl-bp-large) {
+    @media all and (min-width: $pl-bp-xl) {
         padding-left: 2rem;
         padding-right: 2rem;
     }
