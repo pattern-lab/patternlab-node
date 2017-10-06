@@ -39,13 +39,6 @@
     width: 10rem;
     border-bottom-left-radius: $pl-border-radius-med;
     border-bottom-right-radius: $pl-border-radius-med;
-
-    /**
-     * Tools dropdown list
-     */
-    &.pl-is-active {
-        overflow: visible;
-    }
 }
 
 /**
