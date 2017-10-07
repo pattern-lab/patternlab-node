@@ -10,13 +10,15 @@
 .pl-c-tabs {
     display: flex;
     flex-direction: column;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     width: 100%;
-    padding: 0.5rem;
+    padding: 0 0.5rem 0.5rem;
     background: $pl-color-white;
     border: 1px solid $pl-color-gray-13;
     border-radius: $pl-border-radius-med;
-    font: $pl-font !important;
+    font: $pl-font;
+    position: relative;
+    overflow: scroll;
 }
 
 /**
@@ -24,13 +26,16 @@
  * 1) A unordered list that contains the tab links
  */
 .pl-c-tabs__list {
-    overflow: hidden;
-    position: relative;
-    bottom: -1px;
-    list-style: none;
-    margin: 0.5rem 0 0.5rem 0.5rem;
-    padding: 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
     display: flex;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0 0 0;
+    background: $pl-color-white;
 }
 
 /**
@@ -42,6 +47,7 @@
     padding: 0.2rem 0.4rem;
     border: 1px solid transparent;
     border-radius: $pl-border-radius-med;
+    background: $pl-color-white;
     color: $pl-color-gray-50;
     cursor: pointer;
     text-decoration: none;
@@ -72,7 +78,8 @@
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
-    overflow: hidden;
+    overflow: scroll;
+    padding-top: 2.5rem;
 
     /**
      *  Tab content inside modal
