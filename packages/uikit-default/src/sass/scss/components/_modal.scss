@@ -78,8 +78,6 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
     padding: 1.5rem 1rem 1rem;
 
     @media all and (min-width: $pl-bp-xl) {

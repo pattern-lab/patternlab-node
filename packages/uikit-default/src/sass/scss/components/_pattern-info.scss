@@ -55,11 +55,16 @@
 
 /**
  * Pattern Code Panel
+ * 1) Cap the height of the code panel in the modal
  */
 .pl-c-pattern-info__panel--code {
 
     @media all and (min-width: $pl-bp-large) {
         width: 50%;
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto;
+        overflow: scroll;
     }
 
     @media all and (min-width: $pl-bp-xl) {

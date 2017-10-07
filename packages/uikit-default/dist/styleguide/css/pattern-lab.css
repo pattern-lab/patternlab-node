@@ -1082,10 +1082,22 @@
 
 /**
  * Pattern Code Panel
+ * 1) Cap the height of the code panel in the modal
  */
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel--code {
     width: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+    overflow: scroll;
   }
 }
 @media all and (min-width: 62em) {
@@ -1224,9 +1236,11 @@
 .pl-c-breadcrumb__item:after {
   content: '▶';
   opacity: 0.4;
-  font-size: 0.3rem;
+  font-size: 6px;
   display: inline-block;
-  margin: 0 0.3rem;
+  margin: 0 0.2rem;
+  position: relative;
+  top: -1px;
 }
 
 /*------------------------------------*\
@@ -1292,9 +1306,6 @@
    * 1) Note: the active tab color corresponds with the Prism code block
    *    background color, which is why it doesn't use a Sass variable
    */
-  /**
-   * Tab link inside modal
-   */
 }
 .pl-c-tabs__link:hover {
   color: #222;
@@ -1303,9 +1314,6 @@
   color: #222;
   background: #eee;
   border: 1px solid #ddd;
-}
-.pl-c-modal .pl-c-tabs__link {
-  border: 0;
 }
 
 /**
@@ -1323,7 +1331,7 @@
   -webkit-box-flex: 1;
       -ms-flex: 1 0 auto;
           flex: 1 0 auto;
-  overflow: auto;
+  overflow: hidden;
   /**
    *  Tab content inside modal
    */
@@ -1366,6 +1374,13 @@
   margin: 0;
   padding: 0;
   border: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+  overflow: scroll !important;
 }
 .pl-c-tabs__panel code[class*=language-] {
   background: transparent;
@@ -1731,8 +1746,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 1.5rem 1rem 1rem;
 }
 @media all and (min-width: 62em) {

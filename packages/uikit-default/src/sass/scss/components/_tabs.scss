@@ -62,13 +62,6 @@
         background: $pl-color-gray-07;
         border: 1px solid $pl-color-gray-13;
     }
-
-    /**
-     * Tab link inside modal
-     */
-    .pl-c-modal & {
-        border: 0;
-    }
 }
 
 /**
@@ -79,7 +72,7 @@
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
-    overflow: auto;
+    overflow: hidden;
 
     /**
      *  Tab content inside modal
@@ -117,6 +110,9 @@
         margin: 0;
         padding: 0;
         border: 0;
+        display: flex;
+        flex: 1 0 auto;
+        overflow: scroll !important;
     }
 
     code[class*=language-] {
