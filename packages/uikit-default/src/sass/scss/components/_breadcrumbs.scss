@@ -21,8 +21,10 @@
     &:after {
         content: '▶';
         opacity: 0.4;
-        font-size: 0.3rem;
+        font-size: 6px;
         display: inline-block;
-        margin: 0 0.3rem;
+        margin: 0 0.2rem;
+        position: relative;
+        top: -1px;
     }
 }
