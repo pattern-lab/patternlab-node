@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.10.0 - 2017
+ * patternlab-node - v3.0.0-alpha.1 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -12,7 +12,6 @@
 
 const diveSync = require('diveSync');
 const dive = require('dive');
-const glob = require('glob');
 const _ = require('lodash');
 const path = require('path');
 const chalk = require('chalk');
@@ -20,6 +19,7 @@ const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
+const dataLoader = require('./data_loader')();
 const plutils = require('./utilities');
 const jsonCopy = require('./json_copy');
 const PatternGraph = require('./pattern_graph').PatternGraph;
@@ -29,6 +29,7 @@ const sm = require('./starterkit_manager');
 const pe = require('./pattern_exporter');
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
+const updateNotifier = require('update-notifier');
 
 //these are mocked in unit tests, so let them be overridden
 let fs = require('fs-extra'); // eslint-disable-line
@@ -48,14 +49,20 @@ plutils.log.on('info', msg => console.log(msg));
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
 
+//bootstrap update notifier
+updateNotifier({
+  pkg: packageInfo,
+  updateCheckInterval: 1000 * 60 * 60 * 24 // notify at most once a day
+}).notify();
+
+/**
+ * Given a path, load info from the folder to compile into a single config object.
+ * @param dataFilesPath
+ * @param fsDep
+ * @returns {{}}
+ */
 function buildPatternData(dataFilesPath, fsDep) {
-  const dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
-  let mergeObject = {};
-  dataFiles.forEach(function (filePath) {
-    const jsonData = fsDep.readJSONSync(path.resolve(filePath), 'utf8');
-    mergeObject = _.merge(mergeObject, jsonData);
-  });
-  return mergeObject;
+  return dataLoader.loadDataFromFolder(dataFilesPath, 'listitems', fsDep);
 }
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
@@ -542,9 +549,9 @@ const patternlab_engine = function (config) {
       patternlab.data = {};
     }
     try {
-      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems'), fs);
     } catch (ex) {
-      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems file.  Pattern Lab may not work without this file.');
       patternlab.listitems = {};
     }
     try {

@@ -457,6 +457,45 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   test.end();
 });
 
+tap.test('processPatternRecursive - 685 ensure listitems data is used', function(test) {
+  //arrange
+  var pattern_assembler = new pa();
+  var util = require('./util/test_utils.js');
+  var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+  var pl = util.fakePatternLab(testPatternsPath);
+  pl.data.title = "0";
+  pl.listitems = {
+    "1": {
+      "title": "1"
+    },
+    "2": {
+      "title": "2"
+    },
+    "3": {
+      "title": "3"
+    }
+  };
+
+  pattern_assembler.combine_listItems(pl);
+
+  var listPatternPath = path.join('00-test', '685-list.mustache');
+  var listPattern = pattern_assembler.load_pattern_iterative(listPatternPath, pl);
+
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(listPattern, pl)
+  ]).then((results) => {
+
+     //act
+    pattern_assembler.process_pattern_recursive(listPatternPath, pl);
+
+    //assert
+    test.true(results[0].extendedTemplate.indexOf(1) > -1);
+    test.true(results[0].extendedTemplate.indexOf(2) > -1);
+    test.true(results[0].extendedTemplate.indexOf(3) > -1);
+    test.end();
+  }).catch(test.threw);
+});
+
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
   //arrange
   var diveSync = require('diveSync');

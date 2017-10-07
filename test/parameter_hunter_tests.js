@@ -3,7 +3,6 @@
 var tap = require('tap');
 var pa = require('../core/lib/pattern_assembler');
 var Pattern = require('../core/lib/object_factory').Pattern;
-var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
 var fs = require('fs-extra');
@@ -20,6 +19,7 @@ function currentPatternClosure() {
     "relPath": "02-organisms/02-comments/01-sticky-comment.mustache",
     "fileName": "01-sticky-comment",
     "subdir": "02-organisms/02-comments",
+    "verbosePartial": "02-organisms/02-comments/01-sticky-comment",
     "name": "02-organisms-02-comments-01-sticky-comment",
     "patternBaseName": "sticky-comment",
     "patternLink": "02-organisms-02-comments-01-sticky-comment/02-organisms-02-comments-01-sticky-comment.html",
@@ -43,6 +43,7 @@ function patternlabClosure() {
         "relPath": "01-molecules/06-components/02-single-comment.mustache",
         "fileName": "02-single-comment",
         "subdir": "01-molecules/06-components",
+        "verbosePartial": "01-molecules/06-components/02-single-comment",
         "name": "01-molecules-06-components-02-single-comment",
         "patternBaseName": "single-comment",
         "patternLink": "01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html",
@@ -59,12 +60,14 @@ function patternlabClosure() {
     },
     data: {
       description: 'Not a quote from a smart man',
-      link: {}
+      link: {
+        "molecules-single-comment": "01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html"
+      }
     },
     partials: {},
     graph: PatternGraph.empty()
-  }
-};
+  };
+}
 
 tap.test('parameter hunter finds and extends templates', function(test) {
   var currentPattern = currentPatternClosure();
@@ -399,6 +402,24 @@ tap.test('parameter hunter parses parameters containing html tags', function(tes
 
   parameter_hunter.find_parameters(currentPattern, patternlab);
   test.equals(currentPattern.extendedTemplate, '<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>');
+
+  test.end();
+});
+
+tap.test('parameter hunter expands links inside parameters', function (test) {
+  var currentPattern = currentPatternClosure();
+  var patternlab = patternlabClosure();
+  var parameter_hunter = new ph();
+
+  patternlab.patterns[0].template = '<a href="{{{ url }}}">{{ description }}</a>';
+  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+
+  currentPattern.template = "{{> molecules-single-comment(url: 'link.molecules-single-comment', description: 'Link to single comment') }}";
+  currentPattern.extendedTemplate = currentPattern.template;
+  currentPattern.parameteredPartials[0] = currentPattern.template;
+
+  parameter_hunter.find_parameters(currentPattern, patternlab);
+  test.equals(currentPattern.extendedTemplate, '<a href="01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html">Link to single comment</a>');
 
   test.end();
 });
