@@ -1,7 +1,7 @@
 "use strict";
 
 /*
- * mustache pattern engine for patternlab-node - v2.X.X - 2016
+ * mustache pattern engine for patternlab-node
  *
  * Geoffrey Pursell, Brian Muenzenmeyer, and the web community.
  * Licensed under the MIT license.
