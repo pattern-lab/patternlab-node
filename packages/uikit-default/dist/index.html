@@ -307,14 +307,16 @@
 <div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--code">
 
 	<div id="pl-{{ patternPartial }}-tabs" class="pl-c-tabs pl-js-tabs">
-		<ul class="pl-c-tabs__list">
-			{{# panels }}
-			<li class="pl-c-tabs__list-item">
-				<a class="pl-c-tabs__link pl-js-tab-link" href="#pl-{{ patternPartial }}-{{ id }}-panel" id="pl-{{ patternPartial }}-{{ id }}-tab"
-				    data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}">{{ name }}</a>
-			</li><!--end pl-c-tabs__list-item-->
-			{{/ panels }}
-		</ul><!--end pl-c-tabs__list-->
+		<div class="pl-c-tabs__header">
+			<ul class="pl-c-tabs__list">
+				{{# panels }}
+				<li class="pl-c-tabs__list-item">
+					<a class="pl-c-tabs__link pl-js-tab-link" href="#pl-{{ patternPartial }}-{{ id }}-panel" id="pl-{{ patternPartial }}-{{ id }}-tab"
+						data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}">{{ name }}</a>
+				</li><!--end pl-c-tabs__list-item-->
+				{{/ panels }}
+			</ul><!--end pl-c-tabs__list-->
+		</div><!--end pl-c-tabs__header-->
 
 		<div id="pl-{{ patternPartial }}-panels" class="pl-c-tabs__content">
 

@@ -14,7 +14,9 @@
     border-radius: $pl-border-radius-med;
     font: $pl-font;
     position: relative;
-    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
     /**
      * Tabs inside a code panel 
@@ -43,10 +45,6 @@
  * 1) A unordered list that contains the tab links
  */
 .pl-c-tabs__list {
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 2;
     display: flex;
     width: 100%;
     list-style: none;
@@ -92,7 +90,9 @@
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
+    flex: 1 0 auto;
     overflow: scroll;
+    height: 100%;
     padding-top: 0.5rem;
 
     /**
