@@ -1084,8 +1084,8 @@
   }
 }
 @media all and (min-width: 62em) {
-  .pl-c-pattern-info__panel {
-    padding: 2rem;
+  .pl-c-modal .pl-c-pattern-info__panel {
+    padding-left: 2rem;
   }
 }
 
@@ -1293,7 +1293,7 @@
   }
 }
 @media all and (min-width: 62em) {
-  .pl-c-pattern-info__panel--code .pl-c-tabs {
+  .pl-c-modal .pl-c-tabs {
     right: 2rem;
     left: 2rem;
   }
@@ -1563,11 +1563,14 @@
  * Annotation tooltip
  * 1) Appears inside the iframe over any element that has an
  *    anootation attached to it. 
+ * 2) Annotation tip gets dynamically set to `display: none` via
+ *    JavaScript
  */
 .pl-c-annotation-tip {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* 2 */
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

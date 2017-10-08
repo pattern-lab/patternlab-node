@@ -62,8 +62,10 @@
         right: 0;
     }
 
-    @media all and (min-width: $pl-bp-xl) {
-        padding: 2rem;
+    .pl-c-modal & {
+        @media all and (min-width: $pl-bp-xl) {
+            padding-left: 2rem;
+        }
     }
 }
 

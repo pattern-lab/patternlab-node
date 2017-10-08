@@ -28,7 +28,9 @@
             left: 1rem;
             right: 1rem;
         }
+    }
 
+    .pl-c-modal & {
         @media all and (min-width: $pl-bp-xl) {
             right: 2rem;
             left: 2rem;
