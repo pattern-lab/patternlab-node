@@ -18,6 +18,7 @@
  */
 .pl-c-tools__toggle {
     @include linkStyle();
+    margin: 0;
     padding-top: 0.6rem;
     padding-bottom: 0.5rem;
 
