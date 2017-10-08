@@ -119,6 +119,7 @@
     margin-bottom: $pl-space;
     overflow: hidden;
     max-height: 1px;
+    position: relative;
     transition: all $pl-animate-quick ease-out;
 
     &.pl-is-active {
@@ -126,5 +127,6 @@
         border-radius: $pl-border-radius-med;
         border-top-right-radius: 0;
         max-height: 150rem;
+        height: 30rem;
     }
 }

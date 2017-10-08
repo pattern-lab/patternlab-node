@@ -460,11 +460,6 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-@media all and (min-width: 42em) {
-  .pl-c-viewport-size__input {
-    width: 29px;
-  }
-}
 
 /**
 * Size input labels
@@ -957,6 +952,7 @@
   margin-bottom: 1rem;
   overflow: hidden;
   max-height: 1px;
+  position: relative;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
 }
@@ -965,6 +961,7 @@
   border-radius: 6px;
   border-top-right-radius: 0;
   max-height: 150rem;
+  height: 30rem;
 }
 
 /*------------------------------------*\
@@ -1035,9 +1032,6 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-flex: 1;
-        -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
   }
 }
 .pl-c-pattern__extra .pl-c-pattern-info {
@@ -1049,18 +1043,14 @@
  * 1) Individual panel. Left side contains pattern info
  *    Right side contains pattern code
  */
-.pl-c-pattern-info__panel {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  max-height: none;
-  padding: 0;
-}
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel {
     -webkit-box-flex: 1;
         -ms-flex: auto;
             flex: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
   }
 }
 
@@ -1069,15 +1059,15 @@
  */
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel--info {
-    width: 50%;
-    padding-right: 1rem;
+    left: 0;
+    right: 50%;
+    padding: 1rem;
     overflow: scroll;
   }
 }
 @media all and (min-width: 62em) {
   .pl-c-pattern-info__panel--info {
-    padding-right: 2rem;
-    width: 45%;
+    right: 55%;
   }
 }
 
@@ -1087,23 +1077,13 @@
  */
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel--code {
-    width: 50%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-flex: 1;
-        -ms-flex: 1 0 auto;
-            flex: 1 0 auto;
-    overflow: hidden;
+    right: 0;
+    left: 50%;
   }
 }
 @media all and (min-width: 62em) {
   .pl-c-pattern-info__panel--code {
-    width: 55%;
+    left: 45%;
   }
 }
 
@@ -1253,17 +1233,6 @@
  *    the corresponding panel becomes visible
  */
 .pl-c-tabs {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  width: 100%;
   padding: 0 0.5rem 0.5rem;
   background: #fff;
   border: 1px solid #ddd;
@@ -1271,6 +1240,16 @@
   font: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   position: relative;
   overflow: scroll;
+  /**
+   * Tabs inside a code panel 
+   */
+}
+.pl-c-pattern-info__panel--code .pl-c-tabs {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
 }
 
 /**
@@ -1289,7 +1268,7 @@
   width: 100%;
   list-style: none;
   margin: 0;
-  padding: 0.5rem 0 0 0;
+  padding: 0.5rem 0;
   background: #fff;
 }
 
@@ -1329,18 +1308,8 @@
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
   overflow: scroll;
-  padding-top: 2.5rem;
+  padding-top: 0.5rem;
   /**
    *  Tab content inside modal
    */
@@ -1359,37 +1328,19 @@
   position: relative;
   min-height: 12rem;
   /**
-   * Active tab panel
-   */
-  /**
    * Tab code
    * 1) Targeting pre tag in here as Prism is being used for the majority of the styles
    */
 }
 .pl-c-tabs__panel.pl-is-active-tab {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
+  display: block;
 }
 .pl-c-tabs__panel pre[class*=language-], .pl-c-tabs__panel :not(pre) > code[class*="language-"], .pl-c-tabs__panel pre[class*="language-"] {
   background: transparent;
   margin: 0;
   padding: 0;
   border: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
-  overflow: scroll !important;
+  display: block;
 }
 .pl-c-tabs__panel code[class*=language-] {
   background: transparent;
@@ -1706,19 +1657,24 @@
  */
 .pl-c-modal__close-btn {
   font-size: 70%;
-  background: transparent;
+  background: #000;
   color: #808080;
   border: 0;
-  border-radius: 6px;
+  border-radius: 6px 6px 0 0;
   display: inline-block;
   padding: 0.5rem 0.5rem 0.3rem;
   text-decoration: none;
   cursor: pointer;
   position: absolute;
   right: 0;
-  top: 0;
+  bottom: 0;
+  z-index: 2;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
+  /**
+   * Modal close button inside active modal
+   * 1) Move modal button outside of the modal window
+   */
 }
 .pl-c-modal__close-btn:hover, .pl-c-modal__close-btn:focus {
   background: #222;
@@ -1727,6 +1683,10 @@
 .pl-c-modal__close-btn:focus, .pl-c-modal__close-btn:active {
   outline: 1px dotted #808080;
   outline-offset: -2px;
+}
+.pl-c-modal.pl-is-active .pl-c-modal__close-btn {
+  bottom: 100%;
+  /* 1 */
 }
 
 /**
@@ -1740,29 +1700,6 @@
   fill: currentColor;
   -webkit-transition: fill 0.1s ease-out;
           transition: fill 0.1s ease-out;
-}
-
-/**
- * Modal Content
- */
-.pl-c-modal__content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  padding: 1.5rem 1rem 1rem;
-}
-@media all and (min-width: 62em) {
-  .pl-c-modal__content {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
 }
 
 /*------------------------------------*\

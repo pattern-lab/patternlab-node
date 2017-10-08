@@ -35,17 +35,18 @@
  */
 .pl-c-modal__close-btn {
     font-size: 70%;
-    background: transparent;
+    background: $pl-color-black;
     color: $pl-color-gray-50;
     border: 0;
-    border-radius: $pl-border-radius-med;
+    border-radius: $pl-border-radius-med $pl-border-radius-med 0 0;
     display: inline-block;
     padding: 0.5rem 0.5rem 0.3rem;
     text-decoration: none;
     cursor: pointer;
     position: absolute;
     right: 0;
-    top: 0;
+    bottom: 0;
+    z-index: 2;
     transition: all $pl-animate-quick ease-out;
 
     &:hover, &:focus {
@@ -56,6 +57,14 @@
     &:focus, &:active {
         outline: 1px dotted $pl-color-gray-50;
         outline-offset: -2px;
+    }
+
+    /**
+     * Modal close button inside active modal
+     * 1) Move modal button outside of the modal window
+     */
+    .pl-c-modal.pl-is-active & {
+        bottom: 100%; /* 1 */
     }
 }
 
@@ -69,19 +78,4 @@
     color: currentColor;
     fill: currentColor;
     transition: fill $pl-animate-quick ease-out;
-}
-
-/**
- * Modal Content
- */
-.pl-c-modal__content {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-    padding: 1.5rem 1rem 1rem;
-
-    @media all and (min-width: $pl-bp-xl) {
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
 }
