@@ -1,5 +1,5 @@
-Contributing to Patternlab Node
-===============================
+Contributing to Pattern Lab Node
+================================
 
 If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.
 
