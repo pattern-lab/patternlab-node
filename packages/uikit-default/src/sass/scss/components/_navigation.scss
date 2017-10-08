@@ -73,18 +73,6 @@
 }
 
 /**
- * States
- */
-.pl-c-nav__link--state-inreview {
-    &:after {
-        content: "o"; //TODO
-        color: yellow; //TODO
-        display: inline-block;
-        margin-left: 0.3rem;
-    }
-}
-
-/**
 * Nav link
 */
 .pl-c-nav__link--dropdown {
@@ -98,7 +86,7 @@
         display: inline-block;
         font-size: 7px;
         position: relative;
-        top: 2px;
+        top: 1px;
         right: -2px;
         transition: all $pl-animate-quick ease-out;
     }
@@ -120,7 +108,6 @@
         * Caret rotation and positioning in active dropdown
         */
         &:after {
-            top: 2px;
             color: $pl-color-gray-50;
             -webkit-transform: rotate(180deg);
             -ms-transform: rotate(180deg);

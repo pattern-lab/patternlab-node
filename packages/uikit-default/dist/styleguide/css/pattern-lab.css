@@ -303,16 +303,6 @@
 }
 
 /**
- * States
- */
-.pl-c-nav__link--state-inreview:after {
-  content: "o";
-  color: yellow;
-  display: inline-block;
-  margin-left: 0.3rem;
-}
-
-/**
 * Nav link
 */
 .pl-c-nav__link--dropdown {
@@ -329,7 +319,7 @@
   display: inline-block;
   font-size: 7px;
   position: relative;
-  top: 2px;
+  top: 1px;
   right: -2px;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
@@ -345,7 +335,6 @@
   */
 }
 .pl-c-nav__link--dropdown.pl-is-active:after {
-  top: 2px;
   color: #808080;
   -webkit-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
@@ -438,17 +427,19 @@
 */
 .pl-c-viewport-size__input {
   padding: 0.1rem;
+  margin: 0;
   border: 0;
-  line-height: 1;
   border-radius: 3px;
   background: transparent;
   color: #808080;
   width: 35px;
   text-align: right;
-  position: relative;
-  top: 1px;
   -webkit-transition: all 0.1s ease-out;
           transition: all 0.1s ease-out;
+}
+.pl-c-viewport-size__input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
 }
 .pl-c-viewport-size__input:hover {
   color: #fff;
@@ -466,8 +457,8 @@
 */
 .pl-c-viewport-size__label {
   display: block;
-  padding: 0.1rem 0;
-  line-height: 1;
+  margin: 0;
+  padding: 0;
 }
 
 /**
