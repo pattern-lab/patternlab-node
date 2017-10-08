@@ -20,11 +20,19 @@
      * Tabs inside a code panel 
      */
     .pl-c-pattern-info__panel--code & {
-        position: absolute;
-        top: 1rem;
-        bottom: 1rem;
-        left: 1rem;
-        right: 1rem;
+
+        @media all and (min-width: $pl-bp-large) {
+            position: absolute;
+            top: 1rem;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+        }
+
+        @media all and (min-width: $pl-bp-xl) {
+            right: 2rem;
+            left: 2rem;
+        }
     }
 }
 

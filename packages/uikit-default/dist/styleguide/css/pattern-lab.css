@@ -605,6 +605,7 @@
   /**
    * Header link styles inside light theme
    */
+  margin: 0;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
 }
@@ -961,7 +962,6 @@
   border-radius: 6px;
   border-top-right-radius: 0;
   max-height: 150rem;
-  height: 30rem;
 }
 
 /*------------------------------------*\
@@ -1024,7 +1024,10 @@
  */
 .pl-c-pattern-info {
   /**
-   * Pattern Info inside a view all pattern 
+   *  Pattern info inside the "view all" template
+   */
+  /**
+   *  Pattern info inside modal
    */
 }
 @media all and (min-width: 53em) {
@@ -1034,8 +1037,30 @@
     display: flex;
   }
 }
-.pl-c-pattern__extra .pl-c-pattern-info {
-  padding: 1rem;
+.pl-c-pattern .pl-c-pattern-info {
+  max-height: 20rem;
+  overflow: scroll;
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern .pl-c-pattern-info {
+    max-height: none;
+    height: 18rem;
+    overflow: visible;
+  }
+}
+.pl-c-modal .pl-c-pattern-info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: scroll;
+}
+@media all and (min-width: 53em) {
+  .pl-c-modal .pl-c-pattern-info {
+    position: static;
+    overflow: visible;
+  }
 }
 
 /**
@@ -1043,6 +1068,9 @@
  * 1) Individual panel. Left side contains pattern info
  *    Right side contains pattern code
  */
+.pl-c-pattern-info__panel {
+  padding: 1rem;
+}
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel {
     -webkit-box-flex: 1;
@@ -1051,17 +1079,24 @@
     position: absolute;
     top: 0;
     bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-pattern-info__panel {
+    padding: 2rem;
   }
 }
 
 /**
  * Pattern Info Panel
+ * 1) Left panel that contains pattern title, lineage, description, annotations
  */
 @media all and (min-width: 53em) {
   .pl-c-pattern-info__panel--info {
     left: 0;
     right: 50%;
-    padding: 1rem;
     overflow: scroll;
   }
 }
@@ -1073,16 +1108,20 @@
 
 /**
  * Pattern Code Panel
+ * 1) Right panel that displays the pattern's code (found in _tabs.scss)
+ * 2) Using a sibling selector because the pattern info isn't always present.
+ *    The sibling selector allows the code panel to occupy the full width of 
+ *    the 
  * 1) Cap the height of the code panel in the modal
  */
 @media all and (min-width: 53em) {
-  .pl-c-pattern-info__panel--code {
+  .pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
     right: 0;
     left: 50%;
   }
 }
 @media all and (min-width: 62em) {
-  .pl-c-pattern-info__panel--code {
+  .pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
     left: 45%;
   }
 }
@@ -1244,12 +1283,20 @@
    * Tabs inside a code panel 
    */
 }
-.pl-c-pattern-info__panel--code .pl-c-tabs {
-  position: absolute;
-  top: 1rem;
-  bottom: 1rem;
-  left: 1rem;
-  right: 1rem;
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel--code .pl-c-tabs {
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-pattern-info__panel--code .pl-c-tabs {
+    right: 2rem;
+    left: 2rem;
+  }
 }
 
 /**
@@ -1381,6 +1428,7 @@
   /**
    * Header link styles inside light theme
    */
+  margin: 0;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
 }
@@ -1663,6 +1711,7 @@
   border-radius: 6px 6px 0 0;
   display: inline-block;
   padding: 0.5rem 0.5rem 0.3rem;
+  margin: 0;
   text-decoration: none;
   cursor: pointer;
   position: absolute;
