@@ -280,6 +280,8 @@ var parameter_hunter = function () {
           console.log(err);
         }
 
+        paramData = pattern_assembler.parse_data_links_specific(patternlab, paramData, pattern.patternPartial)
+
         var allData = plutils.mergeData(globalData, localData);
         allData = plutils.mergeData(allData, paramData);
 
