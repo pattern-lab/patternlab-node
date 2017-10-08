@@ -1089,6 +1089,7 @@
     left: 0;
     right: 50%;
     overflow: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
   }
 }
 @media all and (min-width: 62em) {
@@ -1352,6 +1353,7 @@
       -ms-flex: 1 0 auto;
           flex: 1 0 auto;
   overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
   height: 100%;
   padding-top: 0.5rem;
   /**

@@ -79,6 +79,7 @@
         left: 0;
         right: 50%;
         overflow: scroll;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 
     @media all and (min-width: $pl-bp-xl) {

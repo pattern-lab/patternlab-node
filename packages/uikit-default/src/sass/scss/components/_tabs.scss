@@ -92,6 +92,7 @@
 .pl-c-tabs__content {
     flex: 1 0 auto;
     overflow: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
     height: 100%;
     padding-top: 0.5rem;
 
