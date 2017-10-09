@@ -1,84 +1,88 @@
 /*------------------------------------*\
-    #TWITTER
+    #TWITTER TYPEAHEAD
 \*------------------------------------*/
-
 /**
-* Using Twitter Typeahead to autocomplete pattern
-* searches. https://twitter.github.io/typeahead.js/
+ * Using Twitter Typeahead to autocomplete pattern
+ * searches. https://twitter.github.io/typeahead.js/
+ * 1) Wrapped in pl-c-header to contain styles for projects that 
+ *    might be using Typeahead in their own projects
 */
 
-.twitter-typeahead {
-    width: 100%;
-}
+.pl-c-header {
+    
+    .twitter-typeahead {
+        width: 100%;
+    }
 
-/**
- * Typeahead input
- * 1) the primary DOM element that initiates the JS library 
- */
-.pl-c-typeahead {
-    border: 0;
-    background: $pl-color-gray-87 !important;
-    color: $pl-color-gray-50;
-    width: 100%;
-    right: 0;
-    padding: 0.61rem 0.5rem;
+    /**
+    * Typeahead input
+    * 1) the primary DOM element that initiates the JS library 
+    */
+    .pl-c-typeahead {
+        border: 0;
+        background: $pl-color-gray-87 !important;
+        color: $pl-color-gray-50;
+        width: 100%;
+        right: 0;
+        padding: 0.61rem 0.5rem;
 
-    &:focus {
+        &:focus {
+            background: $pl-color-gray-50;
+            color: $pl-color-white;
+        }
+    }
+
+    .tt-input {
         background: $pl-color-gray-50;
         color: $pl-color-white;
-    }
-}
 
-.tt-input {
-    background: $pl-color-gray-50;
-    color: $pl-color-white;
-
-    &:hover {
-        color: $pl-color-white;
-        background: $pl-color-gray-87 !important;
-
-        &::-webkit-input-placeholder {
+        &:hover {
             color: $pl-color-white;
+            background: $pl-color-gray-87 !important;
+
+            &::-webkit-input-placeholder {
+                color: $pl-color-white;
+            }
+
+            &::-moz-input-placeholder {
+                color: $pl-color-white;
+            }
         }
 
-        &::-moz-input-placeholder {
+        &:focus {
+            border-radius: 0;
+            text-transform: lowercase;
             color: $pl-color-white;
+            background: $pl-color-gray-87;
+            outline: 1px dotted $pl-color-gray-50;
+            outline-offset: -1px;
         }
     }
 
-    &:focus {
-        border-radius: 0;
+    .tt-hint {
         text-transform: lowercase;
-        color: $pl-color-white;
-        background: $pl-color-gray-87;
-        outline: 1px dotted $pl-color-gray-50;
-        outline-offset: -1px;
     }
-}
 
-.tt-hint {
-    text-transform: lowercase;
-}
+    .tt-dropdown-menu {
+        text-transform: lowercase;
+        background-color: $pl-color-gray-50;
+        width: 100%;
+        border-bottom-right-radius: $pl-border-radius-med;
+        border-bottom-left-radius: $pl-border-radius-med;
+    }
 
-.tt-dropdown-menu {
-    text-transform: lowercase;
-    background-color: $pl-color-gray-50;
-    width: 100%;
-    border-bottom-right-radius: $pl-border-radius-med;
-    border-bottom-left-radius: $pl-border-radius-med;
-}
+    .tt-suggestion {
+        color: $pl-color-gray-07;
+        font-size: $pl-font-size-sm;
+        padding: 0.8em;
+    }
 
-.tt-suggestion {
-    color: $pl-color-gray-07;
-    font-size: $pl-font-size-sm;
-    padding: 0.8em;
-}
+    .tt-suggestion.tt-cursor {
+        color: $pl-color-white;
+        background: $pl-color-trans-white-25;
+    }
 
-.tt-suggestion.tt-cursor {
-    color: $pl-color-white;
-    background: $pl-color-trans-white-25;
-}
-
-.tt-suggestion p {
-    margin: 0;
+    .tt-suggestion p {
+        margin: 0;
+    }
 }

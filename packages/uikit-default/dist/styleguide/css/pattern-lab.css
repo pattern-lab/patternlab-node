@@ -1893,21 +1893,24 @@
     #VENDOR
 \*------------------------------------*/
 /*------------------------------------*\
-    #TWITTER
+    #TWITTER TYPEAHEAD
 \*------------------------------------*/
 /**
-* Using Twitter Typeahead to autocomplete pattern
-* searches. https://twitter.github.io/typeahead.js/
+ * Using Twitter Typeahead to autocomplete pattern
+ * searches. https://twitter.github.io/typeahead.js/
+ * 1) Wrapped in pl-c-header to contain styles for projects that 
+ *    might be using Typeahead in their own projects
 */
-.twitter-typeahead {
+.pl-c-header {
+  /**
+  * Typeahead input
+  * 1) the primary DOM element that initiates the JS library 
+  */
+}
+.pl-c-header .twitter-typeahead {
   width: 100%;
 }
-
-/**
- * Typeahead input
- * 1) the primary DOM element that initiates the JS library 
- */
-.pl-c-typeahead {
+.pl-c-header .pl-c-typeahead {
   border: 0;
   background: #222 !important;
   color: #808080;
@@ -1915,26 +1918,25 @@
   right: 0;
   padding: 0.61rem 0.5rem;
 }
-.pl-c-typeahead:focus {
+.pl-c-header .pl-c-typeahead:focus {
   background: #808080;
   color: #fff;
 }
-
-.tt-input {
+.pl-c-header .tt-input {
   background: #808080;
   color: #fff;
 }
-.tt-input:hover {
+.pl-c-header .tt-input:hover {
   color: #fff;
   background: #222 !important;
 }
-.tt-input:hover::-webkit-input-placeholder {
+.pl-c-header .tt-input:hover::-webkit-input-placeholder {
   color: #fff;
 }
-.tt-input:hover::-moz-input-placeholder {
+.pl-c-header .tt-input:hover::-moz-input-placeholder {
   color: #fff;
 }
-.tt-input:focus {
+.pl-c-header .tt-input:focus {
   border-radius: 0;
   text-transform: lowercase;
   color: #fff;
@@ -1942,31 +1944,26 @@
   outline: 1px dotted #808080;
   outline-offset: -1px;
 }
-
-.tt-hint {
+.pl-c-header .tt-hint {
   text-transform: lowercase;
 }
-
-.tt-dropdown-menu {
+.pl-c-header .tt-dropdown-menu {
   text-transform: lowercase;
   background-color: #808080;
   width: 100%;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
 }
-
-.tt-suggestion {
+.pl-c-header .tt-suggestion {
   color: #eee;
   font-size: 0.7rem;
   padding: 0.8em;
 }
-
-.tt-suggestion.tt-cursor {
+.pl-c-header .tt-suggestion.tt-cursor {
   color: #fff;
   background: rgba(255, 255, 255, 0.25);
 }
-
-.tt-suggestion p {
+.pl-c-header .tt-suggestion p {
   margin: 0;
 }
 
