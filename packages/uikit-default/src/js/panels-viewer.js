@@ -60,7 +60,7 @@ var panelsViewer = {
 
 			// catch pattern panel since it doesn't have a name defined by default
 			if (panel.name === undefined) {
-				panel.name = patternData.patternExtension;
+				panel.name = patternData.patternEngineName || patternData.patternExtension;
 		        panel.language = patternData.patternExtension;
 			}
 

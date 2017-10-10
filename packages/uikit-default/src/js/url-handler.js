@@ -70,7 +70,7 @@ var urlHandler = {
 		}
 
 		var regex = /\//g;
-		if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
+		if ((name.indexOf("viewall-") !== -1) && (name.indexOf("viewall-") === 0) && (fileName !== "")) {
 			fileName = baseDir + "/" + fileName.replace(regex, "-") + "/index.html";
 		} else if (fileName !== "") {
 			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-");
