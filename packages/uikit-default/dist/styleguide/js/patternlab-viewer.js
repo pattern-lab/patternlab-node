@@ -255,7 +255,7 @@ var urlHandler = {
 		}
 
 		var regex = /\//g;
-		if ((name.indexOf("viewall-") != -1) && (fileName !== "")) {
+		if ((name.indexOf("viewall-") !== -1) && (name.indexOf("viewall-") === 0) && (fileName !== "")) {
 			fileName = baseDir + "/" + fileName.replace(regex, "-") + "/index.html";
 		} else if (fileName !== "") {
 			fileName = baseDir+"/"+fileName.replace(regex,"-")+"/"+fileName.replace(regex,"-");
@@ -951,7 +951,7 @@ var panelsViewer = {
 
 			// catch pattern panel since it doesn't have a name defined by default
 			if (panel.name === undefined) {
-				panel.name = patternData.patternExtension;
+				panel.name = patternData.patternEngineName || patternData.patternExtension;
 		        panel.language = patternData.patternExtension;
 			}
 
@@ -1380,10 +1380,26 @@ window.addEventListener("message", receiveIframeMessage, false);
 (function (w) {
 
 	var sw = document.body.clientWidth, //Viewport Width
-		sh = $(document).height(), //Viewport Height
-		minViewportWidth = parseInt(config.ishMinimum), //Minimum Size for Viewport
-		maxViewportWidth = parseInt(config.ishMaximum), //Maxiumum Size for Viewport
-		viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
+		sh = $(document).height(); //Viewport Height
+
+		var minViewportWidth = 240;
+		var maxViewportWidth = 2600;
+
+		//set minimum and maximum viewport based on confg
+		if (config.ishMinimum !== undefined) {
+			minViewportWidth = parseInt(config.ishMinimum); //Minimum Size for Viewport
+		}
+		if (config.ishMaximum !== undefined) {
+			maxViewportWidth = parseInt(config.ishMaximum); //Maxiumum Size for Viewport
+		}
+	
+		//alternatively, use the ishViewportRange object
+		if (config.ishViewportRange !== undefined) {
+			minViewportWidth = config.ishViewportRange.s[0];
+			maxViewportWidth = config.ishViewportRange.l[1];
+		}
+	
+		var viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
 		$sgIframe = $('.pl-js-iframe'), //Viewport element
 		$sizePx = $('#pl-size-px'), //Px size input element in toolbar
 		$sizeEms = $('#pl-size-em'), //Em size input element in toolbar
@@ -1453,7 +1469,10 @@ window.addEventListener("message", receiveIframeMessage, false);
 		killDisco();
 		killHay();
 		fullMode = false;
-		sizeiframe(getRandom(500, 800));
+		sizeiframe(getRandom(
+			minViewportWidth,
+			config.ishViewportRange !== undefined ? parseInt(config.ishViewportRange.s[1]) : 500
+		));
 	}
 
 	$('#pl-size-m').on("click", function (e) {
@@ -1471,7 +1490,10 @@ window.addEventListener("message", receiveIframeMessage, false);
 		killDisco();
 		killHay();
 		fullMode = false;
-		sizeiframe(getRandom(800, 1200));
+		sizeiframe(getRandom(
+			config.ishViewportRange !== undefined ? parseInt(config.ishViewportRange.l[0]) : 800,
+			config.ishViewportRange !== undefined ? parseInt(config.ishViewportRange.l[1]) : 1200
+		));
 	}
 
 	$('#pl-size-l').on("click", function (e) {
