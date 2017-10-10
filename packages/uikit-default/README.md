@@ -6,9 +6,14 @@
 This code is responsible for creating Pattern Lab's UI look, feel, and functionality. These assets are are meant to be used in conjunction with the default [Mustache](https://github.com/pattern-lab/styleguidekit-mustache-default) and [Twig](https://github.com/pattern-lab/styleguidekit-twig-default) StyleguideKits, which control Pattern Lab-specific UI _inside_ the iframe.
 
 ## Installation
+
+### Node
 Pattern Lab Node uses [npm](https://www.npmjs.com/) to manage project dependencies. To install the default static assets run:
 
     npm install styleguidekit-assets-default
+
+
+### PHP 
 
 Pattern Lab PHP uses [Composer](https://getcomposer.org/) to manage project dependencies. To install the default static assets run:
 
@@ -25,21 +30,4 @@ In order to modify these assets you need to install the following:
 	
 ## Development Set-up
 
-Once you've installed the requirements do the following to set-up for development:
-
-1. `cd /path/to/dev-edition/packages/pattern-lab/styleguidekit-assets-default`
-2. `git config branch.dev.remote origin`
-3. `npm install`
-4. `bower install`
-
-## Making Changes
-
-To make changes **always edit files in `src/`**. To make sure that these changes are reflected in the front-end and `dist/` folder run the following:
-
-    gulp --copy-dist=../../../public
-
-To watch for changes you can use:
-
-    gulp --watch --copy-dist=../../../public
-
-At this point changes to the static assets should compile to the correct locations in the project as well as `dist/`.
+Read the [contribution guidelines](https://github.com/pattern-lab/styleguidekit-assets-default/blob/master/.github/CONTRIBUTING.md)
