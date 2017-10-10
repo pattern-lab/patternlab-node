@@ -1,4 +1,4 @@
-![license](https://img.shields.io/github/license/pattern-lab/styleguidekit-assets-default.svg)
+![license](https://img.shields.io/github/license/pattern-lab/styleguidekit-assets-default.svg) ![current release](https://img.shields.io/github/release/pattern-lab/styleguidekit-assets-default.svg)
 [![Packagist](https://img.shields.io/packagist/v/pattern-lab/styleguidekit-assets-default.svg)](https://packagist.org/packages/pattern-lab/styleguidekit-assets-default) [![Gitter](https://img.shields.io/gitter/room/pattern-lab/frontend-viewer.svg)](https://gitter.im/pattern-lab/frontend-viewer)
 
 # Static Assets for the Default StyleguideKit
