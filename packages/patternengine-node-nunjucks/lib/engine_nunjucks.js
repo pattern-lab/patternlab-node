@@ -59,16 +59,16 @@ var engine_nunjucks = {
   renderPattern: function renderPattern(pattern, data) {
     // replace pattern names with their full path so Nunjucks can find them.
     pattern.extendedTemplate = this.replacePartials(pattern);
-    // var result = nunjucks.renderString(pattern.extendedTemplate, data);
-    var result = nunjucks.compile(pattern.extendedTemplate, env).render(data);
+    var result = nunjucks.renderString(pattern.extendedTemplate, data);
+    // var result = nunjucks.compile(pattern.extendedTemplate, env).render(data);
     return result;
   },
 
   // find and return any Nunjucks style includes/imports/extends within pattern
   // EXAMPLES OF NUNJUCKS STYLE PARTIAL INCLUDES
   // {% include "atoms-parent" %} [WORKS]
-  // {% include 'atoms-parent' %}
-  // {% include "atoms-parent" ignore missing %}
+  // {% include 'atoms-parent' %} [WORKS]
+  // {% include "atoms-parent" ignore missing %} [WORKS]
   // {% import "atoms-parent" as forms %} [WORKS]
   // {% from "atoms-parent" import field, label as description %} [WORKS]
   // {% extends "atoms-parent" %} [WORKS]
@@ -76,15 +76,13 @@ var engine_nunjucks = {
   // {% extends name + ".njk" %}
   findPartials: function findPartials(pattern) {
     var matches = pattern.template.match(this.findPartialsRE);
-    console.log('Matches: ' + matches);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and return it.
   findPartial: function (partialString) {
     var partial = partialString.match(this.findPartialKeyRE)[1];
-    partial = partial.replace(/"/g, '');
-    console.log('Partial: ' + partial);
+    partial = partial.replace(/["']/g, '');
     return partial;
   },
 
