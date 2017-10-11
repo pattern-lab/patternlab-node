@@ -4,8 +4,6 @@
   - Look into if we need to handle partials in the render method
   - Add try catch blocks to prevent Pl from crashing
   - Test methods of including files
-  - Add a way to extend the Nunjucks instance from the PL instance
-    - This could be used to add our lodash filters. That way we're seperating concerns properly and making the engine more flexible.
   - Compare features and syntax with the mustache version so we can document
   - Document and submit to PatternLab
 */
@@ -15,21 +13,23 @@
 var path = require('path'),
   plPath = process.cwd(),
   plConfig = require(path.join(plPath, 'patternlab-config.json')),
-  _shuffle = require('lodash/shuffle'),
-  _take = require('lodash/take'),
   nunjucks = require('nunjucks'),
   env = nunjucks.configure(plConfig.paths.source.patterns),
   partialRegistry = [];
 
 
 ////////////////////////////
-// NUNJUCKS CUSTOMIZATIONS
+// LOAD ANY USER NUNJUCKS CONFIGURATIONS
 ////////////////////////////
-env.addFilter('shorten', function (str, count) {
-  return str.slice(0, count || 5);
-});
-env.addFilter('shuffle', (arr) => _shuffle(arr));
-env.addFilter('take', (arr, number) => _take(arr, number));
+try {
+  var nunjucksConfig = require(path.join(plPath, 'patternlab-nunjucks-config.js'));
+  if (typeof nunjucksConfig == 'function') {
+    nunjucksConfig(nunjucks, env);
+  }
+}
+catch (err) {
+  console.log('Cannot find module \'patternlab-nunjucks-config.js\'');
+}
 
 
 ////////////////////////////

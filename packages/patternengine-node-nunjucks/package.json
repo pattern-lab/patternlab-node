@@ -26,7 +26,6 @@
   "deprecated": false,
   "description": "The nunjucks engine for Pattern Lab / Node",
   "dependencies": {
-    "lodash": "^4.17.4",
     "nunjucks": "^3.0.1"
   },
   "devDependencies": {},
