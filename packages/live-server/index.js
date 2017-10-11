@@ -382,7 +382,27 @@ LiveServer.start = function(options) {
 		.on("error", function (err) {
 			console.log("ERROR:".red, err);
 		});
-
+	
+	LiveServer.refreshCSS = function () {
+		if (clients.length) {
+			clients.forEach(function(ws) {
+				if (ws) {
+					ws.send('refreshcss');
+				}
+			});
+		}
+	};
+	
+	LiveServer.reload = function () {
+		if (clients.length) {
+			clients.forEach(function (ws) {
+				if (ws) {
+					ws.send('reload');
+				}
+			});
+		}
+	};
+	
 	return server;
 };
 
