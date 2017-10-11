@@ -4,6 +4,8 @@
   - Look into if we need to handle partials in the render method
   - Add try catch blocks to prevent Pl from crashing
   - Test methods of including files
+  - Add a way to extend the Nunjucks instance from the PL instance
+    - This could be used to add our lodash filters. That way we're seperating concerns properly and making the engine more flexible.
   - Compare features and syntax with the mustache version so we can document
   - Document and submit to PatternLab
 */
