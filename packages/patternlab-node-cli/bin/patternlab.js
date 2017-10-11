@@ -5,6 +5,7 @@ const build = require('./cli-actions/build');
 const help = require('./cli-actions/help');
 const version = require('./cli-actions/version');
 const init = require('./cli-actions/init');
+const install = require('./cli-actions/install');
 const exportPatterns = require('./cli-actions/export');
 const serve = require('./cli-actions/serve');
 const error = require('./utils').error;
@@ -22,6 +23,9 @@ const silenceLogs = () => {
 	log.removeAllListeners('patternlab.debug');
 	log.removeAllListeners('patternlab.error');
 };
+
+// Split strings into an array
+const list = val => val.split(',');
 
 /**
  * Hook up cli version, usage and options
@@ -65,6 +69,18 @@ cli
 	.option('-e, --edition <name>', 'Specify an edition to install')
 	.option('-k, --starterkit <name>', 'Specify a starterkit to install')
 	.action(init);
+
+/**
+ * install
+ * @desc Installs Pattern Lab related modules like starterkits or plugins
+ */
+cli
+	.command('install')
+	.alias('add')
+	.description('Installs Pattern Lab related modules like starterkits or plugins')
+	.option('--starterkits <names>', 'Specify one or more starterkit to install', list)
+	.option('--plugins <names>', 'Specify one or more plugins to install', list)
+	.action(install);
 
 /**
  * serve

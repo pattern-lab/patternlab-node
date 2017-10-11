@@ -35,20 +35,20 @@ const init = options => wrapAsync(function*() {
 	yield scaffold(projectDir, sourceDir, publicDir, exportDir); // 2
 	
 	if (edition) {
-		spinner.text = `Installing edition: ${edition}`;
+		spinner.text = `⊙ patternlab → Installing edition: ${edition}`;
 		const newConf = yield installEdition(edition, patternlabConfig); // 3.1
 		patternlabConfig = Object.assign(patternlabConfig, newConf); // 3.2
-		spinner.succeed(`Installed edition: ${edition}`);
+		spinner.succeed(`⊙ patternlab → Installed edition: ${edition}`);
 	}
 	if (starterkit) {
-		spinner.text = `Installing starterkit ${starterkit}`;
+		spinner.text = `⊙ patternlab → Installing starterkit ${starterkit}`;
 		spinner.start();
 		yield installStarterkit(starterkit, patternlabConfig);
-		spinner.succeed(`Installed starterkit: ${starterkit}`);
+		spinner.succeed(`⊙ patternlab → Installed starterkit: ${starterkit}`);
 	} // 4
 	yield writeJsonAsync(path.resolve(projectDir, 'patternlab-config.json'), patternlabConfig); // 5
 	
-	spinner.succeed(`Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`);
+	spinner.succeed(`⊙ patternlab → Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`);
 	return true;
 });
 

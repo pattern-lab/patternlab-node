@@ -22,6 +22,7 @@ Usage: patternlab <cmd> [options]
 		build|compile [options]   Build the PatternLab. Optionally (re-)build only the patterns
 		export                    Export a PatternLab patterns into a compressed format
 		init [options]            Initialize a PatternLab project from scratch or import an edition and/or starterkit
+	    install|add [options]     Installs Pattern Lab related modules like starterkits or plugins
 		serve|browse [options]    Starts a server to inspect files in browser
 	
 	Options:
@@ -77,6 +78,19 @@ Export a PatternLab patterns into a compressed format
 
 	Options:
 		-h, --help  output usage information
+```
+
+### Install Pattern Lab starterkits or plugins
+```
+Usage: install|add [options]
+
+Installs Pattern Lab related modules like starterkits or plugins
+
+	Options:
+		-h, --help             output usage information
+		--starterkits <names>  Specify one or more starterkits to install
+		--plugins <names>      Specify one or more plugins to install
+
 ```
 
 ## Examples
