@@ -6,9 +6,9 @@ To install the Nunjucks engine in your edition, `npm install patternengine-node-
 
 Level of Support is more or less full. Partial calls and lineage hunting are supported. Nunjucks does not support the mustache-specific syntax extensions, style modifiers and pattern parameters, because their use cases are addressed by the core Nunjucks feature set.
 
-## Extending the Nunjucks
+## Extending the Nunjucks instance
 
-To add custom filters or make customizations the nunjucks instance, create a file named `patternlab-nunjucks-config.js` in the root fo your Pattern Lab project. It should export a function that takes two paramerters. The first parameter being the nunjucks instance and the second the nunjucks instance environment.
+To add custom filters or make customizations to the nunjucks instance, create a file named `patternlab-nunjucks-config.js` in the root of your Pattern Lab project. `patternlab-nunjucks-config.js` should export a function that takes two parameters. The first parameter is the nunjucks instance; the second is the nunjucks instance's environment.
 
 ```
 module.exports = function (nunjucks, env) {
@@ -16,7 +16,7 @@ module.exports = function (nunjucks, env) {
 };
 ```
 
-EXAMPLE: patternlab-nunjucks-config.js file that uses lodash and adds three custom filters.
+Example: `patternlab-nunjucks-config.js` file that uses lodash and adds three custom filters.
 ```
 var _shuffle = require('lodash/shuffle'),
   _take = require('lodash/take');
