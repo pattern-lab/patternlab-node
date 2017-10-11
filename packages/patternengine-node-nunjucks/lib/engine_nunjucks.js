@@ -2,7 +2,6 @@
   TODO
   - Make sure regex match Nunjucks features and syntax
   - Look into if we need to handle partials in the render method
-  - Replace 'source/patterns' string with a config variable from PL if possible
   - Add try catch blocks to prevent Pl from crashing
   - Test methods of including files
   - Compare features and syntax with the mustache version so we can document
@@ -11,11 +10,14 @@
 
 "use strict";
 
-var _shuffle = require('lodash/shuffle');
-var _take = require('lodash/take');
-var nunjucks = require('nunjucks');
-var env = nunjucks.configure('source/_patterns/');
-var partialRegistry = [];
+var path = require('path'),
+  plPath = process.cwd(),
+  plConfig = require(path.join(plPath, 'patternlab-config.json')),
+  _shuffle = require('lodash/shuffle'),
+  _take = require('lodash/take'),
+  nunjucks = require('nunjucks'),
+  env = nunjucks.configure(plConfig.paths.source.patterns),
+  partialRegistry = [];
 
 
 ////////////////////////////
