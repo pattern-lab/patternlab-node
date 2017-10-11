@@ -1,7 +1,7 @@
 {
   "name": "patternlab-node-cli",
   "description": "Command-line interface (CLI) for the patternlab-node core.",
-  "version": "0.0.1-alpha.7",
+  "version": "0.0.1-alpha.8",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
