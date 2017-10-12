@@ -36,6 +36,7 @@ let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./ui_builder'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
 let assetCopier = require('./asset_copy'); // eslint-disable-line
+let serve = require('./serve'); // eslint-disable-line
 
 const pattern_assembler = new pa();
 const lineage_hunter = new lh();
@@ -661,15 +662,15 @@ const patternlab_engine = function (config) {
     v: function () {
       return getVersion();
     },
-    build: function (callback, deletePatternDir, options) {
+    build: function (callback, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(deletePatternDir).then(() => {
+      return buildPatterns(options.cleanPublic).then(() => {
         new ui_builder().buildFrontend(patternlab);
-        assetCopier().copyAssets(patternlab.config.paths, patternlab, {watch: false});
+        assetCopier().copyAssets(patternlab.config.paths, patternlab, options);
         printDebug();
         patternlab.isBusy = false;
         callback();
@@ -701,7 +702,14 @@ const patternlab_engine = function (config) {
     },
     getSupportedTemplateExtensions: function () {
       return getSupportedTemplateExtensions();
-    }
+    },
+    serve: function (options) {
+      options.watch = true;
+      return this.build(() => {}, options).then(function () {
+        serve(patternlab);
+      });
+    },
+    events: patternlab.events
   };
 };
 

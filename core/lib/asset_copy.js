@@ -41,11 +41,18 @@ const asset_copier = () => {
       dest,
       options
     ).on(copy.events.COPY_FILE_COMPLETE, (copyOperation) => {
-      console.log(`Moved ${p} to ${dest}`);
+      if (options.debug) {
+        console.log(`Moved ${p} to ${dest}`);
+      }
+      options.emitter.emit('patternlab-file-change', {
+        file: p,
+        dest: dest
+      });
     });
   };
 
   const asset_copy = (assetDirectories, patternlab, options) => {
+
     //take our configured paths and sanitize best we can to only the assets
     const dirs = transform_paths(assetDirectories);
 
@@ -54,24 +61,26 @@ const asset_copier = () => {
 
     const copyOptions =
       {
-        overwrite: true
+        overwrite: true,
+        emitter: patternlab.events,
+        debug: patternlab.config.debug
       };
-
-      console.log(60, dirs)
 
     //loop through each directory asset object (source / public pairing)
     _.each(dirs, (dir, key) => {
 
       //if we want to watch files, do so, otherwise just copy each file
       if (options.watch) {
-        console.log(49, `watching ${path.resolve(basePath, dir.source)}`);
+        if (patternlab.config.debug) {
+          console.log(`Pattern Lab is watching ${path.resolve(basePath, dir.source)} for changes`);
+        }
         const watcher = chokidar.watch(
           path.resolve(basePath, dir.source),
           {
             ignored: /(^|[\/\\])\../,
             ignoreInitial: true,
             awaitWriteFinish : {
-              stabilityThreshold: 1000,
+              stabilityThreshold: 200,
               pollInterval: 100
             }
           }
@@ -95,6 +104,15 @@ const asset_copier = () => {
         copyFile(dir.source, destination, copyOptions);
       }
     });
+
+
+    //we need to special case patterns/**/*.md|.json|.pattern-extensions
+    if (options.watch) {
+      console.log(111, basePath, assetDirectories.source.patterns)
+      const patterns = patternlab.engines.getSupportedFileExtensions().map(dotExtension => path.join(basePath, assetDirectories.source.patterns, `/**/*${dotExtension}`));
+      console.log(112, patterns);
+    }
+
   };
 
   return {
