@@ -669,8 +669,18 @@ const patternlab_engine = function (config) {
       }
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic).then(() => {
+
         new ui_builder().buildFrontend(patternlab);
         assetCopier().copyAssets(patternlab.config.paths, patternlab, options);
+
+        this.events.on('patternlab-pattern-change', () => {
+          if (!patternlab.isBusy) {
+            options.cleanPublic = false;
+            return this.build(callback, options);
+          }
+          return Promise.resolve();
+        });
+
         printDebug();
         patternlab.isBusy = false;
         callback();
@@ -679,13 +689,13 @@ const patternlab_engine = function (config) {
     help: function () {
       help();
     },
-    patternsonly: function (callback, deletePatternDir) {
+    patternsonly: function (callback, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(deletePatternDir).then(() => {
+      return buildPatterns(options.cleanPublic).then(() => {
         printDebug();
         patternlab.isBusy = false;
         callback();

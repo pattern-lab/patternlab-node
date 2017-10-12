@@ -1,11 +1,10 @@
 "use strict";
-const plutils = require('./utilities');
 const _ = require('lodash');
 const path = require('path');
 const process = require('process');
 
-let copy = require('recursive-copy'); // eslint-disable-line
-let chokidar = require('chokidar'); // eslint-disable-line
+let copy = require('recursive-copy'); // eslint-disable-line prefer-const
+let chokidar = require('chokidar'); // eslint-disable-line prefer-const
 
 const asset_copier = () => {
 
@@ -44,7 +43,7 @@ const asset_copier = () => {
       if (options.debug) {
         console.log(`Moved ${p} to ${dest}`);
       }
-      options.emitter.emit('patternlab-file-change', {
+      options.emitter.emit('patternlab-asset-change', {
         file: p,
         dest: dest
       });
@@ -67,14 +66,14 @@ const asset_copier = () => {
       };
 
     //loop through each directory asset object (source / public pairing)
-    _.each(dirs, (dir, key) => {
+    _.each(dirs, (dir) => {
 
       //if we want to watch files, do so, otherwise just copy each file
       if (options.watch) {
         if (patternlab.config.debug) {
           console.log(`Pattern Lab is watching ${path.resolve(basePath, dir.source)} for changes`);
         }
-        const watcher = chokidar.watch(
+        const assetWatcher = chokidar.watch(
           path.resolve(basePath, dir.source),
           {
             ignored: /(^|[\/\\])\../,
@@ -87,7 +86,7 @@ const asset_copier = () => {
         );
 
         //watch for changes and copy
-        watcher.on('addDir', (p) => {
+        assetWatcher.on('addDir', (p) => {
           const destination = path.resolve(basePath, dir.public + '/' + path.basename(p));
           copyFile(p, destination, copyOptions);
         }).on('add', (p) => {
@@ -105,14 +104,49 @@ const asset_copier = () => {
       }
     });
 
-
     //we need to special case patterns/**/*.md|.json|.pattern-extensions
     if (options.watch) {
-      console.log(111, basePath, assetDirectories.source.patterns)
-      const patterns = patternlab.engines.getSupportedFileExtensions().map(dotExtension => path.join(basePath, assetDirectories.source.patterns, `/**/*${dotExtension}`));
-      console.log(112, patterns);
-    }
+      const baseFileExtensions = ['.json', '.yml', '.yaml', '.md'];
+      const patternWatches = baseFileExtensions.concat(patternlab.engines.getSupportedFileExtensions()).map(
+        dotExtension => path.join(
+          basePath,
+          assetDirectories.source.patterns,
+          `/**/*${dotExtension}`
+        )
+      );
+      _.each(patternWatches, (patternWatchPath) => {
+        if (patternlab.config.debug) {
+          console.log(`Pattern Lab is watching ${patternWatchPath} for changes`);
+        }
 
+        const patternWatcher = chokidar.watch(
+          path.resolve(patternWatchPath),
+          {
+            ignored: /(^|[\/\\])\../,
+            ignoreInitial: true,
+            awaitWriteFinish : {
+              stabilityThreshold: 200,
+              pollInterval: 100
+            }
+          }
+        );
+
+        //watch for changes and rebuild
+        patternWatcher.on('addDir', (p) => {
+          patternlab.events.emit('patternlab-pattern-change', {
+            file: p
+          });
+        }).on('add', (p) => {
+          patternlab.events.emit('patternlab-pattern-change', {
+            file: p
+          });
+        }).on('change', (p) => {
+          patternlab.events.emit('patternlab-pattern-change', {
+            file: p
+         });
+        });
+      });
+    }
   };
 
   return {
