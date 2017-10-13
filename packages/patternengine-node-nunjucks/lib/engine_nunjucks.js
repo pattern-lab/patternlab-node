@@ -2,7 +2,6 @@
   TODO
   - Make sure regex match Nunjucks features and syntax
   - Look into if we need to handle partials in the render method
-  - Add try catch blocks to prevent Pl from crashing
   - Test methods of including files
   - Compare features and syntax with the mustache version so we can document
   - Document and submit to PatternLab
@@ -61,11 +60,16 @@ var engine_nunjucks = {
 
   // render it
   renderPattern: function renderPattern(pattern, data) {
-    // replace pattern names with their full path so Nunjucks can find them.
-    pattern.extendedTemplate = this.replacePartials(pattern);
-    var result = nunjucks.renderString(pattern.extendedTemplate, data);
-    // var result = nunjucks.compile(pattern.extendedTemplate, env).render(data);
-    return result;
+    try {
+      // replace pattern names with their full path so Nunjucks can find them.
+      pattern.extendedTemplate = this.replacePartials(pattern);
+      var result = nunjucks.renderString(pattern.extendedTemplate, data);
+      // var result = nunjucks.compile(pattern.extendedTemplate, env).render(data);
+      return result;
+    }
+    catch (err) {
+      console.error('Failed to render pattern: ' + pattern.name);
+    }
   },
 
   // find and return any Nunjucks style includes/imports/extends within pattern
@@ -85,9 +89,14 @@ var engine_nunjucks = {
 
   // given a pattern, and a partial string, tease out the "pattern key" and return it.
   findPartial: function (partialString) {
-    var partial = partialString.match(this.findPartialKeyRE)[1];
-    partial = partial.replace(/["']/g, '');
-    return partial;
+    try {
+      var partial = partialString.match(this.findPartialKeyRE)[1];
+      partial = partial.replace(/["']/g, '');
+      return partial;
+    }
+    catch (err) {
+      console.error('Error occured when trying to find partial name in: ' + partialString);
+    }
   },
 
   // keep track of partials and their paths so we can replace the name with the path
@@ -99,16 +108,21 @@ var engine_nunjucks = {
   },
 
   replacePartials: function (pattern) {
-    var partials = this.findPartials(pattern);
-    if (partials !== null) {
-      for (var i = 0; i < partials.length; i++) { // e.g. {% include "atoms-parent" %}
-        var partialName = this.findPartial(partials[i]); // e.g. atoms-parent
-        var partialFullPath = partialRegistry[partialName]; // e.g. 00-atoms/01-parent.njk
-        var newPartial = partials[i].replaceAll(partialName, partialFullPath, true); // e.g. {% include "00-atoms/01-parent.njk" %}
-        pattern.extendedTemplate = pattern.extendedTemplate.replaceAll(partials[i], newPartial, true);
+    try {
+      var partials = this.findPartials(pattern);
+      if (partials !== null) {
+        for (var i = 0; i < partials.length; i++) { // e.g. {% include "atoms-parent" %}
+          var partialName = this.findPartial(partials[i]); // e.g. atoms-parent
+          var partialFullPath = partialRegistry[partialName]; // e.g. 00-atoms/01-parent.njk
+          var newPartial = partials[i].replaceAll(partialName, partialFullPath, true); // e.g. {% include "00-atoms/01-parent.njk" %}
+          pattern.extendedTemplate = pattern.extendedTemplate.replaceAll(partials[i], newPartial, true);
+        }
       }
+      return pattern.extendedTemplate;
     }
-    return pattern.extendedTemplate;
+    catch (err) {
+      console.error('Error occurred in replacing partial names with paths for patern: ' + pattern.name);
+    }
   },
 
   // handled by nunjucks. This is error to keep PL from erroring
