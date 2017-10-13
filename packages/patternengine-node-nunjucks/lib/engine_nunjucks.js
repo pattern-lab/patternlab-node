@@ -85,15 +85,6 @@ var engine_nunjucks = {
   },
 
   // find and return any Nunjucks style includes/imports/extends within pattern
-  // EXAMPLES OF NUNJUCKS STYLE PARTIAL INCLUDES
-  // {% include "atoms-parent" %} [WORKS]
-  // {% include 'atoms-parent' %} [WORKS]
-  // {% include "atoms-parent" ignore missing %} [WORKS]
-  // {% import "atoms-parent" as forms %} [WORKS]
-  // {% from "atoms-parent" import field, label as description %} [WORKS]
-  // {% extends "atoms-parent" %} [WORKS]
-  // {% extends parentTemplate %}
-  // {% extends name + ".njk" %}
   findPartials: function findPartials(pattern) {
     var matches = pattern.template.match(this.findPartialsRE);
     return matches;
