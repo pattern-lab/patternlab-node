@@ -1,11 +1,22 @@
 /*
-  TODO
-  - Make sure regex match Nunjucks features and syntax
-  - Look into if we need to handle partials in the render method
-  - Test methods of including files
-  - Compare features and syntax with the mustache version so we can document
-  - Document and submit to PatternLab
-*/
+ * Nunjucks pattern engine for patternlab-node
+ *
+ * Dan White.
+ * Licensed under the MIT license.
+ *
+ */
+
+/*
+ * ENGINE SUPPORT LEVEL:
+ *
+ * Mostly full. Partial calls and lineage hunting are supported.
+ * Nunjucks does not support the mustache-specific syntax
+ * extensions, style modifiers and pattern parameters, because
+ * their use cases are addressed by the core Nunjucks feature set.
+ * Pattern Lab's listitems.json data does not appear to be accessible.
+ * However, it's still possible to create custom list style data.
+ *
+ */
 
 "use strict";
 
