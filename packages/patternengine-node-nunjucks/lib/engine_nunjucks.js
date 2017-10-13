@@ -13,8 +13,8 @@
  * Nunjucks does not support the mustache-specific syntax
  * extensions, style modifiers and pattern parameters, because
  * their use cases are addressed by the core Nunjucks feature set.
- * Pattern Lab's listitems.json data does not appear to be accessible.
- * However, it's still possible to create custom list style data.
+ * Pattern Lab's listitems feature is still written in the
+ * mustache syntax.
  *
  */
 
@@ -68,6 +68,7 @@ var engine_nunjucks = {
   // regexes, stored here so they're only compiled once
   findPartialsRE: /{%\s*(?:extends|include|import|from)\s+(?:.*)\s*%}/g,
   findPartialKeyRE: /{%\s*(?:extends|include|import|from)\s+('[^']+'|"[^"]+")/,
+  findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
   // render it
   renderPattern: function renderPattern(pattern, data) {
@@ -136,9 +137,10 @@ var engine_nunjucks = {
     }
   },
 
-  // handled by nunjucks. This is error to keep PL from erroring
+  // still requires the mustache syntax because of the way PL handles lists
   findListItems: function (pattern) {
-    return null;
+    var matches = pattern.template.match(this.findListItemsRE);
+    return matches;
   },
 
   // handled by nunjucks. This is error to keep PL from erroring
