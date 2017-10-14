@@ -134,12 +134,12 @@ var engine_nunjucks = {
     return matches;
   },
 
-  // handled by nunjucks. This is error to keep PL from erroring
+  // handled by nunjucks. This is here to keep PL from erroring
   findPartialsWithStyleModifiers: function () {
     return null;
   },
 
-  // handled by nunjucks. This is error to keep PL from erroring
+  // handled by nunjucks. This is here to keep PL from erroring
   findPartialsWithPatternParameters: function () {
     return null;
   }
