@@ -66,7 +66,7 @@ var engine_nunjucks = {
   expandPartials: false,
 
   // regexes, stored here so they're only compiled once
-  findPartialsRE: /{%\s*(?:extends|include|import|from)\s+(?:.*)\s*%}/g,
+  findPartialsRE: /{%\s*(?:extends|include|import|from)\s+(?:'[^']+'|"[^"]+").*%}/g,
   findPartialKeyRE: /{%\s*(?:extends|include|import|from)\s+('[^']+'|"[^"]+")/,
   findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // still requires mustache style syntax because of how PL implements lists
 
@@ -76,7 +76,6 @@ var engine_nunjucks = {
       // replace pattern names with their full path so Nunjucks can find them.
       pattern.extendedTemplate = this.replacePartials(pattern);
       var result = nunjucks.renderString(pattern.extendedTemplate, data);
-      // var result = nunjucks.compile(pattern.extendedTemplate, env).render(data);
       return result;
     }
     catch (err) {
