@@ -1,0 +1,10 @@
+{
+    "source": {
+        "include" : [
+            "core/lib"
+        ]
+    },
+    "opts": {
+        "destination": "./docs/"
+    }
+}

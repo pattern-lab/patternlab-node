@@ -55,6 +55,7 @@
   "scripts": {
     "lint": "eslint core/**/*.js",
     "pretest": "npm run lint",
+    "docs": "jsdoc -c ./conf.json",
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },
   "engines": {

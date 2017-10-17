@@ -1,20 +1,30 @@
 'use strict';
+
+/**
+ *  @module Annotations Exporter
+ */
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs-extra');
 const _ = require('lodash');
 const mp = require('./markdown_parser');
 
+/**
+ * @constant {function} annotations_exporter
+ * @param {*} pl patternlab configuration
+ */
 const annotations_exporter = function (pl) {
 
   const paths = pl.config.paths;
   let oldAnnotations;
 
-  /*
-  Returns the array of comments that used to be wrapped in raw JS.
+  /**
+   * 
+   * @function parseAnnotationsJS
+   * @returns {object} oldAnnotationsJSON.comments
    */
   function parseAnnotationsJS() {
-    //attempt to read the file
+    /** Attempt to Read File */
     try {
       oldAnnotations = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.js'), 'utf8');
     } catch (ex) {
@@ -24,7 +34,6 @@ const annotations_exporter = function (pl) {
       return [];
     }
 
-    //parse as JSON by removing the old wrapping js syntax. comments and the trailing semi-colon
     oldAnnotations = oldAnnotations.replace('var comments = ', '');
     oldAnnotations = oldAnnotations.replace('};', '}');
 
@@ -38,6 +47,13 @@ const annotations_exporter = function (pl) {
     return oldAnnotationsJSON.comments;
   }
 
+/**
+ * 
+ * @function buildAnnotationMD
+ * @param {any} annotationsYAML 
+ * @param {any} markdown_parser 
+ * @return {object} annotation
+ */
   function buildAnnotationMD(annotationsYAML, markdown_parser) {
     const annotation = {};
     const markdownObj = markdown_parser.parse(annotationsYAML);
@@ -48,14 +64,26 @@ const annotations_exporter = function (pl) {
     return annotation;
   }
 
+/**
+ * 
+ * @function parseMDFile
+ * @param {any} annotations 
+ * @param {any} parser
+ * @return {function}
+ */
   function parseMDFile(annotations, parser) {
     //let annotations = annotations;
     const markdown_parser = parser;
 
+    /**
+   * @function parseMDFile
+   * @description take the annotation snippets and split them on our custom delimiter
+   * @param {string} filePath 
+   * @return {boolean} false
+   */
     return function (filePath) {
       const annotationsMD = fs.readFileSync(path.resolve(filePath), 'utf8');
 
-    //take the annotation snippets and split them on our custom delimiter
       const annotationsYAML = annotationsMD.split('~*~');
       for (let i = 0; i < annotationsYAML.length; i++) {
         const annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser);
@@ -65,8 +93,10 @@ const annotations_exporter = function (pl) {
     };
   }
 
-  /*
-   Converts the *.md file yaml list into an array of annotations
+  /**
+   * @function parseAnnotationsMD
+   * @description Converts the *.md file yaml list into an array of annotations
+   * @returns {array} annotations
    */
   function parseAnnotationsMD() {
     const markdown_parser = new mp();
@@ -77,6 +107,11 @@ const annotations_exporter = function (pl) {
     return annotations;
   }
 
+  /**
+   * @function gatherAnnotations
+   * @description Gathers all annotations
+   * @returns {array} Returns the new array of combined values.
+   */
   function gatherAnnotations() {
     const annotationsJS = parseAnnotationsJS();
     const annotationsMD = parseAnnotationsMD();
@@ -85,6 +120,7 @@ const annotations_exporter = function (pl) {
 
   return {
     gather: function () {
+
       return gatherAnnotations();
     },
     gatherJS: function () {
@@ -96,5 +132,6 @@ const annotations_exporter = function (pl) {
   };
 
 };
+
 
 module.exports = annotations_exporter;
