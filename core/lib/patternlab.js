@@ -587,12 +587,13 @@ const patternlab_engine = function (config) {
       patternlab.graph.upgradeVersion();
     }
     // Flags
-    const incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
+    patternlab.incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
 
     //
     // CLEAN BUILD DIRECTORY, maybe
     //
-    cleanBuildDirectory(incrementalBuildsEnabled);
+    cleanBuildDirectory(patternlab.incrementalBuildsEnabled);
+
     buildGlobalData();
 
     // diveSync once to perform iterative populating of patternlab object
@@ -637,7 +638,7 @@ const patternlab_engine = function (config) {
       // rebuild all patterns
       patternsToBuild = null;
 
-      if (incrementalBuildsEnabled) {
+      if (patternlab.incrementalBuildsEnabled) {
         // When the graph was loaded from file, some patterns might have been moved/deleted between runs
         // so the graph data become out of sync
         patternlab.graph.sync().forEach(n => {
