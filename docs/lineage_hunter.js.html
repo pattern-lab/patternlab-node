@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lineage_hunter.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lineage_hunter.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+const extend = require("util")._extend;
+
+const lineage_hunter = function () {
+
+  function findlineage(pattern, patternlab) {
+
+    const pa = require('./pattern_assembler');
+    const pattern_assembler = new pa();
+
+    // As we are adding edges from pattern to ancestor patterns, ensure it is known to the graph
+    patternlab.graph.add(pattern);
+
+
+    //find the {{> template-name }} within patterns
+    const matches = pattern.findPartials();
+    if (matches !== null) {
+      matches.forEach(function (match) {
+        //get the ancestorPattern
+        const ancestorPattern = pattern_assembler.getPartial(pattern.findPartial(match), patternlab);
+
+        if (ancestorPattern &amp;&amp; pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) === -1) {
+          //add it since it didnt exist
+          pattern.lineageIndex.push(ancestorPattern.patternPartial);
+
+          //create the more complex patternLineage object too
+          const l = {
+            "lineagePattern": ancestorPattern.patternPartial,
+            "lineagePath": "../../patterns/" + ancestorPattern.patternLink
+          };
+          if (ancestorPattern.patternState) {
+            l.lineageState = ancestorPattern.patternState;
+          }
+
+          patternlab.graph.add(ancestorPattern);
+
+          // Confusing: pattern includes "ancestorPattern", not the other way round
+          patternlab.graph.link(pattern, ancestorPattern);
+
+          pattern.lineage.push(l);
+
+          //also, add the lineageR entry if it doesn't exist
+          if (ancestorPattern.lineageRIndex.indexOf(pattern.patternPartial) === -1) {
+            ancestorPattern.lineageRIndex.push(pattern.patternPartial);
+
+            //create the more complex patternLineage object in reverse
+            const lr = {
+              "lineagePattern": pattern.patternPartial,
+              "lineagePath": "../../patterns/" + pattern.patternLink
+            };
+            if (pattern.patternState) {
+              lr.lineageState = pattern.patternState;
+            }
+
+            ancestorPattern.lineageR.push(lr);
+            extend(patternlab.graph.node(ancestorPattern), lr);
+          }
+        }
+      });
+    }
+  }
+
+  /**
+   * Apply the target pattern state either to any predecessors or successors of the given
+   * pattern in the pattern graph.
+   * @param direction Either 'fromPast' or 'fromFuture'
+   * @param pattern {Pattern}
+   * @param targetPattern {Pattern}
+   * @param graph {PatternGraph}
+   */
+  function setPatternState(direction, pattern, targetPattern, graph) {
+    let index = null;
+    if (direction === 'fromPast') {
+      index = graph.lineage(pattern);
+    } else {
+      index = graph.lineageR(pattern);
+    }
+
+    // if the request came from the past, apply target pattern state to current pattern lineage
+    for (let i = 0; i &lt; index.length; i++) {
+      if (index[i].patternPartial === targetPattern.patternPartial) {
+        index[i].lineageState = targetPattern.patternState;
+      }
+    }
+  }
+
+
+  function cascadePatternStates(patternlab) {
+
+    for (let i = 0; i &lt; patternlab.patterns.length; i++) {
+      const pattern = patternlab.patterns[i];
+
+      //for each pattern with a defined state
+      if (pattern.patternState) {
+        const lineage = patternlab.graph.lineage(pattern);
+
+        if (lineage &amp;&amp; lineage.length > 0) {
+
+          //find all lineage - patterns being consumed by this one
+          for (let h = 0; h &lt; lineage.length; h++) {
+            // Not needed, the graph already knows the concrete pattern
+            // let lineagePattern = pattern_assembler.getPartial(lineageIndex[h], patternlab);
+            setPatternState('fromFuture', lineage[h], pattern, patternlab.graph);
+          }
+        }
+        const lineageR = patternlab.graph.lineageR(pattern);
+        if (lineageR &amp;&amp; lineageR.length > 0) {
+
+          //find all reverse lineage - that is, patterns consuming this one
+          for (let j = 0; j &lt; lineageR.length; j++) {
+
+            const lineageRPattern = lineageR[j];
+
+            //only set patternState if pattern.patternState "is less than" the lineageRPattern.patternstate
+            //or if lineageRPattern.patternstate (the consuming pattern) does not have a state
+            //this makes patternlab apply the lowest common ancestor denominator
+            const patternStateCascade = patternlab.config.patternStateCascade;
+            const patternStateIndex = patternStateCascade.indexOf(pattern.patternState);
+            const patternReverseStateIndex = patternStateCascade.indexOf(lineageRPattern.patternState);
+            if (lineageRPattern.patternState === '' || (patternStateIndex &lt; patternReverseStateIndex)) {
+
+              if (patternlab.config.debug) {
+                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.patternPartial + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + (lineageRPattern.patternState === '' ? '&lt;&lt;blank>>' : lineageRPattern.patternState));
+              }
+
+              lineageRPattern.patternState = pattern.patternState;
+
+              //take this opportunity to overwrite the lineageRPattern's lineage state too
+              setPatternState('fromPast', lineageRPattern, pattern, patternlab.graph);
+            } else {
+              setPatternState('fromPast', pattern, lineageRPattern, patternlab.graph);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return {
+    find_lineage: function (pattern, patternlab) {
+      findlineage(pattern, patternlab);
+    },
+    cascade_pattern_states : function (patternlab) {
+      cascadePatternStates(patternlab);
+    }
+  };
+};
+
+module.exports = lineage_hunter;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Annotations%2520Exporter.html">Annotations Exporter</a></li></ul><h3>Classes</h3><ul><li><a href="ChangesHunter.html">ChangesHunter</a></li><li><a href="Constructs%2520a%2520new%2520PatternGraph%2520from%2520a%2520JSON-style%2520JavaScript%2520object%2520or%2520an%2520empty%2520graph%250Dif%2520no%2520argument%2520is%2520given..html">Constructs a new PatternGraph from a JSON-style JavaScript object or an empty graphif no argument is given.</a></li><li><a href="Pattern.html">Pattern</a></li><li><a href="PatternRegistry.html">PatternRegistry</a></li><li><a href="VersionMismatch.html">VersionMismatch</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addEdge">addEdge</a></li><li><a href="global.html#addNode">addNode</a></li><li><a href="global.html#buildPatternData">buildPatternData</a></li><li><a href="global.html#debug">debug</a></li><li><a href="global.html#error">error</a></li><li><a href="global.html#header">header</a></li><li><a href="global.html#initializePlugins">initializePlugins</a></li><li><a href="global.html#installPlugin">installPlugin</a></li><li><a href="global.html#loadDataFromFolder">loadDataFromFolder</a></li><li><a href="global.html#loadFile">loadFile</a></li><li><a href="global.html#log">log</a></li><li><a href="global.html#niceKey">niceKey</a></li><li><a href="global.html#PATTERN_GRAPH_VERSION">PATTERN_GRAPH_VERSION</a></li><li><a href="global.html#reportError">reportError</a></li><li><a href="global.html#subGraph">subGraph</a></li><li><a href="global.html#warning">warning</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 17 2017 09:51:21 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

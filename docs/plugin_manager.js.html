@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: plugin_manager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: plugin_manager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+const plugin_manager = function (config, configPath) {
+  const path = require('path');
+  const fs = require('fs-extra');
+  const util = require('./utilities');
+
+  /**
+   * Loads a plugin
+   *
+   * @param pluginName {string} the name of the plugin
+   * @return {object} the loaded plugin
+   */
+  function loadPlugin(pluginName) {
+    return require(path.join(process.cwd(), 'node_modules', pluginName));
+  }
+
+  /**
+   * Installs a plugin
+   *
+   * @param pluginName {string} the name of the plugin
+   */
+  function installPlugin(pluginName) {
+    try {
+      const pluginPath = path.resolve(
+        path.join(process.cwd(), 'node_modules', pluginName)
+      );
+      console.log('Attempting to load plugin from', pluginPath);
+      try {
+        var pluginDirStats = fs.statSync(pluginPath);
+      } catch (ex) {
+        util.error(pluginName + ' not found, please use npm to install it first.');
+        util.error(pluginName + ' not loaded.');
+        return;
+      }
+      const pluginPathDirExists = pluginDirStats.isDirectory();
+      if (pluginPathDirExists) {
+
+        const diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
+
+        //add the plugin entry to patternlab-config.json
+        if (!diskConfig.plugins) {
+          diskConfig.plugins = {};
+        }
+
+        if (!diskConfig.plugins[pluginName]) {
+          diskConfig.plugins[pluginName] = {
+            enabled: true,
+            initialized: false
+          };
+        }
+
+        const pluginPathConfig = path.resolve(pluginPath, 'config.json');
+        try {
+          var pluginConfigJSON = require(pluginPathConfig);
+          if (!diskConfig.plugins[pluginName].options) {
+            diskConfig.plugins[pluginName].options = pluginConfigJSON;
+          }
+        } catch (ex) {
+          //a config.json file is not required at this time
+        }
+
+        //write config entry back
+        fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
+
+        util.debug('Plugin ' + pluginName + ' installed.');
+
+        //todo, tell them how to uninstall or disable
+
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
+  /**
+   * Detect installed plugins
+   *
+   * @return {array} list of installed plugins
+   */
+  function detectPlugins() {
+    const node_modules_path = path.join(process.cwd(), 'node_modules');
+    return fs.readdirSync(node_modules_path).filter(function (dir) {
+      const module_path = path.join(process.cwd(), 'node_modules', dir);
+      return fs.statSync(module_path).isDirectory() &amp;&amp; dir.indexOf('plugin-node-') === 0;
+    });
+  }
+
+  /**
+   * Disables an installed plugin
+   * Not implemented yet
+   */
+  function disablePlugin(pluginName) {
+    console.log('disablePlugin not implemented yet. No change made to state of plugin', pluginName);
+  }
+
+  /**
+   * Enables an installed plugin
+   * Not implemented yet
+   */
+  function enablePlugin(pluginName) {
+    console.log('enablePlugin not implemented yet. No change made to state of plugin', pluginName);
+  }
+
+  return {
+    install_plugin: function (pluginName) {
+      installPlugin(pluginName);
+    },
+    load_plugin: function (pluginName) {
+      return loadPlugin(pluginName);
+    },
+    detect_plugins: function () {
+      return detectPlugins();
+    },
+    disable_plugin: function (pluginName) {
+      disablePlugin(pluginName);
+    },
+    enable_plugin: function (pluginName) {
+      enablePlugin(pluginName);
+    }
+  };
+
+};
+
+module.exports = plugin_manager;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Annotations%2520Exporter.html">Annotations Exporter</a></li></ul><h3>Classes</h3><ul><li><a href="ChangesHunter.html">ChangesHunter</a></li><li><a href="Constructs%2520a%2520new%2520PatternGraph%2520from%2520a%2520JSON-style%2520JavaScript%2520object%2520or%2520an%2520empty%2520graph%250Dif%2520no%2520argument%2520is%2520given..html">Constructs a new PatternGraph from a JSON-style JavaScript object or an empty graphif no argument is given.</a></li><li><a href="Pattern.html">Pattern</a></li><li><a href="PatternRegistry.html">PatternRegistry</a></li><li><a href="VersionMismatch.html">VersionMismatch</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addEdge">addEdge</a></li><li><a href="global.html#addNode">addNode</a></li><li><a href="global.html#buildPatternData">buildPatternData</a></li><li><a href="global.html#debug">debug</a></li><li><a href="global.html#error">error</a></li><li><a href="global.html#header">header</a></li><li><a href="global.html#initializePlugins">initializePlugins</a></li><li><a href="global.html#installPlugin">installPlugin</a></li><li><a href="global.html#loadDataFromFolder">loadDataFromFolder</a></li><li><a href="global.html#loadFile">loadFile</a></li><li><a href="global.html#log">log</a></li><li><a href="global.html#niceKey">niceKey</a></li><li><a href="global.html#PATTERN_GRAPH_VERSION">PATTERN_GRAPH_VERSION</a></li><li><a href="global.html#reportError">reportError</a></li><li><a href="global.html#subGraph">subGraph</a></li><li><a href="global.html#warning">warning</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Oct 17 2017 09:51:21 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
