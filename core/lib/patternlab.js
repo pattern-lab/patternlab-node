@@ -502,6 +502,66 @@ const patternlab_engine = function (config) {
     return PatternGraph.loadFromFile(patternlab);
   }
 
+  function buildGlobalData() {
+    //
+    // COLLECT GLOBAL LIBRARY DATA
+    //
+
+    // data.json
+    try {
+      patternlab.data = buildPatternData(paths.source.data, fs);
+    } catch (ex) {
+      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      patternlab.data = {};
+    }
+    // listitems.json
+    try {
+      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    } catch (ex) {
+      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      patternlab.listitems = {};
+    }
+    // load up all the necessary files from pattern lab that apply to every template
+    try {
+      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
+      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
+      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
+      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
+      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
+    } catch (ex) {
+      console.log(ex);
+      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      process.exit(1);
+    }
+
+
+    //
+    // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
+    //
+
+    patternlab.patterns = [];
+    patternlab.subtypePatterns = {};
+    patternlab.partials = {};
+    patternlab.data.link = {};
+
+    setCacheBust();
+
+    pattern_assembler.combine_listItems(patternlab);
+
+    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
+  }
+
+
+  function cleanBuildDirectory(incrementalBuildsEnabled) {
+    if (incrementalBuildsEnabled) {
+      plutils.log.info("Incremental builds enabled.");
+    } else {
+      // needs to be done BEFORE processing patterns
+      fs.removeSync(paths.public.patterns);
+      fs.emptyDirSync(paths.public.patterns);
+    }
+  }
+
   function buildPatterns(deletePatternDir) {
 
     if (patternlab.config.debug) {
@@ -514,10 +574,11 @@ const patternlab_engine = function (config) {
 
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
+    //
+    // CHECK INCREMENTAL BUILD GRAPH
+    //
     const graph = patternlab.graph = loadPatternGraph(deletePatternDir);
-
     const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
-
     if (graphNeedsUpgrade) {
       plutils.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
                        "Incremental build is available again on the next successful run.");
@@ -525,51 +586,14 @@ const patternlab_engine = function (config) {
       // Ensure that the freshly built graph has the latest version again.
       patternlab.graph.upgradeVersion();
     }
-
     // Flags
     const incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
 
-    if (incrementalBuildsEnabled) {
-      plutils.log.info("Incremental builds enabled.");
-    } else {
-      // needs to be done BEFORE processing patterns
-      fs.removeSync(paths.public.patterns);
-      fs.emptyDirSync(paths.public.patterns);
-    }
-
-    try {
-      patternlab.data = buildPatternData(paths.source.data, fs);
-    } catch (ex) {
-      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
-      patternlab.data = {};
-    }
-    try {
-      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    } catch (ex) {
-      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
-      patternlab.listitems = {};
-    }
-    try {
-      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
-      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
-      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
-      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
-    } catch (ex) {
-      console.log(ex);
-      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
-      process.exit(1);
-    }
-    patternlab.patterns = [];
-    patternlab.subtypePatterns = {};
-    patternlab.partials = {};
-    patternlab.data.link = {};
-
-    setCacheBust();
-
-    pattern_assembler.combine_listItems(patternlab);
-
-    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
+    //
+    // CLEAN BUILD DIRECTORY, maybe
+    //
+    cleanBuildDirectory(incrementalBuildsEnabled);
+    buildGlobalData();
 
     // diveSync once to perform iterative populating of patternlab object
     return processAllPatternsIterative(paths.source.patterns, patternlab).then(() => {
