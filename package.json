@@ -1,5 +1,5 @@
 {
-  "name": "patternlab-node",
+  "name": "@pattern-lab/patternlab-node",
   "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
   "version": "3.0.0-alpha.1",
   "main": "./core/lib/patternlab.js",
