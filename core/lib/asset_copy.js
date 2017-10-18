@@ -39,7 +39,7 @@ const asset_copier = () => {
       p,
       dest,
       options
-    ).on(copy.events.COPY_FILE_COMPLETE, (copyOperation) => {
+    ).on(copy.events.COPY_FILE_COMPLETE, () => {
       if (options.debug) {
         console.log(`Moved ${p} to ${dest}`);
       }
@@ -121,7 +121,7 @@ const asset_copier = () => {
     if (options.watch) {
 
       // watch global structures, such as _data/* and _meta/
-      const globalSources = [assetDirectories.source.data, assetDirectories.source.meta]
+      const globalSources = [assetDirectories.source.data, assetDirectories.source.meta];
       const globalPaths = globalSources.map(globalSource => path.join(
         basePath,
         globalSource,
@@ -154,14 +154,13 @@ const asset_copier = () => {
         globalWatcher.on('addDir', (p) => {
           patternlab.events.emit('patternlab-global-change', {
             file: p
-          })
+          });
         })
         .on('add', (p) => {
           patternlab.events.emit('patternlab-global-change', {
             file: p
           });
         }).on('change', (p) => {
-          console.log(145, 'global change watch')
           patternlab.events.emit('patternlab-global-change', {
             file: p
           });
