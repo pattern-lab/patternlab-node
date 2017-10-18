@@ -136,6 +136,19 @@ class PatternLab {
   }
 
 
+  // Starter Kit loading methods
+
+  listStarterkits() {
+    const starterkit_manager = new sm(this.config);
+    return starterkit_manager.list_starterkits();
+  }
+
+  loadStarterKit(starterkitName, clean) {
+    const starterkit_manager = new sm(this.config);
+    starterkit_manager.load_starterkit(starterkitName, clean);
+  }
+
+
   // Pattern processing methods
 
   /**
@@ -414,15 +427,7 @@ const patternlab_engine = function (config) {
     // }
   }
 
-  function listStarterkits() {
-    const starterkit_manager = new sm(patternlab.config);
-    return starterkit_manager.list_starterkits();
-  }
 
-  function loadStarterKit(starterkitName, clean) {
-    const starterkit_manager = new sm(patternlab.config);
-    starterkit_manager.load_starterkit(starterkitName, clean);
-  }
 
 
 
@@ -741,10 +746,10 @@ const patternlab_engine = function (config) {
       });
     },
     liststarterkits: function () {
-      return listStarterkits();
+      return patternlab.listStarterkits();
     },
     loadstarterkit: function (starterkitName, clean) {
-      loadStarterKit(starterkitName, clean);
+      patternlab.loadStarterKit(starterkitName, clean);
     },
     installplugin: function (pluginName) {
       installPlugin(pluginName);
