@@ -134,6 +134,70 @@ class PatternLab {
       this.cacheBuster = 0;
     }
   }
+
+
+  // Pattern processing methods
+
+  /**
+   * Process the user-defined pattern head and prepare it for rendering
+   */
+  processHeadPattern() {
+    try {
+      const headPath = path.resolve(this.config.paths.source.meta, '_00-head.mustache');
+      const headPattern = new Pattern(headPath, null, this);
+      headPattern.template = fs.readFileSync(headPath, 'utf8');
+      headPattern.isPattern = false;
+      headPattern.isMetaPattern = true;
+      pattern_assembler.decomposePattern(headPattern, this, true);
+      this.userHead = headPattern.extendedTemplate;
+    }
+    catch (ex) {
+      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(this.config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      if (this.config.debug) { console.log(ex); }
+
+      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
+      // but whatever. For now.
+      process.exit(1);
+    }
+  }
+
+  /**
+   * Process the user-defined pattern footer and prepare it for rendering
+   */
+  processFootPattern() {
+    try {
+      const footPath = path.resolve(this.config.paths.source.meta, '_01-foot.mustache');
+      const footPattern = new Pattern(footPath, null, this);
+      footPattern.template = fs.readFileSync(footPath, 'utf8');
+      footPattern.isPattern = false;
+      footPattern.isMetaPattern = true;
+      pattern_assembler.decomposePattern(footPattern, this, true);
+      this.userFoot = footPattern.extendedTemplate;
+    }
+    catch (ex) {
+      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(this.config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      if (this.config.debug) { console.log(ex); }
+
+      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
+      // but whatever. For now.
+      process.exit(1);
+    }
+  }
+
+
+  // info methods
+
+  getVersion() {
+    return this.package.version;
+  }
+  logVersion() {
+    console.log(this.package.version);
+  }
+  getSupportedTemplateExtensions() {
+    return this.engines.getSupportedFileExtensions();
+  }
+
+
 }
 
 function buildPatternData(dataFilesPath, fsDep) {
@@ -275,18 +339,6 @@ const patternlab_engine = function (config) {
   const patternlab = new PatternLab(config);
   const paths = patternlab.config.paths;
 
-  function getVersion() {
-    return patternlab.package.version;
-  }
-
-  function logVersion() {
-    console.log(patternlab.package.version);
-  }
-
-  function getSupportedTemplateExtensions() {
-    return patternlab.engines.getSupportedFileExtensions();
-  }
-
   function help() {
 
     console.log('');
@@ -372,45 +424,7 @@ const patternlab_engine = function (config) {
     starterkit_manager.load_starterkit(starterkitName, clean);
   }
 
-  /**
-   * Process the user-defined pattern head and prepare it for rendering
-   */
-  function processHeadPattern() {
-    try {
-      const headPath = path.resolve(paths.source.meta, '_00-head.mustache');
-      const headPattern = new Pattern(headPath, null, patternlab);
-      headPattern.template = fs.readFileSync(headPath, 'utf8');
-      headPattern.isPattern = false;
-      headPattern.isMetaPattern = true;
-      pattern_assembler.decomposePattern(headPattern, patternlab, true);
-      patternlab.userHead = headPattern.extendedTemplate;
-    }
-    catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
-      if (patternlab.config.debug) { console.log(ex); }
-      process.exit(1);
-    }
-  }
 
-  /**
-   * Process the user-defined pattern footer and prepare it for rendering
-   */
-  function processFootPattern() {
-    try {
-      const footPath = path.resolve(paths.source.meta, '_01-foot.mustache');
-      const footPattern = new Pattern(footPath, null, patternlab);
-      footPattern.template = fs.readFileSync(footPath, 'utf8');
-      footPattern.isPattern = false;
-      footPattern.isMetaPattern = true;
-      pattern_assembler.decomposePattern(footPattern, patternlab, true);
-      patternlab.userFoot = footPattern.extendedTemplate;
-    }
-    catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
-      if (patternlab.config.debug) { console.log(ex); }
-      process.exit(1);
-    }
-  }
 
   function writePatternFiles(headHTML, pattern, footerHTML) {
     const nullFormatter = str => str;
@@ -623,8 +637,9 @@ const patternlab_engine = function (config) {
       processAllPatternsRecursive(paths.source.patterns, patternlab);
 
       //take the user defined head and foot and process any data and patterns that apply
-      processHeadPattern();
-      processFootPattern();
+      // GTP: should these really be invoked from outside?
+      patternlab.processHeadPattern();
+      patternlab.processFootPattern();
 
       //cascade any patternStates
       lineage_hunter.cascade_pattern_states(patternlab);
@@ -692,10 +707,10 @@ const patternlab_engine = function (config) {
 
   return {
     version: function () {
-      return logVersion();
+      return patternlab.logVersion();
     },
     v: function () {
-      return getVersion();
+      return patternlab.getVersion();
     },
     build: function (callback, deletePatternDir) {
       if (patternlab && patternlab.isBusy) {
@@ -735,7 +750,7 @@ const patternlab_engine = function (config) {
       installPlugin(pluginName);
     },
     getSupportedTemplateExtensions: function () {
-      return getSupportedTemplateExtensions();
+      return patternlab.getSupportedTemplateExtensions();
     }
   };
 };
