@@ -70,6 +70,70 @@ class PatternLab {
     // TODO: determine if this is the best place to wire up plugins
     initializePlugins(this);
   }
+
+  buildGlobalData() {
+    const paths = this.config.paths;
+
+    //
+    // COLLECT GLOBAL LIBRARY DATA
+    //
+
+    // data.json
+    try {
+      this.data = buildPatternData(paths.source.data, fs);
+    } catch (ex) {
+      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      this.data = {};
+    }
+    // listitems.json
+    try {
+      this.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    } catch (ex) {
+      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      this.listitems = {};
+    }
+    // load up all the necessary files from pattern lab that apply to every template
+    try {
+      this.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
+      this.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
+      this.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
+      this.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
+      this.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
+    } catch (ex) {
+      console.log(ex);
+      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+
+      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
+      // but whatever. For now.
+      process.exit(1);
+    }
+
+
+    //
+    // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
+    //
+    this.patterns = [];
+    this.subtypePatterns = {};
+    this.partials = {};
+    this.data.link = {};
+
+    this.setCacheBust();
+
+    pattern_assembler.combine_listItems(this);
+
+    this.events.emit('patternlab-build-global-data-end', this);
+  }
+
+  setCacheBust() {
+    if (this.config.cacheBust) {
+      if (this.config.debug) {
+        console.log('setting cacheBuster value for frontend assets.');
+      }
+      this.cacheBuster = new Date().getTime();
+    } else {
+      this.cacheBuster = 0;
+    }
+  }
 }
 
 function buildPatternData(dataFilesPath, fsDep) {
@@ -209,7 +273,6 @@ inherits(PatternLabEventEmitter, EventEmitter);
 
 const patternlab_engine = function (config) {
   const patternlab = new PatternLab(config);
-
   const paths = patternlab.config.paths;
 
   function getVersion() {
@@ -297,17 +360,6 @@ const patternlab_engine = function (config) {
     //   console.log('writing patternlab debug file to ./patternlab.json');
     //   fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
     // }
-  }
-
-  function setCacheBust() {
-    if (patternlab.config.cacheBust) {
-      if (patternlab.config.debug) {
-        console.log('setting cacheBuster value for frontend assets.');
-      }
-      patternlab.cacheBuster = new Date().getTime();
-    } else {
-      patternlab.cacheBuster = 0;
-    }
   }
 
   function listStarterkits() {
@@ -512,55 +564,6 @@ const patternlab_engine = function (config) {
     return PatternGraph.loadFromFile(patternlab);
   }
 
-  function buildGlobalData() {
-    //
-    // COLLECT GLOBAL LIBRARY DATA
-    //
-
-    // data.json
-    try {
-      patternlab.data = buildPatternData(paths.source.data, fs);
-    } catch (ex) {
-      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
-      patternlab.data = {};
-    }
-    // listitems.json
-    try {
-      patternlab.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
-    } catch (ex) {
-      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
-      patternlab.listitems = {};
-    }
-    // load up all the necessary files from pattern lab that apply to every template
-    try {
-      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
-      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
-      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
-      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
-    } catch (ex) {
-      console.log(ex);
-      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
-      process.exit(1);
-    }
-
-
-    //
-    // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
-    //
-
-    patternlab.patterns = [];
-    patternlab.subtypePatterns = {};
-    patternlab.partials = {};
-    patternlab.data.link = {};
-
-    setCacheBust();
-
-    pattern_assembler.combine_listItems(patternlab);
-
-    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
-  }
-
 
   function cleanBuildDirectory(incrementalBuildsEnabled) {
     if (incrementalBuildsEnabled) {
@@ -603,7 +606,7 @@ const patternlab_engine = function (config) {
     //
     cleanBuildDirectory(patternlab.incrementalBuildsEnabled);
 
-    buildGlobalData();
+    patternlab.buildGlobalData();
 
     // diveSync once to perform iterative populating of patternlab object
     return processAllPatternsIterative(paths.source.patterns, patternlab).then(() => {
