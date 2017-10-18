@@ -50,30 +50,17 @@ function createFakePatternLab(customProps) {
   return extend(pl, customProps);
 }
 
-// tap.test('transformConfigPaths takes configuration.paths() and maps to a better key store', function (test) {
-//   //arrange
-//   var patternlab = createFakePatternLab({});
-
-//   //act
-//   var result = assetCopy.transformConfigPaths(patternlab.config.paths);
-
-//   //assert
-//   test.equals(result.img.source, './test/img');
-//   test.equals(result.img.public, './test/output/img');
-//   test.equals(result.css.source, './test/css');
-//   test.equals(result.css.public, './test/output/css');
-//   test.end();
-// });
-
-tap.test('assetCopier does stuff', function(test) {
+tap.test('transformConfigPaths takes configuration.paths() and maps to a better key store', function (test) {
   //arrange
   var patternlab = createFakePatternLab({});
 
   //act
-
-  assetCopier.copyAssets(patternlab.config.paths, {});
+  var result = assetCopier.transformConfigPaths(patternlab.config.paths);
 
   //assert
-
+  test.equals(result.img.source, './test/img');
+  test.equals(result.img.public, './test/output/img');
+  test.equals(result.css.source, './test/css');
+  test.equals(result.css.public, './test/output/css');
   test.end();
-})
+});
