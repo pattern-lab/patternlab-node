@@ -539,7 +539,6 @@ const patternlab_engine = function (config) {
       plutils.log.info("Incremental builds enabled.");
     } else {
       // needs to be done BEFORE processing patterns
-      fs.removeSync(paths.public.patterns);
       fs.emptyDirSync(paths.public.patterns);
     }
 
@@ -683,7 +682,7 @@ const patternlab_engine = function (config) {
 
         this.events.on('patternlab-global-change', () => {
           if (!patternlab.isBusy) {
-            options.cleanPublic = false;
+            options.cleanPublic = true; //rebuild everything
             return this.build(callback, options);
           }
           return Promise.resolve();
