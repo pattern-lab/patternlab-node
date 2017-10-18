@@ -681,6 +681,14 @@ const patternlab_engine = function (config) {
           return Promise.resolve();
         });
 
+        this.events.on('patternlab-global-change', () => {
+          if (!patternlab.isBusy) {
+            options.cleanPublic = false;
+            return this.build(callback, options);
+          }
+          return Promise.resolve();
+        });
+
         printDebug();
         patternlab.isBusy = false;
         callback();

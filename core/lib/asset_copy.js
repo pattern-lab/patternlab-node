@@ -104,8 +104,55 @@ const asset_copier = () => {
       }
     });
 
-    //we need to special case patterns/**/*.md|.json|.pattern-extensions
+    //we need to special case patterns/**/*.md|.json|.pattern-extensions as well as the global structures
     if (options.watch) {
+
+      // watch global structures, such as _data/* and _meta/
+      const globalSources = [assetDirectories.source.data, assetDirectories.source.meta]
+      const globalPaths = globalSources.map(globalSource => path.join(
+        basePath,
+        globalSource,
+        '*'
+      ));
+
+      _.each(globalPaths, (globalPath) => {
+
+        if (patternlab.config.debug) {
+          console.log(`Pattern Lab is watching ${globalPath} for changes`);
+        }
+
+        const globalWatcher = chokidar.watch(
+          path.resolve(globalPath),
+          {
+            ignored: /(^|[\/\\])\../,
+            ignoreInitial: true,
+            awaitWriteFinish : {
+              stabilityThreshold: 200,
+              pollInterval: 100
+            }
+          }
+        );
+
+        //watch for changes and rebuild
+        globalWatcher.on('addDir', (p) => {
+          patternlab.events.emit('patternlab-global-change', {
+            file: p
+          })
+        })
+        .on('add', (p) => {
+          patternlab.events.emit('patternlab-global-change', {
+            file: p
+          });
+        }).on('change', (p) => {
+          console.log(145, 'global change watch')
+          patternlab.events.emit('patternlab-global-change', {
+            file: p
+          });
+        });
+
+      });
+
+      // watch patterns
       const baseFileExtensions = ['.json', '.yml', '.yaml', '.md'];
       const patternWatches = baseFileExtensions.concat(patternlab.engines.getSupportedFileExtensions()).map(
         dotExtension => path.join(
@@ -143,7 +190,7 @@ const asset_copier = () => {
         }).on('change', (p) => {
           patternlab.events.emit('patternlab-pattern-change', {
             file: p
-         });
+          });
         });
       });
     }
