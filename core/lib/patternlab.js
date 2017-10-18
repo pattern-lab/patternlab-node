@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v2.10.0 - 2017
+ * patternlab-node - v3.0.0-alpha.1 - 2017
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
@@ -12,7 +12,6 @@
 
 const diveSync = require('diveSync');
 const dive = require('dive');
-const glob = require('glob');
 const _ = require('lodash');
 const path = require('path');
 const chalk = require('chalk');
@@ -20,6 +19,7 @@ const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
+const dataLoader = require('./data_loader')();
 const plutils = require('./utilities');
 const jsonCopy = require('./json_copy');
 const PatternGraph = require('./pattern_graph').PatternGraph;
@@ -29,11 +29,14 @@ const sm = require('./starterkit_manager');
 const pe = require('./pattern_exporter');
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
+const updateNotifier = require('update-notifier');
 
 //these are mocked in unit tests, so let them be overridden
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./ui_builder'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
+let assetCopier = require('./asset_copy'); // eslint-disable-line
+let serve = require('./serve'); // eslint-disable-line
 
 const pattern_assembler = new pa();
 const lineage_hunter = new lh();
@@ -63,6 +66,9 @@ class PatternLab {
 
     // Make a place for the pattern graph to sit
     this.graph = null;
+
+    // Make a place to attach known watchers so we can manage them better during serve and watch
+    this.watchers = {};
 
     // Verify correctness of configuration (?)
     checkConfiguration(this);
@@ -243,14 +249,20 @@ class PatternLab {
   }
 }
 
+//bootstrap update notifier
+updateNotifier({
+  pkg: packageInfo,
+  updateCheckInterval: 1000 * 60 * 60 * 24 // notify at most once a day
+}).notify();
+
+/**
+ * Given a path, load info from the folder to compile into a single config object.
+ * @param dataFilesPath
+ * @param fsDep
+ * @returns {{}}
+ */
 function buildPatternData(dataFilesPath, fsDep) {
-  const dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
-  let mergeObject = {};
-  dataFiles.forEach(function (filePath) {
-    const jsonData = fsDep.readJSONSync(path.resolve(filePath), 'utf8');
-    mergeObject = _.merge(mergeObject, jsonData);
-  });
-  return mergeObject;
+  return dataLoader.loadDataFromFolder(dataFilesPath, 'listitems', fsDep);
 }
 
 // GTP: these two diveSync pattern processors factored out so they can be reused
@@ -708,52 +720,146 @@ const patternlab_engine = function (config) {
   }
 
   return {
+    /**
+     * logs current version
+     *
+     * @returns {void} current patternlab-node version as defined in package.json, as console output
+     */
     version: function () {
       return patternlab.logVersion();
     },
+
+    /**
+     * return current version
+     *
+     * @returns {string} current patternlab-node version as defined in package.json, as string
+     */
     v: function () {
       return patternlab.getVersion();
     },
-    build: function (callback, deletePatternDir) {
+
+    /**
+     * build patterns, copy assets, and construct ui
+     *
+     * @param {function} callback a function invoked when build is complete
+     * @param {object} options an object used to control build behavior
+     * @returns {Promise} a promise fulfilled when build is complete
+     */
+    build: function (callback, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(deletePatternDir).then(() => {
+      return buildPatterns(options.cleanPublic).then(() => {
+
         new ui_builder().buildFrontend(patternlab);
+        assetCopier().copyAssets(patternlab.config.paths, patternlab, options);
+
+        this.events.on('patternlab-pattern-change', () => {
+          if (!patternlab.isBusy) {
+            options.cleanPublic = false;
+            return this.build(callback, options);
+          }
+          return Promise.resolve();
+        });
+
+        this.events.on('patternlab-global-change', () => {
+          if (!patternlab.isBusy) {
+            options.cleanPublic = true; //rebuild everything
+            return this.build(callback, options);
+          }
+          return Promise.resolve();
+        });
+
         printDebug();
         patternlab.isBusy = false;
         callback();
       });
     },
+
+    /**
+     * logs usage
+     *
+     * @returns {void} pattern lab API usage, as console output
+     */
     help: function () {
       help();
     },
-    patternsonly: function (callback, deletePatternDir) {
+
+    /**
+     * build patterns only, leaving existing public files intact
+     *
+     * @param {function} callback a function invoked when build is complete
+     * @param {object} options an object used to control build behavior
+     * @returns {Promise} a promise fulfilled when build is complete
+     */
+    patternsonly: function (callback, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(deletePatternDir).then(() => {
+      return buildPatterns(options.cleanPublic).then(() => {
         printDebug();
         patternlab.isBusy = false;
         callback();
       });
     },
+
+  /**
+   * fetches starterkit repos from pattern-lab github org that contain 'starterkit' in their name
+   *
+   * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
+   */
     liststarterkits: function () {
       return patternlab.listStarterkits();
     },
+
+    /**
+     * load starterkit already available via `node_modules/`
+     *
+     * @param {string} starterkitName name of starterkit
+     * @param {boolean} clean whether or not to delete contents of source/ before load
+     * @returns {void}
+     */
     loadstarterkit: function (starterkitName, clean) {
       patternlab.loadStarterKit(starterkitName, clean);
     },
+
+
+    /**
+     * install plugin already available via `node_modules/`
+     *
+     * @param {string} pluginName name of plugin
+     * @returns {void}
+     */
     installplugin: function (pluginName) {
       installPlugin(pluginName);
     },
+
+    /**
+     * returns all file extensions supported by installed PatternEngines
+     *
+     * @returns {Array<string>} all supported file extensions
+     */
     getSupportedTemplateExtensions: function () {
       return patternlab.getSupportedTemplateExtensions();
-    }
+    },
+
+    /**
+     * build patterns, copy assets, and construct ui, watch source files, and serve locally
+     *
+     * @param {object} options an object used to control build, copy, and serve behavior
+     * @returns {Promise} TODO: validate
+     */
+    serve: function (options) {
+      options.watch = true;
+      return this.build(() => {}, options).then(function () {
+        serve(patternlab);
+      });
+    },
+    events: patternlab.events
   };
 };
 

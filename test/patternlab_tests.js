@@ -70,6 +70,14 @@ tap.test('buildPatterns - should replace data link even when pattern parameter p
   pl.build(function() {
     test.end();
   }, true);
+});
 
+tap.test('buildPatternData - can load json, yaml, and yml files', function(test) {
+  const data_dir = './test/files/_data/';
 
+  let dataResult = plEngineModule.build_pattern_data(data_dir, fs);
+  test.equals(dataResult.from_yml, "from_yml");
+  test.equals(dataResult.from_yaml, "from_yaml");
+  test.equals(dataResult.from_json, "from_json");
+  test.end();
 });

@@ -49,9 +49,10 @@ const parameter_hunter = function () {
    *   * Return paramStringWellFormed.
    *
    * @param {string} pString
+   * @param {object} patternlab
    * @returns {string} paramStringWellFormed
    */
-  function paramToJson(pString) {
+  function paramToJson(pString, patternlab) {
     let colonPos = -1;
     const keys = [];
     let paramString = pString; // to not reassign param
@@ -60,6 +61,17 @@ const parameter_hunter = function () {
     let regex;
     const values = [];
     let wrapper;
+
+    // attempt to parse the data in case it is already well formed JSON
+    try {
+      paramStringWellFormed = JSON.stringify(JSON.parse(pString));
+      return paramStringWellFormed;
+    } catch (err) {
+      //todo this might be a good candidate for a different log level, should we implement that someday
+      if (patternlab.config.debug) {
+        console.log(`Not valid JSON found for passed pattern parameter ${pString} will attempt to parse manually...`);
+      }
+    }
 
     //replace all escaped double-quotes with escaped unicode
     paramString = paramString.replace(/\\"/g, '\\u0022');
@@ -252,7 +264,7 @@ const parameter_hunter = function () {
         const leftParen = pMatch.indexOf('(');
         const rightParen = pMatch.lastIndexOf(')');
         const paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        const paramStringWellFormed = paramToJson(paramString);
+        const paramStringWellFormed = paramToJson(paramString, patternlab);
 
         let paramData = {};
         let globalData = {};
@@ -267,6 +279,10 @@ const parameter_hunter = function () {
           console.log(err);
         }
 
+        // resolve any pattern links that might be present
+        paramData = pattern_assembler.parse_data_links_specific(patternlab, paramData, pattern.patternPartial);
+
+        //combine all data: GLOBAL DATA => PATTERN.JSON DATA => PARAMETER DATA
         let allData = _.merge(globalData, localData);
         allData = _.merge(allData, paramData);
 

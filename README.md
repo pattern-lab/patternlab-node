@@ -10,13 +10,14 @@ This repository contains the core functionality for Pattern Lab Node. Pattern La
 
 ## Support for Pattern Lab Node
 
-Pattern Lab Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [these wonderful project supporters](https://github.com/pattern-lab/patternlab-node/wiki/Thanks). If you want to learn more about supporting the project, visit the [Pattern Lab Node Patreon page](https://www.patreon.com/patternlab).   
+Pattern Lab Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [these wonderful project supporters](https://github.com/pattern-lab/patternlab-node/wiki/Thanks). If you want to learn more about supporting the project, visit the [Pattern Lab Node Patreon page](https://www.patreon.com/patternlab).
 
-**:100: Thanks for support from the following:** 
+**:100: Thanks for support from the following:**
 
 * **[Brad Frost](http://bradfrost.com/)**
 * [Marcos Peebles](https://twitter.com/marcospeebles)
 * [Susan Simkins](https://twitter.com/susanmsimkins)
+* [Wilfred Nas](https://twitter.com/wnas)
 
 ## Installation
 

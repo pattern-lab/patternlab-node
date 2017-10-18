@@ -62,7 +62,7 @@ PatternRegistry.prototype = {
     for (const thisPattern of patterns) {
       switch (partialName) {
         case thisPattern.relPath:
-        case thisPattern.subdir + '/' + thisPattern.fileName:
+        case thisPattern.verbosePartial:
           return thisPattern;
       }
     }

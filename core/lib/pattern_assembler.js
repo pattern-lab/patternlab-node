@@ -14,8 +14,10 @@ const smh = require('./style_modifier_hunter');
 const ph = require('./parameter_hunter');
 const ch = require('./changes_hunter');
 const jsonCopy = require('./json_copy');
+const da = require('./data_loader');
 const markdown_parser = new mp();
 const changes_hunter = new ch();
+const dataLoader = new da();
 
 //this is mocked in unit tests
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
@@ -35,7 +37,7 @@ const pattern_assembler = function () {
     for (var i = 0; i < patternlab.patterns.length; i++) {
       switch (partialName) {
         case patternlab.patterns[i].relPath:
-        case patternlab.patterns[i].subdir + '/' + patternlab.patterns[i].fileName:
+        case patternlab.patterns[i].verbosePartial:
           return patternlab.patterns[i];
       }
     }
@@ -309,16 +311,13 @@ const pattern_assembler = function () {
 
     //look for a json file for this template
     try {
-      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".json");
-      try {
-        var jsonFilenameStats = fs.statSync(jsonFilename);
-      } catch (err) {
-        //not a file
-      }
-      if (jsonFilenameStats && jsonFilenameStats.isFile()) {
-        currentPattern.jsonFileData = fs.readJSONSync(jsonFilename);
+      var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
+      const configData = dataLoader.loadDataFromFile(jsonFilename, fs);
+
+      if (configData) {
+        currentPattern.jsonFileData = configData;
         if (patternlab.config.debug) {
-          console.log('processPatternIterative: found pattern-specific data.json for ' + currentPattern.patternPartial);
+          console.log('processPatternIterative: found pattern-specific config data for ' + currentPattern.patternPartial);
         }
       }
     }
@@ -329,17 +328,14 @@ const pattern_assembler = function () {
 
     //look for a listitems.json file for this template
     try {
-      var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems.json");
-      try {
-        var listJsonFileStats = fs.statSync(listJsonFileName);
-      } catch (err) {
-        //not a file
-      }
-      if (listJsonFileStats && listJsonFileStats.isFile()) {
-        currentPattern.listitems = fs.readJSONSync(listJsonFileName);
+      var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems");
+      const listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
+
+      if (listItemsConfig) {
+        currentPattern.listitems = listItemsConfig;
         buildListItems(currentPattern);
         if (patternlab.config.debug) {
-          console.log('found pattern-specific listitems.json for ' + currentPattern.patternPartial);
+          console.log('found pattern-specific listitems config for ' + currentPattern.patternPartial);
         }
       }
     }
