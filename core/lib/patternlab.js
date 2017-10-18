@@ -47,6 +47,31 @@ plutils.log.on('info', msg => console.log(msg));
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
 
+class PatternLab {
+  constructor(config) {
+    // Either use the config we were passed, or load one up from the config file ourselves
+    this.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+    // Load up engines please
+    this.engines = patternEngines;
+    this.engines.loadAllEngines(config);
+
+    // Cache the package.json in RAM
+    this.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
+
+    // Make ye olde event emitter
+    this.events = new PatternLabEventEmitter();
+
+    // Make a place for the pattern graph to sit
+    this.graph = null;
+
+    // Verify correctness of configuration (?)
+    checkConfiguration(this);
+
+    // TODO: determine if this is the best place to wire up plugins
+    initializePlugins(this);
+  }
+}
+
 function buildPatternData(dataFilesPath, fsDep) {
   const dataFiles = glob.sync(dataFilesPath + '*.json', {"ignore" : [dataFilesPath + 'listitems.json']});
   let mergeObject = {};
@@ -183,22 +208,7 @@ function PatternLabEventEmitter() {
 inherits(PatternLabEventEmitter, EventEmitter);
 
 const patternlab_engine = function (config) {
-  const patternlab = {};
-
-  patternlab.engines = patternEngines;
-  patternlab.engines.loadAllEngines(config);
-
-  patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
-  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
-  patternlab.events = new PatternLabEventEmitter();
-
-  // Initialized when building
-  patternlab.graph = null;
-
-  checkConfiguration(patternlab);
-
-  //todo: determine if this is the best place to wire up plugins
-  initializePlugins(patternlab);
+  const patternlab = new PatternLab(config);
 
   const paths = patternlab.config.paths;
 
@@ -563,6 +573,7 @@ const patternlab_engine = function (config) {
   }
 
   function buildPatterns(deletePatternDir) {
+    patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
     if (patternlab.config.debug) {
       console.log(
@@ -571,8 +582,6 @@ const patternlab_engine = function (config) {
         chalk.bold(']====\n')
       );
     }
-
-    patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
     //
     // CHECK INCREMENTAL BUILD GRAPH
