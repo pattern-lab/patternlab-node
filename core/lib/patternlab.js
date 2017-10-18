@@ -656,12 +656,31 @@ const patternlab_engine = function (config) {
   }
 
   return {
+    /**
+     * logs current version
+     *
+     * @returns {void} current patternlab-node version as defined in package.json, as console output
+     */
     version: function () {
       return logVersion();
     },
+
+    /**
+     * return current version
+     *
+     * @returns {string} current patternlab-node version as defined in package.json, as string
+     */
     v: function () {
       return getVersion();
     },
+
+    /**
+     * build patterns, copy assets, and construct ui
+     *
+     * @param {function} callback a function invoked when build is complete
+     * @param {object} options an object used to control build behavior
+     * @returns {Promise} a promise fulfilled when build is complete
+     */
     build: function (callback, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
@@ -694,9 +713,23 @@ const patternlab_engine = function (config) {
         callback();
       });
     },
+
+    /**
+     * logs usage
+     *
+     * @returns {void} pattern lab API usage, as console output
+     */
     help: function () {
       help();
     },
+
+    /**
+     * build patterns only, leaving existing public files intact
+     *
+     * @param {function} callback a function invoked when build is complete
+     * @param {object} options an object used to control build behavior
+     * @returns {Promise} a promise fulfilled when build is complete
+     */
     patternsonly: function (callback, options) {
       if (patternlab && patternlab.isBusy) {
         console.log('Pattern Lab is busy building a previous run - returning early.');
@@ -709,18 +742,53 @@ const patternlab_engine = function (config) {
         callback();
       });
     },
+
+  /**
+   * fetches starterkit repos from pattern-lab github org that contain 'starterkit' in their name
+   *
+   * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
+   */
     liststarterkits: function () {
       return listStarterkits();
     },
+
+    /**
+     * load starterkit already available via `node_modules/`
+     *
+     * @param {string} starterkitName name of starterkit
+     * @param {boolean} clean whether or not to delete contents of source/ before load
+     * @returns {void}
+     */
     loadstarterkit: function (starterkitName, clean) {
       loadStarterKit(starterkitName, clean);
     },
+
+
+    /**
+     * install plugin already available via `node_modules/`
+     *
+     * @param {string} pluginName name of plugin
+     * @returns {void}
+     */
     installplugin: function (pluginName) {
       installPlugin(pluginName);
     },
+
+    /**
+     * returns all file extensions supported by installed PatternEngines
+     *
+     * @returns {Array<string>} all supported file extensions
+     */
     getSupportedTemplateExtensions: function () {
       return getSupportedTemplateExtensions();
     },
+
+    /**
+     * build patterns, copy assets, and construct ui, watch source files, and serve locally
+     *
+     * @param {object} options an object used to control build, copy, and serve behavior
+     * @returns {Promise} TODO: validate
+     */
     serve: function (options) {
       options.watch = true;
       return this.build(() => {}, options).then(function () {
