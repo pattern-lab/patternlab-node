@@ -211,6 +211,36 @@ class PatternLab {
   }
 
 
+  writePatternFiles(headHTML, pattern, footerHTML) {
+    const nullFormatter = str => str;
+    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
+    const makePath = type => path.join(this.config.paths.public.patterns, pattern.getPatternLink(this, type));
+    const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+    const eng = pattern.engine;
+
+    //beautify the output if configured to do so
+    const formatters = this.config.cleanOutputHtml ? {
+      rendered:     eng.renderedCodeFormatter || defaultFormatter,
+      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
+      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
+    } : {
+      rendered:     nullFormatter,
+      rawTemplate:  nullFormatter,
+      markupOnly:   nullFormatter
+    };
+
+    //prepare the path and contents of each output file
+    const outputFiles = [
+      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
+      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
+      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
+    ].concat(
+      eng.addOutputFiles ? eng.addOutputFiles(this.config.paths, this) : []
+    );
+
+    //write the compiled template to the public patterns directory
+    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
+  }
 }
 
 function buildPatternData(dataFilesPath, fsDep) {
@@ -429,39 +459,6 @@ const patternlab_engine = function (config) {
 
 
 
-
-
-  function writePatternFiles(headHTML, pattern, footerHTML) {
-    const nullFormatter = str => str;
-    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
-    const makePath = type => path.join(paths.public.patterns, pattern.getPatternLink(patternlab, type));
-    const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-    const eng = pattern.engine;
-
-    //beautify the output if configured to do so
-    const formatters = config.cleanOutputHtml ? {
-      rendered:     eng.renderedCodeFormatter || defaultFormatter,
-      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
-      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
-    } : {
-      rendered:     nullFormatter,
-      rawTemplate:  nullFormatter,
-      markupOnly:   nullFormatter
-    };
-
-    //prepare the path and contents of each output file
-    const outputFiles = [
-      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
-      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
-      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
-    ].concat(
-      eng.addOutputFiles ? eng.addOutputFiles(paths, patternlab) : []
-    );
-
-    //write the compiled template to the public patterns directory
-    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
-  }
-
   function renderSinglePattern(pattern, head) {
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
@@ -554,7 +551,7 @@ const patternlab_engine = function (config) {
     patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
 
     //write the compiled template to the public patterns directory
-    writePatternFiles(headHTML, pattern, footerHTML);
+    patternlab.writePatternFiles(headHTML, pattern, footerHTML);
 
     patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
 
