@@ -10,7 +10,8 @@ const serve = (patternlab) => {
     open: true,
     ignore: path.join(path.resolve(patternlab.config.paths.public.root)),
     file: 'index.html',
-    logLevel: 0 // errors only
+    logLevel: 0, // errors only
+    wait: 1000
   };
 
   // allow for overrides should they exist inside patternlab-config.json

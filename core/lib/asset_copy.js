@@ -11,7 +11,7 @@ const asset_copier = () => {
   const transform_paths = (directories) => {
     //create array with all source keys minus our blacklist
     const dirs = {};
-    const blackList = ['root', 'patterns', 'data', 'meta', 'annotations', 'styleguide', 'patternlabFiles'];
+    const blackList = ['root', 'patterns', 'data', 'meta', 'annotations', 'patternlabFiles'];
     _.each(directories.source, (dir, key) => {
 
       if (blackList.includes(key)) {
@@ -66,13 +66,18 @@ const asset_copier = () => {
       };
 
     //loop through each directory asset object (source / public pairing)
-    _.each(dirs, (dir) => {
+    _.each(dirs, (dir, key) => {
 
       //if we want to watch files, do so, otherwise just copy each file
       if (options.watch) {
         if (patternlab.config.debug) {
           console.log(`Pattern Lab is watching ${path.resolve(basePath, dir.source)} for changes`);
         }
+
+        if (patternlab.watchers[key]) {
+          patternlab.watchers[key].close();
+        }
+
         const assetWatcher = chokidar.watch(
           path.resolve(basePath, dir.source),
           {
@@ -97,12 +102,20 @@ const asset_copier = () => {
           copyFile(p, destination, copyOptions);
         });
 
+        patternlab.watchers[key] = assetWatcher;
+
       } else {
         //just copy
         const destination = path.resolve(basePath, dir.public);
         copyFile(dir.source, destination, copyOptions);
       }
     });
+
+    // copy the styleguide
+    copyFile(assetDirectories.source.styleguide, assetDirectories.public.root, copyOptions);
+
+    // copy the favicon
+    copyFile(`${assetDirectories.source.root}/favicon.ico`, `${assetDirectories.public.root}/favicon.ico`, copyOptions);
 
     //we need to special case patterns/**/*.md|.json|.pattern-extensions as well as the global structures
     if (options.watch) {
@@ -119,6 +132,10 @@ const asset_copier = () => {
 
         if (patternlab.config.debug) {
           console.log(`Pattern Lab is watching ${globalPath} for changes`);
+        }
+
+        if (patternlab.watchers[globalPath]) {
+          patternlab.watchers[globalPath].close();
         }
 
         const globalWatcher = chokidar.watch(
@@ -149,6 +166,8 @@ const asset_copier = () => {
             file: p
           });
         });
+
+        patternlab.watchers[globalPath] = globalWatcher;
 
       });
 

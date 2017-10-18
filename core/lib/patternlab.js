@@ -200,6 +200,7 @@ const patternlab_engine = function (config) {
   patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
   patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
   patternlab.events = new PatternLabEventEmitter();
+  patternlab.watchers = {};
 
   // Initialized when building
   patternlab.graph = null;
