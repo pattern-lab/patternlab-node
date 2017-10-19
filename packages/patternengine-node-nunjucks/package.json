@@ -24,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/danwhite85/patternengine-node-nunjucks"
+    "url": "https://github.com/pattern-lab/patternengine-node-nunjucks"
   },
-  "bugs": "https://github.com/danwhite85/patternengine-node-nunjucks/issues",
+  "bugs": "https://github.com/pattern-lab/patternengine-node-nunjucks/issues",
   "deprecated": false,
   "description": "The nunjucks engine for Pattern Lab / Node",
   "dependencies": {

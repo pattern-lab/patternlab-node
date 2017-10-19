@@ -1,4 +1,4 @@
-# A Nunjucks engine for Pattern Lab / Node
+# The Nunjucks engine for Pattern Lab / Node
 
 ## Installing
 
