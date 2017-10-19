@@ -21,28 +21,83 @@ Pattern Lab Node wouldn't be what it is today without the support of the communi
 
 ## Installation
 
-Pattern Lab Node Core is designed to be consumed, and by default is included as a dependency within two example [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
+Pattern Lab Node can be used different ways. Editions are **example** pairings of Pattern Lab code and do not always have an upgrade path or simple means to run as a dependency within a larger project. Users wishing to be most current and have the greatest flexibility are encouraged to consume `patternlab-node` directly. Users wanting to learn more about Pattern Lab and have a tailored default experience are encouraged to start with an Edition. Both methods still expect to interact with other elements of the [Pattern Lab Ecosystem](#ecosystem).
 
+### Direct Consumption
+
+As of Pattern Lab Node 3.X, `patternlab-node` can run standalone, without the need for task runners like gulp or grunt.
+
+`npm install patternlab-node`
+
+See [Usage](#Usage) for more information.
+
+### Editions
+
+For users wanting a more pre-packaged experience several editions are available.
 
 * [Pattern Lab/Node: Gulp Edition](https://github.com/pattern-lab/edition-node-gulp) contains info how to get started within a Gulp task running environment.
 * [Pattern Lab/Node: Grunt Edition](https://github.com/pattern-lab/edition-node-grunt) contains info how to get started within a Grunt task running environment.
+* [Pattern Lab/Node: Vanilla Edition](https://github.com/pattern-lab/edition-node) contains info how to get started within a pure node environment.
+* [Pattern Lab/Node: Webpack Edition](https://github.com/Comcast/patternlab-edition-node-webpack) contains info how to get started within a webpack environment.
+  >Thanks to the team at Comcast for open-sourcing this stellar work!
+
+## Ecosystem
 
 ![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
 
-Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own editions.
+Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
 ## Usage
 
+`patternlab-node` can be required within any Node environment, taking in a configuration file at instantiation.
+
 ``` javascript
+
 const config = require('./patternlab-config.json');
 const patternlab = require('patternlab-node')(config);
-patternlab.build(doneCallBack, boolCleanOutputDir);
+
+
+// build, optionally watching or choosing incremental builds
+patternlab.build({
+  cleanPublic: true,
+  watch: true
+});
+
+// or build, watch, and then self-host
+patternlab.serve({
+  cleanPublic: true
+});
+
 ```
 
-* Read more about configuration via `patternlab-config.json`: https://github.com/pattern-lab/patternlab-node/wiki/Configuration
-* The rest of the [api / command line interface](https://github.com/pattern-lab/patternlab-node/wiki/Command-Line-Interface) is documented in the wiki, and already implemented for you within [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
-A [full-featured command line interface](https://github.com/pattern-lab/patternlab-node-cli) is in the works, courtesy of [@raphaelokon](https://github.com/raphaelokon).
+* Read more about [configuration](https://github.com/pattern-lab/patternlab-node/wiki/Configuration) via `patternlab-config.json`.
 
+* Read more about the rest of [api](https://github.com/pattern-lab/patternlab-node/wiki/Public-API), and already implemented for you within [Editions](#editions).
+
+* A full-featured [command line interface](https://github.com/pattern-lab/patternlab-node-cli) is also available courtesy of [@raphaelokon](https://github.com/raphaelokon).
+
+
+### Events
+
+Many [events](https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins#events) are emitted during Pattern Lab operations, originally built to support plugins. Below is a sample, allowing users to be informed of asset or pattern changes.
+
+``` javascript
+
+patternlab.serve(...);
+
+patternlab.events.on('patternlab-asset-change', (data) => {
+  console.log(data); // {file: 'path/to/file.css', dest: 'path/to/destination'}
+});
+
+patternlab.events.on('patternlab-pattern-change', (data) => {
+  console.log(data); // {file: 'path/to/file.ext'}
+});
+
+patternlab.events.on('patternlab-global-change', (data) => {
+  console.log(data); // {file: 'path/to/file.ext'}
+});
+
+```
 
 ## Development Installation / Workflow
 
@@ -54,7 +109,7 @@ cd /patternlab-node
 git clone https://github.com/pattern-lab/patternlab-node.git
 npm install
 npm link
-cd location/of/edition
+cd location/of/editionOrSourceAndConfig
 npm link patternlab-node
 ```
 
@@ -63,7 +118,7 @@ The above is a bit verbose, but illustrates:
 1. how to clone this repository to an arbitrary location
 2. install all dependencies (run `npm install --dev` if your NODE_ENV is production for some reason)
 3. setup the `npm link` to your local copy
-4. use the local copy of patternlab-node in your edition
+4. use the local copy of patternlab-node in your edition / working directory
 
 > Make sure to change to whichever branch you intend to hack on or test within your cloned repository, such as `dev` or `bugfix/fixes-broken-unittest`
 
