@@ -21,15 +21,24 @@ Pattern Lab Node wouldn't be what it is today without the support of the communi
 
 ## Installation
 
-Pattern Lab Node Core is designed to be consumed, and by default is included as a dependency within two example [Node Editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node).
+Pattern Lab Node can be worked with a couple different ways.
 
+As of Pattern Lab Node 3.X, `patternlab-node` can run standalone, in conjunction with the rest of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html) elements.
+
+
+
+
+
+For users wanting a more pre-packaged experience several editions are available.
 
 * [Pattern Lab/Node: Gulp Edition](https://github.com/pattern-lab/edition-node-gulp) contains info how to get started within a Gulp task running environment.
 * [Pattern Lab/Node: Grunt Edition](https://github.com/pattern-lab/edition-node-grunt) contains info how to get started within a Grunt task running environment.
+* [Pattern Lab/Node: Vanilla Edition](https://github.com/pattern-lab/edition-node) contains info how to get started within a pure node environment.
+* [Pattern Lab/Node: Webpack Edition](https://github.com/Comcast/patternlab-edition-node-webpack) contains info how to get started within a webpack environment. Thanks to Comcast for open-sourcing this stellar work!
 
 ![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
 
-Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own editions.
+Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
 ## Usage
 
