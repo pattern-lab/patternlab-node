@@ -12,7 +12,7 @@ The best way to make changes to this repo and test them is through your existing
 * `npm install`
 * `npm link`
 * `cd /path/to/your/edition`
-* `npm link @pattern-lab/styleguidekit-assets-default
+* `npm link @pattern-lab/styleguidekit-assets-default`
 
 ### PHP 
 
