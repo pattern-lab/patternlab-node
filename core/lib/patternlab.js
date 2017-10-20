@@ -1,5 +1,5 @@
 /*
- * patternlab-node - v3.0.0-alpha.1 - 2017
+ * patternlab-node https://github.com/pattern-lab/patternlab-node
  *
  * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
  * Licensed under the MIT license.
