@@ -23,6 +23,7 @@ Guidelines
 -	*ALWAYS* submit pull requests against the [dev branch](https://github.com/pattern-lab/patternlab-node/tree/dev). If this does not occur, I will first, try to redirect you gently, second, attempt to redirect the target branch myself, thirdly, port over your contribution manually if time allows, and/or lastly, close your pull request. If you have a major feature to stabilize over time, talk to @bmuenzenmeyer via an issue about making a dedicated `feature-branch`
 -	Keep your pull requests concise and limited to **ONE** substantive change at a time. This makes reviewing and testing so much easier.
 -	Commits should reference the issue you are adressing. For any Pull Request that you send, use the template provided.
+-	Commits are best formatted using the [conventional commits pattern](https://conventionalcommits.org/).
 -	If you can, add some unit tests using the existing patterns in the `./test` directory
 -	Large enhancements should begin with opening an issue. This will result in a more systematic way for us to review your contribution and determine if a [specifcation discussion](https://github.com/pattern-lab/the-spec/issues) needs to occur.
 -	Mention the issue number in commits, so anyone can see to which issue your changes belong to. For instance:
