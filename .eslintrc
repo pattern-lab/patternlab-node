@@ -83,6 +83,10 @@
     "space-infix-ops": 1,
     "valid-typeof": 2,
     "vars-on-top": 0,
-    "wrap-iife": [2, "inside"]
+    "wrap-iife": [2, "inside"],
+    "prefer-const": ["error", {
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": false
+      }]
   }
 }

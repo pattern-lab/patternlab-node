@@ -1,11 +1,11 @@
 "use strict";
 
-var starterkit_manager = function (config) {
-  var path = require('path'),
-    fetch = require('node-fetch'),
-    fs = require('fs-extra'),
-    util = require('./utilities'),
-    paths = config.paths;
+const starterkit_manager = function (config) {
+  const path = require('path');
+  const fetch = require('node-fetch');
+  const fs = require('fs-extra');
+  const util = require('./utilities');
+  const paths = config.paths;
 
   /**
    * Loads npm module identified by the starterkitName parameter.
@@ -15,7 +15,7 @@ var starterkit_manager = function (config) {
   */
   function loadStarterKit(starterkitName, clean) {
     try {
-      var kitPath = path.resolve(
+      const kitPath = path.resolve(
         path.join(process.cwd(), 'node_modules', starterkitName, config.starterkitSubDir)
       );
       console.log('Attempting to load starterkit from', kitPath);
@@ -26,12 +26,12 @@ var starterkit_manager = function (config) {
         util.error(starterkitName + ' not loaded.');
         return;
       }
-      var kitPathDirExists = kitDirStats.isDirectory();
+      const kitPathDirExists = kitDirStats.isDirectory();
       if (kitPathDirExists) {
 
         if (clean) {
           console.log('Deleting contents of', paths.source.root, 'prior to starterkit load.');
-          util.emptyDirectory(paths.source.root);
+          fs.emptyDirSync(paths.source.root);
         } else {
           console.log('Overwriting contents of', paths.source.root, 'during starterkit load.');
         }
@@ -61,7 +61,7 @@ var starterkit_manager = function (config) {
         'Accept': 'application/json'
       }
     }).then(function (res) {
-      var contentType = res.headers.get('content-type');
+      const contentType = res.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') === -1) {
         throw new TypeError("StarterkitManager->listStarterkits: Not valid JSON");
       }
@@ -90,9 +90,9 @@ var starterkit_manager = function (config) {
    * @return {array} List of starter kits installed
    */
   function detectStarterKits() {
-    var node_modules_path = path.join(process.cwd(), 'node_modules');
-    var npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {
-      var module_path = path.join(process.cwd(), 'node_modules', dir);
+    const node_modules_path = path.join(process.cwd(), 'node_modules');
+    const npm_modules = fs.readdirSync(node_modules_path).filter(function (dir) {
+      const module_path = path.join(process.cwd(), 'node_modules', dir);
       return fs.statSync(module_path).isDirectory() && dir.indexOf('starterkit-') === 0;
     });
     return npm_modules;

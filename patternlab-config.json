@@ -47,11 +47,12 @@
     "tools-all": false,
     "tools-docs": false
   },
-  "ishMinimum": "240",
-  "ishMaximum": "2600",
-  "patternStateCascade": ["inprogress", "inreview", "complete"],
-  "patternStates": {
+  "ishViewportRange": {
+    "s": [240, 500],
+    "m": [500, 800],
+    "l": [800, 2600]
   },
+  "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "cacheBust": true,
@@ -61,5 +62,10 @@
     "markupOnly": ".markup-only"
   },
   "cleanOutputHtml": true,
-  "exportToGraphViz": false
+  "exportToGraphViz": false,
+  "theme": {
+    "color": "dark",
+    "density": "compact",
+    "layout": "horizontal"
+  }
 }

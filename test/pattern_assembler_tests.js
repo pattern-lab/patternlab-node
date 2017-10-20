@@ -7,6 +7,9 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var path = require('path');
+var config = require('./util/patternlab-config.json');
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines(config);
 
 function emptyPatternLab() {
   return {
@@ -32,45 +35,43 @@ tap.test('process_pattern_recursive recursively includes partials', function(tes
   patternlab.config.paths.public = public_dir;
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
-  //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
   patternlab.data = {};
-  //patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
   patternlab.listitems = {};
-  //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
   patternlab.header = '';
-  //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
   patternlab.footer = '';
   patternlab.patterns = [];
   patternlab.data.link = {};
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab);
+  plMain.process_all_patterns_iterative(patterns_dir, patternlab)
+    .then(() => {
+      //diveSync again to recursively include partials, filling out the
+      //extendedTemplate property of the patternlab.patterns elements
+      plMain.process_all_patterns_recursive(patterns_dir, patternlab);
 
-  //diveSync again to recursively include partials, filling out the
-  //extendedTemplate property of the patternlab.patterns elements
-  plMain.process_all_patterns_recursive(pattern_assembler, patterns_dir, patternlab);
+      //get test output for comparison
+      var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
+      var bar = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8').trim();
+      var fooExtended;
 
-  //get test output for comparison
-  var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
-  var bar = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8').trim();
-  var fooExtended;
+      //get extended pattern
+      for (var i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].fileName === '00-foo') {
+          fooExtended = patternlab.patterns[i].extendedTemplate.trim();
+          break;
+        }
+      }
 
-  //get extended pattern
-  for (var i = 0; i < patternlab.patterns.length; i++) {
-    if (patternlab.patterns[i].fileName === '00-foo') {
-      fooExtended = patternlab.patterns[i].extendedTemplate.trim();
-      break;
-    }
-  }
+      //check initial values
+      test.equals(foo, '{{> test-bar }}', 'foo template not as expected');
+      test.equals(bar, 'bar', 'bar template not as expected');
+      //test that 00-foo.mustache included partial 01-bar.mustache
+      test.equals(fooExtended, 'bar', 'foo includes bar');
 
-  //check initial values
-  test.equals(foo, '{{> test-bar }}', 'foo template not as expected');
-  test.equals(bar, 'bar', 'bar template not as expected');
-  //test that 00-foo.mustache included partial 01-bar.mustache
-  test.equals(fooExtended, 'bar', 'foo includes bar');
-
-  test.end();
+      test.end();
+    })
+    .catch(test.threw);
 });
 
 tap.test('processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found', function(test) {
@@ -478,59 +479,21 @@ tap.test('processPatternRecursive - 685 ensure listitems data is used', function
   pattern_assembler.combine_listItems(pl);
 
   var listPatternPath = path.join('00-test', '685-list.mustache');
-  var listPattern = pattern_assembler.process_pattern_iterative(listPatternPath, pl);
+  var listPattern = pattern_assembler.load_pattern_iterative(listPatternPath, pl);
 
-  //act
-  pattern_assembler.process_pattern_recursive(listPatternPath, pl);
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(listPattern, pl)
+  ]).then((results) => {
 
-  //assert
-  test.true(listPattern.extendedTemplate.indexOf(1) > -1);
-  test.true(listPattern.extendedTemplate.indexOf(2) > -1);
-  test.true(listPattern.extendedTemplate.indexOf(3) > -1);
-  test.end();
-});
+     //act
+    pattern_assembler.process_pattern_recursive(listPatternPath, pl);
 
-tap.test('setState - applies any patternState matching the pattern', function(test) {
-  //arrange
-  var pa = require('../core/lib/pattern_assembler');
-  var pattern_assembler = new pa();
-  var patternlab = {};
-  patternlab.config = {};
-  patternlab.config.patternStates = {};
-  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
-
-  var pattern = {
-    patternPartial: "pages-homepage-emergency"
-  };
-
-  //act
-  pattern_assembler.setPatternState(pattern, patternlab);
-
-  //assert
-  test.equals(pattern.patternState, "inprogress");
-  test.end();
-});
-
-tap.test('setState - does not apply any patternState if nothing matches the pattern', function(test) {
-  //arrange
-  var pa = require('../core/lib/pattern_assembler');
-  var pattern_assembler = new pa();
-  var patternlab = {};
-  patternlab.config = {};
-  patternlab.config.patternStates = {};
-  patternlab.config.patternStates["pages-homepage-emergency"] = "inprogress";
-
-  var pattern = {
-    key: "pages-homepage",
-    patternState: ""
-  };
-
-  //act
-  pattern_assembler.setPatternState(pattern, patternlab);
-
-  //assert
-  test.equals(pattern.patternState, "");
-  test.end();
+    //assert
+    test.true(results[0].extendedTemplate.indexOf(1) > -1);
+    test.true(results[0].extendedTemplate.indexOf(2) > -1);
+    test.true(results[0].extendedTemplate.indexOf(3) > -1);
+    test.end();
+  }).catch(test.threw);
 });
 
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
@@ -550,61 +513,53 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   patternlab.listitems = {};
   patternlab.header = {};
   patternlab.footer = {};
-  //patternlab.data = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'data.json'));
-  //patternlab.listitems = fs.readJSONSync(path.resolve(patternlab.config.paths.source.data, 'listitems.json'));
-  //patternlab.header = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/header.html'), 'utf8');
-  //patternlab.footer = fs.readFileSync(path.resolve(patternlab.config.paths.source.patternlabFiles, 'templates/pattern-header-footer/footer.html'), 'utf8');
   patternlab.patterns = [
-    {
-      patternPartial: 'twitter-brad'
-    },
-    {
-      patternPartial: 'twitter-dave'
-    },
-    {
-      patternPartial: 'twitter-brian'
-    }
+    Pattern.createEmpty({ patternPartial: 'twitter-brad' }, patternlab),
+    Pattern.createEmpty({ patternPartial: 'twitter-dave' }, patternlab),
+    Pattern.createEmpty({ patternPartial: 'twitter-brian' }, patternlab)
   ];
   patternlab.data.link = {};
   patternlab.partials = {};
 
   //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(pattern_assembler, patterns_dir, patternlab);
+  plMain.process_all_patterns_iterative( patterns_dir, patternlab)
+    .then(() => {
+      //for the sake of the test, also imagining I have the following pages...
+      patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
+      patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
+      patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
 
-  //for the sake of the test, also imagining I have the following pages...
-  patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
-  patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
-  patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
-
-  patternlab.data.brad = {url: "link.twitter-brad"};
-  patternlab.data.dave = {url: "link.twitter-dave"};
-  patternlab.data.brian = {url: "link.twitter-brian"};
+      patternlab.data.brad = {url: "link.twitter-brad"};
+      patternlab.data.dave = {url: "link.twitter-dave"};
+      patternlab.data.brian = {url: "link.twitter-brian"};
 
 
-  var pattern;
-  for (var i = 0; i < patternlab.patterns.length; i++) {
-    if (patternlab.patterns[i].patternPartial === 'test-nav') {
-      pattern = patternlab.patterns[i];
-    }
-  }
+      var pattern;
+      for (var i = 0; i < patternlab.patterns.length; i++) {
+        if (patternlab.patterns[i].patternPartial === 'test-nav') {
+          pattern = patternlab.patterns[i];
+        }
+      }
 
-  //assert before
-  test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
-  test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
-  test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
+      //assert before
+      test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
+      test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
+      test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
 
-  //act
-  pattern_assembler.parse_data_links(patternlab);
+      //act
+      pattern_assembler.parse_data_links(patternlab);
 
-  //assert after
-  test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
-  test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
-  test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
+      //assert after
+      test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
+      test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
+      test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
 
-  test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
-  test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
-  test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
-  test.end();
+      test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
+      test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
+      test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
+      test.end();
+    })
+    .catch(test.threw);
 });
 
 tap.test('get_pattern_by_key - returns the fuzzy result when no others found', function(test) {
@@ -791,16 +746,21 @@ tap.test('hidden patterns can be called by their nice names', function(test){
 
   //act
   var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
-  var hiddenPattern = pattern_assembler.process_pattern_iterative(hiddenPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
-
   var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
-  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
 
-  //assert
-  test.equals(util.sanitized(testPattern.render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
-  test.end();
+  var hiddenPattern = pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(hiddenPattern, pl),
+    pattern_assembler.process_pattern_iterative(testPattern, pl)
+  ]).then((results) => {
+    pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+
+    //assert
+    test.equals(util.sanitized(results[1].render()), util.sanitized('Hello there! Here\'s the hidden atom: [This is the hidden atom]'), 'hidden pattern rendered output not as expected');
+  }).catch(test.threw);
 });
 
 tap.test('parses pattern title correctly when frontmatter present', function(test){
@@ -811,14 +771,17 @@ tap.test('parses pattern title correctly when frontmatter present', function(tes
   var pl = util.fakePatternLab(testPatternsPath);
   var pattern_assembler = new pa();
 
-  //act
   var testPatternPath = path.join('00-test', '01-bar.mustache');
-  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  //assert
-  test.equals(testPattern.patternName, 'An Atom Walks Into a Bar','patternName not overridden');
-  test.end();
+  //act
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(testPattern, pl),
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl)
+  ]).then((results) => {
+    //assert
+    test.equals(results[0].patternName, 'An Atom Walks Into a Bar','patternName not overridden');
+  }).catch(test.threw);
 });
 
 tap.test('parses pattern extra frontmatter correctly when frontmatter present', function(test){
@@ -829,12 +792,16 @@ tap.test('parses pattern extra frontmatter correctly when frontmatter present', 
   var pl = util.fakePatternLab(testPatternsPath);
   var pattern_assembler = new pa();
 
-  //act
   var testPatternPath = path.join('00-test', '01-bar.mustache');
-  var testPattern = pattern_assembler.process_pattern_iterative(testPatternPath, pl);
-  pattern_assembler.process_pattern_recursive(testPatternPath, pl);
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  //assert
-  test.equals(testPattern.allMarkdown.joke, 'bad','extra key not added');
-  test.end();
+  //act
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(testPattern, pl),
+    pattern_assembler.process_pattern_recursive(testPatternPath, pl)
+  ]).then((results) => {
+    //assert
+    test.equals(results[0].allMarkdown.joke, 'bad','extra key not added');
+
+  }).catch(test.threw);
 });

@@ -4,6 +4,9 @@ var tap = require('tap');
 
 var patternEngines = require('../core/lib/pattern_engines');
 var Pattern = require('../core/lib/object_factory').Pattern;
+var config = require('./util/patternlab-config.json');
+
+patternEngines.loadAllEngines(config);
 
 // the mustache test pattern, stolen from object_factory unit tests
 var mustacheTestPattern = new Pattern('source/_patterns/00-atoms/00-global/00-colors-alt.mustache', {d: 123});
@@ -122,7 +125,7 @@ function testProps(object, propTests, test) {
     });
 
     test.ok(object.hasOwnProperty(propName), '"' + propName + '" prop should be present');
-    test.ok(isOneOfTheseTypes, '"' + propName + '" prop should be one of types ' + possibleTypes);
+    test.ok(isOneOfTheseTypes, '"' + propName + '" prop should be one of types ' + possibleTypes + ' but was instead ' + typeof propName);
   }
 
   // go over each property test and run it
@@ -151,7 +154,7 @@ engineNames.forEach(function (engineName) {
       var propertyTests = {
         'engine': ['object', 'function'],
         'engineName': 'string',
-        'engineFileExtension': 'string',
+        'engineFileExtension': ['string', 'object'],
         'renderPattern': 'function',
         'findPartials': 'function'
       };
@@ -162,3 +165,23 @@ engineNames.forEach(function (engineName) {
   });
 });
 
+tap.test('patternEngines getSupportedFileExtensions flattens known engine extensions into a single array', function (test) {
+
+  //arrange
+  patternEngines.fooEngine = {
+    engineFileExtension : ['.foo1', '.foo2']
+  };
+  patternEngines.barEngine = {
+    engineFileExtension : '.bar'
+  };
+
+  const exts = patternEngines.getSupportedFileExtensions();
+  test.ok(exts.includes('.foo1'));
+  test.ok(exts.includes('.foo2'));
+  test.ok(exts.includes('.bar'));
+
+  delete patternEngines.fooEngine;
+  delete patternEngines.barEngine;
+
+  test.end();
+});

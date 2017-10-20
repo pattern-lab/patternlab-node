@@ -7,6 +7,9 @@ var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var tap = require('tap');
 const posixPath = require('./util/test_utils.js').posixPath;
+var config = require('./util/patternlab-config.json');
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines(config);
 
 var patternlab = {
   config: {

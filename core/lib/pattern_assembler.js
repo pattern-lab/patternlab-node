@@ -1,26 +1,28 @@
 "use strict";
 
-var path = require('path'),
-  _ = require('lodash'),
-  fs = require('fs-extra'),
-  Pattern = require('./object_factory').Pattern,
-  CompileState = require('./object_factory').CompileState,
-  pph = require('./pseudopattern_hunter'),
-  mp = require('./markdown_parser'),
-  plutils = require('./utilities'),
-  dataLoader = require('./data_loader')(),
-  patternEngines = require('./pattern_engines'),
-  lh = require('./lineage_hunter'),
-  lih = require('./list_item_hunter'),
-  smh = require('./style_modifier_hunter'),
-  ph = require('./parameter_hunter'),
-  jsonCopy = require('./json_copy'),
-  ch = require('./changes_hunter');
-
+const path = require('path');
+const _ = require('lodash');
+const Pattern = require('./object_factory').Pattern;
+const CompileState = require('./object_factory').CompileState;
+const pph = require('./pseudopattern_hunter');
+const mp = require('./markdown_parser');
+const plutils = require('./utilities');
+const patternEngines = require('./pattern_engines');
+const lh = require('./lineage_hunter');
+const lih = require('./list_item_hunter');
+const smh = require('./style_modifier_hunter');
+const ph = require('./parameter_hunter');
+const ch = require('./changes_hunter');
+const jsonCopy = require('./json_copy');
+const da = require('./data_loader');
 const markdown_parser = new mp();
 const changes_hunter = new ch();
+const dataLoader = new da();
 
-var pattern_assembler = function () {
+//this is mocked in unit tests
+let fs = require('fs-extra'); //eslint-disable-line prefer-const
+
+const pattern_assembler = function () {
   // HELPER FUNCTIONS
 
   function getPartial(partialName, patternlab) {
@@ -62,7 +64,7 @@ var pattern_assembler = function () {
         list.push(container.listitems[item]);
       }
     }
-    container.listItemArray = plutils.shuffle(list);
+    container.listItemArray = _.shuffle(list);
 
     for (var i = 1; i <= container.listItemArray.length; i++) {
       var tempItems = [];
@@ -78,21 +80,7 @@ var pattern_assembler = function () {
     }
   }
 
-  /*
-   * Deprecated in favor of .md 'status' frontmatter inside a pattern. Still used for unit tests at this time.
-   * Will be removed in future versions
-   */
-  function setState(pattern, patternlab, displayDeprecatedWarning) {
-    if (patternlab.config.patternStates && patternlab.config.patternStates[pattern.patternPartial]) {
 
-      if (displayDeprecatedWarning) {
-        plutils.error("Deprecation Warning: Using patternlab-config.json patternStates object will be deprecated in favor of the state frontmatter key associated with individual pattern markdown files.");
-        console.log("This feature will still work in it's current form this release (but still be overridden by the new parsing method), and will be removed in the future.");
-      }
-
-      pattern.patternState = patternlab.config.patternStates[pattern.patternPartial];
-    }
-  }
 
   function addPattern(pattern, patternlab) {
 
@@ -128,9 +116,10 @@ var pattern_assembler = function () {
       } else {
         patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
       }
-      patternlab.graph.add(pattern);
-      patternlab.patterns.push(pattern);
 
+      //patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+      patternlab.patterns.splice(_.sortedIndexBy(patternlab.patterns, pattern, 'name'), 0, pattern);
+      patternlab.graph.add(pattern);
     }
   }
 
@@ -162,7 +151,7 @@ var pattern_assembler = function () {
       var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
       var markdownObject = markdown_parser.parse(markdownFileContents);
-      if (!plutils.isObjectEmpty(markdownObject)) {
+      if (!_.isEmpty(markdownObject)) {
         //set keys and markdown itself
         currentPattern.patternDescExists = true;
         currentPattern.patternDesc = markdownObject.markdown;
@@ -253,7 +242,9 @@ var pattern_assembler = function () {
     addPattern(pattern, patternlab);
   }
 
-  function processPatternIterative(relPath, patternlab) {
+  // loads a pattern from disk, creates a Pattern object from it and
+  // all its associated files, and records it in patternlab.patterns[]
+  function loadPatternIterative(relPath, patternlab) {
 
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
@@ -294,10 +285,8 @@ var pattern_assembler = function () {
           console.log(err);
         }
       }
-
     }
 
-    var pseudopattern_hunter = new pph();
 
     //extract some information
     var filename = fileObject.base;
@@ -320,13 +309,10 @@ var pattern_assembler = function () {
       return currentPattern;
     }
 
-    //see if this file has a state
-    setState(currentPattern, patternlab, true);
-
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
-      let configData = dataLoader.loadDataFromFile(jsonFilename, fs);
+      const configData = dataLoader.loadDataFromFile(jsonFilename, fs);
 
       if (configData) {
         currentPattern.jsonFileData = configData;
@@ -343,7 +329,7 @@ var pattern_assembler = function () {
     //look for a listitems.json file for this template
     try {
       var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems");
-      let listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
+      const listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
       if (listItemsConfig) {
         currentPattern.listitems = listItemsConfig;
@@ -381,10 +367,22 @@ var pattern_assembler = function () {
     //add currentPattern to patternlab.patterns array
     addPattern(currentPattern, patternlab);
 
-    //look for a pseudo pattern by checking if there is a file containing same name, with ~ in it, ending in .json
-    pseudopattern_hunter.find_pseudopatterns(currentPattern, patternlab);
-
     return currentPattern;
+  }
+
+  // This is now solely for analysis; loading of the pattern file is
+  // above, in loadPatternIterative()
+  function processPatternIterative(pattern, patternlab) {
+    //look for a pseudo pattern by checking if there is a file
+    //containing same name, with ~ in it, ending in .json
+    return pph.find_pseudopatterns(pattern, patternlab).then(() => {
+      //find any stylemodifiers that may be in the current pattern
+      pattern.stylePartials = pattern.findPartialsWithStyleModifiers();
+
+      //find any pattern parameters that may be in the current pattern
+      pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
+      return pattern;
+    }).catch(plutils.reportError('There was an error in processPatternIterative():'));
   }
 
   function processPatternRecursive(file, patternlab) {
@@ -572,9 +570,6 @@ var pattern_assembler = function () {
     find_list_items: function (pattern) {
       return pattern.findListItems();
     },
-    setPatternState: function (pattern, patternlab, displayDeprecatedWarning) {
-      setState(pattern, patternlab, displayDeprecatedWarning);
-    },
     addPattern: function (pattern, patternlab) {
       addPattern(pattern, patternlab);
     },
@@ -587,8 +582,11 @@ var pattern_assembler = function () {
     renderPattern: function (template, data, partials) {
       return renderPattern(template, data, partials);
     },
-    process_pattern_iterative: function (file, patternlab) {
-      return processPatternIterative(file, patternlab);
+    load_pattern_iterative: function (file, patternlab) {
+      return loadPatternIterative(file, patternlab);
+    },
+    process_pattern_iterative: function (pattern, patternlab) {
+      return processPatternIterative(pattern, patternlab);
     },
     process_pattern_recursive: function (file, patternlab, additionalData) {
       processPatternRecursive(file, patternlab, additionalData);

@@ -1,6 +1,7 @@
 "use strict";
 
 var tap = require('tap');
+var config = require('./util/patternlab-config.json');
 
 // fake pattern lab constructor:
 // sets up a fake patternlab object, which is needed by the pattern processing
@@ -16,7 +17,7 @@ function fakePatternLab() {
     data: {
       link: {}
     },
-    config: require('../patternlab-config.json'),
+    config: config,
     package: {}
   };
 
@@ -27,6 +28,8 @@ var of = require('../core/lib/object_factory');
 var Pattern = require('../core/lib/object_factory').Pattern;
 var path = require('path');
 var pl = fakePatternLab();
+var engineLoader = require('../core/lib/pattern_engines');
+engineLoader.loadAllEngines(config);
 
 tap.test('test Pattern initializes correctly', function (test) {
   var p = new Pattern('00-atoms/00-global/00-colors.mustache', { d: 123});

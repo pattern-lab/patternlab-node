@@ -9,8 +9,10 @@ var config = require('./util/patternlab-config.json');
 var plEngineModule = rewire('../core/lib/patternlab');
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
-const uiBuilderMock = {
-  buildFrontend: function (patternlab) { }
+const uiBuilderMock = function(){
+  return {
+    buildFrontend: function () { }
+  };
 };
 
 const fsMock = {

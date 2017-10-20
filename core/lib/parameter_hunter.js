@@ -1,14 +1,13 @@
-"use strict";
+'use strict';
 
-var parameter_hunter = function () {
-
-  var extend = require('util')._extend,
-    pa = require('./pattern_assembler'),
-    smh = require('./style_modifier_hunter'),
-    plutils = require('./utilities'),
-    style_modifier_hunter = new smh(),
-    jsonCopy = require('./json_copy'),
-    pattern_assembler = new pa();
+const parameter_hunter = function () {
+  const extend = require('util')._extend;
+  const _ = require('lodash');
+  const jsonCopy = require('./json_copy');
+  const pa = require('./pattern_assembler');
+  const smh = require('./style_modifier_hunter');
+  const style_modifier_hunter = new smh();
+  const pattern_assembler = new pa();
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -54,14 +53,14 @@ var parameter_hunter = function () {
    * @returns {string} paramStringWellFormed
    */
   function paramToJson(pString, patternlab) {
-    var colonPos = -1;
-    var keys = [];
-    var paramString = pString; // to not reassign param
-    var paramStringWellFormed;
-    var quotePos = -1;
-    var regex;
-    var values = [];
-    var wrapper;
+    let colonPos = -1;
+    const keys = [];
+    let paramString = pString; // to not reassign param
+    let paramStringWellFormed;
+    let quotePos = -1;
+    let regex;
+    const values = [];
+    let wrapper;
 
     // attempt to parse the data in case it is already well formed JSON
     try {
@@ -181,7 +180,7 @@ var parameter_hunter = function () {
 
     //build paramStringWellFormed string for JSON parsing
     paramStringWellFormed = '{';
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
 
       //keys
       //replace single-quote wrappers with double-quotes
@@ -251,8 +250,8 @@ var parameter_hunter = function () {
       //compile this partial immeadiately, essentially consuming it.
       pattern.parameteredPartials.forEach(function (pMatch) {
         //find the partial's name and retrieve it
-        var partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        var partialPattern = pattern_assembler.getPartial(partialName, patternlab);
+        const partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+        const partialPattern = pattern_assembler.getPartial(partialName, patternlab);
 
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
@@ -262,14 +261,14 @@ var parameter_hunter = function () {
         }
 
         //strip out the additional data, convert string to JSON.
-        var leftParen = pMatch.indexOf('(');
-        var rightParen = pMatch.lastIndexOf(')');
-        var paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        var paramStringWellFormed = paramToJson(paramString, patternlab);
+        const leftParen = pMatch.indexOf('(');
+        const rightParen = pMatch.lastIndexOf(')');
+        const paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+        const paramStringWellFormed = paramToJson(paramString, patternlab);
 
-        var paramData = {};
-        var globalData = {};
-        var localData = {};
+        let paramData = {};
+        let globalData = {};
+        let localData = {};
 
         try {
           paramData = JSON.parse(paramStringWellFormed);
@@ -280,8 +279,12 @@ var parameter_hunter = function () {
           console.log(err);
         }
 
-        var allData = plutils.mergeData(globalData, localData);
-        allData = plutils.mergeData(allData, paramData);
+        // resolve any pattern links that might be present
+        paramData = pattern_assembler.parse_data_links_specific(patternlab, paramData, pattern.patternPartial);
+
+        //combine all data: GLOBAL DATA => PATTERN.JSON DATA => PARAMETER DATA
+        let allData = _.merge(globalData, localData);
+        allData = _.merge(allData, paramData);
 
         //if the partial has pattern parameters itself, we need to handle those
         findparameters(partialPattern, patternlab);
@@ -294,7 +297,7 @@ var parameter_hunter = function () {
         //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
         allData.link = extend({}, patternlab.data.link);
 
-        var renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
+        const renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
 
         //remove the parameter from the partial and replace it with the rendered partial + paramData
         pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);

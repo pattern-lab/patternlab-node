@@ -81,11 +81,13 @@ tap.test('button twig pattern renders', function (test) {
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
   var assembler = new pa();
-  var helloWorldPattern = assembler.process_pattern_iterative(patternPath, patternlab);
-  assembler.process_pattern_recursive(patternPath, patternlab);
+  var helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
 
-  test.equals(helloWorldPattern.render(), expectedValue);
-  test.end();
+  return assembler.process_pattern_iterative(helloWorldPattern, patternlab).then(() => {
+    assembler.process_pattern_recursive(patternPath, patternlab);
+
+    test.equals(helloWorldPattern.render(), expectedValue);
+  });
 });
 
 tap.test('media object twig pattern can see the atoms-button and atoms-image partials and renders them', function (test) {
@@ -103,17 +105,23 @@ tap.test('media object twig pattern can see the atoms-button and atoms-image par
   var assembler = new pa();
 
   // do all the normal processing of the pattern
-  assembler.process_pattern_iterative(buttonPatternPath, patternlab);
-  assembler.process_pattern_iterative(imagePatternPath, patternlab);
-  var mediaObjectPattern = assembler.process_pattern_iterative(mediaObjectPatternPath, patternlab);
-  assembler.process_pattern_recursive(buttonPatternPath, patternlab);
-  assembler.process_pattern_recursive(imagePatternPath, patternlab);
-  assembler.process_pattern_recursive(mediaObjectPatternPath, patternlab);
+  const buttonPattern = assembler.load_pattern_iterative(buttonPatternPath, patternlab);
+  const imagePattern = assembler.load_pattern_iterative(imagePatternPath, patternlab);
+  const mediaObjectPattern = assembler.load_pattern_iterative(mediaObjectPatternPath, patternlab);
 
-  // test
-  // this pattern is too long - so just remove line endings on both sides and compare output
-  test.equals(mediaObjectPattern.render().replace(/\r?\n|\r/gm, ""), expectedValue.replace(/\r?\n|\r/gm, ""));
-  test.end();
+  return Promise.all([
+    assembler.process_pattern_iterative(buttonPattern, patternlab),
+    assembler.process_pattern_iterative(imagePattern, patternlab),
+    assembler.process_pattern_iterative(mediaObjectPattern, patternlab)
+  ]).then(() => {
+    assembler.process_pattern_recursive(buttonPatternPath, patternlab);
+    assembler.process_pattern_recursive(imagePatternPath, patternlab);
+    assembler.process_pattern_recursive(mediaObjectPatternPath, patternlab);
+
+    // test
+    // this pattern is too long - so just remove line endings on both sides and compare output
+    test.equals(mediaObjectPattern.render().replace(/\r?\n|\r/gm, ""), expectedValue.replace(/\r?\n|\r/gm, ""));
+  });
 });
 
 tap.test('twig partials can render JSON values', {skip: true}, function (test) {
@@ -198,4 +206,3 @@ tap.test('find_pattern_partials finds partials with twig parameters', function (
     "{% include 'organisms-sidebar' ignore missing with {'foo': 'bar'} %}"
   ]);
 });
-

@@ -1,5 +1,5 @@
 ---
-status: complete
+state: complete
 title: An Atom Walks Into a Bar
 joke: bad
 ---
