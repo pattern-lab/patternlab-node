@@ -29,7 +29,7 @@ As of Pattern Lab Node 3.X, `patternlab-node` can run standalone, without the ne
 
 `npm install @pattern-lab/patternlab-node`
 
-See [Usage](#Usage) for more information.
+See [Usage](#usage) for more information.
 
 ### Editions
 
@@ -56,7 +56,6 @@ Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io
 const config = require('./patternlab-config.json');
 const patternlab = require('patternlab-node')(config);
 
-
 // build, optionally watching or choosing incremental builds
 patternlab.build({
   cleanPublic: true,
@@ -72,7 +71,7 @@ patternlab.serve({
 
 * Read more about [configuration](https://github.com/pattern-lab/patternlab-node/wiki/Configuration) via `patternlab-config.json`.
 
-* Read more about the rest of [api](https://github.com/pattern-lab/patternlab-node/wiki/Public-API), and already implemented for you within [Editions](#editions).
+* Read more about the rest of [Public API](https://github.com/pattern-lab/patternlab-node/wiki/Public-API), and already implemented for you within [Editions](#editions).
 
 * A full-featured [command line interface](https://github.com/pattern-lab/patternlab-node-cli) is also available courtesy of [@raphaelokon](https://github.com/raphaelokon).
 
