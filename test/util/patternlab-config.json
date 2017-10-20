@@ -69,5 +69,10 @@
   },
   "cleanOutputHtml": true,
   "exportToGraphViz": false,
-  "cleanPublic": true
+  "cleanPublic": true,
+  "theme": {
+    "color": "dark",
+    "density": "compact",
+    "layout": "horizontal"
+  }
 }
