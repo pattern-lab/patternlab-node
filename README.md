@@ -27,7 +27,7 @@ Pattern Lab Node can be used different ways. Editions are **example** pairings o
 
 As of Pattern Lab Node 3.X, `patternlab-node` can run standalone, without the need for task runners like gulp or grunt.
 
-`npm install patternlab-node`
+`npm install @pattern-lab/patternlab-node`
 
 See [Usage](#Usage) for more information.
 
