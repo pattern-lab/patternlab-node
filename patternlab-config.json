@@ -62,5 +62,10 @@
     "markupOnly": ".markup-only"
   },
   "cleanOutputHtml": true,
-  "exportToGraphViz": false
+  "exportToGraphViz": false,
+  "theme": {
+    "color": "dark",
+    "density": "compact",
+    "layout": "horizontal"
+  }
 }
