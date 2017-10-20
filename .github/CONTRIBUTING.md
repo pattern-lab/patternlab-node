@@ -48,15 +48,11 @@ Branching Scheme
 ![branching scheme](branching-scheme.png) Currently Pattern Lab has the following branches:
 
 -	**master** contains the latext stable, released version</dd>
--	**dev**: for development. *Please target pull requests against this branch.*
+-	**dev**: for development. *Target pull requests against this branch.*
 -	**feature-branches** for larger changes. Allows merging all changes into both `dev` easily.
 -	**long running branches** for changes that involve major changes to the code, architecture and take a lot of time (i.e. making Pattern Lab async)
 
-Development mainly happens in the `dev` branch, but you can help us a lot if you also do a pull request. When `dev` seems stable enough, we do releases by merging `dev` to `master` and creating a release tag.
-
-Feature branches target `dev` and should be updated regularly.
-
-Long running branches should only target the latest version of Pattern Lab and may be lagging behind a lot.
+New features are typically cut off of `dev` branch. When `dev` is stable cut releases by merging `dev` to `master` and creating a release tag.
 
 Gitter.im Chat
 ==============
