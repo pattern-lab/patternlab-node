@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * underscore pattern engine for patternlab-node - v0.15.1 - 2015
  *
@@ -17,8 +19,8 @@
  *
  */
 
-
-"use strict";
+const fs = require('fs-extra');
+const path = require('path');
 
 var _ = require('underscore');
 
@@ -85,7 +87,7 @@ _.mixin({
 var engine_underscore = {
   engine: _,
   engineName: 'underscore',
-  engineFileExtension: '.html',
+  engineFileExtension: ['.html', '.underscore'],
 
   // partial expansion is only necessary for Mustache templates that have
   // style modifiers or pattern parameters (I think)
@@ -171,7 +173,34 @@ var engine_underscore = {
     var partialID = partialIDWithQuotes.replace(edgeQuotesMatcher, '');
 
     return partialID;
+  },
+
+  spawnFile: function (config, fileName) {
+    const paths = config.paths;
+    const metaFilePath = path.resolve(paths.source.meta, fileName);
+    try {
+      fs.statSync(metaFilePath);
+    } catch (err) {
+
+      //not a file, so spawn it from the included file
+      const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      fs.outputFileSync(metaFilePath, metaFileContent);
+    }
+  },
+
+  /**
+  * Checks to see if the _meta directory has engine-specific head and foot files,
+  * spawning them if not found.
+  *
+  * @param {object} config - the global config object from core, since we won't
+  * assume it's already present
+  */
+  spawnMeta: function (config) {
+    this.spawnFile(config, '_00-head.html');
+    this.spawnFile(config, '_01-foot.html');
   }
+
 };
 
 module.exports = engine_underscore;
