@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * handlebars pattern engine for patternlab-node
  *
@@ -20,9 +22,9 @@
  *
  */
 
-"use strict";
-
-var Handlebars = require('handlebars');
+const fs = require('fs-extra');
+const path = require('path');
+const Handlebars = require('handlebars');
 
 // regexes, stored here so they're only compiled once
 const findPartialsRE = /{{#?>\s*([\w-\/.]+)(?:.|\s+)*?}}/g;
@@ -37,7 +39,7 @@ function escapeAtPartialBlock(partialString) {
 var engine_handlebars = {
   engine: Handlebars,
   engineName: 'handlebars',
-  engineFileExtension: '.hbs',
+  engineFileExtension: ['.hbs', '.handlebars'],
 
   // partial expansion is only necessary for Mustache templates that have
   // style modifiers or pattern parameters (I think)
@@ -91,6 +93,31 @@ var engine_handlebars = {
   findPartial: function (partialString) {
     var partial = partialString.replace(findPartialsRE, '$1');
     return partial;
+  },
+
+  spawnFile: function (config, fileName) {
+    const paths = config.paths;
+    const metaFilePath = path.resolve(paths.source.meta, fileName);
+    try {
+      fs.statSync(metaFilePath);
+    } catch (err) {
+
+      //not a file, so spawn it from the included file
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      fs.outputFileSync(metaFilePath, metaFileContent);
+    }
+  },
+
+  /**
+  * Checks to see if the _meta directory has engine-specific head and foot files,
+  * spawning them if not found.
+  *
+  * @param {object} config - the global config object from core, since we won't
+  * assume it's already present
+  */
+  spawnMeta: function (config) {
+    this.spawnFile(config, '_00-head.hbs');
+    this.spawnFile(config, '_01-foot.hbs');
   }
 };
 
