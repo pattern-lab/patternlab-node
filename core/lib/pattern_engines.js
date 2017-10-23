@@ -15,8 +15,12 @@ const enginesDirectories = [
   }
 ];
 
-// given a path: return the engine name if the path points to a valid engine
-// module directory, or false if it doesn't
+/**
+ * Given a path: return the engine name if the path points to a valid engine
+ * module directory, or false if it doesn't.
+ * @param filePath
+ * @returns Engine name if exists or FALSE
+ */
 function isEngineModule(filePath) {
   const baseName = path.basename(filePath);
   const engineMatch = baseName.match(engineMatcher);
@@ -25,6 +29,11 @@ function isEngineModule(filePath) {
   return false;
 }
 
+/**
+ * Find engine modules in a given directory.
+ * @param dir Directory containing engine modules
+ * @returns Array of engine modules keyed by engine name
+ */
 function findEngineModulesInDirectory(dir) {
   const foundEngines = [];
 
@@ -62,6 +71,11 @@ function findEngineModulesInDirectory(dir) {
 
 const PatternEngines = Object.create({
 
+  /**
+   * Load all pattern engines.
+   * @param patternLabConfig
+   * @memberof PatternEngines
+   */
   loadAllEngines: function (patternLabConfig) {
     var self = this;
 
@@ -118,6 +132,12 @@ const PatternEngines = Object.create({
     }
   },
 
+  /**
+   * Get engine name for pattern.
+   * @memberof PatternEngines
+   * @param pattern
+   * @returns engine name matching pattern
+   */
   getEngineNameForPattern: function (pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
     const of = require('./object_factory');
@@ -145,6 +165,12 @@ const PatternEngines = Object.create({
     return 'mustache';
   },
 
+  /**
+   * Get engine for pattern.
+   * @memberof PatternEngines
+   * @param pattern
+   * @returns name of engine for pattern
+   */
   getEngineForPattern: function (pattern) {
     if (pattern.isPseudoPattern) {
       return this.getEngineForPattern(pattern.basePattern);
@@ -154,7 +180,11 @@ const PatternEngines = Object.create({
     }
   },
 
-  // combine all found engines into a single array of supported extensions
+  /**
+   * Combine all found engines into a single array of supported extensions.
+   * @memberof PatternEngines
+   * @returns Array all supported file extensions
+   */
   getSupportedFileExtensions: function () {
     const engineNames = Object.keys(PatternEngines);
     const allEnginesExtensions = engineNames.map((engineName) => {
@@ -163,22 +193,38 @@ const PatternEngines = Object.create({
     return [].concat.apply([], allEnginesExtensions);
   },
 
+  /**
+   * Check if fileExtension is supported.
+   * @memberof PatternEngines
+   * @param fileExtension
+   * @returns Boolean
+   */
   isFileExtensionSupported: function (fileExtension) {
     const supportedExtensions = PatternEngines.getSupportedFileExtensions();
     return (supportedExtensions.lastIndexOf(fileExtension) !== -1);
   },
 
-  // given a filename, return a boolean: whether or not the filename indicates
-  // that the file is pseudopattern JSON
+  /**
+   * Given a filename, return a boolean: whether or not the filename indicates
+   * that the file is pseudopattern JSON
+   * @param filename
+   * @return boolean
+   */
   isPseudoPatternJSON: function (filename) {
     const extension = path.extname(filename);
     return (extension === '.json' && filename.indexOf('~') > -1);
   },
 
-  // takes a filename string, not a full path; a basename (plus extension)
-  // ignore _underscored patterns, dotfiles, and anything not recognized by a
-  // loaded pattern engine. Pseudo-pattern .json files ARE considered to be
-  // pattern files!
+  /**
+   * Takes a filename string, not a full path; a basename (plus extension)
+   * ignore _underscored patterns, dotfiles, and anything not recognized by a
+   * loaded pattern engine. Pseudo-pattern .json files ARE considered to be
+   * pattern files!
+   *
+   * @memberof PatternEngines
+   * @param filename
+   * @returns boolean
+   */
   isPatternFile: function (filename) {
     // skip hidden patterns/files without a second thought
     const extension = path.extname(filename);
