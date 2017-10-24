@@ -19,6 +19,7 @@
     .pl-c-pattern & {
         max-height: 20rem;
         overflow: scroll;
+        @include hideScrollBar();
 
         @media all and (min-width: $pl-bp-large) {
             max-height: none;
@@ -37,6 +38,7 @@
         bottom: 0;
         left: 0;
         overflow: scroll;
+        @include hideScrollBar();
 
         @media all and (min-width: $pl-bp-large) {
             position: static;
@@ -79,7 +81,7 @@
         left: 0;
         right: 50%;
         overflow: scroll;
-        -ms-overflow-style: -ms-autohiding-scrollbar;
+        @include hideScrollBar();
     }
 
     @media all and (min-width: $pl-bp-xl) {

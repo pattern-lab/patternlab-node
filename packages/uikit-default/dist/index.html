@@ -16,11 +16,11 @@
 
 	<nav class="pl-c-nav pl-js-nav-target pl-js-nav-container" role="navigation">
 
+		<input class="pl-c-typeahead pl-js-typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
+
 		<ol class="pl-c-nav__list pl-js-pattern-nav-target">
 			<!-- pattern lab nav will be inserted here -->
 		</ol><!--end pl-c-nav__list-->
-
-		<input class="pl-c-typeahead pl-js-typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
 
 	</nav><!--end pl-c-nav-->
 
@@ -342,6 +342,31 @@
 
 	<!-- load Pattern Lab data -->
 	<script src="styleguide/data/patternlab-data.js"></script>
+
+  <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
+  <!-- @todo Consider moving this to own file -->
+  <script>
+    if (config && config.theme) {
+      if (config.theme.color === 'light') {
+        document.body.classList.add('pl-c-body--theme-light');
+      }
+      if (config.theme.layout === 'vertical') {
+        document.body.classList.add('pl-c-body--theme-sidebar');
+      }
+      switch (config.theme.density) {
+        case 'cozy':
+          document.body.classList.add('pl-c-body--theme-density-cozy');
+          break;
+        case 'comfortable':
+          document.body.classList.add('pl-c-body--theme-density-comfortable');
+          break;
+        default:
+          // not sure if you even need/want this
+          document.body.classList.add('pl-c-body--theme-density-compact');
+      }
+    }
+  </script>
+
 	<script src="annotations/annotations.js"></script>
 
 	<!-- load Pattern Lab external library js -->

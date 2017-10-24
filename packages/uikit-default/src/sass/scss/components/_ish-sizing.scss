@@ -3,10 +3,10 @@
 \*------------------------------------*/
 
 /**
-* Viewport size form
-* 1) This is the form for the form that houses the current
-*    viewport size in px and em
-*/
+ * Viewport size form
+ * 1) This is the form for the form that houses the current
+ *    viewport size in px and em
+ */
 .pl-c-viewport-size {
     margin: 0;
     border: 0;
@@ -17,14 +17,15 @@
 }
 
 /**
-* Size input fields
-*/
+ * Size input fields
+ */
 .pl-c-viewport-size__input {
     padding: 0.1rem;
     margin: 0;
     border: 0;
     border-radius: $pl-border-radius;
     background: transparent;
+    font-size: inherit;
     color: $pl-color-gray-50;
     width: 35px;
     text-align: right;
@@ -49,8 +50,8 @@
 }
 
 /**
-* Size input labels
-*/
+ * Size input labels
+ */
 .pl-c-viewport-size__label {
     display: block;
     margin: 0;
@@ -58,11 +59,11 @@
 }
 
 /**
-* Size options
-* 1) This holds the S, M, L, Rand, Disco links
-* 2) Depending on the config, these number of options may be
-* larger or smaller.
-*/
+ * Size options
+ * 1) This holds the S, M, L, Rand, Disco links
+ * 2) Depending on the config, these number of options may be
+ * larger or smaller.
+ */
 .pl-c-size-list {
     display: none;
     list-style: none;
@@ -76,9 +77,9 @@
 }
 
 /**
-* Size actions
-* 1) These are the buttons that control the viewport resizing
-*/
+ * Size actions
+ * 1) These are the buttons that control the viewport resizing
+ */
 .pl-c-size-list__action {
     @include linkStyle();
 }

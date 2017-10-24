@@ -34,14 +34,18 @@
     #VARIABLES
 \*------------------------------------*/
 /**
-* List Reset
-*/
+ * List Reset
+ */
 /**
-* Header Link Style
-*/
+ * Hide scrollbar
+ * 1) This hides scrollbars on Windows devices
+ */
 /**
-* Accordion panel
-*/
+ * Header Link Style
+ */
+/**
+ * Accordion panel
+ */
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
@@ -113,7 +117,6 @@
  *    only appears on small screens
  */
 .pl-c-header__nav-toggle {
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -127,7 +130,10 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
   border: 0;
 }
@@ -145,8 +151,13 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-header__nav-toggle {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-header__nav-toggle {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-header__nav-toggle {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
 }
 @media all and (min-width: 42em) {
   .pl-c-header__nav-toggle {
@@ -158,8 +169,9 @@
     #LOGO
 \*------------------------------------*/
 /**
-* 1) An optional logo that lives in PL's header.
-*/
+ * 1) An optional logo that lives in PL's header.
+ * 2) Displayed as a link
+ */
 .pl-c-logo {
   max-width: 2rem;
   margin: 0 1rem;
@@ -176,6 +188,10 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.pl-c-logo:focus {
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
 }
 
 .pl-c-logo__img {
@@ -195,20 +211,38 @@
 @media all and (max-width: 42em) {
   .pl-c-nav {
     position: absolute;
-    top: 2rem;
+    top: 100%;
     width: 100%;
     overflow: hidden;
     max-height: 0;
     /* 1 */
+    background: #000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     -webkit-transition: max-height 0.1s ease-out;
             transition: max-height 0.1s ease-out;
     /**
-    * Active navigaiton
-    */
+     * Active navigaiton
+     * 1) Slide 
+     * 2) Set the height to the vierport height minus the height
+     *    of the header
+     */
   }
   .pl-c-nav.pl-is-active {
     max-height: 50rem;
     /* 1 */
+    height: calc(100vh - 2rem);
+    /* 2 */
+    overflow: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .pl-c-nav.pl-is-active::-webkit-scrollbar {
+    width: 0 !important;
   }
 }
 @media all and (min-width: 42em) {
@@ -223,12 +257,21 @@
  * Nav list
  * 1) appears as an <ol>
  * 2) display as a horizontal list on larger screens
+ * 3) On small screens, move the nav list after the typeahead form field
  */
 .pl-c-nav__list {
   z-index: 1;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+@media all and (max-width: 42em) {
+  .pl-c-nav__list {
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+    /* 3 */
+  }
 }
 @media all and (min-width: 42em) {
   .pl-c-nav__list {
@@ -241,10 +284,21 @@
 
 /**
  * Nav list item
-*/
+ */
 .pl-c-nav__item {
   cursor: pointer;
   position: relative;
+}
+
+/**
+ * Last sublist item
+ */
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist > .pl-c-nav__item:last-child {
+    overflow: hidden;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
 }
 
 /**
@@ -257,7 +311,6 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -271,7 +324,10 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
 }
 .pl-c-nav__link:hover {
@@ -288,8 +344,13 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-nav__link {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-nav__link {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-nav__link {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
 }
 
 /**
@@ -303,18 +364,18 @@
 }
 
 /**
-* Nav link
-*/
+ * Nav link
+ */
 .pl-c-nav__link--dropdown {
   /**
-  * Dropdown caret after accordion handle
-  */
+   * Dropdown caret after accordion handle
+   */
   /**
-  * Active dropdown
-  */
+   * Active dropdown
+   */
 }
 .pl-c-nav__link--dropdown:after {
-  content: 'Γû╝';
+  content: '\25bc';
   color: rgba(255, 255, 255, 0.25);
   display: inline-block;
   font-size: 7px;
@@ -331,8 +392,8 @@
   color: #fff;
   background: #222;
   /**
-  * Caret rotation and positioning in active dropdown
-  */
+   * Caret rotation and positioning in active dropdown
+   */
 }
 .pl-c-nav__link--dropdown.pl-is-active:after {
   color: #808080;
@@ -342,10 +403,10 @@
 }
 
 /**
-* Nav sublist
-* 1) On larger screens, display as dropdowns that
-*    hang over the header
-*/
+ * Nav sublist
+ * 1) On larger screens, display as dropdowns that
+ *    hang over the header
+ */
 .pl-c-nav__sublist {
   list-style: none;
   margin: 0;
@@ -359,15 +420,14 @@
     left: 0;
     min-width: 10rem;
     overflow: hidden;
-    background: #000;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
   }
 }
 
 /**
-* Dropdown sublist
-*/
+ * Dropdown sublist
+ */
 .pl-c-nav__sublist--dropdown, .pl-c-nav__subsublist--dropdown {
   list-style: none;
   margin: 0;
@@ -377,24 +437,39 @@
   -webkit-transition: max-height 0.1s ease-out;
           transition: max-height 0.1s ease-out;
   /**
-  * Active is when accordion panel is open
-  */
+   * Active is when accordion panel is open
+   */
 }
 .pl-c-nav__sublist--dropdown.pl-is-active, .pl-c-nav__subsublist--dropdown.pl-is-active {
   max-height: none;
   overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-nav__sublist--dropdown.pl-is-active::-webkit-scrollbar, .pl-c-nav__subsublist--dropdown.pl-is-active::-webkit-scrollbar {
+  width: 0 !important;
 }
 @media all and (min-width: 42em) {
   .pl-c-nav__sublist--dropdown.pl-is-active, .pl-c-nav__subsublist--dropdown.pl-is-active {
-    max-height: 50rem;
+    max-height: 120rem;
   }
 }
 
 /**
-* Sub-navigation
-* 1) Third-level links are stylistically different
-* than first and second nav links.
-*/
+ * Dropdown sublist
+ * 1) Set the height to the viewport height minus the height of the header
+ */
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist--dropdown.pl-is-active {
+    height: calc(100vh - 2rem);
+    /* 1 */
+  }
+}
+
+/**
+ * Sub-navigation
+ * 1) Third-level links are stylistically different
+ * than first and second nav links.
+ */
 .pl-c-nav__subsublist {
   list-style: none;
   margin: 0;
@@ -405,10 +480,10 @@
     #ISH SIZING
 \*------------------------------------*/
 /**
-* Viewport size form
-* 1) This is the form for the form that houses the current
-*    viewport size in px and em
-*/
+ * Viewport size form
+ * 1) This is the form for the form that houses the current
+ *    viewport size in px and em
+ */
 .pl-c-viewport-size {
   margin: 0;
   border: 0;
@@ -423,14 +498,15 @@
 }
 
 /**
-* Size input fields
-*/
+ * Size input fields
+ */
 .pl-c-viewport-size__input {
   padding: 0.1rem;
   margin: 0;
   border: 0;
   border-radius: 3px;
   background: transparent;
+  font-size: inherit;
   color: #808080;
   width: 35px;
   text-align: right;
@@ -453,8 +529,8 @@
 }
 
 /**
-* Size input labels
-*/
+ * Size input labels
+ */
 .pl-c-viewport-size__label {
   display: block;
   margin: 0;
@@ -462,11 +538,11 @@
 }
 
 /**
-* Size options
-* 1) This holds the S, M, L, Rand, Disco links
-* 2) Depending on the config, these number of options may be
-* larger or smaller.
-*/
+ * Size options
+ * 1) This holds the S, M, L, Rand, Disco links
+ * 2) Depending on the config, these number of options may be
+ * larger or smaller.
+ */
 .pl-c-size-list {
   display: none;
   list-style: none;
@@ -483,11 +559,10 @@
 }
 
 /**
-* Size actions
-* 1) These are the buttons that control the viewport resizing
-*/
+ * Size actions
+ * 1) These are the buttons that control the viewport resizing
+ */
 .pl-c-size-list__action {
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -501,7 +576,10 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
 }
 .pl-c-size-list__action:hover {
@@ -518,8 +596,13 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-size-list__action {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-size-list__action {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-size-list__action {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
 }
 
 /*------------------------------------*\
@@ -530,22 +613,13 @@
  * 2) Right-align inside of header
  */
 .pl-c-controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
+  margin-left: auto;
+  /* 2 */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-}
-@media all and (min-width: 42em) {
-  .pl-c-controls {
-    position: static;
-    margin-left: auto;
-    /* 2 */
-  }
 }
 
 /**
@@ -572,6 +646,9 @@
  */
 .pl-c-tools {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 /**
@@ -580,7 +657,6 @@
  *    triggers the tools dropdown list
  */
 .pl-c-tools__toggle {
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -594,11 +670,25 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
   margin: 0;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  min-width: 30px;
 }
 .pl-c-tools__toggle:hover {
   color: #fff;
@@ -614,11 +704,22 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-tools__toggle {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
 }
-.pl-theme--comfy .pl-c-tools__toggle {
-  padding: 1.1rem 1rem 0.95rem;
+.pl-c-body--theme-density-comfortable .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/**
+ * Tools Toggle SVG icon
+ * 1) Cog icon
+ * 2) Set the width and height of the icon to be the same height of font
+ */
+.pl-c-tools__toggle-icon {
+  position: absolute;
 }
 
 /**
@@ -633,8 +734,8 @@
   -webkit-transition: max-height 0.1s ease-out;
           transition: max-height 0.1s ease-out;
   /**
-  * Active is when accordion panel is open
-  */
+   * Active is when accordion panel is open
+   */
   position: absolute;
   top: 100%;
   right: 0;
@@ -646,10 +747,14 @@
 .pl-c-tools__list.pl-is-active {
   max-height: none;
   overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-tools__list.pl-is-active::-webkit-scrollbar {
+  width: 0 !important;
 }
 @media all and (min-width: 42em) {
   .pl-c-tools__list.pl-is-active {
-    max-height: 50rem;
+    max-height: 120rem;
   }
 }
 
@@ -658,7 +763,6 @@
  * 1) Links and buttons inside of the tools dropdown
  */
 .pl-c-tools__action {
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -672,7 +776,10 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
   display: block;
   width: 100%;
@@ -692,8 +799,13 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-tools__action {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
 }
 
 /**
@@ -1031,6 +1143,10 @@
 .pl-c-pattern .pl-c-pattern-info {
   max-height: 20rem;
   overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-pattern .pl-c-pattern-info::-webkit-scrollbar {
+  width: 0 !important;
 }
 @media all and (min-width: 53em) {
   .pl-c-pattern .pl-c-pattern-info {
@@ -1046,6 +1162,10 @@
   bottom: 0;
   left: 0;
   overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-modal .pl-c-pattern-info::-webkit-scrollbar {
+  width: 0 !important;
 }
 @media all and (min-width: 53em) {
   .pl-c-modal .pl-c-pattern-info {
@@ -1090,6 +1210,9 @@
     right: 50%;
     overflow: scroll;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .pl-c-pattern-info__panel--info::-webkit-scrollbar {
+    width: 0 !important;
   }
 }
 @media all and (min-width: 62em) {
@@ -1246,7 +1369,7 @@
  * Breadcrumb Item
  */
 .pl-c-breadcrumb__item:after {
-  content: 'Γû╢';
+  content: '▶';
   opacity: 0.4;
   font-size: 6px;
   display: inline-block;
@@ -1360,6 +1483,9 @@
    *  Tab content inside modal
    */
 }
+.pl-c-tabs__content::-webkit-scrollbar {
+  width: 0 !important;
+}
 .pl-c-modal .pl-c-tabs__content {
   border: 0;
 }
@@ -1403,6 +1529,9 @@
  */
 .pl-c-tools {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 /**
@@ -1411,7 +1540,6 @@
  *    triggers the tools dropdown list
  */
 .pl-c-tools__toggle {
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -1425,11 +1553,25 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
   margin: 0;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  min-width: 30px;
 }
 .pl-c-tools__toggle:hover {
   color: #fff;
@@ -1445,11 +1587,22 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-tools__toggle {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
 }
-.pl-theme--comfy .pl-c-tools__toggle {
-  padding: 1.1rem 1rem 0.95rem;
+.pl-c-body--theme-density-comfortable .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/**
+ * Tools Toggle SVG icon
+ * 1) Cog icon
+ * 2) Set the width and height of the icon to be the same height of font
+ */
+.pl-c-tools__toggle-icon {
+  position: absolute;
 }
 
 /**
@@ -1464,8 +1617,8 @@
   -webkit-transition: max-height 0.1s ease-out;
           transition: max-height 0.1s ease-out;
   /**
-  * Active is when accordion panel is open
-  */
+   * Active is when accordion panel is open
+   */
   position: absolute;
   top: 100%;
   right: 0;
@@ -1477,10 +1630,14 @@
 .pl-c-tools__list.pl-is-active {
   max-height: none;
   overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-tools__list.pl-is-active::-webkit-scrollbar {
+  width: 0 !important;
 }
 @media all and (min-width: 42em) {
   .pl-c-tools__list.pl-is-active {
-    max-height: 50rem;
+    max-height: 120rem;
   }
 }
 
@@ -1489,7 +1646,6 @@
  * 1) Links and buttons inside of the tools dropdown
  */
 .pl-c-tools__action {
-  font-size: 0.7rem;
   background: #000;
   color: #808080;
   text-decoration: none;
@@ -1503,7 +1659,10 @@
    * Header link styles inside light theme
    */
   /**
-   * Header link styles inside light theme
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
    */
   display: block;
   width: 100%;
@@ -1523,8 +1682,13 @@
   background: #fff;
   color: #4d4c4c;
 }
-.pl-c-body--theme-comfy .pl-c-tools__action {
-  padding: 1.2rem 1rem;
+.pl-c-body--theme-density-cozy .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
 }
 
 /*------------------------------------*\
@@ -1589,7 +1753,7 @@
 }
 
 /*------------------------------------*\
-┬á┬á┬á #ANNOTATIONS INSIDE MODAL
+    #ANNOTATIONS INSIDE MODAL
 \*------------------------------------*/
 /**
  * Annotations area
@@ -1903,12 +2067,14 @@
 */
 .pl-c-header {
   /**
-  * Typeahead input
-  * 1) the primary DOM element that initiates the JS library 
-  */
-}
-.pl-c-header .twitter-typeahead {
-  width: 100%;
+   * Typeahead input
+   * 1) the primary DOM element that initiates the JS library 
+   */
+  /**
+   * Typeahead wrapper
+   * 1) This is the JS-generated wrapper around the input
+   * 2) Display after nav list items for horizontal theme
+   */
 }
 .pl-c-header .pl-c-typeahead {
   border: 0;
@@ -1917,10 +2083,21 @@
   width: 100%;
   right: 0;
   padding: 0.61rem 0.5rem;
+  font-size: inherit;
 }
 .pl-c-header .pl-c-typeahead:focus {
   background: #808080;
   color: #fff;
+}
+.pl-c-header .twitter-typeahead {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+  /* 2 */
+  width: 100%;
 }
 .pl-c-header .tt-input {
   background: #808080;
@@ -1956,7 +2133,6 @@
 }
 .pl-c-header .tt-suggestion {
   color: #eee;
-  font-size: 0.7rem;
   padding: 0.8em;
 }
 .pl-c-header .tt-suggestion.tt-cursor {
@@ -2162,14 +2338,17 @@ pre.line-numbers > code {
    * Nav Sublist dropdown
    */
   /**
-   * Nav Sublist dropdown
-   */
-  /**
    * Tools dropdown
    */
   /**
    * Nav link dropdown
    */
+  /**
+   * All Nav links inside of subnav dropdown
+   */
+  /**
+  * Last sublist item
+  */
   /**
    * Size input
    */
@@ -2197,10 +2376,6 @@ pre.line-numbers > code {
 .pl-c-body--theme-light .pl-c-nav__sublist {
   background: transparent;
 }
-.pl-c-body--theme-light .pl-c-nav__sublist--dropdown.pl-is-active {
-  border: 1px solid #ccc;
-  border-top: 0;
-}
 .pl-c-body--theme-light .pl-c-tools__list.pl-is-active {
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
@@ -2211,6 +2386,17 @@ pre.line-numbers > code {
 }
 .pl-c-body--theme-light .pl-c-nav__link--dropdown:after {
   color: #ccc;
+}
+.pl-c-body--theme-light .pl-c-nav__sublist .pl-c-nav__link {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+@media all and (min-width: 42em) {
+  .pl-c-body--theme-light .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom: 1px solid #ccc;
+  }
 }
 .pl-c-body--theme-light .pl-c-viewport-size__input {
   color: #4d4c4c;
@@ -2244,9 +2430,157 @@ pre.line-numbers > code {
   color: #4d4c4c;
   border-top: 1px solid #ccc;
 }
+.pl-c-body--theme-light .pl-c-modal__close-btn {
+  background: #fff;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
 .pl-c-body--theme-light .pl-c-modal__close-btn:hover, .pl-c-body--theme-light .pl-c-modal__close-btn:focus {
-  background: #ddd;
+  background: #fafafa;
   color: #4d4c4c;
+}
+
+/*------------------------------------*\
+    #DENSITY THEME
+\*------------------------------------*/
+/**
+ * A theme that adjusts the density of the PL UI.
+ * Options are comapct (default), cozy, and comfortable
+ */
+/**
+ * A theme that adjusts the density of the PL UI.
+ * Options are default (compact), cozy, and comfortable
+ */
+.pl-c-body--theme-density-cozy {
+  /**
+   * Header
+   */
+  /**
+   * Size input fields
+   */
+  /**
+   * Typeahead
+   */
+  /**
+   * Ish sizing controls
+   * 1) Hide on smaller screens
+   */
+  /**
+   * Viewport sizing inputs
+   * 1) Hide these controls on 
+   */
+  /**
+   * Tools menu button
+   * 1) This is the button that contains the toggle and 
+   *    triggers the tools dropdown list
+   */
+  /**
+   * Viewport
+   * 1) Offset the viewport to account for the adjusted
+   *    PL header height
+   */
+}
+.pl-c-body--theme-density-cozy .pl-c-header {
+  font-size: 0.85rem;
+}
+.pl-c-body--theme-density-cozy .pl-c-viewport-size__input {
+  width: 44px;
+}
+.pl-c-body--theme-density-cozy .pl-c-typeahead {
+  padding: 0.9rem 0.8rem;
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-cozy .pl-c-size-list {
+    display: none;
+  }
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-cozy .pl-c-viewport-size {
+    display: none;
+    /* 1 */
+  }
+}
+.pl-c-body--theme-density-cozy .pl-c-tools__toggle {
+  min-width: 44px;
+}
+.pl-c-body--theme-density-cozy .pl-c-viewport {
+  top: 3.28rem;
+}
+
+/*------------------------------------*\
+    #COMFORTABLE DENSITY
+\*------------------------------------*/
+/**
+ * Biggest
+ */
+.pl-c-body--theme-density-comfortable {
+  /**
+   * Header
+   * 1) Change the font size of everything in the header
+   */
+  /**
+   * Logo
+   */
+  /**
+   * Typeahead dropdown list suggestion
+   */
+  /**
+   * Size input fields
+   */
+  /**
+   * Typeahead
+   */
+  /**
+   * Ish sizing controls
+   * 1) Hide on smaller screens
+   */
+  /**
+   * Viewport sizing inputs
+   */
+  /**
+   * Tools menu button
+   * 1) This is the button that contains the toggle and 
+   *    triggers the tools dropdown list
+   */
+  /**
+   * Viewport
+   * 1) Offset the viewport to account for the adjusted
+   *    PL header height
+   */
+}
+.pl-c-body--theme-density-comfortable .pl-c-header {
+  font-size: 0.85rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-logo {
+  max-width: 4rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-header .tt-suggestion {
+  padding: 1.5rem 1rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-viewport-size__input {
+  width: 44px;
+}
+.pl-c-body--theme-density-comfortable .pl-c-typeahead {
+  padding: 0.9rem 1rem;
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-comfortable .pl-c-size-list {
+    display: none;
+    /* 1 */
+  }
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-comfortable .pl-c-viewport-size {
+    display: none;
+    /* 1 */
+  }
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__toggle {
+  min-width: 44px;
+}
+.pl-c-body--theme-density-comfortable .pl-c-viewport {
+  top: 3.8rem;
+  /* 1 */
 }
 
 /*------------------------------------*\
@@ -2259,12 +2593,17 @@ pre.line-numbers > code {
   .pl-c-body--theme-sidebar {
     /**
     * Header
-    * 1) Stack header items on top of each other
-    * 2) void bottom border for light theme
+    * 1) Set width to sidebar width defined above
+    * 2) Make header 100% of the viewport height
+    * 3) Stack header items on top of each other
+    * 4) void bottom border for light theme
     */
     /**
-    * Logo
-    */
+     * Header within light theme
+     */
+    /**
+     * Logo
+     */
     /**
     * Nav sub sub list
     */
@@ -2283,14 +2622,28 @@ pre.line-numbers > code {
     * Nav sublist
     */
     /**
-    * Nav sublist inside the light theme
+    * Nav sublist
     */
+    /**
+     * Nav sublist inside the light theme
+     */
+    /**
+     * Dropdown sublist
+     * 1) Undo fixed height
+     */
     /**
     * Nav sub sub list
     */
     /**
-    * Nav sub sub list inside the light theme
-    */
+     * Nav sublist inside the light theme
+     */
+    /**
+     * All Nav links inside of subnav dropdown
+     */
+    /**
+     * Last sublist item
+     * 1) Undo bottom border radius when in sidebar
+     */
     /**
     * Nav controls
     * 1) Push off of navigation in flex container so
@@ -2298,12 +2651,16 @@ pre.line-numbers > code {
     */
     /**
      * Dynamically added wrapper around typeahead input
+     * 1) Have to use important to override JS-added inline styles
      */
     /**
      * Tools toggle button
      */
     /**
      * Tools list
+     */
+    /**
+     * Tools action
      */
     /**
      * Viewport 
@@ -2334,15 +2691,24 @@ pre.line-numbers > code {
   }
   .pl-c-body--theme-sidebar .pl-c-header {
     width: 14rem;
+    /* 1 */
     height: 100vh;
+    /* 2 */
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    /* 1 */
+    /* 3 */
     border-bottom: 0;
-    /* 2 */
+    /* 4 */
     padding: 1rem;
+    overflow: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .pl-c-body--theme-sidebar .pl-c-header::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  .pl-c-body--theme-sidebar.pl-c-body--theme-light .pl-c-header {
     border-right: 1px solid #ccc;
   }
   .pl-c-body--theme-sidebar .pl-c-logo {
@@ -2350,6 +2716,7 @@ pre.line-numbers > code {
     margin: 0 auto 1rem;
   }
   .pl-c-body--theme-sidebar .pl-c-nav {
+    display: block;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -2368,11 +2735,15 @@ pre.line-numbers > code {
   }
   .pl-c-body--theme-sidebar .pl-c-nav__link {
     font-size: 0.85rem;
+    padding-left: 0;
+    padding-right: 0;
   }
   .pl-c-body--theme-sidebar .pl-c-nav__sublist {
     position: relative;
-    margin-left: 0.5rem;
     border-radius: 0;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist .pl-c-nav__link {
+    padding-left: 1rem;
   }
   .pl-c-body--theme-sidebar .pl-c-nav__sublist--dropdown.pl-is-active {
     border: 0;
@@ -2381,6 +2752,14 @@ pre.line-numbers > code {
   .pl-c-body--theme-sidebar.pl-c-body--theme-light .pl-c-nav__sublist--dropdown.pl-is-active {
     border-left-color: #eee;
   }
+}
+@media all and (min-width: 48em) and (min-width: 42em) {
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist--dropdown.pl-is-active {
+    height: auto;
+    /* 1 */
+  }
+}
+@media all and (min-width: 48em) {
   .pl-c-body--theme-sidebar .pl-c-nav__subsublist {
     border-left: 1px solid #4d4c4c;
     margin-left: 1rem;
@@ -2388,6 +2767,22 @@ pre.line-numbers > code {
   .pl-c-body--theme-sidebar.pl-c-body--theme-light .pl-c-nav__subsublist {
     border-left-color: #eee;
   }
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist .pl-c-nav__link {
+    border-left: 0;
+    border-right: 0;
+  }
+}
+@media all and (min-width: 48em) and (min-width: 42em) {
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+    border-bottom-left-radius: 0;
+    /* 1 */
+    border-bottom-right-radius: 0;
+    /* 1 */
+    border-bottom: 0;
+    /* 1 */
+  }
+}
+@media all and (min-width: 48em) {
   .pl-c-body--theme-sidebar .pl-c-controls {
     margin-top: auto;
     /* 1 */
@@ -2406,7 +2801,9 @@ pre.line-numbers > code {
   .pl-c-body--theme-sidebar .pl-c-typeahead {
     border-radius: 6px;
   }
-  .pl-c-body--theme-sidebar .twitter-typeahead {
+  .pl-c-body--theme-sidebar .pl-c-header .twitter-typeahead {
+    display: block !important;
+    /* 1 */
     margin-bottom: 0.5rem;
   }
   .pl-c-body--theme-sidebar .pl-c-tools__toggle {
@@ -2424,6 +2821,11 @@ pre.line-numbers > code {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
+    width: 100%;
+  }
+  .pl-c-body--theme-sidebar .pl-c-tools__action {
+    padding-left: 0;
+    padding-right: 0;
   }
   .pl-c-body--theme-sidebar .pl-c-viewport {
     top: 0;
@@ -2449,6 +2851,8 @@ pre.line-numbers > code {
   }
   .pl-c-body--theme-sidebar .pl-c-modal {
     left: 14rem;
+    /* 1 */
+    right: 0;
     /* 1 */
     width: auto;
   }

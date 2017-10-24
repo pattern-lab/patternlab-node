@@ -9,6 +9,7 @@
  */
 .pl-c-tools {
     position: relative;
+    display: flex;
 }
 
 /**
@@ -21,10 +22,20 @@
     margin: 0;
     padding-top: 0.6rem;
     padding-bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-width: 30px;
+}
 
-    .pl-theme--comfy & {
-        padding: 1.1rem 1rem 0.95rem
-    }
+/**
+ * Tools Toggle SVG icon
+ * 1) Cog icon
+ * 2) Set the width and height of the icon to be the same height of font
+ */
+.pl-c-tools__toggle-icon {
+    position: absolute;
 }
 
 /**

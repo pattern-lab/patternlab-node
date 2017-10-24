@@ -12,21 +12,33 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         
         /**
         * Header
-        * 1) Stack header items on top of each other
-        * 2) void bottom border for light theme
+        * 1) Set width to sidebar width defined above
+        * 2) Make header 100% of the viewport height
+        * 3) Stack header items on top of each other
+        * 4) void bottom border for light theme
         */
         .pl-c-header {
-            width: $pl-sidebar-width;
-            height: 100vh;
-            flex-direction: column;  /* 1 */
-            border-bottom: 0; /* 2 */
+            width: $pl-sidebar-width; /* 1 */
+            height: 100vh; /* 2 */
+            flex-direction: column;  /* 3 */
+            border-bottom: 0; /* 4 */
             padding: 1rem;
-            border-right: 1px solid $pl-color-gray-20;
+            overflow: auto;
+            @include hideScrollBar();
         }
 
         /**
-        * Logo
-        */
+         * Header within light theme
+         */
+        &.pl-c-body--theme-light {
+            .pl-c-header {
+                border-right: 1px solid $pl-color-gray-20;
+            }
+        }
+
+        /**
+         * Logo
+         */
         .pl-c-logo {
             max-width: 7rem;
             margin: 0 auto 1rem;
@@ -36,6 +48,7 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         * Nav sub sub list
         */
         .pl-c-nav {
+            display: block;
             flex-direction: column;
         }
 
@@ -54,6 +67,8 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         */
         .pl-c-nav__link {
             font-size: $pl-font-size-sm-2;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         /**
@@ -61,8 +76,14 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         */
         .pl-c-nav__sublist {
             position: relative;
-            margin-left: 0.5rem;
             border-radius: 0;
+        }
+
+        /**
+        * Nav sublist
+        */
+        .pl-c-nav__sublist .pl-c-nav__link {
+            padding-left: 1rem;
         }
 
         /**
@@ -74,11 +95,21 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         }
 
         /**
-        * Nav sublist inside the light theme
-        */
+         * Nav sublist inside the light theme
+         */
         &.pl-c-body--theme-light {
             .pl-c-nav__sublist--dropdown.pl-is-active {
                 border-left-color: $pl-color-gray-07;
+            }
+        }
+
+        /**
+         * Dropdown sublist
+         * 1) Undo fixed height
+         */
+        .pl-c-nav__sublist--dropdown.pl-is-active {
+            @media all and (min-width: $pl-bp-med) {
+                height: auto; /* 1 */
             }
         }
 
@@ -91,11 +122,31 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         }
 
         /**
-        * Nav sub sub list inside the light theme
-        */
-        &.pl-c-body--theme-light {
+         * Nav sublist inside the light theme
+         */
+         &.pl-c-body--theme-light {
             .pl-c-nav__subsublist {
                 border-left-color: $pl-color-gray-07;
+            }
+        }
+
+        /**
+         * All Nav links inside of subnav dropdown
+         */
+        .pl-c-nav__sublist .pl-c-nav__link {
+            border-left: 0;
+            border-right: 0;
+        }
+
+        /**
+         * Last sublist item
+         * 1) Undo bottom border radius when in sidebar
+         */
+        .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+            @media all and (min-width: $pl-bp-med) {
+                border-bottom-left-radius: 0; /* 1 */
+                border-bottom-right-radius: 0;  /* 1 */
+                border-bottom: 0; /* 1 */
             }
         }
 
@@ -124,8 +175,10 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
 
         /**
          * Dynamically added wrapper around typeahead input
+         * 1) Have to use important to override JS-added inline styles
          */
-        .twitter-typeahead {
+        .pl-c-header .twitter-typeahead {
+            display: block !important; /* 1 */
             margin-bottom: 0.5rem;
         }
 
@@ -146,8 +199,16 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
             border-radius: 0;
             display: flex;
             flex-direction: column;
+            width: 100%;
         }
 
+        /**
+         * Tools action
+         */
+        .pl-c-tools__action {
+            padding-left: 0;
+            padding-right: 0;
+        }
 
         /**
          * Viewport 
@@ -197,6 +258,7 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
          */
         .pl-c-modal {
             left: $pl-sidebar-width; /* 1 */
+            right: 0; /* 1 */
             width: auto;
         }
     }
