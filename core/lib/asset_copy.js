@@ -82,7 +82,7 @@ const asset_copier = () => {
           path.resolve(basePath, dir.source),
           {
             ignored: /(^|[\/\\])\../,
-            ignoreInitial: true,
+            ignoreInitial: false,
             awaitWriteFinish : {
               stabilityThreshold: 200,
               pollInterval: 100
