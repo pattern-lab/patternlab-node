@@ -8,7 +8,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "classlist": "~2014.7.23",
     "jquery": "~2.1.1",
     "jwerty": "~0.3.2",
     "prism": "gh-pages",
