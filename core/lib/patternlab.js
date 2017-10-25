@@ -41,12 +41,6 @@ let serve = require('./serve'); // eslint-disable-line
 const pattern_assembler = new pa();
 const lineage_hunter = new lh();
 
-//register our log events
-plutils.log.on('error', msg => console.log(msg));
-plutils.log.on('debug', msg => console.log(msg));
-plutils.log.on('warning', msg => console.log(msg));
-plutils.log.on('info', msg => console.log(msg));
-
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
 
@@ -63,6 +57,9 @@ class PatternLab {
 
     // Make ye olde event emitter
     this.events = new PatternLabEventEmitter();
+
+    //register our log events
+    this.registerLogger(config.debug);
 
     // Make a place for the pattern graph to sit
     this.graph = null;
@@ -247,6 +244,39 @@ class PatternLab {
     //write the compiled template to the public patterns directory
     outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
   }
+
+
+
+  /**
+   * Binds console logging to different levels
+   *
+   * @param {string} logLevel
+   * @memberof PatternLab
+   */
+  registerLogger(logLevel) {
+
+    // handle the legacy value, which is boolean
+    if (typeof logLevel === 'boolean') {
+      if (logLevel) {
+        plutils.log.on('debug', msg => console.log(msg));
+      }
+      plutils.log.on('info', msg => console.log(msg));
+      plutils.log.on('warning', msg => console.log(msg));
+      plutils.log.on('error', msg => console.log(msg));
+    } else {
+      if ( logLevel === 'quiet') { return; }
+      switch (logLevel) {
+        case 'debug':
+          plutils.log.on('debug', msg => console.log(msg));
+        case 'info':
+          plutils.log.on('info', msg => console.log(msg));
+        case 'warning':
+          plutils.log.on('warning', msg => console.log(msg));
+        case 'error':
+          plutils.log.on('error', msg => console.log(msg));
+      }
+    }
+  }
 }
 
 //bootstrap update notifier
@@ -320,6 +350,7 @@ function processAllPatternsRecursive(patterns_dir, patternlab) {
 }
 
 function checkConfiguration(patternlab) {
+
   //default the output suffixes if not present
   const outputFileSuffixes = {
     rendered: '.rendered',
