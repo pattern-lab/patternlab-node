@@ -56,7 +56,7 @@ function patternlabClosure() {
       }
     ],
     config: {
-      debug: false
+      debug: 'quiet'
     },
     data: {
       description: 'Not a quote from a smart man',

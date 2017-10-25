@@ -49,7 +49,7 @@ function createBasePatternLabObject() {
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = false;
+  pl.config.debug = 'quiet';
   pl.patterns = [];
   pl.partials = {};
   pl.patternGroups = {};

@@ -33,7 +33,7 @@ function stubPatternlab() {
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = false;
+  pl.config.debug = 'quiet';
   pl.patterns = [];
   pl.partials = {};
   pl.config.patternStates = {};

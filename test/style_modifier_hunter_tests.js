@@ -9,7 +9,7 @@ tap.test('uses the partial stylemodifer to modify the patterns extendedTemplate'
   var pl = {};
   pl.partials = {};
   pl.config = {};
-  pl.config.debug = false;
+  pl.config.debug = 'quiet';
 
   var pattern = {
     extendedTemplate: '<div class="foo {{styleModifier}}"></div>'
@@ -30,7 +30,7 @@ tap.test('replaces style modifiers with spaces in the syntax', function(test){
   var pl = {};
   pl.partials = {};
   pl.config = {};
-  pl.config.debug = false;
+  pl.config.debug = 'quiet';
 
   var pattern = {
     extendedTemplate: '<div class="foo {{ styleModifier }}"></div>'
@@ -51,7 +51,7 @@ tap.test('replaces multiple style modifiers', function(test){
   var pl = {};
   pl.partials = {};
   pl.config = {};
-  pl.config.debug = false;
+  pl.config.debug = 'quiet';
 
   var pattern = {
     extendedTemplate: '<div class="foo {{ styleModifier }}"></div>'
@@ -72,7 +72,7 @@ tap.test('does not alter pattern extendedTemplate if styleModifier not found in 
   var pl = {};
   pl.partials = {};
   pl.config = {};
-  pl.config.debug = false;
+  pl.config.debug = 'quiet';
 
   var pattern = {
     extendedTemplate: '<div class="foo {{styleModifier}}"></div>'
