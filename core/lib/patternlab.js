@@ -14,7 +14,6 @@ const diveSync = require('diveSync');
 const dive = require('dive');
 const _ = require('lodash');
 const path = require('path');
-const chalk = require('chalk');
 const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
@@ -44,6 +43,11 @@ const lineage_hunter = new lh();
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
 
+function PatternLabEventEmitter() {
+  EventEmitter.call(this);
+}
+inherits(PatternLabEventEmitter, EventEmitter);
+
 class PatternLab {
   constructor(config) {
     // Either use the config we were passed, or load one up from the config file ourselves
@@ -71,10 +75,70 @@ class PatternLab {
     this.watchers = {};
 
     // Verify correctness of configuration (?)
-    checkConfiguration(this);
+    this.checkConfiguration(this);
 
     // TODO: determine if this is the best place to wire up plugins
-    initializePlugins(this);
+    this.initializePlugins(this);
+  }
+
+  checkConfiguration(patternlab) {
+
+    //default the output suffixes if not present
+    const outputFileSuffixes = {
+      rendered: '.rendered',
+      rawTemplate: '',
+      markupOnly: '.markup-only'
+    };
+
+    if (!patternlab.config.outputFileSuffixes) {
+      logger.warning('');
+      logger.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
+      logger.info(outputFileSuffixes);
+      logger.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+      logger.warning('');
+    }
+    patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
+
+    if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
+      logger.warning('');
+      logger.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
+      logger.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
+      logger.warning('');
+    }
+
+    if (typeof patternlab.config.debug === 'boolean') {
+      logger.warning('');
+      logger.warning(`Configuration key [debug] inside patternlab-config.json was found. As of Pattern Lab Node Core 3.0.0 this key is replaced with a new key, [logLevel]. This is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
+      logger.warning(`Turning on 'info', 'warning', and 'error' levels by default, unless [logLevel] is present. If that is the case, [debug] has no effect.`);
+      logger.warning('');
+    }
+  }
+
+  /**
+   * Finds and calls the main method of any found plugins.
+   * @param patternlab - global data store
+   */
+  //todo, move this to plugin_manager
+  initializePlugins(patternlab) {
+
+    if (!patternlab.config.plugins) { return; }
+
+    const plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
+    const foundPlugins = plugin_manager.detect_plugins();
+
+    if (foundPlugins && foundPlugins.length > 0) {
+
+      for (let i = 0; i < foundPlugins.length; i++) {
+
+        const pluginKey = foundPlugins[i];
+
+        logger.info(`Found plugin: ${pluginKey}`);
+        logger.info(`Attempting to load and initialize plugin.`);
+
+        const plugin = plugin_manager.load_plugin(pluginKey);
+        plugin(patternlab);
+      }
+    }
   }
 
   buildGlobalData() {
@@ -86,11 +150,12 @@ class PatternLab {
 
     // data.json
     try {
-      this.data = buildPatternData(paths.source.data, fs);
+      this.data = buildPatternData(paths.source.data, fs); // eslint-disable-line no-use-before-define
     } catch (ex) {
       logger.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       this.data = {};
     }
+
     // listitems.json
     try {
       this.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
@@ -98,6 +163,7 @@ class PatternLab {
       logger.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
       this.listitems = {};
     }
+
     // load up all the necessary files from pattern lab that apply to every template
     try {
       this.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
@@ -261,7 +327,7 @@ class PatternLab {
       logger.log.on('warning', msg => console.info(msg));
       logger.log.on('error', msg => console.info(msg));
     } else {
-      if ( logLevel === 'quiet') { return; }
+      if (logLevel === 'quiet') { return; }
       switch (logLevel) {
         case 'debug':
           logger.log.on('debug', msg => console.info(msg));
@@ -346,68 +412,6 @@ function processAllPatternsRecursive(patterns_dir, patternlab) {
   );
 }
 
-function checkConfiguration(patternlab) {
-
-  //default the output suffixes if not present
-  const outputFileSuffixes = {
-    rendered: '.rendered',
-    rawTemplate: '',
-    markupOnly: '.markup-only'
-  };
-
-  if (!patternlab.config.outputFileSuffixes) {
-    logger.warning('');
-    logger.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
-    logger.info(outputFileSuffixes);
-    logger.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
-    logger.warning('');
-  }
-  patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
-
-  if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
-    logger.warning('');
-    logger.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
-    logger.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
-    logger.warning('');
-  }
-
-  if (typeof patternlab.config.debug === 'boolean') {
-    logger.warning('');
-    logger.warning(`Configuration key [debug] inside patternlab-config.json was found. As of Pattern Lab Node Core 3.0.0 this key is replaced with a new key, [logLevel]. This is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
-    logger.warning(`Turning on 'info', 'warning', and 'error' levels by default, unless [logLevel] is present. If that is the case, [debug] has no effect.`);
-    logger.warning('');
-  }
-
-}
-
-/**
- * Finds and calls the main method of any found plugins.
- * @param patternlab - global data store
- */
-
-//todo, move this to plugin_manager
-function initializePlugins(patternlab) {
-
-  if (!patternlab.config.plugins) { return; }
-
-  const plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
-  const foundPlugins = plugin_manager.detect_plugins();
-
-  if (foundPlugins && foundPlugins.length > 0) {
-
-    for (let i = 0; i < foundPlugins.length; i++) {
-
-      const pluginKey = foundPlugins[i];
-
-      logger.info(`Found plugin: ${pluginKey}`);
-      logger.info(`Attempting to load and initialize plugin.`);
-
-      const plugin = plugin_manager.load_plugin(pluginKey);
-      plugin(patternlab);
-    }
-  }
-}
-
 /**
  * Installs a given plugin. Assumes it has already been pulled down via npm
  * @param pluginName - the name of the plugin
@@ -420,11 +424,6 @@ function installPlugin(pluginName) {
 
   plugin_manager.install_plugin(pluginName);
 }
-
-function PatternLabEventEmitter() {
-  EventEmitter.call(this);
-}
-inherits(PatternLabEventEmitter, EventEmitter);
 
 const patternlab_engine = function (config) {
   const patternlab = new PatternLab(config);
@@ -631,6 +630,7 @@ const patternlab_engine = function (config) {
       // Ensure that the freshly built graph has the latest version again.
       patternlab.graph.upgradeVersion();
     }
+
     // Flags
     patternlab.incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
 

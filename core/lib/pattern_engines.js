@@ -2,7 +2,6 @@
 'use strict';
 const {existsSync, lstatSync, readdirSync} = require('fs');
 const path = require('path');
-const chalk = require('chalk');
 const engineMatcher = /^patternengine-node-(.*)$/;
 const scopeMatch = /^@(.*)$/;
 const isDir = fPath => lstatSync(fPath).isDirectory();
@@ -77,7 +76,7 @@ function resolveEngines(dir) {
         return {
           name: isEngineModule(engine),
           modulePath: path.join(fPath, engine)
-        }
+        };
       })
     );
 
@@ -98,7 +97,7 @@ function resolveEngines(dir) {
 }
 
 function findEngineModulesInDirectory(dir) {
-  const foundEngines = resolveEngines(dir)
+  const foundEngines = resolveEngines(dir);
   return foundEngines;
 }
 

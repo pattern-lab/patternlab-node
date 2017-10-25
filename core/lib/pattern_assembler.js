@@ -187,7 +187,7 @@ const pattern_assembler = function () {
     catch (err) {
       // do nothing when file not found
       if (err.code !== 'ENOENT') {
-        logger.warning(`'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${currentPattern.patternPartial}`)
+        logger.warning(`'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${currentPattern.patternPartial}`);
         logger.warning(err);
       }
     }
