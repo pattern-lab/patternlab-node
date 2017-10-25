@@ -66,7 +66,7 @@ function createFakePatternLab(customProps) {
       "partials": []
     },
     "config": {
-      "debug": 'quiet',
+      "logLevel": 'quiet',
       "paths": {
         "source": {
           "patterns": "./test/files/_patterns"
@@ -344,7 +344,7 @@ tap.test('process_list_item_partials - correctly ignores bookended partials with
   pl.config = {};
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
   pl.config.patterns = { source: patterns_dir };

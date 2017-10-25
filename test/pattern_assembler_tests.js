@@ -93,7 +93,7 @@ tap.test('processPatternRecursive - correctly replaces all stylemodifiers when m
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -137,7 +137,7 @@ tap.test('processPatternRecursive - correctly replaces multiple stylemodifier cl
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -182,7 +182,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -225,7 +225,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -269,7 +269,7 @@ tap.test('processPatternRecursive - correctly ignores a partial without a style 
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -314,7 +314,7 @@ tap.test('processPatternRecursive - correctly ignores bookended partials without
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -359,7 +359,7 @@ tap.test('processPatternRecursive - does not pollute previous patterns when a la
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -413,7 +413,7 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
   };
   pl.data = {};
   pl.data.link = {};
-  pl.config.debug = 'quiet';
+  pl.config.logLevel = 'quiet';
   pl.patterns = [];
   pl.partials = {};
 
@@ -611,7 +611,7 @@ tap.test('addPattern - adds pattern extended template to patternlab partial obje
   patternlab.patterns = [];
   patternlab.partials = {};
   patternlab.data = {link: {}};
-  patternlab.config = {debug: 'quiet'};
+  patternlab.config = {logLevel: 'quiet'};
   patternlab.config.outputFileSuffixes = {rendered: ''};
 
   var pattern = new Pattern('00-test/01-bar.mustache');
@@ -635,7 +635,7 @@ tap.test('addPattern - adds pattern template to patternlab partial object if ext
   patternlab.patterns = [];
   patternlab.partials = {};
   patternlab.data = {link: {}};
-  patternlab.config = { debug: 'quiet' };
+  patternlab.config = { logLevel: 'quiet' };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
   var pattern = new Pattern('00-test/01-bar.mustache');
@@ -699,7 +699,7 @@ tap.test('markModifiedPatterns - finds patterns when modification date is missin
   var patternlab = emptyPatternLab();
   patternlab.partials = {};
   patternlab.data = {link: {}};
-  patternlab.config = { debug: 'quiet' };
+  patternlab.config = { logLevel: 'quiet' };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
   var pattern = new Pattern('00-test/01-bar.mustache');
@@ -720,7 +720,7 @@ tap.test('markModifiedPatterns - finds patterns via compile state', function(tes
   var patternlab = emptyPatternLab();
   patternlab.partials = {};
   patternlab.data = {link: {}};
-  patternlab.config = { debug: 'quiet' };
+  patternlab.config = { logLevel: 'quiet' };
   patternlab.config.outputFileSuffixes = {rendered : ''};
 
   var pattern = new Pattern('00-test/01-bar.mustache');
