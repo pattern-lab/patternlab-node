@@ -50,7 +50,7 @@ class PatternLab {
     this.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
 
     //register our log events
-    this.registerLogger(config.debug);
+    this.registerLogger(config.logLevel);
 
     logger.info(`Pattern Lab Node v${packageInfo.version}`);
 
@@ -246,8 +246,6 @@ class PatternLab {
     outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
   }
 
-
-
   /**
    * Binds console logging to different levels
    *
@@ -255,9 +253,7 @@ class PatternLab {
    * @memberof PatternLab
    */
   registerLogger(logLevel) {
-
-    // handle the legacy value, which is boolean
-    if (typeof logLevel === 'boolean') {
+    if (logLevel === undefined) {
       if (logLevel) {
         logger.log.on('debug', msg => console.info(msg));
       }
@@ -377,8 +373,8 @@ function checkConfiguration(patternlab) {
 
   if (typeof patternlab.config.debug === 'boolean') {
     logger.warning('');
-    logger.warning(`Configuration key [debug] inside patternlab-config.json was found as a boolean. As of Pattern Lab Node Core 3.0.0 this key is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
-    logger.warning(`Turning on 'info', 'warning', and 'error' levels by default`);
+    logger.warning(`Configuration key [debug] inside patternlab-config.json was found. As of Pattern Lab Node Core 3.0.0 this key is replaced with a new key, [logLevel]. This is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
+    logger.warning(`Turning on 'info', 'warning', and 'error' levels by default, unless [logLevel] is present. If that is the case, [debug] has no effect.`);
     logger.warning('');
   }
 
