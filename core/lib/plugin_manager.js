@@ -3,7 +3,7 @@
 const plugin_manager = function (config, configPath) {
   const path = require('path');
   const fs = require('fs-extra');
-  const util = require('./utilities');
+  const logger = require('./log');
 
   /**
    * Loads a plugin
@@ -25,12 +25,12 @@ const plugin_manager = function (config, configPath) {
       const pluginPath = path.resolve(
         path.join(process.cwd(), 'node_modules', pluginName)
       );
-      console.log('Attempting to load plugin from', pluginPath);
+      logger.debug(`Attempting to load plugin from ${pluginPath}`);
       try {
         var pluginDirStats = fs.statSync(pluginPath);
       } catch (ex) {
-        util.error(pluginName + ' not found, please use npm to install it first.');
-        util.error(pluginName + ' not loaded.');
+        logger.warning(`${pluginName} not found, use npm to install it first.`);
+        logger.warning(`${pluginName} not loaded.`);
         return;
       }
       const pluginPathDirExists = pluginDirStats.isDirectory();
@@ -63,13 +63,12 @@ const plugin_manager = function (config, configPath) {
         //write config entry back
         fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
 
-        util.debug('Plugin ' + pluginName + ' installed.');
-
-        //todo, tell them how to uninstall or disable
-
+        logger.info('Plugin ' + pluginName + ' installed.');
+        logger.info('Plugin configration added to patternlab-config.json.');
       }
     } catch (ex) {
-      console.log(ex);
+      logger.warning(`An error occurred during plugin installation for plugin ${pluginName}`);
+      logger.warning(ex);
     }
   }
 
@@ -91,7 +90,7 @@ const plugin_manager = function (config, configPath) {
    * Not implemented yet
    */
   function disablePlugin(pluginName) {
-    console.log('disablePlugin not implemented yet. No change made to state of plugin', pluginName);
+    logger.warning(`disablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`);
   }
 
   /**
@@ -99,7 +98,7 @@ const plugin_manager = function (config, configPath) {
    * Not implemented yet
    */
   function enablePlugin(pluginName) {
-    console.log('enablePlugin not implemented yet. No change made to state of plugin', pluginName);
+    logger.warning(`enablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`);
   }
 
   return {
