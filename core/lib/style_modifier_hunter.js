@@ -1,5 +1,7 @@
 "use strict";
 
+const logger = require('./log');
+
 const style_modifier_hunter = function () {
 
   /**
@@ -17,9 +19,7 @@ const style_modifier_hunter = function () {
       //replace the special character pipe | used to separate multiple classes with a space
       styleModifier = styleModifier.replace(/\|/g, ' ');
 
-      if (patternlab.config.debug) {
-        console.log('found partial styleModifier within pattern ' + pattern.patternPartial);
-      }
+      logger.debug(`Found partial styleModifier within pattern ${pattern.patternPartial}`);
 
       //replace the stylemodifier placeholder with the class name
       pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);

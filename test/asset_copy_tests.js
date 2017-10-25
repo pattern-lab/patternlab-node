@@ -38,7 +38,7 @@ function createFakePatternLab(customProps) {
         }
       },
       styleGuideExcludes: [ ],
-      debug: false,
+      logLevel: 'quiet',
       outputFileSuffixes: {
         rendered: '.rendered',
         rawTemplate: '',

@@ -42,7 +42,7 @@ function createFakePatternLab(customProps) {
         }
       },
       styleGuideExcludes: [ 'templates' ],
-      debug: false,
+      logLevel: 'quiet',
       outputFileSuffixes: {
         rendered: '.rendered',
         rawTemplate: '',

@@ -1,6 +1,7 @@
 'use strict';
 const md = require('markdown-it')();
 const yaml = require('js-yaml');
+const logger = require('./log');
 
 const markdown_parser = function () {
 
@@ -36,8 +37,8 @@ const markdown_parser = function () {
         returnObject.markdown = md.render(block);
       }
     } catch (ex) {
-      console.log(ex);
-      console.log('error parsing markdown block', block);
+      logger.warning(ex);
+      logger.warning(`error parsing markdown block ${block}`);
       return undefined;
     }
 

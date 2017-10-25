@@ -7,6 +7,7 @@ const _ = require('lodash');
 const lh = require('./lineage_hunter');
 const Pattern = require('./object_factory').Pattern;
 const path = require('path');
+const logger = require('./log');
 const lineage_hunter = new lh();
 const changes_hunter = new ch();
 
@@ -29,17 +30,15 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, p
 
   if (pseudoPatterns.length > 0) {
     for (let i = 0; i < pseudoPatterns.length; i++) {
-      if (patternlab.config.debug) {
-        console.log('found pseudoPattern variant of ' + currentPattern.patternPartial);
-      }
+      logger.debug(`Found pseudoPattern variant of ${currentPattern.patternPartial}`);
 
       //we want to do everything we normally would here, except instead read the pseudoPattern data
       try {
         var variantFileFullPath = path.resolve(paths.source.patterns, pseudoPatterns[i]);
         var variantFileData = fs.readJSONSync(variantFileFullPath);
       } catch (err) {
-        console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
-        console.log(err);
+        logger.warning(`There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`);
+        logger.warning(err);
       }
 
       //extend any existing data with variant data
@@ -84,8 +83,8 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, p
         var variantFileFullPath = path.resolve(paths.source.patterns, pseudoPatterns[i]);
         var variantFileData = fs.readJSONSync(variantFileFullPath);
       } catch (err) {
-        console.log('There was an error parsing pseudopattern JSON for ' + currentPattern.relPath);
-        console.log(err);
+        logger.warning(`There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`);
+        logger.warning(err);
       }
 
       //extend any existing data with variant data
