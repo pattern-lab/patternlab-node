@@ -320,9 +320,6 @@ class PatternLab {
    */
   registerLogger(logLevel) {
     if (logLevel === undefined) {
-      if (logLevel) {
-        logger.log.on('debug', msg => console.info(msg));
-      }
       logger.log.on('info', msg => console.info(msg));
       logger.log.on('warning', msg => console.info(msg));
       logger.log.on('error', msg => console.info(msg));
