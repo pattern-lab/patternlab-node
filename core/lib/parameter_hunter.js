@@ -8,6 +8,7 @@ const parameter_hunter = function () {
   const smh = require('./style_modifier_hunter');
   const style_modifier_hunter = new smh();
   const pattern_assembler = new pa();
+  const logger = require('./log');
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -49,10 +50,9 @@ const parameter_hunter = function () {
    *   * Return paramStringWellFormed.
    *
    * @param {string} pString
-   * @param {object} patternlab
    * @returns {string} paramStringWellFormed
    */
-  function paramToJson(pString, patternlab) {
+  function paramToJson(pString) {
     let colonPos = -1;
     const keys = [];
     let paramString = pString; // to not reassign param
@@ -67,10 +67,7 @@ const parameter_hunter = function () {
       paramStringWellFormed = JSON.stringify(JSON.parse(pString));
       return paramStringWellFormed;
     } catch (err) {
-      //todo this might be a good candidate for a different log level, should we implement that someday
-      if (patternlab.config.debug) {
-        console.log(`Not valid JSON found for passed pattern parameter ${pString} will attempt to parse manually...`);
-      }
+      logger.debug(`Not valid JSON found for passed pattern parameter ${pString} will attempt to parse manually...`);
     }
 
     //replace all escaped double-quotes with escaped unicode
@@ -256,15 +253,13 @@ const parameter_hunter = function () {
         //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
         partialPattern.extendedTemplate = partialPattern.template;
 
-        if (patternlab.config.debug) {
-          console.log('found patternParameters for ' + partialName);
-        }
+        logger.debug(`found patternParameters for ${partialName}`);
 
         //strip out the additional data, convert string to JSON.
         const leftParen = pMatch.indexOf('(');
         const rightParen = pMatch.lastIndexOf(')');
         const paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        const paramStringWellFormed = paramToJson(paramString, patternlab);
+        const paramStringWellFormed = paramToJson(paramString);
 
         let paramData = {};
         let globalData = {};
@@ -275,8 +270,8 @@ const parameter_hunter = function () {
           globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
           localData = jsonCopy(pattern.jsonFileData || {}, `pattern ${pattern.patternPartial} data`);
         } catch (err) {
-          console.log('There was an error parsing JSON for ' + pattern.relPath);
-          console.log(err);
+          logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
+          logger.warning(err);
         }
 
         // resolve any pattern links that might be present
