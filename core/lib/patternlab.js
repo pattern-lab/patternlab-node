@@ -328,16 +328,26 @@ function checkConfiguration(patternlab) {
   };
 
   if (!patternlab.config.outputFileSuffixes) {
-    plutils.warning('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
+    plutils.warning('');
+    plutils.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
     console.log(outputFileSuffixes);
     plutils.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
-    console.log();
+    plutils.warning('');
   }
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 
   if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
+    plutils.warning('');
     plutils.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
     plutils.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
+    plutils.warning('');
+  }
+
+  if (typeof patternlab.config.debug === 'boolean') {
+    plutils.warning('');
+    plutils.warning(`Configuration key [debug] inside patternlab-config.json was found as a boolean. As of Pattern Lab Node Core 3.0.0 this key is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
+    plutils.warning(`Turning on 'info', 'warning', and 'error' levels by default`);
+    plutils.warning('');
   }
 
 }
