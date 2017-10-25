@@ -6,7 +6,7 @@ const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 const pph = require('./pseudopattern_hunter');
 const mp = require('./markdown_parser');
-const plutils = require('./utilities');
+const logger = require('./log');
 const patternEngines = require('./pattern_engines');
 const lh = require('./lineage_hunter');
 const lih = require('./list_item_hunter');
@@ -52,7 +52,7 @@ const pattern_assembler = function () {
         return patternlab.patterns[i];
       }
     }
-    plutils.warning('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
+    logger.warning('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
     return undefined;
   }
 
@@ -103,9 +103,7 @@ const pattern_assembler = function () {
     // if the pattern is new, we must register it with various data structures!
     if (isNew) {
 
-      if (patternlab.config.debug) {
-        console.log('found new pattern ' + pattern.patternPartial);
-      }
+      logger.debug(`found new pattern ${pattern.patternPartial}`);
 
       // do global registration
       if (pattern.isPattern) {
@@ -182,20 +180,15 @@ const pattern_assembler = function () {
           currentPattern.links = markdownObject.links;
         }
       } else {
-        if (patternlab.config.debug) {
-          console.log('error processing markdown for ' + currentPattern.patternPartial);
-        }
+        logger.warning(`error processing markdown for ${currentPattern.patternPartial}`);
       }
-
-      if (patternlab.config.debug) {
-        console.log('found pattern-specific markdown for ' + currentPattern.patternPartial);
-      }
+      logger.debug(`found pattern-specific markdown for  ${currentPattern.patternPartial}`);
     }
     catch (err) {
       // do nothing when file not found
       if (err.code !== 'ENOENT') {
-        console.log('there was an error setting pattern keys after markdown parsing of the companion file for pattern ' + currentPattern.patternPartial);
-        console.log(err);
+        logger.warning(`'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${currentPattern.patternPartial}`)
+        logger.warning(err);
       }
     }
   }
@@ -248,15 +241,15 @@ const pattern_assembler = function () {
 
     var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
     if (relativeDepth > 2) {
-      console.log('');
-      plutils.warning('Warning:');
-      plutils.warning('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
-      plutils.warning('It\'s strongly suggested to not deviate from the following structure under _patterns/');
-      plutils.warning('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
-      console.log('');
-      plutils.warning('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
-      plutils.warning('Read More: http://patternlab.io/docs/pattern-organization.html');
-      console.log('');
+      logger.warning('');
+      logger.warning('Warning:');
+      logger.warning('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
+      logger.warning('It\'s strongly suggested to not deviate from the following structure under _patterns/');
+      logger.warning('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
+      logger.warning('');
+      logger.warning('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
+      logger.warning('Read More: http://patternlab.io/docs/pattern-organization.html');
+      logger.warning('');
     }
 
     //check if the found file is a top-level markdown file
@@ -282,7 +275,7 @@ const pattern_assembler = function () {
       } catch (err) {
         // no file exists, meaning it's a pattern markdown file
         if (err.code !== 'ENOENT') {
-          console.log(err);
+          logger.warning(err);
         }
       }
     }
@@ -312,36 +305,32 @@ const pattern_assembler = function () {
     //look for a json file for this template
     try {
       var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
-      const configData = dataLoader.loadDataFromFile(jsonFilename, fs);
+      const patternData = dataLoader.loadDataFromFile(jsonFilename, fs);
 
-      if (configData) {
-        currentPattern.jsonFileData = configData;
-        if (patternlab.config.debug) {
-          console.log('processPatternIterative: found pattern-specific config data for ' + currentPattern.patternPartial);
-        }
+      if (patternData) {
+        currentPattern.jsonFileData = patternData;
+        logger.debug(`found pattern-specific data for ${currentPattern.patternPartial}`);
       }
     }
     catch (err) {
-      console.log('There was an error parsing sibling JSON for ' + currentPattern.relPath);
-      console.log(err);
+      logger.warning(`There was an error parsing sibling JSON for ${currentPattern.relPath}`);
+      logger.warning(err);
     }
 
     //look for a listitems.json file for this template
     try {
       var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems");
-      const listItemsConfig = dataLoader.loadDataFromFile(listJsonFileName, fs);
+      const listItemsData = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
-      if (listItemsConfig) {
-        currentPattern.listitems = listItemsConfig;
+      if (listItemsData) {
+        logger.debug(`found pattern-specific listitems data for ${currentPattern.patternPartial}`);
+        currentPattern.listitems = listItemsData;
         buildListItems(currentPattern);
-        if (patternlab.config.debug) {
-          console.log('found pattern-specific listitems config for ' + currentPattern.patternPartial);
-        }
       }
     }
     catch (err) {
-      console.log('There was an error parsing sibling listitem JSON for ' + currentPattern.relPath);
-      console.log(err);
+      logger.warning(`There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`);
+      logger.warning(err);
     }
 
     //look for a markdown file for this template
@@ -382,7 +371,7 @@ const pattern_assembler = function () {
       //find any pattern parameters that may be in the current pattern
       pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
       return pattern;
-    }).catch(plutils.reportError('There was an error in processPatternIterative():'));
+    }).catch(logger.reportError('There was an error in processPatternIterative():'));
   }
 
   function processPatternRecursive(file, patternlab) {
@@ -447,9 +436,7 @@ const pattern_assembler = function () {
     var style_modifier_hunter = new smh(),
       parameter_hunter = new ph();
 
-    if (patternlab.config.debug) {
-      console.log('found partials for ' + currentPattern.patternPartial);
-    }
+    logger.debug(`found partials for ${currentPattern.patternPartial}`);
 
     // determine if the template contains any pattern parameters. if so they
     // must be immediately consumed
@@ -513,18 +500,15 @@ const pattern_assembler = function () {
             var fullLink = patternlab.data.link[linkPatternPartial];
             if (fullLink) {
               fullLink = path.normalize(fullLink).replace(/\\/g, '/');
-              if (patternlab.config.debug) {
-                console.log('expanded data link from ' + dataLink + ' to ' + fullLink + ' inside ' + key);
-              }
+
+              logger.debug(`expanded data link from ${dataLink} to ${fullLink} inside ${key}`);
 
               //also make sure our global replace didn't mess up a protocol
               fullLink = fullLink.replace(/:\//g, '://');
               dataObjAsString = dataObjAsString.replace('link.' + linkPatternPartial, fullLink);
             }
           } else {
-            if (patternlab.config.debug) {
-              console.log('pattern not found for', dataLink, 'inside', key);
-            }
+            logger.warning(`pattern not found for ${dataLink} inside ${key}`);
           }
         }
       }
@@ -534,8 +518,8 @@ const pattern_assembler = function () {
     try {
       dataObj = JSON.parse(dataObjAsString);
     } catch (err) {
-      console.log('There was an error parsing JSON for ' + key);
-      console.log(err);
+      logger.warning(`There was an error parsing JSON for ${key}`);
+      logger.warning(err);
     }
 
     return dataObj;
