@@ -1,6 +1,7 @@
 "use strict";
 const path = require('path');
 const liveServer = require('live-server');
+const logger = require('./log');
 
 const serve = (patternlab) => {
 
@@ -11,7 +12,8 @@ const serve = (patternlab) => {
     ignore: path.join(path.resolve(patternlab.config.paths.public.root)),
     file: 'index.html',
     logLevel: 0, // errors only
-    wait: 1000
+    wait: 1000,
+    port: 3000
   };
 
   // allow for overrides should they exist inside patternlab-config.json
@@ -33,6 +35,8 @@ const serve = (patternlab) => {
 
   //start!
   liveServer.start(liveServerConfig);
+
+  logger.info(`Pattern Lab is being served from http://127.0.0.1:${liveServerConfig.port}`);
 
 };
 
