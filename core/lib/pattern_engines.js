@@ -127,7 +127,7 @@ const PatternEngines = Object.create({
     enginesDirectories.forEach(function (engineDirectory) {
       const enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
 
-      logger.debug(`Loading engines from ${engineDirectory.displayName}...\n`);
+      logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
