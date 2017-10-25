@@ -1,6 +1,6 @@
 "use strict";
 const path = require('path');
-const liveServer = require('live-server');
+const liveServer = require('@pattern-lab/live-server');
 const logger = require('./log');
 
 const serve = (patternlab) => {
