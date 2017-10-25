@@ -489,29 +489,6 @@ const patternlab_engine = function (config) {
     console.log('===============================');
   }
 
-  function printDebug() {
-    // A replacer function to pass to stringify below; this is here to prevent
-    // the debug output from blowing up into a massive fireball of circular
-    // references. This happens specifically with the Handlebars engine. Remove
-    // if you like 180MB log files.
-    function propertyStringReplacer(key, value) {
-      if (key === 'engine' && value && value.engineName) {
-        return '{' + value.engineName + ' engine object}';
-      }
-      return value;
-    }
-
-    // GTP: this commented out now on the advice of Brian, because we think nobody looks at it,
-    // and it causes problems.
-    //debug file can be written by setting flag on patternlab-config.json
-    // if (patternlab.config.debug) {
-    //   console.log('writing patternlab debug file to ./patternlab.json');
-    //   fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
-    // }
-  }
-
-
-
   function renderSinglePattern(pattern, head) {
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
@@ -813,7 +790,6 @@ const patternlab_engine = function (config) {
           return Promise.resolve();
         });
 
-        printDebug();
         patternlab.isBusy = false;
         callback();
       });
@@ -842,7 +818,6 @@ const patternlab_engine = function (config) {
       }
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic).then(() => {
-        printDebug();
         patternlab.isBusy = false;
         callback();
       });
