@@ -20,7 +20,7 @@ const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
 const dataLoader = require('./data_loader')();
-const plutils = require('./utilities');
+const logger = require('./utilities');
 const jsonCopy = require('./json_copy');
 const PatternGraph = require('./pattern_graph').PatternGraph;
 const pa = require('./pattern_assembler');
@@ -85,14 +85,14 @@ class PatternLab {
     try {
       this.data = buildPatternData(paths.source.data, fs);
     } catch (ex) {
-      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      logger.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       this.data = {};
     }
     // listitems.json
     try {
       this.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
     } catch (ex) {
-      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      logger.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
       this.listitems = {};
     }
     // load up all the necessary files from pattern lab that apply to every template
@@ -104,7 +104,7 @@ class PatternLab {
       this.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
     } catch (ex) {
       console.log(ex);
-      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      logger.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
 
       // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
       // but whatever. For now.
@@ -168,7 +168,7 @@ class PatternLab {
       this.userHead = headPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(this.config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      logger.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(this.config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (this.config.debug) { console.log(ex); }
 
       // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
@@ -191,7 +191,7 @@ class PatternLab {
       this.userFoot = footPattern.extendedTemplate;
     }
     catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(this.config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
+      logger.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(this.config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
       if (this.config.debug) { console.log(ex); }
 
       // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
@@ -258,22 +258,22 @@ class PatternLab {
     // handle the legacy value, which is boolean
     if (typeof logLevel === 'boolean') {
       if (logLevel) {
-        plutils.log.on('debug', msg => console.log(msg));
+        logger.log.on('debug', msg => console.log(msg));
       }
-      plutils.log.on('info', msg => console.log(msg));
-      plutils.log.on('warning', msg => console.log(msg));
-      plutils.log.on('error', msg => console.log(msg));
+      logger.log.on('info', msg => console.log(msg));
+      logger.log.on('warning', msg => console.log(msg));
+      logger.log.on('error', msg => console.log(msg));
     } else {
       if ( logLevel === 'quiet') { return; }
       switch (logLevel) {
         case 'debug':
-          plutils.log.on('debug', msg => console.log(msg));
+          logger.log.on('debug', msg => console.log(msg));
         case 'info':
-          plutils.log.on('info', msg => console.log(msg));
+          logger.log.on('info', msg => console.log(msg));
         case 'warning':
-          plutils.log.on('warning', msg => console.log(msg));
+          logger.log.on('warning', msg => console.log(msg));
         case 'error':
-          plutils.log.on('error', msg => console.log(msg));
+          logger.log.on('error', msg => console.log(msg));
       }
     }
   }
@@ -359,26 +359,26 @@ function checkConfiguration(patternlab) {
   };
 
   if (!patternlab.config.outputFileSuffixes) {
-    plutils.warning('');
-    plutils.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
+    logger.warning('');
+    logger.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
     console.log(outputFileSuffixes);
-    plutils.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
-    plutils.warning('');
+    logger.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+    logger.warning('');
   }
   patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
 
   if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
-    plutils.warning('');
-    plutils.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
-    plutils.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
-    plutils.warning('');
+    logger.warning('');
+    logger.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
+    logger.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
+    logger.warning('');
   }
 
   if (typeof patternlab.config.debug === 'boolean') {
-    plutils.warning('');
-    plutils.warning(`Configuration key [debug] inside patternlab-config.json was found as a boolean. As of Pattern Lab Node Core 3.0.0 this key is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
-    plutils.warning(`Turning on 'info', 'warning', and 'error' levels by default`);
-    plutils.warning('');
+    logger.warning('');
+    logger.warning(`Configuration key [debug] inside patternlab-config.json was found as a boolean. As of Pattern Lab Node Core 3.0.0 this key is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
+    logger.warning(`Turning on 'info', 'warning', and 'error' levels by default`);
+    logger.warning('');
   }
 
 }
@@ -440,34 +440,34 @@ const patternlab_engine = function (config) {
     console.log('');
 
     console.log('|=======================================|');
-    plutils.debug('     Pattern Lab Node Help v' + patternlab.package.version);
+    logger.debug('     Pattern Lab Node Help v' + patternlab.package.version);
     console.log('|=======================================|');
 
     console.log('');
     console.log('Command Line Interface - usually consumed by an edition');
     console.log('');
 
-    plutils.debug(' patternlab:build');
+    logger.debug(' patternlab:build');
     console.log('   > Compiles the patterns and frontend, outputting to config.paths.public');
     console.log('');
 
-    plutils.debug(' patternlab:patternsonly');
+    logger.debug(' patternlab:patternsonly');
     console.log('   > Compiles the patterns only, outputting to config.paths.public');
     console.log('');
 
-    plutils.debug(' patternlab:version');
+    logger.debug(' patternlab:version');
     console.log('   > Return the version of patternlab-node you have installed');
     console.log('');
 
-    plutils.debug(' patternlab:help');
+    logger.debug(' patternlab:help');
     console.log('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
     console.log('');
 
-    plutils.debug(' patternlab:liststarterkits');
+    logger.debug(' patternlab:liststarterkits');
     console.log('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
     console.log('');
 
-    plutils.debug(' patternlab:loadstarterkit');
+    logger.debug(' patternlab:loadstarterkit');
     console.log('   > Load a starterkit into config.paths.source/*');
     console.log('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
     console.log('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
@@ -587,7 +587,7 @@ const patternlab_engine = function (config) {
 
     // Allows serializing the compile state
     patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
-    plutils.log.info("Built pattern: " + pattern.patternPartial);
+    logger.log.info("Built pattern: " + pattern.patternPartial);
 
     return Promise.resolve(true);
   }
@@ -613,7 +613,7 @@ const patternlab_engine = function (config) {
 
   function cleanBuildDirectory(incrementalBuildsEnabled) {
     if (incrementalBuildsEnabled) {
-      plutils.log.info("Incremental builds enabled.");
+      logger.log.info("Incremental builds enabled.");
     } else {
       // needs to be done BEFORE processing patterns
       fs.removeSync(paths.public.patterns);
@@ -638,7 +638,7 @@ const patternlab_engine = function (config) {
     const graph = patternlab.graph = loadPatternGraph(deletePatternDir);
     const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
     if (graphNeedsUpgrade) {
-      plutils.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
+      logger.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
                        "Incremental build is available again on the next successful run.");
 
       // Ensure that the freshly built graph has the latest version again.
@@ -701,7 +701,7 @@ const patternlab_engine = function (config) {
         // When the graph was loaded from file, some patterns might have been moved/deleted between runs
         // so the graph data become out of sync
         patternlab.graph.sync().forEach(n => {
-          plutils.log.info("[Deleted/Moved] " + n);
+          logger.log.info("[Deleted/Moved] " + n);
         });
 
         // TODO Find created or deleted files
@@ -726,7 +726,7 @@ const patternlab_engine = function (config) {
           PatternGraph.storeToFile(patternlab);
           if (patternlab.config.exportToGraphViz) {
             PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
-            plutils.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+            logger.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
           }
 
           //export patterns if necessary
