@@ -29,7 +29,7 @@
   "defaultPattern": "all",
   "ignored-extensions" : ["scss", "DS_Store", "less"],
   "ignored-directories" : ["scss"],
-  "debug": "info",
+  "logLevel": "info",
   "ishControlsHide": {
     "s": false,
     "m": false,
