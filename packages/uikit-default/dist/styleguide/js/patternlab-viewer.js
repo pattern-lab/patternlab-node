@@ -1398,6 +1398,13 @@ window.addEventListener("message", receiveIframeMessage, false);
 			minViewportWidth = config.ishViewportRange.s[0];
 			maxViewportWidth = config.ishViewportRange.l[1];
 		}
+
+		//if both are set, then let's use the larger one.
+		if (config.ishViewportRange && config.ishMaximum) {
+			var largeRange = parseInt(config.ishViewportRange.l[1]);
+			var ishMaximum = parseInt(config.ishMaximum);
+			maxViewportWidth = largeRange > ishMaximum ? largeRange : ishMaximum;
+		}
 	
 		var viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
 		$sgIframe = $('.pl-js-iframe'), //Viewport element
