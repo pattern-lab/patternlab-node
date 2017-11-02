@@ -5,7 +5,7 @@ const jsonCopy = require('./json_copy');
 const ae = require('./annotation_exporter');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
-const plutils = require('./utilities');
+const logger = require('./log');
 const eol = require('os').EOL;
 const _ = require('lodash');
 
@@ -67,18 +67,14 @@ const ui_builder = function () {
     // skip underscore-prefixed files
     isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
     if (isOmitted) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + " from styleguide patterns because it has an underscore suffix.");
-      }
+      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because it has an underscore suffix.`);
       return true;
     }
 
     //this is meant to be a homepage that is not present anywhere else
     isOmitted = pattern.patternPartial === patternlab.config.defaultPattern;
     if (isOmitted) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because it is defined as a defaultPattern.');
-      }
+      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because it is defined as a defaultPattern.`);
       patternlab.defaultPattern = pattern;
       return true;
     }
@@ -86,18 +82,14 @@ const ui_builder = function () {
     //this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
     isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because its contained within an underscored directory.');
-      }
+      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because its contained within an underscored directory.`);
       return true;
     }
 
     //this pattern is a head or foot pattern
     isOmitted = pattern.isMetaPattern;
     if (isOmitted) {
-      if (patternlab.config.debug) {
-        console.log('Omitting ' + pattern.patternPartial + ' from styleguide patterns because its a meta pattern.');
-      }
+      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because its a meta pattern.`);
       return true;
     }
 
@@ -169,9 +161,7 @@ const ui_builder = function () {
     const patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
 
     if (!patternType) {
-      plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
-      console.trace();
-      process.exit(1);
+      logger.error(`Could not find patternType ${pattern.patternType}. This is a critical error.`);
     }
 
     return patternType;
@@ -188,9 +178,7 @@ const ui_builder = function () {
     const patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
 
     if (!patternSubType) {
-      plutils.error('Could not find patternType ' + pattern.patternType + '-' + pattern.patternType + '. This is a critical error.');
-      console.trace();
-      process.exit(1);
+      logger.error(`Could not find patternType ${pattern.patternType}-${pattern.patternType}. This is a critical error.`);
     }
 
     return patternSubType;
@@ -276,9 +264,7 @@ const ui_builder = function () {
   function addPatternItem(patternlab, pattern, isViewAllVariant) {
     const patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
-      plutils.error('Could not find patternType' + pattern.patternType + '. This is a critical error.');
-      console.trace();
-      process.exit(1);
+      logger.error(`Could not find patternType ${pattern.patternType}. This is a critical error.`);
     }
 
     if (!patternType.patternItems) {
@@ -439,8 +425,8 @@ const ui_builder = function () {
     try {
       allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
     } catch (err) {
-      console.log('There was an error parsing JSON for patternlab.data');
-      console.log(err);
+      logger.warning('There was an error parsing JSON for patternlab.data');
+      logger.warning(err);
     }
     allFooterData.patternLabFoot = footerPartial;
 
@@ -517,9 +503,7 @@ const ui_builder = function () {
             return exclude === patternType + '/' + patternSubtype;
           });
         if (omitPatternType) {
-          if (patternlab.config.debug) {
-            console.log('Omitting ' + patternType + '/' + patternSubtype + ' from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.');
-          }
+          logger.debug(`Omitting ${patternType}/${patternSubtype} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`);
         } else {
           styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
         }
@@ -556,9 +540,7 @@ const ui_builder = function () {
           return exclude === patternType;
         });
       if (omitPatternType) {
-        if (patternlab.config.debug) {
-          console.log('Omitting ' + patternType + ' from  building a viewall page because its patternGroup is specified in styleguideExcludes.');
-        }
+        logger.debug(`Omitting ${patternType} from  building a viewall page because its patternGroup is specified in styleguideExcludes.`);
       } else {
         patterns = patterns.concat(styleguideTypePatterns);
       }
@@ -671,10 +653,8 @@ const ui_builder = function () {
     let patternlabSiteHtml;
     try {
       patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
-    } catch (error) {
-      console.log(error);
-      console.log("\nERROR: Could not load one or more styleguidekit assets from", paths.source.styleguide, '\n');
-      process.exit(1);
+    } catch (err) {
+      logger.error(`Could not load one or more styleguidekit assets from ${paths.source.styleguide}`);
     }
     fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
 

@@ -4,7 +4,7 @@ const starterkit_manager = function (config) {
   const path = require('path');
   const fetch = require('node-fetch');
   const fs = require('fs-extra');
-  const util = require('./utilities');
+  const logger = require('./log');
   const paths = config.paths;
 
   /**
@@ -18,34 +18,35 @@ const starterkit_manager = function (config) {
       const kitPath = path.resolve(
         path.join(process.cwd(), 'node_modules', starterkitName, config.starterkitSubDir)
       );
-      console.log('Attempting to load starterkit from', kitPath);
+      logger.debug('Attempting to load starterkit from', kitPath);
       try {
         var kitDirStats = fs.statSync(kitPath);
       } catch (ex) {
-        util.error(starterkitName + ' not found, please use npm to install it first.');
-        util.error(starterkitName + ' not loaded.');
+        logger.warning(`${starterkitName} not found, use npm to install it first.`);
+        logger.warning(`${starterkitName} not loaded.`);
         return;
       }
       const kitPathDirExists = kitDirStats.isDirectory();
       if (kitPathDirExists) {
 
         if (clean) {
-          console.log('Deleting contents of', paths.source.root, 'prior to starterkit load.');
+          logger.info(`Deleting contents of ${paths.source.root} prior to starterkit load.`);
           fs.emptyDirSync(paths.source.root);
         } else {
-          console.log('Overwriting contents of', paths.source.root, 'during starterkit load.');
+          logger.info(`Overwriting contents of ${paths.source.root} during starterkit load.`);
         }
 
         try {
           fs.copySync(kitPath, paths.source.root);
         } catch (ex) {
-          util.error(ex);
+          logger.error(ex);
           return;
         }
-        util.debug('starterkit ' + starterkitName + ' loaded successfully.');
+        logger.info('Starterkit ' + starterkitName + ' loaded into source/.');
       }
     } catch (ex) {
-      console.log(ex);
+      logger.warning(`An error occurred during starterkit installation for starterkit ${starterkitName}`);
+      logger.warning(ex);
     }
   }
 
@@ -75,7 +76,7 @@ const starterkit_manager = function (config) {
           return {name: repo.name, url: repo.html_url};
         });
     }).catch(function (err) {
-      console.error(err);
+      logger.error(err);
       return false;
     });
   }

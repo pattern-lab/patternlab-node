@@ -1,19 +1,19 @@
 // special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible!
 'use strict';
+const {existsSync, lstatSync, readdirSync} = require('fs');
 const path = require('path');
-const diveSync = require('diveSync');
-const chalk = require('chalk');
 const engineMatcher = /^patternengine-node-(.*)$/;
-const enginesDirectories = [
-  {
-    displayName: 'the core',
-    path: path.resolve(__dirname, '..', '..', 'node_modules')
-  },
-  {
-    displayName: 'the edition or test directory',
-    path: path.join(process.cwd(), 'node_modules')
-  }
-];
+const scopeMatch = /^@(.*)$/;
+const isDir = fPath => lstatSync(fPath).isDirectory();
+const logger = require('./log');
+
+const enginesDirectories = [{
+  displayName: 'the core',
+  path: path.resolve(__dirname, '..', '..', 'node_modules')
+}, {
+  displayName: 'the edition or test directory',
+  path: path.join(process.cwd(), 'node_modules')
+}];
 
 // given a path: return the engine name if the path points to a valid engine
 // module directory, or false if it doesn't
@@ -25,23 +25,79 @@ function isEngineModule(filePath) {
   return false;
 }
 
+/**
+ * @name isScopedPackage
+ * @desc Checks whether a path in modules belongs to a scoped package
+ * @param {string} filePath - The pathname to check
+ * @return {Boolean} - Returns a bool when found, false othersie
+ */
+function isScopedPackage(filePath) {
+  const baseName = path.basename(filePath);
+  return scopeMatch.test(baseName);
+}
+
+/**
+ * @name resolveEngines
+ * @desc Creates an array of all available patternlab engines
+ * @param {string} dir - The directory to search for engines and scoped engines)
+ * @return {Array<Engine>} An array of engine objects
+ */
+function resolveEngines(dir) {
+
+  // Guard against non-existent directories.
+  if (!existsSync(dir)) {
+    return []; // Silence is golden …
+  }
+
+  /**
+   * @name walk
+   * @desc Traverse the given path and gather possible engines
+   * @param  {string} fPath - The file path to traverse
+   * @param  {Array<Engine>} engines - An array of engines from the inner most matches
+   * @return {Array<Engine>} - The final array of engines
+   */
+  const walk = (fPath, engines) => {
+
+    /**
+     * @name dirList
+     * @desc A list of all directories in the given path
+     * @type {Array<string>}
+     */
+    const dirList = readdirSync(fPath).filter(p => isDir(path.join(fPath, p)));
+
+    /**
+     * @name e
+     * @desc For the current dir get all engines
+     * @type {Array<Engine>}
+     */
+    const e = engines.concat(dirList
+      .filter(isEngineModule)
+      .map(engine => {
+        return {
+          name: isEngineModule(engine),
+          modulePath: path.join(fPath, engine)
+        };
+      })
+    );
+
+    /**
+     * 1. Flatten all engines from inner recursions and current dir
+     * 2. Filter the dirList for scoped packages
+     * 3. Map over every scoped package and recurse into it to find scoped engines
+     */
+    return [].concat(
+      ...e,
+      ...dirList
+        .filter(isScopedPackage) // 2
+        .map(scope => walk(path.join(fPath, scope), e)) // 3
+    );
+  };
+
+  return walk(dir, []);
+}
+
 function findEngineModulesInDirectory(dir) {
-  const foundEngines = [];
-
-  diveSync(dir, {
-    recursive: false,
-    directories: true
-  }, function (err, filePath) {
-    if (err) { throw err; }
-    const foundEngineName = isEngineModule(filePath);
-    if (foundEngineName) {
-      foundEngines.push({
-        name: foundEngineName,
-        modulePath: filePath
-      });
-    }
-  });
-
+  const foundEngines = resolveEngines(dir);
   return foundEngines;
 }
 
@@ -69,18 +125,14 @@ const PatternEngines = Object.create({
     // function is kind of a big deal.
     enginesDirectories.forEach(function (engineDirectory) {
       const enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
-      if (patternLabConfig.debug) {
-        console.log(chalk.bold(`Loading engines from ${engineDirectory.displayName}...\n`));
-      }
+
+      logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
       enginesInThisDir.forEach(function (engineDiscovery) {
         let errorMessage;
         const successMessage = "good to go";
-        if (patternLabConfig.debug) {
-          chalk.green(successMessage);
-        }
 
         try {
           // Give it a try! load 'er up. But not if we already have,
@@ -101,21 +153,16 @@ const PatternEngines = Object.create({
           errorMessage = err.message;
         } finally {
           // report on the status of the engine, one way or another!
-          if (patternLabConfig.debug) {
-            console.log(`  ${engineDiscovery.name}:`, errorMessage ? chalk.red(errorMessage) : successMessage);
-          }
+          logger.info(`Pattern Engine ${engineDiscovery.name}: ${errorMessage ? errorMessage : successMessage}`);
         }
       });
-      console.log('');
     });
 
     // Complain if for some reason we haven't loaded any engines.
     if (Object.keys(self).length === 0) {
-      throw new Error('No engines loaded! Something is seriously wrong.');
+      logger.error('No engines loaded! Something is seriously wrong.');
     }
-    if (patternLabConfig.debug) {
-      console.log(chalk.bold('Done loading engines.\n'));
-    }
+    logger.debug(`Done loading engines`);
   },
 
   getEngineNameForPattern: function (pattern) {
@@ -183,14 +230,14 @@ const PatternEngines = Object.create({
     // skip hidden patterns/files without a second thought
     const extension = path.extname(filename);
     if (filename.charAt(0) === '.' ||
-        (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))) {
+      (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))) {
       return false;
     }
 
     // not a hidden pattern, let's dig deeper
     const supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
     return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
-            PatternEngines.isPseudoPatternJSON(filename));
+      PatternEngines.isPseudoPatternJSON(filename));
   }
 });
 
