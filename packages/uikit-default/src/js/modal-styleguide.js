@@ -89,7 +89,7 @@ var modalStyleguide = {
 	 */
 	close: function (patternPartial) {
 
-		// not that the modal viewer is no longer active
+		// note that the modal viewer is no longer active
 		modalStyleguide.active[patternPartial] = false;
 
 		// hide the modal, look at info-panel.js

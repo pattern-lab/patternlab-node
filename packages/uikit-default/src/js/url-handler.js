@@ -5,7 +5,7 @@
  * Licensed under the MIT license
  *
  * Helps handle the initial iFrame source. Parses a string to see if it matches
- * an expected pattern in Pattern Lab. Supports Pattern Labs fuzzy pattern partial
+ * an expected pattern in Pattern Lab. Supports Pattern Lab's fuzzy pattern partial
  * matching style.
  *
  */

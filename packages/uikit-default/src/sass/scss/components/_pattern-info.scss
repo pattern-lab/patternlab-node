@@ -3,7 +3,7 @@
 \*------------------------------------*/
 
 /**
- * 1) Pattern info contains two sidy-by-side panels that
+ * 1) Pattern info contains two side-by-side panels that
  *    house a pattern's information, such as title, lineage,
  *    code, annotations, and more.
  */
@@ -94,7 +94,7 @@
  * 1) Right panel that displays the pattern's code (found in _tabs.scss)
  * 2) Using a sibling selector because the pattern info isn't always present.
  *    The sibling selector allows the code panel to occupy the full width of 
- *    the 
+ *    the modal
  * 1) Cap the height of the code panel in the modal
  */
  .pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {

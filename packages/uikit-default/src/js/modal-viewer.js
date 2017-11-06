@@ -52,7 +52,7 @@ var modalViewer = {
 			$('.pl-js-pattern-info-toggle').html("Hide Pattern Info");
 		}
 
-		// make sure the modal viewer is not viewable, it's alway hidden by default. the pageLoad event determines when it actually opens
+		// make sure the modal viewer is not viewable, it's always hidden by default. the pageLoad event determines when it actually opens
 		modalViewer.hide();
 
 		// review the query strings in case there is something the modal viewer is supposed to handle by default
@@ -109,7 +109,7 @@ var modalViewer = {
 
 		var obj;
 
-		// not that the modal viewer is no longer active
+		// note that the modal viewer is no longer active
 		DataSaver.updateValue('modalActive', 'false');
 		modalViewer.active = false;
 
@@ -135,7 +135,7 @@ var modalViewer = {
 	},
 
 	/**
-	 * insert the copy for the modal window. if it's meant to be sent back to the iframe do do
+	 * insert the copy for the modal window. if it's meant to be sent back to the iframe, do that.
 	 * @param  {String}       the rendered template that should be inserted
 	 * @param  {String}       the patternPartial that the rendered template is related to
 	 * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
