@@ -19,9 +19,12 @@ try {
   var starterkit_manager = new sm(config);
   var foundStarterkits = starterkit_manager.detect_starterkits();
 
+  //todo - find a better solution for postinstall cleaning of starterkits
+  var clean = (typeof config.starterkitPostInstallClean !== 'undefined') ? config.starterkitPostInstallClean : true;
+
   //todo - enhance to support multiple kits with prompt for each or all
   if (foundStarterkits && foundStarterkits.length > 0) {
-    starterkit_manager.load_starterkit(foundStarterkits[0], true);
+    starterkit_manager.load_starterkit(foundStarterkits[0], clean);
   } else {
     console.log('No starterkits found to automatically load.');
   }
