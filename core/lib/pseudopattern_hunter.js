@@ -42,7 +42,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, p
       }
 
       //extend any existing data with variant data
-      variantFileData = _.merge(currentPattern.jsonFileData, variantFileData);
+      variantFileData = _.merge({}, currentPattern.jsonFileData, variantFileData);
 
       const variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
       const variantFilePath = path.join(currentPattern.subdir, currentPattern.fileName + '~' + variantName + '.json');
