@@ -4,6 +4,7 @@ const tap = require('tap');
 const rewire = require("rewire");
 const _ = require('lodash');
 const fs = require('fs-extra');
+const defaultConfig = require('../patternlab-config.json');
 var config = require('./util/patternlab-config.json');
 
 var plEngineModule = rewire('../core/lib/patternlab');
@@ -79,5 +80,12 @@ tap.test('buildPatternData - can load json, yaml, and yml files', function(test)
   test.equals(dataResult.from_yml, "from_yml");
   test.equals(dataResult.from_yaml, "from_yaml");
   test.equals(dataResult.from_json, "from_json");
+  test.end();
+});
+
+tap.test('getDefaultConfig - should return the default config object', function(test) {
+  const requestedConfig = plEngineModule.getDefaultConfig();
+  test.type(requestedConfig, 'object');
+  test.equals(requestedConfig, defaultConfig);
   test.end();
 });
