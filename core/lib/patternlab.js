@@ -752,11 +752,10 @@ const patternlab_engine = function (config) {
     /**
      * build patterns, copy assets, and construct ui
      *
-     * @param {function} callback a function invoked when build is complete
      * @param {object} options an object used to control build behavior
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    build: function (callback, options) {
+    build: function (options) {
       if (patternlab && patternlab.isBusy) {
         logger.info('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
@@ -770,7 +769,7 @@ const patternlab_engine = function (config) {
         this.events.on('patternlab-pattern-change', () => {
           if (!patternlab.isBusy) {
             options.cleanPublic = false;
-            return this.build(callback, options);
+            return this.build(options);
           }
           return Promise.resolve();
         });
@@ -778,13 +777,12 @@ const patternlab_engine = function (config) {
         this.events.on('patternlab-global-change', () => {
           if (!patternlab.isBusy) {
             options.cleanPublic = true; //rebuild everything
-            return this.build(callback, options);
+            return this.build(options);
           }
           return Promise.resolve();
         });
 
         patternlab.isBusy = false;
-        callback();
       });
     },
 
@@ -800,11 +798,10 @@ const patternlab_engine = function (config) {
     /**
      * build patterns only, leaving existing public files intact
      *
-     * @param {function} callback a function invoked when build is complete
      * @param {object} options an object used to control build behavior
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    patternsonly: function (callback, options) {
+    patternsonly: function (options) {
       if (patternlab && patternlab.isBusy) {
         logger.info('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
@@ -812,7 +809,6 @@ const patternlab_engine = function (config) {
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic).then(() => {
         patternlab.isBusy = false;
-        callback();
       });
     },
 
@@ -864,7 +860,7 @@ const patternlab_engine = function (config) {
      */
     serve: function (options) {
       options.watch = true;
-      return this.build(() => {}, options).then(function () {
+      return this.build(options).then(function () {
         serve(patternlab);
       });
     },

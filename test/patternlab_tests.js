@@ -68,9 +68,9 @@ tap.test('buildPatterns - should replace data link even when pattern parameter p
   var pl = new plEngineModule(config);
 
   //act
-  pl.build(function() {
+  pl.build(true).then(() => {
     test.end();
-  }, true);
+  });
 });
 
 tap.test('buildPatternData - can load json, yaml, and yml files', function(test) {
