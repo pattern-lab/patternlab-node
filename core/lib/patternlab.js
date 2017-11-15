@@ -428,7 +428,7 @@ function installPlugin(pluginName) {
  * @return {object} Returns the object representation of the patternlab-config.json
  */
 function getDefaultConfig() {
-  return defaultConfig
+  return defaultConfig;
 }
 
 const patternlab_engine = function (config) {
@@ -739,7 +739,7 @@ const patternlab_engine = function (config) {
     version: function () {
       return patternlab.logVersion();
     },
-    
+
     /**
      * return current version
      *
