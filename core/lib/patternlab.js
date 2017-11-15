@@ -18,6 +18,7 @@ const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
+const defaultConfig = require('../../patternlab-config.json');
 const dataLoader = require('./data_loader')();
 const logger = require('./log');
 const jsonCopy = require('./json_copy');
@@ -269,7 +270,6 @@ class PatternLab {
 
 
   // info methods
-
   getVersion() {
     return this.package.version;
   }
@@ -420,6 +420,15 @@ function installPlugin(pluginName) {
   const plugin_manager = new pm(config, configPath);
 
   plugin_manager.install_plugin(pluginName);
+}
+
+/**
+ * Returns the standardized default config
+ *
+ * @return {object} Returns the object representation of the patternlab-config.json
+ */
+function getDefaultConfig() {
+  return defaultConfig
 }
 
 const patternlab_engine = function (config) {
@@ -730,7 +739,7 @@ const patternlab_engine = function (config) {
     version: function () {
       return patternlab.logVersion();
     },
-
+    
     /**
      * return current version
      *
@@ -869,5 +878,6 @@ const patternlab_engine = function (config) {
 patternlab_engine.build_pattern_data = buildPatternData;
 patternlab_engine.process_all_patterns_iterative = processAllPatternsIterative;
 patternlab_engine.process_all_patterns_recursive = processAllPatternsRecursive;
+patternlab_engine.getDefaultConfig = getDefaultConfig;
 
 module.exports = patternlab_engine;
