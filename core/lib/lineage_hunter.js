@@ -1,5 +1,6 @@
 'use strict';
 const extend = require("util")._extend;
+const logger = require('./log');
 
 const lineage_hunter = function () {
 
@@ -119,9 +120,8 @@ const lineage_hunter = function () {
             const patternReverseStateIndex = patternStateCascade.indexOf(lineageRPattern.patternState);
             if (lineageRPattern.patternState === '' || (patternStateIndex < patternReverseStateIndex)) {
 
-              if (patternlab.config.debug) {
-                console.log('Found a lower common denominator pattern state: ' + pattern.patternState + ' on ' + pattern.patternPartial + '. Setting reverse lineage pattern ' + lineageRPattern.patternPartial + ' from ' + (lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState));
-              }
+              const oldState = lineageRPattern.patternState === '' ? '<<blank>>' : lineageRPattern.patternState;
+              logger.info(`Found a lower common denominator pattern state: ${pattern.patternState} on ${pattern.patternPartial}. Setting reverse lineage pattern ${lineageRPattern.patternPartial} from ${oldState}`);
 
               lineageRPattern.patternState = pattern.patternState;
 

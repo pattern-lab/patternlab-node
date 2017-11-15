@@ -14,13 +14,13 @@ const diveSync = require('diveSync');
 const dive = require('dive');
 const _ = require('lodash');
 const path = require('path');
-const chalk = require('chalk');
 const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
+const defaultConfig = require('../../patternlab-config.json');
 const dataLoader = require('./data_loader')();
-const plutils = require('./utilities');
+const logger = require('./log');
 const jsonCopy = require('./json_copy');
 const PatternGraph = require('./pattern_graph').PatternGraph;
 const pa = require('./pattern_assembler');
@@ -41,14 +41,303 @@ let serve = require('./serve'); // eslint-disable-line
 const pattern_assembler = new pa();
 const lineage_hunter = new lh();
 
-//register our log events
-plutils.log.on('error', msg => console.log(msg));
-plutils.log.on('debug', msg => console.log(msg));
-plutils.log.on('warning', msg => console.log(msg));
-plutils.log.on('info', msg => console.log(msg));
-
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
+
+function PatternLabEventEmitter() {
+  EventEmitter.call(this);
+}
+inherits(PatternLabEventEmitter, EventEmitter);
+
+class PatternLab {
+  constructor(config) {
+    // Either use the config we were passed, or load one up from the config file ourselves
+    this.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+
+    //register our log events
+    this.registerLogger(config.logLevel);
+
+    logger.info(`Pattern Lab Node v${packageInfo.version}`);
+
+    // Load up engines please
+    this.engines = patternEngines;
+    this.engines.loadAllEngines(config);
+
+    // Cache the package.json in RAM
+    this.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
+
+    // Make ye olde event emitter
+    this.events = new PatternLabEventEmitter();
+
+    // Make a place for the pattern graph to sit
+    this.graph = null;
+
+    // Make a place to attach known watchers so we can manage them better during serve and watch
+    this.watchers = {};
+
+    // Verify correctness of configuration (?)
+    this.checkConfiguration(this);
+
+    // TODO: determine if this is the best place to wire up plugins
+    this.initializePlugins(this);
+  }
+
+  checkConfiguration(patternlab) {
+
+    //default the output suffixes if not present
+    const outputFileSuffixes = {
+      rendered: '.rendered',
+      rawTemplate: '',
+      markupOnly: '.markup-only'
+    };
+
+    if (!patternlab.config.outputFileSuffixes) {
+      logger.warning('');
+      logger.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
+      logger.info(outputFileSuffixes);
+      logger.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+      logger.warning('');
+    }
+    patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
+
+    if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
+      logger.warning('');
+      logger.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
+      logger.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
+      logger.warning('');
+    }
+
+    if (typeof patternlab.config.debug === 'boolean') {
+      logger.warning('');
+      logger.warning(`Configuration key [debug] inside patternlab-config.json was found. As of Pattern Lab Node Core 3.0.0 this key is replaced with a new key, [logLevel]. This is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
+      logger.warning(`Turning on 'info', 'warning', and 'error' levels by default, unless [logLevel] is present. If that is the case, [debug] has no effect.`);
+      logger.warning('');
+    }
+  }
+
+  /**
+   * Finds and calls the main method of any found plugins.
+   * @param patternlab - global data store
+   */
+  //todo, move this to plugin_manager
+  initializePlugins(patternlab) {
+
+    if (!patternlab.config.plugins) { return; }
+
+    const plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
+    const foundPlugins = plugin_manager.detect_plugins();
+
+    if (foundPlugins && foundPlugins.length > 0) {
+
+      for (let i = 0; i < foundPlugins.length; i++) {
+
+        const pluginKey = foundPlugins[i];
+
+        logger.info(`Found plugin: ${pluginKey}`);
+        logger.info(`Attempting to load and initialize plugin.`);
+
+        const plugin = plugin_manager.load_plugin(pluginKey);
+        plugin(patternlab);
+      }
+    }
+  }
+
+  buildGlobalData() {
+    const paths = this.config.paths;
+
+    //
+    // COLLECT GLOBAL LIBRARY DATA
+    //
+
+    // data.json
+    try {
+      this.data = buildPatternData(paths.source.data, fs); // eslint-disable-line no-use-before-define
+    } catch (ex) {
+      logger.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      this.data = {};
+    }
+
+    // listitems.json
+    try {
+      this.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+    } catch (ex) {
+      logger.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      this.listitems = {};
+    }
+
+    // load up all the necessary files from pattern lab that apply to every template
+    try {
+      this.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
+      this.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
+      this.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
+      this.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
+      this.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
+    } catch (ex) {
+      logger.info(ex);
+      logger.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+
+      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
+      // but whatever. For now.
+      process.exit(1);
+    }
+
+
+    //
+    // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
+    //
+    this.patterns = [];
+    this.subtypePatterns = {};
+    this.partials = {};
+    this.data.link = {};
+
+    this.setCacheBust();
+
+    pattern_assembler.combine_listItems(this);
+
+    this.events.emit('patternlab-build-global-data-end', this);
+  }
+
+  setCacheBust() {
+    if (this.config.cacheBust) {
+      logger.debug('setting cacheBuster value for frontend assets.');
+      this.cacheBuster = new Date().getTime();
+    } else {
+      this.cacheBuster = 0;
+    }
+  }
+
+
+  // Starter Kit loading methods
+
+  listStarterkits() {
+    const starterkit_manager = new sm(this.config);
+    return starterkit_manager.list_starterkits();
+  }
+
+  loadStarterKit(starterkitName, clean) {
+    const starterkit_manager = new sm(this.config);
+    starterkit_manager.load_starterkit(starterkitName, clean);
+  }
+
+
+  // Pattern processing methods
+
+  /**
+   * Process the user-defined pattern head and prepare it for rendering
+   */
+  processHeadPattern() {
+    try {
+      const headPath = path.resolve(this.config.paths.source.meta, '_00-head.mustache');
+      const headPattern = new Pattern(headPath, null, this);
+      headPattern.template = fs.readFileSync(headPath, 'utf8');
+      headPattern.isPattern = false;
+      headPattern.isMetaPattern = true;
+      pattern_assembler.decomposePattern(headPattern, this, true);
+      this.userHead = headPattern.extendedTemplate;
+    }
+    catch (ex) {
+      logger.warning(`Could not find the user-editable header template, currently configured to be at ${path.join(this.config.paths.source.meta, '_00-head.ext')}. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`);
+      logger.warning(ex);
+
+      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
+      // but whatever. For now.
+      process.exit(1);
+    }
+  }
+
+  /**
+   * Process the user-defined pattern footer and prepare it for rendering
+   */
+  processFootPattern() {
+    try {
+      const footPath = path.resolve(this.config.paths.source.meta, '_01-foot.mustache');
+      const footPattern = new Pattern(footPath, null, this);
+      footPattern.template = fs.readFileSync(footPath, 'utf8');
+      footPattern.isPattern = false;
+      footPattern.isMetaPattern = true;
+      pattern_assembler.decomposePattern(footPattern, this, true);
+      this.userFoot = footPattern.extendedTemplate;
+    }
+    catch (ex) {
+      logger.error(`Could not find the user-editable footer template, currently configured to be at ${path.join(this.config.paths.source.meta, '_01-foot.ext')}. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`);
+      logger.warning(ex);
+
+      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
+      // but whatever. For now.
+      process.exit(1);
+    }
+  }
+
+
+  // info methods
+  getVersion() {
+    return this.package.version;
+  }
+  logVersion() {
+    logger.info(this.package.version);
+  }
+  getSupportedTemplateExtensions() {
+    return this.engines.getSupportedFileExtensions();
+  }
+
+
+  writePatternFiles(headHTML, pattern, footerHTML) {
+    const nullFormatter = str => str;
+    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
+    const makePath = type => path.join(this.config.paths.public.patterns, pattern.getPatternLink(this, type));
+    const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
+    const eng = pattern.engine;
+
+    //beautify the output if configured to do so
+    const formatters = this.config.cleanOutputHtml ? {
+      rendered:     eng.renderedCodeFormatter || defaultFormatter,
+      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
+      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
+    } : {
+      rendered:     nullFormatter,
+      rawTemplate:  nullFormatter,
+      markupOnly:   nullFormatter
+    };
+
+    //prepare the path and contents of each output file
+    const outputFiles = [
+      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
+      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
+      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
+    ].concat(
+      eng.addOutputFiles ? eng.addOutputFiles(this.config.paths, this) : []
+    );
+
+    //write the compiled template to the public patterns directory
+    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
+  }
+
+  /**
+   * Binds console logging to different levels
+   *
+   * @param {string} logLevel
+   * @memberof PatternLab
+   */
+  registerLogger(logLevel) {
+    if (logLevel === undefined) {
+      logger.log.on('info', msg => console.info(msg));
+      logger.log.on('warning', msg => console.info(msg));
+      logger.log.on('error', msg => console.info(msg));
+    } else {
+      if (logLevel === 'quiet') { return; }
+      switch (logLevel) {
+        case 'debug':
+          logger.log.on('debug', msg => console.info(msg));
+        case 'info':
+          logger.log.on('info', msg => console.info(msg));
+        case 'warning':
+          logger.log.on('warning', msg => console.info(msg));
+        case 'error':
+          logger.log.on('error', msg => console.info(msg));
+      }
+    }
+  }
+}
 
 //bootstrap update notifier
 updateNotifier({
@@ -76,7 +365,7 @@ function processAllPatternsIterative(patterns_dir, patternlab) {
       (err, file) => {
         //log any errors
         if (err) {
-          console.log('error in processAllPatternsIterative():', err);
+          logger.info('error in processAllPatternsIterative():', err);
           return;
         }
 
@@ -112,65 +401,12 @@ function processAllPatternsRecursive(patterns_dir, patternlab) {
     function (err, file) {
       //log any errors
       if (err) {
-        console.log(err);
+        logger.info(err);
         return;
       }
       pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), patternlab);
     }
   );
-}
-
-function checkConfiguration(patternlab) {
-  //default the output suffixes if not present
-  const outputFileSuffixes = {
-    rendered: '.rendered',
-    rawTemplate: '',
-    markupOnly: '.markup-only'
-  };
-
-  if (!patternlab.config.outputFileSuffixes) {
-    plutils.warning('Configuration Object "outputFileSuffixes" not found, and defaulted to the following:');
-    console.log(outputFileSuffixes);
-    plutils.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
-    console.log();
-  }
-  patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
-
-  if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
-    plutils.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
-    plutils.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
-  }
-
-}
-
-/**
- * Finds and calls the main method of any found plugins.
- * @param patternlab - global data store
- */
-
-//todo, move this to plugin_manager
-function initializePlugins(patternlab) {
-
-  if (!patternlab.config.plugins) { return; }
-
-  const plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
-  const foundPlugins = plugin_manager.detect_plugins();
-
-  if (foundPlugins && foundPlugins.length > 0) {
-
-    for (let i = 0; i < foundPlugins.length; i++) {
-
-      const pluginKey = foundPlugins[i];
-
-      if (patternlab.config.debug) {
-        console.log('Found plugin: ', pluginKey);
-        console.log('Attempting to load and initialize plugin.');
-      }
-
-      const plugin = plugin_manager.load_plugin(pluginKey);
-      plugin(patternlab);
-    }
-  }
 }
 
 /**
@@ -186,213 +422,77 @@ function installPlugin(pluginName) {
   plugin_manager.install_plugin(pluginName);
 }
 
-function PatternLabEventEmitter() {
-  EventEmitter.call(this);
+/**
+ * Returns the standardized default config
+ *
+ * @return {object} Returns the object representation of the patternlab-config.json
+ */
+function getDefaultConfig() {
+  return defaultConfig;
 }
-inherits(PatternLabEventEmitter, EventEmitter);
 
 const patternlab_engine = function (config) {
-  const patternlab = {};
-
-  patternlab.engines = patternEngines;
-  patternlab.engines.loadAllEngines(config);
-
-  patternlab.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
-  patternlab.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
-  patternlab.events = new PatternLabEventEmitter();
-  patternlab.watchers = {};
-
-  // Initialized when building
-  patternlab.graph = null;
-
-  checkConfiguration(patternlab);
-
-  //todo: determine if this is the best place to wire up plugins
-  initializePlugins(patternlab);
-
+  const patternlab = new PatternLab(config);
   const paths = patternlab.config.paths;
-
-  function getVersion() {
-    return patternlab.package.version;
-  }
-
-  function logVersion() {
-    console.log(patternlab.package.version);
-  }
-
-  function getSupportedTemplateExtensions() {
-    return patternlab.engines.getSupportedFileExtensions();
-  }
 
   function help() {
 
-    console.log('');
+    logger.info('');
 
-    console.log('|=======================================|');
-    plutils.debug('     Pattern Lab Node Help v' + patternlab.package.version);
-    console.log('|=======================================|');
+    logger.info('|=======================================|');
+    logger.debug('     Pattern Lab Node Help v' + patternlab.package.version);
+    logger.info('|=======================================|');
 
-    console.log('');
-    console.log('Command Line Interface - usually consumed by an edition');
-    console.log('');
+    logger.info('');
+    logger.info('API - usually consumed by an edition');
+    logger.info('');
 
-    plutils.debug(' patternlab:build');
-    console.log('   > Compiles the patterns and frontend, outputting to config.paths.public');
-    console.log('');
+    logger.debug(' patternlab:build');
+    logger.info('   > Compiles the patterns and frontend, outputting to config.paths.public');
+    logger.info('');
 
-    plutils.debug(' patternlab:patternsonly');
-    console.log('   > Compiles the patterns only, outputting to config.paths.public');
-    console.log('');
+    logger.debug(' patternlab:patternsonly');
+    logger.info('   > Compiles the patterns only, outputting to config.paths.public');
+    logger.info('');
 
-    plutils.debug(' patternlab:version');
-    console.log('   > Return the version of patternlab-node you have installed');
-    console.log('');
+    logger.debug(' patternlab:version');
+    logger.info('   > Return the version of patternlab-node you have installed');
+    logger.info('');
 
-    plutils.debug(' patternlab:help');
-    console.log('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
-    console.log('');
+    logger.debug(' patternlab:help');
+    logger.info('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
+    logger.info('');
 
-    plutils.debug(' patternlab:liststarterkits');
-    console.log('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
-    console.log('');
+    logger.debug(' patternlab:liststarterkits');
+    logger.info('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
+    logger.info('');
 
-    plutils.debug(' patternlab:loadstarterkit');
-    console.log('   > Load a starterkit into config.paths.source/*');
-    console.log('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
-    console.log('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
-    console.log('   > arguments:');
-    console.log('      -- kit ');
-    console.log('      > the name of the starter kit to load');
-    console.log('      -- clean ');
-    console.log('      > removes all files from config.paths.source/ prior to load');
-    console.log('   > example (gulp):');
-    console.log('    `gulp patternlab:loadstarterkit --kit=starterkit-mustache-demo`');
-    console.log('');
+    logger.debug(' patternlab:loadstarterkit');
+    logger.info('   > Load a starterkit into config.paths.source/*');
+    logger.info('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
+    logger.info('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
+    logger.info('   > arguments:');
+    logger.info('      -- kit ');
+    logger.info('      > the name of the starter kit to load');
+    logger.info('      -- clean ');
+    logger.info('      > removes all files from config.paths.source/ prior to load');
+    logger.info('   > example (gulp):');
+    logger.info('    `gulp patternlab:loadstarterkit --kit=starterkit-mustache-demo`');
+    logger.info('');
 
-    console.log('===============================');
-    console.log('');
-    console.log('Visit http://patternlab.io/ for more info about Pattern Lab');
-    console.log('Visit https://github.com/pattern-lab/patternlab-node/issues to open an issue.');
-    console.log('Visit https://github.com/pattern-lab/patternlab-node/wiki to view the changelog, roadmap, and other info.');
-    console.log('');
-    console.log('===============================');
-  }
-
-  function printDebug() {
-    // A replacer function to pass to stringify below; this is here to prevent
-    // the debug output from blowing up into a massive fireball of circular
-    // references. This happens specifically with the Handlebars engine. Remove
-    // if you like 180MB log files.
-    function propertyStringReplacer(key, value) {
-      if (key === 'engine' && value && value.engineName) {
-        return '{' + value.engineName + ' engine object}';
-      }
-      return value;
-    }
-
-    //debug file can be written by setting flag on patternlab-config.json
-    if (patternlab.config.debug) {
-      console.log('writing patternlab debug file to ./patternlab.json');
-      fs.outputFileSync('./patternlab.json', JSON.stringify(patternlab, propertyStringReplacer, 3));
-    }
-  }
-
-  function setCacheBust() {
-    if (patternlab.config.cacheBust) {
-      if (patternlab.config.debug) {
-        console.log('setting cacheBuster value for frontend assets.');
-      }
-      patternlab.cacheBuster = new Date().getTime();
-    } else {
-      patternlab.cacheBuster = 0;
-    }
-  }
-
-  function listStarterkits() {
-    const starterkit_manager = new sm(patternlab.config);
-    return starterkit_manager.list_starterkits();
-  }
-
-  function loadStarterKit(starterkitName, clean) {
-    const starterkit_manager = new sm(patternlab.config);
-    starterkit_manager.load_starterkit(starterkitName, clean);
-  }
-
-  /**
-   * Process the user-defined pattern head and prepare it for rendering
-   */
-  function processHeadPattern() {
-    try {
-      const headPath = path.resolve(paths.source.meta, '_00-head.mustache');
-      const headPattern = new Pattern(headPath, null, patternlab);
-      headPattern.template = fs.readFileSync(headPath, 'utf8');
-      headPattern.isPattern = false;
-      headPattern.isMetaPattern = true;
-      pattern_assembler.decomposePattern(headPattern, patternlab, true);
-      patternlab.userHead = headPattern.extendedTemplate;
-    }
-    catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable header template, currently configured to be at ' + path.join(config.paths.source.meta, '_00-head.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
-      if (patternlab.config.debug) { console.log(ex); }
-      process.exit(1);
-    }
-  }
-
-  /**
-   * Process the user-defined pattern footer and prepare it for rendering
-   */
-  function processFootPattern() {
-    try {
-      const footPath = path.resolve(paths.source.meta, '_01-foot.mustache');
-      const footPattern = new Pattern(footPath, null, patternlab);
-      footPattern.template = fs.readFileSync(footPath, 'utf8');
-      footPattern.isPattern = false;
-      footPattern.isMetaPattern = true;
-      pattern_assembler.decomposePattern(footPattern, patternlab, true);
-      patternlab.userFoot = footPattern.extendedTemplate;
-    }
-    catch (ex) {
-      plutils.error('\nWARNING: Could not find the user-editable footer template, currently configured to be at ' + path.join(config.paths.source.meta, '_01-foot.mustache') + '. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.\n');
-      if (patternlab.config.debug) { console.log(ex); }
-      process.exit(1);
-    }
-  }
-
-  function writePatternFiles(headHTML, pattern, footerHTML) {
-    const nullFormatter = str => str;
-    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
-    const makePath = type => path.join(paths.public.patterns, pattern.getPatternLink(patternlab, type));
-    const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
-    const eng = pattern.engine;
-
-    //beautify the output if configured to do so
-    const formatters = config.cleanOutputHtml ? {
-      rendered:     eng.renderedCodeFormatter || defaultFormatter,
-      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
-      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
-    } : {
-      rendered:     nullFormatter,
-      rawTemplate:  nullFormatter,
-      markupOnly:   nullFormatter
-    };
-
-    //prepare the path and contents of each output file
-    const outputFiles = [
-      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
-      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
-      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
-    ].concat(
-      eng.addOutputFiles ? eng.addOutputFiles(paths, patternlab) : []
-    );
-
-    //write the compiled template to the public patterns directory
-    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
+    logger.info('===============================');
+    logger.info('');
+    logger.info('Visit http://patternlab.io/ for more info about Pattern Lab');
+    logger.info('Visit https://github.com/pattern-lab/patternlab-node/issues to open an issue.');
+    logger.info('Visit https://github.com/pattern-lab/patternlab-node/wiki to view the changelog, roadmap, and other info.');
+    logger.info('');
+    logger.info('===============================');
   }
 
   function renderSinglePattern(pattern, head) {
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
-      return false;
+      return Promise.resolve(false);
     }
 
     // Allows serializing the compile state
@@ -412,8 +512,8 @@ const patternlab_engine = function (config) {
     try {
       allData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
-      console.log('There was an error parsing JSON for ' + pattern.relPath);
-      console.log(err);
+      logger.info('There was an error parsing JSON for ' + pattern.relPath);
+      logger.info(err);
     }
     allData = _.merge(allData, pattern.jsonFileData);
     allData.cacheBuster = patternlab.cacheBuster;
@@ -470,8 +570,8 @@ const patternlab_engine = function (config) {
     try {
       allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
     } catch (err) {
-      console.log('There was an error parsing JSON for ' + pattern.relPath);
-      console.log(err);
+      logger.info('There was an error parsing JSON for ' + pattern.relPath);
+      logger.info(err);
     }
     allFooterData = _.merge(allFooterData, pattern.jsonFileData);
     allFooterData.patternLabFoot = footerPartial;
@@ -481,14 +581,15 @@ const patternlab_engine = function (config) {
     patternlab.events.emit('patternlab-pattern-write-begin', patternlab, pattern);
 
     //write the compiled template to the public patterns directory
-    writePatternFiles(headHTML, pattern, footerHTML);
+    patternlab.writePatternFiles(headHTML, pattern, footerHTML);
 
     patternlab.events.emit('patternlab-pattern-write-end', patternlab, pattern);
 
     // Allows serializing the compile state
     patternlab.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
-    plutils.log.info("Built pattern: " + pattern.patternPartial);
-    return true;
+    logger.info("Built pattern: " + pattern.patternPartial);
+
+    return Promise.resolve(true);
   }
 
   /**
@@ -509,24 +610,27 @@ const patternlab_engine = function (config) {
     return PatternGraph.loadFromFile(patternlab);
   }
 
-  function buildPatterns(deletePatternDir) {
 
-    if (patternlab.config.debug) {
-      console.log(
-        chalk.bold('\n====[ Pattern Lab / Node'),
-        `- v${packageInfo.version}`,
-        chalk.bold(']====\n')
-      );
+  function cleanBuildDirectory(incrementalBuildsEnabled) {
+    if (incrementalBuildsEnabled) {
+      logger.log.info("Incremental builds enabled.");
+    } else {
+      // needs to be done BEFORE processing patterns
+      fs.removeSync(paths.public.patterns);
+      fs.emptyDirSync(paths.public.patterns);
     }
+  }
 
+  function buildPatterns(deletePatternDir) {
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
+    //
+    // CHECK INCREMENTAL BUILD GRAPH
+    //
     const graph = patternlab.graph = loadPatternGraph(deletePatternDir);
-
     const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
-
     if (graphNeedsUpgrade) {
-      plutils.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
+      logger.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
                        "Incremental build is available again on the next successful run.");
 
       // Ensure that the freshly built graph has the latest version again.
@@ -534,48 +638,14 @@ const patternlab_engine = function (config) {
     }
 
     // Flags
-    const incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
+    patternlab.incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
 
-    if (incrementalBuildsEnabled) {
-      plutils.log.info("Incremental builds enabled.");
-    } else {
-      // needs to be done BEFORE processing patterns
-      fs.emptyDirSync(paths.public.patterns);
-    }
+    //
+    // CLEAN BUILD DIRECTORY, maybe
+    //
+    cleanBuildDirectory(patternlab.incrementalBuildsEnabled);
 
-    try {
-      patternlab.data = buildPatternData(paths.source.data, fs);
-    } catch (ex) {
-      plutils.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
-      patternlab.data = {};
-    }
-    try {
-      patternlab.listitems = dataLoader.loadDataFromFile(path.resolve(paths.source.data, 'listitems'), fs);
-    } catch (ex) {
-      plutils.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems file.  Pattern Lab may not work without this file.');
-      patternlab.listitems = {};
-    }
-    try {
-      patternlab.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
-      patternlab.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
-      patternlab.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
-      patternlab.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
-      patternlab.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
-    } catch (ex) {
-      console.log(ex);
-      plutils.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
-      process.exit(1);
-    }
-    patternlab.patterns = [];
-    patternlab.subtypePatterns = {};
-    patternlab.partials = {};
-    patternlab.data.link = {};
-
-    setCacheBust();
-
-    pattern_assembler.combine_listItems(patternlab);
-
-    patternlab.events.emit('patternlab-build-global-data-end', patternlab);
+    patternlab.buildGlobalData();
 
     // diveSync once to perform iterative populating of patternlab object
     return processAllPatternsIterative(paths.source.patterns, patternlab).then(() => {
@@ -592,8 +662,9 @@ const patternlab_engine = function (config) {
       processAllPatternsRecursive(paths.source.patterns, patternlab);
 
       //take the user defined head and foot and process any data and patterns that apply
-      processHeadPattern();
-      processFootPattern();
+      // GTP: should these really be invoked from outside?
+      patternlab.processHeadPattern();
+      patternlab.processFootPattern();
 
       //cascade any patternStates
       lineage_hunter.cascade_pattern_states(patternlab);
@@ -619,11 +690,11 @@ const patternlab_engine = function (config) {
       // rebuild all patterns
       patternsToBuild = null;
 
-      if (incrementalBuildsEnabled) {
+      if (patternlab.incrementalBuildsEnabled) {
         // When the graph was loaded from file, some patterns might have been moved/deleted between runs
         // so the graph data become out of sync
         patternlab.graph.sync().forEach(n => {
-          plutils.log.info("[Deleted/Moved] " + n);
+          logger.log.info("[Deleted/Moved] " + n);
         });
 
         // TODO Find created or deleted files
@@ -639,19 +710,23 @@ const patternlab_engine = function (config) {
       }
 
       //render all patterns last, so lineageR works
-      patternsToBuild.forEach(pattern => renderSinglePattern(pattern, head));
+      return patternsToBuild
+        .reduce((previousPromise, pattern) => {
+          return previousPromise.then(() => renderSinglePattern(pattern, head));
+        }, Promise.resolve())
+        .then(() => {
+          // Saves the pattern graph when all files have been compiled
+          PatternGraph.storeToFile(patternlab);
+          if (patternlab.config.exportToGraphViz) {
+            PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
+            logger.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+          }
 
-      // Saves the pattern graph when all files have been compiled
-      PatternGraph.storeToFile(patternlab);
-      if (patternlab.config.exportToGraphViz) {
-        PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
-        plutils.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
-      }
-
-      //export patterns if necessary
-      pattern_exporter.export_patterns(patternlab);
+          //export patterns if necessary
+          pattern_exporter.export_patterns(patternlab);
+        });
     }).catch((err) => {
-      console.log('Error in buildPatterns():', err);
+      logger.info('Error in buildPatterns():', err);
     });
   }
 
@@ -662,7 +737,7 @@ const patternlab_engine = function (config) {
      * @returns {void} current patternlab-node version as defined in package.json, as console output
      */
     version: function () {
-      return logVersion();
+      return patternlab.logVersion();
     },
 
     /**
@@ -671,19 +746,18 @@ const patternlab_engine = function (config) {
      * @returns {string} current patternlab-node version as defined in package.json, as string
      */
     v: function () {
-      return getVersion();
+      return patternlab.getVersion();
     },
 
     /**
      * build patterns, copy assets, and construct ui
      *
-     * @param {function} callback a function invoked when build is complete
      * @param {object} options an object used to control build behavior
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    build: function (callback, options) {
+    build: function (options) {
       if (patternlab && patternlab.isBusy) {
-        console.log('Pattern Lab is busy building a previous run - returning early.');
+        logger.info('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
       }
       patternlab.isBusy = true;
@@ -695,7 +769,7 @@ const patternlab_engine = function (config) {
         this.events.on('patternlab-pattern-change', () => {
           if (!patternlab.isBusy) {
             options.cleanPublic = false;
-            return this.build(callback, options);
+            return this.build(options);
           }
           return Promise.resolve();
         });
@@ -703,14 +777,12 @@ const patternlab_engine = function (config) {
         this.events.on('patternlab-global-change', () => {
           if (!patternlab.isBusy) {
             options.cleanPublic = true; //rebuild everything
-            return this.build(callback, options);
+            return this.build(options);
           }
           return Promise.resolve();
         });
 
-        printDebug();
         patternlab.isBusy = false;
-        callback();
       });
     },
 
@@ -726,20 +798,17 @@ const patternlab_engine = function (config) {
     /**
      * build patterns only, leaving existing public files intact
      *
-     * @param {function} callback a function invoked when build is complete
      * @param {object} options an object used to control build behavior
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    patternsonly: function (callback, options) {
+    patternsonly: function (options) {
       if (patternlab && patternlab.isBusy) {
-        console.log('Pattern Lab is busy building a previous run - returning early.');
+        logger.info('Pattern Lab is busy building a previous run - returning early.');
         return Promise.resolve();
       }
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic).then(() => {
-        printDebug();
         patternlab.isBusy = false;
-        callback();
       });
     },
 
@@ -749,7 +818,7 @@ const patternlab_engine = function (config) {
    * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
    */
     liststarterkits: function () {
-      return listStarterkits();
+      return patternlab.listStarterkits();
     },
 
     /**
@@ -760,7 +829,7 @@ const patternlab_engine = function (config) {
      * @returns {void}
      */
     loadstarterkit: function (starterkitName, clean) {
-      loadStarterKit(starterkitName, clean);
+      patternlab.loadStarterKit(starterkitName, clean);
     },
 
 
@@ -780,7 +849,7 @@ const patternlab_engine = function (config) {
      * @returns {Array<string>} all supported file extensions
      */
     getSupportedTemplateExtensions: function () {
-      return getSupportedTemplateExtensions();
+      return patternlab.getSupportedTemplateExtensions();
     },
 
     /**
@@ -791,7 +860,7 @@ const patternlab_engine = function (config) {
      */
     serve: function (options) {
       options.watch = true;
-      return this.build(() => {}, options).then(function () {
+      return this.build(options).then(function () {
         serve(patternlab);
       });
     },
@@ -805,5 +874,6 @@ const patternlab_engine = function (config) {
 patternlab_engine.build_pattern_data = buildPatternData;
 patternlab_engine.process_all_patterns_iterative = processAllPatternsIterative;
 patternlab_engine.process_all_patterns_recursive = processAllPatternsRecursive;
+patternlab_engine.getDefaultConfig = getDefaultConfig;
 
 module.exports = patternlab_engine;

@@ -7,6 +7,7 @@ const list_item_hunter = function () {
   const smh = require('./style_modifier_hunter');
   const jsonCopy = require('./json_copy');
   const Pattern = require('./object_factory').Pattern;
+  const logger = require('./log');
 
   const pattern_assembler = new pa();
   const style_modifier_hunter = new smh();
@@ -19,9 +20,7 @@ const list_item_hunter = function () {
     if (matches !== null) {
       matches.forEach(function (liMatch) {
 
-        if (patternlab.config.debug) {
-          console.log('found listItem of size ' + liMatch + ' inside ' + pattern.patternPartial);
-        }
+        logger.debug(`found listItem of size ${liMatch} inside ${pattern.patternPartial}`);
 
         //find the boundaries of the block
         const loopNumberString = liMatch.split('.')[1].split('}')[0].trim();
@@ -32,9 +31,8 @@ const list_item_hunter = function () {
         const repeatedBlockTemplate = [];
         let repeatedBlockHtml = '';
         for (let i = 0; i < items.indexOf(loopNumberString); i++) {
-          if (patternlab.config.debug) {
-            console.log('list item(s) in pattern', pattern.patternPartial, 'adding', patternBlock, 'to repeatedBlockTemplate');
-          }
+
+          logger.debug(`list item(s) in pattern ${pattern.patternPartial}, adding ${patternBlock} to repeatedBlockTemplate`);
           repeatedBlockTemplate.push(patternBlock);
         }
 
@@ -43,8 +41,8 @@ const list_item_hunter = function () {
         try {
           listData = jsonCopy(patternlab.listitems, 'config.paths.source.data listitems');
         } catch (err) {
-          console.log('There was an error parsing JSON for ' + pattern.relPath);
-          console.log(err);
+          logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
+          logger.warning(err);
         }
 
         listData = _.merge(listData, pattern.listitems);
@@ -64,8 +62,8 @@ const list_item_hunter = function () {
             globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
             localData = jsonCopy(pattern.jsonFileData, `${pattern.patternPartial} data`);
           } catch (err) {
-            console.log('There was an error parsing JSON for ' + pattern.relPath);
-            console.log(err);
+            logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
+            logger.warning(err);
           }
 
           let allData = _.merge(globalData, localData);
@@ -89,8 +87,8 @@ const list_item_hunter = function () {
                 cleanPartialPattern = JSON.parse(JSON.stringify(partialPattern));
                 cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partialName}`);
               } catch (err) {
-                console.log('There was an error parsing JSON for ' + pattern.relPath);
-                console.log(err);
+                logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
+                logger.warning(err);
               }
 
               //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #356

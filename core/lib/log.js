@@ -32,8 +32,16 @@ const log = Object.assign({
 const debug = log.debug.bind(log);
 
 /**
+ * @func info
+ * @desc Coloured info log
+ * @param  {*} msg - The variadic messages to log out.
+ * @return {void}
+ */
+const info = log.info.bind(log);
+
+/**
  * @func warning
- * @desc Coloured error log
+ * @desc Coloured warning log
  * @param  {*} e - The variadic messages to log out.
  * @return {void}
  */
@@ -62,6 +70,7 @@ const reportError = function (message) {
 
 module.exports = {
   debug,
+  info,
   warning,
   error,
   log,

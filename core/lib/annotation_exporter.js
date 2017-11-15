@@ -4,23 +4,23 @@ const glob = require('glob');
 const fs = require('fs-extra');
 const _ = require('lodash');
 const mp = require('./markdown_parser');
+const logger = require('./log');
 
 const annotations_exporter = function (pl) {
 
   const paths = pl.config.paths;
   let oldAnnotations;
 
-  /*
-  Returns the array of comments that used to be wrapped in raw JS.
+  /**
+   * Parses JS annotations.
+   * @returns array of comments that used to be wrapped in raw JS
    */
   function parseAnnotationsJS() {
     //attempt to read the file
     try {
       oldAnnotations = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.js'), 'utf8');
     } catch (ex) {
-      if (pl.config.debug) {
-        console.log('annotations.js file missing from ' + paths.source.annotations + '. This may be expected.');
-      }
+      logger.debug(`annotations.js file missing from ${paths.source.annotations}. This may be expected if you do not use annotations or are using markdown.`);
       return [];
     }
 
@@ -31,13 +31,18 @@ const annotations_exporter = function (pl) {
     try {
       var oldAnnotationsJSON = JSON.parse(oldAnnotations);
     } catch (ex) {
-      console.log('There was an error parsing JSON for ' + paths.source.annotations + 'annotations.js');
-      console.log(ex);
+      logger.error(`There was an error parsing JSON for ${paths.source.annotations}annotations.js`);
       return [];
     }
     return oldAnnotationsJSON.comments;
   }
 
+  /**
+   * Build the annotation markdown.
+   * @param annotationsYAML
+   * @param markdown_parser
+   * @returns annotation
+   */
   function buildAnnotationMD(annotationsYAML, markdown_parser) {
     const annotation = {};
     const markdownObj = markdown_parser.parse(annotationsYAML);
@@ -48,6 +53,11 @@ const annotations_exporter = function (pl) {
     return annotation;
   }
 
+  /**
+   * Parse markdown file annotations.
+   * @param annotations
+   * @param parser
+   */
   function parseMDFile(annotations, parser) {
     //let annotations = annotations;
     const markdown_parser = parser;
@@ -65,8 +75,10 @@ const annotations_exporter = function (pl) {
     };
   }
 
-  /*
-   Converts the *.md file yaml list into an array of annotations
+  /**
+   * Converts the *.md file yaml list into an array of annotations
+   *
+   * @returns annotations
    */
   function parseAnnotationsMD() {
     const markdown_parser = new mp();
@@ -77,6 +89,11 @@ const annotations_exporter = function (pl) {
     return annotations;
   }
 
+  /**
+   * Gathers JS & MD annotations.
+   *
+   * @returns array of annotations
+   */
   function gatherAnnotations() {
     const annotationsJS = parseAnnotationsJS();
     const annotationsMD = parseAnnotationsMD();

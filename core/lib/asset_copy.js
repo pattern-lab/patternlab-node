@@ -2,6 +2,7 @@
 const _ = require('lodash');
 const path = require('path');
 const process = require('process');
+const logger = require('./log');
 
 let copy = require('recursive-copy'); // eslint-disable-line prefer-const
 let chokidar = require('chokidar'); // eslint-disable-line prefer-const
@@ -40,9 +41,7 @@ const asset_copier = () => {
       dest,
       options
     ).on(copy.events.COPY_FILE_COMPLETE, () => {
-      if (options.debug) {
-        console.log(`Moved ${p} to ${dest}`);
-      }
+      logger.debug(`Moved ${p} to ${dest}`);
       options.emitter.emit('patternlab-asset-change', {
         file: p,
         dest: dest
@@ -70,9 +69,7 @@ const asset_copier = () => {
 
       //if we want to watch files, do so, otherwise just copy each file
       if (options.watch) {
-        if (patternlab.config.debug) {
-          console.log(`Pattern Lab is watching ${path.resolve(basePath, dir.source)} for changes`);
-        }
+        logger.info(`Pattern Lab is watching ${path.resolve(basePath, dir.source)} for changes`);
 
         if (patternlab.watchers[key]) {
           patternlab.watchers[key].close();
@@ -130,9 +127,7 @@ const asset_copier = () => {
 
       _.each(globalPaths, (globalPath) => {
 
-        if (patternlab.config.debug) {
-          console.log(`Pattern Lab is watching ${globalPath} for changes`);
-        }
+        logger.info(`Pattern Lab is watching ${globalPath} for changes`);
 
         if (patternlab.watchers[globalPath]) {
           patternlab.watchers[globalPath].close();
@@ -180,9 +175,8 @@ const asset_copier = () => {
         )
       );
       _.each(patternWatches, (patternWatchPath) => {
-        if (patternlab.config.debug) {
-          console.log(`Pattern Lab is watching ${patternWatchPath} for changes`);
-        }
+
+        logger.info(`Pattern Lab is watching ${patternWatchPath} for changes`);
 
         const patternWatcher = chokidar.watch(
           path.resolve(patternWatchPath),
