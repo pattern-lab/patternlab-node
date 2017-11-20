@@ -53,7 +53,6 @@ module.exports = class PatternLab {
     // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
     //
     this.data = {};
-    this.data.link = {};
     this.patterns = [];
     this.subtypePatterns = {};
     this.partials = {};
@@ -147,6 +146,7 @@ module.exports = class PatternLab {
     // data.json
     try {
       this.data = this.buildPatternData(paths.source.data, fs); // eslint-disable-line no-use-before-define
+      this.data.link = {};
     } catch (ex) {
       logger.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
       this.data = {};
