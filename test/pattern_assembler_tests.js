@@ -1,14 +1,18 @@
 "use strict";
 
 var tap = require('tap');
+var fs = require('fs-extra');
+var path = require('path');
 
 var pa = require('../core/lib/pattern_assembler');
+var pattern_assembler = new pa();
 var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-var path = require('path');
-var config = require('./util/patternlab-config.json');
 var engineLoader = require('../core/lib/pattern_engines');
+var plMain = require('../core/lib/patternlab');
+var config = require('./util/patternlab-config.json');
+
 engineLoader.loadAllEngines(config);
 
 function emptyPatternLab() {
@@ -22,56 +26,28 @@ const public_dir = './test/public';
 
 tap.test('process_pattern_recursive recursively includes partials', function(test) {
 
-  //tests inclusion of partial that will be discovered by diveSync later in iteration than parent
-  //prepare to diveSync
-  var diveSync = require('diveSync');
-  var fs = require('fs-extra');
-  var pa = require('../core/lib/pattern_assembler');
-  var plMain = require('../core/lib/patternlab');
-  var pattern_assembler = new pa();
-  var patternlab = emptyPatternLab();
-  patternlab.config = fs.readJSONSync('./patternlab-config.json');
-  patternlab.config.paths.source.patterns = patterns_dir;
-  patternlab.config.paths.public = public_dir;
-  patternlab.config.outputFileSuffixes = {rendered: ''};
+  var patternlab = new plMain(config);
+  patternlab.graph = PatternGraph.empty();
 
-  patternlab.data = {};
-  patternlab.listitems = {};
-  patternlab.header = '';
-  patternlab.footer = '';
-  patternlab.patterns = [];
-  patternlab.data.link = {};
-  patternlab.partials = {};
+  var fooPattern = new Pattern('00-test/00-foo.mustache');
+  fooPattern.template = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8');
+  fooPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(fooPattern);
 
-  //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative(patterns_dir, patternlab)
-    .then(() => {
-      //diveSync again to recursively include partials, filling out the
-      //extendedTemplate property of the patternlab.patterns elements
-      plMain.process_all_patterns_recursive(patterns_dir, patternlab);
+  var barPattern = new Pattern('00-test/01-bar.mustache');
+  barPattern.template = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8');
+  barPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(barPattern);
 
-      //get test output for comparison
-      var foo = fs.readFileSync(patterns_dir + '/00-test/00-foo.mustache', 'utf8').trim();
-      var bar = fs.readFileSync(patterns_dir + '/00-test/01-bar.mustache', 'utf8').trim();
-      var fooExtended;
+  pattern_assembler.addPattern(fooPattern, patternlab);
+  pattern_assembler.addPattern(barPattern, patternlab);
 
-      //get extended pattern
-      for (var i = 0; i < patternlab.patterns.length; i++) {
-        if (patternlab.patterns[i].fileName === '00-foo') {
-          fooExtended = patternlab.patterns[i].extendedTemplate.trim();
-          break;
-        }
-      }
+  //act
 
-      //check initial values
-      test.equals(foo, '{{> test-bar }}', 'foo template not as expected');
-      test.equals(bar, 'bar', 'bar template not as expected');
-      //test that 00-foo.mustache included partial 01-bar.mustache
-      test.equals(fooExtended, 'bar', 'foo includes bar');
+  pattern_assembler.process_pattern_recursive('00-test' + path.sep + '00-foo.mustache', patternlab, {});
 
-      test.end();
-    })
-    .catch(test.threw);
+  //assert
+  var expectedValue = 'bar';
+  test.equals(fooPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+  test.end();
 });
 
 tap.test('processPatternRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found', function(test) {
@@ -498,68 +474,55 @@ tap.test('processPatternRecursive - 685 ensure listitems data is used', function
 
 tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
   //arrange
-  var diveSync = require('diveSync');
-  var fs = require('fs-extra');
-  var pa = require('../core/lib/pattern_assembler');
-  var plMain = require('../core/lib/patternlab');
-  var pattern_assembler = new pa();
-  var patterns_dir = './test/files/_patterns/';
-  var patternlab = emptyPatternLab();
-  //THIS IS BAD
-  patternlab.config = fs.readJSONSync('./patternlab-config.json');
-  patternlab.config.paths.source.patterns = patterns_dir;
-  patternlab.config.outputFileSuffixes = {rendered: ''};
-  patternlab.data = {};
-  patternlab.listitems = {};
-  patternlab.header = {};
-  patternlab.footer = {};
+  var patternlab = new plMain(config);
+  patternlab.graph = PatternGraph.empty();
+
   patternlab.patterns = [
     Pattern.createEmpty({ patternPartial: 'twitter-brad' }, patternlab),
     Pattern.createEmpty({ patternPartial: 'twitter-dave' }, patternlab),
     Pattern.createEmpty({ patternPartial: 'twitter-brian' }, patternlab)
   ];
   patternlab.data.link = {};
-  patternlab.partials = {};
 
-  //diveSync once to perform iterative populating of patternlab object
-  plMain.process_all_patterns_iterative( patterns_dir, patternlab)
-    .then(() => {
-      //for the sake of the test, also imagining I have the following pages...
-      patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
-      patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
-      patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
+  var navPattern = pattern_assembler.load_pattern_iterative('00-test/nav.mustache', patternlab);
+  pattern_assembler.addPattern(navPattern, patternlab);
 
-      patternlab.data.brad = {url: "link.twitter-brad"};
-      patternlab.data.dave = {url: "link.twitter-dave"};
-      patternlab.data.brian = {url: "link.twitter-brian"};
+  //for the sake of the test, also imagining I have the following pages...
+  patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
+  patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
+  patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
+
+  patternlab.data.brad = {url: "link.twitter-brad"};
+  patternlab.data.dave = {url: "link.twitter-dave"};
+  patternlab.data.brian = {url: "link.twitter-brian"};
+
+  var pattern;
+  for (var i = 0; i < patternlab.patterns.length; i++) {
+    if (patternlab.patterns[i].patternPartial === 'test-nav') {
+      pattern = patternlab.patterns[i];
+    }
+  }
 
 
-      var pattern;
-      for (var i = 0; i < patternlab.patterns.length; i++) {
-        if (patternlab.patterns[i].patternPartial === 'test-nav') {
-          pattern = patternlab.patterns[i];
-        }
-      }
+  console.log()
 
-      //assert before
-      test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
-      test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
-      test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
+  //assert before
+  test.equals(pattern.jsonFileData.brad.url, "link.twitter-brad", "brad pattern data should be found");
+  test.equals(pattern.jsonFileData.dave.url, "link.twitter-dave", "dave pattern data should be found");
+  test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
 
-      //act
-      pattern_assembler.parse_data_links(patternlab);
+  //act
+  pattern_assembler.parse_data_links(patternlab);
 
-      //assert after
-      test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
-      test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
-      test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
+  //assert after
+  test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");
+  test.equals(pattern.jsonFileData.dave.url, "https://twitter.com/dmolsen",  "dave pattern data should be replaced");
+  test.equals(pattern.jsonFileData.brian.url, "https://twitter.com/bmuenzenmeyer", "brian pattern data should be replaced");
 
-      test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
-      test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
-      test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
-      test.end();
-    })
-    .catch(test.threw);
+  test.equals(patternlab.data.brad.url, "https://twitter.com/brad_frost", "global brad data should be replaced");
+  test.equals(patternlab.data.dave.url, "https://twitter.com/dmolsen", "global dave data should be replaced");
+  test.equals(patternlab.data.brian.url, "https://twitter.com/bmuenzenmeyer", "global brian data should be replaced");
+  test.end();
 });
 
 tap.test('get_pattern_by_key - returns the fuzzy result when no others found', function(test) {
