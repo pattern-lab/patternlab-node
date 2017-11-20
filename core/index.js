@@ -47,46 +47,54 @@ const patternlab_module = function (config) {
 
     logger.info('');
 
-    logger.info('|=======================================|');
-    logger.debug('     Pattern Lab Node Help v' + patternlab.package.version);
-    logger.info('|=======================================|');
+    logger.info('Pattern Lab Node v' + patternlab.package.version);
 
     logger.info('');
-    logger.info('API - usually consumed by an edition');
+    logger.info('Usage: patternlab.<FUNCTION_NAME>()');
     logger.info('');
 
-    logger.debug(' patternlab:build');
-    logger.info('   > Compiles the patterns and frontend, outputting to config.paths.public');
+    logger.info(' build');
+    logger.info('   > builds patterns, copies assets, and constructs ui into config.paths.public');
     logger.info('');
 
-    logger.debug(' patternlab:patternsonly');
-    logger.info('   > Compiles the patterns only, outputting to config.paths.public');
+    logger.info(' patternsonly');
+    logger.info('   > builds patterns only, leaving existing public files intact');
     logger.info('');
 
-    logger.debug(' patternlab:version');
-    logger.info('   > Return the version of patternlab-node you have installed');
+    logger.info(' version');
+    logger.info('   > logs current version');
     logger.info('');
 
-    logger.debug(' patternlab:help');
-    logger.info('   > Get more information about patternlab-node, pattern lab in general, and where to report issues.');
+    logger.info(' v');
+    logger.info('   > return current version as a string');
     logger.info('');
 
-    logger.debug(' patternlab:liststarterkits');
-    logger.info('   > Returns a url with the list of available starterkits hosted on the Pattern Lab organization Github account');
+    logger.info(' help');
+    logger.info('   > logs more information about patternlab-node, pattern lab in general, and where to report issues.');
     logger.info('');
 
-    logger.debug(' patternlab:loadstarterkit');
-    logger.info('   > Load a starterkit into config.paths.source/*');
+    logger.info(' liststarterkits');
+    logger.info('   > fetches starterkit repos from pattern-lab github org that contain "starterkit" in their name');
+    logger.info('');
+
+    logger.info(' loadstarterkit');
+    logger.info('   > loads starterkit already available via `node_modules/` into config.paths.source/*');
     logger.info('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
     logger.info('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
-    logger.info('   > arguments:');
-    logger.info('      -- kit ');
+    logger.info('   > parameters:');
+    logger.info('      kit:string ');
     logger.info('      > the name of the starter kit to load');
-    logger.info('      -- clean ');
-    logger.info('      > removes all files from config.paths.source/ prior to load');
-    logger.info('   > example (gulp):');
-    logger.info('    `gulp patternlab:loadstarterkit --kit=starterkit-mustache-demo`');
+    logger.info('      clean:bool ');
+    logger.info('      > whether or not to remove all files from config.paths.source/ prior to load');
+    logger.info('   > example:');
+    logger.info('    `patternlab.loadstarterkit("starterkit-mustache-demo", true)');
     logger.info('');
+
+    // installplugin
+    // serve
+    // getSupportedTemplateExtensions
+    // events
+    // getDefaultConfig
 
     logger.info('===============================');
     logger.info('');
