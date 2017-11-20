@@ -152,7 +152,7 @@ const patternlab_module = function (config) {
     patternlab.buildGlobalData();
 
     // diveSync once to perform iterative populating of patternlab object
-    return patternlab.processAllPatternsIterative(paths.source.patterns, patternlab).then(() => {
+    return patternlab.processAllPatternsIterative(paths.source.patterns).then(() => {
 
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
@@ -339,7 +339,6 @@ const patternlab_module = function (config) {
     loadstarterkit: function (starterkitName, clean) {
       patternlab.loadStarterKit(starterkitName, clean);
     },
-
 
     /**
      * install plugin already available via `node_modules/`
