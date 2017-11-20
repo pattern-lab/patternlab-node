@@ -48,6 +48,15 @@ module.exports = class PatternLab {
     this.engines = patternEngines;
     this.engines.loadAllEngines(config);
 
+    //
+    // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
+    //
+    this.data = {};
+    this.data.link = {};
+    this.patterns = [];
+    this.subtypePatterns = {};
+    this.partials = {};
+
     // Cache the package.json in RAM
     this.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
 
@@ -165,15 +174,6 @@ module.exports = class PatternLab {
       // but whatever. For now.
       process.exit(1);
     }
-
-
-    //
-    // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
-    //
-    this.patterns = [];
-    this.subtypePatterns = {};
-    this.partials = {};
-    this.data.link = {};
 
     this.setCacheBust();
 
