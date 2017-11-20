@@ -8,7 +8,6 @@ const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
-const defaultConfig = require('../../patternlab-config.json');
 const dataLoader = require('./data_loader')();
 const logger = require('./log');
 const jsonCopy = require('./json_copy');

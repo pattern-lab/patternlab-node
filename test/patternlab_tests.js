@@ -54,13 +54,6 @@ tap.test('buildPatternData - can load json, yaml, and yml files', function(test)
   test.end();
 });
 
-tap.test('getDefaultConfig - should return the default config object', function(test) {
-  const requestedConfig = plEngineModule.getDefaultConfig();
-  test.type(requestedConfig, 'object');
-  test.equals(requestedConfig, defaultConfig);
-  test.end();
-});
-
 // this test needs to be re-jiggered
 // tap.test('buildPatterns - should replace data link even when pattern parameter present', function(test) {
 //   //arrange

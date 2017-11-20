@@ -22,7 +22,7 @@ const pa = require('./lib/pattern_assembler');
 const pe = require('./lib/pattern_exporter');
 const lh = require('./lib/lineage_hunter');
 
-const PatternLab = require('./lib/patternlab');
+const defaultConfig = require('../patternlab-config.json');
 
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
@@ -39,7 +39,18 @@ updateNotifier({
   updateCheckInterval: 1000 * 60 * 60 * 24 // notify at most once a day
 }).notify();
 
+
+/**
+ * Returns the standardized default config
+ *
+ * @return {object} Returns the object representation of the patternlab-config.json
+ */
+const getDefaultConfig = function () {
+  return defaultConfig;
+};
+
 const patternlab_module = function (config) {
+  const PatternLab = require('./lib/patternlab');
   const patternlab = new PatternLab(config);
   const paths = patternlab.config.paths;
 
@@ -379,5 +390,7 @@ const patternlab_module = function (config) {
     events: patternlab.events
   };
 };
+
+patternlab_module.getDefaultConfig = getDefaultConfig;
 
 module.exports = patternlab_module;
