@@ -58,7 +58,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "docs": "node ./core/scripts/docs.js",
+    "docs": "node ./scripts/docs.js",
     "lint": "eslint core/**/*.js",
     "pretest": "npm run lint",
     "test": "tap test/*_tests.js --reporter spec --coverage"

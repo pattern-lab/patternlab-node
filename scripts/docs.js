@@ -4,7 +4,10 @@ const process = require('process');
 const fs = require('fs-extra');
 
 doc.render({
-  files: path.resolve(process.cwd(), './core/lib/patternlab.js')
+  'example-lang': 'javascript',
+  files: path.resolve(process.cwd(), './core/index.js'),
+  'name-format': 'backticks',
+  template: fs.readFileSync('./scripts/api.hbs', 'utf8')
 }).then((x) => {
   fs.outputFile(path.resolve(process.cwd(), './docs/README.md'), x);
 });
