@@ -39,12 +39,6 @@ updateNotifier({
   updateCheckInterval: 1000 * 60 * 60 * 24 // notify at most once a day
 }).notify();
 
-
-/**
- * Returns the standardized default config
- *
- * @return {object} Returns the object representation of the patternlab-config.json
- */
 const getDefaultConfig = function () {
   return defaultConfig;
 };
@@ -255,24 +249,6 @@ const patternlab_module = function (config) {
 
   return {
     /**
-     * logs current version
-     *
-     * @returns {void} current patternlab-node version as defined in package.json, as console output
-     */
-    version: function () {
-      return patternlab.logVersion();
-    },
-
-    /**
-     * return current version
-     *
-     * @returns {string} current patternlab-node version as defined in package.json, as string
-     */
-    v: function () {
-      return patternlab.getVersion();
-    },
-
-    /**
      * build patterns, copy assets, and construct ui
      *
      * @param {object} options an object used to control build behavior
@@ -310,6 +286,24 @@ const patternlab_module = function (config) {
     },
 
     /**
+     * Returns the standardized default config
+     *
+     * @return {object} Returns the object representation of the patternlab-config.json
+     */
+    getDefaultConfig: function () {
+      return getDefaultConfig();
+    },
+
+    /**
+     * returns all file extensions supported by installed PatternEngines
+     *
+     * @returns {Array<string>} all supported file extensions
+     */
+    getSupportedTemplateExtensions: function () {
+      return patternlab.getSupportedTemplateExtensions();
+    },
+
+    /**
      * logs usage
      *
      * @returns {void} pattern lab API usage, as console output
@@ -319,20 +313,13 @@ const patternlab_module = function (config) {
     },
 
     /**
-     * build patterns only, leaving existing public files intact
+     * install plugin already available via `node_modules/`
      *
-     * @param {object} options an object used to control build behavior
-     * @returns {Promise} a promise fulfilled when build is complete
+     * @param {string} pluginName name of plugin
+     * @returns {void}
      */
-    patternsonly: function (options) {
-      if (patternlab && patternlab.isBusy) {
-        logger.info('Pattern Lab is busy building a previous run - returning early.');
-        return Promise.resolve();
-      }
-      patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic).then(() => {
-        patternlab.isBusy = false;
-      });
+    installplugin: function (pluginName) {
+      patternlab.installPlugin(pluginName);
     },
 
     /**
@@ -356,22 +343,38 @@ const patternlab_module = function (config) {
     },
 
     /**
-     * install plugin already available via `node_modules/`
+     * return current version
      *
-     * @param {string} pluginName name of plugin
-     * @returns {void}
+     * @returns {string} current patternlab-node version as defined in package.json, as string
      */
-    installplugin: function (pluginName) {
-      patternlab.installPlugin(pluginName);
+    v: function () {
+      return patternlab.getVersion();
     },
 
     /**
-     * returns all file extensions supported by installed PatternEngines
+     * logs current version
      *
-     * @returns {Array<string>} all supported file extensions
+     * @returns {void} current patternlab-node version as defined in package.json, as console output
      */
-    getSupportedTemplateExtensions: function () {
-      return patternlab.getSupportedTemplateExtensions();
+    version: function () {
+      return patternlab.logVersion();
+    },
+
+    /**
+     * build patterns only, leaving existing public files intact
+     *
+     * @param {object} options an object used to control build behavior
+     * @returns {Promise} a promise fulfilled when build is complete
+     */
+    patternsonly: function (options) {
+      if (patternlab && patternlab.isBusy) {
+        logger.info('Pattern Lab is busy building a previous run - returning early.');
+        return Promise.resolve();
+      }
+      patternlab.isBusy = true;
+      return buildPatterns(options.cleanPublic).then(() => {
+        patternlab.isBusy = false;
+      });
     },
 
     /**
