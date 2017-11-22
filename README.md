@@ -69,7 +69,7 @@ patternlab.serve({
 
 ```
 
-* Read more about [configuration](https://github.com/pattern-lab/patternlab-node/wiki/Configuration) via `patternlab-config.json`.
+* Read more about [configuration](http://patternlab.io/docs/advanced-config-options.html#node) via `patternlab-config.json`.
 
 * Read more about the rest of [Public API](https://github.com/pattern-lab/patternlab-node/wiki/Public-API), and already implemented for you within [Editions](#editions).
 

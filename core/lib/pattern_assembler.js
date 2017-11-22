@@ -85,6 +85,9 @@ const pattern_assembler = function () {
   function addPattern(pattern, patternlab) {
 
     //add the link to the global object
+    if (!patternlab.data.link) {
+      patternlab.data.link = {};
+    }
     patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
 
     //only push to array if the array doesn't contain this pattern
