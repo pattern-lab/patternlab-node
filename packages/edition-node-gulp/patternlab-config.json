@@ -1,39 +1,8 @@
 {
-  "paths" : {
-    "source" : {
-      "root": "./source/",
-      "patterns" : "./source/_patterns/",
-      "data" : "./source/_data/",
-      "meta": "./source/_meta/",
-      "annotations" : "./source/_annotations/",
-      "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
-      "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/",
-      "js" : "./source/js",
-      "images" : "./source/images",
-      "fonts" : "./source/fonts",
-      "css" : "./source/css/"
-    },
-    "public" : {
-      "root" : "./public/",
-      "patterns" : "./public/patterns/",
-      "data" : "./public/styleguide/data/",
-      "annotations" : "./public/annotations/",
-      "styleguide" : "./public/styleguide/",
-      "js" : "./public/js",
-      "images" : "./public/images",
-      "fonts" : "./public/fonts",
-      "css" : "./public/css"
-    }
-  },
-  "styleGuideExcludes": [
-  ],
+  "cacheBust": true,
+  "cleanPublic" : true,
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
-  "cleanPublic" : true,
-  "patternExtension": "mustache",
-  "ignored-extensions" : ["scss", "DS_Store", "less"],
-  "ignored-directories" : ["scss"],
-  "debug": false,
   "ishControlsHide": {
     "s": false,
     "m": false,
@@ -51,19 +20,62 @@
     "tools-all": false,
     "tools-docs": false
   },
-  "ishMinimum": "240",
-  "ishMaximum": "2600",
-  "patternStateCascade": ["inprogress", "inreview", "complete"],
-  "patternStates": {
+  "ishViewportRange": {
+    "s": [240, 500],
+    "m": [500, 800],
+    "l": [800, 2600]
   },
-  "patternExportPatternPartials": [],
-  "patternExportDirectory": "./pattern_exports/",
-  "cacheBust": true,
-  "starterkitSubDir": "dist",
+  "logLevel": "info",
   "outputFileSuffixes": {
     "rendered": ".rendered",
     "rawTemplate": "",
     "markupOnly": ".markup-only"
   },
-  "cleanOutputHtml": true
+  "paths" : {
+    "source" : {
+      "root": "./source/",
+      "patterns" : "./source/_patterns/",
+      "data" : "./source/_data/",
+      "meta": "./source/_meta/",
+      "annotations" : "./source/_annotations/",
+      "styleguide" : "./node_modules/@pattern-lab/styleguidekit-assets-default/dist/",
+      "patternlabFiles" : {
+        "general-header": "./node_modules/@pattern-lab/styleguidekit-mustache-default/views/partials/general-header.mustache",
+        "general-footer": "./node_modules/@pattern-lab/styleguidekit-mustache-default/views/partials/general-footer.mustache",
+        "patternSection": "./node_modules/@pattern-lab/styleguidekit-mustache-default/views/partials/patternSection.mustache",
+        "patternSectionSubtype": "./node_modules/@pattern-lab/styleguidekit-mustache-default/views/partials/patternSectionSubtype.mustache",
+        "viewall": "./node_modules/@pattern-lab/styleguidekit-mustache-default/views/viewall.mustache"
+      },
+      "js" : "./source/js",
+      "images" : "./source/images",
+      "fonts" : "./source/fonts",
+      "css" : "./source/css/"
+    },
+    "public" : {
+      "root" : "./public/",
+      "patterns" : "./public/patterns/",
+      "data" : "./public/styleguide/data/",
+      "annotations" : "./public/annotations/",
+      "styleguide" : "./public/styleguide/",
+      "js" : "./public/js",
+      "images" : "./public/images",
+      "fonts" : "./public/fonts",
+      "css" : "./public/css"
+    }
+  },
+  "patternExtension": "mustache",
+  "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternExportDirectory": "./pattern_exports/",
+  "patternExportPatternPartials": [],
+  "serverOptions": {
+    "wait": 1000
+  },
+  "starterkitSubDir": "dist",
+  "styleGuideExcludes": [
+  ],
+  "theme": {
+    "color": "dark",
+    "density": "compact",
+    "layout": "horizontal"
+  }
 }
