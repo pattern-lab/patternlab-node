@@ -1,7 +1,8 @@
 {
-  "name": "edition-node",
+  "name": "@pattern-lab/edition-node",
   "description": "A pure wrapper around patternlab-node core, the default pattern engine, and supporting frontend assets.",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
+  "main": "patternlab-config.json",
   "dependencies": {
     "@pattern-lab/patternengine-node-mustache": "^2.0.0-alpha.1",
     "@pattern-lab/patternlab-node": "^3.0.0-alpha.5",
