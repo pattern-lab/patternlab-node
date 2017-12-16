@@ -414,7 +414,7 @@ const ui_builder = function () {
      */
   function buildFooterHTML(patternlab, patternPartial) {
     //first render the general footer
-    const footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    const footerPartial = pattern_assembler.renderPatternSync(patternlab.footer, {
       patternData: JSON.stringify({
         patternPartial: patternPartial,
       }),
@@ -431,7 +431,7 @@ const ui_builder = function () {
     allFooterData.patternLabFoot = footerPartial;
 
     //then add it to the user footer
-    const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
+    const footerHTML = pattern_assembler.renderPatternSync(patternlab.userFoot, allFooterData);
     return footerHTML;
   }
 
@@ -444,7 +444,7 @@ const ui_builder = function () {
    * @returns HTML
      */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
-    const viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
+    const viewAllHTML = pattern_assembler.renderPatternSync(patternlab.viewAll,
       {
         partials: patterns,
         patternPartial: 'viewall-' + patternPartial,
@@ -613,22 +613,22 @@ const ui_builder = function () {
     const styleguidePatterns = groupPatterns(patternlab);
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    const headerPartial = pattern_assembler.renderPattern(patternlab.header, {
+    const headerPartial = pattern_assembler.renderPatternSync(patternlab.header, {
       cacheBuster: patternlab.cacheBuster
     });
 
     const headFootData = patternlab.data;
     headFootData.patternLabHead = headerPartial;
     headFootData.cacheBuster = patternlab.cacheBuster;
-    const headerHTML = pattern_assembler.renderPattern(patternlab.userHead, headFootData);
+    const headerHTML = pattern_assembler.renderPatternSync(patternlab.userHead, headFootData);
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    const footerPartial = pattern_assembler.renderPatternSync(patternlab.footer, {
       patternData: '{}',
       cacheBuster: patternlab.cacheBuster
     });
     headFootData.patternLabFoot = footerPartial;
-    const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, headFootData);
+    const footerHTML = pattern_assembler.renderPatternSync(patternlab.userFoot, headFootData);
 
     //build the viewall pages
     const allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
@@ -640,7 +640,7 @@ const ui_builder = function () {
     }
 
     //build the main styleguide page
-    const styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
+    const styleguideHtml = pattern_assembler.renderPatternSync(patternlab.viewAll,
       {
         partials: allPatterns
       }, {

@@ -201,7 +201,7 @@ const patternlab_module = function (config) {
       }
 
       //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-      patternlab.data.patternLabHead = pattern_assembler.renderPattern(patternlab.header, {
+      patternlab.data.patternLabHead = pattern_assembler.renderPatternSync(patternlab.header, {
         cacheBuster: patternlab.cacheBuster
       });
 
@@ -249,7 +249,8 @@ const patternlab_module = function (config) {
           pattern_exporter.export_patterns(patternlab);
         });
     }).catch((err) => {
-      logger.info('Error in buildPatterns():', err);
+      console.log(err);
+      logger.info('Error in buildPatterns()');
     });
   }
 
@@ -384,6 +385,7 @@ const patternlab_module = function (config) {
       options.watch = true;
       return this.build(options).then(function () {
         serve(patternlab);
+        return Promise.resolve();
       });
     },
 

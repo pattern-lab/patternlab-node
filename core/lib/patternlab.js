@@ -11,6 +11,7 @@ const packageInfo = require('../../package.json');
 const dataLoader = require('./data_loader')();
 const logger = require('./log');
 const jsonCopy = require('./json_copy');
+const render = require('./render');
 const pa = require('./pattern_assembler');
 const sm = require('./starterkit_manager');
 const pe = require('./pattern_exporter');
@@ -351,12 +352,29 @@ module.exports = class PatternLab {
     allData = _.merge(allData, pattern.jsonFileData);
     allData.cacheBuster = this.cacheBuster;
 
+    ///////////////
+    // HEADER
+    ///////////////
+
     //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
     pattern.header = head;
-    const headHTML = pattern_assembler.renderPattern(pattern.header, allData);
+    // const headHTML
+    const headPromise = Promise.resolve(render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData));
+    console.log(363, headPromise)
+
+    ///////////////
+    // PATTERN
+    ///////////////
 
     //render the extendedTemplate with all data
-    pattern.patternPartialCode = pattern_assembler.renderPattern(pattern, allData);
+    //pattern.patternPartialCode
+    console.log(371, allData)
+    const patternPartialPromise = render(pattern, allData);
+    console.log(372, patternPartialPromise)
+
+    ///////////////
+    // FOOTER
+    ///////////////
 
     // stringify this data for individual pattern rendering and use on the styleguide
     // see if patternData really needs these other duped values
@@ -393,36 +411,58 @@ module.exports = class PatternLab {
     });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPartial = pattern_assembler.renderPattern(this.footer, {
+    // footerPartial
+    const footerPartialPromise = Promise.resolve(render(Pattern.createEmpty({extendedTemplate: this.footer}), {
       isPattern: pattern.isPattern,
       patternData: pattern.patternData,
       cacheBuster: this.cacheBuster
+    }));
+
+    console.log(420, footerPartialPromise)
+
+    const self = this;
+
+    return Promise.all([headPromise, patternPartialPromise, footerPartialPromise]).then(intermediateResults => {
+
+      console.log(424, 'ALL PROMISES RESOLVED')
+
+
+      // retrieve results of promises
+      const headHTML = intermediateResults[0]; //headPromise
+      pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
+      const footerPartial = intermediateResults[2]; //footerPartialPromise
+
+      //finish up our footer data
+      let allFooterData;
+      try {
+        allFooterData = jsonCopy(self.data, 'config.paths.source.data global data');
+      } catch (err) {
+        logger.info('There was an error parsing JSON for ' + pattern.relPath);
+        logger.info(err);
+      }
+      allFooterData = _.merge(allFooterData, pattern.jsonFileData);
+      allFooterData.patternLabFoot = footerPartial;
+
+      return render(Pattern.createEmpty({extendedTemplate: self.userFoot}), allFooterData).then(footerHTML => {
+
+        ///////////////
+        // WRITE FILES
+        ///////////////
+
+        self.events.emit('patternlab-pattern-write-begin', self, pattern);
+
+        //write the compiled template to the public patterns directory
+        self.writePatternFiles(headHTML, pattern, footerHTML);
+
+        self.events.emit('patternlab-pattern-write-end', self, pattern);
+
+        // Allows serializing the compile state
+        self.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
+        logger.info("Built pattern: " + pattern.patternPartial);
+      });
+    }).catch(reason => {
+      console.log(reason);
     });
-
-    let allFooterData;
-    try {
-      allFooterData = jsonCopy(this.data, 'config.paths.source.data global data');
-    } catch (err) {
-      logger.info('There was an error parsing JSON for ' + pattern.relPath);
-      logger.info(err);
-    }
-    allFooterData = _.merge(allFooterData, pattern.jsonFileData);
-    allFooterData.patternLabFoot = footerPartial;
-
-    const footerHTML = pattern_assembler.renderPattern(this.userFoot, allFooterData);
-
-    this.events.emit('patternlab-pattern-write-begin', this, pattern);
-
-    //write the compiled template to the public patterns directory
-    this.writePatternFiles(headHTML, pattern, footerHTML);
-
-    this.events.emit('patternlab-pattern-write-end', this, pattern);
-
-    // Allows serializing the compile state
-    this.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
-    logger.info("Built pattern: " + pattern.patternPartial);
-
-    return Promise.resolve(true);
   }
 
   /**

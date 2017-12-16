@@ -128,19 +128,18 @@ const pattern_assembler = function () {
     patternlab.subtypePatterns[subtypePattern.patternPartial] = subtypePattern;
   }
 
-  // Render a pattern on request. Long-term, this should probably go away.
-  function renderPattern(pattern, data, partials) {
+  function renderPatternSync(pattern, data, partials) {
     // if we've been passed a full Pattern, it knows what kind of template it
     // is, and how to render itself, so we just call its render method
     if (pattern instanceof Pattern) {
-      return pattern.render(data, partials);
-    } else {
-      // otherwise, assume it's a plain mustache template string, and we
-      // therefore just need to create a dummpy pattern to be able to render
-      // it
-      var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
-      return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
+      return pattern.renderSync(data, partials);
     }
+
+    // otherwise, assume it's a plain mustache template string, and we
+    // therefore just need to create a dummpy pattern to be able to render
+    // it
+    var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
+    return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
   }
 
   function parsePatternMarkdown(currentPattern, patternlab) {
@@ -566,8 +565,8 @@ const pattern_assembler = function () {
     decomposePattern: function (pattern, patternlab, ignoreLineage) {
       decomposePattern(pattern, patternlab, ignoreLineage);
     },
-    renderPattern: function (template, data, partials) {
-      return renderPattern(template, data, partials);
+    renderPatternSync: function (pattern, data, partials) {
+      return renderPatternSync(pattern, data, partials);
     },
     load_pattern_iterative: function (file, patternlab) {
       return loadPatternIterative(file, patternlab);

@@ -104,10 +104,12 @@ const list_item_hunter = function () {
             }
 
             //render with data
+            //TODO
             thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
 
           } else {
             //just render with mergedData
+            //TODO
             thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
           }
 

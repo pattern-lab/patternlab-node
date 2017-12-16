@@ -101,13 +101,36 @@ const Pattern = function (relPath, data, patternlab) {
 
 Pattern.prototype = {
 
-  // render method on oPatterns; this acts as a proxy for the PatternEngine's
-  // render function
-  render: function (data, partials) {
-    if (this.engine) {
-      return this.engine.renderPattern(this, data || this.jsonFileData, partials);
+  renderSync: function (data, partials) {
+    console.log('renderSync');
+    if (this.engine && !this.engine.isAsync) {
+      const results = this.engine.renderPattern(this, data || this.jsonFileData, partials);
+      return results;
+
     }
     return null;
+  },
+
+  // render function - acts as a proxy for the PatternEngine's
+  render: function (data, partials) {
+    console.log('renderAsync');
+    //console.log(this);
+
+    if (this.engine && this.engine.isAsync) {
+      const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
+      return promise.then(results => {
+        console.log(120, results);
+        return results;
+      }).catch((reason) => {
+        console.log(123, reason);
+        return Promise.reject(reason);
+      });
+    } else {
+      // renderSync
+      return Promise.resolve(
+        this.renderSync(data, partials)
+      );
+    }
   },
 
   registerPartial: function () {
