@@ -360,7 +360,6 @@ module.exports = class PatternLab {
     pattern.header = head;
     // const headHTML
     const headPromise = Promise.resolve(render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData));
-    console.log(363, headPromise)
 
     ///////////////
     // PATTERN
@@ -368,9 +367,7 @@ module.exports = class PatternLab {
 
     //render the extendedTemplate with all data
     //pattern.patternPartialCode
-    console.log(371, allData)
     const patternPartialPromise = render(pattern, allData);
-    console.log(372, patternPartialPromise)
 
     ///////////////
     // FOOTER
@@ -418,14 +415,9 @@ module.exports = class PatternLab {
       cacheBuster: this.cacheBuster
     }));
 
-    console.log(420, footerPartialPromise)
-
     const self = this;
 
     return Promise.all([headPromise, patternPartialPromise, footerPartialPromise]).then(intermediateResults => {
-
-      console.log(424, 'ALL PROMISES RESOLVED')
-
 
       // retrieve results of promises
       const headHTML = intermediateResults[0]; //headPromise
