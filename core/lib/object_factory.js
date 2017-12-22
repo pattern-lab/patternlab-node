@@ -102,7 +102,6 @@ const Pattern = function (relPath, data, patternlab) {
 Pattern.prototype = {
 
   renderSync: function (data, partials) {
-    console.log('renderSync');
     if (this.engine && !this.engine.isAsync) {
       const results = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return results;
@@ -113,16 +112,11 @@ Pattern.prototype = {
 
   // render function - acts as a proxy for the PatternEngine's
   render: function (data, partials) {
-    console.log('renderAsync');
-    //console.log(this);
-
     if (this.engine && this.engine.isAsync) {
       const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return promise.then(results => {
-        console.log(120, results);
         return results;
       }).catch((reason) => {
-        console.log(123, reason);
         return Promise.reject(reason);
       });
     } else {
