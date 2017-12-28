@@ -1,0 +1,35 @@
+{
+  "name": "patternengine-node-liquid",
+  "description": "The Liquid engine for Pattern Lab / Node",
+  "version": "1.0.2",
+  "main": "lib/engine_liquid.js",
+  "dependencies": {
+    "liquidjs": "2.2.0"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "mocha": "3.5.3"
+  },
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Grunt",
+    "Gulp",
+    "Javascript",
+    "Liquid"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cameronroe/patternengine-node-liquid.git"
+  },
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "author": "Cameron Roe",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha"
+  },
+  "engines": {
+    "node": ">=0.1"
+  }
+}
