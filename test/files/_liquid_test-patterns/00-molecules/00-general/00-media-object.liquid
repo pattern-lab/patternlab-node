@@ -1,0 +1,32 @@
+<style>
+  .Media {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .Media > img {
+    margin-right: 1em;
+    max-width: 200px;
+  }
+
+  .Media-body {
+    flex: 1;
+  }
+</style>
+
+
+{% set foo = "world!" %}
+
+
+<div class="Media">
+  {% include "atoms-image" %}
+  {% include "atoms-button" %}
+
+  <div class="Media-body">
+
+    {# Testing if we can also pull in non-twig templates without breaking anything (it works!). Good idea though? Eh... #}
+    {# GTP: let's not for now. It's messin' up the unit testing. #}
+
+    <p>Oh, hello {{ foo }}</p>
+  </div>
+</div>
