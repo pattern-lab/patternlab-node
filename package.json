@@ -24,7 +24,7 @@
     "update-notifier": "^2.2.0"
   },
   "devDependencies": {
-    "@pattern-lab/patternengine-node-liquid": "^1.0.0-alpha.1",
+    "@pattern-lab/patternengine-node-liquid": "^1.0.0-alpha.4",
     "@pattern-lab/patternengine-node-handlebars": "^1.0.0-alpha.1",
     "@pattern-lab/patternengine-node-underscore": "^1.0.0-alpha.1",
     "eslint": "3.5.0",
