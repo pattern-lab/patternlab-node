@@ -1,13 +1,15 @@
 "use strict";
 
 const path = require('path');
+const _ = require('lodash');
+const eol = require('os').EOL;
+
 const jsonCopy = require('./json_copy');
 const ae = require('./annotation_exporter');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
 const logger = require('./log');
-const eol = require('os').EOL;
-const _ = require('lodash');
+const renderSync = require('./lib/renderSync');
 
 //these are mocked in unit tests, so let them be overridden
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
@@ -414,7 +416,7 @@ const ui_builder = function () {
      */
   function buildFooterHTML(patternlab, patternPartial) {
     //first render the general footer
-    const footerPartial = pattern_assembler.renderPatternSync(patternlab.footer, {
+    const footerPartial = renderSync(patternlab.footer, {
       patternData: JSON.stringify({
         patternPartial: patternPartial,
       }),
@@ -431,7 +433,7 @@ const ui_builder = function () {
     allFooterData.patternLabFoot = footerPartial;
 
     //then add it to the user footer
-    const footerHTML = pattern_assembler.renderPatternSync(patternlab.userFoot, allFooterData);
+    const footerHTML = renderSync(patternlab.userFoot, allFooterData);
     return footerHTML;
   }
 
@@ -444,7 +446,7 @@ const ui_builder = function () {
    * @returns HTML
      */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
-    const viewAllHTML = pattern_assembler.renderPatternSync(patternlab.viewAll,
+    const viewAllHTML = renderSync(patternlab.viewAll,
       {
         partials: patterns,
         patternPartial: 'viewall-' + patternPartial,
@@ -613,22 +615,22 @@ const ui_builder = function () {
     const styleguidePatterns = groupPatterns(patternlab);
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    const headerPartial = pattern_assembler.renderPatternSync(patternlab.header, {
+    const headerPartial = renderSync(patternlab.header, {
       cacheBuster: patternlab.cacheBuster
     });
 
     const headFootData = patternlab.data;
     headFootData.patternLabHead = headerPartial;
     headFootData.cacheBuster = patternlab.cacheBuster;
-    const headerHTML = pattern_assembler.renderPatternSync(patternlab.userHead, headFootData);
+    const headerHTML = renderSync(patternlab.userHead, headFootData);
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPartial = pattern_assembler.renderPatternSync(patternlab.footer, {
+    const footerPartial = renderSync(patternlab.footer, {
       patternData: '{}',
       cacheBuster: patternlab.cacheBuster
     });
     headFootData.patternLabFoot = footerPartial;
-    const footerHTML = pattern_assembler.renderPatternSync(patternlab.userFoot, headFootData);
+    const footerHTML = renderSync(patternlab.userFoot, headFootData);
 
     //build the viewall pages
     const allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
@@ -640,7 +642,7 @@ const ui_builder = function () {
     }
 
     //build the main styleguide page
-    const styleguideHtml = pattern_assembler.renderPatternSync(patternlab.viewAll,
+    const styleguideHtml = renderSync(patternlab.viewAll,
       {
         partials: allPatterns
       }, {

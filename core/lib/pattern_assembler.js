@@ -21,7 +21,6 @@ const dataLoader = new da();
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 const pattern_assembler = function () {
-  // HELPER FUNCTIONS
 
   function buildListItems(container) {
     //combine all list items into one structure
@@ -45,20 +44,6 @@ const pattern_assembler = function () {
         }
       }
     }
-  }
-
-  function renderPatternSync(pattern, data, partials) {
-    // if we've been passed a full Pattern, it knows what kind of template it
-    // is, and how to render itself, so we just call its render method
-    if (pattern instanceof Pattern) {
-      return pattern.renderSync(data, partials);
-    }
-
-    // otherwise, assume it's a plain mustache template string, and we
-    // therefore just need to create a dummpy pattern to be able to render
-    // it
-    var dummyPattern = Pattern.createEmpty({extendedTemplate: pattern});
-    return patternEngines.mustache.renderPattern(dummyPattern, data, partials);
   }
 
   function parsePatternMarkdown(currentPattern, patternlab) {
@@ -113,8 +98,6 @@ const pattern_assembler = function () {
       }
     }
   }
-
-
 
   // loads a pattern from disk, creates a Pattern object from it and
   // all its associated files, and records it in patternlab.patterns[]
@@ -277,7 +260,6 @@ const pattern_assembler = function () {
     return decompose(currentPattern, patternlab);
   }
 
-
   /**
    * Finds patterns that were modified and need to be rebuilt. For clean patterns load the already
    * rendered markup.
@@ -345,9 +327,6 @@ const pattern_assembler = function () {
     //todo review for deletion
     find_list_items: function (pattern) {
       return pattern.findListItems();
-    },
-    renderPatternSync: function (pattern, data, partials) {
-      return renderPatternSync(pattern, data, partials);
     },
     load_pattern_iterative: function (file, patternlab) {
       return loadPatternIterative(file, patternlab);

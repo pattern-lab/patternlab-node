@@ -21,6 +21,7 @@ const CompileState = require('./lib/object_factory').CompileState;
 const pa = require('./lib/pattern_assembler');
 const pe = require('./lib/pattern_exporter');
 const lh = require('./lib/lineage_hunter');
+const renderSync = require('./lib/renderSync');
 
 const defaultConfig = require('../patternlab-config.json');
 
@@ -202,7 +203,7 @@ const patternlab_module = function (config) {
       }
 
       //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-      patternlab.data.patternLabHead = pattern_assembler.renderPatternSync(patternlab.header, {
+      patternlab.data.patternLabHead = renderSync(patternlab.header, {
         cacheBuster: patternlab.cacheBuster
       });
 
