@@ -4,11 +4,12 @@
  * Cameron Roe
  * Licensed under the MIT license.
  *
+ *
  */
 
 "use strict";
 
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const isDirectory = source => fs.lstatSync(source).isDirectory();
 const getDirectories = source =>
@@ -17,13 +18,12 @@ const getDirectories = source =>
 const { lstatSync, readdirSync } = require('fs')
 const { join } = require('path')
 
-
 var utils = require('./util_liquid');
 var Liquid = require('liquidjs');
 
-
-
-let engine = undefined;
+let engine = Liquid({
+  dynamicPartials: false
+});
 
 // This holds the config from from core. The core has to call
 // usePatternLabConfig() at load time for this to be populated.
@@ -32,9 +32,8 @@ let patternLabConfig = {};
 module.exports = {
   engine: engine,
   engineName: 'liquid',
-  engineFileExtension: '.liquid',
+  engineFileExtension: ['.liquid', '.html'],
   isAsync: true,
-
 
   // // partial expansion is only necessary for Mustache templates that have
   // // style modifiers or pattern parameters (I think)
@@ -51,7 +50,6 @@ module.exports = {
   renderPattern: function renderPattern(pattern, data, partials) {
     return engine.parseAndRender(pattern.template, data)
       .then(function(html){
-        console.log(37, html)
         return html;
       }).catch(function(ex){
         console.log(40, ex)
@@ -128,9 +126,46 @@ module.exports = {
    */
   usePatternLabConfig: function (config) {
     patternLabConfig = config;
+    let patternsPath = patternLabConfig.paths.source.patterns;
+
+    if (patternsPath.slice(-1) === '/') {
+      patternsPath = patternsPath.slice(0, -1);
+    }
+
+    const allPaths = getDirectories(patternsPath).reduce((allDirs, dir) => {
+      return allDirs.concat(getDirectories(dir));
+    }, []);
+
     engine = Liquid({
       dynamicPartials: false,
-      root: [getDirectories(patternLabConfig.paths.source.patterns)]
+      root: allPaths
     });
+  },
+
+  spawnFile: function (config, fileName) {
+    const paths = config.paths;
+    const metaFilePath = path.resolve(paths.source.meta, fileName);
+
+    try {
+      fs.statSync(metaFilePath);
+    } catch (err) {
+
+      //not a file, so spawn it from the included file
+      const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      fs.outputFileSync(metaFilePath, metaFileContent);
+    }
+  },
+
+  /**
+  * Checks to see if the _meta directory has engine-specific head and foot files,
+  * spawning them if not found.
+  *
+  * @param {object} config - the global config object from core, since we won't
+  * assume it's already present
+  */
+  spawnMeta: function (config) {
+    this.spawnFile(config, '_00-head.liquid');
+    this.spawnFile(config, '_01-foot.liquid');
   }
 };
