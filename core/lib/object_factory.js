@@ -112,6 +112,13 @@ Pattern.prototype = {
 
   // render function - acts as a proxy for the PatternEngine's
   render: function (data, partials) {
+
+
+    if (!this.extendedTemplate) {
+      this.extendedTemplate = this.template;
+    }
+
+
     if (this.engine && this.engine.isAsync) {
       const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return promise.then(results => {
