@@ -1,16 +1,20 @@
 "use strict";
 
-var tap = require('tap');
-var pa = require('../core/lib/pattern_assembler');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+const path = require('path');
+const fs = require('fs-extra');
+const util = require('./util/test_utils.js');
+const tap = require('tap');
 
-var fs = require('fs-extra');
-var util = require('./util/test_utils.js');
+const pa = require('../core/lib/pattern_assembler');
+const ph = require('../core/lib/parameter_hunter');
+const Pattern = require('../core/lib/object_factory').Pattern;
+const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
-var ph = require('../core/lib/parameter_hunter');
-var config = require('./util/patternlab-config.json');
-var engineLoader = require('../core/lib/pattern_engines');
+const pattern_assembler = new pa();
+const parameter_hunter = new ph();
+
+const config = require('./util/patternlab-config.json');
+const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 //setup current pattern from what we would have during execution
@@ -69,25 +73,38 @@ function patternlabClosure() {
   };
 }
 
-tap.test('parameter hunter finds and extends templates', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.only('parameter hunter finds and extends templates', function (test) {
+  //arrange
+  const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  test.end();
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //act
+  return Promise.all([
+    pattern_assembler.process_pattern_iterative(commentPattern, pl),
+    // pattern_assembler.process_pattern_recursive(commentPath, pl),
+    pattern_assembler.process_pattern_iterative(testPattern, pl),
+    // pattern_assembler.process_pattern_recursive(testPattern, pl),
+  ]).then((results) => {
+
+    // console.log(95, results)
+    //assert
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+    test.equals(testPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+    });
+  }).catch(test.threw);
 });
 
 tap.test('parameter hunter finds partials with their own parameters and renders them too', function(test) {
   //arrange
 
-  var pattern_assembler = new pa();
   var patterns_dir = './test/files/_patterns/';
-
   var pl = patternlabClosure();
-
 
   var aPattern = new Pattern('00-test/539-a.mustache');
   aPattern.template = fs.readFileSync(patterns_dir + '00-test/539-a.mustache', 'utf8');
