@@ -1,5 +1,5 @@
 {
-  "name": "pattern-lab/patternengine-node-liquid",
+  "name": "@pattern-lab/patternengine-node-liquid",
   "description": "The Liquid engine for Pattern Lab / Node",
   "version": "1.0.0-alpha.1",
   "main": "lib/engine_liquid.js",
