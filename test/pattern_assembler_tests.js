@@ -4,6 +4,7 @@ var tap = require('tap');
 var fs = require('fs-extra');
 var path = require('path');
 
+var util = require('./util/test_utils.js');
 var pa = require('../core/lib/pattern_assembler');
 var pattern_assembler = new pa();
 var Pattern = require('../core/lib/object_factory').Pattern;
@@ -436,7 +437,6 @@ tap.test('processPatternRecursive - ensure deep-nesting works', function(test) {
 tap.test('processPatternRecursive - 685 ensure listitems data is used', function(test) {
   //arrange
   var pattern_assembler = new pa();
-  var util = require('./util/test_utils.js');
   var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
   var pl = util.fakePatternLab(testPatternsPath);
   pl.data.title = "0";
@@ -700,7 +700,7 @@ tap.test('markModifiedPatterns - finds patterns via compile state', function(tes
 
 
 tap.test('hidden patterns can be called by their nice names', function(test){
-  var util = require('./util/test_utils.js');
+
 
   //arrange
   var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
@@ -727,7 +727,6 @@ tap.test('hidden patterns can be called by their nice names', function(test){
 });
 
 tap.test('parses pattern title correctly when frontmatter present', function(test){
-  var util = require('./util/test_utils.js');
 
   //arrange
   var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
@@ -748,7 +747,6 @@ tap.test('parses pattern title correctly when frontmatter present', function(tes
 });
 
 tap.test('parses pattern extra frontmatter correctly when frontmatter present', function(test){
-  var util = require('./util/test_utils.js');
 
   //arrange
   var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
