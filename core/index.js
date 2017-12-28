@@ -186,6 +186,7 @@ const patternlab_module = function (config) {
 
       //take the user defined head and foot and process any data and patterns that apply
       // GTP: should these really be invoked from outside?
+      // TODO: should these be wrapped in promises?
       patternlab.processHeadPattern();
       patternlab.processFootPattern();
 
