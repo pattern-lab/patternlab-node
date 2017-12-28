@@ -4,7 +4,6 @@
  * Cameron Roe
  * Licensed under the MIT license.
  *
- *
  */
 
 "use strict";
