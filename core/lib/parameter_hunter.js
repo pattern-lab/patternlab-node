@@ -9,6 +9,8 @@ const parameter_hunter = function () {
   const style_modifier_hunter = new smh();
   const pattern_assembler = new pa();
   const logger = require('./log');
+  const parseLink = require('./parseLink');
+  const render = require('./render');
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -275,7 +277,7 @@ const parameter_hunter = function () {
         }
 
         // resolve any pattern links that might be present
-        paramData = pattern_assembler.parse_data_links_specific(patternlab, paramData, pattern.patternPartial);
+        paramData = parseLink(patternlab, paramData, pattern.patternPartial);
 
         //combine all data: GLOBAL DATA => PATTERN.JSON DATA => PARAMETER DATA
         let allData = _.merge(globalData, localData);
@@ -292,20 +294,23 @@ const parameter_hunter = function () {
         //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
         allData.link = extend({}, patternlab.data.link);
 
-        const renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
+        const renderPromise = render(pattern, allData);
 
-        //remove the parameter from the partial and replace it with the rendered partial + paramData
-        pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
+        return renderPromise.then((results) => {
 
-        //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
+            //remove the parameter from the partial and replace it with the rendered partial + paramData
+            pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, results);
+
+            //update the extendedTemplate in the partials object in case this pattern is consumed later
+            patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
+        });
       });
     }
   }
 
   return {
     find_parameters: function (pattern, patternlab) {
-      findparameters(pattern, patternlab);
+      return findparameters(pattern, patternlab);
     }
   };
 

@@ -5,10 +5,12 @@ const dive = require('dive');
 const _ = require('lodash');
 const path = require('path');
 const cleanHtml = require('js-beautify').html;
+
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
 const dataLoader = require('./data_loader')();
+const decompose = require('./decompose');
 const logger = require('./log');
 const jsonCopy = require('./json_copy');
 const render = require('./render');
@@ -218,8 +220,9 @@ module.exports = class PatternLab {
       headPattern.template = fs.readFileSync(headPath, 'utf8');
       headPattern.isPattern = false;
       headPattern.isMetaPattern = true;
-      pattern_assembler.decomposePattern(headPattern, this, true);
-      this.userHead = headPattern.extendedTemplate;
+      decompose(headPattern, this, true).then(() => {
+        this.userHead = headPattern.extendedTemplate;
+      });
     }
     catch (ex) {
       logger.warning(`Could not find the user-editable header template, currently configured to be at ${path.join(this.config.paths.source.meta, '_00-head.ext')}. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`);
@@ -241,8 +244,9 @@ module.exports = class PatternLab {
       footPattern.template = fs.readFileSync(footPath, 'utf8');
       footPattern.isPattern = false;
       footPattern.isMetaPattern = true;
-      pattern_assembler.decomposePattern(footPattern, this, true);
-      this.userFoot = footPattern.extendedTemplate;
+      decompose(footPattern, this, true).then(() => {
+        this.userFoot = footPattern.extendedTemplate;
+      });
     }
     catch (ex) {
       logger.error(`Could not find the user-editable footer template, currently configured to be at ${path.join(this.config.paths.source.meta, '_01-foot.ext')}. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`);

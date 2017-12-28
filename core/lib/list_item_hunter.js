@@ -3,13 +3,14 @@
 const list_item_hunter = function () {
   const extend = require('util')._extend;
   const _ = require('lodash');
-  const pa = require('./pattern_assembler');
   const smh = require('./style_modifier_hunter');
   const jsonCopy = require('./json_copy');
   const Pattern = require('./object_factory').Pattern;
-  const logger = require('./log');
 
-  const pattern_assembler = new pa();
+  const logger = require('./log');
+  const parseLink = require('./parseLink');
+  const getPartial = require('./get');
+
   const style_modifier_hunter = new smh();
   const items = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
 
@@ -46,7 +47,7 @@ const list_item_hunter = function () {
         }
 
         listData = _.merge(listData, pattern.listitems);
-        listData = pattern_assembler.parse_data_links_specific(patternlab, listData, 'listitems.json + any pattern listitems.json');
+        listData = parseLink(patternlab, listData, 'listitems.json + any pattern listitems.json');
 
         //iterate over each copied block, rendering its contents along with pattenlab.listitems[i]
         for (let i = 0; i < repeatedBlockTemplate.length; i++) {
@@ -79,7 +80,7 @@ const list_item_hunter = function () {
 
               //get the partial
               const partialName = foundPartials[j].match(/([\w\-\.\/~]+)/g)[0];
-              const partialPattern = pattern_assembler.getPartial(partialName, patternlab);
+              const partialPattern = getPartial(partialName, patternlab);
 
               //create a copy of the partial so as to not pollute it after the get_pattern_by_key call.
               let cleanPartialPattern;
@@ -105,12 +106,12 @@ const list_item_hunter = function () {
 
             //render with data
             //TODO
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
+            //thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
 
           } else {
             //just render with mergedData
             //TODO
-            thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
+            //thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
           }
 
           //add the rendered HTML to our string
