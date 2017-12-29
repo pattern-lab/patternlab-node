@@ -9,6 +9,7 @@ const smh = require('./style_modifier_hunter');
 const addPattern = require('./addPattern');
 const jsonCopy = require('./json_copy');
 const getPartial = require('./get');
+const processRecursive = require('./processRecursive');
 
 const lineage_hunter = new lh();
 const list_item_hunter = new lih();
@@ -39,7 +40,7 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
       }
 
       //recurse through nested partials to fill out this extended template.
-      pattern_assembler.processPatternRecursive(partialPath, patternlab);
+      processRecursive(partialPath, patternlab);
 
       //complete assembly of extended template
       //create a copy of the partial so as to not pollute it after the getPartial call.

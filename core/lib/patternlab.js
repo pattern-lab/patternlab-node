@@ -12,6 +12,8 @@ const packageInfo = require('../../package.json');
 const dataLoader = require('./data_loader')();
 const decompose = require('./decompose');
 const logger = require('./log');
+const processIterative = require('./processIterative');
+const processRecursive = require('./processRecursive');
 const jsonCopy = require('./json_copy');
 const render = require('./render');
 const pa = require('./pattern_assembler');
@@ -514,7 +516,7 @@ module.exports = class PatternLab {
     });
     return promiseAllPatternFiles.then(() => {
       return Promise.all(this.patterns.map((pattern) => {
-        return pattern_assembler.process_pattern_iterative(pattern, self);
+        return processIterative(pattern, self);
       }));
     });
   }
@@ -529,7 +531,7 @@ module.exports = class PatternLab {
           logger.info(err);
           return;
         }
-        pattern_assembler.process_pattern_recursive(path.relative(patterns_dir, file), self);
+        processRecursive(path.relative(patterns_dir, file), self);
       }
     );
   }

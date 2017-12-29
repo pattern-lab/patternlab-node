@@ -2,17 +2,17 @@
 
 const path = require('path');
 const _ = require('lodash');
+
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
-const pph = require('./pseudopattern_hunter');
 const mp = require('./markdown_parser');
 const logger = require('./log');
 const patternEngines = require('./pattern_engines');
 const ch = require('./changes_hunter');
 const da = require('./data_loader');
 const addPattern = require('./addPattern');
-const decompose = require('./decompose');
 const parseLink = require('./parseLink');
+
 const markdown_parser = new mp();
 const changes_hunter = new ch();
 const dataLoader = new da();
@@ -224,42 +224,6 @@ const pattern_assembler = function () {
     return currentPattern;
   }
 
-  // This is now solely for analysis; loading of the pattern file is
-  // above, in loadPatternIterative()
-  function processPatternIterative(pattern, patternlab) {
-    //look for a pseudo pattern by checking if there is a file
-    //containing same name, with ~ in it, ending in .json
-    return pph.find_pseudopatterns(pattern, patternlab).then(() => {
-      //find any stylemodifiers that may be in the current pattern
-      pattern.stylePartials = pattern.findPartialsWithStyleModifiers();
-
-      //find any pattern parameters that may be in the current pattern
-      pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
-      return pattern;
-    }).catch(logger.reportError('There was an error in processPatternIterative():'));
-  }
-
-  function processPatternRecursive(file, patternlab) {
-
-    //find current pattern in patternlab object using var file as a partial
-    var currentPattern, i;
-
-    for (i = 0; i < patternlab.patterns.length; i++) {
-      if (patternlab.patterns[i].relPath === file) {
-        currentPattern = patternlab.patterns[i];
-      }
-    }
-
-    //return if processing an ignored file
-    if (typeof currentPattern === 'undefined') { return Promise.resolve(); }
-
-    //we are processing a markdown only pattern
-    if (currentPattern.engine === null) { return Promise.resolve(); }
-
-    //call our helper method to actually unravel the pattern with any partials
-    return decompose(currentPattern, patternlab);
-  }
-
   /**
    * Finds patterns that were modified and need to be rebuilt. For clean patterns load the already
    * rendered markup.
@@ -330,12 +294,6 @@ const pattern_assembler = function () {
     },
     load_pattern_iterative: function (file, patternlab) {
       return loadPatternIterative(file, patternlab);
-    },
-    process_pattern_iterative: function (pattern, patternlab) {
-      return processPatternIterative(pattern, patternlab);
-    },
-    process_pattern_recursive: function (file, patternlab, additionalData) {
-      return processPatternRecursive(file, patternlab, additionalData);
     },
     combine_listItems: function (patternlab) {
       buildListItems(patternlab);
