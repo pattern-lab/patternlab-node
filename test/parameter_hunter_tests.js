@@ -9,6 +9,7 @@ const pa = require('../core/lib/pattern_assembler');
 const ph = require('../core/lib/parameter_hunter');
 const Pattern = require('../core/lib/object_factory').Pattern;
 const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+const processIterative = require('../core/lib/processIterative');
 
 const pattern_assembler = new pa();
 const parameter_hunter = new ph();
@@ -16,6 +17,8 @@ const parameter_hunter = new ph();
 const config = require('./util/patternlab-config.json');
 const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
+
+const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 
 //setup current pattern from what we would have during execution
 function currentPatternClosure() {
@@ -75,7 +78,6 @@ function patternlabClosure() {
 
 tap.only('parameter hunter finds and extends templates', function (test) {
   //arrange
-  const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
@@ -84,113 +86,128 @@ tap.only('parameter hunter finds and extends templates', function (test) {
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
   var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  //act
-  return Promise.all([
-    pattern_assembler.process_pattern_iterative(commentPattern, pl),
-    // pattern_assembler.process_pattern_recursive(commentPath, pl),
-    pattern_assembler.process_pattern_iterative(testPattern, pl),
-    // pattern_assembler.process_pattern_recursive(testPattern, pl),
-  ]).then((results) => {
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
 
-    // console.log(95, results)
-    //assert
+  Promise.all([p1, p2]).then(() => {
+    //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
-    test.equals(testPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
-    });
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
+      test.end();
+    }).catch(test.threw);
   }).catch(test.threw);
 });
 
-tap.test('parameter hunter finds partials with their own parameters and renders them too', function(test) {
+tap.test('parameter hunter finds partials with their own parameters and renders them too', function (test) {
   //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  var patterns_dir = './test/files/_patterns/';
-  var pl = patternlabClosure();
+  var aPatternPath = path.join('00-test', '539-a.mustache');
+  var aPattern = pattern_assembler.load_pattern_iterative(aPatternPath, pl);
 
-  var aPattern = new Pattern('00-test/539-a.mustache');
-  aPattern.template = fs.readFileSync(patterns_dir + '00-test/539-a.mustache', 'utf8');
-  aPattern.extendedTemplate = aPattern.template;
-  aPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(aPattern);
-  aPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(aPattern);
+  var bPatternPath = path.join('00-test', '539-b.mustache');
+  var bPattern = pattern_assembler.load_pattern_iterative(bPatternPath, pl);
 
-  var bPattern = new Pattern('00-test/539-b.mustache');
-  bPattern.template = fs.readFileSync(patterns_dir + '00-test/539-b.mustache', 'utf8');
-  bPattern.extendedTemplate = bPattern.template;
-  bPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(bPattern);
-  bPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(bPattern);
+  var cPatternPath = path.join('00-test', '539-c.mustache');
+  var cPattern = pattern_assembler.load_pattern_iterative(cPatternPath, pl);
 
-  var cPattern = new Pattern('00-test/539-c.mustache');
-  cPattern.template = fs.readFileSync(patterns_dir + '00-test/539-c.mustache', 'utf8');
-  cPattern.extendedTemplate = cPattern.template;
-  cPattern.stylePartials = pattern_assembler.find_pattern_partials_with_style_modifiers(cPattern);
-  cPattern.parameteredPartials = pattern_assembler.find_pattern_partials_with_parameters(cPattern);
+  var p1 = processIterative(aPattern, pl);
+  var p2 = processIterative(bPattern, pl);
+  var p3 = processIterative(cPattern, pl);
 
-  pattern_assembler.addPattern(aPattern, pl);
-  pattern_assembler.addPattern(bPattern, pl);
-  pattern_assembler.addPattern(cPattern, pl);
-
-  var currentPattern = cPattern;
-  var parameter_hunter = new ph();
-
-  //act
-  parameter_hunter.find_parameters(currentPattern, pl);
-
-  //assert
-  test.equals(util.sanitized(currentPattern.extendedTemplate),
-    util.sanitized(`<b>c</b>
-<b>b</b>
-<i>b!</i>
-<b>a</b>
-<i>a!</i>`));
-  test.end();
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(cPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(cPattern.extendedTemplate),
+      util.sanitized(`<b>c</b>
+  <b>b</b>
+  <i>b!</i>
+  <b>a</b>
+  <i>a!</i>`));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter finds and extends templates with mixed parameter and global data', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
 
-  patternlab.patterns[0].template = "<h1>{{foo}}</h1><p>{{description}}</p>";
-  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
-  patternlab.data.foo = 'Bar';
-  patternlab.data.description = 'Baz';
+tap.only('parameter hunter finds and extends templates with mixed parameter and global data', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath, {
+    data: {
+      foo: 'Bar',
+      description: 'Baz'
+    }
+  });
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  test.end();
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter finds and extends templates with verbose partials', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter finds and extends templates with verbose partials', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> 01-molecules/06-components/02-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = "{{> 01-molecules/06-components/02-single-comment(description: 'We are all in the gutter, but some of us are looking at the stars.') }}";
-  currentPattern.parameteredPartials[1] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment-verbose.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
+      test.end();
+    });
+  });
 });
 
 tap.test('parameter hunter finds and extends templates with fully-pathed partials', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = "{{> 01-molecules/06-components/02-single-comment.mustache(description: 'We are all in the gutter, but some of us are looking at the stars.') }}";
-  currentPattern.parameteredPartials[1] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment-full.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
+      test.end();
+    });
+  });
 });
+
+/*
+
 
 //previous tests were for unquoted parameter keys and single-quoted values.
 //test other quoting options.
@@ -440,3 +457,4 @@ tap.test('parameter hunter expands links inside parameters', function (test) {
 
   test.end();
 });
+*/
