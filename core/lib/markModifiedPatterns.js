@@ -18,6 +18,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * @param patternlab
  */
 module.exports = function (lastModified, patternlab) {
+
   /**
    * If the given array exists, apply a function to each of its elements
    * @param {Array} array

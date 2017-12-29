@@ -1,16 +1,22 @@
 "use strict";
 
 var tap = require('tap');
+var rewire = require("rewire");
 
 var Pattern = require('../core/lib/object_factory').Pattern;
 var CompileState = require('../core/lib/object_factory').CompileState;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var engineLoader = require('../core/lib/pattern_engines');
-const markModifiedPatterns = require('../core/lib/markModifiedPatterns');
 
-var config = require('./util/patternlab-config.json');
+const markModifiedPatterns = rewire('../core/lib/markModifiedPatterns');
 
-engineLoader.loadAllEngines(config);
+const config = require('./util/patternlab-config.json');
+
+const fsMock = {
+  readFileSync: function (path, encoding, cb) {
+    return "";
+  }
+};
 
 function emptyPatternLab() {
   return {
@@ -20,29 +26,21 @@ function emptyPatternLab() {
 
 const public_dir = './test/public';
 
-tap.test('markModifiedPatterns - finds patterns modified since a given date', function(test){
-  const fs = require('fs-extra');
-  // test/myModule.test.js
-  var rewire = require("rewire");
-
-  var markModifiedPatternsMock = rewire("../core/lib/markModifiedPatterns");
-  var fsMock = {
-    readFileSync: function (path, encoding, cb) {
-      return "";
-    }
-  };
-  markModifiedPatternsMock.__set__("fs", fsMock);
+tap.only('markModifiedPatterns - finds patterns modified since a given date', function (test) {
   //arrange
-  markModifiedPatterns = new markModifiedPatternsMock();
+  markModifiedPatterns.__set__("fs", fsMock);
+
   var patternlab = emptyPatternLab();
-  patternlab.config = fs.readJSONSync('./patternlab-config.json');
+  patternlab.config = config;
   patternlab.config.paths.public.patterns = public_dir + "/patterns";
   patternlab.config.outputFileSuffixes = {rendered: '', markupOnly: '.markup-only'};
 
   var pattern = new Pattern('00-test/01-bar.mustache');
+
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = new Date("2016-01-31").getTime();
+
   // Initially the compileState is clean,
   // but we would change this after detecting that the file was modified
   pattern.compileState = CompileState.CLEAN;
@@ -61,7 +59,7 @@ tap.test('markModifiedPatterns - finds patterns modified since a given date', fu
   test.end();
 });
 
-tap.test('markModifiedPatterns - finds patterns when modification date is missing', function(test){
+tap.test('markModifiedPatterns - finds patterns when modification date is missing', function (test) {
   //arrange
   var patternlab = emptyPatternLab();
   patternlab.partials = {};
@@ -81,7 +79,7 @@ tap.test('markModifiedPatterns - finds patterns when modification date is missin
 });
 
 // This is the case when we want to force recompilation
-tap.test('markModifiedPatterns - finds patterns via compile state', function(test){
+tap.test('markModifiedPatterns - finds patterns via compile state', function (test) {
   //arrange
   var patternlab = emptyPatternLab();
   patternlab.partials = {};
