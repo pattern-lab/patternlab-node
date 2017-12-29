@@ -13,7 +13,6 @@ const renderSync = require('./lib/renderSync');
 
 //these are mocked in unit tests, so let them be overridden
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
-let pattern_assembler = require('./pattern_assembler')(); //eslint-disable-line prefer-const
 
 const ui_builder = function () {
 

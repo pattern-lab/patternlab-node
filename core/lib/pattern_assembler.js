@@ -276,18 +276,22 @@ const pattern_assembler = function () {
     mark_modified_patterns: function (lastModified, patternlab) {
       return markModifiedPatterns(lastModified, patternlab);
     },
+
     //todo review for deletion
     find_pattern_partials: function (pattern) {
       return pattern.findPartials();
     },
+
     //todo review for deletion
     find_pattern_partials_with_style_modifiers: function (pattern) {
       return pattern.findPartialsWithStyleModifiers();
     },
+
     //todo review for deletion
     find_pattern_partials_with_parameters: function (pattern) {
       return pattern.findPartialsWithPatternParameters();
     },
+
     //todo review for deletion
     find_list_items: function (pattern) {
       return pattern.findListItems();

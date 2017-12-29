@@ -3,7 +3,6 @@
 const logger = require('./log');
 const lh = require('./lineage_hunter');
 const lih = require('./list_item_hunter');
-const pa = require('./pattern_assembler');
 const ph = require('./parameter_hunter');
 const smh = require('./style_modifier_hunter');
 const addPattern = require('./addPattern');
@@ -13,7 +12,6 @@ const processRecursive = require('./processRecursive');
 
 const lineage_hunter = new lh();
 const list_item_hunter = new lih();
-const pattern_assembler = new pa();
 const parameter_hunter = new ph();
 const style_modifier_hunter = new smh();
 
@@ -96,7 +94,9 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
 
   //find pattern lineage
   if (!ignoreLineage) {
-    lineagePromise.resolve(() => {lineage_hunter.find_lineage(pattern, patternlab);})
+    lineagePromise.resolve(() => {
+      lineage_hunter.find_lineage(pattern, patternlab);
+    });
   } else {
     lineagePromise = Promise.resolve();
   }

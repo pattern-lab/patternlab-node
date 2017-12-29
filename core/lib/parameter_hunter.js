@@ -9,11 +9,9 @@ const logger = require('./log');
 const parseLink = require('./parseLink');
 const render = require('./render');
 const jsonCopy = require('./json_copy');
-const pa = require('./pattern_assembler');
 const smh = require('./style_modifier_hunter');
 
 const style_modifier_hunter = new smh();
-const pattern_assembler = new pa();
 
 const parameter_hunter = function () {
 

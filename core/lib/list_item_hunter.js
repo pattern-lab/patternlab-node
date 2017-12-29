@@ -30,7 +30,8 @@ const list_item_hunter = function () {
 
         //build arrays that repeat the block, however large we need to
         const repeatedBlockTemplate = [];
-        let repeatedBlockHtml = '';
+
+        //let repeatedBlockHtml = ''; //todo
         for (let i = 0; i < items.indexOf(loopNumberString); i++) {
 
           logger.debug(`list item(s) in pattern ${pattern.patternPartial}, adding ${patternBlock} to repeatedBlockTemplate`);
@@ -53,7 +54,8 @@ const list_item_hunter = function () {
         for (let i = 0; i < repeatedBlockTemplate.length; i++) {
 
           let thisBlockTemplate = repeatedBlockTemplate[i];
-          let thisBlockHTML = "";
+
+          //let thisBlockHTML = ""; //todo
 
           //combine listItem data with pattern data with global data
           const itemData = listData['' + items.indexOf(loopNumberString)]; //this is a property like "2"
@@ -109,18 +111,20 @@ const list_item_hunter = function () {
             //thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
 
           } else {
+
             //just render with mergedData
             //TODO
             //thisBlockHTML = pattern_assembler.renderPattern(thisBlockTemplate, allData, patternlab.partials);
           }
 
           //add the rendered HTML to our string
-          repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML;
+          //repeatedBlockHtml = repeatedBlockHtml + thisBlockHTML; //todo
         }
 
         //replace the block with our generated HTML
         const repeatingBlock = pattern.extendedTemplate.substring(pattern.extendedTemplate.indexOf(liMatch), pattern.extendedTemplate.indexOf(end) + end.length);
-        pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml);
+
+        //pattern.extendedTemplate = pattern.extendedTemplate.replace(repeatingBlock, repeatedBlockHtml); //todo
 
         //update the extendedTemplate in the partials object in case this pattern is consumed later
         patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;

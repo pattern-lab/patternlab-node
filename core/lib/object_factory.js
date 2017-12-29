@@ -121,7 +121,6 @@ Pattern.prototype = {
       return promise.then(results => {
         return results;
       }).catch((reason) => {
-        console.log(reason)
         return Promise.reject(reason);
       });
     }

@@ -364,6 +364,7 @@ module.exports = class PatternLab {
 
     //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
     pattern.header = head;
+
     // const headHTML
     const headPromise = Promise.resolve(render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData));
 

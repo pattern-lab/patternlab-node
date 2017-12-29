@@ -55,4 +55,4 @@ module.exports = function (patternlab, obj, key) {
   }
 
   return dataObj;
-}
+};
