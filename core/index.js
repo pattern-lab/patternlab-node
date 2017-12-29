@@ -18,9 +18,10 @@ const updateNotifier = require('update-notifier');
 const logger = require('./lib/log');
 const PatternGraph = require('./lib/pattern_graph').PatternGraph;
 const CompileState = require('./lib/object_factory').CompileState;
-const pa = require('./lib/pattern_assembler');
 const pe = require('./lib/pattern_exporter');
 const lh = require('./lib/lineage_hunter');
+const markModifiedPatterns = require('./lib/markModifiedPatterns');
+const parseAllLinks = require('./lib/parseAllLinks');
 const renderSync = require('./lib/renderSync');
 
 const defaultConfig = require('../patternlab-config.json');
@@ -31,7 +32,6 @@ let assetCopier = require('./lib/asset_copy'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
 let serve = require('./lib/serve'); // eslint-disable-line
 
-const pattern_assembler = new pa();
 const lineage_hunter = new lh();
 
 //bootstrap update notifier
@@ -137,7 +137,7 @@ const patternlab_module = function (config) {
 
   function cleanBuildDirectory(incrementalBuildsEnabled) {
     if (incrementalBuildsEnabled) {
-      logger.log.info("Incremental builds enabled.");
+      logger.info("Incremental builds enabled.");
     } else {
       // needs to be done BEFORE processing patterns
       fs.removeSync(paths.public.patterns);
@@ -154,7 +154,7 @@ const patternlab_module = function (config) {
     const graph = patternlab.graph = loadPatternGraph(deletePatternDir);
     const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
     if (graphNeedsUpgrade) {
-      logger.log.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
+      logger.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
                        "Incremental build is available again on the next successful run.");
 
       // Ensure that the freshly built graph has the latest version again.
@@ -178,7 +178,7 @@ const patternlab_module = function (config) {
 
       //now that all the main patterns are known, look for any links that might be within data and expand them
       //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-      pattern_assembler.parse_data_links(patternlab);
+      parseAllLinks(patternlab);
 
       //diveSync again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
@@ -219,12 +219,12 @@ const patternlab_module = function (config) {
         // When the graph was loaded from file, some patterns might have been moved/deleted between runs
         // so the graph data become out of sync
         patternlab.graph.sync().forEach(n => {
-          logger.log.info("[Deleted/Moved] " + n);
+          logger.info("[Deleted/Moved] " + n);
         });
 
         // TODO Find created or deleted files
         const now = new Date().getTime();
-        pattern_assembler.mark_modified_patterns(now, patternlab);
+        markModifiedPatterns(now, patternlab);
         patternsToBuild = patternlab.graph.compileOrder();
       } else {
         // build all patterns, mark all to be rebuilt
@@ -244,7 +244,7 @@ const patternlab_module = function (config) {
           PatternGraph.storeToFile(patternlab);
           if (patternlab.config.exportToGraphViz) {
             PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
-            logger.log.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+            logger.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
           }
 
           //export patterns if necessary

@@ -1,21 +1,16 @@
 "use strict";
 
 const tap = require('tap');
-const fs = require('fs-extra');
 const path = require('path');
 
 const util = require('./util/test_utils.js');
+const buildListItems = require('../core/lib/buildListItems');
 const pa = require('../core/lib/pattern_assembler');
 const pattern_assembler = new pa();
-const Pattern = require('../core/lib/object_factory').Pattern;
-const CompileState = require('../core/lib/object_factory').CompileState;
-const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 const engineLoader = require('../core/lib/pattern_engines');
-const addPattern = require('../core/lib/addPattern');
 const processRecursive = require('../core/lib/processRecursive');
 const processIterative = require('../core/lib/processIterative');
 
-var plMain = require('../core/lib/patternlab');
 var config = require('./util/patternlab-config.json');
 
 engineLoader.loadAllEngines(config);
@@ -284,7 +279,7 @@ tap.test('processRecursive - 685 ensure listitems data is used', function (test)
     }
   });
 
-  pattern_assembler.combine_listItems(patternlab);
+  buildListItems(patternlab);
 
   var listPatternPath = path.join('00-test', '685-list.mustache');
   var listPattern = pattern_assembler.load_pattern_iterative(listPatternPath, patternlab);
@@ -329,4 +324,42 @@ tap.test('hidden patterns can be called by their nice names', function (test){
       });
     });
   });
+});
+
+tap.test('parses pattern title correctly when frontmatter present', function (test){
+
+  //arrange
+  var pl = util.fakePatternLab(patterns_dir);
+
+  var testPatternPath = path.join('00-test', '01-bar.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //act
+  Promise.all([
+    processIterative(testPattern, pl),
+    processRecursive(testPatternPath, pl)
+  ]).then((results) => {
+    //assert
+    test.equals(results[0].patternName, 'An Atom Walks Into a Bar','patternName not overridden');
+    test.end();
+  }).catch(test.threw);
+});
+
+tap.test('parses pattern extra frontmatter correctly when frontmatter present', function (test){
+
+  //arrange
+  var pl = util.fakePatternLab(patterns_dir);
+
+  var testPatternPath = path.join('00-test', '01-bar.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //act
+  Promise.all([
+    processIterative(testPattern, pl),
+    processRecursive(testPatternPath, pl)
+  ]).then((results) => {
+    //assert
+    test.equals(results[0].allMarkdown.joke, 'bad', 'extra key not added');
+    test.end();
+  }).catch(test.threw);
 });

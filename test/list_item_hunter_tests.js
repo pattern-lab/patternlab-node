@@ -25,7 +25,7 @@ function createFakeListPattern(customProps) {
 
 function createFakePatternLab(customProps) {
 
-  //NOTE: These listitems are faked so that pattern_assembler.combine_listitems has already clobbered them.
+  //NOTE: These listitems are faked so that buildListItems has already clobbered them.
 
   var pl = {
     graph: PatternGraph.empty(),

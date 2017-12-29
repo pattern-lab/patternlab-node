@@ -1,0 +1,102 @@
+"use strict";
+
+var tap = require('tap');
+
+var Pattern = require('../core/lib/object_factory').Pattern;
+var CompileState = require('../core/lib/object_factory').CompileState;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var engineLoader = require('../core/lib/pattern_engines');
+const markModifiedPatterns = require('../core/lib/markModifiedPatterns');
+
+var config = require('./util/patternlab-config.json');
+
+engineLoader.loadAllEngines(config);
+
+function emptyPatternLab() {
+  return {
+    graph: PatternGraph.empty()
+  }
+}
+
+const public_dir = './test/public';
+
+tap.test('markModifiedPatterns - finds patterns modified since a given date', function(test){
+  const fs = require('fs-extra');
+  // test/myModule.test.js
+  var rewire = require("rewire");
+
+  var markModifiedPatternsMock = rewire("../core/lib/markModifiedPatterns");
+  var fsMock = {
+    readFileSync: function (path, encoding, cb) {
+      return "";
+    }
+  };
+  markModifiedPatternsMock.__set__("fs", fsMock);
+  //arrange
+  markModifiedPatterns = new markModifiedPatternsMock();
+  var patternlab = emptyPatternLab();
+  patternlab.config = fs.readJSONSync('./patternlab-config.json');
+  patternlab.config.paths.public.patterns = public_dir + "/patterns";
+  patternlab.config.outputFileSuffixes = {rendered: '', markupOnly: '.markup-only'};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = new Date("2016-01-31").getTime();
+  // Initially the compileState is clean,
+  // but we would change this after detecting that the file was modified
+  pattern.compileState = CompileState.CLEAN;
+  patternlab.patterns = [pattern];
+
+  var lastCompilationRun = new Date("2016-01-01").getTime();
+  var modifiedOrNot = markModifiedPatterns(lastCompilationRun, patternlab);
+
+  test.same(modifiedOrNot.modified.length, 1, "The pattern was modified after the last compilation");
+
+  // Reset the compile state as it was previously set by pattern_assembler.mark_modified_patterns
+  pattern.compileState = CompileState.CLEAN;
+  lastCompilationRun = new Date("2016-12-31").getTime();
+  modifiedOrNot = markModifiedPatterns(lastCompilationRun, patternlab);
+  test.same(modifiedOrNot.notModified.length, 1, "Pattern was already compiled and hasn't been modified since last compile");
+  test.end();
+});
+
+tap.test('markModifiedPatterns - finds patterns when modification date is missing', function(test){
+  //arrange
+  var patternlab = emptyPatternLab();
+  patternlab.partials = {};
+  patternlab.data = {link: {}};
+  patternlab.config = { logLevel: 'quiet' };
+  patternlab.config.outputFileSuffixes = {rendered : ''};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = undefined;
+  patternlab.patterns = [pattern];
+
+  let p = markModifiedPatterns(1000, patternlab);
+  test.same(p.modified.length, 1);
+  test.end();
+});
+
+// This is the case when we want to force recompilation
+tap.test('markModifiedPatterns - finds patterns via compile state', function(test){
+  //arrange
+  var patternlab = emptyPatternLab();
+  patternlab.partials = {};
+  patternlab.data = {link: {}};
+  patternlab.config = { logLevel: 'quiet' };
+  patternlab.config.outputFileSuffixes = {rendered : ''};
+
+  var pattern = new Pattern('00-test/01-bar.mustache');
+  pattern.extendedTemplate = undefined;
+  pattern.template = 'bar';
+  pattern.lastModified = 100000;
+  pattern.compileState = CompileState.NEEDS_REBUILD;
+  patternlab.patterns = [pattern];
+
+  let p = markModifiedPatterns(1000, patternlab);
+  test.same(p.modified.length, 1);
+  test.end();
+});

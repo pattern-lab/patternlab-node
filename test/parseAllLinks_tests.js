@@ -2,12 +2,18 @@
 
 const tap = require('tap');
 
-const util = require('./util/test_utils.js');
-const getPartial = require('../core/lib/get');
+var pa = require('../core/lib/pattern_assembler');
+var pattern_assembler = new pa();
+const addPattern = require('../core/lib/addPattern');
+const parseAllLinks = require('../core/lib/parseAllLinks');
 
-const patterns_dir = './test/files/_patterns';
+var Pattern = require('../core/lib/object_factory').Pattern;
+var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 
-tap.test('parseDataLinks - replaces found link.* data for their expanded links', function(test) {
+var plMain = require('../core/lib/patternlab');
+var config = require('./util/patternlab-config.json');
+
+tap.test('parseDataLinks - replaces found link.* data for their expanded links', function (test) {
   //arrange
   var patternlab = new plMain(config);
   patternlab.graph = PatternGraph.empty();
@@ -20,7 +26,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   patternlab.data.link = {};
 
   var navPattern = pattern_assembler.load_pattern_iterative('00-test/nav.mustache', patternlab);
-  pattern_assembler.addPattern(navPattern, patternlab);
+  addPattern(navPattern, patternlab);
 
   //for the sake of the test, also imagining I have the following pages...
   patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
@@ -44,7 +50,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   test.equals(pattern.jsonFileData.brian.url, "link.twitter-brian", "brian pattern data should be found");
 
   //act
-  pattern_assembler.parse_data_links(patternlab);
+  parseAllLinks(patternlab);
 
   //assert after
   test.equals(pattern.jsonFileData.brad.url, "https://twitter.com/brad_frost", "brad pattern data should be replaced");

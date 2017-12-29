@@ -4,14 +4,13 @@ const path = require('path');
 const _ = require('lodash');
 
 const Pattern = require('./object_factory').Pattern;
-const CompileState = require('./object_factory').CompileState;
 const mp = require('./markdown_parser');
 const logger = require('./log');
 const patternEngines = require('./pattern_engines');
 const ch = require('./changes_hunter');
 const da = require('./data_loader');
 const addPattern = require('./addPattern');
-const parseLink = require('./parseLink');
+const buildListItems = require('./buildListItems');
 const readDocumentation = require('./readDocumentation');
 
 const markdown_parser = new mp();
@@ -22,30 +21,6 @@ const dataLoader = new da();
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 const pattern_assembler = function () {
-
-  function buildListItems(container) {
-    //combine all list items into one structure
-    var list = [];
-    for (var item in container.listitems) {
-      if (container.listitems.hasOwnProperty(item)) {
-        list.push(container.listitems[item]);
-      }
-    }
-    container.listItemArray = _.shuffle(list);
-
-    for (var i = 1; i <= container.listItemArray.length; i++) {
-      var tempItems = [];
-      if (i === 1) {
-        tempItems.push(container.listItemArray[0]);
-        container.listitems['' + i ] = tempItems;
-      } else {
-        for (var c = 1; c <= i; c++) {
-          tempItems.push(container.listItemArray[c - 1]);
-          container.listitems['' + i ] = tempItems;
-        }
-      }
-    }
-  }
 
   // loads a pattern from disk, creates a Pattern object from it and
   // all its associated files, and records it in patternlab.patterns[]
@@ -172,86 +147,9 @@ const pattern_assembler = function () {
     return currentPattern;
   }
 
-  /**
-   * Finds patterns that were modified and need to be rebuilt. For clean patterns load the already
-   * rendered markup.
-   *
-   * @param lastModified
-   * @param patternlab
-   */
-  function markModifiedPatterns(lastModified, patternlab) {
-    /**
-     * If the given array exists, apply a function to each of its elements
-     * @param {Array} array
-     * @param {Function} func
-     */
-    const forEachExisting = (array, func) => {
-      if (array) {
-        array.forEach(func);
-      }
-    };
-    const modifiedOrNot = _.groupBy(
-      patternlab.patterns,
-      p => changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified');
-
-    // For all unmodified patterns load their rendered template output
-    forEachExisting(modifiedOrNot.notModified, cleanPattern => {
-      const xp = path.join(patternlab.config.paths.public.patterns, cleanPattern.getPatternLink(patternlab, 'markupOnly'));
-
-      // Pattern with non-existing markupOnly files were already marked for rebuild and thus are not "CLEAN"
-      cleanPattern.patternPartialCode = fs.readFileSync(xp, 'utf8');
-    });
-
-    // For all patterns that were modified, schedule them for rebuild
-    forEachExisting(modifiedOrNot.modified, p => p.compileState = CompileState.NEEDS_REBUILD);
-    return modifiedOrNot;
-  }
-
-  //look for pattern links included in data files.
-  //these will be in the form of link.* WITHOUT {{}}, which would still be there from direct pattern inclusion
-  function parseDataLinks(patternlab) {
-    //look for link.* such as link.pages-blog as a value
-
-    patternlab.data = parseLink(patternlab, patternlab.data, 'data.json');
-
-    //loop through all patterns
-    for (var i = 0; i < patternlab.patterns.length; i++) {
-      patternlab.patterns[i].jsonFileData = parseLink(patternlab, patternlab.patterns[i].jsonFileData, patternlab.patterns[i].patternPartial);
-    }
-  }
-
   return {
-    mark_modified_patterns: function (lastModified, patternlab) {
-      return markModifiedPatterns(lastModified, patternlab);
-    },
-
-    //todo review for deletion
-    find_pattern_partials: function (pattern) {
-      return pattern.findPartials();
-    },
-
-    //todo review for deletion
-    find_pattern_partials_with_style_modifiers: function (pattern) {
-      return pattern.findPartialsWithStyleModifiers();
-    },
-
-    //todo review for deletion
-    find_pattern_partials_with_parameters: function (pattern) {
-      return pattern.findPartialsWithPatternParameters();
-    },
-
-    //todo review for deletion
-    find_list_items: function (pattern) {
-      return pattern.findListItems();
-    },
     load_pattern_iterative: function (file, patternlab) {
       return loadPatternIterative(file, patternlab);
-    },
-    combine_listItems: function (patternlab) {
-      buildListItems(patternlab);
-    },
-    parse_data_links: function (patternlab) {
-      parseDataLinks(patternlab);
     }
   };
 

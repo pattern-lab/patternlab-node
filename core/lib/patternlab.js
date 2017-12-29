@@ -9,6 +9,7 @@ const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
+const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
 const decompose = require('./decompose');
 const logger = require('./log');
@@ -182,7 +183,7 @@ module.exports = class PatternLab {
 
     this.setCacheBust();
 
-    pattern_assembler.combine_listItems(this);
+    buildListItems(this);
 
     this.events.emit('patternlab-build-global-data-end', this);
   }
