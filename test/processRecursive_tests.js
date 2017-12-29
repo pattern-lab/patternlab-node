@@ -37,14 +37,13 @@ tap.test('process_pattern_recursive recursively includes partials', function (te
 
   Promise.all([p1, p2]).then(() => {
     //act
-    console.log('????');
-    processRecursive('00-test' + path.sep + '00-foo.mustache', patternlab).then(() => {
+    processRecursive(fooPatternPath, patternlab).then(() => {
       //assert
       var expectedValue = 'bar';
-      test.equals(fooPattern.extendedTemplate.replace(/\s\s+/g, ' ').replace(/\n/g, ' ').trim(), expectedValue.trim());
+      test.equals(util.sanitized(fooPattern.extendedTemplate), util.sanitized(expectedValue));
       test.end();
-    });
-  });
+    }).catch(test.threw);
+  }).catch(test.threw);
 });
 
   /*

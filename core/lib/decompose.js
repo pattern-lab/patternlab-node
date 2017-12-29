@@ -8,7 +8,6 @@ const smh = require('./style_modifier_hunter');
 const addPattern = require('./addPattern');
 const jsonCopy = require('./json_copy');
 const getPartial = require('./get');
-const processRecursive = require('./processRecursive');
 
 const lineage_hunter = new lh();
 const list_item_hunter = new lih();
@@ -17,6 +16,9 @@ const style_modifier_hunter = new smh();
 
 function expandPartials(foundPatternPartials, patternlab, currentPattern) {
 
+  // these needs to be inside the function call, unless there is a better way to handle the recursion
+  const processRecursive = require('./processRecursive');
+
   logger.debug(`found partials for ${currentPattern.patternPartial}`);
 
   // determine if the template contains any pattern parameters. if so they
@@ -24,8 +26,9 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
   return parameter_hunter.find_parameters(currentPattern, patternlab).then(() => {
 
     //do something with the regular old partials
-    for (var i = 0; i < foundPatternPartials.length; i++) {
-      var partial = currentPattern.findPartial(foundPatternPartials[i]);
+    foundPatternPartials.forEach((foundPartial) => {
+
+      var partial = currentPattern.findPartial(foundPartial);
       var partialPath;
 
       //identify which pattern this partial corresponds to
@@ -37,8 +40,6 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
         }
       }
 
-      console.log(processRecursive);
-
       //recurse through nested partials to fill out this extended template.
       processRecursive(partialPath, patternlab).then(() => { //eslint-disable-line no-loop-func
         //complete assembly of extended template
@@ -48,12 +49,16 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
 
         //if partial has style modifier data, replace the styleModifier value
         if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-          style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPatternPartials[i], patternlab);
+          style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPartial, patternlab);
         }
 
-        currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], cleanPartialPattern.extendedTemplate);
+        //this is what we came here for
+        logger.debug(`within ${currentPattern.patternPartial}, replacing extendedTemplate partial ${foundPartial} with ${cleanPartialPattern.patternPartial}'s extededTemplate`);
+        currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPartial, cleanPartialPattern.extendedTemplate);
       });
-    }
+    });
+  }).catch((reason) => {
+    logger.error(reason);
   });
 }
 
@@ -66,6 +71,7 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
  */
 module.exports = function (pattern, patternlab, ignoreLineage) {
 
+  //set the extendedTemplate to operate on later if we find partials to replace
   pattern.extendedTemplate = pattern.template;
 
   //find how many partials there may be for the given pattern
@@ -106,5 +112,8 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
     addPattern(pattern, patternlab);
   });
 
-  return Promise.all([expandPartialPromise, lineagePromise, addPromise]);
+  return Promise.all([expandPartialPromise, lineagePromise, addPromise])
+    .catch((reason) => {
+      logger.error(reason);
+    });
 };

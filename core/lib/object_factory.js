@@ -113,6 +113,7 @@ Pattern.prototype = {
   render: function (data, partials) {
 
     if (!this.extendedTemplate) {
+      console.log('setting extendedTemplate because it didnt seem to be set. this is NEW CODE')
       this.extendedTemplate = this.template;
     }
 
