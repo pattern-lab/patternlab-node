@@ -18,14 +18,12 @@ var fsMock = {
   outputFileSync: function (path, data, cb) { }
 };
 
-var patternAssemblerMock = {
-  renderPattern: function (template, data, partials) { return ''; }
-};
+var renderSyncMock = function (template, data, partials) { return ''; };
 
 //set our mocks in place of usual require()
 uiModule.__set__({
   'fs': fsMock,
-  'pattern_assembler': patternAssemblerMock
+  'renderSync': renderSyncMock
 });
 
 var ui = uiModule();
