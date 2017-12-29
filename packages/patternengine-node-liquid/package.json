@@ -4,10 +4,10 @@
   "version": "1.0.0-alpha.4",
   "main": "lib/engine_liquid.js",
   "dependencies": {
+    "fs-extra": "^5.0.0",
     "liquidjs": "2.2.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -24,8 +24,7 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Cameron Roe",
   "license": "MIT",
-  "scripts": {
-  },
+  "scripts": {},
   "engines": {
     "node": ">=0.1"
   }
