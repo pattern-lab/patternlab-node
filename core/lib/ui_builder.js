@@ -9,7 +9,7 @@ const ae = require('./annotation_exporter');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
 const logger = require('./log');
-const renderSync = require('./lib/renderSync');
+const renderSync = require('./renderSync');
 
 //these are mocked in unit tests, so let them be overridden
 let fs = require('fs-extra'); //eslint-disable-line prefer-const

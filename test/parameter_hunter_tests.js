@@ -1,14 +1,11 @@
 "use strict";
 
 const path = require('path');
-const fs = require('fs-extra');
 const util = require('./util/test_utils.js');
 const tap = require('tap');
 
 const pa = require('../core/lib/pattern_assembler');
 const ph = require('../core/lib/parameter_hunter');
-const Pattern = require('../core/lib/object_factory').Pattern;
-const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 const processIterative = require('../core/lib/processIterative');
 
 const pattern_assembler = new pa();
@@ -19,62 +16,6 @@ const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
-
-//setup current pattern from what we would have during execution
-function currentPatternClosure() {
-  return {
-    "relPath": "02-organisms/02-comments/01-sticky-comment.mustache",
-    "fileName": "01-sticky-comment",
-    "subdir": "02-organisms/02-comments",
-    "verbosePartial": "02-organisms/02-comments/01-sticky-comment",
-    "name": "02-organisms-02-comments-01-sticky-comment",
-    "patternBaseName": "sticky-comment",
-    "patternLink": "02-organisms-02-comments-01-sticky-comment/02-organisms-02-comments-01-sticky-comment.html",
-    "patternGroup": "organisms",
-    "patternSubGroup": "comments",
-    "flatPatternPath": "02-organisms-02-comments",
-    "patternPartial": "organisms-sticky-comment",
-    "template": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
-    "extendedTemplate": "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
-    "parameteredPartials": [
-      "{{> molecules-single-comment(description: 'We are all in the gutter, but some of us are looking at the stars.') }}",
-      "{{> molecules-single-comment(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}"
-    ]
-  };
-}
-
-function patternlabClosure() {
-  return {
-    patterns: [
-      {
-        "relPath": "01-molecules/06-components/02-single-comment.mustache",
-        "fileName": "02-single-comment",
-        "subdir": "01-molecules/06-components",
-        "verbosePartial": "01-molecules/06-components/02-single-comment",
-        "name": "01-molecules-06-components-02-single-comment",
-        "patternBaseName": "single-comment",
-        "patternLink": "01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html",
-        "patternGroup": "molecules",
-        "patternSubGroup": "components",
-        "flatPatternPath": "01-molecules-06-components",
-        "patternPartial": "molecules-single-comment",
-        "template": "<p>{{description}}</p>",
-        "extendedTemplate": "<p>{{description}}</p>"
-      }
-    ],
-    config: {
-      logLevel: 'quiet'
-    },
-    data: {
-      description: 'Not a quote from a smart man',
-      link: {
-        "molecules-single-comment": "01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html"
-      }
-    },
-    partials: {},
-    graph: PatternGraph.empty()
-  };
-}
 
 tap.only('parameter hunter finds and extends templates', function (test) {
   //arrange

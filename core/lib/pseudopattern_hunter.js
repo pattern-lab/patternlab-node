@@ -7,15 +7,15 @@ const _ = require('lodash');
 const lh = require('./lineage_hunter');
 const Pattern = require('./object_factory').Pattern;
 const path = require('path');
+const addPattern = require('./addPattern');
 const logger = require('./log');
+const readDocumentation = require('./readDocumentation');
 const lineage_hunter = new lh();
 const changes_hunter = new ch();
 
 const pseudopattern_hunter = function () {};
 
 pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, patternlab) {
-  const pa = require('./pattern_assembler');
-  const pattern_assembler = new pa();
 
   const paths = patternlab.config.paths;
 
@@ -70,13 +70,13 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, p
       patternlab.graph.link(patternVariant, currentPattern);
 
       //process the companion markdown file if it exists
-      pattern_assembler.parse_pattern_markdown(patternVariant, patternlab);
+      readDocumentation(patternVariant, patternlab);
 
       //find pattern lineage
       lineage_hunter.find_lineage(patternVariant, patternlab);
 
       //add to patternlab object so we can look these up later.
-      pattern_assembler.addPattern(patternVariant, patternlab);
+      addPattern(patternVariant, patternlab);
     }
 
     // GTP: this is to emulate the behavior of the stale asynced

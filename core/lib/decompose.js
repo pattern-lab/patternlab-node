@@ -21,7 +21,7 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
 
   // determine if the template contains any pattern parameters. if so they
   // must be immediately consumed
-  parameter_hunter.find_parameters(currentPattern, patternlab).then(() => {
+  return parameter_hunter.find_parameters(currentPattern, patternlab).then(() => {
 
     //do something with the regular old partials
     for (var i = 0; i < foundPatternPartials.length; i++) {
@@ -37,20 +37,22 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
         }
       }
 
+      console.log(processRecursive);
+
       //recurse through nested partials to fill out this extended template.
-      processRecursive(partialPath, patternlab);
+      processRecursive(partialPath, patternlab).then(() => { //eslint-disable-line no-loop-func
+        //complete assembly of extended template
+        //create a copy of the partial so as to not pollute it after the getPartial call.
+        var partialPattern = getPartial(partial, patternlab);
+        var cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partial}`);
 
-      //complete assembly of extended template
-      //create a copy of the partial so as to not pollute it after the getPartial call.
-      var partialPattern = getPartial(partial, patternlab);
-      var cleanPartialPattern = jsonCopy(partialPattern, `partial pattern ${partial}`);
+        //if partial has style modifier data, replace the styleModifier value
+        if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
+          style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPatternPartials[i], patternlab);
+        }
 
-      //if partial has style modifier data, replace the styleModifier value
-      if (currentPattern.stylePartials && currentPattern.stylePartials.length > 0) {
-        style_modifier_hunter.consume_style_modifier(cleanPartialPattern, foundPatternPartials[i], patternlab);
-      }
-
-      currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], cleanPartialPattern.extendedTemplate);
+        currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPatternPartials[i], cleanPartialPattern.extendedTemplate);
+      });
     }
   });
 }
@@ -94,9 +96,7 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
 
   //find pattern lineage
   if (!ignoreLineage) {
-    lineagePromise.resolve(() => {
-      lineage_hunter.find_lineage(pattern, patternlab);
-    });
+    lineagePromise = Promise.resolve(lineage_hunter.find_lineage(pattern, patternlab));
   } else {
     lineagePromise = Promise.resolve();
   }

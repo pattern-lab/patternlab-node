@@ -12,6 +12,7 @@ const ch = require('./changes_hunter');
 const da = require('./data_loader');
 const addPattern = require('./addPattern');
 const parseLink = require('./parseLink');
+const readDocumentation = require('./readDocumentation');
 
 const markdown_parser = new mp();
 const changes_hunter = new ch();
@@ -42,59 +43,6 @@ const pattern_assembler = function () {
           tempItems.push(container.listItemArray[c - 1]);
           container.listitems['' + i ] = tempItems;
         }
-      }
-    }
-  }
-
-  function parsePatternMarkdown(currentPattern, patternlab) {
-
-    try {
-      var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, currentPattern.subdir, currentPattern.fileName + ".md");
-      changes_hunter.checkLastModified(currentPattern, markdownFileName);
-
-      var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
-
-      var markdownObject = markdown_parser.parse(markdownFileContents);
-      if (!_.isEmpty(markdownObject)) {
-        //set keys and markdown itself
-        currentPattern.patternDescExists = true;
-        currentPattern.patternDesc = markdownObject.markdown;
-
-        //Add all markdown to the currentPattern, including frontmatter
-        currentPattern.allMarkdown = markdownObject;
-
-        //consider looping through all keys eventually. would need to blacklist some properties and whitelist others
-        if (markdownObject.state) {
-          currentPattern.patternState = markdownObject.state;
-        }
-        if (markdownObject.order) {
-          currentPattern.order = markdownObject.order;
-        }
-        if (markdownObject.hidden) {
-          currentPattern.hidden = markdownObject.hidden;
-        }
-        if (markdownObject.excludeFromStyleguide) {
-          currentPattern.excludeFromStyleguide = markdownObject.excludeFromStyleguide;
-        }
-        if (markdownObject.tags) {
-          currentPattern.tags = markdownObject.tags;
-        }
-        if (markdownObject.title) {
-          currentPattern.patternName = markdownObject.title;
-        }
-        if (markdownObject.links) {
-          currentPattern.links = markdownObject.links;
-        }
-      } else {
-        logger.warning(`error processing markdown for ${currentPattern.patternPartial}`);
-      }
-      logger.debug(`found pattern-specific markdown for  ${currentPattern.patternPartial}`);
-    }
-    catch (err) {
-      // do nothing when file not found
-      if (err.code !== 'ENOENT') {
-        logger.warning(`'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${currentPattern.patternPartial}`);
-        logger.warning(err);
       }
     }
   }
@@ -199,7 +147,7 @@ const pattern_assembler = function () {
     }
 
     //look for a markdown file for this template
-    parsePatternMarkdown(currentPattern, patternlab);
+    readDocumentation(currentPattern, patternlab);
 
     //add the raw template to memory
     var templatePath = path.resolve(patternsPath, currentPattern.relPath);
@@ -304,9 +252,6 @@ const pattern_assembler = function () {
     },
     parse_data_links: function (patternlab) {
       parseDataLinks(patternlab);
-    },
-    parse_pattern_markdown: function (pattern, patternlab) {
-      parsePatternMarkdown(pattern, patternlab);
     }
   };
 
