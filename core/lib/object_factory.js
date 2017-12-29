@@ -102,10 +102,9 @@ const Pattern = function (relPath, data, patternlab) {
 Pattern.prototype = {
 
   renderSync: function (data, partials) {
-    if (this.engine && !this.engine.isAsync) {
+    if (this.engine) {
       const results = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return results;
-
     }
     return null;
   },
@@ -113,25 +112,20 @@ Pattern.prototype = {
   // render function - acts as a proxy for the PatternEngine's
   render: function (data, partials) {
 
-
     if (!this.extendedTemplate) {
       this.extendedTemplate = this.template;
     }
 
-
-    if (this.engine && this.engine.isAsync) {
+    if (this.engine) {
       const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return promise.then(results => {
         return results;
       }).catch((reason) => {
+        console.log(reason)
         return Promise.reject(reason);
       });
-    } else {
-      // renderSync
-      return Promise.resolve(
-        this.renderSync(data, partials)
-      );
     }
+    return Promise.reject('where is the engine?');
   },
 
   registerPartial: function () {
