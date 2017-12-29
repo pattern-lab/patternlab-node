@@ -206,255 +206,383 @@ tap.test('parameter hunter finds and extends templates with fully-pathed partial
   });
 });
 
-/*
-
-
 //previous tests were for unquoted parameter keys and single-quoted values.
 //test other quoting options.
-tap.test('parameter hunter parses parameters with unquoted keys and unquoted values', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter parses parameters with unquoted keys and unquoted values', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment(description: true) }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment(description: true) }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with unquoted keys and double-quoted values', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
 
-  currentPattern.template = "{{> molecules-single-comment(description: \"true\") }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+tap.test('parameter hunter parses parameters with unquoted keys and double-quoted values', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  test.end();
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //override the file
+  testPattern.template = "{{> test-comment(description: \"true\") }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with single-quoted keys and unquoted values', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter parses parameters with single-quoted keys and unquoted values', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment('description': true) }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment('description': true) }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
 
-  currentPattern.template = "{{> molecules-single-comment('description': 'true not,\\'true\\'') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+tap.test('parameter hunter parses parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true not,&#39;true&#39;</p>');
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  test.end();
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //override the file
+  testPattern.template = "{{> test-comment('description': 'true not,\\'true\\'') }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not,&#39;true&#39;</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with single-quoted keys and double-quoted values wrapping internal single-quotes', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter parses parameters with single-quoted keys and double-quoted values wrapping internal single-quotes', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment('description': \"true not:'true'\") }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true not:&#39;true&#39;</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment('description': \"true not:'true'\") }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not:&#39;true&#39;</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with double-unquoted keys and unquoted values', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter parses parameters with double-unquoted keys and unquoted values', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment(\"description\": true) }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment(\"description\": true) }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with double-quoted keys and single-quoted values wrapping internal double-quotes', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter parses parameters with double-quoted keys and single-quoted values wrapping internal double-quotes', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment(\"description\": 'true not{\"true\"') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true not{&quot;true&quot;</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment(\"description\": 'true not{\"true\"') }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not{&quot;true&quot;</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
 
-  currentPattern.template = "{{> molecules-single-comment(\"description\": \"true not}\\\"true\\\"\") }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+tap.test('parameter hunter parses parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true not}&quot;true&quot;</p>');
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  test.end();
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //override the file
+  testPattern.template = "{{> test-comment(\"description\": \"true not}\\\"true\\\"\") }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not}&quot;true&quot;</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with combination of quoting schemes for keys and values', function(test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter parses parameters with combination of quoting schemes for keys and values', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment(description: true, 'foo': false, \"bar\": false, 'single': true, 'singlesingle': 'true', 'singledouble': \"true\", \"double\": true, \"doublesingle\": 'true', \"doubledouble\": \"true\") }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment(description: true, 'foo': false, \"bar\": false, 'single': true, 'singlesingle': 'true', 'singledouble': \"true\", \"double\": true, \"doublesingle\": 'true', \"doubledouble\": \"true\") }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>false</h1><p>true</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters with values containing a closing parenthesis', function(test) {
-  // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
 
-  currentPattern.template = "{{> molecules-single-comment(description: 'Hello ) World') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>Hello ) World</p>');
+tap.test('parameter hunter parses parameters with values containing a closing parenthesis', function (test) {
+  //arrange
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  test.end();
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+
+  //override the file
+  testPattern.template = "{{> test-comment(description: 'Hello ) World') }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>Hello ) World</p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters that follow a non-quoted value', function(test) {
-  // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+tap.test('parameter hunter skips malformed parameters', function (test) {
 
-  patternlab.patterns[0].template = "<p>{{foo}}</p><p>{{bar}}</p>";
-  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment(foo: true, bar: \"Hello World\") }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p><p>Hello World</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment( missing-val: , : missing-key, : , , foo: \"Hello World\") }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      console.log('\nPattern Lab should catch JSON.parse() errors and output useful debugging information...');
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p></p>'));
+      test.end();
+    });
+  });
 });
 
-tap.test('parameter hunter parses parameters whose keys contain escaped quotes', function(test) {
-  // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+// From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
+tap.test('parameter hunter parses parameters containing html tags', function (test){
 
-  patternlab.patterns[0].template = "<p>{{ silly'key }}</p><p>{{bar}}</p><p>{{ another\"silly-key }}</p>";
-  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  currentPattern.template = "{{> molecules-single-comment('silly\\\'key': true, bar: \"Hello World\", \"another\\\"silly-key\": 42 ) }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p>true</p><p>Hello World</p><p>42</p>');
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  test.end();
-});
+  //override the commentTemplate - i dont really want to create another file
+  pl.patterns[0].template = "<p>{{{ tag1 }}}</p><p>{{{ tag2 }}}</p><p>{{{ tag3 }}}</p>";
+  pl.patterns[0].extendedTemplate = pl.patterns[0].template;
 
-tap.test('parameter hunter skips malformed parameters', function(test) {
-  // From issue #291 https://github.com/pattern-lab/patternlab-node/issues/291
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+  //override the file
+  testPattern.template = "{{> test-comment(tag1: '<strong>Single-quoted</strong>', tag2: \"<em>Double-quoted</em>\", tag3: '<strong class=\\\"foo\\\" id=\\\'bar\\\'>With attributes</strong>') }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
 
-  patternlab.patterns[0].template = "<p>{{foo}}</p>";
-  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
 
-  currentPattern.abspath = __filename;
-  currentPattern.template = "{{> molecules-single-comment( missing-val: , : missing-key, : , , foo: \"Hello World\") }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
-
-  console.log('\nPattern Lab should catch JSON.parse() errors and output useful debugging information...');
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p></p>');
-
-  test.end();
-});
-
-tap.test('parameter hunter parses parameters containing html tags', function(test){
-  // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
-
-  patternlab.patterns[0].template = "<p>{{{ tag1 }}}</p><p>{{{ tag2 }}}</p><p>{{{ tag3 }}}</p>";
-  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
-
-  currentPattern.template = "{{> molecules-single-comment(tag1: '<strong>Single-quoted</strong>', tag2: \"<em>Double-quoted</em>\", tag3: '<strong class=\\\"foo\\\" id=\\\'bar\\\'>With attributes</strong>') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
-
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>');
-
-  test.end();
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>'));
+      test.end();
+    });
+  });
 });
 
 tap.test('parameter hunter expands links inside parameters', function (test) {
-  var currentPattern = currentPatternClosure();
-  var patternlab = patternlabClosure();
-  var parameter_hunter = new ph();
+  const pl = util.fakePatternLab(testPatternsPath);
 
-  patternlab.patterns[0].template = '<a href="{{{ url }}}">{{ description }}</a>';
-  patternlab.patterns[0].extendedTemplate = patternlab.patterns[0].template;
+  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
 
-  currentPattern.template = "{{> molecules-single-comment(url: 'link.molecules-single-comment', description: 'Link to single comment') }}";
-  currentPattern.extendedTemplate = currentPattern.template;
-  currentPattern.parameteredPartials[0] = currentPattern.template;
+  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
 
-  parameter_hunter.find_parameters(currentPattern, patternlab);
-  test.equals(currentPattern.extendedTemplate, '<a href="01-molecules-06-components-02-single-comment/01-molecules-06-components-02-single-comment.html">Link to single comment</a>');
+  //override the commentTemplate - i dont really want to create another file
+  pl.patterns[0].template = '<a href="{{{ url }}}">{{ description }}</a>';
+  pl.patterns[0].extendedTemplate = pl.patterns[0].template;
 
-  test.end();
+  //override the file
+  testPattern.template = "{{> test-comment(url: 'link.test-comment', description: 'Link to single comment') }}";
+  testPattern.extendedTemplate = testPattern.template;
+  testPattern.parameteredPartials[0] = testPattern.template;
+
+  var p1 = processIterative(commentPattern, pl);
+  var p2 = processIterative(testPattern, pl);
+
+  Promise.all([p1, p2]).then(() => {
+    //act
+    parameter_hunter.find_parameters(testPattern, pl).then(() => {
+      //assert
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<a href="/patterns/00-test-comment/00-test-comment.rendered.html">Link to single comment</a>'));
+      test.end();
+    });
+  });
 });
-*/
