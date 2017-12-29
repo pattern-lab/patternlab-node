@@ -75,10 +75,10 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
   pattern.extendedTemplate = pattern.template;
 
   //find how many partials there may be for the given pattern
-  var foundPatternPartials = pattern.findPartials();
+  const foundPatternPartials = pattern.findPartials();
 
   //find any listItem blocks that within the pattern, even if there are no partials
-  list_item_hunter.process_list_item_partials(pattern, patternlab);
+  const listItemPromise = list_item_hunter.process_list_item_partials(pattern, patternlab);
 
   // expand any partials present in this pattern; that is, drill down into
   // the template and replace their calls in this template with rendered
@@ -112,7 +112,7 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
     addPattern(pattern, patternlab);
   });
 
-  return Promise.all([expandPartialPromise, lineagePromise, addPromise])
+  return Promise.all([listItemPromise, expandPartialPromise, lineagePromise, addPromise])
     .catch((reason) => {
       logger.error(reason);
     });
