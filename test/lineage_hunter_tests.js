@@ -12,7 +12,7 @@ const Pattern = require('../core/lib/object_factory').Pattern;
 const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 const config = require('./util/patternlab-config.json');
 const addPattern = require('../core/lib/addPattern');
-const getPartial = require('../core/lib/getPartial');
+const getPartial = require('../core/lib/get');
 
 const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
