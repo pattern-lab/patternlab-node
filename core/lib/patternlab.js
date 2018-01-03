@@ -11,7 +11,6 @@ const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
-const decompose = require('./decompose');
 const logger = require('./log');
 const processIterative = require('./processIterative');
 const processRecursive = require('./processRecursive');
@@ -210,58 +209,6 @@ module.exports = class PatternLab {
     starterkit_manager.load_starterkit(starterkitName, clean);
   }
 
-
-  // Pattern processing methods
-
-  /**
-   * Process the user-defined pattern head and prepare it for rendering
-   */
-  processHeadPattern() {
-    try {
-      const headPath = path.resolve(this.config.paths.source.meta, '_00-head.mustache');
-      const headPattern = new Pattern(headPath, null, this);
-      headPattern.template = fs.readFileSync(headPath, 'utf8');
-      headPattern.isPattern = false;
-      headPattern.isMetaPattern = true;
-      decompose(headPattern, this, true).then(() => {
-        this.userHead = headPattern.extendedTemplate;
-      });
-    }
-    catch (ex) {
-      logger.warning(`Could not find the user-editable header template, currently configured to be at ${path.join(this.config.paths.source.meta, '_00-head.ext')}. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`);
-      logger.warning(ex);
-
-      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
-      // but whatever. For now.
-      process.exit(1);
-    }
-  }
-
-  /**
-   * Process the user-defined pattern footer and prepare it for rendering
-   */
-  processFootPattern() {
-    try {
-      const footPath = path.resolve(this.config.paths.source.meta, '_01-foot.mustache');
-      const footPattern = new Pattern(footPath, null, this);
-      footPattern.template = fs.readFileSync(footPath, 'utf8');
-      footPattern.isPattern = false;
-      footPattern.isMetaPattern = true;
-      decompose(footPattern, this, true).then(() => {
-        this.userFoot = footPattern.extendedTemplate;
-      });
-    }
-    catch (ex) {
-      logger.error(`Could not find the user-editable footer template, currently configured to be at ${path.join(this.config.paths.source.meta, '_01-foot.ext')}. Your configured path may be incorrect (check this.config.paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`);
-      logger.warning(ex);
-
-      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
-      // but whatever. For now.
-      process.exit(1);
-    }
-  }
-
-
   // info methods
   getVersion() {
     return this.package.version;
@@ -367,7 +314,7 @@ module.exports = class PatternLab {
     pattern.header = head;
 
     // const headHTML
-    const headPromise = Promise.resolve(render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData));
+    const headPromise = render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData);
 
     ///////////////
     // PATTERN
@@ -417,11 +364,11 @@ module.exports = class PatternLab {
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
     // footerPartial
-    const footerPartialPromise = Promise.resolve(render(Pattern.createEmpty({extendedTemplate: this.footer}), {
+    const footerPartialPromise = render(Pattern.createEmpty({extendedTemplate: this.footer}), {
       isPattern: pattern.isPattern,
       patternData: pattern.patternData,
       cacheBuster: this.cacheBuster
-    }));
+    });
 
     const self = this;
 
