@@ -101,14 +101,6 @@ const Pattern = function (relPath, data, patternlab) {
 
 Pattern.prototype = {
 
-  renderSync: function (data, partials) {
-    if (this.engine) {
-      const results = this.engine.renderPattern(this, data || this.jsonFileData, partials);
-      return results;
-    }
-    return null;
-  },
-
   // render function - acts as a proxy for the PatternEngine's
   render: function (data, partials) {
 

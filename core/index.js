@@ -306,26 +306,28 @@ const patternlab_module = function (config) {
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic).then(() => {
 
-        new ui_builder().buildFrontend(patternlab);
-        assetCopier().copyAssets(patternlab.config.paths, patternlab, options);
+        return new ui_builder().buildFrontend(patternlab).then(() => {
 
-        this.events.on('patternlab-pattern-change', () => {
-          if (!patternlab.isBusy) {
-            options.cleanPublic = false;
-            return this.build(options);
-          }
-          return Promise.resolve();
+          assetCopier().copyAssets(patternlab.config.paths, patternlab, options);
+
+          this.events.on('patternlab-pattern-change', () => {
+            if (!patternlab.isBusy) {
+              options.cleanPublic = false;
+              return this.build(options);
+            }
+            return Promise.resolve();
+          });
+
+          this.events.on('patternlab-global-change', () => {
+            if (!patternlab.isBusy) {
+              options.cleanPublic = true; //rebuild everything
+              return this.build(options);
+            }
+            return Promise.resolve();
+          });
+
+          patternlab.isBusy = false;
         });
-
-        this.events.on('patternlab-global-change', () => {
-          if (!patternlab.isBusy) {
-            options.cleanPublic = true; //rebuild everything
-            return this.build(options);
-          }
-          return Promise.resolve();
-        });
-
-        patternlab.isBusy = false;
       });
     },
 
