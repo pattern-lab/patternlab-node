@@ -320,7 +320,7 @@ const parameter_hunter = function () {
               patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
             });
           });
-        }).catch((reason) => {
+        }).catch(reason => {
           logger.error(reason);
         });
       }, Promise.resolve());

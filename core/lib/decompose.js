@@ -57,7 +57,7 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
         currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPartial, cleanPartialPattern.extendedTemplate);
       });
     });
-  }).catch((reason) => {
+  }).catch(reason => {
     logger.error(reason);
   });
 }
@@ -113,7 +113,7 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
   });
 
   return Promise.all([listItemPromise, expandPartialPromise, lineagePromise, addPromise])
-    .catch((reason) => {
+    .catch(reason => {
       logger.error(reason);
     });
 };

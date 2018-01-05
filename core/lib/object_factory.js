@@ -120,7 +120,7 @@ Pattern.prototype = {
       const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return promise.then(results => {
         return results;
-      }).catch((reason) => {
+      }).catch(reason => {
         return Promise.reject(reason);
       });
     }

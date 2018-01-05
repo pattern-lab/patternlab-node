@@ -127,7 +127,7 @@ const list_item_hunter = function () {
               }).catch((reason) => {
                 logger.error(reason);
               });
-            }).catch((reason) => {
+            }).catch(reason => {
               logger.error(reason);
             });
           }, Promise.resolve());
@@ -140,7 +140,7 @@ const list_item_hunter = function () {
 
             //update the extendedTemplate in the partials object in case this pattern is consumed later
             patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
-          }).catch((reason) => {
+          }).catch(reason => {
             logger.error(reason);
           });
         });

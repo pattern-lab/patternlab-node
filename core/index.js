@@ -251,19 +251,23 @@ const patternlab_module = function (config) {
 
               //export patterns if necessary
               pattern_exporter.export_patterns(patternlab);
+
+            }).catch(reason => {
+              console.log(reason);
+              logger.error('Error rendering patterns');
             });
 
-        }).catch((reason) => {
+        }).catch(reason => {
           console.log(reason);
           logger.error('Error rendering pattern lab header');
         });
 
-      }).catch((reason) => {
+      }).catch(reason => {
         console.log(reason);
         logger.error('Error processing meta patterns');
       });
 
-    }).catch((reason) => {
+    }).catch(reason => {
       console.log(reason);
       logger.error('Error in buildPatterns()');
     });

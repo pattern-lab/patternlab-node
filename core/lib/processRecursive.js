@@ -22,7 +22,7 @@ module.exports = function (file, patternlab) {
 
   //call our helper method to actually unravel the pattern with any partials
   return decompose(currentPattern, patternlab)
-    .catch((reason)=> {
+    .catch(reason => {
       logger.error(reason);
     });
 };
