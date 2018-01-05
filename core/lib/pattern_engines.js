@@ -4,7 +4,10 @@ const {existsSync, lstatSync, readdirSync} = require('fs');
 const path = require('path');
 const engineMatcher = /^patternengine-node-(.*)$/;
 const scopeMatch = /^@(.*)$/;
-const isDir = fPath => lstatSync(fPath).isDirectory();
+const isDir = fPath => {
+  const stats = lstatSync(fPath);
+  return stats.isDirectory() || stats.isSymbolicLink();
+};
 const logger = require('./log');
 
 const enginesDirectories = [{

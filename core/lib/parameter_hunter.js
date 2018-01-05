@@ -1,14 +1,19 @@
 'use strict';
 
+const path = require('path');
+const extend = require('util')._extend;
+const _ = require('lodash');
+
+const getPartial = require('./get');
+const logger = require('./log');
+const parseLink = require('./parseLink');
+const render = require('./render');
+const jsonCopy = require('./json_copy');
+const smh = require('./style_modifier_hunter');
+
+const style_modifier_hunter = new smh();
+
 const parameter_hunter = function () {
-  const extend = require('util')._extend;
-  const _ = require('lodash');
-  const jsonCopy = require('./json_copy');
-  const pa = require('./pattern_assembler');
-  const smh = require('./style_modifier_hunter');
-  const style_modifier_hunter = new smh();
-  const pattern_assembler = new pa();
-  const logger = require('./log');
 
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
@@ -240,72 +245,93 @@ const parameter_hunter = function () {
     return paramStringWellFormed;
   }
 
+  //compile this partial immeadiately, essentially consuming it.
   function findparameters(pattern, patternlab) {
-
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
 
-      //compile this partial immeadiately, essentially consuming it.
-      pattern.parameteredPartials.forEach(function (pMatch) {
-        //find the partial's name and retrieve it
-        const partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-        const partialPattern = pattern_assembler.getPartial(partialName, patternlab);
+      logger.debug(`processing patternParameters for ${pattern.partialName}`);
 
-        //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
-        partialPattern.extendedTemplate = partialPattern.template;
+      return pattern.parameteredPartials.reduce((previousPromise, pMatch) => {
+        return previousPromise.then(() => {
 
-        logger.debug(`found patternParameters for ${partialName}`);
+          logger.debug(`processing patternParameter ${pMatch}`);
 
-        //strip out the additional data, convert string to JSON.
-        const leftParen = pMatch.indexOf('(');
-        const rightParen = pMatch.lastIndexOf(')');
-        const paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-        const paramStringWellFormed = paramToJson(paramString);
+          //find the partial's name and retrieve it
+          const partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+          const partialPattern = getPartial(path.normalize(partialName), patternlab);
 
-        let paramData = {};
-        let globalData = {};
-        let localData = {};
+          //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
+          partialPattern.extendedTemplate = partialPattern.template;
 
-        try {
-          paramData = JSON.parse(paramStringWellFormed);
-          globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
-          localData = jsonCopy(pattern.jsonFileData || {}, `pattern ${pattern.patternPartial} data`);
-        } catch (err) {
-          logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
-          logger.warning(err);
-        }
+          logger.debug(`retrieved pattern ${partialName}`);
 
-        // resolve any pattern links that might be present
-        paramData = pattern_assembler.parse_data_links_specific(patternlab, paramData, pattern.patternPartial);
+          //strip out the additional data, convert string to JSON.
+          const leftParen = pMatch.indexOf('(');
+          const rightParen = pMatch.lastIndexOf(')');
+          const paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+          const paramStringWellFormed = paramToJson(paramString);
 
-        //combine all data: GLOBAL DATA => PATTERN.JSON DATA => PARAMETER DATA
-        let allData = _.merge(globalData, localData);
-        allData = _.merge(allData, paramData);
+          let paramData = {};
+          let globalData = {};
+          let localData = {};
 
-        //if the partial has pattern parameters itself, we need to handle those
-        findparameters(partialPattern, patternlab);
+          try {
+            paramData = JSON.parse(paramStringWellFormed);
+            globalData = jsonCopy(patternlab.data, 'config.paths.source.data global data');
+            localData = jsonCopy(pattern.jsonFileData || {}, `pattern ${pattern.patternPartial} data`);
+          } catch (err) {
+            logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
+            logger.warning(err);
+          }
 
-        //if partial has style modifier data, replace the styleModifier value
-        if (pattern.stylePartials && pattern.stylePartials.length > 0) {
-          style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
-        }
+          // resolve any pattern links that might be present
+          paramData = parseLink(patternlab, paramData, pattern.patternPartial);
 
-        //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
-        allData.link = extend({}, patternlab.data.link);
+          //combine all data: GLOBAL DATA => PATTERN.JSON DATA => PARAMETER DATA
+          let allData = _.merge(globalData, localData);
+          allData = _.merge(allData, paramData);
 
-        const renderedPartial = pattern_assembler.renderPattern(partialPattern.extendedTemplate, allData, patternlab.partials);
+          //if the partial has pattern parameters itself, we need to handle those
+          return findparameters(partialPattern, patternlab).then(() => {
 
-        //remove the parameter from the partial and replace it with the rendered partial + paramData
-        pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, renderedPartial);
+            logger.debug(`recursively checking the partial itself ${partialPattern.patternPartial}`);
 
-        //update the extendedTemplate in the partials object in case this pattern is consumed later
-        patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
-      });
+            //if partial has style modifier data, replace the styleModifier value
+            if (pattern.stylePartials && pattern.stylePartials.length > 0) {
+              style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
+            }
+
+            //extend pattern data links into link for pattern link shortcuts to work. we do this locally and globally
+            allData.link = extend({}, patternlab.data.link);
+
+            return render(partialPattern, allData).then((results) => {
+
+              logger.debug(`rendering the partialpattern ${partialPattern.patternPartial}`);
+
+              //defensively do this in case not set yet
+              if (!pattern.extendedTemplate) {
+                pattern.extendedTemplate = pattern.template;
+              }
+
+              //remove the parameter from the partial and replace it with the rendered partial + paramData
+              pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, results);
+
+              //update the extendedTemplate in the partials object in case this pattern is consumed later
+              patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
+            });
+          });
+        }).catch(reason => {
+          logger.error(reason);
+        });
+      }, Promise.resolve());
     }
+    logger.debug(`pattern has no partials ${pattern.patternPartial}`);
+    return Promise.resolve();
   }
 
   return {
     find_parameters: function (pattern, patternlab) {
-      findparameters(pattern, patternlab);
+      return findparameters(pattern, patternlab);
     }
   };
 
