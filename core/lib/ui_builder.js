@@ -4,7 +4,6 @@ const path = require('path');
 const _ = require('lodash');
 const eol = require('os').EOL;
 
-const jsonCopy = require('./json_copy');
 const ae = require('./annotation_exporter');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
@@ -13,6 +12,7 @@ const logger = require('./log');
 //these are mocked in unit tests, so let them be overridden
 let render = require('./render'); //eslint-disable-line prefer-const
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
+let buildFooter = require('./buildFooter'); //eslint-disable-line prefer-const
 
 const ui_builder = function () {
 
@@ -407,36 +407,6 @@ const ui_builder = function () {
     return groupedPatterns;
   }
 
-  /**
-   * Builds footer HTML from the general footer and user-defined footer
-   * @param patternlab - global data store
-   * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
-   * @returns A promise which resolves with the HTML
-     */
-  function buildFooterHTML(patternlab, patternPartial) {
-    //first render the general footer
-    return render(Pattern.createEmpty({extendedTemplate:patternlab.footer}), {
-      patternData: JSON.stringify({
-        patternPartial: patternPartial,
-      }),
-      cacheBuster: patternlab.cacheBuster
-    }).then(footerPartial => {
-
-      let allFooterData;
-      try {
-        allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
-      } catch (err) {
-        logger.warning('There was an error parsing JSON for patternlab.data');
-        logger.warning(err);
-      }
-      allFooterData.patternLabFoot = footerPartial;
-
-      return render(Pattern.createEmpty({extendedTemplate: patternlab.userFoot}), allFooterData);
-    }).catch(reason => {
-      console.log(reason);
-      logger.error('Error building buildFooterHTML');
-    });
-  }
 
   /**
    * Takes a set of patterns and builds a viewall HTML page for them
@@ -493,7 +463,7 @@ const ui_builder = function () {
         }
 
         //render the footer needed for the viewall template
-        return buildFooterHTML(patternlab, 'viewall-' + patternPartial).then(footerHTML => {
+        return buildFooter(patternlab, 'viewall-' + patternPartial).then(footerHTML => {
 
           //render the viewall template by finding these smallest subtype-grouped patterns
           const subtypePatterns = sortPatterns(_.values(patternSubtypes));
@@ -535,7 +505,7 @@ const ui_builder = function () {
           }
 
           //render the footer needed for the viewall template
-          return buildFooterHTML(patternlab, 'viewall-' + patternType + '-all').then(footerHTML => {
+          return buildFooter(patternlab, 'viewall-' + patternType + '-all').then(footerHTML => {
 
             //add any flat patterns
             //todo this isn't quite working yet
