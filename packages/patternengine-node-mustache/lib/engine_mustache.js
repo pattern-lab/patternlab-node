@@ -33,6 +33,7 @@ var engine_mustache = {
   engine: Mustache,
   engineName: 'mustache',
   engineFileExtension: '.mustache',
+  isAsync: true,
 
   // partial expansion is only necessary for Mustache templates that have
   // style modifiers or pattern parameters (I think)
@@ -49,12 +50,12 @@ var engine_mustache = {
   renderPattern: function renderPattern(pattern, data, partials) {
     try {
       if (partials) {
-        return Mustache.render(pattern.extendedTemplate, data, partials);
+        return Promise.resolve(Mustache.render(pattern.extendedTemplate, data, partials));
       }
-      return Mustache.render(pattern.extendedTemplate, data);
+      return Promise.resolve(Mustache.render(pattern.extendedTemplate, data));
     } catch (e) {
-      debugger;
       console.log("e = ", e);
+      return Promise.reject(e);
     }
   },
 
