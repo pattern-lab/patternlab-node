@@ -18,12 +18,14 @@ var fsMock = {
   outputFileSync: function (path, data, cb) { }
 };
 
-var renderSyncMock = function (template, data, partials) { return ''; };
+var renderMock = function (template, data, partials) { return Promise.resolve(''); };
+var buildFooterMock = function (patternlab, patternPartial) { return Promise.resolve(''); };
 
 //set our mocks in place of usual require()
 uiModule.__set__({
   'fs': fsMock,
-  'renderSync': renderSyncMock
+  'render': renderMock,
+  'buildFooter': buildFooterMock
 });
 
 var ui = uiModule();
@@ -368,11 +370,14 @@ tap.test('resetUIBuilderState - reset global objects', function (test) {
 
 tap.test('buildViewAllPages - adds viewall page for each type and subtype', function (test) {
   //arrange
-  let mainPageHeadHtml = '<head></head>';
-  let patternlab = createFakePatternLab({
+  const mainPageHeadHtml = '<head></head>';
+  const patternlab = createFakePatternLab({
     patterns: [],
     patternGroups: {},
-    subtypePatterns: {}
+    subtypePatterns: {},
+    footer: {},
+    userFoot: {},
+    cacheBuster: 1234
   });
 
   patternlab.patterns.push(
@@ -387,23 +392,32 @@ tap.test('buildViewAllPages - adds viewall page for each type and subtype', func
   );
   ui.resetUIBuilderState(patternlab);
 
-  let styleguidePatterns = ui.groupPatterns(patternlab);
+  const styleguidePatterns = ui.groupPatterns(patternlab);
 
   //act
-  var patterns = ui.buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns);
+  ui.buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns).then(allPatterns => {
+    //assert
+    //this was a nuanced one. buildViewAllPages() had return false; statements
+    //within _.forOwn(...) loops, causing premature termination of the entire loop
+    //when what was intended was a continue
+    //we expect 8 here because:
+    //  - foo.mustache is flat and therefore does not have a viewall page
+    //  - the colors.mustache files make 6
+    //  - patternSubType1 and patternSubType2 make 8
+    //while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
+    //it's important to ensure that this method does not get prematurely terminated
+    //we choose to do that by checking it's return number of patterns
 
-  //assert
-  //this was a nuanced one. buildViewAllPages() had return false; statements
-  //within _.forOwn(...) loops, causing premature termination of the entire loop
-  //when what was intended was a continue
-  //we expect 8 here because:
-  //  - foo.mustache is flat and therefore does not have a viewall page
-  //  - the colors.mustache files make 6
-  //  - patternSubType1 and patternSubType2 make 8
-  //while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
-  //it's important to ensure that this method does not get prematurely terminated
-  //we choose to do that by checking it's return number of patterns
-  test.equals(patterns.length, 8, '2 viewall pages should be added');
+    //todo: this workaround matches the code at the moment
+    const uniquePatterns = _.uniq(
+      _.flatMapDeep(allPatterns, (pattern) => {
+        return pattern;
+      })
+    );
 
-  test.end();
+    test.equals(uniquePatterns.length, 8, '2 viewall pages should be added');
+
+    test.end();
+  });
+
 });
