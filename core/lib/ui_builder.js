@@ -694,7 +694,7 @@ const ui_builder = function () {
       return buildViewAllPages(headFootPromiseResults[0], patternlab, styleguidePatterns).then(allPatterns => {
 
         //todo track down why we need to make this unique in the first place
-        allPatterns = _.uniq(
+        const uniquePatterns = _.uniq(
           _.flatMapDeep(allPatterns, (pattern) => {
             return pattern;
           })
@@ -702,14 +702,14 @@ const ui_builder = function () {
 
         //add the defaultPattern if we found one
         if (patternlab.defaultPattern) {
-          allPatterns.push(patternlab.defaultPattern);
+          uniquePatterns.push(patternlab.defaultPattern);
           addToPatternPaths(patternlab, patternlab.defaultPattern);
         }
 
         //build the main styleguide page
         return render(Pattern.createEmpty({extendedTemplate: patternlab.viewAll}),
           {
-            partials: allPatterns
+            partials: uniquePatterns
           }, {
             patternSection: patternlab.patternSection,
             patternSectionSubtype: patternlab.patternSectionSubType
