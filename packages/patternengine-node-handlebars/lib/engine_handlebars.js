@@ -55,7 +55,7 @@ var engine_handlebars = {
       escapeAtPartialBlock(pattern.template)
     );
 
-    return compiled(data);
+    return Promise.resolve(compiled(data));
   },
 
   registerPartial: function (pattern) {
