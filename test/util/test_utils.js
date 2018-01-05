@@ -7,7 +7,7 @@ module.exports = {
   // fake pattern lab constructor:
   // sets up a fake patternlab object, which is needed by the pattern processing
   // apparatus.
-  fakePatternLab: (testPatternsPath) => {
+  fakePatternLab: (testPatternsPath, extraData) => {
     var fpl = {
       graph: PatternGraph.empty(),
       partials: {},
@@ -27,7 +27,7 @@ module.exports = {
     // the "subdir"
     fpl.config.paths.source.patterns = testPatternsPath;
 
-    return fpl;
+    return Object.assign({}, fpl, extraData);
   },
 
   /**
@@ -53,6 +53,4 @@ module.exports = {
       return s.replace(/\\/g,"/");
     }
   }
-
-
 };
