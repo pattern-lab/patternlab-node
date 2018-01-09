@@ -4,11 +4,10 @@ const path = require('path');
 const util = require('./util/test_utils.js');
 const tap = require('tap');
 
-const pa = require('../core/lib/pattern_assembler');
+const loadPattern = require('../core/lib/loadPattern');
 const ph = require('../core/lib/parameter_hunter');
 const processIterative = require('../core/lib/processIterative');
 
-const pattern_assembler = new pa();
 const parameter_hunter = new ph();
 
 const config = require('./util/patternlab-config.json');
@@ -22,10 +21,10 @@ tap.only('parameter hunter finds and extends templates', function (test) {
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   var p1 = processIterative(commentPattern, pl);
   var p2 = processIterative(testPattern, pl);
@@ -45,13 +44,13 @@ tap.test('parameter hunter finds partials with their own parameters and renders 
   const pl = util.fakePatternLab(testPatternsPath);
 
   var aPatternPath = path.join('00-test', '539-a.mustache');
-  var aPattern = pattern_assembler.load_pattern_iterative(aPatternPath, pl);
+  var aPattern = loadPattern(aPatternPath, pl);
 
   var bPatternPath = path.join('00-test', '539-b.mustache');
-  var bPattern = pattern_assembler.load_pattern_iterative(bPatternPath, pl);
+  var bPattern = loadPattern(bPatternPath, pl);
 
   var cPatternPath = path.join('00-test', '539-c.mustache');
-  var cPattern = pattern_assembler.load_pattern_iterative(cPatternPath, pl);
+  var cPattern = loadPattern(cPatternPath, pl);
 
   var p1 = processIterative(aPattern, pl);
   var p2 = processIterative(bPattern, pl);
@@ -83,10 +82,10 @@ tap.only('parameter hunter finds and extends templates with mixed parameter and 
   });
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   var p1 = processIterative(commentPattern, pl);
   var p2 = processIterative(testPattern, pl);
@@ -106,10 +105,10 @@ tap.test('parameter hunter finds and extends templates with verbose partials', f
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment-verbose.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   var p1 = processIterative(commentPattern, pl);
   var p2 = processIterative(testPattern, pl);
@@ -129,10 +128,10 @@ tap.test('parameter hunter finds and extends templates with fully-pathed partial
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment-full.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   var p1 = processIterative(commentPattern, pl);
   var p2 = processIterative(testPattern, pl);
@@ -154,10 +153,10 @@ tap.test('parameter hunter parses parameters with unquoted keys and unquoted val
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment(description: true) }}";
@@ -184,10 +183,10 @@ tap.test('parameter hunter parses parameters with unquoted keys and double-quote
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment(description: \"true\") }}";
@@ -212,10 +211,10 @@ tap.test('parameter hunter parses parameters with single-quoted keys and unquote
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment('description': true) }}";
@@ -241,10 +240,10 @@ tap.test('parameter hunter parses parameters with single-quoted keys and single-
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment('description': 'true not,\\'true\\'') }}";
@@ -269,10 +268,10 @@ tap.test('parameter hunter parses parameters with single-quoted keys and double-
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment('description': \"true not:'true'\") }}";
@@ -297,10 +296,10 @@ tap.test('parameter hunter parses parameters with double-unquoted keys and unquo
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment(\"description\": true) }}";
@@ -325,10 +324,10 @@ tap.test('parameter hunter parses parameters with double-quoted keys and single-
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment(\"description\": 'true not{\"true\"') }}";
@@ -354,10 +353,10 @@ tap.test('parameter hunter parses parameters with double-quoted keys and double-
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment(\"description\": \"true not}\\\"true\\\"\") }}";
@@ -382,10 +381,10 @@ tap.test('parameter hunter parses parameters with combination of quoting schemes
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment(description: true, 'foo': false, \"bar\": false, 'single': true, 'singlesingle': 'true', 'singledouble': \"true\", \"double\": true, \"doublesingle\": 'true', \"doubledouble\": \"true\") }}";
@@ -412,10 +411,10 @@ tap.test('parameter hunter parses parameters with combination of quoting schemes
 //   const pl = util.fakePatternLab(testPatternsPath);
 
 //   var commentPath = path.join('00-test', 'comment.mustache');
-//   var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+//   var commentPattern = loadPattern(commentPath, pl);
 
 //   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-//   var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+//   var testPattern = loadPattern(testPatternPath, pl);
 
 //   //override the file
 //   testPattern.template = "{{> test-comment(description: 'Hello ) World') }}";
@@ -440,10 +439,10 @@ tap.test('parameter hunter skips malformed parameters', function (test) {
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file
   testPattern.template = "{{> test-comment( missing-val: , : missing-key, : , , foo: \"Hello World\") }}";
@@ -470,10 +469,10 @@ tap.test('parameter hunter parses parameters containing html tags', function (te
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the commentTemplate - i dont really want to create another file
   pl.patterns[0].template = "<p>{{{ tag1 }}}</p><p>{{{ tag2 }}}</p><p>{{{ tag3 }}}</p>";
@@ -501,10 +500,10 @@ tap.test('parameter hunter expands links inside parameters', function (test) {
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = pattern_assembler.load_pattern_iterative(commentPath, pl);
+  var commentPattern = loadPattern(commentPath, pl);
 
   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //override the commentTemplate - i dont really want to create another file
   pl.patterns[0].template = '<a href="{{{ url }}}">{{ description }}</a>';

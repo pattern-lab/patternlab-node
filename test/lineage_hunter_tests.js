@@ -6,7 +6,7 @@ const path = require('path');
 const extend = require('util')._extend;
 
 const lh = require('../core/lib/lineage_hunter');
-const pa = require('../core/lib/pattern_assembler');
+const loadPattern = require('../core/lib/loadPattern');
 const of = require('../core/lib/object_factory');
 const Pattern = require('../core/lib/object_factory').Pattern;
 const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
@@ -17,7 +17,6 @@ const getPartial = require('../core/lib/get');
 const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
-const pattern_assembler = new pa();
 const lineage_hunter = new lh();
 
 // fake pattern creators
@@ -272,8 +271,8 @@ tap.test('cascade_pattern_states sets the pattern state on any lineage patterns 
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = pattern_assembler.load_pattern_iterative('00-test/01-bar.mustache', pl);
-  var consumerPattern = pattern_assembler.load_pattern_iterative('00-test/00-foo.mustache', pl);
+  var atomPattern = loadPattern('00-test/01-bar.mustache', pl);
+  var consumerPattern = loadPattern('00-test/00-foo.mustache', pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 

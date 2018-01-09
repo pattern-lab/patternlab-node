@@ -106,7 +106,7 @@ const ui_builder = function () {
    * @returns the found or created pattern object
      */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
-    //first see if pattern_assembler processed one already
+    //first see if loadPattern processed one already
     let docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
     if (docPattern) {
       docPattern.isDocPattern = true;

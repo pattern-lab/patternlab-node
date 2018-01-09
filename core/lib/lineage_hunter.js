@@ -10,7 +10,6 @@ const lineage_hunter = function () {
     // As we are adding edges from pattern to ancestor patterns, ensure it is known to the graph
     patternlab.graph.add(pattern);
 
-
     //find the {{> template-name }} within patterns
     const matches = pattern.findPartials();
     if (matches !== null) {

@@ -5,10 +5,8 @@ const path = require('path');
 
 const util = require('./util/test_utils.js');
 const buildListItems = require('../core/lib/buildListItems');
-const pa = require('../core/lib/pattern_assembler');
-const pattern_assembler = new pa();
+const loadPattern = require('../core/lib/loadPattern');
 const engineLoader = require('../core/lib/pattern_engines');
-const getPartial = require('../core/lib/get');
 const processRecursive = require('../core/lib/processRecursive');
 const processIterative = require('../core/lib/processIterative');
 
@@ -23,10 +21,10 @@ tap.test('processRecursive recursively includes partials', function (test) {
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var fooPatternPath = path.join('00-test', '00-foo.mustache');
-  var fooPattern = pattern_assembler.load_pattern_iterative(fooPatternPath, patternlab);
+  var fooPattern = loadPattern(fooPatternPath, patternlab);
 
   var barPatternPath = path.join('00-test', '01-bar.mustache');
-  var barPattern = pattern_assembler.load_pattern_iterative(barPatternPath, patternlab);
+  var barPattern = loadPattern(barPatternPath, patternlab);
 
   var p1 = processIterative(fooPattern, patternlab);
   var p2 = processIterative(barPattern, patternlab);
@@ -48,10 +46,10 @@ tap.test('processRecursive - correctly replaces all stylemodifiers when multiple
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var groupPath = path.join('00-test', '04-group.mustache');
-  var groupPattern = pattern_assembler.load_pattern_iterative(groupPath, patternlab);
+  var groupPattern = loadPattern(groupPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(groupPattern, patternlab);
@@ -73,10 +71,10 @@ tap.test('processRecursive - correctly replaces multiple stylemodifier classes o
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var groupPath = path.join('00-test', '10-multiple-classes-numeric.mustache');
-  var groupPattern = pattern_assembler.load_pattern_iterative(groupPath, patternlab);
+  var groupPattern = loadPattern(groupPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(groupPattern, patternlab);
@@ -97,10 +95,10 @@ tap.test('processRecursive - correctly ignores a partial without a style modifie
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var mixedPath = path.join('00-test', '06-mixed.mustache');
-  var mixedPattern = pattern_assembler.load_pattern_iterative(mixedPath, patternlab);
+  var mixedPattern = loadPattern(mixedPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(mixedPattern, patternlab);
@@ -121,10 +119,10 @@ tap.test('processRecursive - correctly ignores bookended partials without a styl
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var bookendPath = path.join('00-test', '09-bookend.mustache');
-  var bookendPattern = pattern_assembler.load_pattern_iterative(bookendPath, patternlab);
+  var bookendPattern = loadPattern(bookendPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(bookendPattern, patternlab);
@@ -146,10 +144,10 @@ tap.test('processRecursive - correctly ignores a partial without a style modifie
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var mixedPath = path.join('00-test', '07-mixed-params.mustache');
-  var mixedPattern = pattern_assembler.load_pattern_iterative(mixedPath, patternlab);
+  var mixedPattern = loadPattern(mixedPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(mixedPattern, patternlab);
@@ -170,10 +168,10 @@ tap.test('processRecursive - correctly ignores bookended partials without a styl
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var bookendPath = path.join('00-test', '08-bookend-params.mustache');
-  var bookendPattern = pattern_assembler.load_pattern_iterative(bookendPath, patternlab);
+  var bookendPattern = loadPattern(bookendPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(bookendPattern, patternlab);
@@ -194,10 +192,10 @@ tap.test('processRecursive - does not pollute previous patterns when a later one
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '03-styled-atom.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var anotherPath = path.join('00-test', '12-another-styled-atom.mustache');
-  var anotherPattern = pattern_assembler.load_pattern_iterative(anotherPath, patternlab);
+  var anotherPattern = loadPattern(anotherPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(anotherPattern, patternlab);
@@ -226,13 +224,13 @@ tap.test('processRecursive - ensure deep-nesting works', function (test) {
   const patternlab = util.fakePatternLab(patterns_dir);
 
   var atomPath = path.join('00-test', '01-bar.mustache');
-  var atomPattern = pattern_assembler.load_pattern_iterative(atomPath, patternlab);
+  var atomPattern = loadPattern(atomPath, patternlab);
 
   var templatePath = path.join('00-test', '00-foo.mustache');
-  var templatePattern = pattern_assembler.load_pattern_iterative(templatePath, patternlab);
+  var templatePattern = loadPattern(templatePath, patternlab);
 
   var pagesPath = path.join('00-test', '14-inception.mustache');
-  var pagesPattern = pattern_assembler.load_pattern_iterative(pagesPath, patternlab);
+  var pagesPattern = loadPattern(pagesPath, patternlab);
 
   var p1 = processIterative(atomPattern, patternlab);
   var p2 = processIterative(templatePattern, patternlab);
@@ -292,7 +290,7 @@ tap.test('processRecursive - 685 ensure listitems data is used', function (test)
   buildListItems(patternlab);
 
   var listPatternPath = path.join('00-test', '685-list.mustache');
-  var listPattern = pattern_assembler.load_pattern_iterative(listPatternPath, patternlab);
+  var listPattern = loadPattern(listPatternPath, patternlab);
 
   Promise.all([
     processIterative(listPattern, patternlab)
@@ -314,10 +312,10 @@ tap.test('hidden patterns can be called by their nice names', function (test){
 
   //act
   var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
-  var hiddenPattern = pattern_assembler.load_pattern_iterative(hiddenPatternPath, patternlab);
+  var hiddenPattern = loadPattern(hiddenPatternPath, patternlab);
 
   var testPatternPath = path.join('00-test', '15-hidden-pattern-tester.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, patternlab);
+  var testPattern = loadPattern(testPatternPath, patternlab);
 
   var p1 = processIterative(hiddenPattern, patternlab);
   var p2 = processIterative(testPattern, patternlab);
@@ -342,7 +340,7 @@ tap.test('parses pattern title correctly when frontmatter present', function (te
   var pl = util.fakePatternLab(patterns_dir);
 
   var testPatternPath = path.join('00-test', '01-bar.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //act
   Promise.all([
@@ -361,7 +359,7 @@ tap.test('parses pattern extra frontmatter correctly when frontmatter present', 
   var pl = util.fakePatternLab(patterns_dir);
 
   var testPatternPath = path.join('00-test', '01-bar.mustache');
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   //act
   Promise.all([

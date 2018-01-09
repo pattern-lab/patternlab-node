@@ -16,7 +16,7 @@ const processIterative = require('./processIterative');
 const processRecursive = require('./processRecursive');
 const jsonCopy = require('./json_copy');
 const render = require('./render');
-const pa = require('./pattern_assembler');
+const loadPattern = require('./loadPattern');
 const sm = require('./starterkit_manager');
 const pe = require('./pattern_exporter');
 const Pattern = require('./object_factory').Pattern;
@@ -28,8 +28,6 @@ let ui_builder = require('./ui_builder'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
 let assetCopier = require('./asset_copy'); // eslint-disable-line
 let serve = require('./serve'); // eslint-disable-line
-
-const pattern_assembler = new pa();
 
 const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
@@ -458,7 +456,7 @@ module.exports = class PatternLab {
           // please, if you're reading this: don't.
 
           // NOTE: sync for now
-          pattern_assembler.load_pattern_iterative(path.relative(patterns_dir, file), self);
+          loadPattern(path.relative(patterns_dir, file), self);
         },
         resolve
       );

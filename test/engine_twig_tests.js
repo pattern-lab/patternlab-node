@@ -4,7 +4,7 @@
 
 var tap = require('tap');
 var path = require('path');
-var pa = require('../core/lib/pattern_assembler');
+var loadPattern = require('../core/lib/loadPattern')
 var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var eol = require('os').EOL;
@@ -80,8 +80,8 @@ tap.test('button twig pattern renders', function (test) {
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
-  var assembler = new pa();
-  var helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
+
+  var helloWorldPattern = loadPattern(patternPath, patternlab);
 
   return assembler.process_pattern_iterative(helloWorldPattern, patternlab).then(() => {
     assembler.process_pattern_recursive(patternPath, patternlab);
@@ -102,12 +102,12 @@ tap.test('media object twig pattern can see the atoms-button and atoms-image par
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
+
 
   // do all the normal processing of the pattern
-  const buttonPattern = assembler.load_pattern_iterative(buttonPatternPath, patternlab);
-  const imagePattern = assembler.load_pattern_iterative(imagePatternPath, patternlab);
-  const mediaObjectPattern = assembler.load_pattern_iterative(mediaObjectPatternPath, patternlab);
+  const buttonPattern = loadPattern(buttonPatternPath, patternlab);
+  const imagePattern = loadPattern(imagePatternPath, patternlab);
+  const mediaObjectPattern = loadPattern(mediaObjectPatternPath, patternlab);
 
   return Promise.all([
     assembler.process_pattern_iterative(buttonPattern, patternlab),
@@ -137,7 +137,7 @@ tap.test('twig partials can render JSON values', {skip: true}, function (test) {
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
+
 
   // do all the normal processing of the pattern
   var helloWorldWithData = assembler.process_pattern_iterative(pattern1Path, patternlab);
@@ -167,7 +167,7 @@ tap.test('twig partials use the JSON environment from the calling pattern and ca
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
+
 
   // do all the normal processing of the pattern
   var atom = assembler.process_pattern_iterative(atomPath, patternlab);

@@ -2,8 +2,7 @@
 
 const tap = require('tap');
 
-var pa = require('../core/lib/pattern_assembler');
-var pattern_assembler = new pa();
+var loadPattern = require('../core/lib/loadPattern')
 const addPattern = require('../core/lib/addPattern');
 const parseAllLinks = require('../core/lib/parseAllLinks');
 
@@ -25,7 +24,7 @@ tap.test('parseDataLinks - replaces found link.* data for their expanded links',
   ];
   patternlab.data.link = {};
 
-  var navPattern = pattern_assembler.load_pattern_iterative('00-test/nav.mustache', patternlab);
+  var navPattern = loadPattern('00-test/nav.mustache', patternlab);
   addPattern(navPattern, patternlab);
 
   //for the sake of the test, also imagining I have the following pages...

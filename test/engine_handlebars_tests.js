@@ -6,13 +6,11 @@ const path = require('path');
 const eol = require('os').EOL;
 
 const util = require('./util/test_utils.js');
-const pa = require('../core/lib/pattern_assembler');
+const loadPattern = require('../core/lib/loadPattern');
 const Pattern = require('../core/lib/object_factory').Pattern;
 const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 const processIterative = require('../core/lib/processIterative');
 const processRecursive = require('../core/lib/processRecursive');
-
-var assembler = new pa();
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
 
@@ -90,7 +88,7 @@ tap.test('hello world handlebars pattern renders', function (test) {
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
-  var helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
+  var helloWorldPattern = loadPattern(patternPath, patternlab);
 
   processIterative(helloWorldPattern, patternlab).then((helloWorldPattern) => {
       processRecursive(patternPath, patternlab).then(() => {
@@ -113,8 +111,8 @@ tap.test('hello worlds handlebars pattern can see the atoms-helloworld partial a
   var patternlab = new fakePatternLab(); // environment
 
   // do all the normal loading and processing of the pattern
-  const pattern1 = assembler.load_pattern_iterative(pattern1Path, patternlab);
-  const pattern2 = assembler.load_pattern_iterative(pattern2Path, patternlab);
+  const pattern1 = loadPattern(pattern1Path, patternlab);
+  const pattern2 = loadPattern(pattern2Path, patternlab);
 
   Promise.all([
     processIterative(pattern1, patternlab),
@@ -143,7 +141,7 @@ tap.test('handlebars partials can render JSON values', function (test) {
   var patternlab = new fakePatternLab(); // environment
 
   // do all the normal processing of the pattern
-  var helloWorldWithData = assembler.load_pattern_iterative(pattern1Path, patternlab);
+  var helloWorldWithData = loadPattern(pattern1Path, patternlab);
 
   processIterative(helloWorldWithData, patternlab).then(() => {
     processRecursive(pattern1Path, patternlab).then(() => {
@@ -168,8 +166,8 @@ tap.test('handlebars partials use the JSON environment from the calling pattern 
   var patternlab = new fakePatternLab(); // environment
 
   // do all the normal processing of the pattern
-  const atom = assembler.load_pattern_iterative(atomPath, patternlab);
-  const mol = assembler.load_pattern_iterative(molPath, patternlab);
+  const atom = loadPattern(atomPath, patternlab);
+  const mol = loadPattern(molPath, patternlab);
 
   Promise.all([
     processIterative(atom, patternlab),
@@ -246,8 +244,8 @@ tap.only('hidden handlebars patterns can be called by their nice names', functio
   var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.hbs');
   var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.hbs');
 
-  var hiddenPattern = assembler.load_pattern_iterative(hiddenPatternPath, pl);
-  var testPattern = assembler.load_pattern_iterative(testPatternPath, pl);
+  var hiddenPattern = loadPattern(hiddenPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   Promise.all([
     processIterative(hiddenPattern, pl),
@@ -270,7 +268,7 @@ tap.test('@partial-block template should render without throwing (@geoffp repo i
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
-  var atPartialBlockPattern = assembler.load_pattern_iterative(patternPath, patternlab);
+  var atPartialBlockPattern = loadPattern(patternPath, patternlab);
 
   processIterative(atPartialBlockPattern, patternlab).then(() => {
     processRecursive(patternPath, patternlab).then(() => {
@@ -293,8 +291,8 @@ tap.test('A template calling a @partial-block template should render correctly',
   var patternlab = new fakePatternLab(); // environment
 
   // do all the normal processing of the pattern
-  const pattern1 = assembler.load_pattern_iterative(pattern1Path, patternlab);
-  const callAtPartialBlockPattern = assembler.load_pattern_iterative(pattern2Path, patternlab);
+  const pattern1 = loadPattern(pattern1Path, patternlab);
+  const callAtPartialBlockPattern = loadPattern(pattern2Path, patternlab);
 
   Promise.all([
     processIterative(pattern1, patternlab),

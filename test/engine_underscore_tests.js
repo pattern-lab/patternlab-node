@@ -2,7 +2,7 @@
 
 var tap = require('tap');
 var path = require('path');
-var pa = require('../core/lib/pattern_assembler');
+var loadPattern = require('../core/lib/loadPattern');
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
 var eol = require('os').EOL;
@@ -54,8 +54,8 @@ tap.test('hello world underscore pattern renders', function (test) {
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
-  var assembler = new pa();
-  const helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
+
+  const helloWorldPattern = loadPattern(patternPath, patternlab);
 
   return assembler.process_pattern_iterative(helloWorldPattern, patternlab).then(() => {
     assembler.process_pattern_recursive(patternPath, patternlab);
@@ -78,10 +78,10 @@ tap.test('underscore partials can render JSON values', function (test) {
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
+
 
   // do all the normal processing of the pattern
-  const helloWorldWithData = assembler.load_pattern_iterative(pattern1Path, patternlab);
+  const helloWorldWithData = loadPattern(pattern1Path, patternlab);
   return assembler.process_pattern_iterative(helloWorldWithData, patternlab).then(() => {
     assembler.process_pattern_recursive(pattern1Path, patternlab);
 
@@ -109,13 +109,12 @@ tap.test('hidden underscore patterns can be called by their nice names', functio
   //arrange
   const testPatternsPath = path.resolve(__dirname, 'files', '_underscore-test-patterns');
   const pl = util.fakePatternLab(testPatternsPath);
-  var pattern_assembler = new pa();
 
   var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.html');
   var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.html');
 
-  var hiddenPattern = pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl);
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var hiddenPattern = loadPattern(hiddenPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
   return Promise.all([
     pattern_assembler.process_pattern_iterative(hiddenPattern, pl),
