@@ -25,10 +25,10 @@ The Pattern Lab Node uses [Node](https://nodejs.org) for core processing and [np
 
 Pattern Lab Node can be used different ways. Editions lilke this one are **example** pairings of Pattern Lab code and do not always have an upgrade path or simple means to run as a dependency within a larger project. Users wishing to be most current and have the greatest flexibility are encouraged to consume `patternlab-node` directly. Users wanting to learn more about Pattern Lab and have a tailored default experience are encouraged to start with an Edition. Both methods still expect to interact with other elements of the [Pattern Lab Ecosystem](https://github.com/pattern-lab/patternlab-node#ecosystem).
 
-As an edition, the simplist installation sequence is to clone this repository.
+As an edition, the simplest installation sequence is to clone this repository.
 
 ``` bash
-mkdir newApp && cs newApp
+mkdir newApp && cd newApp
 git clone https://github.com/pattern-lab/edition-node.git
 npm install
 ```
