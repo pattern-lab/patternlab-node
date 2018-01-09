@@ -8,6 +8,7 @@ const buildListItems = require('../core/lib/buildListItems');
 const pa = require('../core/lib/pattern_assembler');
 const pattern_assembler = new pa();
 const engineLoader = require('../core/lib/pattern_engines');
+const getPartial = require('../core/lib/get');
 const processRecursive = require('../core/lib/processRecursive');
 const processIterative = require('../core/lib/processIterative');
 
@@ -237,28 +238,37 @@ tap.test('processRecursive - ensure deep-nesting works', function (test) {
   var p2 = processIterative(templatePattern, patternlab);
   var p3 = processIterative(pagesPattern, patternlab);
 
-  Promise.all([p1, p2, p3]).then(() => {
+  return Promise.all([
+    p1,
+    p2,
+    p3,
+    processRecursive(atomPath, patternlab),
+    processRecursive(templatePath, patternlab),
+    processRecursive(pagesPath, patternlab)
+  ]).then(() => {
     //act
-    processRecursive(pagesPath, patternlab).then(() => {
+    return test.test('processRecursive - ensure deep-nesting works2', function (tt) {
       //assert
       const expectedCleanValue = 'bar';
       const expectedSetValue = 'bar';
 
       //this is the "atom" - it should remain unchanged
-      test.equals(util.sanitized(atomPattern.template), expectedCleanValue);
-      test.equals(util.sanitized(atomPattern.extendedTemplate), expectedCleanValue);
+      tt.equals(util.sanitized(atomPattern.template), expectedCleanValue);
+      tt.equals(util.sanitized(atomPattern.extendedTemplate), expectedCleanValue);
 
       //this is the "template pattern" - it should have an updated extendedTemplate but an unchanged template
-      test.equals(util.sanitized(templatePattern.template), '{{> test-bar }}');
-      test.equals(util.sanitized(templatePattern.extendedTemplate), expectedSetValue);
+      tt.equals(util.sanitized(templatePattern.template), '{{> test-bar }}');
+      tt.equals(util.sanitized(templatePattern.extendedTemplate), expectedSetValue);
 
       //this is the "pages pattern" - it should have an updated extendedTemplate equal to the template pattern but an unchanged template
-      test.equals(util.sanitized(pagesPattern.template), '{{> test-foo }}');
-      test.equals(util.sanitized(pagesPattern.extendedTemplate), expectedSetValue);
+      tt.equals(util.sanitized(pagesPattern.template), '{{> test-foo }}');
+      tt.equals(util.sanitized(pagesPattern.extendedTemplate), expectedSetValue);
+      tt.end();
       test.end();
-    }).catch(test.threw);
-  }).catch(test.threw);
-});
+    });
+
+  })
+}).catch(tap.threw);
 
 tap.test('processRecursive - 685 ensure listitems data is used', function (test) {
   //arrange

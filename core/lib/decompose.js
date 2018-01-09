@@ -41,7 +41,7 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
       }
 
       //recurse through nested partials to fill out this extended template.
-      processRecursive(partialPath, patternlab).then(() => { //eslint-disable-line no-loop-func
+      return processRecursive(partialPath, patternlab).then(() => { //eslint-disable-line no-loop-func
         //complete assembly of extended template
         //create a copy of the partial so as to not pollute it after the getPartial call.
         var partialPattern = getPartial(partial, patternlab);
@@ -55,6 +55,7 @@ function expandPartials(foundPatternPartials, patternlab, currentPattern) {
         //this is what we came here for
         logger.debug(`within ${currentPattern.patternPartial}, replacing extendedTemplate partial ${foundPartial} with ${cleanPartialPattern.patternPartial}'s extededTemplate`);
         currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(foundPartial, cleanPartialPattern.extendedTemplate);
+        return Promise.resolve();
       });
     });
   }).catch(reason => {
