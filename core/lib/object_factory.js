@@ -58,7 +58,7 @@ const Pattern = function (relPath, data, patternlab) {
 
   // calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
-  this.patternLink = patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
+  this.patternLink = this.patternSectionSubtype ? `$${this.name}/index.html` : (patternlab ? this.getPatternLink(patternlab, 'rendered') : null);
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial

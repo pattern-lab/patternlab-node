@@ -19,8 +19,8 @@ const dataLoader = new da();
 //this is mocked in unit tests
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
-  // loads a pattern from disk, creates a Pattern object from it and
-  // all its associated files, and records it in patternlab.patterns[]
+// loads a pattern from disk, creates a Pattern object from it and
+// all its associated files, and records it in patternlab.patterns[]
 module.exports = function (relPath, patternlab) {
 
   var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
@@ -47,12 +47,10 @@ module.exports = function (relPath, patternlab) {
         var subTypeMarkdown = markdown_parser.parse(subTypeMarkdownFileContents);
         var subTypePattern = new Pattern(relPath, null, patternlab);
         subTypePattern.patternSectionSubtype = true;
-        subTypePattern.patternLink = subTypePattern.name + '/index.html';
-        subTypePattern.patternDesc = subTypeMarkdown.markdown;
+        subTypePattern.patternDesc = subTypeMarkdown ? subTypeMarkdown.markdown : '';
         subTypePattern.flatPatternPath = subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
         subTypePattern.isPattern = false;
         subTypePattern.engine = null;
-
         patternlab.subtypePatterns[subTypePattern.patternPartial] = subTypePattern;
 
         return subTypePattern;
@@ -64,7 +62,6 @@ module.exports = function (relPath, patternlab) {
       }
     }
   }
-
 
   //extract some information
   var filename = fileObject.base;
