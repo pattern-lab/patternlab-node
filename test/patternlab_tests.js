@@ -4,7 +4,6 @@ const tap = require('tap');
 const rewire = require("rewire");
 const _ = require('lodash');
 const fs = require('fs-extra');
-const defaultConfig = require('../patternlab-config.json');
 var config = require('./util/patternlab-config.json');
 
 var plEngineModule = rewire('../core/lib/patternlab');
@@ -53,35 +52,3 @@ tap.test('buildPatternData - can load json, yaml, and yml files', function(test)
   test.equals(dataResult.from_json, "from_json");
   test.end();
 });
-
-// this test needs to be re-jiggered
-// tap.test('buildPatterns - should replace data link even when pattern parameter present', function(test) {
-//   //arrange
-
-//   var patternExporterMock = {
-//     /*
-//      In this test, we actually take advantage of the pattern export functionality post-build to inspect what
-//      the contents of the patterns look like. This, coupled with a mocking of fs and the ui_builder, allow us to focus
-//      only on the order of events within build.
-//      */
-//     export_patterns: function (patternlab) {
-//       var pattern = _.find(patternlab.patterns, (p) => {
-//         return p.patternPartial === 'test-paramParent';
-//       });
-//       //assert
-//       test.equals(pattern.patternPartialCode.indexOf('00-test-00-foo.rendered.html') > -1, true, 'data link should be replaced properly');
-//     }
-//   };
-
-//   plEngineModule.__set__({
-//     'pattern_exporter': patternExporterMock
-//   });
-
-//   config.patternExportPatternPartials = ['test-paramParent'];
-//   var pl = new plEngineModule(config);
-
-//   //act
-//   pl.build(function() {
-//     test.end();
-//   }, true);
-// });

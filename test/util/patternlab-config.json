@@ -61,6 +61,7 @@
   },
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
+  "patternExtension": "mustache",
   "cacheBust": true,
   "outputFileSuffixes": {
     "rendered": ".rendered",

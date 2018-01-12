@@ -5,6 +5,8 @@ const decompose = require('./decompose');
 
 module.exports = function (file, patternlab) {
 
+  console.log(8, file)
+
   //find current pattern in patternlab object using file as a partial
   var currentPattern, i;
 
@@ -19,6 +21,8 @@ module.exports = function (file, patternlab) {
 
   //we are processing a markdown only pattern
   if (currentPattern.engine === null) { return Promise.resolve(); }
+
+  console.log(25, currentPattern.patternPartial)
 
   //call our helper method to actually unravel the pattern with any partials
   return decompose(currentPattern, patternlab)
