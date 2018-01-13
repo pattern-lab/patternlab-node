@@ -186,8 +186,6 @@ const patternlab_module = function (config) {
       // TODO we can reduce the time needed by only processing changed patterns and their partials
       return patternlab.processAllPatternsRecursive(paths.source.patterns).then(() => {
 
-        console.log('+++++++++++++++++++++?????????')
-
         //take the user defined head and foot and process any data and patterns that apply
         const headPatternPromise = processMetaPattern(`_00-head.${patternlab.config.patternExtension}`, 'userHead', patternlab);
         const footPatternPromise = processMetaPattern(`_01-foot.${patternlab.config.patternExtension}`, 'userFoot', patternlab);
@@ -219,8 +217,6 @@ const patternlab_module = function (config) {
             // rebuild all patterns
             patternsToBuild = null;
 
-            console.log('222', patternlab.incrementalBuildsEnabled)
-
             if (patternlab.incrementalBuildsEnabled) {
               // When the graph was loaded from file, some patterns might have been moved/deleted between runs
               // so the graph data become out of sync
@@ -241,9 +237,6 @@ const patternlab_module = function (config) {
             }
 
             //render all patterns last, so lineageR works
-
-            console.log(243, patternsToBuild)
-
             return patternsToBuild
               .reduce((previousPromise, pattern) => {
                 return previousPromise.then(() => patternlab.renderSinglePattern(pattern, head));

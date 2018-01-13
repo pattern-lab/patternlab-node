@@ -18,8 +18,6 @@ const list_item_hunter = new lih();
  */
 module.exports = function (pattern, patternlab, ignoreLineage) {
 
-console.log('21 currentPattern', pattern.patternPartial)
-
   //set the extendedTemplate to operate on later if we find partials to replace
   if (!pattern.extendedTemplate) {
     pattern.extendedTemplate = pattern.template;

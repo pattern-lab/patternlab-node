@@ -317,7 +317,6 @@ module.exports = class PatternLab {
     ///////////////
 
     //render the extendedTemplate with all data
-    console.log('317 patternlab.js rendering', pattern.patternPartial, pattern.extendedTemplate, pattern.template);
     const patternPartialPromise = render(pattern, allData, this.partials);
 
     ///////////////
@@ -369,8 +368,6 @@ module.exports = class PatternLab {
 
 
     return Promise.all([headPromise, patternPartialPromise, footerPartialPromise]).then(intermediateResults => {
-
-      console.log('!!!!', 369, intermediateResults[1])
 
       // retrieve results of promises
       const headHTML = intermediateResults[0]; //headPromise

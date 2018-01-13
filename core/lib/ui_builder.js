@@ -555,13 +555,13 @@ const ui_builder = function () {
       });
 
       return Promise.all(subTypePromises).catch(reason => {
-        console.log(625, reason);
+        console.log(reason);
         logger.error('Error during buildViewAllPages');
       });
     });
 
     return Promise.all(allPatternTypePromises).catch(reason => {
-      console.log(636, reason);
+      console.log(reason);
       logger.error('Error during buildViewAllPages');
     });
   }
