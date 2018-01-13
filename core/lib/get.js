@@ -16,7 +16,7 @@ module.exports = function (partialName, patternlab) {
     switch (partialName) {
       case patternlab.patterns[i].relPath:
         return patternlab.patterns[i];
-      case path.normalize(patternlab.patterns[i].verbosePartial):
+      case patternlab.patterns[i].verbosePartial:
         return patternlab.patterns[i];
     }
   }
