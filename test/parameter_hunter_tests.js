@@ -16,7 +16,7 @@ engineLoader.loadAllEngines(config);
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 
-tap.only('parameter hunter finds and extends templates', function (test) {
+tap.test('parameter hunter finds and extends templates', function (test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath);
 
@@ -33,13 +33,13 @@ tap.only('parameter hunter finds and extends templates', function (test) {
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
       test.end();
     }).catch(test.threw);
   }).catch(test.threw);
 });
 
-tap.test('parameter hunter finds partials with their own parameters and renders them too', function (test) {
+tap.only('parameter hunter finds partials with their own parameters and renders them too', function (test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath);
 
@@ -55,8 +55,25 @@ tap.test('parameter hunter finds partials with their own parameters and renders 
   var p1 = processIterative(aPattern, pl);
   var p2 = processIterative(bPattern, pl);
   var p3 = processIterative(cPattern, pl);
+  var p4 = parameter_hunter.find_parameters(cPattern, pl);
 
-  Promise.all([p1, p2]).then(() => {
+  Promise.all([p1, p2, p3, p4]).then(() => {
+
+    //act
+  //   parameter_hunter.find_parameters(bPattern, pl).then(() => {
+  //     //assert
+  //     test.equals(util.sanitized(bPattern.extendedTemplate),
+  //     util.sanitized(`<b>b</b>
+  // {{ #b }}
+  // <i>b!</i>
+  // {{ /b }}
+  // <b>a</b>
+  // <i>a!</i>`));
+  //     test.end();
+  //   });
+  // });
+
+
     //act
     parameter_hunter.find_parameters(cPattern, pl).then(() => {
       //assert
@@ -72,7 +89,7 @@ tap.test('parameter hunter finds partials with their own parameters and renders 
 });
 
 
-tap.only('parameter hunter finds and extends templates with mixed parameter and global data', function (test) {
+tap.test('parameter hunter finds and extends templates with mixed parameter and global data', function (test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath, {
     data: {
