@@ -639,7 +639,7 @@ const ui_builder = function () {
       const headFootData = patternlab.data;
       headFootData.patternLabHead = headerPartial;
       headFootData.cacheBuster = patternlab.cacheBuster;
-      return render(Pattern.createEmpty({extendedTemplate: patternlab.userHead}), headFootData);
+      return render(patternlab.userHead, headFootData);
     }).catch(reason => {
       console.log(reason);
       logger.error('error during header render()');
@@ -652,7 +652,7 @@ const ui_builder = function () {
     }).then(footerPartial => {
       const headFootData = patternlab.data;
       headFootData.patternLabFoot = footerPartial;
-      return render(Pattern.createEmpty({extendedTemplate: patternlab.userFoot}), headFootData);
+      return render(patternlab.userFoot, headFootData);
     }).catch(reason => {
       console.log(reason);
       logger.error('error during footer render()');

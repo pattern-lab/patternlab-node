@@ -275,7 +275,7 @@ module.exports = class PatternLab {
     }
   }
 
-  renderSinglePattern(pattern, head) {
+  renderSinglePattern(pattern) {
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
       return Promise.resolve(false);
@@ -309,10 +309,12 @@ module.exports = class PatternLab {
     ///////////////
 
     //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
-    pattern.header = head;
-
-    // const headHTML
-    const headPromise = render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData);
+    let headPromise;
+    if (this.userHead) {
+      headPromise = render(this.userHead, allData);
+    } else {
+      headPromise = render(Pattern.createEmpty({ extendedTemplate: this.header }), allData);
+    }
 
     ///////////////
     // PATTERN
@@ -388,7 +390,7 @@ module.exports = class PatternLab {
       allFooterData = _.merge(allFooterData, pattern.jsonFileData);
       allFooterData.patternLabFoot = footerPartial;
 
-      return render(Pattern.createEmpty({extendedTemplate: self.userFoot}), allFooterData).then(footerHTML => {
+      return render(self.userFoot, allFooterData).then(footerHTML => {
 
         ///////////////
         // WRITE FILES
