@@ -172,7 +172,6 @@ const patternlab_module = function (config) {
 
     patternlab.buildGlobalData();
 
-    // diveSync once to perform iterative populating of patternlab object
     return patternlab.processAllPatternsIterative(paths.source.patterns).then(() => {
 
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
@@ -181,9 +180,8 @@ const patternlab_module = function (config) {
       //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
       parseAllLinks(patternlab);
 
-      //diveSync again to recursively include partials, filling out the
+      //dive again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
-      // TODO we can reduce the time needed by only processing changed patterns and their partials
       return patternlab.processAllPatternsRecursive(paths.source.patterns).then(() => {
 
         //take the user defined head and foot and process any data and patterns that apply

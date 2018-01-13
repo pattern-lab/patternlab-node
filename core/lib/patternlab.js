@@ -1,6 +1,5 @@
 "use strict";
 
-const diveSync = require('diveSync');
 const dive = require('dive');
 const _ = require('lodash');
 const path = require('path');
@@ -427,8 +426,7 @@ module.exports = class PatternLab {
     return dataLoader.loadDataFromFolder(dataFilesPath, 'listitems', fsDep);
   }
 
-  // GTP: these two diveSync pattern processors factored out so they can be reused
-  // from unit tests to reduce code dupe!
+  // dive once to perform iterative populating of patternlab object
   processAllPatternsIterative(patterns_dir) {
     const self = this;
     const promiseAllPatternFiles = new Promise(function (resolve) {
