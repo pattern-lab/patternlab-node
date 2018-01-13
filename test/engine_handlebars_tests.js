@@ -122,7 +122,6 @@ tap.test('hello worlds handlebars pattern can see the atoms-helloworld partial a
       processRecursive(pattern2Path, patternlab).then(() => {
         // test
         pattern2.render().then((results) => {
-          console.log(results)
           test.equals(results, 'Hello world!' + eol + ' and Hello world!' + eol + eol);
           test.end();
         });

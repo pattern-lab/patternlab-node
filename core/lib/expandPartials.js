@@ -56,15 +56,15 @@ module.exports = function (currentPattern, patternlab) {
 
           return Promise.resolve();
         }).catch(reason => {
-          console.log(reason)
+          console.log(reason);
           logger.error(reason);
         });
       });
 
     }).catch(reason => {
-      console.log(reason)
+      console.log(reason);
       logger.error(reason);
     });
   }
   return Promise.resolve();
-}
+};

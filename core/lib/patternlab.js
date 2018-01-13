@@ -18,7 +18,6 @@ const jsonCopy = require('./json_copy');
 const render = require('./render');
 const loadPattern = require('./loadPattern');
 const sm = require('./starterkit_manager');
-const pe = require('./pattern_exporter');
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 const patternEngines = require('./pattern_engines');
@@ -272,8 +271,6 @@ module.exports = class PatternLab {
   }
 
   renderSinglePattern(pattern, head) {
-
-    console.log('renderSinglePattern', pattern.patternPartial)
 
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {

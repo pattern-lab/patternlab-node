@@ -26,7 +26,7 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
   //find any listItem blocks that within the pattern, even if there are no partials
   const listItemPromise = list_item_hunter.process_list_item_partials(pattern, patternlab);
 
-  const expandPartialPromise = expandPartials(pattern, patternlab)
+  const expandPartialPromise = expandPartials(pattern, patternlab);
 
   let lineagePromise;
 

@@ -1,7 +1,6 @@
 "use strict";
 
 const logger = require('./log');
-const path = require('path');
 
 module.exports = function (partialName, patternlab) {
   //look for exact partial matches
