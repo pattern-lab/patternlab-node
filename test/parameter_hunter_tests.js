@@ -39,85 +39,7 @@ tap.test('parameter hunter finds and extends templates', function (test) {
   }).catch(test.threw);
 });
 
-tap.only('parameter hunter finds partials with their own parameters and renders them too', function (test) {
-  //arrange
-  const pl = util.fakePatternLab(testPatternsPath);
-
-  var aPatternPath = path.join('00-test', '539-a.mustache');
-  var aPattern = loadPattern(aPatternPath, pl);
-
-  var bPatternPath = path.join('00-test', '539-b.mustache');
-  var bPattern = loadPattern(bPatternPath, pl);
-
-  var cPatternPath = path.join('00-test', '539-c.mustache');
-  var cPattern = loadPattern(cPatternPath, pl);
-
-  var p1 = processIterative(aPattern, pl);
-  var p2 = processIterative(bPattern, pl);
-  var p3 = processIterative(cPattern, pl);
-  var p4 = parameter_hunter.find_parameters(cPattern, pl);
-
-  Promise.all([p1, p2, p3, p4]).then(() => {
-
-    //act
-  //   parameter_hunter.find_parameters(bPattern, pl).then(() => {
-  //     //assert
-  //     test.equals(util.sanitized(bPattern.extendedTemplate),
-  //     util.sanitized(`<b>b</b>
-  // {{ #b }}
-  // <i>b!</i>
-  // {{ /b }}
-  // <b>a</b>
-  // <i>a!</i>`));
-  //     test.end();
-  //   });
-  // });
-
-
-    //act
-    parameter_hunter.find_parameters(cPattern, pl).then(() => {
-      //assert
-      test.equals(util.sanitized(cPattern.extendedTemplate),
-      util.sanitized(`<b>c</b>
-  <b>b</b>
-  <i>b!</i>
-  <b>a</b>
-  <i>a!</i>`));
-      test.end();
-    });
-  });
-});
-
-
-tap.test('parameter hunter finds and extends templates with mixed parameter and global data', function (test) {
-  //arrange
-  const pl = util.fakePatternLab(testPatternsPath, {
-    data: {
-      foo: 'Bar',
-      description: 'Baz'
-    }
-  });
-
-  var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = loadPattern(commentPath, pl);
-
-  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
-  var testPattern = loadPattern(testPatternPath, pl);
-
-  var p1 = processIterative(commentPattern, pl);
-  var p2 = processIterative(testPattern, pl);
-
-  Promise.all([p1, p2]).then(() => {
-    //act
-    parameter_hunter.find_parameters(testPattern, pl).then(() => {
-      //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
-      test.end();
-    });
-  });
-});
-
-tap.test('parameter hunter finds and extends templates with verbose partials', function (test) {
+tap.only('parameter hunter finds and extends templates with verbose partials', function (test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath);
 
@@ -136,8 +58,8 @@ tap.test('parameter hunter finds and extends templates with verbose partials', f
       //assert
       test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
       test.end();
-    });
-  });
+    }).catch(test.threw);
+  }).catch(test.threw);
 });
 
 tap.test('parameter hunter finds and extends templates with fully-pathed partials', function(test) {
