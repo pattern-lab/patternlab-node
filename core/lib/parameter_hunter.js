@@ -254,7 +254,7 @@ const parameter_hunter = function () {
 
           //find the partial's name and retrieve it
           const partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-          const partialPattern = jsonCopy(getPartial(path.normalize(partialName), patternlab, `partial pattern ${partialName}`));
+          const partialPattern = jsonCopy(getPartial(partialName, patternlab, `partial pattern ${partialName}`));
 
           //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
           if (!partialPattern.extendedTemplate) {

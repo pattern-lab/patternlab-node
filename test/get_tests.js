@@ -7,7 +7,7 @@ const getPartial = require('../core/lib/get');
 
 const patterns_dir = './test/files/_patterns';
 
-tap.test('get_pattern_by_key - returns the fuzzy result when no others found', function (test) {
+tap.test('getPartial - returns the fuzzy result when no others found', function (test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
   patternlab.patterns = [];
@@ -27,7 +27,32 @@ tap.test('get_pattern_by_key - returns the fuzzy result when no others found', f
   test.end();
 });
 
-tap.test('get_pattern_by_key - returns the exact key if found', function (test) {
+tap.test('getPartial - returns the verbose result if found', function (test) {
+  //arrange
+  const patternlab = util.fakePatternLab(patterns_dir);
+  patternlab.patterns = [];
+
+  patternlab.patterns.push({
+    patternPartial: 'molecules-primary-nav-jagged',
+    subdir: 'molecules',
+    fileName: 'primary-nav-jagged',
+    verbosePartial: 'molecules/primary-nav-jagged'
+  }, {
+    patternPartial: 'molecules-primary-nav',
+    subdir: 'molecules',
+    fileName: 'molecules-primary-nav',
+    verbosePartial: 'molecules/primary-nav'
+  });
+
+  //act
+  var result = getPartial('molecules/primary-nav', patternlab);
+
+  //assert
+  test.equals(result, patternlab.patterns[1]);
+  test.end();
+});
+
+tap.test('getPartial - returns the exact key if found', function (test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
   patternlab.patterns = [];

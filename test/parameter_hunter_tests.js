@@ -39,7 +39,7 @@ tap.test('parameter hunter finds and extends templates', function (test) {
   }).catch(test.threw);
 });
 
-tap.only('parameter hunter finds and extends templates with verbose partials', function (test) {
+tap.test('parameter hunter finds and extends templates with verbose partials', function (test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath);
 
@@ -56,33 +56,10 @@ tap.only('parameter hunter finds and extends templates with verbose partials', f
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
       test.end();
     }).catch(test.threw);
   }).catch(test.threw);
-});
-
-tap.test('parameter hunter finds and extends templates with fully-pathed partials', function(test) {
-  //arrange
-  const pl = util.fakePatternLab(testPatternsPath);
-
-  var commentPath = path.join('00-test', 'comment.mustache');
-  var commentPattern = loadPattern(commentPath, pl);
-
-  var testPatternPath = path.join('00-test', 'sticky-comment-full.mustache');
-  var testPattern = loadPattern(testPatternPath, pl);
-
-  var p1 = processIterative(commentPattern, pl);
-  var p2 = processIterative(testPattern, pl);
-
-  Promise.all([p1, p2]).then(() => {
-    //act
-    parameter_hunter.find_parameters(testPattern, pl).then(() => {
-      //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'));
-      test.end();
-    });
-  });
 });
 
 //previous tests were for unquoted parameter keys and single-quoted values.
