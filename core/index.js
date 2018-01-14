@@ -146,7 +146,7 @@ const patternlab_module = function (config) {
     }
   }
 
-  function buildPatterns(deletePatternDir) {
+  function buildPatterns(deletePatternDir, additionalData) {
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
     //
@@ -170,7 +170,7 @@ const patternlab_module = function (config) {
     //
     cleanBuildDirectory(patternlab.incrementalBuildsEnabled);
 
-    patternlab.buildGlobalData();
+    patternlab.buildGlobalData(additionalData);
 
     return patternlab.processAllPatternsIterative(paths.source.patterns).then(() => {
 
@@ -307,7 +307,7 @@ const patternlab_module = function (config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic).then(() => {
+      return buildPatterns(options.cleanPublic, options.data).then(() => {
 
         return new ui_builder().buildFrontend(patternlab).then(() => {
 
@@ -355,7 +355,7 @@ const patternlab_module = function (config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic).then(() => {
+      return buildPatterns(options.cleanPublic, options.data).then(() => {
         patternlab.isBusy = false;
       });
     },

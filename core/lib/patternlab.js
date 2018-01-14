@@ -132,7 +132,7 @@ module.exports = class PatternLab {
     }
   }
 
-  buildGlobalData() {
+  buildGlobalData(additionalData) {
     const paths = this.config.paths;
 
     //
@@ -171,6 +171,8 @@ module.exports = class PatternLab {
       // but whatever. For now.
       process.exit(1);
     }
+
+    this.data = Object.assign({}, this.data, additionalData);
 
     this.setCacheBust();
 
