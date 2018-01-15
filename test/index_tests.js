@@ -45,7 +45,7 @@ tap.test('getDefaultConfig - should return the default config object', function 
   test.end();
 });
 
-tap.test('buildPatterns', function () {
+tap.only('buildPatterns', function () {
   //arrange
 
   var patternExporterMock = {
@@ -63,7 +63,7 @@ tap.test('buildPatterns', function () {
         test.end();
       });
 
-      tap.test('parameter hunter finds partials with their own parameters and renders them too', function (test) {
+      tap.test('finds partials with their own parameters and renders them too', function (test) {
         var pattern = get('test-c', patternlab);
         test.equals(util.sanitized(pattern.extendedTemplate), util.sanitized(`<b>c</b>
         <b>b</b>
@@ -73,9 +73,22 @@ tap.test('buildPatterns', function () {
         test.end();
       });
 
-      tap.test('parameter hunter finds and extends templates with mixed parameter and global data', function (test) {
+      tap.test('finds and extends templates with mixed parameter and global data', function (test) {
         var pattern = get('test-sticky-comment', patternlab);
         test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>`));
+        test.end();
+      });
+
+      tap.test('expands links inside parameters', function (test) {
+        var pattern = get('test-linkInParameter', patternlab);
+        test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<a href="/patterns/00-test-comment/00-test-comment.rendered.html">Cool Dude</a>`));
+        test.end();
+      });
+
+      // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
+      tap.test(' parses parameters containing html tags', function (test) {
+        var pattern = get('test-parameterTags', patternlab);
+        test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>`));
         test.end();
       });
     }
