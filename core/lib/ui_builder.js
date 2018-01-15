@@ -2,9 +2,7 @@
 
 const path = require('path');
 const _ = require('lodash');
-const eol = require('os').EOL;
 
-const ae = require('./annotation_exporter');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
 const logger = require('./log');
@@ -13,6 +11,7 @@ const logger = require('./log');
 let render = require('./render'); //eslint-disable-line prefer-const
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 let buildFooter = require('./buildFooter'); //eslint-disable-line prefer-const
+let exportData = require('./exportData'); //eslint-disable-line prefer-const
 
 const ui_builder = function () {
 
@@ -564,48 +563,6 @@ const ui_builder = function () {
       console.log(reason);
       logger.error('Error during buildViewAllPages');
     });
-  }
-
-  /**
-   * Write out our pattern information for use by the front end
-   * @param patternlab - global data store
-     */
-  function exportData(patternlab) {
-    const annotation_exporter = new ae(patternlab);
-    const paths = patternlab.config.paths;
-
-    //write out the data
-    let output = '';
-
-    //config
-    output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
-
-    //ishControls
-    output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
-
-    //navItems
-    output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + ', "ishControlsHide": ' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
-
-    //patternPaths
-    output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
-
-    //viewAllPaths
-    output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
-
-    //plugins
-    output += 'var plugins = ' + JSON.stringify(patternlab.plugins || []) + ';' + eol;
-
-    //smaller config elements
-    output += 'var defaultShowPatternInfo = ' + (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
-    output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all') + '";' + eol;
-
-    //write all output to patternlab-data
-    fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
-
-    //annotations
-    const annotationsJSON = annotation_exporter.gather();
-    const annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-    fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
   }
 
   /**
