@@ -116,7 +116,7 @@ tap.test('parameter hunter parses parameters with unquoted keys and double-quote
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true</p>'));
       test.end();
     });
   });
@@ -144,7 +144,7 @@ tap.test('parameter hunter parses parameters with single-quoted keys and unquote
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true</p>'));
       test.end();
     });
   });
@@ -173,7 +173,7 @@ tap.test('parameter hunter parses parameters with single-quoted keys and single-
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not,&#39;true&#39;</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true not,&#39;true&#39;</p>'));
       test.end();
     });
   });
@@ -201,7 +201,7 @@ tap.test('parameter hunter parses parameters with single-quoted keys and double-
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not:&#39;true&#39;</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true not:&#39;true&#39;</p>'));
       test.end();
     });
   });
@@ -229,7 +229,7 @@ tap.test('parameter hunter parses parameters with double-unquoted keys and unquo
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true</p>'));
       test.end();
     });
   });
@@ -257,7 +257,7 @@ tap.test('parameter hunter parses parameters with double-quoted keys and single-
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not{&quot;true&quot;</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true not{&quot;true&quot;</p>'));
       test.end();
     });
   });
@@ -286,7 +286,7 @@ tap.test('parameter hunter parses parameters with double-quoted keys and double-
     //act
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>true not}&quot;true&quot;</p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>true not}&quot;true&quot;</p>'));
       test.end();
     });
   });
@@ -373,14 +373,14 @@ tap.test('parameter hunter skips malformed parameters', function (test) {
     parameter_hunter.find_parameters(testPattern, pl).then(() => {
       //assert
       console.log('\nPattern Lab should catch JSON.parse() errors and output useful debugging information...');
-      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p></p>'));
+      test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1>{{foo}}</h1><p>{{description}}</p>'));
       test.end();
     });
   });
 });
 
 // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
-tap.test('parameter hunter parses parameters containing html tags', function (test){
+tap.only('parameter hunter parses parameters containing html tags', function (test){
 
   const pl = util.fakePatternLab(testPatternsPath);
 
@@ -412,7 +412,7 @@ tap.test('parameter hunter parses parameters containing html tags', function (te
   });
 });
 
-tap.test('parameter hunter expands links inside parameters', function (test) {
+tap.only('parameter hunter expands links inside parameters', function (test) {
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('00-test', 'comment.mustache');

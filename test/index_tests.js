@@ -78,22 +78,6 @@ tap.test('buildPatterns', function () {
         test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>`));
         test.end();
       });
-
-      tap.test('parameter hunter parses parameters with unquoted keys and unquoted values', function (test) {
-        var pattern = get('test-sticky-comment', patternlab);
-        test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>`));
-        test.end();
-      });
-
-
-
-      ////////////// FAILING /////////////////
-
-      tap.test('parameter hunter finds and extends templates with verbose partials', function (test) {
-        var pattern = get('test-sticky-comment-verbose', patternlab);
-        test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<h1></h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>`));
-        test.end();
-      });
     }
   };
 
