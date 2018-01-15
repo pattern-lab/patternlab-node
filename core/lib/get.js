@@ -1,7 +1,6 @@
 "use strict";
 
 const logger = require('./log');
-const path = require('path');
 
 module.exports = function (partialName, patternlab) {
   //look for exact partial matches
@@ -16,7 +15,7 @@ module.exports = function (partialName, patternlab) {
     switch (partialName) {
       case patternlab.patterns[i].relPath:
         return patternlab.patterns[i];
-      case path.normalize(patternlab.patterns[i].verbosePartial):
+      case patternlab.patterns[i].verbosePartial:
         return patternlab.patterns[i];
     }
   }
@@ -31,6 +30,6 @@ module.exports = function (partialName, patternlab) {
       return patternlab.patterns[i];
     }
   }
-  logger.warning('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still called within a different template somewhere.');
+  logger.warning('Could not find pattern referenced with partial syntax ' + partialName + '. This can occur when a pattern was renamed, moved, or no longer exists but it still referenced within a different template or within data as a link.');
   return undefined;
 };

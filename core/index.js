@@ -146,7 +146,7 @@ const patternlab_module = function (config) {
     }
   }
 
-  function buildPatterns(deletePatternDir) {
+  function buildPatterns(deletePatternDir, additionalData) {
     patternlab.events.emit('patternlab-build-pattern-start', patternlab);
 
     //
@@ -170,9 +170,8 @@ const patternlab_module = function (config) {
     //
     cleanBuildDirectory(patternlab.incrementalBuildsEnabled);
 
-    patternlab.buildGlobalData();
+    patternlab.buildGlobalData(additionalData);
 
-    // diveSync once to perform iterative populating of patternlab object
     return patternlab.processAllPatternsIterative(paths.source.patterns).then(() => {
 
       patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
@@ -181,90 +180,94 @@ const patternlab_module = function (config) {
       //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
       parseAllLinks(patternlab);
 
-      //diveSync again to recursively include partials, filling out the
+      //dive again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
-      // TODO we can reduce the time needed by only processing changed patterns and their partials
-      patternlab.processAllPatternsRecursive(paths.source.patterns, patternlab);
+      return patternlab.processAllPatternsRecursive(paths.source.patterns).then(() => {
 
-      //take the user defined head and foot and process any data and patterns that apply
-      const headPatternPromise = processMetaPattern(`_00-head.${patternlab.config.patternExtension}`, 'userHead', patternlab);
-      const footPatternPromise = processMetaPattern(`_01-foot.${patternlab.config.patternExtension}`, 'userFoot', patternlab);
+        //take the user defined head and foot and process any data and patterns that apply
+        const headPatternPromise = processMetaPattern(`_00-head.${patternlab.config.patternExtension}`, 'userHead', patternlab);
+        const footPatternPromise = processMetaPattern(`_01-foot.${patternlab.config.patternExtension}`, 'userFoot', patternlab);
 
-      return Promise.all([headPatternPromise, footPatternPromise]).then(() => {
+        return Promise.all([headPatternPromise, footPatternPromise]).then(() => {
 
-        //cascade any patternStates
-        lineage_hunter.cascade_pattern_states(patternlab);
+          //cascade any patternStates
+          lineage_hunter.cascade_pattern_states(patternlab);
 
-        //set pattern-specific header if necessary
-        let head;
-        if (patternlab.userHead) {
-          head = patternlab.userHead;
-        } else {
-          head = patternlab.header;
-        }
-
-        //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-        return render(Pattern.createEmpty({extendedTemplate: patternlab.header}), {
-          cacheBuster: patternlab.cacheBuster
-        }).then((results) => {
-          patternlab.data.patternLabHead = results;
-
-          // If deletePatternDir == true or graph needs to be updated
-          // rebuild all patterns
-          let patternsToBuild = null;
-
-          // If deletePatternDir == true or graph needs to be updated
-          // rebuild all patterns
-          patternsToBuild = null;
-
-          if (patternlab.incrementalBuildsEnabled) {
-            // When the graph was loaded from file, some patterns might have been moved/deleted between runs
-            // so the graph data become out of sync
-            patternlab.graph.sync().forEach(n => {
-              logger.info("[Deleted/Moved] " + n);
-            });
-
-            // TODO Find created or deleted files
-            const now = new Date().getTime();
-            markModifiedPatterns(now, patternlab);
-            patternsToBuild = patternlab.graph.compileOrder();
+          //set pattern-specific header if necessary
+          let head;
+          if (patternlab.userHead) {
+            head = patternlab.userHead;
           } else {
-            // build all patterns, mark all to be rebuilt
-            patternsToBuild = patternlab.patterns;
-            for (const p of patternsToBuild) {
-              p.compileState = CompileState.NEEDS_REBUILD;
-            }
+            head = patternlab.header;
           }
 
-          //render all patterns last, so lineageR works
-          return patternsToBuild
-            .reduce((previousPromise, pattern) => {
-              return previousPromise.then(() => patternlab.renderSinglePattern(pattern, head));
-            }, Promise.resolve())
-            .then(() => {
-              // Saves the pattern graph when all files have been compiled
-              PatternGraph.storeToFile(patternlab);
-              if (patternlab.config.exportToGraphViz) {
-                PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
-                logger.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+          //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+          return render(Pattern.createEmpty({extendedTemplate: patternlab.header}), {
+            cacheBuster: patternlab.cacheBuster
+          }).then((results) => {
+            patternlab.data.patternLabHead = results;
+
+            // If deletePatternDir == true or graph needs to be updated
+            // rebuild all patterns
+            let patternsToBuild = null;
+
+            // If deletePatternDir == true or graph needs to be updated
+            // rebuild all patterns
+            patternsToBuild = null;
+
+            if (patternlab.incrementalBuildsEnabled) {
+              // When the graph was loaded from file, some patterns might have been moved/deleted between runs
+              // so the graph data become out of sync
+              patternlab.graph.sync().forEach(n => {
+                logger.info("[Deleted/Moved] " + n);
+              });
+
+              // TODO Find created or deleted files
+              const now = new Date().getTime();
+              markModifiedPatterns(now, patternlab);
+              patternsToBuild = patternlab.graph.compileOrder();
+            } else {
+              // build all patterns, mark all to be rebuilt
+              patternsToBuild = patternlab.patterns;
+              for (const p of patternsToBuild) {
+                p.compileState = CompileState.NEEDS_REBUILD;
               }
+            }
 
-              //export patterns if necessary
-              pattern_exporter.export_patterns(patternlab);
+            //render all patterns last, so lineageR works
+            return patternsToBuild
+              .reduce((previousPromise, pattern) => {
+                return previousPromise.then(() => patternlab.renderSinglePattern(pattern, head));
+              }, Promise.resolve())
+              .then(() => {
+                // Saves the pattern graph when all files have been compiled
+                PatternGraph.storeToFile(patternlab);
+                if (patternlab.config.exportToGraphViz) {
+                  PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
+                  logger.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
+                }
 
-            }).catch(reason => {
-              console.log(reason);
-              logger.error('Error rendering patterns');
-            });
+                //export patterns if necessary
+                pattern_exporter.export_patterns(patternlab);
+
+              }).catch(reason => {
+                console.log(reason);
+                logger.error('Error rendering patterns');
+              });
+
+          }).catch(reason => {
+            console.log(reason);
+            logger.error('Error rendering pattern lab header');
+          });
 
         }).catch(reason => {
           console.log(reason);
-          logger.error('Error rendering pattern lab header');
+          logger.error('Error processing meta patterns');
         });
 
       }).catch(reason => {
         console.log(reason);
-        logger.error('Error processing meta patterns');
+        logger.error('Error processing patterns recursively');
       });
 
     }).catch(reason => {
@@ -304,7 +307,7 @@ const patternlab_module = function (config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic).then(() => {
+      return buildPatterns(options.cleanPublic, options.data).then(() => {
 
         return new ui_builder().buildFrontend(patternlab).then(() => {
 
@@ -352,7 +355,7 @@ const patternlab_module = function (config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic).then(() => {
+      return buildPatterns(options.cleanPublic, options.data).then(() => {
         patternlab.isBusy = false;
       });
     },

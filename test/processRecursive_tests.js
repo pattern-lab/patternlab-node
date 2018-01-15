@@ -66,7 +66,7 @@ tap.test('processRecursive - correctly replaces all stylemodifiers when multiple
 });
 
 
-tap.test('processRecursive - correctly replaces multiple stylemodifier classes on same partial', function (test) {
+tap.only('processRecursive - correctly replaces multiple stylemodifier classes on same partial', function (test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
 

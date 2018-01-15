@@ -1,6 +1,5 @@
 "use strict";
 
-const diveSync = require('diveSync');
 const dive = require('dive');
 const _ = require('lodash');
 const path = require('path');
@@ -18,18 +17,13 @@ const jsonCopy = require('./json_copy');
 const render = require('./render');
 const loadPattern = require('./loadPattern');
 const sm = require('./starterkit_manager');
-const pe = require('./pattern_exporter');
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
+const patternEngines = require('./pattern_engines');
 
 //these are mocked in unit tests, so let them be overridden
 let fs = require('fs-extra'); // eslint-disable-line
-let ui_builder = require('./ui_builder'); // eslint-disable-line
-let pattern_exporter = new pe(); // eslint-disable-line
-let assetCopier = require('./asset_copy'); // eslint-disable-line
-let serve = require('./serve'); // eslint-disable-line
 
-const patternEngines = require('./pattern_engines');
 const EventEmitter = require('events').EventEmitter;
 
 function PatternLabEventEmitter() {
@@ -138,7 +132,7 @@ module.exports = class PatternLab {
     }
   }
 
-  buildGlobalData() {
+  buildGlobalData(additionalData) {
     const paths = this.config.paths;
 
     //
@@ -177,6 +171,8 @@ module.exports = class PatternLab {
       // but whatever. For now.
       process.exit(1);
     }
+
+    this.data = Object.assign({}, this.data, additionalData);
 
     this.setCacheBust();
 
@@ -276,6 +272,7 @@ module.exports = class PatternLab {
   }
 
   renderSinglePattern(pattern, head) {
+
     // Pattern does not need to be built and recompiled more than once
     if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
       return Promise.resolve(false);
@@ -311,7 +308,6 @@ module.exports = class PatternLab {
     //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
     pattern.header = head;
 
-    // const headHTML
     const headPromise = render(Pattern.createEmpty({extendedTemplate: pattern.header}), allData);
 
     ///////////////
@@ -319,8 +315,7 @@ module.exports = class PatternLab {
     ///////////////
 
     //render the extendedTemplate with all data
-    //pattern.patternPartialCode
-    const patternPartialPromise = render(pattern, allData);
+    const patternPartialPromise = render(pattern, allData, this.partials);
 
     ///////////////
     // FOOTER
@@ -361,7 +356,6 @@ module.exports = class PatternLab {
     });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    // footerPartial
     const footerPartialPromise = render(Pattern.createEmpty({extendedTemplate: this.footer}), {
       isPattern: pattern.isPattern,
       patternData: pattern.patternData,
@@ -369,6 +363,7 @@ module.exports = class PatternLab {
     });
 
     const self = this;
+
 
     return Promise.all([headPromise, patternPartialPromise, footerPartialPromise]).then(intermediateResults => {
 
@@ -433,8 +428,7 @@ module.exports = class PatternLab {
     return dataLoader.loadDataFromFolder(dataFilesPath, 'listitems', fsDep);
   }
 
-  // GTP: these two diveSync pattern processors factored out so they can be reused
-  // from unit tests to reduce code dupe!
+  // dive once to perform iterative populating of patternlab object
   processAllPatternsIterative(patterns_dir) {
     const self = this;
     const promiseAllPatternFiles = new Promise(function (resolve) {
@@ -470,16 +464,21 @@ module.exports = class PatternLab {
 
   processAllPatternsRecursive(patterns_dir) {
     const self = this;
-    diveSync(
-      patterns_dir,
-      function (err, file) {
-        //log any errors
-        if (err) {
-          logger.info(err);
-          return;
-        }
-        processRecursive(path.relative(patterns_dir, file), self);
-      }
-    );
+
+    const promiseAllPatternFiles = new Promise(function (resolve) {
+      dive(
+        patterns_dir,
+        (err, file) => {
+          //log any errors
+          if (err) {
+            logger.info(err);
+            return;
+          }
+          processRecursive(path.relative(patterns_dir, file), self);
+        },
+        resolve
+      );
+    });
+    return promiseAllPatternFiles;
   }
 };
