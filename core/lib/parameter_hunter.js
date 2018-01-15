@@ -1,6 +1,7 @@
 'use strict';
 
-const path = require('path');
+const smh = require('./style_modifier_hunter');
+const style_modifier_hunter = new smh();
 
 const getPartial = require('./get');
 const logger = require('./log');
@@ -291,6 +292,11 @@ const parameter_hunter = function () {
               // find it within partialPattern.extendedTemplate and replace its value
               partialPattern.extendedTemplate = replaceParameter(partialPattern.extendedTemplate, prop, paramData[prop]);
             }
+          }
+
+          //if partial has style modifier data, replace the styleModifier value
+          if (pattern.stylePartials && pattern.stylePartials.length > 0) {
+            style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
           }
 
           // set pattern.extendedTemplate pMatch with replacedPartial
