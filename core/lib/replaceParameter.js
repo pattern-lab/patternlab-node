@@ -5,13 +5,15 @@ const logger = require('./log');
 module.exports = function (template, prop, data) {
   let t = template;
 
+  const valueRE = new RegExp(`{{{?\\s*[${prop}]+\\s*}?}}`);
+
   if (typeof data === 'string') {
-    return t.replace(`{{${prop}}}`, data);
+    return t.replace(valueRE, data);
   }
 
   if (typeof data === 'boolean') {
-    const startRE = new RegExp(`{{\\s?#[${prop}]+\\s?}}`);
-    const endRE = new RegExp(`{{\\s?/[${prop}]+\\s?}}`);
+    const startRE = new RegExp(`{{\\s*#[${prop}]+\\s*}}`);
+    const endRE = new RegExp(`{{\\s*/[${prop}]+\\s*}}`);
 
     const bIdx = t.search(startRE);
     const eIdxStart = t.search(endRE);

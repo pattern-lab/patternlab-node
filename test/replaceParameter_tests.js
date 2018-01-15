@@ -24,6 +24,12 @@ tap.test('replaces simple boolean false value', function (test) {
   test.end();
 });
 
+tap.test('replaces raw value', function (test) {
+  const result = replaceParameter('{{{key}}}', 'key', 'value');
+  test.equals(result, 'value');
+  test.end();
+});
+
 tap.test('replaces boolean true section', function (test) {
   const result = replaceParameter('1{{#key}}value{{/key}}2', 'key', true);
   test.equals(result, '1value2');
