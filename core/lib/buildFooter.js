@@ -31,7 +31,7 @@ module.exports = function (patternlab, patternPartial) {
     }
     allFooterData.patternLabFoot = footerPartial;
 
-    return render(Pattern.createEmpty({extendedTemplate: patternlab.userFoot}), allFooterData);
+    return render(patternlab.userFoot, allFooterData);
   }).catch(reason => {
     console.log(reason);
     logger.error('Error building buildFooterHTML');

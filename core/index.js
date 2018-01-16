@@ -182,6 +182,7 @@ const patternlab_module = function (config) {
 
       //dive again to recursively include partials, filling out the
       //extendedTemplate property of the patternlab.patterns elements
+
       return patternlab.processAllPatternsRecursive(paths.source.patterns).then(() => {
 
         //take the user defined head and foot and process any data and patterns that apply
@@ -192,14 +193,6 @@ const patternlab_module = function (config) {
 
           //cascade any patternStates
           lineage_hunter.cascade_pattern_states(patternlab);
-
-          //set pattern-specific header if necessary
-          let head;
-          if (patternlab.userHead) {
-            head = patternlab.userHead;
-          } else {
-            head = patternlab.header;
-          }
 
           //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
           return render(Pattern.createEmpty({extendedTemplate: patternlab.header}), {
@@ -237,7 +230,7 @@ const patternlab_module = function (config) {
             //render all patterns last, so lineageR works
             return patternsToBuild
               .reduce((previousPromise, pattern) => {
-                return previousPromise.then(() => patternlab.renderSinglePattern(pattern, head));
+                return previousPromise.then(() => patternlab.renderSinglePattern(pattern));
               }, Promise.resolve())
               .then(() => {
                 // Saves the pattern graph when all files have been compiled
