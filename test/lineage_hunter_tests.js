@@ -1,23 +1,23 @@
 "use strict";
 
-var tap = require('tap');
+const tap = require('tap');
+const fs = require('fs-extra');
+const path = require('path');
+const extend = require('util')._extend;
 
-var lh = require('../core/lib/lineage_hunter');
-var pa = require('../core/lib/pattern_assembler');
-var of = require('../core/lib/object_factory');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-var config = require('./util/patternlab-config.json');
+const lh = require('../core/lib/lineage_hunter');
+const loadPattern = require('../core/lib/loadPattern');
+const of = require('../core/lib/object_factory');
+const Pattern = require('../core/lib/object_factory').Pattern;
+const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+const config = require('./util/patternlab-config.json');
+const addPattern = require('../core/lib/addPattern');
+const getPartial = require('../core/lib/get');
 
-var engineLoader = require('../core/lib/pattern_engines');
+const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
-var fs = require('fs-extra');
-var path = require('path');
-
-var extend = require('util')._extend;
-var pattern_assembler = new pa();
-var lineage_hunter = new lh();
+const lineage_hunter = new lh();
 
 // fake pattern creators
 function createFakeEmptyErrorPattern() {
@@ -142,7 +142,6 @@ tap.test('find_lineage - finds lineage', function (test) {
   // BAD: This "patches" the relative path which is unset when using "createEmpty"
   patternlab.patterns.forEach(p => p.relPath = p.patternLink);
 
-  var lineage_hunter = new lh();
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
   var graphLineageIndex = patternlab.graph.lineageIndex(currentPattern);
@@ -220,13 +219,13 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.patternState = "inreview";
 
-  pattern_assembler.addPattern(atomPattern, pl);
+  addPattern(atomPattern, pl);
 
   var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
   consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
   consumerPattern.extendedTemplate = consumerPattern.template;
   consumerPattern.patternState = "complete";
-  pattern_assembler.addPattern(consumerPattern, pl);
+  addPattern(consumerPattern, pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -234,7 +233,7 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
   lineage_hunter.cascade_pattern_states(pl);
 
   //assert
-  var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
+  var consumerPatternReturned = getPartial('test-foo', pl);
   test.equals(consumerPatternReturned.patternState, 'inreview');
   test.end();
 });
@@ -248,13 +247,13 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.patternState = "inreview";
 
-  pattern_assembler.addPattern(atomPattern, pl);
+  addPattern(atomPattern, pl);
 
   var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
   consumerPattern.template = fs.readFileSync(pl.config.paths.source.patterns + '00-test/00-foo.mustache', 'utf8');
   consumerPattern.extendedTemplate = consumerPattern.template;
   consumerPattern.patternState = "complete";
-  pattern_assembler.addPattern(consumerPattern, pl);
+  addPattern(consumerPattern, pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -262,8 +261,8 @@ tap.test('cascade_pattern_states promotes a lower pattern state up to the consum
   lineage_hunter.cascade_pattern_states(pl);
 
   //assert
-  var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
-  let lineage = pl.graph.lineage(consumerPatternReturned);
+  var consumerPatternReturned = getPartial('test-foo', pl);
+  const lineage = pl.graph.lineage(consumerPatternReturned);
   test.equals(lineage[0].lineageState, 'inreview');
   test.end();
 });
@@ -272,8 +271,8 @@ tap.test('cascade_pattern_states sets the pattern state on any lineage patterns 
   //arrange
   var pl = createBasePatternLabObject();
 
-  var atomPattern = pattern_assembler.load_pattern_iterative('00-test/01-bar.mustache', pl);
-  var consumerPattern = pattern_assembler.load_pattern_iterative('00-test/00-foo.mustache', pl);
+  var atomPattern = loadPattern('00-test/01-bar.mustache', pl);
+  var consumerPattern = loadPattern('00-test/00-foo.mustache', pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -281,7 +280,7 @@ tap.test('cascade_pattern_states sets the pattern state on any lineage patterns 
   lineage_hunter.cascade_pattern_states(pl);
 
   //assert
-  var consumedPatternReturned = pattern_assembler.getPartial('test-bar', pl);
+  var consumedPatternReturned = getPartial('test-bar', pl);
   let lineageR = pl.graph.lineageR(consumedPatternReturned);
   test.equals(lineageR[0].lineageState, 'inreview');
 
@@ -297,12 +296,12 @@ tap.test('cascade_pattern_states promotes lower pattern state when consumer does
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.patternState = "inreview";
 
-  pattern_assembler.addPattern(atomPattern, pl);
+  addPattern(atomPattern, pl);
 
   var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
   consumerPattern.template = fs.readFileSync(path.resolve(pl.config.paths.source.patterns, '00-test/00-foo.mustache'), 'utf8');
   consumerPattern.extendedTemplate = consumerPattern.template;
-  pattern_assembler.addPattern(consumerPattern, pl);
+  addPattern(consumerPattern, pl);
 
   lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -310,7 +309,7 @@ tap.test('cascade_pattern_states promotes lower pattern state when consumer does
   lineage_hunter.cascade_pattern_states(pl);
 
   //assert
-  var consumerPatternReturned = pattern_assembler.getPartial('test-foo', pl);
+  var consumerPatternReturned = getPartial('test-foo', pl);
   test.equals(consumerPatternReturned.lineage.length, 1);
   test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
   test.equals(consumerPatternReturned.patternState, 'inreview');
@@ -357,7 +356,6 @@ tap.test('find_lineage - finds lineage with unspaced pattern parameters', functi
     }
   };
 
-  var lineage_hunter = new lh();
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
   test.equals(currentPattern.lineageIndex.length, 1);
@@ -429,7 +427,6 @@ tap.test('find_lineage - finds lineage with spaced styleModifier', function (tes
     }
   };
 
-  var lineage_hunter = new lh();
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
   test.equals(currentPattern.lineageIndex.length, 1);
@@ -491,7 +488,6 @@ tap.test('find_lineage - finds lineage with unspaced styleModifier', function (t
     }
   };
 
-  var lineage_hunter = new lh();
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
   test.equals(currentPattern.lineageIndex.length, 1);

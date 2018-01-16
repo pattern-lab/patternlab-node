@@ -5,16 +5,16 @@ var tap = require('tap');
 var path = require('path');
 var pph = require('../core/lib/pseudopattern_hunter');
 
-var pa = require('../core/lib/pattern_assembler');
+var loadPattern = require('../core/lib/loadPattern')
 var Pattern = require('../core/lib/object_factory').Pattern;
 var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+const addPattern = require('../core/lib/addPattern');
 
 var config = require('./util/patternlab-config.json');
 var engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 var fs = require('fs-extra');
-var pattern_assembler = new pa();
 var patterns_dir = './test/files/_patterns/';
 var public_patterns_dir = './test/public/patterns';
 
@@ -46,8 +46,8 @@ tap.test('pseudpattern found and added as a pattern', function (test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = pattern_assembler.load_pattern_iterative('00-test/03-styled-atom.mustache', pl);
-  pattern_assembler.addPattern(atomPattern, pl);
+  var atomPattern = loadPattern('00-test/03-styled-atom.mustache', pl);
+  addPattern(atomPattern, pl);
 
   //act
   var patternCountBefore = pl.patterns.length;
@@ -64,8 +64,7 @@ tap.test('pseudpattern does not pollute base pattern data', function (test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = pattern_assembler.load_pattern_iterative('00-test/03-styled-atom.mustache', pl);
-  pattern_assembler.addPattern(atomPattern, pl);
+  var atomPattern = loadPattern('00-test/03-styled-atom.mustache', pl);
 
   //act
   var patternCountBefore = pl.patterns.length;
@@ -92,8 +91,8 @@ tap.test('pseudpattern variant includes stylePartials and parameteredPartials', 
   pseudoPattern.stylePartials = pseudoPattern.findPartialsWithStyleModifiers(pseudoPattern);
   pseudoPattern.parameteredPartials = pseudoPattern.findPartialsWithPatternParameters(pseudoPattern);
 
-  pattern_assembler.addPattern(atomPattern, pl);
-  pattern_assembler.addPattern(pseudoPattern, pl);
+  addPattern(atomPattern, pl);
+  addPattern(pseudoPattern, pl);
 
   //act
   return pph.find_pseudopatterns(pseudoPattern, pl).then(() => {

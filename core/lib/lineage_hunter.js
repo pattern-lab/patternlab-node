@@ -1,24 +1,21 @@
 'use strict';
 const extend = require("util")._extend;
+const getPartial = require('./get');
 const logger = require('./log');
 
 const lineage_hunter = function () {
 
   function findlineage(pattern, patternlab) {
 
-    const pa = require('./pattern_assembler');
-    const pattern_assembler = new pa();
-
     // As we are adding edges from pattern to ancestor patterns, ensure it is known to the graph
     patternlab.graph.add(pattern);
-
 
     //find the {{> template-name }} within patterns
     const matches = pattern.findPartials();
     if (matches !== null) {
       matches.forEach(function (match) {
         //get the ancestorPattern
-        const ancestorPattern = pattern_assembler.getPartial(pattern.findPartial(match), patternlab);
+        const ancestorPattern = getPartial(pattern.findPartial(match), patternlab);
 
         if (ancestorPattern && pattern.lineageIndex.indexOf(ancestorPattern.patternPartial) === -1) {
           //add it since it didnt exist
@@ -99,8 +96,6 @@ const lineage_hunter = function () {
 
           //find all lineage - patterns being consumed by this one
           for (let h = 0; h < lineage.length; h++) {
-            // Not needed, the graph already knows the concrete pattern
-            // let lineagePattern = pattern_assembler.getPartial(lineageIndex[h], patternlab);
             setPatternState('fromFuture', lineage[h], pattern, patternlab.graph);
           }
         }

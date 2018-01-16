@@ -89,7 +89,7 @@ const asset_copier = () => {
 
         //watch for changes and copy
         assetWatcher.on('addDir', (p) => {
-          const destination = path.resolve(basePath, dir.public + '/' + path.basename(p));
+          const destination = path.resolve(basePath, dir.public);
           copyFile(p, destination, copyOptions);
         }).on('add', (p) => {
           const destination = path.resolve(basePath, dir.public + '/' + path.basename(p));

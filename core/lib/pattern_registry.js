@@ -42,7 +42,7 @@ PatternRegistry.prototype = {
 
   getPartial: function (partialName) {
     /*
-     Code in here has been moved from pattern_assembler.getPartial() to prepare for some refactoring.
+     Code in here has been moved from getPartial() to prepare for some refactoring.
      There are a few advantages to this method:
      - use a map lookup instead of interating through all patterns
      - get rid of dependency to the patternlab object

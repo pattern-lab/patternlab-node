@@ -1,17 +1,17 @@
 "use strict";
 
 const path = require('path');
-const jsonCopy = require('./json_copy');
-const ae = require('./annotation_exporter');
+const _ = require('lodash');
+
 const of = require('./object_factory');
 const Pattern = of.Pattern;
 const logger = require('./log');
-const eol = require('os').EOL;
-const _ = require('lodash');
 
 //these are mocked in unit tests, so let them be overridden
+let render = require('./render'); //eslint-disable-line prefer-const
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
-let pattern_assembler = require('./pattern_assembler')(); //eslint-disable-line prefer-const
+let buildFooter = require('./buildFooter'); //eslint-disable-line prefer-const
+let exportData = require('./exportData'); //eslint-disable-line prefer-const
 
 const ui_builder = function () {
 
@@ -105,7 +105,7 @@ const ui_builder = function () {
    * @returns the found or created pattern object
      */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
-    //first see if pattern_assembler processed one already
+    //first see if loadPattern processed one already
     let docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
     if (docPattern) {
       docPattern.isDocPattern = true;
@@ -406,34 +406,6 @@ const ui_builder = function () {
     return groupedPatterns;
   }
 
-  /**
-   * Builds footer HTML from the general footer and user-defined footer
-   * @param patternlab - global data store
-   * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
-   * @returns HTML
-     */
-  function buildFooterHTML(patternlab, patternPartial) {
-    //first render the general footer
-    const footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
-      patternData: JSON.stringify({
-        patternPartial: patternPartial,
-      }),
-      cacheBuster: patternlab.cacheBuster
-    });
-
-    let allFooterData;
-    try {
-      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
-    } catch (err) {
-      logger.warning('There was an error parsing JSON for patternlab.data');
-      logger.warning(err);
-    }
-    allFooterData.patternLabFoot = footerPartial;
-
-    //then add it to the user footer
-    const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, allFooterData);
-    return footerHTML;
-  }
 
   /**
    * Takes a set of patterns and builds a viewall HTML page for them
@@ -441,19 +413,21 @@ const ui_builder = function () {
    * @param patternlab - global data store
    * @param patterns - the set of patterns to build the viewall page for
    * @param patternPartial - a key used to identify the viewall page
-   * @returns HTML
+   * @returns A promise which resolves with the HTML
      */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
-    const viewAllHTML = pattern_assembler.renderPattern(patternlab.viewAll,
-      {
+    return render(Pattern.createEmpty({extendedTemplate: patternlab.viewAll}),
+      { //data
         partials: patterns,
         patternPartial: 'viewall-' + patternPartial,
         cacheBuster: patternlab.cacheBuster
-      }, {
+      }, { //templates
         patternSection: patternlab.patternSection,
         patternSectionSubtype: patternlab.patternSectionSubType
+      }).catch(reason => {
+        console.log(reason);
+        logger.error('Error building buildViewAllHTML');
       });
-    return viewAllHTML;
   }
 
   /**
@@ -469,125 +443,126 @@ const ui_builder = function () {
     let writeViewAllFile = true;
 
     //loop through the grouped styleguide patterns, building at each level
-    _.forEach(styleguidePatterns.patternGroups, function (patternTypeObj, patternType) {
+    const allPatternTypePromises = _.map(styleguidePatterns.patternGroups, (patternGroup, patternType) => {
 
       let p;
       let typePatterns = [];
       let styleguideTypePatterns = [];
       const styleGuideExcludes = patternlab.config.styleGuideExcludes || patternlab.config.styleguideExcludes;
 
-      _.forOwn(patternTypeObj, function (patternSubtypes, patternSubtype) {
+      const subTypePromises = _.map(_.values(patternGroup), (patternSubtypes, patternSubtype) => {
 
         const patternPartial = patternType + '-' + patternSubtype;
 
         //do not create a viewall page for flat patterns
         if (patternType === patternSubtype) {
           writeViewAllFile = false;
-          return;
+          logger.debug(`skipping ${patternType} as flat patterns do not have view all pages`);
+          return Promise.resolve();
         }
 
         //render the footer needed for the viewall template
-        const footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternPartial);
+        return buildFooter(patternlab, 'viewall-' + patternPartial).then(footerHTML => {
 
-        //render the viewall template by finding these smallest subtype-grouped patterns
-        const subtypePatterns = sortPatterns(_.values(patternSubtypes));
+          //render the viewall template by finding these smallest subtype-grouped patterns
+          const subtypePatterns = sortPatterns(_.values(patternSubtypes));
 
-        //determine if we should write at this time by checking if these are flat patterns or grouped patterns
-        p = _.find(subtypePatterns, function (pat) {
-          return pat.isDocPattern;
+          //determine if we should write at this time by checking if these are flat patterns or grouped patterns
+          p = _.find(subtypePatterns, function (pat) {
+            return pat.isDocPattern;
+          });
+
+          //determine if we should omit this subpatterntype completely from the viewall page
+          var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
+            && _.some(styleGuideExcludes, function (exclude) {
+              return exclude === patternType + '/' + patternSubtype;
+            });
+          if (omitPatternType) {
+            logger.debug(`Omitting ${patternType}/${patternSubtype} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`);
+          } else {
+            styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
+          }
+
+          typePatterns = typePatterns.concat(subtypePatterns);
+
+          //render the viewall template for the subtype
+          return buildViewAllHTML(patternlab, subtypePatterns, patternPartial).then(viewAllHTML => {
+
+            fs.outputFileSync(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+
+          }).catch(reason => {
+            console.log(reason);
+            logger.error('Error building ViewAllHTML');
+          });
+
+        }).then(() => {
+
+           //do not create a viewall page for flat patterns
+          if (!writeViewAllFile || !p) {
+            logger.debug(`skipping ${patternType} as flat patterns do not have view all pages`);
+            return Promise.resolve();
+          }
+
+          //render the footer needed for the viewall template
+          return buildFooter(patternlab, 'viewall-' + patternType + '-all').then(footerHTML => {
+
+            //add any flat patterns
+            //todo this isn't quite working yet
+            //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
+
+            //get the appropriate patternType
+            const anyPatternOfType = _.find(typePatterns, function (pat) {
+              return pat.patternType && pat.patternType !== '';});
+
+            if (!anyPatternOfType) {
+              logger.debug(`skipping ${patternType} as flat patterns do not have view all pages`);
+              return Promise.resolve();
+            }
+
+            //render the viewall template for the type
+            return buildViewAllHTML(patternlab, typePatterns, patternType).then(viewAllHTML => {
+
+              fs.outputFileSync(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
+
+              //determine if we should omit this patterntype completely from the viewall page
+              const omitPatternType = styleGuideExcludes && styleGuideExcludes.length
+                && _.some(styleGuideExcludes, function (exclude) {
+                  return exclude === patternType;
+                });
+              if (omitPatternType) {
+                logger.debug(`Omitting ${patternType} from  building a viewall page because its patternGroup is specified in styleguideExcludes.`);
+              } else {
+                patterns = patterns.concat(styleguideTypePatterns);
+              }
+              return Promise.resolve(patterns);
+
+            }).catch(reason => {
+              console.log(reason);
+              logger.error('Error building ViewAllHTML');
+            });
+
+          }).catch(reason => {
+            console.log(reason);
+            logger.error('Error building footerHTML');
+          });
+
+        }).catch(reason => {
+          console.log(reason);
+          logger.error('Error building footer HTML');
         });
 
-        //determine if we should omit this subpatterntype completely from the viewall page
-        var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
-          && _.some(styleGuideExcludes, function (exclude) {
-            return exclude === patternType + '/' + patternSubtype;
-          });
-        if (omitPatternType) {
-          logger.debug(`Omitting ${patternType}/${patternSubtype} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`);
-        } else {
-          styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
-        }
-
-        typePatterns = typePatterns.concat(subtypePatterns);
-
-        const viewAllHTML = buildViewAllHTML(patternlab, subtypePatterns, patternPartial);
-        fs.outputFileSync(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
       });
 
-      //do not create a viewall page for flat patterns
-      if (!writeViewAllFile || !p) {
-        return;
-      }
-
-      //render the footer needed for the viewall template
-      const footerHTML = buildFooterHTML(patternlab, 'viewall-' + patternType + '-all');
-
-      //add any flat patterns
-      //todo this isn't quite working yet
-      //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
-
-      //get the appropriate patternType
-      const anyPatternOfType = _.find(typePatterns, function (pat) {
-        return pat.patternType && pat.patternType !== '';});
-
-      //render the viewall template for the type
-      const viewAllHTML = buildViewAllHTML(patternlab, typePatterns, patternType);
-      fs.outputFileSync(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-
-      //determine if we should omit this patterntype completely from the viewall page
-      const omitPatternType = styleGuideExcludes && styleGuideExcludes.length
-        && _.some(styleGuideExcludes, function (exclude) {
-          return exclude === patternType;
-        });
-      if (omitPatternType) {
-        logger.debug(`Omitting ${patternType} from  building a viewall page because its patternGroup is specified in styleguideExcludes.`);
-      } else {
-        patterns = patterns.concat(styleguideTypePatterns);
-      }
+      return Promise.all(subTypePromises).catch(reason => {
+        console.log(reason);
+        logger.error('Error during buildViewAllPages');
+      });
     });
-    return patterns;
-  }
 
-  /**
-   * Write out our pattern information for use by the front end
-   * @param patternlab - global data store
-     */
-  function exportData(patternlab) {
-    const annotation_exporter = new ae(patternlab);
-    const paths = patternlab.config.paths;
-
-    //write out the data
-    let output = '';
-
-    //config
-    output += 'var config = ' + JSON.stringify(patternlab.config) + ';\n';
-
-    //ishControls
-    output += 'var ishControls = {"ishControlsHide":' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
-
-    //navItems
-    output += 'var navItems = {"patternTypes": ' + JSON.stringify(patternlab.patternTypes) + ', "ishControlsHide": ' + JSON.stringify(patternlab.config.ishControlsHide) + '};' + eol;
-
-    //patternPaths
-    output += 'var patternPaths = ' + JSON.stringify(patternlab.patternPaths) + ';' + eol;
-
-    //viewAllPaths
-    output += 'var viewAllPaths = ' + JSON.stringify(patternlab.viewAllPaths) + ';' + eol;
-
-    //plugins
-    output += 'var plugins = ' + JSON.stringify(patternlab.plugins || []) + ';' + eol;
-
-    //smaller config elements
-    output += 'var defaultShowPatternInfo = ' + (patternlab.config.defaultShowPatternInfo ? patternlab.config.defaultShowPatternInfo : 'false') + ';' + eol;
-    output += 'var defaultPattern = "' + (patternlab.config.defaultPattern ? patternlab.config.defaultPattern : 'all') + '";' + eol;
-
-    //write all output to patternlab-data
-    fs.outputFileSync(path.resolve(paths.public.data, 'patternlab-data.js'), output);
-
-    //annotations
-    const annotationsJSON = annotation_exporter.gather();
-    const annotations = 'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-    fs.outputFileSync(path.resolve(paths.public.annotations, 'annotations.js'), annotations);
+    return Promise.all(allPatternTypePromises).catch(reason => {
+      console.log(reason);
+      logger.error('Error during buildViewAllPages');
+    });
   }
 
   /**
@@ -602,7 +577,8 @@ const ui_builder = function () {
   /**
    * The main entry point for ui_builder
    * @param patternlab - global data store
-     */
+   * @returns {Promise} a promise fulfilled when build is complete
+   */
   function buildFrontend(patternlab) {
 
     resetUIBuilderState(patternlab);
@@ -613,58 +589,89 @@ const ui_builder = function () {
     const styleguidePatterns = groupPatterns(patternlab);
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    const headerPartial = pattern_assembler.renderPattern(patternlab.header, {
+    const headerPromise = render(Pattern.createEmpty({extendedTemplate: patternlab.header}), {
       cacheBuster: patternlab.cacheBuster
-    });
+    }).then(headerPartial => {
 
-    const headFootData = patternlab.data;
-    headFootData.patternLabHead = headerPartial;
-    headFootData.cacheBuster = patternlab.cacheBuster;
-    const headerHTML = pattern_assembler.renderPattern(patternlab.userHead, headFootData);
+      const headFootData = patternlab.data;
+      headFootData.patternLabHead = headerPartial;
+      headFootData.cacheBuster = patternlab.cacheBuster;
+      return render(patternlab.userHead, headFootData);
+    }).catch(reason => {
+      console.log(reason);
+      logger.error('error during header render()');
+    });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPartial = pattern_assembler.renderPattern(patternlab.footer, {
+    const footerPromise = render(Pattern.createEmpty({extendedTemplate: patternlab.footer}), {
       patternData: '{}',
       cacheBuster: patternlab.cacheBuster
+    }).then(footerPartial => {
+      const headFootData = patternlab.data;
+      headFootData.patternLabFoot = footerPartial;
+      return render(patternlab.userFoot, headFootData);
+    }).catch(reason => {
+      console.log(reason);
+      logger.error('error during footer render()');
     });
-    headFootData.patternLabFoot = footerPartial;
-    const footerHTML = pattern_assembler.renderPattern(patternlab.userFoot, headFootData);
 
-    //build the viewall pages
-    const allPatterns = buildViewAllPages(headerHTML, patternlab, styleguidePatterns);
+    return Promise.all([headerPromise, footerPromise]).then(headFootPromiseResults => {
 
-    //add the defaultPattern if we found one
-    if (patternlab.defaultPattern) {
-      allPatterns.push(patternlab.defaultPattern);
-      addToPatternPaths(patternlab, patternlab.defaultPattern);
-    }
+      //build the viewall pages
+      return buildViewAllPages(headFootPromiseResults[0], patternlab, styleguidePatterns).then(allPatterns => {
 
-    //build the main styleguide page
-    const styleguideHtml = pattern_assembler.renderPattern(patternlab.viewAll,
-      {
-        partials: allPatterns
-      }, {
-        patternSection: patternlab.patternSection,
-        patternSectionSubtype: patternlab.patternSectionSubType
+        //todo track down why we need to make this unique in the first place
+        const uniquePatterns = _.uniq(
+          _.flatMapDeep(allPatterns, (pattern) => {
+            return pattern;
+          })
+        );
+
+        //add the defaultPattern if we found one
+        if (patternlab.defaultPattern) {
+          uniquePatterns.push(patternlab.defaultPattern);
+          addToPatternPaths(patternlab, patternlab.defaultPattern);
+        }
+
+        //build the main styleguide page
+        return render(Pattern.createEmpty({extendedTemplate: patternlab.viewAll}),
+          {
+            partials: uniquePatterns
+          }, {
+            patternSection: patternlab.patternSection,
+            patternSectionSubtype: patternlab.patternSectionSubType
+          }).then(styleguideHtml => {
+
+            fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headFootPromiseResults[0] + styleguideHtml + headFootPromiseResults[1]);
+
+            logger.info('Built Pattern Lab front end');
+
+            //move the index file from its asset location into public root
+            let patternlabSiteHtml;
+            try {
+              patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
+            } catch (err) {
+              logger.error(`Could not load one or more styleguidekit assets from ${paths.source.styleguide}`);
+            }
+            fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
+
+            //write out patternlab.data object to be read by the client
+            exportData(patternlab);
+          }).catch(reason => {
+            console.log(reason);
+            logger.error('error during buildFrontend()');
+          });
+
+      }).catch(reason => {
+        console.log(reason);
+        logger.error('error during buildViewAllPages()');
       });
-    fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headerHTML + styleguideHtml + footerHTML);
-
-    //move the index file from its asset location into public root
-    let patternlabSiteHtml;
-    try {
-      patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
-    } catch (err) {
-      logger.error(`Could not load one or more styleguidekit assets from ${paths.source.styleguide}`);
-    }
-    fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
-
-    //write out patternlab.data object to be read by the client
-    exportData(patternlab);
+    });
   }
 
   return {
     buildFrontend: function (patternlab) {
-      buildFrontend(patternlab);
+      return buildFrontend(patternlab);
     },
     isPatternExcluded: function (pattern, patternlab) {
       return isPatternExcluded(pattern, patternlab);

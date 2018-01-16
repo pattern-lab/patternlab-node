@@ -1,15 +1,21 @@
 "use strict";
 /*eslint-disable no-shadow*/
 
-var tap = require('tap');
-var path = require('path');
-var pa = require('../core/lib/pattern_assembler');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-var testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
-var eol = require('os').EOL;
-var config = require('./util/patternlab-config.json');
-var engineLoader = require('../core/lib/pattern_engines');
+const tap = require('tap');
+const path = require('path');
+const eol = require('os').EOL;
+
+const util = require('./util/test_utils.js');
+const loadPattern = require('../core/lib/loadPattern');
+const Pattern = require('../core/lib/object_factory').Pattern;
+const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+const processIterative = require('../core/lib/processIterative');
+const processRecursive = require('../core/lib/processRecursive');
+
+const testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
+
+const config = require('./util/patternlab-config.json');
+const engineLoader = require('../core/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 // don't run these tests unless handlebars is installed
@@ -82,14 +88,15 @@ tap.test('hello world handlebars pattern renders', function (test) {
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
-  var assembler = new pa();
-  var helloWorldPattern = assembler.load_pattern_iterative(patternPath, patternlab);
+  var helloWorldPattern = loadPattern(patternPath, patternlab);
 
-  return assembler.process_pattern_iterative(helloWorldPattern, patternlab)
-    .then((helloWorldPattern) => {
-      assembler.process_pattern_recursive(patternPath, patternlab);
-
-      test.equals(helloWorldPattern.render(), 'Hello world!' + eol);
+  processIterative(helloWorldPattern, patternlab).then((helloWorldPattern) => {
+      processRecursive(patternPath, patternlab).then(() => {
+        helloWorldPattern.render().then((results) => {
+          test.equals(results, 'Hello world!' + eol);
+          test.end();
+        })
+      });
     });
 });
 
@@ -102,21 +109,24 @@ tap.test('hello worlds handlebars pattern can see the atoms-helloworld partial a
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
 
   // do all the normal loading and processing of the pattern
-  const pattern1 = assembler.load_pattern_iterative(pattern1Path, patternlab);
-  const pattern2 = assembler.load_pattern_iterative(pattern2Path, patternlab);
+  const pattern1 = loadPattern(pattern1Path, patternlab);
+  const pattern2 = loadPattern(pattern2Path, patternlab);
 
-  return Promise.all([
-    assembler.process_pattern_iterative(pattern1, patternlab),
-    assembler.process_pattern_iterative(pattern2, patternlab)
+  Promise.all([
+    processIterative(pattern1, patternlab),
+    processIterative(pattern2, patternlab)
   ]).then(() => {
-    assembler.process_pattern_recursive(pattern1Path, patternlab);
-    assembler.process_pattern_recursive(pattern2Path, patternlab);
-
-    // test
-    test.equals(pattern2.render(), 'Hello world!' + eol + ' and Hello world!' + eol + eol);
+    processRecursive(pattern1Path, patternlab).then(() => {
+      processRecursive(pattern2Path, patternlab).then(() => {
+        // test
+        pattern2.render().then((results) => {
+          test.equals(results, 'Hello world!' + eol + ' and Hello world!' + eol + eol);
+          test.end();
+        });
+      });
+    });
   });
 });
 
@@ -128,16 +138,19 @@ tap.test('handlebars partials can render JSON values', function (test) {
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
 
   // do all the normal processing of the pattern
-  var helloWorldWithData = assembler.load_pattern_iterative(pattern1Path, patternlab);
+  var helloWorldWithData = loadPattern(pattern1Path, patternlab);
 
-  return assembler.process_pattern_iterative(helloWorldWithData, patternlab).then(() => {
-    assembler.process_pattern_recursive(pattern1Path, patternlab);
-
+  processIterative(helloWorldWithData, patternlab).then(() => {
+    processRecursive(pattern1Path, patternlab).then(() => {
     // test
-    test.equals(helloWorldWithData.render(), 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
+      helloWorldWithData.render().then((results) => {
+        test.equals(results, 'Hello world!' + eol + 'Yeah, we got the subtitle from the JSON.' + eol);
+        test.end();
+      });
+    });
+
   });
 });
 
@@ -150,25 +163,25 @@ tap.test('handlebars partials use the JSON environment from the calling pattern 
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
 
   // do all the normal processing of the pattern
-  const atom = assembler.load_pattern_iterative(atomPath, patternlab);
-  const mol = assembler.load_pattern_iterative(molPath, patternlab);
+  const atom = loadPattern(atomPath, patternlab);
+  const mol = loadPattern(molPath, patternlab);
 
-  return Promise.all([
-    assembler.process_pattern_iterative(atom, patternlab),
-    assembler.process_pattern_iterative(mol, patternlab)
+  Promise.all([
+    processIterative(atom, patternlab),
+    processIterative(mol, patternlab),
+    processRecursive(atomPath, patternlab),
+    processRecursive(molPath, patternlab)
   ]).then(() => {
-    assembler.process_pattern_recursive(atomPath, patternlab);
-    assembler.process_pattern_recursive(molPath, patternlab);
-
-    // test
-    test.equals(mol.render(), '<h2>Call with default JSON environment:</h2>' + eol + 'This is Hello world!' + eol + 'from the default JSON.' + eol + eol + eol +'<h2>Call with passed parameter:</h2>' + eol + 'However, this is Hello world!' + eol + 'from a totally different blob.' + eol + eol);
+    mol.render().then((results) => {
+      // test
+      test.equals(results, '<h2>Call with default JSON environment:</h2>' + eol + 'This is Hello world!' + eol + 'from the default JSON.' + eol + eol + eol +'<h2>Call with passed parameter:</h2>' + eol + 'However, this is Hello world!' + eol + 'from a totally different blob.' + eol + eol);
+    });
   });
 });
 
-tap.test('find_pattern_partials finds partials', function (test) {
+tap.only('find_pattern_partials finds partials', function (test) {
   testFindPartials(test, [
     "{{> molecules-comment-header}}",
     "{{>  molecules-comment-header}}",
@@ -221,29 +234,29 @@ tap.test('find_pattern_partials finds handlebars block partials', function (test
   ]);
 });
 
-tap.test('hidden handlebars patterns can be called by their nice names', function (test) {
-  const util = require('./util/test_utils.js');
+tap.only('hidden handlebars patterns can be called by their nice names', function (test) {
 
   //arrange
   const testPatternsPath = path.resolve(__dirname, 'files', '_handlebars-test-patterns');
   const pl = util.fakePatternLab(testPatternsPath);
-  var pattern_assembler = new pa();
 
   var hiddenPatternPath = path.join('00-atoms', '00-global', '_00-hidden.hbs');
   var testPatternPath = path.join('00-molecules', '00-global', '00-hidden-pattern-tester.hbs');
 
-  var hiddenPattern = pattern_assembler.load_pattern_iterative(hiddenPatternPath, pl);
-  var testPattern = pattern_assembler.load_pattern_iterative(testPatternPath, pl);
+  var hiddenPattern = loadPattern(hiddenPatternPath, pl);
+  var testPattern = loadPattern(testPatternPath, pl);
 
-  return Promise.all([
-    pattern_assembler.process_pattern_iterative(hiddenPattern, pl),
-    pattern_assembler.process_pattern_iterative(testPattern, pl)
+  Promise.all([
+    processIterative(hiddenPattern, pl),
+    processIterative(testPattern, pl),
+    processRecursive(hiddenPatternPath, pl),
+    processRecursive(testPatternPath, pl)
   ]).then(() => {
-    pattern_assembler.process_pattern_recursive(hiddenPatternPath, pl);
-    pattern_assembler.process_pattern_recursive(testPatternPath, pl);
-
-    //act
-    test.equals(util.sanitized(testPattern.render()), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
+    testPattern.render().then((results) => {
+      //act
+      test.equals(util.sanitized(results), util.sanitized('Here\'s the hidden atom: [I\'m the hidden atom\n]\n'));
+      test.end();
+    });
   });
 });
 
@@ -254,14 +267,15 @@ tap.test('@partial-block template should render without throwing (@geoffp repo i
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
-  var assembler = new pa();
-  var atPartialBlockPattern = assembler.load_pattern_iterative(patternPath, patternlab);
+  var atPartialBlockPattern = loadPattern(patternPath, patternlab);
 
-  return assembler.process_pattern_iterative(atPartialBlockPattern, patternlab).then(() => {
-    assembler.process_pattern_recursive(patternPath, patternlab);
-
-    var results = '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
-    test.equal(atPartialBlockPattern.render(), results);
+  processIterative(atPartialBlockPattern, patternlab).then(() => {
+    processRecursive(patternPath, patternlab).then(() => {
+      atPartialBlockPattern.render().then((results) => {
+        var expectedResults = '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
+        test.equal(results, expectedResults);
+      });
+    });
   });
 });
 
@@ -274,22 +288,21 @@ tap.test('A template calling a @partial-block template should render correctly',
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
-  var assembler = new pa();
 
   // do all the normal processing of the pattern
-  const pattern1 = assembler.load_pattern_iterative(pattern1Path, patternlab);
-  const callAtPartialBlockPattern = assembler.load_pattern_iterative(pattern2Path, patternlab);
+  const pattern1 = loadPattern(pattern1Path, patternlab);
+  const callAtPartialBlockPattern = loadPattern(pattern2Path, patternlab);
 
-  return Promise.all([
-    assembler.process_pattern_iterative(pattern1, patternlab),
-    assembler.process_pattern_iterative(callAtPartialBlockPattern, patternlab)
+  Promise.all([
+    processIterative(pattern1, patternlab),
+    processIterative(callAtPartialBlockPattern, patternlab),
+    processRecursive(pattern1Path, patternlab),
+    processRecursive(pattern2Path, patternlab)
   ]).then(() => {
-    assembler.process_pattern_recursive(pattern1Path, patternlab);
-    assembler.process_pattern_recursive(pattern2Path, patternlab);
-
-    // test
-    var results = 'Hello World!' + eol + 'It worked!' + eol;
-    test.equals(callAtPartialBlockPattern.render(), results);
+    callAtPartialBlockPattern.render().then((results) => {
+      // test
+      var expectedResults = 'Hello World!' + eol + 'It worked!' + eol;
+      test.equals(results, expectedResults);
+    });
   });
-
 });
