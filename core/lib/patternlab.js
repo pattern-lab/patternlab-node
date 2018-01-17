@@ -403,7 +403,7 @@ module.exports = class PatternLab {
         logger.info("Built pattern: " + pattern.patternPartial);
       });
     }).catch(reason => {
-      console.log(reason);
+      console.log('error in patternlab.js/renderSinglePattern():', reason);
     });
   }
 

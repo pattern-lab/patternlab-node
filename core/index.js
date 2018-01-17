@@ -243,7 +243,8 @@ const patternlab_module = function (config) {
                 //export patterns if necessary
                 pattern_exporter.export_patterns(patternlab);
 
-              }).catch(reason => {
+              })
+              .catch(reason => {
                 console.log(reason);
                 logger.error('Error rendering patterns');
               });
