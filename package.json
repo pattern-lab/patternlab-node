@@ -24,6 +24,9 @@
     "@pattern-lab/patternengine-node-handlebars": "^2.0.0-alpha.2",
     "@pattern-lab/patternengine-node-underscore": "^2.0.0-alpha.1",
     "eslint": "3.5.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.5.0",
+    "prettier": "1.10.2",
     "rewire": "2.5.2",
     "tap": "11.0.1"
   },
@@ -57,7 +60,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint core/**/*.js",
-    "pretest": "npm run lint",
+    "prettier": "prettier --config .prettierrc --write ./core/**/*.js",
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },
   "engines": {
