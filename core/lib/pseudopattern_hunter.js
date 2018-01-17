@@ -38,12 +38,14 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       );
 
       //we want to do everything we normally would here, except instead read the pseudoPattern data
+      let variantFileFullPath;
+      let variantFileData;
       try {
-        var variantFileFullPath = path.resolve(
+        variantFileFullPath = path.resolve(
           paths.source.patterns,
           pseudoPatterns[i]
         );
-        var variantFileData = fs.readJSONSync(variantFileFullPath);
+        variantFileData = fs.readJSONSync(variantFileFullPath);
       } catch (err) {
         logger.warning(
           `There was an error parsing pseudopattern JSON for ${

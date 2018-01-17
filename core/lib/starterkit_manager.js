@@ -24,8 +24,9 @@ const starterkit_manager = function(config) {
         )
       );
       logger.debug('Attempting to load starterkit from', kitPath);
+      let kitDirStats;
       try {
-        var kitDirStats = fs.statSync(kitPath);
+        kitDirStats = fs.statSync(kitPath);
       } catch (ex) {
         logger.warning(
           `${starterkitName} not found, use npm to install it first.`

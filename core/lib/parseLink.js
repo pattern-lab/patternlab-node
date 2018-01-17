@@ -6,19 +6,18 @@ const logger = require('./log');
 const getPartial = require('./get');
 
 module.exports = function(patternlab, obj, key) {
-  let linkRE, dataObjAsString, linkMatches;
-
   //check for 'link.patternPartial'
-  linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
+  const linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
 
   //stringify the passed in object
+  let dataObjAsString;
   dataObjAsString = JSON.stringify(obj);
   if (!dataObjAsString) {
     return obj;
   }
 
   //find matches
-  linkMatches = dataObjAsString.match(linkRE);
+  const linkMatches = dataObjAsString.match(linkRE);
 
   if (linkMatches) {
     for (let i = 0; i < linkMatches.length; i++) {

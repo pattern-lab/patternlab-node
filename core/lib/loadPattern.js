@@ -114,8 +114,9 @@ module.exports = function(relPath, patternlab) {
   }
 
   //look for a json file for this template
+  let jsonFilename;
   try {
-    var jsonFilename = path.resolve(
+    jsonFilename = path.resolve(
       patternsPath,
       currentPattern.subdir,
       currentPattern.fileName
@@ -136,8 +137,9 @@ module.exports = function(relPath, patternlab) {
   }
 
   //look for a listitems.json file for this template
+  let listJsonFileName;
   try {
-    var listJsonFileName = path.resolve(
+    listJsonFileName = path.resolve(
       patternsPath,
       currentPattern.subdir,
       currentPattern.fileName + '.listitems'

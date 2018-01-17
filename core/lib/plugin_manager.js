@@ -26,8 +26,9 @@ const plugin_manager = function(config, configPath) {
         path.join(process.cwd(), 'node_modules', pluginName)
       );
       logger.debug(`Attempting to load plugin from ${pluginPath}`);
+      let pluginDirStats;
       try {
-        var pluginDirStats = fs.statSync(pluginPath);
+        pluginDirStats = fs.statSync(pluginPath);
       } catch (ex) {
         logger.warning(`${pluginName} not found, use npm to install it first.`);
         logger.warning(`${pluginName} not loaded.`);

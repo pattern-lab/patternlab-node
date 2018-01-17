@@ -35,7 +35,8 @@ const annotations_exporter = function(pl) {
     oldAnnotations = oldAnnotations.replace('};', '}');
 
     try {
-      var oldAnnotationsJSON = JSON.parse(oldAnnotations);
+      const oldAnnotationsJSON = JSON.parse(oldAnnotations);
+      return oldAnnotationsJSON.comments;
     } catch (ex) {
       logger.error(
         `There was an error parsing JSON for ${
@@ -44,7 +45,6 @@ const annotations_exporter = function(pl) {
       );
       return [];
     }
-    return oldAnnotationsJSON.comments;
   }
 
   /**
