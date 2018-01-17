@@ -105,7 +105,7 @@ git clone https://github.com/pattern-lab/patternlab-node.git
 npm install
 npm link
 cd location/of/editionOrSourceAndConfig
-npm link patternlab-node
+npm link @pattern-lab/patternlab-node
 ```
 
 The above is a bit verbose, but illustrates:
