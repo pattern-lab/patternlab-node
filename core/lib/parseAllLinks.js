@@ -9,7 +9,7 @@ module.exports = function(patternlab) {
   patternlab.data = parseLink(patternlab, patternlab.data, 'data.json');
 
   //loop through all patterns
-  for (var i = 0; i < patternlab.patterns.length; i++) {
+  for (let i = 0; i < patternlab.patterns.length; i++) {
     patternlab.patterns[i].jsonFileData = parseLink(
       patternlab,
       patternlab.patterns[i].jsonFileData,

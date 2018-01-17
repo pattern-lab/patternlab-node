@@ -13,8 +13,8 @@ module.exports = function(pattern, patternlab) {
     '/patterns/' + pattern.patternLink;
 
   //only push to array if the array doesn't contain this pattern
-  var isNew = true;
-  for (var i = 0; i < patternlab.patterns.length; i++) {
+  let isNew = true;
+  for (let i = 0; i < patternlab.patterns.length; i++) {
     //so we need the identifier to be unique, which patterns[i].relPath is
     if (pattern.relPath === patternlab.patterns[i].relPath) {
       //if relPath already exists, overwrite that element

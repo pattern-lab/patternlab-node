@@ -132,7 +132,7 @@ const PatternEngines = Object.create({
    * @memberof PatternEngines
    */
   loadAllEngines: function(patternLabConfig) {
-    var self = this;
+    const self = this;
 
     // Try to load engines! We scan for engines at each path specified above. This
     // function is kind of a big deal.

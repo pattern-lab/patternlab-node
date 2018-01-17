@@ -6,7 +6,7 @@ const logger = require('./log');
 const getPartial = require('./get');
 
 module.exports = function(patternlab, obj, key) {
-  var linkRE, dataObjAsString, linkMatches;
+  let linkRE, dataObjAsString, linkMatches;
 
   //check for 'link.patternPartial'
   linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
@@ -21,18 +21,18 @@ module.exports = function(patternlab, obj, key) {
   linkMatches = dataObjAsString.match(linkRE);
 
   if (linkMatches) {
-    for (var i = 0; i < linkMatches.length; i++) {
-      var dataLink = linkMatches[i];
+    for (let i = 0; i < linkMatches.length; i++) {
+      const dataLink = linkMatches[i];
       if (dataLink && dataLink.split('.').length >= 2) {
         //get the partial the link refers to
-        var linkPatternPartial = dataLink
+        const linkPatternPartial = dataLink
           .split('.')[1]
           .replace('"', '')
           .replace("'", '');
-        var pattern = getPartial(linkPatternPartial, patternlab);
+        const pattern = getPartial(linkPatternPartial, patternlab);
         if (pattern !== undefined) {
           //get the full built link and replace it
-          var fullLink = patternlab.data.link[linkPatternPartial];
+          let fullLink = patternlab.data.link[linkPatternPartial];
           if (fullLink) {
             fullLink = path.normalize(fullLink).replace(/\\/g, '/');
 
@@ -54,7 +54,7 @@ module.exports = function(patternlab, obj, key) {
     }
   }
 
-  var dataObj;
+  let dataObj;
   try {
     dataObj = JSON.parse(dataObjAsString);
   } catch (err) {

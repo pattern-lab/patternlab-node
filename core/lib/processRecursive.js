@@ -6,7 +6,7 @@ const getPartial = require('./get');
 
 module.exports = function(file, patternlab) {
   //find current pattern in patternlab object using file as a partial
-  var currentPattern = getPartial(file, patternlab);
+  const currentPattern = getPartial(file, patternlab);
 
   //return if processing an ignored file
   if (typeof currentPattern === 'undefined') {

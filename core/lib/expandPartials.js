@@ -31,8 +31,8 @@ module.exports = function(currentPattern, patternlab) {
       .then(() => {
         //do something with the regular old partials
         foundPatternPartials.forEach(foundPartial => {
-          var partial = currentPattern.findPartial(foundPartial);
-          var partialPattern = getPartial(partial, patternlab);
+          const partial = currentPattern.findPartial(foundPartial);
+          const partialPattern = getPartial(partial, patternlab);
 
           //recurse through nested partials to fill out this extended template.
           return processRecursive(partialPattern.relPath, patternlab)
@@ -41,7 +41,7 @@ module.exports = function(currentPattern, patternlab) {
 
               //complete assembly of extended template
               //create a copy of the partial so as to not pollute it after the getPartial call.
-              var cleanPartialPattern = jsonCopy(
+              const cleanPartialPattern = jsonCopy(
                 partialPattern,
                 `partial pattern ${partial}`
               );

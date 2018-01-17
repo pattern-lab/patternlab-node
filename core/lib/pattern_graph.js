@@ -51,7 +51,7 @@ const PatternGraph = function(graph, timestamp, version) {
 };
 
 // shorthand. Use relPath as it is always unique, even with subPatternType
-var nodeName = p => (p instanceof Pattern ? p.relPath : p);
+const nodeName = p => (p instanceof Pattern ? p.relPath : p);
 
 PatternGraph.prototype = {
   /**

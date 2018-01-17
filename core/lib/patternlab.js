@@ -402,7 +402,7 @@ module.exports = class PatternLab {
     // see if patternData really needs these other duped values
 
     // construct our extraOutput dump
-    var extraOutput = Object.assign(
+    const extraOutput = Object.assign(
       {},
       pattern.extraOutput,
       pattern.allMarkdown

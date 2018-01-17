@@ -14,16 +14,16 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 module.exports = function(pattern, patternlab) {
   try {
-    var markdownFileName = path.resolve(
+    const markdownFileName = path.resolve(
       patternlab.config.paths.source.patterns,
       pattern.subdir,
       pattern.fileName + '.md'
     );
     changes_hunter.checkLastModified(pattern, markdownFileName);
 
-    var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
+    const markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
-    var markdownObject = markdown_parser.parse(markdownFileContents);
+    const markdownObject = markdown_parser.parse(markdownFileContents);
     if (!_.isEmpty(markdownObject)) {
       //set keys and markdown itself
       pattern.patternDescExists = true;

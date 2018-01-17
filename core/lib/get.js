@@ -22,7 +22,7 @@ module.exports = function(partialName, patternlab) {
 
   //return the fuzzy match if all else fails
   for (var i = 0; i < patternlab.patterns.length; i++) {
-    var partialParts = partialName.split('-'),
+    let partialParts = partialName.split('-'),
       partialType = partialParts[0],
       partialNameEnd = partialParts.slice(1).join('-');
 

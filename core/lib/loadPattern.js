@@ -22,7 +22,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 // loads a pattern from disk, creates a Pattern object from it and
 // all its associated files, and records it in patternlab.patterns[]
 module.exports = function(relPath, patternlab) {
-  var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
+  const relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
   if (relativeDepth > 2) {
     logger.warning('');
     logger.warning('Warning:');
@@ -50,24 +50,24 @@ module.exports = function(relPath, patternlab) {
   }
 
   //check if the found file is a top-level markdown file
-  var fileObject = path.parse(relPath);
+  const fileObject = path.parse(relPath);
   if (fileObject.ext === '.md') {
     try {
-      var proposedDirectory = path.resolve(
+      const proposedDirectory = path.resolve(
         patternlab.config.paths.source.patterns,
         fileObject.dir,
         fileObject.name
       );
-      var proposedDirectoryStats = fs.statSync(proposedDirectory);
+      const proposedDirectoryStats = fs.statSync(proposedDirectory);
       if (proposedDirectoryStats.isDirectory()) {
-        var subTypeMarkdownFileContents = fs.readFileSync(
+        const subTypeMarkdownFileContents = fs.readFileSync(
           proposedDirectory + '.md',
           'utf8'
         );
-        var subTypeMarkdown = markdown_parser.parse(
+        const subTypeMarkdown = markdown_parser.parse(
           subTypeMarkdownFileContents
         );
-        var subTypePattern = new Pattern(relPath, null, patternlab);
+        const subTypePattern = new Pattern(relPath, null, patternlab);
         subTypePattern.patternSectionSubtype = true;
         subTypePattern.patternDesc = subTypeMarkdown
           ? subTypeMarkdown.markdown
@@ -91,9 +91,9 @@ module.exports = function(relPath, patternlab) {
   }
 
   //extract some information
-  var filename = fileObject.base;
-  var ext = fileObject.ext;
-  var patternsPath = patternlab.config.paths.source.patterns;
+  const filename = fileObject.base;
+  const ext = fileObject.ext;
+  const patternsPath = patternlab.config.paths.source.patterns;
 
   // skip non-pattern files
   if (!patternEngines.isPatternFile(filename, patternlab)) {
@@ -101,7 +101,7 @@ module.exports = function(relPath, patternlab) {
   }
 
   //make a new Pattern Object
-  var currentPattern = new Pattern(relPath, null, patternlab);
+  const currentPattern = new Pattern(relPath, null, patternlab);
 
   //if file is named in the syntax for variants
   if (patternEngines.isPseudoPatternJSON(filename)) {
@@ -166,7 +166,7 @@ module.exports = function(relPath, patternlab) {
   readDocumentation(currentPattern, patternlab);
 
   //add the raw template to memory
-  var templatePath = path.resolve(patternsPath, currentPattern.relPath);
+  const templatePath = path.resolve(patternsPath, currentPattern.relPath);
 
   currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 

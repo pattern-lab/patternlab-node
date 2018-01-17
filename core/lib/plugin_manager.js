@@ -51,7 +51,7 @@ const plugin_manager = function(config, configPath) {
 
         const pluginPathConfig = path.resolve(pluginPath, 'config.json');
         try {
-          var pluginConfigJSON = require(pluginPathConfig);
+          const pluginConfigJSON = require(pluginPathConfig);
           if (!diskConfig.plugins[pluginName].options) {
             diskConfig.plugins[pluginName].options = pluginConfigJSON;
           }
