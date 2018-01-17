@@ -103,18 +103,18 @@ Pattern.prototype = {
 
   // render function - acts as a proxy for the PatternEngine's
   render: function (data, partials) {
-
     if (!this.extendedTemplate) {
       this.extendedTemplate = this.template;
     }
 
     if (this.engine) {
-      const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
-      return promise.then(results => {
-        return results;
-      }).catch(reason => {
-        return Promise.reject(reason);
-      });
+      return Promise.resolve()
+        .then(() => {
+          return this.engine.renderPattern(this, data || this.jsonFileData, partials);
+        })
+        .catch(reason => {
+          return Promise.reject(reason);
+        });
     }
     return Promise.reject('where is the engine?');
   },
