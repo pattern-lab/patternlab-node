@@ -5,7 +5,11 @@ const loadPattern = require('../core/lib/loadPattern');
 const testUtils = require('./util/test_utils.js');
 const config = require('./util/patternlab-config.json');
 const engineLoader = require('../core/lib/pattern_engines');
-const testPatternsPath = path.resolve(__dirname, 'files', '_react-test-patterns');
+const testPatternsPath = path.resolve(
+  __dirname,
+  'files',
+  '_react-test-patterns'
+);
 
 engineLoader.loadAllEngines(config);
 
@@ -18,7 +22,10 @@ if (!engineLoader.react) {
   const fpl = testUtils.fakePatternLab(testPatternsPath);
 
   tap.test('Load the hello world pattern and verify contents', test => {
-    const patternPath = path.join(testPatternsPath, '00-atoms/00-general/HelloWorld.jsx');
+    const patternPath = path.join(
+      testPatternsPath,
+      '00-atoms/00-general/HelloWorld.jsx'
+    );
     const patternContent = fs.readFileSync(patternPath, { encoding: 'utf8' });
     const pattern = loadPattern(patternPath, fpl);
 
@@ -27,7 +34,10 @@ if (!engineLoader.react) {
   });
 
   tap.test('Load the hello world pattern and verify output', test => {
-    const patternPath = path.join(testPatternsPath, '00-atoms/00-general/HelloWorld.jsx');
+    const patternPath = path.join(
+      testPatternsPath,
+      '00-atoms/00-general/HelloWorld.jsx'
+    );
     const pattern = loadPattern(patternPath, fpl);
 
     return pattern.render().then(output => {
