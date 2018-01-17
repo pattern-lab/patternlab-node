@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const plugin_manager = function (config, configPath) {
+const plugin_manager = function(config, configPath) {
   const path = require('path');
   const fs = require('fs-extra');
   const logger = require('./log');
@@ -35,7 +35,6 @@ const plugin_manager = function (config, configPath) {
       }
       const pluginPathDirExists = pluginDirStats.isDirectory();
       if (pluginPathDirExists) {
-
         const diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
 
         //add the plugin entry to patternlab-config.json
@@ -46,7 +45,7 @@ const plugin_manager = function (config, configPath) {
         if (!diskConfig.plugins[pluginName]) {
           diskConfig.plugins[pluginName] = {
             enabled: true,
-            initialized: false
+            initialized: false,
           };
         }
 
@@ -61,13 +60,18 @@ const plugin_manager = function (config, configPath) {
         }
 
         //write config entry back
-        fs.outputFileSync(path.resolve(configPath), JSON.stringify(diskConfig, null, 2));
+        fs.outputFileSync(
+          path.resolve(configPath),
+          JSON.stringify(diskConfig, null, 2)
+        );
 
         logger.info('Plugin ' + pluginName + ' installed.');
         logger.info('Plugin configration added to patternlab-config.json.');
       }
     } catch (ex) {
-      logger.warning(`An error occurred during plugin installation for plugin ${pluginName}`);
+      logger.warning(
+        `An error occurred during plugin installation for plugin ${pluginName}`
+      );
       logger.warning(ex);
     }
   }
@@ -79,9 +83,12 @@ const plugin_manager = function (config, configPath) {
    */
   function detectPlugins() {
     const node_modules_path = path.join(process.cwd(), 'node_modules');
-    return fs.readdirSync(node_modules_path).filter(function (dir) {
+    return fs.readdirSync(node_modules_path).filter(function(dir) {
       const module_path = path.join(process.cwd(), 'node_modules', dir);
-      return fs.statSync(module_path).isDirectory() && dir.indexOf('plugin-node-') === 0;
+      return (
+        fs.statSync(module_path).isDirectory() &&
+        dir.indexOf('plugin-node-') === 0
+      );
     });
   }
 
@@ -90,7 +97,9 @@ const plugin_manager = function (config, configPath) {
    * Not implemented yet
    */
   function disablePlugin(pluginName) {
-    logger.warning(`disablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`);
+    logger.warning(
+      `disablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`
+    );
   }
 
   /**
@@ -98,27 +107,28 @@ const plugin_manager = function (config, configPath) {
    * Not implemented yet
    */
   function enablePlugin(pluginName) {
-    logger.warning(`enablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`);
+    logger.warning(
+      `enablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`
+    );
   }
 
   return {
-    install_plugin: function (pluginName) {
+    install_plugin: function(pluginName) {
       installPlugin(pluginName);
     },
-    load_plugin: function (pluginName) {
+    load_plugin: function(pluginName) {
       return loadPlugin(pluginName);
     },
-    detect_plugins: function () {
+    detect_plugins: function() {
       return detectPlugins();
     },
-    disable_plugin: function (pluginName) {
+    disable_plugin: function(pluginName) {
       disablePlugin(pluginName);
     },
-    enable_plugin: function (pluginName) {
+    enable_plugin: function(pluginName) {
       enablePlugin(pluginName);
-    }
+    },
   };
-
 };
 
 module.exports = plugin_manager;

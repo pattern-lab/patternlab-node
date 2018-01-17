@@ -6,8 +6,7 @@ const _ = require('lodash');
 const mp = require('./markdown_parser');
 const logger = require('./log');
 
-const annotations_exporter = function (pl) {
-
+const annotations_exporter = function(pl) {
   const paths = pl.config.paths;
   let oldAnnotations;
 
@@ -18,9 +17,16 @@ const annotations_exporter = function (pl) {
   function parseAnnotationsJS() {
     //attempt to read the file
     try {
-      oldAnnotations = fs.readFileSync(path.resolve(paths.source.annotations, 'annotations.js'), 'utf8');
+      oldAnnotations = fs.readFileSync(
+        path.resolve(paths.source.annotations, 'annotations.js'),
+        'utf8'
+      );
     } catch (ex) {
-      logger.debug(`annotations.js file missing from ${paths.source.annotations}. This may be expected if you do not use annotations or are using markdown.`);
+      logger.debug(
+        `annotations.js file missing from ${
+          paths.source.annotations
+        }. This may be expected if you do not use annotations or are using markdown.`
+      );
       return [];
     }
 
@@ -31,7 +37,11 @@ const annotations_exporter = function (pl) {
     try {
       var oldAnnotationsJSON = JSON.parse(oldAnnotations);
     } catch (ex) {
-      logger.error(`There was an error parsing JSON for ${paths.source.annotations}annotations.js`);
+      logger.error(
+        `There was an error parsing JSON for ${
+          paths.source.annotations
+        }annotations.js`
+      );
       return [];
     }
     return oldAnnotationsJSON.comments;
@@ -62,13 +72,16 @@ const annotations_exporter = function (pl) {
     //let annotations = annotations;
     const markdown_parser = parser;
 
-    return function (filePath) {
+    return function(filePath) {
       const annotationsMD = fs.readFileSync(path.resolve(filePath), 'utf8');
 
-    //take the annotation snippets and split them on our custom delimiter
+      //take the annotation snippets and split them on our custom delimiter
       const annotationsYAML = annotationsMD.split('~*~');
       for (let i = 0; i < annotationsYAML.length; i++) {
-        const annotation = buildAnnotationMD(annotationsYAML[i], markdown_parser);
+        const annotation = buildAnnotationMD(
+          annotationsYAML[i],
+          markdown_parser
+        );
         annotations.push(annotation);
       }
       return false;
@@ -101,17 +114,16 @@ const annotations_exporter = function (pl) {
   }
 
   return {
-    gather: function () {
+    gather: function() {
       return gatherAnnotations();
     },
-    gatherJS: function () {
+    gatherJS: function() {
       return parseAnnotationsJS();
     },
-    gatherMD: function () {
+    gatherMD: function() {
       return parseAnnotationsMD();
-    }
+    },
   };
-
 };
 
 module.exports = annotations_exporter;

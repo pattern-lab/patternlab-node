@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const logger = require('./log');
 const lh = require('./lineage_hunter');
@@ -16,15 +16,17 @@ const list_item_hunter = new lih();
  * @param patternlab - global data store
  * @param ignoreLineage - whether or not to hunt for lineage for this pattern
  */
-module.exports = function (pattern, patternlab, ignoreLineage) {
-
+module.exports = function(pattern, patternlab, ignoreLineage) {
   //set the extendedTemplate to operate on later if we find partials to replace
   if (!pattern.extendedTemplate) {
     pattern.extendedTemplate = pattern.template;
   }
 
   //find any listItem blocks that within the pattern, even if there are no partials
-  const listItemPromise = list_item_hunter.process_list_item_partials(pattern, patternlab);
+  const listItemPromise = list_item_hunter.process_list_item_partials(
+    pattern,
+    patternlab
+  );
 
   const expandPartialPromise = expandPartials(pattern, patternlab);
 
@@ -32,7 +34,9 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
 
   //find pattern lineage
   if (!ignoreLineage) {
-    lineagePromise = Promise.resolve(lineage_hunter.find_lineage(pattern, patternlab));
+    lineagePromise = Promise.resolve(
+      lineage_hunter.find_lineage(pattern, patternlab)
+    );
   } else {
     lineagePromise = Promise.resolve();
   }
@@ -42,8 +46,12 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
     addPattern(pattern, patternlab);
   });
 
-  return Promise.all([listItemPromise, expandPartialPromise, lineagePromise, addPromise])
-    .catch(reason => {
-      logger.error(reason);
-    });
+  return Promise.all([
+    listItemPromise,
+    expandPartialPromise,
+    lineagePromise,
+    addPromise,
+  ]).catch(reason => {
+    logger.error(reason);
+  });
 };

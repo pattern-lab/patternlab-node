@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 const _ = require('lodash');
 
-module.exports = function (container) {
+module.exports = function(container) {
   //combine all list items into one structure
   var list = [];
   for (var item in container.listitems) {
@@ -16,11 +16,11 @@ module.exports = function (container) {
     var tempItems = [];
     if (i === 1) {
       tempItems.push(container.listItemArray[0]);
-      container.listitems['' + i ] = tempItems;
+      container.listitems['' + i] = tempItems;
     } else {
       for (var c = 1; c <= i; c++) {
         tempItems.push(container.listItemArray[c - 1]);
-        container.listitems['' + i ] = tempItems;
+        container.listitems['' + i] = tempItems;
       }
     }
   }

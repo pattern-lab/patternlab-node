@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const path = require('path');
 const _ = require('lodash');
@@ -13,14 +13,13 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 let buildFooter = require('./buildFooter'); //eslint-disable-line prefer-const
 let exportData = require('./exportData'); //eslint-disable-line prefer-const
 
-const ui_builder = function () {
-
+const ui_builder = function() {
   /**
    * Registers the pattern to the patternPaths object for the appropriate patternGroup and basename
    * patternGroup + patternBaseName are what comprise the patternPartial (atoms-colors)
    * @param patternlab - global data store
    * @param pattern - the pattern to add
-     */
+   */
   function addToPatternPaths(patternlab, pattern) {
     if (!patternlab.patternPaths[pattern.patternGroup]) {
       patternlab.patternPaths[pattern.patternGroup] = {};
@@ -28,7 +27,8 @@ const ui_builder = function () {
 
     //only add real patterns
     if (pattern.isPattern && !pattern.isDocPattern) {
-      patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] = pattern.name;
+      patternlab.patternPaths[pattern.patternGroup][pattern.patternBaseName] =
+        pattern.name;
     }
   }
 
@@ -36,18 +36,23 @@ const ui_builder = function () {
    * Registers the pattern with the viewAllPaths object for the appropriate patternGroup and patternSubGroup
    * @param patternlab - global data store
    * @param pattern -  the pattern to add
-     */
+   */
   function addToViewAllPaths(patternlab, pattern) {
     if (!patternlab.viewAllPaths[pattern.patternGroup]) {
       patternlab.viewAllPaths[pattern.patternGroup] = {};
     }
 
-    if (!patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup]) {
-      patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = {};
+    if (
+      !patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup]
+    ) {
+      patternlab.viewAllPaths[pattern.patternGroup][
+        pattern.patternSubGroup
+      ] = {};
     }
 
     //note these retain any number prefixes if present, because these paths match the filesystem
-    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] = pattern.patternType + '-' + pattern.patternSubType;
+    patternlab.viewAllPaths[pattern.patternGroup][pattern.patternSubGroup] =
+      pattern.patternType + '-' + pattern.patternSubType;
 
     //add all if it does not exist yet
     if (!patternlab.viewAllPaths[pattern.patternGroup].all) {
@@ -60,36 +65,54 @@ const ui_builder = function () {
    * @param pattern - the pattern to test for inclusion/exclusion
    * @param patternlab - global data store
    * @returns boolean - whether or not the pattern is excluded
-     */
+   */
   function isPatternExcluded(pattern, patternlab) {
     let isOmitted;
 
     // skip underscore-prefixed files
     isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
     if (isOmitted) {
-      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because it has an underscore suffix.`);
+      logger.debug(
+        `Omitting ${
+          pattern.patternPartial
+        } from styleguide patterns because it has an underscore suffix.`
+      );
       return true;
     }
 
     //this is meant to be a homepage that is not present anywhere else
     isOmitted = pattern.patternPartial === patternlab.config.defaultPattern;
     if (isOmitted) {
-      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because it is defined as a defaultPattern.`);
+      logger.debug(
+        `Omitting ${
+          pattern.patternPartial
+        } from styleguide patterns because it is defined as a defaultPattern.`
+      );
       patternlab.defaultPattern = pattern;
       return true;
     }
 
     //this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
-    isOmitted = pattern.relPath.charAt(0) === '_' || pattern.relPath.indexOf(path.sep + '_') > -1;
+    isOmitted =
+      pattern.relPath.charAt(0) === '_' ||
+      pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
-      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because its contained within an underscored directory.`);
+      logger.debug(
+        `Omitting ${
+          pattern.patternPartial
+        } from styleguide patterns because its contained within an underscored directory.`
+      );
       return true;
     }
 
     //this pattern is a head or foot pattern
     isOmitted = pattern.isMetaPattern;
     if (isOmitted) {
-      logger.debug(`Omitting ${pattern.patternPartial} from styleguide patterns because its a meta pattern.`);
+      logger.debug(
+        `Omitting ${
+          pattern.patternPartial
+        } from styleguide patterns because its a meta pattern.`
+      );
       return true;
     }
 
@@ -103,10 +126,14 @@ const ui_builder = function () {
    * @param patternlab - global data store
    * @param isSubtypePattern - whether or not this is a subtypePattern or a typePattern (typePatterns not supported yet)
    * @returns the found or created pattern object
-     */
+   */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
     //first see if loadPattern processed one already
-    let docPattern = patternlab.subtypePatterns[pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : '')];
+    let docPattern =
+      patternlab.subtypePatterns[
+        pattern.patternGroup +
+          (isSubtypePattern ? '-' + pattern.patternSubGroup : '')
+      ];
     if (docPattern) {
       docPattern.isDocPattern = true;
       docPattern.order = -Number.MAX_SAFE_INTEGER;
@@ -117,16 +144,21 @@ const ui_builder = function () {
     docPattern = new Pattern.createEmpty(
       {
         name: pattern.flatPatternPath,
-        patternName:   isSubtypePattern ? pattern.patternSubGroup : pattern.patternGroup,
+        patternName: isSubtypePattern
+          ? pattern.patternSubGroup
+          : pattern.patternGroup,
         patternDesc: '',
-        patternPartial: 'viewall-' + pattern.patternGroup + (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
-        patternSectionSubtype : isSubtypePattern,
+        patternPartial:
+          'viewall-' +
+          pattern.patternGroup +
+          (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
+        patternSectionSubtype: isSubtypePattern,
         patternLink: pattern.flatPatternPath + path.sep + 'index.html',
         isPattern: false,
         engine: null,
         flatPatternPath: pattern.flatPatternPath,
         isDocPattern: true,
-        order: -Number.MAX_SAFE_INTEGER
+        order: -Number.MAX_SAFE_INTEGER,
       },
       patternlab
     );
@@ -138,17 +170,17 @@ const ui_builder = function () {
    * This is a new menu group like atoms
    * @param patternlab - global data store
    * @param pattern - the pattern to register
-     */
+   */
   function addPatternType(patternlab, pattern) {
-    patternlab.patternTypes.push(
-      {
-        patternTypeLC: pattern.patternGroup.toLowerCase(),
-        patternTypeUC: pattern.patternGroup.charAt(0).toUpperCase() + pattern.patternGroup.slice(1),
-        patternType: pattern.patternType,
-        patternTypeDash: pattern.patternGroup, //todo verify
-        patternTypeItems: []
-      }
-    );
+    patternlab.patternTypes.push({
+      patternTypeLC: pattern.patternGroup.toLowerCase(),
+      patternTypeUC:
+        pattern.patternGroup.charAt(0).toUpperCase() +
+        pattern.patternGroup.slice(1),
+      patternType: pattern.patternType,
+      patternTypeDash: pattern.patternGroup, //todo verify
+      patternTypeItems: [],
+    });
   }
 
   /**
@@ -156,12 +188,19 @@ const ui_builder = function () {
    * @param patternlab - global data store
    * @param pattern - the pattern to derive the pattern Type from
    * @returns the found pattern type object
-     */
+   */
   function getPatternType(patternlab, pattern) {
-    const patternType = _.find(patternlab.patternTypes, ['patternType', pattern.patternType]);
+    const patternType = _.find(patternlab.patternTypes, [
+      'patternType',
+      pattern.patternType,
+    ]);
 
     if (!patternType) {
-      logger.error(`Could not find patternType ${pattern.patternType}. This is a critical error.`);
+      logger.error(
+        `Could not find patternType ${
+          pattern.patternType
+        }. This is a critical error.`
+      );
     }
 
     return patternType;
@@ -175,10 +214,17 @@ const ui_builder = function () {
    */
   function getPatternSubType(patternlab, pattern) {
     const patternType = getPatternType(patternlab, pattern);
-    const patternSubType = _.find(patternType.patternTypeItems, ['patternSubtype', pattern.patternSubType]);
+    const patternSubType = _.find(patternType.patternTypeItems, [
+      'patternSubtype',
+      pattern.patternSubType,
+    ]);
 
     if (!patternSubType) {
-      logger.error(`Could not find patternType ${pattern.patternType}-${pattern.patternType}. This is a critical error.`);
+      logger.error(
+        `Could not find patternType ${pattern.patternType}-${
+          pattern.patternType
+        }. This is a critical error.`
+      );
     }
 
     return patternSubType;
@@ -189,17 +235,23 @@ const ui_builder = function () {
    * This is a new menu group like atoms/global
    * @param patternlab - global data store
    * @param pattern - the pattern to register
-     */
+   */
   function addPatternSubType(patternlab, pattern) {
     const newSubType = {
       patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
-      patternSubtypeUC: pattern.patternSubGroup.charAt(0).toUpperCase() + pattern.patternSubGroup.slice(1),
+      patternSubtypeUC:
+        pattern.patternSubGroup.charAt(0).toUpperCase() +
+        pattern.patternSubGroup.slice(1),
       patternSubtype: pattern.patternSubType,
       patternSubtypeDash: pattern.patternSubGroup, //todo verify
-      patternSubtypeItems: []
+      patternSubtypeItems: [],
     };
     const patternType = getPatternType(patternlab, pattern);
-    const insertIndex = _.sortedIndexBy(patternType.patternTypeItems, newSubType, 'patternSubtype');
+    const insertIndex = _.sortedIndexBy(
+      patternType.patternTypeItems,
+      newSubType,
+      'patternSubtype'
+    );
     patternType.patternTypeItems.splice(insertIndex, 0, newSubType);
   }
 
@@ -208,13 +260,22 @@ const ui_builder = function () {
    * This is a menu item you click on
    * @param pattern - the pattern to derive the subtypeitem from
    * @returns {{patternPartial: string, patternName: (*|string), patternState: string, patternSrcPath: string, patternPath: string}}
-     */
+   */
   function createPatternSubTypeItem(pattern) {
     let patternPath = '';
     if (pattern.isFlatPattern) {
-      patternPath = pattern.flatPatternPath + '-' + pattern.fileName + '/' + pattern.flatPatternPath + '-' + pattern.fileName + '.html';
+      patternPath =
+        pattern.flatPatternPath +
+        '-' +
+        pattern.fileName +
+        '/' +
+        pattern.flatPatternPath +
+        '-' +
+        pattern.fileName +
+        '.html';
     } else {
-      patternPath = pattern.flatPatternPath + '/' + pattern.flatPatternPath + '.html';
+      patternPath =
+        pattern.flatPatternPath + '/' + pattern.flatPatternPath + '.html';
     }
 
     return {
@@ -223,7 +284,7 @@ const ui_builder = function () {
       patternState: pattern.patternState,
       patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
       patternPath: patternPath,
-      order: pattern.order
+      order: pattern.order,
     };
   }
 
@@ -233,38 +294,49 @@ const ui_builder = function () {
    * @param patternlab - global data store
    * @param pattern - the pattern to derive the subtypeitem from
    * @param createViewAllVariant - whether or not to create the special view all item
-     */
-  function addPatternSubTypeItem(patternlab, pattern, createSubtypeViewAllVarient) {
+   */
+  function addPatternSubTypeItem(
+    patternlab,
+    pattern,
+    createSubtypeViewAllVarient
+  ) {
     let newSubTypeItem;
 
     if (createSubtypeViewAllVarient) {
       newSubTypeItem = {
-        patternPartial: 'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
+        patternPartial:
+          'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
         patternName: 'View All',
         patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
         patternType: pattern.patternType,
         patternSubtype: pattern.patternSubtype,
-        order: 0
+        order: 0,
       };
-    }
-    else {
+    } else {
       newSubTypeItem = createPatternSubTypeItem(pattern);
     }
 
     const patternSubType = getPatternSubType(patternlab, pattern);
     patternSubType.patternSubtypeItems.push(newSubTypeItem);
-    patternSubType.patternSubtypeItems = _.sortBy(patternSubType.patternSubtypeItems, ['order', 'name']);
+    patternSubType.patternSubtypeItems = _.sortBy(
+      patternSubType.patternSubtypeItems,
+      ['order', 'name']
+    );
   }
 
   /**
    * Registers flat patterns to the appropriate type
    * @param patternlab - global data store
    * @param pattern - the pattern to add
-     */
+   */
   function addPatternItem(patternlab, pattern, isViewAllVariant) {
     const patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
-      logger.error(`Could not find patternType ${pattern.patternType}. This is a critical error.`);
+      logger.error(
+        `Could not find patternType ${
+          pattern.patternType
+        }. This is a critical error.`
+      );
     }
 
     if (!patternType.patternItems) {
@@ -278,14 +350,16 @@ const ui_builder = function () {
           patternPartial: 'viewall-' + pattern.patternGroup + '-all',
           patternName: 'View All',
           patternPath: encodeURI(pattern.patternType + '/index.html'),
-          order: -Number.MAX_SAFE_INTEGER
+          order: -Number.MAX_SAFE_INTEGER,
         });
       }
-
     } else {
       patternType.patternItems.push(createPatternSubTypeItem(pattern));
     }
-    patternType.patternItems = _.sortBy(patternType.patternItems, ['order', 'name']);
+    patternType.patternItems = _.sortBy(patternType.patternItems, [
+      'order',
+      'name',
+    ]);
   }
 
   // function getPatternItems(patternlab, patternType) {
@@ -300,10 +374,9 @@ const ui_builder = function () {
    * Sorts patterns based on order property found within pattern markdown, falling back on name.
    * @param patternsArray - patterns to sort
    * @returns sorted patterns
-     */
+   */
   function sortPatterns(patternsArray) {
-    return patternsArray.sort(function (a, b) {
-
+    return patternsArray.sort(function(a, b) {
       let aOrder = parseInt(a.order, 10);
       const bOrder = parseInt(b.order, 10);
 
@@ -326,8 +399,10 @@ const ui_builder = function () {
 
       //use old alphabetical ordering if we have nothing else to use
       //pattern.order will be Number.MAX_SAFE_INTEGER if never defined by markdown, or markdown parsing fails
-      if (aOrder === Number.MAX_SAFE_INTEGER && bOrder === Number.MAX_SAFE_INTEGER) {
-
+      if (
+        aOrder === Number.MAX_SAFE_INTEGER &&
+        bOrder === Number.MAX_SAFE_INTEGER
+      ) {
         if (a.name > b.name) {
           return 1;
         }
@@ -353,20 +428,20 @@ const ui_builder = function () {
    * Returns an object representing how the front end styleguide and navigation is structured
    * @param patternlab - global data store
    * @returns ptterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
-     */
+   */
   function groupPatterns(patternlab) {
     const groupedPatterns = {
-      patternGroups: {}
+      patternGroups: {},
     };
 
-    _.forEach(patternlab.patterns, function (pattern) {
-
+    _.forEach(patternlab.patterns, function(pattern) {
       //ignore patterns we can omit from rendering directly
       pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
-      if (pattern.omitFromStyleguide) { return; }
+      if (pattern.omitFromStyleguide) {
+        return;
+      }
 
       if (!groupedPatterns.patternGroups[pattern.patternGroup]) {
-
         groupedPatterns.patternGroups[pattern.patternGroup] = {};
         pattern.isSubtypePattern = false;
         addPatternType(patternlab, pattern);
@@ -378,21 +453,30 @@ const ui_builder = function () {
 
       //continue building navigation for nested patterns
       if (pattern.patternGroup !== pattern.patternSubGroup) {
-
-        if (!groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]) {
-
+        if (
+          !groupedPatterns.patternGroups[pattern.patternGroup][
+            pattern.patternSubGroup
+          ]
+        ) {
           addPatternSubType(patternlab, pattern);
 
           pattern.isSubtypePattern = !pattern.isPattern;
-          groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup] = {};
-          groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup] = injectDocumentationBlock(pattern, patternlab, true);
+          groupedPatterns.patternGroups[pattern.patternGroup][
+            pattern.patternSubGroup
+          ] = {};
+          groupedPatterns.patternGroups[pattern.patternGroup][
+            pattern.patternSubGroup
+          ][
+            'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup
+          ] = injectDocumentationBlock(pattern, patternlab, true);
 
           addToViewAllPaths(patternlab, pattern);
           addPatternSubTypeItem(patternlab, pattern, true);
-
         }
 
-        groupedPatterns.patternGroups[pattern.patternGroup][pattern.patternSubGroup][pattern.patternBaseName] = pattern;
+        groupedPatterns.patternGroups[pattern.patternGroup][
+          pattern.patternSubGroup
+        ][pattern.patternBaseName] = pattern;
 
         addToPatternPaths(patternlab, pattern);
         addPatternSubTypeItem(patternlab, pattern);
@@ -400,12 +484,10 @@ const ui_builder = function () {
         addPatternItem(patternlab, pattern);
         addToPatternPaths(patternlab, pattern);
       }
-
     });
 
     return groupedPatterns;
   }
-
 
   /**
    * Takes a set of patterns and builds a viewall HTML page for them
@@ -414,20 +496,25 @@ const ui_builder = function () {
    * @param patterns - the set of patterns to build the viewall page for
    * @param patternPartial - a key used to identify the viewall page
    * @returns A promise which resolves with the HTML
-     */
+   */
   function buildViewAllHTML(patternlab, patterns, patternPartial) {
-    return render(Pattern.createEmpty({extendedTemplate: patternlab.viewAll}),
-      { //data
+    return render(
+      Pattern.createEmpty({ extendedTemplate: patternlab.viewAll }),
+      {
+        //data
         partials: patterns,
         patternPartial: 'viewall-' + patternPartial,
-        cacheBuster: patternlab.cacheBuster
-      }, { //templates
+        cacheBuster: patternlab.cacheBuster,
+      },
+      {
+        //templates
         patternSection: patternlab.patternSection,
-        patternSectionSubtype: patternlab.patternSectionSubType
-      }).catch(reason => {
-        console.log(reason);
-        logger.error('Error building buildViewAllHTML');
-      });
+        patternSectionSubtype: patternlab.patternSectionSubType,
+      }
+    ).catch(reason => {
+      console.log(reason);
+      logger.error('Error building buildViewAllHTML');
+    });
   }
 
   /**
@@ -436,128 +523,170 @@ const ui_builder = function () {
    * @param patternlab - global data store
    * @param styleguidePatterns - the grouped set of patterns
    * @returns every built pattern and set of viewall patterns, so the styleguide can use it
-     */
+   */
   function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
     const paths = patternlab.config.paths;
     let patterns = [];
     let writeViewAllFile = true;
 
     //loop through the grouped styleguide patterns, building at each level
-    const allPatternTypePromises = _.map(styleguidePatterns.patternGroups, (patternGroup, patternType) => {
+    const allPatternTypePromises = _.map(
+      styleguidePatterns.patternGroups,
+      (patternGroup, patternType) => {
+        let p;
+        let typePatterns = [];
+        let styleguideTypePatterns = [];
+        const styleGuideExcludes =
+          patternlab.config.styleGuideExcludes ||
+          patternlab.config.styleguideExcludes;
 
-      let p;
-      let typePatterns = [];
-      let styleguideTypePatterns = [];
-      const styleGuideExcludes = patternlab.config.styleGuideExcludes || patternlab.config.styleguideExcludes;
+        const subTypePromises = _.map(
+          _.values(patternGroup),
+          (patternSubtypes, patternSubtype) => {
+            const patternPartial = patternType + '-' + patternSubtype;
 
-      const subTypePromises = _.map(_.values(patternGroup), (patternSubtypes, patternSubtype) => {
-
-        const patternPartial = patternType + '-' + patternSubtype;
-
-        //do not create a viewall page for flat patterns
-        if (patternType === patternSubtype) {
-          writeViewAllFile = false;
-          logger.debug(`skipping ${patternType} as flat patterns do not have view all pages`);
-          return Promise.resolve();
-        }
-
-        //render the footer needed for the viewall template
-        return buildFooter(patternlab, 'viewall-' + patternPartial).then(footerHTML => {
-
-          //render the viewall template by finding these smallest subtype-grouped patterns
-          const subtypePatterns = sortPatterns(_.values(patternSubtypes));
-
-          //determine if we should write at this time by checking if these are flat patterns or grouped patterns
-          p = _.find(subtypePatterns, function (pat) {
-            return pat.isDocPattern;
-          });
-
-          //determine if we should omit this subpatterntype completely from the viewall page
-          var omitPatternType = styleGuideExcludes && styleGuideExcludes.length
-            && _.some(styleGuideExcludes, function (exclude) {
-              return exclude === patternType + '/' + patternSubtype;
-            });
-          if (omitPatternType) {
-            logger.debug(`Omitting ${patternType}/${patternSubtype} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`);
-          } else {
-            styleguideTypePatterns = styleguideTypePatterns.concat(subtypePatterns);
-          }
-
-          typePatterns = typePatterns.concat(subtypePatterns);
-
-          //render the viewall template for the subtype
-          return buildViewAllHTML(patternlab, subtypePatterns, patternPartial).then(viewAllHTML => {
-
-            fs.outputFileSync(paths.public.patterns + p.flatPatternPath + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-
-          }).catch(reason => {
-            console.log(reason);
-            logger.error('Error building ViewAllHTML');
-          });
-
-        }).then(() => {
-
-           //do not create a viewall page for flat patterns
-          if (!writeViewAllFile || !p) {
-            logger.debug(`skipping ${patternType} as flat patterns do not have view all pages`);
-            return Promise.resolve();
-          }
-
-          //render the footer needed for the viewall template
-          return buildFooter(patternlab, 'viewall-' + patternType + '-all').then(footerHTML => {
-
-            //add any flat patterns
-            //todo this isn't quite working yet
-            //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
-
-            //get the appropriate patternType
-            const anyPatternOfType = _.find(typePatterns, function (pat) {
-              return pat.patternType && pat.patternType !== '';});
-
-            if (!anyPatternOfType) {
-              logger.debug(`skipping ${patternType} as flat patterns do not have view all pages`);
+            //do not create a viewall page for flat patterns
+            if (patternType === patternSubtype) {
+              writeViewAllFile = false;
+              logger.debug(
+                `skipping ${patternType} as flat patterns do not have view all pages`
+              );
               return Promise.resolve();
             }
 
-            //render the viewall template for the type
-            return buildViewAllHTML(patternlab, typePatterns, patternType).then(viewAllHTML => {
+            //render the footer needed for the viewall template
+            return buildFooter(patternlab, 'viewall-' + patternPartial)
+              .then(footerHTML => {
+                //render the viewall template by finding these smallest subtype-grouped patterns
+                const subtypePatterns = sortPatterns(_.values(patternSubtypes));
 
-              fs.outputFileSync(paths.public.patterns + anyPatternOfType.patternType + '/index.html', mainPageHeadHtml + viewAllHTML + footerHTML);
-
-              //determine if we should omit this patterntype completely from the viewall page
-              const omitPatternType = styleGuideExcludes && styleGuideExcludes.length
-                && _.some(styleGuideExcludes, function (exclude) {
-                  return exclude === patternType;
+                //determine if we should write at this time by checking if these are flat patterns or grouped patterns
+                p = _.find(subtypePatterns, function(pat) {
+                  return pat.isDocPattern;
                 });
-              if (omitPatternType) {
-                logger.debug(`Omitting ${patternType} from  building a viewall page because its patternGroup is specified in styleguideExcludes.`);
-              } else {
-                patterns = patterns.concat(styleguideTypePatterns);
-              }
-              return Promise.resolve(patterns);
 
-            }).catch(reason => {
-              console.log(reason);
-              logger.error('Error building ViewAllHTML');
-            });
+                //determine if we should omit this subpatterntype completely from the viewall page
+                var omitPatternType =
+                  styleGuideExcludes &&
+                  styleGuideExcludes.length &&
+                  _.some(styleGuideExcludes, function(exclude) {
+                    return exclude === patternType + '/' + patternSubtype;
+                  });
+                if (omitPatternType) {
+                  logger.debug(
+                    `Omitting ${patternType}/${patternSubtype} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`
+                  );
+                } else {
+                  styleguideTypePatterns = styleguideTypePatterns.concat(
+                    subtypePatterns
+                  );
+                }
 
-          }).catch(reason => {
-            console.log(reason);
-            logger.error('Error building footerHTML');
-          });
+                typePatterns = typePatterns.concat(subtypePatterns);
 
-        }).catch(reason => {
+                //render the viewall template for the subtype
+                return buildViewAllHTML(
+                  patternlab,
+                  subtypePatterns,
+                  patternPartial
+                )
+                  .then(viewAllHTML => {
+                    fs.outputFileSync(
+                      paths.public.patterns + p.flatPatternPath + '/index.html',
+                      mainPageHeadHtml + viewAllHTML + footerHTML
+                    );
+                  })
+                  .catch(reason => {
+                    console.log(reason);
+                    logger.error('Error building ViewAllHTML');
+                  });
+              })
+              .then(() => {
+                //do not create a viewall page for flat patterns
+                if (!writeViewAllFile || !p) {
+                  logger.debug(
+                    `skipping ${patternType} as flat patterns do not have view all pages`
+                  );
+                  return Promise.resolve();
+                }
+
+                //render the footer needed for the viewall template
+                return buildFooter(
+                  patternlab,
+                  'viewall-' + patternType + '-all'
+                )
+                  .then(footerHTML => {
+                    //add any flat patterns
+                    //todo this isn't quite working yet
+                    //typePatterns = typePatterns.concat(getPatternItems(patternlab, patternType));
+
+                    //get the appropriate patternType
+                    const anyPatternOfType = _.find(typePatterns, function(
+                      pat
+                    ) {
+                      return pat.patternType && pat.patternType !== '';
+                    });
+
+                    if (!anyPatternOfType) {
+                      logger.debug(
+                        `skipping ${patternType} as flat patterns do not have view all pages`
+                      );
+                      return Promise.resolve();
+                    }
+
+                    //render the viewall template for the type
+                    return buildViewAllHTML(
+                      patternlab,
+                      typePatterns,
+                      patternType
+                    )
+                      .then(viewAllHTML => {
+                        fs.outputFileSync(
+                          paths.public.patterns +
+                            anyPatternOfType.patternType +
+                            '/index.html',
+                          mainPageHeadHtml + viewAllHTML + footerHTML
+                        );
+
+                        //determine if we should omit this patterntype completely from the viewall page
+                        const omitPatternType =
+                          styleGuideExcludes &&
+                          styleGuideExcludes.length &&
+                          _.some(styleGuideExcludes, function(exclude) {
+                            return exclude === patternType;
+                          });
+                        if (omitPatternType) {
+                          logger.debug(
+                            `Omitting ${patternType} from  building a viewall page because its patternGroup is specified in styleguideExcludes.`
+                          );
+                        } else {
+                          patterns = patterns.concat(styleguideTypePatterns);
+                        }
+                        return Promise.resolve(patterns);
+                      })
+                      .catch(reason => {
+                        console.log(reason);
+                        logger.error('Error building ViewAllHTML');
+                      });
+                  })
+                  .catch(reason => {
+                    console.log(reason);
+                    logger.error('Error building footerHTML');
+                  });
+              })
+              .catch(reason => {
+                console.log(reason);
+                logger.error('Error building footer HTML');
+              });
+          }
+        );
+
+        return Promise.all(subTypePromises).catch(reason => {
           console.log(reason);
-          logger.error('Error building footer HTML');
+          logger.error('Error during buildViewAllPages');
         });
-
-      });
-
-      return Promise.all(subTypePromises).catch(reason => {
-        console.log(reason);
-        logger.error('Error during buildViewAllPages');
-      });
-    });
+      }
+    );
 
     return Promise.all(allPatternTypePromises).catch(reason => {
       console.log(reason);
@@ -580,7 +709,6 @@ const ui_builder = function () {
    * @returns {Promise} a promise fulfilled when build is complete
    */
   function buildFrontend(patternlab) {
-
     resetUIBuilderState(patternlab);
 
     const paths = patternlab.config.paths;
@@ -589,104 +717,144 @@ const ui_builder = function () {
     const styleguidePatterns = groupPatterns(patternlab);
 
     //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    const headerPromise = render(Pattern.createEmpty({extendedTemplate: patternlab.header}), {
-      cacheBuster: patternlab.cacheBuster
-    }).then(headerPartial => {
-
-      const headFootData = patternlab.data;
-      headFootData.patternLabHead = headerPartial;
-      headFootData.cacheBuster = patternlab.cacheBuster;
-      return render(patternlab.userHead, headFootData);
-    }).catch(reason => {
-      console.log(reason);
-      logger.error('error during header render()');
-    });
+    const headerPromise = render(
+      Pattern.createEmpty({ extendedTemplate: patternlab.header }),
+      {
+        cacheBuster: patternlab.cacheBuster,
+      }
+    )
+      .then(headerPartial => {
+        const headFootData = patternlab.data;
+        headFootData.patternLabHead = headerPartial;
+        headFootData.cacheBuster = patternlab.cacheBuster;
+        return render(patternlab.userHead, headFootData);
+      })
+      .catch(reason => {
+        console.log(reason);
+        logger.error('error during header render()');
+      });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPromise = render(Pattern.createEmpty({extendedTemplate: patternlab.footer}), {
-      patternData: '{}',
-      cacheBuster: patternlab.cacheBuster
-    }).then(footerPartial => {
-      const headFootData = patternlab.data;
-      headFootData.patternLabFoot = footerPartial;
-      return render(patternlab.userFoot, headFootData);
-    }).catch(reason => {
-      console.log(reason);
-      logger.error('error during footer render()');
-    });
-
-    return Promise.all([headerPromise, footerPromise]).then(headFootPromiseResults => {
-
-      //build the viewall pages
-      return buildViewAllPages(headFootPromiseResults[0], patternlab, styleguidePatterns).then(allPatterns => {
-
-        //todo track down why we need to make this unique in the first place
-        const uniquePatterns = _.uniq(
-          _.flatMapDeep(allPatterns, (pattern) => {
-            return pattern;
-          })
-        );
-
-        //add the defaultPattern if we found one
-        if (patternlab.defaultPattern) {
-          uniquePatterns.push(patternlab.defaultPattern);
-          addToPatternPaths(patternlab, patternlab.defaultPattern);
-        }
-
-        //build the main styleguide page
-        return render(Pattern.createEmpty({extendedTemplate: patternlab.viewAll}),
-          {
-            partials: uniquePatterns
-          }, {
-            patternSection: patternlab.patternSection,
-            patternSectionSubtype: patternlab.patternSectionSubType
-          }).then(styleguideHtml => {
-
-            fs.outputFileSync(path.resolve(paths.public.styleguide, 'html/styleguide.html'), headFootPromiseResults[0] + styleguideHtml + headFootPromiseResults[1]);
-
-            logger.info('Built Pattern Lab front end');
-
-            //move the index file from its asset location into public root
-            let patternlabSiteHtml;
-            try {
-              patternlabSiteHtml = fs.readFileSync(path.resolve(paths.source.styleguide, 'index.html'), 'utf8');
-            } catch (err) {
-              logger.error(`Could not load one or more styleguidekit assets from ${paths.source.styleguide}`);
-            }
-            fs.outputFileSync(path.resolve(paths.public.root, 'index.html'), patternlabSiteHtml);
-
-            //write out patternlab.data object to be read by the client
-            exportData(patternlab);
-          }).catch(reason => {
-            console.log(reason);
-            logger.error('error during buildFrontend()');
-          });
-
-      }).catch(reason => {
+    const footerPromise = render(
+      Pattern.createEmpty({ extendedTemplate: patternlab.footer }),
+      {
+        patternData: '{}',
+        cacheBuster: patternlab.cacheBuster,
+      }
+    )
+      .then(footerPartial => {
+        const headFootData = patternlab.data;
+        headFootData.patternLabFoot = footerPartial;
+        return render(patternlab.userFoot, headFootData);
+      })
+      .catch(reason => {
         console.log(reason);
-        logger.error('error during buildViewAllPages()');
+        logger.error('error during footer render()');
       });
-    });
+
+    return Promise.all([headerPromise, footerPromise]).then(
+      headFootPromiseResults => {
+        //build the viewall pages
+        return buildViewAllPages(
+          headFootPromiseResults[0],
+          patternlab,
+          styleguidePatterns
+        )
+          .then(allPatterns => {
+            //todo track down why we need to make this unique in the first place
+            const uniquePatterns = _.uniq(
+              _.flatMapDeep(allPatterns, pattern => {
+                return pattern;
+              })
+            );
+
+            //add the defaultPattern if we found one
+            if (patternlab.defaultPattern) {
+              uniquePatterns.push(patternlab.defaultPattern);
+              addToPatternPaths(patternlab, patternlab.defaultPattern);
+            }
+
+            //build the main styleguide page
+            return render(
+              Pattern.createEmpty({ extendedTemplate: patternlab.viewAll }),
+              {
+                partials: uniquePatterns,
+              },
+              {
+                patternSection: patternlab.patternSection,
+                patternSectionSubtype: patternlab.patternSectionSubType,
+              }
+            )
+              .then(styleguideHtml => {
+                fs.outputFileSync(
+                  path.resolve(paths.public.styleguide, 'html/styleguide.html'),
+                  headFootPromiseResults[0] +
+                    styleguideHtml +
+                    headFootPromiseResults[1]
+                );
+
+                logger.info('Built Pattern Lab front end');
+
+                //move the index file from its asset location into public root
+                let patternlabSiteHtml;
+                try {
+                  patternlabSiteHtml = fs.readFileSync(
+                    path.resolve(paths.source.styleguide, 'index.html'),
+                    'utf8'
+                  );
+                } catch (err) {
+                  logger.error(
+                    `Could not load one or more styleguidekit assets from ${
+                      paths.source.styleguide
+                    }`
+                  );
+                }
+                fs.outputFileSync(
+                  path.resolve(paths.public.root, 'index.html'),
+                  patternlabSiteHtml
+                );
+
+                //write out patternlab.data object to be read by the client
+                exportData(patternlab);
+              })
+              .catch(reason => {
+                console.log(reason);
+                logger.error('error during buildFrontend()');
+              });
+          })
+          .catch(reason => {
+            console.log(reason);
+            logger.error('error during buildViewAllPages()');
+          });
+      }
+    );
   }
 
   return {
-    buildFrontend: function (patternlab) {
+    buildFrontend: function(patternlab) {
       return buildFrontend(patternlab);
     },
-    isPatternExcluded: function (pattern, patternlab) {
+    isPatternExcluded: function(pattern, patternlab) {
       return isPatternExcluded(pattern, patternlab);
     },
-    groupPatterns: function (patternlab) {
+    groupPatterns: function(patternlab) {
       return groupPatterns(patternlab);
     },
-    resetUIBuilderState: function (patternlab) {
+    resetUIBuilderState: function(patternlab) {
       resetUIBuilderState(patternlab);
     },
-    buildViewAllPages: function (mainPageHeadHtml, patternlab, styleguidePatterns) {
-      return buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns);
-    }
+    buildViewAllPages: function(
+      mainPageHeadHtml,
+      patternlab,
+      styleguidePatterns
+    ) {
+      return buildViewAllPages(
+        mainPageHeadHtml,
+        patternlab,
+        styleguidePatterns
+      );
+    },
   };
-
 };
 
 module.exports = ui_builder;

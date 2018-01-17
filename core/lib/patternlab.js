@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const dive = require('dive');
 const _ = require('lodash');
@@ -34,7 +34,9 @@ inherits(PatternLabEventEmitter, EventEmitter);
 module.exports = class PatternLab {
   constructor(config) {
     // Either use the config we were passed, or load one up from the config file ourselves
-    this.config = config || fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+    this.config =
+      config ||
+      fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
 
     //register our log events
     this.registerLogger(config.logLevel);
@@ -54,7 +56,9 @@ module.exports = class PatternLab {
     this.partials = {};
 
     // Cache the package.json in RAM
-    this.package = fs.readJSONSync(path.resolve(__dirname, '../../package.json'));
+    this.package = fs.readJSONSync(
+      path.resolve(__dirname, '../../package.json')
+    );
 
     // Make ye olde event emitter
     this.events = new PatternLabEventEmitter();
@@ -73,34 +77,50 @@ module.exports = class PatternLab {
   }
 
   checkConfiguration(patternlab) {
-
     //default the output suffixes if not present
     const outputFileSuffixes = {
       rendered: '.rendered',
       rawTemplate: '',
-      markupOnly: '.markup-only'
+      markupOnly: '.markup-only',
     };
 
     if (!patternlab.config.outputFileSuffixes) {
       logger.warning('');
-      logger.warning('Configuration key [outputFileSuffixes] not found, and defaulted to the following:');
+      logger.warning(
+        'Configuration key [outputFileSuffixes] not found, and defaulted to the following:'
+      );
       logger.info(outputFileSuffixes);
-      logger.warning('Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.');
+      logger.warning(
+        'Since Pattern Lab Node Core 2.3.0 this configuration option is required. Suggest you add it to your patternlab-config.json file.'
+      );
       logger.warning('');
     }
-    patternlab.config.outputFileSuffixes = _.extend(outputFileSuffixes, patternlab.config.outputFileSuffixes);
+    patternlab.config.outputFileSuffixes = _.extend(
+      outputFileSuffixes,
+      patternlab.config.outputFileSuffixes
+    );
 
     if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
       logger.warning('');
-      logger.warning(`Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`);
-      logger.warning('Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.');
+      logger.warning(
+        `Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${
+          patternlab.config.paths.source.patternlabFiles
+        }'`
+      );
+      logger.warning(
+        'Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.'
+      );
       logger.warning('');
     }
 
     if (typeof patternlab.config.debug === 'boolean') {
       logger.warning('');
-      logger.warning(`Configuration key [debug] inside patternlab-config.json was found. As of Pattern Lab Node Core 3.0.0 this key is replaced with a new key, [logLevel]. This is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`);
-      logger.warning(`Turning on 'info', 'warning', and 'error' levels by default, unless [logLevel] is present. If that is the case, [debug] has no effect.`);
+      logger.warning(
+        `Configuration key [debug] inside patternlab-config.json was found. As of Pattern Lab Node Core 3.0.0 this key is replaced with a new key, [logLevel]. This is a string with possible values ['debug', 'info', 'warning', 'error', 'quiet'].`
+      );
+      logger.warning(
+        `Turning on 'info', 'warning', and 'error' levels by default, unless [logLevel] is present. If that is the case, [debug] has no effect.`
+      );
       logger.warning('');
     }
   }
@@ -111,16 +131,18 @@ module.exports = class PatternLab {
    */
   //todo, move this to plugin_manager
   initializePlugins(patternlab) {
+    if (!patternlab.config.plugins) {
+      return;
+    }
 
-    if (!patternlab.config.plugins) { return; }
-
-    const plugin_manager = new pm(patternlab.config, path.resolve(__dirname, '../../patternlab-config.json'));
+    const plugin_manager = new pm(
+      patternlab.config,
+      path.resolve(__dirname, '../../patternlab-config.json')
+    );
     const foundPlugins = plugin_manager.detect_plugins();
 
     if (foundPlugins && foundPlugins.length > 0) {
-
       for (let i = 0; i < foundPlugins.length; i++) {
-
         const pluginKey = foundPlugins[i];
 
         logger.info(`Found plugin: ${pluginKey}`);
@@ -144,28 +166,57 @@ module.exports = class PatternLab {
       this.data = this.buildPatternData(paths.source.data, fs); // eslint-disable-line no-use-before-define
       this.data.link = {};
     } catch (ex) {
-      logger.error('missing or malformed' + paths.source.data + 'data.json  Pattern Lab may not work without this file.');
+      logger.error(
+        'missing or malformed' +
+          paths.source.data +
+          'data.json  Pattern Lab may not work without this file.'
+      );
       this.data = {};
     }
 
     // listitems.json
     try {
-      this.listitems = fs.readJSONSync(path.resolve(paths.source.data, 'listitems.json'));
+      this.listitems = fs.readJSONSync(
+        path.resolve(paths.source.data, 'listitems.json')
+      );
     } catch (ex) {
-      logger.warning('WARNING: missing or malformed ' + paths.source.data + 'listitems.json file.  Pattern Lab may not work without this file.');
+      logger.warning(
+        'WARNING: missing or malformed ' +
+          paths.source.data +
+          'listitems.json file.  Pattern Lab may not work without this file.'
+      );
       this.listitems = {};
     }
 
     // load up all the necessary files from pattern lab that apply to every template
     try {
-      this.header = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-header']), 'utf8');
-      this.footer = fs.readFileSync(path.resolve(paths.source.patternlabFiles['general-footer']), 'utf8');
-      this.patternSection = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSection), 'utf8');
-      this.patternSectionSubType = fs.readFileSync(path.resolve(paths.source.patternlabFiles.patternSectionSubtype), 'utf8');
-      this.viewAll = fs.readFileSync(path.resolve(paths.source.patternlabFiles.viewall), 'utf8');
+      this.header = fs.readFileSync(
+        path.resolve(paths.source.patternlabFiles['general-header']),
+        'utf8'
+      );
+      this.footer = fs.readFileSync(
+        path.resolve(paths.source.patternlabFiles['general-footer']),
+        'utf8'
+      );
+      this.patternSection = fs.readFileSync(
+        path.resolve(paths.source.patternlabFiles.patternSection),
+        'utf8'
+      );
+      this.patternSectionSubType = fs.readFileSync(
+        path.resolve(paths.source.patternlabFiles.patternSectionSubtype),
+        'utf8'
+      );
+      this.viewAll = fs.readFileSync(
+        path.resolve(paths.source.patternlabFiles.viewall),
+        'utf8'
+      );
     } catch (ex) {
       logger.info(ex);
-      logger.error('\nERROR: missing an essential file from ' + paths.source.patternlabFiles + '. Pattern Lab won\'t work without this file.\n');
+      logger.error(
+        '\nERROR: missing an essential file from ' +
+          paths.source.patternlabFiles +
+          ". Pattern Lab won't work without this file.\n"
+      );
 
       // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
       // but whatever. For now.
@@ -189,7 +240,6 @@ module.exports = class PatternLab {
       this.cacheBuster = 0;
     }
   }
-
 
   // Starter Kit loading methods
 
@@ -216,33 +266,51 @@ module.exports = class PatternLab {
 
   writePatternFiles(headHTML, pattern, footerHTML) {
     const nullFormatter = str => str;
-    const defaultFormatter = codeString => cleanHtml(codeString, {indent_size: 2});
-    const makePath = type => path.join(this.config.paths.public.patterns, pattern.getPatternLink(this, type));
+    const defaultFormatter = codeString =>
+      cleanHtml(codeString, { indent_size: 2 });
+    const makePath = type =>
+      path.join(
+        this.config.paths.public.patterns,
+        pattern.getPatternLink(this, type)
+      );
     const patternPage = headHTML + pattern.patternPartialCode + footerHTML;
     const eng = pattern.engine;
 
     //beautify the output if configured to do so
-    const formatters = this.config.cleanOutputHtml ? {
-      rendered:     eng.renderedCodeFormatter || defaultFormatter,
-      rawTemplate:  eng.rawTemplateCodeFormatter || defaultFormatter,
-      markupOnly:   eng.markupOnlyCodeFormatter || defaultFormatter
-    } : {
-      rendered:     nullFormatter,
-      rawTemplate:  nullFormatter,
-      markupOnly:   nullFormatter
-    };
+    const formatters = this.config.cleanOutputHtml
+      ? {
+          rendered: eng.renderedCodeFormatter || defaultFormatter,
+          rawTemplate: eng.rawTemplateCodeFormatter || defaultFormatter,
+          markupOnly: eng.markupOnlyCodeFormatter || defaultFormatter,
+        }
+      : {
+          rendered: nullFormatter,
+          rawTemplate: nullFormatter,
+          markupOnly: nullFormatter,
+        };
 
     //prepare the path and contents of each output file
     const outputFiles = [
-      { path: makePath('rendered'), content: formatters.rendered(patternPage, pattern) },
-      { path: makePath('rawTemplate'), content: formatters.rawTemplate(pattern.template, pattern) },
-      { path: makePath('markupOnly'), content: formatters.markupOnly(pattern.patternPartialCode, pattern) }
+      {
+        path: makePath('rendered'),
+        content: formatters.rendered(patternPage, pattern),
+      },
+      {
+        path: makePath('rawTemplate'),
+        content: formatters.rawTemplate(pattern.template, pattern),
+      },
+      {
+        path: makePath('markupOnly'),
+        content: formatters.markupOnly(pattern.patternPartialCode, pattern),
+      },
     ].concat(
       eng.addOutputFiles ? eng.addOutputFiles(this.config.paths, this) : []
     );
 
     //write the compiled template to the public patterns directory
-    outputFiles.forEach(outFile => fs.outputFileSync(outFile.path, outFile.content));
+    outputFiles.forEach(outFile =>
+      fs.outputFileSync(outFile.path, outFile.content)
+    );
   }
 
   /**
@@ -257,7 +325,9 @@ module.exports = class PatternLab {
       logger.log.on('warning', msg => console.info(msg));
       logger.log.on('error', msg => console.info(msg));
     } else {
-      if (logLevel === 'quiet') { return; }
+      if (logLevel === 'quiet') {
+        return;
+      }
       switch (logLevel) {
         case 'debug':
           logger.log.on('debug', msg => console.info(msg));
@@ -278,14 +348,16 @@ module.exports = class PatternLab {
     }
 
     // Allows serializing the compile state
-    this.graph.node(pattern).compileState = pattern.compileState = CompileState.BUILDING;
+    this.graph.node(pattern).compileState = pattern.compileState =
+      CompileState.BUILDING;
 
     //todo move this into lineage_hunter
     pattern.patternLineages = pattern.lineage;
     pattern.patternLineageExists = pattern.lineage.length > 0;
     pattern.patternLineagesR = pattern.lineageR;
     pattern.patternLineageRExists = pattern.lineageR.length > 0;
-    pattern.patternLineageEExists = pattern.patternLineageExists || pattern.patternLineageRExists;
+    pattern.patternLineageEExists =
+      pattern.patternLineageExists || pattern.patternLineageRExists;
 
     this.events.emit('patternlab-pattern-before-data-merge', this, pattern);
 
@@ -309,7 +381,10 @@ module.exports = class PatternLab {
     if (this.userHead) {
       headPromise = render(this.userHead, allData);
     } else {
-      headPromise = render(Pattern.createEmpty({ extendedTemplate: this.header }), allData);
+      headPromise = render(
+        Pattern.createEmpty({ extendedTemplate: this.header }),
+        allData
+      );
     }
 
     ///////////////
@@ -327,10 +402,14 @@ module.exports = class PatternLab {
     // see if patternData really needs these other duped values
 
     // construct our extraOutput dump
-    var extraOutput = Object.assign({}, pattern.extraOutput, pattern.allMarkdown);
-    delete(extraOutput.title);
-    delete(extraOutput.state);
-    delete(extraOutput.markdown);
+    var extraOutput = Object.assign(
+      {},
+      pattern.extraOutput,
+      pattern.allMarkdown
+    );
+    delete extraOutput.title;
+    delete extraOutput.state;
+    delete extraOutput.markdown;
 
     pattern.patternData = JSON.stringify({
       cssEnabled: false,
@@ -340,71 +419,84 @@ module.exports = class PatternLab {
       patternLineageRExists: pattern.patternLineageRExists,
       patternLineagesR: pattern.patternLineagesR,
       lineageR: pattern.patternLineagesR,
-      patternLineageEExists: pattern.patternLineageExists || pattern.patternLineageRExists,
+      patternLineageEExists:
+        pattern.patternLineageExists || pattern.patternLineageRExists,
       patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
       patternBreadcrumb:
-      pattern.patternGroup === pattern.patternSubGroup ? {
-        patternType: pattern.patternGroup
-      } : {
-        patternType: pattern.patternGroup,
-        patternSubtype: pattern.patternSubGroup
-      },
+        pattern.patternGroup === pattern.patternSubGroup
+          ? {
+              patternType: pattern.patternGroup,
+            }
+          : {
+              patternType: pattern.patternGroup,
+              patternSubtype: pattern.patternSubGroup,
+            },
       patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
       patternName: pattern.patternName,
       patternPartial: pattern.patternPartial,
       patternState: pattern.patternState,
       patternEngineName: pattern.engine.engineName,
-      extraOutput: extraOutput
+      extraOutput: extraOutput,
     });
 
     //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPartialPromise = render(Pattern.createEmpty({extendedTemplate: this.footer}), {
-      isPattern: pattern.isPattern,
-      patternData: pattern.patternData,
-      cacheBuster: this.cacheBuster
-    });
+    const footerPartialPromise = render(
+      Pattern.createEmpty({ extendedTemplate: this.footer }),
+      {
+        isPattern: pattern.isPattern,
+        patternData: pattern.patternData,
+        cacheBuster: this.cacheBuster,
+      }
+    );
 
     const self = this;
 
+    return Promise.all([
+      headPromise,
+      patternPartialPromise,
+      footerPartialPromise,
+    ])
+      .then(intermediateResults => {
+        // retrieve results of promises
+        const headHTML = intermediateResults[0]; //headPromise
+        pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
+        const footerPartial = intermediateResults[2]; //footerPartialPromise
 
-    return Promise.all([headPromise, patternPartialPromise, footerPartialPromise]).then(intermediateResults => {
+        //finish up our footer data
+        let allFooterData;
+        try {
+          allFooterData = jsonCopy(
+            self.data,
+            'config.paths.source.data global data'
+          );
+        } catch (err) {
+          logger.info('There was an error parsing JSON for ' + pattern.relPath);
+          logger.info(err);
+        }
+        allFooterData = _.merge(allFooterData, pattern.jsonFileData);
+        allFooterData.patternLabFoot = footerPartial;
 
-      // retrieve results of promises
-      const headHTML = intermediateResults[0]; //headPromise
-      pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
-      const footerPartial = intermediateResults[2]; //footerPartialPromise
+        return render(self.userFoot, allFooterData).then(footerHTML => {
+          ///////////////
+          // WRITE FILES
+          ///////////////
 
-      //finish up our footer data
-      let allFooterData;
-      try {
-        allFooterData = jsonCopy(self.data, 'config.paths.source.data global data');
-      } catch (err) {
-        logger.info('There was an error parsing JSON for ' + pattern.relPath);
-        logger.info(err);
-      }
-      allFooterData = _.merge(allFooterData, pattern.jsonFileData);
-      allFooterData.patternLabFoot = footerPartial;
+          self.events.emit('patternlab-pattern-write-begin', self, pattern);
 
-      return render(self.userFoot, allFooterData).then(footerHTML => {
+          //write the compiled template to the public patterns directory
+          self.writePatternFiles(headHTML, pattern, footerHTML);
 
-        ///////////////
-        // WRITE FILES
-        ///////////////
+          self.events.emit('patternlab-pattern-write-end', self, pattern);
 
-        self.events.emit('patternlab-pattern-write-begin', self, pattern);
-
-        //write the compiled template to the public patterns directory
-        self.writePatternFiles(headHTML, pattern, footerHTML);
-
-        self.events.emit('patternlab-pattern-write-end', self, pattern);
-
-        // Allows serializing the compile state
-        self.graph.node(pattern).compileState = pattern.compileState = CompileState.CLEAN;
-        logger.info("Built pattern: " + pattern.patternPartial);
+          // Allows serializing the compile state
+          self.graph.node(pattern).compileState = pattern.compileState =
+            CompileState.CLEAN;
+          logger.info('Built pattern: ' + pattern.patternPartial);
+        });
+      })
+      .catch(reason => {
+        console.log(reason);
       });
-    }).catch(reason => {
-      console.log(reason);
-    });
   }
 
   /**
@@ -433,7 +525,7 @@ module.exports = class PatternLab {
   // dive once to perform iterative populating of patternlab object
   processAllPatternsIterative(patterns_dir) {
     const self = this;
-    const promiseAllPatternFiles = new Promise(function (resolve) {
+    const promiseAllPatternFiles = new Promise(function(resolve) {
       dive(
         patterns_dir,
         (err, file) => {
@@ -458,16 +550,18 @@ module.exports = class PatternLab {
       );
     });
     return promiseAllPatternFiles.then(() => {
-      return Promise.all(this.patterns.map((pattern) => {
-        return processIterative(pattern, self);
-      }));
+      return Promise.all(
+        this.patterns.map(pattern => {
+          return processIterative(pattern, self);
+        })
+      );
     });
   }
 
   processAllPatternsRecursive(patterns_dir) {
     const self = this;
 
-    const promiseAllPatternFiles = new Promise(function (resolve) {
+    const promiseAllPatternFiles = new Promise(function(resolve) {
       dive(
         patterns_dir,
         (err, file) => {

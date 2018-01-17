@@ -1,15 +1,16 @@
-"use strict";
+'use strict';
 
 const _ = require('lodash');
 
 const logger = require('./log');
 
-module.exports = function (pattern, patternlab) {
+module.exports = function(pattern, patternlab) {
   //add the link to the global object
   if (!patternlab.data.link) {
     patternlab.data.link = {};
   }
-  patternlab.data.link[pattern.patternPartial] = '/patterns/' + pattern.patternLink;
+  patternlab.data.link[pattern.patternPartial] =
+    '/patterns/' + pattern.patternLink;
 
   //only push to array if the array doesn't contain this pattern
   var isNew = true;
@@ -18,7 +19,8 @@ module.exports = function (pattern, patternlab) {
     if (pattern.relPath === patternlab.patterns[i].relPath) {
       //if relPath already exists, overwrite that element
       patternlab.patterns[i] = pattern;
-      patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
+      patternlab.partials[pattern.patternPartial] =
+        pattern.extendedTemplate || pattern.template;
       isNew = false;
       break;
     }
@@ -26,12 +28,12 @@ module.exports = function (pattern, patternlab) {
 
   // if the pattern is new, we must register it with various data structures!
   if (isNew) {
-
     logger.debug(`found new pattern ${pattern.patternPartial}`);
 
     // do global registration
     if (pattern.isPattern) {
-      patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate || pattern.template;
+      patternlab.partials[pattern.patternPartial] =
+        pattern.extendedTemplate || pattern.template;
 
       // do plugin-specific registration
       pattern.registerPartial();
@@ -40,7 +42,11 @@ module.exports = function (pattern, patternlab) {
     }
 
     //patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
-    patternlab.patterns.splice(_.sortedIndexBy(patternlab.patterns, pattern, 'name'), 0, pattern);
+    patternlab.patterns.splice(
+      _.sortedIndexBy(patternlab.patterns, pattern, 'name'),
+      0,
+      pattern
+    );
     patternlab.graph.add(pattern);
   }
 };
