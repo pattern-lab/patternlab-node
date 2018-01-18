@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const path = require('path');
 const _ = require('lodash');
@@ -12,15 +12,18 @@ const markdown_parser = new mp();
 
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
-module.exports = function (pattern, patternlab) {
-
+module.exports = function(pattern, patternlab) {
   try {
-    var markdownFileName = path.resolve(patternlab.config.paths.source.patterns, pattern.subdir, pattern.fileName + ".md");
+    const markdownFileName = path.resolve(
+      patternlab.config.paths.source.patterns,
+      pattern.subdir,
+      pattern.fileName + '.md'
+    );
     changes_hunter.checkLastModified(pattern, markdownFileName);
 
-    var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
+    const markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
-    var markdownObject = markdown_parser.parse(markdownFileContents);
+    const markdownObject = markdown_parser.parse(markdownFileContents);
     if (!_.isEmpty(markdownObject)) {
       //set keys and markdown itself
       pattern.patternDescExists = true;
@@ -54,14 +57,18 @@ module.exports = function (pattern, patternlab) {
     } else {
       logger.warning(`error processing markdown for ${pattern.patternPartial}`);
     }
-    logger.debug(`found pattern-specific markdown for  ${pattern.patternPartial}`);
-  }
-  catch (err) {
+    logger.debug(
+      `found pattern-specific markdown for  ${pattern.patternPartial}`
+    );
+  } catch (err) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
-      logger.warning(`'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`);
+      logger.warning(
+        `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${
+          pattern.patternPartial
+        }`
+      );
       logger.warning(err);
     }
   }
-
 };

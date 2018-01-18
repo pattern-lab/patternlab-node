@@ -1,9 +1,8 @@
-"use strict";
+'use strict';
 
 const fs = require('fs-extra');
 
-const pattern_exporter = function () {
-
+const pattern_exporter = function() {
   /**
    * Exports all pattern's final HTML as defined in patternlab-config.json to desired location.
    * Originally created to help facilitate easier consumption by jekyll.
@@ -20,18 +19,22 @@ const pattern_exporter = function () {
       for (let j = 0; j < patternlab.patterns.length; j++) {
         if (exportPartials[i] === patternlab.patterns[j].patternPartial) {
           //write matches to the desired location
-          fs.outputFileSync(patternlab.config.patternExportDirectory + patternlab.patterns[j].patternPartial + '.html', patternlab.patterns[j].patternPartialCode);
+          fs.outputFileSync(
+            patternlab.config.patternExportDirectory +
+              patternlab.patterns[j].patternPartial +
+              '.html',
+            patternlab.patterns[j].patternPartialCode
+          );
         }
       }
     }
   }
 
   return {
-    export_patterns: function (patternlab) {
+    export_patterns: function(patternlab) {
       exportPatterns(patternlab);
-    }
+    },
   };
-
 };
 
 module.exports = pattern_exporter;

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const path = require('path');
 const _ = require('lodash');
@@ -17,8 +17,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * @param lastModified
  * @param patternlab
  */
-module.exports = function (lastModified, patternlab) {
-
+module.exports = function(lastModified, patternlab) {
   /**
    * If the given array exists, apply a function to each of its elements
    * @param {Array} array
@@ -31,17 +30,25 @@ module.exports = function (lastModified, patternlab) {
   };
   const modifiedOrNot = _.groupBy(
     patternlab.patterns,
-    p => changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified');
+    p =>
+      changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified'
+  );
 
   // For all unmodified patterns load their rendered template output
   forEachExisting(modifiedOrNot.notModified, cleanPattern => {
-    const xp = path.join(patternlab.config.paths.public.patterns, cleanPattern.getPatternLink(patternlab, 'markupOnly'));
+    const xp = path.join(
+      patternlab.config.paths.public.patterns,
+      cleanPattern.getPatternLink(patternlab, 'markupOnly')
+    );
 
     // Pattern with non-existing markupOnly files were already marked for rebuild and thus are not "CLEAN"
     cleanPattern.patternPartialCode = fs.readFileSync(xp, 'utf8');
   });
 
   // For all patterns that were modified, schedule them for rebuild
-  forEachExisting(modifiedOrNot.modified, p => p.compileState = CompileState.NEEDS_REBUILD);
+  forEachExisting(
+    modifiedOrNot.modified,
+    p => (p.compileState = CompileState.NEEDS_REBUILD)
+  );
   return modifiedOrNot;
 };

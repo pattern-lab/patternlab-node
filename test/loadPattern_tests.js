@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const path = require('path');
 const tap = require('tap');
@@ -12,7 +12,7 @@ patternEngines.loadAllEngines(config);
 
 const patterns_dir = './test/files/_patterns';
 
-tap.test('loadPattern - returns null if file is not a pattern', function (test) {
+tap.test('loadPattern - returns null if file is not a pattern', function(test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
   var patternPath = path.join('00-test', '03-styled-atom.json');
@@ -25,7 +25,7 @@ tap.test('loadPattern - returns null if file is not a pattern', function (test) 
   test.end();
 });
 
-tap.test('loadPattern - loads pattern sibling json if found', function (test) {
+tap.test('loadPattern - loads pattern sibling json if found', function(test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
   var patternPath = path.join('00-test', '03-styled-atom.mustache');
@@ -38,20 +38,25 @@ tap.test('loadPattern - loads pattern sibling json if found', function (test) {
   test.end();
 });
 
-tap.test('loadPattern - adds the pattern to the patternlab.partials object', function (test) {
-  //arrange
-  const patternlab = util.fakePatternLab(patterns_dir);
-  var fooPatternPath = path.join('00-test', '01-bar.mustache');
+tap.test(
+  'loadPattern - adds the pattern to the patternlab.partials object',
+  function(test) {
+    //arrange
+    const patternlab = util.fakePatternLab(patterns_dir);
+    var fooPatternPath = path.join('00-test', '01-bar.mustache');
 
-  //act
-  var result = loadPattern(fooPatternPath, patternlab);
+    //act
+    var result = loadPattern(fooPatternPath, patternlab);
 
-  //assert
-  test.equals(util.sanitized(patternlab.partials['test-bar']), 'bar');
-  test.end();
-});
+    //assert
+    test.equals(util.sanitized(patternlab.partials['test-bar']), 'bar');
+    test.end();
+  }
+);
 
-tap.test('loadPattern - returns pattern with template populated', function (test) {
+tap.test('loadPattern - returns pattern with template populated', function(
+  test
+) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
   var fooPatternPath = path.join('00-test', '01-bar.mustache');
@@ -64,7 +69,9 @@ tap.test('loadPattern - returns pattern with template populated', function (test
   test.end();
 });
 
-tap.test('loadPattern - adds a markdown pattern if encountered', function (test) {
+tap.test('loadPattern - adds a markdown pattern if encountered', function(
+  test
+) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
   var colorsMarkDownPath = path.join('patternType1', 'patternSubType1.md');
@@ -73,7 +80,8 @@ tap.test('loadPattern - adds a markdown pattern if encountered', function (test)
   var result = loadPattern(colorsMarkDownPath, patternlab);
 
   //assert
-  const subTypePattern = patternlab.subtypePatterns['patternType1-patternSubType1'];
+  const subTypePattern =
+    patternlab.subtypePatterns['patternType1-patternSubType1'];
   test.equals(subTypePattern.patternSectionSubtype, true);
   test.equals(subTypePattern.isPattern, false);
   test.equals(subTypePattern.patternDesc, '<p>Colors</p>\n');

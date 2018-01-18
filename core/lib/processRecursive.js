@@ -1,24 +1,26 @@
-"use strict";
+'use strict';
 
 const logger = require('./log');
 const decompose = require('./decompose');
 const getPartial = require('./get');
 
-module.exports = function (file, patternlab) {
-
+module.exports = function(file, patternlab) {
   //find current pattern in patternlab object using file as a partial
-  var currentPattern = getPartial(file, patternlab);
+  const currentPattern = getPartial(file, patternlab);
 
   //return if processing an ignored file
-  if (typeof currentPattern === 'undefined') { return Promise.resolve(); }
+  if (typeof currentPattern === 'undefined') {
+    return Promise.resolve();
+  }
 
   //we are processing a markdown only pattern
-  if (currentPattern.engine === null) { return Promise.resolve(); }
+  if (currentPattern.engine === null) {
+    return Promise.resolve();
+  }
 
   //call our helper method to actually unravel the pattern with any partials
-  return decompose(currentPattern, patternlab)
-    .catch(reason => {
-      console.log(reason);
-      logger.error(reason);
-    });
+  return decompose(currentPattern, patternlab).catch(reason => {
+    console.log(reason);
+    logger.error(reason);
+  });
 };
