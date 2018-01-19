@@ -15,7 +15,6 @@ module.exports = {
       footer: '',
       header: '',
       listitems: {},
-      listItemArray: [],
       data: {
         link: {},
       },

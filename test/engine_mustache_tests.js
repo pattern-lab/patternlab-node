@@ -30,7 +30,6 @@ function fakePatternLab() {
     footer: '',
     header: '',
     listitems: {},
-    listItemArray: [],
     data: {
       link: {},
     },
