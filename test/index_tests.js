@@ -127,6 +127,82 @@ tap.test('buildPatterns', function() {
         test.end();
       });
 
+      tap.test('uses global listItem property', test => {
+        var pattern = get('test-listWithPartial', patternlab);
+        console.log(pattern.patternPartialCode);
+        let assertionCount = 0;
+        ['dA', 'dB', 'dC'].forEach(d => {
+          if (pattern.patternPartialCode.indexOf(d) > -1) {
+            assertionCount++;
+          }
+        });
+        test.ok(assertionCount === 2);
+        test.end();
+      });
+
+      tap.test(
+        'overwrites listItem property if that property is in local .listitem.json',
+        test => {
+          var pattern = get('test-listWithListItems', patternlab);
+          test.ok(pattern.patternPartialCode.indexOf('tX') > -1);
+          test.ok(pattern.patternPartialCode.indexOf('tY') > -1);
+          test.ok(pattern.patternPartialCode.indexOf('tZ') > -1);
+
+          test.end();
+        }
+      );
+
+      tap.test(
+        'uses global listItem property after merging local .listitem.json',
+        test => {
+          var pattern = get('test-listWithListItems', patternlab);
+          test.ok(pattern.patternPartialCode.indexOf('dA') > -1);
+          test.ok(pattern.patternPartialCode.indexOf('dB') > -1);
+          test.ok(pattern.patternPartialCode.indexOf('dC') > -1);
+          test.end();
+        }
+      );
+
+      tap.test(
+        'correctly ignores bookended partials without a style modifier when the same partial has a style modifier between',
+        test => {
+          var pattern = get('test-bookend-listitem', patternlab);
+          test.equals(
+            util.sanitized(pattern.extendedTemplate),
+            util.sanitized(`<div class="test_group">
+          {{#listItems-two}}
+            <span class="test_base {{styleModifier}}">
+            {{message}}
+        </span>
+
+            <span class="test_base test_1">
+            {{message}}
+        </span>
+
+            <span class="test_base {{styleModifier}}">
+            {{message}}
+        </span>
+
+          {{/listItems-two}}
+        </div>
+        `)
+          );
+          test.end();
+        }
+      );
+
+      tap.test(
+        'listItems keys (`one` through `twelve`) can be used more than once per pattern',
+        test => {
+          var pattern = get('test-repeatedListItems', patternlab);
+          test.equals(
+            util.sanitized(pattern.patternPartialCode),
+            util.sanitized(`AAA BBB`)
+          );
+          test.end();
+        }
+      );
+
       /////////////// FAILING ///////////////////
       // todo
       // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145

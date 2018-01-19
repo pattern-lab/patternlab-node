@@ -378,48 +378,6 @@ tap
   })
   .catch(tap.threw);
 
-tap.test('processRecursive - 685 ensure listitems data is used', function(
-  test
-) {
-  //arrange
-  const patternlab = util.fakePatternLab(patterns_dir, {
-    data: {
-      title: '0',
-    },
-    listitems: {
-      '1': {
-        title: '1',
-      },
-      '2': {
-        title: '2',
-      },
-      '3': {
-        title: '3',
-      },
-    },
-  });
-
-  buildListItems(patternlab);
-
-  var listPatternPath = path.join('00-test', '685-list.mustache');
-  var listPattern = loadPattern(listPatternPath, patternlab);
-
-  Promise.all([processIterative(listPattern, patternlab)])
-    .then(results => {
-      //act
-      processRecursive(listPatternPath, patternlab)
-        .then(() => {
-          //assert
-          test.true(results[0].extendedTemplate.indexOf(1) > -1);
-          test.true(results[0].extendedTemplate.indexOf(2) > -1);
-          test.true(results[0].extendedTemplate.indexOf(3) > -1);
-          test.end();
-        })
-        .catch(test.threw);
-    })
-    .catch(test.threw);
-});
-
 tap.test('hidden patterns can be called by their nice names', function(test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
