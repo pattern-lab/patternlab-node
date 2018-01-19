@@ -13,42 +13,58 @@ const patternPrefixMatcher = /^_?(\d+-)?/;
  * Pattern constructor
  * @constructor
  */
-const Pattern = function (relPath, data, patternlab) {
+const Pattern = function(relPath, data, patternlab) {
   /**
-  * We expect relPath to be the path of the pattern template, relative to the
-  * root of the pattern tree. Parse out the path parts and save the useful ones.
-  * @param {relPath} relative directory
-  * @param {data} The JSON used to render values in the pattern.
-  * @param {patternlab} rendered html files for the pattern
-  */
+   * We expect relPath to be the path of the pattern template, relative to the
+   * root of the pattern tree. Parse out the path parts and save the useful ones.
+   * @param {relPath} relative directory
+   * @param {data} The JSON used to render values in the pattern.
+   * @param {patternlab} rendered html files for the pattern
+   */
   const pathObj = path.parse(path.normalize(relPath));
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
-  this.fileName = pathObj.name;     // '00-colors'
-  this.subdir = pathObj.dir;        // '00-atoms/00-global'
+  this.fileName = pathObj.name; // '00-colors'
+  this.subdir = pathObj.dir; // '00-atoms/00-global'
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
-  this.name = this.subdir.replace(path.sep, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
+  this.name =
+    this.subdir.replace(path.sep, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
 
   // the JSON used to render values in the pattern
   this.jsonFileData = data || {};
 
   // strip leading "00-" from the file name and flip tildes to dashes
-  this.patternBaseName = this.fileName.replace(patternPrefixMatcher, '').replace('~', '-'); // 'colors'
+  this.patternBaseName = this.fileName
+    .replace(patternPrefixMatcher, '')
+    .replace('~', '-'); // 'colors'
 
   // Fancy name. No idea how this works. 'Colors'
-  this.patternName = this.patternBaseName.split('-').reduce(function (val, working) {
-    return val.charAt(0).toUpperCase() + val.slice(1) + ' ' + working.charAt(0).toUpperCase() + working.slice(1);
-  }, '').trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
+  this.patternName = this.patternBaseName
+    .split('-')
+    .reduce(function(val, working) {
+      return (
+        val.charAt(0).toUpperCase() +
+        val.slice(1) +
+        ' ' +
+        working.charAt(0).toUpperCase() +
+        working.slice(1)
+      );
+    }, '')
+    .trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
   // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.subdir.split(path.sep)[0].replace(patternPrefixMatcher, '');
+  this.patternGroup = this.subdir
+    .split(path.sep)[0]
+    .replace(patternPrefixMatcher, '');
 
   //00-atoms if needed
   this.patternType = this.subdir.split(path.sep)[0];
 
   // the sub-group this pattern belongs to.
-  this.patternSubGroup = path.basename(this.subdir).replace(patternPrefixMatcher, ''); // 'global'
+  this.patternSubGroup = path
+    .basename(this.subdir)
+    .replace(patternPrefixMatcher, ''); // 'global'
 
   //00-colors if needed
   this.patternSubType = path.basename(this.subdir);
@@ -58,7 +74,9 @@ const Pattern = function (relPath, data, patternlab) {
 
   // calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
-  this.patternLink = this.patternSectionSubtype ? `$${this.name}/index.html` : (patternlab ? this.getPatternLink(patternlab, 'rendered') : null);
+  this.patternLink = this.patternSectionSubtype
+    ? `$${this.name}/index.html`
+    : patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
@@ -66,7 +84,8 @@ const Pattern = function (relPath, data, patternlab) {
 
   // Let's calculate the verbose name ahead of time! We don't use path.sep here
   // on purpose. This isn't a file name!
-  this.verbosePartial = this.subdir.split(path.sep).join('/') + '/' + this.fileName;
+  this.verbosePartial =
+    this.subdir.split(path.sep).join('/') + '/' + this.fileName;
 
   this.isPattern = true;
   this.isFlatPattern = this.patternGroup === this.patternSubGroup;
@@ -94,32 +113,35 @@ const Pattern = function (relPath, data, patternlab) {
    * @see {@link pattern}
    */
   this.lastModified = null;
-
 };
 
 // Pattern methods
 
 Pattern.prototype = {
-
   // render function - acts as a proxy for the PatternEngine's
-  render: function (data, partials) {
-
+  render: function(data, partials) {
     if (!this.extendedTemplate) {
       this.extendedTemplate = this.template;
     }
 
     if (this.engine) {
-      const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
-      return promise.then(results => {
-        return results;
-      }).catch(reason => {
-        return Promise.reject(reason);
-      });
+      const promise = this.engine.renderPattern(
+        this,
+        data || this.jsonFileData,
+        partials
+      );
+      return promise
+        .then(results => {
+          return results;
+        })
+        .catch(reason => {
+          return Promise.reject(reason);
+        });
     }
     return Promise.reject('where is the engine?');
   },
 
-  registerPartial: function () {
+  registerPartial: function() {
     if (this.engine && typeof this.engine.registerPartial === 'function') {
       this.engine.registerPartial(this);
     }
@@ -128,10 +150,12 @@ Pattern.prototype = {
   // calculated path from the root of the public directory to the generated html
   // file for this pattern.
   // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
-  getPatternLink: function (patternlab, suffixType, customfileExtension) {
+  getPatternLink: function(patternlab, suffixType, customfileExtension) {
     // if no suffixType is provided, we default to rendered
     const suffixConfig = patternlab.config.outputFileSuffixes;
-    const suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
+    const suffix = suffixType
+      ? suffixConfig[suffixType]
+      : suffixConfig.rendered;
 
     if (suffixType === 'rawTemplate') {
       return this.name + path.sep + this.name + suffix + this.fileExtension;
@@ -146,32 +170,32 @@ Pattern.prototype = {
 
   // the finders all delegate to the PatternEngine, which also encapsulates all
   // appropriate regexes
-  findPartials: function () {
+  findPartials: function() {
     return this.engine.findPartials(this);
   },
 
-  findPartialsWithStyleModifiers: function () {
+  findPartialsWithStyleModifiers: function() {
     return this.engine.findPartialsWithStyleModifiers(this);
   },
 
-  findPartialsWithPatternParameters: function () {
+  findPartialsWithPatternParameters: function() {
     return this.engine.findPartialsWithPatternParameters(this);
   },
 
-  findListItems: function () {
+  findListItems: function() {
     return this.engine.findListItems(this);
   },
 
-  findPartial: function (partialString) {
+  findPartial: function(partialString) {
     return this.engine.findPartial(partialString);
-  }
+  },
 };
 
 // Pattern static methods
 
 // factory: creates an empty Pattern for miscellaneous internal use, such as
 // by list_item_hunter
-Pattern.createEmpty = function (customProps, patternlab) {
+Pattern.createEmpty = function(customProps, patternlab) {
   let relPath = '';
   if (customProps) {
     if (customProps.relPath) {
@@ -188,18 +212,18 @@ Pattern.createEmpty = function (customProps, patternlab) {
 // factory: creates an Pattern object on-demand from a hash; the hash accepts
 // parameters that replace the positional parameters that the Pattern
 // constructor takes.
-Pattern.create = function (relPath, data, customProps, patternlab) {
+Pattern.create = function(relPath, data, customProps, patternlab) {
   const newPattern = new Pattern(relPath || '', data || null, patternlab);
   return extend(newPattern, customProps);
 };
 
 const CompileState = {
-  NEEDS_REBUILD: "needs rebuild",
-  BUILDING: "building",
-  CLEAN: "clean"
+  NEEDS_REBUILD: 'needs rebuild',
+  BUILDING: 'building',
+  CLEAN: 'clean',
 };
 
 module.exports = {
   Pattern: Pattern,
-  CompileState: CompileState
+  CompileState: CompileState,
 };

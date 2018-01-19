@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 const logger = require('./log');
 
-module.exports = function (template, prop, data) {
+module.exports = function(template, prop, data) {
   let t = template;
 
   const valueRE = new RegExp(`{{{?\\s*[${prop}]+\\s*}?}}`);

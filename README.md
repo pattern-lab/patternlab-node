@@ -1,6 +1,7 @@
-![Pattern Lab Logo](/patternlab.png "Pattern Lab Logo")
+![Pattern Lab Logo](/patternlab.png 'Pattern Lab Logo')
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) ![current release](https://img.shields.io/github/release/pattern-lab/patternlab-node.svg) ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg) [![Coverage Status](https://coveralls.io/repos/github/pattern-lab/patternlab-node/badge.svg?branch=master)](https://coveralls.io/github/pattern-lab/patternlab-node?branch=master) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node) ![current release](https://img.shields.io/npm/v/@pattern-lab/patternlab-node.svg) ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg) [![Coverage Status](https://coveralls.io/repos/github/pattern-lab/patternlab-node/badge.svg?branch=master)](https://coveralls.io/github/pattern-lab/patternlab-node?branch=master) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Pattern Lab Node Core
 
@@ -39,7 +40,7 @@ For users wanting a more pre-packaged experience several editions are available.
 * [Pattern Lab/Node: Grunt Edition](https://github.com/pattern-lab/edition-node-grunt) contains info how to get started within a Grunt task running environment.
 * [Pattern Lab/Node: Vanilla Edition](https://github.com/pattern-lab/edition-node) contains info how to get started within a pure node environment.
 * [Pattern Lab/Node: Webpack Edition](https://github.com/Comcast/patternlab-edition-node-webpack) contains info how to get started within a webpack environment.
-  >Thanks to the team at Comcast for open-sourcing this stellar work!
+  > Thanks to the team at Comcast for open-sourcing this stellar work!
 
 ## Ecosystem
 
@@ -51,22 +52,20 @@ Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io
 
 `patternlab-node` can be required within any Node environment, taking in a configuration file at instantiation.
 
-``` javascript
-
+```javascript
 const config = require('./patternlab-config.json');
 const patternlab = require('patternlab-node')(config);
 
 // build, optionally watching or choosing incremental builds
 patternlab.build({
   cleanPublic: true,
-  watch: true
+  watch: true,
 });
 
 // or build, watch, and then self-host
 patternlab.serve({
-  cleanPublic: true
+  cleanPublic: true,
 });
-
 ```
 
 * Read more about [configuration](http://patternlab.io/docs/advanced-config-options.html#node) via `patternlab-config.json`.
@@ -75,13 +74,11 @@ patternlab.serve({
 
 * A full-featured [command line interface](https://github.com/pattern-lab/patternlab-node-cli) is also available courtesy of [@raphaelokon](https://github.com/raphaelokon).
 
-
 ### Events
 
 Many [events](https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins#events) are emitted during Pattern Lab operations, originally built to support plugins. Below is a sample, allowing users to be informed of asset or pattern changes.
 
-``` javascript
-
+```javascript
 patternlab.serve(...);
 
 patternlab.events.on('patternlab-asset-change', (data) => {
@@ -95,21 +92,20 @@ patternlab.events.on('patternlab-pattern-change', (data) => {
 patternlab.events.on('patternlab-global-change', (data) => {
   console.log(data); // {file: 'path/to/file.ext'}
 });
-
 ```
 
 ## Development Installation / Workflow
 
 If you are interested in [contributing to Pattern Lab](https://github.com/pattern-lab/patternlab-node/blob/master/.github/CONTRIBUTING.md), it's suggested to install an Edition of your choice and then run a local copy of this repository via [`npm link`](https://docs.npmjs.com/cli/link).
 
-``` bash
+```bash
 mkdir /patternlab-node
 cd /patternlab-node
 git clone https://github.com/pattern-lab/patternlab-node.git
 npm install
 npm link
 cd location/of/editionOrSourceAndConfig
-npm link patternlab-node
+npm link @pattern-lab/patternlab-node
 ```
 
 The above is a bit verbose, but illustrates:
@@ -132,7 +128,6 @@ View the [ChangeLog](https://github.com/pattern-lab/patternlab-node/wiki/ChangeL
 If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.
 
 Please read the guidelines: https://github.com/pattern-lab/patternlab-node/blob/master/.github/CONTRIBUTING.md
-
 
 ## Core Team
 
