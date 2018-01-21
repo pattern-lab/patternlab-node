@@ -1,9 +1,8 @@
-"use strict";
+'use strict';
 
 const logger = require('./log');
 
-const style_modifier_hunter = function () {
-
+const style_modifier_hunter = function() {
   /**
    * Modifies a patterns partial with any styleModifiers found on the supplied partial
    *
@@ -13,16 +12,23 @@ const style_modifier_hunter = function () {
    */
   function consumestylemodifier(pattern, partial, patternlab) {
     //extract the classname from the stylemodifier which comes in the format of :className
-    let styleModifier = partial.match(/:([\w\-_|])+/g) ? partial.match(/:([\w\-_|])+/g)[0].slice(1) : null;
+    let styleModifier = partial.match(/:([\w\-_|])+/g)
+      ? partial.match(/:([\w\-_|])+/g)[0].slice(1)
+      : null;
 
     if (styleModifier) {
       //replace the special character pipe | used to separate multiple classes with a space
       styleModifier = styleModifier.replace(/\|/g, ' ');
 
-      logger.debug(`Found partial styleModifier within pattern ${pattern.patternPartial}`);
+      logger.debug(
+        `Found partial styleModifier within pattern ${pattern.patternPartial}`
+      );
 
       //replace the stylemodifier placeholder with the class name
-      pattern.extendedTemplate = pattern.extendedTemplate.replace(/{{[ ]?styleModifier[ ]?}}/i, styleModifier);
+      pattern.extendedTemplate = pattern.extendedTemplate.replace(
+        /{{[ ]?styleModifier[ ]?}}/i,
+        styleModifier
+      );
 
       //update the extendedTemplate in the partials object in case this pattern is consumed later
       patternlab.partials[pattern.patternPartial] = pattern.extendedTemplate;
@@ -30,11 +36,10 @@ const style_modifier_hunter = function () {
   }
 
   return {
-    consume_style_modifier: function (pattern, partial, patternlab) {
+    consume_style_modifier: function(pattern, partial, patternlab) {
       consumestylemodifier(pattern, partial, patternlab);
-    }
+    },
   };
-
 };
 
 module.exports = style_modifier_hunter;

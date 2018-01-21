@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
 var tap = require('tap');
-var rewire = require("rewire");
+var rewire = require('rewire');
 var _ = require('lodash');
 var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
@@ -30,37 +30,40 @@ function createFakePatternLab(customProps) {
       paths: {
         source: {
           img: './test/img',
-          css: './test/css'
+          css: './test/css',
         },
         public: {
           img: './test/output/img',
-          css: './test/output/css'
-        }
+          css: './test/output/css',
+        },
       },
-      styleGuideExcludes: [ ],
+      styleGuideExcludes: [],
       logLevel: 'quiet',
       outputFileSuffixes: {
         rendered: '.rendered',
         rawTemplate: '',
-        markupOnly: '.markup-only'
-      }
+        markupOnly: '.markup-only',
+      },
     },
-    data: {}
+    data: {},
   };
   return extend(pl, customProps);
 }
 
-tap.test('transformConfigPaths takes configuration.paths() and maps to a better key store', function (test) {
-  //arrange
-  var patternlab = createFakePatternLab({});
+tap.test(
+  'transformConfigPaths takes configuration.paths() and maps to a better key store',
+  function(test) {
+    //arrange
+    var patternlab = createFakePatternLab({});
 
-  //act
-  var result = assetCopier.transformConfigPaths(patternlab.config.paths);
+    //act
+    var result = assetCopier.transformConfigPaths(patternlab.config.paths);
 
-  //assert
-  test.equals(result.img.source, './test/img');
-  test.equals(result.img.public, './test/output/img');
-  test.equals(result.css.source, './test/css');
-  test.equals(result.css.public, './test/output/css');
-  test.end();
-});
+    //assert
+    test.equals(result.img.source, './test/img');
+    test.equals(result.img.public, './test/output/img');
+    test.equals(result.css.source, './test/css');
+    test.equals(result.css.public, './test/output/css');
+    test.end();
+  }
+);

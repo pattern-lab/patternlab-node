@@ -1,26 +1,52 @@
-"use strict";
+'use strict';
 
-const _ = require('lodash');
+let _ = require('lodash'); //eslint-disable-line prefer-const
 
-module.exports = function (container) {
+const items = [
+  'zero',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'eleven',
+  'twelve',
+  'thirteen',
+  'fourteen',
+  'fifteen',
+  'sixteen',
+  'seventeen',
+  'eighteen',
+  'nineteen',
+  'twenty',
+];
+
+module.exports = function(container) {
   //combine all list items into one structure
-  var list = [];
-  for (var item in container.listitems) {
+  const list = [];
+  for (const item in container.listitems) {
     if (container.listitems.hasOwnProperty(item)) {
       list.push(container.listitems[item]);
     }
   }
-  container.listItemArray = _.shuffle(list);
+  const listItemArray = _.shuffle(list);
 
-  for (var i = 1; i <= container.listItemArray.length; i++) {
-    var tempItems = [];
+  for (let i = 1; i <= listItemArray.length; i++) {
+    const tempItems = [];
     if (i === 1) {
-      tempItems.push(container.listItemArray[0]);
-      container.listitems['' + i ] = tempItems;
+      tempItems.push(listItemArray[0]);
+      container.listitems['listItems-' + items[i]] = tempItems;
+      delete container.listitems[i];
     } else {
-      for (var c = 1; c <= i; c++) {
-        tempItems.push(container.listItemArray[c - 1]);
-        container.listitems['' + i ] = tempItems;
+      for (let c = 1; c <= i; c++) {
+        tempItems.push(listItemArray[c - 1]);
+        container.listitems['listItems-' + items[i]] = tempItems;
+        delete container.listitems[i];
       }
     }
   }

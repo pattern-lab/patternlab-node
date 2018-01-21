@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const path = require('path');
 
@@ -21,37 +21,64 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 // loads a pattern from disk, creates a Pattern object from it and
 // all its associated files, and records it in patternlab.patterns[]
-module.exports = function (relPath, patternlab) {
-
-  var relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
+module.exports = function(relPath, patternlab) {
+  const relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
   if (relativeDepth > 2) {
     logger.warning('');
     logger.warning('Warning:');
-    logger.warning('A pattern file: ' + relPath + ' was found greater than 2 levels deep from ' + patternlab.config.paths.source.patterns + '.');
-    logger.warning('It\'s strongly suggested to not deviate from the following structure under _patterns/');
-    logger.warning('[patternType]/[patternSubtype]/[patternName].[patternExtension]');
+    logger.warning(
+      'A pattern file: ' +
+        relPath +
+        ' was found greater than 2 levels deep from ' +
+        patternlab.config.paths.source.patterns +
+        '.'
+    );
+    logger.warning(
+      "It's strongly suggested to not deviate from the following structure under _patterns/"
+    );
+    logger.warning(
+      '[patternType]/[patternSubtype]/[patternName].[patternExtension]'
+    );
     logger.warning('');
-    logger.warning('While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ');
-    logger.warning('Read More: http://patternlab.io/docs/pattern-organization.html');
+    logger.warning(
+      'While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. '
+    );
+    logger.warning(
+      'Read More: http://patternlab.io/docs/pattern-organization.html'
+    );
     logger.warning('');
   }
 
   //check if the found file is a top-level markdown file
-  var fileObject = path.parse(relPath);
+  const fileObject = path.parse(relPath);
   if (fileObject.ext === '.md') {
     try {
-      var proposedDirectory = path.resolve(patternlab.config.paths.source.patterns, fileObject.dir, fileObject.name);
-      var proposedDirectoryStats = fs.statSync(proposedDirectory);
+      const proposedDirectory = path.resolve(
+        patternlab.config.paths.source.patterns,
+        fileObject.dir,
+        fileObject.name
+      );
+      const proposedDirectoryStats = fs.statSync(proposedDirectory);
       if (proposedDirectoryStats.isDirectory()) {
-        var subTypeMarkdownFileContents = fs.readFileSync(proposedDirectory + '.md', 'utf8');
-        var subTypeMarkdown = markdown_parser.parse(subTypeMarkdownFileContents);
-        var subTypePattern = new Pattern(relPath, null, patternlab);
+        const subTypeMarkdownFileContents = fs.readFileSync(
+          proposedDirectory + '.md',
+          'utf8'
+        );
+        const subTypeMarkdown = markdown_parser.parse(
+          subTypeMarkdownFileContents
+        );
+        const subTypePattern = new Pattern(relPath, null, patternlab);
         subTypePattern.patternSectionSubtype = true;
-        subTypePattern.patternDesc = subTypeMarkdown ? subTypeMarkdown.markdown : '';
-        subTypePattern.flatPatternPath = subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
+        subTypePattern.patternDesc = subTypeMarkdown
+          ? subTypeMarkdown.markdown
+          : '';
+        subTypePattern.flatPatternPath =
+          subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
         subTypePattern.isPattern = false;
         subTypePattern.engine = null;
-        patternlab.subtypePatterns[subTypePattern.patternPartial] = subTypePattern;
+        patternlab.subtypePatterns[
+          subTypePattern.patternPartial
+        ] = subTypePattern;
 
         return subTypePattern;
       }
@@ -64,15 +91,17 @@ module.exports = function (relPath, patternlab) {
   }
 
   //extract some information
-  var filename = fileObject.base;
-  var ext = fileObject.ext;
-  var patternsPath = patternlab.config.paths.source.patterns;
+  const filename = fileObject.base;
+  const ext = fileObject.ext;
+  const patternsPath = patternlab.config.paths.source.patterns;
 
   // skip non-pattern files
-  if (!patternEngines.isPatternFile(filename, patternlab)) { return null; }
+  if (!patternEngines.isPatternFile(filename, patternlab)) {
+    return null;
+  }
 
   //make a new Pattern Object
-  var currentPattern = new Pattern(relPath, null, patternlab);
+  const currentPattern = new Pattern(relPath, null, patternlab);
 
   //if file is named in the syntax for variants
   if (patternEngines.isPseudoPatternJSON(filename)) {
@@ -85,33 +114,53 @@ module.exports = function (relPath, patternlab) {
   }
 
   //look for a json file for this template
+  let jsonFilename;
   try {
-    var jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
+    jsonFilename = path.resolve(
+      patternsPath,
+      currentPattern.subdir,
+      currentPattern.fileName
+    );
     const patternData = dataLoader.loadDataFromFile(jsonFilename, fs);
 
     if (patternData) {
       currentPattern.jsonFileData = patternData;
-      logger.debug(`found pattern-specific data for ${currentPattern.patternPartial}`);
+      logger.debug(
+        `found pattern-specific data for ${currentPattern.patternPartial}`
+      );
     }
-  }
-  catch (err) {
-    logger.warning(`There was an error parsing sibling JSON for ${currentPattern.relPath}`);
+  } catch (err) {
+    logger.warning(
+      `There was an error parsing sibling JSON for ${currentPattern.relPath}`
+    );
     logger.warning(err);
   }
 
   //look for a listitems.json file for this template
+  let listJsonFileName;
   try {
-    var listJsonFileName = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName + ".listitems");
+    listJsonFileName = path.resolve(
+      patternsPath,
+      currentPattern.subdir,
+      currentPattern.fileName + '.listitems'
+    );
     const listItemsData = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
     if (listItemsData) {
-      logger.debug(`found pattern-specific listitems data for ${currentPattern.patternPartial}`);
+      logger.debug(
+        `found pattern-specific listitems data for ${
+          currentPattern.patternPartial
+        }`
+      );
       currentPattern.listitems = listItemsData;
       buildListItems(currentPattern);
     }
-  }
-  catch (err) {
-    logger.warning(`There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`);
+  } catch (err) {
+    logger.warning(
+      `There was an error parsing sibling listitem JSON for ${
+        currentPattern.relPath
+      }`
+    );
     logger.warning(err);
   }
 
@@ -119,7 +168,7 @@ module.exports = function (relPath, patternlab) {
   readDocumentation(currentPattern, patternlab);
 
   //add the raw template to memory
-  var templatePath = path.resolve(patternsPath, currentPattern.relPath);
+  const templatePath = path.resolve(patternsPath, currentPattern.relPath);
 
   currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
@@ -140,4 +189,3 @@ module.exports = function (relPath, patternlab) {
 
   return currentPattern;
 };
-

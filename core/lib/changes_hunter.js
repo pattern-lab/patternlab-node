@@ -1,16 +1,14 @@
 'use strict';
-const fs = require("fs-extra");
+const fs = require('fs-extra');
 const CompileState = require('./object_factory').CompileState;
 
 /**
  * For detecting changed patterns.
  * @constructor
  */
-const ChangesHunter = function () {
-};
+const ChangesHunter = function() {};
 
 ChangesHunter.prototype = {
-
   /**
    * Checks the build state of a pattern by comparing the modification date of the rendered output
    * file with the {@link Pattern.lastModified}. If the pattern was modified after the last
@@ -21,31 +19,32 @@ ChangesHunter.prototype = {
    *
    * @see {@link CompileState}
    */
-  checkBuildState: function (pattern, patternlab) {
-
+  checkBuildState: function(pattern, patternlab) {
     //write the compiled template to the public patterns directory
     const renderedTemplatePath =
-      patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'rendered');
+      patternlab.config.paths.public.patterns +
+      pattern.getPatternLink(patternlab, 'rendered');
 
     //write the compiled template to the public patterns directory
     const markupOnlyPath =
-      patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'markupOnly');
+      patternlab.config.paths.public.patterns +
+      pattern.getPatternLink(patternlab, 'markupOnly');
 
     if (!pattern.compileState) {
       pattern.compileState = CompileState.NEEDS_REBUILD;
     }
 
     try {
-
       // renderedTemplatePath required to display a single element
       // Markup only is required for "View All" pages. It will get loaded later on.
       // If any of these is missing, mark pattern for recompile
       [renderedTemplatePath, markupOnlyPath].forEach(renderedFile =>
-
         // Prevent error message if file does not exist
         fs.accessSync(renderedFile, fs.F_OK)
       );
-      const outputLastModified = fs.statSync(renderedTemplatePath).mtime.getTime();
+      const outputLastModified = fs
+        .statSync(renderedTemplatePath)
+        .mtime.getTime();
 
       if (pattern.lastModified && outputLastModified > pattern.lastModified) {
         pattern.compileState = CompileState.CLEAN;
@@ -64,8 +63,6 @@ ChangesHunter.prototype = {
       // Works via object reference, so we directly manipulate the node data here
       node.compileState = pattern.compileState;
     }
-
-
   },
 
   /**
@@ -75,26 +72,28 @@ ChangesHunter.prototype = {
    * @param {Pattern} currentPattern
    * @param {string} file
    */
-  checkLastModified: function (currentPattern, file) {
+  checkLastModified: function(currentPattern, file) {
     if (file) {
       try {
         const stat = fs.statSync(file);
 
         // Needs recompile whenever one of the patterns files (template, json, pseudopatterns) changed
-        currentPattern.lastModified =
-          Math.max(stat.mtime.getTime(), currentPattern.lastModified || 0);
+        currentPattern.lastModified = Math.max(
+          stat.mtime.getTime(),
+          currentPattern.lastModified || 0
+        );
       } catch (e) {
         // Ignore, not a regular file
       }
     }
   },
 
-  needsRebuild: function (lastModified, p) {
-    if (p.compileState !== CompileState.CLEAN || ! p.lastModified) {
+  needsRebuild: function(lastModified, p) {
+    if (p.compileState !== CompileState.CLEAN || !p.lastModified) {
       return true;
     }
     return p.lastModified >= lastModified;
-  }
+  },
 };
 
 module.exports = ChangesHunter;

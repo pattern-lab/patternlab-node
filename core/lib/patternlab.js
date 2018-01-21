@@ -11,6 +11,7 @@ const packageInfo = require('../../package.json');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
 const logger = require('./log');
+const parseLink = require('./parseLink');
 const processIterative = require('./processIterative');
 const processRecursive = require('./processRecursive');
 const jsonCopy = require('./json_copy');
@@ -363,13 +364,16 @@ module.exports = class PatternLab {
 
     //render the pattern, but first consolidate any data we may have
     let allData;
-    try {
-      allData = jsonCopy(this.data, 'config.paths.source.data global data');
-    } catch (err) {
-      logger.info('There was an error parsing JSON for ' + pattern.relPath);
-      logger.info(err);
-    }
-    allData = _.merge(allData, pattern.jsonFileData);
+
+    let allListItems = _.merge({}, this.listitems, pattern.listitems);
+    allListItems = parseLink(
+      this,
+      allListItems,
+      'listitems.json + any pattern listitems.json'
+    );
+
+    allData = _.merge({}, this.data, pattern.jsonFileData);
+    allData = _.merge({}, allData, allListItems);
     allData.cacheBuster = this.cacheBuster;
 
     ///////////////
@@ -402,7 +406,7 @@ module.exports = class PatternLab {
     // see if patternData really needs these other duped values
 
     // construct our extraOutput dump
-    var extraOutput = Object.assign(
+    const extraOutput = Object.assign(
       {},
       pattern.extraOutput,
       pattern.allMarkdown

@@ -566,7 +566,7 @@ const ui_builder = function() {
                 });
 
                 //determine if we should omit this subpatterntype completely from the viewall page
-                var omitPatternType =
+                const omitPatternType =
                   styleGuideExcludes &&
                   styleGuideExcludes.length &&
                   _.some(styleGuideExcludes, function(exclude) {

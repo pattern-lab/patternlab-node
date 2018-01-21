@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const chalk = require('chalk');
 const EventEmitter = require('events').EventEmitter;
@@ -8,20 +8,23 @@ const EventEmitter = require('events').EventEmitter;
  * @desc tiny event-based logger
  * @type {*}
  */
-const log = Object.assign({
-  debug(msg) {
-    this.emit('debug', chalk.green(msg));
+const log = Object.assign(
+  {
+    debug(msg) {
+      this.emit('debug', chalk.green(msg));
+    },
+    info(msg) {
+      this.emit('info', msg);
+    },
+    warning(msg) {
+      this.emit('warning', chalk.yellow(msg));
+    },
+    error(msg) {
+      this.emit('error', chalk.red(msg));
+    },
   },
-  info(msg) {
-    this.emit('info', msg);
-  },
-  warning(msg) {
-    this.emit('warning', chalk.yellow(msg));
-  },
-  error(msg) {
-    this.emit('error', chalk.red(msg));
-  }
-}, EventEmitter.prototype);
+  EventEmitter.prototype
+);
 
 /**
  * @func debug
@@ -60,13 +63,12 @@ const error = log.error.bind(log);
  * @param {string} - a message to report
  * @returns {function} - a callback to be passed to a Promise's .catch()
  */
-const reportError = function (message) {
-  return function (err) {
+const reportError = function(message) {
+  return function(err) {
     console.log(message);
     console.log(err);
   };
 };
-
 
 module.exports = {
   debug,
@@ -74,5 +76,5 @@ module.exports = {
   warning,
   error,
   log,
-  reportError
+  reportError,
 };

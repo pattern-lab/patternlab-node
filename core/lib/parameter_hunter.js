@@ -9,8 +9,7 @@ const parseLink = require('./parseLink');
 const jsonCopy = require('./json_copy');
 const replaceParameter = require('./replaceParameter');
 
-const parameter_hunter = function () {
-
+const parameter_hunter = function() {
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
    * Pattern Lab PHP for parameter submissions to partials. Unfortunately, no
@@ -68,7 +67,9 @@ const parameter_hunter = function () {
       paramStringWellFormed = JSON.stringify(JSON.parse(pString));
       return paramStringWellFormed;
     } catch (err) {
-      logger.debug(`Not valid JSON found for passed pattern parameter ${pString} will attempt to parse manually...`);
+      logger.debug(
+        `Not valid JSON found for passed pattern parameter ${pString} will attempt to parse manually...`
+      );
     }
 
     //replace all escaped double-quotes with escaped unicode
@@ -83,7 +84,6 @@ const parameter_hunter = function () {
     //with escaped chars out of the way, crawl through paramString looking for
     //keys and values
     do {
-
       //check if searching for a key
       if (paramString[0] === '{' || paramString[0] === ',') {
         paramString = paramString.substring(1, paramString.length).trim();
@@ -91,10 +91,9 @@ const parameter_hunter = function () {
         //search for end quote if wrapped in quotes. else search for colon.
         //everything up to that position will be saved in the keys array.
         switch (paramString[0]) {
-
           //need to search for end quote pos in case the quotes wrap a colon
           case '"':
-          case '\'':
+          case "'":
             wrapper = paramString[0];
             quotePos = paramString.indexOf(wrapper, 1);
             break;
@@ -107,11 +106,12 @@ const parameter_hunter = function () {
           keys.push(paramString.substring(0, quotePos + 1).trim());
 
           //truncate the beginning from paramString and look for a value
-          paramString = paramString.substring(quotePos + 1, paramString.length).trim();
+          paramString = paramString
+            .substring(quotePos + 1, paramString.length)
+            .trim();
 
           //unset quotePos
           quotePos = -1;
-
         } else if (colonPos > -1) {
           keys.push(paramString.substring(0, colonPos).trim());
 
@@ -121,8 +121,8 @@ const parameter_hunter = function () {
           //unset colonPos
           colonPos = -1;
 
-        //if there are no more colons, and we're looking for a key, there is
-        //probably a problem. stop any further processing.
+          //if there are no more colons, and we're looking for a key, there is
+          //probably a problem. stop any further processing.
         } else {
           paramString = '';
           break;
@@ -140,14 +140,13 @@ const parameter_hunter = function () {
         //readable, we'll use a regex for match() and replace() instead of
         //performing conditional logic with indexOf().
         switch (paramString[0]) {
-
           //since a quote of same type as its wrappers would be escaped, and we
           //escaped those even further with their unicodes, it is safe to look
           //for wrapper pairs and conclude that their contents are values
           case '"':
             regex = /^"(.|\s)*?"/;
             break;
-          case '\'':
+          case "'":
             regex = /^'(.|\s)*?'/;
             break;
 
@@ -168,8 +167,8 @@ const parameter_hunter = function () {
           break;
         }
 
-      //if there are no more colons, and we're looking for a value, there is
-      //probably a problem. stop any further processing.
+        //if there are no more colons, and we're looking for a value, there is
+        //probably a problem. stop any further processing.
       } else {
         paramString = '';
         break;
@@ -179,19 +178,19 @@ const parameter_hunter = function () {
     //build paramStringWellFormed string for JSON parsing
     paramStringWellFormed = '{';
     for (let i = 0; i < keys.length; i++) {
-
       //keys
       //replace single-quote wrappers with double-quotes
-      if (keys[i][0] === '\'' && keys[i][keys[i].length - 1] === '\'') {
+      if (keys[i][0] === "'" && keys[i][keys[i].length - 1] === "'") {
         paramStringWellFormed += '"';
 
         //any enclosed double-quotes must be escaped
-        paramStringWellFormed += keys[i].substring(1, keys[i].length - 1).replace(/"/g, '\\"');
+        paramStringWellFormed += keys[i]
+          .substring(1, keys[i].length - 1)
+          .replace(/"/g, '\\"');
         paramStringWellFormed += '"';
       } else {
-
         //open wrap with double-quotes if no wrapper
-        if (keys[i][0] !== '"' && keys[i][0] !== '\'') {
+        if (keys[i][0] !== '"' && keys[i][0] !== "'") {
           paramStringWellFormed += '"';
 
           //this is to clean up vestiges from Pattern Lab PHP's escaping scheme.
@@ -205,7 +204,10 @@ const parameter_hunter = function () {
         paramStringWellFormed += keys[i];
 
         //close wrap with double-quotes if no wrapper
-        if (keys[i][keys[i].length - 1] !== '"' && keys[i][keys[i].length - 1] !== '\'') {
+        if (
+          keys[i][keys[i].length - 1] !== '"' &&
+          keys[i][keys[i].length - 1] !== "'"
+        ) {
           paramStringWellFormed += '"';
         }
       }
@@ -215,14 +217,16 @@ const parameter_hunter = function () {
 
       //values
       //replace single-quote wrappers with double-quotes
-      if (values[i][0] === '\'' && values[i][values[i].length - 1] === '\'') {
+      if (values[i][0] === "'" && values[i][values[i].length - 1] === "'") {
         paramStringWellFormed += '"';
 
         //any enclosed double-quotes must be escaped
-        paramStringWellFormed += values[i].substring(1, values[i].length - 1).replace(/"/g, '\\"');
+        paramStringWellFormed += values[i]
+          .substring(1, values[i].length - 1)
+          .replace(/"/g, '\\"');
         paramStringWellFormed += '"';
 
-      //for everything else, just add the value however it's wrapped
+        //for everything else, just add the value however it's wrapped
       } else {
         paramStringWellFormed += values[i];
       }
@@ -235,7 +239,7 @@ const parameter_hunter = function () {
     paramStringWellFormed += '}';
 
     //unescape escaped unicode except for double-quotes
-    paramStringWellFormed = paramStringWellFormed.replace(/\\u0027/g, '\'');
+    paramStringWellFormed = paramStringWellFormed.replace(/\\u0027/g, "'");
     paramStringWellFormed = paramStringWellFormed.replace(/\\u0058/g, ':');
 
     return paramStringWellFormed;
@@ -243,72 +247,94 @@ const parameter_hunter = function () {
 
   //compile this partial immeadiately, essentially consuming it.
   function findparameters(pattern, patternlab) {
-
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
-
       logger.debug(`processing patternParameters for ${pattern.partialName}`);
 
       return pattern.parameteredPartials.reduce((previousPromise, pMatch) => {
-        return previousPromise.then(() => {
+        return previousPromise
+          .then(() => {
+            logger.debug(`processing patternParameter ${pMatch}`);
 
-          logger.debug(`processing patternParameter ${pMatch}`);
+            //find the partial's name and retrieve it
+            const partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
+            const partialPattern = jsonCopy(
+              getPartial(
+                partialName,
+                patternlab,
+                `partial pattern ${partialName}`
+              )
+            );
 
-          //find the partial's name and retrieve it
-          const partialName = pMatch.match(/([\w\-\.\/~]+)/g)[0];
-          const partialPattern = jsonCopy(getPartial(partialName, patternlab, `partial pattern ${partialName}`));
-
-          //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
-          if (!partialPattern.extendedTemplate) {
-            partialPattern.extendedTemplate = partialPattern.template;
-          }
-
-          if (!pattern.extendedTemplate) {
-            pattern.extendedTemplate = pattern.template;
-          }
-
-          logger.debug(`retrieved pattern ${partialName}`);
-
-          //strip out the additional data, convert string to JSON.
-          const leftParen = pMatch.indexOf('(');
-          const rightParen = pMatch.lastIndexOf(')');
-          const paramString = '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
-          const paramStringWellFormed = paramToJson(paramString);
-
-          let paramData = {};
-
-          try {
-            paramData = JSON.parse(paramStringWellFormed);
-          } catch (err) {
-            logger.warning(`There was an error parsing JSON for ${pattern.relPath}`);
-            logger.warning(err);
-          }
-
-          // resolve any pattern links that might be present
-          paramData = parseLink(patternlab, paramData, pattern.patternPartial);
-
-          // for each property in paramData
-          for (const prop in paramData) {
-            if (paramData.hasOwnProperty(prop)) {
-              // find it within partialPattern.extendedTemplate and replace its value
-              partialPattern.extendedTemplate = replaceParameter(partialPattern.extendedTemplate, prop, paramData[prop]);
+            //if we retrieved a pattern we should make sure that its extendedTemplate is reset. looks to fix #190
+            if (!partialPattern.extendedTemplate) {
+              partialPattern.extendedTemplate = partialPattern.template;
             }
-          }
 
-          //if partial has style modifier data, replace the styleModifier value
-          if (pattern.stylePartials && pattern.stylePartials.length > 0) {
-            style_modifier_hunter.consume_style_modifier(partialPattern, pMatch, patternlab);
-          }
+            if (!pattern.extendedTemplate) {
+              pattern.extendedTemplate = pattern.template;
+            }
 
-          // set pattern.extendedTemplate pMatch with replacedPartial
-          pattern.extendedTemplate = pattern.extendedTemplate.replace(pMatch, partialPattern.extendedTemplate);
+            logger.debug(`retrieved pattern ${partialName}`);
 
-          //todo: this no longer needs to be a promise
-          return Promise.resolve();
+            //strip out the additional data, convert string to JSON.
+            const leftParen = pMatch.indexOf('(');
+            const rightParen = pMatch.lastIndexOf(')');
+            const paramString =
+              '{' + pMatch.substring(leftParen + 1, rightParen) + '}';
+            const paramStringWellFormed = paramToJson(paramString);
 
-        }).catch(reason => {
-          console.log(reason);
-          logger.error(reason);
-        });
+            let paramData = {};
+
+            try {
+              paramData = JSON.parse(paramStringWellFormed);
+            } catch (err) {
+              logger.warning(
+                `There was an error parsing JSON for ${pattern.relPath}`
+              );
+              logger.warning(err);
+            }
+
+            // resolve any pattern links that might be present
+            paramData = parseLink(
+              patternlab,
+              paramData,
+              pattern.patternPartial
+            );
+
+            // for each property in paramData
+            for (const prop in paramData) {
+              if (paramData.hasOwnProperty(prop)) {
+                // find it within partialPattern.extendedTemplate and replace its value
+                partialPattern.extendedTemplate = replaceParameter(
+                  partialPattern.extendedTemplate,
+                  prop,
+                  paramData[prop]
+                );
+              }
+            }
+
+            //if partial has style modifier data, replace the styleModifier value
+            if (pattern.stylePartials && pattern.stylePartials.length > 0) {
+              style_modifier_hunter.consume_style_modifier(
+                partialPattern,
+                pMatch,
+                patternlab
+              );
+            }
+
+            // set pattern.extendedTemplate pMatch with replacedPartial
+            pattern.extendedTemplate = pattern.extendedTemplate.replace(
+              pMatch,
+              partialPattern.extendedTemplate
+            );
+
+            //todo: this no longer needs to be a promise
+            return Promise.resolve();
+          })
+          .catch(reason => {
+            console.log(reason);
+            logger.error(reason);
+          });
       }, Promise.resolve());
     }
     logger.debug(`pattern has no partials ${pattern.patternPartial}`);
@@ -316,11 +342,10 @@ const parameter_hunter = function () {
   }
 
   return {
-    find_parameters: function (pattern, patternlab) {
+    find_parameters: function(pattern, patternlab) {
       return findparameters(pattern, patternlab);
-    }
+    },
   };
-
 };
 
 module.exports = parameter_hunter;
