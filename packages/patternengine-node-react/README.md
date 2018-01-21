@@ -1,9 +1,13 @@
 # The React engine for Pattern Lab / Node
 This is the **very preliminary** React engine for Patternlab/Node.
 
+
+
 ## Status
-You can author standalone React components that include only the main React module, which I know isn't much yet.
-We're still working out how React components will resolve and load the modules they depend on. We believe this is tricky, but doable.
+You can author standalone React components that include only the main React module, which I know isn't much yet. We're working on it.
+
+The current release works with the 2.X series of Patternlab / Node. Support for the 3.X series is underway on the `dev` branch.
+
 
 ## Supported Pattern Lab
 

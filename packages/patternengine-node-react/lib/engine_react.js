@@ -103,32 +103,31 @@ var engine_react = {
   // render it
   renderPattern (pattern, data, partials) {
     let renderedHTML = '';
+    const transpiledModule = babelTransform(pattern);
 
-    try {
-      const transpiledModule = babelTransform(pattern);
+    const staticMarkup = ReactDOMServer.renderToStaticMarkup(
+      React.createFactory(transpiledModule)(data)
+    );
 
-      const staticMarkup = ReactDOMServer.renderToStaticMarkup(
-        React.createFactory(transpiledModule)(data)
-      );
+    renderedHTML = outputTemplate.render({
+      htmlOutput: staticMarkup
+    });
 
-      renderedHTML = outputTemplate.render({
-        htmlOutput: staticMarkup
+    return Promise
+      .resolve(renderedHTML)
+      .catch((e) => {
+        var errorMessage = `Error rendering React pattern "${pattern.patternName}" (${pattern.relPath}): [${e.toString()}]`;
+        console.log(errorMessage);
+        renderedHTML = `${errorStyling} <div class="plError">
+          <h1>Error rendering React pattern "${pattern.patternName}"</h1>
+          <dl>
+            <dt>Message</dt><dd>${e.toString()}</dd>
+            <dt>Partial name</dt><dd>${pattern.patternName}</dd>
+            <dt>Template path</dt><dd>${pattern.relPath}</dd>
+          </dl>
+          </div>
+        `;
       });
-    } catch (e) {
-      var errorMessage = `Error rendering React pattern "${pattern.patternName}" (${pattern.relPath}): [${e.toString()}]`;
-      console.log(errorMessage);
-      renderedHTML = `${errorStyling} <div class="plError">
-<h1>Error rendering React pattern "${pattern.patternName}"</h1>
-<dl>
-  <dt>Message</dt><dd>${e.toString()}</dd>
-  <dt>Partial name</dt><dd>${pattern.patternName}</dd>
-  <dt>Template path</dt><dd>${pattern.relPath}</dd>
-</dl>
-</div>
-`;
-    } finally {
-      return renderedHTML;
-    }
   },
 
   registerPartial (pattern) {
