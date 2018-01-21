@@ -8,7 +8,7 @@
  *
  */
 
-"use strict";
+'use strict';
 
 const packageInfo = require('../package.json');
 
@@ -39,7 +39,7 @@ const lineage_hunter = new lh();
 //bootstrap update notifier
 updateNotifier({
   pkg: packageInfo,
-  updateCheckInterval: 1000 * 60 * 60 * 24 // notify at most once a day
+  updateCheckInterval: 1000 * 60 * 60 * 24, // notify at most once a day
 }).notify();
 
 /**
@@ -47,17 +47,16 @@ updateNotifier({
  *
  * @return {object} Returns the object representation of the patternlab-config.json
  */
-const getDefaultConfig = function () {
+const getDefaultConfig = function() {
   return defaultConfig;
 };
 
-const patternlab_module = function (config) {
+const patternlab_module = function(config) {
   const PatternLab = require('./lib/patternlab');
   const patternlab = new PatternLab(config);
   const paths = patternlab.config.paths;
 
   function help() {
-
     logger.info('');
 
     logger.info('Pattern Lab Node v' + patternlab.package.version);
@@ -67,11 +66,15 @@ const patternlab_module = function (config) {
     logger.info('');
 
     logger.info(' build');
-    logger.info('   > builds patterns, copies assets, and constructs ui into config.paths.public');
+    logger.info(
+      '   > builds patterns, copies assets, and constructs ui into config.paths.public'
+    );
     logger.info('');
 
     logger.info(' patternsonly');
-    logger.info('   > builds patterns only, leaving existing public files intact');
+    logger.info(
+      '   > builds patterns only, leaving existing public files intact'
+    );
     logger.info('');
 
     logger.info(' version');
@@ -83,24 +86,38 @@ const patternlab_module = function (config) {
     logger.info('');
 
     logger.info(' help');
-    logger.info('   > logs more information about patternlab-node, pattern lab in general, and where to report issues.');
+    logger.info(
+      '   > logs more information about patternlab-node, pattern lab in general, and where to report issues.'
+    );
     logger.info('');
 
     logger.info(' liststarterkits');
-    logger.info('   > fetches starterkit repos from pattern-lab github org that contain "starterkit" in their name');
+    logger.info(
+      '   > fetches starterkit repos from pattern-lab github org that contain "starterkit" in their name'
+    );
     logger.info('');
 
     logger.info(' loadstarterkit');
-    logger.info('   > loads starterkit already available via `node_modules/` into config.paths.source/*');
-    logger.info('   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.');
-    logger.info('   > NOTE: In most cases, `npm install starterkit-name` will precede this call.');
+    logger.info(
+      '   > loads starterkit already available via `node_modules/` into config.paths.source/*'
+    );
+    logger.info(
+      '   > NOTE: Overwrites existing content, and only cleans out existing directory if --clean=true argument is passed.'
+    );
+    logger.info(
+      '   > NOTE: In most cases, `npm install starterkit-name` will precede this call.'
+    );
     logger.info('   > parameters:');
     logger.info('      kit:string ');
     logger.info('      > the name of the starter kit to load');
     logger.info('      clean:bool ');
-    logger.info('      > whether or not to remove all files from config.paths.source/ prior to load');
+    logger.info(
+      '      > whether or not to remove all files from config.paths.source/ prior to load'
+    );
     logger.info('   > example:');
-    logger.info('    `patternlab.loadstarterkit("starterkit-mustache-demo", true)');
+    logger.info(
+      '    `patternlab.loadstarterkit("starterkit-mustache-demo", true)'
+    );
     logger.info('');
 
     // installplugin
@@ -112,8 +129,12 @@ const patternlab_module = function (config) {
     logger.info('===============================');
     logger.info('');
     logger.info('Visit http://patternlab.io/ for more info about Pattern Lab');
-    logger.info('Visit https://github.com/pattern-lab/patternlab-node/issues to open an issue.');
-    logger.info('Visit https://github.com/pattern-lab/patternlab-node/wiki to view the changelog, roadmap, and other info.');
+    logger.info(
+      'Visit https://github.com/pattern-lab/patternlab-node/issues to open an issue.'
+    );
+    logger.info(
+      'Visit https://github.com/pattern-lab/patternlab-node/wiki to view the changelog, roadmap, and other info.'
+    );
     logger.info('');
     logger.info('===============================');
   }
@@ -138,7 +159,7 @@ const patternlab_module = function (config) {
 
   function cleanBuildDirectory(incrementalBuildsEnabled) {
     if (incrementalBuildsEnabled) {
-      logger.info("Incremental builds enabled.");
+      logger.info('Incremental builds enabled.');
     } else {
       // needs to be done BEFORE processing patterns
       fs.removeSync(paths.public.patterns);
@@ -152,18 +173,22 @@ const patternlab_module = function (config) {
     //
     // CHECK INCREMENTAL BUILD GRAPH
     //
-    const graph = patternlab.graph = loadPatternGraph(deletePatternDir);
+    const graph = (patternlab.graph = loadPatternGraph(deletePatternDir));
     const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
     if (graphNeedsUpgrade) {
-      logger.info("Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. " +
-                       "Incremental build is available again on the next successful run.");
+      logger.info(
+        'Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. ' +
+          'Incremental build is available again on the next successful run.'
+      );
 
       // Ensure that the freshly built graph has the latest version again.
       patternlab.graph.upgradeVersion();
     }
 
     // Flags
-    patternlab.incrementalBuildsEnabled = !(deletePatternDir || graphNeedsUpgrade);
+    patternlab.incrementalBuildsEnabled = !(
+      deletePatternDir || graphNeedsUpgrade
+    );
 
     //
     // CLEAN BUILD DIRECTORY, maybe
@@ -172,102 +197,125 @@ const patternlab_module = function (config) {
 
     patternlab.buildGlobalData(additionalData);
 
-    return patternlab.processAllPatternsIterative(paths.source.patterns).then(() => {
+    return patternlab
+      .processAllPatternsIterative(paths.source.patterns)
+      .then(() => {
+        patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
 
-      patternlab.events.emit('patternlab-pattern-iteration-end', patternlab);
+        //now that all the main patterns are known, look for any links that might be within data and expand them
+        //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
+        parseAllLinks(patternlab);
 
-      //now that all the main patterns are known, look for any links that might be within data and expand them
-      //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-      parseAllLinks(patternlab);
+        //dive again to recursively include partials, filling out the
+        //extendedTemplate property of the patternlab.patterns elements
 
-      //dive again to recursively include partials, filling out the
-      //extendedTemplate property of the patternlab.patterns elements
+        return patternlab
+          .processAllPatternsRecursive(paths.source.patterns)
+          .then(() => {
+            //take the user defined head and foot and process any data and patterns that apply
+            const headPatternPromise = processMetaPattern(
+              `_00-head.${patternlab.config.patternExtension}`,
+              'userHead',
+              patternlab
+            );
+            const footPatternPromise = processMetaPattern(
+              `_01-foot.${patternlab.config.patternExtension}`,
+              'userFoot',
+              patternlab
+            );
 
-      return patternlab.processAllPatternsRecursive(paths.source.patterns).then(() => {
-
-        //take the user defined head and foot and process any data and patterns that apply
-        const headPatternPromise = processMetaPattern(`_00-head.${patternlab.config.patternExtension}`, 'userHead', patternlab);
-        const footPatternPromise = processMetaPattern(`_01-foot.${patternlab.config.patternExtension}`, 'userFoot', patternlab);
-
-        return Promise.all([headPatternPromise, footPatternPromise]).then(() => {
-
-          //cascade any patternStates
-          lineage_hunter.cascade_pattern_states(patternlab);
-
-          //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-          return render(Pattern.createEmpty({extendedTemplate: patternlab.header}), {
-            cacheBuster: patternlab.cacheBuster
-          }).then((results) => {
-            patternlab.data.patternLabHead = results;
-
-            // If deletePatternDir == true or graph needs to be updated
-            // rebuild all patterns
-            let patternsToBuild = null;
-
-            // If deletePatternDir == true or graph needs to be updated
-            // rebuild all patterns
-            patternsToBuild = null;
-
-            if (patternlab.incrementalBuildsEnabled) {
-              // When the graph was loaded from file, some patterns might have been moved/deleted between runs
-              // so the graph data become out of sync
-              patternlab.graph.sync().forEach(n => {
-                logger.info("[Deleted/Moved] " + n);
-              });
-
-              // TODO Find created or deleted files
-              const now = new Date().getTime();
-              markModifiedPatterns(now, patternlab);
-              patternsToBuild = patternlab.graph.compileOrder();
-            } else {
-              // build all patterns, mark all to be rebuilt
-              patternsToBuild = patternlab.patterns;
-              for (const p of patternsToBuild) {
-                p.compileState = CompileState.NEEDS_REBUILD;
-              }
-            }
-
-            //render all patterns last, so lineageR works
-            return patternsToBuild
-              .reduce((previousPromise, pattern) => {
-                return previousPromise.then(() => patternlab.renderSinglePattern(pattern));
-              }, Promise.resolve())
+            return Promise.all([headPatternPromise, footPatternPromise])
               .then(() => {
-                // Saves the pattern graph when all files have been compiled
-                PatternGraph.storeToFile(patternlab);
-                if (patternlab.config.exportToGraphViz) {
-                  PatternGraph.exportToDot(patternlab, "dependencyGraph.dot");
-                  logger.info(`Exported pattern graph to ${path.join(config.paths.public.root, "dependencyGraph.dot")}`);
-                }
+                //cascade any patternStates
+                lineage_hunter.cascade_pattern_states(patternlab);
 
-                //export patterns if necessary
-                pattern_exporter.export_patterns(patternlab);
+                //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+                return render(
+                  Pattern.createEmpty({ extendedTemplate: patternlab.header }),
+                  {
+                    cacheBuster: patternlab.cacheBuster,
+                  }
+                )
+                  .then(results => {
+                    patternlab.data.patternLabHead = results;
 
+                    // If deletePatternDir == true or graph needs to be updated
+                    // rebuild all patterns
+                    let patternsToBuild = null;
+
+                    // If deletePatternDir == true or graph needs to be updated
+                    // rebuild all patterns
+                    patternsToBuild = null;
+
+                    if (patternlab.incrementalBuildsEnabled) {
+                      // When the graph was loaded from file, some patterns might have been moved/deleted between runs
+                      // so the graph data become out of sync
+                      patternlab.graph.sync().forEach(n => {
+                        logger.info('[Deleted/Moved] ' + n);
+                      });
+
+                      // TODO Find created or deleted files
+                      const now = new Date().getTime();
+                      markModifiedPatterns(now, patternlab);
+                      patternsToBuild = patternlab.graph.compileOrder();
+                    } else {
+                      // build all patterns, mark all to be rebuilt
+                      patternsToBuild = patternlab.patterns;
+                      for (const p of patternsToBuild) {
+                        p.compileState = CompileState.NEEDS_REBUILD;
+                      }
+                    }
+
+                    //render all patterns last, so lineageR works
+                    return patternsToBuild
+                      .reduce((previousPromise, pattern) => {
+                        return previousPromise.then(() =>
+                          patternlab.renderSinglePattern(pattern)
+                        );
+                      }, Promise.resolve())
+                      .then(() => {
+                        // Saves the pattern graph when all files have been compiled
+                        PatternGraph.storeToFile(patternlab);
+                        if (patternlab.config.exportToGraphViz) {
+                          PatternGraph.exportToDot(
+                            patternlab,
+                            'dependencyGraph.dot'
+                          );
+                          logger.info(
+                            `Exported pattern graph to ${path.join(
+                              config.paths.public.root,
+                              'dependencyGraph.dot'
+                            )}`
+                          );
+                        }
+
+                        //export patterns if necessary
+                        pattern_exporter.export_patterns(patternlab);
+                      })
+                      .catch(reason => {
+                        console.log(reason);
+                        logger.error('Error rendering patterns');
+                      });
+                  })
+                  .catch(reason => {
+                    console.log(reason);
+                    logger.error('Error rendering pattern lab header');
+                  });
               })
               .catch(reason => {
                 console.log(reason);
-                logger.error('Error rendering patterns');
+                logger.error('Error processing meta patterns');
               });
-
-          }).catch(reason => {
+          })
+          .catch(reason => {
             console.log(reason);
-            logger.error('Error rendering pattern lab header');
+            logger.error('Error processing patterns recursively');
           });
-
-        }).catch(reason => {
-          console.log(reason);
-          logger.error('Error processing meta patterns');
-        });
-
-      }).catch(reason => {
+      })
+      .catch(reason => {
         console.log(reason);
-        logger.error('Error processing patterns recursively');
+        logger.error('Error in buildPatterns()');
       });
-
-    }).catch(reason => {
-      console.log(reason);
-      logger.error('Error in buildPatterns()');
-    });
   }
 
   return {
@@ -276,7 +324,7 @@ const patternlab_module = function (config) {
      *
      * @returns {void} current patternlab-node version as defined in package.json, as console output
      */
-    version: function () {
+    version: function() {
       return patternlab.logVersion();
     },
 
@@ -285,7 +333,7 @@ const patternlab_module = function (config) {
      *
      * @returns {string} current patternlab-node version as defined in package.json, as string
      */
-    v: function () {
+    v: function() {
       return patternlab.getVersion();
     },
 
@@ -295,17 +343,21 @@ const patternlab_module = function (config) {
      * @param {object} options an object used to control build behavior
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    build: function (options) {
+    build: function(options) {
       if (patternlab && patternlab.isBusy) {
-        logger.info('Pattern Lab is busy building a previous run - returning early.');
+        logger.info(
+          'Pattern Lab is busy building a previous run - returning early.'
+        );
         return Promise.resolve();
       }
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic, options.data).then(() => {
-
         return new ui_builder().buildFrontend(patternlab).then(() => {
-
-          assetCopier().copyAssets(patternlab.config.paths, patternlab, options);
+          assetCopier().copyAssets(
+            patternlab.config.paths,
+            patternlab,
+            options
+          );
 
           this.events.on('patternlab-pattern-change', () => {
             if (!patternlab.isBusy) {
@@ -333,7 +385,7 @@ const patternlab_module = function (config) {
      *
      * @returns {void} pattern lab API usage, as console output
      */
-    help: function () {
+    help: function() {
       help();
     },
 
@@ -343,9 +395,11 @@ const patternlab_module = function (config) {
      * @param {object} options an object used to control build behavior
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    patternsonly: function (options) {
+    patternsonly: function(options) {
       if (patternlab && patternlab.isBusy) {
-        logger.info('Pattern Lab is busy building a previous run - returning early.');
+        logger.info(
+          'Pattern Lab is busy building a previous run - returning early.'
+        );
         return Promise.resolve();
       }
       patternlab.isBusy = true;
@@ -359,7 +413,7 @@ const patternlab_module = function (config) {
      *
      * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
      */
-    liststarterkits: function () {
+    liststarterkits: function() {
       return patternlab.listStarterkits();
     },
 
@@ -370,7 +424,7 @@ const patternlab_module = function (config) {
      * @param {boolean} clean whether or not to delete contents of source/ before load
      * @returns {void}
      */
-    loadstarterkit: function (starterkitName, clean) {
+    loadstarterkit: function(starterkitName, clean) {
       patternlab.loadStarterKit(starterkitName, clean);
     },
 
@@ -380,7 +434,7 @@ const patternlab_module = function (config) {
      * @param {string} pluginName name of plugin
      * @returns {void}
      */
-    installplugin: function (pluginName) {
+    installplugin: function(pluginName) {
       patternlab.installPlugin(pluginName);
     },
 
@@ -389,7 +443,7 @@ const patternlab_module = function (config) {
      *
      * @returns {Array<string>} all supported file extensions
      */
-    getSupportedTemplateExtensions: function () {
+    getSupportedTemplateExtensions: function() {
       return patternlab.getSupportedTemplateExtensions();
     },
 
@@ -399,15 +453,15 @@ const patternlab_module = function (config) {
      * @param {object} options an object used to control build, copy, and serve behavior
      * @returns {Promise} TODO: validate
      */
-    serve: function (options) {
+    serve: function(options) {
       options.watch = true;
-      return this.build(options).then(function () {
+      return this.build(options).then(function() {
         serve(patternlab);
         return Promise.resolve();
       });
     },
 
-    events: patternlab.events
+    events: patternlab.events,
   };
 };
 

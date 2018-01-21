@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const jsonCopy = require('./json_copy');
 const logger = require('./log');
@@ -13,27 +13,31 @@ let render = require('./render'); //eslint-disable-line prefer-const
  * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
  * @returns A promise which resolves with the HTML
  */
-module.exports = function (patternlab, patternPartial) {
+module.exports = function(patternlab, patternPartial) {
   //first render the general footer
-  return render(Pattern.createEmpty({extendedTemplate: patternlab.footer}), {
+  return render(Pattern.createEmpty({ extendedTemplate: patternlab.footer }), {
     patternData: JSON.stringify({
       patternPartial: patternPartial,
     }),
-    cacheBuster: patternlab.cacheBuster
-  }).then(footerPartial => {
+    cacheBuster: patternlab.cacheBuster,
+  })
+    .then(footerPartial => {
+      let allFooterData;
+      try {
+        allFooterData = jsonCopy(
+          patternlab.data,
+          'config.paths.source.data plus patterns data'
+        );
+      } catch (err) {
+        logger.warning('There was an error parsing JSON for patternlab.data');
+        logger.warning(err);
+      }
+      allFooterData.patternLabFoot = footerPartial;
 
-    let allFooterData;
-    try {
-      allFooterData = jsonCopy(patternlab.data, 'config.paths.source.data plus patterns data');
-    } catch (err) {
-      logger.warning('There was an error parsing JSON for patternlab.data');
-      logger.warning(err);
-    }
-    allFooterData.patternLabFoot = footerPartial;
-
-    return render(patternlab.userFoot, allFooterData);
-  }).catch(reason => {
-    console.log(reason);
-    logger.error('Error building buildFooterHTML');
-  });
+      return render(patternlab.userFoot, allFooterData);
+    })
+    .catch(reason => {
+      console.log(reason);
+      logger.error('Error building buildFooterHTML');
+    });
 };
