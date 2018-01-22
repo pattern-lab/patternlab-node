@@ -30,11 +30,8 @@ const fsMock = {
   readJSONSync: function(path, encoding) {
     return fs.readJSONSync(path, encoding);
   },
-  removeSync: function(path) {
-    fs.removeSync(path);
-  },
-  emptyDirSync: function(path) {
-    fs.emptyDirSync(path);
+  emptyDir: function(path) {
+    return fs.emptyDir(path);
   },
   readFileSync: function(path, encoding) {
     return fs.readFileSync(path, encoding);
