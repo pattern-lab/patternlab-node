@@ -33,7 +33,6 @@ var engine_mustache = {
   engine: Mustache,
   engineName: 'mustache',
   engineFileExtension: '.mustache',
-  isAsync: true,
 
   // partial expansion is only necessary for Mustache templates that have
   // style modifiers or pattern parameters (I think)
