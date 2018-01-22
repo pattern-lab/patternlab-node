@@ -67,7 +67,7 @@ const asset_copier = () => {
     _.each(dirs, (dir, key) => {
       //if we want to watch files, do so, otherwise just copy each file
       if (options.watch) {
-        logger.info(
+        logger.debug(
           `Pattern Lab is watching ${path.resolve(
             basePath,
             dir.source
@@ -145,7 +145,7 @@ const asset_copier = () => {
       );
 
       _.each(globalPaths, globalPath => {
-        logger.info(`Pattern Lab is watching ${globalPath} for changes`);
+        logger.debug(`Pattern Lab is watching ${globalPath} for changes`);
 
         if (patternlab.watchers[globalPath]) {
           patternlab.watchers[globalPath].close();
@@ -193,7 +193,7 @@ const asset_copier = () => {
           )
         );
       _.each(patternWatches, patternWatchPath => {
-        logger.info(`Pattern Lab is watching ${patternWatchPath} for changes`);
+        logger.debug(`Pattern Lab is watching ${patternWatchPath} for changes`);
 
         const patternWatcher = chokidar.watch(path.resolve(patternWatchPath), {
           ignored: /(^|[\/\\])\../,
@@ -223,6 +223,11 @@ const asset_copier = () => {
           });
       });
     }
+    logger.info(
+      `Pattern Lab is watching for changes to files under ${
+        assetDirectories.source.root
+      }`
+    );
   };
 
   return {
