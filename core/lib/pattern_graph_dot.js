@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Overall settings
@@ -6,15 +6,15 @@
  */
 function header() {
   return [
-    "strict digraph {",
+    'strict digraph {',
     'graph [fontname = "helvetica" size=20]',
 
     /*compound=true;*/
-    "concentrate=true;",
-    "rankdir=LR;",
-    "ranksep=\"4 equally·\";",
-    "node [style=filled,color=white];",
-    "edge [style=dotted constraint=false]"
+    'concentrate=true;',
+    'rankdir=LR;',
+    'ranksep="4 equally·";',
+    'node [style=filled,color=white];',
+    'edge [style=dotted constraint=false]',
   ];
 }
 
@@ -23,8 +23,8 @@ function header() {
  * @param name
  * @return {string}
  */
-const niceKey = function (name) {
-  return "O" + name.replace("-", "");
+const niceKey = function(name) {
+  return 'O' + name.replace('-', '');
 };
 
 /**
@@ -34,11 +34,11 @@ const niceKey = function (name) {
  * @return {string}
  */
 function addNode(pattern) {
-  let more = "";
+  let more = '';
   if (pattern.isPseudoPattern) {
-    more = " [fillcolor=grey]";
+    more = ' [fillcolor=grey]';
   }
-  return "\"" + pattern.name + "\"" + more + ";\n";
+  return '"' + pattern.name + '"' + more + ';\n';
 }
 
 /**
@@ -61,21 +61,20 @@ function addEdge(from, to, color) {
 function subGraph(group, patterns) {
   const s = niceKey(group);
   return [
-    "subgraph cluster_X" + s + " {",
-    "label=<<b>" + group + "</b>>;",
-    "style=filled;",
-    "color=lightgrey;",
-    s + " [shape=box];",
-    patterns.map(addNode).join(""),
+    'subgraph cluster_X' + s + ' {',
+    'label=<<b>' + group + '</b>>;',
+    'style=filled;',
+    'color=lightgrey;',
+    s + ' [shape=box];',
+    patterns.map(addNode).join(''),
 
     //patterns.map(p => "\"" + p.name + "\"").join(" -> ") + "[style=invis]",
-    "}"
+    '}',
   ];
-
 }
 
 function footer() {
-  return ["}"];
+  return ['}'];
 }
 
 const PatternGraphDot = {};
@@ -85,11 +84,17 @@ const PatternGraphDot = {};
  * @param patternGraph
  * @return {string}
  */
-PatternGraphDot.generate = function (patternGraph) {
+PatternGraphDot.generate = function(patternGraph) {
   const g = patternGraph.graph;
   const patterns = patternGraph.patterns;
   const buckets = new Map();
-  const colors = ["darkgreen", "firebrick", "slateblue", "darkgoldenrod", "black"];
+  const colors = [
+    'darkgreen',
+    'firebrick',
+    'slateblue',
+    'darkgoldenrod',
+    'black',
+  ];
   const colorMap = new Map();
   let colIdx = 0;
   for (const p of patterns.partials.values()) {
@@ -116,14 +121,12 @@ PatternGraphDot.generate = function (patternGraph) {
 
   let subGraphLines = [];
 
-
   for (const key of sortedKeys) {
     const subPatterns = buckets.get(key);
     subGraphLines = subGraphLines.concat(subGraph(key, subPatterns));
   }
   res = res.concat(subGraphLines);
-  res.push("edge[style=solid];");
-
+  res.push('edge[style=solid];');
 
   foo: for (const edge of g.edges()) {
     const fromTo = patternGraph.nodes2patterns([edge.v, edge.w]);
@@ -136,10 +139,9 @@ PatternGraphDot.generate = function (patternGraph) {
     res.push(addEdge(fromTo[0], fromTo[1], thisColor));
   }
 
-  res.push(niceKeys.reverse().join(" -> ") + "[constraint=true];");
+  res.push(niceKeys.reverse().join(' -> ') + '[constraint=true];');
   res = res.concat(footer());
-  return res.join("\n") + "\n";
+  return res.join('\n') + '\n';
 };
-
 
 module.exports = PatternGraphDot;

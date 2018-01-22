@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const glob = require('glob'),
   _ = require('lodash'),
@@ -21,9 +21,10 @@ function loadFile(dataFilesPath, fsDep) {
 
     if (dataFile && fsDep.existsSync(path.resolve(dataFile))) {
       try {
-        return yaml.safeLoad(fsDep.readFileSync(path.resolve(dataFile), 'utf8'));
-      }
-      catch (err) {
+        return yaml.safeLoad(
+          fsDep.readFileSync(path.resolve(dataFile), 'utf8')
+        );
+      } catch (err) {
         throw new Error(`Error loading file: ${dataFile} - ${err.message}`);
       }
     }
@@ -52,12 +53,13 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
   const dataFiles = glob.sync(dataFilesFullPath, globOptions);
   let mergeObject = {};
 
-  dataFiles.forEach(function (filePath) {
+  dataFiles.forEach(function(filePath) {
     try {
-      const jsonData = yaml.safeLoad(fsDep.readFileSync(path.resolve(filePath), 'utf8'));
+      const jsonData = yaml.safeLoad(
+        fsDep.readFileSync(path.resolve(filePath), 'utf8')
+      );
       mergeObject = _.merge(mergeObject, jsonData);
-    }
-    catch (err) {
+    } catch (err) {
       throw new Error(`Error loading file: ${filePath} - ${err.message}`);
     }
   });
@@ -68,6 +70,6 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
 module.exports = function configFileLoader() {
   return {
     loadDataFromFile: loadFile,
-    loadDataFromFolder: loadDataFromFolder
+    loadDataFromFolder: loadDataFromFolder,
   };
 };

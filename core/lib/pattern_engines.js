@@ -1,19 +1,25 @@
 // special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible!
 'use strict';
-const {existsSync, lstatSync, readdirSync} = require('fs');
+const { existsSync, lstatSync, readdirSync } = require('fs');
 const path = require('path');
 const engineMatcher = /^patternengine-node-(.*)$/;
 const scopeMatch = /^@(.*)$/;
-const isDir = fPath => lstatSync(fPath).isDirectory();
+const isDir = fPath => {
+  const stats = lstatSync(fPath);
+  return stats.isDirectory() || stats.isSymbolicLink();
+};
 const logger = require('./log');
 
-const enginesDirectories = [{
-  displayName: 'the core',
-  path: path.resolve(__dirname, '..', '..', 'node_modules')
-}, {
-  displayName: 'the edition or test directory',
-  path: path.join(process.cwd(), 'node_modules')
-}];
+const enginesDirectories = [
+  {
+    displayName: 'the core',
+    path: path.resolve(__dirname, '..', '..', 'node_modules'),
+  },
+  {
+    displayName: 'the edition or test directory',
+    path: path.join(process.cwd(), 'node_modules'),
+  },
+];
 
 /**
  * Given a path: return the engine name if the path points to a valid engine
@@ -25,7 +31,9 @@ function isEngineModule(filePath) {
   const baseName = path.basename(filePath);
   const engineMatch = baseName.match(engineMatcher);
 
-  if (engineMatch) { return engineMatch[1]; }
+  if (engineMatch) {
+    return engineMatch[1];
+  }
   return false;
 }
 
@@ -47,7 +55,6 @@ function isScopedPackage(filePath) {
  * @return {Array<Engine>} An array of engine objects
  */
 function resolveEngines(dir) {
-
   // Guard against non-existent directories.
   if (!existsSync(dir)) {
     return []; // Silence is golden …
@@ -61,7 +68,6 @@ function resolveEngines(dir) {
    * @return {Array<Engine>} - The final array of engines
    */
   const walk = (fPath, engines) => {
-
     /**
      * @name dirList
      * @desc A list of all directories in the given path
@@ -74,12 +80,11 @@ function resolveEngines(dir) {
      * @desc For the current dir get all engines
      * @type {Array<Engine>}
      */
-    const e = engines.concat(dirList
-      .filter(isEngineModule)
-      .map(engine => {
+    const e = engines.concat(
+      dirList.filter(isEngineModule).map(engine => {
         return {
           name: isEngineModule(engine),
-          modulePath: path.join(fPath, engine)
+          modulePath: path.join(fPath, engine),
         };
       })
     );
@@ -121,27 +126,28 @@ function findEngineModulesInDirectory(dir) {
 // methods and properites below should therefore be on its prototype.
 
 const PatternEngines = Object.create({
-
   /**
    * Load all pattern engines.
    * @param patternLabConfig
    * @memberof PatternEngines
    */
-  loadAllEngines: function (patternLabConfig) {
-    var self = this;
+  loadAllEngines: function(patternLabConfig) {
+    const self = this;
 
     // Try to load engines! We scan for engines at each path specified above. This
     // function is kind of a big deal.
-    enginesDirectories.forEach(function (engineDirectory) {
-      const enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
+    enginesDirectories.forEach(function(engineDirectory) {
+      const enginesInThisDir = findEngineModulesInDirectory(
+        engineDirectory.path
+      );
 
       logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
-      enginesInThisDir.forEach(function (engineDiscovery) {
+      enginesInThisDir.forEach(function(engineDiscovery) {
         let errorMessage;
-        const successMessage = "good to go";
+        const successMessage = 'good to go';
 
         try {
           // Give it a try! load 'er up. But not if we already have,
@@ -149,10 +155,12 @@ const PatternEngines = Object.create({
           // the engine's closure scope so it can know things about
           // things.
           if (self[engineDiscovery.name]) {
-            throw new Error("already loaded, skipping.");
+            throw new Error('already loaded, skipping.');
           }
           self[engineDiscovery.name] = require(engineDiscovery.modulePath);
-          if (typeof self[engineDiscovery.name].usePatternLabConfig === 'function') {
+          if (
+            typeof self[engineDiscovery.name].usePatternLabConfig === 'function'
+          ) {
             self[engineDiscovery.name].usePatternLabConfig(patternLabConfig);
           }
           if (typeof self[engineDiscovery.name].spawnMeta === 'function') {
@@ -162,7 +170,11 @@ const PatternEngines = Object.create({
           errorMessage = err.message;
         } finally {
           // report on the status of the engine, one way or another!
-          logger.info(`Pattern Engine ${engineDiscovery.name}: ${errorMessage ? errorMessage : successMessage}`);
+          logger.info(
+            `Pattern Engine ${engineDiscovery.name}: ${
+              errorMessage ? errorMessage : successMessage
+            }`
+          );
         }
       });
     });
@@ -180,10 +192,14 @@ const PatternEngines = Object.create({
    * @param pattern
    * @returns engine name matching pattern
    */
-  getEngineNameForPattern: function (pattern) {
+  getEngineNameForPattern: function(pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
     const of = require('./object_factory');
-    if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
+    if (
+      pattern instanceof of.Pattern &&
+      typeof pattern.fileExtension === 'string' &&
+      pattern.fileExtension
+    ) {
       //loop through known engines and find the one that supports the pattern's fileExtension
       const engineNames = Object.keys(this);
       for (let i = 0; i < engineNames.length; i++) {
@@ -213,7 +229,7 @@ const PatternEngines = Object.create({
    * @param pattern
    * @returns name of engine for pattern
    */
-  getEngineForPattern: function (pattern) {
+  getEngineForPattern: function(pattern) {
     if (pattern.isPseudoPattern) {
       return this.getEngineForPattern(pattern.basePattern);
     } else {
@@ -227,9 +243,9 @@ const PatternEngines = Object.create({
    * @memberof PatternEngines
    * @returns Array all supported file extensions
    */
-  getSupportedFileExtensions: function () {
+  getSupportedFileExtensions: function() {
     const engineNames = Object.keys(PatternEngines);
-    const allEnginesExtensions = engineNames.map((engineName) => {
+    const allEnginesExtensions = engineNames.map(engineName => {
       return PatternEngines[engineName].engineFileExtension;
     });
     return [].concat.apply([], allEnginesExtensions);
@@ -241,9 +257,9 @@ const PatternEngines = Object.create({
    * @param fileExtension
    * @returns Boolean
    */
-  isFileExtensionSupported: function (fileExtension) {
+  isFileExtensionSupported: function(fileExtension) {
     const supportedExtensions = PatternEngines.getSupportedFileExtensions();
-    return (supportedExtensions.lastIndexOf(fileExtension) !== -1);
+    return supportedExtensions.lastIndexOf(fileExtension) !== -1;
   },
 
   /**
@@ -252,9 +268,9 @@ const PatternEngines = Object.create({
    * @param filename
    * @return boolean
    */
-  isPseudoPatternJSON: function (filename) {
+  isPseudoPatternJSON: function(filename) {
     const extension = path.extname(filename);
-    return (extension === '.json' && filename.indexOf('~') > -1);
+    return extension === '.json' && filename.indexOf('~') > -1;
   },
 
   /**
@@ -267,19 +283,23 @@ const PatternEngines = Object.create({
    * @param filename
    * @returns boolean
    */
-  isPatternFile: function (filename) {
+  isPatternFile: function(filename) {
     // skip hidden patterns/files without a second thought
     const extension = path.extname(filename);
-    if (filename.charAt(0) === '.' ||
-      (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))) {
+    if (
+      filename.charAt(0) === '.' ||
+      (extension === '.json' && !PatternEngines.isPseudoPatternJSON(filename))
+    ) {
       return false;
     }
 
     // not a hidden pattern, let's dig deeper
     const supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
-    return (supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
-      PatternEngines.isPseudoPatternJSON(filename));
-  }
+    return (
+      supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
+      PatternEngines.isPseudoPatternJSON(filename)
+    );
+  },
 });
 
 module.exports = PatternEngines;
