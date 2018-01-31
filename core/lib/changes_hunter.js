@@ -1,6 +1,8 @@
 'use strict';
-const fs = require('fs-extra');
 const CompileState = require('./object_factory').CompileState;
+
+//this is mocked in unit tests
+let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 /**
  * For detecting changed patterns.
@@ -73,7 +75,7 @@ ChangesHunter.prototype = {
    * @param {string} file
    */
   checkLastModified: function(currentPattern, file) {
-    if (file) {
+    if (file && fs.pathExistsSync(file)) {
       try {
         const stat = fs.statSync(file);
 

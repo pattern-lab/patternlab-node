@@ -373,7 +373,6 @@ const patternlab_module = function(config) {
 
           this.events.on('patternlab-pattern-change', () => {
             if (!patternlab.isBusy) {
-              options.cleanPublic = false;
               return this.build(options);
             }
             return Promise.resolve();
@@ -381,8 +380,9 @@ const patternlab_module = function(config) {
 
           this.events.on('patternlab-global-change', () => {
             if (!patternlab.isBusy) {
-              options.cleanPublic = true; //rebuild everything
-              return this.build(options);
+              return this.build(
+                Object.assign({}, options, { cleanPublic: true }) // rebuild everything
+              );
             }
             return Promise.resolve();
           });
