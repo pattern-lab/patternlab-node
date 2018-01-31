@@ -178,7 +178,15 @@ module.exports = function(relPath, patternlab) {
   //find any pattern parameters that may be in the current pattern
   currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
 
-  [templatePath, jsonFilename, listJsonFileName].forEach(file => {
+  [
+    templatePath,
+    `${jsonFilename}.json`,
+    `${jsonFilename}.yml`,
+    `${jsonFilename}.yaml`,
+    `${listJsonFileName}.json`,
+    `${listJsonFileName}.yml`,
+    `${listJsonFileName}.yaml`,
+  ].forEach(file => {
     changes_hunter.checkLastModified(currentPattern, file);
   });
 
