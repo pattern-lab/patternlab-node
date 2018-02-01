@@ -15,7 +15,7 @@ const patternlab = require('patternlab-node')(config);
 
 ## Events
 
-Pattern Lab emits numerous [events](../events.md).
+Pattern Lab emits numerous [events](./events.md).
 
 ## Functions
 
