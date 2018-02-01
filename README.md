@@ -71,13 +71,13 @@ patternlab.serve({
 
 * Read more about [configuration](http://patternlab.io/docs/advanced-config-options.html#node) via `patternlab-config.json`.
 
-* Read more about the rest of [Public API](https://github.com/pattern-lab/patternlab-node/wiki/Public-API), and already implemented for you within [Editions](#editions).
+* Read more about the rest of [Public API](./docs), and already implemented for you within [Editions](#editions).
 
 * A full-featured [command line interface](https://github.com/pattern-lab/patternlab-node-cli) is also available courtesy of [@raphaelokon](https://github.com/raphaelokon).
 
 ### Events
 
-Many [events](https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins#events) are emitted during Pattern Lab operations, originally built to support plugins. Below is a sample, allowing users to be informed of asset or pattern changes.
+Many [events](./docs/events.md) are emitted during Pattern Lab operations, originally built to support plugins. Below is a sample, allowing users to be informed of asset or pattern changes.
 
 ```javascript
 patternlab.serve(...);
