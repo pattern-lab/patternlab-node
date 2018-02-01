@@ -15,7 +15,7 @@ const packageInfo = require('../package.json');
 const path = require('path');
 const updateNotifier = require('update-notifier');
 
-const events = require('./events');
+const events = require('./lib/events');
 const logger = require('./lib/log');
 const PatternGraph = require('./lib/pattern_graph').PatternGraph;
 const CompileState = require('./lib/object_factory').CompileState;
