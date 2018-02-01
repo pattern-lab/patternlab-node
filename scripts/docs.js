@@ -3,11 +3,32 @@ const path = require('path');
 const process = require('process');
 const fs = require('fs-extra');
 
-doc.render({
-  'example-lang': 'javascript',
-  files: path.resolve(process.cwd(), './core/index.js'),
-  'name-format': 'backticks',
-  template: fs.readFileSync('./scripts/api.hbs', 'utf8')
-}).then((x) => {
-  fs.outputFile(path.resolve(process.cwd(), './docs/README.md'), x);
-});
+// doc
+//   .getJsdocData({
+//     files: './core/lib/events.js',
+//   })
+//   .then(x => {
+//     console.log(x);
+//   });
+
+doc
+  .render({
+    'example-lang': 'javascript',
+    files: path.resolve(process.cwd(), './core/index.js'),
+    'name-format': 'backticks',
+    template: fs.readFileSync('./scripts/api.handlebars', 'utf8'),
+  })
+  .then(x => {
+    fs.outputFile(path.resolve(process.cwd(), './docs/README.md'), x);
+  });
+
+doc
+  .render({
+    'example-lang': 'javascript',
+    files: path.resolve(process.cwd(), './core/lib/events.js'),
+    'name-format': 'backticks',
+    template: fs.readFileSync('./scripts/events.handlebars', 'utf8'),
+  })
+  .then(x => {
+    fs.outputFile(path.resolve(process.cwd(), './docs/events.md'), x);
+  });

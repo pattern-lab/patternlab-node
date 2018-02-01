@@ -8,6 +8,7 @@ const cleanHtml = require('js-beautify').html;
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
+const events = require('./events');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
 const logger = require('./log');
@@ -230,7 +231,7 @@ module.exports = class PatternLab {
 
     buildListItems(this);
 
-    this.events.emit('patternlab-build-global-data-end', this);
+    this.events.emit(events.PATTERNLAB_BUILD_GLOBAL_DATA_END, this);
   }
 
   setCacheBust() {
@@ -360,7 +361,11 @@ module.exports = class PatternLab {
     pattern.patternLineageEExists =
       pattern.patternLineageExists || pattern.patternLineageRExists;
 
-    this.events.emit('patternlab-pattern-before-data-merge', this, pattern);
+    this.events.emit(
+      events.PATTERNLAB_PATTERN_BEFORE_DATA_MERGE,
+      this,
+      pattern
+    );
 
     //render the pattern, but first consolidate any data we may have
     let allData;
@@ -485,12 +490,16 @@ module.exports = class PatternLab {
           // WRITE FILES
           ///////////////
 
-          self.events.emit('patternlab-pattern-write-begin', self, pattern);
+          self.events.emit(
+            events.PATTERNLAB_PATTERN_WRITE_BEGIN,
+            self,
+            pattern
+          );
 
           //write the compiled template to the public patterns directory
           self.writePatternFiles(headHTML, pattern, footerHTML);
 
-          self.events.emit('patternlab-pattern-write-end', self, pattern);
+          self.events.emit(events.PATTERNLAB_PATTERN_WRITE_END, self, pattern);
 
           // Allows serializing the compile state
           self.graph.node(pattern).compileState = pattern.compileState =

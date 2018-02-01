@@ -2,6 +2,8 @@
 const _ = require('lodash');
 const path = require('path');
 const process = require('process');
+
+const events = require('./events');
 const logger = require('./log');
 
 let copy = require('recursive-copy'); // eslint-disable-line prefer-const
@@ -43,7 +45,7 @@ const asset_copier = () => {
   const copyFile = (p, dest, options) => {
     copy(p, dest, options).on(copy.events.COPY_FILE_COMPLETE, () => {
       logger.debug(`Moved ${p} to ${dest}`);
-      options.emitter.emit('patternlab-asset-change', {
+      options.emitter.emit(events.PATTERNLAB_PATTERN_ASSET_CHANGE, {
         file: p,
         dest: dest,
       });
@@ -163,17 +165,17 @@ const asset_copier = () => {
         //watch for changes and rebuild
         globalWatcher
           .on('addDir', p => {
-            patternlab.events.emit('patternlab-global-change', {
+            patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
               file: p,
             });
           })
           .on('add', p => {
-            patternlab.events.emit('patternlab-global-change', {
+            patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
               file: p,
             });
           })
           .on('change', p => {
-            patternlab.events.emit('patternlab-global-change', {
+            patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
               file: p,
             });
           });
@@ -207,17 +209,17 @@ const asset_copier = () => {
         //watch for changes and rebuild
         patternWatcher
           .on('addDir', p => {
-            patternlab.events.emit('patternlab-pattern-change', {
+            patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
               file: p,
             });
           })
           .on('add', p => {
-            patternlab.events.emit('patternlab-pattern-change', {
+            patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
               file: p,
             });
           })
           .on('change', p => {
-            patternlab.events.emit('patternlab-pattern-change', {
+            patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
               file: p,
             });
           });
