@@ -25,6 +25,7 @@
     "@pattern-lab/patternengine-node-handlebars": "^2.0.0-alpha.2",
     "@pattern-lab/patternengine-node-underscore": "^2.0.0-alpha.1",
     "eslint": "3.5.0",
+    "jsdoc-to-markdown": "^3.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.5.0",
     "husky": "^0.14.3",
@@ -63,6 +64,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "docs": "node ./scripts/docs.js",
     "lint": "eslint core/**/*.js",
     "precommit": "pretty-quick --staged",
     "pretest": "npm run lint",
