@@ -41,16 +41,18 @@ var engine_twig = {
 
   // render it
   renderPattern: function renderPattern(pattern, data) {
-    twig(pattern.relPath, {
-      root: path.relative(__dirname, path.resolve(process.cwd(), 'source', '_patterns')),
-      context: data
-    }, (error, template) => {
-      if (error) {
-        console.log(error);
-      }
-      console.log(template);
-      return template;
-    });
+    return Promise.resolve(
+      twig(pattern.relPath, {
+        root: path.relative(__dirname, path.resolve(process.cwd(), 'source', '_patterns')),
+        context: data
+      }, (error, template) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log(template);
+        return template;
+      })
+    );
   },
 
   // find and return any {% include 'template-name' %} within pattern
