@@ -10,7 +10,6 @@ const fsMock = {
     return {
       mtime: {
         getTime: () => {
-          console.log('????');
           return 100;
         },
       },

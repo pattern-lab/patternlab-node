@@ -31,7 +31,7 @@ const defaultConfig = require('../patternlab-config.json');
 
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
-let assetCopier = require('./lib/asset_copy'); // eslint-disable-line
+let copier = require('./lib/copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
 let serve = require('./lib/serve'); // eslint-disable-line
 
@@ -369,29 +369,27 @@ const patternlab_module = function(config) {
       patternlab.isBusy = true;
       return buildPatterns(options.cleanPublic, options.data).then(() => {
         return new ui_builder().buildFrontend(patternlab).then(() => {
-          assetCopier().copyAssets(
-            patternlab.config.paths,
-            patternlab,
-            options
-          );
+          copier()
+            .copyAndWatch(patternlab.config.paths, patternlab, options)
+            .then(() => {
+              this.events.on('patternlab-pattern-change', () => {
+                if (!patternlab.isBusy) {
+                  return this.build(options);
+                }
+                return Promise.resolve();
+              });
 
-          this.events.on('patternlab-pattern-change', () => {
-            if (!patternlab.isBusy) {
-              return this.build(options);
-            }
-            return Promise.resolve();
-          });
+              this.events.on('patternlab-global-change', () => {
+                if (!patternlab.isBusy) {
+                  return this.build(
+                    Object.assign({}, options, { cleanPublic: true }) // rebuild everything
+                  );
+                }
+                return Promise.resolve();
+              });
 
-          this.events.on('patternlab-global-change', () => {
-            if (!patternlab.isBusy) {
-              return this.build(
-                Object.assign({}, options, { cleanPublic: true }) // rebuild everything
-              );
-            }
-            return Promise.resolve();
-          });
-
-          patternlab.isBusy = false;
+              patternlab.isBusy = false;
+            });
         });
       });
     },
