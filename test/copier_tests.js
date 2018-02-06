@@ -6,7 +6,7 @@ var _ = require('lodash');
 var eol = require('os').EOL;
 var Pattern = require('../core/lib/object_factory').Pattern;
 var extend = require('util')._extend;
-var ac = rewire('../core/lib/asset_copy');
+var c = rewire('../core/lib/copier');
 var path = require('path');
 var config = require('./util/patternlab-config.json');
 
@@ -18,11 +18,11 @@ engineLoader.loadAllEngines(config);
 //   watch: function (path, data, cb) { }
 // };
 
-// ac.__set__({
+// c.__set__({
 //   'chokidar': chokidarMock,
 // });
 
-const assetCopier = ac();
+const copier = c();
 
 function createFakePatternLab(customProps) {
   var pl = {
@@ -57,7 +57,7 @@ tap.test(
     var patternlab = createFakePatternLab({});
 
     //act
-    var result = assetCopier.transformConfigPaths(patternlab.config.paths);
+    var result = copier.transformConfigPaths(patternlab.config.paths);
 
     //assert
     test.equals(result.img.source, './test/img');
