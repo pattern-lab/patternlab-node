@@ -372,14 +372,14 @@ const patternlab_module = function(config) {
           copier()
             .copyAndWatch(patternlab.config.paths, patternlab, options)
             .then(() => {
-              this.events.on('patternlab-pattern-change', () => {
+              this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
                 if (!patternlab.isBusy) {
                   return this.build(options);
                 }
                 return Promise.resolve();
               });
 
-              this.events.on('patternlab-global-change', () => {
+              this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
                 if (!patternlab.isBusy) {
                   return this.build(
                     Object.assign({}, options, { cleanPublic: true }) // rebuild everything
