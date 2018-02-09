@@ -89,7 +89,7 @@ const copier = () => {
     return Promise.all(copyPromises).then(() => {
       //we need to special case patterns/**/*.md|.json|.pattern-extensions as well as the global structures
       if (options.watch) {
-        watchPatternLabFiles(patternlab, assetDirectories, basePath);
+        return watchPatternLabFiles(patternlab, assetDirectories, basePath);
       }
     });
   };
