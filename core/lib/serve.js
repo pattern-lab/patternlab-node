@@ -1,6 +1,8 @@
 'use strict';
 const path = require('path');
 const liveServer = require('@pattern-lab/live-server');
+
+const events = require('./events');
 const logger = require('./log');
 
 const serve = patternlab => {
@@ -25,7 +27,7 @@ const serve = patternlab => {
   );
 
   // watch for asset changes, and reload appropriately
-  patternlab.events.on('patternlab-asset-change', data => {
+  patternlab.events.on(events.PATTERNLAB_PATTERN_ASSET_CHANGE, data => {
     if (serverReady) {
       if (data.file.indexOf('css') > -1) {
         liveServer.refreshCSS();
@@ -36,7 +38,7 @@ const serve = patternlab => {
   });
 
   //watch for pattern changes, and reload
-  patternlab.events.on('patternlab-pattern-change', () => {
+  patternlab.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
     if (serverReady) {
       liveServer.reload();
     }
