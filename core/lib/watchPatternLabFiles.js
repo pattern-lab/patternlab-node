@@ -74,6 +74,10 @@ const watchPatternLabFiles = (
   _.each(patternWatches, patternWatchPath => {
     logger.debug(`Pattern Lab is watching ${patternWatchPath} for changes`);
 
+    if (patternlab.watchers[patternWatchPath]) {
+      patternlab.watchers[patternWatchPath].close();
+    }
+
     const patternWatcher = chokidar.watch(path.resolve(patternWatchPath), {
       ignored: /(^|[\/\\])\../,
       ignoreInitial: true,
@@ -81,6 +85,7 @@ const watchPatternLabFiles = (
         stabilityThreshold: 200,
         pollInterval: 100,
       },
+      persistent: !watchOnce,
     });
 
     //watch for changes and rebuild
@@ -100,6 +105,8 @@ const watchPatternLabFiles = (
           file: p,
         });
       });
+
+    patternlab.watchers[patternWatchPath] = patternWatcher;
   });
 
   logger.info(
@@ -107,6 +114,7 @@ const watchPatternLabFiles = (
       assetDirectories.source.root
     }`
   );
+  return Promise.resolve();
 };
 
 module.exports = watchPatternLabFiles;
