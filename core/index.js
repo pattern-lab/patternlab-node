@@ -372,7 +372,7 @@ const patternlab_module = function(config) {
           copier()
             .copyAndWatch(patternlab.config.paths, patternlab, options)
             .then(() => {
-              this.events.once(events.PATTERNLAB_PATTERN_CHANGE, f => {
+              this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
                 if (!patternlab.isBusy) {
                   return this.build(options);
                 }

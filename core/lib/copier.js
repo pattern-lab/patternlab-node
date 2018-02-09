@@ -91,6 +91,7 @@ const copier = () => {
       if (options.watch) {
         return watchPatternLabFiles(patternlab, assetDirectories, basePath);
       }
+      return Promise.resolve();
     });
   };
 
