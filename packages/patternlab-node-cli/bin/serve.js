@@ -1,6 +1,6 @@
 'use strict';
 const chokidar = require('chokidar');
-const liveServer = require('live-server');
+const liveServer = require('@pattern-lab/live-server');
 const patternlab = require('patternlab-node');
 const path = require('path');
 const _ = require('lodash');

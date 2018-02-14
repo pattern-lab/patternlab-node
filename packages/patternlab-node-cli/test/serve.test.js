@@ -6,7 +6,7 @@ const liveServerMock = require('./mocks/liverserver.mock.js');
 const wrapAsync = require('../bin/utils').wrapAsync;
 
 // Require preview but mock patternlab so that we only test the module behavior
-const preview = proxyquire('../bin/serve', {'live-server': liveServerMock});
+const preview = proxyquire('../bin/serve', {'@pattern-lab/live-server': liveServerMock});
 
 tap.test('Serve ->', t => wrapAsync(function*() {
 	const config = yield resolveConfig('./test/fixtures/patternlab-config.json');

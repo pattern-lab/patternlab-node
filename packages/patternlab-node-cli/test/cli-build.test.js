@@ -8,7 +8,7 @@ const wrapAsync = require('../bin/utils').wrapAsync;
 const projectRoot = getUniqueProjectPath();
 
 tap.test('Init and build ->', t => wrapAsync(function*() {
-	yield spawnCmd(['init', '--verbose', '--project-dir', projectRoot, '--edition', 'edition-node', '--starterkit', 'starterkit-mustache-base']);
+	yield spawnCmd(['init', '--verbose', '--project-dir', projectRoot, '--edition', 'edition-node', '--starterkit', '@pattern-lab/starterkit-mustache-base']);
 	yield spawnCmd(['build', '--config', `${projectRoot}/patternlab-config.json`]);
 	t.ok(exists.sync(path.resolve(projectRoot, 'public')), 'should build all files into public dir');
 	t.ok(exists.sync(path.resolve(projectRoot, 'public', 'annotations')), 'with a annotations dir');

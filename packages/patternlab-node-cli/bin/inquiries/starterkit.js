@@ -8,7 +8,7 @@ const starterkitSetup = [{
 	choices: [
 		{
 			name: 'starterkit-mustache-demo',
-			value: 'starterkit-mustache-demo'
+			value: '@pattern-lab/starterkit-mustache-demo'
 		},
 		{
 			name: 'starterkit-mustache-bootstrap',
@@ -44,7 +44,7 @@ const starterkitSetup = [{
 		},
 		{
 			name: 'starterkit-mustache-base',
-			value: 'starterkit-mustache-base'
+			value: '@pattern-lab/starterkit-mustache-base'
 		},
 		new inquirer.Separator(),
 		{

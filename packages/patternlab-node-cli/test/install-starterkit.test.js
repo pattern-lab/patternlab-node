@@ -15,15 +15,15 @@ const minimalConfig = {
 };
 
 tap.test('Install starterkit-mustache-demo ->', t => wrapAsync(function*() {
-	yield installStarterkit('starterkit-mustache-demo', minimalConfig);
-	const pkg = yield moduleExist('starterkit-mustache-demo');
+	yield installStarterkit('@pattern-lab/starterkit-mustache-demo', minimalConfig);
+	const pkg = yield moduleExist('@pattern-lab/starterkit-mustache-demo');
 	t.ok(pkg, 'module should exist after install');
 	t.end();
 }));
 
 tap.test('Install starterkit-mustache-base ->', t => wrapAsync(function*() {
-	yield installStarterkit('starterkit-mustache-base', minimalConfig);
-	const pkg = yield moduleExist('starterkit-mustache-base');
+	yield installStarterkit('@pattern-lab/starterkit-mustache-base', minimalConfig);
+	const pkg = yield moduleExist('@pattern-lab/starterkit-mustache-base');
 	t.ok(pkg, 'module should exist after install');
 	t.end();
 }));

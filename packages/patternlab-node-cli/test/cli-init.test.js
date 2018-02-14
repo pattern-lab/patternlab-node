@@ -8,7 +8,7 @@ const wrapAsync = require('../bin/utils').wrapAsync;
 const projectRoot = getUniqueProjectPath();
 
 tap.test('Init ->', t => wrapAsync(function*() {
-	yield spawnCmd(['init', '--verbose', '--project-dir', projectRoot, '--edition', 'edition-node', '--starterkit', 'starterkit-mustache-base']);
+	yield spawnCmd(['init', '--verbose', '--project-dir', projectRoot, '--edition', 'edition-node', '--starterkit', '@pattern-lab/starterkit-mustache-base']);
 	t.ok(exists.sync(path.resolve(projectRoot)), 'should initialize a PatternLab project');
 	t.ok(exists.sync(path.resolve(projectRoot, 'source')), 'with a source dir');
 	t.ok(exists.sync(path.resolve(projectRoot, 'public')), 'with a public dir');
