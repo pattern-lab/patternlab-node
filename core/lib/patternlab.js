@@ -508,7 +508,7 @@ module.exports = class PatternLab {
         });
       })
       .catch(reason => {
-        console.log(reason);
+        console.log('error in patternlab.js/renderSinglePattern():', reason);
       });
   }
 

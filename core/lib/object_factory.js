@@ -125,14 +125,13 @@ Pattern.prototype = {
     }
 
     if (this.engine) {
-      const promise = this.engine.renderPattern(
-        this,
-        data || this.jsonFileData,
-        partials
-      );
-      return promise
-        .then(results => {
-          return results;
+      return Promise.resolve()
+        .then(() => {
+          return this.engine.renderPattern(
+            this,
+            data || this.jsonFileData,
+            partials
+          );
         })
         .catch(reason => {
           return Promise.reject(reason);
