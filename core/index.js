@@ -12,6 +12,8 @@
 
 const packageInfo = require('../package.json');
 
+const { concat } = require('lodash');
+const copy = require('recursive-copy');
 const path = require('path');
 const updateNotifier = require('update-notifier');
 
@@ -277,14 +279,32 @@ const patternlab_module = function(config) {
                           p.compileState = CompileState.NEEDS_REBUILD;
                         }
                       }
-
                       //render all patterns last, so lineageR works
-                      return patternsToBuild
-                        .reduce((previousPromise, pattern) => {
-                          return previousPromise.then(() =>
-                            patternlab.renderSinglePattern(pattern)
+                      const allPatternsPromise = patternsToBuild.map(pattern =>
+                        patternlab.renderSinglePattern(pattern)
+                      );
+                      //copy non-pattern files like JavaScript
+                      const allJS = patternsToBuild.map(pattern => {
+                        const { name, patternPartial, subdir } = pattern;
+                        const {
+                          source: { patterns: sourceDir },
+                          public: { patterns: publicDir },
+                        } = patternlab.config.paths;
+                        const src = path.join(sourceDir, subdir);
+                        const dest = path.join(publicDir, name);
+                        return copy(src, dest, {
+                          overwrite: true,
+                          filter: ['*.js'],
+                          rename: () => {
+                            return `${patternPartial}.js`;
+                          },
+                        }).on(copy.events.COPY_FILE_COMPLETE, () => {
+                          logger.debug(
+                            `Copied JavaScript files from ${src} to ${dest}`
                           );
-                        }, Promise.resolve())
+                        });
+                      });
+                      return Promise.all(concat(allPatternsPromise, allJS))
                         .then(() => {
                           // Saves the pattern graph when all files have been compiled
                           PatternGraph.storeToFile(patternlab);
