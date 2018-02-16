@@ -1387,7 +1387,11 @@
  * Breadcrumb Item
  */
 .pl-c-breadcrumb__item:after {
+<<<<<<< Updated upstream
   content: "\25b6";
+=======
+  content: 'Γû╢';
+>>>>>>> Stashed changes
   opacity: 0.4;
   font-size: 6px;
   display: inline-block;
@@ -1771,7 +1775,11 @@
 }
 
 /*------------------------------------*\
+<<<<<<< Updated upstream
     #ANNOTATIONS INSIDE MODAL
+=======
+┬á┬á┬á #ANNOTATIONS INSIDE MODAL
+>>>>>>> Stashed changes
 \*------------------------------------*/
 /**
  * Annotations area
