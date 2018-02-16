@@ -285,7 +285,7 @@ const patternlab_module = function(config) {
                       );
                       //copy non-pattern files like JavaScript
                       const allJS = patternsToBuild.map(pattern => {
-                        const { name, subdir } = pattern;
+                        const { name, patternPartial, subdir } = pattern;
                         const {
                           source: { patterns: sourceDir },
                           public: { patterns: publicDir },
@@ -295,6 +295,9 @@ const patternlab_module = function(config) {
                         return copy(src, dest, {
                           overwrite: true,
                           filter: ['*.js'],
+                          rename: () => {
+                            return `${patternPartial}.js`;
+                          },
                         }).on(copy.events.COPY_FILE_COMPLETE, () => {
                           logger.debug(
                             `Copied JavaScript files from ${src} to ${dest}`

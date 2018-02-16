@@ -380,6 +380,7 @@ module.exports = class PatternLab {
     allData = _.merge({}, this.data, pattern.jsonFileData);
     allData = _.merge({}, allData, allListItems);
     allData.cacheBuster = this.cacheBuster;
+    allData.patternPartial = pattern.patternPartial;
 
     ///////////////
     // HEADER
