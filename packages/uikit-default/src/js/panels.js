@@ -11,29 +11,44 @@
 
 var Panels = {
 
-	panels: [],
+  panels: [],
 
-	count: function () {
-		return this.panels.length;
-	},
+  count: function() {
+    return this.panels.length;
+  },
 
-	get: function () {
-		return JSON.parse(JSON.stringify(this.panels));
-	},
+  get: function() {
+    return JSON.parse(JSON.stringify(this.panels));
+  },
 
-	add: function (panel) {
+  add: function(panel) {
 
-		// if ID already exists in panels array ignore the add()
-		for (i = 0; i < this.panels.length; ++i) {
-			if (panel.id === this.panels[i].id) {
-				return;
-			}
-		}
+    // if ID already exists in panels array ignore the add()
+    for (var i = 0; i < this.panels.length; ++i) {
+      if (panel.id === this.panels[i].id) {
+        return;
+      }
+    }
 
-		// it wasn't found so push the tab onto the tabs
-		this.panels.push(panel);
+    // it wasn't found so push the tab onto the tabs
+    this.panels.push(panel);
 
-	}
+  },
+
+  remove: function(id) {
+    var panels = this.panels;
+    for (var i = panels.length - 1; i >= 0; i--) {
+      if (panels[i].id === id){
+        var panelToRemove = panels[i];
+        panels.splice(i, 1);
+        //if removed panel was default, set first panel as new default, if exists
+        if (panelToRemove.default && panels.length){
+          panels[0].default = true;
+        }
+        return; //should be no more panels with the same id
+      }
+    }
+  }
 
 };
 
