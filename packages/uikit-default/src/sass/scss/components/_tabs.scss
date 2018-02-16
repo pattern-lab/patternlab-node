@@ -12,14 +12,14 @@
     background: $pl-color-white;
     border: 1px solid $pl-color-gray-13;
     border-radius: $pl-border-radius-med;
-    font: $pl-font;
+    font-family: $pl-font;
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 
     /**
-     * Tabs inside a code panel 
+     * Tabs inside a code panel
      */
     .pl-c-pattern-info__panel--code & {
 
@@ -111,7 +111,6 @@
  */
 .pl-c-tabs__panel {
     display: none;
-    position: relative;
     min-height: 12rem;
 
     &.pl-is-active-tab {

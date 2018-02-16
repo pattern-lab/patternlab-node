@@ -76,6 +76,7 @@
  * 1) Left panel that contains pattern title, lineage, description, annotations
  */
 .pl-c-pattern-info__panel--info {
+    padding-top: 2rem;
 
     @media all and (min-width: $pl-bp-large) {
         left: 0;
@@ -93,7 +94,7 @@
  * Pattern Code Panel
  * 1) Right panel that displays the pattern's code (found in _tabs.scss)
  * 2) Using a sibling selector because the pattern info isn't always present.
- *    The sibling selector allows the code panel to occupy the full width of 
+ *    The sibling selector allows the code panel to occupy the full width of
  *    the modal
  * 1) Cap the height of the code panel in the modal
  */
@@ -102,6 +103,7 @@
     @media all and (min-width: $pl-bp-large) {
         right: 0;
         left: 50%;
+        top: 1.2rem;
     }
 
     @media all and (min-width: $pl-bp-xl) {

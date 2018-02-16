@@ -90,7 +90,7 @@ gulp.task('build:js-viewer', ['clean:js'], function() {
 
 gulp.task('build:js-pattern', ['build:js-viewer'], function() {
 	// 'src/js/annotations-pattern.js','src/js/code-pattern.js','src/js/info-panel.js'
-	return gulp.src(['src/js/postmessage.js', 'src/js/panels-shared.js', 'src/js/modal-styleguide.js'])
+	return gulp.src(['src/js/postmessage.js', 'src/js/panels-shared.js', 'src/js/clipboard.min.js', 'src/js/modal-styleguide.js'])
 		.pipe(plugins.jshint('.jshintrc'))
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.resolveDependencies( { pattern: /\* @requires [\s-]*(.*?\.js)/g } ))
@@ -110,5 +110,5 @@ gulp.task('default', ['build:bower', 'build:css', 'build:html', 'build:js-patter
 		gulp.watch(['src/html/*'], ['build:html']);
 		gulp.watch(['src/js/*'], ['build:js-pattern']);
 	}
-	
+
 });

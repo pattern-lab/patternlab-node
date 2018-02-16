@@ -8,68 +8,68 @@
 	<div class="pl-c-pattern-info__header">
 
 		<ul class="pl-c-breadcrumb">
-			
+
 			{{# patternBreadcrumb }}
 
 			<li class="pl-c-breadcrumb__item">{{ patternType }}</li>
 
 			{{# patternSubtype }}
 			<li class="pl-c-breadcrumb__item">{{ patternSubtype }}</li>
-			{{/ patternSubtype }} 
-			
+			{{/ patternSubtype }}
+
 			{{/ patternBreadcrumb }}
 
 		</ul><!--end pl-c-breadcrumb-->
 
 		<h2 class="pl-c-pattern-info__title">
-			{{ patternName }} 
-			
+			{{ patternName }}
+
 			{{# patternState }}
 			<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}"></span>
 			{{/ patternState }}
 		</h2><!--end pl-c-pattern-info__title-->
 
 	</div><!--end pl-c-pattern-info__header-->
-	{{/ isPatternView }} 
-	
+	{{/ isPatternView }}
+
 	{{# patternDescExists }}
 	<div class="pl-c-pattern-info__description pl-c-text-passage">
 		{{{ patternDesc }}} {{# patternDescAdditions }} {{{ patternDescAdditions }}} {{/ patternDescAdditions }}
 	</div><!--end pl-c-pattern-info__description-->
-	{{/ patternDescExists }} 
-	
+	{{/ patternDescExists }}
+
 	{{# lineageExists }}
 	<p class="pl-c-lineage pl-js-lineage">
-		The <em>{{ patternName }}</em> pattern contains the following patterns: 
+		The <em>{{ patternName }}</em> pattern contains the following patterns:
 		{{# lineage }}
 		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link' data-patternPartial='{{ lineagePattern }}'>
-			{{ lineagePattern }} 
+			{{ lineagePattern }}
 			{{# lineageState }}<span class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}" title="{{ lineageState }}" />{{/ lineageState }}
 		</a><!--end pl-c-lineage__link-->
-		{{# hasComma }}, {{/ hasComma }} 
+		{{# hasComma }}, {{/ hasComma }}
 		{{/ lineage }}
 
 	</p><!--end pl-c-lineage-->
-	{{/ lineageExists }} 
-	
+	{{/ lineageExists }}
+
 	{{# lineageRExists }}
 	<p class="pl-c-lineage">
-		The <em>{{ patternName }}</em> pattern is included in the following patterns: 
+		The <em>{{ patternName }}</em> pattern is included in the following patterns:
 		{{# lineageR }}
 		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link' data-patternPartial='{{ lineagePattern }}'>
-			{{ lineagePattern }} 
+			{{ lineagePattern }}
 			{{# lineageState }}<span class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}" title="{{ lineageState }}" />{{/ lineageState }}
 		</a><!--end pl-c-lineage__link-->
 		{{# hasComma }}, {{/ hasComma }}
 		{{/ lineageR }}
 	</p><!--end pl-c-lineage-->
-	{{/ lineageRExists }} 
-	
+	{{/ lineageRExists }}
+
 	{{# annotationExists }}
 	<div class="pl-c-annotations pl-c-text-passage pl-js-annotations">
 		<h2 class="pl-c-annotations__title">Annotations</h2>
 		<ol class="pl-c-annotations__list">
-			
+
 			{{# annotations }}
 			<li class="pl-c-annotations__item">
 
@@ -108,6 +108,8 @@
 
 			{{# panels }}
 			<div id="pl-{{ patternPartial }}-{{ id }}-panel" class="pl-c-tabs__panel pl-js-tab-panel">
+				<button class="pl-c-code-copy-btn pl-js-code-copy-btn" data-clipboard-target="#pl-{{ patternPartial }}-{{ id }}-panel code">Copy</button>
+
 				{{{ content }}}
 			</div><!--end pl-c-tabs__panel-->
 			{{/ panels }}

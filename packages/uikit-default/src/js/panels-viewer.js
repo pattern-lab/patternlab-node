@@ -258,3 +258,39 @@ var panelsViewer = {
 
 };
 
+/**
+* Pattern panel resizer
+* 1) Add mousedown event listener to the modal resizer tab
+* 2) Display block on the modal cover when the panel is being dragged so fast
+* drags can occur.
+* 3) Create mousemove event on the cover since it spans the entire screen and
+* the mouse can be dragged into it without losing resizing
+* 4) Find the new panel height by taking the window height and subtracting the
+* Y-position within the modal cover. Set modal height to this.
+* 5) Add mouseup event to the body so that when drag is released, the modal
+* stops resizing and modal cover doesn't display anymore.
+*/
+$('.pl-js-modal-resizer').mousedown(function (event) { /* 1 */
+
+	$(".pl-js-modal-cover").css("display", "block"); /* 2 */
+
+	$('.pl-js-modal-cover').mousemove(function (event) { /* 3 */
+		var panelHeight = window.innerHeight - event.clientY + 32; /* 4 */
+		$('.pl-js-modal').css("height", panelHeight + "px"); /* 4 */
+	});
+});
+
+$('body').mouseup(function () { /* 5 */
+	$('.pl-js-modal').unbind('mousemove'); /* 5 */
+	$('.pl-js-modal-cover').css("display", "none"); /* 5 */
+});
+
+// Copy to clipboard functionality
+var clipboard = new Clipboard('.pl-js-code-copy-btn');
+clipboard.on('success', function(e) {
+	var copyButton = document.querySelectorAll(".pl-js-code-copy-btn");
+	for (i=0; i<copyButton.length ;i++) {
+		copyButton[i].innerText = "Copy";
+	}
+    e.trigger.textContent = 'Copied';
+});
