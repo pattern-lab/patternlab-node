@@ -3,8 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="3.0.0-alpha.8"></a>
-# [3.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-alpha.7...v3.0.0-alpha.8) (2018-02-22)
 
+# [3.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-alpha.7...v3.0.0-alpha.8) (2018-02-22)
 
 ### Bug Fixes
 
@@ -12,12 +12,11 @@ All notable changes to this project will be documented in this file. See [standa
 * **event emission:** Commit failing test ([12ccbd7](https://github.com/pattern-lab/patternlab-node/commit/12ccbd7))
 * **event emission:** Only listen once to changes ([ea6b7d3](https://github.com/pattern-lab/patternlab-node/commit/ea6b7d3))
 * **loadPattern:** Check proper data file paths for modification ([b7ba5b0](https://github.com/pattern-lab/patternlab-node/commit/b7ba5b0))
+* **package** Dpdate dependencies to reduce vulnerabilities ([367d38f](https://github.com/pattern-lab/patternlab-node/commit/367d38f))
 * **package:** Update gitignore and npmignore with current files ([581b3c4](https://github.com/pattern-lab/patternlab-node/commit/581b3c4))
 * **serve:** Reference events by constants ([9f5c143](https://github.com/pattern-lab/patternlab-node/commit/9f5c143))
 * **test configuration:** Remove vestigial configuration entries ([481fce9](https://github.com/pattern-lab/patternlab-node/commit/481fce9))
 * **watchPatternLabFiles:** Register and manager watchers ([48f0190](https://github.com/pattern-lab/patternlab-node/commit/48f0190))
-* package.json to reduce vulnerabilities ([367d38f](https://github.com/pattern-lab/patternlab-node/commit/367d38f))
-
 
 ### Features
 
@@ -28,11 +27,9 @@ All notable changes to this project will be documented in this file. See [standa
 * **pattern lab:** Copy pattern-specific js ([99bfc02](https://github.com/pattern-lab/patternlab-node/commit/99bfc02))
 * **pattern lab:** Pass `patternPartial` as data to render ([351ea5e](https://github.com/pattern-lab/patternlab-node/commit/351ea5e))
 
-
-
 <a name="3.0.0-alpha.7"></a>
-# [3.0.0-alpha.7](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-alpha.6...v3.0.0-alpha.7) (2018-01-19)
 
+# [3.0.0-alpha.7](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-alpha.6...v3.0.0-alpha.7) (2018-01-19)
 
 ### Bug Fixes
 
@@ -40,7 +37,6 @@ All notable changes to this project will be documented in this file. See [standa
 * **README:** Fix npm link instructions ([ce3a7f0](https://github.com/pattern-lab/patternlab-node/commit/ce3a7f0))
 * **README:** Update npm shield to point to scoped package ([1f62617](https://github.com/pattern-lab/patternlab-node/commit/1f62617)), closes [#760](https://github.com/pattern-lab/patternlab-node/issues/760)
 * **unit test:** Fix path to fixture ([b932f14](https://github.com/pattern-lab/patternlab-node/commit/b932f14))
-
 
 ### Features
 
@@ -50,3 +46,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **package:** Add prettier precommit hook ([a0b85b5](https://github.com/pattern-lab/patternlab-node/commit/a0b85b5))
 * **package:** Add standard version ([b2ba31c](https://github.com/pattern-lab/patternlab-node/commit/b2ba31c))
 * **README:** Add prettier badge ([7c2787b](https://github.com/pattern-lab/patternlab-node/commit/7c2787b))
+
+---
+
+Older releases found at https://github.com/pattern-lab/patternlab-node/wiki/ChangeLog
