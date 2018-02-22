@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **event emission:** Commit failing test ([12ccbd7](https://github.com/pattern-lab/patternlab-node/commit/12ccbd7))
 * **event emission:** Only listen once to changes ([ea6b7d3](https://github.com/pattern-lab/patternlab-node/commit/ea6b7d3))
 * **loadPattern:** Check proper data file paths for modification ([b7ba5b0](https://github.com/pattern-lab/patternlab-node/commit/b7ba5b0))
-* **package** Dpdate dependencies to reduce vulnerabilities ([367d38f](https://github.com/pattern-lab/patternlab-node/commit/367d38f))
+* **package** Update dependencies to reduce vulnerabilities ([367d38f](https://github.com/pattern-lab/patternlab-node/commit/367d38f))
 * **package:** Update gitignore and npmignore with current files ([581b3c4](https://github.com/pattern-lab/patternlab-node/commit/581b3c4))
 * **serve:** Reference events by constants ([9f5c143](https://github.com/pattern-lab/patternlab-node/commit/9f5c143))
 * **test configuration:** Remove vestigial configuration entries ([481fce9](https://github.com/pattern-lab/patternlab-node/commit/481fce9))
