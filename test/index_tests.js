@@ -11,8 +11,12 @@ var testConfig = require('./util/patternlab-config.json');
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
 
-const assetCopierMock = function() {
-  return { copyAssets: function() {} };
+const copierMock = function() {
+  return {
+    copyAndWatch: function() {
+      return Promise.resolve();
+    },
+  };
 };
 
 const uiBuilderMock = function() {
@@ -30,11 +34,8 @@ const fsMock = {
   readJSONSync: function(path, encoding) {
     return fs.readJSONSync(path, encoding);
   },
-  removeSync: function(path) {
-    fs.removeSync(path);
-  },
-  emptyDirSync: function(path) {
-    fs.emptyDirSync(path);
+  emptyDir: function(path) {
+    return fs.emptyDir(path);
   },
   readFileSync: function(path, encoding) {
     return fs.readFileSync(path, encoding);
@@ -45,7 +46,7 @@ const fsMock = {
 entry.__set__({
   ui_builder: uiBuilderMock,
   fs: fsMock,
-  assetCopier: assetCopierMock,
+  copier: copierMock,
 });
 
 tap.test('getDefaultConfig - should return the default config object', function(

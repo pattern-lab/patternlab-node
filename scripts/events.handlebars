@@ -1,0 +1,19 @@
+# Pattern Lab Node Events
+
+[![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
+
+Pattern Lab emits numerous events during the [build](../docs/) process. Some uses of events:
+
+* Core uses `patternlab-pattern-change` events when watching for changes in order to trigger another build
+* Plugins such as [plugin-node-tab](https://github.com/pattern-lab/plugin-node-tab) can use an event like `patternlab-pattern-write-end` to define additional code tabs to the pattern viewer / modal
+
+Learn more about [Creating Plugins](https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins).
+
+{{#module name="Events"}}
+{{>header~}}
+{{>members}}
+{{/module}}
+
+* * *
+
+[Pattern Lab](http://patternlab.io) Node is [MIT Licensed](https://github.com/pattern-lab/patternlab-node/blob/master/LICENSE)
