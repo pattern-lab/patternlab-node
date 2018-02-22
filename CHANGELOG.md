@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0-alpha.8"></a>
+# [3.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-alpha.7...v3.0.0-alpha.8) (2018-02-22)
+
+
+### Bug Fixes
+
+* **asset copy:** Resolve paths correctly. Break apart files & asyncify ([379419c](https://github.com/pattern-lab/patternlab-node/commit/379419c))
+* **event emission:** Commit failing test ([12ccbd7](https://github.com/pattern-lab/patternlab-node/commit/12ccbd7))
+* **event emission:** Only listen once to changes ([ea6b7d3](https://github.com/pattern-lab/patternlab-node/commit/ea6b7d3))
+* **loadPattern:** Check proper data file paths for modification ([b7ba5b0](https://github.com/pattern-lab/patternlab-node/commit/b7ba5b0))
+* **package:** Update gitignore and npmignore with current files ([581b3c4](https://github.com/pattern-lab/patternlab-node/commit/581b3c4))
+* **serve:** Reference events by constants ([9f5c143](https://github.com/pattern-lab/patternlab-node/commit/9f5c143))
+* **test configuration:** Remove vestigial configuration entries ([481fce9](https://github.com/pattern-lab/patternlab-node/commit/481fce9))
+* **watchPatternLabFiles:** Register and manager watchers ([48f0190](https://github.com/pattern-lab/patternlab-node/commit/48f0190))
+* package.json to reduce vulnerabilities ([367d38f](https://github.com/pattern-lab/patternlab-node/commit/367d38f))
+
+
+### Features
+
+* **docs:** Add jsdoc output to public API and events ([d45e7b9](https://github.com/pattern-lab/patternlab-node/commit/d45e7b9))
+* **docs:** Experiment with doc generation ([8e1808b](https://github.com/pattern-lab/patternlab-node/commit/8e1808b))
+* **index:** Make the cleaning of public/ an asynchronous adventure ([bd485d2](https://github.com/pattern-lab/patternlab-node/commit/bd485d2))
+* **package:** Communicate official node support ([96ca87f](https://github.com/pattern-lab/patternlab-node/commit/96ca87f))
+* **pattern lab:** Copy pattern-specific js ([99bfc02](https://github.com/pattern-lab/patternlab-node/commit/99bfc02))
+* **pattern lab:** Pass `patternPartial` as data to render ([351ea5e](https://github.com/pattern-lab/patternlab-node/commit/351ea5e))
+
+
+
 <a name="3.0.0-alpha.7"></a>
 # [3.0.0-alpha.7](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-alpha.6...v3.0.0-alpha.7) (2018-01-19)
 
