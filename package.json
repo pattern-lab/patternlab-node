@@ -1,5 +1,8 @@
 {
-	"devDependencies": {
-		"lerna": "2.9.0"
-	}
+  "devDependencies": {
+    "lerna": "2.9.0"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap"
+  }
 }
