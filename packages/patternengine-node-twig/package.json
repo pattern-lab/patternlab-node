@@ -1,0 +1,32 @@
+{
+  "name": "patternengine-node-twig",
+  "description": "The Twig engine for Pattern Lab / Node",
+  "version": "0.1.0",
+  "main": "lib/engine_twig.js",
+  "dependencies": {
+    "twig": "^0.9.5"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Grunt",
+    "Gulp",
+    "Javascript",
+    "Twig"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pattern-lab/patternengine-node-twig.git"
+  },
+  "bugs": "https://github.com/pattern-lab/patternengine-node-twig/issues",
+  "author": "Brian Muenzenmeyer & Geoffrey Pursell",
+  "license": "MIT",
+  "scripts": {
+    "test": "grunt travis --verbose"
+  },
+  "engines": {
+    "node": ">=4.0"
+  }
+}
