@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - node
+  - 6
+before_script:
+  - yarn add edition-node
+  - yarn add starterkit-mustache-base
+  - yarn add eslint
+branches:
+  only:
+    - master
