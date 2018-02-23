@@ -1,17 +1,32 @@
 {
-  "name": "@pattern-lab/styleguidekit-assets-default",
-  "version": "4.0.0-alpha.3",
-  "description": "The default set of front-end assets for Pattern Lab.",
+  "name": "@pattern-lab/uikit-default",
+  "version": "1.0.0-alpha.1",
+  "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "repository": {
     "type": "git",
-    "url": "git://github.com/pattern-lab/styleguidekit-assets-default.git"
+    "url": "git://github.com/pattern-lab/uikit-default.git"
   },
-  "author": "Brad Frost",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "authors": [
+    {
+      "name": "Brad Frost",
+      "homepage": "http://bradfrostweb.com",
+      "role": "Creator"
+    },
+    {
+      "name": "Brian Muenzenmeyer",
+      "homepage": "http://brianmuenzenmeyer.com",
+      "role": "Developer"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pattern-lab/styleguidekit-assets-default/issues"
+    "url": "https://github.com/pattern-lab/uikit-default/issues"
   },
-  "homepage": "https://github.com/pattern-lab/styleguidekit-assets-default",
+  "homepage": "https://github.com/pattern-lab/uikit-default",
   "devDependencies": {
     "del": "^1.1.1",
     "gulp": "^3.8.6",
