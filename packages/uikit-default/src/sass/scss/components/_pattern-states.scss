@@ -10,11 +10,14 @@
     display: inline-block;
     width: 5px;
     height: 5px;
-    margin-left: 5px;
+    margin-left: 10px;
     position: relative;
-    top: 1px;
+    top: 5px;
+    left: 0;
     border-radius: 50%;
     background: $pl-color-state-info;
+    line-height: 4px;
+    text-indent: 10px;
 
     &--complete {
         background: $pl-color-state-complete;

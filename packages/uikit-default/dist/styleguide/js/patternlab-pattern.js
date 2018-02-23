@@ -92,6 +92,8 @@ function receiveIframeMessage(event) {
 
 }
 window.addEventListener("message", receiveIframeMessage, false);
+// jshint ignore: start
+
 /*!
  * clipboard.js v1.7.1
  * https://zenorocha.github.io/clipboard.js
