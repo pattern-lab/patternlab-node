@@ -1,6 +1,6 @@
 {
-  "name": "patternlab-node-cli",
-  "description": "Command-line interface (CLI) for the patternlab-node core.",
+  "name": "@pattern-lab/cli",
+  "description": "Command-line interface (CLI) for the @pattern-lab/core.",
   "version": "0.0.1-alpha.11",
   "bin": {
     "patternlab": "bin/patternlab.js"
@@ -31,25 +31,16 @@
     "proxyquire": "1.8.0",
     "tap": "11.1.0"
   },
-  "files": [
-    "bin"
-  ],
-  "keywords": [
-    "Pattern Lab",
-    "Atomic Web Design",
-    "Node",
-    "JavaScript"
-  ],
+  "files": ["bin"],
+  "keywords": ["Pattern Lab", "Atomic Web Design", "Node", "JavaScript"],
   "scripts": {
     "lint": "eslint ./{bin,test}",
     "test": "tap './test/*.test.js' --reporter spec --timeout=120",
     "pretest": "yarn run lint && yarn install"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pattern-lab/patternlab-node-cli.git"
-  },
-  "bugs": "https://github.com/pattern-lab/patternlab-node-cli/issues",
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "license": "MIT",
   "engines": {
     "node": ">=6.0"
