@@ -8,3 +8,4 @@ Thumbs.db
 test/public
 !test/patterns/public/.gitkeep
 !test/patterns/testDependencyGraph.json
+lerna-debug.log
