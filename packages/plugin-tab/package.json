@@ -7,19 +7,15 @@
     "fs-extra": "^0.30.0",
     "glob": "^7.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pattern-lab/plugin-node-tab.git"
-  },
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "scripts": {
     "test": "eslint src/** index.js postinstall.js",
     "postinstall": "node ./postinstall.js"
   },
   "author": "Brian Muenzenmeyer",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pattern-lab/plugin-node-tab/issues"
-  },
   "homepage": "https://github.com/pattern-lab/plugin-node-tab#readme",
   "devDependencies": {
     "eslint": "^3.5.0"

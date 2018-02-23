@@ -16,11 +16,9 @@
     "Javascript",
     "Underscore"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pattern-lab/patternengine-node-underscore.git"
-  },
-  "bugs": "https://github.com/pattern-lab/patternengine-node-underscore/issues",
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {

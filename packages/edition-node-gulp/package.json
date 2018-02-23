@@ -18,11 +18,9 @@
     "Gulp",
     "Javascript"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pattern-lab/edition-node-gulp.git"
-  },
-  "bugs": "https://github.com/pattern-lab/edition-node-gulp/issues",
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer",
   "scripts": {
     "gulp": "gulp -- "

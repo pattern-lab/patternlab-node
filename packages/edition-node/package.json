@@ -10,11 +10,9 @@
     "@pattern-lab/uikit-workshop": "^1.0.0-alpha.1"
   },
   "keywords": ["Pattern Lab", "Atomic Web Design", "Node", "Javascript"],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pattern-lab/edition-node.git"
-  },
-  "bugs": "https://github.com/pattern-lab/edition-node/issues",
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer",
   "scripts": {
     "build": "node ./scripts/build.js",

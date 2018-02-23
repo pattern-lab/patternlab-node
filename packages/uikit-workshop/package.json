@@ -3,10 +3,6 @@
   "version": "1.0.0-alpha.1",
   "description":
     "Front-end assets and templates for the default Pattern Lab workshop view",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pattern-lab/uikit-default.git"
-  },
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,10 +20,9 @@
     }
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pattern-lab/uikit-default/issues"
-  },
-  "homepage": "https://github.com/pattern-lab/uikit-default",
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "devDependencies": {
     "del": "^1.1.1",
     "gulp": "^3.8.6",

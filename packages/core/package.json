@@ -22,8 +22,6 @@
     "update-notifier": "^2.2.0"
   },
   "devDependencies": {
-    "@pattern-lab/engine-handlebars": "^2.0.0-alpha.2",
-    "@pattern-lab/engine-underscore": "^2.0.0-alpha.1",
     "eslint": "3.5.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.5.0",
@@ -43,10 +41,8 @@
     "Gulp",
     "Javascript"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pattern-lab/patternlab-node.git"
-  },
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/core",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": {
     "name": "Brian Muenzenmeyer"
