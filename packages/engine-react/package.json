@@ -1,19 +1,20 @@
 {
   "name": "@pattern-lab/engine-react",
   "description": "The React engine for Pattern Lab / Node",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "lib/engine_react.js",
   "dependencies": {
     "babel-core": "^6.17.0",
-    "babel-plugin-module-alias": "^1.6.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
-    "babel-plugin-transform-es2015-modules-umd": "^6.12.0",
     "babel-preset-react": "^6.16.0",
     "cheerio": "^0.22.0",
     "hogan": "^1.0.2",
     "js-beautify": "^1.6.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
+  },
+  "peerDependencies": {
+    "@pattern-lab/patternlab-node": ">2"
   },
   "devDependencies": {},
   "keywords": [
@@ -35,6 +36,6 @@
     "test": "grunt travis --verbose"
   },
   "engines": {
-    "node": ">=4.4"
+    "node": ">=6"
   }
 }
