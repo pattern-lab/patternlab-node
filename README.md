@@ -1,4 +1,4 @@
-# Pattern Lab
+![Pattern Lab Logo](/patternlab.png 'Pattern Lab Logo')
 
 ## Using Pattern Lab
 
