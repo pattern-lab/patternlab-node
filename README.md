@@ -1,7 +1,8 @@
-# Pattern Lab
 <p align="center">
   <img src='/patternlab.png' height="300" alt="Pattern Lab Logo" />
 </p>
+
+# Pattern Lab
 
 This monorepo contains the core of Pattern Lab / Node and all related engines, UI kits, plugins and utilities. Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
 
