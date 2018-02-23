@@ -5,7 +5,7 @@ const rewire = require('rewire');
 const fs = require('fs-extra');
 var config = require('./util/patternlab-config.json');
 
-var plEngineModule = rewire('../core/lib/patternlab');
+var plEngineModule = rewire('../src/lib/patternlab');
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
 const fsMock = {

@@ -23,11 +23,11 @@ function fakePatternLab() {
   return fpl;
 }
 
-var of = require('../core/lib/object_factory');
-var Pattern = require('../core/lib/object_factory').Pattern;
+var of = require('../src/lib/object_factory');
+var Pattern = require('../src/lib/object_factory').Pattern;
 var path = require('path');
 var pl = fakePatternLab();
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 tap.test('test Pattern initializes correctly', function(test) {

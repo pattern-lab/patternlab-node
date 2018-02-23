@@ -2,8 +2,8 @@
 
 var tap = require('tap');
 var path = require('path');
-var loadPattern = require('../core/lib/loadPattern');
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var loadPattern = require('../src/lib/loadPattern');
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(
   __dirname,
   'files',
@@ -12,7 +12,7 @@ var testPatternsPath = path.resolve(
 var eol = require('os').EOL;
 
 // don't run tests unless underscore is installed
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 if (!engineLoader.underscore) {
   tap.test('Underscore engine not installed, skipping tests', function(test) {
     test.end();
@@ -101,7 +101,7 @@ tap.test('underscore partials can render JSON values', function(test) {
 tap.test(
   'findPartial return the ID of the partial, given a whole partial call',
   function(test) {
-    var engineLoader = require('../core/lib/pattern_engines');
+    var engineLoader = require('../src/lib/pattern_engines');
     var underscoreEngine = engineLoader.underscore;
 
     test.plan(1);

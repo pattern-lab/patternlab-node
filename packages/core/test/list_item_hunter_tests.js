@@ -3,15 +3,15 @@
 const tap = require('tap');
 const path = require('path');
 
-const lih = require('../core/lib/list_item_hunter');
+const lih = require('../src/lib/list_item_hunter');
 const list_item_hunter = new lih();
 const util = require('./util/test_utils.js');
-const loadPattern = require('../core/lib/loadPattern');
+const loadPattern = require('../src/lib/loadPattern');
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 
 const config = require('./util/patternlab-config.json');
-const engineLoader = require('../core/lib/pattern_engines');
+const engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 tap.test(

@@ -4,7 +4,7 @@ const path = require('path');
 const tap = require('tap');
 const rewire = require('rewire');
 
-const exportData = rewire('../core/lib/exportData');
+const exportData = rewire('../src/lib/exportData');
 const util = require('./util/test_utils.js');
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');

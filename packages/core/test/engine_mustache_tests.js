@@ -3,14 +3,14 @@
 
 var tap = require('tap');
 var path = require('path');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var Pattern = require('../src/lib/object_factory').Pattern;
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
 var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 var eol = require('os').EOL;
 var config = require('./util/patternlab-config.json');
 
 // don't run these tests unless mustache is installed
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 if (!engineLoader.mustache) {
   tap.test('Mustache engine not installed, skipping tests.', function(test) {

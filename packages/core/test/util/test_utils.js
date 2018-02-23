@@ -1,6 +1,6 @@
 'use strict';
 
-var PatternGraph = require('./../../core/lib/pattern_graph').PatternGraph;
+var PatternGraph = require('./../../src/lib/pattern_graph').PatternGraph;
 
 module.exports = {
   // fake pattern lab constructor:

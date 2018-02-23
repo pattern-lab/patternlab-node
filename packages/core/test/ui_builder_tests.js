@@ -4,13 +4,13 @@ var tap = require('tap');
 var rewire = require('rewire');
 var _ = require('lodash');
 var eol = require('os').EOL;
-var Pattern = require('../core/lib/object_factory').Pattern;
+var Pattern = require('../src/lib/object_factory').Pattern;
 var extend = require('util')._extend;
-var uiModule = rewire('../core/lib/ui_builder');
+var uiModule = rewire('../src/lib/ui_builder');
 var path = require('path');
 var config = require('./util/patternlab-config.json');
 
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 //set up a global mocks - we don't want to be writing/rendering any files right now

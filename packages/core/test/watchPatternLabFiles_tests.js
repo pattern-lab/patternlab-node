@@ -6,7 +6,7 @@ const rewire = require('rewire');
 const path = require('path');
 
 const util = require('./util/test_utils.js');
-const watchPatternLabFiles = rewire('../core/lib/watchPatternLabFiles');
+const watchPatternLabFiles = rewire('../src/lib/watchPatternLabFiles');
 
 const patterns_dir = './test/files/_patterns';
 

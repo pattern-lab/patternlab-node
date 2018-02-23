@@ -2,8 +2,8 @@
 
 const tap = require('tap');
 
-const addPattern = require('../core/lib/addPattern');
-var Pattern = require('../core/lib/object_factory').Pattern;
+const addPattern = require('../src/lib/addPattern');
+var Pattern = require('../src/lib/object_factory').Pattern;
 const util = require('./util/test_utils.js');
 
 const patterns_dir = './test/files/_patterns';

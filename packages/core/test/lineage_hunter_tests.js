@@ -5,16 +5,16 @@ const fs = require('fs-extra');
 const path = require('path');
 const extend = require('util')._extend;
 
-const lh = require('../core/lib/lineage_hunter');
-const loadPattern = require('../core/lib/loadPattern');
-const of = require('../core/lib/object_factory');
-const Pattern = require('../core/lib/object_factory').Pattern;
-const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+const lh = require('../src/lib/lineage_hunter');
+const loadPattern = require('../src/lib/loadPattern');
+const of = require('../src/lib/object_factory');
+const Pattern = require('../src/lib/object_factory').Pattern;
+const PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
 const config = require('./util/patternlab-config.json');
-const addPattern = require('../core/lib/addPattern');
-const getPartial = require('../core/lib/get');
+const addPattern = require('../src/lib/addPattern');
+const getPartial = require('../src/lib/get');
 
-const engineLoader = require('../core/lib/pattern_engines');
+const engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 const lineage_hunter = new lh();

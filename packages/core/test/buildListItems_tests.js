@@ -4,7 +4,7 @@ const tap = require('tap');
 const rewire = require('rewire');
 
 const listItems = require('./files/_data/listitems.json');
-const buildlistItems = rewire('../core/lib/buildListItems');
+const buildlistItems = rewire('../src/lib/buildListItems');
 
 const _Mock = {
   shuffle: function(list) {

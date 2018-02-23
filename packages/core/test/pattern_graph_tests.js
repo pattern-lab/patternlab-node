@@ -1,13 +1,13 @@
 'use strict';
 
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-var VERSION = require('../core/lib/pattern_graph').PATTERN_GRAPH_VERSION;
-var Pattern = require('../core/lib/object_factory').Pattern;
-var CompileState = require('../core/lib/object_factory').CompileState;
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
+var VERSION = require('../src/lib/pattern_graph').PATTERN_GRAPH_VERSION;
+var Pattern = require('../src/lib/object_factory').Pattern;
+var CompileState = require('../src/lib/object_factory').CompileState;
 var tap = require('tap');
 const posixPath = require('./util/test_utils.js').posixPath;
 var config = require('./util/patternlab-config.json');
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 var patternlab = {

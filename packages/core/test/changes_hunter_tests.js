@@ -3,7 +3,7 @@
 const tap = require('tap');
 const rewire = require('rewire');
 
-const ch = rewire('../core/lib/changes_hunter');
+const ch = rewire('../src/lib/changes_hunter');
 
 const fsMock = {
   statSync: function() {

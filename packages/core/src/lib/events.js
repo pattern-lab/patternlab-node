@@ -32,7 +32,7 @@ const EVENTS = Object.freeze({
    * @desc Emitted before all data is merged prior to a Pattern's render. Global `data.json` is merged with any pattern `.json`. Global `listitems.json` is merged with any pattern `.listitems.json`.
    * @property {object} patternlab - global data store
    * @property {Pattern} pattern - current pattern
-   * @see {@link https://github.com/pattern-lab/patternlab-node/blob/master/core/lib/object_factory.js#L16|Pattern}
+   * @see {@link https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16|Pattern}
    */
   PATTERNLAB_PATTERN_BEFORE_DATA_MERGE: 'patternlab-pattern-before-data-merge',
 
@@ -40,7 +40,7 @@ const EVENTS = Object.freeze({
    * @desc Emitted before a pattern's template, HTML, and encoded HTML files are written to their output location
    * @property {object} patternlab - global data store
    * @property {Pattern} pattern - current pattern
-   * @see {@link https://github.com/pattern-lab/patternlab-node/blob/master/core/lib/object_factory.js#L16|Pattern}
+   * @see {@link https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16|Pattern}
    */
   PATTERNLAB_PATTERN_WRITE_BEGIN: 'patternlab-pattern-write-begin',
 
@@ -48,7 +48,7 @@ const EVENTS = Object.freeze({
    * @desc Emitted after a pattern's template, HTML, and encoded HTML files are written to their output location
    * @property {object} patternlab - global data store
    * @property {Pattern} pattern - current pattern
-   * @see {@link https://github.com/pattern-lab/patternlab-node/blob/master/core/lib/object_factory.js#L16|Pattern}
+   * @see {@link https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16|Pattern}
    */
   PATTERNLAB_PATTERN_WRITE_END: 'patternlab-pattern-write-end',
 

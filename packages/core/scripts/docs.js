@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 // doc
 //   .getJsdocData({
-//     files: './core/lib/events.js',
+//     files: './src/lib/events.js',
 //   })
 //   .then(x => {
 //     console.log(x);
@@ -14,7 +14,7 @@ const fs = require('fs-extra');
 doc
   .render({
     'example-lang': 'javascript',
-    files: path.resolve(process.cwd(), './core/index.js'),
+    files: path.resolve(process.cwd(), './src/index.js'),
     'name-format': 'backticks',
     template: fs.readFileSync('./scripts/api.handlebars', 'utf8'),
   })
@@ -25,7 +25,7 @@ doc
 doc
   .render({
     'example-lang': 'javascript',
-    files: path.resolve(process.cwd(), './core/lib/events.js'),
+    files: path.resolve(process.cwd(), './src/lib/events.js'),
     'name-format': 'backticks',
     template: fs.readFileSync('./scripts/events.handlebars', 'utf8'),
   })

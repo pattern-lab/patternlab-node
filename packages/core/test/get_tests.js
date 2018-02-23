@@ -3,7 +3,7 @@
 const tap = require('tap');
 
 const util = require('./util/test_utils.js');
-const getPartial = require('../core/lib/get');
+const getPartial = require('../src/lib/get');
 
 const patterns_dir = './test/files/_patterns';
 

@@ -4,13 +4,13 @@
 
 var tap = require('tap');
 var path = require('path');
-var loadPattern = require('../core/lib/loadPattern');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var loadPattern = require('../src/lib/loadPattern');
+var Pattern = require('../src/lib/object_factory').Pattern;
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
 var eol = require('os').EOL;
 
 // don't run these tests unless liquid is installed
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 if (!engineLoader.liquid) {
   tap.test('Liquid engine not installed, skipping tests.', function(test) {
     test.end();

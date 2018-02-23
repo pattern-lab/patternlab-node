@@ -2,8 +2,8 @@
 
 var tap = require('tap');
 
-var patternEngines = require('../core/lib/pattern_engines');
-var Pattern = require('../core/lib/object_factory').Pattern;
+var patternEngines = require('../src/lib/pattern_engines');
+var Pattern = require('../src/lib/object_factory').Pattern;
 var config = require('./util/patternlab-config.json');
 
 patternEngines.loadAllEngines(config);

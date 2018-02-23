@@ -1,6 +1,6 @@
 'use strict';
 
-var PatternRegistry = require('./../core/lib/pattern_registry');
+var PatternRegistry = require('./../src/lib/pattern_registry');
 
 var tap = require('tap');
 

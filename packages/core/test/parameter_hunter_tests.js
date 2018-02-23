@@ -4,14 +4,14 @@ const path = require('path');
 const util = require('./util/test_utils.js');
 const tap = require('tap');
 
-const loadPattern = require('../core/lib/loadPattern');
-const ph = require('../core/lib/parameter_hunter');
-const processIterative = require('../core/lib/processIterative');
+const loadPattern = require('../src/lib/loadPattern');
+const ph = require('../src/lib/parameter_hunter');
+const processIterative = require('../src/lib/processIterative');
 
 const parameter_hunter = new ph();
 
 const config = require('./util/patternlab-config.json');
-const engineLoader = require('../core/lib/pattern_engines');
+const engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');

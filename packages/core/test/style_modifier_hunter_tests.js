@@ -2,7 +2,7 @@
 
 var tap = require('tap');
 
-var smh = require('../core/lib/style_modifier_hunter');
+var smh = require('../src/lib/style_modifier_hunter');
 
 tap.test(
   'uses the partial stylemodifer to modify the patterns extendedTemplate',

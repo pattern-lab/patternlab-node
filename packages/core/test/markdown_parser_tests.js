@@ -4,7 +4,7 @@ var tap = require('tap');
 
 var path = require('path');
 var fs = require('fs-extra');
-var mp = require('../core/lib/markdown_parser');
+var mp = require('../src/lib/markdown_parser');
 var markdown_parser = new mp();
 
 tap.test(

@@ -2,14 +2,14 @@
 
 const tap = require('tap');
 
-var loadPattern = require('../core/lib/loadPattern');
-const addPattern = require('../core/lib/addPattern');
-const parseAllLinks = require('../core/lib/parseAllLinks');
+var loadPattern = require('../src/lib/loadPattern');
+const addPattern = require('../src/lib/addPattern');
+const parseAllLinks = require('../src/lib/parseAllLinks');
 
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
+var Pattern = require('../src/lib/object_factory').Pattern;
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
 
-var plMain = require('../core/lib/patternlab');
+var plMain = require('../src/lib/patternlab');
 var config = require('./util/patternlab-config.json');
 
 tap.test(

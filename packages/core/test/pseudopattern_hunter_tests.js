@@ -3,15 +3,15 @@
 var tap = require('tap');
 
 var path = require('path');
-var pph = require('../core/lib/pseudopattern_hunter');
+var pph = require('../src/lib/pseudopattern_hunter');
 
-var loadPattern = require('../core/lib/loadPattern');
-var Pattern = require('../core/lib/object_factory').Pattern;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-const addPattern = require('../core/lib/addPattern');
+var loadPattern = require('../src/lib/loadPattern');
+var Pattern = require('../src/lib/object_factory').Pattern;
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
+const addPattern = require('../src/lib/addPattern');
 
 var config = require('./util/patternlab-config.json');
-var engineLoader = require('../core/lib/pattern_engines');
+var engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 var fs = require('fs-extra');

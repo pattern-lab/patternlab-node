@@ -6,11 +6,11 @@ const path = require('path');
 const eol = require('os').EOL;
 
 const util = require('./util/test_utils.js');
-const loadPattern = require('../core/lib/loadPattern');
-const Pattern = require('../core/lib/object_factory').Pattern;
-const PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-const processIterative = require('../core/lib/processIterative');
-const processRecursive = require('../core/lib/processRecursive');
+const loadPattern = require('../src/lib/loadPattern');
+const Pattern = require('../src/lib/object_factory').Pattern;
+const PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
+const processIterative = require('../src/lib/processIterative');
+const processRecursive = require('../src/lib/processRecursive');
 
 const testPatternsPath = path.resolve(
   __dirname,
@@ -19,7 +19,7 @@ const testPatternsPath = path.resolve(
 );
 
 const config = require('./util/patternlab-config.json');
-const engineLoader = require('../core/lib/pattern_engines');
+const engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 // don't run these tests unless handlebars is installed

@@ -3,9 +3,9 @@
 const path = require('path');
 const tap = require('tap');
 
-const loadPattern = require('../core/lib/loadPattern');
+const loadPattern = require('../src/lib/loadPattern');
 const util = require('./util/test_utils.js');
-const patternEngines = require('../core/lib/pattern_engines');
+const patternEngines = require('../src/lib/pattern_engines');
 var config = require('./util/patternlab-config.json');
 
 patternEngines.loadAllEngines(config);

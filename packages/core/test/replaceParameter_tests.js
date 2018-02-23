@@ -4,7 +4,7 @@ const path = require('path');
 const util = require('./util/test_utils.js');
 const tap = require('tap');
 
-const replaceParameter = require('../core/lib/replaceParameter');
+const replaceParameter = require('../src/lib/replaceParameter');
 
 tap.test('replaces simple value', function(test) {
   const result = replaceParameter('{{key}}', 'key', 'value');

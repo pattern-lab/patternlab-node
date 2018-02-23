@@ -1,0 +1,378 @@
+{
+  "version": 1,
+  "timestamp": 1519414631169,
+  "graph": {
+    "options": { "directed": true, "multigraph": false, "compound": false },
+    "nodes": [
+      {
+        "v": "00-test/00-foo.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-14-inception/00-test-14-inception.rendered.html",
+          "lineagePattern": "test-inception"
+        }
+      },
+      {
+        "v": "00-test/01-bar.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineageState": "inreview",
+          "lineagePath":
+            "../../patterns/00-test-00-foo/00-test-00-foo.rendered.html",
+          "lineagePattern": "test-foo"
+        }
+      },
+      { "v": "00-test/02-baz.mustache", "value": { "compileState": "clean" } },
+      {
+        "v": "00-test/03-styled-atom.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-474-pseudomodifier/00-test-474-pseudomodifier.rendered.html",
+          "lineagePattern": "test-pseudomodifier"
+        }
+      },
+      {
+        "v": "00-test/04-group.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/05-group2.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/06-mixed.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/07-mixed-params.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/08-bookend-params.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/09-bookend.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/10-multiple-classes-numeric.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/11-bookend-listitem.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/12-another-styled-atom.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/13-listitem.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/15-hidden-pattern-tester.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/474-pseudomodifier.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/14-inception.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/539-a.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-539-b/00-test-539-b.rendered.html",
+          "lineagePattern": "test-b"
+        }
+      },
+      {
+        "v": "00-test/539-b.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-539-c/00-test-539-c.rendered.html",
+          "lineagePattern": "test-c"
+        }
+      },
+      { "v": "00-test/539-c.mustache", "value": { "compileState": "clean" } },
+      {
+        "v": "00-test/553-repeatedListItems.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/685-list.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/_00-hidden-pattern.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-15-hidden-pattern-tester/00-test-15-hidden-pattern-tester.rendered.html",
+          "lineagePattern": "test-hidden-pattern-tester"
+        }
+      },
+      {
+        "v": "00-test/_ignored-pattern.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/comment-tag.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-parameterTags/00-test-parameterTags.rendered.html",
+          "lineagePattern": "test-parameterTags"
+        }
+      },
+      {
+        "v": "00-test/comment.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-sticky-comment/00-test-sticky-comment.rendered.html",
+          "lineagePattern": "test-sticky-comment"
+        }
+      },
+      {
+        "v": "00-test/link.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-paramMiddle/00-test-paramMiddle.rendered.html",
+          "lineagePattern": "test-paramMiddle"
+        }
+      },
+      {
+        "v": "00-test/linkInParameter.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/mirror.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-listWithListItems/00-test-listWithListItems.rendered.html",
+          "lineagePattern": "test-listWithListItems"
+        }
+      },
+      {
+        "v": "00-test/listWithListItems.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/listWithPartial.mustache",
+        "value": { "compileState": "clean" }
+      },
+      { "v": "00-test/nav.mustache", "value": { "compileState": "clean" } },
+      {
+        "v": "00-test/paramMiddle.mustache",
+        "value": {
+          "compileState": "clean",
+          "lineagePath":
+            "../../patterns/00-test-paramParent/00-test-paramParent.rendered.html",
+          "lineagePattern": "test-paramParent"
+        }
+      },
+      {
+        "v": "00-test/paramParent.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/parameterTags.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/sticky-comment-verbose.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/sticky-comment.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "patternType1/patternSubType1/blue.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "patternType1/patternSubType1/yellow.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "patternType1/patternSubType1/red.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "patternType1/patternSubType2/black.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "patternType1/patternSubType2/grey.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "patternType1/patternSubType2/white.mustache",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/03-styled-atom~alt.json",
+        "value": { "compileState": "clean" }
+      },
+      {
+        "v": "00-test/474-pseudomodifier~test.json",
+        "value": { "compileState": "clean" }
+      }
+    ],
+    "edges": [
+      {
+        "v": "00-test/03-styled-atom~alt.json",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/474-pseudomodifier~test.json",
+        "w": "00-test/474-pseudomodifier.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/474-pseudomodifier~test.json",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/00-foo.mustache",
+        "w": "00-test/01-bar.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/04-group.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/05-group2.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/06-mixed.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/07-mixed-params.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/09-bookend.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/08-bookend-params.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/10-multiple-classes-numeric.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/11-bookend-listitem.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/12-another-styled-atom.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/13-listitem.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/14-inception.mustache",
+        "w": "00-test/00-foo.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/15-hidden-pattern-tester.mustache",
+        "w": "00-test/_00-hidden-pattern.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/474-pseudomodifier.mustache",
+        "w": "00-test/03-styled-atom.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/539-b.mustache",
+        "w": "00-test/539-a.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/539-c.mustache",
+        "w": "00-test/539-b.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/linkInParameter.mustache",
+        "w": "00-test/link.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/listWithListItems.mustache",
+        "w": "00-test/mirror.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/listWithPartial.mustache",
+        "w": "00-test/comment.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/nav.mustache",
+        "w": "00-test/link.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/paramMiddle.mustache",
+        "w": "00-test/link.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/paramParent.mustache",
+        "w": "00-test/paramMiddle.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/parameterTags.mustache",
+        "w": "00-test/comment-tag.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/sticky-comment-verbose.mustache",
+        "w": "00-test/comment.mustache",
+        "value": {}
+      },
+      {
+        "v": "00-test/sticky-comment.mustache",
+        "w": "00-test/comment.mustache",
+        "value": {}
+      }
+    ]
+  }
+}

@@ -4,11 +4,11 @@ const tap = require('tap');
 const path = require('path');
 
 const util = require('./util/test_utils.js');
-const buildListItems = require('../core/lib/buildListItems');
-const loadPattern = require('../core/lib/loadPattern');
-const engineLoader = require('../core/lib/pattern_engines');
-const processRecursive = require('../core/lib/processRecursive');
-const processIterative = require('../core/lib/processIterative');
+const buildListItems = require('../src/lib/buildListItems');
+const loadPattern = require('../src/lib/loadPattern');
+const engineLoader = require('../src/lib/pattern_engines');
+const processRecursive = require('../src/lib/processRecursive');
+const processIterative = require('../src/lib/processIterative');
 
 var config = require('./util/patternlab-config.json');
 

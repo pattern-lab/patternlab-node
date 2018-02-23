@@ -2,10 +2,10 @@ const tap = require('tap');
 const rewire = require('rewire');
 const _ = require('lodash');
 const fs = require('fs-extra');
-const get = require('../core/lib/get');
+const get = require('../src/lib/get');
 
 const util = require('./util/test_utils.js');
-const entry = rewire('../core/index');
+const entry = rewire('../src/index');
 const defaultConfig = require('../patternlab-config.json');
 var testConfig = require('./util/patternlab-config.json');
 

@@ -3,12 +3,12 @@
 var tap = require('tap');
 var rewire = require('rewire');
 
-var Pattern = require('../core/lib/object_factory').Pattern;
-var CompileState = require('../core/lib/object_factory').CompileState;
-var PatternGraph = require('../core/lib/pattern_graph').PatternGraph;
-var engineLoader = require('../core/lib/pattern_engines');
+var Pattern = require('../src/lib/object_factory').Pattern;
+var CompileState = require('../src/lib/object_factory').CompileState;
+var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
+var engineLoader = require('../src/lib/pattern_engines');
 
-const markModifiedPatterns = rewire('../core/lib/markModifiedPatterns');
+const markModifiedPatterns = rewire('../src/lib/markModifiedPatterns');
 
 const config = require('./util/patternlab-config.json');
 
