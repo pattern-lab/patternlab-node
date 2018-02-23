@@ -1,11 +1,12 @@
 {
-  "name": "@pattern-lab/patternlab-node",
-  "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
+  "name": "@pattern-lab/core",
+  "description":
+    "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
   "version": "3.0.0-alpha.8",
   "main": "./core/index.js",
   "dependencies": {
     "@pattern-lab/live-server": "^1.3.2",
-    "@pattern-lab/patternengine-node-mustache": "^2.0.0-alpha.2",
+    "@pattern-lab/engine-mustache": "^2.0.0-alpha.2",
     "chalk": "^1.1.3",
     "chokidar": "^1.7.0",
     "dive": "^0.5.0",
@@ -21,8 +22,8 @@
     "update-notifier": "^2.2.0"
   },
   "devDependencies": {
-    "@pattern-lab/patternengine-node-handlebars": "^2.0.0-alpha.2",
-    "@pattern-lab/patternengine-node-underscore": "^2.0.0-alpha.1",
+    "@pattern-lab/engine-handlebars": "^2.0.0-alpha.2",
+    "@pattern-lab/engine-underscore": "^2.0.0-alpha.1",
     "eslint": "3.5.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.5.0",

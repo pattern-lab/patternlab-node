@@ -1,13 +1,12 @@
 {
-  "name": "patternengine-node-mustache",
+  "name": "@pattern-lab/engine-mustache",
   "description": "The Mustache engine for Pattern Lab / Node",
   "version": "1.0.2",
   "main": "lib/engine_mustache.js",
   "dependencies": {
     "mustache": "^2.2.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",

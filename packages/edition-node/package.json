@@ -1,20 +1,15 @@
 {
   "name": "@pattern-lab/edition-node",
-  "description": "A pure wrapper around patternlab-node core, the default pattern engine, and supporting frontend assets.",
+  "description":
+    "A pure wrapper around patternlab-node core, the default pattern engine, and supporting frontend assets.",
   "version": "1.0.0-alpha.2",
   "main": "patternlab-config.json",
   "dependencies": {
-    "@pattern-lab/patternengine-node-mustache": "^2.0.0-alpha.1",
-    "@pattern-lab/patternlab-node": "^3.0.0-alpha.5",
-    "@pattern-lab/styleguidekit-assets-default": "^4.0.0-alpha.2",
-    "@pattern-lab/styleguidekit-mustache-default": "^4.0.0-alpha.1"
+    "@pattern-lab/engine-mustache": "^2.0.0-alpha.1",
+    "@pattern-lab/core": "^3.0.0-alpha.5",
+    "@pattern-lab/uikit-workshop": "^1.0.0-alpha.1"
   },
-  "keywords": [
-    "Pattern Lab",
-    "Atomic Web Design",
-    "Node",
-    "Javascript"
-  ],
+  "keywords": ["Pattern Lab", "Atomic Web Design", "Node", "Javascript"],
   "repository": {
     "type": "git",
     "url": "git://github.com/pattern-lab/edition-node.git"

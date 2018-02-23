@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * underscore pattern engine for patternlab-node - v0.15.1 - 2015
@@ -9,7 +9,6 @@
  * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
  *
  */
-
 
 /*
  * ENGINE SUPPORT LEVEL:
@@ -44,7 +43,6 @@ var errorStyling = `
 </style>
 `;
 
-
 // extend underscore with partial-ing methods and other necessary tooling
 // HANDLESCORE! UNDERBARS!
 
@@ -53,36 +51,41 @@ function addParentContext(data, currentContext) {
 }
 
 _.mixin({
-  renderNamedPartial: function (partialKey, data, currentContext) {
+  renderNamedPartial: function(partialKey, data, currentContext) {
     var compiledPartial = partialRegistry[partialKey];
-    if (typeof compiledPartial !== 'function') { throw `Pattern ${partialKey} not found.`; }
+    if (typeof compiledPartial !== 'function') {
+      throw `Pattern ${partialKey} not found.`;
+    }
 
     return _.renderPartial(compiledPartial, data, currentContext);
   },
-  renderPartial: function (compiledPartial, dataIn, currentContext) {
+  renderPartial: function(compiledPartial, dataIn, currentContext) {
     var data = dataIn || {};
 
-    if (dataIn && currentContext &&
-        dataIn instanceof Object && currentContext instanceof Object) {
+    if (
+      dataIn &&
+      currentContext &&
+      dataIn instanceof Object &&
+      currentContext instanceof Object
+    ) {
       data = addParentContext(data, currentContext);
     }
 
     return compiledPartial(data);
   },
   /* eslint-disable no-eval, no-unused-vars */
-  getPath: function (pathString, currentContext, debug) {
+  getPath: function(pathString, currentContext, debug) {
     try {
       var result = eval('currentContext.' + pathString);
       if (debug) {
-        console.log("getPath result = ", result);
+        console.log('getPath result = ', result);
       }
       return result;
     } catch (e) {
       return null;
     }
-  }
+  },
 });
-
 
 var engine_underscore = {
   engine: _,
@@ -105,7 +108,11 @@ var engine_underscore = {
     try {
       compiled = partialRegistry[pattern.patternPartial];
     } catch (e) {
-      console.log(`Error looking up underscore template ${pattern.patternName}:`, pattern.extendedTemplate, e);
+      console.log(
+        `Error looking up underscore template ${pattern.patternName}:`,
+        pattern.extendedTemplate,
+        e
+      );
     }
 
     // This try-catch is necessary because references to undefined variables
@@ -113,12 +120,16 @@ var engine_underscore = {
     // such will throw very real exceptions that will shatter the whole build
     // process if we don't handle them.
     try {
-      renderedHTML = compiled(_.extend(data || {}, {
-        _allData: data,
-        _partials: partials
-      }));
+      renderedHTML = compiled(
+        _.extend(data || {}, {
+          _allData: data,
+          _partials: partials,
+        })
+      );
     } catch (e) {
-      var errorMessage = `Error rendering underscore pattern "${pattern.patternName}" (${pattern.relPath}): [${e.toString()}]`;
+      var errorMessage = `Error rendering underscore pattern "${
+        pattern.patternName
+      }" (${pattern.relPath}): [${e.toString()}]`;
       console.log(errorMessage);
       renderedHTML = `${errorStyling} <div class="plError">
 <h1>Error rendering underscore pattern "${pattern.patternName}"</h1>
@@ -134,14 +145,18 @@ var engine_underscore = {
     return renderedHTML;
   },
 
-  registerPartial: function (pattern) {
+  registerPartial: function(pattern) {
     var compiled;
 
     try {
       var templateString = pattern.extendedTemplate || pattern.template;
       compiled = _.template(templateString);
     } catch (e) {
-      console.log(`Error compiling underscore template ${pattern.patternName}:`, pattern.extendedTemplate, e);
+      console.log(
+        `Error compiling underscore template ${pattern.patternName}:`,
+        pattern.extendedTemplate,
+        e
+      );
     }
     partialRegistry[pattern.patternPartial] = compiled;
   },
@@ -151,23 +166,23 @@ var engine_underscore = {
     var matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function () {
+  findPartialsWithStyleModifiers: function() {
     return [];
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function () {
+  findPartialsWithPatternParameters: function() {
     return [];
   },
-  findListItems: function (pattern) {
+  findListItems: function(pattern) {
     var matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function (partialString) {
+  findPartial: function(partialString) {
     var edgeQuotesMatcher = /^["']|["']$/g;
     var partialIDWithQuotes = partialString.replace(this.findPartialsRE, '$1');
     var partialID = partialIDWithQuotes.replace(edgeQuotesMatcher, '');
@@ -175,32 +190,33 @@ var engine_underscore = {
     return partialID;
   },
 
-  spawnFile: function (config, fileName) {
+  spawnFile: function(config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
       fs.statSync(metaFilePath);
     } catch (err) {
-
       //not a file, so spawn it from the included file
       const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
-      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      const metaFileContent = fs.readFileSync(
+        path.resolve(__dirname, '..', '_meta/', fileName),
+        'utf8'
+      );
       fs.outputFileSync(metaFilePath, metaFileContent);
     }
   },
 
   /**
-  * Checks to see if the _meta directory has engine-specific head and foot files,
-  * spawning them if not found.
-  *
-  * @param {object} config - the global config object from core, since we won't
-  * assume it's already present
-  */
-  spawnMeta: function (config) {
+   * Checks to see if the _meta directory has engine-specific head and foot files,
+   * spawning them if not found.
+   *
+   * @param {object} config - the global config object from core, since we won't
+   * assume it's already present
+   */
+  spawnMeta: function(config) {
     this.spawnFile(config, '_00-head.html');
     this.spawnFile(config, '_01-foot.html');
-  }
-
+  },
 };
 
 module.exports = engine_underscore;

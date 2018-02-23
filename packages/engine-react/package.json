@@ -1,5 +1,5 @@
 {
-  "name": "patternengine-node-react",
+  "name": "@pattern-lab/engine-react",
   "description": "The React engine for Pattern Lab / Node",
   "version": "0.1.0",
   "main": "lib/engine_react.js",
