@@ -1,7 +1,12 @@
 {
   "env": {
     "node": true,
-    "builtin": true
+    "builtin": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
   },
   "globals": {},
   "rules": {
@@ -67,7 +72,7 @@
     "no-with": 2,
     "quotes": [0, "single"],
     "radix": 2,
-    "semi": [0, "never"],
+    "semi": [1, "always"],
     "strict": 0,
     "space-before-blocks": 1,
     "space-before-function-paren": [1, {
@@ -78,6 +83,10 @@
     "space-infix-ops": 1,
     "valid-typeof": 2,
     "vars-on-top": 0,
-    "wrap-iife": [2, "inside"]
+    "wrap-iife": [2, "inside"],
+    "prefer-const": ["error", {
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": false
+      }]
   }
 }

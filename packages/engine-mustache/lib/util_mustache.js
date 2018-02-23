@@ -13,7 +13,9 @@
 // the term "alphanumeric" includes underscores.
 
 // todo: document this exact regex long form.
-var partialsRE = new RegExp(/{{>\s*?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(?:| )\(.*)?(?:\s*)?}}/g);
+var partialsRE = new RegExp(
+  /{{>\s*?([\w\-\.\/~]+)(?:\:[A-Za-z0-9-_|]+)?(?:(?:| )\(.*)?(?:\s*)?}}/g
+);
 
 // look for an opening mustache include tag, followed by >=0 whitespaces
 var partialsWithStyleModifiersStr = '{{>\\s*';
@@ -36,7 +38,10 @@ partialsWithStyleModifiersStr += '(\\s*\\([^\\)]*\\))?';
 
 // look for >=0 whitespaces, followed by closing mustache tag
 partialsWithStyleModifiersStr += '\\s*}}';
-var partialsWithStyleModifiersRE = new RegExp(partialsWithStyleModifiersStr, 'g');
+var partialsWithStyleModifiersRE = new RegExp(
+  partialsWithStyleModifiersStr,
+  'g'
+);
 
 // look for an opening mustache include tag, followed by >=0 whitespaces
 var partialsWithPatternParametersStr = '{{>\\s*';
@@ -57,7 +62,10 @@ partialsWithPatternParametersStr += '(\\s*\\([^\\)]*\\))';
 
 // look for >=0 whitespaces, followed by closing mustache tag
 partialsWithPatternParametersStr += '\\s*}}';
-var partialsWithPatternParametersRE = new RegExp(partialsWithPatternParametersStr, 'g');
+var partialsWithPatternParametersRE = new RegExp(
+  partialsWithPatternParametersStr,
+  'g'
+);
 
 // look for an opening mustache loop tag, followed by >=0 whitespaces
 var listItemsStr = '{{#\\s*';
@@ -66,7 +74,8 @@ var listItemsStr = '{{#\\s*';
 listItemsStr += '(list(I|i)tems\\.)';
 
 // look for a number 1 - 20, spelled out
-listItemsStr += '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)';
+listItemsStr +=
+  '(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)';
 
 // look for >=0 whitespaces, followed by closing mustache tag
 listItemsStr += '\\s*}}';
@@ -83,10 +92,6 @@ partialKeyStr += '([\\w\\-\\.\\/~]+)';
 // alphanumerics, hyphens, or pipes
 partialKeyStr += '(\\:[\\w\\-|]+)?';
 
-// an optional group of characters starting with a colon, followed by >0
-// alphanumerics or hyphens
-partialKeyStr += '(\\:[\\w\\-]+)?';
-
 // an optional group of characters starting with >=0 whitespaces, followed by
 // an opening parenthesis, followed by any number of characters that are not
 // closing parentheses, followed by a closing parenthesis
@@ -101,7 +106,7 @@ var utilMustache = {
   partialsWithStyleModifiersRE: partialsWithStyleModifiersRE,
   partialsWithPatternParametersRE: partialsWithPatternParametersRE,
   listItemsRE: listItemsRE,
-  partialKeyRE: partialKeyRE
+  partialKeyRE: partialKeyRE,
 };
 
 module.exports = utilMustache;
