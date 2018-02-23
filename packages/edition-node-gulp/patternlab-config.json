@@ -1,6 +1,6 @@
 {
   "cacheBust": true,
-  "cleanPublic" : true,
+  "cleanPublic": true,
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {
@@ -31,36 +31,41 @@
     "rawTemplate": "",
     "markupOnly": ".markup-only"
   },
-  "paths" : {
-    "source" : {
+  "paths": {
+    "source": {
       "root": "./source/",
-      "patterns" : "./source/_patterns/",
-      "data" : "./source/_data/",
+      "patterns": "./source/_patterns/",
+      "data": "./source/_data/",
       "meta": "./source/_meta/",
-      "annotations" : "./source/_annotations/",
-      "styleguide" : "./node_modules/@pattern-lab/uikit-default/dist/",
-      "patternlabFiles" : {
-        "general-header": "./node_modules/@pattern-lab/uikit-default/views/partials/general-header.mustache",
-        "general-footer": "./node_modules/@pattern-lab/uikit-default/views/partials/general-footer.mustache",
-        "patternSection": "./node_modules/@pattern-lab/uikit-default/views/partials/patternSection.mustache",
-        "patternSectionSubtype": "./node_modules/@pattern-lab/uikit-default/views/partials/patternSectionSubtype.mustache",
-        "viewall": "./node_modules/@pattern-lab/uikit-default/views/viewall.mustache"
+      "annotations": "./source/_annotations/",
+      "styleguide": "./node_modules/@pattern-lab/uikit-workshop/dist/",
+      "patternlabFiles": {
+        "general-header":
+          "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-header.mustache",
+        "general-footer":
+          "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-footer.mustache",
+        "patternSection":
+          "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSection.mustache",
+        "patternSectionSubtype":
+          "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubtype.mustache",
+        "viewall":
+          "./node_modules/@pattern-lab/uikit-workshop/views/viewall.mustache"
       },
-      "js" : "./source/js",
-      "images" : "./source/images",
-      "fonts" : "./source/fonts",
-      "css" : "./source/css"
+      "js": "./source/js",
+      "images": "./source/images",
+      "fonts": "./source/fonts",
+      "css": "./source/css"
     },
-    "public" : {
-      "root" : "./public/",
-      "patterns" : "./public/patterns/",
-      "data" : "./public/styleguide/data/",
-      "annotations" : "./public/annotations/",
-      "styleguide" : "./public/styleguide/",
-      "js" : "./public/js",
-      "images" : "./public/images",
-      "fonts" : "./public/fonts",
-      "css" : "./public/css"
+    "public": {
+      "root": "./public/",
+      "patterns": "./public/patterns/",
+      "data": "./public/styleguide/data/",
+      "annotations": "./public/annotations/",
+      "styleguide": "./public/styleguide/",
+      "js": "./public/js",
+      "images": "./public/images",
+      "fonts": "./public/fonts",
+      "css": "./public/css"
     }
   },
   "patternExtension": "mustache",
@@ -71,8 +76,7 @@
     "wait": 1000
   },
   "starterkitSubDir": "dist",
-  "styleGuideExcludes": [
-  ],
+  "styleGuideExcludes": [],
   "theme": {
     "color": "dark",
     "density": "compact",

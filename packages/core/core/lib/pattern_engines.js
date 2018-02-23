@@ -1,8 +1,8 @@
-// special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible!
+// special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible! aww thanks :)
 'use strict';
 const { existsSync, lstatSync, readdirSync } = require('fs');
 const path = require('path');
-const engineMatcher = /^patternengine-node-(.*)$/;
+const engineMatcher = /^engine-(.*)$/;
 const scopeMatch = /^@(.*)$/;
 const isDir = fPath => {
   const stats = lstatSync(fPath);

@@ -6,7 +6,7 @@
   "main": "patternlab-config.json",
   "dependencies": {
     "@pattern-lab/engine-mustache": "^2.0.0-alpha.1",
-    "@pattern-lab/core": "^3.0.0-alpha.5",
+    "@pattern-lab/core": "^3.0.0-alpha.8",
     "@pattern-lab/uikit-workshop": "^1.0.0-alpha.1"
   },
   "keywords": ["Pattern Lab", "Atomic Web Design", "Node", "Javascript"],

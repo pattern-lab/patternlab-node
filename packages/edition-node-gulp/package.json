@@ -7,7 +7,7 @@
   "dependencies": {
     "@pattern-lab/engine-mustache": "^2.0.0-alpha.1",
     "@pattern-lab/core": "^3.0.0-alpha.8",
-    "@pattern-lab/uikit-default": "1.0.0-alpha.1",
+    "@pattern-lab/uikit-workshop": "1.0.0-alpha.1",
     "gulp": "^3.9.1",
     "minimist": "^1.2.0"
   },
