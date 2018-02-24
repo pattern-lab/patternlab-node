@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "0.0.1-alpha.11",
+  "version": "0.0.1-alpha.12",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
@@ -21,25 +21,31 @@
     "has-yarn": "1.0.0",
     "inquirer": "5.1.0",
     "lodash": "4.17.5",
-    "ora": "1.4.0",
+    "ora": "2.0.0",
     "path-exists": "3.0.0",
     "patternlab-node": "2.12.0",
     "sanitize-filename": "1.6.1"
   },
   "devDependencies": {
-    "eslint": "4.17.0",
+    "eslint": "4.18.1",
     "proxyquire": "1.8.0",
-    "tap": "11.1.0"
+    "tap": "11.1.1"
   },
-  "files": ["bin"],
-  "keywords": ["Pattern Lab", "Atomic Web Design", "Node", "JavaScript"],
+  "files": [
+    "bin"
+  ],
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "JavaScript"
+  ],
   "scripts": {
     "lint": "eslint ./{bin,test}",
     "test": "tap './test/*.test.js' --reporter spec --timeout=120",
-    "pretest": "yarn run lint && yarn install"
+    "pretest": "npm run lint && npm install"
   },
-  "repository":
-    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli",
+  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "license": "MIT",
   "engines": {

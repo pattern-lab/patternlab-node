@@ -3,9 +3,9 @@ node_js:
   - node
   - 6
 before_script:
-  - yarn add edition-node
-  - yarn add starterkit-mustache-base
-  - yarn add eslint
+  - npm install edition-node
+  - npm install starterkit-mustache-base
+  - npm install eslint
 branches:
   only:
     - master
