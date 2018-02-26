@@ -20,7 +20,8 @@
 
 "use strict";
 
-var path = require('path'),
+var fs = require('fs-extra'),
+  path = require('path'),
   plPath = process.cwd(),
   plConfig = require(path.join(plPath, 'patternlab-config.json')),
   nunjucks = require('nunjucks'),
@@ -36,10 +37,7 @@ try {
   if (typeof nunjucksConfig == 'function') {
     nunjucksConfig(nunjucks, env);
   }
-}
-catch (err) {
-  console.log('Cannot find module \'patternlab-nunjucks-config.js\'');
-}
+} catch (err) { }
 
 
 ////////////////////////////
@@ -76,7 +74,7 @@ var engine_nunjucks = {
       // replace pattern names with their full path so Nunjucks can find them.
       pattern.extendedTemplate = this.replacePartials(pattern);
       var result = nunjucks.renderString(pattern.extendedTemplate, data);
-      return result;
+      return Promise.resolve(result);
     }
     catch (err) {
       console.error('Failed to render pattern: ' + pattern.name);
@@ -141,6 +139,32 @@ var engine_nunjucks = {
   // handled by nunjucks. This is here to keep PL from erroring
   findPartialsWithPatternParameters: function () {
     return null;
+  },
+
+  spawnFile: function (config, fileName) {
+    const paths = config.paths;
+    const metaFilePath = path.resolve(paths.source.meta, fileName);
+    try {
+      fs.statSync(metaFilePath);
+    } catch (err) {
+
+      //not a file, so spawn it from the included file
+      const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      fs.outputFileSync(metaFilePath, metaFileContent);
+    }
+  },
+
+  /**
+   * Checks to see if the _meta directory has engine-specific head and foot files,
+   * spawning them if not found.
+   *
+   * @param {object} config - the global config object from core, since we won't
+   * assume it's already present
+   */
+  spawnMeta: function (config) {
+    this.spawnFile(config, '_00-head.njk');
+    this.spawnFile(config, '_01-foot.njk');
   }
 };
 

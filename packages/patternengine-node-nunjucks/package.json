@@ -30,6 +30,7 @@
   "deprecated": false,
   "description": "The nunjucks engine for Pattern Lab / Node",
   "dependencies": {
+    "fs-extra": "^5.0.0",
     "nunjucks": "^3.0.1"
   },
   "devDependencies": {},
@@ -51,5 +52,5 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
