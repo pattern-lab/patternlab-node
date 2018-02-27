@@ -3,7 +3,7 @@
 var tap = require('tap');
 
 var extend = require('util')._extend;
-var anPath = './test/files/';
+var anPath = `${__dirname}/files/`;
 
 function createFakePatternLab(anPath, customProps) {
   var pl = {

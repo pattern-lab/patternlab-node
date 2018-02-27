@@ -10,7 +10,7 @@ var config = require('./util/patternlab-config.json');
 
 patternEngines.loadAllEngines(config);
 
-const patterns_dir = './test/files/_patterns';
+const patterns_dir = `${__dirname}/files/_patterns`;
 
 tap.test('loadPattern - returns null if file is not a pattern', function(test) {
   //arrange

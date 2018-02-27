@@ -14,7 +14,7 @@ var patternlab = {
   config: {
     paths: {
       public: {
-        root: './test/public',
+        root: `${__dirname}/public`,
       },
     },
   },

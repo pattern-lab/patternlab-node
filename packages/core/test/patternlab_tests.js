@@ -31,7 +31,7 @@ plEngineModule.__set__({
 tap.test(
   'buildPatternData - should merge all JSON files in the data folder except listitems',
   function(test) {
-    var data_dir = './test/files/_data/';
+    const data_dir = `${__dirname}/files/_data/`;
 
     var pl = new plEngineModule(config);
     var dataResult = pl.buildPatternData(data_dir, fs);
@@ -45,7 +45,7 @@ tap.test(
 tap.test('buildPatternData - can load json, yaml, and yml files', function(
   test
 ) {
-  const data_dir = './test/files/_data/';
+  const data_dir = `${__dirname}/files/_data/`;
 
   var pl = new plEngineModule(config);
   var dataResult = pl.buildPatternData(data_dir, fs);

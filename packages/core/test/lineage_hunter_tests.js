@@ -28,7 +28,7 @@ function createFakeEmptyErrorPattern() {
 }
 
 function createBasePatternLabObject() {
-  var patterns_dir = './test/files/_patterns/';
+  var patterns_dir = `${__dirname}/files/_patterns/`;
   var pl = {};
   (pl.graph = PatternGraph.empty()),
     (pl.config = {
@@ -37,7 +37,7 @@ function createBasePatternLabObject() {
           patterns: patterns_dir,
         },
         public: {
-          patterns: './test/public/_patterns',
+          patterns: `${__dirname}/public/_patterns`,
         },
       },
       outputFileSuffixes: {

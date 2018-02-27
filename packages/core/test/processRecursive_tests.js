@@ -14,7 +14,7 @@ var config = require('./util/patternlab-config.json');
 
 engineLoader.loadAllEngines(config);
 
-const patterns_dir = './test/files/_patterns';
+const patterns_dir = `${__dirname}/files/_patterns`;
 
 tap.test('processRecursive recursively includes partials', function(test) {
   //assert

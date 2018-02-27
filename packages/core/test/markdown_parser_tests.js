@@ -12,7 +12,7 @@ tap.test(
   function(test) {
     //arrange
     var markdownFileName = path.resolve(
-      './test/files/_patterns/00-test/02-baz.md'
+      `${__dirname}/files/_patterns/00-test/02-baz.md`
     );
     var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
@@ -30,7 +30,7 @@ tap.test(
   function(test) {
     //arrange
     var markdownFileName = path.resolve(
-      './test/files/_patterns/00-test/01-bar.md'
+      `${__dirname}/files/_patterns/00-test/01-bar.md`
     );
     var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
@@ -50,7 +50,7 @@ tap.test(
 tap.test('parses frontmatter only when no markdown present', function(test) {
   //arrange
   var markdownFileName = path.resolve(
-    './test/files/_patterns/00-test/03-styled-atom.md'
+    `${__dirname}/files/_patterns/00-test/03-styled-atom.md`
   );
   var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 

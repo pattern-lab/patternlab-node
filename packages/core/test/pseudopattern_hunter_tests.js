@@ -15,8 +15,8 @@ var engineLoader = require('../src/lib/pattern_engines');
 engineLoader.loadAllEngines(config);
 
 var fs = require('fs-extra');
-var patterns_dir = './test/files/_patterns/';
-var public_patterns_dir = './test/public/patterns';
+var patterns_dir = `${__dirname}/files/_patterns/`;
+var public_patterns_dir = `${__dirname}/test/public/patterns`;
 
 function stubPatternlab() {
   var pl = {};

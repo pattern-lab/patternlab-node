@@ -213,16 +213,12 @@ module.exports = class PatternLab {
         'utf8'
       );
     } catch (ex) {
-      logger.info(ex);
+      logger.error(ex);
       logger.error(
         '\nERROR: missing an essential file from ' +
           paths.source.patternlabFiles +
           ". Pattern Lab won't work without this file.\n"
       );
-
-      // GTP: it seems increasingly naughty as we refactor to just unilaterally do this here,
-      // but whatever. For now.
-      process.exit(1);
     }
 
     this.data = Object.assign({}, this.data, additionalData);
