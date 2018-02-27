@@ -1,0 +1,107 @@
+/*------------------------------------*\
+    #PATTERN LAB STYLES
+\*------------------------------------*/
+
+/**
+* NOTES:
+* 1) These styles are specific to Pattern Lab and should not be modified.
+* All project styles should be modified in /source/css/
+*
+* 2) Any !important declarations are to prevent brand styles from overriding
+* pattern lab-specific styles
+*/
+
+/*------------------------------------*\
+    #TABLE OF CONTENTS
+\*------------------------------------*/
+/**
+ * ABSTRACTS.................Variables
+ * BASE......................Reset & Base elements
+ * COMPONENTS................Components
+ * UTILITIES.................Helper classes
+ * VENDOR....................Styles out of PL control
+ */
+
+/*------------------------------------*\
+    #ABSTRACTS
+\*------------------------------------*/
+@import "scss/abstracts/variables";
+@import "scss/abstracts/mixins";
+
+
+
+
+
+/*------------------------------------*\
+    #BASE
+\*------------------------------------*/
+@import "scss/base/reset";
+@import "scss/base/body";
+
+
+
+
+
+/*------------------------------------*\
+    #COMPONENTS
+\*------------------------------------*/
+
+/**
+ * Pattern Lab Header
+ */
+@import "scss/components/header";
+@import "scss/components/logo";
+@import "scss/components/navigation";
+@import "scss/components/ish-sizing";
+@import "scss/components/controls";
+@import "scss/components/tools";
+
+/**
+ * Viewport
+ */
+@import "scss/components/viewport";
+
+/**
+ * Pattern Styles
+ */
+@import "scss/components/pattern";
+@import "scss/components/pattern-category";
+@import "scss/components/pattern-info";
+@import "scss/components/pattern-states";
+@import "scss/components/pattern-lineage";
+@import "scss/components/breadcrumbs";
+@import "scss/components/tabs";
+@import "scss/components/tools";
+@import "scss/components/annotations";
+@import "scss/components/modal";
+@import "scss/components/text-passage";
+
+
+
+
+
+/*------------------------------------*\
+    #UTILITIES
+\*------------------------------------*/
+@import "scss/utilities/visibility";
+
+
+
+
+
+/*------------------------------------*\
+    #VENDOR
+\*------------------------------------*/
+@import "scss/vendor/typeahead";
+@import "scss/vendor/prism";
+
+
+
+
+
+/*------------------------------------*\
+    #THEMES
+\*------------------------------------*/
+@import "scss/themes/light-theme";
+@import "scss/themes/density-theme";
+@import "scss/themes/sidebar-theme";

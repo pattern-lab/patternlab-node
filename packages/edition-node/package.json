@@ -1,0 +1,26 @@
+{
+  "name": "@pattern-lab/edition-node",
+  "description":
+    "A pure wrapper around patternlab-node core, the default pattern engine, and supporting frontend assets.",
+  "version": "1.0.0-alpha.2",
+  "main": "patternlab-config.json",
+  "dependencies": {
+    "@pattern-lab/engine-mustache": "^2.0.0-alpha.1",
+    "@pattern-lab/core": "^3.0.0-alpha.8",
+    "@pattern-lab/uikit-workshop": "^1.0.0-alpha.1"
+  },
+  "keywords": ["Pattern Lab", "Atomic Web Design", "Node", "Javascript"],
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "author": "Brian Muenzenmeyer",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "help": "node ./scripts/help.js",
+    "serve": "node ./scripts/serve.js"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0"
+  }
+}

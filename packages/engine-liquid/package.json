@@ -1,0 +1,29 @@
+{
+  "name": "@pattern-lab/engine-liquid",
+  "description": "The Liquid engine for Pattern Lab / Node",
+  "version": "1.0.0-alpha.5",
+  "main": "lib/engine_liquid.js",
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "liquidjs": "2.2.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Grunt",
+    "Gulp",
+    "Javascript",
+    "Liquid"
+  ],
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "author": "Cameron Roe",
+  "license": "MIT",
+  "scripts": {},
+  "engines": {
+    "node": ">=0.1"
+  }
+}

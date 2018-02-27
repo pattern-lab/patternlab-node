@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - stable
+  - 4.0
+  - 0.12
+  - 0.11
+
+before_install:
+  - phantomjs --version
+
+before_script:
+  - npm install -g grunt-cli
+
+branches:
+  only:
+    - master
+    - dev
+    - pattern-engines

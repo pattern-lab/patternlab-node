@@ -1,0 +1,31 @@
+{
+  "name": "@pattern-lab/engine-mustache",
+  "description": "The Mustache engine for Pattern Lab / Node",
+  "version": "2.0.0-alpha.2",
+  "main": "lib/engine_mustache.js",
+  "dependencies": {
+    "fs-extra": "^0.30.0",
+    "mustache": "^2.2.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Grunt",
+    "Gulp",
+    "Javascript",
+    "Mustache"
+  ],
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-mustache",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "author": "Brian Muenzenmeyer & Geoffrey Pursell",
+  "license": "MIT",
+  "scripts": {
+    "test": "grunt travis --verbose"
+  },
+  "engines": {
+    "node": ">=0.1"
+  }
+}

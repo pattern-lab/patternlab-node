@@ -1,0 +1,28 @@
+/*------------------------------------*\
+    #PATTERN LINEAGE
+\*------------------------------------*/
+
+/**
+ * Pattern Lineage info
+ */
+.pl-c-lineage {
+    font-size: $pl-font-size-sm-2;
+    line-height: 1.7;
+    margin-top: 0;
+}
+
+/**
+ * Lineage link 
+ */
+.pl-c-lineage__link {
+    font-style: italic;
+    color: $pl-color-gray-50;
+    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    transition: opacity $pl-animate-quick ease;
+
+    &:hover, &:focus {
+        opacity: 0.8;
+    }
+}

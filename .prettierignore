@@ -1,4 +1,4 @@
-./package.json
-./package-lock.json
-./scripts/api.handlebars
-./scripts/events.handlebars
+**/package.json
+**/package-lock.json
+./packages/core/scripts/api.handlebars
+./packages/core/scripts/events.handlebars

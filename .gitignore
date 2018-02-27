@@ -5,6 +5,7 @@ Thumbs.db
 .nyc_output/
 .vscode/
 .idea/
-test/public
-!test/patterns/public/.gitkeep
-!test/patterns/testDependencyGraph.json
+packages/core/test/public
+!packages/core/test/patterns/public/.gitkeep
+!packages/core/test/patterns/testDependencyGraph.json
+lerna-debug.log
