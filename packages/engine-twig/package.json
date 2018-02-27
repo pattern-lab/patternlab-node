@@ -1,5 +1,5 @@
 {
-  "name": "@pattern-lab/patternengine-node-twig",
+  "name": "@pattern-lab/engine-twig",
   "description": "The Twig engine for Pattern Lab / Node",
   "version": "0.2.0",
   "main": "lib/engine_twig.js",
@@ -17,11 +17,9 @@
     "Javascript",
     "Twig"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pattern-lab/patternengine-node-twig.git"
-  },
-  "bugs": "https://github.com/pattern-lab/patternengine-node-twig/issues",
+  "repository":
+    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {
