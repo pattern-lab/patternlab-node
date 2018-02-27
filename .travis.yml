@@ -1,23 +1,16 @@
 language: node_js
 
-node_js:
-  - node
-  - 8
-  - 6
-
 before_install:
   - phantomjs --version
 
 before_script:
-  - npm install @pattern-lab/patternengine-node-mustache
-  - npm install @pattern-lab/patternengine-node-underscore
-  - npm install @pattern-lab/patternengine-node-handlebars
-  - npm install patternengine-node-twig
+  - npm run bootstrap
 
 branches:
   only:
     - master
     - dev
+    - lerna-monorepo
 
 notifications:
   webhooks:

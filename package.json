@@ -3,6 +3,7 @@
     "lerna": "2.9.0"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap --hoist tap",
+    "test": "tap packages/core/test/*_tests.js --reporter spec --coverage"
   }
 }
