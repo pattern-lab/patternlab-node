@@ -4,6 +4,7 @@ before_install:
   - phantomjs --version
 
 before_script:
+  - npm install -g lerna@2.9.0
   - npm run bootstrap
   - lerna add @pattern-lab/engine-mustache
   - lerna add @pattern-lab/engine-handlebars
