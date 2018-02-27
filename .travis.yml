@@ -5,6 +5,12 @@ before_install:
 
 before_script:
   - npm run bootstrap
+  - lerna add @pattern-lab/engine-mustache
+  - lerna add @pattern-lab/engine-handlebars
+  - lerna add @pattern-lab/engine-underscore
+  - lerna add @pattern-lab/engine-liquid
+  - lerna add @pattern-lab/engine-twig
+  - lerna add @pattern-lab/engine-react
 
 branches:
   only:
