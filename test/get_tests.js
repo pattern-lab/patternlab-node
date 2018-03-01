@@ -7,6 +7,26 @@ const getPartial = require('../core/lib/get');
 
 const patterns_dir = './test/files/_patterns';
 
+tap.test('getPartial - returns the fuzzy scored result', function(test) {
+  //arrange
+  const patternlab = util.fakePatternLab(patterns_dir);
+  patternlab.patterns = [];
+
+  patternlab.patterns.push({
+    patternPartial: 'star-character-han-solo',
+    subdir: 'star',
+    fileName: 'han-solo',
+    verbosePartial: 'star/character/han-solo',
+  });
+
+  //act
+  var result = getPartial('star-han', patternlab);
+
+  //assert
+  test.equals(result, patternlab.patterns[0]);
+  test.end();
+});
+
 tap.test('getPartial - returns the fuzzy result when no others found', function(
   test
 ) {
