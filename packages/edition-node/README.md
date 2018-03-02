@@ -19,7 +19,7 @@ This Edition comes with the following components:
 
 ## Prerequisites
 
-The Pattern Lab Node uses [Node](https://nodejs.org) for core processing and [npm](https://www.npmjs.com/) to manage project dependencies. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
+This Edition uses [Node](https://nodejs.org) for core processing and [npm](https://www.npmjs.com/) to manage project dependencies. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
 
 ## Installing
 
