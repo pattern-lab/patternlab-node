@@ -1,0 +1,78 @@
+{
+  "paths": {
+    "source": {
+      "root": "test/fixtures/source/",
+      "patterns": "test/fixtures/source/_patterns/",
+      "data": "test/fixtures/source/_data/",
+      "meta": "test/fixtures/source/_meta/",
+      "annotations": "test/fixtures/source/_annotations/",
+      "styleguide": "node_modules/styleguidekit-assets-default/dist/",
+      "patternlabFiles": "node_modules/styleguidekit-mustache-default/views/",
+      "js": "test/fixtures/source/js",
+      "images": "test/fixtures/source/images",
+      "fonts": "test/fixtures/source/fonts",
+      "css": "test/fixtures/source/css/"
+    },
+    "public": {
+      "root": "test/fixtures/public/",
+      "patterns": "test/fixtures/public/patterns/",
+      "data": "test/fixtures/public/styleguide/data/",
+      "annotations": "test/fixtures/public/annotations/",
+      "styleguide": "test/fixtures/public/styleguide/",
+      "js": "test/fixtures/public/js",
+      "images": "test/fixtures/public/images",
+      "fonts": "test/fixtures/public/fonts",
+      "css": "test/fixtures/public/css"
+    }
+  },
+  "styleGuideExcludes": [
+    "templates",
+    "pages"
+  ],
+  "defaultPattern": "all",
+  "cleanPublic": false,
+  "patternExtension": "mustache",
+  "ignored-extensions": [
+    "scss",
+    "DS_Store",
+    "less"
+  ],
+  "ignored-directories": [
+    "scss"
+  ],
+  "debug": false,
+  "ishControlsHide": {
+    "s": false,
+    "m": false,
+    "l": false,
+    "full": false,
+    "random": false,
+    "disco": false,
+    "hay": true,
+    "mqs": false,
+    "find": false,
+    "views-all": false,
+    "views-annotations": false,
+    "views-code": false,
+    "views-new": false,
+    "tools-all": false,
+    "tools-docs": false
+  },
+  "ishMinimum": "240",
+  "ishMaximum": "2600",
+  "patternStateCascade": [
+    "inprogress",
+    "inreview",
+    "complete"
+  ],
+  "patternExportPatternPartials": [],
+  "patternExportDirectory": "test/fixtures/pattern_exports",
+  "baseurl": "",
+  "cacheBust": true,
+  "starterkitSubDir": "dist",
+  "outputFileSuffixes": {
+    "rendered": "",
+    "rawTemplate": "",
+    "markupOnly": ".markup-only"
+  }
+}

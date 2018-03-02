@@ -1,0 +1,136 @@
+/*------------------------------------*\
+    #LIGHT THEME
+\*------------------------------------*/
+
+/**
+ * A light-color theme for Pattern Lab, where the
+ * PL header and modal are light instead of dark
+ */
+.pl-c-body--theme-light {
+
+    /**
+     * Header
+     */
+    .pl-c-header {
+        background: $pl-color-white;
+        border-bottom: 1px solid $pl-color-gray-20;
+    }
+
+    /**
+     * Nav Sublist dropdown
+     */
+     .pl-c-nav__sublist {
+         background: transparent;
+     }
+
+    /**
+     * Tools dropdown
+     */
+    .pl-c-tools__list.pl-is-active {
+        border-bottom: 1px solid $pl-color-gray-20;
+        border-left: 1px solid $pl-color-gray-20;
+    }
+
+    /**
+     * Nav link dropdown
+     */
+    .pl-c-nav__link--dropdown {
+        color: $pl-color-gray-70;
+        background: $pl-color-white;
+
+        &:after {
+            color: $pl-color-gray-20;
+        }
+    }
+
+    /**
+     * All Nav links inside of subnav dropdown
+     */
+    .pl-c-nav__sublist .pl-c-nav__link {
+        border-left: 1px solid $pl-color-gray-20;
+        border-right: 1px solid $pl-color-gray-20;
+    }
+
+    /**
+    * Last sublist item
+    */
+    .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+        @media all and (min-width: $pl-bp-med) {
+            border-bottom-left-radius: $pl-border-radius-med;
+            border-bottom-right-radius: $pl-border-radius-med;
+            border-bottom: 1px solid $pl-color-gray-20;
+        }
+    }
+
+    /**
+     * Size input
+     */
+    .pl-c-viewport-size__input {
+        color: $pl-color-gray-70;
+
+        &:hover, &:focus {
+            background: $pl-color-gray-13;
+        }
+    }
+
+    /**
+     * Typeahead container
+     */
+    .typeahead {
+        background: $pl-color-gray-13 !important;
+    }
+
+    /**
+     * Typeahead input
+     */
+     .pl-c-typeahead {
+        background: $pl-color-gray-13 !important;
+        color: $pl-color-gray-70 !important;
+    }
+
+    /**
+     * Typeahead input
+     */
+    .tt-input {
+        background: $pl-color-gray-07 !important;
+        color: $pl-color-gray-70 !important;
+
+        &:hover {
+            color: $pl-color-gray-87;
+            background: $pl-color-gray-13 !important;
+    
+            &::-webkit-input-placeholder {
+                color: $pl-color-gray-87;
+            }
+    
+            &::-moz-input-placeholder {
+                color: $pl-color-gray-87;
+            }
+        }
+    }
+
+    /**
+     * Modal inside a light theme
+     */
+    .pl-c-modal {
+        background: $pl-color-white;
+        color: $pl-color-gray-70;
+        border-top: 1px solid $pl-color-gray-20;
+    }
+
+
+    /**
+    * Modal close button
+    * 1) Closes the modal popup
+    */
+    .pl-c-modal__close-btn {
+        background: $pl-color-white;
+        border-top: 1px solid $pl-color-gray-20;
+        border-left: 1px solid $pl-color-gray-20;
+
+        &:hover, &:focus {
+            background: $pl-color-gray-02;
+            color: $pl-color-gray-70;
+        }
+    }
+}

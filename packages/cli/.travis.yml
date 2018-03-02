@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - node
+  - 6
+before_script:
+  - npm install edition-node
+  - npm install starterkit-mustache-base
+  - npm install eslint
+branches:
+  only:
+    - master

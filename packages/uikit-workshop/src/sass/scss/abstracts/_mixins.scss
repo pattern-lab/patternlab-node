@@ -1,0 +1,96 @@
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+
+/**
+ * List Reset
+ */
+@mixin listReset() {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/**
+ * Hide scrollbar
+ * 1) This hides scrollbars on Windows devices
+ */
+ @mixin hideScrollBar() {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    
+    &::-webkit-scrollbar { 
+        width: 0 !important 
+    }
+}
+
+/**
+ * Header Link Style
+ */
+@mixin linkStyle() {
+    background: $pl-color-black;
+    color: $pl-color-gray-50;
+    text-decoration: none;
+    line-height: 1;
+    padding: 0.7rem 0.5rem;
+    border: 0;
+    text-align: left;
+    transition: background $pl-animate-quick ease-out, color $pl-animate-quick ease-out;
+
+    &:hover {
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
+    }
+
+    &:focus, &.active {
+        color: $pl-color-white;
+        background: $pl-color-gray-87;
+        outline: 1px dotted $pl-color-gray-50;
+        outline-offset: -1px;
+    }
+
+    /**
+     * Header link styles inside light theme
+     */
+    .pl-c-body--theme-light & {
+        background: $pl-color-white;
+        color: $pl-color-gray-70;
+    }
+
+    /**
+     * Header link styles inside cozy theme
+     */
+     .pl-c-body--theme-density-cozy & {
+        font-size: $pl-font-size-sm-2;
+        padding: 1.2rem 0.8rem;
+    }
+
+    /**
+     * Header link styles inside comfortable theme
+     */
+     .pl-c-body--theme-density-comfortable & {
+        font-size: $pl-font-size-sm-2;
+        padding: 1.5rem 1rem;
+    }
+}
+
+/**
+ * Accordion panel
+ */
+@mixin accordionPanel() {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height $pl-animate-quick ease-out;
+
+    /**
+     * Active is when accordion panel is open
+     */
+    &.pl-is-active {
+        max-height: none;
+        overflow: auto;
+        @include hideScrollBar();
+
+        @media all and (min-width: $pl-bp-med) {
+            max-height: 120rem;
+        }
+    }
+}

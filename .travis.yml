@@ -1,18 +1,17 @@
 language: node_js
 
-node_js:
-  - node
-  - 8
-  - 6
-
 before_install:
   - phantomjs --version
 
 before_script:
-  - npm install @pattern-lab/patternengine-node-mustache
-  - npm install @pattern-lab/patternengine-node-underscore
-  - npm install @pattern-lab/patternengine-node-handlebars
-  - npm install patternengine-node-twig
+  - npm install -g lerna@2.9.0
+  - npm run bootstrap
+  - lerna add @pattern-lab/engine-mustache
+  - lerna add @pattern-lab/engine-handlebars
+  - lerna add @pattern-lab/engine-underscore
+  - lerna add @pattern-lab/engine-liquid
+  - lerna add @pattern-lab/engine-twig
+  - lerna add @pattern-lab/engine-react
 
 branches:
   only:

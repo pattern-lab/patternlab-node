@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title id="title">Pattern Lab</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
+</head>
+
+<body class="pl-c-body">
+
+	<header class="pl-c-header" role="banner">
+
+	<button class="pl-c-header__nav-toggle pl-js-nav-trigger">Menu</button>
+
+	<nav class="pl-c-nav pl-js-nav-target pl-js-nav-container" role="navigation">
+
+		<input class="pl-c-typeahead pl-js-typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
+
+		<ol class="pl-c-nav__list pl-js-pattern-nav-target">
+			<!-- pattern lab nav will be inserted here -->
+		</ol><!--end pl-c-nav__list-->
+
+	</nav><!--end pl-c-nav-->
+
+	<div class="pl-c-controls pl-js-controls">
+		<!-- ish and tools controls will be inserted here -->
+	</div><!--end pl-c-controls-->
+
+</header><!--end pl-c-header-->
+ 
+	
+	<div class="pl-c-viewport pl-js-viewport">
+    
+    <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
+
+    <div class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container">
+        
+        <iframe class="pl-c-viewport__iframe pl-js-iframe" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
+        
+        <div class="pl-c-viewport__resizer pl-js-resize-container">
+
+            <div class="pl-c-viewport__resizer-handle pl-js-resize-handle" />
+            
+        </div><!--end pl-c-viewport__resizer-->
+
+    </div><!--end pl-c-viewport__iframe-wrapper-->
+
+</div><!--end pl-c-viewport--> 
+	
+	<div class="pl-c-modal__cover pl-js-modal-cover"></div>
+<div class="pl-c-modal pl-js-modal">
+    <div class="pl-c-modal__toolbar">
+        <div class="pl-c-modal__resizer pl-js-modal-resizer"></div>
+        <button class="pl-c-modal__close-btn pl-js-modal-close-btn" title="Hide pattern info">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12" viewBox="0 0 12 12" class="pl-c-modal__close-btn-icon">
+                <title>Close</title>
+                <path fill="currentColor" d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"></path>
+            </svg>
+        </button><!--end pl-c-modal__close-btn-->
+    </div>
+
+    <div class="pl-c-modal__content pl-js-modal-content" />
+
+</div><!--end pl-c-modal-->
+
+
+	<!-- mustache templates -->
+	<script type="text/mustache" class="pl-js-pattern-nav-template">
+		{{# patternTypes }}
+<li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
+
+	<a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" tabindex="0" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</a>
+
+	<ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel" id="{{ patternTypeLC }}">
+
+		{{# patternTypeItems }}
+		<li class="pl-c-nav__item pl-c-nav__item--{{ patternSubtypeLC }}">
+
+			<a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternSubtypeUC }}</a>
+
+			<ol class="pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel">
+				
+				{{# patternSubtypeItems }}
+				<li class="pl-c-nav__item">
+
+					<a href="patterns/{{ patternPath }}" class="pl-c-nav__link pl-c-nav__link--sublink" data-patternpartial="{{ patternPartial }}">
+						{{ patternName }}
+
+						{{# patternState }}
+						<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}" />
+						{{/ patternState }}
+					
+					</a><!--end pl-c-nav__link-->
+
+				</li><!--end pl-c-nav__item-->
+				{{/ patternSubtypeItems }}
+
+			</ol><!--end pl-c-nav__subsublist-->
+
+		</li><!--end pl-c-nav__item-->
+		{{/ patternTypeItems }} 
+		{{# patternItems }}
+		<li class="pl-c-nav__item">
+
+			<a href="patterns/{{ patternPath }}" class="pl-c-nav__link" data-patternpartial="{{ patternPartial }}" tabindex="0">
+				{{ patternName }}
+
+				{{# patternState }}
+				<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}" />
+				{{/ patternState }}
+			
+			</a><!--end pl-c-nav__link-->
+
+		</li><!--end pl-c-nav__item-->
+		{{/ patternItems }}
+
+	</ol><!--end pl-c-nav__sublist-->
+
+</li><!--end pl-c-nav__item-->
+{{/ patternTypes }}
+
+<li class="pl-c-nav__item">
+
+	<a href="styleguide/html/styleguide.html" class="pl-c-nav__link" data-patternpartial="all" tabindex="0">All</a>
+
+</li><!--end pl-c-nav__item-->
+
+
+	</script>
+
+	<script type="text/mustache" class="pl-js-ish-controls-template">
+		
+<form class="pl-c-viewport-size" method="post" action="#">
+	<input type="text" class="pl-c-viewport-size__input" id="pl-size-px" value="---"><label for="pl-size-px" class="pl-c-viewport-size__label">px /</label>
+	<input type="text" class="pl-c-viewport-size__input" id="pl-size-em" value="---"><label for="pl-size-em" class="pl-c-viewport-size__label">em</label>
+</form><!--end pl-c-viewport-size-->
+
+<ul class="pl-c-size-list">
+	{{^ ishControlsHide.s }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="pl-size-s">S</button>
+	</li>
+	{{/ ishControlsHide.s }}
+
+	{{^ ishControlsHide.m }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="pl-size-m">M</button>
+	</li>
+	{{/ ishControlsHide.m }} 
+	
+	{{^ ishControlsHide.l }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="pl-size-l">L</button>
+	</li>
+	{{/ ishControlsHide.l }} 
+	
+	{{^ ishControlsHide.full }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="pl-size-full">Full</button>
+	</li>
+	{{/ ishControlsHide.full }} 
+	
+	{{^ ishControlsHide.random }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action" id="pl-size-random">Rand</button>
+	</li>
+	{{/ ishControlsHide.random }} 
+	
+	{{^ ishControlsHide.disco }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action mode-link" id="pl-size-disco">Disco</button>
+	</li>
+	{{/ ishControlsHide.disco }} 
+	
+	{{^ ishControlsHide.hay }}
+	<li class="pl-c-size-list__item">
+		<button class="pl-c-size-list__action mode-link" id="pl-size-hay">Hay!</button>
+	</li>
+	{{/ ishControlsHide.hay }}
+</ul>
+
+{{^ ishControlsHide.tools-all }}
+<div class="pl-c-tools">
+	<button class="pl-c-tools__toggle pl-js-acc-handle" title="Tools">
+		
+		<svg class="pl-c-tools__toggle-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="14" viewBox="0 0 14 14">
+			<title>Pattern Lab Tools</title>
+			<path fill="currentColor" d="M12.767 8.343c-0.735-1.272-0.293-2.903 0.986-3.643l-1.376-2.383c-0.393 0.23-0.85 0.363-1.338 0.363-1.47 0-2.662-1.2-2.662-2.68h-2.752c0.004 0.457-0.11 0.92-0.355 1.343-0.735 1.272-2.367 1.705-3.649 0.967l-1.376 2.383c0.396 0.225 0.739 0.555 0.983 0.977 0.733 1.27 0.294 2.897-0.98 3.64l1.376 2.383c0.392-0.228 0.847-0.359 1.332-0.359 1.466 0 2.654 1.192 2.662 2.665h2.752c-0.001-0.452 0.113-0.91 0.355-1.329 0.733-1.27 2.362-1.703 3.642-0.971l1.376-2.383c-0.393-0.225-0.734-0.554-0.977-0.974zM7 9.835c-1.566 0-2.835-1.269-2.835-2.835s1.269-2.835 2.835-2.835c1.566 0 2.835 1.269 2.835 2.835s-1.269 2.835-2.835 2.835z"></path>
+		</svg>
+
+	</button>
+
+	<ul class="pl-c-tools__list pl-js-acc-panel">
+		<li class="pl-c-tools__item">
+			<button class="pl-c-tools__action pl-js-pattern-info-toggle">Show Pattern Info</button>
+		</li>
+		{{^ ishControlsHide.views-new }}
+		<li class="pl-c-tools__item">
+			<a href="#" class="pl-c-tools__action pl-js-open-new-window" target="_blank">Open In New Window</a>
+		</li>
+		{{/ ishControlsHide.views-new }} 
+
+		{{^ ishControlsHide.tools-docs }}
+		<li class="pl-c-tools__item">
+			<a href="http://patternlab.io/docs/" class="pl-c-tools__action" target="_blank">Pattern Lab Docs</a>
+		</li>
+		{{/ ishControlsHide.tools-docs }} 
+
+	</ul>
+</div><!--end pl-c-tools-->
+{{/ ishControlsHide.tools-all }}
+	</script>
+
+	<!-- the template for the modal slider -->
+	<script type="text/mustache" class="pl-js-panel-template-base">
+		<!-- description, etc. -->
+{{# descBlockExists }}
+
+<div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--info pl-js-pattern-info">
+
+	{{# isPatternView }}
+	<!-- extra info for modal view -->
+	<div class="pl-c-pattern-info__header">
+
+		<ul class="pl-c-breadcrumb">
+
+			{{# patternBreadcrumb }}
+
+			<li class="pl-c-breadcrumb__item">{{ patternType }}</li>
+
+			{{# patternSubtype }}
+			<li class="pl-c-breadcrumb__item">{{ patternSubtype }}</li>
+			{{/ patternSubtype }}
+
+			{{/ patternBreadcrumb }}
+
+		</ul><!--end pl-c-breadcrumb-->
+
+		<h2 class="pl-c-pattern-info__title">
+			{{ patternName }}
+
+			{{# patternState }}
+			<span class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}" title="{{ patternState }}"></span>
+			{{/ patternState }}
+		</h2><!--end pl-c-pattern-info__title-->
+
+	</div><!--end pl-c-pattern-info__header-->
+	{{/ isPatternView }}
+
+	{{# patternDescExists }}
+	<div class="pl-c-pattern-info__description pl-c-text-passage">
+		{{{ patternDesc }}} {{# patternDescAdditions }} {{{ patternDescAdditions }}} {{/ patternDescAdditions }}
+	</div><!--end pl-c-pattern-info__description-->
+	{{/ patternDescExists }}
+
+	{{# lineageExists }}
+	<p class="pl-c-lineage pl-js-lineage">
+		The <em>{{ patternName }}</em> pattern contains the following patterns:
+		{{# lineage }}
+		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link' data-patternPartial='{{ lineagePattern }}'>
+			{{ lineagePattern }}
+			{{# lineageState }}<span class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}" title="{{ lineageState }}" />{{/ lineageState }}
+		</a><!--end pl-c-lineage__link-->
+		{{# hasComma }}, {{/ hasComma }}
+		{{/ lineage }}
+
+	</p><!--end pl-c-lineage-->
+	{{/ lineageExists }}
+
+	{{# lineageRExists }}
+	<p class="pl-c-lineage">
+		The <em>{{ patternName }}</em> pattern is included in the following patterns:
+		{{# lineageR }}
+		<a href='{{ lineagePath }}' class='pl-c-lineage__link pl-js-lineage-link' data-patternPartial='{{ lineagePattern }}'>
+			{{ lineagePattern }}
+			{{# lineageState }}<span class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}" title="{{ lineageState }}" />{{/ lineageState }}
+		</a><!--end pl-c-lineage__link-->
+		{{# hasComma }}, {{/ hasComma }}
+		{{/ lineageR }}
+	</p><!--end pl-c-lineage-->
+	{{/ lineageRExists }}
+
+	{{# annotationExists }}
+	<div class="pl-c-annotations pl-c-text-passage pl-js-annotations">
+		<h2 class="pl-c-annotations__title">Annotations</h2>
+		<ol class="pl-c-annotations__list">
+
+			{{# annotations }}
+			<li class="pl-c-annotations__item">
+
+				<h3 class="pl-c-annotations__item-title">{{ title }}</h3>
+
+				<div class="pl-c-annotations__item-body">
+					{{{ comment }}}
+				</div><!--end pl-c-annotations__item-body-->
+
+			</li><!--end pl-c-annotations__item-->
+			{{/ annotations }}
+
+		</ol><!--end pl-c-annotations__list-->
+
+	</div><!--end pl-c-annotations-->
+	{{/ annotationExists }}
+
+</div><!--end pl-c-pattern-info__panel-->
+{{/ descBlockExists }}
+
+<div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--code">
+
+	<div id="pl-{{ patternPartial }}-tabs" class="pl-c-tabs pl-js-tabs">
+		<div class="pl-c-tabs__header">
+			<ul class="pl-c-tabs__list">
+				{{# panels }}
+				<li class="pl-c-tabs__list-item">
+					<a class="pl-c-tabs__link pl-js-tab-link" href="#pl-{{ patternPartial }}-{{ id }}-panel" id="pl-{{ patternPartial }}-{{ id }}-tab"
+						data-patternpartial="{{ patternPartial }}" data-panelid="{{ id }}">{{ name }}</a>
+				</li><!--end pl-c-tabs__list-item-->
+				{{/ panels }}
+			</ul><!--end pl-c-tabs__list-->
+		</div><!--end pl-c-tabs__header-->
+
+		<div id="pl-{{ patternPartial }}-panels" class="pl-c-tabs__content">
+
+			{{# panels }}
+			<div id="pl-{{ patternPartial }}-{{ id }}-panel" class="pl-c-tabs__panel pl-js-tab-panel">
+				<button class="pl-c-code-copy-btn pl-js-code-copy-btn" data-clipboard-target="#pl-{{ patternPartial }}-{{ id }}-panel code">Copy</button>
+
+				{{{ content }}}
+			</div><!--end pl-c-tabs__panel-->
+			{{/ panels }}
+
+		</div><!--end pl-c-tabs__content-->
+
+	</div><!--end pl-c-tabs-->
+
+</div><!--end pl-c-pattern-info__panel-->
+
+	</script>
+
+	<!-- the template for code-related tabs in the code view slider -->
+	<script type="text/mustache" id="pl-panel-template-code">
+		<pre class="language-markup">
+	<code id="pl-code-fill-{{ language }}" class="language-{{ language }}">{{{ code }}}</code>
+</pre>
+
+	</script>
+
+	<!-- load Pattern Lab data -->
+	<script src="styleguide/data/patternlab-data.js"></script>
+
+  <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
+  <!-- @todo Consider moving this to own file -->
+  <script>
+    if (config && config.theme) {
+      if (config.theme.color === 'light') {
+        document.body.classList.add('pl-c-body--theme-light');
+      }
+      if (config.theme.layout === 'vertical') {
+        document.body.classList.add('pl-c-body--theme-sidebar');
+      }
+      switch (config.theme.density) {
+        case 'cozy':
+          document.body.classList.add('pl-c-body--theme-density-cozy');
+          break;
+        case 'comfortable':
+          document.body.classList.add('pl-c-body--theme-density-comfortable');
+          break;
+        default:
+          // not sure if you even need/want this
+          document.body.classList.add('pl-c-body--theme-density-compact');
+      }
+    }
+  </script>
+
+	<script src="annotations/annotations.js"></script>
+
+	<!-- load Pattern Lab external library js -->
+	<script src="styleguide/bower_components/jquery.min.js"></script>
+	<script src="styleguide/bower_components/hogan-3.0.2.min.js"></script>
+	<script src="styleguide/bower_components/prism.min.js"></script>
+	<script src="styleguide/bower_components/jwerty.min.js"></script>
+	<script src="styleguide/bower_components/classList.min.js"></script>
+	<script src="styleguide/bower_components/typeahead.bundle.min.js"></script>
+	<script src="styleguide/bower_components/EventEmitter.min.js"></script>
+	<script src="styleguide/bower_components/script.min.js"></script>
+
+	<!-- set-up the dispatcher -->
+	<script>
+		var Dispatcher = new EventEmitter();
+	</script>
+
+	<!-- load the Pattern Lab viewer js -->
+	<script src="styleguide/js/patternlab-viewer.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,32 @@
+{
+  "name": "@pattern-lab/engine-underscore",
+  "description": "The Underscore engine for Pattern Lab / Node",
+  "version": "2.0.0-alpha.2",
+  "main": "lib/engine_underscore.js",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Grunt",
+    "Gulp",
+    "Javascript",
+    "Underscore"
+  ],
+  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "author": "Brian Muenzenmeyer & Geoffrey Pursell",
+  "license": "MIT",
+  "scripts": {
+    "test": "grunt travis --verbose",
+    "lint": "eslint **/*.js"
+  },
+  "engines": {
+    "node": ">=4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

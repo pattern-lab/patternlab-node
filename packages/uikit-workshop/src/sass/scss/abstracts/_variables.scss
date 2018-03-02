@@ -1,0 +1,54 @@
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+
+/**
+* These variables are specific to the Pattern Lab shell and exist
+* indepenedently of any project-specific styles
+*/
+
+// Colors
+$pl-color-white: #fff;
+$pl-color-gray-02: #fafafa;
+$pl-color-gray-07: #eee;
+$pl-color-gray-13: #ddd;
+$pl-color-gray-20: #ccc;
+$pl-color-gray-50: #808080;
+$pl-color-gray-70: #4d4c4c;
+$pl-color-gray-87: #222;
+$pl-color-black: #000;
+
+$pl-color-trans-white-25: rgba(255,255,255,0.25);
+
+$pl-color-state-info: #02A4D5;
+$pl-color-state-complete: #03790F;
+$pl-color-state-inreview: #C7A118;
+$pl-color-state-deprecated: #B00B02;
+
+// Font Family
+$pl-font: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+
+// Font sizes
+$pl-font-size-sm: 0.7rem;
+$pl-font-size-sm-2: 0.85rem;
+$pl-font-size-norm: 1rem;
+$pl-font-size-large: 1.2rem;
+
+// Spacing & Padding
+$pl-space: 1rem;
+$pl-doublespace: $pl-space*2;
+$pl-pad: 1rem;
+$pl-pad-half: $pl-pad/2;
+$offset-top: 2rem;
+
+// Breakpoints
+$pl-bp-med: 42em;
+$pl-bp-large: 53em;
+$pl-bp-xl: 62em;
+
+// Animations
+$pl-animate-quick: 0.1s;
+
+// Borders
+$pl-border-radius: 3px;
+$pl-border-radius-med: 6px;

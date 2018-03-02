@@ -1,0 +1,136 @@
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+
+/**
+ * 1) Tabs contain a set of horizontally-arranged tabs
+ *    with accompanying panels. When a tab link is clicked
+ *    the corresponding panel becomes visible
+ */
+.pl-c-tabs {
+    padding: 0 0.5rem 0.5rem;
+    background: $pl-color-white;
+    border: 1px solid $pl-color-gray-13;
+    border-radius: $pl-border-radius-med;
+    font-family: $pl-font;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /**
+     * Tabs inside a code panel
+     */
+    .pl-c-pattern-info__panel--code & {
+
+        @media all and (min-width: $pl-bp-large) {
+            position: absolute;
+            top: 1rem;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+        }
+    }
+
+    .pl-c-modal & {
+        @media all and (min-width: $pl-bp-xl) {
+            right: 2rem;
+            left: 2rem;
+        }
+    }
+}
+
+/**
+ * Tab List
+ * 1) A unordered list that contains the tab links
+ */
+.pl-c-tabs__list {
+    display: flex;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    background: $pl-color-white;
+}
+
+/**
+ * Tab Link
+ */
+.pl-c-tabs__link {
+    display: block;
+    line-height: 1;
+    padding: 0.2rem 0.4rem;
+    border: 1px solid transparent;
+    border-radius: $pl-border-radius-med;
+    background: $pl-color-white;
+    color: $pl-color-gray-50;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: lowercase;
+    transition: all $pl-animate-quick ease-out;
+
+    &:hover {
+        color: $pl-color-gray-87;
+    }
+
+    /**
+     * Active Tab
+     * 1) Note: the active tab color corresponds with the Prism code block
+     *    background color, which is why it doesn't use a Sass variable
+     */
+    &.pl-is-active-tab {
+        color: $pl-color-gray-87;
+        background: $pl-color-gray-07;
+        border: 1px solid $pl-color-gray-13;
+    }
+}
+
+/**
+ * Tab Content
+ * 1) Tab content contains the tab panels
+ */
+.pl-c-tabs__content {
+    flex: 1 0 auto;
+    overflow: scroll;
+    @include hideScrollBar();
+    height: 100%;
+    padding-top: 0.5rem;
+
+    /**
+     *  Tab content inside modal
+     */
+    .pl-c-modal & {
+        border: 0;
+    }
+}
+
+/**
+ * Tab panel
+ * 1) Note: the active tab color corresponds with the Prism code block
+ *    background color, which is why it doesn't use a Sass variable
+ */
+.pl-c-tabs__panel {
+    display: none;
+    min-height: 12rem;
+
+    &.pl-is-active-tab {
+        display: block;
+    }
+
+    /**
+     * Tab code
+     * 1) Targeting pre tag in here as Prism is being used for the majority of the styles
+     */
+    pre[class*=language-], :not(pre) > code[class*="language-"], pre[class*="language-"] {
+        background: transparent;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        display: block;
+    }
+
+    code[class*=language-] {
+        background: transparent;
+        margin: 0;
+    }
+}
