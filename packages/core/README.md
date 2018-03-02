@@ -1,4 +1,4 @@
-![Pattern Lab Logo](../../patternlab.png 'Pattern Lab Logo')
+![Pattern Lab Logo](https://github.com/pattern-lab/patternlab-node/raw/master/patternlab.png 'Pattern Lab Logo')
 
 [![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
 ![current release](https://img.shields.io/npm/v/@pattern-lab/core.svg)
