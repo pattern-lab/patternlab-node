@@ -10,7 +10,7 @@
 
 # Pattern Lab Node Core
 
-This repository contains the core functionality for Pattern Lab Node.
+This is the core API and orchestrator of the  [Pattern Lab ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html).
 
 ## Installation
 

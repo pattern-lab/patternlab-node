@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/core",
-  "description": "Pattern Lab is a collection of tools to help you create atomic design systems. This is the node command line interface (CLI).",
+  "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
   "version": "3.0.0-alpha.9",
   "main": "./src/index.js",
   "dependencies": {
