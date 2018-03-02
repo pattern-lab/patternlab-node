@@ -25,5 +25,8 @@
   "scripts": {},
   "engines": {
     "node": ">=0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
