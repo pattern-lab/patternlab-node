@@ -2,18 +2,36 @@
 
 If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.
 
-No pull request is too small. Check out any [up for grabs issues](https://github.com/pattern-lab/patternlab-node/labels/up%20for%20grabs) as a good way to get your feet wet, or add some more unit tests.
+No pull request is too small. Check out any [help wanted 🆘](https://github.com/pattern-lab/patternlab-node/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted+%3Asos%3A%22) or [good first issues 🎓](https://github.com/pattern-lab/patternlab-node/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue+%3Amortar_board%3A%22)as a good way to get your feet wet, or add some more unit tests.
+
+## Prerequisites
+
+To get started, you'll need Node 8 or higher. Managing Node with [nvm](https://github.com/creationix/nvm) is recommended. Once installed, you can target the version of Node we specify within the [`.nvmrc`](https://github.com/pattern-lab/patternlab-node/blob/master/.nvmrc) file.
+
+```sh
+nvm install <<version>>
+nvm use <<version>>
+```
 
 ## Developing Locally
 
-The best way to make changes to the Pattern Lab Node core and test them is through your existing edition.
+The best way to make changes to the Pattern Lab Node core and test them is through an edition.
 
 * Fork this repository on Github.
+* `npm install && npm run bootstrap`
 * Create a new branch in your fork and push your changes in that fork.
-* `npm install`
-* `npm link`
-* `cd /path/to/your/edition`
-* `npm link patternlab-node`
+* `cd packages/edition-node`
+* Test your changes with the edition's api
+
+### Cold start testing
+
+To ensure that developers can bootstrap the repo from a fresh clone, do this in your working copy:
+
+```sh
+git reset --hard && git clean -dfx && npm install && npm run bootstrap
+```
+
+This ensures that any changes you've made will still result in a clean and functional developer experience. **Note**: be sure you've committed any outstanding work before doing this -- it will blow away whatever's still outstanding, including anything staged but not commited.
 
 ## Guidelines
 
@@ -21,11 +39,11 @@ The best way to make changes to the Pattern Lab Node core and test them is throu
 * Keep your pull requests concise and limited to **ONE** substantive change at a time. This makes reviewing and testing so much easier.
 * Commits should reference the issue you are adressing. For any Pull Request that you send, use the template provided.
 * Commits are best formatted using the [conventional commits pattern](https://conventionalcommits.org/).
-* If you can, add some unit tests using the existing patterns in the `./test` directory
+* If you can, add some unit tests using the existing patterns in the `.packages/core/test` directory
 * Large enhancements should begin with opening an issue. This will result in a more systematic way for us to review your contribution and determine if a [specifcation discussion](https://github.com/pattern-lab/the-spec/issues) needs to occur.
 * Mention the issue number in commits, so anyone can see to which issue your changes belong to. For instance:
-  * `#123 Fix resolving patterns in pattern_hunter`
-  * `Feature #42: improve improbability drive`
+  * `fix(get): Resolve patterns correctly`
+  * `feat(version): Add ability to ask for version statically`
 
 ## Coding style
 
