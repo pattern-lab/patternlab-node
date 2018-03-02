@@ -1,8 +1,15 @@
 {
   "name": "@pattern-lab/live-server",
-  "version": "1.3.2",
+  "version": "1.3.3-alpha.0",
   "description": "simple development http server with live reload capability",
-  "keywords": ["front-end", "development", "tool", "server", "http", "cli"],
+  "keywords": [
+    "front-end",
+    "development",
+    "tool",
+    "server",
+    "http",
+    "cli"
+  ],
   "author": "Tapio Vierros",
   "dependencies": {
     "chokidar": "^1.6.0",
@@ -20,10 +27,10 @@
     "serve-index": "^1.7.2"
   },
   "devDependencies": {
-    "mocha": "^4.0.1",
-    "supertest": "^3.0.0",
     "eslint": "^4.9.0",
-    "jshint": "^2.9.2"
+    "jshint": "^2.9.2",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   },
   "scripts": {
     "lint": "eslint live-server.js index.js",
@@ -33,8 +40,7 @@
   "bin": {
     "live-server": "./live-server.js"
   },
-  "repository":
-    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server",
+  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "engines": {
     "node": ">=0.10.0"

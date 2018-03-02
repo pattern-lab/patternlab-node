@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-react",
   "description": "The React engine for Pattern Lab / Node",
-  "version": "0.2.0",
+  "version": "0.2.1-alpha.0",
   "main": "lib/engine_react.js",
   "dependencies": {
     "babel-core": "^6.17.0",
@@ -16,7 +16,6 @@
   "peerDependencies": {
     "@pattern-lab/core": ">2"
   },
-  "devDependencies": {},
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -25,8 +24,7 @@
     "Javascript",
     "React"
   ],
-  "repository":
-    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react",
+  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",

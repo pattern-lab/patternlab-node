@@ -1,13 +1,12 @@
 {
   "name": "@pattern-lab/engine-handlebars",
   "description": "The Handlebars engine for Pattern Lab / Node",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.3",
   "main": "lib/engine_handlebars.js",
   "dependencies": {
     "fs-extra": "^0.30.0",
     "handlebars": "^4.0.5"
   },
-  "devDependencies": {},
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -17,8 +16,7 @@
     "Javascript",
     "Handlebars"
   ],
-  "repository":
-    "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars",
+  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",

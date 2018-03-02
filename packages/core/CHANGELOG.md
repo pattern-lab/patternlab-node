@@ -1,6 +1,26 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+<a name="3.0.0-alpha.9"></a>
+# 3.0.0-alpha.9 (2018-03-02)
+
+
+### Bug Fixes
+
+* **core:** Fix tests ([31d67a7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/31d67a7))
+* **packages:** Allow scoped publishing ([58beeb6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/58beeb6))
+
+
+### Features
+
+* **core:** Add tests for help command ([62cd8fb](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/62cd8fb))
+* **package:** Hoist up tap and test command. ([6cacdb6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/6cacdb6))
+* **packages:** Update all package.json repo and bug links ([5eb2c11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5eb2c11))
+
+
+
 
 <a name="3.0.0-alpha.8"></a>
 
