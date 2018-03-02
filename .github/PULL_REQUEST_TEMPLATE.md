@@ -1,5 +1,5 @@
 <!-- **Please read the contribution guidelines first, and target the `dev` branch!** -->
 
-Addresses #
+Closes #
 
 Summary of changes:
