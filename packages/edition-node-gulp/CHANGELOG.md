@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-alpha.6"></a>
+# [2.0.0-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.5...@pattern-lab/edition-node-gulp@2.0.0-alpha.6) (2018-03-05)
+
+
+### Bug Fixes
+
+* **config:** Add npm registry to lerna config ([1473cd5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/1473cd5))
+
+
+### Features
+
+* **README:** Update for brevity and consistency ([65a2969](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/65a2969))
+
+
+
+
 <a name="2.0.0-alpha.5"></a>
 # 2.0.0-alpha.5 (2018-03-02)
 
