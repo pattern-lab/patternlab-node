@@ -8,5 +8,8 @@
     "init": {
       "exact": true
     }
-  }
+  },
+  "npmClientArgs": [
+    "--registry=https://registry.npmjs.org/"
+  ]
 }
