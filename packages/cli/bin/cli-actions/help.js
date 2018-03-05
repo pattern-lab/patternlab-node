@@ -1,6 +1,6 @@
 'use strict';
 module.exports = () => {
-	/* eslint-disable */
+  /* eslint-disable */
 	console.log(`
   Examples:
     $ patternlab init # Initialize a PatternLab project.');
