@@ -90,3 +90,20 @@ tap.test('loadPattern - adds a markdown pattern if encountered', function(
   test.equals(result, subTypePattern);
   test.end();
 });
+
+tap.test(
+  'loadPattern - does not load pseudopattern data on the base pattern',
+  test => {
+    //arrange
+    const patternlab = util.fakePatternLab(patterns_dir);
+    const basePatternPath = path.join('00-test', '474-pseudomodifier.mustache');
+
+    //act
+    const result = loadPattern(basePatternPath, patternlab);
+
+    //assert
+    test.same(result.jsonFileData, {});
+
+    test.end();
+  }
+);
