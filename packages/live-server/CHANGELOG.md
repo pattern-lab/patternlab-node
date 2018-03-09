@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.3.3-alpha.1"></a>
+## [1.3.3-alpha.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/@pattern-lab/live-server@1.3.3-alpha.0...@pattern-lab/live-server@1.3.3-alpha.1) (2018-03-05)
+
+
+### Bug Fixes
+
+* **config:** Add npm registry to lerna config ([1473cd5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/commit/1473cd5))
+
+
+
+
 <a name="1.3.3-alpha.0"></a>
 ## 1.3.3-alpha.0 (2018-03-02)
 

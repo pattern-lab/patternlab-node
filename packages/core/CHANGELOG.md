@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-alpha.10"></a>
+# [3.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.9...@pattern-lab/core@3.0.0-alpha.10) (2018-03-05)
+
+
+### Bug Fixes
+
+* **config:** Add npm registry to lerna config ([1473cd5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/1473cd5))
+* **config:** update patch to uikit files ([5ccd0d2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5ccd0d2))
+* **package:** clarify description of package ([c65611e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/c65611e))
+
+
+### Features
+
+* **README:** Update for brevity and consistency ([aec7c50](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/aec7c50))
+
+
+
+
 <a name="3.0.0-alpha.9"></a>
 # 3.0.0-alpha.9 (2018-03-02)
 

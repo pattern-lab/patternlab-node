@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -42,5 +42,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "bower": "^1.8.2"
   }
 }
