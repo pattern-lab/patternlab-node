@@ -58,12 +58,20 @@ ChangesHunter.prototype = {
 
     const node = patternlab.graph.node(pattern);
 
-    // Make the pattern known to the PatternGraph and remember its compileState
-    if (!node) {
+    // IF we are rebuilding due to watching and incrementally building, force add patterns to graph
+    if (
+      patternlab.incrementalBuildsEnabled &&
+      Object.keys(patternlab.watchers).length
+    ) {
       patternlab.graph.add(pattern);
     } else {
-      // Works via object reference, so we directly manipulate the node data here
-      node.compileState = pattern.compileState;
+      // Make the pattern known to the PatternGraph and remember its compileState
+      if (!node) {
+        patternlab.graph.add(pattern);
+      } else {
+        // Works via object reference, so we directly manipulate the node data here
+        node.compileState = pattern.compileState;
+      }
     }
   },
 
