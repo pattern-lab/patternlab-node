@@ -8,14 +8,14 @@ const glob = require('glob'),
 /**
  * Loads a single config file, in yaml/json format.
  *
- * @param dataFilesPath - leave off the file extension.
+ * @param dataFilePath - leave off the file extension.
  * @param fsDep
  * @returns {*}
  */
-function loadFile(dataFilesPath, fsDep) {
-  const dataFilesFullPath = dataFilesPath + '{.,[!-]*.}{json,yml,yaml}';
+function loadFile(dataFilePath, fsDep) {
+  const dataFilesFullPath = `${dataFilePath}.{json,yml,yaml}`;
 
-  if (dataFilesPath) {
+  if (dataFilePath) {
     const dataFiles = glob.sync(dataFilesFullPath),
       dataFile = _.head(dataFiles);
 

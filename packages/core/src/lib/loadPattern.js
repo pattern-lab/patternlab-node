@@ -142,7 +142,7 @@ module.exports = function(relPath, patternlab) {
     listJsonFileName = path.resolve(
       patternsPath,
       currentPattern.subdir,
-      currentPattern.fileName + '.listitems'
+      `${currentPattern.fileName}.listitems`
     );
     const listItemsData = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
