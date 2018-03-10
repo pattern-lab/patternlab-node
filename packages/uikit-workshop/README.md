@@ -14,7 +14,7 @@ This code is responsible for creating Pattern Lab's default workshop UI look, fe
 
 Pattern Lab Node uses [npm](https://www.npmjs.com/) to manage project dependencies. To install the default static assets run:
 
-    npm install @pattern-lab/uikit-default
+    npm install @pattern-lab/uikit-workshop
 
 ## Development Requirements
 
