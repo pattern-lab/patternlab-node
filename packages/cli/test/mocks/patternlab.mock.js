@@ -1,21 +1,21 @@
 function patternLabMock() {
 	return {
-		build: function () {
+		build: function() {
 			return true;
 		},
-		help: function () {
+		help: function() {
 			return true;
 		},
-		patternsonly: function () {
+		patternsonly: function() {
 			return true;
 		},
-		liststarterkits: function () {
+		liststarterkits: function() {
 			return true;
 		},
-		loadstarterkit: function () {
+		loadstarterkit: function() {
 			return true;
-		}
-	}
+		},
+	};
 }
 
 module.exports = patternLabMock;

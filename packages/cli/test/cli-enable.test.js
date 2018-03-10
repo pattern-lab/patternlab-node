@@ -1,13 +1,12 @@
-const exists = require('path-exists');
 const getUniqueProjectPath = require('./utils/getUniqueProjectPath');
-const path = require('path');
 const spawnCmd = require('./utils/spawnCmd');
 const tap = require('tap');
+const { readFileSync } = require('fs');
 const wrapAsync = require('../bin/utils').wrapAsync;
 
 const projectRoot = getUniqueProjectPath();
 
-tap.test('Init and export ->', t =>
+tap.test('Enable ->', t =>
 	wrapAsync(function*() {
 		yield spawnCmd([
 			'init',
@@ -20,13 +19,26 @@ tap.test('Init and export ->', t =>
 			'@pattern-lab/starterkit-mustache-base',
 		]);
 		yield spawnCmd([
-			'export',
+			'install',
+			'--plugins',
+			'@pattern-lab/plugin-tab',
 			'--config',
 			`${projectRoot}/patternlab-config.json`,
 		]);
-		t.ok(
-			exists.sync(path.resolve(projectRoot, 'pattern_exports', 'patterns.zip')),
-			' should create patterns.zip'
+		yield spawnCmd([
+			'enable',
+			'--plugins',
+			'@pattern-lab/plugin-tab',
+			'--config',
+			`${projectRoot}/patternlab-config.json`,
+		]);
+		const config = JSON.parse(
+			readFileSync(`${projectRoot}/patternlab-config.json`, 'utf8')
+		);
+		t.equal(
+			config.plugins['@pattern-lab/plugin-tab'].enabled,
+			true,
+			'and set the enabled flag in patternlab-config.json'
 		);
 		t.end();
 	})
