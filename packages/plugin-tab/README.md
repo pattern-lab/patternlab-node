@@ -1,6 +1,6 @@
 ![license](https://img.shields.io/github/license/pattern-lab/plugin-node-tab.svg)
-[![npm](https://img.shields.io/npm/v/plugin-node-tab.svg)](https://www.npmjs.com/package/plugin-node-tab)
-[![Gitter](https://img.shields.io/gitter/room/pattern-lab/php.svg)](https://gitter.im/pattern-lab/php)
+[![npm](https://img.shields.io/npm/v/@pattern-lab/plugin-tab.svg)](https://www.npmjs.com/package/@pattern-lab/plugin-tab)
+[![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Tab Plugin for Pattern Lab Node
 
@@ -12,7 +12,7 @@ The Tab Plugin allows Pattern Lab Node users to see sibling files next to a patt
 
 To add the Tab Plugin to your project using [npm](http://npmjs.com/) type:
 
-    npm install plugin-node-tab --save
+    npm install @pattern-lab/plugin-tab --save
 
 Or add it directly to your project's `package.json` file and run `npm install`
 

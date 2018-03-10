@@ -1,6 +1,6 @@
-# The React engine for Pattern Lab / Node
+# The React PatternEngine for Pattern Lab / Node
 
-This is the **very preliminary** React engine for Patternlab/Node.
+This is the **very preliminary** React PatternEngine for Patternlab / Node.
 
 ## Status
 
@@ -8,7 +8,11 @@ You can author standalone React components that include only the main React modu
 
 The current release works with the 2.X series of Patternlab / Node. Support for the 3.X series is underway on the `dev` branch.
 
-## Supported Pattern Lab
+## Installing
+
+To install the React PatternEngine in your edition, `npm install @pattern-lab/engine-react` should do the trick.
+
+## Supported features
 
 * [x] [Includes](http://patternlab.io/docs/pattern-including.html)
 * [x] Data inheritance: This can be achieved by combining react `props` & `defaultProps`
