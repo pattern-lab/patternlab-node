@@ -1,6 +1,6 @@
 ![Pattern Lab Logo](https://github.com/pattern-lab/patternlab-node/raw/master/patternlab.png 'Pattern Lab Logo')
 ![current release](https://img.shields.io/npm/v/@pattern-lab/edition-node.svg)
-![license](https://img.shields.io/github/license/pattern-lab/edition-node.svg)
+![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Pattern Lab - Node Edition
@@ -33,19 +33,19 @@ This edition comes pre-packaged with a couple simple scripts. Extend them as nee
 
 **build** patterns, copy assets, and construct ui
 
-``` bash
+```bash
 npm run build
 ```
 
 build patterns, copy assets, and construct ui, watch source files, and **serve** locally
 
-``` bash
+```bash
 npm run serve
 ```
 
 logs Pattern Lab Node usage and **help** content
 
-``` bash
+```bash
 npm run help
 ```
 
