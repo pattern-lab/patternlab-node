@@ -2,7 +2,7 @@
 
 ## Installing
 
-To install the Nunjucks engine in your edition, run `npm install patternengine-node-nunjucks`.
+To install the Nunjucks PatternEngine in your edition, run `npm install @pattern-lab/engine-nunjucks`.
 
 ## Supported features
 - [x] [Includes](http://patternlab.io/docs/pattern-including.html)
