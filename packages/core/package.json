@@ -60,9 +60,7 @@
   "scripts": {
     "docs": "node ./scripts/docs.js",
     "lint": "eslint src/**/*.js",
-    "precommit": "pretty-quick --staged",
     "pretest": "npm run lint",
-    "prettier": "prettier --config .prettierrc --write ./src/**/*.js",
     "release": "standard-version",
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },

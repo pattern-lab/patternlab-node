@@ -7,44 +7,45 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.opensource.org/licenses/GPL-2.0
  */
-(function ($, document, undefined) {
-
+(function($, document, undefined) {
   var pluses = /\+/g;
-  
+
   function raw(s) {
     return s;
   }
-  
+
   function decoded(s) {
     return decodeURIComponent(s.replace(pluses, ' '));
   }
-  
-  var config = $.cookie = function (key, value, options) {
-    
+
+  var config = ($.cookie = function(key, value, options) {
     // write
     if (value !== undefined) {
       options = $.extend({}, config.defaults, options);
-      
+
       if (value === null) {
         options.expires = -1;
       }
-      
+
       if (typeof options.expires === 'number') {
-        var days = options.expires, t = options.expires = new Date();
+        var days = options.expires,
+          t = (options.expires = new Date());
         t.setDate(t.getDate() + days);
       }
-      
+
       value = config.json ? JSON.stringify(value) : String(value);
-      
+
       return (document.cookie = [
-        encodeURIComponent(key), '=', config.raw ? value : encodeURIComponent(value),
+        encodeURIComponent(key),
+        '=',
+        config.raw ? value : encodeURIComponent(value),
         options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-        options.path    ? '; path=' + options.path : '',
-        options.domain  ? '; domain=' + options.domain : '',
-        options.secure  ? '; secure' : ''
+        options.path ? '; path=' + options.path : '',
+        options.domain ? '; domain=' + options.domain : '',
+        options.secure ? '; secure' : '',
       ].join(''));
     }
-    
+
     // read
     var decode = config.raw ? raw : decoded;
     var cookies = document.cookie.split('; ');
@@ -55,20 +56,19 @@
         return config.json ? JSON.parse(cookie) : cookie;
       }
     }
-    
+
     return null;
-  };
-  
+  });
+
   config.defaults = {};
-  
-  $.removeCookie = function (key, options) {
+
+  $.removeCookie = function(key, options) {
     if ($.cookie(key) !== null) {
       $.cookie(key, null, options);
       return true;
     }
     return false;
   };
-
 })(jQuery, document);
 
 /*!
@@ -79,78 +79,85 @@
  */
 
 var DataSaver = {
-  
   // the name of the cookie to store the data in
-  cookieName: "patternlab",
-  
+  cookieName: 'patternlab',
+
   /**
-  * Add a given value to the cookie
-  * @param  {String}       the name of the key
-  * @param  {String}       the value
-  */
-  addValue: function (name,val) {
+   * Add a given value to the cookie
+   * @param  {String}       the name of the key
+   * @param  {String}       the value
+   */
+  addValue: function(name, val) {
     var cookieVal = $.cookie(this.cookieName);
-    cookieVal = ((cookieVal === null) || (cookieVal === "")) ? name+"~"+val : cookieVal+"|"+name+"~"+val;
-    $.cookie(this.cookieName,cookieVal);
+    cookieVal =
+      cookieVal === null || cookieVal === ''
+        ? name + '~' + val
+        : cookieVal + '|' + name + '~' + val;
+    $.cookie(this.cookieName, cookieVal);
   },
-  
+
   /**
-  * Update a value found in the cookie. If the key doesn't exist add the value
-  * @param  {String}       the name of the key
-  * @param  {String}       the value
-  */
-  updateValue: function (name,val) {
+   * Update a value found in the cookie. If the key doesn't exist add the value
+   * @param  {String}       the name of the key
+   * @param  {String}       the value
+   */
+  updateValue: function(name, val) {
     if (this.findValue(name)) {
-      var updateCookieVals = "";
-      var cookieVals = $.cookie(this.cookieName).split("|");
+      var updateCookieVals = '';
+      var cookieVals = $.cookie(this.cookieName).split('|');
       for (var i = 0; i < cookieVals.length; i++) {
-        var fieldVals = cookieVals[i].split("~");
+        var fieldVals = cookieVals[i].split('~');
         if (fieldVals[0] == name) {
           fieldVals[1] = val;
         }
-        updateCookieVals += (i > 0) ? "|"+fieldVals[0]+"~"+fieldVals[1] : fieldVals[0]+"~"+fieldVals[1];
+        updateCookieVals +=
+          i > 0
+            ? '|' + fieldVals[0] + '~' + fieldVals[1]
+            : fieldVals[0] + '~' + fieldVals[1];
       }
-      $.cookie(this.cookieName,updateCookieVals);
+      $.cookie(this.cookieName, updateCookieVals);
     } else {
-      this.addValue(name,val);
+      this.addValue(name, val);
     }
   },
-  
+
   /**
-  * Remove the given key
-  * @param  {String}       the name of the key
-  */
-  removeValue: function (name) {
-    var updateCookieVals = "";
-    var cookieVals = $.cookie(this.cookieName).split("|");
+   * Remove the given key
+   * @param  {String}       the name of the key
+   */
+  removeValue: function(name) {
+    var updateCookieVals = '';
+    var cookieVals = $.cookie(this.cookieName).split('|');
     var k = 0;
     for (var i = 0; i < cookieVals.length; i++) {
-      var fieldVals = cookieVals[i].split("~");
+      var fieldVals = cookieVals[i].split('~');
       if (fieldVals[0] != name) {
-        updateCookieVals += (k === 0) ? fieldVals[0]+"~"+fieldVals[1] : "|"+fieldVals[0]+"~"+fieldVals[1];
+        updateCookieVals +=
+          k === 0
+            ? fieldVals[0] + '~' + fieldVals[1]
+            : '|' + fieldVals[0] + '~' + fieldVals[1];
         k++;
       }
     }
-    $.cookie(this.cookieName,updateCookieVals);
+    $.cookie(this.cookieName, updateCookieVals);
   },
-  
+
   /**
-  * Find the value using the given key
-  * @param  {String}       the name of the key
-  *
-  * @return {String}       the value of the key or false if the value isn't found
-  */
-  findValue: function (name) {
+   * Find the value using the given key
+   * @param  {String}       the name of the key
+   *
+   * @return {String}       the value of the key or false if the value isn't found
+   */
+  findValue: function(name) {
     if ($.cookie(this.cookieName)) {
-      var cookieVals = $.cookie(this.cookieName).split("|");
+      var cookieVals = $.cookie(this.cookieName).split('|');
       for (var i = 0; i < cookieVals.length; i++) {
-        var fieldVals = cookieVals[i].split("~");
+        var fieldVals = cookieVals[i].split('~');
         if (fieldVals[0] == name) {
           return fieldVals[1];
         }
       }
     }
     return false;
-  }
-  
+  },
 };
