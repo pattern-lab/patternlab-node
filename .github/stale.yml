@@ -6,6 +6,7 @@ daysUntilClose: 14
 exemptLabels:
   - "staged for next release 🏁"
   - "pinned 📌"
+  - "triage 😰"
 # Label to use when marking an issue as stale
 staleLabel: "needs response 🤙"
 # Comment to post when marking an issue as stale. Set to `false` to disable
