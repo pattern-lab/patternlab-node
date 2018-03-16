@@ -1,4 +1,4 @@
-**/package.json
-**/package-lock.json
+**/*.json
+**/README.md
 ./packages/core/scripts/api.handlebars
 ./packages/core/scripts/events.handlebars
