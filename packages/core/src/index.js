@@ -10,7 +10,7 @@
 
 'use strict';
 
-const packageInfo = require('../package.json');
+const packageInfo = require('../package.json')
 
 const { concat } = require('lodash');
 const copy = require('recursive-copy');
