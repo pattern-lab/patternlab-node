@@ -1,4 +1,9 @@
 **/*.json
 **/README.md
+**/node_modules/
+**/bower_components/
+**/dist/
+**/public/
+**/*.min.js
 ./packages/core/scripts/api.handlebars
 ./packages/core/scripts/events.handlebars

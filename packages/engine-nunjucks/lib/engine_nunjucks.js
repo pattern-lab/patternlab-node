@@ -18,7 +18,7 @@
  *
  */
 
-"use strict";
+'use strict';
 
 var fs = require('fs-extra'),
   path = require('path'),
@@ -28,17 +28,18 @@ var fs = require('fs-extra'),
   env = nunjucks.configure(plConfig.paths.source.patterns),
   partialRegistry = [];
 
-
 ////////////////////////////
 // LOAD ANY USER NUNJUCKS CONFIGURATIONS
 ////////////////////////////
 try {
-  var nunjucksConfig = require(path.join(plPath, 'patternlab-nunjucks-config.js'));
+  var nunjucksConfig = require(path.join(
+    plPath,
+    'patternlab-nunjucks-config.js'
+  ));
   if (typeof nunjucksConfig == 'function') {
     nunjucksConfig(nunjucks, env);
   }
-} catch (err) { }
-
+} catch (err) {}
 
 ////////////////////////////
 // HELPER FUNCTIONS
@@ -46,11 +47,16 @@ try {
 // Might do some research on the solution.
 ////////////////////////////
 if (!String.prototype.replaceAll) {
-  String.prototype.replaceAll = function (str1, str2, ignore) {
-    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, "\\$&"), (ignore ? "gi" : "g")), (typeof (str2) == "string") ? str2.replace(/\$/g, "$$$$") : str2);
-  }
+  String.prototype.replaceAll = function(str1, str2, ignore) {
+    return this.replace(
+      new RegExp(
+        str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, '\\$&'),
+        ignore ? 'gi' : 'g'
+      ),
+      typeof str2 == 'string' ? str2.replace(/\$/g, '$$$$') : str2
+    );
+  };
 }
-
 
 ////////////////////////////
 // NUNJUCKS ENGINE
@@ -75,8 +81,7 @@ var engine_nunjucks = {
       pattern.extendedTemplate = this.replacePartials(pattern);
       var result = nunjucks.renderString(pattern.extendedTemplate, data);
       return Promise.resolve(result);
-    }
-    catch (err) {
+    } catch (err) {
       console.error('Failed to render pattern: ' + pattern.name);
     }
   },
@@ -88,69 +93,86 @@ var engine_nunjucks = {
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and return it.
-  findPartial: function (partialString) {
+  findPartial: function(partialString) {
     try {
       var partial = partialString.match(this.findPartialKeyRE)[1];
       partial = partial.replace(/["']/g, '');
       return partial;
-    }
-    catch (err) {
-      console.error('Error occured when trying to find partial name in: ' + partialString);
+    } catch (err) {
+      console.error(
+        'Error occured when trying to find partial name in: ' + partialString
+      );
     }
   },
 
   // keep track of partials and their paths so we can replace the name with the path
-  registerPartial: function (pattern) {
+  registerPartial: function(pattern) {
     // only register each partial once. Otherwise we'll eat up a ton of memory.
     if (partialRegistry.indexOf(pattern.patternPartial) === -1) {
-      partialRegistry[pattern.patternPartial] = pattern.relPath.replace(/\\/g, '/');
+      partialRegistry[pattern.patternPartial] = pattern.relPath.replace(
+        /\\/g,
+        '/'
+      );
     }
   },
 
-  replacePartials: function (pattern) {
+  replacePartials: function(pattern) {
     try {
       var partials = this.findPartials(pattern);
       if (partials !== null) {
-        for (var i = 0; i < partials.length; i++) { // e.g. {% include "atoms-parent" %}
+        for (var i = 0; i < partials.length; i++) {
+          // e.g. {% include "atoms-parent" %}
           var partialName = this.findPartial(partials[i]); // e.g. atoms-parent
           var partialFullPath = partialRegistry[partialName]; // e.g. 00-atoms/01-parent.njk
-          var newPartial = partials[i].replaceAll(partialName, partialFullPath, true); // e.g. {% include "00-atoms/01-parent.njk" %}
-          pattern.extendedTemplate = pattern.extendedTemplate.replaceAll(partials[i], newPartial, true);
+          var newPartial = partials[i].replaceAll(
+            partialName,
+            partialFullPath,
+            true
+          ); // e.g. {% include "00-atoms/01-parent.njk" %}
+          pattern.extendedTemplate = pattern.extendedTemplate.replaceAll(
+            partials[i],
+            newPartial,
+            true
+          );
         }
       }
       return pattern.extendedTemplate;
-    }
-    catch (err) {
-      console.error('Error occurred in replacing partial names with paths for patern: ' + pattern.name);
+    } catch (err) {
+      console.error(
+        'Error occurred in replacing partial names with paths for patern: ' +
+          pattern.name
+      );
     }
   },
 
   // still requires the mustache syntax because of the way PL handles lists
-  findListItems: function (pattern) {
+  findListItems: function(pattern) {
     var matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // handled by nunjucks. This is here to keep PL from erroring
-  findPartialsWithStyleModifiers: function () {
+  findPartialsWithStyleModifiers: function() {
     return null;
   },
 
   // handled by nunjucks. This is here to keep PL from erroring
-  findPartialsWithPatternParameters: function () {
+  findPartialsWithPatternParameters: function() {
     return null;
   },
 
-  spawnFile: function (config, fileName) {
+  spawnFile: function(config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
       fs.statSync(metaFilePath);
     } catch (err) {
-
       //not a file, so spawn it from the included file
       const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
-      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      const metaFileContent = fs.readFileSync(
+        path.resolve(__dirname, '..', '_meta/', fileName),
+        'utf8'
+      );
       fs.outputFileSync(metaFilePath, metaFileContent);
     }
   },
@@ -162,10 +184,10 @@ var engine_nunjucks = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function (config) {
+  spawnMeta: function(config) {
     this.spawnFile(config, '_00-head.njk');
     this.spawnFile(config, '_01-foot.njk');
-  }
+  },
 };
 
 module.exports = engine_nunjucks;
