@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-alpha.11"></a>
+# [3.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.10...@pattern-lab/core@3.0.0-alpha.11) (2018-03-21)
+
+
+### Bug Fixes
+
+* **changes_hunter:** guard for incrementalRebuild while watching ([c652b9c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/c652b9c)), closes [#794](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/794) [#802](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/802)
+* **data_loader:** look for exact name of the file passed in ([eb46be2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/eb46be2))
+* **get:** add internal ability to omit missing pattern warning ([e3dddc6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/e3dddc6)), closes [#786](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/786)
+* **lint:** run code through prettier ([ca52fde](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/ca52fde)), closes [#825](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/825)
+* **package:** update LICENSE ([337aa32](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/337aa32))
+* **tests:** Revert annotations file back to expected legacy format ([3618f27](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/3618f27))
+
+
+### Features
+
+* **package:** standardize and hoist common devDependencies ([7f4ce6f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/7f4ce6f))
+
+
+
+
 <a name="3.0.0-alpha.10"></a>
 # [3.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.9...@pattern-lab/core@3.0.0-alpha.10) (2018-03-05)
 
