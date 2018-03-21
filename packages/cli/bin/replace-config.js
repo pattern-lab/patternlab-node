@@ -12,10 +12,24 @@ const _ = require('lodash');
  * @param {string} exportDir - The export root directory path.
  * @return {config} - Returns a modified config. Original stays unaltered.
  */
-function replaceConfigPaths(config, projectDir, sourceDir, publicDir, exportDir) {
+function replaceConfigPaths(
+	config,
+	projectDir,
+	sourceDir,
+	publicDir,
+	exportDir
+) {
 	const conf = Object.assign({}, config);
-	_.map(conf.paths.source, (value, key) => { conf.paths.source[key] = value.replace(/^\.\/source/g, path.join(projectDir, sourceDir)) });
-	_.map(conf.paths.public, (value, key) => { conf.paths.public[key] = value.replace(/^\.\/public/g, path.join(projectDir, publicDir)) });
+	_.map(conf.paths.source, (value, key) => {
+		conf.paths.source[key] = _.isString(value)
+			? value.replace(/^\.\/source/g, path.join(projectDir, sourceDir))
+			: value;
+	});
+	_.map(conf.paths.public, (value, key) => {
+		conf.paths.public[key] = _.isString(value)
+			? value.replace(/^\.\/public/g, path.join(projectDir, publicDir))
+			: value;
+	});
 	conf.patternExportDirectory = path.join(projectDir, exportDir);
 	return conf;
 }

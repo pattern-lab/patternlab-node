@@ -2,7 +2,7 @@
 
 const logger = require('./log');
 
-module.exports = function(partialName, patternlab) {
+module.exports = function(partialName, patternlab, reportWarning = true) {
   //look for exact partial matches
   for (let i = 0; i < patternlab.patterns.length; i++) {
     if (patternlab.patterns[i].patternPartial === partialName) {
@@ -33,10 +33,11 @@ module.exports = function(partialName, patternlab) {
       return patternlab.patterns[k];
     }
   }
-  logger.warning(
-    'Could not find pattern referenced with partial syntax ' +
-      partialName +
-      '. This can occur when a pattern was renamed, moved, or no longer exists but it still referenced within a different template or within data as a link.'
-  );
+  if (reportWarning) {
+    logger.warning(
+      `Could not find pattern referenced with partial syntax ${partialName}.
+      This can occur when a pattern was renamed, moved, or no longer exists but it still referenced within a different template or within data as a link.`
+    );
+  }
   return undefined;
 };

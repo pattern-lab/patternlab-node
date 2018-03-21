@@ -1,24 +1,24 @@
-# The Underscore engine for Pattern Lab / Node
+# The Underscore PatternEngine for Pattern Lab / Node
 
 ## Installing
 
-To install the Underscore engine in your edition, `npm install patternengine-node-underscore` should do the trick.
+To install the Underscore PatternEngine in your edition, `npm install @pattern-lab/engine-underscore` should do the trick.
 
 ## Supported features
 
-* [x] [Includes](http://patternlab.io/docs/pattern-including.html) (Accomplished using the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59))
+* [x] [Includes](http://patternlab.io/docs/pattern-including.html) (Accomplished using the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60))
 * [x] Lineage
 * [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
 * [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
 * [x] [Pattern States](http://patternlab.io/docs/pattern-states.html)
-* [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59) mixin function)
-* [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59) mixin function)
+* [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
+* [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
 
 ## Extensions to basic Underscore functionality
 
 ### Pattern including
 
-Underscore templates include no native support for calling other templates, so support for pattern including is accomplished through an included Underscore mixin function, [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternengine-node-underscore/blob/master/lib/engine_underscore.js#L54-L59), and is considered experimental, but seems to work just fine.
+Underscore templates include no native support for calling other templates, so support for pattern including is accomplished through an included Underscore mixin function, [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60), and is considered experimental, but seems to work just fine.
 
 #### Example
 

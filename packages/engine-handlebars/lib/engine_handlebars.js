@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * handlebars pattern engine for patternlab-node
@@ -32,7 +32,10 @@ const findListItemsRE = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|s
 const findAtPartialBlockRE = /{{#?>\s*@partial-block\s*}}/g;
 
 function escapeAtPartialBlock(partialString) {
-  var partial = partialString.replace(findAtPartialBlockRE, '&#123;{> @partial-block }&#125;');
+  var partial = partialString.replace(
+    findAtPartialBlockRE,
+    '&#123;{> @partial-block }&#125;'
+  );
   return partial;
 }
 
@@ -51,14 +54,12 @@ var engine_handlebars = {
       Handlebars.registerPartial(partials);
     }
 
-    var compiled = Handlebars.compile(
-      escapeAtPartialBlock(pattern.template)
-    );
+    var compiled = Handlebars.compile(escapeAtPartialBlock(pattern.template));
 
     return Promise.resolve(compiled(data));
   },
 
-  registerPartial: function (pattern) {
+  registerPartial: function(pattern) {
     // register exact partial name
     Handlebars.registerPartial(pattern.patternPartial, pattern.template);
 
@@ -70,7 +71,7 @@ var engine_handlebars = {
     var matches = pattern.template.match(findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function () {
+  findPartialsWithStyleModifiers: function() {
     // TODO: make the call to this from oPattern objects conditional on their
     // being implemented here.
     return [];
@@ -78,47 +79,49 @@ var engine_handlebars = {
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function () {
+  findPartialsWithPatternParameters: function() {
     // TODO: make the call to this from oPattern objects conditional on their
     // being implemented here.
     return [];
   },
-  findListItems: function (pattern) {
+  findListItems: function(pattern) {
     var matches = pattern.template.match(findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function (partialString) {
+  findPartial: function(partialString) {
     var partial = partialString.replace(findPartialsRE, '$1');
     return partial;
   },
 
-  spawnFile: function (config, fileName) {
+  spawnFile: function(config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
       fs.statSync(metaFilePath);
     } catch (err) {
-
       //not a file, so spawn it from the included file
-      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      const metaFileContent = fs.readFileSync(
+        path.resolve(__dirname, '..', '_meta/', fileName),
+        'utf8'
+      );
       fs.outputFileSync(metaFilePath, metaFileContent);
     }
   },
 
   /**
-  * Checks to see if the _meta directory has engine-specific head and foot files,
-  * spawning them if not found.
-  *
-  * @param {object} config - the global config object from core, since we won't
-  * assume it's already present
-  */
-  spawnMeta: function (config) {
+   * Checks to see if the _meta directory has engine-specific head and foot files,
+   * spawning them if not found.
+   *
+   * @param {object} config - the global config object from core, since we won't
+   * assume it's already present
+   */
+  spawnMeta: function(config) {
     this.spawnFile(config, '_00-head.hbs');
     this.spawnFile(config, '_01-foot.hbs');
-  }
+  },
 };
 
 module.exports = engine_handlebars;

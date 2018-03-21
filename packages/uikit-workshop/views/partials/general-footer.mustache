@@ -40,9 +40,6 @@
     if (self != top) {
       var cb = '{{ cacheBuster}}';
       var js = [];
-      if (typeof document !== 'undefined' && !('classList' in document.documentElement)) {
-        js.push('styleguide/bower_components/classList.min.js');
-      }
       scriptLoader.run(js,cb,'pl-js-polyfill-insert');
     }
   })();

@@ -3,9 +3,7 @@
 const tap = require('tap');
 const help = require('../src/lib/help');
 
-tap.test('help - includes passed in version number', function(
-  test
-) {
+tap.test('help - includes passed in version number', function(test) {
   //arrange
   const version = '⚡';
 

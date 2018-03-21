@@ -2,25 +2,29 @@
 'use strict';
 const cli = require('commander');
 const build = require('./cli-actions/build');
+const disable = require('./cli-actions/disable');
+const enable = require('./cli-actions/enable');
 const help = require('./cli-actions/help');
 const version = require('./cli-actions/version');
 const init = require('./cli-actions/init');
 const install = require('./cli-actions/install');
 const exportPatterns = require('./cli-actions/export');
 const serve = require('./cli-actions/serve');
-const error = require('./utils').error;
-const log = require('./utils').log;
+const { error, log } = require('./utils');
 const pkg = require('../package.json');
 
-// Register error logging
+// Register info and error logging
 log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
+log.on('patternlab.info', msg => console.log(msg)); // eslint-disable-line
 
 // Conditionally register verbose logging
-const verboseLogs = verbose => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
+const verboseLogs = verbose =>
+	log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
 
 // Conditionally unregister all logging
 const silenceLogs = () => {
 	log.removeAllListeners('patternlab.debug');
+	log.removeAllListeners('patternlab.info');
 	log.removeAllListeners('patternlab.error');
 };
 
@@ -34,7 +38,12 @@ cli
 	.version(version(pkg), '-V, --version')
 	.usage('<cmd> [options]')
 	.arguments('<cmd> [options]')
-	.option('-c, --config <path>', 'Specify config file. Default looks up the project dir', val => val.trim(), './patternlab-config.json')
+	.option(
+		'-c, --config <path>',
+		'Specify config file. Default looks up the project dir',
+		val => val.trim(),
+		'./patternlab-config.json'
+	)
 	.option('-v, --verbose', 'Show verbose console logs', verboseLogs)
 	.option('--silent', 'Turn off console logs', silenceLogs);
 
@@ -64,7 +73,9 @@ cli
  */
 cli
 	.command('init')
-	.description('Initialize a PatternLab project from scratch or import an edition and/or starterkit')
+	.description(
+		'Initialize a PatternLab project from scratch or import an edition and/or starterkit'
+	)
 	.option('-p, --project-dir <path>', 'Specify a project directory')
 	.option('-e, --edition <name>', 'Specify an edition to install')
 	.option('-k, --starterkit <name>', 'Specify a starterkit to install')
@@ -77,10 +88,38 @@ cli
 cli
 	.command('install')
 	.alias('add')
-	.description('Installs Pattern Lab related modules like starterkits or plugins')
-	.option('--starterkits <names>', 'Specify one or more starterkit to install', list)
+	.description(
+		'Installs Pattern Lab related modules like starterkits or plugins'
+	)
+	.option(
+		'--starterkits <names>',
+		'Specify one or more starterkit to install',
+		list
+	)
 	.option('--plugins <names>', 'Specify one or more plugins to install', list)
 	.action(install);
+
+/**
+ * enable
+ * @desc Enable Pattern Lab plugins. Unavailable plugins are just skipped
+ */
+cli
+	.command('enable')
+	.alias('on')
+	.description('Enable Pattern Lab plugins')
+	.option('--plugins <names>', 'Specify one or more plugins to enable', list)
+	.action(enable);
+
+/**
+ * disable
+ * @desc Enable Pattern Lab plugins. Unavailable plugins are just skipped
+ */
+cli
+	.command('disable')
+	.alias('off')
+	.description('Disable Pattern Lab plugins')
+	.option('--plugins <names>', 'Specify one or more plugins to disable', list)
+	.action(disable);
 
 /**
  * serve
@@ -102,8 +141,9 @@ cli.on('--help', help);
  */
 cli
 	.on('*', () => {
-		error('Invalid command provided. See the help for available commands/options.');
+		error(
+			'Invalid command provided. See the help for available commands/options.'
+		);
 		cli.help();
 	})
 	.parse(process.argv);
-

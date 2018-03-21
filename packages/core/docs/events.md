@@ -17,14 +17,14 @@ Learn more about [Creating Plugins](https://github.com/pattern-lab/patternlab-no
 
 ### `EVENTS` ⏏
 
-**Kind**: Exported constant
+**Kind**: Exported constant  
 <a name="module_Events--EVENTS..PATTERNLAB_BUILD_PATTERN_START"></a>
 
 #### `EVENTS~PATTERNLAB_BUILD_PATTERN_START`
 
 Emitted before any logic run inside `build()`, which is the entry point for single builds, pattern-only builds, run singly or when watched.
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**
 
 | Name       | Type                | Description       |
@@ -37,7 +37,7 @@ Emitted before any logic run inside `build()`, which is the entry point for sing
 
 Emitted after patterns are iterated over to gather data about them. Right before Pattern Lab processes and renders patterns into HTML
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**
 
 | Name       | Type                | Description       |
@@ -50,7 +50,7 @@ Emitted after patterns are iterated over to gather data about them. Right before
 
 Emitted after global `data.json` and `listitems.json` are read, and the supporting Pattern Lab templates are loaded into memory (header, footer, patternSection, patternSectionSubType, viewall). Right before patterns are iterated over to gather data about them.
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**
 
 | Name       | Type                | Description       |
@@ -63,8 +63,8 @@ Emitted after global `data.json` and `listitems.json` are read, and the supporti
 
 Emitted before all data is merged prior to a Pattern's render. Global `data.json` is merged with any pattern `.json`. Global `listitems.json` is merged with any pattern `.listitems.json`.
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
-**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
+**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)  
 **Properties**
 
 | Name       | Type                 | Description       |
@@ -78,8 +78,8 @@ Emitted before all data is merged prior to a Pattern's render. Global `data.json
 
 Emitted before a pattern's template, HTML, and encoded HTML files are written to their output location
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
-**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
+**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)  
 **Properties**
 
 | Name       | Type                 | Description       |
@@ -93,8 +93,8 @@ Emitted before a pattern's template, HTML, and encoded HTML files are written to
 
 Emitted after a pattern's template, HTML, and encoded HTML files are written to their output location
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
-**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
+**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)  
 **Properties**
 
 | Name       | Type                 | Description       |
@@ -108,7 +108,7 @@ Emitted after a pattern's template, HTML, and encoded HTML files are written to 
 
 Invoked when a watched asset changes. Assets include anything in `source/` that is not under `['root', 'patterns', 'data', 'meta', 'annotations', 'patternlabFiles']` which are blacklisted for specific copying.
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**
 
 | Name     | Type                | Description                                               |
@@ -121,7 +121,7 @@ Invoked when a watched asset changes. Assets include anything in `source/` that 
 
 Invoked when a watched global file changes. These are files within the directories specified in `['data', 'meta']`paths.
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**
 
 | Name     | Type                | Description                  |
@@ -134,7 +134,7 @@ Invoked when a watched global file changes. These are files within the directori
 
 Invoked when a pattern changes.
 
-**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**
 
 | Name     | Type                | Description                  |

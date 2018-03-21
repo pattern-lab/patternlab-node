@@ -1,11 +1,13 @@
-![Pattern Lab Logo](/patternlab.png "Pattern Lab Logo")
+![Pattern Lab Logo](https://github.com/pattern-lab/patternlab-node/raw/master/patternlab.png 'Pattern Lab Logo')
 
 ![current release](https://img.shields.io/npm/v/@pattern-lab/edition-node-gulp.svg)
-![license](https://img.shields.io/github/license/pattern-lab/edition-node-gulp.svg) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
+![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg) [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 # Pattern Lab Node - Gulp Edition
 
 The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core)), the default PatternEngine, and supporting frontend assets.
+
+[Online Demo of Pattern Lab Output](http://demo.patternlab.io/)
 
 ## Packaged Components
 
@@ -31,19 +33,19 @@ This edition comes pre-packaged with a couple simple gulp tasks. Extend them as 
 
 **build** patterns, copy assets, and construct ui
 
-``` bash
+```bash
 gulp patternlab:build
 ```
 
 build patterns, copy assets, and construct ui, watch source files, and **serve** locally
 
-``` bash
+```bash
 gulp patternlab:serve
 ```
 
 logs Pattern Lab Node usage and **help** content
 
-``` bash
+```bash
 gulp patternlab:help
 ```
 

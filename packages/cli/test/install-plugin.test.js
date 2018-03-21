@@ -9,15 +9,21 @@ const projectRoot = getUniqueProjectPath();
 const minimalConfig = {
 	paths: {
 		source: {
-			root: projectRoot
-		}
-	}
+			root: projectRoot,
+		},
+	},
 };
 
-tap.test('Install plugin-node-tab ->', t => wrapAsync(function*() {
-	yield installPlugin('plugin-node-tab', minimalConfig);
-	const pkg = yield moduleExist('plugin-node-tab');
-	t.ok(pkg, 'module should exist after install');
-	t.equal(minimalConfig['plugin-node-tab'], false, 'and persist it on the patternlab-config.json');
-	t.end();
-}));
+tap.test('Install plugin-tab ->', t =>
+	wrapAsync(function*() {
+		yield installPlugin('@pattern-lab/plugin-tab', minimalConfig);
+		const pkg = yield moduleExist('@pattern-lab/plugin-tab');
+		t.ok(pkg, 'module should exist after install');
+		t.equal(
+			minimalConfig.plugins['@pattern-lab/plugin-tab'].enabled,
+			false,
+			'and persist it on the patternlab-config.json'
+		);
+		t.end();
+	})
+);

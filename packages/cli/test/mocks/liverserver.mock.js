@@ -1,15 +1,15 @@
 function liveServerMock() {
 	return {
-		reload: function () {
+		reload: function() {
 			return true;
 		},
-		refreshCSS: function () {
+		refreshCSS: function() {
 			return true;
 		},
-		start: function () {
+		start: function() {
 			return true;
-		}
-	}
+		},
+	};
 }
 
 module.exports = liveServerMock;

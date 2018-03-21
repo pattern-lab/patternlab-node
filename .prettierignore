@@ -1,4 +1,10 @@
-**/package.json
-**/package-lock.json
-./packages/core/scripts/api.handlebars
-./packages/core/scripts/events.handlebars
+**/*.json
+**/README.md
+**/node_modules/
+**/bower_components/
+**/dist/
+**/public/
+**/*.min.js
+packages/core/scripts/api.handlebars
+packages/core/scripts/events.handlebars
+packages/core/test/files/annotations.js
