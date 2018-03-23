@@ -1,6 +1,6 @@
 'use strict';
 
-const logger = require('./lib/log');
+const logger = require('./log');
 
 let fs = require('fs-extra'); // eslint-disable-line
 
