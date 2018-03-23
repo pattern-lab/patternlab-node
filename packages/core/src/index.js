@@ -30,8 +30,6 @@ let copier = require('./lib/copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
 let serve = require('./lib/serve'); // eslint-disable-line
 
-const lineage_hunter = new lh();
-
 //bootstrap update notifier
 updateNotifier({
   pkg: packageInfo,
@@ -50,197 +48,6 @@ const getDefaultConfig = function() {
 const patternlab_module = function(config) {
   const PatternLab = require('./lib/patternlab');
   const patternlab = new PatternLab(config);
-  const paths = patternlab.config.paths;
-
-  /**
-   * If a graph was serialized and then {@code deletePatternDir == true}, there is a mismatch in the
-   * pattern metadata and not all patterns might be recompiled.
-   * For that reason an empty graph is returned in this case, so every pattern will be flagged as
-   * "needs recompile". Otherwise the pattern graph is loaded from the meta data.
-   *
-   * @param patternlab
-   * @param {boolean} deletePatternDir When {@code true}, an empty graph is returned
-   * @return {PatternGraph}
-   */
-  function loadPatternGraph(deletePatternDir) {
-    // Sanity check to prevent problems when code is refactored
-    if (deletePatternDir) {
-      return PatternGraph.empty();
-    }
-    return PatternGraph.loadFromFile(patternlab);
-  }
-
-  function cleanBuildDirectory(incrementalBuildsEnabled) {
-    if (incrementalBuildsEnabled) {
-      logger.info('Incremental builds enabled.');
-      return Promise.resolve();
-    } else {
-      // needs to be done BEFORE processing patterns
-      return fs
-        .emptyDir(paths.public.patterns)
-        .then(() => {
-          return Promise.resolve();
-        })
-        .catch(reason => {
-          logger.error(reason);
-        });
-    }
-  }
-
-  function buildPatterns(deletePatternDir, additionalData) {
-    patternlab.events.emit(events.PATTERNLAB_BUILD_PATTERN_START, patternlab);
-
-    //
-    // CHECK INCREMENTAL BUILD GRAPH
-    //
-    const graph = (patternlab.graph = loadPatternGraph(deletePatternDir));
-    const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
-    if (graphNeedsUpgrade) {
-      logger.info(
-        'Due to an upgrade, a complete rebuild is required and the public/patterns directory was deleted. ' +
-          'Incremental build is available again on the next successful run.'
-      );
-
-      // Ensure that the freshly built graph has the latest version again.
-      patternlab.graph.upgradeVersion();
-    }
-
-    // Flags
-    patternlab.incrementalBuildsEnabled = !(
-      deletePatternDir || graphNeedsUpgrade
-    );
-
-    //
-    // CLEAN BUILD DIRECTORY, maybe
-    //
-    return cleanBuildDirectory(patternlab.incrementalBuildsEnabled).then(() => {
-      patternlab.buildGlobalData(additionalData);
-
-      return patternlab
-        .processAllPatternsIterative(paths.source.patterns)
-        .then(() => {
-          patternlab.events.emit(
-            events.PATTERNLAB_PATTERN_ITERATION_END,
-            patternlab
-          );
-
-          //now that all the main patterns are known, look for any links that might be within data and expand them
-          //we need to do this before expanding patterns & partials into extendedTemplates, otherwise we could lose the data -> partial reference
-          parseAllLinks(patternlab);
-
-          //dive again to recursively include partials, filling out the
-          //extendedTemplate property of the patternlab.patterns elements
-
-          return patternlab
-            .processAllPatternsRecursive(paths.source.patterns)
-            .then(() => {
-              //cascade any patternStates
-              lineage_hunter.cascade_pattern_states(patternlab);
-
-              //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-              return render(
-                Pattern.createEmpty({
-                  extendedTemplate: patternlab.header,
-                }),
-                {
-                  cacheBuster: patternlab.cacheBuster,
-                }
-              )
-                .then(results => {
-                  patternlab.data.patternLabHead = results;
-
-                  // If deletePatternDir == true or graph needs to be updated
-                  // rebuild all patterns
-                  let patternsToBuild = null;
-
-                  // If deletePatternDir == true or graph needs to be updated
-                  // rebuild all patterns
-                  patternsToBuild = null;
-
-                  if (patternlab.incrementalBuildsEnabled) {
-                    // When the graph was loaded from file, some patterns might have been moved/deleted between runs
-                    // so the graph data become out of sync
-                    patternlab.graph.sync().forEach(n => {
-                      logger.info('[Deleted/Moved] ' + n);
-                    });
-
-                    // TODO Find created or deleted files
-                    const now = new Date().getTime();
-                    markModifiedPatterns(now, patternlab);
-                    patternsToBuild = patternlab.graph.compileOrder();
-                  } else {
-                    // build all patterns, mark all to be rebuilt
-                    patternsToBuild = patternlab.patterns;
-                    for (const p of patternsToBuild) {
-                      p.compileState = CompileState.NEEDS_REBUILD;
-                    }
-                  }
-                  //render all patterns last, so lineageR works
-                  const allPatternsPromise = patternsToBuild.map(pattern =>
-                    compose(pattern)
-                  );
-                  //copy non-pattern files like JavaScript
-                  const allJS = patternsToBuild.map(pattern => {
-                    const { name, patternPartial, subdir } = pattern;
-                    const {
-                      source: { patterns: sourceDir },
-                      public: { patterns: publicDir },
-                    } = patternlab.config.paths;
-                    const src = path.join(sourceDir, subdir);
-                    const dest = path.join(publicDir, name);
-                    return copy(src, dest, {
-                      overwrite: true,
-                      filter: ['*.js'],
-                      rename: () => {
-                        return `${patternPartial}.js`;
-                      },
-                    }).on(copy.events.COPY_FILE_COMPLETE, () => {
-                      logger.debug(
-                        `Copied JavaScript files from ${src} to ${dest}`
-                      );
-                    });
-                  });
-                  return Promise.all(concat(allPatternsPromise, allJS))
-                    .then(() => {
-                      // Saves the pattern graph when all files have been compiled
-                      PatternGraph.storeToFile(patternlab);
-                      if (patternlab.config.exportToGraphViz) {
-                        PatternGraph.exportToDot(
-                          patternlab,
-                          'dependencyGraph.dot'
-                        );
-                        logger.info(
-                          `Exported pattern graph to ${path.join(
-                            config.paths.public.root,
-                            'dependencyGraph.dot'
-                          )}`
-                        );
-                      }
-
-                      //export patterns if necessary
-                      pattern_exporter.export_patterns(patternlab);
-                    })
-                    .catch(reason => {
-                      console.log(reason);
-                      logger.error('Error rendering patterns');
-                    });
-                })
-                .catch(reason => {
-                  console.log(reason);
-                  logger.error('Error rendering pattern lab header');
-                });
-            })
-            .catch(reason => {
-              console.log(reason);
-              logger.error('Error processing patterns recursively');
-            });
-        })
-        .catch(reason => {
-          console.log(reason);
-          logger.error('Error in buildPatterns()');
-        });
-    });
-  }
 
   return {
     /**
@@ -285,30 +92,30 @@ const patternlab_module = function(config) {
           patternlab,
           options.data
         ).then(() => {
-        return new ui_builder().buildFrontend(patternlab).then(() => {
-          copier()
-            .copyAndWatch(patternlab.config.paths, patternlab, options)
-            .then(() => {
-              this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
-                if (!patternlab.isBusy) {
-                  return this.build(options);
-                }
-                return Promise.resolve();
-              });
+          return new ui_builder().buildFrontend(patternlab).then(() => {
+            copier()
+              .copyAndWatch(patternlab.config.paths, patternlab, options)
+              .then(() => {
+                this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
+                  if (!patternlab.isBusy) {
+                    return this.build(options);
+                  }
+                  return Promise.resolve();
+                });
 
-              this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
-                if (!patternlab.isBusy) {
-                  return this.build(
-                    Object.assign({}, options, { cleanPublic: true }) // rebuild everything
-                  );
-                }
-                return Promise.resolve();
-              });
+                this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
+                  if (!patternlab.isBusy) {
+                    return this.build(
+                      Object.assign({}, options, { cleanPublic: true }) // rebuild everything
+                    );
+                  }
+                  return Promise.resolve();
+                });
 
-              patternlab.isBusy = false;
-            });
+                patternlab.isBusy = false;
+              });
+          });
         });
-      });
       });
     },
 
@@ -391,8 +198,8 @@ const patternlab_module = function(config) {
           patternlab,
           options.data
         ).then(() => {
-        patternlab.isBusy = false;
-      });
+          patternlab.isBusy = false;
+        });
       });
     },
 

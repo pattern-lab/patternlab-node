@@ -11,14 +11,14 @@ const render = require('./render');
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 
-module.exports = function(pattern) {
+module.exports = function(pattern, patternlab) {
   // Pattern does not need to be built and recompiled more than once
   if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
     return Promise.resolve(false);
   }
 
   // Allows serializing the compile state
-  this.graph.node(pattern).compileState = pattern.compileState =
+  patternlab.graph.node(pattern).compileState = pattern.compileState =
     CompileState.BUILDING;
 
   //todo move this into lineage_hunter
@@ -29,21 +29,25 @@ module.exports = function(pattern) {
   pattern.patternLineageEExists =
     pattern.patternLineageExists || pattern.patternLineageRExists;
 
-  this.events.emit(events.PATTERNLAB_PATTERN_BEFORE_DATA_MERGE, this, pattern);
+  patternlab.events.emit(
+    events.PATTERNLAB_PATTERN_BEFORE_DATA_MERGE,
+    patternlab,
+    pattern
+  );
 
   //render the pattern, but first consolidate any data we may have
   let allData;
 
-  let allListItems = _.merge({}, this.listitems, pattern.listitems);
+  let allListItems = _.merge({}, patternlab.listitems, pattern.listitems);
   allListItems = parseLink(
-    this,
+    patternlab,
     allListItems,
     'listitems.json + any pattern listitems.json'
   );
 
-  allData = _.merge({}, this.data, pattern.jsonFileData);
+  allData = _.merge({}, patternlab.data, pattern.jsonFileData);
   allData = _.merge({}, allData, allListItems);
-  allData.cacheBuster = this.cacheBuster;
+  allData.cacheBuster = patternlab.cacheBuster;
   allData.patternPartial = pattern.patternPartial;
 
   ///////////////
@@ -52,11 +56,11 @@ module.exports = function(pattern) {
 
   //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
   let headPromise;
-  if (this.userHead) {
-    headPromise = render(this.userHead, allData);
+  if (patternlab.userHead) {
+    headPromise = render(patternlab.userHead, allData);
   } else {
     headPromise = render(
-      Pattern.createEmpty({ extendedTemplate: this.header }),
+      Pattern.createEmpty({ extendedTemplate: patternlab.header }),
       allData
     );
   }
@@ -66,7 +70,7 @@ module.exports = function(pattern) {
   ///////////////
 
   //render the extendedTemplate with all data
-  const patternPartialPromise = render(pattern, allData, this.partials);
+  const patternPartialPromise = render(pattern, allData, patternlab.partials);
 
   ///////////////
   // FOOTER
@@ -115,15 +119,13 @@ module.exports = function(pattern) {
 
   //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
   const footerPartialPromise = render(
-    Pattern.createEmpty({ extendedTemplate: this.footer }),
+    Pattern.createEmpty({ extendedTemplate: patternlab.footer }),
     {
       isPattern: pattern.isPattern,
       patternData: pattern.patternData,
-      cacheBuster: this.cacheBuster,
+      cacheBuster: patternlab.cacheBuster,
     }
   );
-
-  const self = this;
 
   return Promise.all([headPromise, patternPartialPromise, footerPartialPromise])
     .then(intermediateResults => {
@@ -136,7 +138,7 @@ module.exports = function(pattern) {
       let allFooterData;
       try {
         allFooterData = jsonCopy(
-          self.data,
+          patternlab.data,
           'config.paths.source.data global data'
         );
       } catch (err) {
@@ -146,20 +148,28 @@ module.exports = function(pattern) {
       allFooterData = _.merge(allFooterData, pattern.jsonFileData);
       allFooterData.patternLabFoot = footerPartial;
 
-      return render(self.userFoot, allFooterData).then(footerHTML => {
+      return render(patternlab.userFoot, allFooterData).then(footerHTML => {
         ///////////////
         // WRITE FILES
         ///////////////
 
-        self.events.emit(events.PATTERNLAB_PATTERN_WRITE_BEGIN, self, pattern);
+        patternlab.events.emit(
+          events.PATTERNLAB_PATTERN_WRITE_BEGIN,
+          patternlab,
+          pattern
+        );
 
         //write the compiled template to the public patterns directory
-        self.writePatternFiles(headHTML, pattern, footerHTML);
+        patternlab.writePatternFiles(headHTML, pattern, footerHTML);
 
-        self.events.emit(events.PATTERNLAB_PATTERN_WRITE_END, self, pattern);
+        patternlab.events.emit(
+          events.PATTERNLAB_PATTERN_WRITE_END,
+          patternlab,
+          pattern
+        );
 
         // Allows serializing the compile state
-        self.graph.node(pattern).compileState = pattern.compileState =
+        patternlab.graph.node(pattern).compileState = pattern.compileState =
           CompileState.CLEAN;
         logger.info('Built pattern: ' + pattern.patternPartial);
       });
