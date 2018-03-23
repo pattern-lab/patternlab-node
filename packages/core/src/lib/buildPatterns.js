@@ -4,25 +4,25 @@ const { concat } = require('lodash');
 const copy = require('recursive-copy');
 const path = require('path');
 
-const cleanBuildDirectory = require('./lib/cleanBuildDirectory');
-const compose = require('./lib/compose');
-const events = require('./lib/events');
-const loadPatternGraph = require('./lib/loadPatternGraph');
-const logger = require('./lib/log');
-const PatternGraph = require('./lib/pattern_graph').PatternGraph;
-const CompileState = require('./lib/object_factory').CompileState;
-const pe = require('./lib/pattern_exporter');
-const lh = require('./lib/lineage_hunter');
-const markModifiedPatterns = require('./lib/markModifiedPatterns');
-const parseAllLinks = require('./lib/parseAllLinks');
-const render = require('./lib/render');
-const Pattern = require('./lib/object_factory').Pattern;
+const cleanBuildDirectory = require('./cleanBuildDirectory');
+const compose = require('./compose');
+const events = require('./events');
+const loadPatternGraph = require('./loadPatternGraph');
+const logger = require('./log');
+const PatternGraph = require('./pattern_graph').PatternGraph;
+const CompileState = require('./object_factory').CompileState;
+const pe = require('./pattern_exporter');
+const lh = require('./lineage_hunter');
+const markModifiedPatterns = require('./markModifiedPatterns');
+const parseAllLinks = require('./parseAllLinks');
+const render = require('./render');
+const Pattern = require('./object_factory').Pattern;
 
 let fs = require('fs-extra'); // eslint-disable-line
-let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
-let copier = require('./lib/copier'); // eslint-disable-line
+let ui_builder = require('./ui_builder'); // eslint-disable-line
+let copier = require('./copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
-let serve = require('./lib/serve'); // eslint-disable-line
+let serve = require('./serve'); // eslint-disable-line
 
 const lineage_hunter = new lh();
 
