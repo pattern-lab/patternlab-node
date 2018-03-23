@@ -2,6 +2,7 @@
 
 const eol = require('os').EOL;
 const path = require('path');
+const _ = require('lodash');
 
 const ae = require('./annotation_exporter');
 
@@ -76,9 +77,16 @@ module.exports = function(patternlab) {
   );
 
   //write all output to patternlab-data
-  fs.outputFileSync(
-    path.resolve(paths.public.data, 'patternlab-data.js'),
-    output
-  );
+
+  _.each(patternlab.uikits, uikit => {
+    fs.outputFileSync(
+      path.resolve(
+        path.join(process.cwd(), uikit.outputDir, paths.public.data),
+        'patternlab-data.js'
+      ),
+      output
+    );
+  });
+
   return output;
 };

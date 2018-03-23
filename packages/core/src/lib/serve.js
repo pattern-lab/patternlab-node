@@ -1,4 +1,6 @@
 'use strict';
+
+const _ = require('lodash');
 const path = require('path');
 const liveServer = require('@pattern-lab/live-server');
 
@@ -9,22 +11,49 @@ const serve = patternlab => {
   let serverReady = false;
 
   // our default liveserver config
+
   const defaults = {
-    root: patternlab.config.paths.public.root,
     open: true,
-    ignore: path.join(path.resolve(patternlab.config.paths.public.root)),
     file: 'index.html',
     logLevel: 0, // errors only
     wait: 1000,
     port: 3000,
   };
 
-  // allow for overrides should they exist inside patternlab-config.json
-  const liveServerConfig = Object.assign(
-    {},
-    defaults,
-    patternlab.config.serverOptions
-  );
+  _.each(patternlab.uikits, uikit => {
+    defaults.root = path.resolve(
+      path.join(
+        process.cwd(),
+        uikit.outputDir,
+        patternlab.config.paths.public.root
+      )
+    );
+    defaults.ignore = path.resolve(
+      path.join(
+        process.cwd(),
+        uikit.outputDir,
+        patternlab.config.paths.public.root
+      )
+    );
+
+    // allow for overrides should they exist inside patternlab-config.json
+    const liveServerConfig = Object.assign(
+      {},
+      defaults,
+      patternlab.config.serverOptions
+    );
+
+    //start!
+    setTimeout(() => {
+      liveServer.start(liveServerConfig);
+      logger.info(
+        `Pattern Lab is being served from http://127.0.0.1:${
+          liveServerConfig.port
+        }`
+      );
+      serverReady = true;
+    }, liveServerConfig.wait);
+  });
 
   // watch for asset changes, and reload appropriately
   patternlab.events.on(events.PATTERNLAB_PATTERN_ASSET_CHANGE, data => {
@@ -43,17 +72,6 @@ const serve = patternlab => {
       liveServer.reload();
     }
   });
-
-  //start!
-  setTimeout(() => {
-    liveServer.start(liveServerConfig);
-    logger.info(
-      `Pattern Lab is being served from http://127.0.0.1:${
-        liveServerConfig.port
-      }`
-    );
-    serverReady = true;
-  }, liveServerConfig.wait);
 };
 
 module.exports = serve;

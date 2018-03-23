@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const _ = require('lodash');
 
 const findModules = require('./findModules');
 const logger = require('./log');
@@ -41,9 +42,26 @@ module.exports = patternlab => {
 
   // add them to the patternlab object for later iteration
   uikits.forEach(kit => {
+    const configEntry = _.find(patternlab.config.uikits, {
+      name: `uikit-${kit.name}`,
+    });
+
+    if (!configEntry) {
+      logger.error(
+        `Could not find uikit with name uikit-${
+          kit.name
+        } defined within patternlab-config.json`
+      );
+    }
+
     try {
       // load up all the necessary files from pattern lab that apply to every template
       patternlab.uikits[`uikit-${kit.name}`] = {
+        modulePath: kit.modulePath,
+        enabled: configEntry.enabled,
+        outputDir: configEntry.outputDir,
+        excludedPatternStates: configEntry.excludedPatternStates,
+        excludedTags: configEntry.excludedTags,
         header: readModuleFile(
           kit,
           paths.source.patternlabFiles['general-header']
