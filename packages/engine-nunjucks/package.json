@@ -10,7 +10,6 @@
     "fs-extra": "^5.0.0",
     "nunjucks": "^3.0.1"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=4.0"
   },
@@ -29,7 +28,7 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "0.1.4-alpha.0",
+  "version": "0.1.4-alpha.1",
   "publishConfig": {
     "access": "public"
   }

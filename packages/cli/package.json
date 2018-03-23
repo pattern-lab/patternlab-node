@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "0.0.1-alpha.14",
+  "version": "0.0.1-alpha.15",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
@@ -10,8 +10,8 @@
   },
   "private": true,
   "dependencies": {
-    "@pattern-lab/core": "3.0.0-alpha.10",
-    "@pattern-lab/live-server": "1.3.3-alpha.1",
+    "@pattern-lab/core": "^3.0.0-alpha.11",
+    "@pattern-lab/live-server": "^1.3.3-alpha.2",
     "archiver": "2.1.1",
     "chalk": "2.3.2",
     "commander": "2.14.1",
