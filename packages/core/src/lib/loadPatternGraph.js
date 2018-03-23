@@ -1,6 +1,6 @@
 'use strict';
 
-const PatternGraph = require('./lib/pattern_graph').PatternGraph;
+const PatternGraph = require('./pattern_graph').PatternGraph;
 
 /**
  * If a graph was serialized and then {@code deletePatternDir == true}, there is a mismatch in the
