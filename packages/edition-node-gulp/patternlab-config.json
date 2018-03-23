@@ -81,5 +81,14 @@
     "color": "dark",
     "density": "compact",
     "layout": "horizontal"
-  }
+  },
+  "uikits": [
+    {
+      "name": "@pattern-lab/uikit-workshop",
+      "outputDir": "workshop",
+      "enabled": true,
+      "excludedPatternStates": [],
+      "excludedTags": []
+    }
+  ]
 }
