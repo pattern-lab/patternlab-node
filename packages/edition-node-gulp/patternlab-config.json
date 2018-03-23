@@ -57,15 +57,15 @@
       "css": "./source/css"
     },
     "public": {
-      "root": "./public/",
-      "patterns": "./public/patterns/",
-      "data": "./public/styleguide/data/",
-      "annotations": "./public/annotations/",
-      "styleguide": "./public/styleguide/",
-      "js": "./public/js",
-      "images": "./public/images",
-      "fonts": "./public/fonts",
-      "css": "./public/css"
+      "root": "public/",
+      "patterns": "public/patterns/",
+      "data": "public/styleguide/data/",
+      "annotations": "public/annotations/",
+      "styleguide": "public/styleguide/",
+      "js": "public/js",
+      "images": "public/images",
+      "fonts": "public/fonts",
+      "css": "public/css"
     }
   },
   "patternExtension": "mustache",
@@ -84,7 +84,7 @@
   },
   "uikits": [
     {
-      "name": "@pattern-lab/uikit-workshop",
+      "name": "uikit-workshop",
       "outputDir": "workshop",
       "enabled": true,
       "excludedPatternStates": [],
