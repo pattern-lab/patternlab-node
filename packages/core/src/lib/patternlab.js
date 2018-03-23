@@ -9,6 +9,7 @@ const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const packageInfo = require('../../package.json');
 const events = require('./events');
+const findModules = require('./findModules');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
 const logger = require('./log');
@@ -67,6 +68,9 @@ module.exports = class PatternLab {
 
     // Make a place to attach known watchers so we can manage them better during serve and watch
     this.watchers = {};
+
+    // make a place to register any uikits
+    this.uikits = {};
 
     // Verify correctness of configuration (?)
     this.checkConfiguration(this);
@@ -138,7 +142,7 @@ module.exports = class PatternLab {
       patternlab.config,
       path.resolve(__dirname, '../../patternlab-config.json')
     );
-    const foundPlugins = plugin_manager.detect_plugins();
+    const foundPlugins = findModules('plugin-');
 
     if (foundPlugins && foundPlugins.length > 0) {
       for (let i = 0; i < foundPlugins.length; i++) {
@@ -185,37 +189,6 @@ module.exports = class PatternLab {
           'listitems.json file.  Pattern Lab may not work without this file.'
       );
       this.listitems = {};
-    }
-
-    // load up all the necessary files from pattern lab that apply to every template
-    try {
-      this.header = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles['general-header']),
-        'utf8'
-      );
-      this.footer = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles['general-footer']),
-        'utf8'
-      );
-      this.patternSection = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles.patternSection),
-        'utf8'
-      );
-      this.patternSectionSubType = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles.patternSectionSubtype),
-        'utf8'
-      );
-      this.viewAll = fs.readFileSync(
-        path.resolve(paths.source.patternlabFiles.viewall),
-        'utf8'
-      );
-    } catch (ex) {
-      logger.error(ex);
-      logger.error(
-        '\nERROR: missing an essential file from ' +
-          paths.source.patternlabFiles +
-          ". Pattern Lab won't work without this file.\n"
-      );
     }
 
     this.data = Object.assign({}, this.data, additionalData);

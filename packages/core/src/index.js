@@ -12,23 +12,15 @@
 
 const packageInfo = require('../package.json');
 
-const { concat } = require('lodash');
-const copy = require('recursive-copy');
-const path = require('path');
 const updateNotifier = require('update-notifier');
 
-const compose = require('./lib/compose');
+const buildPatterns = require('./lib/buildPatterns');
 const help = require('./lib/help');
 const events = require('./lib/events');
+const loaduikits = require('./lib/loaduikits');
 const logger = require('./lib/log');
 const PatternGraph = require('./lib/pattern_graph').PatternGraph;
-const CompileState = require('./lib/object_factory').CompileState;
 const pe = require('./lib/pattern_exporter');
-const lh = require('./lib/lineage_hunter');
-const markModifiedPatterns = require('./lib/markModifiedPatterns');
-const parseAllLinks = require('./lib/parseAllLinks');
-const render = require('./lib/render');
-const Pattern = require('./lib/object_factory').Pattern;
 
 const defaultConfig = require('../patternlab-config.json');
 
@@ -286,7 +278,13 @@ const patternlab_module = function(config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic, options.data).then(() => {
+
+      return loaduikits(patternlab).then(() => {
+        return buildPatterns(
+          options.cleanPublic,
+          patternlab,
+          options.data
+        ).then(() => {
         return new ui_builder().buildFrontend(patternlab).then(() => {
           copier()
             .copyAndWatch(patternlab.config.paths, patternlab, options)
@@ -310,6 +308,7 @@ const patternlab_module = function(config) {
               patternlab.isBusy = false;
             });
         });
+      });
       });
     },
 
@@ -386,8 +385,14 @@ const patternlab_module = function(config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic, options.data).then(() => {
+      return loaduikits(patternlab).then(() => {
+        return buildPatterns(
+          options.cleanPublic,
+          patternlab,
+          options.data
+        ).then(() => {
         patternlab.isBusy = false;
+      });
       });
     },
 
