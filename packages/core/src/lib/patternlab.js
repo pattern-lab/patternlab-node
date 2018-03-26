@@ -277,7 +277,12 @@ module.exports = class PatternLab {
 
     //write the compiled template to the public patterns directory
     outputFiles.forEach(outFile =>
-      fs.outputFileSync(outFile.path, outFile.content)
+      _.each(this.uikits, uikit => {
+        fs.outputFileSync(
+          path.join(process.cwd(), uikit.outputDir, outFile.path),
+          outFile.content
+        );
+      })
     );
   }
 
