@@ -12,6 +12,9 @@ module.exports = (incrementalBuildsEnabled, patternlab) => {
     return Promise.resolve();
   } else {
     // needs to be done BEFORE processing patterns
+
+    // TODO make this a promise that loops over all uikits
+
     return fs
       .emptyDir(paths.public.patterns)
       .then(() => {
