@@ -71,10 +71,19 @@ module.exports = function(patternlab) {
   const annotationsJSON = annotation_exporter.gather();
   const annotations =
     'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-  fs.outputFileSync(
-    path.resolve(paths.public.annotations, 'annotations.js'),
-    annotations
-  );
+  _.each(patternlab.uikits, uikit => {
+    fs.outputFileSync(
+      path.resolve(
+        path.join(
+          process.cwd(),
+          uikit.outputDir,
+          paths.public.annotations,
+          'annotations.js'
+        )
+      ),
+      annotations
+    );
+  });
 
   //write all output to patternlab-data
 

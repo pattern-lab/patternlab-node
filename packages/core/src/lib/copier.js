@@ -94,11 +94,17 @@ const copier = () => {
 
     // copy the favicon
     copyPromises.push(
-      copyFile(
-        `${assetDirectories.source.root}/favicon.ico`,
-        `${assetDirectories.public.root}/favicon.ico`,
-        copyOptions
-      )
+      _.map(patternlab.uikits, uikit => {
+        copyFile(
+          `${assetDirectories.source.root}/favicon.ico`,
+          path.join(
+            process.cwd(),
+            uikit.outputDir,
+            `${assetDirectories.public.root}/favicon.ico`
+          ),
+          copyOptions
+        );
+      })
     );
 
     return Promise.all(copyPromises).then(() => {
