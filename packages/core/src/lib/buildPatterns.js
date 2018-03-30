@@ -1,6 +1,6 @@
 'use strict';
 
-const { concat } = require('lodash');
+const { concat, map } = require('lodash');
 const copy = require('recursive-copy');
 const path = require('path');
 
@@ -154,16 +154,22 @@ module.exports = (deletePatternDir, patternlab, additionalData) => {
                       } = patternlab.config.paths;
                       const src = path.join(sourceDir, subdir);
                       const dest = path.join(publicDir, name);
-                      return copy(src, dest, {
-                        overwrite: true,
-                        filter: ['*.js'],
-                        rename: () => {
-                          return `${patternPartial}.js`;
-                        },
-                      }).on(copy.events.COPY_FILE_COMPLETE, () => {
-                        logger.debug(
-                          `Copied JavaScript files from ${src} to ${dest}`
-                        );
+                      return map(patternlab.uikits, uikit => {
+                        return copy(
+                          src,
+                          path.resolve(process.cwd(), uikit.outputDir, dest),
+                          {
+                            overwrite: true,
+                            filter: ['*.js'],
+                            rename: () => {
+                              return `${patternPartial}.js`;
+                            },
+                          }
+                        ).on(copy.events.COPY_FILE_COMPLETE, () => {
+                          logger.debug(
+                            `Copied JavaScript files from ${src} to ${dest}`
+                          );
+                        });
                       });
                     });
                     return Promise.all(concat(allPatternsPromise, allJS))
