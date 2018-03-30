@@ -1,5 +1,8 @@
 'use strict';
 
+const _ = require('lodash');
+const path = require('path');
+
 const logger = require('./log');
 
 let fs = require('fs-extra'); // eslint-disable-line
@@ -11,17 +14,14 @@ module.exports = (incrementalBuildsEnabled, patternlab) => {
     logger.info('Incremental builds enabled.');
     return Promise.resolve();
   } else {
-    // needs to be done BEFORE processing patterns
-
-    // TODO make this a promise that loops over all uikits
-
-    return fs
-      .emptyDir(paths.public.patterns)
-      .then(() => {
-        return Promise.resolve();
+    return Promise.all(
+      _.map(patternlab.uikits, uikit => {
+        return fs.emptyDir(
+          path.join(process.cwd(), uikit.outputDir, paths.public.patterns)
+        );
       })
-      .catch(reason => {
-        logger.error(reason);
-      });
+    ).catch(reason => {
+      logger.error(reason);
+    });
   }
 };
