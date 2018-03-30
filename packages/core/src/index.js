@@ -78,6 +78,14 @@ const patternlab_module = function(config) {
      * @returns {Promise} a promise fulfilled when build is complete
      */
     build: function(options) {
+      // process.on('unhandledRejection', (reason, p) => {
+      //   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+      //   // application specific logging, throwing an error, or other logic here
+
+      //   console.log(reason.stack);
+      //   debugger;
+      // });
+
       if (patternlab && patternlab.isBusy) {
         logger.info(
           'Pattern Lab is busy building a previous run - returning early.'
@@ -96,21 +104,29 @@ const patternlab_module = function(config) {
             copier()
               .copyAndWatch(patternlab.config.paths, patternlab, options)
               .then(() => {
-                this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
-                  if (!patternlab.isBusy) {
-                    return this.build(options);
-                  }
-                  return Promise.resolve();
-                });
+                if (
+                  !this.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE)
+                ) {
+                  this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
+                    if (!patternlab.isBusy) {
+                      return this.build(options);
+                    }
+                    return Promise.resolve();
+                  });
+                }
 
-                this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
-                  if (!patternlab.isBusy) {
-                    return this.build(
-                      Object.assign({}, options, { cleanPublic: true }) // rebuild everything
-                    );
-                  }
-                  return Promise.resolve();
-                });
+                if (
+                  !this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)
+                ) {
+                  this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
+                    if (!patternlab.isBusy) {
+                      return this.build(
+                        Object.assign({}, options, { cleanPublic: true }) // rebuild everything
+                      );
+                    }
+                    return Promise.resolve();
+                  });
+                }
 
                 patternlab.isBusy = false;
               });
