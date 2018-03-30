@@ -69,6 +69,7 @@ const serve = patternlab => {
   //watch for pattern changes, and reload
   patternlab.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
     if (serverReady) {
+      console.log('WIP: reloading');
       liveServer.reload();
     }
   });

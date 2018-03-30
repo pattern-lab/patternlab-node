@@ -108,6 +108,7 @@ const patternlab_module = function(config) {
                   !this.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE)
                 ) {
                   this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
+                    console.log('WIP: rebuilding');
                     if (!patternlab.isBusy) {
                       return this.build(options);
                     }
@@ -119,6 +120,7 @@ const patternlab_module = function(config) {
                   !this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)
                 ) {
                   this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
+                    console.log('WIP: rebuilding');
                     if (!patternlab.isBusy) {
                       return this.build(
                         Object.assign({}, options, { cleanPublic: true }) // rebuild everything
