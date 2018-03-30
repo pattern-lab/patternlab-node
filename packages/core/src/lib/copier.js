@@ -82,11 +82,7 @@ const copier = () => {
       _.map(patternlab.uikits, uikit => {
         copyFile(
           path.join(uikit.modulePath, assetDirectories.source.styleguide),
-          path.join(
-            process.cwd(),
-            uikit.outputDir,
-            assetDirectories.public.root
-          ),
+          path.join(basePath, uikit.outputDir, assetDirectories.public.root),
           copyOptions
         );
       })
@@ -98,7 +94,7 @@ const copier = () => {
         copyFile(
           `${assetDirectories.source.root}/favicon.ico`,
           path.join(
-            process.cwd(),
+            basePath,
             uikit.outputDir,
             `${assetDirectories.public.root}/favicon.ico`
           ),
