@@ -361,10 +361,7 @@ PatternGraph.fromJson = function(o) {
  * @return {string}
  */
 PatternGraph.resolveJsonGraphFile = function(patternlab, file) {
-  return path.resolve(
-    patternlab.config.paths.public.root,
-    file || 'dependencyGraph.json'
-  );
+  return path.resolve(process.cwd(), file || 'dependencyGraph.json');
 };
 
 /**
