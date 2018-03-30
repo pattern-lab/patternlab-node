@@ -1,4 +1,8 @@
 'use strict';
+
+const path = require('path');
+const _ = require('lodash');
+
 const CompileState = require('./object_factory').CompileState;
 
 //this is mocked in unit tests
@@ -36,25 +40,33 @@ ChangesHunter.prototype = {
       pattern.compileState = CompileState.NEEDS_REBUILD;
     }
 
-    try {
-      // renderedTemplatePath required to display a single element
-      // Markup only is required for "View All" pages. It will get loaded later on.
-      // If any of these is missing, mark pattern for recompile
-      [renderedTemplatePath, markupOnlyPath].forEach(renderedFile =>
-        // Prevent error message if file does not exist
-        fs.accessSync(renderedFile, fs.F_OK)
-      );
-      const outputLastModified = fs
-        .statSync(renderedTemplatePath)
-        .mtime.getTime();
+    _.each(patternlab.uikits, uikit => {
+      try {
+        // renderedTemplatePath required to display a single element
+        // Markup only is required for "View All" pages. It will get loaded later on.
+        // If any of these is missing, mark pattern for recompile
+        [renderedTemplatePath, markupOnlyPath].forEach(renderedFile => {
+          // Prevent error message if file does not exist
+          fs.accessSync(
+            path.join(process.cwd(), uikit.outputDir, renderedFile),
+            fs.F_OK
+          );
+        });
 
-      if (pattern.lastModified && outputLastModified > pattern.lastModified) {
-        pattern.compileState = CompileState.CLEAN;
+        const outputLastModified = fs
+          .statSync(
+            path.join(process.cwd(), uikit.outputDir, renderedTemplatePath)
+          )
+          .mtime.getTime();
+
+        if (pattern.lastModified && outputLastModified > pattern.lastModified) {
+          pattern.compileState = CompileState.CLEAN;
+        }
+      } catch (e) {
+        // Output does not exist yet, force recompile
+        pattern.compileState = CompileState.NEEDS_REBUILD;
       }
-    } catch (e) {
-      // Output does not exist yet, force recompile
-      pattern.compileState = CompileState.NEEDS_REBUILD;
-    }
+    });
 
     const node = patternlab.graph.node(pattern);
 
