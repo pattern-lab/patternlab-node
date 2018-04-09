@@ -372,7 +372,10 @@ var pattern_assembler = function () {
     //find any pattern parameters that may be in the current pattern
     currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
 
-    [templatePath, jsonFilename, listJsonFileName].forEach(file => {
+    // Get path of config file with extension
+    const dataFilename = dataLoader.assembleFilename(jsonFilename);
+
+    [templatePath, dataFilename, listJsonFileName].forEach(file => {
       changes_hunter.checkLastModified(currentPattern, file);
     });
 

@@ -5,6 +5,10 @@ const glob = require('glob'),
   path = require('path'),
   yaml = require('js-yaml');
 
+function assembleFilename(dataFilesPath) {
+  return glob.sync(dataFilesPath + '{.,[!-]*.}{json,yml,yaml}')[0];
+}
+
 /**
  * Loads a single config file, in yaml/json format.
  *
@@ -13,15 +17,10 @@ const glob = require('glob'),
  * @returns {*}
  */
 function loadFile(dataFilesPath, fsDep) {
-  const dataFilesFullPath = dataFilesPath + '{.,[!-]*.}{json,yml,yaml}';
+  const dataFile = assembleFilename(dataFilesPath);
 
-  if (dataFilesPath) {
-    const dataFiles = glob.sync(dataFilesFullPath),
-      dataFile = _.head(dataFiles);
-
-    if (dataFile && fsDep.existsSync(path.resolve(dataFile))) {
-      return yaml.safeLoad(fsDep.readFileSync(path.resolve(dataFile), 'utf8'));
-    }
+  if (dataFile && fsDep.existsSync(path.resolve(dataFile))) {
+    return yaml.safeLoad(fsDep.readFileSync(path.resolve(dataFile), 'utf8'));
   }
 
   return null;
@@ -57,6 +56,7 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
 
 module.exports = function configFileLoader() {
   return {
+    assembleFilename: assembleFilename,
     loadDataFromFile: loadFile,
     loadDataFromFolder: loadDataFromFolder
   };
