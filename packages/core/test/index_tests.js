@@ -7,7 +7,9 @@ const get = require('../src/lib/get');
 const util = require('./util/test_utils.js');
 const entry = rewire('../src/index');
 const defaultConfig = require('../patternlab-config.json');
-var testConfig = require('./util/patternlab-config.json');
+const testConfig = require('./util/patternlab-config.json');
+
+process.env.PATTERNLAB_ENV = 'CI';
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
 
@@ -61,7 +63,7 @@ tap.test('getDefaultConfig - should return the default config object', function(
 tap.test('buildPatterns', function() {
   //arrange
 
-  var patternExporterMock = {
+  const patternExporterMock = {
     /*
      In this suite, we actually take advantage of the pattern export functionality post-build to inspect what
      the contents of the patterns look like. This, coupled with a mocking of fs and the ui_builder, allow us to focus
@@ -212,6 +214,8 @@ tap.test('buildPatterns', function() {
       //   test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>`));
       //   test.end();
       // });
+
+      process.env.PATTERNLAB_ENV = '';
     },
   };
 

@@ -400,6 +400,9 @@ PatternGraph.loadFromFile = function(filePath, fileName) {
  * @see {@link PatternGraph.resolveJsonGraphFile}
  */
 PatternGraph.storeToFile = function(patternlab) {
+  if (process.env.PATTERNLAB_ENV === 'CI') {
+    return;
+  }
   const jsonGraphFile = this.resolveJsonGraphFile();
   patternlab.graph.timestamp = new Date().getTime();
   fs.writeJSONSync(jsonGraphFile, patternlab.graph.toJson());
