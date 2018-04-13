@@ -104,13 +104,15 @@ const patternlab_module = function(config) {
             copier()
               .copyAndWatch(patternlab.config.paths, patternlab, options)
               .then(() => {
+                patternlab.isBusy = false;
                 if (
                   !this.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE)
                 ) {
-                  this.events.once(events.PATTERNLAB_PATTERN_CHANGE, () => {
-                    console.log('WIP: rebuilding');
+                  this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
                     if (!patternlab.isBusy) {
-                      return this.build(options);
+                      return this.build(options).then(() => {
+                        patternlab.isBusy = false;
+                      });
                     }
                     return Promise.resolve();
                   });
@@ -119,8 +121,7 @@ const patternlab_module = function(config) {
                 if (
                   !this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)
                 ) {
-                  this.events.once(events.PATTERNLAB_GLOBAL_CHANGE, () => {
-                    console.log('WIP: rebuilding');
+                  this.events.on(events.PATTERNLAB_GLOBAL_CHANGE, () => {
                     if (!patternlab.isBusy) {
                       return this.build(
                         Object.assign({}, options, { cleanPublic: true }) // rebuild everything
@@ -129,8 +130,6 @@ const patternlab_module = function(config) {
                     return Promise.resolve();
                   });
                 }
-
-                patternlab.isBusy = false;
               });
           });
         });

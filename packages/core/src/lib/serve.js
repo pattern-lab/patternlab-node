@@ -11,7 +11,6 @@ const serve = patternlab => {
   let serverReady = false;
 
   // our default liveserver config
-
   const defaults = {
     open: true,
     file: 'index.html',
@@ -58,19 +57,28 @@ const serve = patternlab => {
   // watch for asset changes, and reload appropriately
   patternlab.events.on(events.PATTERNLAB_PATTERN_ASSET_CHANGE, data => {
     if (serverReady) {
-      if (data.file.indexOf('css') > -1) {
-        liveServer.refreshCSS();
-      } else {
-        liveServer.reload();
-      }
+      const reload = setInterval(() => {
+        if (!patternlab.isBusy) {
+          if (data.file.indexOf('css') > -1) {
+            liveServer.refreshCSS();
+          } else {
+            liveServer.reload();
+          }
+          clearInterval(reload);
+        }
+      }, 1000);
     }
   });
 
   //watch for pattern changes, and reload
   patternlab.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
     if (serverReady) {
-      console.log('WIP: reloading');
-      liveServer.reload();
+      const reload = setInterval(() => {
+        if (!patternlab.isBusy) {
+          liveServer.reload();
+          clearInterval(reload);
+        }
+      }, 1000);
     }
   });
 };
