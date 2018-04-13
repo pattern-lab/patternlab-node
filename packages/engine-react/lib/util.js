@@ -22,8 +22,8 @@ function getAbsolutePatternOutputPath(pattern, patternLabConfig) {
     pattern.patternLink
   );
 }
-function getAbsolutePatternOutputDir(pattern) {
-  return path.dirname(getAbsolutePatternOutputPath(pattern));
+function getAbsolutePatternOutputDir(pattern, patternLabConfig) {
+  return path.dirname(getAbsolutePatternOutputPath(pattern, patternLabConfig));
 }
 
 function getModuleCodeString(pattern) {

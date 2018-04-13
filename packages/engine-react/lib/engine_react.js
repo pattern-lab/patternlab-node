@@ -84,13 +84,13 @@ const engine_react = {
         patternLabConfig,
         engineFileExtension
       );
-      const clientSideScript = await webpackBuilder.generateClientScript(
-        pattern,
-        data,
-        patternLabConfig,
-        engineFileExtension,
-        serverSideScript
-      );
+      // const clientSideScript = await webpackBuilder.generateClientScript(
+      //   pattern,
+      //   data,
+      //   patternLabConfig,
+      //   engineFileExtension,
+      //   serverSideScript
+      // );
 
       // const blobPath = path.join(
       //   getAbsolutePatternOutputDir(pattern),
@@ -109,7 +109,8 @@ const engine_react = {
 
       return outputTemplate.render({
         htmlOutput: staticMarkup,
-        scriptOutput: clientSideScript,
+        // scriptOutput: clientSideScript,
+        scriptOutput: '',
       });
     } catch (e) {
       const errorMessage = `Error rendering React pattern "${

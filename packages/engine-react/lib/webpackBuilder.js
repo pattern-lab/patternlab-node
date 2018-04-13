@@ -2,9 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const mkdirp = require('mkdirp');
-const { createFsFromVolume, Volume } = require('memfs');
-const { Union } = require('unionfs');
-const MemoryFS = require('memory-fs');
 const tmp = require('tmp-promise');
 const util = require('./util');
 
@@ -57,19 +54,6 @@ function handleWebpackErrors(stats, err, message) {
   }
 }
 
-function createUnionFS() {
-  const ramDisk = new Volume();
-  const ufs = new Union();
-
-  ufs.use(fs).use(ramDisk);
-
-  // patch ufs like webpack does internally
-  ufs.join = path.join.bind(path);
-  ufs.mkdirp = mkdirp;
-
-  return { ramDisk: createFsFromVolume(ramDisk), ufs: createFsFromVolume(ufs) };
-}
-
 async function generateServerScript(
   pattern,
   data,
@@ -77,21 +61,10 @@ async function generateServerScript(
   engineFileExtension
 ) {
   console.log('generating server script...');
-  const entry = `./${pattern.fileName}${pattern.fileExtension}`;
-  const context = path.dirname(
-    util.getAbsolutePatternPath(pattern, patternLabConfig)
-  );
-
-  const { ufs } = createUnionFS();
-
-  // ramDisk.writeFileSync('/foo', 'bar');
-
-  // console.log('webpack entry is', entry);
-  // console.log('webpack context is', context);
 
   const compiler = webpack({
-    context,
-    entry,
+    context: util.getAbsolutePatternDir(pattern, patternLabConfig),
+    entry: `./${pattern.fileName}${pattern.fileExtension}`,
     resolve: {
       extensions: engineFileExtension,
       modules: ['node_modules', engineModulesPath],
@@ -100,18 +73,13 @@ async function generateServerScript(
       modules: [engineModulesPath, 'node_modules'],
     },
     output: {
-      filename: 'blob.js',
+      filename: 'server_bundle.js',
       library: 'patternModule',
       libraryTarget: 'commonjs2',
-      path: '/',
+      path: util.getAbsolutePatternOutputDir(pattern, patternLabConfig),
     },
     module: webpackModuleConfig,
   });
-
-  // Use the in-memory file system for output
-  compiler.outputFileSystem = ufs;
-  // compiler.outputFileSystem = memfs.createFsFromVolume(ramDisk);
-  // compiler.outputFileSystem = ufs;
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
@@ -126,7 +94,10 @@ async function generateServerScript(
         reject(e);
       }
       // Read the file back into a string and return!
-      const output = ufs.readFileSync('/blob.js', 'utf8');
+      const output = fs.readFileSync(path.join(
+        util.getAbsolutePatternOutputDir(pattern, patternLabConfig),
+        'server_bundle.js'
+      ), 'utf8');
       resolve(output);
     });
   });
@@ -136,7 +107,7 @@ function createClientSideEntry(data) {
   return `
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Component from 'blob';
+import Component from 'client_bundle.js';
 console.log('Component: ', Component);
 const data = ${JSON.stringify(data)};
 
@@ -144,18 +115,17 @@ ReactDOM.render(React.createElement(Component, data), document.body);
 `;
 }
 
-async function writeClientSideEntry(data, filesystem) {
+async function writeClientSideEntry(data, patternOutputPath) {
   const fileName = 'entry.js';
   const entryFileContents = createClientSideEntry(data);
 
-  filesystem.writeFileSync(path.join('/', fileName), entryFileContents);
+  fs.writeFileSync(path.join(patternOutputPath, fileName), entryFileContents);
   return fileName;
 }
 
-async function writeComponentScript(componentScript, filesystem) {
+async function writeComponentScript(componentScript, patternOutputPath) {
   const fileName = 'Component.js';
-  filesystem.writeFileSync(path.join('/', fileName), componentScript);
-
+  fs.writeFileSync(path.join(patternOutputPath, fileName), componentScript);
   return fileName;
 }
 
@@ -178,21 +148,23 @@ async function generateClientScript(
   //   util.getAbsolutePatternPath(pattern, patternLabConfig)
   // );
   console.log('generating client script...');
-  const context = '/';
-  const { ramDisk, ufs } = createUnionFS();
+  const patternOutputDirectory = util.getAbsolutePatternOutputDir(pattern, patternLabConfig);
+  const patternDirectory = util.getAbsolutePatternDir(pattern, patternLabConfig);
+
   const componentFileName = await writeComponentScript(
     componentScript,
-    ramDisk
+    util.getAbsolutePatternOutputDir(pattern, patternLabConfig)
   );
-  const entryFileName = await writeClientSideEntry(data, ufs);
-  console.log(ramDisk);
-  console.log(await ufs.readDir('/'));
+  const entryFileName = await writeClientSideEntry(
+    data,
+    util.getAbsolutePatternOutputDir(pattern, patternLabConfig)
+  );
 
   // console.log('webpack entry is', entryFile);
   // console.log('webpack context is', context);
 
   const compiler = webpack({
-    context,
+    context: patternDirectory,
     entry: entryFileName,
     resolve: {
       extensions: engineFileExtension,
@@ -202,17 +174,13 @@ async function generateClientScript(
       modules: [engineModulesPath, 'node_modules'],
     },
     output: {
-      filename: 'blob.js',
-      library: 'blob',
+      filename: 'client_bundle.js',
+      library: 'patternModule',
       libraryTarget: 'umd',
-      path: '/',
+      path: patternOutputDirectory,
     },
     module: webpackModuleConfig,
   });
-
-  // Use the in-memory file system for output
-  compiler.inputFileSystem = ufs;
-  compiler.outputFileSystem = ufs;
 
   // Set up the component script
 
@@ -229,7 +197,7 @@ async function generateClientScript(
       }
 
       // Read the file back into a string and return!
-      const output = ufs.readFileSync('/blob.js', 'utf8');
+      const output = fs.readFileSync(path.join(patternOutputDirectory, 'client_bundle.js'), 'utf8');
       resolve(output);
     });
   });
