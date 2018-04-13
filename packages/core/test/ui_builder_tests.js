@@ -16,6 +16,7 @@ engineLoader.loadAllEngines(config);
 //set up a global mocks - we don't want to be writing/rendering any files right now
 var fsMock = {
   outputFileSync: function(path, data, cb) {},
+  outputFile: function(path, data, cb) {},
 };
 
 var renderMock = function(template, data, partials) {
@@ -42,7 +43,7 @@ function createFakePatternLab(customProps) {
           patterns: './test/files/_patterns',
         },
         public: {
-          patterns: './test/output',
+          patterns: '',
         },
       },
       styleGuideExcludes: ['templates'],
@@ -54,6 +55,13 @@ function createFakePatternLab(customProps) {
       },
     },
     data: {},
+    uikits: {
+      'uikit-workshop': {
+        name: 'workshop',
+        modulePath: '',
+        outputDir: 'test/output',
+      },
+    },
   };
   return extend(pl, customProps);
 }
@@ -511,9 +519,16 @@ tap.test(
 
     const styleguidePatterns = ui.groupPatterns(patternlab);
 
+    const uikit = patternlab.uikits['uikit-workshop'];
+
     //act
     ui
-      .buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns)
+      .buildViewAllPages(
+        mainPageHeadHtml,
+        patternlab,
+        styleguidePatterns,
+        uikit
+      )
       .then(allPatterns => {
         //assert
         //this was a nuanced one. buildViewAllPages() had return false; statements
