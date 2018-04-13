@@ -4,17 +4,31 @@
   "version": "0.3.0",
   "main": "lib/engine_react.js",
   "dependencies": {
-    "babel-core": "^6.17.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
     "cheerio": "^0.22.0",
     "hogan": "^1.0.2",
     "js-beautify": "^1.6.4",
+    "memfs": "^2.6.2",
+    "memory-fs": "^0.4.1",
+    "mkdirp": "^0.5.1",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.6.2",
+    "tmp-promise": "^1.0.4",
+    "unionfs": "^3.0.2",
+    "webpack": "^3.10.0"
   },
   "peerDependencies": {
     "@pattern-lab/core": ">2"
+  },
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.5.0",
+    "prettier": "^1.10.2"
   },
   "keywords": [
     "Pattern Lab",
@@ -33,8 +47,5 @@
   },
   "engines": {
     "node": ">=6"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
