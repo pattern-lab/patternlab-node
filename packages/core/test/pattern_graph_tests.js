@@ -1,10 +1,12 @@
 'use strict';
 
+var path = require('path');
+var tap = require('tap');
+
 var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
 var VERSION = require('../src/lib/pattern_graph').PATTERN_GRAPH_VERSION;
 var Pattern = require('../src/lib/object_factory').Pattern;
 var CompileState = require('../src/lib/object_factory').CompileState;
-var tap = require('tap');
 const posixPath = require('./util/test_utils.js').posixPath;
 var config = require('./util/patternlab-config.json');
 var engineLoader = require('../src/lib/pattern_engines');
@@ -35,13 +37,19 @@ tap.test('checkVersion - Older version returns false', test => {
 });
 
 tap.test('Loading an empty graph works', test => {
-  var g = PatternGraph.loadFromFile(patternlab, 'does not exist');
+  var g = PatternGraph.loadFromFile(
+    path.resolve(__dirname, 'public'),
+    'does not exist'
+  );
   tap.equal(g.graph.nodes().length, 0, 'foo');
   test.end();
 });
 
 tap.test('PatternGraph.fromJson() - Loading a graph from JSON', test => {
-  var graph = PatternGraph.loadFromFile(patternlab, 'testDependencyGraph.json');
+  var graph = PatternGraph.loadFromFile(
+    path.resolve(__dirname, 'public'),
+    'testDependencyGraph.json'
+  );
   test.same(graph.timestamp, 1337);
   test.same(graph.graph.nodes(), ['atom-foo', 'molecule-foo']);
   test.same(graph.graph.edges(), [{ v: 'molecule-foo', w: 'atom-foo' }]);

@@ -17,5 +17,5 @@ module.exports = (patternlab, deletePatternDir) => {
   if (deletePatternDir) {
     return PatternGraph.empty();
   }
-  return PatternGraph.loadFromFile(patternlab);
+  return PatternGraph.loadFromFile();
 };
