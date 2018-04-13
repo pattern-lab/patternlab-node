@@ -1,0 +1,2859 @@
+@charset "UTF-8";
+/*------------------------------------*\
+    #PATTERN LAB STYLES
+\*------------------------------------*/
+/**
+* NOTES:
+* 1) These styles are specific to Pattern Lab and should not be modified.
+* All project styles should be modified in /source/css/
+*
+* 2) Any !important declarations are to prevent brand styles from overriding
+* pattern lab-specific styles
+*/
+/*------------------------------------*\
+    #TABLE OF CONTENTS
+\*------------------------------------*/
+/**
+ * ABSTRACTS.................Variables
+ * BASE......................Reset & Base elements
+ * COMPONENTS................Components
+ * UTILITIES.................Helper classes
+ * VENDOR....................Styles out of PL control
+ */
+/*------------------------------------*\
+    #ABSTRACTS
+\*------------------------------------*/
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+/**
+* These variables are specific to the Pattern Lab shell and exist
+* indepenedently of any project-specific styles
+*/
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+/**
+ * List Reset
+ */
+/**
+ * Hide scrollbar
+ * 1) This hides scrollbars on Windows devices
+ */
+/**
+ * Header Link Style
+ */
+/**
+ * Accordion panel
+ */
+/*------------------------------------*\
+    #BASE
+\*------------------------------------*/
+/*------------------------------------*\
+    #RESET
+\*------------------------------------*/
+/**
+ * Apply border-box to all elements
+ *
+ * 1) This is a broadly-applied style that affects every
+ * element on the screen. This can bleed into user's styles
+ * but since it's been a best practice for years now we're
+ * going to default to this.
+ */
+.pl-c-body * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*------------------------------------*\
+    #PATTERN LAB BODY
+\*------------------------------------*/
+/**
+* The HTML and body elements for the Pattern Lab shell.
+* 1)These exist indepenedent of any project-specific styles
+* 2) Styled as IDs to avoid collisions with user <body> tag
+*/
+.pl-c-body {
+  margin: 0;
+  padding: 0;
+  background: #ddd;
+  -webkit-text-size-adjust: 100%;
+}
+
+/*------------------------------------*\
+    #COMPONENTS
+\*------------------------------------*/
+/**
+ * Pattern Lab Header
+ */
+/*------------------------------------*\
+    #HEADER
+\*------------------------------------*/
+/**
+* 1) Pattern Lab's header is fixed across the top of the viewport and
+*    contains the primary pattern navigation, viewport resizing items,
+*    and tools.
+* 2) Display nav and controls horizontally
+*/
+.pl-c-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* 2 */
+  width: 100%;
+  background: #000;
+  color: #808080;
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  font-size: 0.7rem;
+}
+
+/**
+ * Nav toggle button
+ * 1) Styles for the general nav toggle button, which
+ *    only appears on small screens
+ */
+.pl-c-header__nav-toggle {
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+  border: 0;
+}
+.pl-c-header__nav-toggle:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-header__nav-toggle:focus, .pl-c-header__nav-toggle.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-header__nav-toggle {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-header__nav-toggle {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-header__nav-toggle {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+@media all and (min-width: 42em) {
+  .pl-c-header__nav-toggle {
+    display: none;
+  }
+}
+
+/*------------------------------------*\
+    #LOGO
+\*------------------------------------*/
+/**
+ * 1) An optional logo that lives in PL's header.
+ * 2) Displayed as a link
+ */
+.pl-c-logo {
+  max-width: 2rem;
+  margin: 0 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.pl-c-logo:focus {
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+
+.pl-c-logo__img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/*------------------------------------*\
+    #NAVIGATION
+\*------------------------------------*/
+/**
+ * Navigation container
+ * 1) Collapse height on small screens. Menu trigger button
+ *    activates nav
+ */
+@media all and (max-width: 42em) {
+  .pl-c-nav {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    /* 1 */
+    background: #000;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-transition: max-height 0.1s ease-out;
+            transition: max-height 0.1s ease-out;
+    /**
+     * Active navigaiton
+     * 1) Slide 
+     * 2) Set the height to the vierport height minus the height
+     *    of the header
+     */
+  }
+  .pl-c-nav.pl-is-active {
+    max-height: 50rem;
+    /* 1 */
+    height: calc(100vh - 2rem);
+    /* 2 */
+    overflow: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .pl-c-nav.pl-is-active::-webkit-scrollbar {
+    width: 0 !important;
+  }
+}
+@media all and (min-width: 42em) {
+  .pl-c-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+/**
+ * Nav list
+ * 1) appears as an <ol>
+ * 2) display as a horizontal list on larger screens
+ * 3) On small screens, move the nav list after the typeahead form field
+ */
+.pl-c-nav__list {
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media all and (max-width: 42em) {
+  .pl-c-nav__list {
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+    /* 3 */
+  }
+}
+@media all and (min-width: 42em) {
+  .pl-c-nav__list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* 2 */
+  }
+}
+
+/**
+ * Nav list item
+ */
+.pl-c-nav__item {
+  cursor: pointer;
+  position: relative;
+}
+
+/**
+ * Last sublist item
+ */
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist > .pl-c-nav__item:last-child {
+    overflow: hidden;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+}
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+}
+.pl-c-nav__link:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-nav__link:focus, .pl-c-nav__link.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-nav__link {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-nav__link {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-nav__link {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/**
+ * Nav sublink
+ * 1) Visually differentiate sub-item links from
+ *    the other links. Creates better hierarchy.
+ */
+.pl-c-nav__link--sublink {
+  text-transform: none;
+  padding-left: 1rem;
+}
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link--dropdown {
+  /**
+   * Dropdown caret after accordion handle
+   */
+  /**
+   * Active dropdown
+   */
+}
+.pl-c-nav__link--dropdown:after {
+  content: '\25bc';
+  color: rgba(255, 255, 255, 0.25);
+  display: inline-block;
+  font-size: 7px;
+  position: relative;
+  top: 1px;
+  right: -2px;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.pl-c-nav__link--dropdown:hover:after, .pl-c-nav__link--dropdown:focus:after {
+  color: #808080;
+}
+.pl-c-nav__link--dropdown.pl-is-active {
+  color: #fff;
+  background: #222;
+  /**
+   * Caret rotation and positioning in active dropdown
+   */
+}
+.pl-c-nav__link--dropdown.pl-is-active:after {
+  color: #808080;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+/**
+ * Nav sublist
+ * 1) On larger screens, display as dropdowns that
+ *    hang over the header
+ */
+.pl-c-nav__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist {
+    position: absolute;
+    top: 100%;
+    /* 1 */
+    left: 0;
+    min-width: 10rem;
+    overflow: hidden;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+}
+
+/**
+ * Dropdown sublist
+ */
+.pl-c-nav__sublist--dropdown, .pl-c-nav__subsublist--dropdown {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+   * Active is when accordion panel is open
+   */
+}
+.pl-c-nav__sublist--dropdown.pl-is-active, .pl-c-nav__subsublist--dropdown.pl-is-active {
+  max-height: none;
+  overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-nav__sublist--dropdown.pl-is-active::-webkit-scrollbar, .pl-c-nav__subsublist--dropdown.pl-is-active::-webkit-scrollbar {
+  width: 0 !important;
+}
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist--dropdown.pl-is-active, .pl-c-nav__subsublist--dropdown.pl-is-active {
+    max-height: 120rem;
+  }
+}
+
+/**
+ * Dropdown sublist
+ * 1) Set the height to the viewport height minus the height of the header
+ */
+@media all and (min-width: 42em) {
+  .pl-c-nav__sublist--dropdown.pl-is-active {
+    height: calc(100vh - 2rem);
+    /* 1 */
+  }
+}
+
+/**
+ * Sub-navigation
+ * 1) Third-level links are stylistically different
+ * than first and second nav links.
+ */
+.pl-c-nav__subsublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*------------------------------------*\
+    #ISH SIZING
+\*------------------------------------*/
+/**
+ * Viewport size form
+ * 1) This is the form for the form that houses the current
+ *    viewport size in px and em
+ */
+.pl-c-viewport-size {
+  margin: 0;
+  border: 0;
+  padding: 0.3rem 0.5rem 0.4rem;
+  line-height: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+/**
+ * Size input fields
+ */
+.pl-c-viewport-size__input {
+  padding: 0.1rem;
+  margin: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  font-size: inherit;
+  color: #808080;
+  width: 35px;
+  text-align: right;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.pl-c-viewport-size__input::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+.pl-c-viewport-size__input:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-viewport-size__input:active, .pl-c-viewport-size__input:focus {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+
+/**
+ * Size input labels
+ */
+.pl-c-viewport-size__label {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Size options
+ * 1) This holds the S, M, L, Rand, Disco links
+ * 2) Depending on the config, these number of options may be
+ * larger or smaller.
+ */
+.pl-c-size-list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media all and (min-width: 53em) {
+  .pl-c-size-list {
+    display: block;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+
+/**
+ * Size actions
+ * 1) These are the buttons that control the viewport resizing
+ */
+.pl-c-size-list__action {
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+}
+.pl-c-size-list__action:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-size-list__action:focus, .pl-c-size-list__action.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-size-list__action {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-size-list__action {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-size-list__action {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/*------------------------------------*\
+    #CONTROLS
+\*------------------------------------*/
+/**
+ * 1) Controls contains viewport resizer and tools dropdown
+ * 2) Right-align inside of header
+ */
+.pl-c-controls {
+  margin-left: auto;
+  /* 2 */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+/**
+* Control list
+*/
+.pl-c-controls__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+/*------------------------------------*\
+    #TOOLS
+\*------------------------------------*/
+/**
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
+.pl-c-tools {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+/**
+ * Tools menu button
+ * 1) This is the button that contains the toggle and 
+ *    triggers the tools dropdown list
+ */
+.pl-c-tools__toggle {
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+  margin: 0;
+  padding-top: 0.6rem;
+  padding-bottom: 0.5rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  min-width: 30px;
+}
+.pl-c-tools__toggle:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__toggle:focus, .pl-c-tools__toggle.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-tools__toggle {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/**
+ * Tools Toggle SVG icon
+ * 1) Cog icon
+ * 2) Set the width and height of the icon to be the same height of font
+ */
+.pl-c-tools__toggle-icon {
+  position: absolute;
+}
+
+/**
+ * Tools dropdown list
+ */
+.pl-c-tools__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+   * Active is when accordion panel is open
+   */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1;
+  width: 10rem;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.pl-c-tools__list.pl-is-active {
+  max-height: none;
+  overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-tools__list.pl-is-active::-webkit-scrollbar {
+  width: 0 !important;
+}
+@media all and (min-width: 42em) {
+  .pl-c-tools__list.pl-is-active {
+    max-height: 120rem;
+  }
+}
+
+/**
+ * Tools dropdown actions
+ * 1) Links and buttons inside of the tools dropdown
+ */
+.pl-c-tools__action {
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+.pl-c-tools__action:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__action:focus, .pl-c-tools__action.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-tools__action {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/**
+ * Viewport
+ */
+/*------------------------------------*\
+    #VIEWPORT
+\*------------------------------------*/
+/**
+* To keep user code and PL code separate, and to make
+* resizing the viewport possible, PL contains an iframe
+* that houses all user code.
+*/
+/**
+* Viewport
+* 1) This wrapper div occupies all remaining viewport space after PL's header
+*/
+.pl-c-viewport {
+  width: 100%;
+  position: fixed;
+  top: 2rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+
+/**
+* Cover
+* 1) This is an invisible div that sits above the iframe and is
+* used in JS for manual viewport resizing purposes.
+*/
+.pl-c-viewport__cover {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: absolute;
+  z-index: 20;
+  cursor: move;
+}
+
+/**
+* Viewport iframe wrapper
+* 1) This is the container that houses the
+*    iframe and the manual resize handle
+*/
+.pl-c-viewport__iframe-wrapper {
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.pl-c-viewport__iframe-wrapper.hay-mode {
+  -webkit-transition: all 40s linear;
+          transition: all 40s linear;
+}
+
+/**
+* Viewport iframe
+* 1) this is the actual <iframe>
+*/
+.pl-c-viewport__iframe {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  /**
+  * Hay Mode transition
+  * 1) Hay Mode (disabled by default) starts with the smallest
+  * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
+  */
+}
+.pl-c-viewport__iframe.hay-mode {
+  -webkit-transition: all 40s linear;
+          transition: all 40s linear;
+}
+
+/**
+* Right pull container
+* 1) Container used for manual resizing
+*/
+.pl-c-viewport__resizer {
+  width: 14px;
+  float: right;
+  margin: 0;
+  height: 100%;
+  cursor: move;
+}
+
+/**
+* Right pull
+* 1) This is the handle that lets the user resize the viewport
+*/
+.pl-c-viewport__resizer-handle {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #ccc;
+  -webkit-transition: background 0.1s ease-out;
+          transition: background 0.1s ease-out;
+}
+.pl-c-viewport__resizer-handle:hover {
+  background: #808080;
+}
+.pl-c-viewport__resizer-handle:active {
+  cursor: move;
+  background: #4d4c4c;
+}
+
+/**
+* VP animate
+* 1) This is an added class that is activated by JS to
+*    transition the width of the viewport
+*/
+.vp-animate {
+  -webkit-transition: width 0.8s ease-out;
+          transition: width 0.8s ease-out;
+}
+
+/**
+ * Pattern Styles
+ */
+/*------------------------------------*\
+    #PATTERN
+\*------------------------------------*/
+/**
+* Pattern
+* 1) This is an individual pattern that appears in the "view all" template.
+* It contains pattern title and toggle to view more information, such as
+* description, lineage, code, etc.
+* 2) Prevents absolutely-positioned elements from floating to the top
+* 3) Prevents floated patterns from floating wraps
+*/
+.pl-c-pattern {
+  margin-bottom: 2rem;
+  position: relative;
+  /* 2 */
+  clear: both;
+  /* 3 */
+}
+
+/**
+* Pattern Header
+*/
+.pl-c-pattern__header {
+  position: relative;
+  padding: 0.5rem 0 0;
+  line-height: 1.3;
+  font-size: 90%;
+  color: #808080;
+}
+.pl-c-pattern__header:empty {
+  padding: 0;
+}
+
+/**
+ * Pattern Title
+ */
+.pl-c-pattern__title {
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
+  font-size: 0.85rem !important;
+  line-height: 1 !important;
+  font-weight: normal !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-transform: capitalize !important;
+}
+
+/**
+ * Pattern Title Link
+ * 1) Vertically align pattern label and pattern state badge
+ */
+.pl-c-pattern__title-link {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  /* 1 */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  /* 1 */
+  padding: 1rem 0 0.3rem;
+  color: #808080 !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+.pl-c-pattern__title-link:hover, .pl-c-pattern__title-link:focus {
+  color: #000 !important;
+}
+
+/**
+* Pattern Extra Toggle Button
+* 1) This is the button that twirls down extra pattern info
+*/
+.pl-c-pattern__extra-toggle {
+  font-size: 9px;
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  z-index: 1;
+  padding: 0.65em 0.65em 0.5em;
+  line-height: 1;
+  color: #808080;
+  background: transparent;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  -webkit-transition: background 0.1s ease-out;
+          transition: background 0.1s ease-out;
+}
+.pl-c-pattern__extra-toggle .pl-c-pattern__toggle-icon {
+  display: inline-block;
+}
+.pl-c-pattern__extra-toggle:hover, .pl-c-pattern__extra-toggle:focus, .pl-c-pattern__extra-toggle.pl-is-active {
+  background: #fafafa;
+  color: #000;
+}
+.pl-c-pattern__extra-toggle:focus {
+  outline: 1px dotted #4d4c4c;
+}
+.pl-c-pattern__extra-toggle.pl-is-active {
+  border-bottom-color: #fafafa;
+}
+.pl-c-pattern__extra-toggle.pl-is-active .pl-c-pattern__toggle-icon {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+/**
+* Pattern Extra
+* 1) This is the info panel that contains extra pattern info
+* like pattern description, lineage, code, and more
+*/
+.pl-c-pattern__extra {
+  background: #fafafa;
+  border-top: 1px solid #ddd;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  max-height: 1px;
+  position: relative;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+}
+.pl-c-pattern__extra.pl-is-active {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  border-top-right-radius: 0;
+  max-height: 150rem;
+}
+
+/*------------------------------------*\
+    #PATTERN CATEGORY
+\*------------------------------------*/
+/**
+* Pattern Category
+* 1) This appears in the index page and delineates a major section,
+*    such as "global", "blocks", "etc".
+* 2) The category contains a title and optional description
+*/
+.pl-c-category {
+  margin-top: 6rem;
+  font: "HelveticaNeue", "Helvetica", "Arial", sans-serif !important;
+}
+.pl-c-category:first-of-type {
+  margin-top: 2rem;
+}
+
+/**
+* Pattern Category Title
+*/
+.pl-c-category__title {
+  font-size: 1.4rem !important;
+  color: #222 !important;
+  margin: 0 0 0.2rem;
+  text-transform: capitalize;
+}
+
+/**
+ * Pattern Category Link 
+ */
+.pl-c-category__title-link {
+  -webkit-transition: color 0.1s ease-out;
+          transition: color 0.1s ease-out;
+}
+
+/**
+* Pattern Category Description
+* 1) This is an optional description that sits below the category title.
+* 2) Hide the pattern category description is it's empty
+*/
+.pl-c-category__description {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  max-width: 30rem;
+}
+.pl-c-category__description:empty {
+  display: none;
+  /* 2 */
+}
+
+/*------------------------------------*\
+    #PATTERN INFO
+\*------------------------------------*/
+/**
+ * 1) Pattern info contains two sidy-by-side panels that
+ *    house a pattern's information, such as title, lineage,
+ *    code, annotations, and more.
+ */
+.pl-c-pattern-info {
+  /**
+   *  Pattern info inside the "view all" template
+   */
+  /**
+   *  Pattern info inside modal
+   */
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+.pl-c-pattern .pl-c-pattern-info {
+  max-height: 20rem;
+  overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-pattern .pl-c-pattern-info::-webkit-scrollbar {
+  width: 0 !important;
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern .pl-c-pattern-info {
+    max-height: none;
+    height: 18rem;
+    overflow: visible;
+  }
+}
+.pl-c-modal .pl-c-pattern-info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-modal .pl-c-pattern-info::-webkit-scrollbar {
+  width: 0 !important;
+}
+@media all and (min-width: 53em) {
+  .pl-c-modal .pl-c-pattern-info {
+    position: static;
+    overflow: visible;
+  }
+}
+
+/**
+ * Pattern Info Panel
+ * 1) Individual panel. Left side contains pattern info
+ *    Right side contains pattern code
+ */
+.pl-c-pattern-info__panel {
+  padding: 1rem;
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel {
+    -webkit-box-flex: 1;
+        -ms-flex: auto;
+            flex: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-modal .pl-c-pattern-info__panel {
+    padding-left: 2rem;
+  }
+}
+
+/**
+ * Pattern Info Panel
+ * 1) Left panel that contains pattern title, lineage, description, annotations
+ */
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel--info {
+    left: 0;
+    right: 50%;
+    overflow: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .pl-c-pattern-info__panel--info::-webkit-scrollbar {
+    width: 0 !important;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-pattern-info__panel--info {
+    right: 55%;
+  }
+}
+
+/**
+ * Pattern Code Panel
+ * 1) Right panel that displays the pattern's code (found in _tabs.scss)
+ * 2) Using a sibling selector because the pattern info isn't always present.
+ *    The sibling selector allows the code panel to occupy the full width of 
+ *    the 
+ * 1) Cap the height of the code panel in the modal
+ */
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
+    right: 0;
+    left: 50%;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
+    left: 45%;
+  }
+}
+
+/**
+ * Pattern Header inside modal
+ */
+.pl-c-pattern-info__header {
+  margin-bottom: 0.5rem;
+}
+
+/**
+ * Pattern Title inside modal
+ */
+.pl-c-pattern-info__title {
+  font-size: 1.4rem !important;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: inherit;
+  text-transform: capitalize;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+/**
+ * Pattern Description inside modal
+ */
+.pl-c-pattern-info__description {
+  border-bottom-color: #808080;
+}
+
+/**
+ * Pattern Annotations inside modal
+ */
+.pl-c-annotations {
+  border-top-color: #808080;
+}
+
+/*------------------------------------*\
+    #PATTERN STATES
+\*------------------------------------*/
+/**
+* Pattern states add color-coded dots next to patterns
+* in the dropdown navigation.
+*/
+.pl-c-pattern-state {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 5px;
+  position: relative;
+  top: 1px;
+  border-radius: 50%;
+  background: #02A4D5;
+}
+.pl-c-pattern-state--complete {
+  background: #03790F;
+}
+.pl-c-pattern-state--inreview {
+  background: #C7A118;
+}
+.pl-c-pattern-state--deprecated {
+  background: #B00B02;
+}
+
+/**
+* Complete state
+*/
+.complete:before {
+  color: #03790F !important;
+}
+
+/*------------------------------------*\
+    #PATTERN LINEAGE
+\*------------------------------------*/
+/**
+ * Pattern Lineage info
+ */
+.pl-c-lineage {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-top: 0;
+}
+
+/**
+ * Lineage link 
+ */
+.pl-c-lineage__link {
+  font-style: italic;
+  color: #808080;
+  text-decoration: underline;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: opacity 0.1s ease;
+          transition: opacity 0.1s ease;
+}
+.pl-c-lineage__link:hover, .pl-c-lineage__link:focus {
+  opacity: 0.8;
+}
+
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+/**
+ * 1) Breadcrumbs display a pattern's path inside the modal
+ */
+.pl-c-breadcrumb {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 0.7rem;
+  color: #808080;
+  text-transform: capitalize;
+}
+
+/**
+ * Breadcrumb Item
+ */
+.pl-c-breadcrumb__item:after {
+  content: '▶';
+  opacity: 0.4;
+  font-size: 6px;
+  display: inline-block;
+  margin: 0 0.2rem;
+  position: relative;
+  top: -1px;
+}
+
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+/**
+ * 1) Tabs contain a set of horintally-arranged tabs
+ *    with accompanying panels. When a tab link is clicked
+ *    the corresponding panel becomes visible
+ */
+.pl-c-tabs {
+  padding: 0 0.5rem 0.5rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: hidden;
+  /**
+   * Tabs inside a code panel 
+   */
+}
+@media all and (min-width: 53em) {
+  .pl-c-pattern-info__panel--code .pl-c-tabs {
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+  }
+}
+@media all and (min-width: 62em) {
+  .pl-c-modal .pl-c-tabs {
+    right: 2rem;
+    left: 2rem;
+  }
+}
+
+/**
+ * Tab List
+ * 1) A unordered list that contains the tab links
+ */
+.pl-c-tabs__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  background: #fff;
+}
+
+/**
+ * Tab Link
+ */
+.pl-c-tabs__link {
+  display: block;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #fff;
+  color: #808080;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: lowercase;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+  /**
+   * Active Tab
+   * 1) Note: the active tab color corresponds with the Prism code block
+   *    background color, which is why it doesn't use a Sass variable
+   */
+}
+.pl-c-tabs__link:hover {
+  color: #222;
+}
+.pl-c-tabs__link.pl-is-active-tab {
+  color: #222;
+  background: #eee;
+  border: 1px solid #ddd;
+}
+
+/**
+ * Tab Content
+ * 1) Tab content contains the tab panels
+ */
+.pl-c-tabs__content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+  overflow: scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  height: 100%;
+  padding-top: 0.5rem;
+  /**
+   *  Tab content inside modal
+   */
+}
+.pl-c-tabs__content::-webkit-scrollbar {
+  width: 0 !important;
+}
+.pl-c-modal .pl-c-tabs__content {
+  border: 0;
+}
+
+/**
+ * Tab panel
+ * 1) Note: the active tab color corresponds with the Prism code block
+ *    background color, which is why it doesn't use a Sass variable
+ */
+.pl-c-tabs__panel {
+  display: none;
+  position: relative;
+  min-height: 12rem;
+  /**
+   * Tab code
+   * 1) Targeting pre tag in here as Prism is being used for the majority of the styles
+   */
+}
+.pl-c-tabs__panel.pl-is-active-tab {
+  display: block;
+}
+.pl-c-tabs__panel pre[class*=language-], .pl-c-tabs__panel :not(pre) > code[class*="language-"], .pl-c-tabs__panel pre[class*="language-"] {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: block;
+}
+.pl-c-tabs__panel code[class*=language-] {
+  background: transparent;
+  margin: 0;
+}
+
+/*------------------------------------*\
+    #TOOLS
+\*------------------------------------*/
+/**
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
+.pl-c-tools {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+/**
+ * Tools menu button
+ * 1) This is the button that contains the toggle and 
+ *    triggers the tools dropdown list
+ */
+.pl-c-tools__toggle {
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+  margin: 0;
+  padding-top: 0.6rem;
+  padding-bottom: 0.5rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  min-width: 30px;
+}
+.pl-c-tools__toggle:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__toggle:focus, .pl-c-tools__toggle.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-tools__toggle {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__toggle {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/**
+ * Tools Toggle SVG icon
+ * 1) Cog icon
+ * 2) Set the width and height of the icon to be the same height of font
+ */
+.pl-c-tools__toggle-icon {
+  position: absolute;
+}
+
+/**
+ * Tools dropdown list
+ */
+.pl-c-tools__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  max-height: 0;
+  -webkit-transition: max-height 0.1s ease-out;
+          transition: max-height 0.1s ease-out;
+  /**
+   * Active is when accordion panel is open
+   */
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1;
+  width: 10rem;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.pl-c-tools__list.pl-is-active {
+  max-height: none;
+  overflow: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.pl-c-tools__list.pl-is-active::-webkit-scrollbar {
+  width: 0 !important;
+}
+@media all and (min-width: 42em) {
+  .pl-c-tools__list.pl-is-active {
+    max-height: 120rem;
+  }
+}
+
+/**
+ * Tools dropdown actions
+ * 1) Links and buttons inside of the tools dropdown
+ */
+.pl-c-tools__action {
+  background: #000;
+  color: #808080;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  -webkit-transition: background 0.1s ease-out, color 0.1s ease-out;
+          transition: background 0.1s ease-out, color 0.1s ease-out;
+  /**
+   * Header link styles inside light theme
+   */
+  /**
+   * Header link styles inside cozy theme
+   */
+  /**
+   * Header link styles inside comfortable theme
+   */
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+.pl-c-tools__action:hover {
+  color: #fff;
+  background: #222;
+}
+.pl-c-tools__action:focus, .pl-c-tools__action.active {
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-body--theme-light .pl-c-tools__action {
+  background: #fff;
+  color: #4d4c4c;
+}
+.pl-c-body--theme-density-cozy .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.2rem 0.8rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__action {
+  font-size: 0.85rem;
+  padding: 1.5rem 1rem;
+}
+
+/*------------------------------------*\
+    #ANNOTATIONS
+\*------------------------------------*/
+/**
+ * Annotated elements styles
+ * 1) Annotation styles that appear inside the iframe
+ * 2) For elements in the DOM that have an annotation, we want to
+ * provide styles that help the user understand that annotations are available.
+ * We do this with some cursor helpers and a
+ */
+.pl-has-annotation {
+  cursor: help !important;
+  outline: 1px dotted #808080;
+  outline-offset: -4px;
+  -webkit-transition: -webkit-box-shadow 0.1s ease;
+          transition: box-shadow 0.1s ease;
+}
+.pl-has-annotation a, .pl-has-annotation input {
+  cursor: help !important;
+}
+.pl-has-annotation:hover {
+  -webkit-box-shadow: 0 0 3px #808080;
+          box-shadow: 0 0 3px #808080;
+}
+.pl-has-annotation.active {
+  -webkit-box-shadow: inset 0 0 6px #4d4c4c;
+          box-shadow: inset 0 0 6px #4d4c4c;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+
+/**
+ * Annotation tooltip
+ * 1) Appears inside the iframe over any element that has an
+ *    anootation attached to it. 
+ * 2) Annotation tip gets dynamically set to `display: none` via
+ *    JavaScript
+ */
+.pl-c-annotation-tip {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* 2 */
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 24px !important;
+  height: 24px !important;
+  margin-top: 6px !important;
+  margin-left: 6px !important;
+  border-radius: 50% !important;
+  background: #222 !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  position: absolute;
+  z-index: 100;
+}
+
+/*------------------------------------*\
+    #ANNOTATIONS INSIDE MODAL
+\*------------------------------------*/
+/**
+ * Annotations area
+ * 1) Appears inside of modal  
+ */
+.pl-c-annotations {
+  margin: 1rem 0;
+}
+
+/**
+ * Annotations Title
+ * Says the world "Annotations" 
+ */
+.pl-c-annotations__title {
+  font-size: 1.2rem !important;
+  margin: 0 0 0.5rem;
+}
+
+/**
+ * Annotations list
+ * 1) Ordered list of annotations 
+ * 2) Presented with parent selector to force styles
+ *    over pl-c-text-passage
+ */
+.pl-c-annotations .pl-c-annotations__list {
+  counter-reset: the-count;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/**
+ * Annotations list item
+ * 1) Displays each item as a number
+ */
+.pl-c-annotations__item {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  -webkit-transition: background 0.1s ease;
+          transition: background 0.1s ease;
+}
+.pl-c-annotations__item:before {
+  content: counter(the-count);
+  counter-increment: the-count;
+  font-size: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  padding: 2px;
+  text-align: center;
+  background: #808080;
+  color: #fff;
+  position: absolute;
+  top: 4px;
+  left: 0;
+}
+.pl-c-annotations__item.pl-is-active {
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+
+.pl-c-annotations .pl-c-annotations__item-title {
+  margin-bottom: 0;
+}
+
+/*------------------------------------*\
+    #MODAL
+\*------------------------------------*/
+/**
+ * 1) The modal slides up from the bottom of the viewport when 
+ *    "show pattern info" is selected on the pattern detail screen.
+ */
+.pl-c-modal {
+  font-family: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+  background: #000;
+  color: #ccc;
+  position: fixed;
+  top: auto;
+  bottom: -50%;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-transition: bottom 0.3s ease-out;
+          transition: bottom 0.3s ease-out;
+  /**
+   * Active modal
+   */
+}
+.pl-c-modal.pl-is-active {
+  bottom: 0;
+}
+
+/**
+ * Modal close button
+ * 1) Closes the modal popup
+ */
+.pl-c-modal__close-btn {
+  font-size: 70%;
+  background: #000;
+  color: #808080;
+  border: 0;
+  border-radius: 6px 6px 0 0;
+  display: inline-block;
+  padding: 0.5rem 0.5rem 0.3rem;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  -webkit-transition: all 0.1s ease-out;
+          transition: all 0.1s ease-out;
+  /**
+   * Modal close button inside active modal
+   * 1) Move modal button outside of the modal window
+   */
+}
+.pl-c-modal__close-btn:hover, .pl-c-modal__close-btn:focus {
+  background: #222;
+  color: #fff;
+}
+.pl-c-modal__close-btn:focus, .pl-c-modal__close-btn:active {
+  outline: 1px dotted #808080;
+  outline-offset: -2px;
+}
+.pl-c-modal.pl-is-active .pl-c-modal__close-btn {
+  bottom: 100%;
+  /* 1 */
+}
+
+/**
+ * Close button icon
+ * 1) Displayed as an e
+ */
+.pl-c-modal__close-btn-icon {
+  width: 12px;
+  height: 12px;
+  color: currentColor;
+  fill: currentColor;
+  -webkit-transition: fill 0.1s ease-out;
+          transition: fill 0.1s ease-out;
+}
+
+/*------------------------------------*\
+    #TEXT PASSAGE
+\*------------------------------------*/
+/**
+ * 1) A passage of text which includes free-form tags (ul, blockquote, p, h2, etc)
+ *    generated by markdown
+ */
+.pl-c-text-passage {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  /**
+   * Link within the text passage
+   */
+  /**
+   * Code
+   */
+  /**
+   * Blockquote within text passage
+   */
+  /**
+   * Horizontal rule
+   */
+  /**
+   * First-level heading within text passage
+   */
+  /**
+   * Second-level heading within text passage
+   */
+  /**
+   * Third-level heading within text passage
+   */
+  /**
+   * Fourth-level heading within text passage
+   */
+  /**
+   * Fifth-level heading within text passage
+   */
+  /**
+   * Sixth-level heading within text passage
+   */
+  /**
+   * Unordered list within text passage
+   */
+  /**
+   * Ordered list within text passage
+   */
+}
+.pl-c-text-passage p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.pl-c-text-passage a {
+  color: #808080;
+  text-decoration: underline;
+  -webkit-transition: opacity 0.1s ease;
+          transition: opacity 0.1s ease;
+}
+.pl-c-text-passage a:hover, .pl-c-text-passage a:focus {
+  opacity: 0.8;
+}
+.pl-c-text-passage code[class*="language-"], .pl-c-text-passage pre[class*="language-"] {
+  color: inherit;
+}
+.pl-c-text-passage blockquote {
+  padding-left: 0.8rem;
+  border-left: 3px solid inherit;
+}
+.pl-c-text-passage hr {
+  height: 1px;
+  background: #808080;
+  margin: 2rem 0;
+  border: 0;
+}
+.pl-c-text-passage h1 {
+  margin-bottom: 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h2 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h3 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h4 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h5 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage h6 {
+  margin: 1rem 0 1rem;
+  font-weight: normal;
+}
+.pl-c-text-passage ul {
+  list-style: square;
+  margin-left: 0.9rem;
+  margin-bottom: 1rem;
+}
+.pl-c-text-passage ul li:last-child {
+  margin-bottom: 0;
+}
+.pl-c-text-passage ol {
+  list-style: decimal;
+  margin-left: 0.9rem;
+  margin-bottom: 1rem;
+}
+.pl-c-text-passage ol li:last-child {
+  margin-bottom: 0;
+}
+.pl-c-text-passage li {
+  margin-bottom: 0.5rem;
+}
+
+/*------------------------------------*\
+    #UTILITIES
+\*------------------------------------*/
+/*------------------------------------*\
+    #VISIBILITY
+\*------------------------------------*/
+/**
+* Visibilly hidden but still accessible to screen readers
+*/
+.is-vishidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+/*------------------------------------*\
+    #VENDOR
+\*------------------------------------*/
+/*------------------------------------*\
+    #TWITTER TYPEAHEAD
+\*------------------------------------*/
+/**
+ * Using Twitter Typeahead to autocomplete pattern
+ * searches. https://twitter.github.io/typeahead.js/
+ * 1) Wrapped in pl-c-header to contain styles for projects that 
+ *    might be using Typeahead in their own projects
+*/
+.pl-c-header {
+  /**
+   * Typeahead input
+   * 1) the primary DOM element that initiates the JS library 
+   */
+  /**
+   * Typeahead wrapper
+   * 1) This is the JS-generated wrapper around the input
+   * 2) Display after nav list items for horizontal theme
+   */
+}
+.pl-c-header .pl-c-typeahead {
+  border: 0;
+  background: #222 !important;
+  color: #808080;
+  width: 100%;
+  right: 0;
+  padding: 0.61rem 0.5rem;
+  font-size: inherit;
+}
+.pl-c-header .pl-c-typeahead:focus {
+  background: #808080;
+  color: #fff;
+}
+.pl-c-header .twitter-typeahead {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+  /* 2 */
+  width: 100%;
+}
+.pl-c-header .tt-input {
+  background: #808080;
+  color: #fff;
+}
+.pl-c-header .tt-input:hover {
+  color: #fff;
+  background: #222 !important;
+}
+.pl-c-header .tt-input:hover::-webkit-input-placeholder {
+  color: #fff;
+}
+.pl-c-header .tt-input:hover::-moz-input-placeholder {
+  color: #fff;
+}
+.pl-c-header .tt-input:focus {
+  border-radius: 0;
+  text-transform: lowercase;
+  color: #fff;
+  background: #222;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+.pl-c-header .tt-hint {
+  text-transform: lowercase;
+}
+.pl-c-header .tt-dropdown-menu {
+  text-transform: lowercase;
+  background-color: #808080;
+  width: 100%;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.pl-c-header .tt-suggestion {
+  color: #eee;
+  padding: 0.8em;
+}
+.pl-c-header .tt-suggestion.tt-cursor {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.25);
+}
+.pl-c-header .tt-suggestion p {
+  margin: 0;
+}
+
+/* http://prismjs.com/download.html?themes=prism&languages=markup+css+clike+javascript+handlebars+php+php-extras+twig&plugins=line-numbers+autolinker */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: black;
+  text-shadow: 0 1px white;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+  text-shadow: none;
+  background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+  text-shadow: none;
+  background: #b3d4fc;
+}
+
+@media print {
+  code[class*="language-"],
+  pre[class*="language-"] {
+    text-shadow: none;
+  }
+}
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: slategray;
+}
+
+.token.punctuation {
+  color: #999;
+}
+
+.namespace {
+  opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #a67f59;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #07a;
+}
+
+.token.function {
+  color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #e90;
+}
+
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+pre.line-numbers {
+  position: relative;
+  padding-left: 3.8em;
+  counter-reset: linenumber;
+}
+
+pre.line-numbers > code {
+  position: relative;
+}
+
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  font-size: 100%;
+  left: -3.8em;
+  width: 3em;
+  /* works for line-numbers below 1000 lines */
+  letter-spacing: -1px;
+  border-right: 1px solid #999;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.line-numbers-rows > span {
+  pointer-events: none;
+  display: block;
+  counter-increment: linenumber;
+}
+
+.line-numbers-rows > span:before {
+  content: counter(linenumber);
+  color: #999;
+  display: block;
+  padding-right: 0.8em;
+  text-align: right;
+}
+
+.token a {
+  color: inherit;
+}
+
+/*------------------------------------*\
+    #VENDOR
+\*------------------------------------*/
+/*------------------------------------*\
+    #LIGHT THEME
+\*------------------------------------*/
+/**
+ * A light-color theme for Pattern Lab, where the
+ * PL header and modal are light instead of dark
+ */
+.pl-c-body--theme-light {
+  /**
+   * Header
+   */
+  /**
+   * Nav Sublist dropdown
+   */
+  /**
+   * Tools dropdown
+   */
+  /**
+   * Nav link dropdown
+   */
+  /**
+   * All Nav links inside of subnav dropdown
+   */
+  /**
+  * Last sublist item
+  */
+  /**
+   * Size input
+   */
+  /**
+   * Typeahead container
+   */
+  /**
+   * Typeahead input
+   */
+  /**
+   * Typeahead input
+   */
+  /**
+   * Modal inside a light theme
+   */
+  /**
+  * Modal close button
+  * 1) Closes the modal popup
+  */
+}
+.pl-c-body--theme-light .pl-c-header {
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+}
+.pl-c-body--theme-light .pl-c-nav__sublist {
+  background: transparent;
+}
+.pl-c-body--theme-light .pl-c-tools__list.pl-is-active {
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+.pl-c-body--theme-light .pl-c-nav__link--dropdown {
+  color: #4d4c4c;
+  background: #fff;
+}
+.pl-c-body--theme-light .pl-c-nav__link--dropdown:after {
+  color: #ccc;
+}
+.pl-c-body--theme-light .pl-c-nav__sublist .pl-c-nav__link {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+@media all and (min-width: 42em) {
+  .pl-c-body--theme-light .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom: 1px solid #ccc;
+  }
+}
+.pl-c-body--theme-light .pl-c-viewport-size__input {
+  color: #4d4c4c;
+}
+.pl-c-body--theme-light .pl-c-viewport-size__input:hover, .pl-c-body--theme-light .pl-c-viewport-size__input:focus {
+  background: #ddd;
+}
+.pl-c-body--theme-light .typeahead {
+  background: #ddd !important;
+}
+.pl-c-body--theme-light .pl-c-typeahead {
+  background: #ddd !important;
+  color: #4d4c4c !important;
+}
+.pl-c-body--theme-light .tt-input {
+  background: #eee !important;
+  color: #4d4c4c !important;
+}
+.pl-c-body--theme-light .tt-input:hover {
+  color: #222;
+  background: #ddd !important;
+}
+.pl-c-body--theme-light .tt-input:hover::-webkit-input-placeholder {
+  color: #222;
+}
+.pl-c-body--theme-light .tt-input:hover::-moz-input-placeholder {
+  color: #222;
+}
+.pl-c-body--theme-light .pl-c-modal {
+  background: #fff;
+  color: #4d4c4c;
+  border-top: 1px solid #ccc;
+}
+.pl-c-body--theme-light .pl-c-modal__close-btn {
+  background: #fff;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+.pl-c-body--theme-light .pl-c-modal__close-btn:hover, .pl-c-body--theme-light .pl-c-modal__close-btn:focus {
+  background: #fafafa;
+  color: #4d4c4c;
+}
+
+/*------------------------------------*\
+    #DENSITY THEME
+\*------------------------------------*/
+/**
+ * A theme that adjusts the density of the PL UI.
+ * Options are comapct (default), cozy, and comfortable
+ */
+/**
+ * A theme that adjusts the density of the PL UI.
+ * Options are default (compact), cozy, and comfortable
+ */
+.pl-c-body--theme-density-cozy {
+  /**
+   * Header
+   */
+  /**
+   * Size input fields
+   */
+  /**
+   * Typeahead
+   */
+  /**
+   * Ish sizing controls
+   * 1) Hide on smaller screens
+   */
+  /**
+   * Viewport sizing inputs
+   * 1) Hide these controls on 
+   */
+  /**
+   * Tools menu button
+   * 1) This is the button that contains the toggle and 
+   *    triggers the tools dropdown list
+   */
+  /**
+   * Viewport
+   * 1) Offset the viewport to account for the adjusted
+   *    PL header height
+   */
+}
+.pl-c-body--theme-density-cozy .pl-c-header {
+  font-size: 0.85rem;
+}
+.pl-c-body--theme-density-cozy .pl-c-viewport-size__input {
+  width: 44px;
+}
+.pl-c-body--theme-density-cozy .pl-c-typeahead {
+  padding: 0.9rem 0.8rem;
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-cozy .pl-c-size-list {
+    display: none;
+  }
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-cozy .pl-c-viewport-size {
+    display: none;
+    /* 1 */
+  }
+}
+.pl-c-body--theme-density-cozy .pl-c-tools__toggle {
+  min-width: 44px;
+}
+.pl-c-body--theme-density-cozy .pl-c-viewport {
+  top: 3.28rem;
+}
+
+/*------------------------------------*\
+    #COMFORTABLE DENSITY
+\*------------------------------------*/
+/**
+ * Biggest
+ */
+.pl-c-body--theme-density-comfortable {
+  /**
+   * Header
+   * 1) Change the font size of everything in the header
+   */
+  /**
+   * Logo
+   */
+  /**
+   * Typeahead dropdown list suggestion
+   */
+  /**
+   * Size input fields
+   */
+  /**
+   * Typeahead
+   */
+  /**
+   * Ish sizing controls
+   * 1) Hide on smaller screens
+   */
+  /**
+   * Viewport sizing inputs
+   */
+  /**
+   * Tools menu button
+   * 1) This is the button that contains the toggle and 
+   *    triggers the tools dropdown list
+   */
+  /**
+   * Viewport
+   * 1) Offset the viewport to account for the adjusted
+   *    PL header height
+   */
+}
+.pl-c-body--theme-density-comfortable .pl-c-header {
+  font-size: 0.85rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-logo {
+  max-width: 4rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-header .tt-suggestion {
+  padding: 1.5rem 1rem;
+}
+.pl-c-body--theme-density-comfortable .pl-c-viewport-size__input {
+  width: 44px;
+}
+.pl-c-body--theme-density-comfortable .pl-c-typeahead {
+  padding: 0.9rem 1rem;
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-comfortable .pl-c-size-list {
+    display: none;
+    /* 1 */
+  }
+}
+@media all and (max-width: 78em) {
+  .pl-c-body--theme-density-comfortable .pl-c-viewport-size {
+    display: none;
+    /* 1 */
+  }
+}
+.pl-c-body--theme-density-comfortable .pl-c-tools__toggle {
+  min-width: 44px;
+}
+.pl-c-body--theme-density-comfortable .pl-c-viewport {
+  top: 3.8rem;
+  /* 1 */
+}
+
+/*------------------------------------*\
+    #SIDEBAR THEME
+\*------------------------------------*/
+@media all and (min-width: 48em) {
+  /**
+  * A theme that places displays the header as a sidebar
+  */
+  .pl-c-body--theme-sidebar {
+    /**
+    * Header
+    * 1) Set width to sidebar width defined above
+    * 2) Make header 100% of the viewport height
+    * 3) Stack header items on top of each other
+    * 4) void bottom border for light theme
+    */
+    /**
+     * Header within light theme
+     */
+    /**
+     * Logo
+     */
+    /**
+    * Nav sub sub list
+    */
+    /**
+    * Nav list
+    * 1) Stack main categories on top of each other
+    * 2) Put typeahead search above nav list
+    */
+    /**
+    * Nav link
+    */
+    /**
+    * Nav sublist
+    */
+    /**
+    * Nav sublist
+    */
+    /**
+    * Nav sublist
+    */
+    /**
+     * Nav sublist inside the light theme
+     */
+    /**
+     * Dropdown sublist
+     * 1) Undo fixed height
+     */
+    /**
+    * Nav sub sub list
+    */
+    /**
+     * Nav sublist inside the light theme
+     */
+    /**
+     * All Nav links inside of subnav dropdown
+     */
+    /**
+     * Last sublist item
+     * 1) Undo bottom border radius when in sidebar
+     */
+    /**
+    * Nav controls
+    * 1) Push off of navigation in flex container so
+    *    they appear at the bottom 
+    */
+    /**
+     * Dynamically added wrapper around typeahead input
+     * 1) Have to use important to override JS-added inline styles
+     */
+    /**
+     * Tools toggle button
+     */
+    /**
+     * Tools list
+     */
+    /**
+     * Tools action
+     */
+    /**
+     * Viewport 
+     * 1) Position viewport (that contains all the content)
+     *    so it fits in remaining available space 
+     */
+    /**
+     * Iframe wrapper div
+     * 1) Wipe out dynamic resizing functionality for sidebar mode 
+     */
+    /**
+     * Iframe
+     * 1) Wipe out dynamic resizing  functionality for sidebar mode 
+     *    TODO: revisit to find ways to resize 
+     */
+    /**
+     * Viewport 
+     * 1) Position viewport (that contains all the content)
+     *    so it fits in remaining available space 
+     *    TODO: revisit to find ways to resize 
+     */
+    /**
+     * Modal 
+     * 1) Position modal (that contains all the content)
+     *    so it fits in remaining available space 
+     *    TODO: revisit to find ways to resize 
+     */
+  }
+  .pl-c-body--theme-sidebar .pl-c-header {
+    width: 14rem;
+    /* 1 */
+    height: 100vh;
+    /* 2 */
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    /* 3 */
+    border-bottom: 0;
+    /* 4 */
+    padding: 1rem;
+    overflow: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  .pl-c-body--theme-sidebar .pl-c-header::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  .pl-c-body--theme-sidebar.pl-c-body--theme-light .pl-c-header {
+    border-right: 1px solid #ccc;
+  }
+  .pl-c-body--theme-sidebar .pl-c-logo {
+    max-width: 7rem;
+    margin: 0 auto 1rem;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav {
+    display: block;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__list {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    /* 1 */
+    -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+            order: 2;
+    /* 2 */
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__link {
+    font-size: 0.85rem;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist {
+    position: relative;
+    border-radius: 0;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist .pl-c-nav__link {
+    padding-left: 1rem;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist--dropdown.pl-is-active {
+    border: 0;
+    border-left: 1px solid #4d4c4c;
+  }
+  .pl-c-body--theme-sidebar.pl-c-body--theme-light .pl-c-nav__sublist--dropdown.pl-is-active {
+    border-left-color: #eee;
+  }
+}
+@media all and (min-width: 48em) and (min-width: 42em) {
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist--dropdown.pl-is-active {
+    height: auto;
+    /* 1 */
+  }
+}
+@media all and (min-width: 48em) {
+  .pl-c-body--theme-sidebar .pl-c-nav__subsublist {
+    border-left: 1px solid #4d4c4c;
+    margin-left: 1rem;
+  }
+  .pl-c-body--theme-sidebar.pl-c-body--theme-light .pl-c-nav__subsublist {
+    border-left-color: #eee;
+  }
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist .pl-c-nav__link {
+    border-left: 0;
+    border-right: 0;
+  }
+}
+@media all and (min-width: 48em) and (min-width: 42em) {
+  .pl-c-body--theme-sidebar .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+    border-bottom-left-radius: 0;
+    /* 1 */
+    border-bottom-right-radius: 0;
+    /* 1 */
+    border-bottom: 0;
+    /* 1 */
+  }
+}
+@media all and (min-width: 48em) {
+  .pl-c-body--theme-sidebar .pl-c-controls {
+    margin-top: auto;
+    /* 1 */
+    margin-left: 0;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .pl-c-body--theme-sidebar .pl-c-size-list {
+    display: none;
+  }
+  .pl-c-body--theme-sidebar .pl-c-viewport-size {
+    display: none;
+  }
+  .pl-c-body--theme-sidebar .pl-c-typeahead {
+    border-radius: 6px;
+  }
+  .pl-c-body--theme-sidebar .pl-c-header .twitter-typeahead {
+    display: block !important;
+    /* 1 */
+    margin-bottom: 0.5rem;
+  }
+  .pl-c-body--theme-sidebar .pl-c-tools__toggle {
+    display: none;
+  }
+  .pl-c-body--theme-sidebar .pl-c-tools__list {
+    max-height: none;
+    overflow: visible;
+    position: relative;
+    border-radius: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    width: 100%;
+  }
+  .pl-c-body--theme-sidebar .pl-c-tools__action {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .pl-c-body--theme-sidebar .pl-c-viewport {
+    top: 0;
+    /* 1 */
+    left: 14rem;
+    /* 1 */
+    width: auto;
+  }
+  .pl-c-body--theme-sidebar .pl-c-viewport__iframe-wrapper {
+    width: 100% !important;
+    /* 1 */
+  }
+  .pl-c-body--theme-sidebar .pl-c-viewport__iframe {
+    width: 100% !important;
+    /* 1 */
+  }
+  .pl-c-body--theme-sidebar .pl-c-viewport {
+    top: 0;
+    /* 1 */
+    left: 14rem;
+    /* 1 */
+    width: auto;
+  }
+  .pl-c-body--theme-sidebar .pl-c-modal {
+    left: 14rem;
+    /* 1 */
+    right: 0;
+    /* 1 */
+    width: auto;
+  }
+}
