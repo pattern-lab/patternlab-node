@@ -232,7 +232,7 @@ module.exports = class PatternLab {
     return this.engines.getSupportedFileExtensions();
   }
 
-  writePatternFiles(headHTML, pattern, footerHTML) {
+  writePatternFiles(headHTML, pattern, footerHTML, outputBasePath) {
     const nullFormatter = str => str;
     const defaultFormatter = codeString =>
       cleanHtml(codeString, { indent_size: 2 });
@@ -277,12 +277,10 @@ module.exports = class PatternLab {
 
     //write the compiled template to the public patterns directory
     outputFiles.forEach(outFile =>
-      _.each(this.uikits, uikit => {
-        fs.outputFileSync(
-          path.join(process.cwd(), uikit.outputDir, outFile.path),
-          outFile.content
-        );
-      })
+      fs.outputFileSync(
+        path.join(process.cwd(), outputBasePath, outFile.path),
+        outFile.content
+      )
     );
   }
 

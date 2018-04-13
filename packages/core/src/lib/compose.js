@@ -35,146 +35,165 @@ module.exports = function(pattern, patternlab) {
     pattern
   );
 
-  //render the pattern, but first consolidate any data we may have
-  let allData;
+  return Promise.all(
+    _.map(patternlab.uikits, uikit => {
+      //render the pattern, but first consolidate any data we may have
+      let allData;
 
-  let allListItems = _.merge({}, patternlab.listitems, pattern.listitems);
-  allListItems = parseLink(
-    patternlab,
-    allListItems,
-    'listitems.json + any pattern listitems.json'
-  );
+      let allListItems = _.merge({}, patternlab.listitems, pattern.listitems);
+      allListItems = parseLink(
+        patternlab,
+        allListItems,
+        'listitems.json + any pattern listitems.json'
+      );
 
-  allData = _.merge({}, patternlab.data, pattern.jsonFileData);
-  allData = _.merge({}, allData, allListItems);
-  allData.cacheBuster = patternlab.cacheBuster;
-  allData.patternPartial = pattern.patternPartial;
+      allData = _.merge({}, patternlab.data, pattern.jsonFileData);
+      allData = _.merge({}, allData, allListItems);
+      allData.cacheBuster = patternlab.cacheBuster;
+      allData.patternPartial = pattern.patternPartial;
 
-  ///////////////
-  // HEADER
-  ///////////////
+      ///////////////
+      // HEADER
+      ///////////////
 
-  //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
-  let headPromise;
-  if (patternlab.userHead) {
-    headPromise = render(patternlab.userHead, allData);
-  } else {
-    headPromise = render(
-      Pattern.createEmpty({ extendedTemplate: patternlab.header }),
-      allData
-    );
-  }
-
-  ///////////////
-  // PATTERN
-  ///////////////
-
-  //render the extendedTemplate with all data
-  const patternPartialPromise = render(pattern, allData, patternlab.partials);
-
-  ///////////////
-  // FOOTER
-  ///////////////
-
-  // stringify this data for individual pattern rendering and use on the styleguide
-  // see if patternData really needs these other duped values
-
-  // construct our extraOutput dump
-  const extraOutput = Object.assign(
-    {},
-    pattern.extraOutput,
-    pattern.allMarkdown
-  );
-  delete extraOutput.title;
-  delete extraOutput.state;
-  delete extraOutput.markdown;
-
-  pattern.patternData = JSON.stringify({
-    cssEnabled: false,
-    patternLineageExists: pattern.patternLineageExists,
-    patternLineages: pattern.patternLineages,
-    lineage: pattern.patternLineages,
-    patternLineageRExists: pattern.patternLineageRExists,
-    patternLineagesR: pattern.patternLineagesR,
-    lineageR: pattern.patternLineagesR,
-    patternLineageEExists:
-      pattern.patternLineageExists || pattern.patternLineageRExists,
-    patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
-    patternBreadcrumb:
-      pattern.patternGroup === pattern.patternSubGroup
-        ? {
-            patternType: pattern.patternGroup,
-          }
-        : {
-            patternType: pattern.patternGroup,
-            patternSubtype: pattern.patternSubGroup,
-          },
-    patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
-    patternName: pattern.patternName,
-    patternPartial: pattern.patternPartial,
-    patternState: pattern.patternState,
-    patternEngineName: pattern.engine.engineName,
-    extraOutput: extraOutput,
-  });
-
-  //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-  const footerPartialPromise = render(
-    Pattern.createEmpty({ extendedTemplate: patternlab.footer }),
-    {
-      isPattern: pattern.isPattern,
-      patternData: pattern.patternData,
-      cacheBuster: patternlab.cacheBuster,
-    }
-  );
-
-  return Promise.all([headPromise, patternPartialPromise, footerPartialPromise])
-    .then(intermediateResults => {
-      // retrieve results of promises
-      const headHTML = intermediateResults[0]; //headPromise
-      pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
-      const footerPartial = intermediateResults[2]; //footerPartialPromise
-
-      //finish up our footer data
-      let allFooterData;
-      try {
-        allFooterData = jsonCopy(
-          patternlab.data,
-          'config.paths.source.data global data'
+      //re-rendering the headHTML each time allows pattern-specific data to influence the head of the pattern
+      let headPromise;
+      if (patternlab.userHead) {
+        headPromise = render(patternlab.userHead, allData);
+      } else {
+        headPromise = render(
+          Pattern.createEmpty({ extendedTemplate: uikit.header }),
+          allData
         );
-      } catch (err) {
-        logger.info('There was an error parsing JSON for ' + pattern.relPath);
-        logger.info(err);
       }
-      allFooterData = _.merge(allFooterData, pattern.jsonFileData);
-      allFooterData.patternLabFoot = footerPartial;
 
-      return render(patternlab.userFoot, allFooterData).then(footerHTML => {
-        ///////////////
-        // WRITE FILES
-        ///////////////
+      ///////////////
+      // PATTERN
+      ///////////////
 
-        patternlab.events.emit(
-          events.PATTERNLAB_PATTERN_WRITE_BEGIN,
-          patternlab,
-          pattern
-        );
+      //render the extendedTemplate with all data
+      const patternPartialPromise = render(
+        pattern,
+        allData,
+        patternlab.partials
+      );
 
-        //write the compiled template to the public patterns directory
-        patternlab.writePatternFiles(headHTML, pattern, footerHTML);
+      ///////////////
+      // FOOTER
+      ///////////////
 
-        patternlab.events.emit(
-          events.PATTERNLAB_PATTERN_WRITE_END,
-          patternlab,
-          pattern
-        );
+      // stringify this data for individual pattern rendering and use on the styleguide
+      // see if patternData really needs these other duped values
 
-        // Allows serializing the compile state
-        patternlab.graph.node(pattern).compileState = pattern.compileState =
-          CompileState.CLEAN;
-        logger.info('Built pattern: ' + pattern.patternPartial);
+      // construct our extraOutput dump
+      const extraOutput = Object.assign(
+        {},
+        pattern.extraOutput,
+        pattern.allMarkdown
+      );
+      delete extraOutput.title;
+      delete extraOutput.state;
+      delete extraOutput.markdown;
+
+      pattern.patternData = JSON.stringify({
+        cssEnabled: false,
+        patternLineageExists: pattern.patternLineageExists,
+        patternLineages: pattern.patternLineages,
+        lineage: pattern.patternLineages,
+        patternLineageRExists: pattern.patternLineageRExists,
+        patternLineagesR: pattern.patternLineagesR,
+        lineageR: pattern.patternLineagesR,
+        patternLineageEExists:
+          pattern.patternLineageExists || pattern.patternLineageRExists,
+        patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
+        patternBreadcrumb:
+          pattern.patternGroup === pattern.patternSubGroup
+            ? {
+                patternType: pattern.patternGroup,
+              }
+            : {
+                patternType: pattern.patternGroup,
+                patternSubtype: pattern.patternSubGroup,
+              },
+        patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
+        patternName: pattern.patternName,
+        patternPartial: pattern.patternPartial,
+        patternState: pattern.patternState,
+        patternEngineName: pattern.engine.engineName,
+        extraOutput: extraOutput,
       });
+
+      //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+      const footerPartialPromise = render(
+        Pattern.createEmpty({ extendedTemplate: uikit.footer }),
+        {
+          isPattern: pattern.isPattern,
+          patternData: pattern.patternData,
+          cacheBuster: patternlab.cacheBuster,
+        }
+      );
+
+      return Promise.all([
+        headPromise,
+        patternPartialPromise,
+        footerPartialPromise,
+      ])
+        .then(intermediateResults => {
+          // retrieve results of promises
+          const headHTML = intermediateResults[0]; //headPromise
+          pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
+          const footerPartial = intermediateResults[2]; //footerPartialPromise
+
+          //finish up our footer data
+          let allFooterData;
+          try {
+            allFooterData = jsonCopy(
+              patternlab.data,
+              'config.paths.source.data global data'
+            );
+          } catch (err) {
+            logger.info(
+              'There was an error parsing JSON for ' + pattern.relPath
+            );
+            logger.info(err);
+          }
+          allFooterData = _.merge(allFooterData, pattern.jsonFileData);
+          allFooterData.patternLabFoot = footerPartial;
+
+          return render(patternlab.userFoot, allFooterData).then(footerHTML => {
+            ///////////////
+            // WRITE FILES
+            ///////////////
+
+            patternlab.events.emit(
+              events.PATTERNLAB_PATTERN_WRITE_BEGIN,
+              patternlab,
+              pattern
+            );
+
+            //write the compiled template to the public patterns directory
+            patternlab.writePatternFiles(
+              headHTML,
+              pattern,
+              footerHTML,
+              uikit.outputDir
+            );
+
+            patternlab.events.emit(
+              events.PATTERNLAB_PATTERN_WRITE_END,
+              patternlab,
+              pattern
+            );
+
+            // Allows serializing the compile state
+            patternlab.graph.node(pattern).compileState = pattern.compileState =
+              CompileState.CLEAN;
+            logger.info('Built pattern: ' + pattern.patternPartial);
+          });
+        })
+        .catch(reason => {
+          console.log(reason);
+        });
     })
-    .catch(reason => {
-      console.log(reason);
-    });
+  );
 };

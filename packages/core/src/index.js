@@ -10,16 +10,14 @@
 
 'use strict';
 
-const packageInfo = require('../package.json');
-
 const updateNotifier = require('update-notifier');
 
+const packageInfo = require('../package.json');
 const buildPatterns = require('./lib/buildPatterns');
 const help = require('./lib/help');
 const events = require('./lib/events');
 const loaduikits = require('./lib/loaduikits');
 const logger = require('./lib/log');
-const PatternGraph = require('./lib/pattern_graph').PatternGraph;
 const pe = require('./lib/pattern_exporter');
 
 const defaultConfig = require('../patternlab-config.json');

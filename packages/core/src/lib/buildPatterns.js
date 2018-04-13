@@ -106,6 +106,7 @@ module.exports = (deletePatternDir, patternlab, additionalData) => {
                 //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
                 return render(
                   Pattern.createEmpty({
+                    // todo should this be uikit.header?
                     extendedTemplate: patternlab.header,
                   }),
                   {
