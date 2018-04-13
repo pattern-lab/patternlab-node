@@ -5,10 +5,11 @@
   "main": "lib/engine_react.js",
   "dependencies": {
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "babel-loader": "^7.1.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.16.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "cheerio": "^0.22.0",
     "hogan": "^1.0.2",
     "js-beautify": "^1.6.4",
@@ -19,7 +20,7 @@
     "react-dom": "^15.6.2",
     "tmp-promise": "^1.0.4",
     "unionfs": "^3.0.2",
-    "webpack": "^3.10.0"
+    "webpack": "^4.5.0"
   },
   "peerDependencies": {
     "@pattern-lab/core": ">2"
