@@ -10,16 +10,23 @@
 'use strict';
 
 const fs = require('fs');
+const MemoryFS = require('memory-fs');
+const process = require('process');
 const path = require('path');
+const { promisify } = require('util');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const Babel = require('babel-core');
-const Hogan = require('hogan');
+const Hogan = require('hogan.js');
 const beautify = require('js-beautify');
-const cheerio = require('cheerio');
-const _require = require;
+const webpack = require('webpack');
+const tmp = require('tmp-promise');
+const webpackBuilder = require('./webpackBuilder');
+const util = require('./util');
 
-var errorStyling = `
+// engine info
+const engineFileExtension = ['.jsx', '.js'];
+
+const errorStyling = `
 <style>
   .plError {
     background: linear-gradient(to bottom, #f1f1f1 0%,#ffffff 60%);
@@ -41,51 +48,20 @@ var errorStyling = `
 // This holds the config from from core. The core has to call
 // usePatternLabConfig() at load time for this to be populated.
 let patternLabConfig = {};
-
 let enableRuntimeCode = true;
 
 const outputTemplate = Hogan.compile(
   fs.readFileSync(path.join(__dirname, './outputTemplate.mustache'), 'utf8')
 );
 
-let registeredComponents = {
+const registeredComponents = {
   byPatternPartial: {},
 };
 
-function moduleCodeString(pattern) {
-  return pattern.template || pattern.extendedTemplate;
-}
-
-function babelTransform(pattern) {
-  let transpiledModule = Babel.transform(moduleCodeString(pattern), {
-    presets: [require('babel-preset-react')],
-    plugins: [require('babel-plugin-transform-es2015-modules-commonjs')],
-  });
-
-  // eval() module code in this little scope that injects our
-  // custom wrap of require();
-  (require => {
-    /* eslint-disable no-eval */
-    transpiledModule = eval(transpiledModule.code);
-  })(customRequire);
-
-  return transpiledModule;
-}
-
-function customRequire(id) {
-  const registeredPattern = registeredComponents.byPatternPartial[id];
-
-  if (registeredPattern) {
-    return babelTransform(registeredPattern);
-  } else {
-    return _require(id);
-  }
-}
-
-var engine_react = {
+const engine_react = {
   engine: React,
   engineName: 'react',
-  engineFileExtension: ['.jsx', '.js'],
+  engineFileExtension,
 
   // hell no
   expandPartials: false,
@@ -98,33 +74,65 @@ var engine_react = {
   findPartialRE: /from '([^']+)'/,
 
   // render it
-  renderPattern(pattern, data, partials) {
-    let renderedHTML = '';
-    const transpiledModule = babelTransform(pattern);
+  async renderPattern(pattern, data, partials) {
+    /* eslint-disable no-eval */
+    try {
+      // generate the server-side rendering script
+      const serverSideScript = await webpackBuilder.generateServerScript(
+        pattern,
+        data,
+        patternLabConfig,
+        engineFileExtension
+      );
+      const clientSideScript = await webpackBuilder.generateClientScript(
+        pattern,
+        data,
+        patternLabConfig,
+        engineFileExtension,
+        serverSideScript
+      );
 
-    const staticMarkup = ReactDOMServer.renderToStaticMarkup(
-      React.createFactory(transpiledModule)(data)
-    );
+      // const blobPath = path.join(
+      //   getAbsolutePatternOutputDir(pattern),
+      //   'blob.js'
+      // );
+      // const patternModule = require(blobPath).default;
+      let patternModule;
+      try {
+        patternModule = eval(serverSideScript);
+      } catch (e) {
+        throw new Error("Oh no, couldn't eval() the serverSideScript!");
+      }
+      const staticMarkup = ReactDOMServer.renderToStaticMarkup(
+        React.createFactory(patternModule.default)(data)
+      );
 
-    renderedHTML = outputTemplate.render({
-      htmlOutput: staticMarkup,
-    });
-
-    return Promise.resolve(renderedHTML).catch(e => {
-      var errorMessage = `Error rendering React pattern "${
+      return outputTemplate.render({
+        htmlOutput: staticMarkup,
+        scriptOutput: clientSideScript,
+      });
+    } catch (e) {
+      const errorMessage = `Error rendering React pattern "${
         pattern.patternName
-      }" (${pattern.relPath}): [${e.toString()}]`;
+      }" (${pattern.relPath}): [${e.stack}]`;
+
+      // log to console
       console.log(errorMessage);
-      renderedHTML = `${errorStyling} <div class="plError">
+
+      // return a nice error blob
+      const stackHtml = e.stack.replace(
+        /[\n\r]+/g,
+        '<br />&nbsp;&nbsp;&nbsp;&nbsp;'
+      );
+      return `${errorStyling} <div class="plError">
           <h1>Error rendering React pattern "${pattern.patternName}"</h1>
           <dl>
-            <dt>Message</dt><dd>${e.toString()}</dd>
-            <dt>Partial name</dt><dd>${pattern.patternName}</dd>
             <dt>Template path</dt><dd>${pattern.relPath}</dd>
+            <dt>Stack</dt><dd>${stackHtml}</dd>
           </dl>
           </div>
         `;
-    });
+    }
   },
 
   registerPartial(pattern) {
@@ -140,7 +148,7 @@ var engine_react = {
    * @returns {array|null} An array if a match is found, null if not.
    */
   patternMatcher(pattern, regex) {
-    var matches;
+    let matches;
     if (typeof pattern === 'string') {
       matches = pattern.match(regex);
     } else if (
@@ -174,23 +182,23 @@ var engine_react = {
     return matches;
   },
 
-  findPartialsWithStyleModifiers(pattern) {
+  findPartialsWithStyleModifiers(/*pattern*/) {
     return [];
   },
 
   // returns any patterns that match {{> value(foo:'bar') }} or {{>
   // value:mod(foo:'bar') }} within the pattern
-  findPartialsWithPatternParameters(pattern) {
+  findPartialsWithPatternParameters(/*pattern*/) {
     return [];
   },
-  findListItems(pattern) {
+  findListItems(/*pattern*/) {
     return [];
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
   findPartial(partialString) {
-    let partial = partialString.match(this.findPartialRE)[1];
+    const partial = partialString.match(this.findPartialRE)[1];
     return partial;
   },
 
@@ -202,7 +210,7 @@ var engine_react = {
     return unformattedString;
   },
 
-  markupOnlyCodeFormatter(unformattedString, pattern) {
+  markupOnlyCodeFormatter(unformattedString /*, pattern*/) {
     // const $ = cheerio.load(unformattedString);
     // return beautify.html($('.reactPatternContainer').html(), {indent_size: 2});
     return unformattedString;
@@ -214,10 +222,8 @@ var engine_react = {
    * @returns {(object|object[])} - an object or array of objects,
    * each with two properties: path, and content
    */
-  addOutputFiles(paths, patternlab) {
-    return [
-
-    ];
+  addOutputFiles(/*paths, patternlab*/) {
+    return [];
   },
 
   /**
