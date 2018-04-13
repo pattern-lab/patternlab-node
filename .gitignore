@@ -8,4 +8,5 @@ Thumbs.db
 packages/core/test/public
 !packages/core/test/patterns/public/.gitkeep
 !packages/core/test/patterns/testDependencyGraph.json
+testingtrees/*/public
 lerna-debug.log
