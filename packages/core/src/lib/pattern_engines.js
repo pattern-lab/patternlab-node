@@ -1,6 +1,6 @@
 // special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible! aww thanks :)
 'use strict';
-const { existsSync, lstatSync } = require('fs');
+const { existsSync } = require('fs');
 const path = require('path');
 
 const findModules = require('./findModules');

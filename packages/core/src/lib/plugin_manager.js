@@ -4,7 +4,6 @@ const plugin_manager = function(config, configPath) {
   const path = require('path');
   const fs = require('fs-extra');
   const logger = require('./log');
-  const findModules = require('./findModules');
 
   /**
    * Loads a plugin
