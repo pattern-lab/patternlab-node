@@ -1,33 +1,33 @@
 {
   "paths": {
     "source": {
-      "root": "./packages/core/test/files/",
-      "patterns": "./packages/core/test/files/_patterns/",
-      "data": "./packages/core/test/files/_data/",
-      "meta": "./packages/core/test/files/_meta/",
-      "styleguide": "./packages/core/test/files/styleguide/",
+      "root": "test/files/",
+      "patterns": "./test/files/_patterns/",
+      "data": "./test/files/_data/",
+      "meta": "./test/files/_meta/",
+      "styleguide": "./test/files/styleguide/",
       "patternlabFiles": {
-        "general-header": "./packages/core/test/files/partials/general-header.mustache",
-        "general-footer": "./packages/core/test/files/partials/general-footer.mustache",
-        "patternSection": "./packages/core/test/files/partials/patternSection.mustache",
+        "general-header": "./test/files/partials/general-header.mustache",
+        "general-footer": "./test/files/partials/general-footer.mustache",
+        "patternSection": "./test/files/partials/patternSection.mustache",
         "patternSectionSubtype":
-          "./packages/core/test/files/partials/patternSectionSubtype.mustache",
-        "viewall": "./packages/core/test/files/viewall.mustache"
+          "./test/files/partials/patternSectionSubtype.mustache",
+        "viewall": "./test/files/viewall.mustache"
       },
-      "js": "./packages/core/test/files/js",
-      "images": "./packages/core/test/files/images",
-      "fonts": "./packages/core/test/files/fonts",
-      "css": "./packages/core/test/files/css/"
+      "js": "./test/files/js",
+      "images": "./test/files/images",
+      "fonts": "./test/files/fonts",
+      "css": "./test/files/css/"
     },
     "public": {
-      "root": "./packages/core/test/public/",
-      "patterns": "./packages/core/test/public/patterns/",
-      "data": "./packages/core/test/public/data/",
-      "styleguide": "./packages/core/test/public/styleguide/",
-      "js": "./packages/core/test/public/js",
-      "images": "./packages/core/test/public/images",
-      "fonts": "./packages/core/test/public/fonts",
-      "css": "./packages/core/test/public/css"
+      "root": "public/",
+      "patterns": "public/patterns/",
+      "data": "public/data/",
+      "styleguide": "public/styleguide/",
+      "js": "public/js",
+      "images": "public/images",
+      "fonts": "public/fonts",
+      "css": "public/css"
     }
   },
   "styleGuideExcludes": ["templates", "pages"],
@@ -70,5 +70,14 @@
     "color": "dark",
     "density": "compact",
     "layout": "horizontal"
-  }
+  },
+  "uikits": [
+    {
+      "name": "uikit-workshop",
+      "outputDir": "packages/core/test/",
+      "enabled": true,
+      "excludedPatternStates": [],
+      "excludedTags": []
+    }
+  ]
 }
