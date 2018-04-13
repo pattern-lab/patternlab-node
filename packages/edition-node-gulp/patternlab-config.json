@@ -85,7 +85,7 @@
   "uikits": [
     {
       "name": "uikit-workshop",
-      "outputDir": "workshop",
+      "outputDir": "",
       "enabled": true,
       "excludedPatternStates": [],
       "excludedTags": []
