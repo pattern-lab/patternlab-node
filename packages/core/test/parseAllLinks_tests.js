@@ -1,22 +1,25 @@
 'use strict';
 
+const path = require('path');
 const tap = require('tap');
+const fs = require('fs-extra');
 
-var loadPattern = require('../src/lib/loadPattern');
 const addPattern = require('../src/lib/addPattern');
 const parseAllLinks = require('../src/lib/parseAllLinks');
 
-var Pattern = require('../src/lib/object_factory').Pattern;
-var PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
+const Pattern = require('../src/lib/object_factory').Pattern;
+const PatternGraph = require('../src/lib/pattern_graph').PatternGraph;
+const da = require('../src/lib/data_loader');
+const dataLoader = new da();
 
-var plMain = require('../src/lib/patternlab');
-var config = require('./util/patternlab-config.json');
+const util = require('./util/test_utils.js');
+const patterns_dir = './test/files/_patterns';
 
 tap.test(
   'parseDataLinks - replaces found link.* data for their expanded links',
   function(test) {
     //arrange
-    var patternlab = new plMain(config);
+    const patternlab = util.fakePatternLab(patterns_dir);
     patternlab.graph = PatternGraph.empty();
 
     patternlab.patterns = [
@@ -26,7 +29,17 @@ tap.test(
     ];
     patternlab.data.link = {};
 
-    var navPattern = loadPattern('00-test/nav.mustache', patternlab);
+    // copies essential logic from loadPattern
+    const navPattern = new Pattern('00-test/nav.mustache');
+    const patternData = dataLoader.loadDataFromFile(
+      path.resolve(
+        'test/files/_patterns',
+        navPattern.subdir,
+        navPattern.fileName
+      ),
+      fs
+    );
+    navPattern.jsonFileData = patternData;
     addPattern(navPattern, patternlab);
 
     //for the sake of the test, also imagining I have the following pages...
@@ -38,8 +51,8 @@ tap.test(
     patternlab.data.dave = { url: 'link.twitter-dave' };
     patternlab.data.brian = { url: 'link.twitter-brian' };
 
-    var pattern;
-    for (var i = 0; i < patternlab.patterns.length; i++) {
+    let pattern;
+    for (let i = 0; i < patternlab.patterns.length; i++) {
       if (patternlab.patterns[i].patternPartial === 'test-nav') {
         pattern = patternlab.patterns[i];
       }
