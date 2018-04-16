@@ -33,7 +33,8 @@ tap.test(
     const navPattern = new Pattern('00-test/nav.mustache');
     const patternData = dataLoader.loadDataFromFile(
       path.resolve(
-        'test/files/_patterns',
+        __dirname,
+        'files/_patterns',
         navPattern.subdir,
         navPattern.fileName
       ),
