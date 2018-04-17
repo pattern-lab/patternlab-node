@@ -6,6 +6,7 @@ Thumbs.db
 .vscode/
 .idea/
 packages/core/test/public
+packages/*/public
 !packages/core/test/patterns/public/.gitkeep
 !packages/core/test/patterns/testDependencyGraph.json
 lerna-debug.log
