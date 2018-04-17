@@ -3,9 +3,9 @@
 const path = require('path');
 const _ = require('lodash');
 
-const findModules = require('./findModules');
 const logger = require('./log');
 
+let findModules = require('./findModules'); //eslint-disable-line prefer-const
 let fs = require('fs-extra'); // eslint-disable-line
 
 const uiKitMatcher = /^uikit-(.*)$/;
