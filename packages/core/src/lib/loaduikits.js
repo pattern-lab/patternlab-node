@@ -34,31 +34,37 @@ const readModuleFile = (kit, subPath) => {
   );
 };
 
+/**
+ * Loads uikits, connecting configuration and installed modules
+ * [1] Looks in node_modules for uikits.
+ * [2] Only continue if uikit is enabled in patternlab-config.json
+ * [3] Reads files from uikit that apply to every template
+ * @param {object} patternlab
+ */
 module.exports = patternlab => {
   const paths = patternlab.config.paths;
 
-  // load all ui kits mentioned in the config, if they are enabled
-  const uikits = findModules(nodeModulesPath, isUIKitModule);
+  const uikits = findModules(nodeModulesPath, isUIKitModule); // [1]
 
-  // add them to the patternlab object for later iteration
   uikits.forEach(kit => {
-    const configEntry = _.find(patternlab.config.uikits, {
+    const configEntry = _.find(_.filter(patternlab.config.uikits, 'enabled'), {
       name: `uikit-${kit.name}`,
-    });
+    }); // [2]
 
     if (!configEntry) {
-      logger.error(
+      logger.warning(
         `Could not find uikit with name uikit-${
           kit.name
-        } defined within patternlab-config.json`
+        } defined within patternlab-config.json, or it is not enabled.`
       );
+      return;
     }
 
     try {
-      // load up all the necessary files from pattern lab that apply to every template
       patternlab.uikits[`uikit-${kit.name}`] = {
+        name: `uikit-${kit.name}`,
         modulePath: kit.modulePath,
-        enabled: configEntry.enabled,
+        enabled: true,
         outputDir: configEntry.outputDir,
         excludedPatternStates: configEntry.excludedPatternStates,
         excludedTags: configEntry.excludedTags,
@@ -79,11 +85,12 @@ module.exports = patternlab => {
           paths.source.patternlabFiles.patternSectionSubtype
         ),
         viewAll: readModuleFile(kit, paths.source.patternlabFiles.viewall),
-      };
+      }; // [3]
     } catch (ex) {
       logger.error(ex);
       logger.error(
         '\nERROR: missing an essential file from ' +
+          kit.modulePath +
           paths.source.patternlabFiles +
           ". Pattern Lab won't work without this file.\n"
       );
