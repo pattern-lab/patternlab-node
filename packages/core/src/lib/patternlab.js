@@ -225,9 +225,6 @@ module.exports = class PatternLab {
   getVersion() {
     return this.package.version;
   }
-  logVersion() {
-    logger.info(this.package.version);
-  }
   getSupportedTemplateExtensions() {
     return this.engines.getSupportedFileExtensions();
   }

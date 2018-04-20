@@ -13,15 +13,15 @@
 const updateNotifier = require('update-notifier');
 
 const packageInfo = require('../package.json');
-const buildPatterns = require('./lib/buildPatterns');
 const help = require('./lib/help');
 const events = require('./lib/events');
-const loaduikits = require('./lib/loaduikits');
-const logger = require('./lib/log');
 const pe = require('./lib/pattern_exporter');
 
 const defaultConfig = require('../patternlab-config.json');
 
+let buildPatterns = require('./lib/buildPatterns'); // eslint-disable-line
+let loaduikits = require('./lib/loaduikits'); // eslint-disable-line
+let logger = require('./lib/log'); // eslint-disable-line
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
 let copier = require('./lib/copier'); // eslint-disable-line
@@ -44,25 +44,16 @@ const getDefaultConfig = function() {
 };
 
 const patternlab_module = function(config) {
-  const PatternLab = require('./lib/patternlab');
-  const patternlab = new PatternLab(config);
+  const PatternLabClass = require('./lib/patternlab');
+  const patternlab = new PatternLabClass(config);
 
   return {
-    /**
-     * Logs current version to standard output
-     *
-     * @returns {void} current patternlab-node version as defined in `package.json`
-     */
-    version: function() {
-      return patternlab.logVersion();
-    },
-
     /**
      * Returns current version
      *
      * @returns {string} current patternlab-node version as defined in `package.json`, as string
      */
-    v: function() {
+    version: function() {
       return patternlab.getVersion();
     },
 
@@ -155,7 +146,7 @@ const patternlab_module = function(config) {
     /**
      * Logs usage to standard output
      *
-     * @returns {void} pattern lab API usage, as console output
+     * @returns {void} Pattern Lab API usage, as console output
      */
     help: function() {
       logger.info(help(patternlab.package.version));
