@@ -96,25 +96,6 @@ tap.test(
   }
 );
 
-tap.test(
-  'getSupportedTemplateExtensions - calls patternlab.getSupportedTemplateExtensions and returns default template engine extensions',
-  test => {
-    //arrange
-    const pl = new entry(testConfig);
-
-    //act
-    const expectedExtensions = ['.mustache'];
-
-    //assert
-    test.equals(
-      pl.getSupportedTemplateExtensions().length,
-      expectedExtensions.length
-    );
-    test.same(pl.getSupportedTemplateExtensions(), expectedExtensions);
-    test.end();
-  }
-);
-
 tap.test('patternsonly a promise', test => {
   //arrange
   const revert = entry.__set__('loaduikits', loadUIKitsMock);
