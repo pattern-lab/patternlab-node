@@ -356,29 +356,29 @@ PatternGraph.fromJson = function(o) {
 
 /**
  * Resolve the path to the file containing the serialized graph
- * @param {object} patternlab
- * @param {string} [file='dependencyGraph.json'] Path to the graph file
+ * @param {string} [filePath='process.cwd()'] Path to the graph file
+ * @param {string} [fileName='dependencyGraph.json'] Name of the graph file
  * @return {string}
  */
-PatternGraph.resolveJsonGraphFile = function(patternlab, file) {
-  return path.resolve(
-    patternlab.config.paths.public.root,
-    file || 'dependencyGraph.json'
-  );
+PatternGraph.resolveJsonGraphFile = function(
+  filePath = process.cwd(),
+  fileName = 'dependencyGraph.json'
+) {
+  return path.resolve(filePath, fileName);
 };
 
 /**
  * Loads a graph from the file. Does not add any patterns from the patternlab object,
  * i.e. graph.patterns will be still empty until all patterns have been processed.
  *
- * @param {object} patternlab
- * @param {string} [file] Optional path to the graph json file
+ * @param {string} [filePath] path to the graph json file
+ * @param {string} [fileName] optional name of the graph json file
  *
  * @see {@link PatternGraph.fromJson}
  * @see {@link PatternGraph.resolveJsonGraphFile}
  */
-PatternGraph.loadFromFile = function(patternlab, file) {
-  const jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
+PatternGraph.loadFromFile = function(filePath, fileName) {
+  const jsonGraphFile = this.resolveJsonGraphFile(filePath, fileName);
 
   // File is fresh, so simply construct an empty graph in memory
   if (!fs.existsSync(jsonGraphFile)) {
@@ -399,8 +399,11 @@ PatternGraph.loadFromFile = function(patternlab, file) {
  *
  * @see {@link PatternGraph.resolveJsonGraphFile}
  */
-PatternGraph.storeToFile = function(patternlab, file) {
-  const jsonGraphFile = this.resolveJsonGraphFile(patternlab, file);
+PatternGraph.storeToFile = function(patternlab) {
+  if (process.env.PATTERNLAB_ENV === 'CI') {
+    return;
+  }
+  const jsonGraphFile = this.resolveJsonGraphFile();
   patternlab.graph.timestamp = new Date().getTime();
   fs.writeJSONSync(jsonGraphFile, patternlab.graph.toJson());
 };
@@ -408,10 +411,10 @@ PatternGraph.storeToFile = function(patternlab, file) {
 /**
  * Exports this graph to a GraphViz file.
  * @param patternlab
- @ @param {string} file Output file
+ @ @param {string} fileName Output filename
  */
-PatternGraph.exportToDot = function(patternlab, file) {
-  const dotFile = this.resolveJsonGraphFile(patternlab, file);
+PatternGraph.exportToDot = function(patternlab, fileName) {
+  const dotFile = this.resolveJsonGraphFile(undefined, fileName);
   const g = PatternGraphDot.generate(patternlab.graph);
   fs.outputFileSync(dotFile, g);
 };

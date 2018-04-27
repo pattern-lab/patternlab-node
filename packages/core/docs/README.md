@@ -26,12 +26,7 @@ Many of these functions are exposed to users within [Editions](https://github.co
   Returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
 
 **Returns**: <code>object</code> - Returns the object representation of the `patternlab-config.json`  
-## `version()` ⇒ <code>void</code>
-
-  Logs current version to standard output
-
-**Returns**: <code>void</code> - current patternlab-node version as defined in `package.json`  
-## `v()` ⇒ <code>string</code>
+## `version()` ⇒ <code>string</code>
 
   Returns current version
 
@@ -63,7 +58,7 @@ Many of these functions are exposed to users within [Editions](https://github.co
 
   Logs usage to standard output
 
-**Returns**: <code>void</code> - pattern lab API usage, as console output  
+**Returns**: <code>void</code> - Pattern Lab API usage, as console output  
 ## `installplugin(pluginName)` ⇒ <code>void</code>
 
   Installs plugin already available via `node_modules/`

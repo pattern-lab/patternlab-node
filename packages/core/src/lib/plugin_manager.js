@@ -78,22 +78,6 @@ const plugin_manager = function(config, configPath) {
   }
 
   /**
-   * Detect installed plugins
-   *
-   * @return {array} list of installed plugins
-   */
-  function detectPlugins() {
-    const node_modules_path = path.join(process.cwd(), 'node_modules');
-    return fs.readdirSync(node_modules_path).filter(function(dir) {
-      const module_path = path.join(process.cwd(), 'node_modules', dir);
-      return (
-        fs.statSync(module_path).isDirectory() &&
-        dir.indexOf('plugin-node-') === 0
-      );
-    });
-  }
-
-  /**
    * Disables an installed plugin
    * Not implemented yet
    */
@@ -119,9 +103,6 @@ const plugin_manager = function(config, configPath) {
     },
     load_plugin: function(pluginName) {
       return loadPlugin(pluginName);
-    },
-    detect_plugins: function() {
-      return detectPlugins();
     },
     disable_plugin: function(pluginName) {
       disablePlugin(pluginName);

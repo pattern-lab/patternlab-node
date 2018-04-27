@@ -6,6 +6,7 @@ const _ = require('lodash');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
 const logger = require('./log');
+const uikitExcludePattern = require('./uikitExcludePattern');
 
 //these are mocked in unit tests, so let them be overridden
 let render = require('./render'); //eslint-disable-line prefer-const
@@ -64,15 +65,29 @@ const ui_builder = function() {
    * Returns whether or not the pattern should be excluded from direct rendering or navigation on the front end
    * @param pattern - the pattern to test for inclusion/exclusion
    * @param patternlab - global data store
+   * @param uikit - the current uikit being built
    * @returns boolean - whether or not the pattern is excluded
    */
-  function isPatternExcluded(pattern, patternlab) {
+  function isPatternExcluded(pattern, patternlab, uikit) {
     let isOmitted;
+
+    // skip patterns that the uikit does not want to render
+    isOmitted = uikitExcludePattern(pattern, uikit);
+    if (isOmitted) {
+      logger.info(
+        `Omitting ${
+          pattern.patternPartial
+        } from styleguide patterns because its pattern state or tag is excluded within ${
+          uikit.name
+        }.`
+      );
+      return true;
+    }
 
     // skip underscore-prefixed files
     isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because it has an underscore suffix.`
@@ -83,7 +98,7 @@ const ui_builder = function() {
     //this is meant to be a homepage that is not present anywhere else
     isOmitted = pattern.patternPartial === patternlab.config.defaultPattern;
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because it is defined as a defaultPattern.`
@@ -97,7 +112,7 @@ const ui_builder = function() {
       pattern.relPath.charAt(0) === '_' ||
       pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because its contained within an underscored directory.`
@@ -108,7 +123,7 @@ const ui_builder = function() {
     //this pattern is a head or foot pattern
     isOmitted = pattern.isMetaPattern;
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because its a meta pattern.`
@@ -427,16 +442,21 @@ const ui_builder = function() {
   /**
    * Returns an object representing how the front end styleguide and navigation is structured
    * @param patternlab - global data store
+   * @param uikit - the current uikit being built
    * @returns ptterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
    */
-  function groupPatterns(patternlab) {
+  function groupPatterns(patternlab, uikit) {
     const groupedPatterns = {
       patternGroups: {},
     };
 
     _.forEach(patternlab.patterns, function(pattern) {
       //ignore patterns we can omit from rendering directly
-      pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
+      pattern.omitFromStyleguide = isPatternExcluded(
+        pattern,
+        patternlab,
+        uikit
+      );
       if (pattern.omitFromStyleguide) {
         return;
       }
@@ -524,7 +544,12 @@ const ui_builder = function() {
    * @param styleguidePatterns - the grouped set of patterns
    * @returns every built pattern and set of viewall patterns, so the styleguide can use it
    */
-  function buildViewAllPages(mainPageHeadHtml, patternlab, styleguidePatterns) {
+  function buildViewAllPages(
+    mainPageHeadHtml,
+    patternlab,
+    styleguidePatterns,
+    uikit
+  ) {
     const paths = patternlab.config.paths;
     let patterns = [];
     let writeViewAllFile = true;
@@ -555,7 +580,7 @@ const ui_builder = function() {
             }
 
             //render the footer needed for the viewall template
-            return buildFooter(patternlab, 'viewall-' + patternPartial)
+            return buildFooter(patternlab, 'viewall-' + patternPartial, uikit)
               .then(footerHTML => {
                 //render the viewall template by finding these smallest subtype-grouped patterns
                 const subtypePatterns = sortPatterns(_.values(patternSubtypes));
@@ -591,8 +616,14 @@ const ui_builder = function() {
                   patternPartial
                 )
                   .then(viewAllHTML => {
-                    fs.outputFileSync(
-                      paths.public.patterns + p.flatPatternPath + '/index.html',
+                    return fs.outputFile(
+                      path.join(
+                        process.cwd(),
+                        uikit.outputDir,
+                        paths.public.patterns +
+                          p.flatPatternPath +
+                          '/index.html'
+                      ),
                       mainPageHeadHtml + viewAllHTML + footerHTML
                     );
                   })
@@ -613,7 +644,8 @@ const ui_builder = function() {
                 //render the footer needed for the viewall template
                 return buildFooter(
                   patternlab,
-                  'viewall-' + patternType + '-all'
+                  'viewall-' + patternType + '-all',
+                  uikit
                 )
                   .then(footerHTML => {
                     //add any flat patterns
@@ -642,9 +674,13 @@ const ui_builder = function() {
                     )
                       .then(viewAllHTML => {
                         fs.outputFileSync(
-                          paths.public.patterns +
-                            anyPatternOfType.patternType +
-                            '/index.html',
+                          path.join(
+                            process.cwd(),
+                            uikit.outputDir,
+                            paths.public.patterns +
+                              anyPatternOfType.patternType +
+                              '/index.html'
+                          ),
                           mainPageHeadHtml + viewAllHTML + footerHTML
                         );
 
@@ -713,132 +749,162 @@ const ui_builder = function() {
 
     const paths = patternlab.config.paths;
 
-    //determine which patterns should be included in the front-end rendering
-    const styleguidePatterns = groupPatterns(patternlab);
+    const uikitPromises = _.map(patternlab.uikits, uikit => {
+      //determine which patterns should be included in the front-end rendering
+      const styleguidePatterns = groupPatterns(patternlab, uikit);
 
-    //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
-    const headerPromise = render(
-      Pattern.createEmpty({ extendedTemplate: patternlab.header }),
-      {
-        cacheBuster: patternlab.cacheBuster,
-      }
-    )
-      .then(headerPartial => {
-        const headFootData = patternlab.data;
-        headFootData.patternLabHead = headerPartial;
-        headFootData.cacheBuster = patternlab.cacheBuster;
-        return render(patternlab.userHead, headFootData);
-      })
-      .catch(reason => {
-        console.log(reason);
-        logger.error('error during header render()');
-      });
-
-    //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
-    const footerPromise = render(
-      Pattern.createEmpty({ extendedTemplate: patternlab.footer }),
-      {
-        patternData: '{}',
-        cacheBuster: patternlab.cacheBuster,
-      }
-    )
-      .then(footerPartial => {
-        const headFootData = patternlab.data;
-        headFootData.patternLabFoot = footerPartial;
-        return render(patternlab.userFoot, headFootData);
-      })
-      .catch(reason => {
-        console.log(reason);
-        logger.error('error during footer render()');
-      });
-
-    return Promise.all([headerPromise, footerPromise]).then(
-      headFootPromiseResults => {
-        //build the viewall pages
-        return buildViewAllPages(
-          headFootPromiseResults[0],
-          patternlab,
-          styleguidePatterns
+      return new Promise(resolve => {
+        //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
+        const headerPromise = render(
+          Pattern.createEmpty({ extendedTemplate: uikit.header }),
+          {
+            cacheBuster: patternlab.cacheBuster,
+          }
         )
-          .then(allPatterns => {
-            //todo track down why we need to make this unique in the first place
-            const uniquePatterns = _.uniq(
-              _.flatMapDeep(allPatterns, pattern => {
-                return pattern;
-              })
-            );
-
-            //add the defaultPattern if we found one
-            if (patternlab.defaultPattern) {
-              uniquePatterns.push(patternlab.defaultPattern);
-              addToPatternPaths(patternlab, patternlab.defaultPattern);
-            }
-
-            //build the main styleguide page
-            return render(
-              Pattern.createEmpty({ extendedTemplate: patternlab.viewAll }),
-              {
-                partials: uniquePatterns,
-              },
-              {
-                patternSection: patternlab.patternSection,
-                patternSectionSubtype: patternlab.patternSectionSubType,
-              }
-            )
-              .then(styleguideHtml => {
-                fs.outputFileSync(
-                  path.resolve(paths.public.styleguide, 'html/styleguide.html'),
-                  headFootPromiseResults[0] +
-                    styleguideHtml +
-                    headFootPromiseResults[1]
-                );
-
-                logger.info('Built Pattern Lab front end');
-
-                //move the index file from its asset location into public root
-                let patternlabSiteHtml;
-                try {
-                  patternlabSiteHtml = fs.readFileSync(
-                    path.resolve(paths.source.styleguide, 'index.html'),
-                    'utf8'
-                  );
-                } catch (err) {
-                  logger.error(
-                    `Could not load one or more styleguidekit assets from ${
-                      paths.source.styleguide
-                    }`
-                  );
-                }
-                fs.outputFileSync(
-                  path.resolve(paths.public.root, 'index.html'),
-                  patternlabSiteHtml
-                );
-
-                //write out patternlab.data object to be read by the client
-                exportData(patternlab);
-              })
-              .catch(reason => {
-                console.log(reason);
-                logger.error('error during buildFrontend()');
-              });
+          .then(headerPartial => {
+            const headFootData = patternlab.data;
+            headFootData.patternLabHead = headerPartial;
+            headFootData.cacheBuster = patternlab.cacheBuster;
+            return render(patternlab.userHead, headFootData);
           })
           .catch(reason => {
             console.log(reason);
-            logger.error('error during buildViewAllPages()');
+            logger.error('error during header render()');
           });
-      }
-    );
+
+        //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
+        const footerPromise = render(
+          Pattern.createEmpty({ extendedTemplate: uikit.footer }),
+          {
+            patternData: '{}',
+            cacheBuster: patternlab.cacheBuster,
+          }
+        )
+          .then(footerPartial => {
+            const headFootData = patternlab.data;
+            headFootData.patternLabFoot = footerPartial;
+            return render(patternlab.userFoot, headFootData);
+          })
+          .catch(reason => {
+            console.log(reason);
+            logger.error('error during footer render()');
+          });
+
+        return Promise.all([headerPromise, footerPromise]).then(
+          headFootPromiseResults => {
+            //build the viewall pages
+
+            return buildViewAllPages(
+              headFootPromiseResults[0],
+              patternlab,
+              styleguidePatterns,
+              uikit
+            )
+              .then(allPatterns => {
+                //todo track down why we need to make this unique in the first place
+                const uniquePatterns = _.uniq(
+                  _.flatMapDeep(allPatterns, pattern => {
+                    return pattern;
+                  })
+                );
+
+                //add the defaultPattern if we found one
+                if (patternlab.defaultPattern) {
+                  uniquePatterns.push(patternlab.defaultPattern);
+                  addToPatternPaths(patternlab, patternlab.defaultPattern);
+                }
+
+                //build the main styleguide page
+                return render(
+                  Pattern.createEmpty({
+                    extendedTemplate: uikit.viewAll,
+                  }),
+                  {
+                    partials: uniquePatterns,
+                  },
+                  {
+                    patternSection: uikit.patternSection,
+                    patternSectionSubtype: uikit.patternSectionSubType,
+                  }
+                )
+                  .then(styleguideHtml => {
+                    fs.outputFileSync(
+                      path.resolve(
+                        path.join(
+                          process.cwd(),
+                          uikit.outputDir,
+                          paths.public.styleguide,
+                          'html/styleguide.html'
+                        )
+                      ),
+                      headFootPromiseResults[0] +
+                        styleguideHtml +
+                        headFootPromiseResults[1]
+                    );
+
+                    logger.info('Built Pattern Lab front end');
+
+                    //move the index file from its asset location into public root
+                    let patternlabSiteHtml;
+                    try {
+                      patternlabSiteHtml = fs.readFileSync(
+                        path.resolve(
+                          path.join(
+                            uikit.modulePath,
+                            paths.source.styleguide,
+                            'index.html'
+                          )
+                        ),
+                        'utf8'
+                      );
+                    } catch (err) {
+                      logger.error(
+                        `Could not load one or more styleguidekit assets from ${
+                          paths.source.styleguide
+                        }`
+                      );
+                    }
+                    fs.outputFileSync(
+                      path.resolve(
+                        path.join(
+                          process.cwd(),
+                          uikit.outputDir,
+                          paths.public.root,
+                          'index.html'
+                        )
+                      ),
+                      patternlabSiteHtml
+                    );
+
+                    //write out patternlab.data object to be read by the client
+                    exportData(patternlab);
+                    resolve();
+                  })
+                  .catch(reason => {
+                    console.log(reason);
+                    logger.error('error during buildFrontend()');
+                  });
+              })
+              .catch(reason => {
+                console.log(reason);
+                logger.error('error during buildViewAllPages()');
+              });
+          }
+        );
+      });
+    });
+    return Promise.all(uikitPromises);
   }
 
   return {
     buildFrontend: function(patternlab) {
       return buildFrontend(patternlab);
     },
-    isPatternExcluded: function(pattern, patternlab) {
-      return isPatternExcluded(pattern, patternlab);
+    isPatternExcluded: function(pattern, patternlab, uikit) {
+      return isPatternExcluded(pattern, patternlab, uikit);
     },
-    groupPatterns: function(patternlab) {
-      return groupPatterns(patternlab);
+    groupPatterns: function(patternlab, uikit) {
+      return groupPatterns(patternlab, uikit);
     },
     resetUIBuilderState: function(patternlab) {
       resetUIBuilderState(patternlab);
@@ -846,12 +912,14 @@ const ui_builder = function() {
     buildViewAllPages: function(
       mainPageHeadHtml,
       patternlab,
-      styleguidePatterns
+      styleguidePatterns,
+      uikit
     ) {
       return buildViewAllPages(
         mainPageHeadHtml,
         patternlab,
-        styleguidePatterns
+        styleguidePatterns,
+        uikit
       );
     },
   };

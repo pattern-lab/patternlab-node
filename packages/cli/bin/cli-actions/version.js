@@ -5,4 +5,4 @@ const config = Object.assign(patternlab.getDefaultConfig(), {
 });
 
 module.exports = ({ version }) =>
-	`${version} (PatternLab Node Core version: ${patternlab(config).v()})`;
+	`${version} (PatternLab Node Core version: ${patternlab(config).version()})`;

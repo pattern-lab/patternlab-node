@@ -34,7 +34,7 @@ function serve() {
 }
 
 gulp.task('patternlab:version', function() {
-  patternlab.version();
+  console.log(patternlab.version());
 });
 
 gulp.task('patternlab:help', function() {
