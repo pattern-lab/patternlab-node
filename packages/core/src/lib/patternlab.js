@@ -12,6 +12,7 @@ const events = require('./events');
 const findModules = require('./findModules');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
+const loaduikits = require('./loaduikits');
 const logger = require('./log');
 const processIterative = require('./processIterative');
 const processRecursive = require('./processRecursive');
@@ -71,6 +72,7 @@ module.exports = class PatternLab {
 
     // make a place to register any uikits
     this.uikits = {};
+    loaduikits(this);
 
     // Verify correctness of configuration (?)
     this.checkConfiguration(this);

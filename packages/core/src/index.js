@@ -20,7 +20,6 @@ const pe = require('./lib/pattern_exporter');
 const defaultConfig = require('../patternlab-config.json');
 
 let buildPatterns = require('./lib/buildPatterns'); // eslint-disable-line
-let loaduikits = require('./lib/loaduikits'); // eslint-disable-line
 let logger = require('./lib/log'); // eslint-disable-line
 let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
@@ -83,12 +82,8 @@ const patternlab_module = function(config) {
       }
       patternlab.isBusy = true;
 
-      return loaduikits(patternlab).then(() => {
-        return buildPatterns(
-          options.cleanPublic,
-          patternlab,
-          options.data
-        ).then(() => {
+      return buildPatterns(options.cleanPublic, patternlab, options.data).then(
+        () => {
           return new ui_builder().buildFrontend(patternlab).then(() => {
             copier()
               .copyAndWatch(patternlab.config.paths, patternlab, options)
@@ -198,15 +193,11 @@ const patternlab_module = function(config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return loaduikits(patternlab).then(() => {
-        return buildPatterns(
-          options.cleanPublic,
-          patternlab,
-          options.data
-        ).then(() => {
+      return buildPatterns(options.cleanPublic, patternlab, options.data).then(
+        () => {
           patternlab.isBusy = false;
-        });
-      });
+        }
+      );
     },
 
     /**
