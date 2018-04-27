@@ -116,8 +116,8 @@ const patternlab_module = function(config) {
                 }
               });
           });
-        });
-      });
+        }
+      );
     },
 
     /**

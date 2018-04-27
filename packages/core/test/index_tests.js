@@ -46,10 +46,6 @@ const fsMock = {
   },
 };
 
-const loadUIKitsMock = () => {
-  return Promise.resolve();
-};
-
 const buildPatternsMock = () => {
   return Promise.resolve();
 };
@@ -98,22 +94,7 @@ tap.test(
 
 tap.test('patternsonly a promise', test => {
   //arrange
-  const revert = entry.__set__('loaduikits', loadUIKitsMock);
-  const pl = new entry(testConfig);
-
-  //act
-  test.resolves(pl.patternsonly({})).then(() => {
-    revert();
-    test.end();
-  });
-});
-
-tap.test('patternsonly calls loaduikits', test => {
-  //arrange
-  const revert = entry.__set__('loaduikits', () => {
-    test.ok(1);
-    return Promise.resolve();
-  });
+  const revert = entry.__set__('buildPatterns', buildPatternsMock);
   const pl = new entry(testConfig);
 
   //act
