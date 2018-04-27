@@ -6,6 +6,7 @@ const _ = require('lodash');
 const of = require('./object_factory');
 const Pattern = of.Pattern;
 const logger = require('./log');
+const uikitExcludePattern = require('./uikitExcludePattern');
 
 //these are mocked in unit tests, so let them be overridden
 let render = require('./render'); //eslint-disable-line prefer-const
@@ -64,15 +65,29 @@ const ui_builder = function() {
    * Returns whether or not the pattern should be excluded from direct rendering or navigation on the front end
    * @param pattern - the pattern to test for inclusion/exclusion
    * @param patternlab - global data store
+   * @param uikit - the current uikit being built
    * @returns boolean - whether or not the pattern is excluded
    */
-  function isPatternExcluded(pattern, patternlab) {
+  function isPatternExcluded(pattern, patternlab, uikit) {
     let isOmitted;
+
+    // skip patterns that the uikit does not want to render
+    isOmitted = uikitExcludePattern(pattern, uikit);
+    if (isOmitted) {
+      logger.info(
+        `Omitting ${
+          pattern.patternPartial
+        } from styleguide patterns because its pattern state or tag is excluded within ${
+          uikit.name
+        }.`
+      );
+      return true;
+    }
 
     // skip underscore-prefixed files
     isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because it has an underscore suffix.`
@@ -83,7 +98,7 @@ const ui_builder = function() {
     //this is meant to be a homepage that is not present anywhere else
     isOmitted = pattern.patternPartial === patternlab.config.defaultPattern;
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because it is defined as a defaultPattern.`
@@ -97,7 +112,7 @@ const ui_builder = function() {
       pattern.relPath.charAt(0) === '_' ||
       pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because its contained within an underscored directory.`
@@ -108,7 +123,7 @@ const ui_builder = function() {
     //this pattern is a head or foot pattern
     isOmitted = pattern.isMetaPattern;
     if (isOmitted) {
-      logger.debug(
+      logger.info(
         `Omitting ${
           pattern.patternPartial
         } from styleguide patterns because its a meta pattern.`
@@ -427,16 +442,21 @@ const ui_builder = function() {
   /**
    * Returns an object representing how the front end styleguide and navigation is structured
    * @param patternlab - global data store
+   * @param uikit - the current uikit being built
    * @returns ptterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
    */
-  function groupPatterns(patternlab) {
+  function groupPatterns(patternlab, uikit) {
     const groupedPatterns = {
       patternGroups: {},
     };
 
     _.forEach(patternlab.patterns, function(pattern) {
       //ignore patterns we can omit from rendering directly
-      pattern.omitFromStyleguide = isPatternExcluded(pattern, patternlab);
+      pattern.omitFromStyleguide = isPatternExcluded(
+        pattern,
+        patternlab,
+        uikit
+      );
       if (pattern.omitFromStyleguide) {
         return;
       }
@@ -729,10 +749,10 @@ const ui_builder = function() {
 
     const paths = patternlab.config.paths;
 
-    //determine which patterns should be included in the front-end rendering
-    const styleguidePatterns = groupPatterns(patternlab);
-
     const uikitPromises = _.map(patternlab.uikits, uikit => {
+      //determine which patterns should be included in the front-end rendering
+      const styleguidePatterns = groupPatterns(patternlab, uikit);
+
       return new Promise(resolve => {
         //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
         const headerPromise = render(
@@ -880,11 +900,11 @@ const ui_builder = function() {
     buildFrontend: function(patternlab) {
       return buildFrontend(patternlab);
     },
-    isPatternExcluded: function(pattern, patternlab) {
-      return isPatternExcluded(pattern, patternlab);
+    isPatternExcluded: function(pattern, patternlab, uikit) {
+      return isPatternExcluded(pattern, patternlab, uikit);
     },
-    groupPatterns: function(patternlab) {
-      return groupPatterns(patternlab);
+    groupPatterns: function(patternlab, uikit) {
+      return groupPatterns(patternlab, uikit);
     },
     resetUIBuilderState: function(patternlab) {
       resetUIBuilderState(patternlab);

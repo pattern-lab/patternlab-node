@@ -33,6 +33,13 @@ uiModule.__set__({
   buildFooter: buildFooterMock,
 });
 
+const uikit = {
+  name: 'uikit-workshop',
+  modulePath: '',
+  outputDir: 'test/output',
+  excludedPatternStates: [],
+};
+
 var ui = uiModule();
 
 function createFakePatternLab(customProps) {
@@ -55,13 +62,7 @@ function createFakePatternLab(customProps) {
       },
     },
     data: {},
-    uikits: {
-      'uikit-workshop': {
-        name: 'workshop',
-        modulePath: '',
-        outputDir: 'test/output',
-      },
-    },
+    uikits: [uikit],
   };
   return extend(pl, customProps);
 }
@@ -74,7 +75,7 @@ tap.test(
     var pattern = new Pattern('00-test/_ignored-pattern.mustache');
 
     //act
-    var result = ui.isPatternExcluded(pattern, patternlab);
+    var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
     test.equals(result, true);
@@ -91,7 +92,7 @@ tap.test(
     patternlab.config.defaultPattern = 'test-foo';
 
     //act
-    var result = ui.isPatternExcluded(pattern, patternlab);
+    var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
     test.equals(result, true);
@@ -118,7 +119,7 @@ tap.test(
     });
 
     //act
-    var result = ui.isPatternExcluded(pattern, patternlab);
+    var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
     test.equals(result, true);
@@ -140,7 +141,32 @@ tap.test(
     });
 
     //act
-    var result = ui.isPatternExcluded(pattern, patternlab);
+    var result = ui.isPatternExcluded(pattern, patternlab, uikit);
+
+    //assert
+    test.equals(result, true);
+    test.end();
+  }
+);
+
+tap.test(
+  'isPatternExcluded - returns true when pattern state found withing uikit exclusions',
+  function(test) {
+    //arrange
+    var patternlab = createFakePatternLab({});
+    var pattern = Pattern.createEmpty({
+      relPath:
+        'shown' + path.sep + '_patternsubtype' + path.sep + 'foo.mustache',
+      isPattern: true,
+      fileName: 'foo.mustache',
+      patternPartial: 'shown-foo',
+      patternState: 'complete',
+    });
+
+    //act
+    var result = ui.isPatternExcluded(pattern, patternlab, {
+      excludedPatternStates: 'complete',
+    });
 
     //assert
     test.equals(result, true);
@@ -169,7 +195,7 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   ui.resetUIBuilderState(patternlab);
 
   //act
-  var result = ui.groupPatterns(patternlab);
+  var result = ui.groupPatterns(patternlab, uikit);
 
   test.equals(
     result.patternGroups.patternType1.patternSubType1.blue.patternPartial,
@@ -232,7 +258,7 @@ tap.test('groupPatterns - orders patterns when provided from md', function(
   patternlab.patterns[1].order = 1;
 
   //act
-  ui.groupPatterns(patternlab);
+  ui.groupPatterns(patternlab, uikit);
 
   let patternType = _.find(patternlab.patternTypes, [
     'patternType',
@@ -272,7 +298,7 @@ tap.test(
     patternlab.patterns[1].order = 'notanumber!';
 
     //act
-    ui.groupPatterns(patternlab);
+    ui.groupPatterns(patternlab, uikit);
 
     let patternType = _.find(patternlab.patternTypes, [
       'patternType',
@@ -315,7 +341,7 @@ tap.test(
     patternlab.patterns[2].order = 2;
 
     //act
-    ui.groupPatterns(patternlab);
+    ui.groupPatterns(patternlab, uikit);
 
     let patternType = _.find(patternlab.patternTypes, [
       'patternType',
@@ -363,7 +389,7 @@ tap.test(
     ui.resetUIBuilderState(patternlab);
 
     //act
-    var result = ui.groupPatterns(patternlab);
+    var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
     test.equals(
@@ -406,7 +432,7 @@ tap.test(
     ui.resetUIBuilderState(patternlab);
 
     //act
-    var result = ui.groupPatterns(patternlab);
+    var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
     test.equals(patternlab.patternPaths['test']['foo'], '00-test-foo');
@@ -463,7 +489,7 @@ tap.test(
     ui.resetUIBuilderState(patternlab);
 
     //act
-    var result = ui.groupPatterns(patternlab);
+    var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
     test.equals('todo', 'todo');
@@ -517,9 +543,7 @@ tap.test(
     );
     ui.resetUIBuilderState(patternlab);
 
-    const styleguidePatterns = ui.groupPatterns(patternlab);
-
-    const uikit = patternlab.uikits['uikit-workshop'];
+    const styleguidePatterns = ui.groupPatterns(patternlab, uikit);
 
     //act
     ui
