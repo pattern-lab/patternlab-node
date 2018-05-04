@@ -10,7 +10,9 @@
   },
   "nyc": {
     "exclude": [
-      "**/*_tests.js"
+      "**/*_tests.js",
+      "packages/core/test/**",
+      "packages/live-server/*"
     ]
   }
 }

@@ -4,6 +4,7 @@
   "version": "1.0.0-alpha.5",
   "main": "patternlab-config.json",
   "dependencies": {
+    "@pattern-lab/cli": "^0.0.1-alpha.14",
     "@pattern-lab/core": "^3.0.0-alpha.11",
     "@pattern-lab/engine-mustache": "^2.0.0-alpha.5",
     "@pattern-lab/uikit-workshop": "^1.0.0-alpha.4"
@@ -18,9 +19,11 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer",
   "scripts": {
-    "build": "node ./scripts/build.js",
-    "help": "node ./scripts/help.js",
-    "serve": "node ./scripts/serve.js"
+    "build": "patternlab build --config ./patternlab-config.json",
+    "help": "patternlab --help",
+    "install": "patternlab install --config ./patternlab-config.json",
+    "serve": "patternlab serve --config ./patternlab-config.json",
+    "version": "patternlab --version"
   },
   "license": "MIT",
   "engines": {

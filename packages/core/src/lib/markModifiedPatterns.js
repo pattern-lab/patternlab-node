@@ -36,13 +36,17 @@ module.exports = function(lastModified, patternlab) {
 
   // For all unmodified patterns load their rendered template output
   forEachExisting(modifiedOrNot.notModified, cleanPattern => {
-    const xp = path.join(
-      patternlab.config.paths.public.patterns,
-      cleanPattern.getPatternLink(patternlab, 'markupOnly')
-    );
+    _.each(patternlab.uikits, uikit => {
+      const xp = path.join(
+        process.cwd(),
+        uikit.outputDir,
+        patternlab.config.paths.public.patterns,
+        cleanPattern.getPatternLink(patternlab, 'markupOnly')
+      );
 
-    // Pattern with non-existing markupOnly files were already marked for rebuild and thus are not "CLEAN"
-    cleanPattern.patternPartialCode = fs.readFileSync(xp, 'utf8');
+      // Pattern with non-existing markupOnly files were already marked for rebuild and thus are not "CLEAN"
+      cleanPattern.patternPartialCode = fs.readFileSync(xp, 'utf8');
+    });
   });
 
   // For all patterns that were modified, schedule them for rebuild

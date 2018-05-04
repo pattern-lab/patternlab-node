@@ -112,6 +112,7 @@ const starterkit_manager = function(config) {
    *
    * @return {array} List of starter kits installed
    */
+  //TODO review for deletion or convert callers to use findModules()
   function detectStarterKits() {
     const node_modules_path = path.join(process.cwd(), 'node_modules');
     const npm_modules = fs.readdirSync(node_modules_path).filter(function(dir) {

@@ -14,7 +14,7 @@ const path = require('path');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const Babel = require('babel-core');
-const Hogan = require('hogan.js');
+const Hogan = require('hogan');
 const beautify = require('js-beautify');
 const cheerio = require('cheerio');
 const _require = require;
@@ -215,7 +215,9 @@ var engine_react = {
    * each with two properties: path, and content
    */
   addOutputFiles(paths, patternlab) {
-    return [];
+    return [
+
+    ];
   },
 
   /**

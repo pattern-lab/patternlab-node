@@ -4,8 +4,8 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="1.0.0-alpha.4"></a>
-# [1.0.0-alpha.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.0-alpha.3...@pattern-lab/uikit-workshop@1.0.0-alpha.4) (2018-03-21)
 
+# [1.0.0-alpha.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.0-alpha.3...@pattern-lab/uikit-workshop@1.0.0-alpha.4) (2018-03-21)
 
 ### Bug Fixes
 
@@ -16,33 +16,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **README:** update content for consistency ([4edf0d4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/4edf0d4)), closes [#815](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/815)
 * **README:** update installation command ([026e810](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/026e810))
 
-
 ### Features
 
 * **package:** Add bower as an explicit dependency ([c070b80](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/c070b80))
 
-
-
-
 <a name="1.0.0-alpha.3"></a>
-# [1.0.0-alpha.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.0-alpha.2...@pattern-lab/uikit-workshop@1.0.0-alpha.3) (2018-03-05)
 
+# [1.0.0-alpha.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.0-alpha.2...@pattern-lab/uikit-workshop@1.0.0-alpha.3) (2018-03-05)
 
 ### Bug Fixes
 
 * **config:** Add npm registry to lerna config ([1473cd5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/1473cd5))
 
-
-
-
 <a name="1.0.0-alpha.2"></a>
-# 1.0.0-alpha.2 (2018-03-02)
 
+# 1.0.0-alpha.2 (2018-03-02)
 
 ### Bug Fixes
 
 * **packages:** Allow scoped publishing ([58beeb6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/58beeb6))
-
 
 ### Features
 
