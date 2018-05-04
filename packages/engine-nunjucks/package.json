@@ -28,7 +28,7 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "version": "0.1.4-alpha.1",
+  "version": "0.1.4-alpha.2",
   "publishConfig": {
     "access": "public"
   }

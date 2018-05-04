@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-alpha.12"></a>
+# [3.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.11...@pattern-lab/core@3.0.0-alpha.12) (2018-05-04)
+
+
+### Bug Fixes
+
+* **build:** improve stability of changes causing a live-server reload ([06c6123](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/06c6123))
+* **buildPatterns:** move meta processing back into function for now ([cea2c45](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/cea2c45))
+* **pattern graph:** move support and coverage of graph file to root ([bb9ef3c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/bb9ef3c))
+* **pattern watch:** Defensively add change listeners ([cdbd11f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/cdbd11f))
+* **test:** fix the test please and thank you ([cdc6c38](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/cdc6c38))
+* **test:** sledgehammer a test ([8b34be0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8b34be0))
+* **tests:** prevent dependency graph output file from being written ([0d9c57e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/0d9c57e))
+* **uikits:** fix ui_builder_tests ([e75f434](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/e75f434))
+
+
+### Features
+
+* **API:** standardize v() and version() into a single call ([6309e69](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/6309e69))
+* **uikits:** add uikits to test config ([43a2017](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/43a2017))
+* **uikits:** additional test coverage ([f5b60b2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/f5b60b2))
+* **uikits:** additional test coverage of the main API ([fbcacfb](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/fbcacfb))
+* **uikits:** clean each build directory if configured ([8e11342](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8e11342))
+* **uikits:** copy pattern-specific javascript ([3ac93dc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/3ac93dc))
+* **uikits:** create MVP output to disk ([e1598d3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/e1598d3))
+* **uikits:** filter out excluded pattern states from uikit output ([87c9d0d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/87c9d0d))
+* **uikits:** load uikits before build ([4565202](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4565202))
+* **uikits:** output assets and annotations to each location ([b0a84ca](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/b0a84ca))
+* **uikits:** output pattern files to each location ([5df87b0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5df87b0))
+* **uikits:** promote dependencyGraph.json output to root ([dd3e708](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/dd3e708))
+* **uikits:** render header and footer data correctly ([f2a6f23](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/f2a6f23))
+* **uikits:** support incremental builds ([6670364](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/6670364))
+* **uikits:** support watched-asset copying ([4f05311](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4f05311))
+* **uikits:** uikits config to default ([a393851](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/a393851))
+
+
+### BREAKING CHANGES
+
+* **API:** change `version()` to return a string representation of the version, removing `v()`
+
+
+
+
 <a name="3.0.0-alpha.11"></a>
 
 # [3.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.10...@pattern-lab/core@3.0.0-alpha.11) (2018-03-21)

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-alpha.6"></a>
+# [1.0.0-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.5...@pattern-lab/edition-node@1.0.0-alpha.6) (2018-05-04)
+
+
+### Features
+
+* **package:** add [@pattern-lab](https://github.com/pattern-lab)/cli as a dependency ([760d0e0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/760d0e0))
+* **scripts:** refactor to use cli commands ([e8d5c21](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/e8d5c21))
+* **uikits:** uikits config ([027e56c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/027e56c))
+
+
+
+
 <a name="1.0.0-alpha.5"></a>
 
 # [1.0.0-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.4...@pattern-lab/edition-node@1.0.0-alpha.5) (2018-03-21)

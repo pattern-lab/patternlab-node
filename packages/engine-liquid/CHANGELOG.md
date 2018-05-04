@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-alpha.9"></a>
+# [1.0.0-alpha.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-alpha.8...@pattern-lab/engine-liquid@1.0.0-alpha.9) (2018-05-04)
+
+
+
+
+**Note:** Version bump only for package @pattern-lab/engine-liquid
+
 <a name="1.0.0-alpha.8"></a>
 
 # [1.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-alpha.7...@pattern-lab/engine-liquid@1.0.0-alpha.8) (2018-03-21)
