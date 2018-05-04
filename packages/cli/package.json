@@ -51,5 +51,8 @@
   "license": "MIT",
   "engines": {
     "node": ">=6.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -2,17 +2,17 @@
 
 > Command-line interface (CLI) for the patternlab-node core.
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node-cli.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node-cli)
+[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
 
 
 ## Installation
 *Note: Global installs are currently not supported and will be fixed when the Pattern Lab core hits v3.0.0*
 
 #### Via NPM
-`npm install pattern-lab/patternlab-node-cli --save-dev` 
+`npm install @pattern-lab/cli --save-dev`
 
 #### Via Yarn
-`yarn add pattern-lab/patternlab-node-cli --dev`
+`yarn add @pattern-lab/cli --dev`
 
 ## Getting Started
 1. In order to use PatternLab you need to initialize a PatternLab project with `patternlab init`. The CLI will ask you some setup question and scaffold your project based on it.
@@ -30,7 +30,7 @@ Usage: patternlab <cmd> [options]
 		init [options]            Initialize a PatternLab project from scratch or import an edition and/or starterkit
 	    install|add [options]     Installs Pattern Lab related modules like starterkits or plugins
 		serve|browse [options]    Starts a server to inspect files in browser
-	
+
 	Options:
 		-h, --help           output usage information
 		-V, --version        output the version number
@@ -42,9 +42,9 @@ Usage: patternlab <cmd> [options]
 ### Build/Compile PatternLab
 ```
 Usage: build|compile [options]
-	
+
 Build the PatternLab. Optionally (re-)build only the patterns
-	
+
 	Options:
 		-h, --help           output usage information
 		-p, --patterns-only  Whether to only build patterns
