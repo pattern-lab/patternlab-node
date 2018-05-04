@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.17"></a>
+## [0.0.1-alpha.17](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.16...@pattern-lab/cli@0.0.1-alpha.17) (2018-05-04)
+
+
+### Bug Fixes
+
+* **package:** update publish config and installation target ([27d2c8f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/27d2c8f))
+
+
+
+
 <a name="0.0.1-alpha.16"></a>
 ## [0.0.1-alpha.16](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.15...@pattern-lab/cli@0.0.1-alpha.16) (2018-05-04)
 
