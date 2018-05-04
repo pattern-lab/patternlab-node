@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.18"></a>
+## [0.0.1-alpha.18](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.17...@pattern-lab/cli@0.0.1-alpha.18) (2018-05-04)
+
+
+### Bug Fixes
+
+* **version:** use static core method getVersion ([f9dcd4d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/f9dcd4d))
+
+
+
+
 <a name="0.0.1-alpha.17"></a>
 ## [0.0.1-alpha.17](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.16...@pattern-lab/cli@0.0.1-alpha.17) (2018-05-04)
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-alpha.13"></a>
+# [3.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.12...@pattern-lab/core@3.0.0-alpha.13) (2018-05-04)
+
+
+### Features
+
+* **api:** expose getVersion statically ([4683cd0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4683cd0))
+
+
+
+
 <a name="3.0.0-alpha.12"></a>
 # [3.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.11...@pattern-lab/core@3.0.0-alpha.12) (2018-05-04)
 
