@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.1-alpha.3"></a>
+## [0.2.1-alpha.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.2...@pattern-lab/engine-react@0.2.1-alpha.3) (2018-05-04)
+
+
+
+
+**Note:** Version bump only for package @pattern-lab/engine-react
+
 <a name="0.2.1-alpha.2"></a>
 
 ## [0.2.1-alpha.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.1...@pattern-lab/engine-react@0.2.1-alpha.2) (2018-03-21)
