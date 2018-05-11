@@ -10,7 +10,7 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "scripts": {
-    "test": "eslint src/** index.js postinstall.js",
+    "lint": "eslint src/** index.js postinstall.js",
     "postinstall": "node ./postinstall.js"
   },
   "author": "Brian Muenzenmeyer",
