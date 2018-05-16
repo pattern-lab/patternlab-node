@@ -89,8 +89,11 @@ const patternlab_module = function(config) {
               .copyAndWatch(patternlab.config.paths, patternlab, options)
               .then(() => {
                 patternlab.isBusy = false;
+                // only wire up this listener and the one inside serve.js
                 if (
-                  !this.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE)
+                  this.events.listenerCount(
+                    events.PATTERNLAB_PATTERN_CHANGE
+                  ) === 1
                 ) {
                   this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
                     if (!patternlab.isBusy) {
