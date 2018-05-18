@@ -11,5 +11,15 @@
   },
   "npmClientArgs": [
     "--registry=https://registry.npmjs.org/"
-  ]
+  ],
+  "changelog": {
+      "labels": {
+        "bug": "bug :bug:",
+        "documentation": "documentation :book:",
+        "enhancement": "enhancement :sparkles:",
+        "epic": "EPIC! :crossed_swords:",
+        "fix / refactor": "fix / refactor :construction:"
+      },
+      "cacheDir": ".changelog"
+    }
 }
