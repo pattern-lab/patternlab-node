@@ -10,7 +10,7 @@ const build = options =>
 			const config = yield resolveConfig(options.parent.config);
 			yield copyFiles(config.paths);
 			yield buildPatterns(config, options);
-			info(`build: Yay, your PatternLab project was successfully built ☺`);
+			info(`build: Yay, your Pattern Lab project was successfully built ☺`);
 		} catch (err) {
 			error(err);
 		}

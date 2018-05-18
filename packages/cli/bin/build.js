@@ -5,8 +5,8 @@ const isValidConfig = require('./validate-config');
 
 /**
  * @func build
- * @desc Init patternLab core and build the PatternLab files.
- * @param {object} config - The passed PatternLab config.
+ * @desc Init patternLab core and build the Pattern Lab files.
+ * @param {object} config - The passed Pattern Lab config.
  * @param {object} options - Additional opts to specify build mode.
  */
 function build(config, options) {
@@ -16,7 +16,7 @@ function build(config, options) {
 		);
 	}
 
-	// Initiate PatternLab core with the config
+	// Initiate Pattern Lab core with the config
 	const patternLab = pl(config);
 
 	/**

@@ -1,4 +1,4 @@
-# PatternLab Node CLI
+# Pattern Lab Node CLI
 
 > Command-line interface (CLI) for the patternlab-node core.
 
@@ -15,8 +15,8 @@
 `yarn add @pattern-lab/cli --dev`
 
 ## Getting Started
-1. In order to use PatternLab you need to initialize a PatternLab project with `patternlab init`. The CLI will ask you some setup question and scaffold your project based on it.
-2. Build your patterns use `patternlab build`. The PatternLab CLI will assume that the `patternlab-config.json` is in the project root. Othewise specify a custom path to config with `patternlab build --config path/to/config`
+1. In order to use Pattern Lab you need to initialize a Pattern Lab project with `patternlab init`. The CLI will ask you some setup question and scaffold your project based on it.
+2. Build your patterns use `patternlab build`. The Pattern Lab CLI will assume that the `patternlab-config.json` is in the project root. Othewise specify a custom path to config with `patternlab build --config path/to/config`
 3. To view your patterns in the browser preview `patternlab serve` or again specify a custom config location `patternlab serve --config path/to/config`
 4. To export your patterns in the browser preview `patternlab export` or again specify a custom config location `patternlab export --config path/to/config`
 
@@ -25,9 +25,9 @@
 ```
 Usage: patternlab <cmd> [options]
 	Commands:
-		build|compile [options]   Build the PatternLab. Optionally (re-)build only the patterns
-		export                    Export a PatternLab patterns into a compressed format
-		init [options]            Initialize a PatternLab project from scratch or import an edition and/or starterkit
+		build|compile [options]   Build Pattern Lab. Optionally (re-)build only the patterns
+		export                    Export a Pattern Lab patterns into a compressed format
+		init [options]            Initialize a Pattern Lab project from scratch or import an edition and/or starterkit
 	    install|add [options]     Installs Pattern Lab related modules like starterkits or plugins
 		serve|browse [options]    Starts a server to inspect files in browser
 
@@ -39,22 +39,22 @@ Usage: patternlab <cmd> [options]
 		--silent             Turn off console logs
 ```
 
-### Build/Compile PatternLab
+### Build/Compile Pattern Lab
 ```
 Usage: build|compile [options]
 
-Build the PatternLab. Optionally (re-)build only the patterns
+Build Pattern Lab. Optionally (re-)build only the patterns
 
 	Options:
 		-h, --help           output usage information
 		-p, --patterns-only  Whether to only build patterns
 ```
 
-### Initialize PatternLab
+### Initialize Pattern Lab
 ```
 Usage: init [options]
 
-Initialize a PatternLab project from scratch or import an edition and/or starterkit
+Initialize a Pattern Lab project from scratch or import an edition and/or starterkit
 Passing no options starts the init in interactive mode
 
 	Options:
@@ -64,7 +64,7 @@ Passing no options starts the init in interactive mode
 		-k, --starterkit <name>   Specify a starterkit to install. Default: starterkit-mustache-base
 ```
 
-### Serve PatternLab
+### Serve Pattern Lab
 ```
 Usage: serve|browse [options]
 
@@ -76,11 +76,11 @@ Starts a server to inspect files in browser
 		-w, --watch  Start watching for changes
 ```
 
-### Export PatternLab
+### Export Pattern Lab
 ```
 Usage: export [options]
 
-Export a PatternLab patterns into a compressed format
+Export a Pattern Lab patterns into a compressed format
 
 	Options:
 		-h, --help  output usage information
@@ -101,9 +101,9 @@ Installs Pattern Lab related modules like starterkits or plugins
 
 ## Examples
 ```
-    $ patternlab init # Initialize a PatternLab project.
-    $ patternlab build # Builds PatternLab from the current dir
-    $ patternlab build --config <path/to/patternlab-config> # Builds PatternLab from different project directory
+    $ patternlab init # Initialize a Pattern Lab project.
+    $ patternlab build # Builds Pattern Lab from the current dir
+    $ patternlab build --config <path/to/patternlab-config> # Builds Pattern Lab from different project directory
 ```
 ## License
 MIT © [Raphael Okon](https://github.com/raphaelokon)
