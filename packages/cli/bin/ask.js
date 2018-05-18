@@ -8,7 +8,7 @@ const ask = inquirer.prompt;
 
 /**
  * @func init
- * @desc Initiates a PatternLab project by getting user input through inquiry. Scaffolds the project and download mandatory files
+ * @desc Initiates a Pattern Lab project by getting user input through inquiry. Scaffolds the project and download mandatory files
  * @param {object} options - Options passed in from CLI
  * @param {boolean} options.force - Flag whether to force install in existing project directory. May overwrite stuff.
  */

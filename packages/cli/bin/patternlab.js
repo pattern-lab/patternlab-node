@@ -49,32 +49,32 @@ cli
 
 /**
  * build
- * @desc Setup patternlab's `build` cmd
+ * @desc Setup Pattern Lab's `build` cmd
  */
 cli
 	.command('build')
 	.alias('compile')
-	.description('Build the PatternLab. Optionally (re-)build only the patterns')
+	.description('Build Pattern Lab. Optionally (re-)build only the patterns')
 	.option('-p, --patterns-only', 'Whether to only build patterns')
 	.action(build);
 
 /**
  * export
- * @desc Export a PatternLab patterns into a compressed format
+ * @desc Export a Pattern Lab patterns into a compressed format
  */
 cli
 	.command('export')
-	.description('Export a PatternLab patterns into a compressed format')
+	.description('Export Pattern Lab patterns into a compressed format')
 	.action(exportPatterns);
 
 /**
  * init
- * @desc Initialize a PatternLab project from scratch or import an edition and/or starterkit
+ * @desc Initialize a Pattern Lab project from scratch or import an edition and/or starterkit
  */
 cli
 	.command('init')
 	.description(
-		'Initialize a PatternLab project from scratch or import an edition and/or starterkit'
+		'Initialize a Pattern Lab project from scratch or import an edition and/or starterkit'
 	)
 	.option('-p, --project-dir <path>', 'Specify a project directory')
 	.option('-e, --edition <name>', 'Specify an edition to install')

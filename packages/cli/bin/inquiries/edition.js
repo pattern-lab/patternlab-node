@@ -6,7 +6,7 @@ const editionSetup = [
 	{
 		type: 'input',
 		name: 'project_root',
-		message: 'Please specify a directory for your PatternLab project.',
+		message: 'Please specify a directory for your Pattern Lab project.',
 		default: () => './',
 	},
 	{

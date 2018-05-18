@@ -8,7 +8,7 @@ const debug = require('./utils').debug;
 /**
  * @func exportPatterns
  * @desc Exports the patterns into the patternExportDirectory.
- * @param {object} config - The passed PatternLab config.
+ * @param {object} config - The passed Pattern Lab config.
  */
 function exportPatterns(config) {
 	if (!isValidConfig) {

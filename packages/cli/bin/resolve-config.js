@@ -7,7 +7,7 @@ const wrapAsync = require('./utils').wrapAsync;
 
 /**
  * @func resolveConfig
- * @desc Resolves the given PatternLab config file.
+ * @desc Resolves the given Pattern Lab config file.
  * @param {string} [configPath=./patternlab-config.json] - Path to the patternlab-config.json. Defaults to project dir.
  * @return {object|boolean} Returns the config object or false otherwise.
  */
@@ -26,7 +26,7 @@ function resolveConfig(configPath) {
 
 		/**
 		 * Setup the config.
-		 * 1. Check if user specified custom PatternLab config location
+		 * 1. Check if user specified custom Pattern Lab config location
 		 * 2. Read the config file
 		 */
 		try {
@@ -34,7 +34,7 @@ function resolveConfig(configPath) {
 			return yield readJsonAsync(absoluteConfigPath); // 2
 		} catch (err) {
 			error(
-				'resolveConfig: Got an error during parsing your PatternLab config. Please make sure your config file exists.'
+				'resolveConfig: Got an error during parsing your Pattern Lab config. Please make sure your config file exists.'
 			);
 			error(err);
 			return false;
