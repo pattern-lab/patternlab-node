@@ -33,7 +33,7 @@ const init = options =>
 		 * 5. Save patternlab-config.json in projectDir
 		 */
 		const spinner = ora(
-			`Setting up PatternLab project in ${projectDir}`
+			`Setting up Pattern Lab in ${projectDir}`
 		).start();
 		let patternlabConfig = replaceConfigPaths(
 			defaultPatternlabConfig,
@@ -63,7 +63,7 @@ const init = options =>
 		); // 5
 
 		spinner.succeed(
-			`⊙ patternlab → Yay ☺. PatternLab Node was successfully initialised in ${projectDir}`
+			`⊙ patternlab → Yay ☺. Pattern Lab Node was successfully initialized in ${projectDir}`
 		);
 		return true;
 	});

@@ -5,7 +5,7 @@ const mkdirsAsync = require('./utils').mkdirsAsync;
 
 /**
  * @func scaffold
- * @desc Generate file and folder structure for a PatternLab project
+ * @desc Generate file and folder structure for a Pattern Lab project
  * @param {string} projectDir - The project root directory path.
  * @param {string} sourceDir - The source root directory path.
  * @param {string} publicDir - The public root directory path.

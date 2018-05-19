@@ -6,7 +6,7 @@ const wrapAsync = require('./utils').wrapAsync;
 /**
  * @func copyFilesFromSourceToPublic
  * @desc Copies files from the source path to the public path.
- * @param {object} paths - The passed PatternLab config paths member.
+ * @param {object} paths - The passed Pattern Lab config paths member.
  * @return {Array}
  */
 const copyFilesFromSourceToPublic = paths =>
