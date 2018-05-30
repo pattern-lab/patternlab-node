@@ -37,7 +37,7 @@ function serve(config) {
 	try {
 		info(`serve: Serving your files …`);
 		const pl = patternlab(config);
-		pl.serve({});
+		pl.server.serve({});
 	} catch (err) {
 		error(err);
 	}
