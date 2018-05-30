@@ -25,7 +25,7 @@ let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
 let copier = require('./lib/copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
-let serve = require('./lib/serve'); // eslint-disable-line
+let serverModule = require('./lib/server'); // eslint-disable-line
 
 //bootstrap update notifier
 updateNotifier({
@@ -46,7 +46,9 @@ const patternlab_module = function(config) {
   const PatternLabClass = require('./lib/patternlab');
   const patternlab = new PatternLabClass(config);
 
-  return {
+  const self = this;
+
+  const _api = {
     /**
      * Returns current version
      *
@@ -90,10 +92,15 @@ const patternlab_module = function(config) {
               .then(() => {
                 patternlab.isBusy = false;
                 // only wire up this listener and the one inside serve.js
+                // figure out how to detect if serve was called. we should not assume it was
                 if (
-                  this.events.listenerCount(
-                    events.PATTERNLAB_PATTERN_CHANGE
-                  ) === 1
+                  patternlab.serverReady //check for server presence
+                    ? this.events.listenerCount(
+                        events.PATTERNLAB_PATTERN_CHANGE
+                      ) === 1 //if the server is started, it has already setup one listener
+                    : !this.events.listenerCount(
+                        events.PATTERNLAB_PATTERN_CHANGE
+                      ) // else, check for the presnce of none
                 ) {
                   this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
                     if (!patternlab.isBusy) {
@@ -212,16 +219,30 @@ const patternlab_module = function(config) {
      * @param {bool} options.watch **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    serve: function(options) {
-      options.watch = true;
-      return this.build(options).then(function() {
-        serve(patternlab);
-        return Promise.resolve();
-      });
+    server: {
+      serve: function(options) {
+        console.log(self);
+        options.watch = true;
+        return self
+          .build(options)
+          .then(() => serverModule.serve(patternlab))
+          .then(() => Promise.resolve())
+          .catch(e =>
+            logger.error(`error inside core index.js server serve: ${e}`)
+          );
+      },
+      reload: function() {
+        return serverModule.reload(); //TODO - will this work, or does the promise need to be setup here?
+      },
+      refreshCSS: function() {
+        return serverModule.refreshCSS(); //TODO - see above
+      },
     },
 
     events: patternlab.events,
   };
+
+  return _api;
 };
 
 patternlab_module.getDefaultConfig = getDefaultConfig;
