@@ -25,7 +25,7 @@ let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
 let copier = require('./lib/copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
-let serverModule = require('./lib/server'); // eslint-disable-line
+let server = require('./lib/server'); // eslint-disable-line
 
 //bootstrap update notifier
 updateNotifier({
@@ -54,8 +54,7 @@ const getVersion = function() {
 const patternlab_module = function(config) {
   const PatternLabClass = require('./lib/patternlab');
   const patternlab = new PatternLabClass(config);
-
-  const self = this;
+  server = server(patternlab);
 
   const _api = {
     /**
@@ -229,23 +228,17 @@ const patternlab_module = function(config) {
      * @returns {Promise} a promise fulfilled when build is complete
      */
     server: {
-      serve: function(options) {
-        console.log(self);
-        options.watch = true;
-        return self
-          .build(options)
-          .then(() => serverModule.serve(patternlab))
-          .then(() => Promise.resolve())
+      serve: options => {
+        const _options = Object.assign({}, options, { watch: true });
+        return _api
+          .build(_options)
+          .then(() => server.serve())
           .catch(e =>
             logger.error(`error inside core index.js server serve: ${e}`)
           );
       },
-      reload: function() {
-        return serverModule.reload(); //TODO - will this work, or does the promise need to be setup here?
-      },
-      refreshCSS: function() {
-        return serverModule.refreshCSS(); //TODO - see above
-      },
+      reload: server.reload,
+      refreshCSS: server.refreshCSS,
     },
 
     events: patternlab.events,

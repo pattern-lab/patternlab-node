@@ -1,132 +1,131 @@
 'use strict';
+
 const path = require('path');
 const liveServer = require('@pattern-lab/live-server');
 
 const events = require('./events');
 const logger = require('./log');
 
-// initialize serverReady outside of the serve method
+const server = patternlab => {
+  const _module = {
+    serve: () => {
+      let serverReady = false;
 
-let serverReady = false;
+      // our default liveserver config
+      const defaults = {
+        open: true,
+        file: 'index.html',
+        logLevel: 0, // errors only
+        wait: 1000,
+        port: 3000,
+      };
 
-// this would be a private init to manage stuff for all exposed module methods
-const getServerReady = () => serverReady;
-const setServerReady = bool => {
-  serverReady = bool;
-};
+      const servers = Object.keys(patternlab.uikits).map(kit => {
+        const uikit = patternlab.uikits[kit];
+        defaults.root = path.resolve(
+          path.join(
+            process.cwd(),
+            uikit.outputDir,
+            patternlab.config.paths.public.root
+          )
+        );
+        defaults.ignore = path.resolve(
+          path.join(
+            process.cwd(),
+            uikit.outputDir,
+            patternlab.config.paths.public.root
+          )
+        );
 
-const serve = patternlab => {
-  //externalize the serverReady flag
-  //let serverReady = false;
-  setServerReady(false);
+        // allow for overrides should they exist inside patternlab-config.json
+        const liveServerConfig = Object.assign(
+          {},
+          defaults,
+          patternlab.config.serverOptions
+        );
 
-  // our default liveserver config
-  const defaults = {
-    root: patternlab.config.paths.public.root,
-    open: true,
-    ignore: path.join(path.resolve(patternlab.config.paths.public.root)),
-    file: 'index.html',
-    logLevel: 0, // errors only
-    wait: 1000,
-    port: 3000,
-  };
+        const setupEventWatchers = () => {
+          // watch for asset changes, and reload appropriately
+          patternlab.events.on(events.PATTERNLAB_PATTERN_ASSET_CHANGE, data => {
+            if (serverReady) {
+              _module.reload(data);
+            }
+          });
 
-  return Promise.all(
-    _.map(patternlab.uikits, uikit => {
-      defaults.root = path.resolve(
-        path.join(
-          process.cwd(),
-          uikit.outputDir,
-          patternlab.config.paths.public.root
-        )
-      );
-      defaults.ignore = path.resolve(
-        path.join(
-          process.cwd(),
-          uikit.outputDir,
-          patternlab.config.paths.public.root
-        )
-      );
+          //watch for pattern changes, and reload
+          patternlab.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
+            if (serverReady) {
+              _module.reload({
+                file: '',
+                action: 'reload',
+              });
+            }
+          });
+        };
 
-      // allow for overrides should they exist inside patternlab-config.json
-      const liveServerConfig = Object.assign(
-        {},
-        defaults,
-        patternlab.config.serverOptions
-      );
+        //start!
+        //There is a new server instance for each uikit
+        const serveKit = new Promise((resolve, reject) => {
+          let resolveMsg = '';
+          setTimeout(() => {
+            try {
+              liveServer.start(liveServerConfig);
+              resolveMsg = `Pattern Lab is being served from http://127.0.0.1:${
+                liveServerConfig.port
+              }`;
+              logger.info(resolveMsg);
+            } catch (e) {
+              const err = `Pattern Lab serve failed to start: ${e}`;
+              logger.error(`Pattern Lab serve failed to start: ${e}`);
+              reject(err);
+            }
+            setupEventWatchers();
+            serverReady = true;
+            resolve(resolveMsg);
+          }, liveServerConfig.wait);
+        });
+        return serveKit;
+      });
 
-      // watch for asset changes, and reload appropriately
-      patternlab.events.on(events.PATTERNLAB_PATTERN_ASSET_CHANGE, data => {
-        if (getServerReady()) {
-          const reload = setInterval(() => {
+      return Promise.all(servers);
+    },
+    reload: data => {
+      const _data = data || {
+        file: '',
+        action: '',
+      };
+      return new Promise((resolve, reject) => {
+        let action;
+        try {
+          const reloadInterval = setInterval(() => {
             if (!patternlab.isBusy) {
-              if (data.file.indexOf('css') > -1) {
+              if (
+                _data.file.indexOf('css') > -1 ||
+                _data.action === 'refresh'
+              ) {
+                action = 'refreshed CSS';
                 liveServer.refreshCSS();
               } else {
+                action = 'reloaded';
                 liveServer.reload();
               }
-              clearInterval(reload);
+              clearInterval(reloadInterval);
+              resolve(`Server ${action} successfully`);
             }
           }, 1000);
+        } catch (e) {
+          reject(`Server reload or refresh failed: ${e}`);
         }
       });
-
-      //watch for pattern changes, and reload
-      patternlab.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
-        if (getServerReady()) {
-          const reload = setInterval(() => {
-            if (!patternlab.isBusy) {
-              liveServer.reload();
-              clearInterval(reload);
-            }
-          }, 1000);
-        }
+    },
+    refreshCSS: () => {
+      return _module.reload({
+        file: '',
+        action: 'refresh',
       });
-
-      return new Promise((resolve, reject) => {
-        //start!
-        setTimeout(() => {
-          try {
-            liveServer.start(liveServerConfig);
-            logger.info(
-              `Pattern Lab is being served from http://127.0.0.1:${
-                liveServerConfig.port
-              }`
-            );
-            setServerReady(true);
-            resolve('Server started!');
-          } catch (e) {
-            reject(e);
-          }
-        }, liveServerConfig.wait);
-      });
-    })
-  );
+    },
+  };
+  return _module;
 };
 
-const reload = () => {
-  return new Promise((resolve, reject) => {
-    if (!getServerReady()) {
-      reject('Cannot reload because server is not ready');
-    }
-    liveServer.reload();
-    resolve('Server reloaded');
-  });
-};
-
-const refreshCSS = () => {
-  return new Promise((resolve, reject) => {
-    if (!getServerReady()) {
-      reject('Cannot reload because server is not ready');
-    }
-    liveServer.refreshCSS();
-    resolve('CSS refreshed');
-  });
-};
-
-//expose as 'server' module with methods serve, reload, and refreshCSS
-module.exports = {
-  serve,
-  reload,
-  refreshCSS,
-};
+module.exports = server;
