@@ -5,7 +5,7 @@ const _ = require('lodash');
 /**
  * @func replaceConfigPaths
  * @desc Immutable replace source and public paths in the passed config.
- * @param {config} config - The passed PatternLab config.
+ * @param {config} config - The passed Pattern Lab config.
  * @param {string} projectDir - The project directory path, defaults to ./
  * @param {string} sourceDir - The source root directory path.
  * @param {string} publicDir - The public root directory path.

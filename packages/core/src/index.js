@@ -42,6 +42,15 @@ const getDefaultConfig = function() {
   return defaultConfig;
 };
 
+/**
+ * Returns current version
+ *
+ * @returns {string} current patternlab-node version as defined in `package.json`, as string
+ */
+const getVersion = function() {
+  return packageInfo.version;
+};
+
 const patternlab_module = function(config) {
   const PatternLabClass = require('./lib/patternlab');
   const patternlab = new PatternLabClass(config);
@@ -246,5 +255,6 @@ const patternlab_module = function(config) {
 };
 
 patternlab_module.getDefaultConfig = getDefaultConfig;
+patternlab_module.getVersion = getVersion;
 
 module.exports = patternlab_module;

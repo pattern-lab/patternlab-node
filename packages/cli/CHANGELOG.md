@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.18"></a>
+## [0.0.1-alpha.18](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.17...@pattern-lab/cli@0.0.1-alpha.18) (2018-05-04)
+
+
+### Bug Fixes
+
+* **version:** use static core method getVersion ([f9dcd4d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/f9dcd4d))
+
+
+
+
+<a name="0.0.1-alpha.17"></a>
+## [0.0.1-alpha.17](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.16...@pattern-lab/cli@0.0.1-alpha.17) (2018-05-04)
+
+
+### Bug Fixes
+
+* **package:** update publish config and installation target ([27d2c8f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/27d2c8f))
+
+
+
+
+<a name="0.0.1-alpha.16"></a>
+## [0.0.1-alpha.16](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.15...@pattern-lab/cli@0.0.1-alpha.16) (2018-05-04)
+
+
+### Features
+
+* **API:** standardize v() and version() into a single call ([6309e69](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/6309e69))
+
+
+### BREAKING CHANGES
+
+* **API:** change `version()` to return a string representation of the version, removing `v()`
+
+
+
+
 <a name="0.0.1-alpha.15"></a>
 
 ## [0.0.1-alpha.15](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.14...@pattern-lab/cli@0.0.1-alpha.15) (2018-03-21)
