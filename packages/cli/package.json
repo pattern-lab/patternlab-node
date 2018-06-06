@@ -43,7 +43,7 @@
   ],
   "scripts": {
     "lint": "eslint ./{bin,test}",
-    "test": "tap './test/*.test.js' --reporter spec --timeout=120"
+    "test:separate": "tap './test/*.test.js' --reporter spec --timeout=120"
   },
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
