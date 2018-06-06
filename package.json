@@ -7,13 +7,14 @@
     "bootstrap": "lerna bootstrap --hoist tap --hoist eslin* --hoist husky --hoist prettier --hoist pretty-quick",
     "precommit": "pretty-quick --staged",
     "prettier": "prettier --config .prettierrc --write ./**/*.js",
-    "test": "tap packages/core/test/*_tests.js --reporter spec --coverage"
+    "test": "lerna run test"
   },
   "nyc": {
     "exclude": [
       "**/*_tests.js",
-      "packages/core/test/**",
-      "packages/live-server/*"
+      "packages/cli",
+      "packages/core/test",
+      "packages/live-server"
     ]
   }
 }

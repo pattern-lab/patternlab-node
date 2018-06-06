@@ -20,7 +20,6 @@
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {
-    "test": "grunt travis --verbose",
     "lint": "eslint **/*.js"
   },
   "engines": {
