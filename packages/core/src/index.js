@@ -1,11 +1,11 @@
-/*
- * patternlab-node https://github.com/pattern-lab/patternlab-node
+/**
+ * Build thoughtful, pattern-driven user interfaces using atomic design principles.
+ * Many of these functions are exposed to users within {@link https://github.com/pattern-lab/patternlab-node#editions|Editions}, but {@link https://github.com/pattern-lab/patternlab-node#direct-consumption|direct consumption} is also encouraged.
  *
- * Brian Muenzenmeyer, Geoff Pursell, Raphael Okon, tburny and the web community.
- * Licensed under the MIT license.
- *
- * Many thanks to Brad Frost and Dave Olsen for inspiration, encouragement, and advice.
- *
+ * @namespace patternlab
+ * @see {@link patternlab.io} for more documentation.
+ * @see {@link https://github.com/pattern-lab/patternlab-node} for code, issues, and releases
+ * @license MIT
  */
 
 'use strict';
@@ -34,8 +34,11 @@ updateNotifier({
 }).notify();
 
 /**
- * Returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
+ * Static method that returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
  *
+ * @memberof patternlab
+ * @name getDefaultConfig
+ * @static
  * @return {object} Returns the object representation of the `patternlab-config.json`
  */
 const getDefaultConfig = function() {
@@ -43,9 +46,12 @@ const getDefaultConfig = function() {
 };
 
 /**
- * Returns current version
+ * Static method that returns current version
  *
- * @returns {string} current patternlab-node version as defined in `package.json`, as string
+ * @memberof patternlab
+ * @name getVersion
+ * @static
+ * @returns {string} current @pattern-lab/core version as defined in `package.json`
  */
 const getVersion = function() {
   return packageInfo.version;
@@ -55,12 +61,14 @@ const patternlab_module = function(config) {
   const PatternLabClass = require('./lib/patternlab');
   const patternlab = new PatternLabClass(config);
   const server = serverModule(patternlab);
-  1;
 
   const _api = {
     /**
      * Returns current version
      *
+     * @memberof patternlab
+     * @name version
+     * @instance
      * @returns {string} current patternlab-node version as defined in `package.json`, as string
      */
     version: function() {
@@ -70,10 +78,16 @@ const patternlab_module = function(config) {
     /**
      * Builds patterns, copies assets, and constructs user interface
      *
+     * @memberof patternlab
+     * @name build
+     * @instance
      * @param {object} options an object used to control build behavior
      * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
      * @param {object} options.data additional data to be merged with global data prior to build
      * @param {bool} options.watch whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+     * @emits PATTERNLAB_BUILD_START
+     * @emits PATTERNLAB_BUILD_END
+     * @see {@link ./events.md|all events}
      * @returns {Promise} a promise fulfilled when build is complete
      */
     build: function(options) {
@@ -135,7 +149,7 @@ const patternlab_module = function(config) {
                 }
               })
               .then(() => {
-                this.events.emit(events.PATTERNLAB_BUILD_END);
+                this.events.emit(events.PATTERNLAB_BUILD_END, patternlab);
               });
           });
         }
@@ -145,6 +159,9 @@ const patternlab_module = function(config) {
     /**
      * Returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
      *
+     * @memberof patternlab
+     * @name getDefaultConfig
+     * @instance
      * @return {object} Returns the object representation of the `patternlab-config.json`
      */
     getDefaultConfig: function() {
@@ -154,6 +171,9 @@ const patternlab_module = function(config) {
     /**
      * Returns all file extensions supported by installed PatternEngines
      *
+     * @memberof patternlab
+     * @name getSupportedTemplateExtensions
+     * @instance
      * @returns {Array<string>} all supported file extensions
      */
     getSupportedTemplateExtensions: function() {
@@ -163,6 +183,9 @@ const patternlab_module = function(config) {
     /**
      * Logs usage to standard output
      *
+     * @memberof patternlab
+     * @name help
+     * @instance
      * @returns {void} Pattern Lab API usage, as console output
      */
     help: function() {
@@ -172,6 +195,9 @@ const patternlab_module = function(config) {
     /**
      * Installs plugin already available via `node_modules/`
      *
+     * @memberof patternlab
+     * @name installplugin
+     * @instance
      * @param {string} pluginName name of plugin
      * @returns {void}
      */
@@ -182,6 +208,9 @@ const patternlab_module = function(config) {
     /**
      * Fetches starterkit repositories from pattern-lab github org that contain 'starterkit' in their name
      *
+     * @memberof patternlab
+     * @name liststarterkits
+     * @instance
      * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
      */
     liststarterkits: function() {
@@ -191,6 +220,9 @@ const patternlab_module = function(config) {
     /**
      * Loads starterkit already available via `node_modules/`
      *
+     * @memberof patternlab
+     * @name loadstarterkit
+     * @instance
      * @param {string} starterkitName name of starterkit
      * @param {boolean} clean whether or not to delete contents of source/ before load
      * @returns {void}
@@ -202,6 +234,9 @@ const patternlab_module = function(config) {
     /**
      * Builds patterns only, leaving existing user interface files intact
      *
+     * @memberof patternlab
+     * @name patternsonly
+     * @instance
      * @param {object} options an object used to control build behavior
      * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
      * @param {object} options.data additional data to be merged with global data prior to build
@@ -223,15 +258,23 @@ const patternlab_module = function(config) {
     },
 
     /**
-     * Build patterns, copies assets, and constructs user interface. Watches configured `source/` directories, and serves all output locally
+     * Server module
      *
-     * @param {object} options an object used to control build behavior
-     * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-     * @param {object} options.data additional data to be merged with global data prior to build
-     * @param {bool} options.watch **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
-     * @returns {Promise} a promise fulfilled when build is complete
+     * @memberof patternlab
+     * @type {object}
      */
     server: {
+      /**
+       * Build patterns, copies assets, and constructs user interface. Watches configured `source/` directories, and serves all output locally
+       *
+       * @method serve
+       * @memberof patternlab.server
+       * @param {object} options an object used to control build behavior
+       * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
+       * @param {object} options.data additional data to be merged with global data prior to build
+       * @param {bool} options.watch **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+       * @returns {Promise} a promise fulfilled when build is complete
+       */
       serve: options => {
         const _options = Object.assign({}, options, { watch: true });
         return _api
@@ -241,10 +284,30 @@ const patternlab_module = function(config) {
             logger.error(`error inside core index.js server serve: ${e}`)
           );
       },
+      /**
+       * Reloads any active live-server instances
+       *
+       * @method reload
+       * @memberof patternlab.server
+       * @returns {Promise} a promise fulfilled when operation is complete
+       */
       reload: server.reload,
+      /**
+       * Reloads CSS on any active live-server instances
+       *
+       * @method refreshCSS
+       * @memberof patternlab.server
+       * @returns {Promise} a promise fulfilled when operation is complete
+       */
       refreshCSS: server.refreshCSS,
     },
 
+    /**
+     * @memberof patternlab
+     * @type {EventEmitter}
+     * @see {@link https://nodejs.org/api/events.html#events_class_eventemitter|EventEmitter}
+     * @see {@link ./events.md|All Pattern Lab events}
+     */
     events: patternlab.events,
   };
 
