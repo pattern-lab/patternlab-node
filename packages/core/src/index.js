@@ -25,7 +25,7 @@ let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
 let copier = require('./lib/copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
-let server = require('./lib/server'); // eslint-disable-line
+let serverModule = require('./lib/server'); // eslint-disable-line
 
 //bootstrap update notifier
 updateNotifier({
@@ -54,7 +54,8 @@ const getVersion = function() {
 const patternlab_module = function(config) {
   const PatternLabClass = require('./lib/patternlab');
   const patternlab = new PatternLabClass(config);
-  server = server(patternlab);
+  const server = serverModule(patternlab);
+  1;
 
   const _api = {
     /**
