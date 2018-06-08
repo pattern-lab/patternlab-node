@@ -68,6 +68,13 @@ _Established npm projects_
 
 Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
+## Changelog
+
+[Each package within this monorepo](https://github.com/pattern-lab/patternlab-node/tree/master/packages) has its own changelog. Below are the main ones to watch:
+
+* [@pattern-lab/core changelog ](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/CHANGELOG.md)
+* [@pattern-lab/cli changelog ](https://github.com/pattern-lab/patternlab-node/blob/master/packages/cli/CHANGELOG.md)
+
 ## Support for Pattern Lab
 
 Pattern Lab / Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [these wonderful project supporters](https://github.com/pattern-lab/patternlab-node/wiki/Thanks). If you want to learn more about supporting the project, visit the [Pattern Lab / Node Patreon page](https://www.patreon.com/patternlab).
