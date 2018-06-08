@@ -90,22 +90,16 @@ const server = patternlab => {
       return new Promise((resolve, reject) => {
         let action;
         try {
-          const reloadInterval = setInterval(() => {
-            if (!patternlab.isBusy) {
-              if (
-                _data.file.indexOf('css') > -1 ||
-                _data.action === 'refresh'
-              ) {
-                action = 'refreshed CSS';
-                liveServer.refreshCSS();
-              } else {
-                action = 'reloaded';
-                liveServer.reload();
-              }
-              clearInterval(reloadInterval);
-              resolve(`Server ${action} successfully`);
+          if (!patternlab.isBusy) {
+            if (_data.file.indexOf('css') > -1 || _data.action === 'refresh') {
+              action = 'refreshed CSS';
+              liveServer.refreshCSS();
+            } else {
+              action = 'reloaded';
+              liveServer.reload();
             }
-          }, 1000);
+            resolve(`Server ${action} successfully`);
+          }
         } catch (e) {
           reject(`Server reload or refresh failed: ${e}`);
         }
