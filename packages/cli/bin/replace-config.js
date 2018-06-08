@@ -13,25 +13,25 @@ const _ = require('lodash');
  * @return {config} - Returns a modified config. Original stays unaltered.
  */
 function replaceConfigPaths(
-	config,
-	projectDir,
-	sourceDir,
-	publicDir,
-	exportDir
+  config,
+  projectDir,
+  sourceDir,
+  publicDir,
+  exportDir
 ) {
-	const conf = Object.assign({}, config);
-	_.map(conf.paths.source, (value, key) => {
-		conf.paths.source[key] = _.isString(value)
-			? value.replace(/^\.\/source/g, path.join(projectDir, sourceDir))
-			: value;
-	});
-	_.map(conf.paths.public, (value, key) => {
-		conf.paths.public[key] = _.isString(value)
-			? value.replace(/^\.\/public/g, path.join(projectDir, publicDir))
-			: value;
-	});
-	conf.patternExportDirectory = path.join(projectDir, exportDir);
-	return conf;
+  const conf = Object.assign({}, config);
+  _.map(conf.paths.source, (value, key) => {
+    conf.paths.source[key] = _.isString(value)
+      ? value.replace(/^\.\/source/g, path.join(projectDir, sourceDir))
+      : value;
+  });
+  _.map(conf.paths.public, (value, key) => {
+    conf.paths.public[key] = _.isString(value)
+      ? value.replace(/^\.\/public/g, path.join(projectDir, publicDir))
+      : value;
+  });
+  conf.patternExportDirectory = path.join(projectDir, exportDir);
+  return conf;
 }
 
 module.exports = replaceConfigPaths;
