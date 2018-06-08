@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.19"></a>
+## [0.0.1-alpha.19](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.18...@pattern-lab/cli@0.0.1-alpha.19) (2018-05-19)
+
+
+### Bug Fixes
+
+* **cli:** change line-endings of cli entrypoint ([3fc86c2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/3fc86c2))
+* **wording:** reconcile Pattern Lab vs PatternLab ([f3d1e0d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/f3d1e0d))
+
+
+
+
 <a name="0.0.1-alpha.18"></a>
 ## [0.0.1-alpha.18](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.17...@pattern-lab/cli@0.0.1-alpha.18) (2018-05-04)
 
