@@ -29,13 +29,24 @@ const watchAssets = (
   watchOnce
 ) => {
   const assetBase = path.resolve(basePath, dir.source);
+  const assetsToIgnore = patternlab.config.transformedAssetTypes
+    ? patternlab.config.transformedAssetTypes.join('|')
+    : '';
   logger.debug(`Pattern Lab is watching ${assetBase} for changes`);
 
   if (patternlab.watchers[key]) {
     patternlab.watchers[key].close();
   }
   const assetWatcher = chokidar.watch(assetBase, {
-    ignored: /(^|[\/\\])\../,
+    // *ignored* combines file types that the wrapper is watching, passed to pl config
+    // regex string escapes backslashes for JS
+    // second part of regex is holdover from existing ignore regex for '/index.html' and other
+    // files meant to be ignored, not based on file type
+    ignored: new RegExp(
+      `(?:(?:.*\\.(?:${assetsToIgnore})$)|(?:(^|[\\/\\\\])\\..))`,
+      'i'
+    ),
+    // ignored: /(^|[\/\\])\../, //old version
     ignoreInitial: false,
     awaitWriteFinish: {
       stabilityThreshold: 200,

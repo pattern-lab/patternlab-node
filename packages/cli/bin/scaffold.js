@@ -13,18 +13,18 @@ const mkdirsAsync = require('./utils').mkdirsAsync;
  * @return {void}
  */
 const scaffold = (projectDir, sourceDir, publicDir, exportDir) =>
-	wrapAsync(function*() {
-		/**
-		 * Create mandatory files structure
-		 * 1. Create project source directory
-		 * 2. Create project public directory
-		 * 3. Create project export directory
-		 */
-		yield Promise.all([
-			mkdirsAsync(path.resolve(projectDir, path.normalize(sourceDir))), // 1
-			mkdirsAsync(path.resolve(projectDir, path.normalize(publicDir))), // 2
-			mkdirsAsync(path.resolve(projectDir, path.normalize(exportDir))), // 3
-		]);
-	});
+  wrapAsync(function*() {
+    /**
+     * Create mandatory files structure
+     * 1. Create project source directory
+     * 2. Create project public directory
+     * 3. Create project export directory
+     */
+    yield Promise.all([
+      mkdirsAsync(path.resolve(projectDir, path.normalize(sourceDir))), // 1
+      mkdirsAsync(path.resolve(projectDir, path.normalize(publicDir))), // 2
+      mkdirsAsync(path.resolve(projectDir, path.normalize(exportDir))), // 3
+    ]);
+  });
 
 module.exports = scaffold;

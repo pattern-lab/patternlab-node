@@ -19,13 +19,13 @@ log.on('patternlab.info', msg => console.log(msg)); // eslint-disable-line
 
 // Conditionally register verbose logging
 const verboseLogs = verbose =>
-	log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
+  log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
 
 // Conditionally unregister all logging
 const silenceLogs = () => {
-	log.removeAllListeners('patternlab.debug');
-	log.removeAllListeners('patternlab.info');
-	log.removeAllListeners('patternlab.error');
+  log.removeAllListeners('patternlab.debug');
+  log.removeAllListeners('patternlab.info');
+  log.removeAllListeners('patternlab.error');
 };
 
 // Split strings into an array
@@ -35,102 +35,102 @@ const list = val => val.split(',');
  * Hook up cli version, usage and options
  */
 cli
-	.version(version(pkg), '-V, --version')
-	.usage('<cmd> [options]')
-	.arguments('<cmd> [options]')
-	.option(
-		'-c, --config <path>',
-		'Specify config file. Default looks up the project dir',
-		val => val.trim(),
-		'./patternlab-config.json'
-	)
-	.option('-v, --verbose', 'Show verbose console logs', verboseLogs)
-	.option('--silent', 'Turn off console logs', silenceLogs);
+  .version(version(pkg), '-V, --version')
+  .usage('<cmd> [options]')
+  .arguments('<cmd> [options]')
+  .option(
+    '-c, --config <path>',
+    'Specify config file. Default looks up the project dir',
+    val => val.trim(),
+    './patternlab-config.json'
+  )
+  .option('-v, --verbose', 'Show verbose console logs', verboseLogs)
+  .option('--silent', 'Turn off console logs', silenceLogs);
 
 /**
  * build
  * @desc Setup Pattern Lab's `build` cmd
  */
 cli
-	.command('build')
-	.alias('compile')
-	.description('Build Pattern Lab. Optionally (re-)build only the patterns')
-	.option('-p, --patterns-only', 'Whether to only build patterns')
-	.action(build);
+  .command('build')
+  .alias('compile')
+  .description('Build Pattern Lab. Optionally (re-)build only the patterns')
+  .option('-p, --patterns-only', 'Whether to only build patterns')
+  .action(build);
 
 /**
  * export
  * @desc Export a Pattern Lab patterns into a compressed format
  */
 cli
-	.command('export')
-	.description('Export Pattern Lab patterns into a compressed format')
-	.action(exportPatterns);
+  .command('export')
+  .description('Export Pattern Lab patterns into a compressed format')
+  .action(exportPatterns);
 
 /**
  * init
  * @desc Initialize a Pattern Lab project from scratch or import an edition and/or starterkit
  */
 cli
-	.command('init')
-	.description(
-		'Initialize a Pattern Lab project from scratch or import an edition and/or starterkit'
-	)
-	.option('-p, --project-dir <path>', 'Specify a project directory')
-	.option('-e, --edition <name>', 'Specify an edition to install')
-	.option('-k, --starterkit <name>', 'Specify a starterkit to install')
-	.action(init);
+  .command('init')
+  .description(
+    'Initialize a Pattern Lab project from scratch or import an edition and/or starterkit'
+  )
+  .option('-p, --project-dir <path>', 'Specify a project directory')
+  .option('-e, --edition <name>', 'Specify an edition to install')
+  .option('-k, --starterkit <name>', 'Specify a starterkit to install')
+  .action(init);
 
 /**
  * install
  * @desc Installs Pattern Lab related modules like starterkits or plugins
  */
 cli
-	.command('install')
-	.alias('add')
-	.description(
-		'Installs Pattern Lab related modules like starterkits or plugins'
-	)
-	.option(
-		'--starterkits <names>',
-		'Specify one or more starterkit to install',
-		list
-	)
-	.option('--plugins <names>', 'Specify one or more plugins to install', list)
-	.action(install);
+  .command('install')
+  .alias('add')
+  .description(
+    'Installs Pattern Lab related modules like starterkits or plugins'
+  )
+  .option(
+    '--starterkits <names>',
+    'Specify one or more starterkit to install',
+    list
+  )
+  .option('--plugins <names>', 'Specify one or more plugins to install', list)
+  .action(install);
 
 /**
  * enable
  * @desc Enable Pattern Lab plugins. Unavailable plugins are just skipped
  */
 cli
-	.command('enable')
-	.alias('on')
-	.description('Enable Pattern Lab plugins')
-	.option('--plugins <names>', 'Specify one or more plugins to enable', list)
-	.action(enable);
+  .command('enable')
+  .alias('on')
+  .description('Enable Pattern Lab plugins')
+  .option('--plugins <names>', 'Specify one or more plugins to enable', list)
+  .action(enable);
 
 /**
  * disable
  * @desc Enable Pattern Lab plugins. Unavailable plugins are just skipped
  */
 cli
-	.command('disable')
-	.alias('off')
-	.description('Disable Pattern Lab plugins')
-	.option('--plugins <names>', 'Specify one or more plugins to disable', list)
-	.action(disable);
+  .command('disable')
+  .alias('off')
+  .description('Disable Pattern Lab plugins')
+  .option('--plugins <names>', 'Specify one or more plugins to disable', list)
+  .action(disable);
 
 /**
  * serve
  * @desc Starts a server to inspect files in browser
  */
 cli
-	.command('serve')
-	.alias('browse')
-	.description('Starts a server to inspect files in browser')
-	.option('-w, --watch', 'Start watching for changes')
-	.action(serve);
+  .command('serve')
+  .alias('browse')
+  .description('Starts a server to inspect files in browser')
+  .option('-w, --watch', 'Start watching for changes')
+  .action(serve);
 
 // Show additional help
 cli.on('--help', help);
@@ -140,10 +140,10 @@ cli.on('--help', help);
  * Parse at the end because Node emit is immediate
  */
 cli
-	.on('*', () => {
-		error(
-			'Invalid command provided. See the help for available commands/options.'
-		);
-		cli.help();
-	})
-	.parse(process.argv);
+  .on('*', () => {
+    error(
+      'Invalid command provided. See the help for available commands/options.'
+    );
+    cli.help();
+  })
+  .parse(process.argv);

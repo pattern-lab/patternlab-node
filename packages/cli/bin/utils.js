@@ -13,24 +13,24 @@ const hasYarn = require('has-yarn');
  * @type {*}
  */
 const log = Object.assign(
-	{
-		debug(msg) {
-			this.emit(
-				'patternlab.debug',
-				`${chalk.green('⊙ patternlab →')} ${chalk.dim(msg)}`
-			);
-		},
-		info(msg) {
-			this.emit('patternlab.info', `⊙ patternlab → ${chalk.dim(msg)}`);
-		},
-		error(msg) {
-			this.emit(
-				'patternlab.error',
-				`${chalk.red('⊙ patternlab →')} ${chalk.dim(msg)}`
-			);
-		},
-	},
-	EventEmitter.prototype
+  {
+    debug(msg) {
+      this.emit(
+        'patternlab.debug',
+        `${chalk.green('⊙ patternlab →')} ${chalk.dim(msg)}`
+      );
+    },
+    info(msg) {
+      this.emit('patternlab.info', `⊙ patternlab → ${chalk.dim(msg)}`);
+    },
+    error(msg) {
+      this.emit(
+        'patternlab.error',
+        `${chalk.red('⊙ patternlab →')} ${chalk.dim(msg)}`
+      );
+    },
+  },
+  EventEmitter.prototype
 );
 
 /**
@@ -63,29 +63,29 @@ const error = log.error.bind(log);
  * @param {function} fn - Takes a generator function
  */
 const wrapAsync = fn =>
-	new Promise((resolve, reject) => {
-		const generator = fn();
-		/* eslint-disable */
-		(function spwn(val) {
-			let res;
-			try {
-				res =
-					{}.toString.call(val) !== '[object Error]'
-						? generator.next(val)
-						: generator.throw(val);
-			} catch (err) {
-				return reject(err);
-			}
-			const v = res.value;
-			if (res.done) {
-				return resolve(v);
-			}
-			Promise.resolve(v)
-				.then(spwn)
-				.catch(spwn);
-		})();
-		/* eslint-enable */
-	});
+  new Promise((resolve, reject) => {
+    const generator = fn();
+    /* eslint-disable */
+    (function spwn(val) {
+      let res;
+      try {
+        res =
+          {}.toString.call(val) !== '[object Error]'
+            ? generator.next(val)
+            : generator.throw(val);
+      } catch (err) {
+        return reject(err);
+      }
+      const v = res.value;
+      if (res.done) {
+        return resolve(v);
+      }
+      Promise.resolve(v)
+        .then(spwn)
+        .catch(spwn);
+    })();
+    /* eslint-enable */
+  });
 
 /**
  * @func glob
@@ -95,13 +95,13 @@ const wrapAsync = fn =>
  * @return {Promise<Error|Array>}
  */
 const asyncGlob = (pattern, opts) =>
-	new Promise((resolve, reject) =>
-		glob(
-			pattern,
-			opts,
-			(err, matches) => (err !== null ? reject(err) : resolve(matches))
-		)
-	);
+  new Promise((resolve, reject) =>
+    glob(
+      pattern,
+      opts,
+      (err, matches) => (err !== null ? reject(err) : resolve(matches))
+    )
+  );
 
 /**
  * @func copyWithPattern
@@ -112,17 +112,17 @@ const asyncGlob = (pattern, opts) =>
  * @return {Promise}
  */
 const copyWithPattern = (cwd, pattern, dest) =>
-	wrapAsync(function*() {
-		const files = yield asyncGlob(pattern, { cwd: cwd });
-		if (files.length === 0) {
-			debug('copy: Nothing to copy');
-		}
-		// Copy concurrently
-		const promises = files.map(file =>
-			fs.copy(path.join(cwd, file), path.join(dest, file))
-		);
-		return yield Promise.all(promises);
-	});
+  wrapAsync(function*() {
+    const files = yield asyncGlob(pattern, { cwd: cwd });
+    if (files.length === 0) {
+      debug('copy: Nothing to copy');
+    }
+    // Copy concurrently
+    const promises = files.map(file =>
+      fs.copy(path.join(cwd, file), path.join(dest, file))
+    );
+    return yield Promise.all(promises);
+  });
 
 /**
  * @func fetchPackage
@@ -131,22 +131,22 @@ const copyWithPattern = (cwd, pattern, dest) =>
  * @param {string} [url] - A URL which will be used to fetch the package from
  */
 const fetchPackage = (packageName, url) =>
-	wrapAsync(function*() {
-		const useYarn = hasYarn();
-		const pm = useYarn ? 'yarn' : 'npm';
-		const installCmd = useYarn ? 'add' : 'install';
-		try {
-			if (packageName || url) {
-				const cmd = yield spawn(pm, [installCmd, url || packageName]);
-				error(cmd.stderr);
-			}
-		} catch (err) {
-			error(
-				`fetchPackage: Fetching required dependencies from ${pm} failed for ${packageName} with ${err}`
-			);
-			throw err; // Rethrow error
-		}
-	});
+  wrapAsync(function*() {
+    const useYarn = hasYarn();
+    const pm = useYarn ? 'yarn' : 'npm';
+    const installCmd = useYarn ? 'add' : 'install';
+    try {
+      if (packageName || url) {
+        const cmd = yield spawn(pm, [installCmd, url || packageName]);
+        error(cmd.stderr);
+      }
+    } catch (err) {
+      error(
+        `fetchPackage: Fetching required dependencies from ${pm} failed for ${packageName} with ${err}`
+      );
+      throw err; // Rethrow error
+    }
+  });
 
 /**
  * @func checkAndInstallPackage
@@ -156,18 +156,18 @@ const fetchPackage = (packageName, url) =>
  * @return {boolean}
  */
 const checkAndInstallPackage = (packageName, url) =>
-	wrapAsync(function*() {
-		try {
-			require.resolve(packageName);
-			return true;
-		} catch (err) {
-			debug(
-				`checkAndInstallPackage: ${packageName} not installed. Fetching it now …`
-			);
-			yield fetchPackage(packageName, url);
-			return false;
-		}
-	});
+  wrapAsync(function*() {
+    try {
+      require.resolve(packageName);
+      return true;
+    } catch (err) {
+      debug(
+        `checkAndInstallPackage: ${packageName} not installed. Fetching it now …`
+      );
+      yield fetchPackage(packageName, url);
+      return false;
+    }
+  });
 
 /**
  * @func noop
@@ -176,17 +176,17 @@ const checkAndInstallPackage = (packageName, url) =>
 const noop = () => {};
 
 module.exports = {
-	copyWithPattern,
-	copyAsync: fs.copy,
-	mkdirsAsync: fs.mkdirs,
-	moveAsync: fs.move,
-	writeJsonAsync: fs.outputJson,
-	readJsonAsync: fs.readJson,
-	error,
-	info,
-	debug,
-	log,
-	wrapAsync,
-	checkAndInstallPackage,
-	noop,
+  copyWithPattern,
+  copyAsync: fs.copy,
+  mkdirsAsync: fs.mkdirs,
+  moveAsync: fs.move,
+  writeJsonAsync: fs.outputJson,
+  readJsonAsync: fs.readJson,
+  error,
+  info,
+  debug,
+  log,
+  wrapAsync,
+  checkAndInstallPackage,
+  noop,
 };
