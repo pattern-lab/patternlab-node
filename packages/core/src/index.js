@@ -132,6 +132,9 @@ const patternlab_module = function(config) {
                     return Promise.resolve();
                   });
                 }
+              })
+              .then(() => {
+                this.events.emit(events.PATTERNLAB_BUILD_END);
               });
           });
         }

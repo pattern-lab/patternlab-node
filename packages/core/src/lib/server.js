@@ -45,15 +45,8 @@ const server = patternlab => {
         );
 
         const setupEventWatchers = () => {
-          // watch for asset changes, and reload appropriately
-          patternlab.events.on(events.PATTERNLAB_PATTERN_ASSET_CHANGE, data => {
-            if (serverReady) {
-              _module.reload(data);
-            }
-          });
-
-          //watch for pattern changes, and reload
-          patternlab.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
+          //watch for builds to complete
+          patternlab.events.on(events.PATTERNLAB_BUILD_END, () => {
             if (serverReady) {
               _module.reload({
                 file: '',

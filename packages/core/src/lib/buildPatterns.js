@@ -25,7 +25,7 @@ let pattern_exporter = new pe(); // eslint-disable-line
 const lineage_hunter = new lh();
 
 module.exports = (deletePatternDir, patternlab, additionalData) => {
-  patternlab.events.emit(events.PATTERNLAB_BUILD_PATTERN_START, patternlab);
+  patternlab.events.emit(events.PATTERNLAB_BUILD_START, patternlab);
 
   const paths = patternlab.config.paths;
 
