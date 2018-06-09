@@ -9,7 +9,8 @@ const installEdition = (edition, config) =>
     /**
      * 1. Trigger edition install
      * 2. Copy over the mandatory edition files to sourceDir
-     * 3. Adjust config paths
+     * 3. Do custom post-install procedures for different core editions:
+     * 3.1 Copy gulpfile.js for edition-node-gulp
      */
     const sourceDir = config.paths.source.root;
     yield checkAndInstallPackage(edition); // 1
@@ -17,6 +18,15 @@ const installEdition = (edition, config) =>
       path.resolve('./node_modules', edition, 'source', '_meta'),
       path.resolve(sourceDir, '_meta')
     ); // 2
+    switch (edition) { // 3
+      // 3.1
+      case '@pattern-lab/edition-node-gulp': {
+        yield copyAsync(
+          path.resolve('./node_modules', edition, 'gulpfile.js'),
+          path.resolve(sourceDir, '../', 'gulpfile.js')
+        );
+      }
+    }
     return config;
   });
 

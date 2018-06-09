@@ -1,5 +1,5 @@
 'use strict';
-const fs = require('fs-promise');
+const fs = require('fs-extra');
 const spawn = require('execa');
 const glob = require('glob');
 const path = require('path');
