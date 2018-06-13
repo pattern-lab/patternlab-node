@@ -1,8 +1,12 @@
 'use strict';
 const path = require('path');
-const checkAndInstallPackage = require('./utils').checkAndInstallPackage;
-const copyAsync = require('./utils').copyAsync;
-const wrapAsync = require('./utils').wrapAsync;
+const pkg = require('../package.json');
+const {
+  checkAndInstallPackage,
+  copyAsync,
+  wrapAsync,
+  writeJsonAsync,
+} = require('./utils');
 
 const installEdition = (edition, config) =>
   wrapAsync(function*() {
@@ -25,6 +29,17 @@ const installEdition = (edition, config) =>
           path.resolve('./node_modules', edition, 'gulpfile.js'),
           path.resolve(sourceDir, '../', 'gulpfile.js')
         );
+      }
+      case '@pattern-lab/edition-node': {
+        const scriptsJSON = {
+          'pl:build': 'patternlab build --config ./patternlab-config.json',
+          'pl:help': 'patternlab --help',
+          'pl:install': 'patternlab install --config ./patternlab-config.json',
+          'pl:serve': 'patternlab serve --config ./patternlab-config.json',
+          'pl:version': 'patternlab --version',
+        };
+        pkg.scripts = Object.assign({}, pkg.scripts || {}, scriptsJSON);
+        yield writeJsonAsync('./package.json', pkg, { spaces: 2 });
       }
     }
     return config;
