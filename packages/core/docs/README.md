@@ -33,7 +33,6 @@ Many of these functions are exposed to users within [Editions](https://github.co
         * [`.build`](#patternlab+build) ⇒ <code>Promise</code>
         * [`.getDefaultConfig`](#patternlab+getDefaultConfig) ⇒ <code>object</code>
         * [`.getSupportedTemplateExtensions`](#patternlab+getSupportedTemplateExtensions) ⇒ <code>Array.&lt;string&gt;</code>
-        * [`.help`](#patternlab+help) ⇒ <code>void</code>
         * [`.installplugin`](#patternlab+installplugin) ⇒ <code>void</code>
         * [`.liststarterkits`](#patternlab+liststarterkits) ⇒ <code>Promise</code>
         * [`.loadstarterkit`](#patternlab+loadstarterkit) ⇒ <code>void</code>
@@ -85,13 +84,6 @@ Returns all file extensions supported by installed PatternEngines
 
 **Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>Array.&lt;string&gt;</code> - all supported file extensions  
-<a name="patternlab+help"></a>
-
-### `patternlab.help` ⇒ <code>void</code>
-Logs usage to standard output
-
-**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
-**Returns**: <code>void</code> - Pattern Lab API usage, as console output  
 <a name="patternlab+installplugin"></a>
 
 ### `patternlab.installplugin` ⇒ <code>void</code>
