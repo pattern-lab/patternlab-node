@@ -13,7 +13,6 @@
 const updateNotifier = require('update-notifier');
 
 const packageInfo = require('../package.json');
-const help = require('./lib/help');
 const events = require('./lib/events');
 const pe = require('./lib/pattern_exporter');
 
@@ -178,18 +177,6 @@ const patternlab_module = function(config) {
      */
     getSupportedTemplateExtensions: function() {
       return patternlab.getSupportedTemplateExtensions();
-    },
-
-    /**
-     * Logs usage to standard output
-     *
-     * @memberof patternlab
-     * @name help
-     * @instance
-     * @returns {void} Pattern Lab API usage, as console output
-     */
-    help: function() {
-      logger.info(help(patternlab.package.version));
     },
 
     /**
