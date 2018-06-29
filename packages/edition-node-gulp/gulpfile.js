@@ -37,10 +37,6 @@ gulp.task('patternlab:version', function() {
   patternlab.version();
 });
 
-gulp.task('patternlab:help', function() {
-  patternlab.help();
-});
-
 gulp.task('patternlab:patternsonly', function() {
   patternlab.patternsonly(config.cleanPublic);
 });
