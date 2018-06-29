@@ -1,13 +1,12 @@
 // special shoutout to Geoffrey Pursell for single-handedly making Pattern Lab Node Pattern Engines possible! aww thanks :)
 'use strict';
-const { existsSync, lstatSync, readdirSync } = require('fs');
+const { existsSync } = require('fs');
 const path = require('path');
+
+const findModules = require('./findModules');
+
 const engineMatcher = /^engine-(.*)$/;
-const scopeMatch = /^@(.*)$/;
-const isDir = fPath => {
-  const stats = lstatSync(fPath);
-  return stats.isDirectory() || stats.isSymbolicLink();
-};
+
 const logger = require('./log');
 
 const enginesDirectories = [
@@ -38,17 +37,6 @@ function isEngineModule(filePath) {
 }
 
 /**
- * @name isScopedPackage
- * @desc Checks whether a path in modules belongs to a scoped package
- * @param {string} filePath - The pathname to check
- * @return {Boolean} - Returns a bool when found, false othersie
- */
-function isScopedPackage(filePath) {
-  const baseName = path.basename(filePath);
-  return scopeMatch.test(baseName);
-}
-
-/**
  * @name resolveEngines
  * @desc Creates an array of all available patternlab engines
  * @param {string} dir - The directory to search for engines and scoped engines)
@@ -60,49 +48,7 @@ function resolveEngines(dir) {
     return []; // Silence is golden …
   }
 
-  /**
-   * @name walk
-   * @desc Traverse the given path and gather possible engines
-   * @param  {string} fPath - The file path to traverse
-   * @param  {Array<Engine>} engines - An array of engines from the inner most matches
-   * @return {Array<Engine>} - The final array of engines
-   */
-  const walk = (fPath, engines) => {
-    /**
-     * @name dirList
-     * @desc A list of all directories in the given path
-     * @type {Array<string>}
-     */
-    const dirList = readdirSync(fPath).filter(p => isDir(path.join(fPath, p)));
-
-    /**
-     * @name e
-     * @desc For the current dir get all engines
-     * @type {Array<Engine>}
-     */
-    const e = engines.concat(
-      dirList.filter(isEngineModule).map(engine => {
-        return {
-          name: isEngineModule(engine),
-          modulePath: path.join(fPath, engine),
-        };
-      })
-    );
-
-    /**
-     * 1. Flatten all engines from inner recursions and current dir
-     * 2. Filter the dirList for scoped packages
-     * 3. Map over every scoped package and recurse into it to find scoped engines
-     */
-    return [].concat(
-      ...e,
-      ...dirList
-        .filter(isScopedPackage) // 2
-        .map(scope => walk(path.join(fPath, scope), e)) // 3
-    );
-  };
-
-  return walk(dir, []);
+  return findModules(dir, isEngineModule);
 }
 
 function findEngineModulesInDirectory(dir) {

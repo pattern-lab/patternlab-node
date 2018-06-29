@@ -21,7 +21,7 @@ tap.test('Init ->', t =>
 		]);
 		t.ok(
 			exists.sync(path.resolve(projectRoot)),
-			'should initialize a PatternLab project'
+			'should initialize a Pattern Lab project'
 		);
 		t.ok(exists.sync(path.resolve(projectRoot, 'source')), 'with a source dir');
 		t.ok(exists.sync(path.resolve(projectRoot, 'public')), 'with a public dir');

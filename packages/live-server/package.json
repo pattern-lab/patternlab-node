@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/live-server",
-  "version": "1.3.3-alpha.2",
+  "version": "1.3.3-alpha.3",
   "description": "simple development http server with live reload capability",
   "keywords": [
     "front-end",
@@ -35,7 +35,7 @@
   "scripts": {
     "lint": "eslint live-server.js index.js",
     "hint": "jshint live-server.js index.js",
-    "test": "mocha test && npm run lint"
+    "test:separate": "mocha test && npm run lint"
   },
   "bin": {
     "live-server": "./live-server.js"

@@ -13,9 +13,9 @@ let render = require('./render'); //eslint-disable-line prefer-const
  * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
  * @returns A promise which resolves with the HTML
  */
-module.exports = function(patternlab, patternPartial) {
+module.exports = function(patternlab, patternPartial, uikit) {
   //first render the general footer
-  return render(Pattern.createEmpty({ extendedTemplate: patternlab.footer }), {
+  return render(Pattern.createEmpty({ extendedTemplate: uikit.footer }), {
     patternData: JSON.stringify({
       patternPartial: patternPartial,
     }),

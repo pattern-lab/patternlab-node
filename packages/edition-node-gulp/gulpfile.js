@@ -24,7 +24,7 @@ function build() {
 }
 
 function serve() {
-  return patternlab
+  return patternlab.server
     .serve({
       cleanPublic: config.cleanPublic,
     })
@@ -34,7 +34,7 @@ function serve() {
 }
 
 gulp.task('patternlab:version', function() {
-  patternlab.version();
+  console.log(patternlab.version());
 });
 
 gulp.task('patternlab:patternsonly', function() {

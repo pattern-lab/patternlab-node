@@ -6,7 +6,7 @@
  * @return {object} - Returns true is all is good, false otherwise.
  */
 function isValidConfig(config) {
-	return !config || typeof config !== 'object';
+  return !config || typeof config !== 'object';
 }
 
 module.exports = isValidConfig;

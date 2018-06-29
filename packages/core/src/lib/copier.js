@@ -18,6 +18,7 @@ const copier = () => {
       'meta',
       'annotations',
       'patternlabFiles',
+      'styleguide',
     ];
     _.each(directories.source, (dir, key) => {
       if (blackList.includes(key)) {
@@ -37,6 +38,7 @@ const copier = () => {
       // add public key path
       dirs[key].public = directories.public[key];
     });
+
     return dirs;
   };
 
@@ -63,27 +65,42 @@ const copier = () => {
         watchAssets(patternlab, basePath, dir, key, copyOptions);
       } else {
         //just copy
-        const destination = path.resolve(basePath, dir.public);
-        copyPromises.push(copyFile(dir.source, destination, copyOptions));
+        copyPromises.push(
+          _.map(patternlab.uikits, uikit => {
+            copyFile(
+              dir.source,
+              path.join(basePath, uikit.outputDir, dir.public),
+              copyOptions
+            );
+          })
+        );
       }
     });
 
     // copy the styleguide
     copyPromises.push(
-      copyFile(
-        assetDirectories.source.styleguide,
-        assetDirectories.public.root,
-        copyOptions
-      )
+      _.map(patternlab.uikits, uikit => {
+        copyFile(
+          path.join(uikit.modulePath, assetDirectories.source.styleguide),
+          path.join(basePath, uikit.outputDir, assetDirectories.public.root),
+          copyOptions
+        );
+      })
     );
 
     // copy the favicon
     copyPromises.push(
-      copyFile(
-        `${assetDirectories.source.root}/favicon.ico`,
-        `${assetDirectories.public.root}/favicon.ico`,
-        copyOptions
-      )
+      _.map(patternlab.uikits, uikit => {
+        copyFile(
+          `${assetDirectories.source.root}/favicon.ico`,
+          path.join(
+            basePath,
+            uikit.outputDir,
+            `${assetDirectories.public.root}/favicon.ico`
+          ),
+          copyOptions
+        );
+      })
     );
 
     return Promise.all(copyPromises).then(() => {

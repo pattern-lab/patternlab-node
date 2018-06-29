@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-alpha.11"></a>
+# [2.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.10...@pattern-lab/edition-node-gulp@2.0.0-alpha.11) (2018-05-19)
+
+
+
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+<a name="2.0.0-alpha.10"></a>
+# [2.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.9...@pattern-lab/edition-node-gulp@2.0.0-alpha.10) (2018-05-04)
+
+
+
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+<a name="2.0.0-alpha.9"></a>
+# [2.0.0-alpha.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.8...@pattern-lab/edition-node-gulp@2.0.0-alpha.9) (2018-05-04)
+
+
+
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+<a name="2.0.0-alpha.8"></a>
+# [2.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.7...@pattern-lab/edition-node-gulp@2.0.0-alpha.8) (2018-05-04)
+
+
+### Features
+
+* **API:** standardize v() and version() into a single call ([6309e69](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/6309e69))
+* **config:** add uikits config ([64c2e9f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/64c2e9f))
+* **config:** remove hard-coded base module path from pattern lab paths ([a4961bd](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/a4961bd))
+* **config:** simplify relative public paths ([812bab3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/812bab3))
+* **package:** add cli as a dependency ([a52b487](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/a52b487))
+* **uikits:** remove workshop for default config ([55570ff](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/55570ff))
+
+
+### BREAKING CHANGES
+
+* **API:** change `version()` to return a string representation of the version, removing `v()`
+
+
+
+
 <a name="2.0.0-alpha.7"></a>
 
 # [2.0.0-alpha.7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.6...@pattern-lab/edition-node-gulp@2.0.0-alpha.7) (2018-03-21)
