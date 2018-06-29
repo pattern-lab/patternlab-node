@@ -1,6 +1,6 @@
 ## The Twig PatternEngine for Pattern Lab / Node
 
-To install the Twig engine in your edition, `npm install @pattern-lab/engine-twig` should do the trick.
+To install the Twig engine in your edition, `npm install @pattern-lab/engine-twig-php` should do the trick.
 
 ## Supported features
 
