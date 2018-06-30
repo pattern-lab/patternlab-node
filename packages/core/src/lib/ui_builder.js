@@ -517,9 +517,9 @@ const ui_builder = function() {
    * @param patternPartial - a key used to identify the viewall page
    * @returns A promise which resolves with the HTML
    */
-  function buildViewAllHTML(patternlab, patterns, patternPartial) {
+  function buildViewAllHTML(patternlab, patterns, patternPartial, uikit) {
     return render(
-      Pattern.createEmpty({ extendedTemplate: patternlab.viewAll }),
+      Pattern.createEmpty({ extendedTemplate: uikit.viewAll }),
       {
         //data
         partials: patterns,
@@ -528,8 +528,8 @@ const ui_builder = function() {
       },
       {
         //templates
-        patternSection: patternlab.patternSection,
-        patternSectionSubtype: patternlab.patternSectionSubType,
+        patternSection: uikit.patternSection,
+        patternSectionSubtype: uikit.patternSectionSubType,
       }
     ).catch(reason => {
       console.log(reason);
@@ -580,7 +580,7 @@ const ui_builder = function() {
             }
 
             //render the footer needed for the viewall template
-            return buildFooter(patternlab, 'viewall-' + patternPartial, uikit)
+            return buildFooter(patternlab, `viewall-${patternPartial}`, uikit)
               .then(footerHTML => {
                 //render the viewall template by finding these smallest subtype-grouped patterns
                 const subtypePatterns = sortPatterns(_.values(patternSubtypes));
@@ -613,7 +613,8 @@ const ui_builder = function() {
                 return buildViewAllHTML(
                   patternlab,
                   subtypePatterns,
-                  patternPartial
+                  patternPartial,
+                  uikit
                 )
                   .then(viewAllHTML => {
                     return fs.outputFile(
@@ -670,7 +671,8 @@ const ui_builder = function() {
                     return buildViewAllHTML(
                       patternlab,
                       typePatterns,
-                      patternType
+                      patternType,
+                      uikit
                     )
                       .then(viewAllHTML => {
                         fs.outputFileSync(
