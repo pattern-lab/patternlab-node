@@ -1,4 +1,4 @@
-![license](https://img.shields.io/github/license/pattern-lab/plugin-node-tab.svg)
+![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![npm](https://img.shields.io/npm/v/@pattern-lab/plugin-tab.svg)](https://www.npmjs.com/package/@pattern-lab/plugin-tab)
 [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
@@ -28,7 +28,7 @@ Example:
 
 ```
 "plugins": {
-  "plugin-node-tab": {
+  "pattern-lab-plugin-tab": {
     "enabled": true,
     "initialized": false,
     "options": {
@@ -38,7 +38,7 @@ Example:
 }
 ```
 
-Add file extensions to this array as strings. Example: `"tabsToAdd": ['scss', 'js']`. You are all set now.
+Add file extensions to this array as strings. Example: `"tabsToAdd": ["scss", "js"]`. You are all set now.
 
 ## Expected Structure
 
