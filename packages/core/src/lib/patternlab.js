@@ -136,27 +136,23 @@ module.exports = class PatternLab {
    */
   //todo, move this to plugin_manager
   initializePlugins(patternlab) {
-    if (!patternlab.config.plugins) {
-      return;
-    }
-
-    const plugin_manager = new pm(
-      patternlab.config,
-      path.resolve(__dirname, '../../patternlab-config.json')
-    );
-    const foundPlugins = findModules('plugin-');
-
-    if (foundPlugins && foundPlugins.length > 0) {
-      for (let i = 0; i < foundPlugins.length; i++) {
-        const pluginKey = foundPlugins[i];
-
-        logger.info(`Found plugin: ${pluginKey}`);
-        logger.info(`Attempting to load and initialize plugin.`);
-
-        const plugin = plugin_manager.load_plugin(pluginKey);
-        plugin(patternlab);
-      }
-    }
+    // console.log('initialize plugins');
+    // if (!patternlab.config.plugins) {
+    //   return;
+    // }
+    // const plugin_manager = new pm(
+    //   patternlab.config,
+    //   path.resolve(__dirname, '../../patternlab-config.json')
+    // );
+    // const nodeModulesPath = path.join(process.cwd(), 'node_modules');
+    // const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
+    // console.log(148, foundPlugins, patternlab.config.plugins);
+    // foundPlugins.forEach(plugin => {
+    //   logger.info(`Found plugin: plugin-${plugin.name}`);
+    //   logger.info(`Attempting to load and initialize plugin.`);
+    //   const pluginModule = plugin_manager.load_plugin(plugin.modulePath);
+    //   pluginModule(patternlab);
+    // });
   }
 
   buildGlobalData(additionalData) {
@@ -309,19 +305,6 @@ module.exports = class PatternLab {
           logger.log.on('error', msg => console.info(msg));
       }
     }
-  }
-
-  /**
-   * Installs a given plugin. Assumes it has already been pulled down via npm
-   * @param pluginName - the name of the plugin
-   */
-  installPlugin(pluginName) {
-    //get the config
-    const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
-    const config = fs.readJSONSync(path.resolve(configPath), 'utf8');
-    const plugin_manager = new pm(config, configPath);
-
-    plugin_manager.install_plugin(pluginName);
   }
 
   /**
