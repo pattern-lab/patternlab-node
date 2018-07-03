@@ -14,7 +14,7 @@ const fs = require('fs-extra');
 function findTab(patternlab, pattern) {
   //read the filetypes from the configuration
   const fileTypes =
-    patternlab.config.plugins['@pattern-lab-plugin-tab'].options.tabsToAdd;
+    patternlab.config.plugins['pattern-lab-plugin-tab'].options.tabsToAdd;
 
   //exit if either of these two parameters are missing
   if (!patternlab) {
@@ -46,10 +46,12 @@ function findTab(patternlab, pattern) {
       pattern.getPatternLink(patternlab, 'custom', '.' + fileType);
 
     //look for a custom filetype for this template
+    let tabFileName;
+    let tabFileNameStats;
     try {
-      var tabFileName = path.resolve(customFileTypePath);
+      tabFileName = path.resolve(customFileTypePath);
       try {
-        var tabFileNameStats = fs.statSync(tabFileName);
+        tabFileNameStats = fs.statSync(tabFileName);
       } catch (err) {
         //not a file - move on quietly
       }

@@ -75,8 +75,6 @@ function getPluginFrontendConfig() {
  * Instead, alter getPluginFrontendConfig() and registerEvents() methods
  */
 function pluginInit(patternlab) {
-  console.log('PLUGIN INIT!');
-
   if (!patternlab) {
     console.error('patternlab object not provided to pluginInit');
     process.exit(1);
@@ -84,29 +82,9 @@ function pluginInit(patternlab) {
 
   //write the plugin json to public/patternlab-components
   const pluginConfig = getPluginFrontendConfig();
-
-  console.log(patternlab.config.plugins);
-
   pluginConfig.tabsToAdd =
     patternlab.config.plugins[pluginName].options.tabsToAdd;
   writeConfigToOutput(patternlab, pluginConfig);
-
-  // const pluginConfigPathName = path.resolve(
-  //   patternlab.config.paths.public.root,
-  //   'patternlab-components',
-  //   'packages'
-  // );
-  // try {
-  //   fs.outputFileSync(
-  //     pluginConfigPathName + '/' + pluginName + '.json',
-  //     JSON.stringify(pluginConfig, null, 2)
-  //   );
-  // } catch (ex) {
-  //   console.trace(
-  //     'plugin-tab: Error occurred while writing pluginFile configuration'
-  //   );
-  //   console.log(ex);
-  // }
 
   //add the plugin config to the patternlab-object
   if (!patternlab.plugins) {
@@ -161,7 +139,6 @@ function pluginInit(patternlab) {
               '/*SNIPPETS*/',
               snippetString
             );
-            console.log(161, tabJSFileContents);
             _.each(patternlab.uikits, uikit => {
               fs.outputFileSync(
                 path.join(process.cwd(), uikit.outputDir, writePath),
