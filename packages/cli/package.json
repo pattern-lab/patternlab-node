@@ -1,27 +1,26 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "0.0.1-alpha.15",
+  "version": "0.0.1-alpha.19",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
   "author": {
     "name": "Raphael Okon"
   },
-  "private": true,
   "dependencies": {
-    "@pattern-lab/core": "^3.0.0-alpha.11",
-    "@pattern-lab/live-server": "^1.3.3-alpha.2",
+    "@pattern-lab/core": "^3.0.0-alpha.13",
+    "@pattern-lab/live-server": "^1.3.3-alpha.3",
     "archiver": "2.1.1",
-    "chalk": "2.3.2",
-    "commander": "2.14.1",
-    "execa": "0.9.0",
-    "fs-promise": "2.0.3",
+    "chalk": "2.4.1",
+    "commander": "2.15.1",
+    "execa": "0.10.0",
+    "fs-extra": "6.0.1",
     "glob": "7.1.2",
     "has-yarn": "1.0.0",
     "inquirer": "5.1.0",
-    "lodash": "4.17.5",
-    "ora": "2.0.0",
+    "lodash": "4.17.10",
+    "ora": "2.1.0",
     "path-exists": "3.0.0",
     "sanitize-filename": "1.6.1"
   },
@@ -30,7 +29,7 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-prettier": "2.6.0",
     "prettier": "1.11.1",
-    "proxyquire": "2.0.0",
+    "proxyquire": "2.0.1",
     "tap": "11.1.1"
   },
   "files": [
@@ -44,13 +43,15 @@
   ],
   "scripts": {
     "lint": "eslint ./{bin,test}",
-    "test": "tap './test/*.test.js' --reporter spec --timeout=120",
-    "pretest": "npm run lint && npm install"
+    "test:separate": "tap './test/*.test.js' --reporter spec --timeout=120"
   },
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "license": "MIT",
   "engines": {
     "node": ">=6.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

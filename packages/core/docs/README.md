@@ -10,32 +10,58 @@
 
 ``` javascript
 const config = require('./patternlab-config.json');
-const patternlab = require('patternlab-node')(config);
+const patternlab = require('@pattern-lab/core')(config);
 ```
 
-## Events
+<a name="patternlab"></a>
 
-Pattern Lab emits numerous [events](./events.md).
-
-## Functions
-
+## `patternlab` : <code>object</code>
+Build thoughtful, pattern-driven user interfaces using atomic design principles.
 Many of these functions are exposed to users within [Editions](https://github.com/pattern-lab/patternlab-node#editions), but [direct consumption](https://github.com/pattern-lab/patternlab-node#direct-consumption) is also encouraged.
 
-## `getDefaultConfig()` ⇒ <code>object</code>
+**Kind**: global namespace  
+**See**
 
-  Returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
+- [patternlab.io](patternlab.io) for more documentation.
+- [https://github.com/pattern-lab/patternlab-node](https://github.com/pattern-lab/patternlab-node) for code, issues, and releases
 
-**Returns**: <code>object</code> - Returns the object representation of the `patternlab-config.json`  
-## `version()` ⇒ <code>string</code>
+**License**: MIT  
 
-  Returns current version
+* [`patternlab`](#patternlab) : <code>object</code>
+    * _instance_
+        * [`.version`](#patternlab+version) ⇒ <code>string</code>
+        * [`.build`](#patternlab+build) ⇒ <code>Promise</code>
+        * [`.getDefaultConfig`](#patternlab+getDefaultConfig) ⇒ <code>object</code>
+        * [`.getSupportedTemplateExtensions`](#patternlab+getSupportedTemplateExtensions) ⇒ <code>Array.&lt;string&gt;</code>
+        * [`.installplugin`](#patternlab+installplugin) ⇒ <code>void</code>
+        * [`.liststarterkits`](#patternlab+liststarterkits) ⇒ <code>Promise</code>
+        * [`.loadstarterkit`](#patternlab+loadstarterkit) ⇒ <code>void</code>
+        * [`.patternsonly`](#patternlab+patternsonly) ⇒ <code>Promise</code>
+    * _static_
+        * [`.getDefaultConfig`](#patternlab.getDefaultConfig) ⇒ <code>object</code>
+        * [`.getVersion`](#patternlab.getVersion) ⇒ <code>string</code>
+        * [`.server`](#patternlab.server) : <code>object</code>
+            * [`.serve(options)`](#patternlab.server.serve) ⇒ <code>Promise</code>
+            * [`.reload()`](#patternlab.server.reload) ⇒ <code>Promise</code>
+            * [`.refreshCSS()`](#patternlab.server.refreshCSS) ⇒ <code>Promise</code>
+        * [`.events`](#patternlab.events) : <code>EventEmitter</code>
 
+<a name="patternlab+version"></a>
+
+### `patternlab.version` ⇒ <code>string</code>
+Returns current version
+
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>string</code> - current patternlab-node version as defined in `package.json`, as string  
-## `build(options)` ⇒ <code>Promise</code>
+<a name="patternlab+build"></a>
 
-  Builds patterns, copies assets, and constructs user interface
+### `patternlab.build` ⇒ <code>Promise</code>
+Builds patterns, copies assets, and constructs user interface
 
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>Promise</code> - a promise fulfilled when build is complete  
+**Emits**: <code>event:PATTERNLAB_BUILD_START</code>, <code>event:PATTERNLAB_BUILD_END</code>  
+**See**: [all events](./events.md)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -44,49 +70,56 @@ Many of these functions are exposed to users within [Editions](https://github.co
 | options.data | <code>object</code> | additional data to be merged with global data prior to build |
 | options.watch | <code>bool</code> | whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
 
-## `getDefaultConfig()` ⇒ <code>object</code>
+<a name="patternlab+getDefaultConfig"></a>
 
-  Returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
+### `patternlab.getDefaultConfig` ⇒ <code>object</code>
+Returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
 
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>object</code> - Returns the object representation of the `patternlab-config.json`  
-## `getSupportedTemplateExtensions()` ⇒ <code>Array.&lt;string&gt;</code>
+<a name="patternlab+getSupportedTemplateExtensions"></a>
 
-  Returns all file extensions supported by installed PatternEngines
+### `patternlab.getSupportedTemplateExtensions` ⇒ <code>Array.&lt;string&gt;</code>
+Returns all file extensions supported by installed PatternEngines
 
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>Array.&lt;string&gt;</code> - all supported file extensions  
-## `help()` ⇒ <code>void</code>
+<a name="patternlab+installplugin"></a>
 
-  Logs usage to standard output
+### `patternlab.installplugin` ⇒ <code>void</code>
+Installs plugin already available via `node_modules/`
 
-**Returns**: <code>void</code> - Pattern Lab API usage, as console output  
-## `installplugin(pluginName)` ⇒ <code>void</code>
-
-  Installs plugin already available via `node_modules/`
-
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | pluginName | <code>string</code> | name of plugin |
 
-## `liststarterkits()` ⇒ <code>Promise</code>
+<a name="patternlab+liststarterkits"></a>
 
-  Fetches starterkit repositories from pattern-lab github org that contain 'starterkit' in their name
+### `patternlab.liststarterkits` ⇒ <code>Promise</code>
+Fetches starterkit repositories from pattern-lab github org that contain 'starterkit' in their name
 
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>Promise</code> - Returns an Array<{name,url}> for the starterkit repos  
-## `loadstarterkit(starterkitName, clean)` ⇒ <code>void</code>
+<a name="patternlab+loadstarterkit"></a>
 
-  Loads starterkit already available via `node_modules/`
+### `patternlab.loadstarterkit` ⇒ <code>void</code>
+Loads starterkit already available via `node_modules/`
 
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | starterkitName | <code>string</code> | name of starterkit |
 | clean | <code>boolean</code> | whether or not to delete contents of source/ before load |
 
-## `patternsonly(options)` ⇒ <code>Promise</code>
+<a name="patternlab+patternsonly"></a>
 
-  Builds patterns only, leaving existing user interface files intact
+### `patternlab.patternsonly` ⇒ <code>Promise</code>
+Builds patterns only, leaving existing user interface files intact
 
+**Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>Promise</code> - a promise fulfilled when build is complete  
 
 | Param | Type | Description |
@@ -95,10 +128,38 @@ Many of these functions are exposed to users within [Editions](https://github.co
 | options.cleanPublic | <code>bool</code> | whether or not to delete the configured output location (usually `public/`) before build |
 | options.data | <code>object</code> | additional data to be merged with global data prior to build |
 
-## `serve(options)` ⇒ <code>Promise</code>
+<a name="patternlab.getDefaultConfig"></a>
 
-  Build patterns, copies assets, and constructs user interface. Watches configured `source/` directories, and serves all output locally
+### `patternlab.getDefaultConfig` ⇒ <code>object</code>
+Static method that returns the standardized default config used to run Pattern Lab. This method can be called statically or after instantiation.
 
+**Kind**: static property of [<code>patternlab</code>](#patternlab)  
+**Returns**: <code>object</code> - Returns the object representation of the `patternlab-config.json`  
+<a name="patternlab.getVersion"></a>
+
+### `patternlab.getVersion` ⇒ <code>string</code>
+Static method that returns current version
+
+**Kind**: static property of [<code>patternlab</code>](#patternlab)  
+**Returns**: <code>string</code> - current @pattern-lab/core version as defined in `package.json`  
+<a name="patternlab.server"></a>
+
+### `patternlab.server` : <code>object</code>
+Server module
+
+**Kind**: static property of [<code>patternlab</code>](#patternlab)  
+
+* [`.server`](#patternlab.server) : <code>object</code>
+    * [`.serve(options)`](#patternlab.server.serve) ⇒ <code>Promise</code>
+    * [`.reload()`](#patternlab.server.reload) ⇒ <code>Promise</code>
+    * [`.refreshCSS()`](#patternlab.server.refreshCSS) ⇒ <code>Promise</code>
+
+<a name="patternlab.server.serve"></a>
+
+#### `server.serve(options)` ⇒ <code>Promise</code>
+Build patterns, copies assets, and constructs user interface. Watches configured `source/` directories, and serves all output locally
+
+**Kind**: static method of [<code>server</code>](#patternlab.server)  
 **Returns**: <code>Promise</code> - a promise fulfilled when build is complete  
 
 | Param | Type | Description |
@@ -107,6 +168,30 @@ Many of these functions are exposed to users within [Editions](https://github.co
 | options.cleanPublic | <code>bool</code> | whether or not to delete the configured output location (usually `public/`) before build |
 | options.data | <code>object</code> | additional data to be merged with global data prior to build |
 | options.watch | <code>bool</code> | **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
+
+<a name="patternlab.server.reload"></a>
+
+#### `server.reload()` ⇒ <code>Promise</code>
+Reloads any active live-server instances
+
+**Kind**: static method of [<code>server</code>](#patternlab.server)  
+**Returns**: <code>Promise</code> - a promise fulfilled when operation is complete  
+<a name="patternlab.server.refreshCSS"></a>
+
+#### `server.refreshCSS()` ⇒ <code>Promise</code>
+Reloads CSS on any active live-server instances
+
+**Kind**: static method of [<code>server</code>](#patternlab.server)  
+**Returns**: <code>Promise</code> - a promise fulfilled when operation is complete  
+<a name="patternlab.events"></a>
+
+### `patternlab.events` : <code>EventEmitter</code>
+**Kind**: static property of [<code>patternlab</code>](#patternlab)  
+**See**
+
+- [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter)
+- [All Pattern Lab events](./events.md)
+
 
 * * *
 

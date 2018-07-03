@@ -46,10 +46,6 @@ const fsMock = {
   },
 };
 
-const loadUIKitsMock = () => {
-  return Promise.resolve();
-};
-
 const buildPatternsMock = () => {
   return Promise.resolve();
 };
@@ -98,22 +94,7 @@ tap.test(
 
 tap.test('patternsonly a promise', test => {
   //arrange
-  const revert = entry.__set__('loaduikits', loadUIKitsMock);
-  const pl = new entry(testConfig);
-
-  //act
-  test.resolves(pl.patternsonly({})).then(() => {
-    revert();
-    test.end();
-  });
-});
-
-tap.test('patternsonly calls loaduikits', test => {
-  //arrange
-  const revert = entry.__set__('loaduikits', () => {
-    test.ok(1);
-    return Promise.resolve();
-  });
+  const revert = entry.__set__('buildPatterns', buildPatternsMock);
   const pl = new entry(testConfig);
 
   //act
@@ -149,15 +130,20 @@ tap.test('patternsonly calls buildPatterns', test => {
 
 tap.test('serve calls serve', test => {
   //arrange
-  const revert = entry.__set__('serve', patternlab => {
-    test.ok(1);
-    test.type(patternlab, 'object');
+  const revert = entry.__set__('serverModule', patternlab => {
+    return {
+      serve: () => {
+        test.ok(1);
+        test.type(patternlab, 'object');
+      },
+      reload: () => {},
+    };
   });
 
   const pl = new entry(testConfig);
 
   //act
-  test.resolves(pl.serve({})).then(() => {
+  test.resolves(pl.server.serve({})).then(() => {
     revert();
     test.end();
   });

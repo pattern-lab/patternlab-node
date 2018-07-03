@@ -1,0 +1,36 @@
+{
+  "name": "@pattern-lab/engine-react-testing-tree",
+  "description": "The tree of components we use to test, develop and validate the React engine",
+  "version": "0.1.1-alpha.1",
+  "private": true,
+  "main": "gulpfile.js",
+  "dependencies": {
+    "@pattern-lab/core": "^3.0.0-alpha.13",
+    "@pattern-lab/engine-mustache": "^2.0.0-alpha.6",
+    "@pattern-lab/engine-react": "^0.2.1-alpha.3",
+    "@pattern-lab/uikit-workshop": "^1.0.0-alpha.5",
+    "gulp": "^3.9.1",
+    "minimist": "^1.2.0",
+    "react": "^16.2.0"
+  },
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Gulp",
+    "Javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pattern-lab/edition-node-gulp.git"
+  },
+  "bugs": "https://github.com/pattern-lab/edition-node-gulp/issues",
+  "author": "Brian Muenzenmeyer",
+  "scripts": {
+    "gulp": "gulp -- "
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0"
+  }
+}

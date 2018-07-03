@@ -18,11 +18,24 @@ Learn more about [Creating Plugins](https://github.com/pattern-lab/patternlab-no
 ### `EVENTS` ⏏
 
 **Kind**: Exported constant  
-<a name="module_Events--EVENTS..PATTERNLAB_BUILD_PATTERN_START"></a>
+<a name="module_Events--EVENTS..PATTERNLAB_BUILD_START"></a>
 
-#### `EVENTS~PATTERNLAB_BUILD_PATTERN_START`
+#### `EVENTS~PATTERNLAB_BUILD_START`
 
 Emitted before any logic run inside `build()`, which is the entry point for single builds, pattern-only builds, run singly or when watched.
+
+**Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
+**Properties**
+
+| Name       | Type                | Description       |
+| ---------- | ------------------- | ----------------- |
+| patternlab | <code>object</code> | global data store |
+
+<a name="module_Events--EVENTS..PATTERNLAB_BUILD_END"></a>
+
+#### `EVENTS~PATTERNLAB_BUILD_END`
+
+Emitted after all logic run inside `build()`, which is the entry point for single builds, pattern-only builds, run singly or when watched.
 
 **Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**

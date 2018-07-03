@@ -7,6 +7,7 @@ const jsonCopy = require('./json_copy');
 const logger = require('./log');
 const parseLink = require('./parseLink');
 const render = require('./render');
+const uikitExcludePattern = require('./uikitExcludePattern');
 
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
@@ -37,6 +38,11 @@ module.exports = function(pattern, patternlab) {
 
   return Promise.all(
     _.map(patternlab.uikits, uikit => {
+      // exclude pattern from uikit rendering
+      if (uikitExcludePattern(pattern, uikit)) {
+        return Promise.resolve();
+      }
+
       //render the pattern, but first consolidate any data we may have
       let allData;
 
