@@ -1,24 +1,31 @@
 'use strict';
 
-const pluginName = 'plugin-node-tab';
-
-const fs = require('fs-extra');
-const glob = require('glob');
 const path = require('path');
 const EOL = require('os').EOL;
+
+const _ = require('lodash');
+const fs = require('fs-extra');
+const glob = require('glob');
+
 const tab_loader = require('./src/tab-loader');
 
+const pluginName = 'pattern-lab-plugin-tab';
+
 function writeConfigToOutput(patternlab, pluginConfig) {
-  var pluginConfigPathName = path.resolve(
-    patternlab.config.paths.public.root,
-    'patternlab-components',
-    'packages'
-  );
   try {
-    fs.outputFileSync(
-      pluginConfigPathName + '/' + pluginName + '.json',
-      JSON.stringify(pluginConfig, null, 2)
-    );
+    _.each(patternlab.uikits, uikit => {
+      fs.outputFileSync(
+        path.join(
+          process.cwd(),
+          uikit.outputDir,
+          patternlab.config.paths.public.root,
+          'patternlab-components',
+          'packages',
+          `/${pluginName}.json`
+        ),
+        JSON.stringify(pluginConfig, null, 2)
+      );
+    });
   } catch (ex) {
     console.trace(
       pluginName + ': Error occurred while writing pluginFile configuration'
@@ -48,7 +55,7 @@ function registerEvents(patternlab) {
  */
 function getPluginFrontendConfig() {
   return {
-    name: 'pattern-lab/' + pluginName,
+    name: pluginName,
     templates: [],
     stylesheets: [],
     javascripts: [
@@ -68,33 +75,38 @@ function getPluginFrontendConfig() {
  * Instead, alter getPluginFrontendConfig() and registerEvents() methods
  */
 function pluginInit(patternlab) {
+  console.log('PLUGIN INIT!');
+
   if (!patternlab) {
-    console.error('patternlab object not provided to plugin-init');
+    console.error('patternlab object not provided to pluginInit');
     process.exit(1);
   }
 
   //write the plugin json to public/patternlab-components
-  var pluginConfig = getPluginFrontendConfig();
+  const pluginConfig = getPluginFrontendConfig();
+
+  console.log(patternlab.config.plugins);
+
   pluginConfig.tabsToAdd =
     patternlab.config.plugins[pluginName].options.tabsToAdd;
   writeConfigToOutput(patternlab, pluginConfig);
 
-  var pluginConfigPathName = path.resolve(
-    patternlab.config.paths.public.root,
-    'patternlab-components',
-    'packages'
-  );
-  try {
-    fs.outputFileSync(
-      pluginConfigPathName + '/' + pluginName + '.json',
-      JSON.stringify(pluginConfig, null, 2)
-    );
-  } catch (ex) {
-    console.trace(
-      'plugin-node-tab: Error occurred while writing pluginFile configuration'
-    );
-    console.log(ex);
-  }
+  // const pluginConfigPathName = path.resolve(
+  //   patternlab.config.paths.public.root,
+  //   'patternlab-components',
+  //   'packages'
+  // );
+  // try {
+  //   fs.outputFileSync(
+  //     pluginConfigPathName + '/' + pluginName + '.json',
+  //     JSON.stringify(pluginConfig, null, 2)
+  //   );
+  // } catch (ex) {
+  //   console.trace(
+  //     'plugin-tab: Error occurred while writing pluginFile configuration'
+  //   );
+  //   console.log(ex);
+  // }
 
   //add the plugin config to the patternlab-object
   if (!patternlab.plugins) {
@@ -103,22 +115,22 @@ function pluginInit(patternlab) {
   patternlab.plugins.push(pluginConfig);
 
   //write the plugin dist folder to public/pattern-lab
-  var pluginFiles = glob.sync(__dirname + '/dist/**/*');
+  const pluginFiles = glob.sync(__dirname + '/dist/**/*');
 
   if (pluginFiles && pluginFiles.length > 0) {
-    let tab_frontend_snippet = fs.readFileSync(
+    const tab_frontend_snippet = fs.readFileSync(
       path.resolve(__dirname + '/src/snippet.js'),
       'utf8'
     );
 
     for (let i = 0; i < pluginFiles.length; i++) {
       try {
-        var fileStat = fs.statSync(pluginFiles[i]);
+        const fileStat = fs.statSync(pluginFiles[i]);
         if (fileStat.isFile()) {
-          var relativePath = path
+          const relativePath = path
             .relative(__dirname, pluginFiles[i])
             .replace('dist', ''); //dist is dropped
-          var writePath = path.join(
+          const writePath = path.join(
             patternlab.config.paths.public.root,
             'patternlab-components',
             'pattern-lab',
@@ -134,10 +146,10 @@ function pluginInit(patternlab) {
           //in this case, we need to alter the dist file to loop through our tabs to load as defined in the package.json
           //we are also being a bit lazy here, since we only expect one file
           let tabJSFileContents = fs.readFileSync(pluginFiles[i], 'utf8');
-          var snippetString = '';
+          let snippetString = '';
           if (pluginConfig.tabsToAdd && pluginConfig.tabsToAdd.length > 0) {
             for (let j = 0; j < pluginConfig.tabsToAdd.length; j++) {
-              let tabSnippetLocal = tab_frontend_snippet
+              const tabSnippetLocal = tab_frontend_snippet
                 .replace(/<<type>>/g, pluginConfig.tabsToAdd[j])
                 .replace(
                   /<<typeUC>>/g,
@@ -149,12 +161,18 @@ function pluginInit(patternlab) {
               '/*SNIPPETS*/',
               snippetString
             );
-            fs.outputFileSync(writePath, tabJSFileContents);
+            console.log(161, tabJSFileContents);
+            _.each(patternlab.uikits, uikit => {
+              fs.outputFileSync(
+                path.join(process.cwd(), uikit.outputDir, writePath),
+                tabJSFileContents
+              );
+            });
           }
         }
       } catch (ex) {
         console.trace(
-          'plugin-node-tab: Error occurred while copying pluginFile',
+          'plugin-tab: Error occurred while copying pluginFile',
           pluginFiles[i]
         );
         console.log(ex);

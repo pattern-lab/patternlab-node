@@ -56,4 +56,4 @@ For example, if we added an `scss` tab:
 
 ## Enabling / Disabling the Plugin
 
-After install, you may manually enable or disable the plugin by finding the `plugin-node-tab` key within your main Pattern Lab project's `patternlab-config.json` file and setting the `enabled` flag. In the future this will be possible via CLI.
+After install, you may manually enable or disable the plugin by finding the `@pattern-lab/plugin-tab` key within your main Pattern Lab project's `patternlab-config.json` file and setting the `enabled` flag. In the future this will be possible via CLI.
