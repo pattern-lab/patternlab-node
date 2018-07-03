@@ -10,12 +10,15 @@
 
 'use strict';
 
+const path = require('path');
+
 const updateNotifier = require('update-notifier');
 
 const packageInfo = require('../package.json');
 const help = require('./lib/help');
 const events = require('./lib/events');
 const pe = require('./lib/pattern_exporter');
+const pm = require('./lib/plugin_manager');
 
 const defaultConfig = require('../patternlab-config.json');
 
@@ -154,7 +157,11 @@ const patternlab_module = function(config) {
      * @returns {void}
      */
     installplugin: function(pluginName) {
-      patternlab.installPlugin(pluginName);
+      //get the config
+      const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
+      const plugin_manager = new pm(config, configPath);
+
+      plugin_manager.install_plugin(pluginName);
     },
 
     /**
