@@ -3,16 +3,21 @@
 const plugin_manager = function(config, configPath) {
   const path = require('path');
   const fs = require('fs-extra');
+
+  const _ = require('lodash');
+
   const logger = require('./log');
+
+  const pluginMatcher = /^plugin-(.*)$/;
 
   /**
    * Loads a plugin
    *
-   * @param pluginName {string} the name of the plugin
+   * @param modulePath {string} the path to the plugin
    * @return {object} the loaded plugin
    */
-  function loadPlugin(pluginName) {
-    return require(path.join(process.cwd(), 'node_modules', pluginName));
+  function loadPlugin(modulePath) {
+    return require(modulePath);
   }
 
   /**
@@ -21,6 +26,7 @@ const plugin_manager = function(config, configPath) {
    * @param pluginName {string} the name of the plugin
    */
   function installPlugin(pluginName) {
+    console.log('install plugin');
     try {
       const pluginPath = path.resolve(
         path.join(process.cwd(), 'node_modules', pluginName)
@@ -43,8 +49,10 @@ const plugin_manager = function(config, configPath) {
           diskConfig.plugins = {};
         }
 
-        if (!diskConfig.plugins[pluginName]) {
-          diskConfig.plugins[pluginName] = {
+        const safePluginName = _.kebabCase(pluginName);
+
+        if (!diskConfig.plugins[safePluginName]) {
+          diskConfig.plugins[safePluginName] = {
             enabled: true,
             initialized: false,
           };
@@ -53,8 +61,8 @@ const plugin_manager = function(config, configPath) {
         const pluginPathConfig = path.resolve(pluginPath, 'config.json');
         try {
           const pluginConfigJSON = require(pluginPathConfig);
-          if (!diskConfig.plugins[pluginName].options) {
-            diskConfig.plugins[pluginName].options = pluginConfigJSON;
+          if (!diskConfig.plugins[safePluginName].options) {
+            diskConfig.plugins[safePluginName].options = pluginConfigJSON;
           }
         } catch (ex) {
           //a config.json file is not required at this time
@@ -66,7 +74,7 @@ const plugin_manager = function(config, configPath) {
           JSON.stringify(diskConfig, null, 2)
         );
 
-        logger.info('Plugin ' + pluginName + ' installed.');
+        logger.info('Plugin ' + safePluginName + ' installed.');
         logger.info('Plugin configration added to patternlab-config.json.');
       }
     } catch (ex) {
@@ -97,18 +105,37 @@ const plugin_manager = function(config, configPath) {
     );
   }
 
+  /**
+   * Given a path: return the plugin name if the path points to a valid plugin
+   * module directory, or false if it doesn't.
+   * @param filePath
+   * @returns Plugin name if exists or FALSE
+   */
+  function isPlugin(filePath) {
+    const baseName = path.basename(filePath);
+    const pluginMatch = baseName.match(pluginMatcher);
+
+    if (pluginMatch) {
+      return pluginMatch[1];
+    }
+    return false;
+  }
+
   return {
     install_plugin: function(pluginName) {
       installPlugin(pluginName);
     },
-    load_plugin: function(pluginName) {
-      return loadPlugin(pluginName);
+    load_plugin: function(modulePath) {
+      return loadPlugin(modulePath);
     },
     disable_plugin: function(pluginName) {
       disablePlugin(pluginName);
     },
     enable_plugin: function(pluginName) {
       enablePlugin(pluginName);
+    },
+    is_plugin: function(filePath) {
+      return isPlugin(filePath);
     },
   };
 };
