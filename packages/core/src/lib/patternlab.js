@@ -145,7 +145,6 @@ module.exports = class PatternLab {
     );
     const nodeModulesPath = path.join(process.cwd(), 'node_modules');
     const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
-    console.log(148, foundPlugins, patternlab.config.plugins);
     foundPlugins.forEach(plugin => {
       logger.info(`Found plugin: plugin-${plugin.name}`);
       logger.info(`Attempting to load and initialize plugin.`);
