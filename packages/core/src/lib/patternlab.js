@@ -136,23 +136,22 @@ module.exports = class PatternLab {
    */
   //todo, move this to plugin_manager
   initializePlugins(patternlab) {
-    // console.log('initialize plugins');
-    // if (!patternlab.config.plugins) {
-    //   return;
-    // }
-    // const plugin_manager = new pm(
-    //   patternlab.config,
-    //   path.resolve(__dirname, '../../patternlab-config.json')
-    // );
-    // const nodeModulesPath = path.join(process.cwd(), 'node_modules');
-    // const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
-    // console.log(148, foundPlugins, patternlab.config.plugins);
-    // foundPlugins.forEach(plugin => {
-    //   logger.info(`Found plugin: plugin-${plugin.name}`);
-    //   logger.info(`Attempting to load and initialize plugin.`);
-    //   const pluginModule = plugin_manager.load_plugin(plugin.modulePath);
-    //   pluginModule(patternlab);
-    // });
+    if (!patternlab.config.plugins) {
+      return;
+    }
+    const plugin_manager = new pm(
+      patternlab.config,
+      path.resolve(__dirname, '../../patternlab-config.json')
+    );
+    const nodeModulesPath = path.join(process.cwd(), 'node_modules');
+    const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
+    console.log(148, foundPlugins, patternlab.config.plugins);
+    foundPlugins.forEach(plugin => {
+      logger.info(`Found plugin: plugin-${plugin.name}`);
+      logger.info(`Attempting to load and initialize plugin.`);
+      const pluginModule = plugin_manager.load_plugin(plugin.modulePath);
+      pluginModule(patternlab);
+    });
   }
 
   buildGlobalData(additionalData) {
