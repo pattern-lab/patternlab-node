@@ -130,15 +130,20 @@ tap.test('patternsonly calls buildPatterns', test => {
 
 tap.test('serve calls serve', test => {
   //arrange
-  const revert = entry.__set__('serve', patternlab => {
-    test.ok(1);
-    test.type(patternlab, 'object');
+  const revert = entry.__set__('serverModule', patternlab => {
+    return {
+      serve: () => {
+        test.ok(1);
+        test.type(patternlab, 'object');
+      },
+      reload: () => {},
+    };
   });
 
   const pl = new entry(testConfig);
 
   //act
-  test.resolves(pl.serve({})).then(() => {
+  test.resolves(pl.server.serve({})).then(() => {
     revert();
     test.end();
   });

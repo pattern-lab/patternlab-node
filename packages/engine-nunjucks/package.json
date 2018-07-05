@@ -26,7 +26,6 @@
   "main": "lib/engine_nunjucks.js",
   "name": "@pattern-lab/engine-nunjucks",
   "scripts": {
-    "test": "grunt travis --verbose"
   },
   "version": "0.1.4-alpha.2",
   "publishConfig": {

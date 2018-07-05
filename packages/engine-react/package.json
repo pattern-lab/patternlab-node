@@ -29,7 +29,6 @@
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
   "scripts": {
-    "test": "grunt travis --verbose"
   },
   "engines": {
     "node": ">=6"

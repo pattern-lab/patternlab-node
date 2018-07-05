@@ -22,21 +22,58 @@ Refer to the [core usage guidelines](https://github.com/pattern-lab/patternlab-n
 
 ### Installation
 
-Installation is still in flux due to the monorepo transition. Bear with us as we figure this out. Our intent is to ship the Pattern Lab Node CLI soon which will help new and existing users.
+As of Pattern Lab Node 3.0.0, installation of [Editions](http://patternlab.io/docs/advanced-ecosystem-overview.html) is accomplished via the command line interface.
 
-_In the meantime..._
+_0 to 60mph_
 
-if you already have an Edition tracking 3.X alphas, you can update using the [standard instructions](https://github.com/pattern-lab/patternlab-node/wiki/Upgrading#3x-instructions).
+The below assume a new directory and project is required.
 
-if you don't mind pulling down everything and playing with it locally, clone this repo and follow the instructions for [developing locally](https://github.com/pattern-lab/patternlab-node/blob/master/.github/CONTRIBUTING.md#developing-locally).
+1. Open a terminal window and following along below:
+    ```bash
+    mkdir new-project
+    cd new-project
+    npm init -y && npx -p @pattern-lab/cli -c 'patternlab init'
+    ```
+    > If you get an error stating that `npx` is not installed, ensure you are on `npm 5.2.0` or later by running `npm -v` or install it globally with `npm install -g npx`. [Learn more about npx.](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
+1. Follow the on-screen prompts to choose your Edition and a Starterkit should you want one.
+1. Open `package.json` and add the following to your `scripts` object
+    ```diff
+    "scripts": {
+    + "patternlab": "patternlab"
+    },
+    ```
+    This tells `npm` to look in the local `node_modules/.bin` directory for the `patternlab` CLI.
+1. In your terminal, run `npm run patternlab <command>`, where `<command>` is a documented method on the CLI, such as `build`, `serve`, or `help`.
 
-if you don't yet have a 3.X compatible Edition and want to try something a bit messier (and unsupported for now), you could attempt this [workaround](https://github.com/pattern-lab/patternlab-node/issues/813).
+
+_Established npm projects_
+
+1. Run the following command from a terminal:
+    ```bash
+    npm install @pattern-lab/cli --save-dev
+    ```
+1. Open `package.json` and add the following to your `scripts` object
+    ```diff
+    "scripts": {
+    + "patternlab": "patternlab"
+    },
+    ```
+    This tells `npm` to look in the local `node_modules/.bin` directory for the `patternlab` CLI.
+1. In your terminal, run `npm run patternlab init`. Follow the on-screen prompts to choose your Edition and a Starterkit should you want one.
+
 
 ## Ecosystem
 
 ![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
 
 Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
+
+## Changelog
+
+[Each package within this monorepo](https://github.com/pattern-lab/patternlab-node/tree/master/packages) has its own changelog. Below are the main ones to watch:
+
+* [@pattern-lab/core changelog ](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/CHANGELOG.md)
+* [@pattern-lab/cli changelog ](https://github.com/pattern-lab/patternlab-node/blob/master/packages/cli/CHANGELOG.md)
 
 ## Support for Pattern Lab
 

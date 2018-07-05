@@ -20,15 +20,12 @@ const render = require('./render');
 const Pattern = require('./object_factory').Pattern;
 
 let fs = require('fs-extra'); // eslint-disable-line
-let ui_builder = require('./ui_builder'); // eslint-disable-line
-let copier = require('./copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
-let serve = require('./serve'); // eslint-disable-line
 
 const lineage_hunter = new lh();
 
 module.exports = (deletePatternDir, patternlab, additionalData) => {
-  patternlab.events.emit(events.PATTERNLAB_BUILD_PATTERN_START, patternlab);
+  patternlab.events.emit(events.PATTERNLAB_BUILD_START, patternlab);
 
   const paths = patternlab.config.paths;
 

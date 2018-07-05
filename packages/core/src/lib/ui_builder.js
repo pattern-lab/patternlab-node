@@ -517,9 +517,9 @@ const ui_builder = function() {
    * @param patternPartial - a key used to identify the viewall page
    * @returns A promise which resolves with the HTML
    */
-  function buildViewAllHTML(patternlab, patterns, patternPartial) {
+  function buildViewAllHTML(patternlab, patterns, patternPartial, uikit) {
     return render(
-      Pattern.createEmpty({ extendedTemplate: patternlab.viewAll }),
+      Pattern.createEmpty({ extendedTemplate: uikit.viewAll }),
       {
         //data
         partials: patterns,
@@ -528,8 +528,8 @@ const ui_builder = function() {
       },
       {
         //templates
-        patternSection: patternlab.patternSection,
-        patternSectionSubtype: patternlab.patternSectionSubType,
+        patternSection: uikit.patternSection,
+        patternSectionSubtype: uikit.patternSectionSubType,
       }
     ).catch(reason => {
       console.log(reason);
@@ -558,20 +558,26 @@ const ui_builder = function() {
     const allPatternTypePromises = _.map(
       styleguidePatterns.patternGroups,
       (patternGroup, patternType) => {
-        let p;
         let typePatterns = [];
         let styleguideTypePatterns = [];
         const styleGuideExcludes =
           patternlab.config.styleGuideExcludes ||
           patternlab.config.styleguideExcludes;
-
         const subTypePromises = _.map(
           _.values(patternGroup),
-          (patternSubtypes, patternSubtype) => {
-            const patternPartial = patternType + '-' + patternSubtype;
+          (patternSubtypes, patternSubtype, originalPatternGroup) => {
+            let p;
+            const samplePattern = _.find(patternSubtypes, st => {
+              return !st.patternPartial.startsWith('viewall-');
+            });
+            const patternName = Object.keys(
+              _.values(originalPatternGroup)[patternSubtype]
+            )[1];
+            const patternPartial =
+              patternType + '-' + samplePattern.patternSubType;
 
             //do not create a viewall page for flat patterns
-            if (patternType === patternSubtype) {
+            if (patternType === patternName) {
               writeViewAllFile = false;
               logger.debug(
                 `skipping ${patternType} as flat patterns do not have view all pages`
@@ -580,7 +586,7 @@ const ui_builder = function() {
             }
 
             //render the footer needed for the viewall template
-            return buildFooter(patternlab, 'viewall-' + patternPartial, uikit)
+            return buildFooter(patternlab, `viewall-${patternPartial}`, uikit)
               .then(footerHTML => {
                 //render the viewall template by finding these smallest subtype-grouped patterns
                 const subtypePatterns = sortPatterns(_.values(patternSubtypes));
@@ -595,11 +601,11 @@ const ui_builder = function() {
                   styleGuideExcludes &&
                   styleGuideExcludes.length &&
                   _.some(styleGuideExcludes, function(exclude) {
-                    return exclude === patternType + '/' + patternSubtype;
+                    return exclude === patternType + '/' + patternName;
                   });
                 if (omitPatternType) {
                   logger.debug(
-                    `Omitting ${patternType}/${patternSubtype} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`
+                    `Omitting ${patternType}/${patternName} from  building a viewall page because its patternSubGroup is specified in styleguideExcludes.`
                   );
                 } else {
                   styleguideTypePatterns = styleguideTypePatterns.concat(
@@ -613,7 +619,8 @@ const ui_builder = function() {
                 return buildViewAllHTML(
                   patternlab,
                   subtypePatterns,
-                  patternPartial
+                  patternPartial,
+                  uikit
                 )
                   .then(viewAllHTML => {
                     return fs.outputFile(
@@ -670,7 +677,8 @@ const ui_builder = function() {
                     return buildViewAllHTML(
                       patternlab,
                       typePatterns,
-                      patternType
+                      patternType,
+                      uikit
                     )
                       .then(viewAllHTML => {
                         fs.outputFileSync(
