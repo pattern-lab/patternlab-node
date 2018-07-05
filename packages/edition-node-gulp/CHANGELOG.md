@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-alpha.12"></a>
+# [2.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.11...@pattern-lab/edition-node-gulp@2.0.0-alpha.12) (2018-07-05)
+
+
+### Bug Fixes
+
+* **gulp:** remove help command ([71575db](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/71575db))
+
+
+### Features
+
+* **serve:** change calling method ([f47217a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/f47217a))
+
+
+
+
 <a name="2.0.0-alpha.11"></a>
 # [2.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.10...@pattern-lab/edition-node-gulp@2.0.0-alpha.11) (2018-05-19)
 

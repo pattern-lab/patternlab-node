@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-alpha.6"></a>
+# [2.0.0-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/compare/@pattern-lab/engine-underscore@2.0.0-alpha.5...@pattern-lab/engine-underscore@2.0.0-alpha.6) (2018-07-05)
+
+
+### Features
+
+* **tests:** use lerna run test at the monorepo level ([38a01b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/commit/38a01b1))
+
+
+
+
 <a name="2.0.0-alpha.5"></a>
 # [2.0.0-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/compare/@pattern-lab/engine-underscore@2.0.0-alpha.4...@pattern-lab/engine-underscore@2.0.0-alpha.5) (2018-05-04)
 
