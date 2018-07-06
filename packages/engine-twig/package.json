@@ -1,11 +1,11 @@
 {
   "name": "@pattern-lab/engine-twig",
   "description": "The Twig engine for Pattern Lab / Node",
-  "version": "0.2.1-alpha.4",
+  "version": "0.2.1-alpha.5",
   "main": "lib/engine_twig.js",
   "dependencies": {
-    "fs-extra": "^0.30.0",
-    "node-twig": "^1.1.0"
+    "fs-extra": "0.30.0",
+    "node-twig": "1.1.0"
   },
   "keywords": [
     "Pattern Lab",

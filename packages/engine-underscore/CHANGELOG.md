@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-alpha.7"></a>
+# [2.0.0-alpha.7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/compare/@pattern-lab/engine-underscore@2.0.0-alpha.6...@pattern-lab/engine-underscore@2.0.0-alpha.7) (2018-07-06)
+
+
+### Features
+
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/commit/55f5bc2))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/commit/415698e))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/commit/5ab3995))
+
+
+
+
+
 <a name="2.0.0-alpha.6"></a>
 # [2.0.0-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/compare/@pattern-lab/engine-underscore@2.0.0-alpha.5...@pattern-lab/engine-underscore@2.0.0-alpha.6) (2018-07-05)
 

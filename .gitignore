@@ -10,3 +10,4 @@ packages/*/public
 !packages/core/test/patterns/public/.gitkeep
 !packages/core/test/patterns/testDependencyGraph.json
 lerna-debug.log
+packages/edition-node-gulp/dependencyGraph.json
