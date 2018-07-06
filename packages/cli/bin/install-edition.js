@@ -29,6 +29,7 @@ const installEdition = (edition, config) =>
           path.resolve('./node_modules', edition, 'gulpfile.js'),
           path.resolve(sourceDir, '../', 'gulpfile.js')
         );
+        break;
       }
       case '@pattern-lab/edition-node': {
         const scriptsJSON = {
@@ -40,6 +41,7 @@ const installEdition = (edition, config) =>
         };
         pkg.scripts = Object.assign({}, pkg.scripts || {}, scriptsJSON);
         yield writeJsonAsync('./package.json', pkg, { spaces: 2 });
+        break;
       }
     }
     return config;

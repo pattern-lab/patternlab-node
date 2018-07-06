@@ -25,9 +25,8 @@
   "license": "MIT",
   "main": "lib/engine_nunjucks.js",
   "name": "@pattern-lab/engine-nunjucks",
-  "scripts": {
-  },
-  "version": "0.1.4-alpha.2",
+  "scripts": {},
+  "version": "0.1.4-alpha.3",
   "publishConfig": {
     "access": "public"
   }

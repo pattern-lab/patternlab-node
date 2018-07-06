@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-alpha.10"></a>
+# [1.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.9...@pattern-lab/edition-node@1.0.0-alpha.10) (2018-07-05)
+
+
+
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
 <a name="1.0.0-alpha.9"></a>
 # [1.0.0-alpha.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.8...@pattern-lab/edition-node@1.0.0-alpha.9) (2018-05-19)
 

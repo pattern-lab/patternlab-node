@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.3-alpha.4"></a>
+## [2.0.3-alpha.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.3...@pattern-lab/plugin-tab@2.0.3-alpha.4) (2018-07-05)
+
+
+### Features
+
+* **tests:** use lerna run test at the monorepo level ([38a01b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/38a01b1))
+
+
+
+
 <a name="2.0.3-alpha.3"></a>
 ## [2.0.3-alpha.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.2...@pattern-lab/plugin-tab@2.0.3-alpha.3) (2018-05-04)
 

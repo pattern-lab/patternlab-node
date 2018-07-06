@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.20"></a>
+## [0.0.1-alpha.20](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.19...@pattern-lab/cli@0.0.1-alpha.20) (2018-07-05)
+
+
+### Bug Fixes
+
+* **cli:** change whitespace to spaces per standard ([4556fc7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/4556fc7))
+* **tests:** change test command name similar to live-server until this passes CI ([5c39be1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/5c39be1))
+
+
+### Features
+
+* **serve:** change calling method ([3b86a0d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/3b86a0d))
+* **tests:** use lerna run test at the monorepo level ([38a01b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/38a01b1))
+
+
+
+
 <a name="0.0.1-alpha.19"></a>
 ## [0.0.1-alpha.19](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.18...@pattern-lab/cli@0.0.1-alpha.19) (2018-05-19)
 
