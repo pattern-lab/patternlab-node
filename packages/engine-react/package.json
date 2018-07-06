@@ -4,14 +4,14 @@
   "version": "0.2.1-alpha.3",
   "main": "lib/engine_react.js",
   "dependencies": {
-    "babel-core": "^6.17.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.16.0",
-    "babel-preset-react": "^6.16.0",
-    "cheerio": "^0.22.0",
-    "hogan": "^1.0.2",
-    "js-beautify": "^1.6.4",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "babel-core": "6.17.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.16.0",
+    "babel-preset-react": "6.16.0",
+    "cheerio": "0.22.0",
+    "hogan": "1.0.2",
+    "js-beautify": "1.6.4",
+    "react": "15.3.2",
+    "react-dom": "15.3.2"
   },
   "peerDependencies": {
     "@pattern-lab/core": ">2"
