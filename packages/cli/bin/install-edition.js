@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const pkg = require('../package.json');
+const pkg = require(path.resolve(process.cwd(), 'package.json'));
 const {
   checkAndInstallPackage,
   copyAsync,
