@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-alpha.16"></a>
+# [3.0.0-alpha.16](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.15...@pattern-lab/core@3.0.0-alpha.16) (2018-07-06)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
 <a name="3.0.0-alpha.15"></a>
 # [3.0.0-alpha.15](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.14...@pattern-lab/core@3.0.0-alpha.15) (2018-07-06)
 
