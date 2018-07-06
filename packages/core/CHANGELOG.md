@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-alpha.15"></a>
+# [3.0.0-alpha.15](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.14...@pattern-lab/core@3.0.0-alpha.15) (2018-07-06)
+
+
+### Features
+
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/55f5bc2))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/415698e))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5ab3995))
+
+
+
+
+
 <a name="3.0.0-alpha.14"></a>
 # [3.0.0-alpha.14](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.13...@pattern-lab/core@3.0.0-alpha.14) (2018-07-05)
 

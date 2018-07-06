@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.21"></a>
+## [0.0.1-alpha.21](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.20...@pattern-lab/cli@0.0.1-alpha.21) (2018-07-06)
+
+
+### Bug Fixes
+
+* **install:** add break statements to install edition command ([3b1813c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/3b1813c))
+* **install:** use process to find package.json ([200c7cb](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/200c7cb))
+
+
+### Features
+
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/55f5bc2))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/415698e))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/5ab3995))
+
+
+
+
+
 <a name="0.0.1-alpha.20"></a>
 ## [0.0.1-alpha.20](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.19...@pattern-lab/cli@0.0.1-alpha.20) (2018-07-05)
 

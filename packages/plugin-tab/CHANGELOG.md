@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.3-alpha.5"></a>
+## [2.0.3-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.4...@pattern-lab/plugin-tab@2.0.3-alpha.5) (2018-07-06)
+
+
+### Features
+
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/55f5bc2))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/415698e))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/5ab3995))
+
+
+
+
+
 <a name="2.0.3-alpha.4"></a>
 ## [2.0.3-alpha.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.3...@pattern-lab/plugin-tab@2.0.3-alpha.4) (2018-07-05)
 
