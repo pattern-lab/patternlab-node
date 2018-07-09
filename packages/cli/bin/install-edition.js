@@ -1,20 +1,26 @@
 'use strict';
+
 const path = require('path');
-const pkg = require(path.resolve(process.cwd(), 'package.json'));
+const EOL = require('os').EOL;
 const {
   checkAndInstallPackage,
   copyAsync,
   wrapAsync,
   writeJsonAsync,
+  getJSONKey,
 } = require('./utils');
 
-const installEdition = (edition, config) =>
-  wrapAsync(function*() {
+const installEdition = (edition, config, projectDir) => {
+  const pkg = require(path.resolve(projectDir, 'package.json'));
+
+  return wrapAsync(function*() {
     /**
      * 1. Trigger edition install
      * 2. Copy over the mandatory edition files to sourceDir
-     * 3. Do custom post-install procedures for different core editions:
-     * 3.1 Copy gulpfile.js for edition-node-gulp
+     * 3. Copy dependencies defined in edition
+     * 4. Do custom post-install procedures for different core editions:
+     * 4.1 Copy gulpfile.js for edition-node-gulp
+     * 4.2 Copy scripts for edition-node
      */
     const sourceDir = config.paths.source.root;
     yield checkAndInstallPackage(edition); // 1
@@ -22,8 +28,13 @@ const installEdition = (edition, config) =>
       path.resolve('./node_modules', edition, 'source', '_meta'),
       path.resolve(sourceDir, '_meta')
     ); // 2
-    switch (edition) { // 3
-      // 3.1
+    pkg.dependencies = Object.assign(
+      {},
+      pkg.dependencies || {},
+      yield getJSONKey(edition, 'dependencies')
+    ); // 3
+    switch (edition) { // 4
+      // 4.1
       case '@pattern-lab/edition-node-gulp': {
         yield copyAsync(
           path.resolve('./node_modules', edition, 'gulpfile.js'),
@@ -31,20 +42,22 @@ const installEdition = (edition, config) =>
         );
         break;
       }
+      // 4.2
       case '@pattern-lab/edition-node': {
-        const scriptsJSON = {
-          'pl:build': 'patternlab build --config ./patternlab-config.json',
-          'pl:help': 'patternlab --help',
-          'pl:install': 'patternlab install --config ./patternlab-config.json',
-          'pl:serve': 'patternlab serve --config ./patternlab-config.json',
-          'pl:version': 'patternlab --version',
-        };
-        pkg.scripts = Object.assign({}, pkg.scripts || {}, scriptsJSON);
-        yield writeJsonAsync('./package.json', pkg, { spaces: 2 });
+        pkg.scripts = Object.assign(
+          {},
+          pkg.scripts || {},
+          yield getJSONKey(edition, 'scripts')
+        );
         break;
       }
     }
+    yield writeJsonAsync(path.resolve(projectDir, 'package.json'), pkg, {
+      spaces: 2,
+      EOL: EOL,
+    });
     return config;
   });
+};
 
 module.exports = installEdition;

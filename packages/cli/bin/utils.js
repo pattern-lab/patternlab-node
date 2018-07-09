@@ -175,6 +175,15 @@ const checkAndInstallPackage = (packageName, url) =>
  */
 const noop = () => {};
 
+const getJSONKey = (packageName, key, fileName = 'package.json') =>
+  wrapAsync(function*() {
+    yield checkAndInstallPackage(packageName);
+    const packageJSON = yield fs.readJson(
+      path.resolve('node_modules', packageName, fileName)
+    );
+    return packageJSON[key];
+  });
+
 module.exports = {
   copyWithPattern,
   copyAsync: fs.copy,
@@ -189,4 +198,5 @@ module.exports = {
   wrapAsync,
   checkAndInstallPackage,
   noop,
+  getJSONKey,
 };
