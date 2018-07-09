@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.3.3-alpha.6"></a>
+## [1.3.3-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/@pattern-lab/live-server@1.3.3-alpha.5...@pattern-lab/live-server@1.3.3-alpha.6) (2018-07-06)
+
+
+### Bug Fixes
+
+* **dependencies:** pin all packages marked as latest ([87347d5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/commit/87347d5))
+
+
+
+
+
 <a name="1.3.3-alpha.5"></a>
 ## [1.3.3-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/@pattern-lab/live-server@1.3.3-alpha.4...@pattern-lab/live-server@1.3.3-alpha.5) (2018-07-06)
 

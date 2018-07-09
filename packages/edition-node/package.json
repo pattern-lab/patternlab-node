@@ -1,11 +1,11 @@
 {
   "name": "@pattern-lab/edition-node",
   "description": "A pure wrapper around patternlab-node core, the default pattern engine, and supporting frontend assets.",
-  "version": "1.0.0-alpha.11",
+  "version": "1.0.0-alpha.12",
   "main": "patternlab-config.json",
   "dependencies": {
-    "@pattern-lab/cli": "^0.0.1-alpha.21",
-    "@pattern-lab/core": "^3.0.0-alpha.15",
+    "@pattern-lab/cli": "^0.0.1-alpha.22",
+    "@pattern-lab/core": "^3.0.0-alpha.16",
     "@pattern-lab/engine-mustache": "^2.0.0-alpha.8",
     "@pattern-lab/uikit-workshop": "^1.0.0-alpha.7"
   },
@@ -19,11 +19,11 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer",
   "scripts": {
-    "build": "patternlab build --config ./patternlab-config.json",
-    "help": "patternlab --help",
-    "install": "patternlab install --config ./patternlab-config.json",
-    "serve": "patternlab serve --config ./patternlab-config.json",
-    "version": "patternlab --version"
+    "pl:build": "patternlab build --config ./patternlab-config.json",
+    "pl:help": "patternlab --help",
+    "pl:install": "patternlab install --config ./patternlab-config.json",
+    "pl:serve": "patternlab serve --config ./patternlab-config.json",
+    "pl:version": "patternlab --version"
   },
   "license": "MIT",
   "engines": {
