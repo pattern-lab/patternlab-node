@@ -11,13 +11,13 @@ const installPlugin = (plugin, config) =>
   wrapAsync(function*() {
     const name = plugin.name || plugin;
     const safePluginName = _.kebabCase(name);
-    yield checkAndInstallPackage(safePluginName);
+    yield checkAndInstallPackage(name);
     // Put the installed plugin in the patternlab-config.json
     _.set(config, `plugins[${safePluginName}]['enabled']`, true);
 
     // Get the options from the plugin, if any
     const pluginPathConfig = path.resolve(
-      path.join(process.cwd(), 'node_modules', safePluginName, 'config.json')
+      path.join(process.cwd(), 'node_modules', name, 'config.json')
     );
     try {
       const pluginConfigJSON = require(pluginPathConfig);
