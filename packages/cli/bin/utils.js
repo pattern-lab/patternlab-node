@@ -175,12 +175,23 @@ const checkAndInstallPackage = (packageName, url) =>
  */
 const noop = () => {};
 
+/**
+ * @func writeJsonAsync
+ * Wrapper for fs.writeJsonAsync with consistent spacing
+ * @param {string} filePath
+ * @param {object} data
+ */
+const writeJsonAsync = (filePath, data) =>
+  wrapAsync(function*() {
+    yield fs.outputJSON(filePath, data, { spaces: 2 });
+  });
+
 module.exports = {
   copyWithPattern,
   copyAsync: fs.copy,
   mkdirsAsync: fs.mkdirs,
   moveAsync: fs.move,
-  writeJsonAsync: fs.outputJson,
+  writeJsonAsync: writeJsonAsync,
   readJsonAsync: fs.readJson,
   error,
   info,
