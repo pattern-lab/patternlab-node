@@ -13,6 +13,7 @@ const installPlugin = (plugin, config) =>
     yield checkAndInstallPackage(name);
     // Put the installed plugin in the patternlab-config.json
     _.set(config, `plugins[${name}]['enabled']`, true);
+    _.set(config, `plugins[${name}]['initialized']`, false);
 
     // Get the options from the plugin, if any
     const pluginPathConfig = path.resolve(
