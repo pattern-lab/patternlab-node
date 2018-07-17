@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "fs-extra": "^0.30.0",
-    "glob": "^7.0.0",
-    "lodash": "~4.17.5"
+    "fs-extra": "0.30.0",
+    "glob": "7.0.0",
+    "lodash": "4.17.5"
   },
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
