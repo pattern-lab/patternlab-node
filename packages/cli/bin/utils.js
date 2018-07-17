@@ -184,8 +184,9 @@ const noop = () => {};
 const writeJsonAsync = (filePath, data) =>
   wrapAsync(function*() {
     yield fs.outputJSON(filePath, data, { spaces: 2 });
+  });
 
-    /**
+/**
  * @func getJSONKey
  * Installs package, then returns the value for the given JSON file's key within
  * @param {string} packageName - the node_module to install / load
