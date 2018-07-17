@@ -7,9 +7,9 @@ const cleanHtml = require('js-beautify').html;
 
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
+const plugin_manager = new pm();
 const packageInfo = require('../../package.json');
 const events = require('./events');
-const findModules = require('./findModules');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
 const loaduikits = require('./loaduikits');
@@ -77,7 +77,6 @@ module.exports = class PatternLab {
     // Verify correctness of configuration (?)
     this.checkConfiguration(this);
 
-    // TODO: determine if this is the best place to wire up plugins
     this.initializePlugins(this);
   }
 
@@ -134,23 +133,11 @@ module.exports = class PatternLab {
    * Finds and calls the main method of any found plugins.
    * @param patternlab - global data store
    */
-  //todo, move this to plugin_manager
   initializePlugins(patternlab) {
     if (!patternlab.config.plugins) {
       return;
     }
-    const plugin_manager = new pm(
-      patternlab.config,
-      path.resolve(__dirname, '../../patternlab-config.json')
-    );
-    const nodeModulesPath = path.join(process.cwd(), 'node_modules');
-    const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
-    foundPlugins.forEach(plugin => {
-      logger.info(`Found plugin: plugin-${plugin.name}`);
-      logger.info(`Attempting to load and initialize plugin.`);
-      const pluginModule = plugin_manager.load_plugin(plugin.modulePath);
-      pluginModule(patternlab);
-    });
+    plugin_manager.intialize_plugins(patternlab);
   }
 
   buildGlobalData(additionalData) {
