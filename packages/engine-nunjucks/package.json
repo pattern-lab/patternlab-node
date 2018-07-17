@@ -7,8 +7,8 @@
   "deprecated": false,
   "description": "The nunjucks PatternEngine for Pattern Lab / Node",
   "dependencies": {
-    "fs-extra": "^5.0.0",
-    "nunjucks": "^3.0.1"
+    "fs-extra": "5.0.0",
+    "nunjucks": "3.0.1"
   },
   "engines": {
     "node": ">=4.0"
@@ -25,9 +25,8 @@
   "license": "MIT",
   "main": "lib/engine_nunjucks.js",
   "name": "@pattern-lab/engine-nunjucks",
-  "scripts": {
-  },
-  "version": "0.1.4-alpha.2",
+  "scripts": {},
+  "version": "0.1.4-alpha.4",
   "publishConfig": {
     "access": "public"
   }

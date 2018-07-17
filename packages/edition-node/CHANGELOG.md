@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-alpha.12"></a>
+
+# [1.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.11...@pattern-lab/edition-node@1.0.0-alpha.12) (2018-07-06)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+<a name="1.0.0-alpha.11"></a>
+
+# [1.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.10...@pattern-lab/edition-node@1.0.0-alpha.11) (2018-07-06)
+
+### Features
+
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/55f5bc2))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/415698e))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/5ab3995))
+
+<a name="1.0.0-alpha.10"></a>
+
+# [1.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.9...@pattern-lab/edition-node@1.0.0-alpha.10) (2018-07-05)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
 <a name="1.0.0-alpha.9"></a>
 
 # [1.0.0-alpha.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.8...@pattern-lab/edition-node@1.0.0-alpha.9) (2018-05-19)

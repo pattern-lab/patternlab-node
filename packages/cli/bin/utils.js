@@ -184,6 +184,21 @@ const noop = () => {};
 const writeJsonAsync = (filePath, data) =>
   wrapAsync(function*() {
     yield fs.outputJSON(filePath, data, { spaces: 2 });
+
+    /**
+ * @func getJSONKey
+ * Installs package, then returns the value for the given JSON file's key within
+ * @param {string} packageName - the node_module to install / load
+ * @param {object} key - the key to find
+ * @param {object} fileName - the filePath of the JSON
+ */
+const getJSONKey = (packageName, key, fileName = 'package.json') =>
+  wrapAsync(function*() {
+    yield checkAndInstallPackage(packageName);
+    const jsonData = yield fs.readJson(
+      path.resolve('node_modules', packageName, fileName)
+    );
+    return jsonData[key];
   });
 
 module.exports = {
@@ -200,4 +215,5 @@ module.exports = {
   wrapAsync,
   checkAndInstallPackage,
   noop,
+  getJSONKey,
 };
