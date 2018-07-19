@@ -78,7 +78,11 @@ const engine_twig_php = {
       twigRenderer
         .render(patternPath, data)
         .then(results => {
-          resolve(results.html + details);
+          if (results.ok) {
+            resolve(results.html + details);
+          } else {
+            reject(results.message);
+          }
         })
         .catch(error => {
           reject(error);
