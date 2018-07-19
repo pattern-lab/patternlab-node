@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "main": "lib/engine_twig_php.js",
   "dependencies": {
-    "@basalt/twig-renderer": "^0.7.0",
+    "@basalt/twig-renderer": "0.7.2",
     "@pattern-lab/core": "^3.0.0-alpha.13",
-    "fs-extra": "^0.30.0"
+    "fs-extra": "0.30.0"
   },
   "keywords": [
     "Pattern Lab",
