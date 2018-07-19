@@ -45,7 +45,11 @@ const init = options =>
 
     if (edition) {
       spinner.text = `⊙ patternlab → Installing edition: ${edition}`;
-      const newConf = yield installEdition(edition, patternlabConfig); // 3.1
+      const newConf = yield installEdition(
+        edition,
+        patternlabConfig,
+        projectDir
+      ); // 3.1
       patternlabConfig = Object.assign(patternlabConfig, newConf); // 3.2
       spinner.succeed(`⊙ patternlab → Installed edition: ${edition}`);
     }

@@ -1,10 +1,11 @@
 language: node_js
 
 before_install:
+  - npm i -g npm
   - phantomjs --version
 
 before_script:
-  - npm install -g lerna@2.9.0
+  - npm install -g lerna@3.0.0-beta.21
   - npm run bootstrap
   - lerna add @pattern-lab/engine-mustache
   - lerna add @pattern-lab/engine-handlebars

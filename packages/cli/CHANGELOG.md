@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-alpha.23"></a>
+## [0.0.1-alpha.23](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.22...@pattern-lab/cli@0.0.1-alpha.23) (2018-07-09)
+
+
+### Bug Fixes
+
+* **install:** copy dependencies ([1acef87](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/1acef87))
+
+
+
+
+
+<a name="0.0.1-alpha.22"></a>
+## [0.0.1-alpha.22](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.21...@pattern-lab/cli@0.0.1-alpha.22) (2018-07-06)
+
+**Note:** Version bump only for package @pattern-lab/cli
+
+
+
+
+
+<a name="0.0.1-alpha.21"></a>
+## [0.0.1-alpha.21](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.20...@pattern-lab/cli@0.0.1-alpha.21) (2018-07-06)
+
+
+### Bug Fixes
+
+* **install:** add break statements to install edition command ([3b1813c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/3b1813c))
+* **install:** use process to find package.json ([200c7cb](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/200c7cb))
+
+
+### Features
+
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/55f5bc2))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/415698e))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/5ab3995))
+
+
+
+
+
+<a name="0.0.1-alpha.20"></a>
+## [0.0.1-alpha.20](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.19...@pattern-lab/cli@0.0.1-alpha.20) (2018-07-05)
+
+
+### Bug Fixes
+
+* **cli:** change whitespace to spaces per standard ([4556fc7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/4556fc7))
+* **tests:** change test command name similar to live-server until this passes CI ([5c39be1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/5c39be1))
+
+
+### Features
+
+* **serve:** change calling method ([3b86a0d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/3b86a0d))
+* **tests:** use lerna run test at the monorepo level ([38a01b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/38a01b1))
+
+
+
+
 <a name="0.0.1-alpha.19"></a>
 ## [0.0.1-alpha.19](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.18...@pattern-lab/cli@0.0.1-alpha.19) (2018-05-19)
 
