@@ -44,7 +44,11 @@
             "source/_macros"
           ]
         }
-      ]
+      ],
+      "alterTwigEnv": [{
+        "file": "alter-twig.php",
+        "functions": ["addCustomExtension"]
+      }]
     }
   },
   "cacheBust": true,
