@@ -15,12 +15,19 @@ let render = require('./render'); //eslint-disable-line prefer-const
  */
 module.exports = function(patternlab, patternPartial, uikit) {
   //first render the general footer
-  return render(Pattern.createEmpty({ extendedTemplate: uikit.footer }), {
-    patternData: JSON.stringify({
-      patternPartial: patternPartial,
-    }),
-    cacheBuster: patternlab.cacheBuster,
-  })
+  return render(
+    Pattern.createEmpty(
+      uikit.footer.path
+        ? { relPath: uikit.footer.path }
+        : { extendedTemplate: uikit.footer }
+    ),
+    {
+      patternData: JSON.stringify({
+        patternPartial: patternPartial,
+      }),
+      cacheBuster: patternlab.cacheBuster,
+    }
+  )
     .then(footerPartial => {
       let allFooterData;
       try {

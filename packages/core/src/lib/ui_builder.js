@@ -519,7 +519,13 @@ const ui_builder = function() {
    */
   function buildViewAllHTML(patternlab, patterns, patternPartial, uikit) {
     return render(
-      Pattern.createEmpty({ extendedTemplate: uikit.viewAll }),
+      Pattern.createEmpty(
+        uikit.viewAll.path
+          ? {
+              relPath: uikit.viewAll.path,
+            }
+          : { extendedTemplate: uikit.viewAll }
+      ),
       {
         //data
         partials: patterns,
@@ -764,7 +770,15 @@ const ui_builder = function() {
       return new Promise(resolve => {
         //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
         const headerPromise = render(
-          Pattern.createEmpty({ extendedTemplate: uikit.header }),
+          Pattern.createEmpty(
+            uikit.header.path
+              ? {
+                  relPath: uikit.header.path,
+                }
+              : {
+                  extendedTemplate: uikit.header,
+                }
+          ),
           {
             cacheBuster: patternlab.cacheBuster,
           }
@@ -782,7 +796,15 @@ const ui_builder = function() {
 
         //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
         const footerPromise = render(
-          Pattern.createEmpty({ extendedTemplate: uikit.footer }),
+          Pattern.createEmpty(
+            uikit.footer.path
+              ? {
+                  relPath: uikit.footer.path,
+                }
+              : {
+                  extendedTemplate: uikit.footer,
+                }
+          ),
           {
             patternData: '{}',
             cacheBuster: patternlab.cacheBuster,
@@ -824,9 +846,15 @@ const ui_builder = function() {
 
                 //build the main styleguide page
                 return render(
-                  Pattern.createEmpty({
-                    extendedTemplate: uikit.viewAll,
-                  }),
+                  Pattern.createEmpty(
+                    uikit.viewAll.path
+                      ? {
+                          relPath: uikit.viewAll.path,
+                        }
+                      : {
+                          extendedTemplate: uikit.viewAll,
+                        }
+                  ),
                   {
                     partials: uniquePatterns,
                   },
