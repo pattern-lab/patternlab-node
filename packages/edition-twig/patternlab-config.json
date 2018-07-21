@@ -109,23 +109,18 @@
       "styleguide": "dist/",
       "patternlabFiles": {
         "general-header": {
-          "inline": false,
           "path": "@uikit/general-header.twig"
         },
         "general-footer": {
-          "inline": false,
           "path": "@uikit/general-footer.twig"
         },
         "patternSection": {
-          "inline": false,
           "path": "@uikit/patternSection.twig"
         },
         "patternSectionSubtype": {
-          "inline": false,
           "path": "@uikit/patternSectionSubtype.twig"
         },
         "viewall": {
-          "inline": false,
           "path": "@uikit/viewall.twig"
         }
       },
