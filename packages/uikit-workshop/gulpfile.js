@@ -3,6 +3,7 @@ const args = require('yargs').argv;
 
 /* load gulp */
 const gulp = require('gulp');
+const cleanCSS = require('gulp-clean-css');
 
 /* load the plugins */
 const gulpLoadPlugins = require('gulp-load-plugins');
@@ -75,6 +76,13 @@ gulp.task('build:css', function() {
         },
         { map: false }
       )
+    )
+    .pipe(
+      cleanCSS({
+        compatibility: 'ie9',
+        level: 1,
+        inline: ['remote'],
+      })
     )
     .pipe(gulp.dest('dist/styleguide/css'))
     .pipe(copyPublic('styleguide/css'));
