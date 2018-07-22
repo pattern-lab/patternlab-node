@@ -27,4 +27,8 @@ function addCustomExtension(\Twig_Environment &$env, $config) {
 
 //  `{{ foo }}` => `bar`
 //  $env->addGlobal('foo', 'bar');
+
+  // example of enabling the Twig debug mode extension (ex. {{ dump(my_variable) }} to check out the template's available data) -- comment out to disable
+  $env->addExtension(new \Twig_Extension_Debug());
+
 }
