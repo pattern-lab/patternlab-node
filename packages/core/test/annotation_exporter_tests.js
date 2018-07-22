@@ -20,12 +20,12 @@ function createFakePatternLab(anPath, customProps) {
 }
 
 var patternlab = createFakePatternLab(anPath);
-var ae = require('../src/lib/annotationExporter')(patternlab);
+var ae = require('../src/lib/annotation_exporter')(patternlab);
 
 tap.test('converts old JS annotations into new format', function(test) {
   //arrange
   //act
-  var annotations = ae.gatherJSON();
+  var annotations = ae.gatherJS();
 
   //assert
   test.equals(annotations.length, 2);
@@ -77,7 +77,7 @@ tap.test('merges both annotation methods into one array', function(test) {
 tap.test('when there are 0 annotation files', function(test) {
   var emptyAnPath = './test/files/empty/';
   var patternlab2 = createFakePatternLab(emptyAnPath);
-  var ae2 = require('../src/lib/annotationExporter')(patternlab2);
+  var ae2 = require('../src/lib/annotation_exporter')(patternlab2);
 
   var annotations = ae2.gather();
   test.equals(annotations.length, 0);
