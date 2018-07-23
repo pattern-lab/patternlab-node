@@ -8,6 +8,9 @@ const inlinesource = require('gulp-inline-source');
 const path = require('path');
 const { buildCriticalCSS } = require('./penthouse');
 
+// @todo: uncomment once cache-busting strategy in place.
+// const workboxBuild = require('workbox-build');
+
 /* load the plugins */
 const gulpLoadPlugins = require('gulp-load-plugins');
 const plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
@@ -181,6 +184,17 @@ gulp.task('build:js-pattern', ['clean', 'build:js-viewer'], function() {
     .pipe(copyPublic('styleguide/js'));
 });
 
+// @todo: re-enable once cache busting strategy in place
+// gulp.task('service-worker', ['build:html'], function() {
+//   return workboxBuild.generateSW({
+//     globDirectory: 'dist',
+//     globPatterns: ['**/*.{html,json,js,css}'],
+//     swDest: 'dist/sw.js',
+//     clientsClaim: true,
+//     skipWaiting: true,
+//   });
+// });
+
 gulp.task(
   'default',
   [
@@ -190,6 +204,7 @@ gulp.task(
     'build:js-pattern',
     'build:html',
     'prebuild:html',
+    // 'service-worker', // @todo: uncomment once cache-busting strategy in place
   ],
   function() {
     if (args.watch !== undefined) {

@@ -45,6 +45,7 @@
     "imagemin-pngcrush": "^5.1.0",
     "main-bower-files": "^2.13.1",
     "penthouse": "^1.6.2",
+    "workbox-build": "^3.4.1",
     "yargs": "^12.0.1"
   },
   "publishConfig": {
