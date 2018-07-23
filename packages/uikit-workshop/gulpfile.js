@@ -20,28 +20,12 @@ function copyPublic(suffix) {
 }
 
 /* clean tasks */
-gulp.task('clean:bower', function(cb) {
-  return plugins.del(['dist/styleguide/bower_components/*'], cb);
-});
-
-gulp.task('clean:css', function(cb) {
-  return plugins.del(['dist/styleguide/css/*'], cb);
-});
-
-gulp.task('clean:html', function(cb) {
-  return plugins.del(['dist/*.html'], cb);
-});
-
-gulp.task('clean:images', function(cb) {
-  return plugins.del(['dist/styleguide/images/*'], cb);
-});
-
-gulp.task('clean:js', function(cb) {
-  return plugins.del(['dist/styleguide/js/*'], cb);
+gulp.task('clean', function(cb) {
+  return plugins.del(['dist'], cb);
 });
 
 /* core tasks */
-gulp.task('build:bower', ['clean:bower'], function() {
+gulp.task('build:bower', ['clean'], function() {
   return gulp
     .src(plugins.mainBowerFiles())
     .pipe(plugins.rename({ suffix: '.min' }))
@@ -50,12 +34,12 @@ gulp.task('build:bower', ['clean:bower'], function() {
     .pipe(copyPublic('styleguide/bower_components'));
 });
 
-gulp.task('build:css', function() {
   return plugins
     .rubySass('src/sass/pattern-lab.scss', {
       style: 'expanded',
       'sourcemap=none': true,
     })
+gulp.task('build:css', ['clean'], function() {
     .src([
       'src/sass/pattern-lab.scss',
       'src/sass/pattern-lab--iframe-loader.scss',
@@ -87,7 +71,7 @@ gulp.task('build:html', ['clean:html'], function() {
     .pipe(copyPublic(''));
 });
 
-gulp.task('build:images', ['clean:images'], function() {
+gulp.task('build:images', ['clean'], function() {
   return gulp
     .src('src/images/*')
     .pipe(
@@ -101,7 +85,7 @@ gulp.task('build:images', ['clean:images'], function() {
     .pipe(copyPublic('styleguide/images'));
 });
 
-gulp.task('build:js-viewer', ['clean:js'], function() {
+gulp.task('build:js-viewer', ['clean'], function() {
   return gulp
     .src(['src/js/*.js', '!src/js/modal-styleguide.js'])
     .pipe(plugins.jshint('.jshintrc'))
@@ -120,7 +104,7 @@ gulp.task('build:js-viewer', ['clean:js'], function() {
     .pipe(copyPublic('styleguide/js'));
 });
 
-gulp.task('build:js-pattern', ['build:js-viewer'], function() {
+gulp.task('build:js-pattern', ['clean', 'build:js-viewer'], function() {
   // 'src/js/annotations-pattern.js','src/js/code-pattern.js','src/js/info-panel.js'
   return gulp
     .src([
