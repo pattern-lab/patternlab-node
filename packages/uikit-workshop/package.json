@@ -37,12 +37,16 @@
     "imagemin-pngcrush": "0.1.0",
     "main-bower-files": "1.0.2",
     "yargs": "1.2.6"
+    "gulp-inline-source": "^3.2.0",
     "penthouse": "^1.6.2",
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
+    "fg-loadcss": "^2.0.1",
+    "fg-loadjs": "^1.0.0",
+    "whendefined": "^0.0.1",
     "bower": "1.8.2"
   }
 }

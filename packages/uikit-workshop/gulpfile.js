@@ -3,6 +3,9 @@ var args = require('yargs').argv;
 
 /* load gulp */
 var gulp = require('gulp');
+const inlinesource = require('gulp-inline-source');
+const path = require('path');
+const { buildCriticalCSS } = require('./penthouse');
 
 /* load the plugins */
 var gulpLoadPlugins = require('gulp-load-plugins');
@@ -63,10 +66,47 @@ gulp.task('build:css', ['clean'], function() {
     .pipe(copyPublic('styleguide/css'));
 });
 
-gulp.task('build:html', ['clean:html'], function() {
+gulp.task(
+  'criticalcss',
+  ['clean', 'build:js-pattern', 'build:css', 'prebuild:html'],
+  function(cb) {
+    return buildCriticalCSS(cb);
+  }
+);
+
+gulp.task('copy:js', ['clean'], function() {
   return gulp
-    .src('src/html/index.html')
-    .pipe(plugins.fileInclude({ prefix: '@@', basepath: '@file' }))
+    .src([
+      // @todo: remove once improved JS build is in place
+      'node_modules/fg-loadcss/dist/cssrelpreload.min.js',
+      'node_modules/whendefined/dist/whendefined.min.js',
+      'node_modules/fg-loadjs/loadJS.js',
+    ])
+    .pipe(gulp.dest('dist/styleguide/js'))
+    .pipe(copyPublic(''));
+});
+
+gulp.task(
+  'prebuild:html',
+  ['clean', 'build:css', 'copy:js', 'build:js-pattern'],
+  function() {
+    return gulp
+      .src('src/html/index.html')
+      .pipe(plugins.fileInclude({ prefix: '@@', basepath: '@file' }))
+      .pipe(gulp.dest('dist'))
+      .pipe(copyPublic(''));
+  }
+);
+
+gulp.task('build:html', ['clean', 'criticalcss', 'prebuild:html'], function() {
+  return gulp
+    .src('dist/index.html')
+    .pipe(
+      inlinesource({
+        rootpath: path.resolve('dist'),
+        compress: true,
+      })
+    )
     .pipe(gulp.dest('dist'))
     .pipe(copyPublic(''));
 });
@@ -131,7 +171,14 @@ gulp.task('build:js-pattern', ['clean', 'build:js-viewer'], function() {
 
 gulp.task(
   'default',
-  ['build:bower', 'build:css', 'build:html', 'build:js-pattern'],
+  [
+    'build:bower',
+    'copy:js',
+    'build:css',
+    'build:js-pattern',
+    'build:html',
+    'prebuild:html',
+  ],
   function() {
     if (args.watch !== undefined) {
       gulp.watch(['src/bower_components/**/*'], ['build:bower']);
