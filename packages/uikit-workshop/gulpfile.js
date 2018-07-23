@@ -56,6 +56,10 @@ gulp.task('build:css', function() {
       style: 'expanded',
       'sourcemap=none': true,
     })
+    .src([
+      'src/sass/pattern-lab.scss',
+      'src/sass/pattern-lab--iframe-loader.scss',
+    ])
     .pipe(
       plugins.autoprefixer(
         {
