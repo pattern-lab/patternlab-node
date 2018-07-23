@@ -4,8 +4,20 @@
 <head>
 	<title id="title">Pattern Lab</title>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width" />
-	<link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="theme-color" content="#ababab"/>
+
+  <style>.pl-c-body *{-webkit-box-sizing:border-box;box-sizing:border-box}.pl-c-body{margin:0;padding:0;background:#ddd;-webkit-text-size-adjust:100%}.pl-c-header{position:fixed;top:0;left:0;z-index:4;display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;background:#000;color:gray;font-family:HelveticaNeue,Helvetica,Arial,sans-serif;font-size:.7rem}.pl-c-header__nav-toggle{background:#000;color:gray;text-decoration:none;line-height:1;padding:.7rem .5rem;text-align:left;border:0}@media all and (min-width:42em){.pl-c-header__nav-toggle{display:none}}@media all and (max-width:42em){.pl-c-nav{position:absolute;top:100%;width:100%;overflow:hidden;max-height:0;background:#000;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}}@media all and (min-width:42em){.pl-c-nav{display:-webkit-box;display:-ms-flexbox;display:flex}}.pl-c-nav__list{z-index:1;margin:0;padding:0;list-style:none}@media all and (max-width:42em){.pl-c-nav__list{-webkit-box-ordinal-group:3;-ms-flex-order:2;order:2}}@media all and (min-width:42em){.pl-c-nav__list{display:-webkit-box;display:-ms-flexbox;display:flex}}.pl-c-controls,.pl-c-viewport{display:-webkit-box;display:-ms-flexbox;display:flex}.pl-c-controls{margin-left:auto;-ms-flex-wrap:nowrap;flex-wrap:nowrap}.pl-c-viewport{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;height:100vh;width:100%;position:relative;top:2rem;bottom:0;left:0;right:0;z-index:0;overflow:hidden}.pl-c-viewport__cover{width:100%;height:100%;display:none;position:absolute;z-index:20}.pl-c-viewport__iframe-wrapper{height:100%;position:relative;margin:0 auto;-webkit-box-flex:1;-ms-flex:1;flex:1;-webkit-overflow-scrolling:touch;overflow-y:auto;overflow-x:hidden;width:100%}.pl-c-viewport__iframe,.pl-c-viewport__resizer{position:absolute;right:0;top:0;bottom:0;margin:0;height:100%}.pl-c-viewport__iframe{border:0;padding:0;left:0;background-color:#fff;width:100%}.pl-c-viewport__resizer{width:14px}.pl-c-viewport__resizer-handle{margin:0;width:100%;height:100%;background:#ccc}.pl-c-modal{display:none;font-family:HelveticaNeue,Helvetica,Arial,sans-serif;background:#000;color:#ccc;position:relative;top:auto;bottom:0;left:0;z-index:5;width:100%;height:50%}.pl-c-modal__toolbar{display:-webkit-box;display:-ms-flexbox;display:flex}.pl-c-modal__close-btn{font-size:70%;background:#000;color:gray;border:0;border-radius:6px 6px 0 0;display:inline-block;padding:.5rem .5rem .3rem;margin:0;text-decoration:none;z-index:2}.pl-c-modal__cover{width:100%;height:100%;display:none;position:absolute;z-index:20}.pl-c-modal__resizer{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;left:0;height:14px;width:100%;background:#000;z-index:2}.pl-c-modal__resizer:after{content:"";height:3px;width:50px;border-top:1px solid gray;border-bottom:1px solid gray}.pl-c-modal__close-btn-icon{width:12px;height:12px;color:currentColor;fill:currentColor}.pl-c-header .pl-c-typeahead{border:0;background:#222!important;color:gray;width:100%;right:0;padding:.61rem .5rem;font-size:inherit}@media all and (min-width:48em){.pl-c-body--theme-sidebar .pl-c-viewport{top:0;margin-left:auto;width:calc(100% - 14rem)}}</style>
+
+  <link rel="preload" as="script" href="styleguide/js/patternlab-viewer.js">
+  <link rel="preload" href="styleguide/css/pattern-lab.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <noscript>
+    <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
+  </noscript>
+
+  <script async>!function(n){"use strict";n.loadCSS||(n.loadCSS=function(){});var o=loadCSS.relpreload={};if(o.support=function(){var e;try{e=n.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),o.bindMediaToggle=function(t){function e(){t.media=a}var a=t.media||"all";t.addEventListener?t.addEventListener("load",e):t.attachEvent&&t.attachEvent("onload",e),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(e,3e3)},o.poly=function(){if(!o.support())for(var t=n.document.getElementsByTagName("link"),e=0;e<t.length;e++){var a=t[e];"preload"!==a.rel||"style"!==a.getAttribute("as")||a.getAttribute("data-loadcss")||(a.setAttribute("data-loadcss",!0),o.bindMediaToggle(a))}},!o.support()){o.poly();var t=n.setInterval(o.poly,500);n.addEventListener?n.addEventListener("load",function(){o.poly(),n.clearInterval(t)}):n.attachEvent&&n.attachEvent("onload",function(){o.poly(),n.clearInterval(t)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:n.loadCSS=loadCSS}("undefined"!=typeof global?global:this);</script>
+
 </head>
 
 <body class="pl-c-body">
@@ -29,26 +41,38 @@
 	</div><!--end pl-c-controls-->
 
 </header><!--end pl-c-header-->
- 
-	
+
 	<div class="pl-c-viewport pl-js-viewport">
-    
+
     <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
 
     <div class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container">
-        
-        <iframe class="pl-c-viewport__iframe pl-js-iframe" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
-        
+
+      <iframe class="pl-c-viewport__iframe pl-js-iframe" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals" srcdoc='<style>@-webkit-keyframes animateIn{from{-webkit-transform:translate3d(-50%,-100%,0);transform:translate3d(-50%,-100%,0);opacity:0}to{opacity:1;-webkit-transform:translate3d(-50%,calc(3rem - 50%),0);transform:translate3d(-50%,calc(3rem - 50%),0)}}@keyframes animateIn{from{-webkit-transform:translate3d(-50%,-100%,0);transform:translate3d(-50%,-100%,0);opacity:0}to{opacity:1;-webkit-transform:translate3d(-50%,calc(3rem - 50%),0);transform:translate3d(-50%,calc(3rem - 50%),0)}}@-webkit-keyframes rotate{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes rotate{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.pl-c-loader{z-index:1000;position:absolute;top:0;left:50%;margin:auto;max-width:25rem;width:calc(90vw - 2rem);border-radius:3px;background:rgba(0,0,0,.9);-webkit-transform:translate3d(-50%,-100%,0);transform:translate3d(-50%,-100%,0);-webkit-transition:opacity .3s ease,-webkit-transform .3s ease;transition:opacity .3s ease,-webkit-transform .3s ease;transition:opacity .3s ease,transform .3s ease;transition:opacity .3s ease,transform .3s ease,-webkit-transform .3s ease;pointer-events:none;opacity:0;-webkit-animation:animateIn ease .3s forwards;animation:animateIn ease .3s forwards}.pl-c-loader__content{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;pointer-events:auto}.pl-c-loader__message{-webkit-box-flex:1;-ms-flex:1;flex:1;padding:1rem;font-size:.85rem;color:#fff}.pl-c-loader__spinner{position:relative;display:inline-block;width:4rem;height:2rem}.pl-c-loader-svg:not(:root){overflow:hidden}.pl-c-loader-svg{position:absolute;top:0;left:0;width:100%;height:100%;-webkit-transform:translateZ(0);transform:translateZ(0);-webkit-animation:rotate 1s linear infinite;animation:rotate 1s linear infinite}.pl-c-loader-svg__outer-circle{fill:none;stroke:#fff;stroke-width:15;stroke-miterlimit:10}.pl-c-loader-svg__electron,.pl-c-loader-svg__inner-circle{fill:#ccc}</style><div class="pl-c-loader">
+  <div class="pl-c-loader__content">
+    <div class="pl-c-loader__message">Loading Pattern Lab</div>
+    <div class="pl-c-loader__spinner">
+      <svg class="pl-c-loader-svg" viewBox="0 0 268 255">
+        <circle class="pl-c-loader-svg__outer-circle" cx="134.2" cy="127.6" r="115.1"/>
+        <circle class="pl-c-loader-svg__inner-circle" cx="134.2" cy="127.6" r="66.3"/>
+        <path class="pl-c-loader-svg__electron" d="M253,56.3c0,15.6-12.6,28.2-28.2,28.2s-28.2-12.6-28.2-28.2s12.6-28.2,28.2-28.2
+          C240.3,28.1,253,40.7,253,56.3z"/>
+      </svg>
+    </div>
+  </div>
+</div>
+'></iframe>
+
         <div class="pl-c-viewport__resizer pl-js-resize-container">
 
-            <div class="pl-c-viewport__resizer-handle pl-js-resize-handle" />
-            
+          <div class="pl-c-viewport__resizer-handle pl-js-resize-handle"></div>
+
         </div><!--end pl-c-viewport__resizer-->
 
     </div><!--end pl-c-viewport__iframe-wrapper-->
 
-</div><!--end pl-c-viewport--> 
-	
+</div><!--end pl-c-viewport-->
+
 	<div class="pl-c-modal__cover pl-js-modal-cover"></div>
 <div class="pl-c-modal pl-js-modal">
     <div class="pl-c-modal__toolbar">
@@ -348,19 +372,21 @@
 	</script>
 
 	<!-- load Pattern Lab data -->
-	<script src="styleguide/data/patternlab-data.js"></script>
+	<script src="styleguide/data/patternlab-data.js" defer></script>
 
   <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
   <!-- @todo Consider moving this to own file -->
   <script>
-    if (config && config.theme) {
-      if (config.theme.color === 'light') {
+    // need to make sure that window.config is defined first on acccount of us async loading everything ;)
+    window.patternlab = window.patternlab || {};
+    window.patternlab.applyTheme = function(){
+      if (window.config.theme.color === 'light') {
         document.body.classList.add('pl-c-body--theme-light');
       }
-      if (config.theme.layout === 'vertical') {
+      if (window.config.theme.layout === 'vertical') {
         document.body.classList.add('pl-c-body--theme-sidebar');
       }
-      switch (config.theme.density) {
+      switch (window.config.theme.density) {
         case 'cozy':
           document.body.classList.add('pl-c-body--theme-density-cozy');
           break;
@@ -372,26 +398,55 @@
           document.body.classList.add('pl-c-body--theme-density-compact');
       }
     }
+
+    // check if config already exists, if so, try to apply theme config; otherwise wait till later just in case.
+    if (window.config !== undefined) {
+      if (window.config.theme !== undefined) {
+        window.patternlab.applyTheme();
+      }
+    }
   </script>
 
-	<script src="annotations/annotations.js"></script>
+	<script src="annotations/annotations.js" async></script>
 
 	<!-- load Pattern Lab external library js -->
-	<script src="styleguide/bower_components/jquery.min.js"></script>
-	<script src="styleguide/bower_components/hogan-3.0.2.min.js"></script>
-	<script src="styleguide/bower_components/prism.min.js"></script>
-	<script src="styleguide/bower_components/jwerty.min.js"></script>
-	<script src="styleguide/bower_components/typeahead.bundle.min.js"></script>
-	<script src="styleguide/bower_components/EventEmitter.min.js"></script>
-	<script src="styleguide/bower_components/script.min.js"></script>
+	<script src="styleguide/bower_components/jquery.min.js" defer></script>
+	<script src="styleguide/bower_components/hogan-3.0.2.min.js" defer></script>
+	<script src="styleguide/bower_components/prism.min.js" defer></script>
+	<script src="styleguide/bower_components/jwerty.min.js" defer></script>
+	<script src="styleguide/bower_components/typeahead.bundle.min.js" defer></script>
+	<script src="styleguide/bower_components/EventEmitter.min.js" defer></script>
+	<script src="styleguide/bower_components/script.min.js" defer></script>
 
-	<!-- set-up the dispatcher -->
-	<script>
-		var Dispatcher = new EventEmitter();
-	</script>
 
-	<!-- load the Pattern Lab viewer js -->
-	<script src="styleguide/js/patternlab-viewer.js"></script>
+  <script>(function(){window.whenDefined=function(e,n,t){e[n]?t():Object.defineProperty(e,n,{configurable:!0,enumerable:!0,writeable:!0,get:function(){return this["_"+n]},set:function(e){this["_"+n]=e,t()}})}}).call(this);</script>
+  <script>!function(r){var e=function(e,t){"use strict";var n=r.document.getElementsByTagName("script")[0],o=r.document.createElement("script");return o.src=e,o.async=!0,n.parentNode.insertBefore(o,n),t&&"function"==typeof t&&(o.onload=t),o};"undefined"!=typeof module?module.exports=e:r.loadJS=e}("undefined"!=typeof global?global:this);</script>
+
+  <!-- temp workaround to allow everything to be asynced / deffered with current setup. @todo: remove once refactored components + improved build process is in place. -->
+  <script>
+    window.Dispatcher;
+    window.addEventListener('DOMContentLoaded', function () {
+      window.Dispatcher = new EventEmitter();
+
+      // load the Pattern Lab viewer js -- preloaded earlier ^
+      loadJS('styleguide/js/patternlab-viewer.js');
+    });
+
+    whenDefined(window, 'config', function() {
+      if (window.config.theme){
+        window.patternlab.applyTheme();
+      }
+    });
+
+    // Check that service workers are registered
+    // @todo: uncomment once cache-busting strategy is in place
+    // if ('serviceWorker' in navigator) {
+    //   // Use the window load event to keep the page load performant
+    //   window.addEventListener('load', () => {
+    //     navigator.serviceWorker.register('/sw.js');
+    //   });
+    // }
+  </script>
 
 </body>
 
