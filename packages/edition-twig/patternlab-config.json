@@ -13,42 +13,42 @@
           "id": "atoms",
           "recursive": true,
           "paths": [
-            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/00-atoms"
+            "source/_patterns/00-atoms"
           ]
         },
         {
           "id": "molecules",
           "recursive": true,
           "paths": [
-            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/01-molecules"
+            "source/_patterns/01-molecules"
           ]
         },
         {
           "id": "organisms",
           "recursive": true,
           "paths": [
-            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/02-organisms"
+            "source/_patterns/02-organisms"
           ]
         },
         {
           "id": "templates",
           "recursive": true,
           "paths": [
-            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/03-templates"
+            "source/_patterns/03-templates"
           ]
         },
         {
           "id": "pages",
           "recursive": true,
           "paths": [
-            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/04-pages"
+            "source/_patterns/04-pages"
           ]
         },
         {
           "id": "macros",
           "recursive": true,
           "paths": [
-            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_macros"
+            "source/_macros"
           ]
         }
       ],
