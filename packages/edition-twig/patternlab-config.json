@@ -101,11 +101,11 @@
   },
   "paths": {
     "source": {
-      "root": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/",
-      "patterns": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/",
-      "data": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_data/",
-      "meta": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_meta/",
-      "annotations": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_annotations/",
+      "root": "./source/",
+      "patterns": "./source/_patterns/",
+      "data": "./source/_data/",
+      "meta": "./source/_meta/",
+      "annotations": "./source/_annotations/",
       "styleguide": "dist/",
       "patternlabFiles": {
         "general-header": {
@@ -124,10 +124,10 @@
           "path": "@uikit/viewall.twig"
         }
       },
-      "js": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/js",
-      "images": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/images",
-      "fonts": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/fonts",
-      "css": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/css"
+      "js": "./source/js",
+      "images": "./source/images",
+      "fonts": "./source/fonts",
+      "css": "./source/css"
     },
     "public": {
       "root": "public/",
