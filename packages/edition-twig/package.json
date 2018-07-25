@@ -24,8 +24,7 @@
     "@pattern-lab/cli": "^0.0.1-alpha.19",
     "@pattern-lab/core": "^3.0.0-alpha.13",
     "@pattern-lab/engine-twig-php": "^0.1.0",
-    "@pattern-lab/uikit-workshop": "^1.0.0-alpha.5",
-    "@pattern-lab/starterkit-twig-demo": "^4.0.0"
+    "@pattern-lab/uikit-workshop": "^1.0.0-alpha.5"
   },
   "engines": {
     "node": ">=6.0"
