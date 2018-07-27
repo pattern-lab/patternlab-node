@@ -12,17 +12,15 @@ class HelloIncluder extends Component {
   constructor() {
     super();
     this.state = {
-      bgColor: 'transparent'
-    }
+      bgColor: 'transparent',
+    };
     setTimeout(() => this.setState({ bgColor: 'red' }), 2000);
   }
 
   render() {
     return (
-      <div style={{backgroundColor: this.state.bgColor}}>
-        <div>
-          Hey! Here's the Hello World component:
-        </div>
+      <div style={{ backgroundColor: this.state.bgColor }}>
+        <div>Hey! Here's the Hello World component:</div>
         <HelloWorld />
       </div>
     );

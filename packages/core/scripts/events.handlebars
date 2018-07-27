@@ -5,7 +5,7 @@
 Pattern Lab emits numerous events during the [build](../docs/) process. Some uses of events:
 
 * Core uses `patternlab-pattern-change` events when watching for changes in order to trigger another build
-* Plugins such as [plugin-node-tab](https://github.com/pattern-lab/plugin-node-tab) can use an event like `patternlab-pattern-write-end` to define additional code tabs to the pattern viewer / modal
+* Plugins such as [plugin-tab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab) can use an event like `patternlab-pattern-write-end` to define additional code tabs to the pattern viewer / modal
 
 Learn more about [Creating Plugins](https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins).
 

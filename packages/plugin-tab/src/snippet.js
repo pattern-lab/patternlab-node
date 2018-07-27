@@ -9,6 +9,6 @@ Panels.add({
   httpRequestReplace: '.<<type>>',
   httpRequestCompleted: false,
   prismHighlight: true,
-  language: 'markup',
+  language: '<<type>>',
   keyCombo: 'ctrl+shift+z',
 });
