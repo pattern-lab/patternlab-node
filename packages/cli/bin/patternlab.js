@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const cli = require('commander');
+const path = require('path');
 const build = require('./cli-actions/build');
 const disable = require('./cli-actions/disable');
 const enable = require('./cli-actions/enable');
@@ -42,7 +43,7 @@ cli
     '-c, --config <path>',
     'Specify config file. Default looks up the project dir',
     val => val.trim(),
-    './patternlab-config.json'
+    path.resolve(process.cwd(), 'patternlab-config.json')
   )
   .option('-v, --verbose', 'Show verbose console logs', verboseLogs)
   .option('--silent', 'Turn off console logs', silenceLogs);
