@@ -1,12 +1,13 @@
 /* load command line arguments */
-var args = require('yargs').argv;
+const args = require('yargs').argv;
 
 /* load gulp */
-var gulp = require('gulp');
+const gulp = require('gulp');
+const cleanCSS = require('gulp-clean-css');
 
 /* load the plugins */
-var gulpLoadPlugins = require('gulp-load-plugins');
-var plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
+const gulpLoadPlugins = require('gulp-load-plugins');
+const plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
 plugins.del = require('del');
 plugins.mainBowerFiles = require('main-bower-files');
 
@@ -51,11 +52,16 @@ gulp.task('build:bower', ['clean:bower'], function() {
 });
 
 gulp.task('build:css', function() {
-  return plugins
-    .rubySass('src/sass/pattern-lab.scss', {
-      style: 'expanded',
-      'sourcemap=none': true,
-    })
+  return gulp
+    .src('src/sass/pattern-lab.scss')
+    .pipe(
+      plugins
+        .sass({
+          outputStyle: 'expanded',
+          sourceMap: false,
+        })
+        .on('error', plugins.sass.logError)
+    )
     .pipe(
       plugins.autoprefixer(
         {
@@ -70,6 +76,13 @@ gulp.task('build:css', function() {
         },
         { map: false }
       )
+    )
+    .pipe(
+      cleanCSS({
+        compatibility: 'ie9',
+        level: 1,
+        inline: ['remote'],
+      })
     )
     .pipe(gulp.dest('dist/styleguide/css'))
     .pipe(copyPublic('styleguide/css'));
