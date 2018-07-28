@@ -121,7 +121,7 @@ var modalStyleguide = {
      * getting thrown when certain script tags aren't rendered with partial.patternData content.
      */
     if (/\S/.test(el.innerHTML)) {
-      const patternData = JSON.parse(el.innerHTML);
+      var patternData = JSON.parse(el.innerHTML);
       if (patternData.patternName !== undefined) {
         patternMarkupEl = document.querySelector(
           '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
