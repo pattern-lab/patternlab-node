@@ -1,5 +1,8 @@
 {
   "lerna": "3.0.0-rc.0",
+  "packages": [
+    "packages/*"
+  ],
   "version": "independent",
   "command": {
     "init": {
@@ -20,8 +23,5 @@
   },
   "npmClientArgs": [
     "--registry=https://registry.npmjs.org/"
-  ],
-  "packages": [
-    "packages/*"
   ]
 }
