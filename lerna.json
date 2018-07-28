@@ -4,9 +4,24 @@
   "command": {
     "init": {
       "exact": true
+    },
+    "bootstrap": {
+      "hoist": [
+        "tap",
+        "eslin*",
+        "husky",
+        "prettier",
+        "pretty-quick"
+      ]
+    },
+    "publish": {
+      "allowBranch": "master"
     }
   },
   "npmClientArgs": [
     "--registry=https://registry.npmjs.org/"
+  ],
+  "packages": [
+    "packages/*"
   ]
 }
