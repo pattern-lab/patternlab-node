@@ -8,5 +8,12 @@
   },
   "npmClientArgs": [
     "--registry=https://registry.npmjs.org/"
+  ],
+  "hoist": [
+    "tap",
+    "eslin*",
+    "husky",
+    "prettier",
+    "pretty-quick"
   ]
 }

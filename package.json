@@ -19,13 +19,6 @@
     ]
   },
   "workspaces": {
-    "hoist": [
-      "tap",
-      "eslin*",
-      "husky",
-      "prettier",
-      "pretty-quick"
-    ],
     "packages": [
       "packages/*"
     ]
