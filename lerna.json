@@ -1,8 +1,5 @@
 {
-  "lerna": "3.0.0-beta.21",
-  "packages": [
-    "packages/*"
-  ],
+  "lerna": "3.0.0-rc.0",
   "version": "independent",
   "command": {
     "init": {
