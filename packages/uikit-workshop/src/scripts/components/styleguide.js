@@ -4,7 +4,7 @@
  * @requires postmessage.js
  */
 
-import { urlHandler, DataSaver, postmessage } from './utils';
+import { urlHandler, DataSaver, postmessage } from '../utils';
 import { patternFinder } from './pattern-finder';
 import $ from 'jquery';
 import Mousetrap from 'mousetrap';

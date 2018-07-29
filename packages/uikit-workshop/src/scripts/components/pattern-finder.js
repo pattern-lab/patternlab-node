@@ -8,7 +8,7 @@
  *
  */
 
-import { urlHandler } from '@pattern-lab/utils/url-handler';
+import { urlHandler } from '../utils';
 import $ from 'jquery';
 import Bloodhound from 'typeahead.js/dist/bloodhound.js';
 

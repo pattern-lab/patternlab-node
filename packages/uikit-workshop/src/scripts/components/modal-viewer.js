@@ -10,10 +10,9 @@
  *
  */
 
-import { urlHandler, DataSaver } from '@pattern-lab/utils';
-import { panelsViewer } from '@pattern-lab/ui-panels-viewer';
+import { urlHandler, DataSaver, Dispatcher } from '../utils';
+import { panelsViewer } from './panels-viewer';
 import $ from 'jquery';
-import { Dispatcher } from '@pattern-lab/utils/eventemitter';
 
 export const modalViewer = {
   // set up some defaults

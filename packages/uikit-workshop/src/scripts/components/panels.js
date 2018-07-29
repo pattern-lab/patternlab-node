@@ -9,8 +9,8 @@
  * @requires prism-languages.js
  */
 
-import { PrismLanguages } from '@pattern-lab/ui-prism';
-import { Dispatcher } from '@pattern-lab/utils/eventemitter';
+import { PrismLanguages } from './prism-languages';
+import { Dispatcher } from '../utils';
 
 export const Panels = {
   panels: [],

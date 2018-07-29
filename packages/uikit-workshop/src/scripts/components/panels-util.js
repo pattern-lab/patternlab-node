@@ -9,7 +9,7 @@
  *
  */
 
-import { urlHandler } from './utils';
+import { urlHandler } from '../utils';
 
 export const panelsUtil = {
   /**
