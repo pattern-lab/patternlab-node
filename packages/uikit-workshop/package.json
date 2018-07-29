@@ -35,13 +35,19 @@
     "gulp-uglify": "1.1.0",
     "gulp-util": "3.0.0",
     "imagemin-pngcrush": "0.1.0",
-    "main-bower-files": "1.0.2",
     "yargs": "1.2.6"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "bower": "1.8.2"
+    "clipboard": "^2.0.1",
+    "jquery": "^3.3.1",
+    "prism": "^4.1.2",
+    "typeahead.js": "^0.11.1",
+    "hogan.js": "^3.0.2",
+    "scriptjs": "^2.5.8",
+    "wolfy87-eventemitter": "^5.2.4",
+    "fg-loadjs": "^1.0.0"
   }
 }
