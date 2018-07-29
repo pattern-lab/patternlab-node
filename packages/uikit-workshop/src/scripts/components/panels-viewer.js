@@ -8,7 +8,16 @@
  * @requires url-handler.js
  */
 
-var panelsViewer = {
+import { Panels } from '@pattern-lab/ui-panels';
+import { panelsUtil } from '@pattern-lab/ui-panels-util';
+import { urlHandler } from '@pattern-lab/utils/url-handler';
+import { Dispatcher } from '@pattern-lab/utils/eventemitter';
+import Clipboard from 'clipboard';
+import $ from 'jquery';
+import Hogan from 'hogan.js';
+import prism from 'prismjs';
+
+export const panelsViewer = {
   // set up some defaults
   targetOrigin:
     window.location.protocol === 'file:'
@@ -26,7 +35,7 @@ var panelsViewer = {
   checkPanels: function(panels, patternData, iframePassback, switchText) {
     // count how many panels have rendered content
     var panelContentCount = 0;
-    for (var i = 0; i < panels.length; ++i) {
+    for (let i = 0; i < panels.length; ++i) {
       if (panels[i].content !== undefined) {
         panelContentCount++;
       }
@@ -84,7 +93,7 @@ var panelsViewer = {
           var e = new XMLHttpRequest();
           e.onload = (function(i, panels, patternData, iframeRequest) {
             return function() {
-              prismedContent = Prism.highlight(
+              const prismedContent = Prism.highlight(
                 this.responseText,
                 Prism.languages['html']
               );
@@ -156,7 +165,7 @@ var panelsViewer = {
     patternData.annotations = [];
     delete patternData['patternMarkup'];
 
-    for (i = 0; i < comments.comments.length; ++i) {
+    for (let i = 0; i < comments.comments.length; ++i) {
       item = comments.comments[i];
       els = markup.querySelectorAll(item.el);
 
@@ -185,7 +194,7 @@ var panelsViewer = {
 
     // add hasComma property to lineage
     if (patternData.lineage.length > 0) {
-      for (i = 0; i < patternData.lineage.length; ++i) {
+      for (let i = 0; i < patternData.lineage.length; ++i) {
         if (i < patternData.lineage.length - 1) {
           patternData.lineage[i].hasComma = true;
         }
@@ -194,7 +203,7 @@ var panelsViewer = {
 
     // add hasComma property to lineageR
     if (patternData.lineageR.length > 0) {
-      for (i = 0; i < patternData.lineageR.length; ++i) {
+      for (let i = 0; i < patternData.lineageR.length; ++i) {
         if (i < patternData.lineageR.length - 1) {
           patternData.lineageR[i].hasComma = true;
         }
@@ -249,12 +258,12 @@ var panelsViewer = {
     );
 
     // add onclick events to the tabs in the rendered content
-    for (i = 0; i < panels.length; ++i) {
-      panel = panels[i];
+    for (let i = 0; i < panels.length; ++i) {
+      const panel = panels[i];
 
       // default IDs
-      panelTab = '#pl-' + patternPartial + '-' + panel.id + '-tab';
-      panelBlock = '#pl-' + patternPartial + '-' + panel.id + '-panel';
+      const panelTab = '#pl-' + patternPartial + '-' + panel.id + '-tab';
+      const panelBlock = '#pl-' + patternPartial + '-' + panel.id + '-panel';
 
       // show default options
       if (templateRendered.querySelector(panelTab) !== null && panel.default) {
@@ -309,7 +318,13 @@ $('.pl-js-modal-resizer').mousedown(function(event) {
   $('.pl-js-modal-cover').mousemove(function(event) {
     /* 3 */
     var panelHeight = window.innerHeight - event.clientY + 32; /* 4 */
+    $('.pl-js-modal').css('transition', 'none');
+    $('.pl-js-vp-iframe-container').css('transition', 'none');
     $('.pl-js-modal').css('height', panelHeight + 'px'); /* 4 */
+    $('html').css(
+      '--pl-viewport-height',
+      window.innerHeight - panelHeight - 32 + 'px'
+    ); /* 4 */
   });
 });
 
@@ -317,13 +332,15 @@ $('body').mouseup(function() {
   /* 5 */
   $('.pl-js-modal').unbind('mousemove'); /* 5 */
   $('.pl-js-modal-cover').css('display', 'none'); /* 5 */
+  $('.pl-js-modal').css('transition', '');
+  $('.pl-js-vp-iframe-container').css('transition', '');
 });
 
 // Copy to clipboard functionality
 var clipboard = new Clipboard('.pl-js-code-copy-btn');
 clipboard.on('success', function(e) {
   var copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (i = 0; i < copyButton.length; i++) {
+  for (let i = 0; i < copyButton.length; i++) {
     copyButton[i].innerText = 'Copy';
   }
   e.trigger.textContent = 'Copied';
