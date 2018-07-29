@@ -5,6 +5,8 @@
  * Licensed under the MIT license
  */
 
+import Hogan from 'hogan.js';
+
 try {
   /* load pattern nav */
   var template = document.querySelector('.pl-js-pattern-nav-template');
