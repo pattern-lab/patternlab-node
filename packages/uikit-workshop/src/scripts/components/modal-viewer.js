@@ -126,7 +126,9 @@ export const modalViewer = {
     //Remove active class to modal
     $('.pl-js-modal').removeClass('pl-is-active');
 
-    $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
+
     // update the wording
     $('.pl-js-pattern-info-toggle').html('Show Pattern Info');
 
@@ -144,10 +146,12 @@ export const modalViewer = {
    */
   hide: function() {
     $('.pl-js-modal').removeClass('pl-is-active');
-    $('html').css(
-      '--pl-viewport-height',
-      window.innerHeight - 32 + 'px'
-    ); /* 4 */
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // $('html').css(
+    //   '--pl-viewport-height',
+    //   window.innerHeight - 32 + 'px'
+    // );
   },
 
   /**
@@ -207,14 +211,16 @@ export const modalViewer = {
    */
   slide: function(pos) {
     $('.pl-js-modal').toggleClass('pl-is-active');
-    if ($('.pl-js-modal').hasClass('pl-is-active')) {
-      $('html').css(
-        '--pl-viewport-height',
-        window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-      );
-    } else {
-      $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
-    }
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // if ($('.pl-js-modal').hasClass('pl-is-active')) {
+    //   $('html').css(
+    //     '--pl-viewport-height',
+    //     window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
+    //   );
+    // } else {
+    //   $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
+    // }
   },
 
   /**
@@ -247,10 +253,12 @@ export const modalViewer = {
    */
   show: function() {
     $('.pl-js-modal').addClass('pl-is-active');
-    $('html').css(
-      '--pl-viewport-height',
-      window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-    );
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // $('html').css(
+    //   '--pl-viewport-height',
+    //   window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
+    // );
   },
 
   /**
