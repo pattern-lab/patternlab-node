@@ -9,7 +9,9 @@
  *
  */
 
-var panelsUtil = {
+import { urlHandler } from './utils';
+
+export const panelsUtil = {
   /**
    * Add click events to the template that was rendered
    * @param  {String}      the rendered template for the modal
@@ -17,7 +19,7 @@ var panelsUtil = {
    */
   addClickEvents: function(templateRendered, patternPartial) {
     var els = templateRendered.querySelectorAll('.pl-js-tab-link');
-    for (var i = 0; i < els.length; ++i) {
+    for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
         e.preventDefault();
 
@@ -36,32 +38,33 @@ var panelsUtil = {
    * @param  {String}      the ID of the panel to be shown
    */
   show: function(patternPartial, panelID) {
-    var els;
+    const activeTabClass = 'pl-is-active-tab';
 
     // turn off all of the active tabs
-    els = document.querySelectorAll(
-      '#pl-' + patternPartial + '-tabs .pl-js-tab-link'
-    );
-    for (i = 0; i < els.length; ++i) {
-      els[i].classList.remove('pl-is-active-tab');
-    }
+    const allTabLinks = document.querySelectorAll(`.pl-js-tab-link`);
 
     // hide all of the panels
-    els = document.querySelectorAll(
-      '#pl-' + patternPartial + '-panels .pl-js-tab-panel'
+    const allTabPanels = document.querySelectorAll(`.pl-js-tab-panel`);
+
+    // tabLink about to become active
+    const activeTabLink = document.querySelector(
+      `#pl-${patternPartial}-${panelID}-tab`
     );
-    for (i = 0; i < els.length; ++i) {
-      els[i].classList.remove('pl-is-active-tab');
+
+    // tabPanelabout to become active
+    const activeTabPanel = document.querySelector(
+      `#pl-${patternPartial}-${panelID}-panel`
+    );
+
+    for (let i = 0; i < allTabLinks.length; ++i) {
+      allTabLinks[i].classList.remove(activeTabClass);
     }
 
-    // add active tab class
-    document
-      .getElementById('pl-' + patternPartial + '-' + panelID + '-tab')
-      .classList.add('pl-is-active-tab');
+    for (let i = 0; i < allTabPanels.length; ++i) {
+      allTabPanels[i].classList.remove(activeTabClass);
+    }
 
-    // show the panel
-    document
-      .getElementById('pl-' + patternPartial + '-' + panelID + '-panel')
-      .classList.add('pl-is-active-tab');
+    activeTabLink.classList.add(activeTabClass);
+    activeTabPanel.classList.add(activeTabClass);
   },
 };
