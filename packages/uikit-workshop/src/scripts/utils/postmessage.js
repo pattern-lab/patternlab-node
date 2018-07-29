@@ -21,14 +21,16 @@ if (self != top) {
     path: parts[0],
   };
 
-  patternData = document.getElementById('pl-pattern-data-footer').innerHTML;
-  patternData = JSON.parse(patternData);
+  window.patternData = document.getElementById(
+    'pl-pattern-data-footer'
+  ).innerHTML;
+  window.patternData = JSON.parse(patternData);
   options.patternpartial =
-    patternData.patternPartial !== undefined
-      ? patternData.patternPartial
+    window.patternData.patternPartial !== undefined
+      ? window.patternData.patternPartial
       : 'all';
-  if (patternData.lineage !== '') {
-    options.lineage = patternData.lineage;
+  if (window.patternData.lineage !== '') {
+    options.lineage = window.patternData.lineage;
   }
 
   var targetOrigin =
@@ -73,7 +75,7 @@ function receiveIframeMessage(event) {
   } catch (e) {}
 
   if (data.event !== undefined && data.event == 'patternLab.updatePath') {
-    if (patternData.patternPartial !== undefined) {
+    if (window.patternData.patternPartial !== undefined) {
       // handle patterns and the view all page
       var re = /(patterns|snapshots)\/(.*)$/;
       path =
