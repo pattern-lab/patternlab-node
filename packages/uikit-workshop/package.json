@@ -3,7 +3,9 @@
   "version": "1.0.0-alpha.7",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
-  "scripts": {},
+  "scripts": {
+    "build": "gulp && npx webpack-cli --config webpack.config.js --progress"
+  },
   "authors": [
     {
       "name": "Brad Frost",
@@ -35,19 +37,26 @@
     "gulp-uglify": "1.1.0",
     "gulp-util": "3.0.0",
     "imagemin-pngcrush": "0.1.0",
-    "yargs": "1.2.6"
+    "yargs": "1.2.6",
+    "uglifyjs-webpack-plugin": "^1.2.7",
+    "webpack": "4.16.3",
+    "@babel/core": "^7.0.0-beta.55",
+    "babel-loader": "^8.0.0-beta.4",
+    "@babel/preset-env": "^7.0.0-beta.55"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "clipboard": "^2.0.1",
-    "jquery": "^3.3.1",
-    "prism": "^4.1.2",
-    "typeahead.js": "^0.11.1",
+    "fg-loadjs": "^1.0.0",
     "hogan.js": "^3.0.2",
+    "jquery": "^3.3.1",
+    "mousetrap": "^1.6.2",
+    "prism": "^4.1.2",
+    "prismjs": "^1.15.0",
     "scriptjs": "^2.5.8",
-    "wolfy87-eventemitter": "^5.2.4",
-    "fg-loadjs": "^1.0.0"
+    "typeahead.js": "^0.11.1",
+    "wolfy87-eventemitter": "^5.2.4"
   }
 }

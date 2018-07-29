@@ -81,61 +81,12 @@ gulp.task('build:images', ['clean:images'], function() {
     .pipe(copyPublic('styleguide/images'));
 });
 
-gulp.task('build:js-viewer', ['clean:js'], function() {
-  return gulp
-    .src(['src/js/*.js', '!src/js/modal-styleguide.js'])
-    .pipe(plugins.jshint('.jshintrc'))
-    .pipe(plugins.jshint.reporter('default'))
-    .pipe(
-      plugins.resolveDependencies({ pattern: /\* @requires [\s-]*(.*?\.js)/g })
-    )
-    .on('error', function(err) {
-      console.log(err.message);
-    })
-    .pipe(plugins.concat('patternlab-viewer.js'))
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(plugins.rename({ suffix: '.min' }))
-    .pipe(plugins.uglify())
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(copyPublic('styleguide/js'));
-});
-
-gulp.task('build:js-pattern', ['build:js-viewer'], function() {
-  // 'src/js/annotations-pattern.js','src/js/code-pattern.js','src/js/info-panel.js'
-  return gulp
-    .src([
-      'src/js/postmessage.js',
-      'src/js/panels-shared.js',
-      'src/js/clipboard.min.js',
-      'src/js/modal-styleguide.js',
-    ])
-    .pipe(plugins.jshint('.jshintrc'))
-    .pipe(plugins.jshint.reporter('default'))
-    .pipe(
-      plugins.resolveDependencies({ pattern: /\* @requires [\s-]*(.*?\.js)/g })
-    )
-    .on('error', function(err) {
-      console.log(err.message);
-    })
-    .pipe(plugins.concat('patternlab-pattern.js'))
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(plugins.rename({ suffix: '.min' }))
-    .pipe(plugins.uglify())
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(copyPublic('styleguide/js'));
-});
-
-gulp.task(
-  'default',
-  ['build:css', 'build:html', 'build:js-pattern'],
-  function() {
-    if (args.watch !== undefined) {
-      gulp.watch(
-        ['src/sass/pattern-lab.scss', 'src/sass/scss/**/*'],
-        ['build:css']
-      );
-      gulp.watch(['src/html/*'], ['build:html']);
-      gulp.watch(['src/js/*'], ['build:js-pattern']);
-    }
+gulp.task('default', ['build:css', 'build:html'], function() {
+  if (args.watch !== undefined) {
+    gulp.watch(
+      ['src/sass/pattern-lab.scss', 'src/sass/scss/**/*'],
+      ['build:css']
+    );
+    gulp.watch(['src/html/*'], ['build:html']);
   }
-);
+});
