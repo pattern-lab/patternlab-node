@@ -14,7 +14,7 @@ import { urlHandler, Dispatcher } from '../utils';
 import Clipboard from 'clipboard';
 import $ from 'jquery';
 import Hogan from 'hogan.js';
-import prism from 'prismjs';
+import { Prism } from 'prismjs';
 
 export const panelsViewer = {
   // set up some defaults
