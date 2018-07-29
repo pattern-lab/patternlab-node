@@ -10,7 +10,10 @@
  *
  */
 
-var modalStyleguide = {
+import { panelsUtil } from './panels-util';
+import Clipboard from 'clipboard';
+
+export const modalStyleguide = {
   // set up some defaults
   active: [],
   targetOrigin:
@@ -24,7 +27,7 @@ var modalStyleguide = {
   onReady: function() {
     // go through the panel toggles and add click event to the pattern extra toggle button
     var els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
-    for (var i = 0; i < els.length; ++i) {
+    for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
         var patternPartial = this.getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
@@ -118,7 +121,7 @@ var modalStyleguide = {
   collectAndSend: function(el, iframePassback, switchText) {
     var patternData = JSON.parse(el.innerHTML);
     if (patternData.patternName !== undefined) {
-      patternMarkupEl = document.querySelector(
+      let patternMarkupEl = document.querySelector(
         '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
       );
       patternData.patternMarkup =
@@ -133,18 +136,18 @@ var modalStyleguide = {
    * hide the annotation highlights
    */
   highlightsHide: function(patternPartial) {
-    var patternPartialSelector =
+    const patternPartialSelector =
       patternPartial !== undefined ? '#' + patternPartial + ' > ' : '';
-    elsToHide = document.querySelectorAll(
+    let elsToHide = document.querySelectorAll(
       patternPartialSelector + '.pl-has-annotation'
     );
-    for (i = 0; i < elsToHide.length; i++) {
+    for (let i = 0; i < elsToHide.length; i++) {
       elsToHide[i].classList.remove('pl-has-annotation');
     }
     elsToHide = document.querySelectorAll(
       patternPartialSelector + '.pl-c-annotation-tip'
     );
-    for (i = 0; i < elsToHide.length; i++) {
+    for (let i = 0; i < elsToHide.length; i++) {
       elsToHide[i].style.display = 'none';
     }
   },
@@ -199,7 +202,7 @@ var modalStyleguide = {
       iframePassback = els.length > 1;
 
       // send each up to the parent to be read and compiled into panels
-      for (i = 0; i < els.length; i++) {
+      for (let i = 0; i < els.length; i++) {
         modalStyleguide.collectAndSend(els[i], iframePassback, data.switchText);
       }
     } else if (
@@ -215,12 +218,12 @@ var modalStyleguide = {
       var elsToHighlight, j, item, span;
 
       // go over the supplied annotations
-      for (i = 0; i < data.annotations.length; i++) {
+      for (let i = 0; i < data.annotations.length; i++) {
         item = data.annotations[i];
         elsToHighlight = document.querySelectorAll(item.el);
 
         if (elsToHighlight.length > 0) {
-          for (j = 0; j < elsToHighlight.length; j++) {
+          for (let j = 0; j < elsToHighlight.length; j++) {
             elsToHighlight[j].classList.add('pl-has-annotation');
 
             span = document.createElement('span');
@@ -274,7 +277,7 @@ var modalStyleguide = {
       for (var k in modalStyleguide.active) {
         keys.push(k);
       }
-      for (i = 0; i < keys.length; i++) {
+      for (let i = 0; i < keys.length; i++) {
         var patternPartial = keys[i];
         if (modalStyleguide.active[patternPartial]) {
           modalStyleguide.close(patternPartial);
@@ -292,7 +295,7 @@ window.addEventListener('message', modalStyleguide.receiveIframeMessage, false);
 var clipboard = new Clipboard('.pl-js-code-copy-btn');
 clipboard.on('success', function(e) {
   var copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (i = 0; i < copyButton.length; i++) {
+  for (let i = 0; i < copyButton.length; i++) {
     copyButton[i].innerText = 'Copy';
   }
   e.trigger.textContent = 'Copied';
