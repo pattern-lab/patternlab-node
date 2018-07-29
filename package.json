@@ -15,10 +15,5 @@
       "packages/core/test",
       "packages/live-server"
     ]
-  },
-  "dependencies": {
-    "babel-loader": "^7.1.5",
-    "webpack": "^4.16.3",
-    "webpack-stream": "^5.0.0"
   }
 }
