@@ -10,7 +10,7 @@
  *
  */
 
-var pluginLoader = {
+export const pluginLoader = {
   init: function() {
     var s, t, l, c, n;
 
