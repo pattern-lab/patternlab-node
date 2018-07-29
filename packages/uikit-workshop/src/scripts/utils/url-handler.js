@@ -10,7 +10,7 @@
  *
  */
 
-var urlHandler = {
+export const urlHandler = {
   // set-up some default vars
   skipBack: false,
   targetOrigin:
