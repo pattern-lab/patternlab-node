@@ -8,17 +8,26 @@
  *
  */
 
-var patternFinder = {
+import { urlHandler } from '@pattern-lab/utils/url-handler';
+import $ from 'jquery';
+import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+
+export const patternFinder = {
   data: [],
   active: false,
 
   init: function() {
-    for (var patternType in patternPaths) {
-      if (patternPaths.hasOwnProperty(patternType)) {
-        for (var pattern in patternPaths[patternType]) {
+    // don't init more than once.
+    if (document.querySelectorAll('.pl-js-typeahead').length > 1) {
+      return;
+    }
+
+    for (var patternType in window.patternPaths) {
+      if (window.patternPaths.hasOwnProperty(patternType)) {
+        for (var pattern in window.patternPaths[patternType]) {
           var obj = {};
           obj.patternPartial = patternType + '-' + pattern;
-          obj.patternPath = patternPaths[patternType][pattern];
+          obj.patternPath = window.patternPaths[patternType][pattern];
           this.data.push(obj);
         }
       }
