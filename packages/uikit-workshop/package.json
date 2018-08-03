@@ -4,7 +4,7 @@
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
-    "build": "gulp && npx webpack-cli --config webpack.config.js --progress"
+    "build": "gulp && webpack-cli --config webpack.config.js --progress"
   },
   "authors": [
     {
@@ -40,6 +40,7 @@
     "yargs": "1.2.6",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "4.16.3",
+    "webpack-cli": "^3.1.0",
     "@babel/core": "^7.0.0-beta.55",
     "babel-loader": "^8.0.0-beta.4",
     "@babel/preset-env": "^7.0.0-beta.55"
