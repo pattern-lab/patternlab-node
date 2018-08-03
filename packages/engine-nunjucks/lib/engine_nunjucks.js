@@ -20,7 +20,7 @@
 
 'use strict';
 
-var fs = require('fs-extra'),
+let fs = require('fs-extra'),
   path = require('path'),
   plPath = process.cwd(),
   plConfig = require(path.join(plPath, 'patternlab-config.json')),
@@ -32,11 +32,11 @@ var fs = require('fs-extra'),
 // LOAD ANY USER NUNJUCKS CONFIGURATIONS
 ////////////////////////////
 try {
-  var nunjucksConfig = require(path.join(
+  let nunjucksConfig = require(path.join(
     plPath,
     'patternlab-nunjucks-config.js'
   ));
-  if (typeof nunjucksConfig == 'function') {
+  if (typeof nunjucksConfig === 'function') {
     nunjucksConfig(nunjucks, env);
   }
 } catch (err) {}
@@ -53,7 +53,7 @@ if (!String.prototype.replaceAll) {
         str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, '\\$&'),
         ignore ? 'gi' : 'g'
       ),
-      typeof str2 == 'string' ? str2.replace(/\$/g, '$$$$') : str2
+      typeof str2 === 'string' ? str2.replace(/\$/g, '$$$$') : str2
     );
   };
 }
@@ -61,7 +61,7 @@ if (!String.prototype.replaceAll) {
 ////////////////////////////
 // NUNJUCKS ENGINE
 ////////////////////////////
-var engine_nunjucks = {
+let engine_nunjucks = {
   engine: nunjucks,
   engineName: 'nunjucks',
   engineFileExtension: '.njk',
@@ -79,7 +79,7 @@ var engine_nunjucks = {
     try {
       // replace pattern names with their full path so Nunjucks can find them.
       pattern.extendedTemplate = this.replacePartials(pattern);
-      var result = nunjucks.renderString(pattern.extendedTemplate, data);
+      let result = nunjucks.renderString(pattern.extendedTemplate, data);
       return Promise.resolve(result);
     } catch (err) {
       console.error('Failed to render pattern: ' + pattern.name);
@@ -88,14 +88,14 @@ var engine_nunjucks = {
 
   // find and return any Nunjucks style includes/imports/extends within pattern
   findPartials: function findPartials(pattern) {
-    var matches = pattern.template.match(this.findPartialsRE);
+    let matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and return it.
   findPartial: function(partialString) {
     try {
-      var partial = partialString.match(this.findPartialKeyRE)[1];
+      let partial = partialString.match(this.findPartialKeyRE)[1];
       partial = partial.replace(/["']/g, '');
       return partial;
     } catch (err) {
@@ -118,13 +118,13 @@ var engine_nunjucks = {
 
   replacePartials: function(pattern) {
     try {
-      var partials = this.findPartials(pattern);
+      let partials = this.findPartials(pattern);
       if (partials !== null) {
-        for (var i = 0; i < partials.length; i++) {
+        for (let i = 0; i < partials.length; i++) {
           // e.g. {% include "atoms-parent" %}
-          var partialName = this.findPartial(partials[i]); // e.g. atoms-parent
-          var partialFullPath = partialRegistry[partialName]; // e.g. 00-atoms/01-parent.njk
-          var newPartial = partials[i].replaceAll(
+          let partialName = this.findPartial(partials[i]); // e.g. atoms-parent
+          let partialFullPath = partialRegistry[partialName]; // e.g. 00-atoms/01-parent.njk
+          let newPartial = partials[i].replaceAll(
             partialName,
             partialFullPath,
             true
@@ -147,7 +147,7 @@ var engine_nunjucks = {
 
   // still requires the mustache syntax because of the way PL handles lists
   findListItems: function(pattern) {
-    var matches = pattern.template.match(this.findListItemsRE);
+    let matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
