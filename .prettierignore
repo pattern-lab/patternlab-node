@@ -8,3 +8,4 @@
 packages/core/scripts/api.handlebars
 packages/core/scripts/events.handlebars
 packages/core/test/files/annotations.js
+**/uikit-workshop/src/js/**/*

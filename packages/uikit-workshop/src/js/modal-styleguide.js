@@ -116,16 +116,29 @@ var modalStyleguide = {
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
   collectAndSend: function(el, iframePassback, switchText) {
-    var patternData = JSON.parse(el.innerHTML);
-    if (patternData.patternName !== undefined) {
-      patternMarkupEl = document.querySelector(
-        '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
-      );
-      patternData.patternMarkup =
-        patternMarkupEl !== null
-          ? patternMarkupEl.innerHTML
-          : document.querySelector('body').innerHTML;
-      modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+    /**
+     * Verify <script> tag has JSON data available (not just whitespace) - helps prevents JS errors from
+     * getting thrown when certain script tags aren't rendered with partial.patternData content.
+     */
+    if (/\S/.test(el.innerHTML)) {
+      var patternData = JSON.parse(el.innerHTML);
+      if (patternData.patternName !== undefined) {
+        patternMarkupEl = document.querySelector(
+          '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
+        );
+        patternData.patternMarkup =
+          patternMarkupEl !== null
+            ? patternMarkupEl.innerHTML
+            : document.querySelector('body').innerHTML;
+        modalStyleguide.patternQueryInfo(
+          patternData,
+          iframePassback,
+          switchText
+        );
+      }
+    } else {
+      // @todo: how are we handling conditional logging for debugging based on the dev environment?
+      // console.log('This <script> tag\'s JSON is empty for some reason...');
     }
   },
 
