@@ -55,9 +55,10 @@
   overflow-y: auto;
   overflow-x: hidden;
 
-  &.hay-mode {
-    transition: all 40s linear;
-  }
+	&.hay-mode {
+		transition: all 40s linear;
+	}
+  width: 100%; // bug fix for Safari and Firefox getting stuck calculating a width of 0px when the JS first kicks in
 }
 
 /**

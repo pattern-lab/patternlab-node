@@ -4,6 +4,13 @@ const args = require('yargs').argv;
 /* load gulp */
 const gulp = require('gulp');
 const cleanCSS = require('gulp-clean-css');
+const inlinesource = require('gulp-inline-source');
+const path = require('path');
+const { buildCriticalCSS } = require('./penthouse');
+
+// @todo: uncomment once cache-busting strategy in place.
+// const workboxBuild = require('workbox-build');
+
 
 /* load the plugins */
 const gulpLoadPlugins = require('gulp-load-plugins');
@@ -21,28 +28,12 @@ function copyPublic(suffix) {
 }
 
 /* clean tasks */
-gulp.task('clean:bower', function(cb) {
-  return plugins.del(['dist/styleguide/bower_components/*'], cb);
-});
-
-gulp.task('clean:css', function(cb) {
-  return plugins.del(['dist/styleguide/css/*'], cb);
-});
-
-gulp.task('clean:html', function(cb) {
-  return plugins.del(['dist/*.html'], cb);
-});
-
-gulp.task('clean:images', function(cb) {
-  return plugins.del(['dist/styleguide/images/*'], cb);
-});
-
-gulp.task('clean:js', function(cb) {
-  return plugins.del(['dist/styleguide/js/*'], cb);
+gulp.task('clean', function(cb) {
+  return plugins.del(['dist'], cb);
 });
 
 /* core tasks */
-gulp.task('build:bower', ['clean:bower'], function() {
+gulp.task('build:bower', ['clean'], function() {
   return gulp
     .src(plugins.mainBowerFiles())
     .pipe(plugins.rename({ suffix: '.min' }))
@@ -51,9 +42,13 @@ gulp.task('build:bower', ['clean:bower'], function() {
     .pipe(copyPublic('styleguide/bower_components'));
 });
 
-gulp.task('build:css', function() {
+gulp.task('build:css', ['clean'], function() {
   return gulp
-    .src('src/sass/pattern-lab.scss')
+    .src([
+      'src/sass/pattern-lab.scss',
+      'src/sass/pattern-lab--iframe-loader.scss',
+    ])
+
     .pipe(
       plugins
         .sass({
@@ -88,15 +83,52 @@ gulp.task('build:css', function() {
     .pipe(copyPublic('styleguide/css'));
 });
 
-gulp.task('build:html', ['clean:html'], function() {
+gulp.task(
+  'criticalcss',
+  ['clean', 'build:js-pattern', 'build:css', 'prebuild:html'],
+  function(cb) {
+    return buildCriticalCSS(cb);
+  }
+);
+
+gulp.task('copy:js', ['clean'], function() {
   return gulp
-    .src('src/html/index.html')
-    .pipe(plugins.fileInclude({ prefix: '@@', basepath: '@file' }))
+    .src([
+      // @todo: remove once improved JS build is in place
+      'node_modules/fg-loadcss/dist/cssrelpreload.min.js',
+      'node_modules/whendefined/dist/whendefined.min.js',
+      'node_modules/fg-loadjs/loadJS.js',
+    ])
+    .pipe(gulp.dest('dist/styleguide/js'))
+    .pipe(copyPublic(''));
+});
+
+gulp.task(
+  'prebuild:html',
+  ['clean', 'build:css', 'copy:js', 'build:js-pattern'],
+  function() {
+    return gulp
+      .src('src/html/index.html')
+      .pipe(plugins.fileInclude({ prefix: '@@', basepath: '@file' }))
+      .pipe(gulp.dest('dist'))
+      .pipe(copyPublic(''));
+  }
+);
+
+gulp.task('build:html', ['clean', 'criticalcss', 'prebuild:html'], function() {
+  return gulp
+    .src('dist/index.html')
+    .pipe(
+      inlinesource({
+        rootpath: path.resolve('dist'),
+        compress: true,
+      })
+    )
     .pipe(gulp.dest('dist'))
     .pipe(copyPublic(''));
 });
 
-gulp.task('build:images', ['clean:images'], function() {
+gulp.task('build:images', ['clean'], function() {
   return gulp
     .src('src/images/*')
     .pipe(
@@ -110,7 +142,7 @@ gulp.task('build:images', ['clean:images'], function() {
     .pipe(copyPublic('styleguide/images'));
 });
 
-gulp.task('build:js-viewer', ['clean:js'], function() {
+gulp.task('build:js-viewer', ['clean'], function() {
   return gulp
     .src(['src/js/*.js', '!src/js/modal-styleguide.js'])
     .pipe(plugins.jshint('.jshintrc'))
@@ -129,7 +161,7 @@ gulp.task('build:js-viewer', ['clean:js'], function() {
     .pipe(copyPublic('styleguide/js'));
 });
 
-gulp.task('build:js-pattern', ['build:js-viewer'], function() {
+gulp.task('build:js-pattern', ['clean', 'build:js-viewer'], function() {
   // 'src/js/annotations-pattern.js','src/js/code-pattern.js','src/js/info-panel.js'
   return gulp
     .src([
@@ -154,9 +186,28 @@ gulp.task('build:js-pattern', ['build:js-viewer'], function() {
     .pipe(copyPublic('styleguide/js'));
 });
 
+// @todo: re-enable once cache busting strategy in place
+// gulp.task('service-worker', ['build:html'], function() {
+//   return workboxBuild.generateSW({
+//     globDirectory: 'dist',
+//     globPatterns: ['**/*.{html,json,js,css}'],
+//     swDest: 'dist/sw.js',
+//     clientsClaim: true,
+//     skipWaiting: true,
+//   });
+// });
+
 gulp.task(
   'default',
-  ['build:bower', 'build:css', 'build:html', 'build:js-pattern'],
+  [
+    'build:bower',
+    'copy:js',
+    'build:css',
+    'build:js-pattern',
+    'build:html',
+    'prebuild:html',
+    // 'service-worker', // @todo: uncomment once cache-busting strategy in place
+  ],
   function() {
     if (args.watch !== undefined) {
       gulp.watch(['src/bower_components/**/*'], ['build:bower']);
