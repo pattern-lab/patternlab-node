@@ -1,114 +1,65 @@
 'use strict';
 
-const plugin_manager = function(config, configPath) {
+const plugin_manager = function() {
   const path = require('path');
-  const fs = require('fs-extra');
+  const findModules = require('./findModules');
+
+  const _ = require('lodash');
+
   const logger = require('./log');
+
+  const pluginMatcher = /^plugin-(.*)$/;
 
   /**
    * Loads a plugin
    *
-   * @param pluginName {string} the name of the plugin
+   * @param modulePath {string} the path to the plugin
    * @return {object} the loaded plugin
    */
-  function loadPlugin(pluginName) {
-    return require(path.join(process.cwd(), 'node_modules', pluginName));
+  function loadPlugin(modulePath) {
+    return require(modulePath);
   }
 
   /**
-   * Installs a plugin
-   *
-   * @param pluginName {string} the name of the plugin
+   * Given a path: return the plugin name if the path points to a valid plugin
+   * module directory, or false if it doesn't.
+   * @param filePath
+   * @returns Plugin name if exists or FALSE
    */
-  function installPlugin(pluginName) {
-    try {
-      const pluginPath = path.resolve(
-        path.join(process.cwd(), 'node_modules', pluginName)
-      );
-      logger.debug(`Attempting to load plugin from ${pluginPath}`);
-      let pluginDirStats;
-      try {
-        pluginDirStats = fs.statSync(pluginPath);
-      } catch (ex) {
-        logger.warning(`${pluginName} not found, use npm to install it first.`);
-        logger.warning(`${pluginName} not loaded.`);
-        return;
-      }
-      const pluginPathDirExists = pluginDirStats.isDirectory();
-      if (pluginPathDirExists) {
-        const diskConfig = fs.readJSONSync(path.resolve(configPath), 'utf8');
+  function isPlugin(filePath) {
+    const baseName = path.basename(filePath);
+    const pluginMatch = baseName.match(pluginMatcher);
 
-        //add the plugin entry to patternlab-config.json
-        if (!diskConfig.plugins) {
-          diskConfig.plugins = {};
-        }
-
-        if (!diskConfig.plugins[pluginName]) {
-          diskConfig.plugins[pluginName] = {
-            enabled: true,
-            initialized: false,
-          };
-        }
-
-        const pluginPathConfig = path.resolve(pluginPath, 'config.json');
-        try {
-          const pluginConfigJSON = require(pluginPathConfig);
-          if (!diskConfig.plugins[pluginName].options) {
-            diskConfig.plugins[pluginName].options = pluginConfigJSON;
-          }
-        } catch (ex) {
-          //a config.json file is not required at this time
-        }
-
-        //write config entry back
-        fs.outputFileSync(
-          path.resolve(configPath),
-          JSON.stringify(diskConfig, null, 2)
-        );
-
-        logger.info('Plugin ' + pluginName + ' installed.');
-        logger.info('Plugin configration added to patternlab-config.json.');
-      }
-    } catch (ex) {
-      logger.warning(
-        `An error occurred during plugin installation for plugin ${pluginName}`
-      );
-      logger.warning(ex);
+    if (pluginMatch) {
+      return pluginMatch[1];
     }
+    return false;
   }
 
   /**
-   * Disables an installed plugin
-   * Not implemented yet
+   * Looks for installed plugins, loads them, and invokes them
+   * @param {object} patternlab
    */
-  function disablePlugin(pluginName) {
-    logger.warning(
-      `disablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`
-    );
-  }
-
-  /**
-   * Enables an installed plugin
-   * Not implemented yet
-   */
-  function enablePlugin(pluginName) {
-    logger.warning(
-      `enablePlugin() not implemented yet. No change made to state of plugin ${pluginName}`
-    );
+  function initializePlugins(patternlab) {
+    const nodeModulesPath = path.join(process.cwd(), 'node_modules');
+    const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
+    foundPlugins.forEach(plugin => {
+      logger.info(`Found plugin: plugin-${plugin.name}`);
+      logger.info(`Attempting to load and initialize plugin.`);
+      const pluginModule = plugin_manager.load_plugin(plugin.modulePath);
+      pluginModule(patternlab);
+    });
   }
 
   return {
-    install_plugin: function(pluginName) {
-      installPlugin(pluginName);
+    intialize_plugins: patternlab => {
+      initializePlugins(patternlab);
     },
-    load_plugin: function(pluginName) {
-      return loadPlugin(pluginName);
+    load_plugin: modulePath => {
+      return loadPlugin(modulePath);
     },
-    disable_plugin: function(pluginName) {
-      disablePlugin(pluginName);
-    },
-    enable_plugin: function(pluginName) {
-      enablePlugin(pluginName);
+    is_plugin: filePath => {
+      return isPlugin(filePath);
     },
   };
 };

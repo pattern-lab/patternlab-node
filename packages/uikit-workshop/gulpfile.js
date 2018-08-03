@@ -1,12 +1,19 @@
 /* load command line arguments */
-var args = require('yargs').argv;
+const args = require('yargs').argv;
 
 /* load gulp */
-var gulp = require('gulp');
+const gulp = require('gulp');
+const cleanCSS = require('gulp-clean-css');
+const inlinesource = require('gulp-inline-source');
+const path = require('path');
+const { buildCriticalCSS } = require('./penthouse');
+
+// @todo: uncomment once cache-busting strategy in place.
+// const workboxBuild = require('workbox-build');
 
 /* load the plugins */
-var gulpLoadPlugins = require('gulp-load-plugins');
-var plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
+const gulpLoadPlugins = require('gulp-load-plugins');
+const plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
 plugins.del = require('del');
 
 /* copy the dist folder into the designated public folder */
@@ -18,28 +25,26 @@ function copyPublic(suffix) {
   }
 }
 
-gulp.task('clean:css', function(cb) {
-  return plugins.del(['dist/styleguide/css/*'], cb);
+/* clean tasks */
+gulp.task('clean', function(cb) {
+  return plugins.del(['dist'], cb);
 });
 
-gulp.task('clean:html', function(cb) {
-  return plugins.del(['dist/*.html'], cb);
-});
+gulp.task('build:css', ['clean'], function() {
+  return gulp
+    .src([
+      'src/sass/pattern-lab.scss',
+      'src/sass/pattern-lab--iframe-loader.scss',
+    ])
 
-gulp.task('clean:images', function(cb) {
-  return plugins.del(['dist/styleguide/images/*'], cb);
-});
-
-gulp.task('clean:js', function(cb) {
-  return plugins.del(['dist/styleguide/js/*'], cb);
-});
-
-gulp.task('build:css', function() {
-  return plugins
-    .rubySass('src/sass/pattern-lab.scss', {
-      style: 'expanded',
-      'sourcemap=none': true,
-    })
+    .pipe(
+      plugins
+        .sass({
+          outputStyle: 'expanded',
+          sourceMap: false,
+        })
+        .on('error', plugins.sass.logError)
+    )
     .pipe(
       plugins.autoprefixer(
         {
@@ -55,11 +60,34 @@ gulp.task('build:css', function() {
         { map: false }
       )
     )
+    .pipe(
+      cleanCSS({
+        compatibility: 'ie9',
+        level: 1,
+        inline: ['remote'],
+      })
+    )
     .pipe(gulp.dest('dist/styleguide/css'))
     .pipe(copyPublic('styleguide/css'));
 });
 
-gulp.task('build:html', ['clean:html'], function() {
+gulp.task('criticalcss', ['clean', 'build:css', 'prebuild:html'], function(cb) {
+  return buildCriticalCSS(cb);
+});
+
+gulp.task('copy:js', ['clean'], function() {
+  return gulp
+    .src([
+      // @todo: remove once improved JS build is in place
+      'node_modules/fg-loadcss/dist/cssrelpreload.min.js',
+      'node_modules/whendefined/dist/whendefined.min.js',
+      'node_modules/fg-loadjs/loadJS.js',
+    ])
+    .pipe(gulp.dest('dist/styleguide/js'))
+    .pipe(copyPublic(''));
+});
+
+gulp.task('prebuild:html', ['clean', 'build:css', 'copy:js'], function() {
   return gulp
     .src('src/html/index.html')
     .pipe(plugins.fileInclude({ prefix: '@@', basepath: '@file' }))
@@ -67,7 +95,20 @@ gulp.task('build:html', ['clean:html'], function() {
     .pipe(copyPublic(''));
 });
 
-gulp.task('build:images', ['clean:images'], function() {
+gulp.task('build:html', ['clean', 'criticalcss', 'prebuild:html'], function() {
+  return gulp
+    .src('dist/index.html')
+    .pipe(
+      inlinesource({
+        rootpath: path.resolve('dist'),
+        compress: true,
+      })
+    )
+    .pipe(gulp.dest('dist'))
+    .pipe(copyPublic(''));
+});
+
+gulp.task('build:images', ['clean'], function() {
   return gulp
     .src('src/images/*')
     .pipe(
@@ -81,12 +122,22 @@ gulp.task('build:images', ['clean:images'], function() {
     .pipe(copyPublic('styleguide/images'));
 });
 
-gulp.task('default', ['build:css', 'build:html'], function() {
-  if (args.watch !== undefined) {
-    gulp.watch(
-      ['src/sass/pattern-lab.scss', 'src/sass/scss/**/*'],
-      ['build:css']
-    );
-    gulp.watch(['src/html/*'], ['build:html']);
+gulp.task(
+  'default',
+  [
+    'build:css',
+    'build:html',
+    'copy:js',
+    'prebuild:html',
+    // 'service-worker', // @todo: uncomment once cache-busting strategy in place
+  ],
+  function() {
+    if (args.watch !== undefined) {
+      gulp.watch(
+        ['src/sass/pattern-lab.scss', 'src/sass/scss/**/*'],
+        ['build:css']
+      );
+      gulp.watch(['src/html/*'], ['build:html']);
+    }
   }
-});
+);

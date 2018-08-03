@@ -175,13 +175,31 @@ const checkAndInstallPackage = (packageName, url) =>
  */
 const noop = () => {};
 
+/**
+ * @func writeJsonAsync
+ * Wrapper for fs.writeJsonAsync with consistent spacing
+ * @param {string} filePath
+ * @param {object} data
+ */
+const writeJsonAsync = (filePath, data) =>
+  wrapAsync(function*() {
+    yield fs.outputJSON(filePath, data, { spaces: 2 });
+  });
+
+/**
+ * @func getJSONKey
+ * Installs package, then returns the value for the given JSON file's key within
+ * @param {string} packageName - the node_module to install / load
+ * @param {object} key - the key to find
+ * @param {object} fileName - the filePath of the JSON
+ */
 const getJSONKey = (packageName, key, fileName = 'package.json') =>
   wrapAsync(function*() {
     yield checkAndInstallPackage(packageName);
-    const packageJSON = yield fs.readJson(
+    const jsonData = yield fs.readJson(
       path.resolve('node_modules', packageName, fileName)
     );
-    return packageJSON[key];
+    return jsonData[key];
   });
 
 module.exports = {
@@ -189,7 +207,7 @@ module.exports = {
   copyAsync: fs.copy,
   mkdirsAsync: fs.mkdirs,
   moveAsync: fs.move,
-  writeJsonAsync: fs.outputJson,
+  writeJsonAsync: writeJsonAsync,
   readJsonAsync: fs.readJson,
   error,
   info,

@@ -26,10 +26,10 @@ export const modalStyleguide = {
    */
   onReady: function() {
     // go through the panel toggles and add click event to the pattern extra toggle button
-    var els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
+    let els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
     for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
-        var patternPartial = this.getAttribute('data-patternpartial');
+        let patternPartial = this.getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
       };
     }
@@ -44,7 +44,7 @@ export const modalStyleguide = {
       modalStyleguide.active[patternPartial] === undefined ||
       !modalStyleguide.active[patternPartial]
     ) {
-      var el = document.getElementById('pl-pattern-data-' + patternPartial);
+      let el = document.getElementById('pl-pattern-data-' + patternPartial);
       modalStyleguide.collectAndSend(el, true, false);
     } else {
       modalStyleguide.highlightsHide();
@@ -59,7 +59,7 @@ export const modalStyleguide = {
    */
   open: function(patternPartial, content) {
     // make sure templateRendered is modified to be an HTML element
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.innerHTML = content;
     content = document
       .createElement('div')
@@ -119,16 +119,29 @@ export const modalStyleguide = {
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
   collectAndSend: function(el, iframePassback, switchText) {
-    var patternData = JSON.parse(el.innerHTML);
-    if (patternData.patternName !== undefined) {
-      let patternMarkupEl = document.querySelector(
-        '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
-      );
-      patternData.patternMarkup =
-        patternMarkupEl !== null
-          ? patternMarkupEl.innerHTML
-          : document.querySelector('body').innerHTML;
-      modalStyleguide.patternQueryInfo(patternData, iframePassback, switchText);
+    /**
+     * Verify <script> tag has JSON data available (not just whitespace) - helps prevents JS errors from
+     * getting thrown when certain script tags aren't rendered with partial.patternData content.
+     */
+    if (/\S/.test(el.innerHTML)) {
+      let patternData = JSON.parse(el.innerHTML);
+      if (patternData.patternName !== undefined) {
+        const patternMarkupEl = document.querySelector(
+          '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
+        );
+        patternData.patternMarkup =
+          patternMarkupEl !== null
+            ? patternMarkupEl.innerHTML
+            : document.querySelector('body').innerHTML;
+        modalStyleguide.patternQueryInfo(
+          patternData,
+          iframePassback,
+          switchText
+        );
+      }
+    } else {
+      // @todo: how are we handling conditional logging for debugging based on the dev environment?
+      // console.log('This <script> tag\'s JSON is empty for some reason...');
     }
   },
 
@@ -161,7 +174,7 @@ export const modalStyleguide = {
   patternQueryInfo: function(patternData, iframePassback, switchText) {
     // send a message to the pattern
     try {
-      var obj = JSON.stringify({
+      let obj = JSON.stringify({
         event: 'patternLab.patternQueryInfo',
         patternData: patternData,
         iframePassback: iframePassback,
@@ -177,7 +190,7 @@ export const modalStyleguide = {
    * @param  {Object}      event info
    */
   receiveIframeMessage: function(event) {
-    var i;
+    let i;
 
     // does the origin sending the message match the current host? if not dev/null the request
     if (
@@ -187,7 +200,7 @@ export const modalStyleguide = {
       return;
     }
 
-    var data = {};
+    let data = {};
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
@@ -195,7 +208,7 @@ export const modalStyleguide = {
 
     // see if it got a path to replace
     if (data.event !== undefined && data.event == 'patternLab.patternQuery') {
-      var els, iframePassback, patternData, patternMarkupEl;
+      let els, iframePassback, patternData, patternMarkupEl;
 
       // find all elements related to pattern info
       els = document.querySelectorAll('.pl-js-pattern-data');
@@ -215,7 +228,7 @@ export const modalStyleguide = {
       data.event !== undefined &&
       data.event == 'patternLab.annotationsHighlightShow'
     ) {
-      var elsToHighlight, j, item, span;
+      let elsToHighlight, j, item, span;
 
       // go over the supplied annotations
       for (let i = 0; i < data.annotations.length; i++) {
@@ -254,7 +267,7 @@ export const modalStyleguide = {
               return function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var obj = JSON.stringify({
+                let obj = JSON.stringify({
                   event: 'patternLab.annotationNumberClicked',
                   displayNumber: item.displayNumber,
                 });
@@ -273,12 +286,12 @@ export const modalStyleguide = {
       data.event !== undefined &&
       data.event == 'patternLab.patternModalClose'
     ) {
-      var keys = [];
-      for (var k in modalStyleguide.active) {
+      let keys = [];
+      for (let k in modalStyleguide.active) {
         keys.push(k);
       }
       for (let i = 0; i < keys.length; i++) {
-        var patternPartial = keys[i];
+        let patternPartial = keys[i];
         if (modalStyleguide.active[patternPartial]) {
           modalStyleguide.close(patternPartial);
         }
@@ -292,9 +305,9 @@ modalStyleguide.onReady();
 window.addEventListener('message', modalStyleguide.receiveIframeMessage, false);
 
 // Copy to clipboard functionality
-var clipboard = new Clipboard('.pl-js-code-copy-btn');
+let clipboard = new Clipboard('.pl-js-code-copy-btn');
 clipboard.on('success', function(e) {
-  var copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
+  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
   for (let i = 0; i < copyButton.length; i++) {
     copyButton[i].innerText = 'Copy';
   }

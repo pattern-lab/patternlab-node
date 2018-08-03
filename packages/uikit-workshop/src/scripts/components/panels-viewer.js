@@ -14,7 +14,7 @@ import { urlHandler, Dispatcher } from '../utils';
 import Clipboard from 'clipboard';
 import $ from 'jquery';
 import Hogan from 'hogan.js';
-import { Prism } from 'prismjs';
+import Prism from 'prismjs';
 
 export const panelsViewer = {
   // set up some defaults
@@ -33,7 +33,7 @@ export const panelsViewer = {
    */
   checkPanels: function(panels, patternData, iframePassback, switchText) {
     // count how many panels have rendered content
-    var panelContentCount = 0;
+    let panelContentCount = 0;
     for (let i = 0; i < panels.length; ++i) {
       if (panels[i].content !== undefined) {
         panelContentCount++;
@@ -60,13 +60,13 @@ export const panelsViewer = {
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
 
     // set-up defaults
-    var template, templateCompiled, templateRendered, panel;
+    let template, templateCompiled, templateRendered, panel;
 
     // get the base panels
-    var panels = Panels.get();
+    let panels = Panels.get();
 
     // evaluate panels array and create content
-    for (var i = 0; i < panels.length; ++i) {
+    for (let i = 0; i < panels.length; ++i) {
       panel = panels[i];
 
       // catch pattern panel since it doesn't have a name defined by default
@@ -85,16 +85,16 @@ export const panelsViewer = {
       if (panel.templateID !== undefined && panel.templateID) {
         if (panel.httpRequest !== undefined && panel.httpRequest) {
           // need a file and then render
-          var fileBase = urlHandler.getFileName(
+          let fileBase = urlHandler.getFileName(
             patternData.patternPartial,
             false
           );
-          var e = new XMLHttpRequest();
+          let e = new XMLHttpRequest();
           e.onload = (function(i, panels, patternData, iframeRequest) {
             return function() {
               const prismedContent = Prism.highlight(
                 this.responseText,
-                Prism.languages['html']
+                Prism.languages.html
               );
               template = document.getElementById(panels[i].templateID);
               templateCompiled = Hogan.compile(template.innerHTML);
@@ -143,9 +143,9 @@ export const panelsViewer = {
    */
   renderPanels: function(panels, patternData, iframePassback, switchText) {
     // set-up defaults
-    var template, templateCompiled, templateRendered;
-    var annotation, comment, count, div, els, item, markup, i;
-    var patternPartial = patternData.patternPartial;
+    let template, templateCompiled, templateRendered;
+    let annotation, comment, count, div, els, item, markup, i;
+    let patternPartial = patternData.patternPartial;
     patternData.panels = panels;
 
     // set a default pattern description for modal pop-up
@@ -162,7 +162,7 @@ export const panelsViewer = {
 
     count = 1;
     patternData.annotations = [];
-    delete patternData['patternMarkup'];
+    delete patternData.patternMarkup;
 
     for (let i = 0; i < comments.comments.length; ++i) {
       item = comments.comments[i];
@@ -182,7 +182,7 @@ export const panelsViewer = {
 
     // alert the pattern that annotations should be highlighted
     if (patternData.annotations.length > 0) {
-      var obj = JSON.stringify({
+      let obj = JSON.stringify({
         event: 'patternLab.annotationsHighlightShow',
         annotations: patternData.annotations,
       });
@@ -278,7 +278,7 @@ export const panelsViewer = {
     // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
     $('.pl-js-lineage-link', templateRendered).on('click', function(e) {
       e.preventDefault();
-      var obj = JSON.stringify({
+      let obj = JSON.stringify({
         event: 'patternLab.updatePath',
         path: urlHandler.getFileName($(this).attr('data-patternpartial')),
       });
@@ -340,9 +340,9 @@ $('body').mouseup(function() {
 });
 
 // Copy to clipboard functionality
-var clipboard = new Clipboard('.pl-js-code-copy-btn');
+let clipboard = new Clipboard('.pl-js-code-copy-btn');
 clipboard.on('success', function(e) {
-  var copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
+  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
   for (let i = 0; i < copyButton.length; i++) {
     copyButton[i].innerText = 'Copy';
   }
