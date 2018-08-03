@@ -11,6 +11,7 @@ const { buildCriticalCSS } = require('./penthouse');
 // @todo: uncomment once cache-busting strategy in place.
 // const workboxBuild = require('workbox-build');
 
+
 /* load the plugins */
 const gulpLoadPlugins = require('gulp-load-plugins');
 const plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
@@ -47,6 +48,7 @@ gulp.task('build:css', ['clean'], function() {
       'src/sass/pattern-lab.scss',
       'src/sass/pattern-lab--iframe-loader.scss',
     ])
+
     .pipe(
       plugins
         .sass({

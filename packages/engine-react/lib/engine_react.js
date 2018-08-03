@@ -215,9 +215,7 @@ var engine_react = {
    * each with two properties: path, and content
    */
   addOutputFiles(paths, patternlab) {
-    return [
-
-    ];
+    return [];
   },
 
   /**

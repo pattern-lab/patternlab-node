@@ -4,8 +4,8 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="0.2.1-alpha.5"></a>
-## [0.2.1-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.4...@pattern-lab/engine-react@0.2.1-alpha.5) (2018-07-06)
 
+## [0.2.1-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.4...@pattern-lab/engine-react@0.2.1-alpha.5) (2018-07-06)
 
 ### Features
 
@@ -13,26 +13,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/commit/415698e))
 * **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/commit/5ab3995))
 
-
-
-
-
 <a name="0.2.1-alpha.4"></a>
-## [0.2.1-alpha.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.3...@pattern-lab/engine-react@0.2.1-alpha.4) (2018-07-05)
 
+## [0.2.1-alpha.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.3...@pattern-lab/engine-react@0.2.1-alpha.4) (2018-07-05)
 
 ### Features
 
 * **tests:** use lerna run test at the monorepo level ([38a01b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/commit/38a01b1))
 
-
-
-
 <a name="0.2.1-alpha.3"></a>
+
 ## [0.2.1-alpha.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-alpha.2...@pattern-lab/engine-react@0.2.1-alpha.3) (2018-05-04)
-
-
-
 
 **Note:** Version bump only for package @pattern-lab/engine-react
 

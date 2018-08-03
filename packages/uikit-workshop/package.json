@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "del": "^3.0.0",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-clean-css": "^3.9.4",
     "gulp-concat": "^2.6.1",
@@ -41,7 +42,6 @@
     "gulp-sass": "^4.0.1",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
-    "gulp": "^3.9.1",
     "imagemin-pngcrush": "^5.1.0",
     "main-bower-files": "^2.13.1",
     "penthouse": "^1.6.2",
