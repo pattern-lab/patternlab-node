@@ -20,19 +20,33 @@
 
 'use strict';
 
-let fs = require('fs-extra'),
-  path = require('path'),
-  plPath = process.cwd(),
-  plConfig = require(path.join(plPath, 'patternlab-config.json')),
-  nunjucks = require('nunjucks'),
-  env = nunjucks.configure(plConfig.paths.source.patterns),
-  partialRegistry = [];
+const fs = require('fs-extra');
+const path = require('path');
+const plPath = process.cwd();
+const plConfig = require(path.join(plPath, 'patternlab-config.json'));
+const nunjucks = require('nunjucks');
+const partialRegistry = [];
 
-////////////////////////////
-// LOAD ANY USER NUNJUCKS CONFIGURATIONS
-////////////////////////////
+// Create Pattern Loader
+// Since Pattern Lab includes are not path based we need a custom loader for Nunjucks.
+function PatternLoader() {}
+
+PatternLoader.prototype.getSource = function(name) {
+  const fullPath = path.resolve(
+    plConfig.paths.source.patterns,
+    partialRegistry[name]
+  );
+  return {
+    src: fs.readFileSync(fullPath, 'utf-8'),
+    path: fullPath,
+  };
+};
+
+const env = new nunjucks.Environment(new PatternLoader());
+
+// Load any user Defined configurations
 try {
-  let nunjucksConfig = require(path.join(
+  const nunjucksConfig = require(path.join(
     plPath,
     'patternlab-nunjucks-config.js'
   ));
@@ -41,27 +55,8 @@ try {
   }
 } catch (err) {}
 
-////////////////////////////
-// HELPER FUNCTIONS
-// https://stackoverflow.com/questions/2116558/fastest-method-to-replace-all-instances-of-a-character-in-a-string
-// Might do some research on the solution.
-////////////////////////////
-if (!String.prototype.replaceAll) {
-  String.prototype.replaceAll = function(str1, str2, ignore) {
-    return this.replace(
-      new RegExp(
-        str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, '\\$&'),
-        ignore ? 'gi' : 'g'
-      ),
-      typeof str2 === 'string' ? str2.replace(/\$/g, '$$$$') : str2
-    );
-  };
-}
-
-////////////////////////////
-// NUNJUCKS ENGINE
-////////////////////////////
-let engine_nunjucks = {
+// Nunjucks Engine
+const engine_nunjucks = {
   engine: nunjucks,
   engineName: 'nunjucks',
   engineFileExtension: '.njk',
@@ -77,9 +72,7 @@ let engine_nunjucks = {
   // render it
   renderPattern: function renderPattern(pattern, data) {
     try {
-      // replace pattern names with their full path so Nunjucks can find them.
-      pattern.extendedTemplate = this.replacePartials(pattern);
-      let result = nunjucks.renderString(pattern.extendedTemplate, data);
+      const result = env.renderString(pattern.extendedTemplate, data);
       return Promise.resolve(result);
     } catch (err) {
       console.error('Failed to render pattern: ' + pattern.name);
@@ -88,7 +81,7 @@ let engine_nunjucks = {
 
   // find and return any Nunjucks style includes/imports/extends within pattern
   findPartials: function findPartials(pattern) {
-    let matches = pattern.template.match(this.findPartialsRE);
+    const matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
 
@@ -116,38 +109,9 @@ let engine_nunjucks = {
     }
   },
 
-  replacePartials: function(pattern) {
-    try {
-      let partials = this.findPartials(pattern);
-      if (partials !== null) {
-        for (let i = 0; i < partials.length; i++) {
-          // e.g. {% include "atoms-parent" %}
-          let partialName = this.findPartial(partials[i]); // e.g. atoms-parent
-          let partialFullPath = partialRegistry[partialName]; // e.g. 00-atoms/01-parent.njk
-          let newPartial = partials[i].replaceAll(
-            partialName,
-            partialFullPath,
-            true
-          ); // e.g. {% include "00-atoms/01-parent.njk" %}
-          pattern.extendedTemplate = pattern.extendedTemplate.replaceAll(
-            partials[i],
-            newPartial,
-            true
-          );
-        }
-      }
-      return pattern.extendedTemplate;
-    } catch (err) {
-      console.error(
-        'Error occurred in replacing partial names with paths for patern: ' +
-          pattern.name
-      );
-    }
-  },
-
   // still requires the mustache syntax because of the way PL handles lists
   findListItems: function(pattern) {
-    let matches = pattern.template.match(this.findListItemsRE);
+    const matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
@@ -168,7 +132,6 @@ let engine_nunjucks = {
       fs.statSync(metaFilePath);
     } catch (err) {
       //not a file, so spawn it from the included file
-      const localMetaFilePath = path.resolve(__dirname, '_meta/', fileName);
       const metaFileContent = fs.readFileSync(
         path.resolve(__dirname, '..', '_meta/', fileName),
         'utf8'
