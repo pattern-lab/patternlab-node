@@ -11,21 +11,11 @@ const { buildCriticalCSS } = require('./penthouse');
 // @todo: uncomment once cache-busting strategy in place.
 // const workboxBuild = require('workbox-build');
 
-
 /* load the plugins */
 const gulpLoadPlugins = require('gulp-load-plugins');
 const plugins = gulpLoadPlugins({ scope: ['devDependencies'] });
 plugins.del = require('del');
 plugins.mainBowerFiles = require('main-bower-files');
-
-/* copy the dist folder into the designated public folder */
-function copyPublic(suffix) {
-  if (args['copy-dist'] !== undefined) {
-    return gulp.dest(args['copy-dist'] + '/' + suffix);
-  } else {
-    return plugins.util.noop();
-  }
-}
 
 /* clean tasks */
 gulp.task('clean', function(cb) {
@@ -38,8 +28,7 @@ gulp.task('build:bower', ['clean'], function() {
     .src(plugins.mainBowerFiles())
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(plugins.uglify())
-    .pipe(gulp.dest('dist/styleguide/bower_components'))
-    .pipe(copyPublic('styleguide/bower_components'));
+    .pipe(gulp.dest('dist/styleguide/bower_components'));
 });
 
 gulp.task('build:css', ['clean'], function() {
@@ -79,8 +68,7 @@ gulp.task('build:css', ['clean'], function() {
         inline: ['remote'],
       })
     )
-    .pipe(gulp.dest('dist/styleguide/css'))
-    .pipe(copyPublic('styleguide/css'));
+    .pipe(gulp.dest('dist/styleguide/css'));
 });
 
 gulp.task(
@@ -99,8 +87,7 @@ gulp.task('copy:js', ['clean'], function() {
       'node_modules/whendefined/dist/whendefined.min.js',
       'node_modules/fg-loadjs/loadJS.js',
     ])
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(copyPublic(''));
+    .pipe(gulp.dest('dist/styleguide/js'));
 });
 
 gulp.task(
@@ -110,8 +97,7 @@ gulp.task(
     return gulp
       .src('src/html/index.html')
       .pipe(plugins.fileInclude({ prefix: '@@', basepath: '@file' }))
-      .pipe(gulp.dest('dist'))
-      .pipe(copyPublic(''));
+      .pipe(gulp.dest('dist'));
   }
 );
 
@@ -124,8 +110,7 @@ gulp.task('build:html', ['clean', 'criticalcss', 'prebuild:html'], function() {
         compress: true,
       })
     )
-    .pipe(gulp.dest('dist'))
-    .pipe(copyPublic(''));
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build:images', ['clean'], function() {
@@ -138,8 +123,7 @@ gulp.task('build:images', ['clean'], function() {
         use: [plugins.pngcrush()],
       })
     )
-    .pipe(gulp.dest('dist/styleguide/images'))
-    .pipe(copyPublic('styleguide/images'));
+    .pipe(gulp.dest('dist/styleguide/images'));
 });
 
 gulp.task('build:js-viewer', ['clean'], function() {
@@ -157,8 +141,7 @@ gulp.task('build:js-viewer', ['clean'], function() {
     .pipe(gulp.dest('dist/styleguide/js'))
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(plugins.uglify())
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(copyPublic('styleguide/js'));
+    .pipe(gulp.dest('dist/styleguide/js'));
 });
 
 gulp.task('build:js-pattern', ['clean', 'build:js-viewer'], function() {
@@ -182,8 +165,7 @@ gulp.task('build:js-pattern', ['clean', 'build:js-viewer'], function() {
     .pipe(gulp.dest('dist/styleguide/js'))
     .pipe(plugins.rename({ suffix: '.min' }))
     .pipe(plugins.uglify())
-    .pipe(gulp.dest('dist/styleguide/js'))
-    .pipe(copyPublic('styleguide/js'));
+    .pipe(gulp.dest('dist/styleguide/js'));
 });
 
 // @todo: re-enable once cache busting strategy in place
