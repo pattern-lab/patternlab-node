@@ -68,23 +68,41 @@ module.exports = patternlab => {
         outputDir: configEntry.outputDir,
         excludedPatternStates: configEntry.excludedPatternStates,
         excludedTags: configEntry.excludedTags,
-        header: readModuleFile(
-          kit,
-          paths.source.patternlabFiles['general-header']
-        ),
-        footer: readModuleFile(
-          kit,
-          paths.source.patternlabFiles['general-footer']
-        ),
-        patternSection: readModuleFile(
-          kit,
-          paths.source.patternlabFiles.patternSection
-        ),
-        patternSectionSubType: readModuleFile(
-          kit,
-          paths.source.patternlabFiles.patternSectionSubtype
-        ),
-        viewAll: readModuleFile(kit, paths.source.patternlabFiles.viewall),
+
+        /**
+         * If the uikit asset config isn't a simple string path but an object,
+         * don't automatically inline the file's contents. This also keeps the
+         * door open for more advanced configurations down the road!
+         */
+        header:
+          typeof paths.source.patternlabFiles['general-header'] === 'object'
+            ? paths.source.patternlabFiles['general-header']
+            : readModuleFile(
+                kit,
+                paths.source.patternlabFiles['general-header']
+              ),
+        footer:
+          typeof paths.source.patternlabFiles['general-footer'] === 'object'
+            ? paths.source.patternlabFiles['general-footer']
+            : readModuleFile(
+                kit,
+                paths.source.patternlabFiles['general-footer']
+              ),
+        patternSection:
+          typeof paths.source.patternlabFiles.patternSection === 'object'
+            ? paths.source.patternlabFiles.patternSection
+            : readModuleFile(kit, paths.source.patternlabFiles.patternSection),
+        patternSectionSubType:
+          typeof paths.source.patternlabFiles.patternSectionSubtype === 'object'
+            ? paths.source.patternlabFiles.patternSectionSubtype
+            : readModuleFile(
+                kit,
+                paths.source.patternlabFiles.patternSectionSubtype
+              ),
+        viewAll:
+          typeof paths.source.patternlabFiles.viewall === 'object'
+            ? paths.source.patternlabFiles.viewall
+            : readModuleFile(kit, paths.source.patternlabFiles.viewall),
       }; // [3]
     } catch (ex) {
       logger.error(ex);

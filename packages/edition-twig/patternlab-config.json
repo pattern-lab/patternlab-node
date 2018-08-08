@@ -3,45 +3,52 @@
     "twig": {
       "namespaces": [
         {
+          "id": "uikit",
+          "recursive": true,
+          "paths": [
+            "../uikit-workshop/views-twig/"
+          ]
+        },
+        {
           "id": "atoms",
           "recursive": true,
           "paths": [
-            "source/_patterns/00-atoms"
+            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/00-atoms"
           ]
         },
         {
           "id": "molecules",
           "recursive": true,
           "paths": [
-            "source/_patterns/01-molecules"
+            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/01-molecules"
           ]
         },
         {
           "id": "organisms",
           "recursive": true,
           "paths": [
-            "source/_patterns/02-organisms"
+            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/02-organisms"
           ]
         },
         {
           "id": "templates",
           "recursive": true,
           "paths": [
-            "source/_patterns/03-templates"
+            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/03-templates"
           ]
         },
         {
           "id": "pages",
           "recursive": true,
           "paths": [
-            "source/_patterns/04-pages"
+            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/04-pages"
           ]
         },
         {
           "id": "macros",
           "recursive": true,
           "paths": [
-            "source/_macros"
+            "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_macros"
           ]
         }
       ],
@@ -94,23 +101,33 @@
   },
   "paths": {
     "source": {
-      "root": "./source/",
-      "patterns": "./source/_patterns/",
-      "data": "./source/_data/",
-      "meta": "./source/_meta/",
-      "annotations": "./source/_annotations/",
+      "root": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/",
+      "patterns": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_patterns/",
+      "data": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_data/",
+      "meta": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_meta/",
+      "annotations": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/_annotations/",
       "styleguide": "dist/",
       "patternlabFiles": {
-        "general-header": "views/partials/general-header.mustache",
-        "general-footer": "views/partials/general-footer.mustache",
-        "patternSection": "views/partials/patternSection.mustache",
-        "patternSectionSubtype": "views/partials/patternSectionSubtype.mustache",
-        "viewall": "views/viewall.mustache"
+        "general-header": {
+          "path": "@uikit/general-header.twig"
+        },
+        "general-footer": {
+          "path": "@uikit/general-footer.twig"
+        },
+        "patternSection": {
+          "path": "@uikit/patternSection.twig"
+        },
+        "patternSectionSubtype": {
+          "path": "@uikit/patternSectionSubtype.twig"
+        },
+        "viewall": {
+          "path": "@uikit/viewall.twig"
+        }
       },
-      "js": "./source/js",
-      "images": "./source/images",
-      "fonts": "./source/fonts",
-      "css": "./source/css"
+      "js": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/js",
+      "images": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/images",
+      "fonts": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/fonts",
+      "css": "./node_modules/@pattern-lab/starterkit-twig-demo/dist/css"
     },
     "public": {
       "root": "public/",
