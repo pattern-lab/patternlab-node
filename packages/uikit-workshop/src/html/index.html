@@ -2,58 +2,49 @@
 <html>
 
 <head>
-	<title id="title">Pattern Lab</title>
-	<meta charset="UTF-8">
+  <title id="title">Pattern Lab</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width" />
-  <meta name="theme-color" content="#ababab"/>
-
-  <link inline href="styleguide/css/pattern-lab.critical.css" />
+  <meta name="theme-color" content="#ababab" />
 
   <link rel="preload" as="script" href="styleguide/js/patternlab-viewer.js">
-  <link rel="preload" href="styleguide/css/pattern-lab.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-  <noscript>
-    <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
-  </noscript>
-
-  <script inline async src="styleguide/js/cssrelpreload.min.js"></script>
+  <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
 
 </head>
 
 <body class="pl-c-body">
 
-	@@include('./partials/header.html')
-	@@include('./partials/iframe.html')
-	@@include('./partials/modal.html')
+  ${require('./partials/header.html') }
+  ${require('./partials/iframe.html') }
+  ${require('./partials/modal.html') }
 
-	<!-- mustache templates -->
-	<script type="text/mustache" class="pl-js-pattern-nav-template">
-		@@include('./partials/pattern-nav.html')
+  <script type="text/mustache" class="pl-js-pattern-nav-template">
+    ${require('./partials/pattern-nav.html') }
 	</script>
 
-	<script type="text/mustache" class="pl-js-ish-controls-template">
-		@@include('./partials/controls.html')
+  <script type="text/mustache" class="pl-js-ish-controls-template">
+    ${require('./partials/controls.html') }
 	</script>
 
-	<!-- the template for the modal slider -->
-	<script type="text/mustache" class="pl-js-panel-template-base">
-		@@include('./partials/base-template.html')
+  <!-- the template for the modal slider -->
+  <script type="text/mustache" class="pl-js-panel-template-base">
+    ${require('./partials/base-template.html') }
 	</script>
 
-	<!-- the template for code-related tabs in the code view slider -->
-	<script type="text/mustache" id="pl-panel-template-code">
-		@@include('./partials/panel-code-template.html')
+  <!-- the template for code-related tabs in the code view slider -->
+  <script type="text/mustache" id="pl-panel-template-code">
+    ${require('./partials/panel-code-template.html') }
 	</script>
 
-	<!-- load Pattern Lab data -->
-	<script src="styleguide/data/patternlab-data.js" defer></script>
+  <!-- load Pattern Lab data -->
+  <script src="styleguide/data/patternlab-data.js" defer></script>
 
   <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
   <!-- @todo fold this into it's own standalone JS component -->
   <script>
     // need to make sure that window.config is defined first on acccount of us async loading everything ;)
     window.patternlab = window.patternlab || {};
-    window.patternlab.applyTheme = function(){
+    window.patternlab.applyTheme = function () {
       if (window.config.theme.color === 'light') {
         document.body.classList.add('pl-c-body--theme-light');
       }
@@ -81,16 +72,18 @@
     }
   </script>
 
-	<script src="annotations/annotations.js" defer></script>
+  <script src="annotations/annotations.js" defer></script>
 
-	<!-- load the Pattern Lab viewer js -->
-  <script inline src="styleguide/js/whenDefined.min.js"></script>
+  <!-- load the Pattern Lab viewer js -->
+  <script>
+    ${require('raw-loader!../../node_modules/whendefined/dist/whendefined.min.js')}
+  </script>
   <script src="styleguide/js/patternlab-viewer.js" defer></script>
 
   <!-- temp workaround to allow everything to be asynced / deffered with current setup. @todo: remove once refactored components + improved build process is in place. -->
   <script>
-    whenDefined(window, 'config', function() {
-      if (window.config.theme){
+    whenDefined(window, 'config', function () {
+      if (window.config.theme) {
         window.patternlab.applyTheme();
       }
     });
@@ -109,4 +102,3 @@
 </body>
 
 </html>
-
