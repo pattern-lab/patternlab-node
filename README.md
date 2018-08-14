@@ -22,7 +22,7 @@ Refer to the [core usage guidelines](https://github.com/pattern-lab/patternlab-n
 
 ### Installation
 
-As of Pattern Lab Node 3.0.0, installation of [Editions](http://patternlab.io/docs/advanced-ecosystem-overview.html) is accomplished via the command line interface.
+As of Pattern Lab Node 3.0.0, installation of [Editions](http://patternlab.io/docs/advanced-ecosystem-overview.html) is accomplished via the [command line interface](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli) which needs to be [installed](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli#installation) into the `new-project` folder mentioned below)
 
 _0 to 60mph_
 
