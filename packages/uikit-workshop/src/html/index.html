@@ -49,7 +49,7 @@
 	<script src="styleguide/data/patternlab-data.js" defer></script>
 
   <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
-  <!-- @todo Consider moving this to own file -->
+  <!-- @todo fold this into it's own standalone JS component -->
   <script>
     // need to make sure that window.config is defined first on acccount of us async loading everything ;)
     window.patternlab = window.patternlab || {};
@@ -81,31 +81,14 @@
     }
   </script>
 
-	<script src="annotations/annotations.js" async></script>
+	<script src="annotations/annotations.js" defer></script>
 
-	<!-- load Pattern Lab external library js -->
-	<script src="styleguide/bower_components/jquery.min.js" defer></script>
-	<script src="styleguide/bower_components/hogan-3.0.2.min.js" defer></script>
-	<script src="styleguide/bower_components/prism.min.js" defer></script>
-	<script src="styleguide/bower_components/jwerty.min.js" defer></script>
-	<script src="styleguide/bower_components/typeahead.bundle.min.js" defer></script>
-	<script src="styleguide/bower_components/EventEmitter.min.js" defer></script>
-	<script src="styleguide/bower_components/script.min.js" defer></script>
-
-
+	<!-- load the Pattern Lab viewer js -->
   <script inline src="styleguide/js/whenDefined.min.js"></script>
-  <script inline src="styleguide/js/loadJS.js"></script>
+  <script src="styleguide/js/patternlab-viewer.js" defer></script>
 
   <!-- temp workaround to allow everything to be asynced / deffered with current setup. @todo: remove once refactored components + improved build process is in place. -->
   <script>
-    window.Dispatcher;
-    window.addEventListener('DOMContentLoaded', function () {
-      window.Dispatcher = new EventEmitter();
-
-      // load the Pattern Lab viewer js -- preloaded earlier ^
-      loadJS('styleguide/js/patternlab-viewer.js');
-    });
-
     whenDefined(window, 'config', function() {
       if (window.config.theme){
         window.patternlab.applyTheme();
@@ -121,6 +104,7 @@
     //   });
     // }
   </script>
+
 
 </body>
 

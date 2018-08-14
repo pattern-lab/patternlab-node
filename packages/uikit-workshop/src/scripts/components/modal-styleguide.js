@@ -10,7 +10,10 @@
  *
  */
 
-var modalStyleguide = {
+import { panelsUtil } from './panels-util';
+import Clipboard from 'clipboard';
+
+export const modalStyleguide = {
   // set up some defaults
   active: [],
   targetOrigin:
@@ -23,10 +26,10 @@ var modalStyleguide = {
    */
   onReady: function() {
     // go through the panel toggles and add click event to the pattern extra toggle button
-    var els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
-    for (var i = 0; i < els.length; ++i) {
+    let els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
+    for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
-        var patternPartial = this.getAttribute('data-patternpartial');
+        let patternPartial = this.getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
       };
     }
@@ -41,7 +44,7 @@ var modalStyleguide = {
       modalStyleguide.active[patternPartial] === undefined ||
       !modalStyleguide.active[patternPartial]
     ) {
-      var el = document.getElementById('pl-pattern-data-' + patternPartial);
+      let el = document.getElementById('pl-pattern-data-' + patternPartial);
       modalStyleguide.collectAndSend(el, true, false);
     } else {
       modalStyleguide.highlightsHide();
@@ -56,7 +59,7 @@ var modalStyleguide = {
    */
   open: function(patternPartial, content) {
     // make sure templateRendered is modified to be an HTML element
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.innerHTML = content;
     content = document
       .createElement('div')
@@ -121,9 +124,9 @@ var modalStyleguide = {
      * getting thrown when certain script tags aren't rendered with partial.patternData content.
      */
     if (/\S/.test(el.innerHTML)) {
-      var patternData = JSON.parse(el.innerHTML);
+      let patternData = JSON.parse(el.innerHTML);
       if (patternData.patternName !== undefined) {
-        patternMarkupEl = document.querySelector(
+        const patternMarkupEl = document.querySelector(
           '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
         );
         patternData.patternMarkup =
@@ -146,18 +149,18 @@ var modalStyleguide = {
    * hide the annotation highlights
    */
   highlightsHide: function(patternPartial) {
-    var patternPartialSelector =
+    const patternPartialSelector =
       patternPartial !== undefined ? '#' + patternPartial + ' > ' : '';
-    elsToHide = document.querySelectorAll(
+    let elsToHide = document.querySelectorAll(
       patternPartialSelector + '.pl-has-annotation'
     );
-    for (i = 0; i < elsToHide.length; i++) {
+    for (let i = 0; i < elsToHide.length; i++) {
       elsToHide[i].classList.remove('pl-has-annotation');
     }
     elsToHide = document.querySelectorAll(
       patternPartialSelector + '.pl-c-annotation-tip'
     );
-    for (i = 0; i < elsToHide.length; i++) {
+    for (let i = 0; i < elsToHide.length; i++) {
       elsToHide[i].style.display = 'none';
     }
   },
@@ -171,7 +174,7 @@ var modalStyleguide = {
   patternQueryInfo: function(patternData, iframePassback, switchText) {
     // send a message to the pattern
     try {
-      var obj = JSON.stringify({
+      let obj = JSON.stringify({
         event: 'patternLab.patternQueryInfo',
         patternData: patternData,
         iframePassback: iframePassback,
@@ -187,7 +190,7 @@ var modalStyleguide = {
    * @param  {Object}      event info
    */
   receiveIframeMessage: function(event) {
-    var i;
+    let i;
 
     // does the origin sending the message match the current host? if not dev/null the request
     if (
@@ -197,7 +200,7 @@ var modalStyleguide = {
       return;
     }
 
-    var data = {};
+    let data = {};
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
@@ -205,14 +208,14 @@ var modalStyleguide = {
 
     // see if it got a path to replace
     if (data.event !== undefined && data.event == 'patternLab.patternQuery') {
-      var els, iframePassback, patternData, patternMarkupEl;
+      let els, iframePassback, patternData, patternMarkupEl;
 
       // find all elements related to pattern info
       els = document.querySelectorAll('.pl-js-pattern-data');
       iframePassback = els.length > 1;
 
       // send each up to the parent to be read and compiled into panels
-      for (i = 0; i < els.length; i++) {
+      for (let i = 0; i < els.length; i++) {
         modalStyleguide.collectAndSend(els[i], iframePassback, data.switchText);
       }
     } else if (
@@ -225,15 +228,15 @@ var modalStyleguide = {
       data.event !== undefined &&
       data.event == 'patternLab.annotationsHighlightShow'
     ) {
-      var elsToHighlight, j, item, span;
+      let elsToHighlight, j, item, span;
 
       // go over the supplied annotations
-      for (i = 0; i < data.annotations.length; i++) {
+      for (let i = 0; i < data.annotations.length; i++) {
         item = data.annotations[i];
         elsToHighlight = document.querySelectorAll(item.el);
 
         if (elsToHighlight.length > 0) {
-          for (j = 0; j < elsToHighlight.length; j++) {
+          for (let j = 0; j < elsToHighlight.length; j++) {
             elsToHighlight[j].classList.add('pl-has-annotation');
 
             span = document.createElement('span');
@@ -264,7 +267,7 @@ var modalStyleguide = {
               return function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var obj = JSON.stringify({
+                let obj = JSON.stringify({
                   event: 'patternLab.annotationNumberClicked',
                   displayNumber: item.displayNumber,
                 });
@@ -283,12 +286,12 @@ var modalStyleguide = {
       data.event !== undefined &&
       data.event == 'patternLab.patternModalClose'
     ) {
-      var keys = [];
-      for (var k in modalStyleguide.active) {
+      let keys = [];
+      for (let k in modalStyleguide.active) {
         keys.push(k);
       }
-      for (i = 0; i < keys.length; i++) {
-        var patternPartial = keys[i];
+      for (let i = 0; i < keys.length; i++) {
+        let patternPartial = keys[i];
         if (modalStyleguide.active[patternPartial]) {
           modalStyleguide.close(patternPartial);
         }
@@ -302,10 +305,10 @@ modalStyleguide.onReady();
 window.addEventListener('message', modalStyleguide.receiveIframeMessage, false);
 
 // Copy to clipboard functionality
-var clipboard = new Clipboard('.pl-js-code-copy-btn');
+let clipboard = new Clipboard('.pl-js-code-copy-btn');
 clipboard.on('success', function(e) {
-  var copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (i = 0; i < copyButton.length; i++) {
+  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
+  for (let i = 0; i < copyButton.length; i++) {
     copyButton[i].innerText = 'Copy';
   }
   e.trigger.textContent = 'Copied';

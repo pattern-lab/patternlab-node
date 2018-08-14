@@ -9,7 +9,10 @@
  * @requires prism-languages.js
  */
 
-var Panels = {
+import { PrismLanguages } from './prism-languages';
+import { Dispatcher } from '../utils';
+
+export const Panels = {
   panels: [],
 
   count: function() {

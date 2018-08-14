@@ -375,7 +375,7 @@
 	<script src="styleguide/data/patternlab-data.js" defer></script>
 
   <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
-  <!-- @todo Consider moving this to own file -->
+  <!-- @todo fold this into it's own standalone JS component -->
   <script>
     // need to make sure that window.config is defined first on acccount of us async loading everything ;)
     window.patternlab = window.patternlab || {};
@@ -407,31 +407,14 @@
     }
   </script>
 
-	<script src="annotations/annotations.js" async></script>
+	<script src="annotations/annotations.js" defer></script>
 
-	<!-- load Pattern Lab external library js -->
-	<script src="styleguide/bower_components/jquery.min.js" defer></script>
-	<script src="styleguide/bower_components/hogan-3.0.2.min.js" defer></script>
-	<script src="styleguide/bower_components/prism.min.js" defer></script>
-	<script src="styleguide/bower_components/jwerty.min.js" defer></script>
-	<script src="styleguide/bower_components/typeahead.bundle.min.js" defer></script>
-	<script src="styleguide/bower_components/EventEmitter.min.js" defer></script>
-	<script src="styleguide/bower_components/script.min.js" defer></script>
-
-
+	<!-- load the Pattern Lab viewer js -->
   <script>(function(){window.whenDefined=function(e,n,t){e[n]?t():Object.defineProperty(e,n,{configurable:!0,enumerable:!0,writeable:!0,get:function(){return this["_"+n]},set:function(e){this["_"+n]=e,t()}})}}).call(this);</script>
-  <script>!function(r){var e=function(e,t){"use strict";var n=r.document.getElementsByTagName("script")[0],o=r.document.createElement("script");return o.src=e,o.async=!0,n.parentNode.insertBefore(o,n),t&&"function"==typeof t&&(o.onload=t),o};"undefined"!=typeof module?module.exports=e:r.loadJS=e}("undefined"!=typeof global?global:this);</script>
+  <script src="styleguide/js/patternlab-viewer.js" defer></script>
 
   <!-- temp workaround to allow everything to be asynced / deffered with current setup. @todo: remove once refactored components + improved build process is in place. -->
   <script>
-    window.Dispatcher;
-    window.addEventListener('DOMContentLoaded', function () {
-      window.Dispatcher = new EventEmitter();
-
-      // load the Pattern Lab viewer js -- preloaded earlier ^
-      loadJS('styleguide/js/patternlab-viewer.js');
-    });
-
     whenDefined(window, 'config', function() {
       if (window.config.theme){
         window.patternlab.applyTheme();
@@ -447,6 +430,7 @@
     //   });
     // }
   </script>
+
 
 </body>
 

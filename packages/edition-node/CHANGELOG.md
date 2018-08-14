@@ -4,16 +4,12 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="1.0.0-alpha.13"></a>
-# [1.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.12...@pattern-lab/edition-node@1.0.0-alpha.13) (2018-07-09)
 
+# [1.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.12...@pattern-lab/edition-node@1.0.0-alpha.13) (2018-07-09)
 
 ### Features
 
 * **scripts:** namespace scripts ([3ecbb3e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/3ecbb3e))
-
-
-
-
 
 <a name="1.0.0-alpha.12"></a>
 

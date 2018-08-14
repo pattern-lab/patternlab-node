@@ -10,7 +10,11 @@
  *
  */
 
-var modalViewer = {
+import { urlHandler, DataSaver, Dispatcher } from '../utils';
+import { panelsViewer } from './panels-viewer';
+import $ from 'jquery';
+
+export const modalViewer = {
   // set up some defaults
   active: false,
   switchText: true,
@@ -36,7 +40,7 @@ var modalViewer = {
     // make sure the close button handles the click
     $('.pl-js-modal-close-btn').on('click', function(e) {
       // hide any open annotations
-      obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.annotationsHighlightHide',
       });
       document
@@ -83,7 +87,7 @@ var modalViewer = {
     if (modalViewer.active === false) {
       modalViewer.queryPattern();
     } else {
-      obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.annotationsHighlightHide',
       });
       document
@@ -112,7 +116,7 @@ var modalViewer = {
    * close the modal window
    */
   close: function() {
-    var obj;
+    let obj;
 
     // note that the modal viewer is no longer active
     DataSaver.updateValue('modalActive', 'false');
@@ -120,6 +124,9 @@ var modalViewer = {
 
     //Remove active class to modal
     $('.pl-js-modal').removeClass('pl-is-active');
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
 
     // update the wording
     $('.pl-js-pattern-info-toggle').html('Show Pattern Info');
@@ -138,6 +145,12 @@ var modalViewer = {
    */
   hide: function() {
     $('.pl-js-modal').removeClass('pl-is-active');
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // $('html').css(
+    //   '--pl-viewport-height',
+    //   window.innerHeight - 32 + 'px'
+    // );
   },
 
   /**
@@ -155,7 +168,7 @@ var modalViewer = {
   ) {
     if (iframePassback) {
       // send a message to the pattern
-      var obj = JSON.stringify({
+      let obj = JSON.stringify({
         event: 'patternLab.patternModalInsert',
         patternPartial: patternPartial,
         modalContent: templateRendered.outerHTML,
@@ -197,6 +210,16 @@ var modalViewer = {
    */
   slide: function(pos) {
     $('.pl-js-modal').toggleClass('pl-is-active');
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // if ($('.pl-js-modal').hasClass('pl-is-active')) {
+    //   $('html').css(
+    //     '--pl-viewport-height',
+    //     window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
+    //   );
+    // } else {
+    //   $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
+    // }
   },
 
   /**
@@ -229,6 +252,12 @@ var modalViewer = {
    */
   show: function() {
     $('.pl-js-modal').addClass('pl-is-active');
+
+    // WIP: refactoring viewport panel to use CSS vars to resize
+    // $('html').css(
+    //   '--pl-viewport-height',
+    //   window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
+    // );
   },
 
   /**
@@ -244,7 +273,7 @@ var modalViewer = {
     }
 
     // send a message to the pattern
-    var obj = JSON.stringify({
+    let obj = JSON.stringify({
       event: 'patternLab.patternQuery',
       switchText: switchText,
     });

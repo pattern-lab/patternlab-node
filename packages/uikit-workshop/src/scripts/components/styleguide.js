@@ -4,6 +4,11 @@
  * @requires postmessage.js
  */
 
+import { urlHandler, DataSaver, postmessage } from '../utils';
+import { patternFinder } from './pattern-finder';
+import $ from 'jquery';
+import Mousetrap from 'mousetrap';
+
 (function(w) {
   var sw = document.body.clientWidth, //Viewport Width
     sh = $(document).height(); //Viewport Height
@@ -102,7 +107,7 @@
     goSmall();
   });
 
-  jwerty.key('ctrl+shift+s', function(e) {
+  Mousetrap.bind('ctrl+shift+s', function(e) {
     goSmall();
     return false;
   });
@@ -127,7 +132,7 @@
     goMedium();
   });
 
-  jwerty.key('ctrl+shift+m', function(e) {
+  Mousetrap.bind('ctrl+shift+m', function(e) {
     goLarge();
     return false;
   });
@@ -154,7 +159,7 @@
     goLarge();
   });
 
-  jwerty.key('ctrl+shift+l', function(e) {
+  Mousetrap.bind('ctrl+shift+l', function(e) {
     goLarge();
     return false;
   });
@@ -207,7 +212,7 @@
     discoID = setInterval(disco, 800);
   }
 
-  jwerty.key('ctrl+shift+d', function(e) {
+  Mousetrap.bind('ctrl+shift+d', function(e) {
     if (!discoMode) {
       startDisco();
     } else {
@@ -258,7 +263,7 @@
   }
 
   // start hay from a keyboard shortcut
-  jwerty.key('ctrl+shift+h', function(e) {
+  Mousetrap.bind('ctrl+shift+h', function(e) {
     if (!hayMode) {
       startHay();
     } else {
@@ -316,7 +321,7 @@
   });
 
   // set 0 to 320px as a default
-  jwerty.key('ctrl+shift+0', function(e) {
+  Mousetrap.bind('ctrl+shift+0', function(e) {
     e.preventDefault();
     sizeiframe(320, true);
     return false;
@@ -532,7 +537,7 @@
   }
 
   if (patternName !== 'all') {
-    patternPath = urlHandler.getFileName(patternName);
+    const patternPath = urlHandler.getFileName(patternName);
     iFramePath =
       patternPath !== ''
         ? baseIframePath + patternPath + '?' + Date.now()

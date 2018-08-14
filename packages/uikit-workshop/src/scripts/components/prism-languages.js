@@ -5,13 +5,13 @@
  * Licensed under the MIT license
  *
  */
-var PrismLanguages = {
+export const PrismLanguages = {
   languages: [],
 
   get: function(key) {
     var language;
 
-    for (i = 0; i < this.languages.length; ++i) {
+    for (var i = 0; i < this.languages.length; ++i) {
       language = this.languages[i];
       if (language[key] !== undefined) {
         return language[key];
@@ -25,7 +25,7 @@ var PrismLanguages = {
     // see if the language already exists, overwrite if it does
     for (var key in language) {
       if (language.hasOwnProperty(key)) {
-        for (i = 0; i < this.languages.length; ++i) {
+        for (var i = 0; i < this.languages.length; ++i) {
           if (this.languages[i][key] !== undefined) {
             this.languages[i][key] = language[key];
             return;

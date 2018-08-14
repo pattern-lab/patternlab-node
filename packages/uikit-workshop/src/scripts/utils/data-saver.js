@@ -7,6 +7,9 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.opensource.org/licenses/GPL-2.0
  */
+import $ from 'jquery';
+const jQuery = $;
+
 (function($, document, undefined) {
   var pluses = /\+/g;
 
@@ -78,7 +81,7 @@
  * Licensed under the MIT license
  */
 
-var DataSaver = {
+export const DataSaver = {
   // the name of the cookie to store the data in
   cookieName: 'patternlab',
 
