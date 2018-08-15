@@ -51,7 +51,7 @@ try {
     'patternlab-nunjucks-config.js'
   ));
   if (typeof nunjucksConfig === 'function') {
-    nunjucksConfig(nunjucks, env);
+    nunjucksConfig(env);
   }
 } catch (err) {}
 
