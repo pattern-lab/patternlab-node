@@ -76,6 +76,7 @@ const engine_nunjucks = {
       return Promise.resolve(result);
     } catch (err) {
       console.error('Failed to render pattern: ' + pattern.name);
+      console.error(err);
     }
   },
 
