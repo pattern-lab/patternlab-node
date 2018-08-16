@@ -45,6 +45,7 @@
     "html-webpack-plugin": "github:jantimon/html-webpack-plugin#webpack-4",
     "mini-css-extract-plugin": "^0.4.1",
     "no-emit-webpack-plugin": "^1.0.0",
+    "node-sass": "^4.9.3",
     "penthouse": "^1.6.2",
     "postcss-loader": "^3.0.0",
     "raw-loader": "^0.5.1",
