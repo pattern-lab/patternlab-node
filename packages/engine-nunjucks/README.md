@@ -17,10 +17,10 @@ Level of Support is more or less full. Partial calls and lineage hunting are sup
 
 ## Extending the Nunjucks instance
 
-To add custom filters or make customizations to the nunjucks instance, create a file named `patternlab-nunjucks-config.js` in the root of your Pattern Lab project. `patternlab-nunjucks-config.js` should export a function that takes two parameters. The first parameter is the nunjucks instance; the second is the nunjucks instance's environment.
+To add custom filters or make customizations to the nunjucks instance, create a file named `patternlab-nunjucks-config.js` in the root of your Pattern Lab project. `patternlab-nunjucks-config.js` should export a function with the Nunjucks environment as parameter.
 
 ```
-module.exports = function (nunjucks, env) {
+module.exports = function (env) {
   [YOUR CUSTOM CODE HERE]
 };
 ```
@@ -30,7 +30,7 @@ Example: `patternlab-nunjucks-config.js` file that uses lodash and adds three cu
 var _shuffle = require('lodash/shuffle'),
   _take = require('lodash/take');
 
-exports = module.exports = function (nunjucks, env) {
+exports = module.exports = function (env) {
   env.addFilter('shorten', function (str, count) {
     return str.slice(0, count || 5);
   });
