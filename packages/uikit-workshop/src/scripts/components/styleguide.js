@@ -99,7 +99,14 @@ import Mousetrap from 'mousetrap';
     killDisco();
     killHay();
     fullMode = false;
-    sizeiframe(getRandom(minViewportWidth, 500));
+    sizeiframe(
+      getRandom(
+        minViewportWidth,
+        config.ishViewportRange !== undefined
+          ? parseInt(config.ishViewportRange.s[1])
+          : 500
+      )
+    );
   }
 
   $('#pl-size-s').on('click', function(e) {
@@ -119,10 +126,12 @@ import Mousetrap from 'mousetrap';
     fullMode = false;
     sizeiframe(
       getRandom(
-        minViewportWidth,
         config.ishViewportRange !== undefined
-          ? parseInt(config.ishViewportRange.s[1])
-          : 500
+          ? parseInt(config.ishViewportRange.m[0])
+          : 500,
+        config.ishViewportRange !== undefined
+          ? parseInt(config.ishViewportRange.m[1])
+          : 800
       )
     );
   }
@@ -133,7 +142,7 @@ import Mousetrap from 'mousetrap';
   });
 
   Mousetrap.bind('ctrl+shift+m', function(e) {
-    goLarge();
+    goMedium();
     return false;
   });
 
@@ -147,9 +156,7 @@ import Mousetrap from 'mousetrap';
         config.ishViewportRange !== undefined
           ? parseInt(config.ishViewportRange.l[0])
           : 800,
-        config.ishViewportRange !== undefined
-          ? parseInt(config.ishViewportRange.l[1])
-          : 1200
+        maxViewportWidth
       )
     );
   }
