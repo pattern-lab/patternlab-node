@@ -133,7 +133,7 @@ import Mousetrap from 'mousetrap';
   });
 
   Mousetrap.bind('ctrl+shift+m', function(e) {
-    goLarge();
+    goMedium();
     return false;
   });
 
