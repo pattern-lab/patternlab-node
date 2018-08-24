@@ -15,7 +15,8 @@
 .pl-c-viewport {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  flex-direction: column;
+  height: auto;
   width: 100%;
   position: relative;
   top: $offset-top;
@@ -24,6 +25,14 @@
   right: 0;
   z-index: 0;
   overflow: hidden;
+  flex-grow: 1;
+  transition: height 0.3s ease;
+  transform: translate3d(0, 0, 0);
+  will-change: height;
+
+  @supports (position: sticky) {
+    top: 0;
+  }
 }
 
 /**

@@ -124,6 +124,7 @@ export const modalViewer = {
 
     //Remove active class to modal
     $('.pl-js-modal').removeClass('pl-is-active');
+    $('.pl-js-modal').removeAttr('style'); // remove inline height CSS
 
     // WIP: refactoring viewport panel to use CSS vars to resize
     // $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
@@ -145,6 +146,7 @@ export const modalViewer = {
    */
   hide: function() {
     $('.pl-js-modal').removeClass('pl-is-active');
+    $('.pl-js-modal').removeAttr('style'); // remove inline height CSS
 
     // WIP: refactoring viewport panel to use CSS vars to resize
     // $('html').css(

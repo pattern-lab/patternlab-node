@@ -7,7 +7,8 @@
  *    "show pattern info" is selected on the pattern detail screen.
  */
 .pl-c-modal {
-  display: none;
+  display: flex;
+  flex-direction: column;
   font-family: $pl-font;
   background: $pl-color-black;
   color: $pl-color-gray-20;
@@ -17,16 +18,21 @@
   left: 0;
   z-index: 5;
   width: 100%;
-  height: 50%;
-  transition: bottom 0.3s ease-out;
+  height: 0;
+  transition: transform 0.3s ease, height 0.3s ease;
+  transform: translate3d(0, 100%, 0);
+  pointer-events: none;
+  will-change: height, transform;
+  overflow: hidden;
 
   /**
      * Active modal
      */
   &.pl-is-active {
-    display: flex;
-    flex-direction: column;
-    bottom: 0;
+    transform: translate3d(0, 0, 0);
+    height: 50vh; // default height unless manually resized
+    transition: transform 0.3s ease;
+    pointer-events: auto;
   }
 }
 
