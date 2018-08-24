@@ -18,15 +18,15 @@ $pl-color-gray-70: #4d4c4c;
 $pl-color-gray-87: #222;
 $pl-color-black: #000;
 
-$pl-color-trans-white-25: rgba(255,255,255,0.25);
+$pl-color-trans-white-25: rgba(255, 255, 255, 0.25);
 
-$pl-color-state-info: #02A4D5;
-$pl-color-state-complete: #03790F;
-$pl-color-state-inreview: #C7A118;
-$pl-color-state-deprecated: #B00B02;
+$pl-color-state-info: #02a4d5;
+$pl-color-state-complete: #03790f;
+$pl-color-state-inreview: #c7a118;
+$pl-color-state-deprecated: #b00b02;
 
 // Font Family
-$pl-font: "HelveticaNeue", "Helvetica", "Arial", sans-serif;
+$pl-font: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
 
 // Font sizes
 $pl-font-size-sm: 0.7rem;
@@ -36,7 +36,7 @@ $pl-font-size-large: 1.2rem;
 
 // Spacing & Padding
 $pl-space: 1rem;
-$pl-doublespace: $pl-space*2;
+$pl-doublespace: $pl-space * 2;
 $pl-pad: 1rem;
 $pl-pad-half: $pl-pad/2;
 $offset-top: 2rem;

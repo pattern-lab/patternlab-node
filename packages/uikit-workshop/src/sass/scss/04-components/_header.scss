@@ -9,16 +9,16 @@
 * 2) Display nav and controls horizontally
 */
 .pl-c-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 4;
-    display: flex; /* 2 */
-    width: 100%;
-    background: $pl-color-black;
-    color: $pl-color-gray-50;
-    font-family: $pl-font;
-    font-size: $pl-font-size-sm;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: flex; /* 2 */
+  width: 100%;
+  background: $pl-color-black;
+  color: $pl-color-gray-50;
+  font-family: $pl-font;
+  font-size: $pl-font-size-sm;
 }
 
 /**
@@ -26,11 +26,11 @@
  * 1) Styles for the general nav toggle button, which
  *    only appears on small screens
  */
- .pl-c-header__nav-toggle {
-    @include linkStyle();
-    border: 0;
+.pl-c-header__nav-toggle {
+  @include linkStyle();
+  border: 0;
 
-	@media all and (min-width: $pl-bp-med) {
-		display: none;
-	}
+  @media all and (min-width: $pl-bp-med) {
+    display: none;
+  }
 }

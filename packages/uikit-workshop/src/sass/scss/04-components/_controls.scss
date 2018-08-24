@@ -7,16 +7,16 @@
  * 2) Right-align inside of header
  */
 .pl-c-controls {
-    margin-left: auto; /* 2 */
-    display: flex;
-    flex-wrap: nowrap;
+  margin-left: auto; /* 2 */
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 /**
 * Control list
 */
 .pl-c-controls__list {
-    @include listReset();
-    display: flex;
-    flex-wrap: nowrap;
+  @include listReset();
+  display: flex;
+  flex-wrap: nowrap;
 }

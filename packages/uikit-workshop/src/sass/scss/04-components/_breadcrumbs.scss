@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+/*------------------------------------*\
+    #BREADCRUMBS
+\*------------------------------------*/
+
+/**
+ * 1) Breadcrumbs display a pattern's path inside the modal
+ */
+.pl-c-breadcrumb {
+  @include listReset();
+  margin-bottom: 0.5rem;
+  display: flex;
+  font-size: $pl-font-size-sm;
+  color: $pl-color-gray-50;
+  text-transform: capitalize;
+}
+
+/**
+ * Breadcrumb Item
+ */
+.pl-c-breadcrumb__item {
+  &:after {
+    content: '\25b6';
+    opacity: 0.4;
+    font-size: 6px;
+    display: inline-block;
+    margin: 0 0.2rem;
+    position: relative;
+    top: -1px;
+  }
+}

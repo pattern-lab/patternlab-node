@@ -9,29 +9,29 @@
 * 2) The category contains a title and optional description
 */
 .pl-c-category {
-    margin-top: 6rem;
-    font: $pl-font !important;
+  margin-top: 6rem;
+  font: $pl-font !important;
 
-    &:first-of-type {
-        margin-top: 2rem;
-    }
+  &:first-of-type {
+    margin-top: 2rem;
+  }
 }
 
 /**
 * Pattern Category Title
 */
 .pl-c-category__title {
-    font-size: 1.4rem !important;
-    color: $pl-color-gray-87 !important;
-    margin: 0 0 0.2rem;
-    text-transform: capitalize;
+  font-size: 1.4rem !important;
+  color: $pl-color-gray-87 !important;
+  margin: 0 0 0.2rem;
+  text-transform: capitalize;
 }
 
 /**
  * Pattern Category Link 
  */
 .pl-c-category__title-link {
-    transition: color $pl-animate-quick ease-out;
+  transition: color $pl-animate-quick ease-out;
 }
 
 /**
@@ -40,11 +40,11 @@
 * 2) Hide the pattern category description is it's empty
 */
 .pl-c-category__description {
-    font-size: $pl-font-size-sm-2;
-    line-height: 1.5;
-    max-width: 30rem;
+  font-size: $pl-font-size-sm-2;
+  line-height: 1.5;
+  max-width: 30rem;
 
-    &:empty {
-        display: none; /* 2 */
-    }
+  &:empty {
+    display: none; /* 2 */
+  }
 }
