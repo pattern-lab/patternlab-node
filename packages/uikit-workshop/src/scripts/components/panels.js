@@ -20,7 +20,7 @@ export const Panels = {
 
   add(panel) {
     // if ID already exists in panels array ignore the add()
-    for (var i = 0; i < this.panels.length; ++i) {
+    for (let i = 0; i < this.panels.length; ++i) {
       if (panel.id === this.panels[i].id) {
         return;
       }
@@ -31,10 +31,10 @@ export const Panels = {
   },
 
   remove(id) {
-    var panels = this.panels;
-    for (var i = panels.length - 1; i >= 0; i--) {
+    const panels = this.panels;
+    for (let i = panels.length - 1; i >= 0; i--) {
       if (panels[i].id === id) {
-        var panelToRemove = panels[i];
+        const panelToRemove = panels[i];
         panels.splice(i, 1);
         //if removed panel was default, set first panel as new default, if exists
         if (panelToRemove.default && panels.length) {
@@ -46,15 +46,15 @@ export const Panels = {
   },
 };
 
-var fileSuffixPattern =
-  config.outputFileSuffixes !== undefined &&
-  config.outputFileSuffixes.rawTemplate !== undefined
-    ? config.outputFileSuffixes.rawTemplate
+const fileSuffixPattern =
+  window.config.outputFileSuffixes !== undefined &&
+  window.config.outputFileSuffixes.rawTemplate !== undefined
+    ? window.config.outputFileSuffixes.rawTemplate
     : '';
-var fileSuffixMarkup =
-  config.outputFileSuffixes !== undefined &&
-  config.outputFileSuffixes.markupOnly !== undefined
-    ? config.outputFileSuffixes.markupOnly
+const fileSuffixMarkup =
+  window.config.outputFileSuffixes !== undefined &&
+  window.config.outputFileSuffixes.markupOnly !== undefined
+    ? window.config.outputFileSuffixes.markupOnly
     : '.markup-only';
 
 // add the default panels
@@ -62,14 +62,14 @@ var fileSuffixMarkup =
 // TODO: sort out pl-panel-html
 Panels.add({
   id: 'pl-panel-pattern',
-  name: config.patternExtension.toUpperCase(),
+  name: window.config.patternExtension.toUpperCase(),
   default: true,
   templateID: 'pl-panel-template-code',
   httpRequest: true,
   httpRequestReplace: fileSuffixPattern,
   httpRequestCompleted: false,
   prismHighlight: true,
-  language: PrismLanguages.get(config.patternExtension),
+  language: PrismLanguages.get(window.config.patternExtension),
   keyCombo: 'ctrl+shift+u',
 });
 

@@ -629,7 +629,9 @@ import { patternFinder } from './pattern-finder';
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
     if (data.event !== undefined) {
       if (data.event === 'patternLab.pageLoad') {

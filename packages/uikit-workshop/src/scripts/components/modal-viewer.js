@@ -53,7 +53,7 @@ export const modalViewer = {
     modalViewer.hide();
 
     // review the query strings in case there is something the modal viewer is supposed to handle by default
-    var queryStringVars = urlHandler.getRequestVars();
+    const queryStringVars = urlHandler.getRequestVars();
 
     // show the modal if code view is called via query string
     if (
@@ -108,8 +108,6 @@ export const modalViewer = {
    * close the modal window
    */
   close() {
-    let obj;
-
     // note that the modal viewer is no longer active
     DataSaver.updateValue('modalActive', 'false');
     modalViewer.active = false;
@@ -125,7 +123,7 @@ export const modalViewer = {
     $('.pl-js-pattern-info-toggle').html('Show Pattern Info');
 
     // tell the styleguide to close
-    obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.patternModalClose',
     });
     document
@@ -151,7 +149,7 @@ export const modalViewer = {
   insert(templateRendered, patternPartial, iframePassback, switchText) {
     if (iframePassback) {
       // send a message to the pattern
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.patternModalInsert',
         patternPartial,
         modalContent: templateRendered.outerHTML,
@@ -201,14 +199,14 @@ export const modalViewer = {
    */
   slideToAnnotation(pos) {
     // remove active class
-    els = document.querySelectorAll('.pl-js-annotations li');
-    for (i = 0; i < els.length; ++i) {
+    const els = document.querySelectorAll('.pl-js-annotations li');
+    for (let i = 0; i < els.length; ++i) {
       els[i].classList.remove('pl-is-active');
     }
 
     // add active class to called element and scroll to it
     for (let i = 0; i < els.length; ++i) {
-      if (i + 1 == pos) {
+      if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
         $('.pl-js-pattern-info').animate(
           {
@@ -240,7 +238,7 @@ export const modalViewer = {
     }
 
     // send a message to the pattern
-    let obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.patternQuery',
       switchText,
     });
@@ -268,7 +266,9 @@ export const modalViewer = {
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
     if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       if (

@@ -54,14 +54,14 @@ export const panelsViewer = {
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
 
     // set-up defaults
-    let template, templateCompiled, templateRendered, panel;
+    let template, templateCompiled, templateRendered;
 
     // get the base panels
-    let panels = Panels.get();
+    const panels = Panels.get();
 
     // evaluate panels array and create content
     for (let i = 0; i < panels.length; ++i) {
-      panel = panels[i];
+      const panel = panels[i];
 
       // catch pattern panel since it doesn't have a name defined by default
       if (panel.name === undefined) {
@@ -79,11 +79,13 @@ export const panelsViewer = {
       if (panel.templateID !== undefined && panel.templateID) {
         if (panel.httpRequest !== undefined && panel.httpRequest) {
           // need a file and then render
-          let fileBase = urlHandler.getFileName(
+          const fileBase = urlHandler.getFileName(
             patternData.patternPartial,
             false
           );
-          let e = new XMLHttpRequest();
+          const e = new XMLHttpRequest();
+          // @todo: look deeper into how we can refactor this particular code block
+          /* eslint-disable */
           e.onload = (function(i, panels, patternData, iframeRequest) {
             return function() {
               const prismedContent = Prism.highlight(
@@ -105,7 +107,7 @@ export const panelsViewer = {
               ]);
             };
           })(i, panels, patternData, iframePassback);
-
+          /* eslint-enable */
           e.open(
             'GET',
             fileBase + panel.httpRequestReplace + '?' + new Date().getTime(),
@@ -135,11 +137,13 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  renderPanels(panels, patternData, iframePassback, switchText) {
+  renderPanels(panels, plData, iframePassback, switchText) {
     // set-up defaults
-    let template, templateCompiled, templateRendered;
-    let annotation, comment, count, div, els, item, markup, i;
-    let patternPartial = patternData.patternPartial;
+    const patternData = plData; // prevents params from getting re-assigned
+
+    let templateRendered;
+    let annotation, count, els, item;
+    const patternPartial = patternData.patternPartial;
     patternData.panels = panels;
 
     // set a default pattern description for modal pop-up
@@ -151,15 +155,15 @@ export const panelsViewer = {
     patternData.patternNameCaps = patternData.patternName.toUpperCase();
 
     // check for annotations in the given mark-up
-    markup = document.createElement('div');
+    const markup = document.createElement('div');
     markup.innerHTML = patternData.patternMarkup;
 
     count = 1;
     patternData.annotations = [];
     delete patternData.patternMarkup;
 
-    for (let i = 0; i < comments.comments.length; ++i) {
-      item = comments.comments[i];
+    for (let i = 0; i < window.comments.comments.length; ++i) {
+      item = window.comments.comments[i];
       els = markup.querySelectorAll(item.el);
 
       if (els.length > 0) {
@@ -176,7 +180,7 @@ export const panelsViewer = {
 
     // alert the pattern that annotations should be highlighted
     if (patternData.annotations.length > 0) {
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.annotationsHighlightShow',
         annotations: patternData.annotations,
       });
@@ -234,12 +238,12 @@ export const panelsViewer = {
     patternData.isPatternView = iframePassback === false;
 
     // render all of the panels in the base panel template
-    template = document.querySelector('.pl-js-panel-template-base');
-    templateCompiled = Hogan.compile(template.innerHTML);
+    const template = document.querySelector('.pl-js-panel-template-base');
+    const templateCompiled = Hogan.compile(template.innerHTML);
     templateRendered = templateCompiled.render(patternData);
 
     // make sure templateRendered is modified to be an HTML element
-    div = document.createElement('div');
+    const div = document.createElement('div');
     div.className = 'pl-c-pattern-info';
     div.innerHTML = templateRendered;
     templateRendered = div;
@@ -272,7 +276,7 @@ export const panelsViewer = {
     // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
     $('.pl-js-lineage-link', templateRendered).on('click', function(e) {
       e.preventDefault();
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.updatePath',
         path: urlHandler.getFileName($(this).attr('data-patternpartial')),
       });

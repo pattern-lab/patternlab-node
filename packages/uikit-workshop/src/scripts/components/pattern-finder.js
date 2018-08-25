@@ -16,20 +16,22 @@ export const patternFinder = {
       return;
     }
 
-    for (var patternType in window.patternPaths) {
+    for (const patternType in window.patternPaths) {
       if (window.patternPaths.hasOwnProperty(patternType)) {
-        for (var pattern in window.patternPaths[patternType]) {
-          var obj = {};
-          obj.patternPartial = patternType + '-' + pattern;
-          obj.patternPath = window.patternPaths[patternType][pattern];
-          this.data.push(obj);
+        for (const pattern in window.patternPaths[patternType]) {
+          if (window.patternPaths[patternType].hasOwnProperty(pattern)) {
+            const obj = {};
+            obj.patternPartial = patternType + '-' + pattern;
+            obj.patternPath = window.patternPaths[patternType][pattern];
+            this.data.push(obj);
+          }
         }
       }
     }
 
     // instantiate the bloodhound suggestion engine
-    var patterns = new Bloodhound({
-      datumTokenizer: function(d) {
+    const patterns = new Bloodhound({
+      datumTokenizer(d) {
         return Bloodhound.tokenizers.nonword(d.patternPartial);
       },
       queryTokenizer: Bloodhound.tokenizers.nonword,
@@ -57,7 +59,7 @@ export const patternFinder = {
   passPath(item) {
     // update the iframe via the history api handler
     patternFinder.closeFinder();
-    var obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.updatePath',
       path: urlHandler.getFileName(item.patternPartial),
     });
@@ -102,16 +104,17 @@ export const patternFinder = {
       return;
     }
 
-    var data = {};
+    let data = {};
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
-    if (data.event !== undefined && data.event == 'patternLab.keyPress') {
-      if (data.keyPress == 'ctrl+shift+f') {
+    if (data.event !== undefined && data.event === 'patternLab.keyPress') {
+      if (data.keyPress === 'ctrl+shift+f') {
         patternFinder.toggleFinder();
-        return false;
       }
     }
   },
