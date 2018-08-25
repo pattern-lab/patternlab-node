@@ -15,15 +15,15 @@ import { Dispatcher } from '../utils';
 export const Panels = {
   panels: [],
 
-  count: function() {
+  count() {
     return this.panels.length;
   },
 
-  get: function() {
+  get() {
     return JSON.parse(JSON.stringify(this.panels));
   },
 
-  add: function(panel) {
+  add(panel) {
     // if ID already exists in panels array ignore the add()
     for (var i = 0; i < this.panels.length; ++i) {
       if (panel.id === this.panels[i].id) {
@@ -35,7 +35,7 @@ export const Panels = {
     this.panels.push(panel);
   },
 
-  remove: function(id) {
+  remove(id) {
     var panels = this.panels;
     for (var i = panels.length - 1; i >= 0; i--) {
       if (panels[i].id === id) {

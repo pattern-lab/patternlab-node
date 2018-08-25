@@ -30,7 +30,7 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  checkPanels: function(panels, patternData, iframePassback, switchText) {
+  checkPanels(panels, patternData, iframePassback, switchText) {
     // count how many panels have rendered content
     let panelContentCount = 0;
     for (let i = 0; i < panels.length; ++i) {
@@ -55,7 +55,7 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  gatherPanels: function(patternData, iframePassback, switchText) {
+  gatherPanels(patternData, iframePassback, switchText) {
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
 
     // set-up defaults
@@ -140,7 +140,7 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  renderPanels: function(panels, patternData, iframePassback, switchText) {
+  renderPanels(panels, patternData, iframePassback, switchText) {
     // set-up defaults
     let template, templateCompiled, templateRendered;
     let annotation, comment, count, div, els, item, markup, i;

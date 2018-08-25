@@ -8,7 +8,7 @@
 export const PrismLanguages = {
   languages: [],
 
-  get: function(key) {
+  get(key) {
     var language;
 
     for (var i = 0; i < this.languages.length; ++i) {
@@ -21,7 +21,7 @@ export const PrismLanguages = {
     return 'markup';
   },
 
-  add: function(language) {
+  add(language) {
     // see if the language already exists, overwrite if it does
     for (var key in language) {
       if (language.hasOwnProperty(key)) {

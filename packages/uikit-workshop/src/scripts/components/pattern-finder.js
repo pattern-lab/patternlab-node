@@ -16,7 +16,7 @@ export const patternFinder = {
   data: [],
   active: false,
 
-  init: function() {
+  init() {
     // don't init more than once.
     if (document.querySelectorAll('.pl-js-typeahead').length > 1) {
       return;
@@ -60,7 +60,7 @@ export const patternFinder = {
       .on('typeahead:autocompleted', patternFinder.onAutocompleted);
   },
 
-  passPath: function(item) {
+  passPath(item) {
     // update the iframe via the history api handler
     patternFinder.closeFinder();
     var obj = JSON.stringify({
@@ -72,15 +72,15 @@ export const patternFinder = {
       .contentWindow.postMessage(obj, urlHandler.targetOrigin);
   },
 
-  onSelected: function(e, item) {
+  onSelected(e, item) {
     patternFinder.passPath(item);
   },
 
-  onAutocompleted: function(e, item) {
+  onAutocompleted(e, item) {
     patternFinder.passPath(item);
   },
 
-  toggleFinder: function() {
+  toggleFinder() {
     if (!patternFinder.active) {
       patternFinder.openFinder();
     } else {
@@ -88,18 +88,18 @@ export const patternFinder = {
     }
   },
 
-  openFinder: function() {
+  openFinder() {
     patternFinder.active = true;
     $('.pl-js-typeahead').val('');
   },
 
-  closeFinder: function() {
+  closeFinder() {
     patternFinder.active = false;
     document.activeElement.blur();
     $('.pl-js-typeahead').val('');
   },
 
-  receiveIframeMessage: function(event) {
+  receiveIframeMessage(event) {
     // does the origin sending the message match the current host? if not dev/null the request
     if (
       window.location.protocol !== 'file:' &&

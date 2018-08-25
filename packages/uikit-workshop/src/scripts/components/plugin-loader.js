@@ -11,7 +11,7 @@
  */
 
 export const pluginLoader = {
-  init: function() {
+  init() {
     var s, t, l, c, n;
 
     for (var i = 0; i < plugins.length; ++i) {

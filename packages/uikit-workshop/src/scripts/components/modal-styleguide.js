@@ -23,7 +23,7 @@ export const modalStyleguide = {
   /**
    * initialize the modal window
    */
-  onReady: function() {
+  onReady() {
     // go through the panel toggles and add click event to the pattern extra toggle button
     let els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
     for (let i = 0; i < els.length; ++i) {
@@ -38,7 +38,7 @@ export const modalStyleguide = {
    * toggle the modal window open and closed based on clicking the pip
    * @param  {String}       the patternPartial that identifies what needs to be toggled
    */
-  toggle: function(patternPartial) {
+  toggle(patternPartial) {
     if (
       modalStyleguide.active[patternPartial] === undefined ||
       !modalStyleguide.active[patternPartial]
@@ -56,7 +56,7 @@ export const modalStyleguide = {
    * @param  {String}       the patternPartial that identifies what needs to be opened
    * @param  {String}       the content that should be inserted
    */
-  open: function(patternPartial, content) {
+  open(patternPartial, content) {
     // make sure templateRendered is modified to be an HTML element
     let div = document.createElement('div');
     div.innerHTML = content;
@@ -98,7 +98,7 @@ export const modalStyleguide = {
    * close the modal window for a view-all entry
    * @param  {String}       the patternPartial that identifies what needs to be closed
    */
-  close: function(patternPartial) {
+  close(patternPartial) {
     // note that the modal viewer is no longer active
     modalStyleguide.active[patternPartial] = false;
 
@@ -117,7 +117,7 @@ export const modalStyleguide = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  collectAndSend: function(el, iframePassback, switchText) {
+  collectAndSend(el, iframePassback, switchText) {
     /**
      * Verify <script> tag has JSON data available (not just whitespace) - helps prevents JS errors from
      * getting thrown when certain script tags aren't rendered with partial.patternData content.
@@ -147,7 +147,7 @@ export const modalStyleguide = {
   /**
    * hide the annotation highlights
    */
-  highlightsHide: function(patternPartial) {
+  highlightsHide(patternPartial) {
     const patternPartialSelector =
       patternPartial !== undefined ? '#' + patternPartial + ' > ' : '';
     let elsToHide = document.querySelectorAll(
@@ -170,7 +170,7 @@ export const modalStyleguide = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  patternQueryInfo: function(patternData, iframePassback, switchText) {
+  patternQueryInfo(patternData, iframePassback, switchText) {
     // send a message to the pattern
     try {
       let obj = JSON.stringify({
@@ -188,7 +188,7 @@ export const modalStyleguide = {
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
    * @param  {Object}      event info
    */
-  receiveIframeMessage: function(event) {
+  receiveIframeMessage(event) {
     let i;
 
     // does the origin sending the message match the current host? if not dev/null the request

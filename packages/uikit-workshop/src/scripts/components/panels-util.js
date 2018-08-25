@@ -17,7 +17,7 @@ export const panelsUtil = {
    * @param  {String}      the rendered template for the modal
    * @param  {String}      the pattern partial for the modal
    */
-  addClickEvents: function(templateRendered, patternPartial) {
+  addClickEvents(templateRendered, patternPartial) {
     var els = templateRendered.querySelectorAll('.pl-js-tab-link');
     for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
@@ -37,7 +37,7 @@ export const panelsUtil = {
    * @param  {String}      the pattern partial for the modal
    * @param  {String}      the ID of the panel to be shown
    */
-  show: function(patternPartial, panelID) {
+  show(patternPartial, panelID) {
     const activeTabClass = 'pl-is-active-tab';
 
     // turn off all of the active tabs
