@@ -139,12 +139,6 @@ export const modalViewer = {
   hide() {
     $('.pl-js-modal').removeClass('pl-is-active');
     $('.pl-js-modal').removeAttr('style'); // remove inline height CSS
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - 32 + 'px'
-    // );
   },
 
   /**
@@ -241,12 +235,6 @@ export const modalViewer = {
    */
   show() {
     $('.pl-js-modal').addClass('pl-is-active');
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-    // );
   },
 
   /**
