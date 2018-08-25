@@ -166,7 +166,7 @@ export const modalStyleguide = {
   patternQueryInfo(patternData, iframePassback, switchText) {
     // send a message to the pattern
     try {
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.patternQueryInfo',
         patternData,
         iframePassback,

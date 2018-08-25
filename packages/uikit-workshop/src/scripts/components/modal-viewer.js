@@ -207,7 +207,7 @@ export const modalViewer = {
     }
 
     // add active class to called element and scroll to it
-    for (i = 0; i < els.length; ++i) {
+    for (let i = 0; i < els.length; ++i) {
       if (i + 1 == pos) {
         els[i].classList.add('pl-is-active');
         $('.pl-js-pattern-info').animate(
@@ -255,8 +255,6 @@ export const modalViewer = {
    * @param  {Object}      event info
    */
   receiveIframeMessage(event) {
-    var els, i;
-
     // does the origin sending the message match the current host? if not dev/null the request
     if (
       window.location.protocol !== 'file:' &&
@@ -277,8 +275,8 @@ export const modalViewer = {
         modalViewer.active === false &&
         data.patternpartial !== undefined &&
         data.patternpartial.indexOf('viewall-') === 0 &&
-        config.defaultShowPatternInfo !== undefined &&
-        config.defaultShowPatternInfo
+        window.config.defaultShowPatternInfo !== undefined &&
+        window.config.defaultShowPatternInfo
       ) {
         modalViewer.queryPattern(false);
       } else if (modalViewer.active === true) {

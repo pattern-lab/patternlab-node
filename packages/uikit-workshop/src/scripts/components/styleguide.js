@@ -629,9 +629,7 @@ import { patternFinder } from './pattern-finder';
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      throw Error(e);
-    }
+    } catch (e) {}
 
     if (data.event !== undefined) {
       if (data.event === 'patternLab.pageLoad') {
