@@ -1,6 +1,9 @@
+/**
+ * Copy to clipboard functionality for code snippet examples
+ */
+
 import Clipboard from 'clipboard';
 
-// Copy to clipboard functionality
 const clipboard = new Clipboard('.pl-js-code-copy-btn');
 clipboard.on('success', function(e) {
   const copyButton = document.querySelectorAll('.pl-js-code-copy-btn');

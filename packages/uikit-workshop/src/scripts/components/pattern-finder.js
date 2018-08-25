@@ -1,16 +1,10 @@
-/*!
+/**
  * Pattern Finder
- *
- * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires url-handler.js
- *
  */
 
-import { urlHandler } from '../utils';
 import $ from 'jquery';
 import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+import { urlHandler } from '../utils';
 
 export const patternFinder = {
   data: [],

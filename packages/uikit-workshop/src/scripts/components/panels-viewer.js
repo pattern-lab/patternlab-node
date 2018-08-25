@@ -1,19 +1,13 @@
-/*!
- * Panel Builder. Supports building the panels to be included in the modal or styleguide
- *
- * Copyright (c) 2013-16 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires panels.js
- * @requires url-handler.js
+/**
+ * Panel Builder - supports building the panels to be included in the modal or styleguide
  */
 
-import { Panels } from './panels';
-import { panelsUtil } from './panels-util';
-import { urlHandler, Dispatcher } from '../utils';
 import $ from 'jquery';
 import Hogan from 'hogan.js';
 import Prism from 'prismjs';
+import { Panels } from './panels';
+import { panelsUtil } from './panels-util';
+import { urlHandler, Dispatcher } from '../utils';
 
 export const panelsViewer = {
   // set up some defaults

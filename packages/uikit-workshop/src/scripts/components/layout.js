@@ -1,8 +1,5 @@
-/*!
- * Simple Layout Rendering for Pattern Lab
- *
- * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
+/**
+ * Primary UI rendering for Pattern Lab
  */
 
 import Hogan from 'hogan.js';

@@ -1,18 +1,10 @@
-/*!
- * Modal for the Viewer Layer
- * For both annotations and code/info
- *
- * Copyright (c) 2016 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires url-handler.js
- * @requires data-saver.js
- *
+/**
+ * "Modal" (aka Panel UI) for the Viewer Layer - for both annotations and code/info
  */
 
+import $ from 'jquery';
 import { urlHandler, DataSaver, Dispatcher } from '../utils';
 import { panelsViewer } from './panels-viewer';
-import $ from 'jquery';
 
 export const modalViewer = {
   // set up some defaults

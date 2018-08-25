@@ -1,12 +1,7 @@
-/*!
+/**
  * Default Panels for Pattern Lab plus Panel related events
  *
- * Copyright (c) 2016 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * config is coming from the default viewer and is passed through from PL's config
- *
- * @requires prism-languages.js
+ * note: config is coming from the default viewer and is passed through from PL's config
  */
 
 import { PrismLanguages } from './prism-languages';

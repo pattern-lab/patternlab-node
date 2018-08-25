@@ -1,13 +1,5 @@
-/*!
- * Modal for the Styleguide Layer
- * For both annotations and code/info
- *
- * Copyright (c) 2016 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires panels-util.js
- * @requires url-handler.js
- *
+/**
+ * "Modal" (aka Panel UI) for the Styleguide Layer - for both annotations and code/info
  */
 
 import { panelsUtil } from './panels-util';

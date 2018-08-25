@@ -1,10 +1,7 @@
-/*!
+/**
  * Default languages for Prism to match rendering capability
- *
- * Copyright (c) 2016 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
  */
+
 export const PrismLanguages = {
   languages: [],
 

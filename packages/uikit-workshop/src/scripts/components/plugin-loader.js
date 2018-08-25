@@ -1,13 +1,5 @@
-/*!
- * Plugin Loader
- *
- * Copyright (c) 2015 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * Takes the assets they can be loaded for plugins and adds them to the DOM
- *
- * @requires styleguide.js
- *
+/**
+ * Plugin Loader - takes the assets they can be loaded for plugins and adds them to the DOM
  */
 
 export const pluginLoader = {

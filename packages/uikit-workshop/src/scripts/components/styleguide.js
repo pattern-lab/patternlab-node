@@ -1,13 +1,11 @@
 /**
- * @requires data-saver.js
- * @requires url-handler.js
- * @requires postmessage.js
+ * Styleguide.js - misc UI logic for Pattern Lab that needs refactoring
  */
 
-import { urlHandler, DataSaver, postmessage } from '../utils';
-import { patternFinder } from './pattern-finder';
 import $ from 'jquery';
 import Mousetrap from 'mousetrap';
+import { urlHandler, DataSaver } from '../utils';
+import { patternFinder } from './pattern-finder';
 
 (function(w) {
   var sw = document.body.clientWidth, //Viewport Width

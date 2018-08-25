@@ -1,15 +1,6 @@
-/*!
- * Panels Util
- * For both styleguide and viewer
- *
- * Copyright (c) 2013-16 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires url-handler.js
- *
+/**
+ * Panels Util - for both styleguide and viewer
  */
-
-import { urlHandler } from '../utils';
 
 export const panelsUtil = {
   /**
