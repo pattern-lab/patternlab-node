@@ -11,7 +11,6 @@
 import { Panels } from './panels';
 import { panelsUtil } from './panels-util';
 import { urlHandler, Dispatcher } from '../utils';
-import Clipboard from 'clipboard';
 import $ from 'jquery';
 import Hogan from 'hogan.js';
 import Prism from 'prismjs';
@@ -337,14 +336,4 @@ $('body').mouseup(function() {
   // WIP: updating viewport resizer to use CSS custom props.
   // $('.pl-js-modal').css('transition', '');
   // $('.pl-js-vp-iframe-container').css('transition', '');
-});
-
-// Copy to clipboard functionality
-let clipboard = new Clipboard('.pl-js-code-copy-btn');
-clipboard.on('success', function(e) {
-  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (let i = 0; i < copyButton.length; i++) {
-    copyButton[i].innerText = 'Copy';
-  }
-  e.trigger.textContent = 'Copied';
 });

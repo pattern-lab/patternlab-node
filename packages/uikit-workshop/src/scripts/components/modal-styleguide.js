@@ -11,7 +11,6 @@
  */
 
 import { panelsUtil } from './panels-util';
-import Clipboard from 'clipboard';
 
 export const modalStyleguide = {
   // set up some defaults
@@ -303,13 +302,3 @@ export const modalStyleguide = {
 // when the document is ready make sure the modal is ready
 modalStyleguide.onReady();
 window.addEventListener('message', modalStyleguide.receiveIframeMessage, false);
-
-// Copy to clipboard functionality
-let clipboard = new Clipboard('.pl-js-code-copy-btn');
-clipboard.on('success', function(e) {
-  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (let i = 0; i < copyButton.length; i++) {
-    copyButton[i].innerText = 'Copy';
-  }
-  e.trigger.textContent = 'Copied';
-});

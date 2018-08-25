@@ -3,6 +3,7 @@ import './components/layout';
 import './components/modal-viewer';
 import './components/panels';
 import './components/panels-util';
+import './components/copy-to-clipboard';
 import './components/panels-viewer';
 import './components/pattern-finder';
 import './components/plugin-loader';
