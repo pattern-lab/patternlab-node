@@ -14,7 +14,7 @@ export const urlHandler = {
   // set-up some default vars
   skipBack: false,
   targetOrigin:
-    window.location.protocol == 'file:'
+    window.location.protocol === 'file:'
       ? '*'
       : window.location.protocol + '//' + window.location.host,
 
@@ -25,9 +25,9 @@ export const urlHandler = {
    *
    * @return {String}       the real file path
    */
-  getFileName: function(name, withRenderedSuffix) {
-    var baseDir = 'patterns';
-    var fileName = '';
+  getFileName(name, withRenderedSuffix) {
+    const baseDir = 'patterns';
+    let fileName = '';
 
     if (name === undefined) {
       return fileName;
@@ -37,19 +37,22 @@ export const urlHandler = {
       withRenderedSuffix = true;
     }
 
-    if (name == 'all') {
+    if (name === 'all') {
       return 'styleguide/html/styleguide.html';
-    } else if (name == 'snapshots') {
+    } else if (name === 'snapshots') {
       return 'snapshots/index.html';
     }
 
-    var paths = name.indexOf('viewall-') != -1 ? viewAllPaths : patternPaths;
-    var nameClean = name.replace('viewall-', '');
+    const paths =
+      name.indexOf('viewall-') !== -1
+        ? window.viewAllPaths
+        : window.patternPaths;
+    const nameClean = name.replace('viewall-', '');
 
     // look at this as a regular pattern
-    var bits = this.getPatternInfo(nameClean, paths);
-    var patternType = bits[0];
-    var pattern = bits[1];
+    const bits = this.getPatternInfo(nameClean, paths);
+    const patternType = bits[0];
+    const pattern = bits[1];
 
     if (
       paths[patternType] !== undefined &&
@@ -57,8 +60,8 @@ export const urlHandler = {
     ) {
       fileName = paths[patternType][pattern];
     } else if (paths[patternType] !== undefined) {
-      for (var patternMatchKey in paths[patternType]) {
-        if (patternMatchKey.indexOf(pattern) != -1) {
+      for (const patternMatchKey in paths[patternType]) {
+        if (patternMatchKey.indexOf(pattern) !== -1) {
           fileName = paths[patternType][patternMatchKey];
           break;
         }
@@ -69,7 +72,7 @@ export const urlHandler = {
       return fileName;
     }
 
-    var regex = /\//g;
+    const regex = /\//g;
     if (
       name.indexOf('viewall-') !== -1 &&
       name.indexOf('viewall-') === 0 &&
@@ -84,10 +87,10 @@ export const urlHandler = {
         '/' +
         fileName.replace(regex, '-');
       if (withRenderedSuffix) {
-        var fileSuffixRendered =
-          config.outputFileSuffixes !== undefined &&
-          config.outputFileSuffixes.rendered !== undefined
-            ? config.outputFileSuffixes.rendered
+        const fileSuffixRendered =
+          window.config.outputFileSuffixes !== undefined &&
+          window.config.outputFileSuffixes.rendered !== undefined
+            ? window.config.outputFileSuffixes.rendered
             : '';
         fileName = fileName + fileSuffixRendered + '.html';
       }
@@ -103,19 +106,19 @@ export const urlHandler = {
    *
    * @return {Array}        the pattern type and pattern name
    */
-  getPatternInfo: function(name, paths) {
-    var patternBits = name.split('-');
+  getPatternInfo(name, paths) {
+    const patternBits = name.split('-');
 
-    var i = 1;
-    var c = patternBits.length;
+    let i = 1;
+    const c = patternBits.length;
 
-    var patternType = patternBits[0];
+    let patternType = patternBits[0];
     while (paths[patternType] === undefined && i < c) {
       patternType += '-' + patternBits[i];
       i++;
     }
 
-    var pattern = name.slice(patternType.length + 1, name.length);
+    const pattern = name.slice(patternType.length + 1, name.length);
 
     return [patternType, pattern];
   },
@@ -125,12 +128,12 @@ export const urlHandler = {
    *
    * @return {Object}       a search of the window.location.search vars
    */
-  getRequestVars: function() {
+  getRequestVars() {
     // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-    var oGetVars = new function(sSearch) {
+    const oGetVars = new function(sSearch) {
       if (sSearch.length > 1) {
         for (
-          var aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split('&');
+          let aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split('&');
           nKeyId < aCouples.length;
           nKeyId++
         ) {
@@ -149,21 +152,21 @@ export const urlHandler = {
    * @param  {String}       the shorthand partials syntax for a given pattern
    * @param  {String}       the path given by the loaded iframe
    */
-  pushPattern: function(pattern, givenPath) {
-    var data = {
-      pattern: pattern,
+  pushPattern(pattern, givenPath) {
+    const data = {
+      pattern,
     };
-    var fileName = urlHandler.getFileName(pattern);
-    var path = window.location.pathname;
+    const fileName = urlHandler.getFileName(pattern);
+    let path = window.location.pathname;
     path =
       window.location.protocol === 'file'
         ? path.replace('/public/index.html', 'public/')
         : path.replace(/\/index\.html/, '/');
-    var expectedPath =
+    const expectedPath =
       window.location.protocol + '//' + window.location.host + path + fileName;
-    if (givenPath != expectedPath) {
+    if (givenPath !== expectedPath) {
       // make sure to update the iframe because there was a click
-      var obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.updatePath',
         path: fileName,
       });
@@ -172,8 +175,8 @@ export const urlHandler = {
         .contentWindow.postMessage(obj, urlHandler.targetOrigin);
     } else {
       // add to the history
-      var addressReplacement =
-        window.location.protocol == 'file:'
+      const addressReplacement =
+        window.location.protocol === 'file:'
           ? null
           : window.location.protocol +
             '//' +
@@ -181,8 +184,8 @@ export const urlHandler = {
             window.location.pathname.replace('index.html', '') +
             '?p=' +
             pattern;
-      if (history.pushState !== undefined) {
-        history.pushState(data, null, addressReplacement);
+      if (window.history.pushState !== undefined) {
+        window.history.pushState(data, null, addressReplacement);
       }
       document.getElementById('title').innerHTML = 'Pattern Lab - ' + pattern;
 
@@ -200,9 +203,9 @@ export const urlHandler = {
    * based on a click forward or backward modify the url and iframe source
    * @param  {Object}      event info like state and properties set in pushState()
    */
-  popPattern: function(e) {
-    var patternName;
-    var state = e.state;
+  popPattern(e) {
+    let patternName;
+    const state = e.state;
 
     if (state === null) {
       this.skipBack = false;
@@ -211,13 +214,13 @@ export const urlHandler = {
       patternName = state.pattern;
     }
 
-    var iFramePath = '';
+    let iFramePath = '';
     iFramePath = this.getFileName(patternName);
     if (iFramePath === '') {
       iFramePath = 'styleguide/html/styleguide.html';
     }
 
-    var obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.updatePath',
       path: iFramePath,
     });
