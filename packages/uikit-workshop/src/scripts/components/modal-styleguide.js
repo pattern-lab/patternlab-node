@@ -3,6 +3,7 @@
  */
 
 import { panelsUtil } from './panels-util';
+import './copy-to-clipboard';
 
 export const modalStyleguide = {
   // set up some defaults
@@ -167,9 +168,9 @@ export const modalStyleguide = {
     try {
       let obj = JSON.stringify({
         event: 'patternLab.patternQueryInfo',
-        patternData: patternData,
-        iframePassback: iframePassback,
-        switchText: switchText,
+        patternData,
+        iframePassback,
+        switchText,
       });
       parent.postMessage(obj, modalStyleguide.targetOrigin);
     } catch (e) {}

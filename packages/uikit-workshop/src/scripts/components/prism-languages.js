@@ -6,9 +6,9 @@ export const PrismLanguages = {
   languages: [],
 
   get(key) {
-    var language;
+    let language;
 
-    for (var i = 0; i < this.languages.length; ++i) {
+    for (let i = 0; i < this.languages.length; ++i) {
       language = this.languages[i];
       if (language[key] !== undefined) {
         return language[key];
@@ -20,9 +20,9 @@ export const PrismLanguages = {
 
   add(language) {
     // see if the language already exists, overwrite if it does
-    for (var key in language) {
+    for (const key in language) {
       if (language.hasOwnProperty(key)) {
-        for (var i = 0; i < this.languages.length; ++i) {
+        for (let i = 0; i < this.languages.length; ++i) {
           if (this.languages[i][key] !== undefined) {
             this.languages[i][key] = language[key];
             return;
@@ -39,6 +39,7 @@ export const PrismLanguages = {
 PrismLanguages.add({
   twig: 'markup',
 });
+
 PrismLanguages.add({
   mustache: 'markup',
 });

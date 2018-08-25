@@ -153,7 +153,7 @@ export const modalViewer = {
       // send a message to the pattern
       let obj = JSON.stringify({
         event: 'patternLab.patternModalInsert',
-        patternPartial: patternPartial,
+        patternPartial,
         modalContent: templateRendered.outerHTML,
       });
       document
@@ -193,16 +193,6 @@ export const modalViewer = {
    */
   slide(pos) {
     $('.pl-js-modal').toggleClass('pl-is-active');
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // if ($('.pl-js-modal').hasClass('pl-is-active')) {
-    //   $('html').css(
-    //     '--pl-viewport-height',
-    //     window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-    //   );
-    // } else {
-    //   $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
-    // }
   },
 
   /**
@@ -252,7 +242,7 @@ export const modalViewer = {
     // send a message to the pattern
     let obj = JSON.stringify({
       event: 'patternLab.patternQuery',
-      switchText: switchText,
+      switchText,
     });
     document
       .querySelector('.pl-js-iframe')
@@ -275,14 +265,14 @@ export const modalViewer = {
       return;
     }
 
-    var data = {};
+    let data = {};
 
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
     } catch (e) {}
 
-    if (data.event !== undefined && data.event == 'patternLab.pageLoad') {
+    if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       if (
         modalViewer.active === false &&
         data.patternpartial !== undefined &&
@@ -296,7 +286,7 @@ export const modalViewer = {
       }
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.patternQueryInfo'
+      data.event === 'patternLab.patternQueryInfo'
     ) {
       // refresh the modal if a new pattern is loaded and the modal is active
       modalViewer.refresh(
@@ -306,7 +296,7 @@ export const modalViewer = {
       );
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.annotationNumberClicked'
+      data.event === 'patternLab.annotationNumberClicked'
     ) {
       // slide to a given annoation
       modalViewer.slideToAnnotation(data.displayNumber);

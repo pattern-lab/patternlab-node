@@ -8,6 +8,7 @@ import Prism from 'prismjs';
 import { Panels } from './panels';
 import { panelsUtil } from './panels-util';
 import { urlHandler, Dispatcher } from '../utils';
+import './copy-to-clipboard';
 
 export const panelsViewer = {
   // set up some defaults
@@ -307,27 +308,14 @@ $('.pl-js-modal-resizer').mousedown(function(event) {
 
   $('.pl-js-modal-cover').css('display', 'block'); /* 2 */
 
-  $('.pl-js-modal-cover').mousemove(function(event) {
+  $('.pl-js-modal-cover').mousemove(function(e) {
     /* 3 */
-    const panelHeight = window.innerHeight - event.clientY + 32; /* 4 */
+    const panelHeight = window.innerHeight - e.clientY + 32; /* 4 */
     $('.pl-js-modal').css('height', panelHeight + 'px'); /* 4 */
-
-    // WIP: updating PL viewport to be resized via CSS Vars
-    // $('.pl-js-modal').css('transition', 'none');
-    // $('.pl-js-vp-iframe-container').css('transition', 'none');
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - panelHeight - 32 + 'px'
-    // ); /* 4 */
   });
 });
 
 $('body').mouseup(function() {
-  /* 5 */
   $('.pl-js-modal').unbind('mousemove'); /* 5 */
   $('.pl-js-modal-cover').css('display', 'none'); /* 5 */
-
-  // WIP: updating viewport resizer to use CSS custom props.
-  // $('.pl-js-modal').css('transition', '');
-  // $('.pl-js-vp-iframe-container').css('transition', '');
 });
