@@ -39,6 +39,7 @@ PatternLoader.prototype.getSource = function(name) {
   return {
     src: fs.readFileSync(fullPath, 'utf-8'),
     path: fullPath,
+    noCache: true
   };
 };
 
