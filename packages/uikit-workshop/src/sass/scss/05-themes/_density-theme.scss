@@ -1,0 +1,151 @@
+/*------------------------------------*\
+    #DENSITY THEME
+\*------------------------------------*/
+
+/**
+ * A theme that adjusts the density of the PL UI.
+ * Options are compact (default), cozy, and comfortable
+ */
+.pl-c-body--theme-density-cozy {
+  /**
+     * Header
+     */
+  .pl-c-header {
+    font-size: $pl-font-size-sm-2;
+  }
+
+  /**
+     * Size input fields
+     */
+  .pl-c-viewport-size__input {
+    width: 44px;
+  }
+
+  /**
+     * Typeahead
+     */
+  .pl-c-typeahead {
+    padding: 0.9rem 0.8rem;
+  }
+
+  /**
+     * Ish sizing controls
+     * 1) Hide on smaller screens
+     */
+  .pl-c-size-list {
+    @media all and (max-width: 78em) {
+      display: none;
+    }
+  }
+
+  /**
+     * Viewport sizing inputs
+     * 1) Hide these controls on 
+     */
+  .pl-c-viewport-size {
+    @media all and (max-width: 78em) {
+      display: none; /* 1 */
+    }
+  }
+
+  /**
+     * Tools menu button
+     * 1) This is the button that contains the toggle and 
+     *    triggers the tools dropdown list
+     */
+  .pl-c-tools__toggle {
+    min-width: 44px;
+  }
+
+  /**
+     * Viewport
+     * 1) Offset the viewport to account for the adjusted
+     *    PL header height
+     */
+  .pl-c-viewport {
+    top: 3.28rem;
+  }
+}
+
+/*------------------------------------*\
+    #COMFORTABLE DENSITY
+\*------------------------------------*/
+
+/**
+ * Biggest
+ */
+
+.pl-c-body--theme-density-comfortable {
+  /**
+     * Header
+     * 1) Change the font size of everything in the header
+     */
+  .pl-c-header {
+    font-size: $pl-font-size-sm-2;
+  }
+
+  /**
+     * Logo
+     */
+  .pl-c-logo {
+    max-width: 4rem;
+  }
+
+  /**
+     * Typeahead dropdown list suggestion
+     */
+  .pl-c-header .tt-suggestion {
+    padding: 1.5rem 1rem;
+  }
+
+  /**
+     * Size input fields
+     */
+  .pl-c-viewport-size__input {
+    width: 44px;
+  }
+
+  /**
+     * Typeahead
+     */
+  .pl-c-typeahead {
+    padding: 0.9rem 1rem;
+  }
+
+  /**
+     * Ish sizing controls
+     * 1) Hide on smaller screens
+     */
+  .pl-c-size-list {
+    @media all and (max-width: 78em) {
+      display: none; /* 1 */
+    }
+  }
+
+  /**
+     * Viewport sizing inputs
+     */
+  .pl-c-viewport-size {
+    @media all and (max-width: 78em) {
+      display: none; /* 1 */
+    }
+  }
+
+  /**
+     * Tools menu button
+     * 1) This is the button that contains the toggle and 
+     *    triggers the tools dropdown list
+     */
+  .pl-c-tools__toggle {
+    min-width: 44px;
+  }
+
+  /**
+     * Viewport
+     * 1) Offset the viewport to account for the adjusted
+     *    PL header height
+     */
+  .pl-c-viewport {
+    top: 3.8rem; /* 1 */
+  }
+}
