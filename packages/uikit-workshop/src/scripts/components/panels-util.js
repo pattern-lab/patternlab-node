@@ -1,15 +1,6 @@
-/*!
- * Panels Util
- * For both styleguide and viewer
- *
- * Copyright (c) 2013-16 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires url-handler.js
- *
+/**
+ * Panels Util - for both styleguide and viewer
  */
-
-import { urlHandler } from '../utils';
 
 export const panelsUtil = {
   /**
@@ -17,15 +8,15 @@ export const panelsUtil = {
    * @param  {String}      the rendered template for the modal
    * @param  {String}      the pattern partial for the modal
    */
-  addClickEvents: function(templateRendered, patternPartial) {
-    var els = templateRendered.querySelectorAll('.pl-js-tab-link');
+  addClickEvents(templateRendered, patternPartial) {
+    const els = templateRendered.querySelectorAll('.pl-js-tab-link');
     for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
         e.preventDefault();
 
-        var patternPartial = this.getAttribute('data-patternpartial');
-        var panelID = this.getAttribute('data-panelid');
-        panelsUtil.show(patternPartial, panelID);
+        const partial = this.getAttribute('data-patternpartial');
+        const panelID = this.getAttribute('data-panelid');
+        panelsUtil.show(partial, panelID);
       };
     }
 
@@ -37,7 +28,7 @@ export const panelsUtil = {
    * @param  {String}      the pattern partial for the modal
    * @param  {String}      the ID of the panel to be shown
    */
-  show: function(patternPartial, panelID) {
+  show(patternPartial, panelID) {
     const activeTabClass = 'pl-is-active-tab';
 
     // turn off all of the active tabs

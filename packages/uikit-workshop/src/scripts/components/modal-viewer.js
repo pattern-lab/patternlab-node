@@ -1,18 +1,10 @@
-/*!
- * Modal for the Viewer Layer
- * For both annotations and code/info
- *
- * Copyright (c) 2016 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires url-handler.js
- * @requires data-saver.js
- *
+/**
+ * "Modal" (aka Panel UI) for the Viewer Layer - for both annotations and code/info
  */
 
+import $ from 'jquery';
 import { urlHandler, DataSaver, Dispatcher } from '../utils';
 import { panelsViewer } from './panels-viewer';
-import $ from 'jquery';
 
 export const modalViewer = {
   // set up some defaults
@@ -28,7 +20,7 @@ export const modalViewer = {
   /**
    * initialize the modal window
    */
-  onReady: function() {
+  onReady() {
     // make sure the listener for checkpanels is set-up
     Dispatcher.addListener('insertPanels', modalViewer.insert);
 
@@ -61,7 +53,7 @@ export const modalViewer = {
     modalViewer.hide();
 
     // review the query strings in case there is something the modal viewer is supposed to handle by default
-    var queryStringVars = urlHandler.getRequestVars();
+    const queryStringVars = urlHandler.getRequestVars();
 
     // show the modal if code view is called via query string
     if (
@@ -83,7 +75,7 @@ export const modalViewer = {
   /**
    * toggle the modal window open and closed
    */
-  toggle: function() {
+  toggle() {
     if (modalViewer.active === false) {
       modalViewer.queryPattern();
     } else {
@@ -100,7 +92,7 @@ export const modalViewer = {
   /**
    * open the modal window
    */
-  open: function() {
+  open() {
     // make sure the modal viewer and other options are off just in case
     modalViewer.close();
 
@@ -115,9 +107,7 @@ export const modalViewer = {
   /**
    * close the modal window
    */
-  close: function() {
-    let obj;
-
+  close() {
     // note that the modal viewer is no longer active
     DataSaver.updateValue('modalActive', 'false');
     modalViewer.active = false;
@@ -133,7 +123,7 @@ export const modalViewer = {
     $('.pl-js-pattern-info-toggle').html('Show Pattern Info');
 
     // tell the styleguide to close
-    obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.patternModalClose',
     });
     document
@@ -144,15 +134,9 @@ export const modalViewer = {
   /**
    * hide the modal window
    */
-  hide: function() {
+  hide() {
     $('.pl-js-modal').removeClass('pl-is-active');
     $('.pl-js-modal').removeAttr('style'); // remove inline height CSS
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - 32 + 'px'
-    // );
   },
 
   /**
@@ -162,17 +146,12 @@ export const modalViewer = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  insert: function(
-    templateRendered,
-    patternPartial,
-    iframePassback,
-    switchText
-  ) {
+  insert(templateRendered, patternPartial, iframePassback, switchText) {
     if (iframePassback) {
       // send a message to the pattern
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.patternModalInsert',
-        patternPartial: patternPartial,
+        patternPartial,
         modalContent: templateRendered.outerHTML,
       });
       document
@@ -196,7 +175,7 @@ export const modalViewer = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  refresh: function(patternData, iframePassback, switchText) {
+  refresh(patternData, iframePassback, switchText) {
     // if this is a styleguide view close the modal
     if (iframePassback) {
       modalViewer.hide();
@@ -210,34 +189,24 @@ export const modalViewer = {
    * slides the modal window into or out of view
    * @param  {Integer}      where the modal window should be slide to
    */
-  slide: function(pos) {
+  slide(pos) {
     $('.pl-js-modal').toggleClass('pl-is-active');
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // if ($('.pl-js-modal').hasClass('pl-is-active')) {
-    //   $('html').css(
-    //     '--pl-viewport-height',
-    //     window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-    //   );
-    // } else {
-    //   $('html').css('--pl-viewport-height', window.innerHeight - 32 + 'px');
-    // }
   },
 
   /**
    * slides the modal window to a particular annotation
    * @param  {Integer}      the number for the element that should be highlighted
    */
-  slideToAnnotation: function(pos) {
+  slideToAnnotation(pos) {
     // remove active class
-    els = document.querySelectorAll('.pl-js-annotations li');
-    for (i = 0; i < els.length; ++i) {
+    const els = document.querySelectorAll('.pl-js-annotations li');
+    for (let i = 0; i < els.length; ++i) {
       els[i].classList.remove('pl-is-active');
     }
 
     // add active class to called element and scroll to it
-    for (i = 0; i < els.length; ++i) {
-      if (i + 1 == pos) {
+    for (let i = 0; i < els.length; ++i) {
+      if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
         $('.pl-js-pattern-info').animate(
           {
@@ -252,21 +221,15 @@ export const modalViewer = {
   /**
    * Show modal
    */
-  show: function() {
+  show() {
     $('.pl-js-modal').addClass('pl-is-active');
-
-    // WIP: refactoring viewport panel to use CSS vars to resize
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - $('.pl-js-modal').innerHeight() - 32 + 'px'
-    // );
   },
 
   /**
    * ask the pattern for info so we can open the modal window and populate it
    * @param  {Boolean}      if the dropdown text should be changed
    */
-  queryPattern: function(switchText) {
+  queryPattern(switchText) {
     // note that the modal is active and set switchText
     if (switchText === undefined || switchText) {
       switchText = true;
@@ -275,9 +238,9 @@ export const modalViewer = {
     }
 
     // send a message to the pattern
-    let obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.patternQuery',
-      switchText: switchText,
+      switchText,
     });
     document
       .querySelector('.pl-js-iframe')
@@ -289,9 +252,7 @@ export const modalViewer = {
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
    * @param  {Object}      event info
    */
-  receiveIframeMessage: function(event) {
-    var els, i;
-
+  receiveIframeMessage(event) {
     // does the origin sending the message match the current host? if not dev/null the request
     if (
       window.location.protocol !== 'file:' &&
@@ -300,20 +261,22 @@ export const modalViewer = {
       return;
     }
 
-    var data = {};
+    let data = {};
 
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
-    if (data.event !== undefined && data.event == 'patternLab.pageLoad') {
+    if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       if (
         modalViewer.active === false &&
         data.patternpartial !== undefined &&
         data.patternpartial.indexOf('viewall-') === 0 &&
-        config.defaultShowPatternInfo !== undefined &&
-        config.defaultShowPatternInfo
+        window.config.defaultShowPatternInfo !== undefined &&
+        window.config.defaultShowPatternInfo
       ) {
         modalViewer.queryPattern(false);
       } else if (modalViewer.active === true) {
@@ -321,7 +284,7 @@ export const modalViewer = {
       }
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.patternQueryInfo'
+      data.event === 'patternLab.patternQueryInfo'
     ) {
       // refresh the modal if a new pattern is loaded and the modal is active
       modalViewer.refresh(
@@ -331,7 +294,7 @@ export const modalViewer = {
       );
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.annotationNumberClicked'
+      data.event === 'patternLab.annotationNumberClicked'
     ) {
       // slide to a given annoation
       modalViewer.slideToAnnotation(data.displayNumber);

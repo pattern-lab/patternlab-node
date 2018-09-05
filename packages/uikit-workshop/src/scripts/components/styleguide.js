@@ -1,59 +1,55 @@
 /**
- * @requires data-saver.js
- * @requires url-handler.js
- * @requires postmessage.js
+ * Styleguide.js - misc UI logic for Pattern Lab that needs refactoring
  */
 
-import { urlHandler, DataSaver, postmessage } from '../utils';
-import { patternFinder } from './pattern-finder';
 import $ from 'jquery';
 import Mousetrap from 'mousetrap';
+import { urlHandler, DataSaver } from '../utils';
+import { patternFinder } from './pattern-finder';
 
 (function(w) {
-  var sw = document.body.clientWidth, //Viewport Width
-    sh = $(document).height(); //Viewport Height
+  let sw = document.body.clientWidth; //Viewport Width
 
-  var minViewportWidth = 240;
-  var maxViewportWidth = 2600;
+  let minViewportWidth = 240;
+  let maxViewportWidth = 2600;
 
   //set minimum and maximum viewport based on confg
-  if (config.ishMinimum !== undefined) {
-    minViewportWidth = parseInt(config.ishMinimum); //Minimum Size for Viewport
+  if (window.config.ishMinimum !== undefined) {
+    minViewportWidth = parseInt(window.config.ishMinimum, 10); //Minimum Size for Viewport
   }
-  if (config.ishMaximum !== undefined) {
-    maxViewportWidth = parseInt(config.ishMaximum); //Maxiumum Size for Viewport
+  if (window.config.ishMaximum !== undefined) {
+    maxViewportWidth = parseInt(window.config.ishMaximum, 10); //Maxiumum Size for Viewport
   }
 
   //alternatively, use the ishViewportRange object
-  if (config.ishViewportRange !== undefined) {
-    minViewportWidth = config.ishViewportRange.s[0];
-    maxViewportWidth = config.ishViewportRange.l[1];
+  if (window.config.ishViewportRange !== undefined) {
+    minViewportWidth = window.config.ishViewportRange.s[0];
+    maxViewportWidth = window.config.ishViewportRange.l[1];
   }
 
   //if both are set, then let's use the larger one.
-  if (config.ishViewportRange && config.ishMaximum) {
-    var largeRange = parseInt(config.ishViewportRange.l[1]);
-    var ishMaximum = parseInt(config.ishMaximum);
+  if (window.config.ishViewportRange && window.config.ishMaximum) {
+    const largeRange = parseInt(window.config.ishViewportRange.l[1], 10);
+    const ishMaximum = parseInt(window.config.ishMaximum, 10);
     maxViewportWidth = largeRange > ishMaximum ? largeRange : ishMaximum;
   }
 
-  var viewportResizeHandleWidth = 14, //Width of the viewport drag-to-resize handle
-    $sgIframe = $('.pl-js-iframe'), //Viewport element
-    $sizePx = $('#pl-size-px'), //Px size input element in toolbar
-    $sizeEms = $('#pl-size-em'), //Em size input element in toolbar
-    $bodySize =
-      config.ishFontSize !== undefined
-        ? parseInt(config.ishFontSize)
-        : parseInt($('body').css('font-size')), //Body size of the document
-    discoID = false,
-    discoMode = false,
-    fullMode = true,
-    hayMode = false;
+  const viewportResizeHandleWidth = 14; //Width of the viewport drag-to-resize handle
+  const $sgIframe = $('.pl-js-iframe'); //Viewport element
+  const $sizePx = $('#pl-size-px'); //Px size input element in toolbar
+  const $sizeEms = $('#pl-size-em'); //Em size input element in toolbar
+  const $bodySize =
+    window.config.ishFontSize !== undefined
+      ? parseInt(window.config.ishFontSize, 10)
+      : parseInt($('body').css('font-size'), 10); //Body size of the document
+  let discoID = false;
+  let discoMode = false;
+  let fullMode = true;
+  let hayMode = false;
 
   //Update dimensions on resize
   $(w).resize(function() {
     sw = document.body.clientWidth;
-    sh = $(document).height();
 
     if (fullMode === true) {
       sizeiframe(sw, false);
@@ -70,12 +66,12 @@ import Mousetrap from 'mousetrap';
   $('.pl-js-acc-handle').on('click', function(e) {
     e.preventDefault();
 
-    var $this = $(this),
-      $panel = $this.next('.pl-js-acc-panel'),
-      subnav = $this
-        .parent()
-        .parent()
-        .hasClass('pl-js-acc-panel');
+    const $this = $(this);
+    const $panel = $this.next('.pl-js-acc-panel');
+    const subnav = $this
+      .parent()
+      .parent()
+      .hasClass('pl-js-acc-panel');
 
     //Close other panels if link isn't a subnavigation item
     if (!subnav) {
@@ -102,8 +98,8 @@ import Mousetrap from 'mousetrap';
     sizeiframe(
       getRandom(
         minViewportWidth,
-        config.ishViewportRange !== undefined
-          ? parseInt(config.ishViewportRange.s[1])
+        window.config.ishViewportRange !== undefined
+          ? parseInt(window.config.ishViewportRange.s[1], 10)
           : 500
       )
     );
@@ -126,11 +122,11 @@ import Mousetrap from 'mousetrap';
     fullMode = false;
     sizeiframe(
       getRandom(
-        config.ishViewportRange !== undefined
-          ? parseInt(config.ishViewportRange.m[0])
+        window.config.ishViewportRange !== undefined
+          ? parseInt(window.config.ishViewportRange.m[0], 10)
           : 500,
-        config.ishViewportRange !== undefined
-          ? parseInt(config.ishViewportRange.m[1])
+        window.config.ishViewportRange !== undefined
+          ? parseInt(window.config.ishViewportRange.m[1], 10)
           : 800
       )
     );
@@ -153,8 +149,8 @@ import Mousetrap from 'mousetrap';
     fullMode = false;
     sizeiframe(
       getRandom(
-        config.ishViewportRange !== undefined
-          ? parseInt(config.ishViewportRange.l[0])
+        window.config.ishViewportRange !== undefined
+          ? parseInt(window.config.ishViewportRange.l[0], 10)
           : 800,
         maxViewportWidth
       )
@@ -241,7 +237,7 @@ import Mousetrap from 'mousetrap';
 
   //Stop Hay! Mode
   function killHay() {
-    var currentWidth = $sgIframe.width();
+    const currentWidth = $sgIframe.width();
     hayMode = false;
     $sgIframe.removeClass('hay-mode');
     $('.pl-js-vp-iframe-container').removeClass('hay-mode');
@@ -256,14 +252,14 @@ import Mousetrap from 'mousetrap';
       .width(minViewportWidth + viewportResizeHandleWidth);
     $sgIframe.removeClass('vp-animate').width(minViewportWidth);
 
-    var timeoutID = window.setTimeout(function() {
+    const timeoutID = window.setTimeout(function() {
       $('.pl-js-vp-iframe-container')
         .addClass('hay-mode')
         .width(maxViewportWidth + viewportResizeHandleWidth);
       $sgIframe.addClass('hay-mode').width(maxViewportWidth);
 
       setInterval(function() {
-        var vpSize = $sgIframe.width();
+        const vpSize = $sgIframe.width();
         updateSizeReading(vpSize);
       }, 100);
     }, 200);
@@ -280,7 +276,7 @@ import Mousetrap from 'mousetrap';
 
   //Pixel input
   $sizePx.on('keydown', function(e) {
-    var val = Math.floor($(this).val());
+    let val = Math.floor($(this).val());
 
     if (e.keyCode === 38) {
       //If the up arrow key is hit
@@ -299,13 +295,13 @@ import Mousetrap from 'mousetrap';
   });
 
   $sizePx.on('keyup', function() {
-    var val = Math.floor($(this).val());
+    const val = Math.floor($(this).val());
     updateSizeReading(val, 'px', 'updateEmInput');
   });
 
   //Em input
   $sizeEms.on('keydown', function(e) {
-    var val = parseFloat($(this).val());
+    let val = parseFloat($(this).val());
 
     if (e.keyCode === 38) {
       //If the up arrow key is hit
@@ -323,7 +319,7 @@ import Mousetrap from 'mousetrap';
   });
 
   $sizeEms.on('keyup', function() {
-    var val = parseFloat($(this).val());
+    const val = parseFloat($(this).val());
     updateSizeReading(val, 'em', 'updatePxInput');
   });
 
@@ -338,7 +334,7 @@ import Mousetrap from 'mousetrap';
   //'size' is the target size of the viewport
   //'animate' is a boolean for switching the CSS animation on or off. 'animate' is true by default, but can be set to false for things like nudging and dragging
   function sizeiframe(size, animate) {
-    var theSize;
+    let theSize;
 
     if (size > maxViewportWidth) {
       //If the entered size is larger than the max allowed viewport size, cap value at max vp size
@@ -360,11 +356,11 @@ import Mousetrap from 'mousetrap';
     $('.pl-js-vp-iframe-container').width(theSize + viewportResizeHandleWidth); //Resize viewport wrapper to desired size + size of drag resize handler
     $sgIframe.width(theSize); //Resize viewport to desired size
 
-    var targetOrigin =
+    const targetOrigin =
       window.location.protocol === 'file:'
         ? '*'
         : window.location.protocol + '//' + window.location.host;
-    var obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.resize',
       resize: 'true',
     });
@@ -379,11 +375,11 @@ import Mousetrap from 'mousetrap';
   $('.pl-js-vp-iframe-container').on(
     'transitionend webkitTransitionEnd',
     function(e) {
-      var targetOrigin =
+      const targetOrigin =
         window.location.protocol === 'file:'
           ? '*'
           : window.location.protocol + '//' + window.location.host;
-      var obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.resize',
         resize: 'true',
       });
@@ -406,7 +402,7 @@ import Mousetrap from 'mousetrap';
   //'unit' is the type of unit: either px or em. Default is px. Accepted values are 'px' and 'em'
   //'target' is what inputs to update. Defaults to both
   function updateSizeReading(size, unit, target) {
-    var emSize, pxSize;
+    let emSize, pxSize;
 
     if (unit === 'em') {
       //If size value is in em units
@@ -449,8 +445,8 @@ import Mousetrap from 'mousetrap';
   //   3. on "mousemove" calculate the math, save the results to a cookie, and update the viewport
   $('.pl-js-resize-handle').mousedown(function(event) {
     // capture default data
-    var origClientX = event.clientX;
-    var origViewportWidth = $sgIframe.width();
+    const origClientX = event.clientX;
+    const origViewportWidth = $sgIframe.width();
 
     fullMode = false;
 
@@ -458,10 +454,8 @@ import Mousetrap from 'mousetrap';
     $('.pl-js-viewport-cover').css('display', 'block');
 
     // add the mouse move event and capture data. also update the viewport width
-    $('.pl-js-viewport-cover').mousemove(function(event) {
-      var viewportWidth;
-
-      viewportWidth = origViewportWidth + 2 * (event.clientX - origClientX);
+    $('.pl-js-viewport-cover').mousemove(function(e) {
+      const viewportWidth = origViewportWidth + 2 * (e.clientX - origClientX);
 
       if (viewportWidth > minViewportWidth) {
         if (!DataSaver.findValue('vpWidth')) {
@@ -484,15 +478,16 @@ import Mousetrap from 'mousetrap';
   });
 
   // capture the viewport width that was loaded and modify it so it fits with the pull bar
-  var origViewportWidth = $('.pl-js-iframe').width();
+  const origViewportWidth = $('.pl-js-iframe').width();
   $('.pl-js-vp-iframe-container').width(origViewportWidth);
 
-  var testWidth = screen.width;
+  let testWidth = window.screen.width;
   if (window.orientation !== undefined) {
-    testWidth = window.orientation === 0 ? screen.width : screen.height;
+    testWidth =
+      window.orientation === 0 ? window.screen.width : window.screen.height;
   }
   if (
-    $(window).width() == testWidth &&
+    $(window).width() === testWidth &&
     'ontouchstart' in document.documentElement &&
     $(window).width() <= 1024
   ) {
@@ -503,11 +498,11 @@ import Mousetrap from 'mousetrap';
   updateSizeReading($('.pl-js-iframe').width());
 
   // get the request vars
-  var oGetVars = urlHandler.getRequestVars();
+  const oGetVars = urlHandler.getRequestVars();
 
   // pre-load the viewport width
-  var vpWidth = 0;
-  var trackViewportWidth = true; // can toggle this feature on & off
+  let vpWidth = 0;
+  const trackViewportWidth = true; // can toggle this feature on & off
 
   if (oGetVars.h !== undefined || oGetVars.hay !== undefined) {
     startHay();
@@ -526,18 +521,18 @@ import Mousetrap from 'mousetrap';
   }
 
   // set up the defaults for the
-  var baseIframePath =
+  const baseIframePath =
     window.location.protocol +
     '//' +
     window.location.host +
     window.location.pathname.replace('index.html', '');
-  var patternName =
-    config.defaultPattern !== undefined &&
-    typeof config.defaultPattern === 'string' &&
-    config.defaultPattern.trim().length > 0
-      ? config.defaultPattern
+  let patternName =
+    window.config.defaultPattern !== undefined &&
+    typeof window.config.defaultPattern === 'string' &&
+    window.config.defaultPattern.trim().length > 0
+      ? window.config.defaultPattern
       : 'all';
-  var iFramePath =
+  let iFramePath =
     baseIframePath + 'styleguide/html/styleguide.html?' + Date.now();
   if (oGetVars.p !== undefined || oGetVars.pattern !== undefined) {
     patternName = oGetVars.p !== undefined ? oGetVars.p : oGetVars.pattern;
@@ -550,7 +545,7 @@ import Mousetrap from 'mousetrap';
         ? baseIframePath + patternPath + '?' + Date.now()
         : iFramePath;
     document.getElementById('title').innerHTML = 'Pattern Lab - ' + patternName;
-    history.replaceState(
+    window.history.replaceState(
       {
         pattern: patternName,
       },
@@ -585,7 +580,7 @@ import Mousetrap from 'mousetrap';
   $('a[data-patternpartial]').on('click', function(e) {
     e.preventDefault();
     // update the iframe via the history api handler
-    var obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.updatePath',
       path: urlHandler.getFileName($(this).attr('data-patternpartial')),
     });
@@ -602,11 +597,11 @@ import Mousetrap from 'mousetrap';
 
   // Listen for resize changes
   if (window.orientation !== undefined) {
-    var origOrientation = window.orientation;
+    let origOrientation = window.orientation;
     window.addEventListener(
       'orientationchange',
       function() {
-        if (window.orientation != origOrientation) {
+        if (window.orientation !== origOrientation) {
           $('.pl-js-vp-iframe-container').width($(window).width());
           $('.pl-js-iframe').width($(window).width());
           updateSizeReading($(window).width());
@@ -622,25 +617,29 @@ import Mousetrap from 'mousetrap';
   function receiveIframeMessage(event) {
     // does the origin sending the message match the current host? if not dev/null the request
     if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
+      (window.location.protocol !== 'file:' &&
+        event.origin !==
+          window.location.protocol + '//' + window.location.host) ||
+      event.data === '' // message received, but no data included; prevents JSON.parse error below
     ) {
       return;
     }
 
-    var data = {};
+    let data = {};
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
     if (data.event !== undefined) {
-      if (data.event == 'patternLab.pageLoad') {
+      if (data.event === 'patternLab.pageLoad') {
         if (!urlHandler.skipBack) {
           if (
-            history.state === undefined ||
-            history.state === null ||
-            history.state.pattern !== data.patternpartial
+            window.history.state === undefined ||
+            window.history.state === null ||
+            window.history.state.pattern !== data.patternpartial
           ) {
             urlHandler.pushPattern(data.patternpartial, data.path);
           }
@@ -655,35 +654,38 @@ import Mousetrap from 'mousetrap';
 
         // reset the defaults
         urlHandler.skipBack = false;
-      } else if (data.event == 'patternLab.keyPress') {
-        if (data.keyPress == 'ctrl+shift+s') {
+      } else if (data.event === 'patternLab.keyPress') {
+        if (data.keyPress === 'ctrl+shift+s') {
           goSmall();
-        } else if (data.keyPress == 'ctrl+shift+m') {
+        } else if (data.keyPress === 'ctrl+shift+m') {
           goMedium();
-        } else if (data.keyPress == 'ctrl+shift+l') {
+        } else if (data.keyPress === 'ctrl+shift+l') {
           goLarge();
-        } else if (data.keyPress == 'ctrl+shift+d') {
+        } else if (data.keyPress === 'ctrl+shift+d') {
           if (!discoMode) {
             startDisco();
           } else {
             killDisco();
           }
-        } else if (data.keyPress == 'ctrl+shift+h') {
+        } else if (data.keyPress === 'ctrl+shift+h') {
           if (!hayMode) {
             startHay();
           } else {
             killHay();
           }
-        } else if (data.keyPress == 'ctrl+shift+0') {
+        } else if (data.keyPress === 'ctrl+shift+0') {
           sizeiframe(320, true);
-        } else if (found == data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
-          var val = mqs[found[1] - 1];
-          var type = val.indexOf('px') !== -1 ? 'px' : 'em';
-          val = val.replace(type, '');
-          var width = type === 'px' ? val * 1 : val * $bodySize;
-          sizeiframe(width, true);
         }
-        return false;
+
+        // @todo: chat with Brian on if this code is still used and necessary; both the `mqs` and `found` variables are both currently undefined.
+        // else if (found === data.keyPress.match(/ctrl\+shift\+([1-9])/)) {
+        //   let val = mqs[found[1] - 1];
+        //   const type = val.indexOf('px') !== -1 ? 'px' : 'em';
+        //   val = val.replace(type, '');
+        //   const width = type === 'px' ? val * 1 : val * $bodySize;
+        //   sizeiframe(width, true);
+        // }
+        // return false;
       }
     }
   }

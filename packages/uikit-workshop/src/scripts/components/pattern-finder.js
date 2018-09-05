@@ -1,41 +1,37 @@
-/*!
+/**
  * Pattern Finder
- *
- * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires url-handler.js
- *
  */
 
-import { urlHandler } from '../utils';
 import $ from 'jquery';
 import Bloodhound from 'typeahead.js/dist/bloodhound.js';
+import { urlHandler } from '../utils';
 
 export const patternFinder = {
   data: [],
   active: false,
 
-  init: function() {
+  init() {
     // don't init more than once.
     if (document.querySelectorAll('.pl-js-typeahead').length > 1) {
       return;
     }
 
-    for (var patternType in window.patternPaths) {
+    for (const patternType in window.patternPaths) {
       if (window.patternPaths.hasOwnProperty(patternType)) {
-        for (var pattern in window.patternPaths[patternType]) {
-          var obj = {};
-          obj.patternPartial = patternType + '-' + pattern;
-          obj.patternPath = window.patternPaths[patternType][pattern];
-          this.data.push(obj);
+        for (const pattern in window.patternPaths[patternType]) {
+          if (window.patternPaths[patternType].hasOwnProperty(pattern)) {
+            const obj = {};
+            obj.patternPartial = patternType + '-' + pattern;
+            obj.patternPath = window.patternPaths[patternType][pattern];
+            this.data.push(obj);
+          }
         }
       }
     }
 
     // instantiate the bloodhound suggestion engine
-    var patterns = new Bloodhound({
-      datumTokenizer: function(d) {
+    const patterns = new Bloodhound({
+      datumTokenizer(d) {
         return Bloodhound.tokenizers.nonword(d.patternPartial);
       },
       queryTokenizer: Bloodhound.tokenizers.nonword,
@@ -60,10 +56,10 @@ export const patternFinder = {
       .on('typeahead:autocompleted', patternFinder.onAutocompleted);
   },
 
-  passPath: function(item) {
+  passPath(item) {
     // update the iframe via the history api handler
     patternFinder.closeFinder();
-    var obj = JSON.stringify({
+    const obj = JSON.stringify({
       event: 'patternLab.updatePath',
       path: urlHandler.getFileName(item.patternPartial),
     });
@@ -72,15 +68,15 @@ export const patternFinder = {
       .contentWindow.postMessage(obj, urlHandler.targetOrigin);
   },
 
-  onSelected: function(e, item) {
+  onSelected(e, item) {
     patternFinder.passPath(item);
   },
 
-  onAutocompleted: function(e, item) {
+  onAutocompleted(e, item) {
     patternFinder.passPath(item);
   },
 
-  toggleFinder: function() {
+  toggleFinder() {
     if (!patternFinder.active) {
       patternFinder.openFinder();
     } else {
@@ -88,18 +84,18 @@ export const patternFinder = {
     }
   },
 
-  openFinder: function() {
+  openFinder() {
     patternFinder.active = true;
     $('.pl-js-typeahead').val('');
   },
 
-  closeFinder: function() {
+  closeFinder() {
     patternFinder.active = false;
     document.activeElement.blur();
     $('.pl-js-typeahead').val('');
   },
 
-  receiveIframeMessage: function(event) {
+  receiveIframeMessage(event) {
     // does the origin sending the message match the current host? if not dev/null the request
     if (
       window.location.protocol !== 'file:' &&
@@ -108,16 +104,17 @@ export const patternFinder = {
       return;
     }
 
-    var data = {};
+    let data = {};
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
-    if (data.event !== undefined && data.event == 'patternLab.keyPress') {
-      if (data.keyPress == 'ctrl+shift+f') {
+    if (data.event !== undefined && data.event === 'patternLab.keyPress') {
+      if (data.keyPress === 'ctrl+shift+f') {
         patternFinder.toggleFinder();
-        return false;
       }
     }
   },

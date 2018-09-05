@@ -1,17 +1,9 @@
-/*!
- * Modal for the Styleguide Layer
- * For both annotations and code/info
- *
- * Copyright (c) 2016 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires panels-util.js
- * @requires url-handler.js
- *
+/**
+ * "Modal" (aka Panel UI) for the Styleguide Layer - for both annotations and code/info
  */
 
 import { panelsUtil } from './panels-util';
-import Clipboard from 'clipboard';
+import './copy-to-clipboard';
 
 export const modalStyleguide = {
   // set up some defaults
@@ -24,12 +16,12 @@ export const modalStyleguide = {
   /**
    * initialize the modal window
    */
-  onReady: function() {
+  onReady() {
     // go through the panel toggles and add click event to the pattern extra toggle button
-    let els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
+    const els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
     for (let i = 0; i < els.length; ++i) {
       els[i].onclick = function(e) {
-        let patternPartial = this.getAttribute('data-patternpartial');
+        const patternPartial = this.getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
       };
     }
@@ -39,12 +31,12 @@ export const modalStyleguide = {
    * toggle the modal window open and closed based on clicking the pip
    * @param  {String}       the patternPartial that identifies what needs to be toggled
    */
-  toggle: function(patternPartial) {
+  toggle(patternPartial) {
     if (
       modalStyleguide.active[patternPartial] === undefined ||
       !modalStyleguide.active[patternPartial]
     ) {
-      let el = document.getElementById('pl-pattern-data-' + patternPartial);
+      const el = document.getElementById('pl-pattern-data-' + patternPartial);
       modalStyleguide.collectAndSend(el, true, false);
     } else {
       modalStyleguide.highlightsHide();
@@ -57,7 +49,7 @@ export const modalStyleguide = {
    * @param  {String}       the patternPartial that identifies what needs to be opened
    * @param  {String}       the content that should be inserted
    */
-  open: function(patternPartial, content) {
+  open(patternPartial, content) {
     // make sure templateRendered is modified to be an HTML element
     let div = document.createElement('div');
     div.innerHTML = content;
@@ -99,7 +91,7 @@ export const modalStyleguide = {
    * close the modal window for a view-all entry
    * @param  {String}       the patternPartial that identifies what needs to be closed
    */
-  close: function(patternPartial) {
+  close(patternPartial) {
     // note that the modal viewer is no longer active
     modalStyleguide.active[patternPartial] = false;
 
@@ -118,13 +110,13 @@ export const modalStyleguide = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  collectAndSend: function(el, iframePassback, switchText) {
+  collectAndSend(el, iframePassback, switchText) {
     /**
      * Verify <script> tag has JSON data available (not just whitespace) - helps prevents JS errors from
      * getting thrown when certain script tags aren't rendered with partial.patternData content.
      */
     if (/\S/.test(el.innerHTML)) {
-      let patternData = JSON.parse(el.innerHTML);
+      const patternData = JSON.parse(el.innerHTML);
       if (patternData.patternName !== undefined) {
         const patternMarkupEl = document.querySelector(
           '#' + patternData.patternPartial + ' > .pl-js-pattern-example'
@@ -148,7 +140,7 @@ export const modalStyleguide = {
   /**
    * hide the annotation highlights
    */
-  highlightsHide: function(patternPartial) {
+  highlightsHide(patternPartial) {
     const patternPartialSelector =
       patternPartial !== undefined ? '#' + patternPartial + ' > ' : '';
     let elsToHide = document.querySelectorAll(
@@ -171,17 +163,19 @@ export const modalStyleguide = {
    * @param  {Boolean}      if the refresh is of a view-all view and the content should be sent back
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
-  patternQueryInfo: function(patternData, iframePassback, switchText) {
+  patternQueryInfo(patternData, iframePassback, switchText) {
     // send a message to the pattern
     try {
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.patternQueryInfo',
-        patternData: patternData,
-        iframePassback: iframePassback,
-        switchText: switchText,
+        patternData,
+        iframePassback,
+        switchText,
       });
-      parent.postMessage(obj, modalStyleguide.targetOrigin);
-    } catch (e) {}
+      window.parent.postMessage(obj, modalStyleguide.targetOrigin);
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
   },
 
   /**
@@ -189,9 +183,7 @@ export const modalStyleguide = {
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
    * @param  {Object}      event info
    */
-  receiveIframeMessage: function(event) {
-    let i;
-
+  receiveIframeMessage(event) {
     // does the origin sending the message match the current host? if not dev/null the request
     if (
       window.location.protocol !== 'file:' &&
@@ -204,15 +196,15 @@ export const modalStyleguide = {
     try {
       data =
         typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {}
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
 
     // see if it got a path to replace
-    if (data.event !== undefined && data.event == 'patternLab.patternQuery') {
-      let els, iframePassback, patternData, patternMarkupEl;
-
+    if (data.event !== undefined && data.event === 'patternLab.patternQuery') {
       // find all elements related to pattern info
-      els = document.querySelectorAll('.pl-js-pattern-data');
-      iframePassback = els.length > 1;
+      const els = document.querySelectorAll('.pl-js-pattern-data');
+      const iframePassback = els.length > 1;
 
       // send each up to the parent to be read and compiled into panels
       for (let i = 0; i < els.length; i++) {
@@ -220,15 +212,15 @@ export const modalStyleguide = {
       }
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.patternModalInsert'
+      data.event === 'patternLab.patternModalInsert'
     ) {
       // insert the previously rendered content being passed from the iframe
       modalStyleguide.open(data.patternPartial, data.modalContent);
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.annotationsHighlightShow'
+      data.event === 'patternLab.annotationsHighlightShow'
     ) {
-      let elsToHighlight, j, item, span;
+      let elsToHighlight, item, span;
 
       // go over the supplied annotations
       for (let i = 0; i < data.annotations.length; i++) {
@@ -246,12 +238,12 @@ export const modalStyleguide = {
             if (
               window
                 .getComputedStyle(elsToHighlight[j], null)
-                .getPropertyValue('max-height') == '0px'
+                .getPropertyValue('max-height') === '0px'
             ) {
               span.style.display = 'none';
             }
 
-            annotationTip = document.querySelector(
+            const annotationTip = document.querySelector(
               item.el + ' > span.pl-c-annotation-tip'
             );
             if (annotationTip === null) {
@@ -263,15 +255,15 @@ export const modalStyleguide = {
               annotationTip.style.display = 'inline';
             }
 
-            elsToHighlight[j].onclick = (function(item) {
+            elsToHighlight[j].onclick = (function(el) {
               return function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                let obj = JSON.stringify({
+                const obj = JSON.stringify({
                   event: 'patternLab.annotationNumberClicked',
-                  displayNumber: item.displayNumber,
+                  displayNumber: el.displayNumber,
                 });
-                parent.postMessage(obj, modalStyleguide.targetOrigin);
+                window.parent.postMessage(obj, modalStyleguide.targetOrigin);
               };
             })(item);
           }
@@ -279,19 +271,21 @@ export const modalStyleguide = {
       }
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.annotationsHighlightHide'
+      data.event === 'patternLab.annotationsHighlightHide'
     ) {
       modalStyleguide.highlightsHide();
     } else if (
       data.event !== undefined &&
-      data.event == 'patternLab.patternModalClose'
+      data.event === 'patternLab.patternModalClose'
     ) {
-      let keys = [];
-      for (let k in modalStyleguide.active) {
-        keys.push(k);
+      const keys = [];
+      for (const k in modalStyleguide.active) {
+        if (k) {
+          keys.push(k);
+        }
       }
       for (let i = 0; i < keys.length; i++) {
-        let patternPartial = keys[i];
+        const patternPartial = keys[i];
         if (modalStyleguide.active[patternPartial]) {
           modalStyleguide.close(patternPartial);
         }
@@ -303,13 +297,3 @@ export const modalStyleguide = {
 // when the document is ready make sure the modal is ready
 modalStyleguide.onReady();
 window.addEventListener('message', modalStyleguide.receiveIframeMessage, false);
-
-// Copy to clipboard functionality
-let clipboard = new Clipboard('.pl-js-code-copy-btn');
-clipboard.on('success', function(e) {
-  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (let i = 0; i < copyButton.length; i++) {
-    copyButton[i].innerText = 'Copy';
-  }
-  e.trigger.textContent = 'Copied';
-});
