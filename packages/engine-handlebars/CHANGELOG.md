@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-beta.0"></a>
+# [2.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/@pattern-lab/engine-handlebars@2.0.0-alpha.8...@pattern-lab/engine-handlebars@2.0.0-beta.0) (2018-09-07)
+
+**Note:** Version bump only for package @pattern-lab/engine-handlebars
+
+
+
+
+
 <a name="2.0.0-alpha.8"></a>
 
 # [2.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/@pattern-lab/engine-handlebars@2.0.0-alpha.7...@pattern-lab/engine-handlebars@2.0.0-alpha.8) (2018-07-06)

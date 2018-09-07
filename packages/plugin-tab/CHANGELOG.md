@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.3-beta.0"></a>
+## [2.0.3-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.5...@pattern-lab/plugin-tab@2.0.3-beta.0) (2018-09-07)
+
+
+### Bug Fixes
+
+* **package:** fix pathing and naming issues ([45583f8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/45583f8))
+* **postinstall:** fix typo in name ([a1a9779](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/a1a9779))
+
+
+### Features
+
+* **package:** revamp plugin-tab ([2aa0f8f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/2aa0f8f))
+
+
+
+
+
 <a name="2.0.3-alpha.5"></a>
 
 ## [2.0.3-alpha.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.4...@pattern-lab/plugin-tab@2.0.3-alpha.5) (2018-07-06)

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.0"></a>
+# [1.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.13...@pattern-lab/edition-node@1.0.0-beta.0) (2018-09-07)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
 <a name="1.0.0-alpha.13"></a>
 
 # [1.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.12...@pattern-lab/edition-node@1.0.0-alpha.13) (2018-07-09)
