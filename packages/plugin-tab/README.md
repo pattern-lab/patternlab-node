@@ -1,4 +1,4 @@
-![license](https://img.shields.io/github/license/pattern-lab/plugin-node-tab.svg)
+![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![npm](https://img.shields.io/npm/v/@pattern-lab/plugin-tab.svg)](https://www.npmjs.com/package/@pattern-lab/plugin-tab)
 [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
@@ -28,7 +28,7 @@ Example:
 
 ```
 "plugins": {
-  "plugin-node-tab": {
+  "pattern-lab-plugin-tab": {
     "enabled": true,
     "initialized": false,
     "options": {
@@ -38,7 +38,7 @@ Example:
 }
 ```
 
-Add file extensions to this array as strings. Example: `"tabsToAdd": ['scss', 'js']`. You are all set now.
+Add file extensions to this array as strings. Example: `"tabsToAdd": ["scss", "js"]`. You are all set now.
 
 ## Expected Structure
 
@@ -56,4 +56,4 @@ For example, if we added an `scss` tab:
 
 ## Enabling / Disabling the Plugin
 
-After install, you may manually enable or disable the plugin by finding the `plugin-node-tab` key within your main Pattern Lab project's `patternlab-config.json` file and setting the `enabled` flag. In the future this will be possible via CLI.
+After install, you may manually enable or disable the plugin by finding the `@pattern-lab/plugin-tab` key within your main Pattern Lab project's `patternlab-config.json` file and setting the `enabled` flag. In the future this will be possible via CLI.

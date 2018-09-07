@@ -4,17 +4,14 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="3.0.0-alpha.16"></a>
+
 # [3.0.0-alpha.16](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.15...@pattern-lab/core@3.0.0-alpha.16) (2018-07-06)
 
 **Note:** Version bump only for package @pattern-lab/core
 
-
-
-
-
 <a name="3.0.0-alpha.15"></a>
-# [3.0.0-alpha.15](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.14...@pattern-lab/core@3.0.0-alpha.15) (2018-07-06)
 
+# [3.0.0-alpha.15](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.14...@pattern-lab/core@3.0.0-alpha.15) (2018-07-06)
 
 ### Features
 
@@ -22,13 +19,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/415698e))
 * **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5ab3995))
 
-
-
-
-
 <a name="3.0.0-alpha.14"></a>
-# [3.0.0-alpha.14](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.13...@pattern-lab/core@3.0.0-alpha.14) (2018-07-05)
 
+# [3.0.0-alpha.14](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.13...@pattern-lab/core@3.0.0-alpha.14) (2018-07-05)
 
 ### Bug Fixes
 
@@ -38,7 +31,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **viewall:** fix viewall generation ([543558a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/543558a))
 * **watch:** wire up serve and watch listeners correctly ([04cd18e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/04cd18e))
 
-
 ### Features
 
 * **events:** add PATTERNLAB_BUILD_END event and rename BUILD_START ([5b7bfa3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5b7bfa3))
@@ -47,23 +39,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **server:** continue server refactor ([8f6cd91](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8f6cd91))
 * **watches:** add additional assets to ignore ([18e74c2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/18e74c2))
 
-
-
-
 <a name="3.0.0-alpha.13"></a>
-# [3.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.12...@pattern-lab/core@3.0.0-alpha.13) (2018-05-04)
 
+# [3.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.12...@pattern-lab/core@3.0.0-alpha.13) (2018-05-04)
 
 ### Features
 
 * **api:** expose getVersion statically ([4683cd0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4683cd0))
 
-
-
-
 <a name="3.0.0-alpha.12"></a>
-# [3.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.11...@pattern-lab/core@3.0.0-alpha.12) (2018-05-04)
 
+# [3.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.11...@pattern-lab/core@3.0.0-alpha.12) (2018-05-04)
 
 ### Bug Fixes
 
@@ -75,7 +61,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **test:** sledgehammer a test ([8b34be0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8b34be0))
 * **tests:** prevent dependency graph output file from being written ([0d9c57e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/0d9c57e))
 * **uikits:** fix ui_builder_tests ([e75f434](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/e75f434))
-
 
 ### Features
 
@@ -96,13 +81,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **uikits:** support watched-asset copying ([4f05311](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4f05311))
 * **uikits:** uikits config to default ([a393851](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/a393851))
 
-
 ### BREAKING CHANGES
 
 * **API:** change `version()` to return a string representation of the version, removing `v()`
-
-
-
 
 <a name="3.0.0-alpha.11"></a>
 

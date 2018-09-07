@@ -2,13 +2,13 @@
  * PATTERN LAB NODE
  * EDITION-NODE-GULP
  * The gulp wrapper around patternlab-node core, providing tasks to interact with the core library.
-******************************************************/
+ ******************************************************/
 const gulp = require('gulp');
 const argv = require('minimist')(process.argv.slice(2));
 
 /******************************************************
  * PATTERN LAB  NODE WRAPPER TASKS with core library
-******************************************************/
+ ******************************************************/
 const config = require('./patternlab-config.json');
 const patternlab = require('@pattern-lab/core')(config);
 

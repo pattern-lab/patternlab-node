@@ -4,29 +4,22 @@ All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 <a name="1.0.0-alpha.13"></a>
-# [1.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.12...@pattern-lab/edition-node@1.0.0-alpha.13) (2018-07-09)
 
+# [1.0.0-alpha.13](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.12...@pattern-lab/edition-node@1.0.0-alpha.13) (2018-07-09)
 
 ### Features
 
 * **scripts:** namespace scripts ([3ecbb3e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/3ecbb3e))
 
-
-
-
-
 <a name="1.0.0-alpha.12"></a>
+
 # [1.0.0-alpha.12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.11...@pattern-lab/edition-node@1.0.0-alpha.12) (2018-07-06)
 
 **Note:** Version bump only for package @pattern-lab/edition-node
 
-
-
-
-
 <a name="1.0.0-alpha.11"></a>
-# [1.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.10...@pattern-lab/edition-node@1.0.0-alpha.11) (2018-07-06)
 
+# [1.0.0-alpha.11](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.10...@pattern-lab/edition-node@1.0.0-alpha.11) (2018-07-06)
 
 ### Features
 
@@ -34,54 +27,39 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/415698e))
 * **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/5ab3995))
 
-
-
-
-
 <a name="1.0.0-alpha.10"></a>
+
 # [1.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.9...@pattern-lab/edition-node@1.0.0-alpha.10) (2018-07-05)
-
-
-
 
 **Note:** Version bump only for package @pattern-lab/edition-node
 
 <a name="1.0.0-alpha.9"></a>
+
 # [1.0.0-alpha.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.8...@pattern-lab/edition-node@1.0.0-alpha.9) (2018-05-19)
-
-
-
 
 **Note:** Version bump only for package @pattern-lab/edition-node
 
 <a name="1.0.0-alpha.8"></a>
+
 # [1.0.0-alpha.8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.7...@pattern-lab/edition-node@1.0.0-alpha.8) (2018-05-04)
-
-
-
 
 **Note:** Version bump only for package @pattern-lab/edition-node
 
 <a name="1.0.0-alpha.7"></a>
+
 # [1.0.0-alpha.7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.6...@pattern-lab/edition-node@1.0.0-alpha.7) (2018-05-04)
-
-
-
 
 **Note:** Version bump only for package @pattern-lab/edition-node
 
 <a name="1.0.0-alpha.6"></a>
-# [1.0.0-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.5...@pattern-lab/edition-node@1.0.0-alpha.6) (2018-05-04)
 
+# [1.0.0-alpha.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.5...@pattern-lab/edition-node@1.0.0-alpha.6) (2018-05-04)
 
 ### Features
 
 * **package:** add [@pattern-lab](https://github.com/pattern-lab)/cli as a dependency ([760d0e0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/760d0e0))
 * **scripts:** refactor to use cli commands ([e8d5c21](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/e8d5c21))
 * **uikits:** uikits config ([027e56c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/027e56c))
-
-
-
 
 <a name="1.0.0-alpha.5"></a>
 
