@@ -27,25 +27,25 @@
  * Header Link Style
  */
 @mixin linkStyle() {
-  background: $pl-color-black;
+  background-color: $pl-color-black;
   color: $pl-color-gray-50;
   text-decoration: none;
   line-height: 1;
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  transition: background $pl-animate-quick ease-out,
+  transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
 
   &:hover {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
   }
 
-  &:focus,
-  &.active {
+  &.pl-is-active,
+  &:active {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
     outline: 1px dotted $pl-color-gray-50;
     outline-offset: -1px;
   }
@@ -54,7 +54,7 @@
      * Header link styles inside light theme
      */
   .pl-c-body--theme-light & {
-    background: $pl-color-white;
+    background-color: $pl-color-white;
     color: $pl-color-gray-70;
   }
 

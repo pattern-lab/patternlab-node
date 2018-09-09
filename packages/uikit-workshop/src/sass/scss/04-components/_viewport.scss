@@ -120,16 +120,16 @@
   margin: 0;
   width: 100%;
   height: 100%;
-  background: $pl-color-gray-20;
-  transition: background $pl-animate-quick ease-out;
+  background-color: $pl-color-gray-20;
+  transition: background-color $pl-animate-quick ease-out;
 
   &:hover {
-    background: $pl-color-gray-50;
+    background-color: $pl-color-gray-50;
   }
 
   &:active {
     cursor: move;
-    background: $pl-color-gray-70;
+    background-color: $pl-color-gray-70;
   }
 }
 

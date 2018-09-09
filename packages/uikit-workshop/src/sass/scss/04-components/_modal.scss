@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   font-family: $pl-font;
-  background: $pl-color-black;
+  background-color: $pl-color-black;
   color: $pl-color-gray-20;
   position: relative;
   top: auto;
@@ -46,7 +46,7 @@
  */
 .pl-c-modal__close-btn {
   font-size: 70%;
-  background: $pl-color-black;
+  background-color: $pl-color-black;
   color: $pl-color-gray-50;
   border: 0;
   border-radius: $pl-border-radius-med $pl-border-radius-med 0 0;
@@ -60,7 +60,7 @@
 
   &:hover,
   &:focus {
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
     color: $pl-color-white;
   }
 
@@ -95,7 +95,7 @@
   left: 0;
   height: 14px;
   width: 100%;
-  background: $pl-color-black;
+  background-color: $pl-color-black;
   z-index: 2;
   cursor: ns-resize;
 
@@ -132,7 +132,7 @@
   top: 0.5rem;
   right: 0.5rem;
   padding: 0.2rem 0.4rem;
-  background: $pl-color-gray-07;
+  background-color: $pl-color-gray-07;
   color: $pl-color-gray-87;
   border: 1px solid $pl-color-gray-13;
   border-radius: $pl-border-radius-med;
@@ -142,10 +142,10 @@
   line-height: 1;
   cursor: pointer;
   z-index: 2;
-  transition: background $pl-animate-quick ease-out;
+  transition: background-color $pl-animate-quick ease-out;
 
   &:hover,
   &:focus {
-    background: $pl-color-gray-20;
+    background-color: $pl-color-gray-20;
   }
 }

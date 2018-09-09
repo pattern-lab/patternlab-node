@@ -15,7 +15,7 @@
      */
   .pl-c-typeahead {
     border: 0;
-    background: $pl-color-gray-87 !important;
+    background-color: $pl-color-gray-87 !important;
     color: $pl-color-gray-50;
     width: 100%;
     right: 0;
@@ -23,7 +23,7 @@
     font-size: inherit;
 
     &:focus {
-      background: $pl-color-gray-50;
+      background-color: $pl-color-gray-50;
       color: $pl-color-white;
     }
   }
@@ -40,12 +40,12 @@
   }
 
   .tt-input {
-    background: $pl-color-gray-50;
+    background-color: $pl-color-gray-50;
     color: $pl-color-white;
 
     &:hover {
       color: $pl-color-white;
-      background: $pl-color-gray-87 !important;
+      background-color: $pl-color-gray-87 !important;
 
       &::-webkit-input-placeholder {
         color: $pl-color-white;
@@ -60,7 +60,7 @@
       border-radius: 0;
       text-transform: lowercase;
       color: $pl-color-white;
-      background: $pl-color-gray-87;
+      background-color: $pl-color-gray-87;
       outline: 1px dotted $pl-color-gray-50;
       outline-offset: -1px;
     }
@@ -85,7 +85,7 @@
 
   .tt-suggestion.tt-cursor {
     color: $pl-color-white;
-    background: $pl-color-trans-white-25;
+    background-color: $pl-color-trans-white-25;
   }
 
   .tt-suggestion p {

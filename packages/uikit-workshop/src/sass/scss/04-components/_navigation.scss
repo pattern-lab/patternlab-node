@@ -14,7 +14,7 @@
     width: 100%;
     overflow: hidden;
     max-height: 0; /* 1 */
-    background: $pl-color-black;
+    background-color: $pl-color-black;
     display: flex;
     flex-direction: column;
     transition: max-height $pl-animate-quick ease-out;
@@ -127,7 +127,7 @@
      */
   &.pl-is-active {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
 
     /**
          * Caret rotation and positioning in active dropdown

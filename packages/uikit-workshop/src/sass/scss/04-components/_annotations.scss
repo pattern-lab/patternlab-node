@@ -49,7 +49,7 @@
   margin-top: 6px !important;
   margin-left: 6px !important;
   border-radius: 50% !important;
-  background: $pl-color-gray-87 !important;
+  background-color: $pl-color-gray-87 !important;
   color: $pl-color-white !important;
   font-size: 16px !important;
   position: absolute;
@@ -99,7 +99,7 @@
   padding-left: 1.5rem;
   margin-bottom: 1rem;
   border-radius: $pl-border-radius-med;
-  transition: background $pl-animate-quick ease;
+  transition: background-color $pl-animate-quick ease;
 
   &:before {
     content: counter(the-count);
@@ -113,7 +113,7 @@
     border-radius: 50%;
     padding: 2px;
     text-align: center;
-    background: $pl-color-gray-50;
+    background-color: $pl-color-gray-50;
     color: $pl-color-white;
     position: absolute;
     top: 4px;
