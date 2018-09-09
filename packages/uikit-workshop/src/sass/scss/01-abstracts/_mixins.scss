@@ -36,6 +36,7 @@
   text-align: left;
   transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
+  cursor: pointer;
 
   &:hover {
     color: $pl-color-white;
@@ -95,4 +96,11 @@
       max-height: 120rem;
     }
   }
+}
+
+@mixin noSelect(){
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */  
 }
