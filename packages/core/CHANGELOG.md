@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.0-beta.0"></a>
+# [3.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.16...@pattern-lab/core@3.0.0-beta.0) (2018-09-07)
+
+
+### Bug Fixes
+
+* **docs:** update event info with tab example ([0f227a3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/0f227a3))
+* **package:** Allow .json extension on annotations file (issue [#836](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/836)) ([b92e62b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/b92e62b))
+* **package:** update tap dependency ([2b70ff4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/2b70ff4))
+* **plugins:** support scoped packages ([44f0f8e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/44f0f8e))
+
+
+### Features
+
+* **API:** remove reliance on patternlab object during plugin install ([0850fd6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/0850fd6))
+* **core:** remove plugin install / disable / enable logic ([5a58824](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5a58824)), closes [#872](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/872)
+
+
+
+
+
 <a name="3.0.0-alpha.16"></a>
 
 # [3.0.0-alpha.16](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.15...@pattern-lab/core@3.0.0-alpha.16) (2018-07-06)

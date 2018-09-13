@@ -1,20 +1,14 @@
-/*!
- * Panel Builder. Supports building the panels to be included in the modal or styleguide
- *
- * Copyright (c) 2013-16 Dave Olsen, http://dmolsen.com
- * Licensed under the MIT license
- *
- * @requires panels.js
- * @requires url-handler.js
+/**
+ * Panel Builder - supports building the panels to be included in the modal or styleguide
  */
 
-import { Panels } from './panels';
-import { panelsUtil } from './panels-util';
-import { urlHandler, Dispatcher } from '../utils';
-import Clipboard from 'clipboard';
 import $ from 'jquery';
 import Hogan from 'hogan.js';
 import Prism from 'prismjs';
+import { Panels } from './panels';
+import { panelsUtil } from './panels-util';
+import { urlHandler, Dispatcher } from '../utils';
+import './copy-to-clipboard';
 
 export const panelsViewer = {
   // set up some defaults
@@ -31,7 +25,7 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  checkPanels: function(panels, patternData, iframePassback, switchText) {
+  checkPanels(panels, patternData, iframePassback, switchText) {
     // count how many panels have rendered content
     let panelContentCount = 0;
     for (let i = 0; i < panels.length; ++i) {
@@ -56,18 +50,18 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  gatherPanels: function(patternData, iframePassback, switchText) {
+  gatherPanels(patternData, iframePassback, switchText) {
     Dispatcher.addListener('checkPanels', panelsViewer.checkPanels);
 
     // set-up defaults
-    let template, templateCompiled, templateRendered, panel;
+    let template, templateCompiled, templateRendered;
 
     // get the base panels
-    let panels = Panels.get();
+    const panels = Panels.get();
 
     // evaluate panels array and create content
     for (let i = 0; i < panels.length; ++i) {
-      panel = panels[i];
+      const panel = panels[i];
 
       // catch pattern panel since it doesn't have a name defined by default
       if (panel.name === undefined) {
@@ -85,11 +79,13 @@ export const panelsViewer = {
       if (panel.templateID !== undefined && panel.templateID) {
         if (panel.httpRequest !== undefined && panel.httpRequest) {
           // need a file and then render
-          let fileBase = urlHandler.getFileName(
+          const fileBase = urlHandler.getFileName(
             patternData.patternPartial,
             false
           );
-          let e = new XMLHttpRequest();
+          const e = new XMLHttpRequest();
+          // @todo: look deeper into how we can refactor this particular code block
+          /* eslint-disable */
           e.onload = (function(i, panels, patternData, iframeRequest) {
             return function() {
               const prismedContent = Prism.highlight(
@@ -111,7 +107,7 @@ export const panelsViewer = {
               ]);
             };
           })(i, panels, patternData, iframePassback);
-
+          /* eslint-enable */
           e.open(
             'GET',
             fileBase + panel.httpRequestReplace + '?' + new Date().getTime(),
@@ -141,11 +137,13 @@ export const panelsViewer = {
    * @param  {String}      the data from the pattern
    * @param  {Boolean}     if this is going to be passed back to the styleguide
    */
-  renderPanels: function(panels, patternData, iframePassback, switchText) {
+  renderPanels(panels, plData, iframePassback, switchText) {
     // set-up defaults
-    let template, templateCompiled, templateRendered;
-    let annotation, comment, count, div, els, item, markup, i;
-    let patternPartial = patternData.patternPartial;
+    const patternData = plData; // prevents params from getting re-assigned
+
+    let templateRendered;
+    let annotation, count, els, item;
+    const patternPartial = patternData.patternPartial;
     patternData.panels = panels;
 
     // set a default pattern description for modal pop-up
@@ -157,15 +155,15 @@ export const panelsViewer = {
     patternData.patternNameCaps = patternData.patternName.toUpperCase();
 
     // check for annotations in the given mark-up
-    markup = document.createElement('div');
+    const markup = document.createElement('div');
     markup.innerHTML = patternData.patternMarkup;
 
     count = 1;
     patternData.annotations = [];
     delete patternData.patternMarkup;
 
-    for (let i = 0; i < comments.comments.length; ++i) {
-      item = comments.comments[i];
+    for (let i = 0; i < window.comments.comments.length; ++i) {
+      item = window.comments.comments[i];
       els = markup.querySelectorAll(item.el);
 
       if (els.length > 0) {
@@ -182,7 +180,7 @@ export const panelsViewer = {
 
     // alert the pattern that annotations should be highlighted
     if (patternData.annotations.length > 0) {
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.annotationsHighlightShow',
         annotations: patternData.annotations,
       });
@@ -240,12 +238,12 @@ export const panelsViewer = {
     patternData.isPatternView = iframePassback === false;
 
     // render all of the panels in the base panel template
-    template = document.querySelector('.pl-js-panel-template-base');
-    templateCompiled = Hogan.compile(template.innerHTML);
+    const template = document.querySelector('.pl-js-panel-template-base');
+    const templateCompiled = Hogan.compile(template.innerHTML);
     templateRendered = templateCompiled.render(patternData);
 
     // make sure templateRendered is modified to be an HTML element
-    div = document.createElement('div');
+    const div = document.createElement('div');
     div.className = 'pl-c-pattern-info';
     div.innerHTML = templateRendered;
     templateRendered = div;
@@ -278,7 +276,7 @@ export const panelsViewer = {
     // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
     $('.pl-js-lineage-link', templateRendered).on('click', function(e) {
       e.preventDefault();
-      let obj = JSON.stringify({
+      const obj = JSON.stringify({
         event: 'patternLab.updatePath',
         path: urlHandler.getFileName($(this).attr('data-patternpartial')),
       });
@@ -314,37 +312,14 @@ $('.pl-js-modal-resizer').mousedown(function(event) {
 
   $('.pl-js-modal-cover').css('display', 'block'); /* 2 */
 
-  $('.pl-js-modal-cover').mousemove(function(event) {
+  $('.pl-js-modal-cover').mousemove(function(e) {
     /* 3 */
-    const panelHeight = window.innerHeight - event.clientY + 32; /* 4 */
+    const panelHeight = window.innerHeight - e.clientY + 32; /* 4 */
     $('.pl-js-modal').css('height', panelHeight + 'px'); /* 4 */
-
-    // WIP: updating PL viewport to be resized via CSS Vars
-    // $('.pl-js-modal').css('transition', 'none');
-    // $('.pl-js-vp-iframe-container').css('transition', 'none');
-    // $('html').css(
-    //   '--pl-viewport-height',
-    //   window.innerHeight - panelHeight - 32 + 'px'
-    // ); /* 4 */
   });
 });
 
 $('body').mouseup(function() {
-  /* 5 */
   $('.pl-js-modal').unbind('mousemove'); /* 5 */
   $('.pl-js-modal-cover').css('display', 'none'); /* 5 */
-
-  // WIP: updating viewport resizer to use CSS custom props.
-  // $('.pl-js-modal').css('transition', '');
-  // $('.pl-js-vp-iframe-container').css('transition', '');
-});
-
-// Copy to clipboard functionality
-let clipboard = new Clipboard('.pl-js-code-copy-btn');
-clipboard.on('success', function(e) {
-  let copyButton = document.querySelectorAll('.pl-js-code-copy-btn');
-  for (let i = 0; i < copyButton.length; i++) {
-    copyButton[i].innerText = 'Copy';
-  }
-  e.trigger.textContent = 'Copied';
 });

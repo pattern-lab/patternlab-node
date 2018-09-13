@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.0-beta.0"></a>
+# [2.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.15...@pattern-lab/edition-node-gulp@2.0.0-beta.0) (2018-09-07)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
 <a name="2.0.0-alpha.15"></a>
 
 # [2.0.0-alpha.15](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.14...@pattern-lab/edition-node-gulp@2.0.0-alpha.15) (2018-07-09)

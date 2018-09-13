@@ -1,10 +1,10 @@
 {
   "devDependencies": {
-    "lerna": "3.0.0-rc.0"
+    "lerna": "3.2.1"
   },
   "private": true,
   "scripts": {
-    "bootstrap": "npx lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "precommit": "pretty-quick --staged",
     "prettier": "prettier --config .prettierrc --write ./**/*.js",
     "test": "lerna run test",

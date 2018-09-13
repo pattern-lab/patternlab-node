@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-beta.0"></a>
+## [0.0.1-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.23...@pattern-lab/cli@0.0.1-beta.0) (2018-09-07)
+
+
+### Bug Fixes
+
+* **cli:** set initialized to false during plugin installation ([88cce3f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/88cce3f))
+* **cli:** support scoped plugins ([4ae13ce](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/4ae13ce))
+* **package:** update tap dependency ([2b70ff4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/2b70ff4))
+
+
+
+
+
 <a name="0.0.1-alpha.23"></a>
 
 ## [0.0.1-alpha.23](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.22...@pattern-lab/cli@0.0.1-alpha.23) (2018-07-09)

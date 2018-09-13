@@ -2,7 +2,6 @@ import './components/typeahead';
 import './components/layout';
 import './components/modal-viewer';
 import './components/panels';
-import './components/panels-util';
 import './components/panels-viewer';
 import './components/pattern-finder';
 import './components/plugin-loader';
