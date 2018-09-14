@@ -85,7 +85,6 @@ Pattern Lab / Node wouldn't be what it is today without the support of the commu
 * **[Brad Frost](http://bradfrost.com/)**
 * [Marcos Peebles](https://twitter.com/marcospeebles)
 * [Susan Simkins](https://twitter.com/susanmsimkins)
-* [Wilfred Nas](https://twitter.com/wnas)
 
 ## Contributing
 
