@@ -84,9 +84,9 @@ const patternlab_module = function(config) {
      * @name build
      * @instance
      * @param {object} options an object used to control build behavior
-     * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-     * @param {object} options.data additional data to be merged with global data prior to build
-     * @param {bool} options.watch whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+     * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+     * @param {object} [options.data={}] additional data to be merged with global data prior to build
+     * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @emits PATTERNLAB_BUILD_START
      * @emits PATTERNLAB_BUILD_END
      * @see {@link ./events.md|all events}
@@ -231,9 +231,9 @@ const patternlab_module = function(config) {
      * @memberof patternlab
      * @name patternsonly
      * @instance
-     * @param {object} options an object used to control build behavior
-     * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-     * @param {object} options.data additional data to be merged with global data prior to build
+     * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+     * @param {object} [options.data={}] additional data to be merged with global data prior to build
+     * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @returns {Promise} a promise fulfilled when build is complete
      */
     patternsonly: function(options) {
@@ -264,9 +264,9 @@ const patternlab_module = function(config) {
        * @method serve
        * @memberof patternlab.server
        * @param {object} options an object used to control build behavior
-       * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-       * @param {object} options.data additional data to be merged with global data prior to build
-       * @param {bool} [true] options.watch whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+       * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+       * @param {object} [options.data={}] additional data to be merged with global data prior to build
+       * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
        * @returns {Promise} a promise fulfilled when build is complete
        */
       serve: options => {
