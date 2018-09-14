@@ -9,8 +9,9 @@ const { error, info } = require('./utils');
  * @func serve
  * @desc Start a browser-sync server in the Pattern Lab public dir
  * @param {object} config - The passed Pattern Lab config
+ * @param {object} options - The passed options at invocation time
  */
-function serve(config) {
+function serve(config, options) {
   if (!isValidConfig) {
     throw new TypeError(
       'serve: Expects config not to be empty and of type object.'
@@ -37,7 +38,7 @@ function serve(config) {
   try {
     info(`serve: Serving your files …`);
     const pl = patternlab(config);
-    pl.server.serve({});
+    pl.server.serve(options);
   } catch (err) {
     error(err);
   }

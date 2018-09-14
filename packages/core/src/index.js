@@ -266,13 +266,12 @@ const patternlab_module = function(config) {
        * @param {object} options an object used to control build behavior
        * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
        * @param {object} options.data additional data to be merged with global data prior to build
-       * @param {bool} options.watch **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+       * @param {bool} [true] options.watch whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
        * @returns {Promise} a promise fulfilled when build is complete
        */
       serve: options => {
-        const _options = Object.assign({}, options, { watch: true });
         return _api
-          .build(_options)
+          .build(options)
           .then(() => server.serve())
           .catch(e =>
             logger.error(`error inside core index.js server serve: ${e}`)

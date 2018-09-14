@@ -7,7 +7,6 @@ const serve = options =>
   wrapAsync(function*() {
     const config = yield resolveConfig(options.parent.config);
     servePatterns(config, options);
-    servePatterns(config, options.watch);
   });
 
 module.exports = serve;
