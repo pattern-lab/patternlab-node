@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.1-beta.1"></a>
+## [0.0.1-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-beta.0...@pattern-lab/cli@0.0.1-beta.1) (2018-09-14)
+
+
+### Bug Fixes
+
+* **cli:** do not call build before serve ([663d8e1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/663d8e1)), closes [#917](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/issues/917)
+* **cli:** pass watch options cleanly to core ([8bf186b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/8bf186b))
+* **cli:** remove copy-source-files ([64311a1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/64311a1)), closes [#833](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/issues/833)
+
+
+### Features
+
+* **README:** simplify README and add CLI configuration instructions ([ceec673](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/ceec673))
+
+
+
+
+
 <a name="0.0.1-beta.0"></a>
 ## [0.0.1-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.23...@pattern-lab/cli@0.0.1-beta.0) (2018-09-07)
 

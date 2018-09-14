@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/development-edition-engine-handlebars",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1-beta.0",
   "description": "The tree of components we use to test, develop and validate the Handlebars engine",
   "scripts": {
     "pl:build": "patternlab build --config ./patternlab-config.json",
@@ -10,11 +10,13 @@
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
     "pl:version": "patternlab --version"
   },
-  "keywords": ["Pattern Lab",
+  "keywords": [
+    "Pattern Lab",
     "Atomic Web Design",
     "Node",
     "Handlebars",
-    "Edition"],
+    "Edition"
+  ],
   "author": "Brian Muenzenmeye",
   "license": "MIT",
   "repository": {
@@ -22,8 +24,8 @@
     "url": "git://github.com/pattern-lab/patternlab-node.git"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^0.0.1-beta.0",
-    "@pattern-lab/core": "^3.0.0-beta.0",
+    "@pattern-lab/cli": "^0.0.1-beta.1",
+    "@pattern-lab/core": "^3.0.0-beta.1",
     "@pattern-lab/engine-handlebars": "^2.0.0-beta.0",
     "@pattern-lab/engine-mustache": "^2.0.0-beta.0",
     "@pattern-lab/starterkit-mustache-demo": "^5.0.0",
