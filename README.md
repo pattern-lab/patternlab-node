@@ -24,9 +24,7 @@ Refer to the [core usage guidelines](https://github.com/pattern-lab/patternlab-n
 
 As of Pattern Lab Node 3.0.0, installation of [Editions](http://patternlab.io/docs/advanced-ecosystem-overview.html) is accomplished via the command line interface.
 
-_0 to 60mph_
-
-The below assume a new directory and project is required.
+The below assumes a new directory and project is required. This is likely what you want to do if starting from scratch. You could also run this within an existing project. The CLI will ask you for the installation location.
 
 1. Open a terminal window and following along below:
     ```bash
@@ -36,31 +34,10 @@ The below assume a new directory and project is required.
     ```
     > If you get an error stating that `npx` is not installed, ensure you are on `npm 5.2.0` or later by running `npm -v` or install it globally with `npm install -g npx`. [Learn more about npx.](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
 1. Follow the on-screen prompts to choose your Edition and a Starterkit should you want one.
-1. Run `npm install` one last time to ensure any transient packages from the CLI are installed.
-1. Open `package.json` and add the following to your `scripts` object
-    ```diff
-    "scripts": {
-    + "patternlab": "patternlab"
-    },
-    ```
-    This tells `npm` to look in the local `node_modules/.bin` directory for the `patternlab` CLI.
-1. In your terminal, run `npm run patternlab <command>`, where `<command>` is a documented method on the CLI, such as `build`, `serve`, or `help`.
+  - If you chose `edition-node`, new commands in the "scripts" will be added in your `package.json`.
+  - If you chose `edition-node-gulp`, a `gulpfile.js` will be added to your project.
 
-
-_Established npm projects_
-
-1. Run the following command from a terminal:
-    ```bash
-    npm install @pattern-lab/cli --save-dev
-    ```
-1. Open `package.json` and add the following to your `scripts` object
-    ```diff
-    "scripts": {
-    + "patternlab": "patternlab"
-    },
-    ```
-    This tells `npm` to look in the local `node_modules/.bin` directory for the `patternlab` CLI.
-1. In your terminal, run `npm run patternlab init`. Follow the on-screen prompts to choose your Edition and a Starterkit should you want one.
+  > Notice that `@pattern-lab/cli` was installed as a depdendency. Learn how to further [use the cli in your own project](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/cli/readme.md#configuring-your-project-to-use-the-cli).
 
 
 ## Ecosystem

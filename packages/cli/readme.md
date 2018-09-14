@@ -14,11 +14,44 @@
 #### Via Yarn
 `yarn add @pattern-lab/cli --dev`
 
-## Getting Started
-1. In order to use Pattern Lab you need to initialize a Pattern Lab project with `patternlab init`. The CLI will ask you some setup question and scaffold your project based on it.
-2. Build your patterns use `patternlab build`. The Pattern Lab CLI will assume that the `patternlab-config.json` is in the project root. Othewise specify a custom path to config with `patternlab build --config path/to/config`
-3. To view your patterns in the browser preview `patternlab serve` or again specify a custom config location `patternlab serve --config path/to/config`
-4. To export your patterns in the browser preview `patternlab export` or again specify a custom config location `patternlab export --config path/to/config`
+## Configuring Your Project to Use the CLI
+
+If the CLI is installed globally, you may call commands directly, such as `patternlab --version`.
+
+If the CLI is not installed globally, you need to tell `npm` where to find the executable when invoking commands.
+
+Open `package.json` and add the following to your `scripts` object:
+
+```diff
+"scripts": {
++ "patternlab": "patternlab"
+},
+```
+This tells `npm` to look in the local `node_modules/.bin` directory for the `patternlab` CLI.
+
+Subcommands and options can then be forwarded to the CLI like this:
+
+```bash
+npm run patternlab -- serve
+```
+
+Installing [`edition-node`](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node) will add the following CLI commands for convenience:
+
+```diff
+  "scripts": {
++    "pl:build": "patternlab build --config ./patternlab-config.json",
++    "pl:help": "patternlab --help",
++    "pl:install": "patternlab install --config ./patternlab-config.json",
++    "pl:serve": "patternlab serve --config ./patternlab-config.json",
++    "pl:version": "patternlab --version"
+  },
+```
+
+Then you can invoke any of these like this:
+
+```
+npm run pl:serve
+```
 
 ## API & Usage
 ### General usage
