@@ -6,7 +6,7 @@
   "scripts": {
     "bootstrap": "npx lerna bootstrap",
     "precommit": "pretty-quick --staged",
-    "prettier": "prettier --config .prettierrc --write ./**/*.js",
+    "prettier": "prettier --config .prettierrc --write ./**/*.js --ignore-path .prettierignore",
     "test": "lerna run test",
     "clean": "git clean -dfx"
   },
