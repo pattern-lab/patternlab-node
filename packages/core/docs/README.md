@@ -63,12 +63,12 @@ Builds patterns, copies assets, and constructs user interface
 **Emits**: <code>event:PATTERNLAB_BUILD_START</code>, <code>event:PATTERNLAB_BUILD_END</code>  
 **See**: [all events](./events.md)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> | an object used to control build behavior |
-| options.cleanPublic | <code>bool</code> | whether or not to delete the configured output location (usually `public/`) before build |
-| options.data | <code>object</code> | additional data to be merged with global data prior to build |
-| options.watch | <code>bool</code> | whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | <code>object</code> |  | an object used to control build behavior |
+| [options.cleanPublic] | <code>bool</code> | <code>true</code> | whether or not to delete the configured output location (usually `public/`) before build |
+| [options.data] | <code>object</code> | <code>{}</code> | additional data to be merged with global data prior to build |
+| [options.watch] | <code>bool</code> | <code>true</code> | whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
 
 <a name="patternlab+getDefaultConfig"></a>
 
@@ -122,11 +122,11 @@ Builds patterns only, leaving existing user interface files intact
 **Kind**: instance property of [<code>patternlab</code>](#patternlab)  
 **Returns**: <code>Promise</code> - a promise fulfilled when build is complete  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> | an object used to control build behavior |
-| options.cleanPublic | <code>bool</code> | whether or not to delete the configured output location (usually `public/`) before build |
-| options.data | <code>object</code> | additional data to be merged with global data prior to build |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [options.cleanPublic] | <code>bool</code> | <code>true</code> | whether or not to delete the configured output location (usually `public/`) before build |
+| [options.data] | <code>object</code> | <code>{}</code> | additional data to be merged with global data prior to build |
+| [options.watch] | <code>bool</code> | <code>true</code> | whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
 
 <a name="patternlab.getDefaultConfig"></a>
 
@@ -162,12 +162,12 @@ Build patterns, copies assets, and constructs user interface. Watches configured
 **Kind**: static method of [<code>server</code>](#patternlab.server)  
 **Returns**: <code>Promise</code> - a promise fulfilled when build is complete  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> | an object used to control build behavior |
-| options.cleanPublic | <code>bool</code> | whether or not to delete the configured output location (usually `public/`) before build |
-| options.data | <code>object</code> | additional data to be merged with global data prior to build |
-| options.watch | <code>bool</code> | **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| options | <code>object</code> |  | an object used to control build behavior |
+| [options.cleanPublic] | <code>bool</code> | <code>true</code> | whether or not to delete the configured output location (usually `public/`) before build |
+| [options.data] | <code>object</code> | <code>{}</code> | additional data to be merged with global data prior to build |
+| [options.watch] | <code>bool</code> | <code>true</code> | whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild |
 
 <a name="patternlab.server.reload"></a>
 
