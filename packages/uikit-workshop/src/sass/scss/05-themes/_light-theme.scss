@@ -25,9 +25,13 @@
   /**
      * Tools dropdown
      */
-  .pl-c-tools__list.pl-is-active {
-    border-bottom: 1px solid $pl-color-gray-20;
-    border-left: 1px solid $pl-color-gray-20;
+
+  // don't show border to the left / bottom when in vertical mode
+  &:not(.pl-c-body--theme-sidebar) {
+    .pl-c-tools__list.pl-is-active {
+      border-bottom: 1px solid $pl-color-gray-20;
+      border-left: 1px solid $pl-color-gray-20;
+    }
   }
 
   /**
