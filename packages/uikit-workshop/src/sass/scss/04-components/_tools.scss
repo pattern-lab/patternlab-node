@@ -64,3 +64,8 @@
   width: 100%;
   margin: 0;
 }
+
+// Make sure the text and icon align to the opposite ends
+.pl-c-tools__action-icon {
+  margin-left: auto;
+}
