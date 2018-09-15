@@ -69,6 +69,7 @@
     "access": "public"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "react-animate-height": "^2.0.4",
     "@skatejs/renderer-preact": "^0.3.3",
     "@webcomponents/shadydom": "^1.2.0",
