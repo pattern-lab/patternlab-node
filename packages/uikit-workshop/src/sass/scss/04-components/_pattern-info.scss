@@ -54,7 +54,12 @@
 .pl-c-pattern-info__panel {
   padding: 1rem;
 
+  @media all and (min-width: $pl-bp-med) {
+    padding-right: 3rem;
+  }
+
   @media all and (min-width: $pl-bp-large) {
+    padding-right: 1rem;
     flex: auto;
     position: absolute;
     top: 0;
