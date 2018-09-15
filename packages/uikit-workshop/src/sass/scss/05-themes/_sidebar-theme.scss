@@ -4,7 +4,7 @@
 
 $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
 
-@media all and (min-width: 48em) {
+@media all and (min-width: $pl-bp-med) {
   /**
     * A theme that places displays the header as a sidebar
     */
