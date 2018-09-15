@@ -1,0 +1,19 @@
+@import '../../../sass/scss/core.scss';
+
+pl-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $pl-color-gray-13;
+
+  &.pl-c-body--theme-sidebar,
+  &.pl-c-body--theme-vertical {
+    @media all and (min-width: $pl-bp-med) {
+      flex-direction: row;
+    }
+  }
+
+  &.pl-c-body--theme-light {
+    background-color: $pl-color-white;
+  }
+}
