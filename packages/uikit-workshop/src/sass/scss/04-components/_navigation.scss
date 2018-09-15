@@ -49,6 +49,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
 
   @media all and (max-width: $pl-bp-med) {
     order: 2; /* 3 */
