@@ -13,9 +13,16 @@
 
 <body class="pl-c-body">
 
-  ${require('./partials/header.html') }
-  ${require('./partials/iframe.html') }
-  ${require('./partials/modal.html') }
+  <pl-layout>
+    ${require('./partials/header.html') }
+
+    <!-- wrapper so the iframe + modal can switch flex directions in vertical vs horizontal layouts  -->
+    <div class="pl-c-viewport-modal-wrapper">
+      ${require('./partials/iframe.html') }
+      ${require('./partials/modal.html') }
+    </div>
+  </pl-layout>
+  
 
   <script type="text/mustache" class="pl-js-pattern-nav-template">
     ${require('./partials/pattern-nav.html') }
