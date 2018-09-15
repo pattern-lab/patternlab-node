@@ -8,13 +8,14 @@
  *    activates nav
  */
 .pl-c-nav {
+  background-color: inherit;
+
   @media all and (max-width: $pl-bp-med) {
     position: absolute;
     top: 100%;
     width: 100%;
     overflow: hidden;
     max-height: 0; /* 1 */
-    background-color: $pl-color-black;
     display: flex;
     flex-direction: column;
     transition: max-height $pl-animate-quick ease-out;
