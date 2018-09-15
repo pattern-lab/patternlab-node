@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-beta.0",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -60,8 +60,8 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^7.1.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
-    "webpack-cli": "^3.1.0",
     "webpack": "4.16.3",
+    "webpack-cli": "^3.1.0",
     "workbox-build": "^3.4.1",
     "yargs": "^12.0.1"
   },
@@ -83,6 +83,7 @@
     "hogan.js": "^3.0.2",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
+    "jshint": "^2.9.5",
     "mousetrap": "^1.6.2",
     "preact-compat": "^3.18.4",
     "preact": "^8.3.1",
