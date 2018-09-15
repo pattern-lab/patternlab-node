@@ -126,14 +126,13 @@
     * Modal close button
     * 1) Closes the modal popup
     */
-  .pl-c-modal__close-btn {
+  .pl-c-modal__close-btn,
+  .pl-c-tools__action {
     background-color: $pl-color-white;
-    border-top: 1px solid $pl-color-gray-20;
-    border-left: 1px solid $pl-color-gray-20;
 
     &:hover,
     &:focus {
-      background-color: $pl-color-gray-02;
+      background-color: $pl-color-gray-07;
       color: $pl-color-gray-70;
     }
   }
