@@ -10,7 +10,7 @@ pl-toggle-layout {
   cursor: pointer;
 
   @media all and (min-width: $pl-bp-med) {
-    display: inline-flex;
+    display: flex;
   }
 }
 

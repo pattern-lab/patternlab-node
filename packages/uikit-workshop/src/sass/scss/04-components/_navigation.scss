@@ -57,6 +57,11 @@
 
   @media all and (min-width: $pl-bp-med) {
     display: flex; /* 2 */
+
+    // workaround to Firefox-specific flexbox quirk
+    .pl-c-body--theme-sidebar & {
+      display: block;
+    }
   }
 }
 

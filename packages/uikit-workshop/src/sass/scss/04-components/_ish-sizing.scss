@@ -75,14 +75,8 @@
 
   @media all and (min-width: $pl-bp-med) {
     align-items: center;
-    justify-content: center;
-    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 
-    .pl-c-body--theme-sidebar & {
-      display: block;
-      display: flex;
-    }
   }
 
   @media all and (min-width: $pl-bp-large) {
