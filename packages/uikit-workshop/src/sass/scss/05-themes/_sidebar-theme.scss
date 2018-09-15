@@ -204,38 +204,6 @@
          * Tools action
          */
     .pl-c-tools__action {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    /**
-         * Viewport
-         * 1) Position viewport (that contains all the content)
-         *    so it fits in remaining available space
-         */
-    .pl-c-viewport {
-      top: 0; /* 1 */
-      margin-left: auto;
-      width: calc(
-        100% - #{$pl-sidebar-width}
-      ); // fixes the viewport being off-center (and too wide) when the sidebar is visible.
-    }
-
-    /**
-         * Iframe wrapper div
-         * 1) Wipe out dynamic resizing functionality for sidebar mode
-         */
-    .pl-c-viewport__iframe-wrapper {
-      width: 100% !important; /* 1 */
-    }
-
-    /**
-         * Iframe
-         * 1) Wipe out dynamic resizing  functionality for sidebar mode
-         *    TODO: revisit to find ways to resize
-         */
-    .pl-c-viewport__iframe {
-      width: 100% !important; /* 1 */
     }
 
     /**
@@ -245,7 +213,6 @@
          *    TODO: revisit to find ways to resize
          */
     .pl-c-modal {
-      left: $pl-sidebar-width; /* 1 */
       right: 0; /* 1 */
       width: auto;
     }

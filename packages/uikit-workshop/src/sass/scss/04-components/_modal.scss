@@ -2,6 +2,17 @@
     #MODAL
 \*------------------------------------*/
 
+pl-modal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 20;
+  max-height: 100vh;
+  box-shadow: 0 0 2px 0 $pl-color-gray-70;
+  overflow: visible;
+}
+
+
 /**
  * 1) The modal slides up from the bottom of the viewport when
  *    "show pattern info" is selected on the pattern detail screen.
@@ -10,7 +21,7 @@
   display: flex;
   flex-direction: column;
   font-family: $pl-font;
-  background-color: $pl-color-black;
+  background-color: $pl-color-gray-87;
   color: $pl-color-gray-20;
   position: relative;
   top: auto;
@@ -43,6 +54,14 @@
   }
 }
 
+.pl-c-modal__wrapper {
+  transform: translate3d(0, 0, 0);
+}
+
+.pl-c-modal__wrapper > * {
+  height: 100%;
+}
+
 .pl-c-modal__toolbar {
   display: flex;
 }
@@ -59,39 +78,30 @@
  * 1) Closes the modal popup
  */
 .pl-c-modal__close-btn {
-  font-size: 70%;
-  background-color: $pl-color-black;
-  color: $pl-color-gray-50;
-  border: 0;
-  border-radius: $pl-border-radius-med $pl-border-radius-med 0 0;
-  display: inline-block;
-  padding: 0.5rem 0.5rem 0.3rem;
-  margin: 0;
-  text-decoration: none;
-  cursor: pointer;
+  @include linkStyle;
+  
+  @media all and (max-width: $pl-bp-med - 1) {
+    border-radius: 20rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
   z-index: 2;
-  transition: all $pl-animate-quick ease-out;
+  opacity: 0.85;
+  display: flex;
+  justify-content: center;
 
   &:hover,
   &:focus {
-    background-color: $pl-color-gray-87;
-    color: $pl-color-white;
+    opacity: 1;
   }
 
   &:focus,
   &:active {
-    outline: 1px dotted $pl-color-gray-50;
-    outline-offset: -2px;
-  }
-
-  /**
-     * Modal close button inside active modal
-     * 1) Move modal button outside of the modal window
-     */
-  .pl-c-modal.pl-is-active & {
-    bottom: 100%; /* 1 */
+    opacity: 1;
   }
 }
+
 
 .pl-c-modal__cover {
   width: 100%;
@@ -109,7 +119,7 @@
   left: 0;
   height: 14px;
   width: 100%;
-  background-color: $pl-color-black;
+  background-color: inherit;
   z-index: 2;
   cursor: ns-resize;
 
@@ -117,14 +127,21 @@
     content: '';
     height: 3px;
     width: 50px;
-    border-top: 1px solid $pl-color-gray-50;
-    border-bottom: 1px solid $pl-color-gray-50;
-    transition: border-color $pl-animate-quick ease-out;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transition: opacity $pl-animate-normal ease-out;
+    opacity: 0.5;
+    background-color: currentColor;
+    border-radius: 3px;
   }
 
-  &:hover:after,
-  &:focus:after {
-    border-color: $pl-color-white;
+  &:hover:after {
+    opacity: 0.8;
+  }
+
+  &:focus:after,
+  &:active:after {
+    opacity: 0.95;
   }
 }
 
