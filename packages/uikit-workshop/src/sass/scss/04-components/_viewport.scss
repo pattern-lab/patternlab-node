@@ -33,6 +33,10 @@
   @supports (position: sticky) {
     top: 0;
   }
+
+  .pl-c-body--theme-sidebar & {
+    top: 0;
+  }
 }
 
 /**
@@ -159,6 +163,11 @@
   .pl-c-body--theme-sidebar & {
     @media all and (min-width: $pl-bp-med) {
       max-width: calc(100vw - #{$pl-sidebar-width});
+
+      // IE 11 bug causing viewport to be offset
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        margin-left: $pl-sidebar-width;
+      }
     }
   }
 }

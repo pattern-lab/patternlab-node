@@ -23,6 +23,7 @@
       padding: 1rem;
       overflow: auto;
       @include hideScrollBar();
+      justify-content: space-between;
     }
 
     /**
@@ -154,7 +155,7 @@
         *    they appear at the bottom
         */
     .pl-c-controls {
-      margin-top: auto; /* 1 */
+      justify-self: flex-end;
       margin-left: 0;
       flex-direction: column;
     }
