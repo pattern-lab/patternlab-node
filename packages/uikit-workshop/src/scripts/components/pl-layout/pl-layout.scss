@@ -6,8 +6,7 @@ pl-layout {
   height: 100%;
   background-color: $pl-color-gray-13;
 
-  &.pl-c-body--theme-sidebar,
-  &.pl-c-body--theme-vertical {
+  &.pl-c-body--theme-sidebar {
     @media all and (min-width: $pl-bp-med) {
       flex-direction: row;
     }

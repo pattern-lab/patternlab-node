@@ -67,7 +67,9 @@ class Layout extends BaseComponent {
 
     const classes = classNames({
       [`pl-c-body--theme-${this.themeMode}`]: this.themeMode !== undefined,
-      [`pl-c-body--theme-${this.layoutMode}`]: this.layoutMode !== undefined,
+      [`pl-c-body--theme-${
+        this.layoutMode === 'vertical' ? 'sidebar' : 'horizontal'
+      }`]: this.layoutMode !== undefined,
     });
 
     this.className = classes;
