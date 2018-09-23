@@ -20,7 +20,8 @@
 
     <nav class="pl-c-nav pl-js-nav-target pl-js-nav-container" role="navigation">
 
-        <input class="pl-c-typeahead pl-js-typeahead" id="typeahead" type="text" placeholder="Find Pattern" />
+        <!-- @todo: as a next step, implement <pl-search> as a customizable slot in the new <pl-header> for customization via available props -->
+        <pl-search max-results="10" placeholder="Find a Pattern"></pl-search> 
 
         <ol class="pl-c-nav__list pl-js-pattern-nav-target">
             <!-- pattern lab nav will be inserted here -->
