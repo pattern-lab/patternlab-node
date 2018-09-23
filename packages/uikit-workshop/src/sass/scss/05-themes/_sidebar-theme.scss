@@ -164,10 +164,6 @@
       display: none;
     }
 
-    .pl-c-typeahead {
-      border-radius: $pl-border-radius-med;
-    }
-
     /**
          * Dynamically added wrapper around typeahead input
          * 1) Have to use important to override JS-added inline styles

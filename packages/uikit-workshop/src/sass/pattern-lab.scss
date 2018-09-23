@@ -38,7 +38,6 @@
 /*------------------------------------*\
     #VENDOR
 \*------------------------------------*/
-@import 'scss/03-vendor/typeahead';
 @import 'scss/03-vendor/prism';
 
 /*------------------------------------*\
@@ -48,6 +47,7 @@
 /**
  * Pattern Lab Header
  */
+@import '../scripts/components/pl-search/pl-search.scss';
 @import 'scss/04-components/header';
 @import 'scss/04-components/logo';
 @import 'scss/04-components/navigation';
