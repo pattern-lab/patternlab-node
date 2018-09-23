@@ -1,0 +1,286 @@
+/*------------------------------------*\
+    #TWITTER TYPEAHEAD
+\*------------------------------------*/
+
+@import '../../../sass/scss/core.scss';
+/**
+ * Using Twitter Typeahead to autocomplete pattern
+ * searches. https://twitter.github.io/typeahead.js/
+*/
+
+$pl-clear-button-size: 1.8rem;
+$pl-clear-button-size-at-med: 1.5rem;
+
+pl-search {
+  background-color: inherit;
+  order: 2; // Display after nav list items
+  top: 0;
+  z-index: 10;
+  flex-shrink: 0;
+  padding: 0.3rem 0.5rem;
+  display: inline-block;
+
+  @media screen and (min-width: $pl-bp-med){
+    margin-left: 1rem;
+    flex-direction: row;
+    flex-shrink: 1;
+
+    .pl-c-body--theme-sidebar & {
+      flex-direction: column;
+      margin-left: 0;
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+    }
+  }
+}
+
+/**
+    * Typeahead wrapper
+    * 1) This is the JS-generated wrapper around the input
+    */
+.pl-c-typeahead {
+  width: 100%;
+  background-color: inherit;
+  order: 2; // Display after nav list items
+  display: flex !important;
+  z-index: 10;
+  text-transform: capitalize;
+  flex-direction: column;
+  color: $pl-color-gray-02;
+
+  .pl-c-body--theme-light & {
+    color: $pl-color-gray-87;
+  }
+
+  @media screen and (min-width: $pl-bp-med){
+    flex-direction: row;
+
+    .pl-c-body--theme-sidebar & {
+      flex-direction: column;
+    }
+  }
+}
+
+.pl-c-typeahead__hint {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.pl-c-typeahead__hint,
+.pl-c-typeahead__input {
+  text-transform: capitalize;
+  border-radius: $pl-border-radius-med;
+  background-color: $pl-color-gray-87;
+  color: $pl-color-white;
+  border-color: darken($pl-color-gray-87, 10%);
+  text-overflow: ellipsis;
+  border-width: 1px;
+  border-style: solid;
+  transition: all 0.1s ease;
+  max-width: 100%;
+  padding: 0.31rem 0.5rem;
+  font-size: 16px; // prevent zooming in on mobile 
+
+  .pl-c-body--theme-sidebar & {
+    border-radius: 0;
+  }
+
+  // Modify the padding defaults when the clear button UI exists
+  &--with-clear-button {
+    padding-right: $pl-clear-button-size;
+
+    @media all and (min-width: $pl-bp-med) {
+      padding-right: $pl-clear-button-size-at-med;
+    }
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    max-width: 12vw;
+    font-size: inherit;
+
+    .pl-c-body--theme-sidebar & {
+      max-width: none;
+    }
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-gray-07 !important;
+    color: $pl-color-gray-70 !important;
+    border-color: $pl-color-gray-13 !important;
+  }
+
+  &::-webkit-input-placeholder,
+  &::-moz-input-placeholder {
+    color: $pl-color-white !important;
+    transition: all 0.1s ease;
+  }
+
+
+  &:hover,
+  &:focus {
+    color: $pl-color-white;
+    background-color: darken($pl-color-gray-87, 2%) !important;
+
+    .pl-c-body--theme-light & {
+      color: $pl-color-gray-87 !important;
+      background-color: $pl-color-gray-13 !important;
+      border-color: $pl-color-gray-20 !important;
+    }
+
+    &::-moz-input-placeholder,
+    &::-webkit-input-placeholder {
+      color: $pl-color-white !important;
+
+      .pl-c-body--theme-light & {
+        color: $pl-color-gray-87 !important;
+      }
+    }
+  }
+}
+
+.pl-c-typeahead__menu {
+  @include accordionPanel;
+  background-color: $pl-color-gray-87;
+  border-bottom-right-radius: $pl-border-radius-med;
+  border-bottom-left-radius: $pl-border-radius-med;
+  text-transform: capitalize;
+  min-width: 100%;
+  width: 100%;
+  overflow: hidden;
+  right: 0;
+  max-height: 0;
+  display: block !important;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-gray-02;
+  }
+
+  &.pl-is-open:not(.pl-is-empty) {
+    max-height: 120rem;
+    max-height: calc(var(--viewport-height) - 4rem);
+    opacity: 1;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      position: relative !important;
+      border-radius: 0;
+    }
+  }
+
+  @media all and (max-width: $pl-bp-med - 1) {
+    position: relative !important;
+  }
+}
+
+.pl-c-typeahead__results {
+  background-color: inherit;
+  border-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-bottom-right-radius: $pl-border-radius-med;
+  border-bottom-left-radius: $pl-border-radius-med;
+  overflow: hidden;
+  border-color: darken($pl-color-gray-87, 5%);
+
+  &:empty {
+    border-width: 0;
+    max-height: 0;
+  }
+
+  .pl-c-body--theme-light & {
+    border-color: $pl-color-gray-07;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      border-radius: 0;
+    }
+  }
+}
+
+.pl-c-typeahead__result {
+  transition: all 0.3s ease;
+  background-color: inherit;
+  padding: 0.8em;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($pl-color-white, 0.15);
+
+    .pl-c-body--theme-light & {
+      background-color: $pl-color-gray-07;
+    }
+  }
+
+  &:active,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.pl-c-typeahead__result.pl-has-cursor {
+  color: $pl-color-white;
+  background-color: $pl-color-trans-white-25;
+
+  .pl-c-body--theme-light & {
+    color: $pl-color-black;
+    background-color: $pl-color-gray-13;
+  }
+}
+
+.pl-c-typeahead__result p {
+  margin: 0;
+}
+
+.pl-c-typeahead-wrapper {
+  position: relative;
+}
+
+.pl-c-typeahead__clear-button {
+  @include linkStyle;
+  background-color: transparent;
+  height: $pl-clear-button-size;
+  width: $pl-clear-button-size;
+
+  @media all and (min-width: $pl-bp-med) {
+    height: $pl-clear-button-size-at-med;
+    width: $pl-clear-button-size-at-med;
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: transparent;
+  }
+
+  border-radius: 20rem;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  cursor: pointer;
+  border: 0;
+  transition: opacity 0.1s ease;
+  opacity: 0;
+  visibility: hidden;
+
+  &.pl-is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.pl-c-typeahead__clear-button-icon {
+  fill: currentColor;
+  line-height: 0;
+  font-size: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
