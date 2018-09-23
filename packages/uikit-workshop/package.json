@@ -69,6 +69,10 @@
     "access": "public"
   },
   "dependencies": {
+    "@reach/visually-hidden": "^0.1.1",
+    "react-html-parser": "^2.0.2",
+    "fuse.js": "^3.2.1",
+    "react-autocomplete": "^1.8.1",
     "classnames": "^2.2.6",
     "react-animate-height": "^2.0.4",
     "@skatejs/renderer-preact": "^0.3.3",
@@ -96,7 +100,6 @@
     "scriptjs": "^2.5.8",
     "scroll-js": "^1.9.1",
     "skatejs": "^5.2.4",
-    "typeahead.js": "^0.11.1",
     "whendefined": "^0.0.1",
     "wolfy87-eventemitter": "^5.2.4"
   }
