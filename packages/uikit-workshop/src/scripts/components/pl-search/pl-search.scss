@@ -147,9 +147,11 @@ pl-search {
   border-bottom-right-radius: $pl-border-radius-med;
   border-bottom-left-radius: $pl-border-radius-med;
   text-transform: capitalize;
+  position: absolute;
   min-width: 100%;
   width: 100%;
   overflow: hidden;
+  top: 100%;
   right: 0;
   max-height: 0;
   display: block !important;
