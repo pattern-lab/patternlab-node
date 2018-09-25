@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=10.0"
   },
   "publishConfig": {
     "access": "public"
