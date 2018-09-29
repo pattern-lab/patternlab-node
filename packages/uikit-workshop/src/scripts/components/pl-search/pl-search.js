@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import Mousetrap from 'mousetrap';
 
 import VisuallyHidden from '@reach/visually-hidden';
-import ReactAutocomplete from 'react-autocomplete';
+import Autosuggest from 'react-autosuggest';
 
 import { urlHandler } from '../../utils';
 import { BaseComponent } from '../base-component';
@@ -20,18 +20,24 @@ class Search extends BaseComponent {
     this.useShadow = false;
     this.defaultMaxResults = 10;
 
+    // Autosuggest is a controlled component.
+    // This means that you need to provide an input value
+    // and an onChange handler that updates this value (see below).
+    // Suggestions also need to be provided to the Autosuggest,
+    // and they are initially empty because the Autosuggest is closed.
     this.state = {
-      isOpen: false,
       value: '',
+      suggestions: [],
     };
 
     this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
-    this.clearSearch = this.clearSearch.bind(this);
+    // this.clearSearch = this.clearSearch.bind(this);
     this.closeSearch = this.closeSearch.bind(this);
     this.openSearch = this.openSearch.bind(this);
 
-    this.data = [];
+    this.items = [];
     for (const patternType in window.patternPaths) {
       if (window.patternPaths.hasOwnProperty(patternType)) {
         for (const pattern in window.patternPaths[patternType]) {
@@ -39,7 +45,7 @@ class Search extends BaseComponent {
             const obj = {};
             obj.label = patternType + '-' + pattern;
             obj.id = window.patternPaths[patternType][pattern];
-            this.data.push(obj);
+            this.items.push(obj);
           }
         }
       }
@@ -58,7 +64,7 @@ class Search extends BaseComponent {
   }
 
   rendered() {
-    this.inputElement = this.input;
+    this.inputElement = this.querySelector('.js-c-typeahead__input');
   }
 
   static props = {
@@ -70,19 +76,6 @@ class Search extends BaseComponent {
 
   // External Redux store not yet in use
   _stateChanged(state) {}
-
-  // update the iframe via the history api handler
-  passPath(item) {
-    this.setState({ value: item });
-    this.closeSearch();
-    const obj = JSON.stringify({
-      event: 'patternLab.updatePath',
-      path: urlHandler.getFileName(item),
-    });
-    document
-      .querySelector('.pl-js-iframe')
-      .contentWindow.postMessage(obj, urlHandler.targetOrigin);
-  }
 
   toggleSearch() {
     if (!this.state.isOpen) {
@@ -131,10 +124,14 @@ class Search extends BaseComponent {
     }
   }
 
-  // highlights keywords in the search results in a react-friendly way + limits total number / max displayed
-  filterAndLimitResults() {
-    const data = this.data;
+  getSuggestionValue = suggestion => suggestion.label;
 
+  renderSuggestion(item, { query, isHighlighted }) {
+    return <span>{item.highlightedLabel}</span>;
+  }
+
+  // highlights keywords in the search results in a react-friendly way + limits total number / max displayed
+  getSuggestions(value) {
     const maxResults = this.props.maxResults
       ? this.props.maxResults
       : this.defaultMaxResults;
@@ -150,8 +147,8 @@ class Search extends BaseComponent {
       minMatchCharLength: 1,
       keys: ['label'],
     };
-    const fuse = new Fuse(data, fuseOptions);
-    const results = fuse.search(this.state.value ? this.state.value : '');
+    const fuse = new Fuse(this.items, fuseOptions);
+    const results = fuse.search(value);
 
     const highlighter = function(item) {
       const resultItem = item;
@@ -202,9 +199,51 @@ class Search extends BaseComponent {
     }
   }
 
+  // Autosuggest calls this when a search result is selected
+  onChange = (event, { newValue }) => {
+    const patternName = urlHandler.getFileName(newValue);
+
+    if (patternName) {
+      const obj = JSON.stringify({
+        event: 'patternLab.updatePath',
+        path: patternName,
+      });
+
+      document
+        .querySelector('.pl-js-iframe')
+        .contentWindow.postMessage(obj, urlHandler.targetOrigin);
+    }
+
+    this.setState({
+      value: newValue,
+    });
+  };
+
+  // Autosuggest calls this every time you need to update suggestions.
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({ isOpen: true });
+
+    this.setState({
+      suggestions: this.getSuggestions(value),
+    });
+  };
+
+  // Autosuggest calls this every time you need to clear suggestions.
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: [],
+    });
+
+    this.setState({ isOpen: false });
+  };
+
+  onSuggestionSelected() {
+    this.setState({ isOpen: false });
+  }
+
   render() {
-    const open = this.state.isOpen;
-    const currentValue = this.state.value;
+    const { value, suggestions } = this.state;
+
     const shouldShowClearButton = this.props.showClearButton
       ? this.props.showClearButton
       : true;
@@ -213,61 +252,54 @@ class Search extends BaseComponent {
       ? this.props.clearButtonText
       : 'Clear Search Results';
 
+    // no CSS for these Autosuggest selectors yet -- not yet needed
+    const theme = {
+      container: classNames('pl-c-typeahead'),
+      containerOpen: classNames('pl-c-typeahead--open'),
+      input: classNames('pl-c-typeahead__input', 'js-c-typeahead__input', {
+        [`pl-c-typeahead__input--with-clear-button`]: shouldShowClearButton,
+      }),
+      inputOpen: classNames('pl-c-typeahead__input--open'),
+      inputFocused: classNames('pl-c-typeahead__input--focused'),
+      suggestionsContainer: classNames('pl-c-typeahead__menu'),
+      suggestionsContainerOpen: classNames('pl-is-open'),
+      suggestionsList: classNames('pl-c-typeahead__results'),
+      suggestion: classNames('pl-c-typeahead__result'),
+      suggestionFirst: classNames('pl-c-typeahead__result--first'),
+      suggestionHighlighted: classNames('pl-has-cursor'),
+      sectionContainer: classNames(
+        'pl-c-typeahead__section-container'
+      ) /* [1] */,
+      sectionContainerFirst: classNames(
+        'pl-c-typeahead__section-container--first'
+      ) /* [1] */,
+      sectionTitle: classNames('pl-c-typeahead__section-title') /* [1] */,
+    };
+
+    // Autosuggest will pass through all these props to the input.
+    const inputProps = {
+      placeholder: this.props.placeholder
+        ? this.props.placeholder
+        : 'Find a Pattern',
+      value,
+      onChange: this.onChange,
+    };
+
     return (
-      <div className={'pl-c-typeahead-wrapper'}>
-        <ReactAutocomplete
-          items={this.filterAndLimitResults()}
-          ref={el => (this.input = el)}
-          wrapperProps={{
-            className: classNames('pl-c-typeahead'),
-          }}
-          //setting autoHighlight to false seems to help prevent an occasional JS error from firing (relating to the dom-scroll-into-view library)
-          autoHighlight={false}
-          onMenuVisibilityChange={isOpen => this.setState({ isOpen })}
-          getItemValue={item => item.label}
-          renderItem={(item, highlighted) => (
-            <div
-              className={classNames('pl-c-typeahead__result', {
-                [`pl-has-cursor`]: highlighted,
-              })}
-              key={item.id}
-            >
-              {item.highlightedLabel}
-            </div>
-          )}
-          inputProps={{
-            className: classNames('pl-c-typeahead__input', {
-              [`pl-c-typeahead__input--with-clear-button`]: shouldShowClearButton,
-            }),
-            placeholder: this.props.placeholder
-              ? this.props.placeholder
-              : 'Find a Pattern',
-          }}
-          renderMenu={(items, value, style) => (
-            <div
-              className={classNames('pl-c-typeahead__menu', {
-                [`pl-is-open`]: open,
-              })}
-            >
-              <div
-                className={'pl-c-typeahead__results'}
-                style={{ ...style, ...this.menuStyle }}
-                children={items}
-              />
-            </div>
-          )}
-          value={this.state.value}
-          onChange={e => {
-            e.target.value !== '' && e.target.value !== undefined
-              ? this.setState({ value: e.target.value })
-              : this.setState({ value: '' });
-          }}
-          onSelect={value => this.passPath(value)}
+      <div className={classNames('pl-c-typeahead-wrapper')}>
+        <Autosuggest
+          theme={theme}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
         />
         {shouldShowClearButton && (
           <button
             className={classNames('pl-c-typeahead__clear-button', {
-              [`pl-is-visible`]: currentValue !== '',
+              [`pl-is-visible`]: value !== '',
             })}
             onClick={() => {
               this.clearSearch();
@@ -280,7 +312,7 @@ class Search extends BaseComponent {
               width="16"
               className={'pl-c-typeahead__clear-button-icon'}
             >
-              <title>Clear Search Results</title>
+              <title>{clearButtonText}</title>
               <path d="M12.207 10.793l-1.414 1.414-2.793-2.793-2.793 2.793-1.414-1.414 2.793-2.793-2.793-2.793 1.414-1.414 2.793 2.793 2.793-2.793 1.414 1.414-2.793 2.793 2.793 2.793z" />
             </svg>
           </button>
