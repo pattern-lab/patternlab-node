@@ -8,8 +8,8 @@
  * searches. https://twitter.github.io/typeahead.js/
 */
 
-$pl-clear-button-size: 1.8rem;
-$pl-clear-button-size-at-med: 1.5rem;
+$pl-clear-button-size: 1.7rem;
+$pl-clear-button-size-at-med: 1.4rem;
 
 pl-search {
   background-color: inherit;
@@ -48,6 +48,7 @@ pl-search {
   text-transform: capitalize;
   flex-direction: column;
   color: $pl-color-gray-02;
+  position: relative;
 
   .pl-c-body--theme-light & {
     color: $pl-color-gray-87;
@@ -72,7 +73,6 @@ pl-search {
 .pl-c-typeahead__hint,
 .pl-c-typeahead__input {
   text-transform: capitalize;
-  border-radius: $pl-border-radius-med;
   background-color: $pl-color-gray-87;
   color: $pl-color-white;
   border-color: darken($pl-color-gray-87, 10%);
@@ -83,13 +83,16 @@ pl-search {
   max-width: 100%;
   padding: 0.31rem 0.5rem;
   font-size: 16px; // prevent zooming in on mobile
+  width: 100%;
+  outline-offset: -3px;
+  outline-width: 2px;
 
   .pl-c-body--theme-sidebar & {
     border-radius: 0;
   }
 
   // Modify the padding defaults when the clear button UI exists
-  &--with-clear-button {
+  .pl-c-typeahead__input-wrapper--with-clear-button & {
     padding-right: $pl-clear-button-size;
 
     @media all and (min-width: $pl-bp-med) {
@@ -98,7 +101,6 @@ pl-search {
   }
 
   @media all and (min-width: $pl-bp-med) {
-    max-width: 12vw;
     font-size: inherit;
 
     .pl-c-body--theme-sidebar & {
@@ -107,7 +109,7 @@ pl-search {
   }
 
   .pl-c-body--theme-light & {
-    background-color: $pl-color-gray-07 !important;
+    background-color: $pl-color-gray-07;
     color: $pl-color-gray-70 !important;
     border-color: $pl-color-gray-13 !important;
   }
@@ -143,8 +145,6 @@ pl-search {
 .pl-c-typeahead__menu {
   @include accordionPanel;
   background-color: $pl-color-gray-87;
-  border-bottom-right-radius: $pl-border-radius-med;
-  border-bottom-left-radius: $pl-border-radius-med;
   text-transform: capitalize;
   position: absolute;
   min-width: 100%;
@@ -156,6 +156,11 @@ pl-search {
   display: block !important;
   transition: max-height 0.3s ease, opacity 0.3s ease;
   opacity: 0;
+
+  @media all and (min-width: $pl-bp-med) {
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+  }
 
   .pl-c-body--theme-light & {
     background-color: $pl-color-gray-02;
@@ -187,8 +192,12 @@ pl-search {
   border-color: transparent;
   border-width: 1px;
   border-style: solid;
-  border-bottom-right-radius: $pl-border-radius-med;
-  border-bottom-left-radius: $pl-border-radius-med;
+
+  @media all and (min-width: $pl-bp-med) {
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+  }
+
   overflow: hidden;
   border-color: darken($pl-color-gray-87, 5%);
 
@@ -198,7 +207,7 @@ pl-search {
   }
 
   .pl-c-body--theme-light & {
-    border-color: $pl-color-gray-07;
+    border-color: $pl-color-gray-20;
   }
 
   .pl-c-body--theme-sidebar & {
@@ -213,6 +222,16 @@ pl-search {
   background-color: inherit;
   padding: 0.8em;
   cursor: pointer;
+  overflow: hidden;
+
+  &:last-child {
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+
+    .pl-c-body--theme-sidebar & {
+      border-radius: 0;
+    }
+  }
 
   &:hover {
     background-color: rgba($pl-color-white, 0.15);
@@ -225,6 +244,10 @@ pl-search {
   &:active,
   &:focus {
     background-color: rgba(255, 255, 255, 0.18);
+
+    .pl-c-body--theme-light & {
+      background-color: $pl-color-gray-13;
+    }
   }
 }
 
@@ -238,19 +261,20 @@ pl-search {
   }
 }
 
-.pl-c-typeahead__result p {
-  margin: 0;
-}
-
-.pl-c-typeahead-wrapper {
-  position: relative;
+.pl-c-typeahead__input-wrapper {
+  position: relative; // used for positioning search clear button in relation to the <input>
 }
 
 .pl-c-typeahead__clear-button {
   @include linkStyle;
-  background-color: transparent;
   height: $pl-clear-button-size;
   width: $pl-clear-button-size;
+  background-color: transparent;
+
+  &:hover,
+  &:active {
+    background-color: transparent;
+  }
 
   @media all and (min-width: $pl-bp-med) {
     height: $pl-clear-button-size-at-med;
@@ -259,13 +283,19 @@ pl-search {
 
   .pl-c-body--theme-light & {
     background-color: transparent;
+
+    &:hover,
+    &:active {
+      background-color: transparent;
+    }
   }
 
   border-radius: 20rem;
   overflow: hidden;
   position: absolute;
   right: 0;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 100;
   cursor: pointer;
   border: 0;

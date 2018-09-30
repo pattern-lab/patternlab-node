@@ -4,8 +4,13 @@
 
 	<nav class="pl-c-nav pl-js-nav-target pl-js-nav-container" role="navigation">
 
-		<!-- @todo: as a next step, implement <pl-search> as a customizable slot in the new <pl-header> for customization via available props -->
-		<pl-search max-results="10" placeholder="Find a Pattern"></pl-search> 
+		<!-- 
+			@todo: as a next step, implement <pl-search> as a customizable slot in the new <pl-header> for customization via available props
+
+			Example of always hiding the search's clear button
+			<pl-search max-results="10" placeholder="Find a Pattern" hide-clear-button></pl-search>
+		-->
+		<pl-search max-results="10" placeholder="Find a Pattern"></pl-search>
 
 		<ol class="pl-c-nav__list pl-js-pattern-nav-target">
 			<!-- pattern lab nav will be inserted here -->
