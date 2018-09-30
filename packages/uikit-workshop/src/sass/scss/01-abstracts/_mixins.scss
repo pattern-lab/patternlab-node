@@ -96,18 +96,17 @@
   transition: max-height $pl-animate-quick ease-out;
 
   /**
-     * Active is when accordion panel is open
-     */
+  * Active styles for when the accordion panel is open
+  * 1. WIP -- part of broader UI refactor
+  */
   &.pl-is-active {
-    max-height: none;
-    overflow: auto;
     @include hideScrollBar();
-
-    @media all and (min-width: $pl-bp-med) {
-      max-height: 120rem;
-      // WIP -- part of broader UI refactor
-      max-height: calc(var(--pl-viewport-height) - 1rem, 120rem);
-    }
+    max-height: calc(100vh - #{$offset-top} - 1rem);
+    max-height: calc(
+      var(--pl-viewport-height) - 1rem,
+      100vh - #{$offset-top} - 1rem
+    ); /* [1] */
+    overflow: auto;
   }
 }
 

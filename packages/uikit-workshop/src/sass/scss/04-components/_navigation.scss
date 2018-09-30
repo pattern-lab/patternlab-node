@@ -9,7 +9,6 @@
  */
 .pl-c-nav {
   background-color: inherit;
-
   position: absolute;
   top: 100%;
   width: 100%;
@@ -20,17 +19,20 @@
   transition: max-height $pl-animate-quick ease-out;
 
   /**
-      * Active navigaiton
-      * 1) Slide 
-      * 2) Set the height to the vierport height minus the height
-      *    of the header
-      */
+    * Active navigaiton
+    * 1) Slide 
+    * 2) Set the height to the vierport height minus the height
+    *    of the header
+    */
   &.pl-is-active {
-    @include hideScrollBar;
-    max-height: calc(100vh - #{$offset-top - 1rem}); /* 2 */
+    max-height: calc(100vh - #{$offset-top} - 1rem); /* 2 */
     overflow: auto;
-
     box-shadow: 0 1px 1px $pl-color-black;
+
+    // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
+    @media all and (min-width: $pl-bp-med) {
+      overflow: visible;
+    }
 
     .pl-c-body--theme-light & {
       box-shadow: 0 1px 1px darken($pl-color-gray-20, 15%);
@@ -111,7 +113,7 @@
  */
 .pl-c-nav__link--sublink {
   text-transform: none;
-  padding-left: 1rem;
+  padding-left: $pl-space / 2;
 }
 
 /**
@@ -189,16 +191,26 @@
  * Dropdown sublist
  * 1) Set the height to the viewport height minus the height of the header
  */
-.pl-c-nav__sublist--dropdown.pl-is-active {
+.pl-c-nav__sublist--dropdown.pl-is-active,
+.pl-c-nav__subsublist--dropdown.pl-is-active {
+  margin-left: $pl-space / 2;
+
   @media all and (min-width: $pl-bp-med) {
     height: auto;
     max-height: calc(100vh - #{$offset-top} - 1rem); /* 1 */
   }
+}
 
-  border: 1px solid $pl-color-black;
+.pl-c-nav__sublist--dropdown.pl-is-active {
+  @media all and (min-width: $pl-bp-med) {
+    margin-left: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: $pl-color-black;
 
-  .pl-c-body--theme-light & {
-    border: 1px solid $pl-color-gray-20;
+    .pl-c-body--theme-light & {
+      border-color: $pl-color-gray-20;
+    }
   }
 }
 
