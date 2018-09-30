@@ -103,16 +103,16 @@
     {{# patternTypes }}
 <li class="pl-c-nav__item pl-c-nav__item--{{ patternTypeLC }}">
 
-    <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" tabindex="0" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</a>
+    <button class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" role="tab" aria-controls="{{ patternTypeLC }}">{{ patternTypeUC }}</button>
 
     <ol class="pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel" id="{{ patternTypeLC }}">
 
         {{# patternTypeItems }}
         <li class="pl-c-nav__item pl-c-nav__item--{{ patternSubtypeLC }}">
 
-            <a class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle">{{ patternSubtypeUC }}</a>
+            <button class="pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle" aria-controls="{{ patternSubtypeUC }}" role="tab">{{ patternSubtypeUC }}</button>
 
-            <ol class="pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel">
+            <ol id="{{ patternSubtypeUC }}" class="pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel">
                 
                 {{# patternSubtypeItems }}
                 <li class="pl-c-nav__item">

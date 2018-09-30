@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({"pl-modal-viewer":"pl-modal-viewer","pl-styleguide":"pl-styleguide"}[chunkId]||chunkId) + "-chunk-" + {"0":"d792df13253aa9b6508b","1":"162a89af2e10f9bdb50b","2":"e309c72e0e8f5783df94","pl-modal-viewer":"99a2492aaa20cb1957bf","pl-styleguide":"bbe67e849b72b3064c96"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "js/" + ({"pl-modal-viewer":"pl-modal-viewer","pl-styleguide":"pl-styleguide"}[chunkId]||chunkId) + "-chunk-" + {"0":"d792df13253aa9b6508b","1":"162a89af2e10f9bdb50b","2":"e309c72e0e8f5783df94","pl-modal-viewer":"99a2492aaa20cb1957bf","pl-styleguide":"85e03ab5a5e04e29c9b7"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2248,7 +2248,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
   \**************************************************************/
 /*! exports provided: BaseComponent */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/skatejs/dist/es/index.js because of ./src/scripts/components/pl-search/pl-search.js */
-/*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/store.js because of ./src/scripts/components/pl-toggle-theme/pl-toggle-theme.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/store.js because of ./src/scripts/components/pl-layout/pl-layout.js */
 /*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/utils/index.js */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/preact/dist/preact.mjs because of ./src/scripts/components/pl-search/pl-search.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -2331,10 +2331,10 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/preact-compat/dist/preact-compat.es.js (<- Module is referenced from these modules with unsupported syntax: ./node_modules/react-autosuggest/dist/Autosuggest.js (referenced with cjs require), ./node_modules/react-autowhatever/dist/Autowhatever.js (referenced with cjs require), ./node_modules/react-autowhatever/dist/Item.js (referenced with cjs require), ./node_modules/react-autowhatever/dist/ItemsList.js (referenced with cjs require), ./node_modules/react-autowhatever/dist/SectionTitle.js (referenced with cjs require), ./node_modules/react-html-parser/lib/elementTypes/StyleElementType.js (referenced with cjs require), ./node_modules/react-html-parser/lib/elementTypes/TagElementType.js (referenced with cjs require)) */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/react-autosuggest/dist/index.js (<- Module is not an ECMAScript module) */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/react-html-parser/lib/index.js (<- Module is not an ECMAScript module) */
-/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/skatejs/dist/es/index.js because of ./src/scripts/components/pl-toggle-theme/pl-toggle-theme.js */
-/*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/components/base-component.js because of ./src/scripts/components/pl-toggle-theme/pl-toggle-theme.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/skatejs/dist/es/index.js because of ./src/scripts/components/pl-layout/pl-layout.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/components/base-component.js because of ./src/scripts/components/pl-layout/pl-layout.js */
 /*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/utils/index.js */
-/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/preact/dist/preact.mjs because of ./src/scripts/components/pl-toggle-theme/pl-toggle-theme.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/preact/dist/preact.mjs because of ./src/scripts/components/pl-layout/pl-layout.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
