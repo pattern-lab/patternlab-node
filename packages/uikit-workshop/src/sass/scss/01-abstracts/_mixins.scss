@@ -100,7 +100,6 @@
   * 1. WIP -- part of broader UI refactor
   */
   &.pl-is-active {
-    @include hideScrollBar();
     max-height: calc(100vh - #{$offset-top} - 1rem);
     max-height: calc(
       var(--pl-viewport-height) - 1rem,
