@@ -34,6 +34,10 @@
       overflow: visible;
     }
 
+    .pl-c-body--theme-sidebar & {
+      overflow: hidden;
+    }
+
     .pl-c-body--theme-light & {
       box-shadow: 0 1px 1px darken($pl-color-gray-20, 15%);
     }
@@ -200,6 +204,11 @@
   @media all and (min-width: $pl-bp-med) {
     height: auto;
     max-height: calc(100vh - #{$offset-top} - 1rem); /* 1 */
+  }
+
+  .pl-c-body--theme-sidebar & {
+    overflow: hidden;
+    max-height: none;
   }
 }
 

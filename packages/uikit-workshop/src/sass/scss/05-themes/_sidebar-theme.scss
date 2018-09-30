@@ -21,7 +21,6 @@
       border-bottom: 0; /* 4 */
       padding: 1rem;
       overflow: auto;
-      @include hideScrollBar();
       justify-content: space-between;
     }
 
@@ -140,6 +139,7 @@
         *    they appear at the bottom
         */
     .pl-c-controls {
+      display: flex;
       justify-self: flex-end;
       margin-left: 0;
       flex-direction: column;
