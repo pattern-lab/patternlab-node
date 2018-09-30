@@ -49,10 +49,6 @@
   /**
      * All Nav links inside of subnav dropdown
      */
-  .pl-c-nav__sublist .pl-c-nav__link {
-    border-left: 1px solid $pl-color-gray-20;
-    border-right: 1px solid $pl-color-gray-20;
-  }
 
   /**
     * Last sublist item
@@ -61,7 +57,6 @@
     @media all and (min-width: $pl-bp-med) {
       border-bottom-left-radius: $pl-border-radius-med;
       border-bottom-right-radius: $pl-border-radius-med;
-      border-bottom: 1px solid $pl-color-gray-20;
     }
   }
 

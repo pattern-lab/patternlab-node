@@ -2,7 +2,6 @@
     #SIDEBAR THEME
 \*------------------------------------*/
 
-
 @media all and (min-width: $pl-bp-med) {
   /**
     * A theme that places displays the header as a sidebar
@@ -62,15 +61,6 @@
     }
 
     /**
-        * Nav link
-        */
-    .pl-c-nav__link {
-      font-size: $pl-font-size-sm-2;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    /**
         * Nav sublist
         */
     .pl-c-nav__sublist {
@@ -106,11 +96,6 @@
          * Dropdown sublist
          * 1) Undo fixed height
          */
-    .pl-c-nav__sublist--dropdown.pl-is-active {
-      @media all and (min-width: $pl-bp-med) {
-        height: auto; /* 1 */
-      }
-    }
 
     /**
         * Nav sub sub list
@@ -165,15 +150,6 @@
     }
 
     /**
-         * Dynamically added wrapper around typeahead input
-         * 1) Have to use important to override JS-added inline styles
-         */
-    .pl-c-header .twitter-typeahead {
-      display: block !important; /* 1 */
-      margin-bottom: 0.5rem;
-    }
-
-    /**
          * Tools toggle button
          */
     .pl-c-tools__toggle {
@@ -194,17 +170,11 @@
     }
 
     /**
-         * Tools action
-         */
-    .pl-c-tools__action {
-    }
-
-    /**
-         * Modal
-         * 1) Position modal (that contains all the content)
-         *    so it fits in remaining available space
-         *    TODO: revisit to find ways to resize
-         */
+      * Modal
+      * 1) Position modal (that contains all the content)
+      *    so it fits in remaining available space
+      *    TODO: revisit to find ways to resize
+      */
     .pl-c-modal {
       right: 0; /* 1 */
       width: auto;

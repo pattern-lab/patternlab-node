@@ -10,32 +10,41 @@
 .pl-c-nav {
   background-color: inherit;
 
-  @media all and (max-width: $pl-bp-med) {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    overflow: hidden;
-    max-height: 0; /* 1 */
-    display: flex;
-    flex-direction: column;
-    transition: max-height $pl-animate-quick ease-out;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  overflow: hidden;
+  max-height: 0; /* 1 */
+  display: flex;
+  flex-direction: column;
+  transition: max-height $pl-animate-quick ease-out;
 
-    /**
-         * Active navigaiton
-         * 1) Slide 
-         * 2) Set the height to the vierport height minus the height
-         *    of the header
-         */
-    &.pl-is-active {
-      max-height: 50rem; /* 1 */
-      height: calc(100vh - #{$offset-top}); /* 2 */
-      overflow: auto;
-      @include hideScrollBar();
+  /**
+      * Active navigaiton
+      * 1) Slide 
+      * 2) Set the height to the vierport height minus the height
+      *    of the header
+      */
+  &.pl-is-active {
+    @include hideScrollBar;
+    max-height: calc(100vh - #{$offset-top - 1rem}); /* 2 */
+    overflow: auto;
+
+    box-shadow: 0 1px 1px $pl-color-black;
+
+    .pl-c-body--theme-light & {
+      box-shadow: 0 1px 1px darken($pl-color-gray-20, 15%);
     }
   }
 
   @media all and (min-width: $pl-bp-med) {
-    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: auto;
+    width: auto;
+    overflow: visible;
+    max-height: none;
+    box-shadow: none;
   }
 }
 
@@ -51,13 +60,11 @@
   padding: 0;
   list-style: none;
   flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
-
-  @media all and (max-width: $pl-bp-med) {
-    order: 2; /* 3 */
-  }
+  order: 2;
 
   @media all and (min-width: $pl-bp-med) {
     display: flex; /* 2 */
+    order: 1;
 
     // workaround to Firefox-specific flexbox quirk
     .pl-c-body--theme-sidebar & {
@@ -72,6 +79,9 @@
 .pl-c-nav__item {
   cursor: pointer;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // vertically align nav items
 }
 
 /**
@@ -108,6 +118,7 @@
  * Nav link
  */
 .pl-c-nav__link--dropdown {
+  flex-grow: 1; // fill up extra space in parent nav item, if available
   /**
      * Dropdown caret after accordion handle
      */
@@ -141,8 +152,6 @@
          */
     &:after {
       color: $pl-color-gray-50;
-      -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
       transform: rotate(180deg);
     }
   }
@@ -182,7 +191,14 @@
  */
 .pl-c-nav__sublist--dropdown.pl-is-active {
   @media all and (min-width: $pl-bp-med) {
-    height: calc(100vh - #{$offset-top}); /* 1 */
+    height: auto;
+    max-height: calc(100vh - #{$offset-top} - 1rem); /* 1 */
+  }
+
+  border: 1px solid $pl-color-black;
+
+  .pl-c-body--theme-light & {
+    border: 1px solid $pl-color-gray-20;
   }
 }
 
