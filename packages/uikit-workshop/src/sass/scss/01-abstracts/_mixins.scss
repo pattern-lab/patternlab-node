@@ -101,11 +101,12 @@
   */
   &.pl-is-active {
     max-height: calc(100vh - #{$offset-top} - 1rem);
-    max-height: calc(
-      var(--pl-viewport-height) - 1rem,
-      100vh - #{$offset-top} - 1rem
+    max-height: var(
+      calc(--pl-viewport-height - 1rem),
+      calc(100vh - #{$offset-top} - 1rem)
     ); /* [1] */
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
