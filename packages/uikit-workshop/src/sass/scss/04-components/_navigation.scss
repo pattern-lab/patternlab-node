@@ -185,6 +185,7 @@
 .pl-c-nav__subsublist--dropdown {
   @include listReset();
   @include accordionPanel();
+  visibility: hidden;
 }
 
 /**
@@ -194,6 +195,7 @@
 .pl-c-nav__sublist--dropdown.pl-is-active,
 .pl-c-nav__subsublist--dropdown.pl-is-active {
   margin-left: $pl-space / 2;
+  visibility: visible;
 
   @media all and (min-width: $pl-bp-med) {
     height: auto;

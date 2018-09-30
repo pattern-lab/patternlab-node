@@ -63,8 +63,6 @@ import { urlHandler, DataSaver } from '../utils';
 
   // Accordion dropdown
   $('.pl-js-acc-handle').on('click', function(e) {
-    e.preventDefault();
-
     const $this = $(this);
     const $panel = $this.next('.pl-js-acc-panel');
     const subnav = $this
