@@ -40,6 +40,14 @@ function escapeAtPartialBlock(partialString) {
   return partial;
 }
 
+function loadHelpers(helpers) {
+  helpers.forEach(globPattern => {
+    glob.sync(globPattern).forEach(filePath => {
+      require(path.join(process.cwd(), filePath))(Handlebars);
+    });
+  });
+}
+
 const engine_handlebars = {
   engine: Handlebars,
   engineName: 'handlebars',
@@ -125,26 +133,32 @@ const engine_handlebars = {
   },
 
   /**
-   * Accept a Pattern Lab config object from the core and put it in
-   * this module's closure scope so we can configure engine behavior.
+   * Accept a Pattern Lab config object from the core and use the settings to
+   * load helpers.
    *
    * @param {object} config - the global config object from core
    */
   usePatternLabConfig: function(config) {
+    let helpers;
+
     try {
-      let helpers = config.engines.handlebars.helpers;
+      // Look for helpers in the config
+      helpers = config.engines.handlebars.helpers;
 
       if (typeof helpers === 'string') {
         helpers = [helpers];
       }
-
-      helpers.forEach(globPattern => {
-        glob.sync(globPattern).forEach(filePath => {
-          require(path.join(process.cwd(), filePath))(Handlebars);
-        });
-      });
     } catch (error) {
-      // No helpers to load
+      // Look for helpers in default location
+      const configPath = 'patternlab-handlebars-config.js';
+      if (fs.existsSync(path.join(process.cwd(), configPath))) {
+        helpers = [configPath];
+      }
+    }
+
+    // Load helpers if they were found
+    if (helpers) {
+      loadHelpers(helpers);
     }
   },
 };
