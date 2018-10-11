@@ -25,6 +25,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const Handlebars = require('handlebars');
+const glob = require('glob');
 
 // regexes, stored here so they're only compiled once
 const findPartialsRE = /{{#?>\s*([\w-\/.]+)(?:.|\s+)*?}}/g;
@@ -121,6 +122,30 @@ const engine_handlebars = {
   spawnMeta: function(config) {
     this.spawnFile(config, '_00-head.hbs');
     this.spawnFile(config, '_01-foot.hbs');
+  },
+
+  /**
+   * Accept a Pattern Lab config object from the core and put it in
+   * this module's closure scope so we can configure engine behavior.
+   *
+   * @param {object} config - the global config object from core
+   */
+  usePatternLabConfig: function(config) {
+    try {
+      let helpers = config.engines.handlebars.helpers;
+
+      if (typeof helpers === 'string') {
+        helpers = [helpers];
+      }
+
+      helpers.forEach(globPattern => {
+        glob.sync(globPattern).forEach(filePath => {
+          require(path.join(process.cwd(), filePath))(Handlebars);
+        });
+      });
+    } catch (error) {
+      // No helpers to load
+    }
   },
 };
 

@@ -5,7 +5,8 @@
   "main": "lib/engine_handlebars.js",
   "dependencies": {
     "fs-extra": "0.30.0",
-    "handlebars": "4.0.5"
+    "handlebars": "4.0.5",
+    "glob": "7.0.0"
   },
   "keywords": [
     "Pattern Lab",
