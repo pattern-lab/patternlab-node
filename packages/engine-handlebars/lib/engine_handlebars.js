@@ -32,14 +32,14 @@ const findListItemsRE = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|s
 const findAtPartialBlockRE = /{{#?>\s*@partial-block\s*}}/g;
 
 function escapeAtPartialBlock(partialString) {
-  var partial = partialString.replace(
+  const partial = partialString.replace(
     findAtPartialBlockRE,
     '&#123;{> @partial-block }&#125;'
   );
   return partial;
 }
 
-var engine_handlebars = {
+const engine_handlebars = {
   engine: Handlebars,
   engineName: 'handlebars',
   engineFileExtension: ['.hbs', '.handlebars'],
@@ -54,7 +54,7 @@ var engine_handlebars = {
       Handlebars.registerPartial(partials);
     }
 
-    var compiled = Handlebars.compile(escapeAtPartialBlock(pattern.template));
+    const compiled = Handlebars.compile(escapeAtPartialBlock(pattern.template));
 
     return Promise.resolve(compiled(data));
   },
@@ -68,7 +68,7 @@ var engine_handlebars = {
 
   // find and return any {{> template-name }} within pattern
   findPartials: function findPartials(pattern) {
-    var matches = pattern.template.match(findPartialsRE);
+    const matches = pattern.template.match(findPartialsRE);
     return matches;
   },
   findPartialsWithStyleModifiers: function() {
@@ -85,14 +85,14 @@ var engine_handlebars = {
     return [];
   },
   findListItems: function(pattern) {
-    var matches = pattern.template.match(findListItemsRE);
+    const matches = pattern.template.match(findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
   findPartial: function(partialString) {
-    var partial = partialString.replace(findPartialsRE, '$1');
+    const partial = partialString.replace(findPartialsRE, '$1');
     return partial;
   },
 
