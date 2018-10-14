@@ -21,6 +21,7 @@
       border-bottom: 0; /* 4 */
       padding: 1rem;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
       justify-content: space-between;
     }
 
@@ -139,10 +140,9 @@
         *    they appear at the bottom
         */
     .pl-c-controls {
-      display: flex;
+      display: block; // Display flex + flex direction column gives a similar result, but this fixes a bunch of rendering quirks in IE 11
       justify-self: flex-end;
       margin-left: 0;
-      flex-direction: column;
     }
 
     .pl-c-viewport-size {

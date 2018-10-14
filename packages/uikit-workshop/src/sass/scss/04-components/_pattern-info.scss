@@ -8,6 +8,8 @@
  *    code, annotations, and more.
  */
 .pl-c-pattern-info {
+  flex-grow: 1; // fills space available when placed in the parent flex container
+
   @media all and (min-width: $pl-bp-large) {
     display: flex;
   }
@@ -17,8 +19,11 @@
      */
   .pl-c-pattern & {
     max-height: 20rem;
+    min-height: 18rem;
     overflow: scroll;
     @include hideScrollBar();
+    display: flex;
+    -webkit-overflow-scrolling: touch;
 
     @media all and (min-width: $pl-bp-large) {
       max-height: none;
@@ -30,14 +35,20 @@
   /**
      *  Pattern info inside modal
      */
-  .pl-c-modal & {
+  .pl-c-drawer & {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 0.8rem;
     bottom: 0;
     left: 0;
     overflow: scroll;
     @include hideScrollBar();
+    -webkit-overflow-scrolling: touch;
+    flex-grow: 1;
+
+    @supports (padding: env(safe-area-inset-right)) {
+      right: calc(env(safe-area-inset-right) + 0.8rem);
+    }
 
     @media all and (min-width: $pl-bp-large) {
       position: static;
@@ -53,10 +64,7 @@
  */
 .pl-c-pattern-info__panel {
   padding: 1rem;
-
-  @media all and (min-width: $pl-bp-med) {
-    padding-right: 2.3rem;
-  }
+  width: 100%;
 
   @media all and (min-width: $pl-bp-large) {
     flex: auto;
@@ -64,15 +72,14 @@
     top: 0;
     bottom: 0;
     left: 0;
-    right: 1.3rem;
-    padding-right: 0;
+    right: 0;
   }
 
-  .pl-c-modal & {
-    @media all and (min-width: $pl-bp-xl) {
-      right: 0;
-      padding-left: 2rem;
-      padding-right: 2.5rem;
+  .pl-c-drawer & {
+    padding-right: 1.3rem;
+
+    @supports (padding: env(safe-area-inset-right)) {
+      padding-right: calc(env(safe-area-inset-right) + 1.3rem);
     }
   }
 }
@@ -87,8 +94,9 @@
   @media all and (min-width: $pl-bp-large) {
     left: 0;
     right: 50%;
-    overflow: scroll;
+    overflow: auto;
     @include hideScrollBar();
+    -webkit-overflow-scrolling: touch;
   }
 
   @media all and (min-width: $pl-bp-xl) {

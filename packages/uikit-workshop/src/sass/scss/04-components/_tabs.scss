@@ -17,23 +17,44 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  flex-grow: 1;
 
   /**
      * Tabs inside a code panel
      */
+
   .pl-c-pattern-info__panel--code & {
-    @media all and (min-width: $pl-bp-large) {
-      position: absolute;
-      top: 1rem;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-    }
+    // @media all and (min-width: $pl-bp-large) {
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    // }
   }
 
-  .pl-c-modal & {
+  .pl-c-drawer & {
+    // adjusts the absolutely positioned tabs container when nested inside the PL drawer
+    // @todo: refactor to eliminate the need for this
+    @media all and (min-width: $pl-bp-med) {
+      right: 1.5rem;
+
+      @supports (padding: unquote('max(0px, env(safe-area-inset-right))')) {
+        right: unquote('max(1.5rem, env(safe-area-inset-right))');
+      }
+    }
+
+    @media all and (min-width: 848px) {
+      right: 2.3rem;
+
+      @supports (padding: unquote('max(0px, env(safe-area-inset-right))')) {
+        right: unquote(
+          'max(2.3rem, calc(env(safe-area-inset-right) + 1.4rem))'
+        );
+      }
+    }
+
     @media all and (min-width: $pl-bp-xl) {
-      right: 2.5rem;
       left: 2rem;
     }
   }
@@ -89,16 +110,17 @@
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
-  flex: 1 0 auto;
-  overflow: scroll;
-  @include hideScrollBar();
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
   height: 100%;
-  padding-top: 0.5rem;
 
   /**
      *  Tab content inside modal
      */
-  .pl-c-modal & {
+  .pl-c-drawer & {
     border: 0;
   }
 }
@@ -111,9 +133,11 @@
 .pl-c-tabs__panel {
   display: none;
   min-height: 12rem;
+  height: 100%;
 
   &.pl-is-active-tab {
     display: block;
+    display: flex;
   }
 
   /**

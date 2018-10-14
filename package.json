@@ -1,6 +1,8 @@
 {
   "devDependencies": {
-    "lerna": "3.2.1"
+    "lerna": "3.2.1",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.8.0"
   },
   "private": true,
   "scripts": {
