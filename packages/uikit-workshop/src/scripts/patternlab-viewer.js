@@ -8,6 +8,7 @@ loadPolyfills.then(res => {
       import(/* webpackMode: 'lazy', webpackChunkName: 'pl-modal-viewer' */ './components/modal-viewer');
     }
   );
+  import(/* webpackMode: 'lazy', webpackChunkName: 'pl-drawer' */ './components/pl-drawer/pl-drawer');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-search' */ './components/pl-search/pl-search');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-info' */ './components/pl-toggle-info/pl-toggle-info');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-layout' */ './components/pl-toggle-layout/pl-toggle-layout');

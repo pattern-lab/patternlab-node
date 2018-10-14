@@ -1,39 +1,35 @@
 /*------------------------------------*\
-    #MODAL
+    #drawer
 \*------------------------------------*/
 
-pl-modal {
+$pl-drawer-resizer-height: 14px;
+
+pl-drawer {
   display: flex;
   flex-direction: column;
   position: relative;
+  position: sticky;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
-  max-height: 100vh;
   box-shadow: 0 0 2px 0 $pl-color-gray-70;
   overflow: visible;
 }
 
-
 /**
- * 1) The modal slides up from the bottom of the viewport when
+ * 1) The drawer slides up from the bottom of the viewport when
  *    "show pattern info" is selected on the pattern detail screen.
  */
-.pl-c-modal {
-  display: flex;
-  flex-direction: column;
+.pl-c-drawer {
+  display: block;
   font-family: $pl-font;
   background-color: $pl-color-gray-87;
   color: $pl-color-gray-20;
-  position: relative;
-  top: auto;
-  bottom: 0;
-  left: 0;
   z-index: 5;
   width: 100%;
-  height: 0;
-  transition: transform 0.3s ease, height 0.3s ease;
-  transform: translate3d(0, 100%, 0);
-  pointer-events: none;
-  will-change: height, transform;
+  height: 100%;
   overflow: hidden;
   max-width: 100vw;
 
@@ -42,31 +38,38 @@ pl-modal {
       max-width: calc(100vw - #{$pl-sidebar-width});
     }
   }
-
-  /**
-     * Active modal
-     */
-  &.pl-is-active {
-    transform: translate3d(0, 0, 0);
-    height: 50vh; // default height unless manually resized
-    transition: transform 0.3s ease;
-    pointer-events: auto;
-  }
 }
 
-.pl-c-modal__wrapper {
+.pl-c-drawer__wrapper {
   transform: translate3d(0, 0, 0);
 }
 
-.pl-c-modal__wrapper > * {
+.pl-c-drawer__wrapper > * {
   height: 100%;
 }
 
-.pl-c-modal__toolbar {
+.pl-c-drawer__content {
+  flex-grow: 1;
   display: flex;
 }
 
-.pl-c-modal__toolbar-controls {
+.pl-c-drawer__toolbar {
+  display: flex;
+  flex-shrink: 0; // so that the resizer height doesn't change unexpectedly
+}
+
+.pl-c-drawer__content-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-grow: 1;
+
+  @supports (padding: env(safe-area-inset-top)) {
+    padding-right: calc(env(safe-area-inset-right) - 0.9rem);
+  }
+}
+
+.pl-c-drawer__toolbar-controls {
+  margin-top: $pl-drawer-resizer-height * -1;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -74,12 +77,14 @@ pl-modal {
 }
 
 /**
- * Modal close button
- * 1) Closes the modal popup
+ * drawer close button
+ * 1) Closes the drawer popup
  */
-.pl-c-modal__close-btn {
+.pl-c-drawer__close-btn {
   @include linkStyle;
-  
+  margin: 0;
+  -webkit-appearance: none;
+
   @media all and (max-width: $pl-bp-med - 1) {
     border-radius: 20rem;
     padding-top: 0.5rem;
@@ -102,22 +107,23 @@ pl-modal {
   }
 }
 
-
-.pl-c-modal__cover {
+.pl-c-drawer__cover {
   width: 100%;
   height: 100%;
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 20;
   cursor: move;
+  top: 0;
+  left: 0;
 }
 
-.pl-c-modal__resizer {
+.pl-c-drawer__resizer {
   display: flex;
   align-items: center;
   justify-content: center;
   left: 0;
-  height: 14px;
+  height: $pl-drawer-resizer-height;
   width: 100%;
   background-color: inherit;
   z-index: 2;
@@ -149,7 +155,7 @@ pl-modal {
  * Close button icon
  * 1) Displayed as an e
  */
-.pl-c-modal__close-btn-icon {
+.pl-c-drawer__close-btn-icon {
   width: 12px;
   height: 12px;
   color: currentColor;
