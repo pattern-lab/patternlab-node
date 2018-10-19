@@ -60,6 +60,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": {
+    "node": ">=10.0"
+  },
   "dependencies": {
     "clipboard": "^2.0.1",
     "deepmerge": "^2.1.1",
