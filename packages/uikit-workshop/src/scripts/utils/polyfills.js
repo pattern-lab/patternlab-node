@@ -71,7 +71,7 @@ export const loadPolyfills = new Promise(resolve => {
   } else {
     // Used in Modern browsers supporting ES6.
     // Required since we're transpiling ES6 classes down to ES2015 through Babel
-    import('@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js').then(
+    import('@webcomponents/custom-elements/src/native-shim.js').then(
       () => {
         resolve();
       }
