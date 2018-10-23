@@ -73,6 +73,7 @@
     "react-animate-height": "^2.0.4",
     "@skatejs/renderer-preact": "^0.3.3",
     "@webcomponents/shadydom": "^1.2.0",
+    "@webcomponents/custom-elements": "^1.2.1",
     "clipboard": "^2.0.1",
     "core-js": "^2.5.7",
     "deepmerge": "^2.1.1",
