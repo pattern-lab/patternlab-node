@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack-cli --config webpack.config.js --progress --bail",
     "watch": "webpack-cli --config webpack.config.js --progress --watch",
-    "test": "npm run build -- --bail"
+    "test": "npm run build"
   },
   "authors": [
     {
