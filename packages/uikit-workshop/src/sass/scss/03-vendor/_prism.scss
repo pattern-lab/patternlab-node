@@ -16,6 +16,7 @@ pre[class*='language-'] {
   word-spacing: normal;
   word-break: normal;
   line-height: 1.5;
+  word-wrap: normal; // fixes issue in Safari where code blocks can't scroll due to the code breaking into multiple lines unexpectedly
 
   -moz-tab-size: 4;
   -o-tab-size: 4;

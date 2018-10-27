@@ -1,5 +1,4 @@
 import './utils/postmessage';
 import './components/modal-styleguide';
-
-// WIP: new JS components for handling UI controls to toggle theme
-// import './components/toggle-theme-sg';
+import './components/pl-search/pl-search.iframe-helper'; // communicates with the main <pl-search> component via the PL iframe
+import 'iframe-resizer/js/iframeResizer.contentWindow.min.js'; // automatically syncs inner iFrame height with main Pattern Lab page

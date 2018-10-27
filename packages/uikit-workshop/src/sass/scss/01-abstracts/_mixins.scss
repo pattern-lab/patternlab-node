@@ -37,6 +37,8 @@
   transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
   cursor: pointer;
+  outline-offset: -3px;
+  outline-width: 2px;
 
   &:hover {
     color: $pl-color-white;
@@ -57,6 +59,15 @@
   .pl-c-body--theme-light & {
     background-color: $pl-color-white;
     color: $pl-color-gray-70;
+
+    &:hover {
+      background-color: $pl-color-gray-07;
+    }
+
+    &:active,
+    &:focus {
+      background-color: $pl-color-gray-13;
+    }
   }
 
   /**
@@ -85,24 +96,22 @@
   transition: max-height $pl-animate-quick ease-out;
 
   /**
-     * Active is when accordion panel is open
-     */
+  * Active styles for when the accordion panel is open
+  * 1. WIP -- part of broader UI refactor
+  */
   &.pl-is-active {
-    max-height: none;
+    max-height: calc(100vh - #{$offset-top} - 1rem);
+    max-height: calc(
+      var(--pl-viewport-height, calc(100vh - #{$offset-top})) - 1rem
+    ); /* [1] */
     overflow: auto;
-    @include hideScrollBar();
-
-    @media all and (min-width: $pl-bp-med) {
-      max-height: 120rem;
-      // WIP -- part of broader UI refactor
-      max-height: calc(var(--pl-viewport-height) - 1rem, 120rem);
-    }
+    -webkit-overflow-scrolling: touch;
   }
 }
 
-@mixin noSelect(){
-  -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-  user-select: none;          /* Likely future */  
+@mixin noSelect() {
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 }

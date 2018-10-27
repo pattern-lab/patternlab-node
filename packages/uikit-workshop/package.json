@@ -73,6 +73,10 @@
     "node": ">=10.0"
   },
   "dependencies": {
+    "@reach/visually-hidden": "^0.1.1",
+    "react-html-parser": "^2.0.2",
+    "fuse.js": "^3.2.1",
+    "react-autosuggest": "^9.4.2",
     "classnames": "^2.2.6",
     "react-animate-height": "^2.0.4",
     "@skatejs/renderer-preact": "^0.3.3",
@@ -86,6 +90,7 @@
     "fg-loadcss": "^2.0.1",
     "fg-loadjs": "^1.0.0",
     "hogan.js": "^3.0.2",
+    "iframe-resizer": "^3.6.2",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
     "jshint": "^2.9.5",
@@ -96,12 +101,12 @@
     "prismjs": "^1.15.0",
     "pwa-helpers": "^0.8.3",
     "redux-thunk": "^2.3.0",
+    "react-animate-height": "^2.0.4",
     "redux": "^4.0.0",
     "reselect": "^3.0.1",
     "scriptjs": "^2.5.8",
     "scroll-js": "^1.9.1",
     "skatejs": "^5.2.4",
-    "typeahead.js": "^0.11.1",
     "whendefined": "^0.0.1",
     "wolfy87-eventemitter": "^5.2.4"
   }

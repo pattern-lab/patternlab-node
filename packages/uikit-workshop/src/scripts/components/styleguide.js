@@ -5,7 +5,6 @@
 import $ from 'jquery';
 import Mousetrap from 'mousetrap';
 import { urlHandler, DataSaver } from '../utils';
-import { patternFinder } from './pattern-finder';
 
 (function(w) {
   let sw = document.body.clientWidth; //Viewport Width
@@ -64,8 +63,6 @@ import { patternFinder } from './pattern-finder';
 
   // Accordion dropdown
   $('.pl-js-acc-handle').on('click', function(e) {
-    e.preventDefault();
-
     const $this = $(this);
     const $panel = $this.next('.pl-js-acc-panel');
     const subnav = $this
@@ -572,7 +569,6 @@ import { patternFinder } from './pattern-finder';
     $('.pl-js-nav-container, .pl-js-acc-handle, .pl-js-acc-panel').removeClass(
       'pl-is-active'
     );
-    patternFinder.closeFinder();
   }
 
   // update the iframe with the source from clicked element in pull down menu. also close the menu

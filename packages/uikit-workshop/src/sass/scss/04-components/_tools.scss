@@ -47,7 +47,7 @@
   position: absolute;
   top: 100%;
   right: 0;
-  z-index: 1;
+  z-index: 10; // make sure context dropdown z-index is higher than nav dropdown z-index
   width: 10rem;
   border-bottom-left-radius: $pl-border-radius-med;
   border-bottom-right-radius: $pl-border-radius-med;
