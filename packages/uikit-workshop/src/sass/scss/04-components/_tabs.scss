@@ -17,26 +17,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
-  /**
-     * Tabs inside a code panel
-     */
-  .pl-c-pattern-info__panel--code & {
-    @media all and (min-width: $pl-bp-large) {
-      position: absolute;
-      top: 1rem;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-    }
-  }
-
-  .pl-c-modal & {
-    @media all and (min-width: $pl-bp-xl) {
-      right: 2.5rem;
-      left: 2rem;
-    }
-  }
+  flex-grow: 1;
 }
 
 /**
@@ -89,18 +70,9 @@
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
-  flex: 1 0 auto;
-  overflow: scroll;
-  @include hideScrollBar();
-  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   padding-top: 0.5rem;
-
-  /**
-     *  Tab content inside modal
-     */
-  .pl-c-modal & {
-    border: 0;
-  }
 }
 
 /**
@@ -110,7 +82,7 @@
  */
 .pl-c-tabs__panel {
   display: none;
-  min-height: 12rem;
+  // min-height: 12rem;
 
   &.pl-is-active-tab {
     display: block;
