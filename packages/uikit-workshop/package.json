@@ -4,9 +4,9 @@
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
-    "build": "webpack-cli --config webpack.config.js --progress",
+    "build": "webpack-cli --config webpack.config.js --progress --bail",
     "watch": "webpack-cli --config webpack.config.js --progress --watch",
-    "test": "npm run build -- --bail"
+    "test": "npm run build"
   },
   "authors": [
     {
@@ -59,6 +59,7 @@
     "postcss-loader": "^3.0.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "4.16.3",
     "webpack-cli": "^3.1.0",
@@ -67,6 +68,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=10.0"
   },
   "dependencies": {
     "@reach/visually-hidden": "^0.1.1",
