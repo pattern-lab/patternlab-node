@@ -15,8 +15,6 @@
 .pl-c-viewport {
   display: flex;
   flex-direction: column;
-  flex-direction: column;
-  height: auto;
   width: 100%;
   position: relative;
   top: $offset-top;
@@ -24,7 +22,6 @@
   left: 0;
   right: 0;
   z-index: 0;
-  overflow: hidden;
   flex-grow: 1;
   transition: height 0.3s ease;
 
@@ -60,19 +57,25 @@
 *    iframe and the manual resize handle
 */
 .pl-c-viewport__iframe-wrapper {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
   width: 100%; // bug fix for Safari and Firefox getting stuck calculating a width of 0px when the JS first kicks in
   position: relative;
   margin: 0 auto;
   flex: 1;
   -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
-  overflow-x: hidden;
 
   &.hay-mode {
     transition: all 40s linear;
   }
   width: 100%; // bug fix for Safari and Firefox getting stuck calculating a width of 0px when the JS first kicks in
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: calc(100vw - #{$pl-sidebar-width});
+    }
+  }
 }
 
 /**
@@ -80,8 +83,8 @@
 * 1) this is the actual <iframe>
 */
 .pl-c-viewport__iframe {
-  position: absolute;
-  height: 100%;
+  min-height: calc(100vh - 35.5px);
+  flex-grow: 1;
   width: 100%;
   border: 0;
   padding: 0;
@@ -93,9 +96,13 @@
   background-color: $pl-color-white;
   max-width: 100vw; // https://github.com/bolt-design-system/bolt/pull/868
 
+  &.is-ready {
+    min-height: 0;
+  }
+
   .pl-c-body--theme-sidebar & {
     @media all and (min-width: $pl-bp-med) {
-      max-width: calc(100vw - #{$pl-sidebar-width} + 14px);
+      max-width: calc(100vw - #{$pl-sidebar-width});
     }
   }
 
@@ -159,7 +166,8 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  max-width: calc(100vw);
+  max-width: 100vw;
+  position: relative; // used for absolute positioning if position sticky isn't supported  
   
   .pl-c-body--theme-sidebar & {
     @media all and (min-width: $pl-bp-med) {
