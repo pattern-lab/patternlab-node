@@ -35,7 +35,7 @@
  * 2) Set the width and height of the icon to be the same height of font
  */
 .pl-c-tools__toggle-icon {
-  position: absolute;
+  transition: inherit; // inherit transition styles from parent toggle
 }
 
 /**
@@ -59,7 +59,13 @@
  */
 .pl-c-tools__action {
   @include linkStyle();
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
   margin: 0;
+}
+
+// Make sure the text and icon align to the opposite ends
+.pl-c-tools__action-icon {
+  margin-left: auto;
 }

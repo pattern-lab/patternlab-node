@@ -75,12 +75,12 @@
   padding: 0.65em 0.65em 0.5em;
   line-height: 1;
   color: $pl-color-gray-50;
-  background: transparent;
+  background-color: transparent;
   font-weight: normal;
   border: 1px solid $pl-color-gray-13;
   border-top-left-radius: $pl-border-radius-med;
   border-top-right-radius: $pl-border-radius-med;
-  transition: background $pl-animate-quick ease-out;
+  transition: background-color $pl-animate-quick ease-out;
 
   .pl-c-pattern__toggle-icon {
     display: inline-block;
@@ -89,7 +89,7 @@
   &:hover,
   &:focus,
   &.pl-is-active {
-    background: $pl-color-gray-02;
+    background-color: $pl-color-gray-02;
     color: $pl-color-black;
   }
 
@@ -114,7 +114,7 @@
 * like pattern description, lineage, code, and more
 */
 .pl-c-pattern__extra {
-  background: $pl-color-gray-02;
+  background-color: $pl-color-gray-02;
   border-top: 1px solid $pl-color-gray-13;
   margin-bottom: $pl-space;
   overflow: hidden;

@@ -10,6 +10,13 @@
   margin-left: auto; /* 2 */
   display: flex;
   flex-wrap: nowrap;
+
+  // IE 11 layout bug
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      display: block;
+    }
+  }
 }
 
 /**

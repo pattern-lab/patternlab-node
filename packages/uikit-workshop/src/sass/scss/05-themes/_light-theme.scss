@@ -11,7 +11,7 @@
      * Header
      */
   .pl-c-header {
-    background: $pl-color-white;
+    background-color: $pl-color-white;
     border-bottom: 1px solid $pl-color-gray-20;
   }
 
@@ -19,15 +19,19 @@
      * Nav Sublist dropdown
      */
   .pl-c-nav__sublist {
-    background: transparent;
+    background-color: transparent;
   }
 
   /**
      * Tools dropdown
      */
-  .pl-c-tools__list.pl-is-active {
-    border-bottom: 1px solid $pl-color-gray-20;
-    border-left: 1px solid $pl-color-gray-20;
+
+  // don't show border to the left / bottom when in vertical mode
+  &:not(.pl-c-body--theme-sidebar) {
+    .pl-c-tools__list.pl-is-active {
+      border-bottom: 1px solid $pl-color-gray-20;
+      border-left: 1px solid $pl-color-gray-20;
+    }
   }
 
   /**
@@ -35,7 +39,7 @@
      */
   .pl-c-nav__link--dropdown {
     color: $pl-color-gray-70;
-    background: $pl-color-white;
+    background-color: $pl-color-white;
 
     &:after {
       color: $pl-color-gray-20;
@@ -69,7 +73,7 @@
 
     &:hover,
     &:focus {
-      background: $pl-color-gray-13;
+      background-color: $pl-color-gray-13;
     }
   }
 
@@ -77,14 +81,14 @@
      * Typeahead container
      */
   .typeahead {
-    background: $pl-color-gray-13 !important;
+    background-color: $pl-color-gray-13 !important;
   }
 
   /**
      * Typeahead input
      */
   .pl-c-typeahead {
-    background: $pl-color-gray-13 !important;
+    background-color: $pl-color-gray-13 !important;
     color: $pl-color-gray-70 !important;
   }
 
@@ -92,12 +96,12 @@
      * Typeahead input
      */
   .tt-input {
-    background: $pl-color-gray-07 !important;
+    background-color: $pl-color-gray-07 !important;
     color: $pl-color-gray-70 !important;
 
     &:hover {
       color: $pl-color-gray-87;
-      background: $pl-color-gray-13 !important;
+      background-color: $pl-color-gray-13 !important;
 
       &::-webkit-input-placeholder {
         color: $pl-color-gray-87;
@@ -113,7 +117,7 @@
      * Modal inside a light theme
      */
   .pl-c-modal {
-    background: $pl-color-white;
+    background-color: $pl-color-white;
     color: $pl-color-gray-70;
     border-top: 1px solid $pl-color-gray-20;
   }
@@ -122,14 +126,13 @@
     * Modal close button
     * 1) Closes the modal popup
     */
-  .pl-c-modal__close-btn {
-    background: $pl-color-white;
-    border-top: 1px solid $pl-color-gray-20;
-    border-left: 1px solid $pl-color-gray-20;
+  .pl-c-modal__close-btn,
+  .pl-c-tools__action {
+    background-color: $pl-color-white;
 
     &:hover,
     &:focus {
-      background: $pl-color-gray-02;
+      background-color: $pl-color-gray-07;
       color: $pl-color-gray-70;
     }
   }

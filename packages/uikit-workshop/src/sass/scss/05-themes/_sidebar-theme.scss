@@ -2,9 +2,8 @@
     #SIDEBAR THEME
 \*------------------------------------*/
 
-$pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
 
-@media all and (min-width: 48em) {
+@media all and (min-width: $pl-bp-med) {
   /**
     * A theme that places displays the header as a sidebar
     */
@@ -24,6 +23,7 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
       padding: 1rem;
       overflow: auto;
       @include hideScrollBar();
+      justify-content: space-between;
     }
 
     /**
@@ -155,13 +155,9 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         *    they appear at the bottom
         */
     .pl-c-controls {
-      margin-top: auto; /* 1 */
+      justify-self: flex-end;
       margin-left: 0;
       flex-direction: column;
-    }
-
-    .pl-c-size-list {
-      display: none;
     }
 
     .pl-c-viewport-size {
@@ -205,38 +201,6 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
          * Tools action
          */
     .pl-c-tools__action {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    /**
-         * Viewport
-         * 1) Position viewport (that contains all the content)
-         *    so it fits in remaining available space
-         */
-    .pl-c-viewport {
-      top: 0; /* 1 */
-      margin-left: auto;
-      width: calc(
-        100% - #{$pl-sidebar-width}
-      ); // fixes the viewport being off-center (and too wide) when the sidebar is visible.
-    }
-
-    /**
-         * Iframe wrapper div
-         * 1) Wipe out dynamic resizing functionality for sidebar mode
-         */
-    .pl-c-viewport__iframe-wrapper {
-      width: 100% !important; /* 1 */
-    }
-
-    /**
-         * Iframe
-         * 1) Wipe out dynamic resizing  functionality for sidebar mode
-         *    TODO: revisit to find ways to resize
-         */
-    .pl-c-viewport__iframe {
-      width: 100% !important; /* 1 */
     }
 
     /**
@@ -246,7 +210,6 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
          *    TODO: revisit to find ways to resize
          */
     .pl-c-modal {
-      left: $pl-sidebar-width; /* 1 */
       right: 0; /* 1 */
       width: auto;
     }

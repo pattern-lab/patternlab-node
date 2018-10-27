@@ -27,10 +27,12 @@
   overflow: hidden;
   flex-grow: 1;
   transition: height 0.3s ease;
-  transform: translate3d(0, 0, 0);
-  will-change: height;
 
   @supports (position: sticky) {
+    top: 0;
+  }
+
+  .pl-c-body--theme-sidebar & {
     top: 0;
   }
 }
@@ -44,9 +46,12 @@
   width: 100%;
   height: 100%;
   display: none;
-  position: absolute;
-  z-index: 20;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
   cursor: move;
+  pointer-events: auto; // Firefox bug fix
 }
 
 /**
@@ -86,6 +91,13 @@
   left: 0;
   right: 0;
   background-color: $pl-color-white;
+  max-width: 100vw; // https://github.com/bolt-design-system/bolt/pull/868
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: calc(100vw - #{$pl-sidebar-width} + 14px);
+    }
+  }
 
   /**
     * Hay Mode transition
@@ -120,16 +132,16 @@
   margin: 0;
   width: 100%;
   height: 100%;
-  background: $pl-color-gray-20;
-  transition: background $pl-animate-quick ease-out;
+  background-color: $pl-color-gray-20;
+  transition: background-color $pl-animate-quick ease-out;
 
   &:hover {
-    background: $pl-color-gray-50;
+    background-color: $pl-color-gray-50;
   }
 
   &:active {
     cursor: move;
-    background: $pl-color-gray-70;
+    background-color: $pl-color-gray-70;
   }
 }
 
@@ -140,4 +152,23 @@
 */
 .vp-animate {
   transition: width 0.8s ease-out;
+}
+
+// wrapper so the iframe + modal can switch flex directions in vertical vs horizontal layouts
+.pl-c-viewport-modal-wrapper {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  max-width: calc(100vw);
+  
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: calc(100vw - #{$pl-sidebar-width});
+
+      // IE 11 bug causing viewport to be offset
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        margin-left: $pl-sidebar-width;
+      }
+    }
+  }
 }

@@ -8,13 +8,14 @@
  *    activates nav
  */
 .pl-c-nav {
+  background-color: inherit;
+
   @media all and (max-width: $pl-bp-med) {
     position: absolute;
     top: 100%;
     width: 100%;
     overflow: hidden;
     max-height: 0; /* 1 */
-    background: $pl-color-black;
     display: flex;
     flex-direction: column;
     transition: max-height $pl-animate-quick ease-out;
@@ -49,6 +50,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
 
   @media all and (max-width: $pl-bp-med) {
     order: 2; /* 3 */
@@ -56,6 +58,11 @@
 
   @media all and (min-width: $pl-bp-med) {
     display: flex; /* 2 */
+
+    // workaround to Firefox-specific flexbox quirk
+    .pl-c-body--theme-sidebar & {
+      display: block;
+    }
   }
 }
 
@@ -127,7 +134,7 @@
      */
   &.pl-is-active {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
 
     /**
          * Caret rotation and positioning in active dropdown

@@ -54,18 +54,25 @@
 .pl-c-pattern-info__panel {
   padding: 1rem;
 
+  @media all and (min-width: $pl-bp-med) {
+    padding-right: 2.3rem;
+  }
+
   @media all and (min-width: $pl-bp-large) {
     flex: auto;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: 1.3rem;
+    padding-right: 0;
   }
 
   .pl-c-modal & {
     @media all and (min-width: $pl-bp-xl) {
+      right: 0;
       padding-left: 2rem;
+      padding-right: 2.5rem;
     }
   }
 }
