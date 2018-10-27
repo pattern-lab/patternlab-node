@@ -9,8 +9,9 @@
  */
 .pl-c-nav {
   @include accordionPanel;
-  background-color: inherit;
+  background-color: inherit; // allows the nav's children inherit from the parent header
   position: absolute;
+  left: 0; // IE 11 layout broken 
   top: 100%;
   width: 100%;
   display: flex;
@@ -37,7 +38,9 @@
     }
 
     .pl-c-body--theme-sidebar & {
-      box-shadow: none;
+      @media all and (min-width: $pl-bp-med) {
+        box-shadow: none;
+      }
     }
 
     // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
@@ -69,6 +72,7 @@
   list-style: none;
   flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
   order: 2;
+  background-color: inherit; // allows the nav's children inherit from the parent header
 
   @media all and (min-width: $pl-bp-med) {
     display: flex; /* 2 */
@@ -85,11 +89,17 @@
  * Nav list item
  */
 .pl-c-nav__item {
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  transform: translateZ(0); // helps with more consistent rendering in Safari
   cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center; // vertically align nav items
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+  }
 }
 
 /**
@@ -107,9 +117,15 @@
  * Nav link
  */
 .pl-c-nav__link {
+  @include linkStyle;
   display: flex;
   align-items: center;
-  @include linkStyle();
+  margin: 0; // remove default button margin in Safari
+
+  // makes link layout / size more consistent in the sidebar layout, especially when display: flex styles are removed for more consistent IE 11 rendering
+  .pl-c-body--theme-sidebar & {
+    width: 100%;
+  }
 }
 
 /**
@@ -126,6 +142,7 @@
  * Nav link
  */
 .pl-c-nav__link--dropdown {
+  -webkit-appearance: none; // remove default button styling
   flex-grow: 1; // fill up extra space in parent nav item, if available
   /**
      * Dropdown caret after accordion handle
@@ -171,6 +188,7 @@
  *    hang over the header
  */
 .pl-c-nav__sublist {
+  background-color: inherit; // allows the nav's children inherit from the parent header
   @include listReset();
 
   @media all and (min-width: $pl-bp-med) {
