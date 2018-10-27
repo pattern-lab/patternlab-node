@@ -17,6 +17,7 @@ const defaultConfig = {
   buildDir: './dist',
   prod: false, // or false for local dev
   sourceMaps: true,
+  publicPath: '/styleguide/',
 };
 
 module.exports = async function() {
@@ -92,7 +93,7 @@ module.exports = async function() {
       },
       output: {
         path: path.resolve(process.cwd(), `${config.buildDir}/styleguide`),
-        publicPath: '/pattern-lab/styleguide/',
+        publicPath: `${config.publicPath}`,
         filename: '[name].js',
         chunkFilename: `js/[name]-chunk-[chunkhash].js`,
       },
