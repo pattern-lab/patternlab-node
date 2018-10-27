@@ -5,7 +5,7 @@ before_install:
 
 before_script:
   - npm install -g lerna@3.2.1
-  - npm run bootstrap
+  - npm run setup
   - lerna add @pattern-lab/engine-mustache --scope=@pattern-lab/core
   - lerna add @pattern-lab/engine-handlebars --scope=@pattern-lab/core
   - lerna add @pattern-lab/engine-underscore --scope=@pattern-lab/core
