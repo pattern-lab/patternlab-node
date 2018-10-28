@@ -75,6 +75,16 @@ class Search extends BaseComponent {
     clearButtonText: props.string,
   };
 
+  onInput = e => {
+    let value = e.target.value;
+
+    this.setState({
+      value: value,
+    });
+
+    this.onSuggestionsFetchRequested({ value }); // re-render search results immediately based on latest input value
+  };
+
   // External Redux store not yet in use
   _stateChanged(state) {}
 
@@ -325,6 +335,7 @@ class Search extends BaseComponent {
         : 'Find a Pattern',
       value,
       onChange: this.onChange,
+      onInput: this.onInput,
     };
 
     return (

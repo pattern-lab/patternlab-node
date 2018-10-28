@@ -9,10 +9,6 @@ pl-drawer {
   flex-direction: column;
   position: relative;
   position: sticky;
-  top: auto;
-  bottom: 0;
-  left: 0;
-  right: 0;
   z-index: 20;
   box-shadow: 0 0 2px 0 $pl-color-gray-70;
   overflow: visible;
@@ -23,13 +19,24 @@ pl-drawer {
  *    "show pattern info" is selected on the pattern detail screen.
  */
 .pl-c-drawer {
-  display: block;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   font-family: $pl-font;
   background-color: $pl-color-gray-87;
   color: $pl-color-gray-20;
+  position: sticky;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 5;
   width: 100%;
   height: 100%;
+  transition: transform 0.3s ease;
+  transform: translate3d(0, 100%, 0);
+  pointer-events: none;
+  will-change: height, transform;
   overflow: hidden;
   max-width: 100vw;
 
@@ -37,6 +44,14 @@ pl-drawer {
     @media all and (min-width: $pl-bp-med) {
       max-width: calc(100vw - #{$pl-sidebar-width});
     }
+  }
+
+  /**
+     * Active drawer
+     */
+  &.pl-is-active {
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
   }
 }
 
@@ -51,29 +66,30 @@ pl-drawer {
 .pl-c-drawer__content {
   flex-grow: 1;
   display: flex;
+  width: 100%;
+  overflow: hidden; // needed for IE 11 so scrollbars show up
 }
 
 .pl-c-drawer__toolbar {
   display: flex;
+  flex-direction: column;
   flex-shrink: 0; // so that the resizer height doesn't change unexpectedly
 }
 
 .pl-c-drawer__content-wrapper {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
   flex-grow: 1;
-
-  @supports (padding: env(safe-area-inset-top)) {
-    padding-right: calc(env(safe-area-inset-right) - 0.9rem);
-  }
+  overflow: hidden; // needed for IE 11 so scrollbars show up
 }
 
 .pl-c-drawer__toolbar-controls {
-  margin-top: $pl-drawer-resizer-height * -1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-self: flex-end;
   position: relative;
   z-index: 10;
+  flex-shrink: 0;
 }
 
 /**
@@ -84,7 +100,8 @@ pl-drawer {
   @include linkStyle;
   margin: 0;
   -webkit-appearance: none;
-
+  flex-shrink: 0; // needed for IE 11
+  
   @media all and (max-width: $pl-bp-med - 1) {
     border-radius: 20rem;
     padding-top: 0.5rem;
@@ -110,16 +127,20 @@ pl-drawer {
 .pl-c-drawer__cover {
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   display: none;
   position: fixed;
   z-index: 20;
   cursor: move;
-  top: 0;
-  left: 0;
 }
 
 .pl-c-drawer__resizer {
   display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   align-items: center;
   justify-content: center;
   left: 0;
@@ -139,6 +160,7 @@ pl-drawer {
     opacity: 0.5;
     background-color: currentColor;
     border-radius: 3px;
+    display: block;
   }
 
   &:hover:after {
@@ -161,6 +183,8 @@ pl-drawer {
   color: currentColor;
   fill: currentColor;
   transition: fill $pl-animate-quick ease-out;
+  flex-shrink: 0; // needed for IE 11
+  align-self: center; // valign in IE 11
 }
 
 .pl-c-code-copy-btn {
