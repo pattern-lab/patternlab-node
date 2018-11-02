@@ -45,7 +45,7 @@ var engine_twig = {
       twig(
         pattern.relPath,
         {
-          root: path.relative(
+          root: path.resolve(
             __dirname,
             path.resolve(process.cwd(), 'source', '_patterns')
           ),
