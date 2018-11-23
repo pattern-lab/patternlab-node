@@ -10,6 +10,7 @@ loadPolyfills.then(res => {
     }
   );
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-header' */ './components/pl-header/pl-header');
+  import(/* webpackMode: 'lazy', webpackChunkName: 'pl-nav' */ './components/pl-nav/pl-nav');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-search' */ './components/pl-search/pl-search');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-info' */ './components/pl-toggle-info/pl-toggle-info');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-layout' */ './components/pl-toggle-layout/pl-toggle-layout');

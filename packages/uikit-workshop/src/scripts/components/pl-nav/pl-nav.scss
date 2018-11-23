@@ -3,7 +3,8 @@
 \*------------------------------------*/
 
 pl-nav {
-  background-color: inherit; // so the inside of dropdowns inherits the correct color 
+  background-color: inherit; // so the inside of dropdowns inherits the correct color
+  display: flex; // vertically align children
 }
 
 /**
