@@ -2,6 +2,10 @@
     #NAVIGATION
 \*------------------------------------*/
 
+pl-nav {
+  background-color: inherit; // so the inside of dropdowns inherits the correct color 
+}
+
 /**
  * Navigation container
  * 1) Collapse height on small screens. Menu trigger button

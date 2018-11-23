@@ -8,6 +8,11 @@
 * that houses all user code.
 */
 
+pl-iframe {
+  display: flex;
+  flex-grow: 1;
+}
+
 /**
 * Viewport
 * 1) This wrapper div occupies all remaining viewport space after PL's header

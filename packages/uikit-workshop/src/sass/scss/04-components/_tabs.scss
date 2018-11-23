@@ -105,6 +105,7 @@
     padding: 0;
     border: 0;
     display: block;
+    width: 100%; // fill parent container
   }
 
   code[class*='language-'] {
