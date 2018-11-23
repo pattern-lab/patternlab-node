@@ -12,15 +12,26 @@ class Header extends BaseComponent {
   constructor(self) {
     self = super(self);
     this.useShadow = false;
+    this.toggleNav = this.toggleNav.bind(this);
     return self;
   }
 
   _stateChanged(state) {}
 
+  toggleNav() {
+    const navTarget = this.querySelector('.pl-js-nav-target');
+    navTarget.classList.toggle('pl-is-active'); // @todo: refactor to have this add based on the component's state
+  }
+
   render() {
     return (
       <header class="pl-c-header" role="banner">
-        <button class="pl-c-header__nav-toggle pl-js-nav-trigger">Menu</button>
+        <button
+          class="pl-c-header__nav-toggle pl-js-nav-trigger"
+          onClick={this.toggleNav}
+        >
+          Menu
+        </button>
         <nav
           class="pl-c-nav pl-js-nav-target pl-js-nav-container"
           role="navigation"

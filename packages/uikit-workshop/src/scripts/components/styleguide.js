@@ -55,11 +55,6 @@ import { urlHandler, DataSaver, patternName } from '../utils';
     }
   });
 
-  // Nav menu button on small screens
-  $('.pl-js-nav-trigger').on('click', function(e) {
-    e.preventDefault();
-    $('.pl-js-nav-target').toggleClass('pl-is-active');
-  });
 
   // Accordion dropdown
   $('.pl-js-acc-handle').on('click', function(e) {
