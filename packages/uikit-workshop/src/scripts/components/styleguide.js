@@ -4,7 +4,7 @@
 
 import $ from 'jquery';
 import Mousetrap from 'mousetrap';
-import { urlHandler, DataSaver } from '../utils';
+import { urlHandler, DataSaver, patternName } from '../utils';
 
 (function(w) {
   let sw = document.body.clientWidth; //Viewport Width
@@ -523,17 +523,8 @@ import { urlHandler, DataSaver } from '../utils';
     '//' +
     window.location.host +
     window.location.pathname.replace('index.html', '');
-  let patternName =
-    window.config.defaultPattern !== undefined &&
-    typeof window.config.defaultPattern === 'string' &&
-    window.config.defaultPattern.trim().length > 0
-      ? window.config.defaultPattern
-      : 'all';
   let iFramePath =
     baseIframePath + 'styleguide/html/styleguide.html?' + Date.now();
-  if (oGetVars.p !== undefined || oGetVars.pattern !== undefined) {
-    patternName = oGetVars.p !== undefined ? oGetVars.p : oGetVars.pattern;
-  }
 
   if (patternName !== 'all') {
     const patternPath = urlHandler.getFileName(patternName);
