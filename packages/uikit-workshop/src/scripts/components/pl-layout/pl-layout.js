@@ -1,6 +1,5 @@
 import { define, props } from 'skatejs';
 import { h } from 'preact';
-import Hogan from 'hogan.js';
 const classNames = require('classnames');
 
 import { store } from '../../store.js'; // connect to redux
@@ -22,35 +21,7 @@ class Layout extends BaseComponent {
 
   constructor(self) {
     self = super(self);
-    try {
-      /* load pattern nav */
-      const template = document.querySelector('.pl-js-pattern-nav-template');
-      const templateCompiled = Hogan.compile(template.innerHTML);
-      const templateRendered = templateCompiled.render(window.navItems);
-      this.renderRoot.querySelector(
-        '.pl-js-pattern-nav-target'
-      ).innerHTML = templateRendered;
-
-      /* load ish controls */
-      const controlsTemplate = document.querySelector(
-        '.pl-js-ish-controls-template'
-      );
-      const controlsTemplateCompiled = Hogan.compile(
-        controlsTemplate.innerHTML
-      );
-      const controlsTemplateRendered = controlsTemplateCompiled.render(
-        window.ishControls
-      );
-      this.renderRoot.querySelector(
-        '.pl-js-controls'
-      ).innerHTML = controlsTemplateRendered;
-    } catch (e) {
-      const message =
-        '<p>Please generate your site before trying to view it.</p>';
-      this.renderRoot.querySelector(
-        '.pl-js-pattern-nav-target'
-      ).innerHTML = message;
-    }
+    this.useShadow = false;
     return self;
   }
 
@@ -63,10 +34,6 @@ class Layout extends BaseComponent {
     const state = store.getState();
     this.layoutMode = state.app.layoutMode;
     this.themeMode = state.app.themeMode;
-  }
-
-  get renderRoot() {
-    return this;
   }
 
   _stateChanged(state) {
