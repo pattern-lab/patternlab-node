@@ -2,8 +2,11 @@
     #TOOLS
 \*------------------------------------*/
 
+// vertical align in <pl-header> container
 pl-tools-menu {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /**

@@ -76,6 +76,7 @@ pl-nav {
   padding: 0;
   list-style: none;
   flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
+  max-width: 100%; // so content doesn't won't spill out horizontally
   order: 2;
   background-color: inherit; // allows the nav's children inherit from the parent header
 
