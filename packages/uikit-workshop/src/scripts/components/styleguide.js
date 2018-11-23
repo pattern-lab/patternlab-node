@@ -55,31 +55,6 @@ import { urlHandler, DataSaver, patternName } from '../utils';
     }
   });
 
-
-  // Accordion dropdown
-  $('.pl-js-acc-handle').on('click', function(e) {
-    const $this = $(this);
-    const $panel = $this.next('.pl-js-acc-panel');
-    const subnav = $this
-      .parent()
-      .parent()
-      .hasClass('pl-js-acc-panel');
-
-    //Close other panels if link isn't a subnavigation item
-    if (!subnav) {
-      $('.pl-js-acc-handle')
-        .not($this)
-        .removeClass('pl-is-active');
-      $('.pl-js-acc-panel')
-        .not($panel)
-        .removeClass('pl-is-active');
-    }
-
-    //Activate selected panel
-    $this.toggleClass('pl-is-active');
-    $panel.toggleClass('pl-is-active');
-  });
-
   //Size View Events
 
   // handle small button
@@ -535,14 +510,6 @@ import { urlHandler, DataSaver, patternName } from '../utils';
       null,
       null
     );
-  }
-
-  // Open in new window link
-  if (document.querySelector('.pl-js-open-new-window')) {
-    // Set value of href to the path to the pattern
-    document
-      .querySelector('.pl-js-open-new-window')
-      .setAttribute('href', urlHandler.getFileName(patternName));
   }
 
   urlHandler.skipBack = true;
