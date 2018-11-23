@@ -8,7 +8,7 @@ import Prism from 'prismjs';
 import { Panels } from './panels';
 import { panelsUtil } from './panels-util';
 import { urlHandler, Dispatcher } from '../utils';
-import './copy-to-clipboard';
+import './pl-copy-to-clipboard/pl-copy-to-clipboard';
 
 export const panelsViewer = {
   // set up some defaults
