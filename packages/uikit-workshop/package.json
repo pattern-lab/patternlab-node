@@ -28,9 +28,6 @@
   "license": "MIT",
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
-  "peerDependencies": {
-    "jshint": "^2.9.5"
-  },
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
@@ -50,7 +47,6 @@
     "css-loader": "^1.0.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "github:jantimon/html-webpack-plugin#webpack-4",
-    "jshint": "^2.9.6",
     "mini-css-extract-plugin": "^0.4.1",
     "no-emit-webpack-plugin": "^1.0.0",
     "node-sass": "^4.9.3",
@@ -90,7 +86,6 @@
     "iframe-resizer": "^3.6.2",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
-    "jshint": "^2.9.5",
     "mousetrap": "^1.6.2",
     "preact": "^8.3.1",
     "preact-compat": "^3.18.4",
