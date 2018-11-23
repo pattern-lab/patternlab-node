@@ -9,12 +9,14 @@ loadPolyfills.then(res => {
       import(/* webpackMode: 'lazy', webpackChunkName: 'pl-modal-viewer' */ './components/modal-viewer');
     }
   );
+  import(/* webpackMode: 'lazy', webpackChunkName: 'pl-controls' */ './components/pl-controls/pl-controls');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-header' */ './components/pl-header/pl-header');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-nav' */ './components/pl-nav/pl-nav');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-search' */ './components/pl-search/pl-search');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-info' */ './components/pl-toggle-info/pl-toggle-info');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-layout' */ './components/pl-toggle-layout/pl-toggle-layout');
   import(/* webpackMode: 'lazy', webpackChunkName: 'pl-toggle-theme' */ './components/pl-toggle-theme/pl-toggle-theme');
+  import(/* webpackMode: 'lazy', webpackChunkName: 'pl-tools-menu' */ './components/pl-tools-menu/pl-tools-menu');
 });
 
 import './components/panels';
