@@ -68,7 +68,7 @@ pl-iframe {
   width: 100%; // bug fix for Safari and Firefox getting stuck calculating a width of 0px when the JS first kicks in
   position: relative;
   margin: 0 auto;
-  flex: 1;
+  flex-grow: 1;
   -webkit-overflow-scrolling: touch;
 
   &.hay-mode {
@@ -88,7 +88,6 @@ pl-iframe {
 * 1) this is the actual <iframe>
 */
 .pl-c-viewport__iframe {
-  min-height: calc(100vh - 35.5px);
   flex-grow: 1;
   width: 100%;
   border: 0;
