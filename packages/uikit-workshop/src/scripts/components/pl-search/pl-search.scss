@@ -13,17 +13,17 @@ $pl-clear-button-size-at-med: 1.4rem;
 
 pl-search {
   background-color: inherit;
-  order: 2; // Display after nav list items
   top: 0;
   z-index: 10;
   flex-shrink: 0;
   padding: 0.3rem 0.5rem;
   display: inline-block;
-
+  
   @media screen and (min-width: $pl-bp-med) {
     margin-left: 1rem;
     flex-direction: row;
     flex-shrink: 1;
+    order: 2; // Display after nav list items on wider screens
 
     .pl-c-body--theme-sidebar & {
       flex-direction: column;
