@@ -20,8 +20,6 @@
      *  Pattern info inside the "view all" template
      */
   .pl-c-pattern & {
-    max-height: 20rem;
-    min-height: 18rem;
     overflow: scroll;
     @include hideScrollBar();
     display: flex;
@@ -29,7 +27,6 @@
 
     @media all and (min-width: $pl-bp-large) {
       max-height: none;
-      height: 18rem;
       overflow: visible;
     }
   }
@@ -49,6 +46,7 @@
   margin-bottom: 1rem;
   flex-grow: 1;
   max-width: 100%;
+  max-height: 30rem;
   min-width: 300px; // so panels stack automatically
   display: inline-flex;
   flex-direction: column;
