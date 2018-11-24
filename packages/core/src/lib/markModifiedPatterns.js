@@ -28,10 +28,8 @@ module.exports = function(lastModified, patternlab) {
       array.forEach(func);
     }
   };
-  const modifiedOrNot = _.groupBy(
-    patternlab.patterns,
-    p =>
-      changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified'
+  const modifiedOrNot = _.groupBy(patternlab.patterns, p =>
+    changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified'
   );
 
   // For all unmodified patterns load their rendered template output
