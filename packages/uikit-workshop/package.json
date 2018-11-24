@@ -88,6 +88,7 @@
     "js-cookie": "^2.2.0",
     "mousetrap": "^1.6.2",
     "preact": "^8.3.1",
+    "preact-render-to-string": "^4.1.0",
     "preact-compat": "^3.18.4",
     "prism": "^4.1.2",
     "prismjs": "^1.15.0",
