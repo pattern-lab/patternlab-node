@@ -88,7 +88,7 @@
   ],
   "engines": {
     "handlebars": {
-      "helpers": "helpers/*.js"
+      "extend": "helpers/*.js"
     }
   }
 }

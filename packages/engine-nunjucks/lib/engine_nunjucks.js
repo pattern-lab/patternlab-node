@@ -154,7 +154,7 @@ const engine_nunjucks = {
 
     try {
       // Look for helpers in the config
-      extensions = config.engines.nunjucks.helpers;
+      extensions = config.engines.nunjucks.extend;
 
       if (typeof extensions === 'string') {
         extensions = [extensions];

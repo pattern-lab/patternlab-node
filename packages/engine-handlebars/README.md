@@ -21,7 +21,7 @@ To add custom [helpers](http://handlebarsjs.com/#helpers) or otherwise interact 
     ...
     "engines": {
       "handlebars": {
-        "helpers": [
+        "extend": [
           "handlebars-helpers.js",
           "helpers/**/*.js"
         ]

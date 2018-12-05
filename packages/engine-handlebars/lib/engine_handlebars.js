@@ -143,7 +143,7 @@ const engine_handlebars = {
 
     try {
       // Look for helpers in the config
-      helpers = config.engines.handlebars.helpers;
+      helpers = config.engines.handlebars.extend;
 
       if (typeof helpers === 'string') {
         helpers = [helpers];

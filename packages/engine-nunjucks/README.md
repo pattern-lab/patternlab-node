@@ -24,7 +24,7 @@ To add custom filters or make customizations to the nunjucks instance, add the f
     ...
     "engines": {
       "nunjucks": {
-        "extensions": [
+        "extend": [
           "nunjucks-extensions/*.js"
         ]
       }
