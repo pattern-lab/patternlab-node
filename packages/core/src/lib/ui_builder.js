@@ -143,26 +143,29 @@ const ui_builder = function() {
    * @returns the found or created pattern object
    */
   function injectDocumentationBlock(pattern, patternlab, isSubtypePattern) {
-    //first see if loadPattern processed one already
-    let docPattern =
+    // check to see if loadPattern has processed one already (to re-use some bits of pattern data) however still create an empty pattern -- just reuse the pattern description info for existing docs patterns; workaround to address #890 and #970.
+    const existingDocPattern =
       patternlab.subtypePatterns[
         pattern.patternGroup +
           (isSubtypePattern ? '-' + pattern.patternSubGroup : '')
       ];
-    if (docPattern) {
-      docPattern.isDocPattern = true;
-      docPattern.order = -Number.MAX_SAFE_INTEGER;
-      return docPattern;
-    }
 
-    //if not, create one now
-    docPattern = new Pattern.createEmpty(
+    // assign default patternDesc data based on whether or not pattern docs have already been generated.
+    const patternDescription =
+      existingDocPattern !== undefined
+        ? existingDocPattern.patternDesc !== undefined
+          ? existingDocPattern.patternDesc
+          : ''
+        : '';
+
+    // always create a new empty pattern; workaround to address #890 and #970.
+    const docPattern = new Pattern.createEmpty(
       {
         name: pattern.flatPatternPath,
         patternName: isSubtypePattern
           ? pattern.patternSubGroup
           : pattern.patternGroup,
-        patternDesc: '',
+        patternDesc: patternDescription,
         patternPartial:
           'viewall-' +
           pattern.patternGroup +
