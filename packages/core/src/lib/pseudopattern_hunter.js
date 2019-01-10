@@ -24,8 +24,10 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
 
   //look for a pseudo pattern by checking if there is a file containing same
   //name, with ~ in it, ending in .json, .yml or .yaml
-  const needle =
-    currentPattern.subdir + '/' + currentPattern.fileName + '~*.{json,yml,yaml}';
+  const needle = currentPattern.subdir +
+    '/' +
+    currentPattern.fileName +
+    '~*.{json,yml,yaml}';
   const pseudoPatterns = glob.sync(needle, {
     cwd: paths.source.patterns,
     debug: false,
@@ -53,7 +55,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
         logger.warning(
           `There was an error parsing pseudopattern JSON for ${
             currentPattern.relPath
-          }`
+            }`
         );
         logger.warning(err);
       }
@@ -68,7 +70,10 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       const variantName = pseudoPatterns[i]
         .substring(pseudoPatterns[i].indexOf('~') + 1)
         .split('.')[0];
-      const variantExtension = pseudoPatterns[i].split('.').slice(-1).pop();
+      const variantExtension = pseudoPatterns[i]
+        .split('.')
+        .slice(-1)
+        .pop();
       const variantFilePath = path.join(
         currentPattern.subdir,
         currentPattern.fileName + '~' + variantName + '.' + variantExtension
