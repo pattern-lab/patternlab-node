@@ -22,9 +22,9 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
   const paths = patternlab.config.paths;
 
   //look for a pseudo pattern by checking if there is a file containing same
-  //name, with ~ in it, ending in .json
+  //name, with ~ in it, ending in .json, .yml or .yaml
   const needle =
-    currentPattern.subdir + '/' + currentPattern.fileName + '~*.json';
+    currentPattern.subdir + '/' + currentPattern.fileName + '~*.(json|yml|yaml)';
   const pseudoPatterns = glob.sync(needle, {
     cwd: paths.source.patterns,
     debug: false,
