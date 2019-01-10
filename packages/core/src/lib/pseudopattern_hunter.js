@@ -24,7 +24,8 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
 
   //look for a pseudo pattern by checking if there is a file containing same
   //name, with ~ in it, ending in .json, .yml or .yaml
-  const needle = currentPattern.subdir +
+  const needle =
+    currentPattern.subdir +
     '/' +
     currentPattern.fileName +
     '~*.{json,yml,yaml}';
@@ -55,7 +56,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
         logger.warning(
           `There was an error parsing pseudopattern JSON for ${
             currentPattern.relPath
-            }`
+          }`
         );
         logger.warning(err);
       }
