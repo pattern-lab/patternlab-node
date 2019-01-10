@@ -12,6 +12,7 @@ const logger = require('./log');
 const readDocumentation = require('./readDocumentation');
 const lineage_hunter = new lh();
 const changes_hunter = new ch();
+const yaml = require('js-yaml');
 
 const pseudopattern_hunter = function() {};
 
@@ -24,7 +25,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
   //look for a pseudo pattern by checking if there is a file containing same
   //name, with ~ in it, ending in .json, .yml or .yaml
   const needle =
-    currentPattern.subdir + '/' + currentPattern.fileName + '~*.(json|yml|yaml)';
+    currentPattern.subdir + '/' + currentPattern.fileName + '~*.{json,yml,yaml}';
   const pseudoPatterns = glob.sync(needle, {
     cwd: paths.source.patterns,
     debug: false,
@@ -45,7 +46,9 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
           paths.source.patterns,
           pseudoPatterns[i]
         );
-        variantFileData = fs.readJSONSync(variantFileFullPath);
+        variantFileData = yaml.safeLoad(
+          fs.readFileSync(variantFileFullPath, 'utf8')
+        );
       } catch (err) {
         logger.warning(
           `There was an error parsing pseudopattern JSON for ${
@@ -65,9 +68,10 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       const variantName = pseudoPatterns[i]
         .substring(pseudoPatterns[i].indexOf('~') + 1)
         .split('.')[0];
+      const variantExtension = pseudoPatterns[i].split('.').slice(-1).pop();
       const variantFilePath = path.join(
         currentPattern.subdir,
-        currentPattern.fileName + '~' + variantName + '.json'
+        currentPattern.fileName + '~' + variantName + '.' + variantExtension
       );
       const lm = fs.statSync(variantFileFullPath);
       const patternVariant = Pattern.create(
