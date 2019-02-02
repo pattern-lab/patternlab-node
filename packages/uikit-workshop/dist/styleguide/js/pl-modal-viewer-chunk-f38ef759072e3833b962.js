@@ -33,7 +33,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/pwa-helpers/lazy-reducer-enhancer.js */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/redux-thunk/es/index.js */
 /*! ModuleConcatenation bailout: Cannot concat with ./node_modules/redux/es/redux.js */
-/*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/actions/app.js because of ./src/scripts/components/modal-viewer.js */
+/*! ModuleConcatenation bailout: Cannot concat with ./src/scripts/actions/app.js because of ./src/scripts/components/pl-drawer/pl-drawer.js */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
