@@ -3,6 +3,13 @@
     "twig": {
       "namespaces": [
         {
+          "id": "uikit",
+          "recursive": true,
+          "paths": [
+            "../uikit-workshop/views-twig/"
+          ]
+        },
+        {
           "id": "atoms",
           "recursive": true,
           "paths": [
@@ -101,11 +108,21 @@
       "annotations": "./source/_annotations/",
       "styleguide": "dist/",
       "patternlabFiles": {
-        "general-header": "views/partials/general-header.mustache",
-        "general-footer": "views/partials/general-footer.mustache",
-        "patternSection": "views/partials/patternSection.mustache",
-        "patternSectionSubtype": "views/partials/patternSectionSubtype.mustache",
-        "viewall": "views/viewall.mustache"
+        "general-header": {
+          "path": "@uikit/general-header.twig"
+        },
+        "general-footer": {
+          "path": "@uikit/general-footer.twig"
+        },
+        "patternSection": {
+          "path": "@uikit/patternSection.twig"
+        },
+        "patternSectionSubtype": {
+          "path": "@uikit/patternSectionSubtype.twig"
+        },
+        "viewall": {
+          "path": "@uikit/viewall.twig"
+        }
       },
       "js": "./source/js",
       "images": "./source/images",

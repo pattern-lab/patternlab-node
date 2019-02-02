@@ -1,0 +1,34 @@
+<div id="{{ partial.patternPartial }}" class="pl-c-pattern">
+    
+  <div class="pl-c-pattern__header">
+    <h3 class="pl-c-pattern__title">
+      <a href="../../patterns/{{ partial.patternLink }}" class="pl-c-pattern__title-link patternLink" data-patternpartial="{{ partial.patternPartial }}" title="Link to Pattern">
+        {{ partial.patternName }}
+        {% if partial.patternState %}
+          <span class="pl-c-pattern-state pl-c-pattern-state--{{ partial.patternState }}" title="{{ partial.patternState }}">{{ partial.patternState }}</span>
+        {% endif %}
+      </a>
+    </h3>
+    
+    <!-- @todo: why doesn't PL node have breadcrumbs?? -- keeping in the Twig version -->
+    <div class="sg-pattern-breadcrumb pl-c-pattern-breadcrumb">
+      {{ partial.patternBreadcrumb }}
+    </div>
+
+
+    <button class="pl-c-pattern__extra-toggle pl-js-pattern-extra-toggle" id="pl-pattern-extra-toggle-{{partial.patternPartial}}" data-patternpartial="{{ partial.patternPartial }}" title="View Pattern Info">
+      <span class="pl-c-pattern__toggle-icon">&#9660;</span>
+    </button><!--end pl-c-pattern__extra-toggle-->
+  </div><!--end pl-c-pattern__header-->
+
+  <div class="pl-c-pattern__extra pl-js-pattern-extra" id="pl-pattern-extra-{{ partial.patternPartial }}"></div><!--end pl-c-pattern__extra-->
+
+  <div class="pl-js-pattern-example">
+    {{ partial.patternPartialCode | raw }}
+  </div><!--end pl-js-pattern-example-->
+
+  <script type="text/json" id="pl-pattern-data-{{partial.patternPartial}}" class="pl-js-pattern-data">
+    {{ partial.patternData | raw }}
+  </script>
+
+</div><!--end pl-c-pattern-->

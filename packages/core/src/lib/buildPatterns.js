@@ -100,12 +100,29 @@ module.exports = (deletePatternDir, patternlab, additionalData) => {
                 //cascade any patternStates
                 lineage_hunter.cascade_pattern_states(patternlab);
 
+                let plHeader = Pattern.createEmpty({
+                  extendedTemplate: patternlab.header,
+                });
+
+                // because patternlab.header doesn't yet exist, we need to check the first uikit condfig specified to see if a template path is defined there, otherwise use the original default logic.
+                if (
+                  patternlab.header === undefined &&
+                  patternlab.uikits[Object.keys(patternlab.uikits)[0]]
+                    .header !== undefined &&
+                  patternlab.uikits[Object.keys(patternlab.uikits)[0]].header
+                    .path !== undefined
+                ) {
+                  plHeader = Pattern.createEmpty({
+                    relPath:
+                      patternlab.uikits[Object.keys(patternlab.uikits)[0]]
+                        .header.path,
+                  });
+                }
+
                 //set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
                 return render(
-                  Pattern.createEmpty({
-                    // todo should this be uikit.header?
-                    extendedTemplate: patternlab.header,
-                  }),
+                  // todo should this be uikit.header?
+                  plHeader,
                   {
                     cacheBuster: patternlab.cacheBuster,
                   }
