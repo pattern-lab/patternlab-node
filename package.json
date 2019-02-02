@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "lerna": "3.2.1",
+    "lerna": "3.10.8",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.8.0"
   },

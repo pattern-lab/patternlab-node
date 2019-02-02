@@ -77,8 +77,8 @@ const Pattern = function(relPath, data, patternlab) {
   this.patternLink = this.patternSectionSubtype
     ? `$${this.name}/index.html`
     : patternlab
-      ? this.getPatternLink(patternlab, 'rendered')
-      : null;
+    ? this.getPatternLink(patternlab, 'rendered')
+    : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial

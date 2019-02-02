@@ -1,7 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
-
 const logger = require('./log');
 
 module.exports = function(pattern, patternlab) {
