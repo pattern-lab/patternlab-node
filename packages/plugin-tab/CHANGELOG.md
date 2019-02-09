@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-beta.0...@pattern-lab/plugin-tab@2.0.3-beta.1) (2019-02-09)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
 <a name="2.0.3-beta.0"></a>
 ## [2.0.3-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/@pattern-lab/plugin-tab@2.0.3-alpha.5...@pattern-lab/plugin-tab@2.0.3-beta.0) (2018-09-07)
 
