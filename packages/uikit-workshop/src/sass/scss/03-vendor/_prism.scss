@@ -16,6 +16,7 @@ pre[class*='language-'] {
   word-spacing: normal;
   word-break: normal;
   line-height: 1.5;
+  word-wrap: normal; // fixes issue in Safari where code blocks can't scroll due to the code breaking into multiple lines unexpectedly
 
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -32,7 +33,7 @@ pre[class*='language-'] ::-moz-selection,
 code[class*='language-']::-moz-selection,
 code[class*='language-'] ::-moz-selection {
   text-shadow: none;
-  background: #b3d4fc;
+  background-color: #b3d4fc;
 }
 
 pre[class*='language-']::selection,
@@ -40,7 +41,7 @@ pre[class*='language-'] ::selection,
 code[class*='language-']::selection,
 code[class*='language-'] ::selection {
   text-shadow: none;
-  background: #b3d4fc;
+  background-color: #b3d4fc;
 }
 
 @media print {
@@ -59,7 +60,7 @@ pre[class*='language-'] {
 
 :not(pre) > code[class*='language-'],
 pre[class*='language-'] {
-  background: #f5f2f0;
+  background-color: #f5f2f0;
 }
 
 /* Inline code */
@@ -108,7 +109,7 @@ pre[class*='language-'] {
 .language-css .token.string,
 .style .token.string {
   color: #a67f59;
-  background: hsla(0, 0%, 100%, 0.5);
+  background-color: hsla(0, 0%, 100%, 0.5);
 }
 
 .token.atrule,

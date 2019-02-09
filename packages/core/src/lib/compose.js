@@ -164,6 +164,7 @@ module.exports = function(pattern, patternlab) {
             logger.info(err);
           }
           allFooterData = _.merge(allFooterData, pattern.jsonFileData);
+          allFooterData.cacheBuster = patternlab.cacheBuster;
           allFooterData.patternLabFoot = footerPartial;
 
           return render(patternlab.userFoot, allFooterData).then(footerHTML => {

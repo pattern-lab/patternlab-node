@@ -24,7 +24,7 @@
   margin: 0;
   border: 0;
   border-radius: $pl-border-radius;
-  background: transparent;
+  background-color: transparent;
   font-size: inherit;
   color: $pl-color-gray-50;
   width: 35px;
@@ -38,13 +38,13 @@
 
   &:hover {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
   }
 
   &:active,
   &:focus {
     color: $pl-color-white;
-    background: $pl-color-gray-87;
+    background-color: $pl-color-gray-87;
     outline: 1px dotted $pl-color-gray-50;
     outline-offset: -1px;
   }
@@ -70,11 +70,18 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow-x: auto;
+  padding: 0 0.25rem;
+
+  @media all and (min-width: $pl-bp-med) {
+    align-items: center;
+    -webkit-overflow-scrolling: touch;
+
+  }
 
   @media all and (min-width: $pl-bp-large) {
     display: block;
     display: flex;
-    align-items: center;
   }
 }
 
@@ -84,4 +91,13 @@
  */
 .pl-c-size-list__action {
   @include linkStyle();
+}
+
+// Force list items to center align if not overflow scrolling
+.pl-c-size-list__item:first-child {
+  margin-left: auto;
+}
+
+.pl-c-size-list__item:last-child {
+  margin-right: auto;
 }

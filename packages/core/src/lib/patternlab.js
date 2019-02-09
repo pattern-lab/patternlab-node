@@ -334,7 +334,12 @@ module.exports = class PatternLab {
         this.patterns.map(pattern => {
           return processIterative(pattern, self);
         })
-      );
+      ).then(() => {
+        // patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+        this.patterns.sort((pattern1, pattern2) =>
+          pattern1.name.localeCompare(pattern2.name)
+        );
+      });
     });
   }
 

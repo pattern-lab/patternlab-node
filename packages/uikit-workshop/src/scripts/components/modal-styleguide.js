@@ -252,7 +252,7 @@ export const modalStyleguide = {
                 elsToHighlight[j].firstChild
               );
             } else {
-              annotationTip.style.display = 'inline';
+              annotationTip.style.display = 'inline-flex';
             }
 
             elsToHighlight[j].onclick = (function(el) {
