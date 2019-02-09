@@ -4,8 +4,8 @@
   "version": "2.0.0-beta.0",
   "main": "gulpfile.js",
   "dependencies": {
-    "@pattern-lab/cli": "^0.0.1-beta.0",
-    "@pattern-lab/core": "^3.0.0-beta.0",
+    "@pattern-lab/cli": "^0.0.1-beta.1",
+    "@pattern-lab/core": "^3.0.0-beta.1",
     "@pattern-lab/engine-mustache": "^2.0.0-beta.0",
     "@pattern-lab/uikit-workshop": "^1.0.0-beta.0",
     "gulp": "3.9.1",
