@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "lerna": "3.2.1"
+    "lerna": "3.11.0"
   },
   "private": true,
   "scripts": {
