@@ -2,7 +2,7 @@
 import Mousetrap from 'mousetrap';
 import { targetOrigin } from '../../utils';
 
-Mousetrap.bind('command+f', function(e) {
+Mousetrap.bind('command+shift+f', function(e) {
   e.preventDefault();
 
   try {

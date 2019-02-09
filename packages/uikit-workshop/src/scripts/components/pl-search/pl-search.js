@@ -57,7 +57,7 @@ class Search extends BaseComponent {
 
   connected() {
     const self = this;
-    Mousetrap.bind('command+f', function(e) {
+    Mousetrap.bind('command+shift+f', function(e) {
       e.preventDefault();
       self.toggleSearch();
     });
