@@ -84,7 +84,7 @@ const patternlab_module = function(config) {
      * @name build
      * @instance
      * @param {object} options an object used to control build behavior
-     * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+     * @param {bool} [patternlab.config.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
      * @param {object} [options.data={}] additional data to be merged with global data prior to build
      * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @emits PATTERNLAB_BUILD_START
@@ -109,53 +109,51 @@ const patternlab_module = function(config) {
       }
       patternlab.isBusy = true;
 
-      return buildPatterns(options.cleanPublic, patternlab, options.data).then(
-        () => {
-          return new ui_builder().buildFrontend(patternlab).then(() => {
-            copier()
-              .copyAndWatch(patternlab.config.paths, patternlab, options)
-              .then(() => {
-                patternlab.isBusy = false;
-                // only wire up this listener and the one inside serve.js
-                // figure out how to detect if serve was called. we should not assume it was
-                if (
-                  patternlab.serverReady //check for server presence
-                    ? this.events.listenerCount(
-                        events.PATTERNLAB_PATTERN_CHANGE
-                      ) === 1 //if the server is started, it has already setup one listener
-                    : !this.events.listenerCount(
-                        events.PATTERNLAB_PATTERN_CHANGE
-                      ) // else, check for the presnce of none
-                ) {
-                  this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
-                    if (!patternlab.isBusy) {
-                      return this.build(options).then(() => {
-                        patternlab.isBusy = false;
-                      });
-                    }
-                    return Promise.resolve();
-                  });
-                }
+      return buildPatterns(
+        patternlab.config.cleanPublic,
+        patternlab,
+        options.data
+      ).then(() => {
+        return new ui_builder().buildFrontend(patternlab).then(() => {
+          copier()
+            .copyAndWatch(patternlab.config.paths, patternlab, options)
+            .then(() => {
+              patternlab.isBusy = false;
+              // only wire up this listener and the one inside serve.js
+              // figure out how to detect if serve was called. we should not assume it was
+              if (
+                patternlab.serverReady //check for server presence
+                  ? this.events.listenerCount(
+                      events.PATTERNLAB_PATTERN_CHANGE
+                    ) === 1 //if the server is started, it has already setup one listener
+                  : !this.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE) // else, check for the presnce of none
+              ) {
+                this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
+                  if (!patternlab.isBusy) {
+                    return this.build(options).then(() => {
+                      patternlab.isBusy = false;
+                    });
+                  }
+                  return Promise.resolve();
+                });
+              }
 
-                if (
-                  !this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)
-                ) {
-                  this.events.on(events.PATTERNLAB_GLOBAL_CHANGE, () => {
-                    if (!patternlab.isBusy) {
-                      return this.build(
-                        Object.assign({}, options, { cleanPublic: true }) // rebuild everything
-                      );
-                    }
-                    return Promise.resolve();
-                  });
-                }
-              })
-              .then(() => {
-                this.events.emit(events.PATTERNLAB_BUILD_END, patternlab);
-              });
-          });
-        }
-      );
+              if (!this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)) {
+                this.events.on(events.PATTERNLAB_GLOBAL_CHANGE, () => {
+                  if (!patternlab.isBusy) {
+                    return this.build(
+                      Object.assign({}, options, { cleanPublic: true }) // rebuild everything
+                    );
+                  }
+                  return Promise.resolve();
+                });
+              }
+            })
+            .then(() => {
+              this.events.emit(events.PATTERNLAB_BUILD_END, patternlab);
+            });
+        });
+      });
     },
 
     /**
@@ -231,7 +229,7 @@ const patternlab_module = function(config) {
      * @memberof patternlab
      * @name patternsonly
      * @instance
-     * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+     * @param {bool} [patternlab.config.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
      * @param {object} [options.data={}] additional data to be merged with global data prior to build
      * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @returns {Promise} a promise fulfilled when build is complete
@@ -244,11 +242,13 @@ const patternlab_module = function(config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic, patternlab, options.data).then(
-        () => {
-          patternlab.isBusy = false;
-        }
-      );
+      return buildPatterns(
+        patternlab.config.cleanPublic,
+        patternlab,
+        options.data
+      ).then(() => {
+        patternlab.isBusy = false;
+      });
     },
 
     /**
@@ -264,7 +264,7 @@ const patternlab_module = function(config) {
        * @method serve
        * @memberof patternlab.server
        * @param {object} options an object used to control build behavior
-       * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+       * @param {bool} [patternlab.config.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
        * @param {object} [options.data={}] additional data to be merged with global data prior to build
        * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
        * @returns {Promise} a promise fulfilled when build is complete
