@@ -2,6 +2,7 @@
 'use strict';
 const cli = require('commander');
 const path = require('path');
+const create = require('./cli-actions/create');
 const build = require('./cli-actions/build');
 const disable = require('./cli-actions/disable');
 const enable = require('./cli-actions/enable');
@@ -59,6 +60,19 @@ cli
   .option('-p, --patterns-only', 'Whether to only build patterns')
   .option('--no-watch', 'Start watching for changes')
   .action(build);
+
+/**
+ * create
+ * @desc create content in Pattern Lab's source directory
+ */
+cli
+  .command('create')
+  .description('Add pattern specific files to your source folder')
+  .option(
+    '--pf, --pattern-full',
+    'Add a full specified pattern with all file types preselected'
+  )
+  .action(create);
 
 /**
  * export

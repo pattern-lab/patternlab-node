@@ -20,6 +20,7 @@
   "author": "Brian Muenzenmeyer",
   "scripts": {
     "pl:build": "patternlab build --config ./patternlab-config.json",
+    "pl:create": "patternlab create",
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
