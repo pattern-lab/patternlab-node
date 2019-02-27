@@ -7,7 +7,7 @@ module.exports = function(template, prop, data) {
 
   const valueRE = new RegExp(`{{{?\\s*[${prop}]+\\s*}?}}`);
 
-  if (typeof data === 'string') {
+  if (typeof data === 'string' || typeof data === 'number') {
     return t.replace(valueRE, data);
   }
 

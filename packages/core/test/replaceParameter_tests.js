@@ -12,6 +12,12 @@ tap.test('replaces simple value', function(test) {
   test.end();
 });
 
+tap.test('replaces number value', function(test) {
+  const result = replaceParameter('{{count}}', 'count', 12);
+  test.equals(result, '12');
+  test.end();
+});
+
 tap.test('replaces simple boolean true value', function(test) {
   const result = replaceParameter('{{key}}', 'key', true);
   test.equals(result, 'true');
