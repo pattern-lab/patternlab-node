@@ -13,11 +13,11 @@ const createForm = (options, pathSelection) => {
       name: 'patternName',
       message: 'Please insert the pattern name:',
       validate: function(input) {
-        var done = this.async();
+        const done = this.async();
         if (input === '') {
           done('You need to provide a pattern name');
           return;
-        } else if (input.indexOf(' ') != -1) {
+        } else if (input.indexOf(' ') !== -1) {
           done('Please remove all spaces in the pattern name');
           return;
         }
@@ -46,8 +46,8 @@ const createForm = (options, pathSelection) => {
       name: 'patternFiles',
       message: 'which files should be created?',
       choices: answers => {
-        let extensions = ['.md', '.json', '.sass', '.css', '.js'];
-        let choices = [];
+        const extensions = ['.md', '.json', '.sass', '.css', '.js'];
+        const choices = [];
 
         _.forEach(extensions, extension => {
           if (options.patternFull) {

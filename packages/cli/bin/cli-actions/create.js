@@ -9,6 +9,18 @@ const _ = require('lodash');
 const createForm = require('../inquiries/create-form.js');
 const confirmOverwrite = require('../inquiries/create-confirm.js');
 
+function writeFile(_patternPath, content, spinner) {
+  spinner.start(
+    'Adding ' + path.basename(_patternPath) + ' to the file system..'
+  );
+
+  fs.outputFileSync(_patternPath, content); // Write the file with the default content
+
+  spinner.succeed(
+    'Added ' + path.basename(_patternPath) + ' to the file system'
+  );
+}
+
 const create = options => {
   const spinner = ora('⊙ patternlab → reading _patterns file system..').start();
 
@@ -21,34 +33,40 @@ const create = options => {
   const basePath = path.join(pathObj.dir, 'source', '_patterns');
 
   // Possible path's where the new pattern can be located
-  let pathSelection = [{ name: 'New', value: 'new' }];
+  const pathSelection = [{ name: 'New', value: 'new' }];
 
   // Search through the directory
   dive(
     basePath,
+    { all: true, directories: true, files: true },
     (err, file) => {
       if (err) {
         console.log('error in create: ' + err);
         return;
       }
 
-      let pathObj = path.parse(file.replace(basePath, ''));
+      let filePathObj = path.parse(file.replace(basePath, ''));
 
       // Is the given directory a pattern directory or just a normal one
-      if (pathObj.dir.indexOf(pathObj.name.split('~')[0]) !== -1) {
-        pathObj = path.parse(pathObj.dir);
+      if (filePathObj.dir.indexOf(filePathObj.name.split('~')[0]) !== -1) {
+        filePathObj = path.parse(filePathObj.dir);
       }
 
       // Check if the path is already in our selection
-      if (_.indexOf(pathSelection, pathObj.dir) === -1) {
-        pathSelection.push(pathObj.dir);
+      if (_.indexOf(pathSelection, filePathObj.dir) === -1) {
+        pathSelection.push(filePathObj.dir);
+
+        // Add parent folder to the list of selectable elements
+        if (_.indexOf(pathSelection, filePathObj.dir) === -1) {
+          pathSelection.push(filePathObj.dir);
+        }
       }
     },
     () => {
       spinner.succeed('Done reading _patterns file system');
 
       wrapAsync(function*() {
-        let answers = yield ask(createForm(options, pathSelection));
+        const answers = yield ask(createForm(options, pathSelection));
 
         // Only save lower case patterns
         answers.patternName = answers.patternName.toLowerCase();
@@ -60,7 +78,7 @@ const create = options => {
          * question system.
          */
         for (let i = 0; i < answers.patternFiles.length; i++) {
-          let extension = answers.patternFiles[i];
+          const extension = answers.patternFiles[i];
           let _patternPath = '';
 
           if (answers.patternType === 'mixed') {
@@ -100,7 +118,7 @@ const create = options => {
            * day.
            */
           if (fs.pathExistsSync(_patternPath)) {
-            let confirm = yield ask(
+            const confirm = yield ask(
               confirmOverwrite(path.basename(_patternPath))
             );
             if (confirm.confirm) {
@@ -115,17 +133,5 @@ const create = options => {
     }
   );
 };
-
-function writeFile(_patternPath, content, spinner) {
-  spinner.start(
-    'Adding ' + path.basename(_patternPath) + ' to the file system..'
-  );
-
-  fs.outputFileSync(_patternPath, content); // Write the file with the default content
-
-  spinner.succeed(
-    'Added ' + path.basename(_patternPath) + ' to the file system'
-  );
-}
 
 module.exports = create;
