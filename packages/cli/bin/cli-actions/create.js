@@ -33,7 +33,7 @@ const create = options => {
   const basePath = path.join(pathObj.dir, 'source', '_patterns');
 
   // Possible path's where the new pattern can be located
-  const pathSelection = [{ name: 'New', value: 'new' }];
+  let pathSelection = [];
 
   // Search through the directory
   dive(
@@ -64,6 +64,11 @@ const create = options => {
     },
     () => {
       spinner.succeed('Done reading _patterns file system');
+
+      pathSelection = _.sortBy(pathSelection, o => {
+        return o;
+      });
+      pathSelection = _.concat({ name: 'New', value: 'new' }, pathSelection);
 
       wrapAsync(function*() {
         const answers = yield ask(createForm(options, pathSelection));
