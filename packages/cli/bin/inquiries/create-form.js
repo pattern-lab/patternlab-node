@@ -46,7 +46,7 @@ const createForm = (options, pathSelection) => {
       name: 'patternFiles',
       message: 'which files should be created?',
       choices: answers => {
-        const extensions = ['.md', '.json', '.sass', '.css', '.js'];
+        const extensions = ['.md', '.json', '.scss', '.css', '.js'];
         const choices = [];
 
         _.forEach(extensions, extension => {
