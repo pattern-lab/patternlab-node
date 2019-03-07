@@ -86,7 +86,9 @@ const Pattern = function(relPath, data, patternlab) {
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath = info.hasDir
-    ? this.subdir.replace(/[\/\\]/g, '-').replace('-' + info.dir, '')
+    ? this.subdir
+        .replace(/[/\\]/g, '-')
+        .replace(new RegExp('-' + info.dir + '$'), '')
     : this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
 
   // calculated path from the root of the public directory to the generated
