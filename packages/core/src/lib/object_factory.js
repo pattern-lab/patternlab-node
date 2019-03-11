@@ -22,10 +22,11 @@ const Pattern = function(relPath, data, patternlab) {
    */
   const pathObj = path.parse(path.normalize(relPath));
   const info = {};
-  // colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
+  // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
   info.hasDir =
-    pathObj.dir.indexOf(pathObj.name) !== -1 ||
-    pathObj.dir.indexOf(pathObj.name.split('~')[0]) !== -1;
+    path.basename(pathObj.dir) === pathObj.name ||
+    path.basename(pathObj.dir) === pathObj.name.split('~')[0];
+
   info.dir = info.hasDir ? pathObj.dir.split(path.sep).pop() : '';
   info.dirLevel = pathObj.dir.split(path.sep).length;
 
