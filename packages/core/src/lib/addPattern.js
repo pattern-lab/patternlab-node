@@ -41,12 +41,7 @@ module.exports = function(pattern, patternlab) {
       patternlab.partials[pattern.patternPartial] = pattern.patternDesc;
     }
 
-    //patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
-    patternlab.patterns.splice(
-      _.sortedIndexBy(patternlab.patterns, pattern, 'name'),
-      0,
-      pattern
-    );
+    patternlab.patterns.push(pattern);
     patternlab.graph.add(pattern);
   }
 };

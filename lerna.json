@@ -1,5 +1,5 @@
 {
-  "lerna": "3.0.0-beta.21",
+  "lerna": "3.11.0",
   "packages": [
     "packages/*"
   ],
@@ -7,6 +7,18 @@
   "command": {
     "init": {
       "exact": true
+    },
+    "bootstrap": {
+      "hoist": [
+        "tap",
+        "eslin*",
+        "husky",
+        "prettier",
+        "pretty-quick"
+      ]
+    },
+    "publish": {
+      "allowBranch": "master"
     }
   },
   "npmClientArgs": [

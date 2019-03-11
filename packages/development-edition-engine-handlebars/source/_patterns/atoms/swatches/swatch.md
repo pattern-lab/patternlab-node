@@ -1,0 +1,1 @@
+Pattern Lab Tip: Note the use of the [built-in handlebars helper, `if`](https://handlebarsjs.com/builtin_helpers.html) and the ability to address data using dot notation [paths](https://handlebarsjs.com/#paths).

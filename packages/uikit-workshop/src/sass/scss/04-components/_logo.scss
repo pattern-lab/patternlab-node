@@ -1,0 +1,27 @@
+/*------------------------------------*\
+    #LOGO
+\*------------------------------------*/
+
+/**
+ * 1) An optional logo that lives in PL's header.
+ * 2) Displayed as a link
+ */
+.pl-c-logo {
+  max-width: 2rem;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:focus {
+    outline: 1px dotted $pl-color-gray-50;
+    outline-offset: -1px;
+  }
+}
+
+.pl-c-logo__img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

@@ -1,0 +1,127 @@
+/*------------------------------------*\
+    #LIGHT THEME
+\*------------------------------------*/
+
+/**
+ * A light-color theme for Pattern Lab, where the
+ * PL header and modal are light instead of dark
+ */
+.pl-c-body--theme-light {
+  /**
+     * Header
+     */
+  .pl-c-header {
+    background-color: $pl-color-white;
+    border-bottom: 1px solid $pl-color-gray-20;
+  }
+
+  /**
+     * Tools dropdown
+     */
+
+  // don't show border to the left / bottom when in vertical mode
+  @media all and (max-width: $pl-bp-med - 1) {
+    .pl-c-tools__list.pl-is-active {
+      border-bottom: 1px solid $pl-color-gray-20;
+      border-left: 1px solid $pl-color-gray-20;
+    }
+  }
+
+  &:not(.pl-c-body--theme-sidebar) {
+    .pl-c-tools__list.pl-is-active {
+      border-bottom: 1px solid $pl-color-gray-20;
+      border-left: 1px solid $pl-color-gray-20;
+    }
+  }
+
+  /**
+     * Nav link dropdown
+     */
+  .pl-c-nav__link--dropdown {
+    color: $pl-color-gray-70;
+    background-color: $pl-color-white;
+
+    &:after {
+      color: $pl-color-gray-20;
+    }
+  }
+
+  /**
+     * All Nav links inside of subnav dropdown
+     */
+
+  /**
+    * Last sublist item
+    */
+  .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+    @media all and (min-width: $pl-bp-med) {
+      border-bottom-left-radius: $pl-border-radius-med;
+      border-bottom-right-radius: $pl-border-radius-med;
+    }
+  }
+
+  /**
+     * Size input
+     */
+  .pl-c-viewport-size__input {
+    color: $pl-color-gray-70;
+
+    &:hover,
+    &:focus {
+      background-color: $pl-color-gray-13;
+    }
+  }
+
+  /**
+     * Typeahead container
+     */
+  .typeahead {
+    background-color: $pl-color-gray-13 !important;
+  }
+
+
+  /**
+     * Typeahead input
+     */
+  .tt-input {
+    background-color: $pl-color-gray-07 !important;
+    color: $pl-color-gray-70 !important;
+
+    &:hover {
+      color: $pl-color-gray-87;
+      background-color: $pl-color-gray-13 !important;
+
+      &::-webkit-input-placeholder {
+        color: $pl-color-gray-87;
+      }
+
+      &::-moz-input-placeholder {
+        color: $pl-color-gray-87;
+      }
+    }
+  }
+
+  /**
+     * Modal inside a light theme
+     */
+  .pl-c-modal {
+    background-color: $pl-color-white;
+    color: $pl-color-gray-70;
+    border-top: 1px solid $pl-color-gray-20;
+  }
+
+  /**
+    * Modal close button
+    * 1) Closes the modal popup
+    */
+  .pl-c-modal__close-btn,
+  .pl-c-tools__action {
+    background-color: $pl-color-white;
+
+    &:hover,
+    &:focus {
+      background-color: $pl-color-gray-07;
+      color: $pl-color-gray-70;
+    }
+  }
+}

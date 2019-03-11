@@ -6,7 +6,7 @@ No pull request is too small. Check out any [help wanted 🆘](https://github.co
 
 ## Prerequisites
 
-To get started, you'll need Node 8 or higher. Managing Node with [nvm](https://github.com/creationix/nvm) is recommended. Once installed, you can target the version of Node we specify within the [`.nvmrc`](https://github.com/pattern-lab/patternlab-node/blob/master/.nvmrc) file.
+To get started, you'll need Node installed. Managing Node with [nvm](https://github.com/creationix/nvm) is recommended. Once installed, you can target the version of Node we specify within the [`.nvmrc`](https://github.com/pattern-lab/patternlab-node/blob/master/.nvmrc) file.
 
 ```sh
 nvm install <<version>>
@@ -47,7 +47,7 @@ This ensures that any changes you've made will still result in a clean and funct
 
 ## Coding style
 
-Formatting is automated via [Prettier](https://prettier.io/), setup to run on precommit. We suggest [editor integration](https://prettier.io/docs/en/editors.html) for this and for eslint. Prettier is further configured within `.prettierrc`. Eslint validates syntax and usage that Prettier doesn't handle. Configuration for both is found within the `.eslintrc` file.
+Formatting is automated via [Prettier](https://prettier.io/), setup to run on precommit. We suggest [editor integration](https://prettier.io/docs/en/editors.html) for this and for eslint. Prettier is further configured within `.prettierrc`. Eslint validates syntax and usage that Prettier doesn't handle. Configuration for both is found within the `.eslintrc.json` file.
 
 The `.editorconfig` controls spaces / tabs within supported editors. Check out their [site](http://editorconfig.org/).
 

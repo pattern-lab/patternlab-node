@@ -1,5 +1,4 @@
 'use strict';
-const extend = require('util')._extend;
 const getPartial = require('./get');
 const logger = require('./log');
 
@@ -57,7 +56,7 @@ const lineage_hunter = function() {
             }
 
             ancestorPattern.lineageR.push(lr);
-            extend(patternlab.graph.node(ancestorPattern), lr);
+            Object.assign(patternlab.graph.node(ancestorPattern), lr);
           }
         }
       });

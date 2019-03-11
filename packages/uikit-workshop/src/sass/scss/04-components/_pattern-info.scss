@@ -1,0 +1,92 @@
+/*------------------------------------*\
+    #PATTERN INFO
+\*------------------------------------*/
+
+/**
+ * 1) Pattern info contains two side-by-side panels that
+ *    house a pattern's information, such as title, lineage,
+ *    code, annotations, and more.
+ */
+.pl-c-pattern-info {
+  flex-grow: 1; // fills space available when placed in the parent flex container
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  /**
+     *  Pattern info inside the "view all" template
+     */
+  .pl-c-pattern & {
+    max-height: 20rem;
+    min-height: 18rem;
+    overflow: scroll;
+    @include hideScrollBar();
+    display: flex;
+    -webkit-overflow-scrolling: touch;
+
+    @media all and (min-width: $pl-bp-large) {
+      max-height: none;
+      height: 18rem;
+      overflow: visible;
+    }
+  }
+}
+
+/**
+ * Pattern Info Panel
+ * 1) Individual panel. Left side contains pattern info
+ *    Right side contains pattern code
+ */
+.pl-c-pattern-info__panel {
+  flex-basis: 40%; // fills up 100% if only one panel exists. using 40% vs 50% due to quirky behavior in IE 11
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  max-width: 100%;
+  min-width: 300px; // so panels stack automatically
+  display: inline-flex;
+  flex-direction: column;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/**
+ * Pattern Header inside modal
+ */
+.pl-c-pattern-info__header {
+  margin-bottom: 0.5rem;
+}
+
+/**
+ * Pattern Title inside modal
+ */
+.pl-c-pattern-info__title {
+  font-size: 1.4rem !important;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 0;
+  color: inherit;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+}
+
+/**
+ * Pattern Description inside modal
+ */
+.pl-c-pattern-info__description {
+  border-bottom-color: $pl-color-gray-50;
+}
+
+/**
+ * Pattern Annotations inside modal
+ */
+.pl-c-annotations {
+  border-top-color: $pl-color-gray-50;
+}

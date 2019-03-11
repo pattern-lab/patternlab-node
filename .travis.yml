@@ -4,14 +4,14 @@ before_install:
   - phantomjs --version
 
 before_script:
-  - npm install -g lerna@3.0.0-beta.21
-  - npm run bootstrap
-  - lerna add @pattern-lab/engine-mustache
-  - lerna add @pattern-lab/engine-handlebars
-  - lerna add @pattern-lab/engine-underscore
-  - lerna add @pattern-lab/engine-liquid
-  - lerna add @pattern-lab/engine-twig
-  - lerna add @pattern-lab/engine-react
+  - npm install -g lerna@3.2.1
+  - npm run setup
+  - lerna add @pattern-lab/engine-mustache --scope=@pattern-lab/core
+  - lerna add @pattern-lab/engine-handlebars --scope=@pattern-lab/core
+  - lerna add @pattern-lab/engine-underscore --scope=@pattern-lab/core
+  - lerna add @pattern-lab/engine-liquid --scope=@pattern-lab/core
+  - lerna add @pattern-lab/engine-twig --scope=@pattern-lab/core
+  - lerna add @pattern-lab/engine-react --scope=@pattern-lab/core
 
 branches:
   only:

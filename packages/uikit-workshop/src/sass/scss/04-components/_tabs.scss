@@ -1,0 +1,109 @@
+/*------------------------------------*\
+    #TABS
+\*------------------------------------*/
+
+/**
+ * 1) Tabs contain a set of horizontally-arranged tabs
+ *    with accompanying panels. When a tab link is clicked
+ *    the corresponding panel becomes visible
+ */
+.pl-c-tabs {
+  padding: 0 0.5rem 0.5rem;
+  background-color: $pl-color-white;
+  border: 1px solid $pl-color-gray-13;
+  border-radius: $pl-border-radius-med;
+  font-family: $pl-font;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+/**
+ * Tab List
+ * 1) A unordered list that contains the tab links
+ */
+.pl-c-tabs__list {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  background-color: $pl-color-white;
+}
+
+/**
+ * Tab Link
+ */
+.pl-c-tabs__link {
+  display: block;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid transparent;
+  border-radius: $pl-border-radius-med;
+  color: $pl-color-gray-50;
+  background-color: $pl-color-white;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: all $pl-animate-quick ease-out;
+
+  &:hover {
+    color: $pl-color-gray-87;
+  }
+
+  /**
+     * Active Tab
+     * 1) Note: the active tab color corresponds with the Prism code block
+     *    background color, which is why it doesn't use a Sass variable
+     */
+  &.pl-is-active-tab {
+    color: $pl-color-gray-87;
+    background-color: $pl-color-gray-07;
+    border: 1px solid $pl-color-gray-13;
+  }
+}
+
+/**
+ * Tab Content
+ * 1) Tab content contains the tab panels
+ */
+.pl-c-tabs__content {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 0.5rem;
+}
+
+/**
+ * Tab panel
+ * 1) Note: the active tab color corresponds with the Prism code block
+ *    background color, which is why it doesn't use a Sass variable
+ */
+.pl-c-tabs__panel {
+  display: none;
+  // min-height: 12rem;
+
+  &.pl-is-active-tab {
+    display: block;
+  }
+
+  /**
+     * Tab code
+     * 1) Targeting pre tag in here as Prism is being used for the majority of the styles
+     */
+  pre[class*='language-'],
+  :not(pre) > code[class*='language-'],
+  pre[class*='language-'] {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: block;
+  }
+
+  code[class*='language-'] {
+    background-color: transparent;
+    margin: 0;
+  }
+}

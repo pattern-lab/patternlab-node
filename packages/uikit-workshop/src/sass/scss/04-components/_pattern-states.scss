@@ -1,0 +1,40 @@
+/*------------------------------------*\
+    #PATTERN STATES
+\*------------------------------------*/
+
+/**
+* Pattern states add color-coded dots next to patterns
+* in the dropdown navigation.
+*/
+.pl-c-pattern-state {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 10px;
+  position: relative;
+  top: 5px;
+  left: 0;
+  border-radius: 50%;
+  background-color: $pl-color-state-info;
+  line-height: 4px;
+  text-indent: 10px;
+
+  &--complete {
+    background-color: $pl-color-state-complete;
+  }
+
+  &--inreview {
+    background-color: $pl-color-state-inreview;
+  }
+
+  &--deprecated {
+    background-color: $pl-color-state-deprecated;
+  }
+}
+
+/**
+* Complete state
+*/
+.complete:before {
+  color: #03790f !important;
+}

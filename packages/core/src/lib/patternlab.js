@@ -7,9 +7,9 @@ const cleanHtml = require('js-beautify').html;
 
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
+const plugin_manager = new pm();
 const packageInfo = require('../../package.json');
 const events = require('./events');
-const findModules = require('./findModules');
 const buildListItems = require('./buildListItems');
 const dataLoader = require('./data_loader')();
 const loaduikits = require('./loaduikits');
@@ -77,7 +77,6 @@ module.exports = class PatternLab {
     // Verify correctness of configuration (?)
     this.checkConfiguration(this);
 
-    // TODO: determine if this is the best place to wire up plugins
     this.initializePlugins(this);
   }
 
@@ -134,29 +133,11 @@ module.exports = class PatternLab {
    * Finds and calls the main method of any found plugins.
    * @param patternlab - global data store
    */
-  //todo, move this to plugin_manager
   initializePlugins(patternlab) {
     if (!patternlab.config.plugins) {
       return;
     }
-
-    const plugin_manager = new pm(
-      patternlab.config,
-      path.resolve(__dirname, '../../patternlab-config.json')
-    );
-    const foundPlugins = findModules('plugin-');
-
-    if (foundPlugins && foundPlugins.length > 0) {
-      for (let i = 0; i < foundPlugins.length; i++) {
-        const pluginKey = foundPlugins[i];
-
-        logger.info(`Found plugin: ${pluginKey}`);
-        logger.info(`Attempting to load and initialize plugin.`);
-
-        const plugin = plugin_manager.load_plugin(pluginKey);
-        plugin(patternlab);
-      }
-    }
+    plugin_manager.intialize_plugins(patternlab);
   }
 
   buildGlobalData(additionalData) {
@@ -312,19 +293,6 @@ module.exports = class PatternLab {
   }
 
   /**
-   * Installs a given plugin. Assumes it has already been pulled down via npm
-   * @param pluginName - the name of the plugin
-   */
-  installPlugin(pluginName) {
-    //get the config
-    const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
-    const config = fs.readJSONSync(path.resolve(configPath), 'utf8');
-    const plugin_manager = new pm(config, configPath);
-
-    plugin_manager.install_plugin(pluginName);
-  }
-
-  /**
    * Given a path, load info from the folder to compile into a single config object.
    * @param dataFilesPath
    * @param fsDep
@@ -366,7 +334,12 @@ module.exports = class PatternLab {
         this.patterns.map(pattern => {
           return processIterative(pattern, self);
         })
-      );
+      ).then(() => {
+        // patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+        this.patterns.sort((pattern1, pattern2) =>
+          pattern1.name.localeCompare(pattern2.name)
+        );
+      });
     });
   }
 

@@ -3,9 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-<a name="1.0.0-alpha.10"></a>
-# [1.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-alpha.9...@pattern-lab/engine-liquid@1.0.0-alpha.10) (2018-07-06)
+# [1.0.0-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-beta.0...@pattern-lab/engine-liquid@1.0.0-beta.1) (2019-02-09)
 
+**Note:** Version bump only for package @pattern-lab/engine-liquid
+
+
+
+
+
+<a name="1.0.0-beta.0"></a>
+# [1.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-alpha.10...@pattern-lab/engine-liquid@1.0.0-beta.0) (2018-09-07)
+
+**Note:** Version bump only for package @pattern-lab/engine-liquid
+
+
+
+
+
+<a name="1.0.0-alpha.10"></a>
+
+# [1.0.0-alpha.10](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-alpha.9...@pattern-lab/engine-liquid@1.0.0-alpha.10) (2018-07-06)
 
 ### Features
 
@@ -13,15 +30,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/commit/415698e))
 * **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/commit/5ab3995))
 
-
-
-
-
 <a name="1.0.0-alpha.9"></a>
+
 # [1.0.0-alpha.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/@pattern-lab/engine-liquid@1.0.0-alpha.8...@pattern-lab/engine-liquid@1.0.0-alpha.9) (2018-05-04)
-
-
-
 
 **Note:** Version bump only for package @pattern-lab/engine-liquid
 

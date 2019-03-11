@@ -1,0 +1,117 @@
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+
+/**
+ * List Reset
+ */
+@mixin listReset() {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Hide scrollbar
+ * 1) This hides scrollbars on Windows devices
+ */
+@mixin hideScrollBar() {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
+}
+
+/**
+ * Header Link Style
+ */
+@mixin linkStyle() {
+  background-color: $pl-color-black;
+  color: $pl-color-gray-50;
+  text-decoration: none;
+  line-height: 1;
+  padding: 0.7rem 0.5rem;
+  border: 0;
+  text-align: left;
+  transition: background-color $pl-animate-quick ease-out,
+    color $pl-animate-quick ease-out;
+  cursor: pointer;
+  outline-offset: -3px;
+  outline-width: 2px;
+
+  &:hover {
+    color: $pl-color-white;
+    background-color: $pl-color-gray-87;
+  }
+
+  &.pl-is-active,
+  &:active {
+    color: $pl-color-white;
+    background-color: $pl-color-gray-87;
+    outline: 1px dotted $pl-color-gray-50;
+    outline-offset: -1px;
+  }
+
+  /**
+     * Header link styles inside light theme
+     */
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-white;
+    color: $pl-color-gray-70;
+
+    &:hover {
+      background-color: $pl-color-gray-07;
+    }
+
+    &:active,
+    &:focus {
+      background-color: $pl-color-gray-13;
+    }
+  }
+
+  /**
+     * Header link styles inside cozy theme
+     */
+  .pl-c-body--theme-density-cozy & {
+    font-size: $pl-font-size-sm-2;
+    padding: 1.2rem 0.8rem;
+  }
+
+  /**
+     * Header link styles inside comfortable theme
+     */
+  .pl-c-body--theme-density-comfortable & {
+    font-size: $pl-font-size-sm-2;
+    padding: 1.5rem 1rem;
+  }
+}
+
+/**
+ * Accordion panel
+ */
+@mixin accordionPanel() {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height $pl-animate-quick ease-out;
+
+  /**
+  * Active styles for when the accordion panel is open
+  * 1. WIP -- part of broader UI refactor
+  */
+  &.pl-is-active {
+    max-height: calc(100vh - #{$offset-top} - 1rem);
+    max-height: calc(
+      var(--pl-viewport-height, calc(100vh - #{$offset-top})) - 1rem
+    ); /* [1] */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@mixin noSelect() {
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
+}

@@ -10,11 +10,14 @@
 
 'use strict';
 
+const path = require('path');
+
 const updateNotifier = require('update-notifier');
 
 const packageInfo = require('../package.json');
 const events = require('./lib/events');
 const pe = require('./lib/pattern_exporter');
+const pm = require('./lib/plugin_manager');
 
 const defaultConfig = require('../patternlab-config.json');
 
@@ -81,9 +84,9 @@ const patternlab_module = function(config) {
      * @name build
      * @instance
      * @param {object} options an object used to control build behavior
-     * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-     * @param {object} options.data additional data to be merged with global data prior to build
-     * @param {bool} options.watch whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+     * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+     * @param {object} [options.data={}] additional data to be merged with global data prior to build
+     * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @emits PATTERNLAB_BUILD_START
      * @emits PATTERNLAB_BUILD_END
      * @see {@link ./events.md|all events}
@@ -189,7 +192,11 @@ const patternlab_module = function(config) {
      * @returns {void}
      */
     installplugin: function(pluginName) {
-      patternlab.installPlugin(pluginName);
+      //get the config
+      const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
+      const plugin_manager = new pm(config, configPath);
+
+      plugin_manager.install_plugin(pluginName);
     },
 
     /**
@@ -224,9 +231,9 @@ const patternlab_module = function(config) {
      * @memberof patternlab
      * @name patternsonly
      * @instance
-     * @param {object} options an object used to control build behavior
-     * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-     * @param {object} options.data additional data to be merged with global data prior to build
+     * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+     * @param {object} [options.data={}] additional data to be merged with global data prior to build
+     * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @returns {Promise} a promise fulfilled when build is complete
      */
     patternsonly: function(options) {
@@ -257,15 +264,14 @@ const patternlab_module = function(config) {
        * @method serve
        * @memberof patternlab.server
        * @param {object} options an object used to control build behavior
-       * @param {bool} options.cleanPublic whether or not to delete the configured output location (usually `public/`) before build
-       * @param {object} options.data additional data to be merged with global data prior to build
-       * @param {bool} options.watch **ALWAYS OVERRIDDEN to `true`** whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
+       * @param {bool} [options.cleanPublic=true] whether or not to delete the configured output location (usually `public/`) before build
+       * @param {object} [options.data={}] additional data to be merged with global data prior to build
+       * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
        * @returns {Promise} a promise fulfilled when build is complete
        */
       serve: options => {
-        const _options = Object.assign({}, options, { watch: true });
         return _api
-          .build(_options)
+          .build(options)
           .then(() => server.serve())
           .catch(e =>
             logger.error(`error inside core index.js server serve: ${e}`)

@@ -1,0 +1,19 @@
+/*------------------------------------*\
+    #PATTERN LAB BODY
+\*------------------------------------*/
+
+/**
+* The HTML and body elements for the Pattern Lab shell.
+* 1) These exist indepenedent of any project-specific styles
+* 2) Styled as IDs to avoid collisions with user <body> tag
+*/
+.pl-c-html {
+  min-height: 100%;
+}
+
+.pl-c-body {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+  display: flex; // Required for IE 11 to display overall PL layout correctly
+}

@@ -1,0 +1,131 @@
+/*------------------------------------*\
+    #PATTERN
+\*------------------------------------*/
+
+/**
+* Pattern
+* 1) This is an individual pattern that appears in the "view all" template.
+* It contains pattern title and toggle to view more information, such as
+* description, lineage, code, etc.
+* 2) Prevents absolutely-positioned elements from floating to the top
+* 3) Prevents floated patterns from floating wraps
+*/
+.pl-c-pattern {
+  margin-bottom: $pl-doublespace;
+  position: relative; /* 2 */
+  clear: both; /* 3 */
+}
+
+/**
+* Pattern Header
+*/
+.pl-c-pattern__header {
+  position: relative;
+  padding: 0.5rem 0 0;
+  line-height: 1.3;
+  font-size: 90%;
+  color: $pl-color-gray-50;
+
+  &:empty {
+    padding: 0;
+  }
+}
+
+/**
+ * Pattern Title
+ */
+.pl-c-pattern__title {
+  font-family: $pl-font !important;
+  font-size: 0.85rem !important;
+  line-height: 1 !important;
+  font-weight: normal !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-transform: capitalize !important;
+}
+
+/**
+ * Pattern Title Link
+ * 1) Vertically align pattern label and pattern state badge
+ */
+.pl-c-pattern__title-link {
+  display: inline-flex; /* 1 */
+  align-items: flex-start; /* 1 */
+  padding: $pl-pad 0 0.3rem;
+  color: $pl-color-gray-50 !important;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: $pl-color-black !important;
+  }
+}
+
+/**
+* Pattern Extra Toggle Button
+* 1) This is the button that twirls down extra pattern info
+*/
+.pl-c-pattern__extra-toggle {
+  font-size: 9px;
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  z-index: 1;
+  padding: 0.65em 0.65em 0.5em;
+  line-height: 1;
+  color: $pl-color-gray-50;
+  background-color: transparent;
+  font-weight: normal;
+  border: 1px solid $pl-color-gray-13;
+  border-top-left-radius: $pl-border-radius-med;
+  border-top-right-radius: $pl-border-radius-med;
+  transition: background-color $pl-animate-quick ease-out;
+
+  .pl-c-pattern__toggle-icon {
+    display: inline-block;
+  }
+
+  &:hover,
+  &:focus,
+  &.pl-is-active {
+    background-color: $pl-color-gray-02;
+    color: $pl-color-black;
+  }
+
+  &:focus {
+    outline: 1px dotted $pl-color-gray-70;
+  }
+
+  &.pl-is-active {
+    border-bottom-color: $pl-color-gray-02;
+
+    .pl-c-pattern__toggle-icon {
+      -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      transform: rotate(180deg);
+    }
+  }
+}
+
+/**
+* Pattern Extra
+* 1) This is the info panel that contains extra pattern info
+* like pattern description, lineage, code, and more
+*/
+.pl-c-pattern__extra {
+  background-color: $pl-color-gray-02;
+  border-top: 1px solid $pl-color-gray-13;
+  margin-bottom: $pl-space;
+  overflow: hidden;
+  max-height: 1px;
+  position: relative;
+  transition: all $pl-animate-quick ease-out;
+
+  &.pl-is-active {
+    border: 1px solid $pl-color-gray-13;
+    border-radius: $pl-border-radius-med;
+    border-top-right-radius: 0;
+    max-height: 150rem;
+  }
+}

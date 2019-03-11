@@ -10,9 +10,9 @@
    * Licensed under the MIT license
    *
    */
-  
+
   var scriptLoader = {
-    
+
     run: function(js,cb,target) {
       var s  = document.getElementById(target+'-'+cb);
       for (var i = 0; i < js.length; i++) {
@@ -31,7 +31,7 @@
         s.parentNode.insertBefore(c,s);
       }
     }
-    
+
   }
 </script>
 
@@ -46,11 +46,12 @@
 </script>
 
 <script id="pl-js-insert-{{ cacheBuster }}">
+  /*! loadJS: load a JS file asynchronously. [c]2014 @scottjehl, Filament Group, Inc. (Based on http://goo.gl/REQGQ by Paul Irish). Licensed MIT */
+  !function(e){var t=function(t,n){"use strict";var o=e.document.getElementsByTagName("script")[0],r=e.document.createElement("script");return r.src=t,r.async=!0,o.parentNode.insertBefore(r,o),n&&"function"==typeof n&&(r.onload=n),r};"undefined"!=typeof module?module.exports=t:e.loadJS=t}("undefined"!=typeof global?global:this);
+
   (function() {
     if (self != top) {
-      var cb = '{{ cacheBuster}}';
-      var js = [ { 'src': 'styleguide/bower_components/jwerty.min.js', 'dep': [ 'styleguide/js/patternlab-pattern.min.js' ] } ];
-      scriptLoader.run(js,cb,'pl-js-insert');
+      loadJS('../../styleguide/js/patternlab-pattern.js');
     }
   })();
 </script>

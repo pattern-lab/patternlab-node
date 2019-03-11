@@ -1,0 +1,183 @@
+/*------------------------------------*\
+    #SIDEBAR THEME
+\*------------------------------------*/
+
+@media all and (min-width: $pl-bp-med) {
+  /**
+    * A theme that places displays the header as a sidebar
+    */
+  .pl-c-body--theme-sidebar {
+    /**
+        * Header
+        * 1) Set width to sidebar width defined above
+        * 2) Make header 100% of the viewport height
+        * 3) Stack header items on top of each other
+        * 4) void bottom border for light theme
+        */
+    .pl-c-header {
+      width: $pl-sidebar-width; /* 1 */
+      height: 100vh; /* 2 */
+      flex-direction: column; /* 3 */
+      border-bottom: 0; /* 4 */
+      padding: 1rem;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      justify-content: space-between;
+    }
+
+    /**
+         * Header within light theme
+         */
+    &.pl-c-body--theme-light {
+      .pl-c-header {
+        border-right: 1px solid $pl-color-gray-20;
+      }
+    }
+
+    /**
+         * Logo
+         */
+    .pl-c-logo {
+      max-width: 7rem;
+      margin: 0 auto 1rem;
+    }
+
+    /**
+        * Nav sub sub list
+        */
+    .pl-c-nav {
+      display: block;
+      flex-direction: column;
+    }
+
+    /**
+        * Nav list
+        * 1) Stack main categories on top of each other
+        * 2) Put typeahead search above nav list
+        */
+    .pl-c-nav__list {
+      flex-direction: column; /* 1 */
+      order: 2; /* 2 */
+    }
+
+    /**
+        * Nav sublist
+        */
+    .pl-c-nav__sublist {
+      position: relative;
+      border-radius: 0;
+    }
+
+    /**
+        * Nav sublist
+        */
+    .pl-c-nav__sublist .pl-c-nav__link {
+      padding-left: 1rem;
+    }
+
+    /**
+        * Nav sublist
+        */
+    .pl-c-nav__sublist--dropdown.pl-is-active {
+      border: 0;
+      border-left: 1px solid $pl-color-gray-70;
+    }
+
+    /**
+         * Nav sublist inside the light theme
+         */
+    &.pl-c-body--theme-light {
+      .pl-c-nav__sublist--dropdown.pl-is-active {
+        border-left-color: $pl-color-gray-07;
+      }
+    }
+
+    /**
+         * Dropdown sublist
+         * 1) Undo fixed height
+         */
+
+    /**
+        * Nav sub sub list
+        */
+    .pl-c-nav__subsublist {
+      border-left: 1px solid $pl-color-gray-70;
+      margin-left: 1rem;
+    }
+
+    /**
+         * Nav sublist inside the light theme
+         */
+    &.pl-c-body--theme-light {
+      .pl-c-nav__subsublist {
+        border-left-color: $pl-color-gray-07;
+      }
+    }
+
+    /**
+         * All Nav links inside of subnav dropdown
+         */
+    .pl-c-nav__sublist .pl-c-nav__link {
+      border-left: 0;
+      border-right: 0;
+    }
+
+    /**
+         * Last sublist item
+         * 1) Undo bottom border radius when in sidebar
+         */
+    .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
+      @media all and (min-width: $pl-bp-med) {
+        border-bottom-left-radius: 0; /* 1 */
+        border-bottom-right-radius: 0; /* 1 */
+        border-bottom: 0; /* 1 */
+      }
+    }
+
+    /**
+        * Nav controls
+        * 1) Push off of navigation in flex container so
+        *    they appear at the bottom
+        */
+    .pl-c-controls {
+      display: block; // Display flex + flex direction column gives a similar result, but this fixes a bunch of rendering quirks in IE 11
+      justify-self: flex-end;
+      margin-left: 0;
+    }
+
+    .pl-c-viewport-size {
+      display: none;
+    }
+
+    /**
+         * Tools toggle button
+         */
+    .pl-c-tools__toggle {
+      display: none;
+    }
+
+    /**
+         * Tools list
+         */
+    .pl-c-tools__list {
+      max-height: none;
+      overflow: visible;
+      position: relative;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    /**
+      * Modal
+      * 1) Position modal (that contains all the content)
+      *    so it fits in remaining available space
+      *    TODO: revisit to find ways to resize
+      */
+    .pl-c-modal {
+      right: 0; /* 1 */
+      width: auto;
+    }
+  }
+}

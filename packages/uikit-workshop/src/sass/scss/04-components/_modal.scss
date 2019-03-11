@@ -1,0 +1,215 @@
+/*------------------------------------*\
+    #MODAL
+\*------------------------------------*/
+
+$pl-resizer-height: 14px;
+
+pl-modal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  position: sticky;
+  z-index: 20;
+  max-height: 100vh;
+  box-shadow: 0 0 2px 0 $pl-color-gray-70;
+  overflow: visible;
+}
+
+
+/**
+ * 1) The modal slides up from the bottom of the viewport when
+ *    "show pattern info" is selected on the pattern detail screen.
+ */
+.pl-c-modal {
+  display: flex;
+  flex-direction: column;
+  font-family: $pl-font;
+  background-color: $pl-color-gray-87;
+  color: $pl-color-gray-20;
+  position: sticky;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  width: 100%;
+  height: 0;
+  transition: transform 0.3s ease, height 0.3s ease;
+  transform: translate3d(0, 100%, 0);
+  pointer-events: none;
+  will-change: height, transform;
+  overflow: hidden;
+  max-width: 100vw;
+  box-shadow: 0 -1px 2px rgba($pl-color-gray-70, 0.1);
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: calc(100vw - #{$pl-sidebar-width});
+    }
+  }
+
+  /**
+     * Active modal
+     */
+  &.pl-is-active {
+    transform: translate3d(0, 0, 0);
+    height: 40vh; // default height unless manually resized
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+  }
+}
+
+.pl-c-modal__wrapper {
+  transform: translate3d(0, 0, 0);
+}
+
+.pl-c-modal__wrapper > * {
+  height: 100%;
+}
+
+.pl-c-modal__content {
+  flex-grow: 1;
+  display: flex;
+  width: 100%;
+  overflow: hidden; // needed for IE 11 so scrollbars show up
+}
+
+.pl-c-modal__toolbar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; // so that the resizer height doesn't change unexpectedly
+}
+
+.pl-c-modal__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden; // needed for IE 11 so scrollbars show up
+}
+
+.pl-c-modal__toolbar-controls {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+/**
+ * Modal close button
+ * 1) Closes the modal popup
+ */
+.pl-c-modal__close-btn {
+  @include linkStyle;
+  margin: 0;
+  -webkit-appearance: none;
+  flex-shrink: 0; // needed for IE 11
+  
+  @media all and (max-width: $pl-bp-med - 1) {
+    border-radius: 20rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  z-index: 2;
+  opacity: 0.85;
+  display: flex;
+  justify-content: center;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus,
+  &:active {
+    opacity: 1;
+  }
+}
+
+
+.pl-c-modal__cover {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: absolute;
+  z-index: 20;
+  cursor: move;
+}
+
+.pl-c-modal__resizer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  height: $pl-resizer-height;
+  width: 100%;
+  background-color: inherit;
+  z-index: 2;
+  cursor: ns-resize;
+
+  &:after {
+    content: '';
+    height: 3px;
+    width: 50px;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transition: opacity $pl-animate-normal ease-out;
+    opacity: 0.5;
+    background-color: currentColor;
+    border-radius: 3px;
+    display: block;
+  }
+
+  &:hover:after {
+    opacity: 0.8;
+  }
+
+  &:focus:after,
+  &:active:after {
+    opacity: 0.95;
+  }
+}
+
+/**
+ * Close button icon
+ * 1) Displayed as an e
+ */
+.pl-c-modal__close-btn-icon {
+  width: 12px;
+  height: 12px;
+  color: currentColor;
+  fill: currentColor;
+  transition: fill $pl-animate-quick ease-out;
+  flex-shrink: 0; // needed for IE 11
+  align-self: center; // valign in IE 11
+}
+
+.pl-c-code-copy-btn {
+  display: inline-block;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.4rem;
+  background-color: $pl-color-gray-07;
+  color: $pl-color-gray-87;
+  border: 1px solid $pl-color-gray-13;
+  border-radius: $pl-border-radius-med;
+  font-family: $pl-font;
+  font-size: $pl-font-size-norm;
+  text-transform: lowercase;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color $pl-animate-quick ease-out;
+
+  &:hover,
+  &:focus {
+    background-color: $pl-color-gray-20;
+  }
+}
