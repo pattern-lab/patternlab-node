@@ -66,7 +66,7 @@ tap.test('test Pattern initializes correctly', function(test) {
 tap.test(
   'test Pattern initializes correctly with pattern in sepatated directory',
   function(test) {
-    var p = new Pattern('00-atoms/00-global/00-colors/colors.mustache', {
+    var p = new Pattern('00-atoms/00-global/00-colors/00-colors.mustache', {
       d: 123,
     });
     test.equals(
@@ -77,14 +77,14 @@ tap.test(
         path.sep +
         '00-colors' +
         path.sep +
-        'colors.mustache'
+        '00-colors.mustache'
     );
     test.equals(p.name, '00-atoms-00-global-00-colors');
     test.equals(
       p.subdir,
       '00-atoms' + path.sep + '00-global' + path.sep + '00-colors'
     );
-    test.equals(p.fileName, 'colors');
+    test.equals(p.fileName, '00-colors');
     test.equals(p.fileExtension, '.mustache');
     test.equals(p.jsonFileData.d, 123);
     test.equals(p.patternBaseName, 'colors');
@@ -111,11 +111,14 @@ tap.test(
 );
 
 tap.test('test Pattern name for variants correctly initialzed', function(test) {
-  var p1 = new Pattern('00-atoms/00-global/00-colors/colors~variant.mustache', {
-    d: 123,
-  });
+  var p1 = new Pattern(
+    '00-atoms/00-global/00-colors/00-colors~variant.mustache',
+    {
+      d: 123,
+    }
+  );
   var p2 = new Pattern(
-    '00-atoms/00-global/00-colors/colors~variant-minus.json',
+    '00-atoms/00-global/00-colors/00-colors~variant-minus.json',
     { d: 123 }
   );
   test.equals(p1.name, '00-atoms-00-global-00-colors-variant');
