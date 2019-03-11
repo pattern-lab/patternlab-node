@@ -108,8 +108,8 @@ module.exports = patternlab => {
       logger.error(ex);
       logger.error(
         '\nERROR: missing an essential file from ' +
-          kit.modulePath +
-          paths.source.patternlabFiles +
+          JSON.stringify(kit.modulePath) +
+          JSON.stringify(paths.source.patternlabFiles) +
           ". Pattern Lab won't work without this file.\n"
       );
     }
