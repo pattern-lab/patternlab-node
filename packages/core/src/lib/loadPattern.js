@@ -41,7 +41,7 @@ module.exports = function(relPath, patternlab) {
     );
     logger.warning('or');
     logger.warning(
-      '[patternType]/[patternSubtype]/[patternNameFolder]/[patternName].[patternExtension]'
+      '[patternType]/[patternSubtype]/[patternName]/[patternName].[patternExtension]'
     );
     logger.warning('');
     logger.warning(
