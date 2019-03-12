@@ -213,8 +213,7 @@ Pattern.prototype = {
   },
 
   getDirLevel: function(level, info) {
-    // eslint-disable-next-line prefer-const
-    let items = this.subdir.split(path.sep);
+    const items = this.subdir.split(path.sep);
     if (info.hasDir) {
       items.pop();
     }
