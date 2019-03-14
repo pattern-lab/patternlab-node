@@ -93,11 +93,14 @@ const create = options => {
               answers.patternName + extension
             );
           } else {
+            // Since we don't really know if we use the pattern Name as
+            // folder name or not we will save it like this.
             _patternPath = path.join(
               basePath,
               answers.patternPath,
               answers.patternName.split('~')[0],
-              answers.patternName.replace(/^_?(\d+-)?/, '') + extension
+              //answers.patternName.replace(/^_?(\d+-)?/, '') + extension
+              answers.patternName
             );
           }
 
