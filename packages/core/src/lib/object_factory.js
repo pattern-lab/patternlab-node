@@ -24,8 +24,10 @@ const Pattern = function(relPath, data, patternlab) {
   const info = {};
   // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
   info.hasDir =
-    path.basename(pathObj.dir) === pathObj.name ||
-    path.basename(pathObj.dir) === pathObj.name.split('~')[0];
+    path.basename(pathObj.dir).replace(patternPrefixMatcher, '') ===
+      pathObj.name.replace(patternPrefixMatcher, '') ||
+    path.basename(pathObj.dir).replace(patternPrefixMatcher, '') ===
+      pathObj.name.split('~')[0].replace(patternPrefixMatcher, '');
 
   info.dir = info.hasDir ? pathObj.dir.split(path.sep).pop() : '';
   info.dirLevel = pathObj.dir.split(path.sep).length;
@@ -96,9 +98,7 @@ const Pattern = function(relPath, data, patternlab) {
   // (rendered!) html file for this pattern, to be shown in the iframe
   this.patternLink = this.patternSectionSubtype
     ? `$${this.name}/index.html`
-    : patternlab // eslint-disable-next-line prettier/prettier
-      ? this.getPatternLink(patternlab, 'rendered') // eslint-disable-next-line prettier/prettier
-      : null;
+    : patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
