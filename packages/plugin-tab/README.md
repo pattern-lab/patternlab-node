@@ -28,7 +28,7 @@ Example:
 
 ```
 "plugins": {
-  "pattern-lab-plugin-tab": {
+  "@pattern-lab/plugin-tab": {
     "enabled": true,
     "initialized": false,
     "options": {

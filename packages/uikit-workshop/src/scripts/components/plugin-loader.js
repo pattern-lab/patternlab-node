@@ -10,7 +10,7 @@ const scriptjs = require('scriptjs');
 export const pluginLoader = {
   init() {
     for (let i = 0; i < window.plugins.length; ++i) {
-      const plugin = window.lugins[i];
+      const plugin = window.plugins[i];
 
       // load the templates
       for (const key in plugin.templates) {
