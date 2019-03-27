@@ -7,7 +7,7 @@ const loaduikits = rewire('../src/lib/loaduikits');
 
 const testConfig = require('./util/patternlab-config.json');
 
-const findModulesMock = function () {
+const findModulesMock = function() {
   return [
     {
       name: 'foo',
@@ -35,7 +35,7 @@ loaduikits.__set__({
   fs: fsMock,
 });
 
-tap.test('loaduikits - maps fields correctly', function (test) {
+tap.test('loaduikits - maps fields correctly', function(test) {
   //arrange
   const patternlab = {
     config: testConfig,
@@ -56,16 +56,25 @@ tap.test('loaduikits - maps fields correctly', function (test) {
   loaduikits(patternlab).then(() => {
     //assert
     test.equals(patternlab.uikits['uikit-foo'].name, uikitFoo.name);
-    test.equals(patternlab.uikits['uikit-foo'].modulePath, 'node_modules/@pattern-lab/uikit-foo');
+    test.equals(
+      patternlab.uikits['uikit-foo'].modulePath,
+      'node_modules/@pattern-lab/uikit-foo'
+    );
     test.ok(patternlab.uikits['uikit-foo'].enabled);
     test.equals(patternlab.uikits['uikit-foo'].outputDir, uikitFoo.outputDir);
-    test.equals(patternlab.uikits['uikit-foo'].excludedPatternStates, uikitFoo.excludedPatternStates);
-    test.equals(patternlab.uikits['uikit-foo'].excludedTags, uikitFoo.excludedTags);
+    test.equals(
+      patternlab.uikits['uikit-foo'].excludedPatternStates,
+      uikitFoo.excludedPatternStates
+    );
+    test.equals(
+      patternlab.uikits['uikit-foo'].excludedTags,
+      uikitFoo.excludedTags
+    );
     test.end();
   });
 });
 
-tap.test('loaduikits - only adds files for enabled uikits', function (test) {
+tap.test('loaduikits - only adds files for enabled uikits', function(test) {
   //arrange
   const patternlab = {
     config: testConfig,

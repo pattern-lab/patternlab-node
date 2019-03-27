@@ -6,49 +6,43 @@ const _ = require('lodash');
 const mp = require('./markdown_parser');
 const logger = require('./log');
 
-const annotationExporter = function(pl) {
+const annotations_exporter = function(pl) {
   const paths = pl.config.paths;
+  let oldAnnotations;
 
   /**
    * Parses JS annotations.
    * @returns array of comments that used to be wrapped in raw JS
    */
-  function parseAnnotationsJSON() {
-    const jsonPath = path.resolve(paths.source.annotations, 'annotations.json');
-    let annotations;
-
+  function parseAnnotationsJS() {
     //attempt to read the file
     try {
-      if (fs.pathExistsSync(jsonPath)) {
-        //read the new file
-        annotations = fs.readFileSync(jsonPath, 'utf8');
-      } else {
-        //read the old file
-        const jsPath = path.resolve(paths.source.annotations, 'annotations.js');
-
-        annotations = fs
-          .readFileSync(jsPath, 'utf8')
-          .replace(/^\s*var comments ?= ?/, '')
-          .replace(/};\s*$/, '}');
-
-        logger.info(
-          `Please convert ${jsPath} to JSON and rename it annotations.json.`
-        );
-      }
+      oldAnnotations = fs.readFileSync(
+        path.resolve(paths.source.annotations, 'annotations.js'),
+        'utf8'
+      );
     } catch (ex) {
       logger.debug(
-        `annotations.json file missing from ${
+        `annotations.js file missing from ${
           paths.source.annotations
         }. This may be expected if you do not use annotations or are using markdown.`
       );
       return [];
     }
 
+    //parse as JSON by removing the old wrapping js syntax. comments and the trailing semi-colon
+    oldAnnotations = oldAnnotations.replace('var comments = ', '');
+    oldAnnotations = oldAnnotations.replace('};', '}');
+
     try {
-      const annotationsJSON = JSON.parse(annotations);
-      return annotationsJSON.comments;
+      const oldAnnotationsJSON = JSON.parse(oldAnnotations);
+      return oldAnnotationsJSON.comments;
     } catch (ex) {
-      logger.error(`There was an error parsing JSON for ${jsonPath}`);
+      logger.error(
+        `There was an error parsing JSON for ${
+          paths.source.annotations
+        }annotations.js`
+      );
       return [];
     }
   }
@@ -114,7 +108,7 @@ const annotationExporter = function(pl) {
    * @returns array of annotations
    */
   function gatherAnnotations() {
-    const annotationsJS = parseAnnotationsJSON();
+    const annotationsJS = parseAnnotationsJS();
     const annotationsMD = parseAnnotationsMD();
     return _.unionBy(annotationsJS, annotationsMD, 'el');
   }
@@ -123,8 +117,8 @@ const annotationExporter = function(pl) {
     gather: function() {
       return gatherAnnotations();
     },
-    gatherJSON: function() {
-      return parseAnnotationsJSON();
+    gatherJS: function() {
+      return parseAnnotationsJS();
     },
     gatherMD: function() {
       return parseAnnotationsMD();
@@ -132,4 +126,4 @@ const annotationExporter = function(pl) {
   };
 };
 
-module.exports = annotationExporter;
+module.exports = annotations_exporter;
