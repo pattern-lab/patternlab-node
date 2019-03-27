@@ -68,9 +68,7 @@ module.exports = function(pattern, patternlab) {
         headPromise = render(patternlab.userHead, allData);
       } else {
         headPromise = render(
-          uikit.header.path
-            ? Pattern.createEmpty({ relPath: uikit.header.path })
-            : Pattern.createEmpty({ extendedTemplate: uikit.header }),
+          Pattern.createEmpty({ extendedTemplate: uikit.header }),
           allData
         );
       }
@@ -133,9 +131,7 @@ module.exports = function(pattern, patternlab) {
 
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
       const footerPartialPromise = render(
-        uikit.footer.path
-          ? Pattern.createEmpty({ relPath: uikit.footer.path })
-          : Pattern.createEmpty({ extendedTemplate: uikit.footer }),
+        Pattern.createEmpty({ extendedTemplate: uikit.footer }),
         {
           isPattern: pattern.isPattern,
           patternData: pattern.patternData,
@@ -168,7 +164,6 @@ module.exports = function(pattern, patternlab) {
             logger.info(err);
           }
           allFooterData = _.merge(allFooterData, pattern.jsonFileData);
-          allFooterData.cacheBuster = patternlab.cacheBuster;
           allFooterData.patternLabFoot = footerPartial;
 
           return render(patternlab.userFoot, allFooterData).then(footerHTML => {
