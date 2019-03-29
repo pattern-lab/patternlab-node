@@ -1,0 +1,13 @@
+{% import "@macros/forms.twig" as forms %}
+<fieldset>
+    {{ forms.input('Text Input') }}
+    {{ forms.input('Password', 'password') }}
+    {{ forms.input('Web Address', 'url') }}
+    {{ forms.input('Email', 'email') }}
+    {{ forms.input('Search', 'search') }}
+    {{ forms.input('Number', 'number') }}
+    {{ forms.input('Number', 'number') }}
+    {{ forms.textarea('Textarea', 'Enter your message here') }}
+    {{ forms.input('Error Input', 'text', 'error') }}
+    {{ forms.input('Valid Input', 'text', 'valid') }}
+</fieldset>
