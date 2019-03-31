@@ -36,8 +36,7 @@ module.exports = class PatternLab {
   constructor(config) {
     // Either use the config we were passed, or load one up from the config file ourselves
     this.config =
-      config ||
-      fs.readJSONSync(path.resolve(__dirname, '../../patternlab-config.json'));
+      config || require(path.resolve(__dirname, '../../patternlab-config.js'));
 
     //register our log events
     this.registerLogger(config.logLevel);

@@ -13,14 +13,15 @@
   ],
   "main": "patternlab-config.json",
   "scripts": {
-    "build": "patternlab build --config ./patternlab-config.json",
+    "build": "patternlab build --config ./patternlab-config.js",
     "help": "patternlab --help",
-    "install": "patternlab install --config ./patternlab-config.json",
-    "serve": "patternlab serve --config ./patternlab-config.json",
+    "install": "patternlab install --config ./patternlab-config.js",
+    "serve": "patternlab serve --config ./patternlab-config.js",
     "start": "npm run serve",
     "version": "patternlab --version"
   },
   "dependencies": {
+    "resolve-pkg": "^1.0.0",
     "@pattern-lab/cli": "^0.0.2-alpha.0",
     "@pattern-lab/core": "^3.0.1-alpha.0",
     "@pattern-lab/engine-twig-php": "^3.0.0",

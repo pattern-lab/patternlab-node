@@ -31,7 +31,7 @@ function resolveConfig(configPath) {
      */
     try {
       const absoluteConfigPath = path.resolve(configPath); // 1
-      return yield readJsonAsync(absoluteConfigPath); // 2
+      return yield require(absoluteConfigPath);
     } catch (err) {
       error(
         'resolveConfig: Got an error during parsing your Pattern Lab config. Please make sure your config file exists.'

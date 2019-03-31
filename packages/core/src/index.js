@@ -19,7 +19,7 @@ const events = require('./lib/events');
 const pe = require('./lib/pattern_exporter');
 const pm = require('./lib/plugin_manager');
 
-const defaultConfig = require('../patternlab-config.json');
+const defaultConfig = require('../patternlab-config.js');
 
 let buildPatterns = require('./lib/buildPatterns'); // eslint-disable-line
 let logger = require('./lib/log'); // eslint-disable-line

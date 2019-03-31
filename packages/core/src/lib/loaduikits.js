@@ -37,7 +37,7 @@ const readModuleFile = (kit, subPath) => {
 /**
  * Loads uikits, connecting configuration and installed modules
  * [1] Looks in node_modules for uikits.
- * [2] Only continue if uikit is enabled in patternlab-config.json
+ * [2] Only continue if uikit is enabled in patternlab-config.js
  * [3] Reads files from uikit that apply to every template
  * @param {object} patternlab
  */
@@ -55,7 +55,7 @@ module.exports = patternlab => {
       logger.warning(
         `Could not find uikit with name uikit-${
           kit.name
-        } defined within patternlab-config.json, or it is not enabled.`
+        } defined within a patternlab-config.js file, or it is not enabled.`
       );
       return;
     }

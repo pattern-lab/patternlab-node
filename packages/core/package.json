@@ -21,6 +21,7 @@
     "update-notifier": "2.2.0"
   },
   "devDependencies": {
+    "resolve-pkg": "^1.0.0",
     "eslint": "4.18.2",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-prettier": "2.6.0",
