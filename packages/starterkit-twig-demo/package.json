@@ -16,9 +16,9 @@
   "author": "Dave Olsen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pattern-lab/starterkit-twig-demo/issues"
+    "url": "https://github.com/pattern-lab/patternlab-node/issues"
   },
-  "homepage": "https://github.com/pattern-lab/starterkit-twig-demo#readme",
+  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-twig-demo",
   "publishConfig": {
     "access": "public"
   }
