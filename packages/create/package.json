@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "bin": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "dependencies": {
     "@pattern-lab/cli": "0.0.2-alpha.0"
   },
