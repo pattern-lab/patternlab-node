@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const merge = require('deepmerge');
 const EOL = require('os').EOL;
 const {
   checkAndInstallPackage,
