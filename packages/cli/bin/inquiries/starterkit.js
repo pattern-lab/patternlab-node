@@ -27,7 +27,7 @@ const starterkitSetup = [
       },
       {
         name: 'starterkit-twig-demo',
-        value: 'starterkit-twig-demo',
+        value: '@pattern-lab/starterkit-twig-demo',
       },
       {
         name: 'starterkit-mustache-materialdesign',
