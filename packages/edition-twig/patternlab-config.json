@@ -8,20 +8,6 @@
           "paths": [
             "./node_modules/@pattern-lab/uikit-workshop/views-twig"
           ]
-        },
-        {
-          "id": "atoms",
-          "recursive": true,
-          "paths": [
-            "source/_patterns/00-atoms"
-          ]
-        },
-        {
-          "id": "molecules",
-          "recursive": true,
-          "paths": [
-            "source/_patterns/01-molecules"
-          ]
         }
       ],
       "alterTwigEnv": [

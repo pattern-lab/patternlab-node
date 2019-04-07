@@ -15,6 +15,10 @@ const editionSetup = [
     message: 'Which edition do you want to use (defaults to edition-node)?',
     choices: [
       {
+        name: 'edition-twig (php engine)',
+        value: '@pattern-lab/edition-twig',
+      },
+      {
         name: 'edition-node',
         value: '@pattern-lab/edition-node',
       },
