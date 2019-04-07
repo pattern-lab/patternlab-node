@@ -36,6 +36,13 @@
           "paths": [
             "source/_patterns/04-pages"
           ]
+        },
+        {
+          "id": "macros",
+          "recursive": true,
+          "paths": [
+            "source/_macros"
+          ]
         }
       ]
     }
