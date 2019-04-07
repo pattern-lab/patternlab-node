@@ -8,5 +8,8 @@
     "@pattern-lab/cli": "^0.0.3-alpha.0"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
