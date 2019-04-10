@@ -1,11 +1,11 @@
 {
   "name": "create-patternlab",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Typo fallback for 'create pattern-lab' ",
   "bin": "index.js",
   "scripts": {},
   "dependencies": {
-    "create-pattern-lab": "^1.0.4"
+    "create-pattern-lab": "^1.0.5"
   },
   "author": "",
   "license": "MIT",
