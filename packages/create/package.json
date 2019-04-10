@@ -1,5 +1,5 @@
 {
-  "name": "@pattern-lab/create",
+  "name": "create-pattern-lab",
   "version": "1.0.3",
   "description": "",
   "bin": "index.js",
