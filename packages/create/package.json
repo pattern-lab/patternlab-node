@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/create",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "bin": "index.js",
   "scripts": {},
