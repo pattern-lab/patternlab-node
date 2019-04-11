@@ -4,6 +4,9 @@ const path = require('path');
 const error = require('./utils').error;
 const readJsonAsync = require('./utils').readJsonAsync;
 const wrapAsync = require('./utils').wrapAsync;
+const {
+  findPatternLabConfig,
+} = require('@pattern-lab/core/src/lib/utils/find-config-file');
 
 /**
  * @func resolveConfig
@@ -30,8 +33,12 @@ function resolveConfig(configPath) {
      * 2. Read the config file
      */
     try {
-      const absoluteConfigPath = path.resolve(configPath); // 1
-      return yield require(absoluteConfigPath);
+      if (configPath) {
+        const absoluteConfigPath = path.resolve(configPath); // 1
+        return yield findPatternLabConfig(absoluteConfigPath);
+      } else {
+        return yield findPatternLabConfig();
+      }
     } catch (err) {
       error(
         'resolveConfig: Got an error during parsing your Pattern Lab config. Please make sure your config file exists.'

@@ -13,10 +13,10 @@
   ],
   "main": "patternlab-config.json",
   "scripts": {
-    "build": "patternlab build --config ./patternlab-config.json",
+    "build": "patternlab build --config ./patternlab-config.js",
     "help": "patternlab --help",
-    "install": "patternlab install --config ./patternlab-config.json",
-    "serve": "patternlab serve --config ./patternlab-config.json",
+    "install": "patternlab install --config ./patternlab-config.js",
+    "serve": "patternlab serve --config ./patternlab-config.js",
     "start": "npm run serve",
     "version": "patternlab --version"
   },

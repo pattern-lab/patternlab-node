@@ -4,7 +4,6 @@ const dive = require('dive');
 const _ = require('lodash');
 const path = require('path');
 const cleanHtml = require('js-beautify').html;
-
 const inherits = require('util').inherits;
 const pm = require('./plugin_manager');
 const plugin_manager = new pm();
@@ -16,7 +15,7 @@ const loaduikits = require('./loaduikits');
 const logger = require('./log');
 const processIterative = require('./processIterative');
 const processRecursive = require('./processRecursive');
-
+const { findPatternLabConfig } = require('./utils/find-config-file');
 const loadPattern = require('./loadPattern');
 const sm = require('./starterkit_manager');
 
@@ -32,20 +31,22 @@ function PatternLabEventEmitter() {
 }
 inherits(PatternLabEventEmitter, EventEmitter);
 
-module.exports = class PatternLab {
+class PatternLab {
   constructor(config) {
-    // Either use the config we were passed, or load one up from the config file ourselves
-    this.config =
-      config || require(path.resolve(__dirname, '../../patternlab-config.js'));
+    // Use the already-resolved config passed in OR auto load one up from the config
+    const getConfigAsync = async () => {
+      this.config = config || (await Promise.resolve(findPatternLabConfig()));
+    };
+    getConfigAsync();
 
     //register our log events
-    this.registerLogger(config.logLevel);
+    this.registerLogger(this.config.logLevel);
 
     logger.info(`Pattern Lab Node v${packageInfo.version}`);
 
     // Load up engines please
     this.engines = patternEngines;
-    this.engines.loadAllEngines(config);
+    this.engines.loadAllEngines(this.config);
 
     //
     // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
@@ -361,4 +362,6 @@ module.exports = class PatternLab {
     });
     return promiseAllPatternFiles;
   }
-};
+}
+
+module.exports = PatternLab;

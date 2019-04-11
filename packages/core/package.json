@@ -4,6 +4,7 @@
   "version": "3.0.1-alpha.0",
   "main": "./src/index.js",
   "dependencies": {
+    "cosmiconfig": "^5.2.0",
     "@pattern-lab/engine-mustache": "^2.0.1-alpha.0",
     "@pattern-lab/live-server": "^1.3.3-beta.1",
     "chalk": "1.1.3",
