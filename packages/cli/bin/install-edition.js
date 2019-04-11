@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const merge = require('deepmerge');
 const EOL = require('os').EOL;
 const {
   checkAndInstallPackage,
@@ -21,6 +22,7 @@ const installEdition = (edition, config, projectDir) => {
      * 4. Do custom post-install procedures for different core editions:
      * 4.1 Copy gulpfile.js for edition-node-gulp
      * 4.2 Copy scripts for edition-node
+     * 4.3 Copy items for edition-twig
      */
     const sourceDir = config.paths.source.root;
     yield checkAndInstallPackage(edition); // 1
@@ -49,6 +51,29 @@ const installEdition = (edition, config, projectDir) => {
           pkg.scripts || {},
           yield getJSONKey(edition, 'scripts')
         );
+        break;
+      }
+      // 4.3
+      case '@pattern-lab/edition-twig': {
+        const editionPath = path.resolve('./node_modules', edition);
+        const editionConfigPath = path.resolve(
+          editionPath,
+          'patternlab-config.json'
+        );
+        const editionConfig = require(editionConfigPath);
+
+        pkg.scripts = Object.assign(
+          {},
+          pkg.scripts || {},
+          yield getJSONKey(edition, 'scripts')
+        );
+
+        yield copyAsync(
+          path.resolve(editionPath, 'alter-twig.php'),
+          path.resolve(sourceDir, '../', 'alter-twig.php')
+        );
+
+        config = merge(config, editionConfig);
         break;
       }
     }

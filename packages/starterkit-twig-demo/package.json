@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/starterkit-twig-demo",
-  "version": "4.0.1",
+  "version": "4.1.1",
   "description": "Pattern Lab's Demo StarterKit for Twig.",
   "main": "README.md",
   "repository": {
@@ -16,9 +16,9 @@
   "author": "Dave Olsen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pattern-lab/starterkit-twig-demo/issues"
+    "url": "https://github.com/pattern-lab/patternlab-node/issues"
   },
-  "homepage": "https://github.com/pattern-lab/starterkit-twig-demo#readme",
+  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-twig-demo",
   "publishConfig": {
     "access": "public"
   }
