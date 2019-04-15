@@ -1,0 +1,39 @@
+{
+  "name":             "pattern-lab/starterkit-twig-demo",
+  "description":      "Pattern Lab's Demo StarterKit for Twig.",
+  "keywords":         ["twig", "pattern lab", "starterkit", "demo"],
+  "homepage":         "http://patternlab.io",
+  "license":          "MIT",
+  "type":             "patternlab-starterkit",
+  "authors": [
+    {
+      "name":         "Dave Olsen",
+      "email":        "dmolsen@gmail.com",
+      "homepage":     "http://dmolsen.com",
+      "role":         "Lead Developer"
+    },
+    {
+      "name":         "Brad Frost",
+      "homepage":     "http://bradfrostweb.com",
+      "role":         "Creator"
+    }
+  ],
+  "support": {
+    "issues":         "https://github.com/pattern-lab/starterkit-twig-demo/issues",
+    "wiki":           "http://patternlab.io/docs/",
+    "source":         "https://github.com/pattern-lab/starterkit-twig-demo/releases"
+  },
+  "require": {
+    "pattern-lab/core": "^2.0.0",
+    "pattern-lab/patternengine-twig": "^2.0.0"
+  },
+  "extra": {
+    "patternlab": {
+      "dist": {
+        "sourceDir": [
+          { "*": "*" }
+        ]
+      }
+    }
+  }
+}

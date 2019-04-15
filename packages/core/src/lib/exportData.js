@@ -4,7 +4,7 @@ const eol = require('os').EOL;
 const path = require('path');
 const _ = require('lodash');
 
-const ae = require('./annotationExporter');
+const ae = require('./annotation_exporter');
 
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
@@ -13,7 +13,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * @param patternlab - global data store
  */
 module.exports = function(patternlab) {
-  const annotationExporter = new ae(patternlab);
+  const annotation_exporter = new ae(patternlab);
 
   const paths = patternlab.config.paths;
 
@@ -68,7 +68,7 @@ module.exports = function(patternlab) {
     eol;
 
   //annotations
-  const annotationsJSON = annotationExporter.gather();
+  const annotationsJSON = annotation_exporter.gather();
   const annotations =
     'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
   _.each(patternlab.uikits, uikit => {

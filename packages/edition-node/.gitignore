@@ -6,3 +6,4 @@ patternlab.json
 Thumbs.db
 .idea/
 public
+dependencyGraph.json
