@@ -344,9 +344,13 @@ class IFrame extends BaseComponent {
 
     if (!patternParam) {
       if (window.patternData) {
-        patternParam = window.patternData.patternPartial;
+        if (window.patternData.patternPartial) {
+          patternParam = window.patternData.patternPartial;
+        } else {
+          patternParam = 'all';
+        }
       } else {
-        patternParam = 'components-overview';
+        patternParam = 'all';
       }
     }
 

@@ -11,6 +11,7 @@ const selectorImporter = require('node-sass-selector-importer');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const argv = require('yargs').argv;
 
 const cosmiconfig = require('cosmiconfig');
 const explorer = cosmiconfig('patternlab');
@@ -27,8 +28,14 @@ const defaultConfig = {
 module.exports = async function() {
   return new Promise(async (resolve, reject) => {
     let customConfig = defaultConfig;
+    let configToSearchFor;
 
-    const configToSearchFor = await explorer.searchSync();
+    if (argv.patternlabrc) {
+      configToSearchFor = await explorer.loadSync(argv.patternlabrc);
+    } else {
+      configToSearchFor = await explorer.searchSync();
+    }
+
     if (configToSearchFor) {
       if (configToSearchFor.config) {
         customConfig = configToSearchFor.config;
@@ -100,7 +107,7 @@ module.exports = async function() {
       },
       output: {
         path: path.resolve(process.cwd(), `${config.buildDir}/styleguide`),
-        publicPath: '/pattern-lab/styleguide/',
+        publicPath: `${config.publicPath}`,
         filename: '[name].js',
         chunkFilename: `js/[name]-chunk-[chunkhash].js`,
       },
@@ -311,6 +318,9 @@ module.exports = async function() {
 
           // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
           forceInclude: [
+            'pl-logo',
+            '.pl-c-logo',
+            '.pl-c-logo__img',
             '.pl-c-body--theme-light',
             '.pl-c-body--theme-sidebar',
             '.pl-c-body--theme-sidebar .pl-c-viewport',
