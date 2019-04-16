@@ -18,6 +18,42 @@
   flex-direction: column;
   overflow: hidden;
   flex-grow: 1;
+
+  /**
+     * Tabs inside a code panel
+     */
+
+  .pl-c-pattern-info__panel--code & {
+      position: absolute;
+      top: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+      right: 1rem;
+  }
+
+  .pl-c-drawer & {
+    // adjusts the absolutely positioned tabs container when nested inside the PL drawer
+    // @todo: refactor to eliminate the need for this  
+    @media all and (min-width: $pl-bp-med) {
+      right: 1.5rem;
+
+      @supports(padding: unquote('max(0px, env(safe-area-inset-right))')) {
+        right: unquote('max(1.5rem, env(safe-area-inset-right))');
+      }
+    }
+
+    @media all and (min-width: 848px) {
+      right: 2.3rem;
+
+      @supports(padding: unquote('max(0px, env(safe-area-inset-right))')) {
+        right: unquote('max(2.3rem, calc(env(safe-area-inset-right) + 1.4rem))');
+      }
+    }
+    
+    @media all and (min-width: $pl-bp-xl) {
+      left: 2rem;
+    }
+  }
 }
 
 /**
@@ -70,9 +106,19 @@
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
-  overflow: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
-  padding-top: 0.5rem;
+  height: 100%;
+
+  /**
+     *  Tab content inside modal
+     */
+  .pl-c-drawer & {
+    border: 0;
+  }
 }
 
 /**
@@ -82,10 +128,12 @@
  */
 .pl-c-tabs__panel {
   display: none;
-  // min-height: 12rem;
+  min-height: 12rem;
+  height: 100%;
 
   &.pl-is-active-tab {
     display: block;
+    display: flex;
   }
 
   /**
@@ -100,6 +148,7 @@
     padding: 0;
     border: 0;
     display: block;
+    width: 100%;
   }
 
   code[class*='language-'] {

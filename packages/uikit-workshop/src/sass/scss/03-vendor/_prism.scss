@@ -5,180 +5,208 @@
  * @author Lea Verou
  */
 
-code[class*='language-'],
-pre[class*='language-'] {
-  color: black;
-  text-shadow: 0 1px white;
-  font-family: Consolas, Monaco, 'Andale Mono', monospace;
-  direction: ltr;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  line-height: 1.5;
-  word-wrap: normal; // fixes issue in Safari where code blocks can't scroll due to the code breaking into multiple lines unexpectedly
+ // @todo: remove scoped selector when these are rendering via component-specific styles (ex. https://boltdesignsystem.com/pattern-lab/patterns/02-components-code-snippet/index.html)
+.pl-c-tabs__panel {
+  pre[class*='language-'] {
+    background-image: linear-gradient(
+        to right,
+        $pl-color-white,
+        rgba($pl-color-white, 0)
+      ),
+      linear-gradient(to left, $pl-color-white, rgba($pl-color-white, 0)),
+      linear-gradient(to right, #eaf0f6, rgba($pl-color-gray-07, 0)),
+      linear-gradient(to left, #eaf0f6, rgba($pl-color-gray-07, 0)),
+      linear-gradient(to bottom, $pl-color-white, rgba($pl-color-white, 0)),
+      linear-gradient(to top, $pl-color-white, rgba($pl-color-white, 0)),
+      linear-gradient(to bottom, #eaf0f6, rgba($pl-color-gray-07, 0)),
+      linear-gradient(to top, #eaf0f6, rgba($pl-color-gray-07, 0));
+    background-color: $pl-color-white;
+    background-attachment: local, local, scroll, scroll, local, local, scroll,
+      scroll;
+    background-position: 0 0, 100% 0, 0 0, 100% 0, 0 0, 0 100%, 0 0, 0 100%;
+    background-size: 4em 100%, 4em 100%, 1em 100%, 1em 100%, 100% 4em, 100% 4em,
+      100% 1em, 100% 1em;
+    background-repeat: no-repeat;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+  }
 
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
-
-pre[class*='language-']::-moz-selection,
-pre[class*='language-'] ::-moz-selection,
-code[class*='language-']::-moz-selection,
-code[class*='language-'] ::-moz-selection {
-  text-shadow: none;
-  background-color: #b3d4fc;
-}
-
-pre[class*='language-']::selection,
-pre[class*='language-'] ::selection,
-code[class*='language-']::selection,
-code[class*='language-'] ::selection {
-  text-shadow: none;
-  background-color: #b3d4fc;
-}
-
-@media print {
   code[class*='language-'],
   pre[class*='language-'] {
-    text-shadow: none;
+    color: black;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    line-height: 1.5;
+    word-wrap: normal; // fixes issue in Safari where code blocks can't scroll due to the code breaking into multiple lines unexpectedly
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
   }
-}
 
-/* Code blocks */
-pre[class*='language-'] {
-  padding: 1em;
-  margin: 0.5em 0;
-  overflow: auto;
-}
+  pre[class*='language-']::-moz-selection,
+  pre[class*='language-'] ::-moz-selection,
+  code[class*='language-']::-moz-selection,
+  code[class*='language-'] ::-moz-selection {
+    text-shadow: none;
+    background-color: #b3d4fc;
+  }
 
-:not(pre) > code[class*='language-'],
-pre[class*='language-'] {
-  background-color: #f5f2f0;
-}
+  pre[class*='language-']::selection,
+  pre[class*='language-'] ::selection,
+  code[class*='language-']::selection,
+  code[class*='language-'] ::selection {
+    text-shadow: none;
+    background-color: #b3d4fc;
+  }
 
-/* Inline code */
-:not(pre) > code[class*='language-'] {
-  padding: 0.1em;
-  border-radius: 0.3em;
-}
+  @media print {
+    code[class*='language-'],
+    pre[class*='language-'] {
+      text-shadow: none;
+    }
+  }
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: slategray;
-}
+  /* Code blocks */
+  pre[class*='language-'] {
+    padding: 1em;
+    margin: 0.5em 0;
+    overflow: auto;
+  }
 
-.token.punctuation {
-  color: #999;
-}
+  :not(pre) > code[class*='language-'],
+  pre[class*='language-'] {
+    background-color: #f5f2f0;
+  }
 
-.namespace {
-  opacity: 0.7;
-}
+  /* Inline code */
+  :not(pre) > code[class*='language-'] {
+    padding: 0.1em;
+    border-radius: 0.3em;
+  }
 
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: #905;
-}
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: slategray;
+  }
 
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: #690;
-}
+  .token.punctuation {
+    color: #999;
+  }
 
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: #a67f59;
-  background-color: hsla(0, 0%, 100%, 0.5);
-}
+  .namespace {
+    opacity: 0.7;
+  }
 
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-  color: #07a;
-}
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #905;
+  }
 
-.token.function {
-  color: #dd4a68;
-}
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #690;
+  }
 
-.token.regex,
-.token.important,
-.token.variable {
-  color: #e90;
-}
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    color: #a67f59;
+    background-color: hsla(0, 0%, 100%, 0.5);
+  }
 
-.token.important,
-.token.bold {
-  font-weight: bold;
-}
-.token.italic {
-  font-style: italic;
-}
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    color: #07a;
+  }
 
-.token.entity {
-  cursor: help;
-}
+  .token.function {
+    color: #dd4a68;
+  }
 
-pre.line-numbers {
-  position: relative;
-  padding-left: 3.8em;
-  counter-reset: linenumber;
-}
+  .token.regex,
+  .token.important,
+  .token.variable {
+    color: #e90;
+  }
 
-pre.line-numbers > code {
-  position: relative;
-}
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+  .token.italic {
+    font-style: italic;
+  }
 
-.line-numbers .line-numbers-rows {
-  position: absolute;
-  pointer-events: none;
-  top: 0;
-  font-size: 100%;
-  left: -3.8em;
-  width: 3em; /* works for line-numbers below 1000 lines */
-  letter-spacing: -1px;
-  border-right: 1px solid #999;
+  .token.entity {
+    cursor: help;
+  }
 
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+  pre.line-numbers {
+    position: relative;
+    padding-left: 3.8em;
+    counter-reset: linenumber;
+  }
 
-.line-numbers-rows > span {
-  pointer-events: none;
-  display: block;
-  counter-increment: linenumber;
-}
+  pre.line-numbers > code {
+    position: relative;
+  }
 
-.line-numbers-rows > span:before {
-  content: counter(linenumber);
-  color: #999;
-  display: block;
-  padding-right: 0.8em;
-  text-align: right;
-}
-.token a {
-  color: inherit;
+  .line-numbers .line-numbers-rows {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    font-size: 100%;
+    left: -3.8em;
+    width: 3em; /* works for line-numbers below 1000 lines */
+    letter-spacing: -1px;
+    border-right: 1px solid #999;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .line-numbers-rows > span {
+    pointer-events: none;
+    display: block;
+    counter-increment: linenumber;
+  }
+
+  .line-numbers-rows > span:before {
+    content: counter(linenumber);
+    color: #999;
+    display: block;
+    padding-right: 0.8em;
+    text-align: right;
+  }
+  .token a {
+    color: inherit;
+  }
 }

@@ -13,6 +13,7 @@
 export const urlHandler = {
   // set-up some default vars
   skipBack: false,
+  iframeElement: document.querySelector('.pl-js-iframe'),
   targetOrigin:
     window.location.protocol === 'file:'
       ? '*'
@@ -156,6 +157,7 @@ export const urlHandler = {
     const data = {
       pattern,
     };
+
     const fileName = urlHandler.getFileName(pattern);
     let path = window.location.pathname;
     path =
@@ -164,38 +166,17 @@ export const urlHandler = {
         : path.replace(/\/index\.html/, '/');
     const expectedPath =
       window.location.protocol + '//' + window.location.host + path + fileName;
+
     if (givenPath !== expectedPath) {
       // make sure to update the iframe because there was a click
       const obj = JSON.stringify({
         event: 'patternLab.updatePath',
         path: fileName,
       });
+
       document
         .querySelector('.pl-js-iframe')
         .contentWindow.postMessage(obj, urlHandler.targetOrigin);
-    } else {
-      // add to the history
-      const addressReplacement =
-        window.location.protocol === 'file:'
-          ? null
-          : window.location.protocol +
-            '//' +
-            window.location.host +
-            window.location.pathname.replace('index.html', '') +
-            '?p=' +
-            pattern;
-      if (window.history.pushState !== undefined) {
-        window.history.pushState(data, null, addressReplacement);
-      }
-      document.getElementById('title').innerHTML = 'Pattern Lab - ' + pattern;
-
-      // Open in new window link
-      if (document.querySelector('.pl-js-open-new-window') !== undefined) {
-        // Set value of href to the path to the pattern
-        document
-          .querySelector('.pl-js-open-new-window')
-          .setAttribute('href', urlHandler.getFileName(pattern));
-      }
     }
   },
 
@@ -211,13 +192,14 @@ export const urlHandler = {
       this.skipBack = false;
       return;
     } else if (state !== null) {
-      patternName = state.pattern;
+      patternName = state.currentPattern;
     }
 
     let iFramePath = '';
     iFramePath = this.getFileName(patternName);
     if (iFramePath === '') {
       iFramePath = 'styleguide/html/styleguide.html';
+      // iFramePath = this.getFileName('components-overview'); // @todo: remove if this new approach isn't needed
     }
 
     const obj = JSON.stringify({
@@ -227,17 +209,13 @@ export const urlHandler = {
     document
       .querySelector('.pl-js-iframe')
       .contentWindow.postMessage(obj, urlHandler.targetOrigin);
-    document.getElementById('title').innerHTML = 'Pattern Lab - ' + patternName;
-    document
-      .querySelector('.pl-js-open-new-window')
-      .setAttribute('href', urlHandler.getFileName(patternName));
   },
 };
 
 /**
  * handle the onpopstate event
  */
+// @todo: remove if no longer needed
 window.onpopstate = function(event) {
   urlHandler.skipBack = true;
-  urlHandler.popPattern(event);
 };

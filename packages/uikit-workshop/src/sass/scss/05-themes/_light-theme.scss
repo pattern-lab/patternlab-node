@@ -38,11 +38,10 @@
      * Nav link dropdown
      */
   .pl-c-nav__link--dropdown {
-    color: $pl-color-gray-70;
-    background-color: $pl-color-white;
+    color: inherit;
 
     &:after {
-      color: $pl-color-gray-20;
+      color: inherit;
     }
   }
 
@@ -104,7 +103,7 @@
   /**
      * Modal inside a light theme
      */
-  .pl-c-modal {
+  .pl-c-drawer {
     background-color: $pl-color-white;
     color: $pl-color-gray-70;
     border-top: 1px solid $pl-color-gray-20;
@@ -114,7 +113,7 @@
     * Modal close button
     * 1) Closes the modal popup
     */
-  .pl-c-modal__close-btn,
+  .pl-c-drawer__close-btn,
   .pl-c-tools__action {
     background-color: $pl-color-white;
 

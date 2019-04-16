@@ -3,7 +3,7 @@
  */
 
 import { panelsUtil } from './panels-util';
-import './copy-to-clipboard';
+import './pl-copy-to-clipboard/pl-copy-to-clipboard';
 
 export const modalStyleguide = {
   // set up some defaults

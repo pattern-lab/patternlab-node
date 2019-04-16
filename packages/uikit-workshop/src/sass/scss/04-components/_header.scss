@@ -20,7 +20,6 @@
   color: $pl-color-gray-50;
   font-family: $pl-font;
   font-size: $pl-font-size-sm;
-  min-height: 30px; // magic number -- needed for initial skeleton screen styles used in the critical CSS
 
   @supports(padding: max(0px)) {
     padding-left: env(safe-area-inset-left);

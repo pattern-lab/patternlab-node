@@ -9,12 +9,10 @@
  */
 .pl-c-pattern-info {
   flex-grow: 1; // fills space available when placed in the parent flex container
-  display: flex;
-  flex-direction: row;
-  flex-flow: row wrap;
-  width: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+
+  @media all and (min-width: $pl-bp-large) {
+    display: flex;
+  }
 
   /**
      *  Pattern info inside the "view all" template
@@ -33,6 +31,30 @@
       overflow: visible;
     }
   }
+
+  /**
+     *  Pattern info inside modal
+     */
+  .pl-c-drawer & {
+    position: absolute;
+    top: 0;
+    right: 0.8rem;
+    bottom: 0;
+    left: 0;
+    overflow: scroll;
+    @include hideScrollBar();
+    -webkit-overflow-scrolling: touch;
+    flex-grow: 1;
+
+    @supports (padding: env(safe-area-inset-right)){
+      right: calc(env(safe-area-inset-right) + 0.8rem);
+    }
+
+    @media all and (min-width: $pl-bp-large) {
+      position: static;
+      overflow: visible;
+    }
+  }
 }
 
 /**
@@ -41,19 +63,65 @@
  *    Right side contains pattern code
  */
 .pl-c-pattern-info__panel {
-  flex-basis: 40%; // fills up 100% if only one panel exists. using 40% vs 50% due to quirky behavior in IE 11
-  padding-top: 1rem;
-  padding-right: 1rem;
-  padding-bottom: 0;
-  padding-left: 1rem;
-  margin-bottom: 1rem;
-  flex-grow: 1;
-  max-width: 100%;
-  min-width: 300px; // so panels stack automatically
-  display: inline-flex;
-  flex-direction: column;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
+  padding: 1rem;
+  width: 100%;
+
+  @media all and (min-width: $pl-bp-large) {
+    flex: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .pl-c-drawer & {
+    padding-right: 1.3rem;
+
+    @supports (padding: env(safe-area-inset-right)){
+      padding-right: calc(env(safe-area-inset-right) + 1.3rem);
+    }
+  }
+}
+
+/**
+ * Pattern Info Panel
+ * 1) Left panel that contains pattern title, lineage, description, annotations
+ */
+.pl-c-pattern-info__panel--info {
+  padding-top: 2rem;
+
+  @media all and (min-width: $pl-bp-large) {
+    left: 0;
+    right: 50%;
+    overflow: auto;
+    @include hideScrollBar();
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media all and (min-width: $pl-bp-xl) {
+    right: 55%;
+  }
+}
+
+/**
+ * Pattern Code Panel
+ * 1) Right panel that displays the pattern's code (found in _tabs.scss)
+ * 2) Using a sibling selector because the pattern info isn't always present.
+ *    The sibling selector allows the code panel to occupy the full width of
+ *    the modal
+ * 1) Cap the height of the code panel in the modal
+ */
+.pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
+  @media all and (min-width: $pl-bp-large) {
+    right: 0;
+    left: 50%;
+    top: 1.2rem;
+  }
+
+  @media all and (min-width: $pl-bp-xl) {
+    left: 45%;
+  }
 }
 
 /**
