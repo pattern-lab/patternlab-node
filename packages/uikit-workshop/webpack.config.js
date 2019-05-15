@@ -17,7 +17,7 @@ const defaultConfig = {
   buildDir: './dist',
   prod: false, // or false for local dev
   sourceMaps: true,
-  publicPath: '/styleguide/',
+  publicPath: './styleguide/',
 };
 
 module.exports = async function() {

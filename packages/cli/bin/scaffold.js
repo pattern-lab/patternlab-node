@@ -1,5 +1,7 @@
 'use strict';
 const path = require('path');
+const execa = require('execa');
+const fs = require('fs');
 const wrapAsync = require('./utils').wrapAsync;
 const mkdirsAsync = require('./utils').mkdirsAsync;
 
@@ -14,6 +16,9 @@ const mkdirsAsync = require('./utils').mkdirsAsync;
  */
 const scaffold = (projectDir, sourceDir, publicDir, exportDir) =>
   wrapAsync(function*() {
+    if (!fs.existsSync(path.resolve(projectDir, 'package.json'))) {
+      execa.sync('npm', ['init', '-y']);
+    }
     /**
      * Create mandatory files structure
      * 1. Create project source directory
