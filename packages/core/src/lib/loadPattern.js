@@ -23,13 +23,13 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 // all its associated files, and records it in patternlab.patterns[]
 module.exports = function(relPath, patternlab) {
   const relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
-  if (relativeDepth > 2) {
+  if (relativeDepth > 3) {
     logger.warning('');
     logger.warning('Warning:');
     logger.warning(
       'A pattern file: ' +
         relPath +
-        ' was found greater than 2 levels deep from ' +
+        ' was found greater than 3 levels deep from ' +
         patternlab.config.paths.source.patterns +
         '.'
     );
@@ -38,6 +38,10 @@ module.exports = function(relPath, patternlab) {
     );
     logger.warning(
       '[patternType]/[patternSubtype]/[patternName].[patternExtension]'
+    );
+    logger.warning('or');
+    logger.warning(
+      '[patternType]/[patternSubtype]/[patternName]/[patternName].[patternExtension]'
     );
     logger.warning('');
     logger.warning(
