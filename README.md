@@ -30,7 +30,7 @@ The below assumes a new directory and project is required. This is likely what y
     ```bash
     mkdir new-project
     cd new-project
-    npm init -y && npx @pattern-lab/cli -c patternlab init
+    npm create pattern-lab
     ```
     > If you get an error stating that `npx` is not installed, ensure you are on `npm 5.2.0` or later by running `npm -v` or install it globally with `npm install -g npx`. [Learn more about npx.](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
 1. Follow the on-screen prompts to choose your Edition and a Starterkit should you want one.
