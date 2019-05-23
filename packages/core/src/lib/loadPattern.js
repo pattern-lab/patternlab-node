@@ -109,6 +109,19 @@ module.exports = function(relPath, patternlab) {
 
   //if file is named in the syntax for variants
   if (patternEngines.isPseudoPatternJSON(filename)) {
+	let jsonFilename = path.resolve(
+		patternsPath,
+		relPath
+	);
+	let patternData = dataLoader.loadDataFromFile(jsonFilename.substring(0, jsonFilename.lastIndexOf('.')), fs); //fs.readFileSync(jsonFilename, 'utf8');
+	currentPattern.jsonFileData = patternData;
+	readDocumentation(currentPattern, patternlab);
+	let origPatternName = currentPattern.patternGroup + '-' + currentPattern.patternBaseName.replace('-' + currentPattern.fileName.substr(currentPattern.fileName.indexOf('~') + 1), '');
+	let origPattern = patternlab.partials[origPatternName];
+	currentPattern.listitems = [];
+	currentPattern.template = origPattern;
+	currentPattern.isPseudoPattern = true;
+	addPattern(currentPattern, patternlab);
     return currentPattern;
   }
 
