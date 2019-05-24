@@ -121,9 +121,11 @@ module.exports = function(relPath, patternlab) {
       currentPattern.fileName.indexOf('~') + 1
     );
     const origPatternFileName = currentPattern.patternBaseName.replace(
-      '-' + cutOff, ''
+      '-' + cutOff,
+      ''
     );
-    const origPatternName = currentPattern.patternGroup + '-' + origPatternFileName;
+    const origPatternName =
+      currentPattern.patternGroup + '-' + origPatternFileName;
     const origPattern = patternlab.partials[origPatternName];
     currentPattern.listitems = [];
     currentPattern.template = origPattern;
