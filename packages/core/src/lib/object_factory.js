@@ -36,7 +36,7 @@ const Pattern = function(relPath, data, patternlab) {
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
   if ((this.subdir.match(/\w(?=\\)|\w(?=\/)/g) || []).length > 1) {
-    this.subdir = this.subdir.split(/\/|\\/, 2).join(path.sep); // '00-atoms/03-controls/00-button' -> '00-atoms/00-global'
+    this.subdir = this.subdir.split(/\/|\\/, 2).join(path.sep); // '00-atoms/03-controls/00-button' -> '00-atoms/03-controls'
   }
   this.fileExtension = pathObj.ext; // '.mustache'
 
