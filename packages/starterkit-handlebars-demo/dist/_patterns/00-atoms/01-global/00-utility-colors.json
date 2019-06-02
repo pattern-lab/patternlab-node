@@ -1,0 +1,47 @@
+{
+  "items": [
+    {
+      "name": "$color-utility-info",
+      "value": "#0192d0",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-info-light",
+      "value": "#d3f2ff",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-error",
+      "value": "#b12a0b",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-error-light",
+      "value": "#fdded8",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-success",
+      "value": "#03804d",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-success-light",
+      "value": "#d4f3e6",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-warning",
+      "value": "#a59b15",
+      "comment": ""
+    },
+    {
+      "name": "$color-utility-warning-light",
+      "value": "#fffecf",
+      "comment": ""
+    }
+  ],
+  "meta": {
+    "description": "To add to these items, use Sass variables that start with <code>$color-utility-</code> in <code>./source/css/scss/abstracts/_variables.scss</code>"
+  }
+}

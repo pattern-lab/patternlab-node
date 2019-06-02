@@ -1,0 +1,80 @@
+{
+    "progressTracker" : {
+        "items": [
+            {
+                "number": "1",
+                "label": "Shipping Information"
+            },
+            {
+                "styleModifier": "is-current",
+                "number": "2",
+                "label": "Billing Information"
+            },
+            {
+                "number": "3",
+                "label": "Review Order"
+            },
+            {
+                "number": "4",
+                "label": "Confirmation"
+            }
+        ]
+    },
+    "page": {
+        "title": "Billing Information",
+        "description": "Please fill out your billing address and payment information below."
+    },
+    "formFields" : {
+        "items": [
+            {
+                "textField": {
+                    "label" : "Name"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "Address"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "City"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "State"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "Zip Code"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "Credit Card Number"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "Expiration Date"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "CVV"
+                }
+            }
+        ]
+    },
+    "selectField": false,
+    "buttonGroup" : [
+        {
+            "buttonTag" : false,
+            "linkTag" : true,
+            "url" : "link.pages-review",
+            "buttonText": "Continue To Review Order"
+        }
+    ]
+}

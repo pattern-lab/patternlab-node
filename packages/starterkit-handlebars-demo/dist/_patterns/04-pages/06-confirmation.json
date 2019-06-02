@@ -1,0 +1,28 @@
+{
+    "progressTracker" : {
+        "items": [
+            {
+                "number": "1",
+                "label": "Shipping Information"
+            },
+            {
+                "number": "2",
+                "label": "Billing Information"
+            },
+            {
+                "number": "3",
+                "label": "Review Order"
+            },
+            {
+                "styleModifier": "is-current",
+                "number": "4",
+                "label": "Confirmation"
+            }
+        ]
+    },
+    "page": {
+        "title": "Your Order Has Been Processed",
+        "description": false
+    },
+    "htmlText": "<h2>Your confirmation number is: 1234567890</h2><p>Thank you for shopping with SoulSoles!</p><p>You will receive a confirmation email shortly.</p>"
+}

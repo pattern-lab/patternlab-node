@@ -1,0 +1,44 @@
+/*------------------------------------*\
+    #PAGINATION
+\*------------------------------------*/
+/**
+ * Pagination
+ */
+.c-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow: hidden;
+	margin-bottom: 1rem;
+	font-family: $font-family-secondary;
+	text-transform: uppercase;
+}
+
+.c-pagination__item {
+	border-right: 1px solid $color-neutral-gray-13;
+
+	&:last-child {
+		border: 0;
+	}
+}
+
+.c-pagination__link {
+	padding: 1rem;
+	text-decoration: underline;
+
+	.c-pagination__item:first-child & {
+		padding-left: 0;
+	}
+
+	.c-pagination__item.is-active & {
+		font-weight: bold;
+		text-decoration: none;
+		pointer-events: none;
+	}
+
+	.c-pagination__item.is-disabled & {
+		color: $color-neutral-gray-13;
+		pointer-events: none;
+		text-decoration: none;
+	}
+}
