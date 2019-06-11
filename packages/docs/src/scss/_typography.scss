@@ -1,0 +1,22 @@
+/* lora-700 - latin */
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lora Bold'), local('Lora-Bold'),
+    url('/fonts/lora-v13-latin-700.woff2') format('woff2'),
+    url('/fonts/lora-v13-latin-700.woff') format('woff');
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  line-height: 1.7;
+}
+
+h1,
+h2,
+.serif,
+%serif {
+  font-family: 'Lora', serif;
+}

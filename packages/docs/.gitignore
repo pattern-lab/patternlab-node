@@ -1,0 +1,12 @@
+*.log
+npm-debug.*
+*.scssc
+*.log
+*.swp
+.DS_Store
+.sass-cache
+node_modules
+dist 
+
+# Temp hide posts 
+src/posts
