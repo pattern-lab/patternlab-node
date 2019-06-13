@@ -27,11 +27,11 @@ function build(config, options) {
   if (options && options.patternsOnly) {
     // 1
     debug(`build: Building only patterns now into ${config.paths.public.root}`);
-    return patternLab.patternsonly(config.cleanPublic);
+    return patternLab.patternsonly(config);
   } else {
     // 2
     debug(`build: Building your project now into ${config.paths.public.root}`);
-    return patternLab.build(config.cleanPublic);
+    return patternLab.build(config);
   }
 }
 
