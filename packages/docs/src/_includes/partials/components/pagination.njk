@@ -1,0 +1,17 @@
+{% if paginationNextUrl or paginationPrevUrl %}
+  <hr />
+  <footer class="pagination">
+    <nav class="[ pagination__nav ] [ split-stack align-center ]">
+      {% if paginationPrevUrl %}
+        <a href="{{ paginationPrevUrl }}" data-direction="backwards">
+          <span role="text">{{ paginationPrevText if paginationPrevText else 'Previous' }}</span>
+        </a>
+      {% endif %}
+      {% if paginationNextUrl %}
+        <a href="{{ paginationNextUrl }}" data-direction="forwards">
+          <span role="text">{{ paginationNextText if paginationNextText else 'Next' }}</span>
+        </a>
+      {% endif %}
+    </nav>
+  </footer>
+{% endif %}

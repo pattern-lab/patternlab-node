@@ -1,0 +1,39 @@
+{% extends 'layouts/base.njk' %}
+{% set pageType = 'Post' %}
+
+{# Intro content #}
+{% set introHeading = title %}
+{% set introHeadingLevel = '1' %}
+{% set introSummary %}
+<p>
+  <time datetime="{{ date | w3DateFilter }}" class="dt-published">{{ date | dateFilter }}</time>
+  <span role="text">— {{ helpers.getReadingTime(content) }} minute read</span>
+</p>
+{% endset %}
+
+{% block content %}
+  <main id="main-content" tabindex="-1">
+    <article class="[ post ] [ h-entry ]">
+      {% include "partials/components/intro.njk" %}
+      <div class="[ inner-wrapper ] [ sf-flow ] [ e-content ]">
+        {{ content | safe }}
+      </div>
+      {% if tags %}
+        <footer class="post__footer">
+          <div class="inner-wrapper">
+            <div class="[ tags ] [ box-flex align-center ]">
+              <h2>Tags</h2>
+              <ul class="[ tags__list ] [ box-flex align-center pad-left-400 ] [ p-category ]">
+                {% for item in tags %}
+                  <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </footer>
+      {% endif %}
+    </article>
+  </main>
+{% endblock %}
+
+{{ content | safe }}

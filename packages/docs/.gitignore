@@ -7,6 +7,3 @@ npm-debug.*
 .sass-cache
 node_modules
 dist 
-
-# Temp hide posts 
-src/posts

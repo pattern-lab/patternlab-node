@@ -1,0 +1,13 @@
+<footer role="contentinfo" class="site-foot">
+  <div class="wrapper">
+    <div class="[ site-foot__inner ] [ split-stack ]">
+      {% if site.shortDesc %}
+        <article class="[ site-foot__details ] [ sf-flow ]">
+          <h2 class="sans">{{ site.name }}</h2>
+          {{ site.shortDesc | markdownFilter | safe }}
+        </article>
+      {% endif %}
+      {% include "partials/components/nav.njk" %}
+    </div>
+  </div>
+</footer>

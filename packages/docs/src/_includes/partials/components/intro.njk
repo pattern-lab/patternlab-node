@@ -1,0 +1,10 @@
+{% if not introHeadingLevel %}
+  {% set introHeadingLevel = '1' %}
+{% endif %}
+
+<header class="intro">
+  <div class="inner-wrapper">
+    <h{{ introHeadingLevel }} class="[ intro__heading ] [ p-name ]">{{ introHeading }}</h{{ introHeadingLevel }}>
+    <div class="intro__summary">{{ introSummary | safe }}</div>
+  </div>
+</header>

@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="/assets/css/global.css?v={{ global.random() }}" />
 </head>
 <body>
+  {% include "partials/global/site-head.njk" %}
   {% block content %}
   {% endblock content %}
+  {% include "partials/global/site-foot.njk" %}
 </body>
 </html>

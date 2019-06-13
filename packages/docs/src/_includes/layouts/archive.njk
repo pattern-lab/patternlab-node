@@ -1,5 +1,5 @@
 {% extends 'layouts/base.njk' %}
-{% set pageType = 'Homepage' %}
+{% set pageType = 'Post Archive' %}
 
 {# Intro content #}
 {% set introHeading = title %}
@@ -10,19 +10,12 @@
 
 {# Post list content #}
 {% set postListHeadingLevel = '2' %}
-{% set postListHeading = postsHeading %}
-{% set postListItems = collections.postFeed %}
-
-{# Archive link #}
-{% if postListItems.length < collections.posts.length %} 
-  {% set paginationNextText = archiveButtonText %}
-  {% set paginationNextUrl = '/archive' %}
-{% endif %}
+{% set postListHeading = 'All posts' %}
+{% set postListItems = collections.posts %}
 
 {% block content %}
   <main id="main-content" tabindex="-1">
     {% include "partials/components/intro.njk" %}
     {% include "partials/components/post-list.njk" %}
-    {% include "partials/components/pagination.njk" %}
   </main>
 {% endblock %}

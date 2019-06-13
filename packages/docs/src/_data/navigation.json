@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "text": "Home",
+      "url": "/",
+      "external": false
+    },
+    {
+      "text": "Twitter",
+      "url": "https://twitter.com/andybelldesign",
+      "external": true
+    },
+    {
+      "text": "Portfolio",
+      "url": "https://andy-bell.design",
+      "external": true
+    }
+  ]
+}
