@@ -9,14 +9,41 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  line-height: 1.7;
+  // Strip the unit off the size ratioto generate a line height
+  $line-height: get-size(600);
+  line-height: $line-height / ($line-height * 0 + 1);
+
+  @include apply-utility('font', 'base');
 }
 
 h1,
 h2,
-.serif,
-%serif {
-  font-family: 'Lora', serif;
+h3 {
+  @include apply-utility('font', 'serif');
+}
+
+h1 {
+  font-size: get-size(700);
+}
+
+h2 {
+  font-size: get-size(600);
+}
+
+h3 {
+  font-size: get-size(500);
+}
+
+@include media-query('md') {
+  h1 {
+    font-size: get-size(900);
+  }
+
+  h2 {
+    font-size: get-size(800);
+  }
+
+  h3 {
+    font-size: get-size(700);
+  }
 }

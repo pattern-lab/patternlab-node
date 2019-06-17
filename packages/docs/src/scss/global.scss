@@ -3,5 +3,47 @@
 // Pull in the stalfos lib
 @import '../../node_modules/stalfos/stalfos.scss';
 
+@import 'theme';
+
 // Local dependencies
 @import 'typography';
+
+/**
+ * GLOBAL STYLES 
+ */
+body {
+  scroll-behavior: smooth;
+}
+
+main:focus {
+  outline: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  max-width: 500px;
+  background: var(--color-stroke);
+  border: none;
+  margin: get-size(900) auto;
+}
+
+/**
+ * PROJECT IMPORTS
+ */
+
+// Utils
+@import 'utilities/inner-wrapper';
+@import 'utilities/visually-hidden';
+@import 'utilities/wrapper';
+
+// Components
+@import 'components/heading-permalink';
+@import 'components/intro';
+@import 'components/nav';
+@import 'components/pagination';
+@import 'components/post';
+@import 'components/post-list';
+@import 'components/site-head';
+@import 'components/site-foot';
+@import 'components/skip-link';

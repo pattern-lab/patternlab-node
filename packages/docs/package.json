@@ -7,13 +7,15 @@
     "@11ty/eleventy": "^0.8.3",
     "@tbranyen/jsdom": "^13.0.0",
     "concurrently": "^4.1.0",
+    "json-to-scss": "^1.3.1",
     "sass": "^1.21.0",
     "slugify": "^1.3.4",
     "stalfos": "git://github.com/andybelldesign/stalfos.git#c8971d22726326cfc04089b2da4d51eeb1ebb0eb"
   },
   "devDependencies": {},
   "scripts": {
-    "sass:process": "sass src/scss/global.scss dist/assets/css/global.css --style=compressed",
+    "sass:tokens": "npx json-to-scss src/_data/tokens.json src/scss/_tokens.scss",
+    "sass:process": "npm run sass:tokens && sass src/scss/global.scss dist/assets/css/global.css --style=compressed",
     "start": "npm run sass:process && concurrently 'npm run sass:process -- --watch' 'npm run serve'",
     "serve": "ELEVENTY_ENV=development npx eleventy --serve",
     "build": "sass:process && npx eleventy"

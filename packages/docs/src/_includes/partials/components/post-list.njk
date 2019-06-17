@@ -1,20 +1,14 @@
-{% if not postListHeadingLevel %}
-  {% set postListHeadingLevel = '1' %}
-{% endif %}
-
-{% set postListItemHeadingLevel = helpers.getNextHeadingLevel(postListHeadingLevel) %}
-
 {% if postListItems.length %}
-  <section class="post-list">
+  <section class="[ post-list ] [ pad-top-700 gap-bottom-900 ]">
     <div class="[ inner-wrapper ] [ sf-flow ]">
-      <h{{ postListHeadingLevel }} class="post-list__heading">{{ postListHeading }}</h{{ postListHeadingLevel }}>
-      <ol class="[ post-list__items ] [ sf-flow ]" reversed>
+      <h2 class="[ post-list__heading ] [ text-700 md:text-800 ]">{{ postListHeading }}</h2>
+      <ol class="[ post-list__items ] [ sf-flow ] [ pad-top-300 ]" reversed>
         {% for item in postListItems %}
-          <li class="[ post-list__item ] [ sf-flow ]">
-            <h{{ postListItemHeadingLevel }}>
-              <a href="{{ item.url }}" rel="bookmark">{{ item.data.title }}</a>
-            <h{{ postListItemHeadingLevel }}>
-            <p>
+          <li class="post-list__item">
+            <h3 class="font-base leading-tight text-600 weight-mid">
+              <a href="{{ item.url }}" class="post-list__link" rel="bookmark">{{ item.data.title }}</a>
+            </h3>
+            <p class="text-500 gap-top-300 weight-mid">
               <time datetime="{{ item.date | w3DateFilter }}">{{ item.date | dateFilter }}</time>
             </p>
           </li>

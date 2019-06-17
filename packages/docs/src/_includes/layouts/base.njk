@@ -6,11 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hylia</title>
   <link rel="stylesheet" href="/assets/css/global.css?v={{ global.random() }}" />
+  {% block head %}
+  {% endblock %}
 </head>
 <body>
   {% include "partials/global/site-head.njk" %}
   {% block content %}
   {% endblock content %}
   {% include "partials/global/site-foot.njk" %}
+  {% block foot %}
+  {% endblock %}
 </body>
 </html>

@@ -1,36 +1,19 @@
-/**
- * BASE SIZE
- * All calculations are based on this. It’s recommended that
- * you keep it at 1rem because that is the root font size. You
- * can set it to whatever you like and whatever unit you like.
- */
-$stalfos-base-size: 1rem !default;
+@import 'tokens';
 
 /**
  * SIZE SCALE
  * This is a Major Third scale that powers all the utilities that
  * it is relevant for (font-size, margin, padding). All items are
- * calcuated off the base size, so change that and cascade across
- * your whole project.
+ * calcuated off these tokens.
  */
-$stalfos-size-scale: (
-  '300': $stalfos-base-size * 0.8,
-  '400': $stalfos-base-size,
-  '500': $stalfos-base-size * 1.25,
-  '600': $stalfos-base-size * 1.6,
-  '700': $stalfos-base-size * 2,
-  '900': $stalfos-base-size * 3
-) !default;
+$stalfos-size-scale: map-get($tokens, 'size-scale');
 
 /**
  * COLORS
  * Colors are shared between backgrounds and text by default. 
  * You can also use them to power borders, fills or shadows, for example.
  */
-$stalfos-colors: (
-  'dark': #1a1a1a,
-  'light': #f3f3f3
-) !default;
+$stalfos-colors: map-get($tokens, 'colors');
 
 /**
  * UTIL PREFIX
@@ -41,11 +24,30 @@ $stalfos-colors: (
 $stalfos-util-prefix: 'sf-';
 
 /**
+ * METRICS
+ * Various misc metrics to use around the site
+ */
+$metrics: (
+  'wrap-max-width': 58rem,
+  'wrap-inner-max-width': 52rem,
+  'md-breakpoint': 48rem
+);
+
+/**
  * CORE CONFIG
  * This powers everything from utility class generation to breakpoints
  * to enabling/disabling pre-built components/utilities.
  */
 $stalfos-config: (
+  'align': (
+    'items': (
+      'start': 'flex-start',
+      'center': 'center',
+      'end': 'flex-end'
+    ),
+    'output': 'responsive',
+    'property': 'align-items'
+  ),
   'bg': (
     'items': $stalfos-colors,
     'output': 'standard',
@@ -60,16 +62,14 @@ $stalfos-config: (
     'items': (
       'block': 'block',
       'flex': 'flex',
-      'hide': 'none',
-      'show': 'inherit'
+      'inline-flex': 'inline-flex',
+      'hide': 'none'
     ),
     'output': 'responsive',
     'property': 'display'
   ),
   'font': (
-    'items': (
-      'base': 'Helvetica, Arial, sans-serif'
-    ),
+    'items': map-get($tokens, 'fonts'),
     'output': 'standard',
     'property': 'font-family'
   ),
@@ -78,30 +78,32 @@ $stalfos-config: (
     'output': 'standard',
     'property': 'margin-top'
   ),
-  'gap-right': (
-    'items': $stalfos-size-scale,
-    'output': 'standard',
-    'property': 'margin-right'
-  ),
   'gap-bottom': (
     'items': $stalfos-size-scale,
     'output': 'standard',
     'property': 'margin-bottom'
   ),
-  'gap-left': (
-    'items': $stalfos-size-scale,
+  'leading': (
+    'items': (
+      'tight': '1.2',
+      'mid': '1.5'
+    ),
     'output': 'standard',
-    'property': 'margin-left'
+    'property': 'line-height'
+  ),
+  'measure': (
+    'items': (
+      'long': '75ch',
+      'short': '60ch',
+      'compact': '40ch'
+    ),
+    'output': 'standard',
+    'property': 'max-width'
   ),
   'pad-top': (
     'items': $stalfos-size-scale,
     'output': 'standard',
     'property': 'padding-top'
-  ),
-  'pad-right': (
-    'items': $stalfos-size-scale,
-    'output': 'standard',
-    'property': 'padding-right'
   ),
   'pad-bottom': (
     'items': $stalfos-size-scale,
@@ -111,7 +113,16 @@ $stalfos-config: (
   'pad-left': (
     'items': $stalfos-size-scale,
     'output': 'standard',
-    'property': 'pad-left'
+    'property': 'padding-left'
+  ),
+  'space': (
+    'items': (
+      'between': 'space-between',
+      'around': 'space-around',
+      'before': 'flex-end'
+    ),
+    'output': 'responsive',
+    'property': 'justify-content'
   ),
   'stack': (
     'items': (
@@ -133,6 +144,7 @@ $stalfos-config: (
     'items': (
       'light': '300',
       'regular': '400',
+      'mid': '600',
       'bold': '700'
     ),
     'output': 'standard',
@@ -149,14 +161,12 @@ $stalfos-config: (
     'property': 'width'
   ),
   'breakpoints': (
-    'sm': '(min-width: 36em)',
-    'md': '(min-width: 48em)',
-    'lg': '(min-width: 62em)'
+    'md': #{'(min-width: ' + map-get($metrics, 'md-breakpoint') + ')'}
   ),
   'utilities': (
     'reset': 'on',
-    'icon': 'on',
+    'icon': 'off',
     'flow': 'on',
-    'wrapper': 'on'
+    'wrapper': 'off'
   )
-) !default;
+);

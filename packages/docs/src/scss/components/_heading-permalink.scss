@@ -1,0 +1,11 @@
+.heading-permalink {
+  color: var(--color-theme-primary-glare);
+  font-size: 0.8em;
+  margin-left: 0.3em;
+  margin-top: 0.2em;
+
+  @include media-query('md') {
+    font-size: 0.6em;
+    margin-top: 0.4em;
+  }
+}

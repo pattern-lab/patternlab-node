@@ -1,0 +1,17 @@
+.site-foot {
+  // Reverse whatever the theme colors are
+  background: var(--color-text);
+  color: var(--color-bg);
+
+  &__credit {
+    text-align: center;
+
+    a {
+      color: currentColor;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

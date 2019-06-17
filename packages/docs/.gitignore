@@ -7,3 +7,8 @@ npm-debug.*
 .sass-cache
 node_modules
 dist 
+
+# Specifics
+
+# Hide design tokens
+src/scss/_tokens.scss

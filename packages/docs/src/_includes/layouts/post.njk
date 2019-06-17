@@ -5,7 +5,7 @@
 {% set introHeading = title %}
 {% set introHeadingLevel = '1' %}
 {% set introSummary %}
-<p>
+<p class="[ intro__meta ] [ text-500 leading-tight ]">
   <time datetime="{{ date | w3DateFilter }}" class="dt-published">{{ date | dateFilter }}</time>
   <span role="text">— {{ helpers.getReadingTime(content) }} minute read</span>
 </p>
@@ -15,17 +15,25 @@
   <main id="main-content" tabindex="-1">
     <article class="[ post ] [ h-entry ]">
       {% include "partials/components/intro.njk" %}
-      <div class="[ inner-wrapper ] [ sf-flow ] [ e-content ]">
+      <div class="[ post__body ] [ inner-wrapper ] [ pad-top-900 {{ 'pad-bottom-900' if not site.enableThirdPartyComments }} text-500 ] [ sf-flow ] [ e-content ]">
         {{ content | safe }}
       </div>
+      {% if site.enableThirdPartyComments %}
+        <hr />
+        <aside class="[ post__body ] [ inner-wrapper ] [ pad-bottom-900 text-500 ]">
+          {% include "partials/global/third-party-comments.njk" %}
+        </aside>
+      {% endif %}
       {% if tags %}
-        <footer class="post__footer">
+        <footer class="[ post__footer ] [ pad-top-500 pad-bottom-500 ]">
           <div class="inner-wrapper">
-            <div class="[ tags ] [ box-flex align-center ]">
-              <h2>Tags</h2>
-              <ul class="[ tags__list ] [ box-flex align-center pad-left-400 ] [ p-category ]">
+            <div class="[ nav ] [ box-flex align-center ]">
+              <h2 class="font-base text-600 weight-mid">Filed under</h2>
+              <ul class="[ nav__list ] [ box-flex align-center pad-left-400 ] [ p-category ]">
                 {% for item in tags %}
-                  <li>{{ item }}</li>
+                  <li class="nav__item">
+                    <a href="/tags/{{ item }}">{{ item }}</a>
+                  </li>
                 {% endfor %}
               </ul>
             </div>

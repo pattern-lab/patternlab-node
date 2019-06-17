@@ -1,0 +1,14 @@
+.post-list {
+  &__item {
+    --flow-space: #{get-size(700)};
+  }
+
+  &__link {
+    color: var(--color-theme-primary);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

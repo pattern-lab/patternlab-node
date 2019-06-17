@@ -1,10 +1,8 @@
-{% if not introHeadingLevel %}
-  {% set introHeadingLevel = '1' %}
-{% endif %}
-
-<header class="intro">
-  <div class="inner-wrapper">
-    <h{{ introHeadingLevel }} class="[ intro__heading ] [ p-name ]">{{ introHeading }}</h{{ introHeadingLevel }}>
-    <div class="intro__summary">{{ introSummary | safe }}</div>
+<header class="[ intro ] [ pad-top-800 pad-bottom-900 ]">
+  <div class="[ inner-wrapper ] [ sf-flow ]">
+    <h1 class="[ intro__heading ] [ text-800 md:text-900 leading-tight ] [ p-name ]">{{ introHeading }}</h1>
+    {% if introSummary %}
+      <div class="[ intro__summary ] [ sf-flow ] [ leading-mid measure-short ]">{{ introSummary | safe }}</div>
+    {% endif %}
   </div>
 </header>

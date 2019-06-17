@@ -3,13 +3,9 @@
 
 {# Intro content #}
 {% set introHeading = title %}
-{% set introHeadingLevel = '2' %}
-{% set introSummary %}
-  {{ content | safe }}
-{% endset %}
+{% set introSummary %}{{ content | safe }}{% endset %}
 
 {# Post list content #}
-{% set postListHeadingLevel = '2' %}
 {% set postListHeading = 'All posts' %}
 {% set postListItems = collections.posts %}
 

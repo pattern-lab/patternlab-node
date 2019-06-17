@@ -1,0 +1,30 @@
+.nav {
+  &__list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: auto;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > * + * {
+      margin-left: get-size(500);
+    }
+  }
+
+  &__item {
+    padding: get-size(300) 0;
+    flex-shrink: 0;
+
+    a {
+      color: currentColor;
+
+      @include apply-utility('weight', 'mid');
+
+      &:not(:hover) {
+        text-decoration: none;
+      }
+    }
+  }
+}
