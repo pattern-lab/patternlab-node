@@ -6,6 +6,7 @@ const markdownFilter = require('./src/filters/markdown-filter.js');
 const w3DateFilter = require('./src/filters/w3-date-filter.js');
 
 // Import transforms
+const htmlMinTransform = require('./src/transforms/html-min-transform.js');
 const parseTransform = require('./src/transforms/parse-transform.js');
 
 // Import data files
@@ -21,6 +22,7 @@ module.exports = function(config) {
   config.addLayoutAlias('home', 'layouts/home.njk');
 
   // Transforms
+  config.addTransform('htmlmin', htmlMinTransform);
   config.addTransform('parse', parseTransform);
 
   // Passthrough copy

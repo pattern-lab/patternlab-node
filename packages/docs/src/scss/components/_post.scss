@@ -25,12 +25,13 @@
       background: var(--color-theme-highlight);
       padding: 0.2rem 0.4rem 0.3rem 0.4rem;
       white-space: pre;
+      text-decoration: none;
 
       @include apply-utility('leading', 'tight');
     }
 
     a:not([class]):hover {
-      text-decoration: none;
+      text-decoration: underline;
     }
 
     code {

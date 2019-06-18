@@ -1,13 +1,14 @@
 {
   "name": "hylia",
   "version": "1.0.0",
-  "description": "A simple Eleventy theme to help you have a blog of your own",
+  "description": "A simple Eleventy starter kit to help you have a blog of your own",
   "main": "index.js",
   "dependencies": {
     "@11ty/eleventy": "^0.8.3",
     "@11ty/eleventy-plugin-rss": "^1.0.6",
     "@tbranyen/jsdom": "^13.0.0",
     "concurrently": "^4.1.0",
+    "html-minifier": "^4.0.0",
     "json-to-scss": "^1.3.1",
     "sass": "^1.21.0",
     "slugify": "^1.3.4",
@@ -16,8 +17,8 @@
   "devDependencies": {},
   "scripts": {
     "sass:tokens": "npx json-to-scss src/_data/tokens.json src/scss/_tokens.scss",
-    "sass:process": "npm run sass:tokens && sass src/scss/global.scss dist/assets/css/global.css --style=compressed",
-    "start": "npm run sass:process && concurrently 'npm run sass:process -- --watch' 'npm run serve'",
+    "sass:process": "npm run sass:tokens && sass src/scss/global.scss src/_includes/assets/css/global.css --style=compressed",
+    "start": "concurrently 'npm run sass:process -- --watch' 'npm run serve'",
     "serve": "ELEVENTY_ENV=development npx eleventy --serve",
     "production": "npm run sass:process && npx eleventy"
   },

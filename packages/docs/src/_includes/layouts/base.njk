@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/assets/css/global.css?v={{ global.random() }}" />
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml" />
   <link rel="icon" href="https://hankchizljaw.imgix.net/hylia-favicon.png" type="image/png" />
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   {% include "partials/global/meta-info.njk" %}
+  <style>{% include "assets/css/global.css" %}</style>
   {% block head %}
   {% endblock %}
 </head>
@@ -26,5 +25,6 @@
       });
     }
   </script>
+  <script async src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </body>
 </html>

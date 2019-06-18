@@ -1,6 +1,6 @@
-<header class="[ intro ] [ pad-top-max pad-bottom-max ]">
+<header class="[ intro ] [ pad-top-900 pad-bottom-max ]">
   <div class="[ inner-wrapper ] [ sf-flow ]">
-    <h1 class="[ intro__heading{{ ' intro__heading--compact' if introHeading.length < 50 }} ] [ text-800 md:text-900 leading-tight ] [ p-name ]">{{ introHeading }}</h1>
+    <h1 class="[ intro__heading{{ ' intro__heading--compact' if page.url === '/' }} ] [ text-800 md:text-900 leading-tight ] [ p-name ]">{{ introHeading }}</h1>
     {% if introSummary %}
       <div class="[ intro__summary ] [ sf-flow ] [ leading-mid measure-short ]">{{ introSummary | safe }}</div>
     {% endif %}
