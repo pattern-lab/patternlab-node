@@ -6,6 +6,7 @@
   "dependencies": {
     "@11ty/eleventy": "^0.8.3",
     "@11ty/eleventy-plugin-rss": "^1.0.6",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^2.0.3",
     "@tbranyen/jsdom": "^13.0.0",
     "concurrently": "^4.1.0",
     "html-minifier": "^4.0.0",

@@ -65,12 +65,14 @@
 
     figure,
     figure + *,
+    pre > code,
     .video-player,
     .video-player + * {
       --flow-space: #{get-size('max')};
     }
 
     figure,
+    pre > code,
     .video-player {
       width: 100vw;
       max-width: map-get($metrics, 'wrap-max-width');
@@ -91,6 +93,13 @@
       max-width: map-get($metrics, 'wrap-inner-max-width');
       margin: 0.5rem auto 0 auto;
       padding: 0 get-size(500);
+    }
+
+    pre > code {
+      display: block;
+      background: var(--color-dark);
+      padding: get-size(700);
+      font-size: get-size(500);
     }
   }
 
