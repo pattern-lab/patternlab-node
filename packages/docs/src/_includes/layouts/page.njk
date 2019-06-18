@@ -1,0 +1,19 @@
+{% extends 'layouts/base.njk' %}
+{% set pageType = 'Page' %}
+
+{# Intro content #}
+{% set introHeading = title %}
+{% set introSummary %}
+
+{% block content %}
+  <main id="main-content" tabindex="-1">
+    <article class="[ post ] [ h-entry ]">
+      {% include "partials/components/intro.njk" %}
+      <div class="[ post__body ] [ inner-wrapper ] [ pad-top-900 pad-bottom-900 text-500 ] [ sf-flow ] [ e-content ]">
+        {{ content | safe }}
+      </div>
+    </article>
+  </main>
+{% endblock %}
+
+{{ content | safe }}

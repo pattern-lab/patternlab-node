@@ -1,5 +1,5 @@
 backend:
-  name: git-gateway 
+  name: test-repo 
   branch: master
 media_folder: "src/images"
 public_folder: "images"
@@ -19,6 +19,19 @@ collections:
           - {label: "SEO Meta Description", name: "metaDesc", widget: "string", required: false}
           - {label: "Social Image", name: "socialImage", widget: "image", required: false}
           - {label: "Body", name: "body", widget: "markdown"}
+  - name: "generic_pages"
+    label: "Generic Pages"
+    folder: "src/page"
+    slug: "{{slug}}"
+    create: true
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/page.njk"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Permalink Override", name: "permalink", widget: "string"}
+      - {label: "SEO Meta Title", name: "metaTitle", widget: "string", required: false}
+      - {label: "SEO Meta Description", name: "metaDesc", widget: "string", required: false}
+      - {label: "Social Image", name: "socialImage", widget: "image", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
   - name: "posts"
     label: "Posts"
     folder: "src/posts"
