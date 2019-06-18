@@ -28,6 +28,7 @@ module.exports = function(config) {
 
   // Passthrough copy
   config.addPassthroughCopy('src/fonts');
+  config.addPassthroughCopy('src/images');
   config.addPassthroughCopy('src/admin/config.yml');
 
   // Custom collections
