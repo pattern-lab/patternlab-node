@@ -14,6 +14,7 @@ module.exports = function(value, outputPath) {
     const articleHeadings = [
       ...document.querySelectorAll('main article h2, main article h3')
     ];
+    const articleEmbeds = [...document.querySelectorAll('main article iframe')];
 
     if (articleImages.length) {
       articleImages.forEach(image => {
@@ -53,6 +54,21 @@ module.exports = function(value, outputPath) {
 
         heading.setAttribute('id', `heading-${headingSlug}`);
         heading.appendChild(anchor);
+      });
+    }
+
+    // Look for videos are wrap them in a container element
+    if (articleEmbeds.length) {
+      articleEmbeds.forEach(embed => {
+        if (embed.hasAttribute('allowfullscreen')) {
+          const player = document.createElement('div');
+
+          player.classList.add('video-player');
+
+          player.appendChild(embed.cloneNode(true));
+
+          embed.replaceWith(player);
+        }
       });
     }
 

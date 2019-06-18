@@ -64,11 +64,14 @@
     }
 
     figure,
-    figure + * {
-      --flow-space: 4rem;
+    figure + *,
+    .video-player,
+    .video-player + * {
+      --flow-space: #{get-size('max')};
     }
 
-    figure {
+    figure,
+    .video-player {
       width: 100vw;
       max-width: map-get($metrics, 'wrap-max-width');
       margin-left: 50%;

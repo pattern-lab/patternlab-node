@@ -4,9 +4,18 @@ title: '003: Planning'
 date: 2019-05-16T22:02:01.403Z
 tags: journal
 ---
+
 I plan _obsessively_ and this project is no different to proper client work. I really like using [Notion](https://www.notion.so/) because it gives me total flexibility, but importantly, [Trello](https://trello.com)-style boards.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aSX0G7fzkBE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 This is what the board for this project looks like so far:
+
+```css
+.hi-mate {
+  display: block;
+}
+```
 
 ![A Notion board with kanban columns and lots of cards in the backlog](https://res.cloudinary.com/andybelldesign/image/upload/c_scale,f_auto,q_auto,w_1000/v1558039593/piccalilli%20journal/Screenshot_2019-05-16_at_21.28.56_faxgw8.jpg)
 
