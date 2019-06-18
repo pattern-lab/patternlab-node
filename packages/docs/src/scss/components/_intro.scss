@@ -7,6 +7,10 @@
 
   &__heading {
     max-width: 40ex;
+
+    &--compact {
+      max-width: 20ex;
+    }
   }
 
   &__meta {
