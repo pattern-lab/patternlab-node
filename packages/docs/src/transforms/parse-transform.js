@@ -59,4 +59,5 @@ module.exports = function(value, outputPath) {
 
     return '<!DOCTYPE html>\r\n' + document.documentElement.outerHTML;
   }
+  return value;
 };
