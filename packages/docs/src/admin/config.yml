@@ -85,13 +85,13 @@ collections:
             widget: "object"
             fields: 
               - {label: "Base Size", name: "base", widget: "string", default: "1rem"}
-              - {label: "Ratio: 300", name: "base", widget: "string", default: "0.8rem"}
-              - {label: "Ratio: 500", name: "base", widget: "string", default: "1.25rem"}
-              - {label: "Ratio: 600", name: "base", widget: "string", default: "1.56rem"}
-              - {label: "Ratio: 700", name: "base", widget: "string", default: "1.95rem"}
-              - {label: "Ratio: 800", name: "base", widget: "string", default: "2.44rem"}
-              - {label: "Ratio: 900", name: "base", widget: "string", default: "3.05rem"}
-              - {label: "Base Size", name: "base", widget: "string", default: "4rem"}
+              - {label: "Ratio: 300", name: "300", widget: "string", default: "0.8rem"}
+              - {label: "Ratio: 500", name: "500", widget: "string", default: "1.25rem"}
+              - {label: "Ratio: 600", name: "600", widget: "string", default: "1.56rem"}
+              - {label: "Ratio: 700", name: "700", widget: "string", default: "1.95rem"}
+              - {label: "Ratio: 800", name: "800", widget: "string", default: "2.44rem"}
+              - {label: "Ratio: 900", name: "900", widget: "string", default: "3.05rem"}
+              - {label: "Max Size", name: "max", widget: "string", default: "4rem"}
           - label: "Colors"
             name: "colors"
             widget: "object"
