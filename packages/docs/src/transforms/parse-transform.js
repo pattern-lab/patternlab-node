@@ -6,8 +6,7 @@ const slugify = require('slugify');
 module.exports = function(value, outputPath) {
   if (outputPath.endsWith('.html')) {
     const DOM = new JSDOM(value, {
-      resources: 'usable',
-      runScripts: 'dangerously'
+      resources: 'usable'
     });
 
     const document = DOM.window.document;
