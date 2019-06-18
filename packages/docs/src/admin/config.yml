@@ -73,3 +73,34 @@ collections:
               - {label: "Text", name: "text", widget: "string"}
               - {label: "Url", name: "url", widget: "string"}
               - {label: "Is url to external site?", name: "external", widget: "boolean"}
+      - label: "Theme Settings"
+        name: "theme"
+        file: "src/_data/tokens.json"
+        fields:
+          - label: "Size Scale"
+            name: "size-scale"
+            widget: "object"
+            fields: 
+              - {label: "Base Size", name: "base", widget: "string", default: "1rem"}
+              - {label: "Ratio: 300", name: "base", widget: "string", default: "0.8rem"}
+              - {label: "Ratio: 500", name: "base", widget: "string", default: "1.25rem"}
+              - {label: "Ratio: 600", name: "base", widget: "string", default: "1.56rem"}
+              - {label: "Ratio: 700", name: "base", widget: "string", default: "1.95rem"}
+              - {label: "Ratio: 800", name: "base", widget: "string", default: "2.44rem"}
+              - {label: "Ratio: 900", name: "base", widget: "string", default: "3.05rem"}
+              - {label: "Base Size", name: "base", widget: "string", default: "4rem"}
+          - label: "Colors"
+            name: "colors"
+            widget: "object"
+            fields: 
+              - {label: "Primary", name: "primary", widget: "string", default: "hsl(208, 57%, 21%)"}
+              - {label: "Primary Shade (darker)", name: "primary-shade", widget: "string", default: "hsl(208, 56%, 14%)"}
+              - {label: "Primary Glare (lighter)", name: "primary-glare", widget: "string", default: "hsl(207, 57%, 31%)"}
+              - {label: "Highlight", name: "highlight", widget: "string", default: "hsl(42, 98%, 77%)"}
+              - {label: "Light", name: "light", widget: "string", default: "hsl(0, 0%, 100%)"}
+              - {label: "Mid", name: "mid", widget: "string", default: "hsl(0, 0%, 80%)"}
+              - {label: "Dark", name: "dark", widget: "string", default: "hsl(0, 0%, 20%)"}
+          - label: "Fonts"
+            name: "fonts"
+            widget: "hidden"
+            default: { "base": "\"-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'\"", "serif": "\"'Lora', serif\""}
