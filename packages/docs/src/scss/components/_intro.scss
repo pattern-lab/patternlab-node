@@ -3,6 +3,10 @@
 
   &__summary {
     --flow-space: #{get-size(500)};
+
+    a {
+      color: currentColor;
+    }
   }
 
   &__heading {
