@@ -3,6 +3,10 @@
   background: var(--color-text);
   color: var(--color-bg);
 
+  // Reverse selection colors
+  --color-selection-text: #{get-color('dark')};
+  --color-selection-bg: #{get-color('light')};
+
   &__credit {
     text-align: center;
 

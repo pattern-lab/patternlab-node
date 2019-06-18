@@ -7,6 +7,8 @@
   // Set theme aliases
   --color-bg: #{get-color('light')};
   --color-text: #{get-color('dark')};
+  --color-selection-text: #{get-color('light')};
+  --color-selection-bg: #{get-color('dark')};
   --color-stroke: #{get-color('mid')};
   --color-action-bg: #{get-color('primary')};
   --color-action-text: #{get-color('light')};
@@ -18,4 +20,9 @@
 body {
   color: var(--color-text);
   background-color: var(--color-bg);
+}
+
+::selection {
+  color: var(--color-selection-text);
+  background-color: var(--color-selection-bg);
 }
