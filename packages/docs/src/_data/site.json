@@ -2,6 +2,7 @@
   "name": "Hylia Starter Kit",
   "authorName": "Andy Bell",
   "authorEmail": "me@andy-bell.design",
+  "authorHandle": "@andybelldesign",
   "url": "https://hylia.website",
   "shortDesc": "Sed posuere consectetur est at lobortis. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "maxPostsPerPage": 5,
