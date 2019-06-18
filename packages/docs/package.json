@@ -19,7 +19,7 @@
     "sass:process": "npm run sass:tokens && sass src/scss/global.scss dist/assets/css/global.css --style=compressed",
     "start": "npm run sass:process && concurrently 'npm run sass:process -- --watch' 'npm run serve'",
     "serve": "ELEVENTY_ENV=development npx eleventy --serve",
-    "build": "sass:process && npx eleventy"
+    "build": "npm run sass:process && npx eleventy"
   },
   "repository": {
     "type": "git",
