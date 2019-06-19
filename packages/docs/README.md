@@ -105,7 +105,7 @@ You can edit the Styleguide by opening [`src/styleguide.njk`](https://github.com
 
 ### Sass
 
-Hylia is based on the [WIP V2 version of Stalfos](https://github.com/andybelldesign/stalfos/tree/feature/v2) which currently has no documentation (I know, I’m bad). Here is some very basic documentation elements of the new framework that you will encounter on this project.
+Hylia is based on the [WIP v2 version of Stalfos](https://github.com/andybelldesign/stalfos/tree/feature/v2), which currently has no documentation (I know, I’m bad). Here is some very basic documentation for elements of the new framework that you will encounter on this project.
 
 #### Configuration
 
@@ -115,13 +115,13 @@ Before Sass is compiled, a `_tokens.scss` file is generated from the [design tok
 
 Key elements:
 
-- `$stalfos-size-scale`: A token driven size scale which by default is a “Major Third” scale
+- `$stalfos-size-scale`: A token driven size scale which by default, is a “Major Third” scale
 - `$stalfos-colors`: A token driven map of colours 
 - `$stalfos-util-prefix`: All pre-built, framework utilities will have this prefix. Example: the wrapper utility is '.sf-wrapper' because the default prefix is 'sf-'
 - `$metrics`: Various misc metrics to use around the site
 - `$stalfos-config`: This powers everything from utility class generation to breakpoints to enabling/disabling pre-built components/utilities
 
-##### How to create a new utility class with the generator
+#### How to create a new utility class with the generator
 
 The utility class generator lets you generate whatever you want, with no opinions on class name or properties affected. 
 
@@ -129,16 +129,16 @@ To add a new class, add another item to the exists `$stalfos-config` map. This e
 
 ```scss
 'float': (
-	'items': (
-	  'left': 'left',
-	  'right': 'right'
-	),
-	'output': 'responsive',
-	'property': 'float'
+  'items': (
+    'left': 'left',
+    'right': 'right'
+  ),
+  'output': 'responsive',
+  'property': 'float'
 )
 ```
 
-The `output` is set to responsive which means every breakpoint will generate a prefixed class for itself. If you only wanted elements to float left in the `md` breakpoint, you’d now be able to add a class of `md:float-left` to your HTML elements. 
+The `output` is set to `responsive` which means every breakpoint will generate a prefixed class for itself. If you only wanted elements to float left in the `md` breakpoint, you’d now be able to add a class of `md:float-left` to your HTML elements. 
 
 If you only want standard utility classes generating, set the `output` to `standard`.
 
@@ -154,7 +154,7 @@ Returns back a 1 dimensional (key value pair) config value if available.
 
 ##### `get-size($ratio-key)`
 
-Function tries to match the passed $ratio-key with the `$stalfos-size-scale`. Returns null if it can’t find a match.
+Function tries to match the passed `$ratio-key` with the `$stalfos-size-scale`. Returns null if it can’t find a match.
 
 #### Mixins
 
