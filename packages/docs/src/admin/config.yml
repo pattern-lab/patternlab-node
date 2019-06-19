@@ -10,6 +10,7 @@ collections:
     files:
       - name: "home"
         label: "Homepage"
+        delete: false
         file: "src/index.md"
         slug: "{{slug}}"
         create: false
@@ -54,6 +55,7 @@ collections:
     files:
       - label: "Site Data"
         name: "site_data"
+        delete: false
         file: "src/_data/site.json"
         fields:
           - {label: "Site Name", name: "name", widget: "string"}
@@ -67,6 +69,7 @@ collections:
           - {label: "Enable Third Party Comments Area", name: "enableThirdPartyComments", widget: "boolean", default: false}
       - label: "Navigation"
         name: "nav"
+        delete: false
         file: "src/_data/navigation.json"
         fields:
           - label: "Items"
@@ -78,6 +81,7 @@ collections:
               - {label: "Is url to external site?", name: "external", widget: "boolean"}
       - label: "Theme Settings"
         name: "theme"
+        delete: false
         file: "src/_data/tokens.json"
         fields:
           - label: "Size Scale"
