@@ -9,4 +9,15 @@
     width: 100%;
     height: 100%;
   }
+
+  // If it’s bleeding out in a post, it needs more padding
+  .post & {
+    padding-top: 63%;
+  }
+
+  @include media-query('md') {
+    .post & {
+      padding-top: 66%;
+    }
+  }
 }

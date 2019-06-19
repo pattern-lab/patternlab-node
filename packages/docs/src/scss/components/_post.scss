@@ -87,8 +87,13 @@
       position: relative;
     }
 
-    figure img {
+    figure img,
+    pre > code,
+    .video-player {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    figure img {
       position: relative;
       z-index: 1;
     }
