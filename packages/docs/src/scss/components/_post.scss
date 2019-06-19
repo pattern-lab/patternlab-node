@@ -39,6 +39,12 @@
       white-space: pre;
       color: var(--color-theme-primary);
       font-weight: 600;
+      margin-left: 0.5ch;
+      margin-right: 0.5ch;
+    }
+
+    pre > code {
+      margin-right: 0;
     }
 
     blockquote {
