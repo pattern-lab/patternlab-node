@@ -8,16 +8,21 @@ tags:
 ---
 A simple post to demonstrate how a normal blog post looks on Hylia. Content is all set in the “Body” field as markdown and Eleventy transforms it into a proper HTML post. You can also edit the markdown file directly if you prefer not to use the CMS.
 
-If you want to make an image bleed-out, add a title attribute to it and the front-end will automatically wrap it in a `<figure>` tag for you.
+How about a `<blockquote>`? 
 
-![The top of a grey concrete building with a blue sky in the background](/images/demo-image-1.jpg "Brutalism at its finest. Photo by Artificial Photography on Unsplash.")
+> Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae elit libero, a pharetra augue.
 
-You can also add videos to posts from YouTube or Vimeo (or wherever, really) and the front-end will also make those bleed-out for you too.
+A list of stuff:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_38JDGnr0vA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+- Sed posuere consectetur est at lobortis
+- Aenean lacinia bibendum nulla sed consectetur
+- Sed posuere consectetur est at lobortis
 
-Finally, how about a `<blockquote>`? 
+How about an ordered list of stuff:
 
-> Quotes will take a slightly different style to normal body text and look fancy.
+1. Sed posuere consectetur est at lobortis
+2. Aenean lacinia bibendum nulla sed consectetur
+3. Sed posuere consectetur est at lobortis
+
 
 Hopefully, this has demonstrated how simple it is to make a nice looking blog with Hylia.
