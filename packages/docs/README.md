@@ -1,6 +1,6 @@
 # A simple starter kit for Eleventy
 
-Hylia is a lightweight [Eleventy](https://11ty.io) starter kit with [Netlify CMS](https://www.netlifycms.org/) pre-configured, so that you can one-click install a progressive, accessible blog in minutes. It also gives you a well organised starting point to extend yourself.
+Hylia is a lightweight [Eleventy](https://11ty.io) starter kit with [Netlify CMS](https://www.netlifycms.org/) pre-configured, so that you can one-click install a progressive, accessible blog in minutes. It also gives you a well organised starting point to extend it for yourself.
 
 Get started now by **[deploying Hylia to Netlify.](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia)**
 
@@ -29,9 +29,9 @@ Hylia version 0.1.0 features:
 📖 Pagination  
 🐦 Web sharing API integration  
 🗒 Offline mode with links to cached pages
-📄 Documentation site
-💅 Sass documentation
-✍️ CMS documentation
+📄 Documentation site  
+💅 Proper Sass documentation  
+✍️ Proper CMS documentation
 
 ***
 
@@ -39,7 +39,7 @@ Hylia version 0.1.0 features:
 
 ### Method one: One-Click Deploy to Netlify
 
-You can [deploy Hylia to Netlify with one click](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia) and you’ll be up and running!
+You can [deploy Hylia to Netlify with one click](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia) and you’ll be up and running in minutes!
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia)
 
