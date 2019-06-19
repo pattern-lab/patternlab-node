@@ -19,7 +19,8 @@ Hylia version 0.1.0 features:
 ✅ Progressively enhanced, semantic and accessible    
 🎈 _Super_ lightweight front-end   
 🚰 Sass powered CSS system with utility class generator  
-⚙️ Service worker that caches pages so people can read your articles offline
+⚙️ Service worker that caches pages so people can read your articles offline  
+🚀 An RSS feed for your posts
 
 ## Roadmap 
 
