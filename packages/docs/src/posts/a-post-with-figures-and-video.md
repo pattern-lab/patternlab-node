@@ -20,6 +20,6 @@ Finally, how about a `<blockquote>`?
 
 > Quotes will take a slightly different style to normal body text and look fancy.
 
-![Person holds up a photograph of a riverside and buildings with the same river as a backdrop](/images/demo-image-2.jpg "Remember, if you want a figure and caption, add a \\"title\\" attribute to image in the body field — Photo by Kharytonova Antonina on Unsplash.")
+![Person holds up a photograph of a riverside and buildings with the same river as a backdrop](/images/demo-image-2.jpg "Remember, if you want a figure and caption, add a 'title' attribute to image in the body field — Photo by Kharytonova Antonina on Unsplash.")
 
 Hopefully, this has demonstrated how simple it is to make a nice looking blog with Hylia.
