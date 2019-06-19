@@ -31,7 +31,8 @@ Hylia version 0.1.0 features:
 🗒 Offline mode with links to cached pages
 📄 Documentation site  
 💅 Proper Sass documentation  
-✍️ Proper CMS documentation
+✍️ Proper CMS documentation  
+🖼 A facility for you to be able to add your logo / branding
 
 ***
 
