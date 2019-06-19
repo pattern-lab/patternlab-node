@@ -3,6 +3,7 @@
 
   &__summary {
     --flow-space: #{get-size(500)};
+    font-size: get-size(500);
 
     a {
       color: currentColor;
