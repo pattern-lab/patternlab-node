@@ -35,6 +35,10 @@ Hylia version 0.1.0 features:
 ✍️ Proper CMS documentation  
 🖼 A facility for you to be able to add your logo / branding
 
+## Quick start video 
+
+<video src="https://res.cloudinary.com/andybelldesign/video/upload/v1561020525/hylia/hylia-quick-start_b01xvb.mp4" controls></video>
+
 ***
 
 ## Getting started
@@ -85,8 +89,9 @@ Before you can use the CMS, you need to do some config in Netlify. Luckily they 
 
 In short, though:
 
-- Once you’ve set up the site on Netlify, go to “Settings” > ”Identity” and scroll down to the “Git Gateway” area. Click ”Enable Git Gateway” and follow the steps
-- Click the “Identity” tab
+- Once you’ve set up the site on Netlify, go to “Settings” > “Identity” and enable Identity
+- Scroll down to the “Git Gateway” area, click “Enable Git Gateway” and follow the steps
+- Click the “Identity” tab at the top
 - Once you’ve enabled identity, click “Invite Users”
 - Check the invite link in your inbox and click the link in the email that’s sent to you
 - Set a password in the popup box
