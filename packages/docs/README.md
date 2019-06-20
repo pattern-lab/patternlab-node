@@ -79,11 +79,23 @@ npm run sass:process
 npm run sass:tokens
 ```
 
-## Docs
+## Getting started with the CMS
 
-### Design Tokens and Styleguide 
+Before you can use the CMS, you need to do some config in Netlify. Luckily they provide a [very handy guide to get started](https://www.netlify.com/docs/identity/).
 
-#### Design Tokens
+In short, though:
+
+- Once you’ve set up the site on Netlify, go to “Settings” > ”Identity” and scroll down to the “Git Gateway” area. Click ”Enable Git Gateway” and follow the steps
+- Click the “Identity” tab
+- Once you’ve enabled identity, click “Invite Users”
+- Check the invite link in your inbox and click the link in the email that’s sent to you
+- Set a password in the popup box
+- Go to `/admin` on your site and login 
+- You’re in and ready to edit your content!
+
+## Design Tokens and Styleguide 
+
+### Design Tokens
 
 Although Hylia has a pretty simple design, you can configure the core design tokens that control the colours, size ratio and fonts. 
 
@@ -99,17 +111,17 @@ To change the design tokens directly, edit [`_src/data/tokens.json`](https://git
 
 The tokens are converted into maps that the Sass uses to compile the front-end CSS, so make sure that you maintain the correct structure of `tokens.json`.
 
-#### Styleguide
+### Styleguide
 
 Your version of Hylia ships with a Styleguide by default. You can see a demo of the Styleguide at <https://hylia.website/styleguide/>.
 
 You can edit the Styleguide by opening [`src/styleguide.njk`](https://github.com/andybelldesign/hylia/blob/master/src/styleguide.njk). If you don’t want the Styleguide, delete that file and the page will vanish.
 
-### Sass
+## Sass
 
 Hylia is based on the [WIP v2 version of Stalfos](https://github.com/andybelldesign/stalfos/tree/feature/v2), which currently has no documentation (I know, I’m bad). Here is some very basic documentation for elements of the new framework that you will encounter on this project.
 
-#### Configuration
+### Configuration
 
 The whole Sass system is powered by central config file, which lives here: [`_src/scss/_config.scss`](https://github.com/andybelldesign/hylia/blob/master/src/scss/_config.scss).
 
@@ -123,7 +135,7 @@ Key elements:
 - `$metrics`: Various misc metrics to use around the site
 - `$stalfos-config`: This powers everything from utility class generation to breakpoints to enabling/disabling pre-built components/utilities
 
-#### How to create a new utility class with the generator
+### How to create a new utility class with the generator
 
 The utility class generator lets you generate whatever you want, with no opinions on class name or properties affected. 
 
@@ -144,35 +156,35 @@ The `output` is set to `responsive` which means every breakpoint will generate a
 
 If you only want standard utility classes generating, set the `output` to `standard`.
 
-#### Functions
+### Functions
 
-##### `get-color($key)`
+#### `get-color($key)`
 
 Function tries to match the passed `$key` with the `$stalfos-colors` map. Returns null if it can’t find a match.
 
-##### `get-config-value($key, $group)`
+#### `get-config-value($key, $group)`
 
 Returns back a 1 dimensional (key value pair) config value if available.
 
-##### `get-size($ratio-key)`
+#### `get-size($ratio-key)`
 
 Function tries to match the passed `$ratio-key` with the `$stalfos-size-scale`. Returns null if it can’t find a match.
 
-#### Mixins
+### Mixins
 
-##### `apply-utility($key, $value-key)`
+#### `apply-utility($key, $value-key)`
 
 Grabs the property and value of one of the `$stalfos-config utilities` that the generator will generate a class for.
 
-##### `media-query($key)`
+#### `media-query($key)`
 
 Pass in the key of one of your breakpoints set in `$stalfos-config['breakpoints']` and this mixin will generate the `@media` query with your configured value.
 
-### CMS
+## CMS
 
 Hylia has [Netlify CMS](https://www.netlifycms.org/) pre-configured as standard. You can customise the configuration by editing [`src/admin/config.yml`](https://github.com/andybelldesign/hylia/blob/master/src/admin/config.yml).
 
-#### Content that you can edit
+### Content that you can edit
 
 The basic CMS setup allows you to edit the following:
 
