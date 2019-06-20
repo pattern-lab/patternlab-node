@@ -35,10 +35,6 @@ Hylia version 0.1.0 features:
 ✍️ Proper CMS documentation  
 🖼 A facility for you to be able to add your logo / branding
 
-## Quick start video 
-
-<video src="https://res.cloudinary.com/andybelldesign/video/upload/v1561020525/hylia/hylia-quick-start_b01xvb.mp4" controls></video>
-
 ***
 
 ## Getting started
@@ -48,6 +44,8 @@ Hylia version 0.1.0 features:
 You can [deploy Hylia to Netlify with one click](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia) and you’ll be up and running in minutes!
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia)
+
+I recorded a quick start video of me deploying Hylia to Netlify and getting the CMS set up. [Check it out here](https://youtu.be/0hM_0BH-Y_A). 
 
 
 ### Method two: Clone / Fork
