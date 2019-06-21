@@ -16,13 +16,13 @@ Hylia version 0.1.2 features:
 🎨 Customisable design tokens to make it your own  
 🌍 Customisable global data and navigation  
 📂 Tags and tag archives  
-✅ Progressively enhanced, semantic and accessible    
-🎈 _Super_ lightweight front-end   
+✅ Progressively enhanced, semantic and accessible  
+🎈 _Super_ lightweight front-end  
 🚰 Sass powered CSS system with utility class generator  
 ⚙️  Service worker that caches pages so people can read your articles offline  
 🚀 An RSS feed for your posts
 
-## Roadmap 
+## Roadmap
 
 💬 [Netlify Forms](https://www.netlify.com/docs/form-handling/) powered comments  
 💡 Dark/Light mode toggle  
@@ -45,7 +45,7 @@ You can [deploy Hylia to Netlify with one click][deploy-to-netlify] and you’ll
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)][deploy-to-netlify]
 
-I recorded a quick start video of me deploying Hylia to Netlify and getting the CMS set up. [Check it out here](https://youtu.be/0hM_0BH-Y_A). 
+I recorded a quick start video of me deploying Hylia to Netlify and getting the CMS set up. [Check it out here](https://youtu.be/0hM_0BH-Y_A).
 
 
 ### Method two: Clone / Fork
@@ -53,11 +53,11 @@ I recorded a quick start video of me deploying Hylia to Netlify and getting the 
 1. Clone or fork this repo: `git clone https://github.com/andybelldesign/hylia`
 2. `cd` into the project directory and run `npm install`
 3. Once all the dependencies are installed run `npm start`
-4. Open your browser at `http://localhost:8080` and away you go! 
+4. Open your browser at `http://localhost:8080` and away you go!
 
-## Terminal commands 
+## Terminal commands
 
-### Serve the site locally 
+### Serve the site locally
 
 ```bash
 npm start
@@ -69,7 +69,7 @@ npm start
 npm run production
 ```
 
-### Compile Sass 
+### Compile Sass
 
 ```bash
 npm run sass:process
@@ -93,24 +93,24 @@ In short, though:
 - Once you’ve enabled identity, click “Invite Users”
 - Check the invite link in your inbox and click the link in the email that’s sent to you
 - Set a password in the popup box
-- Go to `/admin` on your site and login 
+- Go to `/admin` on your site and login
 - You’re in and ready to edit your content!
 
-## Design Tokens and Styleguide 
+## Design Tokens and Styleguide
 
 ### Design Tokens
 
-Although Hylia has a pretty simple design, you can configure the core design tokens that control the colours, size ratio and fonts. 
+Although Hylia has a pretty simple design, you can configure the core design tokens that control the colours, size ratio and fonts.
 
-*** 
+***
 
 **Note**: *Credit must be given to the hard work [Jina Anne](https://aycl.uie.com/virtual_seminars/design_tokens_scaling_design_with_a_single_source_of_truth) did in order for the concept of design tokens to even exist. You should watch [this video](https://www.youtube.com/watch?v=wDBEc3dJJV8), then [read this article](https://the-pastry-box-project.net/jina-bolton/2015-march-28) and then sign up for [this course](https://twitter.com/jina) to expand your knowledge.*
 
 ***
 
-To change the design tokens in the CMS, find the “Globals” in the sidebar then in the presented options, select “Theme Settings”. 
+To change the design tokens in the CMS, find the “Globals” in the sidebar then in the presented options, select “Theme Settings”.
 
-To change the design tokens directly, edit [`_src/data/tokens.json`](https://github.com/andybelldesign/hylia/blob/master/src/_data/tokens.json). 
+To change the design tokens directly, edit [`_src/data/tokens.json`](https://github.com/andybelldesign/hylia/blob/master/src/_data/tokens.json).
 
 The tokens are converted into maps that the Sass uses to compile the front-end CSS, so make sure that you maintain the correct structure of `tokens.json`.
 
@@ -133,14 +133,14 @@ Before Sass is compiled, a `_tokens.scss` file is generated from the [design tok
 Key elements:
 
 - `$stalfos-size-scale`: A token driven size scale which by default, is a “Major Third” scale
-- `$stalfos-colors`: A token driven map of colours 
+- `$stalfos-colors`: A token driven map of colours
 - `$stalfos-util-prefix`: All pre-built, framework utilities will have this prefix. Example: the wrapper utility is '.sf-wrapper' because the default prefix is 'sf-'
 - `$metrics`: Various misc metrics to use around the site
 - `$stalfos-config`: This powers everything from utility class generation to breakpoints to enabling/disabling pre-built components/utilities
 
 ### How to create a new utility class with the generator
 
-The utility class generator lets you generate whatever you want, with no opinions on class name or properties affected. 
+The utility class generator lets you generate whatever you want, with no opinions on class name or properties affected.
 
 To add a new class, add another item to the exists `$stalfos-config` map. This example adds a utility for floating elements.
 
@@ -155,7 +155,7 @@ To add a new class, add another item to the exists `$stalfos-config` map. This e
 )
 ```
 
-The `output` is set to `responsive` which means every breakpoint will generate a prefixed class for itself. If you only wanted elements to float left in the `md` breakpoint, you’d now be able to add a class of `md:float-left` to your HTML elements. 
+The `output` is set to `responsive` which means every breakpoint will generate a prefixed class for itself. If you only wanted elements to float left in the `md` breakpoint, you’d now be able to add a class of `md:float-left` to your HTML elements.
 
 If you only want standard utility classes generating, set the `output` to `standard`.
 
@@ -198,14 +198,14 @@ The basic CMS setup allows you to edit the following:
 - **Navigation**: Edit your primary navigation items
 - **Theme**: Edit the design tokens that power the site’s theme
 
-## Get involved 
+## Get involved
 
 This project is _super_ early and feedback is very much welcome. In order to keep things running smooth, please consult the [contribution guide and code of conduct](https://github.com/andybelldesign/hylia/blob/master/contributing.md).
 
 The stuff that I need the most help with is:
 
 - Documentation
-- Webmentions 
+- [Webmentions](https://www.w3.org/TR/webmention/)
 - Performance
 
 [deploy-to-netlify]: https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia&stack=cms
