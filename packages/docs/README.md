@@ -10,7 +10,7 @@ Get started now by **[deploying Hylia to Netlify.](https://app.netlify.com/start
 
 ## Features
 
-Hylia version 0.1.1 features:
+Hylia version 0.1.2 features:
 
 ✍️ A pre-configured [Netlify CMS](https://www.netlifycms.org/) setup  
 🎨 Customisable design tokens to make it your own  

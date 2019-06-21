@@ -25,7 +25,7 @@ collections:
           - {label: "Body", name: "body", widget: "markdown"}
   - name: "generic_pages"
     label: "Generic Pages"
-    folder: "src/page"
+    folder: "src/pages"
     slug: "{{slug}}"
     create: true
     fields:
