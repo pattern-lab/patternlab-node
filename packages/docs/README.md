@@ -2,9 +2,9 @@
 
 Hylia is a lightweight [Eleventy](https://11ty.io) starter kit with [Netlify CMS](https://www.netlifycms.org/) pre-configured, so that you can one-click install a progressive, accessible blog in minutes. It also gives you a well organised starting point to extend it for yourself.
 
-Get started now by **[deploying Hylia to Netlify.](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia)**
+Get started now by **[deploying Hylia to Netlify.][deploy-to-netlify]**
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)][deploy-to-netlify]
 
 <img src="https://hankchizljaw.imgix.net/hylia-github.jpg?auto=format&q=60" width="550" />
 
@@ -41,9 +41,9 @@ Hylia version 0.1.2 features:
 
 ### Method one: One-Click Deploy to Netlify
 
-You can [deploy Hylia to Netlify with one click](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia) and you’ll be up and running in minutes!
+You can [deploy Hylia to Netlify with one click][deploy-to-netlify] and you’ll be up and running in minutes!
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)][deploy-to-netlify]
 
 I recorded a quick start video of me deploying Hylia to Netlify and getting the CMS set up. [Check it out here](https://youtu.be/0hM_0BH-Y_A). 
 
@@ -208,4 +208,4 @@ The stuff that I need the most help with is:
 - Webmentions 
 - Performance
 
-
+[deploy-to-netlify]: https://app.netlify.com/start/deploy?repository=https://github.com/andybelldesign/hylia&stack=cms
