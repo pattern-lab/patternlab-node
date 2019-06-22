@@ -22,6 +22,10 @@ body {
   background-color: var(--color-bg);
 }
 
+main {
+  overflow: hidden;
+}
+
 ::selection {
   color: var(--color-selection-text);
   background-color: var(--color-selection-bg);
