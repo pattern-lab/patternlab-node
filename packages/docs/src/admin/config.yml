@@ -1,7 +1,8 @@
 backend:
-  name: git-gateway 
+  name: git-gateway
   branch: master
 publish_mode: editorial_workflow
+site_url: "https://example.com"
 media_folder: "src/images"
 public_folder: "images"
 collections:
@@ -27,6 +28,7 @@ collections:
     label: "Generic Pages"
     folder: "src/pages"
     slug: "{{slug}}"
+    preview_path: "pages/{{slug}}"
     create: true
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/page.njk"}
@@ -40,6 +42,7 @@ collections:
     label: "Posts"
     folder: "src/posts"
     slug: "{{slug}}"
+    preview_path: "posts/{{slug}}"
     create: true
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/post.njk"}

@@ -30,6 +30,8 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/fonts');
   config.addPassthroughCopy('src/images');
   config.addPassthroughCopy('src/admin/config.yml');
+  config.addPassthroughCopy('src/admin/previews.js');
+  config.addPassthroughCopy('node_modules/nunjucks/browser/nunjucks-slim.js')
 
   // Custom collections
   config.addCollection('posts', collection => {
