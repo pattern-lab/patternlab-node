@@ -78,7 +78,7 @@ collections:
             fields:
               - {label: "Text", name: "text", widget: "string"}
               - {label: "Url", name: "url", widget: "string"}
-              - {label: "Is url to external site?", name: "external", widget: "boolean"}
+              - {label: "Is url to external site?", name: "external", widget: "boolean", required: false}
       - label: "Theme Settings"
         name: "theme"
         delete: false
