@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "chokidar-cli": "^1.2.2",
+    "cross-env": "^5.2.0",
     "make-dir-cli": "^2.0.0",
     "rollup": "^1.16.1",
     "rollup-plugin-commonjs": "^10.0.0",
@@ -30,7 +31,7 @@
     "cms:precompile": "make-dir dist/admin && nunjucks-precompile src/_includes > dist/admin/templates.js -i '\\.(njk|css|svg)$'",
     "cms:bundle": "rollup --config",
     "start": "concurrently 'npm run sass:process -- --watch' 'npm run cms:bundle -- --watch' 'chokidar \"src/_includes/**\" -c \"npm run cms:precompile\"' 'npm run serve'",
-    "serve": "ELEVENTY_ENV=development npx eleventy --serve",
+    "serve": "cross-env ELEVENTY_ENV=development npx eleventy --serve",
     "production": "npm run sass:process && npm run cms:precompile && npm run cms:bundle && npx eleventy"
   },
   "repository": {
