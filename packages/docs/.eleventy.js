@@ -31,15 +31,23 @@ module.exports = function(config) {
   config.addPassthroughCopy('src/images');
   config.addPassthroughCopy('src/admin/config.yml');
   config.addPassthroughCopy('src/admin/previews.js');
-  config.addPassthroughCopy('node_modules/nunjucks/browser/nunjucks-slim.js')
+  config.addPassthroughCopy('node_modules/nunjucks/browser/nunjucks-slim.js');
+
+  const now = new Date();
 
   // Custom collections
+  const livePosts = post => post.date <= now && !post.data.draft;
   config.addCollection('posts', collection => {
-    return [...collection.getFilteredByGlob('./src/posts/*.md')].reverse();
+    return collection
+      .getFilteredByGlob('./src/posts/*.md')
+      .filter(livePosts)
+      .reverse();
   });
 
   config.addCollection('postFeed', collection => {
-    return [...collection.getFilteredByGlob('./src/posts/*.md')]
+    return collection
+      .getFilteredByGlob('./src/posts/*.md')
+      .filter(livePosts)
       .reverse()
       .slice(0, site.maxPostsPerPage);
   });
