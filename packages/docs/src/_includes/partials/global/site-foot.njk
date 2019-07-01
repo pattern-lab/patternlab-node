@@ -2,12 +2,17 @@
   <div class="wrapper">
     <div class="[ site-foot__inner ] [ md:box-flex space-between align-start ]">
       {% if site.shortDesc %}
-        <article class="[ site-foot__details ] [ sf-flow measure-compact ]">
-          <h2 class="font-base text-600">{{ site.name }}</h2>
-          {{ site.shortDesc | markdownFilter | safe }}
-        </article>
+        <div>
+          <article class="[ site-foot__details ] [ sf-flow measure-compact ]">
+            <h2 class="font-base text-600">{{ site.name }}</h2>
+            {{ site.shortDesc | markdownFilter | safe }}
+          </article>
+        </div>
       {% endif %}
-      {% include "partials/components/nav.njk" %}
+      <div>
+        {% include "partials/components/nav.njk" %}
+        <theme-toggle></theme-toggle>
+      </div>
     </div>
     {% if site.showThemeCredit %}
       <p class="[ site-foot__credit ] [ pad-top-900 ]">

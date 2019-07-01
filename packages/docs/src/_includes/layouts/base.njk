@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,7 @@
   <link rel="icon" href="https://hankchizljaw.imgix.net/hylia-favicon.png" type="image/png" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/lora-v13-latin-700.woff2" />
   {% include "partials/global/meta-info.njk" %}
+  <script>document.documentElement.classList.remove('no-js');</script>
   <style>{% include "assets/css/global.css" %}</style>
   {% block head %}
   {% endblock %}
@@ -20,6 +21,7 @@
   {% include "partials/global/site-foot.njk" %}
   {% block foot %}
   {% endblock %}
+  <script type="module" src="/js/components/theme-toggle.js" async defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {

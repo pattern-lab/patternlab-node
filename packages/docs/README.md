@@ -10,7 +10,7 @@ Get started now by **[deploying Hylia to Netlify.][deploy-to-netlify]**
 
 ## Features
 
-Hylia version 0.3.1 features:
+Hylia version 0.4.0 features:
 
 ✍️ A pre-configured [Netlify CMS](https://www.netlifycms.org/) setup  
 🎨 Customisable design tokens to make it your own  
@@ -19,13 +19,13 @@ Hylia version 0.3.1 features:
 ✅ Progressively enhanced, semantic and accessible  
 🎈 _Super_ lightweight front-end  
 🚰 Sass powered CSS system with utility class generator  
-⚙️  Service worker that caches pages so people can read your articles offline  
+⚙️ Service worker that caches pages so people can read your articles offline  
 🚀 An RSS feed for your posts
 
 ## Roadmap
 
 💬 [Netlify Forms](https://www.netlify.com/docs/form-handling/) powered comments  
-💡 Dark/Light mode toggle  
+💡 ~~Dark/Light mode toggle~~ [Added in 0.4.0](https://github.com/andybelldesign/hylia/releases/tag/0.4.0)  
 🗣 Webmentions  
 📖 Pagination  
 🐦 Web sharing API integration  
@@ -35,7 +35,7 @@ Hylia version 0.3.1 features:
 ✍️ Proper CMS documentation  
 🖼 A facility for you to be able to add your logo / branding
 
-***
+---
 
 ## Getting started
 
@@ -46,7 +46,6 @@ You can [deploy Hylia to Netlify with one click][deploy-to-netlify] and you’ll
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)][deploy-to-netlify]
 
 I recorded a quick start video of me deploying Hylia to Netlify and getting the CMS set up. [Check it out here](https://youtu.be/0hM_0BH-Y_A).
-
 
 ### Method two: Clone / Fork
 
@@ -102,11 +101,11 @@ In short, though:
 
 Although Hylia has a pretty simple design, you can configure the core design tokens that control the colours, size ratio and fonts.
 
-***
+---
 
-**Note**: *Credit must be given to the hard work [Jina Anne](https://twitter.com/jina) did in order for the concept of design tokens to even exist. You should watch [this video](https://www.youtube.com/watch?v=wDBEc3dJJV8), then [read this article](https://the-pastry-box-project.net/jina-bolton/2015-march-28) and then sign up for [this course](https://aycl.uie.com/virtual_seminars/design_tokens_scaling_design_with_a_single_source_of_truth) to expand your knowledge.*
+**Note**: _Credit must be given to the hard work [Jina Anne](https://twitter.com/jina) did in order for the concept of design tokens to even exist. You should watch [this video](https://www.youtube.com/watch?v=wDBEc3dJJV8), then [read this article](https://the-pastry-box-project.net/jina-bolton/2015-march-28) and then sign up for [this course](https://aycl.uie.com/virtual_seminars/design_tokens_scaling_design_with_a_single_source_of_truth) to expand your knowledge._
 
-***
+---
 
 To change the design tokens in the CMS, find the “Globals” in the sidebar then in the presented options, select “Theme Settings”.
 
@@ -145,14 +144,11 @@ The utility class generator lets you generate whatever you want, with no opinion
 To add a new class, add another item to the exists `$stalfos-config` map. This example adds a utility for floating elements.
 
 ```scss
-'float': (
-  'items': (
-    'left': 'left',
-    'right': 'right'
+'float':('items':('left':'left','right': 'right'
   ),
   'output': 'responsive',
   'property': 'float'
-)
+);
 ```
 
 The `output` is set to `responsive` which means every breakpoint will generate a prefixed class for itself. If you only wanted elements to float left in the `md` breakpoint, you’d now be able to add a class of `md:float-left` to your HTML elements.

@@ -19,7 +19,7 @@
     }
 
     a:not([class]) {
-      color: currentcolor;
+      color: var(--color-dark);
       position: relative;
       display: inline-block;
       background: var(--color-theme-highlight);
@@ -36,15 +36,15 @@
 
     code {
       font-size: 1.2em;
-      white-space: pre;
       color: var(--color-theme-primary);
       font-weight: 600;
-      margin-left: 0.5ch;
-      margin-right: 0.5ch;
+      margin-left: 0.01ch;
+      margin-right: 0.01ch;
     }
 
     pre > code {
       margin-right: 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     blockquote {
@@ -83,7 +83,9 @@
       width: 100vw;
       max-width: map-get($metrics, 'wrap-max-width');
       margin-left: 50%; /*changing this value to 47% removes the horizontal scrollbar once the viewport is < 930px */
-      transform: translateX(-50%); /* changing this value to 49% allows for the suggestion above to also eliminate the horizontal scroll. */
+      transform: translateX(
+        -50%
+      ); /* changing this value to 49% allows for the suggestion above to also eliminate the horizontal scroll. */
       position: relative;
     }
 
@@ -120,6 +122,7 @@
     h2 {
       flex-shrink: 0;
       margin-right: get-size('base');
+      color: var(--color-dark);
     }
 
     h2 a {

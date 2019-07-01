@@ -3,6 +3,9 @@
 // Pull in the stalfos lib
 @import '../../node_modules/stalfos/stalfos.scss';
 
+// Local mixins
+@import 'mixins/dark-mode';
+
 @import 'theme';
 
 // Local dependencies
@@ -38,6 +41,7 @@ hr {
 @import 'utilities/wrapper';
 
 // Components
+@import 'components/button';
 @import 'components/heading-permalink';
 @import 'components/intro';
 @import 'components/nav';

@@ -1,0 +1,31 @@
+.button {
+  display: inline-block;
+  border: none;
+  background-color: var(--color-action-bg);
+  color: var(--color-action-text);
+  padding: get-size(300) get-size('base');
+  line-height: 1;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.button:hover,
+.button:focus {
+  filter: brightness(1.2);
+}
+
+.button:focus:hover {
+  outline: none;
+}
+
+.button:focus:not(:hover) {
+  outline: 1px solid var(--color-action-text);
+  outline-offset: -4px;
+}
+
+.button:active {
+  transform: scale(0.99);
+}

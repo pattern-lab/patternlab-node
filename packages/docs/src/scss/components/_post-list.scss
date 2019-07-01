@@ -4,8 +4,11 @@
   }
 
   &__link {
-    color: var(--color-theme-primary);
-    text-decoration: none;
+    &,
+    &:visited {
+      color: var(--color-theme-primary);
+      text-decoration: none;
+    }
 
     &:hover {
       text-decoration: underline;

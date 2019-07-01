@@ -135,6 +135,15 @@ $stalfos-config: (
     'output': 'standard',
     'property': 'z-index'
   ),
+  'ta': (
+    'items': (
+      'right': 'right',
+      'left': 'left',
+      'center': 'center'
+    ),
+    'output': 'responsive',
+    'property': 'text-align'
+  ),
   'text': (
     'items': $stalfos-size-scale,
     'output': 'responsive',
