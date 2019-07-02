@@ -4,15 +4,15 @@
   color: var(--color-text);
   border-top: 1px solid var(--color-stroke);
 
+  a {
+    color: currentColor;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   &__credit {
     text-align: center;
-
-    a {
-      color: currentColor;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
   }
 }

@@ -10,24 +10,13 @@ pre[class*='language-'] {
   background: none;
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   text-align: left;
-  /* 
-  this suggestion provided by Chris Coyier on CSS-Tricks:
-  https://css-tricks.com/snippets/css/make-pre-text-wrap/
-  */
-  white-space: pre-wrap;       /* css-3 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  
   word-spacing: normal;
   word-break: normal;
   word-wrap: normal;
-  line-height: 1.5;
 
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
+  tab-size: 2;
 
   -webkit-hyphens: none;
   -moz-hyphens: none;

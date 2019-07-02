@@ -24,7 +24,6 @@
       display: inline-block;
       background: var(--color-theme-highlight);
       padding: 0.2rem 0.4rem 0.3rem 0.4rem;
-      white-space: pre;
       text-decoration: none;
 
       @include apply-utility('leading', 'tight');
@@ -45,6 +44,8 @@
     pre > code {
       margin-right: 0;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     blockquote {
@@ -60,13 +61,13 @@
       }
     }
 
-    ol,
-    ul {
+    ol:not([class]),
+    ul:not([class]) {
       margin-left: get-size(800);
-    }
 
-    li + li {
-      margin-top: get-size(300);
+      li + li {
+        margin-top: get-size(300);
+      }
     }
 
     figure,
