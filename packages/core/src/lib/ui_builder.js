@@ -90,7 +90,7 @@ const ui_builder = function() {
       logger.info(
         `Omitting ${
           pattern.patternPartial
-        } from styleguide patterns because it has an underscore suffix.`
+        } from styleguide patterns because it has an underscore prefix.`
       );
       return true;
     }
