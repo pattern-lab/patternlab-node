@@ -1,0 +1,21 @@
+/*------------------------------------*\
+    #PAGE HEADER
+\*------------------------------------*/
+/**
+ * 1) Container that consists of of a page header title and description
+ */
+
+/**
+ * Page header title
+ */
+.c-page-header {
+	margin-top: 4rem;
+	margin-bottom: $spacing-large;
+}
+
+/**
+ * Page description
+ */
+.c-page-header__desc {
+	margin-top: 1rem;
+}

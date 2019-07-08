@@ -1,0 +1,17 @@
+/*------------------------------------*\
+   #DEFINITION LIST LIST
+\*------------------------------------*/
+
+/**
+* 1) List of definition lists
+*/
+
+/**
+ * Definition list list item
+ */
+.c-definition-list-list__item {
+	.c-definition-list-list--lined & {
+		margin-bottom: 1rem;
+		border-bottom: 1px solid $color-neutral-gray-13;
+	}
+}

@@ -1,0 +1,15 @@
+<div class="c-field {{ styleModifier }}">
+
+	<label for="{{ id }}" class="c-field__label">{{ label }}</label>
+
+    <div class="c-field__body">
+
+        <input type="{{ type }}" id="{{ id }}" class="c-input" placeholder="{{ placeholder }}" value="{{ value }}" {{#if required}}required="required"{{/ if }} {{#if disabled }}disabled{{/ if }} {{#if readOnly }}readonly{{/ if }} />
+		
+    </div><!-- end c-field__body -->
+
+    {{#if fieldNote }}
+    <div class="c-field__note">{{{ fieldNote }}}</div>
+    {{/ if }}
+
+</div><!-- end c-field -->

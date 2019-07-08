@@ -1,0 +1,53 @@
+/*------------------------------------*\
+	#TABLE
+\*------------------------------------*/
+
+/**
+ * 1) Data Table
+ */
+.c-table {
+	margin-bottom: 1rem;
+	min-width: 600px; /* 2 */
+}
+
+/**
+ * Table Header
+ */
+.c-table__header {
+	background: $color-neutral-gray-07;
+}
+
+/**
+ * Table Header Cell
+ */
+.c-table__header-cell {
+	padding: 0.8rem;
+}
+
+/**
+ * Table Row
+ */
+.c-table__row {
+	border-bottom: 1px solid $color-neutral-gray-07;
+}
+
+/**
+ * Table Cell
+ */
+.c-table__cell {
+	padding: 1.6rem 0.8rem;
+}
+
+/**
+ * Table Footer
+ */
+.c-table__footer {
+
+}
+
+/**
+ * Table Footer Cell
+ */
+.c-table__footer-cell {
+	padding: 0.8rem;
+}

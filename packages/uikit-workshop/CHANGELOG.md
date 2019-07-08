@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.1-alpha.0...@pattern-lab/uikit-workshop@1.0.1) (2019-05-16)
+
+
+### Bug Fixes
+
+* **uikit:** uikit no longer requires being in the root directory ([911ff06](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/911ff06))
+
+
+
+
+
 # [1.0.0-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.0-beta.0...@pattern-lab/uikit-workshop@1.0.0-beta.1) (2019-02-09)
 
 

@@ -1,0 +1,68 @@
+/*------------------------------------*\
+    #SVG SPRITE OVERRIDES
+\*------------------------------------*/
+
+#atoms-icons section {
+    border-top: none
+    padding: 0;
+}
+
+#atoms-icons header {
+    display: none;
+}
+
+#atoms-icons pre {
+    display: none;
+}
+
+#atoms-icons br {
+    display: none;
+}
+
+
+#atoms-icons .icon-boxes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#atoms-icons style + svg + header {
+    display: none;
+}
+
+#atoms-icons .icon-box {
+    width: initial;
+    height: auto;
+    background: none;
+    border: none;
+}
+
+#atoms-icons .icon-boxes li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 6rem;
+    height: 6rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    background: #fbfbfb;
+    border: 1px solid #cccccd;
+    border-radius: 8px;
+}
+
+#atoms-icons .icon-boxes li h2 {
+    color: #000;
+    font-size: 0.75rem;
+    white-space: inherit;
+    text-overflow: unset;
+    overflow: inherit;
+}
+
+#atoms-icons .icon-box .icon {
+    height: 16px;
+    width: 16px;
+}
+
+#atoms-icons .icon-boxes li button {
+    display: none;
+}

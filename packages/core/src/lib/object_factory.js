@@ -1,7 +1,6 @@
 'use strict';
 const patternEngines = require('./pattern_engines');
 const path = require('path');
-const extend = require('util')._extend;
 
 // patternPrefixMatcher is intended to match the leading maybe-underscore,
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
@@ -22,14 +21,37 @@ const Pattern = function(relPath, data, patternlab) {
    * @param {patternlab} rendered html files for the pattern
    */
   const pathObj = path.parse(path.normalize(relPath));
+  const info = {};
+  // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
+  info.hasDir =
+    path.basename(pathObj.dir).replace(patternPrefixMatcher, '') ===
+      pathObj.name.replace(patternPrefixMatcher, '') ||
+    path.basename(pathObj.dir).replace(patternPrefixMatcher, '') ===
+      pathObj.name.split('~')[0].replace(patternPrefixMatcher, '');
+
+  info.dir = info.hasDir ? pathObj.dir.split(path.sep).pop() : '';
+  info.dirLevel = pathObj.dir.split(path.sep).length;
+
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
-  this.name =
-    this.subdir.replace(path.sep, '-') + '-' + this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
+  this.name = '';
+  if (info.hasDir) {
+    let variant = '';
+
+    if (this.fileName.indexOf('~') !== -1) {
+      variant = '-' + this.fileName.split('~')[1];
+    }
+    this.name = this.subdir.replace(/[\/\\]/g, '-') + variant;
+  } else {
+    this.name =
+      this.subdir.replace(/[\/\\]/g, '-') +
+      '-' +
+      this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
+  }
 
   // the JSON used to render values in the pattern
   this.jsonFileData = data || {};
@@ -53,24 +75,24 @@ const Pattern = function(relPath, data, patternlab) {
     }, '')
     .trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
-  // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.subdir
-    .split(path.sep)[0]
-    .replace(patternPrefixMatcher, '');
-
   //00-atoms if needed
-  this.patternType = this.subdir.split(path.sep)[0];
+  this.patternType = this.getDirLevel(0, info);
 
-  // the sub-group this pattern belongs to.
-  this.patternSubGroup = path
-    .basename(this.subdir)
-    .replace(patternPrefixMatcher, ''); // 'global'
+  // the top-level pattern group this pattern belongs to. 'atoms'
+  this.patternGroup = this.patternType.replace(patternPrefixMatcher, '');
 
   //00-colors if needed
-  this.patternSubType = path.basename(this.subdir);
+  this.patternSubType = this.getDirLevel(1, info);
+
+  // the sub-group this pattern belongs to.
+  this.patternSubGroup = this.patternSubType.replace(patternPrefixMatcher, ''); // 'global'
 
   // the joined pattern group and subgroup directory
-  this.flatPatternPath = this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
+  this.flatPatternPath = info.hasDir
+    ? this.subdir
+        .replace(/[/\\]/g, '-')
+        .replace(new RegExp('-' + info.dir + '$'), '')
+    : this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
 
   // calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
@@ -189,6 +211,21 @@ Pattern.prototype = {
   findPartial: function(partialString) {
     return this.engine.findPartial(partialString);
   },
+
+  getDirLevel: function(level, info) {
+    const items = this.subdir.split(path.sep);
+    if (info.hasDir) {
+      items.pop();
+    }
+
+    if (items[level]) {
+      return items[level];
+    } else if (items[level - 1]) {
+      return items[level - 1];
+    } else {
+      return '';
+    }
+  },
 };
 
 // Pattern static methods
@@ -206,7 +243,7 @@ Pattern.createEmpty = function(customProps, patternlab) {
   }
 
   const pattern = new Pattern(relPath, null, patternlab);
-  return extend(pattern, customProps);
+  return Object.assign(pattern, customProps);
 };
 
 // factory: creates an Pattern object on-demand from a hash; the hash accepts
@@ -214,7 +251,7 @@ Pattern.createEmpty = function(customProps, patternlab) {
 // constructor takes.
 Pattern.create = function(relPath, data, customProps, patternlab) {
   const newPattern = new Pattern(relPath || '', data || null, patternlab);
-  return extend(newPattern, customProps);
+  return Object.assign(newPattern, customProps);
 };
 
 const CompileState = {

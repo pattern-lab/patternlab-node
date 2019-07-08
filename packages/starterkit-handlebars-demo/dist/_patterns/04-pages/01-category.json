@@ -1,0 +1,142 @@
+{
+	"page": {
+        "title" : "Women's Shoes",
+        "description": false
+    },
+	"stackedBlockSection" : {
+		"styleModifier": "u-margin-bottom-large",
+		"stackedBlockList": [
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/women-blue-heels.jpg",
+					"alt" : "blue high heels"
+				},
+				"headline" : "Blue Suede Heels",
+				"excerpt" : "Available in 5 colors",
+				"label" : "$80",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$110"
+				}
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/women-hiking-boots.jpg",
+					"alt" : "brown leather boots"
+				},
+				"headline" : "Leather Boots",
+				"excerpt" : "Available in 2 colors. Overnight shipping available",
+				"label" : "$120",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$150"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/women-leather-booties.jpg",
+					"alt" : "black leather booties"
+				},
+				"headline" :  "Black Leather Booties",
+				"excerpt" : "Available in 3 colors.",
+				"label" : "$95",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$135"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/women-boot-wedges.jpg",
+					"alt" : "women's wedge boots"
+				},
+				"headline" :  "Suede Booties",
+				"excerpt" : "Available in 2 colors. Overnight shipping available",
+				"label" : "$120"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-adidas.jpg",
+    				"alt" : "Adidas shoes"
+                },
+				"headline" : "White Adidas Sneakers",
+				"excerpt" : "Available in 2 colors",
+				"label" : "$90"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-boots.jpg",
+    				"alt" : "light tan leather boots"
+                },
+				"headline" :  "Light Tan Boots",
+				"excerpt" : "Available in 3 colors",
+				"label" : "$70"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-colorful.jpg",
+    				"alt" : "technicolor sneakers"
+                },
+				"headline" : "Multicolored Running Shoes",
+				"excerpt": false,
+				"label" : "$75"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-combat-boots.jpg",
+    				"alt" : "black leather high ankle boots"
+                },
+				"headline" : "Black Leather Boots",
+				"excerpt" : "Made of 100% authentic leather",
+				"label" : "$180"
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-white-heels.jpg",
+    				"alt" : "white high heels"
+                },
+				"headline" :  "Shiny High Heels",
+				"excerpt" : "Available in 5 colors",
+				"label" : "$95"
+			}
+		]
+	},
+	"paginationList" : [
+        {
+			"itemModifier": "is-disabled",
+            "number" : "Prev"
+        },
+        {
+			"itemModifier": "is-active",
+            "number" : "1"
+        },
+        {
+			"url": "link.pages-category-page-two",
+            "number" : "2"
+        },
+        {
+            "number" : "Next",
+			"url": "link.pages-category-page-two"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+/*------------------------------------*\
+    #FOOTER NAV
+\*------------------------------------*/
+
+/**
+ * 1) Global block at the bottom of each page that contains a navigation and other information
+ */
+.c-footer-nav {
+	margin-bottom: 2rem;
+
+	@media all and (min-width: $bp-med) {
+		display: flex;
+		margin-bottom: 0;
+	}
+}
+
+.c-footer-nav__item {
+
+	@media all and (min-width: $bp-med) {
+		margin-right: 2rem;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.c-footer-nav__link {
+	color: $color-neutral-white;
+	font-family: $font-family-secondary;
+	text-transform: uppercase;
+	font-size: $font-size-med-2;
+}

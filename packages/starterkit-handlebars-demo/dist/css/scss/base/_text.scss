@@ -1,0 +1,83 @@
+/*------------------------------------*\
+    #TEXT
+\*------------------------------------*/
+
+/**
+ * Paragraph base styles
+ */
+p {
+	margin-bottom: $spacing;
+}
+
+/**
+ * Blockquote base styles
+ */
+blockquote {
+    font-style:italic;
+    border-left: 1px solid $color-neutral-gray-50;
+    color: $color-neutral-gray-50;
+	padding-left: 1rem;
+	margin-bottom: $spacing;
+}
+
+/**
+ * Horizontal rule base styles
+ */
+hr {
+	border: 0;
+    height: 1px;
+    background: $color-neutral-gray-13;
+    margin: 1rem 0;
+}
+
+/**
+ * Selection styles
+ */
+::-moz-selection {
+	color: $color-text-highlight;
+	background: $color-text-highlight-bg; /* Gecko Browsers */
+}
+
+::selection {
+	color: $color-text-highlight;
+	background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
+}
+
+/**
+ * Code base styles
+ */
+code {
+	display: inline-block;
+	background: $color-neutral-gray-02;
+	border: 1px solid $color-neutral-gray-13;
+	padding: .2rem .5rem;
+    line-height: 1.2;
+    font-size: .85rem;
+}
+
+/**
+ * Preformatted text base styles
+ */
+pre {
+	background: $color-neutral-gray-02;
+	border: 1px solid $color-neutral-gray-13;
+	font-size: $font-size-med;
+	padding: 1rem;
+    overflow-x: auto;
+
+	/**
+	 * Remove border from code within preformatted text block
+	 */
+	code {
+		border: 0;
+	}
+}
+
+/**
+ * Code with languages associated with them
+ * 1) Override Prism sysles for code blocks with language
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+    font-family:monospace !important;
+}
