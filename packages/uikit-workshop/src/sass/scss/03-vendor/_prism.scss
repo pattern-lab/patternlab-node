@@ -4,6 +4,30 @@
  * Based on dabblet (http://dabblet.com)
  * @author Lea Verou
  */
+pre[class*='language-'] {
+  background-image: linear-gradient(
+      to right,
+      $pl-color-white,
+      rgba($pl-color-white, 0)
+    ),
+    linear-gradient(to left, $pl-color-white, rgba($pl-color-white, 0)),
+    linear-gradient(to right, #eaf0f6, rgba($pl-color-gray-07, 0)),
+    linear-gradient(to left, #eaf0f6, rgba($pl-color-gray-07, 0)),
+    linear-gradient(to bottom, $pl-color-white, rgba($pl-color-white, 0)),
+    linear-gradient(to top, $pl-color-white, rgba($pl-color-white, 0)),
+    linear-gradient(to bottom, #eaf0f6, rgba($pl-color-gray-07, 0)),
+    linear-gradient(to top, #eaf0f6, rgba($pl-color-gray-07, 0));
+  background-color: $pl-color-white;
+  background-attachment: local, local, scroll, scroll, local, local, scroll,
+    scroll;
+  background-position: 0 0, 100% 0, 0 0, 100% 0, 0 0, 0 100%, 0 0, 0 100%;
+  background-size: 4em 100%, 4em 100%, 1em 100%, 1em 100%, 100% 4em, 100% 4em,
+    100% 1em, 100% 1em;
+  background-repeat: no-repeat;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+}
 
 code[class*='language-'],
 pre[class*='language-'] {

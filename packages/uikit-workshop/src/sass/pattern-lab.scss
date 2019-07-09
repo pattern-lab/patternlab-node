@@ -44,37 +44,28 @@
     #COMPONENTS
 \*------------------------------------*/
 
-/**
- * Pattern Lab Header
- */
-@import '../scripts/components/pl-search/pl-search.scss';
+@import '../scripts/components/pl-drawer/pl-drawer.scss';
 @import '../scripts/components/pl-layout/pl-layout.scss';
+@import '../scripts/components/pl-search/pl-search.scss';
+@import '../scripts/components/pl-toggle-info/pl-toggle-info.scss';
+@import '../scripts/components/pl-toggle-layout/pl-toggle-layout.scss';
+@import '../scripts/components/pl-toggle-theme/pl-toggle-theme.scss';
+@import 'scss/04-components/annotations';
+@import 'scss/04-components/breadcrumbs';
+@import 'scss/04-components/controls';
 @import 'scss/04-components/header';
+@import 'scss/04-components/ish-sizing';
 @import 'scss/04-components/logo';
 @import 'scss/04-components/navigation';
-@import 'scss/04-components/ish-sizing';
-@import 'scss/04-components/controls';
-@import 'scss/04-components/tools';
-
-/**
- * Viewport
- */
-@import 'scss/04-components/viewport';
-
-/**
- * Pattern Styles
- */
-@import 'scss/04-components/pattern';
 @import 'scss/04-components/pattern-category';
 @import 'scss/04-components/pattern-info';
-@import 'scss/04-components/pattern-states';
 @import 'scss/04-components/pattern-lineage';
-@import 'scss/04-components/breadcrumbs';
+@import 'scss/04-components/pattern-states';
+@import 'scss/04-components/pattern';
 @import 'scss/04-components/tabs';
-@import 'scss/04-components/tools';
-@import 'scss/04-components/annotations';
-@import 'scss/04-components/modal';
 @import 'scss/04-components/text-passage';
+@import 'scss/04-components/tools';
+@import 'scss/04-components/viewport';
 
 /*------------------------------------*\
     #THEMES

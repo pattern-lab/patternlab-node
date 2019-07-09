@@ -5,9 +5,6 @@ import { store } from '../../store.js'; // connect to the Redux store.
 import { updateThemeMode } from '../../actions/app.js'; // redux actions needed
 import { BaseComponent } from '../base-component.js';
 
-import './pl-toggle-theme.scss?external';
-import styles from './pl-toggle-theme.scss';
-
 @define
 class ThemeToggle extends BaseComponent {
   static is = 'pl-toggle-theme';
@@ -36,7 +33,7 @@ class ThemeToggle extends BaseComponent {
     const toggleThemeMode = this.themeMode !== 'dark' ? 'dark' : 'light';
     return (
       <div class="pl-c-toggle-theme">
-        {this._renderStyles([styles])}
+        {/* {this._renderStyles([styles])} */}
         <button
           class="pl-c-tools__action pl-c-toggle-theme__action"
           title="Switch Theme"
