@@ -1,6 +1,6 @@
 @import '../../../sass/scss/core.scss';
 
-pl-toggle-theme {
+pl-toggle-info {
   display: flex;
   align-self: center;
   justify-content: center;
@@ -10,7 +10,7 @@ pl-toggle-theme {
   cursor: pointer;
 }
 
-.pl-c-toggle-theme,
-.pl-c-toggle-theme__action {
+.pl-c-toggle-info,
+.pl-c-toggle-info__action {
   width: 100%;
 }
