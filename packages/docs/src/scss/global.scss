@@ -12,14 +12,23 @@
 @import 'typography';
 
 /**
- * GLOBAL STYLES 
+ * GLOBAL STYLES
  */
-body {
-  scroll-behavior: smooth;
+html, body {
+  height: 100%;
 }
 
-main:focus {
-  outline: none;
+body {
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  &:focus {
+    outline: none;
+  }
 }
 
 hr {
