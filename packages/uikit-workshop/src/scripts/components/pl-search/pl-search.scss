@@ -19,7 +19,7 @@ pl-search {
   padding: 0.4rem 0.5rem;
   display: inline-block;
   align-self: stretch;
-  
+
   @media screen and (min-width: $pl-bp-med) {
     margin-left: 1rem;
     flex-direction: row;
@@ -94,7 +94,7 @@ pl-search {
   @media all and (min-width: 900px) {
     font-size: inherit;
   }
-  
+
   // Remove the native <input> clear button in IE 11 in lieu of JS-controlled clear button
   &::-ms-clear {
     display: none;

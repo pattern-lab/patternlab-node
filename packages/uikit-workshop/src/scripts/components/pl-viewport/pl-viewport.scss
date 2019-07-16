@@ -11,8 +11,6 @@
 pl-iframe {
   display: flex;
   flex-grow: 1;
-  background-color: $pl-color-white;
-  // background-color: var(--theme-bg, $pl-color-white);
 }
 
 /**
@@ -31,8 +29,6 @@ pl-iframe {
   z-index: 0;
   flex-grow: 1;
   transition: height 0.3s ease;
-  background-color: $pl-color-white;
-  // background-color: var(--theme-bg, $pl-color-white);
 
   @supports (position: sticky) {
     top: 0;
@@ -102,9 +98,7 @@ pl-iframe {
   left: 0;
   right: 0;
   background-color: $pl-color-white;
-  // background-color: var(--theme-bg, $pl-color-white);
   max-width: 100vw; // https://github.com/bolt-design-system/bolt/pull/868
-  width: 100%;
 
   &.is-ready {
     min-height: 0;
@@ -149,18 +143,16 @@ pl-iframe {
   margin: 0;
   width: 100%;
   height: 100%;
-  background-color: #808080;
-  transition: opacity $pl-animate-quick ease-out;
-  opacity: 0.05;
+  background-color: $pl-color-gray-20;
+  transition: background-color $pl-animate-quick ease-out;
 
   &:hover {
-    opacity: 0.2;
+    background-color: $pl-color-gray-50;
   }
 
   &:active {
     cursor: move;
-    opacity: 0.2;
-    // background-color: $pl-color-gray-70;
+    background-color: $pl-color-gray-70;
   }
 }
 

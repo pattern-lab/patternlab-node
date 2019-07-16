@@ -4,22 +4,9 @@
 
 pl-nav {
   background-color: inherit; // so the inside of dropdowns inherits the correct color
-  display: block; // vertically align children
+  display: flex; // vertically align children
   flex-grow: 1;
-  align-items: center;
-
-  @media all and (min-width: $pl-bp-med) {
-    padding: 0;
-    display: flex; // vertically align children
-  }
-
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      display: block;
-    }
-  }
 }
-
 
 /**
  * Navigation container
@@ -36,52 +23,35 @@ pl-nav {
   display: flex;
   flex-direction: column;
   transition: max-height $pl-animate-quick ease-out;
-  flex-shrink: 0;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      padding-bottom: 0.5rem;
-      display: block;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      flex-shrink: 1;
-    }
-  }
 
   // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
   @media all and (min-width: $pl-bp-med) {
     overflow: visible;
     max-height: none;
-
-    &.pl-is-active {
-      overflow: visible;
-    }
   }
 
   /**
     * Active navigaiton
-    * 1) Slide 
+    * 1) Slide
     * 2) Set the height to the vierport height minus the height
     *    of the header
     */
   &.pl-is-active {
-    @media all and (max-width: $pl-bp-med - 1) {
-      box-shadow: 0 1px 1px $pl-color-black;
+    box-shadow: 0 1px 1px $pl-color-black;
 
-      .pl-c-body--theme-light & {
-        box-shadow: 0 1px 1px darken($pl-color-gray-20, 15%);
+    .pl-c-body--theme-light & {
+      box-shadow: 0 1px 1px darken($pl-color-gray-20, 15%);
+    }
+
+    .pl-c-body--theme-sidebar & {
+      @media all and (min-width: $pl-bp-med) {
+        box-shadow: none;
       }
     }
-    
-
-    
 
     // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
     @media all and (min-width: $pl-bp-med) {
-      // overflow: visible;
-      // overflow: auto;
+      overflow: visible;
       max-height: none;
     }
   }
@@ -119,7 +89,6 @@ pl-nav {
     // workaround to Firefox-specific flexbox quirk
     .pl-c-body--theme-sidebar & {
       display: block;
-      // display: flex;
     }
   }
 }
@@ -129,6 +98,7 @@ pl-nav {
  */
 .pl-c-nav__item {
   background-color: inherit; // allows the nav's children inherit from the parent header
+  transform: translateZ(0); // helps with more consistent rendering in Safari
   cursor: pointer;
   position: relative;
   display: flex;
@@ -140,8 +110,15 @@ pl-nav {
   }
 }
 
-.pl-c-nav__item-inner {
-  position: relative;
+/**
+ * Last sublist item
+ */
+.pl-c-nav__sublist > .pl-c-nav__item:last-child {
+  @media all and (min-width: $pl-bp-med) {
+    overflow: hidden;
+    border-bottom-left-radius: $pl-border-radius-med;
+    border-bottom-right-radius: $pl-border-radius-med;
+  }
 }
 
 /**
@@ -149,49 +126,13 @@ pl-nav {
  */
 .pl-c-nav__link {
   @include linkStyle;
-  color: inherit;
-  line-height: 1.5;
   display: flex;
   align-items: center;
   margin: 0; // remove default button margin in Safari
-  color: inherit;
-  padding: 0.7rem 0.5rem;
-  
+
   // makes link layout / size more consistent in the sidebar layout, especially when display: flex styles are removed for more consistent IE 11 rendering
   .pl-c-body--theme-sidebar & {
     width: 100%;
-  }
-}
-
-.pl-c-nav__link,
-.pl-c-nav__link--section-dropdown,
-.pl-c-nav__link--sublink,
-.pl-c-nav__link--overview {
-  @include linkStyle;
-  position: relative;
-  color: inherit;
-  
-  &:after {
-    content: '';
-    pointer-events: none;
-    opacity: 0;
-    background-color: currentColor;
-    transition: opacity $pl-animate-quick ease-out;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    display: block;
-  }
-
-  &:hover:after {
-    opacity: 0.1;
-  }
-
-  // &.pl-is-active:after,
-  &:focus:after {
-    opacity: 0.1;
   }
 }
 
@@ -202,15 +143,7 @@ pl-nav {
  */
 .pl-c-nav__link--sublink {
   text-transform: none;
-  font-size: 0.8rem;
-  line-height: 1.45;
-  padding-left: $pl-space + ($pl-space / 2);
-  padding-right: $pl-space + ($pl-space / 2);
-
-  &.pl-is-active {
-    box-shadow: inset 4px 0 0 #6c79d9;
-    font-weight: bold;
-  }
+  padding-left: $pl-space / 2;
 }
 
 /**
@@ -219,32 +152,42 @@ pl-nav {
 .pl-c-nav__link--dropdown {
   -webkit-appearance: none; // remove default button styling
   flex-grow: 1; // fill up extra space in parent nav item, if available
-}
+  /**
+     * Dropdown caret after accordion handle
+     */
+  &:after {
+    content: '\25bc';
+    color: $pl-color-trans-white-25;
+    display: inline-block;
+    font-size: 7px;
+    position: relative;
+    top: 1px;
+    right: -2px;
+    transition: all $pl-animate-quick ease-out;
+  }
 
-.pl-c-nav__link--pattern {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  flex-grow: 1;
-}
+  &:hover,
+  &:focus {
+    &:after {
+      color: $pl-color-gray-50;
+    }
+  }
 
-.pl-c-nav__link-text {
-  flex-grow: 1;
-  pointer-events: none;
-}
+  /**
+     * Active dropdown
+     */
+  &.pl-is-active {
+    color: $pl-color-white;
+    background-color: $pl-color-gray-87;
 
-.pl-c-nav__link-icon {
-  pointer-events: none;
-  color: currentColor;
-  display: inline;
-  transition: all $pl-animate-quick ease-out;
-  transform: rotate(-90deg);
-  flex-grow: 0;
-  line-height: 1;
-}
-
-.pl-c-nav__link--overview-wrapper.pl-is-active > .pl-c-nav__link--section-dropdown > .pl-c-nav__link-icon,
-.pl-is-active > .pl-c-nav__link-icon {
-  transform: rotate(0);
+    /**
+      * Caret rotation and positioning in active dropdown
+      */
+    &:after {
+      color: $pl-color-gray-50;
+      transform: rotate(180deg);
+    }
+  }
 }
 
 /**
@@ -260,7 +203,7 @@ pl-nav {
     position: absolute;
     top: 100%; /* 1 */
     left: 0;
-    min-width: 12rem;
+    min-width: 10rem;
     border-bottom-left-radius: $pl-border-radius-med;
     border-bottom-right-radius: $pl-border-radius-med;
   }
@@ -274,30 +217,6 @@ pl-nav {
   @include listReset();
   @include accordionPanel();
   visibility: hidden;
-
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      position: relative;
-    }
-  }
-
-  .pl-c-nav__link {
-    padding-left: 1.5rem;
-  }
-
-  .pl-c-nav__link--sublink {
-    padding-left: 1.5rem + .75rem;
-  }
-
-  @media all and (max-width: $pl-bp-med - 1) {
-    .pl-c-nav__link {
-      padding-left: 1.5rem;
-    }
-  
-    .pl-c-nav__link--sublink {
-      padding-left: 1.5rem + .75rem;
-    }
-  }
 }
 
 /**
@@ -306,12 +225,13 @@ pl-nav {
  */
 .pl-c-nav__sublist--dropdown.pl-is-active,
 .pl-c-nav__subsublist--dropdown.pl-is-active {
+  margin-left: $pl-space / 2;
   visibility: visible;
   max-height: none;
 
   @media all and (min-width: $pl-bp-med) {
     height: auto;
-    max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+    max-height: calc(100vh - #{$offset-top} - 1rem); /* 1 */
   }
 
   .pl-c-body--theme-sidebar & {
@@ -321,74 +241,13 @@ pl-nav {
 
 .pl-c-nav__sublist--dropdown.pl-is-active {
   @media all and (min-width: $pl-bp-med) {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
-    border-left: 1px solid $pl-color-gray-87;
-    border-right: 1px solid $pl-color-gray-87;
+    margin-left: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: $pl-color-black;
 
-    border-left-color: $pl-color-gray-87;
-    border-right-color: $pl-color-gray-87;
-    border-left-color: rgba(var(--theme-text-rgb), 0.1);
-    border-right-color: rgba(var(--theme-text-rgb), 0.1);
-  }
-
-  .pl-c-body--theme-sidebar & {
-    box-shadow: none;
-    border: none;
-  }
-}
-
-
-.pl-c-nav__link--overview.pl-is-active {
-  &:hover:before {
-    opacity: 0.1;
-  }
-}
-.pl-c-nav__link--overview-wrapper,
-.pl-c-nav__subsublist--dropdown,
-.pl-c-nav__link--overview {
-  &:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    transition: opacity $pl-animate-quick ease-out;
-    opacity: 0;
-    top: 0;
-    bottom: 0;
-    background-color: currentColor;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    transition: opacity $pl-animate-quick ease-out;
-    opacity: 0;
-    top: 0;
-    bottom: 0;
-    border-top: 1px solid rgba(0, 0, 0, .1);
-    border-bottom: 1px solid rgba(0, 0, 0, .1);
-    z-index: 1;
-    pointer-events: none;
-  }
-  
-  &.pl-is-active {
-    &:before,
-    &:after {
-      opacity: 0.025;
-    }
-  }
-
-  .pl-c-body--theme-dark & {
-    &:before {
-      // background-color: rgba(255, 255, 255, .1);
-    }
-
-    &:after {
-      border-bottom: 1px solid rgba(255, 255, 255, .1);
+    .pl-c-body--theme-light & {
+      border-color: $pl-color-gray-20;
     }
   }
 }
@@ -400,104 +259,4 @@ pl-nav {
  */
 .pl-c-nav__subsublist {
   @include listReset();
-}
-
-.pl-c-nav__link--overview.pl-c-nav__link--overview.pl-c-nav__link--overview {
-  font-size: 0.9rem;
-  padding-right: 0.5rem;
-  padding-left: 1.5rem;
-  position: relative;
-  flex-grow: 1;
-
-  &:not(:only-child) {
-    margin-right: 2.5rem;
-  }
-}
-
-.pl-c-nav__link--title {
-  font-size: 0.9rem;
-  color: $pl-color-gray-20;
-  color: var(--theme-text, $pl-color-gray-20);
-
-  &.pl-is-active {
-    font-weight: 700;
-  }
-
-  .pl-c-body--theme-light & {
-    color: $pl-color-black;
-    color: var(--theme-text);
-  }
-}
-
-.pl-c-nav__list > .pl-c-nav__item:not(:last-child) {
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      margin-bottom: 0.5rem;
-      margin-top: 0.5rem;
-      
-    }
-  }
-}
-
-.pl-c-nav__link--section-dropdown {
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-  padding: 0 !important;
-  display: flex;
-  justify-content: center;
-  font-size: 0;
-  position: absolute;
-  right: 0;
-  top: 50%;
-  border: 2px solid transparent !important;
-  transform: translateY(-50%);
-  justify-content: center;
-  align-items: center;
-  color: currentColor;
-
-  // border to indicate which nav links have two specific actions
-  &:before {
-    opacity: 0.1;
-    right: 2.4rem;
-    width: 1px;
-    left: auto;
-    transform: translateY(-50%);
-  }
-
-  &:after {
-    opacity: 0;
-    width: 2.5rem;
-    left: 50%;
-    transform: translateY(-50%) translateX(-50%);
-  }
-
-  &:before,
-  &:after {
-    height: 2.5rem;
-    transition: opacity $pl-animate-quick ease-out;
-    content: '';
-    display: block;
-    position: absolute;
-    top: 50%;
-    background-color: currentColor;
-  }
-
-  &:hover {
-    // background-color: transparent !important;
-
-    &:after,
-    &:focus:after {
-      opacity: 0.1;
-    }
-  }
-
-  &:active:not(:hover):after,
-  &:focus:not(:hover):after {
-    opacity: 0;
-  }
-}
-
-.pl-c-nav__link--overview-wrapper {
-  position: relative;
-  display: flex;
 }

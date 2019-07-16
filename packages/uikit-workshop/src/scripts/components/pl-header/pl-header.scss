@@ -3,7 +3,7 @@
 \*------------------------------------*/
 
 pl-header {
-  position: relative;
+  position: fixed;
   position: sticky;
   top: 0;
   left: 0;
@@ -11,28 +11,10 @@ pl-header {
   display: flex; /* 2 */
   width: 100%;
   background-color: $pl-color-black;
-  background-color: var(--theme-secondary, $pl-color-black);
-  max-height: 100vh;
-
-  color: $pl-color-gray-20;
-  color: var(--theme-text, $pl-color-gray-20);
-  border-right: 1px solid;
-  border-bottom: 1px solid;
-  border-right-color: $pl-color-gray-20;
-  border-right-color: var(--theme-border, $pl-color-gray-20);
-  border-bottom-color: $pl-color-gray-20;
-  border-bottom-color: var(--theme-border, $pl-color-gray-20);
-
-  .pl-c-body--theme-light & {
-    color: $pl-color-black;
-    background-color: $pl-color-white;
-    border-bottom: 1px solid $pl-color-gray-20;
-  }
+  color: $pl-color-gray-50;
 
   @media all and (min-width: $pl-bp-med) {
     .pl-c-body--theme-sidebar & {
-      position: fixed;
-      position: sticky;
     /**
       * Header
       * 1) Set width to sidebar width defined above
@@ -41,13 +23,19 @@ pl-header {
       * 4) void bottom border for light theme
       */
       width: $pl-sidebar-width; /* 1 */
-      // padding: 1rem;
-      // overflow: auto;
-      // -webkit-overflow-scrolling: touch;
+      height: 100vh; /* 2 */
+      overflow: auto;
+      padding: 1rem;
+      -webkit-overflow-scrolling: touch;
       border-bottom: 0; /* 4 */
     }
   }
 
+  .pl-c-body--theme-light & {
+    border-right: 1px solid $pl-color-gray-20;
+    background-color: $pl-color-white;
+    border-bottom: 1px solid $pl-color-gray-20;
+  }
 }
 
 /**

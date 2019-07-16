@@ -1,12 +1,14 @@
 {
-  "devDependencies": {
-    "lerna": "3.11.0"
+  "dependencies": {
+    "lerna": "3.11.0",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.8.0"
   },
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "setup": "npm run bootstrap && npm run build:uikit",
-    "build:uikit": "lerna exec --scope @pattern-lab/uikit-workshop -- npm run build",
+    "setup": "npm install && npm run bootstrap && npm run build:uikit",
+    "build:uikit": "cd packages/uikit-workshop && npm run build",
     "precommit": "pretty-quick --staged",
     "prettier": "prettier --config .prettierrc --write ./**/*.js --ignore-path .prettierignore",
     "test": "lerna run test",

@@ -14,8 +14,6 @@
   line-height: 1;
   display: flex;
   align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
 }
 
 /**
@@ -27,12 +25,11 @@
   border: 0;
   border-radius: $pl-border-radius;
   background-color: transparent;
-  font-size: 0.8rem;
-  color: inherit;
-  width: 2.4rem;
+  font-size: inherit;
+  color: $pl-color-gray-50;
+  width: 35px;
   text-align: right;
   transition: all $pl-animate-quick ease-out;
-  pointer-events: none;
 
   &::-moz-focus-inner {
     padding: 0;
@@ -60,7 +57,4 @@
   display: block;
   margin: 0;
   padding: 0;
-  font-size: 0.7rem;
-  pointer-events: none;
 }
-

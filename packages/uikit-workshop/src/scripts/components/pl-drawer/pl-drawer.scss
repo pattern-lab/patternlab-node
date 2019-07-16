@@ -16,7 +16,6 @@ pl-drawer {
   z-index: 20;
   overflow: visible;
   border-top: 1.1px solid $pl-color-gray-20; // sub-pixel bug in Chrome. border disappears sometimes when set to 1px
-  
   border-top-color: $pl-color-gray-20;
   border-top-color: var(--theme-border, $pl-color-gray-20);
 }
@@ -111,7 +110,7 @@ pl-drawer {
   padding: 0.2rem;
   -webkit-appearance: none;
   flex-shrink: 0; // needed for IE 11
-  
+
   @media all and (max-width: $pl-bp-med - 1) {
     border-radius: 20rem;
     padding-top: 0.5rem;

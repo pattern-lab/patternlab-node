@@ -8,14 +8,6 @@
  */
 .pl-c-body--theme-light {
   /**
-     * Header
-     */
-  .pl-c-header {
-    background-color: $pl-color-white;
-    border-bottom: 1px solid $pl-color-gray-20;
-  }
-
-  /**
      * Tools dropdown
      */
 
@@ -77,7 +69,6 @@
   .typeahead {
     background-color: $pl-color-gray-13 !important;
   }
-
 
   /**
      * Typeahead input
