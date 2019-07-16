@@ -30,7 +30,9 @@
   list-style: none;
   margin: 0;
   padding: 0.5rem 0;
+  padding-bottom: 0;
   background-color: $pl-color-white;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
 /**
@@ -39,15 +41,15 @@
 .pl-c-tabs__link {
   display: block;
   line-height: 1;
-  padding: 0.2rem 0.4rem;
-  border: 1px solid transparent;
-  border-radius: $pl-border-radius-med;
+  border-bottom: 4px solid transparent;
   color: $pl-color-gray-50;
   background-color: $pl-color-white;
   cursor: pointer;
   text-decoration: none;
-  text-transform: lowercase;
+  text-transform: uppercase;
   transition: all $pl-animate-quick ease-out;
+  padding: 8px;
+  font-size: 13px;
 
   &:hover {
     color: $pl-color-gray-87;
@@ -60,8 +62,7 @@
      */
   &.pl-is-active-tab {
     color: $pl-color-gray-87;
-    background-color: $pl-color-gray-07;
-    border: 1px solid $pl-color-gray-13;
+    border-bottom-color: #bf6500;
   }
 }
 
@@ -72,7 +73,6 @@
 .pl-c-tabs__content {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  padding-top: 0.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,6 @@
  */
 .pl-c-tabs__panel {
   display: none;
-  min-height: 12rem;
 
   &.pl-is-active-tab {
     display: flex;
@@ -102,9 +101,13 @@
   pre[class*='language-'] {
     background-color: transparent;
     margin: 0;
-    padding: 0;
+    padding-top: 1rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
     border: 0;
     display: block;
+    width: 100%; // fill parent container
   }
 
   code[class*='language-'] {

@@ -8,33 +8,6 @@
     */
   .pl-c-body--theme-sidebar {
     /**
-        * Header
-        * 1) Set width to sidebar width defined above
-        * 2) Make header 100% of the viewport height
-        * 3) Stack header items on top of each other
-        * 4) void bottom border for light theme
-        */
-    .pl-c-header {
-      width: $pl-sidebar-width; /* 1 */
-      height: 100vh; /* 2 */
-      flex-direction: column; /* 3 */
-      border-bottom: 0; /* 4 */
-      padding: 1rem;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      justify-content: space-between;
-    }
-
-    /**
-         * Header within light theme
-         */
-    &.pl-c-body--theme-light {
-      .pl-c-header {
-        border-right: 1px solid $pl-color-gray-20;
-      }
-    }
-
-    /**
          * Logo
          */
     .pl-c-logo {

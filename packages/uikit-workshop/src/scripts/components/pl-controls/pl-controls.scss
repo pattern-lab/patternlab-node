@@ -1,0 +1,43 @@
+/*------------------------------------*\
+    #CONTROLS
+\*------------------------------------*/
+
+pl-controls {
+  margin-left: auto; /* 2 */
+  display: flex;
+  flex-wrap: nowrap;
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+    
+    @media all and (min-width: $pl-bp-med) {
+      width: 100%;
+    }
+  }
+}
+
+/**
+ * 1) Controls contains viewport resizer and tools dropdown
+ * 2) Right-align inside of header
+ */
+.pl-c-controls {
+  margin-left: auto; /* 2 */
+  display: flex;
+  flex-wrap: nowrap;
+
+  // IE 11 layout bug
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      display: block;
+    }
+  }
+}
+
+/**
+* Control list
+*/
+.pl-c-controls__list {
+  @include listReset();
+  display: flex;
+  flex-wrap: nowrap;
+}
