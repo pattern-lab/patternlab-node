@@ -15,7 +15,15 @@ pl-drawer {
   right: 0;
   z-index: 20;
   overflow: visible;
+
+  .pl-c-body--theme-light & {
+    // Modal / Drawer inside a light theme
+    background-color: $pl-color-white;
+    color: $pl-color-gray-70;
+    border-top: 1.1px solid $pl-color-gray-20; // sub-pixel bug in Chrome. border disappears sometimes when set to 1px
+  }
 }
+
 
 /**
  * 1) The drawer slides up from the bottom of the viewport when
@@ -38,6 +46,12 @@ pl-drawer {
     @media all and (min-width: $pl-bp-med) {
       max-width: calc(100vw - #{$pl-sidebar-width});
     }
+  }
+
+  .pl-c-body--theme-light & {
+    // Modal / Drawer inside a light theme
+    background-color: $pl-color-white;
+    color: $pl-color-gray-70;
   }
 
   /**

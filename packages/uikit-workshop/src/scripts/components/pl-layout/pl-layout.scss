@@ -13,6 +13,10 @@ pl-layout {
     overflow: hidden;
   }
 
+  .pl-c-layout {
+    flex-grow: 1;
+  }
+
   &.pl-c-body--theme-sidebar {
     @media all and (min-width: $pl-bp-med) {
       flex-direction: row;
