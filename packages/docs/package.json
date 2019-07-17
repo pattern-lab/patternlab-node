@@ -1,6 +1,6 @@
 {
   "name": "hylia",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A simple Eleventy starter kit to help you have a blog of your own",
   "main": "index.js",
   "dependencies": {
