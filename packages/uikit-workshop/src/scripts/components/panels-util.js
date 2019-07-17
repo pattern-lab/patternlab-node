@@ -31,20 +31,22 @@ export const panelsUtil = {
   show(patternPartial, panelID) {
     const activeTabClass = 'pl-is-active-tab';
 
-    // turn off all of the active tabs
-    const allTabLinks = document.querySelectorAll(`.pl-js-tab-link`);
-
-    // hide all of the panels
-    const allTabPanels = document.querySelectorAll(`.pl-js-tab-panel`);
-
-    // tabLink about to become active
-    const activeTabLink = document.querySelector(
-      `#pl-${patternPartial}-${panelID}-tab`
-    );
-
     // tabPanelabout to become active
     const activeTabPanel = document.querySelector(
       `#pl-${patternPartial}-${panelID}-panel`
+    );
+
+    const parentTabs = activeTabPanel.closest('.pl-js-tabs');
+
+    // turn off all of the active tabs
+    const allTabLinks = parentTabs.querySelectorAll(`.pl-js-tab-link`);
+
+    // hide all of the panels
+    const allTabPanels = parentTabs.querySelectorAll(`.pl-js-tab-panel`);
+
+    // tabLink about to become active
+    const activeTabLink = parentTabs.querySelector(
+      `#pl-${patternPartial}-${panelID}-tab`
     );
 
     for (let i = 0; i < allTabLinks.length; ++i) {

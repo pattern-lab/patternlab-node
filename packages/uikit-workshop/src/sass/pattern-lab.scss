@@ -69,6 +69,11 @@
 @import 'scss/04-components/tabs';
 @import 'scss/04-components/text-passage';
 
+.pl-c-main {
+  overflow: hidden;
+  max-width: 100vw;
+}
+
 /*------------------------------------*\
     #THEMES
 \*------------------------------------*/

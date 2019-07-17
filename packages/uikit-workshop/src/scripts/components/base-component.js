@@ -3,7 +3,7 @@ import withPreact from '@skatejs/renderer-preact';
 import { store } from '../store.js';
 import { extend, supportsShadowDom } from '../utils/index.js';
 import { h } from 'preact';
-import withLitHtml from '@skatejs/renderer-lit-html';
+import withLitHtml from './with-lit-html';
 
 export class BaseComponent extends withComponent(withPreact()) {
   get renderRoot() {

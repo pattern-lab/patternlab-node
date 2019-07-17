@@ -6,7 +6,6 @@ const classNames = require('classnames');
 import { store } from '../../store.js'; // redux store
 import ArrowIcon from '../../../icons/arrow-down.svg';
 import { BaseComponent } from '../base-component.js';
-import { scrollTo, scrollIntoView } from 'scroll-js';
 import 'url-search-params-polyfill';
 
 const SubSubList = props => {
@@ -46,9 +45,7 @@ const SubSubList = props => {
                 : patternSubtypeItem.patternName}
               {patternSubtypeItem.patternState && (
                 <span
-                  class={`pl-c-pattern-state pl-c-pattern-state--${
-                    patternSubtypeItem.patternState
-                  }`}
+                  class={`pl-c-pattern-state pl-c-pattern-state--${patternSubtypeItem.patternState}`}
                   title={patternSubtypeItem.patternState}
                 />
               )}
@@ -104,9 +101,7 @@ const SubSubList = props => {
                   : patternSubtypeItem.patternName}
                 {patternSubtypeItem.patternState && (
                   <span
-                    class={`pl-c-pattern-state pl-c-pattern-state--${
-                      patternSubtypeItem.patternState
-                    }`}
+                    class={`pl-c-pattern-state pl-c-pattern-state--${patternSubtypeItem.patternState}`}
                     title={patternSubtypeItem.patternState}
                   />
                 )}
@@ -563,9 +558,7 @@ class Nav extends BaseComponent {
                             : patternItem.patternName}
                           {patternItem.patternState && (
                             <span
-                              class={`pl-c-pattern-state pl-c-pattern-state--${
-                                patternItem.patternState
-                              }`}
+                              class={`pl-c-pattern-state pl-c-pattern-state--${patternItem.patternState}`}
                               title={patternItem.patternState}
                             />
                           )}

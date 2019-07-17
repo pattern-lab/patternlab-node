@@ -31,7 +31,6 @@ pl-search {
       flex-direction: column;
       margin-left: 0;
       width: 100%;
-      padding-top: 1rem;
     }
   }
 }
@@ -74,8 +73,8 @@ pl-search {
 .pl-c-typeahead__hint,
 .pl-c-typeahead__input {
   text-transform: capitalize;
-  background-color: $pl-color-gray-87; // CSS vars fallback
-  color: $pl-color-white; // CSS vars fallback
+  background-color: $pl-color-gray-87;
+  color: $pl-color-white;
   background-color: rgba(var(--theme-text-rgb), 0.1);
   color: rgba(var(--theme-text-rgb), 0.67);
   border-color: rgba(0, 0, 0, .1);
@@ -120,9 +119,9 @@ pl-search {
   }
 
   .pl-c-body--theme-light & {
-    background-color: $pl-color-gray-07; // CSS vars fallback
+    background-color: $pl-color-gray-07;
     background-color: rgba(var(--theme-text-rgb), 0.1);
-    color: $pl-color-gray-70; // CSS vars fallback
+    color: $pl-color-gray-70;
     color: rgba(var(--theme-text-rgb), 0.67);
   }
 
@@ -137,7 +136,7 @@ pl-search {
     color: $pl-color-white;
 
     .pl-c-body--theme-light & {
-      color: $pl-color-gray-87 !important; // @todo: are these !importants still needed?
+      color: $pl-color-gray-87 !important;
     }
 
     &::-moz-input-placeholder,

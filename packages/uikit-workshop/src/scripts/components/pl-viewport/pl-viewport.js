@@ -157,8 +157,9 @@ class IFrame extends BaseComponent {
       }
 
       // resize viewport wrapper to desired size + size of drag resize handler
+      // this.iframeContainer.style.width = theSize + this.viewportResizeHandleWidth + 'px';
       this.iframeContainer.style.width =
-        theSize + this.viewportResizeHandleWidth + 'px';
+        theSize - this.viewportResizeHandleWidth + 'px';
       // this.iframe.style.width = theSize + 'px'; // resize viewport to desired size
 
       // auto-remove transition classes if not the animate param isn't set to true
@@ -344,13 +345,9 @@ class IFrame extends BaseComponent {
 
     if (!patternParam) {
       if (window.patternData) {
-        if (window.patternData.patternPartial) {
-          patternParam = window.patternData.patternPartial;
-        } else {
-          patternParam = 'all';
-        }
+        patternParam = window.patternData.patternPartial;
       } else {
-        patternParam = 'all';
+        patternParam = 'components-overview';
       }
     }
 
@@ -391,9 +388,11 @@ class IFrame extends BaseComponent {
       );
     };
 
-    const initialWidth = store.getState().app.viewportPx
-      ? store.getState().app.viewportPx + 'px;'
-      : '100%;';
+    const initialWidth =
+      store.getState().app.viewportPx &&
+      store.getState().app.viewportPx <= this.clientWidth
+        ? store.getState().app.viewportPx + 'px;'
+        : this.clientWidth + 'px;';
 
     return (
       <div class="pl-c-viewport pl-js-viewport">
@@ -403,9 +402,7 @@ class IFrame extends BaseComponent {
           style={`width: ${initialWidth}`}
         >
           <iframe
-            className={`pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${
-              this.themeMode
-            }`}
+            className={`pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this.themeMode}`}
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
             // srcdoc={render(<IframeInner />)}
             src={url}
@@ -415,7 +412,17 @@ class IFrame extends BaseComponent {
               <div
                 class="pl-c-viewport__resizer-handle pl-js-resize-handle"
                 onMouseDown={e => this.handleMouseDown(e)}
-              />
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  preserveAspectRatio="xMidYMid"
+                  focusable="false"
+                  style="width: 30px; fill: currentColor; position: absolute; top: 50%; transform: translate3d(0, -50%, 0); z-index: 100;"
+                >
+                  <title>Drag to resize Pattern Lab</title>
+                  <path d="M6 0h2v20H6zM13 0h2v20h-2z" />
+                </svg>
+              </div>
             </div>
           }
         </div>
@@ -426,6 +433,7 @@ class IFrame extends BaseComponent {
   handleMouseDown(event) {
     // capture default data
     const self = this;
+    self.querySelector('.pl-js-resize-handle').classList.add('is-resizing');
     const origClientX = event.clientX;
     const origViewportWidth = this.iframe.clientWidth;
 
@@ -450,6 +458,9 @@ class IFrame extends BaseComponent {
         handleIframeCoverResize
       );
       self.iframeCover.style.display = 'none';
+      self
+        .querySelector('.pl-js-resize-handle')
+        .classList.remove('is-resizing');
     });
 
     return false;

@@ -79,9 +79,13 @@ export const modalStyleguide = {
       .appendChild(content);
 
     // show the modal
-    document
-      .getElementById('pl-pattern-extra-toggle-' + patternPartial)
-      .classList.add('pl-is-active');
+    const toggle = document.getElementById(
+      'pl-pattern-extra-toggle-' + patternPartial
+    );
+    if (toggle) {
+      toggle.classList.add('pl-is-active');
+    }
+
     document
       .getElementById('pl-pattern-extra-' + patternPartial)
       .classList.add('pl-is-active');
@@ -96,9 +100,13 @@ export const modalStyleguide = {
     modalStyleguide.active[patternPartial] = false;
 
     // hide the modal, look at info-panel.js
-    document
-      .getElementById('pl-pattern-extra-toggle-' + patternPartial)
-      .classList.remove('pl-is-active');
+    const toggle = document.getElementById(
+      'pl-pattern-extra-toggle-' + patternPartial
+    );
+    if (toggle) {
+      toggle.classList.remove('pl-is-active');
+    }
+
     document
       .getElementById('pl-pattern-extra-' + patternPartial)
       .classList.remove('pl-is-active');

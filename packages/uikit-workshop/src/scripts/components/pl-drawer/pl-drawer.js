@@ -89,7 +89,9 @@ export class Drawer extends BaseComponent {
 
     const height =
       drawerOpened && !isViewallPage
-        ? drawerHeight > 20 ? drawerHeight : 300
+        ? drawerHeight > 20
+          ? drawerHeight
+          : 300
         : 0;
 
     return (

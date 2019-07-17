@@ -46,7 +46,7 @@ class Controls extends BaseComponent {
     return (
       <div className="pl-c-controls">
         <ViewportSize px={pxSize} em={emSize} />
-        <pl-viewport-sizes />
+        <pl-viewport-sizes></pl-viewport-sizes>
         <pl-tools-menu />
       </div>
     );

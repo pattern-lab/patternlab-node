@@ -9,25 +9,23 @@
  */
 .pl-c-pattern-info {
   flex-grow: 1; // fills space available when placed in the parent flex container
+  display: flex;
+  flex-direction: column;
 
-  @media all and (min-width: $pl-bp-large) {
-    display: flex;
-  }
 
   /**
      *  Pattern info inside the "view all" template
      */
   .pl-c-pattern & {
-    max-height: 20rem;
-    min-height: 18rem;
+    max-height: 30rem;
     overflow: scroll;
-    @include hideScrollBar();
     display: flex;
     -webkit-overflow-scrolling: touch;
 
     @media all and (min-width: $pl-bp-large) {
       max-height: none;
       height: 18rem;
+      flex-direction: row;
       overflow: visible;
     }
   }
@@ -36,23 +34,14 @@
      *  Pattern info inside modal
      */
   .pl-c-drawer & {
-    position: absolute;
-    top: 0;
-    right: 0.8rem;
-    bottom: 0;
-    left: 0;
-    overflow: scroll;
-    @include hideScrollBar();
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
     flex-grow: 1;
 
-    @supports (padding: env(safe-area-inset-right)){
-      right: calc(env(safe-area-inset-right) + 0.8rem);
-    }
 
     @media all and (min-width: $pl-bp-large) {
       position: static;
-      overflow: visible;
+      flex-direction: row;
     }
   }
 }
@@ -65,23 +54,18 @@
 .pl-c-pattern-info__panel {
   padding: 1rem;
   width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: auto;
 
-  @media all and (min-width: $pl-bp-large) {
-    flex: auto;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  @media all and (min-width: $pl-bp-med) {
+    flex-basis: 50%;
+    flex-grow: 1;
   }
 
-  .pl-c-drawer & {
-    padding-right: 1.3rem;
 
-    @supports (padding: env(safe-area-inset-right)){
-      padding-right: calc(env(safe-area-inset-right) + 1.3rem);
-    }
-  }
 }
 
 /**
@@ -89,18 +73,14 @@
  * 1) Left panel that contains pattern title, lineage, description, annotations
  */
 .pl-c-pattern-info__panel--info {
-  padding-top: 2rem;
 
   @media all and (min-width: $pl-bp-large) {
-    left: 0;
-    right: 50%;
     overflow: auto;
-    @include hideScrollBar();
     -webkit-overflow-scrolling: touch;
   }
 
   @media all and (min-width: $pl-bp-xl) {
-    right: 55%;
+    width: 55%;
   }
 }
 
@@ -112,16 +92,10 @@
  *    the modal
  * 1) Cap the height of the code panel in the modal
  */
-.pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
-  @media all and (min-width: $pl-bp-large) {
-    right: 0;
-    left: 50%;
-    top: 1.2rem;
-  }
-
-  @media all and (min-width: $pl-bp-xl) {
-    left: 45%;
-  }
+.pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code,
+.pl-c-pattern-info__panel--code:first-child {
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 /**

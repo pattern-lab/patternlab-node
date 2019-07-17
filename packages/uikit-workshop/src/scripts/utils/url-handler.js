@@ -13,6 +13,7 @@
 export const urlHandler = {
   // set-up some default vars
   skipBack: false,
+  goBack: false,
   iframeElement: document.querySelector('.pl-js-iframe'),
   targetOrigin:
     window.location.protocol === 'file:'
@@ -131,7 +132,7 @@ export const urlHandler = {
    */
   getRequestVars() {
     // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-    const oGetVars = new function(sSearch) {
+    const oGetVars = new (function(sSearch) {
       if (sSearch.length > 1) {
         for (
           let aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split('&');
@@ -143,7 +144,7 @@ export const urlHandler = {
             aItKey.length > 1 ? unescape(aItKey[1]) : '';
         }
       }
-    }(window.location.search);
+    })(window.location.search);
 
     return oGetVars;
   },
@@ -215,7 +216,6 @@ export const urlHandler = {
 /**
  * handle the onpopstate event
  */
-// @todo: remove if no longer needed
 window.onpopstate = function(event) {
   urlHandler.skipBack = true;
 };

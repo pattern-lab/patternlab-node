@@ -5,16 +5,6 @@ import { html } from 'lit-html';
 import { store } from '../../store.js'; // connect to redux
 import { BaseLitComponent } from '../base-component.js';
 
-import iFrameResize from 'iframe-resizer/js/iframeResizer.js';
-iFrameResize({
-  checkOrigin: false,
-  scrolling: false,
-  heightCalculationMethod: 'documentElementOffset', // most accurate calculation in testing available options
-  initCallback() {
-    document.querySelector('.pl-js-iframe').classList.add('is-ready'); // toggles class that removes initial min-height styling
-  },
-});
-
 @define
 class Layout extends BaseLitComponent {
   static is = 'pl-layout';
@@ -41,7 +31,7 @@ class Layout extends BaseLitComponent {
   }
 
   rendered() {
-    this.iframeElement = document.querySelector('.pl-js-iframe');
+    this.iframeElement = this.renderRoot.querySelector('.pl-js-iframe');
   }
 
   _stateChanged(state) {

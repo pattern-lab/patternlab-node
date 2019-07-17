@@ -213,9 +213,12 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {/* need to add random resize handler before re-enabling */}
-        {/* {!this.ishControlsHide.random && (
+        {!this.ishControlsHide.random && (
           <li class="pl-c-size-list__item">
+            {/* <button class="pl-c-size-list__action" id="pl-size-random">
+              Rand
+            </button> */}
+
             <Tooltip
               placement="top"
               trigger="hover"
@@ -229,7 +232,7 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-random',
                     ref: triggerRef,
                   })}
-                  onClick={(e) => this.resizeViewport('random')}
+                  onClick={e => this.resizeViewport('random')}
                 >
                   <VisuallyHidden>Resize viewport to random</VisuallyHidden>
                   <RandomIcon
@@ -243,9 +246,8 @@ class ViewportSizes extends BaseComponent {
               )}
             </Tooltip>
           </li>
-        )} */}
-        {/* need to add disco handler to resize logic before re-enabling */}
-        {/* {!this.ishControlsHide.disco && (
+        )}
+        {!this.ishControlsHide.disco && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -260,7 +262,7 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-disco',
                     ref: triggerRef,
                   })}
-                  onClick={(e) => this.resizeViewport('disco')}
+                  onClick={e => this.resizeViewport('disco')}
                 >
                   <VisuallyHidden>
                     Resize viewport using disco mode!
@@ -275,7 +277,7 @@ class ViewportSizes extends BaseComponent {
               )}
             </Tooltip>
           </li>
-        )} */}
+        )}
         {!this.ishControlsHide.hay && (
           <li class="pl-c-size-list__item">
             <button class="pl-c-size-list__action mode-link" id="pl-size-hay">
