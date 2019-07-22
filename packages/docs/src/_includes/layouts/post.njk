@@ -8,7 +8,7 @@
   {% if date %}
     <time datetime="{{ date | w3DateFilter }}" class="dt-published">{{ date | dateFilter }}</time>
   {% endif %}
-  <span role="text">— {{ helpers.getReadingTime(content) }} minute read</span>
+  <span>— {{ helpers.getReadingTime(content) }} minute read</span>
 </p>
 {% endset %}
 

@@ -7,13 +7,13 @@
       <nav class="[ pagination__nav ] [ box-flex space-between align-center ]">
         {% if paginationPrevUrl %}
           <a href="{{ paginationPrevUrl }}" class="{{ paginationLinkTokens }}" data-direction="backwards">
-            <span role="text">{{ paginationPrevText if paginationPrevText else 'Previous' }}</span>
+            <span>{{ paginationPrevText if paginationPrevText else 'Previous' }}</span>
             {% include "icons/arrow.svg" %}
           </a>
         {% endif %}
         {% if paginationNextUrl %}
           <a href="{{ paginationNextUrl }}" class="{{ paginationLinkTokens }}" data-direction="forwards">
-            <span role="text">{{ paginationNextText if paginationNextText else 'Next' }}</span>
+            <span>{{ paginationNextText if paginationNextText else 'Next' }}</span>
             {% include "icons/arrow.svg" %}
           </a>
         {% endif %}
