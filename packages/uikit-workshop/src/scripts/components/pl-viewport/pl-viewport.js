@@ -347,7 +347,7 @@ class IFrame extends BaseComponent {
       if (window.patternData) {
         patternParam = window.patternData.patternPartial;
       } else {
-        patternParam = 'components-overview';
+        patternParam = 'all'; // @todo: this should also be able to be dynamically set via PL config file
       }
     }
 
