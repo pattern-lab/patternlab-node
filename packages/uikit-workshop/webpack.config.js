@@ -24,7 +24,6 @@ const defaultConfig = {
   sourceMaps: true,
   publicPath: './styleguide/',
   copy: [{ from: './src/images/**', to: 'images', flatten: true }],
-  // noViewAll: false,
   noViewAll: false,
 };
 
