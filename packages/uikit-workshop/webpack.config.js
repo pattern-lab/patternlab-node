@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const selectorImporter = require('node-sass-selector-importer');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
@@ -23,6 +24,8 @@ const defaultConfig = {
   sourceMaps: true,
   publicPath: './styleguide/',
   copy: [{ from: './src/images/**', to: 'images', flatten: true }],
+  // noViewAll: false,
+  noViewAll: false,
 };
 
 module.exports = async function() {
@@ -254,6 +257,11 @@ module.exports = async function() {
           : [],
       },
       plugins: [
+        new webpack.DefinePlugin({
+          patternLab: {
+            noViewAll: JSON.stringify(config.noViewAll),
+          },
+        }),
         new CopyPlugin(config.copy),
         new PrerenderSPAPlugin({
           // Required - The path to the webpack-outputted app to prerender.

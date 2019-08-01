@@ -12,12 +12,15 @@ const SubSubList = props => {
   const { children, category, elem } = props;
   const reorderedChildren = [];
 
-  const nonViewAllItems = children.filter(
-    item =>
-      item.patternName !== 'View All' && !item.patternName.includes(' Docs')
-  );
-  // const nonViewAllItems = children.filter((item => (item.patternName !== 'View All')));
-  const viewAllItems = children.filter(item => item.patternName === 'View All');
+  const nonViewAllItems = elem.noViewAll
+    ? children.filter(item => item.patternName !== 'View All')
+    : children.filter(
+        item =>
+          item.patternName !== 'View All' && !item.patternName.includes(' Docs')
+      );
+  const viewAllItems = elem.noViewAll
+    ? []
+    : children.filter(item => item.patternName === 'View All');
 
   reorderedChildren.push(...viewAllItems, ...nonViewAllItems);
 
@@ -419,6 +422,10 @@ class Nav extends BaseComponent {
       ...props.boolean,
       ...{ default: true },
     },
+    noViewAll: {
+      ...props.boolean,
+      ...{ default: patternLab.noViewAll || false },
+    },
   };
 
   toggleSpecialNavPanel(e) {
@@ -542,7 +549,10 @@ class Nav extends BaseComponent {
 
                 {patternItems &&
                   patternItems.map((patternItem, i) => {
-                    return (
+                    return this.noViewAll &&
+                      patternItem.patternPartial.includes('viewall') ? (
+                      ''
+                    ) : (
                       <li class="pl-c-nav__item">
                         <a
                           href={`patterns/${patternItem.patternPath}`}
