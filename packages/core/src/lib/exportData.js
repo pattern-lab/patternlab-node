@@ -85,8 +85,11 @@ module.exports = function(patternlab) {
     );
   });
 
-  //write all output to patternlab-data
+  //add module.export to end of file.
+  output +=
+    'module.exports = { config, ishControls, navItems, patternPaths, viewAllPaths, plugins };';
 
+  //write all output to patternlab-data
   _.each(patternlab.uikits, uikit => {
     fs.outputFileSync(
       path.resolve(
