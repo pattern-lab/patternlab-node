@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 

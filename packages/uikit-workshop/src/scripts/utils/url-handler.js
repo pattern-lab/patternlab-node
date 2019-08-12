@@ -34,7 +34,7 @@ export const urlHandler = {
     }
 
     if (withRenderedSuffix === undefined) {
-      withRenderedSuffix = true;
+      withRenderedSuffix = true; // eslint-disable-line no-param-reassign
     }
 
     if (name === 'all') {
@@ -130,7 +130,7 @@ export const urlHandler = {
    */
   getRequestVars() {
     // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-    const oGetVars = new function(sSearch) {
+    const oGetVars = new (function(sSearch) {
       if (sSearch.length > 1) {
         for (
           let aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split('&');
@@ -142,7 +142,7 @@ export const urlHandler = {
             aItKey.length > 1 ? unescape(aItKey[1]) : '';
         }
       }
-    }(window.location.search);
+    })(window.location.search);
 
     return oGetVars;
   },

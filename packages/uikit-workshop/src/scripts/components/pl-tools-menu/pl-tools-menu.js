@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { define, props } from 'skatejs';
 import { BaseComponent } from '../base-component.js';
 import { urlHandler, patternName } from '../../utils';

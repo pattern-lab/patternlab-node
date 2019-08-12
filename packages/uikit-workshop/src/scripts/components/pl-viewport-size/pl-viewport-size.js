@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { h } from 'preact';
 
 export const ViewportSize = ishControlsHide => {

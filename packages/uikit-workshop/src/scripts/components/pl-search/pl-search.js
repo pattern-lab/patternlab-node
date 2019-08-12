@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 import Fuse from 'fuse.js';
@@ -76,7 +77,7 @@ class Search extends BaseComponent {
   };
 
   onInput = e => {
-    let value = e.target.value;
+    const value = e.target.value;
 
     this.setState({
       value: value,

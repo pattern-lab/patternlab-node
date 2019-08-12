@@ -1,6 +1,6 @@
 import { loadPolyfills } from './utils/polyfills';
 
-loadPolyfills.then(res => {
+loadPolyfills.then(() => {
   import(
     /* webpackMode: 'lazy', webpackChunkName: 'pl-layout' */ './components/pl-layout/pl-layout'
   );

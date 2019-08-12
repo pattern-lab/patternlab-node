@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-shadow */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 const classNames = require('classnames');
