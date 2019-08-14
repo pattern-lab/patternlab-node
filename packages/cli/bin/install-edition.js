@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 'use strict';
 
 const path = require('path');
@@ -35,7 +36,9 @@ const installEdition = (edition, config, projectDir) => {
       pkg.dependencies || {},
       yield getJSONKey(edition, 'dependencies')
     ); // 3
-    switch (edition) { // 4
+    switch (
+      edition // 4
+    ) {
       // 4.1
       case '@pattern-lab/edition-node-gulp': {
         yield copyAsync(

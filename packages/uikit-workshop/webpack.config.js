@@ -20,8 +20,8 @@ const defaultConfig = {
   publicPath: './styleguide/',
 };
 
-module.exports = async function() {
-  return new Promise(async (resolve, reject) => {
+module.exports = function() {
+  return new Promise(async resolve => {
     let customConfig = defaultConfig;
 
     const configToSearchFor = await explorer.searchSync();

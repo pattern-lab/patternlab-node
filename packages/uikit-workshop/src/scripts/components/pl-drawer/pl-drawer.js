@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 import { store } from '../../store.js'; // redux store
@@ -13,7 +14,7 @@ import { BaseComponent } from '../base-component.js';
 import AnimateHeight from 'react-animate-height';
 
 @define
-export class Drawer extends BaseComponent {
+class Drawer extends BaseComponent {
   static is = 'pl-drawer';
 
   constructor(self) {
@@ -92,7 +93,9 @@ export class Drawer extends BaseComponent {
 
     const height =
       drawerOpened && !isViewallPage
-        ? drawerHeight > 20 ? drawerHeight : 300
+        ? drawerHeight > 20
+          ? drawerHeight
+          : 300
         : 0;
 
     return (
@@ -151,3 +154,5 @@ export class Drawer extends BaseComponent {
     this.isViewallPage = state.app.isViewallPage;
   }
 }
+
+export { Drawer };

@@ -14,7 +14,8 @@
         "eslin*",
         "husky",
         "prettier",
-        "pretty-quick"
+        "pretty-quick",
+        "babel-eslint"
       ]
     },
     "publish": {

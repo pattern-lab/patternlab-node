@@ -53,9 +53,7 @@ module.exports = patternlab => {
 
     if (!configEntry) {
       logger.warning(
-        `Could not find uikit with name uikit-${
-          kit.name
-        } defined within patternlab-config.json, or it is not enabled.`
+        `Could not find uikit with name uikit-${kit.name} defined within patternlab-config.json, or it is not enabled.`
       );
       return;
     }

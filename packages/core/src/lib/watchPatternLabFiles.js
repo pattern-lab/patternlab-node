@@ -110,9 +110,7 @@ const watchPatternLabFiles = (
   });
 
   logger.info(
-    `Pattern Lab is watching for changes to files under ${
-      assetDirectories.source.root
-    }`
+    `Pattern Lab is watching for changes to files under ${assetDirectories.source.root}`
   );
   return Promise.resolve();
 };
