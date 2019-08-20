@@ -6,7 +6,8 @@ pl-layout {
   width: 100%;
   min-height: 100vh;
   max-width: 100vw;
-  background-color: $pl-color-gray-13;
+  background-color: $pl-color-white;
+  overflow: initial;
 
   // Prevent extra scrollbars in just IE 11
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {

@@ -8,19 +8,27 @@
     */
   .pl-c-body--theme-sidebar {
     /**
-         * Logo
-         */
-    .pl-c-logo {
-      max-width: 7rem;
-      margin: 0 auto 1rem;
+        * Header
+        * 1) Set width to sidebar width defined above
+        * 2) Make header 100% of the viewport height
+        * 3) Stack header items on top of each other
+        * 4) void bottom border for light theme
+        */
+    .pl-c-header {
+      width: $pl-sidebar-width; /* 1 */
+      height: 100vh; /* 2 */
+      flex-direction: column; /* 3 */
+      border-bottom: 0; /* 4 */
+      justify-content: space-between;
     }
 
     /**
         * Nav sub sub list
         */
     .pl-c-nav {
-      display: block;
+      flex-grow: 1;
       flex-direction: column;
+      flex-flow: column-reverse;
     }
 
     /**
@@ -39,43 +47,6 @@
     .pl-c-nav__sublist {
       position: relative;
       border-radius: 0;
-    }
-
-    /**
-        * Nav sublist
-        */
-    .pl-c-nav__sublist .pl-c-nav__link {
-      padding-left: 1rem;
-    }
-
-    /**
-        * Nav sublist
-        */
-    .pl-c-nav__sublist--dropdown.pl-is-active {
-      border: 0;
-      border-left: 1px solid $pl-color-gray-70;
-    }
-
-    /**
-         * Nav sublist inside the light theme
-         */
-    &.pl-c-body--theme-light {
-      .pl-c-nav__sublist--dropdown.pl-is-active {
-        border-left-color: $pl-color-gray-07;
-      }
-    }
-
-    /**
-         * Dropdown sublist
-         * 1) Undo fixed height
-         */
-
-    /**
-        * Nav sub sub list
-        */
-    .pl-c-nav__subsublist {
-      border-left: 1px solid $pl-color-gray-70;
-      margin-left: 1rem;
     }
 
     /**
@@ -116,10 +87,6 @@
       display: block; // Display flex + flex direction column gives a similar result, but this fixes a bunch of rendering quirks in IE 11
       justify-self: flex-end;
       margin-left: 0;
-    }
-
-    .pl-c-viewport-size {
-      display: none;
     }
 
     /**

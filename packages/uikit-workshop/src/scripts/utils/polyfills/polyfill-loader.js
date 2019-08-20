@@ -1,11 +1,4 @@
-import 'es6-promise/auto';
-import 'core-js/modules/es7.array.includes';
-import 'core-js/modules/es6.array.from';
-import 'core-js/modules/es6.object.assign';
-
-if (window.NodeList && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = Array.prototype.forEach;
-}
+import './polyfills-shared';
 
 let polyfills = [];
 

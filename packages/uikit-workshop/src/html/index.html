@@ -9,26 +9,25 @@
     />
     <meta name="theme-color" content="#ababab" />
     <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
+
+    <link
+      rel="prefetch"
+      as="image"
+      href="styleguide/images/pattern-lab-logo--on-dark.svg"
+    />
+    <link
+      rel="prefetch"
+      as="image"
+      href="styleguide/images/pattern-lab-logo--on-light.svg"
+    />
   </head>
 
   <body class="pl-c-body">
-    <pl-layout>
-      <pl-header></pl-header>
-
-      <div class="pl-c-viewport-modal-wrapper">
-        <pl-iframe></pl-iframe>
-        <pl-drawer></pl-drawer>
-      </div>
-    </pl-layout>
+    <pl-layout></pl-layout>
 
     <!-- the template for the modal slider -->
     <script type="text/mustache" class="pl-js-panel-template-base">
       ${require('./partials/base-template.html') }
-    </script>
-
-    <!-- the template for code-related tabs in the code view slider -->
-    <script type="text/mustache" id="pl-panel-template-code">
-      ${require('./partials/panel-code-template.html') }
     </script>
 
     <!-- load Pattern Lab data -->

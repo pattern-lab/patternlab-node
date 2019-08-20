@@ -1,5 +1,6 @@
 // webpack.config.js
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
 const autoprefixer = require('autoprefixer');
@@ -7,7 +8,10 @@ const CriticalCssPlugin = require('critical-css-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const selectorImporter = require('node-sass-selector-importer');
+const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const argv = require('yargs').argv;
 
 const cosmiconfig = require('cosmiconfig');
 const explorer = cosmiconfig('patternlab');
@@ -18,13 +22,20 @@ const defaultConfig = {
   prod: true, // or false for local dev
   sourceMaps: true,
   publicPath: './styleguide/',
+  copy: [{ from: './src/images/**', to: 'images', flatten: true }],
 };
 
 module.exports = function() {
   return new Promise(async resolve => {
     let customConfig = defaultConfig;
+    let configToSearchFor;
 
-    const configToSearchFor = await explorer.searchSync();
+    if (argv.patternlabrc) {
+      configToSearchFor = await explorer.loadSync(argv.patternlabrc);
+    } else {
+      configToSearchFor = await explorer.searchSync();
+    }
+
     if (configToSearchFor) {
       if (configToSearchFor.config) {
         customConfig = configToSearchFor.config;
@@ -84,10 +95,13 @@ module.exports = function() {
         'js/patternlab-viewer': './src/scripts/patternlab-viewer.js',
         'css/pattern-lab': './src/sass/pattern-lab.scss',
       },
+      performance: {
+        hints: false,
+      },
       resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-          react: 'preact-compat',
+          react: path.resolve(__dirname, './src/scripts/utils/preact-compat'),
           'react-dom': 'preact-compat',
         },
       },
@@ -134,6 +148,13 @@ module.exports = function() {
                   ],
                 ],
                 plugins: [
+                  [
+                    '@babel/plugin-transform-runtime',
+                    {
+                      helpers: false,
+                      regenerator: true,
+                    },
+                  ],
                   ['@babel/plugin-proposal-decorators', { legacy: true }],
                   '@babel/plugin-proposal-class-properties',
                   '@babel/plugin-syntax-dynamic-import',
@@ -150,6 +171,18 @@ module.exports = function() {
                 ],
               },
             },
+          },
+          {
+            test: /\.svg$/,
+            use: [
+              {
+                loader: '@svgr/webpack',
+              },
+            ],
+          },
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader'],
           },
           {
             test: /\.scss$/,
@@ -205,7 +238,7 @@ module.exports = function() {
         minimizer: config.prod
           ? [
               new UglifyJsPlugin({
-                sourceMap: true,
+                sourceMap: false,
                 parallel: true,
                 cache: true,
                 uglifyOptions: {
@@ -221,6 +254,21 @@ module.exports = function() {
           : [],
       },
       plugins: [
+        new CopyPlugin(config.copy),
+        new PrerenderSPAPlugin({
+          // Required - The path to the webpack-outputted app to prerender.
+          // staticDir: path.join(__dirname, 'dist'),
+          staticDir: path.resolve(process.cwd(), `${config.buildDir}/`),
+          // Required - Routes to render.
+          routes: ['/'],
+          postProcess(context) {
+            context.html = context.html.replace(
+              /<script\s[^>]*charset=\"utf-8\"[^>]*><\/script>/gi,
+              ''
+            );
+            return context;
+          },
+        }),
         // clear out the buildDir on every fresh Webpack build
         new CleanWebpackPlugin(
           [
@@ -230,6 +278,7 @@ module.exports = function() {
           ],
           {
             allowExternal: true,
+            verbose: false,
 
             // perform clean just before files are emitted to the output dir
             beforeEmit: true,
@@ -249,35 +298,53 @@ module.exports = function() {
       ],
     };
 
-    if (config.prod) {
-      webpackConfig.plugins.push(
-        new CriticalCssPlugin({
-          base: path.resolve(__dirname, config.buildDir),
-          src: 'index.html',
-          dest: 'index.html',
-          inline: true,
-          minify: true,
-          extract: true,
-          width: 1300,
-          height: 900,
-          penthouse: {
-            keepLargerMediaQueries: true,
+    webpackConfig.plugins.push(
+      new HardSourceWebpackPlugin({
+        info: {
+          level: 'warn',
+        },
+        // Clean up large, old caches automatically.
+        cachePrune: {
+          // Caches younger than `maxAge` are not considered for deletion. They must
+          // be at least this (default: 2 days) old in milliseconds.
+          maxAge: 2 * 24 * 60 * 60 * 1000,
+          // All caches together must be larger than `sizeThreshold` before any
+          // caches will be deleted. Together they must be at least 300MB in size
+          sizeThreshold: 300 * 1024 * 1024,
+        },
+      })
+    );
 
-            // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
-            forceInclude: [
-              '.pl-c-body--theme-light',
-              '.pl-c-body--theme-sidebar',
-              '.pl-c-body--theme-sidebar .pl-c-viewport',
-              '.pl-c-body--theme-density-compact',
-            ],
-            timeout: 30000, // ms; abort critical CSS generation after this timeout
-            maxEmbeddedBase64Length: 1000,
-            renderWaitTime: 1000,
-            blockJSRequests: false,
-          },
-        })
-      );
-    }
+    webpackConfig.plugins.push(
+      new CriticalCssPlugin({
+        base: path.resolve(__dirname, config.buildDir),
+        src: 'index.html',
+        dest: 'index.html',
+        inline: true,
+        minify: true,
+        extract: false,
+        width: 1300,
+        height: 900,
+        penthouse: {
+          keepLargerMediaQueries: true,
+
+          // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
+          forceInclude: [
+            'pl-logo',
+            '.pl-c-logo',
+            '.pl-c-logo__img',
+            '.pl-c-body--theme-light',
+            '.pl-c-body--theme-sidebar',
+            '.pl-c-body--theme-sidebar .pl-c-viewport',
+            '.pl-c-body--theme-density-compact',
+          ],
+          timeout: 30000, // ms; abort critical CSS generation after this timeout
+          maxEmbeddedBase64Length: 1000,
+          renderWaitTime: 1000,
+          blockJSRequests: false,
+        },
+      })
+    );
 
     return resolve(webpackConfig);
   });

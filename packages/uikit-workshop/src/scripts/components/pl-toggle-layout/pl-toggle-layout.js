@@ -12,7 +12,7 @@ class LayoutToggle extends BaseComponent {
 
   constructor(self) {
     self = super(self);
-    this.useShadow = false;
+    self.useShadow = false;
     return self;
   }
 
@@ -28,14 +28,14 @@ class LayoutToggle extends BaseComponent {
   };
 
   _stateChanged(state) {
-    if (this.layoutMode !== state.app.layoutMode) {
-      this.layoutMode = state.app.layoutMode;
-    }
+    this.layoutMode = state.app.layoutMode;
+    this.triggerUpdate();
   }
 
   render({ layoutMode, text }) {
     const toggleLayoutMode =
       layoutMode !== 'vertical' ? 'vertical' : 'horizontal';
+
     return (
       <div class="pl-c-toggle-layout">
         <button

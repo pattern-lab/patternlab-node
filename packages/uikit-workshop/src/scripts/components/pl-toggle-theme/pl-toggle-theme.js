@@ -12,7 +12,11 @@ class ThemeToggle extends BaseComponent {
 
   constructor(self) {
     self = super(self);
-    this.useShadow = false;
+    self.useShadow = false;
+    self.targetOrigin =
+      window.location.protocol === 'file:'
+        ? '*'
+        : window.location.protocol + '//' + window.location.host;
     return self;
   }
 
@@ -28,13 +32,21 @@ class ThemeToggle extends BaseComponent {
 
   _stateChanged(state) {
     this.themeMode = state.app.themeMode;
+    this.iframeElement = document.querySelector('.pl-js-iframe');
+
+    if (this.iframeElement) {
+      const obj = JSON.stringify({
+        event: 'patternLab.stateChange',
+        state,
+      });
+      this.iframeElement.contentWindow.postMessage(obj, this.targetOrigin);
+    }
   }
 
   render({ themeMode }) {
     const toggleThemeMode = this.themeMode !== 'dark' ? 'dark' : 'light';
     return (
       <div class="pl-c-toggle-theme">
-        {/* {this._renderStyles([styles])} */}
         <button
           class="pl-c-tools__action pl-c-toggle-theme__action"
           title="Switch Theme"

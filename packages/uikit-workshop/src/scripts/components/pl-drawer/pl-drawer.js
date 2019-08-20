@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
+
 import { store } from '../../store.js'; // redux store
 import {
   updateDrawerState,
   updateDrawerHeight,
   updateDrawerAnimationState,
-  // updateAppHeight,
-  // updateViewportHeight,
 } from '../../actions/app.js'; // redux actions needed by this element.
 import { css } from '../../utils';
 import { BaseComponent } from '../base-component.js';
 import AnimateHeight from 'react-animate-height';
+import CloseIcon from '../../../icons/close.svg';
 
 @define
 class Drawer extends BaseComponent {
@@ -19,9 +19,10 @@ class Drawer extends BaseComponent {
 
   constructor(self) {
     self = super(self);
-    this.onMouseDown = this.onMouseDown.bind(this); // fix bindings so "this" works properly
-    this.onMouseUp = this.onMouseUp.bind(this); // fix bindings so "this" works properly
-    this.onMouseMove = this.onMouseMove.bind(this); // fix bindings so "this" works properly
+    self.onMouseDown = self.onMouseDown.bind(self); // fix bindings so "self" works properly
+    self.onMouseUp = self.onMouseUp.bind(self); // fix bindings so "self" works properly
+    self.onMouseMove = self.onMouseMove.bind(self); // fix bindings so "this" works properly
+    self.useShadow = false;
     return self;
   }
 
@@ -80,10 +81,6 @@ class Drawer extends BaseComponent {
     drawerOpened: props.boolean,
   };
 
-  get renderRoot() {
-    return this;
-  }
-
   render({ drawerOpened, drawerHeight, isViewallPage }) {
     const classes = css(
       'pl-c-drawer',
@@ -116,27 +113,21 @@ class Drawer extends BaseComponent {
                 onMouseDown={this.onMouseDown}
               />
               <div class="pl-c-drawer__toolbar-controls">
-                {/* <pl-toggle-layout ></pl-toggle-layout> @todo: look into why this isn't re-rendering correctly */}
+                {/* <pl-toggle-layout></pl-toggle-layout> */}
+
                 <button
                   class="pl-c-drawer__close-btn"
                   title="Hide pattern info"
                   title="Menu"
                   onClick={_ => store.dispatch(updateDrawerState(false))}
                 >
-                  <svg
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    class="pl-c-drawer__close-btn-icon"
-                  >
-                    <title>Close Drawer</title>
-                    <path
-                      fill="currentColor"
-                      d="M11.8905,9.6405 L11.8905,9.6405 L8.25,6 L11.8905,2.3595 L11.8905,2.3595 C11.9295,2.3205 11.958,2.27475 11.976,2.226 C12.0255,2.0925 11.997,1.9365 11.8905,1.82925 L10.17075,0.1095 C10.0635,0.00225 9.9075,-0.02625 9.774,0.024 C9.72525,0.042 9.6795,0.0705 9.6405,0.1095 L9.6405,0.1095 L6,3.75 L2.3595,0.1095 L2.3595,0.1095 C2.3205,0.0705 2.27475,0.042 2.226,0.024 C2.0925,-0.0255 1.9365,0.00225 1.82925,0.1095 L0.1095,1.82925 C0.00225,1.9365 -0.02625,2.0925 0.024,2.226 C0.042,2.27475 0.0705,2.3205 0.1095,2.3595 L0.1095,2.3595 L3.75,6 L0.1095,9.6405 L0.1095,9.6405 C0.0705,9.6795 0.042,9.72525 0.024,9.774 C-0.0255,9.9075 0.00225,10.0635 0.1095,10.17075 L1.82925,11.8905 C1.9365,11.99775 2.0925,12.02625 2.226,11.976 C2.27475,11.958 2.3205,11.9295 2.3595,11.8905 L2.3595,11.8905 L6,8.25 L9.6405,11.8905 L9.6405,11.8905 C9.6795,11.9295 9.72525,11.958 9.774,11.976 C9.9075,12.0255 10.0635,11.99775 10.17075,11.8905 L11.8905,10.17075 C11.99775,10.0635 12.02625,9.9075 11.976,9.774 C11.958,9.72525 11.9295,9.6795 11.8905,9.6405 L11.8905,9.6405 Z"
-                    />
-                  </svg>
+                  <CloseIcon
+                    width={20}
+                    height={20}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    className={'pl-c-drawer__close-btn-icon'}
+                  />
                 </button>
               </div>
             </div>

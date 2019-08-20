@@ -3,7 +3,7 @@
  * "Modal" (aka Panel UI) for the Viewer Layer - for both annotations and code/info
  */
 
-import Scroll from 'scroll-js';
+import { scrollTo } from 'scroll-js';
 import { urlHandler, Dispatcher } from '../utils';
 import { panelsViewer } from './panels-viewer';
 import { store } from '../store.js';
@@ -12,6 +12,7 @@ import { updateDrawerState, isViewallPage } from '../actions/app.js';
 
 export const modalViewer = {
   // set up some defaults
+  delayCheckingModalViewer: false,
   iframeElement: document.querySelector('.pl-js-iframe'),
   active: false,
   switchText: true,
@@ -26,6 +27,7 @@ export const modalViewer = {
    * initialize the modal window
    */
   onReady() {
+    window.addEventListener('message', modalViewer.receiveIframeMessage, false);
     // make sure the listener for checkpanels is set-up
     Dispatcher.addListener('insertPanels', modalViewer.insert);
 
@@ -76,10 +78,21 @@ export const modalViewer = {
           event: 'patternLab.annotationsHighlightShow',
           annotations: modalViewer.patternData.annotations,
         });
-        modalViewer.iframeElement.contentWindow.postMessage(
-          obj,
-          modalViewer.targetOrigin
-        );
+
+        if (modalViewer.iframeElement.contentWindow) {
+          modalViewer.iframeElement.contentWindow.postMessage(
+            obj,
+            modalViewer.targetOrigin
+          );
+        } else {
+          modalViewer.iframeElement = document.querySelector('.pl-js-iframe');
+
+          if (modalViewer.iframeElement.contentWindow) {
+            modalViewer.open();
+          } else {
+            console.log('modelViewer open cannot find the iframeElement...');
+          }
+        }
       }
     }
   },
@@ -92,18 +105,31 @@ export const modalViewer = {
     const obj = JSON.stringify({
       event: 'patternLab.patternModalClose',
     });
-    modalViewer.iframeElement.contentWindow.postMessage(
-      obj,
-      modalViewer.targetOrigin
-    );
 
-    const obj2 = JSON.stringify({
-      event: 'patternLab.annotationsHighlightHide',
-    });
-    modalViewer.iframeElement.contentWindow.postMessage(
-      obj2,
-      modalViewer.targetOrigin
-    );
+    if (modalViewer.iframeElement) {
+      if (modalViewer.iframeElement.contentWindow) {
+        modalViewer.iframeElement.contentWindow.postMessage(
+          obj,
+          modalViewer.targetOrigin
+        );
+
+        const obj2 = JSON.stringify({
+          event: 'patternLab.annotationsHighlightHide',
+        });
+        modalViewer.iframeElement.contentWindow.postMessage(
+          obj2,
+          modalViewer.targetOrigin
+        );
+      } else {
+        modalViewer.iframeElement = document.querySelector('.pl-js-iframe');
+
+        if (modalViewer.iframeElement.contentWindow) {
+          modalViewer.close();
+        } else {
+          console.log('modelViewer close cannot find the iframeElement...');
+        }
+      }
+    }
   },
 
   /**
@@ -121,10 +147,20 @@ export const modalViewer = {
         patternPartial,
         modalContent: templateRendered.outerHTML,
       });
-      modalViewer.iframeElement.contentWindow.postMessage(
-        obj,
-        modalViewer.targetOrigin
-      );
+      if (modalViewer.iframeElement.contentWindow) {
+        modalViewer.iframeElement.contentWindow.postMessage(
+          obj,
+          modalViewer.targetOrigin
+        );
+      } else {
+        modalViewer.iframeElement = document.querySelector('.pl-js-iframe');
+
+        if (modalViewer.iframeElement.contentWindow) {
+          modalViewer.insert(templateRendered, patternPartial, iframePassback);
+        } else {
+          console.log('modelViewer insert cannot find the iframeElement...');
+        }
+      }
     } else {
       const contentContainer = document.querySelector('.pl-js-drawer-content');
 
@@ -175,20 +211,19 @@ export const modalViewer = {
     }
 
     const patternInfoElem = document.querySelector('.pl-js-pattern-info');
-    const scroll = new Scroll(patternInfoElem);
+    // const scroll = new Scroll(patternInfoElem);
 
     // add active class to called element and scroll to it
     for (let i = 0; i < els.length; ++i) {
       if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
 
-        scroll
-          .to(patternInfoElem.offsetTop, els[i].offsetTop - 14, {
-            duration: 600,
-          })
-          .then(function() {
-            // console.log('finished scrolling');
-          });
+        scrollTo(patternInfoElem, document.body, {
+          top: els[i].offsetTop - 14,
+          behavior: 'smooth',
+        }).then(function() {
+          // console.log('finished scrolling');
+        });
       }
     }
   },
@@ -203,10 +238,34 @@ export const modalViewer = {
       event: 'patternLab.patternQuery',
       switchText,
     });
-    modalViewer.iframeElement.contentWindow.postMessage(
-      obj,
-      modalViewer.targetOrigin
-    );
+
+    // only emit this when the iframe element exists.
+    // @todo: refactor to better handle async UI rendering
+    if (modalViewer.iframeElement) {
+      if (modalViewer.iframeElement.contentWindow) {
+        modalViewer.iframeElement.contentWindow.postMessage(
+          obj,
+          modalViewer.targetOrigin
+        );
+      } else {
+        modalViewer.iframeElement = document.querySelector('.pl-js-iframe');
+
+        if (modalViewer.iframeElement.contentWindow) {
+          modalViewer.queryPattern(switchText);
+        } else {
+          console.log('queryPattern cannot find the iframeElement...');
+        }
+      }
+    } else {
+      modalViewer.iframeElement = document.querySelector('.pl-js-iframe');
+
+      if (modalViewer.iframeElement.contentWindow) {
+        modalViewer.iframeElement.contentWindow.postMessage(
+          obj,
+          modalViewer.targetOrigin
+        );
+      }
+    }
   },
 
   /**
@@ -233,6 +292,12 @@ export const modalViewer = {
     }
 
     if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
+      // @todo: refactor to better handle async iframe loading
+      // extra check to make sure the PL drawer will always render even if the iframe gets async loaded / rendered.
+      if (modalViewer.delayCheckingModalViewer) {
+        modalViewer._handleInitialModalViewerState();
+      }
+
       if (
         data.patternpartial.indexOf('viewall-') === 0 ||
         data.patternpartial.indexOf('all') === 0
@@ -281,17 +346,32 @@ export const modalViewer = {
     }
   },
 
+  _handleInitialModalViewerState() {
+    // try to re-locate the iframe element if this UI logic ran too early and the iframe component wasn't yet rendered
+    if (!modalViewer.iframeElement) {
+      modalViewer.iframeElement = document.querySelector('.pl-js-iframe');
+    }
+
+    // only try to auto-open / auto-close the drawer UI if the iframe element exists
+    // @todo: refactor to better handle async UI rendering
+    if (modalViewer.iframeElement) {
+      modalViewer.delayCheckingModalViewer = false;
+      if (modalViewer.active) {
+        modalViewer.open();
+      } else {
+        modalViewer.close();
+      }
+    } else {
+      modalViewer.delayCheckingModalViewer = true;
+    }
+  },
+
   _stateChanged(state) {
     modalViewer.active = state.app.drawerOpened;
-
-    if (modalViewer.active) {
-      modalViewer.open();
-    } else {
-      modalViewer.close();
+    if (modalViewer.iframeElement) {
+      modalViewer._handleInitialModalViewerState();
     }
   },
 };
 
 modalViewer.onReady();
-
-window.addEventListener('message', modalViewer.receiveIframeMessage, false);

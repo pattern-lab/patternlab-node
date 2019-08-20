@@ -3,8 +3,12 @@ import {
   UPDATE_DRAWER_HEIGHT,
   UPDATE_DRAWER_ANIMATION_STATE,
   UPDATE_LAYOUT_MODE,
+  UPDATE_VIEWPORT_PX,
+  UPDATE_VIEWPORT_EM,
   UPDATE_THEME_MODE,
   IS_VIEWALL_PAGE,
+  UPDATE_CURRENT_URL,
+  UPDATE_CURRENT_PATTERN,
 } from '../actions/app.js';
 
 const app = (state = {}, action) => {
@@ -13,6 +17,26 @@ const app = (state = {}, action) => {
       return {
         ...state,
         layoutMode: action.layoutMode,
+      };
+    case UPDATE_CURRENT_URL:
+      return {
+        ...state,
+        currentUrl: action.currentUrl,
+      };
+    case UPDATE_CURRENT_PATTERN:
+      return {
+        ...state,
+        currentPattern: action.currentPattern,
+      };
+    case UPDATE_VIEWPORT_PX:
+      return {
+        ...state,
+        viewportPx: action.viewportPx,
+      };
+    case UPDATE_VIEWPORT_EM:
+      return {
+        ...state,
+        viewportEm: action.viewportEm,
       };
     case UPDATE_THEME_MODE:
       return {

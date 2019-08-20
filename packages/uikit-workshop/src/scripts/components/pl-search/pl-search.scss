@@ -16,20 +16,20 @@ pl-search {
   top: 0;
   z-index: 10;
   flex-shrink: 0;
-  padding: 0.3rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   display: inline-block;
-  
+  align-self: stretch;
+
   @media screen and (min-width: $pl-bp-med) {
     margin-left: 1rem;
     flex-direction: row;
     flex-shrink: 1;
     order: 2; // Display after nav list items on wider screens
+    align-self: center;
 
     .pl-c-body--theme-sidebar & {
       flex-direction: column;
       margin-left: 0;
-      padding-left: 0;
-      padding-right: 0;
       width: 100%;
     }
   }
@@ -75,13 +75,15 @@ pl-search {
   text-transform: capitalize;
   background-color: $pl-color-gray-87;
   color: $pl-color-white;
-  border-color: darken($pl-color-gray-87, 10%);
+  background-color: rgba(var(--theme-text-rgb), 0.1);
+  color: rgba(var(--theme-text-rgb), 0.67);
+  border-color: rgba(0, 0, 0, .1);
   text-overflow: ellipsis;
   border-width: 1px;
   border-style: solid;
   transition: all 0.1s ease;
   max-width: 100%;
-  padding: 0.31rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   font-size: 16px; // prevent zooming in on mobile
   width: 100%;
   outline-offset: -3px;
@@ -118,8 +120,9 @@ pl-search {
 
   .pl-c-body--theme-light & {
     background-color: $pl-color-gray-07;
-    color: $pl-color-gray-70 !important;
-    border-color: $pl-color-gray-13 !important;
+    background-color: rgba(var(--theme-text-rgb), 0.1);
+    color: $pl-color-gray-70;
+    color: rgba(var(--theme-text-rgb), 0.67);
   }
 
   &::-webkit-input-placeholder,
@@ -131,12 +134,9 @@ pl-search {
   &:hover,
   &:focus {
     color: $pl-color-white;
-    background-color: darken($pl-color-gray-87, 2%) !important;
 
     .pl-c-body--theme-light & {
       color: $pl-color-gray-87 !important;
-      background-color: $pl-color-gray-13 !important;
-      border-color: $pl-color-gray-20 !important;
     }
 
     &::-moz-input-placeholder,
@@ -153,6 +153,8 @@ pl-search {
 .pl-c-typeahead__menu {
   @include accordionPanel;
   background-color: $pl-color-gray-87;
+  background-color: var(--theme-primary);
+  color: var(--theme-text);
   text-transform: capitalize;
   position: absolute;
   min-width: 100%;
@@ -228,13 +230,19 @@ pl-search {
 .pl-c-typeahead__result {
   transition: all 0.3s ease;
   background-color: inherit;
-  padding: 0.8em;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
   overflow: hidden;
+  font-size: 0.8rem;
+  color: inherit;
 
   &:last-child {
     border-bottom-right-radius: $pl-border-radius-med;
     border-bottom-left-radius: $pl-border-radius-med;
+
+    @media all and (max-width: $pl-bp-med - 1) {
+      border-radius: 0;
+    }
 
     .pl-c-body--theme-sidebar & {
       border-radius: 0;
@@ -271,6 +279,7 @@ pl-search {
 
 .pl-c-typeahead__input-wrapper {
   position: relative; // used for positioning search clear button in relation to the <input>
+  flex-shrink: 0;
 }
 
 .pl-c-typeahead__clear-button {
