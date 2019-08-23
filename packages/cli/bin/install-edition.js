@@ -12,6 +12,9 @@ const {
   getJSONKey,
 } = require('./utils');
 
+// https://github.com/TehShrike/deepmerge#overwrite-array
+const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+
 const installEdition = (edition, config, projectDir) => {
   const pkg = require(path.resolve(projectDir, 'package.json'));
 
@@ -64,11 +67,11 @@ const installEdition = (edition, config, projectDir) => {
         );
 
         yield copyAsync(
-          path.resolve(editionPath, '/helpers/test.js'),
+          path.join(editionPath, path.sep, 'helpers', path.sep, 'test.js'),
           path.resolve(sourceDir, '../', 'helpers/test.js')
         );
 
-        config = merge(config, editionConfig);
+        config = merge(config, editionConfig, { arrayMerge: overwriteMerge });
         break;
       }
       // 4.3
@@ -91,7 +94,7 @@ const installEdition = (edition, config, projectDir) => {
           path.resolve(sourceDir, '../', 'alter-twig.php')
         );
 
-        config = merge(config, editionConfig);
+        config = merge(config, editionConfig, { arrayMerge: overwriteMerge });
         break;
       }
     }
