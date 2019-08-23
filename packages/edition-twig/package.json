@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/edition-twig",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "Pattern Lab node with Twig PHP Engine",
   "author": {
     "name": "Evan Lovely",
@@ -22,7 +22,7 @@
     "version": "patternlab --version"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^0.1.0",
+    "@pattern-lab/cli": "^1.0.0",
     "@pattern-lab/core": "^3.0.2",
     "@pattern-lab/engine-twig-php": "^3.0.2",
     "@pattern-lab/uikit-workshop": "^1.0.2"
