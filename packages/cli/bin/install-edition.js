@@ -49,11 +49,26 @@ const installEdition = (edition, config, projectDir) => {
       }
       // 4.2
       case '@pattern-lab/edition-node': {
+        const editionPath = path.resolve('./node_modules', edition);
+        const editionConfigPath = path.resolve(
+          editionPath,
+          'patternlab-config.json'
+        );
+
+        const editionConfig = require(editionConfigPath);
+
         pkg.scripts = Object.assign(
           {},
           pkg.scripts || {},
           yield getJSONKey(edition, 'scripts')
         );
+
+        yield copyAsync(
+          path.resolve(editionPath, '/helpers/test.js'),
+          path.resolve(sourceDir, '../', 'helpers/test.js')
+        );
+
+        config = merge(config, editionConfig);
         break;
       }
       // 4.3

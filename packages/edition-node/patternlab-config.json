@@ -68,7 +68,7 @@
       "css": "public/css"
     }
   },
-  "patternExtension": "mustache",
+  "patternExtension": "hbs",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternExportDirectory": "./pattern_exports/",
   "patternExportPatternPartials": [],
@@ -90,5 +90,10 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "engines": {
+    "handlebars": {
+      "extend": "helpers/*.js"
+    }
+  }
 }
