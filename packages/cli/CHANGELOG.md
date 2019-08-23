@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.3...@pattern-lab/cli@0.1.0) (2019-08-23)
+
+
+### Bug Fixes
+
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/5b7a057))
+* **cli:** add custom install logic to edition-node ([f04fd26](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/f04fd26))
+* **cli:** re-order and clarify engines ([e39e301](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/e39e301))
+
+
+### Features
+
+* **starterkits:** add starterkit-handlebars-demo ([384d2cf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/384d2cf))
+
+
+
+
+
+
 ## [0.0.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.3-alpha.0...@pattern-lab/cli@0.0.3) (2019-05-16)
 
 **Note:** Version bump only for package @pattern-lab/cli
