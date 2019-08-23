@@ -366,6 +366,3 @@ export const panelsViewer = {
  * 5) Add mouseup event to the body so that when drag is released, the modal
  * stops resizing and modal cover doesn't display anymore.
  */
-// eslint-disable-next-line no-unused-vars
-$('.pl-js-modal-resizer').mousedown(function(event) {
-  /* 1 */
