@@ -64,7 +64,7 @@ const installEdition = (edition, config, projectDir) => {
         );
 
         yield copyAsync(
-          path.resolve(editionPath, '/helpers/test.js'),
+          path.join(editionPath, path.sep, 'helpers', path.sep, 'test.js'),
           path.resolve(sourceDir, '../', 'helpers/test.js')
         );
 
