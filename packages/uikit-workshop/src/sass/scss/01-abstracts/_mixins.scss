@@ -27,36 +27,29 @@
  * Header Link Style
  */
 @mixin linkStyle() {
-  background: $pl-color-black;
-  color: $pl-color-gray-50;
+  @include noSelect;
+  color: inherit;
   text-decoration: none;
   line-height: 1;
   padding: 0.7rem 0.5rem;
   border: 0;
   text-align: left;
-  transition: background $pl-animate-quick ease-out,
+  transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
+  cursor: pointer;
+  outline: 0;
 
-  &:hover {
-    color: $pl-color-white;
-    background: $pl-color-gray-87;
+  &:hover,
+  &.pl-is-active:hover {
+    background-color: rgba(0, 0, 0, .1);
   }
 
-  &:focus,
-  &.active {
-    color: $pl-color-white;
-    background: $pl-color-gray-87;
-    outline: 1px dotted $pl-color-gray-50;
-    outline-offset: -1px;
-  }
 
   /**
      * Header link styles inside light theme
      */
-  .pl-c-body--theme-light & {
-    background: $pl-color-white;
-    color: $pl-color-gray-70;
-  }
+
+
 
   /**
      * Header link styles inside cozy theme
@@ -84,15 +77,22 @@
   transition: max-height $pl-animate-quick ease-out;
 
   /**
-     * Active is when accordion panel is open
-     */
+  * Active styles for when the accordion panel is open
+  * 1. WIP -- part of broader UI refactor
+  */
   &.pl-is-active {
-    max-height: none;
+    max-height: calc(100vh - #{$offset-top} - 1rem);
+    max-height: calc(
+      var(--pl-viewport-height, calc(100vh - #{$offset-top})) - 1rem
+    ); /* [1] */
     overflow: auto;
-    @include hideScrollBar();
-
-    @media all and (min-width: $pl-bp-med) {
-      max-height: 120rem;
-    }
+    -webkit-overflow-scrolling: touch;
   }
+}
+
+@mixin noSelect() {
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 }

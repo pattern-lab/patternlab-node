@@ -1,0 +1,91 @@
+/*------------------------------------*\
+    #HEADER
+\*------------------------------------*/
+
+pl-header {
+  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex; /* 2 */
+  width: 100%;
+  background-color: $pl-color-black;
+  background-color: var(--theme-secondary, $pl-color-black);
+  max-height: 100vh;
+
+  color: $pl-color-gray-20;
+  color: var(--theme-text, $pl-color-gray-20);
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-right-color: $pl-color-gray-20;
+  border-right-color: var(--theme-border, $pl-color-gray-20);
+  border-bottom-color: $pl-color-gray-20;
+  border-bottom-color: var(--theme-border, $pl-color-gray-20);
+  box-shadow: 0 8px 15px 1px rgba(6, 10, 36, 0.1),0 18px 24px 1px rgba(6, 10, 36, 0.12);
+
+  .pl-c-body--theme-light & {
+    color: $pl-color-black;
+    background-color: $pl-color-white;
+    border-bottom: 1px solid $pl-color-gray-20;
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      position: fixed;
+      position: sticky;
+    /**
+      * Header
+      * 1) Set width to sidebar width defined above
+      * 2) Make header 100% of the viewport height
+      * 3) Stack header content stack on top of each other
+      * 4) void bottom border for light theme
+      */
+      width: $pl-sidebar-width; /* 1 */
+      border-bottom: 0; /* 4 */
+    }
+  }
+
+}
+
+/**
+* 1) Pattern Lab's header is fixed across the top of the viewport and
+*    contains the primary pattern navigation, viewport resizing items,
+*    and tools.
+* 2) Display nav and controls horizontally
+*/
+.pl-c-header {
+  display: flex; /* 2 */
+  flex-direction: row;
+  width: 100%;
+  font-family: $pl-font;
+  font-size: $pl-font-size-sm;
+  min-height: 30px; // magic number -- needed for initial skeleton screen styles used in the critical CSS
+  background-color: inherit;
+
+  @supports(padding: max(0px)) {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      flex-direction: column; /* 3 */
+      justify-content: space-between;
+    }
+  }
+}
+
+/**
+ * Nav toggle button
+ * 1) Styles for the general nav toggle button, which
+ *    only appears on small screens
+ */
+.pl-c-header__nav-toggle {
+  @include linkStyle();
+  border: 0;
+
+  @media all and (min-width: $pl-bp-med) {
+    display: none;
+  }
+}

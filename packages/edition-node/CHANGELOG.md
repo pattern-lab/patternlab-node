@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.2-alpha.0...@pattern-lab/edition-node@1.0.2) (2019-05-16)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+# [1.0.0-beta.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-beta.0...@pattern-lab/edition-node@1.0.0-beta.2) (2019-02-09)
+
+
+### Bug Fixes
+
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/98dfadf))
+
+
+
+
+
 <a name="1.0.0-beta.0"></a>
 # [1.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.13...@pattern-lab/edition-node@1.0.0-beta.0) (2018-09-07)
 

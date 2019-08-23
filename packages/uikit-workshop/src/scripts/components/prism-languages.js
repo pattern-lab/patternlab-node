@@ -1,45 +1,15 @@
-/**
- * Default languages for Prism to match rendering capability
- */
+import Prism from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-markup-templating';
+import 'prismjs/components/prism-markup';
+import 'prismjs/components/prism-twig';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-css-extras';
+import 'prismjs/components/prism-scss';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/components/prism-yaml';
+import 'prismjs/components/prism-handlebars';
 
-export const PrismLanguages = {
-  languages: [],
-
-  get(key) {
-    let language;
-
-    for (let i = 0; i < this.languages.length; ++i) {
-      language = this.languages[i];
-      if (language[key] !== undefined) {
-        return language[key];
-      }
-    }
-
-    return 'markup';
-  },
-
-  add(language) {
-    // see if the language already exists, overwrite if it does
-    for (const key in language) {
-      if (language.hasOwnProperty(key)) {
-        for (let i = 0; i < this.languages.length; ++i) {
-          if (this.languages[i][key] !== undefined) {
-            this.languages[i][key] = language[key];
-            return;
-          }
-        }
-      }
-    }
-
-    this.languages.push(language);
-  },
-};
-
-// this shouldn't get hardcoded, also need to think about including Prism's real lang libraries (e.g. handlebars & twig)
-PrismLanguages.add({
-  twig: 'markup',
-});
-
-PrismLanguages.add({
-  mustache: 'markup',
-});
+export const PrismLanguages = Prism;

@@ -26,10 +26,10 @@ $pl-color-state-inreview: #c7a118;
 $pl-color-state-deprecated: #b00b02;
 
 // Font Family
-$pl-font: 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif;
+$pl-font: 'Open Sans', 'HelveticaNeue', 'Helvetica', 'Arial', sans-serif !default;
 
 // Font sizes
-$pl-font-size-sm: 0.7rem;
+$pl-font-size-sm: 0.9rem;
 $pl-font-size-sm-2: 0.85rem;
 $pl-font-size-norm: 1rem;
 $pl-font-size-large: 1.2rem;
@@ -48,7 +48,11 @@ $pl-bp-xl: 62em;
 
 // Animations
 $pl-animate-quick: 0.1s;
+$pl-animate-normal: 0.3s;
 
 // Borders
 $pl-border-radius: 3px;
 $pl-border-radius-med: 6px;
+
+
+$pl-sidebar-width: 16rem; //Define sidebar width for calculating dimensions

@@ -2,9 +2,7 @@
     #SIDEBAR THEME
 \*------------------------------------*/
 
-$pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
-
-@media all and (min-width: 48em) {
+@media all and (min-width: $pl-bp-med) {
   /**
     * A theme that places displays the header as a sidebar
     */
@@ -21,34 +19,16 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
       height: 100vh; /* 2 */
       flex-direction: column; /* 3 */
       border-bottom: 0; /* 4 */
-      padding: 1rem;
-      overflow: auto;
-      @include hideScrollBar();
-    }
-
-    /**
-         * Header within light theme
-         */
-    &.pl-c-body--theme-light {
-      .pl-c-header {
-        border-right: 1px solid $pl-color-gray-20;
-      }
-    }
-
-    /**
-         * Logo
-         */
-    .pl-c-logo {
-      max-width: 7rem;
-      margin: 0 auto 1rem;
+      justify-content: space-between;
     }
 
     /**
         * Nav sub sub list
         */
     .pl-c-nav {
-      display: block;
+      flex-grow: 1;
       flex-direction: column;
+      flex-flow: column-reverse;
     }
 
     /**
@@ -62,62 +42,11 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
     }
 
     /**
-        * Nav link
-        */
-    .pl-c-nav__link {
-      font-size: $pl-font-size-sm-2;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    /**
         * Nav sublist
         */
     .pl-c-nav__sublist {
       position: relative;
       border-radius: 0;
-    }
-
-    /**
-        * Nav sublist
-        */
-    .pl-c-nav__sublist .pl-c-nav__link {
-      padding-left: 1rem;
-    }
-
-    /**
-        * Nav sublist
-        */
-    .pl-c-nav__sublist--dropdown.pl-is-active {
-      border: 0;
-      border-left: 1px solid $pl-color-gray-70;
-    }
-
-    /**
-         * Nav sublist inside the light theme
-         */
-    &.pl-c-body--theme-light {
-      .pl-c-nav__sublist--dropdown.pl-is-active {
-        border-left-color: $pl-color-gray-07;
-      }
-    }
-
-    /**
-         * Dropdown sublist
-         * 1) Undo fixed height
-         */
-    .pl-c-nav__sublist--dropdown.pl-is-active {
-      @media all and (min-width: $pl-bp-med) {
-        height: auto; /* 1 */
-      }
-    }
-
-    /**
-        * Nav sub sub list
-        */
-    .pl-c-nav__subsublist {
-      border-left: 1px solid $pl-color-gray-70;
-      margin-left: 1rem;
     }
 
     /**
@@ -155,30 +84,9 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
         *    they appear at the bottom
         */
     .pl-c-controls {
-      margin-top: auto; /* 1 */
+      display: block; // Display flex + flex direction column gives a similar result, but this fixes a bunch of rendering quirks in IE 11
+      justify-self: flex-end;
       margin-left: 0;
-      flex-direction: column;
-    }
-
-    .pl-c-size-list {
-      display: none;
-    }
-
-    .pl-c-viewport-size {
-      display: none;
-    }
-
-    .pl-c-typeahead {
-      border-radius: $pl-border-radius-med;
-    }
-
-    /**
-         * Dynamically added wrapper around typeahead input
-         * 1) Have to use important to override JS-added inline styles
-         */
-    .pl-c-header .twitter-typeahead {
-      display: block !important; /* 1 */
-      margin-bottom: 0.5rem;
     }
 
     /**
@@ -202,51 +110,12 @@ $pl-sidebar-width: 14rem; //Define sidebar width for calculating dimensions
     }
 
     /**
-         * Tools action
-         */
-    .pl-c-tools__action {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    /**
-         * Viewport
-         * 1) Position viewport (that contains all the content)
-         *    so it fits in remaining available space
-         */
-    .pl-c-viewport {
-      top: 0; /* 1 */
-      margin-left: auto;
-      width: calc(
-        100% - #{$pl-sidebar-width}
-      ); // fixes the viewport being off-center (and too wide) when the sidebar is visible.
-    }
-
-    /**
-         * Iframe wrapper div
-         * 1) Wipe out dynamic resizing functionality for sidebar mode
-         */
-    .pl-c-viewport__iframe-wrapper {
-      width: 100% !important; /* 1 */
-    }
-
-    /**
-         * Iframe
-         * 1) Wipe out dynamic resizing  functionality for sidebar mode
-         *    TODO: revisit to find ways to resize
-         */
-    .pl-c-viewport__iframe {
-      width: 100% !important; /* 1 */
-    }
-
-    /**
-         * Modal
-         * 1) Position modal (that contains all the content)
-         *    so it fits in remaining available space
-         *    TODO: revisit to find ways to resize
-         */
-    .pl-c-modal {
-      left: $pl-sidebar-width; /* 1 */
+      * Modal
+      * 1) Position modal (that contains all the content)
+      *    so it fits in remaining available space
+      *    TODO: revisit to find ways to resize
+      */
+    .pl-c-drawer {
       right: 0; /* 1 */
       width: auto;
     }

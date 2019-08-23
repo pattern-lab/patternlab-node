@@ -1,104 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html class="pl-c-html">
+  <head>
+    <title id="title">Pattern Lab</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ababab" />
+    <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
 
-<head>
-  <title id="title">Pattern Lab</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width" />
-  <meta name="theme-color" content="#ababab" />
+    <link
+      rel="prefetch"
+      as="image"
+      href="styleguide/images/pattern-lab-logo--on-dark.svg"
+    />
+    <link
+      rel="prefetch"
+      as="image"
+      href="styleguide/images/pattern-lab-logo--on-light.svg"
+    />
+  </head>
 
-  <link rel="preload" as="script" href="styleguide/js/patternlab-viewer.js">
-  <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
+  <body class="pl-c-body">
+    <pl-layout></pl-layout>
 
-</head>
+    <!-- the template for the modal slider -->
+    <script type="text/mustache" class="pl-js-panel-template-base">
+      ${require('./partials/base-template.html') }
+    </script>
 
-<body class="pl-c-body">
+    <!-- load Pattern Lab data -->
+    <script src="styleguide/data/patternlab-data.js" defer></script>
+    <script src="annotations/annotations.js" defer></script>
+    <script src="styleguide/js/patternlab-viewer.js" defer></script>
 
-  ${require('./partials/header.html') }
-  ${require('./partials/iframe.html') }
-  ${require('./partials/modal.html') }
-
-  <script type="text/mustache" class="pl-js-pattern-nav-template">
-    ${require('./partials/pattern-nav.html') }
-	</script>
-
-  <script type="text/mustache" class="pl-js-ish-controls-template">
-    ${require('./partials/controls.html') }
-	</script>
-
-  <!-- the template for the modal slider -->
-  <script type="text/mustache" class="pl-js-panel-template-base">
-    ${require('./partials/base-template.html') }
-	</script>
-
-  <!-- the template for code-related tabs in the code view slider -->
-  <script type="text/mustache" id="pl-panel-template-code">
-    ${require('./partials/panel-code-template.html') }
-	</script>
-
-  <!-- load Pattern Lab data -->
-  <script src="styleguide/data/patternlab-data.js" defer></script>
-
-  <!-- applying theme config to get classes on before PL renders so there's no flash of unstyled content -->
-  <!-- @todo fold this into it's own standalone JS component -->
-  <script>
-    // need to make sure that window.config is defined first on acccount of us async loading everything ;)
-    window.patternlab = window.patternlab || {};
-    window.patternlab.applyTheme = function () {
-      if (window.config.theme.color === 'light') {
-        document.body.classList.add('pl-c-body--theme-light');
-      }
-      if (window.config.theme.layout === 'vertical') {
-        document.body.classList.add('pl-c-body--theme-sidebar');
-      }
-      switch (window.config.theme.density) {
-        case 'cozy':
-          document.body.classList.add('pl-c-body--theme-density-cozy');
-          break;
-        case 'comfortable':
-          document.body.classList.add('pl-c-body--theme-density-comfortable');
-          break;
-        default:
-          // not sure if you even need/want this
-          document.body.classList.add('pl-c-body--theme-density-compact');
-      }
-    }
-
-    // check if config already exists, if so, try to apply theme config; otherwise wait till later just in case.
-    if (window.config !== undefined) {
-      if (window.config.theme !== undefined) {
-        window.patternlab.applyTheme();
-      }
-    }
-  </script>
-
-  <script src="annotations/annotations.js" defer></script>
-
-  <!-- load the Pattern Lab viewer js -->
-  <script>
-    ${require('raw-loader!../../node_modules/whendefined/dist/whendefined.min.js')}
-  </script>
-  <script src="styleguide/js/patternlab-viewer.js" defer></script>
-
-  <!-- temp workaround to allow everything to be asynced / deffered with current setup. @todo: remove once refactored components + improved build process is in place. -->
-  <script>
-    whenDefined(window, 'config', function () {
-      if (window.config.theme) {
-        window.patternlab.applyTheme();
-      }
-    });
-
-    // Check that service workers are registered
-    // @todo: uncomment once cache-busting strategy is in place
-    // if ('serviceWorker' in navigator) {
-    //   // Use the window load event to keep the page load performant
-    //   window.addEventListener('load', () => {
-    //     navigator.serviceWorker.register('/sw.js');
-    //   });
-    // }
-  </script>
-
-
-</body>
-
+    <script>
+      // Check that service workers are registered
+      // @todo: uncomment once cache-busting strategy is in place
+      // if ('serviceWorker' in navigator) {
+      //   // Use the window load event to keep the page load performant
+      //   window.addEventListener('load', () => {
+      //     navigator.serviceWorker.register('/sw.js');
+      //   });
+      // }
+    </script>
+  </body>
 </html>

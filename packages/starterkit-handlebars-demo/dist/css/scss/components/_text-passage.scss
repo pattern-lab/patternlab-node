@@ -1,0 +1,106 @@
+/*------------------------------------*\
+    #TEXT PASSAGE
+\*------------------------------------*/
+
+/**
+ * 1) A passage of text, including various components (i.e. article, blog post)
+ */
+.c-text-passage {
+
+	p {
+		margin-bottom: 1rem;
+	}
+
+	/**
+	 * Link within the text passage
+	 */
+	a {
+		text-decoration: underline;
+	}
+
+	/**
+	 * Blockquote within text passage
+	 */
+	blockquote {
+		padding-left: 0.8rem;
+		border-left: 3px solid $color-neutral-gray-73;
+		color: $color-neutral-gray-50;
+		font-size: 1rem;
+	 }
+
+	 /**
+	  * First-level heading within text passage
+	  */
+	 h1 {
+		 margin-bottom: 1rem;
+	 }
+
+	/**
+	 * Second-level heading within text passage
+	 */
+	h2 {
+		margin: 1rem 0 1rem;
+		color: $color-neutral-gray-73;
+		font-weight: bold;
+	}
+
+	/**
+	 * Third-level heading within text passage
+	 */
+	h3 {
+		margin: 1rem 0 1rem;
+	}
+
+	/**
+	 * Fourth-level heading within text passage
+	 */
+	h4 {
+		margin: 1rem 0 1rem;
+	}
+
+	/**
+	 * Fifth-level heading within text passage
+	 */
+	h5 {
+		margin: 1rem 0 1rem;
+	}
+
+	/**
+	 * Sixth-level heading within text passage
+	 */
+	h6 {
+		margin: 1rem 0 1rem;
+	}
+
+
+	/**
+	 * Unordered list within text passage
+	 */
+	ul {
+		list-style: disc;
+		margin-left: 1rem;
+		margin-bottom: 1rem;
+
+		li:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	/**
+	 * Ordered list within text passage
+	 */
+	ol {
+		list-style: decimal;
+		margin-left: 1rem;
+		margin-bottom: 1rem;
+
+		li:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	li {
+		margin-bottom: 0.5rem;
+		line-height: 1.6;
+	}
+}

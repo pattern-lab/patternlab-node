@@ -12,7 +12,10 @@ const writeJsonAsync = require('../utils').writeJsonAsync;
  */
 const enable = options =>
   wrapAsync(function*() {
-    const { parent: { config: configPath }, plugins } = options;
+    const {
+      parent: { config: configPath },
+      plugins,
+    } = options;
     const config = yield resolveConfig(configPath);
 
     const spinner = ora(`⊙ patternlab → Disable …`).start();

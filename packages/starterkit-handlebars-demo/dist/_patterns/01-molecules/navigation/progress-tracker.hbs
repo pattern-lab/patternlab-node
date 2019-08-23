@@ -1,0 +1,17 @@
+{{#if progressTracker }}
+{{#with progressTracker }}
+<ol class="c-progress-tracker">
+    {{#each items }}
+    <li class="c-progress-tracker__item {{ styleModifier }}">
+        <div class="c-progress-tracker__number">
+            {{ number }}
+        </div>
+        <div class="c-progress-tracker__label">
+            {{ label }}
+        </div>
+    </li>
+    {{/ each }}
+</ol>
+<!-- end c-progress-tracker -->
+    {{/ with }}
+{{/ if }}

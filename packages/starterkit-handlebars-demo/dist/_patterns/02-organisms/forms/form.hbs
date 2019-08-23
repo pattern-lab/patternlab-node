@@ -1,0 +1,48 @@
+<form method="{{ method }}" action="{{ url }}" class="c-form {{ styleModifier }} js-form" {{# dataAttribute }} {{{ dataAttribute }}} {{/ dataAttribute}}>
+
+	<div class="c-form__body">
+
+		{{#if formFields }}
+		  {{#with formFields }}
+		    {{#each items }}
+		     	{{#if textField }}
+					{{# with textField }}
+						{{> molecules-text-field }}
+					{{/ with }}
+				{{/ if }}
+				{{#if selectField }}
+					{{# with selectField }}
+						{{> molecules-select-field }}
+					{{/ with }}
+				{{/ if }}
+				{{#if textAreaField }}
+					{{# with textAreaField }}
+						{{> molecules-textarea-field }}
+					{{/ with}}
+				{{/ if }}
+				{{#if radioField }}
+					{{# with radioField }}
+						{{> molecules-radio-field }}
+					{{/ with}}
+				{{/ if }}
+				{{#if checkboxField }}
+					{{# with checkboxField }}
+						{{> molecules-checkbox-field }}
+					{{/ with}}
+				{{/ if }}
+				{{#if inlineCheckbox }}
+					{{# with inlineCheckbox }}
+						{{> molecules-inline-checkbox }}
+					{{/ with}}
+				{{/ if }}
+		    {{/ each }}
+		  {{/ with }}
+		{{/ if }}
+
+	</div><!--end c-form__body-->
+
+	<div class="c-form__footer">
+		{{> organisms-button-group }}
+	</div><!--end c-form__footer-->
+
+</form><!--end c-form-->

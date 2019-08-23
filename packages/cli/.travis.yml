@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - node
-  - 6
+  - 8
 before_script:
   - npm install edition-node
   - npm install starterkit-mustache-base

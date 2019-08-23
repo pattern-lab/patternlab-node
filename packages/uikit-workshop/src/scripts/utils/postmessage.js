@@ -8,34 +8,7 @@
  *
  */
 
-// alert the iframe parent that the pattern has loaded assuming this view was loaded in an iframe
 if (window.self !== window.top) {
-  // handle the options that could be sent to the parent window
-  //   - all get path
-  //   - pattern & view all get a pattern partial, styleguide gets all
-  //   - pattern shares lineage
-  const path = window.location.toString();
-  const parts = path.split('?');
-  const options = { event: 'patternLab.pageLoad', path: parts[0] };
-
-  window.patternData = document.getElementById(
-    'pl-pattern-data-footer'
-  ).innerHTML;
-  window.patternData = JSON.parse(window.patternData);
-  options.patternpartial =
-    window.patternData.patternPartial !== undefined
-      ? window.patternData.patternPartial
-      : 'all';
-  if (window.patternData.lineage !== '') {
-    options.lineage = window.patternData.lineage;
-  }
-
-  const targetOrigin =
-    window.location.protocol === 'file:'
-      ? '*'
-      : window.location.protocol + '//' + window.location.host;
-  window.parent.postMessage(options, targetOrigin);
-
   // find all links and add an onclick handler for replacing the iframe address so the history works
   const aTags = document.getElementsByTagName('a');
   for (let i = 0; i < aTags.length; i++) {

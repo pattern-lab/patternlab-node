@@ -4,7 +4,7 @@ const eol = require('os').EOL;
 const path = require('path');
 const _ = require('lodash');
 
-const ae = require('./annotationExporter');
+const ae = require('./annotation_exporter');
 
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
@@ -13,7 +13,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * @param patternlab - global data store
  */
 module.exports = function(patternlab) {
-  const annotationExporter = new ae(patternlab);
+  const annotation_exporter = new ae(patternlab);
 
   const paths = patternlab.config.paths;
 
@@ -68,7 +68,7 @@ module.exports = function(patternlab) {
     eol;
 
   //annotations
-  const annotationsJSON = annotationExporter.gather();
+  const annotationsJSON = annotation_exporter.gather();
   const annotations =
     'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
   _.each(patternlab.uikits, uikit => {
@@ -85,8 +85,12 @@ module.exports = function(patternlab) {
     );
   });
 
-  //write all output to patternlab-data
+  // add module.export to the Nodejs-specific file generated.
+  const exportedOutput =
+    output +
+    'module.exports = { config, ishControls, navItems, patternPaths, viewAllPaths, plugins, defaultShowPatternInfo, defaultPattern };';
 
+  //write all output to patternlab-data
   _.each(patternlab.uikits, uikit => {
     fs.outputFileSync(
       path.resolve(
@@ -94,6 +98,13 @@ module.exports = function(patternlab) {
         'patternlab-data.js'
       ),
       output
+    );
+    fs.outputFileSync(
+      path.resolve(
+        path.join(process.cwd(), uikit.outputDir, paths.public.data),
+        'patternlab-data.cjs.js'
+      ),
+      exportedOutput
     );
   });
 

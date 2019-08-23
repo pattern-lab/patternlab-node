@@ -1,0 +1,36 @@
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+h1, h2, h3, h4 {
+	font-family: $font-family-secondary;
+	text-transform: uppercase;
+}
+
+/**
+ * Heading 1 base styles
+ */
+h1 {
+	@include typographyHeadingXXL();
+}
+
+/**
+ * Heading 2 base styles
+ */
+h2 {
+	@include typographyHeadingMed2();
+}
+
+/**
+ * Heading 3 base styles
+ */
+h3 {
+	@include typographyHeadingMed2();
+}
+
+/**
+ * Heading 4 base styles
+ */
+h4 {
+	@include typographyHeadingMed();
+}

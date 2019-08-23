@@ -1,5 +1,5 @@
-import './utils/postmessage';
+import './utils/polyfills/custom-event-polyfill';
+import './utils/polyfills/symbol-polyfill';
 import './components/modal-styleguide';
-
-// WIP: new JS components for handling UI controls to toggle theme
-// import './components/toggle-theme-sg';
+import './components/pl-search/pl-search.iframe-helper';
+import './utils/share-inner-iframe-data';

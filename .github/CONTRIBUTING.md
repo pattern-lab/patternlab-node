@@ -6,7 +6,7 @@ No pull request is too small. Check out any [help wanted 🆘](https://github.co
 
 ## Prerequisites
 
-To get started, you'll need Node 8 or higher. Managing Node with [nvm](https://github.com/creationix/nvm) is recommended. Once installed, you can target the version of Node we specify within the [`.nvmrc`](https://github.com/pattern-lab/patternlab-node/blob/master/.nvmrc) file.
+To get started, you'll need Node installed. Managing Node with [nvm](https://github.com/creationix/nvm) is recommended. Once installed, you can target the version of Node we specify within the [`.nvmrc`](https://github.com/pattern-lab/patternlab-node/blob/master/.nvmrc) file.
 
 ```sh
 nvm install <<version>>

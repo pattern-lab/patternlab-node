@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.3-alpha.0...@pattern-lab/cli@0.0.3) (2019-05-16)
+
+**Note:** Version bump only for package @pattern-lab/cli
+
+
+
+
+
+## [0.0.1-beta.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-beta.0...@pattern-lab/cli@0.0.1-beta.2) (2019-02-09)
+
+
+### Bug Fixes
+
+* **cli:** do not call build before serve ([663d8e1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/663d8e1)), closes [#917](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/issues/917)
+* **cli:** pass watch options cleanly to core ([8bf186b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/8bf186b))
+* **cli:** remove copy-source-files ([64311a1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/64311a1)), closes [#833](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/issues/833)
+* **nvmrc:** bump Node version ([36a917f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/36a917f))
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/98dfadf))
+
+
+### Features
+
+* **README:** simplify README and add CLI configuration instructions ([ceec673](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/ceec673))
+
+
+
+
+
 <a name="0.0.1-beta.0"></a>
 ## [0.0.1-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@0.0.1-alpha.23...@pattern-lab/cli@0.0.1-beta.0) (2018-09-07)
 

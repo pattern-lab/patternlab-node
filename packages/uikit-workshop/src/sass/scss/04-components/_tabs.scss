@@ -9,7 +9,7 @@
  */
 .pl-c-tabs {
   padding: 0 0.5rem 0.5rem;
-  background: $pl-color-white;
+  background-color: $pl-color-white;
   border: 1px solid $pl-color-gray-13;
   border-radius: $pl-border-radius-med;
   font-family: $pl-font;
@@ -17,26 +17,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
-  /**
-     * Tabs inside a code panel
-     */
-  .pl-c-pattern-info__panel--code & {
-    @media all and (min-width: $pl-bp-large) {
-      position: absolute;
-      top: 1rem;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-    }
-  }
-
-  .pl-c-modal & {
-    @media all and (min-width: $pl-bp-xl) {
-      right: 2rem;
-      left: 2rem;
-    }
-  }
+  flex-grow: 1;
 }
 
 /**
@@ -49,7 +30,7 @@
   list-style: none;
   margin: 0;
   padding: 0.5rem 0;
-  background: $pl-color-white;
+  background-color: $pl-color-white;
 }
 
 /**
@@ -61,8 +42,8 @@
   padding: 0.2rem 0.4rem;
   border: 1px solid transparent;
   border-radius: $pl-border-radius-med;
-  background: $pl-color-white;
   color: $pl-color-gray-50;
+  background-color: $pl-color-white;
   cursor: pointer;
   text-decoration: none;
   text-transform: lowercase;
@@ -79,7 +60,7 @@
      */
   &.pl-is-active-tab {
     color: $pl-color-gray-87;
-    background: $pl-color-gray-07;
+    background-color: $pl-color-gray-07;
     border: 1px solid $pl-color-gray-13;
   }
 }
@@ -89,16 +70,18 @@
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
-  flex: 1 0 auto;
-  overflow: scroll;
-  @include hideScrollBar();
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  flex-basis: auto;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   height: 100%;
-  padding-top: 0.5rem;
 
   /**
      *  Tab content inside modal
      */
-  .pl-c-modal & {
+  .pl-c-drawer & {
     border: 0;
   }
 }
@@ -110,10 +93,12 @@
  */
 .pl-c-tabs__panel {
   display: none;
-  min-height: 12rem;
+  width: 100%;
+  max-height: 100%;
 
   &.pl-is-active-tab {
     display: block;
+    display: flex;
   }
 
   /**
@@ -123,15 +108,16 @@
   pre[class*='language-'],
   :not(pre) > code[class*='language-'],
   pre[class*='language-'] {
-    background: transparent;
+    background-color: transparent;
     margin: 0;
     padding: 0;
     border: 0;
     display: block;
+    width: 100%;
   }
 
   code[class*='language-'] {
-    background: transparent;
+    background-color: transparent;
     margin: 0;
   }
 }

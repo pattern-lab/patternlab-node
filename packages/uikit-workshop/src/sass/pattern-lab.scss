@@ -38,42 +38,41 @@
 /*------------------------------------*\
     #VENDOR
 \*------------------------------------*/
-@import 'scss/03-vendor/typeahead';
 @import 'scss/03-vendor/prism';
 
 /*------------------------------------*\
     #COMPONENTS
 \*------------------------------------*/
 
-/**
- * Pattern Lab Header
- */
-@import 'scss/04-components/header';
-@import 'scss/04-components/logo';
-@import 'scss/04-components/navigation';
-@import 'scss/04-components/ish-sizing';
-@import 'scss/04-components/controls';
-@import 'scss/04-components/tools';
-
-/**
- * Viewport
- */
-@import 'scss/04-components/viewport';
-
-/**
- * Pattern Styles
- */
-@import 'scss/04-components/pattern';
+@import '../scripts/components/pl-controls/pl-controls.scss';
+@import '../scripts/components/pl-drawer/pl-drawer.scss';
+@import '../scripts/components/pl-header/pl-header.scss';
+@import '../scripts/components/pl-layout/pl-layout.scss';
+@import '../scripts/components/pl-logo/pl-logo.scss';
+@import '../scripts/components/pl-nav/pl-nav.scss';
+@import '../scripts/components/pl-search/pl-search.scss';
+@import '../scripts/components/pl-toggle-info/pl-toggle-info.scss';
+@import '../scripts/components/pl-toggle-layout/pl-toggle-layout.scss';
+@import '../scripts/components/pl-toggle-theme/pl-toggle-theme.scss';
+@import '../scripts/components/pl-tools-menu/pl-tools-menu.scss';
+@import '../scripts/components/pl-tooltip/pl-tooltip.scss';
+@import '../scripts/components/pl-viewport-size-list/pl-viewport-size-list.scss';
+@import '../scripts/components/pl-viewport-size/pl-viewport-size.scss';
+@import '../scripts/components/pl-viewport/pl-viewport.scss';
+@import 'scss/04-components/annotations';
+@import 'scss/04-components/breadcrumbs';
 @import 'scss/04-components/pattern-category';
 @import 'scss/04-components/pattern-info';
-@import 'scss/04-components/pattern-states';
 @import 'scss/04-components/pattern-lineage';
-@import 'scss/04-components/breadcrumbs';
+@import 'scss/04-components/pattern-states';
+@import 'scss/04-components/pattern';
 @import 'scss/04-components/tabs';
-@import 'scss/04-components/tools';
-@import 'scss/04-components/annotations';
-@import 'scss/04-components/modal';
 @import 'scss/04-components/text-passage';
+
+.pl-c-main {
+  overflow: hidden;
+  max-width: 100vw;
+}
 
 /*------------------------------------*\
     #THEMES

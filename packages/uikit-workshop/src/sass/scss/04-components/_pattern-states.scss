@@ -15,20 +15,20 @@
   top: 5px;
   left: 0;
   border-radius: 50%;
-  background: $pl-color-state-info;
+  background-color: $pl-color-state-info;
   line-height: 4px;
   text-indent: 10px;
 
   &--complete {
-    background: $pl-color-state-complete;
+    background-color: $pl-color-state-complete;
   }
 
   &--inreview {
-    background: $pl-color-state-inreview;
+    background-color: $pl-color-state-inreview;
   }
 
   &--deprecated {
-    background: $pl-color-state-deprecated;
+    background-color: $pl-color-state-deprecated;
   }
 }
 

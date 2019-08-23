@@ -1,0 +1,337 @@
+/*------------------------------------*\
+    #TWITTER TYPEAHEAD
+\*------------------------------------*/
+
+@import '../../../sass/scss/core.scss';
+/**
+ * Using Twitter Typeahead to autocomplete pattern
+ * searches. https://twitter.github.io/typeahead.js/
+*/
+
+$pl-clear-button-size: 1.7rem;
+$pl-clear-button-size-at-med: 1.4rem;
+
+pl-search {
+  background-color: inherit;
+  top: 0;
+  z-index: 10;
+  flex-shrink: 0;
+  padding: 0.4rem 0.5rem;
+  display: inline-block;
+  align-self: stretch;
+
+  @media screen and (min-width: $pl-bp-med) {
+    margin-left: 1rem;
+    flex-direction: row;
+    flex-shrink: 1;
+    order: 2; // Display after nav list items on wider screens
+    align-self: center;
+
+    .pl-c-body--theme-sidebar & {
+      flex-direction: column;
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+}
+
+/**
+    * Typeahead wrapper
+    * 1) This is the JS-generated wrapper around the input
+    */
+.pl-c-typeahead {
+  width: 100%;
+  background-color: inherit;
+  order: 2; // Display after nav list items
+  display: flex !important;
+  z-index: 10;
+  text-transform: capitalize;
+  flex-direction: column;
+  color: $pl-color-gray-02;
+  position: relative;
+
+  .pl-c-body--theme-light & {
+    color: $pl-color-gray-87;
+  }
+
+  @media screen and (min-width: $pl-bp-med) {
+    flex-direction: row;
+
+    .pl-c-body--theme-sidebar & {
+      flex-direction: column;
+    }
+  }
+}
+
+.pl-c-typeahead__hint {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.pl-c-typeahead__hint,
+.pl-c-typeahead__input {
+  text-transform: capitalize;
+  background-color: $pl-color-gray-87;
+  color: $pl-color-white;
+  background-color: rgba(var(--theme-text-rgb), 0.1);
+  color: rgba(var(--theme-text-rgb), 0.67);
+  border-color: rgba(0, 0, 0, .1);
+  text-overflow: ellipsis;
+  border-width: 1px;
+  border-style: solid;
+  transition: all 0.1s ease;
+  max-width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 16px; // prevent zooming in on mobile
+  width: 100%;
+  outline-offset: -3px;
+  outline-width: 2px;
+  -webkit-appearance: none; // removes default styling (ex. heavy box shadow) in Safari
+
+  @media all and (min-width: 900px) {
+    font-size: inherit;
+  }
+
+  // Remove the native <input> clear button in IE 11 in lieu of JS-controlled clear button
+  &::-ms-clear {
+    display: none;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    border-radius: 0;
+  }
+
+  // Modify the padding defaults when the clear button UI exists
+  .pl-c-typeahead__input-wrapper--with-clear-button & {
+    padding-right: $pl-clear-button-size;
+
+    @media all and (min-width: $pl-bp-med) {
+      padding-right: $pl-clear-button-size-at-med;
+    }
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      max-width: none;
+    }
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-gray-07;
+    background-color: rgba(var(--theme-text-rgb), 0.1);
+    color: $pl-color-gray-70;
+    color: rgba(var(--theme-text-rgb), 0.67);
+  }
+
+  &::-webkit-input-placeholder,
+  &::-moz-input-placeholder {
+    color: $pl-color-white !important;
+    transition: all 0.1s ease;
+  }
+
+  &:hover,
+  &:focus {
+    color: $pl-color-white;
+
+    .pl-c-body--theme-light & {
+      color: $pl-color-gray-87 !important;
+    }
+
+    &::-moz-input-placeholder,
+    &::-webkit-input-placeholder {
+      color: $pl-color-white !important;
+
+      .pl-c-body--theme-light & {
+        color: $pl-color-gray-87 !important;
+      }
+    }
+  }
+}
+
+.pl-c-typeahead__menu {
+  @include accordionPanel;
+  background-color: $pl-color-gray-87;
+  background-color: var(--theme-primary);
+  color: var(--theme-text);
+  text-transform: capitalize;
+  position: absolute;
+  min-width: 100%;
+  width: 100%;
+  overflow: hidden;
+  top: 100%;
+  right: 0;
+  max-height: 0;
+  display: block !important;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+
+  @media all and (min-width: $pl-bp-med) {
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-gray-02;
+  }
+
+  &.pl-is-open {
+    max-height: 120rem;
+    max-height: calc(var(--viewport-height) - 4rem);
+    opacity: 1;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      position: relative !important;
+      border-radius: 0;
+    }
+  }
+
+  @media all and (max-width: $pl-bp-med - 1) {
+    position: relative !important;
+  }
+}
+
+.pl-c-typeahead__results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: inherit;
+  border-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+
+  @media all and (min-width: $pl-bp-med) {
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+  }
+
+  overflow: hidden;
+  border-color: darken($pl-color-gray-87, 5%);
+
+  &:empty {
+    border-width: 0;
+    max-height: 0;
+  }
+
+  .pl-c-body--theme-light & {
+    border-color: $pl-color-gray-20;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      border-radius: 0;
+    }
+  }
+}
+
+.pl-c-typeahead__result {
+  transition: all 0.3s ease;
+  background-color: inherit;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  overflow: hidden;
+  font-size: 0.8rem;
+  color: inherit;
+
+  &:last-child {
+    border-bottom-right-radius: $pl-border-radius-med;
+    border-bottom-left-radius: $pl-border-radius-med;
+
+    @media all and (max-width: $pl-bp-med - 1) {
+      border-radius: 0;
+    }
+
+    .pl-c-body--theme-sidebar & {
+      border-radius: 0;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($pl-color-white, 0.15);
+
+    .pl-c-body--theme-light & {
+      background-color: $pl-color-gray-07;
+    }
+  }
+
+  &:active,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.18);
+
+    .pl-c-body--theme-light & {
+      background-color: $pl-color-gray-13;
+    }
+  }
+}
+
+.pl-c-typeahead__result.pl-has-cursor {
+  color: $pl-color-white;
+  background-color: $pl-color-trans-white-25;
+
+  .pl-c-body--theme-light & {
+    color: $pl-color-black;
+    background-color: $pl-color-gray-13;
+  }
+}
+
+.pl-c-typeahead__input-wrapper {
+  position: relative; // used for positioning search clear button in relation to the <input>
+  flex-shrink: 0;
+}
+
+.pl-c-typeahead__clear-button {
+  @include linkStyle;
+  height: $pl-clear-button-size;
+  width: $pl-clear-button-size;
+  background-color: transparent;
+
+  &:hover,
+  &:active {
+    background-color: transparent;
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    height: $pl-clear-button-size-at-med;
+    width: $pl-clear-button-size-at-med;
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: transparent;
+
+    &:hover,
+    &:active {
+      background-color: transparent;
+    }
+  }
+
+  border-radius: 20rem;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  cursor: pointer;
+  border: 0;
+  transition: opacity 0.1s ease;
+  opacity: 0;
+  visibility: hidden;
+
+  &.pl-is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.pl-c-typeahead__clear-button-icon {
+  fill: currentColor;
+  line-height: 0;
+  font-size: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}

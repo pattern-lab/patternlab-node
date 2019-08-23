@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-react",
   "description": "The React engine for Pattern Lab / Node",
-  "version": "0.2.1-beta.0",
+  "version": "0.2.1-beta.1",
   "main": "lib/engine_react.js",
   "dependencies": {
     "babel-core": "6.17.0",
@@ -30,7 +30,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=6"
+    "node": ">=10.0"
   },
   "publishConfig": {
     "access": "public"

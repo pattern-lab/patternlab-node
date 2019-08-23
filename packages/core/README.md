@@ -28,9 +28,9 @@ See [Usage](#usage) for more information.
 
 For users wanting a more pre-packaged experience several editions are available.
 
-* [Pattern Lab/Node: Vanilla Edition](https://github.com/pattern-lab/patternlab-node/packages/edition-node) contains info how to get started within a pure node environment.
+* [Pattern Lab/Node: Vanilla Edition](https://github.com/pattern-lab/patternlab-node/tree/dev/packages/edition-node) contains info how to get started within a pure node environment.
 
-* [Pattern Lab/Node: Gulp Edition](https://github.com/pattern-lab/patternlab-node/packages/edition-node-gulp) contains info how to get started within a Gulp task running environment.
+* [Pattern Lab/Node: Gulp Edition](https://github.com/pattern-lab/patternlab-node/tree/dev/packages/edition-node-gulp) contains info how to get started within a Gulp task running environment.
 
 
 ## Ecosystem
@@ -63,7 +63,7 @@ patternlab.serve({
 
 * Read more about the rest of [Public API](./docs), and already implemented for you within [Editions](#editions).
 
-* A full-featured [command line interface](https://github.com/pattern-lab/patternlab-node/packages/cli) is also available.
+* A full-featured [command line interface](https://github.com/pattern-lab/patternlab-node/tree/dev/packages/cli) is also available.
 
 ### Events
 

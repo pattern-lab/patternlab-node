@@ -107,9 +107,7 @@ module.exports = class PatternLab {
     if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
       logger.warning('');
       logger.warning(
-        `Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${
-          patternlab.config.paths.source.patternlabFiles
-        }'`
+        `Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`
       );
       logger.warning(
         'Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.'
@@ -334,7 +332,12 @@ module.exports = class PatternLab {
         this.patterns.map(pattern => {
           return processIterative(pattern, self);
         })
-      );
+      ).then(() => {
+        // patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+        this.patterns.sort((pattern1, pattern2) =>
+          pattern1.name.localeCompare(pattern2.name)
+        );
+      });
     });
   }
 

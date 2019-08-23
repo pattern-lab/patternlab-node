@@ -1,0 +1,84 @@
+/*------------------------------------*\
+    #PROGRESS TRACKER
+\*------------------------------------*/
+
+/**
+ * 1) Ordered list showing progress (i.e. step by step)
+ * 2) Display flex used to put items in row. Flex wrap wraps items underneat when space is
+ *    unavailable.
+ */
+
+.c-progress-tracker {
+	display: flex; /* 2 */
+    justify-content: center;
+	flex-wrap: wrap; /* 2 */
+}
+
+/* Progress tracker iterm */
+.c-progress-tracker__item {
+    margin-right: 2rem;
+    text-align: center;
+    font-size: $font-size-sm-2;
+    width: 5rem;
+
+    /* Don't display the horizontal line on the last item number */
+    &:last-child .c-progress-tracker__number:before {
+        display: none;
+    }
+}
+
+
+.c-progress-tracker__number {
+    padding: .125rem;
+    margin-bottom: .5rem;
+    color: $color-brand-blue;
+    border: 1px solid $color-brand-blue;
+    background-color: $color-neutral-white;
+    position: relative;
+
+    @media all and (min-width: $bp-small) {
+        padding: .5rem;
+    }
+
+    .is-complete & {
+        background-color: $color-neutral-gray-13;
+        border-color: $color-neutral-gray-13;
+    }
+
+    .is-current & {
+        color: $color-neutral-white;
+        background-color: $color-brand-blue;
+        font-weight: bold;
+    }
+
+    .is-disabled & {
+        color: $color-brand-blue-dark;
+        border-color: $color-brand-blue;
+    }
+
+    &:before {
+        content: " ";
+        display: block;
+        width: 4rem;
+        height: 1px;
+        background-color: $color-neutral-gray-13;
+        position: absolute;
+        top: 50%;
+        right: -4rem;
+        z-index: -1;
+    }
+}
+
+.c-progress-tracker__label {
+    display: none;
+
+    /* Do show it on larger screens */
+    @media all and (min-width: $bp-small-2) {
+        display: inline;
+    }
+
+    .is-current & {
+        font-weight: bold;
+    }
+
+}
