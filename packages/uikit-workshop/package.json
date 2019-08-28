@@ -117,5 +117,10 @@
     "whendefined": "^0.0.1",
     "wolfy87-eventemitter": "^5.2.6",
     "yargs": "^13.3.0"
-  }
+  },
+  "browserslist": [
+    ">0.25%",
+    "ie 11",
+    "not op_mini all"
+  ]
 }
