@@ -119,6 +119,7 @@
     "yargs": "^13.3.0"
   },
   "browserslist": [
+    "last 2 version",
     ">0.25%",
     "ie 11",
     "not op_mini all"
