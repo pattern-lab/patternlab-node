@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.1...@pattern-lab/uikit-workshop@1.0.2) (2019-08-23)
+
+
+### Bug Fixes
+
+* add better pre-rendering support ([8ecd615](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/8ecd615))
+* add missing @babel/runtime package to address silent error getting thrown on Travis ([1918d04](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/1918d04))
+* add missing preact-render-to-string library ([881296a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/881296a))
+* fix incorrect Webpack version in package.json ([9788e89](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9788e89))
+* fix issue with viewport height exceeding the space available ([95cd1cf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/95cd1cf))
+* minor CSS fixes + fresh prod build ([8ac2c1f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/8ac2c1f))
+* squashing minor UI bugs ([a8a606c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a8a606c))
+* update initial PL iframe path default ([a26fbb9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a26fbb9))
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/5b7a057))
+* **uikit-workshop:** fix merge problem ([d245b3b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d245b3b))
+
+
+
+
+
+
 ## [1.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.1-alpha.0...@pattern-lab/uikit-workshop@1.0.1) (2019-05-16)
 
 

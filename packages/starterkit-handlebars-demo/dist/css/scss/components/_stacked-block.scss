@@ -1,0 +1,72 @@
+/*------------------------------------*\
+    #STACKED BLOCK
+\*------------------------------------*/
+
+/**
+ * 1) A link block consisting of media, headline, and description all stacked on top
+ * of each other
+ * 2) Capped for demo purposes
+ */
+.c-stacked-block {
+	display: flex;
+	flex-direction: column;
+    position: relative;
+	max-width: 600px; /* 2 */
+	transition: transform $anim-fade-quick $anim-ease;
+
+	 &:hover, &:focus {
+		transform: scale(1.03);
+	 }
+}
+
+.c-stacked-block__body {
+    flex: 1;
+}
+
+.c-stacked-block__title {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: $color-brand-blue;
+	transition: color $anim-fade-quick $anim-ease;
+
+	.c-stacked-block:hover &, .c-stacked-block:focus & {
+		color: $color-brand-orange;
+	}
+}
+
+.c-stacked-block__excerpt {
+	margin-bottom: 0;
+	color: $color-neutral-gray-73;
+}
+
+.c-stacked-block__meta {
+	color: $color-brand-blue;
+    font-size: $font-size-med-2;
+	font-family: $font-family-secondary;
+	margin-bottom: 0;
+	transition: color $anim-fade-quick $anim-ease;
+
+	.c-stacked-block:hover &, .c-stacked-block:focus & {
+		color: $color-brand-orange;
+	}
+}
+
+.c-stacked-block__badge {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    font-family: $font-family-secondary;
+    text-transform: uppercase;
+    color: $color-neutral-white;
+    background: $color-brand-orange;
+}
+
+.c-stacked-block__optional {
+    margin-left: 0.5rem;
+    color: $color-neutral-gray-50;
+    font-family: $font-family-secondary;
+    font-size: $font-size-sm-2;
+    text-decoration: line-through;
+}

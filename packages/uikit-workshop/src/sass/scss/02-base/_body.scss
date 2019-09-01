@@ -17,3 +17,23 @@
   -webkit-text-size-adjust: 100%;
   display: flex; // Required for IE 11 to display overall PL layout correctly
 }
+
+// @todo: refactor to make colors more generic to PL:
+.pl-c-body--theme-dark,
+:root {
+  --theme-bg: #161b3c;
+  --theme-primary: #464a6d;
+  --theme-secondary: #161f50;
+  --theme-text: white;
+  --theme-text-rgb: 255,255,255;
+  --theme-border: rgba(255, 255, 255, 0.2);
+}
+
+.pl-c-body--theme-light {
+  --theme-bg: white;
+  --theme-secondary: white;
+  --theme-text: #262829;
+  --theme-text-rgb: 38, 40, 41;
+  --theme-primary: white;
+  --theme-border: #ddd;
+}

@@ -38,16 +38,12 @@ const starterkit_manager = function(config) {
       if (kitPathDirExists) {
         if (clean) {
           logger.info(
-            `Deleting contents of ${
-              paths.source.root
-            } prior to starterkit load.`
+            `Deleting contents of ${paths.source.root} prior to starterkit load.`
           );
           fs.emptyDirSync(paths.source.root);
         } else {
           logger.info(
-            `Overwriting contents of ${
-              paths.source.root
-            } during starterkit load.`
+            `Overwriting contents of ${paths.source.root} during starterkit load.`
           );
         }
 

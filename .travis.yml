@@ -1,5 +1,8 @@
 language: node_js
 
+addons:
+  chrome: stable
+
 before_install:
   - phantomjs --version
 
@@ -12,6 +15,8 @@ before_script:
   - lerna add @pattern-lab/engine-liquid --scope=@pattern-lab/core
   - lerna add @pattern-lab/engine-twig --scope=@pattern-lab/core
   - lerna add @pattern-lab/engine-react --scope=@pattern-lab/core
+
+script: travis_wait npm run test
 
 branches:
   only:

@@ -15,19 +15,15 @@ const editionSetup = [
     message: 'Which edition do you want to use (defaults to edition-node)?',
     choices: [
       {
+        name: 'edition-node (handlebars engine)',
+        value: '@pattern-lab/edition-node',
+      },
+      {
         name: 'edition-twig (php engine)',
         value: '@pattern-lab/edition-twig',
       },
       {
-        name: 'edition-node',
-        value: '@pattern-lab/edition-node',
-      },
-      {
-        name: 'edition-node-grunt',
-        value: '@pattern-lab/edition-node-grunt',
-      },
-      {
-        name: 'edition-node-gulp',
+        name: 'edition-node-gulp (legacy)',
         value: '@pattern-lab/edition-node-gulp',
       },
       new inquirer.Separator(),

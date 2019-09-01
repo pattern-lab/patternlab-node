@@ -3,9 +3,6 @@
 const plugin_manager = function() {
   const path = require('path');
   const findModules = require('./findModules');
-
-  const _ = require('lodash');
-
   const logger = require('./log');
 
   const pluginMatcher = /^plugin-(.*)$/;

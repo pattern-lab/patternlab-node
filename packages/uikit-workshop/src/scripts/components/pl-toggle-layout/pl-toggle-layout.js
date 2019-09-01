@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 
@@ -5,16 +6,13 @@ import { store } from '../../store.js'; // connect to the Redux store.
 import { updateLayoutMode } from '../../actions/app.js'; // redux actions
 import { BaseComponent } from '../base-component.js';
 
-import './pl-toggle-layout.scss?external';
-import styles from './pl-toggle-layout.scss';
-
 @define
 class LayoutToggle extends BaseComponent {
   static is = 'pl-toggle-layout';
 
   constructor(self) {
     self = super(self);
-    this.useShadow = false;
+    self.useShadow = false;
     return self;
   }
 
@@ -30,17 +28,16 @@ class LayoutToggle extends BaseComponent {
   };
 
   _stateChanged(state) {
-    if (this.layoutMode !== state.app.layoutMode) {
-      this.layoutMode = state.app.layoutMode;
-    }
+    this.layoutMode = state.app.layoutMode;
+    this.triggerUpdate();
   }
 
   render({ layoutMode, text }) {
     const toggleLayoutMode =
       layoutMode !== 'vertical' ? 'vertical' : 'horizontal';
+
     return (
       <div class="pl-c-toggle-layout">
-        {this._renderStyles([styles])}
         <button
           class="pl-c-tools__action pl-c-toggle-layout__action"
           title="Switch Layout"

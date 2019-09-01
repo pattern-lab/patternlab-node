@@ -25,23 +25,29 @@ export const loadState = () => {
 
   if (state) {
     // Add default state data here (if necessary)
-    if (state.app) {
-      if (state.app.drawerHeight && !state.app.drawerOpened) {
-        state.app.appHeight = window.innerHeight;
-      } else if (state.app.drawerHeight && state.app.drawerOpened) {
-        state.app.appHeight = window.innerHeight - state.app.drawerHeight;
+    if (!state.app) {
+      state.app = {};
+    }
+
+    if (!window.__PRERENDER_INJECTED) {
+      if (state.app.drawerOpened === undefined) {
+        state.app.drawerOpened = window.config.defaultShowPatternInfo || false;
       }
     }
 
-    if (state.app) {
-      if (state.app.themeMode === undefined) {
-        try {
-          if (window.patternlab.config.theme.color !== undefined) {
-            state.app.themeMode = window.patternlab.config.theme.color;
-          }
-        } catch (e) {
-          state.app.themeMode = 'dark';
+    if (state.app.drawerHeight && !state.app.drawerOpened) {
+      state.app.appHeight = window.innerHeight;
+    } else if (state.app.drawerHeight && state.app.drawerOpened) {
+      state.app.appHeight = window.innerHeight - state.app.drawerHeight;
+    }
+
+    if (state.app.themeMode === undefined) {
+      try {
+        if (window.patternlab.config.theme.color !== undefined) {
+          state.app.themeMode = window.patternlab.config.theme.color;
         }
+      } catch (e) {
+        state.app.themeMode = 'dark';
       }
     }
 

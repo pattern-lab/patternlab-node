@@ -1,0 +1,21 @@
+{{# definitionList }}
+<dl class="c-definition-list {{ styleModifier }}">
+
+    {{#each items }}
+    <div class="c-definition-list__item">
+
+        <dt class="c-definition-list__term">
+            {{ term }}
+        </dt><!--end c-definition-list__term-->
+
+        {{#if description }}
+        <dd class="c-definition-list__description">
+            {{{ description }}}
+        </dd><!--end c-definition-list__description-->
+        {{/ if }}
+
+    </div><!--end c-definition-list__item-->
+    {{/ each }}
+
+</dl><!--end c-definition-list-->
+{{/ definitionList }}

@@ -1,0 +1,83 @@
+{
+	"page": {
+        "title" : "Kids' Shoes",
+        "description": false
+    },
+	"stackedBlockSection" : {
+		"stackedBlockList": [
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/men-chucks.jpg",
+					"alt" : "chuck taylor shoes"
+				},
+				"headline" : "Converse Chuck Taylor's",
+				"excerpt" : "Available in both boys' and girls' sizes",
+				"label" : "$50",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$85"
+				}
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/girls-high-tops.jpg",
+					"alt" : "girl's high tops"
+				},
+				"headline" : "Girl's High Tops",
+				"excerpt" : "Available in 4 color combinations",
+				"label" : "$90"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/kids-green-shoes.jpg",
+					"alt" : "toddler green shoes"
+				},
+				"headline" : "Toddler Green Shoes",
+				"excerpt" : "Suitable for ages 0-2 years",
+				"label" : "$230"
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/kids-technicolor-nikes.jpg",
+					"alt" : "multicolored Nike shoes"
+				},
+				"headline" :  "Multicolored Nikes",
+				"excerpt" : "Available in toddler and youth sizes",
+				"label" : "$120"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/girls-nike.jpg",
+					"alt" : "girl's nike sneakers"
+				},
+				"headline" :  "Girl's Nike Sneakers",
+				"excerpt" : "Available in 5 colors",
+				"label" : "$70"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/kids-velcro.jpg",
+					"alt" : "velcro shoes"
+				},
+				"headline" :  "Velcro Shoes",
+				"excerpt" : "Available in both boys' and girls' sizes",
+				"label" : "$70"
+			}
+		]
+	},
+	"paginationList": false
+}

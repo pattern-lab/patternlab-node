@@ -54,9 +54,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
         );
       } catch (err) {
         logger.warning(
-          `There was an error parsing pseudopattern JSON for ${
-            currentPattern.relPath
-          }`
+          `There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`
         );
         logger.warning(err);
       }

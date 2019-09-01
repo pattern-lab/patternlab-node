@@ -1,0 +1,9 @@
+**/node_modules/**
+node_modules
+**/vendor/**
+vendor
+**/test/**
+**/dist/**
+
+// being refactored / removed
+packages/uikit-workshop/src/scripts/components/styleguide.js

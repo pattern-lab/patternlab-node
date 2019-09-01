@@ -96,10 +96,8 @@ const wrapAsync = fn =>
  */
 const asyncGlob = (pattern, opts) =>
   new Promise((resolve, reject) =>
-    glob(
-      pattern,
-      opts,
-      (err, matches) => (err !== null ? reject(err) : resolve(matches))
+    glob(pattern, opts, (err, matches) =>
+      err !== null ? reject(err) : resolve(matches)
     )
   );
 

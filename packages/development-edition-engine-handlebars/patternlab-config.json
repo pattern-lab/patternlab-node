@@ -85,5 +85,10 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "engines": {
+    "handlebars": {
+      "extend": "helpers/*.js"
+    }
+  }
 }

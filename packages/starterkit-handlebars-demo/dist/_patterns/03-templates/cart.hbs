@@ -1,0 +1,25 @@
+{{> organisms-header }}
+<main role="main">
+
+	<div class="l-container">
+		{{> molecules-page-header }}
+		{{> organisms-stripe-list }}
+		<div class="c-total-container">
+			{{# totalPrice }}
+			<div class="c-total">
+				<label class="c-total__label">{{ label }}</label>
+				<span class="c-total__span">{{ number }}</span>
+			</div>
+			{{/ totalPrice }}
+
+			{{# checkoutButton }}
+			<div class="u-text-align-right u-margin-right-8 u-margin-top">
+				{{> molecules-button }}
+			</div>
+			{{/ checkoutButton }}
+		</div>
+
+	</div><!--end l-container-->
+
+</main>
+{{> organisms-footer }}

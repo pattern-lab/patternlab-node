@@ -1,0 +1,25 @@
+/*------------------------------------*\
+    #SECTION HEADER
+\*------------------------------------*/
+/**
+ * 1) A group of text with a title that headlines a section
+ */
+ .c-section__header {
+     display: flex;
+     align-items: center;
+     position: relative;
+     margin-bottom: 1rem;
+
+     &:after {
+         content: '';
+         display: block;
+         flex: 1;
+         height: 2px;
+         margin-left: 1rem;
+         background: $color-brand-orange;
+     }
+ }
+
+ .c-section__title {
+     font-size: $font-size-large;
+ }

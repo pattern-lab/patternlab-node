@@ -1,0 +1,41 @@
+{
+	"page": {
+        "title" : "Women's Shoes",
+        "description": false
+    },
+	"stackedBlockSection" : {
+		"styleModifier": "u-margin-bottom-large",
+		"stackedBlockList": [
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-shiny-sneakers.jpg",
+    				"alt" : "patent leather sneakers"
+                },
+				"headline" : "Patent Leather Everyday Shoes",
+				"excerpt" : "Available in brown and black. Overnight shipping available",
+				"label" : "$190"
+			}
+		]
+	},
+	"paginationList" : [
+		{
+			"url": "link.pages-category",
+			"number" : "Prev"
+		},
+		{
+			"url": "link.pages-category",
+			"number" : "1"
+		},
+		{
+			"itemModifier": "is-active",
+			"url": "link.pages-category-page-two",
+			"number" : "2"
+		},
+		{
+			"itemModifier": "is-disabled",
+			"number" : "Next"
+		}
+	]
+}
