@@ -39,11 +39,11 @@ const plugin_manager = function() {
    */
   function initializePlugins(patternlab) {
     const nodeModulesPath = path.join(process.cwd(), 'node_modules');
-    const foundPlugins = findModules(nodeModulesPath, plugin_manager.is_plugin);
+    const foundPlugins = findModules(nodeModulesPath, isPlugin);
     foundPlugins.forEach(plugin => {
       logger.info(`Found plugin: plugin-${plugin.name}`);
       logger.info(`Attempting to load and initialize plugin.`);
-      const pluginModule = plugin_manager.load_plugin(plugin.modulePath);
+      const pluginModule = loadPlugin(plugin.modulePath);
       pluginModule(patternlab);
     });
   }

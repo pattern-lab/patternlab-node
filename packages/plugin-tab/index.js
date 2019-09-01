@@ -9,7 +9,7 @@ const glob = require('glob');
 
 const tab_loader = require('./src/tab-loader');
 
-const pluginName = 'pattern-lab-plugin-tab';
+const pluginName = '@pattern-lab/plugin-tab';
 
 function writeConfigToOutput(patternlab, pluginConfig) {
   try {

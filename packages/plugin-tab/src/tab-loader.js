@@ -14,7 +14,7 @@ const fs = require('fs-extra');
 function findTab(patternlab, pattern) {
   //read the filetypes from the configuration
   const fileTypes =
-    patternlab.config.plugins['pattern-lab-plugin-tab'].options.tabsToAdd;
+    patternlab.config.plugins['@pattern-lab/plugin-tab'].options.tabsToAdd;
 
   //exit if either of these two parameters are missing
   if (!patternlab) {
