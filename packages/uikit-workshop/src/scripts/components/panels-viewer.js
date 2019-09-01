@@ -117,7 +117,8 @@ export const panelsViewer = {
 
               const templateHighlighted = Prism.highlight(
                 templateFormatted,
-                Prism.languages[panels[i].name.toLowerCase()] || 'markup'
+                Prism.languages[panels[i].name.toLowerCase()] ||
+                  Prism.languages['markup']
                 // Prism.languages[panels[i].name.toLowerCase()],
               );
 
