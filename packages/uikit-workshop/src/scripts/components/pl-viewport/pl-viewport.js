@@ -393,7 +393,7 @@ class IFrame extends BaseComponent {
       store.getState().app.viewportPx &&
       store.getState().app.viewportPx <= this.clientWidth
         ? store.getState().app.viewportPx + 'px;'
-        : this.clientWidth + 'px;';
+        : '100%';
 
     return (
       <div class="pl-c-viewport pl-js-viewport">
