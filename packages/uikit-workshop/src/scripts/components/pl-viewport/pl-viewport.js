@@ -348,7 +348,10 @@ class IFrame extends BaseComponent {
       if (window.patternData) {
         patternParam = window.patternData.patternPartial;
       } else {
-        patternParam = 'all'; // @todo: this should also be able to be dynamically set via PL config file
+        patternParam =
+          window.config && window.config.defaultPattern
+            ? window.config.defaultPattern
+            : 'all';
       }
     }
 
