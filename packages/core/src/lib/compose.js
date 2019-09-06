@@ -187,29 +187,13 @@ module.exports = function(pattern, patternlab) {
                 uikit.outputDir
               );
 
-              patternlab.events.emit(
-                events.PATTERNLAB_PATTERN_WRITE_END,
-                patternlab,
-                pattern
-              );
-
-              console.log(196);
-
-              (async function() {
+              await (async function() {
                 const hookHandlers = patternlab.hooks[
                   events.PATTERNLAB_PATTERN_WRITE_END
-                ].forEach(h => h());
-                console.log(203, hookHandlers.length);
+                ].map(h => h(patternlab, pattern));
 
                 const results = await Promise.all(hookHandlers);
-                console.log(205, results);
               })();
-
-              console.log(208);
-
-              await patternlab.hooks[events.PATTERNLAB_PATTERN_WRITE_END];
-
-              console.log(212);
 
               // Allows serializing the compile state
               patternlab.graph.node(
