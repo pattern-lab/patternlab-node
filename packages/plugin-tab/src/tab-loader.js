@@ -11,7 +11,7 @@ const fs = require('fs-extra');
  * @param patternlab - the global data store
  * @param pattern - the pattern object being iterated over
  */
-function findTab(patternlab, pattern) {
+async function findTab(patternlab, pattern) {
   //read the filetypes from the configuration
   const fileTypes =
     patternlab.config.plugins['@pattern-lab/plugin-tab'].options.tabsToAdd;

@@ -64,6 +64,9 @@ module.exports = class PatternLab {
     // Make ye olde event emitter
     this.events = new PatternLabEventEmitter();
 
+    this.hooks = {};
+    this.hooks[events.PATTERNLAB_PATTERN_WRITE_END] = [];
+
     // Make a place for the pattern graph to sit
     this.graph = null;
 

@@ -167,36 +167,57 @@ module.exports = function(pattern, patternlab) {
           allFooterData.cacheBuster = patternlab.cacheBuster;
           allFooterData.patternLabFoot = footerPartial;
 
-          return render(patternlab.userFoot, allFooterData).then(footerHTML => {
-            ///////////////
-            // WRITE FILES
-            ///////////////
+          return render(patternlab.userFoot, allFooterData).then(
+            async footerHTML => {
+              ///////////////
+              // WRITE FILES
+              ///////////////
 
-            patternlab.events.emit(
-              events.PATTERNLAB_PATTERN_WRITE_BEGIN,
-              patternlab,
-              pattern
-            );
+              patternlab.events.emit(
+                events.PATTERNLAB_PATTERN_WRITE_BEGIN,
+                patternlab,
+                pattern
+              );
 
-            //write the compiled template to the public patterns directory
-            patternlab.writePatternFiles(
-              headHTML,
-              pattern,
-              footerHTML,
-              uikit.outputDir
-            );
+              //write the compiled template to the public patterns directory
+              patternlab.writePatternFiles(
+                headHTML,
+                pattern,
+                footerHTML,
+                uikit.outputDir
+              );
 
-            patternlab.events.emit(
-              events.PATTERNLAB_PATTERN_WRITE_END,
-              patternlab,
-              pattern
-            );
+              patternlab.events.emit(
+                events.PATTERNLAB_PATTERN_WRITE_END,
+                patternlab,
+                pattern
+              );
 
-            // Allows serializing the compile state
-            patternlab.graph.node(pattern).compileState = pattern.compileState =
-              CompileState.CLEAN;
-            logger.info('Built pattern: ' + pattern.patternPartial);
-          });
+              console.log(196);
+
+              (async function() {
+                const hookHandlers = patternlab.hooks[
+                  events.PATTERNLAB_PATTERN_WRITE_END
+                ].forEach(h => h());
+                console.log(203, hookHandlers.length);
+
+                const results = await Promise.all(hookHandlers);
+                console.log(205, results);
+              })();
+
+              console.log(208);
+
+              await patternlab.hooks[events.PATTERNLAB_PATTERN_WRITE_END];
+
+              console.log(212);
+
+              // Allows serializing the compile state
+              patternlab.graph.node(
+                pattern
+              ).compileState = pattern.compileState = CompileState.CLEAN;
+              logger.info('Built pattern: ' + pattern.patternPartial);
+            }
+          );
         })
         .catch(reason => {
           console.log(reason);

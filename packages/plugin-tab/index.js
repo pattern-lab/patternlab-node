@@ -34,8 +34,8 @@ function writeConfigToOutput(patternlab, pluginConfig) {
   }
 }
 
-function onPatternIterate(patternlab, pattern) {
-  tab_loader(patternlab, pattern);
+async function onPatternIterate(patternlab, pattern) {
+  await tab_loader(patternlab, pattern);
 }
 
 /**
@@ -46,6 +46,10 @@ function onPatternIterate(patternlab, pattern) {
 function registerEvents(patternlab) {
   //register our handler at the appropriate time of execution
   patternlab.events.on('patternlab-pattern-write-end', onPatternIterate);
+}
+
+function registerEventHandlers(patternlab) {
+  patternlab.hooks['patternlab-pattern-write-end'].push(onPatternIterate);
 }
 
 /**
@@ -169,7 +173,8 @@ function pluginInit(patternlab) {
     !patternlab.config.plugins[pluginName].initialized
   ) {
     //register events
-    registerEvents(patternlab);
+    //registerEvents(patternlab);
+    registerEventHandlers(patternlab);
 
     //set the plugin initialized flag to true to indicate it is installed and ready
     patternlab.config.plugins[pluginName].initialized = true;
