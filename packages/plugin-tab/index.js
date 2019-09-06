@@ -10,6 +10,8 @@ const glob = require('glob');
 const tab_loader = require('./src/tab-loader');
 
 const pluginName = '@pattern-lab/plugin-tab';
+//remove the forward-slash, which can accidentally result in directories being written in the output
+const safePluginName = '@pattern-lab-plugin-tab';
 
 function writeConfigToOutput(patternlab, pluginConfig) {
   try {
@@ -21,7 +23,7 @@ function writeConfigToOutput(patternlab, pluginConfig) {
           patternlab.config.paths.public.root,
           'patternlab-components',
           'packages',
-          `/${pluginName}.json`
+          `/${safePluginName}.json`
         ),
         JSON.stringify(pluginConfig, null, 2)
       );
@@ -39,16 +41,12 @@ async function onPatternIterate(patternlab, pattern) {
 }
 
 /**
- * Define what events you wish to listen to here
- * For a full list of events - check out https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins#events
- * @param patternlab - global data store which has the handle to the event emitter
+ * Define what hooks you wish to invoke to here
+ * //todo change link
+ * For a full list of hooks - check out https://github.com/pattern-lab/patternlab-node/wiki/Creating-Plugins#events
+ * @param patternlab - global data store which has the handle to hooks
  */
-function registerEvents(patternlab) {
-  //register our handler at the appropriate time of execution
-  patternlab.events.on('patternlab-pattern-write-end', onPatternIterate);
-}
-
-function registerEventHandlers(patternlab) {
+function registerHooks(patternlab) {
   patternlab.hooks['patternlab-pattern-write-end'].push(onPatternIterate);
 }
 
@@ -63,11 +61,7 @@ function getPluginFrontendConfig() {
     templates: [],
     stylesheets: [],
     javascripts: [
-      'patternlab-components/pattern-lab/' +
-        pluginName +
-        '/js/' +
-        pluginName +
-        '.js',
+      `patternlab-components/pattern-lab/${safePluginName}/js/${safePluginName}.js`,
     ],
     onready: 'PluginTab.init()',
     callback: '',
@@ -116,7 +110,7 @@ function pluginInit(patternlab) {
             patternlab.config.paths.public.root,
             'patternlab-components',
             'pattern-lab',
-            pluginName,
+            safePluginName,
             relativePath
           );
 
@@ -166,15 +160,14 @@ function pluginInit(patternlab) {
     patternlab.config.plugins = {};
   }
 
-  //attempt to only register events once
+  //attempt to only register hooks once
   if (
     patternlab.config.plugins[pluginName] !== undefined &&
     patternlab.config.plugins[pluginName].enabled &&
     !patternlab.config.plugins[pluginName].initialized
   ) {
-    //register events
-    //registerEvents(patternlab);
-    registerEventHandlers(patternlab);
+    //register hooks
+    registerHooks(patternlab);
 
     //set the plugin initialized flag to true to indicate it is installed and ready
     patternlab.config.plugins[pluginName].initialized = true;
