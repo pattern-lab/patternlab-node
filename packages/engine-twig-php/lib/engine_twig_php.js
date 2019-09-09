@@ -135,7 +135,14 @@ const engine_twig_php = {
   // %}
   findPartials: function(pattern) {
     const matches = pattern.template.match(this.findPartialsRE);
-    return matches;
+    const filteredMatches =
+      matches &&
+      matches.filter(match => {
+        // Filter out programmatically created includes.
+        // i.e. {% include '@namespace/icons/assets/' ~ name ~ '.svg' %}
+        return match.indexOf('~') === -1;
+      });
+    return filteredMatches;
   },
 
   findPartialsWithStyleModifiers(pattern) {
