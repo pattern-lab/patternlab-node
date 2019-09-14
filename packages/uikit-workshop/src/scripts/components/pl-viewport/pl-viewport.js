@@ -53,12 +53,15 @@ class IFrame extends BaseComponent {
 
   // update the currently active nav + add / update the page's query string
   handlePageLoad(e) {
-    var queryString = window.location.search;
+    const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    let patternParam = urlParams.get('p');
+    const patternParam = urlParams.get('p');
 
-    if (e.detail.pattern) {
-      document.title = 'Pattern Lab - ' + e.detail.pattern;
+    const currentPattern =
+      e.detail.pattern || window.config.defaultPattern || 'all';
+
+    if (currentPattern) {
+      document.title = 'Pattern Lab - ' + currentPattern;
 
       const addressReplacement =
         window.location.protocol === 'file:'
@@ -68,13 +71,13 @@ class IFrame extends BaseComponent {
             window.location.host +
             window.location.pathname.replace('index.html', '') +
             '?p=' +
-            e.detail.pattern;
+            currentPattern;
 
       // first time hitting a PL page -- no query string on the current page
       if (patternParam === null) {
         window.history.replaceState(
           {
-            currentPattern: e.detail.pattern,
+            currentPattern: currentPattern,
           },
           null,
           addressReplacement
@@ -82,7 +85,7 @@ class IFrame extends BaseComponent {
       } else {
         window.history.replaceState(
           {
-            currentPattern: e.detail.pattern,
+            currentPattern: currentPattern,
           },
           null,
           addressReplacement
@@ -348,7 +351,10 @@ class IFrame extends BaseComponent {
       if (window.patternData) {
         patternParam = window.patternData.patternPartial;
       } else {
-        patternParam = 'all'; // @todo: this should also be able to be dynamically set via PL config file
+        patternParam =
+          window.config && window.config.defaultPattern
+            ? window.config.defaultPattern
+            : 'all';
       }
     }
 
