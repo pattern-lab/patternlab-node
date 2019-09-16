@@ -15,9 +15,9 @@ pl-drawer {
   right: 0;
   z-index: 20;
   overflow: visible;
-  border-top: 1.1px solid $pl-color-gray-20; // sub-pixel bug in Chrome. border disappears sometimes when set to 1px
-  border-top-color: $pl-color-gray-20;
-  border-top-color: var(--theme-border, $pl-color-gray-20);
+  // border-top: 1.1px solid $pl-color-gray-20; // sub-pixel bug in Chrome. border disappears sometimes when set to 1px
+  // border-top-color: $pl-color-gray-20;
+  // border-top-color: var(--theme-border, $pl-color-gray-20);
 }
 
 

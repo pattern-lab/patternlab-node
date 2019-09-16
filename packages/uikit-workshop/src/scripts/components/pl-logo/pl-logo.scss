@@ -3,7 +3,7 @@
 \*------------------------------------*/
 
 pl-logo {
-  max-width: 12rem;
+  // max-width: 12rem;
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -13,18 +13,19 @@ pl-logo {
   position: relative;
   z-index: 100;
 
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      max-width: none;
-      width: 7rem;
-      padding: 0.5rem;
-    }
-  }
+  // @media all and (min-width: $pl-bp-med) {
+  //   .pl-c-body--theme-sidebar & {
+  //     max-width: none;
+  //     width: 7rem;
+  //     padding: 0.5rem;
+  //   }
+  // }
 }
 
 .pl-c-logo {
   width: auto;
-  padding: 0.5rem;
+  // padding: 0.5rem;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +49,7 @@ pl-logo {
 .pl-c-logo__img {
   display: block;
   height: auto;
-  max-height: 2.5rem;
+  max-height: 34px;
 
   &:not(:last-child){
     margin-right: 0.25rem;

@@ -10,23 +10,23 @@ pl-header {
   z-index: 100;
   display: flex; /* 2 */
   width: 100%;
-  background-color: $pl-color-black;
-  background-color: var(--theme-secondary, $pl-color-black);
+  // background-color: $pl-color-black;
+  // background-color: var(--theme-secondary, $pl-color-black);
   max-height: 100vh;
 
   color: $pl-color-gray-20;
   color: var(--theme-text, $pl-color-gray-20);
-  border-right: 1px solid;
+  // border-right: 1px solid;
   border-bottom: 1px solid;
-  border-right-color: $pl-color-gray-20;
-  border-right-color: var(--theme-border, $pl-color-gray-20);
+  // border-right-color: $pl-color-gray-20;
+  // border-right-color: var(--theme-border, $pl-color-gray-20);
   border-bottom-color: $pl-color-gray-20;
   border-bottom-color: var(--theme-border, $pl-color-gray-20);
-  box-shadow: 0 8px 15px 1px rgba(6, 10, 36, 0.1),0 18px 24px 1px rgba(6, 10, 36, 0.12);
+  // box-shadow: 0 8px 15px 1px rgba(6, 10, 36, 0.1),0 18px 24px 1px rgba(6, 10, 36, 0.12);
 
   .pl-c-body--theme-light & {
     color: $pl-color-black;
-    background-color: $pl-color-white;
+    // background-color: $pl-color-white;
     border-bottom: 1px solid $pl-color-gray-20;
   }
 
@@ -34,6 +34,8 @@ pl-header {
     .pl-c-body--theme-sidebar & {
       position: fixed;
       position: sticky;
+      background-color: transparent;
+      padding-top: 10px;
     /**
       * Header
       * 1) Set width to sidebar width defined above

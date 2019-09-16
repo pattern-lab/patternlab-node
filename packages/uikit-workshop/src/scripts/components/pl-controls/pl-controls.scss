@@ -17,20 +17,20 @@ pl-controls {
       position: relative;
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
-      box-shadow: 0 -2px 5px rgba($pl-color-black, 0.1);
+      // box-shadow: 0 -2px 5px rgba($pl-color-black, 0.1);
       
-      &:before {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        border-top: 1px solid;
-        border-top-color: $pl-color-gray-20;
-        border-top-color: var(--theme-border, $pl-color-gray-20);
-        height: 1px;
-        content: '';
-        width: auto;
-      }
+      // &:before {
+      //   position: absolute;
+      //   left: 0;
+      //   right: 0;
+      //   top: 0;
+      //   border-top: 1px solid;
+      //   border-top-color: $pl-color-gray-20;
+      //   border-top-color: var(--theme-border, $pl-color-gray-20);
+      //   height: 1px;
+      //   content: '';
+      //   width: auto;
+      // }
     }
   }
 }

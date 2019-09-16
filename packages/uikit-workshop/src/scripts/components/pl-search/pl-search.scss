@@ -9,7 +9,7 @@
 */
 
 $pl-clear-button-size: 1.7rem;
-$pl-clear-button-size-at-med: 1.4rem;
+$pl-clear-button-size-at-med: 2rem;
 
 pl-search {
   background-color: inherit;
@@ -73,22 +73,35 @@ pl-search {
 .pl-c-typeahead__hint,
 .pl-c-typeahead__input {
   text-transform: capitalize;
-  background-color: $pl-color-gray-87;
-  color: $pl-color-white;
-  background-color: rgba(var(--theme-text-rgb), 0.1);
-  color: rgba(var(--theme-text-rgb), 0.67);
-  border-color: rgba(0, 0, 0, .1);
+  // // background-color: $pl-color-gray-87;
+  // // color: $pl-color-white;
+  // // background-color: rgba(var(--theme-text-rgb), 0.1);
+  // // color: rgba(var(--theme-text-rgb), 0.67);
+  // border-color: rgba(0, 0, 0, .1);
   text-overflow: ellipsis;
   border-width: 1px;
   border-style: solid;
   transition: all 0.1s ease;
   max-width: 100%;
-  padding: 0.4rem 0.5rem;
+  // padding: 0.4rem 0.5rem;
   font-size: 16px; // prevent zooming in on mobile
   width: 100%;
   outline-offset: -3px;
   outline-width: 2px;
-  -webkit-appearance: none; // removes default styling (ex. heavy box shadow) in Safari
+  appearance: none;
+  // background-color: var(--newRedditTheme-field);
+  background-color: rgb(246, 247, 248);
+  border-radius: 4px;
+  // border: 1px solid var(--newRedditTheme-line);
+  border-color: rgb(237, 239, 241);
+  box-shadow: none;
+  // color: var(--newRedditTheme-bodyText);
+  color: rgb(28, 28, 28);
+  display: block;
+  height: 36px;
+  outline: none;
+  padding: 0 24px 0 16px;
+  width: 100%;
 
   @media all and (min-width: 900px) {
     font-size: inherit;
@@ -99,9 +112,9 @@ pl-search {
     display: none;
   }
 
-  .pl-c-body--theme-sidebar & {
-    border-radius: 0;
-  }
+  // .pl-c-body--theme-sidebar & {
+  //   border-radius: 0;
+  // }
 
   // Modify the padding defaults when the clear button UI exists
   .pl-c-typeahead__input-wrapper--with-clear-button & {
@@ -119,8 +132,9 @@ pl-search {
   }
 
   .pl-c-body--theme-light & {
-    background-color: $pl-color-gray-07;
-    background-color: rgba(var(--theme-text-rgb), 0.1);
+    // background-color: $pl-color-gray-07;
+    // background-color: rgba(var(--theme-text-rgb), 0.1);
+    background-color: rgb(246, 247, 248);
     color: $pl-color-gray-70;
     color: rgba(var(--theme-text-rgb), 0.67);
   }
@@ -160,17 +174,19 @@ pl-search {
   min-width: 100%;
   width: 100%;
   overflow: hidden;
-  top: 100%;
+  top: calc(100% + 2px);
   right: 0;
   max-height: 0;
   display: block !important;
   transition: max-height 0.3s ease, opacity 0.3s ease;
   opacity: 0;
+  box-shadow: rgba(101, 119, 134, 0.2) 0px 0px 15px, rgba(101, 119, 134, 0.15) 0px 0px 3px 1px;
+  border-radius: $pl-border-radius-med;
 
-  @media all and (min-width: $pl-bp-med) {
-    border-bottom-right-radius: $pl-border-radius-med;
-    border-bottom-left-radius: $pl-border-radius-med;
-  }
+  // @media all and (min-width: $pl-bp-med) {
+  //   border-bottom-right-radius: $pl-border-radius-med;
+  //   border-bottom-left-radius: $pl-border-radius-med;
+  // }
 
   .pl-c-body--theme-light & {
     background-color: $pl-color-gray-02;
@@ -185,7 +201,7 @@ pl-search {
   .pl-c-body--theme-sidebar & {
     @media all and (min-width: $pl-bp-med) {
       position: relative !important;
-      border-radius: 0;
+      // border-radius: 0;
     }
   }
 
@@ -199,54 +215,61 @@ pl-search {
   margin: 0;
   padding: 0;
   background-color: inherit;
-  border-color: transparent;
-  border-width: 1px;
-  border-style: solid;
+  // border-color: transparent;
+  // border-width: 1px;
+  // border-style: solid;
+  border-radius: $pl-border-radius-med;
 
-  @media all and (min-width: $pl-bp-med) {
-    border-bottom-right-radius: $pl-border-radius-med;
-    border-bottom-left-radius: $pl-border-radius-med;
-  }
+  // @media all and (min-width: $pl-bp-med) {
+    
+  //   border-bottom-left-radius: $pl-border-radius-med;
+  // }
 
   overflow: hidden;
-  border-color: darken($pl-color-gray-87, 5%);
+  // border-color: darken($pl-color-gray-87, 5%);
 
   &:empty {
     border-width: 0;
     max-height: 0;
   }
 
-  .pl-c-body--theme-light & {
-    border-color: $pl-color-gray-20;
-  }
+  // .pl-c-body--theme-light & {
+  //   border-color: $pl-color-gray-20;
+  // }
 
-  .pl-c-body--theme-sidebar & {
-    @media all and (min-width: $pl-bp-med) {
-      border-radius: 0;
-    }
-  }
+  // .pl-c-body--theme-sidebar & {
+  //   @media all and (min-width: $pl-bp-med) {
+  //     border-radius: 0;
+  //   }
+  // }
 }
 
 .pl-c-typeahead__result {
   transition: all 0.3s ease;
   background-color: inherit;
-  padding: 0.5rem 0.75rem;
   cursor: pointer;
   overflow: hidden;
   font-size: 0.8rem;
   color: inherit;
+  
+  padding: 10px 16px;
+
+  &:first-child {
+    border-top-right-radius: $pl-border-radius-med;
+    border-top-left-radius: $pl-border-radius-med;
+  }
 
   &:last-child {
     border-bottom-right-radius: $pl-border-radius-med;
     border-bottom-left-radius: $pl-border-radius-med;
 
-    @media all and (max-width: $pl-bp-med - 1) {
-      border-radius: 0;
-    }
+    // @media all and (max-width: $pl-bp-med - 1) {
+    //   border-radius: 0;
+    // }
 
-    .pl-c-body--theme-sidebar & {
-      border-radius: 0;
-    }
+    // .pl-c-body--theme-sidebar & {
+    //   border-radius: 0;
+    // }
   }
 
   &:hover {

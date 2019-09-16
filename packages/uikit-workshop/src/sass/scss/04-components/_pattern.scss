@@ -36,12 +36,12 @@
  */
 .pl-c-pattern__title {
   font-family: $pl-font !important;
-  font-size: 0.85rem !important;
-  line-height: 1 !important;
-  font-weight: normal !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  text-transform: capitalize !important;
+  // font-size: 0.85rem !important;
+  // line-height: 1 !important;
+  // font-weight: normal !important;
+  // margin: 0 !important;
+  // padding: 0 !important;
+  // text-transform: capitalize !important;
 }
 
 /**
@@ -49,12 +49,25 @@
  * 1) Vertically align pattern label and pattern state badge
  */
 .pl-c-pattern__title-link {
-  display: inline-flex; /* 1 */
-  align-items: flex-start; /* 1 */
-  padding: $pl-pad 0 0.3rem;
-  color: $pl-color-gray-50 !important;
+  // display: inline-flex; /* 1 */
+  // align-items: flex-start; /* 1 */
+  // padding: $pl-pad 0 0.3rem;
+  // color: $pl-color-gray-50 !important;
+  // text-decoration: none;
+  // cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  line-height: 12px;
+  text-transform: uppercase;
+  // border-bottom: 2px solid var(--newCommunityTheme-line);
+  border-bottom: 2px solid rgb(237, 239, 241);
+  color: rgb(124, 124, 124);
+  // color: var(--newCommunityTheme-metaText);
+  margin-bottom: 32px;
+  padding-bottom: 6px;
+  display: block;
   text-decoration: none;
-  cursor: pointer;
 
   &:hover,
   &:focus {
@@ -115,7 +128,7 @@
 */
 .pl-c-pattern__extra {
   background-color: $pl-color-gray-02;
-  border-top: 1px solid $pl-color-gray-13;
+  // border-top: 1px solid $pl-color-gray-13;
   margin-bottom: $pl-space;
   overflow: hidden;
   max-height: 1px;
