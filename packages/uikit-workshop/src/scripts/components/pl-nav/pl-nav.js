@@ -52,7 +52,7 @@ const SubSubList = props => {
               )}
             </a>
 
-            {nonViewAllItems.length >= 1 && (
+            {nonViewAllItems.length > 0 && (
               <SpecialButton
                 aria-controls={category}
                 onClick={elem.toggleSpecialNavPanel}
@@ -75,7 +75,7 @@ const SubSubList = props => {
         </Button>
       )}
 
-      {((viewAllItems.length > 0 && nonViewAllItems.length >= 1) ||
+      {((viewAllItems.length > 0 && nonViewAllItems.length > 0) ||
         viewAllItems.length === 0) && (
         <ol
           id={category}
