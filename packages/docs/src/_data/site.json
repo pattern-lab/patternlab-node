@@ -4,8 +4,10 @@
   "shortDesc": "Hylia is a lightweight Eleventy starter kit to help you to create your own blog or personal website.",
   "url": "https://hylia.website",
   "authorEmail": "me@andy-bell.design",
-  "authorHandle": "@andybelldesign",
+  "authorHandle": "@hankchizljaw",
   "authorName": "Andy Bell",
   "enableThirdPartyComments": false,
-  "maxPostsPerPage": 5
+  "maxPostsPerPage": 5,
+  "paymentPointer": "$pay.stronghold.co/1a171baca7344614a63a0b798870af43b82",
+  "faviconPath": "/images/favicon.png"
 }

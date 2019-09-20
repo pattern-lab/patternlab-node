@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml" />
-  <link rel="icon" href="https://hankchizljaw.imgix.net/hylia-favicon.png" type="image/png" />
+  <link rel="icon" href="{{ site.faviconPath }}" type="image/png" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/lora-v13-latin-700.woff2" />
   {% include "partials/global/meta-info.njk" %}
   <script>document.documentElement.classList.remove('no-js');</script>
   <style>{% include "assets/css/global.css" %}</style>
   {% block head %}
   {% endblock %}
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   {% include "partials/global/site-head.njk" %}
@@ -29,5 +28,6 @@
       });
     }
   </script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async defer></script>
 </body>
 </html>

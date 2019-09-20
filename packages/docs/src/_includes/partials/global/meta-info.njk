@@ -35,3 +35,7 @@
   <meta property="og:image:alt" content="Page image for {{ site.name }}" />
   <meta name="twitter:image:alt" content="Page image for {{ site.name }}" />
 {% endif %}
+
+{% if site.paymentPointer %}
+  <meta name="monetization" content="{{ site.paymentPointer }}" />
+{% endif %}

@@ -33,7 +33,7 @@ collections:
     fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "layouts/page.njk"}
       - {label: "Title", name: "title", widget: "string"}
-      - {label: "Permalink Override", name: "permalink", widget: "string"}
+      - {label: "Permalink Override (Pattern: '/your-slug/index.html')", name: "permalink", widget: "string", required: false}
       - {label: "SEO Meta Title", name: "metaTitle", widget: "string", required: false}
       - {label: "SEO Meta Description", name: "metaDesc", widget: "string", required: false}
       - {label: "Social Image", name: "socialImage", widget: "image", required: false}
@@ -70,6 +70,8 @@ collections:
           - {label: "Maximum Posts Per Page", name: "maxPostsPerPage", widget: "number", default: 5}
           - {label: "Show Theme Credit", name: "showThemeCredit", widget: "boolean", default: true}
           - {label: "Enable Third Party Comments Area", name: "enableThirdPartyComments", widget: "boolean", default: false}
+          - {label: "Payment Pointer (Web Monetization: https://bit.ly/2kTRI1b)", name: "paymentPointer", widget: "string"}
+          - {label: "Favicon path (EG: /images/favicon.png)", name: "faviconPath", widget: "string"}
       - label: "Navigation"
         name: "nav"
         delete: false
