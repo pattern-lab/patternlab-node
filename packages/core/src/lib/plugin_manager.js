@@ -48,6 +48,16 @@ const plugin_manager = function() {
     });
   }
 
+  async function raiseEvent(patternlab, eventName, ...args) {
+    patternlab.events.emit(eventName, args);
+
+    await (async function() {
+      const hookHandlers = patternlab.hooks[eventName].map(h => h(args));
+
+      const results = await Promise.all(hookHandlers);
+    })();
+  }
+
   return {
     intialize_plugins: patternlab => {
       initializePlugins(patternlab);
@@ -57,6 +67,9 @@ const plugin_manager = function() {
     },
     is_plugin: filePath => {
       return isPlugin(filePath);
+    },
+    raiseEvent: async (patternlab, eventName, ...args) => {
+      await raiseEvent(patternlab, eventName, args);
     },
   };
 };

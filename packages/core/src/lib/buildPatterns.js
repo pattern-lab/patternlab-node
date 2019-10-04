@@ -14,6 +14,8 @@ const CompileState = require('./object_factory').CompileState;
 const processMetaPattern = require('./processMetaPattern');
 const pe = require('./pattern_exporter');
 const lh = require('./lineage_hunter');
+const pm = require('./lib/plugin_manager');
+const pluginMananger = new pm();
 const markModifiedPatterns = require('./markModifiedPatterns');
 const parseAllLinks = require('./parseAllLinks');
 const render = require('./render');
@@ -24,8 +26,12 @@ let pattern_exporter = new pe(); // eslint-disable-line
 
 const lineage_hunter = new lh();
 
-module.exports = (deletePatternDir, patternlab, additionalData) => {
-  patternlab.events.emit(events.PATTERNLAB_BUILD_START, patternlab);
+module.exports = async (deletePatternDir, patternlab, additionalData) => {
+  await pluginMananger.raiseEvent(
+    patternlab,
+    events.PATTERNLAB_BUILD_START,
+    patternlab
+  );
 
   const paths = patternlab.config.paths;
 
@@ -63,8 +69,9 @@ module.exports = (deletePatternDir, patternlab, additionalData) => {
 
     return patternlab
       .processAllPatternsIterative(paths.source.patterns)
-      .then(() => {
-        patternlab.events.emit(
+      .then(async () => {
+        await pluginMananger.raiseEvent(
+          patternlab,
           events.PATTERNLAB_PATTERN_ITERATION_END,
           patternlab
         );
@@ -140,11 +147,12 @@ module.exports = (deletePatternDir, patternlab, additionalData) => {
                       }
                     }
                     //render all patterns last, so lineageR works
-                    const allPatternsPromise = patternsToBuild.map(pattern =>
-                      compose(
-                        pattern,
-                        patternlab
-                      )
+                    const allPatternsPromise = patternsToBuild.map(
+                      async pattern =>
+                        await compose(
+                          pattern,
+                          patternlab
+                        )
                     );
                     //copy non-pattern files like JavaScript
                     const allJS = patternsToBuild.map(pattern => {

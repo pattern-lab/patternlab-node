@@ -8,11 +8,13 @@ const logger = require('./log');
 const parseLink = require('./parseLink');
 const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
+const pm = require('./lib/plugin_manager');
+const pluginMananger = new pm();
 
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 
-module.exports = function(pattern, patternlab) {
+module.exports = async function(pattern, patternlab) {
   // Pattern does not need to be built and recompiled more than once
   if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
     return Promise.resolve(false);
@@ -30,7 +32,8 @@ module.exports = function(pattern, patternlab) {
   pattern.patternLineageEExists =
     pattern.patternLineageExists || pattern.patternLineageRExists;
 
-  patternlab.events.emit(
+  await pluginMananger.raiseEvent(
+    patternlab,
     events.PATTERNLAB_PATTERN_BEFORE_DATA_MERGE,
     patternlab,
     pattern
@@ -172,8 +175,8 @@ module.exports = function(pattern, patternlab) {
               ///////////////
               // WRITE FILES
               ///////////////
-
-              patternlab.events.emit(
+              await pluginMananger.raiseEvent(
+                patternlab,
                 events.PATTERNLAB_PATTERN_WRITE_BEGIN,
                 patternlab,
                 pattern
@@ -187,13 +190,12 @@ module.exports = function(pattern, patternlab) {
                 uikit.outputDir
               );
 
-              await (async function() {
-                const hookHandlers = patternlab.hooks[
-                  events.PATTERNLAB_PATTERN_WRITE_END
-                ].map(h => h(patternlab, pattern));
-
-                const results = await Promise.all(hookHandlers);
-              })();
+              await pluginMananger.raiseEvent(
+                patternlab,
+                events.PATTERNLAB_PATTERN_WRITE_END,
+                patternlab,
+                pattern
+              );
 
               // Allows serializing the compile state
               patternlab.graph.node(
