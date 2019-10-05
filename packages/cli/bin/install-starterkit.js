@@ -12,8 +12,7 @@ const installStarterkit = (starterkit, config) =>
   wrapAsync(function*() {
     const sourceDir = config.paths.source.root;
     const name = starterkit.value || starterkit;
-    const url = name.startsWith('@pattern-lab/') ? name : `pattern-lab/${name}`;
-    yield checkAndInstallPackage(name, url);
+    yield checkAndInstallPackage(name);
     const kitPath = path.resolve('./node_modules', name);
     yield copyAsync(path.resolve(kitPath, 'dist'), path.resolve(sourceDir));
     let kitConfig;
