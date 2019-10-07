@@ -112,6 +112,7 @@ collections:
               - {label: "Light", name: "light", widget: "string", default: "hsl(0, 0%, 100%)"}
               - {label: "Mid", name: "mid", widget: "string", default: "hsl(0, 0%, 80%)"}
               - {label: "Dark", name: "dark", widget: "string", default: "hsl(0, 0%, 20%)"}
+              - {label: "Slate", name: "slate", widget: "string", default: "hsl(0, 0%, 25%)"}
           - label: "Fonts"
             name: "fonts"
             widget: "hidden"
