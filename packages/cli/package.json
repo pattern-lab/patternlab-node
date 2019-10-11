@@ -20,7 +20,7 @@
     "glob": "7.1.2",
     "has-yarn": "1.0.0",
     "inquirer": "5.1.0",
-    "lodash": "4.17.10",
+    "lodash": "4.17.15",
     "ora": "2.1.0",
     "path-exists": "3.0.0",
     "sanitize-filename": "1.6.1"
@@ -31,7 +31,7 @@
     "eslint-plugin-prettier": "2.6.0",
     "prettier": "1.11.1",
     "proxyquire": "2.0.1",
-    "tap": "11.1.1"
+    "tap": "14.6.4"
   },
   "files": [
     "bin"
