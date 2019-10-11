@@ -13,7 +13,7 @@
   ],
   "main": "patternlab-config.json",
   "scripts": {
-    "build:uikit": "npm run build --prefix node_modules/@pattern-lab/uikit-workshop -- --patternlabrc $INIT_CWD/.patternlabrc.js",
+    "build:uikit": "cross-env-shell PL_CONFIG_PATH='${INIT_CWD}/.patternlabrc.js' npm run build --prefix node_modules/@pattern-lab/uikit-workshop -- --patternlabrc '$PL_CONFIG_PATH'",
     "build": "patternlab build --config ./patternlab-config.json",
     "help": "patternlab --help",
     "install": "patternlab install --config ./patternlab-config.json",
@@ -22,6 +22,7 @@
     "version": "patternlab --version"
   },
   "dependencies": {
+    "cross-env": "^6.0.3",
     "@pattern-lab/cli": "^1.0.1",
     "@pattern-lab/core": "^3.0.3",
     "@pattern-lab/engine-twig-php": "^3.0.3",
