@@ -5,7 +5,7 @@
   "main": "lib/engine_mustache.js",
   "dependencies": {
     "fs-extra": "0.30.0",
-    "mustache": "2.2.0"
+    "mustache": "3.1.0"
   },
   "keywords": [
     "Pattern Lab",

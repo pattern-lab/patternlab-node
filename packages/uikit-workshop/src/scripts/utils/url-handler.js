@@ -36,7 +36,7 @@ export const urlHandler = {
     }
 
     if (withRenderedSuffix === undefined) {
-      withRenderedSuffix = true;
+      withRenderedSuffix = true; // eslint-disable-line no-param-reassign
     }
 
     if (name === 'all') {

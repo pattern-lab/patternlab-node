@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { h } from 'preact';
 import { define, props } from 'skatejs';
 import { BaseComponent } from '../base-component.js';
@@ -213,12 +214,8 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.random && (
+        {/* {!this.ishControlsHide.random && (
           <li class="pl-c-size-list__item">
-            {/* <button class="pl-c-size-list__action" id="pl-size-random">
-              Rand
-            </button> */}
-
             <Tooltip
               placement="top"
               trigger="hover"
@@ -246,8 +243,8 @@ class ViewportSizes extends BaseComponent {
               )}
             </Tooltip>
           </li>
-        )}
-        {!this.ishControlsHide.disco && (
+        )} */}
+        {/* {!this.ishControlsHide.disco && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -277,7 +274,7 @@ class ViewportSizes extends BaseComponent {
               )}
             </Tooltip>
           </li>
-        )}
+        )} */}
         {!this.ishControlsHide.hay && (
           <li class="pl-c-size-list__item">
             <button class="pl-c-size-list__action mode-link" id="pl-size-hay">

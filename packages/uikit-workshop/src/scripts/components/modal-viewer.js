@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * "Modal" (aka Panel UI) for the Viewer Layer - for both annotations and code/info
  */

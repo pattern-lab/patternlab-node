@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign, no-unused-vars */
 /**
  * "Modal" (aka Panel UI) for the Styleguide Layer - for both annotations and code/info
  */

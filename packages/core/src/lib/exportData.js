@@ -85,8 +85,12 @@ module.exports = function(patternlab) {
     );
   });
 
-  //write all output to patternlab-data
+  // add module.export to the Nodejs-specific file generated.
+  const exportedOutput =
+    output +
+    'module.exports = { config, ishControls, navItems, patternPaths, viewAllPaths, plugins, defaultShowPatternInfo, defaultPattern };';
 
+  //write all output to patternlab-data
   _.each(patternlab.uikits, uikit => {
     fs.outputFileSync(
       path.resolve(
@@ -94,6 +98,13 @@ module.exports = function(patternlab) {
         'patternlab-data.js'
       ),
       output
+    );
+    fs.outputFileSync(
+      path.resolve(
+        path.join(process.cwd(), uikit.outputDir, paths.public.data),
+        'patternlab-data.cjs.js'
+      ),
+      exportedOutput
     );
   });
 

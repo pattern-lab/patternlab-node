@@ -1,6 +1,7 @@
 /**
  * Panel Builder - supports building the panels to be included in the modal or styleguide
  */
+/* eslint-disable no-param-reassign, no-unused-vars */
 
 import Hogan from 'hogan.js';
 import Normalizer from 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js';
@@ -116,7 +117,8 @@ export const panelsViewer = {
 
               const templateHighlighted = Prism.highlight(
                 templateFormatted,
-                Prism.languages[panels[i].name.toLowerCase()] || 'markup'
+                Prism.languages[panels[i].name.toLowerCase()] ||
+                  Prism.languages['markup']
                 // Prism.languages[panels[i].name.toLowerCase()],
               );
 

@@ -1,11 +1,12 @@
 {
   "name": "@pattern-lab/engine-handlebars",
   "description": "The Handlebars engine for Pattern Lab / Node",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.1",
   "main": "lib/engine_handlebars.js",
   "dependencies": {
     "fs-extra": "0.30.0",
-    "handlebars": "4.0.5"
+    "glob": "7.0.0",
+    "handlebars": "4.2.0"
   },
   "keywords": [
     "Pattern Lab",

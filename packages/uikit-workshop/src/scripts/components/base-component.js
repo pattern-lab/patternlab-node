@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { withComponent, shadow } from 'skatejs';
 import withPreact from '@skatejs/renderer-preact';
 import { store } from '../store.js';

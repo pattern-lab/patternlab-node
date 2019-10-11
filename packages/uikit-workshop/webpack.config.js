@@ -27,8 +27,8 @@ const defaultConfig = {
   noViewAll: false,
 };
 
-module.exports = async function() {
-  return new Promise(async (resolve, reject) => {
+module.exports = function() {
+  return new Promise(async resolve => {
     let customConfig = defaultConfig;
     let configToSearchFor;
 
@@ -59,18 +59,7 @@ module.exports = async function() {
         loader: 'postcss-loader',
         options: {
           sourceMap: config.sourceMaps,
-          plugins: () => [
-            autoprefixer({
-              browsers: [
-                'last 2 version',
-                'safari 5',
-                'ie 8',
-                'ie 9',
-                'opera 12.1',
-                'android 4',
-              ],
-            }),
-          ],
+          plugins: () => [autoprefixer()],
         },
       },
       {

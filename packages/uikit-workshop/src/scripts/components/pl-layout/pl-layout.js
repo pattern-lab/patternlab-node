@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 const classNames = require('classnames');
 import { html } from 'lit-html';

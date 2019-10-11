@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 
@@ -13,7 +14,7 @@ import AnimateHeight from 'react-animate-height';
 import CloseIcon from '../../../icons/close.svg';
 
 @define
-export class Drawer extends BaseComponent {
+class Drawer extends BaseComponent {
   static is = 'pl-drawer';
 
   constructor(self) {
@@ -144,3 +145,5 @@ export class Drawer extends BaseComponent {
     this.isViewallPage = state.app.isViewallPage;
   }
 }
+
+export { Drawer };

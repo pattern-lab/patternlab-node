@@ -25,6 +25,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const Handlebars = require('handlebars');
+const glob = require('glob');
 
 // regexes, stored here so they're only compiled once
 const findPartialsRE = /{{#?>\s*([\w-\/.]+)(?:.|\s+)*?}}/g;
@@ -32,14 +33,22 @@ const findListItemsRE = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|s
 const findAtPartialBlockRE = /{{#?>\s*@partial-block\s*}}/g;
 
 function escapeAtPartialBlock(partialString) {
-  var partial = partialString.replace(
+  const partial = partialString.replace(
     findAtPartialBlockRE,
     '&#123;{> @partial-block }&#125;'
   );
   return partial;
 }
 
-var engine_handlebars = {
+function loadHelpers(helpers) {
+  helpers.forEach(globPattern => {
+    glob.sync(globPattern).forEach(filePath => {
+      require(path.join(process.cwd(), filePath))(Handlebars);
+    });
+  });
+}
+
+const engine_handlebars = {
   engine: Handlebars,
   engineName: 'handlebars',
   engineFileExtension: ['.hbs', '.handlebars'],
@@ -54,7 +63,7 @@ var engine_handlebars = {
       Handlebars.registerPartial(partials);
     }
 
-    var compiled = Handlebars.compile(escapeAtPartialBlock(pattern.template));
+    const compiled = Handlebars.compile(escapeAtPartialBlock(pattern.template));
 
     return Promise.resolve(compiled(data));
   },
@@ -68,7 +77,7 @@ var engine_handlebars = {
 
   // find and return any {{> template-name }} within pattern
   findPartials: function findPartials(pattern) {
-    var matches = pattern.template.match(findPartialsRE);
+    const matches = pattern.template.match(findPartialsRE);
     return matches;
   },
   findPartialsWithStyleModifiers: function() {
@@ -85,14 +94,14 @@ var engine_handlebars = {
     return [];
   },
   findListItems: function(pattern) {
-    var matches = pattern.template.match(findListItemsRE);
+    const matches = pattern.template.match(findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
   findPartial: function(partialString) {
-    var partial = partialString.replace(findPartialsRE, '$1');
+    const partial = partialString.replace(findPartialsRE, '$1');
     return partial;
   },
 
@@ -121,6 +130,36 @@ var engine_handlebars = {
   spawnMeta: function(config) {
     this.spawnFile(config, '_00-head.hbs');
     this.spawnFile(config, '_01-foot.hbs');
+  },
+
+  /**
+   * Accept a Pattern Lab config object from the core and use the settings to
+   * load helpers.
+   *
+   * @param {object} config - the global config object from core
+   */
+  usePatternLabConfig: function(config) {
+    let helpers;
+
+    try {
+      // Look for helpers in the config
+      helpers = config.engines.handlebars.extend;
+
+      if (typeof helpers === 'string') {
+        helpers = [helpers];
+      }
+    } catch (error) {
+      // Look for helpers in default location
+      const configPath = 'patternlab-handlebars-config.js';
+      if (fs.existsSync(path.join(process.cwd(), configPath))) {
+        helpers = [configPath];
+      }
+    }
+
+    // Load helpers if they were found
+    if (helpers) {
+      loadHelpers(helpers);
+    }
   },
 };
 

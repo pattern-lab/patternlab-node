@@ -1,6 +1,6 @@
 /* global Panels */
 
-Panels.add({
+window.patternlab.panels.add({
   id: 'sg-panel-<<type>>',
   name: '<<typeUC>>',
   default: false,

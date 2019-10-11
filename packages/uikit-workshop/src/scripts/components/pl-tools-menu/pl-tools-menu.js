@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
 import { BaseComponent } from '../base-component.js';

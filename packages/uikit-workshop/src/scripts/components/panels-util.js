@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Panels Util - for both styleguide and viewer
  */
