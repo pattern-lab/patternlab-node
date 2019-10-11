@@ -8,7 +8,7 @@ const logger = require('./log');
 const parseLink = require('./parseLink');
 const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
-const pm = require('./lib/plugin_manager');
+const pm = require('./plugin_manager');
 const pluginMananger = new pm();
 
 const Pattern = require('./object_factory').Pattern;

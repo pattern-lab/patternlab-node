@@ -4,7 +4,7 @@ const path = require('path');
 
 const logger = require('./log');
 const events = require('./events');
-const pm = require('./lib/plugin_manager');
+const pm = require('./plugin_manager');
 const pluginMananger = new pm();
 
 let chokidar = require('chokidar'); // eslint-disable-line prefer-const

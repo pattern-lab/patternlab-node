@@ -52,7 +52,9 @@ const plugin_manager = function() {
     patternlab.events.emit(eventName, args);
 
     await (async function() {
-      const hookHandlers = patternlab.hooks[eventName].map(h => h(args));
+      const hookHandlers = (patternlab.hooks[eventName] || []).map(h =>
+        h(args)
+      );
 
       const results = await Promise.all(hookHandlers);
     })();
