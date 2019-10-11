@@ -20,6 +20,13 @@ import(
 );
 
 import(
+  /* webpackChunkName: "pl-plugin-loader" */
+  /* webpackMode: "lazy" */
+  /* webpackPrefetch: true */
+  './components/plugin-loader'
+);
+
+import(
   /* webpackChunkName: "pl-modal-viewer" */
   /* webpackMode: "lazy" */
   /* webpackPrefetch: true */

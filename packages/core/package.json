@@ -13,8 +13,8 @@
     "glob": "7.0.0",
     "graphlib": "2.1.1",
     "js-beautify": "1.6.3",
-    "js-yaml": "3.6.1",
-    "lodash": "4.17.5",
+    "js-yaml": "3.13.1",
+    "lodash": "4.17.15",
     "markdown-it": "6.0.1",
     "node-fetch": "1.6.0",
     "recursive-copy": "2.0.8",
@@ -31,12 +31,12 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "0.14.3",
-    "jsdoc-to-markdown": "3.0.0",
+    "jsdoc-to-markdown": "5.0.1",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.11.1",
     "rewire": "2.5.2",
     "standard-version": "4.3.0",
-    "tap": "11.1.1"
+    "tap": "14.6.4"
   },
   "keywords": [
     "Pattern Lab",
@@ -51,8 +51,7 @@
   "author": {
     "name": "Brian Muenzenmeyer"
   },
-  "contributors": [
-    {
+  "contributors": [{
       "name": "Geoff Pursell"
     },
     {
