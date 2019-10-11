@@ -2,5 +2,5 @@
 
 module.exports = {
   // buildDir: __dirname + '/www/pattern-lab',
-  noViewAll: true, // uncomment to disable displaying viewAll links in Pattern Lab
+  // noViewAll: true, // uncomment to disable displaying viewAll links in Pattern Lab
 };
