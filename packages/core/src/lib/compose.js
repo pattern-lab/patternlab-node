@@ -8,11 +8,13 @@ const logger = require('./log');
 const parseLink = require('./parseLink');
 const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
+const pm = require('./plugin_manager');
+const pluginMananger = new pm();
 
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 
-module.exports = function(pattern, patternlab) {
+module.exports = async function(pattern, patternlab) {
   // Pattern does not need to be built and recompiled more than once
   if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
     return Promise.resolve(false);
@@ -30,7 +32,8 @@ module.exports = function(pattern, patternlab) {
   pattern.patternLineageEExists =
     pattern.patternLineageExists || pattern.patternLineageRExists;
 
-  patternlab.events.emit(
+  await pluginMananger.raiseEvent(
+    patternlab,
     events.PATTERNLAB_PATTERN_BEFORE_DATA_MERGE,
     patternlab,
     pattern
@@ -167,36 +170,40 @@ module.exports = function(pattern, patternlab) {
           allFooterData.cacheBuster = patternlab.cacheBuster;
           allFooterData.patternLabFoot = footerPartial;
 
-          return render(patternlab.userFoot, allFooterData).then(footerHTML => {
-            ///////////////
-            // WRITE FILES
-            ///////////////
+          return render(patternlab.userFoot, allFooterData).then(
+            async footerHTML => {
+              ///////////////
+              // WRITE FILES
+              ///////////////
+              await pluginMananger.raiseEvent(
+                patternlab,
+                events.PATTERNLAB_PATTERN_WRITE_BEGIN,
+                patternlab,
+                pattern
+              );
 
-            patternlab.events.emit(
-              events.PATTERNLAB_PATTERN_WRITE_BEGIN,
-              patternlab,
-              pattern
-            );
+              //write the compiled template to the public patterns directory
+              patternlab.writePatternFiles(
+                headHTML,
+                pattern,
+                footerHTML,
+                uikit.outputDir
+              );
 
-            //write the compiled template to the public patterns directory
-            patternlab.writePatternFiles(
-              headHTML,
-              pattern,
-              footerHTML,
-              uikit.outputDir
-            );
+              await pluginMananger.raiseEvent(
+                patternlab,
+                events.PATTERNLAB_PATTERN_WRITE_END,
+                patternlab,
+                pattern
+              );
 
-            patternlab.events.emit(
-              events.PATTERNLAB_PATTERN_WRITE_END,
-              patternlab,
-              pattern
-            );
-
-            // Allows serializing the compile state
-            patternlab.graph.node(pattern).compileState = pattern.compileState =
-              CompileState.CLEAN;
-            logger.info('Built pattern: ' + pattern.patternPartial);
-          });
+              // Allows serializing the compile state
+              patternlab.graph.node(
+                pattern
+              ).compileState = pattern.compileState = CompileState.CLEAN;
+              logger.info('Built pattern: ' + pattern.patternPartial);
+            }
+          );
         })
         .catch(reason => {
           console.log(reason);
