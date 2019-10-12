@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/starterkit-handlebars-demo",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Pattern Lab's Demo StarterKit for Handlebars.",
   "main": "README.md",
   "repository": {
@@ -21,5 +21,8 @@
   "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-handebars-demo",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "cd dist/css && npx node-sass style.scss style.css"
   }
 }

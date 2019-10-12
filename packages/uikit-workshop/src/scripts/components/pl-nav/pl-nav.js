@@ -52,7 +52,7 @@ const SubSubList = props => {
               )}
             </a>
 
-            {nonViewAllItems.length > 1 && (
+            {nonViewAllItems.length && (
               <SpecialButton
                 aria-controls={category}
                 onClick={elem.toggleSpecialNavPanel}
@@ -75,7 +75,7 @@ const SubSubList = props => {
         </Button>
       )}
 
-      {((viewAllItems.length > 0 && nonViewAllItems.length > 1) ||
+      {((viewAllItems.length && nonViewAllItems.length) ||
         viewAllItems.length === 0) && (
         <ol
           id={category}
@@ -572,16 +572,23 @@ class Nav extends BaseComponent {
           );
         })}
 
-        {/* <li class="pl-c-nav__item">
-          <a
-            href="styleguide/html/styleguide.html"
-            class="pl-c-nav__link pl-c-nav__link--pattern"
-            data-patternpartial="all"
-            tabindex="0"
-          >
-            All
-          </a>
-        </li> */}
+        {/* display the All link if window.ishControlsHide is undefined (for some reason) OR window.ishControls.ishControlsHide doesn't have `views-all` and/or `all` set to true */}
+        {(window.ishControls === undefined ||
+          window.ishControls.ishControlsHide === undefined ||
+          (window.ishControls.ishControlsHide['views-all'] !== true &&
+            window.ishControls.ishControlsHide.all !== true)) && (
+          <li class="pl-c-nav__item">
+            <a
+              onClick={e => this.handleClick(e, 'all')}
+              href="styleguide/html/styleguide.html"
+              class="pl-c-nav__link pl-c-nav__link--pattern"
+              data-patternpartial="all"
+              tabindex="0"
+            >
+              All
+            </a>
+          </li>
+        )}
       </ol>
     );
   }

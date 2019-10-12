@@ -22,7 +22,7 @@ const installPlugin = (plugin, config) =>
     try {
       const pluginConfigJSON = require(pluginPathConfig);
       if (!_.has(config.plugins[name].options)) {
-        _.set(config, `plugins[${name}]['options]`, pluginConfigJSON);
+        _.set(config, `plugins[${name}][options]`, pluginConfigJSON);
       }
     } catch (ex) {
       //a config.json file is not required at this time
