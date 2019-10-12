@@ -61,9 +61,17 @@ const engine_twig_php = {
 
   renderPattern(pattern, data) {
     return new Promise((resolve, reject) => {
-      const patternPath = path.isAbsolute(pattern.relPath)
-        ? path.relative(patternLabConfig.paths.source.root, pattern.relPath)
+      // If this is a pseudo pattern the relPath will be incorrect.
+      // i.e. /path/to/pattern.json
+      // Twig can't render that file so we need to use the base patterns
+      // relPath instead.
+      const relPath = pattern.isPseudoPattern
+        ? pattern.basePattern.relPath
         : pattern.relPath;
+
+      const patternPath = path.isAbsolute(relPath)
+        ? path.relative(patternLabConfig.paths.source.root, relPath)
+        : relPath;
       // console.log(patternPath);
 
       let details = '';
