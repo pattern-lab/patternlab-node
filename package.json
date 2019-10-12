@@ -13,6 +13,10 @@
     "pretty-quick": "^1.11.1",
     "auto": "^7.8.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pattern-lab/patternlab-node.git"
+  },
   "private": true,
   "scripts": {
     "postinstall": "npm run bootstrap",
