@@ -11,7 +11,8 @@
     "lerna": "3.11.0",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.11.1",
-    "auto": "^7.8.0"
+    "auto": "^7.8.0",
+    "snyk": "^1.234.2"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,9 @@
     "test": "lerna run test",
     "clean": "git clean -dfx",
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
-    "postpublish": "auto release"
+    "postpublish": "auto release",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "nyc": {
     "exclude": [
@@ -38,5 +41,6 @@
       "packages/core/test",
       "packages/live-server"
     ]
-  }
+  },
+  "snyk": true
 }

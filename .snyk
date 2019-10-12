@@ -1,0 +1,22 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - auto > @auto-it/core > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - auto > @auto-it/released > @auto-it/core > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - lerna > @lerna/add > pacote > make-fetch-happen > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - lerna > @lerna/publish > npm-registry-fetch > make-fetch-happen > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - lerna > @lerna/publish > libnpmaccess > npm-registry-fetch > make-fetch-happen > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - lerna > @lerna/add > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - lerna > @lerna/publish > @lerna/npm-dist-tag > npm-registry-fetch > make-fetch-happen > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
+    - lerna > @lerna/publish > @lerna/npm-publish > libnpmpublish > npm-registry-fetch > make-fetch-happen > https-proxy-agent:
+        patched: '2019-10-12T17:30:17.931Z'
