@@ -4,6 +4,8 @@
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
+    "prepublish": "npm run build",
+    "postbootstrap": "npm run build",
     "build": "webpack-cli --config webpack.config.js --progress --bail --display=minimal",
     "watch": "webpack-cli --config webpack.config.js --progress --watch --display=minimal",
     "test": "npm run build"
