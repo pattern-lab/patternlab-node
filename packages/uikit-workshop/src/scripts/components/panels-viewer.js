@@ -332,19 +332,6 @@ export const panelsViewer = {
       }
     }
 
-    // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
-    // @todo: refactor and re-enable
-    // $('.pl-js-lineage-link', templateRendered).on('click', function(e) {
-    //   e.preventDefault();
-    //   const obj = JSON.stringify({
-    //     event: 'patternLab.updatePath',
-    //     path: urlHandler.getFileName($(this).attr('data-patternpartial')),
-    //   });
-    //   document
-    //     .querySelector('.pl-js-iframe')
-    //     .contentWindow.postMessage(obj, panelsViewer.targetOrigin);
-    // });
-
     // gather panels from plugins
     Dispatcher.trigger('insertPanels', [
       templateRendered,
