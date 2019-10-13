@@ -56,7 +56,7 @@
     }
   },
   "cacheBust": true,
-  "cleanPublic": true,
+  "cleanPublic": false,
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {

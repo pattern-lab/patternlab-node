@@ -40,7 +40,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
   //
   const graph = (patternlab.graph = loadPatternGraph(
     patternlab,
-    deletePatternDir
+    patternlab.config.cleanPublic
   ));
   const graphNeedsUpgrade = !PatternGraph.checkVersion(graph);
   if (graphNeedsUpgrade) {
@@ -55,7 +55,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
 
   // Flags
   patternlab.incrementalBuildsEnabled = !(
-    deletePatternDir || graphNeedsUpgrade
+    patternlab.config.cleanPublic || graphNeedsUpgrade
   );
 
   //
