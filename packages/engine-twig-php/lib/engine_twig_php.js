@@ -46,10 +46,6 @@ const engine_twig_php = {
 
     const { namespaces, alterTwigEnv, relativeFrom } = config.engines.twig;
 
-    // Preserve the namespaces from the config so we can use them later to
-    // evaluate partials.
-    this.namespaces = namespaces;
-
     // Schema on config object being passed in:
     // https://github.com/basaltinc/twig-renderer/blob/master/config.schema.json
     twigRenderer = new TwigRenderer({
@@ -60,14 +56,24 @@ const engine_twig_php = {
       relativeFrom,
       alterTwigEnv,
     });
+
+    // Preserve the namespaces (after recursively adding nested folders) from the config so we can use them later to evaluate partials.
+    this.namespaces = twigRenderer.config.src.namespaces;
   },
 
   renderPattern(pattern, data) {
     return new Promise((resolve, reject) => {
-      const patternPath = path.isAbsolute(pattern.relPath)
-        ? path.relative(patternLabConfig.paths.source.root, pattern.relPath)
+      // If this is a pseudo pattern the relPath will be incorrect.
+      // i.e. /path/to/pattern.json
+      // Twig can't render that file so we need to use the base patterns
+      // relPath instead.
+      const relPath = pattern.isPseudoPattern
+        ? pattern.basePattern.relPath
         : pattern.relPath;
 
+      const patternPath = path.isAbsolute(relPath)
+        ? path.relative(patternLabConfig.paths.source.root, relPath)
+        : relPath;
       let details = '';
       if (patternLabConfig.logLevel === 'debug') {
         details = `<details><pre><code>${JSON.stringify(
@@ -184,26 +190,47 @@ const engine_twig_php = {
           index < selectedNamespace[0].paths.length;
           index++
         ) {
-          const path = selectedNamespace[0].paths[index];
+          const patternPath = path.isAbsolute(selectedNamespace[0].paths[index])
+            ? path.relative(
+                patternLabConfig.paths.source.root,
+                selectedNamespace[0].paths[index]
+              )
+            : selectedNamespace[0].paths[index];
+
           // Replace the name space with the actual path.
           // i.e. @atoms -> source/_patterns/00-atoms
-          const tempPartial = partial.replace(
-            `@${selectedNamespace[0].id}`,
-            path
+          const tempPartial = path.join(
+            process.cwd(),
+            partial.replace(`@${selectedNamespace[0].id}`, patternPath)
           );
 
           try {
-            // Check to see if the file exists.
+            // Check to see if the file actually exists.
             if (fs.existsSync(tempPartial)) {
-              // If it does, find the last directory in the namespace path.
-              // i.e. source/_patterns/00-atoms -> 00-atoms.
-              const lastDirectory = path.split('/').reverse()[0];
-              // Replace the namespace in the path with the directory name.
-              // i.e. @atoms/04-images/04-avatar.twig -> 00-atoms/04-images/04-avatar.twig
-              namespaceResolvedPartial = partial.replace(
-                `@${selectedNamespace[0].id}`,
-                lastDirectory
+              // get the path to the top-level folder of this pattern
+              // ex. /Users/bradfrost/sites/pattern-lab/packages/edition-twig/source/_patterns/00-atoms
+              const fullFolderPath = `${
+                tempPartial.split(selectedNamespace[0].id)[0]
+              }${selectedNamespace[0].id}`;
+
+              // then tease out the folder name itself (including the # prefix)
+              // ex. 00-atoms
+              const folderName = fullFolderPath.substring(
+                fullFolderPath.lastIndexOf('/') + 1,
+                fullFolderPath.length
               );
+
+              // finally, return the Twig path we created from the full file path
+              // ex. 00-atoms/05-buttons/button.twig
+              const fullIncludePath = tempPartial.replace(
+                tempPartial.split(
+                  `${folderName}${tempPartial.split(folderName)[1]}`
+                )[0],
+                ''
+              );
+
+              namespaceResolvedPartial = fullIncludePath;
+
               // After it matches one time, set the resolved partial and exit the loop.
               break;
             }

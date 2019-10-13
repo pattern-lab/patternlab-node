@@ -4,6 +4,8 @@ const path = require('path');
 
 const logger = require('./log');
 const events = require('./events');
+const pm = require('./plugin_manager');
+const pluginMananger = new pm();
 
 let chokidar = require('chokidar'); // eslint-disable-line prefer-const
 
@@ -41,20 +43,32 @@ const watchPatternLabFiles = (
 
     //watch for changes and rebuild
     globalWatcher
-      .on('addDir', p => {
-        patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
-          file: p,
-        });
+      .on('addDir', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_GLOBAL_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('add', p => {
-        patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
-          file: p,
-        });
+      .on('add', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_GLOBAL_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('change', p => {
-        patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
-          file: p,
-        });
+      .on('change', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_GLOBAL_CHANGE,
+          {
+            file: p,
+          }
+        );
       });
 
     patternlab.watchers[globalPath] = globalWatcher;
@@ -90,20 +104,32 @@ const watchPatternLabFiles = (
 
     //watch for changes and rebuild
     patternWatcher
-      .on('addDir', p => {
-        patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
-          file: p,
-        });
+      .on('addDir', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_PATTERN_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('add', p => {
-        patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
-          file: p,
-        });
+      .on('add', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_PATTERN_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('change', p => {
-        patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
-          file: p,
-        });
+      .on('change', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_PATTERN_CHANGE,
+          {
+            file: p,
+          }
+        );
       });
 
     patternlab.watchers[patternWatchPath] = patternWatcher;

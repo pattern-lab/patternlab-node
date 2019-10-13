@@ -17,16 +17,34 @@ Level of Support is more or less full. Partial calls and lineage hunting are sup
 
 ## Extending the Nunjucks instance
 
-To add custom filters or make customizations to the nunjucks instance, create a file named `patternlab-nunjucks-config.js` in the root of your Pattern Lab project. `patternlab-nunjucks-config.js` should export a function with the Nunjucks environment as parameter.
+To add custom filters or make customizations to the nunjucks instance, add the following to `patternlab-config.json`:
 
+```json
+  {
+    ...
+    "engines": {
+      "nunjucks": {
+        "extend": [
+          "nunjucks-extensions/*.js"
+        ]
+      }
+    }
+  }
 ```
+
+...or use the default file name: `patternlab-nunjucks-config.js` (in the root of your Pattern Lab project).
+
+Each file providing extensions should export a function with the Nunjucks environment as parameter.
+
+```js
 module.exports = function (env) {
   [YOUR CUSTOM CODE HERE]
 };
 ```
 
 Example: `patternlab-nunjucks-config.js` file that uses lodash and adds three custom filters.
-```
+
+```js
 var _shuffle = require('lodash/shuffle'),
   _take = require('lodash/take');
 

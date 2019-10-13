@@ -13,6 +13,9 @@ const writeJsonAsync = require('../utils').writeJsonAsync;
 
 const defaultPatternlabConfig = patternlab.getDefaultConfig();
 
+// https://github.com/TehShrike/deepmerge#overwrite-array
+const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+
 const init = options =>
   wrapAsync(function*() {
     const sourceDir = 'source';
@@ -52,7 +55,9 @@ const init = options =>
         projectDir
       ); // 3.1
       if (newConf) {
-        patternlabConfig = merge(patternlabConfig, newConf); // 3.2
+        patternlabConfig = merge(patternlabConfig, newConf, {
+          arrayMerge: overwriteMerge,
+        }); // 3.2
       }
       spinner.succeed(`⊙ patternlab → Installed edition: ${edition}`);
     }
@@ -65,7 +70,9 @@ const init = options =>
       );
       spinner.succeed(`⊙ patternlab → Installed starterkit: ${starterkit}`);
       if (starterkitConfig) {
-        patternlabConfig = merge(patternlabConfig, starterkitConfig);
+        patternlabConfig = merge(patternlabConfig, starterkitConfig, {
+          arrayMerge: overwriteMerge,
+        });
       }
     } // 4
     yield writeJsonAsync(

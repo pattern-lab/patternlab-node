@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.3...@pattern-lab/edition-node-gulp@2.0.4) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [2.0.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.2...@pattern-lab/edition-node-gulp@2.0.3) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
 ## [2.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.2-alpha.0...@pattern-lab/edition-node-gulp@2.0.2) (2019-05-16)
 
 **Note:** Version bump only for package @pattern-lab/edition-node-gulp
