@@ -181,9 +181,6 @@ export const modalViewer = {
    */
   refresh(patternData, iframePassback, switchText) {
     // if this is a styleguide view close the modal
-    if (iframePassback) {
-      modalViewer.close();
-    }
 
     modalViewer.patternData = patternData;
 
@@ -333,9 +330,6 @@ export const modalViewer = {
           data.iframePassback,
           data.switchText
         );
-
-        modalViewer.panelRendered = true;
-        modalViewer.previouslyRenderedPattern = data.patternData.patternPartial;
       }
     } else if (
       data.event !== undefined &&
@@ -367,9 +361,11 @@ export const modalViewer = {
   },
 
   _stateChanged(state) {
-    modalViewer.active = state.app.drawerOpened;
-    if (modalViewer.iframeElement) {
-      modalViewer._handleInitialModalViewerState();
+    if (modalViewer.active !== state.app.drawerOpened) {
+      modalViewer.active = state.app.drawerOpened;
+      if (modalViewer.iframeElement) {
+        modalViewer._handleInitialModalViewerState();
+      }
     }
   },
 };
