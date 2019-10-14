@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/pattern-lab/patternlab-node/compare/@pattern-lab/development-edition-engine-handlebars@0.1.4...@pattern-lab/development-edition-engine-handlebars@0.1.5) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars
+
+
+
+
+
+
 ## [0.1.1](https://github.com/pattern-lab/patternlab-node/compare/@pattern-lab/development-edition-engine-handlebars@0.1.0...@pattern-lab/development-edition-engine-handlebars@0.1.1) (2019-08-23)
 
 **Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars

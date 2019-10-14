@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.6...@pattern-lab/engine-react-testing-tree@0.1.7) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
 ## [0.1.3](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.2...@pattern-lab/engine-react-testing-tree@0.1.3) (2019-08-23)
 
 **Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
