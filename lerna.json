@@ -19,10 +19,12 @@
       ]
     },
     "publish": {
-      "allowBranch": "master"
+      "allowBranch": [
+        "dev",
+        "master"
+      ]
     }
   },
   "npmClientArgs": [
     "--registry=https://registry.npmjs.org/"
-  ]
-}
+  }
