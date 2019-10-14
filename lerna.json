@@ -27,4 +27,5 @@
   },
   "npmClientArgs": [
     "--registry=https://registry.npmjs.org/"
-  }
+  ]
+}
