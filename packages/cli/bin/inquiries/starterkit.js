@@ -10,34 +10,38 @@ const starterkitSetup = [
     message: 'Which starterkit do you want to use?',
     choices: [
       {
-        name: 'starterkit-handlebars-demo [Recommended]',
+        name: 'starterkit-handlebars-demo (Recommended)',
         value: '@pattern-lab/starterkit-handlebars-demo',
       },
       {
-        name: 'starterkit-twig-demo [Recommended]',
+        name: 'starterkit-handlebars-vanilla (Recommended)',
+        value: '@pattern-lab/starterkit-handlebars-vanilla',
+      },
+      {
+        name: 'starterkit-twig-demo (Recommended)',
         value: '@pattern-lab/starterkit-twig-demo',
-      },         
+      },
       {
         name: 'starterkit-mustache-bootstrap',
         value: 'starterkit-mustache-bootstrap',
-      },    
+      },
       {
         name: 'starterkit-mustache-demo',
         value: '@pattern-lab/starterkit-mustache-demo',
-      },      
+      },
       {
         name: 'starterkit-mustache-foundation',
         value: 'starterkit-mustache-foundation',
-      },      
+      },
       {
         name: 'starterkit-mustache-materialdesign',
         value: 'starterkit-mustache-materialdesign',
-      },      
+      },
       {
         name: 'starterkit-mustache-base',
         value: '@pattern-lab/starterkit-mustache-base',
       },
-   
+
       new inquirer.Separator(),
       {
         name: 'Custom starterkit',
@@ -45,7 +49,7 @@ const starterkitSetup = [
       },
       new inquirer.Separator(),
       {
-        name: 'None',
+        name: 'None (Start a blank project)',
         value: false,
       },
     ],
