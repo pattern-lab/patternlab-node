@@ -106,29 +106,39 @@ export const panelsViewer = {
           const e = new XMLHttpRequest();
           // @todo: look deeper into how we can refactor this particular code block
           /* eslint-disable */
-          e.onload = (function(i, panels, patternData, iframeRequest) {
-            return function() {
+          e.onload = (function (i, panels, patternData, iframeRequest) {
+            return function () {
+
+              // since non-existant files (such as .scss from plugin-tab) still return a 200, we need to instead inspect the contents
+              // we look for responseText that starts with the doctype
+              let rText = this.responseText
+              if (rText.startsWith('<!DOCTYPE html>')) {
+                rText = ''
+              }
+
               // use pretty to format HTML
               if (panels[i].name === 'HTML') {
-                templateFormatted = pretty(this.responseText, { ocd: true });
+                templateFormatted = pretty(rText, { ocd: true });
               } else {
-                templateFormatted = this.responseText;
+                templateFormatted = rText;
               }
 
               const templateHighlighted = Prism.highlight(
                 templateFormatted,
                 Prism.languages[panels[i].name.toLowerCase()] ||
-                  Prism.languages['markup']
+                Prism.languages['markup']
                 // Prism.languages[panels[i].name.toLowerCase()],
               );
 
-              const codeTemplate = (code, language) =>
-                html`
+              if (templateHighlighted.)
+
+                const codeTemplate = (code, language) =>
+                  html`
                   <pre
                     class="language-markup"
                   ><code id="pl-code-fill-${language}" class="language-${language}">${unsafeHTML(
-                    code
-                  )}</code></pre>
+                      code
+                    )}</code></pre>
                 `;
 
               const result = document.createDocumentFragment();
