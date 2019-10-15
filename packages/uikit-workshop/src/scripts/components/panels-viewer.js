@@ -130,15 +130,13 @@ export const panelsViewer = {
                 // Prism.languages[panels[i].name.toLowerCase()],
               );
 
-              if (templateHighlighted.)
-
-                const codeTemplate = (code, language) =>
-                  html`
+              const codeTemplate = (code, language) =>
+                html`
                   <pre
                     class="language-markup"
                   ><code id="pl-code-fill-${language}" class="language-${language}">${unsafeHTML(
-                      code
-                    )}</code></pre>
+                    code
+                  )}</code></pre>
                 `;
 
               const result = document.createDocumentFragment();
