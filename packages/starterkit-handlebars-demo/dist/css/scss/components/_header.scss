@@ -1,0 +1,91 @@
+/*------------------------------------*\
+    #HEADER
+\*------------------------------------*/
+
+/**
+ * Global block at the top of each page containing the navigation, logo, and other potential contents
+ */
+.c-header {
+	position: relative;
+	margin-bottom: 2rem;
+	border-bottom: 1px solid $color-neutral-gray-13;
+}
+
+/**
+ * Header inner
+ */
+.c-header__inner {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+
+	@media all and (min-width: $bp-small-2) {
+		display: flex;
+		align-items: center;
+	}
+}
+
+/**
+ * Header navigation button
+ * 1) Button used to toggle the navigation on/off on small screens
+ */
+.c-header__nav-btn {
+	margin-left: auto;
+
+	@media all and (min-width: $bp-xl) {
+		display: none;
+	}
+}
+
+/**
+ * Header navigation conntainer
+ * 1) Contains the primary navigation and other possible patterns
+ */
+.c-header__nav-container {
+	display: none;
+
+	@media all and (min-width: $bp-xl) {
+		display: block;
+		margin-left: auto;
+	}
+
+	/**
+	 * Header navigation conntainer within vertical header
+	 */
+	.c-header--vertical & {
+		@media all and (min-width: $bp-xl) {
+			margin-left: 0;
+		}
+	}
+}
+
+/**
+ * Active header nav container
+ */
+.c-header__nav-container.is-active {
+	display: block;
+	position: absolute;
+	background: $color-neutral-gray-07;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	z-index: 5;
+	padding: 1rem;
+
+	@media all and (min-width: $bp-xl) {
+		display: block;
+		position: static;
+		padding: 0;
+		margin-left: auto;
+		width: inherit;
+	}
+
+	/**
+	 * Active header nav container within vertical header
+	 */
+	.c-header--vertical & {
+		@media all and (min-width: $bp-xl) {
+			margin-left: 0;
+			width: 100%;
+		}
+	}
+}

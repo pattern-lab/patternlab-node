@@ -1,5 +1,6 @@
 'use strict';
 const patternlab = require('@pattern-lab/core');
+const merge = require('deepmerge');
 const ask = require('../ask');
 const scaffold = require('../scaffold');
 const installEdition = require('../install-edition');
@@ -11,6 +12,9 @@ const wrapAsync = require('../utils').wrapAsync;
 const writeJsonAsync = require('../utils').writeJsonAsync;
 
 const defaultPatternlabConfig = patternlab.getDefaultConfig();
+
+// https://github.com/TehShrike/deepmerge#overwrite-array
+const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 
 const init = options =>
   wrapAsync(function*() {
@@ -50,14 +54,26 @@ const init = options =>
         patternlabConfig,
         projectDir
       ); // 3.1
-      patternlabConfig = Object.assign(patternlabConfig, newConf); // 3.2
+      if (newConf) {
+        patternlabConfig = merge(patternlabConfig, newConf, {
+          arrayMerge: overwriteMerge,
+        }); // 3.2
+      }
       spinner.succeed(`⊙ patternlab → Installed edition: ${edition}`);
     }
     if (starterkit) {
       spinner.text = `⊙ patternlab → Installing starterkit ${starterkit}`;
       spinner.start();
-      yield installStarterkit(starterkit, patternlabConfig);
+      const starterkitConfig = yield installStarterkit(
+        starterkit,
+        patternlabConfig
+      );
       spinner.succeed(`⊙ patternlab → Installed starterkit: ${starterkit}`);
+      if (starterkitConfig) {
+        patternlabConfig = merge(patternlabConfig, starterkitConfig, {
+          arrayMerge: overwriteMerge,
+        });
+      }
     } // 4
     yield writeJsonAsync(
       path.resolve(projectDir, 'patternlab-config.json'),

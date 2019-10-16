@@ -1,63 +1,49 @@
 <!DOCTYPE html>
 <html class="pl-c-html">
+  <head>
+    <title id="title">Pattern Lab</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ababab" />
+    <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
 
-<head>
-  <title id="title">Pattern Lab</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-  <meta name="theme-color" content="#ababab" />
-  <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
+    <link
+      rel="prefetch"
+      as="image"
+      href="styleguide/images/pattern-lab-logo--on-dark.svg"
+    />
+    <link
+      rel="prefetch"
+      as="image"
+      href="styleguide/images/pattern-lab-logo--on-light.svg"
+    />
+  </head>
 
-</head>
+  <body class="pl-c-body">
+    <pl-layout></pl-layout>
 
-<body class="pl-c-body">
+    <!-- the template for the modal slider -->
+    <script type="text/mustache" class="pl-js-panel-template-base">
+      ${require('./partials/base-template.html') }
+    </script>
 
-  <pl-layout>
-    ${require('./partials/header.html') }
+    <!-- load Pattern Lab data -->
+    <script src="styleguide/data/patternlab-data.js" defer></script>
+    <script src="annotations/annotations.js" defer></script>
+    <script src="styleguide/js/patternlab-viewer.js" defer></script>
 
-    <!-- wrapper so the iframe + modal can switch flex directions in vertical vs horizontal layouts  -->
-    <div class="pl-c-viewport-modal-wrapper">
-      ${require('./partials/iframe.html') }
-      ${require('./partials/modal.html') }
-    </div>
-  </pl-layout>
-  
-
-  <script type="text/mustache" class="pl-js-pattern-nav-template">
-    ${require('./partials/pattern-nav.html') }
-	</script>
-
-  <script type="text/mustache" class="pl-js-ish-controls-template">
-    ${require('./partials/controls.html') }
-	</script>
-
-  <!-- the template for the modal slider -->
-  <script type="text/mustache" class="pl-js-panel-template-base">
-    ${require('./partials/base-template.html') }
-	</script>
-
-  <!-- the template for code-related tabs in the code view slider -->
-  <script type="text/mustache" id="pl-panel-template-code">
-    ${require('./partials/panel-code-template.html') }
-	</script>
-
-  <!-- load Pattern Lab data -->
-  <script src="styleguide/data/patternlab-data.js" defer></script>
-  <script src="annotations/annotations.js" defer></script>
-  <script src="styleguide/js/patternlab-viewer.js" defer></script>
-
-  <script>
-    // Check that service workers are registered
-    // @todo: uncomment once cache-busting strategy is in place
-    // if ('serviceWorker' in navigator) {
-    //   // Use the window load event to keep the page load performant
-    //   window.addEventListener('load', () => {
-    //     navigator.serviceWorker.register('/sw.js');
-    //   });
-    // }
-  </script>
-
-
-</body>
-
+    <script>
+      // Check that service workers are registered
+      // @todo: uncomment once cache-busting strategy is in place
+      // if ('serviceWorker' in navigator) {
+      //   // Use the window load event to keep the page load performant
+      //   window.addEventListener('load', () => {
+      //     navigator.serviceWorker.register('/sw.js');
+      //   });
+      // }
+    </script>
+  </body>
 </html>

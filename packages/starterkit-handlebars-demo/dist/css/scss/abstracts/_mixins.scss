@@ -1,0 +1,70 @@
+/*------------------------------------*\
+    #MIXINS
+\*------------------------------------*/
+
+/**
+ * Body Styles
+ * 1) Prevent Mobile Safari from scaling up text: https://blog.55minutes.com/2012/04/iphone-text-resizing/
+ */
+@mixin typographyBody() {
+    font-size: $font-size-med;
+    line-height: 1.6;
+    -webkit-text-size-adjust: 100%; /* 1 */
+}
+
+/**
+ * XL Type Styles
+ */
+ @mixin typographyBodyLarge() {
+    font-size: $font-size-med-2;
+	line-height: $line-height-large;
+}
+
+/**
+ * XL Heading Styles
+ */
+@mixin typographyHeadingXXL() {
+    font-size: $font-size-xl;
+    font-weight: normal;
+    line-height: 1.2;
+    
+    @media all and (min-width: $bp-med) {
+        font-size: $font-size-xxl;
+    }
+}
+
+/**
+ * XL Heading Styles
+ */
+@mixin typographyHeadingXl() {
+    font-size: $font-size-xl;
+    font-weight: normal;
+	line-height: 1.2;
+}
+
+/**
+ * Large Heading Styles
+ */
+ @mixin typographyHeadingLarge() {
+    font-size: $font-size-large;
+    font-weight: normal;
+	line-height: 1.2;
+}
+
+/**
+ * Medium 2 Heading Styles
+ */
+ @mixin typographyHeadingMed2() {
+    font-size: $font-size-med-2;
+    font-weight: normal;
+	line-height: 1.2;
+}
+
+/**
+ * Medium Heading Styles
+ */
+ @mixin typographyHeadingMed() {
+    font-size: $font-size-med;
+    font-weight: normal;
+	line-height: 1.2;
+}

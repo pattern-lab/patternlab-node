@@ -4,7 +4,7 @@
  * note: config is coming from the default viewer and is passed through from PL's config
  */
 
-import { PrismLanguages } from './prism-languages';
+import { PrismLanguages as Prism } from './prism-languages';
 import { Dispatcher } from '../utils';
 
 export const Panels = {
@@ -15,7 +15,7 @@ export const Panels = {
   },
 
   get() {
-    return JSON.parse(JSON.stringify(this.panels));
+    return JSON.parse(JSON.stringify(Panels.panels));
   },
 
   add(panel) {
@@ -46,45 +46,58 @@ export const Panels = {
   },
 };
 
-const fileSuffixPattern =
-  window.config.outputFileSuffixes !== undefined &&
-  window.config.outputFileSuffixes.rawTemplate !== undefined
-    ? window.config.outputFileSuffixes.rawTemplate
-    : '';
-const fileSuffixMarkup =
-  window.config.outputFileSuffixes !== undefined &&
-  window.config.outputFileSuffixes.markupOnly !== undefined
-    ? window.config.outputFileSuffixes.markupOnly
-    : '.markup-only';
+function init(event) {
+  // does the origin sending the message match the current host? if not dev/null the request
 
-// add the default panels
-// Panels.add({ 'id': 'pl-panel-info', 'name': 'info', 'default': true, 'templateID': 'pl-panel-template-info', 'httpRequest': false, 'prismHighlight': false, 'keyCombo': '' });
-// TODO: sort out pl-panel-html
-Panels.add({
-  id: 'pl-panel-pattern',
-  name: window.config.patternExtension.toUpperCase(),
-  default: true,
-  templateID: 'pl-panel-template-code',
-  httpRequest: true,
-  httpRequestReplace: fileSuffixPattern,
-  httpRequestCompleted: false,
-  prismHighlight: true,
-  language: PrismLanguages.get(window.config.patternExtension),
-  keyCombo: 'ctrl+shift+u',
-});
+  const fileSuffixPattern =
+    window.config.outputFileSuffixes !== undefined &&
+    window.config.outputFileSuffixes.rawTemplate !== undefined
+      ? window.config.outputFileSuffixes.rawTemplate
+      : '';
 
-Panels.add({
-  id: 'pl-panel-html',
-  name: 'HTML',
-  default: false,
-  templateID: 'pl-panel-template-code',
-  httpRequest: true,
-  httpRequestReplace: fileSuffixMarkup + '.html',
-  httpRequestCompleted: false,
-  prismHighlight: true,
-  language: 'markup',
-  keyCombo: 'ctrl+shift+y',
-});
+  const fileSuffixMarkup =
+    window.config.outputFileSuffixes !== undefined &&
+    window.config.outputFileSuffixes.markupOnly !== undefined
+      ? window.config.outputFileSuffixes.markupOnly
+      : '.markup-only';
+
+  // add the default panels
+  // Panels.add({ 'id': 'pl-panel-info', 'name': 'info', 'default': true, 'templateID': 'pl-panel-template-info', 'httpRequest': false, 'prismHighlight': false, 'keyCombo': '' });
+  const languages = Object.keys(Prism.languages);
+  // TODO: sort out pl-panel-html
+  Panels.add({
+    id: 'pl-panel-pattern',
+    name: window.config.patternExtension.toUpperCase(),
+    default: true,
+    templateID: 'pl-panel-template-code',
+    httpRequest: true,
+    httpRequestReplace: fileSuffixPattern,
+    httpRequestCompleted: false,
+    prismHighlight: true,
+    language: languages[window.config.patternExtension],
+    keyCombo: 'ctrl+shift+u',
+  });
+
+  Panels.add({
+    id: 'pl-panel-html',
+    name: 'HTML',
+    default: false,
+    templateID: 'pl-panel-template-code',
+    httpRequest: true,
+    httpRequestReplace: fileSuffixMarkup + '.html',
+    httpRequestCompleted: false,
+    prismHighlight: true,
+    language: 'markup',
+    keyCombo: 'ctrl+shift+y',
+  });
+
+  if (!window.patternlab) {
+    window.patternlab = {};
+  }
+  window.patternlab.panels = Panels;
+}
 
 // gather panels from plugins
 Dispatcher.trigger('setupPanels');
+
+init();

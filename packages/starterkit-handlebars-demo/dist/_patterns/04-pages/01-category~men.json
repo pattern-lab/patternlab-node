@@ -1,0 +1,110 @@
+{
+	"page": {
+        "title" : "Men's Shoes",
+        "description": false
+    },
+	"stackedBlockSection" : {
+		"styleModifier": "u-margin-bottom-large",
+		"stackedBlockList": [
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/men-blue-shoes.jpg",
+					"alt" : "blue walking shoes"
+				},
+				"headline" : "Walking Shoes",
+				"excerpt" : "This casual pair of shoes will have you looking dapper in the city",
+				"label" : "$60",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$90"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/men-brown-shoes.jpg",
+					"alt" : "brown embroidered shoes"
+				},
+				"headline" :  "Embroidered Dress Shoes",
+				"excerpt" : "Available in 2 colors. Made of 100% authentic leather",
+				"label" : "$120",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$155"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/men-brown-dress-shoes.jpg",
+    				"alt" : "brown dress shoes"
+                },
+				"headline" : "Brown Dress Shoes",
+				"excerpt" : "Made of 100% authentic leather in USA",
+				"label" : "$140"
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/men-casual-shoes.jpg",
+    				"alt" : "black striped sneakers"
+                },
+				"headline" :  "Striped Casual Walking Shoes",
+				"excerpt" : "Available in 3 styles",
+				"label" : "$70"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/men-gray-shoes.jpg",
+    				"alt" : "Gray walking shoes."
+                },
+				"headline" : "Gray casual walking shoes",
+				"excerpt" : false,
+				"label" : "$180"
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/men-loafers.jpg",
+    				"alt" : "men's loafers"
+                },
+				"headline" : "Loafers",
+				"excerpt" :  "Available in a variety of colors",
+				"label" : "$180"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/men-walking-shoes.jpg",
+    				"alt" : "men's running shoes"
+                },
+				"headline" :  "Running Shoes",
+				"excerpt" : "Available in low-top and high-top.",
+				"label" : "$95"
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/men-winter-boots.jpg",
+    				"alt" : "men's winter boots"
+                },
+				"headline" : "Steel Toe Boots",
+				"excerpt" : "Available in 2 colors. Made in USA",
+				"label" : "$190"
+			}
+		]
+	},
+	"paginationList": false
+}

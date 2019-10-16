@@ -27,8 +27,8 @@
  * Header Link Style
  */
 @mixin linkStyle() {
-  background-color: $pl-color-black;
-  color: $pl-color-gray-50;
+  @include noSelect;
+  color: inherit;
   text-decoration: none;
   line-height: 1;
   padding: 0.7rem 0.5rem;
@@ -37,38 +37,19 @@
   transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
   cursor: pointer;
-  outline-offset: -3px;
-  outline-width: 2px;
+  outline: 0;
 
-  &:hover {
-    color: $pl-color-white;
-    background-color: $pl-color-gray-87;
+  &:hover,
+  &.pl-is-active:hover {
+    background-color: rgba(0, 0, 0, .1);
   }
 
-  &.pl-is-active,
-  &:active {
-    color: $pl-color-white;
-    background-color: $pl-color-gray-87;
-    outline: 1px dotted $pl-color-gray-50;
-    outline-offset: -1px;
-  }
 
   /**
      * Header link styles inside light theme
      */
-  .pl-c-body--theme-light & {
-    background-color: $pl-color-white;
-    color: $pl-color-gray-70;
 
-    &:hover {
-      background-color: $pl-color-gray-07;
-    }
 
-    &:active,
-    &:focus {
-      background-color: $pl-color-gray-13;
-    }
-  }
 
   /**
      * Header link styles inside cozy theme

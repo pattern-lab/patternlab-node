@@ -11,9 +11,7 @@ const list_item_hunter = function() {
       return matches.reduce((previousMatchPromise, liMatchStart) => {
         return previousMatchPromise.then(() => {
           logger.debug(
-            `found listItem of size ${liMatchStart} inside ${
-              pattern.patternPartial
-            }`
+            `found listItem of size ${liMatchStart} inside ${pattern.patternPartial}`
           );
 
           //we found a listitem match

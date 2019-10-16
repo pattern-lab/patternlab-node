@@ -75,11 +75,7 @@ const ui_builder = function() {
     isOmitted = uikitExcludePattern(pattern, uikit);
     if (isOmitted) {
       logger.info(
-        `Omitting ${
-          pattern.patternPartial
-        } from styleguide patterns because its pattern state or tag is excluded within ${
-          uikit.name
-        }.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because its pattern state or tag is excluded within ${uikit.name}.`
       );
       return true;
     }
@@ -88,9 +84,7 @@ const ui_builder = function() {
     isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
     if (isOmitted) {
       logger.info(
-        `Omitting ${
-          pattern.patternPartial
-        } from styleguide patterns because it has an underscore suffix.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because it has an underscore prefix.`
       );
       return true;
     }
@@ -99,9 +93,7 @@ const ui_builder = function() {
     isOmitted = pattern.patternPartial === patternlab.config.defaultPattern;
     if (isOmitted) {
       logger.info(
-        `Omitting ${
-          pattern.patternPartial
-        } from styleguide patterns because it is defined as a defaultPattern.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because it is defined as a defaultPattern.`
       );
       patternlab.defaultPattern = pattern;
       return true;
@@ -113,9 +105,7 @@ const ui_builder = function() {
       pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
       logger.info(
-        `Omitting ${
-          pattern.patternPartial
-        } from styleguide patterns because its contained within an underscored directory.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because its contained within an underscored directory.`
       );
       return true;
     }
@@ -124,9 +114,7 @@ const ui_builder = function() {
     isOmitted = pattern.isMetaPattern;
     if (isOmitted) {
       logger.info(
-        `Omitting ${
-          pattern.patternPartial
-        } from styleguide patterns because its a meta pattern.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because its a meta pattern.`
       );
       return true;
     }
@@ -215,9 +203,7 @@ const ui_builder = function() {
 
     if (!patternType) {
       logger.error(
-        `Could not find patternType ${
-          pattern.patternType
-        }. This is a critical error.`
+        `Could not find patternType ${pattern.patternType}. This is a critical error.`
       );
     }
 
@@ -239,9 +225,7 @@ const ui_builder = function() {
 
     if (!patternSubType) {
       logger.error(
-        `Could not find patternType ${pattern.patternType}-${
-          pattern.patternType
-        }. This is a critical error.`
+        `Could not find patternType ${pattern.patternType}-${pattern.patternType}. This is a critical error.`
       );
     }
 
@@ -351,9 +335,7 @@ const ui_builder = function() {
     const patternType = getPatternType(patternlab, pattern);
     if (!patternType) {
       logger.error(
-        `Could not find patternType ${
-          pattern.patternType
-        }. This is a critical error.`
+        `Could not find patternType ${pattern.patternType}. This is a critical error.`
       );
     }
 
@@ -870,9 +852,7 @@ const ui_builder = function() {
                       );
                     } catch (err) {
                       logger.error(
-                        `Could not load one or more styleguidekit assets from ${
-                          paths.source.styleguide
-                        }`
+                        `Could not load one or more styleguidekit assets from ${paths.source.styleguide}`
                       );
                     }
                     fs.outputFileSync(

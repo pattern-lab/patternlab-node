@@ -1,5 +1,5 @@
 {
-  "lerna": "3.2.1",
+  "lerna": "3.11.0",
   "packages": [
     "packages/*"
   ],
@@ -14,11 +14,15 @@
         "eslin*",
         "husky",
         "prettier",
-        "pretty-quick"
+        "pretty-quick",
+        "babel-eslint"
       ]
     },
     "publish": {
-      "allowBranch": "master"
+      "allowBranch": [
+        "dev",
+        "master"
+      ]
     }
   },
   "npmClientArgs": [

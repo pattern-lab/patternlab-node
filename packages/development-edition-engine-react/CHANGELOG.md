@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.7...@pattern-lab/engine-react-testing-tree@0.1.8) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
+## [0.1.7](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.6...@pattern-lab/engine-react-testing-tree@0.1.7) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
+## [0.1.3](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.2...@pattern-lab/engine-react-testing-tree@0.1.3) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
+## [0.1.2](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.2-alpha.0...@pattern-lab/engine-react-testing-tree@0.1.2) (2019-05-16)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+## [0.1.1-beta.1](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.1-alpha.4...@pattern-lab/engine-react-testing-tree@0.1.1-beta.1) (2019-02-09)
+
+
+### Bug Fixes
+
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/edition-node-gulp/commit/98dfadf))
+
+
+
+
+
 <a name="0.1.1-beta.0"></a>
 ## [0.1.1-beta.0](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.1-alpha.4...@pattern-lab/engine-react-testing-tree@0.1.1-beta.0) (2018-09-07)
 

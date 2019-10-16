@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.1...@pattern-lab/core@3.0.2) (2019-08-23)
+
+
+### Bug Fixes
+
+* add eslint fixes ([00d7bbe](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/00d7bbe))
+* correct typo in build logging ([96d989f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/96d989f))
+* updates to address eslint / prettier issues ([d945acc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/d945acc))
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5b7a057))
+
+
+
+
+
+
+## [3.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.1-alpha.0...@pattern-lab/core@3.0.1) (2019-05-16)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+# [3.0.0-beta.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-beta.0...@pattern-lab/core@3.0.0-beta.2) (2019-02-09)
+
+
+### Bug Fixes
+
+* **cli:** pass watch options cleanly to core ([8bf186b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8bf186b))
+* **docs:** regenerate API documentation ([830c568](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/830c568))
+* **patterns:** find all patterns inlcuding pseudo patterns ([d0672f6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/d0672f6)), closes [#975](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/975)
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/98dfadf))
+
+
+
+
+
 <a name="3.0.0-beta.0"></a>
 # [3.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.0-alpha.16...@pattern-lab/core@3.0.0-beta.0) (2018-09-07)
 

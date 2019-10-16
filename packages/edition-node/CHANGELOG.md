@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@2.0.5...@pattern-lab/edition-node@2.0.6) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+
+## [2.0.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@2.0.4...@pattern-lab/edition-node@2.0.5) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+
+## [2.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@2.0.0...@pattern-lab/edition-node@2.0.1) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+# [2.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.2...@pattern-lab/edition-node@2.0.0) (2019-08-23)
+
+
+### Features
+
+* **edition-node:** switch to engine-handlebars ([b481e22](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/b481e22))
+
+
+### BREAKING CHANGES
+
+* **edition-node:** use handlebars over mustache
+
+
+
+
+
+
+## [1.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.2-alpha.0...@pattern-lab/edition-node@1.0.2) (2019-05-16)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+# [1.0.0-beta.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-beta.0...@pattern-lab/edition-node@1.0.0-beta.2) (2019-02-09)
+
+
+### Bug Fixes
+
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/98dfadf))
+
+
+
+
+
 <a name="1.0.0-beta.0"></a>
 # [1.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.0-alpha.13...@pattern-lab/edition-node@1.0.0-beta.0) (2018-09-07)
 

@@ -1,0 +1,40 @@
+
+<table class="c-table {{ styleModifier }}">
+
+	<thead class="c-table__header">
+
+		<tr class="c-table__header-row">
+            {{# tableHeaderCells }}
+			<th scope="col" class="c-table__header-cell {{ tableHeaderModifier }}">{{ th }}</th>
+            {{/ tableHeaderCells }}
+		</tr><!-- c-table__header-row -->
+
+	</thead><!-- end c-table__header -->
+
+	<tbody class="c-table__body {{ tableBodyModifier }}">
+
+        {{# tableRows }}
+        <tr class="c-table__row {{ styleModifier }}">
+
+            {{# tableCells }}
+			<td class="c-table__cell {{ cellModifier }}">
+				{{{ td }}}
+			</td>
+            {{/ tableCells }}
+
+		</tr><!-- end c-table__row -->
+        {{/ tableRows }}
+
+	</tbody><!-- end c-table__body -->
+
+    <tfoot class="c-table__footer">
+
+		<tr class="c-table__footer-row">
+            {{# tableFooterCells }}
+            <td class="c-table__footer-cell">{{ td }}</td>
+            {{/ tableFooterCells }}
+        </tr>
+
+    </tfoot><!-- end c-table__footer -->
+
+</table><!--end c-table-->

@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.8...@pattern-lab/edition-node-gulp@2.0.9) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+## [2.0.8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.7...@pattern-lab/edition-node-gulp@2.0.8) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+## [2.0.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.3...@pattern-lab/edition-node-gulp@2.0.4) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [2.0.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.2...@pattern-lab/edition-node-gulp@2.0.3) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+## [2.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.2-alpha.0...@pattern-lab/edition-node-gulp@2.0.2) (2019-05-16)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [2.0.0-beta.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-beta.0...@pattern-lab/edition-node-gulp@2.0.0-beta.2) (2019-02-09)
+
+
+### Bug Fixes
+
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/98dfadf))
+* version bump the PL gulp edition package that was also out of sync with the latest version published to NPM ([fb8b425](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/fb8b425))
+
+
+
+
+
 <a name="2.0.0-beta.0"></a>
 # [2.0.0-beta.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.0-alpha.15...@pattern-lab/edition-node-gulp@2.0.0-beta.0) (2018-09-07)
 

@@ -1,7 +1,7 @@
 {
   "cacheBust": true,
   "cleanPublic": true,
-  "defaultPattern": "all",
+  "defaultPattern": "atoms-swatch",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {
     "s": true,
@@ -85,5 +85,19 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "engines": {
+    "handlebars": {
+      "extend": "helpers/*.js"
+    }
+  },
+  "plugins": {
+    "@pattern-lab/plugin-tab": {
+      "enabled": true,
+      "initialized": false,
+      "options": {
+        "tabsToAdd": ["scss"]
+      }
+    }
+  }
 }

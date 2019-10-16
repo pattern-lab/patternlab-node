@@ -64,9 +64,7 @@ module.exports = function(pattern, patternlab) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${
-          pattern.patternPartial
-        }`
+        `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`
       );
       logger.warning(err);
     }

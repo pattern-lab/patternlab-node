@@ -19,35 +19,16 @@
       height: 100vh; /* 2 */
       flex-direction: column; /* 3 */
       border-bottom: 0; /* 4 */
-      padding: 1rem;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
       justify-content: space-between;
-    }
-
-    /**
-         * Header within light theme
-         */
-    &.pl-c-body--theme-light {
-      .pl-c-header {
-        border-right: 1px solid $pl-color-gray-20;
-      }
-    }
-
-    /**
-         * Logo
-         */
-    .pl-c-logo {
-      max-width: 7rem;
-      margin: 0 auto 1rem;
     }
 
     /**
         * Nav sub sub list
         */
     .pl-c-nav {
-      display: block;
+      flex-grow: 1;
       flex-direction: column;
+      flex-flow: column-reverse;
     }
 
     /**
@@ -66,43 +47,6 @@
     .pl-c-nav__sublist {
       position: relative;
       border-radius: 0;
-    }
-
-    /**
-        * Nav sublist
-        */
-    .pl-c-nav__sublist .pl-c-nav__link {
-      padding-left: 1rem;
-    }
-
-    /**
-        * Nav sublist
-        */
-    .pl-c-nav__sublist--dropdown.pl-is-active {
-      border: 0;
-      border-left: 1px solid $pl-color-gray-70;
-    }
-
-    /**
-         * Nav sublist inside the light theme
-         */
-    &.pl-c-body--theme-light {
-      .pl-c-nav__sublist--dropdown.pl-is-active {
-        border-left-color: $pl-color-gray-07;
-      }
-    }
-
-    /**
-         * Dropdown sublist
-         * 1) Undo fixed height
-         */
-
-    /**
-        * Nav sub sub list
-        */
-    .pl-c-nav__subsublist {
-      border-left: 1px solid $pl-color-gray-70;
-      margin-left: 1rem;
     }
 
     /**
@@ -145,10 +89,6 @@
       margin-left: 0;
     }
 
-    .pl-c-viewport-size {
-      display: none;
-    }
-
     /**
          * Tools toggle button
          */
@@ -175,7 +115,7 @@
       *    so it fits in remaining available space
       *    TODO: revisit to find ways to resize
       */
-    .pl-c-modal {
+    .pl-c-drawer {
       right: 0; /* 1 */
       width: auto;
     }

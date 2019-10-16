@@ -1,0 +1,104 @@
+{
+	"page": {
+        "title" : "On Sale",
+        "description": false
+    },
+	"stackedBlockSection" : {
+		"styleModifier": "u-margin-bottom-large",
+		"stackedBlockList": [
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/men-blue-shoes.jpg",
+					"alt" : "blue walking shoes"
+				},
+				"headline" : "Walking Shoes",
+				"excerpt" : "This casual pair of shoes will have you looking dapper in the city",
+				"label" : "$60",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$90"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/women-hiking-boots.jpg",
+					"alt" : "leather boots"
+				},
+				"headline" : "Leather Boots",
+				"excerpt" : "Hike down the trail in these durable, 100% authentic leather boots.",
+				"label" : "$120",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$150"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/women-blue-heels.jpg",
+					"alt" : "blue heels"
+				},
+				"headline" : "Blue Suede Heels",
+				"excerpt" : "Strut your stuff on the streets with these stunning high heels",
+				"label" : "$80",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$110"
+				}
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/men-chucks.jpg",
+					"alt" : "chuck taylor shoes"
+				},
+				"headline" : "Boys Chucks",
+				"excerpt" : "These shoes are a great mix between athlete and trend setter",
+				"label" : "$50",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$85"
+				}
+
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../../images/men-brown-shoes.jpg",
+					"alt" : "woman in sweater"
+				},
+				"headline" :  "Pinstripe Skirt and Tank Top",
+				"excerpt" : "This pinstripe skirt and tank top are a great pairing for a friendly get-together",
+				"label" : "$120",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$155"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+                "stackedBlockMedia": {
+    				"src" : "../../../images/women-leather-booties.jpg",
+    				"alt" : "woman in sweater"
+                },
+				"headline" :  "Long Button-Down Sweater",
+				"excerpt" : "Comes in 2 colors",
+				"label" : "$95",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$135"
+				}
+			}
+		]
+	},
+	"paginationList": false
+}

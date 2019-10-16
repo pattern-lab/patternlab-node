@@ -1,0 +1,81 @@
+{
+    "progressTracker" : {
+        "items": [
+            {
+                "number": "1",
+                "label": "Shipping Information"
+            },
+            {
+                "number": "2",
+                "label": "Billing Information"
+            },
+            {
+                "styleModifier": "is-current",
+                "number": "3",
+                "label": "Review Order"
+            },
+            {
+                "number": "4",
+                "label": "Confirmation"
+            }
+        ]
+    },
+    "page": {
+        "title": "Review Your Order",
+        "description": "Please make sure your information is correct below before submitting your order."
+    },
+    "definitionListSection": {
+        "styleModifier":"c-definition-list-list--lined",
+        "definitionItems": [
+            {
+                "definitionList": {
+            		"items": [
+            			{
+            				"term": "Item",
+            				"description": "Suede Booties"
+            			},
+            			{
+            				"term": "Quantity",
+            				"description": "1"
+            			},
+            			{
+            				"term": "Price",
+            				"description": "$120"
+            			}
+            		]
+            	}
+            },
+            {
+                "definitionList": {
+            		"items": [
+            			{
+            				"term": "Item",
+            				"description": "Brown Dress Shoes"
+            			},
+            			{
+            				"term": "Quantity",
+            				"description": "1"
+            			},
+            			{
+            				"term": "Price",
+            				"description": "$140"
+            			}
+            		]
+            	}
+            }
+        ]
+    },
+    "totalPrice": {
+        "label": "Total",
+        "number": "$360"
+    },
+    "htmlText": "<h2>Shipping Address</h2><p>John Smith<br />99 Main Street<br />Pittsburgh, PA 15202</p><h2>Billing Address</h2><p>John Smith<br />99 Main Street<br />Pittsburgh, PA 15202</p><h2>Payment Information</h2><p><strong>Card Type </strong>Visa<br /><strong>Card # </strong>********0000<br /><strong>Expiration </strong>12/25</p>",
+    "buttonGroup":[
+        {
+            "buttonTag": false,
+            "linkTag": true,
+            "url": "link.pages-confirmation",
+            "buttonText": "Submit Order"
+        }
+    ]
+}

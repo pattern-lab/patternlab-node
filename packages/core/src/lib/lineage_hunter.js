@@ -1,5 +1,4 @@
 'use strict';
-const extend = require('util')._extend;
 const getPartial = require('./get');
 const logger = require('./log');
 
@@ -57,7 +56,7 @@ const lineage_hunter = function() {
             }
 
             ancestorPattern.lineageR.push(lr);
-            extend(patternlab.graph.node(ancestorPattern), lr);
+            Object.assign(patternlab.graph.node(ancestorPattern), lr);
           }
         }
       });
@@ -132,13 +131,7 @@ const lineage_hunter = function() {
                   ? '<<blank>>'
                   : lineageRPattern.patternState;
               logger.info(
-                `Found a lower common denominator pattern state: ${
-                  pattern.patternState
-                } on ${
-                  pattern.patternPartial
-                }. Setting reverse lineage pattern ${
-                  lineageRPattern.patternPartial
-                } from ${oldState}`
+                `Found a lower common denominator pattern state: ${pattern.patternState} on ${pattern.patternPartial}. Setting reverse lineage pattern ${lineageRPattern.patternPartial} from ${oldState}`
               );
 
               lineageRPattern.patternState = pattern.patternState;
