@@ -1,6 +1,6 @@
 'use strict';
 
-const plugin_manager = function () {
+const plugin_manager = function() {
   const path = require('path');
   const logger = require('./log');
 
@@ -37,23 +37,25 @@ const plugin_manager = function () {
    * @param {object} patternlab
    */
   function initializePlugins(patternlab) {
-    const foundPlugins = Object.keys(patternlab.config.plugins || {})
+    const foundPlugins = Object.keys(patternlab.config.plugins || {});
     foundPlugins.forEach(plugin => {
       logger.info(`Found plugin: ${plugin}`);
       logger.info(`Attempting to load and initialize plugin.`);
-      const pluginModule = loadPlugin(path.join(process.cwd(), 'node_modules', plugin));
+      const pluginModule = loadPlugin(
+        path.join(process.cwd(), 'node_modules', plugin)
+      );
       pluginModule(patternlab);
     });
   }
 
   async function raiseEvent(patternlab, eventName, args) {
     patternlab.events.emit(eventName, args);
-    await (async function () {
+    await (async function() {
       const hookHandlers = (patternlab.hooks[eventName] || []).map(h =>
         h(args)
       );
 
-      const results = await Promise.all(hookHandlers);
+      await Promise.all(hookHandlers);
     })();
   }
 
