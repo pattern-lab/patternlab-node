@@ -36,7 +36,8 @@ function writeConfigToOutput(patternlab, pluginConfig) {
   }
 }
 
-async function onPatternIterate(patternlab, pattern) {
+async function onPatternIterate(params) {
+  const [patternlab, pattern] = params;
   await tab_loader(patternlab, pattern);
 }
 
