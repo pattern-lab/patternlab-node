@@ -65,6 +65,7 @@
     "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
     "@babel/runtime": "^7.5.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@reach/visually-hidden": "^0.1.2",
     "@skatejs/element-preact": "^0.0.1",
     "@skatejs/renderer-lit-html": "^0.2.2",

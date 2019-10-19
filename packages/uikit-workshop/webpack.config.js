@@ -144,6 +144,7 @@ module.exports = function() {
                       regenerator: true,
                     },
                   ],
+                  '@babel/plugin-proposal-optional-chaining',
                   ['@babel/plugin-proposal-decorators', { legacy: true }],
                   '@babel/plugin-proposal-class-properties',
                   '@babel/plugin-syntax-dynamic-import',
