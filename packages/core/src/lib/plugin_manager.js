@@ -2,7 +2,6 @@
 
 const plugin_manager = function() {
   const path = require('path');
-  const findModules = require('./findModules');
   const logger = require('./log');
 
   const pluginMatcher = /^plugin-(.*)$/;
@@ -38,25 +37,25 @@ const plugin_manager = function() {
    * @param {object} patternlab
    */
   function initializePlugins(patternlab) {
-    const nodeModulesPath = path.join(process.cwd(), 'node_modules');
-    const foundPlugins = findModules(nodeModulesPath, isPlugin);
+    const foundPlugins = Object.keys(patternlab.config.plugins || {});
     foundPlugins.forEach(plugin => {
-      logger.info(`Found plugin: plugin-${plugin.name}`);
+      logger.info(`Found plugin: ${plugin}`);
       logger.info(`Attempting to load and initialize plugin.`);
-      const pluginModule = loadPlugin(plugin.modulePath);
+      const pluginModule = loadPlugin(
+        path.join(process.cwd(), 'node_modules', plugin)
+      );
       pluginModule(patternlab);
     });
   }
 
-  async function raiseEvent(patternlab, eventName, ...args) {
+  async function raiseEvent(patternlab, eventName, args) {
     patternlab.events.emit(eventName, args);
-
     await (async function() {
       const hookHandlers = (patternlab.hooks[eventName] || []).map(h =>
         h(args)
       );
 
-      const results = await Promise.all(hookHandlers);
+      await Promise.all(hookHandlers);
     })();
   }
 
