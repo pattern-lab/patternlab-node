@@ -103,6 +103,18 @@ module.exports = function() {
       module: {
         rules: [
           {
+            test: /\.(ts|tsx)$/,
+            use: [
+              {
+                loader: 'ts-loader',
+                options: {
+                  transpileOnly: true,
+                  experimentalWatchApi: true,
+                },
+              },
+            ],
+          },
+          {
             test: /\.html$/,
             use: [
               {
