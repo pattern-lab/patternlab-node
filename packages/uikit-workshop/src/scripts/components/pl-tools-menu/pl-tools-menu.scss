@@ -20,46 +20,33 @@ pl-tools-menu {
 }
 
 /**
- * Tools menu button
- * 1) This is the button that contains the toggle and 
- *    triggers the tools dropdown list
- */
-.pl-c-tools__toggle {
-  @include linkStyle();
-  margin: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  min-width: 30px;
-}
-
-/**
- * Tools Toggle SVG icon
- * 1) Cog icon
- * 2) Set the width and height of the icon to be the same height of font
- */
-.pl-c-tools__toggle-icon {
-  transition: inherit; // inherit transition styles from parent toggle
-  // pointer-events: none;
-}
-
-/**
  * Tools dropdown list
  */
 .pl-c-tools__list {
   @include listReset();
-  @include accordionPanel();
   transform: translateY(-10px);
   position: absolute;
-  right: 3px;
+  right: 4px;
   z-index: 10; // make sure context dropdown z-index is higher than nav dropdown z-index
   width: 12rem;
   border-radius: 6px;
-  top: calc(100% + 4px);
-  box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+  top: calc(100% - 2px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   background-color:  $pl-color-gray-87;
   background-color: var(--theme-primary,  $pl-color-gray-87);
+  transform: translateY(-4rem);
+  opacity: 0;
+  max-height: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  &.is-open {
+    opacity: 1;
+    max-height: 9999px;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 
   .pl-c-body--theme-light & {
     background-color: $pl-color-white;
@@ -73,10 +60,11 @@ pl-tools-menu {
       transform: none;
       border-radius: 0;
       background-color: transparent;
+      right: 0;
     }
   }
 
-  &.pl-is-active {
+  &.is-active {
     overflow: visible;
   }
 
@@ -91,8 +79,6 @@ pl-tools-menu {
     top: -10px;
     transform: translateY(50%) translateX(-50%) rotate(45deg);
     transition: opacity 0.1s ease-out;
-    opacity: 0;
-    visibility: hidden;
     box-shadow: 0 0 5px rgba(0, 0, 0, .1);
 
     .pl-c-body--theme-sidebar & {
@@ -102,7 +88,7 @@ pl-tools-menu {
     }
   }
 
-  &.pl-is-active:before {
+  &.is-active:before {
     opacity: 1;
     visibility: visible;
   }
@@ -111,6 +97,7 @@ pl-tools-menu {
 .pl-c-tools__item {
   position: relative;
   overflow: hidden;
+  background-color: inherit;
 
   // crop list item when hover
   &:first-child {
@@ -136,28 +123,3 @@ pl-tools-menu {
   }
 }
 
-
-/**
- * Tools dropdown actions
- * 1) Links and buttons inside of the tools dropdown
- */
-.pl-c-tools__action {
-  @include linkStyle();
-  padding-top: 0.4rem;
-  padding-bottom: 0.4rem;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-}
-
-// Make sure the text and icon align to the opposite ends
-.pl-c-tools__action-icon {
-  margin-right: 0.5rem;
-
-  &:first-child:last-child {
-    margin-right: 0;
-  }
-}

@@ -5,111 +5,175 @@ import { BaseComponent } from '../base-component.js';
 import { urlHandler, patternName } from '../../utils';
 import { store } from '../../store'; // redux store
 
-import NewTabIcon from '../../../icons/new-tab.svg';
-import HelpIcon from '../../../icons/help.svg';
-import SettingsIcon from '../../../icons/settings.svg';
+let listeningForBodyClicks = false;
+
+import { html } from 'lit-html';
+import { BaseLitComponent } from '../base-component.js';
 
 @define
-class ToolsMenu extends BaseComponent {
+class ToolsMenu extends BaseLitComponent {
   static is = 'pl-tools-menu';
 
+  static props = {
+    isOpen: props.boolean,
+    layoutMode: props.string,
+  };
+
   _stateChanged(state) {
-    this.currentUrl =
-      state.app.currentUrl || urlHandler.getFileName(patternName);
+    if (this.currentUrl !== state.app.currentUrl) {
+      this.currentUrl =
+        state.app.currentUrl || urlHandler.getFileName(patternName);
+    }
+
+    if (this.layoutMode !== state.app.layoutMode) {
+      this.layoutMode = state.app.layoutMode || 'vertical';
+    }
   }
 
   constructor(self) {
     self = super(self);
     self.handleClick = self.handleClick.bind(self);
+    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
+    self.handleExternalClicks = self.handleExternalClicks.bind(self);
     self.useShadow = false;
     return self;
   }
 
   connecting() {
+    super.connecting && super.connecting();
     const state = store.getState();
     const { ishControlsHide } = window.ishControls;
     this.currentUrl =
       state.app.currentUrl || urlHandler.getFileName(patternName);
     this.ishControlsHide = ishControlsHide;
+
+    window.addEventListener('message', this.receiveIframeMessage, false);
+    document.addEventListener('click', this.handleExternalClicks);
+  }
+
+  disconnecting() {
+    super.disconnecting && super.disconnecting();
+    document.removeEventListener('click', this.handleExternalClicks);
+    window.removeEventListener('message', this.receiveIframeMessage);
+  }
+
+  handleExternalClicks(e) {
+    if (window.innerWidth >= 670 && this.layoutMode === 'vertical') {
+      return;
+    }
+
+    if (!this.contains(e.target) && this.isOpen === true) {
+      this.isOpen = false;
+    }
+  }
+
+  close() {
+    this.isOpen = false;
+  }
+
+  toggle() {
+    if (this.isOpen) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
+
+  open() {
+    this.isOpen = true;
   }
 
   handleClick(e) {
-    const elem = e.target.closest('.pl-js-acc-handle');
-    const panel = elem.nextSibling;
+    if (window.innerWidth >= 670 && this.layoutMode === 'vertical') {
+      return;
+    }
 
-    // Activate selected panel
-    elem.classList.toggle('pl-is-active');
-    panel.classList.toggle('pl-is-active');
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.toggle();
+  }
+
+  receiveIframeMessage(event) {
+    const self = this;
+    // does the origin sending the message match the current host? if not dev/null the request
+    if (
+      window.location.protocol !== 'file:' &&
+      event.origin !== window.location.protocol + '//' + window.location.host
+    ) {
+      return;
+    }
+
+    let data = {};
+    try {
+      data =
+        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
+
+    if (data.event !== undefined && data.event === 'patternLab.pageClick') {
+      try {
+        console.log('patternLab.pageClick');
+        self.isOpen = false;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   render() {
-    return (
+    if (window.innerWidth >= 670 && this.layoutMode === 'vertical') {
+      this.isOpen = true;
+    }
+
+    return html`
       <div class="pl-c-tools">
-        <button
-          class="pl-c-tools__toggle pl-js-acc-handle"
-          title="Tools"
-          onClick={this.handleClick}
+        <pl-button
+          icon-only
+          @click="${this.handleClick}"
+          class="pl-c-tools__toggle"
         >
-          <SettingsIcon
-            width={18}
-            height={18}
-            viewBox="0 0 24 24"
-            className="pl-c-tools__toggle-icon"
-            fill="currentColor"
-          />
-        </button>
-        <ul class="pl-c-tools__list pl-js-acc-panel">
+          <pl-icon name="settings" slot="after"></pl-icon>
+        </pl-button>
+        <ul
+          class="pl-c-tools__list pl-js-acc-panel ${this.isOpen
+            ? 'is-open'
+            : ''}"
+        >
           <li class="pl-c-tools__item">
-            <pl-toggle-info />
-          </li>
-          <li class="pl-c-tools__item">
-            <pl-toggle-layout text="Switch Layout" />
-          </li>
-          <li class="pl-c-tools__item">
-            <pl-toggle-theme />
+            <pl-toggle-info></pl-toggle-info>
           </li>
 
-          {!this.ishControlsHide['views-new'] && (
-            <li class="pl-c-tools__item">
-              <a
-                href={this.currentUrl}
-                class="pl-c-tools__action pl-js-open-new-window"
-                target="_blank"
-              >
-                <span class="pl-c-tools__action-text">Open In New Tab</span>
-                <span class="pl-c-tools__action-icon">
-                  <NewTabIcon
-                    height={20}
-                    width={20}
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  />
-                </span>
-              </a>
-            </li>
-          )}
+          <li class="pl-c-tools__item">
+            <pl-toggle-layout text="Switch Layout"></pl-toggle-layout>
+          </li>
+          <li class="pl-c-tools__item">
+            <pl-toggle-theme></pl-toggle-theme>
+          </li>
 
-          {!this.ishControlsHide['tools-docs'] && (
-            <li class="pl-c-tools__item">
-              <a
-                href="http://patternlab.io/docs/"
-                class="pl-c-tools__action"
-                target="_blank"
-              >
-                <span class="pl-c-tools__action-text">Pattern Lab Docs</span>
-                <span class="pl-c-tools__action-icon">
-                  <HelpIcon
-                    height={20}
-                    width={20}
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  />
-                </span>
-              </a>
-            </li>
-          )}
+          ${!this.ishControlsHide['views-new']
+            ? html`
+                <li class="pl-c-tools__item">
+                  <pl-button href="${this.currentUrl}" target="_blank">
+                    Open In New Tab
+                    <pl-icon name="new-tab" slot="after"></pl-icon>
+                  </pl-button>
+                </li>
+              `
+            : ''}
+          ${!this.ishControlsHide['tools-docs']
+            ? html`
+                <li class="pl-c-tools__item">
+                  <pl-button href="http://patternlab.io/docs/" target="_blank">
+                    Pattern Lab Docs
+                    <pl-icon name="help" slot="after"></pl-icon>
+                  </pl-button>
+                </li>
+              `
+            : ''}
         </ul>
       </div>
-    );
+    `;
   }
 }
