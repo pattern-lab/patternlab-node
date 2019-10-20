@@ -3,28 +3,24 @@
 \*------------------------------------*/
 
 pl-logo {
-  max-width: 12rem;
   align-self: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   position: relative;
   z-index: 100;
+  padding: 0;
+  min-height: 44px;
+  min-width: 44px;
 
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      max-width: none;
-      width: 7rem;
-      padding: 0.5rem;
-    }
-  }
 }
 
 .pl-c-logo {
   width: auto;
-  padding: 0.5rem;
+  flex-grow: 1;
+  padding: 0.5rem 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,14 +29,14 @@ pl-logo {
 
   outline: 0;
   text-transform: lowercase;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: bold;
   line-height: 1;
   margin: 0;
   transition: color .2s ease;
 
   &:focus {
-    outline: 1px dotted $pl-color-gray-50;
+    outline: 1px dotted;
     outline-offset: -1px;
   }
 }
@@ -48,7 +44,8 @@ pl-logo {
 .pl-c-logo__img {
   display: block;
   height: auto;
-  max-height: 2.5rem;
+  max-width: 100%;
+  max-height: 23px;
 
   &:not(:last-child){
     margin-right: 0.25rem;
