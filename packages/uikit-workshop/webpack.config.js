@@ -318,36 +318,38 @@ module.exports = function() {
       })
     );
 
-    webpackConfig.plugins.push(
-      new CriticalCssPlugin({
-        base: path.resolve(__dirname, config.buildDir),
-        src: 'index.html',
-        dest: 'index.html',
-        inline: true,
-        minify: true,
-        extract: false,
-        width: 1300,
-        height: 900,
-        penthouse: {
-          keepLargerMediaQueries: true,
+    if (!argv.watch) {
+      webpackConfig.plugins.push(
+        new CriticalCssPlugin({
+          base: path.resolve(__dirname, config.buildDir),
+          src: 'index.html',
+          dest: 'index.html',
+          inline: true,
+          minify: true,
+          extract: false,
+          width: 1300,
+          height: 900,
+          penthouse: {
+            keepLargerMediaQueries: true,
 
-          // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
-          forceInclude: [
-            'pl-logo',
-            '.pl-c-logo',
-            '.pl-c-logo__img',
-            '.pl-c-body--theme-light',
-            '.pl-c-body--theme-sidebar',
-            '.pl-c-body--theme-sidebar .pl-c-viewport',
-            '.pl-c-body--theme-density-compact',
-          ],
-          timeout: 30000, // ms; abort critical CSS generation after this timeout
-          maxEmbeddedBase64Length: 1000,
-          renderWaitTime: 1000,
-          blockJSRequests: false,
-        },
-      })
-    );
+            // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
+            forceInclude: [
+              'pl-logo',
+              '.pl-c-logo',
+              '.pl-c-logo__img',
+              '.pl-c-body--theme-light',
+              '.pl-c-body--theme-sidebar',
+              '.pl-c-body--theme-sidebar .pl-c-viewport',
+              '.pl-c-body--theme-density-compact',
+            ],
+            timeout: 30000, // ms; abort critical CSS generation after this timeout
+            maxEmbeddedBase64Length: 1000,
+            renderWaitTime: 1000,
+            blockJSRequests: false,
+          },
+        })
+      );
+    }
 
     return resolve(webpackConfig);
   });
