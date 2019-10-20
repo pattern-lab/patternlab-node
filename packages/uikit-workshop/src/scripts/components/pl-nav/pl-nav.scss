@@ -200,7 +200,6 @@ pl-nav {
 
   &.pl-is-active {
     box-shadow: inset 4px 0 0 #6c79d9;
-    font-weight: bold;
     pointer-events: none;
   }
 }
@@ -426,9 +425,6 @@ pl-nav {
   color: $pl-color-gray-20;
   color: var(--theme-text, $pl-color-gray-20);
 
-  &.pl-is-active {
-    font-weight: 700;
-  }
 
   .pl-c-body--theme-light & {
     color: $pl-color-black;
