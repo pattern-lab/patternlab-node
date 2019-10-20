@@ -37,7 +37,7 @@ pl-nav {
   display: flex;
   flex-direction: column;
   transition: max-height $pl-animate-quick ease-out;
-  flex-shrink: 0;
+  flex-shrink: 1;
 
   @media all and (min-width: $pl-bp-med) {
     .pl-c-body--theme-sidebar & {
@@ -45,7 +45,6 @@ pl-nav {
       display: block;
       display: flex;
       overflow: hidden;
-      flex-shrink: 1;
     }
   }
 
