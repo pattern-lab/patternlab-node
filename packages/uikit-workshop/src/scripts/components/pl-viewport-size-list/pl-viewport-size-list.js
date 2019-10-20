@@ -7,13 +7,6 @@ import { store } from '../../store.js'; // connect to redux
 import { Tooltip } from '../pl-tooltip/pl-tooltip';
 import VisuallyHidden from '@reach/visually-hidden';
 
-import PhoneIcon from '../../../icons/phone.svg';
-import TabletIcon from '../../../icons/tablet.svg';
-import LaptopIcon from '../../../icons/laptop.svg';
-import DesktopIcon from '../../../icons/desktop.svg';
-import DiscoIcon from '../../../icons/disco-ball.svg';
-import RandomIcon from '../../../icons/random.svg';
-
 import { minViewportWidth, maxViewportWidth, getRandom } from '../../utils';
 
 // @todo: re-add keyboard shortcuts to these
@@ -116,11 +109,10 @@ class ViewportSizes extends BaseComponent {
                   onClick={e => this.resizeViewport('small')}
                 >
                   <VisuallyHidden>Resize viewport to small</VisuallyHidden>
-                  <PhoneIcon
-                    width={14}
-                    height={20}
-                    fill="currentColor"
-                    viewBox="0 0 24 12"
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: '<pl-icon name="phone"></pl-icon>',
+                    }}
                   />
                 </button>
               )}
@@ -145,11 +137,10 @@ class ViewportSizes extends BaseComponent {
                   onClick={e => this.resizeViewport('medium')}
                 >
                   <VisuallyHidden>Resize viewport to medium</VisuallyHidden>
-                  <TabletIcon
-                    width={16}
-                    height={24}
-                    fill="currentColor"
-                    viewBox="0 0 24 16"
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: '<pl-icon name="tablet"></pl-icon>',
+                    }}
                   />
                 </button>
               )}
@@ -174,11 +165,10 @@ class ViewportSizes extends BaseComponent {
                   onClick={e => this.resizeViewport('large')}
                 >
                   <VisuallyHidden>Resize viewport to large</VisuallyHidden>
-                  <LaptopIcon
-                    width={24}
-                    height={22}
-                    fill="currentColor"
-                    viewBox="0 0 24 20"
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: '<pl-icon name="laptop"></pl-icon>',
+                    }}
                   />
                 </button>
               )}
@@ -203,11 +193,10 @@ class ViewportSizes extends BaseComponent {
                   onClick={e => this.resizeViewport('full')}
                 >
                   <VisuallyHidden>Resize viewport to full</VisuallyHidden>
-                  <DesktopIcon
-                    width={24}
-                    height={22}
-                    fill="currentColor"
-                    viewBox="0 0 24 20"
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: '<pl-icon name="desktop"></pl-icon>',
+                    }}
                   />
                 </button>
               )}
