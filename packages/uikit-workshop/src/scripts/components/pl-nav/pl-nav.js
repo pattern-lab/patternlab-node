@@ -202,7 +202,7 @@ class Nav extends BaseComponent {
     this.previousActiveLinks = [];
     this.iframeElem = document.querySelector('pl-iframe');
 
-    Mousetrap.bind('esc', function(e) {
+    Mousetrap(this).bind('esc', () => {
       self.cleanupActiveNav();
     });
 
@@ -260,10 +260,6 @@ class Nav extends BaseComponent {
           window.innerWidth <= 670 ||
           (window.innerWidth >= 670 && self.layoutMode !== 'vertical')
         ) {
-          console.log(
-            window.innerWidth <= 670 ||
-              (window.innerWidth >= 670 && self.layoutMode !== 'vertical')
-          );
           self.cleanupActiveNav();
         }
       } catch (error) {

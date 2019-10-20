@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { define, props } from 'skatejs';
+import Mousetrap from 'mousetrap';
 import { h } from 'preact';
 import { BaseComponent } from '../base-component.js';
 import { urlHandler, patternName } from '../../utils';
@@ -49,6 +50,10 @@ class ToolsMenu extends BaseLitComponent {
 
     window.addEventListener('message', this.receiveIframeMessage, false);
     document.addEventListener('click', this.handleExternalClicks);
+
+    Mousetrap(this).bind('esc', () => {
+      this.close();
+    });
   }
 
   disconnecting() {
@@ -114,7 +119,6 @@ class ToolsMenu extends BaseLitComponent {
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
-        console.log('patternLab.pageClick');
         self.isOpen = false;
       } catch (error) {
         console.log(error);
