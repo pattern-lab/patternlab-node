@@ -11,12 +11,15 @@ import { minViewportWidth, maxViewportWidth } from '../../utils';
 import { BaseComponent } from '../base-component.js';
 import { urlHandler, patternName } from '../../utils';
 
+import { html } from 'lit-html';
+import { BaseLitComponent } from '../base-component.js';
+
 import styles from '../../../sass/pattern-lab--iframe-loader.scss';
 
 let trackingPageChange = false;
 
 @define
-class IFrame extends BaseComponent {
+class IFrame extends BaseLitComponent {
   static is = 'pl-iframe';
 
   constructor(self) {
@@ -360,81 +363,45 @@ class IFrame extends BaseComponent {
 
     const url = urlHandler.getFileName(patternParam);
 
-    const IframeInner = () => {
-      return (
-        <div className={`pl-c-body--theme-${this.themeMode}`}>
-          <style>{styles[0][1]}</style>
-          <div className={'pl-c-loader'}>
-            <div className={'pl-c-loader__content'}>
-              <div className={'pl-c-loader__message'}>Loading Pattern Lab</div>
-              <div className={'pl-c-loader__spinner'}>
-                <svg className={'pl-c-loader-svg'} viewBox={'0 0 268 255'}>
-                  <circle
-                    className={'pl-c-loader-svg__outer-circle'}
-                    cx={'134.2'}
-                    cy={'127.6'}
-                    r={'115.1'}
-                  />
-                  <circle
-                    className={'pl-c-loader-svg__inner-circle'}
-                    cx={'134.2'}
-                    cy={'127.6'}
-                    r={'66.3'}
-                  />
-                  <path
-                    className={'pl-c-loader-svg__electron'}
-                    d={
-                      'M253,56.3c0,15.6-12.6,28.2-28.2,28.2s-28.2-12.6-28.2-28.2s12.6-28.2,28.2-28.2C240.3,28.1,253,40.7,253,56.3z'
-                    }
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
     const initialWidth =
       store.getState().app.viewportPx &&
       store.getState().app.viewportPx <= this.clientWidth
         ? store.getState().app.viewportPx + 'px;'
         : '100%';
 
-    return (
+    return html`
       <div class="pl-c-viewport pl-js-viewport">
-        <div class="pl-c-viewport__cover pl-js-viewport-cover" />
+        <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
         <div
           class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container"
-          style={`width: ${initialWidth}`}
+          style="width: ${initialWidth}"
         >
           <iframe
-            className={`pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this.themeMode}`}
+            class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this
+              .themeMode}"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
-            // srcdoc={render(<IframeInner />)}
-            src={url}
-          />
-          {
-            <div class="pl-c-viewport__resizer pl-js-resize-container">
-              <div
-                class="pl-c-viewport__resizer-handle pl-js-resize-handle"
-                onMouseDown={e => this.handleMouseDown(e)}
+            src="${url}"
+          ></iframe>
+
+          <div class="pl-c-viewport__resizer pl-js-resize-container">
+            <div
+              class="pl-c-viewport__resizer-handle pl-js-resize-handle"
+              @mousedown="${this.handleMouseDown}"
+            >
+              <svg
+                viewBox="0 0 20 20"
+                preserveAspectRatio="xMidYMid"
+                focusable="false"
+                style="width: 30px; fill: currentColor; position: absolute; top: 50%; transform: translate3d(0, -50%, 0); z-index: 100;"
               >
-                <svg
-                  viewBox="0 0 20 20"
-                  preserveAspectRatio="xMidYMid"
-                  focusable="false"
-                  style="width: 30px; fill: currentColor; position: absolute; top: 50%; transform: translate3d(0, -50%, 0); z-index: 100;"
-                >
-                  <title>Drag to resize Pattern Lab</title>
-                  <path d="M6 0h2v20H6zM13 0h2v20h-2z" />
-                </svg>
-              </div>
+                <title>Drag to resize Pattern Lab</title>
+                <path d="M6 0h2v20H6zM13 0h2v20h-2z" />
+              </svg>
             </div>
-          }
+          </div>
         </div>
       </div>
-    );
+    `;
   }
 
   handleMouseDown(event) {
