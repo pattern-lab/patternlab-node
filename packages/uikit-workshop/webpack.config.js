@@ -158,7 +158,7 @@ module.exports = function() {
                   ],
                   '@babel/plugin-proposal-optional-chaining',
                   ['@babel/plugin-proposal-decorators', { legacy: true }],
-                  '@babel/plugin-proposal-class-properties',
+                  ['@babel/plugin-proposal-class-properties', { loose: true }],
                   '@babel/plugin-syntax-dynamic-import',
                   '@babel/plugin-syntax-jsx' /* [1] */,
                   [
@@ -177,9 +177,9 @@ module.exports = function() {
           {
             test: /\.svg$/,
             use: [
-              {
-                loader: '@svgr/webpack',
-              },
+              { loader: 'svg-sprite-loader', options: {} },
+              'svg-transform-loader',
+              'svgo-loader',
             ],
           },
           {
@@ -194,6 +194,7 @@ module.exports = function() {
                 use: [
                   {
                     loader: 'style-loader',
+                    options: { injectType: 'lazyStyleTag' },
                   },
                   scssLoaders,
                 ].reduce((acc, val) => acc.concat(val), []),
