@@ -14,7 +14,6 @@ $pl-clear-button-size-at-med: 1.4rem;
 pl-search {
   background-color: inherit;
   top: 0;
-  z-index: 10;
   flex-shrink: 0;
   padding: 0.4rem 0.5rem;
   display: inline-block;
@@ -279,7 +278,7 @@ pl-search {
 
 .pl-c-typeahead__input-wrapper {
   position: relative; // used for positioning search clear button in relation to the <input>
-  flex-shrink: 0;
+  flex-shrink: 1;
 }
 
 .pl-c-typeahead__clear-button {
