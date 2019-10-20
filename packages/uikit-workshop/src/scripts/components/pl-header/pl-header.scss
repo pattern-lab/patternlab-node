@@ -83,9 +83,15 @@ pl-header {
  */
 .pl-c-header__nav-toggle {
   @include linkStyle();
+  padding: 11px 12px;
   border: 0;
 
   @media all and (min-width: $pl-bp-med) {
     display: none;
+  }
+
+  &:focus {
+    outline: 1px dotted;
+    outline-offset: -1px;
   }
 }
