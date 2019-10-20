@@ -7,18 +7,16 @@ pl-controls {
   display: flex;
   flex-wrap: nowrap;
   align-self: center;
-  padding: 0 0.5rem;
 
   .pl-c-body--theme-sidebar & {
     display: block;
-    
+
     @media all and (min-width: $pl-bp-med) {
       width: 100%;
       position: relative;
       padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
       box-shadow: 0 -2px 5px rgba($pl-color-black, 0.1);
-      
+
       &:before {
         position: absolute;
         left: 0;
