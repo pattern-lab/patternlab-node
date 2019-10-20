@@ -41,7 +41,6 @@ pl-nav {
 
   @media all and (min-width: $pl-bp-med) {
     .pl-c-body--theme-sidebar & {
-      padding-bottom: 0.5rem;
       display: block;
       display: flex;
       overflow: hidden;
@@ -140,6 +139,8 @@ pl-nav {
  */
 .pl-c-nav__link {
   @include linkStyle;
+  outline: 0;
+  min-height: 40px;
   color: inherit;
   line-height: 1.5;
   display: flex;
@@ -232,6 +233,7 @@ pl-nav {
   transform: rotate(-90deg);
   flex-grow: 0;
   line-height: 0;
+  font-size: 1.3rem; // temp solution till new pl-button used in Navigation
 }
 
 .pl-c-nav__link--overview-wrapper.pl-is-active > .pl-c-nav__link--section-dropdown > .pl-c-nav__link-icon,
@@ -431,16 +433,6 @@ pl-nav {
   }
 }
 
-.pl-c-nav__list > .pl-c-nav__item:not(:last-child) {
-  @media all and (min-width: $pl-bp-med) {
-    .pl-c-body--theme-sidebar & {
-      margin-bottom: 0.5rem;
-      margin-top: 0.5rem;
-
-    }
-  }
-}
-
 .pl-c-nav__link--section-dropdown {
   width: 2.5rem !important;
   height: 2.5rem !important;
@@ -491,6 +483,11 @@ pl-nav {
     &:focus:after {
       opacity: 0.1;
     }
+  }
+
+  &:focus {
+    outline-offset: -1px;
+    outline: 1px dotted;
   }
 
   &:active:not(:hover):after,

@@ -5,8 +5,8 @@ import { h } from 'preact';
 const classNames = require('classnames');
 
 import { store } from '../../store.js'; // redux store
-import ArrowIcon from '../../../icons/arrow-down.svg';
 import { BaseComponent } from '../base-component.js';
+import Mousetrap from 'mousetrap';
 import 'url-search-params-polyfill';
 
 const SubSubList = props => {
@@ -125,14 +125,12 @@ const SpecialButton = props => {
       {...props}
     >
       {props.children}
-      <span class="pl-c-nav__link-icon">
-        <ArrowIcon
-          height={24}
-          width={24}
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        />
-      </span>
+      <span
+        class="pl-c-nav__link-icon"
+        dangerouslySetInnerHTML={{
+          __html: '<pl-icon name="arrow-down"></pl-icon>',
+        }}
+      />
     </button>
   );
 };
@@ -147,14 +145,12 @@ const Button = props => {
       {...props}
     >
       <span className={`pl-c-nav__link-text`}>{props.children}</span>
-      <span class="pl-c-nav__link-icon">
-        <ArrowIcon
-          height={24}
-          width={24}
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        />
-      </span>
+      <span
+        class="pl-c-nav__link-icon"
+        dangerouslySetInnerHTML={{
+          __html: '<pl-icon name="arrow-down"></pl-icon>',
+        }}
+      />
     </button>
   );
 };
@@ -168,14 +164,12 @@ const ButtonTitle = props => {
       role="tab"
       {...props}
     >
-      <span class="pl-c-nav__link-icon">
-        <ArrowIcon
-          height={24}
-          width={16}
-          viewBox="0 0 24 24"
-          fill="currentColor"
-        />
-      </span>
+      <span
+        class="pl-c-nav__link-icon"
+        dangerouslySetInnerHTML={{
+          __html: '<pl-icon name="arrow-down"></pl-icon>',
+        }}
+      />
       <span className={`pl-c-nav__link-text`}>{props.children}</span>
     </button>
   );
@@ -207,11 +201,17 @@ class Nav extends BaseComponent {
     this.elem = this;
     this.previousActiveLinks = [];
     this.iframeElem = document.querySelector('pl-iframe');
+
+    Mousetrap.bind('esc', function(e) {
+      self.cleanupActiveNav();
+    });
+
     window.addEventListener('message', this.receiveIframeMessage, false);
 
     document.body.addEventListener('click', function(e) {
       if (
-        e.target.closest('pl-header') === null &&
+        e.target.closest('.pl-c-nav') === null &&
+        e.target.closest('.pl-js-nav-trigger') === null &&
         e.target.closest('svg') === null
       ) {
         self.cleanupActiveNav();
@@ -219,14 +219,20 @@ class Nav extends BaseComponent {
     });
   }
 
+  disconnected() {
+    super.disconnected && super.disconnected();
+    window.removeEventListener('message', this.receiveIframeMessage);
+  }
+
   _stateChanged(state) {
-    this.layoutMode = state.app.layoutMode || '';
+    if (this.layoutMode !== state.app.layoutMode) {
+      this.layoutMode = state.app.layoutMode || '';
+    }
 
     if (this.currentPattern !== state.app.currentPattern) {
       this.currentPattern = state.app.currentPattern;
+      this.handleURLChange(); // so the nav logic is always correct (ex. layout changes)
     }
-
-    this.handleURLChange(); // so the nav logic is always correct (ex. layout changes)
   }
 
   receiveIframeMessage(event) {
@@ -251,9 +257,13 @@ class Nav extends BaseComponent {
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
         if (
-          window.matchMedia('(min-width: calc(42em))').matches &&
-          self.layoutMode !== 'vertical'
+          window.innerWidth <= 670 ||
+          (window.innerWidth >= 670 && self.layoutMode !== 'vertical')
         ) {
+          console.log(
+            window.innerWidth <= 670 ||
+              (window.innerWidth >= 670 && self.layoutMode !== 'vertical')
+          );
           self.cleanupActiveNav();
         }
       } catch (error) {
