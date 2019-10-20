@@ -1,45 +1,50 @@
-/* eslint-disable no-unused-vars, no-param-reassign */
-import { define, props } from 'skatejs';
-import { h } from 'preact';
-
+import { styleMap } from 'lit-html/directives/style-map';
+import { classMap } from 'lit-html/directives/class-map';
+import { LitElement, html, customElement } from 'lit-element';
 import { store } from '../../store.js'; // redux store
 import {
   updateDrawerState,
   updateDrawerHeight,
   updateDrawerAnimationState,
 } from '../../actions/app.js'; // redux actions needed by this element.
-import { css } from '../../utils';
-import { BaseComponent } from '../base-component.js';
-import AnimateHeight from 'react-animate-height';
-import CloseIcon from '../../../icons/close.svg';
 
-@define
-class Drawer extends BaseComponent {
-  static is = 'pl-drawer';
-
+@customElement('pl-drawer')
+class Drawer extends LitElement {
   constructor(self) {
     self = super(self);
     self.onMouseDown = self.onMouseDown.bind(self); // fix bindings so "self" works properly
     self.onMouseUp = self.onMouseUp.bind(self); // fix bindings so "self" works properly
     self.onMouseMove = self.onMouseMove.bind(self); // fix bindings so "this" works properly
-    self.useShadow = false;
     return self;
   }
 
-  state = {
-    isMouseDown: false,
-    isMouseUp: false,
-    isDragging: false,
-    hasDragged: false,
-    panelHeight: '50vh',
-  };
+  static get properties() {
+    return {
+      drawerOpened: {
+        attribute: true,
+        type: Boolean,
+      },
+      drawerHeight: {
+        attribute: true,
+        type: Number,
+      },
+      isViewallPage: {
+        attribute: true,
+        type: Boolean,
+      },
+      isMouseDown: {
+        attribute: true,
+        type: Boolean,
+      },
+    };
+  }
+
+  createRenderRoot() {
+    return this;
+  }
 
   onMouseDown() {
-    this.setState({
-      ...this.state,
-      isMouseDown: true,
-    });
-
+    this.isMouseDown = true;
     store.dispatch(updateDrawerAnimationState(true));
 
     document.addEventListener('mousemove', this.onMouseMove);
@@ -53,96 +58,103 @@ class Drawer extends BaseComponent {
       : event.clientY;
     const panelHeight = window.innerHeight - clientHeight + 7;
 
-    store.dispatch(updateDrawerHeight(panelHeight));
-
-    this.setState({
-      ...this.state,
-      isDragging: true,
-      panelHeight: `${panelHeight}px`,
-    });
+    this.drawerHeight = panelHeight;
   }
 
   onMouseUp() {
-    this.setState({
-      ...this.state,
-      hasDragged: this.state.isDragging,
-      isDragging: false,
-      isMouseDown: false,
-      isMouseUp: true,
-    });
-
-    store.dispatch(updateDrawerAnimationState(false));
-
+    this.isMouseDown = false;
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
+
+    store.dispatch(updateDrawerHeight(this.drawerHeight));
+    store.dispatch(updateDrawerAnimationState(false));
   }
 
-  static props = {
-    drawerOpened: props.boolean,
-  };
+  render() {
+    const classes = {
+      'pl-c-drawer': true,
+      'pl-js-drawer': true,
+      'pl-is-active': this.drawerOpened && !this.isViewallPage,
+    };
 
-  render({ drawerOpened, drawerHeight, isViewallPage }) {
-    const classes = css(
-      'pl-c-drawer',
-      'pl-js-drawer',
-      drawerOpened && !isViewallPage ? 'pl-is-active' : ''
-    );
-
-    const height =
-      drawerOpened && !isViewallPage
-        ? drawerHeight > 20
-          ? drawerHeight
+    const renderedHeight =
+      this.drawerOpened && !this.isViewallPage
+        ? this.drawerHeight > 20
+          ? this.drawerHeight
           : 300
         : 0;
 
-    return (
+    const coverStyles = { display: this.isMouseDown ? 'block' : 'none' };
+    const drawerStyles = {
+      height: `${renderedHeight}px`,
+      transitionDuration: this.isMouseDown ? '0ms' : '300ms',
+    };
+
+    return html`
       <div>
-        <div
-          class="pl-c-drawer__cover"
-          style={this.state.isMouseDown ? 'display: block;' : 'display: none;'}
-        />
-        <AnimateHeight
-          duration={this.state.isMouseDown ? 0 : 300}
-          height={height}
-          className="pl-c-drawer__wrapper"
-        >
-          <div className={classes}>
+        <div class="pl-c-drawer__cover" style="${styleMap(coverStyles)}"></div>
+        <div style="${styleMap(drawerStyles)}" class="pl-c-drawer__wrapper">
+          <div class="${classMap(classes)}">
             <div class="pl-c-drawer__toolbar">
               <div
                 class="pl-c-drawer__resizer"
-                onMouseDown={this.onMouseDown}
-              />
+                @mousedown="${this.onMouseDown}"
+              ></div>
               <div class="pl-c-drawer__toolbar-controls">
-                {/* <pl-toggle-layout></pl-toggle-layout> */}
+                <pl-toggle-layout
+                  size="small"
+                  icon-only="true"
+                ></pl-toggle-layout>
 
-                <button
-                  class="pl-c-drawer__close-btn"
+                <pl-button
                   title="Hide pattern info"
                   title="Menu"
-                  onClick={_ => store.dispatch(updateDrawerState(false))}
+                  size="small"
+                  icon-only="true"
+                  @click="${_ => store.dispatch(updateDrawerState(false))}"
                 >
-                  <CloseIcon
-                    width={20}
-                    height={20}
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    className={'pl-c-drawer__close-btn-icon'}
-                  />
-                </button>
+                  <pl-icon slot="after" name="close"></pl-icon>
+                </pl-button>
               </div>
             </div>
-            <div class="pl-c-drawer__content pl-js-drawer-content" />
+            <div class="pl-c-drawer__content pl-js-drawer-content"></div>
           </div>
-        </AnimateHeight>
+        </div>
       </div>
+    `;
+  }
+
+  connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    this.__storeUnsubscribe = store.subscribe(() =>
+      this._stateChanged(store.getState())
     );
+    this._stateChanged(store.getState());
+  }
+
+  disconnectedCallback() {
+    this.__storeUnsubscribe && this.__storeUnsubscribe();
+
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
   }
 
   _stateChanged(state) {
-    this.drawerOpened = state.app.drawerOpened;
-    this.drawerHeight = state.app.drawerHeight;
-    this.isDragging = state.app.isDragging;
-    this.isViewallPage = state.app.isViewallPage;
+    if (this.drawerOpened !== state.app.drawerOpened) {
+      this.drawerOpened = state.app.drawerOpened;
+    }
+    if (this.drawerHeight !== state.app.drawerHeight) {
+      this.drawerHeight = state.app.drawerHeight;
+    }
+    if (this.isDragging !== state.app.isDragging) {
+      this.isDragging = state.app.isDragging;
+    }
+    if (this.isViewallPage !== state.app.isViewallPage) {
+      this.isViewallPage = state.app.isViewallPage;
+    }
   }
 }
 

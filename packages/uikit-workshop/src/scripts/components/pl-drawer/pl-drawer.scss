@@ -20,7 +20,6 @@ pl-drawer {
   border-top-color: var(--theme-border, $pl-color-gray-20);
 }
 
-
 /**
  * 1) The drawer slides up from the bottom of the viewport when
  *    "show pattern info" is selected on the pattern detail screen.
@@ -61,6 +60,8 @@ pl-drawer {
 
 .pl-c-drawer__wrapper {
   transform: translate3d(0, 0, 0);
+  will-change: height;
+  overflow: hidden;
 }
 
 .pl-c-drawer__wrapper > * {
