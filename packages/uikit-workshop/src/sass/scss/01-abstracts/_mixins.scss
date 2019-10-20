@@ -37,7 +37,6 @@
   transition: background-color $pl-animate-quick ease-out,
     color $pl-animate-quick ease-out;
   cursor: pointer;
-  outline: 0;
 
   &:hover,
   &.pl-is-active:hover {
