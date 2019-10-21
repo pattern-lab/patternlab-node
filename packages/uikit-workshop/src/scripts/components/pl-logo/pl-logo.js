@@ -44,7 +44,7 @@ class Logo extends BaseLitComponent {
         />
         ${this.props.text && this.props.text !== ''
           ? html`
-              <span class="pl-c-logo__text">{this.props.text}</span>
+              <span class="pl-c-logo__text">${this.props.text}</span>
             `
           : ''}
       </a>
