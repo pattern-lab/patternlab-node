@@ -20,28 +20,28 @@ const starterkitSetup = [
       {
         name: 'starterkit-twig-demo (Recommended)',
         value: '@pattern-lab/starterkit-twig-demo',
-      },         
+      },
       {
         name: 'starterkit-mustache-bootstrap',
         value: 'starterkit-mustache-bootstrap',
-      },    
+      },
       {
         name: 'starterkit-mustache-demo',
         value: '@pattern-lab/starterkit-mustache-demo',
-      },      
+      },
       {
         name: 'starterkit-mustache-foundation',
         value: 'starterkit-mustache-foundation',
-      },      
+      },
       {
         name: 'starterkit-mustache-materialdesign',
         value: 'starterkit-mustache-materialdesign',
-      },      
+      },
       {
         name: 'starterkit-mustache-base',
         value: '@pattern-lab/starterkit-mustache-base',
       },
-   
+
       new inquirer.Separator(),
       {
         name: 'Custom starterkit',
