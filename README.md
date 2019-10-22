@@ -67,3 +67,4 @@ Pattern Lab / Node wouldn't be what it is today without the support of the commu
 ## Contributing
 
 Refer to the [contribution guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/.github/CONTRIBUTING.md).
+
