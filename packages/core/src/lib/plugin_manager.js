@@ -41,7 +41,7 @@ const plugin_manager = function() {
     foundPlugins.forEach(plugin => {
       logger.info(`Found plugin: ${plugin}`);
       logger.info(`Attempting to load and initialize plugin.`);
-      const pluginModule = loadPlugin(path.join(plugin));
+      const pluginModule = loadPlugin(plugin);
       pluginModule(patternlab);
     });
   }
