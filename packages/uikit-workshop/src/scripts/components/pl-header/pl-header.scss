@@ -22,12 +22,11 @@ pl-header {
   border-right-color: var(--theme-border, $pl-color-gray-20);
   border-bottom-color: $pl-color-gray-20;
   border-bottom-color: var(--theme-border, $pl-color-gray-20);
-  box-shadow: 0 8px 15px 1px rgba(6, 10, 36, 0.1),0 18px 24px 1px rgba(6, 10, 36, 0.12);
+  box-shadow: 0 8px 15px 1px rgba(6, 10, 36, 0.1);
 
   .pl-c-body--theme-light & {
     color: $pl-color-black;
     background-color: $pl-color-white;
-    border-bottom: 1px solid $pl-color-gray-20;
   }
 
   @media all and (min-width: $pl-bp-med) {

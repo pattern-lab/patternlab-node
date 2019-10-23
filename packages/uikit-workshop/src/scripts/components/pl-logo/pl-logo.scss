@@ -48,7 +48,7 @@ pl-logo {
 .pl-c-logo__img {
   display: block;
   height: auto;
-  max-height: 2.5rem;
+  max-height: 2.063rem; // ~50px max height for the global header
 
   &:not(:last-child){
     margin-right: 0.25rem;

@@ -1,12 +1,12 @@
 {
   "cacheBust": true,
   "cleanPublic": true,
-  "defaultPattern": "atoms-swatch",
+  "defaultPattern": "all",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {
-    "s": true,
-    "m": true,
-    "l": true,
+    "s": false,
+    "m": false,
+    "l": false,
     "full": false,
     "random": true,
     "disco": true,
