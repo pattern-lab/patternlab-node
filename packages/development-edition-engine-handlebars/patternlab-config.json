@@ -1,7 +1,7 @@
 {
   "cacheBust": true,
   "cleanPublic": true,
-  "defaultPattern": "atoms-swatch",
+  "defaultPattern": "all",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {
     "s": true,
