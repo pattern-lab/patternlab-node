@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* add eslint fixes ([00d7bbe](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/00d7bbe319ea77a6ee8cc9cd0348856feaaf13ad))
+* correct typo in build logging ([96d989f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/96d989f8869630ba9f59705bfca66755f20e35ab))
+* updates to address eslint / prettier issues ([d945acc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/d945acc13b8e4e36f3815b017fbc12266c323d1f))
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/5b7a057d46ccd16b5832af1441030c7b76f237a8))
+* **1049:** Treat folders like patterns only if they're subfolders of pattern groupings ([4eb79ab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4eb79ab48b335a35b2e5ed3b7053974b8e8bb6b6))
+* **core:** allow plugin resolution to follow normal algorithm ([3f6b83b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/3f6b83be080c88aec1d8b73bececb76f0f57a79d))
+* **core:** find plugins from config only and with simpler args ([fe7351c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/fe7351cba346425512cbb2ef3a1b7728ab06ae60))
+* **plugin:** correct spelling error and function locations ([d4abd88](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/d4abd88cb017550002407241b5045a2ad1adb1dc))
+
+
+### Features
+
+* **core:** invoke registered plugin hooks ([a54d775](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/a54d7753b6939fe6a58da543f4fb34f64dd8901a))
+* **plugin-tab, core:** initial plugin hook exploration ([2f3d39a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/2f3d39ac6b125ad4c6b872e27ee224ce2ea33a12))
+
+
+### BREAKING CHANGES
+
+* **core:** plugins now use async functions instead of events
+
+
+
+
+
+
 ## [3.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/@pattern-lab/core@3.0.1...@pattern-lab/core@3.0.2) (2019-08-23)
 
 

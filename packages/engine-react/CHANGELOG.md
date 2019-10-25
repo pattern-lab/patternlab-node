@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Features
+
+* **engine-react:** set package to private ([3aea881](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/commit/3aea8815f19df5b527cdda0b75cf99a9a8c3bc1e))
+
+
+
+
+
+
 ## [0.2.1-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-react/compare/@pattern-lab/engine-react@0.2.1-beta.0...@pattern-lab/engine-react@0.2.1-beta.1) (2019-02-09)
 
 **Note:** Version bump only for package @pattern-lab/engine-react

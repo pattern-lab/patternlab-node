@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/5b7a057d46ccd16b5832af1441030c7b76f237a8))
+* **cli:** add custom install logic to edition-node ([f04fd26](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/f04fd266429cd806987dab747e6d69bff9b926a4))
+* **cli:** allow any package to be installed as a starterkit ([d2aa1be](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/d2aa1be810a0a7473dcc52391a2263dacfdda0b8)), closes [#1067](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/issues/1067)
+* **cli:** merge config arrays via overwrite instead of concatenate ([42e5f7b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/42e5f7b42a26b4fc1f262c68ee4b474b546f2eac))
+* **cli:** proper path resolution to helpers ([a18fe5e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/a18fe5ef4d1c074a5eba8bfa255ebbee2261bf74))
+* **cli:** re-order and clarify engines ([e39e301](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/e39e301a33306c6615fabf64262f1893ca682b97))
+* **plugin:** correct spelling error and function locations ([d4abd88](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/d4abd88cb017550002407241b5045a2ad1adb1dc))
+
+
+### Features
+
+* **starterkits:** add starterkit-handlebars-demo ([384d2cf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/384d2cfa3440c1e6f456d39f56ca6381f82f7689))
+
+
+### BREAKING CHANGES
+
+* **cli:** previously, we concatenated arrays, which is unlikely to be intended
+
+
+
+
+
+
 ## [1.0.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/@pattern-lab/cli@1.0.2...@pattern-lab/cli@1.0.3) (2019-10-14)
 
 **Note:** Version bump only for package @pattern-lab/cli
