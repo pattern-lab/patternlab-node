@@ -130,6 +130,7 @@
     "src",
     "dist",
     "views",
-    "views-twig"
+    "views-twig",
+    "webpack.config.js"
   ]
 }
