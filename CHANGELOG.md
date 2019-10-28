@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/pattern-lab/patternlab-node/compare/v5.0.1...v5.0.2) (2019-10-28)
+
+
+### Bug Fixes
+
+* **uikit-workshop:** add template files to published bundle ([9005fce](https://github.com/pattern-lab/patternlab-node/commit/9005fcee9e129fb41d509f706195e1437bddc710))
+* **uikit-workshop:** add webpack config to published bundle ([060a573](https://github.com/pattern-lab/patternlab-node/commit/060a573cbddce9ee3d270d39337d0c8cac8372fa))
+
+
+
+
+
 ## [5.0.1](https://github.com/pattern-lab/patternlab-node/compare/v5.0.0...v5.0.1) (2019-10-28)
 
 
