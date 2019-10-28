@@ -125,5 +125,9 @@
     ">0.25%",
     "ie 11",
     "not op_mini all"
+  ],
+  "files": [
+    "src",
+    "dist"
   ]
 }
