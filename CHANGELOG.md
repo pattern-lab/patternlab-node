@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/pattern-lab/patternlab-node/compare/v5.0.0...v5.0.1) (2019-10-28)
+
+
+### Bug Fixes
+
+* add missing “dist” folder to array of files / folders published to NPM ([8829429](https://github.com/pattern-lab/patternlab-node/commit/88294296c438352570befd2eb6b9e1ca2ae3b750))
+
+
+
+
+
 # [5.0.0](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
 
 
