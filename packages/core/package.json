@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/core",
   "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "main": "./src/index.js",
   "dependencies": {
     "@pattern-lab/engine-mustache": "^5.0.0",

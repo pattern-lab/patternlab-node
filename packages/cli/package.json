@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
@@ -9,7 +9,7 @@
     "name": "Raphael Okon"
   },
   "dependencies": {
-    "@pattern-lab/core": "^5.0.0",
+    "@pattern-lab/core": "^5.1.0",
     "@pattern-lab/live-server": "^5.0.0",
     "archiver": "2.1.1",
     "chalk": "2.4.1",
