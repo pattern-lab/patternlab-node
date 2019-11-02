@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-mustache",
   "description": "The Mustache engine for Pattern Lab / Node",
-  "version": "2.0.1",
+  "version": "5.0.0",
   "main": "lib/engine_mustache.js",
   "dependencies": {
     "fs-extra": "0.30.0",
