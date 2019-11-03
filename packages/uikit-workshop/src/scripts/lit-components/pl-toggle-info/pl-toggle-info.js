@@ -18,11 +18,11 @@ class InfoToggle extends LitElement {
   static get properties() {
     return {
       isDrawerOpen: {
-        attribute: true,
+        attribute: 'is-drawer-open',
         type: Boolean,
       },
       isViewallPage: {
-        attribute: true,
+        attribute: 'is-viewall-page',
         type: Boolean,
       },
     };
@@ -32,6 +32,7 @@ class InfoToggle extends LitElement {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    styles.use();
 
     const state = store.getState();
     this.isDrawerOpen = state.app.drawerOpened;
@@ -45,6 +46,7 @@ class InfoToggle extends LitElement {
 
   disconnectedCallback() {
     this.__storeUnsubscribe && this.__storeUnsubscribe();
+    styles.unuse();
 
     if (super.disconnectedCallback) {
       super.disconnectedCallback();

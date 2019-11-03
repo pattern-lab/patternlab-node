@@ -44,18 +44,9 @@
     #COMPONENTS
 \*------------------------------------*/
 
-@import '../scripts/components/pl-controls/pl-controls.scss';
-@import '../scripts/components/pl-drawer/pl-drawer.scss';
-@import '../scripts/components/pl-header/pl-header.scss';
-@import '../scripts/components/pl-layout/pl-layout.scss';
-@import '../scripts/components/pl-logo/pl-logo.scss';
 @import '../scripts/components/pl-nav/pl-nav.scss';
 @import '../scripts/components/pl-search/pl-search.scss';
-@import '../scripts/components/pl-tools-menu/pl-tools-menu.scss';
 @import '../scripts/components/pl-tooltip/pl-tooltip.scss';
-@import '../scripts/components/pl-viewport-size-list/pl-viewport-size-list.scss';
-@import '../scripts/components/pl-viewport-size/pl-viewport-size.scss';
-@import '../scripts/components/pl-viewport/pl-viewport.scss';
 @import 'scss/04-components/annotations';
 @import 'scss/04-components/breadcrumbs';
 @import 'scss/04-components/pattern-category';
@@ -65,6 +56,30 @@
 @import 'scss/04-components/pattern';
 @import 'scss/04-components/tabs';
 @import 'scss/04-components/text-passage';
+
+.pl-c-code-copy-btn {
+  display: inline-block;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.4rem;
+  background-color: $pl-color-gray-07;
+  color: $pl-color-gray-87;
+  border: 1px solid $pl-color-gray-13;
+  border-radius: $pl-border-radius-med;
+  font-family: $pl-font;
+  font-size: $pl-font-size-norm;
+  text-transform: lowercase;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color $pl-animate-quick ease-out;
+
+  &:hover,
+  &:focus {
+    background-color: $pl-color-gray-20;
+  }
+}
 
 .pl-c-main {
   overflow: hidden;

@@ -1,12 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { withComponent, shadow } from 'skatejs';
-import withPreact from '@skatejs/renderer-preact';
-import { store } from '../store.js';
-import { extend, supportsShadowDom } from '../utils/index.js';
-import { h } from 'preact';
-import withLitHtml from './with-lit-html';
+import { withComponent, shadow, name } from 'skatejs';
 
-export class BaseComponent extends withComponent(withPreact()) {
+import { store } from '../store.js';
+// import { extend, supportsShadowDom } from '../utils/index.js';
+import withLitHtml from './with-lit-html';
+import { LitElement } from 'lit-element';
+import { SkatePreactElement } from './base-skate-preact-element';
+
+export class BaseComponent extends SkatePreactElement {
+  constructor() {
+    super();
+  }
+
   get renderRoot() {
     return this;
     // @todo: re-enable Shadow DOM conditionally after further testing + making sure PL components have inline styles needed
@@ -17,14 +22,6 @@ export class BaseComponent extends withComponent(withPreact()) {
     // }
   }
 
-  disconnectedCallback() {
-    this.__storeUnsubscribe && this.__storeUnsubscribe();
-
-    if (super.disconnectedCallback) {
-      super.disconnectedCallback();
-    }
-  }
-
   connectedCallback() {
     this.__storeUnsubscribe = store.subscribe(() =>
       this._stateChanged(store.getState())
@@ -32,6 +29,15 @@ export class BaseComponent extends withComponent(withPreact()) {
     this._stateChanged(store.getState());
     if (super.connectedCallback) {
       super.connectedCallback();
+    }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback && super.disconnectedCallback();
+    this.__storeUnsubscribe && this.__storeUnsubscribe();
+
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
     }
   }
 
@@ -64,9 +70,13 @@ export class BaseComponent extends withComponent(withPreact()) {
   }
 }
 
-export class BaseLitComponent extends withComponent(withLitHtml()) {
-  get renderRoot() {
+export class BaseLitComponent extends LitElement {
+  createRenderRoot() {
     return this;
+  }
+
+  constructor() {
+    super();
   }
 
   disconnectedCallback() {
@@ -88,7 +98,7 @@ export class BaseLitComponent extends withComponent(withLitHtml()) {
   }
 
   _stateChanged(state) {
-    this.triggerUpdate();
+    this.requestUpdate();
   }
 
   /**

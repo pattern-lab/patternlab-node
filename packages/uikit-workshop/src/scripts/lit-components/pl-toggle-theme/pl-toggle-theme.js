@@ -2,7 +2,7 @@
 import { LitElement, html, customElement } from 'lit-element';
 import { store } from '../../store.js'; // connect to the Redux store.
 import { updateThemeMode } from '../../actions/app.js'; // redux actions needed
-import './pl-toggle-theme.scss?external';
+import styles from './pl-toggle-theme.scss?external';
 
 @customElement('pl-toggle-theme')
 class ThemeToggle extends LitElement {
@@ -32,6 +32,7 @@ class ThemeToggle extends LitElement {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    styles.use();
 
     const state = store.getState();
     this.themeMode = state.app.themeMode || 'dark';
@@ -46,6 +47,7 @@ class ThemeToggle extends LitElement {
 
   disconnectedCallback() {
     this.__storeUnsubscribe && this.__storeUnsubscribe();
+    styles.unuse();
 
     if (super.disconnectedCallback) {
       super.disconnectedCallback();

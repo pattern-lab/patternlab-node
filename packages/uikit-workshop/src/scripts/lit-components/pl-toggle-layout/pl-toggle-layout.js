@@ -1,7 +1,7 @@
 import { LitElement, html, customElement } from 'lit-element';
 import { store } from '../../store.js'; // connect to the Redux store.
 import { updateLayoutMode } from '../../actions/app.js'; // redux actions
-import './pl-toggle-layout.scss?external';
+import styles from './pl-toggle-layout.scss?external';
 
 @customElement('pl-toggle-layout')
 class LayoutToggle extends LitElement {
@@ -19,6 +19,7 @@ class LayoutToggle extends LitElement {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    styles.use();
 
     const state = store.getState();
     this.layoutMode = state.app.layoutMode || 'vertical';
@@ -33,6 +34,7 @@ class LayoutToggle extends LitElement {
 
   disconnectedCallback() {
     this.__storeUnsubscribe && this.__storeUnsubscribe();
+    styles.unuse();
 
     if (super.disconnectedCallback) {
       super.disconnectedCallback();

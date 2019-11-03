@@ -1,6 +1,3 @@
-import 'regenerator-runtime/runtime';
-import '@pattern-lab/uikit-polyfills/platform/custom-event';
-import '@pattern-lab/uikit-polyfills/platform/symbol';
 import './components/modal-styleguide';
 import './components/pl-search/pl-search.iframe-helper';
 import './components/pl-nav/pl-nav.iframe-helper';

@@ -1,10 +1,9 @@
-import { LitElement, html, customElement } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import { Slotify } from './slotify';
 import styles from './pl-button.scss?external';
 
 // This decorator defines the element.
-@customElement('pl-button')
-class Icon extends Slotify(LitElement) {
+class Button extends Slotify(LitElement) {
   static get properties() {
     return {
       href: {
@@ -95,4 +94,6 @@ class Icon extends Slotify(LitElement) {
   }
 }
 
-export { Icon };
+customElements.define('pl-button', Button);
+
+export { Button };

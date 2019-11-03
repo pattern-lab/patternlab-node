@@ -1,8 +1,13 @@
-import { LitElement, unsafeCSS, css, svg, customElement } from 'lit-element';
-
-// temp solution until https://github.com/Polymer/lit-html/pull/1000 ships
-import { unsafeSVG } from './unsafe-svg.ts';
+import {
+  html,
+  LitElement,
+  unsafeCSS,
+  css,
+  svg,
+  customElement,
+} from 'lit-element';
 import styles from './pl-icon.scss?external';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 const icons = {};
 
 // automatically pull in every SVG icon file in from the icons folder
@@ -21,14 +26,8 @@ svgIcons.keys().forEach(iconName => {
 class Icon extends LitElement {
   static get properties() {
     return {
-      name: {
-        attribute: true,
-        type: String,
-      },
-      size: {
-        attribute: true,
-        type: String,
-      },
+      name: String,
+      size: String,
     };
   }
 
@@ -48,8 +47,8 @@ class Icon extends LitElement {
 
   // Render element DOM by returning a `lit-html` template.
   render() {
-    return svg`
-      <svg
+    const svgMarkup = `
+        <svg
         class="c-icon c-icon--${this.name} c-icon--${this.size || 'auto'}"
         viewBox="${
           icons[this.name] && icons[this.name].viewBox
@@ -57,12 +56,17 @@ class Icon extends LitElement {
             : '0 0 20 20'
         }"
       >
-        ${unsafeSVG(
-          `<use xlink:href="#${
-            icons[this.name] && icons[this.name].id ? icons[this.name].id : ''
-          }"></use>`
-        )}
+        <use xlink:href="#${
+          icons[this.name] && icons[this.name].id
+            ? icons[this.name].id
+            : this.name
+        }">
+        </use>
       </svg>
+    `;
+
+    return html`
+      ${unsafeHTML(svgMarkup)}
     `;
   }
 }
