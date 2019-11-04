@@ -152,8 +152,8 @@ class IFrame extends BaseLitComponent {
     // @todo: refactor to better handle the iframe async rendering
     if (this.iframe) {
       if (animate === true) {
-        this.iframeContainer.classList.add('is-animate');
-        this.iframe.classList.add('is-animate');
+        this.iframeContainer.classList.add('is-animating');
+        this.iframe.classList.add('is-animating');
       }
 
       if (size < maxViewportWidth) {
@@ -178,8 +178,8 @@ class IFrame extends BaseLitComponent {
       // auto-remove transition classes if not the animate param isn't set to true
       setTimeout(function() {
         if (animate === true) {
-          self.iframeContainer.classList.remove('vp-animate');
-          self.iframe.classList.remove('vp-animate');
+          self.iframeContainer.classList.remove('is-animating');
+          self.iframe.classList.remove('is-animating');
         }
       }, 800);
 
