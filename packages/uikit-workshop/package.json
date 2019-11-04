@@ -63,6 +63,7 @@
     "workbox-build": "^3.4.1"
   },
   "dependencies": {
+    "@pattern-lab/uikit-polyfills": "^0.0.0",
     "ts-loader": "^6.2.0",
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
