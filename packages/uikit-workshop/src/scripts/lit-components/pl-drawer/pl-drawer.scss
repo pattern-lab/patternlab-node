@@ -73,6 +73,7 @@ pl-drawer {
   display: flex;
   width: 100%;
   overflow: hidden; // needed for IE 11 so scrollbars show up
+  max-height: calc(100% - 32px - 1.5rem); // workaround to fix drawer content collapsing. @todo: remove once larger tabs refactor PR'd
 }
 
 .pl-c-drawer__toolbar {
