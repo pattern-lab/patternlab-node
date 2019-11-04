@@ -224,7 +224,7 @@ class IFrame extends BaseLitComponent {
   }
 
   handleResize() {
-    this.updateSizeReading(this.iframe.clientWidth);
+    this.updateSizeReading(this.iframeContainer.clientWidth);
   }
 
   // Update Pixel and Em inputs
@@ -414,7 +414,7 @@ class IFrame extends BaseLitComponent {
     const self = this;
     self.querySelector('.pl-js-resize-handle').classList.add('is-resizing');
     const origClientX = event.clientX;
-    const origViewportWidth = this.iframe.clientWidth + 40;
+    const origViewportWidth = this.iframeContainer.clientWidth;
 
     this.fullMode = false;
 
