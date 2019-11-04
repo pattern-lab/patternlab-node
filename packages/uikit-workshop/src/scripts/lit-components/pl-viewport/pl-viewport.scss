@@ -94,7 +94,7 @@ pl-iframe {
 }
 
 .is-animating {
-  transition: all 0.7s linear;
+  transition: all 0.2s linear;
 }
 
 /**
@@ -189,15 +189,9 @@ pl-iframe {
     height: 100%;
     align-items: center;
     position: fixed;
-    top: 50vh;
+    top: 0;
     bottom: 0;
-    transform: translate3d(0, -50%, 0);
     width: $pl-resizer-width;
-    // background: white;
-    // border-left-width: 1px;
-    // border-left-style: solid;
-    // border-left-color: #ccc;
-    // border-left-color: var(--theme-border,#ccc);
   }
 
   &:active {
