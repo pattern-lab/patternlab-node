@@ -24,7 +24,10 @@ class Logo extends BaseLitComponent {
       theme: String,
       url: String,
       text: String,
-      altText: String,
+      altText: {
+        type: String,
+        attribute: 'alt-text',
+      },
       srcLight: {
         type: String,
         attribute: 'src-light',
