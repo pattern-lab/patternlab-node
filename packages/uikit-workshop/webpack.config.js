@@ -57,18 +57,7 @@ module.exports = function() {
         loader: 'postcss-loader',
         options: {
           sourceMap: config.sourceMaps,
-          plugins: () => [
-            autoprefixer({
-              browsers: [
-                'last 2 version',
-                'safari 5',
-                'ie 8',
-                'ie 9',
-                'opera 12.1',
-                'android 4',
-              ],
-            }),
-          ],
+          plugins: () => [autoprefixer()],
         },
       },
       {

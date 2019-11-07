@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/live-server",
-  "version": "1.3.3",
+  "version": "5.0.0",
   "description": "simple development http server with live reload capability",
   "keywords": [
     "front-end",
@@ -12,14 +12,14 @@
   ],
   "author": "Tapio Vierros",
   "dependencies": {
-    "chokidar": "1.6.0",
+    "chokidar": "3.1.0",
     "colors": "1.3.0",
     "connect": "3.6.5",
     "cors": "2.8.4",
     "event-stream": "3.3.4",
     "faye-websocket": "0.11.x",
     "http-auth": "3.2.x",
-    "morgan": "1.6.1",
+    "morgan": "1.9.1",
     "object-assign": "4.1.1",
     "opn": "5.3.0",
     "proxy-middleware": "0.15.0",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "eslint": "4.18.2",
-    "jshint": "2.9.2",
+    "jshint": "2.10.2",
     "mocha": "4.0.1",
     "supertest": "3.0.0"
   },

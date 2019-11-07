@@ -14,6 +14,7 @@ export const modalViewer = {
   // set up some defaults
   delayCheckingModalViewer: false,
   iframeElement: document.querySelector('.pl-js-iframe'),
+  iframeCustomElement: document.querySelector('pl-iframe'),
   active: false,
   switchText: true,
   template: 'info',
@@ -170,7 +171,21 @@ export const modalViewer = {
       }
 
       contentContainer.appendChild(templateRendered);
+      modalViewer.addClickEvents(contentContainer);
     }
+  },
+
+  addClickEvents(contentContainer = document) {
+    contentContainer.querySelectorAll('.pl-js-lineage-link').forEach(link => {
+      link.addEventListener('click', e => {
+        const patternPartial = e.target.getAttribute('data-patternpartial');
+
+        if (patternPartial && modalViewer.iframeCustomElement) {
+          e.preventDefault();
+          modalViewer.iframeCustomElement.navigateTo(patternPartial);
+        }
+      });
+    });
   },
 
   /**

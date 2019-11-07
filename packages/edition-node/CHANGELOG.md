@@ -3,6 +3,93 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/v5.0.2...v5.1.0) (2019-10-29)
+
+
+### Features
+
+* **config:** add new default pattern export options ([a7487a0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/a7487a0681cb11e6f3c5c8eaefd62e5648ad5ea3))
+
+
+
+
+
+## [5.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/v5.0.1...v5.0.2) (2019-10-28)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+## [5.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/v5.0.0...v5.0.1) (2019-10-28)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Features
+
+* **edition-node:** switch to engine-handlebars ([b481e22](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/b481e22dc1f41ddd4da709621640a15190fba257))
+
+
+### BREAKING CHANGES
+
+* **edition-node:** use handlebars over mustache
+
+
+
+
+
+
+## [2.0.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@2.0.5...@pattern-lab/edition-node@2.0.6) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+
+## [2.0.5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@2.0.4...@pattern-lab/edition-node@2.0.5) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+
+## [2.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@2.0.0...@pattern-lab/edition-node@2.0.1) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/edition-node
+
+
+
+
+
+# [2.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.2...@pattern-lab/edition-node@2.0.0) (2019-08-23)
+
+
+### Features
+
+* **edition-node:** switch to engine-handlebars ([b481e22](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/commit/b481e22))
+
+
+### BREAKING CHANGES
+
+* **edition-node:** use handlebars over mustache
+
+
+
+
+
+
 ## [1.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node/compare/@pattern-lab/edition-node@1.0.2-alpha.0...@pattern-lab/edition-node@1.0.2) (2019-05-16)
 
 **Note:** Version bump only for package @pattern-lab/edition-node

@@ -4,9 +4,9 @@
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {
-    "s": true,
-    "m": true,
-    "l": true,
+    "s": false,
+    "m": false,
+    "l": false,
     "full": false,
     "random": true,
     "disco": true,
@@ -65,8 +65,11 @@
   },
   "patternExtension": "hbs",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternExportAll": false,
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
+  "patternExportPreserveDirectoryStructure": true,
+  "patternExportRaw": false,
   "serverOptions": {
     "wait": 1000
   },
@@ -85,5 +88,19 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "engines": {
+    "handlebars": {
+      "extend": "helpers/*.js"
+    }
+  },
+  "plugins": {
+    "@pattern-lab/plugin-tab": {
+      "enabled": true,
+      "initialized": false,
+      "options": {
+        "tabsToAdd": ["scss"]
+      }
+    }
+  }
 }

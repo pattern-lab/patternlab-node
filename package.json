@@ -1,4 +1,14 @@
 {
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "@pattern-lab/engine-*",
+      "**/@pattern-lab/engine-*",
+      "**/@pattern-lab/uikit-workshop"
+    ]
+  },
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/plugin-syntax-jsx": "^7.2.0",
@@ -8,21 +18,28 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
-    "lerna": "3.11.0",
     "prettier": "^1.14.3",
-    "pretty-quick": "^1.11.1"
+    "lerna": "3.17.0",
+    "pretty-quick": "^1.11.1",
+    "auto": "^7.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pattern-lab/patternlab-node.git"
   },
   "private": true,
   "scripts": {
-    "postinstall": "npm run bootstrap",
-    "bootstrap": "lerna bootstrap",
-    "setup": "npm install && npm run build:uikit",
+    "postinstall": "lerna run postbootstrap",
+    "setup": "yarn",
     "build:uikit": "cd packages/uikit-workshop && npm run build",
     "precommit": "pretty-quick --staged",
     "lint:fix": "npm run lint -- --fix",
     "lint": "eslint --max-warnings 0 './packages/{core,cli,uikit-workshop}/**/*.js ' --ignore-path .eslintignore",
     "test": "lerna run test",
-    "clean": "git clean -dfx"
+    "clean": "git clean -dfx",
+    "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
+    "postpublish": "auto release",
+    "preview:hbs": "cd packages/development-edition-engine-handlebars && npx patternlab add --starterkits '@pattern-lab/starterkit-handlebars-vanilla' && npm run pl:build"
   },
   "nyc": {
     "exclude": [

@@ -3,6 +3,113 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.0.1...v5.0.2) (2019-10-28)
+
+
+### Bug Fixes
+
+* **uikit-workshop:** add template files to published bundle ([9005fce](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9005fcee9e129fb41d509f706195e1437bddc710))
+* **uikit-workshop:** add webpack config to published bundle ([060a573](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/060a573cbddce9ee3d270d39337d0c8cac8372fa))
+
+
+
+
+
+## [5.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.0.0...v5.0.1) (2019-10-28)
+
+
+### Bug Fixes
+
+* add missing “dist” folder to array of files / folders published to NPM ([8829429](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/88294296c438352570befd2eb6b9e1ca2ae3b750))
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* add better pre-rendering support ([8ecd615](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/8ecd6159a89232f42e0a9dc3c688b6e21de8fc30))
+* add missing @babel/runtime package to address silent error getting thrown on Travis ([1918d04](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/1918d042d7e90cc8aaa2fdfcd8649961c0a5dd50))
+* add missing preact-render-to-string library ([881296a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/881296a2c256424beac28bd560c5b1a5e1fed005))
+* fall back to seeing the current pattern's query string to `all` or the defaultPattern value if undefined when the iframe page initially loads ([a368459](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a3684590fca02cf96b99421b87a0ad0a711893ad))
+* fix incorrect Webpack version in package.json ([9788e89](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9788e8977921e31fe43f2a1ec19d4684dd4709c5))
+* fix issue with viewport height exceeding the space available ([95cd1cf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/95cd1cfa57f086ecb84ac2e996ecda81f0c6a1a6))
+* fix Prism.js typo so languages not found / supported don't throw a JS error ([a8c19f9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a8c19f9f9b11d4abbdcd9e573fb0cb418d665660))
+* minor CSS fixes + fresh prod build ([8ac2c1f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/8ac2c1fa1c7558ed2ac50755f599a438d682ee2a))
+* re-enable displaying the top level `All` link if PL isn't configured to hide this specific link in the ishControlsHide config option. Addresses [#1048](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1048) ([6bb4e1a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6bb4e1ac6f38b47f93030c8c5bca62d5db2132e4))
+* re-enable using the defaultPattern config for the initial iframe page load if defined ([d645ea1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d645ea15150061d7ad13741d2dc37b12b9786411))
+* regenerate fresh UIKit build after fixing main JS issues ([9ea34d2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9ea34d2efe43cafacb3729ac113121ba51126344))
+* squashing minor UI bugs ([a8a606c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a8a606cfb224f7041f53ff5026a84e13fa17914c))
+* temporarily disable Random and Disco viewport controls until the full JS logic for these is re-enabled ([14b9a19](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/14b9a19e4dee9462f3784eae28066893cc893624))
+* temporarily downgrade Preact version so tooltip used for displaying viewport sizes renders correctly ([52dcf85](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/52dcf85e756ee171ca993288d98f5b5ef9a0a24b))
+* update autoprefixer browserslist config to address warning messages ([5e52f2b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/5e52f2b0ed02e2002ca867368636c3c0dc79ff0a))
+* **plugin:** correct spelling error and function locations ([d4abd88](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d4abd88cb017550002407241b5045a2ad1adb1dc))
+* **uikit:** clear out "404" responses when loading tabs ([73874b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/73874b1b0b66ca6425c2b74331d417efdb529e2e))
+* **uikit-workshop:** fix merge problem ([d245b3b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d245b3bca044c29f281052bf2feb95eeffafcf6b))
+* update initial PL iframe path default ([a26fbb9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a26fbb956e13901d1751c435b76de65637191ca4))
+* update Javascript to address merge conflict issue with previous PR merge / recent release ([cf2ecc1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/cf2ecc154383c3e8abd56dc88484370bc58ac30b))
+* update styles for pattern state dots ([7728acc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/7728accc9a6e5cd83be451f7d74e522dfe721cad))
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/5b7a057d46ccd16b5832af1441030c7b76f237a8))
+* use 100% of the screen available when JS is disabled / the first time the iframe loads up ([c0c5bff](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/c0c5bff7a63b157d5b81dc2bcecee9e732ecfd4e))
+
+
+### Features
+
+* **uikit-workshop:** add plugin-loader ([fc966d6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/fc966d6b151e24055bc2f4146d6a90b5fb392765))
+* remove pre-built uikit dist folder and switch to auto-building when bootstrapping OR when publishing to NPM ([b5dd553](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/b5dd5538ee00ddf1da321851865fa1c223cedb43))
+
+
+### Reverts
+
+* don't flatten folders containing only one item inside ([77f1f46](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/77f1f46595328bd96fba46347b532295c65802d1))
+
+
+
+
+
+
+## [1.0.7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.6...@pattern-lab/uikit-workshop@1.0.7) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+
+## [1.0.6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.5...@pattern-lab/uikit-workshop@1.0.6) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+
+## [1.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.1...@pattern-lab/uikit-workshop@1.0.2) (2019-08-23)
+
+
+### Bug Fixes
+
+* add better pre-rendering support ([8ecd615](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/8ecd615))
+* add missing @babel/runtime package to address silent error getting thrown on Travis ([1918d04](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/1918d04))
+* add missing preact-render-to-string library ([881296a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/881296a))
+* fix incorrect Webpack version in package.json ([9788e89](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9788e89))
+* fix issue with viewport height exceeding the space available ([95cd1cf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/95cd1cf))
+* minor CSS fixes + fresh prod build ([8ac2c1f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/8ac2c1f))
+* squashing minor UI bugs ([a8a606c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a8a606c))
+* update initial PL iframe path default ([a26fbb9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a26fbb9))
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/5b7a057))
+* **uikit-workshop:** fix merge problem ([d245b3b](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d245b3b))
+
+
+
+
+
+
 ## [1.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/@pattern-lab/uikit-workshop@1.0.1-alpha.0...@pattern-lab/uikit-workshop@1.0.1) (2019-05-16)
 
 

@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/pattern-lab/edition-node-gulp/compare/v5.0.2...v5.1.0) (2019-10-29)
+
+
+### Features
+
+* **core:** fix pattern export all conflicts ([b210d82](https://github.com/pattern-lab/edition-node-gulp/commit/b210d820ba8ac0b64c82c7ff0f18c9f8a900fce2))
+
+
+
+
+
+## [5.0.2](https://github.com/pattern-lab/edition-node-gulp/compare/v5.0.1...v5.0.2) (2019-10-28)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+## [5.0.1](https://github.com/pattern-lab/edition-node-gulp/compare/v5.0.0...v5.0.1) (2019-10-28)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/edition-node-gulp/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
+## [0.1.8](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.7...@pattern-lab/engine-react-testing-tree@0.1.8) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
+## [0.1.7](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.6...@pattern-lab/engine-react-testing-tree@0.1.7) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
+## [0.1.3](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.2...@pattern-lab/engine-react-testing-tree@0.1.3) (2019-08-23)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+
 ## [0.1.2](https://github.com/pattern-lab/edition-node-gulp/compare/@pattern-lab/engine-react-testing-tree@0.1.2-alpha.0...@pattern-lab/engine-react-testing-tree@0.1.2) (2019-05-16)
 
 **Note:** Version bump only for package @pattern-lab/engine-react-testing-tree

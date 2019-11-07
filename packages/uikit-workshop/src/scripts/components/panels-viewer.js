@@ -108,16 +108,24 @@ export const panelsViewer = {
           /* eslint-disable */
           e.onload = (function(i, panels, patternData, iframeRequest) {
             return function() {
+              // since non-existant files (such as .scss from plugin-tab) still return a 200, we need to instead inspect the contents
+              // we look for responseText that starts with the doctype
+              let rText = this.responseText;
+              if (rText.startsWith('<!DOCTYPE html>')) {
+                rText = '';
+              }
+
               // use pretty to format HTML
               if (panels[i].name === 'HTML') {
-                templateFormatted = pretty(this.responseText, { ocd: true });
+                templateFormatted = pretty(rText, { ocd: true });
               } else {
-                templateFormatted = this.responseText;
+                templateFormatted = rText;
               }
 
               const templateHighlighted = Prism.highlight(
                 templateFormatted,
-                Prism.languages[panels[i].name.toLowerCase()] || 'markup'
+                Prism.languages[panels[i].name.toLowerCase()] ||
+                  Prism.languages['markup']
                 // Prism.languages[panels[i].name.toLowerCase()],
               );
 
@@ -331,19 +339,6 @@ export const panelsViewer = {
       }
     }
 
-    // find lineage links in the rendered content and add postmessage handlers in case it's in the modal
-    // @todo: refactor and re-enable
-    // $('.pl-js-lineage-link', templateRendered).on('click', function(e) {
-    //   e.preventDefault();
-    //   const obj = JSON.stringify({
-    //     event: 'patternLab.updatePath',
-    //     path: urlHandler.getFileName($(this).attr('data-patternpartial')),
-    //   });
-    //   document
-    //     .querySelector('.pl-js-iframe')
-    //     .contentWindow.postMessage(obj, panelsViewer.targetOrigin);
-    // });
-
     // gather panels from plugins
     Dispatcher.trigger('insertPanels', [
       templateRendered,
@@ -366,6 +361,3 @@ export const panelsViewer = {
  * 5) Add mouseup event to the body so that when drag is released, the modal
  * stops resizing and modal cover doesn't display anymore.
  */
-// eslint-disable-next-line no-unused-vars
-$('.pl-js-modal-resizer').mousedown(function(event) {
-  /* 1 */

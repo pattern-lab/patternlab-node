@@ -26,10 +26,9 @@ const engine_twig_php = {
   engineName: 'twig-php',
   engineFileExtension: '.twig',
   expandPartials: false,
-
-  // @todo Evaluate RegExs
-  // findPartialsRE: /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?%}/g,
-  // findPartialKeyRE: /"((?:\\.|[^"\\])*)"/,
+  findPartialsRE: /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?(with|%}|\s*%})/g,
+  findPartialKeyRE: /"((?:\\.|[^"\\])*)"|'((?:\\.|[^"\\])*)'/,
+  namespaces: [],
 
   /**
    * Accept a Pattern Lab config object from the core and put it in
@@ -57,15 +56,24 @@ const engine_twig_php = {
       relativeFrom,
       alterTwigEnv,
     });
+
+    // Preserve the namespaces (after recursively adding nested folders) from the config so we can use them later to evaluate partials.
+    this.namespaces = twigRenderer.config.src.namespaces;
   },
 
   renderPattern(pattern, data) {
     return new Promise((resolve, reject) => {
-      const patternPath = path.isAbsolute(pattern.relPath)
-        ? path.relative(patternLabConfig.paths.source.root, pattern.relPath)
+      // If this is a pseudo pattern the relPath will be incorrect.
+      // i.e. /path/to/pattern.json
+      // Twig can't render that file so we need to use the base patterns
+      // relPath instead.
+      const relPath = pattern.isPseudoPattern
+        ? pattern.basePattern.relPath
         : pattern.relPath;
-      // console.log(patternPath);
 
+      const patternPath = path.isAbsolute(relPath)
+        ? path.relative(patternLabConfig.paths.source.root, relPath)
+        : relPath;
       let details = '';
       if (patternLabConfig.logLevel === 'debug') {
         details = `<details><pre><code>${JSON.stringify(
@@ -118,8 +126,29 @@ const engine_twig_php = {
   // @todo Add all functions that get called even if disabled to ease implementing engine further
   // Currently all of them return `null` as I'm not totally sure there absence will be ok. Additionally, future improvements may be implemented in this functions.
 
-  findPartials(pattern) {
-    return null;
+  // Find and return any {% extends|include|embed 'template-name' %} within pattern.
+  // The regex should match the following examples:
+  // {%
+  //   include '@molecules/teaser-card/teaser-card.twig' with {
+  //     teaser_card: card
+  //   } only
+  // %}
+  // OR
+  // {% include '@molecules/teaser-card/teaser-card.twig' %}
+  // OR
+  // {%
+  //   include '@molecules/teaser-card/teaser-card.twig'
+  // %}
+  findPartials: function(pattern) {
+    const matches = pattern.template.match(this.findPartialsRE);
+    const filteredMatches =
+      matches &&
+      matches.filter(match => {
+        // Filter out programmatically created includes.
+        // i.e. {% include '@namespace/icons/assets/' ~ name ~ '.svg' %}
+        return match.indexOf('~') === -1;
+      });
+    return filteredMatches;
   },
 
   findPartialsWithStyleModifiers(pattern) {
@@ -138,8 +167,86 @@ const engine_twig_php = {
     return null;
   },
 
-  findPartial(partialString) {
-    return null;
+  // Given a pattern, and a partial string, tease out the "pattern key" and
+  // return it.
+  findPartial: function(partialString) {
+    try {
+      let partial = partialString.match(this.findPartialKeyRE)[0];
+      partial = partial.replace(/"/g, '');
+      partial = partial.replace(/'/g, '');
+
+      // Check if namespaces is not empty.
+      const selectedNamespace = this.namespaces.filter(namespace => {
+        // Check to see if this partial contains within the namespace id.
+        return partial.indexOf(`@${namespace.id}`) !== -1;
+      });
+
+      let namespaceResolvedPartial = '';
+
+      if (selectedNamespace.length > 0) {
+        // Loop through all namespaces and try to resolve the namespace to a file path.
+        for (
+          let index = 0;
+          index < selectedNamespace[0].paths.length;
+          index++
+        ) {
+          const patternPath = path.isAbsolute(selectedNamespace[0].paths[index])
+            ? path.relative(
+                patternLabConfig.paths.source.root,
+                selectedNamespace[0].paths[index]
+              )
+            : selectedNamespace[0].paths[index];
+
+          // Replace the name space with the actual path.
+          // i.e. @atoms -> source/_patterns/00-atoms
+          const tempPartial = path.join(
+            process.cwd(),
+            partial.replace(`@${selectedNamespace[0].id}`, patternPath)
+          );
+
+          try {
+            // Check to see if the file actually exists.
+            if (fs.existsSync(tempPartial)) {
+              // get the path to the top-level folder of this pattern
+              // ex. /Users/bradfrost/sites/pattern-lab/packages/edition-twig/source/_patterns/00-atoms
+              const fullFolderPath = `${
+                tempPartial.split(selectedNamespace[0].id)[0]
+              }${selectedNamespace[0].id}`;
+
+              // then tease out the folder name itself (including the # prefix)
+              // ex. 00-atoms
+              const folderName = fullFolderPath.substring(
+                fullFolderPath.lastIndexOf('/') + 1,
+                fullFolderPath.length
+              );
+
+              // finally, return the Twig path we created from the full file path
+              // ex. 00-atoms/05-buttons/button.twig
+              const fullIncludePath = tempPartial.replace(
+                tempPartial.split(
+                  `${folderName}${tempPartial.split(folderName)[1]}`
+                )[0],
+                ''
+              );
+
+              namespaceResolvedPartial = fullIncludePath;
+
+              // After it matches one time, set the resolved partial and exit the loop.
+              break;
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      }
+      // Return the path with the namespace resolved OR the regex'd partial.
+      return namespaceResolvedPartial || partial;
+    } catch (err) {
+      console.error(
+        'Error occured when trying to find partial name in: ' + partialString
+      );
+      return null;
+    }
   },
 
   patternMatcher(pattern, regex) {

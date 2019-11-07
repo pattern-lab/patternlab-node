@@ -68,10 +68,13 @@
       "css": "public/css"
     }
   },
-  "patternExtension": "mustache",
+  "patternExtension": "hbs",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
-  "patternExportDirectory": "./pattern_exports/",
+  "patternExportAll": false,
+  "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
+  "patternExportPreserveDirectoryStructure": true,
+  "patternExportRaw": false,
   "serverOptions": {
     "wait": 1000
   },
@@ -90,5 +93,10 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "engines": {
+    "handlebars": {
+      "extend": "helpers/*.js"
+    }
+  }
 }

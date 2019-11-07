@@ -90,6 +90,11 @@ function init(event) {
     language: 'markup',
     keyCombo: 'ctrl+shift+y',
   });
+
+  if (!window.patternlab) {
+    window.patternlab = {};
+  }
+  window.patternlab.panels = Panels;
 }
 
 // gather panels from plugins
