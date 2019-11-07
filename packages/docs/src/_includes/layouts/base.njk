@@ -1,32 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml" />
   <link rel="icon" href="{{ site.faviconPath }}" type="image/png" />
+  <link rel="stylesheet" href="https://use.typekit.net/sgr5yjx.css">
   {% include "partials/global/meta-info.njk" %}
-  <script>document.documentElement.classList.remove('no-js');</script>
   <style>{% include "assets/css/global.css" %}</style>
   {% block head %}
   {% endblock %}
 </head>
 <body>
-  {% include "partials/global/site-head.njk" %}
-  {% block content %}
-  {% endblock content %}
-  {% include "partials/global/site-foot.njk" %}
-  {% block foot %}
-  {% endblock %}
-  <script type="module" src="/js/components/theme-toggle.js" async defer></script>
-  <script>
+  <div class="l-grid">
+    <div class="l-grid__sidebar">
+      {% include "components/header.njk" %}
+    </div>
+    <!--end l-grid__sidebar-->
+
+    <div class="l-grid__main">
+      <main>
+        <div class="l-container">
+          <div
+            class="l-linelength-container"
+          >
+            {% block content %}
+            {% endblock content %}
+          </div>
+        </div>
+      </main>
+
+      {% include "components/footer.njk" %}
+      {% block foot %}
+      {% endblock %}
+    </div>
+    <!--end l-grid__main-->
+  </div>
+  <!--end l-container"-->
+
+  
+  
+  
+  {# <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
   </script>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async defer></script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async defer></script> #}
 </body>
 </html>

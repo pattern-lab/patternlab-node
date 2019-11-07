@@ -16,7 +16,8 @@
   <main id="main-content" tabindex="-1">
     <article class="[ post ] [ h-entry ]">
       {% include "partials/components/intro.njk" %}
-      <div class="[ post__body ] [ inner-wrapper ] [ leading-loose pad-top-900 {{ 'pad-bottom-900' if not site.enableThirdPartyComments }} text-500 ] [ sf-flow ] [ e-content ]">
+      {% include "components/page-header.njk" %}
+      <div class="c-text-passage">
         {{ content | safe }}
       </div>
       {% if site.enableThirdPartyComments %}

@@ -1,0 +1,34 @@
+{# <header role="banner" class="site-head">
+  
+    Hello there
+      <a href="/" class="[ site-head__site-name ] [ leading-tight ]"{{ 'aria-current=page' if page.url == '/' | safe }}>
+        <span class="visually-hidden">{{ 'Back to homepage' if page.url != '/' else 'Homepage' }}</span>
+        <span class="[ site-head__site-name ] [ text-600 ]" aria-hidden="true">{{ site.name }}</span>
+      </a>
+      {% include "partials/components/nav.njk" %}
+    </div>
+
+</header> #}
+
+{# Post list content #}
+{% set postListHeading = postsHeading %}
+{% set postListItems = collections.postFeed %}
+
+<header class="c-header">
+	<div class="c-header__inner">
+		{% include "components/logo.njk" %}
+
+		<button
+			class="c-btn c-btn--inverted c-btn--small c-header__nav-btn js-nav-trigger c-btn--small c-header__nav-btn"
+		>
+			Menu
+		</button>
+
+		<div class="c-header__nav-container js-nav-panel">
+			{% include "partials/components/post-list.njk" %}
+		</div>
+	</div>
+	<!--end c-header__inner-->
+</header>
+<!--end c-header-->
+

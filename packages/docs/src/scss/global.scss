@@ -1,64 +1,58 @@
-@import 'config';
-
-// Pull in the stalfos lib
-@import '../../node_modules/stalfos/stalfos.scss';
-
-// Local mixins
-@import 'mixins/dark-mode';
-
-@import 'theme';
-
-// Local dependencies
-@import 'typography';
-
+/*------------------------------------*\
+    #TABLE OF CONTENTS
+\*------------------------------------*/
 /**
- * GLOBAL STYLES
- */
-html, body {
-  height: 100%;
-}
-
-body {
-  scroll-behavior: smooth;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-  &:focus {
-    outline: none;
-  }
-}
-
-hr {
-  display: block;
-  height: 1px;
-  max-width: 500px;
-  background: var(--color-stroke);
-  border: none;
-  margin: get-size(900) auto;
-}
-
-/**
- * PROJECT IMPORTS
+ * ABSTRACTS..............................Declarations of Sass variables & mixins
+ * BASE...................................Default element styles
+ * LAYOUT.................................Layout-specific styles
+ * COMPONENTS.............................Component styles
+ * UTILITIES..............................Utility classes
  */
 
-// Utils
-@import 'utilities/inner-wrapper';
-@import 'utilities/visually-hidden';
-@import 'utilities/wrapper';
+/*------------------------------------*\
+    #ABSTRACTS
+\*------------------------------------*/
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+@import 'abstracts/colors';
+@import 'abstracts/typography';
 
-// Components
-@import 'components/button';
-@import 'components/heading-permalink';
-@import 'components/intro';
-@import 'components/nav';
-@import 'components/pagination';
-@import 'components/post';
-@import 'components/post-list';
-@import 'components/site-head';
-@import 'components/site-foot';
-@import 'components/skip-link';
-@import 'components/syntax-highlighting';
-@import 'components/video-player';
+/*------------------------------------*\
+    #BASE
+\*------------------------------------*/
+@import 'base/reset';
+@import 'base/body';
+@import 'base/links';
+@import 'base/lists';
+@import 'base/headings';
+@import 'base/forms';
+@import 'base/buttons';
+@import 'base/main';
+@import 'base/media';
+@import 'base/text';
+@import 'base/table';
+
+/*------------------------------------*\
+    #LAYOUT
+\*------------------------------------*/
+@import 'layout/layout';
+
+/*------------------------------------*\
+    #COMPONENTS
+\*------------------------------------*/
+@import 'components/buttons';
+@import 'components/footer';
+@import 'components/footer-nav';
+@import 'components/header';
+@import 'components/logo';
+@import 'components/icon';
+@import 'components/page-header';
+@import 'components/primary-nav';
+@import 'components/tree-nav';
+@import 'components/text-passage';
+@import 'components/field';
+
+/*------------------------------------*\
+    #UTILITIES
+\*------------------------------------*/
+@import 'utilities/visibility';

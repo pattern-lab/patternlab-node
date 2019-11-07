@@ -1,0 +1,31 @@
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+/**
+ * Heading 1 base styles
+ */
+h1 {
+	@include typographyHeadingXl();
+}
+
+/**
+ * Heading 2 base styles
+ */
+h2 {
+	@include typographyHeadingLarge();
+}
+
+/**
+ * Heading 3 base styles
+ */
+h3 {
+	@include typographyHeadingMed2();
+}
+
+/**
+ * Heading 4 base styles
+ */
+h4 {
+	@include typographyHeadingMed();
+}

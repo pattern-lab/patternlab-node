@@ -1,19 +1,37 @@
 {
   "items": [
     {
-      "text": "Home",
+      "text": "Pee",
       "url": "/",
       "external": false
     },
     {
-      "text": "GitHub",
+      "text": "Fart",
       "url": "https://github.com/hankchizljaw/hylia",
       "external": true
     },
     {
-      "text": "Twitter",
+      "text": "Poop",
       "url": "https://twitter.com/hankchizljaw",
       "external": true
+    }
+  ],
+  "footerNav": [
+    {
+      "label": "Footer Nav",
+      "url": "#"
+    },
+    {
+      "label": "Footer Nav",
+      "url": "#"
+    },
+    {
+      "label": "Footer Nav",
+      "url": "#"
+    },
+    {
+      "label": "Footer Nav",
+      "url": "#"
     }
   ]
 }
