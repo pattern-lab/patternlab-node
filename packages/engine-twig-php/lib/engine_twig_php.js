@@ -210,8 +210,8 @@ const engine_twig_php = {
               // get the path to the top-level folder of this pattern
               // ex. /Users/bradfrost/sites/pattern-lab/packages/edition-twig/source/_patterns/00-atoms
               const fullFolderPath = `${
-                tempPartial.split(selectedNamespace[0].id)[0]
-              }${selectedNamespace[0].id}`;
+                tempPartial.split(selectedNamespace[0].paths[index])[0]
+              }${selectedNamespace[0].paths[index]}`;
 
               // then tease out the folder name itself (including the # prefix)
               // ex. 00-atoms
