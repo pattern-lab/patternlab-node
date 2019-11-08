@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ site.url }}/feed.xml" />
-  <link rel="icon" href="{{ site.faviconPath }}" type="image/png" />
+  <link rel="icon" href="{{ site.faviconPath }}" />
   <link rel="stylesheet" href="https://use.typekit.net/sgr5yjx.css">
-  {% include "partials/global/meta-info.njk" %}
+  {% include "components/meta-info.njk" %}
   <style>{% include "assets/css/global.css" %}</style>
   {% block head %}
   {% endblock %}
@@ -38,17 +38,5 @@
     <!--end l-grid__main-->
   </div>
   <!--end l-container"-->
-
-  
-  
-  
-  {# <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js');
-      });
-    }
-  </script>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async defer></script> #}
 </body>
 </html>
