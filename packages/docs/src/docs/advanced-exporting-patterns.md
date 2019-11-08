@@ -1,10 +1,10 @@
 ---
-
-title: Exporting Patterns | Pattern Lab
-heading: Exporting Patterns
+title: Exporting Patterns
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 While the Pattern Lab website is great for design, iteration, alignment, and discussion - you may find yourself wanting to export whole pattern markup snippets into a different environment.
 
@@ -19,5 +19,5 @@ Couple this technique with exported CSS via tools like [grunt-contrib-copy](http
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-exporting-patterns'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

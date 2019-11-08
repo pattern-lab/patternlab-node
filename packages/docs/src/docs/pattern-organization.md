@@ -1,7 +1,7 @@
 ---
-
-title: Overview of Patterns | Pattern Lab
-heading: Overview of Patterns
+title: Overview of Patterns
+tags:
+  - docs
 ---
 
 Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For PHP the supported PatternEngines are Mustache and Twig. For Node there are [several more PatternEngines to choose from](/docs/advanced-template-language-and-pattern-engines.html).

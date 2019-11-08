@@ -1,7 +1,7 @@
 ---
-
-title: Adding Annotations | Pattern Lab
-heading: Adding Annotations
+title: Adding Annotations
+tags:
+  - docs
 ---
 
 Annotations provide an easy way to add notes to elements that may appear inside patterns. Annotations can be saved as a single JSON file at `./source/_annotations/annotations.js` or as multiple Markdown files in `./source/_annotations/`. They're _not_ tied to any specific patterns. When annotations are active they are compared against every pattern using a CSS selector syntax.

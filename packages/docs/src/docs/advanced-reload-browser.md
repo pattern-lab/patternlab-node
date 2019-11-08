@@ -1,10 +1,10 @@
 ---
-
-title: Auto Reloading the Browser Window When Changes Are Made | Pattern Lab
-heading: Auto Reloading the Browser Window When Changes Are Made
+title: Auto Reloading the Browser Window When Changes Are Made
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Rather than manually refreshing your browser when your patterns or CSS change, Pattern Lab auto-reloads your browser window for you using [BrowserSync](http://www.browsersync.io/).
 
@@ -20,5 +20,5 @@ To stop watching and serving files on Mac OS X and Windows you can press`CTRL+C`
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-reload-browser'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

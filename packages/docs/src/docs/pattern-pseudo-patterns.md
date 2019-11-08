@@ -1,7 +1,7 @@
 ---
-
-title: Using Pseudo-Patterns | Pattern Lab
-heading: Using Pseudo-Patterns
+title: Using Pseudo-Patterns
+tags:
+  - docs
 ---
 
 Pseudo-patterns give developers and designers the ability to quickly build multiple unique variants of an existing pattern. This feature is especially useful when developing template- and page-style patterns or showing the states of other patterns.

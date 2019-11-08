@@ -1,10 +1,10 @@
 ---
-
-title: Managing Pattern Assets | Pattern Lab
-heading: Managing Pattern Assets - PHP
+title: Managing Pattern Assets
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Assets for patterns - including JavaScript, CSS, and images - should be stored and edited in the `./source/` directory. Pattern Lab will move these assets to the `./public/` directory for you when you generate your site or when you watch the `./source/` directory for changes. **You can name and organize your assets however you like.** If you would like to use `./source/stylesheets/` to store your styles instead of `./source/css/` you can do that. There is nothing to configure. The structure will be maintained when they're moved to the `./public/` directory.
 
@@ -42,5 +42,5 @@ To ignore more directories just edit the `id` configuration option in `./config/
 
 Static assets like Javascript and CSS **are not** added automagically to your patterns. You need to add them manually to the [shared pattern header and footer](/docs/pattern-header-footer.html).
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

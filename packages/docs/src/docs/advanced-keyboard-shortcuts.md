@@ -1,7 +1,7 @@
 ---
-
-title: Keyboard Shortcuts | Pattern Lab
-heading: Keyboard Shortcuts
+title: Keyboard Shortcuts
+tags:
+  - docs
 ---
 
 > **Note:** This feature is currently disabled. It will be back in a future release of `styleguidekit-assets-default`.

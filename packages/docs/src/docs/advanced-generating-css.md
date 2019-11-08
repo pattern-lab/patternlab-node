@@ -1,7 +1,7 @@
 ---
-
-title: Generating CSS | Pattern Lab
-heading: Generating CSS
+title: Generating CSS
+tags:
+  - docs
 ---
 
 **Note:** *The [CSS Rule Saver](https://github.com/dmolsen/css-rule-saver) library and CSS generation feature was added in v0.6.0 of the PHP version of Pattern Lab.*

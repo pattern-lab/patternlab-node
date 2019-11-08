@@ -1,6 +1,5 @@
 ---
-
-title: Template Language and PatternEngines | Pattern Lab
+title: Template Language and PatternEngines
 heading: Template Language and PatternEngines
 patternEnginesScript: true
 ---
@@ -10,6 +9,7 @@ By default Pattern Lab uses the Mustache template language, extended with [patte
 Right now the most mature PatternEngines are Handlebars, Mustache and Twig.
 
 ## Official PatternEngines for Node
+
 <ul id="pattern-engine-list">
   <!-- This list is automatically replaced by a script -->
   <li>See the <a href="https://github.com/pattern-lab/patternlab-node/tree/master/packages">Pattern Lab repository on GitHub</a> or <a href="https://www.npmjs.com/search?q=keywords%3A%27Pattern%20Lab%27%20engine">search on npmjs.com</a></li>

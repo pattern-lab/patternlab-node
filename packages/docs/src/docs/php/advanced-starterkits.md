@@ -1,7 +1,7 @@
 ---
-
-title: Starterkits | Pattern Lab
-heading: Starterkits - PHP
+title: Starterkits
+tags:
+  - docs
 ---
 
 StarterKits can be installed via the following commands:

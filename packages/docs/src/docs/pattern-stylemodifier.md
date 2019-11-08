@@ -1,7 +1,7 @@
 ---
-
-title: Using styleModifiers | Pattern Lab
-heading: Using styleModifiers
+title: Using styleModifiers
+tags:
+  - docs
 ---
 
 **Important:** styleModifiers are only supported by the PHP and Node Mustache PatternEngines. Other template languages provide better solutions to this problem.

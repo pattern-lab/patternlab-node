@@ -1,10 +1,10 @@
 ---
-
-title: Using Pattern States | Pattern Lab
-heading: Using Pattern States - PHP
+title: Using Pattern States
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Pattern states provide your team and client a simple visual of the current state of patterns in Pattern Lab. Pattern states can track progress of a pattern from development, through client review, to completion or they can be used to give certain patterns specific classes. It's important to note that the state of a pattern can be influenced by its pattern partials.
 
@@ -46,5 +46,5 @@ You can use the following as your CSS template for new pattern states:
 
 Then add `@newpatternstate` to your patterns to have the new look show up. If you want to add it to the cascade of the default patterns you can modify `./config/config.yml`. Simply add your new pattern state to the `patternStates` list.
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

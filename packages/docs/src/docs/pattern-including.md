@@ -1,7 +1,7 @@
 ---
-
-title: Including Patterns | Pattern Lab
-heading: Including Patterns
+title: Including Patterns
+tags:
+  - docs
 ---
 
 To include one pattern within another, for example to create a molecule from several atoms, you can either use:

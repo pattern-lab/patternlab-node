@@ -1,7 +1,7 @@
 ---
-
-title: Integration with Compass | Pattern Lab
-heading: Integration with Compass
+title: Integration with Compass
+tags:
+  - docs
 ---
 
 **Note:** *These directions incomplete. They are not meant to imply that Compass is officially supported with Pattern Lab. They should be modified to fit your instance of the PHP version of Pattern Lab.*

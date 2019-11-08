@@ -1,10 +1,10 @@
 ---
-
-title: Using The Command Line Options | Pattern Lab
-heading: Using The Command Line Options
+title: Using The Command Line Options
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 To use Pattern Lab you must use the command line interface. Gulp or grunt tasks are the primary entry point to interact with the core library and manage frontend assets across all platforms. To view the available commands when using Pattern Lab do the following:
 
@@ -15,5 +15,5 @@ To use Pattern Lab you must use the command line interface. Gulp or grunt tasks 
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/command-line'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

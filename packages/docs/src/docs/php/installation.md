@@ -1,12 +1,5 @@
 ---
-
-title: Installing Pattern Lab | Pattern Lab
-heading: Installing Pattern Lab - PHP
+title: Installing Pattern Lab
+tags:
+  - docs
 ---
-
-{% capture m %}
-
-{% include download-php.html %}
-
-{% endcapture %}
-{{ m | markdownify }}

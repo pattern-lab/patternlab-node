@@ -1,10 +1,10 @@
 ---
-
-title: Using Pattern States | Pattern Lab
-heading: Using Pattern States
+title: Using Pattern States
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Pattern states provide your team and client a simple visual of the current state of patterns in Pattern Lab. Pattern states can track progress of a pattern from development, through client review, to completion or they can be used to give certain patterns specific classes. It's important to note that the state of a pattern can be influenced by its pattern partials.
 
@@ -51,5 +51,5 @@ Place this class inside `./source/css/pattern-scaffolding.css` to separate it fr
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/pattern-states'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

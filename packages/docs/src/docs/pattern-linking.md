@@ -1,7 +1,7 @@
 ---
-
-title: Pattern Lab's Special Query String Variables | Pattern Lab
-heading: Pattern Lab's Special Query String Variables
+title: Pattern Lab's Special Query String Variables
+tags:
+  - docs
 ---
 
 

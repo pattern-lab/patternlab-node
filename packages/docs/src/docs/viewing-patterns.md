@@ -1,10 +1,8 @@
 ---
-
-title: Viewing Patterns | Pattern Lab
-heading: Viewing Patterns
+title: Viewing Patterns
+tags:
+  - docs
 ---
-
-{% capture m %}
 
 Pattern Lab ships with [BrowserSync](https://www.browsersync.io/) to serve generated files to a browser. BrowserSync does a lot of cool things like reload files without a refresh, expose the site to your network, and synchronize page views across devices. To start the server do the following:
 
@@ -20,6 +18,3 @@ Doing so will launch your local Pattern Lab install in your default browser at <
 To stop watching and serving files on Mac OS X and Windows you can press`CTRL+C` in the command line window where the process is running.
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/viewing-patterns'>The PHP docs for this topic can be viewed here.</a></strong>
-
-{% endcapture %}
-{{ m | markdownify }}

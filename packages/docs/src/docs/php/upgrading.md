@@ -1,10 +1,10 @@
 ---
-
-title: Upgrading Pattern Lab | Pattern Lab
-heading: Upgrading Pattern Lab - PHP
+title: Upgrading Pattern Lab
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Pattern Lab 2 uses [Composer](https://getcomposer.org) to manage project dependencies. To upgrade an edition based on Pattern Lab 2 do the following:
 
@@ -48,5 +48,5 @@ Two components of Pattern Lab 2 maintain CHANGELOGs as part of their "Releases" 
 * [pattern-lab/styleguidekit-assets-default](https://github.com/pattern-lab/styleguidekit-assets-default/releases)
 
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

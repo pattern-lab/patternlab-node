@@ -1,7 +1,7 @@
 ---
-
-title: Command Prompt on Windows | Pattern Lab
-heading: Command Prompt on Windows
+title: Command Prompt on Windows
+tags:
+  - docs
 ---
 
 

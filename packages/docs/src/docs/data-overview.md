@@ -1,7 +1,7 @@
 ---
-
-title: Overview of Data | Pattern Lab
-heading: Overview of Data
+title: Overview of Data
+tags:
+  - docs
 ---
 
 The primary default global source of data used when rendering Pattern Lab patterns can be found in `./source/_data/`.

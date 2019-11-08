@@ -1,7 +1,7 @@
 ---
-
-title: Pattern Lab 1 to Pattern Lab 2 Changes | Pattern Lab
-heading: Pattern Lab 1 to Pattern Lab 2 Changes - PHP
+title: Pattern Lab 1 to Pattern Lab 2 Changes
+tags:
+  - docs
 ---
 
 With Pattern Lab 2 in development for almost two years many under-the-hood changes have been implemented. For the most part a Pattern Lab 1 project should work with minimal changes in Pattern Lab 2. Here is a non-exhaustive list of new features in Pattern Lab 2:

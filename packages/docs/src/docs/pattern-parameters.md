@@ -1,7 +1,7 @@
 ---
-
-title: Using Pattern Parameters | Pattern Lab
-heading: Using Pattern Parameters
+title: Using Pattern Parameters
+tags:
+  - docs
 ---
 
 **Important:** Pattern parameters are only supported by the PHP and Node Mustache PatternEngines. Other template languages provide better solutions to this problem.

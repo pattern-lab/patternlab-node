@@ -1,10 +1,10 @@
 ---
-
-title: Multi browser & Multi device Testing with Page Follow | Pattern Lab
-heading: Multi browser & Multi device Testing with Page Follow
+title: Multi browser & Multi device Testing with Page Follow
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 The Pattern Lab's Page Follow feature gives developers the ability to have one browser control other browsers that connect to the Pattern Lab website. Pattern Lab Node utilizes [BrowserSync](http://www.browsersync.io/) to synchronize all connected browsers and devices.
 
@@ -42,5 +42,5 @@ It's strongly recommended to visit [BrowserSync](http://www.browsersync.io/) doc
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-page-follow'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

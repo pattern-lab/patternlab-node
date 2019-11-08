@@ -1,7 +1,7 @@
 ---
-
-title: Introduction to JSON & Mustache Variables | Pattern Lab
-heading: Introduction to JSON & Mustache Variables
+title: Introduction to JSON & Mustache Variables
+tags:
+  - docs
 ---
 
 > This documentation is provided as a simple introduction to using one of the supported data types and one of the supported PatternEngines. The best reference for this topic is the [Mustache documentation](http://mustache.github.io/mustache.5.html) but this should provide a good beginner's primer.

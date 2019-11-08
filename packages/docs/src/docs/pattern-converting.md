@@ -1,7 +1,7 @@
 ---
-
-title: Converting Old Patterns | Pattern Lab
-heading: Converting Old Patterns
+title: Converting Old Patterns
+tags:
+  - docs
 ---
 
 

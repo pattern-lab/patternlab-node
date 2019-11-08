@@ -1,10 +1,10 @@
 ---
-
-title: Requirements | Pattern Lab
-heading: Requirements
+title: Requirements
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 ## Minimum Requirements
 
@@ -14,5 +14,5 @@ Because Pattern Lab's output consists of HTML, CSS, and JavaScript there are **n
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/requirements'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

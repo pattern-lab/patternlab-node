@@ -1,10 +1,10 @@
 ---
-
-title: Starterkits | Pattern Lab
-heading: Starterkits
+title: Starterkits
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Starterkits are a potent way create or augment a Pattern Lab instance with a baseline set of patterns and assets. They are an important part of the [Pattern Lab Ecosystem](/docs/advanced-ecosystem-overview.html) An agency or team could use it for each new client or project. [Several starterkits](https://github.com/pattern-lab?utf8=%E2%9C%93&q=starterkit&type=&language=) already exist to kick your project off, whether you’re looking for a blank start, begin with a demo that showcases Pattern Lab’s features, or start with a popular framework like Bootstrap, Foundation, or Material Design.
 
@@ -56,5 +56,5 @@ The [Pattern Lab Node CLI](https://github.com/pattern-lab/patternlab-node/tree/m
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-starterkits'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+

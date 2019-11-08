@@ -1,7 +1,7 @@
 ---
-
-title: Generating Pattern Lab | Pattern Lab
-heading: Generating Pattern Lab - PHP
+title: Generating Pattern Lab
+tags:
+  - docs
 ---
 
 Pattern Lab consists of an empty shell when you first install it. To populate the public-facing side of Pattern Lab with your content and patterns do the following:

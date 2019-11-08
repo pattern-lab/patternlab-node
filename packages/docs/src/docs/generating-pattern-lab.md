@@ -1,10 +1,10 @@
 ---
-
-title: Generating Pattern Lab | Pattern Lab
-heading: Generating Pattern Lab
+title: Generating Pattern Lab
+tags:
+  - docs
 ---
 
-{% capture m %}
+
 
 Running Pattern Lab for the first time will vary depending on which version was [installed](/docs/installation.html). 
 
@@ -35,5 +35,5 @@ Your Pattern Lab should now be populated and [available for viewing](/docs/viewi
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/generating-pattern-lab'>The PHP docs for this topic can be viewed here.</a></strong>
 
-{% endcapture %}
-{{ m | markdownify }}
+
+
