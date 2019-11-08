@@ -20,12 +20,6 @@
       <div class="c-text-passage">
         {{ content | safe }}
       </div>
-      {% if site.enableThirdPartyComments %}
-        <hr />
-        <aside class="[ post__body ] [ inner-wrapper ] [ pad-bottom-900 text-500 ]">
-          {% include "partials/global/third-party-comments.njk" %}
-        </aside>
-      {% endif %}
       {% if tags %}
         <footer class="[ post__footer ] [ pad-top-500 pad-bottom-500 ]">
           <div class="inner-wrapper">
