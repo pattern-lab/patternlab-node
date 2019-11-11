@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { withComponent, shadow, name } from 'skatejs';
-
 import { store } from '../store.js';
-// import { extend, supportsShadowDom } from '../utils/index.js';
 import withLitHtml from './with-lit-html';
 import { LitElement } from 'lit-element';
 import { SkatePreactElement } from './base-skate-preact-element';

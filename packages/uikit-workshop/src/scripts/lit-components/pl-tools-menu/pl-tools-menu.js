@@ -18,13 +18,13 @@ class ToolsMenu extends BaseLitComponent {
     return {
       isOpen: Boolean,
       layoutMode: String,
+      currentUrl: String,
     };
   }
 
   _stateChanged(state) {
     if (this.currentUrl !== state.app.currentUrl) {
-      this.currentUrl =
-        state.app.currentUrl || urlHandler.getFileName(patternName);
+      this.currentUrl = state.app.currentUrl;
     }
 
     if (this.layoutMode !== state.app.layoutMode) {
@@ -44,8 +44,7 @@ class ToolsMenu extends BaseLitComponent {
     styles.use();
     const state = store.getState();
     const { ishControlsHide } = window.ishControls;
-    this.currentUrl =
-      state.app.currentUrl || urlHandler.getFileName(patternName);
+    this.currentUrl = state.app.currentUrl || '';
     this.ishControlsHide = ishControlsHide;
 
     window.addEventListener('message', this.receiveIframeMessage, false);
@@ -160,7 +159,11 @@ class ToolsMenu extends BaseLitComponent {
           ${!this.ishControlsHide['views-new']
             ? html`
                 <li class="pl-c-tools__item">
-                  <pl-button href="${this.currentUrl}" target="_blank">
+                  <pl-button
+                    href="${this.currentUrl}"
+                    target="_blank"
+                    class="pl-js-open-new-window"
+                  >
                     Open In New Tab
                     <pl-icon name="new-tab" slot="after"></pl-icon>
                   </pl-button>

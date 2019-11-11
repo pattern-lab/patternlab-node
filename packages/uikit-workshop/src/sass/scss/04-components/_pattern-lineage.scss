@@ -6,7 +6,7 @@
  * Pattern Lineage info
  */
 .pl-c-lineage {
-  font-size: $pl-font-size-sm-2;
+  font-size: $pl-font-size-norm;
   line-height: 1.7;
   margin-top: 0;
 }
@@ -16,9 +16,9 @@
  */
 .pl-c-lineage__link {
   font-style: italic;
-  color: inherit;
+  color: inherit; // light vs dark text
   text-decoration: underline;
-  display: inline-flex;
+  display: inline;
   align-items: center;
   transition: opacity $pl-animate-quick ease;
 

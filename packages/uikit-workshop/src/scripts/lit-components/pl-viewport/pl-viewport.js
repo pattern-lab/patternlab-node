@@ -233,6 +233,9 @@ class IFrame extends BaseLitComponent {
   // Accepted values are 'px' and 'em'
   // 'target' is what inputs to update. Defaults to both
   updateSizeReading(size, unit, target) {
+    if (size === 0) {
+      return;
+    }
     let emSize, pxSize;
 
     if (unit === 'em') {
@@ -339,6 +342,7 @@ class IFrame extends BaseLitComponent {
     this.iframe = this.querySelector('.pl-js-iframe');
     this.iframeContainer = this.querySelector('.pl-js-vp-iframe-container');
     this.iframeCover = this.querySelector('.pl-js-viewport-cover');
+    this.updateSizeReading(this.iframeContainer.clientWidth);
   }
 
   handleIframeLoaded() {
@@ -451,39 +455,6 @@ class IFrame extends BaseLitComponent {
 
     return false;
   }
-
-  // receiveIframeMessage(event) {
-  //   const self = this;
-
-  //   // does the origin sending the message match the current host? if not dev/null the request
-  //   if (
-  //     window.location.protocol !== 'file:' &&
-  //     event.origin !== window.location.protocol + '//' + window.location.host
-  //   ) {
-  //     return;
-  //   }
-
-  //   let data = {};
-  //   try {
-  //     data =
-  //       typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-  //   } catch (e) {
-  //     // @todo: how do we want to handle exceptions here?
-  //   }
-
-  //   if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
-  //     try {
-  //       // add a slight delay to make sure the URL params have had a chance to update first before updating the current url
-  //       // if(self.usingBrowserNav === true){
-  //       //   self.handleUpdatingCurrentPattern(event.data.details.patternData.patternPartial, true);
-  //       // }
-
-  //       // check and share the initial iframe width once ready
-  //     } catch(error){
-  //       console.log(error);
-  //     }
-  //   }
-  // }
 }
 
 export { IFrame };

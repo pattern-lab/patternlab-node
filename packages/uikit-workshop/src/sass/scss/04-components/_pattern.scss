@@ -67,24 +67,21 @@
 * 1) This is the button that twirls down extra pattern info
 */
 .pl-c-pattern__extra-toggle {
-  font-size: 9px;
+  font-size: 0.8rem;
   position: absolute;
   bottom: -1px;
   right: 0;
   z-index: 1;
-  padding: 0.65em 0.65em 0.5em;
-  line-height: 1;
+  padding: 0.4rem 0.5rem;
   color: $pl-color-gray-50;
   background-color: transparent;
+  cursor: pointer;
   font-weight: normal;
-  border: 1px solid $pl-color-gray-13;
-  border-top-left-radius: $pl-border-radius-med;
-  border-top-right-radius: $pl-border-radius-med;
-  transition: background-color $pl-animate-quick ease-out;
-
-  .pl-c-pattern__toggle-icon {
-    display: inline-block;
-  }
+  transition: all $pl-animate-quick ease-out;
+  font-family: $pl-font;
+  border-color: #ddd;
+  display: flex;
+  align-items: center;
 
   &:hover,
   &:focus,
@@ -95,16 +92,68 @@
 
   &:focus {
     outline: 1px dotted $pl-color-gray-70;
+    outline-offset: -1px;
   }
 
   &.pl-is-active {
     border-bottom-color: $pl-color-gray-02;
+  }
+}
 
-    .pl-c-pattern__toggle-icon {
-      -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-      transform: rotate(180deg);
-    }
+.pl-c-pattern__toggle-icon-wrapper {
+  position: relative;
+  height: 1rem;
+  width: 1rem;
+}
+
+.pl-c-pattern__toggle-icon {
+  height: 0.9rem;
+  width: 0.9rem;
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  transition: transform .1s linear, opacity .1s linear;
+}
+
+.pl-c-pattern__toggle-icon--expand {
+  z-index: 1;
+
+  .pl-is-active & {
+    opacity: 0;
+  }
+}
+
+.pl-c-pattern__toggle-icon--collapse {
+  opacity: 0;
+  z-index: 2;
+  height: 1rem;
+  width: 1rem;
+
+  .pl-is-active & {
+    opacity: 1;
+  }
+}
+
+.pl-c-pattern__extra-toggle-text ~ .pl-c-pattern__toggle-icon-wrapper {
+  margin-left: 0.25rem;
+}
+
+.pl-c-pattern__extra-toggle-text--collapse {
+  display: none;
+
+  .pl-is-active & {
+    display: inline-block;
+  }
+}
+
+.pl-c-pattern__extra-toggle-text--expand {
+  display: inline-block;
+
+  .pl-is-active & {
+    display: none;
   }
 }
 
@@ -126,10 +175,6 @@
     border: 1px solid $pl-color-gray-13;
     border-radius: $pl-border-radius-med;
     border-top-right-radius: 0;
-    max-height: 150rem;
+    max-height: 9999px;
   }
-}
-
-.pl-c-pattern-index {
-  padding: 0 0.5rem;
 }
