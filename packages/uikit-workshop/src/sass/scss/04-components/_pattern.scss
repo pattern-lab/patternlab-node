@@ -80,6 +80,7 @@
   transition: all $pl-animate-quick ease-out;
   font-family: $pl-font;
   border-color: #ddd;
+  border-width: 1px; // fix for different browser defaults 
   display: flex;
   align-items: center;
 
