@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.1.0...v5.2.0) (2019-11-12)
+
+
+### Bug Fixes
+
+* **engine_twig_php:** Allow additional flexibility with twig namespaces. ([07bfaa3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/commit/07bfaa35a00ff62fd2016cc9f34e09cf5af36559))
+
+
+
+
+
+
 # [5.1.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.0.2...v5.1.0) (2019-10-29)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig-php
