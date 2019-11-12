@@ -62,6 +62,16 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+
+  @supports (position: sticky){
+    transform: translateY(-0.7rem);
+    float: right;
+    position: sticky;
+    top: 1rem;
+    right: 0;
+    margin-top: -2rem;
+  }
+
   padding: 0.2rem 0.4rem;
   background-color: $pl-color-gray-07;
   color: $pl-color-gray-87;
@@ -78,6 +88,27 @@
   &:hover,
   &:focus {
     background-color: $pl-color-gray-20;
+  }
+}
+
+.pl-c-code-copy-btn__icon {
+  height: 1em;
+  width: 1em;
+}
+
+.pl-c-code-copy-btn__icon--paste {
+  display: none;
+
+  .is-copied & {
+    display: inline-block;
+  }
+}
+
+.pl-c-code-copy-btn__icon--copy {
+  display: inline-block;
+
+  .is-copied & {
+    display: none;
   }
 }
 
