@@ -1,7 +1,7 @@
 // webpack.config.js
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const CriticalCssPlugin = require('critical-css-webpack-plugin');
@@ -12,6 +12,7 @@ const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
+const merge = require('webpack-merge');
 
 const cosmiconfig = require('cosmiconfig');
 const explorer = cosmiconfig('patternlab');
@@ -44,6 +45,51 @@ module.exports = function() {
 
     // Allow external flags for modifying PL's prod mode, on top of the .patternlabrc config file
     const config = Object.assign({}, defaultConfig, customConfig);
+
+    function getBabelConfig(isModern = false) {
+      return {
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                browsers: isModern
+                  ? [
+                      // NOTE: I'm not using the `esmodules` target due to this issue:
+                      // https://github.com/babel/babel/issues/8809
+                      'last 2 Chrome versions',
+                      'last 2 Safari versions',
+                      'last 2 iOS versions',
+                      'last 2 Edge versions',
+                      'Firefox ESR',
+                    ]
+                  : ['ie 11'],
+              },
+              useBuiltIns: 'entry',
+              corejs: 3,
+              modules: false,
+              debug: false,
+            },
+          ],
+        ],
+        plugins: [
+          '@babel/plugin-proposal-optional-chaining',
+          ['@babel/plugin-proposal-decorators', { legacy: true }],
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
+          '@babel/plugin-syntax-dynamic-import',
+          '@babel/plugin-syntax-jsx' /* [1] */,
+          [
+            '@babel/plugin-transform-react-jsx' /* [1] */,
+            {
+              pragma: 'h',
+              pragmaFrag: '"span"',
+              throwIfNamespace: false,
+              useBuiltIns: false,
+            },
+          ],
+        ],
+      };
+    }
 
     // organize the series of plugins to run our Sass through as an external array -- this is necessary since we need to add additional loaders when compiling Sass to standalone CSS files vs compiling Sass and returning an inline-able <style> block of CSS (which we need to do both)
     const scssLoaders = [
@@ -79,11 +125,6 @@ module.exports = function() {
     ];
 
     const webpackConfig = {
-      entry: {
-        'js/patternlab-pattern': './src/scripts/patternlab-pattern.js',
-        'js/patternlab-viewer': './src/scripts/patternlab-viewer.js',
-        'css/pattern-lab': './src/sass/pattern-lab.scss',
-      },
       performance: {
         hints: false,
       },
@@ -103,6 +144,18 @@ module.exports = function() {
       module: {
         rules: [
           {
+            test: /\.(ts|tsx)$/,
+            use: [
+              {
+                loader: 'ts-loader',
+                options: {
+                  transpileOnly: true,
+                  experimentalWatchApi: true,
+                },
+              },
+            ],
+          },
+          {
             test: /\.html$/,
             use: [
               {
@@ -119,54 +172,11 @@ module.exports = function() {
             ],
           },
           {
-            test: /\.js$/,
-            exclude: /(bower_components)/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      targets: {
-                        browsers: ['>0.25%', 'ie 11'],
-                      },
-                      modules: false,
-                      debug: false,
-                    },
-                  ],
-                ],
-                plugins: [
-                  [
-                    '@babel/plugin-transform-runtime',
-                    {
-                      helpers: false,
-                      regenerator: true,
-                    },
-                  ],
-                  ['@babel/plugin-proposal-decorators', { legacy: true }],
-                  '@babel/plugin-proposal-class-properties',
-                  '@babel/plugin-syntax-dynamic-import',
-                  '@babel/plugin-syntax-jsx' /* [1] */,
-                  [
-                    '@babel/plugin-transform-react-jsx' /* [1] */,
-                    {
-                      pragma: 'h',
-                      pragmaFrag: '"span"',
-                      throwIfNamespace: false,
-                      useBuiltIns: false,
-                    },
-                  ],
-                ],
-              },
-            },
-          },
-          {
             test: /\.svg$/,
             use: [
-              {
-                loader: '@svgr/webpack',
-              },
+              { loader: 'svg-sprite-loader', options: {} },
+              'svg-transform-loader',
+              'svgo-loader',
             ],
           },
           {
@@ -181,6 +191,7 @@ module.exports = function() {
                 use: [
                   {
                     loader: 'style-loader',
+                    options: { injectType: 'lazySingletonStyleTag' },
                   },
                   scssLoaders,
                 ].reduce((acc, val) => acc.concat(val), []),
@@ -203,7 +214,7 @@ module.exports = function() {
       },
       cache: true,
       // mode: config.prod ? 'production' : 'development',
-      mode: 'development', // temp workaround till strange rendering issues with full `production` mode are switched on in Webpack
+      mode: config.prod ? 'production' : 'development', // temp workaround till strange rendering issues with full `production` mode are switched on in Webpack
       optimization: {
         minimize: true,
         occurrenceOrder: true,
@@ -226,17 +237,11 @@ module.exports = function() {
         },
         minimizer: config.prod
           ? [
-              new UglifyJsPlugin({
-                sourceMap: false,
-                parallel: true,
-                cache: true,
-                uglifyOptions: {
-                  compress: true,
-                  mangle: true,
-                  output: {
-                    comments: false,
-                    beautify: false,
-                  },
+              new TerserPlugin({
+                test: /\.m?js(\?.*)?$/i,
+                sourceMap: config.prod ? false : config.sourceMaps,
+                terserOptions: {
+                  safari10: true,
                 },
               }),
             ]
@@ -244,40 +249,6 @@ module.exports = function() {
       },
       plugins: [
         new CopyPlugin(config.copy),
-        new PrerenderSPAPlugin({
-          // Required - The path to the webpack-outputted app to prerender.
-          // staticDir: path.join(__dirname, 'dist'),
-          staticDir: path.resolve(process.cwd(), `${config.buildDir}/`),
-          // Required - Routes to render.
-          routes: ['/'],
-          postProcess(context) {
-            context.html = context.html.replace(
-              /<script\s[^>]*charset=\"utf-8\"[^>]*><\/script>/gi,
-              ''
-            );
-            return context;
-          },
-        }),
-        // clear out the buildDir on every fresh Webpack build
-        new CleanWebpackPlugin(
-          [
-            `${config.buildDir}/index.html`,
-            `${config.buildDir}/styleguide/css`,
-            `${config.buildDir}/styleguide/js`,
-          ],
-          {
-            allowExternal: true,
-            verbose: false,
-
-            // perform clean just before files are emitted to the output dir
-            beforeEmit: true,
-          }
-        ),
-        new HtmlWebpackPlugin({
-          filename: '../index.html',
-          template: 'src/html/index.html',
-          inject: false,
-        }),
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
@@ -304,37 +275,125 @@ module.exports = function() {
       })
     );
 
-    webpackConfig.plugins.push(
-      new CriticalCssPlugin({
-        base: path.resolve(__dirname, config.buildDir),
-        src: 'index.html',
-        dest: 'index.html',
-        inline: true,
-        minify: true,
-        extract: false,
-        width: 1300,
-        height: 900,
-        penthouse: {
-          keepLargerMediaQueries: true,
+    const legacyConfig = merge(webpackConfig, {
+      entry: {
+        'js/patternlab-pattern': './src/scripts/patternlab-pattern.js',
+        'js/patternlab-viewer': './src/scripts/patternlab-viewer.js',
+        'css/pattern-lab': './src/sass/pattern-lab.scss',
+      },
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /(bower_components|document-register-element)/,
+            use: {
+              loader: 'babel-loader',
+              options: getBabelConfig(false),
+            },
+          },
+        ],
+      },
+    });
 
-          // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
-          forceInclude: [
-            'pl-logo',
-            '.pl-c-logo',
-            '.pl-c-logo__img',
-            '.pl-c-body--theme-light',
-            '.pl-c-body--theme-sidebar',
-            '.pl-c-body--theme-sidebar .pl-c-viewport',
-            '.pl-c-body--theme-density-compact',
+    const modernConfig = merge(webpackConfig, {
+      resolve: {
+        mainFields: ['esnext', 'jsnext:main', 'browser', 'module', 'main'],
+      },
+      entry: {
+        'js/patternlab-pattern': './src/scripts/patternlab-pattern.modern.js',
+        'js/patternlab-viewer': './src/scripts/patternlab-viewer.modern.js',
+        'css/pattern-lab': './src/sass/pattern-lab.scss',
+      },
+      output: {
+        path: path.resolve(process.cwd(), `${config.buildDir}/styleguide`),
+        publicPath: `${config.publicPath}`,
+        filename: '[name].modern.js',
+        chunkFilename: `js/[name]-chunk-[chunkhash].modern.js`,
+      },
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /(node_modules)/,
+            use: {
+              loader: 'babel-loader',
+              options: getBabelConfig(true),
+            },
+          },
+        ],
+      },
+      plugins: [
+        // clear out the buildDir on every fresh Webpack build
+        new CleanWebpackPlugin(
+          [
+            `${config.buildDir}/index.html`,
+            `${config.buildDir}/styleguide/css`,
+            `${config.buildDir}/styleguide/js`,
           ],
-          timeout: 30000, // ms; abort critical CSS generation after this timeout
-          maxEmbeddedBase64Length: 1000,
-          renderWaitTime: 1000,
-          blockJSRequests: false,
-        },
-      })
-    );
+          {
+            allowExternal: true,
+            verbose: false,
 
-    return resolve(webpackConfig);
+            // perform clean just before files are emitted to the output dir
+            beforeEmit: false,
+          }
+        ),
+        new HtmlWebpackPlugin({
+          filename: '../index.html',
+          template: 'src/html/index.html',
+          inject: false,
+        }),
+      ],
+    });
+
+    if (!argv.watch) {
+      modernConfig.plugins.push(
+        new PrerenderSPAPlugin({
+          // Required - The path to the webpack-outputted app to prerender.
+          // staticDir: path.join(__dirname, 'dist'),
+          staticDir: path.resolve(process.cwd(), `${config.buildDir}/`),
+          // Required - Routes to render.
+          routes: ['/'],
+          postProcess(context) {
+            context.html = context.html.replace(
+              /<script\s[^>]*charset=\"utf-8\"[^>]*><\/script>/gi,
+              ''
+            );
+            return context;
+          },
+        }),
+        new CriticalCssPlugin({
+          base: path.resolve(__dirname, config.buildDir),
+          src: 'index.html',
+          dest: 'index.html',
+          inline: true,
+          minify: true,
+          extract: false,
+          width: 1300,
+          height: 900,
+          penthouse: {
+            keepLargerMediaQueries: true,
+
+            // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
+            forceInclude: [
+              'pl-logo',
+              '.pl-c-logo',
+              '.pl-c-logo__img',
+              '.pl-c-body--theme-light',
+              '.pl-c-body--theme-sidebar',
+              '.pl-c-body--theme-sidebar .pl-c-viewport',
+              '.pl-c-body--theme-density-compact',
+            ],
+            timeout: 30000, // ms; abort critical CSS generation after this timeout
+            maxEmbeddedBase64Length: 1000,
+            renderWaitTime: 1000,
+            blockJSRequests: false,
+          },
+        })
+      );
+    }
+
+    return resolve([modernConfig, legacyConfig]);
+    // return resolve([modernConfig]);
   });
 };

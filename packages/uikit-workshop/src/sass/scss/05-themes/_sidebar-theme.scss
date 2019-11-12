@@ -17,6 +17,8 @@
     .pl-c-header {
       width: $pl-sidebar-width; /* 1 */
       height: 100vh; /* 2 */
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
       flex-direction: column; /* 3 */
       border-bottom: 0; /* 4 */
       justify-content: space-between;

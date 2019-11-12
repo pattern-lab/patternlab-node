@@ -1,0 +1,62 @@
+/*------------------------------------*\
+    #CONTROLS
+\*------------------------------------*/
+
+@import '../../../sass/scss/core.scss';
+
+pl-controls {
+  margin-left: auto; /* 2 */
+  display: flex;
+  flex-wrap: nowrap;
+  align-self: center;
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+
+    @media all and (min-width: $pl-bp-med) {
+      width: 100%;
+      position: relative;
+      padding-top: 0.5rem;
+      // box-shadow: 0 -2px 5px rgba($pl-color-black, 0.1);
+
+      &:before {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        border-top: 1px solid;
+        border-top-color: $pl-color-gray-20;
+        border-top-color: var(--theme-border, $pl-color-gray-20);
+        height: 1px;
+        content: '';
+        width: auto;
+      }
+    }
+  }
+}
+
+/**
+ * 1) Controls contains viewport resizer and tools dropdown
+ * 2) Right-align inside of header
+ */
+.pl-c-controls {
+  margin-left: auto; /* 2 */
+  display: flex;
+  flex-wrap: nowrap;
+
+  // IE 11 layout bug
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      display: block;
+    }
+  }
+}
+
+/**
+* Control list
+*/
+.pl-c-controls__list {
+  @include listReset();
+  display: flex;
+  flex-wrap: nowrap;
+}

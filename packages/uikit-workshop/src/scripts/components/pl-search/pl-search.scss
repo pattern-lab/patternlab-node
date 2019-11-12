@@ -14,7 +14,6 @@ $pl-clear-button-size-at-med: 1.4rem;
 pl-search {
   background-color: inherit;
   top: 0;
-  z-index: 10;
   flex-shrink: 0;
   padding: 0.4rem 0.5rem;
   display: inline-block;
@@ -75,7 +74,7 @@ pl-search {
   text-transform: capitalize;
   background-color: $pl-color-gray-87;
   color: $pl-color-white;
-  background-color: rgba(var(--theme-text-rgb), 0.1);
+  background-color: rgba(var(--theme-text-rgb), 0.05);
   color: rgba(var(--theme-text-rgb), 0.67);
   border-color: rgba(0, 0, 0, .1);
   text-overflow: ellipsis;
@@ -120,12 +119,24 @@ pl-search {
 
   .pl-c-body--theme-light & {
     background-color: $pl-color-gray-07;
-    background-color: rgba(var(--theme-text-rgb), 0.1);
+    background-color: rgba(var(--theme-text-rgb), 0.05);
     color: $pl-color-gray-70;
     color: rgba(var(--theme-text-rgb), 0.67);
+
+    &::-moz-input-placeholder {
+      color: $pl-color-gray-87 !important;
+    }
+
+    &::-webkit-input-placeholder {
+      color: $pl-color-gray-87 !important;
+    }
   }
 
-  &::-webkit-input-placeholder,
+  &::-webkit-input-placeholder {
+    color: $pl-color-white !important;
+    transition: all 0.1s ease;
+  }
+
   &::-moz-input-placeholder {
     color: $pl-color-white !important;
     transition: all 0.1s ease;
@@ -137,13 +148,12 @@ pl-search {
 
     .pl-c-body--theme-light & {
       color: $pl-color-gray-87 !important;
-    }
 
-    &::-moz-input-placeholder,
-    &::-webkit-input-placeholder {
-      color: $pl-color-white !important;
+      &::-moz-input-placeholder {
+        color: $pl-color-gray-87 !important;
+      }
 
-      .pl-c-body--theme-light & {
+      &::-webkit-input-placeholder {
         color: $pl-color-gray-87 !important;
       }
     }
@@ -279,7 +289,7 @@ pl-search {
 
 .pl-c-typeahead__input-wrapper {
   position: relative; // used for positioning search clear button in relation to the <input>
-  flex-shrink: 0;
+  flex-shrink: 1;
 }
 
 .pl-c-typeahead__clear-button {
