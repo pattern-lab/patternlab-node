@@ -2,17 +2,17 @@
 title: Pattern Lab's Special Query String Variables
 tags:
   - docs
+category: patterns
 ---
-
 
 Pattern Lab comes with support for a number of special query string variables to help you share patterns with clients. These query string variables include ways to link to patterns, set the Pattern Lab viewport to a specific width, open various views as well as start Hay and disco modes on page load. There are lots of options:
 
-* [Linking to Specific Patterns](#link-pattern)
-* [Setting the Default Width for the Viewport](#default-width)
-* [Opening Annotations View on Page Load](#annotations-view)
-* [Opening Code View on Page Load](#code-view)
-* [Starting Hay Mode on Page Load](#hay-mode)
-* [Starting Disco Mode on Page Load](#disco-mode)
+- [Linking to Specific Patterns](#link-pattern)
+- [Setting the Default Width for the Viewport](#default-width)
+- [Opening Annotations View on Page Load](#annotations-view)
+- [Opening Code View on Page Load](#code-view)
+- [Starting Hay Mode on Page Load](#hay-mode)
+- [Starting Disco Mode on Page Load](#disco-mode)
 
 ## <span id="link-pattern"></span>Linking to Specific Patterns
 
@@ -30,7 +30,7 @@ It's also very easy to create a link manually. Simply append `?p=pattern-name` t
 ?p=templates-article
 ```
 
-The direct link feature supports the [shorthand partials syntax](/docs/pattern-including.html) found in the PHP and Node versions of Pattern Lab. Just provide part of a pattern name and Pattern Lab will attempt to resolve it. 
+The direct link feature supports the [shorthand partials syntax](/docs/pattern-including.html) found in the PHP and Node versions of Pattern Lab. Just provide part of a pattern name and Pattern Lab will attempt to resolve it.
 
 ## <span id="default-width"></span>Setting the Default Width for the Viewport
 

@@ -2,9 +2,8 @@
 title: Watching for Changes and Auto Regenerating Patterns
 tags:
   - docs
+category: advanced
 ---
-
-
 
 Pattern Lab has the ability to watch for changes to patterns and frontend assets. When these files change, it will automatically rebuild the entire Pattern Lab website. You simply make your changes, save the file, and Pattern Lab will take care of the rest.
 
@@ -30,17 +29,14 @@ To stop watching files on Mac OS X and Windows you can press`CTRL+C` in the comm
 
 By default, Pattern Lab monitors the following files:
 
-* all of the JSON files under `source/_annotations/`
-* all of the JSON files under `source/_data/`
-* all of the files under `source/_meta/`
-* all of the pattern templates under `source/_patterns/`
-* all of the CSS files under `source/css/`
-* all of the files under `source/images/` and `source/fonts/`
-* all of the Javascript files under `source/js/`
+- all of the JSON files under `source/_annotations/`
+- all of the JSON files under `source/_data/`
+- all of the files under `source/_meta/`
+- all of the pattern templates under `source/_patterns/`
+- all of the CSS files under `source/css/`
+- all of the files under `source/images/` and `source/fonts/`
+- all of the Javascript files under `source/js/`
 
 The watch configuration is found within the Gruntfile or Gulpfile at the root of the project.
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-auto-regenerate'>The PHP docs for this topic can be viewed here.</a></strong>
-
-
-

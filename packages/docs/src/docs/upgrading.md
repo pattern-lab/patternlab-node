@@ -4,6 +4,7 @@ tags:
   - demo-content
   - blog
   - media
+category: getting-started
 ---
 
 Pattern Lab uses [npm](https://www.npmjs.com/) to manage project dependencies. To upgrade an edition based on Pattern Lab 2 do the following:

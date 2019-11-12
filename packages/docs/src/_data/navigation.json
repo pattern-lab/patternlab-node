@@ -1,37 +1,65 @@
 {
   "items": [
     {
-      "text": "Pee",
-      "url": "/",
-      "external": false
+      "label": "Getting Started",
+      "url": "/docs/getting-started"
     },
     {
-      "text": "Fart",
-      "url": "https://github.com/hankchizljaw/hylia",
-      "external": true
+      "label": "Documentation",
+      "url": "/docs",
+      "subnav": [
+        {
+          "label": "Getting Started",
+          "category": "getting-started"
+        },
+        {
+          "label": "Working with Patterns",
+          "category": "patterns"
+        },
+        {
+          "label": "Working with Data",
+          "category": "data"
+        },
+        {
+          "label": "Advanced",
+          "category": "advanced"
+        }
+      ]
     },
     {
-      "text": "Poop",
-      "url": "https://twitter.com/hankchizljaw",
+      "label": "Resources",
+      "url": "/resources"
+    },
+    {
+      "label": "Demos",
+      "url": "/demos"
+    },
+    {
+      "label": "On Github",
+      "url": "https://github.com/pattern-lab/patternlab-node",
       "external": true
     }
   ],
   "footerNav": [
     {
-      "label": "Footer Nav",
-      "url": "#"
+      "label": "Documentation",
+      "url": "/docs"
     },
     {
-      "label": "Footer Nav",
-      "url": "#"
+      "label": "Resources",
+      "url": "/resources"
     },
     {
-      "label": "Footer Nav",
-      "url": "#"
+      "label": "Updates",
+      "url": "/updates"
     },
     {
-      "label": "Footer Nav",
-      "url": "#"
+      "label": "Demos",
+      "url": "/demos"
+    },
+    {
+      "label": "On Github",
+      "url": "https://github.com/pattern-lab/patternlab-node"
     }
   ]
 }

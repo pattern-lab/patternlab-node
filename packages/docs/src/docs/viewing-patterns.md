@@ -2,6 +2,7 @@
 title: Viewing Patterns
 tags:
   - docs
+category: getting-started
 ---
 
 Pattern Lab ships with [BrowserSync](https://www.browsersync.io/) to serve generated files to a browser. BrowserSync does a lot of cool things like reload files without a refresh, expose the site to your network, and synchronize page views across devices. To start the server do the following:

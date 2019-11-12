@@ -28,7 +28,7 @@ permalink: /tags/{{ tag }}/
 {% set postListItems = collections[tag] %}
 
 {% block content %}
-  <main id="main-content" tabindex="-1">
+  <main id="main-content">
     {% include "partials/components/intro.njk" %}
     {% include "partials/components/post-list.njk" %}
     {% include "partials/components/pagination.njk" %}

@@ -2,6 +2,7 @@
 title: Overview of Patterns
 tags:
   - docs
+category: patterns
 ---
 
 Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For PHP the supported PatternEngines are Mustache and Twig. For Node there are [several more PatternEngines to choose from](/docs/advanced-template-language-and-pattern-engines.html).
@@ -14,10 +15,10 @@ Patterns are organized in a nested folder structure under `./source/_patterns/`.
 
 Here are the parts:
 
-* `patternType` denotes the overall pattern type. If using Atomic Design this will be something like "atoms" or "molecules" but it can be anything you want. For example, "components" or "elements."
-* `patternSubtype` denotes the sub-type of pattern and is _optional_. This helps to organize patterns under an overall pattern type in the drop downs in Pattern Lab. For example, a "blocks" pattern subtype under the "molecules" pattern type.
-* `patternName` is the name of the pattern. This is used when the pattern is displayed in the drop downs in Pattern Lab.
-* `patternExtension` is the file extension that tells the PatternEngine to render the pattern. For example, `.mustache`.
+- `patternType` denotes the overall pattern type. If using Atomic Design this will be something like "atoms" or "molecules" but it can be anything you want. For example, "components" or "elements."
+- `patternSubtype` denotes the sub-type of pattern and is _optional_. This helps to organize patterns under an overall pattern type in the drop downs in Pattern Lab. For example, a "blocks" pattern subtype under the "molecules" pattern type.
+- `patternName` is the name of the pattern. This is used when the pattern is displayed in the drop downs in Pattern Lab.
+- `patternExtension` is the file extension that tells the PatternEngine to render the pattern. For example, `.mustache`.
 
 Dashes (`-`) in your pattern types, pattern subtypes or pattern names will be replaced with spaces. For example, if you want a pattern to be displayed in the drop-down as "Hamburger Navigation" and you're using the Mustache PatternEngine you should name it `hamburger-navigation.mustache`.
 

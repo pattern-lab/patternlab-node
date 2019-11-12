@@ -2,21 +2,22 @@
 title: Using Pattern Parameters
 tags:
   - docs
+category: patterns
 ---
 
 **Important:** Pattern parameters are only supported by the PHP and Node Mustache PatternEngines. Other template languages provide better solutions to this problem.
 
 Pattern parameters are a **simple** mechanism for replacing Mustache variables in an included pattern. They are limited to replacing variables in the included pattern and **only** the included pattern. They are especially useful when including a single pattern multiple times in a molecule, template, or page and you want to supply unique data to that pattern each time it's included. Pattern parameters **do not** currently support the following:
 
-* sub-lists (_e.g. iteration of a section_),
-* long strings of text (_can be unwieldy_)
-* modifying/replacing variables in patterns included _within_ the targeted pattern
+- sub-lists (_e.g. iteration of a section_),
+- long strings of text (_can be unwieldy_)
+- modifying/replacing variables in patterns included _within_ the targeted pattern
 
 Pattern parameters are Pattern Lab-specific, have no relationship to Mustache, and are implemented outside of Mustache. Learn more about pattern parameters:
 
-* [The Pattern Parameter Syntax](#pattern-parameter-syntax)
-* [Adding Pattern Parameters to Your Pattern Partial](#adding-pattern-parameters)
-* [Toggling Sections with Pattern Parameters](#toggling-sections)
+- [The Pattern Parameter Syntax](#pattern-parameter-syntax)
+- [Adding Pattern Parameters to Your Pattern Partial](#adding-pattern-parameters)
+- [Toggling Sections with Pattern Parameters](#toggling-sections)
 
 ## <span id="pattern-parameter-syntax"></span>The Pattern Parameter Syntax
 
@@ -31,7 +32,9 @@ Again, pattern parameters are a simple find and replace of Mustache variables wi
 Let's look at a simple example for how we might use pattern parameters. First we'll set-up a pattern that might be included multiple times. We'll make it a simple "message" pattern with a single Mustache variable of `message`.
 
 ```html
-{% raw %}<div class="message">{{ message }}</div>{% endraw %}
+{% raw %}
+<div class="message">{{ message }}</div>
+{% endraw %}
 ```
 
 We'll organize it under Atoms > Global and call it "message" so it'll have the pattern partial of `atoms-message`.
@@ -39,13 +42,15 @@ We'll organize it under Atoms > Global and call it "message" so it'll have the p
 Now let's create a pattern that includes our message pattern partial multiple times. It might look like this.
 
 ```html
-{% raw %}<div class="main-container">
-    {{> atoms-message }}
-    <div>
-       A bunch of extra information
-    </div>
-    {{> atoms-message }}
-</div>{% endraw %}
+{% raw %}
+<div class="main-container">
+  {{> atoms-message }}
+  <div>
+    A bunch of extra information
+  </div>
+  {{> atoms-message }}
+</div>
+{% endraw %}
 ```
 
 Using `data.json` or a pattern-specific JSON file we wouldn't be able to supply separate messages to each pattern partial. For example, if we defined `message` in our `data.json` as "this is an alert" then "this is an alert" would show up twice when our parent pattern was rendered.
@@ -53,13 +58,15 @@ Using `data.json` or a pattern-specific JSON file we wouldn't be able to supply 
 Instead we can use pattern parameters to supply unique messages for each instance. So let's show what that would look like:
 
 ```html
-{% raw %}<div class="main-container">
-    {{> atoms-message(message: "this is an alert message") }}
-    <div>
-        A bunch of extra information
-    </div>
-    {{> atoms-message(message: "this is an informational message") }}
-</div>{% endraw %}
+{% raw %}
+<div class="main-container">
+  {{> atoms-message(message: "this is an alert message") }}
+  <div>
+    A bunch of extra information
+  </div>
+  {{> atoms-message(message: "this is an informational message") }}
+</div>
+{% endraw %}
 ```
 
 Now each pattern would have its very own message.
@@ -69,14 +76,16 @@ Now each pattern would have its very own message.
 While pattern parameters are not a one-to-one match for Mustache they do offer the ability to toggle sections of content. For example we might have the following in a generic header pattern called `organisms-header`:
 
 ```html
-{% raw %}<div class="main-container">
-    {{# emergency }}
-        <div class="alert">Emergency!!!</div>
-    {{/ emergency }}
-    <div class="header">
-        ... stuff ...
-    </div>
-</div>{% endraw %}
+{% raw %}
+<div class="main-container">
+  {{# emergency }}
+  <div class="alert">Emergency!!!</div>
+  {{/ emergency }}
+  <div class="header">
+    ... stuff ...
+  </div>
+</div>
+{% endraw %}
 ```
 
 We call the header pattern in a template like so:

@@ -2,9 +2,8 @@
 title: Requirements
 tags:
   - docs
+category: getting-started
 ---
-
-
 
 ## Minimum Requirements
 
@@ -13,6 +12,3 @@ Pattern compilation is done with [Node](https://nodejs.org), using [npm](https:/
 Because Pattern Lab's output consists of HTML, CSS, and JavaScript there are **no requirements** for hosting your Pattern Lab site. Simply upload the `./public/` directory to your host and you should be good to go.
 
 <strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/requirements'>The PHP docs for this topic can be viewed here.</a></strong>
-
-
-

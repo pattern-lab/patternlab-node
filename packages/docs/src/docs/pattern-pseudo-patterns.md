@@ -2,6 +2,7 @@
 title: Using Pseudo-Patterns
 tags:
   - docs
+category: patterns
 ---
 
 Pseudo-patterns give developers and designers the ability to quickly build multiple unique variants of an existing pattern. This feature is especially useful when developing template- and page-style patterns or showing the states of other patterns.
@@ -27,12 +28,13 @@ Adding a pseudo-pattern is as simple as naming it correctly and following the [p
 Our `homepage.mustache` template might look like this:
 
 ```html
-{% raw %}<div id="main-container">
-    {{# emergency }}
-        <div class="emergency">Oh Noes! Emergency!</div>
-    {{/ emergency }}
-    { ...a bunch of other content... }
-</div>{% endraw %}
+{% raw %}
+<div id="main-container">
+  {{# emergency }}
+  <div class="emergency">Oh Noes! Emergency!</div>
+  {{/ emergency }} { ...a bunch of other content... }
+</div>
+{% endraw %}
 ```
 
 If our `_data.json` file doesn't give a value for `emergency` that section will never show up when `homepage.mustache` is rendered. Obviously we'd need to show _both_ the regular and emergency states of the homepage but we don't want to duplicate the entire `homepage.mustache` template. That would be a maintenance nightmare. So let's add our pseudo-pattern:
@@ -60,10 +62,10 @@ By default, pseudo-patterns **cannot** be used as pattern includes. The data inc
 
 To utilize pseudo-patterns as pattern includes for the PHP version of Pattern Lab you can install the [Data Inheritance Plugin](https://github.com/pattern-lab/plugin-php-data-inheritance).
 
-
 ## Re-ordering Pseudo-Patterns
 
 To learn how to re-order pseudo-patterns, check the documentation for [Reorganizing Patterns](/docs/pattern-reorganizing.html).
 
 ## Documenting Pseudo-Patterns
+
 To learn how to document pseudo-patterns, check the documentation for [Documenting Patterns](/docs/pattern-documenting.html) to learn more.

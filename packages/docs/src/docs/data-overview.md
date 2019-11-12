@@ -2,6 +2,7 @@
 title: Overview of Data
 tags:
   - docs
+category: data
 ---
 
 The primary default global source of data used when rendering Pattern Lab patterns can be found in `./source/_data/`.
@@ -16,9 +17,9 @@ The Node version of Pattern Lab only supports JSON.
 
 There are three places to store data in Pattern Lab:
 
-* in `./source/_data`. The PHP version of Pattern Lab supports an unlimited number of data files in this directory.
-* in [pattern-specific](/docs/data-pattern-specific.html) files in `./source/_patterns`.
-* in [pseudo-pattern](/docs/pattern-pseudo-patterns.html) files in `./source/_patterns`.
+- in `./source/_data`. The PHP version of Pattern Lab supports an unlimited number of data files in this directory.
+- in [pattern-specific](/docs/data-pattern-specific.html) files in `./source/_patterns`.
+- in [pseudo-pattern](/docs/pattern-pseudo-patterns.html) files in `./source/_patterns`.
 
 ### A Special Note About Pattern Parameters
 

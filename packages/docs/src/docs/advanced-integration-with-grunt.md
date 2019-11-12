@@ -2,6 +2,7 @@
 title: Integration with Grunt/Gulp
 tags:
   - docs
+category: advanced
 ---
 
 **Note:** _These directions may be incomplete. They also require **v0.7.9** of the PHP version of Pattern Lab._

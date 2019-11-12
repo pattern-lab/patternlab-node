@@ -2,6 +2,7 @@
 title: Creating Pattern-specific Values
 tags:
   - docs
+category: data
 ---
 
 > **Note:** The PHP version of Pattern Lab supports JSON and YAML. This article uses JSON because it is a standard between the PHP and Node versions of Pattern Lab.

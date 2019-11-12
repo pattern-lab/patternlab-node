@@ -1,0 +1,26 @@
+
+
+<nav class="c-tree-nav">
+    <ul class="c-tree-nav">
+        {% for item in navigation.items %}
+        <li class="c-tree-nav__item">
+            <a class="c-tree-nav__link" href="{{ item.url }}">{{ item.label }}</a>
+            {% if item.subnav %}
+            <ul class="c-tree-nav__subnav">
+                {% for subnav in item.subnav %}
+                
+                <li class="c-tree-nav__subnav-item">
+                    <a href="#" class="c-tree-nav__subnav-link">
+                        {{ subnav.label }}
+                    </a><!--end c-tree-nav__subnav-link-->
+                    {% set subnavCategory = subnav.category %}
+                    {% include "components/tree-subnav.njk" %}
+                </li><!--end c-tree-nav__subnav-item-->    
+                {% endfor %}  
+            </ul><!--end c-tree-nav__subnav-->    
+            {% endif %}
+        </li><!--end c-tree-nav__item-->
+        {% endfor %}
+    </ul><!--end c-tree-nav-->
+</nav>
+

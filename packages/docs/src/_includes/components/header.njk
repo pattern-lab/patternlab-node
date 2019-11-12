@@ -1,7 +1,3 @@
-{# Post list content #}
-{% set postListHeading = postsHeading %}
-{% set postListItems = collections.docs %}
-
 <header class="c-header">
 	<div class="c-header__inner">
 		{% include "components/logo.njk" %}
@@ -13,7 +9,7 @@
 		</button>
 
 		<div class="c-header__nav-container js-nav-panel">
-			{% include "partials/components/post-list.njk" %}
+			{% include "components/tree-nav.njk" %}
 		</div>
 	</div>
 	<!--end c-header__inner-->

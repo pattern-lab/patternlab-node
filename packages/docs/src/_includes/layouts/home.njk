@@ -9,7 +9,7 @@
 {% set postListItems = collections.docs %}
 
 {% block content %}
-  <main id="main-content" tabindex="-1">
+  <main id="main-content">
     {% include "components/page-header.njk" %}
     {% include "partials/components/post-list.njk" %}
     {{ content | safe }}

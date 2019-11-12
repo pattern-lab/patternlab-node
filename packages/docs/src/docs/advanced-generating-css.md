@@ -2,10 +2,10 @@
 title: Generating CSS
 tags:
   - docs
+category: advanced
 ---
 
-**Note:** *The [CSS Rule Saver](https://github.com/dmolsen/css-rule-saver) library and CSS generation feature was added in v0.6.0 of the PHP version of Pattern Lab.*
-
+**Note:** _The [CSS Rule Saver](https://github.com/dmolsen/css-rule-saver) library and CSS generation feature was added in v0.6.0 of the PHP version of Pattern Lab._
 
 When using this feature, Pattern Lab can display only those CSS rules that affect a given pattern on the pattern detail view. This might be useful if you have a large Sass-generated CSS file or framework but only need a sub-set of styles that may affect a small piece of mark-up or pattern.
 
@@ -26,4 +26,3 @@ php core/builder.php -gc
 ## Important Note About Performance
 
 It may take several seconds for the PHP version of Pattern Lab to generate a site when it's also calculating the CSS rules. Be patient.
-

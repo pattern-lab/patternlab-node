@@ -2,10 +2,10 @@
 title: Viewing Patterns on a Mobile Device
 tags:
   - docs
+category: patterns
 ---
 
-**Note:** *The QR code generator and xipHostname configuration option were introduced in v0.7.0 of the PHP version of Pattern Lab. As of v0.7.9 it is off by default. Turn it on in config.ini.*
-
+**Note:** _The QR code generator and xipHostname configuration option were introduced in v0.7.0 of the PHP version of Pattern Lab. As of v0.7.9 it is off by default. Turn it on in config.ini._
 
 While the resizing toolbar is nice it's always good to review your patterns on real mobile devices. Depending on where your patterns are located the directions are slightly different.
 
