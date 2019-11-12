@@ -18,18 +18,24 @@ pl-search {
   padding: 0.4rem 0.5rem;
   display: inline-block;
   align-self: stretch;
+  transition: all 0.2s ease;
 
   @media screen and (min-width: $pl-bp-med) {
-    margin-left: 1rem;
     flex-direction: row;
     flex-shrink: 1;
     order: 2; // Display after nav list items on wider screens
     align-self: center;
 
+    // grow in size when focusing on inner input
+    &:focus-within {
+      flex-shrink: .5;
+    }
+
     .pl-c-body--theme-sidebar & {
       flex-direction: column;
       margin-left: 0;
       width: 100%;
+      margin-bottom: 0.5rem;
     }
   }
 }
@@ -77,6 +83,7 @@ pl-search {
   background-color: rgba(var(--theme-text-rgb), 0.05);
   color: rgba(var(--theme-text-rgb), 0.67);
   border-color: rgba(0, 0, 0, .1);
+  border-color: rgba(var(--theme-text-rgb), 0.17);
   text-overflow: ellipsis;
   border-width: 1px;
   border-style: solid;
@@ -87,6 +94,7 @@ pl-search {
   width: 100%;
   outline-offset: -3px;
   outline-width: 2px;
+  border-radius: 3px;
   -webkit-appearance: none; // removes default styling (ex. heavy box shadow) in Safari
 
   @media all and (min-width: 900px) {
@@ -123,12 +131,14 @@ pl-search {
     color: $pl-color-gray-70;
     color: rgba(var(--theme-text-rgb), 0.67);
 
-    &::-moz-input-placeholder {
-      color: $pl-color-gray-87 !important;
+    &::-webkit-input-placeholder {
+      color: black !important;
+      transition: all 0.1s ease;
     }
 
-    &::-webkit-input-placeholder {
-      color: $pl-color-gray-87 !important;
+    &::-moz-input-placeholder {
+      color: black !important;
+      transition: all 0.1s ease;
     }
   }
 
@@ -148,12 +158,13 @@ pl-search {
 
     .pl-c-body--theme-light & {
       color: $pl-color-gray-87 !important;
+    }
 
-      &::-moz-input-placeholder {
-        color: $pl-color-gray-87 !important;
-      }
+    &::-moz-input-placeholder,
+    &::-webkit-input-placeholder {
+      color: $pl-color-white !important;
 
-      &::-webkit-input-placeholder {
+      .pl-c-body--theme-light & {
         color: $pl-color-gray-87 !important;
       }
     }
@@ -187,8 +198,8 @@ pl-search {
   }
 
   &.pl-is-open {
-    max-height: 120rem;
-    max-height: calc(var(--viewport-height) - 4rem);
+    max-height: 90vh;
+    overflow: auto;
     opacity: 1;
   }
 

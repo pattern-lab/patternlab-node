@@ -43,11 +43,21 @@ export const loadState = () => {
 
     if (state.app.themeMode === undefined) {
       try {
-        if (window.patternlab.config.theme.color !== undefined) {
-          state.app.themeMode = window.patternlab.config.theme.color;
+        if (window.config.theme.color !== undefined) {
+          state.app.themeMode = window.config.theme.color;
         }
       } catch (e) {
         state.app.themeMode = 'dark';
+      }
+    }
+
+    if (state.app.layoutMode === undefined) {
+      try {
+        if (window.config.theme.layout !== undefined) {
+          state.app.layoutMode = window.config.theme.layout;
+        }
+      } catch (e) {
+        state.app.layoutMode = 'vertical';
       }
     }
 

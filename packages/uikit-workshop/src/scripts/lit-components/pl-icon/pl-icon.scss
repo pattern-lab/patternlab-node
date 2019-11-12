@@ -2,13 +2,14 @@
 
 pl-icon {
   display: block;
-  width: 1em;
-  height: 1em;
+  width: 1.2em;
+  height: 1.2em;
+  pointer-events: none; // so click events aren't disrupted when clicking into an SVG;
 }
 
 // @todo: build out additional icon sizes
 .c-icon {
   display: block;
-  width: 1em;
-  height: 1em;
+  width: 1.2em;
+  height: 1.2em;
 }

@@ -167,7 +167,9 @@ export const modalViewer = {
 
       // Clear out any existing children before appending the new panel content
       if (contentContainer.firstChild !== null) {
-        contentContainer.removeChild(contentContainer.firstChild);
+        while (contentContainer.firstChild !== null) {
+          contentContainer.removeChild(contentContainer.firstChild);
+        }
       }
 
       contentContainer.appendChild(templateRendered);
@@ -195,11 +197,6 @@ export const modalViewer = {
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
   refresh(patternData, iframePassback, switchText) {
-    // if this is a styleguide view close the modal
-    if (iframePassback) {
-      modalViewer.close();
-    }
-
     modalViewer.patternData = patternData;
 
     // gather the data that will fill the modal window
@@ -348,9 +345,6 @@ export const modalViewer = {
           data.iframePassback,
           data.switchText
         );
-
-        modalViewer.panelRendered = true;
-        modalViewer.previouslyRenderedPattern = data.patternData.patternPartial;
       }
     } else if (
       data.event !== undefined &&
@@ -382,9 +376,11 @@ export const modalViewer = {
   },
 
   _stateChanged(state) {
-    modalViewer.active = state.app.drawerOpened;
-    if (modalViewer.iframeElement) {
-      modalViewer._handleInitialModalViewerState();
+    if (modalViewer.active !== state.app.drawerOpened) {
+      modalViewer.active = state.app.drawerOpened;
+      if (modalViewer.iframeElement) {
+        modalViewer._handleInitialModalViewerState();
+      }
     }
   },
 };

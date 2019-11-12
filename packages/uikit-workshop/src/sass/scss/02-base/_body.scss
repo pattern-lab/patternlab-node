@@ -9,16 +9,17 @@
 */
 .pl-c-html {
   min-height: 100%;
+  display: flex;
 }
 
 .pl-c-body {
   margin: 0;
   padding: 0;
+  width: 100%;
   -webkit-text-size-adjust: 100%;
   display: flex; // Required for IE 11 to display overall PL layout correctly
 }
 
-// @todo: refactor to make colors more generic to PL:
 .pl-c-body--theme-dark,
 :root {
   --theme-bg: #161b3c;

@@ -16,7 +16,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  max-height: 100%;
   flex-grow: 1;
 }
 
@@ -65,6 +65,22 @@
   }
 }
 
+.pl-c-tabs__header {
+  position: sticky;
+  top: 0px;
+  border-top: 1px solid #ddd;
+  margin-left: calc(-0.5rem - 1px);
+  margin-right: calc(-0.5rem - 1px);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border: 1px solid #ddd;
+  margin-bottom: .5rem;
+  margin-top: -1px;
+  background-color: inherit;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
 /**
  * Tab Content
  * 1) Tab content contains the tab panels
@@ -74,7 +90,6 @@
   flex-shrink: 1;
   display: flex;
   flex-basis: auto;
-  overflow: auto;
   -webkit-overflow-scrolling: touch;
   height: 100%;
 
@@ -98,7 +113,6 @@
 
   &.pl-is-active-tab {
     display: block;
-    display: flex;
   }
 
   /**
@@ -114,6 +128,7 @@
     border: 0;
     display: block;
     width: 100%;
+    min-height: 100%;
   }
 
   code[class*='language-'] {

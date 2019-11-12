@@ -19,13 +19,14 @@ export const modalStyleguide = {
    */
   onReady() {
     // go through the panel toggles and add click event to the pattern extra toggle button
-    const els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
-    for (let i = 0; i < els.length; ++i) {
-      els[i].onclick = function(e) {
-        const patternPartial = this.getAttribute('data-patternpartial');
+    const toggles = document.querySelectorAll('.pl-js-pattern-extra-toggle');
+
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', e => {
+        const patternPartial = toggle.getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
-      };
-    }
+      });
+    });
   },
 
   /**
@@ -63,15 +64,17 @@ export const modalStyleguide = {
     content = panelsUtil.addClickEvents(content, patternPartial);
 
     // make sure the modal viewer and other options are off just in case
-    modalStyleguide.close(patternPartial);
+    // modalStyleguide.close(patternPartial);
 
     // note it's turned on in the viewer
     modalStyleguide.active[patternPartial] = true;
 
     // make sure there's no content
     div = document.getElementById('pl-pattern-extra-' + patternPartial);
-    if (div.childNodes.length > 0) {
-      div.removeChild(div.childNodes[0]);
+    if (div && div.childNodes) {
+      if (div.childNodes.length > 0) {
+        div.removeChild(div.childNodes[0]);
+      }
     }
 
     // add the content
@@ -108,9 +111,11 @@ export const modalStyleguide = {
       toggle.classList.remove('pl-is-active');
     }
 
-    document
-      .getElementById('pl-pattern-extra-' + patternPartial)
-      .classList.remove('pl-is-active');
+    if (document.getElementById('pl-pattern-extra-' + patternPartial)) {
+      document
+        .getElementById('pl-pattern-extra-' + patternPartial)
+        .classList.remove('pl-is-active');
+    }
   },
 
   /**

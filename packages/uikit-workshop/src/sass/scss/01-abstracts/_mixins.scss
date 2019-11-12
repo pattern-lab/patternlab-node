@@ -80,9 +80,9 @@
   * 1. WIP -- part of broader UI refactor
   */
   &.pl-is-active {
-    max-height: calc(100vh - #{$offset-top} - 1rem);
+    max-height: calc(95vh - #{$offset-top} - 1rem);
     max-height: calc(
-      var(--pl-viewport-height, calc(100vh - #{$offset-top})) - 1rem
+      var(--pl-viewport-height, calc(95vh - #{$offset-top})) - 1rem
     ); /* [1] */
     overflow: auto;
     -webkit-overflow-scrolling: touch;

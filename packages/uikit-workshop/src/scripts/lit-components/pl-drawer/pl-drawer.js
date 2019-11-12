@@ -145,7 +145,37 @@ class Drawer extends LitElement {
                 </pl-button>
               </div>
             </div>
-            <div class="pl-c-drawer__content pl-js-drawer-content"></div>
+            <div class="pl-c-drawer__content pl-js-drawer-content">
+              <div
+                class="pl-c-loader-wrapper pl-c-body--theme-${this.themeMode}"
+              >
+                <div class="pl-c-loader">
+                  <div class="pl-c-loader__content">
+                    <div class="pl-c-loader__message">Loading Code Panel</div>
+                    <div class="pl-c-loader__spinner">
+                      <svg class="pl-c-loader-svg" viewBox="0 0 268 255">
+                        <circle
+                          class="pl-c-loader-svg__outer-circle"
+                          cx="134.2"
+                          cy="127.6"
+                          r="115.1"
+                        />
+                        <circle
+                          class="pl-c-loader-svg__inner-circle"
+                          cx="134.2"
+                          cy="127.6"
+                          r="66.3"
+                        />
+                        <path
+                          class="pl-c-loader-svg__electron"
+                          d="M253,56.3c0,15.6-12.6,28.2-28.2,28.2s-28.2-12.6-28.2-28.2s12.6-28.2,28.2-28.2C240.3,28.1,253,40.7,253,56.3z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -153,6 +183,9 @@ class Drawer extends LitElement {
   }
 
   _stateChanged(state) {
+    if (this.themeMode !== state.app.themeMode) {
+      this.themeMode = state.app.themeMode || 'dark';
+    }
     if (this.drawerOpened !== state.app.drawerOpened) {
       this.drawerOpened = state.app.drawerOpened;
     }

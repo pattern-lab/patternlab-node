@@ -30,7 +30,13 @@
   </head>
 
   <body class="pl-c-body">
-    <pl-layout></pl-layout>
+    <pl-layout>
+      <pl-header></pl-header>
+      <div class="pl-c-viewport-modal-wrapper">
+        <pl-iframe></pl-iframe>
+        <pl-drawer></pl-drawer>
+      </div>
+    </pl-layout>
 
     <!-- the template for the modal slider -->
     <script type="text/mustache" class="pl-js-panel-template-base">

@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit-element';
-import { Slotify } from './slotify';
+import { Slotify } from '../slotify';
 import styles from './pl-button.scss?external';
 
 // This decorator defines the element.

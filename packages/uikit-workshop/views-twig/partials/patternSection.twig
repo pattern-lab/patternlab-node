@@ -1,5 +1,5 @@
 <div id="{{ partial.patternPartial }}" class="pl-c-pattern">
-    
+
   <div class="pl-c-pattern__header">
     <h3 class="pl-c-pattern__title">
       <a href="../../patterns/{{ partial.patternLink }}" class="pl-c-pattern__title-link patternLink" data-patternpartial="{{ partial.patternPartial }}" title="Link to Pattern">
@@ -9,7 +9,7 @@
         {% endif %}
       </a>
     </h3>
-    
+
     <!-- @todo: why doesn't PL node have breadcrumbs?? -- keeping in the Twig version -->
     <div class="sg-pattern-breadcrumb pl-c-pattern-breadcrumb">
       {{ partial.patternBreadcrumb }}
@@ -17,8 +17,21 @@
 
 
     <button class="pl-c-pattern__extra-toggle pl-js-pattern-extra-toggle" id="pl-pattern-extra-toggle-{{partial.patternPartial}}" data-patternpartial="{{ partial.patternPartial }}" title="View Pattern Info">
-      <span class="pl-c-pattern__toggle-icon">&#9660;</span>
-    </button><!--end pl-c-pattern__extra-toggle-->
+        <span class="pl-c-pattern__extra-toggle-text pl-c-pattern__extra-toggle-text--expand">Expand</span>
+        <span class="pl-c-pattern__extra-toggle-text pl-c-pattern__extra-toggle-text--collapse">Collapse</span>
+        <div class="pl-c-pattern__toggle-icon-wrapper">
+          <svg viewBox="0 0 16 16" width="20" height="20" class="pl-c-pattern__toggle-icon pl-c-pattern__toggle-icon--expand">
+            <path fill="currentColor" d="M9 11.5l1.5 1.5 5-5-5-5-1.5 1.5 3.5 3.5z"></path>
+            <path fill="currentColor" d="M7 4.5l-1.5-1.5-5 5 5 5 1.5-1.5-3.5-3.5z"></path>
+          </svg>
+
+          <svg viewBox="0 0 20 16" width="20" height="20" class="pl-c-pattern__toggle-icon pl-c-pattern__toggle-icon--collapse">
+            <path fill="currentColor" d="M13 11.5l1.5 1.5 5-5-5-5-1.5 1.5 3.5 3.5z"></path>
+            <path fill="currentColor" d="M7 4.5l-1.5-1.5-5 5 5 5 1.5-1.5-3.5-3.5z"></path>
+            <path fill="currentColor" d="M10.958 2.352l1.085 0.296-3 11-1.085-0.296 3-11z"></path>
+          </svg>
+        </div>
+      </button>
   </div><!--end pl-c-pattern__header-->
 
   <div class="pl-c-pattern__extra pl-js-pattern-extra" id="pl-pattern-extra-{{ partial.patternPartial }}"></div><!--end pl-c-pattern__extra-->

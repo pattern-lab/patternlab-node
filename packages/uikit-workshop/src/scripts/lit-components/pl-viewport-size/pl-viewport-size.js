@@ -53,13 +53,15 @@ class ViewportSize extends BaseLitComponent {
   }
 
   render() {
-    return html`
-      <form class="pl-c-viewport-size" method="post" action="#">
-        <span class="pl-c-viewport-size__input">${this.px - 40}px</span
-        >&nbsp;/&nbsp;
-        <span class="pl-c-viewport-size__input">${this.em}em</span>
-      </form>
-    `;
+    if (!window.__PRERENDER_INJECTED) {
+      return html`
+        <form class="pl-c-viewport-size" method="post" action="#">
+          <span class="pl-c-viewport-size__input">${this.px - 40}px</span
+          >&nbsp;/&nbsp;
+          <span class="pl-c-viewport-size__input">${this.em}em</span>
+        </form>
+      `;
+    }
   }
 }
 
