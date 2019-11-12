@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.1.0...v5.2.0) (2019-11-12)
+
+
+### Bug Fixes
+
+* add missing $ ([c95a06e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/c95a06ece78631b068f8721666caf33452e57a7a))
+* address bug causing viewport width to progressively decrease in size when resizing your screen / refreshing on certain devices ([41b11af](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/41b11af8aaaf066fcf99abd2513eae8706122d32))
+* configure the Logo's `altText` config option when used as an HTML attribute ([ade34a2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/ade34a29435f5112f0449ad020bee7e9dc2c81e1))
+* fix classname typo ([da3c5f1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/da3c5f144d22b1ac3ad99680a264433d4438ebb2))
+* temp workaround to fix content exceeding the height of drawer container ([435243c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/435243cbfbd000a7d96a0e9fa7beff1a988ede64))
+* update drawer UI to not collapse content on smaller screen sizes ([7147085](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/71470856b8b389421348366afd247a599d1e9c86))
+
+
+### Features
+
+* add lit-element, basic Typescript support to Webpack ([611f705](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/611f705be85eea8a31091169750d64e988798cee))
+* add local copy of new Slotify library till published to NPM ([63b9d83](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/63b9d833908151ce5cb5aa5184c72254125c7ed1))
+* add new <pl-button> component to make Button-like styles more reusable ([5e7b014](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/5e7b0140622eb89154c38925769a6def6d669fb3))
+* add new <pl-icon> component ([e8ce2a9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/e8ce2a927365b8d5316a7d8229c979ff31b04907))
+* add support for auto-closing Nav when clicking inside of the rendered iframe ([9d602fe](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9d602fe335a5d3b5bca5cac258c2465934d9a46a))
+* add support for optional chaining syntax via Babel plugin ([c8886b6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/c8886b6d9d91fea246fa3ab7947f289509dc26d5))
+* major refactoring + UI updates to address cross browser support; UI cleanup and conversion of the majority of the remaining components over to lit-element ([2ff8e1c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/2ff8e1c98cdd02e8077064c48eca5f7754a3db02))
+* refactor + convert pl-toggle-info to lit-element ([85cd9c5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/85cd9c50ca814066bf999badf2071d84964f00cc))
+* refactor + convert pl-toggle-layout to lit-element ([46009d9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/46009d91b1cb9ed613baa5a7626cba4f42883465))
+* refactor + convert pl-toggle-theme to lit-element ([95a3b21](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/95a3b21a89dacd2d5b4df8c134ce438d4efdbd04))
+* refactor Drawer to render via lit-element + massively improve rendering performance ([28d47eb](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/28d47eb3cbbce038204203e786e5188b4cefe64f))
+* remove mixin that was causing outlines to be removed from default UI styles ([622ed76](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/622ed76d435b3b2e31e412266c3090506f98051b))
+* temp add unsafe-svg directive till upstream PR merged ([34de61c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/34de61ccd9c7bb3b48ca5ef386a87efc8e84babc))
+* update the Nav design to not bold the active item in order to not shift the layout ([0eda431](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/0eda4312ba9f4c61afa6322c3ff45f9cda0efc9e))
+* update Webpack config to use the latest Style Loader + new SVG icon system ([2ed70e7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/2ed70e79d8656c7314d8b3109aa1c34160ad24f9))
+
+
+
+
+
+
 ## [5.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.0.1...v5.0.2) (2019-10-28)
 
 
