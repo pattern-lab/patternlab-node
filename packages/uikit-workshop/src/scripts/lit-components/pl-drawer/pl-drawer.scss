@@ -62,6 +62,7 @@ pl-drawer {
   will-change: height;
   overflow: hidden;
   margin-top: calc(#{$pl-drawer-resizer-height * -1} + 1px);
+  padding-top: $pl-drawer-resizer-height;
 }
 
 .pl-c-drawer__wrapper > * {

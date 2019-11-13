@@ -17,6 +17,7 @@ pl-viewport-sizes {
   margin: 0;
   padding: 0;
   overflow-x: auto;
+  padding: 0 0.25rem;
 
   @media all and (min-width: $pl-bp-med) {
     align-items: center;
@@ -36,6 +37,7 @@ pl-viewport-sizes {
  */
 .pl-c-size-list__action {
   @include buttonStyles;
+  display: inline-block; // workaround to fix valign issues in IE 11
   min-height: 35px;
   min-width: 0;
   padding-left: 0.35rem;

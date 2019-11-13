@@ -31,6 +31,7 @@ pl-header {
     .pl-c-body--theme-sidebar & {
       position: fixed;
       position: sticky;
+      overflow: auto;
     /**
       * Header
       * 1) Set width to sidebar width defined above

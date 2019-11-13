@@ -312,6 +312,7 @@ pl-nav {
     .pl-c-body--theme-sidebar & {
       border-width: 0;
       transform: none;
+      box-shadow: none;
     }
 
     .pl-c-body--theme-light & {
@@ -556,6 +557,7 @@ pl-nav {
 .pl-is-active + .pl-js-acc-panel {
   visibility: visible;
   max-height: none;
+  transform: translateY(0);
 
   .pl-c-body--theme-horizontal & {
     overflow: auto;
