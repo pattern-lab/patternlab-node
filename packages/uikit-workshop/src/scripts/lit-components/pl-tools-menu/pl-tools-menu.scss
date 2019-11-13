@@ -28,7 +28,7 @@ pl-tools-menu {
   @include listReset();
   transform: translateY(-10px);
   position: absolute;
-  right: 4px;
+  right: 5px;
   z-index: 10; // make sure context dropdown z-index is higher than nav dropdown z-index
   width: 12rem;
   border-radius: 6px;

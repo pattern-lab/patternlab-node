@@ -12,6 +12,10 @@ pl-button {
   @include buttonStyles;
 }
 
+.pl-c-button__text {
+  text-align: left;
+}
+
 .pl-c-button--medium {
   padding: 0.65rem 1rem;
 

@@ -43,7 +43,6 @@
 /*------------------------------------*\
     #COMPONENTS
 \*------------------------------------*/
-
 @import '../scripts/components/pl-nav/pl-nav.scss';
 @import '../scripts/components/pl-search/pl-search.scss';
 @import '../scripts/components/pl-tooltip/pl-tooltip.scss';
@@ -110,6 +109,10 @@
   .is-copied & {
     display: none;
   }
+}
+
+.pl-c-body {
+  overflow: hidden;
 }
 
 .pl-c-main {

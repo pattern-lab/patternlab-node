@@ -73,7 +73,7 @@
 @mixin accordionPanel() {
   overflow: hidden;
   max-height: 0;
-  transition: max-height $pl-animate-quick ease-out;
+  transition: all $pl-animate-quick ease-out;
 
   /**
   * Active styles for when the accordion panel is open

@@ -67,6 +67,7 @@
 
 .pl-c-tabs__header {
   position: sticky;
+  z-index: 1; // fix for Safari for iOS sticky header appearing to be below the scrollable content
   top: 0px;
   border-top: 1px solid #ddd;
   margin-left: calc(-0.5rem - 1px);

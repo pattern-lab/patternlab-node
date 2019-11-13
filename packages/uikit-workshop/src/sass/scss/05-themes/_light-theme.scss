@@ -46,20 +46,6 @@
   }
 
   /**
-     * All Nav links inside of subnav dropdown
-     */
-
-  /**
-    * Last sublist item
-    */
-  .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
-    @media all and (min-width: $pl-bp-med) {
-      border-bottom-left-radius: $pl-border-radius-med;
-      border-bottom-right-radius: $pl-border-radius-med;
-    }
-  }
-
-  /**
      * Size input
      */
   .pl-c-viewport-size__input {

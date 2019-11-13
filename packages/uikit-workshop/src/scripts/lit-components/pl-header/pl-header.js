@@ -66,6 +66,7 @@ class Header extends BaseLitComponent {
       if (
         e.target !== this.navToggle &&
         !e.target.closest('.pl-js-nav-container') &&
+        !e.target.closest('pl-toggle-layout') &&
         this.isActive === true
       ) {
         this.isActive = false;
