@@ -1,4 +1,5 @@
-const PluginTab = {
+// workaround to `PluginTab undefined` error in Safari
+window.PluginTab = {
   /**
    * The function defined as the onready callback within the plugin configuration.
    */
