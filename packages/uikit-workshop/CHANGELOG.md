@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.3.0...v5.3.1) (2019-11-13)
+
+
+### Bug Fixes
+
+* CSS fix to properly highlight the correct active page / link in the Nav; improve dropdown open / close animation ([ec4ab84](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/ec4ab84ddc8007796c9012a3f493822d76f039a7))
+* small UI fixes for the sticky Tabs header on smaller screens + drawer content collapsing on smaller screens + better handling of Nav link cleanup when changing pages ([347e2fe](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/347e2fe29a78a1d168005a07c656b4f9f1124c7f))
+* tweak header and drawer padding when viewing on a device with curved edges ([98e9baf](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/98e9baf649eceb9124218a924b6b08097b910e86))
+* uikit fixes and minor CSS updates intended for the v5.3.0 release ([26c4ced](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/26c4ceddaae09fa4fa4873f092c924274498c5da))
+
+
+
+
+
 # [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.2.0...v5.3.0) (2019-11-13)
 
 
