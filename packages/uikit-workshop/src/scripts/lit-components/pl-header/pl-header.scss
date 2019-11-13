@@ -21,10 +21,16 @@ pl-header {
   border-right: 1px solid;
   border-right-color: $pl-color-gray-20;
   border-right-color: var(--theme-border, $pl-color-gray-20);
+  padding-left: calc(env(safe-area-inset-left) / 2);
+  padding-right: calc(env(safe-area-inset-right) / 2);
 
   .pl-c-body--theme-light & {
     color: $pl-color-black;
     background-color: $pl-color-white;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    padding-right: 0;
   }
 
   @media all and (min-width: $pl-bp-med) {
@@ -61,10 +67,6 @@ pl-header {
   min-height: 30px; // magic number -- needed for initial skeleton screen styles used in the critical CSS
   background-color: inherit;
 
-  @supports(padding: max(0px)) {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-  }
 
   @media all and (min-width: $pl-bp-med) {
     .pl-c-body--theme-sidebar & {
