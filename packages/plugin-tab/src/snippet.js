@@ -13,6 +13,7 @@ function addPanels() {
   });
 }
 
+// workaround to try recovering from load order race conditions
 if (window.patternlab && window.patternlab.panels) {
   addPanels();
 } else {
