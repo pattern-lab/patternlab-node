@@ -1894,11 +1894,6 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@ungap/import-node@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ungap/import-node/-/import-node-0.1.0.tgz#9ad7d3af37c2454504b2bd0b63580063c297d5f1"
-  integrity sha512-FymNeJTWYNrZcnj7HFJwdaAZWrD1bUv8Na60RGIA142qtaRcOZs0KHGh+QSy7u7GNpW6wGnw9EdCQx4IYPE8cg==
-
 "@ungap/url-search-params@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@ungap/url-search-params/-/url-search-params-0.1.2.tgz#8ba8c0527543fe675d1c29ae0a2daca842e8ee4f"
@@ -7602,13 +7597,6 @@ hasha@^3.0.0:
   integrity sha1-UqMvq4Vp1BymmmH/GiFPjrfIvTk=
   dependencies:
     is-stream "^1.0.1"
-
-haunted@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/haunted/-/haunted-4.6.2.tgz#bd5eafc0520ddeafea402a039c9cb70bc82552c9"
-  integrity sha512-Nj1JfnT9OVngWcs7Tcq7oMaxKW0Bijjod/vpjwCoKK15W9hwkKBaisfXht+2RDvR2qLtgciVtCDgMbl4SSQjaQ==
-  dependencies:
-    lit-html "^1.0.0"
 
 he@1.1.1:
   version "1.1.1"
