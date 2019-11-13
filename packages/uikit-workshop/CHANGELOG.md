@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.2.0...v5.3.0) (2019-11-13)
+
+
+### Bug Fixes
+
+* port over missing UIKit Sass that wasn't added in the original PR ([f7659e6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/f7659e64d0eee13be20921dd5afc48ac20ae93e6))
+
+
+### Features
+
+* port latest UIKit updates + fixes upstream ([d07952c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d07952cb07e3792b995dda2e589262ecf4153fdc))
+
+
+
+
+
 # [5.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.1.0...v5.2.0) (2019-11-12)
 
 

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/pattern-lab/patternlab-node/compare/v5.2.0...v5.3.0) (2019-11-13)
+
+
+### Bug Fixes
+
+* add PluginTab workaround for Safari ([2fa9367](https://github.com/pattern-lab/patternlab-node/commit/2fa936769be65484af52f242dca2536a3382462c))
+* **core:** re-add cleanPublic fix ([c100bbc](https://github.com/pattern-lab/patternlab-node/commit/c100bbca3f339e9132acb9c482e98c1c8a66b8b5))
+* **plugin-tab:** defensively call addPanels ([b82bd12](https://github.com/pattern-lab/patternlab-node/commit/b82bd129fdbe48de95b62d75fb7fe95cea896b7e))
+* port over missing UIKit Sass that wasn't added in the original PR ([f7659e6](https://github.com/pattern-lab/patternlab-node/commit/f7659e64d0eee13be20921dd5afc48ac20ae93e6))
+
+
+### Features
+
+* port latest UIKit updates + fixes upstream ([d07952c](https://github.com/pattern-lab/patternlab-node/commit/d07952cb07e3792b995dda2e589262ecf4153fdc))
+
+
+
+
+
 # [5.2.0](https://github.com/pattern-lab/patternlab-node/compare/v5.1.0...v5.2.0) (2019-11-12)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.2.0...v5.3.0) (2019-11-13)
+
+
+### Bug Fixes
+
+* add PluginTab workaround for Safari ([2fa9367](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/2fa936769be65484af52f242dca2536a3382462c))
+* **plugin-tab:** defensively call addPanels ([b82bd12](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/b82bd129fdbe48de95b62d75fb7fe95cea896b7e))
+
+
+
+
+
 # [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
 
 

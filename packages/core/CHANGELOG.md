@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.2.0...v5.3.0) (2019-11-13)
+
+
+### Bug Fixes
+
+* **core:** re-add cleanPublic fix ([c100bbc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/c100bbca3f339e9132acb9c482e98c1c8a66b8b5))
+
+
+
+
+
 # [5.1.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.0.2...v5.1.0) (2019-10-29)
 
 

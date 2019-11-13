@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.2.0...v5.3.0) (2019-11-13)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig-php
+
+
+
+
+
 # [5.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.1.0...v5.2.0) (2019-11-12)
 
 
