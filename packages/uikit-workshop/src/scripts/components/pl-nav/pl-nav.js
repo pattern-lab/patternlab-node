@@ -293,6 +293,14 @@ class Nav extends BaseComponent {
         this.navAccordionPanels.forEach(panel => {
           panel.classList.remove('pl-is-active');
         });
+      } else if (this.layoutMode === 'vertical' && window.innerWidth <= 670) {
+        this.navContainer.classList.remove('pl-is-active');
+        this.navAccordionTriggers.forEach(trigger => {
+          trigger.classList.remove('pl-is-active');
+        });
+        this.navAccordionPanels.forEach(panel => {
+          panel.classList.remove('pl-is-active');
+        });
       } else {
         this.navContainer.classList.remove('pl-is-active');
       }
@@ -331,6 +339,7 @@ class Nav extends BaseComponent {
         )
       ) {
         activeLink.parentNode.classList.add('pl-is-active');
+        this.previousActiveLinks.push(activeLink.parentNode);
       }
 
       const parentDropdown = activeLink.closest('.pl-js-acc-panel');
@@ -346,8 +355,8 @@ class Nav extends BaseComponent {
             ) &&
             shouldAutoOpenNav
           ) {
-            this.previousActiveLinks.push(parentDropdown.previousSibling);
             parentDropdown.previousSibling.classList.add('pl-is-active');
+            this.previousActiveLinks.push(parentDropdown.previousSibling);
             parentDropdownTrigger = parentDropdown.previousSibling.querySelector(
               '.pl-js-acc-handle'
             );

@@ -54,7 +54,7 @@
  */
 .pl-c-pattern-info__panel {
   padding: .5rem;
-  flex-shrink: 1;
+  flex-shrink: 0; // prevent panel from collapsing in height (especially on smaller screens like iPhone)
   display: flex;
   flex-direction: column;
 
