@@ -14,9 +14,7 @@ function addPanels() {
 }
 
 if (window.patternlab && window.patternlab.panels) {
-  console.log('pl already ready');
   addPanels();
 } else {
-  console.log('waiting for PL to be ready');
   document.addEventListener('patternLab.pageLoad', addPanels);
 }
