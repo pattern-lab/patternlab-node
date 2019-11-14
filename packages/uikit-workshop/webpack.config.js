@@ -20,7 +20,7 @@ const explorer = cosmiconfig('patternlab');
 // @todo: wire these two ocnfigs up to use cosmicconfig!
 const defaultConfig = {
   buildDir: './dist',
-  prod: true, // or false for local dev
+  prod: argv.watch ? false : true, // or false for local dev
   sourceMaps: true,
   publicPath: './styleguide/',
   copy: [{ from: './src/images/**', to: 'images', flatten: true }],
@@ -117,9 +117,11 @@ module.exports = function() {
       {
         loader: 'sass-loader',
         options: {
-          sourceMap: config.sourceMaps,
-          outputStyle: 'expanded',
-          importer: [selectorImporter()],
+          sassOptions: {
+            sourceMap: config.sourceMaps,
+            outputStyle: 'expanded',
+            importer: [selectorImporter()],
+          },
         },
       },
     ];
@@ -216,7 +218,7 @@ module.exports = function() {
       // mode: config.prod ? 'production' : 'development',
       mode: config.prod ? 'production' : 'development', // temp workaround till strange rendering issues with full `production` mode are switched on in Webpack
       optimization: {
-        minimize: true,
+        minimize: config.prod,
         occurrenceOrder: true,
         namedChunks: true,
         removeAvailableModules: true,
@@ -249,11 +251,6 @@ module.exports = function() {
       },
       plugins: [
         new CopyPlugin(config.copy),
-        new MiniCssExtractPlugin({
-          filename: `[name].css`,
-          chunkFilename: `[id].css`,
-          allChunks: true,
-        }),
         new NoEmitPlugin(['css/pattern-lab.js']),
       ],
     };
@@ -293,6 +290,13 @@ module.exports = function() {
           },
         ],
       },
+      plugins: [
+        new MiniCssExtractPlugin({
+          filename: `[name].css`,
+          chunkFilename: `[id].css`,
+          allChunks: true,
+        }),
+      ],
     });
 
     const modernConfig = merge(webpackConfig, {
@@ -325,11 +329,13 @@ module.exports = function() {
       plugins: [
         // clear out the buildDir on every fresh Webpack build
         new CleanWebpackPlugin(
-          [
-            `${config.buildDir}/index.html`,
-            `${config.buildDir}/styleguide/css`,
-            `${config.buildDir}/styleguide/js`,
-          ],
+          argv.watch
+            ? []
+            : [
+                `${config.buildDir}/index.html`,
+                `${config.buildDir}/styleguide/css`,
+                `${config.buildDir}/styleguide/js`,
+              ],
           {
             allowExternal: true,
             verbose: false,
@@ -343,57 +349,14 @@ module.exports = function() {
           template: 'src/html/index.html',
           inject: false,
         }),
+        new MiniCssExtractPlugin({
+          filename: `[name].css`,
+          chunkFilename: `[id].css`,
+          allChunks: true,
+        }),
       ],
     });
 
-    if (!argv.watch) {
-      modernConfig.plugins.push(
-        new PrerenderSPAPlugin({
-          // Required - The path to the webpack-outputted app to prerender.
-          // staticDir: path.join(__dirname, 'dist'),
-          staticDir: path.resolve(process.cwd(), `${config.buildDir}/`),
-          // Required - Routes to render.
-          routes: ['/'],
-          postProcess(context) {
-            context.html = context.html.replace(
-              /<script\s[^>]*charset=\"utf-8\"[^>]*><\/script>/gi,
-              ''
-            );
-            return context;
-          },
-        }),
-        new CriticalCssPlugin({
-          base: path.resolve(__dirname, config.buildDir),
-          src: 'index.html',
-          dest: 'index.html',
-          inline: true,
-          minify: true,
-          extract: false,
-          width: 1300,
-          height: 900,
-          penthouse: {
-            keepLargerMediaQueries: true,
-
-            // @todo: troubleshoot why forceInclude works w/ Penthouse directly but not w/ Critical
-            forceInclude: [
-              'pl-logo',
-              '.pl-c-logo',
-              '.pl-c-logo__img',
-              '.pl-c-body--theme-light',
-              '.pl-c-body--theme-sidebar',
-              '.pl-c-body--theme-sidebar .pl-c-viewport',
-              '.pl-c-body--theme-density-compact',
-            ],
-            timeout: 30000, // ms; abort critical CSS generation after this timeout
-            maxEmbeddedBase64Length: 1000,
-            renderWaitTime: 1000,
-            blockJSRequests: false,
-          },
-        })
-      );
-    }
-
     return resolve([modernConfig, legacyConfig]);
-    // return resolve([modernConfig]);
   });
 };

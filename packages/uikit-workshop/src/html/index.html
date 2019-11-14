@@ -20,6 +20,15 @@
       as="image"
       href="styleguide/images/pattern-lab-logo--on-light.svg"
     />
+  </head>
+
+  <body class="pl-c-body">
+    <pl-layout></pl-layout>
+
+    <!-- the template for the modal slider -->
+    <script type="text/mustache" class="pl-js-panel-template-base">
+      ${require('./partials/base-template.html') }
+    </script>
 
     <script src="styleguide/data/patternlab-data.js" defer></script>
     <script src="annotations/annotations.js" defer></script>
@@ -27,22 +36,6 @@
       src="styleguide/js/patternlab-viewer.modern.js"
       type="module"
     ></script>
-  </head>
-
-  <body class="pl-c-body">
-    <pl-layout>
-      <pl-header></pl-header>
-      <div class="pl-c-viewport-modal-wrapper">
-        <pl-iframe></pl-iframe>
-        <pl-drawer></pl-drawer>
-      </div>
-    </pl-layout>
-
-    <!-- the template for the modal slider -->
-    <script type="text/mustache" class="pl-js-panel-template-base">
-      ${require('./partials/base-template.html') }
-    </script>
-
     <script>
       // https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
       (function() {

@@ -1,7 +1,8 @@
 'use strict';
 
 const path = require('path');
-const liveServer = require('@pattern-lab/live-server');
+const browserSync = require('browser-sync').create();
+const opn = require('better-opn');
 
 const events = require('./events');
 const logger = require('./log');
@@ -48,10 +49,7 @@ const server = patternlab => {
           //watch for builds to complete
           patternlab.events.on(events.PATTERNLAB_BUILD_END, () => {
             if (serverReady) {
-              _module.reload({
-                file: '',
-                action: 'reload',
-              });
+              browserSync.reload();
             }
           });
         };
@@ -62,9 +60,42 @@ const server = patternlab => {
           let resolveMsg = '';
           setTimeout(() => {
             try {
-              liveServer.start(liveServerConfig);
-              resolveMsg = `Pattern Lab is being served from http://127.0.0.1:${liveServerConfig.port}`;
-              logger.info(resolveMsg);
+              browserSync.init(
+                {
+                  logLevel: 'info',
+                  ui: false,
+                  notify: false,
+                  open: false,
+                  logFileChanges: false,
+                  reloadOnRestart: true,
+                  port: liveServerConfig.port, // try to use this port but choose another if unavailable
+                  server: liveServerConfig.root,
+                  files: [
+                    `${liveServerConfig.root}/**/*.css`,
+                    `${liveServerConfig.root}/**/*.js`,
+                  ],
+                  watchOptions: {
+                    ignoreInitial: false,
+                  },
+                },
+                function(err, bs) {
+                  const port = bs.options.get('port');
+                  serverReady = true; // so we only spin this up once Webpack has finished up initially
+
+                  resolveMsg = `Pattern Lab is being served from http://127.0.0.1:${port}`;
+                  opn(`http://127.0.0.1:${port}`);
+                  logger.info(resolveMsg);
+                }
+              );
+
+              browserSync.watch(
+                `${liveServerConfig.root}/**.html`,
+                (event, file) => {
+                  if (!patternlab.isBusy) {
+                    browserSync.reload('**/*.html');
+                  }
+                }
+              );
             } catch (e) {
               const err = `Pattern Lab serve failed to start: ${e}`;
               logger.error(`Pattern Lab serve failed to start: ${e}`);
@@ -89,13 +120,15 @@ const server = patternlab => {
         let action;
         try {
           if (!patternlab.isBusy) {
-            if (_data.file.indexOf('css') > -1 || _data.action === 'refresh') {
-              action = 'refreshed CSS';
-              liveServer.refreshCSS();
-            } else {
-              action = 'reloaded';
-              liveServer.reload();
-            }
+            // @todo: re-evaluate to see if this specific logic is still necessary
+            // if (_data.file.indexOf('css') > -1 || _data.action === 'refresh') {
+            //   action = 'refreshed CSS';
+            //   // browserSync.refreshCSS();
+            // } else {
+            //   action = 'reloaded';
+            //   // browserSync.reload();
+            // }
+            browserSync.reload();
             resolve(`Server ${action} successfully`);
           }
         } catch (e) {

@@ -4,6 +4,8 @@
   "version": "5.3.0",
   "main": "./src/index.js",
   "dependencies": {
+    "better-opn": "^1.0.0",
+    "browser-sync": "^2.26.7",
     "@pattern-lab/engine-mustache": "^5.0.0",
     "@pattern-lab/live-server": "^5.0.0",
     "chalk": "1.1.3",
