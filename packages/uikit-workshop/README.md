@@ -27,3 +27,24 @@ In order to modify these assets you need to install the following:
 ## Development Set-up
 
 Read the [contribution guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/packages/uikit-workshop/.github/CONTRIBUTING.md)
+
+
+## Working on Pattern Lab's UI Locally
+
+### Step 1: Install Dependencies
+Run the following in the root of the Pattern Lab repo:
+
+```
+yarn run setup
+```
+
+### Step 2 (Optional)
+If you want to build using a fuller set of examples than what comes with the default Handlebars demo, run `yarn run preview:hbs`. Otherwise skip to step 3.
+
+### Step 3
+Finally go into the UIKit folder and start up the local dev server which watches UIKit and the Handlebars demo for changes, live reloads, etc.
+
+```
+cd packages/uikit-workshop
+yarn start
+```

@@ -4,6 +4,7 @@
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
+    "start": "node ./build-tools.js",
     "prepublish": "npm run build",
     "postbootstrap": "npm run build",
     "build": "webpack-cli --config webpack.config.js --progress --bail --display=minimal",
@@ -30,6 +31,17 @@
   "license": "MIT",
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
+  "devDependencies": {
+    "@pattern-lab/core": "^5.3.0",
+    "better-opn": "^1.0.0",
+    "ejs": "^2.7.2",
+    "express": "^4.17.1",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "fs-extra": "^8.1.0",
+    "hasha": "^5.1.0",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0"
+  },
   "dependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
