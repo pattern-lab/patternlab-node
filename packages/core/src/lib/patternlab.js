@@ -47,6 +47,7 @@ module.exports = class PatternLab {
     // Load up engines please
     this.engines = patternEngines;
     this.engines.loadAllEngines(config);
+    this.isBusy = false;
 
     //
     // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
