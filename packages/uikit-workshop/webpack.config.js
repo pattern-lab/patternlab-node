@@ -13,6 +13,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
 const merge = require('webpack-merge');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 const cosmiconfig = require('cosmiconfig');
 const explorer = cosmiconfig('patternlab');
@@ -22,11 +23,12 @@ const defaultConfig = {
   buildDir: './dist',
   prod: argv.watch ? false : true, // or false for local dev
   sourceMaps: true,
+  watch: argv.watch ? true : false,
   publicPath: './styleguide/',
   copy: [{ from: './src/images/**', to: 'images', flatten: true }],
 };
 
-module.exports = function() {
+module.exports = function(apiConfig) {
   return new Promise(async resolve => {
     let customConfig = defaultConfig;
     let configToSearchFor;
@@ -44,7 +46,7 @@ module.exports = function() {
     }
 
     // Allow external flags for modifying PL's prod mode, on top of the .patternlabrc config file
-    const config = Object.assign({}, defaultConfig, customConfig);
+    const config = Object.assign({}, defaultConfig, customConfig, apiConfig);
 
     function getBabelConfig(isModern = false) {
       return {
@@ -127,6 +129,9 @@ module.exports = function() {
     ];
 
     const webpackConfig = {
+      stats: {
+        logging: 'none',
+      },
       performance: {
         hints: false,
       },
@@ -215,8 +220,7 @@ module.exports = function() {
         ],
       },
       cache: true,
-      // mode: config.prod ? 'production' : 'development',
-      mode: config.prod ? 'production' : 'development', // temp workaround till strange rendering issues with full `production` mode are switched on in Webpack
+      mode: config.prod ? 'production' : 'development',
       optimization: {
         minimize: config.prod,
         occurrenceOrder: true,
@@ -250,6 +254,7 @@ module.exports = function() {
           : [],
       },
       plugins: [
+        new FriendlyErrorsWebpackPlugin(),
         new CopyPlugin(config.copy),
         new NoEmitPlugin(['css/pattern-lab.js']),
       ],
@@ -329,7 +334,7 @@ module.exports = function() {
       plugins: [
         // clear out the buildDir on every fresh Webpack build
         new CleanWebpackPlugin(
-          argv.watch
+          config.watch
             ? []
             : [
                 `${config.buildDir}/index.html`,
