@@ -33,8 +33,6 @@ Object.keys(config.paths.source).forEach(key => {
   }
 });
 
-console.log(config);
-
 Object.keys(config.paths.public).forEach(key => {
   const value = config.paths.public[key];
 
