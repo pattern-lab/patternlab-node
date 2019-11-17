@@ -16,6 +16,7 @@
     "core-js": "^3.3.6",
     "custom-event-polyfill": "^1.0.7",
     "document-register-element": "^1.14.3",
+    "element-closest": "2.0.2",
     "es6-promise": "^4.2.8",
     "get-own-property-symbols": "^0.9.3",
     "promise-polyfill": "^8.0.0"
