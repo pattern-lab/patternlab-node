@@ -1,2 +1,2 @@
 import '@pattern-lab/uikit-polyfills';
-import './patternlab-components';
+import './patternlab-viewer.modern';

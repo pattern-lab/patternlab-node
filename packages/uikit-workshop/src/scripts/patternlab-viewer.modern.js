@@ -1,1 +1,1 @@
-import './patternlab-components';
+import './components';

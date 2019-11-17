@@ -1,0 +1,22 @@
+{
+  "name": "@pattern-lab/uikit-base",
+  "version": "5.3.2",
+  "description": "Web Component base used by Pattern Lab's UI",
+  "main": "index.js",
+  "authors": [
+    {
+      "name": "Salem Ghoweri",
+      "homepage": "https://github.com/sghoweri",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@pattern-lab/uikit-data": "^5.2.0",
+    "lit-element": "^2.2.1",
+    "lit-html": "^1.1.2",
+    "skatejs": "^5.2.4",
+    "preact-compat": "3.18.4",
+    "preact": "8.3.1"
+  }
+}
