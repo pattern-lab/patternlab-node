@@ -8,11 +8,7 @@
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
-    "pl:version": "patternlab --version",
-    "setup": "yarn --force && npx patternlab add --starterkits '@pattern-lab/starterkit-handlebars-vanilla' && npm run pl:build && npm run uikit:build",
-    "start": "npm-run-all -p  uikit:watch pl:serve",
-    "uikit:watch": "cd ../uikit-workshop && npm run watch",
-    "uikit:build": "cd ../uikit-workshop && npm run build"
+    "pl:version": "patternlab --version"
   },
   "keywords": [
     "Pattern Lab",
@@ -37,7 +33,6 @@
     "@pattern-lab/engine-mustache": "^5.0.0",
     "@pattern-lab/plugin-tab": "^5.3.0",
     "@pattern-lab/starterkit-mustache-demo": "^5.0.0",
-    "@pattern-lab/uikit-workshop": "^5.3.2",
-    "npm-run-all": "^4.1.5"
+    "@pattern-lab/uikit-workshop": "^5.3.2"
   }
 }

@@ -6,8 +6,7 @@
     "nohoist": [
       "@pattern-lab/engine-*",
       "**/@pattern-lab/engine-*",
-      "**/@pattern-lab/uikit-workshop",
-      "**/@pattern-lab/starterkit-handlebars-vanilla"
+      "**/@pattern-lab/uikit-workshop"
     ]
   },
   "dependencies": {

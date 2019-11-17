@@ -83,7 +83,7 @@ const patternlab_module = function(config) {
      * @memberof patternlab
      * @name getConfig
      * @instance
-     * @returns {string} the current patternlab-node config (defaults + customizations)
+     * @returns {object} the current patternlab-node config (defaults + customizations)
      */
     getConfig() {
       return config;
