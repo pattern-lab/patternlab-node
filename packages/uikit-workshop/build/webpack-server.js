@@ -8,12 +8,15 @@ const hasha = require('hasha');
 const webpackDevServerWaitpage = require('./webpack-dev-server-waitpage');
 const webpackConfig = require('../webpack.config');
 const app = express();
+const portfinder = require('portfinder');
 
 const fileHashes = {};
 
 // @todo: move these configs + make customizable?
 const buildDir = 'www';
-const preferredPort = '3000';
+const root = path.resolve(__dirname, `../${buildDir}`);
+const preferredPort = 3000;
+portfinder.basePort = preferredPort;
 
 async function serve(patternlab) {
   const webpackConfigs = await webpackConfig({
@@ -22,7 +25,15 @@ async function serve(patternlab) {
     buildDir: path.resolve(__dirname, `../${buildDir}`),
   });
 
-  const root = path.resolve(__dirname, `../${buildDir}`);
+  const port = await portfinder
+    .getPortPromise()
+    .then(port => {
+      return port;
+    })
+    .catch(err => {
+      console.log(err);
+      return 3000;
+    });
 
   // customize bs reload behavior based on the type of asset that's changed
   const filesToWatch = [
@@ -59,12 +70,13 @@ async function serve(patternlab) {
 
   browserSync.init(
     {
-      proxy: `127.0.0.1:${preferredPort}`,
+      proxy: `127.0.0.1:${port}`,
       logLevel: 'info',
       ui: false,
       notify: false,
       open: false,
       tunnel: false,
+      port,
       logFileChanges: false,
       reloadOnRestart: true,
       watchOptions: {
@@ -74,14 +86,14 @@ async function serve(patternlab) {
     },
     function(err, bs) {
       // assigned port from browsersync based on what's available
-      const port = bs.options.get('port');
-      opn(`http://localhost:${port}`);
+      const assignedPort = bs.options.get('port');
+      opn(`http://localhost:${assignedPort}`);
       const compiler = webpack(webpackConfigs);
 
       app.use(
         webpackDevServerWaitpage(compiler, {
           proxyHeader: 'browsersync-proxy',
-          redirectPath: `http://localhost:${port}`,
+          redirectPath: `http://localhost:${assignedPort}`,
         })
       );
 
@@ -94,9 +106,9 @@ async function serve(patternlab) {
         })
       );
 
-      app.use(express.static(path.resolve(__dirname, '../www')));
+      app.use(express.static(root));
 
-      app.listen(port, '127.0.0.1', function onStart(error) {
+      app.listen(assignedPort, '127.0.0.1', function onStart(error) {
         if (error) {
           console.log(error);
         }

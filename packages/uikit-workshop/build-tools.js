@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs-extra');
 
 fs.mkdirp('./node_modules/@pattern-lab/');
+fs.unlinkSync('./dependencyGraph.json');
 fs.ensureSymlink(__dirname, './node_modules/@pattern-lab/uikit-workshop');
 
 const configKeysEndingWithASlash = [
