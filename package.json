@@ -39,7 +39,7 @@
     "clean": "git clean -dfx",
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
     "postpublish": "auto release",
-    "preview:hbs": "cd packages/development-edition-engine-handlebars && npx patternlab add --starterkits '@pattern-lab/starterkit-handlebars-vanilla' && npm run pl:build"
+    "preview:hbs": "cd packages/development-edition-engine-handlebars && npx patternlab add --starterkits @pattern-lab/starterkit-handlebars-vanilla && npm run pl:build"
   },
   "nyc": {
     "exclude": [
