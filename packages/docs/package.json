@@ -30,7 +30,7 @@
   },
   "scripts": {
     "sass:tokens": "npx json-to-scss src/_data/tokens.json src/scss/_tokens.scss",
-    "sass:process": "npm run sass:tokens && sass src/scss/global.scss src/_includes/assets/css/global.css --style=compressed",
+    "sass:process": "npm run sass:tokens && sass src/scss/style.scss dist/css/style.css --style=compressed",
     "cms:precompile": "make-dir dist/admin && nunjucks-precompile src/_includes > dist/admin/templates.js -i \"\\.(njk|css|svg)$\"",
     "cms:bundle": "rollup --config",
     "start": "concurrently \"npm run sass:process -- --watch\" \"npm run cms:bundle -- --watch\" \"chokidar \\\"src/_includes/**\\\" -c \\\"npm run cms:precompile\\\"\" \"npm run serve\"",
