@@ -6,26 +6,30 @@
  * Heading 1 base styles
  */
 h1 {
-	@include typographyHeadingXl();
+  @include typographyHeadingXl();
+  position: relative;
 }
 
 /**
  * Heading 2 base styles
  */
 h2 {
-	@include typographyHeadingLarge();
+  @include typographyHeadingLarge();
+  position: relative;
 }
 
 /**
  * Heading 3 base styles
  */
 h3 {
-	@include typographyHeadingMed2();
+  @include typographyHeadingMed2();
+  position: relative;
 }
 
 /**
  * Heading 4 base styles
  */
 h4 {
-	@include typographyHeadingMed();
+  @include typographyHeadingMed();
+  position: relative;
 }

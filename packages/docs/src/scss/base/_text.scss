@@ -6,84 +6,78 @@
  * Paragraph base styles
  */
 p {
-	margin-bottom: $spacing;
+  margin-bottom: $spacing;
 }
 
 /**
  * Blockquote base styles
  */
 blockquote {
-	font-style: italic;
-	border-left: 1px solid $color-gray-50;
-	color: $color-gray-50;
-	padding-left: 1rem;
-	margin-bottom: $spacing;
+  font-style: italic;
+  border-left: 1px solid $color-gray-50;
+  color: $color-gray-50;
+  padding-left: 1rem;
+  margin-bottom: $spacing;
 }
 
 /**
  * Horizontal rule base styles
  */
 hr {
-	border: 0;
-	height: 1px;
-	background: $color-gray-13;
-	margin: 1rem 0;
+  border: 0;
+  height: 1px;
+  background: $color-gray-13;
+  margin: 1rem 0;
 }
 
 /**
  * Selection styles
  */
 ::-moz-selection {
-	color: $color-text-highlight;
-	background: $color-text-highlight-bg; /* Gecko Browsers */
+  color: $color-text-highlight;
+  background: $color-text-highlight-bg; /* Gecko Browsers */
 }
 
 ::selection {
-	color: $color-text-highlight;
-	background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
+  color: $color-text-highlight;
+  background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
 }
 
 /**
  * Code base styles
  */
 code {
-	display: inline-block;
-	background: $color-white;
-	border: 1px solid $color-white;
-	font-weight: bold;
-	padding: 0.2rem;
-	line-height: 1.2;
-
-	&:hover {
-		border: 1px solid $color-gray-27;
-	}
+  display: inline-block;
+  background: $color-brand-green-transparent;
+  padding: 0.2rem;
+  line-height: 1.2;
 }
 
 /**
  * Preformatted text base styles
  */
 pre {
-	background: $color-gray-88;
-	border-left: 10px solid $color-brand-green;
-	padding: 2rem;
-	overflow-x: auto;
-	color: $color-white;
+  background: $color-gray-88;
+  border-left: 10px solid $color-brand-green;
+  padding: 2rem;
+  overflow-x: auto;
+  color: $color-white;
 
-	/**
+  /**
 	 * Remove border from code within preformatted text block
 	 */
-	code {
-		border: 0;
-		background: transparent;
-		color: inherit;
-	}
+  code {
+    border: 0;
+    background: transparent;
+    color: inherit;
+  }
 }
 
 /**
  * Code with languages associated with them
  * 1) Override Prism sysles for code blocks with language
  */
-code[class*="language-"],
-pre[class*="language-"] {
-	font-family: monospace !important;
+code[class*='language-'],
+pre[class*='language-'] {
+  font-family: monospace !important;
 }
