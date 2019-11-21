@@ -12,6 +12,24 @@
   left: -20px;
   display: block;
   padding-right: 4px;
+
+  .c-text-passage & {
+    opacity: 0;
+    border-bottom: 0;
+    background: none;
+    transition: opacity 0.15s ease;
+
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  .c-text-passage h2:hover &,
+  .c-text-passage h2:focus &,
+  .c-text-passage h3:hover &,
+  .c-text-passage h3:focus & {
+    opacity: 1;
+  }
 }
 
 .heading-permalink__icon {

@@ -6,29 +6,6 @@
  * 1) A passage of text, including various components (i.e. article, blog post)
  */
 .c-text-passage {
-  .heading-permalink {
-    opacity: 0;
-    border-bottom: 0;
-    transition: opacity 0.15s ease;
-
-    &:focus {
-      opacity: 1;
-    }
-  }
-
-  h2,
-  h3,
-  h4 {
-    position: relative;
-
-    &:hover,
-    &:focus {
-      .heading-permalink {
-        opacity: 1;
-      }
-    }
-  }
-
   p {
     margin-bottom: $spacing-large;
   }
