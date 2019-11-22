@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.3](https://github.com/pattern-lab/patternlab-node/compare/v5.3.2...v5.3.3) (2019-11-22)
+
+
+### Bug Fixes
+
+* simplify overflow fix ([378cf42](https://github.com/pattern-lab/patternlab-node/commit/378cf4282a3e5b4f597287eb538270e3358c8c69))
+* testing potential FF fix for https://github.com/pattern-lab/patternlab-node/issues/1100 ([613bba1](https://github.com/pattern-lab/patternlab-node/commit/613bba104f2082be507938db78f1db7a07f6b8be))
+
+
+
+
+
+
 ## [5.3.2](https://github.com/pattern-lab/patternlab-node/compare/v5.3.1...v5.3.2) (2019-11-14)
 
 **Note:** Version bump only for package pl-node
