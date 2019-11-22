@@ -92,7 +92,7 @@
   display: flex;
   flex-basis: auto;
   -webkit-overflow-scrolling: touch;
-  height: 100%;
+  overflow-y: auto; // workaround to firefox background gradient overflow bug
 
   /**
      *  Tab content inside modal
