@@ -78,6 +78,30 @@ const patternlab_module = function(config) {
     },
 
     /**
+     * Returns the current pattern lab configuration being used
+     *
+     * @memberof patternlab
+     * @name getConfig
+     * @instance
+     * @returns {object} the current patternlab-node config (defaults + customizations)
+     */
+    getConfig() {
+      return config;
+    },
+
+    /**
+     * Returns if Pattern Lab is busy compiling or not
+     *
+     * @memberof patternlab
+     * @name isBusy
+     * @instance
+     * @returns {boolean} if pattern lab is currently busy compiling
+     */
+    isBusy: function() {
+      return patternlab.isBusy;
+    },
+
+    /**
      * Builds patterns, copies assets, and constructs user interface
      *
      * @memberof patternlab

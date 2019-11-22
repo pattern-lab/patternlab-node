@@ -19,7 +19,8 @@
     "install": "patternlab install --config ./patternlab-config.json",
     "serve": "patternlab serve --config ./patternlab-config.json",
     "start": "npm run serve",
-    "version": "patternlab --version"
+    "version": "patternlab --version",
+    "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "dependencies": {
     "@pattern-lab/cli": "^5.3.0",

@@ -4,3 +4,6 @@ src/bower_components/*
 .DS_Store
 /.eslintignore
 dist
+public
+www
+dependencyGraph.json
