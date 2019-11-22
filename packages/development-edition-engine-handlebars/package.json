@@ -8,7 +8,8 @@
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
-    "pl:version": "patternlab --version"
+    "pl:version": "patternlab --version",
+    "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "keywords": [
     "Pattern Lab",

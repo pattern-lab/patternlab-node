@@ -12,17 +12,17 @@ const portfinder = require('portfinder');
 
 const fileHashes = {};
 
-// @todo: move these configs + make customizable?
-const buildDir = 'www';
-const root = path.resolve(__dirname, `../${buildDir}`);
-const preferredPort = 3000;
-portfinder.basePort = preferredPort;
+async function serve(patternlab, buildDir = 'public') {
+  // @todo: move these configs + make customizable?
+  const root = path.resolve(__dirname, `${buildDir}`);
+  const preferredPort = 3000;
+  portfinder.basePort = preferredPort;
 
-async function serve(patternlab) {
   const webpackConfigs = await webpackConfig({
     watch: false,
     prod: false,
-    buildDir: path.resolve(__dirname, `../${buildDir}`),
+    buildDir: root,
+    rootDir: process.cwd(),
   });
 
   const port = await portfinder
@@ -47,7 +47,10 @@ async function serve(patternlab) {
     },
     // only reload the Webpack-generated HTML files when the contents have changed
     {
-      match: [`${root}/*.html`, `${root}/styleguide/html/*.html`],
+      match: [
+        path.join(process.cwd(), `${root}/*.html`),
+        path.join(process.cwd(), `${root}/styleguide/html/*.html`),
+      ],
       fn: async function(event, filePath) {
         let updatedHash = false;
 
@@ -100,9 +103,9 @@ async function serve(patternlab) {
       app.use(
         webpackDevMiddleware(compiler, {
           quiet: true,
-          stats: 'none',
+          stats: 'errors-warnings',
           writeToDisk: true,
-          logLevel: 'silent',
+          logLevel: 'error',
         })
       );
 

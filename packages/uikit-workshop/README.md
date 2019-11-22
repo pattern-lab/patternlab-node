@@ -42,9 +42,9 @@ yarn run setup
 If you want to build using a fuller set of examples than what comes with the default Handlebars demo, run `yarn run preview:hbs`. Otherwise skip to step 3.
 
 ### Step 3
-Finally go into the UIKit folder and start up the local dev server which watches UIKit and the Handlebars demo for changes, live reloads, etc.
+Finally, go into the `packages/development-edition-engine-handlebars` or `packages/edition-twig` folder and start up the local dev server which watches UIKit and the local Pattern Lab instance for changes, live reloads, etc by running `yarn dev`
 
 ```
-cd packages/uikit-workshop
-yarn start
+cd packages/development-edition-engine-handlebars
+yarn dev
 ```

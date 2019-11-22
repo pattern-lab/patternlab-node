@@ -13,13 +13,14 @@ const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
 const merge = require('webpack-merge');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 const cosmiconfig = require('cosmiconfig');
 const explorer = cosmiconfig('patternlab');
 
 // @todo: wire these two ocnfigs up to use cosmicconfig!
 const defaultConfig = {
+  rootDir: process.cwd(),
   buildDir: './dist',
   prod: argv.watch ? false : true, // or false for local dev
   sourceMaps: true,
@@ -129,9 +130,7 @@ module.exports = function(apiConfig) {
     ];
 
     const webpackConfig = {
-      stats: {
-        logging: 'none',
-      },
+      stats: 'errors-warnings',
       performance: {
         hints: false,
       },
@@ -143,7 +142,7 @@ module.exports = function(apiConfig) {
         },
       },
       output: {
-        path: path.resolve(process.cwd(), `${config.buildDir}/styleguide`),
+        path: path.resolve(config.rootDir, `${config.buildDir}/styleguide`),
         publicPath: `${config.publicPath}`,
         filename: '[name].js',
         chunkFilename: `js/[name]-chunk-[chunkhash].js`,
@@ -254,7 +253,7 @@ module.exports = function(apiConfig) {
           : [],
       },
       plugins: [
-        new FriendlyErrorsWebpackPlugin(),
+        new WebpackBar(),
         new CopyPlugin(config.copy),
         new NoEmitPlugin(['css/pattern-lab.js']),
       ],
@@ -279,9 +278,15 @@ module.exports = function(apiConfig) {
 
     const legacyConfig = merge(webpackConfig, {
       entry: {
-        'js/patternlab-pattern': './src/scripts/patternlab-pattern.js',
-        'js/patternlab-viewer': './src/scripts/patternlab-viewer.js',
-        'css/pattern-lab': './src/sass/pattern-lab.scss',
+        'js/patternlab-pattern': path.join(
+          __dirname,
+          './src/scripts/patternlab-pattern.js'
+        ),
+        'js/patternlab-viewer': path.join(
+          __dirname,
+          './src/scripts/patternlab-viewer.js'
+        ),
+        'css/pattern-lab': path.join(__dirname, './src/sass/pattern-lab.scss'),
       },
       module: {
         rules: [
@@ -309,9 +314,15 @@ module.exports = function(apiConfig) {
         mainFields: ['esnext', 'jsnext:main', 'browser', 'module', 'main'],
       },
       entry: {
-        'js/patternlab-pattern': './src/scripts/patternlab-pattern.modern.js',
-        'js/patternlab-viewer': './src/scripts/patternlab-viewer.modern.js',
-        'css/pattern-lab': './src/sass/pattern-lab.scss',
+        'js/patternlab-pattern': path.join(
+          __dirname,
+          './src/scripts/patternlab-pattern.modern.js'
+        ),
+        'js/patternlab-viewer': path.join(
+          __dirname,
+          './src/scripts/patternlab-viewer.modern.js'
+        ),
+        'css/pattern-lab': path.join(__dirname, './src/sass/pattern-lab.scss'),
       },
       output: {
         path: path.resolve(process.cwd(), `${config.buildDir}/styleguide`),
@@ -351,7 +362,7 @@ module.exports = function(apiConfig) {
         ),
         new HtmlWebpackPlugin({
           filename: '../index.html',
-          template: 'src/html/index.html',
+          template: path.resolve(__dirname, 'src/html/index.html'),
           inject: false,
         }),
         new MiniCssExtractPlugin({
