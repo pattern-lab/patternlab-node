@@ -9,7 +9,7 @@
  * 4) If the nav dropdown trigger parent does not have an active class, add it.
  */
 (function() {
-  var navLink = document.querySelectorAll('.js_nav-dropdown-trigger'); /* 1 */
+  var navLink = document.querySelectorAll('.js-nav-dropdown-trigger'); /* 1 */
 
   for (i = 0; i < navLink.length; i++) {
     /* 1 */

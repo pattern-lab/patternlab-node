@@ -2,11 +2,12 @@
   "items": [
     {
       "label": "Getting Started",
-      "url": "/docs/installation"
+      "url": "/docs/installing-pattern-lab"
     },
     {
       "label": "Documentation",
       "url": "/docs",
+      "subnavIsClosed": true,
       "subnav": [
         {
           "label": "Getting Started",

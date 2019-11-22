@@ -4,8 +4,12 @@
     <ul class="c-tree-nav">
         {% for item in navigation.items %}
         <li class="c-tree-nav__item">
-            <a class="c-tree-nav__link" href="{{ item.url }}">{{ item.label }}</a>
             {% if item.subnav %}
+            <button class="c-tree-nav__link c-tree-nav__link--btn js-nav-dropdown-trigger">
+                {{ item.label }}
+                {% include "components/icon-chevron-down.njk" %}
+            </button>
+            
             <ul class="c-tree-nav__subnav">
                 {% for subnav in item.subnav %}
                 
@@ -17,7 +21,9 @@
                     {% include "components/tree-subnav.njk" %}
                 </li><!--end c-tree-nav__subnav-item-->    
                 {% endfor %}  
-            </ul><!--end c-tree-nav__subnav-->    
+            </ul><!--end c-tree-nav__subnav-->
+            {% else %}
+            <a class="c-tree-nav__link" href="{{ item.url }}">{{ item.label }}</a>
             {% endif %}
         </li><!--end c-tree-nav__item-->
         {% endfor %}
