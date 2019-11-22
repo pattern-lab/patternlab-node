@@ -6,9 +6,17 @@ archiveButtonText: See all posts
 socialImage: ''
 ---
 
+<video autoplay="" loop="" playsinline="" muted="">
+    <source src="https://patternlab.io/assets/atomic-design.mp4" type="video/mp4">
+</video>
+
 Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
 
-At its core, Pattern Lab is a static site generator (powered by either PHP or Node) that stitches together UI components. But there's a whole lot more to it than that!
+```
+npm create pattern-lab
+```
+
+At its core, Pattern Lab is a static site generator (powered by either Node or PHP) that stitches together UI components. But there's a whole lot more to it than that!
 
 - **Nested Patterns** - Pattern Lab lets you include UI patterns inside each other like Russian nesting dolls. Make a change to a pattern, and see those changes reflected anywhere the pattern is included!
 - **Design With Dynamic Data** - Unlike static design tools, Pattern Lab lets you easily swap in different representative content into your components to ensure they can handle the dynamic nature of your content.
