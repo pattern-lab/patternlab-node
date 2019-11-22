@@ -25,9 +25,9 @@ blockquote {
  */
 hr {
   border: 0;
-  height: 1px;
+  height: $border-width-thick;
   background: $color-gray-13;
-  margin: 1rem 0;
+  margin: 2rem 0;
 }
 
 /**

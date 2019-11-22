@@ -10,48 +10,64 @@
 }
 
 .c-tree-nav__link {
-	display: block;
-	margin-bottom: 1.2rem;
-	color: inherit;
-	font-weight: $font-weight-bold;
-	transition: color 0.2s ease;
+  display: block;
+  margin-bottom: 1.2rem;
+  color: inherit;
+  font-weight: $font-weight-bold;
+  transition: color 0.2s ease;
 
-	&:hover {
-		color: $color-white;
-	}
+  &:hover {
+    color: $color-white;
+  }
 
-	&:focus {
-		color: $color-white;
-	}
+  &:focus {
+    color: $color-white;
+  }
 }
 
 .c-tree-nav__link--is-active {
-	color: $color-white;
-	font-weight: bold;
+  color: $color-white;
+  font-weight: bold;
 }
 
 /**
  * Subnav 
  */
 .c-tree-nav__subnav {
-	padding-left: 1.5rem;
-	border-left: 1px solid $color-gray-73;
-	margin-bottom: 1rem;
-	font-size: $font-size-med;
+  padding-left: 1rem;
+  border-left: 1px solid $color-gray-73;
+  margin-bottom: 1rem;
+  font-size: $font-size-med;
+  display: none;
+
+  .c-tree-nav__item.is-active & {
+    display: block;
+  }
 }
 
 .c-tree-nav__subnav-link {
-	color: inherit;
-	display: block;
-	margin-bottom: 1rem;
+  color: inherit;
+  display: block;
+  margin-bottom: 1rem;
 
-	&:hover,
-	&:focus {
-		color: $color-white;
-	}
+  &:hover,
+  &:focus {
+    color: $color-white;
+  }
+}
+
+.c-tree-nav__link--btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+
+  svg {
+    fill: currentColor;
+  }
 }
 
 .c-tree-nav__subnav-link--heading {
-	font-weight: bold;
-	color: $color-white;
+  font-weight: bold;
+  color: $color-white;
 }
