@@ -21,7 +21,7 @@ class IFrame extends BaseLitComponent {
     super();
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageLoad = this.handlePageLoad.bind(this);
-    // this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleIframeLoaded = this.handleIframeLoaded.bind(this);
@@ -32,12 +32,6 @@ class IFrame extends BaseLitComponent {
     iframeLoaderStyles.use();
     styles.use();
 
-    if (trackingPageChange === false) {
-      trackingPageChange = true;
-      document.addEventListener('patternPartial', this.handlePageLoad);
-      window.addEventListener('popstate', this.handlePageChange);
-    }
-
     const state = store.getState();
     this.themeMode = state.app.themeMode || 'dark';
     this.isViewallPage = state.app.isViewallPage || false;
@@ -47,7 +41,7 @@ class IFrame extends BaseLitComponent {
       this.sizeiframe(state.app.viewportPx, false);
     }
 
-    // window.addEventListener('message', this.receiveIframeMessage, false);
+    window.addEventListener('message', this.receiveIframeMessage, false);
     window.addEventListener('resize', this.handleResize);
     this.handleOrientationChange();
 
@@ -454,6 +448,71 @@ class IFrame extends BaseLitComponent {
     });
 
     return false;
+  }
+
+  receiveIframeMessage(event) {
+    // does the origin sending the message match the current host? if not dev/null the request
+    if (
+      window.location.protocol !== 'file:' &&
+      event.origin !== window.location.protocol + '//' + window.location.host
+    ) {
+      return;
+    }
+
+    let data = {};
+    try {
+      data =
+        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
+    } catch (e) {
+      // @todo: how do we want to handle exceptions here?
+    }
+
+    // try to auto-correct for currentPattern data that doesn't always match with url
+    // workaround for certain pages (especially view all pages) not always matching up internally with the expected current pattern key
+    if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
+      try {
+        if (event.data.patternpartial) {
+          let currentPattern = event.data.patternpartial;
+          if (
+            !document.querySelector(`[data-patternpartial="${currentPattern}"]`)
+          ) {
+            currentPattern = currentPattern.replace(/[-][0-9][0-9]/g, '');
+          }
+          const currentUrl = urlHandler.getFileName(currentPattern);
+
+          if (currentPattern !== null) {
+            document.title = 'Pattern Lab - ' + currentPattern;
+
+            const addressReplacement =
+              window.location.protocol === 'file:'
+                ? null
+                : window.location.protocol +
+                  '//' +
+                  window.location.host +
+                  window.location.pathname.replace('index.html', '') +
+                  '?p=' +
+                  currentPattern;
+
+            window.history.replaceState(
+              {
+                currentPattern: currentPattern,
+              },
+              null,
+              addressReplacement
+            );
+
+            store.dispatch(updateCurrentPattern(currentPattern));
+
+            // don't update state or upddate the URL for non-existent patterns
+            if (currentUrl) {
+              store.dispatch(updateCurrentUrl(currentUrl));
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }
 

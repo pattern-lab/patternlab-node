@@ -199,7 +199,7 @@ pl-nav {
     width: 100%;
   }
 
-  &:not(.pl-c-nav__link--title).pl-is-active {
+  &:not(.pl-c-nav__link--title):not(.pl-c-nav__link--dropdown).pl-is-active {
     box-shadow: inset 4px 0 0 #6c79d9;
 
     // move the "active" border style to the bottom on ONLY the top level links (ex. "All")

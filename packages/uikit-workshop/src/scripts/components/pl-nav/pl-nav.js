@@ -4,6 +4,7 @@ import { h } from 'preact';
 
 const classNames = require('classnames');
 
+import { getParents } from './get-parents';
 import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
 import Mousetrap from 'mousetrap';
@@ -230,16 +231,12 @@ class Nav extends BaseComponent {
       this.layoutMode = state.app.layoutMode || '';
     }
 
-    if (this.currentPattern !== state.app.currentPattern) {
-      if (
-        state.app.currentPattern !== '' &&
-        this.currentPattern !== state.app.currentPattern &&
-        this._hasInitiallyRendered === true
-      ) {
-        this.handleURLChange(); // so the nav logic is always correct (ex. layout changes)
-      }
-
+    if (
+      state.app.currentPattern &&
+      this.currentPattern !== state.app.currentPattern
+    ) {
       this.currentPattern = state.app.currentPattern;
+      this.handleURLChange(); // so the nav logic is always correct (ex. layout changes)
     }
   }
 
@@ -317,70 +314,35 @@ class Nav extends BaseComponent {
   }
 
   handleURLChange() {
-    const shouldAutoOpenNav = true;
-
     const currentPattern = this.currentPattern;
-    const activeLink = document.querySelector(
+    this.activeLink = document.querySelector(
       `[data-patternpartial="${currentPattern}"]`
     );
-    const self = this;
 
     if (this.previousActiveLinks) {
-      this.previousActiveLinks.forEach(function(link, index) {
-        self.previousActiveLinks[index].classList.remove('pl-is-active');
+      this.previousActiveLinks.forEach((link, index) => {
+        this.previousActiveLinks[index].classList.remove('pl-is-active');
       });
     }
     this.previousActiveLinks = [];
 
-    if (activeLink) {
-      activeLink.classList.add('pl-is-active');
-      this.previousActiveLinks.push(activeLink);
+    if (this.activeLink) {
+      const triggers = [this.activeLink];
+      const panels = Array.from(
+        getParents(this.activeLink, '.pl-js-acc-panel')
+      );
 
-      if (
-        activeLink.parentNode.classList.contains(
-          'pl-c-nav__link--overview-wrapper'
-        )
-      ) {
-        activeLink.parentNode.classList.add('pl-is-active');
-        this.previousActiveLinks.push(activeLink.parentNode);
-      }
-
-      const parentDropdown = activeLink.closest('.pl-js-acc-panel');
-      let parentDropdownTrigger;
-
-      if (parentDropdown) {
-        if (parentDropdown.previousSibling) {
-          parentDropdownTrigger = parentDropdown.previousSibling;
-
-          if (
-            parentDropdown.previousSibling.classList.contains(
-              'pl-c-nav__link--overview-wrapper'
-            ) &&
-            shouldAutoOpenNav
-          ) {
-            parentDropdown.previousSibling.classList.add('pl-is-active');
-            this.previousActiveLinks.push(parentDropdown.previousSibling);
-            parentDropdownTrigger = parentDropdown.previousSibling.querySelector(
-              '.pl-js-acc-handle'
-            );
-          }
-
-          const grandparentDropdown = parentDropdown.closest(
-            '.pl-c-nav__sublist--dropdown'
-          );
-          const grandparentDropdownTrigger =
-            grandparentDropdown.previousSibling;
-
-          if (grandparentDropdownTrigger && shouldAutoOpenNav) {
-            if (shouldAutoOpenNav) {
-              grandparentDropdownTrigger.classList.add('pl-is-active');
-            }
-            this.previousActiveLinks.push(grandparentDropdownTrigger);
-          }
+      panels.forEach(panel => {
+        const panelTrigger = panel.previousSibling;
+        if (panelTrigger) {
+          triggers.push(panelTrigger);
         }
-      }
-    } else {
-      this.cleanupActiveNav();
+      });
+
+      triggers.forEach(trigger => {
+        trigger.classList.add('pl-is-active');
+        this.previousActiveLinks.push(trigger);
+      });
     }
   }
 
@@ -416,7 +378,9 @@ class Nav extends BaseComponent {
       this._hasInitiallyRendered = true;
     }
 
-    this.handleURLChange();
+    if (!this.activeLink) {
+      this.handleURLChange();
+    }
 
     if (this.layoutMode !== 'vertical' && window.innerWidth > 670) {
       this.cleanupActiveNav(true);
@@ -443,7 +407,6 @@ class Nav extends BaseComponent {
               >
                 {item.patternTypeUC}
               </ButtonTitle>
-
               <ol
                 id={item.patternSubtypeUC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
