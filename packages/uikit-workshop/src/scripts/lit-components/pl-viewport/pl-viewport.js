@@ -32,6 +32,12 @@ class IFrame extends BaseLitComponent {
     iframeLoaderStyles.use();
     styles.use();
 
+    if (trackingPageChange === false) {
+      trackingPageChange = true;
+      document.addEventListener('patternPartial', this.handlePageLoad);
+      window.addEventListener('popstate', this.handlePageChange);
+    }
+
     const state = store.getState();
     this.themeMode = state.app.themeMode || 'dark';
     this.isViewallPage = state.app.isViewallPage || false;
