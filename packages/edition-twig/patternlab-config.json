@@ -148,7 +148,7 @@
     "color": "light",
     "density": "compact",
     "layout": "horizontal",
-    "noViewAll": true
+    "noViewAll": false
   },
   "uikits": [
     {
