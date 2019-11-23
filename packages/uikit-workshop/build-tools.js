@@ -12,5 +12,6 @@ patternlab.build({
 
 webpackServer.serve(
   patternlab,
+  configFilePath,
   path.resolve(process.cwd(), config.paths.public.root)
 );
