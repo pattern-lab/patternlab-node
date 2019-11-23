@@ -3,3 +3,7 @@ src/bower_components/*
 .sass-cache/*
 .DS_Store
 /.eslintignore
+dist
+public
+www
+dependencyGraph.json

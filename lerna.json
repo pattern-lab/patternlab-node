@@ -1,28 +1,38 @@
 {
   "lerna": "3.11.0",
+  "version": "5.3.3",
   "packages": [
     "packages/*"
   ],
-  "version": "independent",
   "command": {
     "init": {
       "exact": true
     },
-    "bootstrap": {
-      "hoist": [
-        "tap",
-        "eslin*",
-        "husky",
-        "prettier",
-        "pretty-quick",
-        "babel-eslint"
-      ]
-    },
     "publish": {
-      "allowBranch": "master"
+      "allowBranch": [
+        "master",
+        "dev"
+      ],
+      "conventionalCommits": true,
+      "gitReset": true,
+      "includeMergedTags": true,
+      "noCommitHooks": true,
+      "verifyAccess": true
+    },
+    "changed": {
+      "includeMergedTags": true
     }
   },
+  "ignoreChanges": [
+    "**/__fixtures__/**",
+    "**/__tests__/**",
+    "**/*.md",
+    "**/__snapshots__/**"
+  ],
+  "npmClient": "yarn",
   "npmClientArgs": [
+    "--ignore-optional",
     "--registry=https://registry.npmjs.org/"
-  ]
+  ],
+  "useWorkspaces": true
 }

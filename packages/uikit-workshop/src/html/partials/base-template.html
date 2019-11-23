@@ -37,35 +37,41 @@
   <!--end pl-c-pattern-info__description-->
   {{/ patternDescExists }} {{# lineageExists }}
   <p class="pl-c-lineage pl-js-lineage">
-    The <em>{{ patternName }}</em> pattern contains the following patterns: {{#
-    lineage }}
+    The
+    <em>{{ patternName }}</em>
+    pattern contains the following patterns: {{# lineage }}
     <a
       href="{{ lineagePath }}"
       class="pl-c-lineage__link pl-js-lineage-link"
-      data-patternPartial="{{ lineagePattern }}"
+      data-patternpartial="{{ lineagePattern }}"
     >
       {{ lineagePattern }} {{# lineageState }}<span
         class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}"
         title="{{ lineageState }}"
-      />{{/ lineageState }} </a
-    ><!--end pl-c-lineage__link-->
+      />
+      {{/ lineageState }}
+    </a>
+    <!--end pl-c-lineage__link-->
     {{# hasComma }}, {{/ hasComma }} {{/ lineage }}
   </p>
   <!--end pl-c-lineage-->
   {{/ lineageExists }} {{# lineageRExists }}
   <p class="pl-c-lineage">
-    The <em>{{ patternName }}</em> pattern is included in the following
-    patterns: {{# lineageR }}
+    The
+    <em>{{ patternName }}</em>
+    pattern is included in the following patterns: {{# lineageR }}
     <a
       href="{{ lineagePath }}"
       class="pl-c-lineage__link pl-js-lineage-link"
-      data-patternPartial="{{ lineagePattern }}"
+      data-patternpartial="{{ lineagePattern }}"
     >
       {{ lineagePattern }} {{# lineageState }}<span
         class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}"
         title="{{ lineageState }}"
-      />{{/ lineageState }} </a
-    ><!--end pl-c-lineage__link-->
+      />
+      {{/ lineageState }}
+    </a>
+    <!--end pl-c-lineage__link-->
     {{# hasComma }}, {{/ hasComma }} {{/ lineageR }}
   </p>
   <!--end pl-c-lineage-->
@@ -105,6 +111,7 @@
             id="pl-{{ patternPartial }}-{{ id }}-tab"
             data-patternpartial="{{ patternPartial }}"
             data-panelid="{{ id }}"
+            no-smooth-scroll
             >{{ name }}</a
           >
         </li>
@@ -123,11 +130,40 @@
       >
         <button
           class="pl-c-code-copy-btn pl-js-code-copy-btn"
+          size="small"
           data-clipboard-target="#pl-{{ patternPartial }}-{{ id }}-panel code"
         >
-          Copy
-        </button>
+          <span class="pl-c-code-copy-btn__icon-text">Copy</span>
+          <svg
+            viewbox="0 0 24 24"
+            width="20"
+            height="20"
+            class="pl-c-code-copy-btn__icon pl-c-code-copy-btn__icon--copy"
+          >
+            <title>copy icon</title>
+            <path
+              fill="currentColor"
+              d="M18.984 21v-14.016h-10.969v14.016h10.969zM18.984 5.016c1.078 0 2.016 0.891 2.016 1.969v14.016c0 1.078-0.938 2.016-2.016 2.016h-10.969c-1.078 0-2.016-0.938-2.016-2.016v-14.016c0-1.078 0.938-1.969 2.016-1.969h10.969zM15.984 0.984v2.016h-12v14.016h-1.969v-14.016c0-1.078 0.891-2.016 1.969-2.016h12z"
+            ></path>
+          </svg>
 
+          <svg
+            class="pl-c-code-copy-btn__icon pl-c-code-copy-btn__icon--paste"
+            viewbox="0 0 16 16"
+            width="20"
+            height="20"
+          >
+            <title>clipboard</title>
+            <path
+              fill="currentColor"
+              d="M14.5 2h-4.5c0-1.105-0.895-2-2-2s-2 0.895-2 2h-4.5c-0.276 0-0.5 0.224-0.5 0.5v13c0 0.276 0.224 0.5 0.5 0.5h13c0.276 0 0.5-0.224 0.5-0.5v-13c0-0.276-0.224-0.5-0.5-0.5zM8 1c0.552 0 1 0.448 1 1s-0.448 1-1 1c-0.552 0-1-0.448-1-1s0.448-1 1-1zM14 15h-12v-12h2v1.5c0 0.276 0.224 0.5 0.5 0.5h7c0.276 0 0.5-0.224 0.5-0.5v-1.5h2v12z"
+            ></path>
+            <path
+              fill="currentColor"
+              d="M7 13.414l-3.207-3.707 0.914-0.914 2.293 1.793 4.293-3.793 0.914 0.914z"
+            ></path>
+          </svg>
+        </button>
         {{{ content }}}
       </div>
       <!--end pl-c-tabs__panel-->

@@ -12,7 +12,7 @@
   margin-bottom: 0.5rem;
   display: flex;
   font-size: $pl-font-size-sm;
-  color: $pl-color-gray-50;
+  color: inherit;
   text-transform: capitalize;
 }
 
@@ -20,6 +20,7 @@
  * Breadcrumb Item
  */
 .pl-c-breadcrumb__item {
+  color: inherit;
   &:after {
     content: '\25b6';
     opacity: 0.4;
