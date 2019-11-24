@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, no-shadow */
 import { define, props } from 'skatejs';
-import { h } from 'preact';
+import { h, Fragment } from 'preact';
 
 const classNames = require('classnames');
 
@@ -9,172 +9,36 @@ import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
 import Mousetrap from 'mousetrap';
 import 'url-search-params-polyfill';
-
-const SubSubList = props => {
-  const { children, category, elem } = props;
-  const reorderedChildren = [];
-
-  const nonViewAllItems = elem.noViewAll
-    ? children.filter(item => item.patternName !== 'View All')
-    : children.filter(
-        item =>
-          item.patternName !== 'View All' && !item.patternName.includes(' Docs')
-      );
-  const viewAllItems = elem.noViewAll
-    ? []
-    : children.filter(item => item.patternName === 'View All');
-
-  reorderedChildren.push(...viewAllItems, ...nonViewAllItems);
-
-  return (
-    <li className={`pl-c-nav__item pl-c-nav__item--${category.toLowerCase()}`}>
-      {viewAllItems.length > 0 ? (
-        viewAllItems.map(patternSubtypeItem => (
-          <div class="pl-c-nav__link--overview-wrapper">
-            <a
-              href={`patterns/${patternSubtypeItem.patternPath}`}
-              className={`pl-c-nav__link pl-c-nav__link--sublink
-                ${
-                  patternSubtypeItem.patternName === 'View All'
-                    ? 'pl-c-nav__link--overview pl-js-link-overview'
-                    : 'pl-c-nav__link--subsublink'
-                }
-                `}
-              onClick={e =>
-                elem.handleClick(e, patternSubtypeItem.patternPartial)
-              }
-              data-patternpartial={patternSubtypeItem.patternPartial}
-            >
-              {patternSubtypeItem.patternName === 'View All'
-                ? `${category}`
-                : patternSubtypeItem.patternName}
-              {patternSubtypeItem.patternState && (
-                <span
-                  class={`pl-c-pattern-state pl-c-pattern-state--${patternSubtypeItem.patternState}`}
-                  title={patternSubtypeItem.patternState}
-                />
-              )}
-            </a>
-
-            {nonViewAllItems.length >= 1 && (
-              <SpecialButton
-                aria-controls={category}
-                onClick={elem.toggleSpecialNavPanel}
-              >
-                {category}
-              </SpecialButton>
-            )}
-          </div>
-        ))
-      ) : (
-        <Button aria-controls={category} onClick={elem.toggleNavPanel}>
-          {category}
-        </Button>
-      )}
-
-      {((viewAllItems.length && nonViewAllItems.length) ||
-        viewAllItems.length === 0) && (
-        <ol
-          id={category}
-          className={`pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel`}
-        >
-          {nonViewAllItems.map(patternSubtypeItem => (
-            <li class="pl-c-nav__item">
-              <a
-                href={`patterns/${patternSubtypeItem.patternPath}`}
-                className={`pl-c-nav__link pl-c-nav__link--sublink
-                      ${
-                        patternSubtypeItem.patternName === 'View All'
-                          ? 'pl-c-nav__link--overview'
-                          : 'pl-c-nav__link--subsublink'
-                      }
-                    `}
-                onClick={e =>
-                  elem.handleClick(e, patternSubtypeItem.patternPartial)
-                }
-                data-patternpartial={patternSubtypeItem.patternPartial}
-              >
-                {patternSubtypeItem.patternName === 'View All'
-                  ? `${category} Overview`
-                  : patternSubtypeItem.patternName}
-                {patternSubtypeItem.patternState && (
-                  <span
-                    class={`pl-c-pattern-state pl-c-pattern-state--${patternSubtypeItem.patternState}`}
-                    title={patternSubtypeItem.patternState}
-                  />
-                )}
-              </a>
-            </li>
-          ))}
-        </ol>
-      )}
-    </li>
-  );
-};
-
-const SpecialButton = props => {
-  return (
-    <button
-      className={`pl-c-nav__link pl-c-nav__link--section-dropdown pl-js-acc-handle`}
-      role="tab"
-      {...props}
-    >
-      {props.children}
-      <span
-        class="pl-c-nav__link-icon"
-        dangerouslySetInnerHTML={{
-          __html: '<pl-icon name="arrow-down"></pl-icon>',
-        }}
-      />
-    </button>
-  );
-};
-
-const Button = props => {
-  return (
-    <button
-      className={`pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle`}
-      role="tab"
-      {...props}
-    >
-      <span className={`pl-c-nav__link-text`}>{props.children}</span>
-      <span
-        class="pl-c-nav__link-icon"
-        dangerouslySetInnerHTML={{
-          __html: '<pl-icon name="arrow-down"></pl-icon>',
-        }}
-      />
-    </button>
-  );
-};
-
-const ButtonTitle = props => {
-  return (
-    <button
-      className={`pl-c-nav__link pl-c-nav__link--title pl-js-acc-handle`}
-      role="tab"
-      {...props}
-    >
-      <span
-        class="pl-c-nav__link-icon"
-        dangerouslySetInnerHTML={{
-          __html: '<pl-icon name="arrow-down"></pl-icon>',
-        }}
-      />
-      <span className={`pl-c-nav__link-text`}>{props.children}</span>
-    </button>
-  );
-};
+import { NavLink } from './nav-link';
+import { NavList } from './nav-list';
 
 @define
 class Nav extends BaseComponent {
   static is = 'pl-nav';
 
+  static props = {
+    autoClose: {
+      ...props.boolean,
+      ...{ default: true },
+    },
+    currentPattern: props.string,
+    layoutMode: props.string,
+    collapsedByDefault: {
+      ...props.boolean,
+      ...{ default: true },
+    },
+    noViewAll: {
+      ...props.boolean,
+      ...{ default: window.config?.theme?.noViewAll || false },
+    },
+  };
+
   constructor(self) {
     self = super(self);
-    self.toggleNavPanel = self.toggleNavPanel.bind(self);
-    self.toggleSpecialNavPanel = self.toggleSpecialNavPanel.bind(self);
+    self.panelToggle = self.panelToggle.bind(self);
+    self.iconOnlyPanelToggle = self.iconOnlyPanelToggle.bind(self);
     self.handleClick = self.handleClick.bind(self);
+    self.handleTopLevelNavClick = self.handleTopLevelNavClick.bind(self);
     self.handleURLChange = self.handleURLChange.bind(self);
     self.handlePageClick = self.handlePageClick.bind(self);
     self._hasInitiallyRendered = false;
@@ -197,13 +61,12 @@ class Nav extends BaseComponent {
   }
 
   connected() {
-    this.isOpenClass = 'pl-is-active';
-    const self = this;
+    this.isOpenClass = 'is-open';
     const state = store.getState();
     this.layoutMode = state.app.layoutMode || '';
     this.currentPattern = state.app.currentPattern || '';
     this.elem = this;
-    this.previousActiveLinks = [];
+    this.previouslyActiveLinks = [];
     this.iframeElem = document.querySelector('pl-iframe');
 
     window.addEventListener('message', this.receiveIframeMessage, false);
@@ -270,40 +133,26 @@ class Nav extends BaseComponent {
     }
   }
 
-  cleanupActiveNav(topLevelOnly) {
+  /**
+   * Helper method that partially cleans up the active nav links
+   * @param {boolean} topLevelOnly - only clean up the top most level nav links
+   * @param {Node} exceptFor - optionally specify an element to skip cleaning up
+   */
+  cleanupActiveNav(topLevelOnly, exceptFor) {
     this.navContainer = document.querySelector('.pl-js-nav-container');
-    this.navAccordionTriggers = document.querySelectorAll('.pl-js-acc-handle');
-    this.navAccordionPanels = document.querySelectorAll('.pl-js-acc-panel');
     this.topLevelTriggers = document.querySelectorAll(
-      '.pl-c-nav__link--title.pl-is-active'
+      '.pl-c-nav__link--title.is-open'
     );
 
     if (topLevelOnly === true && window.innerWidth > 670) {
-      this.navContainer.classList.remove('pl-is-active');
+      this.navContainer.classList.remove('is-open');
       this.topLevelTriggers.forEach(trigger => {
-        trigger.classList.remove('pl-is-active');
-        trigger.nextSibling.classList.remove('pl-is-active');
+        if (trigger !== exceptFor || exceptFor === undefined) {
+          trigger.classList.remove('is-open');
+        }
       });
     } else {
-      if (this.layoutMode !== 'vertical') {
-        this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach(trigger => {
-          trigger.classList.remove('pl-is-active');
-        });
-        this.navAccordionPanels.forEach(panel => {
-          panel.classList.remove('pl-is-active');
-        });
-      } else if (this.layoutMode === 'vertical' && window.innerWidth <= 670) {
-        this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach(trigger => {
-          trigger.classList.remove('pl-is-active');
-        });
-        this.navAccordionPanels.forEach(panel => {
-          panel.classList.remove('pl-is-active');
-        });
-      } else {
-        this.navContainer.classList.remove('pl-is-active');
-      }
+      this.navContainer.classList.remove('is-open');
     }
   }
 
@@ -313,64 +162,60 @@ class Nav extends BaseComponent {
     this.cleanupActiveNav();
   }
 
+  // auto-close other top level nav dropdowns on larger screens
+  handleTopLevelNavClick(e) {
+    if (this.layoutMode !== 'vertical' && window.innerWidth > 670) {
+      this.cleanupActiveNav(true, e.target);
+    }
+    this.panelToggle(e.target);
+  }
+
   handleURLChange() {
     const currentPattern = this.currentPattern;
     this.activeLink = document.querySelector(
       `[data-patternpartial="${currentPattern}"]`
     );
 
-    if (this.previousActiveLinks) {
-      this.previousActiveLinks.forEach((link, index) => {
-        this.previousActiveLinks[index].classList.remove('pl-is-active');
+    if (this.previouslyActiveLinks) {
+      this.previouslyActiveLinks.forEach((link, index) => {
+        this.previouslyActiveLinks[index].classList.remove('is-open');
+        this.previouslyActiveLinks[index].classList.remove('is-active');
       });
     }
-    this.previousActiveLinks = [];
+    this.previouslyActiveLinks = [];
 
     if (this.activeLink) {
+      this.activeLink.classList.add('is-active');
+
       const triggers = [this.activeLink];
       const panels = Array.from(
-        getParents(this.activeLink, '.pl-js-acc-panel')
+        getParents(this.activeLink, '.pl-js-nav-accordion')
       );
 
       panels.forEach(panel => {
         const panelTrigger = panel.previousSibling;
         if (panelTrigger) {
-          triggers.push(panelTrigger);
+          if (panelTrigger.previousSibling) {
+            triggers.push(panelTrigger.previousSibling);
+          } else {
+            triggers.push(panelTrigger);
+          }
         }
       });
 
       triggers.forEach(trigger => {
-        trigger.classList.add('pl-is-active');
-        this.previousActiveLinks.push(trigger);
+        trigger.classList.add('is-open');
+        this.previouslyActiveLinks.push(trigger);
       });
     }
   }
 
-  static props = {
-    autoClose: {
-      ...props.boolean,
-      ...{ default: true },
-    },
-    currentPattern: props.string,
-    layoutMode: props.string,
-    collapsedByDefault: {
-      ...props.boolean,
-      ...{ default: true },
-    },
-    noViewAll: {
-      ...props.boolean,
-      ...{ default: window.config?.theme?.noViewAll || false },
-    },
-  };
-
-  toggleSpecialNavPanel(e) {
-    const target = e.target;
-    target.parentNode.classList.toggle('pl-is-active');
+  iconOnlyPanelToggle(target) {
+    target.previousSibling.classList.toggle('is-open');
   }
 
-  toggleNavPanel(e) {
-    const target = e.target;
-    target.classList.toggle('pl-is-active');
+  panelToggle(target) {
+    target.classList.toggle('is-open');
   }
 
   rendered() {
@@ -391,34 +236,34 @@ class Nav extends BaseComponent {
     const patternTypes = window.navItems.patternTypes;
 
     return (
-      <ol class="pl-c-nav__list pl-js-pattern-nav-target">
+      <ol class="pl-c-nav__list">
         {patternTypes.map((item, i) => {
-          const classes = classNames({
-            [`pl-c-nav__item pl-c-nav__item--${item.patternTypeLC}`]: true,
-          });
-
+          const classes = classNames('pl-c-nav__list-item');
           const patternItems = item.patternItems;
 
           return (
             <li className={classes}>
-              <ButtonTitle
+              <NavLink
+                iconPos={'before'}
+                iconName={'arrow-down'}
+                isTitle={true}
                 aria-controls={item.patternTypeLC}
-                onClick={this.toggleNavPanel}
+                onClick={this.handleTopLevelNavClick}
               >
                 {item.patternTypeUC}
-              </ButtonTitle>
+              </NavLink>
               <ol
                 id={item.patternSubtypeUC}
-                className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
+                className={`pl-c-nav__list pl-c-nav__accordion pl-c-nav__dropdown pl-js-nav-accordion`}
               >
                 {item.patternTypeItems.map((patternSubtype, i) => {
                   return (
-                    <SubSubList
+                    <NavList
                       elem={this.elem}
                       category={patternSubtype.patternSubtypeUC}
                     >
                       {patternSubtype.patternSubtypeItems}
-                    </SubSubList>
+                    </NavList>
                   );
                 })}
 
@@ -428,26 +273,20 @@ class Nav extends BaseComponent {
                       patternItem.patternPartial.includes('viewall') ? (
                       ''
                     ) : (
-                      <li class="pl-c-nav__item">
-                        <a
+                      <li class="pl-c-nav__list-item">
+                        <NavLink
                           href={`patterns/${patternItem.patternPath}`}
-                          class="pl-c-nav__link pl-c-nav__link--pattern"
+                          level={1}
                           onClick={e =>
                             this.handleClick(e, patternItem.patternPartial)
                           }
                           data-patternpartial={patternItem.patternPartial}
-                          tabindex="0"
+                          state={patternItem.patternState}
                         >
                           {patternItem.patternName === 'View All'
                             ? patternItem.patternName + ' ' + item.patternTypeUC
                             : patternItem.patternName}
-                          {patternItem.patternState && (
-                            <span
-                              class={`pl-c-pattern-state pl-c-pattern-state--${patternItem.patternState}`}
-                              title={patternItem.patternState}
-                            />
-                          )}
-                        </a>
+                        </NavLink>
                       </li>
                     );
                   })}
@@ -461,16 +300,15 @@ class Nav extends BaseComponent {
           window.ishControls.ishControlsHide === undefined ||
           (window.ishControls.ishControlsHide['views-all'] !== true &&
             window.ishControls.ishControlsHide.all !== true)) && (
-          <li class="pl-c-nav__item">
-            <a
+          <li class="pl-c-nav__list-item">
+            <NavLink
               onClick={e => this.handleClick(e, 'all')}
               href="styleguide/html/styleguide.html"
-              class="pl-c-nav__link pl-c-nav__link--pattern"
+              level={0}
               data-patternpartial="all"
-              tabindex="0"
             >
               All
-            </a>
+            </NavLink>
           </li>
         )}
       </ol>
