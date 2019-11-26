@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const selectorImporter = require('node-sass-selector-importer');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
@@ -27,6 +28,7 @@ const defaultConfig = {
   watch: argv.watch ? true : false,
   publicPath: './styleguide/',
   copy: [{ from: './src/images/**', to: 'images', flatten: true }],
+  noViewAll: false,
 };
 
 module.exports = function(apiConfig) {

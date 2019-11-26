@@ -147,7 +147,8 @@
   "theme": {
     "color": "light",
     "density": "compact",
-    "layout": "horizontal"
+    "layout": "horizontal",
+    "noViewAll": false
   },
   "uikits": [
     {

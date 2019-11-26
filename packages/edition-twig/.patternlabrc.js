@@ -1,5 +1,5 @@
 module.exports = {
-  buildDir: __dirname + '/public',
-  wwwDir: __dirname + '/public/',
-  publicPath: '/public/styleguide/',
+  // target the UIKit installed / symlinked under node_modules
+  buildDir: __dirname + '/node_modules/@pattern-lab/uikit-workshop/dist',
+  // noViewAll: true,
 };

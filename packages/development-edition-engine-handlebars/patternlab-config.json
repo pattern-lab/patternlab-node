@@ -78,7 +78,8 @@
   "theme": {
     "color": "dark",
     "density": "compact",
-    "layout": "horizontal"
+    "layout": "horizontal",
+    "noViewAll": false
   },
   "uikits": [
     {
