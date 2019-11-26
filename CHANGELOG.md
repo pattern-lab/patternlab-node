@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.1](https://github.com/pattern-lab/patternlab-node/compare/v5.4.0...v5.4.1) (2019-11-26)
+
+
+### Bug Fixes
+
+* temp workaround to address instance where the latest version of Edge supports ES modules but NOT Custom Elements ([ada3d82](https://github.com/pattern-lab/patternlab-node/commit/ada3d829019345fd33ed949f306972efdcb4fa57))
+
+
+
+
+
 # [5.4.0](https://github.com/pattern-lab/patternlab-node/compare/v5.3.3...v5.4.0) (2019-11-26)
 
 
