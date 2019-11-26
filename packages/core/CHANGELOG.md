@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+
+### Bug Fixes
+
+* add a new method to check if PL is currently compiling + add new method to get the config PL is using ([26e886c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/26e886c93db5d135c91de648724f7278c4d5b3e9))
+
+
+
+
+
 # [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.2.0...v5.3.0) (2019-11-13)
 
 

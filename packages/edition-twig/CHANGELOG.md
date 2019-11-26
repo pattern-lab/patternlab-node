@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+
+### Features
+
+* test adding cross-env to Twig Edition test ([3f8bb01](https://github.com/pattern-lab/patternlab-node/commit/3f8bb01bc4e96a0aba61c213ea1619c02593defc))
+
+
+
+
+
 ## [5.3.3](https://github.com/pattern-lab/patternlab-node/compare/v5.3.2...v5.3.3) (2019-11-22)
 
 **Note:** Version bump only for package @pattern-lab/edition-twig

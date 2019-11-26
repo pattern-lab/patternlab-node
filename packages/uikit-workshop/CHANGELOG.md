@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+
+### Bug Fixes
+
+* check if dependency graph file exists before trying to remove ([f9af6a9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/f9af6a95025a22041e7ff8a4bfb19e4727385e98))
+* comment out example config to disable viewAll links ([ddb3fad](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/ddb3fad5770d1d66432c4b583ae9af09a3a47d48))
+* re-add popstate listener ([6dbbd6a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6dbbd6aae3709cc17544c12dd10588120eb9e71a))
+
+
+### Features
+
+* add the ability to disable Pattern Lab viewall links in the navigation ([156e609](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/156e609a92e7f7e7ebd8f4f5cd77b5d695db8bad))
+* major improvements to local UIKit workflow ([4dc9173](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/4dc9173a5a44b422e9677824de3728048b7c4f05))
+
+
+
+
+
 ## [5.3.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.3.2...v5.3.3) (2019-11-22)
 
 
