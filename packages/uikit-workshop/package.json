@@ -91,7 +91,7 @@
     "hogan.js": "^3.0.2",
     "htm": "^1.0.1",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "github:jantimon/html-webpack-plugin#webpack-4",
+    "html-webpack-plugin": "^4.0.0-beta.11",
     "iframe-resizer": "^3.6.5",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
