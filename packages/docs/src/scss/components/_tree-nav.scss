@@ -17,7 +17,8 @@
   font-weight: $font-weight-bold;
   transition: color 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &.is-active {
     color: $color-white;
   }
 
@@ -61,7 +62,8 @@
   margin-bottom: 1rem;
 
   &:hover,
-  &:focus {
+  &:focus,
+  &.is-active {
     color: $color-white;
   }
 

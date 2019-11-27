@@ -30,9 +30,22 @@
     });
   }
 
+  /**
+   * Expose docs dropdown if on a docs page
+   */
   if (window.location.href.indexOf('docs') > -1) {
-    console.log('yellllll');
     navDropdownListItem.classList.add('is-active');
+  }
+
+  var pathName = location.pathname;
+
+  var navLinks = document.querySelectorAll('.c-tree-nav a');
+
+  for (i = 0; i < navLinks.length; i++) {
+    var subnavLink = navLinks[i].getAttribute('href');
+    if (subnavLink == pathName) {
+      navLinks[i].classList.add('is-active');
+    }
   }
 
   /**

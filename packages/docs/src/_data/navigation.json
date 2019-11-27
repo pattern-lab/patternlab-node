@@ -2,11 +2,11 @@
   "items": [
     {
       "label": "Getting Started",
-      "url": "/docs/installing-pattern-lab"
+      "url": "/docs/installing-pattern-lab/"
     },
     {
       "label": "Documentation",
-      "url": "/docs",
+      "url": "/docs/",
       "subnavIsClosed": true,
       "subnav": [
         {
@@ -29,11 +29,11 @@
     },
     {
       "label": "Resources",
-      "url": "/resources"
+      "url": "/resources/"
     },
     {
       "label": "Demos",
-      "url": "/demos"
+      "url": "/demos/"
     },
     {
       "label": "On Github",
