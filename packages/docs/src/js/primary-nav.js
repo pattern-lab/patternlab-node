@@ -9,6 +9,7 @@
  * 4) If the nav dropdown trigger parent does not have an active class, add it.
  */
 (function() {
+  var navDropdownListItem = document.querySelector('.js-nav-dropdown');
   var navLink = document.querySelectorAll('.js-nav-dropdown-trigger'); /* 1 */
 
   for (i = 0; i < navLink.length; i++) {
@@ -27,6 +28,11 @@
         navLinkParent.classList.add('is-active');
       }
     });
+  }
+
+  if (window.location.href.indexOf('docs') > -1) {
+    console.log('yellllll');
+    navDropdownListItem.classList.add('is-active');
   }
 
   /**

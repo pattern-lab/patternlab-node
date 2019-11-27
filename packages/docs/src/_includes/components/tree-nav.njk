@@ -3,11 +3,13 @@
 <nav class="c-tree-nav">
     <ul class="c-tree-nav">
         {% for item in navigation.items %}
-        <li class="c-tree-nav__item">
+        <li class="c-tree-nav__item {% if item.subnav %}js-nav-dropdown{% endif %}">
             {% if item.subnav %}
             <button class="c-tree-nav__link c-tree-nav__link--btn js-nav-dropdown-trigger">
                 {{ item.label }}
+                {% set className = "c-tree-nav__icon" %}
                 {% include "components/icon-chevron-down.njk" %}
+                
             </button>
             
             <ul class="c-tree-nav__subnav">
