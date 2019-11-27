@@ -17,6 +17,10 @@
 .c-logo__link {
   display: flex;
   align-items: center;
+
+  &:focus {
+    @include focusInverted();
+  }
 }
 
 /**
@@ -24,7 +28,7 @@
  */
 .c-logo__img {
   display: block;
-  max-width: 3rem;
+  max-width: 2.4rem;
   margin-right: 0.5rem;
   animation: rotate 10s linear infinite;
 }

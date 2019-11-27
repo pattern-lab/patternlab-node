@@ -10,7 +10,8 @@
 }
 
 .c-tree-nav__link {
-  display: block;
+  display: flex;
+  align-items: center;
   margin-bottom: 1.2rem;
   color: inherit;
   font-weight: $font-weight-bold;
@@ -22,6 +23,7 @@
 
   &:focus {
     color: $color-white;
+    @include focusInverted();
   }
 }
 
@@ -45,6 +47,14 @@
   }
 }
 
+.c-tree-nav__icon {
+  transition: transform $anim-fade-quick $anim-ease;
+
+  .c-tree-nav__item.is-active & {
+    transform: rotate(180deg);
+  }
+}
+
 .c-tree-nav__subnav-link {
   color: inherit;
   display: block;
@@ -53,6 +63,10 @@
   &:hover,
   &:focus {
     color: $color-white;
+  }
+
+  &:focus {
+    @include focusInverted();
   }
 }
 
