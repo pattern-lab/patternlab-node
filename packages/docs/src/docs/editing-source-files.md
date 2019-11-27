@@ -22,24 +22,24 @@ All Pattern Lab directories can be configured to suit your needs.
 
 In the PHP version of Pattern Lab you can modify or add the following configuration options in `./config/config.yml`:
 
-```
+```js
 // base directories
-exportDir:        "value" // default is exports. where clean mark-up sans PL code is exported to.
-publicDir:        "value" // default is public
-sourceDir:        "value" // default is source
+exportDir: 'value'; // default is exports. where clean mark-up sans PL code is exported to.
+publicDir: 'value'; // default is public
+sourceDir: 'value'; // default is source
 
 // exportDir is the base directory for the following directories  (e.g. ./exports/patterns)
-patternExportDir: "value" // default is patterns
+patternExportDir: 'value'; // default is patterns
 
 // publicDir is the base directory for the following directories  (e.g. ./public/patterns)
-componentDir:     "value" // default is patternlab-components. where plugin components are installed.
-patternPublicDir: "value" // default is patterns
+componentDir: 'value'; // default is patternlab-components. where plugin components are installed.
+patternPublicDir: 'value'; // default is patterns
 
 // sourceDir is the base directory for the following directories (e.g. ./source/_patterns)
-annotationsDir:   "value" // default is _annotations
-dataDir:          "value" // default is _data
-metaDir:          "value" // default is _meta
-patternSourceDir: "value" // default is _patterns
+annotationsDir: 'value'; // default is _annotations
+dataDir: 'value'; // default is _data
+metaDir: 'value'; // default is _meta
+patternSourceDir: 'value'; // default is _patterns
 ```
 
 In the Node version of Pattern Lab you can modify the following configuration options in `patternlab-config.json`:

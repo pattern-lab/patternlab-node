@@ -73,11 +73,11 @@ pre {
   }
 }
 
-/**
- * Code with languages associated with them
- * 1) Override Prism sysles for code blocks with language
- */
-code[class*='language-'],
-pre[class*='language-'] {
-  font-family: monospace !important;
-}
+// /**
+//  * Code with languages associated with them
+//  * 1) Override Prism sysles for code blocks with language
+//  */
+// code[class*='language-'],
+// pre[class*='language-'] {
+//   font-family: monospace !important;
+// }

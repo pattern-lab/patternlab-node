@@ -50,7 +50,9 @@ If you need more specificity when including patterns the PHP and Node versions o
 
 The default Mustache include syntax would be:
 
-    {% raw %}{{> 00-atoms/images/landscape-16x9 }}{% endraw %}
+```handlebars
+{% raw %}{{> 00-atoms/images/landscape-16x9 }}{% endraw %}
+```
 
 **Important:** Unlike the shorthand include syntax the template language specific include syntax **must** include any digits used for ordering and subtype directories. Pattern paths need to be updated when either is changed for a given pattern.
 
@@ -58,7 +60,7 @@ The default Mustache include syntax would be:
 
 Here are some examples of how to include patterns as well as some gotchas.
 
-```
+```handlebars
 {% raw %}// partials to match
 00-atoms/global/05-test.mustache
 00-atoms/global/06-test.mustache
