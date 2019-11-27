@@ -1,0 +1,18 @@
+/*------------------------------------*\
+    #HERO
+\*------------------------------------*/
+
+.c-hero {
+  padding: 2rem;
+  background: orange;
+  height: 50vh;
+  position: relative;
+}
+
+.c-hero__footer {
+  position: absolute;
+  bottom: -55px;
+  left: 50%;
+  width: 320px;
+  margin-left: -160px;
+}

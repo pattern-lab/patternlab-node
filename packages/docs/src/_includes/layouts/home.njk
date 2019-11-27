@@ -2,11 +2,11 @@
 {% set pageType = 'Homepage' %}
 
 {# Intro content #}
-{% set introHeading = title %}
+{% set heroTitle = title %}
 
 {% block content %}
-  <main id="main-content">
-    {% include "components/page-header.njk" %}
+    
+    {% include "components/hero.njk" %}
     {{ content | safe }}
-  </main>
+
 {% endblock %}

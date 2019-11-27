@@ -12,15 +12,17 @@ permalink: docs/{{ title | slug }}/
 {% endset %}
 
 {% block content %}
-  <main id="main-content">
-    <article>
-      {% include "components/page-header.njk" %}
-      <div class="c-text-passage">
-        {{ content | safe }}
-      </div>
-      
-    </article>
-  </main>
+  <div class="l-container">
+    <div class="l-linelength-container">
+      <article>
+        {% include "components/page-header.njk" %}
+        <div class="c-text-passage">
+          {{ content | safe }}
+        </div>
+        
+      </article>
+    </div>
+  </div>
 {% endblock %}
 
 {{ content | safe }}

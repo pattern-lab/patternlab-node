@@ -13,7 +13,8 @@
 {% endset %}
 
 {% block content %}
-  <main id="main-content">
+  <div class="l-container">
+    <div class="l-linelength-container">
     <article class="[ post ] [ h-entry ]">
       {% include "partials/components/intro.njk" %}
       {% include "components/page-header.njk" %}
@@ -37,7 +38,8 @@
         </footer>
       {% endif %}
     </article>
-  </main>
+  </div>
+  </div>
 {% endblock %}
 
 {{ content | safe }}
