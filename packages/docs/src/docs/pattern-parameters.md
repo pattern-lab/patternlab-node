@@ -32,9 +32,7 @@ Again, pattern parameters are a simple find and replace of Mustache variables wi
 Let's look at a simple example for how we might use pattern parameters. First we'll set-up a pattern that might be included multiple times. We'll make it a simple "message" pattern with a single Mustache variable of `message`.
 
 ```html
-{% raw %}
-<div class="message">{{ message }}</div>
-{% endraw %}
+<div class="message">{% raw %}{{ message }}{% endraw %}</div>
 ```
 
 We'll organize it under Atoms > Global and call it "message" so it'll have the pattern partial of `atoms-message`.
@@ -42,15 +40,13 @@ We'll organize it under Atoms > Global and call it "message" so it'll have the p
 Now let's create a pattern that includes our message pattern partial multiple times. It might look like this.
 
 ```html
-{% raw %}
 <div class="main-container">
-  {{> atoms-message }}
+  {% raw %}{{> atoms-message }}{% endraw %}
   <div>
     A bunch of extra information
   </div>
-  {{> atoms-message }}
+  {% raw %}{{> atoms-message }}{% endraw %}
 </div>
-{% endraw %}
 ```
 
 Using `data.json` or a pattern-specific JSON file we wouldn't be able to supply separate messages to each pattern partial. For example, if we defined `message` in our `data.json` as "this is an alert" then "this is an alert" would show up twice when our parent pattern was rendered.
