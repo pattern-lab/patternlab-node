@@ -4,9 +4,9 @@
   "version": "5.0.0",
   "main": "lib/engine_handlebars.js",
   "dependencies": {
-    "fs-extra": "0.30.0",
-    "glob": "7.0.0",
-    "handlebars": "4.2.0"
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.6",
+    "handlebars": "^4.5.3"
   },
   "keywords": [
     "Pattern Lab",
@@ -23,7 +23,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=10.0"
+    "node": ">=12.0"
   },
   "publishConfig": {
     "access": "public"
