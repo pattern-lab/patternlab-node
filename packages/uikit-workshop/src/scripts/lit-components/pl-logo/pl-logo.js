@@ -20,7 +20,8 @@ class Logo extends BaseLitComponent {
 
   static get properties() {
     return {
-      ratio: String,
+      width: String,
+      height: String,
       theme: String,
       url: String,
       text: String,
@@ -48,6 +49,8 @@ class Logo extends BaseLitComponent {
           alt=${this.altText || 'Pattern Lab Logo'}
           src=${imageSrc}
           class="pl-c-logo__img"
+          width="${this.width}"
+          height="${this.height}"
         />
         ${this.text && this.text !== ''
           ? html`

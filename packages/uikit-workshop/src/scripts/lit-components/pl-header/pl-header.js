@@ -116,7 +116,8 @@ class Header extends BaseLitComponent {
                   : window.config?.theme?.logo?.url || '/'}"
                 alt-text="${window.config?.theme?.logo?.altText || ''}"
                 theme="${this.themeMode}"
-                ratio="${window.config?.theme?.logo?.ratio || ''}"
+                width="${window.config?.theme?.logo?.width || ''}"
+                height="${window.config?.theme?.logo?.height || ''}"
                 text="${window.config?.theme?.logo?.text === '' ||
                 window.config?.theme?.logo?.text === false ||
                 window.config?.theme?.logo?.text === 'none'
