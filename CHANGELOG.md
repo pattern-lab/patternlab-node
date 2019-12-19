@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+
+### Features
+
+* upgrade Twig to use new filter, map, reduce ([4218a5a](https://github.com/pattern-lab/patternlab-node/commit/4218a5a04b06027548afd9f417486297dd25fef8))
+
+
+
+
+
 ## [5.4.2](https://github.com/pattern-lab/patternlab-node/compare/v5.4.1...v5.4.2) (2019-11-27)
 
 **Note:** Version bump only for package pl-node-pr

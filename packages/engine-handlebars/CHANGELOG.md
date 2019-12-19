@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+**Note:** Version bump only for package @pattern-lab/engine-handlebars
+
+
+
+
+
 # [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
 
 
