@@ -1,4 +1,5 @@
 import { store } from '../../store.js'; // connect to redux
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { html } from 'lit-html';
 import { customElement } from 'lit-element';
 import { BaseLitComponent } from '../../components/base-component';
@@ -20,7 +21,8 @@ class Logo extends BaseLitComponent {
 
   static get properties() {
     return {
-      ratio: String,
+      width: String,
+      height: String,
       theme: String,
       url: String,
       text: String,
@@ -48,6 +50,8 @@ class Logo extends BaseLitComponent {
           alt=${this.altText || 'Pattern Lab Logo'}
           src=${imageSrc}
           class="pl-c-logo__img"
+          width="${ifDefined(this.width)}"
+          height="${ifDefined(this.height)}"
         />
         ${this.text && this.text !== ''
           ? html`
