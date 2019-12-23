@@ -10,11 +10,7 @@ socialImage: ''
     <source src="https://patternlab.io/assets/atomic-design.mp4" type="video/mp4">
 </video>
 
-Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
-
-```
-npm create pattern-lab
-```
+**Pattern Lab is a frontend workshop environment that helps you build, view, test, and showcase your design system's UI components.**
 
 At its core, Pattern Lab is a static site generator (powered by either Node or PHP) that stitches together UI components. But there's a whole lot more to it than that!
 

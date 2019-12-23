@@ -4,9 +4,17 @@
 
 .c-hero {
   padding: 2rem;
-  background: orange;
-  height: 50vh;
+  background: url(https://patternlab.io/assets/icon-atom.svg);
+  height: 70vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-hero__title {
+  @include highlightEffect();
 }
 
 .c-hero__footer {

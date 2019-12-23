@@ -5,22 +5,22 @@
  * 1) Container that consists of of a page header title and description
  */
 .c-page-header {
-    margin-bottom: $spacing-large;
+  margin-bottom: $spacing-large;
 }
 
 /**
  * Page header title
  */
 .c-page-header__title {
-    margin-bottom: $spacing;
-    background: $color-white;
-    display: inline;
-    box-shadow: 20px 0 0 $color-white, -20px 0 0 $color-white;
+  margin-bottom: $spacing;
+  background: $color-white;
+  display: inline;
+  @include highlightEffect();
 }
 
 /**
  * Page description
  */
 .c-page-header__desc {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }

@@ -7,6 +7,11 @@
 {% block content %}
     
     {% include "components/hero.njk" %}
-    {{ content | safe }}
+
+    <div class="l-container">
+      <div class="c-text-passage">
+        {{ content | safe }}
+      </div>
+    </div>
 
 {% endblock %}

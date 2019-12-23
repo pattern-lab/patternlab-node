@@ -75,3 +75,11 @@
   outline: 1px dotted $color-white;
   outline-offset: 4px;
 }
+
+/*------------------------------------*\
+    #DECORATIVE
+\*------------------------------------*/
+
+@mixin highlightEffect() {
+  box-shadow: 20px 0 0 $color-white, -20px 0 0 $color-white;
+}
