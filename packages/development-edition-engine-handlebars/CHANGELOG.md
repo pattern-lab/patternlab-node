@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars
+
+
+
+
+
+## [5.4.2](https://github.com/pattern-lab/patternlab-node/compare/v5.4.1...v5.4.2) (2019-11-27)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars
+
+
+
+
+
+## [5.4.1](https://github.com/pattern-lab/patternlab-node/compare/v5.4.0...v5.4.1) (2019-11-26)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars
+
+
+
+
+
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+
+### Features
+
+* major improvements to local UIKit workflow ([4dc9173](https://github.com/pattern-lab/patternlab-node/commit/4dc9173a5a44b422e9677824de3728048b7c4f05))
+
+
+
+
+
 ## [5.3.3](https://github.com/pattern-lab/patternlab-node/compare/v5.3.2...v5.3.3) (2019-11-22)
 
 **Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars

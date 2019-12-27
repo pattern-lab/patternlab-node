@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+
+### Features
+
+* upgrade Twig to use new filter, map, reduce ([4218a5a](https://github.com/pattern-lab/patternlab-node/commit/4218a5a04b06027548afd9f417486297dd25fef8))
+
+
+
+
+
+## [5.4.2](https://github.com/pattern-lab/patternlab-node/compare/v5.4.1...v5.4.2) (2019-11-27)
+
+**Note:** Version bump only for package pl-node-pr
+
+
+
+
+
+## [5.4.1](https://github.com/pattern-lab/patternlab-node/compare/v5.4.0...v5.4.1) (2019-11-26)
+
+
+### Bug Fixes
+
+* temp workaround to address instance where the latest version of Edge supports ES modules but NOT Custom Elements ([ada3d82](https://github.com/pattern-lab/patternlab-node/commit/ada3d829019345fd33ed949f306972efdcb4fa57))
+
+
+
+
+
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+
+### Bug Fixes
+
+* re-add popstate listener ([6dbbd6a](https://github.com/pattern-lab/patternlab-node/commit/6dbbd6aae3709cc17544c12dd10588120eb9e71a))
+* **script:** remove quotes around starterkit ([e4897fb](https://github.com/pattern-lab/patternlab-node/commit/e4897fb6e4d4cd0985ab72397abd03ff04be514b))
+* add a new method to check if PL is currently compiling + add new method to get the config PL is using ([26e886c](https://github.com/pattern-lab/patternlab-node/commit/26e886c93db5d135c91de648724f7278c4d5b3e9))
+* check if dependency graph file exists before trying to remove ([f9af6a9](https://github.com/pattern-lab/patternlab-node/commit/f9af6a95025a22041e7ff8a4bfb19e4727385e98))
+* comment out example config to disable viewAll links ([ddb3fad](https://github.com/pattern-lab/patternlab-node/commit/ddb3fad5770d1d66432c4b583ae9af09a3a47d48))
+
+
+### Features
+
+* add the ability to disable Pattern Lab viewall links in the navigation ([156e609](https://github.com/pattern-lab/patternlab-node/commit/156e609a92e7f7e7ebd8f4f5cd77b5d695db8bad))
+* major improvements to local UIKit workflow ([4dc9173](https://github.com/pattern-lab/patternlab-node/commit/4dc9173a5a44b422e9677824de3728048b7c4f05))
+* test adding cross-env to Twig Edition test ([3f8bb01](https://github.com/pattern-lab/patternlab-node/commit/3f8bb01bc4e96a0aba61c213ea1619c02593defc))
+
+
+
+
+
 ## [5.3.3](https://github.com/pattern-lab/patternlab-node/compare/v5.3.2...v5.3.3) (2019-11-22)
 
 

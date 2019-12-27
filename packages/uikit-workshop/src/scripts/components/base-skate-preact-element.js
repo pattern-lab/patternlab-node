@@ -16,36 +16,7 @@ import { SkateElement } from './base-skate-element';
 
 /** @jsx h */
 
-import preact, { h, render } from 'preact';
-
-// TODO make this a Symbol() when it's supported.
-const preactNodeName = '__preactNodeName';
-
-let oldVnode;
-
-function newVnode(vnode) {
-  let fn = vnode.nodeName;
-  if (fn && fn.prototype instanceof HTMLElement) {
-    if (!fn[preactNodeName]) {
-      const prefix = fn.name;
-      customElements.define(
-        (fn[preactNodeName] = name(prefix)),
-        class extends fn {}
-      );
-    }
-    vnode.nodeName = fn[preactNodeName];
-  }
-  return vnode;
-}
-
-function setupPreact() {
-  oldVnode = preact.options.vnode;
-  preact.options.vnode = newVnode;
-}
-
-function teardownPreact() {
-  preact.options.vnode = oldVnode;
-}
+import { h, render } from 'preact';
 
 export class SkatePreactElement extends SkateElement {
   get props() {

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, no-param-reassign */
 import { store } from '../../store.js'; // connect to redux
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { html } from 'lit-html';
 import { BaseLitComponent } from '../../components/base-component';
 import { customElement } from 'lit-element';
@@ -116,7 +117,8 @@ class Header extends BaseLitComponent {
                   : window.config?.theme?.logo?.url || '/'}"
                 alt-text="${window.config?.theme?.logo?.altText || ''}"
                 theme="${this.themeMode}"
-                ratio="${window.config?.theme?.logo?.ratio || ''}"
+                width="${ifDefined(window.config?.theme?.logo?.width)}"
+                height="${ifDefined(window.config?.theme?.logo?.height)}"
                 text="${window.config?.theme?.logo?.text === '' ||
                 window.config?.theme?.logo?.text === false ||
                 window.config?.theme?.logo?.text === 'none'

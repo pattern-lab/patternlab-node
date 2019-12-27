@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+
+### Features
+
+* upgrade Twig to use new filter, map, reduce ([4218a5a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/commit/4218a5a04b06027548afd9f417486297dd25fef8))
+
+
+
+
+
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig-php
+
+
+
+
+
 # [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.2.0...v5.3.0) (2019-11-13)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig-php
