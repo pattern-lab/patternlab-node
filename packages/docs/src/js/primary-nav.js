@@ -23,10 +23,15 @@
       if (navLinkParent.classList.contains('is-active')) {
         /* 3 */
         navLinkParent.classList.remove('is-active');
+        
+        this.setAttribute("aria-expanded", "false");
       } else {
         /* 4 */
         navLinkParent.classList.add('is-active');
+       
+        this.setAttribute("aria-expanded", "true");
       }
+      
     });
   }
 
