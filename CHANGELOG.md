@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/pattern-lab/patternlab-node/compare/v5.5.0...v5.6.0) (2020-01-18)
+
+
+### Bug Fixes
+
+* a11y fix on text contrast ([6d75b22](https://github.com/pattern-lab/patternlab-node/commit/6d75b226ce27228025b2915e5d402f7080faee31))
+* a11y issue on a missing description of that complementary icon ([4f13807](https://github.com/pattern-lab/patternlab-node/commit/4f13807cb93df33435088de3a51170b9c4515889))
+
+
+### Features
+
+* pass additional configuration into twig-php engine ([dff5a78](https://github.com/pattern-lab/patternlab-node/commit/dff5a7830918fa46e2692d9f9daed4121f803461))
+
+
+
+
+
+
 # [5.5.0](https://github.com/pattern-lab/patternlab-node/compare/v5.4.2...v5.5.0) (2019-12-19)
 
 

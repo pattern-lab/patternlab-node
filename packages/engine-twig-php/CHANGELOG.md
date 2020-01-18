@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.5.0...v5.6.0) (2020-01-18)
+
+
+### Features
+
+* pass additional configuration into twig-php engine ([dff5a78](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/commit/dff5a7830918fa46e2692d9f9daed4121f803461))
+
+
+
+
+
+
 # [5.5.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.4.2...v5.5.0) (2019-12-19)
 
 

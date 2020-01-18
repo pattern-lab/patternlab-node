@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.6.0](https://github.com/pattern-lab/patternlab-node/compare/v5.5.0...v5.6.0) (2020-01-18)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars
+
+
+
+
+
+
 # [5.5.0](https://github.com/pattern-lab/patternlab-node/compare/v5.4.2...v5.5.0) (2019-12-19)
 
 **Note:** Version bump only for package @pattern-lab/development-edition-engine-handlebars
