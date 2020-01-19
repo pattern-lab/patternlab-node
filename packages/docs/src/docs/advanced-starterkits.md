@@ -53,4 +53,4 @@ The [Pattern Lab Node CLI](https://github.com/pattern-lab/patternlab-node/tree/m
 
 `patternlab-config.json` also defines a `starterkitSubDir` key (with a default value of `dist`) which can be used to target a directory inside the starterkit module if need be.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-starterkits'>The PHP docs for this topic can be viewed here.</a></strong>
+

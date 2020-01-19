@@ -9,7 +9,7 @@ Pattern Lab 2 introduces the beginnings of an ecosystem that will allow teams to
 
 ## Editions
 
-Editions let teams and agencies bundle all the things that support their unique workflows with Pattern Lab. An Edition can become the starting point for all of your projects while teams share and update functionality. The Node version of Pattern Lab uses [npm](https://www.npmjs.com/) to pull in separate components, while PHP version uses [Composer](https://getcomposer.org) to help you kick off your projects in a simple and standardized way.
+Editions let teams and agencies bundle all the things that support their unique workflows with Pattern Lab. An Edition can become the starting point for all of your projects while teams share and update functionality. The Node version of Pattern Lab uses [npm](https://www.npmjs.com/) to pull in separate components.
 
 ## Components of an Edition
 
@@ -29,7 +29,7 @@ Have a trusty set of boilerplate code that you start every project with? Perhaps
 
 [Several starterkits](https://github.com/pattern-lab?utf8=%E2%9C%93&q=starterkit&type=&language=) already exist to kick your project off, whether you’re looking for a blank start, begin with a demo that showcases Pattern Lab’s features, or start with a popular framework like Bootstrap, Foundation, or Material Design. And you can roll your own, which can be fully version-controlled so your team’s StarterKit can evolve along with your tools.
 
-Importing a starterkit is only a few keystrokes away after installation. Eventually this feature will be built into a post-install phase like it is for Pattern Lab PHP via composer.
+Importing a starterkit is only a few keystrokes away after installation. 
 
 [Learn more about Starterkits](/docs/advanced-starterkits.html#node)
 
@@ -43,7 +43,7 @@ PatternEngines are the templating engines that are responsible for parsing patte
 
 ### Plugins
 
-Plugins allow developers to extend Pattern Lab Core and other parts of the ecosystem. For example, the PHP version of Pattern Lab has a number of plugins like [Browser Auto-Reload](https://github.com/pattern-lab/plugin-php-reload), [Data Inheritance](https://github.com/pattern-lab/plugin-php-data-inheritance), and [Faker](https://github.com/pattern-lab/plugin-php-faker). Pattern Lab’s architecture allows developers to modify data at different stages, add their own commands or pattern rules, or change the front-end to modify and extend Pattern Lab’s capabilities.
+Plugins allow developers to extend Pattern Lab Core and other parts of the ecosystem. Pattern Lab’s architecture allows developers to modify data at different stages, add their own commands or pattern rules, or change the front-end to modify and extend Pattern Lab’s capabilities.
 
 ### Other Types of Components
 

@@ -39,4 +39,4 @@ It's strongly recommended to visit [BrowserSync](http://www.browsersync.io/) doc
 - Toggle remote debugging tools
 - Artificially throttle the network
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-page-follow'>The PHP docs for this topic can be viewed here.</a></strong>
+

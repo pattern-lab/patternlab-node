@@ -18,4 +18,3 @@ Doing so will launch your local Pattern Lab install in your default browser at <
 
 To stop watching and serving files on Mac OS X and Windows you can press`CTRL+C` in the command line window where the process is running.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/viewing-patterns'>The PHP docs for this topic can be viewed here.</a></strong>

@@ -39,4 +39,4 @@ By default, Pattern Lab monitors the following files:
 
 The watch configuration is found within the Gruntfile or Gulpfile at the root of the project.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-auto-regenerate'>The PHP docs for this topic can be viewed here.</a></strong>
+

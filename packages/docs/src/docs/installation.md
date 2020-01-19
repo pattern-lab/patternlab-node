@@ -16,7 +16,6 @@ This will bring up an installation menu that presents the following steps:
 - `Please specify a directory for your Pattern Lab project.` - Choose the directory where you want to install Pattern Lab. The default location is the current directory.
 - `Which edition do you want to use (defaults to edition-node)?` - Choose the Pattern Lab edition that you want to install. The options are:
   - `edition-node (handlebars engine)`
-  - `edition-twig (php engine)`
   - `edition-node-gulp (legacy)`
 - `Which starterkit do you want to use?` - Choose the <a href="/docs/advanced-starterkits.html">Starterkit</a> you want to begin your project with. Starterkits define the initial components and assets that are included in the initial project. Start from scratch, start from a full demo, or a lightweight boilerplate.
 - `Are you happy with your choices? (Hit enter for YES)?` - Confirm your choices, and when done the Pattern Lab installation will begin.

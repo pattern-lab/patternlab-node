@@ -48,4 +48,3 @@ You can use the following as your CSS template for new pattern states:
 
 Place this class inside `./source/css/pattern-scaffolding.css` to separate it from your css. Then add `newpatternstate` to your patterns' markdown `state` to have the new look show up. If you want to add it to the cascade of the default patterns you can modify `./patternlab-config.json`. Simply add your new pattern state to the `patternStateCascade` array.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/pattern-states'>The PHP docs for this topic can be viewed here.</a></strong>

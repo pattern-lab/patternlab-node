@@ -29,4 +29,4 @@ It's recommended to review the [ChangeLog](https://github.com/pattern-lab/patter
 4. In `source/_meta/_00-foot.mustache` replace `{% raw %}{% pattern-lab-foot %}{% endraw %}` with `{% raw %}{{{ patternLabFoot }}}{% endraw %}`
 5. Remap the paths configured in the edition's `patternlab-config.json` file with yours, if needed.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/upgrading'>The PHP docs for this topic can be viewed here.</a></strong>
+

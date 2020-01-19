@@ -294,4 +294,3 @@ Important details:
   ]
 ```
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-config-options'>The PHP docs for this topic can be viewed here.</a></strong>

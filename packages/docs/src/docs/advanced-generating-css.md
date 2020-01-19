@@ -17,12 +17,4 @@ To generate your Pattern Lab site with CSS support on Mac OS X you can do the fo
 2. Double-click `generateSiteWithCSS.command`
 3. Refresh the Pattern Lab site
 
-For Linux and Windows users you can also start the service from the command line. To do so open your command prompt and navigate to the root of the patternlab-php directory. Type:
 
-```
-php core/builder.php -gc
-```
-
-## Important Note About Performance
-
-It may take several seconds for the PHP version of Pattern Lab to generate a site when it's also calculating the CSS rules. Be patient.

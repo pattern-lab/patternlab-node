@@ -21,7 +21,7 @@ Let's look at a simple example of iterating over a list. In your template you mi
 {% endraw %}
 ```
 
-Let's break this down before showing the results. The `#` denotes that Mustache needs to loop over the given key that contains multiple values, in this case `listItems.four`, and write-out the corresponding value `{% raw %}{{ title }}{% endraw %}`. A full list of attributes can be found below. The `/` denotes the end of the block that's being rendered. The PHP and Node versions of Pattern Lab support the keys `one` through `twelve`. If you need more than twelve items for a given list you'll need to add your own data. **Important**: the keys `one` through `twelve` are Pattern Lab-specific and not a general feature of Mustache.
+Let's break this down before showing the results. The `#` denotes that Mustache needs to loop over the given key that contains multiple values, in this case `listItems.four`, and write-out the corresponding value `{% raw %}{{ title }}{% endraw %}`. A full list of attributes can be found below. The `/` denotes the end of the block that's being rendered. The Node version of Pattern Lab supports the keys `one` through `twelve`. If you need more than twelve items for a given list you'll need to add your own data. **Important**: the keys `one` through `twelve` are Pattern Lab-specific and not a general feature of Mustache.
 
 The above would compile to:
 

@@ -17,4 +17,4 @@ Running 'gulp patternlab:serve' or 'grunt patternlab:serve' from the command lin
 
 To stop watching and serving files on Mac OS X and Windows you can press`CTRL+C` in the command line window where the process is running.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-reload-browser'>The PHP docs for this topic can be viewed here.</a></strong>
+

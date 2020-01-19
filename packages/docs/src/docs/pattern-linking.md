@@ -30,7 +30,7 @@ It's also very easy to create a link manually. Simply append `?p=pattern-name` t
 ?p=templates-article
 ```
 
-The direct link feature supports the [shorthand partials syntax](/docs/pattern-including.html) found in the PHP and Node versions of Pattern Lab. Just provide part of a pattern name and Pattern Lab will attempt to resolve it.
+The direct link feature supports the [shorthand partials syntax](/docs/pattern-including.html) found in the Node version of Pattern Lab. Just provide part of a pattern name and Pattern Lab will attempt to resolve it.
 
 ## <span id="default-width"></span>Setting the Default Width for the Viewport
 

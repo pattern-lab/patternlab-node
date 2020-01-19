@@ -28,4 +28,4 @@ When sharing Pattern Lab with a client it may be beneficial to turn-off certain 
 
 By default all navigation elements are visible except Hay Mode.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-pattern-lab-nav'>The PHP docs for this topic can be viewed here.</a></strong>
+

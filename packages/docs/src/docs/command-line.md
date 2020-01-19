@@ -12,4 +12,4 @@ To use Pattern Lab you must use the command line interface. Gulp or grunt tasks 
 
 > If using grunt, substitute `grunt` for `gulp` above.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/command-line'>The PHP docs for this topic can be viewed here.</a></strong>
+

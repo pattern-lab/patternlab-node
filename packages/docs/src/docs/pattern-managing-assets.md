@@ -50,4 +50,3 @@ Note how some sets of files even extend into the "vendor" `./node_modules/` dire
 
 Static assets like Javascript and CSS **are not** added automagically to your patterns. You need to add them manually to the [shared pattern header and footer](/docs/advanced-auto-regenerate.html#node).
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/pattern-managing-assets'>The PHP docs for this topic can be viewed here.</a></strong>

@@ -9,7 +9,7 @@ tags:
 
 The list of features is coming soon.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/changes-1-to-2'>The PHP docs for this topic can be viewed here.</a></strong>
+
 
 
 

@@ -16,4 +16,4 @@ In Pattern Lab Node, `patternlab-config.json` has two properties that work toget
 
 Couple this technique with exported CSS via tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy) to really make patterns portable.
 
-<strong>The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. <a href='./php/advanced-exporting-patterns'>The PHP docs for this topic can be viewed here.</a></strong>
+

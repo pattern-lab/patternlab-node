@@ -5,7 +5,7 @@ tags:
 category: patterns
 ---
 
-**Important:** styleModifiers are only supported by the PHP and Node Mustache PatternEngines. Other template languages provide better solutions to this problem.
+**Important:** styleModifiers are only supported by the Node Mustache PatternEngines. Other template languages provide better solutions to this problem.
 
 styleModifiers provide a way to extend the shorthand include syntax to quickly pass one or more class names to the included pattern.
 

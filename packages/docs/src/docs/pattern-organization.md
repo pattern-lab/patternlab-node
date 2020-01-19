@@ -5,11 +5,11 @@ tags:
 category: patterns
 ---
 
-Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For PHP the supported PatternEngines are Mustache and Twig. For Node there are [several more PatternEngines to choose from](/docs/advanced-template-language-and-pattern-engines.html).
+Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For Node there are [several more PatternEngines to choose from](/docs/advanced-template-language-and-pattern-engines.html).
 
 ## How Patterns Are Organized
 
-Patterns are organized in a nested folder structure under `./source/_patterns/`. This allows the PHP and Node versions of Pattern Lab to automatically find and build assets like the "view all" pages and the drop down navigation. Pattern Lab uses the following organizational structure:
+Patterns are organized in a nested folder structure under `./source/_patterns/`. This allows the Node version of Pattern Lab to automatically find and build assets like the "view all" pages and the drop down navigation. Pattern Lab uses the following organizational structure:
 
     [patternType]/[patternSubtype]/[patternName].[patternExtension]
 
@@ -32,7 +32,7 @@ By default, pattern types, pattern subtypes and patterns are ordered alphabetica
 
 ## Deeper Nesting
 
-Both PHP and Node versions support nesting of folders under `patternSubtype`. For example, you may want to organize your [pattern documentation](/docs/pattern-documenting.html), pattern, Sass files and [pseudo-patterns](/docs/pattern-pseudo-patterns.html) in one directory like so:
+Node versions support nesting of folders under `patternSubtype`. For example, you may want to organize your [pattern documentation](/docs/pattern-documenting.html), pattern, Sass files and [pseudo-patterns](/docs/pattern-pseudo-patterns.html) in one directory like so:
 
     - molecules/
       - blocks/

@@ -44,7 +44,7 @@ _Warning:_ Because subtypes are not included in the shorthand include syntax a g
 
 ## The Default Include Syntax
 
-If you need more specificity when including patterns the PHP and Node versions of Pattern Lab also support the include syntax for the template language that you're using. For example, the syntax for Mustache is the path to the pattern minus the `.mustache` extension. Let's say we wanted to include the following pattern in a molecule:
+If you need more specificity when including patterns the Node version of Pattern Lab also support the include syntax for the template language that you're using. For example, the syntax for Mustache is the path to the pattern minus the `.mustache` extension. Let's say we wanted to include the following pattern in a molecule:
 
     00-atoms/images/landscape-16x9.mustache
 

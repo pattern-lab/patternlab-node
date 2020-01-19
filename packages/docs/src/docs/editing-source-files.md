@@ -20,8 +20,6 @@ For the most part you can organize `./source/` anyway you see fit. There are a f
 
 All Pattern Lab directories can be configured to suit your needs.
 
-In the PHP version of Pattern Lab you can modify or add the following configuration options in `./config/config.yml`:
-
 ```js
 // base directories
 exportDir: 'value'; // default is exports. where clean mark-up sans PL code is exported to.
@@ -75,4 +73,4 @@ In the Node version of Pattern Lab you can modify the following configuration op
 
 ## Watching for Source File Changes
 
-Manually generating the Pattern Lab website after each change can be cumbersome. The PHP and Node versions of Pattern Lab come with the ability to [watch files in the `./source/` directory for changes and re-generate the site automatically](/docs/advanced-auto-regenerate.html). The Pattern Lab website can also be [automatically reloaded](/docs/advanced-reload-browser.html).
+Manually generating the Pattern Lab website after each change can be cumbersome. The Node version of Pattern Lab comes with the ability to [watch files in the `./source/` directory for changes and re-generate the site automatically](/docs/advanced-auto-regenerate.html). The Pattern Lab website can also be [automatically reloaded](/docs/advanced-reload-browser.html).
