@@ -1,0 +1,13 @@
+{
+	"iconPath" : "../../icons.svg",
+	"icon" : "search",
+	"icons" : [
+		{ "icon" : "minus" },
+		{ "icon" : "plus" },
+		{ "icon" : "search" },
+		{ "icon" : "triangle-down" },
+		{ "icon" : "triangle-up" },
+		{ "icon" : "triangle-right" },
+		{ "icon" : "triangle-left" }
+	]
+}

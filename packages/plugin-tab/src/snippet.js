@@ -1,14 +1,21 @@
-/* global Panels */
+function addPanels() {
+  window.patternlab.panels.add({
+    id: 'sg-panel-scss',
+    name: 'SCSS',
+    default: false,
+    templateID: 'pl-panel-template-code',
+    httpRequest: true,
+    httpRequestReplace: '.scss',
+    httpRequestCompleted: false,
+    prismHighlight: true,
+    language: 'scss',
+    keyCombo: 'ctrl+shift+z',
+  });
+}
 
-Panels.add({
-  id: 'sg-panel-<<type>>',
-  name: '<<typeUC>>',
-  default: false,
-  templateID: 'pl-panel-template-code',
-  httpRequest: true,
-  httpRequestReplace: '.<<type>>',
-  httpRequestCompleted: false,
-  prismHighlight: true,
-  language: '<<type>>',
-  keyCombo: 'ctrl+shift+z',
-});
+// workaround to try recovering from load order race conditions
+if (window.patternlab && window.patternlab.panels) {
+  addPanels();
+} else {
+  document.addEventListener('patternLab.pageLoad', addPanels);
+}

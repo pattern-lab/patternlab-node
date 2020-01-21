@@ -152,18 +152,14 @@ module.exports = function(relPath, patternlab) {
 
     if (listItemsData) {
       logger.debug(
-        `found pattern-specific listitems data for ${
-          currentPattern.patternPartial
-        }`
+        `found pattern-specific listitems data for ${currentPattern.patternPartial}`
       );
       currentPattern.listitems = listItemsData;
       buildListItems(currentPattern);
     }
   } catch (err) {
     logger.warning(
-      `There was an error parsing sibling listitem JSON for ${
-        currentPattern.relPath
-      }`
+      `There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`
     );
     logger.warning(err);
   }

@@ -1,0 +1,85 @@
+{
+    "navToggle" : {
+        "styleModifier" : "c-btn--small c-header__nav-btn js-nav-trigger",
+        "buttonText" : "Menu"
+    },
+    "paginationList" : [
+        {
+            "number" : "Prev"
+        },
+        {
+            "number" : "1"
+        },
+        {
+            "number" : "2"
+        },
+        {
+            "number" : "Next"
+        }
+    ],
+    "navItems" : [
+        {
+            "label" : "Women",
+            "url" : "link.pages-category"
+        },
+        {
+            "label" : "Men",
+            "url" : "link.pages-category-men"
+        },
+        {
+            "label" : "Kids",
+            "url" : "link.pages-category-kids"
+        },
+        {
+            "label" : "On Sale",
+            "url" : "link.pages-category-on-sale"
+        },
+        {
+            "label": false,
+            "navIcon": {
+                "iconPath": "../../icons.svg",
+                "navIcon": "shopping-cart"
+            },
+            "url" : "link.pages-cart"
+        }
+    ],
+    "footerNav" : [
+        {
+            "label" : "Women",
+            "url" : "link.pages-category"
+        },
+        {
+            "label" : "Men",
+            "url" : "link.pages-category-men"
+        },
+        {
+            "label" : "Kids",
+            "url" : "link.pages-category-kids"
+        },
+        {
+            "label" : "On Sale",
+            "url" : "link.pages-category-on-sale"
+        }
+    ],
+    "progressTracker" : {
+        "items": [
+            {
+                "styleModifier": "is-current",
+                "number": "1",
+                "label": "Shipping Information"
+            },
+            {
+                "number": "2",
+                "label": "Billing Information"
+            },
+            {
+                "number": "3",
+                "label": "Review Order"
+            },
+            {
+                "number": "4",
+                "label": "Confirmation"
+            }
+        ]
+    }
+}

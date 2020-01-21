@@ -4,6 +4,8 @@ const path = require('path');
 
 const logger = require('./log');
 const events = require('./events');
+const pm = require('./plugin_manager');
+const pluginMananger = new pm();
 
 let chokidar = require('chokidar'); // eslint-disable-line prefer-const
 
@@ -19,11 +21,11 @@ const watchPatternLabFiles = (
     assetDirectories.source.meta,
   ];
   const globalPaths = globalSources.map(globalSource =>
-    path.join(basePath, globalSource, '*')
+    path.join(path.resolve(basePath, globalSource), '*')
   );
 
   _.each(globalPaths, globalPath => {
-    logger.debug(`Pattern Lab is watching ${globalPath} for changes`);
+    logger.debug(`Pattern Lab is watching ${globalPath} for changes!`);
 
     if (patternlab.watchers[globalPath]) {
       patternlab.watchers[globalPath].close();
@@ -41,20 +43,32 @@ const watchPatternLabFiles = (
 
     //watch for changes and rebuild
     globalWatcher
-      .on('addDir', p => {
-        patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
-          file: p,
-        });
+      .on('addDir', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_GLOBAL_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('add', p => {
-        patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
-          file: p,
-        });
+      .on('add', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_GLOBAL_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('change', p => {
-        patternlab.events.emit(events.PATTERNLAB_GLOBAL_CHANGE, {
-          file: p,
-        });
+      .on('change', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_GLOBAL_CHANGE,
+          {
+            file: p,
+          }
+        );
       });
 
     patternlab.watchers[globalPath] = globalWatcher;
@@ -66,13 +80,14 @@ const watchPatternLabFiles = (
     .concat(patternlab.engines.getSupportedFileExtensions())
     .map(dotExtension =>
       path.join(
-        basePath,
-        assetDirectories.source.patterns,
+        path.resolve(basePath, assetDirectories.source.patterns),
         `/**/*${dotExtension}`
       )
     );
   _.each(patternWatches, patternWatchPath => {
-    logger.debug(`Pattern Lab is watching ${patternWatchPath} for changes`);
+    logger.debug(
+      `Pattern Lab is watching ${patternWatchPath} for changes - local!`
+    );
 
     if (patternlab.watchers[patternWatchPath]) {
       patternlab.watchers[patternWatchPath].close();
@@ -90,29 +105,39 @@ const watchPatternLabFiles = (
 
     //watch for changes and rebuild
     patternWatcher
-      .on('addDir', p => {
-        patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
-          file: p,
-        });
+      .on('addDir', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_PATTERN_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('add', p => {
-        patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
-          file: p,
-        });
+      .on('add', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_PATTERN_CHANGE,
+          {
+            file: p,
+          }
+        );
       })
-      .on('change', p => {
-        patternlab.events.emit(events.PATTERNLAB_PATTERN_CHANGE, {
-          file: p,
-        });
+      .on('change', async p => {
+        await pluginMananger.raiseEvent(
+          patternlab,
+          events.PATTERNLAB_PATTERN_CHANGE,
+          {
+            file: p,
+          }
+        );
       });
 
     patternlab.watchers[patternWatchPath] = patternWatcher;
   });
 
   logger.info(
-    `Pattern Lab is watching for changes to files under ${
-      assetDirectories.source.root
-    }`
+    `Pattern Lab is watching for changes to files under ${assetDirectories.source.root}`
   );
   return Promise.resolve();
 };

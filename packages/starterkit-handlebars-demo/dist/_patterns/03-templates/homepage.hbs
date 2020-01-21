@@ -1,0 +1,22 @@
+{{> organisms-header }}
+<main role="main">
+
+	<div class="l-container">
+		{{# hero }}
+		{{> molecules-hero }}
+		{{/ hero }}
+
+		{{# promoBlock }}
+		{{> molecules-promo-block }}
+		{{/ promoBlock }}
+
+
+		{{#with saleSection}}
+		{{> organisms-stacked-block-section }}
+		{{/with}}
+
+	</div>
+
+
+</main>
+{{> organisms-footer }}

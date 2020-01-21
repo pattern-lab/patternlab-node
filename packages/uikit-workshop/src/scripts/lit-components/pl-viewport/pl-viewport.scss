@@ -1,0 +1,248 @@
+/*------------------------------------*\
+    #VIEWPORT
+\*------------------------------------*/
+
+@import '../../../sass/scss/core.scss';
+
+/**
+* To keep user code and PL code separate, and to make
+* resizing the viewport possible, PL contains an iframe
+* that houses all user code.
+*/
+
+$pl-resizer-width: 20px;
+$pl-viewport-bg: #F4F4F4;
+
+.pl-c-viewport-modal-wrapper {
+  background-color: $pl-viewport-bg;
+}
+
+pl-iframe {
+  display: flex;
+  flex-grow: 1;
+  background-color: $pl-viewport-bg;
+}
+
+/**
+* Viewport
+* 1) This wrapper div occupies all remaining viewport space after PL's header
+*/
+.pl-c-viewport {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  flex-grow: 1;
+  transition: height 0.3s ease;
+  // @supports (position: sticky) {
+  //   top: 0;
+  // }
+
+  // .pl-c-body--theme-sidebar & {
+  //   top: 0;
+  // }
+}
+
+/**
+* Cover
+* 1) This is an invisible div that sits above the iframe and is
+* used in JS for manual viewport resizing purposes.
+*/
+.pl-c-viewport__cover {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  cursor: move;
+  pointer-events: auto; // Firefox bug fix
+}
+
+/**
+* Viewport iframe wrapper
+* 1) This is the container that houses the
+*    iframe and the manual resize handle
+*/
+.pl-c-viewport__iframe-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 100vw;
+  position: relative;
+  margin: 0 auto;
+  flex-grow: 1;
+  -webkit-overflow-scrolling: touch;
+  min-width: 240px;
+  max-width: 100vw;
+  background: $pl-viewport-bg;
+  padding-right: $pl-resizer-width;
+  padding-left: $pl-resizer-width;
+  // box-shadow: 0 3px 6px rgba(21,22,25,.16), 0 3px 6px rgba(21,22,25,.23);
+
+  &.hay-mode {
+    transition: all 40s linear;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: calc(100vw - #{$pl-sidebar-width});
+      width: calc(100vw - #{$pl-sidebar-width});
+    }
+  }
+}
+
+.is-animating {
+  transition: all 0.2s linear;
+}
+
+/**
+* Viewport iframe
+* 1) this is the actual <iframe>
+*/
+.pl-c-viewport__iframe {
+  flex-grow: 1;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $pl-color-white;
+  max-width: 100vw; // https://github.com/bolt-design-system/bolt/pull/868
+  // width: 100%;
+  // width: auto;
+  // padding-right: 10px;
+  overflow: hidden;
+  // border: 1px solid #CCC;
+  border-radius: 5px;
+
+  &.is-ready {
+    min-height: 0;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      // width: 100%;
+      max-width: calc(100vw - #{$pl-sidebar-width});
+    }
+  }
+
+  /**
+    * Hay Mode transition
+    * 1) Hay Mode (disabled by default) starts with the smallest
+    * viewport then slowly expands http://bradfrost.com/blog/post/ish-2-0/
+    */
+  &.hay-mode {
+    transition: all 40s linear;
+  }
+}
+
+/**
+* Right pull container
+* 1) Container used for manual resizing
+*/
+.pl-c-viewport__resizer {
+  position: absolute;
+  width: $pl-resizer-width;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+/**
+* Right pull
+* 1) This is the handle that lets the user resize the viewport
+*/
+.pl-c-viewport__resizer-handle {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity $pl-animate-quick ease-out;
+  position: relative;
+  color: $pl-color-gray-70;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background .3s cubic-bezier(.25,.8,.25,1)!important;
+  cursor: ew-resize;
+  background-color: $pl-viewport-bg;
+
+  &:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    left: 0;
+    opacity: 0;
+    top: 0;
+    position: absolute;
+    pointer-events: none;
+    display: block;
+    background-color: currentColor;
+    transition: .3s cubic-bezier(.25,.8,.25,1);
+  }
+
+  &.is-resizing:after,
+  &:hover:after {
+    opacity: 0.1;
+  }
+
+  &:focus:after,
+  &:active:after {
+    opacity: 0.2;
+  }
+
+  &:active {
+    cursor: move;
+  }
+}
+
+.pl-c-viewport__resizer-handle-icon {
+  width: 100%;
+  fill: currentColor;
+  z-index: 100;
+  transform: scale(1, 3);
+  height: auto;
+}
+
+/**
+* VP animate
+* 1) This is an added class that is activated by JS to
+*    transition the width of the viewport
+*/
+.vp-animate {
+  transition: all 0.8 ease-in;
+}
+
+// wrapper so the iframe + modal can switch flex directions in vertical vs horizontal layouts
+.pl-c-viewport-modal-wrapper {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  max-width: 100vw;
+  position: relative; // used for absolute positioning if position sticky isn't supported
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      max-width: calc(100vw - #{$pl-sidebar-width});
+
+      // IE 11 bug causing viewport to be offset
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        margin-left: $pl-sidebar-width;
+      }
+    }
+  }
+}

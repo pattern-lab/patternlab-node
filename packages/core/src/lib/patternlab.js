@@ -47,6 +47,7 @@ module.exports = class PatternLab {
     // Load up engines please
     this.engines = patternEngines;
     this.engines.loadAllEngines(config);
+    this.isBusy = false;
 
     //
     // INITIALIZE EMPTY GLOBAL DATA STRUCTURES
@@ -63,6 +64,9 @@ module.exports = class PatternLab {
 
     // Make ye olde event emitter
     this.events = new PatternLabEventEmitter();
+
+    this.hooks = {};
+    this.hooks[events.PATTERNLAB_PATTERN_WRITE_END] = [];
 
     // Make a place for the pattern graph to sit
     this.graph = null;
@@ -107,9 +111,7 @@ module.exports = class PatternLab {
     if (typeof patternlab.config.paths.source.patternlabFiles === 'string') {
       logger.warning('');
       logger.warning(
-        `Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${
-          patternlab.config.paths.source.patternlabFiles
-        }'`
+        `Configuration key [paths.source.patternlabFiles] inside patternlab-config.json was found as the string '${patternlab.config.paths.source.patternlabFiles}'`
       );
       logger.warning(
         'Since Pattern Lab Node Core 3.0.0 this key is an object. Suggest you update this key following this issue: https://github.com/pattern-lab/patternlab-node/issues/683.'

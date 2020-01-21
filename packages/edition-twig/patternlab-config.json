@@ -8,6 +8,41 @@
           "paths": [
             "./node_modules/@pattern-lab/uikit-workshop/views-twig"
           ]
+        },
+        {
+          "id": "atoms",
+          "recursive": true,
+          "paths": [
+            "./source/_patterns/00-atoms"
+          ]
+        },
+        {
+          "id": "molecules",
+          "recursive": true,
+          "paths": [
+            "./source/_patterns/01-molecules"
+          ]
+        },
+        {
+          "id": "organisms",
+          "recursive": true,
+          "paths": [
+            "./source/_patterns/02-organisms"
+          ]
+        },
+        {
+          "id": "templates",
+          "recursive": true,
+          "paths": [
+            "./source/_patterns/03-templates"
+          ]
+        },
+        {
+          "id": "pages",
+          "recursive": true,
+          "paths": [
+            "./source/_patterns/04-pages"
+          ]
         }
       ],
       "alterTwigEnv": [
@@ -99,8 +134,11 @@
     "inreview",
     "complete"
   ],
-  "patternExportDirectory": "./pattern_exports/",
+  "patternExportAll": false,
+  "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
+  "patternExportPreserveDirectoryStructure": true,
+  "patternExportRaw": false,
   "serverOptions": {
     "wait": 1000
   },
@@ -109,7 +147,8 @@
   "theme": {
     "color": "light",
     "density": "compact",
-    "layout": "horizontal"
+    "layout": "horizontal",
+    "noViewAll": false
   },
   "uikits": [
     {

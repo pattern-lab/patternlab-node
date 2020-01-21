@@ -42,7 +42,7 @@ const Pattern = function(relPath, data, patternlab) {
 
   // this is the unique name, subDir + fileName (sans extension)
   this.name = '';
-  if (info.hasDir) {
+  if (info.hasDir && info.dirLevel > 2) {
     let variant = '';
 
     if (this.fileName.indexOf('~') !== -1) {
@@ -79,29 +79,32 @@ const Pattern = function(relPath, data, patternlab) {
     .trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
 
   //00-atoms if needed
-  this.patternType = this.getDirLevel(0, info);
+  this.patternType = this.getDirLevel(0);
 
   // the top-level pattern group this pattern belongs to. 'atoms'
   this.patternGroup = this.patternType.replace(patternPrefixMatcher, '');
 
   //00-colors if needed
-  this.patternSubType = this.getDirLevel(1, info);
+  this.patternSubType = this.getDirLevel(1);
 
   // the sub-group this pattern belongs to.
   this.patternSubGroup = this.patternSubType.replace(patternPrefixMatcher, ''); // 'global'
 
   // the joined pattern group and subgroup directory
-  this.flatPatternPath = info.hasDir
-    ? this.subdir
-        .replace(/[/\\]/g, '-')
-        .replace(new RegExp('-' + info.dir + '$'), '')
-    : this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
+  this.flatPatternPath =
+    info.hasDir && info.dirLevel > 2
+      ? this.subdir
+          .replace(/[/\\]/g, '-')
+          .replace(new RegExp('-' + info.dir + '$'), '')
+      : this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
 
   // calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
   this.patternLink = this.patternSectionSubtype
     ? `$${this.name}/index.html`
-    : patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
+    : patternlab
+    ? this.getPatternLink(patternlab, 'rendered')
+    : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
@@ -215,11 +218,8 @@ Pattern.prototype = {
     return this.engine.findPartial(partialString);
   },
 
-  getDirLevel: function(level, info) {
+  getDirLevel: function(level) {
     const items = this.subdir.split(path.sep);
-    if (info.hasDir) {
-      items.pop();
-    }
 
     if (items[level]) {
       return items[level];

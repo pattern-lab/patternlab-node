@@ -178,7 +178,7 @@ tap.test('test Pattern capitalizes patternDisplayName correctly', function(
   test.end();
 });
 
-tap.test('test Pattern get dir level no sepatated pattern directory', function(
+tap.test('test Pattern get dir level no separated pattern directory', function(
   test
 ) {
   var p = new Pattern('00-atoms/00-global/00-colors-alt.mustache', { d: 123 });
@@ -198,7 +198,7 @@ tap.test('test Pattern get dir level no sepatated pattern directory', function(
 });
 
 tap.test(
-  'test Pattern get dir level with sepatated pattern directory',
+  'test Pattern get dir level with separated pattern directory',
   function(test) {
     var p = new Pattern(
       '00-atoms/00-global/00-colors-alt/colors-alt.mustache',
@@ -211,11 +211,20 @@ tap.test(
       d: 123,
     });
     test.equals(p.getDirLevel(0, { hasDir: true, dirLevel: 2 }), '00-atoms');
-    test.equals(p.getDirLevel(1, { hasDir: true, dirLevel: 2 }), '00-atoms');
+    test.equals(
+      p.getDirLevel(1, { hasDir: true, dirLevel: 2 }),
+      '00-colors-alt'
+    );
     test.equals(p.getDirLevel(3, { hasDir: true, dirLevel: 2 }), '');
     var p = new Pattern('00-colors-alt/colors-alt.mustache', { d: 123 });
-    test.equals(p.getDirLevel(0, { hasDir: true, dirLevel: 1 }), '');
-    test.equals(p.getDirLevel(1, { hasDir: true, dirLevel: 1 }), '');
+    test.equals(
+      p.getDirLevel(0, { hasDir: true, dirLevel: 1 }),
+      '00-colors-alt'
+    );
+    test.equals(
+      p.getDirLevel(1, { hasDir: true, dirLevel: 1 }),
+      '00-colors-alt'
+    );
     test.equals(p.getDirLevel(3, { hasDir: true, dirLevel: 1 }), '');
     test.end();
   }

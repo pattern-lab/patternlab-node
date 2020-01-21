@@ -1,0 +1,95 @@
+{
+    "page": {
+        "title": "Shipping Information",
+        "description": "Please fill out your shipping information below."
+    },
+    "formFields" : {
+        "items": [
+            {
+                "textField": {
+                    "label" : "Name"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "Address"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "City"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "State"
+                }
+            },
+            {
+                "textField": {
+                    "label" : "Zip Code"
+                }
+            },
+            {
+                "inlineCheckbox": {
+                    "styleModifier": "u-margin-bottom-large",
+                    "label": "Billing address is the same as shipping"
+                }
+            }
+        ]
+    },
+    "selectField": false,
+    "buttonGroup" : [
+        {
+            "buttonTag" : false,
+            "linkTag" : true,
+            "url" : "link.pages-checkout-billing",
+            "buttonText": "Continue to Billing"
+        }
+    ],
+    "definitionListSection": {
+        "styleModifier":"c-definition-list-list--lined",
+        "definitionItems": [
+            {
+                "definitionList": {
+            		"items": [
+            			{
+            				"term": "Item",
+            				"description": "Suede Booties"
+            			},
+            			{
+            				"term": "Quantity",
+            				"description": "1"
+            			},
+            			{
+            				"term": "Price",
+            				"description": "$120"
+            			}
+            		]
+            	}
+            },
+            {
+                "definitionList": {
+            		"items": [
+            			{
+            				"term": "Item",
+            				"description": "Brown Dress Shoes"
+            			},
+            			{
+            				"term": "Quantity",
+            				"description": "1"
+            			},
+            			{
+            				"term": "Price",
+            				"description": "$140"
+            			}
+            		]
+            	}
+            }
+        ]
+    },
+    "totalPrice": {
+        "label": "Total",
+        "number": "$360"
+    }
+}

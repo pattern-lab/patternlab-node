@@ -22,39 +22,10 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const plPath = process.cwd();
-const plConfig = require(path.join(plPath, 'patternlab-config.json'));
 const nunjucks = require('nunjucks');
 const partialRegistry = [];
 
-// Create Pattern Loader
-// Since Pattern Lab includes are not path based we need a custom loader for Nunjucks.
-function PatternLoader() {}
-
-PatternLoader.prototype.getSource = function(name) {
-  const fullPath = path.resolve(
-    plConfig.paths.source.patterns,
-    partialRegistry[name]
-  );
-  return {
-    src: fs.readFileSync(fullPath, 'utf-8'),
-    path: fullPath,
-    noCache: true,
-  };
-};
-
-const env = new nunjucks.Environment(new PatternLoader());
-
-// Load any user Defined configurations
-try {
-  const nunjucksConfig = require(path.join(
-    plPath,
-    'patternlab-nunjucks-config.js'
-  ));
-  if (typeof nunjucksConfig === 'function') {
-    nunjucksConfig(env);
-  }
-} catch (err) {}
+let env;
 
 // Nunjucks Engine
 const engine_nunjucks = {
@@ -152,6 +123,72 @@ const engine_nunjucks = {
   spawnMeta: function(config) {
     this.spawnFile(config, '_00-head.njk');
     this.spawnFile(config, '_01-foot.njk');
+  },
+
+  /**
+   * Accept a Pattern Lab config object from the core and use the settings to
+   * load helpers.
+   *
+   * @param {object} config - the global config object from core
+   */
+  usePatternLabConfig: function(config) {
+    // Create Pattern Loader
+    // Since Pattern Lab includes are not path based we need a custom loader for Nunjucks.
+    function PatternLoader() {}
+
+    PatternLoader.prototype.getSource = function(name) {
+      const fullPath = path.resolve(
+        config.paths.source.patterns,
+        partialRegistry[name]
+      );
+      return {
+        src: fs.readFileSync(fullPath, 'utf-8'),
+        path: fullPath,
+        noCache: true,
+      };
+    };
+
+    env = new nunjucks.Environment(new PatternLoader());
+
+    let extensions;
+
+    try {
+      // Look for helpers in the config
+      extensions = config.engines.nunjucks.extend;
+
+      if (typeof extensions === 'string') {
+        extensions = [extensions];
+      }
+    } catch (error) {
+      // No defined path(s) found, look in default location
+
+      const configPath = 'patternlab-nunjucks-config.js';
+      if (fs.existsSync(path.join(process.cwd(), configPath))) {
+        extensions = [configPath];
+      }
+    }
+
+    if (extensions) {
+      extensions.forEach(extensionPath => {
+        // Load any user Defined configurations
+        const nunjucksConfigPath = path.join(process.cwd(), extensionPath);
+
+        try {
+          const nunjucksConfig = require(nunjucksConfigPath);
+          if (typeof nunjucksConfig === 'function') {
+            nunjucksConfig(env);
+          } else {
+            console.error(
+              `Failed to load Nunjucks extension: Expected ${extensionPath} to export a function.`
+            );
+          }
+        } catch (err) {
+          console.error(
+            `Failed to load Nunjucks extension ${nunjucksConfigPath}.`
+          );
+        }
+      });
+    }
   },
 };
 

@@ -1,0 +1,59 @@
+@import '../../../sass/scss/core.scss';
+
+pl-viewport-sizes {
+  display: flex;
+  justify-content: center;
+}
+
+/**
+ * Size options
+ * 1) This holds the S, M, L, Rand, Disco links
+ * 2) Depending on the config, these number of options may be
+ * larger or smaller.
+ */
+.pl-c-size-list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  padding: 0 0.25rem;
+
+  @media all and (min-width: $pl-bp-med) {
+    align-items: center;
+    -webkit-overflow-scrolling: touch;
+
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    display: block;
+    display: flex;
+  }
+}
+
+/**
+ * Size actions
+ * 1) These are the buttons that control the viewport resizing
+ */
+.pl-c-size-list__action {
+  @include buttonStyles;
+  display: inline-block; // workaround to fix valign issues in IE 11
+  min-height: 35px;
+  min-width: 0;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+
+  pl-icon {
+    pointer-events: none;
+  }
+}
+
+// Force list items to center align if not overflow scrolling
+.pl-c-size-list__item:first-child {
+  margin-left: auto;
+}
+
+.pl-c-size-list__item:last-child {
+  margin-right: auto;
+}
+

@@ -1,0 +1,59 @@
+/*------------------------------------*\
+    #BUTTONS
+\*------------------------------------*/
+
+/**
+ *
+ * 1) Button or link that has functionality to it
+ */
+.c-btn {
+	display: inline-block;
+	border: $border-thickness solid $color-btn-primary-border;
+	background: $color-brand-blue;
+	color: $color-neutral-white;
+	line-height: 1;
+	padding: 1rem 2rem;
+	border: 0;
+	text-transform: uppercase;
+	text-align: center;
+	transition: all $anim-fade-quick $anim-ease;
+
+	&:hover, &:focus {
+		color: $color-neutral-white;
+		background: $color-brand-blue-dark;
+	}
+}
+
+.c-btn--bare {
+	background: none;
+	color: $color-brand-blue;
+	border: 1px solid transparent;
+
+	&:hover, &:focus {
+		background: none;
+		color: $color-brand-blue;
+		border-color: $color-brand-blue;
+	}
+}
+
+/*
+ * Inner container wrapper
+ * 1) Container is direct decendant of <button>, since there's
+ *    a bug with applying flexbox directly to a <button>
+ * 2) Only needs to be used for buttons containing both icons and text
+ */
+.c-btn__inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/*
+ * Button icon
+ */
+.c-btn__icon {
+	width: 1rem;
+	height: 1rem;
+	fill: $color-btn-primary;
+	transition: fill $anim-fade-quick $anim-ease;
+}
