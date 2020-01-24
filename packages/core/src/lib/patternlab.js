@@ -307,6 +307,11 @@ module.exports = class PatternLab {
   // dive once to perform iterative populating of patternlab object
   processAllPatternsIterative(patterns_dir) {
     const self = this;
+    
+    // before updating the patterns has to be reset, otherwise
+    // deleted pattern would still be present in the patterns array
+    this.patterns = [];
+    
     const promiseAllPatternFiles = new Promise(function(resolve) {
       dive(
         patterns_dir,
