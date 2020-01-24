@@ -65,7 +65,7 @@
   "license": "MIT",
   "scripts": {
     "docs": "node ./scripts/docs.js",
-    "lint": "eslint -c ../../.eslintrc.js 'src/**/*.js'",
+    "lint": "eslint -c ../../.eslintrc.js src/**/*.js",
     "pretest": "npm run lint",
     "release": "standard-version",
     "test": "tap test/*_tests.js --reporter spec --coverage"
