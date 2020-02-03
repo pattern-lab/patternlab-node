@@ -80,10 +80,7 @@ tap.test(
         'colors.mustache'
     );
     test.equals(p.name, '00-atoms-00-global');
-    test.equals(
-      p.subdir,
-      '00-atoms' + path.sep + '00-global'
-    );
+    test.equals(p.subdir, '00-atoms' + path.sep + '00-global');
     test.equals(p.fileName, 'colors');
     test.equals(p.fileExtension, '.mustache');
     test.equals(p.jsonFileData.d, 123);
@@ -91,12 +88,10 @@ tap.test(
     test.equals(p.patternName, 'Colors');
     test.equals(
       p.getPatternLink(pl),
-      '00-atoms-00-global' +
-        path.sep +
-        '00-atoms-00-global.rendered.html'
+      '00-atoms-00-global' + path.sep + '00-atoms-00-global.rendered.html'
     );
     test.equals(p.patternGroup, 'atoms');
-    test.equals(p.patternSubGroup, 'atoms'); //because of p.info.hasDir
+    test.equals(p.patternSubGroup, 'global'); //because of p.info.hasDir
     test.equals(p.flatPatternPath, '00-atoms-00-global');
     test.equals(p.patternPartial, 'atoms-colors');
     test.equals(p.template, '');
@@ -114,10 +109,9 @@ tap.test('test Pattern name for variants correctly initialzed', function(test) {
   var p1 = new Pattern('00-atoms/00-global/colors~variant.mustache', {
     d: 123,
   });
-  var p2 = new Pattern(
-    '00-atoms/00-global/colors~variant-minus.json',
-    { d: 123 }
-  );
+  var p2 = new Pattern('00-atoms/00-global/colors~variant-minus.json', {
+    d: 123,
+  });
   test.equals(p1.name, '00-atoms-00-global-colors-variant');
   test.equals(p2.name, '00-atoms-00-global-colors-variant-minus');
   test.end();
@@ -205,7 +199,7 @@ tap.test(
       { d: 123 }
     );
     test.equals(p.getDirLevel(0, { hasDir: true, dirLevel: 3 }), '00-atoms');
-    test.equals(p.getDirLevel(1, { hasDir: true, dirLevel: 3 }), '00-atoms');
+    test.equals(p.getDirLevel(1, { hasDir: true, dirLevel: 3 }), '00-global');
     test.equals(p.getDirLevel(3, { hasDir: true, dirLevel: 3 }), '');
     var p = new Pattern('00-atoms/00-colors-alt/colors-alt.mustache', {
       d: 123,
