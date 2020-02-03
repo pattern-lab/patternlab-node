@@ -12,19 +12,15 @@ const editionSetup = [
   {
     type: 'list',
     name: 'edition',
-    message: 'Which edition do you want to use (defaults to edition-node)?',
+    message: 'What templating language do you want to use with Pattern Lab?',
     choices: [
       {
-        name: 'edition-node (handlebars engine)',
+        name: 'Handlebars',
         value: '@pattern-lab/edition-node',
       },
       {
-        name: 'edition-twig (php engine)',
+        name: 'Twig (PHP)',
         value: '@pattern-lab/edition-twig',
-      },
-      {
-        name: 'edition-node-gulp (legacy)',
-        value: '@pattern-lab/edition-node-gulp',
       },
       new inquirer.Separator(),
       {
@@ -34,7 +30,7 @@ const editionSetup = [
     ],
     default: function() {
       return {
-        name: 'edition-node',
+        name: 'Handlebars',
         value: '@pattern-lab/edition-node',
       };
     },
