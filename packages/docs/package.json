@@ -1,5 +1,5 @@
 {
-  "name": "hylia",
+  "name": "patternlab-website",
   "version": "0.5.1",
   "description": "A simple Eleventy starter kit to help you have a blog of your own",
   "main": "index.js",
@@ -39,13 +39,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hankchizljaw/hylia.git"
+    "url": ""
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "",
   "bugs": {
-    "url": "https://github.com/hankchizljaw/hylia/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/hankchizljaw/hylia#readme"
+  "homepage": ""
 }

@@ -5,7 +5,7 @@ tags:
   - blog
   - media
 ---
-A post to demonstrate how a blog post looks on Hylia. Content is all set in the “Body” field as markdown and Eleventy transforms it into a proper HTML post. You can also edit the markdown file directly if you prefer not to use the CMS.
+A post to demonstrate how a blog post looks on Pattern Lab. Content is all set in the “Body” field as markdown and Eleventy transforms it into a proper HTML post. You can also edit the markdown file directly if you prefer not to use the CMS.
 
 If you want to make an image bleed-out, add a title attribute to it and the front-end will automatically wrap it in a `<figure>` tag for you.
 
@@ -21,4 +21,4 @@ Finally, how about a `<blockquote>`?
 
 ![Person holds up a photograph of a riverside and buildings with the same river as a backdrop](/images/demo-image-2.jpg "Remember, if you want a figure and caption, add a 'title' attribute to image in the body field — Photo by Kharytonova Antonina on Unsplash.")
 
-Hopefully, this has demonstrated how simple it is to make a nice looking blog with Hylia.
+Hopefully, this has demonstrated how simple it is to make a nice looking blog with Pattern Lab.
