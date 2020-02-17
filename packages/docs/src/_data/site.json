@@ -1,7 +1,7 @@
 {
   "showThemeCredit": true,
   "name": "Pattern Lab",
-  "shortDesc": "Pattern Lab is a lightweight Eleventy starter kit to help you to create your own blog or personal website.",
+  "shortDesc": "Pattern Lab is a frontend workshop environment that helps you build, view, test, and showcase your design system's UI components.",
   "url": "https://patternlab.io/",
   "authorEmail": "brad@bradfrost.com",
   "authorHandle": "@bradfrost",

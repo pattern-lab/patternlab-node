@@ -1,0 +1,17 @@
+.c-stacked-block {
+    display: block;
+}
+
+.c-stacked-block__title {
+    font-size: $font-size-large;
+    line-height: $line-height-med;
+    margin-bottom: $spacing-small;
+}
+
+.c-stacked-block__description {
+    font-size: $font-size-med-2;
+}
+
+.c-section-header {
+    font-size: $font-size-large-2;
+}

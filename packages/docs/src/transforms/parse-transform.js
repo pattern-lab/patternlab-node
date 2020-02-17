@@ -35,6 +35,7 @@ module.exports = function(value, outputPath) {
 
           image.replaceWith(figure);
         }
+        
       });
     }
 

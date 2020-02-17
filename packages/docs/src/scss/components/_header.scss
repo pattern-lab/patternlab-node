@@ -6,38 +6,38 @@
  * Global block at the top of each page containing the navigation, logo, and other potential contents
  */
 .c-header {
-	position: relative;
-	background: $color-gray-88;
-	color: $color-gray-50;
-	padding: $spacing;
+    position: relative;
+    background: $color-gray-88;
+    color: $color-gray-50;
+    padding: $spacing;
 
-	@media all and (min-width: $bp-med) {
-		padding: $spacing-large;
-		min-height: 100vh;
-		flex-direction: column;
-		position: fixed;
-		top: 0;
-		left: 0;
-		height: 100vh;
-		overflow: auto;
-		width: $l-sidebar-width; //Because fixed position
-	}
+    @media all and (min-width: $bp-large) {
+        padding: $spacing-large;
+        min-height: 100vh;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow: auto;
+        width: $l-sidebar-width; //Because fixed position
+    }
 }
 
 /**
  * Header inner
  */
 .c-header__inner {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-	@media all and (min-width: $bp-med) {
-		justify-content: flex-start;
-		align-items: flex-start;
-		flex-direction: column;
-		min-height: 100vh;
-	}
+    @media all and (min-width: $bp-large) {
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 }
 
 /**
@@ -45,11 +45,11 @@
  * 1) Button used to toggle the navigation on/off on small screens
  */
 .c-header__nav-btn {
-	margin-left: auto;
+    margin-left: auto;
 
-	@media all and (min-width: $bp-med) {
-		display: none;
-	}
+    @media all and (min-width: $bp-large) {
+        display: none;
+    }
 }
 
 /**
@@ -57,31 +57,31 @@
  * 1) Contains the primary navigation and other possible patterns
  */
 .c-header__nav-container {
-	display: none;
+    display: none;
 
-	@media all and (min-width: $bp-med) {
-		display: block;
-	}
+    @media all and (min-width: $bp-large) {
+        display: block;
+    }
 }
 
 /**
  * Active header nav container
  */
 .c-header__nav-container.is-active {
-	display: block;
-	position: absolute;
-	background: $color-gray-88;
-	top: 100%;
-	left: 0;
-	width: 100%;
-	z-index: 5;
-	padding: $spacing;
+    display: block;
+    position: absolute;
+    background: $color-gray-88;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    padding: $spacing;
 
-	@media all and (min-width: $bp-med) {
-		display: block;
-		position: static;
-		padding: 0;
-		margin-left: auto;
-		width: inherit;
-	}
+    @media all and (min-width: $bp-large) {
+        display: block;
+        position: static;
+        padding: 0;
+        margin-left: auto;
+        width: inherit;
+    }
 }

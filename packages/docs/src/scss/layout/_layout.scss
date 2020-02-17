@@ -8,14 +8,13 @@
  *    and centers the container
  */
 .l-container {
-	max-width: $l-max-width;
-	margin: 0 auto;
-	padding: 0 $spacing;
-	width: 100%;
+    max-width: $l-max-width;
+    margin: 0 auto;
+    padding: 0 2rem;
 
-	@media all and (min-width: $bp-large) {
-		padding: 0 4rem;
-	}
+    @media all and (min-width: $bp-large) {
+        padding: 0 4rem;
+    }
 }
 
 /**
@@ -25,7 +24,7 @@
  *    kinds of displays
  */
 .l-linelength-container {
-	max-width: $l-linelength-width;
+    max-width: $l-linelength-width;
 }
 
 /*------------------------------------*\
@@ -36,14 +35,8 @@
  * Grid Container
  */
 .l-grid {
-	@media all and (min-width: $bp-med) {
-		display: grid;
-		grid-template-columns: $l-sidebar-width 1fr;
-	}
-}
-
-/**
- * Grid Item
- */
-.l-grid__item {
+    @media all and (min-width: $bp-large) {
+        display: grid;
+        grid-template-columns: $l-sidebar-width 1fr;
+    }
 }
