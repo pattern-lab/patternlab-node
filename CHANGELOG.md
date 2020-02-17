@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.7.0](https://github.com/pattern-lab/patternlab-node/compare/v5.6.0...v5.7.0) (2020-02-17)
+
+
+### Features
+
+* **cli:** make options more user friendly ([ad845b3](https://github.com/pattern-lab/patternlab-node/commit/ad845b394ef81f90895ebb5bc6f12cc608e5e3d4))
+
+
+
+
+
 # [5.6.0](https://github.com/pattern-lab/patternlab-node/compare/v5.5.0...v5.6.0) (2020-01-18)
 
 
