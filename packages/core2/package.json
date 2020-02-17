@@ -1,0 +1,39 @@
+{
+  "name": "core2",
+  "version": "5.7.0",
+  "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
+  "keywords": [
+    "Pattern",
+    "Lab",
+    "Atomic",
+    "Web",
+    "Design",
+    "Node",
+    "Design",
+    "System",
+    "Static",
+    "Site",
+    "Generator"
+  ],
+  "author": "Brian Muenzenmeyer <brian.muenzenmeyer@gmail.com>",
+  "homepage": "https://patternlab.io",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pattern-lab/patternlab-node.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/pattern-lab/patternlab-node/issues"
+  }
+}
