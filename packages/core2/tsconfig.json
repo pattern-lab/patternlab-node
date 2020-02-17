@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "outDir": "./dist",
+      "allowJs": true,
+      "target": "es6",
+      "moduleResolution": "node",
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitAny": true
+  },
+  "include": [
+      "./src/**/*"
+  ]
+}
