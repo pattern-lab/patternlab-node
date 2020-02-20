@@ -123,7 +123,7 @@ pl-iframe {
   // padding-right: 10px;
   overflow: hidden;
   // border: 1px solid #CCC;
-  border-radius: 5px;
+  border-radius: 0; // Encapsulation does not work with any unit
 
   &.is-ready {
     min-height: 0;
