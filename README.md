@@ -60,6 +60,7 @@ Pattern Lab / Node wouldn't be what it is today without the support of the commu
 **:100: Thanks for support from the following:**
 
 * **[Brad Frost](http://bradfrost.com/)**
+* Jan Ditze
 * [Marcos Peebles](https://twitter.com/marcospeebles)
 * [Maximilian Franzke](https://twitter.com/maedmaex)
 * [Susan Simkins](https://twitter.com/susanmsimkins)
