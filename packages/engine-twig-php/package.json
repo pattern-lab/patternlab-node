@@ -4,7 +4,7 @@
   "version": "5.7.0",
   "main": "lib/engine_twig_php.js",
   "dependencies": {
-    "@basalt/twig-renderer": "0.13.0",
+    "@basalt/twig-renderer": "0.13.1",
     "@pattern-lab/core": "^5.7.0",
     "fs-extra": "0.30.0"
   },
