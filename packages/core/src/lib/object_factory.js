@@ -32,17 +32,18 @@ const Pattern = function(relPath, data, patternlab) {
   info.dir = info.hasDir ? pathObj.dir.split(path.sep).pop() : '';
   info.dirLevel = pathObj.dir.split(path.sep).length;
 
+  this.maxNestingLevel = this.getMaxNestingLevel(patternlab);
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
-  if ((this.subdir.match(/\w(?=\\)|\w(?=\/)/g) || []).length > 1) {
-    this.subdir = this.subdir.split(/\/|\\/, 2).join(path.sep); // '00-atoms/03-controls/00-button' -> '00-atoms/03-controls'
+  if ((this.subdir.match(/\w(?=\\)|\w(?=\/)/g) || []).length > (this.maxNestingLevel - 1)) {
+    this.subdir = this.subdir.split(/\/|\\/, this.maxNestingLevel).join(path.sep); // '00-atoms/03-controls/00-button' -> '00-atoms/03-controls'
   }
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // this is the unique name, subDir + fileName (sans extension)
   this.name = '';
-  if (info.hasDir && info.dirLevel > 2) {
+  if (info.hasDir && info.dirLevel > this.maxNestingLevel) {
     let variant = '';
 
     if (this.fileName.indexOf('~') !== -1) {
@@ -92,7 +93,7 @@ const Pattern = function(relPath, data, patternlab) {
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath =
-    info.hasDir && info.dirLevel > 2
+    info.hasDir && info.dirLevel > this.maxNestingLevel
       ? this.subdir
           .replace(/[/\\]/g, '-')
           .replace(new RegExp('-' + info.dir + '$'), '')
@@ -228,6 +229,15 @@ Pattern.prototype = {
     } else {
       return '';
     }
+  },
+
+  getMaxNestingLevel: function(patternlab) {
+    let maxNestingLevel = 2;
+    // if (typeof patternlab?.config?.maxNestingLevel !== "undefined") {
+    if (typeof ((patternlab || {}).config || {}).maxNestingLevel !== "undefined") {
+      maxNestingLevel = patternlab.config.maxNestingLevel;
+    }
+    return maxNestingLevel;
   },
 };
 
