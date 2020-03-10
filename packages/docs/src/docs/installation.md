@@ -1,8 +1,9 @@
 ---
 title: Installing Pattern Lab
 tags:
-  - docs
+    - docs
 category: getting-started
+order: 0
 ---
 
 ## Step 1: Install Requirements
@@ -29,8 +30,8 @@ This will bring up an installation menu that presents the following steps:
 
 !["choose edition"](/images/3chooseedition.png)
 
-- `edition-node (handlebars engine)`
-- `edition-node-gulp (legacy)`
+-   `edition-node (handlebars engine)`
+-   `edition-node-gulp (legacy)`
 
 3. `Which starterkit do you want to use?` - Choose the <a href="/docs/advanced-starterkits.html">Starterkit</a> you want to begin your project with. Starterkits define the initial components and assets that are included in the initial project. Start from scratch, start from a full demo, or a lightweight boilerplate.
 

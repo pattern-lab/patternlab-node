@@ -1,5 +1,5 @@
 <ul class="c-tree-nav__subnav">
-    {% for doc in collections.docs %}
+    {% for doc in collections.docsOrdered %}
         {% if doc.data.category == subnavCategory %}
         <li class="c-tree-nav__subnav-item">
             <a href="{{doc.url}}" class="c-tree-nav__subnav-link">

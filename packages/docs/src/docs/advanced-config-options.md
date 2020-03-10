@@ -1,8 +1,9 @@
 ---
 title: Editing the Configuration Options
 tags:
-  - docs
+    - docs
 category: getting-started
+order: 50
 ---
 
 Pattern Lab Node comes with a configuration file [(`patternlab-config.json`)](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/patternlab-config.json) that allows you to modify certain aspects of the system. The latest default values are included within. This file is shipped within [the editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node) or can be supplied from core and the command line interface. Below is a description of each configuration option and how it affects Pattern Lab Node.
@@ -85,11 +86,11 @@ Sets the boundaries of each of the viewport toggles, 'S'mall, 'M'edium, and 'L'a
 
 Sets the level of verbosity for Pattern Lab Node logging.
 
-- `error` will output a message as a thrown error
-- `warning` will output all warnings plus above
-- `info` will output all info messages, plus above (intended default)
-- `debug` will output all debug messages, plus above
-- `quiet` will output ZERO logs
+-   `error` will output a message as a thrown error
+-   `warning` will output all warnings plus above
+-   `info` will output all info messages, plus above (intended default)
+-   `debug` will output all debug messages, plus above
+-   `quiet` will output ZERO logs
 
 This replaces the now obsolete `debug` flag.
 
@@ -251,8 +252,8 @@ Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Eco
 
 `uikits` accepts an array of UIKit objects, shipping with the one above.
 
-- `name`: the name of the UIKit
-- `outputDir` where to output this UIKit relative to the current root. By leaving this empty we retain the existing Pattern Lab 2.X behavior, outputting to `<project_root>/public`. If you had multiple UIKits, however, you would provide different values, such as:
+-   `name`: the name of the UIKit
+-   `outputDir` where to output this UIKit relative to the current root. By leaving this empty we retain the existing Pattern Lab 2.X behavior, outputting to `<project_root>/public`. If you had multiple UIKits, however, you would provide different values, such as:
 
 ```javascript
   "uikits": [
@@ -269,16 +270,16 @@ Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Eco
   ]
 ```
 
-- `enabled`: quickly turn on or off the building of this UIKit
-- `excludedPatternStates`: tell Pattern Lab not to include patterns with these states in this UIKit's output
-- `excludedPatternTags`: tell Pattern Lab not to include patterns with these tags in this UIKit's output
-  - [currently not supported](https://github.com/pattern-lab/patternlab-node/issues/844)
+-   `enabled`: quickly turn on or off the building of this UIKit
+-   `excludedPatternStates`: tell Pattern Lab not to include patterns with these states in this UIKit's output
+-   `excludedPatternTags`: tell Pattern Lab not to include patterns with these tags in this UIKit's output
+    -   [currently not supported](https://github.com/pattern-lab/patternlab-node/issues/844)
 
 Important details:
 
-- the [default `paths.source` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/a4961bd5d696a05fb516cdd951163b0f918d5e19) within `patternlab-config.json` are now relative to the current UIKit. See the [structure of uikit-workshop](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) for more info
-- the [default `paths.public` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/812bab3659f504043e8b61b1dc1cdac71f248449) within `patternlab-config.json` are now relative to the current UIKit's `outputDir`. Absolute paths will no longer work. Someone could test putting an absolute path in a UIKit `outputDir` property and see what happens I suppose.
-- `dependencyGraph.json` has moved to the project root rather than `public/` as we should only retain one
+-   the [default `paths.source` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/a4961bd5d696a05fb516cdd951163b0f918d5e19) within `patternlab-config.json` are now relative to the current UIKit. See the [structure of uikit-workshop](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) for more info
+-   the [default `paths.public` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/812bab3659f504043e8b61b1dc1cdac71f248449) within `patternlab-config.json` are now relative to the current UIKit's `outputDir`. Absolute paths will no longer work. Someone could test putting an absolute path in a UIKit `outputDir` property and see what happens I suppose.
+-   `dependencyGraph.json` has moved to the project root rather than `public/` as we should only retain one
 
 **default**:
 
@@ -293,4 +294,3 @@ Important details:
     }
   ]
 ```
-

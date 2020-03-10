@@ -1,8 +1,9 @@
 ---
 title: Generating Pattern Lab
 tags:
-  - docs
+    - docs
 category: getting-started
+order: 10
 ---
 
 Running Pattern Lab for the first time will vary depending on which version was [installed](/docs/installation.html).
@@ -45,5 +46,3 @@ To stop watching and serving files on Mac OS X and Windows you can press`CTRL+C`
 ## Pattern Lab is now running: now what?
 
 Your Pattern Lab should now be populated and [available for viewing](/docs/viewing-patterns.html#node) and you can [make changes to your patterns](/docs/editing-source-files.html).
-
-
