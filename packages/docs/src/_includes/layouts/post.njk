@@ -2,6 +2,7 @@
 {% set pageType = 'Post' %}
 
 {# Intro content #}
+{% set introKicker = date | dateFilter %}
 {% set introHeading = title %}
 {% set introSummary %}
 <p class="[ intro__meta ] [ text-500 leading-tight ]">
@@ -16,27 +17,11 @@
   <div class="l-container">
     <div class="l-linelength-container">
     <article class="[ post ] [ h-entry ]">
-      {% include "partials/components/intro.njk" %}
       {% include "components/page-header.njk" %}
+      
       <div class="c-text-passage">
         {{ content | safe }}
       </div>
-      {% if tags %}
-        <footer class="[ post__footer ] [ pad-top-500 pad-bottom-500 ]">
-          <div class="inner-wrapper">
-            <div class="[ nav ] [ box-flex align-center ]">
-              <h2 class="font-base text-600 weight-mid">Filed under</h2>
-              <ul class="[ nav__list ] [ box-flex align-center pad-left-400 ] [ p-category ]">
-                {% for item in tags %}
-                  <li class="nav__item">
-                    <a href="/tags/{{ item }}">{{ item }}</a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-        </footer>
-      {% endif %}
     </article>
   </div>
   </div>

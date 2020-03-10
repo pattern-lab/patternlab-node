@@ -1,17 +1,18 @@
-.c-stacked-block {
-    display: block;
-}
+/*------------------------------------*\
+    #STACKED BLOCK
+\*------------------------------------*/
 
+/**
+ * Stacked block list item
+ */
 .c-stacked-block__title {
-    font-size: $font-size-large;
-    line-height: $line-height-med;
-    margin-bottom: $spacing-small;
+    line-height: 1.2;
 }
 
-.c-stacked-block__description {
-    font-size: $font-size-med-2;
-}
-
-.c-section-header {
-    font-size: $font-size-large-2;
+/**
+ * Stacked block list item
+ */
+.c-stacked-block__kicker {
+    font-size: $font-size-sm-2;
+    color: $color-gray-50;
 }

@@ -1,12 +1,21 @@
+
 {% if postListItems.length %}
 
-  <ol>
+  <ol class="c-stacked-block-list">
     {% for item in postListItems %}
-      {% if item.date.getTime() <= global.now %}
-        <li class="post-list__item">
-            <a href="{{ item.url }}" class="post-list__link" rel="bookmark">{{ item.data.title }}</a>
+        <li class="c-stacked-block-list__item">
+            <a href="{{ item.data.url }}" class="c-post-block" rel="bookmark">
+              <time class="c-stacked-block__kicker" datetime="{{ item.data.date | dateFilter }}">{{ item.data.date | dateFilter }}</time>
+              <h2 class="c-stacked-block__title">
+              
+              {{ item.data.title }} 
+              </h2>
+              <p class="c-stacked-block__description">
+              {{ item.data.description}} 
+              </p>
+            </a>
+            
         </li>
-      {% endif %}
     {% endfor %}
   </ol>
 

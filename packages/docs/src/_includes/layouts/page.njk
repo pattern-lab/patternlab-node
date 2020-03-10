@@ -8,10 +8,8 @@
     <div class="l-container">
         <div class="l-linelength-container">
           <article class="[ post ] [ h-entry ]">
-            {% include "partials/components/intro.njk" %}
-            <div class="[ post__body ] [ inner-wrapper ] [ leading-loose pad-top-900 pad-bottom-900 text-500 ] [ sf-flow ] [ e-content ]">
-              {{ content | safe }}
-            </div>
+            {% include "components/page-header.njk" %}
+            {{ content | safe }}
           </article>
         </div>
       </div>
