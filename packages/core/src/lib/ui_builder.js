@@ -735,11 +735,11 @@ const ui_builder = function() {
    * @returns {Promise} a promise fulfilled when build is complete
    */
   function buildFrontend(patternlab) {
-    resetUIBuilderState(patternlab);
 
     const paths = patternlab.config.paths;
 
     const uikitPromises = _.map(patternlab.uikits, uikit => {
+      resetUIBuilderState(patternlab);
       //determine which patterns should be included in the front-end rendering
       const styleguidePatterns = groupPatterns(patternlab, uikit);
 
