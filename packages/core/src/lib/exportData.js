@@ -12,7 +12,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * Write out our pattern information for use by the front end
  * @param patternlab - global data store
  */
-module.exports = function(patternlab) {
+module.exports = function(patternlab, uikit) {
   const annotation_exporter = new ae(patternlab);
 
   const paths = patternlab.config.paths;
@@ -71,19 +71,17 @@ module.exports = function(patternlab) {
   const annotationsJSON = annotation_exporter.gather();
   const annotations =
     'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-  _.each(patternlab.uikits, uikit => {
-    fs.outputFileSync(
-      path.resolve(
-        path.join(
-          process.cwd(),
-          uikit.outputDir,
-          paths.public.annotations,
-          'annotations.js'
-        )
-      ),
-      annotations
-    );
-  });
+  fs.outputFileSync(
+    path.resolve(
+      path.join(
+        process.cwd(),
+        uikit.outputDir,
+        paths.public.annotations,
+        'annotations.js'
+      )
+    ),
+    annotations
+  );
 
   // add module.export to the Nodejs-specific file generated.
   const exportedOutput =
@@ -91,22 +89,20 @@ module.exports = function(patternlab) {
     'module.exports = { config, ishControls, navItems, patternPaths, viewAllPaths, plugins, defaultShowPatternInfo, defaultPattern };';
 
   //write all output to patternlab-data
-  _.each(patternlab.uikits, uikit => {
-    fs.outputFileSync(
-      path.resolve(
-        path.join(process.cwd(), uikit.outputDir, paths.public.data),
-        'patternlab-data.js'
-      ),
-      output
-    );
-    fs.outputFileSync(
-      path.resolve(
-        path.join(process.cwd(), uikit.outputDir, paths.public.data),
-        'patternlab-data.cjs.js'
-      ),
-      exportedOutput
-    );
-  });
+  fs.outputFileSync(
+    path.resolve(
+      path.join(process.cwd(), uikit.outputDir, paths.public.data),
+      'patternlab-data.js'
+    ),
+    output
+  );
+  fs.outputFileSync(
+    path.resolve(
+      path.join(process.cwd(), uikit.outputDir, paths.public.data),
+      'patternlab-data.cjs.js'
+    ),
+    exportedOutput
+  );
 
   return output;
 };
