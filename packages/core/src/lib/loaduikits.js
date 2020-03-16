@@ -37,35 +37,42 @@ const readModuleFile = (kit, subPath) => {
 /**
  * Loads uikits, connecting configuration and installed modules
  * [1] Looks in node_modules for uikits.
- * [2] Only continue if uikit is enabled in patternlab-config.json
+ * [2] Map them to enabled uikit's in patternlab-config.json
  * [3] Reads files from uikit that apply to every template
  * @param {object} patternlab
  */
 module.exports = patternlab => {
   const paths = patternlab.config.paths;
 
-  const uikits = findModules(nodeModulesPath, isUIKitModule); // [1]
+  const uikitModules = findModules(nodeModulesPath, isUIKitModule); // [1]
 
-  uikits.forEach(kit => {
-    const configEntry = _.find(_.filter(patternlab.config.uikits, 'enabled'), {
-      name: `uikit-${kit.name}`,
+  _.filter(patternlab.config.uikits, 'enabled').forEach(uikit => {
+    const kit = _.find(uikitModules, {
+      name: uikit.name.replace('uikit-', ''),
     }); // [2]
 
-    if (!configEntry) {
+    if (!kit) {
       logger.warning(
-        `Could not find uikit with name uikit-${kit.name} defined within patternlab-config.json, or it is not enabled.`
+        `Could not find uikit plugin with name uikit-${kit.name} defined within patternlab-config.json.`
       );
       return;
     }
 
+    if (!uikit.id) {
+      logger.warning(
+        `ID for ${uikit.name} is missing, ${uikit.name} will be used instead. Caution, this can cause uikit's using the same package to malfunction.`
+      );
+      uikit.id = uikit.name;
+    }
+
     try {
-      patternlab.uikits[`uikit-${kit.name}`] = {
-        name: `uikit-${kit.name}`,
+      patternlab.uikits[uikit.id] = {
+        name: uikit.name,
         modulePath: kit.modulePath,
         enabled: true,
-        outputDir: configEntry.outputDir,
-        excludedPatternStates: configEntry.excludedPatternStates,
-        excludedTags: configEntry.excludedTags,
+        outputDir: uikit.outputDir,
+        excludedPatternStates: uikit.excludedPatternStates,
+        excludedTags: uikit.excludedTags,
         header: readModuleFile(
           kit,
           paths.source.patternlabFiles['general-header']

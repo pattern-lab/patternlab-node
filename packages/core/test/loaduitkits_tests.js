@@ -44,6 +44,7 @@ tap.test('loaduikits - maps fields correctly', function(test) {
 
   const uikitFoo = {
     name: 'uikit-foo',
+    id: "foo",
     enabled: true,
     outputDir: 'foo',
     excludedPatternStates: ['legacy'],
@@ -111,6 +112,40 @@ tap.test('loaduikits - only adds files for enabled uikits', function(test) {
     test.ok(patternlab.uikits['uikit-foo']);
     test.ok(patternlab.uikits['uikit-bar']);
     test.notOk(patternlab.uikits['uikit-baz']);
+    test.end();
+  });
+});
+
+tap.test('loaduikits - reuse uikit-plugin for diffrent ui kits', function(test) {
+  //arrange
+  const patternlab = {
+    config: testConfig,
+    uikits: [],
+  };
+
+  patternlab.config.uikits = [
+    {
+      name: 'uikit-foo',
+      enabled: true,
+      outputDir: 'foo',
+      excludedPatternStates: ['legacy'],
+      excludedTags: ['baz'],
+    },
+    {
+      name: 'uikit-foo',
+      id: 'alternative-foo',
+      enabled: true,
+      outputDir: 'bar',
+      excludedPatternStates: ['development'],
+      excludedTags: ['baz', 'foo'],
+    },
+  ];
+
+  //act
+  loaduikits(patternlab).then(() => {
+    //assert
+    test.ok(patternlab.uikits['uikit-foo']);
+    test.ok(patternlab.uikits['alternative-foo']);
     test.end();
   });
 });
