@@ -3,24 +3,37 @@
 \*------------------------------------*/
 
 .c-hero {
-  padding: 2rem;
-  background: url(https://patternlab.io/assets/icon-atom.svg);
-  height: 70vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+	background: $color-gray-50;
+	color: $color-white;
+	min-height: 40vh;
+	padding: 2rem 0;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	@media all and (min-width: $bp-large) {
+		min-height: 60vh;
+	}
 }
 
 .c-hero__title {
-  @include highlightEffect();
+	display: inline;
 }
 
 .c-hero__footer {
-  position: absolute;
-  bottom: -55px;
-  left: 50%;
-  width: 320px;
-  margin-left: -160px;
+	position: absolute;
+	bottom: -55px;
+	left: 50%;
+	width: 320px;
+	margin-left: -160px;
+}
+
+.c-hero__icon {
+	display: inline-block;
+	height: 3rem;
+	width: 3rem;
+	margin-right: 2rem;
+	animation: rotate 10s linear infinite;
 }
