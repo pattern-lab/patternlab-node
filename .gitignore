@@ -13,3 +13,5 @@ packages/*/public
 lerna-debug.log
 packages/edition-node-gulp/dependencyGraph.json
 packages/uikit-workshop/dist
+
+packages/core2/dist/
