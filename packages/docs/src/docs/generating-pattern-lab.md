@@ -1,9 +1,12 @@
 ---
 title: Generating Pattern Lab
 tags:
-    - docs
+  - docs
 category: getting-started
-order: 10
+eleventyNavigation:
+  title: Generating Pattern Lab
+  key: getting-started
+  order: 10
 ---
 
 Running Pattern Lab for the first time will vary depending on which version was [installed](/docs/installation.html).

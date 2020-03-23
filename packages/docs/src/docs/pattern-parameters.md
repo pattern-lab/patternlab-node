@@ -3,6 +3,10 @@ title: Using Pattern Parameters
 tags:
   - docs
 category: patterns
+eleventyNavigation:
+  title: Using Pattern Parameters
+  key: patterns
+  order: 150
 ---
 
 **Important:** Pattern parameters are supported by the Node Mustache PatternEngines. Other template languages provide better solutions to this problem.
@@ -41,11 +45,11 @@ Now let's create a pattern that includes our message pattern partial multiple ti
 
 ```html
 <div class="main-container">
-  {% raw %}{{> atoms-message }}{% endraw %}
-  <div>
-    A bunch of extra information
-  </div>
-  {% raw %}{{> atoms-message }}{% endraw %}
+	{% raw %}{{> atoms-message }}{% endraw %}
+	<div>
+		A bunch of extra information
+	</div>
+	{% raw %}{{> atoms-message }}{% endraw %}
 </div>
 ```
 
@@ -56,11 +60,11 @@ Instead we can use pattern parameters to supply unique messages for each instanc
 ```html
 {% raw %}
 <div class="main-container">
-  {{> atoms-message(message: "this is an alert message") }}
-  <div>
-    A bunch of extra information
-  </div>
-  {{> atoms-message(message: "this is an informational message") }}
+	{{> atoms-message(message: "this is an alert message") }}
+	<div>
+		A bunch of extra information
+	</div>
+	{{> atoms-message(message: "this is an informational message") }}
 </div>
 {% endraw %}
 ```
@@ -74,12 +78,12 @@ While pattern parameters are not a one-to-one match for Mustache they do offer t
 ```html
 {% raw %}
 <div class="main-container">
-  {{# emergency }}
-  <div class="alert">Emergency!!!</div>
-  {{/ emergency }}
-  <div class="header">
-    ... stuff ...
-  </div>
+	{{# emergency }}
+	<div class="alert">Emergency!!!</div>
+	{{/ emergency }}
+	<div class="header">
+		... stuff ...
+	</div>
 </div>
 {% endraw %}
 ```

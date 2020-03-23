@@ -3,6 +3,10 @@ title: Generating CSS
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  title: Generating CSS
+  key: advanced
+  order: 300
 ---
 
 **Note:** _The [CSS Rule Saver](https://github.com/dmolsen/css-rule-saver) library and CSS generation feature was added in v0.6.0 of the PHP version of Pattern Lab._
@@ -16,5 +20,3 @@ To generate your Pattern Lab site with CSS support on Mac OS X you can do the fo
 1. Open `core/scripts/`
 2. Double-click `generateSiteWithCSS.command`
 3. Refresh the Pattern Lab site
-
-

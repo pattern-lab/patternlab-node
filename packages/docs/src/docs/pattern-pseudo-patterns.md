@@ -3,6 +3,10 @@ title: Using Pseudo-Patterns
 tags:
   - docs
 category: patterns
+eleventyNavigation:
+  title: Using Pseudo-Patterns
+  key: patterns
+  order: 140
 ---
 
 Pseudo-patterns give developers and designers the ability to quickly build multiple unique variants of an existing pattern. This feature is especially useful when developing template- and page-style patterns or showing the states of other patterns.
@@ -30,9 +34,9 @@ Our `homepage.mustache` template might look like this:
 ```html
 {% raw %}
 <div id="main-container">
-  {{# emergency }}
-  <div class="emergency">Oh Noes! Emergency!</div>
-  {{/ emergency }} { ...a bunch of other content... }
+	{{# emergency }}
+	<div class="emergency">Oh Noes! Emergency!</div>
+	{{/ emergency }} { ...a bunch of other content... }
 </div>
 {% endraw %}
 ```

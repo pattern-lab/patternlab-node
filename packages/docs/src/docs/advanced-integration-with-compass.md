@@ -3,6 +3,10 @@ title: Integration with Compass
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  title: Integration with Compass
+  key: advanced
+  order: 300
 ---
 
 **Note:** _These directions incomplete. They are not meant to imply that Compass is officially supported with Pattern Lab. They should be modified to fit your instance of the PHP version of Pattern Lab._

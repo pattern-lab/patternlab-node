@@ -3,6 +3,10 @@ title: Documenting Patterns
 tags:
   - docs
 category: patterns
+eleventyNavigation:
+  title: Documenting Patterns
+  key: patterns
+  order: 110
 ---
 
 Pattern documentation gives developers and designers the ability to provide context for their patterns. The documentation file consists of Markdown with YAML front matter. It should follow this format:

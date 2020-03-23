@@ -3,6 +3,10 @@ title: Overview of Data
 tags:
   - docs
 category: data
+eleventyNavigation:
+  title: Overview of Data
+  key: data
+  order: 300
 ---
 
 The primary default global source of data used when rendering Pattern Lab patterns can be found in `./source/_data/`.
@@ -15,7 +19,7 @@ The Node version of Pattern Lab only supports JSON.
 
 There are three places to store data in Pattern Lab:
 
-- in `./source/_data`. 
+- in `./source/_data`.
 - in [pattern-specific](/docs/data-pattern-specific.html) files in `./source/_patterns`.
 - in [pseudo-pattern](/docs/pattern-pseudo-patterns.html) files in `./source/_patterns`.
 
@@ -32,5 +36,3 @@ Pattern-specific data for the pattern being rendered > Global data in _data
 ```
 
 The only data that is loaded to render a pattern is its own data and global data. It will not include the data for any included patterns. For example, the pages template, `article`, might include the molecule, `block-hero`. `block-hero` may have its own pattern-specific data file, `block-hero.json`. The Node version of Pattern Lab **will not** use the `block-hero` data when rendering `article`. It will only use `article.json` (_if available_) and data found in `./source/_data`.
-
-

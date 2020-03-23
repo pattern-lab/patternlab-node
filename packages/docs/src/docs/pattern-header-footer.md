@@ -3,6 +3,10 @@ title: Modifying the Pattern Header & Footer
 tags:
   - docs
 category: patterns
+eleventyNavigation:
+  title: Modifying the Pattern Header & Footer
+  key: patterns
+  order: 130
 ---
 
 To add your own assets like JavaScript and CSS to your patterns' header and footer you need to modify two files:

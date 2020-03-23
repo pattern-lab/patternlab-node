@@ -3,6 +3,10 @@ title: Managing Pattern Assets
 tags:
   - docs
 category: patterns
+eleventyNavigation:
+  title: Managing Pattern Assets
+  key: patterns
+  order: 120
 ---
 
 Assets for patterns - including JavaScript, CSS, and images - should be stored and edited in the `./source/` directory. Pattern Lab will move these assets to the `./public/` directory for you when you generate your site or when you watch the `./source/` directory for changes. _You can name and organize your assets however you like._ If you would like to use `./source/stylesheets/` to store your styles instead of `./source/css/` you can do that. The structure will be maintained when they're moved to the `./public/` directory.
@@ -49,4 +53,3 @@ Note how some sets of files even extend into the "vendor" `./node_modules/` dire
 ## Adding Assets to the Pattern Header &amp; Footer
 
 Static assets like Javascript and CSS **are not** added automagically to your patterns. You need to add them manually to the [shared pattern header and footer](/docs/advanced-auto-regenerate.html#node).
-

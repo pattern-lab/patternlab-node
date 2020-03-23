@@ -1,9 +1,12 @@
 ---
 title: Editing Pattern Lab Source Files
 tags:
-    - docs
+  - docs
 category: getting-started
-order: 20
+eleventyNavigation:
+  title: Editing Pattern Lab Source Files
+  key: getting-started
+  order: 20
 ---
 
 When editing Pattern Lab you must put your files and edit them in the `./source/` directory. This includes your static assets like [JavaScript, CSS, and images](/docs/pattern-managing-assets.html). Each time [your site is generated](/docs/generating-pattern-lab.html) your patterns will be compiled and your static assets will be moved to the `./public/` directory. Because of this you **should not edit** the files in the `./public/` directory.
@@ -12,10 +15,10 @@ When editing Pattern Lab you must put your files and edit them in the `./source/
 
 For the most part you can organize `./source/` anyway you see fit. There are a few Pattern Lab-specific directories though. They are:
 
--   `_annotations/` - where your annotations reside. [learn more](/docs/pattern-adding-annotations.html).
--   `_data/` - where the global data used to render your patterns resides. [learn more](/docs/data-overview.html).
--   `_meta/` - where the header and footer that get applied to all of your patterns resides. [learn more](/docs/pattern-header-footer.html).
--   `_patterns/` - where your patterns, pattern documentation, and pattern-specific data reside. [learn more](/docs/pattern-organization.html).
+- `_annotations/` - where your annotations reside. [learn more](/docs/pattern-adding-annotations.html).
+- `_data/` - where the global data used to render your patterns resides. [learn more](/docs/data-overview.html).
+- `_meta/` - where the header and footer that get applied to all of your patterns resides. [learn more](/docs/pattern-header-footer.html).
+- `_patterns/` - where your patterns, pattern documentation, and pattern-specific data reside. [learn more](/docs/pattern-organization.html).
 
 ## Configuring Pattern Lab Directories
 

@@ -3,6 +3,10 @@ title: Watching for Changes and Auto Regenerating Patterns
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  key: Watching for Changes and Auto Regenerating Patterns
+  parent: advanced
+  order: 300
 ---
 
 Pattern Lab has the ability to watch for changes to patterns and frontend assets. When these files change, it will automatically rebuild the entire Pattern Lab website. You simply make your changes, save the file, and Pattern Lab will take care of the rest.
@@ -38,5 +42,3 @@ By default, Pattern Lab monitors the following files:
 - all of the Javascript files under `source/js/`
 
 The watch configuration is found within the Gruntfile or Gulpfile at the root of the project.
-
-

@@ -3,6 +3,10 @@ title: Exporting Patterns
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  title: Exporting Patterns
+  key: advanced
+  order: 300
 ---
 
 While the Pattern Lab website is great for design, iteration, alignment, and discussion - you may find yourself wanting to export whole pattern markup snippets into a different environment.
@@ -15,5 +19,3 @@ In Pattern Lab Node, `patternlab-config.json` has two properties that work toget
 ```
 
 Couple this technique with exported CSS via tools like [grunt-contrib-copy](https://github.com/gruntjs/grunt-contrib-copy) to really make patterns portable.
-
-

@@ -4,6 +4,9 @@ tags:
   - demo-content
   - code
   - blog
+eleventyNavigation:
+  key: DOCS DOCS DOCS
+  order: 300
 ---
 
 The best way to demo a code post is to display a real life post, so check out this one from [andy-bell.design](https://andy-bell.design/wrote/creating-a-full-bleed-css-utility/) about a full bleed CSS utility.
@@ -22,9 +25,9 @@ It’s small, but hella mighty:
 
 ```css
 .full-bleed {
-  width: 100vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
+	width: 100vw;
+	margin-left: 50%;
+	transform: translateX(-50%);
 }
 ```
 
@@ -43,9 +46,9 @@ The `.full-bleed` utility gives those elements prominence and _importantly_ keep
 
 ```css
 .wrapper {
-  max-width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+	max-width: 50rem;
+	margin-left: auto;
+	margin-right: auto;
 }
 ```
 

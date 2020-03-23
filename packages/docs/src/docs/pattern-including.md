@@ -3,6 +3,10 @@ title: Including Patterns
 tags:
   - docs
 category: patterns
+eleventyNavigation:
+  title: Including Patterns
+  key: patterns
+  order: 90
 ---
 
 To include one pattern within another, for example to create a molecule from several atoms, you can either use:

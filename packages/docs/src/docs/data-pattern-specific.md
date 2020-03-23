@@ -3,6 +3,10 @@ title: Creating Pattern-specific Values
 tags:
   - docs
 category: data
+eleventyNavigation:
+  title: Creating Pattern-specific Values
+  key: data
+  order: 300
 ---
 
 > **Note:** This article uses JSON because it is a standard between with the Node version of Pattern Lab.
@@ -44,5 +48,3 @@ Now the article pattern will display an image of the A-Team when using `{% raw %
 ## Working With Includes
 
 The only data that is loaded to render a pattern is its own data and global data. It will not include the data for any included patterns. For example, the pages template, `article`, might include the molecule, `block-hero`. `block-hero` may have its own pattern-specific data file, `block-hero.json`. The Node version of Pattern Lab **will not** use the `block-hero` data when rendering `article`. It will only use `article.json` (_if available_) and data found in `./source/_data`.
-
-

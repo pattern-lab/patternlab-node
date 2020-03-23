@@ -3,6 +3,10 @@ title: Multi browser & Multi device Testing with Page Follow
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  title: Multi browser & Multi device Testing with Page Follow
+  key: advanced
+  order: 300
 ---
 
 The Pattern Lab's Page Follow feature gives developers the ability to have one browser control other browsers that connect to the Pattern Lab website. Pattern Lab Node utilizes [BrowserSync](http://www.browsersync.io/) to synchronize all connected browsers and devices.
@@ -38,5 +42,3 @@ It's strongly recommended to visit [BrowserSync](http://www.browsersync.io/) doc
 - View browsing history of the connect session
 - Toggle remote debugging tools
 - Artificially throttle the network
-
-

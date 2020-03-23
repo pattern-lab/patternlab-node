@@ -3,6 +3,10 @@ title: Overview of Pattern Lab's Ecosystem
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  key: advanced
+  title: Overview of Pattern Lab's Ecosystem
+  order: 300
 ---
 
 Pattern Lab 2 introduces the beginnings of an ecosystem that will allow teams to mix, match and extend Pattern Lab to meet their specific needs. It will also make it easier for the Pattern Lab team to push out new features. Documentation that explains how best to take advantage of the ecosystem will be released in the coming weeks.
@@ -29,7 +33,7 @@ Have a trusty set of boilerplate code that you start every project with? Perhaps
 
 [Several starterkits](https://github.com/pattern-lab?utf8=%E2%9C%93&q=starterkit&type=&language=) already exist to kick your project off, whether you’re looking for a blank start, begin with a demo that showcases Pattern Lab’s features, or start with a popular framework like Bootstrap, Foundation, or Material Design. And you can roll your own, which can be fully version-controlled so your team’s StarterKit can evolve along with your tools.
 
-Importing a starterkit is only a few keystrokes away after installation. 
+Importing a starterkit is only a few keystrokes away after installation.
 
 [Learn more about Starterkits](/docs/advanced-starterkits.html#node)
 

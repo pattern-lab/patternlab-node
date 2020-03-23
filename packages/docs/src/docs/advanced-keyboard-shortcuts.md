@@ -3,6 +3,10 @@ title: Keyboard Shortcuts
 tags:
   - docs
 category: advanced
+eleventyNavigation:
+  title: Keyboard Shortcuts
+  key: advanced
+  order: 300
 ---
 
 > **Note:** This feature is currently disabled. It will be back in a future release of `styleguidekit-assets-default`.

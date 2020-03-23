@@ -3,6 +3,10 @@ title: Introduction to JSON & Mustache Variables
 tags:
   - docs
 category: data
+eleventyNavigation:
+  title: Introduction to JSON & Mustache Variables
+  key: data
+  order: 300
 ---
 
 > This documentation is provided as a simple introduction to using one of the supported data types and one of the supported PatternEngines. The best reference for this topic is the [Mustache documentation](http://mustache.github.io/mustache.5.html) but this should provide a good beginner's primer.
@@ -48,8 +52,8 @@ Note how their are attributes ( `src`, `alt` ) nested within a larger container 
 
 ```html
 <img
-  src="{% raw %}{{ square.src }}{% endraw %}"
-  alt="{% raw %}{{ square.alt }}{% endraw %}"
+	src="{% raw %}{{ square.src }}{% endraw %}"
+	alt="{% raw %}{{ square.alt }}{% endraw %}"
 />
 ```
 
@@ -81,8 +85,8 @@ Unfortunately, that would compile as:
 ```html
 <h2>TV Show Lyrics</h2>
 <p>
-  Just &lt;em&gt;good ol' boys&lt;/em&gt;, wouldn't change if they could,
-  &lt;strong&gt;fightin'&lt;/strong&gt; the system like a true modern day Robin Hood.
+	Just &lt;em&gt;good ol' boys&lt;/em&gt;, wouldn't change if they could,
+	&lt;strong&gt;fightin'&lt;/strong&gt; the system like a true modern day Robin Hood.
 </p>
 ```
 
@@ -98,7 +102,7 @@ Now it would compile correctly:
 ```html
 <h2>TV Show Lyrics</h2>
 <p>
-  Just <em>good ol' boys</em>, wouldn't change if they could,
-  <strong>fightin'</strong> the system like a true modern day Robin Hood.
+	Just <em>good ol' boys</em>, wouldn't change if they could,
+	<strong>fightin'</strong> the system like a true modern day Robin Hood.
 </p>
 ```

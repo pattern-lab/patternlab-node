@@ -1,10 +1,8 @@
 ---
 title: Managing Pattern Assets
 tags:
-  - docs
+    - docs
 ---
-
-
 
 Assets for patterns - including JavaScript, CSS, and images - should be stored and edited in the `./source/` directory. Pattern Lab will move these assets to the `./public/` directory for you when you generate your site or when you watch the `./source/` directory for changes. **You can name and organize your assets however you like.** If you would like to use `./source/stylesheets/` to store your styles instead of `./source/css/` you can do that. There is nothing to configure. The structure will be maintained when they're moved to the `./public/` directory.
 
@@ -12,9 +10,9 @@ Assets for patterns - including JavaScript, CSS, and images - should be stored a
 
 By default, Pattern Lab will not move assets with the following file extensions:
 
-* `.less`
-* `.scss`
-* `.DS_Store`
+-   `.less`
+-   `.scss`
+-   `.DS_Store`
 
 To ignore more file extensions edit the `ie` configuration option in `./config/config.yml`. For example, to ignore `*.png` files your `ie` configuration option would look like:
 
@@ -28,7 +26,7 @@ To ignore more file extensions edit the `ie` configuration option in `./config/c
 
 By default, the PHP version of Pattern Lab will ignore **all** assets in directories that exactly match:
 
-* `scss`
+-   `scss`
 
 To ignore more directories just edit the `id` configuration option in `./config/config.yml`. For example, to ignore directories named `test/` your `id` configuration option would look like:
 
@@ -41,6 +39,3 @@ To ignore more directories just edit the `id` configuration option in `./config/
 ## Adding Assets to the Pattern Header &amp; Footer
 
 Static assets like Javascript and CSS **are not** added automagically to your patterns. You need to add them manually to the [shared pattern header and footer](/docs/pattern-header-footer.html).
-
-
-
