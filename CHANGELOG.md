@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.2](https://github.com/pattern-lab/patternlab-node/compare/v5.7.1...v5.7.2) (2020-03-24)
+
+
+### Bug Fixes
+
+* update iframe resizer UI to be hidden when iframe is full width ([9797c1a](https://github.com/pattern-lab/patternlab-node/commit/9797c1a047d746d21b88a1f57b57f618a03a54df))
+
+
+
+
+
 ## [5.7.1](https://github.com/pattern-lab/patternlab-node/compare/v5.7.0...v5.7.1) (2020-02-24)
 
 
