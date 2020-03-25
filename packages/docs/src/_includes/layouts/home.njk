@@ -1,52 +1,43 @@
 {% extends 'layouts/base.njk' %}
 {% set pageType = 'Homepage' %}
 
-{# Intro content #}
-{% set heroTitle = title %}
-
 {% block content %}
 
     {% include "components/hero.njk" %}
-     <div class="c-tile">
-        <div class="l-container">
-            <h2 class="c-tile__title">
-                <a class="c-tile__link" href="/docs/installing-pattern-lab/">Get started</a>
-            </h2>
-            <div class="c-tile__description">This is a description</div>
-            <pre><code>npm create pattern-lab</code></pre>
-        </div>
-    </div>
-    <ul class="c-tile-list">
-    <li class="c-tile-list__item"><div class="c-tile c-tile--gray-13">
-        <div class="l-container">
-            <h2 class="c-tile__title">
-                <a class="c-tile__link" href="/docs/installing-pattern-lab">Read the docs</a>
-            </h2>
-            <div class="c-tile__description">This is a description</div>
-        </div>
-    </div>
-    <li class="c-tile-list__item">
-        <div class="c-tile c-tile--gray-27">
-            <div class="l-container"> 
-                <h2 class="c-tile__title">
-                    <a class="c-tile__link" href="/demos">Demos</a>
-                </h2>
-                <div class="c-tile__description">This is a description</div>
-            </div>
-        </div>
-    </li>
-    <li class="c-tile-list__item">
-        <div class="c-tile c-tile--gray-50">
+
+    <div class="l-container">
+        <ul class="c-tile-list">
+        <li class="c-tile-list__item"><div class="c-tile c-tile--gray-13">
             <div class="l-container">
                 <h2 class="c-tile__title">
-                    <a class="c-tile__link" href="/resources">Resources</a>
+                    <a class="c-tile__link" href="/docs/installing-pattern-lab">Read the docs</a>
                 </h2>
-                <div class="c-tile__description">This is a description</div>
-
+                <div class="c-tile__description">Learn how to get up and running with Pattern Lab, work with patterns and dynamic data, and more</div>
             </div>
         </div>
-    </li>
-</ul>
+        <li class="c-tile-list__item">
+            <div class="c-tile c-tile--gray-27">
+                <div class="l-container"> 
+                    <h2 class="c-tile__title">
+                        <a class="c-tile__link" href="/demos">Demos</a>
+                    </h2>
+                    <div class="c-tile__description">Gallery of Pattern Lab starterkits and in the wild</div>
+                </div>
+            </div>
+        </li>
+        <li class="c-tile-list__item">
+            <div class="c-tile c-tile--gray-50">
+                <div class="l-container">
+                    <h2 class="c-tile__title">
+                        <a class="c-tile__link" href="/resources">Resources</a>
+                    </h2>
+                    <div class="c-tile__description">This is a description</div>
+
+                </div>
+            </div>
+        </li>
+    </ul>
+    </div>
 
     <div class="l-container">
    

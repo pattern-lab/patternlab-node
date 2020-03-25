@@ -5,7 +5,8 @@
 .c-tile {
 	position: relative;
 	padding: 2rem 0;
-	background: $color-gray-07;
+	background: $color-brand-green-transparent;
+	@include boxShadowEffect();
 
 	.c-tile-list__item & {
 		height: 100%;
@@ -13,16 +14,17 @@
 }
 
 .c-tile--gray-13 {
-	background: $color-gray-13;
+	background: $color-brand-green-transparent;
 }
 
 .c-tile--gray-27 {
-	background: $color-gray-27;
+	background: $color-brand-orange-transparent;
+	@include boxShadowEffect('orange');
 }
 
 .c-tile--gray-50 {
-	background: $color-gray-50;
-	color: $color-white;
+	background: $color-brand-purple-transparent;
+	@include boxShadowEffect('purple');
 }
 
 .c-tile__title {
@@ -31,27 +33,4 @@
 
 .c-tile__link {
 	text-decoration: underline;
-
-	&:before {
-		content: '';
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 0px;
-		height: 100%;
-		background: $color-black;
-		transition: width $anim-fade-quick $anim-ease;
-	}
-
-	&:hover,
-	&:focus {
-		&:before {
-			width: 1rem;
-		}
-	}
-
-	.c-tile--gray-50 & {
-		color: $color-white;
-	}
 }

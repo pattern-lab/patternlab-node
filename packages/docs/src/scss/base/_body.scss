@@ -8,7 +8,7 @@
  *    This is used to achieve a sticky footer
  */
 html {
-  min-height: 100vh; /* 1 */
+	min-height: 100vh; /* 1 */
 }
 
 /**
@@ -18,11 +18,11 @@ html {
  * 2) Prevent Mobile Safari from scaling up text: https://blog.55minutes.com/2012/04/iphone-text-resizing/
  */
 body {
-  display: flex; /* 1 */
-  flex-direction: column; /* 1 */
-  min-height: 100vh; /* 1 */
-  @include typographyBody;
-  -webkit-text-size-adjust: 100%; /* 2 */
-  background-color: $color-gray-02;
-  color: $color-gray-88;
+	display: flex; /* 1 */
+	flex-direction: column; /* 1 */
+	min-height: 100vh; /* 1 */
+	@include typographyBody;
+	-webkit-text-size-adjust: 100%; /* 2 */
+	background-color: $color-white;
+	color: $color-gray-88;
 }

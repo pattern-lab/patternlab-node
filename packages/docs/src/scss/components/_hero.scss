@@ -3,37 +3,45 @@
 \*------------------------------------*/
 
 .c-hero {
-	background: $color-gray-50;
-	color: $color-white;
-	min-height: 40vh;
+	background-color: $color-brand-purple-transparent;
+	color: $color-black;
 	padding: 2rem 0;
-	position: relative;
-	display: flex;
-	flex-direction: column;
+	margin-bottom: 2rem;
+}
+
+.c-hero__inner {
+	display: grid;
 	align-items: center;
-	justify-content: center;
 
 	@media all and (min-width: $bp-large) {
 		min-height: 60vh;
 	}
 }
 
+.c-hero__body {
+	max-width: 47rem;
+}
+
 .c-hero__title {
-	display: inline;
+	color: $color-brand-purple-dark;
+	font-size: $font-size-large-2;
+	line-height: 1;
+	@include textShadowEffect();
+	margin-bottom: 1rem;
+
+	@media all and (min-width: $bp-large) {
+		font-size: 6rem;
+	}
 }
 
-.c-hero__footer {
-	position: absolute;
-	bottom: -55px;
-	left: 50%;
-	width: 320px;
-	margin-left: -160px;
+.c-hero__description {
+	font-weight: bold;
 }
 
-.c-hero__icon {
+.c-hero__instructions a {
+	text-decoration: underline;
+}
+
+.c-hero__code {
 	display: inline-block;
-	height: 3rem;
-	width: 3rem;
-	margin-right: 2rem;
-	animation: rotate 10s linear infinite;
 }

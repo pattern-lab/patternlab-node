@@ -6,71 +6,93 @@
  * Paragraph base styles
  */
 p {
-  margin-bottom: $spacing;
+	margin-bottom: $spacing;
 }
 
 /**
  * Blockquote base styles
  */
 blockquote {
-  font-style: italic;
-  border-left: 1px solid $color-gray-50;
-  color: $color-gray-50;
-  padding-left: 1rem;
-  margin-bottom: $spacing;
+	font-style: italic;
+	border-left: 1px solid $color-gray-50;
+	color: $color-gray-50;
+	padding-left: 1rem;
+	margin-bottom: $spacing;
 }
 
 /**
  * Horizontal rule base styles
  */
 hr {
-  border: 0;
-  height: $border-width-thick;
-  background: $color-gray-13;
-  margin: 2rem 0;
+	border: 0;
+	height: $border-width-thick;
+	background: $color-gray-13;
+	margin: 2rem 0;
 }
 
 /**
  * Selection styles
  */
 ::-moz-selection {
-  color: $color-text-highlight;
-  background: $color-text-highlight-bg; /* Gecko Browsers */
+	color: $color-text-highlight;
+	background: $color-text-highlight-bg; /* Gecko Browsers */
 }
 
 ::selection {
-  color: $color-text-highlight;
-  background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
+	color: $color-text-highlight;
+	background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
 }
 
 /**
  * Code base styles
  */
 code {
-  display: inline;
-  background: $color-brand-purple-transparent;
-  padding: 0.2rem;
-  line-height: 1.2;
+	display: inline;
+	background: $color-brand-purple-transparent;
+	padding: 0.2rem;
+	line-height: 1.2;
 }
 
 /**
  * Preformatted text base styles
  */
 pre {
-  background: $color-gray-88;
-  border-left: 10px solid $color-brand-green;
-  padding: 2rem;
-  overflow-x: auto;
-  color: $color-white;
+	background: $color-gray-88;
+	padding: 2rem;
+	@include boxShadowEffect('green');
+	color: $color-white;
+	position: relative;
+	-webkit-overflow-scrolling: touch;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	scrollbar-width: none;
+	scrollbar-color: transparent;
 
-  /**
+	&::-webkit-scrollbar {
+		height: var(--scrollbar-size);
+		width: var(--scrollbar-size);
+	}
+	&::-webkit-scrollbar-track {
+		background-color: var(--scrollbar-track-color);
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbar-color);
+		/* Add :hover, :active as needed */
+	}
+	&::-webkit-scrollbar-thumb:vertical {
+		min-height: var(--scrollbar-minlength);
+	}
+	&::-webkit-scrollbar-thumb:horizontal {
+		min-width: var(--scrollbar-minlength);
+	}
+
+	/**
 	 * Remove border from code within preformatted text block
 	 */
-  code {
-    border: 0;
-    background: transparent;
-    color: inherit;
-  }
+	code {
+		border: 0;
+		background: transparent;
+		color: inherit;
+	}
 }
 
 // /**

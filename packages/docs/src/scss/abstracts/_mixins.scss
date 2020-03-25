@@ -7,59 +7,59 @@
  * 1) Prevent Mobile Safari from scaling up text: https://blog.55minutes.com/2012/04/iphone-text-resizing/
  */
 @mixin typographyBody() {
-    font-family: $font-primary;
-    font-size: $font-size-med-2;
-    font-weight: 500;
-    line-height: 1.6;
-    -webkit-text-size-adjust: 100%; /* 1 */
+	font-family: $font-primary;
+	font-size: $font-size-med-2;
+	font-weight: 500;
+	line-height: 1.6;
+	-webkit-text-size-adjust: 100%; /* 1 */
 }
 
 /**
  * XL Type Styles
  */
 @mixin typographyBodyLarge() {
-    font-size: $font-size-med-2;
-    line-height: $line-height-large;
+	font-size: $font-size-med-2;
+	line-height: $line-height-large;
 }
 
 /**
  * XL Heading Styles
  */
 @mixin typographyHeadingXl() {
-    font-weight: $font-weight-bold;
-    font-size: $font-size-large-2;
-    line-height: $line-height-med-2;
+	font-weight: $font-weight-bold;
+	font-size: $font-size-large-2;
+	line-height: $line-height-med-2;
 
-    @media all and (min-width: $bp-med) {
-        font-size: $font-size-xl;
-    }
+	@media all and (min-width: $bp-med) {
+		font-size: $font-size-xl;
+	}
 }
 
 /**
  * Large Heading Styles
  */
 @mixin typographyHeadingLarge() {
-    font-size: $font-size-large;
-    font-weight: 700;
-    line-height: 1.6;
+	font-size: $font-size-large;
+	font-weight: 700;
+	line-height: 1.6;
 }
 
 /**
  * Medium 2 Heading Styles
  */
 @mixin typographyHeadingMed2() {
-    font-size: $font-size-med-2;
-    font-weight: 700;
-    line-height: 1.2;
+	font-size: $font-size-med-2;
+	font-weight: 700;
+	line-height: 1.2;
 }
 
 /**
  * Medium Heading Styles
  */
 @mixin typographyHeadingMed() {
-    font-size: $font-size-med;
-    font-weight: 700;
-    line-height: 1.2;
+	font-size: $font-size-med;
+	font-weight: 700;
+	line-height: 1.2;
 }
 
 /*------------------------------------*\
@@ -67,19 +67,51 @@
 \*------------------------------------*/
 
 @mixin focus() {
-    outline: 2px dotted $color-black;
-    outline-offset: 4px;
+	outline: 2px dotted $color-black;
+	outline-offset: 4px;
 }
 
 @mixin focusInverted() {
-    outline: 1px dotted $color-white;
-    outline-offset: 4px;
+	outline: 1px dotted $color-white;
+	outline-offset: 4px;
 }
 
 /*------------------------------------*\
     #DECORATIVE
 \*------------------------------------*/
 
-@mixin highlightEffect() {
-    box-shadow: 20px 0 0 $color-white, -20px 0 0 $color-white;
+@mixin textShadowEffect() {
+	position: relative;
+	z-index: 1;
+
+	&:after {
+		position: absolute;
+		left: 4px;
+		top: 4px;
+		z-index: 0;
+		content: attr(data-text);
+
+		background-image: radial-gradient(
+			$color-brand-purple 0%,
+			$color-brand-purple 60%,
+			transparent 60%
+		);
+		background-size: 4px 4px;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		z-index: -5;
+		display: block;
+		text-shadow: none;
+	}
+}
+
+@mixin boxShadowEffect($color: 'green') {
+	@if $color == 'green' {
+		box-shadow: 6px 6px 0 $color-brand-green, 12px 12px 0 $color-brand-green-transparent;
+	}
+	@elseif $color == 'orange' {
+		box-shadow: 6px 6px 0 $color-brand-orange, 12px 12px 0 $color-brand-orange-transparent;
+	} @else {
+		box-shadow: 6px 6px 0 $color-brand-purple, 12px 12px 0 $color-brand-purple-transparent;
+	}
 }

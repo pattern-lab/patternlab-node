@@ -41,9 +41,13 @@
  * Brand Colors
  * 1) Brand=specific colors
  */
+$color-brand-purple: #aa85ba;
+$color-brand-purple-dark: #22062e;
+$color-brand-purple-transparent: rgba(220, 193, 232, 0.2);
 $color-brand-green: #7ec699;
 $color-brand-green-transparent: rgba(8, 206, 55, 0.05);
-$color-brand-purple-transparent: rgba(220, 193, 232, 0.2);
+$color-brand-orange: #eeb31b;
+$color-brand-orange-transparent: rgba(238, 179, 27, 0.1);
 
 /**
  * Neutral Colors
@@ -94,7 +98,7 @@ $font-size-med: 1rem;
 $font-size-med-2: 1.2rem;
 $font-size-large: 2rem;
 $font-size-large-2: 2.6rem;
-$font-size-xl: 3.8rem;
+$font-size-xl: 5rem;
 
 $font-weight-bold: 700;
 
@@ -132,6 +136,7 @@ $l-sidebar-width: 18.75rem;
 $spacing: 1rem;
 $spacing-small: round(0.5 * $spacing);
 $spacing-large: round(2 * $spacing);
+$spacing-xl: round(4 * $spacing);
 
 /*------------------------------------*\
     #BORDERS
@@ -175,3 +180,11 @@ $bp-small: 28em;
 $bp-med: 47em;
 $bp-large: 60em;
 $bp-xl: 70em;
+
+:root {
+	--scrollbar-track-color: transparent;
+	--scrollbar-color: rgba(0, 0, 0, 0.2);
+
+	--scrollbar-size: 0.375rem;
+	--scrollbar-minlength: 1.5rem; /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
+}

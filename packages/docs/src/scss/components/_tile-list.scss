@@ -3,17 +3,18 @@
 \*------------------------------------*/
 
 .c-tile-list {
-	margin-bottom: 2rem;
+	display: grid;
+	grid-gap: $spacing-large;
+	margin-bottom: $spacing-large;
 
 	@media all and (min-width: $bp-xl) {
-		display: grid;
 		grid-template-columns: 1fr 1fr;
 	}
 }
 
 .c-tile-list__item:nth-child(1) {
 	@media all and (min-width: $bp-xl) {
-		grid-row: span 3;
+		grid-row: span 2;
 	}
 }
 
