@@ -1,5 +1,5 @@
 ---
-layout: layouts/page.njk
+layout: layouts/docs.njk
 title: Resources
 ---
 
@@ -35,7 +35,5 @@ title: Resources
 ## Presentations
 
 - [Screencast: A Quick Intro to Pattern Lab Node with Brian Muenzenmeyer](https://css-tricks.com/video-screencasts/149-quick-intro-pattern-lab-node-brian-muenzenmeyer/)
-- [Screencast: Migrating to Pattern Lab 3.0](https://www.youtube.com/watch?v=hIH-lI1QTns&amp;t=1s)
+- [Screencast: Migrating to Pattern Lab 3.0](https://www.youtube.com/watch?v=hIH-lI1QTns&t=1s)
 - [Code: Migrating to Pattern Lab 3.0](https://github.com/bmuenzenmeyer/pl-migrate-example)
-
-
