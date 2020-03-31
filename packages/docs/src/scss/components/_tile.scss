@@ -22,12 +22,12 @@
 	}
 
 	.c-tile--orange & {
-		color: $color-brand-orange;
+		color: $color-brand-orange-dark;
 		background: $color-brand-orange-light;
 	}
 
 	.c-tile--purple & {
-		color: $color-brand-purple;
+		color: $color-brand-purple-dark;
 		background: $color-brand-purple-light;
 	}
 }
@@ -59,6 +59,7 @@
 
 	&:hover,
 	&:focus {
+		color: inherit;
 		text-decoration: underline;
 	}
 }

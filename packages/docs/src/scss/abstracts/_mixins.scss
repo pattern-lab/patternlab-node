@@ -102,6 +102,12 @@
 		z-index: -5;
 		display: block;
 		text-shadow: none;
+
+		@media all and (max-width: $bp-large) {
+			left: 2px;
+			top: 2px;
+			background-size: 2px 2px;
+		}
 	}
 }
 
