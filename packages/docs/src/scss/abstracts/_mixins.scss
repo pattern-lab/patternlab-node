@@ -107,11 +107,63 @@
 
 @mixin boxShadowEffect($color: 'green') {
 	@if $color == 'green' {
-		box-shadow: 6px 6px 0 $color-brand-green, 12px 12px 0 $color-brand-green-transparent;
-	}
-	@elseif $color == 'orange' {
-		box-shadow: 6px 6px 0 $color-brand-orange, 12px 12px 0 $color-brand-orange-transparent;
+		box-shadow: 6px 6px 0 $color-brand-green, 12px 12px 0 $color-brand-green-light;
+	} @else if $color == 'orange' {
+		box-shadow: 6px 6px 0 $color-brand-orange, 12px 12px 0 $color-brand-orange-light;
 	} @else {
-		box-shadow: 6px 6px 0 $color-brand-purple, 12px 12px 0 $color-brand-purple-transparent;
+		box-shadow: 6px 6px 0 $color-brand-purple, 12px 12px 0 $color-brand-purple-light;
+	}
+}
+
+@mixin stripedBoxShadow($color: 'green') {
+	@if $color == 'green' {
+		background-image: repeating-linear-gradient(
+			45deg,
+			$color-brand-green,
+			$color-brand-green 1px,
+			transparent 1px,
+			transparent 4px
+		);
+	} @else if $color == 'orange' {
+		background-image: repeating-linear-gradient(
+			45deg,
+			$color-brand-orange,
+			$color-brand-orange 1px,
+			transparent 1px,
+			transparent 4px
+		);
+	} @else {
+		background-image: repeating-linear-gradient(
+			45deg,
+			$color-brand-purple,
+			$color-brand-purple 1px,
+			transparent 1px,
+			transparent 4px
+		);
+	}
+}
+
+@mixin hideScrollbar() {
+	-webkit-overflow-scrolling: touch;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+	scrollbar-width: none;
+	scrollbar-color: transparent;
+
+	&::-webkit-scrollbar {
+		height: var(--scrollbar-size);
+		width: var(--scrollbar-size);
+	}
+	&::-webkit-scrollbar-track {
+		background-color: var(--scrollbar-track-color);
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--scrollbar-color);
+		/* Add :hover, :active as needed */
+	}
+	&::-webkit-scrollbar-thumb:vertical {
+		min-height: var(--scrollbar-minlength);
+	}
+	&::-webkit-scrollbar-thumb:horizontal {
+		min-width: var(--scrollbar-minlength);
 	}
 }

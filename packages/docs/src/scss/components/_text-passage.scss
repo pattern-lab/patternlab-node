@@ -15,7 +15,7 @@
 	 */
 	a {
 		border-bottom: 1px solid $color-black;
-		background: $color-brand-green-transparent;
+		background: $color-brand-green-light;
 
 		&:hover,
 		&:focus {
@@ -106,9 +106,5 @@
 	li {
 		margin-bottom: $spacing;
 		line-height: 1.6;
-	}
-
-	pre {
-		margin-bottom: $spacing-xl;
 	}
 }

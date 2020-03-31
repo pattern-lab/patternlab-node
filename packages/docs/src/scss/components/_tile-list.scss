@@ -5,7 +5,7 @@
 .c-tile-list {
 	display: grid;
 	grid-gap: $spacing-large;
-	margin-bottom: $spacing-large;
+	margin-bottom: $spacing-xl;
 
 	@media all and (min-width: $bp-xl) {
 		grid-template-columns: 1fr 1fr;

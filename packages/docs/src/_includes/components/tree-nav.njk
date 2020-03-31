@@ -15,9 +15,9 @@
                 {% for subnav in item.subnav %}
                 
                 <li class="c-tree-nav__subnav-item">
-                    <a href="#" class="c-tree-nav__subnav-link">
+                    <span class="c-tree-nav__subnav-title">
                         {{ subnav.label }}
-                    </a><!--end c-tree-nav__subnav-link-->
+                    </span><!--end c-tree-nav__subnav-link-->
                     {% set subnavCategory = subnav.category %}
                     {% include "components/tree-subnav.njk" %}
                 </li><!--end c-tree-nav__subnav-item-->    

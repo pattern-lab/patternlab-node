@@ -48,7 +48,7 @@ hr {
  */
 code {
 	display: inline;
-	background: $color-brand-purple-transparent;
+	background: $color-brand-purple-light;
 	padding: 0.2rem;
 	line-height: 1.2;
 }
@@ -62,28 +62,7 @@ pre {
 	@include boxShadowEffect('green');
 	color: $color-white;
 	position: relative;
-	-webkit-overflow-scrolling: touch;
-	-ms-overflow-style: -ms-autohiding-scrollbar;
-	scrollbar-width: none;
-	scrollbar-color: transparent;
-
-	&::-webkit-scrollbar {
-		height: var(--scrollbar-size);
-		width: var(--scrollbar-size);
-	}
-	&::-webkit-scrollbar-track {
-		background-color: var(--scrollbar-track-color);
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: var(--scrollbar-color);
-		/* Add :hover, :active as needed */
-	}
-	&::-webkit-scrollbar-thumb:vertical {
-		min-height: var(--scrollbar-minlength);
-	}
-	&::-webkit-scrollbar-thumb:horizontal {
-		min-width: var(--scrollbar-minlength);
-	}
+	@include hideScrollbar();
 
 	/**
 	 * Remove border from code within preformatted text block

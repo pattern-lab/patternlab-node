@@ -3,7 +3,7 @@
 \*------------------------------------*/
 
 .c-hero {
-	background-color: $color-brand-purple-transparent;
+	background-color: $color-brand-purple-light;
 	color: $color-black;
 	padding: 2rem 0;
 	margin-bottom: 2rem;
@@ -30,6 +30,10 @@
 	margin-bottom: 1rem;
 
 	@media all and (min-width: $bp-large) {
+		font-size: 4.5rem;
+	}
+
+	@media all and (min-width: $bp-xl) {
 		font-size: 6rem;
 	}
 }
