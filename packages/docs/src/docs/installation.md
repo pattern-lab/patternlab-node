@@ -27,14 +27,12 @@ This will bring up an installation menu that presents the following steps:
 
 **`Please specify a directory for your Pattern Lab project.`** Choose the directory where you want to install Pattern Lab. The default location is the current directory.
 
-!["choose directory"](/images/2choosedirectory.png)
-
 ## Step 4: Choose templating language
 
 **`What templating language do you want to use with Pattern Lab?`** This determines what templating engine you'll use to author components. The options are:
 
-- `Handlebars` - uses the [Handlebars](https://handlebarsjs.com/) templating engine
-- `Twig (PHP)*` - uses the [Twig](https://twig.symfony.com/) templating engine
+- **`Handlebars`** - uses the [Handlebars](https://handlebarsjs.com/) templating engine
+- **`Twig (PHP)*`** - uses the [Twig](https://twig.symfony.com/) templating engine
 
 **\*A note on Twig:** while Pattern Lab is powered by Node, behind the scenes Twig files are compiled by Twig PHP, _not_ by twig.js (which isn't fully on par with Twig PHP).
 
@@ -52,6 +50,4 @@ This will bring up an installation menu that presents the following steps:
 
 **`Are you happy with your choices? (Hit enter for YES)?`** - Confirm your choices, and when done the Pattern Lab installation will begin.
 
-!["are you happy yes or no"](/images/5areyouhappy.png)
-
-With those questions answered, Pattern Lab will begin installing. Once the installation is complete, you're ready to <a href="/docs/generating-pattern-lab.html">generate Pattern Lab for the first time.</a>
+Once installation is complete, you're ready to <a href="/docs/generating-pattern-lab.html">generate Pattern Lab for the first time.</a>
