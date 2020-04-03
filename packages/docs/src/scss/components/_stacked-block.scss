@@ -6,13 +6,14 @@
  * Stacked block list item
  */
 .c-stacked-block__title {
-    line-height: 1.2;
+	line-height: 1.2;
+	margin-bottom: 0.25rem;
 }
 
 /**
  * Stacked block list item
  */
 .c-stacked-block__kicker {
-    font-size: $font-size-sm-2;
-    color: $color-gray-50;
+	font-size: $font-size-sm-2;
+	color: $color-gray-50;
 }

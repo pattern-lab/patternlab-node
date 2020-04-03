@@ -1,0 +1,14 @@
+.c-block-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 250px);
+	grid-gap: $spacing-large;
+	margin-bottom: $spacing-large;
+}
+
+.c-stacked-block {
+	// background: orange;
+}
+
+.c-stacked-block__description {
+	font-size: $font-size-med;
+}
