@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.7.1...v5.7.2) (2020-03-24)
+
+
+### Bug Fixes
+
+* update iframe resizer UI to be hidden when iframe is full width ([9797c1a](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/9797c1a047d746d21b88a1f57b57f618a03a54df))
+
+
+
+
+
+## [5.7.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.7.0...v5.7.1) (2020-02-24)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.7.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.6.0...v5.7.0) (2020-02-17)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.6.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.5.0...v5.6.0) (2020-01-18)
+
+
+### Bug Fixes
+
+* a11y fix on text contrast ([6d75b22](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6d75b226ce27228025b2915e5d402f7080faee31))
+* a11y issue on a missing description of that complementary icon ([4f13807](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/4f13807cb93df33435088de3a51170b9c4515889))
+
+
+
+
+
+
 # [5.5.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.4.2...v5.5.0) (2019-12-19)
 
 **Note:** Version bump only for package @pattern-lab/uikit-workshop

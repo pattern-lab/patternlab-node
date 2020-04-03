@@ -13,9 +13,9 @@
     {% set show_label = label|default(true) %}
     <div class="field-container {{ classes }}">
         {% if show_label %}
-            <label class="{{ classes }}">{{ label|default(name|title) }}{% if required %}<abbr title="Required">*</abbr>{% endif %}
+            <label class="{{ classes }}">{{ label|default('Label') }}{% if required %}<abbr title="Required">*</abbr>{% endif %}
         {% endif %}
-        <textarea placeholder="{{ placeholder|default(name|title) }}" rows="{{ rows|default(8) }}"{% if required %} required{% endif %}></textarea>
+        <textarea placeholder="{{ placeholder|default('Placeholder') }}" rows="{{ rows|default(8) }}"{% if required %} required{% endif %}></textarea>
         {% if show_label %}</label>{% endif %}
     </div>
 {% endmacro %}

@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/core",
   "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
-  "version": "5.4.0",
+  "version": "5.7.0",
   "main": "./src/index.js",
   "dependencies": {
     "@pattern-lab/engine-mustache": "^5.0.0",
@@ -65,7 +65,7 @@
   "license": "MIT",
   "scripts": {
     "docs": "node ./scripts/docs.js",
-    "lint": "eslint -c ../../.eslintrc.js 'src/**/*.js'",
+    "lint": "eslint -c ../../.eslintrc.js src/**/*.js",
     "pretest": "npm run lint",
     "release": "standard-version",
     "test": "tap test/*_tests.js --reporter spec --coverage"

@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.2](https://github.com/pattern-lab/patternlab-node/compare/v5.7.1...v5.7.2) (2020-03-24)
+
+
+### Bug Fixes
+
+* update iframe resizer UI to be hidden when iframe is full width ([9797c1a](https://github.com/pattern-lab/patternlab-node/commit/9797c1a047d746d21b88a1f57b57f618a03a54df))
+
+
+
+
+
+## [5.7.1](https://github.com/pattern-lab/patternlab-node/compare/v5.7.0...v5.7.1) (2020-02-24)
+
+
+### Bug Fixes
+
+* update twig-renderer ([46f53b7](https://github.com/pattern-lab/patternlab-node/commit/46f53b79f8bb0bb64a9c55fd32f29459cea6e28c))
+
+
+
+
+
+# [5.7.0](https://github.com/pattern-lab/patternlab-node/compare/v5.6.0...v5.7.0) (2020-02-17)
+
+
+### Features
+
+* **cli:** make options more user friendly ([ad845b3](https://github.com/pattern-lab/patternlab-node/commit/ad845b394ef81f90895ebb5bc6f12cc608e5e3d4))
+
+
+
+
+
+# [5.6.0](https://github.com/pattern-lab/patternlab-node/compare/v5.5.0...v5.6.0) (2020-01-18)
+
+
+### Bug Fixes
+
+* a11y fix on text contrast ([6d75b22](https://github.com/pattern-lab/patternlab-node/commit/6d75b226ce27228025b2915e5d402f7080faee31))
+* a11y issue on a missing description of that complementary icon ([4f13807](https://github.com/pattern-lab/patternlab-node/commit/4f13807cb93df33435088de3a51170b9c4515889))
+
+
+### Features
+
+* pass additional configuration into twig-php engine ([dff5a78](https://github.com/pattern-lab/patternlab-node/commit/dff5a7830918fa46e2692d9f9daed4121f803461))
+
+
+
+
+
+
 # [5.5.0](https://github.com/pattern-lab/patternlab-node/compare/v5.4.2...v5.5.0) (2019-12-19)
 
 
