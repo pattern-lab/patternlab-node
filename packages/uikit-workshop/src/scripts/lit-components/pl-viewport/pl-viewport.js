@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, no-param-reassign */
 import URLSearchParams from '@ungap/url-search-params'; // URLSearchParams poly for older browsers
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { store } from '../../store.js'; // connect to redux
 import { updateCurrentPattern, updateCurrentUrl } from '../../actions/app.js'; // redux actions
 import { updateViewportPx, updateViewportEm } from '../../actions/app.js'; // redux actions needed
@@ -24,13 +25,20 @@ class IFrame extends BaseLitComponent {
     this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleIframeLoaded = this.handleIframeLoaded.bind(this);
+    this.handleIframe404 = this.handleIframe404.bind(this);
   }
 
   connectedCallback() {
     super.connectedCallback && super.connectedCallback();
     iframeLoaderStyles.use();
     styles.use();
+
+    this.defaultPattern =
+      window.config && window.config.defaultPattern
+        ? window.config.defaultPattern
+        : 'all';
+
+    this.defaultIframeUrl = urlHandler.getFileName(this.defaultPattern);
 
     if (trackingPageChange === false) {
       trackingPageChange = true;
@@ -51,7 +59,23 @@ class IFrame extends BaseLitComponent {
     window.addEventListener('resize', this.handleResize);
     this.handleOrientationChange();
 
-    this.usingBrowserNav = true;
+    // the simple HTML to render in the iFrame when encountering broken links
+    this.iframe404Fallback = `
+      <div
+        class="pl-c-loader-wrapper pl-c-body--theme-${this.themeMode}"
+      >
+        <div class="pl-c-loader">
+          <div class="pl-c-loader__content">
+            <div class="pl-c-loader__message">
+              <h1>Oh snap, a 404!</h1>
+              <p>You might want to double-check to see if the page you're looking for has moved or if your URL is correct.</p>
+              <p>Alternatively, <a href="/${this.defaultIframeUrl}">click here</a> to head back to the default Pattern Lab page!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
     this._hasInitiallyRendered = false;
     this.fullMode = true;
     this.viewportResizeHandleWidth = 22; //Width of the viewport drag-to-resize handle
@@ -80,14 +104,39 @@ class IFrame extends BaseLitComponent {
     styles.unuse();
   }
 
-  // update the currently active nav + add / update the page's query string
-  handlePageLoad(e) {
+  /**
+   * returns the current patternName after removing any numbers / dashes
+   * Workaround to PL Node not always having clean viewall / pattern links
+   */
+  sanitizePatternName(plName) {
+    if (urlHandler.getFileName(plName)) {
+      return plName;
+    } else if (
+      !document.querySelector(`[data-patternpartial="${plName}"]`) &&
+      plName
+    ) {
+      return plName.replace(/[-][0-9][0-9]/g, '');
+    } else {
+      return plName;
+    }
+  }
+
+  // returns the current patternName based on the `p=` query string OR the default pattern that's set globall (as a fallback)
+  getPatternParam() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const patternParam = urlParams.get('p');
 
-    const currentPattern =
-      e.detail.pattern || window.config.defaultPattern || 'all';
+    if (patternParam === null) {
+      return this.defaultPattern;
+    } else {
+      return this.sanitizePatternName(patternParam);
+    }
+  }
+
+  // adds / updates the page's query string
+  handlePageLoad(e) {
+    const currentPattern = this.getPatternParam();
 
     if (currentPattern) {
       document.title = 'Pattern Lab - ' + currentPattern;
@@ -102,8 +151,7 @@ class IFrame extends BaseLitComponent {
             '?p=' +
             currentPattern;
 
-      // first time hitting a PL page -- no query string on the current page
-      if (patternParam === null) {
+      if (this.dontWipeBrowserHistory === true) {
         window.history.replaceState(
           {
             currentPattern: currentPattern,
@@ -111,34 +159,25 @@ class IFrame extends BaseLitComponent {
           null,
           addressReplacement
         );
+        this.dontWipeBrowserHistory = false;
       } else {
-        window.history.replaceState(
+        window.history.pushState(
           {
             currentPattern: currentPattern,
           },
           null,
           addressReplacement
         );
-      }
-
-      const currentUrl = urlHandler.getFileName(e.detail.pattern);
-
-      // don't update state or upddate the URL for non-existent patterns
-      if (currentUrl) {
-        store.dispatch(updateCurrentPattern(e.detail.pattern));
-        store.dispatch(updateCurrentUrl(currentUrl));
       }
     }
   }
 
   // navigate to the new PL page (based on the query string) when the page's pop state changes
   handlePageChange(e) {
-    var queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    let patternParam = urlParams.get('p');
-
-    if (patternParam) {
-      this.navigateTo(patternParam);
+    if (e?.state?.currentPattern) {
+      this.navigateTo(e.state.currentPattern);
+    } else {
+      this.navigateTo(this.getPatternParam());
     }
   }
 
@@ -268,74 +307,21 @@ class IFrame extends BaseLitComponent {
     }
   }
 
-  navigateTo(pattern = patternName, rewrite = false) {
-    this.usingBrowserNav = false;
-    const patternPath = urlHandler.getFileName(pattern);
+  navigateTo(pattern = patternName) {
+    const plName = this.sanitizePatternName(pattern);
+    const plPath = urlHandler.getFileName(plName);
 
-    document.title = 'Pattern Lab - ' + pattern;
+    if (plPath) {
+      this.iFramePath =
+        plPath !== ''
+          ? this.baseIframePath + plPath + '?' + Date.now()
+          : this.defaultIframePath;
+      this.dontWipeBrowserHistory = true;
 
-    this.iFramePath =
-      patternPath !== ''
-        ? this.baseIframePath + patternPath + '?' + Date.now()
-        : this.defaultIframePath;
-
-    if (rewrite === true) {
-      window.history.replaceState(
-        {
-          pattern,
-        },
-        'Pattern Lab - ' + pattern,
-        null
-      );
-      urlHandler.skipBack = false;
+      document
+        .querySelector('.pl-js-iframe')
+        .contentWindow.location.replace(this.iFramePath);
     }
-    document
-      .querySelector('.pl-js-iframe')
-      .contentWindow.location.replace(this.iFramePath);
-    this.handleUpdatingCurrentPattern(pattern, false);
-  }
-
-  handleUpdatingCurrentPattern(currentPattern, usingBrowserNav = true) {
-    const currentUrl = urlHandler.getFileName(currentPattern);
-    const previousPattern = this.currentPattern;
-
-    if (
-      window.history.state === undefined ||
-      window.history.state === null ||
-      window.history.state.currentPattern !== currentPattern
-    ) {
-      const data = {
-        currentPattern,
-      };
-
-      // add to the history
-      const addressReplacement =
-        window.location.protocol === 'file:'
-          ? null
-          : window.location.protocol +
-            '//' +
-            window.location.host +
-            window.location.pathname.replace('index.html', '') +
-            '?p=' +
-            currentPattern;
-
-      if (this.currentPattern !== currentPattern) {
-        if (window.history.pushState !== undefined) {
-          window.history.pushState(data, null, addressReplacement);
-        }
-
-        urlHandler.pushPattern(currentPattern, currentUrl);
-
-        this.currentPattern = currentPattern;
-      }
-
-      if (usingBrowserNav) {
-        this.usingBrowserNav = true;
-      }
-    }
-
-    store.dispatch(updateCurrentPattern(currentPattern));
-    store.dispatch(updateCurrentUrl(currentUrl));
   }
 
   firstUpdated() {
@@ -343,34 +329,56 @@ class IFrame extends BaseLitComponent {
     this.iframeContainer = this.querySelector('.pl-js-vp-iframe-container');
     this.iframeCover = this.querySelector('.pl-js-viewport-cover');
     this.updateSizeReading(this.iframeContainer.clientWidth);
+
+    // watch for URL changes to try and catch any 404s within PL's iFrame
+    //
+    // technique loosely based off of https://stackoverflow.com/a/47675884
+    const unloadIframeHandler = () => {
+      // Timeout needed since the URL changes immediately after the `unload` event is dispatched.
+      setTimeout(() => {
+        this.handleIframe404();
+      }, 0);
+    };
+
+    const attachIframeUnload = () => {
+      // Remove the unloadIframeHandler in case it was already attached to avoid firing twice
+      if (this.iframe.contentWindow) {
+        this.iframe.contentWindow.removeEventListener(
+          'unload',
+          unloadIframeHandler
+        );
+        this.iframe.contentWindow.addEventListener(
+          'unload',
+          unloadIframeHandler
+        );
+      }
+    };
+
+    this.iframe.addEventListener('load', attachIframeUnload);
+    attachIframeUnload();
   }
 
-  handleIframeLoaded() {
-    const self = this;
-    if (!this._hasInitiallyRendered) {
-      this._hasInitiallyRendered = true;
-      this.navigateTo(patternName, true);
-    }
+  // logic that trying to handle 404s in the PL iframe
+  handleIframe404() {
+    setTimeout(() => {
+      if (
+        this.iframe?.contentWindow?.document?.body?.textContent.includes(
+          'Cannot GET'
+        ) ||
+        this.iframe?.contentWindow?.document?.title.includes('Error')
+      ) {
+        /**
+         * Replace the iFrame's inner contents vs literally use a srcdoc.
+         * Workaround to avoiding an infinite loop (if using srcdoc) which breaks the ability to
+         * hit the back button if you hit a 404
+         */
+        this.iframe.contentWindow.document.body.innerHTML = this.iframe404Fallback;
+      }
+    }, 100);
   }
 
   render() {
-    // use either the page's query string or the patternPartial data to auto-update the URL
-    var queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    let patternParam = urlParams.get('p');
-
-    if (!patternParam) {
-      if (window.patternData) {
-        patternParam = window.patternData.patternPartial;
-      } else {
-        patternParam =
-          window.config && window.config.defaultPattern
-            ? window.config.defaultPattern
-            : 'all';
-      }
-    }
-
-    const url = urlHandler.getFileName(patternParam);
+    const url = urlHandler.getFileName(this.getPatternParam());
 
     const initialWidth =
       store.getState().app.viewportPx &&
@@ -389,7 +397,8 @@ class IFrame extends BaseLitComponent {
             class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this
               .themeMode}"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
-            src="${url}"
+            src=${ifDefined(url === '' ? undefined : url)}
+            srcdoc=${ifDefined(url === '' ? this.iframe404Fallback : undefined)}
           ></iframe>
 
           <div class="pl-c-viewport__resizer pl-js-resize-container">
@@ -456,6 +465,7 @@ class IFrame extends BaseLitComponent {
     return false;
   }
 
+  // updates the nav after the iframed page tells the iframe it's done loading
   receiveIframeMessage(event) {
     // does the origin sending the message match the current host? if not dev/null the request
     if (
@@ -477,44 +487,31 @@ class IFrame extends BaseLitComponent {
     // workaround for certain pages (especially view all pages) not always matching up internally with the expected current pattern key
     if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       try {
-        if (event.data.patternpartial) {
-          let currentPattern = event.data.patternpartial;
-          if (
-            !document.querySelector(`[data-patternpartial="${currentPattern}"]`)
-          ) {
-            currentPattern = currentPattern.replace(/[-][0-9][0-9]/g, '');
-          }
-          const currentUrl = urlHandler.getFileName(currentPattern);
+        const currentPattern =
+          this.sanitizePatternName(event.data.patternpartial) ||
+          this.getPatternParam();
 
-          if (currentPattern !== null) {
-            document.title = 'Pattern Lab - ' + currentPattern;
+        document.title = 'Pattern Lab - ' + currentPattern;
 
-            const addressReplacement =
-              window.location.protocol === 'file:'
-                ? null
-                : window.location.protocol +
-                  '//' +
-                  window.location.host +
-                  window.location.pathname.replace('index.html', '') +
-                  '?p=' +
-                  currentPattern;
+        const addressReplacement =
+          window.location.protocol === 'file:'
+            ? null
+            : window.location.protocol +
+              '//' +
+              window.location.host +
+              window.location.pathname.replace('index.html', '') +
+              '?p=' +
+              currentPattern;
 
-            window.history.replaceState(
-              {
-                currentPattern: currentPattern,
-              },
-              null,
-              addressReplacement
-            );
+        window.history.replaceState(
+          {
+            currentPattern: currentPattern,
+          },
+          null,
+          addressReplacement
+        );
 
-            store.dispatch(updateCurrentPattern(currentPattern));
-
-            // don't update state or upddate the URL for non-existent patterns
-            if (currentUrl) {
-              store.dispatch(updateCurrentUrl(currentUrl));
-            }
-          }
-        }
+        store.dispatch(updateCurrentPattern(currentPattern));
       } catch (error) {
         console.log(error);
       }
