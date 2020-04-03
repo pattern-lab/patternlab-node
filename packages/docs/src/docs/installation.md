@@ -31,20 +31,26 @@ This will bring up an installation menu that presents the following steps:
 
 ## Step 4: Choose templating language
 
-**`What templating language do you want to use with Pattern Lab?`** Choose the Pattern Lab edition that you want to install. The options are:
+**`What templating language do you want to use with Pattern Lab?`** This determines what templating engine you'll use to author components. The options are:
 
-!["choose edition"](/images/3chooseedition.png)
+- `Handlebars` - uses the [Handlebars](https://handlebarsjs.com/) templating engine
+- `Twig (PHP)*` - uses the [Twig](https://twig.symfony.com/) templating engine
 
-- `edition-node (handlebars engine)`
-- `edition-node-gulp (legacy)`
+**\*A note on Twig:** while Pattern Lab is powered by Node, behind the scenes Twig files are compiled by Twig PHP, _not_ by twig.js (which isn't fully on par with Twig PHP).
 
 ## Step 5: Choose initial patterns
 
-`What initial patterns do you want included in your project?` - Choose the <a href="/docs/advanced-starterkits.html">Starterkit</a> you want to begin your project with. Starterkits define the initial components and assets that are included in the initial project. Start from scratch, start from a full demo, or a lightweight boilerplate.
+**`What initial patterns do you want included in your project?`** - Choose the <a href="/docs/advanced-starterkits.html">Starterkit</a> you want to begin your project with. The options are:
 
-!["choose edition"](/images/4choosestarterkit.png)
+- **`Handlebars base patterns`** `(some basic patterns to get started with)` - TODO: include demo link
+- **`Handlebars demo patterns`** `(full demo website and patterns)` - TODO: include demo link
+- **`Twig (PHP) demo patterns`** `(full demo website and patterns)` - TODO: include demo link
+- **`Custom starterkit`** - point to a custom Pattern Lab starterkit TODO: include instructions on including custom starterkits
+- **`Blank project (no patterns)`** - This won't include any initial patterns in your project so you can start completely from scratch
 
-4. `Are you happy with your choices? (Hit enter for YES)?` - Confirm your choices, and when done the Pattern Lab installation will begin.
+## Step 6: Confirm your choices
+
+**`Are you happy with your choices? (Hit enter for YES)?`** - Confirm your choices, and when done the Pattern Lab installation will begin.
 
 !["are you happy yes or no"](/images/5areyouhappy.png)
 
