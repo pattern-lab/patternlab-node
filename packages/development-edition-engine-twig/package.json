@@ -1,9 +1,10 @@
 {
-  "name": "@pattern-lab/development-edition-engine-handlebars",
+  "name": "@pattern-lab/development-edition-engine-twig",
   "private": true,
-  "version": "5.7.2",
-  "description": "The tree of components we use to test, develop and validate the Handlebars engine",
+  "version": "0.0.1",
+  "description": "The tree of components we use to test, develop and validate the twig engine (not engine-twig-php)",
   "scripts": {
+    "postbootstrap": "patternlab install --starterkits @pattern-lab/starterkit-twig-demo",
     "pl:build": "patternlab build --config ./patternlab-config.json",
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
@@ -15,25 +16,28 @@
     "Pattern Lab",
     "Atomic Web Design",
     "Node",
-    "Handlebars",
+    "Twig",
     "Edition"
   ],
-  "author": "Brian Muenzenmeye",
+  "author": "Ringo De Smet",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/pattern-lab/patternlab-node.git"
   },
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=10.0"
   },
   "dependencies": {
     "@pattern-lab/cli": "^5.7.0",
     "@pattern-lab/core": "^5.7.0",
-    "@pattern-lab/engine-handlebars": "^5.5.0",
-    "@pattern-lab/engine-mustache": "^5.0.0",
-    "@pattern-lab/plugin-tab": "^5.3.0",
-    "@pattern-lab/starterkit-mustache-demo": "^5.0.0",
-    "@pattern-lab/uikit-workshop": "^5.7.2"
+    "@pattern-lab/engine-twig": "^5.0.0",
+    "@pattern-lab/starterkit-twig-demo": "^5.0.0",
+    "@pattern-lab/uikit-workshop": "^5.7.1"
+  },
+  "workspaces": {
+    "nohoist": [
+      "**/@pattern-lab/starterkit-twig-demo"
+    ]
   }
 }
