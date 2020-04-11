@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.8.0](https://github.com/pattern-lab/patternlab-node/compare/v5.7.2...v5.8.0) (2020-04-03)
+
+
+### Bug Fixes
+
+* the namespace notation should not be mixed with PatternLab shorthand pattern naming & name is not defined in the textarea macro ([8250fe8](https://github.com/pattern-lab/patternlab-node/commit/8250fe88231d03735424d597eae40496da2cb48c))
+* Updated the README to reflect which issues are resolved. ([d90c3c4](https://github.com/pattern-lab/patternlab-node/commit/d90c3c4605f9a5bcd1153996e3f4d1a17d58bd92))
+
+
+### Features
+
+* switch engine-twig to use twing rather than node-twig ([daca95c](https://github.com/pattern-lab/patternlab-node/commit/daca95c4ffa48916fb6c67c5184bde9b624acd76))
+
+
+
+
+
 ## [5.7.2](https://github.com/pattern-lab/patternlab-node/compare/v5.7.1...v5.7.2) (2020-03-24)
 
 
