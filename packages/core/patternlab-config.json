@@ -75,6 +75,10 @@
   "patternExportPatternPartials": [],
   "patternExportPreserveDirectoryStructure": true,
   "patternExportRaw": false,
+  "patternTranslations": {
+    "view-all": "View all {groupName}",
+    "root-name": "Root"
+  },
   "serverOptions": {
     "wait": 1000
   },

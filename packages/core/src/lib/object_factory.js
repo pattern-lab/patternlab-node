@@ -1,18 +1,27 @@
 'use strict';
-const patternEngines = require('./pattern_engines');
-const path = require('path');
 
-// patternPrefixMatcher is intended to match the leading maybe-underscore,
+const _ = require('lodash');
+const path = require('path');
+const patternEngines = require('./pattern_engines');
+
+// prefixMatcher is intended to match the leading maybe-underscore,
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
 // off and get at the good part.
-const patternPrefixMatcher = /^_?(\d+-)?/;
+const prefixMatcher = /^_?(\d+-)?/;
 
-// Pattern properties
 /**
- * Pattern constructor
+ * Pattern constructor / Pattern properties
+ *
+ * Before changing functionalities of the pattern object please read the following pull requests
+ * to get more details about the behavior of the folder structure
+ * https://github.com/pattern-lab/patternlab-node/pull/992
+ * https://github.com/pattern-lab/patternlab-node/pull/1016
+ *
  * @constructor
  */
 const Pattern = function(relPath, data, patternlab) {
+  this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
+
   /**
    * We expect relPath to be the path of the pattern template, relative to the
    * root of the pattern tree. Parse out the path parts and save the useful ones.
@@ -20,40 +29,26 @@ const Pattern = function(relPath, data, patternlab) {
    * @param {data} The JSON used to render values in the pattern.
    * @param {patternlab} rendered html files for the pattern
    */
-  const pathObj = path.parse(path.normalize(relPath));
-  const info = {};
-  // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
-  info.hasDir =
-    path.basename(pathObj.dir).replace(patternPrefixMatcher, '') ===
-      pathObj.name.replace(patternPrefixMatcher, '') ||
-    path.basename(pathObj.dir).replace(patternPrefixMatcher, '') ===
-      pathObj.name.split('~')[0].replace(patternPrefixMatcher, '');
+  const pathObj = path.parse(this.relPath);
 
-  info.dir = info.hasDir ? pathObj.dir.split(path.sep).pop() : '';
-  info.dirLevel = pathObj.dir.split(path.sep).length;
+  const info = this.getPatternInfo(pathObj, patternlab);
 
-  this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
-  if ((this.subdir.match(/\w(?=\\)|\w(?=\/)/g) || []).length > 1) {
-    this.subdir = this.subdir.split(/\/|\\/, 2).join(path.sep); // '00-atoms/03-controls/00-button' -> '00-atoms/03-controls'
-  }
   this.fileExtension = pathObj.ext; // '.mustache'
 
-  // this is the unique name, subDir + fileName (sans extension)
-  this.name = '';
-  if (info.hasDir && info.dirLevel > 2) {
-    let variant = '';
-
-    if (this.fileName.indexOf('~') !== -1) {
-      variant = '-' + this.fileName.split('~')[1];
-    }
-    this.name = this.subdir.replace(/[\/\\]/g, '-') + variant;
+  // TODO: Remove if when droping ordering by prefix and keep else code
+  if (info.patternHasOwnDir) {
+    // Since there is still the requirement of having the numbers provided for sorting
+    // this will be required to keep the folder prefix and the variant name
+    // /00-atoms/00-global/00-colors/colors~varian.hbs
+    // -> 00-atoms-00-global-00-colors
+    this.name = `${info.shortNotation}-${path.parse(pathObj.dir).base}${
+      this.fileName.indexOf('~') !== -1 ? '-' + this.fileName.split('~')[1] : ''
+    }`;
   } else {
-    this.name =
-      this.subdir.replace(/[\/\\]/g, '-') +
-      '-' +
-      this.fileName.replace('~', '-'); // '00-atoms-00-global-00-colors'
+    // this is the unique name, subDir + fileName (sans extension)
+    this.name = `${info.shortNotation}-${this.fileName.replace('~', '-')}`;
   }
 
   // the JSON used to render values in the pattern
@@ -61,48 +56,32 @@ const Pattern = function(relPath, data, patternlab) {
 
   // strip leading "00-" from the file name and flip tildes to dashes
   this.patternBaseName = this.fileName
-    .replace(patternPrefixMatcher, '')
+    .replace(prefixMatcher, '')
     .replace('~', '-'); // 'colors'
 
-  // Fancy name. No idea how this works. 'Colors'
-  this.patternName = this.patternBaseName
-    .split('-')
-    .reduce(function(val, working) {
-      return (
-        val.charAt(0).toUpperCase() +
-        val.slice(1) +
-        ' ' +
-        working.charAt(0).toUpperCase() +
-        working.slice(1)
-      );
-    }, '')
-    .trim(); //this is the display name for the ui. strip numeric + hyphen prefixes
+  // Fancy name - Uppercase letters of pattern name partials.
+  // global-colors -> 'Global Colors'
+  // this is the display name for the ui. strip numeric + hyphen prefixes
+  this.patternName = _.startCase(this.patternBaseName);
 
   //00-atoms if needed
-  this.patternType = this.getDirLevel(0);
+  this.patternType = this.getDirLevel(0, info);
 
   // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.patternType.replace(patternPrefixMatcher, '');
+  this.patternGroup = this.patternType.replace(prefixMatcher, '');
 
   //00-colors if needed
-  this.patternSubType = this.getDirLevel(1);
+  this.patternSubType = this.getDirLevel(1, info);
 
   // the sub-group this pattern belongs to.
-  this.patternSubGroup = this.patternSubType.replace(patternPrefixMatcher, ''); // 'global'
+  this.patternSubGroup = this.patternSubType.replace(prefixMatcher, ''); // 'global'
 
   // the joined pattern group and subgroup directory
-  this.flatPatternPath =
-    info.hasDir && info.dirLevel > 2
-      ? this.subdir
-          .replace(/[/\\]/g, '-')
-          .replace(new RegExp('-' + info.dir + '$'), '')
-      : this.subdir.replace(/[\/\\]/g, '-'); // '00-atoms-00-global'
+  this.flatPatternPath = info.shortNotation; // '00-atoms-00-global'
 
   // calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
-  this.patternLink = this.patternSectionSubtype
-    ? `$${this.name}/index.html`
-    : patternlab
+  this.patternLink = patternlab
     ? this.getPatternLink(patternlab, 'rendered')
     : null;
 
@@ -112,11 +91,24 @@ const Pattern = function(relPath, data, patternlab) {
 
   // Let's calculate the verbose name ahead of time! We don't use path.sep here
   // on purpose. This isn't a file name!
-  this.verbosePartial =
-    this.subdir.split(path.sep).join('/') + '/' + this.fileName;
+  this.verbosePartial = `${info.shortNotation}/${this.fileName}`;
+
+  /**
+   * Definition of flat pattern:
+   * The flat pattern is a high level pattern which is attached directly to
+   * the main root folder or to a root directory.
+   * --- This ---
+   * root
+   *  flatpattern
+   * --- OR That ---
+   * root
+   *  molecules
+   *   flatpattern
+   */
+  this.isFlatPattern =
+    this.patternGroup === this.patternSubGroup || !this.patternSubGroup;
 
   this.isPattern = true;
-  this.isFlatPattern = this.patternGroup === this.patternSubGroup;
   this.patternState = '';
   this.template = '';
   this.patternPartialCode = '';
@@ -125,7 +117,7 @@ const Pattern = function(relPath, data, patternlab) {
   this.lineageR = [];
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
-  this.order = Number.MAX_SAFE_INTEGER;
+  this.order = 0;
   this.engine = patternEngines.getEngineForPattern(this);
 
   /**
@@ -218,30 +210,86 @@ Pattern.prototype = {
     return this.engine.findPartial(partialString);
   },
 
-  getDirLevel: function(level) {
+  getDirLevel: function(level, pathInfo) {
     const items = this.subdir.split(path.sep);
+    pathInfo.patternHasOwnDir && items.pop();
 
     if (items[level]) {
       return items[level];
-    } else if (items[level - 1]) {
-      return items[level - 1];
-    } else {
+    } else if (level >= 1) {
       return '';
+    } else {
+      // Im Not quite shure about that but its better than empty node
+      // TODO: verify
+      return pathInfo.patternlab &&
+        pathInfo.patternlab.config.patternTranslations &&
+        pathInfo.patternlab.config.patternTranslations['root-name']
+        ? _.kebabCase(
+            pathInfo.patternlab.config.patternTranslations['root-name']
+          )
+        : 'root';
     }
+  },
+
+  /**
+   * Info contains information about pattern structure if it is a nested pattern
+   * or if it just a subbed folder structure. Its just used for internal purposes.
+   * Remember every pattern infomarion based on "this.*" will be used by other functions
+   *
+   * @param pathObj path.parse() object containing usefull path information
+   */
+  getPatternInfo: (pathObj, patternlab) => {
+    const info = {
+      // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
+      patternlab: patternlab,
+      patternHasOwnDir:
+        path.basename(pathObj.dir).replace(prefixMatcher, '') ===
+          pathObj.name.replace(prefixMatcher, '') ||
+        path.basename(pathObj.dir).replace(prefixMatcher, '') ===
+          pathObj.name.split('~')[0].replace(prefixMatcher, ''),
+    };
+
+    info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';
+    info.dirLevel = pathObj.dir.split(path.sep).filter(s => !!s).length;
+
+    if (info.dirLevel === 0 || (info.dirLevel === 1 && info.patternHasOwnDir)) {
+      // -> ./
+      info.shortNotation = 'root';
+    } else if (info.dirLevel === 2 && info.patternHasOwnDir) {
+      // -> ./folder
+      info.shortNotation = path.dirname(pathObj.dir);
+    } else {
+      // -> ./folder/folder
+      info.shortNotation = pathObj.dir
+        .split(/\/|\\/, 2)
+        .join('-')
+        .replace(new RegExp(`-${info.dir}$`), '');
+      info.verbosePartial = pathObj.dir
+        .split(/\/|\\/, 2)
+        .join('/')
+        .replace(new RegExp(`-${info.dir}$`), '');
+    }
+
+    return info;
   },
 };
 
 // Pattern static methods
 
-// factory: creates an empty Pattern for miscellaneous internal use, such as
-// by list_item_hunter
+/**
+ * factory: creates an empty Pattern for miscellaneous internal use, such as
+ * by list_item_hunter
+ *
+ * @param {Object} customProps Properties to apply to new pattern
+ * @param {Patternlab} patternlab Current patternlab instance
+ */
 Pattern.createEmpty = function(customProps, patternlab) {
   let relPath = '';
   if (customProps) {
     if (customProps.relPath) {
       relPath = customProps.relPath;
     } else if (customProps.subdir && customProps.filename) {
-      relPath = customProps.subdir + path.sep + customProps.filename;
+      relPath = path.join(customProps.subdir, customProps.filename);
     }
   }
 
@@ -249,9 +297,11 @@ Pattern.createEmpty = function(customProps, patternlab) {
   return Object.assign(pattern, customProps);
 };
 
-// factory: creates an Pattern object on-demand from a hash; the hash accepts
-// parameters that replace the positional parameters that the Pattern
-// constructor takes.
+/**
+ * factory: creates an Pattern object on-demand from a hash; the hash accepts
+ * parameters that replace the positional parameters that the Pattern
+ * constructor takes.
+ */
 Pattern.create = function(relPath, data, customProps, patternlab) {
   const newPattern = new Pattern(relPath || '', data || null, patternlab);
   return Object.assign(newPattern, customProps);
