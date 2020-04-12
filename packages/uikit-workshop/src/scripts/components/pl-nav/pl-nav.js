@@ -415,7 +415,7 @@ class Nav extends BaseComponent {
                   return (
                     <SubSubList
                       elem={this.elem}
-                      category={patternSubtype.patternSubtypeUC}
+                      category={patternSubtype.patternSubtypeLC}
                     >
                       {patternSubtype.patternSubtypeItems}
                     </SubSubList>

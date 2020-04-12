@@ -3,8 +3,7 @@
 const path = require('path');
 const _ = require('lodash');
 
-const of = require('./object_factory');
-const Pattern = of.Pattern;
+const Pattern = require('./object_factory').Pattern;
 const logger = require('./log');
 const uikitExcludePattern = require('./uikitExcludePattern');
 
@@ -57,7 +56,7 @@ const ui_builder = function() {
 
     //add all if it does not exist yet
     if (!patternlab.viewAllPaths[pattern.patternGroup].all) {
-      patternlab.viewAllPaths[pattern.patternGroup].all = pattern.patternType;
+      patternlab.viewAllPaths[pattern.patternGroup].all = pattern.patternGroup;
     }
   }
 
@@ -139,7 +138,7 @@ const ui_builder = function() {
       ];
     if (docPattern) {
       docPattern.isDocPattern = true;
-      docPattern.order = -Number.MAX_SAFE_INTEGER;
+      docPattern.order = Number.MIN_SAFE_INTEGER;
       return docPattern;
     }
 
@@ -147,21 +146,20 @@ const ui_builder = function() {
     docPattern = new Pattern.createEmpty(
       {
         name: pattern.flatPatternPath,
-        patternName: isSubtypePattern
-          ? pattern.patternSubGroup
-          : pattern.patternGroup,
+        patternName: _.startCase(
+          isSubtypePattern ? pattern.patternSubGroup : pattern.patternGroup
+        ),
         patternDesc: '',
-        patternPartial:
-          'viewall-' +
-          pattern.patternGroup +
-          (isSubtypePattern ? '-' + pattern.patternSubGroup : ''),
+        patternPartial: `viewall-${pattern.patternGroup}${
+          isSubtypePattern ? '-' + pattern.patternSubGroup : ''
+        }`,
         patternSectionSubtype: isSubtypePattern,
-        patternLink: pattern.flatPatternPath + path.sep + 'index.html',
+        patternLink: path.join(pattern.flatPatternPath, 'index.html'),
         isPattern: false,
         engine: null,
         flatPatternPath: pattern.flatPatternPath,
         isDocPattern: true,
-        order: -Number.MAX_SAFE_INTEGER,
+        order: Number.MIN_SAFE_INTEGER,
       },
       patternlab
     );
@@ -177,9 +175,7 @@ const ui_builder = function() {
   function addPatternType(patternlab, pattern) {
     patternlab.patternTypes.push({
       patternTypeLC: pattern.patternGroup.toLowerCase(),
-      patternTypeUC:
-        pattern.patternGroup.charAt(0).toUpperCase() +
-        pattern.patternGroup.slice(1),
+      patternTypeUC: _.startCase(pattern.patternGroup),
       patternType: pattern.patternType,
       patternTypeDash: pattern.patternGroup, //todo verify
       patternTypeItems: [],
@@ -238,9 +234,7 @@ const ui_builder = function() {
   function addPatternSubType(patternlab, pattern) {
     const newSubType = {
       patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
-      patternSubtypeUC:
-        pattern.patternSubGroup.charAt(0).toUpperCase() +
-        pattern.patternSubGroup.slice(1),
+      patternSubtypeUC: _.startCase(pattern.patternSubGroup),
       patternSubtype: pattern.patternSubType,
       patternSubtypeDash: pattern.patternSubGroup, //todo verify
       patternSubtypeItems: [],
@@ -258,31 +252,14 @@ const ui_builder = function() {
    * Creates a patternSubTypeItem object from a pattern
    * This is a menu item you click on
    * @param pattern - the pattern to derive the subtypeitem from
-   * @returns {{patternPartial: string, patternName: (*|string), patternState: string, patternSrcPath: string, patternPath: string}}
+   * @returns {{patternPartial: string, patternName: (*|string), patternState: string, patternPath: string}}
    */
   function createPatternSubTypeItem(pattern) {
-    let patternPath = '';
-    if (pattern.isFlatPattern) {
-      patternPath =
-        pattern.flatPatternPath +
-        '-' +
-        pattern.fileName +
-        '/' +
-        pattern.flatPatternPath +
-        '-' +
-        pattern.fileName +
-        '.html';
-    } else {
-      patternPath =
-        pattern.flatPatternPath + '/' + pattern.flatPatternPath + '.html';
-    }
-
     return {
       patternPartial: pattern.patternPartial,
       patternName: pattern.patternName,
       patternState: pattern.patternState,
-      patternSrcPath: encodeURI(pattern.subdir + '/' + pattern.fileName),
-      patternPath: patternPath,
+      patternPath: pattern.patternLink,
       order: pattern.order,
     };
   }
@@ -336,18 +313,16 @@ const ui_builder = function() {
       );
     }
 
-    if (!patternType.patternItems) {
-      patternType.patternItems = [];
-    }
+    patternType.patternItems = patternType.patternItems || [];
 
     if (isViewAllVariant) {
       if (!pattern.isFlatPattern) {
         //todo: it'd be nice if we could get this into createPatternSubTypeItem someday
         patternType.patternItems.push({
-          patternPartial: 'viewall-' + pattern.patternGroup + '-all',
-          patternName: 'View All',
-          patternPath: encodeURI(pattern.patternType + '/index.html'),
-          order: -Number.MAX_SAFE_INTEGER,
+          patternPartial: `viewall-${pattern.patternGroup}-all`,
+          patternName: `View All ${_.startCase(pattern.patternGroup)}`,
+          patternPath: encodeURI(pattern.patternGroup + '/index.html'),
+          order: Number.MIN_SAFE_INTEGER,
         });
       }
     } else {
@@ -454,7 +429,7 @@ const ui_builder = function() {
       }
 
       //continue building navigation for nested patterns
-      if (pattern.patternGroup !== pattern.patternSubGroup) {
+      if (!pattern.isFlatPattern) {
         if (
           !groupedPatterns.patternGroups[pattern.patternGroup][
             pattern.patternSubGroup
@@ -545,6 +520,7 @@ const ui_builder = function() {
         const styleGuideExcludes =
           patternlab.config.styleGuideExcludes ||
           patternlab.config.styleguideExcludes;
+
         const subTypePromises = _.map(
           _.values(patternGroup),
           (patternSubtypes, patternSubtype, originalPatternGroup) => {
@@ -609,9 +585,10 @@ const ui_builder = function() {
                       path.join(
                         process.cwd(),
                         uikit.outputDir,
-                        paths.public.patterns +
-                          p.flatPatternPath +
-                          '/index.html'
+                        path.join(
+                          `${paths.public.patterns}${p.flatPatternPath}`,
+                          'index.html'
+                        )
                       ),
                       mainPageHeadHtml + viewAllHTML + footerHTML
                     );
@@ -667,9 +644,10 @@ const ui_builder = function() {
                           path.join(
                             process.cwd(),
                             uikit.outputDir,
-                            paths.public.patterns +
-                              anyPatternOfType.patternType +
-                              '/index.html'
+                            path.join(
+                              `${paths.public.patterns}${patternType}`,
+                              'index.html'
+                            )
                           ),
                           mainPageHeadHtml + viewAllHTML + footerHTML
                         );
@@ -740,7 +718,7 @@ const ui_builder = function() {
     const paths = patternlab.config.paths;
 
     const uikitPromises = _.map(patternlab.uikits, uikit => {
-      //determine which patterns should be included in the front-end rendering
+      // determine which patterns should be included in the front-end rendering
       const styleguidePatterns = groupPatterns(patternlab, uikit);
 
       return new Promise(resolve => {
