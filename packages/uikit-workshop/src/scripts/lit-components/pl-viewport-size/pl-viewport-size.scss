@@ -42,6 +42,11 @@ pl-viewport-size {
   transition: all $pl-animate-quick ease-out;
   pointer-events: none;
   text-overflow: ellipsis;
+}
+
+.pl-c-viewport-size__input-action {
+  max-width: 35px;
+  pointer-events: auto;
 
   &::-moz-focus-inner {
     padding: 0;
@@ -61,7 +66,6 @@ pl-viewport-size {
     outline-offset: -1px;
   }
 }
-
 /**
  * Size input labels
  */

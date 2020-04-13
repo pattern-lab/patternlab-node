@@ -74,20 +74,27 @@ class ViewportSizes extends BaseComponent {
           );
           break;
         case 'large':
+          // Do not evaluate a number higher than the clientWidth of the Iframe
+          // to prevent having max size multiple times
+          const max =
+            maxViewportWidth > this.iframe.clientWidth
+              ? this.iframe.clientWidth
+              : maxViewportWidth;
+
           this.iframe.fullMode = false;
           this.iframe.sizeiframe(
             getRandom(
               window.config.ishViewportRange !== undefined
                 ? parseInt(window.config.ishViewportRange.l[0], 10)
                 : 800,
-              maxViewportWidth
+              max
             ),
             true
           );
           break;
         case 'full':
           this.iframe.fullMode = true;
-          this.iframe.sizeiframe(maxViewportWidth, true);
+          this.iframe.sizeiframe(this.iframe.clientWidth, true);
           break;
       }
     }

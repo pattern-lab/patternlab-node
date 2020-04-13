@@ -200,9 +200,6 @@ class IFrame extends BaseLitComponent {
       } else if (size < minViewportWidth) {
         //If the entered size is less than the minimum allowed viewport size, cap value at min vp size
         theSize = minViewportWidth;
-      } else {
-        //If the entered size is larger than the max allowed viewport size, cap value at max vp size
-        theSize = maxViewportWidth;
       }
 
       if (theSize > this.clientWidth) {
