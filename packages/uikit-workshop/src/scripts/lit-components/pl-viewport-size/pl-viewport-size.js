@@ -28,9 +28,7 @@ class ViewportSize extends BaseLitComponent {
     super.connectedCallback && super.connectedCallback();
     styles.use();
     const state = store.getState();
-    this.px = round(state.app.viewportPx, 0);
-    this.em = round(state.app.viewportEm, 1);
-    this.setState({ inputPixelValue: this.px });
+    this.setPxEm(state);
     this.iframe = document.querySelector('pl-iframe');
   }
 
@@ -40,6 +38,10 @@ class ViewportSize extends BaseLitComponent {
   }
 
   _stateChanged(state) {
+    this.setPxEm(state);
+  }
+
+  setPxEm(state) {
     if (state.app.viewportPx !== this.px) {
       this.px = round(state.app.viewportPx, 0);
       this.setState({ inputPixelValue: this.px });
@@ -74,16 +76,26 @@ class ViewportSize extends BaseLitComponent {
     this.iframe.sizeiframe(this.state.inputPixelValue, true);
   }
 
+  handlePixelBlur(e) {
+    this.setState({ inputPixelValue: this.px });
+    e.target.value = this.state.inputPixelValue;
+  }
+
   render() {
     if (!window.__PRERENDER_INJECTED) {
       return html`
         <form class="pl-c-viewport-size" @submit=${this.handleSubmit}>
-          <input
-            class="pl-c-viewport-size__input pl-c-viewport-size__input-action"
-            .value="${this.state.inputPixelValue}"
-            @keypress=${this.handlePixelUpdate}
-          />px&nbsp;/&nbsp;
-          <span class="pl-c-viewport-size__input">${this.em}em</span>
+          <label for="pl-viewport-width" class="pl-c-viewport-size__label">
+            <input
+              class="pl-c-viewport-size__input pl-c-viewport-size__input-action"
+              id="pl-viewport-width"
+              .value="${this.state.inputPixelValue}"
+              @keypress=${this.handlePixelUpdate}
+              @blur=${this.handlePixelBlur}
+            />px&nbsp;/&nbsp;<span class="pl-c-viewport-size__input"
+              >${this.em}em</span
+            >
+          </label>
         </form>
       `;
     }

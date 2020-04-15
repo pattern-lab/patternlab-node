@@ -39,6 +39,9 @@ pl-iframe {
   z-index: 0;
   flex-grow: 1;
   transition: height 0.3s ease;
+  // Prevent mobile overflow of pl-c-viewport__resizer-handle
+  overflow-x: hidden;
+  
   // @supports (position: sticky) {
   //   top: 0;
   // }
