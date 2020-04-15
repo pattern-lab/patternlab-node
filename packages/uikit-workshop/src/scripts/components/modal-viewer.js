@@ -4,7 +4,7 @@
  */
 
 import { scrollTo } from 'scroll-js';
-import { urlHandler, Dispatcher } from '../utils';
+import { urlHandler, Dispatcher, iframeMsgDataExtraction } from '../utils';
 import { panelsViewer } from './panels-viewer';
 import { store } from '../store.js';
 // These are the actions needed by this element.
@@ -283,25 +283,11 @@ export const modalViewer = {
   /**
    * toggle the comment pop-up based on a user clicking on the pattern
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
-   * @param  {Object}      event info
+   *
+   * @param {MessageEvent} e A message received by a target object.
    */
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       // @todo: refactor to better handle async iframe loading

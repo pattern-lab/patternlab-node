@@ -7,6 +7,7 @@ const classNames = require('classnames');
 import { getParents } from './get-parents';
 import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
+import { iframeMsgDataExtraction } from '../../utils';
 import Mousetrap from 'mousetrap';
 import 'url-search-params-polyfill';
 
@@ -240,24 +241,13 @@ class Nav extends BaseComponent {
     }
   }
 
-  receiveIframeMessage(event) {
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
     const self = this;
-
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
