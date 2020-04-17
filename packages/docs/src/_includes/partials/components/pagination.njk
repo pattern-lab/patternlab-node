@@ -1,0 +1,23 @@
+{% set paginationLinkTokens = 'leading-tight text-500 weight-mid box-inline-flex align-center pad-bottom-300' %}
+
+{% if paginationNextUrl or paginationPrevUrl %}
+  <hr />
+  <div class="inner-wrapper">
+    <footer class="[ pagination ] [ pad-bottom-900 ]">
+      <nav class="[ pagination__nav ] [ box-flex space-between align-center ]">
+        {% if paginationPrevUrl %}
+          <a href="{{ paginationPrevUrl }}" class="{{ paginationLinkTokens }}" data-direction="backwards">
+            <span>{{ paginationPrevText if paginationPrevText else 'Previous' }}</span>
+            {% include "icons/arrow.svg" %}
+          </a>
+        {% endif %}
+        {% if paginationNextUrl %}
+          <a href="{{ paginationNextUrl }}" class="{{ paginationLinkTokens }}" data-direction="forwards">
+            <span>{{ paginationNextText if paginationNextText else 'Next' }}</span>
+            {% include "icons/arrow.svg" %}
+          </a>
+        {% endif %}
+      </nav>
+    </footer>
+  </div>
+{% endif %}
