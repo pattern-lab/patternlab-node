@@ -16,22 +16,23 @@ const prefixMatcher = /^_?(\d+-)?/;
  * to get more details about the behavior of the folder structure
  * https://github.com/pattern-lab/patternlab-node/pull/992
  * https://github.com/pattern-lab/patternlab-node/pull/1016
+ * https://github.com/pattern-lab/patternlab-node/pull/1143
  *
- * @constructor
+ * @param {String} relPath relative directory
+ * @param {Object} jsonFileData The JSON used to render values in the pattern.
+ * @param {Patternlab} patternlab The actual patternlab instance
+ * @param {Boolean} isUnsubRun specifies if the pattern needs to be unsubbed from its folder
  */
-const Pattern = function(relPath, data, patternlab) {
+const Pattern = function(relPath, jsonFileData, patternlab, isUnsubRun) {
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
 
   /**
    * We expect relPath to be the path of the pattern template, relative to the
    * root of the pattern tree. Parse out the path parts and save the useful ones.
-   * @param {relPath} relative directory
-   * @param {data} The JSON used to render values in the pattern.
-   * @param {patternlab} rendered html files for the pattern
    */
   const pathObj = path.parse(this.relPath);
 
-  const info = this.getPatternInfo(pathObj, patternlab);
+  const info = this.getPatternInfo(pathObj, patternlab, isUnsubRun);
 
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
@@ -41,8 +42,8 @@ const Pattern = function(relPath, data, patternlab) {
   if (info.patternHasOwnDir) {
     // Since there is still the requirement of having the numbers provided for sorting
     // this will be required to keep the folder prefix and the variant name
-    // /00-atoms/00-global/00-colors/colors~varian.hbs
-    // -> 00-atoms-00-global-00-colors
+    // /00-atoms/00-global/00-colors/colors~variant.hbs
+    // -> 00-atoms-00-global-00-colors-variant
     this.name = `${info.shortNotation}-${path.parse(pathObj.dir).base}${
       this.fileName.indexOf('~') !== -1 ? '-' + this.fileName.split('~')[1] : ''
     }`;
@@ -52,7 +53,7 @@ const Pattern = function(relPath, data, patternlab) {
   }
 
   // the JSON used to render values in the pattern
-  this.jsonFileData = data || {};
+  this.jsonFileData = jsonFileData || {};
 
   // strip leading "00-" from the file name and flip tildes to dashes
   this.patternBaseName = this.fileName
@@ -188,8 +189,10 @@ Pattern.prototype = {
     return this.name + path.sep + this.name + suffix + '.html';
   },
 
-  // the finders all delegate to the PatternEngine, which also encapsulates all
-  // appropriate regexes
+  /**
+   * The finders all delegate to the PatternEngine, which also
+   * encapsulates all appropriate regexes
+   */
   findPartials: function() {
     return this.engine.findPartials(this);
   },
@@ -210,9 +213,15 @@ Pattern.prototype = {
     return this.engine.findPartial(partialString);
   },
 
-  getDirLevel: function(level, pathInfo) {
+  /**
+   * Get a directory on a specific level of the pattern path
+   *
+   * @param {Number} level Level of folder to get
+   * @param {Object} pInfo general information about the pattern
+   */
+  getDirLevel: function(level, pInfo) {
     const items = this.subdir.split(path.sep);
-    pathInfo.patternHasOwnDir && items.pop();
+    pInfo && pInfo.patternHasOwnDir && items.pop();
 
     if (items[level]) {
       return items[level];
@@ -221,14 +230,35 @@ Pattern.prototype = {
     } else {
       // Im Not quite shure about that but its better than empty node
       // TODO: verify
-      return pathInfo.patternlab &&
-        pathInfo.patternlab.config.patternTranslations &&
-        pathInfo.patternlab.config.patternTranslations['root-name']
-        ? _.kebabCase(
-            pathInfo.patternlab.config.patternTranslations['root-name']
-          )
+      return pInfo.patternlab &&
+        pInfo.patternlab.config.patternTranslations &&
+        pInfo.patternlab.config.patternTranslations['root-name']
+        ? _.kebabCase(pInfo.patternlab.config.patternTranslations['root-name'])
         : 'root';
     }
+  },
+
+  /**
+   * Reset the information that the pattern has it's own directory,
+   * so that this pattern will not be handled as flat pattern if it
+   * is located on a top level folder.
+   *
+   * @param {Patternlab} patternlab Current patternlab instance
+   */
+  resetSubbing: function(patternlab) {
+    const p = new Pattern(this.relPath, this.jsonFileData, patternlab, true);
+    // Only reset the specific fields, not everything
+    Object.assign(this, {
+      patternLink: p.patternLink,
+      patternGroup: p.patternGroup,
+      patternType: p.patternType,
+      patternSubGroup: p.patternSubGroup,
+      patternSubType: p.patternSubType,
+      isFlatPattern: p.isFlatPattern,
+      flatPatternPath: p.flatPatternPath,
+      patternPartial: p.patternPartial,
+      verbosePartial: p.verbosePartial,
+    });
   },
 
   /**
@@ -238,15 +268,16 @@ Pattern.prototype = {
    *
    * @param pathObj path.parse() object containing usefull path information
    */
-  getPatternInfo: (pathObj, patternlab) => {
+  getPatternInfo: (pathObj, patternlab, isUnsubRun) => {
     const info = {
       // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
       patternlab: patternlab,
-      patternHasOwnDir:
-        path.basename(pathObj.dir).replace(prefixMatcher, '') ===
-          pathObj.name.replace(prefixMatcher, '') ||
-        path.basename(pathObj.dir).replace(prefixMatcher, '') ===
-          pathObj.name.split('~')[0].replace(prefixMatcher, ''),
+      patternHasOwnDir: !isUnsubRun
+        ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
+            pathObj.name.replace(prefixMatcher, '') ||
+          path.basename(pathObj.dir).replace(prefixMatcher, '') ===
+            pathObj.name.split('~')[0].replace(prefixMatcher, '')
+        : false,
     };
 
     info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';

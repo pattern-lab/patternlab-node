@@ -54,6 +54,11 @@ module.exports = function(pattern, patternlab) {
       if (markdownObject.links) {
         pattern.links = markdownObject.links;
       }
+
+      if (markdownObject.hasOwnProperty('subbed') && !markdownObject.subbed) {
+        // Reset to pattern without own pattern-directory
+        pattern.resetSubbing(patternlab);
+      }
     } else {
       logger.warning(`error processing markdown for ${pattern.patternPartial}`);
     }
