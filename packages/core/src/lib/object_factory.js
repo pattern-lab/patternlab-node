@@ -168,9 +168,16 @@ Pattern.prototype = {
     }
   },
 
-  // calculated path from the root of the public directory to the generated html
-  // file for this pattern.
-  // Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+  /**
+   * calculated path from the root of the public directory to the generated html
+   * file for this pattern.
+   *
+   * Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+   *
+   * @param {Patternlab} patternlab Current patternlab instance
+   * @param {String} suffixType File suffix
+   * @param {String} customfileExtension Custom extension
+   */
   getPatternLink: function(patternlab, suffixType, customfileExtension) {
     // if no suffixType is provided, we default to rendered
     const suffixConfig = patternlab.config.outputFileSuffixes;
@@ -249,6 +256,7 @@ Pattern.prototype = {
     const p = new Pattern(this.relPath, this.jsonFileData, patternlab, true);
     // Only reset the specific fields, not everything
     Object.assign(this, {
+      name: p.name,
       patternLink: p.patternLink,
       patternGroup: p.patternGroup,
       patternType: p.patternType,

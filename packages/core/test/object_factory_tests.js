@@ -149,6 +149,38 @@ tap.test('test Pattern with one-directory subdir works as expected', function(
   test.end();
 });
 
+tap.test('test Pattern with own-directory gets resetted as expected', function(
+  test
+) {
+  var p = new Pattern('00-atoms/00-button/button.mustache', { d: 123 }, pl);
+  p.resetSubbing(pl);
+
+  test.equals(p.relPath, path.join('00-atoms', '00-button', 'button.mustache'));
+  test.equals(p.name, '00-atoms-00-button-button');
+  test.equals(p.subdir, path.join('00-atoms', '00-button'));
+  test.equals(p.fileName, 'button');
+  test.equals(p.fileExtension, '.mustache');
+  test.equals(p.jsonFileData.d, 123);
+  test.equals(p.patternBaseName, 'button');
+  test.equals(p.patternName, 'Button');
+  test.equals(
+    p.getPatternLink(pl),
+    path.join(
+      '00-atoms-00-button-button',
+      '00-atoms-00-button-button.rendered.html'
+    )
+  );
+  test.equals(p.patternGroup, 'atoms');
+  test.equals(p.flatPatternPath, '00-atoms-00-button');
+  test.equals(p.patternPartial, 'atoms-button');
+  test.equals(p.template, '');
+  test.equals(p.lineage.length, 0);
+  test.equals(p.lineageIndex.length, 0);
+  test.equals(p.lineageR.length, 0);
+  test.equals(p.lineageRIndex.length, 0);
+  test.end();
+});
+
 tap.test(
   'test Pattern with no numbers in pattern group works as expected',
   function(test) {
