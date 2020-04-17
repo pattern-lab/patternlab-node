@@ -7,8 +7,8 @@ This is the website for patternlab.io. This site was build using the [Hylia star
 ## How to work with this project
 
 1. Clone this repository
-2. `cd` into the project directory and run `npm install`
-3. Once all the dependencies are installed run `npm start`
+2. `cd` into the project directory and run `yarn`
+3. Once all the dependencies are installed run `yarn start`
 4. Open your browser at `http://localhost:8080`
 
 ## Terminal commands
@@ -16,17 +16,17 @@ This is the website for patternlab.io. This site was build using the [Hylia star
 ### Serve the site locally
 
 ```bash
-npm start
+yarn start
 ```
 
 ### Build a production version of the site
 
 ```bash
-npm run production
+yarn production
 ```
 
 ### Compile Sass
 
 ```bash
-npm run sass:process
+yarn sass:process
 ```
