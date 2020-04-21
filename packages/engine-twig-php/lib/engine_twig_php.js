@@ -90,7 +90,8 @@ const engine_twig_php = {
           if (results.ok) {
             resolve(results.html + details);
           } else {
-            reject(results.message);
+            console.log(results.message);
+            process.exit(1);
           }
         })
         .catch(error => {
