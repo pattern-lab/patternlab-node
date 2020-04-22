@@ -6,6 +6,7 @@
   "dependencies": {
     "@basalt/twig-renderer": "0.13.1",
     "@pattern-lab/core": "^5.7.0",
+    "chalk": "^4.0.0",
     "fs-extra": "0.30.0"
   },
   "keywords": [

@@ -17,6 +17,7 @@
 const TwigRenderer = require('@basalt/twig-renderer');
 const fs = require('fs-extra');
 const path = require('path');
+const chalk = require('chalk');
 
 let twigRenderer;
 let patternLabConfig = {};
