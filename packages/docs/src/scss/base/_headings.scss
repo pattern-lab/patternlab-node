@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    #HEADINGS
+\*------------------------------------*/
+
+/**
+ * Heading 1 base styles
+ */
+h1 {
+  @include typographyHeadingXl();
+  position: relative;
+}
+
+/**
+ * Heading 2 base styles
+ */
+h2 {
+  @include typographyHeadingLarge();
+  position: relative;
+}
+
+/**
+ * Heading 3 base styles
+ */
+h3 {
+  @include typographyHeadingMed2();
+  position: relative;
+}
+
+/**
+ * Heading 4 base styles
+ */
+h4 {
+  @include typographyHeadingMed();
+  position: relative;
+}
