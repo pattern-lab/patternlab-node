@@ -8,3 +8,15 @@
 .c-footer {
     padding: $spacing-large 0;
 }
+
+/**
+ * Footer note
+ * 1) Small paragraph of text in the footer
+ */
+ .c-footer__note {
+	font-size: $font-size-sm;
+
+	a {
+		text-decoration: underline;
+	}
+}
