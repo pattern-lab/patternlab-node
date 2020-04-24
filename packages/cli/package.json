@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "5.9.0",
+  "version": "5.9.1",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
