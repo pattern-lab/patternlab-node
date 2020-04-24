@@ -6,7 +6,8 @@
  * The nav inside the footer 
  */
 .c-footer-nav {
-	font-size: $font-size-sm-2;
+    font-size: $font-size-sm-2;
+    margin-bottom: $spacing;
 
 	@media all and (min-width: $bp-med) {
 		display: flex;
