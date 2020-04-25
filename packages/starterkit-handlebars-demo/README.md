@@ -4,9 +4,9 @@ The Demo StarterKit for Handlebars is meant to be used as a demonstration of a H
 
 ## Requirements
 
-The Vanilla StarterKit for Handlebars requires the following PatternEngine:
+The Base StarterKit for Mustache requires the following PatternEngine:
 
-- `@pattern-lab/patternengine-node-handlebars`: [npm](https://www.npmjs.com/package/@pattern-lab/patternengine-node-handlebars), [Github](https://github.com/pattern-lab/patternengine-node-handlebars)
+- `@pattern-lab/patternengine-node-handebars`: [npm](https://www.npmjs.com/package/@pattern-lab/patternengine-node-handebars), [Github](https://github.com/pattern-lab/patternengine-node-handlebars)
 
 ## Install
 
