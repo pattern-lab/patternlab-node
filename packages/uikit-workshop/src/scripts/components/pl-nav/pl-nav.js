@@ -219,7 +219,22 @@ class Nav extends BaseComponent {
 
   toggleNavPanel(e) {
     const target = e.target;
-    target.classList.toggle('pl-is-active');
+
+    // when the Nav renders as a dropdown menu, only allow one menu to be open at a time to prevent overlap
+    if (this.layoutMode !== 'vertical' && window.innerWidth > 670) {
+      target.classList.toggle('pl-is-active');
+
+      this.topLevelTriggers = document.querySelectorAll(
+        '.pl-c-nav__link--title.pl-is-active'
+      );
+
+      this.topLevelTriggers.forEach(trigger => {
+        if (trigger !== target) {
+          trigger.classList.remove('pl-is-active');
+          trigger.nextSibling.classList.remove('pl-is-active');
+        }
+      });
+    }
   }
 
   rendered() {
