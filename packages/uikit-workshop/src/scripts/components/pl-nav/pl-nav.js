@@ -220,7 +220,7 @@ class Nav extends BaseComponent {
   toggleNavPanel(e) {
     const target = e.target;
 
-    // when the Nav renders as a dropdown menu, only allow one menu to be open at a time to prevent overlap
+    // when the Nav renders as a dropdown menu, only allow one top-level menu item to be open at a time to prevent overlap issues
     if (this.layoutMode !== 'vertical' && window.innerWidth > 670) {
       target.classList.toggle('pl-is-active');
 
