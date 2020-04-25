@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v5.9.0...v5.9.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* **cli:** ensure specified directory exists prior to scaffold ([cc3b696](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/cc3b69624d486c94ee3b1f4b1bbb0334a514fa59))
+
+
+
+
+
+# [5.9.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v5.8.0...v5.9.0) (2020-04-24)
+
+
+### Bug Fixes
+
+* **cli:** set current working directory before scaffolded npm init ([6d2186d](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/6d2186d8e8a74634198a4474ca8ae83221dd70a9))
+
+
+
+
+
 # [5.7.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v5.6.0...v5.7.0) (2020-02-17)
 
 

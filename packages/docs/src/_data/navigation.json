@@ -1,0 +1,70 @@
+{
+	"items": [
+		{
+			"label": "Getting Started",
+			"url": "/docs/installing-pattern-lab/"
+		},
+		{
+			"label": "Documentation",
+			"url": "/docs/",
+			"subnavIsClosed": true,
+			"subnav": [
+				{
+					"label": "Getting Started",
+					"category": "getting-started"
+				},
+				{
+					"label": "Working with Patterns",
+					"category": "patterns"
+				},
+				{
+					"label": "Working with Data",
+					"category": "data"
+				},
+				{
+					"label": "Advanced",
+					"category": "advanced"
+				}
+			]
+		},
+		{
+			"label": "Demos",
+			"url": "/demos/"
+		},
+		{
+			"label": "Support",
+			"url": "/support/"
+		},
+		{
+			"label": "Resources",
+			"url": "/resources/"
+		},
+		{
+			"label": "On Github",
+			"url": "https://github.com/pattern-lab/patternlab-node",
+			"external": true
+		}
+	],
+	"footerNav": [
+		{
+			"label": "Documentation",
+			"url": "/docs"
+		},
+		{
+			"label": "Resources",
+			"url": "/resources"
+		},
+		{
+			"label": "Updates",
+			"url": "/updates"
+		},
+		{
+			"label": "Demos",
+			"url": "/demos"
+		},
+		{
+			"label": "On Github",
+			"url": "https://github.com/pattern-lab/patternlab-node"
+		}
+	]
+}
