@@ -47,9 +47,9 @@ Sets whether or not you want the styleguide to load with the pattern info open o
 
 ### defaultPatternInfoPanelCode (optional)
 
-Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, use value `html` to display the html code initially.
+Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, or instead use value `html` to display the html code initially, or the value defined for the _patternExtension_.
 
-**default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"`)
+**default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"` | `"html"`)
 
 ### ishControlsHide
 
