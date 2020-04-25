@@ -3,6 +3,7 @@
   "cleanPublic": true,
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
+  "defaultPatternInfoPanelCode": "hbs",
   "ishControlsHide": {
     "s": false,
     "m": false,
