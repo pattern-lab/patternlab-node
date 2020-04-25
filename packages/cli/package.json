@@ -11,7 +11,6 @@
   "dependencies": {
     "@pattern-lab/core": "^5.9.0",
     "@pattern-lab/live-server": "^5.0.0",
-    "@pattern-lab/starterkit-mustache-base": "3.0.3",
     "archiver": "2.1.1",
     "chalk": "2.4.1",
     "commander": "2.15.1",
@@ -24,11 +23,7 @@
     "lodash": "4.17.15",
     "ora": "2.1.0",
     "path-exists": "3.0.0",
-    "sanitize-filename": "1.6.1",
-    "starterkit-mustache-acidtest": "0.0.3",
-    "starterkit-mustache-bootstrap": "0.1.1",
-    "starterkit-mustache-foundation": "0.1.1",
-    "starterkit-mustache-materialdesign": "0.1.2"
+    "sanitize-filename": "1.6.1"
   },
   "devDependencies": {
     "eslint": "4.18.2",
@@ -49,7 +44,7 @@
   ],
   "scripts": {
     "lint": "eslint ./{bin,test}",
-    "test:separate": "tap ./test/*.test.js --reporter spec --timeout=120"
+    "test:separate": "tap './test/*.test.js' --reporter spec --timeout=120"
   },
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
