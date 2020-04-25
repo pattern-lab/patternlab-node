@@ -1,4 +1,5 @@
 {
+  "defaultPatternInfoPanelCode": "twig",
   "engines": {
     "twig": {
       "namespaces": [
