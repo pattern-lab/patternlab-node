@@ -262,6 +262,7 @@ const ui_builder = function() {
       patternState: pattern.patternState,
       patternPath: pattern.patternLink,
       name: pattern.name,
+      isDocPattern: false,
       order: Number(pattern.order) || 0, // Failsave is someone entered a string
     };
   }
@@ -284,11 +285,16 @@ const ui_builder = function() {
       newSubTypeItem = {
         patternPartial:
           'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
-        patternName: 'View All',
+        patternName:
+          patternlab.config.patternTranslations &&
+          patternlab.config.patternTranslations.viewAllGroup
+            ? patternlab.config.patternTranslations.viewAllGroup
+            : `View all`,
         patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
         patternType: pattern.patternType,
         patternSubtype: pattern.patternSubtype,
         name: pattern.flatPatternPath,
+        isDocPattern: true,
         order: Number.MAX_SAFE_INTEGER,
       };
     } else {
@@ -322,14 +328,15 @@ const ui_builder = function() {
         patternPartial: `viewall-${pattern.patternGroup}-all`,
         patternName:
           patternlab.config.patternTranslations &&
-          patternlab.config.patternTranslations['view-all']
-            ? patternlab.config.patternTranslations['view-all'].replace(
-                '{groupName}',
+          patternlab.config.patternTranslations.ViewAllSubGroup
+            ? patternlab.config.patternTranslations.ViewAllSubGroup.replace(
+                '{sgName}',
                 _.startCase(pattern.patternGroup)
               )
             : `View all ${_.startCase(pattern.patternGroup)}`,
         patternPath: encodeURI(pattern.patternGroup + '/index.html'),
         name: pattern.patternGroup,
+        isDocPattern: true,
         order: Number.MAX_SAFE_INTEGER,
       });
     } else {

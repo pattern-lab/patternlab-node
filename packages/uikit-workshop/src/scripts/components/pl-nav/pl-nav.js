@@ -14,15 +14,10 @@ const SubSubList = props => {
   const { children, category, elem } = props;
   const reorderedChildren = [];
 
-  const nonViewAllItems = elem.noViewAll
-    ? children.filter(item => item.patternName !== 'View All')
-    : children.filter(
-        item =>
-          item.patternName !== 'View All' && !item.patternName.includes(' Docs')
-      );
+  const nonViewAllItems = children.filter(item => !item.isDocPattern);
   const viewAllItems = elem.noViewAll
     ? []
-    : children.filter(item => item.patternName === 'View All');
+    : children.filter(item => item.isDocPattern);
 
   reorderedChildren.push(...viewAllItems, ...nonViewAllItems);
 
@@ -35,7 +30,7 @@ const SubSubList = props => {
               href={`patterns/${patternSubtypeItem.patternPath}`}
               className={`pl-c-nav__link pl-c-nav__link--sublink
                 ${
-                  patternSubtypeItem.patternName === 'View All'
+                  patternSubtypeItem.isDocPattern
                     ? 'pl-c-nav__link--overview pl-js-link-overview'
                     : 'pl-c-nav__link--subsublink'
                 }
@@ -45,7 +40,7 @@ const SubSubList = props => {
               }
               data-patternpartial={patternSubtypeItem.patternPartial}
             >
-              {patternSubtypeItem.patternName === 'View All'
+              {patternSubtypeItem.isDocPattern
                 ? `${category}`
                 : patternSubtypeItem.patternName}
               {patternSubtypeItem.patternState && (
@@ -84,7 +79,7 @@ const SubSubList = props => {
                 href={`patterns/${patternSubtypeItem.patternPath}`}
                 className={`pl-c-nav__link pl-c-nav__link--sublink
                       ${
-                        patternSubtypeItem.patternName === 'View All'
+                        patternSubtypeItem.isDocPattern
                           ? 'pl-c-nav__link--overview'
                           : 'pl-c-nav__link--subsublink'
                       }
@@ -94,7 +89,7 @@ const SubSubList = props => {
                 }
                 data-patternpartial={patternSubtypeItem.patternPartial}
               >
-                {patternSubtypeItem.patternName === 'View All'
+                {patternSubtypeItem.isDocPattern
                   ? `${category} Overview`
                   : patternSubtypeItem.patternName}
                 {patternSubtypeItem.patternState && (
@@ -438,9 +433,7 @@ class Nav extends BaseComponent {
                           data-patternpartial={patternItem.patternPartial}
                           tabindex="0"
                         >
-                          {patternItem.patternName === 'View All'
-                            ? patternItem.patternName + ' ' + item.patternTypeUC
-                            : patternItem.patternName}
+                          {patternItem.patternName}
                           {patternItem.patternState && (
                             <span
                               class={`pl-c-pattern-state pl-c-pattern-state--${patternItem.patternState}`}
@@ -459,20 +452,24 @@ class Nav extends BaseComponent {
         {/* display the All link if window.ishControlsHide is undefined (for some reason) OR window.ishControls.ishControlsHide doesn't have `views-all` and/or `all` set to true */}
         {(window.ishControls === undefined ||
           window.ishControls.ishControlsHide === undefined ||
-          (window.ishControls.ishControlsHide['views-all'] !== true &&
-            window.ishControls.ishControlsHide.all !== true)) && (
-          <li class="pl-c-nav__item">
-            <a
-              onClick={e => this.handleClick(e, 'all')}
-              href="styleguide/html/styleguide.html"
-              class="pl-c-nav__link pl-c-nav__link--pattern"
-              data-patternpartial="all"
-              tabindex="0"
-            >
-              All
-            </a>
-          </li>
-        )}
+          (!window.ishControls.ishControlsHide['views-all'] &&
+            !window.ishControls.ishControlsHide.all)) &&
+          !this.noViewAll && (
+            <li class="pl-c-nav__item">
+              <a
+                onClick={e => this.handleClick(e, 'all')}
+                href="styleguide/html/styleguide.html"
+                class="pl-c-nav__link pl-c-nav__link--pattern"
+                data-patternpartial="all"
+                tabindex="0"
+              >
+                {window.config.patternTranslations &&
+                window.config.patternTranslations.viewAllRoot
+                  ? window.config.patternTranslations.viewAllRoot
+                  : 'All'}
+              </a>
+            </li>
+          )}
       </ol>
     );
   }

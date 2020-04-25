@@ -76,8 +76,10 @@
   "patternExportPreserveDirectoryStructure": true,
   "patternExportRaw": false,
   "patternTranslations": {
-    "view-all": "View all {groupName}",
-    "root-name": "Root"
+    "ViewAllSubGroup": "View all {sgName}",
+    "viewAllGroup": "View All",
+    "viewAllRoot": "All",
+    "rootName": "Root"
   },
   "serverOptions": {
     "wait": 1000

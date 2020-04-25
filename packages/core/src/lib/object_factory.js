@@ -239,8 +239,8 @@ Pattern.prototype = {
       // TODO: verify
       return pInfo.patternlab &&
         pInfo.patternlab.config.patternTranslations &&
-        pInfo.patternlab.config.patternTranslations['root-name']
-        ? _.kebabCase(pInfo.patternlab.config.patternTranslations['root-name'])
+        pInfo.patternlab.config.patternTranslations.rootName
+        ? _.kebabCase(pInfo.patternlab.config.patternTranslations.rootName)
         : 'root';
     }
   },
