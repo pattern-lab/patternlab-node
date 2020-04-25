@@ -21,7 +21,7 @@ const prefixMatcher = /^_?(\d+-)?/;
  * @param {String} relPath relative directory
  * @param {Object} jsonFileData The JSON used to render values in the pattern.
  * @param {Patternlab} patternlab The actual patternlab instance
- * @param {Boolean} isUnsubRun specifies if the pattern needs to be unsubbed from its folder
+ * @param {Boolean} isUnsubRun specifies if the pattern needs to be removed from its subfolder
  */
 const Pattern = function(relPath, jsonFileData, patternlab, isUnsubRun) {
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
@@ -271,14 +271,14 @@ Pattern.prototype = {
 
   /**
    * Info contains information about pattern structure if it is a nested pattern
-   * or if it just a subbed folder structure. Its just used for internal purposes.
+   * or if it just a subfolder structure. Its just used for internal purposes.
    * Remember every pattern infomarion based on "this.*" will be used by other functions
    *
    * @param pathObj path.parse() object containing usefull path information
    */
   getPatternInfo: (pathObj, patternlab, isUnsubRun) => {
     const info = {
-      // 00-colors(.mustache) is subbed in 00-atoms-/00-global/00-colors
+      // 00-colors(.mustache) is subfolder in 00-atoms-/00-global/00-colors
       patternlab: patternlab,
       patternHasOwnDir: !isUnsubRun
         ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===

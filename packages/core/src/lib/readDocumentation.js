@@ -55,7 +55,10 @@ module.exports = function(pattern, patternlab) {
         pattern.links = markdownObject.links;
       }
 
-      if (markdownObject.hasOwnProperty('subbed') && !markdownObject.subbed) {
+      if (
+        markdownObject.hasOwnProperty('subfolder') &&
+        !markdownObject.subfolder
+      ) {
         // Reset to pattern without own pattern-directory
         pattern.resetSubbing(patternlab);
       }
