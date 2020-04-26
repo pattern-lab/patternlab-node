@@ -285,11 +285,7 @@ const ui_builder = function() {
       newSubTypeItem = {
         patternPartial:
           'viewall-' + pattern.patternGroup + '-' + pattern.patternSubGroup,
-        patternName:
-          patternlab.config.patternTranslations &&
-          patternlab.config.patternTranslations.viewAllGroup
-            ? patternlab.config.patternTranslations.viewAllGroup
-            : `View all`,
+        patternName: `View All`,
         patternPath: encodeURI(pattern.flatPatternPath + '/index.html'),
         patternType: pattern.patternType,
         patternSubtype: pattern.patternSubtype,
@@ -326,14 +322,7 @@ const ui_builder = function() {
     if (isViewAllVariant) {
       patternType.patternItems.push({
         patternPartial: `viewall-${pattern.patternGroup}-all`,
-        patternName:
-          patternlab.config.patternTranslations &&
-          patternlab.config.patternTranslations.ViewAllSubGroup
-            ? patternlab.config.patternTranslations.ViewAllSubGroup.replace(
-                '{sgName}',
-                _.startCase(pattern.patternGroup)
-              )
-            : `View all ${_.startCase(pattern.patternGroup)}`,
+        patternName: `View all ${_.startCase(pattern.patternGroup)}`,
         patternPath: encodeURI(pattern.patternGroup + '/index.html'),
         name: pattern.patternGroup,
         isDocPattern: true,

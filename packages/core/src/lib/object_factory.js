@@ -237,11 +237,7 @@ Pattern.prototype = {
     } else {
       // Im Not quite shure about that but its better than empty node
       // TODO: verify
-      return pInfo.patternlab &&
-        pInfo.patternlab.config.patternTranslations &&
-        pInfo.patternlab.config.patternTranslations.rootName
-        ? _.kebabCase(pInfo.patternlab.config.patternTranslations.rootName)
-        : 'root';
+      return 'root';
     }
   },
 

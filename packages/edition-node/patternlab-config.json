@@ -75,12 +75,6 @@
   "patternExportPatternPartials": [],
   "patternExportPreserveDirectoryStructure": true,
   "patternExportRaw": false,
-  "patternTranslations": {
-    "ViewAllSubGroup": "View all {sgName}",
-    "viewAllGroup": "View All",
-    "viewAllRoot": "All",
-    "rootName": "Root"
-  },
   "serverOptions": {
     "wait": 1000
   },
