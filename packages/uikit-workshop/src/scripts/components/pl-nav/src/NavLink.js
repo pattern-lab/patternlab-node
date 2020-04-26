@@ -16,7 +16,7 @@ export const NavLink = props => {
       data-patternpartial={props.item.patternPartial}
     >
       {props.item.isDocPattern && props.category
-        ? `${props.category}`
+        ? `${props.categoryName}`
         : props.item.patternName}
       {props.item.patternState && (
         <PatternState variant={props.item.patternState} />

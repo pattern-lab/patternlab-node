@@ -276,6 +276,7 @@ class Nav extends BaseComponent {
                     <NavList
                       elem={this.elem}
                       category={patternSubtype.patternSubtypeLC}
+                      categoryName={patternSubtype.patternSubtypeUC}
                     >
                       {patternSubtype.patternSubtypeItems}
                     </NavList>

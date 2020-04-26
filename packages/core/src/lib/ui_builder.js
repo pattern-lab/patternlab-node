@@ -175,7 +175,7 @@ const ui_builder = function() {
    */
   function addPatternType(patternlab, pattern) {
     patternlab.patternTypes.push({
-      patternTypeLC: pattern.patternGroup.toLowerCase(),
+      patternTypeLC: _.kebabCase(pattern.patternGroup),
       patternTypeUC: _.startCase(pattern.patternGroup),
       patternType: pattern.patternType,
       patternTypeDash: pattern.patternGroup, //todo verify
@@ -234,7 +234,7 @@ const ui_builder = function() {
    */
   function addPatternSubType(patternlab, pattern) {
     const newSubType = {
-      patternSubtypeLC: pattern.patternSubGroup.toLowerCase(),
+      patternSubtypeLC: _.kebabCase(pattern.patternSubGroup),
       patternSubtypeUC: _.startCase(pattern.patternSubGroup),
       patternSubtype: pattern.patternSubType,
       patternSubtypeDash: pattern.patternSubGroup, //todo verify
