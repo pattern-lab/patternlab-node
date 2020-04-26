@@ -1,11 +1,29 @@
 {
-  "brad" : {
-    "url" : "link.twitter-brad"
+  "brad": {
+    "url": "link.twitter-brad"
   },
-  "dave" : {
-    "url" : "link.twitter-dave"
+  "dave": {
+    "url": "link.twitter-dave"
   },
-  "brian" : {
-    "url" : "link.twitter-brian"
+  "brian": {
+    "url": "link.twitter-brian"
+  },
+  "someone": {
+    "url": "link.twitter-someone"
+  },
+  "someone2": {
+    "url": "link.facebook-someone2"
+  },
+  "viewall-twitter": {
+    "url": "link.viewall-twitter-all"
+  },
+  "viewall-twitter-people": {
+    "url": "link.viewall-twitter-people"
+  },
+  "viewall-facebook": {
+    "url": "link.viewall-facebook-all"
+  },
+  "viewall-facebook-people": {
+    "url": "link.viewall-facebook-people"
   }
 }

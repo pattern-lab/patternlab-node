@@ -1,0 +1,22 @@
+/*------------------------------------*\
+    $FOOTER
+\*------------------------------------*/
+
+/**
+ * 1) Global block at the bottom of each page that contains a navigation and other information
+ */
+.c-footer {
+    padding: $spacing-large 0;
+}
+
+/**
+ * Footer note
+ * 1) Small paragraph of text in the footer
+ */
+ .c-footer__note {
+	font-size: $font-size-sm;
+
+	a {
+		text-decoration: underline;
+	}
+}
