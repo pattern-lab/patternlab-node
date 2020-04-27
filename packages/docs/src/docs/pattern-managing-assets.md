@@ -13,7 +13,7 @@ Assets for patterns - including JavaScript, CSS, and images - should be stored a
 
 Pattern Lab ships with copy tasks in the `Gruntfile.js` or `Gulpfile.js` of [the Editions](https://github.com/pattern-lab/?utf8=%E2%9C%93&query=edition-node) that copy your assets for you.
 
-This structure is meant to be extended to suit your purposes. Change targets, move files, or ignore certain filetypes altogether. **Note**: If you make changes to `Gruntfile.js` or `Gulpfile.js`, such as to copy a new directory, and have [auto re-generation and browser reload enabled](/docs/advanced-auto-regenerate.html#node), you will need to stop and start your tasks to pick up the changes.
+This structure is meant to be extended to suit your purposes. Change targets, move files, or ignore certain filetypes altogether. **Note**: If you make changes to `Gruntfile.js` or `Gulpfile.js`, such as to copy a new directory, and have auto re-generation and browser reload enable, you will need to stop and start your tasks to pick up the changes.
 
 ## Configuring Asset Locations
 
@@ -52,4 +52,4 @@ Note how some sets of files even extend into the "vendor" `./node_modules/` dire
 
 ## Adding Assets to the Pattern Header &amp; Footer
 
-Static assets like Javascript and CSS **are not** added automagically to your patterns. You need to add them manually to the [shared pattern header and footer](/docs/advanced-auto-regenerate.html#node).
+Static assets like Javascript and CSS **are not** added automagically to your patterns. You need to add them manually to the [shared pattern header and footer](/docs/modifying-the-pattern-header-and-footer/).

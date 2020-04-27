@@ -44,7 +44,7 @@ The shorthand syntax also allows for fuzzy matching on pattern names. This means
 _Warning:_ Because subtypes are not included in the shorthand include syntax a given pattern name needs to be unique within its _pattern type_ and not just its pattern subtype. If you run into this problem you can do one of two things:
 
 - use the default include syntax for your template language or
-- give your pattern a unique name and use [the pattern's documentation](/docs/pattern-documentation.html) to provide the pattern name
+- give your pattern a unique name and use [the pattern's documentation](/docs/documenting-patterns/) to provide the pattern name
 
 ## The Default Include Syntax
 
