@@ -1770,6 +1770,11 @@
     once "^1.4.0"
     universal-user-agent "^4.0.0"
 
+"@pattern-lab/starterkit-mustache-base@3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-base/-/starterkit-mustache-base-3.0.3.tgz#8ce9bc8e0d2254ee970a09c4bdc76d4f6131c91d"
+  integrity sha512-AALdLim5L4ODDjUevRGBY/omhzTU38tSJMRRLaCnwoZ9dxn2QOZNampxj5T7Fhn4oTQnyjhawslVbqVekoViig==
+
 "@pattern-lab/starterkit-mustache-demo@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-demo/-/starterkit-mustache-demo-5.0.0.tgz#40320e474d23b3f2473b1715712f7330802c46f3"
@@ -2542,6 +2547,14 @@ ansi-styles@^4.0.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-4.2.0.tgz#5681f0dcf7ae5880a7841d8831c4724ed9cc0172"
   integrity sha512-7kFQgnEaMdRtwf6uSfUnVr9gSGC7faurn+J/Mv90/W+iTtN0405/nLdopfMWwchyxhbGYl6TC4Sccn9TUkGAgg==
+  dependencies:
+    "@types/color-name" "^1.1.1"
+    color-convert "^2.0.1"
+
+ansi-styles@^4.1.0:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-4.2.1.tgz#90ae75c424d008d2624c5bf29ead3177ebfcf359"
+  integrity sha512-9VGjrMsG1vePxcSweQsN20KY/c4zN0h9fLjqAbwbPfahM3t+NL+M9HC8xeXG2I8pX5NoamTGNuomEUFI7fcUjA==
   dependencies:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
@@ -4070,6 +4083,14 @@ chalk@^0.4.0:
     ansi-styles "~1.0.0"
     has-color "~0.1.0"
     strip-ansi "~0.1.0"
+
+chalk@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.0.0.tgz#6e98081ed2d17faab615eb52ac66ec1fe6209e72"
+  integrity sha512-N9oWFcegS0sFr9oh1oz2d7Npos6vNoWW9HvtCg5N1KRFpUhaAhvTv5Y58g880fZaEYSNm3qDz8SU1UrGvp+n7A==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
 
 change-case@^3.0.1:
   version "3.1.0"
@@ -8501,6 +8522,11 @@ has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
   integrity sha1-tdRU3CGZriJWmfNGfloH87lVuv0=
+
+has-flag@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
+  integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
 has-gulplog@^0.1.0:
   version "0.1.0"
@@ -15852,6 +15878,26 @@ standard-version@4.3.0:
     semver "^5.1.0"
     yargs "^8.0.1"
 
+starterkit-mustache-acidtest@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/starterkit-mustache-acidtest/-/starterkit-mustache-acidtest-0.0.3.tgz#8ad2b69f955b487ce60415b4d2b0e2177aa0af29"
+  integrity sha1-itK2n5VbSHzmBBW00rDiF3qgryk=
+
+starterkit-mustache-bootstrap@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/starterkit-mustache-bootstrap/-/starterkit-mustache-bootstrap-0.1.1.tgz#1cc0b988a8e6fc084dbb9604bf166af17b4216e6"
+  integrity sha1-HMC5iKjm/AhNu5YEvxZq8XtCFuY=
+
+starterkit-mustache-foundation@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/starterkit-mustache-foundation/-/starterkit-mustache-foundation-0.1.1.tgz#083bf6c1cf6a605ce8729555d502726fa419fd01"
+  integrity sha1-CDv2wc9qYFzocpVV1QJyb6QZ/QE=
+
+starterkit-mustache-materialdesign@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/starterkit-mustache-materialdesign/-/starterkit-mustache-materialdesign-0.1.2.tgz#1806fa26c87a79ed343cffc139d215a634b7994a"
+  integrity sha1-GAb6Jsh6ee00PP/BOdIVpjS3mUo=
+
 static-extend@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
@@ -16246,6 +16292,13 @@ supports-color@^5.3.0, supports-color@^5.4.0:
   integrity sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
   dependencies:
     has-flag "^3.0.0"
+
+supports-color@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.1.0.tgz#68e32591df73e25ad1c4b49108a2ec507962bfd1"
+  integrity sha512-oRSIpR8pxT1Wr2FquTNnGet79b3BWljqOuoW/h4oBhxJ/HUbX5nX6JSruTkvXDCFMwDPvsaTTbvMLKZWSy0R5g==
+  dependencies:
+    has-flag "^4.0.0"
 
 svg-baker-runtime@1.4.1:
   version "1.4.1"
