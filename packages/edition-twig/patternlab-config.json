@@ -59,6 +59,7 @@
   "cleanPublic": true,
   "defaultPattern": "all",
   "defaultShowPatternInfo": false,
+  "defaultPatternInfoPanelCode": "twig",
   "ishControlsHide": {
     "s": false,
     "m": false,

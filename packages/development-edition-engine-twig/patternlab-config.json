@@ -3,6 +3,7 @@
   "cleanPublic": true,
   "defaultPattern": "pages-homepage",
   "defaultShowPatternInfo": false,
+  "defaultPatternInfoPanelCode": "twig",
   "ishControlsHide": {
     "s": false,
     "m": false,
