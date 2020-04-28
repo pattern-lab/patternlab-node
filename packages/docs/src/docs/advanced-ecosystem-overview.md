@@ -35,7 +35,7 @@ Have a trusty set of boilerplate code that you start every project with? Perhaps
 
 Importing a starterkit is only a few keystrokes away after installation.
 
-[Learn more about Starterkits](/docs/advanced-starterkits.html#node)
+[Learn more about Starterkits](/docs/starterkits/)
 
 ### StyleguideKits
 
@@ -55,4 +55,4 @@ The flexibility of the Pattern Lab ecosystem means that teams can develop tools 
 
 ## Guidance and Help
 
-If you have ideas or would like guidance before we have all of the documentation done please learn how you can [engage with the Pattern Lab community](/contribute.html).
+If you have ideas or would like guidance before we have all of the documentation done please learn how you can [engage with the Pattern Lab community](/support/).

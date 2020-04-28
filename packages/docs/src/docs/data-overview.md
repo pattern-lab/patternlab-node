@@ -20,12 +20,12 @@ The Node version of Pattern Lab only supports JSON.
 There are three places to store data in Pattern Lab:
 
 - in `./source/_data`.
-- in [pattern-specific](/docs/data-pattern-specific.html) files in `./source/_patterns`.
-- in [pseudo-pattern](/docs/pattern-pseudo-patterns.html) files in `./source/_patterns`.
+- in [pattern-specific](/docs/creating-pattern-specific-values/) files in `./source/_patterns`.
+- in [pseudo-pattern](/docs/using-pseudo-patterns/) files in `./source/_patterns`.
 
 ### A Special Note About Pattern Parameters
 
-[Pattern parameters](/docs/pattern-parameters.html) are a simple find and replace of variables in the included pattern. As such they do not affect the context stack of Mustache and we don't consider them true data. They have no impact on overall data inheritance and they cannot be used any deeper than the included pattern. They are a hack.
+[Pattern parameters](/docs/using-pattern-parameters/) are a simple find and replace of variables in the included pattern. As such they do not affect the context stack of Mustache and we don't consider them true data. They have no impact on overall data inheritance and they cannot be used any deeper than the included pattern. They are a hack.
 
 ## Data Inheritance
 
