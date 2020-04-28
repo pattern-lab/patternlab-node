@@ -22,4 +22,4 @@ If we want to add a new pattern we simply tack it onto the end:
     media-block.mustache
     new-pattern.mustache
 
-If you want more control over their ordering please refer to "[Reorganizing Patterns](/docs/pattern-reorganizing.html)."
+If you want more control over their ordering please refer to "[Reorganizing Patterns](/docs/reorganizing-patterns/)."
