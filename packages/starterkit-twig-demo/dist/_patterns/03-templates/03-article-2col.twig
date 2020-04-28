@@ -1,17 +1,17 @@
-{% extends "@templates/page-2col.twig" %}
+{% extends "@templates/00-layouts/01-page-2col.twig" %}
 {% block main %}
     <article class="article">
         <header class="article-header">
             <h1>Article Headline Lorem ipsum dolor sit aweofij</h1>
             {% include "@molecules/00-text/00-byline.twig" %}
         </header>
-        {% include "@organisms/article-body.twig" %}
+        {% include "@organisms/01-article/00-article-body.twig" %}
     </article><!--end .article-->
-    {% include "@molecules/social-share.twig" %}
-    {% include "@organisms/comment-thread.twig" %}
+    {% include "@molecules/06-components/00-social-share.twig" %}
+    {% include "@organisms/02-comments/00-comment-thread.twig" %}
 {% endblock %}
 
 {% block sidebar %}
-    {% include "@organisms/related-posts.twig" %}
-    {% include "@organisms/recent-tweets.twig" %}
+    {% include "@organisms/03-sections/02-related-posts.twig" %}
+    {% include "@organisms/03-sections/01-recent-tweets.twig" %}
 {% endblock %}

@@ -1,0 +1,11 @@
+{% set navPages = collections.docs | eleventyNavigation %}
+<ul class="c-tree-nav__subnav">
+{% for entry in navPages %}
+    {% if entry.key == subnavCategory %}
+    <li class="c-tree-nav__subnav-item">
+        <a href="{{entry.url}}" class="c-tree-nav__subnav-link">{{ entry.title }}<a>
+    </li><!--end c-tree-nav__subnav-item -->
+  {% endif %}
+{% endfor %}
+</ul><!--end c-tree-nav__subnav-->
+

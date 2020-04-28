@@ -17,6 +17,7 @@
 const TwigRenderer = require('@basalt/twig-renderer');
 const fs = require('fs-extra');
 const path = require('path');
+const chalk = require('chalk');
 
 let twigRenderer;
 let patternLabConfig = {};
@@ -90,7 +91,16 @@ const engine_twig_php = {
           if (results.ok) {
             resolve(results.html + details);
           } else {
-            reject(results.message);
+            // make Twig rendering errors more noticeable + exit when not in dev mode (or running the `patternlab serve` command)
+            if (
+              process.argv.slice(1).includes('serve') ||
+              process.env.NODE_ENV === 'development'
+            ) {
+              reject(chalk.red(results.message));
+            } else {
+              console.log(chalk.red(results.message));
+              process.exit(1);
+            }
           }
         })
         .catch(error => {

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.7.2](https://github.com/pattern-lab/patternlab-node/compare/v5.7.1...v5.7.2) (2020-03-24)
+
+**Note:** Version bump only for package @pattern-lab/starterkit-handlebars-demo
+
+
+
+
+
+
 # [5.0.0](https://github.com/pattern-lab/patternlab-node/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
 
 

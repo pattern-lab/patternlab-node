@@ -16,6 +16,10 @@ If you'd like to see what a front-end project built with Pattern Lab looks like,
 [![node (scoped)](https://img.shields.io/node/v/@pattern-lab/patternlab-node.svg)]()
 [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
+Docs @ [![Netlify Status](https://api.netlify.com/api/v1/badges/d454dbde-02c5-4bd4-8393-4ab75e862b03/deploy-status)](https://app.netlify.com/sites/patternlab-docs-preview/deploys)
+
+Pattern Lab Preview @ [![Netlify Status](https://api.netlify.com/api/v1/badges/a6db1666-cb4f-4d26-82d4-9d88d875f286/deploy-status)](https://app.netlify.com/sites/patternlab-handlebars-preview/deploys)
+
 ## Using Pattern Lab
 
 Refer to the [core usage guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/README.md#usage)
@@ -60,6 +64,7 @@ Pattern Lab / Node wouldn't be what it is today without the support of the commu
 **:100: Thanks for support from the following:**
 
 * **[Brad Frost](http://bradfrost.com/)**
+* Jan Ditze
 * [Marcos Peebles](https://twitter.com/marcospeebles)
 * [Maximilian Franzke](https://twitter.com/maedmaex)
 * [Susan Simkins](https://twitter.com/susanmsimkins)

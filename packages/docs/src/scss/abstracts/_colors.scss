@@ -1,0 +1,79 @@
+/*------------------------------------*\
+    #COLORS
+\*------------------------------------*/
+
+/**
+ * In this file, we take the literal colors from our palette (defined in variables.scss) 
+ * and define them against variables that we can utilise anywhere throughout the project.
+ */
+
+
+
+
+
+/*------------------------------------*\
+    #GLOBAL TEXT COLOR
+\*------------------------------------*/
+
+/**
+ * Body text and background colors
+ */
+$color-text: $color-gray-93 !default;
+$color-text-bg: $color-white !default;
+
+/**
+ * Highlight colors
+ */
+$color-text-highlight: $color-gray-93;
+$color-text-highlight-bg: $color-gray-13;
+
+
+
+
+
+/*------------------------------------*\
+    #LINKS
+\*------------------------------------*/
+
+$color-links: $color-gray-73 !default;
+$color-links-hover: $color-gray-50!default;
+$color-links-active: $color-gray-93 !default;
+$color-links-visited: $color-gray-93 !default;
+
+
+
+
+
+/*------------------------------------*\
+    #BUTTONS
+\*------------------------------------*/
+
+$color-btn-primary: $color-white !default;
+$color-btn-primary-bg: $color-gray-93 !default;
+$color-btn-primary-bg-hover: $color-gray-50 !default;
+$color-btn-primary-border: $color-gray-93 !default;
+
+$color-btn-secondary: $color-gray-93 !default;
+$color-btn-secondary-bg: $color-white !default;
+$color-btn-secondary-bg-hover: $color-gray-07 !default;
+$color-btn-secondary-border: $color-gray-93 !default;
+
+$color-btn-disabled: $color-gray-50 !default;
+$color-btn-disabled-bg: $color-gray-07 !default;
+
+
+
+
+
+/*------------------------------------*\
+    #FORMS
+\*------------------------------------*/
+
+$color-form: $color-gray-93 !default;
+$color-form-bg: $color-white !default;
+$color-form-border: $color-gray-73 !default;
+$color-form-border-focus: $color-gray-93 !default;
+$color-form-border-error: $color-utility-error !default;
+$color-form-label: $color-gray-93 !default;
+$color-form-info: $color-gray-73;
+$color-form-placeholder: $color-gray-50;
