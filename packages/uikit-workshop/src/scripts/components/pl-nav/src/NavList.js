@@ -8,13 +8,14 @@ export const NavList = props => {
   const reorderedChildren = [];
 
   const nonViewAllItems = elem.noViewAll
-    ? children.filter(item => !item.isDocPattern)
+    ? children.filter(item => item.patternName !== 'View All')
     : children.filter(
-        item => !item.isDocPattern && !item.patternName.includes(' Docs')
+        item =>
+          item.patternName !== 'View All' && !item.patternName.includes(' Docs')
       );
   const viewAllItems = elem.noViewAll
     ? []
-    : children.filter(item => item.isDocPattern);
+    : children.filter(item => item.patternName === 'View All');
 
   reorderedChildren.push(...viewAllItems, ...nonViewAllItems);
 
