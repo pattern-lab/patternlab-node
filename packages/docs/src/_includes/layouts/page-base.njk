@@ -1,0 +1,24 @@
+{% extends 'layouts/base.njk' %}
+{% set pageType = 'Resources' %}
+
+{# Intro content #}
+{% set introHeading = title %}
+{% set introSummary %}
+
+{% endset %}
+
+{% block content %}
+  <div class="l-container">
+    <div class="l-linelength-container">
+      <article>
+        {% include "components/page-header.njk" %}
+        <div class="c-text-passage">
+          {{ content | safe }}
+        </div>
+        
+      </article>
+    </div>
+  </div>
+{% endblock %}
+
+{{ content | safe }}

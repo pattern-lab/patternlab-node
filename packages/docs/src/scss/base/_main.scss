@@ -1,0 +1,23 @@
+/*------------------------------------*\
+    #MAIN ELEMENT
+\*------------------------------------*/
+
+/**
+ * Main element
+ */
+main {
+  display: block;
+  margin-top: 2rem;
+
+  @media all and (min-width: $bp-med) {
+    margin-top: 5rem;
+  }
+}
+
+.c-main--flush {
+  margin-top: 0;
+
+  @media all and (min-width: $bp-med) {
+    margin-top: 0;
+  }
+}

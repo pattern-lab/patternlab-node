@@ -1,0 +1,8 @@
+<header class="[ intro ] [ pad-top-900 pad-bottom-max ]">
+  <div>
+    <h1>{{ introHeading }}</h1>
+    {% if introSummary %}
+      <div class="[ intro__summary ] [ sf-flow ] [ leading-mid measure-short ]">{{ introSummary | safe }}</div>
+    {% endif %}
+  </div>
+</header>

@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.2](https://github.com/pattern-lab/patternlab-node/compare/v5.9.1...v5.9.2) (2020-04-24)
+
+**Note:** Version bump only for package pl-node
+
+
+
+
+
+## [5.9.1](https://github.com/pattern-lab/patternlab-node/compare/v5.9.0...v5.9.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* **cli:** ensure specified directory exists prior to scaffold ([cc3b696](https://github.com/pattern-lab/patternlab-node/commit/cc3b69624d486c94ee3b1f4b1bbb0334a514fa59))
+
+
+
+
+
+# [5.9.0](https://github.com/pattern-lab/patternlab-node/compare/v5.8.0...v5.9.0) (2020-04-24)
+
+
+### Bug Fixes
+
+* **cli:** set current working directory before scaffolded npm init ([6d2186d](https://github.com/pattern-lab/patternlab-node/commit/6d2186d8e8a74634198a4474ca8ae83221dd70a9))
+* **core:** do not warn about uikit-polyfills ([6bb68e7](https://github.com/pattern-lab/patternlab-node/commit/6bb68e763769969546542bf7aaf6d1f4235c6622))
+* actually exit build when Twig render fails ([5d28a24](https://github.com/pattern-lab/patternlab-node/commit/5d28a24a53011396289c1e29e0a715cd82470185))
+* Update packages/engine-twig-php/lib/engine_twig_php.js ([c67d50e](https://github.com/pattern-lab/patternlab-node/commit/c67d50ebb5d69816b7514e85f129f8ecde984ad3))
+
+
+### Features
+
+* **docs:** yarnify ([5a47dc7](https://github.com/pattern-lab/patternlab-node/commit/5a47dc7b90dc5c43c12a51143b41943dcbd8564c))
+* **README:** add netlify badges ([941df8a](https://github.com/pattern-lab/patternlab-node/commit/941df8a59b6b75bc1255646005f329e40be68106))
+
+
+
+
+
+# [5.8.0](https://github.com/pattern-lab/patternlab-node/compare/v5.7.2...v5.8.0) (2020-04-03)
+
+
+### Bug Fixes
+
+* the namespace notation should not be mixed with PatternLab shorthand pattern naming & name is not defined in the textarea macro ([8250fe8](https://github.com/pattern-lab/patternlab-node/commit/8250fe88231d03735424d597eae40496da2cb48c))
+* Updated the README to reflect which issues are resolved. ([d90c3c4](https://github.com/pattern-lab/patternlab-node/commit/d90c3c4605f9a5bcd1153996e3f4d1a17d58bd92))
+
+
+### Features
+
+* switch engine-twig to use twing rather than node-twig ([daca95c](https://github.com/pattern-lab/patternlab-node/commit/daca95c4ffa48916fb6c67c5184bde9b624acd76))
+
+
+
+
+
 ## [5.7.2](https://github.com/pattern-lab/patternlab-node/compare/v5.7.1...v5.7.2) (2020-03-24)
 
 

@@ -1,0 +1,42 @@
+/*------------------------------------*\
+    #LAYOUT
+\*------------------------------------*/
+
+/**
+ * Layout Container
+ * 1) Caps the width of the content to the maximum width
+ *    and centers the container
+ */
+.l-container {
+    max-width: $l-max-width;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    @media all and (min-width: $bp-large) {
+        padding: 0 4rem;
+    }
+}
+
+/**
+ *
+ * 1) This narrow layout container is for lists, forms,
+ *    and other singular objects that aren't dashboard-y
+ *    kinds of displays
+ */
+.l-linelength-container {
+    max-width: $l-linelength-width;
+}
+
+/*------------------------------------*\
+    #GRID
+\*------------------------------------*/
+
+/**
+ * Grid Container
+ */
+.l-grid {
+    @media all and (min-width: $bp-large) {
+        display: grid;
+        grid-template-columns: $l-sidebar-width 1fr;
+    }
+}
