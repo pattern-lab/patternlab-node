@@ -62,7 +62,7 @@ class ViewportSizes extends BaseComponent {
     document.removeEventListener('keyup', this.handleKeyCombination);
     document.addEventListener('keydown', this.handleKeyDownEvent.bind(this));
     document.addEventListener('keyup', this.handleKeyCombination.bind(this));
-    self.receiveIframeMessage = this.receiveIframeMessage.bind(self);
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
 
     window.removeEventListener('message', this.receiveIframeMessage);
     window.addEventListener('message', this.receiveIframeMessage, false);
