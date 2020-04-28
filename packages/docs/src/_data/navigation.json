@@ -47,6 +47,10 @@
 	],
 	"footerNav": [
 		{
+			"label": "Documentation",
+			"url": "/docs"
+		},
+		{
 			"label": "Resources",
 			"url": "/resources"
 		},

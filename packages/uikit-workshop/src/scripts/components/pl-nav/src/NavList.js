@@ -2,7 +2,6 @@ import { h } from 'preact';
 import { NavToggle } from './NavToggle';
 import { NavLink } from './NavLink';
 import { NavItem } from './NavItem';
-import { NavButton } from './NavButton';
 
 export const NavList = props => {
   const { children, category, categoryName, elem } = props;
@@ -42,9 +41,9 @@ export const NavList = props => {
           </div>
         ))
       ) : (
-        <NavButton aria-controls={category} onClick={elem.toggleNavPanel}>
-          {category}
-        </NavButton>
+        <Button aria-controls={category} onClick={elem.toggleNavPanel}>
+          {categoryName}
+        </Button>
       )}
 
       {((viewAllItems.length && nonViewAllItems.length) ||

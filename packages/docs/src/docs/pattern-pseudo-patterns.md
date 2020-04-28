@@ -13,17 +13,17 @@ Pseudo-patterns give developers and designers the ability to quickly build multi
 
 ## The Pseudo-Pattern File Naming Convention
 
-Pseudo-patterns are similar to [pattern-specific JSON files](/docs/creating-pattern-specific-values/) but are hinted in such a way that a developer can build a variant of an existing pattern. The basic syntax:
+Pseudo-patterns are similar to [pattern-specific JSON files](/docs/data-pattern-specific.html) but are hinted in such a way that a developer can build a variant of an existing pattern. The basic syntax:
 
     patternName~pseudo-pattern-name.json
 
-The tilde (`~`) and `.json` file extension are the hints that Pattern Lab uses to determine that this is a pseudo-pattern. The `patternName` tells Pattern Lab which existing pattern it should use when rendering the pseudo-pattern. The JSON file itself works exactly like the [pattern-specific JSON file](/docs/creating-pattern-specific-values/). It has the added benefit that the pseudo-pattern will also inherit any values from the existing pattern's pattern-specific JSON file.
+The tilde (`~`) and `.json` file extension are the hints that Pattern Lab uses to determine that this is a pseudo-pattern. The `patternName` tells Pattern Lab which existing pattern it should use when rendering the pseudo-pattern. The JSON file itself works exactly like the [pattern-specific JSON file](/docs/data-pattern-specific.html). It has the added benefit that the pseudo-pattern will also inherit any values from the existing pattern's pattern-specific JSON file.
 
 From a navigation and naming perspective `patternName` and `pseudoPatternName` will be combined.
 
 ## Adding Pseudo-Patterns to Your Project
 
-Adding a pseudo-pattern is as simple as naming it correctly and following the [pattern-specific JSON file](/docs/creating-pattern-specific-values/) instructions for organizing its content. Let's look at a simple example where we want to show an emergency notification on our homepage Mustache template. Our `03-templates/` directory might look like this:
+Adding a pseudo-pattern is as simple as naming it correctly and following the [pattern-specific JSON file](/docs/data-pattern-specific.html) instructions for organizing its content. Let's look at a simple example where we want to show an emergency notification on our homepage Mustache template. Our `03-templates/` directory might look like this:
 
     article.mustache
     blog.mustache
@@ -66,8 +66,8 @@ By default, pseudo-patterns **cannot** be used as pattern includes. The data inc
 
 ## Re-ordering Pseudo-Patterns
 
-To learn how to re-order pseudo-patterns, check the documentation for [Reorganizing Patterns](/docs/reorganizing-patterns/).
+To learn how to re-order pseudo-patterns, check the documentation for [Reorganizing Patterns](/docs/pattern-reorganizing.html).
 
 ## Documenting Pseudo-Patterns
 
-To learn how to document pseudo-patterns, check the documentation for [Documenting Patterns](/docs/documenting-patterns/) to learn more.
+To learn how to document pseudo-patterns, check the documentation for [Documenting Patterns](/docs/pattern-documenting.html) to learn more.

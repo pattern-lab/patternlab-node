@@ -1,5 +1,5 @@
 ---
-layout: layouts/page-base.njk
+layout: layouts/docs.njk
 title: Resources
 ---
 

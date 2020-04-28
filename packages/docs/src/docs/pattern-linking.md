@@ -20,7 +20,7 @@ Pattern Lab comes with support for a number of special query string variables to
 
 ## <span id="link-pattern"></span>Linking to Specific Patterns
 
-You can link directly to any pattern listed on the Pattern Lab website. This might be useful when asking clients for feedback on a particular template or page pattern. If you want to [link from one pattern to another use the `link` variable](/docs/linking-to-patterns-with-pattern-lab's-default-link-variable/).
+You can link directly to any pattern listed on the Pattern Lab website. This might be useful when asking clients for feedback on a particular template or page pattern. If you want to [link from one pattern to another use the `link` variable](/docs/data-link-variable.html).
 
 ### Copy & Paste
 
@@ -34,7 +34,7 @@ It's also very easy to create a link manually. Simply append `?p=pattern-name` t
 ?p=templates-article
 ```
 
-The direct link feature supports the [shorthand partials syntax](/docs/including-patterns/) found in the Node version of Pattern Lab. Just provide part of a pattern name and Pattern Lab will attempt to resolve it.
+The direct link feature supports the [shorthand partials syntax](/docs/pattern-including.html) found in the Node version of Pattern Lab. Just provide part of a pattern name and Pattern Lab will attempt to resolve it.
 
 ## <span id="default-width"></span>Setting the Default Width for the Viewport
 

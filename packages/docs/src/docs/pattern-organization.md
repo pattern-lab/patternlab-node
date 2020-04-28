@@ -9,7 +9,7 @@ eleventyNavigation:
   order: 10
 ---
 
-Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For Node there are [several more PatternEngines to choose from](/docs/template-language-and-patternengines/).
+Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For Node there are [several more PatternEngines to choose from](/docs/advanced-template-language-and-pattern-engines.html).
 
 ## How Patterns Are Organized
 
@@ -32,11 +32,11 @@ You do **not** have to use the Atomic Design naming convention when organizing y
 
 ## Ordering
 
-By default, pattern types, pattern subtypes and patterns are ordered alphabetically. If you want more control over their ordering please refer to "[Reorganizing Patterns](/docs/reorganizing-patterns/)."
+By default, pattern types, pattern subtypes and patterns are ordered alphabetically. If you want more control over their ordering please refer to "[Reorganizing Patterns](/docs/pattern-reorganizing.html)."
 
 ## Deeper Nesting
 
-Node versions support nesting of folders under `patternSubtype`. For example, you may want to organize your [pattern documentation](/docs/documenting-patterns/), pattern, Sass files and [pseudo-patterns](/docs/using-pseudo-patterns/) in one directory like so:
+Node versions support nesting of folders under `patternSubtype`. For example, you may want to organize your [pattern documentation](/docs/pattern-documenting.html), pattern, Sass files and [pseudo-patterns](/docs/pattern-pseudo-patterns.html) in one directory like so:
 
     - molecules/
       - blocks/
@@ -49,4 +49,4 @@ Node versions support nesting of folders under `patternSubtype`. For example, yo
 
 In this example the `media-block/` directory is ignored for the purposes of generating breadcrumbs and navigation in the Pattern Lab front-end but the documentation, pattern and pseudo-patterns are still rendered.
 
-Folders can be nested under `media-block/` if desired but this is discouraged because of possible collisions when using the [shorthand partial syntax](/docs/including-patterns/).
+Folders can be nested under `media-block/` if desired but this is discouraged because of possible collisions when using the [shorthand partial syntax](http://patternlab.io/docs/pattern-including.html).
