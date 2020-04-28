@@ -17083,17 +17083,17 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-twig-lexer@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/twig-lexer/-/twig-lexer-0.7.0.tgz#28e821b108b8db794bc1a120b1295807a4e19e11"
-  integrity sha512-pSzufXfQV/fbER7QFskpRvLPBoEN5LovDNE9gCo9/kg71II3jWZp5Xtd8MRIW8uU46mq0f7C/2fypdh6z4eguw==
+twig-lexer@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/twig-lexer/-/twig-lexer-0.7.2.tgz#8dbc1b5b46e19f5e878e7c4c06fd86e809f828c5"
+  integrity sha512-c+SyqPvjH1fDXIdW9E6oWMNGGB0f5Ua64ggEh/3AGUEIImkAGTzVdOY09qLaK1NhLCUSfT/JEjr8VnZbOaZDjg==
   dependencies:
     "@types/node" "^12.0.8"
 
-twing@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/twing/-/twing-4.0.3.tgz#8b1df34d9a130320ad4fbe3d0f6eea93c5ecb22a"
-  integrity sha512-78J7KidaDWFny8a7cfmZhg/KbkYbZkhrOAY3/mDuIOGl4FYR1EixOoxsoLK3JU5HHdJ3ECnnlLE2ruNnOfj7kw==
+twing@4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/twing/-/twing-4.0.6.tgz#2dd7e9a514b4bb2a67bdaf585895c35f84fdb086"
+  integrity sha512-aAmMYXAUuNdOebbRlUq2L1PN5Lg9ceZMvVq46xvX6EkSFFiAIqNEaHTHDFchIb+nucFubr89Hs4s90LWlc2Cmw==
   dependencies:
     "@types/luxon" "^1.4.0"
     camelcase "^4.1.0"
@@ -17118,7 +17118,7 @@ twing@4.0.3:
     snake-case "^2.1.0"
     source-map "^0.6.1"
     tmp "0.0.33"
-    twig-lexer "^0.7.0"
+    twig-lexer "^0.7.2"
     utf8-binary-cutter "^0.9.2"
 
 type-check@~0.3.2:

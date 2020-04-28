@@ -29,7 +29,7 @@ Sets whether or not to delete `public.patterns/` upon each build of Pattern Lab.
 
 ### defaultPattern
 
-Sets a specific pattern upon launch of the styleguide. This pattern will not be available in the navigation, or in view all pages. The only way to get to it will be via a refresh. Set it using the [short-hand pattern-include syntax](http://localhost:4000/docs/pattern-including.html):
+Sets a specific pattern upon launch of the styleguide. This pattern will not be available in the navigation, or in view all pages. The only way to get to it will be via a refresh. Set it using the [short-hand pattern-include syntax](/docs/including-patterns/):
 
 ```javascript
 "defaultPattern": "pages-welcome",
@@ -166,7 +166,7 @@ Sets the panel name and language for the code tab on the styleguide. Since this 
 
 ### patternStateCascade
 
-See the [Pattern State Documentation](http://patternlab.io/docs/pattern-states.html#node)
+See the [Pattern State Documentation](/docs/using-pattern-states/)
 
 **default**:
 
@@ -182,7 +182,7 @@ Sets the location that any export operations should output files to. This may be
 
 ### patternExportPatternPartials
 
-Sets an array of patterns (using the [short-hand pattern-include syntax](http://localhost:4000/docs/pattern-including.html)) to be exported after a build.
+Sets an array of patterns (using the [short-hand pattern-include syntax](/docs/including-patterns/)) to be exported after a build.
 
 For example, to export the navigation, header, and footer, one might do:
 
@@ -206,7 +206,7 @@ Sets live-server options. See the [live-server documentation](https://github.com
 
 ### starterkitSubDir
 
-[Starterkits](http://localhost:4000/docs/advanced-starterkits.html) by convention house their files within the `dist/` directory. Should someone ever wish to change this, this key is available.
+[Starterkits](/docs/starterkits/) by convention house their files within the `dist/` directory. Should someone ever wish to change this, this key is available.
 
 **default**:
 
@@ -257,7 +257,7 @@ See the [initial release notes](https://github.com/pattern-lab/styleguidekit-ass
 
 ### uikits
 
-Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). They are an evolution of the original Styleguidekit pattern which separated front-end templates from front-end assets like stylesheets and code. The existing `styleguidekit-assets-default` and `styleguidekit-mustache-default` have merged into `uikit-workshop`.
+Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Ecosystem](/docs/overview-of-pattern-lab's-ecosystem/). They are an evolution of the original Styleguidekit pattern which separated front-end templates from front-end assets like stylesheets and code. The existing `styleguidekit-assets-default` and `styleguidekit-mustache-default` have merged into `uikit-workshop`.
 
 `uikits` accepts an array of UIKit objects, shipping with the one above.
 
