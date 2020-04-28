@@ -488,10 +488,6 @@ class IFrame extends BaseLitComponent {
           this.sanitizePatternName(data.patternpartial) ||
           this.getPatternParam();
 
-        store.dispatch(
-          updateCurrentUrl(urlHandler.getFileName(currentPattern))
-        );
-
         document.title = 'Pattern Lab - ' + currentPattern;
 
         const addressReplacement =

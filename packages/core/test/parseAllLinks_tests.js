@@ -22,21 +22,15 @@ tap.test(
     const patternlab = util.fakePatternLab(patterns_dir);
     patternlab.graph = PatternGraph.empty();
 
-    addPattern(new Pattern('twitter/brad.hbs', {}, patternlab), patternlab);
-    addPattern(new Pattern('twitter/dave.hbs', {}, patternlab), patternlab);
-    addPattern(new Pattern('twitter/brian.hbs', {}, patternlab), patternlab);
-    addPattern(
-      new Pattern('twitter/people/someone.hbs', {}, patternlab),
-      patternlab
-    );
-    // Test with pattern prefix
-    addPattern(
-      new Pattern('01-facebook/02-people/03-someone2.hbs', {}, patternlab),
-      patternlab
-    );
+    patternlab.patterns = [
+      Pattern.createEmpty({ patternPartial: 'twitter-brad' }, patternlab),
+      Pattern.createEmpty({ patternPartial: 'twitter-dave' }, patternlab),
+      Pattern.createEmpty({ patternPartial: 'twitter-brian' }, patternlab),
+    ];
+    patternlab.data.link = {};
 
     // copies essential logic from loadPattern
-    const navPattern = new Pattern('00-test/nav.mustache', {}, patternlab);
+    const navPattern = new Pattern('00-test/nav.mustache');
     const patternData = dataLoader.loadDataFromFile(
       path.resolve(
         __dirname,
@@ -49,15 +43,21 @@ tap.test(
     navPattern.jsonFileData = patternData;
     addPattern(navPattern, patternlab);
 
+    //for the sake of the test, also imagining I have the following pages...
+    patternlab.data.link['twitter-brad'] = 'https://twitter.com/brad_frost';
+    patternlab.data.link['twitter-dave'] = 'https://twitter.com/dmolsen';
+    patternlab.data.link['twitter-brian'] = 'https://twitter.com/bmuenzenmeyer';
+
     patternlab.data.brad = { url: 'link.twitter-brad' };
     patternlab.data.dave = { url: 'link.twitter-dave' };
     patternlab.data.brian = { url: 'link.twitter-brian' };
-    patternlab.data.someone = { url: 'link.twitter-someone' };
-    patternlab.data.someone2 = { url: 'link.facebook-someone2' };
 
-    let pattern = patternlab.patterns.find(
-      p => p.patternPartial === 'test-nav'
-    );
+    let pattern;
+    for (let i = 0; i < patternlab.patterns.length; i++) {
+      if (patternlab.patterns[i].patternPartial === 'test-nav') {
+        pattern = patternlab.patterns[i];
+      }
+    }
 
     //assert before
     test.equals(
@@ -75,36 +75,6 @@ tap.test(
       'link.twitter-brian',
       'brian pattern data should be found'
     );
-    test.equals(
-      pattern.jsonFileData.someone.url,
-      'link.twitter-someone',
-      'brian pattern data should be found'
-    );
-    test.equals(
-      pattern.jsonFileData.someone2.url,
-      'link.facebook-someone2',
-      'brian pattern data should be found'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-twitter'].url,
-      'link.viewall-twitter-all',
-      'view all twitter link should be found'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-twitter-people'].url,
-      'link.viewall-twitter-people',
-      'view all twitter people link should be found'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-facebook'].url,
-      'link.viewall-facebook-all',
-      'view all facebook link should be found'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-facebook-people'].url,
-      'link.viewall-facebook-people',
-      'view all facebook people link should be found'
-    );
 
     //act
     parseAllLinks(patternlab);
@@ -112,74 +82,34 @@ tap.test(
     //assert after
     test.equals(
       pattern.jsonFileData.brad.url,
-      '/patterns/twitter-brad/twitter-brad.rendered.html',
+      'https://twitter.com/brad_frost',
       'brad pattern data should be replaced'
     );
     test.equals(
       pattern.jsonFileData.dave.url,
-      '/patterns/twitter-dave/twitter-dave.rendered.html',
+      'https://twitter.com/dmolsen',
       'dave pattern data should be replaced'
     );
     test.equals(
       pattern.jsonFileData.brian.url,
-      '/patterns/twitter-brian/twitter-brian.rendered.html',
+      'https://twitter.com/bmuenzenmeyer',
       'brian pattern data should be replaced'
-    );
-    test.equals(
-      pattern.jsonFileData.someone.url,
-      '/patterns/twitter-people-someone/twitter-people-someone.rendered.html',
-      'twitter people someone pattern data should be replaced'
-    );
-    test.equals(
-      pattern.jsonFileData.someone2.url,
-      '/patterns/01-facebook-02-people-03-someone2/01-facebook-02-people-03-someone2.rendered.html',
-      'facebook people someone2 pattern data should be replaced with prefix pattern'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-twitter'].url,
-      '/patterns/twitter/index.html',
-      'view all twitter link should be replaced'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-twitter-people'].url,
-      '/patterns/twitter-people/index.html',
-      'view all twitter people link should be replaced'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-facebook'].url,
-      '/patterns/facebook/index.html',
-      'view all facebook link should be replaced'
-    );
-    test.equals(
-      pattern.jsonFileData['viewall-facebook-people'].url,
-      '/patterns/01-facebook-02-people/index.html',
-      'view all facebook people link should be replaced'
     );
 
     test.equals(
       patternlab.data.brad.url,
-      '/patterns/twitter-brad/twitter-brad.rendered.html',
+      'https://twitter.com/brad_frost',
       'global brad data should be replaced'
     );
     test.equals(
       patternlab.data.dave.url,
-      '/patterns/twitter-dave/twitter-dave.rendered.html',
+      'https://twitter.com/dmolsen',
       'global dave data should be replaced'
     );
     test.equals(
       patternlab.data.brian.url,
-      '/patterns/twitter-brian/twitter-brian.rendered.html',
+      'https://twitter.com/bmuenzenmeyer',
       'global brian data should be replaced'
-    );
-    test.equals(
-      patternlab.data.someone.url,
-      '/patterns/twitter-people-someone/twitter-people-someone.rendered.html',
-      'twitter people someone pattern data should be replaced'
-    );
-    test.equals(
-      patternlab.data.someone2.url,
-      '/patterns/01-facebook-02-people-03-someone2/01-facebook-02-people-03-someone2.rendered.html',
-      'facebook people someone2 pattern data should be replaced with prefix pattern'
     );
     test.end();
   }

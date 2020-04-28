@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [5.9.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.8.0...v5.9.0) (2020-04-24)
-
-
-### Bug Fixes
-
-* **core:** do not warn about uikit-polyfills ([6bb68e7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/6bb68e763769969546542bf7aaf6d1f4235c6622))
-
-
-
-
-
 # [5.7.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.6.0...v5.7.0) (2020-02-17)
 
 **Note:** Version bump only for package @pattern-lab/core

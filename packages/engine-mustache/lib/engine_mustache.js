@@ -29,7 +29,7 @@ const utilMustache = require('./util_mustache');
 // it does, so we're cool, right?
 let patternLabConfig = {};
 
-const engine_mustache = {
+var engine_mustache = {
   engine: Mustache,
   engineName: 'mustache',
   engineFileExtension: '.mustache',
@@ -69,7 +69,7 @@ const engine_mustache = {
    * @returns {array|null} An array if a match is found, null if not.
    */
   patternMatcher: function patternMatcher(pattern, regex) {
-    let matches;
+    var matches;
     if (typeof pattern === 'string') {
       matches = pattern.match(regex);
     } else if (
@@ -110,35 +110,43 @@ const engine_mustache = {
 
   // find and return any {{> template-name }} within pattern
   findPartials: function findPartials(pattern) {
-    return this.patternMatcher(pattern, this.findPartialsRE);
+    var matches = this.patternMatcher(pattern, this.findPartialsRE);
+    return matches;
   },
   findPartialsWithStyleModifiers: function(pattern) {
-    return this.patternMatcher(pattern, this.findPartialsWithStyleModifiersRE);
+    var matches = this.patternMatcher(
+      pattern,
+      this.findPartialsWithStyleModifiersRE
+    );
+    return matches;
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
   findPartialsWithPatternParameters: function(pattern) {
-    return this.patternMatcher(
+    var matches = this.patternMatcher(
       pattern,
       this.findPartialsWithPatternParametersRE
     );
+    return matches;
   },
   findListItems: function(pattern) {
-    return this.patternMatcher(pattern, this.findListItemsRE);
+    var matches = this.patternMatcher(pattern, this.findListItemsRE);
+    return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
   findPartial_new: function(partialString) {
-    return partialString.replace(this.findPartialRE, '$1');
+    var partial = partialString.replace(this.findPartialRE, '$1');
+    return partial;
   },
 
   // GTP: the old implementation works better. We might not need
   // this.findPartialRE anymore if it works in all cases!
   findPartial: function(partialString) {
     //strip out the template cruft
-    let foundPatternPartial = partialString
+    var foundPatternPartial = partialString
       .replace('{{> ', '')
       .replace(' }}', '')
       .replace('{{>', '')

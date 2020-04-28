@@ -3,7 +3,6 @@
 const tap = require('tap');
 const rewire = require('rewire');
 
-const logger = require('../src/lib/log');
 const loaduikits = rewire('../src/lib/loaduikits');
 
 const testConfig = require('./util/patternlab-config.json');
@@ -22,10 +21,6 @@ const findModulesMock = function() {
       name: 'baz',
       modulePath: 'node_modules/@pattern-lab/uikit-baz',
     },
-    {
-      name: 'polyfills',
-      modulePath: 'node_modules/@pattern-lab/uikit-polyfills',
-    },
   ];
 };
 
@@ -40,40 +35,11 @@ loaduikits.__set__({
   fs: fsMock,
 });
 
-logger;
-
-tap.test('loaduitkits - does not warn on uikit-polyfills', test => {
-  //arrange
-  const patternlab = {
-    config: testConfig,
-    uikits: {},
-  };
-
-  patternlab.config.logLevel = 'warning';
-  logger.log.on('warning', msg => test.notOk(msg.includes('uikit-polyfills')));
-
-  const uikitFoo = {
-    name: 'uikit-foo',
-    enabled: true,
-    outputDir: 'foo',
-    excludedPatternStates: ['legacy'],
-    excludedTags: ['baz'],
-  };
-
-  patternlab.config.uikits = [uikitFoo];
-
-  //act
-  loaduikits(patternlab).then(() => {
-    logger.warning = () => {};
-    test.done();
-  });
-});
-
 tap.test('loaduikits - maps fields correctly', function(test) {
   //arrange
   const patternlab = {
     config: testConfig,
-    uikits: {},
+    uikits: [],
   };
 
   const uikitFoo = {
@@ -112,7 +78,7 @@ tap.test('loaduikits - only adds files for enabled uikits', function(test) {
   //arrange
   const patternlab = {
     config: testConfig,
-    uikits: {},
+    uikits: [],
   };
 
   patternlab.config.uikits = [

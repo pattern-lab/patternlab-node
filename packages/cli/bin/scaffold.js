@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const execa = require('execa');
-const fs = require('fs-extra');
+const fs = require('fs');
 const wrapAsync = require('./utils').wrapAsync;
 const mkdirsAsync = require('./utils').mkdirsAsync;
 
@@ -16,12 +16,8 @@ const mkdirsAsync = require('./utils').mkdirsAsync;
  */
 const scaffold = (projectDir, sourceDir, publicDir, exportDir) =>
   wrapAsync(function*() {
-    const projectPath = path.join(process.cwd(), projectDir);
-    if (!fs.existsSync(path.join(projectPath, 'package.json'))) {
-      fs.ensureDirSync(projectPath);
-      execa.sync('npm', ['init', '-y'], {
-        cwd: projectPath,
-      });
+    if (!fs.existsSync(path.resolve(projectDir, 'package.json'))) {
+      execa.sync('npm', ['init', '-y']);
     }
     /**
      * Create mandatory files structure

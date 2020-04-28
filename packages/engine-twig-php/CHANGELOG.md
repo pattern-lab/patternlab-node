@@ -3,18 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [5.9.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.8.0...v5.9.0) (2020-04-24)
-
-
-### Bug Fixes
-
-* actually exit build when Twig render fails ([5d28a24](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/commit/5d28a24a53011396289c1e29e0a715cd82470185))
-* Update packages/engine-twig-php/lib/engine_twig_php.js ([c67d50e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/commit/c67d50ebb5d69816b7514e85f129f8ecde984ad3))
-
-
-
-
-
 ## [5.7.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig-php/compare/v5.7.0...v5.7.1) (2020-02-24)
 
 
