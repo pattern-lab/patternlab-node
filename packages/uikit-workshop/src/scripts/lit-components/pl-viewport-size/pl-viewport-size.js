@@ -19,12 +19,17 @@ class ViewportSize extends BaseLitComponent {
     };
   }
 
+  constructor() {
+    super();
+    this.state = { inputPixelValue: '' };
+  }
+
   connectedCallback() {
     super.connectedCallback && super.connectedCallback();
     styles.use();
     const state = store.getState();
-    this.px = round(state.app.viewportPx, 0);
-    this.em = round(state.app.viewportEm, 1);
+    this.setPxEm(state);
+    this.iframe = document.querySelector('pl-iframe');
   }
 
   disconnectedCallback() {
@@ -33,8 +38,13 @@ class ViewportSize extends BaseLitComponent {
   }
 
   _stateChanged(state) {
+    this.setPxEm(state);
+  }
+
+  setPxEm(state) {
     if (state.app.viewportPx !== this.px) {
       this.px = round(state.app.viewportPx, 0);
+      this.setState({ inputPixelValue: this.px });
     }
 
     if (round(state.app.viewportEm, 1) !== this.em) {
@@ -52,13 +62,40 @@ class ViewportSize extends BaseLitComponent {
     }
   }
 
+  handlePixelUpdate(e) {
+    // Prevent inserting letters or symbols
+    if (e.key.match(/\D+/g) && !(e.charCode === 13 || e.keyCode === 13)) {
+      e.preventDefault();
+    } else {
+      this.setState({ inputPixelValue: e.target.value.replace(/\D+/g, '') });
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.iframe.sizeiframe(this.state.inputPixelValue, true);
+  }
+
+  handlePixelBlur(e) {
+    this.setState({ inputPixelValue: this.px });
+    e.target.value = this.state.inputPixelValue;
+  }
+
   render() {
     if (!window.__PRERENDER_INJECTED) {
       return html`
-        <form class="pl-c-viewport-size" method="post" action="#">
-          <span class="pl-c-viewport-size__input">${this.px}px</span
-          >&nbsp;/&nbsp;
-          <span class="pl-c-viewport-size__input">${this.em}em</span>
+        <form class="pl-c-viewport-size" @submit=${this.handleSubmit}>
+          <label for="pl-viewport-width" class="pl-c-viewport-size__label">
+            <input
+              class="pl-c-viewport-size__input pl-c-viewport-size__input-action"
+              id="pl-viewport-width"
+              .value="${this.state.inputPixelValue}"
+              @keypress=${this.handlePixelUpdate}
+              @blur=${this.handlePixelBlur}
+            />px&nbsp;/&nbsp;<span class="pl-c-viewport-size__input"
+              >${this.em}em</span
+            >
+          </label>
         </form>
       `;
     }

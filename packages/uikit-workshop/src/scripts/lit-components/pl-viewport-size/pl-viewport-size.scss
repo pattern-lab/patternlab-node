@@ -18,6 +18,7 @@ pl-viewport-size {
 .pl-c-viewport-size {
   margin: 0;
   border: 0;
+  font-size: 0.85rem;
   padding: 0.3rem 0.25rem;
   line-height: 1;
   display: flex;
@@ -35,13 +36,18 @@ pl-viewport-size {
   border: 0;
   border-radius: $pl-border-radius;
   background-color: transparent;
-  font-size: 0.75rem;
   color: inherit;
   width: auto;
   text-align: right;
   transition: all $pl-animate-quick ease-out;
   pointer-events: none;
   text-overflow: ellipsis;
+}
+
+.pl-c-viewport-size__input-action {
+  max-width: 35px;
+  font-size: inherit;
+  pointer-events: auto;
 
   &::-moz-focus-inner {
     padding: 0;
@@ -61,7 +67,6 @@ pl-viewport-size {
     outline-offset: -1px;
   }
 }
-
 /**
  * Size input labels
  */
@@ -69,7 +74,6 @@ pl-viewport-size {
   display: block;
   margin: 0;
   padding: 0;
-  font-size: 0.7rem;
-  pointer-events: none;
+  cursor: pointer;
 }
 

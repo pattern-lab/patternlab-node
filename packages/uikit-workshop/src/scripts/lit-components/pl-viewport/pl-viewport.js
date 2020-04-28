@@ -4,8 +4,13 @@ import { ifDefined } from 'lit-html/directives/if-defined';
 import { store } from '../../store.js'; // connect to redux
 import { updateCurrentPattern, updateCurrentUrl } from '../../actions/app.js'; // redux actions
 import { updateViewportPx, updateViewportEm } from '../../actions/app.js'; // redux actions needed
-import { minViewportWidth, maxViewportWidth } from '../../utils';
-import { urlHandler, patternName } from '../../utils';
+import {
+  minViewportWidth,
+  maxViewportWidth,
+  urlHandler,
+  patternName,
+  iframeMsgDataExtraction,
+} from '../../utils';
 
 import { html } from 'lit-html';
 import { BaseLitComponent } from '../../components/base-component.js';
@@ -197,12 +202,14 @@ class IFrame extends BaseLitComponent {
 
       if (size < maxViewportWidth) {
         theSize = size;
-      } else if (size < minViewportWidth) {
-        //If the entered size is less than the minimum allowed viewport size, cap value at min vp size
-        theSize = minViewportWidth;
       } else {
         //If the entered size is larger than the max allowed viewport size, cap value at max vp size
         theSize = maxViewportWidth;
+      }
+
+      if (size < minViewportWidth) {
+        //If the entered size is less than the minimum allowed viewport size, cap value at min vp size
+        theSize = minViewportWidth;
       }
 
       if (theSize > this.clientWidth) {
@@ -465,30 +472,20 @@ class IFrame extends BaseLitComponent {
     return false;
   }
 
-  // updates the nav after the iframed page tells the iframe it's done loading
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  /**
+   * updates the nav after the iframed page tells the iframe it's done loading
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     // try to auto-correct for currentPattern data that doesn't always match with url
     // workaround for certain pages (especially view all pages) not always matching up internally with the expected current pattern key
     if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       try {
         const currentPattern =
-          this.sanitizePatternName(event.data.patternpartial) ||
+          this.sanitizePatternName(data.patternpartial) ||
           this.getPatternParam();
 
         document.title = 'Pattern Lab - ' + currentPattern;
