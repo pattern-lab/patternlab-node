@@ -8,6 +8,6 @@ window.patternlab.panels.add({
   httpRequestCompleted: false,
   prismHighlight: true,
   language: '<<type>>'//,
-  /* TODO: We would need to find a way to enable keyCombo for multiple fields
+  /* TODO: We would need to find a way to enable keyCombo for multiple panels
   keyCombo: 'ctrl+shift+z',*/
 });
