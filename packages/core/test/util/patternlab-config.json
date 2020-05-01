@@ -32,7 +32,6 @@
   },
   "styleGuideExcludes": ["templates", "pages"],
   "defaultPattern": "all",
-  "defaultPatternInfoPanelCode": "mustache",
   "logLevel": "quiet",
   "ishControlsHide": {
     "s": false,

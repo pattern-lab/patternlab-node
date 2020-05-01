@@ -3,7 +3,6 @@
 	"cleanPublic": true,
 	"defaultPattern": "all",
 	"defaultShowPatternInfo": false,
-  "defaultPatternInfoPanelCode": "mustache",
 	"ishControlsHide": {
 		"s": false,
 		"m": false,
