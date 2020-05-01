@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const uikitExcludePattern = (pattern, uikit) => {
   const state = pattern.patternState;
-  const tags = pattern.tags;
+  const tags = _.isArray(pattern.tags) ? pattern.tags : [pattern.tags];
 
   return (
     _.includes(uikit.excludedPatternStates, state) ||
