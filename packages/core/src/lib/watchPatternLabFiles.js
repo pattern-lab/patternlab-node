@@ -21,11 +21,11 @@ const watchPatternLabFiles = (
     assetDirectories.source.meta,
   ];
   const globalPaths = globalSources.map(globalSource =>
-    path.join(basePath, globalSource, '*')
+    path.join(path.resolve(basePath, globalSource), '*')
   );
 
   _.each(globalPaths, globalPath => {
-    logger.debug(`Pattern Lab is watching ${globalPath} for changes`);
+    logger.debug(`Pattern Lab is watching ${globalPath} for changes!`);
 
     if (patternlab.watchers[globalPath]) {
       patternlab.watchers[globalPath].close();
@@ -80,13 +80,14 @@ const watchPatternLabFiles = (
     .concat(patternlab.engines.getSupportedFileExtensions())
     .map(dotExtension =>
       path.join(
-        basePath,
-        assetDirectories.source.patterns,
+        path.resolve(basePath, assetDirectories.source.patterns),
         `/**/*${dotExtension}`
       )
     );
   _.each(patternWatches, patternWatchPath => {
-    logger.debug(`Pattern Lab is watching ${patternWatchPath} for changes`);
+    logger.debug(
+      `Pattern Lab is watching ${patternWatchPath} for changes - local!`
+    );
 
     if (patternlab.watchers[patternWatchPath]) {
       patternlab.watchers[patternWatchPath].close();

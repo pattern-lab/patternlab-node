@@ -39,7 +39,7 @@ export const loadPolyfills = new Promise(resolve => {
     // Based on https://github.com/webcomponents/webcomponentsjs/blob/master/entrypoints/webcomponents-sd-ce-index.js
     // Used in: Safari 9, Firefox, Edge
     Promise.all([
-      import('@webcomponents/shadydom/src/shadydom.js'),
+      // import('@webcomponents/shadydom/src/shadydom.js'),
       import('document-register-element'),
     ]).then(() => {
       resolve();
@@ -56,7 +56,7 @@ export const loadPolyfills = new Promise(resolve => {
     // Based on https://github.com/webcomponents/webcomponentsjs/blob/master/entrypoints/webcomponents-hi-ce-index.js
     // Used in: Safari 10, Firefox once SD is shipped
     Promise.all([
-      import('@webcomponents/shadydom/src/shadydom.js'),
+      // import('@webcomponents/shadydom/src/shadydom.js'),
       import('document-register-element'),
     ]).then(() => {
       resolve();

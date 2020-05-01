@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+**Note:** Version bump only for package @pattern-lab/engine-handlebars
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* **lint:** Use const instead of var ([ad1e782](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/commit/ad1e782ef71295eb610f56d019eaa35499fb3f85))
+* Rename Handlebars and Nunjucks extension setting to "extend" ([74e5af2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/commit/74e5af28c4e714fdfc1db535b94c52f3dc14a3a4))
+
+
+### Features
+
+* **engine-handlebars:** Default location for helpers, like engine-nunjucks ([11c4180](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/commit/11c41805e0c3dbebb7109719c4f3c780d32feab5))
+* **engine-handlebars:** Document the Helpers feature ([a01e040](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/commit/a01e040429a7f77dfeb28d67c690e835b97881de))
+* **engine-handlebars:** Load Handlebars helpers specified in the config ([a12df36](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/commit/a12df36d2a644dfac8ded1dfd94b987e99c29d79))
+
+
+
+
+
+
 # [2.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars/compare/@pattern-lab/engine-handlebars@2.0.0-beta.1...@pattern-lab/engine-handlebars@2.0.0) (2019-08-23)
 
 

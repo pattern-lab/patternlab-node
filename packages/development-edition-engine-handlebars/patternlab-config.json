@@ -1,12 +1,12 @@
 {
   "cacheBust": true,
   "cleanPublic": true,
-  "defaultPattern": "atoms-swatch",
+  "defaultPattern": "all",
   "defaultShowPatternInfo": false,
   "ishControlsHide": {
-    "s": true,
-    "m": true,
-    "l": true,
+    "s": false,
+    "m": false,
+    "l": false,
     "full": false,
     "random": true,
     "disco": true,
@@ -65,8 +65,11 @@
   },
   "patternExtension": "hbs",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternExportAll": false,
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
+  "patternExportPreserveDirectoryStructure": true,
+  "patternExportRaw": false,
   "serverOptions": {
     "wait": 1000
   },
@@ -75,7 +78,8 @@
   "theme": {
     "color": "dark",
     "density": "compact",
-    "layout": "horizontal"
+    "layout": "horizontal",
+    "noViewAll": false
   },
   "uikits": [
     {

@@ -1,0 +1,16 @@
+@import '../../../sass/scss/core.scss';
+
+pl-toggle-layout {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  width: 100%;
+  cursor: pointer;
+}
+
+.pl-c-toggle-layout,
+.pl-c-toggle-layout__action {
+  width: 100%;
+}

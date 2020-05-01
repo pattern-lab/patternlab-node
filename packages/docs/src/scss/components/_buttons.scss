@@ -1,0 +1,47 @@
+/*------------------------------------*\
+    #BUTTONS
+\*------------------------------------*/
+
+/**
+ *
+ * 1) Button or link that has functionality to it
+ */
+.c-btn {
+  font-family: $font-secondary;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: $border-width solid $color-btn-primary-border;
+  background: $color-brand-green;
+  color: $color-black;
+  line-height: 1;
+  padding: 1rem 2rem;
+  border: 0;
+  text-align: center;
+  transition: all $anim-fade-quick $anim-ease;
+
+  &:hover,
+  &:focus {
+    background: $color-btn-primary-bg-hover;
+  }
+}
+
+.c-btn--inverted {
+  background: none;
+  border: 1px solid $color-gray-50;
+  color: $color-gray-27;
+}
+
+.c-btn--small {
+  padding: 1rem;
+}
+
+/*
+ * Button icon
+ */
+.c-btn__icon {
+  width: 1rem;
+  height: 1rem;
+  fill: $color-btn-primary;
+  transition: fill $anim-fade-quick $anim-ease;
+}

@@ -7,37 +7,21 @@ const starterkitSetup = [
   {
     type: 'list',
     name: 'starterkit',
-    message: 'Which starterkit do you want to use?',
+    message: 'What initial patterns do you want included in your project?',
     choices: [
       {
-        name: 'starterkit-handlebars-demo [Recommended]',
+        name:
+          'Handlebars base patterns (some basic patterns to get started with)',
+        value: '@pattern-lab/starterkit-handlebars-vanilla',
+      },
+      {
+        name: 'Handlebars demo patterns (full demo website and patterns)',
         value: '@pattern-lab/starterkit-handlebars-demo',
       },
       {
-        name: 'starterkit-twig-demo [Recommended]',
+        name: 'Twig (PHP) demo patterns (full demo website and patterns)',
         value: '@pattern-lab/starterkit-twig-demo',
-      },         
-      {
-        name: 'starterkit-mustache-bootstrap',
-        value: 'starterkit-mustache-bootstrap',
-      },    
-      {
-        name: 'starterkit-mustache-demo',
-        value: '@pattern-lab/starterkit-mustache-demo',
-      },      
-      {
-        name: 'starterkit-mustache-foundation',
-        value: 'starterkit-mustache-foundation',
-      },      
-      {
-        name: 'starterkit-mustache-materialdesign',
-        value: 'starterkit-mustache-materialdesign',
-      },      
-      {
-        name: 'starterkit-mustache-base',
-        value: '@pattern-lab/starterkit-mustache-base',
       },
-   
       new inquirer.Separator(),
       {
         name: 'Custom starterkit',
@@ -45,12 +29,12 @@ const starterkitSetup = [
       },
       new inquirer.Separator(),
       {
-        name: 'None',
+        name: 'Blank project (no patterns)',
         value: false,
       },
     ],
     default: {
-      name: 'starterkit-handlebars-demo',
+      name: 'Handlebars demo patterns (full demo website and patterns)',
       value: 'starterkit-handlebars-demo',
     },
   },

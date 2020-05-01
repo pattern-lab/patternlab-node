@@ -1,0 +1,42 @@
+@import '../../../sass/scss/core.scss';
+
+:host {
+  width: 100%;
+}
+
+pl-button {
+  width: 100%;
+}
+
+.pl-c-button {
+  @include buttonStyles;
+}
+
+.pl-c-button__text {
+  text-align: left;
+}
+
+.pl-c-button--medium {
+  padding: 0.65rem 1rem;
+
+  &.pl-c-button--icon-only {
+    padding: 0.65rem;
+  }
+}
+
+.pl-c-button--small {
+  padding: 0.5rem 1rem;
+
+  &.pl-c-button--icon-only {
+    padding: .5rem;
+  }
+}
+
+// Make sure the text and icon align to the opposite ends
+* + .pl-c-button__icon {
+  margin-right: 0.5rem;
+}
+
+.pl-c-button__icon + * {
+  margin-right: 0.5rem;
+}

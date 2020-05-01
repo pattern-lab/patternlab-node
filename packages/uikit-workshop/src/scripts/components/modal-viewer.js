@@ -14,6 +14,7 @@ export const modalViewer = {
   // set up some defaults
   delayCheckingModalViewer: false,
   iframeElement: document.querySelector('.pl-js-iframe'),
+  iframeCustomElement: document.querySelector('pl-iframe'),
   active: false,
   switchText: true,
   template: 'info',
@@ -166,11 +167,27 @@ export const modalViewer = {
 
       // Clear out any existing children before appending the new panel content
       if (contentContainer.firstChild !== null) {
-        contentContainer.removeChild(contentContainer.firstChild);
+        while (contentContainer.firstChild !== null) {
+          contentContainer.removeChild(contentContainer.firstChild);
+        }
       }
 
       contentContainer.appendChild(templateRendered);
+      modalViewer.addClickEvents(contentContainer);
     }
+  },
+
+  addClickEvents(contentContainer = document) {
+    contentContainer.querySelectorAll('.pl-js-lineage-link').forEach(link => {
+      link.addEventListener('click', e => {
+        const patternPartial = e.target.getAttribute('data-patternpartial');
+
+        if (patternPartial && modalViewer.iframeCustomElement) {
+          e.preventDefault();
+          modalViewer.iframeCustomElement.navigateTo(patternPartial);
+        }
+      });
+    });
   },
 
   /**
@@ -180,11 +197,6 @@ export const modalViewer = {
    * @param  {Boolean}      if the text in the dropdown should be switched
    */
   refresh(patternData, iframePassback, switchText) {
-    // if this is a styleguide view close the modal
-    if (iframePassback) {
-      modalViewer.close();
-    }
-
     modalViewer.patternData = patternData;
 
     // gather the data that will fill the modal window
@@ -333,9 +345,6 @@ export const modalViewer = {
           data.iframePassback,
           data.switchText
         );
-
-        modalViewer.panelRendered = true;
-        modalViewer.previouslyRenderedPattern = data.patternData.patternPartial;
       }
     } else if (
       data.event !== undefined &&
@@ -367,9 +376,11 @@ export const modalViewer = {
   },
 
   _stateChanged(state) {
-    modalViewer.active = state.app.drawerOpened;
-    if (modalViewer.iframeElement) {
-      modalViewer._handleInitialModalViewerState();
+    if (modalViewer.active !== state.app.drawerOpened) {
+      modalViewer.active = state.app.drawerOpened;
+      if (modalViewer.iframeElement) {
+        modalViewer._handleInitialModalViewerState();
+      }
     }
   },
 };

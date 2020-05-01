@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+**Note:** Version bump only for package @pattern-lab/engine-underscore
+
+
+
+
+
+
 # [2.0.0-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-underscore/compare/@pattern-lab/engine-underscore@2.0.0-beta.0...@pattern-lab/engine-underscore@2.0.0-beta.1) (2019-02-09)
 
 **Note:** Version bump only for package @pattern-lab/engine-underscore

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* Rename Handlebars and Nunjucks extension setting to "extend" ([74e5af2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/74e5af28c4e714fdfc1db535b94c52f3dc14a3a4))
+
+
+### Features
+
+* **engine-nunjucks:** Configurable extension locations; Use usePatternlabConfig() ([e54e3b3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/e54e3b3d48f934d3a4d44b9f4ff262f742a4aaf9))
+* update Node to v12 ([fcbb970](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/fcbb970648cdd775c9a88078f14c1f24c5b62d73))
+
+
+
+
+
+
 # [0.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/@pattern-lab/engine-nunjucks@0.1.5-alpha.0...@pattern-lab/engine-nunjucks@0.2.0) (2019-08-23)
 
 

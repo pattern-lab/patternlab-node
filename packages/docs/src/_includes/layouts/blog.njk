@@ -1,0 +1,17 @@
+{% extends 'layouts/base.njk' %}
+
+{# Intro content #}
+{% set introHeading = title %}
+{% set introDescription = description %}
+
+{# Post list content #}
+{% set postListItems = collections.posts %}
+
+{% block content %}
+  <main id="main-content">
+    <div class="l-container">
+      {% include "components/page-header.njk" %}
+      {% include "partials/components/post-list.njk" %}
+    </div>
+  </main>
+{% endblock %}

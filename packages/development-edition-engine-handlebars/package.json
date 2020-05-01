@@ -1,14 +1,15 @@
 {
   "name": "@pattern-lab/development-edition-engine-handlebars",
   "private": true,
-  "version": "0.1.4",
+  "version": "5.9.3",
   "description": "The tree of components we use to test, develop and validate the Handlebars engine",
   "scripts": {
     "pl:build": "patternlab build --config ./patternlab-config.json",
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
-    "pl:version": "patternlab --version"
+    "pl:version": "patternlab --version",
+    "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "keywords": [
     "Pattern Lab",
@@ -24,15 +25,15 @@
     "url": "git://github.com/pattern-lab/patternlab-node.git"
   },
   "engines": {
-    "node": ">=10.0"
+    "node": ">=12.12.0"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^1.0.2",
-    "@pattern-lab/core": "^3.0.4",
-    "@pattern-lab/engine-handlebars": "^2.0.2",
-    "@pattern-lab/engine-mustache": "^2.0.1",
-    "@pattern-lab/plugin-tab": "^2.0.3",
+    "@pattern-lab/cli": "^5.9.3",
+    "@pattern-lab/core": "^5.9.3",
+    "@pattern-lab/engine-handlebars": "^5.5.0",
+    "@pattern-lab/engine-mustache": "^5.0.0",
+    "@pattern-lab/plugin-tab": "^5.9.3",
     "@pattern-lab/starterkit-mustache-demo": "^5.0.0",
-    "@pattern-lab/uikit-workshop": "^1.0.5"
+    "@pattern-lab/uikit-workshop": "^5.9.3"
   }
 }

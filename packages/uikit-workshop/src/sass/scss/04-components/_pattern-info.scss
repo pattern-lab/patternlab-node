@@ -19,12 +19,13 @@
   .pl-c-pattern & {
     max-height: 30rem;
     overflow: scroll;
-    display: flex;
+    display: block;
     -webkit-overflow-scrolling: touch;
 
     @media all and (min-width: $pl-bp-large) {
       max-height: none;
       height: 18rem;
+      display: flex;
       flex-direction: row;
       overflow: visible;
     }
@@ -52,20 +53,20 @@
  *    Right side contains pattern code
  */
 .pl-c-pattern-info__panel {
-  padding: 1rem;
-  width: 100%;
-  flex-shrink: 0;
+  padding: .5rem;
+  flex-shrink: 0; // prevent panel from collapsing in height (especially on smaller screens like iPhone)
   display: flex;
   flex-direction: column;
-  max-height: 100%;
-  overflow: auto;
 
-  @media all and (min-width: $pl-bp-med) {
-    flex-basis: 50%;
-    flex-grow: 1;
+  pl-drawer & {
+    padding: 1rem;
   }
 
-
+  @media all and (min-width: $pl-bp-large) {
+    flex-basis: 50%;
+    flex-grow: 1;
+    padding: 1.5rem;
+  }
 }
 
 /**
@@ -80,7 +81,7 @@
   }
 
   @media all and (min-width: $pl-bp-xl) {
-    width: 55%;
+    min-width: 50%;
   }
 }
 
@@ -95,7 +96,14 @@
 .pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code,
 .pl-c-pattern-info__panel--code:first-child {
   flex-grow: 1;
-  flex-shrink: 1;
+  flex-shrink: 0; // so the code panel doesn't get chopped off accidently
+  min-width: 50%;
+}
+
+.pl-c-pattern-info__panel--info + .pl-c-pattern-info__panel--code {
+  @media all and (max-width: $pl-bp-large) {
+    padding-top: 0;
+  }
 }
 
 /**
@@ -110,7 +118,7 @@
  */
 .pl-c-pattern-info__title {
   font-size: 1.4rem !important;
-  font-weight: normal;
+  font-weight: bold;
   margin-top: 0;
   margin-bottom: 0;
   color: inherit;

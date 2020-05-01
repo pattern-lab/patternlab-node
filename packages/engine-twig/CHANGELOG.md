@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+
+### Bug Fixes
+
+* Update dependency on twing JS engine ([cfe88c6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/commit/cfe88c6cdbf2219b9955eaa0ffcfc0e4a7683511))
+
+
+
+
+
+# [5.8.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.7.2...v5.8.0) (2020-04-03)
+
+
+### Bug Fixes
+
+* Updated the README to reflect which issues are resolved. ([d90c3c4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/commit/d90c3c4605f9a5bcd1153996e3f4d1a17d58bd92))
+
+
+### Features
+
+* switch engine-twig to use twing rather than node-twig ([daca95c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/commit/daca95c4ffa48916fb6c67c5184bde9b624acd76))
+
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
+
 ## [0.2.1-beta.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/@pattern-lab/engine-twig@0.2.1-beta.0...@pattern-lab/engine-twig@0.2.1-beta.1) (2019-02-09)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig

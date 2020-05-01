@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/starterkit-twig-demo",
-  "version": "4.1.1",
+  "version": "5.8.0",
   "description": "Pattern Lab's Demo StarterKit for Twig.",
   "main": "README.md",
   "repository": {

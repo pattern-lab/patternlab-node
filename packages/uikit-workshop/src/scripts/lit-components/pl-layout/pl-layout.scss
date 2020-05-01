@@ -1,0 +1,30 @@
+@import '../../../sass/scss/core.scss';
+
+pl-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  max-width: 100vw;
+  background-color: $pl-color-white;
+  overflow: initial;
+
+  // Prevent extra scrollbars in just IE 11
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    overflow: hidden;
+  }
+
+  .pl-c-layout {
+    flex-grow: 1;
+  }
+
+  &.pl-c-body--theme-sidebar {
+    @media all and (min-width: $pl-bp-med) {
+      flex-direction: row;
+    }
+  }
+
+  &.pl-c-body--theme-light {
+    background-color: $pl-color-white;
+  }
+}

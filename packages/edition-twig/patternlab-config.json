@@ -134,8 +134,11 @@
     "inreview",
     "complete"
   ],
-  "patternExportDirectory": "./pattern_exports/",
+  "patternExportAll": false,
+  "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
+  "patternExportPreserveDirectoryStructure": true,
+  "patternExportRaw": false,
   "serverOptions": {
     "wait": 1000
   },
@@ -144,7 +147,8 @@
   "theme": {
     "color": "light",
     "density": "compact",
-    "layout": "horizontal"
+    "layout": "horizontal",
+    "noViewAll": false
   },
   "uikits": [
     {

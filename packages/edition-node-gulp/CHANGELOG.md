@@ -3,6 +3,199 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.9.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.9.1...v5.9.2) (2020-04-24)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.9.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.9.0...v5.9.1) (2020-04-24)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.9.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.8.0...v5.9.0) (2020-04-24)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.7.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.7.1...v5.7.2) (2020-03-24)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.7.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.7.0...v5.7.1) (2020-02-24)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.7.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.6.0...v5.7.0) (2020-02-17)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.6.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.5.0...v5.6.0) (2020-01-18)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+# [5.5.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.4.2...v5.5.0) (2019-12-19)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.4.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.4.1...v5.4.2) (2019-11-27)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.4.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.4.0...v5.4.1) (2019-11-26)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.4.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.3.3...v5.4.0) (2019-11-26)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.3.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.3.2...v5.3.3) (2019-11-22)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+## [5.3.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.3.1...v5.3.2) (2019-11-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.3.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.3.0...v5.3.1) (2019-11-13)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.2.0...v5.3.0) (2019-11-13)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.1.0...v5.2.0) (2019-11-12)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+# [5.1.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.0.2...v5.1.0) (2019-10-29)
+
+
+### Features
+
+* **config:** add new default pattern export options ([a7487a0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/a7487a0681cb11e6f3c5c8eaefd62e5648ad5ea3))
+
+
+
+
+
+## [5.0.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.0.1...v5.0.2) (2019-10-28)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.0.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.0.0...v5.0.1) (2019-10-28)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+## [2.0.9](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.8...@pattern-lab/edition-node-gulp@2.0.9) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
+## [2.0.8](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.7...@pattern-lab/edition-node-gulp@2.0.8) (2019-10-14)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+
 ## [2.0.4](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/@pattern-lab/edition-node-gulp@2.0.3...@pattern-lab/edition-node-gulp@2.0.4) (2019-08-23)
 
 **Note:** Version bump only for package @pattern-lab/edition-node-gulp
