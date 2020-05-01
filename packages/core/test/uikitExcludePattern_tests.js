@@ -50,6 +50,7 @@ tap.test(
     test.true(result);
     test.end();
   }
+);
 
 tap.test(
   'uikitExcludePattern - returns false when uikit has no excluded tags',
