@@ -18,7 +18,7 @@ nvm use <<version>>
 The best way to make changes to the Pattern Lab Node core and test them is through an edition.
 
 * Fork this repository on Github.
-* `npm install && npm run bootstrap`
+* `yarn install && yarn run bootstrap`
 * Create a new branch in your fork and push your changes in that fork.
 * `cd packages/edition-node`
 * Test your changes with the edition's api
@@ -28,7 +28,7 @@ The best way to make changes to the Pattern Lab Node core and test them is throu
 To ensure that developers can bootstrap the repo from a fresh clone, do this in your working copy:
 
 ```sh
-git reset --hard && git clean -dfx && npm install && npm run bootstrap
+git reset --hard && git clean -dfx && yarn install && yarn run bootstrap
 ```
 
 This ensures that any changes you've made will still result in a clean and functional developer experience. **Note**: be sure you've committed any outstanding work before doing this -- it will blow away whatever's still outstanding, including anything staged but not commited.
