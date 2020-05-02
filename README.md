@@ -46,7 +46,7 @@ The below assumes a new directory and project is required. This is likely what y
 
 ## Ecosystem
 
-![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
+![Pattern Lab Ecosystem](https://patternlab.io/images/pattern-lab-2-image_18-large-opt.png)
 
 Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
