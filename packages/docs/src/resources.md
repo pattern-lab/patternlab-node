@@ -8,7 +8,7 @@ title: Resources
 - [Styleguides.io](http://styleguides.io)
 - [Atomic Design by Brad Frost](http://atomicdesign.bradfrost.com)
 - [Atomic design article](http://bradfrost.com/blog/post/atomic-web-design/)
-- [A new link](http://google.com)
+- [A new link](https://www.google.com/)
 
 ## Pattern Lab Examples
 
