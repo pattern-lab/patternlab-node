@@ -12,7 +12,7 @@ title: Resources
 
 ## Pattern Lab Examples
 
-- [Pattern Lab Demo](http://demo.patternlab.io/)
+- [Pattern Lab Demo](https://demo.patternlab.io/)
 - [Frost Finery](http://patterns.frostfinery.com)
 - [Pittsburgh Food Bank](http://foodbank.bradfrostweb.com/patternlab/v10/)
 - [brianmuenzenmeyer.com](http://www.brianmuenzenmeyer.com/patternlab/public/)
