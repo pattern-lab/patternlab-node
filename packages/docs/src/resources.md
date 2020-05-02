@@ -6,7 +6,7 @@ title: Resources
 ## Style guides and atomic design
 
 - [Styleguides.io](http://styleguides.io)
-- [Atomic Design by Brad Frost](http://atomicdesign.bradfrost.com)
+- [Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/)
 - [Atomic design article](https://bradfrost.com/blog/post/atomic-web-design/)
 - [A new link](https://www.google.com/)
 
@@ -29,8 +29,8 @@ title: Resources
 
 ## Podcasts
 
-- [Dave Olsen talking Pattern Lab 2 on Non-Breaking Space Podcast](http://goodstuff.fm/nbsp/86)
-- [Brian Muenzenmeyer talking Pattern Lab 2 on the MS DEV SHOW Podcast](http://msdevshow.com/2015/12/pattern-lab-with-brian-muenzenmeyer/)
+- [Dave Olsen talking Pattern Lab 2 on Non-Breaking Space Podcast](https://goodstuff.fm/nbsp/86)
+- [Brian Muenzenmeyer talking Pattern Lab 2 on the MS DEV SHOW Podcast](https://msdevshow.com/2015/12/pattern-lab-with-brian-muenzenmeyer/)
 
 ## Presentations
 
