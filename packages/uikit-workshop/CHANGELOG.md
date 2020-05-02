@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+
+### Bug Fixes
+
+* adjust UIKit Nav updates to account for the noViewAll config variation ([73eac97](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/73eac976461f4e587b0c30668942c4895aea319f))
+* make sure the top-level Dropdown menus always open/close ([7a8b418](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/7a8b418bfcbd200ef8b2802b1a07964a9995bf9f))
+* only allow one top level nav item to be open at a time while rendering as a dropdown menu ([409bef3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/409bef37165260d9b728013ac33e7aa67541c832))
+* re-try Netlify preview to debug local vs prod rendering differences ([6da41a1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6da41a14feea034f891c745dfeb062fa3b196235))
+
+
+
+
+
 ## [5.9.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.9.1...v5.9.2) (2020-04-24)
 
 **Note:** Version bump only for package @pattern-lab/uikit-workshop

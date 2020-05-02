@@ -9,7 +9,7 @@ eleventyNavigation:
   order: 300
 ---
 
-By default Pattern Lab uses the Mustache template language, extended with [pattern parameters](/docs/pattern-parameters.html). PatternEngines let you add support for a template language of your personal choice. Each PatternEngine has it's own set of features and caveats.
+By default Pattern Lab uses the Mustache template language, extended with [pattern parameters](/docs/using-pattern-parameters/). PatternEngines let you add support for a template language of your personal choice. Each PatternEngine has it's own set of features and caveats.
 
 Right now the most mature PatternEngines are Handlebars, Mustache and Twig.
 

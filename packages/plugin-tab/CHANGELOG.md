@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+
+### Bug Fixes
+
+* **plugintabs:** enabling multiple file formats [#1163](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/issues/1163) ([bb5e817](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/commit/bb5e8179e6b8553a6e1af0bede26db412b6c0b68))
+
+
+
+
+
+
 # [5.3.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.2.0...v5.3.0) (2019-11-13)
 
 

@@ -38,7 +38,7 @@ This will bring up an installation menu that presents the following steps:
 
 ## Step 5: Choose initial patterns
 
-**`What initial patterns do you want included in your project?`** - Choose the <a href="/docs/advanced-starterkits.html">Starterkit</a> you want to begin your project with. The options are:
+**`What initial patterns do you want included in your project?`** - Choose the <a href="/docs/starterkits/">Starterkit</a> you want to begin your project with. The options are:
 
 - **`Handlebars base patterns`** `(some basic patterns to get started with)` - TODO: include demo link
 - **`Handlebars demo patterns`** `(full demo website and patterns)` - TODO: include demo link
@@ -50,4 +50,3 @@ This will bring up an installation menu that presents the following steps:
 
 **`Are you happy with your choices? (Hit enter for YES)?`** - Confirm your choices, and when done the Pattern Lab installation will begin.
 
-Once installation is complete, you're ready to <a href="/docs/generating-pattern-lab.html">generate Pattern Lab for the first time.</a>
