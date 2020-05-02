@@ -17,7 +17,7 @@ To install the React PatternEngine in your edition, `npm install @pattern-lab/en
 * [x] [Includes](https://patternlab.io/docs/including-patterns/)
 * [x] Data inheritance: This can be achieved by combining react `props` & `defaultProps`
 * [x] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
-* [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
+* [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
 * [x] [Pattern States](http://patternlab.io/docs/pattern-states.html#node)
 * [x] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html): With react props
 * [x] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html): With react props

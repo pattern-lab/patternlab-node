@@ -16,7 +16,7 @@ This PatternEngine is in alpha and considered a work in progress.
 **TBD**
 
 * [ ] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
-* [ ] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
+* [ ] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
 * [ ] [Pattern States](http://patternlab.io/docs/pattern-states.html)
 * [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
 * [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html)
