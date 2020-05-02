@@ -20,7 +20,7 @@ To install the React PatternEngine in your edition, `npm install @pattern-lab/en
 * [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
 * [x] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
 * [x] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/): With react props
-* [x] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html): With react props
+* [x] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177): With react props
 * [x] Lineage
 * [x] Incremental builds
 

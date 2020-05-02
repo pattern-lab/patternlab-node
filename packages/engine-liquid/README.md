@@ -19,4 +19,4 @@ This PatternEngine is in alpha and considered a work in progress.
 * [ ] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
 * [ ] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
 * [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/)
-* [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html)
+* [ ] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177)
