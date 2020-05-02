@@ -14,7 +14,7 @@ title: Resources
 
 - [Pattern Lab Demo](http://demo.patternlab.io/)
 - [Frost Finery](http://patterns.frostfinery.com)
-- [Pittsburgh Food Bank](http://foodbank.bradfrostweb.com/patternlab/v10/)
+- [Pittsburgh Food Bank](https://foodbank.bradfrost.com/patternlab/v10/)
 - [brianmuenzenmeyer.com](http://www.brianmuenzenmeyer.com/patternlab/public/)
 - [Altinn](http://altinn.github.io/DesignSystem/)
 
