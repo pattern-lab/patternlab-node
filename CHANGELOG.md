@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+
+### Bug Fixes
+
+* **plugintabs:** enabling multiple file formats [#1163](https://github.com/pattern-lab/patternlab-node/issues/1163) ([bb5e817](https://github.com/pattern-lab/patternlab-node/commit/bb5e8179e6b8553a6e1af0bede26db412b6c0b68))
+* adjust UIKit Nav updates to account for the noViewAll config variation ([73eac97](https://github.com/pattern-lab/patternlab-node/commit/73eac976461f4e587b0c30668942c4895aea319f))
+* make sure the top-level Dropdown menus always open/close ([7a8b418](https://github.com/pattern-lab/patternlab-node/commit/7a8b418bfcbd200ef8b2802b1a07964a9995bf9f))
+* only allow one top level nav item to be open at a time while rendering as a dropdown menu ([409bef3](https://github.com/pattern-lab/patternlab-node/commit/409bef37165260d9b728013ac33e7aa67541c832))
+* re-try Netlify preview to debug local vs prod rendering differences ([6da41a1](https://github.com/pattern-lab/patternlab-node/commit/6da41a14feea034f891c745dfeb062fa3b196235))
+* Update dependency on twing JS engine ([cfe88c6](https://github.com/pattern-lab/patternlab-node/commit/cfe88c6cdbf2219b9955eaa0ffcfc0e4a7683511))
+* **cli:** fix test script glob ([ff18eb5](https://github.com/pattern-lab/patternlab-node/commit/ff18eb51ce24fc5423b009168e85ede366069139))
+
+
+
+
+
+## [5.9.2](https://github.com/pattern-lab/patternlab-node/compare/v5.9.1...v5.9.2) (2020-04-24)
+
+**Note:** Version bump only for package pl-node
+
+
+
+
+
+## [5.9.1](https://github.com/pattern-lab/patternlab-node/compare/v5.9.0...v5.9.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* **cli:** ensure specified directory exists prior to scaffold ([cc3b696](https://github.com/pattern-lab/patternlab-node/commit/cc3b69624d486c94ee3b1f4b1bbb0334a514fa59))
+
+
+
+
+
 # [5.9.0](https://github.com/pattern-lab/patternlab-node/compare/v5.8.0...v5.9.0) (2020-04-24)
 
 

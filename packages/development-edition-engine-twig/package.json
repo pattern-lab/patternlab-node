@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/development-edition-engine-twig",
   "private": true,
-  "version": "5.9.0",
+  "version": "5.9.3",
   "description": "The tree of components we use to test, develop and validate the twig engine (not engine-twig-php)",
   "scripts": {
     "postbootstrap": "patternlab install --starterkits @pattern-lab/starterkit-twig-demo",
@@ -29,11 +29,11 @@
     "node": ">=10.0"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^5.9.0",
-    "@pattern-lab/core": "^5.9.0",
-    "@pattern-lab/engine-twig": "^5.8.0",
+    "@pattern-lab/cli": "^5.9.3",
+    "@pattern-lab/core": "^5.9.3",
+    "@pattern-lab/engine-twig": "^5.9.3",
     "@pattern-lab/starterkit-twig-demo": "^5.8.0",
-    "@pattern-lab/uikit-workshop": "^5.9.0"
+    "@pattern-lab/uikit-workshop": "^5.9.3"
   },
   "workspaces": {
     "nohoist": [

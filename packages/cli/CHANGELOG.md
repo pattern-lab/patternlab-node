@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+
+### Bug Fixes
+
+* **cli:** fix test script glob ([ff18eb5](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/ff18eb51ce24fc5423b009168e85ede366069139))
+
+
+
+
+
+
+## [5.9.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v5.9.0...v5.9.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* **cli:** ensure specified directory exists prior to scaffold ([cc3b696](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/commit/cc3b69624d486c94ee3b1f4b1bbb0334a514fa59))
+
+
+
+
+
 # [5.9.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli/compare/v5.8.0...v5.9.0) (2020-04-24)
 
 
