@@ -5,7 +5,7 @@
 To install the Nunjucks PatternEngine in your edition, run `npm install @pattern-lab/engine-nunjucks`.
 
 ## Supported features
-- [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+- [x] [Includes](https://patternlab.io/docs/including-patterns/)
 - [x] Lineage
 - [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
 - [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)

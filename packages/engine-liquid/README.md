@@ -10,7 +10,7 @@ To install the Liquid PatternEngine in your edition, `npm install @pattern-lab/e
 
 This PatternEngine is in alpha and considered a work in progress.
 
-* [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+* [x] [Includes](https://patternlab.io/docs/including-patterns/)
 * [x] Lineage
 
 **TBD**

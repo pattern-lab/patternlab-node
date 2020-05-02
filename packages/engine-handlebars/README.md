@@ -4,7 +4,7 @@ To install the Handlebars PatternEngine in your edition, `npm install --save @pa
 
 ## Supported features
 
-* [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+* [x] [Includes](https://patternlab.io/docs/including-patterns/)
 * [x] Lineage
 * [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
 * [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)

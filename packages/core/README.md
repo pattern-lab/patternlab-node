@@ -10,7 +10,7 @@
 
 # Pattern Lab Node Core
 
-This is the core API and orchestrator of the  [Pattern Lab ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html).
+This is the core API and orchestrator of the  [Pattern Lab ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/).
 
 ## Installation
 
@@ -37,7 +37,7 @@ For users wanting a more pre-packaged experience several editions are available.
 
 ![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
 
-Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
+Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
 ## Usage
 
@@ -59,7 +59,7 @@ patternlab.serve({
 });
 ```
 
-* Read more about [configuration](http://patternlab.io/docs/advanced-config-options.html#node) via `patternlab-config.json`.
+* Read more about [configuration](https://patternlab.io/docs/editing-the-configuration-options/) via `patternlab-config.json`.
 
 * Read more about the rest of [Public API](./docs), and already implemented for you within [Editions](#editions).
 
