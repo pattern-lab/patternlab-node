@@ -10,8 +10,8 @@ To install the Underscore PatternEngine in your edition, `npm install @pattern-l
 * [x] Lineage
 * [x] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
 * [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
-* [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
 * [x] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
+* [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
 * [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
 
 ## Extensions to basic Underscore functionality
