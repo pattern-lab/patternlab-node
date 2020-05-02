@@ -458,16 +458,22 @@ class IFrame extends BaseLitComponent {
     // add the mouse move event and capture data. also update the viewport width
     this.iframeCover.addEventListener('mousemove', handleIframeCoverResize);
 
-    document.body.addEventListener('mouseup', function() {
-      self.iframeCover.removeEventListener(
-        'mousemove',
-        handleIframeCoverResize
-      );
-      self.iframeCover.style.display = 'none';
-      self
-        .querySelector('.pl-js-resize-handle')
-        .classList.remove('is-resizing');
-    });
+    document.body.addEventListener(
+      'mouseup',
+      function() {
+        self.iframeCover.removeEventListener(
+          'mousemove',
+          handleIframeCoverResize
+        );
+        self.iframeCover.style.display = 'none';
+        self
+          .querySelector('.pl-js-resize-handle')
+          .classList.remove('is-resizing');
+      },
+      {
+        once: true,
+      }
+    );
 
     return false;
   }
