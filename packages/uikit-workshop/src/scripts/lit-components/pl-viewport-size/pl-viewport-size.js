@@ -6,6 +6,9 @@ import { html, customElement } from 'lit-element';
 import styles from './pl-viewport-size.scss?external';
 import { store } from '../../store.js'; // connect to redux
 
+const nRegex = /\D+/g;
+const fpRegex = /[^0-9\.]+/g;
+
 function round(value, decimals) {
   return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
@@ -63,25 +66,21 @@ class ViewportSize extends BaseLitComponent {
     }
   }
 
+  handlePixelUpdateUp(e) {
+    this.setState(
+      { inputPixelValue: e.target.value.replace(nRegex, '') },
+      () => {}
+    );
+  }
+
   handlePixelUpdatePress(e) {
-    const nRegex = /\D+/g;
-
     if (e.key.match(nRegex)) {
-      console.log(e);
-
       // Prevent inserting letters or symbols
       e.preventDefault();
-    } else {
-      this.setState(
-        { inputPixelValue: e.target.value.replace(nRegex, '') },
-        () => {}
-      );
     }
   }
 
-  handlePixelUpdateUp(e) {
-    const nRegex = /\D+/g;
-
+  handlePixelUpdateDown(e) {
     if (e.key === 'Enter') {
       event.preventDefault();
       this.iframe.sizeiframe(this.state.inputPixelValue, true);
@@ -111,25 +110,21 @@ class ViewportSize extends BaseLitComponent {
     e.target.value = this.state.inputPixelValue;
   }
 
+  handleEmUpdateUp(e) {
+    this.setState(
+      { inputEmValue: e.target.value.replace(fpRegex, '') },
+      () => {}
+    );
+  }
+
   handleEmUpdatePress(e) {
-    const fpRegex = /[^0-9\.]+/g;
-
     if (e.key.match(fpRegex)) {
-      console.log(e);
-
       // Prevent inserting letters or symbols
       e.preventDefault();
-    } else {
-      this.setState(
-        { inputEmValue: e.target.value.replace(fpRegex, '') },
-        () => {}
-      );
     }
   }
 
-  handleEmUpdateUp(e) {
-    const fpRegex = /[^0-9\.]+/g;
-
+  handleEmUpdateDown(e) {
     if (e.key === 'Enter') {
       event.preventDefault();
       this.iframe.sizeiframe(this.toPixelValue(), true);
@@ -182,7 +177,8 @@ class ViewportSize extends BaseLitComponent {
               id="pl-viewport-pixel-width"
               .value="${this.state.inputPixelValue}"
               @keypress=${this.handlePixelUpdatePress}
-              @keydown=${this.handlePixelUpdateUp}
+              @keyup=${this.handlePixelUpdateUp}
+              @keydown=${this.handlePixelUpdateDown}
               @blur=${this.handlePixelBlur}
             />px</label
           >&nbsp;/&nbsp;<label
@@ -194,7 +190,8 @@ class ViewportSize extends BaseLitComponent {
               id="pl-viewport-em-width"
               .value="${this.state.inputEmValue}"
               @keypress=${this.handleEmUpdatePress}
-              @keydown=${this.handleEmUpdateUp}
+              @keyup=${this.handleEmUpdateUp}
+              @keydown=${this.handleEmUpdateDown}
               @blur=${this.handleEmBlur}
             />em
           </label>
