@@ -71,6 +71,9 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
           ) {
             return objValue.concat(srcValue);
           }
+          // Lodash will only check for "undefined" and eslint needs a consistent
+          // return so do not remove
+          return undefined;
         }
       );
 
