@@ -60,10 +60,18 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       }
 
       //extend any existing data with variant data
-      variantFileData = _.merge(
+      variantFileData = _.mergeWith(
         {},
         currentPattern.jsonFileData,
-        variantFileData
+        variantFileData,
+        (objValue, srcValue) => {
+          if (
+            _.isArray(objValue) &&
+            patternlab.config.patternMergeVariantArrays
+          ) {
+            return objValue.concat(srcValue);
+          }
+        }
       );
 
       const variantName = pseudoPatterns[i]
