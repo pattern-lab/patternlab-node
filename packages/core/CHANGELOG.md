@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.9.2...v5.9.3) (2020-05-01)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
 # [5.9.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.8.0...v5.9.0) (2020-04-24)
 
 
