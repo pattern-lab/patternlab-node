@@ -38,4 +38,4 @@ You should also be using `grunt-contrib-watch` to monitor changes to Pattern Lab
 
 You might be able to use `livereload` as well but that hasn't been tested by us yet.
 
-For more information, check out [this post about using Pattern Lab with Grunt](http://bradfrost.com/blog/post/using-grunt-with-pattern-lab/).
+For more information, check out [this post about using Pattern Lab with Grunt](https://bradfrost.com/blog/post/using-grunt-with-pattern-lab/).
