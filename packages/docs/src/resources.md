@@ -6,13 +6,13 @@ title: Resources
 ## Style guides and atomic design
 
 - [Styleguides.io](http://styleguides.io)
-- [Atomic Design by Brad Frost](http://atomicdesign.bradfrost.com)
-- [Atomic design article](http://bradfrost.com/blog/post/atomic-web-design/)
-- [A new link](http://google.com)
+- [Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/)
+- [Atomic design article](https://bradfrost.com/blog/post/atomic-web-design/)
+- [A new link](https://www.google.com/)
 
 ## Pattern Lab Examples
 
-- [Pattern Lab Demo](http://demo.patternlab.io/)
+- [Pattern Lab Demo](https://demo.patternlab.io/)
 - [Frost Finery](http://patterns.frostfinery.com)
 - [Pittsburgh Food Bank](http://foodbank.bradfrostweb.com/patternlab/v10/)
 - [brianmuenzenmeyer.com](http://www.brianmuenzenmeyer.com/patternlab/public/)
@@ -29,8 +29,8 @@ title: Resources
 
 ## Podcasts
 
-- [Dave Olsen talking Pattern Lab 2 on Non-Breaking Space Podcast](http://goodstuff.fm/nbsp/86)
-- [Brian Muenzenmeyer talking Pattern Lab 2 on the MS DEV SHOW Podcast](http://msdevshow.com/2015/12/pattern-lab-with-brian-muenzenmeyer/)
+- [Dave Olsen talking Pattern Lab 2 on Non-Breaking Space Podcast](https://goodstuff.fm/nbsp/86)
+- [Brian Muenzenmeyer talking Pattern Lab 2 on the MS DEV SHOW Podcast](https://msdevshow.com/2015/12/pattern-lab-with-brian-muenzenmeyer/)
 
 ## Presentations
 
