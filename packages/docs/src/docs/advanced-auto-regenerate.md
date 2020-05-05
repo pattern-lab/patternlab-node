@@ -23,7 +23,7 @@ gulp patternlab:build --watch
 
 ## How to Start the Watch and Self-Host the Pattern Lab Website
 
-Rather than manually refreshing your browser when your patterns or frontend assets change you can have Pattern Lab watch for changes and [auto-reload your browser window](/docs/viewing-patterns.html#node) for you when it’s in watch mode.
+Rather than manually refreshing your browser when your patterns or frontend assets change you can have Pattern Lab watch for changes and [auto-reload your browser window](/docs/multi-browser-and-multi-device-testing-with-page-follow/) for you when it’s in watch mode.
 
 ## How to Stop the Watch
 

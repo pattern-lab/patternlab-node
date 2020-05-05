@@ -48,7 +48,7 @@ module.exports = function(relPath, patternlab) {
       'While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. '
     );
     logger.warning(
-      'Read More: http://patternlab.io/docs/pattern-organization.html'
+      'Read More: https://patternlab.io/docs/overview-of-patterns/'
     );
     logger.warning('');
   }

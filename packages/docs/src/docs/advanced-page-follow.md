@@ -9,7 +9,7 @@ eleventyNavigation:
   order: 300
 ---
 
-The Pattern Lab's Page Follow feature gives developers the ability to have one browser control other browsers that connect to the Pattern Lab website. Pattern Lab Node utilizes [BrowserSync](http://www.browsersync.io/) to synchronize all connected browsers and devices.
+The Pattern Lab's Page Follow feature gives developers the ability to have one browser control other browsers that connect to the Pattern Lab website. Pattern Lab Node utilizes [BrowserSync](https://www.browsersync.io/) to synchronize all connected browsers and devices.
 
 ## How to Start and Connect to Pattern Lab with BrowserSync
 
@@ -28,7 +28,7 @@ To stop watching files on Mac OS X and Windows you can press`CTRL+C` in the comm
 
 ## BrowserSync Capabilities
 
-It's strongly recommended to visit [BrowserSync](http://www.browsersync.io/) documentation or the BrowserSync UI at [http://localhost:3001](http://localhost:3001). From this administration interface one can perform the following:
+It's strongly recommended to visit [BrowserSync](https://www.browsersync.io/) documentation or the BrowserSync UI at [http://localhost:3001](http://localhost:3001). From this administration interface one can perform the following:
 
 - See all connected devices and browsers
 - Open new tabbed instances of the Pattern Lab website on devices
