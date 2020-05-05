@@ -6,7 +6,7 @@
 
 This monorepo contains the core of Pattern Lab / Node and all related engines, UI kits, plugins and utilities. Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
 
-If you'd like to see what a front-end project built with Pattern Lab looks like, check out this [online demo of Pattern Lab output](http://demo.patternlab.io/).
+If you'd like to see what a front-end project built with Pattern Lab looks like, check out this [online demo of Pattern Lab output](https://demo.patternlab.io/).
 
 [![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
 ![current release](https://img.shields.io/npm/v/@pattern-lab/core.svg)
