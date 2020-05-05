@@ -20,7 +20,7 @@
   ],
   "support": {
     "issues":         "https://github.com/pattern-lab/starterkit-twig-demo/issues",
-    "wiki":           "http://patternlab.io/docs/",
+    "wiki":           "https://patternlab.io/docs/",
     "source":         "https://github.com/pattern-lab/starterkit-twig-demo/releases"
   },
   "require": {
