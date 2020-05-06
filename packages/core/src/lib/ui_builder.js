@@ -263,7 +263,7 @@ const ui_builder = function() {
       patternPath: pattern.patternLink,
       name: pattern.name,
       isDocPattern: false,
-      order: Number(pattern.order) || 0, // Failsave is someone entered a string
+      order: Number(pattern.order) || 0, // Failsafe is someone entered a string
     };
   }
 
@@ -355,7 +355,7 @@ const ui_builder = function() {
         aOrder = Number.MAX_SAFE_INTEGER;
       }
 
-      // alwasy return a docPattern first
+      // always return a docPattern first
       if (a.isDocPattern && !b.isDocPattern) {
         return -1;
       }
@@ -395,7 +395,7 @@ const ui_builder = function() {
    * Returns an object representing how the front end styleguide and navigation is structured
    * @param patternlab - global data store
    * @param uikit - the current uikit being built
-   * @returns ptterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
+   * @returns patterns grouped by type -> subtype like atoms -> global -> pattern, pattern, pattern
    */
   function groupPatterns(patternlab, uikit) {
     const groupedPatterns = {
@@ -463,7 +463,7 @@ const ui_builder = function() {
    * Search all flat patterns of a specific pattern type
    *
    * @param {Patternlab} patternlab Current patternlab instance
-   * @param {String} patternType indicator which patterns to search for
+   * @param {string} patternType indicator which patterns to search for
    */
   function getFlatPatternItems(patternlab, patternType) {
     const patterns = _.filter(
@@ -617,7 +617,7 @@ const ui_builder = function() {
         );
 
         /**
-         * View all pages for goups
+         * View all pages for groups
          */
         return Promise.all(subTypePromises)
           .then(() => {

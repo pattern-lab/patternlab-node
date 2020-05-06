@@ -60,7 +60,7 @@ module.exports = function(pattern, patternlab) {
         !markdownObject.subfolder
       ) {
         // Reset to pattern without own pattern-directory
-        pattern.resetSubbing(patternlab);
+        pattern.promoteFromDirectoryToFlatPattern(patternlab);
       }
     } else {
       logger.warning(`error processing markdown for ${pattern.patternPartial}`);

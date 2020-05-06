@@ -14,16 +14,22 @@ const prefixMatcher = /^_?(\d+-)?/;
  *
  * Before changing functionalities of the pattern object please read the following pull requests
  * to get more details about the behavior of the folder structure
+ * https://patternlab.io/docs/overview-of-patterns/#heading-deeper-nesting
  * https://github.com/pattern-lab/patternlab-node/pull/992
  * https://github.com/pattern-lab/patternlab-node/pull/1016
  * https://github.com/pattern-lab/patternlab-node/pull/1143
  *
- * @param {String} relPath relative directory
+ * @param {string} relPath relative directory
  * @param {Object} jsonFileData The JSON used to render values in the pattern.
- * @param {Patternlab} patternlab The actual patternlab instance
- * @param {Boolean} isUnsubRun specifies if the pattern needs to be removed from its subfolder
+ * @param {Patternlab} patternlab The actual pattern lab instance
+ * @param {boolean} isPromoteToFlatPatternRun specifies if the pattern needs to be removed from its deep nesting folder
  */
-const Pattern = function(relPath, jsonFileData, patternlab, isUnsubRun) {
+const Pattern = function(
+  relPath,
+  jsonFileData,
+  patternlab,
+  isPromoteToFlatPatternRun
+) {
   this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
 
   /**
@@ -32,13 +38,17 @@ const Pattern = function(relPath, jsonFileData, patternlab, isUnsubRun) {
    */
   const pathObj = path.parse(this.relPath);
 
-  const info = this.getPatternInfo(pathObj, patternlab, isUnsubRun);
+  const info = this.getPatternInfo(
+    pathObj,
+    patternlab,
+    isPromoteToFlatPatternRun
+  );
 
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
   this.fileExtension = pathObj.ext; // '.mustache'
 
-  // TODO: Remove if when droping ordering by prefix and keep else code
+  // TODO: Remove if when dropping ordering by prefix and keep else code
   if (info.patternHasOwnDir) {
     // Since there is still the requirement of having the numbers provided for sorting
     // this will be required to keep the folder prefix and the variant name
@@ -80,7 +90,7 @@ const Pattern = function(relPath, jsonFileData, patternlab, isUnsubRun) {
   // the joined pattern group and subgroup directory
   this.flatPatternPath = info.shortNotation; // '00-atoms-00-global'
 
-  // calculated path from the root of the public directory to the generated
+  // Calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
   this.patternLink = patternlab
     ? this.getPatternLink(patternlab, 'rendered')
@@ -128,7 +138,7 @@ const Pattern = function(relPath, jsonFileData, patternlab, isUnsubRun) {
   this.compileState = null;
 
   /**
-   * Timestamp in milliseconds when the pattern template or auxilary file (e.g. json) were modified.
+   * Timestamp in milliseconds when the pattern template or auxiliary file (e.g. json) were modified.
    * If multiple files are affected, this is the timestamp of the most recent change.
    *
    * @see {@link pattern}
@@ -175,8 +185,8 @@ Pattern.prototype = {
    * Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
    *
    * @param {Patternlab} patternlab Current patternlab instance
-   * @param {String} suffixType File suffix
-   * @param {String} customfileExtension Custom extension
+   * @param {string} suffixType File suffix
+   * @param {string} customfileExtension Custom extension
    */
   getPatternLink: function(patternlab, suffixType, customfileExtension) {
     // if no suffixType is provided, we default to rendered
@@ -216,8 +226,8 @@ Pattern.prototype = {
     return this.engine.findListItems(this);
   },
 
-  findPartial: function(partialString) {
-    return this.engine.findPartial(partialString);
+  findPartial: function(partialstring) {
+    return this.engine.findPartial(partialstring);
   },
 
   /**
@@ -235,7 +245,7 @@ Pattern.prototype = {
     } else if (level >= 1) {
       return '';
     } else {
-      // Im Not quite shure about that but its better than empty node
+      // I'm not quite sure about that but its better than empty node
       // TODO: verify
       return 'root';
     }
@@ -248,7 +258,7 @@ Pattern.prototype = {
    *
    * @param {Patternlab} patternlab Current patternlab instance
    */
-  resetSubbing: function(patternlab) {
+  promoteFromDirectoryToFlatPattern: function(patternlab) {
     const p = new Pattern(this.relPath, this.jsonFileData, patternlab, true);
     // Only reset the specific fields, not everything
     Object.assign(this, {
@@ -266,17 +276,18 @@ Pattern.prototype = {
   },
 
   /**
-   * Info contains information about pattern structure if it is a nested pattern
-   * or if it just a subfolder structure. Its just used for internal purposes.
-   * Remember every pattern infomarion based on "this.*" will be used by other functions
+   * The "info" object contains information about pattern structure if it is
+   * a nested pattern or if it just a sub folder structure. It's just used for
+   * internal purposes. Remember every pattern information based on "this.*"
+   * will be used by other functions
    *
-   * @param pathObj path.parse() object containing usefull path information
+   * @param pathObj path.parse() object containing useful path information
    */
-  getPatternInfo: (pathObj, patternlab, isUnsubRun) => {
+  getPatternInfo: (pathObj, patternlab, isPromoteToFlatPatternRun) => {
     const info = {
-      // 00-colors(.mustache) is subfolder in 00-atoms-/00-global/00-colors
+      // 00-colors(.mustache) is deeply nested in 00-atoms-/00-global/00-colors
       patternlab: patternlab,
-      patternHasOwnDir: !isUnsubRun
+      patternHasOwnDir: !isPromoteToFlatPatternRun
         ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
             pathObj.name.replace(prefixMatcher, '') ||
           path.basename(pathObj.dir).replace(prefixMatcher, '') ===
@@ -333,7 +344,7 @@ Pattern.createEmpty = function(customProps, patternlab) {
 };
 
 /**
- * factory: creates an Pattern object on-demand from a hash; the hash accepts
+ * factory: creates a Pattern object on-demand from a hash; the hash accepts
  * parameters that replace the positional parameters that the Pattern
  * constructor takes.
  */
