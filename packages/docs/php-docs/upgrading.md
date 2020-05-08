@@ -17,7 +17,7 @@ During the upgrade process Pattern Lab 2 will move or add any files that are req
 
 Pattern Lab 2 was a complete rewrite and reorganization of Pattern Lab 1. [Learn about the changes](/docs/changes-1-to-2.html). To upgrade do the following:
 
-1. [Download](http://patternlab.io/download.html) the PHP edition that matches your needs
+1. [Download](https://patternlab.io/docs/installing-pattern-lab/) the PHP edition that matches your needs
 
 If you chose a Mustache-based edition do the following:
 

@@ -11,4 +11,4 @@ This Development Edition is a variant of [Edition Node Gulp](https://github.com/
 
 If you'd like to help with the React Engine, please reference the [contribution guidelines](https://github.com/pattern-lab/patternlab-node/blob/master/.github/CONTRIBUTING.md).
 
-> Development Editions of Pattern Lab provide the ability to work on and commit changes to select packages within the overall Pattern Lab [ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). This Edition is NOT stable.
+> Development Editions of Pattern Lab provide the ability to work on and commit changes to select packages within the overall Pattern Lab [ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). This Edition is NOT stable.

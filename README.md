@@ -6,14 +6,14 @@
 
 This monorepo contains the core of Pattern Lab / Node and all related engines, UI kits, plugins and utilities. Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
 
-If you'd like to see what a front-end project built with Pattern Lab looks like, check out this [online demo of Pattern Lab output](http://demo.patternlab.io/).
+If you'd like to see what a front-end project built with Pattern Lab looks like, check out this [online demo of Pattern Lab output](https://demo.patternlab.io/).
 
 [![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
 ![current release](https://img.shields.io/npm/v/@pattern-lab/core.svg)
 ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![Coverage Status](https://coveralls.io/repos/github/pattern-lab/patternlab-node/badge.svg?branch=master)](https://coveralls.io/github/pattern-lab/patternlab-node?branch=master)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![node (scoped)](https://img.shields.io/node/v/@pattern-lab/patternlab-node.svg)]()
+[![node (scoped)](https://img.shields.io/node/v/@pattern-lab/core.svg)]()
 [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
 
 Docs @ [![Netlify Status](https://api.netlify.com/api/v1/badges/d454dbde-02c5-4bd4-8393-4ab75e862b03/deploy-status)](https://app.netlify.com/sites/patternlab-docs-preview/deploys)
@@ -26,7 +26,7 @@ Refer to the [core usage guidelines](https://github.com/pattern-lab/patternlab-n
 
 ### Installation
 
-As of Pattern Lab Node 3.0.0, installation of [Editions](http://patternlab.io/docs/advanced-ecosystem-overview.html) is accomplished via the command line interface.
+As of Pattern Lab Node 3.0.0, installation of [Editions](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/) is accomplished via the command line interface.
 
 The below assumes a new directory and project is required. This is likely what you want to do if starting from scratch. You could also run this within an existing project. The CLI will ask you for the installation location.
 
@@ -46,9 +46,9 @@ The below assumes a new directory and project is required. This is likely what y
 
 ## Ecosystem
 
-![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
+![Pattern Lab Ecosystem](https://patternlab.io/images/pattern-lab-2-image_18-large-opt.png)
 
-Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
+Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
 ## Changelog
 
