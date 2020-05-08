@@ -133,3 +133,72 @@ tap.test(
     });
   }
 );
+
+tap.test('pseudo pattern variant data should merge arrays', function(test) {
+  const pl = stubPatternlab();
+  pl.config.patternMergeVariantArrays = true;
+
+  const pattern = loadPattern('00-test/475-variant-test.mustache', pl);
+
+  addPattern(pattern, pl);
+
+  return pph.find_pseudopatterns(pattern, pl).then(() => {
+    test.equals(pl.patterns[1].patternPartial, 'test-variant-test-merge');
+    test.equals(
+      JSON.stringify(pl.patterns[1].jsonFileData),
+      JSON.stringify({
+        a: 2,
+        b: [2, 3, 8],
+        c: { d: [4, 5, 6, 7], e: 8, f: { a: ['a'], b: ['b', 'x'], c: ['c'] } },
+      })
+    );
+  });
+});
+
+tap.test(
+  'pseudo pattern variant data should merge arrays if config "patternMergeVariantArrays" is not available as default behavior',
+  function(test) {
+    const pl = stubPatternlab();
+
+    const pattern = loadPattern('00-test/475-variant-test.mustache', pl);
+
+    addPattern(pattern, pl);
+
+    return pph.find_pseudopatterns(pattern, pl).then(() => {
+      test.equals(pl.patterns[1].patternPartial, 'test-variant-test-merge');
+      test.equals(
+        JSON.stringify(pl.patterns[1].jsonFileData),
+        JSON.stringify({
+          a: 2,
+          b: [2, 3, 8],
+          c: {
+            d: [4, 5, 6, 7],
+            e: 8,
+            f: { a: ['a'], b: ['b', 'x'], c: ['c'] },
+          },
+        })
+      );
+    });
+  }
+);
+
+tap.test('pseudo pattern variant data should override arrays', function(test) {
+  const pl = stubPatternlab();
+  pl.config.patternMergeVariantArrays = false;
+
+  const pattern = loadPattern('00-test/475-variant-test.mustache', pl);
+
+  addPattern(pattern, pl);
+
+  return pph.find_pseudopatterns(pattern, pl).then(() => {
+    test.equals(pl.patterns[1].patternPartial, 'test-variant-test-merge');
+    test.equals(
+      JSON.stringify(pl.patterns[1].jsonFileData),
+      JSON.stringify({
+        a: 2,
+        b: [8],
+        c: { d: [6, 7], e: 8, f: { a: ['a'], b: ['x'], c: ['c'] } },
+      })
+    );
+  });
+});
