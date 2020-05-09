@@ -26,7 +26,7 @@
   "main": "lib/engine_nunjucks.js",
   "name": "@pattern-lab/engine-nunjucks",
   "scripts": {},
-  "version": "5.10.0",
+  "version": "5.10.1",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/edition-twig",
-  "version": "5.10.0",
+  "version": "5.10.1",
   "description": "Pattern Lab node with Twig PHP Engine",
   "author": {
     "name": "Evan Lovely",
@@ -23,10 +23,10 @@
     "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^5.10.0",
-    "@pattern-lab/core": "^5.10.0",
-    "@pattern-lab/engine-twig-php": "^5.10.0",
-    "@pattern-lab/uikit-workshop": "^5.10.0"
+    "@pattern-lab/cli": "^5.10.1",
+    "@pattern-lab/core": "^5.10.1",
+    "@pattern-lab/engine-twig-php": "^5.10.1",
+    "@pattern-lab/uikit-workshop": "^5.10.1"
   },
   "engines": {
     "node": ">=12.12.0"
