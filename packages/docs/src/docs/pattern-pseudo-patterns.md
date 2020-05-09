@@ -19,7 +19,9 @@ Pseudo-patterns are similar to [pattern-specific JSON files](/docs/creating-patt
 
 The tilde (`~`) and `.json` file extension are the hints that Pattern Lab uses to determine that this is a pseudo-pattern. The `patternName` tells Pattern Lab which existing pattern it should use when rendering the pseudo-pattern. The JSON file itself works exactly like the [pattern-specific JSON file](/docs/creating-pattern-specific-values/). It has the added benefit that the pseudo-pattern will also inherit any values from the existing pattern's pattern-specific JSON file.
 
-By default, arrays in pseudo-pattern data will be concatenated with the base pattern's array data. To override this behavior globally you can set the parameter `patternMergeVariantArrays` in your `patternlab-config.json` to `false`. Arrays will then be overwritten and you will only have the variant's array data left.
+## The Pseudo-Pattern File Data
+
+By default, arrays in pseudo-pattern data will be merged with the base pattern's array data on an index basis, effectively creating an array having as many entries as the larger of the two, with the indices declared in the variant replacing the first n of the parent, while keeping the rest. Declaring a larger array in the variant results in only using the variant array. To override this behavior globally you can set the parameter `patternMergeVariantArrays` in your `patternlab-config.json` to `false`. Arrays will then be overwritten and you will only have the variant's array data left.
 
 ```json
 "patternMergeVariantArrays": false

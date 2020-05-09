@@ -148,8 +148,8 @@ tap.test('pseudo pattern variant data should merge arrays', function(test) {
       JSON.stringify(pl.patterns[1].jsonFileData),
       JSON.stringify({
         a: 2,
-        b: [2, 3, 8],
-        c: { d: [4, 5, 6, 7], e: 8, f: { a: ['a'], b: ['b', 'x'], c: ['c'] } },
+        b: [8, 3],
+        c: { d: [6, 7], e: 8, f: { a: ['a'], b: ['x'], c: ['c'] } },
       })
     );
   });
@@ -170,12 +170,8 @@ tap.test(
         JSON.stringify(pl.patterns[1].jsonFileData),
         JSON.stringify({
           a: 2,
-          b: [2, 3, 8],
-          c: {
-            d: [4, 5, 6, 7],
-            e: 8,
-            f: { a: ['a'], b: ['b', 'x'], c: ['c'] },
-          },
+          b: [8, 3],
+          c: { d: [6, 7], e: 8, f: { a: ['a'], b: ['x'], c: ['c'] } },
         })
       );
     });

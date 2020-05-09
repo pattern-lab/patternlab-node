@@ -73,8 +73,6 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
             !patternlab.config.patternMergeVariantArrays
           ) {
             return srcValue;
-          } else if (_.isArray(objValue)) {
-            return objValue.concat(srcValue);
           }
           // Lodash will only check for "undefined" and eslint needs a consistent
           // return so do not remove
