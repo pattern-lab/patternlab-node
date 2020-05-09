@@ -7,14 +7,37 @@ import { store } from '../../store.js'; // connect to redux
 import { Tooltip } from '../../components/pl-tooltip/pl-tooltip';
 import VisuallyHidden from '@reach/visually-hidden';
 
-import { minViewportWidth, maxViewportWidth, getRandom } from '../../utils';
+import {
+  minViewportWidth,
+  maxViewportWidth,
+  getRandom,
+  iframeMsgDataExtraction,
+} from '../../utils';
 
 import styles from './pl-viewport-size-list.scss?external';
 
-// @todo: re-add keyboard shortcuts to these
 @define
 class ViewportSizes extends BaseComponent {
   static is = 'pl-viewport-sizes';
+
+  sizes = Object.freeze({
+    ZERO: 'zero',
+    SMALL: 'small',
+    MEDIUM: 'medium',
+    LARGE: 'large',
+    FULL: 'full',
+    RANDOM: 'random',
+    DISCO: 'disco',
+    HAY: 'hay',
+  });
+
+  discomode = false;
+  doscoId = null;
+  hayMode = false;
+  hayId = null;
+
+  controlIsPressed = false;
+  altIsPressed = false;
 
   _stateChanged(state) {
     this.triggerUpdate();
@@ -33,6 +56,16 @@ class ViewportSizes extends BaseComponent {
     const state = store.getState();
     const { ishControlsHide } = window.ishControls;
     this.ishControlsHide = ishControlsHide;
+
+    // Remove EventListener or they will be added multiple times when reloading in serve mode
+    document.removeEventListener('keydown', this.handleKeyDownEvent);
+    document.removeEventListener('keyup', this.handleKeyCombination);
+    document.addEventListener('keydown', this.handleKeyDownEvent.bind(this));
+    document.addEventListener('keyup', this.handleKeyCombination.bind(this));
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+
+    window.removeEventListener('message', this.receiveIframeMessage);
+    window.addEventListener('message', this.receiveIframeMessage, false);
   }
 
   disconnectedCallback() {
@@ -46,8 +79,14 @@ class ViewportSizes extends BaseComponent {
 
   resizeViewport(size) {
     if (this.iframe) {
+      this.killDisco();
+      this.killHay();
+
       switch (size) {
-        case 'small':
+        case this.sizes.ZERO:
+          this.iframe.fullMode = false;
+          this.iframe.sizeiframe(0, true);
+        case this.sizes.SMALL:
           this.iframe.fullMode = false;
           this.iframe.sizeiframe(
             getRandom(
@@ -59,7 +98,7 @@ class ViewportSizes extends BaseComponent {
             true
           );
           break;
-        case 'medium':
+        case this.sizes.MEDIUM:
           this.iframe.fullMode = false;
           this.iframe.sizeiframe(
             getRandom(
@@ -73,21 +112,36 @@ class ViewportSizes extends BaseComponent {
             true
           );
           break;
-        case 'large':
+        case this.sizes.LARGE:
           this.iframe.fullMode = false;
           this.iframe.sizeiframe(
             getRandom(
               window.config.ishViewportRange !== undefined
                 ? parseInt(window.config.ishViewportRange.l[0], 10)
                 : 800,
-              maxViewportWidth
+              window.config.ishViewportRange !== undefined
+                ? parseInt(window.config.ishViewportRange.l[1], 10)
+                : 1000
             ),
             true
           );
           break;
-        case 'full':
+        case this.sizes.FULL:
           this.iframe.fullMode = true;
           this.iframe.sizeiframe(maxViewportWidth, true);
+          break;
+        case this.sizes.RANDOM:
+          this.fullMode = false;
+          this.iframe.sizeiframe(this.getRangeRandomNumber(), true);
+          break;
+        case this.sizes.DISCO:
+          this.fullMode = false;
+          this.startDisco();
+          break;
+        case this.sizes.HAY:
+          this.fullMode = false;
+          this.iframe.sizeiframe(minViewportWidth, true);
+          this.startHay();
           break;
       }
     }
@@ -193,7 +247,6 @@ class ViewportSizes extends BaseComponent {
    * https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly
    *
    * @param {KeyboardEvent} e the keyevent
-
    */
   handleKeyCombination(e) {
     const ctrlKey = this.controlIsPressed;
@@ -263,7 +316,7 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-s',
                     ref: triggerRef,
                   })}
-                  onClick={e => this.resizeViewport('small')}
+                  onClick={e => this.resizeViewport(this.sizes.SMALL)}
                   dangerouslySetInnerHTML={{
                     __html: `
                       <span class="is-vishidden">Resize viewport to small</span>
@@ -290,7 +343,7 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-m',
                     ref: triggerRef,
                   })}
-                  onClick={e => this.resizeViewport('medium')}
+                  onClick={e => this.resizeViewport(this.sizes.MEDIUM)}
                   dangerouslySetInnerHTML={{
                     __html: `
                       <span class="is-vishidden">Resize viewport to medium</span>
@@ -317,7 +370,7 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-l',
                     ref: triggerRef,
                   })}
-                  onClick={e => this.resizeViewport('large')}
+                  onClick={e => this.resizeViewport(this.sizes.LARGE)}
                   dangerouslySetInnerHTML={{
                     __html: `
                       <span class="is-vishidden">Resize viewport to large</span>
@@ -344,7 +397,7 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-full',
                     ref: triggerRef,
                   })}
-                  onClick={e => this.resizeViewport('full')}
+                  onClick={e => this.resizeViewport(this.sizes.FULL)}
                   dangerouslySetInnerHTML={{
                     __html: `
                       <span class="is-vishidden">Resize viewport to full</span>
@@ -356,7 +409,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {/* {!this.ishControlsHide.random && (
+        {!this.ishControlsHide.random && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -371,22 +424,19 @@ class ViewportSizes extends BaseComponent {
                     id: 'pl-size-random',
                     ref: triggerRef,
                   })}
-                  onClick={e => this.resizeViewport('random')}
-                >
-                  <VisuallyHidden>Resize viewport to random</VisuallyHidden>
-                  <RandomIcon
-                    width={24}
-                    height={24}
-                    fill="currentColor"
-                    stroke="currentColor"
-                    viewBox="0 0 28 28"
-                  />
-                </button>
+                  onClick={e => this.resizeViewport(this.sizes.RANDOM)}
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      <span class="is-vishidden">Resize viewport to random</span>
+                      <pl-icon name="random"></pl-icon>
+                    `,
+                  }}
+                />
               )}
             </Tooltip>
           </li>
-        )} */}
-        {/* {!this.ishControlsHide.disco && (
+        )}
+        {!this.ishControlsHide.disco && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -398,30 +448,46 @@ class ViewportSizes extends BaseComponent {
                 <button
                   {...getTriggerProps({
                     className: 'pl-c-size-list__action',
-                    id: 'pl-size-disco',
+                    id: 'pl-size-random',
                     ref: triggerRef,
                   })}
-                  onClick={e => this.resizeViewport('disco')}
-                >
-                  <VisuallyHidden>
-                    Resize viewport using disco mode!
-                  </VisuallyHidden>
-                  <DiscoIcon
-                    width={24}
-                    height={24}
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  />
-                </button>
+                  onClick={e => this.resizeViewport(this.sizes.DISCO)}
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      <span class="is-vishidden">Resize viewport using disco mode!</span>
+                      <pl-icon name="disco-ball"></pl-icon>
+                    `,
+                  }}
+                />
               )}
             </Tooltip>
           </li>
-        )} */}
+        )}
         {!this.ishControlsHide.hay && (
           <li class="pl-c-size-list__item">
-            <button class="pl-c-size-list__action mode-link" id="pl-size-hay">
-              Hay!
-            </button>
+            <Tooltip
+              placement="top"
+              trigger="hover"
+              tooltip="Hay"
+              usePortal={false}
+            >
+              {({ getTriggerProps, triggerRef }) => (
+                <button
+                  {...getTriggerProps({
+                    className: 'pl-c-size-list__action',
+                    id: 'pl-size-random',
+                    ref: triggerRef,
+                  })}
+                  onClick={e => this.resizeViewport(this.sizes.HAY)}
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                      <span class="is-vishidden">Resize viewport using hay mode!</span>
+                      <pl-icon name="hay"></pl-icon>
+                    `,
+                  }}
+                />
+              )}
+            </Tooltip>
           </li>
         )}
       </ul>
