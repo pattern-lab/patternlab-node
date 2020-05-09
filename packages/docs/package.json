@@ -1,5 +1,5 @@
 {
-  "name": "patternlab-website",
+  "name": "@pattern-lab/website",
   "version": "5.10.0",
   "description": "The website for patternlab.io",
   "main": "index.js",
@@ -48,5 +48,9 @@
   "bugs": {
     "url": "https://github.com/bradfrost/pl-website-eleventy/issues"
   },
-  "homepage": "https://github.com/bradfrost/pl-website-eleventy/#readme"
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/bradfrost/pl-website-eleventy/#readme",
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }
