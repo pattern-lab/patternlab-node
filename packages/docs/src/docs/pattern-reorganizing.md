@@ -39,7 +39,7 @@ The numbers will not show up when Pattern Lab displays the name of the pattern i
 
 ## Re-ordering Pseudo-Patterns
 
-The rules for re-ordering [pseudo-patterns](/docs/pattern-pseudo-patterns.html) are slightly different than normal patterns. The numbers go **after** the tilde sign (`~`) rather than at the beginning of the file name. For instance:
+The rules for re-ordering [pseudo-patterns](/docs/using-pseudo-patterns/) are slightly different than normal patterns. The numbers go **after** the tilde sign (`~`) rather than at the beginning of the file name. For instance:
 
 ```
 - pattern.mustache

@@ -164,7 +164,7 @@ class ToolsMenu extends BaseLitComponent {
           ${!this.ishControlsHide['tools-docs']
             ? html`
                 <li class="pl-c-tools__item">
-                  <pl-button href="http://patternlab.io/docs/" target="_blank">
+                  <pl-button href="https://patternlab.io/docs/" target="_blank">
                     Pattern Lab Docs
                     <pl-icon name="help" slot="after"></pl-icon>
                   </pl-button>
