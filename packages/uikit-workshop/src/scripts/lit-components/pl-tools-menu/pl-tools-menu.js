@@ -2,7 +2,7 @@
 import { define, props } from 'skatejs';
 import Mousetrap from 'mousetrap';
 import { h } from 'preact';
-import { urlHandler, patternName } from '../../utils';
+import { urlHandler, patternName, iframeMsgDataExtraction } from '../../utils';
 import { store } from '../../store'; // redux store
 import styles from './pl-tools-menu.scss?external';
 
@@ -99,23 +99,14 @@ class ToolsMenu extends BaseLitComponent {
     this.toggle();
   }
 
-  receiveIframeMessage(event) {
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
     const self = this;
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
 
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
@@ -173,7 +164,7 @@ class ToolsMenu extends BaseLitComponent {
           ${!this.ishControlsHide['tools-docs']
             ? html`
                 <li class="pl-c-tools__item">
-                  <pl-button href="http://patternlab.io/docs/" target="_blank">
+                  <pl-button href="https://patternlab.io/docs/" target="_blank">
                     Pattern Lab Docs
                     <pl-icon name="help" slot="after"></pl-icon>
                   </pl-button>
