@@ -93,6 +93,153 @@ class ViewportSizes extends BaseComponent {
     }
   }
 
+  /**
+   * Get a random number between minViewportWidth and maxViewportWidth
+   */
+  getRangeRandomNumber() {
+    return getRandom(
+      minViewportWidth,
+      // Do not evaluate a number higher than the clientWidth of the Iframe
+      // to prevent having max size multiple times
+      maxViewportWidth > this.iframe.clientWidth
+        ? this.iframe.clientWidth
+        : maxViewportWidth
+    );
+  }
+
+  /**
+   * Start the disco mode, which means in a specific interval resize
+   * the iframe random between minViewportWidth and maxViewportWidth
+   */
+  startDisco() {
+    this.discoMode = true;
+    this.discoId = setInterval(this.disco.bind(this), 1000);
+  }
+
+  /**
+   * Stop the disco mode
+   */
+  killDisco() {
+    this.discoMode = false;
+    clearInterval(this.discoId);
+    this.discoID = null;
+  }
+
+  /**
+   * Action to resize the Iframe in disco mode
+   */
+  disco() {
+    this.iframe.sizeiframe(this.getRangeRandomNumber(), true);
+  }
+
+  /**
+   * Start the Hay! mode, which means the iframe is growing slowly
+   * from minViewportWidth to maxViewportWidth
+   */
+  startHay() {
+    this.hayMode = true;
+    this.hayId = setInterval(this.hay.bind(this), 100);
+  }
+
+  /**
+   * Stop the Hay! Mode
+   */
+  killHay() {
+    this.hayMode = false;
+    clearInterval(this.hayId);
+    this.hayId = null;
+  }
+
+  /**
+   * Action to resize the Iframe in Hay! mode
+   */
+  hay() {
+    this.iframe.sizeiframe(store.getState().app.viewportPx + 1, true);
+  }
+
+  /**
+   * Litte workaround for Firefox Bug.
+   *
+   * On QWERTZ keyboards the e.altKey and e.ctrlKey will
+   * not be set if you click on a key that has a specific
+   * secondary or third char at ALT + ...
+   *
+   * @param {KeyboardEvent} e the keyevent
+   */
+  handleKeyDownEvent(e) {
+    if (e.key === 'Control') {
+      this.controlIsPressed = true;
+    }
+    if (e.key === 'Alt') {
+      this.altIsPressed = true;
+    }
+  }
+
+  /**
+   * https://patternlab.io/docs/advanced-keyboard-shortcuts.html
+   *
+   * Why use these specific key combinations?
+   * Works on QUERTZ, QUERTY and AZERTY keyboard and they are no
+   * reserved browser functionality key combinations.
+   *
+   * QUERTY https://en.wikipedia.org/wiki/QWERTY
+   * QUERTZ https://en.wikipedia.org/wiki/QWERTZ
+   * AZERTY https://en.wikipedia.org/wiki/AZERTY
+   *
+   * Chromium
+   * https://support.google.com/chrome/answer/157179?hl=en
+   *
+   * Firefox
+   * https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly
+   *
+   * @param {KeyboardEvent} e the keyevent
+
+   */
+  handleKeyCombination(e) {
+    const ctrlKey = this.controlIsPressed;
+    const altKey = this.altIsPressed;
+
+    if (ctrlKey && altKey && (e.code === 'Digit0' || e.code === 'Numpad0')) {
+      this.resizeViewport(this.sizes.ZERO);
+    } else if (ctrlKey && altKey && e.code === 'KeyS') {
+      this.resizeViewport(this.sizes.SMALL);
+    } else if (ctrlKey && altKey && e.code === 'KeyM') {
+      this.resizeViewport(this.sizes.MEDIUM);
+    } else if (ctrlKey && altKey && e.code === 'KeyL') {
+      this.resizeViewport(this.sizes.LARGE);
+    } else if (ctrlKey && altKey && e.code === 'KeyF') {
+      this.resizeViewport(this.sizes.FULL);
+    } else if (ctrlKey && altKey && e.code === 'KeyR') {
+      this.resizeViewport(this.sizes.RANDOM);
+    } else if (ctrlKey && altKey && e.code === 'KeyD') {
+      this.resizeViewport(this.sizes.DISCO);
+    } else if (ctrlKey && altKey && e.code === 'KeyH') {
+      this.resizeViewport(this.sizes.HAY);
+    }
+
+    if (e.key === 'Control') {
+      this.controlIsPressed = false;
+    }
+    if (e.key === 'Alt') {
+      this.altIsPressed = false;
+    }
+  }
+
+  /**
+   * Interpret and handle the received message input
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
+
+    if (data.event && data.event === 'patternLab.iframeKeyDownEvent') {
+      this.handleKeyDownEvent(data);
+    } else if (data.event && data.event === 'patternLab.iframeKeyUpEvent') {
+      this.handleKeyCombination(data);
+    }
+  }
+
   rendered() {
     this.iframe = document.querySelector('pl-iframe');
     this.iframeElem = document.querySelector('pl-iframe iframe');
