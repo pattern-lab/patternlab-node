@@ -523,6 +523,10 @@ class IFrame extends BaseLitComponent {
           addressReplacement
         );
 
+        const currentUrl = urlHandler.getFileName(currentPattern);
+        if (currentUrl) {
+          store.dispatch(updateCurrentUrl(currentUrl));
+        }
         store.dispatch(updateCurrentPattern(currentPattern));
       } catch (error) {
         console.log(error);
