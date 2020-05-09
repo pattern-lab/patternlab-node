@@ -3,6 +3,7 @@ import { store } from '../../store.js'; // connect to redux
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { html } from 'lit-html';
 import { BaseLitComponent } from '../../components/base-component';
+import { iframeMsgDataExtraction } from '../../utils';
 import { customElement } from 'lit-element';
 import Mousetrap from 'mousetrap';
 import styles from './pl-header.scss?external';
@@ -142,24 +143,14 @@ class Header extends BaseLitComponent {
     `;
   }
 
-  receiveIframeMessage(event) {
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
     const self = this;
 
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {

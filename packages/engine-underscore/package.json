@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-underscore",
   "description": "The Underscore engine for Pattern Lab / Node",
-  "version": "5.0.0",
+  "version": "5.10.1",
   "main": "lib/engine_underscore.js",
   "dependencies": {
     "underscore": "1.8.3"
@@ -27,5 +27,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }
