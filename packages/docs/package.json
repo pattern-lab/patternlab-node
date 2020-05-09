@@ -1,6 +1,6 @@
 {
   "name": "patternlab-website",
-  "version": "5.10.0",
+  "version": "5.9.3",
   "description": "The website for patternlab.io",
   "main": "index.js",
   "dependencies": {
