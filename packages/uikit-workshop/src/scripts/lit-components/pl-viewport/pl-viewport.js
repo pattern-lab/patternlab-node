@@ -55,6 +55,7 @@ class IFrame extends BaseLitComponent {
     this.themeMode = state.app.themeMode || 'dark';
     this.isViewallPage = state.app.isViewallPage || false;
     this.currentPattern = state.app.currentPattern || '';
+    this.layoutMode = state.app.layoutMode;
 
     if (state.app.viewportPx) {
       this.sizeiframe(state.app.viewportPx, false);
@@ -310,6 +311,14 @@ class IFrame extends BaseLitComponent {
         this.sizeiframe(state.app.viewportPx, false);
       } else {
         this.sizeiframe(this.iframe.clientWidth, false);
+      }
+    }
+
+    // Update size when layout is changed
+    if (this.layoutMode !== state.app.layoutMode) {
+      this.layoutMode = state.app.layoutMode;
+      if (this.iframeContainer) {
+        this.updateSizeReading(this.iframeContainer.clientWidth);
       }
     }
   }
