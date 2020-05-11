@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+
+### Bug Fixes
+
+* **uikitworkshop:** preventing cropping pattern parts [#1174](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1174) ([6a67d03](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6a67d039048129e9837c3b6eb3e195ed2e86a815))
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 

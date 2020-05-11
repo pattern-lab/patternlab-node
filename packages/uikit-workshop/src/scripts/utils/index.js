@@ -9,3 +9,4 @@ export { targetOrigin } from './get-target-origin';
 export { patternName } from './pattern-name';
 export { minViewportWidth, maxViewportWidth } from './viewport-sizes';
 export { getRandom } from './get-random';
+export { iframeMsgDataExtraction } from './iframe-msg-data-extraction';
