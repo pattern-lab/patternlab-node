@@ -46,5 +46,5 @@ We'd name our documentation file:
 
 ## Adding More Attributes to the Front Matter
 
-A future update of Pattern Lab will support more front matter attributes including: state, order, hidden, links and tags.
+A future update of Pattern Lab will support more front matter attributes including: order, hidden, links and tags.
 It will also support adding custom attributes that could be utilized by plugins. For example, GitHub issues related to patterns.
