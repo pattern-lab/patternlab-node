@@ -276,7 +276,6 @@ Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Eco
 - `enabled`: quickly turn on or off the building of this UIKit
 - `excludedPatternStates`: tell Pattern Lab not to include patterns with these states in this UIKit's output
 - `excludedPatternTags`: tell Pattern Lab not to include patterns with these tags in this UIKit's output
-  - [currently not supported](https://github.com/pattern-lab/patternlab-node/issues/844)
 
 Important details:
 
