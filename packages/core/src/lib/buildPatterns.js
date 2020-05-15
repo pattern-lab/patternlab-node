@@ -55,7 +55,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
 
   // Flags
   patternlab.incrementalBuildsEnabled = !(
-    patternlab.config.cleanPublic || graphNeedsUpgrade
+    patternlab.config.cleanPublic || graphNeedsUpgrade || deletePatternDir
   );
 
   //
