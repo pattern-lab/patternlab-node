@@ -10,7 +10,7 @@ The Base StarterKit for Handlebars requires the following PatternEngine:
 
 ## Install
 
-[Installation Instructions](http://patternlab.io/docs/advanced-starterkits.html)
+[Installation Instructions](https://patternlab.io/docs/starterkits/)
 
 ## Edit Files
 

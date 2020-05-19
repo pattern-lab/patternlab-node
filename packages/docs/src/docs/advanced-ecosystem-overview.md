@@ -19,7 +19,7 @@ Editions let teams and agencies bundle all the things that support their unique 
 
 The following is good overview of what components might make up an edition:
 
-<img src="/assets/pattern-lab-2-image_18-large-opt.png">
+<img src="/images/pattern-lab-2-image_18-large-opt.png">
 
 This is by no means exhaustive and can be added to as needed. Here is a description of each component:
 

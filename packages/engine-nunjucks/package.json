@@ -11,7 +11,7 @@
     "nunjucks": "^3.2.0"
   },
   "engines": {
-    "node": ">=10.0"
+    "node": ">=12.12.0"
   },
   "keywords": [
     "Pattern Lab",
@@ -26,8 +26,9 @@
   "main": "lib/engine_nunjucks.js",
   "name": "@pattern-lab/engine-nunjucks",
   "scripts": {},
-  "version": "5.0.0",
+  "version": "5.10.1",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }
