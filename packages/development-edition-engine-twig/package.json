@@ -6,6 +6,7 @@
   "scripts": {
     "postbootstrap": "patternlab install --starterkits @pattern-lab/starterkit-twig-demo",
     "pl:build": "patternlab build --config ./patternlab-config.json",
+    "pl:debug": "node --inspect-brk=24984 node_modules/.bin/patternlab build --config ./patternlab-config.json",
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
