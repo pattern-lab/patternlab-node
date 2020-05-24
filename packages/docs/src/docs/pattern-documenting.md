@@ -18,7 +18,14 @@ title: Title for my pattern
 This is a *Markdown* description of my pattern.
 ```
 
-The `title` attribute is used in Pattern Lab's navigation as well as in the styleguide views. The `description` is used in the styleguide views.
+Attributes overview:
+* The `title` attribute is used in Pattern Lab's navigation as well as in the styleguide views. Format: `string`
+* Pattern `tags` has to be an array, like `tags: [new, relaunch, dev]`
+* [Pattern `states`](/docs/using-pattern-states/) are defined like `state: incomplete` and [provide a simple visual indication](/docs/using-pattern-states/)
+
+Both `tags` and `states` could be used for [not including patterns in a UIKit specific build](/docs/editing-the-configuration-options/#heading-uikits).
+
+The `description` is used in the styleguide views.
 
 Pattern documentation needs to have a `.md` file extension and match the name of the pattern it's documenting. For example, to document the following pattern:
 
