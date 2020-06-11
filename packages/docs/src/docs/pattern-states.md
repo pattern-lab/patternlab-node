@@ -45,8 +45,8 @@ The three default states included with Pattern Lab might not be enough for every
 You can use the following as your CSS template for new pattern states:
 
 ```css
-{% raw %}.newpatternstate:before {
-    color: #B10DC9 !important;
+{% raw %}.pl-c-pattern-state--newpatternstate {
+    background-color: #B10DC9;
 }{% endraw %}
 ```
 
