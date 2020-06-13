@@ -56,8 +56,8 @@
 	 * Toggles active class on the primary nav panel
 	 * 1) Select all nav triggers and cycle through them
 	 * 2) On click, find the nav panel within the header
-	 * 3) If the navPanel already has active class, remove it on click.
-	 * 4) If the navPanel does not have an active class, add it on click.
+	 * 3) If the navPanel already has active class, remove it on click, as well as the aria-expanded attributes value.
+	 * 4) If the navPanel does not have an active class, add it on click, as well as the aria-expanded attributes value.
 	 */
 	var navToggle = document.querySelectorAll('.js-nav-trigger'); /* 1 */
 
@@ -67,15 +67,18 @@
 		navToggle[i].addEventListener('click', function(event) {
 			/* 2 */
 			event.preventDefault();
-			var navToggleParent = this.parentNode; /* 2 */
+			var navToggleElement = this;
+			var navToggleParent = navToggleElement.parentNode; /* 2 */
 			var navPanel = navToggleParent.querySelector('.js-nav-panel'); /* 2 */
 
 			if (navPanel.classList.contains('is-active')) {
 				/* 3 */
 				navPanel.classList.remove('is-active');
+				navToggleElement.setAttribute('aria-expanded', 'false');
 			} else {
 				/* 4 */
 				navPanel.classList.add('is-active');
+				navToggleElement.setAttribute('aria-expanded', 'true');
 			}
 		});
 	}
