@@ -7,5 +7,5 @@ tags:
   - demo-in-the-wild
   - demo-content
   - code
-image: /images/800x600.png
+image: https://image.thum.io/get/width/800/crop/600/https://bradfrostdotcom-pl.netlify.com/
 ---
