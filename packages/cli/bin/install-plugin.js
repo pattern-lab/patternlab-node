@@ -1,11 +1,12 @@
 'use strict';
 
-const path = require('path');
-
 const _ = require('lodash');
 
-const checkAndInstallPackage = require('./utils').checkAndInstallPackage;
-const wrapAsync = require('./utils').wrapAsync;
+const {
+  checkAndInstallPackage,
+  wrapAsync,
+  resolveFileInPackage,
+} = require('./utils');
 
 const installPlugin = (plugin, config) =>
   wrapAsync(function*() {
@@ -16,9 +17,7 @@ const installPlugin = (plugin, config) =>
     _.set(config, `plugins[${name}]['initialized']`, false);
 
     // Get the options from the plugin, if any
-    const pluginPathConfig = path.resolve(
-      path.join(process.cwd(), 'node_modules', name, 'config.json')
-    );
+    const pluginPathConfig = resolveFileInPackage(name, 'config.json');
     try {
       const pluginConfigJSON = require(pluginPathConfig);
       if (!_.has(config.plugins[name].options)) {

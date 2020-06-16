@@ -6,6 +6,8 @@ const {
   wrapAsync,
   checkAndInstallPackage,
   readJsonAsync,
+  resolveFileInPackage,
+  resolveDirInPackage,
 } = require('./utils');
 
 const installStarterkit = (starterkit, config) =>
@@ -13,10 +15,9 @@ const installStarterkit = (starterkit, config) =>
     const sourceDir = config.paths.source.root;
     const name = starterkit.value || starterkit;
     yield checkAndInstallPackage(name);
-    const kitPath = path.resolve('./node_modules', name);
-    yield copyAsync(path.resolve(kitPath, 'dist'), path.resolve(sourceDir));
+    yield copyAsync(resolveDirInPackage(name, 'dist'), path.resolve(sourceDir));
     let kitConfig;
-    const kitConfigPath = path.resolve(kitPath, 'patternlab-config.json');
+    const kitConfigPath = resolveFileInPackage(name, 'patternlab-config.json');
     if (fs.existsSync(kitConfigPath)) {
       kitConfig = yield readJsonAsync(kitConfigPath);
     }
