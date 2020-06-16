@@ -124,7 +124,7 @@ const copyWithPattern = (cwd, pattern, dest) =>
 
 /**
  * @func fetchPackage
- * @desc Fetches and saves packages from npm into node_modules and adds a reference in the package.json under dependencies
+ * @desc Fetches packages from an npm package registry and adds a reference in the package.json under dependencies
  * @param {string} packageName - The package name
  */
 const fetchPackage = packageName =>
@@ -183,6 +183,30 @@ const writeJsonAsync = (filePath, data) =>
   });
 
 /**
+ * @func resolveFileInPackage
+ * Resolves a file inside a package
+ */
+const resolveFileInPackage = (packageName, ...pathElements) => {
+  return require.resolve(path.join(packageName, ...pathElements));
+};
+
+/**
+ * @func resolveDirInPackage
+ * Resolves a file inside a package
+ */
+const resolveDirInPackage = (packageName, ...pathElements) => {
+  return path.dirname(resolveFileInPackage(packageName, pathElements));
+};
+
+/**
+ * @func resolvePackageFolder
+ * Resolves the location of a package on disc
+ */
+const resolvePackageFolder = packageName => {
+  return path.dirname(resolveDirInPackage(packageName, 'package.json'));
+};
+
+/**
  * @func getJSONKey
  * Installs package, then returns the value for the given JSON file's key within
  * @param {string} packageName - the node_module to install / load
@@ -193,7 +217,7 @@ const getJSONKey = (packageName, key, fileName = 'package.json') =>
   wrapAsync(function*() {
     yield checkAndInstallPackage(packageName);
     const jsonData = yield fs.readJson(
-      path.resolve('node_modules', packageName, fileName)
+      resolveFileInPackage(packageName, fileName)
     );
     return jsonData[key];
   });
@@ -213,4 +237,7 @@ module.exports = {
   checkAndInstallPackage,
   noop,
   getJSONKey,
+  resolveFileInPackage,
+  resolveDirInPackage,
+  resolvePackageFolder,
 };
