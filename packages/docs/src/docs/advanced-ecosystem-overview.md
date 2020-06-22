@@ -53,6 +53,7 @@ Plugins allow developers to extend Pattern Lab Core and other parts of the ecosy
 
 Currently the following plugins are provided by the community:
 * [plugin-tab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab): Displaying sibling files next to a pattern in the filesystem as further code tab panels
+* [plugin-node-minify-html](https://github.com/JosefBredereck/plugin-node-minify-html): Patternlab Node HTML tabs panel compressor/minifier/beautifier
 * [patternlab-plugin-node-wrappable](https://github.com/networkteam/patternlab-plugin-node-wrappable): Configuration to wrap patterns styleguide HTML output (e.g. for inverse backgrounds)
 
 
