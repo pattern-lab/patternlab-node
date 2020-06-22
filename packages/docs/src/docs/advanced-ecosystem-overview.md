@@ -56,6 +56,7 @@ Currently the following plugins are provided by the community:
 * [plugin-node-minify-html](https://github.com/JosefBredereck/plugin-node-minify-html): Patternlab Node HTML tabs panel compressor/minifier/beautifier
 * [patternlab-plugin-node-wrappable](https://github.com/networkteam/patternlab-plugin-node-wrappable): Configuration to wrap patterns styleguide HTML output (e.g. for inverse backgrounds)
 
+Please feel to contribute and [add your plugin to this list as well](https://github.com/pattern-lab/patternlab-node/edit/dev/packages/docs/src/docs/advanced-ecosystem-overview.md).
 
 ### Other Types of Components
 
