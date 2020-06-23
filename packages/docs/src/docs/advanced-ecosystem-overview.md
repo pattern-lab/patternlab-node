@@ -55,6 +55,7 @@ Currently the following plugins are provided by the community:
 * [plugin-tab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab): Displaying sibling files next to a pattern in the filesystem as further code tab panels
 * [plugin-node-minify-html](https://github.com/JosefBredereck/plugin-node-minify-html): Patternlab Node HTML tabs panel compressor/minifier/beautifier
 * [patternlab-plugin-node-wrappable](https://github.com/networkteam/patternlab-plugin-node-wrappable): Configuration to wrap patterns styleguide HTML output (e.g. for inverse backgrounds)
+* [plugin-node-patternlab-inline-assets](https://github.com/michaelworm/plugin-node-patternlab-inline-assets): Consume and inline assets (out of the file system) into your templates before compiling
 
 Please feel to contribute and [add your plugin to this list as well](https://github.com/pattern-lab/patternlab-node/edit/dev/packages/docs/src/docs/advanced-ecosystem-overview.md).
 
