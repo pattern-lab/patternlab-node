@@ -15,12 +15,12 @@ Pattern Lab comes with support for a number of special keyboard shortcuts to mak
 
 Modifying the viewport:
 
-- **ctrl+shift+0**: set the viewport to 320px
-- **ctrl+shift+s**: set the viewport to "small"
-- **ctrl+shift+m**: set the viewport to "medium"
-- **ctrl+shift+l**: set the viewport to "large"
-- **ctrl+shift+h**: toggle Hay mode
-- **ctrl+shift+d**: toggle disco mode
+- **ctrl+alt+0**: set the viewport to 320px
+- **ctrl+alt+s**: set the viewport to "small"
+- **ctrl+alt+m**: set the viewport to "medium"
+- **ctrl+alt+l**: set the viewport to "large"
+- **ctrl+alt+h**: toggle Hay mode
+- **ctrl+alt+d**: toggle disco mode
 
 Modifying the views:
 

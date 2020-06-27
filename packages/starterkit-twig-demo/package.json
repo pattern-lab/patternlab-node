@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/starterkit-twig-demo",
-  "version": "5.8.0",
+  "version": "5.10.1",
   "description": "Pattern Lab's Demo StarterKit for Twig.",
   "main": "README.md",
   "repository": {
@@ -21,5 +21,6 @@
   "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-twig-demo",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

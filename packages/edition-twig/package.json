@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/edition-twig",
-  "version": "5.9.3",
+  "version": "5.10.2",
   "description": "Pattern Lab node with Twig PHP Engine",
   "author": {
     "name": "Evan Lovely",
@@ -23,13 +23,13 @@
     "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^5.9.3",
-    "@pattern-lab/core": "^5.9.3",
-    "@pattern-lab/engine-twig-php": "^5.9.3",
-    "@pattern-lab/uikit-workshop": "^5.9.3"
+    "@pattern-lab/cli": "^5.10.1",
+    "@pattern-lab/core": "^5.10.1",
+    "@pattern-lab/engine-twig-php": "^5.10.1",
+    "@pattern-lab/uikit-workshop": "^5.10.2"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=12.12.0"
   },
   "publishConfig": {
     "access": "public"
@@ -42,5 +42,6 @@
     "Design",
     "Twig"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

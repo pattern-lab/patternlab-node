@@ -5,6 +5,7 @@
 
 import { panelsUtil } from './panels-util';
 import './pl-copy-to-clipboard/pl-copy-to-clipboard';
+import { iframeMsgDataExtraction } from '../utils';
 
 export const modalStyleguide = {
   // set up some defaults
@@ -195,24 +196,11 @@ export const modalStyleguide = {
   /**
    * toggle the comment pop-up based on a user clicking on the pattern
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
-   * @param  {Object}      event info
+   *
+   * @param {MessageEvent} e A message received by a target object.
    */
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     // see if it got a path to replace
     if (data.event !== undefined && data.event === 'patternLab.patternQuery') {

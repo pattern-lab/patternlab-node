@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "released",
+      {
+        "label": "released :rocket:",
+        "message": "%TYPE was released with %VERSION"
+      }
+    ]
+  ]
+}
