@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.11.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.2...v5.11.0) (2020-06-28)
+
+
+### Bug Fixes
+
+* update Viewport Size toggle to better handle async-loaded ishControl data + prevent rendering errors ([b937706](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/b93770669c6f723128ba68e522c9398cc1d2d70c))
+* update Webpack config to point to the patched version of preact-dom ([d3660b7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d3660b78bc0a74c52ed85b69b023c612b789c318))
+* visually hide NavToggle icon text; fix for visual regression after merging down https://github.com/pattern-lab/patternlab-node/pull/1227 ([3a2ad9f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/3a2ad9f12d83b6d21dcca62e89d944a6a46342f6))
+* **patternflyouts:** preventing horizontal scrollbar in pattern flyouts in Edge 18 [#1124](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1124) ([63300bc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/63300bc00ee797e38bfdb73fdc7694c188a423dc))
+* **patternstate:** added css color for pattern state "inprogress" [#1216](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1216) ([856bcda](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/856bcda150239928bb5e8719246b97e9fa366468))
+* **resetcss:** selector in uikit-workshop [#1109](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1109) ([6893b7c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6893b7cb5478309d4fdab0121edba3921718bd69))
+
+
+
+
+
 ## [5.10.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.1...v5.10.2) (2020-05-24)
 
 

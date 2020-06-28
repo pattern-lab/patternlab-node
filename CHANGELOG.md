@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.11.0](https://github.com/pattern-lab/patternlab-node/compare/v5.10.2...v5.11.0) (2020-06-28)
+
+
+### Bug Fixes
+
+* update Viewport Size toggle to better handle async-loaded ishControl data + prevent rendering errors ([b937706](https://github.com/pattern-lab/patternlab-node/commit/b93770669c6f723128ba68e522c9398cc1d2d70c))
+* update Webpack config to point to the patched version of preact-dom ([d3660b7](https://github.com/pattern-lab/patternlab-node/commit/d3660b78bc0a74c52ed85b69b023c612b789c318))
+* visually hide NavToggle icon text; fix for visual regression after merging down https://github.com/pattern-lab/patternlab-node/pull/1227 ([3a2ad9f](https://github.com/pattern-lab/patternlab-node/commit/3a2ad9f12d83b6d21dcca62e89d944a6a46342f6))
+* **docs:** corrected a URL ([26ede14](https://github.com/pattern-lab/patternlab-node/commit/26ede14a6eafe8649cbc6b0076d84f1d323c3e20))
+* **docs:** fixed css code for custom patternstates color ([8995241](https://github.com/pattern-lab/patternlab-node/commit/89952416162c01d1e3e05221ce58a7755544131c)), closes [#1216](https://github.com/pattern-lab/patternlab-node/issues/1216)
+* **docs:** headlines styling breaks in edge cases [#1158](https://github.com/pattern-lab/patternlab-node/issues/1158) ([d8244a2](https://github.com/pattern-lab/patternlab-node/commit/d8244a2d307b0a81d0846491f8c5a12e0ae167a5))
+* **patternflyouts:** preventing horizontal scrollbar in pattern flyouts in Edge 18 [#1124](https://github.com/pattern-lab/patternlab-node/issues/1124) ([63300bc](https://github.com/pattern-lab/patternlab-node/commit/63300bc00ee797e38bfdb73fdc7694c188a423dc))
+* **patternstate:** added css color for pattern state "inprogress" [#1216](https://github.com/pattern-lab/patternlab-node/issues/1216) ([856bcda](https://github.com/pattern-lab/patternlab-node/commit/856bcda150239928bb5e8719246b97e9fa366468))
+* **resetcss:** selector in uikit-workshop [#1109](https://github.com/pattern-lab/patternlab-node/issues/1109) ([6893b7c](https://github.com/pattern-lab/patternlab-node/commit/6893b7cb5478309d4fdab0121edba3921718bd69))
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+* enable partial build via option ([4b9dbf9](https://github.com/pattern-lab/patternlab-node/commit/4b9dbf9095bfb8bfd2360b310dd7395dbfe3cf98))
+
+
+
+
+
 ## [5.10.2](https://github.com/pattern-lab/patternlab-node/compare/v5.10.1...v5.10.2) (2020-05-24)
 
 

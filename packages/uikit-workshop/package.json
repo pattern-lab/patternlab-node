@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "5.10.2",
+  "version": "5.11.0",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "devDependencies": {
-    "@pattern-lab/core": "^5.10.1",
+    "@pattern-lab/core": "^5.11.0",
     "@pattern-lab/engine-handlebars": "^5.10.1",
     "@pattern-lab/engine-mustache": "^5.10.1",
     "better-opn": "^1.0.0",
