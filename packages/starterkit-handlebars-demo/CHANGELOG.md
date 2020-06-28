@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.11.1](https://github.com/pattern-lab/patternlab-node/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+
+### Bug Fixes
+
+* **docs:** corrected a URL ([26ede14](https://github.com/pattern-lab/patternlab-node/commit/26ede14a6eafe8649cbc6b0076d84f1d323c3e20))
+
+
+
+
+
 # [5.11.0](https://github.com/pattern-lab/patternlab-node/compare/v5.10.2...v5.11.0) (2020-06-28)
 
 

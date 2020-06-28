@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.11.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+
+### Bug Fixes
+
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+
+
+
+
+
 # [5.11.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.10.2...v5.11.0) (2020-06-28)
 
 

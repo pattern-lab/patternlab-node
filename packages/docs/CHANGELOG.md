@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.11.1](https://github.com/bradfrost/pl-website-eleventy/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+
+### Bug Fixes
+
+* **docs:** fixed css code for custom patternstates color ([8995241](https://github.com/bradfrost/pl-website-eleventy/commit/89952416162c01d1e3e05221ce58a7755544131c)), closes [#1216](https://github.com/bradfrost/pl-website-eleventy/issues/1216)
+* **docs:** headlines styling breaks in edge cases [#1158](https://github.com/bradfrost/pl-website-eleventy/issues/1158) ([d8244a2](https://github.com/bradfrost/pl-website-eleventy/commit/d8244a2d307b0a81d0846491f8c5a12e0ae167a5))
+
+
+
+
+
 # [5.11.0](https://github.com/bradfrost/pl-website-eleventy/compare/v5.10.2...v5.11.0) (2020-06-28)
 
 
