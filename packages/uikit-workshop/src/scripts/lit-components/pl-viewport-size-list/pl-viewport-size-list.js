@@ -54,7 +54,7 @@ class ViewportSizes extends BaseComponent {
     super.connectedCallback && super.connectedCallback();
     styles.use();
     const state = store.getState();
-    const { ishControlsHide } = window.ishControls;
+    const { ishControlsHide } = window?.ishControls;
     this.ishControlsHide = ishControlsHide;
 
     // Remove EventListener or they will be added multiple times when reloading in serve mode
@@ -301,7 +301,7 @@ class ViewportSizes extends BaseComponent {
   render() {
     return (
       <ul class="pl-c-size-list">
-        {!this.ishControlsHide.s && (
+        {!this.ishControlsHide?.s && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -328,7 +328,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.m && (
+        {!this.ishControlsHide?.m && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -355,7 +355,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.l && (
+        {!this.ishControlsHide?.l && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -382,7 +382,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.full && (
+        {!this.ishControlsHide?.full && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -409,7 +409,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.random && (
+        {!this.ishControlsHide?.random && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -436,7 +436,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.disco && (
+        {!this.ishControlsHide?.disco && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"
@@ -463,7 +463,7 @@ class ViewportSizes extends BaseComponent {
             </Tooltip>
           </li>
         )}
-        {!this.ishControlsHide.hay && (
+        {!this.ishControlsHide?.hay && (
           <li class="pl-c-size-list__item">
             <Tooltip
               placement="top"

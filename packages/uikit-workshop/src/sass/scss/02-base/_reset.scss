@@ -16,7 +16,7 @@
   box-sizing: border-box;
 }
 
-button {
+button[class|="pl-c"] {
   font-size: inherit;
   background-color: transparent;
 }

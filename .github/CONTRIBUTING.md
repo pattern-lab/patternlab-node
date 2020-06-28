@@ -2,7 +2,7 @@
 
 If you'd like to contribute to Pattern Lab Node, please do so! There is always a lot of ground to cover and something for your wheelhouse.
 
-No pull request is too small. Check out any [help wanted 🆘](https://github.com/pattern-lab/patternlab-node/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted+%3Asos%3A%22) or [good first issues 🎓](https://github.com/pattern-lab/patternlab-node/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue+%3Amortar_board%3A%22)as a good way to get your feet wet, or add some more unit tests.
+No pull request is too small. Check out any [help wanted 🆘](https://github.com/pattern-lab/patternlab-node/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted+%3Asos%3A%22) or [good first issues 🎓](https://github.com/pattern-lab/patternlab-node/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue+%3Amortar_board%3A%22) as a good way to get your feet wet, or add some more unit tests.
 
 ## Prerequisites
 
