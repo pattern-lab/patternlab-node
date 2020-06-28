@@ -21,8 +21,8 @@
     "prettier": "^1.14.3",
     "lerna": "3.17.0",
     "pretty-quick": "^1.11.1",
-    "auto": "^9.31.1",
-    "@auto-it/released": "^9.31.1"
+    "auto": "^9.40.5",
+    "@auto-it/released": "^9.40.5"
   },
   "repository": {
     "type": "git",
