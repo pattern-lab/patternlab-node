@@ -49,6 +49,17 @@ PatternEngines are the templating engines that are responsible for parsing patte
 
 Plugins allow developers to extend Pattern Lab Core and other parts of the ecosystem. Pattern Lab’s architecture allows developers to modify data at different stages, add their own commands or pattern rules, or change the front-end to modify and extend Pattern Lab’s capabilities.
 
+#### Node Plugins
+
+Currently the following plugins are provided by the community:
+* [plugin-tab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab): Displaying sibling files next to a pattern in the filesystem as further code tab panels
+* [plugin-node-minify-html](https://github.com/JosefBredereck/plugin-node-minify-html): Patternlab Node HTML tabs panel compressor/minifier/beautifier
+* [patternlab-plugin-node-wrappable](https://github.com/networkteam/patternlab-plugin-node-wrappable): Configuration to wrap patterns styleguide HTML output (e.g. for inverse backgrounds)
+* [plugin-node-patternlab-inline-assets](https://github.com/michaelworm/plugin-node-patternlab-inline-assets): Consume and inline assets (out of the file system) into your templates before compiling
+* [plugin-node-uiextension](https://github.com/bmuenzenmeyer/plugin-node-uiextension): Provide a simple Patternlab chrome customization path versus forking the `StyleguideKit`
+
+Please feel to contribute and [add your plugin to this list as well](https://github.com/pattern-lab/patternlab-node/edit/dev/packages/docs/src/docs/advanced-ecosystem-overview.md).
+
 ### Other Types of Components
 
 The flexibility of the Pattern Lab ecosystem means that teams can develop tools on top of Pattern Lab that meet _their_ needs. Want to standardize and push entire data sets to teams? Want to develop with granular collections of components instead of entire StarterKits? Only want to customize the CSS for the default StyleguideKit and distribute it as part of your projects? All of this and more is possible. We feel we're just scratching the surface on what it means to develop projects and design systems with a tool like Pattern Lab
