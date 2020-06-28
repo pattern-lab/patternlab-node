@@ -60,10 +60,24 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       }
 
       //extend any existing data with variant data
-      variantFileData = _.merge(
+      variantFileData = _.mergeWith(
         {},
         currentPattern.jsonFileData,
-        variantFileData
+        variantFileData,
+        (objValue, srcValue) => {
+          if (
+            _.isArray(objValue) &&
+            // If the parameter is not available after updating pattern lab but
+            // not the patternlab-config it should not override arrays.
+            patternlab.config.hasOwnProperty('patternMergeVariantArrays') &&
+            !patternlab.config.patternMergeVariantArrays
+          ) {
+            return srcValue;
+          }
+          // Lodash will only check for "undefined" and eslint needs a consistent
+          // return so do not remove
+          return undefined;
+        }
       );
 
       const variantName = pseudoPatterns[i]

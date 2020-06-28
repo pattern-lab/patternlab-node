@@ -77,7 +77,7 @@ Emitted after global `data.json` and `listitems.json` are read, and the supporti
 Emitted before all data is merged prior to a Pattern's render. Global `data.json` is merged with any pattern `.json`. Global `listitems.json` is merged with any pattern `.listitems.json`.
 
 **Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
-**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)  
+**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/src/lib/object_factory.js#L16)
 **Properties**
 
 | Name       | Type                 | Description       |
@@ -92,7 +92,7 @@ Emitted before all data is merged prior to a Pattern's render. Global `data.json
 Emitted before a pattern's template, HTML, and encoded HTML files are written to their output location
 
 **Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
-**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)  
+**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/src/lib/object_factory.js#L16)
 **Properties**
 
 | Name       | Type                 | Description       |
@@ -107,7 +107,7 @@ Emitted before a pattern's template, HTML, and encoded HTML files are written to
 Emitted after a pattern's template, HTML, and encoded HTML files are written to their output location
 
 **Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
-**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/src/lib/object_factory.js#L16)  
+**See**: [Pattern](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/src/lib/object_factory.js#L16)
 **Properties**
 
 | Name       | Type                 | Description       |

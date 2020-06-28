@@ -47,6 +47,18 @@
 .c-header__nav-btn {
 	margin-left: auto;
 
+	// Pseudo / breakout element that enables clicking/tabbing outside of the menu to close it
+	&[aria-expanded="true"]::after {
+		position: fixed;
+		top: 0;
+		left: 0;
+
+		content: "";
+
+		width: 100vw;
+		height: 100vh;
+  }
+
 	@media all and (min-width: $bp-large) {
 		display: none;
 	}
