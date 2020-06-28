@@ -57,6 +57,7 @@
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
   "patternExtension": "mustache",
+  "patternMergeVariantArrays": true,
   "cacheBust": true,
   "outputFileSuffixes": {
     "rendered": ".rendered",

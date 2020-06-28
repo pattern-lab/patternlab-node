@@ -75,6 +75,7 @@
   "patternExportPatternPartials": [],
   "patternExportPreserveDirectoryStructure": true,
   "patternExportRaw": false,
+  "patternMergeVariantArrays": true,
   "serverOptions": {
     "wait": 1000
   },
