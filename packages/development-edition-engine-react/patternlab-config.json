@@ -25,16 +25,7 @@
     "m": [500, 800],
     "l": [800, 2600]
   },
-<<<<<<< HEAD:packages/development-edition-engine-react/patternlab-config.json
   "logLevel": "info",
-=======
-  "patternExportAll": false,
-  "patternExportPreserveDirectoryStructure": false,
-  "patternExportRaw": false,
-  "patternExportPatternPartials": [],
-  "patternExportDirectory": "./pattern_exports/",
-  "cacheBust": true,
->>>>>>> 436dd99e50d808cd14691593b927209f1ecb663e:patternlab-config.json
   "outputFileSuffixes": {
     "rendered": ".rendered",
     "rawTemplate": "",
@@ -79,8 +70,12 @@
   },
   "patternExtension": "mustache",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternExportAll": false,
+  "patternExportPreserveDirectoryStructure": false,
+  "patternExportRaw": false,
   "patternExportDirectory": "./pattern_exports/",
   "patternExportPatternPartials": [],
+  "patternMergeVariantArrays": true,
   "serverOptions": {
     "wait": 1000
   },

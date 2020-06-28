@@ -186,6 +186,19 @@ For example, to export the navigation, header, and footer, one might do:
 
 **default**: `[]`
 
+### patternMergeVariantArrays
+
+Used to override the merge behavior of pattern variants. For more information see [The Pseudo-Pattern File Data](docs/using-pseudo-patterns/#heading-the-pseudo-pattern-file data).
+
+- `true` will merge arrays of the pattern and pseudo-pattern with [lodash merge](https://lodash.com/docs/4.17.15#merge)
+- `false` will override arrays from the pattern with pseudo-patterns arrays
+
+```javascript
+"patternMergeVariantArrays": true,
+```
+
+**default**: `true` | `undefined`
+
 ### serverOptions
 
 Sets live-server options. See the [live-server documentation](https://github.com/pattern-lab/live-server#usage-from-node) for more details.
