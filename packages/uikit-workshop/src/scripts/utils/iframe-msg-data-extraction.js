@@ -2,14 +2,14 @@
  * Does the origin sending the message match the current host?
  * if not dev/null the request
  *
- * @param {MessageEvent} e A message received by a target object.
+ * @param {MessageEvent} event A message received by a target object.
  */
-export function iframeMsgDataExtraction(e) {
+export function iframeMsgDataExtraction(event) {
   if (
     window.location.protocol !== 'file:' &&
     event.origin !== window.location.protocol + '//' + window.location.host
   ) {
-    return;
+    return {};
   }
 
   try {

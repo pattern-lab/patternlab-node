@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/pattern-lab/patternlab-node/issues"
   },
-  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-handebars-demo",
+  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-handlebars-demo",
   "publishConfig": {
     "access": "public"
   },

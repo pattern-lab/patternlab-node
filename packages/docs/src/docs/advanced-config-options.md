@@ -238,7 +238,12 @@ These template and page patterns would still be accessible via navigation.
 
 ### theme
 
-Sets the theme options for the styleguide. There are three options: 'color', 'density', and 'layout'.
+Sets the theme options for the styleguide. There are five options:
+* `"color"`
+* `"density"`
+* `"layout"`
+* `"noViewAll"` (optional)
+* `"logo"` (optional)
 
 Available values are:
 
@@ -246,11 +251,25 @@ Available values are:
 "theme" : {
   "color" : "dark" | "light",
   "density" : "compact" | "cozy" | "comfortable",
-  "layout" : "horizontal" | "vertical"
+  "layout" : "horizontal" | "vertical",
+  "noViewAll" : true | false,
+  "logo": {
+    "text": "Pattern Lab",
+    "altText": "Pattern Lab Logo",
+    "url": "/",
+    "srcLight": "styleguide/images/pattern-lab-logo--on-light.svg",
+    "srcDark": "styleguide/images/pattern-lab-logo--on-dark.svg",
+    "width": "187",
+    "height": "185"
+  }
 }
 ```
 
-See the [initial release notes](https://github.com/pattern-lab/styleguidekit-assets-default/releases/tag/v4.0.0-alpha.2) for the theme feature for example output.
+See the [initial release notes](https://github.com/pattern-lab/styleguidekit-assets-default/releases/tag/v4.0.0-alpha.2) for the theme feature for example output on `"color"`, `'density"` and `"layout"`.
+
+`"noViewAll"` provides the possibility to hide the "View All" pages and links within the navigation.
+
+And `"logo"` lets you finetune the different aspects of the logo displayed on the left top corner of the styleguide.
 
 **default**:
 
@@ -288,8 +307,7 @@ Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Eco
 
 - `enabled`: quickly turn on or off the building of this UIKit
 - `excludedPatternStates`: tell Pattern Lab not to include patterns with these states in this UIKit's output
-- `excludedPatternTags`: tell Pattern Lab not to include patterns with these tags in this UIKit's output
-  - [currently not supported](https://github.com/pattern-lab/patternlab-node/issues/844)
+- `excludedTags`: tell Pattern Lab not to include patterns with these tags in this UIKit's output
 
 Important details:
 
