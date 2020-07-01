@@ -153,7 +153,7 @@ tap.test('test Pattern with own-directory gets resetted as expected', function(
   test
 ) {
   var p = new Pattern('00-atoms/00-button/button.mustache', { d: 123 }, pl);
-  p.promoteFromDirectoryToFlatPattern(pl);
+  p.promoteFromFlatPatternToDirectory(pl);
 
   test.equals(p.relPath, path.join('00-atoms', '00-button', 'button.mustache'));
   test.equals(p.name, '00-atoms-00-button-button');
