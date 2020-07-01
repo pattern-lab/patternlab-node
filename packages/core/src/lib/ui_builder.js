@@ -417,7 +417,12 @@ const ui_builder = function() {
         groupedPatterns.patternGroups[pattern.patternGroup] = {};
         pattern.isSubtypePattern = false;
         addPatternType(patternlab, pattern);
-        addPatternItem(patternlab, pattern, true);
+        if (
+          !pattern.isFlatPattern ||
+          patternlab.config.renderFlatPatternsOnViewAllPages
+        ) {
+          addPatternItem(patternlab, pattern, true);
+        }
         addToViewAllPaths(patternlab, pattern);
       }
 
@@ -629,15 +634,17 @@ const ui_builder = function() {
                   patternType
                 );
 
-                // Check if this is a flat pattern group
-                typePatterns = sortedFlatPatterns.concat(typePatterns);
+                if (patternlab.config.renderFlatPatternsOnViewAllPages) {
+                  // Check if this is a flat pattern group
+                  typePatterns = sortedFlatPatterns.concat(typePatterns);
+                }
 
                 // get the appropriate patternType
                 const anyPatternOfType = _.find(typePatterns, function(pat) {
                   return pat.patternType && pat.patternType !== '';
                 });
 
-                if (!anyPatternOfType) {
+                if (!anyPatternOfType || !typePatterns.length) {
                   logger.debug(
                     `skipping ${patternType} as flat patterns do not have view all pages`
                   );
@@ -676,8 +683,12 @@ const ui_builder = function() {
                         `Omitting ${patternType} from  building a viewall page because its patternGroup is specified in styleguideExcludes.`
                       );
                     } else {
-                      patterns = sortedFlatPatterns;
-                      patterns = patterns.concat(styleguideTypePatterns);
+                      if (patternlab.config.renderFlatPatternsOnViewAllPages) {
+                        patterns = sortedFlatPatterns;
+                        patterns = patterns.concat(styleguideTypePatterns);
+                      } else {
+                        patterns = styleguideTypePatterns;
+                      }
                     }
                     return Promise.resolve(patterns);
                   })
@@ -698,10 +709,14 @@ const ui_builder = function() {
       }
     );
 
-    return Promise.all(allPatternTypePromises).catch(reason => {
-      console.log(reason);
-      logger.error('Error during buildViewAllPages');
-    });
+    return Promise.all(allPatternTypePromises)
+      .then(allPatterns =>
+        Promise.resolve(_.filter(allPatterns, p => p.length))
+      )
+      .catch(reason => {
+        console.log(reason);
+        logger.error('Error during buildViewAllPages');
+      });
   }
 
   /**

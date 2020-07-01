@@ -527,7 +527,7 @@ tap.test('resetUIBuilderState - reset global objects', function(test) {
 });
 
 tap.test(
-  'buildViewAllPages - adds viewall page for each type and subtype',
+  'buildViewAllPages - adds viewall page for each type and subtype NOT! for flat patterns',
   function(test) {
     //arrange
     const mainPageHeadHtml = '<head></head>';
@@ -565,10 +565,82 @@ tap.test(
       // this was a nuanced one. buildViewAllPages() had return false; statements
       // within _.forOwn(...) loops, causing premature termination of the entire loop
       // when what was intended was a continue
+      // we expect 10 here because:
+      //   - foo.mustache is flat and therefore does not have a viewall page
+      //   - the colors.mustache files make 6
+      //   - patternSubType1 and patternSubType2 make 8
+      //   - the general view all page make 9
+      // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
+      // it's important to ensure that this method does not get prematurely terminated
+      // we choose to do that by checking it's return number of patterns
+
+      const uniquePatterns = ui.uniqueAllPatterns(allPatterns, patternlab);
+
+      /**
+       * - view-patternType1-all
+       * -- viewall-patternType1-patternSubType1
+       * --- blue
+       * --- red
+       * --- yellow
+       * -- viewall-patternType1-patternSubType2
+       * --- black
+       * --- grey
+       * --- white
+       */
+      test.equals(uniquePatterns.length, 9, '3 viewall pages should be added');
+
+      test.end();
+    });
+  }
+);
+
+tap.test(
+  'buildViewAllPages - adds viewall page for each type and subtype FOR! flat patterns',
+  function(test) {
+    //arrange
+    const mainPageHeadHtml = '<head></head>';
+    const patternlab = createFakePatternLab({
+      patterns: [],
+      patternGroups: {},
+      subtypePatterns: {},
+      footer: {},
+      userFoot: {},
+      cacheBuster: 1234,
+    });
+
+    patternlab.config.renderFlatPatternsOnViewAllPages = true;
+
+    patternlab.patterns.push(
+      //this flat pattern is found and causes trouble for the rest of the crew
+      new Pattern('00-test/foo.mustache'),
+      new Pattern('patternType1/patternSubType1/blue.mustache'),
+      new Pattern('patternType1/patternSubType1/red.mustache'),
+      new Pattern('patternType1/patternSubType1/yellow.mustache'),
+      new Pattern('patternType1/patternSubType2/black.mustache'),
+      new Pattern('patternType1/patternSubType2/grey.mustache'),
+      new Pattern('patternType1/patternSubType2/white.mustache')
+    );
+    ui.resetUIBuilderState(patternlab);
+
+    const styleguidePatterns = ui.groupPatterns(patternlab, uikit);
+
+    //act
+    ui.buildViewAllPages(
+      mainPageHeadHtml,
+      patternlab,
+      styleguidePatterns,
+      uikit
+    ).then(allPatterns => {
+      // assert
+      // this was a nuanced one. buildViewAllPages() had return false; statements
+      // within _.forOwn(...) loops, causing premature termination of the entire loop
+      // when what was intended was a continue
       // we expect 8 here because:
       //   - foo.mustache is flat and therefore does not have a viewall page
       //   - the colors.mustache files make 6
       //   - patternSubType1 and patternSubType2 make 8
+      //   - the general view all page make 9
+      //   - the view-all page of test and test-foo make 11
       // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
       // it's important to ensure that this method does not get prematurely terminated
       // we choose to do that by checking it's return number of patterns

@@ -199,6 +199,19 @@ Used to override the merge behavior of pattern variants. For more information se
 
 **default**: `true` | `undefined`
 
+### renderFlatPatternsOnViewAllPages
+
+Used to activate rendering flat patterns on view all pages and generate view all pages if only flat patterns are available
+
+- `true` will render flat patterns on view all pages
+- `false` will make flat patterns available only in the menu
+
+```javascript
+"renderFlatPatternsOnViewAllPages": true,
+```
+
+**default**: `false` | `undefined`
+
 ### serverOptions
 
 Sets live-server options. See the [live-server documentation](https://github.com/pattern-lab/live-server#usage-from-node) for more details.
