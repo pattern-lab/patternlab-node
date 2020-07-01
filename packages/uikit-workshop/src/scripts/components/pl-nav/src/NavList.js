@@ -36,7 +36,7 @@ export const NavList = props => {
                 aria-controls={category}
                 onClick={elem.toggleSpecialNavPanel}
               >
-                {categoryName}
+                Expand / Collapse {category} Panel
               </NavToggle>
             )}
           </div>

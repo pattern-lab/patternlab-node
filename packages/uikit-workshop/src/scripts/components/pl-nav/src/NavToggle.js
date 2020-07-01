@@ -7,7 +7,7 @@ export const NavToggle = props => {
       role="tab"
       {...props}
     >
-      {props.children}
+      <span class="is-vishidden">{props.children}</span>
       <span
         class="pl-c-nav__link-icon"
         dangerouslySetInnerHTML={{

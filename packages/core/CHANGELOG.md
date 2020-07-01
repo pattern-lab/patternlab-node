@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.11.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+
+### Bug Fixes
+
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+
+
+
+
+
+# [5.11.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.10.2...v5.11.0) (2020-06-28)
+
+
+### Bug Fixes
+
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+
+
+
+
+
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+
+### Bug Fixes
+
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1192) ([cae9420](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/cae94208c52e4068430e048e729f4ff97847715a))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1192) ([b4eb12e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/b4eb12e68ceb402964a7e303610e5b0c008876ba))
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 **Note:** Version bump only for package @pattern-lab/core

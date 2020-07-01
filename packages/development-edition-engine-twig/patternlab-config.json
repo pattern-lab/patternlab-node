@@ -80,6 +80,7 @@
   ],
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
+  "patternMergeVariantArrays": true,
   "serverOptions": {
     "wait": 1000
   },

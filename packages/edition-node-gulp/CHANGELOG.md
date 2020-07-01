@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.11.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.11.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.10.2...v5.11.0) (2020-06-28)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.10.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.10.1...v5.10.2) (2020-05-24)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/edition-node-gulp
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+
+### Bug Fixes
+
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/issues/1192) ([420e829](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/420e8293c033557ede073bc13e68955a450a3c8e))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/issues/1192) ([b4eb12e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/commit/b4eb12e68ceb402964a7e303610e5b0c008876ba))
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 **Note:** Version bump only for package @pattern-lab/edition-node-gulp
