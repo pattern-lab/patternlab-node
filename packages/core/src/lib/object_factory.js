@@ -258,7 +258,7 @@ Pattern.prototype = {
    *
    * @param {Patternlab} patternlab Current patternlab instance
    */
-  promoteFromDirectoryToFlatPattern: function(patternlab) {
+  promoteFromFlatPatternToDirectory: function(patternlab) {
     const p = new Pattern(this.relPath, this.jsonFileData, patternlab, true);
     // Only reset the specific fields, not everything
     Object.assign(this, {
