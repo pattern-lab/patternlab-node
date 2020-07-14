@@ -10,9 +10,11 @@ const {
   wrapAsync,
   writeJsonAsync,
   getJSONKey,
+} = require('./utils');
+const {
   resolveFileInPackage,
   resolveDirInPackage,
-} = require('./utils');
+} = require('@pattern-lab/core/src/lib/resolver');
 
 // https://github.com/TehShrike/deepmerge#overwrite-array
 const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;

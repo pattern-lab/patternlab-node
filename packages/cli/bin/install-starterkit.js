@@ -6,9 +6,11 @@ const {
   wrapAsync,
   checkAndInstallPackage,
   readJsonAsync,
+} = require('./utils');
+const {
   resolveFileInPackage,
   resolveDirInPackage,
-} = require('./utils');
+} = require('@pattern-lab/core/src/lib/resolver');
 
 const installStarterkit = (starterkit, config) =>
   wrapAsync(function*() {
