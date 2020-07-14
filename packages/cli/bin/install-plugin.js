@@ -2,11 +2,8 @@
 
 const _ = require('lodash');
 
-const {
-  checkAndInstallPackage,
-  wrapAsync,
-  resolveFileInPackage,
-} = require('./utils');
+const { checkAndInstallPackage, wrapAsync } = require('./utils');
+const { resolveFileInPackage } = require('@pattern-lab/core/src/lib/resolver');
 
 const installPlugin = (plugin, config) =>
   wrapAsync(function*() {

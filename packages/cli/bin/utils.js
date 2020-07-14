@@ -6,6 +6,7 @@ const path = require('path');
 const chalk = require('chalk');
 const EventEmitter = require('events').EventEmitter;
 const hasYarn = require('has-yarn');
+const { resolveFileInPackage } = require('@pattern-lab/core/src/lib/resolver');
 
 /**
  * @name log
@@ -183,30 +184,6 @@ const writeJsonAsync = (filePath, data) =>
   });
 
 /**
- * @func resolveFileInPackage
- * Resolves a file inside a package
- */
-const resolveFileInPackage = (packageName, ...pathElements) => {
-  return require.resolve(path.join(packageName, ...pathElements));
-};
-
-/**
- * @func resolveDirInPackage
- * Resolves a file inside a package
- */
-const resolveDirInPackage = (packageName, ...pathElements) => {
-  return path.dirname(resolveFileInPackage(packageName, pathElements));
-};
-
-/**
- * @func resolvePackageFolder
- * Resolves the location of a package on disc
- */
-const resolvePackageFolder = packageName => {
-  return path.dirname(resolveDirInPackage(packageName, 'package.json'));
-};
-
-/**
  * @func getJSONKey
  * Installs package, then returns the value for the given JSON file's key within
  * @param {string} packageName - the node_module to install / load
@@ -237,7 +214,4 @@ module.exports = {
   checkAndInstallPackage,
   noop,
   getJSONKey,
-  resolveFileInPackage,
-  resolveDirInPackage,
-  resolvePackageFolder,
 };
