@@ -8,6 +8,23 @@ const loaduikits = rewire('../src/lib/loaduikits');
 
 const testConfig = require('./util/patternlab-config.json');
 
+tap.test('loaduikits - does warn on missing package property', test => {
+  //arrange
+  const patternlab = {
+    config: testConfig,
+    uikits: {},
+  };
+
+  patternlab.config.logLevel = 'warning';
+  logger.log.on('warning', msg => test.ok(msg.includes('package:')));
+
+  //act
+  loaduikits(patternlab).then(() => {
+    logger.warning = () => {};
+    test.done();
+  });
+});
+
 tap.test('loaduikits - maps fields correctly', function(test) {
   //arrange
   const patternlab = {
@@ -19,6 +36,10 @@ tap.test('loaduikits - maps fields correctly', function(test) {
   loaduikits(patternlab).then(() => {
     //assert
     test.equals(patternlab.uikits['uikit-workshop'].name, 'uikit-workshop');
+    test.equals(
+      patternlab.uikits['uikit-workshop'].package,
+      '@pattern-lab/uikit-workshop'
+    );
     test.contains(
       patternlab.uikits['uikit-workshop'].modulePath,
       'packages/uikit-workshop'

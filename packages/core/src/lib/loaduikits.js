@@ -30,40 +30,54 @@ module.exports = patternlab => {
   const uikitConfigs = _.filter(patternlab.config.uikits, 'enabled'); // [1]
   uikitConfigs.forEach(uikitConfig => {
     let uikitLocation = null;
-    try {
-      resolvePackageFolder(uikitConfig.name); // [2]
-    } catch (ex) {
-      // Ignore
-    }
-    if (!uikitLocation) {
+    if ('package' in uikitConfig) {
       try {
-        uikitLocation = resolvePackageFolder(
-          `@pattern-lab/${uikitConfig.name}`
-        );
+        uikitLocation = resolvePackageFolder(uikitConfig.package);
       } catch (ex) {
-        // Ignore
-      }
-    }
-    if (!uikitLocation) {
-      try {
-        uikitLocation = resolvePackageFolder(
-          `@pattern-lab/uikit-${uikitConfig.name}`
+        logger.warning(
+          `Could not find uikit with package name ${uikitConfig.package}. Did you add it to the 'dependencies' section in your 'package.json' file?`
         );
-      } catch (ex) {
-        // Ignore
+        return;
       }
+    } else {
+      // For backwards compatibility, name to package calculation is:
+      // 1. name -> name
+      // 2. name -> uikit-name
+      // 3. name -> @pattern-lab/name
+      // 4. name -> @pattern-lab/uikit-name
+      for (const packageName of [
+        uikitConfig.name,
+        `uikit-${uikitConfig.name}`,
+        `@pattern-lab/${uikitConfig.name}`,
+        `@pattern-lab/uikit-${uikitConfig.name}`,
+      ]) {
+        try {
+          uikitLocation = resolvePackageFolder(packageName); // [2]
+        } catch (ex) {
+          // Ignore
+        }
+        if (uikitLocation != null) {
+          uikitConfig.package = packageName;
+          logger.info(`Found uikit package ${packageName}`);
+          break;
+        }
+      }
+      if (uikitLocation == null) {
+        logger.warning(
+          `Could not find uikit with package name ${uikitConfig.name}, uikit-${uikitConfig.name}, @pattern-lab/${uikitConfig.name} or @pattern-lab/uikit-${uikitConfig.name} defined within patternlab-config.json in the package dependencies.`
+        );
+        return;
+      } else {
+        logger.warning(
+          `Please update the configuration of UIKit ${uikitConfig.name} with property 'package: ${uikitConfig.package}' in patternlab-config.json. Lookup by 'name' is deprecated and will be removed in the future.`
+        );
+      } // [3]
     }
-
-    if (!uikitLocation) {
-      logger.warning(
-        `Could not find uikit with package name ${uikitConfig.name}, @pattern-lab/${uikitConfig.name} or @pattern-lab/uikit-${uikitConfig.name} defined within patternlab-config.json in the package dependencies.`
-      );
-      return;
-    } // [3]
 
     try {
       patternlab.uikits[uikitConfig.name] = {
         name: uikitConfig.name,
+        package: uikitConfig.package,
         modulePath: uikitLocation,
         enabled: true,
         outputDir: uikitConfig.outputDir,
