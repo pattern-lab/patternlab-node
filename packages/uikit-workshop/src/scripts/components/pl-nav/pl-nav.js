@@ -269,7 +269,8 @@ class Nav extends BaseComponent {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubtype.patternSubtypeUC}
+                      category={patternSubtype.patternSubtypeLC}
+                      categoryName={patternSubtype.patternSubtypeUC}
                     >
                       {patternSubtype.patternSubtypeItems}
                     </NavList>
@@ -296,19 +297,20 @@ class Nav extends BaseComponent {
         {(window.ishControls === undefined ||
           window.ishControls.ishControlsHide === undefined ||
           (window.ishControls.ishControlsHide['views-all'] !== true &&
-            window.ishControls.ishControlsHide.all !== true)) && (
-          <NavItem>
-            <a
-              onClick={e => this.handleClick(e, 'all')}
-              href="styleguide/html/styleguide.html"
-              class="pl-c-nav__link pl-c-nav__link--pattern"
-              data-patternpartial="all"
-              tabindex="0"
-            >
-              All
-            </a>
-          </NavItem>
-        )}
+            window.ishControls.ishControlsHide.all !== true)) &&
+          !this.noViewAll && (
+            <NavItem>
+              <a
+                onClick={e => this.handleClick(e, 'all')}
+                href="styleguide/html/styleguide.html"
+                class="pl-c-nav__link pl-c-nav__link--pattern"
+                data-patternpartial="all"
+                tabindex="0"
+              >
+                All
+              </a>
+            </NavItem>
+          )}
       </ol>
     );
   }

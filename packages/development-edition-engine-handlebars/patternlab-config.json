@@ -70,7 +70,8 @@
   "patternExportPatternPartials": [],
   "patternExportPreserveDirectoryStructure": true,
   "patternExportRaw": false,
-  "patternMergeVariantArrays": true,
+  "patternMergeVariantArrays": false,
+  "renderFlatPatternsOnViewAllPages": false,
   "serverOptions": {
     "wait": 1000
   },
