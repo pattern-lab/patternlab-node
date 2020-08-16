@@ -53,7 +53,7 @@ function createBasePatternLabObject() {
   pl.patterns = [];
   pl.partials = {};
   pl.patternGroups = {};
-  pl.subtypePatterns = {};
+  pl.subGroupPatterns = {};
 
   return pl;
 }

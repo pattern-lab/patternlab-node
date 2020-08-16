@@ -37,11 +37,11 @@ module.exports = function(relPath, patternlab) {
       "It's strongly suggested to not deviate from the following structure under _patterns/"
     );
     logger.warning(
-      '[patternType]/[patternSubtype]/[patternName].[patternExtension]'
+      '[patternGroup]/[patternSubGroup]/[patternName].[patternExtension]'
     );
     logger.warning('or');
     logger.warning(
-      '[patternType]/[patternSubtype]/[patternName]/[patternName].[patternExtension]'
+      '[patternGroup]/[patternSubGroup]/[patternName]/[patternName].[patternExtension]'
     );
     logger.warning('');
     logger.warning(
@@ -64,27 +64,27 @@ module.exports = function(relPath, patternlab) {
       );
       const proposedDirectoryStats = fs.statSync(proposedDirectory);
       if (proposedDirectoryStats.isDirectory()) {
-        const subTypeMarkdownFileContents = fs.readFileSync(
+        const subGroupMarkdownFileContents = fs.readFileSync(
           proposedDirectory + '.md',
           'utf8'
         );
-        const subTypeMarkdown = markdown_parser.parse(
-          subTypeMarkdownFileContents
+        const subGroupMarkdown = markdown_parser.parse(
+          subGroupMarkdownFileContents
         );
-        const subTypePattern = new Pattern(relPath, null, patternlab);
-        subTypePattern.patternSectionSubtype = true;
-        subTypePattern.patternDesc = subTypeMarkdown
-          ? subTypeMarkdown.markdown
+        const subGroupPattern = new Pattern(relPath, null, patternlab);
+        subGroupPattern.patternSectionSubGroup = true;
+        subGroupPattern.patternDesc = subGroupMarkdown
+          ? subGroupMarkdown.markdown
           : '';
-        subTypePattern.flatPatternPath =
-          subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
-        subTypePattern.isPattern = false;
-        subTypePattern.engine = null;
-        patternlab.subtypePatterns[
-          subTypePattern.patternPartial
-        ] = subTypePattern;
+        subGroupPattern.flatPatternPath =
+          subGroupPattern.flatPatternPath + '-' + subGroupPattern.fileName;
+        subGroupPattern.isPattern = false;
+        subGroupPattern.engine = null;
+        patternlab.subGroupPatterns[
+          subGroupPattern.patternPartial
+        ] = subGroupPattern;
 
-        return subTypePattern;
+        return subGroupPattern;
       }
     } catch (err) {
       // no file exists, meaning it's a pattern markdown file

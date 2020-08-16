@@ -18,7 +18,7 @@ To include one pattern within another, for example to create a molecule from sev
 
 The shorthand include syntax is less verbose than the default include syntax for many template languages. The shorthand syntax uses the following format:
 
-    [patternType]-[patternName]
+    [patternGroup]-[patternName]
 
 For example, to include the following pattern in a molecule:
 
@@ -28,7 +28,7 @@ The shorthand include syntax would be:
 
     atoms-landscape-16x9
 
-The pattern type matches the top-level folder and is `atoms`. The pattern name matches the template file and is `landscape-16x9`. Any digits used for ordering are _dropped_ from both the pattern type and pattern name. Pattern subtypes are _never_ a part of the shorthand include syntax. This way patterns can be re-organized within a pattern type and/or by using digits without needing to change your pattern includes.
+The pattern type matches the top-level folder and is `atoms`. The pattern name matches the template file and is `landscape-16x9`. Any digits used for ordering are _dropped_ from both the pattern type and pattern name. Pattern subGroups are _never_ a part of the shorthand include syntax. This way patterns can be re-organized within a pattern type and/or by using digits without needing to change your pattern includes.
 
 The following are examples of using the shorthand include syntax with our supported PatternEngines:
 
@@ -41,7 +41,7 @@ The shorthand syntax also allows for fuzzy matching on pattern names. This means
 
     atoms-16x9
 
-_Warning:_ Because subtypes are not included in the shorthand include syntax a given pattern name needs to be unique within its _pattern type_ and not just its pattern subtype. If you run into this problem you can do one of two things:
+_Warning:_ Because subGroups are not included in the shorthand include syntax a given pattern name needs to be unique within its _pattern type_ and not just its pattern subGroup. If you run into this problem you can do one of two things:
 
 - use the default include syntax for your template language or
 - give your pattern a unique name and use [the pattern's documentation](/docs/documenting-patterns/) to provide the pattern name
@@ -58,7 +58,7 @@ The default Mustache include syntax would be:
 {% raw %}{{> 00-atoms/images/landscape-16x9 }}{% endraw %}
 ```
 
-**Important:** Unlike the shorthand include syntax the template language specific include syntax **must** include any digits used for ordering and subtype directories. Pattern paths need to be updated when either is changed for a given pattern.
+**Important:** Unlike the shorthand include syntax the template language specific include syntax **must** include any digits used for ordering and subGroup directories. Pattern paths need to be updated when either is changed for a given pattern.
 
 ## Examples and Gotchas
 

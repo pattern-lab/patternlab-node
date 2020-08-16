@@ -1,7 +1,8 @@
 'use strict';
 
-const path = require('path');
 const _ = require('lodash');
+const path = require('path');
+const fs = require('fs-extra');
 
 const ch = require('./changes_hunter');
 const logger = require('./log');
@@ -10,14 +11,14 @@ const mp = require('./markdown_parser');
 const changes_hunter = new ch();
 const markdown_parser = new mp();
 
-let fs = require('fs-extra'); //eslint-disable-line prefer-const
+const FILE_EXTENSION = '.md';
 
 module.exports = function(pattern, patternlab) {
   try {
     const markdownFileName = path.resolve(
       patternlab.config.paths.source.patterns,
       pattern.subdir,
-      pattern.fileName + '.md'
+      pattern.fileName + FILE_EXTENSION
     );
     changes_hunter.checkLastModified(pattern, markdownFileName);
 
@@ -74,6 +75,70 @@ module.exports = function(pattern, patternlab) {
     if (err.code !== 'ENOENT') {
       logger.warning(
         `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`
+      );
+      logger.warning(err);
+    }
+  }
+
+  // Read Documentation for Pattern-Group
+  // Use this approach, since pattern lab is a pattern driven software
+  try {
+    const markdownFileNameGroup = path.resolve(
+      patternlab.config.paths.source.patterns,
+      pattern.patternGroup,
+      pattern.patternGroup + FILE_EXTENSION
+    );
+    const markdownFileContentsGroup = fs.readFileSync(
+      markdownFileNameGroup,
+      'utf8'
+    );
+    const markdownObjectGroup = markdown_parser.parse(
+      markdownFileContentsGroup
+    );
+
+    if (!_.isEmpty(markdownObjectGroup)) {
+      pattern.patternGroupData = markdownObjectGroup;
+    }
+  } catch (err) {
+    // do nothing when file not found
+    if (err.code !== 'ENOENT') {
+      logger.warning(
+        `'there was an error setting pattern group data after markdown parsing for ${path.join(
+          pattern.patternGroup,
+          pattern.patternGroup + FILE_EXTENSION
+        )}`
+      );
+      logger.warning(err);
+    }
+  }
+
+  // Read Documentation for Pattern-Subgroup
+  try {
+    const markdownFileNameSubGroup = path.resolve(
+      patternlab.config.paths.source.patterns,
+      pattern.patternGroup,
+      pattern.patternSubGroup,
+      pattern.patternSubGroup + FILE_EXTENSION
+    );
+    const markdownFileContentsSubGroup = fs.readFileSync(
+      markdownFileNameSubGroup,
+      'utf8'
+    );
+    const markdownObjectSubGroup = markdown_parser.parse(
+      markdownFileContentsSubGroup
+    );
+
+    if (!_.isEmpty(markdownObjectSubGroup)) {
+      pattern.patternSubGroupData = markdownObjectSubGroup;
+    }
+  } catch (err) {
+    // do nothing when file not found
+    if (err.code !== 'ENOENT') {
+      logger.warning(
+        `'there was an error setting pattern sub group data after markdown parsing for ${path.join(
+          pattern.patternSubGroup,
+          pattern.patternSubGroup + FILE_EXTENSION
+        )}`
       );
       logger.warning(err);
     }

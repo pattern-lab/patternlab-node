@@ -46,7 +46,7 @@
           "views/partials/general-footer.mustache",
         "patternSection":
           "views/partials/patternSection.mustache",
-        "patternSectionSubtype":
+        "patternSectionSubGroup":
           "views/partials/patternSectionSubtype.mustache",
         "viewall":
           "views/viewall.mustache"

@@ -22,12 +22,12 @@ export const NavList = props => {
   return (
     <NavItem className={`pl-c-nav__item--${category.toLowerCase()}`}>
       {viewAllItems.length > 0 ? (
-        viewAllItems.map(patternSubtypeItem => (
+        viewAllItems.map(patternSubGroupItem => (
           <div class="pl-c-nav__link--overview-wrapper">
             <NavLink
               category={category}
               categoryName={categoryName}
-              item={patternSubtypeItem}
+              item={patternSubGroupItem}
               elem={elem}
             />
 
@@ -53,12 +53,12 @@ export const NavList = props => {
           id={category}
           className={`pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel`}
         >
-          {nonViewAllItems.map(patternSubtypeItem => (
+          {nonViewAllItems.map(patternSubGroupItem => (
             <NavItem>
               <NavLink
                 category={category}
                 categoryName={categoryName}
-                item={patternSubtypeItem}
+                item={patternSubGroupItem}
                 elem={elem}
               />
             </NavItem>

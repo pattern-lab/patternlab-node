@@ -46,7 +46,7 @@
 					"node_modules/@pattern-lab/uikit-workshop/views/partials/general-footer.mustache",
 				"patternSection":
 					"node_modules/@pattern-lab/uikit-workshop/views/partials/patternSection.mustache",
-				"patternSectionSubtype":
+				"patternSectionSubGroup":
 					"node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubtype.mustache",
 				"viewall":
 					"node_modules/@pattern-lab/uikit-workshop/views/viewall.mustache"

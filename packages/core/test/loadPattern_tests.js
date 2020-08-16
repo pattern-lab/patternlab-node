@@ -74,20 +74,23 @@ tap.test('loadPattern - adds a markdown pattern if encountered', function(
 ) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
-  var colorsMarkDownPath = path.join('patternType1', 'patternSubType1.md');
+  var colorsMarkDownPath = path.join('patternGroup1', 'patternSubGroup1.md');
 
   //act
   var result = loadPattern(colorsMarkDownPath, patternlab);
 
   //assert
-  const subTypePattern =
-    patternlab.subtypePatterns['patternType1-patternSubType1'];
-  test.equals(subTypePattern.patternSectionSubtype, true);
-  test.equals(subTypePattern.isPattern, false);
-  test.equals(subTypePattern.patternDesc, '<p>Colors</p>\n');
-  test.equals(subTypePattern.engine, null);
-  test.equals(subTypePattern.flatPatternPath, 'patternType1-patternSubType1');
-  test.equals(result, subTypePattern);
+  const subGroupPattern =
+    patternlab.subGroupPatterns['patternGroup1-patternSubGroup1'];
+  test.equals(subGroupPattern.patternSectionSubGroup, true);
+  test.equals(subGroupPattern.isPattern, false);
+  test.equals(subGroupPattern.patternDesc, '<p>Colors</p>\n');
+  test.equals(subGroupPattern.engine, null);
+  test.equals(
+    subGroupPattern.flatPatternPath,
+    'patternGroup1-patternSubGroup1'
+  );
+  test.equals(result, subGroupPattern);
   test.end();
 });
 

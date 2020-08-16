@@ -27,7 +27,7 @@ Pattern parameters are Pattern Lab-specific, have no relationship to Mustache, a
 
 The attributes listed in the pattern parameters need to match Mustache variable names in your pattern. The values listed for each attribute will replace the Mustache variables. For example:
 
-    {% raw %}{{> patternType-pattern(attribute1: value, attribute2: "value string") }}{% endraw %}
+    {% raw %}{{> patternGroup-pattern(attribute1: value, attribute2: "value string") }}{% endraw %}
 
 Again, pattern parameters are a simple find and replace of Mustache variables with the supplied values.
 

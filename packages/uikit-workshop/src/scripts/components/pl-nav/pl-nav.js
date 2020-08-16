@@ -246,33 +246,33 @@ class Nav extends BaseComponent {
   }
 
   render({ layoutMode }) {
-    const patternTypes = window.navItems.patternTypes;
+    const patternGroups = window.navItems.patternGroups;
 
     return (
       <ol class="pl-c-nav__list pl-js-pattern-nav-target">
-        {patternTypes.map((item, i) => {
+        {patternGroups.map((item, i) => {
           const patternItems = item.patternItems;
 
           return (
-            <NavItem className={`pl-c-nav__item--${item.patternTypeLC}`}>
+            <NavItem className={`pl-c-nav__item--${item.patternGroupLC}`}>
               <NavTitle
-                aria-controls={item.patternTypeLC}
+                aria-controls={item.patternGroupLC}
                 onClick={this.toggleNavPanel}
               >
-                {item.patternTypeUC}
+                {item.patternGroupUC}
               </NavTitle>
               <ol
-                id={item.patternSubtypeUC}
+                id={item.patternSubGroupUC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
               >
-                {item.patternTypeItems.map((patternSubtype, i) => {
+                {item.patternGroupItems.map((patternSubGroup, i) => {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubtype.patternSubtypeLC}
-                      categoryName={patternSubtype.patternSubtypeUC}
+                      category={patternSubGroup.patternSubGroupLC}
+                      categoryName={patternSubGroup.patternSubGroupUC}
                     >
-                      {patternSubtype.patternSubtypeItems}
+                      {patternSubGroup.patternSubGroupItems}
                     </NavList>
                   );
                 })}

@@ -36,7 +36,7 @@ tap.test('exportData exports ishControls', function(test) {
 });
 
 tap.test('exportData exports navItems', function(test) {
-  test.equals(result.indexOf('patternTypes') > -1, true);
+  test.equals(result.indexOf('patternGroups') > -1, true);
   test.end();
 });
 
