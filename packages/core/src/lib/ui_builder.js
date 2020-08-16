@@ -77,11 +77,11 @@ const ui_builder = function() {
       return true;
     }
 
-    // skip underscore-prefixed files
-    isOmitted = pattern.isPattern && pattern.fileName.charAt(0) === '_';
+    // skip marked as hidden patterns
+    isOmitted = pattern.isPattern && pattern.hidden;
     if (isOmitted) {
       logger.info(
-        `Omitting ${pattern.patternPartial} from styleguide patterns because it has an underscore prefix.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because it is marked as hidden within it's documentation.`
       );
       return true;
     }
@@ -96,13 +96,13 @@ const ui_builder = function() {
       return true;
     }
 
-    // this pattern is contained with a directory prefixed with an underscore (a handy way to hide whole directories from the nav
+    // this pattern is contained with a directory documented as hidden (a handy way to hide whole directories from the nav
     isOmitted =
-      pattern.relPath.charAt(0) === '_' ||
-      pattern.relPath.indexOf(path.sep + '_') > -1;
+      (pattern.patternGroupData && pattern.patternGroupData.hidden) ||
+      (pattern.patternSubGroupData && pattern.patternSubGroupData.hidden);
     if (isOmitted) {
       logger.info(
-        `Omitting ${pattern.patternPartial} from styleguide patterns because its contained within an underscored directory.`
+        `Omitting ${pattern.patternPartial} from styleguide patterns because its contained within an hidden directory.`
       );
       return true;
     }
