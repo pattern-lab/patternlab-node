@@ -6,13 +6,12 @@ import styles from './pl-toggle-theme.scss?external';
 
 @customElement('pl-toggle-theme')
 class ThemeToggle extends LitElement {
-  constructor(self) {
-    self = super(self);
-    self.targetOrigin =
+  constructor() {
+    super();
+    this.targetOrigin =
       window.location.protocol === 'file:'
         ? '*'
         : window.location.protocol + '//' + window.location.host;
-    return self;
   }
 
   static get properties() {

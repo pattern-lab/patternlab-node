@@ -99,7 +99,7 @@
     "mini-css-extract-plugin": "^0.8.0",
     "mousetrap": "^1.6.3",
     "no-emit-webpack-plugin": "^1.0.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.14.1",
     "node-sass-selector-importer": "^5.2.0",
     "penthouse": "^2.2.2",
     "postcss-loader": "^3.0.0",
