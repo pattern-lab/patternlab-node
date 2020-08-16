@@ -50,7 +50,6 @@ function staticServer(root) {
     const hasNoOrigin = !req.headers.origin;
     const injectCandidates = [
       new RegExp('</body>', 'i'),
-      new RegExp('</svg>', 'g'),
       new RegExp('</head>', 'i'),
     ];
 
