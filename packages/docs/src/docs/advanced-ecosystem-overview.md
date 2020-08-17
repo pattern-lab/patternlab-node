@@ -19,7 +19,7 @@ Editions let teams and agencies bundle all the things that support their unique 
 
 The following is good overview of what components might make up an edition:
 
-<img src="/assets/pattern-lab-2-image_18-large-opt.png">
+<img src="/images/pattern-lab-2-image_18-large-opt.png">
 
 This is by no means exhaustive and can be added to as needed. Here is a description of each component:
 
@@ -48,6 +48,17 @@ PatternEngines are the templating engines that are responsible for parsing patte
 ### Plugins
 
 Plugins allow developers to extend Pattern Lab Core and other parts of the ecosystem. Pattern Lab’s architecture allows developers to modify data at different stages, add their own commands or pattern rules, or change the front-end to modify and extend Pattern Lab’s capabilities.
+
+#### Node Plugins
+
+Currently the following plugins are provided by the community:
+* [plugin-tab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab): Displaying sibling files next to a pattern in the filesystem as further code tab panels
+* [plugin-node-minify-html](https://github.com/JosefBredereck/plugin-node-minify-html): Patternlab Node HTML tabs panel compressor/minifier/beautifier
+* [patternlab-plugin-node-wrappable](https://github.com/networkteam/patternlab-plugin-node-wrappable): Configuration to wrap patterns styleguide HTML output (e.g. for inverse backgrounds)
+* [plugin-node-patternlab-inline-assets](https://github.com/michaelworm/plugin-node-patternlab-inline-assets): Consume and inline assets (out of the file system) into your templates before compiling
+* [plugin-node-uiextension](https://github.com/bmuenzenmeyer/plugin-node-uiextension): Provide a simple Patternlab chrome customization path versus forking the `StyleguideKit`
+
+Please feel to contribute and [add your plugin to this list as well](https://github.com/pattern-lab/patternlab-node/edit/dev/packages/docs/src/docs/advanced-ecosystem-overview.md).
 
 ### Other Types of Components
 

@@ -10,7 +10,7 @@ import Mousetrap from 'mousetrap';
 import VisuallyHidden from '@reach/visually-hidden';
 import Autosuggest from 'react-autosuggest';
 
-import { urlHandler } from '../../utils';
+import { urlHandler, iframeMsgDataExtraction } from '../../utils';
 import { BaseComponent } from '../base-component';
 
 @define
@@ -118,22 +118,12 @@ class Search extends BaseComponent {
     document.activeElement.blur();
   }
 
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.keyPress') {
       if (data.key === 'f' && data.metaKey === true) {
