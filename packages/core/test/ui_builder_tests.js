@@ -183,6 +183,7 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   });
 
   patternlab.patterns.push(
+    new Pattern('foobar.mustache'),
     new Pattern('00-test/bar.mustache'),
     new Pattern('00-test/foo.mustache'),
     new Pattern('patternType1/patternSubType1/blue.mustache'),
@@ -222,13 +223,19 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
     'patternType1-white'
   );
 
+  // Flat patterns
   test.equals(
     patternlab.patternTypes[0].patternItems[0].patternPartial,
+    'root-foobar',
+    'flat pattern foobar on root'
+  );
+  test.equals(
+    patternlab.patternTypes[1].patternItems[0].patternPartial,
     'test-bar',
     'first pattern item should be test-bar'
   );
   test.equals(
-    patternlab.patternTypes[0].patternItems[1].patternPartial,
+    patternlab.patternTypes[1].patternItems[1].patternPartial,
     'test-foo',
     'second pattern item should be test-foo'
   );
@@ -248,13 +255,15 @@ tap.test('groupPatterns - orders patterns when provided from md', function(
     subtypePatterns: {},
   });
 
+  // Should be sorted by order and secondly by name
   patternlab.patterns.push(
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
+    new Pattern('patternType1/patternSubType1/yellow.mustache'),
     new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache')
+    new Pattern('patternType1/patternSubType1/blue.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
+  // Set order of red to 1 to sort it after the others
   patternlab.patterns[1].order = 1;
 
   //act
@@ -270,10 +279,10 @@ tap.test('groupPatterns - orders patterns when provided from md', function(
   ]);
   var items = patternSubType.patternSubtypeItems;
 
-  //zero is viewall
-  test.equals(items[1].patternPartial, 'patternType1-red');
-  test.equals(items[2].patternPartial, 'patternType1-blue');
-  test.equals(items[3].patternPartial, 'patternType1-yellow');
+  // Viewall should come last since it shows all patterns that are above
+  test.equals(items[0].patternPartial, 'patternType1-blue');
+  test.equals(items[1].patternPartial, 'patternType1-yellow');
+  test.equals(items[2].patternPartial, 'patternType1-red');
 
   test.end();
 });
@@ -310,10 +319,10 @@ tap.test(
     ]);
     var items = patternSubType.patternSubtypeItems;
 
-    //zero is viewall
-    test.equals(items[1].patternPartial, 'patternType1-blue');
-    test.equals(items[2].patternPartial, 'patternType1-red');
-    test.equals(items[3].patternPartial, 'patternType1-yellow');
+    // Viewall should come last since it shows all patterns that are above
+    test.equals(items[0].patternPartial, 'patternType1-blue');
+    test.equals(items[1].patternPartial, 'patternType1-red');
+    test.equals(items[2].patternPartial, 'patternType1-yellow');
 
     test.end();
   }
@@ -353,14 +362,14 @@ tap.test(
     ]);
     var items = patternSubType.patternSubtypeItems;
 
-    //zero is viewall
+    // Viewall should come last since it shows all patterns that are above
     test.equals(
-      items[0].patternPartial,
+      items[3].patternPartial,
       'viewall-patternType1-patternSubType1'
     );
-    test.equals(items[1].patternPartial, 'patternType1-blue');
-    test.equals(items[2].patternPartial, 'patternType1-yellow');
-    test.equals(items[3].patternPartial, 'patternType1-red');
+    test.equals(items[0].patternPartial, 'patternType1-blue');
+    test.equals(items[1].patternPartial, 'patternType1-yellow');
+    test.equals(items[2].patternPartial, 'patternType1-red');
 
     test.end();
   }
@@ -518,7 +527,7 @@ tap.test('resetUIBuilderState - reset global objects', function(test) {
 });
 
 tap.test(
-  'buildViewAllPages - adds viewall page for each type and subtype',
+  'buildViewAllPages - adds viewall page for each type and subtype NOT! for flat patterns',
   function(test) {
     //arrange
     const mainPageHeadHtml = '<head></head>';
@@ -546,40 +555,114 @@ tap.test(
     const styleguidePatterns = ui.groupPatterns(patternlab, uikit);
 
     //act
-    ui
-      .buildViewAllPages(
-        mainPageHeadHtml,
-        patternlab,
-        styleguidePatterns,
-        uikit
-      )
-      .then(allPatterns => {
-        //assert
-        //this was a nuanced one. buildViewAllPages() had return false; statements
-        //within _.forOwn(...) loops, causing premature termination of the entire loop
-        //when what was intended was a continue
-        //we expect 8 here because:
-        //  - foo.mustache is flat and therefore does not have a viewall page
-        //  - the colors.mustache files make 6
-        //  - patternSubType1 and patternSubType2 make 8
-        //while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
-        //it's important to ensure that this method does not get prematurely terminated
-        //we choose to do that by checking it's return number of patterns
+    ui.buildViewAllPages(
+      mainPageHeadHtml,
+      patternlab,
+      styleguidePatterns,
+      uikit
+    ).then(allPatterns => {
+      // assert
+      // this was a nuanced one. buildViewAllPages() had return false; statements
+      // within _.forOwn(...) loops, causing premature termination of the entire loop
+      // when what was intended was a continue
+      // we expect 10 here because:
+      //   - foo.mustache is flat and therefore does not have a viewall page
+      //   - the colors.mustache files make 6
+      //   - patternSubType1 and patternSubType2 make 8
+      //   - the general view all page make 9
+      // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
+      // it's important to ensure that this method does not get prematurely terminated
+      // we choose to do that by checking it's return number of patterns
 
-        //todo: this workaround matches the code at the moment
-        const uniquePatterns = _.uniq(
-          _.flatMapDeep(allPatterns, pattern => {
-            return pattern;
-          })
-        );
+      const uniquePatterns = ui.uniqueAllPatterns(allPatterns, patternlab);
 
-        test.equals(
-          uniquePatterns.length,
-          8,
-          '2 viewall pages should be added'
-        );
+      /**
+       * - view-patternType1-all
+       * -- viewall-patternType1-patternSubType1
+       * --- blue
+       * --- red
+       * --- yellow
+       * -- viewall-patternType1-patternSubType2
+       * --- black
+       * --- grey
+       * --- white
+       */
+      test.equals(uniquePatterns.length, 9, '3 viewall pages should be added');
 
-        test.end();
-      });
+      test.end();
+    });
+  }
+);
+
+tap.test(
+  'buildViewAllPages - adds viewall page for each type and subtype FOR! flat patterns',
+  function(test) {
+    //arrange
+    const mainPageHeadHtml = '<head></head>';
+    const patternlab = createFakePatternLab({
+      patterns: [],
+      patternGroups: {},
+      subtypePatterns: {},
+      footer: {},
+      userFoot: {},
+      cacheBuster: 1234,
+    });
+
+    patternlab.config.renderFlatPatternsOnViewAllPages = true;
+
+    patternlab.patterns.push(
+      //this flat pattern is found and causes trouble for the rest of the crew
+      new Pattern('00-test/foo.mustache'),
+      new Pattern('patternType1/patternSubType1/blue.mustache'),
+      new Pattern('patternType1/patternSubType1/red.mustache'),
+      new Pattern('patternType1/patternSubType1/yellow.mustache'),
+      new Pattern('patternType1/patternSubType2/black.mustache'),
+      new Pattern('patternType1/patternSubType2/grey.mustache'),
+      new Pattern('patternType1/patternSubType2/white.mustache')
+    );
+    ui.resetUIBuilderState(patternlab);
+
+    const styleguidePatterns = ui.groupPatterns(patternlab, uikit);
+
+    //act
+    ui.buildViewAllPages(
+      mainPageHeadHtml,
+      patternlab,
+      styleguidePatterns,
+      uikit
+    ).then(allPatterns => {
+      // assert
+      // this was a nuanced one. buildViewAllPages() had return false; statements
+      // within _.forOwn(...) loops, causing premature termination of the entire loop
+      // when what was intended was a continue
+      // we expect 8 here because:
+      //   - foo.mustache is flat and therefore does not have a viewall page
+      //   - the colors.mustache files make 6
+      //   - patternSubType1 and patternSubType2 make 8
+      //   - the general view all page make 9
+      //   - the view-all page of test and test-foo make 11
+      // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
+      // it's important to ensure that this method does not get prematurely terminated
+      // we choose to do that by checking it's return number of patterns
+
+      const uniquePatterns = ui.uniqueAllPatterns(allPatterns, patternlab);
+
+      /**
+       * - viewall-test-all
+       * -- test-foo
+       * - view-patternType1-all
+       * -- viewall-patternType1-patternSubType1
+       * --- blue
+       * --- red
+       * --- yellow
+       * -- viewall-patternType1-patternSubType2
+       * --- black
+       * --- grey
+       * --- white
+       */
+      test.equals(uniquePatterns.length, 11, '4 viewall pages should be added');
+
+      test.end();
+    });
   }
 );

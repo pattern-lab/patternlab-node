@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/live-server",
-  "version": "5.0.0",
+  "version": "5.10.1",
   "description": "simple development http server with live reload capability",
   "keywords": [
     "front-end",
@@ -43,7 +43,7 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "engines": {
-    "node": ">=10.0"
+    "node": ">=12.12.0"
   },
   "publishConfig": {
     "access": "public"
@@ -63,5 +63,6 @@
       "no-unused-vars": 1,
       "no-shadow": 1
     }
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }
