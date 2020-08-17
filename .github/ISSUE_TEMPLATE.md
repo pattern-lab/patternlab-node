@@ -1,6 +1,6 @@
 <!-- before posting an issue, try chatting on https://gitter.im/pattern-lab/node -->
 
-<!-- before posting an issue, verify you are running at least Node 8 -->
+<!-- before posting an issue, verify you are running at least Node 12.12.x -->
 
 I am using Pattern Lab Node `vX.X.X` on `Windows | Mac | Linux`, with Node `vX.X.X`, using a `Gulp | Grunt | Vanilla | Custom` Edition.
 

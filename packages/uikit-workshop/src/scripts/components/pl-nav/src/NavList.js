@@ -5,18 +5,17 @@ import { NavItem } from './NavItem';
 import { NavButton } from './NavButton';
 
 export const NavList = props => {
-  const { children, category, elem } = props;
+  const { children, category, categoryName, elem } = props;
   const reorderedChildren = [];
 
   const nonViewAllItems = elem.noViewAll
-    ? children.filter(item => item.patternName !== 'View All')
+    ? children.filter(item => !item.isDocPattern)
     : children.filter(
-        item =>
-          item.patternName !== 'View All' && !item.patternName.includes(' Docs')
+        item => !item.isDocPattern && !item.patternName.includes(' Docs')
       );
   const viewAllItems = elem.noViewAll
     ? []
-    : children.filter(item => item.patternName === 'View All');
+    : children.filter(item => item.isDocPattern);
 
   reorderedChildren.push(...viewAllItems, ...nonViewAllItems);
 
@@ -27,6 +26,7 @@ export const NavList = props => {
           <div class="pl-c-nav__link--overview-wrapper">
             <NavLink
               category={category}
+              categoryName={categoryName}
               item={patternSubtypeItem}
               elem={elem}
             />
@@ -36,14 +36,14 @@ export const NavList = props => {
                 aria-controls={category}
                 onClick={elem.toggleSpecialNavPanel}
               >
-                {category}
+                Expand / Collapse {category} Panel
               </NavToggle>
             )}
           </div>
         ))
       ) : (
         <NavButton aria-controls={category} onClick={elem.toggleNavPanel}>
-          {category}
+          {categoryName}
         </NavButton>
       )}
 
@@ -57,6 +57,7 @@ export const NavList = props => {
             <NavItem>
               <NavLink
                 category={category}
+                categoryName={categoryName}
                 item={patternSubtypeItem}
                 elem={elem}
               />

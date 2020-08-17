@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-handlebars",
   "description": "The Handlebars engine for Pattern Lab / Node",
-  "version": "5.5.0",
+  "version": "5.10.1",
   "main": "lib/engine_handlebars.js",
   "dependencies": {
     "fs-extra": "^8.1.0",
@@ -23,9 +23,10 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=12.0"
+    "node": ">=12.12.0"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

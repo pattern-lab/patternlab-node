@@ -140,7 +140,10 @@ module.exports = function(apiConfig) {
         extensions: ['.js', '.jsx'],
         alias: {
           react: path.resolve(__dirname, './src/scripts/utils/preact-compat'),
-          'react-dom': 'preact-compat',
+          'react-dom': path.resolve(
+            __dirname,
+            './src/scripts/utils/preact-compat'
+          ),
         },
       },
       output: {

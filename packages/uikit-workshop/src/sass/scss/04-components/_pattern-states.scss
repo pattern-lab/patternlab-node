@@ -22,6 +22,10 @@
     background-color: $pl-color-state-inreview;
   }
 
+  &--inprogress {
+    background-color: $pl-color-state-inprogress;
+  }
+
   &--deprecated {
     background-color: $pl-color-state-deprecated;
   }

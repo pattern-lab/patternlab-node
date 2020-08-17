@@ -10,13 +10,13 @@ To install the Liquid PatternEngine in your edition, `npm install @pattern-lab/e
 
 This PatternEngine is in alpha and considered a work in progress.
 
-* [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+* [x] [Includes](https://patternlab.io/docs/including-patterns/)
 * [x] Lineage
 
 **TBD**
 
-* [ ] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
-* [ ] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
-* [ ] [Pattern States](http://patternlab.io/docs/pattern-states.html)
-* [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html)
-* [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html)
+* [ ] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
+* [ ] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
+* [ ] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
+* [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/)
+* [ ] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177)

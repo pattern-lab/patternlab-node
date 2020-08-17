@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/plugin-tab",
-  "version": "5.3.0",
+  "version": "5.10.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -9,7 +9,7 @@
     "lodash": "4.17.15"
   },
   "engines": {
-    "node": ">=10.0"
+    "node": ">=12.12.0"
   },
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
@@ -25,5 +25,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }
