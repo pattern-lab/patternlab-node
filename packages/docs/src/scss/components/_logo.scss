@@ -1,0 +1,70 @@
+/*------------------------------------*\
+    #LOGO
+\*------------------------------------*/
+
+/**
+ * Branding image or text of the site
+ */
+.c-logo {
+  @media all and (min-width: $bp-med) {
+    margin-bottom: $spacing-large;
+  }
+}
+
+/**
+ * Logo link
+ */
+.c-logo__link {
+  display: flex;
+  align-items: center;
+
+  &:focus {
+    @include focusInverted();
+  }
+}
+
+/**
+ * Logo image
+ */
+.c-logo__img {
+  display: block;
+  max-width: 2.4rem;
+  margin-right: 0.5rem;
+  animation: rotate 10s linear infinite;
+}
+
+/**
+ * Logo body
+ * 1) contains the logo text and meta info
+ */
+.c-logo__body {
+  position: relative;
+}
+
+/**
+ * Logo text
+ */
+.c-logo__text {
+  text-transform: lowercase;
+  font-weight: bold;
+  color: $color-white;
+}
+
+.c-logo__meta {
+  display: block;
+  padding-top: 0.2rem;
+  font-size: $font-size-sm;
+  color: $color-gray-27;
+  font-weight: 500;
+  position: absolute;
+  top: 100%;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

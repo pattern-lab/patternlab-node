@@ -90,7 +90,7 @@ module.exports = patternlab => {
           paths.source.patternlabFiles.patternSectionSubtype
         ),
         viewAll: readModuleFile(kit, paths.source.patternlabFiles.viewall),
-      }; // [3]
+      }; // [4]
     } catch (ex) {
       logger.error(ex);
       logger.error(

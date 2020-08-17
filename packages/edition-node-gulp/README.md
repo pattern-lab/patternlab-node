@@ -5,9 +5,9 @@
 
 # Pattern Lab Node - Gulp Edition
 
-The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core)), the default PatternEngine, and supporting frontend assets.
+The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core), the default PatternEngine, and supporting frontend assets.
 
-[Online Demo of Pattern Lab Output](http://demo.patternlab.io/)
+[Online Demo of Pattern Lab Output](https://demo.patternlab.io/)
 
 ## Packaged Components
 

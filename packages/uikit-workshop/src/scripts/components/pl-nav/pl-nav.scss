@@ -586,7 +586,7 @@ pl-nav {
   opacity: 1;
 
   .pl-c-body--theme-horizontal & {
-    overflow: auto;
+    overflow-y: auto;
   }
 
   @media all and (min-width: $pl-bp-med) {

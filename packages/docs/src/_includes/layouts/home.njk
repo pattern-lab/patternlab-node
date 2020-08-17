@@ -1,0 +1,93 @@
+{% extends 'layouts/base.njk' %}
+{% set pageType = 'Homepage' %}
+
+{% block content %}
+
+    {% include "components/hero.njk" %}
+
+    <div class="l-container">
+        <ul class="c-tile-list">
+            <li class="c-tile-list__item">
+                {% set styleModifier = 'c-tile--green' %}
+                {% set title = 'Read the docs' %}
+                {% set link = '/docs/installing-pattern-lab/' %}
+                {% set description = "Learn how to get up and running with Pattern Lab, work with patterns, design with dynamic data, and use Pattern Lab's advanced features." %}
+                {% include "components/tile.njk" %}
+            </li>
+            <li class="c-tile-list__item">
+                {% set styleModifier = 'c-tile--orange' %}
+                {% set title = 'Demos' %}
+                {% set link = '/demos/' %}
+                {% set description = "Demos of pattern starterkits for your project as well as a gallery of Pattern Lab projects in the wild" %}
+                {% include "components/tile.njk" %}
+            </li>
+            <li class="c-tile-list__item">
+                {% set styleModifier = 'c-tile--purple' %}
+                {% set title = 'Resources' %}
+                {% set link = '/resources/' %}
+                {% set description = "Links to articles and resources around Pattern Lab and design systems" %}
+                {% include "components/tile.njk" %}
+            </li>
+        </ul>
+    </div>
+
+    <div class="l-container">
+        <h2>Pattern Lab features</h2>
+        <p>At its core, Pattern Lab is a Node-powered static site generator that stitches together UI components. But there's a whole lot more to it than that!</p>
+        <ul class="c-block-grid">
+            <li class="c-block-grid__item">
+            {% set title="Nested Patterns" %}
+            {% set description="Include UI patterns inside each other like Russian nesting dolls. Make a change to a pattern and immediately see those changes reflected anywhere it is included." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Design With Dynamic Data" %}
+            {% set description="Create living UI prototypes using dynamic data to ensure your components can handle the dynamic nature of your content." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Tool Agnostic" %}
+            {% set description="Pattern Lab doesn't impose any tools or libraries on you, which means you have full control over how author your project." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Language Agnostic" %}
+            {% set description="Use atomic design language, or don't! it's totally up to you how you name, structure, and organize your Pattern Lab project." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Pattern Documentation" %}
+            {% set description="Define and describe your UI patterns so your entire team can start speaking the same language to collaborate more effectively." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Viewport Resizer Tools" %}
+            {% set description="Pattern Lab includes viewport resizing tools to ensure your design system's components and pages are fully responsive." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Pattern Lineage" %}
+            {% set description="X-ray vision! Quickly view where patterns where components are used, speeding up design, development, and QA time." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Pattern Starter Kits" %}
+            {% set description="Start your Pattern Lab project with a blank slate, a few sample components, or a full-on demo project." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+            <li class="c-block-grid__item">
+            {% set title="Flexible and Extensible" %}
+            {% set description="Pattern Lab supports Handlebars and Twig templating engines. Also you can or build a plugin to extend Pattern Lab's capabilities even further." %}
+            {% include "components/stacked-block.njk" %}
+            </li>
+        </ul>
+        
+        {% set styleModifier = 'c-tile--orange' %}
+        {% set title = 'Open source and community driven' %}
+        {% set link = '/support/' %}
+        {% set description = "Pattern Lab is (and will always be) an open source project. Check out the project on <a href='https://github.com/pattern-lab/patternlab-node'>GitHub</a> and join the <a href='https://gitter.im/pattern-lab/home'>Pattern Lab Gitter community</a> for conversation and support." %}
+        {% include "components/tile.njk" %}
+
+    </div>
+
+{% endblock %}

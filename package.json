@@ -21,7 +21,8 @@
     "prettier": "^1.14.3",
     "lerna": "3.17.0",
     "pretty-quick": "^1.11.1",
-    "auto": "^7.8.0"
+    "auto": "^9.40.5",
+    "@auto-it/released": "^9.40.5"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "clean": "git clean -dfx",
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
     "postpublish": "auto release",
+    "preview:docs": "cd packages/docs && yarn production",
     "preview:hbs": "cd packages/development-edition-engine-handlebars && npx patternlab add --starterkits @pattern-lab/starterkit-handlebars-vanilla && npm run pl:build"
   },
   "nyc": {
