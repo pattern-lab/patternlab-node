@@ -135,8 +135,8 @@ const watchPatternLabFiles = (
       // the watcher does not react on unlink and unlinkDir
       // events, so patterns are never removed
       .on('unlink', async p => {
-        patternlab.graph.sync()
-        patternlab.graph.upgradeVersion()
+        patternlab.graph.sync();
+        patternlab.graph.upgradeVersion();
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
@@ -146,8 +146,8 @@ const watchPatternLabFiles = (
         );
       })
       .on('unlinkDir', async p => {
-        patternlab.graph.sync()
-        patternlab.graph.upgradeVersion()
+        patternlab.graph.sync();
+        patternlab.graph.upgradeVersion();
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
@@ -155,8 +155,7 @@ const watchPatternLabFiles = (
             file: p,
           }
         );
-      })
-    ;
+      });
     patternlab.watchers[patternWatchPath] = patternWatcher;
   });
 
