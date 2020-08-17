@@ -1,0 +1,53 @@
+/*------------------------------------*\
+    #HERO
+\*------------------------------------*/
+
+.c-hero {
+	background-color: $color-brand-purple-light;
+	color: $color-black;
+	padding: 2rem 0;
+	margin-bottom: 2rem;
+}
+
+.c-hero__inner {
+	display: grid;
+	align-items: center;
+
+	@media all and (min-width: $bp-large) {
+		min-height: 60vh;
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+}
+
+.c-hero__body {
+	max-width: 47rem;
+}
+
+.c-hero__title {
+	color: $color-brand-purple-dark;
+	font-size: $font-size-large-2;
+	line-height: 1;
+	@include textShadowEffect();
+	margin-bottom: 1rem;
+
+	@media all and (min-width: $bp-large) {
+		font-size: 4.5rem;
+	}
+
+	@media all and (min-width: $bp-xl) {
+		font-size: 6rem;
+	}
+}
+
+.c-hero__description {
+	font-weight: bold;
+}
+
+.c-hero__instructions a {
+	text-decoration: underline;
+}
+
+.c-hero__code {
+	display: inline-block;
+}

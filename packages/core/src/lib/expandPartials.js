@@ -60,11 +60,7 @@ module.exports = function(currentPattern, patternlab) {
 
               //this is what we came here for
               logger.debug(
-                `within ${
-                  currentPattern.patternPartial
-                }, replacing extendedTemplate partial ${foundPartial} with ${
-                  cleanPartialPattern.patternPartial
-                }'s extendedTemplate`
+                `within ${currentPattern.patternPartial}, replacing extendedTemplate partial ${foundPartial} with ${cleanPartialPattern.patternPartial}'s extendedTemplate`
               );
 
               currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(

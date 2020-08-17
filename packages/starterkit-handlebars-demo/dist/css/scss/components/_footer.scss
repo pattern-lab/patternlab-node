@@ -1,0 +1,39 @@
+/*------------------------------------*\
+    $FOOTER
+\*------------------------------------*/
+
+/**
+ * 1) Global block at the bottom of each page that contains a navigation and other information
+ */
+.c-footer {
+	padding: 2rem 0;
+	margin-top: 2rem;
+	background: $color-brand-blue-dark;
+}
+
+.c-footer__inner {
+	@media all and (min-width: $bp-med) {
+		display: flex;
+	}
+}
+
+.c-footer__bottom {
+	@media all and (min-width: $bp-med) {
+		margin-left: auto;
+	}
+}
+
+.c-footer__credit, .c-footer__copyright {
+	color: $color-neutral-white;
+	text-transform: uppercase;
+	font-family: $font-family-secondary;
+	font-size: $font-size-sm-2;
+
+	a {
+		color: $color-brand-orange;
+
+		&:hover, &:focus {
+			color: $color-neutral-gray-50;
+		}
+	}
+}

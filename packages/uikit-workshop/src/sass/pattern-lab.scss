@@ -43,38 +43,75 @@
 /*------------------------------------*\
     #COMPONENTS
 \*------------------------------------*/
-
-/**
- * Pattern Lab Header
- */
+@import '../scripts/components/pl-nav/pl-nav.scss';
 @import '../scripts/components/pl-search/pl-search.scss';
-@import '../scripts/components/pl-layout/pl-layout.scss';
-@import 'scss/04-components/header';
-@import 'scss/04-components/logo';
-@import 'scss/04-components/navigation';
-@import 'scss/04-components/ish-sizing';
-@import 'scss/04-components/controls';
-@import 'scss/04-components/tools';
-
-/**
- * Viewport
- */
-@import 'scss/04-components/viewport';
-
-/**
- * Pattern Styles
- */
-@import 'scss/04-components/pattern';
+@import '../scripts/components/pl-tooltip/pl-tooltip.scss';
+@import 'scss/04-components/annotations';
+@import 'scss/04-components/breadcrumbs';
 @import 'scss/04-components/pattern-category';
 @import 'scss/04-components/pattern-info';
-@import 'scss/04-components/pattern-states';
 @import 'scss/04-components/pattern-lineage';
-@import 'scss/04-components/breadcrumbs';
+@import 'scss/04-components/pattern-states';
+@import 'scss/04-components/pattern';
 @import 'scss/04-components/tabs';
-@import 'scss/04-components/tools';
-@import 'scss/04-components/annotations';
-@import 'scss/04-components/modal';
 @import 'scss/04-components/text-passage';
+
+.pl-c-code-copy-btn {
+  display: inline-block;
+  position: absolute;
+  top: 0.4rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.4rem;
+  background-color: $pl-color-gray-07;
+  color: $pl-color-gray-87;
+  border: 1px solid $pl-color-gray-13;
+  border-radius: $pl-border-radius-med;
+  font-family: $pl-font;
+  font-size: $pl-font-size-norm;
+  text-transform: lowercase;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: background-color $pl-animate-quick ease-out;
+
+  &:hover,
+  &:focus {
+    background-color: $pl-color-gray-20;
+  }
+}
+
+.pl-c-code-copy-btn__icon {
+  height: 1em;
+  width: 1em;
+}
+
+.pl-c-code-copy-btn__icon--paste {
+  display: none;
+
+  .is-copied & {
+    display: inline-block;
+  }
+}
+
+.pl-c-code-copy-btn__icon--copy {
+  display: inline-block;
+
+  .is-copied & {
+    display: none;
+  }
+}
+
+.pl-c-body {
+  overflow: hidden;
+}
+
+.pl-c-main {
+  overflow-x: hidden;
+  min-height: 100vh;
+  max-width: 100vw;
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
 
 /*------------------------------------*\
     #THEMES

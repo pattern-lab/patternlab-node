@@ -1,0 +1,112 @@
+---
+title: 'Styleguide'
+permalink: /styleguide/
+---
+
+{% extends 'layouts/base.njk' %}
+
+{# Intro content #}
+{% set introHeading = title %}
+
+{% block head %}
+  <style>
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+      grid-gap: 2.5rem 2rem;
+      margin-left: 0;
+    }
+
+    .swatches > * {
+      margin-top: 0 !important;
+    }
+
+    .props dt {
+      font-weight: 600;  
+    }
+
+    .props dd + dt {
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    .color {
+      border: 1px solid var(--color-mid);
+    }
+
+    .bg-dark code {
+      color: var(--color-light);
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <main id="main-content">
+    {% include "partials/components/intro.njk" %}
+    <article class="[ inner-wrapper ] [ post ]">
+      <section class="[ post__body ] [ sf-flow ] [ pad-top-900 pad-bottom-900 ]">
+        <h2>Colours</h2>
+        <p class="visually-hidden">Colour swatches with various values that you can copy.</p>
+        <ul class="swatches">
+          {% for color in styleguide.colors() %}
+            <li class="sf-flow">
+              <div class="[ color ] [ pad-top-900 pad-bottom-900 ]" style="background: {{ color.value }}"></div>
+              <h3 class="font-base text-500">{{ color.key }}</h3>
+              <dl class="props">
+                <dt>Value</dt>
+                <dd><code>{{ color.value }}</code></dd>
+                <dt>Sass function</dt>
+                <dd><code>get-color('{{ color.key }}')</code></dd>
+                <dt>Custom Property</dt>
+                <dd><code>var(--color-{{ color.key }})</code></dd>
+                <dt>Text util class</dt>
+                <dd><code>color-{{ color.key }}</code></dd>
+                <dt>Background util class</dt>
+                <dd><code>bg-{{ color.key }}</code></dd>
+              </dl>
+            </li>
+          {% endfor %}
+        </ul>
+        <h2>Fonts</h2>
+        <h3>Base — System stack</h3>
+        <p class="sf-flow">
+          <span aria-hidden="true" role="presentation" class="font-base text-600 md:text-800 box-block leading-tight">The quick brown fox jumps over the lazy fox</span>
+          <code>.font-base</code>
+        </p>
+        <h3>Serif — Lora</h3>
+        <p class="sf-flow">
+          <span aria-hidden="true" role="presentation" class="font-serif text-600 md:text-800 box-block leading-tight">The quick brown fox jumps over the lazy fox</span>
+          <code>.font-serif</code>
+        </p>
+        <h2>Text sizes</h2>
+        <p>Text sizes are available as standard classes or media query prefixed, such as <code>lg:text-500</code>.</p>
+        {% for size in styleguide.sizes() %}
+          <p class="text-{{ size.key }}" style="--flow-space: 1.5rem">{{ size.value }} - <code>text-{{ size.key }}</code></p>
+        {% endfor %}
+        <h2>Spacing</h2>
+        <p>There’s size ratio utilities that give you margin (<code>gap-top, gap-bottom</code>) and padding (<code>pad-top, pad-left, pad-bottom</code>).
+        <h3>Margin</h3>
+        <p class="visually-hidden">Margin token classes that you can copy</p>
+        <div>
+          {% for size in styleguide.sizes() %}
+            <div class="[ bg-dark color-light pad-top-base pad-bottom-base pad-left-base md:width-half ] [ gap-top-{{ size.key }} ]">
+              <code>gap-top-{{ size.key }}</code>
+            </div>
+          {% endfor %}
+        </div>
+        <h3>Padding</h3>
+        <p class="visually-hidden">Padding token classes that you can copy</p>
+        {% for size in styleguide.sizes() %}
+          <div class="[ bg-dark pad-left-base color-light md:width-half ] [ pad-top-{{ size.key }} ]">
+            <code>pad-top-{{ size.key }}</code>
+          </div>
+          <div class="[ bg-dark pad-left-base color-light md:width-half ] [ pad-bottom-{{ size.key }} ]">
+            <code>pad-bottom-{{ size.key }}</code>
+          </div>
+          <div class="[ bg-dark color-light md:width-half ] [ pad-left-{{ size.key }} ]">
+            <code>pad-left-{{ size.key }}</code>
+          </div>
+        {% endfor %}
+      </section>
+    </article>
+  </main>
+{% endblock %}

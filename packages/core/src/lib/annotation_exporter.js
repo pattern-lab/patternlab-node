@@ -23,9 +23,7 @@ const annotations_exporter = function(pl) {
       );
     } catch (ex) {
       logger.debug(
-        `annotations.js file missing from ${
-          paths.source.annotations
-        }. This may be expected if you do not use annotations or are using markdown.`
+        `annotations.js file missing from ${paths.source.annotations}. This may be expected if you do not use annotations or are using markdown.`
       );
       return [];
     }
@@ -39,9 +37,7 @@ const annotations_exporter = function(pl) {
       return oldAnnotationsJSON.comments;
     } catch (ex) {
       logger.error(
-        `There was an error parsing JSON for ${
-          paths.source.annotations
-        }annotations.js`
+        `There was an error parsing JSON for ${paths.source.annotations}annotations.js`
       );
       return [];
     }

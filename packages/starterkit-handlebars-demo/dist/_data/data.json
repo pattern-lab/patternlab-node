@@ -1,0 +1,24 @@
+{
+	"title": "Soul Soles",
+	"company": {
+		"name": "Soul Soles",
+		"url": "http://soulsoles.com"
+	},
+	"user": {
+		"name": "Thisisauser Withaverylongname",
+		"username": "thisisalongusernamenamename"
+	},
+	"page": {
+		"title": "This is the page title",
+		"description": "This is the page description"
+	},
+	"heading": "Heading ipsum dol (33 characters)",
+	"headline": "Heading ipsum dol (33 characters)",
+	"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+	"url": "#",
+	"htmlText": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam necessitatibus reprehenderit ipsum repellat quasi ratione sit possimus 🙂 eveniet, ea, ut mollitia repudiandae eligendi unde aperiam molestiae voluptatibus error. Dolorem, iure.</p><p>Lorem <strong>ipsum dolor sit amet</strong>, consectetur adipiscing elit. Integer fringilla sem a urna porttitor fringilla. Nulla eget justo felis. eget volutpat justo mattis nec. Sed a orci turpis. Aliquam aliquet placerat dui.</p><h2>This is a second-level heading</h2><p><a href='#'>Aliquam erat volutpat.</a> Mauris vulputate scelerisque feugiat. <em>Cras a erat a diam venenatis aliquam</em>. Sed tempus, purus ac pretium varius, risus orci sagittis purus, quis auctor libero magna nec magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas eros dolor.</p><ol> <li>Ordered list item</li><li>Another ordered list item</li><li>Yet another ordered list item</li></ol><h3>This is a third-level heading</h3><p>Aliquam ultrices cursus mauris, eget volutpat justo mattis nec. Sed a orci turpis. Aliquam aliquet placerat dui, consectetur tincidunt leo tristique et. Vivamus enim nisi, blandit a venenatis quis, convallis et arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris libero sapien, placerat in sodales eu, tempor quis dui. Vivamus egestas faucibus pulvinar. Maecenas eget diam nunc. Phasellus at sem eros, ac suscipit neque. Phasellus sollicitudin libero a odio dignissim scelerisque. Aliquam purus nulla, tempor eget ullamcorper quis, rhoncus non dui.</p><h3><a href='#'>This is a linked heading</a></h3><ul> <li>Bulleted list item</li><li>Another bulleted list item</li><li>Yet bulleted list item</li><li>And here's yet another bulleted list item</li></ul><blockquote>This is a blockquote. Eget volutpat justo mattis nec. Sed a orci turpis. Aliquam aliquet placerat dui, consectetur tincidunt leo eget est blandit dignissim a eu ante. Morbi augue nulla <cite>Cite Source</cite></blockquote><h4>This is a fourth-level heading</h4><p>Cras at fringilla ipsum. Donec nec libero eget est blandit dignissim a eu ante. Morbi augue nulla, luctus eu sagittis vel, malesuada ut felis. Aliquam erat volutpat. Morbi malesuada augue ac massa hendrerit fermentum. Integer scelerisque lacus a dolor convallis lobortis. Curabitur mollis ante in massa ultricies dignissim.</p><h5>This is a fifth-level heading</h5><p>Cras at fringilla ipsum. Donec nec libero eget est blandit dignissim a eu ante. Morbi augue nulla, luctus eu sagittis vel.</p><h6>This is a sixth-level heading</h6> <p>Lorem ipsum dolor sit amet.</p>",
+	"cta": "Call to Action",
+	"sectionTitle": "Section Title",
+	"hero": true,
+	"promoBlock": true
+}

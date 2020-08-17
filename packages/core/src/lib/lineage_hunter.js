@@ -131,13 +131,7 @@ const lineage_hunter = function() {
                   ? '<<blank>>'
                   : lineageRPattern.patternState;
               logger.info(
-                `Found a lower common denominator pattern state: ${
-                  pattern.patternState
-                } on ${
-                  pattern.patternPartial
-                }. Setting reverse lineage pattern ${
-                  lineageRPattern.patternPartial
-                } from ${oldState}`
+                `Found a lower common denominator pattern state: ${pattern.patternState} on ${pattern.patternPartial}. Setting reverse lineage pattern ${lineageRPattern.patternPartial} from ${oldState}`
               );
 
               lineageRPattern.patternState = pattern.patternState;

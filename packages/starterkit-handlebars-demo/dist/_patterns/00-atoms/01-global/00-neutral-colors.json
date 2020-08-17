@@ -1,0 +1,57 @@
+{
+  "items": [
+    {
+      "name": "$color-neutral-white",
+      "value": "#fff",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-02",
+      "value": "#f9f9f9",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-07",
+      "value": "#eee",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-13",
+      "value": "#ddd",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-27",
+      "value": "#bbb",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-50",
+      "value": "#808080",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-60",
+      "value": "#666",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-73",
+      "value": "#444",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-gray-93",
+      "value": "#131313",
+      "comment": ""
+    },
+    {
+      "name": "$color-neutral-black",
+      "value": "#000",
+      "comment": ""
+    }
+  ],
+  "meta": {
+    "description": "To add to these items, use Sass variables that start with <code>$color-neutral-</code> in <code>./source/css/scss/abstracts/_variables.scss</code>"
+  }
+}

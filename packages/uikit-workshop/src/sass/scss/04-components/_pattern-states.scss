@@ -7,17 +7,12 @@
 * in the dropdown navigation.
 */
 .pl-c-pattern-state {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  margin-left: 10px;
-  position: relative;
-  top: 5px;
-  left: 0;
+  width: 0.5em;
+  height: 0.5em;
+  margin-bottom: 0.25em;
+  margin-left: 0.5em;
   border-radius: 50%;
   background-color: $pl-color-state-info;
-  line-height: 4px;
-  text-indent: 10px;
 
   &--complete {
     background-color: $pl-color-state-complete;
@@ -25,6 +20,10 @@
 
   &--inreview {
     background-color: $pl-color-state-inreview;
+  }
+
+  &--inprogress {
+    background-color: $pl-color-state-inprogress;
   }
 
   &--deprecated {

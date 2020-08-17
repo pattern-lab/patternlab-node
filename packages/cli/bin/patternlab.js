@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-unused-vars */
 'use strict';
 const cli = require('commander');
 const path = require('path');

@@ -96,10 +96,8 @@ const wrapAsync = fn =>
  */
 const asyncGlob = (pattern, opts) =>
   new Promise((resolve, reject) =>
-    glob(
-      pattern,
-      opts,
-      (err, matches) => (err !== null ? reject(err) : resolve(matches))
+    glob(pattern, opts, (err, matches) =>
+      err !== null ? reject(err) : resolve(matches)
     )
   );
 
@@ -128,16 +126,15 @@ const copyWithPattern = (cwd, pattern, dest) =>
  * @func fetchPackage
  * @desc Fetches and saves packages from npm into node_modules and adds a reference in the package.json under dependencies
  * @param {string} packageName - The package name
- * @param {string} [url] - A URL which will be used to fetch the package from
  */
-const fetchPackage = (packageName, url) =>
+const fetchPackage = packageName =>
   wrapAsync(function*() {
     const useYarn = hasYarn();
     const pm = useYarn ? 'yarn' : 'npm';
     const installCmd = useYarn ? 'add' : 'install';
     try {
-      if (packageName || url) {
-        const cmd = yield spawn(pm, [installCmd, url || packageName]);
+      if (packageName) {
+        const cmd = yield spawn(pm, [installCmd, packageName]);
         error(cmd.stderr);
       }
     } catch (err) {
@@ -152,10 +149,9 @@ const fetchPackage = (packageName, url) =>
  * @func checkAndInstallPackage
  * Checks whether a package for a given packageName is installed locally. If package cannot be found, fetch and install it
  * @param {string} packageName - The package name
- * @param {string} [url] - A URL which will be used to fetch the package from
  * @return {boolean}
  */
-const checkAndInstallPackage = (packageName, url) =>
+const checkAndInstallPackage = packageName =>
   wrapAsync(function*() {
     try {
       require.resolve(packageName);
@@ -164,7 +160,7 @@ const checkAndInstallPackage = (packageName, url) =>
       debug(
         `checkAndInstallPackage: ${packageName} not installed. Fetching it now …`
       );
-      yield fetchPackage(packageName, url);
+      yield fetchPackage(packageName);
       return false;
     }
   });

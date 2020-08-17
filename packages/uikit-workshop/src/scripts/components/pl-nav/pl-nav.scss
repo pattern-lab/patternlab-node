@@ -1,0 +1,596 @@
+/*------------------------------------*\
+    #NAVIGATION
+\*------------------------------------*/
+
+pl-nav {
+  background-color: inherit; // so the inside of dropdowns inherits the correct color
+  display: block; // vertically align children
+  flex-grow: 1;
+  align-items: center;
+
+  @media all and (min-width: $pl-bp-med) {
+    padding: 0;
+    display: flex; // vertically align children
+  }
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+}
+
+/**
+ * Navigation container
+ * 1) Collapse height on small screens. Menu trigger button
+ *    activates nav
+ */
+.pl-c-nav {
+  @include accordionPanel;
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  position: absolute;
+  left: 0; // IE 11 layout broken
+  top: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: max-height $pl-animate-quick ease-out;
+  flex-shrink: 1;
+  visibility: hidden;
+  transition: transform 0.2s ease-out, opacity 0 0.2s ease-out;
+
+  @media all and (max-width: $pl-bp-med) {
+    position: fixed;
+    top: 44px;
+    bottom: 0;
+    height: auto;
+    z-index: -1;
+  }
+
+  &.pl-is-active {
+    visibility: visible;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+    display: flex;
+    overflow: hidden;
+    visibility: visible;
+    flex-shrink: 0;
+
+    @media all and (min-height: 500px) {
+      flex-shrink: 1;
+    }
+
+    @media all and (max-width: $pl-bp-med) {
+      max-width: 240px;
+
+      position: fixed;
+      top: 44px;
+      bottom: 0;
+      height: auto;
+      max-height: calc(100% - 2rem);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      transform: translateX(-100%);
+      transition: all 0.3s ease;
+      opacity: 0;
+      box-shadow: 0 3px 6px rgba(21,22,25,.16), 0 3px 6px rgba(21,22,25,.23);
+      visibility: visible;
+
+      &.pl-is-active {
+        transform: translateX(0);
+        opacity: 1;
+        transition: transform 0.2s ease-out;
+      }
+    }
+  }
+
+  @media all and (max-width: $pl-bp-med) {
+    &.pl-is-active {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
+  @media all and (min-width: $pl-bp-med) {
+    overflow: visible;
+    max-height: none;
+    visibility: visible;
+
+    &.pl-is-active {
+      overflow: visible;
+    }
+  }
+
+  /**
+    * Active navigaiton
+    * 1) Slide
+    * 2) Set the height to the vierport height minus the height
+    *    of the header
+    */
+  &.pl-is-active {
+    @media all and (max-width: $pl-bp-med - 1) {
+      box-shadow: 0 2px 4px $pl-color-black;
+
+      .pl-c-body--theme-light & {
+        box-shadow: 0 2px 4px darken($pl-color-gray-20, 15%);
+      }
+    }
+
+    // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
+    @media all and (min-width: $pl-bp-med) {
+      max-height: none;
+    }
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    flex-direction: row;
+    position: relative;
+    top: auto;
+    width: auto;
+    box-shadow: none;
+  }
+}
+
+/**
+ * Nav list
+ * 1) appears as an <ol>
+ * 2) display as a horizontal list on larger screens
+ * 3) On small screens, move the nav list after the typeahead form field
+ */
+.pl-c-nav__list {
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
+  flex-grow: 1; // auto-fill extra space available
+  max-width: 100%; // so content doesn't won't spill out horizontally
+  order: 2;
+  background-color: inherit; // allows the nav's children inherit from the parent header
+
+  @media all and (min-width: $pl-bp-med) {
+    display: flex; /* 2 */
+    order: 1;
+
+    // workaround to Firefox-specific flexbox quirk
+    .pl-c-body--theme-sidebar & {
+      display: block;
+    }
+  }
+}
+
+/**
+ * Nav list item
+ */
+.pl-c-nav__item {
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // vertically align nav items
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+  }
+}
+
+.pl-c-nav__item-inner {
+  position: relative;
+}
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link {
+  @include linkStyle;
+  outline: 0;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  margin: 0; // remove default button margin in Safari
+  color: inherit;
+  padding: 0.7rem 0.5rem;
+
+  // makes link layout / size more consistent in the sidebar layout, especially when display: flex styles are removed for more consistent IE 11 rendering
+  .pl-c-body--theme-sidebar & {
+    width: 100%;
+  }
+
+  &:not(.pl-c-nav__link--title):not(.pl-c-nav__link--dropdown).pl-is-active {
+    box-shadow: inset 4px 0 0 #6c79d9;
+
+    // move the "active" border style to the bottom on ONLY the top level links (ex. "All")
+    @media all and (min-width: $pl-bp-med) {
+      &.pl-c-nav__link--pattern {
+        .pl-c-body--theme-horizontal & {
+          box-shadow: inset 0 -4px 0 #6c79d9;
+        }
+
+        .pl-c-nav__sublist & {
+          box-shadow: inset 4px 0 0 #6c79d9;
+        }
+      }
+    }
+  }
+}
+
+.pl-c-nav__link,
+.pl-c-nav__link--section-dropdown,
+.pl-c-nav__link--sublink,
+.pl-c-nav__link--overview {
+  @include linkStyle;
+  position: relative;
+  color: inherit;
+
+  &:after {
+    content: '';
+    pointer-events: none;
+    opacity: 0;
+    background-color: currentColor;
+    transition: opacity $pl-animate-quick ease-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: block;
+  }
+
+  &:hover:after {
+    opacity: 0.1;
+  }
+
+  &:focus:after {
+    opacity: 0.1;
+  }
+}
+
+/**
+ * Nav sublink
+ * 1) Visually differentiate sub-item links from
+ *    the other links. Creates better hierarchy.
+ */
+.pl-c-nav__link--sublink {
+  text-transform: none;
+  font-size: 0.78rem;
+  padding-left: $pl-space + ($pl-space / 2);
+  padding-right: $pl-space + ($pl-space / 2);
+
+  &.pl-is-active {
+    box-shadow: inset 4px 0 0 #6c79d9;
+  }
+}
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link--dropdown {
+  -webkit-appearance: none; // remove default button styling
+  flex-grow: 1; // fill up extra space in parent nav item, if available
+}
+
+.pl-c-nav__link--pattern {
+  padding-left: 1.45rem;
+  padding-right: 0.75rem;
+  flex-grow: 1;
+  font-size: .8rem;
+
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-horizontal & {
+      padding-left: 0.75rem;
+    }
+  }
+}
+
+.pl-c-nav__link-text {
+  flex-grow: 1;
+  pointer-events: none;
+}
+
+.pl-c-nav__link-icon {
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+  pointer-events: none;
+  color: currentColor;
+  display: inline;
+  transition: all $pl-animate-quick ease-out;
+  transform: rotate(-90deg);
+  flex-grow: 0;
+  line-height: 0;
+  font-size: 1.3rem; // temp solution till new pl-button used in Navigation
+}
+
+.pl-c-nav__link--overview-wrapper.pl-is-active > .pl-c-nav__link--section-dropdown > .pl-c-nav__link-icon,
+.pl-c-nav__link--title.pl-is-active > .pl-c-nav__link-icon,
+.pl-c-nav__link--section-dropdown.pl-is-active > .pl-c-nav__link-icon,
+.pl-c-nav__link--dropdown.pl-is-active > .pl-c-nav__link-icon {
+  transform: rotate(0);
+}
+
+/**
+ * Nav sublist
+ * 1) On larger screens, display as dropdowns that
+ *    hang over the header
+ */
+.pl-c-nav__sublist {
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  @include listReset();
+
+  @media all and (min-width: $pl-bp-med) {
+    position: absolute;
+    top: 100%; /* 1 */
+    left: 0;
+    min-width: 12rem;
+    border-radius: $pl-border-radius-med;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    transition: all .2s ease;
+    transform: translateY(-12px);
+    z-index: 1;
+    transition: all $pl-animate-quick ease-out;
+
+    .pl-c-body--theme-sidebar & {
+      border-width: 0;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .pl-c-body--theme-light & {
+      border-color: rgba($pl-color-black, .2);
+    }
+
+    .pl-c-body--theme-dark & {
+      border-color: rgba($pl-color-white, .2);
+    }
+  }
+}
+
+/**
+ * Dropdown sublist
+ */
+.pl-c-nav__sublist--dropdown,
+.pl-c-nav__subsublist--dropdown {
+  @include listReset();
+  @include accordionPanel();
+  visibility: hidden;
+  opacity: 0;
+
+  @media all and (min-width: $pl-bp-med) {
+    .pl-c-body--theme-sidebar & {
+      position: relative;
+    }
+  }
+
+  .pl-c-nav__link {
+    padding-left: 1.5rem;
+  }
+
+  .pl-c-nav__link--sublink {
+    padding-left: 1.5rem + .75rem;
+  }
+
+  @media all and (max-width: $pl-bp-med - 1) {
+    .pl-c-nav__link {
+      padding-left: 1.5rem;
+    }
+
+    .pl-c-nav__link--sublink {
+      padding-left: 1.5rem + .75rem;
+    }
+  }
+}
+
+/**
+ * Dropdown sublist
+ * 1) Set the height to the viewport height minus the height of the header
+ */
+.pl-c-nav__sublist--dropdown.pl-is-active,
+.pl-c-nav__subsublist--dropdown.pl-is-active {
+  visibility: visible;
+
+  @media all and (min-width: $pl-bp-med) {
+    max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+  }
+
+  .pl-c-body--theme-sidebar & {
+    max-height: none;
+    transform: translateY(0);
+  }
+}
+
+.pl-c-nav__sublist--dropdown.pl-is-active {
+  @media all and (min-width: $pl-bp-med) {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    border-left: 1px solid $pl-color-gray-87;
+    border-right: 1px solid $pl-color-gray-87;
+
+    border-left-color: $pl-color-gray-87;
+    border-right-color: $pl-color-gray-87;
+    border-left-color: rgba(var(--theme-text-rgb), 0.1);
+    border-right-color: rgba(var(--theme-text-rgb), 0.1);
+    transform: translateY(-6px);
+  }
+
+  .pl-c-body--theme-sidebar & {
+    box-shadow: none;
+    border: none;
+  }
+}
+
+
+.pl-c-nav__link--overview.pl-is-active {
+  &:hover:before {
+    opacity: 0.1;
+  }
+}
+.pl-c-nav__link--overview-wrapper,
+.pl-c-nav__subsublist--dropdown,
+.pl-c-nav__link--overview {
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: opacity $pl-animate-quick ease-out;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    background-color: currentColor;
+    pointer-events: none;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: opacity $pl-animate-quick ease-out;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    pointer-events: none;
+  }
+
+  &.pl-is-active {
+    &:before,
+    &:after {
+      opacity: 0.025;
+    }
+  }
+
+  .pl-c-body--theme-dark & {
+    &:before {
+      // background-color: rgba(255, 255, 255, .1);
+    }
+
+    &:after {
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+    }
+  }
+}
+
+/**
+ * Sub-navigation
+ * 1) Third-level links are stylistically different
+ * than first and second nav links.
+ */
+.pl-c-nav__subsublist {
+  @include listReset();
+}
+
+.pl-c-nav__link--overview.pl-c-nav__link--overview.pl-c-nav__link--overview {
+  font-size: 0.85rem;
+  padding-right: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+  flex-grow: 1;
+
+  &:not(:only-child) {
+    margin-right: 2.5rem;
+  }
+}
+
+.pl-c-nav__link--title {
+  font-size: 0.8rem;
+  color: $pl-color-gray-20;
+  color: var(--theme-text, $pl-color-gray-20);
+
+  > .pl-c-nav__link-icon {
+    font-size: inherit;
+  }
+
+  .pl-c-body--theme-light & {
+    color: $pl-color-black;
+    color: var(--theme-text);
+  }
+}
+
+.pl-c-nav__link--section-dropdown {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  font-size: 0;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  border: 2px solid transparent !important;
+  transform: translateY(-50%);
+  justify-content: center;
+  align-items: center;
+  color: currentColor;
+
+  // border to indicate which nav links have two specific actions
+  &:before {
+    opacity: 0.1;
+    right: 2.4rem;
+    width: 1px;
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  &:after {
+    opacity: 0;
+    width: 2.5rem;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  &:before,
+  &:after {
+    height: 2.5rem;
+    transition: opacity $pl-animate-quick ease-out;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    background-color: currentColor;
+  }
+
+  &:hover {
+    // background-color: transparent !important;
+
+    &:after,
+    &:focus:after {
+      opacity: 0.1;
+    }
+  }
+
+  &:focus {
+    outline-offset: -1px;
+    outline: 1px dotted;
+  }
+
+  &:active:not(:hover):after,
+  &:focus:not(:hover):after {
+    opacity: 0;
+  }
+}
+
+.pl-c-nav__link--overview-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.pl-is-active + .pl-js-acc-panel {
+  visibility: visible;
+  max-height: none;
+  transform: translateY(0);
+  opacity: 1;
+
+  .pl-c-body--theme-horizontal & {
+    overflow-y: auto;
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    height: auto;
+    max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+  }
+}

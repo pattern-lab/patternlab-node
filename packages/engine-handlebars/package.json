@@ -1,11 +1,12 @@
 {
   "name": "@pattern-lab/engine-handlebars",
   "description": "The Handlebars engine for Pattern Lab / Node",
-  "version": "2.0.0-beta.1",
+  "version": "5.10.1",
   "main": "lib/engine_handlebars.js",
   "dependencies": {
-    "fs-extra": "0.30.0",
-    "handlebars": "4.0.5"
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.6",
+    "handlebars": "^4.5.3"
   },
   "keywords": [
     "Pattern Lab",
@@ -22,9 +23,10 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=10.0"
+    "node": ">=12.12.0"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

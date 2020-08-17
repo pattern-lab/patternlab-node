@@ -1,0 +1,84 @@
+/*------------------------------------*\
+    #ISH SIZING
+\*------------------------------------*/
+
+@import '../../../sass/scss/core.scss';
+
+/**
+ * Viewport size form
+ * 1) This is the form for the form that houses the current
+ *    viewport size in px and em
+ */
+pl-viewport-size {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pl-c-viewport-size {
+  margin: 0;
+  border: 0;
+
+  // Prevent zooming on phone browser when the font size is smaller than 16px
+  // As it would break the visualization the field itself will be scaled to 85% 
+  font-size: 1rem;
+  transform: scale(0.85);
+
+  padding: 0.3rem 0.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+/**
+ * Size input fields
+ */
+.pl-c-viewport-size__input {
+  padding: 0.1rem;
+  margin: 0;
+  border: 0;
+  border-radius: $pl-border-radius;
+  background-color: transparent;
+  color: inherit;
+  width: auto;
+  text-align: right;
+  transition: all $pl-animate-quick ease-out;
+  pointer-events: none;
+  text-overflow: ellipsis;
+}
+
+.pl-c-viewport-size__input-action {
+  max-width: 47px;
+  font-size: inherit;
+  pointer-events: auto;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+  }
+
+  &:hover {
+    color: $pl-color-white;
+    background-color: $pl-color-gray-87;
+  }
+
+  &:active,
+  &:focus {
+    color: $pl-color-white;
+    background-color: $pl-color-gray-87;
+    outline: 1px dotted $pl-color-gray-50;
+    outline-offset: -1px;
+  }
+}
+/**
+ * Size input labels
+ */
+.pl-c-viewport-size__label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+

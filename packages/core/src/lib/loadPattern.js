@@ -23,13 +23,13 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 // all its associated files, and records it in patternlab.patterns[]
 module.exports = function(relPath, patternlab) {
   const relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
-  if (relativeDepth > 2) {
+  if (relativeDepth > 3) {
     logger.warning('');
     logger.warning('Warning:');
     logger.warning(
       'A pattern file: ' +
         relPath +
-        ' was found greater than 2 levels deep from ' +
+        ' was found greater than 3 levels deep from ' +
         patternlab.config.paths.source.patterns +
         '.'
     );
@@ -39,12 +39,16 @@ module.exports = function(relPath, patternlab) {
     logger.warning(
       '[patternType]/[patternSubtype]/[patternName].[patternExtension]'
     );
+    logger.warning('or');
+    logger.warning(
+      '[patternType]/[patternSubtype]/[patternName]/[patternName].[patternExtension]'
+    );
     logger.warning('');
     logger.warning(
       'While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. '
     );
     logger.warning(
-      'Read More: http://patternlab.io/docs/pattern-organization.html'
+      'Read More: https://patternlab.io/docs/overview-of-patterns/'
     );
     logger.warning('');
   }
@@ -148,18 +152,14 @@ module.exports = function(relPath, patternlab) {
 
     if (listItemsData) {
       logger.debug(
-        `found pattern-specific listitems data for ${
-          currentPattern.patternPartial
-        }`
+        `found pattern-specific listitems data for ${currentPattern.patternPartial}`
       );
       currentPattern.listitems = listItemsData;
       buildListItems(currentPattern);
     }
   } catch (err) {
     logger.warning(
-      `There was an error parsing sibling listitem JSON for ${
-        currentPattern.relPath
-      }`
+      `There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`
     );
     logger.warning(err);
   }

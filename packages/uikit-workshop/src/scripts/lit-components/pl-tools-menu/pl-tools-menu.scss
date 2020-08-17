@@ -1,0 +1,130 @@
+/*------------------------------------*\
+    #TOOLS
+\*------------------------------------*/
+
+@import '../../../sass/scss/core.scss';
+
+// vertical align in <pl-header> container
+pl-tools-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/**
+ * The tools dropdown contains more utilities such as show/hide
+ * pattern info and pattern search, and also links to open in a
+ * new window and view the documentation
+ */
+.pl-c-tools {
+  position: relative;
+  display: flex;
+}
+
+/**
+ * Tools dropdown list
+ */
+.pl-c-tools__list {
+  @include listReset();
+  transform: translateY(-10px);
+  position: absolute;
+  right: 5px;
+  z-index: 10; // make sure context dropdown z-index is higher than nav dropdown z-index
+  width: 12rem;
+  border-radius: 6px;
+  top: calc(100% - 2px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+  background-color:  $pl-color-gray-87;
+  background-color: var(--theme-primary,  $pl-color-gray-87);
+  transform: translateY(-4rem);
+  opacity: 0;
+  max-height: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  &.is-open {
+    opacity: 1;
+    max-height: 9999px;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .pl-c-body--theme-light & {
+    background-color: $pl-color-white;
+    background-color: var(--theme-primary,  $pl-color-white);
+  }
+
+  .pl-c-body--theme-sidebar & {
+    @media all and (min-width: $pl-bp-med) {
+      box-shadow: none;
+      top: 0;
+      transform: none;
+      border-radius: 0;
+      background-color: transparent;
+      right: 0;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+
+  &.is-active {
+    overflow: visible;
+  }
+
+  &:before {
+    content: '';
+    height: 14px;
+    width: 14px;
+    background-color: $pl-color-gray-87;
+    background-color: var(--theme-primary,  $pl-color-gray-87);
+    position: absolute;
+    right: 0px;
+    top: -10px;
+    transform: translateY(50%) translateX(-50%) rotate(45deg);
+    transition: opacity 0.1s ease-out;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+
+    .pl-c-body--theme-sidebar & {
+      @media all and (min-width: $pl-bp-med) {
+        display: none;
+      }
+    }
+  }
+
+  &.is-active:before {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.pl-c-tools__item {
+  position: relative;
+  overflow: hidden;
+  background-color: inherit;
+
+  // crop list item when hover
+  &:first-child {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
+    .pl-c-body--theme-sidebar & {
+      @media all and (min-width: $pl-bp-med) {
+        border-radius: 0;
+      }
+    }
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+    .pl-c-body--theme-sidebar & {
+      @media all and (min-width: $pl-bp-med) {
+        border-radius: 0;
+      }
+    }
+  }
+}
+

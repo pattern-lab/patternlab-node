@@ -1,0 +1,28 @@
+<div class="c-field c-field--checkbox {{ styleModifier }}">
+
+	<h4 for="{{ id }}" class="c-field__label">{{ label }}</h4>
+
+    <div class="c-field__body">
+
+        <ul class="c-option-list">
+
+            {{#each checkboxes }}
+            <li class="c-option-list__item">
+
+                <label class="c-input-group" for="{{ id }}">
+                    <input id="{{ id }}" type="checkbox" name="{{ name }}" value="{{ value }}" class="c-input-group__control js-checkbox-trigger" {{#if checked}}checked{{/ if}} {{#if disabled }}disabled{{/ if }} {{#if readOnly }}readonly{{/ if }}>
+                    <span class="c-input-group__text">{{ label }}</span>
+                </label>
+
+            </li><!-- end c-checkbox-list__item -->
+            {{/ each }}
+
+        </ul><!-- end c-option-list -->
+
+    </div><!-- end c-field__body -->
+
+	{{#if fieldNote }}
+    <div class="c-field__note">{{{ fieldNote }}}</div>
+    {{/ if }}
+
+</div><!--end c-field-->

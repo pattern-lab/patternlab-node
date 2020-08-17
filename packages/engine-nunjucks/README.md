@@ -5,28 +5,46 @@
 To install the Nunjucks PatternEngine in your edition, run `npm install @pattern-lab/engine-nunjucks`.
 
 ## Supported features
-- [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+- [x] [Includes](https://patternlab.io/docs/including-patterns/)
 - [x] Lineage
-- [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
-- [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
-- [x] [Pattern States](http://patternlab.io/docs/pattern-states.html)
-- [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using native Nunjucks variables)
-- [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using native Nunjucks variables)
+- [x] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
+- [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
+- [x] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
+- [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/) (Accomplished instead using native Nunjucks variables)
+- [ ] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177) (Accomplished instead using native Nunjucks variables)
 
 Level of Support is more or less full. Partial calls and lineage hunting are supported. Nunjucks does not support the mustache-specific syntax extensions, style modifiers and pattern parameters, because their use cases are addressed by the core Nunjucks feature set. Pattern Lab's listitems feature is still written in the mustache syntax.
 
 ## Extending the Nunjucks instance
 
-To add custom filters or make customizations to the nunjucks instance, create a file named `patternlab-nunjucks-config.js` in the root of your Pattern Lab project. `patternlab-nunjucks-config.js` should export a function with the Nunjucks environment as parameter.
+To add custom filters or make customizations to the nunjucks instance, add the following to `patternlab-config.json`:
 
+```json
+  {
+    ...
+    "engines": {
+      "nunjucks": {
+        "extend": [
+          "nunjucks-extensions/*.js"
+        ]
+      }
+    }
+  }
 ```
+
+...or use the default file name: `patternlab-nunjucks-config.js` (in the root of your Pattern Lab project).
+
+Each file providing extensions should export a function with the Nunjucks environment as parameter.
+
+```js
 module.exports = function (env) {
   [YOUR CUSTOM CODE HERE]
 };
 ```
 
 Example: `patternlab-nunjucks-config.js` file that uses lodash and adds three custom filters.
-```
+
+```js
 var _shuffle = require('lodash/shuffle'),
   _take = require('lodash/take');
 

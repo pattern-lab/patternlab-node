@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   createStore,
   applyMiddleware,
@@ -16,7 +17,10 @@ const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 export const store = createStore(
   (state, action) => state,
   loadState(), // If there is local storage data, load it.
-  compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
+  compose(
+    lazyReducerEnhancer(combineReducers),
+    applyMiddleware(thunk)
+  )
 );
 
 store.addReducers({

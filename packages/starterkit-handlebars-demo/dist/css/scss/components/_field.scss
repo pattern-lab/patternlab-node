@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    #FIELDS
+\*------------------------------------*/
+
+/**
+ * 1) Consists of a label, form control, and an optional note about the field.
+ */
+ .c-field {
+	margin-bottom: $spacing-large;
+}
+
+/**
+ * Field label
+ */
+.c-field__label {
+	margin-bottom: 0.5rem;
+    font-size: $font-size-med;
+    font-weight: bold;
+}
+
+/**
+ * Field body
+ */
+.c-field__body {
+    position: relative;
+}
+
+/**
+ * Field note
+ */
+.c-field__note {
+    display: inline-block;
+    font-size: $font-size-sm;
+    color: $color-neutral-gray-50;
+}

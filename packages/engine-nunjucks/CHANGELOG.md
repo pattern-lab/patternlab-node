@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/engine-nunjucks
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+
+### Bug Fixes
+
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/issues/1192) ([374c103](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/374c103a59504ba239b16680f86a89b4d95e304f))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/issues/1192) ([48de8c2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/48de8c2e134a61c0b4440375254bc9590a3e2563))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/issues/1192) ([363f22c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/363f22c643239ef4ca48d6f5942111604fda5ead))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/issues/1192) ([487cc78](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/487cc783388043ec16ab1e54a3bfd8490038d058))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/issues/1192) ([571017f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/571017ffafa2cf6e8fa01b7ea7effc88922b05d1))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/issues/1192) ([b4eb12e](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/b4eb12e68ceb402964a7e303610e5b0c008876ba))
+
+
+
+
+
+# [5.0.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/v3.0.0-beta.3...v5.0.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* Rename Handlebars and Nunjucks extension setting to "extend" ([74e5af2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/74e5af28c4e714fdfc1db535b94c52f3dc14a3a4))
+
+
+### Features
+
+* **engine-nunjucks:** Configurable extension locations; Use usePatternlabConfig() ([e54e3b3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/e54e3b3d48f934d3a4d44b9f4ff262f742a4aaf9))
+* update Node to v12 ([fcbb970](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/fcbb970648cdd775c9a88078f14c1f24c5b62d73))
+
+
+
+
+
+
+# [0.2.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/@pattern-lab/engine-nunjucks@0.1.5-alpha.0...@pattern-lab/engine-nunjucks@0.2.0) (2019-08-23)
+
+
+### Bug Fixes
+
+* Rename Handlebars and Nunjucks extension setting to "extend" ([74e5af2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/74e5af2))
+
+
+### Features
+
+* **engine-nunjucks:** Configurable extension locations; Use usePatternlabConfig() ([e54e3b3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/commit/e54e3b3))
+
+
+
+
+
+
 ## [0.1.4-beta.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks/compare/@pattern-lab/engine-nunjucks@0.1.4-beta.0...@pattern-lab/engine-nunjucks@0.1.4-beta.2) (2019-02-09)
 
 

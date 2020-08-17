@@ -70,8 +70,13 @@
   },
   "patternExtension": "mustache",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternExportAll": false,
+  "patternExportPreserveDirectoryStructure": false,
+  "patternExportRaw": false,
   "patternExportDirectory": "./pattern_exports/",
   "patternExportPatternPartials": [],
+  "patternMergeVariantArrays": true,
+  "renderFlatPatternsOnViewAllPages": false,
   "serverOptions": {
     "wait": 1000
   },

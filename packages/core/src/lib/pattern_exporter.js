@@ -1,6 +1,35 @@
 'use strict';
 
 const fs = require('fs-extra');
+const path = require('path');
+
+function exportSinglePattern(patternlab, pattern) {
+  const preserveDirStructure =
+    patternlab.config.patternExportPreserveDirectoryStructure;
+  let patternName = pattern.patternPartial;
+  let patternDir = patternlab.config.patternExportDirectory;
+  let patternCode = pattern.patternPartialCode;
+  let patternFileExtension = '.html';
+  if (preserveDirStructure) {
+    // Extract the first part of the pattern partial as the directory in which
+    // it should go.
+    patternDir = path.join(patternDir, pattern.patternPartial.split('-')[0]);
+    patternName = pattern.patternPartial
+      .split('-')
+      .slice(1)
+      .join('-');
+  }
+
+  if (patternlab.config.patternExportRaw) {
+    patternCode = pattern.extendedTemplate;
+    patternFileExtension = `.${patternlab.config.patternExtension}`;
+  }
+
+  fs.outputFileSync(
+    path.join(patternDir, patternName) + patternFileExtension,
+    patternCode
+  );
+}
 
 const pattern_exporter = function() {
   /**
@@ -13,18 +42,24 @@ const pattern_exporter = function() {
   function exportPatterns(patternlab) {
     //read the config export options
     const exportPartials = patternlab.config.patternExportPatternPartials;
+    const exportAll = patternlab.config.patternExportAll;
+
+    if (exportAll) {
+      for (let i = 0; i < patternlab.patterns.length; i++) {
+        if (!patternlab.patterns[i].patternPartial.startsWith('-')) {
+          exportSinglePattern(patternlab, patternlab.patterns[i]);
+        }
+      }
+
+      return;
+    }
 
     //find the chosen patterns to export
     for (let i = 0; i < exportPartials.length; i++) {
       for (let j = 0; j < patternlab.patterns.length; j++) {
         if (exportPartials[i] === patternlab.patterns[j].patternPartial) {
           //write matches to the desired location
-          fs.outputFileSync(
-            patternlab.config.patternExportDirectory +
-              patternlab.patterns[j].patternPartial +
-              '.html',
-            patternlab.patterns[j].patternPartialCode
-          );
+          exportSinglePattern(patternlab, patternlab.patterns[j]);
         }
       }
     }

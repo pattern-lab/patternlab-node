@@ -7,47 +7,20 @@ const starterkitSetup = [
   {
     type: 'list',
     name: 'starterkit',
-    message: 'Which starterkit do you want to use?',
+    message: 'What initial patterns do you want included in your project?',
     choices: [
       {
-        name: 'starterkit-mustache-demo',
-        value: '@pattern-lab/starterkit-mustache-demo',
+        name:
+          'Handlebars base patterns (some basic patterns to get started with)',
+        value: '@pattern-lab/starterkit-handlebars-vanilla',
       },
       {
-        name: 'starterkit-mustache-bootstrap',
-        value: 'starterkit-mustache-bootstrap',
+        name: 'Handlebars demo patterns (full demo website and patterns)',
+        value: '@pattern-lab/starterkit-handlebars-demo',
       },
       {
-        name: 'starterkit-mustache-foundation',
-        value: 'starterkit-mustache-foundation',
-      },
-      // {
-      //   name: 'starterkit-twig-base',
-      //   value: 'starterkit-twig-base',
-      // },
-      {
-        name: 'starterkit-twig-demo',
+        name: 'Twig (PHP) demo patterns (full demo website and patterns)',
         value: '@pattern-lab/starterkit-twig-demo',
-      },
-      {
-        name: 'starterkit-mustache-materialdesign',
-        value: 'starterkit-mustache-materialdesign',
-      },
-      // {
-      //   name: 'starterkit-twig-drupal-demo',
-      //   value: 'starterkit-twig-drupal-demo',
-      // },
-      // {
-      //   name: 'starterkit-twig-drupal-minimal',
-      //   value: 'starterkit-twig-drupal-minimal',
-      // },
-      {
-        name: 'starterkit-mustache-webdesignday',
-        value: 'starterkit-mustache-webdesignday',
-      },
-      {
-        name: 'starterkit-mustache-base',
-        value: '@pattern-lab/starterkit-mustache-base',
       },
       new inquirer.Separator(),
       {
@@ -56,13 +29,13 @@ const starterkitSetup = [
       },
       new inquirer.Separator(),
       {
-        name: 'None',
+        name: 'Blank project (no patterns)',
         value: false,
       },
     ],
     default: {
-      name: 'starterkit-mustache-base',
-      value: 'starterkit-mustache-base',
+      name: 'Handlebars demo patterns (full demo website and patterns)',
+      value: 'starterkit-handlebars-demo',
     },
   },
   {

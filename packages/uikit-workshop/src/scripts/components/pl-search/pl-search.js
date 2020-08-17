@@ -1,14 +1,16 @@
+/* eslint-disable no-unused-vars, no-param-reassign */
 import { define, props } from 'skatejs';
 import { h } from 'preact';
+import { store } from '../../store.js'; // connect to redux
+
 import Fuse from 'fuse.js';
 import ReactHtmlParser from 'react-html-parser';
 import classNames from 'classnames';
 import Mousetrap from 'mousetrap';
-
 import VisuallyHidden from '@reach/visually-hidden';
 import Autosuggest from 'react-autosuggest';
 
-import { urlHandler } from '../../utils';
+import { urlHandler, iframeMsgDataExtraction } from '../../utils';
 import { BaseComponent } from '../base-component';
 
 @define
@@ -17,26 +19,31 @@ class Search extends BaseComponent {
 
   constructor(self) {
     self = super(self);
-    this.useShadow = false;
-    this.defaultMaxResults = 10;
+    self.useShadow = false;
+    self.defaultMaxResults = 10;
 
     // Autosuggest is a controlled component.
     // This means that you need to provide an input value
     // and an onChange handler that updates this value (see below).
     // Suggestions also need to be provided to the Autosuggest,
     // and they are initially empty because the Autosuggest is closed.
-    this.state = {
+    self.state = {
       value: '',
       suggestions: [],
+      isFocused: false,
     };
 
-    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.toggleSearch = this.toggleSearch.bind(this);
-    // this.clearSearch = this.clearSearch.bind(this);
-    this.closeSearch = this.closeSearch.bind(this);
-    this.renderInputComponent = this.renderInputComponent.bind(this);
-    this.openSearch = this.openSearch.bind(this);
+    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
+    self.onChange = self.onChange.bind(self);
+    self.toggleSearch = self.toggleSearch.bind(self);
+    self.closeSearch = self.closeSearch.bind(self);
+    self.renderInputComponent = self.renderInputComponent.bind(self);
+    self.openSearch = self.openSearch.bind(self);
+    return self;
+  }
+
+  connecting() {
+    super.connecting && super.connecting();
 
     this.items = [];
     for (const patternType in window.patternPaths) {
@@ -51,8 +58,6 @@ class Search extends BaseComponent {
         }
       }
     }
-
-    return self;
   }
 
   connected() {
@@ -62,6 +67,11 @@ class Search extends BaseComponent {
       self.toggleSearch();
     });
     window.addEventListener('message', this.receiveIframeMessage, false);
+  }
+
+  _stateChanged(state) {
+    // throw new Error('_stateChanged() not implemented', this);
+    this.triggerUpdate();
   }
 
   rendered() {
@@ -76,7 +86,7 @@ class Search extends BaseComponent {
   };
 
   onInput = e => {
-    let value = e.target.value;
+    const value = e.target.value;
 
     this.setState({
       value: value,
@@ -84,9 +94,6 @@ class Search extends BaseComponent {
 
     this.onSuggestionsFetchRequested({ value }); // re-render search results immediately based on latest input value
   };
-
-  // External Redux store not yet in use
-  _stateChanged(state) {}
 
   toggleSearch() {
     if (!this.state.isOpen) {
@@ -111,22 +118,12 @@ class Search extends BaseComponent {
     document.activeElement.blur();
   }
 
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.keyPress') {
       if (data.key === 'f' && data.metaKey === true) {
@@ -215,14 +212,7 @@ class Search extends BaseComponent {
     const patternName = urlHandler.getFileName(newValue);
 
     if (patternName) {
-      const obj = JSON.stringify({
-        event: 'patternLab.updatePath',
-        path: patternName,
-      });
-
-      document
-        .querySelector('.pl-js-iframe')
-        .contentWindow.postMessage(obj, urlHandler.targetOrigin);
+      document.querySelector('pl-iframe').navigateTo(newValue);
     }
 
     this.setState({
@@ -339,16 +329,18 @@ class Search extends BaseComponent {
     };
 
     return (
-      <Autosuggest
-        theme={theme}
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-        renderInputComponent={this.renderInputComponent}
-      />
+      <div>
+        <Autosuggest
+          theme={theme}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+          renderInputComponent={this.renderInputComponent}
+        />
+      </div>
     );
   }
 }

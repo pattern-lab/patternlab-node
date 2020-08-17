@@ -1,0 +1,99 @@
+/*------------------------------------*\
+    #STRIPE
+\*------------------------------------*/
+
+/**
+ * 1) Block that contains a right and left column of text and other possible components
+ */
+.c-stripe {
+	padding: 2rem 0;
+
+	@media all and (min-width: $bp-small-2) {
+		display: flex;
+	}
+
+	.c-stripe-list--condensed & {
+		padding: 1rem 0;
+	}
+}
+
+/**
+ * Stripe lef container
+ * 1) Contains elements that display on the left side of the stripe
+ */
+.c-stripe__left-container {
+    margin-right: 2rem;
+
+	@media all and (min-width: $bp-small-2) {
+		width: 20%;
+	}
+
+	.c-stripe-list--condensed & {
+		display: none;
+	}
+}
+
+.c-stripe__link {
+	display: block;
+
+	@media all and (min-width: $bp-small-2) {
+		max-width: 10rem;
+	}
+}
+
+/**
+ * Stripe right container
+ * 1) Contains elements that display on the right side of the stripe
+ */
+.c-stripe__right-container {
+	flex: 1;
+
+	@media all and (min-width: $bp-small-2) {
+	    display: flex;
+		align-items: center;
+	}
+}
+
+.c-stripe__title {
+	margin-bottom: 2rem;
+
+	@media all and (min-width: $bp-small-2) {
+		margin-bottom: 0;
+		margin-right: 2rem;
+		width: 40%;
+	}
+}
+
+.c-stripe__meta {
+
+	@media all and (min-width: $bp-small-2) {
+		margin-left: 2rem;
+		margin-bottom: 2.25rem;
+		width: 20%;
+		text-align: right;
+		flex: 1;
+	}
+}
+
+.c-stripe__meta-label {
+	font-weight: bold;
+	margin-bottom: 0.75rem;
+}
+
+.c-stripe__meta-span {
+	font-family: $font-family-secondary;
+	color: $color-brand-blue;
+	font-size: $font-size-med-2;
+}
+
+
+/*------------------------------------*\
+    #STRIPE LIST
+\*------------------------------------*/
+
+/**
+ * 1) Block that contains a right and left column of text and other possible components
+ */
+ .c-stripe-list__item {
+     border-bottom: 1px solid $color-neutral-gray-13;
+ }

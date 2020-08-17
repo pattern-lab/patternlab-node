@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/edition-twig",
-  "version": "3.1.0",
+  "version": "5.12.0",
   "description": "Pattern Lab node with Twig PHP Engine",
   "author": {
     "name": "Evan Lovely",
@@ -13,21 +13,23 @@
   ],
   "main": "patternlab-config.json",
   "scripts": {
+    "build:uikit": "cross-env-shell PL_CONFIG_PATH='${INIT_CWD}/.patternlabrc.js' npm run build --prefix node_modules/@pattern-lab/uikit-workshop -- --patternlabrc '$PL_CONFIG_PATH'",
     "build": "patternlab build --config ./patternlab-config.js",
     "help": "patternlab --help",
     "install": "patternlab install --config ./patternlab-config.js",
     "serve": "patternlab serve --config ./patternlab-config.js",
     "start": "npm run serve",
-    "version": "patternlab --version"
+    "version": "patternlab --version",
+    "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^0.0.3-alpha.0",
-    "@pattern-lab/core": "^3.0.1-alpha.0",
-    "@pattern-lab/engine-twig-php": "^3.0.0",
-    "@pattern-lab/uikit-workshop": "^1.0.1-alpha.0"
+    "@pattern-lab/cli": "^5.12.0",
+    "@pattern-lab/core": "^5.12.0",
+    "@pattern-lab/engine-twig-php": "^5.12.0",
+    "@pattern-lab/uikit-workshop": "^5.12.0"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=12.12.0"
   },
   "publishConfig": {
     "access": "public"
@@ -40,5 +42,6 @@
     "Design",
     "Twig"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

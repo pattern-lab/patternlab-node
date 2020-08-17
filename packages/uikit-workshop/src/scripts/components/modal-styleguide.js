@@ -1,9 +1,11 @@
+/* eslint-disable no-param-reassign, no-unused-vars */
 /**
  * "Modal" (aka Panel UI) for the Styleguide Layer - for both annotations and code/info
  */
 
 import { panelsUtil } from './panels-util';
-import './copy-to-clipboard';
+import './pl-copy-to-clipboard/pl-copy-to-clipboard';
+import { iframeMsgDataExtraction } from '../utils';
 
 export const modalStyleguide = {
   // set up some defaults
@@ -18,13 +20,14 @@ export const modalStyleguide = {
    */
   onReady() {
     // go through the panel toggles and add click event to the pattern extra toggle button
-    const els = document.querySelectorAll('.pl-js-pattern-extra-toggle');
-    for (let i = 0; i < els.length; ++i) {
-      els[i].onclick = function(e) {
-        const patternPartial = this.getAttribute('data-patternpartial');
+    const toggles = document.querySelectorAll('.pl-js-pattern-extra-toggle');
+
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', e => {
+        const patternPartial = toggle.getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
-      };
-    }
+      });
+    });
   },
 
   /**
@@ -62,15 +65,17 @@ export const modalStyleguide = {
     content = panelsUtil.addClickEvents(content, patternPartial);
 
     // make sure the modal viewer and other options are off just in case
-    modalStyleguide.close(patternPartial);
+    // modalStyleguide.close(patternPartial);
 
     // note it's turned on in the viewer
     modalStyleguide.active[patternPartial] = true;
 
     // make sure there's no content
     div = document.getElementById('pl-pattern-extra-' + patternPartial);
-    if (div.childNodes.length > 0) {
-      div.removeChild(div.childNodes[0]);
+    if (div && div.childNodes) {
+      if (div.childNodes.length > 0) {
+        div.removeChild(div.childNodes[0]);
+      }
     }
 
     // add the content
@@ -79,9 +84,13 @@ export const modalStyleguide = {
       .appendChild(content);
 
     // show the modal
-    document
-      .getElementById('pl-pattern-extra-toggle-' + patternPartial)
-      .classList.add('pl-is-active');
+    const toggle = document.getElementById(
+      'pl-pattern-extra-toggle-' + patternPartial
+    );
+    if (toggle) {
+      toggle.classList.add('pl-is-active');
+    }
+
     document
       .getElementById('pl-pattern-extra-' + patternPartial)
       .classList.add('pl-is-active');
@@ -96,12 +105,18 @@ export const modalStyleguide = {
     modalStyleguide.active[patternPartial] = false;
 
     // hide the modal, look at info-panel.js
-    document
-      .getElementById('pl-pattern-extra-toggle-' + patternPartial)
-      .classList.remove('pl-is-active');
-    document
-      .getElementById('pl-pattern-extra-' + patternPartial)
-      .classList.remove('pl-is-active');
+    const toggle = document.getElementById(
+      'pl-pattern-extra-toggle-' + patternPartial
+    );
+    if (toggle) {
+      toggle.classList.remove('pl-is-active');
+    }
+
+    if (document.getElementById('pl-pattern-extra-' + patternPartial)) {
+      document
+        .getElementById('pl-pattern-extra-' + patternPartial)
+        .classList.remove('pl-is-active');
+    }
   },
 
   /**
@@ -181,24 +196,11 @@ export const modalStyleguide = {
   /**
    * toggle the comment pop-up based on a user clicking on the pattern
    * based on the great MDN docs at https://developer.mozilla.org/en-US/docs/Web/API/window.postMessage
-   * @param  {Object}      event info
+   *
+   * @param {MessageEvent} e A message received by a target object.
    */
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     // see if it got a path to replace
     if (data.event !== undefined && data.event === 'patternLab.patternQuery') {

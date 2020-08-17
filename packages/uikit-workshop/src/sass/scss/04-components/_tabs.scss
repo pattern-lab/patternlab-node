@@ -16,7 +16,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  max-height: 100%;
   flex-grow: 1;
 }
 
@@ -42,7 +42,7 @@
   padding: 0.2rem 0.4rem;
   border: 1px solid transparent;
   border-radius: $pl-border-radius-med;
-  color: $pl-color-gray-50;
+  color: $pl-color-gray-55;
   background-color: $pl-color-white;
   cursor: pointer;
   text-decoration: none;
@@ -65,14 +65,41 @@
   }
 }
 
+.pl-c-tabs__header {
+  position: sticky;
+  z-index: 1; // fix for Safari for iOS sticky header appearing to be below the scrollable content
+  top: 0px;
+  border-top: 1px solid #ddd;
+  margin-left: calc(-0.5rem - 1px);
+  margin-right: calc(-0.5rem - 1px);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border: 1px solid #ddd;
+  margin-bottom: .5rem;
+  margin-top: -1px;
+  background-color: inherit;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
 /**
  * Tab Content
  * 1) Tab content contains the tab panels
  */
 .pl-c-tabs__content {
-  overflow: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  flex-basis: auto;
   -webkit-overflow-scrolling: touch;
-  padding-top: 0.5rem;
+  overflow-y: auto; // workaround to firefox background gradient overflow bug
+
+  /**
+     *  Tab content inside modal
+     */
+  .pl-c-drawer & {
+    border: 0;
+  }
 }
 
 /**
@@ -82,7 +109,8 @@
  */
 .pl-c-tabs__panel {
   display: none;
-  // min-height: 12rem;
+  width: 100%;
+  max-height: 100%;
 
   &.pl-is-active-tab {
     display: block;
@@ -100,6 +128,8 @@
     padding: 0;
     border: 0;
     display: block;
+    width: 100%;
+    min-height: 100%;
   }
 
   code[class*='language-'] {

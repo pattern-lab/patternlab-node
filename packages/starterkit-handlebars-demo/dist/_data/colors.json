@@ -1,0 +1,103 @@
+{
+	"brandColors" : [
+		{
+			"colorHex" : "#0000ff",
+			"colorName" : "Brand Blue",
+			"variable" : "$color-brand-blue"
+		}
+	],
+	"neutralColors" : [
+		{
+			"colorHex" : "#ffffff",
+			"colorName" : "White",
+			"variable" : "$color-white"
+		},
+		{
+			"colorHex" : "#f9f9f9",
+			"colorName" : "02% Gray",
+			"variable" : "$color-gray-02"
+		},
+		{
+			"colorHex" : "#eeeeee",
+			"colorName" : "07% Gray",
+			"variable" : "$color-gray-07"
+		},
+		{
+			"colorHex" : "#dddddd",
+			"colorName" : "13% Gray",
+			"variable" : "$color-gray-13"
+		},
+		{
+			"colorHex" : "#bbbbbb",
+			"colorName" : "27% Gray",
+			"variable" : "$color-gray-27"
+		},
+		{
+			"colorHex" : "#808080",
+			"colorName" : "50% Gray",
+			"variable" : "$color-gray-50"
+		},
+		{
+			"colorHex" : "#666666",
+			"colorName" : "60% Gray",
+			"variable" : "$color-gray-60"
+		},
+		{
+			"colorHex" : "#444444",
+			"colorName" : "73% Gray",
+			"variable" : "$color-gray-73"
+		},
+		{
+			"colorHex" : "#131313",
+			"colorName" : "93% Gray",
+			"variable" : "$color-gray-93"
+		},
+		{
+			"colorHex" : "#000000",
+			"colorName" : "Black",
+			"variable" : "$color-black"
+		}
+	],
+	"utilityColors" : [
+		{
+			"colorHex" : "#0192d0",
+			"colorName" : "Info",
+			"variable" : "$color-utility-info"
+		},
+		{
+			"colorHex" : "#d3f2ff",
+			"colorName" : "Info Light",
+			"variable" : "$color-utility-info-light"
+		},
+		{
+			"colorHex" : "#b12a0b",
+			"colorName" : "Error",
+			"variable" : "$color-utility-error"
+		},
+		{
+			"colorHex" : "#fdded8",
+			"colorName" : "Error Light",
+			"variable" : "$color-utility-error-light"
+		},
+		{
+			"colorHex" : "#a59b15",
+			"colorName" : "Warning",
+			"variable" : "$color-utility-warning"
+		},
+		{
+			"colorHex" : "#fffecf",
+			"colorName" : "Warning Light",
+			"variable" : "$color-utility-warning-light"
+		},
+		{
+			"colorHex" : "#03804d",
+			"colorName" : "Success",
+			"variable" : "$color-utility-success"
+		},
+		{
+			"colorHex" : "#d4f3e6",
+			"colorName" : "Success Light",
+			"variable" : "$color-utility-success-light"
+		}
+	]
+}

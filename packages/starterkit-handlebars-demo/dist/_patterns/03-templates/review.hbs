@@ -1,0 +1,32 @@
+{{> organisms-header }}
+<main role="main">
+
+	<div class="l-container u-margin-bottom-large">
+		{{> molecules-progress-tracker }}
+		{{> molecules-page-header }}
+	</div>
+	<div class="l-container">
+		<div class="l-page-layout l-page-layout--two-column l-page-layout--reversed">
+			<div class="l-page-layout__secondary l-band">
+				{{#with definitionListSection }}
+				{{> organisms-definition-list-list }}
+				{{/ with }}
+				{{# totalPrice }}
+				<div class="c-total c-total--no-break">
+					<label class="c-total__label">{{ label }}</label>
+					<span class="c-total__span">{{ number }}</span>
+				</div>
+				{{/ totalPrice }}
+			</div>
+			<div class="l-page-layout__main">
+				<section class="c-section">
+					<div class="c-text-passage l-linelength-container u-margin-bottom-large">
+						{{> organisms-text-passage }}
+					</div>
+					{{> organisms-button-group }}
+				</section>
+			</div>
+		</div>
+	</div>
+</main>
+{{> organisms-footer }}

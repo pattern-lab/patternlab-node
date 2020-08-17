@@ -78,6 +78,30 @@ const patternlab_module = function(config) {
     },
 
     /**
+     * Returns the current pattern lab configuration being used
+     *
+     * @memberof patternlab
+     * @name getConfig
+     * @instance
+     * @returns {object} the current patternlab-node config (defaults + customizations)
+     */
+    getConfig() {
+      return config;
+    },
+
+    /**
+     * Returns if Pattern Lab is busy compiling or not
+     *
+     * @memberof patternlab
+     * @name isBusy
+     * @instance
+     * @returns {boolean} if pattern lab is currently busy compiling
+     */
+    isBusy: function() {
+      return patternlab.isBusy;
+    },
+
+    /**
      * Builds patterns, copies assets, and constructs user interface
      *
      * @memberof patternlab
@@ -92,7 +116,7 @@ const patternlab_module = function(config) {
      * @see {@link ./events.md|all events}
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    build: function(options) {
+    build: async function(options) {
       // process.on('unhandledRejection', (reason, p) => {
       //   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
       //   // application specific logging, throwing an error, or other logic here
@@ -109,53 +133,51 @@ const patternlab_module = function(config) {
       }
       patternlab.isBusy = true;
 
-      return buildPatterns(options.cleanPublic, patternlab, options.data).then(
-        () => {
-          return new ui_builder().buildFrontend(patternlab).then(() => {
-            copier()
-              .copyAndWatch(patternlab.config.paths, patternlab, options)
-              .then(() => {
-                patternlab.isBusy = false;
-                // only wire up this listener and the one inside serve.js
-                // figure out how to detect if serve was called. we should not assume it was
-                if (
-                  patternlab.serverReady //check for server presence
-                    ? this.events.listenerCount(
-                        events.PATTERNLAB_PATTERN_CHANGE
-                      ) === 1 //if the server is started, it has already setup one listener
-                    : !this.events.listenerCount(
-                        events.PATTERNLAB_PATTERN_CHANGE
-                      ) // else, check for the presnce of none
-                ) {
-                  this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
-                    if (!patternlab.isBusy) {
-                      return this.build(options).then(() => {
-                        patternlab.isBusy = false;
-                      });
-                    }
-                    return Promise.resolve();
-                  });
-                }
+      return await buildPatterns(
+        options.cleanPublic,
+        patternlab,
+        options.data
+      ).then(() => {
+        return new ui_builder().buildFrontend(patternlab).then(() => {
+          copier()
+            .copyAndWatch(patternlab.config.paths, patternlab, options)
+            .then(() => {
+              patternlab.isBusy = false;
+              // only wire up this listener and the one inside serve.js
+              // figure out how to detect if serve was called. we should not assume it was
+              if (
+                patternlab.serverReady //check for server presence
+                  ? this.events.listenerCount(
+                      events.PATTERNLAB_PATTERN_CHANGE
+                    ) === 1 //if the server is started, it has already setup one listener
+                  : !this.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE) // else, check for the presnce of none
+              ) {
+                this.events.on(events.PATTERNLAB_PATTERN_CHANGE, () => {
+                  if (!patternlab.isBusy) {
+                    return this.build(options).then(() => {
+                      patternlab.isBusy = false;
+                    });
+                  }
+                  return Promise.resolve();
+                });
+              }
 
-                if (
-                  !this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)
-                ) {
-                  this.events.on(events.PATTERNLAB_GLOBAL_CHANGE, () => {
-                    if (!patternlab.isBusy) {
-                      return this.build(
-                        Object.assign({}, options, { cleanPublic: true }) // rebuild everything
-                      );
-                    }
-                    return Promise.resolve();
-                  });
-                }
-              })
-              .then(() => {
-                this.events.emit(events.PATTERNLAB_BUILD_END, patternlab);
-              });
-          });
-        }
-      );
+              if (!this.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE)) {
+                this.events.on(events.PATTERNLAB_GLOBAL_CHANGE, () => {
+                  if (!patternlab.isBusy) {
+                    return this.build(
+                      Object.assign({}, options, { cleanPublic: true }) // rebuild everything
+                    );
+                  }
+                  return Promise.resolve();
+                });
+              }
+            })
+            .then(() => {
+              this.events.emit(events.PATTERNLAB_BUILD_END, patternlab);
+            });
+        });
+      });
     },
 
     /**
@@ -194,7 +216,7 @@ const patternlab_module = function(config) {
     installplugin: function(pluginName) {
       //get the config
       const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
-      const plugin_manager = new pm(config, configPath);
+      const plugin_manager = new pm();
 
       plugin_manager.install_plugin(pluginName);
     },
@@ -236,7 +258,7 @@ const patternlab_module = function(config) {
      * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    patternsonly: function(options) {
+    patternsonly: async function(options) {
       if (patternlab && patternlab.isBusy) {
         logger.info(
           'Pattern Lab is busy building a previous run - returning early.'
@@ -244,11 +266,13 @@ const patternlab_module = function(config) {
         return Promise.resolve();
       }
       patternlab.isBusy = true;
-      return buildPatterns(options.cleanPublic, patternlab, options.data).then(
-        () => {
-          patternlab.isBusy = false;
-        }
-      );
+      return await buildPatterns(
+        options.cleanPublic,
+        patternlab,
+        options.data
+      ).then(() => {
+        patternlab.isBusy = false;
+      });
     },
 
     /**

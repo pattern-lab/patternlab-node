@@ -21,9 +21,7 @@ module.exports = function(fileName, metaType, patternlab) {
     })
     .catch(reason => {
       logger.warning(
-        `Could not find the user-editable template ${fileName}, currently configured to be at ${
-          patternlab.config.paths.source.meta
-        }. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`
+        `Could not find the user-editable template ${fileName}, currently configured to be at ${patternlab.config.paths.source.meta}. Your configured path may be incorrect (check paths.source.meta in your config file), the file may have been deleted, or it may have been left in the wrong place during a migration or update.`
       );
       logger.warning(reason);
     });

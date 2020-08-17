@@ -1,0 +1,127 @@
+{
+    "legend" : "Legend",
+    "label" : "Label",
+    "value" : "",
+    "placeholder" : "Placeholder",
+    "fieldNote" : "This is a note about the field",
+    "id" : "",
+    "selectOptions" : [
+        {
+            "value" : "option-1",
+            "option" : "Option 1"
+        },
+        {
+            "value" : "option-2",
+            "option" : "Option 2"
+        }
+    ],
+    "checkboxes" : [
+        {
+            "label" : "Option 1",
+            "id" : "check-1",
+            "name" : "checkname",
+            "checked" : true
+        },
+        {
+            "label" : "Option 2",
+            "id" : "check-2",
+            "name" : "checkname"
+        }
+    ],
+    "radios" : [
+        {
+            "label" : "Option 1",
+            "id" : "radio-1",
+            "name" : "radioname",
+            "checked" : true
+        },
+        {
+            "label" : "Option 2",
+            "id" : "radio-2",
+            "name" : "radioname"
+        }
+    ],
+    "searchForm": true,
+    "searchFormButton": {
+        "buttonTag": true,
+        "styleModifier": "u-is-vishidden",
+        "buttonText": "Search"
+    },
+    "fields": [
+        {}
+    ],
+    "selectField": [
+        {}
+    ],
+    "formFields": {
+		"items": [
+			{
+				"textField": {
+					"label" : "Name"
+				}
+			},
+			{
+				"selectField": {
+					"label": "Select",
+					"selectOptions" : [
+				        {
+				            "value" : "option-1",
+				            "option" : "Option 1"
+				        },
+				        {
+				            "value" : "option-2",
+				            "option" : "Option 2"
+				        }
+				    ]
+				}
+			},
+			{
+				"checkboxField": {
+					"label": "Checkbox Field",
+					"checkboxes" : [
+				        {
+				            "label" : "Option 1",
+				            "id" : "check-1",
+				            "name" : "checkname",
+				            "checked" : true
+				        },
+				        {
+				            "label" : "Option 2",
+				            "id" : "check-2",
+				            "name" : "checkname"
+				        }
+				    ]
+				}
+			},
+			{
+				"textAreaField": {
+					"label" : "Textarea Field"
+				}
+			},
+			{
+				"radioField": {
+					"label": "Radios",
+					"radios" : [
+				        {
+				            "label" : "Option 1",
+				            "id" : "radio-1",
+				            "name" : "radioname",
+				            "checked" : true
+				        },
+				        {
+				            "label" : "Option 2",
+				            "id" : "radio-2",
+				            "name" : "radioname"
+				        }
+				    ]
+				}
+			}
+		]
+	},
+    "formButtons": [
+        {},
+        {
+            "styleModifier": "c-btn--bare"
+        }
+    ]
+}

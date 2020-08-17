@@ -54,6 +54,15 @@ module.exports = function(pattern, patternlab) {
       if (markdownObject.links) {
         pattern.links = markdownObject.links;
       }
+
+      if (
+        !markdownObject.hasOwnProperty('deeplyNested') ||
+        (markdownObject.hasOwnProperty('deeplyNested') &&
+          !markdownObject.deeplyNested)
+      ) {
+        // Reset to pattern without own pattern-directory
+        pattern.promoteFromFlatPatternToDirectory(patternlab);
+      }
     } else {
       logger.warning(`error processing markdown for ${pattern.patternPartial}`);
     }
@@ -64,9 +73,7 @@ module.exports = function(pattern, patternlab) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${
-          pattern.patternPartial
-        }`
+        `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`
       );
       logger.warning(err);
     }

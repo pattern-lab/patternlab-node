@@ -37,25 +37,24 @@ const readModuleFile = (kit, subPath) => {
 /**
  * Loads uikits, connecting configuration and installed modules
  * [1] Looks in node_modules for uikits.
- * [2] Only continue if uikit is enabled in patternlab-config.js
- * [3] Reads files from uikit that apply to every template
+ * [2] Filter out our uikit-polyfills package.
+ * [3] Only continue if uikit is enabled in patternlab-config.json
+ * [4] Reads files from uikit that apply to every template
  * @param {object} patternlab
  */
 module.exports = patternlab => {
   const paths = patternlab.config.paths;
 
-  const uikits = findModules(nodeModulesPath, isUIKitModule); // [1]
-
+  const uikits = findModules(nodeModulesPath, isUIKitModule) // [1]
+    .filter(kit => kit.name !== 'polyfills'); // [2]
   uikits.forEach(kit => {
     const configEntry = _.find(_.filter(patternlab.config.uikits, 'enabled'), {
       name: `uikit-${kit.name}`,
-    }); // [2]
+    }); // [3]
 
     if (!configEntry) {
       logger.warning(
-        `Could not find uikit with name uikit-${
-          kit.name
-        } defined within a patternlab-config.js file, or it is not enabled.`
+        `Could not find uikit with name uikit-${kit.name} defined within patternlab-config.json, or it is not enabled.`
       );
       return;
     }
@@ -85,7 +84,7 @@ module.exports = patternlab => {
           paths.source.patternlabFiles.patternSectionSubtype
         ),
         viewAll: readModuleFile(kit, paths.source.patternlabFiles.viewall),
-      }; // [3]
+      }; // [4]
     } catch (ex) {
       logger.error(ex);
       logger.error(
