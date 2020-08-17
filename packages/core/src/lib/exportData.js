@@ -1,8 +1,7 @@
 'use strict';
 
-const eol = require('os').EOL;
 const path = require('path');
-const _ = require('lodash');
+const eol = require('os').EOL;
 
 const ae = require('./annotation_exporter');
 
