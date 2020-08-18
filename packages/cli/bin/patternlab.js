@@ -57,7 +57,7 @@ cli
   .alias('compile')
   .description('Build Pattern Lab. Optionally (re-)build only the patterns')
   .option('-p, --patterns-only', 'Whether to only build patterns')
-  .option('--no-watch', 'Start watching for changes')
+  .option('--watch', 'Start watching for changes')
   .action(build);
 
 /**

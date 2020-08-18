@@ -20,7 +20,7 @@ function build(config, options) {
   const patternLab = pl(config);
 
   if (options && options.watch) {
-    config.watch = options.watch
+    config.watch = options.watch;
   }
 
   /**
