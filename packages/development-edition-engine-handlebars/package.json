@@ -33,6 +33,7 @@
     "@pattern-lab/engine-handlebars": "^5.10.1",
     "@pattern-lab/engine-mustache": "^5.12.0",
     "@pattern-lab/plugin-tab": "^5.10.1",
+    "@pattern-lab/starterkit-handlebars-demo": "^5.11.1",
     "@pattern-lab/starterkit-mustache-demo": "^5.0.0",
     "@pattern-lab/uikit-workshop": "^5.12.0"
   }
