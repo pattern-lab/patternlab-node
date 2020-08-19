@@ -214,7 +214,6 @@ const patternlab_module = function(config) {
      * @returns {void}
      */
     installplugin: function(pluginName) {
-      //get the config
       const plugin_manager = new pm();
 
       plugin_manager.install_plugin(pluginName);
