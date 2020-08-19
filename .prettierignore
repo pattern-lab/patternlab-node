@@ -13,3 +13,6 @@ packages/**/annotations.js
 *.json
 *.md
 *.scss
+
+**/_head.*
+**/_foot.*
