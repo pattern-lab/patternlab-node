@@ -30,7 +30,7 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "lerna run postbootstrap",
+    "postinstall": "lerna run postbootstrap && npx lerna --force-local",
     "setup": "yarn",
     "build:uikit": "cd packages/uikit-workshop && npm run build",
     "precommit": "pretty-quick --staged",

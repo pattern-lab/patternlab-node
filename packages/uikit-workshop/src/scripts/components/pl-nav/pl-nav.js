@@ -262,17 +262,17 @@ class Nav extends BaseComponent {
                 {item.patternGroupUC}
               </NavTitle>
               <ol
-                id={item.patternSubGroupUC}
+                id={item.patternSubgroupUC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
               >
-                {item.patternGroupItems.map((patternSubGroup, i) => {
+                {item.patternGroupItems.map((patternSubgroup, i) => {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubGroup.patternSubGroupLC}
-                      categoryName={patternSubGroup.patternSubGroupUC}
+                      category={patternSubgroup.patternSubgroupLC}
+                      categoryName={patternSubgroup.patternSubgroupUC}
                     >
-                      {patternSubGroup.patternSubGroupItems}
+                      {patternSubgroup.patternSubgroupItems}
                     </NavList>
                   );
                 })}

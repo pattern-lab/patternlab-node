@@ -37,11 +37,11 @@ module.exports = function(relPath, patternlab) {
       "It's strongly suggested to not deviate from the following structure under _patterns/"
     );
     logger.warning(
-      '[patternGroup]/[patternSubGroup]/[patternName].[patternExtension]'
+      '[patternGroup]/[patternSubgroup]/[patternName].[patternExtension]'
     );
     logger.warning('or');
     logger.warning(
-      '[patternGroup]/[patternSubGroup]/[patternName]/[patternName].[patternExtension]'
+      '[patternGroup]/[patternSubgroup]/[patternName]/[patternName].[patternExtension]'
     );
     logger.warning('');
     logger.warning(
@@ -53,46 +53,47 @@ module.exports = function(relPath, patternlab) {
     logger.warning('');
   }
 
-  //check if the found file is a top-level markdown file
   const fileObject = path.parse(relPath);
-  if (fileObject.ext === '.md') {
-    try {
-      const proposedDirectory = path.resolve(
-        patternlab.config.paths.source.patterns,
-        fileObject.dir,
-        fileObject.name
-      );
-      const proposedDirectoryStats = fs.statSync(proposedDirectory);
-      if (proposedDirectoryStats.isDirectory()) {
-        const subGroupMarkdownFileContents = fs.readFileSync(
-          proposedDirectory + '.md',
-          'utf8'
-        );
-        const subGroupMarkdown = markdown_parser.parse(
-          subGroupMarkdownFileContents
-        );
-        const subGroupPattern = new Pattern(relPath, null, patternlab);
-        subGroupPattern.patternSectionSubGroup = true;
-        subGroupPattern.patternDesc = subGroupMarkdown
-          ? subGroupMarkdown.markdown
-          : '';
-        subGroupPattern.flatPatternPath =
-          subGroupPattern.flatPatternPath + '-' + subGroupPattern.fileName;
-        subGroupPattern.isPattern = false;
-        subGroupPattern.engine = null;
-        patternlab.subGroupPatterns[
-          subGroupPattern.patternPartial
-        ] = subGroupPattern;
+  // Check if the found file is a top-level markdown file
+  // TODO: Rethink this stuff
+  // if (fileObject.ext === '.md') {
+  //   try {
+  //     const proposedDirectory = path.resolve(
+  //       patternlab.config.paths.source.patterns,
+  //       fileObject.dir,
+  //       fileObject.name
+  //     );
+  //     const proposedDirectoryStats = fs.statSync(proposedDirectory);
+  //     if (proposedDirectoryStats.isDirectory()) {
+  //       const subgroupMarkdownFileContents = fs.readFileSync(
+  //         proposedDirectory + '.md',
+  //         'utf8'
+  //       );
+  //       const subgroupMarkdown = markdown_parser.parse(
+  //         subgroupMarkdownFileContents
+  //       );
+  //       const subgroupPattern = new Pattern(relPath, null, patternlab);
+  //       subgroupPattern.patternSectionSubgroup = true;
+  //       subgroupPattern.patternDesc = subgroupMarkdown
+  //         ? subgroupMarkdown.markdown
+  //         : '';
+  //       subgroupPattern.flatPatternPath =
+  //         subgroupPattern.flatPatternPath + '-' + subgroupPattern.fileName;
+  //       subgroupPattern.isPattern = false;
+  //       subgroupPattern.engine = null;
+  //       patternlab.subgroupPatterns[
+  //         subgroupPattern.patternPartial
+  //       ] = subgroupPattern;
 
-        return subGroupPattern;
-      }
-    } catch (err) {
-      // no file exists, meaning it's a pattern markdown file
-      if (err.code !== 'ENOENT') {
-        logger.warning(err);
-      }
-    }
-  }
+  //       return subgroupPattern;
+  //     }
+  //   } catch (err) {
+  //     // no file exists, meaning it's a pattern markdown file
+  //     if (err.code !== 'ENOENT') {
+  //       logger.warning(err);
+  //     }
+  //   }
+  // }
 
   //extract some information
   const filename = fileObject.base;

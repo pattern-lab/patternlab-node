@@ -61,7 +61,7 @@ const Pattern = function(
   this.patternGroup = this.getDirLevel(0, info);
 
   // the sub-group this pattern belongs to.
-  this.patternSubGroup = this.getDirLevel(1, info); // 'global'
+  this.patternSubgroup = this.getDirLevel(1, info); // 'global'
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath = info.shortNotation; // 'atoms-global'
@@ -93,7 +93,7 @@ const Pattern = function(
    *   flatPattern
    */
   this.isFlatPattern =
-    this.patternGroup === this.patternSubGroup || !this.patternSubGroup;
+    this.patternGroup === this.patternSubgroup || !this.patternSubgroup;
 
   this.isPattern = true;
   this.patternState = '';
@@ -241,7 +241,7 @@ Pattern.prototype = {
       name: p.name,
       patternLink: p.patternLink,
       patternGroup: p.patternGroup,
-      patternSubGroup: p.patternSubGroup,
+      patternSubgroup: p.patternSubgroup,
       isFlatPattern: p.isFlatPattern,
       flatPatternPath: p.flatPatternPath,
       patternPartial: p.patternPartial,

@@ -79,9 +79,9 @@ module.exports = patternlab => {
           kit,
           paths.source.patternlabFiles.patternSection
         ),
-        patternSectionSubGroup: readModuleFile(
+        patternSectionSubgroup: readModuleFile(
           kit,
-          paths.source.patternlabFiles.patternSectionSubGroup
+          paths.source.patternlabFiles.patternSectionSubgroup
         ),
         viewAll: readModuleFile(kit, paths.source.patternlabFiles.viewall),
       }; // [4]

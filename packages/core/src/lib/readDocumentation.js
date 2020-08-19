@@ -114,30 +114,30 @@ module.exports = function(pattern, patternlab) {
 
   // Read Documentation for Pattern-Subgroup
   try {
-    const markdownFileNameSubGroup = path.resolve(
+    const markdownFileNameSubgroup = path.resolve(
       patternlab.config.paths.source.patterns,
       pattern.patternGroup,
-      pattern.patternSubGroup,
-      pattern.patternSubGroup + FILE_EXTENSION
+      pattern.patternSubgroup,
+      pattern.patternSubgroup + FILE_EXTENSION
     );
-    const markdownFileContentsSubGroup = fs.readFileSync(
-      markdownFileNameSubGroup,
+    const markdownFileContentsSubgroup = fs.readFileSync(
+      markdownFileNameSubgroup,
       'utf8'
     );
-    const markdownObjectSubGroup = markdown_parser.parse(
-      markdownFileContentsSubGroup
+    const markdownObjectSubgroup = markdown_parser.parse(
+      markdownFileContentsSubgroup
     );
 
-    if (!_.isEmpty(markdownObjectSubGroup)) {
-      pattern.patternSubGroupData = markdownObjectSubGroup;
+    if (!_.isEmpty(markdownObjectSubgroup)) {
+      pattern.patternSubgroupData = markdownObjectSubgroup;
     }
   } catch (err) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
         `'there was an error setting pattern sub group data after markdown parsing for ${path.join(
-          pattern.patternSubGroup,
-          pattern.patternSubGroup + FILE_EXTENSION
+          pattern.patternSubgroup,
+          pattern.patternSubgroup + FILE_EXTENSION
         )}`
       );
       logger.warning(err);

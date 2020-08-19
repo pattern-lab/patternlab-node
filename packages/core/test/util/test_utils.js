@@ -11,7 +11,7 @@ module.exports = {
       graph: PatternGraph.empty(),
       partials: {},
       patterns: [],
-      subGroupPatterns: {},
+      subgroupPatterns: {},
       footer: '',
       header: '',
       listitems: {},

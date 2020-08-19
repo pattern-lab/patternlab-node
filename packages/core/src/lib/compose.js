@@ -116,13 +116,13 @@ module.exports = async function(pattern, patternlab) {
           pattern.patternLineageExists || pattern.patternLineageRExists,
         patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
         patternBreadcrumb:
-          pattern.patternGroup === pattern.patternSubGroup
+          pattern.patternGroup === pattern.patternSubgroup
             ? {
                 patternGroup: pattern.patternGroup,
               }
             : {
                 patternGroup: pattern.patternGroup,
-                patternSubGroup: pattern.patternSubGroup,
+                patternSubgroup: pattern.patternSubgroup,
               },
         patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
         patternName: pattern.patternName,

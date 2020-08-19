@@ -45,7 +45,12 @@ const engine_twig_php = {
       process.exit(1);
     }
 
-    const { namespaces, alterTwigEnv, relativeFrom,  ...rest } = config.engines.twig;
+    const {
+      namespaces,
+      alterTwigEnv,
+      relativeFrom,
+      ...rest
+    } = config.engines.twig;
 
     // Schema on config object being passed in:
     // https://github.com/basaltinc/twig-renderer/blob/master/config.schema.json
@@ -118,7 +123,7 @@ const engine_twig_php = {
    */
   spawnMeta(config) {
     const { paths } = config;
-    ['_00-head.twig', '_01-foot.twig'].forEach(fileName => {
+    ['_head.twig', '_foot.twig'].forEach(fileName => {
       const metaFilePath = path.resolve(paths.source.meta, fileName);
       try {
         fs.statSync(metaFilePath);

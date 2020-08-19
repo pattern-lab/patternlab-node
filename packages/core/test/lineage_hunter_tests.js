@@ -53,7 +53,7 @@ function createBasePatternLabObject() {
   pl.patterns = [];
   pl.partials = {};
   pl.patternGroups = {};
-  pl.subGroupPatterns = {};
+  pl.subgroupPatterns = {};
 
   return pl;
 }
@@ -87,7 +87,7 @@ tap.test('find_lineage - finds lineage', function(test) {
         patternLink:
           '00-atoms-03-images-00-logo/00-atoms-03-images-00-logo.html',
         patternGroup: 'atoms',
-        patternSubGroup: 'atoms\\03-images',
+        patternSubgroup: 'atoms\\03-images',
         flatPatternPath: '00-atoms\\03-images',
         patternPartial: 'atoms-logo',
         patternState: '',
@@ -109,7 +109,7 @@ tap.test('find_lineage - finds lineage', function(test) {
         patternLink:
           '01-molecules-05-navigation-00-primary-nav/01-molecules-05-navigation-00-primary-nav.html',
         patternGroup: 'molecules',
-        patternSubGroup: 'molecules\\05-navigation',
+        patternSubgroup: 'molecules\\05-navigation',
         flatPatternPath: '01-molecules\\05-navigation',
         patternPartial: 'molecules-primary-nav',
         patternState: '',
@@ -131,7 +131,7 @@ tap.test('find_lineage - finds lineage', function(test) {
         patternLink:
           '01-molecules-04-forms-00-search/01-molecules-04-forms-00-search.html',
         patternGroup: 'molecules',
-        patternSubGroup: 'molecules\\04-forms',
+        patternSubgroup: 'molecules\\04-forms',
         flatPatternPath: '01-molecules\\04-forms',
         patternPartial: 'molecules-search',
         patternState: '',
@@ -387,7 +387,7 @@ tap.test(
           patternLink:
             '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
           patternGroup: 'atoms',
-          patternSubGroup: 'atoms\\05-alerts',
+          patternSubgroup: 'atoms\\05-alerts',
           flatPatternPath: '01-atoms\\05-alerts',
           patternPartial: 'atoms-error',
           patternState: '',
@@ -447,7 +447,7 @@ tap.test('find_lineage - finds lineage with spaced styleModifier', function(
     patternLink:
       '01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html',
     patternGroup: 'molecules',
-    patternSubGroup: 'molecules\\01-toast',
+    patternSubgroup: 'molecules\\01-toast',
     flatPatternPath: '01-molecules\\01-toast',
     patternPartial: 'molecules-error',
     patternState: '',
@@ -470,7 +470,7 @@ tap.test('find_lineage - finds lineage with spaced styleModifier', function(
         patternLink:
           '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
         patternGroup: 'atoms',
-        patternSubGroup: 'atoms\\05-alerts',
+        patternSubgroup: 'atoms\\05-alerts',
         flatPatternPath: '01-atoms\\05-alerts',
         patternPartial: 'atoms-error',
         patternState: '',
@@ -512,7 +512,7 @@ tap.test('find_lineage - finds lineage with unspaced styleModifier', function(
     patternLink:
       '01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html',
     patternGroup: 'molecules',
-    patternSubGroup: 'molecules\\01-toast',
+    patternSubgroup: 'molecules\\01-toast',
     flatPatternPath: '01-molecules\\01-toast',
     patternPartial: 'molecules-error',
     patternState: '',
@@ -535,7 +535,7 @@ tap.test('find_lineage - finds lineage with unspaced styleModifier', function(
         patternLink:
           '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
         patternGroup: 'atoms',
-        patternSubGroup: 'atoms\\05-alerts',
+        patternSubgroup: 'atoms\\05-alerts',
         flatPatternPath: '01-atoms\\05-alerts',
         patternPartial: 'atoms-error',
         patternState: '',
@@ -577,7 +577,7 @@ tap.test(
       patternLink:
         '01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html',
       patternGroup: 'molecules',
-      patternSubGroup: 'molecules\\01-toast',
+      patternSubgroup: 'molecules\\01-toast',
       flatPatternPath: '01-molecules\\01-toast',
       patternPartial: 'molecules-error',
       patternState: '',
@@ -600,7 +600,7 @@ tap.test(
           patternLink:
             '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
           patternGroup: 'atoms',
-          patternSubGroup: 'atoms\\05-alerts',
+          patternSubgroup: 'atoms\\05-alerts',
           flatPatternPath: '01-atoms\\05-alerts',
           patternPartial: 'atoms-error',
           patternState: '',
@@ -650,7 +650,7 @@ tap.test('find_lineage - does not apply lineage twice', function(test) {
         patternLink:
           '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
         patternGroup: 'atoms',
-        patternSubGroup: 'atoms\\05-alerts',
+        patternSubgroup: 'atoms\\05-alerts',
         flatPatternPath: '01-atoms\\05-alerts',
         patternPartial: 'atoms-error',
         patternState: '',

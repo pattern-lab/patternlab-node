@@ -50,7 +50,7 @@ tap.test('test Pattern initializes correctly', function(test) {
       '00-atoms-00-global-00-colors.rendered.html'
   );
   test.equals(p.patternGroup, 'atoms');
-  test.equals(p.patternSubGroup, 'global');
+  test.equals(p.patternSubgroup, 'global');
   test.equals(p.flatPatternPath, '00-atoms-00-global');
   test.equals(p.patternPartial, 'atoms-colors');
   test.equals(p.template, '');
@@ -93,7 +93,7 @@ tap.test(
         '00-atoms-00-global-00-colors.rendered.html'
     );
     test.equals(p.patternGroup, 'atoms');
-    test.equals(p.patternSubGroup, 'global');
+    test.equals(p.patternSubgroup, 'global');
     test.equals(p.flatPatternPath, '00-atoms-00-global');
     test.equals(p.patternPartial, 'atoms-colors');
     test.equals(p.template, '');

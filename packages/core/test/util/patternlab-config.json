@@ -10,8 +10,8 @@
         "general-header": "./test/files/partials/general-header.mustache",
         "general-footer": "./test/files/partials/general-footer.mustache",
         "patternSection": "./test/files/partials/patternSection.mustache",
-        "patternSectionSubGroup":
-          "./test/files/partials/patternSectionSubtype.mustache",
+        "patternSectionSubgroup":
+          "./test/files/partials/patternSectionSubgroup.mustache",
         "viewall": "./test/files/viewall.mustache"
       },
       "js": "./test/files/js",

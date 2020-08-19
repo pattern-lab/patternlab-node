@@ -3,8 +3,8 @@
   <!-- Index of Patterns -->
   <div class="pl-c-pattern-index">
     {% for partial in partials %}
-      {% if partial.patternSectionSubGroup %}
-        {% include "@uikit/patternSectionSubGroup.twig" %}
+      {% if partial.patternSectionSubgroup %}
+        {% include "@uikit/patternSectionSubgroup.twig" %}
       {% else %}
         {% include "@uikit/patternSection.twig" %}
       {% endif %}
