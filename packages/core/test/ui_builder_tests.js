@@ -223,19 +223,27 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
     'patternGroup1-white'
   );
 
+  // Pattern groups are now sorted. Because of the missing prefix, they won't be
+  // found from the recursive file issuer in the order that was given by the
+  // number prefix. Now it will be by name if no order is set by group or
+  // subgroup frontmatter.
+
+  //The groups for this test will be in the following order
+  //"patternGroup1", "root" (because it's a top-level flat pattern) and at last "test"
+
   // Flat patterns
   test.equals(
-    patternlab.patternGroups[0].patternItems[0].patternPartial,
+    patternlab.patternGroups[1].patternItems[0].patternPartial,
     'root-foobar',
     'flat pattern foobar on root'
   );
   test.equals(
-    patternlab.patternGroups[1].patternItems[0].patternPartial,
+    patternlab.patternGroups[2].patternItems[0].patternPartial,
     'test-bar',
     'first pattern item should be test-bar'
   );
   test.equals(
-    patternlab.patternGroups[1].patternItems[1].patternPartial,
+    patternlab.patternGroups[2].patternItems[1].patternPartial,
     'test-foo',
     'second pattern item should be test-foo'
   );
