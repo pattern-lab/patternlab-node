@@ -78,7 +78,10 @@ const ui_builder = function() {
     }
 
     // skip marked as hidden patterns
-    isOmitted = pattern.isPattern && pattern.hidden;
+    isOmitted =
+      (pattern.isPattern && pattern.hidden) ||
+      // TODO: Remove next line when removing support & deprecation waring for underscore prefix hiding
+      (pattern.isPattern && pattern.fileName.charAt(0) === '_');
     if (isOmitted) {
       logger.info(
         `Omitting ${pattern.patternPartial} from styleguide patterns because it is marked as hidden within it's documentation.`
@@ -99,7 +102,10 @@ const ui_builder = function() {
     // this pattern is contained with a directory documented as hidden (a handy way to hide whole directories from the nav
     isOmitted =
       (pattern.patternGroupData && pattern.patternGroupData.hidden) ||
-      (pattern.patternSubGroupData && pattern.patternSubGroupData.hidden);
+      (pattern.patternSubGroupData && pattern.patternSubGroupData.hidden) ||
+      // TODO: Remove next two lines when removing support & deprecation waring for underscore prefix hiding
+      pattern.relPath.charAt(0) === '_' ||
+      pattern.relPath.indexOf(path.sep + '_') > -1;
     if (isOmitted) {
       logger.info(
         `Omitting ${pattern.patternPartial} from styleguide patterns because its contained within an hidden directory.`

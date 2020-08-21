@@ -24,7 +24,7 @@ The map component...
 
 ## Hiding Pattern Groups
 
-The same concept applies to `pattern-groups`. For example, we have a `pattern-group` named `atoms` and we create a companion `.md` file for that group under `_patters/atoms/atoms.md`. In that case the whole `pattern-group` and all its components will be hidden in the UI.
+The same concept applies to `pattern-groups`. For example, you have a `pattern-group` named `atoms`, and you create a companion `.md` file for that group under `_patters/atoms/atoms.md`. In that case, the whole `pattern-group` and all its components will be hidden in the UI.
 
 ```
 ---
@@ -35,7 +35,7 @@ hidden: true
 
 ## Hiding Pattern Sub Groups
 
-The same concept applies to `pattern-sub-groups`. For example, we have a `pattern-sub-group` named `buttons` which is structured under `atoms` and we create a companion `.md` file for that group under `_patters/atoms/buttons/buttons.md`. In that case the whole `pattern-sub-group` and all its components will be hidden in the UI.
+The same concept applies to `pattern-sub-groups`. For example, we have a `pattern-sub-group` named `buttons` which is structured under `atoms`, and we create a companion `.md` file for that group under `_patters/atoms/buttons/buttons.md`. In that case, the whole `pattern-sub-group` and all its components will be hidden in the UI.
 
 ```
 ---
@@ -47,5 +47,3 @@ hidden: true
 ## Additional Information
 
 A hidden pattern can still be included in other patterns.
-
-Not all PatternEngines support hiding patterns.

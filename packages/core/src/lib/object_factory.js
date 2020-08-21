@@ -2,12 +2,14 @@
 
 const _ = require('lodash');
 const path = require('path');
+const logger = require('./log');
 const patternEngines = require('./pattern_engines');
 
 // prefixMatcher is intended to match the leading maybe-underscore,
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
 // off and get at the good part.
 const prefixMatcher = /^_?(\d+-)?/;
+const prefixMatcherDeprecationCheckHidden = /^_.+/;
 
 /**
  * Pattern constructor / Pattern properties
@@ -47,6 +49,17 @@ const Pattern = function(
   this.fileName = pathObj.name; // '00-colors'
   this.subdir = pathObj.dir; // '00-atoms/00-global'
   this.fileExtension = pathObj.ext; // '.mustache'
+
+  if (
+    (prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(0, info)) ||
+      prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(1, info)) ||
+      prefixMatcherDeprecationCheckHidden.test(this.fileName)) &&
+    !info.isMetaPattern
+  ) {
+    logger.warning(
+      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
+    );
+  }
 
   // TODO: Remove if when dropping ordering by prefix and keep else code
   if (info.patternHasOwnDir) {
@@ -297,6 +310,11 @@ Pattern.prototype = {
 
     info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';
     info.dirLevel = pathObj.dir.split(path.sep).filter(s => !!s).length;
+
+    // Only relevant for deprecation check and message
+    if (path.parse(pathObj.dir).base === '_meta') {
+      info.isMetaPattern = true;
+    }
 
     if (info.dirLevel === 0 || (info.dirLevel === 1 && info.patternHasOwnDir)) {
       // -> ./

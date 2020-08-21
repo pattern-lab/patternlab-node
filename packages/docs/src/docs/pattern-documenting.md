@@ -22,6 +22,7 @@ Attributes overview:
 * The `title` attribute is used in Pattern Lab's navigation as well as in the styleguide views. Format: `string`
 * Pattern `tags` has to be an array, like `tags: [new, relaunch, dev]`
 * [Pattern `states`](/docs/using-pattern-states/) are defined like `state: incomplete` and [provide a simple visual indication](/docs/using-pattern-states/)
+* The `hidden` property to [Hide Patterns in the Navigation](/docs/hiding-patterns-in-the-navigation/)
 
 Both `tags` and `states` could be used for [not including patterns in a UIKit specific build](/docs/editing-the-configuration-options/#heading-uikits).
 

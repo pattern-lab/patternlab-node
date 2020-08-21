@@ -85,7 +85,6 @@ module.exports = function(pattern, patternlab) {
   try {
     const markdownFileNameGroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      pattern.patternType,
       pattern.patternGroup + FILE_EXTENSION
     );
     const markdownFileContentsGroup = fs.readFileSync(
@@ -104,7 +103,6 @@ module.exports = function(pattern, patternlab) {
     if (err.code !== 'ENOENT') {
       logger.warning(
         `'there was an error setting pattern group data after markdown parsing for ${path.join(
-          pattern.patternType,
           pattern.patternGroup + FILE_EXTENSION
         )}`
       );
@@ -117,7 +115,6 @@ module.exports = function(pattern, patternlab) {
     const markdownFileNameSubGroup = path.resolve(
       patternlab.config.paths.source.patterns,
       pattern.patternType,
-      pattern.patternSubType,
       pattern.patternSubGroup + FILE_EXTENSION
     );
     const markdownFileContentsSubGroup = fs.readFileSync(
@@ -136,7 +133,7 @@ module.exports = function(pattern, patternlab) {
     if (err.code !== 'ENOENT') {
       logger.warning(
         `'there was an error setting pattern sub group data after markdown parsing for ${path.join(
-          pattern.patternSubType,
+          pattern.patternType,
           pattern.patternSubGroup + FILE_EXTENSION
         )}`
       );
