@@ -56,7 +56,7 @@ const Pattern = function(
     prefixMatcherDeprecationCheck.test(this.fileName)
   ) {
     logger.warning(
-      `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.`
+      `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.\n See https://patternlab.io/docs/reorganizing-patterns/`
     );
   }
 
@@ -136,6 +136,7 @@ const Pattern = function(
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
   this.order = 0;
+  this.variantOrder = 0;
   this.engine = patternEngines.getEngineForPattern(this);
 
   /**
@@ -313,10 +314,12 @@ Pattern.prototype = {
       // -> ./folder/folder
       info.shortNotation = pathObj.dir
         .split(/\/|\\/, 2)
+        .map(o => o.replace(prefixMatcher, ''))
         .join('-')
         .replace(new RegExp(`-${info.dir}$`), '');
       info.verbosePartial = pathObj.dir
         .split(/\/|\\/, 2)
+        .map(o => o.replace(prefixMatcher, ''))
         .join('/')
         .replace(new RegExp(`-${info.dir}$`), '');
     }

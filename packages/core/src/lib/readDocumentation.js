@@ -13,7 +13,7 @@ const markdown_parser = new mp();
 
 const FILE_EXTENSION = '.md';
 
-module.exports = function(pattern, patternlab) {
+module.exports = function(pattern, patternlab, isVariant) {
   try {
     const markdownFileName = path.resolve(
       patternlab.config.paths.source.patterns,
@@ -38,7 +38,7 @@ module.exports = function(pattern, patternlab) {
         pattern.patternState = markdownObject.state;
       }
       if (markdownObject.order) {
-        pattern.order = markdownObject.order;
+        pattern[isVariant ? 'variantOrder' : 'order'] = markdownObject.order;
       }
       if (markdownObject.hidden) {
         pattern.hidden = markdownObject.hidden;
@@ -85,7 +85,6 @@ module.exports = function(pattern, patternlab) {
   try {
     const markdownFileNameGroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      pattern.patternGroup,
       pattern.patternGroup + FILE_EXTENSION
     );
     const markdownFileContentsGroup = fs.readFileSync(
@@ -117,7 +116,6 @@ module.exports = function(pattern, patternlab) {
     const markdownFileNameSubgroup = path.resolve(
       patternlab.config.paths.source.patterns,
       pattern.patternGroup,
-      pattern.patternSubgroup,
       pattern.patternSubgroup + FILE_EXTENSION
     );
     const markdownFileContentsSubgroup = fs.readFileSync(

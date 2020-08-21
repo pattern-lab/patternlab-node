@@ -180,7 +180,17 @@ const ui_builder = function() {
       patternGroup: pattern.patternGroup,
       patternGroupDash: pattern.patternGroup, //todo verify
       patternGroupItems: [],
+      order:
+        pattern.patternGroupData && pattern.patternGroupData.order
+          ? Number(pattern.patternGroupData.order)
+          : 0,
     });
+
+    patternlab.patternGroups = _.sortBy(
+      patternlab.patternGroups,
+      'order',
+      'patternGroup'
+    );
   }
 
   /**
@@ -233,21 +243,25 @@ const ui_builder = function() {
    * @param pattern - the pattern to register
    */
   function addPatternSubgroup(patternlab, pattern) {
-    const newSubgroup = {
+    const patternGroup = getPatternGroup(patternlab, pattern);
+
+    patternGroup.patternGroupItems.push({
       patternSubgroupLC: _.kebabCase(pattern.patternSubgroup),
       patternSubgroupUC: _.startCase(pattern.patternSubgroup),
       patternSubgroup: pattern.patternSubgroup,
       patternSubgroupDash: pattern.patternSubgroup, //todo verify
       patternSubgroupItems: [],
-    };
-    const patternGroup = getPatternGroup(patternlab, pattern);
-    // TODO: Add order here and sort by order
-    const insertIndex = _.sortedIndexBy(
+      order:
+        pattern.patternSubgroupData && pattern.patternSubgroupData.order
+          ? Number(pattern.patternSubgroupData.order)
+          : 0,
+    });
+
+    patternGroup.patternGroupItems = _.sortBy(
       patternGroup.patternGroupItems,
-      newSubgroup,
+      'order',
       'patternSubgroup'
     );
-    patternGroup.patternGroupItems.splice(insertIndex, 0, newSubgroup);
   }
 
   /**
@@ -265,6 +279,7 @@ const ui_builder = function() {
       name: pattern.name,
       isDocPattern: false,
       order: Number(pattern.order) || 0, // Failsafe is someone entered a string
+      variantOrder: Number(pattern.variantOrder) || 0, // Failsafe is someone entered a string
     };
   }
 
@@ -302,7 +317,7 @@ const ui_builder = function() {
     patternSubgroup.patternSubgroupItems.push(newSubgroupItem);
     patternSubgroup.patternSubgroupItems = _.sortBy(
       patternSubgroup.patternSubgroupItems,
-      ['order', 'name']
+      ['order', 'variantOrder', 'name']
     );
   }
 
@@ -334,6 +349,7 @@ const ui_builder = function() {
     }
     patternGroup.patternItems = _.sortBy(patternGroup.patternItems, [
       'order',
+      'variantOrder',
       'name',
     ]);
   }
