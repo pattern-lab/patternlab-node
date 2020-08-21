@@ -2,7 +2,14 @@
 
 const _ = require('lodash');
 const path = require('path');
+const logger = require('./log');
 const patternEngines = require('./pattern_engines');
+
+// prefixMatcher is intended to match the leading maybe-underscore,
+// zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
+// off and get at the good part.
+const prefixMatcher = /^_?(\d+-)?/;
+const prefixMatcherDeprecationCheck = /^_(\d+-).+|^(\d+-).+/;
 
 /**
  * Pattern constructor / Pattern properties
@@ -43,14 +50,38 @@ const Pattern = function(
   this.subdir = pathObj.dir; // 'atoms/global'
   this.fileExtension = pathObj.ext; // '.mustache'
 
-  // this is the unique name, subDir + fileName (sans extension)
-  this.name = `${info.shortNotation}-${this.fileName.replace('~', '-')}`;
+  if (
+    prefixMatcherDeprecationCheck.test(this.getDirLevel(0, info)) ||
+    prefixMatcherDeprecationCheck.test(this.getDirLevel(1, info)) ||
+    prefixMatcherDeprecationCheck.test(this.fileName)
+  ) {
+    logger.warning(
+      `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.`
+    );
+  }
+
+  // TODO: Remove if block when dropping ordering by prefix and keep else code
+  // (When we dorp the info about the old ordering is deprecated)
+  if (info.patternHasOwnDir) {
+    // Since there is still the requirement of having the numbers provided for sorting
+    // this will be required to keep the folder prefix and the variant name
+    // /00-atoms/00-global/00-colors/colors~variant.hbs
+    // -> 00-atoms-00-global-00-colors-variant
+    this.name = `${info.shortNotation}-${path.parse(pathObj.dir).base}${
+      this.fileName.indexOf('~') !== -1 ? '-' + this.fileName.split('~')[1] : ''
+    }`;
+  } else {
+    // this is the unique name, subDir + fileName (sans extension)
+    this.name = `${info.shortNotation}-${this.fileName.replace('~', '-')}`;
+  }
 
   // the JSON used to render values in the pattern
   this.jsonFileData = jsonFileData || {};
 
   // flip tildes to dashes
-  this.patternBaseName = this.fileName.replace('~', '-'); // 'colors'
+  this.patternBaseName = this.fileName
+    .replace(prefixMatcher, '')
+    .replace('~', '-'); // 'colors'
 
   // Fancy name - Uppercase letters of pattern name partials.
   // global-colors -> 'Global Colors'
@@ -58,10 +89,10 @@ const Pattern = function(
   this.patternName = _.startCase(this.patternBaseName);
 
   // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.getDirLevel(0, info);
+  this.patternGroup = this.getDirLevel(0, info).replace(prefixMatcher, '');
 
   // the sub-group this pattern belongs to.
-  this.patternSubgroup = this.getDirLevel(1, info); // 'global'
+  this.patternSubgroup = this.getDirLevel(1, info).replace(prefixMatcher, ''); // 'global'
 
   // the joined pattern group and subgroup directory
   this.flatPatternPath = info.shortNotation; // 'atoms-global'
@@ -262,8 +293,10 @@ Pattern.prototype = {
       // colors(.mustache) is deeply nested in atoms-/global/colors
       patternlab: patternlab,
       patternHasOwnDir: !isPromoteToFlatPatternRun
-        ? path.basename(pathObj.dir) === pathObj.name ||
-          path.basename(pathObj.dir) === pathObj.name.split('~')[0]
+        ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
+            pathObj.name.replace(prefixMatcher, '') ||
+          path.basename(pathObj.dir).replace(prefixMatcher, '') ===
+            pathObj.name.split('~')[0].replace(prefixMatcher, '')
         : false,
     };
 
