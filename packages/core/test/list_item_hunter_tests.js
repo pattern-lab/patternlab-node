@@ -19,7 +19,7 @@ tap.test(
   test => {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
-    const listPath = path.join('test', '6list.mustache');
+    const listPath = path.join('test', 'list.mustache');
     const testPattern = loadPattern(listPath, pl);
 
     //usually decompose does this
