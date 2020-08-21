@@ -22,17 +22,17 @@ unordered.mustache
 This is also the order they'll show up in the drop-down navigation. Because you rarely need to see the definition list pattern maybe you want to have it show up last in the navigation. To re-order the patterns just add numbers to the beginning:
 
 ```
-01-ordered.mustache
-02-unordered.mustache
-03-definition.mustache
+ordered.mustache
+unordered.mustache
+definition.mustache
 ```
 
 You may want to put some space between the numbers just in case you want to further re-order and not touch the other patterns. For example, a better default ordering might be:
 
 ```
-01-ordered.mustache
-05-unordered.mustache
-10-definition.mustache
+ordered.mustache
+unordered.mustache
+definition.mustache
 ```
 
 The numbers will not show up when Pattern Lab displays the name of the pattern in the drop-down navigation. They're simply a re-ordering mechanism.
@@ -44,7 +44,7 @@ The rules for re-ordering [pseudo-patterns](/docs/using-pseudo-patterns/) are sl
 ```
 - pattern.mustache
 - pattern.yml
-- pattern~01-variation2.yml
-- pattern~02-variation3.yml
-- pattern~03-variation1.yml
+- pattern~variation2.yml
+- pattern~variation3.yml
+- pattern~variation1.yml
 ```

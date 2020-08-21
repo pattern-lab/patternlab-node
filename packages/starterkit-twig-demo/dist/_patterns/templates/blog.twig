@@ -1,11 +1,11 @@
-{% extends "@templates/00-layouts/00-site.twig" %}
+{% extends "@templates/layouts/site.twig" %}
 {% block title %}<h1 class="section-title">Our Outdoor Blog</h1>{% endblock %}
 
 {% block main %}
-    {% include "@organisms/03-sections/00-latest-posts.twig" %}
-    {% include "@molecules/05-navigation/03-pagination.twig" %}
+    {% include "@organisms/sections/latest-posts.twig" %}
+    {% include "@molecules/navigation/pagination.twig" %}
 {% endblock %}
 
 {% block sidebar %}
-    {% include "@organisms/03-sections/01-recent-tweets.twig" %}
+    {% include "@organisms/sections/recent-tweets.twig" %}
 {% endblock %}

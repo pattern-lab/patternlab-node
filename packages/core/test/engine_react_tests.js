@@ -24,7 +24,7 @@ if (!engineLoader.react) {
   tap.test('Load the hello world pattern and verify contents', test => {
     const patternPath = path.join(
       testPatternsPath,
-      '00-atoms/00-general/HelloWorld.jsx'
+      'atoms/general/HelloWorld.jsx'
     );
     const patternContent = fs.readFileSync(patternPath, { encoding: 'utf8' });
     const pattern = loadPattern(patternPath, fpl);
@@ -36,7 +36,7 @@ if (!engineLoader.react) {
   tap.test('Load the hello world pattern and verify output', test => {
     const patternPath = path.join(
       testPatternsPath,
-      '00-atoms/00-general/HelloWorld.jsx'
+      'atoms/general/HelloWorld.jsx'
     );
     const pattern = loadPattern(patternPath, fpl);
 

@@ -22,7 +22,7 @@ const lineage_hunter = new lh();
 // fake pattern creators
 function createFakeEmptyErrorPattern() {
   return new Pattern(
-    '01-molecules/01-toast/00-error.mustache', // relative path now
+    'molecules/toast/error.mustache', // relative path now
     null // data
   );
 }
@@ -61,7 +61,7 @@ function createBasePatternLabObject() {
 tap.test('find_lineage - finds lineage', function(test) {
   //setup current pattern from what we would have during execution
   var currentPattern = new Pattern(
-    '02-organisms/00-global/00-header.mustache', // relative path now
+    'organisms/global/header.mustache', // relative path now
     null // data
   );
   extend(currentPattern, {
@@ -75,20 +75,19 @@ tap.test('find_lineage - finds lineage', function(test) {
     graph: new PatternGraph(null, 0),
     patterns: [
       Pattern.createEmpty({
-        name: '00-atoms-03-images-00-logo',
-        subdir: '00-atoms\\03-images',
-        filename: '00-logo.mustache',
+        name: 'atoms-images-logo',
+        subdir: 'atoms\\images',
+        filename: 'logo.mustache',
         data: null,
         template:
           '<a href="/"><img src="../../images/logo.png" class="logo" alt="Logo Alt Text" /></a>',
         patternPartialCode:
           '<a href="/"><img src="../../images/logo.png" class="logo" alt="Logo Alt Text" /></a>',
         patternBaseName: 'logo',
-        patternLink:
-          '00-atoms-03-images-00-logo/00-atoms-03-images-00-logo.html',
+        patternLink: 'atoms-images-logo/atoms-images-logo.html',
         patternGroup: 'atoms',
-        patternSubgroup: 'atoms\\03-images',
-        flatPatternPath: '00-atoms\\03-images',
+        patternSubgroup: 'atoms\\images',
+        flatPatternPath: 'atoms\\images',
         patternPartial: 'atoms-logo',
         patternState: '',
         lineage: [],
@@ -97,9 +96,9 @@ tap.test('find_lineage - finds lineage', function(test) {
         lineageRIndex: [],
       }),
       Pattern.createEmpty({
-        name: '01-molecules-05-navigation-00-primary-nav',
-        subdir: '01-molecules\\05-navigation',
-        filename: '00-primary-nav.mustache',
+        name: 'molecules-navigation-primary-nav',
+        subdir: 'molecules\\navigation',
+        filename: 'primary-nav.mustache',
         data: null,
         template:
           '<nav id="nav" class="nav">\r\n\t<ul>\r\n\t\t<li><a href="#">Home</a></li>\r\n\t\t<li><a href="#">About</a></li>\r\n\t\t<li><a href="#">Blog</a></li>\r\n\t\t<li><a href="#">Contact</a></li>\r\n\t</ul>\r\n</nav><!--end .nav-->\r\n',
@@ -107,10 +106,10 @@ tap.test('find_lineage - finds lineage', function(test) {
           '<nav id="nav" class="nav">\r\n\t<ul>\r\n\t\t<li><a href="#">Home</a></li>\r\n\t\t<li><a href="#">About</a></li>\r\n\t\t<li><a href="#">Blog</a></li>\r\n\t\t<li><a href="#">Contact</a></li>\r\n\t</ul>\r\n</nav><!--end .nav-->\r\n',
         patternBaseName: 'primary-nav',
         patternLink:
-          '01-molecules-05-navigation-00-primary-nav/01-molecules-05-navigation-00-primary-nav.html',
+          'molecules-navigation-primary-nav/molecules-navigation-primary-nav.html',
         patternGroup: 'molecules',
-        patternSubgroup: 'molecules\\05-navigation',
-        flatPatternPath: '01-molecules\\05-navigation',
+        patternSubgroup: 'molecules\\navigation',
+        flatPatternPath: 'molecules\\navigation',
         patternPartial: 'molecules-primary-nav',
         patternState: '',
         lineage: [],
@@ -119,20 +118,19 @@ tap.test('find_lineage - finds lineage', function(test) {
         lineageRIndex: [],
       }),
       Pattern.createEmpty({
-        name: '01-molecules-04-forms-00-search',
-        subdir: '01-molecules\\04-forms',
-        filename: '00-search.mustache',
+        name: 'molecules-forms-search',
+        subdir: 'molecules\\forms',
+        filename: 'search.mustache',
         data: null,
         template:
           '<form action="#" method="post" class="inline-form search-form">           \r\n    <fieldset>\r\n\t    <legend class="is-vishidden">Search</legend>\r\n\t    <label for="search-field" class="is-vishidden">Search</label>\r\n\t    <input type="search" placeholder="Search" id="search-field" class="search-field" />\r\n\t    <button class="search-submit">\r\n\t    \t<span class="icon-search" aria-hidden="true"></span>\r\n\t    \t<span class="is-vishidden">Search</span>\r\n\t    </button>\r\n    </fieldset>\r\n</form>',
         patternPartialCode:
           '<form action="#" method="post" class="inline-form search-form">           \r\n    <fieldset>\r\n\t    <legend class="is-vishidden">Search</legend>\r\n\t    <label for="search-field" class="is-vishidden">Search</label>\r\n\t    <input type="search" placeholder="Search" id="search-field" class="search-field" />\r\n\t    <button class="search-submit">\r\n\t    \t<span class="icon-search" aria-hidden="true"></span>\r\n\t    \t<span class="is-vishidden">Search</span>\r\n\t    </button>\r\n    </fieldset>\r\n</form>',
         patternBaseName: 'search',
-        patternLink:
-          '01-molecules-04-forms-00-search/01-molecules-04-forms-00-search.html',
+        patternLink: 'molecules-forms-search/molecules-forms-search.html',
         patternGroup: 'molecules',
-        patternSubgroup: 'molecules\\04-forms',
-        flatPatternPath: '01-molecules\\04-forms',
+        patternSubgroup: 'molecules\\forms',
+        flatPatternPath: 'molecules\\forms',
         patternPartial: 'molecules-search',
         patternState: '',
         lineage: [],
@@ -180,7 +178,7 @@ tap.test(
     var patternlab = {
       graph: new PatternGraph(null, 0),
       patterns: [
-        Pattern.create('00-atoms/05-alerts/00-error.mustache', null, {
+        Pattern.create('atoms/alerts/error.mustache', null, {
           template: '<h1> {{message}} </h1>',
           extendedTemplate: '<h1> {{message}} </h1>',
         }),
@@ -233,9 +231,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.mustache');
     atomPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + '00-test/01-bar.mustache',
+      pl.config.paths.source.patterns + 'test/bar.mustache',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -243,9 +241,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.mustache');
     consumerPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + '00-test/00-foo.mustache',
+      pl.config.paths.source.patterns + 'test/foo.mustache',
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -270,9 +268,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.mustache');
     atomPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + '00-test/01-bar.mustache',
+      pl.config.paths.source.patterns + 'test/bar.mustache',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -280,9 +278,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.mustache');
     consumerPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + '00-test/00-foo.mustache',
+      pl.config.paths.source.patterns + 'test/foo.mustache',
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -308,8 +306,8 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = loadPattern('00-test/01-bar.mustache', pl);
-    var consumerPattern = loadPattern('00-test/00-foo.mustache', pl);
+    var atomPattern = loadPattern('test/bar.mustache', pl);
+    var consumerPattern = loadPattern('test/foo.mustache', pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -331,9 +329,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('00-test/01-bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.mustache');
     atomPattern.template = fs.readFileSync(
-      path.resolve(pl.config.paths.source.patterns, '00-test/01-bar.mustache'),
+      path.resolve(pl.config.paths.source.patterns, 'test/bar.mustache'),
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -341,9 +339,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('00-test/00-foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.mustache');
     consumerPattern.template = fs.readFileSync(
-      path.resolve(pl.config.paths.source.patterns, '00-test/00-foo.mustache'),
+      path.resolve(pl.config.paths.source.patterns, 'test/foo.mustache'),
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -377,18 +375,17 @@ tap.test(
       graph: PatternGraph.empty(),
       patterns: [
         Pattern.createEmpty({
-          name: '01-atoms-05-alerts-00-error',
-          subdir: '01-atoms\\05-alerts',
-          filename: '00-error.mustache',
+          name: 'atoms-alerts-error',
+          subdir: 'atoms\\alerts',
+          filename: 'error.mustache',
           data: null,
           template: '<h1> {{message}} </h1>',
           extendedTemplate: '<h1> {{message}} </h1>',
           patternBaseName: 'error',
-          patternLink:
-            '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
+          patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
           patternGroup: 'atoms',
-          patternSubgroup: 'atoms\\05-alerts',
-          flatPatternPath: '01-atoms\\05-alerts',
+          patternSubgroup: 'atoms\\alerts',
+          flatPatternPath: 'atoms\\alerts',
           patternPartial: 'atoms-error',
           patternState: '',
           lineage: [],
@@ -437,18 +434,17 @@ tap.test('find_lineage - finds lineage with spaced styleModifier', function(
 ) {
   //setup current pattern from what we would have during execution
   var currentPattern = Pattern.createEmpty({
-    name: '01-molecules-01-toast-00-error',
-    subdir: '01-molecules\\01-toast',
-    filename: '00-error.mustache',
+    name: 'molecules-toast-error',
+    subdir: 'molecules\\toast',
+    filename: 'error.mustache',
     data: null,
     template: '{{> atoms-error:foo }}',
     extendedTemplate: '{{> atoms-error:foo }}',
     patternBaseName: 'error',
-    patternLink:
-      '01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html',
+    patternLink: 'molecules-toast-error/molecules-toast-error.html',
     patternGroup: 'molecules',
-    patternSubgroup: 'molecules\\01-toast',
-    flatPatternPath: '01-molecules\\01-toast',
+    patternSubgroup: 'molecules\\toast',
+    flatPatternPath: 'molecules\\toast',
     patternPartial: 'molecules-error',
     patternState: '',
     lineage: [],
@@ -460,18 +456,17 @@ tap.test('find_lineage - finds lineage with spaced styleModifier', function(
     graph: new PatternGraph(null, 0),
     patterns: [
       Pattern.createEmpty({
-        name: '01-atoms-05-alerts-00-error',
-        subdir: '01-atoms\\05-alerts',
-        filename: '00-error.mustache',
+        name: 'atoms-alerts-error',
+        subdir: 'atoms\\alerts',
+        filename: 'error.mustache',
         data: null,
         template: '<h1> {{message}} </h1>',
         extendedTemplate: '<h1> {{message}} </h1>',
         patternBaseName: 'error',
-        patternLink:
-          '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
+        patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
         patternGroup: 'atoms',
-        patternSubgroup: 'atoms\\05-alerts',
-        flatPatternPath: '01-atoms\\05-alerts',
+        patternSubgroup: 'atoms\\alerts',
+        flatPatternPath: 'atoms\\alerts',
         patternPartial: 'atoms-error',
         patternState: '',
         lineage: [],
@@ -502,18 +497,17 @@ tap.test('find_lineage - finds lineage with unspaced styleModifier', function(
 ) {
   //setup current pattern from what we would have during execution
   var currentPattern = Pattern.createEmpty({
-    name: '01-molecules-01-toast-00-error',
-    subdir: '01-molecules\\01-toast',
-    filename: '00-error.mustache',
+    name: 'molecules-toast-error',
+    subdir: 'molecules\\toast',
+    filename: 'error.mustache',
     data: null,
     template: '{{> atoms-error:foo }}',
     extendedTemplate: '{{>atoms-error:foo}}',
     patternBaseName: 'error',
-    patternLink:
-      '01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html',
+    patternLink: 'molecules-toast-error/molecules-toast-error.html',
     patternGroup: 'molecules',
-    patternSubgroup: 'molecules\\01-toast',
-    flatPatternPath: '01-molecules\\01-toast',
+    patternSubgroup: 'molecules\\toast',
+    flatPatternPath: 'molecules\\toast',
     patternPartial: 'molecules-error',
     patternState: '',
     lineage: [],
@@ -525,18 +519,17 @@ tap.test('find_lineage - finds lineage with unspaced styleModifier', function(
     graph: PatternGraph.empty(),
     patterns: [
       Pattern.createEmpty({
-        name: '01-atoms-05-alerts-00-error',
-        subdir: '01-atoms\\05-alerts',
-        filename: '00-error.mustache',
+        name: 'atoms-alerts-error',
+        subdir: 'atoms\\alerts',
+        filename: 'error.mustache',
         data: null,
         template: '<h1> {{message}} </h1>',
         extendedTemlpate: '<h1> {{message}} </h1>',
         patternBaseName: 'error',
-        patternLink:
-          '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
+        patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
         patternGroup: 'atoms',
-        patternSubgroup: 'atoms\\05-alerts',
-        flatPatternPath: '01-atoms\\05-alerts',
+        patternSubgroup: 'atoms\\alerts',
+        flatPatternPath: 'atoms\\alerts',
         patternPartial: 'atoms-error',
         patternState: '',
         lineage: [],
@@ -567,18 +560,17 @@ tap.test(
   function(test) {
     //setup current pattern from what we would have during execution
     var currentPattern = Pattern.createEmpty({
-      name: '01-molecules-01-toast-00-error',
-      subdir: '01-molecules\\01-toast',
-      filename: '00-error.mustache',
+      name: 'molecules-toast-error',
+      subdir: 'molecules\\toast',
+      filename: 'error.mustache',
       data: null,
       template: '{{> atoms-e:foo }}',
       extendedTemplate: '{{>atoms-e:foo}}',
       patternBaseName: 'error',
-      patternLink:
-        '01-molecules-01-toast-00-error/01-molecules-01-toast-00-error.html',
+      patternLink: 'molecules-toast-error/molecules-toast-error.html',
       patternGroup: 'molecules',
-      patternSubgroup: 'molecules\\01-toast',
-      flatPatternPath: '01-molecules\\01-toast',
+      patternSubgroup: 'molecules\\toast',
+      flatPatternPath: 'molecules\\toast',
       patternPartial: 'molecules-error',
       patternState: '',
       lineage: [],
@@ -590,18 +582,17 @@ tap.test(
       graph: PatternGraph.empty(),
       patterns: [
         Pattern.createEmpty({
-          name: '01-atoms-05-alerts-00-error',
-          subdir: '01-atoms\\05-alerts',
-          filename: '00-error.mustache',
+          name: 'atoms-alerts-error',
+          subdir: 'atoms\\alerts',
+          filename: 'error.mustache',
           data: null,
           template: '<h1> {{message}} </h1>',
           extendedTemplate: '<h1> {{message}} </h1>',
           patternBaseName: 'error',
-          patternLink:
-            '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
+          patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
           patternGroup: 'atoms',
-          patternSubgroup: 'atoms\\05-alerts',
-          flatPatternPath: '01-atoms\\05-alerts',
+          patternSubgroup: 'atoms\\alerts',
+          flatPatternPath: 'atoms\\alerts',
           patternPartial: 'atoms-error',
           patternState: '',
           lineage: [],
@@ -640,18 +631,17 @@ tap.test('find_lineage - does not apply lineage twice', function(test) {
     graph: PatternGraph.empty(),
     patterns: [
       Pattern.createEmpty({
-        name: '01-atoms-05-alerts-00-error',
-        subdir: '01-atoms\\05-alerts',
-        filename: '00-error.mustache',
+        name: 'atoms-alerts-error',
+        subdir: 'atoms\\alerts',
+        filename: 'error.mustache',
         data: null,
         template: '<h1> {{message}} </h1>',
         extendedTemplate: '<h1> {{message}} </h1>',
         patternBaseName: 'error',
-        patternLink:
-          '01-atoms-05-alerts-00-error/01-atoms-05-alerts-00-error.html',
+        patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
         patternGroup: 'atoms',
-        patternSubgroup: 'atoms\\05-alerts',
-        flatPatternPath: '01-atoms\\05-alerts',
+        patternSubgroup: 'atoms\\alerts',
+        flatPatternPath: 'atoms\\alerts',
         patternPartial: 'atoms-error',
         patternState: '',
         lineage: [],

@@ -29,11 +29,11 @@ The `description` is used in the styleguide views.
 
 Pattern documentation needs to have a `.md` file extension and match the name of the pattern it's documenting. For example, to document the following pattern:
 
-    00-atoms/images/landscape-16x9.mustache
+    atoms/images/landscape-16x9.mustache
 
 We'd name our documentation file:
 
-    00-atoms/images/landscape-16x9.md
+    atoms/images/landscape-16x9.md
 
 ## Documenting Pseudo-Patterns
 
@@ -42,13 +42,13 @@ To add documentation to [pseudo-patterns](/docs/using-pseudo-patterns/), replace
 For example, to document the following pseudo-pattern:
 
 ```
-00-atoms/button/button~red.mustache
+atoms/button/button~red.mustache
 ```
 
 We'd name our documentation file:
 
 ```
-00-atoms/button/button-red.md
+atoms/button/button-red.md
 ```
 
 ## Adding More Attributes to the Front Matter

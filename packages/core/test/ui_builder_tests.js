@@ -72,7 +72,7 @@ tap.test(
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('00-test/_ignored-pattern.mustache');
+    var pattern = new Pattern('test/_ignored-pattern.mustache');
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
@@ -88,7 +88,7 @@ tap.test(
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('00-test/foo.mustache');
+    var pattern = new Pattern('test/foo.mustache');
     patternlab.config.defaultPattern = 'test-foo';
 
     //act
@@ -184,8 +184,8 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
 
   patternlab.patterns.push(
     new Pattern('foobar.mustache'),
-    new Pattern('00-test/bar.mustache'),
-    new Pattern('00-test/foo.mustache'),
+    new Pattern('test/bar.mustache'),
+    new Pattern('test/foo.mustache'),
     new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
     new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
     new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -386,8 +386,8 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('00-test/bar.mustache'),
+      new Pattern('test/foo.mustache'),
+      new Pattern('test/bar.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -429,8 +429,8 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('00-test/bar.mustache'),
+      new Pattern('test/foo.mustache'),
+      new Pattern('test/bar.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -444,8 +444,8 @@ tap.test(
     var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
-    test.equals(patternlab.patternPaths['test']['foo'], '00-test-foo');
-    test.equals(patternlab.patternPaths['test']['bar'], '00-test-bar');
+    test.equals(patternlab.patternPaths['test']['foo'], 'test-foo');
+    test.equals(patternlab.patternPaths['test']['bar'], 'test-bar');
     test.equals(
       patternlab.patternPaths['patternGroup1']['blue'],
       'patternGroup1-patternSubgroup1-blue'
@@ -486,8 +486,8 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('00-test/bar.mustache'),
+      new Pattern('test/foo.mustache'),
+      new Pattern('test/bar.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -542,7 +542,7 @@ tap.test(
 
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
-      new Pattern('00-test/foo.mustache'),
+      new Pattern('test/foo.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -612,7 +612,7 @@ tap.test(
 
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
-      new Pattern('00-test/foo.mustache'),
+      new Pattern('test/foo.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),

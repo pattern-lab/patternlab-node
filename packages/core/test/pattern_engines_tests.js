@@ -10,15 +10,15 @@ patternEngines.loadAllEngines(config);
 
 // the mustache test pattern, stolen from object_factory unit tests
 var mustacheTestPattern = new Pattern(
-  'source/_patterns/00-atoms/00-global/00-colors-alt.mustache',
+  'source/_patterns/atoms/global/colors-alt.mustache',
   { d: 123 }
 );
 var mustacheTestPseudoPatternBasePattern = new Pattern(
-  'source/_patterns/04-pages/00-homepage.mustache',
+  'source/_patterns/pages/homepage.mustache',
   { d: 123 }
 );
 var mustacheTestPseudoPattern = new Pattern(
-  'source/_patterns/04-pages/00-homepage~emergency.json',
+  'source/_patterns/pages/homepage~emergency.json',
   { d: 123 }
 );
 mustacheTestPseudoPattern.isPseudoPattern = true;
@@ -84,12 +84,12 @@ tap.test(
   function(test) {
     // each test case
     var filenames = {
-      '00-homepage~emergency.json': true,
+      'homepage~emergency.json': true,
       '~emergency.json': true,
-      '00-homepage~emergency.js': false,
-      '00-homepage-emergency.js': false,
-      '00-homepage.hbs': false,
-      '00-homepage.json': false,
+      'homepage~emergency.js': false,
+      'homepage-emergency.js': false,
+      'homepage.hbs': false,
+      'homepage.json': false,
       'greatpic.jpg': false,
     };
     // expect one test per test case
@@ -117,13 +117,13 @@ tap.test(
   function(test) {
     // each test case
     var filenames = {
-      '00-comment-thread.mustache': true,
-      '00-comment-thread.fakeextthatdoesntexist': false,
-      '00-comment-thread': false,
-      '_00-comment-thread.mustache': true,
-      '.00-comment-thread.mustache': false,
-      '00-comment-thread.json': false,
-      '00-homepage~emergency.json': true,
+      'comment-thread.mustache': true,
+      'comment-thread.fakeextthatdoesntexist': false,
+      'comment-thread': false,
+      '_comment-thread.mustache': true,
+      '.comment-thread.mustache': false,
+      'comment-thread.json': false,
+      'homepage~emergency.json': true,
     };
     // expect one test per test case
     test.plan(Object.keys(filenames).length);

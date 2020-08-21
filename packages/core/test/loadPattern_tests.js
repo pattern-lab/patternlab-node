@@ -15,7 +15,7 @@ const patterns_dir = `${__dirname}/files/_patterns`;
 tap.test('loadPattern - returns null if file is not a pattern', function(test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
-  var patternPath = path.join('00-test', '03-styled-atom.json');
+  var patternPath = path.join('test', 'styled-atom.json');
 
   //act
   var result = loadPattern(patternPath, patternlab);
@@ -28,7 +28,7 @@ tap.test('loadPattern - returns null if file is not a pattern', function(test) {
 tap.test('loadPattern - loads pattern sibling json if found', function(test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
-  var patternPath = path.join('00-test', '03-styled-atom.mustache');
+  var patternPath = path.join('test', 'styled-atom.mustache');
 
   //act
   var result = loadPattern(patternPath, patternlab);
@@ -43,7 +43,7 @@ tap.test(
   function(test) {
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
-    var fooPatternPath = path.join('00-test', '01-bar.mustache');
+    var fooPatternPath = path.join('test', 'bar.mustache');
 
     //act
     var result = loadPattern(fooPatternPath, patternlab);
@@ -59,7 +59,7 @@ tap.test('loadPattern - returns pattern with template populated', function(
 ) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
-  var fooPatternPath = path.join('00-test', '01-bar.mustache');
+  var fooPatternPath = path.join('test', 'bar.mustache');
 
   //act
   var result = loadPattern(fooPatternPath, patternlab);
@@ -99,7 +99,7 @@ tap.test(
   test => {
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
-    const basePatternPath = path.join('00-test', '474-pseudomodifier.mustache');
+    const basePatternPath = path.join('test', 'pseudomodifier.mustache');
 
     //act
     const result = loadPattern(basePatternPath, patternlab);
