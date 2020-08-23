@@ -29,7 +29,7 @@ const starterkit_manager = function(config) {
         kitDirStats = fs.statSync(kitPath);
       } catch (ex) {
         logger.warning(
-          `${starterkitName} not found, use npm or another package manager to install it first.`
+          `${starterkitName} not found, use npm to install it first.`
         );
         logger.warning(`${starterkitName} not loaded.`);
         return;
