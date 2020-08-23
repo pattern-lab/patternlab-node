@@ -91,6 +91,7 @@
   "uikits": [
     {
       "name": "uikit-workshop",
+      "package": "@pattern-lab/uikit-workshop",
       "outputDir": "",
       "enabled": true,
       "excludedPatternStates": [],
