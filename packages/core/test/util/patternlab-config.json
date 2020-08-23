@@ -7,12 +7,12 @@
       "meta": "./test/files/_meta/",
       "styleguide": "./test/files/styleguide/",
       "patternlabFiles": {
-        "general-header": "./test/files/partials/general-header.mustache",
-        "general-footer": "./test/files/partials/general-footer.mustache",
-        "patternSection": "./test/files/partials/patternSection.mustache",
+        "general-header": "views/partials/general-header.mustache",
+        "general-footer": "views/partials/general-footer.mustache",
+        "patternSection": "views/partials/patternSection.mustache",
         "patternSectionSubtype":
-          "./test/files/partials/patternSectionSubtype.mustache",
-        "viewall": "./test/files/viewall.mustache"
+          "views/partials/patternSectionSubtype.mustache",
+        "viewall": "views/viewall.mustache"
       },
       "js": "./test/files/js",
       "images": "./test/files/images",
@@ -76,8 +76,15 @@
   "uikits": [
     {
       "name": "uikit-workshop",
-      "outputDir": "packages/core/test/",
+      "outputDir": "test/",
       "enabled": true,
+      "excludedPatternStates": ["legacy"],
+      "excludedTags": ["baz"]
+    },
+    {
+      "name": "uikit-polyfills",
+      "outputDir": "test/",
+      "enabled": false,
       "excludedPatternStates": [],
       "excludedTags": []
     }
