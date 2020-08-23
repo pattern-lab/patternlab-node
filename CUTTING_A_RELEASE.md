@@ -1,6 +1,6 @@
 # How To Cut a Pattern Lab Release
 
-We use a handful of tools to help automate and simplify the process of cutting a new Pattern Lab release. Namely: [Lerna](https://github.com/lerna/lerna) and [Auto](https://intuit.github.io/auto/)
+We use a handful of tools to help automate and simplify the process of cutting a new Pattern Lab release. The most important ones being [Lerna](https://github.com/lerna/lerna) and [Auto](https://intuit.github.io/auto/).
 
 ## Release Prep
 
