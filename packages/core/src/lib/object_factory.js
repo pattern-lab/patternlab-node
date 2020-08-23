@@ -41,7 +41,10 @@ const Pattern = function(
   const info = this.getPatternInfo(
     pathObj,
     patternlab,
-    isPromoteToFlatPatternRun
+    isPromoteToFlatPatternRun ||
+      (patternlab &&
+        patternlab.config &&
+        patternlab.config.allPatternsAreDeeplyNested)
   );
 
   this.fileName = pathObj.name; // '00-colors'
@@ -258,7 +261,7 @@ Pattern.prototype = {
    *
    * @param {Patternlab} patternlab Current patternlab instance
    */
-  promoteFromFlatPatternToDirectory: function(patternlab) {
+  promoteFromDirectoryToFlatPattern: function(patternlab) {
     const p = new Pattern(this.relPath, this.jsonFileData, patternlab, true);
     // Only reset the specific fields, not everything
     Object.assign(this, {
@@ -287,7 +290,7 @@ Pattern.prototype = {
     const info = {
       // 00-colors(.mustache) is deeply nested in 00-atoms-/00-global/00-colors
       patternlab: patternlab,
-      patternHasOwnDir: !isPromoteToFlatPatternRun
+      patternHasOwnDir: isPromoteToFlatPatternRun
         ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
             pathObj.name.replace(prefixMatcher, '') ||
           path.basename(pathObj.dir).replace(prefixMatcher, '') ===

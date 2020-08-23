@@ -79,7 +79,7 @@ tap.test(
         path.sep +
         'colors.mustache'
     );
-    test.equals(p.name, '00-atoms-00-global-00-colors');
+    test.equals(p.name, '00-atoms-00-global-colors');
     test.equals(p.subdir, path.join('00-atoms', '00-global', '00-colors'));
     test.equals(p.fileName, 'colors');
     test.equals(p.fileExtension, '.mustache');
@@ -88,9 +88,9 @@ tap.test(
     test.equals(p.patternName, 'Colors');
     test.equals(
       p.getPatternLink(pl),
-      '00-atoms-00-global-00-colors' +
+      '00-atoms-00-global-colors' +
         path.sep +
-        '00-atoms-00-global-00-colors.rendered.html'
+        '00-atoms-00-global-colors.rendered.html'
     );
     test.equals(p.patternGroup, 'atoms');
     test.equals(p.patternSubGroup, 'global');
@@ -117,8 +117,8 @@ tap.test('test Pattern name for variants correctly initialzed', function(test) {
       d: 123,
     }
   );
-  test.equals(p1.name, '00-atoms-00-global-00-colors-variant');
-  test.equals(p2.name, '00-atoms-00-global-00-colors-variant-minus');
+  test.equals(p1.name, '00-atoms-00-global-colors-variant');
+  test.equals(p2.name, '00-atoms-00-global-colors-variant-minus');
   test.end();
 });
 
@@ -153,10 +153,10 @@ tap.test('test Pattern with own-directory gets resetted as expected', function(
   test
 ) {
   var p = new Pattern('00-atoms/00-button/button.mustache', { d: 123 }, pl);
-  p.promoteFromFlatPatternToDirectory(pl);
+  p.promoteFromDirectoryToFlatPattern(pl);
 
   test.equals(p.relPath, path.join('00-atoms', '00-button', 'button.mustache'));
-  test.equals(p.name, '00-atoms-00-button-button');
+  test.equals(p.name, '00-atoms-00-button');
   test.equals(p.subdir, path.join('00-atoms', '00-button'));
   test.equals(p.fileName, 'button');
   test.equals(p.fileExtension, '.mustache');
@@ -165,13 +165,10 @@ tap.test('test Pattern with own-directory gets resetted as expected', function(
   test.equals(p.patternName, 'Button');
   test.equals(
     p.getPatternLink(pl),
-    path.join(
-      '00-atoms-00-button-button',
-      '00-atoms-00-button-button.rendered.html'
-    )
+    path.join('00-atoms-00-button', '00-atoms-00-button.rendered.html')
   );
   test.equals(p.patternGroup, 'atoms');
-  test.equals(p.flatPatternPath, '00-atoms-00-button');
+  test.equals(p.flatPatternPath, '00-atoms');
   test.equals(p.patternPartial, 'atoms-button');
   test.equals(p.template, '');
   test.equals(p.lineage.length, 0);
@@ -255,7 +252,7 @@ tap.test(
       '00-atoms/00-global/00-colors-alt/colors-alt~variant.mustache',
       { d: 123 }
     );
-    test.equals(p.name, '00-atoms-00-global-00-colors-alt-variant');
+    test.equals(p.name, '00-atoms-00-global-colors-alt-variant');
     test.equals(p.flatPatternPath, '00-atoms-00-global');
     test.equals(p.patternBaseName, 'colors-alt-variant');
 
@@ -295,7 +292,7 @@ tap.test('test Patterns that are nested deeper without own directory', function(
     '00-atoms/00-global/00-random-folder/00-another-folder/00-colors-alt/colors-alt.mustache',
     { d: 123 }
   );
-  test.equals(p.name, '00-atoms-00-global-00-colors-alt');
+  test.equals(p.name, '00-atoms-00-global-colors-alt');
   test.equals(p.flatPatternPath, '00-atoms-00-global');
 
   var p = new Pattern(
