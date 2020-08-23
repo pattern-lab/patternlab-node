@@ -11,6 +11,10 @@ const {
   writeJsonAsync,
   getJSONKey,
 } = require('./utils');
+const {
+  resolveFileInPackage,
+  resolveDirInPackage,
+} = require('@pattern-lab/core/src/lib/resolver');
 
 // https://github.com/TehShrike/deepmerge#overwrite-array
 const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
@@ -31,7 +35,7 @@ const installEdition = (edition, config, projectDir) => {
     const sourceDir = config.paths.source.root;
     yield checkAndInstallPackage(edition); // 1
     yield copyAsync(
-      path.resolve('./node_modules', edition, 'source', '_meta'),
+      resolveDirInPackage(edition, 'source', '_meta'),
       path.resolve(sourceDir, '_meta')
     ); // 2
     pkg.dependencies = Object.assign(
@@ -45,16 +49,15 @@ const installEdition = (edition, config, projectDir) => {
       // 4.1
       case '@pattern-lab/edition-node-gulp': {
         yield copyAsync(
-          path.resolve('./node_modules', edition, 'gulpfile.js'),
+          resolveFileInPackage(edition, 'gulpfile.js'),
           path.resolve(sourceDir, '../', 'gulpfile.js')
         );
         break;
       }
       // 4.2
       case '@pattern-lab/edition-node': {
-        const editionPath = path.resolve('./node_modules', edition);
-        const editionConfigPath = path.resolve(
-          editionPath,
+        const editionConfigPath = resolveFileInPackage(
+          edition,
           'patternlab-config.json'
         );
 
@@ -67,7 +70,7 @@ const installEdition = (edition, config, projectDir) => {
         );
 
         yield copyAsync(
-          path.join(editionPath, path.sep, 'helpers', path.sep, 'test.js'),
+          resolveFileInPackage(edition, 'helpers', 'test.js'),
           path.resolve(sourceDir, '../', 'helpers/test.js')
         );
 
@@ -76,9 +79,8 @@ const installEdition = (edition, config, projectDir) => {
       }
       // 4.3
       case '@pattern-lab/edition-twig': {
-        const editionPath = path.resolve('./node_modules', edition);
-        const editionConfigPath = path.resolve(
-          editionPath,
+        const editionConfigPath = resolveFileInPackage(
+          edition,
           'patternlab-config.json'
         );
         const editionConfig = require(editionConfigPath);
@@ -90,7 +92,7 @@ const installEdition = (edition, config, projectDir) => {
         );
 
         yield copyAsync(
-          path.resolve(editionPath, 'alter-twig.php'),
+          resolveFileInPackage(edition, 'alter-twig.php'),
           path.resolve(sourceDir, '../', 'alter-twig.php')
         );
 
