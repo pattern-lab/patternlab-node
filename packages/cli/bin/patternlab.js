@@ -20,8 +20,7 @@ log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
 log.on('patternlab.info', msg => console.log(msg)); // eslint-disable-line
 
 // Conditionally register verbose logging
-const verboseLogs = verbose =>
-  log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
+const verboseLogs = () => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
 
 // Conditionally unregister all logging
 const silenceLogs = () => {
@@ -58,7 +57,7 @@ cli
   .alias('compile')
   .description('Build Pattern Lab. Optionally (re-)build only the patterns')
   .option('-p, --patterns-only', 'Whether to only build patterns')
-  .option('--no-watch', 'Start watching for changes')
+  .option('--watch', 'Start watching for changes')
   .action(build);
 
 /**
