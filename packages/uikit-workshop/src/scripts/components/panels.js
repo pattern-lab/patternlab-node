@@ -68,9 +68,10 @@ function init(event) {
   Panels.add({
     id: 'pl-panel-pattern',
     name: window.config.patternExtension.toUpperCase(),
-    default: !window.config.defaultPatternInfoPanelCode ||
-              window.config.defaultPatternInfoPanelCode ===
-              window.config.patternExtension,
+    default:
+      !window.config.defaultPatternInfoPanelCode ||
+      window.config.defaultPatternInfoPanelCode ===
+        window.config.patternExtension,
     templateID: 'pl-panel-template-code',
     httpRequest: true,
     httpRequestReplace: fileSuffixPattern,
