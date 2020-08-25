@@ -19,6 +19,10 @@ function build(config, options) {
   // Initiate Pattern Lab core with the config
   const patternLab = pl(config);
 
+  if (options && options.watch) {
+    config.watch = options.watch;
+  }
+
   /**
    * Check whether a flag was passed for build
    * 1. Build only patterns
@@ -31,7 +35,7 @@ function build(config, options) {
   } else {
     // 2
     debug(`build: Building your project now into ${config.paths.public.root}`);
-    return patternLab.build(config.cleanPublic);
+    return patternLab.build(config);
   }
 }
 
