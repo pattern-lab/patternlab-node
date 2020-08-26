@@ -11,19 +11,19 @@ const resolveFileInPackage = (packageName, ...pathElements) => {
 };
 
 /**
- * @func resolveDirInPackage
- * Resolves a file inside a package
- */
-const resolveDirInPackage = (packageName, ...pathElements) => {
-  return path.dirname(resolveFileInPackage(packageName, ...pathElements));
-};
-
-/**
  * @func resolvePackageFolder
  * Resolves the location of a package on disc
  */
 const resolvePackageFolder = packageName => {
   return path.dirname(resolveFileInPackage(packageName, 'package.json'));
+};
+
+/**
+ * @func resolveDirInPackage
+ * Resolves a file inside a package
+ */
+const resolveDirInPackage = (packageName, ...pathElements) => {
+  return path.join(resolvePackageFolder(packageName), ...pathElements);
 };
 
 module.exports = {

@@ -8,7 +8,7 @@ const {
   readJsonAsync,
 } = require('./utils');
 const {
-  resolveFileInPackage,
+  resolvePackageFolder,
   resolveDirInPackage,
 } = require('@pattern-lab/core/src/lib/resolver');
 
@@ -19,7 +19,10 @@ const installStarterkit = (starterkit, config) =>
     yield checkAndInstallPackage(name);
     yield copyAsync(resolveDirInPackage(name, 'dist'), path.resolve(sourceDir));
     let kitConfig;
-    const kitConfigPath = resolveFileInPackage(name, 'patternlab-config.json');
+    const kitConfigPath = path.join(
+      resolvePackageFolder(name),
+      'patternlab-config.json'
+    );
     if (fs.existsSync(kitConfigPath)) {
       kitConfig = yield readJsonAsync(kitConfigPath);
     }
