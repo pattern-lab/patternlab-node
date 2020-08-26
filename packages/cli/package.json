@@ -21,7 +21,7 @@
     "glob": "7.1.2",
     "has-yarn": "1.0.0",
     "inquirer": "5.1.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.20",
     "ora": "2.1.0",
     "path-exists": "3.0.0",
     "sanitize-filename": "1.6.1",
