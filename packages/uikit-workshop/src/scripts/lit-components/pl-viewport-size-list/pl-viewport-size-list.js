@@ -43,11 +43,10 @@ class ViewportSizes extends BaseComponent {
     this.triggerUpdate();
   }
 
-  constructor(self) {
-    self = super(self);
-    self.resizeViewport = self.resizeViewport.bind(self);
-    self.useShadow = false;
-    return self;
+  constructor() {
+    super();
+    this.resizeViewport = this.resizeViewport.bind(this);
+    this.useShadow = false;
   }
 
   connectedCallback() {

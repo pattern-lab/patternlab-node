@@ -17,29 +17,28 @@ import { BaseComponent } from '../base-component';
 class Search extends BaseComponent {
   static is = 'pl-search';
 
-  constructor(self) {
-    self = super(self);
-    self.useShadow = false;
-    self.defaultMaxResults = 10;
+  constructor() {
+    super();
+    this.useShadow = false;
+    this.defaultMaxResults = 10;
 
     // Autosuggest is a controlled component.
     // This means that you need to provide an input value
     // and an onChange handler that updates this value (see below).
     // Suggestions also need to be provided to the Autosuggest,
     // and they are initially empty because the Autosuggest is closed.
-    self.state = {
+    this.state = {
       value: '',
       suggestions: [],
       isFocused: false,
     };
 
-    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
-    self.onChange = self.onChange.bind(self);
-    self.toggleSearch = self.toggleSearch.bind(self);
-    self.closeSearch = self.closeSearch.bind(self);
-    self.renderInputComponent = self.renderInputComponent.bind(self);
-    self.openSearch = self.openSearch.bind(self);
-    return self;
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.toggleSearch = this.toggleSearch.bind(this);
+    this.closeSearch = this.closeSearch.bind(this);
+    this.renderInputComponent = this.renderInputComponent.bind(this);
+    this.openSearch = this.openSearch.bind(this);
   }
 
   connecting() {
@@ -61,10 +60,9 @@ class Search extends BaseComponent {
   }
 
   connected() {
-    const self = this;
     Mousetrap.bind('command+shift+f', function(e) {
       e.preventDefault();
-      self.toggleSearch();
+      this.toggleSearch();
     });
     window.addEventListener('message', this.receiveIframeMessage, false);
   }
