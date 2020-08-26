@@ -20,17 +20,16 @@ import { NavItem } from './src/NavItem';
 class Nav extends BaseComponent {
   static is = 'pl-nav';
 
-  constructor(self) {
-    self = super(self);
-    self.toggleNavPanel = self.toggleNavPanel.bind(self);
-    self.toggleSpecialNavPanel = self.toggleSpecialNavPanel.bind(self);
-    self.handleClick = self.handleClick.bind(self);
-    self.handleURLChange = self.handleURLChange.bind(self);
-    self.handlePageClick = self.handlePageClick.bind(self);
-    self._hasInitiallyRendered = false;
-    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
-    self.useShadow = false;
-    return self;
+  constructor() {
+    super();
+    this.toggleNavPanel = this.toggleNavPanel.bind(this);
+    this.toggleSpecialNavPanel = this.toggleSpecialNavPanel.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleURLChange = this.handleURLChange.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this._hasInitiallyRendered = false;
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.useShadow = false;
   }
 
   handlePageClick(e) {
