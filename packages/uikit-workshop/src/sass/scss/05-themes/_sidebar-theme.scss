@@ -8,12 +8,12 @@
     */
   .pl-c-body--theme-sidebar {
     /**
-        * Header
-        * 1) Set width to sidebar width defined above
-        * 2) Make header 100% of the viewport height
-        * 3) Stack header items on top of each other
-        * 4) void bottom border for light theme
-        */
+      * Header
+      * 1) Set width to sidebar width defined above
+      * 2) Make header 100% of the viewport height
+      * 3) Stack header items on top of each other
+      * 4) void bottom border for light theme
+      */
     .pl-c-header {
       width: $pl-sidebar-width; /* 1 */
       height: 100vh; /* 2 */
@@ -25,8 +25,8 @@
     }
 
     /**
-        * Nav sub sub list
-        */
+      * Nav sub sub list
+      */
     .pl-c-nav {
       flex-grow: 1;
       flex-direction: column;
@@ -34,26 +34,26 @@
     }
 
     /**
-        * Nav list
-        * 1) Stack main categories on top of each other
-        * 2) Put typeahead search above nav list
-        */
+      * Nav list
+      * 1) Stack main categories on top of each other
+      * 2) Put typeahead search above nav list
+      */
     .pl-c-nav__list {
       flex-direction: column; /* 1 */
       order: 2; /* 2 */
     }
 
     /**
-        * Nav sublist
-        */
+      * Nav sublist
+      */
     .pl-c-nav__sublist {
       position: relative;
       border-radius: 0;
     }
 
     /**
-         * Nav sublist inside the light theme
-         */
+      * Nav sublist inside the light theme
+      */
     &.pl-c-body--theme-light {
       .pl-c-nav__subsublist {
         border-left-color: $pl-color-gray-07;
@@ -61,17 +61,17 @@
     }
 
     /**
-         * All Nav links inside of subnav dropdown
-         */
+      * All Nav links inside of subnav dropdown
+      */
     .pl-c-nav__sublist .pl-c-nav__link {
       border-left: 0;
       border-right: 0;
     }
 
     /**
-         * Last sublist item
-         * 1) Undo bottom border radius when in sidebar
-         */
+      * Last sublist item
+      * 1) Undo bottom border radius when in sidebar
+      */
     .pl-c-nav__sublist > .pl-c-nav__item:last-child .pl-c-nav__link {
       @media all and (min-width: $pl-bp-med) {
         border-bottom-left-radius: 0; /* 1 */
@@ -81,10 +81,10 @@
     }
 
     /**
-        * Nav controls
-        * 1) Push off of navigation in flex container so
-        *    they appear at the bottom
-        */
+      * Nav controls
+      * 1) Push off of navigation in flex container so
+      *    they appear at the bottom
+      */
     .pl-c-controls {
       display: block; // Display flex + flex direction column gives a similar result, but this fixes a bunch of rendering quirks in IE 11
       justify-self: flex-end;
@@ -92,15 +92,15 @@
     }
 
     /**
-         * Tools toggle button
-         */
+      * Tools toggle button
+      */
     .pl-c-tools__toggle {
       display: none;
     }
 
     /**
-         * Tools list
-         */
+      * Tools list
+      */
     .pl-c-tools__list {
       max-height: none;
       overflow: visible;
@@ -120,6 +120,11 @@
     .pl-c-drawer {
       right: 0; /* 1 */
       width: auto;
+    }
+
+    .pl-is-active + .pl-c-nav__subsublist,
+    .pl-is-active + .pl-js-acc-panel {
+      max-height: none;
     }
   }
 }
