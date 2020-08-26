@@ -136,4 +136,29 @@
   li {
     margin-bottom: 0.5rem;
   }
+
+  table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    margin: 0.75rem auto;
+  }
+
+  tr:nth-of-type(odd) {
+    background: $pl-color-gray-07;
+  }
+
+  th {
+    background: $pl-color-gray-13;
+    color: black;
+    font-weight: bold;
+  }
+
+  td,
+  th {
+    padding: 10px;
+    border: 1px solid $pl-color-gray-20;
+    text-align: left;
+  }
 }
