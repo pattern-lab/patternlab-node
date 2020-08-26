@@ -1,13 +1,13 @@
 {
   "name": "@pattern-lab/edition-node",
   "description": "A pure wrapper around patternlab-node core, the default pattern engine, and supporting frontend assets.",
-  "version": "5.12.0",
+  "version": "5.13.0",
   "main": "patternlab-config.json",
   "dependencies": {
-    "@pattern-lab/cli": "^5.12.0",
-    "@pattern-lab/core": "^5.12.0",
+    "@pattern-lab/cli": "^5.13.0",
+    "@pattern-lab/core": "^5.13.0",
     "@pattern-lab/engine-handlebars": "^5.10.1",
-    "@pattern-lab/uikit-workshop": "^5.12.0"
+    "@pattern-lab/uikit-workshop": "^5.13.0"
   },
   "keywords": [
     "Pattern Lab",
