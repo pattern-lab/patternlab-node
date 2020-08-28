@@ -35,7 +35,7 @@ This ensures that any changes you've made will still result in a clean and funct
 
 ## Guidelines
 
-* _ALWAYS_ submit pull requests against the [dev branch](https://github.com/pattern-lab/patternlab-node/tree/dev). If this does not occur, I will first, try to redirect you gently, second, attempt to redirect the target branch myself, thirdly, port over your contribution manually if time allows, and/or lastly, close your pull request. If you have a major feature to stabilize over time, talk to @bmuenzenmeyer via an issue about making a dedicated `feature-branch`
+* _ALWAYS_ submit pull requests against the [dev branch](https://github.com/pattern-lab/patternlab-node/tree/dev). If this does not occur, we will first, try to redirect you gently, second, attempt to redirect the target branch myself, thirdly, port over your contribution manually if time allows, and/or lastly, close your pull request. If you have a major feature to stabilize over time, ping @pattern-lab/trusted-committers via an issue about making a dedicated `feature-branch`
 * Keep your pull requests concise and limited to **ONE** substantive change at a time. This makes reviewing and testing so much easier.
 * If it takes you considerable time to finish your work, submit a [draft pull request](https://github.blog/2019-02-14-introducing-draft-pull-requests/). This is Github's way to indicate work in progress but allows for feedback.
 * Commits should reference the issue you are adressing. For any Pull Request that you send, use the template provided.
