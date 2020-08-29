@@ -13,8 +13,9 @@ const markdown_parser = function() {
     let returnObject = {};
 
     try {
-      //for each block process the yaml frontmatter and markdown
-      const frontmatterRE = /---\r?\n{1}([\s\S]*)---\r?\n{1}([\s\S]*)+/gm;
+      // for each block process the yaml frontmatter and markdown
+      // even if the pattern only has pattern data without further documentation
+      const frontmatterRE = /---\r?\n{1}([\s\S]*)^---([\s\S]*)+/gm;
       const chunks = frontmatterRE.exec(block);
 
       if (chunks) {

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.13.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.12.0...v5.13.0) (2020-08-26)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.12.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.11.1...v5.12.0) (2020-08-09)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
 ## [5.11.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.2...v5.11.1) (2020-06-28)
 
 

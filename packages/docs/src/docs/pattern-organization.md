@@ -50,3 +50,14 @@ Node versions support nesting of folders under `patternSubtype`. For example, yo
 In this example the `media-block/` directory is ignored for the purposes of generating breadcrumbs and navigation in the Pattern Lab front-end but the documentation, pattern and pseudo-patterns are still rendered.
 
 Folders can be nested under `media-block/` if desired but this is discouraged because of possible collisions when using the [shorthand partial syntax](/docs/including-patterns/).
+
+### Deeper Nesting Settings
+
+As documented in [Documenting Patterns](/docs/documenting-patterns/) there are several options to handle the patterns state or add additional information.
+
+The `deeplyNested` attribute is used to toggle the pattern building behavior and toggles the deeper nesting.
+
+- **deeplyNested not set or false**  - Pattern won't be handled as a deeply nested pattern
+- **deeplyNested: true**  - Pattern will be handled like mentioned under [Deeper Nesting](#heading-deeper-nesting)
+
+To turn on this behavior globally, just add `"allPatternsAreDeeplyNested": true` to your `patternlab-config.json`.

@@ -81,6 +81,7 @@
   "patternExportDirectory": "pattern_exports",
   "patternExportPatternPartials": [],
   "patternMergeVariantArrays": true,
+  "renderFlatPatternsOnViewAllPages": false,
   "serverOptions": {
     "wait": 1000
   },
@@ -94,6 +95,7 @@
   "uikits": [
     {
       "name": "uikit-workshop",
+      "package": "@pattern-lab/uikit-workshop",
       "outputDir": "",
       "enabled": true,
       "excludedPatternStates": [],

@@ -248,7 +248,7 @@ const parameter_hunter = function() {
   //compile this partial immeadiately, essentially consuming it.
   function findparameters(pattern, patternlab) {
     if (pattern.parameteredPartials && pattern.parameteredPartials.length > 0) {
-      logger.debug(`processing patternParameters for ${pattern.partialName}`);
+      logger.debug(`processing patternParameters for ${pattern.patternName}`);
 
       return pattern.parameteredPartials.reduce((previousPromise, pMatch) => {
         return previousPromise
