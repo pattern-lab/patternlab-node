@@ -10,7 +10,7 @@ let render = require('./render'); //eslint-disable-line prefer-const
 /**
  * Builds footer HTML from the general footer and user-defined footer
  * @param patternlab - global data store
- * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
+ * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternGroup-all
  * @returns A promise which resolves with the HTML
  */
 module.exports = function(patternlab, patternPartial, uikit) {

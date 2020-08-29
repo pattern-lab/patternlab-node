@@ -9,7 +9,7 @@ const parseLink = require('./parseLink');
 const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
 const pm = require('./plugin_manager');
-const pluginMananger = new pm();
+const pluginManager = new pm();
 
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
@@ -32,7 +32,7 @@ module.exports = async function(pattern, patternlab) {
   pattern.patternLineageEExists =
     pattern.patternLineageExists || pattern.patternLineageRExists;
 
-  await pluginMananger.raiseEvent(
+  await pluginManager.raiseEvent(
     patternlab,
     events.PATTERNLAB_PATTERN_BEFORE_DATA_MERGE,
     patternlab,
@@ -116,13 +116,13 @@ module.exports = async function(pattern, patternlab) {
           pattern.patternLineageExists || pattern.patternLineageRExists,
         patternDesc: pattern.patternDescExists ? pattern.patternDesc : '',
         patternBreadcrumb:
-          pattern.patternGroup === pattern.patternSubGroup
+          pattern.patternGroup === pattern.patternSubgroup
             ? {
-                patternType: pattern.patternGroup,
+                patternGroup: pattern.patternGroup,
               }
             : {
-                patternType: pattern.patternGroup,
-                patternSubtype: pattern.patternSubGroup,
+                patternGroup: pattern.patternGroup,
+                patternSubgroup: pattern.patternSubgroup,
               },
         patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
         patternName: pattern.patternName,
@@ -175,7 +175,7 @@ module.exports = async function(pattern, patternlab) {
               ///////////////
               // WRITE FILES
               ///////////////
-              await pluginMananger.raiseEvent(
+              await pluginManager.raiseEvent(
                 patternlab,
                 events.PATTERNLAB_PATTERN_WRITE_BEGIN,
                 patternlab,
@@ -190,7 +190,7 @@ module.exports = async function(pattern, patternlab) {
                 uikit.outputDir
               );
 
-              await pluginMananger.raiseEvent(
+              await pluginManager.raiseEvent(
                 patternlab,
                 events.PATTERNLAB_PATTERN_WRITE_END,
                 patternlab,

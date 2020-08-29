@@ -94,12 +94,12 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
             //perhaps we can check for a convention like [uikitname]_00-head.mustache, and if found, add them to patternlab.uikits[uikitname].userFoot
             //then, if present, use those during compose()
             const headPatternPromise = processMetaPattern(
-              `_00-head.${patternlab.config.patternExtension}`,
+              `_head.${patternlab.config.patternExtension}`,
               'userHead',
               patternlab
             );
             const footPatternPromise = processMetaPattern(
-              `_01-foot.${patternlab.config.patternExtension}`,
+              `_foot.${patternlab.config.patternExtension}`,
               'userFoot',
               patternlab
             );

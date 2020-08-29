@@ -45,13 +45,13 @@ class Search extends BaseComponent {
     super.connecting && super.connecting();
 
     this.items = [];
-    for (const patternType in window.patternPaths) {
-      if (window.patternPaths.hasOwnProperty(patternType)) {
-        for (const pattern in window.patternPaths[patternType]) {
-          if (window.patternPaths[patternType].hasOwnProperty(pattern)) {
+    for (const patternGroup in window.patternPaths) {
+      if (window.patternPaths.hasOwnProperty(patternGroup)) {
+        for (const pattern in window.patternPaths[patternGroup]) {
+          if (window.patternPaths[patternGroup].hasOwnProperty(pattern)) {
             const obj = {};
-            obj.label = patternType + '-' + pattern;
-            obj.id = window.patternPaths[patternType][pattern];
+            obj.label = patternGroup + '-' + pattern;
+            obj.id = window.patternPaths[patternGroup][pattern];
             this.items.push(obj);
           }
         }

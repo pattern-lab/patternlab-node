@@ -51,7 +51,7 @@ function testFindPartials(test, partialTests) {
   // docs on partial syntax are here:
   // https://patternlab.io/docs/including-patterns/
   var currentPattern = Pattern.create(
-    '01-molecules/00-testing/00-test-mol.liquid', // relative path now
+    'molecules/testing/test-mol.liquid', // relative path now
     null, // data
     {
       template: partialTests.join(),
@@ -73,7 +73,7 @@ function testFindPartials(test, partialTests) {
 tap.test('button liquid pattern renders', function(test) {
   test.plan(1);
 
-  var patternPath = path.join('00-atoms', '00-general', '08-button.liquid');
+  var patternPath = path.join('atoms', 'general', 'button.liquid');
   var expectedValue =
     '<style>' +
     eol +
@@ -115,20 +115,12 @@ tap.test(
     test.plan(1);
 
     // pattern paths
-    var buttonPatternPath = path.join(
-      '00-atoms',
-      '00-general',
-      '08-button.liquid'
-    );
-    var imagePatternPath = path.join(
-      '00-atoms',
-      '00-general',
-      '09-image.liquid'
-    );
+    var buttonPatternPath = path.join('atoms', 'general', 'button.liquid');
+    var imagePatternPath = path.join('atoms', 'general', 'image.liquid');
     var mediaObjectPatternPath = path.join(
-      '00-molecules',
-      '00-general',
-      '00-media-object.liquid'
+      'molecules',
+      'general',
+      'media-object.liquid'
     );
 
     var expectedValue =
@@ -169,9 +161,9 @@ tap.test('liquid partials can render JSON values', { skip: true }, function(
   // pattern paths
   var pattern1Path = path.resolve(
     testPatternsPath,
-    '00-atoms',
-    '00-global',
-    '00-helloworld-withdata.hbs'
+    'atoms',
+    'global',
+    'helloworld-withdata.hbs'
   );
 
   // set up environment
@@ -201,15 +193,15 @@ tap.test(
     // pattern paths
     var atomPath = path.resolve(
       testPatternsPath,
-      '00-atoms',
-      '00-global',
-      '00-helloworld-withdata.hbs'
+      'atoms',
+      'global',
+      'helloworld-withdata.hbs'
     );
     var molPath = path.resolve(
       testPatternsPath,
-      '00-molecules',
-      '00-global',
-      '00-call-atom-with-molecule-data.hbs'
+      'molecules',
+      'global',
+      'call-atom-with-molecule-data.hbs'
     );
 
     // set up environment
@@ -243,8 +235,8 @@ tap.test('find_pattern_partials finds partials', function(test) {
 
 tap.test('find_pattern_partials finds verbose partials', function(test) {
   testFindPartials(test, [
-    "{% include '01-molecules/06-components/03-comment-header.liquid' %}",
-    "{% include '00-atoms/00-global/06-test' %}",
+    "{% include 'molecules/components/comment-header.liquid' %}",
+    "{% include 'atoms/global/test' %}",
   ]);
 });
 
