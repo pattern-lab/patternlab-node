@@ -1,0 +1,12 @@
+{% extends "@templates/layouts/page-1col.twig" %}
+{% block main %}
+    <article class="article">
+        <header class="article-header">
+            <h1>Article Headline Lorem ipsum dolor sit aweofij</h1>
+            {% include "@molecules/text/byline.twig" %}
+        </header>
+        {% include "@organisms/article/article-body.twig" %}
+    </article><!--end .article-->
+    {% include "@molecules/components/social-share.twig" %}
+    {% include "@organisms/comments/comment-thread.twig" %}
+{% endblock %}

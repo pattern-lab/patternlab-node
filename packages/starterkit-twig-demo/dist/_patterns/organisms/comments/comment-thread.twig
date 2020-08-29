@@ -1,0 +1,12 @@
+<section class="comments section">
+	<div class="comments-container" id="comments-container">
+		<h2 class="section-title">59 Comments</h2>
+		{% include "@molecules/forms/comment-form.twig" %}
+		<ul class="comment-list">
+			{% for item in 1..5 %}
+				{% include "@molecules/components/single-comment.twig" %}
+			{% endfor %}
+		</ul>
+	</div>
+	{% include "@molecules/navigation/pagination.twig" %}
+</section>
