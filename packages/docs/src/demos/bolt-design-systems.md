@@ -7,5 +7,5 @@ tags:
   - demo-in-the-wild
   - demo-content
   - code
-image: https://image.thum.io/get/width/800/crop/600/https://boltdesignsystem.com/pattern-lab/?p=components-overview
+refLink: https://boltdesignsystem.com/pattern-lab/?p=pages-d8-homepage
 ---

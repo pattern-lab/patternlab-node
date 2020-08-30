@@ -6,9 +6,81 @@
 }
 
 .c-stacked-block {
-	// background: orange;
-}
+	&__description {
+		font-size: $font-size-med;
+	}
 
-.c-stacked-block__description {
-	font-size: $font-size-med;
+	&__preview-container {
+		position: relative;
+		width: 100%;
+		height: 280px;
+		padding: 8px;
+		border-radius: 6px;
+		margin-bottom: 1rem;
+
+		display: flex;
+		flex-direction: column;
+		background-color: $color-gray-07;
+	}
+
+	&__bar {
+		height: 24px;
+		display: flex;
+		padding-top: 4px;
+	}
+
+	&__bar &__bar-dots {
+		width: 12px;
+		flex: 0 0 12px;
+		border-radius: 50%;
+		margin-right: 0.5rem;
+
+		&:last-child {
+			margin-right: 0;
+			margin-left: 0.5rem;
+		}
+	}
+
+	&__bar &__bar-uri,
+	&__bar &__bar-dots {
+		height: 12px;
+		background-color: darken($color-gray-07, 8%);
+	}
+
+	&__bar &__bar-uri,
+	&__bar &__bar-dots {
+		height: 12px;
+		background-color: darken($color-gray-07, 8%);
+	}
+
+	&__bar &__bar-uri {
+		position: relative;
+		flex: 1 1 100%;
+		margin: 0 1rem;
+		border-radius: 999px;
+	}
+
+	&__preview-content {
+		flex-grow: 1;
+		overflow: hidden;
+		position: relative;
+		max-width: 100%;
+		border-radius: 3px;
+	}
+
+	&__frame-item {
+		width: 200%;
+		height: 200%;
+		border: 0;
+		transform: scale(0.5);
+		transform-origin: 0 0;
+	}
+
+	&__frame-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
 }

@@ -7,5 +7,5 @@ tags:
   - demo-hbs-starter-kits
   - demo-content
   - code
-image: https://image.thum.io/get/width/800/crop/600/https://patternlab-handlebars-preview.netlify.com/
+refLink: https://patternlab-handlebars-preview.netlify.app/?p=all
 ---
