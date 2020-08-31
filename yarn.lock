@@ -1988,6 +1988,14 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@pattern-lab/starterkit-handlebars-vanilla@1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-handlebars-vanilla/-/starterkit-handlebars-vanilla-1.4.0.tgz#aac144d0c21d40226f90ac5ce1b5d8505dddf330"
+  integrity sha512-inkcRhpYfm0q58zEQ9Gx2S+iVu+prAtRgqLw5Opd0MYC74NMcqN9XrcbJva4NfLn1tgx9dkA3Xmtg0IxiTHnAw==
+  dependencies:
+    node-sass "^4.12.0"
+    node-sass-glob-importer "^5.3.2"
+
 "@pattern-lab/starterkit-mustache-base@3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-base/-/starterkit-mustache-base-3.0.3.tgz#8ce9bc8e0d2254ee970a09c4bdc76d4f6131c91d"
@@ -12550,6 +12558,13 @@ node-releases@^1.1.38:
   dependencies:
     semver "^6.3.0"
 
+node-sass-glob-importer@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/node-sass-glob-importer/-/node-sass-glob-importer-5.3.2.tgz#465581e46027c0e9520e6d87f7e6eda858a14acb"
+  integrity sha512-QTX7KPsISgp55REV6pMH703nzHfWCOEYEQC0cDyTRo7XO6WDvyC0OAzekuQ4gs505IZcxv9KxZ3uPJ5s5H9D3g==
+  dependencies:
+    node-sass-magic-importer "^5.3.2"
+
 node-sass-magic-importer@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/node-sass-magic-importer/-/node-sass-magic-importer-5.3.2.tgz#2f2248bb2e5cdb275ba34102ebf995edadf99175"
@@ -12572,7 +12587,7 @@ node-sass-selector-importer@^5.2.0:
     node-sass-magic-importer "^5.3.2"
     postcss-scss "^2.0.0"
 
-node-sass@^4.14.1:
+node-sass@^4.12.0, node-sass@^4.14.1:
   version "4.14.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.14.1.tgz#99c87ec2efb7047ed638fb4c9db7f3a42e2217b5"
   integrity sha512-sjCuOlvGyCJS40R8BscF5vhVlQjNN069NtQ1gSxyK1u9iqvn6tf7O1R4GNowVZfiZUCRt5MmMs1xd+4V/7Yr0g==
