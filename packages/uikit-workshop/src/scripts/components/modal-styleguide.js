@@ -22,12 +22,14 @@ export const modalStyleguide = {
     // go through the panel toggles and add click event to the pattern extra toggle button
     const toggles = document.querySelectorAll('.pl-js-pattern-extra-toggle');
 
-    toggles.forEach(toggle => {
-      toggle.addEventListener('click', e => {
-        const patternPartial = toggle.getAttribute('data-patternpartial');
-        modalStyleguide.toggle(patternPartial);
+    if (toggles.length > 0) {
+      toggles.forEach(toggle => {
+        toggle.addEventListener('click', e => {
+          const patternPartial = toggle.getAttribute('data-patternpartial');
+          modalStyleguide.toggle(patternPartial);
+        });
       });
-    });
+    }
   },
 
   /**
