@@ -56,6 +56,19 @@ function findEngineModulesInDirectory(dir) {
   return foundEngines;
 }
 
+function findEnginesInConfig(config) {
+  if ('engines' in config) {
+    return config.engines;
+  }
+  logger.warning(
+    "Scanning the 'node_modules' folder for pattern engines is deprecated and will be removed in v6."
+  );
+  logger.warning(
+    'To configure your engines in patternlab-config.json, see https://patternlab.io/docs/editing-the-configuration-options/#heading-engines'
+  );
+  return null;
+}
+
 //
 // PatternEngines: the main export of this module
 //
@@ -80,18 +93,14 @@ const PatternEngines = Object.create({
   loadAllEngines: function(patternLabConfig) {
     const self = this;
 
-    // Try to load engines! We scan for engines at each path specified above. This
-    // function is kind of a big deal.
-    enginesDirectories.forEach(function(engineDirectory) {
-      const enginesInThisDir = findEngineModulesInDirectory(
-        engineDirectory.path
-      );
+    // Try to load engines! We load the engines configured in patternlab-config.json
+    const enginesInConfig = findEnginesInConfig(patternLabConfig);
 
-      logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
-
-      // find all engine-named things in this directory and try to load them,
-      // unless it's already been loaded.
-      enginesInThisDir.forEach(function(engineDiscovery) {
+    if (enginesInConfig) {
+      // Try loading each of the configured pattern engines
+      // eslint-disable-next-line guard-for-in
+      for (const name in enginesInConfig) {
+        const engineConfig = enginesInConfig[name];
         let errorMessage;
         const successMessage = 'good to go';
 
@@ -100,30 +109,80 @@ const PatternEngines = Object.create({
           // of course.  Also pass the pattern lab config object into
           // the engine's closure scope so it can know things about
           // things.
-          if (self[engineDiscovery.name]) {
+          if (self[name]) {
             throw new Error('already loaded, skipping.');
           }
-          self[engineDiscovery.name] = require(engineDiscovery.modulePath);
-          if (
-            typeof self[engineDiscovery.name].usePatternLabConfig === 'function'
-          ) {
-            self[engineDiscovery.name].usePatternLabConfig(patternLabConfig);
-          }
-          if (typeof self[engineDiscovery.name].spawnMeta === 'function') {
-            self[engineDiscovery.name].spawnMeta(patternLabConfig);
+          if ('package' in engineConfig) {
+            self[name] = require(engineConfig.package);
+            if (typeof self[name].usePatternLabConfig === 'function') {
+              self[name].usePatternLabConfig(patternLabConfig);
+            }
+            if (typeof self[name].spawnMeta === 'function') {
+              self[name].spawnMeta(patternLabConfig);
+            }
+          } else {
+            logger.warning(
+              `Engine ${name} not configured correctly. Please configure your engines in patternlab-config.json as documented in https://patternlab.io/docs/editing-the-configuration-options/#heading-engines`
+            );
           }
         } catch (err) {
           errorMessage = err.message;
         } finally {
           // report on the status of the engine, one way or another!
           logger.info(
-            `Pattern Engine ${engineDiscovery.name}: ${
+            `Pattern Engine ${engineConfig.extension}: ${
               errorMessage ? errorMessage : successMessage
             }`
           );
         }
+      }
+    } else {
+      // Try to load engines! We scan for engines at each path specified above. This
+      // function is kind of a big deal.
+      enginesDirectories.forEach(function(engineDirectory) {
+        const enginesInThisDir = findEngineModulesInDirectory(
+          engineDirectory.path
+        );
+
+        logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
+
+        // find all engine-named things in this directory and try to load them,
+        // unless it's already been loaded.
+        enginesInThisDir.forEach(function(engineDiscovery) {
+          let errorMessage;
+          const successMessage = 'good to go';
+
+          try {
+            // Give it a try! load 'er up. But not if we already have,
+            // of course.  Also pass the pattern lab config object into
+            // the engine's closure scope so it can know things about
+            // things.
+            if (self[engineDiscovery.name]) {
+              throw new Error('already loaded, skipping.');
+            }
+            self[engineDiscovery.name] = require(engineDiscovery.modulePath);
+            if (
+              typeof self[engineDiscovery.name].usePatternLabConfig ===
+              'function'
+            ) {
+              self[engineDiscovery.name].usePatternLabConfig(patternLabConfig);
+            }
+            if (typeof self[engineDiscovery.name].spawnMeta === 'function') {
+              self[engineDiscovery.name].spawnMeta(patternLabConfig);
+            }
+          } catch (err) {
+            errorMessage = err.message;
+          } finally {
+            // report on the status of the engine, one way or another!
+            logger.info(
+              `Pattern Engine ${engineDiscovery.name}: ${
+                errorMessage ? errorMessage : successMessage
+              }`
+            );
+          }
+        });
       });
-    });
+    }
 
     // Complain if for some reason we haven't loaded any engines.
     if (Object.keys(self).length === 0) {

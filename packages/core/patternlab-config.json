@@ -88,6 +88,14 @@
     "density": "compact",
     "layout": "horizontal"
   },
+  "engines": {
+    "mustache": {
+      "package":"@pattern-lab/engine-mustache",
+      "fileExtensions": [
+        "mustache"
+      ]
+    }
+  },
   "uikits": [
     {
       "name": "uikit-workshop",

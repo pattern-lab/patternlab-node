@@ -83,5 +83,20 @@
 		"color": "dark",
 		"density": "compact",
 		"layout": "horizontal"
-	}
+	},
+  "engines": {
+    "mustache": {
+      "package":"@pattern-lab/engine-mustache",
+      "fileExtensions": [
+        "mustache"
+      ]
+    },
+    "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
+      "fileExtensions": [
+        "handlebars",
+        "hbs"
+      ]
+    }
+  },
 }

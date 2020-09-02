@@ -1,6 +1,10 @@
 {
   "engines": {
     "twig": {
+      "package": "@pattern-lab/engine-twig-php",
+      "fileExtensions": [
+        "twig"
+      ],
       "namespaces": [
         {
           "id": "atoms",
