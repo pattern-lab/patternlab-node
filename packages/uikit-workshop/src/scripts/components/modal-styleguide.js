@@ -23,12 +23,12 @@ export const modalStyleguide = {
     const toggles = document.querySelectorAll('.pl-js-pattern-extra-toggle');
 
     if (toggles.length > 0) {
-      toggles.forEach(toggle => {
-        toggle.addEventListener('click', e => {
-          const patternPartial = toggle.getAttribute('data-patternpartial');
+      for (let i = 0; i < toggles.length; i++) {
+        toggles[i].addEventListener('click', e => {
+          const patternPartial = toggles[i].getAttribute('data-patternpartial');
           modalStyleguide.toggle(patternPartial);
         });
-      });
+      }
     }
   },
 
