@@ -24,7 +24,7 @@ export const modalStyleguide = {
 
     for (let i = 0; i < toggles.length; i++) {
       toggles[i].addEventListener('click', e => {
-         const patternPartial = toggles[i].getAttribute('data-patternpartial');
+        const patternPartial = toggles[i].getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
       });
     }
