@@ -1,12 +1,12 @@
 {
   "name": "create-pattern-lab",
-  "version": "5.13.0",
+  "version": "5.13.1",
   "description": "",
   "bin": "index.js",
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "@pattern-lab/cli": "^5.13.0"
+    "@pattern-lab/cli": "^5.13.1"
   },
   "author": "",
   "license": "MIT",
