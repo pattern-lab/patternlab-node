@@ -31,7 +31,12 @@ if (window.self !== window.top) {
   window.parent.postMessage(options, targetOrigin);
 
   // tell the parent page which pattern has just loaded
-  const currentPattern = { pattern: window.patternData.patternPartial };
-  var event = new CustomEvent('patternPartial', { detail: currentPattern });
-  window.parent.document.dispatchEvent(event);
+  try {
+    const event = new CustomEvent('patternPartial', {
+      detail: { pattern: window.patternData.patternPartial },
+    });
+    window.parent.document.dispatchEvent(event);
+  } catch (e) {
+    // Function just doesn't work in ie11 but thats ok (Who uses IE11 anyway? I mean, we have 2020 :D)
+  }
 }

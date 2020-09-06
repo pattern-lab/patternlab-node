@@ -9,7 +9,6 @@ import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
 import { iframeMsgDataExtraction } from '../../utils';
 import Mousetrap from 'mousetrap';
-import 'url-search-params-polyfill';
 
 import { NavTitle } from './src/NavTitle';
 import { NavList } from './src/NavList';
@@ -20,21 +19,21 @@ import { NavItem } from './src/NavItem';
 class Nav extends BaseComponent {
   static is = 'pl-nav';
 
-  constructor(self) {
-    self = super(self);
-    self.toggleNavPanel = self.toggleNavPanel.bind(self);
-    self.toggleSpecialNavPanel = self.toggleSpecialNavPanel.bind(self);
-    self.handleClick = self.handleClick.bind(self);
-    self.handleURLChange = self.handleURLChange.bind(self);
-    self.handlePageClick = self.handlePageClick.bind(self);
-    self._hasInitiallyRendered = false;
-    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
-    self.useShadow = false;
-    return self;
+  constructor() {
+    super();
+    this.toggleNavPanel = this.toggleNavPanel.bind(this);
+    this.toggleSpecialNavPanel = this.toggleSpecialNavPanel.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleURLChange = this.handleURLChange.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this._hasInitiallyRendered = false;
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.useShadow = false;
   }
 
   handlePageClick(e) {
     if (
+      e.target.closest &&
       e.target.closest('.pl-c-nav') === null &&
       e.target.closest('.pl-js-nav-trigger') === null &&
       e.target.closest('svg') === null &&
@@ -269,7 +268,8 @@ class Nav extends BaseComponent {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubtype.patternSubtypeUC}
+                      category={patternSubtype.patternSubtypeLC}
+                      categoryName={patternSubtype.patternSubtypeUC}
                     >
                       {patternSubtype.patternSubtypeItems}
                     </NavList>
@@ -296,19 +296,20 @@ class Nav extends BaseComponent {
         {(window.ishControls === undefined ||
           window.ishControls.ishControlsHide === undefined ||
           (window.ishControls.ishControlsHide['views-all'] !== true &&
-            window.ishControls.ishControlsHide.all !== true)) && (
-          <NavItem>
-            <a
-              onClick={e => this.handleClick(e, 'all')}
-              href="styleguide/html/styleguide.html"
-              class="pl-c-nav__link pl-c-nav__link--pattern"
-              data-patternpartial="all"
-              tabindex="0"
-            >
-              All
-            </a>
-          </NavItem>
-        )}
+            window.ishControls.ishControlsHide.all !== true)) &&
+          !this.noViewAll && (
+            <NavItem>
+              <a
+                onClick={e => this.handleClick(e, 'all')}
+                href="styleguide/html/styleguide.html"
+                class="pl-c-nav__link pl-c-nav__link--pattern"
+                data-patternpartial="all"
+                tabindex="0"
+              >
+                All
+              </a>
+            </NavItem>
+          )}
       </ol>
     );
   }
