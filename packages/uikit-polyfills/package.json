@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-polyfills",
-  "version": "5.2.0",
+  "version": "5.13.1",
   "description": "Web Component Polyfills used in Pattern Lab's UIKit",
   "main": "index.js",
   "author": "Salem Ghoweri <me@salemghoweri.com>",
