@@ -6,7 +6,7 @@
     "patternlab": "bin/patternlab.js"
   },
   "author": {
-    "name": "Raphael Okon"
+    "name": "Patternlab contributors"
   },
   "dependencies": {
     "@pattern-lab/core": "^5.13.1",

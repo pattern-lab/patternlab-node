@@ -7,9 +7,6 @@
 # review when someone opens a pull request.
 @pattern-lab/trusted-committers
 
-# CLI owner
-/packages/cli @raphaelokon
-
 # uikit-workshop owner
 /packages/uikit-workshop @sghoweri
 

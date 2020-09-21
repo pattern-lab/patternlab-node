@@ -139,4 +139,4 @@ Installs Pattern Lab related modules like starterkits or plugins
     $ patternlab build --config <path/to/patternlab-config> # Builds Pattern Lab from different project directory
 ```
 ## License
-MIT © [Raphael Okon](https://github.com/raphaelokon)
+MIT © [Patternlab contributors](https://github.com/pattern-lab/patternlab-node/blob/master/CODEOWNERS)
