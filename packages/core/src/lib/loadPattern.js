@@ -52,48 +52,6 @@ module.exports = function(relPath, patternlab) {
   }
 
   const fileObject = path.parse(relPath);
-  // Check if the found file is a top-level markdown file
-  // TODO: Rethink this stuff
-  // const mp = require('./markdown_parser');
-  // const markdown_parser = new mp();
-  // if (fileObject.ext === '.md') {
-  //   try {
-  //     const proposedDirectory = path.resolve(
-  //       patternlab.config.paths.source.patterns,
-  //       fileObject.dir,
-  //       fileObject.name
-  //     );
-  //     const proposedDirectoryStats = fs.statSync(proposedDirectory);
-  //     if (proposedDirectoryStats.isDirectory()) {
-  //       const subgroupMarkdownFileContents = fs.readFileSync(
-  //         proposedDirectory + '.md',
-  //         'utf8'
-  //       );
-  //       const subgroupMarkdown = markdown_parser.parse(
-  //         subgroupMarkdownFileContents
-  //       );
-  //       const subgroupPattern = new Pattern(relPath, null, patternlab);
-  //       subgroupPattern.patternSectionSubgroup = true;
-  //       subgroupPattern.patternDesc = subgroupMarkdown
-  //         ? subgroupMarkdown.markdown
-  //         : '';
-  //       subgroupPattern.flatPatternPath =
-  //         subgroupPattern.flatPatternPath + '-' + subgroupPattern.fileName;
-  //       subgroupPattern.isPattern = false;
-  //       subgroupPattern.engine = null;
-  //       patternlab.subgroupPatterns[
-  //         subgroupPattern.patternPartial
-  //       ] = subgroupPattern;
-
-  //       return subgroupPattern;
-  //     }
-  //   } catch (err) {
-  //     // no file exists, meaning it's a pattern markdown file
-  //     if (err.code !== 'ENOENT') {
-  //       logger.warning(err);
-  //     }
-  //   }
-  // }
 
   //extract some information
   const filename = fileObject.base;

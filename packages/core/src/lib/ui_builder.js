@@ -128,20 +128,7 @@ const ui_builder = function() {
    * @returns the found or created pattern object
    */
   function injectDocumentationBlock(pattern, patternlab, isSubgroupPattern) {
-    // first see if loadPattern processed one already
-    let docPattern =
-      patternlab.subgroupPatterns[
-        pattern.patternGroup +
-          (isSubgroupPattern ? '-' + pattern.patternSubgroup : '')
-      ];
-    if (docPattern) {
-      docPattern.isDocPattern = true;
-      docPattern.order = Number.MIN_SAFE_INTEGER;
-      return docPattern;
-    }
-
-    // if not, create one now
-    docPattern = new Pattern.createEmpty(
+    return new Pattern.createEmpty(
       {
         name: pattern.flatPatternPath,
         patternName: _.startCase(
@@ -164,7 +151,6 @@ const ui_builder = function() {
       },
       patternlab
     );
-    return docPattern;
   }
 
   /**

@@ -102,7 +102,7 @@ module.exports = function(pattern, patternlab, isVariant) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern group data after markdown parsing for ${path.join(
+        `There was an error setting pattern group data after markdown parsing for ${path.join(
           pattern.patternGroup + FILE_EXTENSION
         )}`
       );
@@ -132,7 +132,7 @@ module.exports = function(pattern, patternlab, isVariant) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern sub group data after markdown parsing for ${path.join(
+        `There was an error setting pattern subgroup data after markdown parsing for ${path.join(
           pattern.patternGroup,
           pattern.patternSubgroup + FILE_EXTENSION
         )}`
