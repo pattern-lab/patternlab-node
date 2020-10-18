@@ -135,7 +135,11 @@ const fetchPackage = packageName =>
     const installCmd = useYarn ? 'add' : 'install';
     try {
       if (packageName) {
-        const cmd = yield spawn(pm, [installCmd, packageName]);
+        const opts = {};
+        if (process.env.projectDir) {
+          opts.cwd = process.env.projectDir;
+        }
+        const cmd = yield spawn(pm, [installCmd, packageName], opts);
         error(cmd.stderr);
       }
     } catch (err) {
