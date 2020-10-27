@@ -50,7 +50,7 @@ Pattern Lab has a configuration object which allows users to separate source pat
 
 Note how some sets of files even extend into the "vendor" `./node_modules/` directory. Relative paths are the default but absolute paths are supported also. You may also use these paths within the Grunt or Gulp taskfiles by referring to the `paths()` function.
 
-## Preventing specific filetypes form being copied
+## Preventing specific filetypes from being copied
 
 If you'd like to prevent specific filetypes from being copied from your `source` to your `public` folder like e.g. CSS preprocessor source files (`.scss`), you could specify those within an array of your pattern lab config:
 ``` json
