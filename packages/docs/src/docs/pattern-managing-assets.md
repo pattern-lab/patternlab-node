@@ -52,7 +52,7 @@ Note how some sets of files even extend into the "vendor" `./node_modules/` dire
 
 ## Preventing specific filetypes form being copied
 
-If you'd like to prevent specific filetypes from being copied from your `source` to your `public` folder like e.g. CSS preprocessor source files (`.scss`), you could specify those within an array of your patternlab config:
+If you'd like to prevent specific filetypes from being copied from your `source` to your `public` folder like e.g. CSS preprocessor source files (`.scss`), you could specify those within an array of your pattern lab config:
 ``` json
 {
   "transformedAssetTypes": ["scss"],
