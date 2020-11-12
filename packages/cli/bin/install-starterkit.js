@@ -17,7 +17,10 @@ const installStarterkit = (starterkit, config) =>
     const sourceDir = config.paths.source.root;
     const name = starterkit.value || starterkit;
     yield checkAndInstallPackage(name);
-    yield copyAsync(resolveDirInPackage(name, 'dist'), path.resolve(sourceDir));
+    yield copyAsync(
+      resolveDirInPackage(name, 'dist'),
+      path.resolve(process.env.projectDir || '', sourceDir)
+    );
     let kitConfig;
     const kitConfigPath = path.join(
       resolvePackageFolder(name),
