@@ -6,7 +6,10 @@ const path = require('path');
 const chalk = require('chalk');
 const EventEmitter = require('events').EventEmitter;
 const hasYarn = require('has-yarn');
-const { resolveFileInPackage } = require('@pattern-lab/core/src/lib/resolver');
+const {
+  resolvePackageFolder,
+  resolveFileInPackage,
+} = require('@pattern-lab/core/src/lib/resolver');
 
 /**
  * @name log
@@ -159,7 +162,7 @@ const fetchPackage = packageName =>
 const checkAndInstallPackage = packageName =>
   wrapAsync(function*() {
     try {
-      require.resolve(packageName);
+      resolvePackageFolder(packageName);
       return true;
     } catch (err) {
       debug(
