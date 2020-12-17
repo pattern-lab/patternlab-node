@@ -74,7 +74,7 @@ module.exports = function(pattern, patternlab) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`
+        `There was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`
       );
       logger.warning(err);
     }
@@ -103,8 +103,10 @@ module.exports = function(pattern, patternlab) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern group data after markdown parsing for ${path.join(
-          pattern.patternGroup + FILE_EXTENSION
+        `There was an error setting pattern group data after markdown parsing for ${path.join(
+          patternlab.config.paths.source.patterns,
+          path.parse(pattern.subdir).dir,
+          GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
         )}`
       );
       logger.warning(err);
@@ -134,9 +136,11 @@ module.exports = function(pattern, patternlab) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `'there was an error setting pattern sub group data after markdown parsing for ${path.join(
-          pattern.patternType,
-          pattern.patternSubGroup + FILE_EXTENSION
+        `There was an error setting pattern sub group data after markdown parsing for ${path.join(
+          patternlab.config.paths.source.patterns,
+          path.parse(pattern.subdir).dir,
+          path.parse(pattern.subdir).base,
+          GROUP_DOC_PREFIX + pattern.patternSubGroup + FILE_EXTENSION
         )}`
       );
       logger.warning(err);
