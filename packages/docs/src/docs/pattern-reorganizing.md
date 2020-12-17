@@ -95,11 +95,14 @@ Result
 
 ## Re-ordering pattern groups and subgroups
 
-To re-order pattern groups and subgroups, you need to create a companion `.md` file for that group. For example create `_patters/atoms/atoms.md` for a pattern group or `_patters/atoms/buttons/buttons.md` for a pattern subgroup. In the `.md` file, the above concept can be applied.
+To re-order pattern groups and subgroups, you need to create a companion `.md` file for that group. For example create `_patters/atoms/_atoms.md` for a pattern group or `_patters/atoms/buttons/_buttons.md` for a pattern subgroup. In the `.md` file, the above concept can be applied. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without}.md`
 
 
 ```
 ---
 order: 1
 ---
+# _patters/atoms/_atoms.md
+# or
+# _patters/atoms/buttons/_buttons.md
 ```
