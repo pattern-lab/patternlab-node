@@ -12,6 +12,7 @@ const changes_hunter = new ch();
 const markdown_parser = new mp();
 
 const FILE_EXTENSION = '.md';
+const GROUP_DOC_PREFIX = '_';
 
 module.exports = function(pattern, patternlab) {
   try {
@@ -84,7 +85,8 @@ module.exports = function(pattern, patternlab) {
   try {
     const markdownFileNameGroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      pattern.patternGroup + FILE_EXTENSION
+      path.parse(pattern.subdir).dir,
+      GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
     );
     const markdownFileContentsGroup = fs.readFileSync(
       markdownFileNameGroup,
@@ -113,8 +115,9 @@ module.exports = function(pattern, patternlab) {
   try {
     const markdownFileNameSubGroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      pattern.patternType,
-      pattern.patternSubGroup + FILE_EXTENSION
+      path.parse(pattern.subdir).dir,
+      path.parse(pattern.subdir).base,
+      GROUP_DOC_PREFIX + pattern.patternSubGroup + FILE_EXTENSION
     );
     const markdownFileContentsSubGroup = fs.readFileSync(
       markdownFileNameSubGroup,
