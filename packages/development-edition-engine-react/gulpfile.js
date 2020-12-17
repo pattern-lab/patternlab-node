@@ -65,8 +65,4 @@ gulp.task('patternlab:serve', function() {
   });
 });
 
-gulp.task('patternlab:installplugin', function() {
-  patternlab.installplugin(argv.plugin);
-});
-
 gulp.task('default', ['patternlab:help']);

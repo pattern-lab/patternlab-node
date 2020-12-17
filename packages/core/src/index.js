@@ -205,23 +205,6 @@ const patternlab_module = function(config) {
     },
 
     /**
-     * Installs plugin already available via `node_modules/`
-     *
-     * @memberof patternlab
-     * @name installplugin
-     * @instance
-     * @param {string} pluginName name of plugin
-     * @returns {void}
-     */
-    installplugin: function(pluginName) {
-      //get the config
-      const configPath = path.resolve(process.cwd(), 'patternlab-config.json');
-      const plugin_manager = new pm();
-
-      plugin_manager.install_plugin(pluginName);
-    },
-
-    /**
      * Fetches starterkit repositories from pattern-lab github org that contain 'starterkit' in their name
      *
      * @memberof patternlab
@@ -234,7 +217,7 @@ const patternlab_module = function(config) {
     },
 
     /**
-     * Loads starterkit already available via `node_modules/`
+     * Loads starterkit already available as a package dependency
      *
      * @memberof patternlab
      * @name loadstarterkit

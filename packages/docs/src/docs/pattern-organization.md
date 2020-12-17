@@ -59,3 +59,5 @@ The `deeplyNested` attribute is used to toggle the pattern building behavior and
 
 - **deeplyNested not set or false**  - Pattern won't be handled as a deeply nested pattern
 - **deeplyNested: true**  - Pattern will be handled like mentioned under [Deeper Nesting](#heading-deeper-nesting)
+
+To turn on this behavior globally, just add `"allPatternsAreDeeplyNested": true` to your `patternlab-config.json`.

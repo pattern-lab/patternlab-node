@@ -59,15 +59,10 @@ Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.i
 
 ## Support for Pattern Lab
 
-Pattern Lab / Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [these wonderful project supporters](https://github.com/pattern-lab/patternlab-node/wiki/Thanks). If you want to learn more about supporting the project, visit the [Pattern Lab / Node Patreon page](https://www.patreon.com/patternlab).
+Pattern Lab / Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [contributors](https://github.com/pattern-lab/patternlab-node/graphs/contributors).
 
-**:100: Thanks for support from the following:**
+Thanks to [Netlify](https://www.netlify.com/) for build tooling and hosting. 
 
-* **[Brad Frost](http://bradfrost.com/)**
-* Jan Ditze
-* [Marcos Peebles](https://twitter.com/marcospeebles)
-* [Maximilian Franzke](https://twitter.com/maedmaex)
-* [Susan Simkins](https://twitter.com/susanmsimkins)
 
 ## Contributing
 

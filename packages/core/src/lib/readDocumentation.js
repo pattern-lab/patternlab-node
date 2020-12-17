@@ -57,12 +57,11 @@ module.exports = function(pattern, patternlab) {
       }
 
       if (
-        !markdownObject.hasOwnProperty('deeplyNested') ||
-        (markdownObject.hasOwnProperty('deeplyNested') &&
-          !markdownObject.deeplyNested)
+        markdownObject.hasOwnProperty('deeplyNested') &&
+        markdownObject.deeplyNested
       ) {
         // Reset to pattern without own pattern-directory
-        pattern.promoteFromFlatPatternToDirectory(patternlab);
+        pattern.promoteFromDirectoryToFlatPattern(patternlab);
       }
     } else {
       logger.warning(`error processing markdown for ${pattern.patternPartial}`);

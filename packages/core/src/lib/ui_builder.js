@@ -761,17 +761,18 @@ const ui_builder = function() {
 
   /**
    * The main entry point for ui_builder
-   *
-   * @param patternlab - global data store
+   * @param patternlabGlobal - global data store
    * @returns {Promise} a promise fulfilled when build is complete
    */
-  function buildFrontend(patternlab) {
-    resetUIBuilderState(patternlab);
+  function buildFrontend(patternlabGlobal) {
+    const paths = patternlabGlobal.config.paths;
 
-    const paths = patternlab.config.paths;
+    const uikitPromises = _.map(patternlabGlobal.uikits, uikit => {
+      //we need to make sure the patternlab object gets manipulated per uikit
+      const patternlab = Object.assign({}, patternlabGlobal);
 
-    const uikitPromises = _.map(patternlab.uikits, uikit => {
-      // determine which patterns should be included in the front-end rendering
+      resetUIBuilderState(patternlab);
+      //determine which patterns should be included in the front-end rendering
       const styleguidePatterns = groupPatterns(patternlab, uikit);
 
       return new Promise(resolve => {
@@ -897,8 +898,8 @@ const ui_builder = function() {
                       patternlabSiteHtml
                     );
 
-                    // write out patternlab.data object to be read by the client
-                    exportData(patternlab);
+                    //write out patternlab.data object to be read by the client
+                    exportData(patternlab, uikit);
                     resolve();
                   })
                   .catch(reason => {
