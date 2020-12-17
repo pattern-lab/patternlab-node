@@ -3,11 +3,31 @@
 const path = require('path');
 
 /**
+ * @func resolvePackageLocations
+ * Resolves all possible package locations
+ */
+const resolvePackageLocations = () => {
+  let lookupPath = path.resolve(process.env.projectDir);
+  const paths = [lookupPath];
+  while (path.dirname(lookupPath) !== lookupPath) {
+    lookupPath = path.join(lookupPath, '../');
+    paths.push(lookupPath);
+  }
+  return paths;
+};
+
+/**
  * @func resolveFileInPackage
  * Resolves a file inside a package
  */
 const resolveFileInPackage = (packageName, ...pathElements) => {
-  return require.resolve(path.join(packageName, ...pathElements));
+  if (process.env.projectDir) {
+    return require.resolve(path.join(packageName, ...pathElements), {
+      paths: resolvePackageLocations(),
+    });
+  } else {
+    return require.resolve(path.join(packageName, ...pathElements));
+  }
 };
 
 /**

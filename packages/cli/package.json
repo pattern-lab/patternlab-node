@@ -1,22 +1,22 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "5.13.0",
+  "version": "5.13.3",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
   "author": {
-    "name": "Raphael Okon"
+    "name": "Patternlab contributors"
   },
   "dependencies": {
-    "@pattern-lab/core": "^5.13.0",
+    "@pattern-lab/core": "^5.13.3",
     "@pattern-lab/live-server": "^5.13.0",
     "@pattern-lab/starterkit-mustache-base": "3.0.3",
     "archiver": "2.1.1",
     "chalk": "2.4.1",
     "commander": "2.15.1",
     "deepmerge": "^2.1.1",
-    "execa": "0.10.0",
+    "execa": "4.0.3",
     "fs-extra": "6.0.1",
     "glob": "7.1.2",
     "has-yarn": "1.0.0",
