@@ -9,7 +9,6 @@ import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
 import { iframeMsgDataExtraction } from '../../utils';
 import Mousetrap from 'mousetrap';
-import 'url-search-params-polyfill';
 
 import { NavTitle } from './src/NavTitle';
 import { NavList } from './src/NavList';
@@ -34,6 +33,7 @@ class Nav extends BaseComponent {
 
   handlePageClick(e) {
     if (
+      e.target.closest &&
       e.target.closest('.pl-c-nav') === null &&
       e.target.closest('.pl-js-nav-trigger') === null &&
       e.target.closest('svg') === null &&

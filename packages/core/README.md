@@ -102,9 +102,7 @@ Please read the [contribution guidelines](https://github.com/pattern-lab/pattern
 
 ## Core Team
 
-* [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) - Lead Maintainer
 * [@geoffp](https://github.com/geoffp) - Core Contributor
-* [@raphaelokon](https://github.com/raphaelokon) - CLI Contributor
 * [@tburny](https://github.com/tburny) - Core Contributor
 
 ## Community

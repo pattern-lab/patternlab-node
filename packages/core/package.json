@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/core",
   "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
-  "version": "5.13.0",
+  "version": "5.13.3",
   "main": "./src/index.js",
   "dependencies": {
     "@pattern-lab/engine-mustache": "^5.12.0",
@@ -54,9 +54,6 @@
   "contributors": [
     {
       "name": "Geoff Pursell"
-    },
-    {
-      "name": "Raphael Okon"
     },
     {
       "name": "tburny"
