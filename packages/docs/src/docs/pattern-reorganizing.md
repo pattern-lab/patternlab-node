@@ -95,7 +95,7 @@ Result
 
 ## Re-ordering pattern groups and subgroups
 
-To re-order pattern groups and subgroups, you need to create a companion `.md` file for that group. For example create `_patters/atoms/_atoms.md` for a pattern group or `_patters/atoms/buttons/_buttons.md` for a pattern subgroup. In the `.md` file, the above concept can be applied. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without}.md`
+To re-order pattern groups and subgroups, you need to create a companion `.md` file for that group. For example create `_patters/atoms/_atoms.md` for a pattern group or `_patters/atoms/buttons/_buttons.md` for a pattern subgroup. In the `.md` file, the above concept can be applied. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without prefixes}.md`
 
 
 ```
@@ -106,3 +106,13 @@ order: 1
 # or
 # _patters/atoms/buttons/_buttons.md
 ```
+
+## Deactivate deprecation warning
+
+To deactivate the deprecation warning for ordering patterns, add 
+
+```
+disableDeprecationWarningForOrderPatterns: true
+```
+
+to the `patternlab-config.json`

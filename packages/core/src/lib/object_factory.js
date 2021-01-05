@@ -57,9 +57,12 @@ const Pattern = function(
   // TODO: Remove if block when dropping ordering by prefix and keep else code
   // (When we dorp the info about the old ordering is deprecated)
   if (
-    prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(0, info)) ||
-    prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(1, info)) ||
-    prefixMatcherDeprecationCheckOrder.test(this.fileName)
+    (prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(0, info)) ||
+      prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(1, info)) ||
+      prefixMatcherDeprecationCheckOrder.test(this.fileName)) &&
+    patternlab &&
+    patternlab.config &&
+    !patternlab.config.disableDeprecationWarningForOrderPatterns
   ) {
     logger.warning(
       `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.\n See https://patternlab.io/docs/reorganizing-patterns/`
