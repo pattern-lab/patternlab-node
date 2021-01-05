@@ -24,7 +24,7 @@ The map component...
 
 ## Hiding Pattern Groups
 
-The same concept applies to `pattern-groups`. For example, you have a `pattern-group` named `atoms`, and you create a companion `.md` file for that group under `_patters/atoms/_atoms.md`. In that case, the whole `pattern-group` and all its components will be hidden in the UI. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/_{pattern-group raw name without}.md`
+The same concept applies to `pattern-groups`. For example, you have a `pattern-group` named `atoms`, and you create a companion `.md` file for that group under `_patters/atoms/_atoms.md`. In that case, the whole `pattern-group` and all its components will be hidden in the UI. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/_{pattern-group raw name without prefixes}.md`
 
 ```
 ---
@@ -35,7 +35,7 @@ hidden: true
 
 ## Hiding Pattern Sub Groups
 
-The same concept applies to `pattern-sub-groups`. For example, you have a `pattern-sub-group` named `buttons` which is structured under `atoms`, and you create a companion `.md` file for that group under `_patters/atoms/buttons/_buttons.md`. In that case, the whole `pattern-sub-group` and all its components will be hidden in the UI. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without}.md`
+The same concept applies to `pattern-sub-groups`. For example, you have a `pattern-sub-group` named `buttons` which is structured under `atoms`, and you create a companion `.md` file for that group under `_patters/atoms/buttons/_buttons.md`. In that case, the whole `pattern-sub-group` and all its components will be hidden in the UI. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without prefixes}.md`
 
 ```
 ---
