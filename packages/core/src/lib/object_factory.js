@@ -58,6 +58,8 @@ const Pattern = function(
       prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(1, info)) ||
       prefixMatcherDeprecationCheckHidden.test(this.fileName)) &&
     !info.isMetaPattern &&
+    patternlab &&
+    patternlab.config &&
     !patternlab.config.disableDeprecationWarningForHiddenPatterns
   ) {
     logger.warning(
