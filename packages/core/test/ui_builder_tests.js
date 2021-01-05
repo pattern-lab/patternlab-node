@@ -72,7 +72,8 @@ tap.test(
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('00-test/_ignored-pattern.mustache');
+    var pattern = new Pattern('00-test/ignored-pattern.mustache');
+    pattern.hidden = true;
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
@@ -108,7 +109,7 @@ tap.test(
     var pattern = Pattern.createEmpty({
       relPath:
         path.sep +
-        '_hidden' +
+        'hidden' +
         path.sep +
         'patternsubtype' +
         path.sep +
@@ -117,6 +118,10 @@ tap.test(
       fileName: 'foo.mustache',
       patternPartial: 'hidden-foo',
     });
+
+    pattern.patternGroupData = {
+      hidden: true,
+    };
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
@@ -134,11 +139,15 @@ tap.test(
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
       relPath:
-        'shown' + path.sep + '_patternsubtype' + path.sep + 'foo.mustache',
+        'shown' + path.sep + 'patternsubtype' + path.sep + 'foo.mustache',
       isPattern: true,
       fileName: 'foo.mustache',
       patternPartial: 'shown-foo',
     });
+
+    pattern.patternSubGroupData = {
+      hidden: true,
+    };
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
