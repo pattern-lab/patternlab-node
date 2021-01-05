@@ -9,7 +9,8 @@ const patternEngines = require('./pattern_engines');
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
 // off and get at the good part.
 const prefixMatcher = /^_?(\d+-)?/;
-const prefixMatcherDeprecationCheck = /^_(\d+-).+|^(\d+-).+/;
+const prefixMatcherDeprecationCheckOrder = /^(\d+-).+/;
+const prefixMatcherDeprecationCheckHidden = /^_.+/;
 
 /**
  * Pattern constructor / Pattern properties
@@ -53,18 +54,33 @@ const Pattern = function(
   this.subdir = pathObj.dir; // 'atoms/global'
   this.fileExtension = pathObj.ext; // '.mustache'
 
+  // TODO: Remove if block when dropping ordering by prefix and keep else code
+  // (When we dorp the info about the old ordering is deprecated)
   if (
-    prefixMatcherDeprecationCheck.test(this.getDirLevel(0, info)) ||
-    prefixMatcherDeprecationCheck.test(this.getDirLevel(1, info)) ||
-    prefixMatcherDeprecationCheck.test(this.fileName)
+    prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(0, info)) ||
+    prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(1, info)) ||
+    prefixMatcherDeprecationCheckOrder.test(this.fileName)
   ) {
     logger.warning(
       `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.\n See https://patternlab.io/docs/reorganizing-patterns/`
     );
   }
 
-  // TODO: Remove if block when dropping ordering by prefix and keep else code
-  // (When we dorp the info about the old ordering is deprecated)
+  if (
+    (prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(0, info)) ||
+      prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(1, info)) ||
+      prefixMatcherDeprecationCheckHidden.test(this.fileName)) &&
+    !info.isMetaPattern &&
+    patternlab &&
+    patternlab.config &&
+    !patternlab.config.disableDeprecationWarningForHiddenPatterns
+  ) {
+    logger.warning(
+      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
+    );
+  }
+
+  // TODO: Remove if when dropping ordering by prefix and keep else code
   if (info.patternHasOwnDir) {
     // Since there is still the requirement of having the numbers provided for sorting
     // this will be required to keep the folder prefix and the variant name
@@ -306,6 +322,11 @@ Pattern.prototype = {
 
     info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';
     info.dirLevel = pathObj.dir.split(path.sep).filter(s => !!s).length;
+
+    // Only relevant for deprecation check and message
+    if (path.parse(pathObj.dir).base === '_meta') {
+      info.isMetaPattern = true;
+    }
 
     if (info.dirLevel === 0 || (info.dirLevel === 1 && info.patternHasOwnDir)) {
       // -> ./

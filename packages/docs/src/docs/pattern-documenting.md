@@ -23,6 +23,7 @@ Attributes overview:
 * Pattern `tags` has to be an array, like `tags: [new, relaunch, dev]`
 * [Pattern `states`](/docs/using-pattern-states/) are defined like `state: incomplete` and [provide a simple visual indication](/docs/using-pattern-states/)
 * The `order` property to [Reorganize Patterns](/docs/reorganizing-patterns/)
+* The `hidden` property to [Hide Patterns in the Navigation](/docs/hiding-patterns-in-the-navigation/)
 
 Both `tags` and `states` could be used for [not including patterns in a UIKit specific build](/docs/editing-the-configuration-options/#heading-uikits).
 
@@ -54,5 +55,5 @@ atoms/button/button~red.md
 
 ## Adding More Attributes to the Front Matter
 
-A future update of Pattern Lab will support more front matter attributes including: excludeFromStyleguide, hidden and links.
+A future update of Pattern Lab will support more front matter attributes including: excludeFromStyleguide and links.
 It will also support adding custom attributes that could be utilized by plugins. For example, GitHub issues related to patterns.

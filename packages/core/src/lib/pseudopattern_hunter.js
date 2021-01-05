@@ -115,6 +115,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
         patternlab
       );
       patternVariant.order = _.clone(currentPattern.order);
+      patternVariant.hidden = _.clone(currentPattern.hidden);
 
       changes_hunter.checkBuildState(patternVariant, patternlab);
       patternlab.graph.add(patternVariant);
