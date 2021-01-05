@@ -47,3 +47,13 @@ hidden: true
 ## Additional Information
 
 A hidden pattern can still be included in other patterns.
+
+## Deactivate deprecation warning
+
+To deactivate the deprecation warning for hidden patterns, add 
+
+```
+disableDeprecationWarningForHiddenPatterns: true
+```
+
+to the `patternlab-config.json`

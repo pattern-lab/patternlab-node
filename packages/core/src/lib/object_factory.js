@@ -57,10 +57,12 @@ const Pattern = function(
     (prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(0, info)) ||
       prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(1, info)) ||
       prefixMatcherDeprecationCheckHidden.test(this.fileName)) &&
-    !info.isMetaPattern
+    !info.isMetaPattern &&
+    !patternlab.config.disableDeprecationWarningForHiddenPatterns
   ) {
     logger.warning(
-      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
+      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n
+      See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
     );
   }
 
