@@ -63,8 +63,7 @@ const Pattern = function(
     !patternlab.config.disableDeprecationWarningForHiddenPatterns
   ) {
     logger.warning(
-      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n
-      See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
+      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
     );
   }
 
