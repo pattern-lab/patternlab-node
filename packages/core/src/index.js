@@ -10,8 +10,6 @@
 
 'use strict';
 
-const path = require('path');
-
 const updateNotifier = require('update-notifier');
 
 const packageInfo = require('../package.json');

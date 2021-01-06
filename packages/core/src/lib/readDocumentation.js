@@ -14,7 +14,7 @@ const markdown_parser = new mp();
 const FILE_EXTENSION = '.md';
 const GROUP_DOC_PREFIX = '_';
 
-module.exports = function(pattern, patternlab) {
+module.exports = function(pattern, patternlab, isVariant) {
   try {
     const markdownFileName = path.resolve(
       patternlab.config.paths.source.patterns,
@@ -39,7 +39,7 @@ module.exports = function(pattern, patternlab) {
         pattern.patternState = markdownObject.state;
       }
       if (markdownObject.order) {
-        pattern.order = markdownObject.order;
+        pattern[isVariant ? 'variantOrder' : 'order'] = markdownObject.order;
       }
       if (markdownObject.hidden) {
         pattern.hidden = markdownObject.hidden;
@@ -74,7 +74,7 @@ module.exports = function(pattern, patternlab) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `There was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}`
+        `There was an error setting pattern keys after markdown parsing of the companion file for pattern ${pattern.patternPartial}${FILE_EXTENSION}`
       );
       logger.warning(err);
     }
@@ -115,32 +115,32 @@ module.exports = function(pattern, patternlab) {
 
   // Read Documentation for Pattern-Subgroup
   try {
-    const markdownFileNameSubGroup = path.resolve(
+    const markdownFileNameSubgroup = path.resolve(
       patternlab.config.paths.source.patterns,
       path.parse(pattern.subdir).dir,
       path.parse(pattern.subdir).base,
-      GROUP_DOC_PREFIX + pattern.patternSubGroup + FILE_EXTENSION
+      GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
     );
-    const markdownFileContentsSubGroup = fs.readFileSync(
-      markdownFileNameSubGroup,
+    const markdownFileContentsSubgroup = fs.readFileSync(
+      markdownFileNameSubgroup,
       'utf8'
     );
-    const markdownObjectSubGroup = markdown_parser.parse(
-      markdownFileContentsSubGroup
+    const markdownObjectSubgroup = markdown_parser.parse(
+      markdownFileContentsSubgroup
     );
 
-    if (!_.isEmpty(markdownObjectSubGroup)) {
-      pattern.patternSubGroupData = markdownObjectSubGroup;
+    if (!_.isEmpty(markdownObjectSubgroup)) {
+      pattern.patternSubgroupData = markdownObjectSubgroup;
     }
   } catch (err) {
     // do nothing when file not found
     if (err.code !== 'ENOENT') {
       logger.warning(
-        `There was an error setting pattern sub group data after markdown parsing for ${path.join(
+        `There was an error setting pattern subgroup data after markdown parsing for ${path.join(
           patternlab.config.paths.source.patterns,
           path.parse(pattern.subdir).dir,
           path.parse(pattern.subdir).base,
-          GROUP_DOC_PREFIX + pattern.patternSubGroup + FILE_EXTENSION
+          GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
         )}`
       );
       logger.warning(err);

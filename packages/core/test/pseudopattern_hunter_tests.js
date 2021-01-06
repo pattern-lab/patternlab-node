@@ -46,7 +46,7 @@ tap.test('pseudpattern found and added as a pattern', function(test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = loadPattern('00-test/03-styled-atom.mustache', pl);
+  var atomPattern = loadPattern('test/styled-atom.mustache', pl);
   addPattern(atomPattern, pl);
 
   //act
@@ -61,9 +61,7 @@ tap.test('pseudpattern found and added as a pattern', function(test) {
     );
     test.equals(
       pl.patterns[1].patternLink,
-      '00-test-03-styled-atom-alt' +
-        path.sep +
-        '00-test-03-styled-atom-alt.html'
+      'test-styled-atom-alt' + path.sep + 'test-styled-atom-alt.html'
     );
   });
 });
@@ -72,7 +70,7 @@ tap.test('pseudpattern does not pollute base pattern data', function(test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = loadPattern('00-test/03-styled-atom.mustache', pl);
+  var atomPattern = loadPattern('test/styled-atom.mustache', pl);
 
   //act
   var patternCountBefore = pl.patterns.length;
@@ -92,9 +90,9 @@ tap.test(
     //arrange
     var pl = stubPatternlab();
 
-    var atomPattern = new Pattern('00-test/03-styled-atom.mustache');
+    var atomPattern = new Pattern('test/styled-atom.mustache');
     atomPattern.template = fs.readFileSync(
-      patterns_dir + '00-test/03-styled-atom.mustache',
+      patterns_dir + 'test/styled-atom.mustache',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -105,9 +103,9 @@ tap.test(
       atomPattern
     );
 
-    var pseudoPattern = new Pattern('00-test/474-pseudomodifier.mustache');
+    var pseudoPattern = new Pattern('test/pseudomodifier.mustache');
     pseudoPattern.template = fs.readFileSync(
-      patterns_dir + '00-test/474-pseudomodifier.mustache',
+      patterns_dir + 'test/pseudomodifier.mustache',
       'utf8'
     );
     pseudoPattern.extendedTemplate = atomPattern.template;
@@ -138,7 +136,7 @@ tap.test('pseudo pattern variant data should merge arrays', function(test) {
   const pl = stubPatternlab();
   pl.config.patternMergeVariantArrays = true;
 
-  const pattern = loadPattern('00-test/475-variant-test.mustache', pl);
+  const pattern = loadPattern('test/variant-test.mustache', pl);
 
   addPattern(pattern, pl);
 
@@ -160,7 +158,7 @@ tap.test(
   function(test) {
     const pl = stubPatternlab();
 
-    const pattern = loadPattern('00-test/475-variant-test.mustache', pl);
+    const pattern = loadPattern('test/variant-test.mustache', pl);
 
     addPattern(pattern, pl);
 
@@ -182,7 +180,7 @@ tap.test('pseudo pattern variant data should override arrays', function(test) {
   const pl = stubPatternlab();
   pl.config.patternMergeVariantArrays = false;
 
-  const pattern = loadPattern('00-test/475-variant-test.mustache', pl);
+  const pattern = loadPattern('test/variant-test.mustache', pl);
 
   addPattern(pattern, pl);
 

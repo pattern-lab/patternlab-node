@@ -22,10 +22,10 @@ Pattern Lab 2 was a complete rewrite and reorganization of Pattern Lab 1. [Learn
 If you chose a Mustache-based edition do the following:
 
 1. Copy `./source` from your old project to your new edition
-2. Copy `./source/_patterns/00-atoms/00-meta/_00-head.mustache` to `./source/_meta/_00-head.mustache`
-3. Copy `./source/_patterns/00-atoms/00-meta/_01-foot.mustache` to `./source/_meta/_00-foot.mustache` (you can then delete `source/_patterns/00-atoms/00-meta/` directory)
-4. In `./source/_meta/_00-head.mustache`, replace `{% raw %}{% pattern-lab-head %}{% endraw %}` with `{% raw %}{{{ patternLabHead }}}{% endraw %}`
-5. In `./source/_meta/_00-foot.mustache` replace `{% raw %}{% pattern-lab-foot %}{% endraw %}` with `{% raw %}{{{ patternLabFoot }}}{% endraw %}`
+2. Copy `./source/_patterns/atoms/meta/_head.mustache` to `./source/_meta/_head.mustache`
+3. Copy `./source/_patterns/atoms/meta/_foot.mustache` to `./source/_meta/_foot.mustache` (you can then delete `source/_patterns/atoms/meta/` directory)
+4. In `./source/_meta/_head.mustache`, replace `{% raw %}{% pattern-lab-head %}{% endraw %}` with `{% raw %}{{{ patternLabHead }}}{% endraw %}`
+5. In `./source/_meta/_foot.mustache` replace `{% raw %}{% pattern-lab-foot %}{% endraw %}` with `{% raw %}{{{ patternLabFoot }}}{% endraw %}`
 6. Copy `./source/_data/annotations.js` to `./source/_annotations/annotations.js`
 7. Remove the underscore in front of the JSON files in `source/data` (i.e. `data.json` not `_data.json`).
 

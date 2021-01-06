@@ -50,7 +50,7 @@ const PatternGraph = function(graph, timestamp, version) {
   this.version = version || PATTERN_GRAPH_VERSION;
 };
 
-// shorthand. Use relPath as it is always unique, even with subPatternType
+// shorthand. Use relPath as it is always unique, even with subPatternGroup
 const nodeName = p => (p instanceof Pattern ? p.relPath : p);
 
 PatternGraph.prototype = {

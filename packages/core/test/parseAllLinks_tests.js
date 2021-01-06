@@ -31,12 +31,12 @@ tap.test(
     );
     // Test with pattern prefix
     addPattern(
-      new Pattern('01-facebook/02-people/03-someone2.hbs', {}, patternlab),
+      new Pattern('facebook/people/someone2.hbs', {}, patternlab),
       patternlab
     );
 
     // copies essential logic from loadPattern
-    const navPattern = new Pattern('00-test/nav.mustache', {}, patternlab);
+    const navPattern = new Pattern('test/nav.mustache', {}, patternlab);
     const patternData = dataLoader.loadDataFromFile(
       path.resolve(
         __dirname,
@@ -132,7 +132,7 @@ tap.test(
     );
     test.equals(
       pattern.jsonFileData.someone2.url,
-      '/patterns/01-facebook-02-people-03-someone2/01-facebook-02-people-03-someone2.rendered.html',
+      '/patterns/facebook-people-someone2/facebook-people-someone2.rendered.html',
       'facebook people someone2 pattern data should be replaced with prefix pattern'
     );
     test.equals(
@@ -152,7 +152,7 @@ tap.test(
     );
     test.equals(
       pattern.jsonFileData['viewall-facebook-people'].url,
-      '/patterns/01-facebook-02-people/index.html',
+      '/patterns/facebook-people/index.html',
       'view all facebook people link should be replaced'
     );
 
@@ -178,7 +178,7 @@ tap.test(
     );
     test.equals(
       patternlab.data.someone2.url,
-      '/patterns/01-facebook-02-people-03-someone2/01-facebook-02-people-03-someone2.rendered.html',
+      '/patterns/facebook-people-someone2/facebook-people-someone2.rendered.html',
       'facebook people someone2 pattern data should be replaced with prefix pattern'
     );
     test.end();

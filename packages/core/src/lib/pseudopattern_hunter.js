@@ -114,6 +114,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
         },
         patternlab
       );
+      patternVariant.order = _.clone(currentPattern.order);
       patternVariant.hidden = _.clone(currentPattern.hidden);
 
       changes_hunter.checkBuildState(patternVariant, patternlab);
@@ -121,7 +122,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       patternlab.graph.link(patternVariant, currentPattern);
 
       //process the companion markdown file if it exists
-      readDocumentation(patternVariant, patternlab);
+      readDocumentation(patternVariant, patternlab, true);
 
       //find pattern lineage
       lineage_hunter.find_lineage(patternVariant, patternlab);

@@ -24,7 +24,7 @@ With Pattern Lab 2 in development for almost two years many under-the-hood chang
 * patternParameters can over listItem loop numbers
 * global pattern header and footer is now in `./source/_meta`
 * upgraded console utility
-* patterns and pattern subtypes can be documented in the styleguide by using `[pattern-name].md` or `[pattern-subtype].md`
+* patterns and pattern subgroups can be documented in the styleguide by using `[pattern-name].md` or `[pattern-subgroup].md`
 * view all pages for pattern sub-types
 * annotations can be defined using Markdown
 * patterns can be exported minus Pattern Lab mark-up
