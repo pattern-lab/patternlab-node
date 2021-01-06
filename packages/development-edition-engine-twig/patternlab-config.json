@@ -105,11 +105,11 @@
   "engines": {
     "twig": {
       "namespaces": {
-        "atoms": "source/_patterns/atoms/",
-        "molecules": "source/_patterns/molecules/",
-        "organisms": "source/_patterns/organisms/",
-        "templates": "source/_patterns/templates/",
-        "pages": "source/_patterns/pages/",
+        "atoms": "source/_patterns/00-atoms/",
+        "molecules": "source/_patterns/01-molecules/",
+        "organisms": "source/_patterns/02-organisms/",
+        "templates": "source/_patterns/03-templates/",
+        "pages": "source/_patterns/04-pages/",
         "macros": "source/_macros/"
       }
     }
