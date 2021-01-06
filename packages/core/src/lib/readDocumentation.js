@@ -85,7 +85,7 @@ module.exports = function(pattern, patternlab, isVariant) {
   try {
     const markdownFileNameGroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      path.parse(pattern.subdir).dir,
+      path.parse(pattern.subdir).dir || pattern.subdir,
       GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
     );
     const markdownFileContentsGroup = fs.readFileSync(

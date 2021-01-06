@@ -160,6 +160,15 @@ const ui_builder = function() {
   }
 
   /**
+   * Sorts the given patterns in the way they are ment to be sorted
+   * @param {array} patterns which should be sorted
+   * @returns a sorted array of patterns
+   */
+  function getSortedPatterns(patterns) {
+    return _.sortBy(patterns, ['order', 'variantOrder', 'name']);
+  }
+
+  /**
    * Registers flat patterns with the patternGroups object
    * This is a new menu group like atoms
    * @param patternlab - global data store
@@ -307,9 +316,8 @@ const ui_builder = function() {
 
     const patternSubgroup = getPatternSubgroup(patternlab, pattern);
     patternSubgroup.patternSubgroupItems.push(newSubgroupItem);
-    patternSubgroup.patternSubgroupItems = _.sortBy(
-      patternSubgroup.patternSubgroupItems,
-      ['order', 'variantOrder', 'name']
+    patternSubgroup.patternSubgroupItems = getSortedPatterns(
+      patternSubgroup.patternSubgroupItems
     );
   }
 
@@ -339,65 +347,7 @@ const ui_builder = function() {
     } else {
       patternGroup.patternItems.push(createPatternSubgroupItem(pattern));
     }
-    patternGroup.patternItems = _.sortBy(patternGroup.patternItems, [
-      'order',
-      'variantOrder',
-      'name',
-    ]);
-  }
-
-  /**
-   * Sorts patterns based on order property found within pattern markdown, falling back on name.
-   * @param patternsArray - patterns to sort
-   * @returns sorted patterns
-   */
-  function sortPatterns(patternsArray) {
-    return patternsArray.sort(function(a, b) {
-      let aOrder = parseInt(a.order, 10);
-      const bOrder = parseInt(b.order, 10);
-
-      if (aOrder === NaN) {
-        aOrder = Number.MAX_SAFE_INTEGER;
-      }
-
-      if (bOrder === NaN) {
-        aOrder = Number.MAX_SAFE_INTEGER;
-      }
-
-      // always return a docPattern first
-      if (a.isDocPattern && !b.isDocPattern) {
-        return -1;
-      }
-
-      if (!a.isDocPattern && b.isDocPattern) {
-        return 1;
-      }
-
-      // use old alphabetical ordering if we have nothing else to use
-      // pattern.order will be Number.MAX_SAFE_INTEGER if never defined by markdown, or markdown parsing fails
-      if (
-        aOrder === Number.MAX_SAFE_INTEGER &&
-        bOrder === Number.MAX_SAFE_INTEGER
-      ) {
-        if (a.name > b.name) {
-          return 1;
-        }
-        if (a.name < b.name) {
-          return -1;
-        }
-      }
-
-      // if we get this far, we can sort safely
-      if (aOrder && bOrder) {
-        if (aOrder > bOrder) {
-          return 1;
-        }
-        if (aOrder < bOrder) {
-          return -1;
-        }
-      }
-      return 0;
-    });
+    patternGroup.patternItems = getSortedPatterns(patternGroup.patternItems);
   }
 
   /**
@@ -485,7 +435,7 @@ const ui_builder = function() {
       pattern => pattern.patternGroup === patternGroup && pattern.isFlatPattern
     );
     if (patterns) {
-      return sortPatterns(patterns);
+      return getSortedPatterns(patterns);
     }
     return [];
   }
@@ -519,6 +469,45 @@ const ui_builder = function() {
   }
 
   /**
+   * Sorts the pattern groups for the view all page as they are meant to be sorted.
+   * Therefore the function searches for the subgroup in the patternGroupItems and retrieves its sorting.
+   * @param patternGroup The pattern group object with it's subgroups
+   * @param patternGroupName the pattern group name e.g. atoms
+   * @param patternlab - global data store
+   * @returns a sorted list of pattern groups
+   */
+  function getSortedPatternSubgroups(
+    patternGroup,
+    patternGroupName,
+    patternlab
+  ) {
+    return _.sortBy(_.values(patternGroup), [
+      pSubgroup => {
+        const group = patternlab.patternGroups.find(
+          g => g.patternGroup === patternGroupName
+        );
+
+        if (group) {
+          const sg = group.patternGroupItems.find(item => {
+            const firstPattern = _.first(
+              _.values(pSubgroup).filter(p => p.patternBaseName !== '.')
+            );
+            return (
+              item &&
+              firstPattern &&
+              firstPattern.patternSubgroup === item.patternSubgroup
+            );
+          });
+
+          return sg ? sg.order : 0;
+        } else {
+          return 0;
+        }
+      },
+    ]);
+  }
+
+  /**
    * Constructs viewall pages for each set of grouped patterns
    * @param mainPageHeadHtml - the already built main page HTML
    * @param patternlab - global data store
@@ -536,8 +525,10 @@ const ui_builder = function() {
 
     // loop through the grouped styleguide patterns, building at each level
     const allPatternGroupPromises = _.map(
-      styleguidePatterns.patternGroups,
-      (patternGroup, patternGroupName) => {
+      patternlab.patternGroups,
+      patternGroup => {
+        const patternGroupName = patternGroup.patternGroup;
+        const group = styleguidePatterns.patternGroups[patternGroupName];
         let groupedPatterns = [];
         let styleguideGroupedPatterns = [];
         const styleGuideExcludes = patternlab.config.styleGuideExcludes || [];
@@ -546,7 +537,7 @@ const ui_builder = function() {
          * View all pages for subgroups
          */
         const subgroupPromises = _.map(
-          _.values(patternGroup),
+          getSortedPatternSubgroups(group, patternGroupName, patternlab),
           (patternSubgroups, patternSubgroup, originalPatternGroup) => {
             let p;
             const samplePattern = _.find(
@@ -571,7 +562,7 @@ const ui_builder = function() {
             return buildFooter(patternlab, `viewall-${patternPartial}`, uikit)
               .then(footerHTML => {
                 // render the viewall template by finding these smallest subgroup-grouped patterns
-                const subgroupPatterns = sortPatterns(
+                const subgroupPatterns = getSortedPatterns(
                   _.values(patternSubgroups)
                 );
 

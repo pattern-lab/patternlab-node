@@ -2728,11 +2728,6 @@
   resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-base/-/starterkit-mustache-base-3.0.3.tgz#8ce9bc8e0d2254ee970a09c4bdc76d4f6131c91d"
   integrity sha512-AALdLim5L4ODDjUevRGBY/omhzTU38tSJMRRLaCnwoZ9dxn2QOZNampxj5T7Fhn4oTQnyjhawslVbqVekoViig==
 
-"@pattern-lab/starterkit-mustache-demo@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-demo/-/starterkit-mustache-demo-5.0.0.tgz#40320e474d23b3f2473b1715712f7330802c46f3"
-  integrity sha512-yvjo9GNN2+MVJ51L96RbznGMxkwszO4Aq8erCWpUp+aePgzvtSUQkW2v7bDrOlWIMQ17IsBMwBLaTI6P0vVfmg==
-
 "@prerenderer/prerenderer@^0.7.2":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@prerenderer/prerenderer/-/prerenderer-0.7.2.tgz#b26a806bcdb3b313d527b313bdd72a57434b45fd"
@@ -13196,13 +13191,6 @@ node-releases@^1.1.60:
   version "1.1.60"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.60.tgz#6948bdfce8286f0b5d0e5a88e8384e954dfe7084"
   integrity sha512-gsO4vjEdQaTusZAEebUWp2a5d7dF5DYoIpDG7WySnk7BuZDW+GPpHXoXXuYawRBr/9t5q54tirPz79kFIWg4dA==
-
-node-sass-glob-importer@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/node-sass-glob-importer/-/node-sass-glob-importer-5.3.2.tgz#465581e46027c0e9520e6d87f7e6eda858a14acb"
-  integrity sha512-QTX7KPsISgp55REV6pMH703nzHfWCOEYEQC0cDyTRo7XO6WDvyC0OAzekuQ4gs505IZcxv9KxZ3uPJ5s5H9D3g==
-  dependencies:
-    node-sass-magic-importer "^5.3.2"
 
 node-sass-glob-importer@^5.3.2:
   version "5.3.2"
