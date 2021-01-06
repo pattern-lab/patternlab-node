@@ -199,19 +199,16 @@ tap.test('Adding two nodes', test => {
 
 tap.test('Adding two nodes with only different subpattern types', test => {
   var g = mockGraph();
-  var atomFoo = Pattern.create('00-atoms/00-foo/baz.html', {
+  var atomFoo = Pattern.create('atoms/foo/baz.html', {
     compileState: CompileState.CLEAN,
   });
-  var moleculeFoo = Pattern.create('00-atoms/00-bar/baz.html', {
+  var moleculeFoo = Pattern.create('atoms/bar/baz.html', {
     compileState: CompileState.CLEAN,
   });
   g.add(atomFoo);
   g.add(moleculeFoo);
   var actual = g.nodes();
-  test.same(posixPath(actual), [
-    '00-atoms/00-foo/baz.html',
-    '00-atoms/00-bar/baz.html',
-  ]);
+  test.same(posixPath(actual), ['atoms/foo/baz.html', 'atoms/bar/baz.html']);
   test.end();
 });
 
@@ -287,22 +284,22 @@ tap.test('filter() - Removing nodes via filter', test => {
 // Prevents nodes from escaping the scope, at the same time have some default graph for lineage to
 // test on
 (function() {
-  var atomFoo = Pattern.create('00-atom/xy/foo', null, {
+  var atomFoo = Pattern.create('atom/xy/foo', null, {
     compileState: CompileState.CLEAN,
   });
-  var atomIsolated = Pattern.create('00-atom/xy/isolated', null, {
+  var atomIsolated = Pattern.create('atom/xy/isolated', null, {
     compileState: CompileState.CLEAN,
   });
-  var moleculeFoo = Pattern.create('01-molecule/xy/foo', null, {
+  var moleculeFoo = Pattern.create('molecule/xy/foo', null, {
     compileState: CompileState.CLEAN,
   });
-  var moleculeBar = Pattern.create('01-molecule/xy/bar', null, {
+  var moleculeBar = Pattern.create('molecule/xy/bar', null, {
     compileState: CompileState.CLEAN,
   });
-  var organismFoo = Pattern.create('02-organism/xy/foo', null, {
+  var organismFoo = Pattern.create('organism/xy/foo', null, {
     compileState: CompileState.CLEAN,
   });
-  var organismBar = Pattern.create('02-organism/xy/bar', null, {
+  var organismBar = Pattern.create('organism/xy/bar', null, {
     compileState: CompileState.CLEAN,
   });
 
@@ -329,17 +326,17 @@ tap.test('filter() - Removing nodes via filter', test => {
 
   tap.test('lineage() - Calculate the lineage of a node', test => {
     test.same(posixPath(g.lineage(organismFoo).map(p => p.relPath)), [
-      '01-molecule/xy/foo',
+      'molecule/xy/foo',
     ]);
     test.same(posixPath(g.lineage(organismBar).map(p => p.relPath)), [
-      '01-molecule/xy/foo',
-      '01-molecule/xy/bar',
+      'molecule/xy/foo',
+      'molecule/xy/bar',
     ]);
     test.same(posixPath(g.lineage(moleculeFoo).map(p => p.relPath)), [
-      '00-atom/xy/foo',
+      'atom/xy/foo',
     ]);
     test.same(posixPath(g.lineage(moleculeBar).map(p => p.relPath)), [
-      '00-atom/xy/foo',
+      'atom/xy/foo',
     ]);
     test.same(g.lineage(atomFoo).map(p => p.relPath), []);
     test.same(g.lineage(atomIsolated).map(p => p.relPath), []);
@@ -360,15 +357,15 @@ tap.test('filter() - Removing nodes via filter', test => {
     test.same(g.lineageR(organismFoo).map(p => p.relPath), []);
     test.same(g.lineageR(organismBar).map(p => p.relPath), []);
     test.same(posixPath(g.lineageR(moleculeFoo).map(p => p.relPath)), [
-      '02-organism/xy/foo',
-      '02-organism/xy/bar',
+      'organism/xy/foo',
+      'organism/xy/bar',
     ]);
     test.same(posixPath(g.lineageR(moleculeBar).map(p => p.relPath)), [
-      '02-organism/xy/bar',
+      'organism/xy/bar',
     ]);
     test.same(posixPath(g.lineageR(atomFoo).map(p => p.relPath)), [
-      '01-molecule/xy/foo',
-      '01-molecule/xy/bar',
+      'molecule/xy/foo',
+      'molecule/xy/bar',
     ]);
     test.same(g.lineageR(atomIsolated).map(p => p.relPath), []);
     test.end();
@@ -392,32 +389,32 @@ tap.test('filter() - Removing nodes via filter', test => {
     }
     var i = 0;
     var atomFoo = (this.atomFoo = Pattern.create(
-      '00-atom/xy/foo',
+      'atom/xy/foo',
       null,
       csAt(arguments, i++)
     ));
     var atomIsolated = (this.atomIsolated = Pattern.create(
-      '00-atom/xy/isolated',
+      'atom/xy/isolated',
       null,
       csAt(arguments, i++)
     ));
     var moleculeFoo = (this.moleculeFoo = Pattern.create(
-      '01-molecule/xy/foo',
+      'molecule/xy/foo',
       null,
       csAt(arguments, i++)
     ));
     var moleculeBar = (this.moleculeBar = Pattern.create(
-      '01-molecule/xy/bar',
+      'molecule/xy/bar',
       null,
       csAt(arguments, i++)
     ));
     var organismFoo = (this.organismFoo = Pattern.create(
-      '02-organism/xy/foo',
+      'organism/xy/foo',
       null,
       csAt(arguments, i++)
     ));
     var organismBar = (this.organismBar = Pattern.create(
-      '02-organism/xy/bar',
+      'organism/xy/bar',
       null,
       csAt(arguments, i++)
     ));

@@ -2,12 +2,15 @@
 
 const _ = require('lodash');
 const path = require('path');
+const logger = require('./log');
 const patternEngines = require('./pattern_engines');
 
 // prefixMatcher is intended to match the leading maybe-underscore,
 // zero or more digits, and maybe-dash at the beginning of a pattern file name we can hack them
 // off and get at the good part.
 const prefixMatcher = /^_?(\d+-)?/;
+const prefixMatcherDeprecationCheckOrder = /^(\d+-).+/;
+const prefixMatcherDeprecationCheckHidden = /^_.+/;
 
 /**
  * Pattern constructor / Pattern properties
@@ -30,7 +33,7 @@ const Pattern = function(
   patternlab,
   isPromoteToFlatPatternRun
 ) {
-  this.relPath = path.normalize(relPath); // '00-atoms/00-global/00-colors.mustache'
+  this.relPath = path.normalize(relPath); // 'atoms/global/colors.mustache'
 
   /**
    * We expect relPath to be the path of the pattern template, relative to the
@@ -47,9 +50,38 @@ const Pattern = function(
         patternlab.config.allPatternsAreDeeplyNested)
   );
 
-  this.fileName = pathObj.name; // '00-colors'
-  this.subdir = pathObj.dir; // '00-atoms/00-global'
+  this.fileName = pathObj.name; // 'colors'
+  this.subdir = pathObj.dir; // 'atoms/global'
   this.fileExtension = pathObj.ext; // '.mustache'
+
+  // TODO: Remove if block when dropping ordering by prefix and keep else code
+  // (When we dorp the info about the old ordering is deprecated)
+  if (
+    (prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(0, info)) ||
+      prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(1, info)) ||
+      prefixMatcherDeprecationCheckOrder.test(this.fileName)) &&
+    patternlab &&
+    patternlab.config &&
+    !patternlab.config.disableDeprecationWarningForOrderPatterns
+  ) {
+    logger.warning(
+      `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.\n See https://patternlab.io/docs/reorganizing-patterns/`
+    );
+  }
+
+  if (
+    (prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(0, info)) ||
+      prefixMatcherDeprecationCheckHidden.test(this.getDirLevel(1, info)) ||
+      prefixMatcherDeprecationCheckHidden.test(this.fileName)) &&
+    !info.isMetaPattern &&
+    patternlab &&
+    patternlab.config &&
+    !patternlab.config.disableDeprecationWarningForHiddenPatterns
+  ) {
+    logger.warning(
+      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
+    );
+  }
 
   // TODO: Remove if when dropping ordering by prefix and keep else code
   if (info.patternHasOwnDir) {
@@ -68,7 +100,7 @@ const Pattern = function(
   // the JSON used to render values in the pattern
   this.jsonFileData = jsonFileData || {};
 
-  // strip leading "00-" from the file name and flip tildes to dashes
+  // flip tildes to dashes
   this.patternBaseName = this.fileName
     .replace(prefixMatcher, '')
     .replace('~', '-'); // 'colors'
@@ -78,20 +110,14 @@ const Pattern = function(
   // this is the display name for the ui. strip numeric + hyphen prefixes
   this.patternName = _.startCase(this.patternBaseName);
 
-  //00-atoms if needed
-  this.patternType = this.getDirLevel(0, info);
-
   // the top-level pattern group this pattern belongs to. 'atoms'
-  this.patternGroup = this.patternType.replace(prefixMatcher, '');
-
-  //00-colors if needed
-  this.patternSubType = this.getDirLevel(1, info);
+  this.patternGroup = this.getDirLevel(0, info).replace(prefixMatcher, '');
 
   // the sub-group this pattern belongs to.
-  this.patternSubGroup = this.patternSubType.replace(prefixMatcher, ''); // 'global'
+  this.patternSubgroup = this.getDirLevel(1, info).replace(prefixMatcher, ''); // 'global'
 
   // the joined pattern group and subgroup directory
-  this.flatPatternPath = info.shortNotation; // '00-atoms-00-global'
+  this.flatPatternPath = info.shortNotation; // 'atoms-global'
 
   // Calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
@@ -113,14 +139,14 @@ const Pattern = function(
    * the main root folder or to a root directory.
    * --- This ---
    * root
-   *  flatpattern
+   *  flatPattern
    * --- OR That ---
    * root
    *  molecules
-   *   flatpattern
+   *   flatPattern
    */
   this.isFlatPattern =
-    this.patternGroup === this.patternSubGroup || !this.patternSubGroup;
+    this.patternGroup === this.patternSubgroup || !this.patternSubgroup;
 
   this.isPattern = true;
   this.patternState = '';
@@ -132,6 +158,7 @@ const Pattern = function(
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
   this.order = 0;
+  this.variantOrder = 0;
   this.engine = patternEngines.getEngineForPattern(this);
 
   /**
@@ -185,13 +212,13 @@ Pattern.prototype = {
    * calculated path from the root of the public directory to the generated html
    * file for this pattern.
    *
-   * Should look something like '00-atoms-00-global-00-colors/00-atoms-00-global-00-colors.html'
+   * Should look something like 'atoms-global-colors/atoms-global-colors.html'
    *
    * @param {Patternlab} patternlab Current patternlab instance
    * @param {string} suffixType File suffix
-   * @param {string} customfileExtension Custom extension
+   * @param {string} customFileExtension Custom extension
    */
-  getPatternLink: function(patternlab, suffixType, customfileExtension) {
+  getPatternLink: function(patternlab, suffixType, customFileExtension) {
     // if no suffixType is provided, we default to rendered
     const suffixConfig = patternlab.config.outputFileSuffixes;
     const suffix = suffixType
@@ -203,7 +230,7 @@ Pattern.prototype = {
     }
 
     if (suffixType === 'custom') {
-      return this.name + path.sep + this.name + customfileExtension;
+      return this.name + path.sep + this.name + customFileExtension;
     }
 
     return this.name + path.sep + this.name + suffix + '.html';
@@ -211,7 +238,7 @@ Pattern.prototype = {
 
   /**
    * The finders all delegate to the PatternEngine, which also
-   * encapsulates all appropriate regexes
+   * encapsulates all appropriate regex's
    */
   findPartials: function() {
     return this.engine.findPartials(this);
@@ -229,8 +256,8 @@ Pattern.prototype = {
     return this.engine.findListItems(this);
   },
 
-  findPartial: function(partialstring) {
-    return this.engine.findPartial(partialstring);
+  findPartial: function(partialString) {
+    return this.engine.findPartial(partialString);
   },
 
   /**
@@ -268,9 +295,7 @@ Pattern.prototype = {
       name: p.name,
       patternLink: p.patternLink,
       patternGroup: p.patternGroup,
-      patternType: p.patternType,
-      patternSubGroup: p.patternSubGroup,
-      patternSubType: p.patternSubType,
+      patternSubgroup: p.patternSubgroup,
       isFlatPattern: p.isFlatPattern,
       flatPatternPath: p.flatPatternPath,
       patternPartial: p.patternPartial,
@@ -288,7 +313,7 @@ Pattern.prototype = {
    */
   getPatternInfo: (pathObj, patternlab, isPromoteToFlatPatternRun) => {
     const info = {
-      // 00-colors(.mustache) is deeply nested in 00-atoms-/00-global/00-colors
+      // colors(.mustache) is deeply nested in atoms-/global/colors
       patternlab: patternlab,
       patternHasOwnDir: isPromoteToFlatPatternRun
         ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
@@ -301,6 +326,11 @@ Pattern.prototype = {
     info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';
     info.dirLevel = pathObj.dir.split(path.sep).filter(s => !!s).length;
 
+    // Only relevant for deprecation check and message
+    if (path.parse(pathObj.dir).base === '_meta') {
+      info.isMetaPattern = true;
+    }
+
     if (info.dirLevel === 0 || (info.dirLevel === 1 && info.patternHasOwnDir)) {
       // -> ./
       info.shortNotation = 'root';
@@ -311,10 +341,12 @@ Pattern.prototype = {
       // -> ./folder/folder
       info.shortNotation = pathObj.dir
         .split(/\/|\\/, 2)
+        .map(o => o.replace(prefixMatcher, ''))
         .join('-')
         .replace(new RegExp(`-${info.dir}$`), '');
       info.verbosePartial = pathObj.dir
         .split(/\/|\\/, 2)
+        .map(o => o.replace(prefixMatcher, ''))
         .join('/')
         .replace(new RegExp(`-${info.dir}$`), '');
     }

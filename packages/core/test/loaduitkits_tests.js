@@ -1,6 +1,7 @@
 'use strict';
 
 const tap = require('tap');
+const path = require('path');
 const rewire = require('rewire');
 
 const logger = require('../src/lib/log');
@@ -42,7 +43,7 @@ tap.test('loaduikits - maps fields correctly', function(test) {
     );
     test.contains(
       patternlab.uikits['uikit-workshop'].modulePath,
-      'packages/uikit-workshop'
+      path.join('packages', 'uikit-workshop')
     );
     test.ok(patternlab.uikits['uikit-workshop'].enabled);
     test.equals(patternlab.uikits['uikit-workshop'].outputDir, 'test/');

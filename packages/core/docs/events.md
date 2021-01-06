@@ -61,7 +61,7 @@ Emitted after patterns are iterated over to gather data about them. Right before
 
 #### `EVENTS~PATTERNLAB_BUILD_GLOBAL_DATA_END`
 
-Emitted after global `data.json` and `listitems.json` are read, and the supporting Pattern Lab templates are loaded into memory (header, footer, patternSection, patternSectionSubType, viewall). Right before patterns are iterated over to gather data about them.
+Emitted after global `data.json` and `listitems.json` are read, and the supporting Pattern Lab templates are loaded into memory (header, footer, patternSection, patternSectionSubgroup, viewall). Right before patterns are iterated over to gather data about them.
 
 **Kind**: inner property of [<code>EVENTS</code>](#exp_module_Events--EVENTS)  
 **Properties**

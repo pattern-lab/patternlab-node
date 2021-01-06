@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import HelloWorld from '../../00-atoms/00-general/HelloWorld';
+import HelloWorld from '../../atoms/general/HelloWorld';
 
 // const HelloWorld = () => (
 //   <div>
