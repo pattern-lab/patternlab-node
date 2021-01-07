@@ -1,0 +1,11 @@
+{% extends "@templates/layouts/site.twig" %}
+{% block title %}<h1 class="section-title">Our Outdoor Blog</h1>{% endblock %}
+
+{% block main %}
+    {% include "@organisms/sections/latest-posts.twig" %}
+    {% include "@molecules/navigation/pagination.twig" %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include "@organisms/sections/recent-tweets.twig" %}
+{% endblock %}
