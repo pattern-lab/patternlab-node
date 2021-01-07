@@ -161,6 +161,18 @@ const Pattern = function(
   this.variantOrder = 0;
   this.engine = patternEngines.getEngineForPattern(this);
 
+  // TODO: Remove the following when ordering by file prefix gets obsolete
+  this.patternGroupData = this.patternGroupData || {};
+  if (!this.patternGroupData.order && info.patternGroupOrder) {
+    this.patternGroupData.order = info.patternGroupOrder;
+  }
+
+  // TODO: Remove the following when ordering by file prefix gets obsolete
+  this.patternSubgroupData = this.patternSubgroupData || {};
+  if (!this.patternSubgroupData.order && info.patternSubgroupOrder) {
+    this.patternGroupData.order = info.patternSubgroupOrder;
+  }
+
   /**
    * Determines if this pattern needs to be recompiled.
    *
@@ -304,6 +316,19 @@ Pattern.prototype = {
   },
 
   /**
+   * Retrieves the number prefix, which later is used for sorting.
+   * (Can be removed when sorting by number prefix becomes obsolete)
+   * @param {*} pathStr the path that needs to be checked for number prefixes
+   * @returns the order number or 0 when no prefix is available
+   */
+  setPatternOrderDataForInfo: pathStr => {
+    const match = pathStr.match(prefixMatcherDeprecationCheckOrder);
+    return match && match.length >= 1
+      ? pathStr.match(prefixMatcherDeprecationCheckOrder)[1].replace('-', '')
+      : 0;
+  },
+
+  /**
    * The "info" object contains information about pattern structure if it is
    * a nested pattern or if it just a sub folder structure. It's just used for
    * internal purposes. Remember every pattern information based on "this.*"
@@ -336,12 +361,29 @@ Pattern.prototype = {
       info.shortNotation = 'root';
     } else if (info.dirLevel === 2 && info.patternHasOwnDir) {
       // -> ./folder
-      info.shortNotation = path.dirname(pathObj.dir);
+      info.shortNotation = path.dirname(pathObj.dir).replace(prefixMatcher, '');
+      info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
+        path.dirname(pathObj.dir)
+      );
     } else {
       // -> ./folder/folder
       info.shortNotation = pathObj.dir
         .split(/\/|\\/, 2)
-        .map(o => o.replace(prefixMatcher, ''))
+        .map((o, i) => {
+          if (i === 0) {
+            info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
+              o
+            );
+          }
+
+          if (i === 1) {
+            info.patternSubgroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
+              o
+            );
+          }
+
+          return o.replace(prefixMatcher, '');
+        })
         .join('-')
         .replace(new RegExp(`-${info.dir}$`), '');
       info.verbosePartial = pathObj.dir
