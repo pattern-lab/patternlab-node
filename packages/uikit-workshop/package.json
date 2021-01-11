@@ -101,6 +101,7 @@
     "react-html-parser": "^2.0.2",
     "react-popper-tooltip": "^2.10.0",
     "redux-thunk": "^2.3.0",
+    "redux": "3.7.2",
     "sass-loader": "^8.0.0",
     "scriptjs": "^2.5.8",
     "scroll-js": "^2.2.0",

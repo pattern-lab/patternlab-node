@@ -8,7 +8,7 @@ import { getParents } from './get-parents';
 import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
 import Mousetrap from 'mousetrap';
-import 'url-search-params-polyfill';
+
 import { NavLink } from './nav-link';
 import { NavList } from './nav-list';
 
@@ -238,7 +238,7 @@ class Nav extends BaseComponent {
 
     return (
       <ol class="pl-c-nav__list">
-        {patternTypes.map((item, i) => {
+        {patternGroups.map((item, i) => {
           const classes = classNames('pl-c-nav__list-item');
           const patternItems = item.patternItems;
 
