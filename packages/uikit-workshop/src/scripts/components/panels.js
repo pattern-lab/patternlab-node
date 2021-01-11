@@ -84,7 +84,7 @@ function init(event) {
   Panels.add({
     id: 'pl-panel-html',
     name: 'HTML',
-    default: false,
+    default: window.config.defaultPatternInfoPanelCode && window.config.defaultPatternInfoPanelCode === 'html',
     templateID: 'pl-panel-template-code',
     httpRequest: true,
     httpRequestReplace: fileSuffixMarkup + '.html',

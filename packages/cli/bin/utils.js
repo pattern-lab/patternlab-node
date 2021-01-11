@@ -6,6 +6,10 @@ const path = require('path');
 const chalk = require('chalk');
 const EventEmitter = require('events').EventEmitter;
 const hasYarn = require('has-yarn');
+const {
+  resolvePackageFolder,
+  resolveFileInPackage,
+} = require('@pattern-lab/core/src/lib/resolver');
 
 /**
  * @name log
@@ -124,7 +128,7 @@ const copyWithPattern = (cwd, pattern, dest) =>
 
 /**
  * @func fetchPackage
- * @desc Fetches and saves packages from npm into node_modules and adds a reference in the package.json under dependencies
+ * @desc Fetches packages from an npm package registry and adds a reference in the package.json under dependencies
  * @param {string} packageName - The package name
  */
 const fetchPackage = packageName =>
@@ -134,7 +138,11 @@ const fetchPackage = packageName =>
     const installCmd = useYarn ? 'add' : 'install';
     try {
       if (packageName) {
-        const cmd = yield spawn(pm, [installCmd, packageName]);
+        const opts = {};
+        if (process.env.projectDir) {
+          opts.cwd = process.env.projectDir;
+        }
+        const cmd = yield spawn(pm, [installCmd, packageName], opts);
         error(cmd.stderr);
       }
     } catch (err) {
@@ -154,7 +162,7 @@ const fetchPackage = packageName =>
 const checkAndInstallPackage = packageName =>
   wrapAsync(function*() {
     try {
-      require.resolve(packageName);
+      resolvePackageFolder(packageName);
       return true;
     } catch (err) {
       debug(
@@ -193,7 +201,7 @@ const getJSONKey = (packageName, key, fileName = 'package.json') =>
   wrapAsync(function*() {
     yield checkAndInstallPackage(packageName);
     const jsonData = yield fs.readJson(
-      path.resolve('node_modules', packageName, fileName)
+      resolveFileInPackage(packageName, fileName)
     );
     return jsonData[key];
   });

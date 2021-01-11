@@ -214,8 +214,8 @@ var engine_underscore = {
    * assume it's already present
    */
   spawnMeta: function(config) {
-    this.spawnFile(config, '_00-head.html');
-    this.spawnFile(config, '_01-foot.html');
+    this.spawnFile(config, '_head.html');
+    this.spawnFile(config, '_foot.html');
   },
 };
 

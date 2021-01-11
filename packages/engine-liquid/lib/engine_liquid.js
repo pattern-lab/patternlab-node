@@ -188,7 +188,7 @@ module.exports = {
    * assume it's already present
    */
   spawnMeta: function(config) {
-    this.spawnFile(config, '_00-head.liquid');
-    this.spawnFile(config, '_01-foot.liquid');
+    this.spawnFile(config, '_head.liquid');
+    this.spawnFile(config, '_foot.liquid');
   },
 };

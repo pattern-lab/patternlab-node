@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars, no-param-reassign */
-import URLSearchParams from '@ungap/url-search-params'; // URLSearchParams poly for older browsers
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { store } from '../../store.js'; // connect to redux
 import { updateCurrentPattern, updateCurrentUrl } from '../../actions/app.js'; // redux actions

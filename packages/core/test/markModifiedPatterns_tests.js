@@ -40,7 +40,7 @@ tap.only(
       markupOnly: '.markup-only',
     };
 
-    var pattern = new Pattern('00-test/01-bar.mustache');
+    var pattern = new Pattern('test/bar.mustache');
 
     pattern.extendedTemplate = undefined;
     pattern.template = 'bar';
@@ -83,7 +83,7 @@ tap.test(
     patternlab.config = { logLevel: 'quiet' };
     patternlab.config.outputFileSuffixes = { rendered: '' };
 
-    var pattern = new Pattern('00-test/01-bar.mustache');
+    var pattern = new Pattern('test/bar.mustache');
     pattern.extendedTemplate = undefined;
     pattern.template = 'bar';
     pattern.lastModified = undefined;
@@ -106,7 +106,7 @@ tap.test('markModifiedPatterns - finds patterns via compile state', function(
   patternlab.config = { logLevel: 'quiet' };
   patternlab.config.outputFileSuffixes = { rendered: '' };
 
-  var pattern = new Pattern('00-test/01-bar.mustache');
+  var pattern = new Pattern('test/bar.mustache');
   pattern.extendedTemplate = undefined;
   pattern.template = 'bar';
   pattern.lastModified = 100000;

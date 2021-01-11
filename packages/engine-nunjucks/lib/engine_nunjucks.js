@@ -121,8 +121,8 @@ const engine_nunjucks = {
    * assume it's already present
    */
   spawnMeta: function(config) {
-    this.spawnFile(config, '_00-head.njk');
-    this.spawnFile(config, '_01-foot.njk');
+    this.spawnFile(config, '_head.njk');
+    this.spawnFile(config, '_foot.njk');
   },
 
   /**

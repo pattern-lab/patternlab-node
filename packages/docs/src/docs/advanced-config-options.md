@@ -45,6 +45,12 @@ Sets whether or not you want the styleguide to load with the pattern info open o
 
 **default**: `false`
 
+### defaultPatternInfoPanelCode (optional)
+
+Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, or instead use value `html` to display the html code initially, or the value defined for the _patternExtension_.
+
+**default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"` | `"html"`)
+
 ### ishControlsHide
 
 Sets whether or not to hide navigation options within the styleguide.
@@ -130,7 +136,7 @@ Sets the configurable source and public directories for files Pattern Lab Node o
         "general-header": "views/partials/general-header.mustache",
         "general-footer": "views/partials/general-footer.mustache",
         "patternSection": "views/partials/patternSection.mustache",
-        "patternSectionSubtype": "views/partials/patternSectionSubtype.mustache",
+        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.mustache",
         "viewall": "views/viewall.mustache"
       },
       "js": "./source/js",
@@ -301,17 +307,20 @@ Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Eco
 `uikits` accepts an array of UIKit objects, shipping with the one above.
 
 - `name`: the name of the UIKit
+- `package`: the NodeJS package name. This property was introduced in version 5.13 to allow for a uikit package to be used multiple times with different names. Add the package as a dependency in `package.json` before you configure it here.
 - `outputDir` where to output this UIKit relative to the current root. By leaving this empty we retain the existing Pattern Lab 2.X behavior, outputting to `<project_root>/public`. If you had multiple UIKits, however, you would provide different values, such as:
 
 ```javascript
   "uikits": [
     {
       "name": "uikit-workshop",
+      "package": "@pattern-lab/uikit-workshop",
       "outputDir": "workshop",
       ...
     },
     {
       "name": "uikit-storefront",
+      "package": "@pattern-lab/uikit-storefront",
       "outputDir": "storefront",
       ...
     }
@@ -327,6 +336,11 @@ Important details:
 - the [default `paths.source` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/a4961bd5d696a05fb516cdd951163b0f918d5e19) within `patternlab-config.json` are now relative to the current UIKit. See the [structure of uikit-workshop](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) for more info
 - the [default `paths.public` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/812bab3659f504043e8b61b1dc1cdac71f248449) within `patternlab-config.json` are now relative to the current UIKit's `outputDir`. Absolute paths will no longer work. Someone could test putting an absolute path in a UIKit `outputDir` property and see what happens I suppose.
 - `dependencyGraph.json` has moved to the project root rather than `public/` as we should only retain one
+- The lookup of the uikit by `name` is deprecated and the user will be notified of it. If the `package` property isn't defined, there is a default fallback lookup strategy where the value of `name` is tried as:
+  - `<name>`
+  - `uikit-<name>`
+  - `@pattern-lab/<name>`
+  - `@pattern-lab/uikit-<name>`
 
 **default**:
 
@@ -334,6 +348,7 @@ Important details:
   "uikits": [
     {
       "name": "uikit-workshop",
+      "package": "@pattern-lab/uikit-workshop",
       "outputDir": "",
       "enabled": true,
       "excludedPatternStates": [],

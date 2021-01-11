@@ -1,0 +1,35 @@
+{% extends "@templates/layouts/page-2col.twig" %}
+{% block hero %}
+    {% if emergency %}
+        {% include "@molecules/messaging/alert.twig" with emergency %}
+    {% endif %}
+    {% if hero %}
+        {% include "@molecules/blocks/block-hero.twig" %}
+    {% endif %}
+
+    <div class="g g-3up">
+        {% for tout in touts %}
+            <div class="gi">
+                {% include "@molecules/blocks/block-inset.twig" %}
+            </div>
+        {% endfor %}
+    </div><!--end 3up-->
+
+    <hr/>
+{% endblock %}
+
+{% block main %}
+    <section class="section latest-posts">
+        <h2 class="section-title">Latest Posts</h2>
+        <ul class="post-list">
+            {% for post in latest_posts %}
+                <li>{% include "@molecules/blocks/media-block.twig" %}</li>
+            {% endfor %}
+        </ul>
+        <a href="#" class="text-btn">View more posts</a>
+    </section>
+{% endblock %}
+
+{% block sidebar %}
+    {% include "@organisms/sections/recent-tweets.twig" %}
+{% endblock %}

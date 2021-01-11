@@ -11,12 +11,11 @@ import styles from './pl-drawer.scss?external';
 
 @customElement('pl-drawer')
 class Drawer extends LitElement {
-  constructor(self) {
-    self = super(self);
-    self.onMouseDown = self.onMouseDown.bind(self); // fix bindings so "self" works properly
-    self.onMouseUp = self.onMouseUp.bind(self); // fix bindings so "self" works properly
-    self.onMouseMove = self.onMouseMove.bind(self); // fix bindings so "this" works properly
-    return self;
+  constructor() {
+    super();
+    this.onMouseDown = this.onMouseDown.bind(this); // fix bindings so "this" works properly
+    this.onMouseUp = this.onMouseUp.bind(this); // fix bindings so "this" works properly
+    this.onMouseMove = this.onMouseMove.bind(this); // fix bindings so "this" works properly
   }
 
   connectedCallback() {

@@ -1,6 +1,7 @@
 'use strict';
 
 const tap = require('tap');
+const path = require('path');
 const rewire = require('rewire');
 
 const logger = require('../src/lib/log');
@@ -8,41 +9,7 @@ const loaduikits = rewire('../src/lib/loaduikits');
 
 const testConfig = require('./util/patternlab-config.json');
 
-const findModulesMock = function() {
-  return [
-    {
-      name: 'foo',
-      modulePath: 'node_modules/@pattern-lab/uikit-foo',
-    },
-    {
-      name: 'bar',
-      modulePath: 'node_modules/@pattern-lab/uikit-bar',
-    },
-    {
-      name: 'baz',
-      modulePath: 'node_modules/@pattern-lab/uikit-baz',
-    },
-    {
-      name: 'polyfills',
-      modulePath: 'node_modules/@pattern-lab/uikit-polyfills',
-    },
-  ];
-};
-
-const fsMock = {
-  readFileSync: function(path, encoding) {
-    return 'file';
-  },
-};
-
-loaduikits.__set__({
-  findModules: findModulesMock,
-  fs: fsMock,
-});
-
-logger;
-
-tap.test('loaduitkits - does not warn on uikit-polyfills', test => {
+tap.test('loaduikits - does warn on missing package property', test => {
   //arrange
   const patternlab = {
     config: testConfig,
@@ -50,17 +17,7 @@ tap.test('loaduitkits - does not warn on uikit-polyfills', test => {
   };
 
   patternlab.config.logLevel = 'warning';
-  logger.log.on('warning', msg => test.notOk(msg.includes('uikit-polyfills')));
-
-  const uikitFoo = {
-    name: 'uikit-foo',
-    enabled: true,
-    outputDir: 'foo',
-    excludedPatternStates: ['legacy'],
-    excludedTags: ['baz'],
-  };
-
-  patternlab.config.uikits = [uikitFoo];
+  logger.log.on('warning', msg => test.ok(msg.includes('package:')));
 
   //act
   loaduikits(patternlab).then(() => {
@@ -76,34 +33,24 @@ tap.test('loaduikits - maps fields correctly', function(test) {
     uikits: {},
   };
 
-  const uikitFoo = {
-    name: 'uikit-foo',
-    enabled: true,
-    outputDir: 'foo',
-    excludedPatternStates: ['legacy'],
-    excludedTags: ['baz'],
-  };
-
-  patternlab.config.uikits = [uikitFoo];
-
   //act
   loaduikits(patternlab).then(() => {
     //assert
-    test.equals(patternlab.uikits['uikit-foo'].name, uikitFoo.name);
+    test.equals(patternlab.uikits['uikit-workshop'].name, 'uikit-workshop');
     test.equals(
-      patternlab.uikits['uikit-foo'].modulePath,
-      'node_modules/@pattern-lab/uikit-foo'
+      patternlab.uikits['uikit-workshop'].package,
+      '@pattern-lab/uikit-workshop'
     );
-    test.ok(patternlab.uikits['uikit-foo'].enabled);
-    test.equals(patternlab.uikits['uikit-foo'].outputDir, uikitFoo.outputDir);
-    test.equals(
-      patternlab.uikits['uikit-foo'].excludedPatternStates,
-      uikitFoo.excludedPatternStates
+    test.contains(
+      patternlab.uikits['uikit-workshop'].modulePath,
+      path.join('packages', 'uikit-workshop')
     );
-    test.equals(
-      patternlab.uikits['uikit-foo'].excludedTags,
-      uikitFoo.excludedTags
-    );
+    test.ok(patternlab.uikits['uikit-workshop'].enabled);
+    test.equals(patternlab.uikits['uikit-workshop'].outputDir, 'test/');
+    test.deepEquals(patternlab.uikits['uikit-workshop'].excludedPatternStates, [
+      'legacy',
+    ]);
+    test.deepEquals(patternlab.uikits['uikit-workshop'].excludedTags, ['baz']);
     test.end();
   });
 });
@@ -115,36 +62,11 @@ tap.test('loaduikits - only adds files for enabled uikits', function(test) {
     uikits: {},
   };
 
-  patternlab.config.uikits = [
-    {
-      name: 'uikit-foo',
-      enabled: true,
-      outputDir: 'foo',
-      excludedPatternStates: ['legacy'],
-      excludedTags: ['baz'],
-    },
-    {
-      name: 'uikit-bar',
-      enabled: true,
-      outputDir: 'bar',
-      excludedPatternStates: ['development'],
-      excludedTags: ['baz', 'foo'],
-    },
-    {
-      name: 'uikit-baz',
-      enabled: false,
-      outputDir: 'baz',
-      excludedPatternStates: [''],
-      excludedTags: [],
-    },
-  ];
-
   //act
   loaduikits(patternlab).then(() => {
     //assert
-    test.ok(patternlab.uikits['uikit-foo']);
-    test.ok(patternlab.uikits['uikit-bar']);
-    test.notOk(patternlab.uikits['uikit-baz']);
+    test.ok(patternlab.uikits['uikit-workshop']);
+    test.notOk(patternlab.uikits['uikit-polyfills']);
     test.end();
   });
 });

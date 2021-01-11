@@ -72,7 +72,8 @@ tap.test(
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('00-test/_ignored-pattern.mustache');
+    var pattern = new Pattern('test/ignored-pattern.mustache');
+    pattern.hidden = true;
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
@@ -88,7 +89,7 @@ tap.test(
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('00-test/foo.mustache');
+    var pattern = new Pattern('test/foo.mustache');
     patternlab.config.defaultPattern = 'test-foo';
 
     //act
@@ -108,15 +109,19 @@ tap.test(
     var pattern = Pattern.createEmpty({
       relPath:
         path.sep +
-        '_hidden' +
+        'hidden' +
         path.sep +
-        'patternsubtype' +
+        'patternSubgroup' +
         path.sep +
         'foo.mustache',
       isPattern: true,
       fileName: 'foo.mustache',
       patternPartial: 'hidden-foo',
     });
+
+    pattern.patternGroupData = {
+      hidden: true,
+    };
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
@@ -128,17 +133,21 @@ tap.test(
 );
 
 tap.test(
-  'isPatternExcluded - returns true when pattern within underscored directory - subtype level',
+  'isPatternExcluded - returns true when pattern within underscored directory - subgroup level',
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
       relPath:
-        'shown' + path.sep + '_patternsubtype' + path.sep + 'foo.mustache',
+        'shown' + path.sep + 'patternsubtype' + path.sep + 'foo.mustache',
       isPattern: true,
       fileName: 'foo.mustache',
       patternPartial: 'shown-foo',
     });
+
+    pattern.patternSubGroupData = {
+      hidden: true,
+    };
 
     //act
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
@@ -156,7 +165,7 @@ tap.test(
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
       relPath:
-        'shown' + path.sep + '_patternsubtype' + path.sep + 'foo.mustache',
+        'shown' + path.sep + '_patternSubgroup' + path.sep + 'foo.mustache',
       isPattern: true,
       fileName: 'foo.mustache',
       patternPartial: 'shown-foo',
@@ -179,19 +188,19 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   var patternlab = createFakePatternLab({
     patterns: [],
     patternGroups: {},
-    subtypePatterns: {},
+    subgroupPatterns: {},
   });
 
   patternlab.patterns.push(
     new Pattern('foobar.mustache'),
-    new Pattern('00-test/bar.mustache'),
-    new Pattern('00-test/foo.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType2/black.mustache'),
-    new Pattern('patternType1/patternSubType2/grey.mustache'),
-    new Pattern('patternType1/patternSubType2/white.mustache')
+    new Pattern('test/bar.mustache'),
+    new Pattern('test/foo.mustache'),
+    new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+    new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+    new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+    new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
+    new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
+    new Pattern('patternGroup1/patternSubgroup2/white.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -199,48 +208,56 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   var result = ui.groupPatterns(patternlab, uikit);
 
   test.equals(
-    result.patternGroups.patternType1.patternSubType1.blue.patternPartial,
-    'patternType1-blue'
+    result.patternGroups.patternGroup1.patternSubgroup1.blue.patternPartial,
+    'patternGroup1-blue'
   );
   test.equals(
-    result.patternGroups.patternType1.patternSubType1.red.patternPartial,
-    'patternType1-red'
+    result.patternGroups.patternGroup1.patternSubgroup1.red.patternPartial,
+    'patternGroup1-red'
   );
   test.equals(
-    result.patternGroups.patternType1.patternSubType1.yellow.patternPartial,
-    'patternType1-yellow'
+    result.patternGroups.patternGroup1.patternSubgroup1.yellow.patternPartial,
+    'patternGroup1-yellow'
   );
   test.equals(
-    result.patternGroups.patternType1.patternSubType2.black.patternPartial,
-    'patternType1-black'
+    result.patternGroups.patternGroup1.patternSubgroup2.black.patternPartial,
+    'patternGroup1-black'
   );
   test.equals(
-    result.patternGroups.patternType1.patternSubType2.grey.patternPartial,
-    'patternType1-grey'
+    result.patternGroups.patternGroup1.patternSubgroup2.grey.patternPartial,
+    'patternGroup1-grey'
   );
   test.equals(
-    result.patternGroups.patternType1.patternSubType2.white.patternPartial,
-    'patternType1-white'
+    result.patternGroups.patternGroup1.patternSubgroup2.white.patternPartial,
+    'patternGroup1-white'
   );
+
+  // Pattern groups are now sorted. Because of the missing prefix, they won't be
+  // found from the recursive file issuer in the order that was given by the
+  // number prefix. Now it will be by name if no order is set by group or
+  // subgroup frontmatter.
+
+  //The groups for this test will be in the following order
+  //"patternGroup1", "root" (because it's a top-level flat pattern) and at last "test"
 
   // Flat patterns
   test.equals(
-    patternlab.patternTypes[0].patternItems[0].patternPartial,
+    patternlab.patternGroups[1].patternItems[0].patternPartial,
     'root-foobar',
     'flat pattern foobar on root'
   );
   test.equals(
-    patternlab.patternTypes[1].patternItems[0].patternPartial,
+    patternlab.patternGroups[2].patternItems[0].patternPartial,
     'test-bar',
     'first pattern item should be test-bar'
   );
   test.equals(
-    patternlab.patternTypes[1].patternItems[1].patternPartial,
+    patternlab.patternGroups[2].patternItems[1].patternPartial,
     'test-foo',
     'second pattern item should be test-foo'
   );
 
-  //todo: patternlab.patternTypes[0].patternItems[1] looks malformed
+  //todo: patternlab.patternGroups[0].patternItems[1] looks malformed
 
   test.end();
 });
@@ -252,14 +269,14 @@ tap.test('groupPatterns - orders patterns when provided from md', function(
   var patternlab = createFakePatternLab({
     patterns: [],
     patternGroups: {},
-    subtypePatterns: {},
+    subgroupPatterns: {},
   });
 
   // Should be sorted by order and secondly by name
   patternlab.patterns.push(
-    new Pattern('patternType1/patternSubType1/yellow.mustache'),
-    new Pattern('patternType1/patternSubType1/red.mustache'),
-    new Pattern('patternType1/patternSubType1/blue.mustache')
+    new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+    new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+    new Pattern('patternGroup1/patternSubgroup1/blue.mustache')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -269,20 +286,20 @@ tap.test('groupPatterns - orders patterns when provided from md', function(
   //act
   ui.groupPatterns(patternlab, uikit);
 
-  let patternType = _.find(patternlab.patternTypes, [
-    'patternType',
-    'patternType1',
+  let patternGroup = _.find(patternlab.patternGroups, [
+    'patternGroup',
+    'patternGroup1',
   ]);
-  let patternSubType = _.find(patternType.patternTypeItems, [
-    'patternSubtype',
-    'patternSubType1',
+  let patternSubgroup = _.find(patternGroup.patternGroupItems, [
+    'patternSubgroup',
+    'patternSubgroup1',
   ]);
-  var items = patternSubType.patternSubtypeItems;
+  var items = patternSubgroup.patternSubgroupItems;
 
   // Viewall should come last since it shows all patterns that are above
-  test.equals(items[0].patternPartial, 'patternType1-blue');
-  test.equals(items[1].patternPartial, 'patternType1-yellow');
-  test.equals(items[2].patternPartial, 'patternType1-red');
+  test.equals(items[0].patternPartial, 'patternGroup1-blue');
+  test.equals(items[1].patternPartial, 'patternGroup1-yellow');
+  test.equals(items[2].patternPartial, 'patternGroup1-red');
 
   test.end();
 });
@@ -294,13 +311,13 @@ tap.test(
     var patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
     });
 
     patternlab.patterns.push(
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -309,39 +326,39 @@ tap.test(
     //act
     ui.groupPatterns(patternlab, uikit);
 
-    let patternType = _.find(patternlab.patternTypes, [
-      'patternType',
-      'patternType1',
+    let patternGroup = _.find(patternlab.patternGroups, [
+      'patternGroup',
+      'patternGroup1',
     ]);
-    let patternSubType = _.find(patternType.patternTypeItems, [
-      'patternSubtype',
-      'patternSubType1',
+    let patternSubgroup = _.find(patternGroup.patternGroupItems, [
+      'patternSubgroup',
+      'patternSubgroup1',
     ]);
-    var items = patternSubType.patternSubtypeItems;
+    var items = patternSubgroup.patternSubgroupItems;
 
     // Viewall should come last since it shows all patterns that are above
-    test.equals(items[0].patternPartial, 'patternType1-blue');
-    test.equals(items[1].patternPartial, 'patternType1-red');
-    test.equals(items[2].patternPartial, 'patternType1-yellow');
+    test.equals(items[0].patternPartial, 'patternGroup1-blue');
+    test.equals(items[1].patternPartial, 'patternGroup1-red');
+    test.equals(items[2].patternPartial, 'patternGroup1-yellow');
 
     test.end();
   }
 );
 
 tap.test(
-  'groupPatterns - sorts viewall subtype pattern to the beginning',
+  'groupPatterns - sorts viewall subgroup pattern to the beginning',
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
     });
 
     patternlab.patterns.push(
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -352,48 +369,48 @@ tap.test(
     //act
     ui.groupPatterns(patternlab, uikit);
 
-    let patternType = _.find(patternlab.patternTypes, [
-      'patternType',
-      'patternType1',
+    let patternGroup = _.find(patternlab.patternGroups, [
+      'patternGroup',
+      'patternGroup1',
     ]);
-    let patternSubType = _.find(patternType.patternTypeItems, [
-      'patternSubtype',
-      'patternSubType1',
+    let patternSubgroup = _.find(patternGroup.patternGroupItems, [
+      'patternSubgroup',
+      'patternSubgroup1',
     ]);
-    var items = patternSubType.patternSubtypeItems;
+    var items = patternSubgroup.patternSubgroupItems;
 
     // Viewall should come last since it shows all patterns that are above
     test.equals(
       items[3].patternPartial,
-      'viewall-patternType1-patternSubType1'
+      'viewall-patternGroup1-patternSubgroup1'
     );
-    test.equals(items[0].patternPartial, 'patternType1-blue');
-    test.equals(items[1].patternPartial, 'patternType1-yellow');
-    test.equals(items[2].patternPartial, 'patternType1-red');
+    test.equals(items[0].patternPartial, 'patternGroup1-blue');
+    test.equals(items[1].patternPartial, 'patternGroup1-yellow');
+    test.equals(items[2].patternPartial, 'patternGroup1-red');
 
     test.end();
   }
 );
 
 tap.test(
-  'groupPatterns - creates documentation patterns for each type and subtype if not exists',
+  'groupPatterns - creates documentation patterns for each type and subgroup if not exists',
   function(test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
     });
 
     patternlab.patterns.push(
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('00-test/bar.mustache'),
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache'),
-      new Pattern('patternType1/patternSubType2/black.mustache'),
-      new Pattern('patternType1/patternSubType2/grey.mustache'),
-      new Pattern('patternType1/patternSubType2/white.mustache')
+      new Pattern('test/foo.mustache'),
+      new Pattern('test/bar.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -402,16 +419,16 @@ tap.test(
 
     //assert
     test.equals(
-      result.patternGroups.patternType1.patternSubType1[
-        'viewall-patternType1-patternSubType1'
+      result.patternGroups.patternGroup1.patternSubgroup1[
+        'viewall-patternGroup1-patternSubgroup1'
       ].patternPartial,
-      'viewall-patternType1-patternSubType1'
+      'viewall-patternGroup1-patternSubgroup1'
     );
     test.equals(
-      result.patternGroups.patternType1.patternSubType2[
-        'viewall-patternType1-patternSubType2'
+      result.patternGroups.patternGroup1.patternSubgroup2[
+        'viewall-patternGroup1-patternSubgroup2'
       ].patternPartial,
-      'viewall-patternType1-patternSubType2'
+      'viewall-patternGroup1-patternSubgroup2'
     );
 
     test.end();
@@ -425,18 +442,18 @@ tap.test(
     var patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
     });
 
     patternlab.patterns.push(
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('00-test/bar.mustache'),
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache'),
-      new Pattern('patternType1/patternSubType2/black.mustache'),
-      new Pattern('patternType1/patternSubType2/grey.mustache'),
-      new Pattern('patternType1/patternSubType2/white.mustache')
+      new Pattern('test/foo.mustache'),
+      new Pattern('test/bar.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -444,31 +461,31 @@ tap.test(
     var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
-    test.equals(patternlab.patternPaths['test']['foo'], '00-test-foo');
-    test.equals(patternlab.patternPaths['test']['bar'], '00-test-bar');
+    test.equals(patternlab.patternPaths['test']['foo'], 'test-foo');
+    test.equals(patternlab.patternPaths['test']['bar'], 'test-bar');
     test.equals(
-      patternlab.patternPaths['patternType1']['blue'],
-      'patternType1-patternSubType1-blue'
+      patternlab.patternPaths['patternGroup1']['blue'],
+      'patternGroup1-patternSubgroup1-blue'
     );
     test.equals(
-      patternlab.patternPaths['patternType1']['red'],
-      'patternType1-patternSubType1-red'
+      patternlab.patternPaths['patternGroup1']['red'],
+      'patternGroup1-patternSubgroup1-red'
     );
     test.equals(
-      patternlab.patternPaths['patternType1']['yellow'],
-      'patternType1-patternSubType1-yellow'
+      patternlab.patternPaths['patternGroup1']['yellow'],
+      'patternGroup1-patternSubgroup1-yellow'
     );
     test.equals(
-      patternlab.patternPaths['patternType1']['black'],
-      'patternType1-patternSubType2-black'
+      patternlab.patternPaths['patternGroup1']['black'],
+      'patternGroup1-patternSubgroup2-black'
     );
     test.equals(
-      patternlab.patternPaths['patternType1']['grey'],
-      'patternType1-patternSubType2-grey'
+      patternlab.patternPaths['patternGroup1']['grey'],
+      'patternGroup1-patternSubgroup2-grey'
     );
     test.equals(
-      patternlab.patternPaths['patternType1']['white'],
-      'patternType1-patternSubType2-white'
+      patternlab.patternPaths['patternGroup1']['white'],
+      'patternGroup1-patternSubgroup2-white'
     );
 
     test.end();
@@ -482,18 +499,18 @@ tap.test(
     var patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
     });
 
     patternlab.patterns.push(
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('00-test/bar.mustache'),
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache'),
-      new Pattern('patternType1/patternSubType2/black.mustache'),
-      new Pattern('patternType1/patternSubType2/grey.mustache'),
-      new Pattern('patternType1/patternSubType2/white.mustache')
+      new Pattern('test/foo.mustache'),
+      new Pattern('test/bar.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -512,7 +529,7 @@ tap.test('resetUIBuilderState - reset global objects', function(test) {
   var patternlab = createFakePatternLab({
     patternPaths: { foo: 1 },
     viewAllPaths: { bar: 2 },
-    patternTypes: ['baz'],
+    patternGroups: ['baz'],
   });
 
   //act
@@ -521,20 +538,20 @@ tap.test('resetUIBuilderState - reset global objects', function(test) {
   //assert
   test.equals(patternlab.patternPaths.foo, undefined);
   test.equals(patternlab.viewAllPaths.bar, undefined);
-  test.equals(patternlab.patternTypes.length, 0);
+  test.equals(patternlab.patternGroups.length, 0);
 
   test.end();
 });
 
 tap.test(
-  'buildViewAllPages - adds viewall page for each type and subtype NOT! for flat patterns',
+  'buildViewAllPages - adds viewall page for each type and subgroup NOT! for flat patterns',
   function(test) {
     //arrange
     const mainPageHeadHtml = '<head></head>';
     const patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
       footer: {},
       userFoot: {},
       cacheBuster: 1234,
@@ -542,13 +559,13 @@ tap.test(
 
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache'),
-      new Pattern('patternType1/patternSubType2/black.mustache'),
-      new Pattern('patternType1/patternSubType2/grey.mustache'),
-      new Pattern('patternType1/patternSubType2/white.mustache')
+      new Pattern('test/foo.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -568,7 +585,7 @@ tap.test(
       // we expect 10 here because:
       //   - foo.mustache is flat and therefore does not have a viewall page
       //   - the colors.mustache files make 6
-      //   - patternSubType1 and patternSubType2 make 8
+      //   - patternSubgroup1 and patternSubgroup2 make 8
       //   - the general view all page make 9
       // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
       // it's important to ensure that this method does not get prematurely terminated
@@ -577,12 +594,12 @@ tap.test(
       const uniquePatterns = ui.uniqueAllPatterns(allPatterns, patternlab);
 
       /**
-       * - view-patternType1-all
-       * -- viewall-patternType1-patternSubType1
+       * - view-patternGroup1-all
+       * -- viewall-patternGroup1-patternSubgroup1
        * --- blue
        * --- red
        * --- yellow
-       * -- viewall-patternType1-patternSubType2
+       * -- viewall-patternGroup1-patternSubgroup2
        * --- black
        * --- grey
        * --- white
@@ -595,14 +612,14 @@ tap.test(
 );
 
 tap.test(
-  'buildViewAllPages - adds viewall page for each type and subtype FOR! flat patterns',
+  'buildViewAllPages - adds viewall page for each type and subgroup FOR! flat patterns',
   function(test) {
     //arrange
     const mainPageHeadHtml = '<head></head>';
     const patternlab = createFakePatternLab({
       patterns: [],
       patternGroups: {},
-      subtypePatterns: {},
+      subgroupPatterns: {},
       footer: {},
       userFoot: {},
       cacheBuster: 1234,
@@ -612,13 +629,13 @@ tap.test(
 
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
-      new Pattern('00-test/foo.mustache'),
-      new Pattern('patternType1/patternSubType1/blue.mustache'),
-      new Pattern('patternType1/patternSubType1/red.mustache'),
-      new Pattern('patternType1/patternSubType1/yellow.mustache'),
-      new Pattern('patternType1/patternSubType2/black.mustache'),
-      new Pattern('patternType1/patternSubType2/grey.mustache'),
-      new Pattern('patternType1/patternSubType2/white.mustache')
+      new Pattern('test/foo.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
+      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -638,7 +655,7 @@ tap.test(
       // we expect 8 here because:
       //   - foo.mustache is flat and therefore does not have a viewall page
       //   - the colors.mustache files make 6
-      //   - patternSubType1 and patternSubType2 make 8
+      //   - patternSubgroup1 and patternSubgroup2 make 8
       //   - the general view all page make 9
       //   - the view-all page of test and test-foo make 11
       // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
@@ -650,12 +667,12 @@ tap.test(
       /**
        * - viewall-test-all
        * -- test-foo
-       * - view-patternType1-all
-       * -- viewall-patternType1-patternSubType1
+       * - view-patternGroup1-all
+       * -- viewall-patternGroup1-patternSubgroup1
        * --- blue
        * --- red
        * --- yellow
-       * -- viewall-patternType1-patternSubType2
+       * -- viewall-patternGroup1-patternSubgroup2
        * --- black
        * --- grey
        * --- white
