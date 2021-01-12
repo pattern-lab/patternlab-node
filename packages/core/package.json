@@ -16,7 +16,7 @@
     "js-yaml": "3.13.1",
     "lodash": "4.17.20",
     "markdown-it": "6.0.1",
-    "node-fetch": "1.6.0",
+    "node-fetch": "2.6.1",
     "recursive-copy": "2.0.8",
     "update-notifier": "2.2.0"
   },

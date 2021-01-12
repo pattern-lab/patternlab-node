@@ -2715,14 +2715,6 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@pattern-lab/starterkit-handlebars-vanilla@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-handlebars-vanilla/-/starterkit-handlebars-vanilla-1.4.0.tgz#aac144d0c21d40226f90ac5ce1b5d8505dddf330"
-  integrity sha512-inkcRhpYfm0q58zEQ9Gx2S+iVu+prAtRgqLw5Opd0MYC74NMcqN9XrcbJva4NfLn1tgx9dkA3Xmtg0IxiTHnAw==
-  dependencies:
-    node-sass "^4.12.0"
-    node-sass-glob-importer "^5.3.2"
-
 "@pattern-lab/starterkit-mustache-base@3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-base/-/starterkit-mustache-base-3.0.3.tgz#8ce9bc8e0d2254ee970a09c4bdc76d4f6131c91d"
@@ -13069,18 +13061,15 @@ node-fetch-npm@^2.0.2:
     json-parse-better-errors "^1.0.0"
     safe-buffer "^5.1.1"
 
-node-fetch@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.6.0.tgz#00ccd811c657aee9e2f0d79fd2256fbcffd733a2"
-  integrity sha1-AMzYEcZXruni8Nef0iVvvP/XM6I=
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
-
 node-fetch@2.6.0, node-fetch@^2.1.2, node-fetch@^2.3.0, node-fetch@^2.5.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+
+node-fetch@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 node-fetch@^1.0.1:
   version "1.7.3"
@@ -13192,13 +13181,6 @@ node-releases@^1.1.60:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.60.tgz#6948bdfce8286f0b5d0e5a88e8384e954dfe7084"
   integrity sha512-gsO4vjEdQaTusZAEebUWp2a5d7dF5DYoIpDG7WySnk7BuZDW+GPpHXoXXuYawRBr/9t5q54tirPz79kFIWg4dA==
 
-node-sass-glob-importer@^5.3.2:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/node-sass-glob-importer/-/node-sass-glob-importer-5.3.2.tgz#465581e46027c0e9520e6d87f7e6eda858a14acb"
-  integrity sha512-QTX7KPsISgp55REV6pMH703nzHfWCOEYEQC0cDyTRo7XO6WDvyC0OAzekuQ4gs505IZcxv9KxZ3uPJ5s5H9D3g==
-  dependencies:
-    node-sass-magic-importer "^5.3.2"
-
 node-sass-magic-importer@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/node-sass-magic-importer/-/node-sass-magic-importer-5.3.2.tgz#2f2248bb2e5cdb275ba34102ebf995edadf99175"
@@ -13221,7 +13203,7 @@ node-sass-selector-importer@^5.2.0:
     node-sass-magic-importer "^5.3.2"
     postcss-scss "^2.0.0"
 
-node-sass@^4.12.0, node-sass@^4.14.1:
+node-sass@^4.14.1:
   version "4.14.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.14.1.tgz#99c87ec2efb7047ed638fb4c9db7f3a42e2217b5"
   integrity sha512-sjCuOlvGyCJS40R8BscF5vhVlQjNN069NtQ1gSxyK1u9iqvn6tf7O1R4GNowVZfiZUCRt5MmMs1xd+4V/7Yr0g==
