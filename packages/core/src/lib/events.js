@@ -30,7 +30,7 @@ const EVENTS = Object.freeze({
   PATTERNLAB_PATTERN_ITERATION_END: 'patternlab-pattern-iteration-end',
 
   /**
-   * @desc Emitted after global `data.json` and `listitems.json` are read, and the supporting Pattern Lab templates are loaded into memory (header, footer, patternSection, patternSectionSubType, viewall). Right before patterns are iterated over to gather data about them.
+   * @desc Emitted after global `data.json` and `listitems.json` are read, and the supporting Pattern Lab templates are loaded into memory (header, footer, patternSection, patternSectionSubgroup, viewall). Right before patterns are iterated over to gather data about them.
    * @property {object} patternlab - global data store
    */
   PATTERNLAB_BUILD_GLOBAL_DATA_END: 'patternlab-build-global-data-end',

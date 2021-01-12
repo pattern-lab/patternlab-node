@@ -54,7 +54,7 @@ module.exports = class PatternLab {
     //
     this.data = {};
     this.patterns = [];
-    this.subtypePatterns = {};
+    this.subgroupPatterns = {};
     this.partials = {};
 
     // Cache the package.json in RAM
@@ -342,7 +342,7 @@ module.exports = class PatternLab {
           return processIterative(pattern, self);
         })
       ).then(() => {
-        // patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+        // patterns sorted by name so the patternGroup and patternSubgroup is adhered to for menu building
         this.patterns.sort((pattern1, pattern2) =>
           pattern1.name.localeCompare(pattern2.name)
         );

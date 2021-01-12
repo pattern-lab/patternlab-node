@@ -46,6 +46,7 @@ const init = options =>
     ); // 1
 
     yield scaffold(projectDir, sourceDir, publicDir, exportDir); // 2
+    process.env.projectDir = path.join(process.cwd(), projectDir);
 
     if (edition) {
       spinner.text = `⊙ patternlab → Installing edition: ${edition}`;

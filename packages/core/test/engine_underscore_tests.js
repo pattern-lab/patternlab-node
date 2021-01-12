@@ -50,9 +50,9 @@ tap.test('hello world underscore pattern renders', function(test) {
 
   var patternPath = path.resolve(
     testPatternsPath,
-    '00-atoms',
-    '00-global',
-    '00-helloworld.html'
+    'atoms',
+    'global',
+    'helloworld.html'
   );
 
   // do all the normal processing of the pattern
@@ -75,9 +75,9 @@ tap.test('underscore partials can render JSON values', function(test) {
   // pattern paths
   var pattern1Path = path.resolve(
     testPatternsPath,
-    '00-atoms',
-    '00-global',
-    '00-helloworld-withdata.html'
+    'atoms',
+    'global',
+    'helloworld-withdata.html'
   );
 
   // set up environment
@@ -131,15 +131,11 @@ tap.test(
     );
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var hiddenPatternPath = path.join(
-      '00-atoms',
-      '00-global',
-      '_00-hidden.html'
-    );
+    var hiddenPatternPath = path.join('atoms', 'global', '_hidden.html');
     var testPatternPath = path.join(
-      '00-molecules',
-      '00-global',
-      '00-hidden-pattern-tester.html'
+      'molecules',
+      'global',
+      'hidden-pattern-tester.html'
     );
 
     var hiddenPattern = loadPattern(hiddenPatternPath, pl);

@@ -169,8 +169,7 @@ tap.test('buildPatterns suite', test => {
             'partial inclusion completes'
           );
           test.equals(
-            pattern.patternPartialCode.indexOf('00-test-00-foo.rendered.html') >
-              -1,
+            pattern.patternPartialCode.indexOf('test-foo.rendered.html') > -1,
             true,
             'data link should be replaced properly'
           );
@@ -213,7 +212,7 @@ tap.test('buildPatterns suite', test => {
         test.equals(
           util.sanitized(pattern.patternPartialCode),
           util.sanitized(
-            `<a href="/patterns/00-test-comment/00-test-comment.rendered.html">Cool Dude</a>`
+            `<a href="/patterns/test-comment/test-comment.rendered.html">Cool Dude</a>`
           )
         );
         test.end();

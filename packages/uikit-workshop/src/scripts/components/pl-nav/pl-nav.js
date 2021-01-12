@@ -9,7 +9,6 @@ import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
 import { iframeMsgDataExtraction } from '../../utils';
 import Mousetrap from 'mousetrap';
-import 'url-search-params-polyfill';
 
 import { NavTitle } from './src/NavTitle';
 import { NavList } from './src/NavList';
@@ -34,6 +33,7 @@ class Nav extends BaseComponent {
 
   handlePageClick(e) {
     if (
+      e.target.closest &&
       e.target.closest('.pl-c-nav') === null &&
       e.target.closest('.pl-js-nav-trigger') === null &&
       e.target.closest('svg') === null &&
@@ -245,33 +245,33 @@ class Nav extends BaseComponent {
   }
 
   render({ layoutMode }) {
-    const patternTypes = window.navItems.patternTypes;
+    const patternGroups = window.navItems.patternGroups;
 
     return (
       <ol class="pl-c-nav__list pl-js-pattern-nav-target">
-        {patternTypes.map((item, i) => {
+        {patternGroups.map((item, i) => {
           const patternItems = item.patternItems;
 
           return (
-            <NavItem className={`pl-c-nav__item--${item.patternTypeLC}`}>
+            <NavItem className={`pl-c-nav__item--${item.patternGroupLC}`}>
               <NavTitle
-                aria-controls={item.patternTypeLC}
+                aria-controls={item.patternGroupLC}
                 onClick={this.toggleNavPanel}
               >
-                {item.patternTypeUC}
+                {item.patternGroupUC}
               </NavTitle>
               <ol
-                id={item.patternSubtypeUC}
+                id={item.patternSubgroupUC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
               >
-                {item.patternTypeItems.map((patternSubtype, i) => {
+                {item.patternGroupItems.map((patternSubgroup, i) => {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubtype.patternSubtypeLC}
-                      categoryName={patternSubtype.patternSubtypeUC}
+                      category={patternSubgroup.patternSubgroupLC}
+                      categoryName={patternSubgroup.patternSubgroupUC}
                     >
-                      {patternSubtype.patternSubtypeItems}
+                      {patternSubgroup.patternSubgroupItems}
                     </NavList>
                   );
                 })}

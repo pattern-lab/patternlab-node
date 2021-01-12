@@ -20,10 +20,10 @@ tap.test('parameter hunter finds and extends templates', function(test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath);
 
-  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPath = path.join('test', 'comment.mustache');
   var commentPattern = loadPattern(commentPath, pl);
 
-  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPatternPath = path.join('test', 'sticky-comment.mustache');
   var testPattern = loadPattern(testPatternPath, pl);
 
   var p1 = processIterative(commentPattern, pl);
@@ -55,13 +55,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join(
-      '00-test',
-      'sticky-comment-verbose.mustache'
-    );
+    var testPatternPath = path.join('test', 'sticky-comment-verbose.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     var p1 = processIterative(commentPattern, pl);
@@ -96,10 +93,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -130,10 +127,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -164,10 +161,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -198,10 +195,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -233,10 +230,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -268,10 +265,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -302,10 +299,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -337,10 +334,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -372,10 +369,10 @@ tap.test(
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var commentPath = path.join('00-test', 'comment.mustache');
+    var commentPath = path.join('test', 'comment.mustache');
     var commentPattern = loadPattern(commentPath, pl);
 
-    var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+    var testPatternPath = path.join('test', 'sticky-comment.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //override the file
@@ -406,10 +403,10 @@ tap.test(
 //   //arrange
 //   const pl = util.fakePatternLab(testPatternsPath);
 
-//   var commentPath = path.join('00-test', 'comment.mustache');
+//   var commentPath = path.join('test', 'comment.mustache');
 //   var commentPattern = loadPattern(commentPath, pl);
 
-//   var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+//   var testPatternPath = path.join('test', 'sticky-comment.mustache');
 //   var testPattern = loadPattern(testPatternPath, pl);
 
 //   //override the file
@@ -433,10 +430,10 @@ tap.test(
 tap.test('parameter hunter skips malformed parameters', function(test) {
   const pl = util.fakePatternLab(testPatternsPath);
 
-  var commentPath = path.join('00-test', 'comment.mustache');
+  var commentPath = path.join('test', 'comment.mustache');
   var commentPattern = loadPattern(commentPath, pl);
 
-  var testPatternPath = path.join('00-test', 'sticky-comment.mustache');
+  var testPatternPath = path.join('test', 'sticky-comment.mustache');
   var testPattern = loadPattern(testPatternPath, pl);
 
   //override the file

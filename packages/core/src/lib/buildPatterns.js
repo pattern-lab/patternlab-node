@@ -15,7 +15,7 @@ const processMetaPattern = require('./processMetaPattern');
 const pe = require('./pattern_exporter');
 const lh = require('./lineage_hunter');
 const pm = require('./plugin_manager');
-const pluginMananger = new pm();
+const pluginManager = new pm();
 const markModifiedPatterns = require('./markModifiedPatterns');
 const parseAllLinks = require('./parseAllLinks');
 const render = require('./render');
@@ -27,7 +27,7 @@ let pattern_exporter = new pe(); // eslint-disable-line
 const lineage_hunter = new lh();
 
 module.exports = async (deletePatternDir, patternlab, additionalData) => {
-  await pluginMananger.raiseEvent(
+  await pluginManager.raiseEvent(
     patternlab,
     events.PATTERNLAB_BUILD_START,
     patternlab
@@ -72,7 +72,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
     return patternlab
       .processAllPatternsIterative(paths.source.patterns)
       .then(async () => {
-        await pluginMananger.raiseEvent(
+        await pluginManager.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_ITERATION_END,
           patternlab
@@ -94,12 +94,12 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
             //perhaps we can check for a convention like [uikitname]_00-head.mustache, and if found, add them to patternlab.uikits[uikitname].userFoot
             //then, if present, use those during compose()
             const headPatternPromise = processMetaPattern(
-              `_00-head.${patternlab.config.patternExtension}`,
+              `_head.${patternlab.config.patternExtension}`,
               'userHead',
               patternlab
             );
             const footPatternPromise = processMetaPattern(
-              `_01-foot.${patternlab.config.patternExtension}`,
+              `_foot.${patternlab.config.patternExtension}`,
               'userFoot',
               patternlab
             );

@@ -136,7 +136,7 @@ Sets the configurable source and public directories for files Pattern Lab Node o
         "general-header": "views/partials/general-header.mustache",
         "general-footer": "views/partials/general-footer.mustache",
         "patternSection": "views/partials/patternSection.mustache",
-        "patternSectionSubtype": "views/partials/patternSectionSubtype.mustache",
+        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.mustache",
         "viewall": "views/viewall.mustache"
       },
       "js": "./source/js",

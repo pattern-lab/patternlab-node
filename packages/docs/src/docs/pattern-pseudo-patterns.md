@@ -31,7 +31,7 @@ From a navigation and naming perspective `patternName` and `pseudoPatternName` w
 
 ## Adding Pseudo-Patterns to Your Project
 
-Adding a pseudo-pattern is as simple as naming it correctly and following the [pattern-specific JSON file](/docs/creating-pattern-specific-values/) instructions for organizing its content. Let's look at a simple example where we want to show an emergency notification on our homepage Mustache template. Our `03-templates/` directory might look like this:
+Adding a pseudo-pattern is as simple as naming it correctly and following the [pattern-specific JSON file](/docs/creating-pattern-specific-values/) instructions for organizing its content. Let's look at a simple example where we want to show an emergency notification on our homepage Mustache template. Our `templates/` directory might look like this:
 
     article.mustache
     blog.mustache
@@ -58,7 +58,7 @@ homepage.mustache
 homepage~emergency.json
 ```
 
-In our pseudo-pattern, `00-homepage~emergency.json`, we add our `emergency` attribute:
+In our pseudo-pattern, `homepage~emergency.json`, we add our `emergency` attribute:
 
 ```javascript
 {% raw %}{

@@ -199,8 +199,8 @@ var engine_twig = {
    * assume it's already present
    */
   spawnMeta: function(config) {
-    this.spawnFile(config, '_00-head.twig');
-    this.spawnFile(config, '_01-foot.twig');
+    this.spawnFile(config, '_head.twig');
+    this.spawnFile(config, '_foot.twig');
   },
 
   /**

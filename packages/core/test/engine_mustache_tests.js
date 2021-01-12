@@ -52,7 +52,7 @@ function testFindPartials(test, partialTests) {
   // docs on partial syntax are here:
   // https://patternlab.io/docs/including-patterns/
   var currentPattern = Pattern.create(
-    '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+    'molecules/testing/test-mol.mustache', // relative path now
     null, // data
     {
       template: partialTests.join(eol),
@@ -78,7 +78,7 @@ function testFindPartialsWithStyleModifiers(test, partialTests) {
   // docs on partial syntax are here:
   // https://patternlab.io/docs/including-patterns/
   var currentPattern = Pattern.create(
-    '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+    'molecules/testing/test-mol.mustache', // relative path now
     null, // data
     {
       template: partialTests.join(eol),
@@ -104,7 +104,7 @@ function testFindPartialsWithPatternParameters(test, partialTests) {
   // docs on partial syntax are here:
   // https://patternlab.io/docs/including-patterns/
   var currentPattern = Pattern.create(
-    '01-molecules/00-testing/00-test-mol.mustache', // relative path now
+    'molecules/testing/test-mol.mustache', // relative path now
     null, // data
     {
       template: partialTests.join(eol),
@@ -141,7 +141,7 @@ tap.test(
 tap.test('find_pattern_partials finds one simple verbose partial', function(
   test
 ) {
-  testFindPartials(test, ['{{> 00-atoms/00-global/06-test }}']);
+  testFindPartials(test, ['{{> atoms/global/test }}']);
 });
 
 tap.test('find_pattern_partials finds partials with parameters', function(
