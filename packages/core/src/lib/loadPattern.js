@@ -3,7 +3,6 @@
 const path = require('path');
 
 const Pattern = require('./object_factory').Pattern;
-const mp = require('./markdown_parser');
 const logger = require('./log');
 const patternEngines = require('./pattern_engines');
 const ch = require('./changes_hunter');
@@ -12,7 +11,6 @@ const addPattern = require('./addPattern');
 const buildListItems = require('./buildListItems');
 const readDocumentation = require('./readDocumentation');
 
-const markdown_parser = new mp();
 const changes_hunter = new ch();
 const dataLoader = new da();
 
@@ -37,11 +35,11 @@ module.exports = function(relPath, patternlab) {
       "It's strongly suggested to not deviate from the following structure under _patterns/"
     );
     logger.warning(
-      '[patternType]/[patternSubtype]/[patternName].[patternExtension]'
+      '[patternGroup]/[patternSubgroup]/[patternName].[patternExtension]'
     );
     logger.warning('or');
     logger.warning(
-      '[patternType]/[patternSubtype]/[patternName]/[patternName].[patternExtension]'
+      '[patternGroup]/[patternSubgroup]/[patternName]/[patternName].[patternExtension]'
     );
     logger.warning('');
     logger.warning(
@@ -53,46 +51,7 @@ module.exports = function(relPath, patternlab) {
     logger.warning('');
   }
 
-  //check if the found file is a top-level markdown file
   const fileObject = path.parse(relPath);
-  if (fileObject.ext === '.md') {
-    try {
-      const proposedDirectory = path.resolve(
-        patternlab.config.paths.source.patterns,
-        fileObject.dir,
-        fileObject.name
-      );
-      const proposedDirectoryStats = fs.statSync(proposedDirectory);
-      if (proposedDirectoryStats.isDirectory()) {
-        const subTypeMarkdownFileContents = fs.readFileSync(
-          proposedDirectory + '.md',
-          'utf8'
-        );
-        const subTypeMarkdown = markdown_parser.parse(
-          subTypeMarkdownFileContents
-        );
-        const subTypePattern = new Pattern(relPath, null, patternlab);
-        subTypePattern.patternSectionSubtype = true;
-        subTypePattern.patternDesc = subTypeMarkdown
-          ? subTypeMarkdown.markdown
-          : '';
-        subTypePattern.flatPatternPath =
-          subTypePattern.flatPatternPath + '-' + subTypePattern.fileName;
-        subTypePattern.isPattern = false;
-        subTypePattern.engine = null;
-        patternlab.subtypePatterns[
-          subTypePattern.patternPartial
-        ] = subTypePattern;
-
-        return subTypePattern;
-      }
-    } catch (err) {
-      // no file exists, meaning it's a pattern markdown file
-      if (err.code !== 'ENOENT') {
-        logger.warning(err);
-      }
-    }
-  }
 
   //extract some information
   const filename = fileObject.base;

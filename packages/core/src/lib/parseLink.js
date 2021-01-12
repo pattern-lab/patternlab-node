@@ -45,7 +45,7 @@ module.exports = function(patternlab, obj, key) {
           // group and subgroup there will be a view all page for that group)
           const partial = linkPatternPartial.replace('viewall-', '');
           const pattern = patternlab.patterns.find(
-            p => `${p.patternGroup}-${p.patternSubGroup}` === partial
+            p => `${p.patternGroup}-${p.patternSubgroup}` === partial
           );
 
           if (pattern) {

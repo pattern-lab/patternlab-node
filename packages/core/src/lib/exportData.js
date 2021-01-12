@@ -31,8 +31,8 @@ module.exports = function(patternlab, uikit) {
 
   //navItems
   output +=
-    'var navItems = {"patternTypes": ' +
-    JSON.stringify(patternlab.patternTypes) +
+    'var navItems = {"patternGroups": ' +
+    JSON.stringify(patternlab.patternGroups) +
     ', "ishControlsHide": ' +
     JSON.stringify(patternlab.config.ishControlsHide) +
     '};' +

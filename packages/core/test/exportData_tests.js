@@ -50,7 +50,7 @@ tap.test('exportData exports navItems', function(test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('patternTypes') > -1, true);
+  test.equals(result.indexOf('patternGroups') > -1, true);
   test.end();
 });
 

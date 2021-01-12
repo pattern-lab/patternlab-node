@@ -20,10 +20,10 @@ tap.test('processRecursive recursively includes partials', function(test) {
   //assert
   const patternlab = util.fakePatternLab(patterns_dir);
 
-  var fooPatternPath = path.join('00-test', '00-foo.mustache');
+  var fooPatternPath = path.join('test', 'foo.mustache');
   var fooPattern = loadPattern(fooPatternPath, patternlab);
 
-  var barPatternPath = path.join('00-test', '01-bar.mustache');
+  var barPatternPath = path.join('test', 'bar.mustache');
   var barPattern = loadPattern(barPatternPath, patternlab);
 
   var p1 = processIterative(fooPattern, patternlab);
@@ -53,10 +53,10 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var groupPath = path.join('00-test', '04-group.mustache');
+    var groupPath = path.join('test', 'group.mustache');
     var groupPattern = loadPattern(groupPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -88,13 +88,10 @@ tap.only(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var groupPath = path.join(
-      '00-test',
-      '10-multiple-classes-numeric.mustache'
-    );
+    var groupPath = path.join('test', 'multiple-classes-numeric.mustache');
     var groupPattern = loadPattern(groupPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -126,10 +123,10 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var mixedPath = path.join('00-test', '06-mixed.mustache');
+    var mixedPath = path.join('test', 'mixed.mustache');
     var mixedPattern = loadPattern(mixedPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -161,10 +158,10 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var bookendPath = path.join('00-test', '09-bookend.mustache');
+    var bookendPath = path.join('test', 'bookend.mustache');
     var bookendPattern = loadPattern(bookendPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -196,10 +193,10 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var mixedPath = path.join('00-test', '07-mixed-params.mustache');
+    var mixedPath = path.join('test', 'mixed-params.mustache');
     var mixedPattern = loadPattern(mixedPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -231,10 +228,10 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var bookendPath = path.join('00-test', '08-bookend-params.mustache');
+    var bookendPath = path.join('test', 'bookend-params.mustache');
     var bookendPattern = loadPattern(bookendPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -266,10 +263,10 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '03-styled-atom.mustache');
+    var atomPath = path.join('test', 'styled-atom.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var anotherPath = path.join('00-test', '12-another-styled-atom.mustache');
+    var anotherPath = path.join('test', 'another-styled-atom.mustache');
     var anotherPattern = loadPattern(anotherPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -318,13 +315,13 @@ tap
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('00-test', '01-bar.mustache');
+    var atomPath = path.join('test', 'bar.mustache');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var templatePath = path.join('00-test', '00-foo.mustache');
+    var templatePath = path.join('test', 'foo.mustache');
     var templatePattern = loadPattern(templatePath, patternlab);
 
-    var pagesPath = path.join('00-test', '14-inception.mustache');
+    var pagesPath = path.join('test', 'inception.mustache');
     var pagesPattern = loadPattern(pagesPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -383,13 +380,10 @@ tap.test('hidden patterns can be called by their nice names', function(test) {
   const patternlab = util.fakePatternLab(patterns_dir);
 
   //act
-  var hiddenPatternPath = path.join('00-test', '_00-hidden-pattern.mustache');
+  var hiddenPatternPath = path.join('test', '_hidden-pattern.mustache');
   var hiddenPattern = loadPattern(hiddenPatternPath, patternlab);
 
-  var testPatternPath = path.join(
-    '00-test',
-    '15-hidden-pattern-tester.mustache'
-  );
+  var testPatternPath = path.join('test', 'hidden-pattern-tester.mustache');
   var testPattern = loadPattern(testPatternPath, patternlab);
 
   var p1 = processIterative(hiddenPattern, patternlab);
@@ -421,7 +415,7 @@ tap.test('parses pattern title correctly when frontmatter present', function(
   //arrange
   var pl = util.fakePatternLab(patterns_dir);
 
-  var testPatternPath = path.join('00-test', '01-bar.mustache');
+  var testPatternPath = path.join('test', 'bar.mustache');
   var testPattern = loadPattern(testPatternPath, pl);
 
   //act
@@ -447,7 +441,7 @@ tap.test(
     //arrange
     var pl = util.fakePatternLab(patterns_dir);
 
-    var testPatternPath = path.join('00-test', '01-bar.mustache');
+    var testPatternPath = path.join('test', 'bar.mustache');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //act

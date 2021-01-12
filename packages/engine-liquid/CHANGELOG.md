@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.14.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/v5.13.3...v5.14.0) (2021-01-12)
+
+**Note:** Version bump only for package @pattern-lab/engine-liquid
+
+
+
+
+
+
 ## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-liquid/compare/v5.10.0...v5.10.1) (2020-05-09)
 
 **Note:** Version bump only for package @pattern-lab/engine-liquid

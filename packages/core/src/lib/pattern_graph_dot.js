@@ -98,20 +98,20 @@ PatternGraphDot.generate = function(patternGraph) {
   const colorMap = new Map();
   let colIdx = 0;
   for (const p of patterns.partials.values()) {
-    if (p.isPseudoPattern || !p.patternType) {
+    if (p.isPseudoPattern || !p.patternGroup) {
       continue;
     }
-    let bucket = buckets.get(p.patternType);
+    let bucket = buckets.get(p.patternGroup);
     if (bucket) {
       bucket.push(p);
     } else {
       bucket = [p];
-      colorMap.set(p.patternType, colors[colIdx++]);
+      colorMap.set(p.patternGroup, colors[colIdx++]);
 
       // Repeat if there are more categories
       colIdx = colIdx % colors.length;
     }
-    buckets.set(p.patternType, bucket);
+    buckets.set(p.patternGroup, bucket);
   }
 
   let res = header();
@@ -131,11 +131,11 @@ PatternGraphDot.generate = function(patternGraph) {
   foo: for (const edge of g.edges()) {
     const fromTo = patternGraph.nodes2patterns([edge.v, edge.w]);
     for (const pattern of fromTo) {
-      if (pattern.isPseudoPattern || !pattern.patternType) {
+      if (pattern.isPseudoPattern || !pattern.patternGroup) {
         continue foo;
       }
     }
-    const thisColor = colorMap.get(fromTo[0].patternType);
+    const thisColor = colorMap.get(fromTo[0].patternGroup);
     res.push(addEdge(fromTo[0], fromTo[1], thisColor));
   }
 

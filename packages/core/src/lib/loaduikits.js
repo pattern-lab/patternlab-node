@@ -95,9 +95,9 @@ module.exports = patternlab => {
           uikitLocation,
           paths.source.patternlabFiles.patternSection
         ),
-        patternSectionSubType: readModuleFile(
+        patternSectionSubgroup: readModuleFile(
           uikitLocation,
-          paths.source.patternlabFiles.patternSectionSubtype
+          paths.source.patternlabFiles.patternSectionSubgroup
         ),
         viewAll: readModuleFile(
           uikitLocation,

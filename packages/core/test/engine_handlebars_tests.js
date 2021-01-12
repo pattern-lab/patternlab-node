@@ -63,7 +63,7 @@ function testFindPartials(test, partialTests) {
   // docs on partial syntax are here:
   // https://patternlab.io/docs/including-patterns/
   var currentPattern = Pattern.create(
-    '01-molecules/00-testing/00-test-mol.hbs', // relative path now
+    'molecules/testing/test-mol.hbs', // relative path now
     null, // data
     {
       template: partialTests.join(),
@@ -85,7 +85,7 @@ function testFindPartials(test, partialTests) {
 tap.test('hello world handlebars pattern renders', function(test) {
   test.plan(1);
 
-  var patternPath = path.join('00-atoms', '00-global', '00-helloworld.hbs');
+  var patternPath = path.join('atoms', 'global', 'helloworld.hbs');
 
   // do all the normal processing of the pattern
   var patternlab = new fakePatternLab();
@@ -107,12 +107,8 @@ tap.test(
     test.plan(1);
 
     // pattern paths
-    var pattern1Path = path.join('00-atoms', '00-global', '00-helloworld.hbs');
-    var pattern2Path = path.join(
-      '00-molecules',
-      '00-global',
-      '00-helloworlds.hbs'
-    );
+    var pattern1Path = path.join('atoms', 'global', 'helloworld.hbs');
+    var pattern2Path = path.join('molecules', 'global', 'helloworlds.hbs');
 
     // set up environment
     var patternlab = new fakePatternLab(); // environment
@@ -145,11 +141,7 @@ tap.test('handlebars partials can render JSON values', function(test) {
   test.plan(1);
 
   // pattern paths
-  var pattern1Path = path.join(
-    '00-atoms',
-    '00-global',
-    '00-helloworld-withdata.hbs'
-  );
+  var pattern1Path = path.join('atoms', 'global', 'helloworld-withdata.hbs');
 
   // set up environment
   var patternlab = new fakePatternLab(); // environment
@@ -180,15 +172,11 @@ tap.test(
     test.plan(1);
 
     // pattern paths
-    var atomPath = path.join(
-      '00-atoms',
-      '00-global',
-      '00-helloworld-withdata.hbs'
-    );
+    var atomPath = path.join('atoms', 'global', 'helloworld-withdata.hbs');
     var molPath = path.join(
-      '00-molecules',
-      '00-global',
-      '00-call-atom-with-molecule-data.hbs'
+      'molecules',
+      'global',
+      'call-atom-with-molecule-data.hbs'
     );
 
     // set up environment
@@ -241,12 +229,12 @@ tap.only('find_pattern_partials finds partials', function(test) {
 
 tap.test('find_pattern_partials finds verbose partials', function(test) {
   testFindPartials(test, [
-    '{{> 01-molecules/06-components/03-comment-header.hbs }}',
-    "{{> 01-molecules/06-components/02-single-comment.hbs(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
+    '{{> molecules/components/comment-header.hbs }}',
+    "{{> molecules/components/single-comment.hbs(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
     '{{> molecules-single-comment:foo }}',
     "{{>atoms-error(message: 'That's no moon...')}}",
     "{{> atoms-error(message: 'That's no moon...') }}",
-    '{{> 00-atoms/00-global/06-test }}',
+    '{{> atoms/global/test }}',
   ]);
 });
 
@@ -306,15 +294,11 @@ tap.only(
     );
     const pl = util.fakePatternLab(testPatternsPath);
 
-    var hiddenPatternPath = path.join(
-      '00-atoms',
-      '00-global',
-      '_00-hidden.hbs'
-    );
+    var hiddenPatternPath = path.join('atoms', 'global', '_hidden.hbs');
     var testPatternPath = path.join(
-      '00-molecules',
-      '00-global',
-      '00-hidden-pattern-tester.hbs'
+      'molecules',
+      'global',
+      'hidden-pattern-tester.hbs'
     );
 
     var hiddenPattern = loadPattern(hiddenPatternPath, pl);
@@ -343,11 +327,7 @@ tap.test(
   function(test) {
     test.plan(1);
 
-    var patternPath = path.join(
-      '00-atoms',
-      '00-global',
-      '10-at-partial-block.hbs'
-    );
+    var patternPath = path.join('atoms', 'global', 'at-partial-block.hbs');
 
     // do all the normal processing of the pattern
     var patternlab = new fakePatternLab();
@@ -371,15 +351,11 @@ tap.test(
     test.plan(1);
 
     // pattern paths
-    var pattern1Path = path.join(
-      '00-atoms',
-      '00-global',
-      '10-at-partial-block.hbs'
-    );
+    var pattern1Path = path.join('atoms', 'global', 'at-partial-block.hbs');
     var pattern2Path = path.join(
-      '00-molecules',
-      '00-global',
-      '10-call-at-partial-block.hbs'
+      'molecules',
+      'global',
+      'call-at-partial-block.hbs'
     );
 
     // set up environment
