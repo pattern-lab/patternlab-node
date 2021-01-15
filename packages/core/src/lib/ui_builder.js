@@ -184,7 +184,7 @@ const ui_builder = function() {
       order:
         pattern.patternGroupData && pattern.patternGroupData.order
           ? Number(pattern.patternGroupData.order)
-          : Number.MAX_SAFE_INTEGER,
+          : 0,
     });
 
     patternlab.patternGroups = _.sortBy(
@@ -255,7 +255,7 @@ const ui_builder = function() {
       order:
         pattern.patternSubgroupData && pattern.patternSubgroupData.order
           ? Number(pattern.patternSubgroupData.order)
-          : Number.MAX_SAFE_INTEGER,
+          : 0,
     });
 
     patternGroup.patternGroupItems = _.sortBy(
@@ -279,8 +279,8 @@ const ui_builder = function() {
       patternPath: pattern.patternLink,
       name: pattern.name,
       isDocPattern: false,
-      order: Number(pattern.order) || Number.MAX_SAFE_INTEGER, // Failsafe is someone entered a string
-      variantOrder: Number(pattern.variantOrder) || Number.MAX_SAFE_INTEGER, // Failsafe is someone entered a string
+      order: Number(pattern.order) || 0, // Failsafe is someone entered a string
+      variantOrder: Number(pattern.variantOrder) || 0, // Failsafe is someone entered a string
     };
   }
 
@@ -499,9 +499,9 @@ const ui_builder = function() {
             );
           });
 
-          return sg ? sg.order : Number.MAX_SAFE_INTEGER;
+          return sg ? sg.order : 0;
         } else {
-          return Number.MAX_SAFE_INTEGER;
+          return 0;
         }
       },
     ]);

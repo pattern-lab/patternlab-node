@@ -157,8 +157,8 @@ const Pattern = function(
   this.lineageR = [];
   this.lineageRIndex = [];
   this.isPseudoPattern = false;
-  this.order = Number.MAX_SAFE_INTEGER;
-  this.variantOrder = Number.MAX_SAFE_INTEGER;
+  this.order = 0;
+  this.variantOrder = 0;
   this.engine = patternEngines.getEngineForPattern(this);
 
   // TODO: Remove the following when ordering by file prefix gets obsolete
@@ -173,19 +173,10 @@ const Pattern = function(
     this.patternGroupData.order = info.patternSubgroupOrder;
   }
 
-  // TODO: Remove the following when ordering by file prefix gets obsolete
-  if (prefixMatcherDeprecationCheckOrder.test(this.fileName)) {
-    if (this.fileName.indexOf('~') === -1) {
-      this.order = this.setPatternOrderDataForInfo(this.fileName);
-    } else {
-      this.variantOrder = this.setPatternOrderDataForInfo(this.fileName);
-    }
-  }
-
   /**
    * Determines if this pattern needs to be recompiled.
    *
-   * @see {@link CompileState}*/
+   * @ee {@link CompileState}*/
   this.compileState = null;
 
   /**
@@ -334,7 +325,7 @@ Pattern.prototype = {
     const match = pathStr.match(prefixMatcherDeprecationCheckOrder);
     return match && match.length >= 1
       ? pathStr.match(prefixMatcherDeprecationCheckOrder)[1].replace('-', '')
-      : Number.MAX_SAFE_INTEGER;
+      : 0;
   },
 
   /**
@@ -379,14 +370,12 @@ Pattern.prototype = {
       info.shortNotation = pathObj.dir
         .split(/\/|\\/, 2)
         .map((o, i) => {
-          // TODO: Remove when prefix gets deprecated
           if (i === 0) {
             info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
               o
             );
           }
 
-          // TODO: Remove when prefix gets deprecated
           if (i === 1) {
             info.patternSubgroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
               o
