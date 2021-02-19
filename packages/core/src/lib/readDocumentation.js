@@ -83,9 +83,10 @@ module.exports = function(pattern, patternlab, isVariant) {
   // Read Documentation for Pattern-Group
   // Use this approach, since pattern lab is a pattern driven software
   try {
+    const groupRelPath = pattern.relPath.split(path.sep);
     const markdownFileNameGroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      path.parse(pattern.subdir).dir || pattern.subdir,
+      groupRelPath[0] || pattern.subdir,
       GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
     );
     const markdownFileContentsGroup = fs.readFileSync(
@@ -115,10 +116,11 @@ module.exports = function(pattern, patternlab, isVariant) {
 
   // Read Documentation for Pattern-Subgroup
   try {
+    const subgroupRelPath = pattern.relPath.split(path.sep);
     const markdownFileNameSubgroup = path.resolve(
       patternlab.config.paths.source.patterns,
-      path.parse(pattern.subdir).dir,
-      path.parse(pattern.subdir).base,
+      subgroupRelPath[0],
+      subgroupRelPath[1],
       GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
     );
     const markdownFileContentsSubgroup = fs.readFileSync(
