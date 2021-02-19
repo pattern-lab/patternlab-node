@@ -40,11 +40,13 @@ This will bring up an installation menu that presents the following steps:
 
 **`What initial patterns do you want included in your project?`** - Choose the <a href="/docs/starterkits/">Starterkit</a> you want to begin your project with. The options are:
 
-- **`Handlebars base patterns`** `(some basic patterns to get started with)` - TODO: include demo link
-- **`Handlebars demo patterns`** `(full demo website and patterns)` - TODO: include demo link
-- **`Twig (PHP) demo patterns`** `(full demo website and patterns)` - TODO: include demo link
+- **`Handlebars base patterns`** `(some basic patterns to get started with)`
+- **`Handlebars demo patterns`** `(full demo website and patterns)`
+- **`Twig (PHP) demo patterns`** `(full demo website and patterns)`
 - **`Custom starterkit`** - point to a custom Pattern Lab starterkit TODO: include instructions on including custom starterkits
 - **`Blank project (no patterns)`** - This won't include any initial patterns in your project so you can start completely from scratch
+
+You can find all starter kits on our [demos page](/demos/)
 
 ## Step 6: Confirm your choices
 
