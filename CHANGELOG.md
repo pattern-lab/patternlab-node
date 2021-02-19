@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.14.0](https://github.com/pattern-lab/patternlab-node/compare/v5.13.3...v5.14.0) (2021-01-12)
+
+**Note:** Version bump only for package patternlab-node
+
+
+
+
+
 ## [5.13.3](https://github.com/pattern-lab/patternlab-node/compare/v5.13.2...v5.13.3) (2020-12-17)
 
 **Note:** Version bump only for package patternlab-node-main
