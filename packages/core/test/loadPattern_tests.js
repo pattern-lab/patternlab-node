@@ -111,3 +111,65 @@ tap.test(
     test.end();
   }
 );
+
+tap.test(
+  'loadPattern - group and subgroup ordering will be taken from markdown files',
+  test => {
+    //arrange
+    const patternlab = util.fakePatternLab(patterns_dir);
+
+    const basePatternAPath = path.join('orderTest', 'a', 'a-test.mustache');
+    const basePatternBPath = path.join('orderTest', 'b', 'b-test.mustache');
+    const basePatternCPath = path.join(
+      'orderTest',
+      'c',
+      'subfolder',
+      'subfolder.mustache'
+    );
+
+    //act
+    const resultPatternA = loadPattern(basePatternAPath, patternlab);
+    const resultPatternB = loadPattern(basePatternBPath, patternlab);
+    const resultPatternC = loadPattern(basePatternCPath, patternlab);
+
+    //assert
+    console.log(resultPatternA.patternGroupData.order);
+    test.same(
+      resultPatternA.patternGroupData.order,
+      1,
+      'Pattern group should be loaded as 1'
+    );
+    console.log(resultPatternA.patternSubgroupData.order || 0);
+    test.same(
+      resultPatternA.patternSubgroupData.order || 0,
+      0,
+      'Pattern Subgroup not be availabe and default to 0'
+    );
+
+    console.log(resultPatternB.patternGroupData.order);
+    test.same(
+      resultPatternB.patternGroupData.order,
+      1,
+      'Pattern group should be loaded as 1'
+    );
+    console.log(resultPatternB.patternSubgroupData.order);
+    test.same(
+      resultPatternB.patternSubgroupData.order,
+      2,
+      'Pattern Subgroup should be loaded as 2'
+    );
+
+    test.same(
+      resultPatternC.patternGroupData.order,
+      1,
+      'Pattern group should be loaded as 1'
+    );
+    test.same(
+      resultPatternC.patternSubgroupData.order,
+      -1,
+      'Pattern Subgroup should be loaded as -1'
+    );
+
+    test.end();
+  }
+);

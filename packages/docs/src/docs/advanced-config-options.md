@@ -249,7 +249,21 @@ Used to activate rendering flat patterns on view all pages and generate view all
 
 ### serverOptions
 
-Sets live-server options. See the [live-server documentation](https://github.com/pattern-lab/live-server#usage-from-node) for more details.
+Sets [live-server options](https://github.com/pattern-lab/live-server#usage-from-node):
+
+| key           | example value                          | description                                                                                                                                                                                                      |
+|---------------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| port          | 8181                                   | Set the server port. Defaults to 8080.                                                                                                                                                                           |
+| host          | "0.0.0.0"                              | Set the address to bind to. Defaults to 0.0.0.0 or process.env.IP.                                                                                                                                               |
+| root          | "/public"                              | Set root directory that's being served. Defaults to cwd.                                                                                                                                                         |
+| open          | false                                  | When false, it won't load your browser by default.                                                                                                                                                               |
+| ignore        | 'scss,my/templates'                    | Live-Reload: Comma-separated string for paths to ignore from watching for changes in the filesystem. Use with caution: This would overwrite the default 'public' path, that's highly recommended to get ignored. |
+| ignorePattern |                                        | Live-Reload: Regular expression for ignoring specific file types from being watched for changes in the filesystem.                                                                                               |
+| file          | "index.html"                           | When set, serve this file for every 404 (useful for single-page applications).                                                                                                                                   |
+| wait          | 100                                    | Waits for all changes, before reloading. Defaults to 0 sec.                                                                                                                                                      |
+| mount         | [['/components', './node_modules']]    | Mount a directory to a route.                                                                                                                                                                                    |
+| logLevel      | 2                                      | 0 = errors only, 1 = some, 2 = lots                                                                                                                                                                              |
+| middleware    | [function(req, res, next) { next(); }] | Takes an array of Connect-compatible middleware that are injected into the server middleware stack                                                                                                               |
 
 **default**:
 

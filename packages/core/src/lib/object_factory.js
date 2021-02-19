@@ -173,10 +173,19 @@ const Pattern = function(
     this.patternGroupData.order = info.patternSubgroupOrder;
   }
 
+  // TODO: Remove the following when ordering by file prefix gets obsolete
+  if (prefixMatcherDeprecationCheckOrder.test(this.fileName)) {
+    if (this.fileName.indexOf('~') === -1) {
+      this.order = this.setPatternOrderDataForInfo(this.fileName);
+    } else {
+      this.variantOrder = this.setPatternOrderDataForInfo(this.fileName);
+    }
+  }
+
   /**
    * Determines if this pattern needs to be recompiled.
    *
-   * @ee {@link CompileState}*/
+   * @see {@link CompileState}*/
   this.compileState = null;
 
   /**
@@ -371,12 +380,14 @@ Pattern.prototype = {
         .split(/\/|\\/, 2)
         .map((o, i) => {
           if (i === 0) {
+            // TODO: Remove when prefix gets deprecated
             info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
               o
             );
           }
 
           if (i === 1) {
+            // TODO: Remove when prefix gets deprecated
             info.patternSubgroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
               o
             );
