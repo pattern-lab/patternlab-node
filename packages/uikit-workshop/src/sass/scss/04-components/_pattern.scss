@@ -26,6 +26,10 @@
   font-size: 90%;
   color: $pl-color-gray-55;
 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   &:empty {
     padding: 0;
   }
@@ -68,10 +72,7 @@
 */
 .pl-c-pattern__extra-toggle {
   font-size: 0.8rem;
-  position: absolute;
-  bottom: -1px;
-  right: 0;
-  z-index: 1;
+  margin-bottom: -1px;
   padding: 0.4rem 0.5rem;
   color: $pl-color-gray-55;
   background-color: transparent;
