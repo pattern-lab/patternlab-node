@@ -9,6 +9,7 @@ const parseLink = require('./parseLink');
 const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
 const pm = require('./plugin_manager');
+const dataMerger = require('./dataMerger');
 const pluginManager = new pm();
 
 const Pattern = require('./object_factory').Pattern;
@@ -56,8 +57,14 @@ module.exports = async function(pattern, patternlab) {
         'listitems.json + any pattern listitems.json'
       );
 
-      allData = _.merge({}, patternlab.data, pattern.jsonFileData);
-      allData = _.merge({}, allData, allListItems);
+      allData = dataMerger(
+        patternlab.data,
+        pattern.jsonFileData,
+        patternlab.config
+      );
+      // _.merge({}, patternlab.data, pattern.jsonFileData);
+      allData = dataMerger(allData, allListItems, patternlab.config);
+      // _.merge({}, allData, allListItems);
       allData.cacheBuster = patternlab.cacheBuster;
       allData.patternPartial = pattern.patternPartial;
 

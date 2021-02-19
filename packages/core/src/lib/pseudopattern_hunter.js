@@ -13,6 +13,7 @@ const readDocumentation = require('./readDocumentation');
 const lineage_hunter = new lh();
 const changes_hunter = new ch();
 const yaml = require('js-yaml');
+const dataMerger = require('./dataMerger');
 
 const pseudopattern_hunter = function() {};
 
@@ -60,24 +61,10 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       }
 
       //extend any existing data with variant data
-      variantFileData = _.mergeWith(
-        {},
+      variantFileData = dataMerger(
         currentPattern.jsonFileData,
         variantFileData,
-        (objValue, srcValue) => {
-          if (
-            _.isArray(objValue) &&
-            // If the parameter is not available after updating pattern lab but
-            // not the patternlab-config it should not override arrays.
-            patternlab.config.hasOwnProperty('patternMergeVariantArrays') &&
-            !patternlab.config.patternMergeVariantArrays
-          ) {
-            return srcValue;
-          }
-          // Lodash will only check for "undefined" and eslint needs a consistent
-          // return so do not remove
-          return undefined;
-        }
+        patternlab.config
       );
 
       const variantName = pseudoPatterns[i]
