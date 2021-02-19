@@ -41,7 +41,7 @@ module.exports = function(pattern, patternlab, isVariant) {
       if (markdownObject.order) {
         pattern[isVariant ? 'variantOrder' : 'order'] = markdownObject.order;
       }
-      if (markdownObject.hidden) {
+      if (markdownObject.hasOwnProperty('hidden')) {
         pattern.hidden = markdownObject.hidden;
       }
       if (markdownObject.excludeFromStyleguide) {
