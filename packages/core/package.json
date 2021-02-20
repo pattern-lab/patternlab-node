@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/core",
   "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
-  "version": "5.14.0",
+  "version": "5.14.1",
   "main": "./src/index.js",
   "dependencies": {
     "@pattern-lab/engine-mustache": "^5.14.0",
@@ -16,7 +16,7 @@
     "js-yaml": "3.13.1",
     "lodash": "4.17.20",
     "markdown-it": "6.0.1",
-    "node-fetch": "1.6.0",
+    "node-fetch": "2.6.1",
     "recursive-copy": "2.0.8",
     "update-notifier": "2.2.0"
   },

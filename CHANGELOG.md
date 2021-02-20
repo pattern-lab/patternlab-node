@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.14.1](https://github.com/pattern-lab/patternlab-node/compare/v5.14.0...v5.14.1) (2021-02-19)
+
+
+### Bug Fixes
+
+* **demopage:** switched to HTTPS URLs for image placeholders ([#1289](https://github.com/pattern-lab/patternlab-node/issues/1289)) ([e09bf6a](https://github.com/pattern-lab/patternlab-node/commit/e09bf6aae9bad99365b5a01381e0df6de9ddeafe))
+
+
+
+
+
 # [5.14.0](https://github.com/pattern-lab/patternlab-node/compare/v5.13.3...v5.14.0) (2021-01-12)
 
 **Note:** Version bump only for package patternlab-node

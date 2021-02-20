@@ -15,6 +15,7 @@ If you'd like to see what a front-end project built with Pattern Lab looks like,
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![node (scoped)](https://img.shields.io/node/v/@pattern-lab/core.svg)]()
 [![Join the chat at Gitter](https://badges.gitter.im/pattern-lab/node.svg)](https://gitter.im/pattern-lab/node)
+[![Join the chat at Discord](https://img.shields.io/badge/Chat-Discord-informational.svg)](https://discord.gg/WPPFAaETQC)
 
 Docs @ [![Netlify Status](https://api.netlify.com/api/v1/badges/d454dbde-02c5-4bd4-8393-4ab75e862b03/deploy-status)](https://app.netlify.com/sites/patternlab-docs-preview/deploys)
 
