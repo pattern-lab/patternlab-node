@@ -1,4 +1,4 @@
-import './components/pl-nav/pl-nav';
+import './components/pl-nav/nav';
 import './components/pl-search/pl-search';
 import './lit-components/pl-icon/pl-icon';
 import './lit-components/pl-button/pl-button';
