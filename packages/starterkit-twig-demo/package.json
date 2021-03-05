@@ -5,7 +5,7 @@
   "main": "README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pattern-lab/starterkit-twig-demo.git"
+    "url": "git+https://github.com/pattern-lab/patternlab-node.git"
   },
   "keywords": [
     "Pattern Lab",
@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/pattern-lab/patternlab-node/issues"
   },
-  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-twig-demo",
+  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/dev/packages/starterkit-twig-demo",
   "publishConfig": {
     "access": "public"
   },
