@@ -103,7 +103,7 @@ module.exports = function(pattern, patternlab, isVariant) {
       }
     } catch (err) {
       // do nothing when file not found
-      if (err.code !== 'ENOENT') {
+      if (err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
         logger.warning(
           `There was an error setting pattern group data after markdown parsing for ${path.join(
             patternlab.config.paths.source.patterns,
@@ -139,7 +139,7 @@ module.exports = function(pattern, patternlab, isVariant) {
       }
     } catch (err) {
       // do nothing when file not found
-      if (err.code !== 'ENOENT') {
+      if (err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
         logger.warning(
           `There was an error setting pattern subgroup data after markdown parsing for ${path.join(
             patternlab.config.paths.source.patterns,
