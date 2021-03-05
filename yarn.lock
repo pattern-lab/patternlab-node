@@ -1710,10 +1710,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@basalt/twig-renderer@0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@basalt/twig-renderer/-/twig-renderer-0.13.1.tgz#00d184b9397dbcb1661950e2554e6525d62506ec"
-  integrity sha512-MM7u2EouQ/NpaMRJyy+v0t4isFYOU65ZGHTKmnz126lhqgUqtBn0D0539dnTAoUq8iwUeQu6LU3HV/4Bz3fBDw==
+"@basalt/twig-renderer@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@basalt/twig-renderer/-/twig-renderer-2.0.0.tgz#197e5d383035482a37215d48e5ae74dae210ef1d"
+  integrity sha512-FesNB7Mxh3P9xLkAS/Y3u3dFSUy15j1TvMTyyUrqXnJwTgViYyylbvAkx779pgVImJnAdFM3b5DsIOtl0yWBGQ==
   dependencies:
     "@babel/core" "^7.2.0"
     "@babel/preset-env" "^7.2.0"
