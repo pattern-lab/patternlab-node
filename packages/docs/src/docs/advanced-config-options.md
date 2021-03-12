@@ -194,7 +194,7 @@ For example, to export the navigation, header, and footer, one might do:
 
 ### patternMergeVariantArrays
 
-Used to override the merge behavior of pattern variants. For more information see [The Pseudo-Pattern File Data](docs/using-pseudo-patterns/#heading-the-pseudo-pattern-file data).
+Used to override the merge behavior of pattern variants. For more information see [The Pseudo-Pattern File Data](docs/using-pseudo-patterns/#heading-the-pseudo-pattern-file-data).
 
 - `true` will merge arrays of the pattern and pseudo-pattern with [lodash merge](https://lodash.com/docs/4.17.15#merge)
 - `false` will override arrays from the pattern with pseudo-patterns arrays
