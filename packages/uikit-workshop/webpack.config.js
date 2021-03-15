@@ -25,7 +25,7 @@ const defaultConfig = {
   sourceMaps: true,
   watch: argv.watch ? true : false,
   publicPath: './styleguide/',
-  copy: [{ from: './src/images/**', to: 'images', flatten: true }],
+  copy: { patterns: [{ from: './src/images/**', to: 'images/[name][ext]' }] },
   noViewAll: false,
 };
 
