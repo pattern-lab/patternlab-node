@@ -7,8 +7,8 @@
     "start": "node ./build-tools.js",
     "prepublish": "npm run build",
     "postbootstrap": "npm run build",
-    "build": "webpack-cli --config webpack.config.js --progress --bail --display=minimal",
-    "watch": "webpack-cli --config webpack.config.js --progress --watch --display=minimal",
+    "build": "webpack-cli --config webpack.config.js --progress --bail",
+    "watch": "webpack-cli --config webpack.config.js --progress --watch",
     "test": "npm run build"
   },
   "authors": [
@@ -106,12 +106,12 @@
     "scroll-js": "^2.2.0",
     "skatejs": "^5.2.4",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
     "style-loader": "^2.0.0",
     "svg-sprite-loader": "^6.0.0",
     "svg-transform-loader": "^2.0.13",
     "svgo-loader": "^3.0.0",
     "ts-loader": "^8.0.18",
+    "webpack-cli": "^4.5.0",
     "webpack-merge": "^5.7.3",
     "wolfy87-eventemitter": "^5.2.6",
     "yargs": "^14.2.0"
