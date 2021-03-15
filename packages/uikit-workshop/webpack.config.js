@@ -263,23 +263,6 @@ module.exports = function(apiConfig) {
       ],
     };
 
-    webpackConfig.plugins.push(
-      new HardSourceWebpackPlugin({
-        info: {
-          level: 'warn',
-        },
-        // Clean up large, old caches automatically.
-        cachePrune: {
-          // Caches younger than `maxAge` are not considered for deletion. They must
-          // be at least this (default: 2 days) old in milliseconds.
-          maxAge: 2 * 24 * 60 * 60 * 1000,
-          // All caches together must be larger than `sizeThreshold` before any
-          // caches will be deleted. Together they must be at least 300MB in size
-          sizeThreshold: 300 * 1024 * 1024,
-        },
-      })
-    );
-
     const legacyConfig = merge(webpackConfig, {
       entry: {
         'js/patternlab-pattern': path.join(
