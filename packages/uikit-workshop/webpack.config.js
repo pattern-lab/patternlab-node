@@ -1,5 +1,5 @@
 // webpack.config.js
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
 const autoprefixer = require('autoprefixer');
@@ -331,22 +331,19 @@ module.exports = function(apiConfig) {
       },
       plugins: [
         // clear out the buildDir on every fresh Webpack build
-        new CleanWebpackPlugin(
-          config.watch
+        new CleanWebpackPlugin({
+          verbose: false,
+          cleanOnceBeforeBuildPatterns: config.watch
             ? []
             : [
                 `${config.buildDir}/index.html`,
                 `${config.buildDir}/styleguide/css`,
                 `${config.buildDir}/styleguide/js`,
               ],
-          {
-            allowExternal: true,
-            verbose: false,
 
-            // perform clean just before files are emitted to the output dir
-            beforeEmit: false,
-          }
-        ),
+          // perform clean just before files are emitted to the output dir
+          beforeEmit: false,
+        }),
         new HtmlWebpackPlugin({
           filename: '../index.html',
           template: path.resolve(__dirname, 'src/html/index.html'),
