@@ -75,7 +75,6 @@
     "deepmerge": "^2.1.1",
     "fg-loadjs": "^1.1.0",
     "fuse.js": "^3.4.5",
-    "hard-source-webpack-plugin-patch": "^0.13.3",
     "hogan.js": "^3.0.2",
     "htm": "^1.0.1",
     "html-loader": "^0.5.5",
