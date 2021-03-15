@@ -290,7 +290,6 @@ module.exports = function(apiConfig) {
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
-          allChunks: true,
         }),
       ],
     });
@@ -351,7 +350,6 @@ module.exports = function(apiConfig) {
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
-          allChunks: true,
         }),
       ],
     });
