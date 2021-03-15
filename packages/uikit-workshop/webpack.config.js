@@ -12,7 +12,7 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const WebpackBar = require('webpackbar');
 
 const cosmiconfig = require('cosmiconfig');

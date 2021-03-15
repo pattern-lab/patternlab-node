@@ -114,7 +114,7 @@
     "ts-loader": "^6.2.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
-    "webpack-merge": "^4.2.2",
+    "webpack-merge": "^5.7.3",
     "wolfy87-eventemitter": "^5.2.6",
     "yargs": "^14.2.0"
   },
