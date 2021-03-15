@@ -120,7 +120,6 @@ async function serve(patternlab, configPath, buildDir = 'public') {
 
       app.use(
         webpackDevMiddleware(compiler, {
-          quiet: true,
           stats: 'errors-warnings',
           writeToDisk: true,
         })
