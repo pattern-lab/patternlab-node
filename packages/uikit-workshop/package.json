@@ -42,7 +42,7 @@
     "fs-extra": "^8.1.0",
     "hasha": "^5.1.0",
     "portfinder": "^1.0.25",
-    "webpack-dev-middleware": "^3.7.2",
+    "webpack-dev-middleware": "^4.1.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpackbar": "^4.0.0"
   },

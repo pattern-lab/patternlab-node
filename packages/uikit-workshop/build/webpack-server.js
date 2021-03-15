@@ -123,7 +123,6 @@ async function serve(patternlab, configPath, buildDir = 'public') {
           quiet: true,
           stats: 'errors-warnings',
           writeToDisk: true,
-          logLevel: 'error',
         })
       );
 
