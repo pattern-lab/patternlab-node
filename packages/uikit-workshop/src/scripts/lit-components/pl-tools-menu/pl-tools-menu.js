@@ -6,7 +6,7 @@ import { urlHandler, patternName, iframeMsgDataExtraction } from '../../utils';
 import { store } from '../../store'; // redux store
 import styles from './pl-tools-menu.scss?external';
 
-let listeningForBodyClicks = false;
+const listeningForBodyClicks = false;
 
 import { html } from 'lit-html';
 import { BaseLitComponent } from '../../components/base-component';
