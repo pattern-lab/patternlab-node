@@ -258,6 +258,7 @@ module.exports = function(apiConfig) {
       plugins: [
         new WebpackBar(),
         new CopyPlugin(config.copy),
+        // TODO: Check whether this is still correctly implemented (correct filename?), introduced with https://github.com/pattern-lab/patternlab-node/commit/318801a4ac10eb7263a09ab948c5cc272a922ce9#diff-8c9b7dba764c6bd34aaec36a6a42e7b69d9a46b19712a47706355bb8616d3319R156 - especially if this is meant to work in combination with Mini CSS Extract Plugin it's probably a little simpler to declare now: https://github.com/xipasduarte/no-emit-webpack-plugin/releases/tag/v4.0.1
         new NoEmitPlugin(['css/pattern-lab.js']),
       ],
     };
