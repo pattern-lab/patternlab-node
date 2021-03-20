@@ -147,7 +147,6 @@ module.exports = function(apiConfig) {
       output: {
         path: path.resolve(config.rootDir, `${config.buildDir}/styleguide`),
         publicPath: `${config.publicPath}`,
-        filename: '[name].js',
         chunkFilename: `js/[name]-chunk-[chunkhash].js`,
       },
       module: {
