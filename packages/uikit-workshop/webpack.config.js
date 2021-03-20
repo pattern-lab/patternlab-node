@@ -234,9 +234,9 @@ module.exports = function(apiConfig) {
         splitChunks: {
           chunks: 'async',
           cacheGroups: {
-            vendors: {
+            defaultVendors: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
+              idHint: 'vendors',
               chunks: 'async',
               reuseExistingChunk: true,
             },
