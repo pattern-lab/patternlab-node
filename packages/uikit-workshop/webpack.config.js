@@ -246,7 +246,6 @@ module.exports = function(apiConfig) {
           ? [
               new TerserPlugin({
                 test: /\.m?js(\?.*)?$/i,
-                sourceMap: config.prod ? false : config.sourceMaps,
                 terserOptions: {
                   safari10: true,
                 },
