@@ -31,10 +31,11 @@ const defaultOptions = {
  * @returns {Function} Koa compatible middleware
  */
 const webpackDevServerWaitpage = (server, options) => {
-  if (!server)
+  if (!server) {
     throw new Error(
       `webpack-dev-server's compilers argument must be supplied as first parameter.`
     );
+  }
 
   /** @type {WebpackDevServerWaitpageOptions} */
   options = Object.assign({}, defaultOptions, options);
@@ -55,8 +56,9 @@ const webpackDevServerWaitpage = (server, options) => {
         .filter(x => x.endsWith('.ejs'))
         .map(x => x.slice(0, -4))
         .indexOf(options.theme) < 0
-    )
+    ) {
       throw new Error(`Unknown theme provided: ${options.theme}`);
+    }
     template = fs.readFileSync(
       path.resolve(__dirname, options.theme + '.ejs'),
       'utf8'

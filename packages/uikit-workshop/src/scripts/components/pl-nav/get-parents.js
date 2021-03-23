@@ -8,7 +8,7 @@ export const getParents = (elem, selector) => {
       Element.prototype.oMatchesSelector ||
       Element.prototype.webkitMatchesSelector ||
       function(s) {
-        var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+        let matches = (this.document || this.ownerDocument).querySelectorAll(s),
           i = matches.length;
         while (--i >= 0 && matches.item(i) !== this) {}
         return i > -1;
@@ -16,7 +16,7 @@ export const getParents = (elem, selector) => {
   }
 
   // Set up a parent array
-  var parents = [];
+  const parents = [];
 
   // Push each parent element to the array
   for (; elem && elem !== document; elem = elem.parentNode) {

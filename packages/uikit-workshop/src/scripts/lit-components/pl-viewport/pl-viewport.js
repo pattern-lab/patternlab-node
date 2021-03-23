@@ -257,7 +257,7 @@ class IFrame extends BaseLitComponent {
         'orientationchange',
         function() {
           if (window.orientation !== this.origOrientation) {
-            let newWidth = window.innerWidth;
+            const newWidth = window.innerWidth;
             self.iframeContainer.style.width = newWidth;
             self.iframe.style.width = newWidth;
             self.updateSizeReading(newWidth);
