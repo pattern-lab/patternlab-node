@@ -1,11 +1,11 @@
 import { dashCase, empty, keys } from 'skatejs/dist/esnext/util';
 
-var _extends =
+const _extends =
   Object.assign ||
   function(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
+    for (let i = 1; i < arguments.length; i++) {
+      const source = arguments[i];
+      for (const key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
@@ -50,12 +50,18 @@ export function normalizePropertyDefinition(name, prop) {
 const defaultTypesMap = new Map();
 
 function defineProps(constructor) {
-  if (constructor.hasOwnProperty('_propsNormalized')) return;
+  if (constructor.hasOwnProperty('_propsNormalized')) {
+    return;
+  }
   const { props } = constructor;
   keys(props).forEach(name => {
     let func = props[name] || props.any;
-    if (defaultTypesMap.has(func)) func = defaultTypesMap.get(func);
-    if (typeof func !== 'function') func = prop(func);
+    if (defaultTypesMap.has(func)) {
+      func = defaultTypesMap.get(func);
+    }
+    if (typeof func !== 'function') {
+      func = prop(func);
+    }
     func({ constructor }, name);
   });
 }
@@ -130,7 +136,7 @@ export function prop(definition) {
 
 export class SkateElement extends HTMLElement {
   constructor(...args) {
-    var _temp;
+    let _temp;
     return (
       (_temp = super(...args)),
       (this._prevProps = {}),
