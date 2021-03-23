@@ -29,7 +29,7 @@ title: Resources
 
 ## Podcasts
 
-- [Dave Olsen talking Pattern Lab 2 on Non-Breaking Space Podcast](https://goodstuff.fm/nbsp/86)
+- [Dave Olsen talking Pattern Lab 2 on Non-Breaking Space Podcast](https://open.spotify.com/episode/4IMyd92WWZyaXP04Unxdip)
 - [Brian Muenzenmeyer talking Pattern Lab 2 on the MS DEV SHOW Podcast](https://msdevshow.com/2015/12/pattern-lab-with-brian-muenzenmeyer/)
 
 ## Presentations
