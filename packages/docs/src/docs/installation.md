@@ -11,7 +11,9 @@ eleventyNavigation:
 
 ## Step 1: Install requirements
 
-Make sure you have [Node.js](https://nodejs.org/en/download/) installed before setting up Pattern Lab.
+Make sure you have [Node.js](https://nodejs.org/en/download/) installed before setting up Pattern Lab, e.g. by checking for the node version: `node -v`
+
+Please make sure to have at minimum version node 7 installed, but even better at least the node version that's being mentioned in [.nvmrc](https://github.com/pattern-lab/patternlab-node/blob/dev/); [Node version manager](https://github.com/nvm-sh/nvm) might be a good option if you can't update.
 
 ## Step 2: Run the create Pattern Lab command
 
