@@ -225,7 +225,7 @@ module.exports = function(apiConfig) {
       optimization: {
         minimize: config.prod,
         occurrenceOrder: true,
-        namedChunks: true,
+        chunkIds: 'named',
         removeAvailableModules: true,
         removeEmptyChunks: true,
         nodeEnv: 'production',
