@@ -27,7 +27,7 @@ Sets whether or not to delete `public.patterns/` upon each build of Pattern Lab.
 
 **default**: `true`
 
-### defaultPatttern
+### defaultPattern
 
 Sets a specific pattern upon launch of the styleguide. This pattern will not be available in the navigation, or in view all pages. The only way to get to it will be via a refresh. Set it using the [short-hand pattern-include syntax](/docs/including-patterns/):
 

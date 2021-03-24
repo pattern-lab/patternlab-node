@@ -27,6 +27,7 @@ function serve() {
   return patternlab.server
     .serve({
       cleanPublic: config.cleanPublic,
+      watch: true,
     })
     .then(() => {
       // do something else when this promise resolves
