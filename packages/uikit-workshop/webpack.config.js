@@ -224,8 +224,10 @@ module.exports = function(apiConfig) {
       mode: config.prod ? 'production' : 'development',
       optimization: {
         minimize: config.prod,
-        occurrenceOrder: true,
-        chunkIds: 'named',
+        // TODO: decide on the conflict "optimization.namedChunks: true → optimization.chunkIds: 'named'" and "optimization.occurrenceOrder: true → optimization: { chunkIds: 'total-size', moduleIds: 'size' }" source: https://webpack.js.org/migrate/5/#update-outdated-options
+        // chunkIds: 'named',
+        chunkIds: 'total-size',
+        moduleIds: 'size',
         removeAvailableModules: true,
         removeEmptyChunks: true,
         nodeEnv: 'production',
