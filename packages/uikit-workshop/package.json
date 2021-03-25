@@ -60,7 +60,7 @@
     "@pattern-lab/uikit-polyfills": "^5.13.1",
     "@reach/visually-hidden": "^0.1.2",
     "@webcomponents/custom-elements": "^1.4.2",
-    "autoprefixer": "^9.6.5",
+    "autoprefixer": "^10.2.5",
     "babel-loader": "^8.2.2",
     "classnames": "^2.2.6",
     "clean-css-loader": "^3.0.0",
