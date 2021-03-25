@@ -106,7 +106,7 @@
     "scroll-js": "^2.2.0",
     "skatejs": "^5.2.4",
     "style-loader": "^2.0.0",
-    "svg-sprite-loader": "^6.0.0",
+    "svg-sprite-loader": "^6.0.2",
     "svg-transform-loader": "^2.0.13",
     "svgo-loader": "^3.0.0",
     "ts-loader": "^8.0.18",
