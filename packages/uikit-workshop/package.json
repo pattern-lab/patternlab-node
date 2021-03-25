@@ -85,6 +85,7 @@
     "no-emit-webpack-plugin": "^4.0.1",
     "node-sass": "^4.14.1",
     "node-sass-selector-importer": "^5.3.2",
+    "postcss": "^8.2.8",
     "postcss-loader": "^5.2.0",
     "preact": "8.3.1",
     "preact-compat": "3.18.4",
