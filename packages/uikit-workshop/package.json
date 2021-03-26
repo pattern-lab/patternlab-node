@@ -97,7 +97,7 @@
     "prerender-spa-plugin": "^3.4.0",
     "pretty": "^2.0.0",
     "prismjs": "^1.15.0",
-    "pwa-helpers": "^0.9.0",
+    "pwa-helpers": "^0.9.1",
     "react-autosuggest": "^9.4.2",
     "react-dom": "^16.8.6",
     "react-html-parser": "^2.0.2",
