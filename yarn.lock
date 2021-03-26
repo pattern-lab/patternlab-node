@@ -8856,10 +8856,10 @@ get-own-enumerable-property-symbols@^3.0.0:
   resolved "https://registry.yarnpkg.com/get-own-enumerable-property-symbols/-/get-own-enumerable-property-symbols-3.0.1.tgz#6f7764f88ea11e0b514bd9bd860a132259992ca4"
   integrity sha512-09/VS4iek66Dh2bctjRkowueRJbY1JDGR1L/zRxO1Qk8Uxs6PnqaNSqalpizPT+CDjre3hnEsuzvhgomz9qYrA==
 
-get-own-property-symbols@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/get-own-property-symbols/-/get-own-property-symbols-0.9.4.tgz#36d73c856a751500a3a0c76a62911939fae12ac9"
-  integrity sha512-rweuUyShThO7whRCLIlr+YlE2eHQ6MTaLANkFe1pcaVV7Y46BuoLhN+XwtAfyddrZynzIfyl6nG6S/UchMOgWg==
+get-own-property-symbols@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/get-own-property-symbols/-/get-own-property-symbols-0.9.5.tgz#14916f4b4488478cff7bdcff00b209db6724a559"
+  integrity sha512-ZvAIlmbmRE39iErqrw45vIkUUi0TQ78AWi5RtesI8rP13kECtm56WwgaWXn8valvJ6bOhQhBrn+PoNqnDu132w==
 
 get-pkg-repo@^1.0.0:
   version "1.4.0"
