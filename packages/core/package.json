@@ -35,7 +35,7 @@
     "prettier": "^1.14.3",
     "pretty-quick": "^1.11.1",
     "rewire": "2.5.2",
-    "standard-version": "9.0.0",
+    "standard-version": "9.1.1",
     "tap": "14.11.0"
   },
   "keywords": [
