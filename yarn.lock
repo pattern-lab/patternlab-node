@@ -18294,10 +18294,10 @@ twig-lexer@^0.7.2:
   dependencies:
     "@types/node" "^12.0.8"
 
-twing@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/twing/-/twing-5.0.1.tgz#8bedac6c0f2afce87608f6a8fe2327207da40727"
-  integrity sha512-oaeOQ8IrJKrxRtC6z+26XqD0B7Wal+52qOvsaJGLIDnvmqlzPT1a9GH4xMOEw40d2EZ6nWUXhYwaroJ4JAQF2w==
+twing@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/twing/-/twing-5.0.2.tgz#e795ea454416ab4127663478a25c053ce94ce5f2"
+  integrity sha512-uyOnD+KUTH+Ddbs21/KVJJI8DFhlDLNJLEU5UrudGS1W1qLyyCho9HxSus9LUzIjYRYNifXiQnlYwzi2aWI0Pg==
   dependencies:
     "@types/luxon" "^1.4.0"
     camelcase "^4.1.0"
