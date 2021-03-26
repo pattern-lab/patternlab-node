@@ -13,7 +13,7 @@
     "@pattern-lab/live-server": "^5.13.0",
     "@pattern-lab/starterkit-mustache-base": "3.0.3",
     "archiver": "2.1.1",
-    "chalk": "2.4.1",
+    "chalk": "4.1.0",
     "commander": "2.15.1",
     "deepmerge": "^2.1.1",
     "execa": "4.0.3",
