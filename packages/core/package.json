@@ -10,7 +10,7 @@
     "chokidar": "3.5.1",
     "dive": "0.5.0",
     "fs-extra": "5.0.0",
-    "glob": "7.0.0",
+    "glob": "7.1.6",
     "graphlib": "2.1.1",
     "js-beautify": "1.13.5",
     "js-yaml": "3.13.1",
