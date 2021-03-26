@@ -84,7 +84,7 @@
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
     "mini-css-extract-plugin": "^0.8.0",
-    "mousetrap": "^1.6.3",
+    "mousetrap": "^1.6.5",
     "no-emit-webpack-plugin": "^1.0.0",
     "node-sass": "^4.14.1",
     "node-sass-selector-importer": "^5.2.0",
