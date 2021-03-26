@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "eslint": "4.18.2",
-    "jshint": "2.10.2",
+    "jshint": "2.12.0",
     "mocha": "4.0.1",
     "supertest": "3.0.0"
   },
