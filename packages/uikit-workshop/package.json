@@ -117,7 +117,7 @@
     "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2",
     "wolfy87-eventemitter": "^5.2.6",
-    "yargs": "^14.2.0"
+    "yargs": "^16.2.0"
   },
   "browserslist": [
     "last 2 version",
