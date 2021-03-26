@@ -36,7 +36,7 @@
     "pretty-quick": "^1.11.1",
     "rewire": "2.5.2",
     "standard-version": "9.0.0",
-    "tap": "14.6.4"
+    "tap": "14.11.0"
   },
   "keywords": [
     "Pattern Lab",

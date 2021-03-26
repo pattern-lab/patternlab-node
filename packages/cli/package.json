@@ -36,7 +36,7 @@
     "eslint-plugin-prettier": "2.6.0",
     "prettier": "1.11.1",
     "proxyquire": "2.0.1",
-    "tap": "14.6.4"
+    "tap": "14.11.0"
   },
   "files": [
     "bin"
