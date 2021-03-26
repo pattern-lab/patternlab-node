@@ -65,7 +65,7 @@
     "classnames": "^2.2.6",
     "clean-css-loader": "^1.0.1",
     "clean-webpack-plugin": "0.1.19",
-    "clipboard": "^2.0.4",
+    "clipboard": "^2.0.8",
     "copy-webpack-plugin": "^5.0.2",
     "core-js": "^3.6.5",
     "cosmiconfig": "^5.0.6",
