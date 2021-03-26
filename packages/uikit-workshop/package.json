@@ -86,7 +86,7 @@
     "mini-css-extract-plugin": "^0.8.0",
     "mousetrap": "^1.6.5",
     "no-emit-webpack-plugin": "^1.0.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^5.0.0",
     "node-sass-selector-importer": "^5.2.0",
     "postcss-loader": "^3.0.0",
     "preact": "8.3.1",
@@ -104,7 +104,7 @@
     "react-popper-tooltip": "^2.7.0",
     "redux": "3.7.2",
     "redux-thunk": "^2.3.0",
-    "sass-loader": "^8.0.0",
+    "sass-loader": "^10.1.1",
     "scriptjs": "^2.5.9",
     "scroll-js": "^2.2.0",
     "skatejs": "^5.2.4",
@@ -117,7 +117,7 @@
     "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2",
     "wolfy87-eventemitter": "^5.2.9",
-    "yargs": "^14.2.0"
+    "yargs": "^16.2.0"
   },
   "browserslist": [
     "last 2 version",
