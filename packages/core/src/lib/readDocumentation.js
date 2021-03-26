@@ -82,70 +82,74 @@ module.exports = function(pattern, patternlab, isVariant) {
 
   // Read Documentation for Pattern-Group
   // Use this approach, since pattern lab is a pattern driven software
-  try {
+  if (pattern.patternGroup) {
     const groupRelPath = pattern.relPath.split(path.sep);
-    const markdownFileNameGroup = path.resolve(
-      patternlab.config.paths.source.patterns,
-      groupRelPath[0] || pattern.subdir,
-      GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
-    );
-    const markdownFileContentsGroup = fs.readFileSync(
-      markdownFileNameGroup,
-      'utf8'
-    );
-    const markdownObjectGroup = markdown_parser.parse(
-      markdownFileContentsGroup
-    );
-
-    if (!_.isEmpty(markdownObjectGroup)) {
-      pattern.patternGroupData = markdownObjectGroup;
-    }
-  } catch (err) {
-    // do nothing when file not found
-    if (err.code !== 'ENOENT') {
-      logger.warning(
-        `There was an error setting pattern group data after markdown parsing for ${path.join(
-          patternlab.config.paths.source.patterns,
-          path.parse(pattern.subdir).dir,
-          GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
-        )}`
+    try {
+      const markdownFileNameGroup = path.resolve(
+        patternlab.config.paths.source.patterns,
+        groupRelPath[0] || pattern.subdir,
+        GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
       );
-      logger.warning(err);
+      const markdownFileContentsGroup = fs.readFileSync(
+        markdownFileNameGroup,
+        'utf8'
+      );
+      const markdownObjectGroup = markdown_parser.parse(
+        markdownFileContentsGroup
+      );
+
+      if (!_.isEmpty(markdownObjectGroup)) {
+        pattern.patternGroupData = markdownObjectGroup;
+      }
+    } catch (err) {
+      // do nothing when file not found
+      if (err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
+        logger.warning(
+          `There was an error setting pattern group data after markdown parsing for ${path.join(
+            patternlab.config.paths.source.patterns,
+            groupRelPath[0] || pattern.subdir,
+            GROUP_DOC_PREFIX + pattern.patternGroup + FILE_EXTENSION
+          )}`
+        );
+        logger.warning(err);
+      }
     }
   }
 
   // Read Documentation for Pattern-Subgroup
-  try {
+  if (pattern.patternSubgroup) {
     const subgroupRelPath = pattern.relPath.split(path.sep);
-    const markdownFileNameSubgroup = path.resolve(
-      patternlab.config.paths.source.patterns,
-      subgroupRelPath[0],
-      subgroupRelPath[1],
-      GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
-    );
-    const markdownFileContentsSubgroup = fs.readFileSync(
-      markdownFileNameSubgroup,
-      'utf8'
-    );
-    const markdownObjectSubgroup = markdown_parser.parse(
-      markdownFileContentsSubgroup
-    );
-
-    if (!_.isEmpty(markdownObjectSubgroup)) {
-      pattern.patternSubgroupData = markdownObjectSubgroup;
-    }
-  } catch (err) {
-    // do nothing when file not found
-    if (err.code !== 'ENOENT') {
-      logger.warning(
-        `There was an error setting pattern subgroup data after markdown parsing for ${path.join(
-          patternlab.config.paths.source.patterns,
-          path.parse(pattern.subdir).dir,
-          path.parse(pattern.subdir).base,
-          GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
-        )}`
+    try {
+      const markdownFileNameSubgroup = path.resolve(
+        patternlab.config.paths.source.patterns,
+        subgroupRelPath[0],
+        subgroupRelPath[1],
+        GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
       );
-      logger.warning(err);
+      const markdownFileContentsSubgroup = fs.readFileSync(
+        markdownFileNameSubgroup,
+        'utf8'
+      );
+      const markdownObjectSubgroup = markdown_parser.parse(
+        markdownFileContentsSubgroup
+      );
+
+      if (!_.isEmpty(markdownObjectSubgroup)) {
+        pattern.patternSubgroupData = markdownObjectSubgroup;
+      }
+    } catch (err) {
+      // do nothing when file not found
+      if (err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
+        logger.warning(
+          `There was an error setting pattern subgroup data after markdown parsing for ${path.join(
+            patternlab.config.paths.source.patterns,
+            subgroupRelPath[0],
+            subgroupRelPath[1],
+            GROUP_DOC_PREFIX + pattern.patternSubgroup + FILE_EXTENSION
+          )}`
+        );
+        logger.warning(err);
+      }
     }
   }
 };
