@@ -6,7 +6,7 @@ module.exports = {
     es6: true,
     browser: true,
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -27,7 +27,7 @@ module.exports = {
     curly: [2, 'all'],
     'dot-notation': [1, { allowKeywords: true }],
     eqeqeq: [2, 'allow-null'],
-    'strict': [0, 'never'],
+    strict: [0, 'never'],
     'guard-for-in': 2,
     'key-spacing': 0,
     'new-cap': 0,
