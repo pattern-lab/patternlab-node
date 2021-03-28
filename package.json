@@ -18,7 +18,6 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
-    "husky": "^5.2.0",
     "lerna": "3.17.0",
     "auto": "^9.40.5",
     "@auto-it/released": "^9.40.5",
@@ -31,7 +30,7 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "lerna run postbootstrap",
+    "postinstall": "husky install && lerna run postbootstrap",
     "setup": "yarn",
     "build:uikit": "cd packages/uikit-workshop && npm run build",
     "precommit": "pretty-quick --staged",
@@ -40,7 +39,8 @@
     "test": "lerna run test",
     "clean": "git clean -dfx",
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
-    "postpublish": "auto release",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable && auto release",
     "preview:docs": "cd packages/docs && yarn production",
     "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
     "prepare": "husky install"
@@ -52,5 +52,9 @@
       "packages/core/test",
       "packages/live-server"
     ]
+  },
+  "devDependencies": {
+    "husky": "^5.2.0",
+    "pinst": "^2.1.6"
   }
 }
