@@ -6,7 +6,7 @@ const liveServer = require('@pattern-lab/live-server');
 const events = require('./events');
 const logger = require('./log');
 
-const server = patternlab => {
+const server = (patternlab) => {
   const _module = {
     serve: () => {
       let serverReady = false;
@@ -20,7 +20,7 @@ const server = patternlab => {
         port: 3000,
       };
 
-      const servers = Object.keys(patternlab.uikits).map(kit => {
+      const servers = Object.keys(patternlab.uikits).map((kit) => {
         const uikit = patternlab.uikits[kit];
         defaults.root = path.resolve(
           path.join(
@@ -104,7 +104,7 @@ const server = patternlab => {
 
       return Promise.all(servers);
     },
-    reload: data => {
+    reload: (data) => {
       const _data = data || {
         file: '',
         action: '',

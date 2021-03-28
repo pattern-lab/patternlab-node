@@ -2,7 +2,7 @@
 
 const logger = require('./log');
 
-module.exports = function(pattern, data, partials) {
+module.exports = function (pattern, data, partials) {
   logger.debug(
     `render: ${
       pattern.patternPartial !== '-.'
