@@ -31,7 +31,7 @@
     "starterkit-mustache-materialdesign": "0.1.2"
   },
   "devDependencies": {
-    "eslint": "4.18.2",
+    "eslint": "6.8.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-prettier": "2.6.0",
     "prettier": "1.11.1",
