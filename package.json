@@ -30,7 +30,7 @@
   },
   "private": true,
   "scripts": {
-    "postinstall": "husky install && lerna run postbootstrap",
+    "postinstall": "lerna run postbootstrap",
     "setup": "yarn",
     "build:uikit": "cd packages/uikit-workshop && npm run build",
     "precommit": "pretty-quick --staged",
@@ -39,8 +39,7 @@
     "test": "lerna run test",
     "clean": "git clean -dfx",
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable && auto release",
+    "postpublish": "auto release",
     "preview:docs": "cd packages/docs && yarn production",
     "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
     "prepare": "husky install"
@@ -54,7 +53,6 @@
     ]
   },
   "devDependencies": {
-    "husky": "^5.2.0",
-    "pinst": "^2.1.6"
+    "husky": "^5.2.0"
   }
 }
