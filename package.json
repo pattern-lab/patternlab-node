@@ -19,10 +19,11 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "prettier": "^1.14.3",
+    "husky": "^5.2.0",
     "lerna": "3.17.0",
-    "pretty-quick": "^1.11.1",
     "auto": "^9.40.5",
     "@auto-it/released": "^9.40.5"
+    "pretty-quick": "^3.1.0"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,8 @@
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
     "postpublish": "auto release",
     "preview:docs": "cd packages/docs && yarn production",
-    "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build"
+    "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
+    "prepare": "husky install"
   },
   "nyc": {
     "exclude": [
