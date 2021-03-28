@@ -20,7 +20,7 @@ module.exports = function(currentPattern, patternlab) {
   // results
   if (
     currentPattern.engine.expandPartials &&
-    (foundPatternPartials !== null && foundPatternPartials.length > 0)
+    foundPatternPartials !== null && foundPatternPartials.length > 0
   ) {
     logger.debug(`found partials for ${currentPattern.patternPartial}`);
 
