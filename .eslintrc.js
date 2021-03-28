@@ -49,7 +49,7 @@ module.exports = {
     'no-irregular-whitespace': 1,
     'no-iterator': 2,
     'no-loop-func': 2,
-    'no-mixed-requires': 0,
+    'node/no-mixed-requires': 0,
     'no-multi-str': 2,
     'no-native-reassign': 2,
     'no-new': 2,
