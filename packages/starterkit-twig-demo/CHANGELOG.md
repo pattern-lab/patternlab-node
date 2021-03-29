@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.14.2](https://github.com/pattern-lab/patternlab-node/compare/v5.14.1...v5.14.2) (2021-03-28)
+
+
+### Bug Fixes
+
+* **twig:** starter-kit-twig urls are incorrect on npm ([#1297](https://github.com/pattern-lab/patternlab-node/issues/1297)) ([4256d6b](https://github.com/pattern-lab/patternlab-node/commit/4256d6b13f9c2cfadf7620b0cb744cf71c3257f5))
+
+
+
+
+
 # [5.14.0](https://github.com/pattern-lab/starterkit-twig-demo/compare/v5.13.3...v5.14.0) (2021-01-12)
 
 **Note:** Version bump only for package @pattern-lab/starterkit-twig-demo

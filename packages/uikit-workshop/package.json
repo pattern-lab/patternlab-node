@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "5.14.1",
+  "version": "5.14.2",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "devDependencies": {
-    "@pattern-lab/core": "^5.14.1",
+    "@pattern-lab/core": "^5.14.2",
     "@pattern-lab/engine-handlebars": "^5.14.0",
     "@pattern-lab/engine-mustache": "^5.14.0",
     "better-opn": "^1.0.0",
@@ -47,16 +47,16 @@
     "webpackbar": "^4.0.0"
   },
   "dependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-decorators": "^7.6.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-syntax-jsx": "^7.2.0",
-    "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.6.3",
-    "@babel/runtime": "^7.6.3",
+    "@babel/core": "^7.13.13",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-decorators": "^7.13.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.13.12",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "@babel/runtime": "^7.13.10",
     "@pattern-lab/uikit-polyfills": "^5.13.1",
     "@reach/visually-hidden": "^0.1.2",
     "@webcomponents/custom-elements": "^1.4.2",
