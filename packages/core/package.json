@@ -29,7 +29,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "husky": "0.14.3",
     "jsdoc-to-markdown": "5.0.1",
     "prettier": "^1.14.3",
