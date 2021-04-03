@@ -65,7 +65,6 @@
     "no-with": 2,
     "quotes": [0, "single"],
     "radix": 2,
-    "strict": 0,
     "valid-typeof": 2,
     "vars-on-top": 0,
     "prefer-const": [
