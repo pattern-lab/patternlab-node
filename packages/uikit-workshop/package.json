@@ -7,8 +7,8 @@
     "start": "node ./build-tools.js",
     "prepublish": "npm run build",
     "postbootstrap": "npm run build",
-    "build": "webpack-cli --config webpack.config.js --progress --bail",
-    "watch": "webpack-cli --config webpack.config.js --progress --watch",
+    "build": "webpack-cli --config webpack.config.js --progress --bail --stats=minimal",
+    "watch": "webpack-cli --config webpack.config.js --progress --watch --stats=minimal",
     "test": "npm run build"
   },
   "authors": [
