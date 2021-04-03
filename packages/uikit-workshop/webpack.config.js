@@ -2,12 +2,10 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const selectorImporter = require('node-sass-selector-importer');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
-const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
