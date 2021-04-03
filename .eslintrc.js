@@ -6,7 +6,7 @@ module.exports = {
     es6: true,
     browser: true,
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   globals: {},
-  plugins: ['prettier'],
+  plugins: ['@babel', 'prettier'],
   extends: ['plugin:prettier/recommended'],
   // TODO: Check for "ESLint rules relating to code formatting", compare to "This plugin works best if you disable all other ESLint rules relating to code formatting, and only enable rules that detect potential bugs. (If another active ESLint rule disagrees with prettier about how code should be formatted, it will be impossible to avoid lint errors.)", source: https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
   rules: {
