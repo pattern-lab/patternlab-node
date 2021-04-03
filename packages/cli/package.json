@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "eslint": "7.23.0",
-    "eslint-config-prettier": "2.9.0",
+    "eslint-config-prettier": "8.1.0",
     "eslint-plugin-prettier": "3.3.1",
     "prettier": "1.13.7",
     "proxyquire": "2.0.1",
