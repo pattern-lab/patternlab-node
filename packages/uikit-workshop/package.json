@@ -112,7 +112,7 @@
     "svgo-loader": "^3.0.0",
     "ts-loader": "^8.0.18",
     "webpack": "^5.28.0",
-    "webpack-cli": "^4.5.0",
+    "webpack-cli": "^4.6.0",
     "webpack-merge": "^5.7.3",
     "wolfy87-eventemitter": "^5.2.6",
     "yargs": "^16.2.0"
