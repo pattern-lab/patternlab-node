@@ -78,6 +78,7 @@ module.exports = function(apiConfig) {
           ],
         ],
         plugins: [
+          // TODO: From what I understand, we should even also be able to move those to the babel.config.js in root, to align both linting and building here
           '@babel/plugin-proposal-optional-chaining',
           ['@babel/plugin-proposal-decorators', { legacy: true }],
           ['@babel/plugin-proposal-class-properties', { loose: true }],
