@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.13",
-    "@babel/eslint-parser": "7.13.14",
-    "@babel/eslint-plugin": "7.13.10",
+    "@babel/eslint-parser": "^7.13.14",
+    "@babel/eslint-plugin": "^7.13.10",
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/plugin-syntax-jsx": "^7.12.13",
     "eslint": "^7.23.0",

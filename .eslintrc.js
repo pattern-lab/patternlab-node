@@ -7,6 +7,7 @@ module.exports = {
     browser: true,
   },
   parser: '@babel/eslint-parser',
+  // TODO: Check for "Note: The parserOptions described in the official documentation are for the default parser and are not necessarily supported by @babel/eslint-parser. Please see the section directly below for supported parserOptions.": https://www.npmjs.com/package/@babel/eslint-parser
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
