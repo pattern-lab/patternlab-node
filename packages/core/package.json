@@ -26,7 +26,7 @@
     "@babel/eslint-plugin": "^7.13.15",
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/plugin-syntax-jsx": "^7.12.13",
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
