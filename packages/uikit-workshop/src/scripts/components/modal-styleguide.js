@@ -258,9 +258,9 @@ export const modalStyleguide = {
             }
 
             elsToHighlight[j].onclick = (function(el) {
-              return function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+              return function(event) {
+                event.preventDefault();
+                event.stopPropagation();
                 const obj = JSON.stringify({
                   event: 'patternLab.annotationNumberClicked',
                   displayNumber: el.displayNumber,
