@@ -3,14 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [5.14.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.14.1...v5.14.2) (2021-03-28)
-
-**Note:** Version bump only for package @pattern-lab/edition-node-gulp
-
-
-
-
-
 ## [5.14.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.14.0...v5.14.1) (2021-02-19)
 
 **Note:** Version bump only for package @pattern-lab/edition-node-gulp

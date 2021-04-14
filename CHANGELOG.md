@@ -3,18 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [5.14.2](https://github.com/pattern-lab/patternlab-node/compare/v5.14.1...v5.14.2) (2021-03-28)
-
-
-### Bug Fixes
-
-* **core:** ReadDocumentation throw error on older node versions ([#1295](https://github.com/pattern-lab/patternlab-node/issues/1295)) ([399d0e1](https://github.com/pattern-lab/patternlab-node/commit/399d0e118ab77a414a926b078da9abbcb5347969))
-* **twig:** starter-kit-twig urls are incorrect on npm ([#1297](https://github.com/pattern-lab/patternlab-node/issues/1297)) ([4256d6b](https://github.com/pattern-lab/patternlab-node/commit/4256d6b13f9c2cfadf7620b0cb744cf71c3257f5))
-
-
-
-
-
 ## [5.14.1](https://github.com/pattern-lab/patternlab-node/compare/v5.14.0...v5.14.1) (2021-02-19)
 
 
