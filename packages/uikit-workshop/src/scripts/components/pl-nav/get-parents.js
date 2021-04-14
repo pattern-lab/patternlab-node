@@ -8,7 +8,9 @@ export const getParents = (elem, selector) => {
       Element.prototype.oMatchesSelector ||
       Element.prototype.webkitMatchesSelector ||
       function(s) {
-        let matches = (this.document || this.ownerDocument).querySelectorAll(s),
+        const matches = (this.document || this.ownerDocument).querySelectorAll(
+            s
+          ),
           i = matches.length;
         while (--i >= 0 && matches.item(i) !== this) {}
         return i > -1;
