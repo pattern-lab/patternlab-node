@@ -27,8 +27,8 @@ async function serve(patternlab, configPath, buildDir = 'public') {
 
   const port = await portfinder
     .getPortPromise()
-    .then(port => {
-      return port;
+    .then(portNo => {
+      return portNo;
     })
     .catch(err => {
       console.log(err);
