@@ -1,6 +1,6 @@
 'use strict';
 
-const list_item_hunter = function() {
+const list_item_hunter = function () {
   const logger = require('./log');
 
   function processListItemPartials(pattern) {
@@ -39,7 +39,7 @@ const list_item_hunter = function() {
   }
 
   return {
-    process_list_item_partials: function(pattern) {
+    process_list_item_partials: function (pattern) {
       return processListItemPartials(pattern);
     },
   };

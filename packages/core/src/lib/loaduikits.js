@@ -24,11 +24,11 @@ const readModuleFile = (uikitLocation, subPath) => {
  * [4] Reads files from uikit that apply to every template
  * @param {object} patternlab
  */
-module.exports = patternlab => {
+module.exports = (patternlab) => {
   const paths = patternlab.config.paths;
 
   const uikitConfigs = _.filter(patternlab.config.uikits, 'enabled'); // [1]
-  uikitConfigs.forEach(uikitConfig => {
+  uikitConfigs.forEach((uikitConfig) => {
     let uikitLocation = null;
     if ('package' in uikitConfig) {
       try {

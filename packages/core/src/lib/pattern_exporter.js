@@ -14,10 +14,7 @@ function exportSinglePattern(patternlab, pattern) {
     // Extract the first part of the pattern partial as the directory in which
     // it should go.
     patternDir = path.join(patternDir, pattern.patternPartial.split('-')[0]);
-    patternName = pattern.patternPartial
-      .split('-')
-      .slice(1)
-      .join('-');
+    patternName = pattern.patternPartial.split('-').slice(1).join('-');
   }
 
   if (patternlab.config.patternExportRaw) {
@@ -31,7 +28,7 @@ function exportSinglePattern(patternlab, pattern) {
   );
 }
 
-const pattern_exporter = function() {
+const pattern_exporter = function () {
   /**
    * Exports all pattern's final HTML as defined in patternlab-config.json to desired location.
    * Originally created to help facilitate easier consumption by jekyll.
@@ -66,7 +63,7 @@ const pattern_exporter = function() {
   }
 
   return {
-    export_patterns: function(patternlab) {
+    export_patterns: function (patternlab) {
       exportPatterns(patternlab);
     },
   };

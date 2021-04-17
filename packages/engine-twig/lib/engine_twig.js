@@ -151,7 +151,7 @@ var engine_twig = {
     var matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function() {
+  findPartialsWithStyleModifiers: function () {
     // TODO: make the call to this from oPattern objects conditional on their
     // being implemented here.
     return [];
@@ -159,26 +159,26 @@ var engine_twig = {
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function() {
+  findPartialsWithPatternParameters: function () {
     // TODO: make the call to this from oPattern objects conditional on their
     // being implemented here.
     return [];
   },
-  findListItems: function(pattern) {
+  findListItems: function (pattern) {
     var matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     var partial = partialString.match(this.findPartialKeyRE)[0];
     partial = partial.replace(/"/g, '');
 
     return partial;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -200,7 +200,7 @@ var engine_twig = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.twig');
     this.spawnFile(config, '_foot.twig');
   },
@@ -211,7 +211,7 @@ var engine_twig = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     metaPath = path.resolve(config.paths.source.meta);
     // Global paths
     fileSystemLoader.addPath(config.paths.source.meta);
@@ -223,7 +223,7 @@ var engine_twig = {
       config['engines']['twig']['namespaces']
     ) {
       var namespaces = config['engines']['twig']['namespaces'];
-      Object.keys(namespaces).forEach(function(key, index) {
+      Object.keys(namespaces).forEach(function (key, index) {
         fileSystemLoader.addPath(namespaces[key], key);
       });
     }
