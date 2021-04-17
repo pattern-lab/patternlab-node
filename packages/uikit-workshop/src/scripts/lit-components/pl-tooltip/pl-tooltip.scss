@@ -1,0 +1,65 @@
+@import '../../../sass/scss/core.scss';
+
+.tooltip-container {
+  color: $pl-color-gray-87;
+}
+
+pl-tooltip {
+  > *:not(.pl-tooltip) {
+    display: none;
+  }
+}
+
+.pl-tooltip {
+  position: relative;
+  display: inline-block;
+
+  &__text {
+    visibility: hidden;
+    width: 120px;
+    max-width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+  
+    position: absolute;
+    z-index: 50;
+  }
+
+  &--right &__text, 
+  &--left &__text {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &--right &__text {
+    left: 115%;
+  }
+  
+  &--left &__text {
+    right: 115%;
+  }
+  
+  &--top &__text,
+  &--bottom &__text {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &--top &__text {
+    bottom: 115%;
+    
+  }
+  
+  &--bottom &__text {
+    top: 115%;
+  }
+
+  &:hover &__text {
+    visibility: visible;
+  }
+}
+
+
