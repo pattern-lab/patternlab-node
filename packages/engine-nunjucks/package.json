@@ -8,7 +8,7 @@
   "description": "The nunjucks PatternEngine for Pattern Lab / Node",
   "dependencies": {
     "fs-extra": "7.0.0",
-    "nunjucks": "^3.2.0"
+    "nunjucks": "^3.2.3"
   },
   "engines": {
     "node": ">=12.12.0"
