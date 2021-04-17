@@ -20,6 +20,19 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 // loads a pattern from disk, creates a Pattern object from it and
 // all its associated files, and records it in patternlab.patterns[]
 module.exports = function (relPath, patternlab) {
+  const fileObject = path.parse(relPath);
+
+  //extract some information
+  const filename = fileObject.base;
+  const ext = fileObject.ext;
+  const patternsPath = patternlab.config.paths.source.patterns;
+
+  // skip non-pattern files
+  if (!patternEngines.isPatternFile(filename, patternlab)) {
+    return null;
+  }
+
+  // Determine patterns nested too deep and show a warning
   const relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
   if (relativeDepth > 3) {
     logger.warning('');
@@ -49,18 +62,6 @@ module.exports = function (relPath, patternlab) {
       'Read More: https://patternlab.io/docs/overview-of-patterns/'
     );
     logger.warning('');
-  }
-
-  const fileObject = path.parse(relPath);
-
-  //extract some information
-  const filename = fileObject.base;
-  const ext = fileObject.ext;
-  const patternsPath = patternlab.config.paths.source.patterns;
-
-  // skip non-pattern files
-  if (!patternEngines.isPatternFile(filename, patternlab)) {
-    return null;
   }
 
   //make a new Pattern Object
