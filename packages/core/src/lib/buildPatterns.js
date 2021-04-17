@@ -150,11 +150,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                     }
                     //render all patterns last, so lineageR works
                     const allPatternsPromise = patternsToBuild.map(
-                      async pattern =>
-                        await compose(
-                          pattern,
-                          patternlab
-                        )
+                      async pattern => await compose(pattern, patternlab)
                     );
                     //copy non-pattern files like JavaScript
                     const allJS = patternsToBuild.map(pattern => {
