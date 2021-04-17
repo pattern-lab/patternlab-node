@@ -6,11 +6,11 @@
   "author": "Salem Ghoweri <me@salemghoweri.com>",
   "license": "MIT",
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.4.4",
+    "@webcomponents/webcomponentsjs": "^2.5.0",
     "core-js": "^3.6.5",
     "custom-event-polyfill": "^1.0.7",
     "element-closest": "^3.0.2",
-    "get-own-property-symbols": "^0.9.4"
+    "get-own-property-symbols": "^0.9.5"
   },
   "publishConfig": {
     "access": "public"
