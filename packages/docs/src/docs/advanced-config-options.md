@@ -314,6 +314,20 @@ And `"logo"` lets you finetune the different aspects of the logo displayed on th
 }
 ```
 
+### transformedAssetTypes (optional)
+
+Prevent specific filetypes being copied from your `source` to your `public` folder like e.g. CSS preprocessor source files (`.scss`), you could specify those within an array of your pattern lab config:
+
+```javascript
+"transformedAssetTypes": [
+  "scss"
+]
+```
+
+These template and page patterns would still be accessible via navigation.
+
+**default**: `[]`
+
 ### uikits
 
 Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Ecosystem](/docs/overview-of-pattern-lab's-ecosystem/). They are an evolution of the original Styleguidekit pattern which separated front-end templates from front-end assets like stylesheets and code. The existing `styleguidekit-assets-default` and `styleguidekit-mustache-default` have merged into `uikit-workshop`.
