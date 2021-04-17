@@ -4,7 +4,6 @@ import { define, props } from 'skatejs';
 import { BaseComponent } from '../../components/base-component.js';
 import { store } from '../../store.js'; // connect to redux
 
-import { Tooltip } from '../../components/pl-tooltip/pl-tooltip';
 import VisuallyHidden from '@reach/visually-hidden';
 
 import {
@@ -302,191 +301,121 @@ class ViewportSizes extends BaseComponent {
       <ul class="pl-c-size-list">
         {!this.ishControlsHide?.s && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Small"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-s',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.SMALL)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
+            <pl-tooltip message="Small">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.SMALL)}
+                dangerouslySetInnerHTML={{
+                  __html: `
                       <span class="is-vishidden">Resize viewport to small</span>
                       <pl-icon name="phone"></pl-icon>
                     `,
-                  }}
-                />
-              )}
-            </Tooltip>
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
         {!this.ishControlsHide?.m && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Medium"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-m',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.MEDIUM)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
+            <pl-tooltip message="Medium">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.MEDIUM)}
+                dangerouslySetInnerHTML={{
+                  __html: `
                       <span class="is-vishidden">Resize viewport to medium</span>
                       <pl-icon name="tablet"></pl-icon>
                     `,
-                  }}
-                />
-              )}
-            </Tooltip>
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
         {!this.ishControlsHide?.l && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Large"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-l',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.LARGE)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
+            <pl-tooltip message="Large">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.LARGE)}
+                dangerouslySetInnerHTML={{
+                  __html: `
                       <span class="is-vishidden">Resize viewport to large</span>
                       <pl-icon name="laptop"></pl-icon>
                     `,
-                  }}
-                />
-              )}
-            </Tooltip>
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
         {!this.ishControlsHide?.full && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Full"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-full',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.FULL)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
+            <pl-tooltip message="Full">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.FULL)}
+                dangerouslySetInnerHTML={{
+                  __html: `
                       <span class="is-vishidden">Resize viewport to full</span>
                       <pl-icon name="desktop"></pl-icon>
                     `,
-                  }}
-                />
-              )}
-            </Tooltip>
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
         {!this.ishControlsHide?.random && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Random"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-random',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.RANDOM)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
+            <pl-tooltip message="Random">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.RANDOM)}
+                dangerouslySetInnerHTML={{
+                  __html: `
                       <span class="is-vishidden">Resize viewport to random</span>
                       <pl-icon name="random"></pl-icon>
                     `,
-                  }}
-                />
-              )}
-            </Tooltip>
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
         {!this.ishControlsHide?.disco && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Disco"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-random',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.DISCO)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
+            <pl-tooltip message="Disco">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.DISCO)}
+                dangerouslySetInnerHTML={{
+                  __html: `
                       <span class="is-vishidden">Resize viewport using disco mode!</span>
                       <pl-icon name="disco-ball"></pl-icon>
                     `,
-                  }}
-                />
-              )}
-            </Tooltip>
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
         {!this.ishControlsHide?.hay && (
           <li class="pl-c-size-list__item">
-            <Tooltip
-              placement="top"
-              trigger="hover"
-              tooltip="Hay"
-              usePortal={false}
-            >
-              {({ getTriggerProps, triggerRef }) => (
-                <button
-                  {...getTriggerProps({
-                    className: 'pl-c-size-list__action',
-                    id: 'pl-size-random',
-                    ref: triggerRef,
-                  })}
-                  onClick={e => this.resizeViewport(this.sizes.HAY)}
-                  dangerouslySetInnerHTML={{
-                    __html: `
-                      <span class="is-vishidden">Resize viewport using hay mode!</span>
-                      <pl-icon name="hay"></pl-icon>
-                    `,
-                  }}
-                />
-              )}
-            </Tooltip>
+            <pl-tooltip message="Hay">
+              <button
+                slot="default"
+                class="pl-c-size-list__action"
+                onClick={() => this.resizeViewport(this.sizes.HAY)}
+                dangerouslySetInnerHTML={{
+                  __html: `
+                     <span class="is-vishidden">Resize viewport using hay mode!</span>
+                     <pl-icon name="hay"></pl-icon>
+                   `,
+                }}
+              />
+            </pl-tooltip>
           </li>
         )}
       </ul>
