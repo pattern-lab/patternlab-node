@@ -5,7 +5,7 @@
   "main": "lib/engine_twig.js",
   "dependencies": {
     "fs-extra": "0.30.0",
-    "twing": "^5.0.1"
+    "twing": "^5.0.2"
   },
   "keywords": [
     "Pattern Lab",
