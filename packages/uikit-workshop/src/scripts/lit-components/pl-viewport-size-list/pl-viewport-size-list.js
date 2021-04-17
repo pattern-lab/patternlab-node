@@ -34,12 +34,19 @@ class ViewportSizes extends BaseComponent {
   doscoId = null;
   hayMode = false;
   hayId = null;
+  layoutMode = null;
+  tooltipPos = null;
 
   controlIsPressed = false;
   altIsPressed = false;
 
   _stateChanged(state) {
     this.triggerUpdate();
+
+    if (this.layoutMode !== state.app.layoutMode) {
+      this.layoutMode = state.app.layoutMode || 'vertical';
+      this.tooltipPos = this.layoutMode === 'horizontal' ? 'bottom' : 'top';
+    }
   }
 
   constructor() {
@@ -301,7 +308,7 @@ class ViewportSizes extends BaseComponent {
       <ul class="pl-c-size-list">
         {!this.ishControlsHide?.s && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Small">
+            <pl-tooltip message="Small" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
@@ -318,7 +325,7 @@ class ViewportSizes extends BaseComponent {
         )}
         {!this.ishControlsHide?.m && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Medium">
+            <pl-tooltip message="Medium" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
@@ -335,7 +342,7 @@ class ViewportSizes extends BaseComponent {
         )}
         {!this.ishControlsHide?.l && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Large">
+            <pl-tooltip message="Large" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
@@ -352,7 +359,7 @@ class ViewportSizes extends BaseComponent {
         )}
         {!this.ishControlsHide?.full && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Full">
+            <pl-tooltip message="Full" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
@@ -369,7 +376,7 @@ class ViewportSizes extends BaseComponent {
         )}
         {!this.ishControlsHide?.random && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Random">
+            <pl-tooltip message="Random" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
@@ -386,7 +393,7 @@ class ViewportSizes extends BaseComponent {
         )}
         {!this.ishControlsHide?.disco && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Disco">
+            <pl-tooltip message="Disco" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
@@ -403,7 +410,7 @@ class ViewportSizes extends BaseComponent {
         )}
         {!this.ishControlsHide?.hay && (
           <li class="pl-c-size-list__item">
-            <pl-tooltip message="Hay">
+            <pl-tooltip message="Hay" position={this.tooltipPos}>
               <button
                 slot="default"
                 class="pl-c-size-list__action"
