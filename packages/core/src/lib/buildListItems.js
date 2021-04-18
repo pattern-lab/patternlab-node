@@ -26,7 +26,7 @@ const items = [
   'twenty',
 ];
 
-module.exports = function(container) {
+module.exports = function (container) {
   //combine all list items into one structure
   const list = [];
   for (const item in container.listitems) {

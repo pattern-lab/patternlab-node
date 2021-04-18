@@ -10,7 +10,7 @@ let copyFile = require('./copyFile'); // eslint-disable-line prefer-const
 
 function onWatchTripped(patternlab, p, assetBase, basePath, dir, copyOptions) {
   const subPath = p.replace(assetBase, '');
-  _.each(patternlab.uikits, uikit => {
+  _.each(patternlab.uikits, (uikit) => {
     const destination = path.resolve(
       basePath,
       uikit.outputDir,
@@ -57,10 +57,10 @@ const watchAssets = (
 
   //watch for changes and copy
   assetWatcher
-    .on('add', p => {
+    .on('add', (p) => {
       onWatchTripped(patternlab, p, assetBase, basePath, dir, copyOptions);
     })
-    .on('change', p => {
+    .on('change', (p) => {
       onWatchTripped(patternlab, p, assetBase, basePath, dir, copyOptions);
     });
 

@@ -13,7 +13,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 let buildFooter = require('./buildFooter'); //eslint-disable-line prefer-const
 let exportData = require('./exportData'); //eslint-disable-line prefer-const
 
-const ui_builder = function() {
+const ui_builder = function () {
   /**
    * Registers the pattern to the patternPaths object for the appropriate patternGroup and basename
    * patternGroup + patternBaseName are what comprise the patternPartial (atoms-colors)
@@ -361,7 +361,7 @@ const ui_builder = function() {
       patternGroups: {},
     };
 
-    _.forEach(patternlab.patterns, function(pattern) {
+    _.forEach(patternlab.patterns, function (pattern) {
       // ignore patterns we can omit from rendering directly
       pattern.omitFromStyleguide = isPatternExcluded(
         pattern,
@@ -432,7 +432,8 @@ const ui_builder = function() {
   function getFlatPatternItems(patternlab, patternGroup) {
     const patterns = _.filter(
       patternlab.patterns,
-      pattern => pattern.patternGroup === patternGroup && pattern.isFlatPattern
+      (pattern) =>
+        pattern.patternGroup === patternGroup && pattern.isFlatPattern
     );
     if (patterns) {
       return getSortedPatterns(patterns);
@@ -462,7 +463,7 @@ const ui_builder = function() {
         patternSection: uikit.patternSection,
         patternSectionSubgroup: uikit.patternSectionSubgroup,
       }
-    ).catch(reason => {
+    ).catch((reason) => {
       console.log(reason);
       logger.error('Error building buildViewAllHTML');
     });
@@ -482,15 +483,15 @@ const ui_builder = function() {
     patternlab
   ) {
     return _.sortBy(_.values(patternGroup), [
-      pSubgroup => {
+      (pSubgroup) => {
         const group = patternlab.patternGroups.find(
-          g => g.patternGroup === patternGroupName
+          (g) => g.patternGroup === patternGroupName
         );
 
         if (group) {
-          const sg = group.patternGroupItems.find(item => {
+          const sg = group.patternGroupItems.find((item) => {
             const firstPattern = _.first(
-              _.values(pSubgroup).filter(p => p.patternBaseName !== '.')
+              _.values(pSubgroup).filter((p) => p.patternBaseName !== '.')
             );
             return (
               item &&
@@ -526,7 +527,7 @@ const ui_builder = function() {
     // loop through the grouped styleguide patterns, building at each level
     const allPatternGroupPromises = _.map(
       patternlab.patternGroups,
-      patternGroup => {
+      (patternGroup) => {
         const patternGroupName = patternGroup.patternGroup;
         const group = styleguidePatterns.patternGroups[patternGroupName];
         let groupedPatterns = [];
@@ -542,7 +543,7 @@ const ui_builder = function() {
             let p;
             const samplePattern = _.find(
               patternSubgroups,
-              st => !st.patternPartial.startsWith('viewall-')
+              (st) => !st.patternPartial.startsWith('viewall-')
             );
             const patternName = Object.keys(
               _.values(originalPatternGroup)[patternSubgroup]
@@ -560,14 +561,14 @@ const ui_builder = function() {
 
             // render the footer needed for the viewall template
             return buildFooter(patternlab, `viewall-${patternPartial}`, uikit)
-              .then(footerHTML => {
+              .then((footerHTML) => {
                 // render the viewall template by finding these smallest subgroup-grouped patterns
                 const subgroupPatterns = getSortedPatterns(
                   _.values(patternSubgroups)
                 );
 
                 // determine if we should write at this time by checking if these are flat patterns or grouped patterns
-                p = _.find(subgroupPatterns, function(pat) {
+                p = _.find(subgroupPatterns, function (pat) {
                   return pat.isDocPattern;
                 });
 
@@ -577,7 +578,8 @@ const ui_builder = function() {
                   styleGuideExcludes.length &&
                   _.some(
                     styleGuideExcludes,
-                    exclude => exclude === `${patternGroupName}/${patternName}`
+                    (exclude) =>
+                      exclude === `${patternGroupName}/${patternName}`
                   );
                 if (omitPatternGroup) {
                   logger.debug(
@@ -598,7 +600,7 @@ const ui_builder = function() {
                   patternPartial,
                   uikit
                 )
-                  .then(viewAllHTML => {
+                  .then((viewAllHTML) => {
                     return fs.outputFile(
                       path.join(
                         process.cwd(),
@@ -611,12 +613,12 @@ const ui_builder = function() {
                       mainPageHeadHtml + viewAllHTML + footerHTML
                     );
                   })
-                  .catch(reason => {
+                  .catch((reason) => {
                     console.log(reason);
                     logger.error('Error building ViewAllHTML');
                   });
               })
-              .catch(reason => {
+              .catch((reason) => {
                 console.log(reason);
                 logger.error('Error building footer HTML');
               });
@@ -634,7 +636,7 @@ const ui_builder = function() {
               `viewall-${patternGroupName}-all`,
               uikit
             )
-              .then(footerHTML => {
+              .then((footerHTML) => {
                 const sortedFlatPatterns = getFlatPatternItems(
                   patternlab,
                   patternGroupName
@@ -646,9 +648,12 @@ const ui_builder = function() {
                 }
 
                 // get the appropriate patternGroup
-                const anyPatternOfType = _.find(groupedPatterns, function(pat) {
-                  return pat.patternGroup && pat.patternGroup !== '';
-                });
+                const anyPatternOfType = _.find(
+                  groupedPatterns,
+                  function (pat) {
+                    return pat.patternGroup && pat.patternGroup !== '';
+                  }
+                );
 
                 if (!anyPatternOfType || !groupedPatterns.length) {
                   logger.debug(
@@ -664,7 +669,7 @@ const ui_builder = function() {
                   patternGroupName,
                   uikit
                 )
-                  .then(viewAllHTML => {
+                  .then((viewAllHTML) => {
                     fs.outputFileSync(
                       path.join(
                         process.cwd(),
@@ -681,7 +686,7 @@ const ui_builder = function() {
                     const omitPatternGroup =
                       styleGuideExcludes &&
                       styleGuideExcludes.length &&
-                      _.some(styleGuideExcludes, function(exclude) {
+                      _.some(styleGuideExcludes, function (exclude) {
                         return exclude === patternGroupName;
                       });
                     if (omitPatternGroup) {
@@ -698,17 +703,17 @@ const ui_builder = function() {
                     }
                     return Promise.resolve(patterns);
                   })
-                  .catch(reason => {
+                  .catch((reason) => {
                     console.log(reason);
                     logger.error('Error building ViewAllHTML');
                   });
               })
-              .catch(reason => {
+              .catch((reason) => {
                 console.log(reason);
                 logger.error('Error building footerHTML');
               });
           })
-          .catch(reason => {
+          .catch((reason) => {
             console.log(reason);
             logger.error('Error during buildViewAllPages');
           });
@@ -716,10 +721,10 @@ const ui_builder = function() {
     );
 
     return Promise.all(allPatternGroupPromises)
-      .then(allPatterns =>
-        Promise.resolve(_.filter(allPatterns, p => p.length))
+      .then((allPatterns) =>
+        Promise.resolve(_.filter(allPatterns, (p) => p.length))
       )
-      .catch(reason => {
+      .catch((reason) => {
         console.log(reason);
         logger.error('Error during buildViewAllPages');
       });
@@ -746,15 +751,15 @@ const ui_builder = function() {
   function uniqueAllPatterns(allPatterns, patternlab) {
     return _.uniq(
       _.flatMapDeep(
-        _.map(allPatterns, patterns => [
+        _.map(allPatterns, (patterns) => [
           injectDocumentationBlock(
-            _.find(patterns, p => !p.patternPartial.startsWith('viewall-')),
+            _.find(patterns, (p) => !p.patternPartial.startsWith('viewall-')),
             patternlab,
             false
           ),
           ...patterns,
         ]),
-        pattern => pattern
+        (pattern) => pattern
       )
     );
   }
@@ -767,7 +772,7 @@ const ui_builder = function() {
   function buildFrontend(patternlabGlobal) {
     const paths = patternlabGlobal.config.paths;
 
-    const uikitPromises = _.map(patternlabGlobal.uikits, uikit => {
+    const uikitPromises = _.map(patternlabGlobal.uikits, (uikit) => {
       //we need to make sure the patternlab object gets manipulated per uikit
       const patternlab = Object.assign({}, patternlabGlobal);
 
@@ -775,7 +780,7 @@ const ui_builder = function() {
       //determine which patterns should be included in the front-end rendering
       const styleguidePatterns = groupPatterns(patternlab, uikit);
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         // set the pattern-specific header by compiling the general-header with data, and then adding it to the meta header
         const headerPromise = render(
           Pattern.createEmpty({ extendedTemplate: uikit.header }, patternlab),
@@ -783,13 +788,13 @@ const ui_builder = function() {
             cacheBuster: patternlab.cacheBuster,
           }
         )
-          .then(headerPartial => {
+          .then((headerPartial) => {
             const headFootData = patternlab.data;
             headFootData.patternLabHead = headerPartial;
             headFootData.cacheBuster = patternlab.cacheBuster;
             return render(patternlab.userHead, headFootData);
           })
-          .catch(reason => {
+          .catch((reason) => {
             console.log(reason);
             logger.error('error during header render()');
           });
@@ -802,18 +807,18 @@ const ui_builder = function() {
             cacheBuster: patternlab.cacheBuster,
           }
         )
-          .then(footerPartial => {
+          .then((footerPartial) => {
             const headFootData = patternlab.data;
             headFootData.patternLabFoot = footerPartial;
             return render(patternlab.userFoot, headFootData);
           })
-          .catch(reason => {
+          .catch((reason) => {
             console.log(reason);
             logger.error('error during footer render()');
           });
 
         return Promise.all([headerPromise, footerPromise]).then(
-          headFootPromiseResults => {
+          (headFootPromiseResults) => {
             // build the viewall pages
 
             return buildViewAllPages(
@@ -822,7 +827,7 @@ const ui_builder = function() {
               styleguidePatterns,
               uikit
             )
-              .then(allPatterns => {
+              .then((allPatterns) => {
                 // todo track down why we need to make this unique in the first place
                 const uniquePatterns = uniqueAllPatterns(
                   allPatterns,
@@ -851,7 +856,7 @@ const ui_builder = function() {
                     patternSectionSubgroup: uikit.patternSectionSubgroup,
                   }
                 )
-                  .then(styleguideHtml => {
+                  .then((styleguideHtml) => {
                     fs.outputFileSync(
                       path.resolve(
                         path.join(
@@ -902,12 +907,12 @@ const ui_builder = function() {
                     exportData(patternlab, uikit);
                     resolve();
                   })
-                  .catch(reason => {
+                  .catch((reason) => {
                     console.log(reason);
                     logger.error('error during buildFrontend()');
                   });
               })
-              .catch(reason => {
+              .catch((reason) => {
                 console.log(reason);
                 logger.error('error during buildViewAllPages()');
               });

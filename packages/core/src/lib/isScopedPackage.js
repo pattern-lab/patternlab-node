@@ -10,7 +10,7 @@ const scopeMatch = /^@(.*)$/;
  * @param {string} filePath - The pathname to check
  * @return {Boolean} - Returns a bool when found, false othersie
  */
-module.exports = filePath => {
+module.exports = (filePath) => {
   const baseName = path.basename(filePath);
   return scopeMatch.test(baseName);
 };

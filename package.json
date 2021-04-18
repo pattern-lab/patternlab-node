@@ -21,8 +21,8 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "lerna": "3.17.0",
-    "prettier": "^1.14.3",
-    "pretty-quick": "^1.11.1"
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
   },
   "repository": {
     "type": "git",
@@ -41,7 +41,8 @@
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
     "postpublish": "auto release",
     "preview:docs": "cd packages/docs && yarn production",
-    "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build"
+    "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
+    "prepare": "husky install"
   },
   "nyc": {
     "exclude": [
@@ -50,5 +51,8 @@
       "packages/core/test",
       "packages/live-server"
     ]
+  },
+  "devDependencies": {
+    "husky": "^6.0.0"
   }
 }

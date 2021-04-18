@@ -23,7 +23,7 @@ function header() {
  * @param name
  * @return {string}
  */
-const niceKey = function(name) {
+const niceKey = function (name) {
   return 'O' + name.replace('-', '');
 };
 
@@ -84,7 +84,7 @@ const PatternGraphDot = {};
  * @param patternGraph
  * @return {string}
  */
-PatternGraphDot.generate = function(patternGraph) {
+PatternGraphDot.generate = function (patternGraph) {
   const g = patternGraph.graph;
   const patterns = patternGraph.patterns;
   const buckets = new Map();
