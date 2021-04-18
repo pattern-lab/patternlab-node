@@ -23,7 +23,7 @@ export const modalStyleguide = {
     const toggles = document.querySelectorAll('.pl-js-pattern-extra-toggle');
 
     for (let i = 0; i < toggles.length; i++) {
-      toggles[i].addEventListener('click', e => {
+      toggles[i].addEventListener('click', (e) => {
         const patternPartial = toggles[i].getAttribute('data-patternpartial');
         modalStyleguide.toggle(patternPartial);
       });
@@ -257,8 +257,8 @@ export const modalStyleguide = {
               annotationTip.style.display = 'inline-flex';
             }
 
-            elsToHighlight[j].onclick = (function(el) {
-              return function(event) {
+            elsToHighlight[j].onclick = (function (el) {
+              return function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 const obj = JSON.stringify({

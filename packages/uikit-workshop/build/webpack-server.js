@@ -27,10 +27,10 @@ async function serve(patternlab, configPath, buildDir = 'public') {
 
   const port = await portfinder
     .getPortPromise()
-    .then(portNo => {
+    .then((portNo) => {
       return portNo;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       return 3000;
     });
@@ -39,10 +39,10 @@ async function serve(patternlab, configPath, buildDir = 'public') {
   const filesToWatch = [
     {
       match: [`${process.cwd()}/patternlab-config.json`],
-      fn: async function(event, filePath) {
+      fn: async function (event, filePath) {
         // when the main PL config changes, clear Node's cache (so the JSON config is re-read) and trigger another PL build
         // this allows config changes to show up without restarting the build!
-        Object.keys(require.cache).forEach(function(key) {
+        Object.keys(require.cache).forEach(function (key) {
           delete require.cache[key];
         });
 
@@ -59,7 +59,7 @@ async function serve(patternlab, configPath, buildDir = 'public') {
     `${root}/**/*.js`,
     {
       match: [`${root}/**/*.svg`, `${root}/**/*.png`, `${root}/**/*.jpg`],
-      fn: async function() {
+      fn: async function () {
         browserSync.reload();
       },
     },
@@ -69,7 +69,7 @@ async function serve(patternlab, configPath, buildDir = 'public') {
         path.join(process.cwd(), `${root}/*.html`),
         path.join(process.cwd(), `${root}/styleguide/html/*.html`),
       ],
-      fn: async function(event, filePath) {
+      fn: async function (event, filePath) {
         let updatedHash = false;
 
         const hash = await hasha.fromFile(
@@ -105,7 +105,7 @@ async function serve(patternlab, configPath, buildDir = 'public') {
       },
       files: filesToWatch,
     },
-    function(err, bs) {
+    function (err, bs) {
       // assigned port from browsersync based on what's available
       const assignedPort = bs.options.get('port');
       opn(`http://localhost:${assignedPort}`);
