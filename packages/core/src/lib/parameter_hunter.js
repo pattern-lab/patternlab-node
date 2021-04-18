@@ -344,7 +344,7 @@ const parameter_hunter = function() {
   return {
     find_parameters: function(pattern, patternlab) {
       return findparameters(pattern, patternlab);
-    },
+    }
   };
 };
 

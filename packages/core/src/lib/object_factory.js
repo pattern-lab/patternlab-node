@@ -320,7 +320,7 @@ Pattern.prototype = {
       isFlatPattern: p.isFlatPattern,
       flatPatternPath: p.flatPatternPath,
       patternPartial: p.patternPartial,
-      verbosePartial: p.verbosePartial,
+      verbosePartial: p.verbosePartial
     });
   },
 
@@ -354,7 +354,7 @@ Pattern.prototype = {
             pathObj.name.replace(prefixMatcher, '') ||
           path.basename(pathObj.dir).replace(prefixMatcher, '') ===
             pathObj.name.split('~')[0].replace(prefixMatcher, '')
-        : false,
+        : false
     };
 
     info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';
@@ -405,7 +405,7 @@ Pattern.prototype = {
     }
 
     return info;
-  },
+  }
 };
 
 // Pattern static methods
@@ -444,10 +444,10 @@ Pattern.create = function(relPath, data, customProps, patternlab) {
 const CompileState = {
   NEEDS_REBUILD: 'needs rebuild',
   BUILDING: 'building',
-  CLEAN: 'clean',
+  CLEAN: 'clean'
 };
 
 module.exports = {
   Pattern: Pattern,
-  CompileState: CompileState,
+  CompileState: CompileState
 };

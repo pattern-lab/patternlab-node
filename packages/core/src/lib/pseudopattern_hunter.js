@@ -33,7 +33,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
   const pseudoPatterns = glob.sync(needle, {
     cwd: paths.source.patterns,
     debug: false,
-    nodir: true,
+    nodir: true
   });
 
   if (pseudoPatterns.length > 0) {
@@ -97,7 +97,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
           lastModified: Math.max(currentPattern.lastModified, lm.mtime),
 
           // use the same template engine as the non-variant
-          engine: currentPattern.engine,
+          engine: currentPattern.engine
         },
         patternlab
       );

@@ -50,7 +50,7 @@ module.exports = function(pattern, patternlab, ignoreLineage) {
     listItemPromise,
     expandPartialPromise,
     lineagePromise,
-    addPromise,
+    addPromise
   ]).catch(reason => {
     logger.error(reason);
   });

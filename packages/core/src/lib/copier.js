@@ -18,7 +18,7 @@ const copier = () => {
       'meta',
       'annotations',
       'patternlabFiles',
-      'styleguide',
+      'styleguide'
     ];
     _.each(directories.source, (dir, key) => {
       if (blackList.includes(key)) {
@@ -52,7 +52,7 @@ const copier = () => {
     const copyOptions = {
       overwrite: true,
       emitter: patternlab.events,
-      debug: patternlab.config.logLevel === 'debug',
+      debug: patternlab.config.logLevel === 'debug'
     };
 
     //loop through each directory asset object (source / public pairing)
@@ -118,7 +118,7 @@ const copier = () => {
     },
     transformConfigPaths: paths => {
       return transform_paths(paths);
-    },
+    }
   };
 };
 

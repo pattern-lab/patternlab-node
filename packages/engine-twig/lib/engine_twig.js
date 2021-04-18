@@ -26,7 +26,7 @@ const {
   TwingEnvironment,
   TwingLoaderFilesystem,
   TwingLoaderChain,
-  TwingSource,
+  TwingSource
 } = require('twing');
 
 class TwingLoaderPatternLab {
@@ -130,7 +130,9 @@ var engine_twig = {
 
   // render it
   renderPattern: function renderPattern(pattern, data, partials) {
-    var patternPath = pattern.relPath;
+    var patternPath = pattern.basePattern
+      ? pattern.basePattern.relPath
+      : pattern.relPath;
     if (patternPath.lastIndexOf(metaPath) === 0) {
       patternPath = patternPath.substring(metaPath.length + 1);
     }
@@ -225,7 +227,7 @@ var engine_twig = {
         fileSystemLoader.addPath(namespaces[key], key);
       });
     }
-  },
+  }
 };
 
 module.exports = engine_twig;

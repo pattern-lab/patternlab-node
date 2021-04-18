@@ -38,7 +38,7 @@ module.exports = (dir, filter) => {
       dirList.filter(filter).map(mod => {
         return {
           name: filter(mod),
-          modulePath: path.join(fPath, mod),
+          modulePath: path.join(fPath, mod)
         };
       })
     );

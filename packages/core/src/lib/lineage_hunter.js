@@ -27,7 +27,7 @@ const lineage_hunter = function() {
           //create the more complex patternLineage object too
           const l = {
             lineagePattern: ancestorPattern.patternPartial,
-            lineagePath: '../../patterns/' + ancestorPattern.patternLink,
+            lineagePath: '../../patterns/' + ancestorPattern.patternLink
           };
           if (ancestorPattern.patternState) {
             l.lineageState = ancestorPattern.patternState;
@@ -49,7 +49,7 @@ const lineage_hunter = function() {
             //create the more complex patternLineage object in reverse
             const lr = {
               lineagePattern: pattern.patternPartial,
-              lineagePath: '../../patterns/' + pattern.patternLink,
+              lineagePath: '../../patterns/' + pattern.patternLink
             };
             if (pattern.patternState) {
               lr.lineageState = pattern.patternState;
@@ -163,7 +163,7 @@ const lineage_hunter = function() {
     },
     cascade_pattern_states: function(patternlab) {
       cascadePatternStates(patternlab);
-    },
+    }
   };
 };
 

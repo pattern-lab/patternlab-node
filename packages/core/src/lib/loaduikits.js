@@ -49,7 +49,7 @@ module.exports = patternlab => {
         uikitConfig.name,
         `uikit-${uikitConfig.name}`,
         `@pattern-lab/${uikitConfig.name}`,
-        `@pattern-lab/uikit-${uikitConfig.name}`,
+        `@pattern-lab/uikit-${uikitConfig.name}`
       ]) {
         try {
           uikitLocation = resolvePackageFolder(packageName); // [2]
@@ -102,7 +102,7 @@ module.exports = patternlab => {
         viewAll: readModuleFile(
           uikitLocation,
           paths.source.patternlabFiles.viewall
-        ),
+        )
       }; // [4]
     } catch (ex) {
       logger.error(ex);

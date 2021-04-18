@@ -39,7 +39,7 @@ const PatternGraph = function(graph, timestamp, version) {
   this.graph =
     graph ||
     new Graph({
-      directed: true,
+      directed: true
     });
   this.graph.setDefaultEdgeLabel({});
 
@@ -89,7 +89,7 @@ PatternGraph.prototype = {
     const n = nodeName(pattern);
     if (!this.patterns.has(n)) {
       this.graph.setNode(n, {
-        compileState: pattern.compileState,
+        compileState: pattern.compileState
       });
 
       this.patterns.put(pattern);
@@ -169,7 +169,7 @@ PatternGraph.prototype = {
      * where "->" means "included by").
      */
     const compileGraph = new Graph({
-      directed: true,
+      directed: true
     });
 
     const nodes = this.graph.nodes();
@@ -293,7 +293,7 @@ PatternGraph.prototype = {
     return {
       version: this.version,
       timestamp: this.timestamp,
-      graph: graphlib.json.write(this.graph),
+      graph: graphlib.json.write(this.graph)
     };
   },
 
@@ -309,7 +309,7 @@ PatternGraph.prototype = {
    */
   upgradeVersion: function() {
     this.version = PATTERN_GRAPH_VERSION;
-  },
+  }
 };
 
 /**
@@ -421,5 +421,5 @@ PatternGraph.exportToDot = function(patternlab, fileName) {
 
 module.exports = {
   PatternGraph: PatternGraph,
-  PATTERN_GRAPH_VERSION: PATTERN_GRAPH_VERSION,
+  PATTERN_GRAPH_VERSION: PATTERN_GRAPH_VERSION
 };

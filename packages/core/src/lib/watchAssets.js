@@ -50,9 +50,9 @@ const watchAssets = (
     ignoreInitial: false,
     awaitWriteFinish: {
       stabilityThreshold: 200,
-      pollInterval: 100,
+      pollInterval: 100
     },
-    persistent: !watchOnce,
+    persistent: !watchOnce
   });
 
   //watch for changes and copy

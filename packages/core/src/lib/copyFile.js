@@ -17,7 +17,7 @@ const copyFile = (p, dest, options) => {
       logger.debug(`Moved ${p} to ${dest}`);
       options.emitter.emit(events.PATTERNLAB_PATTERN_ASSET_CHANGE, {
         file: p,
-        dest: dest,
+        dest: dest
       });
     });
 };

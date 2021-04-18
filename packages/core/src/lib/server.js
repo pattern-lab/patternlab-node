@@ -17,7 +17,7 @@ const server = patternlab => {
         file: 'index.html',
         logLevel: 0, // errors only
         wait: 1000,
-        port: 3000,
+        port: 3000
       };
 
       const servers = Object.keys(patternlab.uikits).map(kit => {
@@ -50,7 +50,7 @@ const server = patternlab => {
             if (serverReady) {
               _module.reload({
                 file: '',
-                action: 'reload',
+                action: 'reload'
               });
             }
           });
@@ -83,7 +83,7 @@ const server = patternlab => {
     reload: data => {
       const _data = data || {
         file: '',
-        action: '',
+        action: ''
       };
       return new Promise((resolve, reject) => {
         let action;
@@ -106,9 +106,9 @@ const server = patternlab => {
     refreshCSS: () => {
       return _module.reload({
         file: '',
-        action: 'refresh',
+        action: 'refresh'
       });
-    },
+    }
   };
   return _module;
 };

@@ -118,7 +118,7 @@ const annotations_exporter = function(pl) {
     },
     gatherMD: function() {
       return parseAnnotationsMD();
-    },
+    }
   };
 };
 

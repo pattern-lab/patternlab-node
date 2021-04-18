@@ -153,7 +153,7 @@ const ui_builder = function() {
         engine: null,
         flatPatternPath: pattern.flatPatternPath,
         isDocPattern: true,
-        order: Number.MIN_SAFE_INTEGER,
+        order: Number.MIN_SAFE_INTEGER
       },
       patternlab
     );
@@ -184,7 +184,7 @@ const ui_builder = function() {
       order:
         pattern.patternGroupData && pattern.patternGroupData.order
           ? Number(pattern.patternGroupData.order)
-          : 0,
+          : 0
     });
 
     patternlab.patternGroups = _.sortBy(
@@ -203,7 +203,7 @@ const ui_builder = function() {
   function getPatternGroup(patternlab, pattern) {
     const patternGroup = _.find(patternlab.patternGroups, [
       'patternGroup',
-      pattern.patternGroup,
+      pattern.patternGroup
     ]);
 
     if (!patternGroup) {
@@ -225,7 +225,7 @@ const ui_builder = function() {
     const patternGroup = getPatternGroup(patternlab, pattern);
     const patternSubgroup = _.find(patternGroup.patternGroupItems, [
       'patternSubgroup',
-      pattern.patternSubgroup,
+      pattern.patternSubgroup
     ]);
 
     if (!patternSubgroup) {
@@ -255,7 +255,7 @@ const ui_builder = function() {
       order:
         pattern.patternSubgroupData && pattern.patternSubgroupData.order
           ? Number(pattern.patternSubgroupData.order)
-          : 0,
+          : 0
     });
 
     patternGroup.patternGroupItems = _.sortBy(
@@ -280,7 +280,7 @@ const ui_builder = function() {
       name: pattern.name,
       isDocPattern: false,
       order: Number(pattern.order) || 0, // Failsafe is someone entered a string
-      variantOrder: Number(pattern.variantOrder) || 0, // Failsafe is someone entered a string
+      variantOrder: Number(pattern.variantOrder) || 0 // Failsafe is someone entered a string
     };
   }
 
@@ -308,7 +308,7 @@ const ui_builder = function() {
         patternSubgroup: pattern.patternSubgroup,
         name: pattern.flatPatternPath,
         isDocPattern: true,
-        order: Number.MAX_SAFE_INTEGER,
+        order: Number.MAX_SAFE_INTEGER
       };
     } else {
       newSubgroupItem = createPatternSubgroupItem(pattern);
@@ -342,7 +342,7 @@ const ui_builder = function() {
         patternPath: encodeURI(pattern.patternGroup + '/index.html'),
         name: pattern.patternGroup,
         isDocPattern: true,
-        order: Number.MAX_SAFE_INTEGER, // Or pattern.groupData.order
+        order: Number.MAX_SAFE_INTEGER // Or pattern.groupData.order
       });
     } else {
       patternGroup.patternItems.push(createPatternSubgroupItem(pattern));
@@ -358,7 +358,7 @@ const ui_builder = function() {
    */
   function groupPatterns(patternlab, uikit) {
     const groupedPatterns = {
-      patternGroups: {},
+      patternGroups: {}
     };
 
     _.forEach(patternlab.patterns, function(pattern) {
@@ -455,12 +455,12 @@ const ui_builder = function() {
         // data
         partials: patterns,
         patternPartial: 'viewall-' + patternPartial,
-        cacheBuster: patternlab.cacheBuster,
+        cacheBuster: patternlab.cacheBuster
       },
       {
         // templates
         patternSection: uikit.patternSection,
-        patternSectionSubgroup: uikit.patternSectionSubgroup,
+        patternSectionSubgroup: uikit.patternSectionSubgroup
       }
     ).catch(reason => {
       console.log(reason);
@@ -503,7 +503,7 @@ const ui_builder = function() {
         } else {
           return 0;
         }
-      },
+      }
     ]);
   }
 
@@ -752,7 +752,7 @@ const ui_builder = function() {
             patternlab,
             false
           ),
-          ...patterns,
+          ...patterns
         ]),
         pattern => pattern
       )
@@ -780,7 +780,7 @@ const ui_builder = function() {
         const headerPromise = render(
           Pattern.createEmpty({ extendedTemplate: uikit.header }, patternlab),
           {
-            cacheBuster: patternlab.cacheBuster,
+            cacheBuster: patternlab.cacheBuster
           }
         )
           .then(headerPartial => {
@@ -799,7 +799,7 @@ const ui_builder = function() {
           Pattern.createEmpty({ extendedTemplate: uikit.footer }, patternlab),
           {
             patternData: '{}',
-            cacheBuster: patternlab.cacheBuster,
+            cacheBuster: patternlab.cacheBuster
           }
         )
           .then(footerPartial => {
@@ -839,16 +839,16 @@ const ui_builder = function() {
                 return render(
                   Pattern.createEmpty(
                     {
-                      extendedTemplate: uikit.viewAll,
+                      extendedTemplate: uikit.viewAll
                     },
                     patternlab
                   ),
                   {
-                    partials: uniquePatterns,
+                    partials: uniquePatterns
                   },
                   {
                     patternSection: uikit.patternSection,
-                    patternSectionSubgroup: uikit.patternSectionSubgroup,
+                    patternSectionSubgroup: uikit.patternSectionSubgroup
                   }
                 )
                   .then(styleguideHtml => {
@@ -924,7 +924,7 @@ const ui_builder = function() {
     groupPatterns: groupPatterns,
     resetUIBuilderState: resetUIBuilderState,
     uniqueAllPatterns: uniqueAllPatterns,
-    buildViewAllPages: buildViewAllPages,
+    buildViewAllPages: buildViewAllPages
   };
 };
 

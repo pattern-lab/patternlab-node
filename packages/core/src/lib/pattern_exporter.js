@@ -68,7 +68,7 @@ const pattern_exporter = function() {
   return {
     export_patterns: function(patternlab) {
       exportPatterns(patternlab);
-    },
+    }
   };
 };
 

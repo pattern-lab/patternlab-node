@@ -17,9 +17,9 @@ module.exports = function(patternlab, patternPartial, uikit) {
   //first render the general footer
   return render(Pattern.createEmpty({ extendedTemplate: uikit.footer }), {
     patternData: JSON.stringify({
-      patternPartial: patternPartial,
+      patternPartial: patternPartial
     }),
-    cacheBuster: patternlab.cacheBuster,
+    cacheBuster: patternlab.cacheBuster
   })
     .then(footerPartial => {
       let allFooterData;

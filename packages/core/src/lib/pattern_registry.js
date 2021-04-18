@@ -80,7 +80,7 @@ PatternRegistry.prototype = {
       }
     }
     return undefined;
-  },
+  }
 };
 
 PatternRegistry.patternKey = function(pattern) {

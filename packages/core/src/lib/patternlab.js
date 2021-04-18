@@ -89,7 +89,7 @@ module.exports = class PatternLab {
     const outputFileSuffixes = {
       rendered: '.rendered',
       rawTemplate: '',
-      markupOnly: '.markup-only',
+      markupOnly: '.markup-only'
     };
 
     if (!patternlab.config.outputFileSuffixes) {
@@ -231,28 +231,28 @@ module.exports = class PatternLab {
       ? {
           rendered: eng.renderedCodeFormatter || defaultFormatter,
           rawTemplate: eng.rawTemplateCodeFormatter || defaultFormatter,
-          markupOnly: eng.markupOnlyCodeFormatter || defaultFormatter,
+          markupOnly: eng.markupOnlyCodeFormatter || defaultFormatter
         }
       : {
           rendered: nullFormatter,
           rawTemplate: nullFormatter,
-          markupOnly: nullFormatter,
+          markupOnly: nullFormatter
         };
 
     //prepare the path and contents of each output file
     const outputFiles = [
       {
         path: makePath('rendered'),
-        content: formatters.rendered(patternPage, pattern),
+        content: formatters.rendered(patternPage, pattern)
       },
       {
         path: makePath('rawTemplate'),
-        content: formatters.rawTemplate(pattern.template, pattern),
+        content: formatters.rawTemplate(pattern.template, pattern)
       },
       {
         path: makePath('markupOnly'),
-        content: formatters.markupOnly(pattern.patternPartialCode, pattern),
-      },
+        content: formatters.markupOnly(pattern.patternPartialCode, pattern)
+      }
     ].concat(
       eng.addOutputFiles ? eng.addOutputFiles(this.config.paths, this) : []
     );

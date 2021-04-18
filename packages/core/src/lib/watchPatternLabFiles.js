@@ -18,7 +18,7 @@ const watchPatternLabFiles = (
   // watch global structures, such as _data/* and _meta/
   const globalSources = [
     assetDirectories.source.data,
-    assetDirectories.source.meta,
+    assetDirectories.source.meta
   ];
   const globalPaths = globalSources.map(globalSource =>
     path.join(path.resolve(basePath, globalSource), '*')
@@ -36,9 +36,9 @@ const watchPatternLabFiles = (
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 200,
-        pollInterval: 100,
+        pollInterval: 100
       },
-      persistent: !watchOnce,
+      persistent: !watchOnce
     });
 
     //watch for changes and rebuild
@@ -48,7 +48,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_GLOBAL_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
@@ -57,7 +57,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_GLOBAL_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
@@ -66,7 +66,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_GLOBAL_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       });
@@ -98,9 +98,9 @@ const watchPatternLabFiles = (
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 200,
-        pollInterval: 100,
+        pollInterval: 100
       },
-      persistent: !watchOnce,
+      persistent: !watchOnce
     });
 
     //watch for changes and rebuild
@@ -110,7 +110,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
@@ -119,7 +119,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
@@ -128,7 +128,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
@@ -141,7 +141,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
@@ -152,7 +152,7 @@ const watchPatternLabFiles = (
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       });

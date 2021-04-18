@@ -70,6 +70,6 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
 module.exports = function configFileLoader() {
   return {
     loadDataFromFile: loadFile,
-    loadDataFromFolder: loadDataFromFolder,
+    loadDataFromFolder: loadDataFromFolder
   };
 };

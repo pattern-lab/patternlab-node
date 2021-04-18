@@ -41,7 +41,7 @@ const list_item_hunter = function() {
   return {
     process_list_item_partials: function(pattern) {
       return processListItemPartials(pattern);
-    },
+    }
   };
 };
 

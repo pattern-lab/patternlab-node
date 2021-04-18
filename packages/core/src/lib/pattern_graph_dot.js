@@ -14,7 +14,7 @@ function header() {
     'rankdir=LR;',
     'ranksep="4 equally·";',
     'node [style=filled,color=white];',
-    'edge [style=dotted constraint=false]',
+    'edge [style=dotted constraint=false]'
   ];
 }
 
@@ -69,7 +69,7 @@ function subGraph(group, patterns) {
     patterns.map(addNode).join(''),
 
     //patterns.map(p => "\"" + p.name + "\"").join(" -> ") + "[style=invis]",
-    '}',
+    '}'
   ];
 }
 
@@ -93,7 +93,7 @@ PatternGraphDot.generate = function(patternGraph) {
     'firebrick',
     'slateblue',
     'darkgoldenrod',
-    'black',
+    'black'
   ];
   const colorMap = new Map();
   let colIdx = 0;

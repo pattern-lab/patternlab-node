@@ -12,12 +12,12 @@ const logger = require('./log');
 const enginesDirectories = [
   {
     displayName: 'the core',
-    path: path.resolve(__dirname, '..', '..', 'node_modules'),
+    path: path.resolve(__dirname, '..', '..', 'node_modules')
   },
   {
     displayName: 'the edition or test directory',
-    path: path.join(process.cwd(), 'node_modules'),
-  },
+    path: path.join(process.cwd(), 'node_modules')
+  }
 ];
 
 /**
@@ -245,7 +245,7 @@ const PatternEngines = Object.create({
       supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
       PatternEngines.isPseudoPatternJSON(filename)
     );
-  },
+  }
 });
 
 module.exports = PatternEngines;

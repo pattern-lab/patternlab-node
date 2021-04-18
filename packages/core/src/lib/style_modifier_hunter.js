@@ -38,7 +38,7 @@ const style_modifier_hunter = function() {
   return {
     consume_style_modifier: function(pattern, partial, patternlab) {
       consumestylemodifier(pattern, partial, patternlab);
-    },
+    }
   };
 };
 

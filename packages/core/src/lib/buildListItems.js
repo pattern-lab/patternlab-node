@@ -23,7 +23,7 @@ const items = [
   'seventeen',
   'eighteen',
   'nineteen',
-  'twenty',
+  'twenty'
 ];
 
 module.exports = function(container) {

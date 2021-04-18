@@ -113,10 +113,10 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                 return render(
                   Pattern.createEmpty({
                     // todo should this be uikit.header?
-                    extendedTemplate: patternlab.header,
+                    extendedTemplate: patternlab.header
                   }),
                   {
-                    cacheBuster: patternlab.cacheBuster,
+                    cacheBuster: patternlab.cacheBuster
                   }
                 )
                   .then(results => {
@@ -150,18 +150,14 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                     }
                     //render all patterns last, so lineageR works
                     const allPatternsPromise = patternsToBuild.map(
-                      async pattern =>
-                        await compose(
-                          pattern,
-                          patternlab
-                        )
+                      async pattern => await compose(pattern, patternlab)
                     );
                     //copy non-pattern files like JavaScript
                     const allJS = patternsToBuild.map(pattern => {
                       const { name, patternPartial, subdir } = pattern;
                       const {
                         source: { patterns: sourceDir },
-                        public: { patterns: publicDir },
+                        public: { patterns: publicDir }
                       } = patternlab.config.paths;
                       const src = path.join(sourceDir, subdir);
                       const dest = path.join(publicDir, name);
@@ -174,7 +170,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                             filter: ['*.js'],
                             rename: () => {
                               return `${patternPartial}.js`;
-                            },
+                            }
                           }
                         ).on(copy.events.COPY_FILE_COMPLETE, () => {
                           logger.debug(

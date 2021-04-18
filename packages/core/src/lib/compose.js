@@ -125,18 +125,18 @@ module.exports = async function(pattern, patternlab) {
         patternBreadcrumb:
           pattern.patternGroup === pattern.patternSubgroup
             ? {
-                patternGroup: pattern.patternGroup,
+                patternGroup: pattern.patternGroup
               }
             : {
                 patternGroup: pattern.patternGroup,
-                patternSubgroup: pattern.patternSubgroup,
+                patternSubgroup: pattern.patternSubgroup
               },
         patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
         patternName: pattern.patternName,
         patternPartial: pattern.patternPartial,
         patternState: pattern.patternState,
         patternEngineName: pattern.engine.engineName,
-        extraOutput: extraOutput,
+        extraOutput: extraOutput
       });
 
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
@@ -145,14 +145,14 @@ module.exports = async function(pattern, patternlab) {
         {
           isPattern: pattern.isPattern,
           patternData: pattern.patternData,
-          cacheBuster: patternlab.cacheBuster,
+          cacheBuster: patternlab.cacheBuster
         }
       );
 
       return Promise.all([
         headPromise,
         patternPartialPromise,
-        footerPartialPromise,
+        footerPartialPromise
       ])
         .then(intermediateResults => {
           // retrieve results of promises

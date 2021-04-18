@@ -34,7 +34,7 @@ const plugin_manager = function() {
     },
     raiseEvent: async (patternlab, eventName, ...args) => {
       await raiseEvent(patternlab, eventName, args);
-    },
+    }
   };
 };
 

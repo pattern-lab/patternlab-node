@@ -74,8 +74,8 @@ const starterkit_manager = function(config) {
       {
         method: 'GET',
         headers: {
-          Accept: 'application/json',
-        },
+          Accept: 'application/json'
+        }
       }
     )
       .then(function(res) {
@@ -133,7 +133,7 @@ const starterkit_manager = function(config) {
     },
     detect_starterkits: function() {
       return detectStarterKits();
-    },
+    }
   };
 };
 

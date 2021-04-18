@@ -21,7 +21,7 @@ const log = Object.assign(
     },
     error(msg) {
       this.emit('error', chalk.red(msg));
-    },
+    }
   },
   EventEmitter.prototype
 );
@@ -76,5 +76,5 @@ module.exports = {
   warning,
   error,
   log,
-  reportError,
+  reportError
 };

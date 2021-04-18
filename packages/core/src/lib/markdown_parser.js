@@ -49,7 +49,7 @@ const markdown_parser = function() {
   return {
     parse: function(block) {
       return parseMarkdownBlock(block);
-    },
+    }
   };
 };
 

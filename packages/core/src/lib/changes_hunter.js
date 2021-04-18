@@ -115,7 +115,7 @@ ChangesHunter.prototype = {
       return true;
     }
     return p.lastModified >= lastModified;
-  },
+  }
 };
 
 module.exports = ChangesHunter;
