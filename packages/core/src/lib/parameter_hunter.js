@@ -288,10 +288,10 @@ const parameter_hunter = function () {
             try {
               paramData = JSON.parse(paramStringWellFormed);
             } catch (err) {
-              logger.error(
+              logger.warning(
                 `There was an error parsing JSON for ${pattern.relPath}`
               );
-              logger.error(err);
+              logger.warning(err);
             }
 
             // resolve any pattern links that might be present
