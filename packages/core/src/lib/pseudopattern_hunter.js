@@ -15,9 +15,9 @@ const changes_hunter = new ch();
 const yaml = require('js-yaml');
 const dataMerger = require('./dataMerger');
 
-const pseudopattern_hunter = function() {};
+const pseudopattern_hunter = function () {};
 
-pseudopattern_hunter.prototype.find_pseudopatterns = function(
+pseudopattern_hunter.prototype.find_pseudopatterns = function (
   currentPattern,
   patternlab
 ) {
@@ -70,10 +70,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
       const variantName = pseudoPatterns[i]
         .substring(pseudoPatterns[i].indexOf('~') + 1)
         .split('.')[0];
-      const variantExtension = pseudoPatterns[i]
-        .split('.')
-        .slice(-1)
-        .pop();
+      const variantExtension = pseudoPatterns[i].split('.').slice(-1).pop();
       const variantFilePath = path.join(
         currentPattern.subdir,
         currentPattern.fileName + '~' + variantName + '.' + variantExtension

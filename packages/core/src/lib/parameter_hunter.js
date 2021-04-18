@@ -9,7 +9,7 @@ const parseLink = require('./parseLink');
 const jsonCopy = require('./json_copy');
 const replaceParameter = require('./replaceParameter');
 
-const parameter_hunter = function() {
+const parameter_hunter = function () {
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
    * Pattern Lab PHP for parameter submissions to partials. Unfortunately, no
@@ -331,7 +331,7 @@ const parameter_hunter = function() {
             //todo: this no longer needs to be a promise
             return Promise.resolve();
           })
-          .catch(reason => {
+          .catch((reason) => {
             console.log(reason);
             logger.error(reason);
           });
@@ -342,7 +342,7 @@ const parameter_hunter = function() {
   }
 
   return {
-    find_parameters: function(pattern, patternlab) {
+    find_parameters: function (pattern, patternlab) {
       return findparameters(pattern, patternlab);
     },
   };

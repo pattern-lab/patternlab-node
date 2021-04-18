@@ -10,7 +10,7 @@
     "@pattern-lab/engine-react": "^5.10.0",
     "@pattern-lab/uikit-workshop": "^5.14.2",
     "gulp": "3.9.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "react": "16.2.0"
   },
   "keywords": [
