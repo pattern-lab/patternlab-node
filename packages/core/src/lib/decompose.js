@@ -16,7 +16,7 @@ const list_item_hunter = new lih();
  * @param patternlab - global data store
  * @param ignoreLineage - whether or not to hunt for lineage for this pattern
  */
-module.exports = function(pattern, patternlab, ignoreLineage) {
+module.exports = function (pattern, patternlab, ignoreLineage) {
   //set the extendedTemplate to operate on later if we find partials to replace
   if (!pattern.extendedTemplate) {
     pattern.extendedTemplate = pattern.template;
@@ -51,7 +51,7 @@ module.exports = function(pattern, patternlab, ignoreLineage) {
     expandPartialPromise,
     lineagePromise,
     addPromise,
-  ]).catch(reason => {
+  ]).catch((reason) => {
     logger.error(reason);
   });
 };

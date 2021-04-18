@@ -17,7 +17,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * @param lastModified
  * @param patternlab
  */
-module.exports = function(lastModified, patternlab) {
+module.exports = function (lastModified, patternlab) {
   /**
    * If the given array exists, apply a function to each of its elements
    * @param {Array} array
@@ -28,13 +28,13 @@ module.exports = function(lastModified, patternlab) {
       array.forEach(func);
     }
   };
-  const modifiedOrNot = _.groupBy(patternlab.patterns, p =>
+  const modifiedOrNot = _.groupBy(patternlab.patterns, (p) =>
     changes_hunter.needsRebuild(lastModified, p) ? 'modified' : 'notModified'
   );
 
   // For all unmodified patterns load their rendered template output
-  forEachExisting(modifiedOrNot.notModified, cleanPattern => {
-    _.each(patternlab.uikits, uikit => {
+  forEachExisting(modifiedOrNot.notModified, (cleanPattern) => {
+    _.each(patternlab.uikits, (uikit) => {
       const xp = path.join(
         process.cwd(),
         uikit.outputDir,
@@ -50,7 +50,7 @@ module.exports = function(lastModified, patternlab) {
   // For all patterns that were modified, schedule them for rebuild
   forEachExisting(
     modifiedOrNot.modified,
-    p => (p.compileState = CompileState.NEEDS_REBUILD)
+    (p) => (p.compileState = CompileState.NEEDS_REBUILD)
   );
   return modifiedOrNot;
 };
