@@ -15228,10 +15228,10 @@ scriptjs@^2.5.9:
   resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.9.tgz#343915cd2ec2ed9bfdde2b9875cd28f59394b35f"
   integrity sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==
 
-scroll-js@^2.2.0:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/scroll-js/-/scroll-js-2.3.2.tgz#bb5875f696c708646fe5d96db9ef5eb9a7c2c588"
-  integrity sha512-j4Mfycp2bSrhZg7Ew/dDCr+ZSPi0HFOmeUWXCxY8aQt0QUdpaGrAfY/AZrn/J9jT4N6NTHsUaD4IiWXs4emSqw==
+scroll-js@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/scroll-js/-/scroll-js-3.3.0.tgz#0b5b746964a0a334eb44bdc99939a89792bc9d5c"
+  integrity sha512-depZDFMifbk4+3cUODVW8Mhr3ASJVkytz/kVA+fPfUFz08ZGTKNQOzLc+noiPYCGdy7tGriOQO+0oDkdstFrtw==
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"
