@@ -8,7 +8,7 @@ const path = require('path');
 const url = require('url');
 const http = require('http');
 const send = require('send');
-const open = require('opn');
+const open = require('open');
 const es = require('event-stream');
 const os = require('os');
 const chokidar = require('chokidar');
@@ -43,7 +43,7 @@ function staticServer(root) {
   } catch (e) {
     if (e.code !== 'ENOENT') throw e;
   }
-  return function(req, res, next) {
+  return function (req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
 
     const reqpath = isFile ? '' : url.parse(req.url).pathname;
@@ -112,7 +112,7 @@ function staticServer(root) {
         res.setHeader('Content-Length', len);
 
         const originalPipe = stream.pipe;
-        stream.pipe = function(resp) {
+        stream.pipe = function (resp) {
           originalPipe
             .call(
               stream,
@@ -139,11 +139,11 @@ function staticServer(root) {
  */
 function entryPoint(staticHandler, file) {
   if (!file)
-    return function(req, res, next) {
+    return function (req, res, next) {
       next();
     };
 
-  return function(req, res, next) {
+  return function (req, res, next) {
     req.url = '/' + file;
     staticHandler(req, res, next);
   };
@@ -167,7 +167,7 @@ function entryPoint(staticHandler, file) {
  * @param middleware {array} Append middleware to stack, e.g. [function(req, res, next) { next(); }].
  * @param assets {String[]} path of asset directories to watch
  */
-LiveServer.start = function(options) {
+LiveServer.start = function (options) {
   const host = options.host || '0.0.0.0';
   const port = options.port !== undefined ? options.port : 8080; // 0 means random
   const root = options.root || process.cwd();
@@ -216,7 +216,7 @@ LiveServer.start = function(options) {
   if (LiveServer.logLevel === 2) {
     app.use(
       logger('dev', {
-        skip: function(req, res) {
+        skip: function (req, res) {
           return res.statusCode < 400;
         },
       })
@@ -231,7 +231,7 @@ LiveServer.start = function(options) {
   }
 
   // Add middleware
-  middleware.map(mw => {
+  middleware.map((mw) => {
     let mwm = mw;
     if (typeof mw === 'string') {
       if (path.extname(mw).toLocaleLowerCase() !== '.js') {
@@ -262,7 +262,7 @@ LiveServer.start = function(options) {
     );
   }
 
-  mount.forEach(mountRule => {
+  mount.forEach((mountRule) => {
     const mountPath = path.resolve(process.cwd(), mountRule[1]);
     if (!options.watch) {
       // Auto add mount paths to wathing but only if exclusive path option is not given
@@ -275,7 +275,7 @@ LiveServer.start = function(options) {
     }
   });
 
-  proxy.forEach(proxyRule => {
+  proxy.forEach((proxyRule) => {
     const proxyOpts = url.parse(proxyRule[1]);
     proxyOpts.via = true;
     proxyOpts.preserveHost = true;
@@ -306,13 +306,13 @@ LiveServer.start = function(options) {
   }
 
   // Handle server startup errors
-  server.addListener('error', function(e) {
+  server.addListener('error', function (e) {
     if (e.code === 'EADDRINUSE') {
       console.log(
         '%s is already in use. Trying another port.'.yellow,
         `${protocol}://${host}:${port}`
       );
-      setTimeout(function() {
+      setTimeout(function () {
         server.listen(0, host);
       }, 1000);
     } else {
@@ -322,7 +322,7 @@ LiveServer.start = function(options) {
   });
 
   // Handle successful server
-  server.addListener('listening', function(/*e*/) {
+  server.addListener('listening', function (/*e*/) {
     LiveServer.server = server;
 
     const address = server.address();
@@ -337,15 +337,15 @@ LiveServer.start = function(options) {
     if (LiveServer.logLevel > 2 && address.address === '0.0.0.0') {
       const ifaces = os.networkInterfaces();
       serveURLs = Object.keys(ifaces)
-        .map(iface => ifaces[iface])
+        .map((iface) => ifaces[iface])
         // flatten address data, use only IPv4
         .reduce((data, addresses) => {
           addresses
-            .filter(addr => addr.family === 'IPv4')
-            .forEach(addr => data.push(addr));
+            .filter((addr) => addr.family === 'IPv4')
+            .forEach((addr) => data.push(addr));
           return data;
         }, [])
-        .map(addr => `${protocol}://${addr.address}:${address.port}`);
+        .map((addr) => `${protocol}://${addr.address}:${address.port}`);
     }
 
     // Output
@@ -367,7 +367,7 @@ LiveServer.start = function(options) {
     // Launch browser
     if (openPath !== null)
       if (typeof openPath === 'object') {
-        openPath.forEach(p =>
+        openPath.forEach((p) =>
           open(openURL + p, { app: browser }).catch(() =>
             console.log(
               'Warning: Could not open pattern lab in default browser.'
@@ -386,35 +386,35 @@ LiveServer.start = function(options) {
 
   // WebSocket
   let clients = [];
-  server.addListener('upgrade', function(request, socket, head) {
+  server.addListener('upgrade', function (request, socket, head) {
     const ws = new WebSocket(request, socket, head);
-    ws.onopen = function() {
+    ws.onopen = function () {
       ws.send('connected');
     };
 
     if (wait > 0) {
-      (function() {
+      (function () {
         const wssend = ws.send;
         let waitTimeout;
-        ws.send = function() {
+        ws.send = function () {
           const args = arguments;
           if (waitTimeout) clearTimeout(waitTimeout);
-          waitTimeout = setTimeout(function() {
+          waitTimeout = setTimeout(function () {
             wssend.apply(ws, args);
           }, wait);
         };
       })();
     }
 
-    ws.onclose = function() {
-      clients = clients.filter(x => x !== ws);
+    ws.onclose = function () {
+      clients = clients.filter((x) => x !== ws);
     };
 
     clients.push(ws);
   });
 
   let ignored = [
-    function(testPath) {
+    function (testPath) {
       // Always ignore dotfiles (important e.g. because editor hidden temp files)
       return (
         testPath !== '.' && /(^[.#]|(?:__|~)$)/.test(path.basename(testPath))
@@ -434,7 +434,7 @@ LiveServer.start = function(options) {
   LiveServer.watcher = chokidar.watch(
     // Replace backslashes with slashes, because chokidar pattern
     // like path/**/*.xyz only acceps linux file path
-    watchPaths.map(p => p.replace(/\\/g, '/')),
+    watchPaths.map((p) => p.replace(/\\/g, '/')),
     {
       ignored: ignored,
       ignoreInitial: true,
@@ -449,7 +449,7 @@ LiveServer.start = function(options) {
       else console.log('Change detected'.cyan, changePath);
     }
 
-    clients.forEach(ws => {
+    clients.forEach((ws) => {
       if (ws) ws.send(cssChange ? 'refreshcss' : 'reload');
     });
   }
@@ -460,31 +460,31 @@ LiveServer.start = function(options) {
     .on('unlink', handleChange)
     .on('addDir', handleChange)
     .on('unlinkDir', handleChange)
-    .on('ready', function() {
+    .on('ready', function () {
       if (LiveServer.logLevel >= 1) console.log('Ready for changes'.cyan);
     })
-    .on('error', function(err) {
+    .on('error', function (err) {
       console.log('ERROR:'.red, err);
     });
 
-  LiveServer.refreshCSS = function() {
+  LiveServer.refreshCSS = function () {
     if (clients.length) {
-      clients.forEach(ws => {
+      clients.forEach((ws) => {
         if (ws) ws.send('refreshcss');
       });
     }
   };
 
-  LiveServer.reload = function() {
+  LiveServer.reload = function () {
     if (clients.length) {
-      clients.forEach(ws => {
+      clients.forEach((ws) => {
         if (ws) ws.send('reload');
       });
     }
   };
 };
 
-LiveServer.shutdown = function() {
+LiveServer.shutdown = function () {
   if (LiveServer.watcher) {
     LiveServer.watcher.close();
   }

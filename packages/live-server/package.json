@@ -21,7 +21,7 @@
     "http-auth": "3.2.x",
     "morgan": "1.10.0",
     "object-assign": "4.1.1",
-    "opn": "5.3.0",
+    "open": "7.4.2",
     "proxy-middleware": "0.15.0",
     "send": "0.16.2",
     "serve-index": "1.9.1"
