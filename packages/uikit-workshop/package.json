@@ -66,7 +66,6 @@
     "clean-webpack-plugin": "0.1.19",
     "clipboard": "^2.0.8",
     "copy-webpack-plugin": "^5.0.2",
-    "core-js": "^3.6.5",
     "cosmiconfig": "^5.0.6",
     "css-loader": "^3.2.0",
     "fg-loadjs": "^1.1.0",
