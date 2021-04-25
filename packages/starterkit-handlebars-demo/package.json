@@ -24,5 +24,8 @@
   },
   "scripts": {
     "build": "cd dist/css && npx node-sass style.scss style.css"
+  },
+  "engines": {
+    "node": ">= 10.18.0"
   }
 }
