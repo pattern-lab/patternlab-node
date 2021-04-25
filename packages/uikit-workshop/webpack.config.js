@@ -4,7 +4,6 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
 const TerserPlugin = require('terser-webpack-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const CriticalCssPlugin = require('critical-css-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const selectorImporter = require('node-sass-selector-importer');
@@ -31,8 +30,8 @@ const defaultConfig = {
   noViewAll: false,
 };
 
-module.exports = function(apiConfig) {
-  return new Promise(async resolve => {
+module.exports = function (apiConfig) {
+  return new Promise(async (resolve) => {
     let customConfig = defaultConfig;
     let configToSearchFor;
 
