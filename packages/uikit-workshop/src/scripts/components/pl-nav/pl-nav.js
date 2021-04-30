@@ -261,7 +261,7 @@ class Nav extends BaseComponent {
                 {item.patternGroupUC}
               </NavTitle>
               <ol
-                id={item.patternSubgroupUC}
+                id={item.patternGroupLC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
               >
                 {item.patternGroupItems.map((patternSubgroup, i) => {
