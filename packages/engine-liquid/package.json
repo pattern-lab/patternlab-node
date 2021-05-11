@@ -4,7 +4,7 @@
   "version": "5.14.0",
   "main": "lib/engine_liquid.js",
   "dependencies": {
-    "fs-extra": "5.0.0",
+    "fs-extra": "10.0.0",
     "liquidjs": "2.2.0"
   },
   "keywords": [
