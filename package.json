@@ -19,7 +19,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "lerna": "4.0.0",
-    "auto": "^9.40.5",
+    "auto": "^10.27.0",
     "@auto-it/released": "^10.27.0",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0"
