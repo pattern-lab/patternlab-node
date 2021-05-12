@@ -21,7 +21,6 @@ const parseAllLinks = require('./parseAllLinks');
 const render = require('./render');
 const Pattern = require('./object_factory').Pattern;
 
-let fs = require('fs-extra'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
 
 const lineage_hunter = new lh();
