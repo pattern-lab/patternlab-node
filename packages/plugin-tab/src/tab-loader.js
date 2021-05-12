@@ -64,7 +64,7 @@ async function findTab(patternlab, pattern) {
         }
 
         //copy the file to our output target if found
-        _.each(patternlab.uikits, uikit => {
+        _.each(patternlab.uikits, (uikit) => {
           fs.copySync(
             tabFileName,
             path.join(process.cwd(), uikit.outputDir, customFileTypeOutputPath)
@@ -72,7 +72,7 @@ async function findTab(patternlab, pattern) {
         });
       } else {
         //otherwise write nothing to the same location - this prevents GET errors on the tab.
-        _.each(patternlab.uikits, uikit => {
+        _.each(patternlab.uikits, (uikit) => {
           fs.outputFileSync(
             path.join(process.cwd(), uikit.outputDir, customFileTypeOutputPath),
             ''

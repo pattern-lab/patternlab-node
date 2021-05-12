@@ -1,5 +1,5 @@
 // Single Page Apps - redirect to /#/
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   if (req.method !== 'GET' && req.method !== 'HEAD') next();
   if (req.url !== '/') {
     var route = req.url;

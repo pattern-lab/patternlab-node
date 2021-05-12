@@ -11,11 +11,11 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const isDirectory = source => fs.lstatSync(source).isDirectory();
-const getDirectories = source =>
+const isDirectory = (source) => fs.lstatSync(source).isDirectory();
+const getDirectories = (source) =>
   fs
     .readdirSync(source)
-    .map(name => path.join(source, name))
+    .map((name) => path.join(source, name))
     .filter(isDirectory);
 
 const { lstatSync, readdirSync } = require('fs');
@@ -53,10 +53,10 @@ module.exports = {
   renderPattern: function renderPattern(pattern, data, partials) {
     return engine
       .parseAndRender(pattern.template, data)
-      .then(function(html) {
+      .then(function (html) {
         return html;
       })
-      .catch(function(ex) {
+      .catch(function (ex) {
         console.log(40, ex);
       });
   },
@@ -86,7 +86,7 @@ module.exports = {
     var matches = this.patternMatcher(pattern, this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function(pattern) {
+  findPartialsWithStyleModifiers: function (pattern) {
     var matches = this.patternMatcher(
       pattern,
       this.findPartialsWithStyleModifiersRE
@@ -96,28 +96,28 @@ module.exports = {
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function(pattern) {
+  findPartialsWithPatternParameters: function (pattern) {
     var matches = this.patternMatcher(
       pattern,
       this.findPartialsWithPatternParametersRE
     );
     return matches;
   },
-  findListItems: function(pattern) {
+  findListItems: function (pattern) {
     var matches = this.patternMatcher(pattern, this.findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial_new: function(partialString) {
+  findPartial_new: function (partialString) {
     var partial = partialString.replace(this.findPartialRE, '$1');
     return partial;
   },
 
   // GTP: the old implementation works better. We might not need
   // this.findPartialRE anymore if it works in all cases!
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     //strip out the template cruft
     var foundPatternPartial = partialString
       .replace('{{> ', '')
@@ -145,7 +145,7 @@ module.exports = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     patternLabConfig = config;
     let patternsPath = patternLabConfig.paths.source.patterns;
 
@@ -163,7 +163,7 @@ module.exports = {
     });
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
 
@@ -187,7 +187,7 @@ module.exports = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.liquid');
     this.spawnFile(config, '_foot.liquid');
   },

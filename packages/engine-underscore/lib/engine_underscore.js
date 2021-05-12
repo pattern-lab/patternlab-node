@@ -51,7 +51,7 @@ function addParentContext(data, currentContext) {
 }
 
 _.mixin({
-  renderNamedPartial: function(partialKey, data, currentContext) {
+  renderNamedPartial: function (partialKey, data, currentContext) {
     const compiledPartial = partialRegistry[partialKey];
     if (typeof compiledPartial !== 'function') {
       throw `Pattern ${partialKey} not found.`;
@@ -59,7 +59,7 @@ _.mixin({
 
     return _.renderPartial(compiledPartial, data, currentContext);
   },
-  renderPartial: function(compiledPartial, dataIn, currentContext) {
+  renderPartial: function (compiledPartial, dataIn, currentContext) {
     let data = dataIn || {};
 
     if (
@@ -74,7 +74,7 @@ _.mixin({
     return compiledPartial(data);
   },
   /* eslint-disable no-eval, no-unused-vars */
-  getPath: function(pathString, currentContext, debug) {
+  getPath: function (pathString, currentContext, debug) {
     try {
       const result = eval('currentContext.' + pathString);
       if (debug) {
@@ -145,7 +145,7 @@ const engine_underscore = {
     return renderedHTML;
   },
 
-  registerPartial: function(pattern) {
+  registerPartial: function (pattern) {
     let compiled;
 
     try {
@@ -166,23 +166,23 @@ const engine_underscore = {
     const matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function() {
+  findPartialsWithStyleModifiers: function () {
     return [];
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function() {
+  findPartialsWithPatternParameters: function () {
     return [];
   },
-  findListItems: function(pattern) {
+  findListItems: function (pattern) {
     const matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     const edgeQuotesMatcher = /^["']|["']$/g;
     const partialIDWithQuotes = partialString.replace(
       this.findPartialsRE,
@@ -193,7 +193,7 @@ const engine_underscore = {
     return partialID;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -216,7 +216,7 @@ const engine_underscore = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.html');
     this.spawnFile(config, '_foot.html');
   },

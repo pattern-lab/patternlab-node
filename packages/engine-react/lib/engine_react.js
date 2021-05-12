@@ -64,7 +64,7 @@ function babelTransform(pattern) {
 
   // eval() module code in this little scope that injects our
   // custom wrap of require();
-  (require => {
+  ((require) => {
     /* eslint-disable no-eval */
     transpiledModule = eval(transpiledModule.code);
   })(customRequire);
@@ -110,7 +110,7 @@ var engine_react = {
       htmlOutput: staticMarkup,
     });
 
-    return Promise.resolve(renderedHTML).catch(e => {
+    return Promise.resolve(renderedHTML).catch((e) => {
       var errorMessage = `Error rendering React pattern "${
         pattern.patternName
       }" (${pattern.relPath}): [${e.toString()}]`;
@@ -161,7 +161,7 @@ var engine_react = {
     }
 
     // Remove unregistered imports from the matches
-    matches.map(m => {
+    matches.map((m) => {
       const key = self.findPartial(m);
       if (!registeredComponents.byPatternPartial[key]) {
         const i = matches.indexOf(m);
@@ -224,7 +224,7 @@ var engine_react = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     patternLabConfig = config;
 
     try {

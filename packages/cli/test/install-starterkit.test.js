@@ -14,8 +14,8 @@ const minimalConfig = {
   },
 };
 
-tap.test('Install starterkit-mustache-demo ->', t =>
-  wrapAsync(function*() {
+tap.test('Install starterkit-mustache-demo ->', (t) =>
+  wrapAsync(function* () {
     yield installStarterkit(
       '@pattern-lab/starterkit-mustache-demo',
       minimalConfig
@@ -26,8 +26,8 @@ tap.test('Install starterkit-mustache-demo ->', t =>
   })
 );
 
-tap.test('Install starterkit-mustache-base ->', t =>
-  wrapAsync(function*() {
+tap.test('Install starterkit-mustache-base ->', (t) =>
+  wrapAsync(function* () {
     yield installStarterkit(
       '@pattern-lab/starterkit-mustache-base',
       minimalConfig
@@ -38,8 +38,8 @@ tap.test('Install starterkit-mustache-base ->', t =>
   })
 );
 
-tap.test('Install starterkit-mustache-bootstrap ->', t =>
-  wrapAsync(function*() {
+tap.test('Install starterkit-mustache-bootstrap ->', (t) =>
+  wrapAsync(function* () {
     yield installStarterkit('starterkit-mustache-bootstrap', minimalConfig);
     const pkg = yield moduleExist('starterkit-mustache-bootstrap');
     t.ok(pkg, 'module should exist after install');
@@ -47,8 +47,8 @@ tap.test('Install starterkit-mustache-bootstrap ->', t =>
   })
 );
 
-tap.test('Install starterkit-mustache-foundation ->', t =>
-  wrapAsync(function*() {
+tap.test('Install starterkit-mustache-foundation ->', (t) =>
+  wrapAsync(function* () {
     yield installStarterkit('starterkit-mustache-foundation', minimalConfig);
     const pkg = yield moduleExist('starterkit-mustache-foundation');
     t.ok(pkg, 'module should exist after install');
@@ -56,8 +56,8 @@ tap.test('Install starterkit-mustache-foundation ->', t =>
   })
 );
 
-tap.test('Install starterkit-mustache-acidtest ->', t =>
-  wrapAsync(function*() {
+tap.test('Install starterkit-mustache-acidtest ->', (t) =>
+  wrapAsync(function* () {
     yield installStarterkit('starterkit-mustache-acidtest', minimalConfig);
     const pkg = yield moduleExist('starterkit-mustache-acidtest');
     t.ok(pkg, 'module should exist after install');
@@ -65,8 +65,8 @@ tap.test('Install starterkit-mustache-acidtest ->', t =>
   })
 );
 
-tap.test('Install starterkit-mustache-materialdesign ->', t =>
-  wrapAsync(function*() {
+tap.test('Install starterkit-mustache-materialdesign ->', (t) =>
+  wrapAsync(function* () {
     yield installStarterkit(
       'starterkit-mustache-materialdesign',
       minimalConfig
