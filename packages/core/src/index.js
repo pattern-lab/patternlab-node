@@ -21,6 +21,7 @@ const defaultConfig = require('../patternlab-config.json');
 
 let buildPatterns = require('./lib/buildPatterns'); // eslint-disable-line
 let logger = require('./lib/log'); // eslint-disable-line
+let fs = require('fs-extra'); // eslint-disable-line
 let ui_builder = require('./lib/ui_builder'); // eslint-disable-line
 let copier = require('./lib/copier'); // eslint-disable-line
 let pattern_exporter = new pe(); // eslint-disable-line
