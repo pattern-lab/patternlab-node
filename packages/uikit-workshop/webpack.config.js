@@ -17,7 +17,7 @@ const merge = require('webpack-merge');
 const WebpackBar = require('webpackbar');
 
 const cosmiconfig = require('cosmiconfig');
-const explorer = cosmiconfig('patternlab');
+const explorerSync = cosmiconfigSync('patternlab');
 
 // @todo: wire these two ocnfigs up to use cosmicconfig!
 const defaultConfig = {
@@ -31,15 +31,15 @@ const defaultConfig = {
   noViewAll: false,
 };
 
-module.exports = function(apiConfig) {
-  return new Promise(async resolve => {
+module.exports = function (apiConfig) {
+  return new Promise(async (resolve) => {
     let customConfig = defaultConfig;
     let configToSearchFor;
 
     if (argv.patternlabrc) {
-      configToSearchFor = await explorer.loadSync(argv.patternlabrc);
+      configToSearchFor = await explorerSync.load(argv.patternlabrc);
     } else {
-      configToSearchFor = await explorer.searchSync();
+      configToSearchFor = await explorerSync.search();
     }
 
     if (configToSearchFor) {
