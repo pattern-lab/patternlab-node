@@ -12,7 +12,7 @@ const patterns_dir = './test/files/_patterns';
 
 tap.test(
   'watchPatternLabFiles - adds watcher to patternlab.watchers for given patternWatchPath',
-  test => {
+  (test) => {
     const pl = util.fakePatternLab(patterns_dir, {
       watchers: [],
       engines: {},
@@ -37,7 +37,7 @@ tap.test(
 
     // should have two for _data and _meta
     // should have five for '.json', '.yml', '.yaml', '.md' and '.mustache'
-    test.equals(Object.keys(pl.watchers).length, 7);
+    test.equal(Object.keys(pl.watchers).length, 7);
 
     test.end();
   }
