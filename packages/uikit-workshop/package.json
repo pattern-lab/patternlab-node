@@ -35,7 +35,7 @@
     "@pattern-lab/core": "^5.14.2",
     "@pattern-lab/engine-handlebars": "^5.14.0",
     "@pattern-lab/engine-mustache": "^5.14.0",
-    "better-opn": "^1.0.0",
+    "better-opn": "^3.0.0",
     "browser-sync": "^2.26.7",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
