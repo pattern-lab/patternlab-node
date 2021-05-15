@@ -50,7 +50,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (
           paths.source.patterns,
           pseudoPatterns[i]
         );
-        variantFileData = yaml.safeLoad(
+        variantFileData = yaml.load(
           fs.readFileSync(variantFileFullPath, 'utf8')
         );
       } catch (err) {
