@@ -22,7 +22,7 @@
     "has-yarn": "2.1.0",
     "inquirer": "8.0.0",
     "lodash": "4.17.21",
-    "ora": "2.1.0",
+    "ora": "5.4.0",
     "path-exists": "3.0.0",
     "sanitize-filename": "1.6.3",
     "starterkit-mustache-acidtest": "0.0.3",
