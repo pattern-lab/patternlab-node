@@ -12,7 +12,7 @@
     "@pattern-lab/core": "^5.14.2",
     "@pattern-lab/live-server": "^5.14.2",
     "@pattern-lab/starterkit-mustache-base": "3.0.3",
-    "archiver": "2.1.1",
+    "archiver": "5.3.0",
     "chalk": "4.1.0",
     "commander": "2.15.1",
     "deepmerge": "^4.2.2",
