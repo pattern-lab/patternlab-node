@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+
+### Bug Fixes
+
+* **pseudopatterns:** use the template instead of the pseudo data file for template rendering [#1308](https://github.com/pattern-lab/patternlab-node/issues/1308) ([#1312](https://github.com/pattern-lab/patternlab-node/issues/1312)) ([7ecca69](https://github.com/pattern-lab/patternlab-node/commit/7ecca69bcfed4060d17390b76562e5f468b4a897))
+
+
+
+
+
 ## [5.14.2](https://github.com/pattern-lab/patternlab-node/compare/v5.14.1...v5.14.2) (2021-03-28)
 
 

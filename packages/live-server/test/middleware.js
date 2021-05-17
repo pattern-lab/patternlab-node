@@ -24,20 +24,14 @@ var liveServer3 = require('..').start({
   middleware: [path.join(__dirname, 'data', 'middleware.js')],
 });
 
-describe('middleware tests', function() {
-  it("should respond with middleware function's status code", function(done) {
-    request(liveServer1)
-      .get('/')
-      .expect(201, done);
+describe('middleware tests', function () {
+  it("should respond with middleware function's status code", function (done) {
+    request(liveServer1).get('/').expect(201, done);
   });
-  it("should respond with built-in middleware's status code", function(done) {
-    request(liveServer2)
-      .get('/')
-      .expect(202, done);
+  it("should respond with built-in middleware's status code", function (done) {
+    request(liveServer2).get('/').expect(202, done);
   });
-  it("should respond with external middleware's status code", function(done) {
-    request(liveServer3)
-      .get('/')
-      .expect(203, done);
+  it("should respond with external middleware's status code", function (done) {
+    request(liveServer3).get('/').expect(203, done);
   });
 });

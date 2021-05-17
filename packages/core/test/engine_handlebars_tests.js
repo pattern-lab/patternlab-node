@@ -24,7 +24,7 @@ engineLoader.loadAllEngines(config);
 
 // don't run these tests unless handlebars is installed
 if (!engineLoader.handlebars) {
-  tap.test('Handlebars engine not installed, skipping tests.', function(test) {
+  tap.test('Handlebars engine not installed, skipping tests.', function (test) {
     test.end();
   });
   return;
@@ -74,15 +74,15 @@ function testFindPartials(test, partialTests) {
   var results = currentPattern.findPartials();
 
   // assert
-  test.equals(results.length, partialTests.length);
-  partialTests.forEach(function(testString, index) {
-    test.equals(results[index], testString);
+  test.equal(results.length, partialTests.length);
+  partialTests.forEach(function (testString, index) {
+    test.equal(results[index], testString);
   });
 
   test.end();
 }
 
-tap.test('hello world handlebars pattern renders', function(test) {
+tap.test('hello world handlebars pattern renders', function (test) {
   test.plan(1);
 
   var patternPath = path.join('atoms', 'global', 'helloworld.hbs');
@@ -91,10 +91,10 @@ tap.test('hello world handlebars pattern renders', function(test) {
   var patternlab = new fakePatternLab();
   var helloWorldPattern = loadPattern(patternPath, patternlab);
 
-  processIterative(helloWorldPattern, patternlab).then(helloWorldPattern => {
+  processIterative(helloWorldPattern, patternlab).then((helloWorldPattern) => {
     processRecursive(patternPath, patternlab).then(() => {
-      helloWorldPattern.render().then(results => {
-        test.equals(results, 'Hello world!' + eol);
+      helloWorldPattern.render().then((results) => {
+        test.equal(results, 'Hello world!' + eol);
         test.end();
       });
     });
@@ -103,7 +103,7 @@ tap.test('hello world handlebars pattern renders', function(test) {
 
 tap.test(
   'hello worlds handlebars pattern can see the atoms-helloworld partial and renders it twice',
-  function(test) {
+  function (test) {
     test.plan(1);
 
     // pattern paths
@@ -124,8 +124,8 @@ tap.test(
       processRecursive(pattern1Path, patternlab).then(() => {
         processRecursive(pattern2Path, patternlab).then(() => {
           // test
-          pattern2.render().then(results => {
-            test.equals(
+          pattern2.render().then((results) => {
+            test.equal(
               results,
               'Hello world!' + eol + ' and Hello world!' + eol + eol
             );
@@ -137,7 +137,7 @@ tap.test(
   }
 );
 
-tap.test('handlebars partials can render JSON values', function(test) {
+tap.test('handlebars partials can render JSON values', function (test) {
   test.plan(1);
 
   // pattern paths
@@ -152,8 +152,8 @@ tap.test('handlebars partials can render JSON values', function(test) {
   processIterative(helloWorldWithData, patternlab).then(() => {
     processRecursive(pattern1Path, patternlab).then(() => {
       // test
-      helloWorldWithData.render().then(results => {
-        test.equals(
+      helloWorldWithData.render().then((results) => {
+        test.equal(
           results,
           'Hello world!' +
             eol +
@@ -168,7 +168,7 @@ tap.test('handlebars partials can render JSON values', function(test) {
 
 tap.test(
   'handlebars partials use the JSON environment from the calling pattern and can accept passed parameters',
-  function(test) {
+  function (test) {
     test.plan(1);
 
     // pattern paths
@@ -192,9 +192,9 @@ tap.test(
       processRecursive(atomPath, patternlab),
       processRecursive(molPath, patternlab),
     ]).then(() => {
-      mol.render().then(results => {
+      mol.render().then((results) => {
         // test
-        test.equals(
+        test.equal(
           results,
           '<h2>Call with default JSON environment:</h2>' +
             eol +
@@ -217,7 +217,7 @@ tap.test(
   }
 );
 
-tap.only('find_pattern_partials finds partials', function(test) {
+tap.only('find_pattern_partials finds partials', function (test) {
   testFindPartials(test, [
     '{{> molecules-comment-header}}',
     '{{>  molecules-comment-header}}',
@@ -227,7 +227,7 @@ tap.only('find_pattern_partials finds partials', function(test) {
   ]);
 });
 
-tap.test('find_pattern_partials finds verbose partials', function(test) {
+tap.test('find_pattern_partials finds verbose partials', function (test) {
   testFindPartials(test, [
     '{{> molecules/components/comment-header.hbs }}',
     "{{> molecules/components/single-comment.hbs(description: 'A life is like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
@@ -240,7 +240,7 @@ tap.test('find_pattern_partials finds verbose partials', function(test) {
 
 tap.test(
   'find_pattern_partials finds simple partials with parameters',
-  function(test) {
+  function (test) {
     testFindPartials(test, [
       "{{> molecules-single-comment(description: 'A life isn't like a garden. Perfect moments can be had, but not preserved, except in memory.') }}",
       '{{> molecules-single-comment(description:"A life is like a "garden". Perfect moments can be had, but not preserved, except in memory.") }}',
@@ -250,14 +250,14 @@ tap.test(
 
 tap.test(
   'find_pattern_partials finds simple partials with style modifiers',
-  function(test) {
+  function (test) {
     testFindPartials(test, ['{{> molecules-single-comment:foo }}']);
   }
 );
 
 tap.test(
   'find_pattern_partials finds partials with handlebars parameters',
-  function(test) {
+  function (test) {
     testFindPartials(test, [
       '{{> atoms-title title="bravo" headingLevel="2" headingSize="bravo" position="left"}}',
       '{{> atoms-title title="bravo"' +
@@ -277,15 +277,16 @@ tap.test(
   }
 );
 
-tap.test('find_pattern_partials finds handlebars block partials', function(
-  test
-) {
-  testFindPartials(test, ['{{#> myPartial }}']);
-});
+tap.test(
+  'find_pattern_partials finds handlebars block partials',
+  function (test) {
+    testFindPartials(test, ['{{#> myPartial }}']);
+  }
+);
 
 tap.only(
   'hidden handlebars patterns can be called by their nice names',
-  function(test) {
+  function (test) {
     //arrange
     const testPatternsPath = path.resolve(
       __dirname,
@@ -310,9 +311,9 @@ tap.only(
       processRecursive(hiddenPatternPath, pl),
       processRecursive(testPatternPath, pl),
     ]).then(() => {
-      testPattern.render().then(results => {
+      testPattern.render().then((results) => {
         //act
-        test.equals(
+        test.equal(
           util.sanitized(results),
           util.sanitized("Here's the hidden atom: [I'm the hidden atom\n]\n")
         );
@@ -324,7 +325,7 @@ tap.only(
 
 tap.test(
   '@partial-block template should render without throwing (@geoffp repo issue #3)',
-  function(test) {
+  function (test) {
     test.plan(1);
 
     var patternPath = path.join('atoms', 'global', 'at-partial-block.hbs');
@@ -335,7 +336,7 @@ tap.test(
 
     processIterative(atPartialBlockPattern, patternlab).then(() => {
       processRecursive(patternPath, patternlab).then(() => {
-        atPartialBlockPattern.render().then(results => {
+        atPartialBlockPattern.render().then((results) => {
           var expectedResults =
             '&#123;{> @partial-block }&#125;' + eol + 'It worked!' + eol;
           test.equal(results, expectedResults);
@@ -347,7 +348,7 @@ tap.test(
 
 tap.test(
   'A template calling a @partial-block template should render correctly',
-  function(test) {
+  function (test) {
     test.plan(1);
 
     // pattern paths
@@ -371,10 +372,10 @@ tap.test(
       processRecursive(pattern1Path, patternlab),
       processRecursive(pattern2Path, patternlab),
     ]).then(() => {
-      callAtPartialBlockPattern.render().then(results => {
+      callAtPartialBlockPattern.render().then((results) => {
         // test
         var expectedResults = 'Hello World!' + eol + 'It worked!' + eol;
-        test.equals(results, expectedResults);
+        test.equal(results, expectedResults);
       });
     });
   }

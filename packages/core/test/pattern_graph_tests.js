@@ -22,21 +22,21 @@ var patternlab = {
   },
 };
 
-var mockGraph = function() {
+var mockGraph = function () {
   return PatternGraph.empty();
 };
 
-tap.test('checkVersion - Current version returns true', test => {
+tap.test('checkVersion - Current version returns true', (test) => {
   test.same(PatternGraph.checkVersion({ version: VERSION }), true);
   test.end();
 });
 
-tap.test('checkVersion - Older version returns false', test => {
+tap.test('checkVersion - Older version returns false', (test) => {
   test.same(PatternGraph.checkVersion({ version: VERSION - 1 }), false);
   test.end();
 });
 
-tap.test('Loading an empty graph works', test => {
+tap.test('Loading an empty graph works', (test) => {
   var g = PatternGraph.loadFromFile(
     path.resolve(__dirname, 'public'),
     'does not exist'
@@ -45,7 +45,7 @@ tap.test('Loading an empty graph works', test => {
   test.end();
 });
 
-tap.test('PatternGraph.fromJson() - Loading a graph from JSON', test => {
+tap.test('PatternGraph.fromJson() - Loading a graph from JSON', (test) => {
   var graph = PatternGraph.loadFromFile(
     path.resolve(__dirname, 'public'),
     'testDependencyGraph.json'
@@ -58,9 +58,9 @@ tap.test('PatternGraph.fromJson() - Loading a graph from JSON', test => {
 
 tap.test(
   'PatternGraph.fromJson() - Loading a graph from JSON using an older version throws error',
-  test => {
+  (test) => {
     test.throws(
-      function() {
+      function () {
         PatternGraph.fromJson({ version: 0 });
       },
       {},
@@ -71,7 +71,7 @@ tap.test(
   }
 );
 
-tap.test('toJson() - Storing a graph to JSON correctly', test => {
+tap.test('toJson() - Storing a graph to JSON correctly', (test) => {
   var graph = mockGraph();
   graph.timestamp = 1337;
   var atomFoo = Pattern.create('atom-foo', null, {
@@ -101,7 +101,7 @@ tap.test('toJson() - Storing a graph to JSON correctly', test => {
 
 tap.test(
   'Storing and loading a graph from JSON return the identical graph',
-  test => {
+  (test) => {
     var oldGraph = mockGraph();
     oldGraph.timestamp = 1337;
     var atomFoo = Pattern.create('atom-foo', null, {
@@ -128,7 +128,7 @@ tap.test(
   }
 );
 
-tap.test('clone()', test => {
+tap.test('clone()', (test) => {
   var oldGraph = mockGraph();
   oldGraph.timestamp = 1337;
   var atomFoo = Pattern.create('atom-foo', null, {
@@ -154,7 +154,7 @@ tap.test('clone()', test => {
   test.end();
 });
 
-tap.test('Adding a node', test => {
+tap.test('Adding a node', (test) => {
   var g = mockGraph();
   var pattern = Pattern.create('atom-foo', null, {
     compileState: CompileState.CLEAN,
@@ -170,7 +170,7 @@ tap.test('Adding a node', test => {
   test.end();
 });
 
-tap.test('Adding a node twice', test => {
+tap.test('Adding a node twice', (test) => {
   var g = mockGraph();
   var pattern = Pattern.create('atom-foo', null, {
     compileState: CompileState.CLEAN,
@@ -182,7 +182,7 @@ tap.test('Adding a node twice', test => {
   test.end();
 });
 
-tap.test('Adding two nodes', test => {
+tap.test('Adding two nodes', (test) => {
   var g = mockGraph();
   var atomFoo = Pattern.create('atom-foo', {
     compileState: CompileState.CLEAN,
@@ -197,7 +197,7 @@ tap.test('Adding two nodes', test => {
   test.end();
 });
 
-tap.test('Adding two nodes with only different subpattern types', test => {
+tap.test('Adding two nodes with only different subpattern types', (test) => {
   var g = mockGraph();
   var atomFoo = Pattern.create('atoms/foo/baz.html', {
     compileState: CompileState.CLEAN,
@@ -212,7 +212,7 @@ tap.test('Adding two nodes with only different subpattern types', test => {
   test.end();
 });
 
-tap.test('Linking two nodes', test => {
+tap.test('Linking two nodes', (test) => {
   var g = mockGraph();
   var atomFoo = Pattern.create('atom-foo', null, {
     compileState: CompileState.CLEAN,
@@ -231,7 +231,7 @@ tap.test('Linking two nodes', test => {
   test.end();
 });
 
-tap.test('remove() - Removing a node', test => {
+tap.test('remove() - Removing a node', (test) => {
   var g = mockGraph();
   var atomFoo = Pattern.create('atom-foo', null, {
     compileState: CompileState.CLEAN,
@@ -256,7 +256,7 @@ tap.test('remove() - Removing a node', test => {
   test.end();
 });
 
-tap.test('filter() - Removing nodes via filter', test => {
+tap.test('filter() - Removing nodes via filter', (test) => {
   var g = mockGraph();
   var atomFoo = Pattern.create('atom-foo', null, {
     compileState: CompileState.CLEAN,
@@ -267,7 +267,7 @@ tap.test('filter() - Removing nodes via filter', test => {
   g.add(atomFoo);
   g.add(moleculeFoo);
   test.same(g.nodes(), ['atom-foo', 'molecule-foo']);
-  g.filter(n => n != 'molecule-foo');
+  g.filter((n) => n != 'molecule-foo');
   test.same(
     g.graph.nodes(),
     ['atom-foo'],
@@ -283,7 +283,7 @@ tap.test('filter() - Removing nodes via filter', test => {
 
 // Prevents nodes from escaping the scope, at the same time have some default graph for lineage to
 // test on
-(function() {
+(function () {
   var atomFoo = Pattern.create('atom/xy/foo', null, {
     compileState: CompileState.CLEAN,
   });
@@ -324,26 +324,32 @@ tap.test('filter() - Removing nodes via filter', test => {
   g.link(moleculeFoo, atomFoo);
   g.link(moleculeBar, atomFoo);
 
-  tap.test('lineage() - Calculate the lineage of a node', test => {
-    test.same(posixPath(g.lineage(organismFoo).map(p => p.relPath)), [
+  tap.test('lineage() - Calculate the lineage of a node', (test) => {
+    test.same(posixPath(g.lineage(organismFoo).map((p) => p.relPath)), [
       'molecule/xy/foo',
     ]);
-    test.same(posixPath(g.lineage(organismBar).map(p => p.relPath)), [
+    test.same(posixPath(g.lineage(organismBar).map((p) => p.relPath)), [
       'molecule/xy/foo',
       'molecule/xy/bar',
     ]);
-    test.same(posixPath(g.lineage(moleculeFoo).map(p => p.relPath)), [
+    test.same(posixPath(g.lineage(moleculeFoo).map((p) => p.relPath)), [
       'atom/xy/foo',
     ]);
-    test.same(posixPath(g.lineage(moleculeBar).map(p => p.relPath)), [
+    test.same(posixPath(g.lineage(moleculeBar).map((p) => p.relPath)), [
       'atom/xy/foo',
     ]);
-    test.same(g.lineage(atomFoo).map(p => p.relPath), []);
-    test.same(g.lineage(atomIsolated).map(p => p.relPath), []);
+    test.same(
+      g.lineage(atomFoo).map((p) => p.relPath),
+      []
+    );
+    test.same(
+      g.lineage(atomIsolated).map((p) => p.relPath),
+      []
+    );
     test.end();
   });
 
-  tap.test('lineageIndex() - Calculate the lineage of a node', test => {
+  tap.test('lineageIndex() - Calculate the lineage of a node', (test) => {
     test.same(g.lineageIndex(organismFoo), ['molecule-foo']);
     test.same(g.lineageIndex(organismBar), ['molecule-foo', 'molecule-bar']);
     test.same(g.lineageIndex(moleculeFoo), ['atom-foo']);
@@ -353,36 +359,48 @@ tap.test('filter() - Removing nodes via filter', test => {
     test.end();
   });
 
-  tap.test('lineageR() - Calculate the reverse lineage of a node', test => {
-    test.same(g.lineageR(organismFoo).map(p => p.relPath), []);
-    test.same(g.lineageR(organismBar).map(p => p.relPath), []);
-    test.same(posixPath(g.lineageR(moleculeFoo).map(p => p.relPath)), [
+  tap.test('lineageR() - Calculate the reverse lineage of a node', (test) => {
+    test.same(
+      g.lineageR(organismFoo).map((p) => p.relPath),
+      []
+    );
+    test.same(
+      g.lineageR(organismBar).map((p) => p.relPath),
+      []
+    );
+    test.same(posixPath(g.lineageR(moleculeFoo).map((p) => p.relPath)), [
       'organism/xy/foo',
       'organism/xy/bar',
     ]);
-    test.same(posixPath(g.lineageR(moleculeBar).map(p => p.relPath)), [
+    test.same(posixPath(g.lineageR(moleculeBar).map((p) => p.relPath)), [
       'organism/xy/bar',
     ]);
-    test.same(posixPath(g.lineageR(atomFoo).map(p => p.relPath)), [
+    test.same(posixPath(g.lineageR(atomFoo).map((p) => p.relPath)), [
       'molecule/xy/foo',
       'molecule/xy/bar',
     ]);
-    test.same(g.lineageR(atomIsolated).map(p => p.relPath), []);
+    test.same(
+      g.lineageR(atomIsolated).map((p) => p.relPath),
+      []
+    );
     test.end();
   });
 
-  tap.test('lineageRIndex() - Calculate the lineage index of a node', test => {
-    test.same(g.lineageRIndex(organismFoo), []);
-    test.same(g.lineageRIndex(organismBar), []);
-    test.same(g.lineageRIndex(moleculeFoo), ['organism-foo', 'organism-bar']);
-    test.same(g.lineageRIndex(moleculeBar), ['organism-bar']);
-    test.same(g.lineageRIndex(atomFoo), ['molecule-foo', 'molecule-bar']);
-    test.same(g.lineageRIndex(atomIsolated), []);
-    test.end();
-  });
+  tap.test(
+    'lineageRIndex() - Calculate the lineage index of a node',
+    (test) => {
+      test.same(g.lineageRIndex(organismFoo), []);
+      test.same(g.lineageRIndex(organismBar), []);
+      test.same(g.lineageRIndex(moleculeFoo), ['organism-foo', 'organism-bar']);
+      test.same(g.lineageRIndex(moleculeBar), ['organism-bar']);
+      test.same(g.lineageRIndex(atomFoo), ['molecule-foo', 'molecule-bar']);
+      test.same(g.lineageRIndex(atomIsolated), []);
+      test.end();
+    }
+  );
 })();
 
-(function() {
+(function () {
   function TestGraph() {
     function csAt(args, idx) {
       return { compileState: args[idx] || CompileState.CLEAN };
@@ -443,17 +461,17 @@ tap.test('filter() - Removing nodes via filter', test => {
 
   tap.test(
     'compileOrder() - A clean graph results in no nodes to recompile',
-    test => {
+    (test) => {
       var g = new TestGraph();
       var co = g.graph.compileOrder();
-      test.equals(0, co.length);
+      test.equal(0, co.length);
       test.end();
     }
   );
 
   tap.test(
     'compileOrder() - Recompile isolated atoms does not do anything else',
-    test => {
+    (test) => {
       var g = new TestGraph(
         // atomFoo
         CompileState.CLEAN,
@@ -463,7 +481,7 @@ tap.test('filter() - Removing nodes via filter', test => {
 
       var co = g.graph.compileOrder();
       test.same([g.atomIsolated], co, 'Only recompile atomIsolated');
-      co.forEach(p =>
+      co.forEach((p) =>
         test.same(
           p.compileState,
           CompileState.NEEDS_REBUILD,
@@ -477,18 +495,18 @@ tap.test('filter() - Removing nodes via filter', test => {
 
   tap.test(
     'compileOrder() - Changing a linked atom bubbles back to the organisms',
-    test => {
+    (test) => {
       // Almost every pattern - except atomIsolated - has a transitive dependency on atomFoo
       var g = new TestGraph(CompileState.NEEDS_REBUILD);
       var co = g.graph.compileOrder();
 
-      test.equals(5, co.length);
+      test.equal(5, co.length);
       test.same(
         [g.atomFoo, g.moleculeFoo, g.organismFoo, g.moleculeBar, g.organismBar],
         co,
         'Recompile everything except atomIsolated'
       );
-      co.forEach(p =>
+      co.forEach((p) =>
         test.same(
           p.compileState,
           CompileState.NEEDS_REBUILD,
@@ -502,7 +520,7 @@ tap.test('filter() - Removing nodes via filter', test => {
 
   tap.test(
     'compileOrder() - Changing a molecule leaves atoms untouched',
-    test => {
+    (test) => {
       // Bubble up from molecules to organisms, leaving atoms unchanged as they were not modified
       var g = new TestGraph(null, null, CompileState.NEEDS_REBUILD);
       var co = g.graph.compileOrder();
@@ -512,7 +530,7 @@ tap.test('filter() - Removing nodes via filter', test => {
         co,
         'Recompile moleculeFoo and transitive dependencies'
       );
-      co.forEach(p =>
+      co.forEach((p) =>
         test.same(
           p.compileState,
           CompileState.NEEDS_REBUILD,
@@ -525,7 +543,7 @@ tap.test('filter() - Removing nodes via filter', test => {
 
   tap.test(
     'compileOrder() - Changing an organism leaves atoms and molecules untouched',
-    test => {
+    (test) => {
       // Almost every pattern - except atomIsolated - has a transitive dependency on atomFoo
       var g = new TestGraph(
         // atoms
@@ -549,7 +567,7 @@ tap.test('filter() - Removing nodes via filter', test => {
     }
   );
 
-  tap.test('compileOrder() - Recompile everything', test => {
+  tap.test('compileOrder() - Recompile everything', (test) => {
     // Almost every pattern - except atomIsolated - has a transitive dependency on atomFoo
     // Also recompile atomIsolated
     var g = new TestGraph(
@@ -570,7 +588,7 @@ tap.test('filter() - Removing nodes via filter', test => {
       compileOrder,
       'Recompile everything except atomIsolated'
     );
-    compileOrder.forEach(p =>
+    compileOrder.forEach((p) =>
       test.same(
         p.compileState,
         CompileState.NEEDS_REBUILD,

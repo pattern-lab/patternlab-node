@@ -9,7 +9,7 @@ const loaduikits = rewire('../src/lib/loaduikits');
 
 const testConfig = require('./util/patternlab-config.json');
 
-tap.test('loaduikits - does warn on missing package property', test => {
+tap.test('loaduikits - does warn on missing package property', (test) => {
   //arrange
   const patternlab = {
     config: testConfig,
@@ -17,7 +17,7 @@ tap.test('loaduikits - does warn on missing package property', test => {
   };
 
   patternlab.config.logLevel = 'warning';
-  logger.log.on('warning', msg => test.ok(msg.includes('package:')));
+  logger.log.on('warning', (msg) => test.ok(msg.includes('package:')));
 
   //act
   loaduikits(patternlab).then(() => {
@@ -26,7 +26,7 @@ tap.test('loaduikits - does warn on missing package property', test => {
   });
 });
 
-tap.test('loaduikits - maps fields correctly', function(test) {
+tap.test('loaduikits - maps fields correctly', function (test) {
   //arrange
   const patternlab = {
     config: testConfig,
@@ -36,8 +36,8 @@ tap.test('loaduikits - maps fields correctly', function(test) {
   //act
   loaduikits(patternlab).then(() => {
     //assert
-    test.equals(patternlab.uikits['uikit-workshop'].name, 'uikit-workshop');
-    test.equals(
+    test.equal(patternlab.uikits['uikit-workshop'].name, 'uikit-workshop');
+    test.equal(
       patternlab.uikits['uikit-workshop'].package,
       '@pattern-lab/uikit-workshop'
     );
@@ -46,7 +46,7 @@ tap.test('loaduikits - maps fields correctly', function(test) {
       path.join('packages', 'uikit-workshop')
     );
     test.ok(patternlab.uikits['uikit-workshop'].enabled);
-    test.equals(patternlab.uikits['uikit-workshop'].outputDir, 'test/');
+    test.equal(patternlab.uikits['uikit-workshop'].outputDir, 'test/');
     test.deepEquals(patternlab.uikits['uikit-workshop'].excludedPatternStates, [
       'legacy',
     ]);
@@ -55,7 +55,7 @@ tap.test('loaduikits - maps fields correctly', function(test) {
   });
 });
 
-tap.test('loaduikits - only adds files for enabled uikits', function(test) {
+tap.test('loaduikits - only adds files for enabled uikits', function (test) {
   //arrange
   const patternlab = {
     config: testConfig,

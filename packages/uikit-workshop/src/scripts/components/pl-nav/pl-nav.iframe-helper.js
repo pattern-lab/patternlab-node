@@ -2,7 +2,7 @@
 import Mousetrap from 'mousetrap';
 import { targetOrigin } from '../../utils';
 
-document.addEventListener('click', function() {
+document.addEventListener('click', function () {
   try {
     const obj = JSON.stringify({
       event: 'patternLab.pageClick',
@@ -13,7 +13,7 @@ document.addEventListener('click', function() {
   }
 });
 
-Mousetrap.bind('esc', function(e) {
+Mousetrap.bind('esc', function (e) {
   try {
     const obj = JSON.stringify({
       event: 'patternLab.keyPress',

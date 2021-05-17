@@ -54,10 +54,10 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
           fs.readFileSync(variantFileFullPath, 'utf8')
         );
       } catch (err) {
-        logger.warning(
+        logger.error(
           `There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`
         );
-        logger.warning(err);
+        logger.error(err);
       }
 
       //extend any existing data with variant data

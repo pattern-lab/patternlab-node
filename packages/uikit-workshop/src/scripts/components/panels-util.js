@@ -12,7 +12,7 @@ export const panelsUtil = {
   addClickEvents(templateRendered, patternPartial) {
     const els = templateRendered.querySelectorAll('.pl-js-tab-link');
     for (let i = 0; i < els.length; ++i) {
-      els[i].onclick = function(e) {
+      els[i].onclick = function (e) {
         e.preventDefault();
 
         const partial = this.getAttribute('data-patternpartial');

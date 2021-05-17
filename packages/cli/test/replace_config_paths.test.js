@@ -3,7 +3,7 @@ const tap = require('tap');
 const replaceConfigPaths = require('../bin/replace-config');
 const config = patternlab.getDefaultConfig();
 
-tap.test('replaceConfigPaths ->', t => {
+tap.test('replaceConfigPaths ->', (t) => {
   const newConfig = replaceConfigPaths(
     config,
     'projectDir',

@@ -29,8 +29,8 @@ module.exports = function(patternlab, patternPartial, uikit) {
           'config.paths.source.data plus patterns data'
         );
       } catch (err) {
-        logger.warning('There was an error parsing JSON for patternlab.data');
-        logger.warning(err);
+        logger.error('There was an error parsing JSON for patternlab.data');
+        logger.error(err);
       }
       allFooterData.patternLabFoot = footerPartial;
 

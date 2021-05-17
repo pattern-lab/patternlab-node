@@ -94,10 +94,10 @@ module.exports = function(relPath, patternlab) {
       );
     }
   } catch (err) {
-    logger.warning(
+    logger.error(
       `There was an error parsing sibling JSON for ${currentPattern.relPath}`
     );
-    logger.warning(err);
+    logger.error(err);
   }
 
   //look for a listitems.json file for this template
@@ -118,10 +118,10 @@ module.exports = function(relPath, patternlab) {
       buildListItems(currentPattern);
     }
   } catch (err) {
-    logger.warning(
+    logger.error(
       `There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`
     );
-    logger.warning(err);
+    logger.error(err);
   }
 
   //look for a markdown file for this template

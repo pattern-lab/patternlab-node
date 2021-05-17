@@ -16,7 +16,7 @@ engineLoader.loadAllEngines(config);
 
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 
-tap.test('parameter hunter finds and extends templates', function(test) {
+tap.test('parameter hunter finds and extends templates', function (test) {
   //arrange
   const pl = util.fakePatternLab(testPatternsPath);
 
@@ -36,7 +36,7 @@ tap.test('parameter hunter finds and extends templates', function(test) {
         .find_parameters(testPattern, pl)
         .then(() => {
           //assert
-          test.equals(
+          test.equal(
             util.sanitized(testPattern.extendedTemplate),
             util.sanitized(
               '<h1>{{foo}}</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'
@@ -51,7 +51,7 @@ tap.test('parameter hunter finds and extends templates', function(test) {
 
 tap.test(
   'parameter hunter finds and extends templates with verbose partials',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -71,7 +71,7 @@ tap.test(
           .find_parameters(testPattern, pl)
           .then(() => {
             //assert
-            test.equals(
+            test.equal(
               util.sanitized(testPattern.extendedTemplate),
               util.sanitized(
                 '<h1>{{foo}}</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>'
@@ -89,7 +89,7 @@ tap.test(
 //test other quoting options.
 tap.test(
   'parameter hunter parses parameters with unquoted keys and unquoted values',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -111,7 +111,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>{{foo}}</h1><p>true</p>')
         );
@@ -123,7 +123,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with unquoted keys and double-quoted values',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -145,7 +145,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>{{foo}}</h1><p>true</p>')
         );
@@ -157,7 +157,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with single-quoted keys and unquoted values',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -179,7 +179,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>{{foo}}</h1><p>true</p>')
         );
@@ -191,7 +191,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with single-quoted keys and single-quoted values wrapping internal escaped single-quotes',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -214,7 +214,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized(`<h1>{{foo}}</h1><p>true not,'true'</p>`)
         );
@@ -226,7 +226,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with single-quoted keys and double-quoted values wrapping internal single-quotes',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -249,7 +249,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized(`<h1>{{foo}}</h1><p>true not:'true'</p>`)
         );
@@ -261,7 +261,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with double-unquoted keys and unquoted values',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -283,7 +283,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>{{foo}}</h1><p>true</p>')
         );
@@ -295,7 +295,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with double-quoted keys and single-quoted values wrapping internal double-quotes',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -318,7 +318,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>{{foo}}</h1><p>true not{"true"</p>')
         );
@@ -330,7 +330,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with double-quoted keys and double-quoted values wrapping internal escaped double-quotes',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -353,7 +353,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>{{foo}}</h1><p>true not}"true"</p>')
         );
@@ -365,7 +365,7 @@ tap.test(
 
 tap.test(
   'parameter hunter parses parameters with combination of quoting schemes for keys and values',
-  function(test) {
+  function (test) {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
 
@@ -388,7 +388,7 @@ tap.test(
       //act
       parameter_hunter.find_parameters(testPattern, pl).then(() => {
         //assert
-        test.equals(
+        test.equal(
           util.sanitized(testPattern.extendedTemplate),
           util.sanitized('<h1>false</h1><p>true</p>')
         );
@@ -421,13 +421,13 @@ tap.test(
 //     //act
 //     parameter_hunter.find_parameters(testPattern, pl).then(() => {
 //       //assert
-//       test.equals(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>Hello ) World</p>'));
+//       test.equal(util.sanitized(testPattern.extendedTemplate), util.sanitized('<h1></h1><p>Hello ) World</p>'));
 //       test.end();
 //     });
 //   });
 // });
 
-tap.test('parameter hunter skips malformed parameters', function(test) {
+tap.test('parameter hunter skips malformed parameters', function (test) {
   const pl = util.fakePatternLab(testPatternsPath);
 
   var commentPath = path.join('test', 'comment.mustache');
@@ -452,7 +452,7 @@ tap.test('parameter hunter skips malformed parameters', function(test) {
       console.log(
         '\nPattern Lab should catch JSON.parse() errors and output useful debugging information...'
       );
-      test.equals(
+      test.equal(
         util.sanitized(testPattern.extendedTemplate),
         util.sanitized('<h1>{{foo}}</h1><p>{{description}}</p>')
       );

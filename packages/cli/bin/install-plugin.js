@@ -6,7 +6,7 @@ const { checkAndInstallPackage, wrapAsync } = require('./utils');
 const { resolveFileInPackage } = require('@pattern-lab/core/src/lib/resolver');
 
 const installPlugin = (plugin, config) =>
-  wrapAsync(function*() {
+  wrapAsync(function* () {
     const name = plugin.name || plugin;
     yield checkAndInstallPackage(name);
     // Put the installed plugin in the patternlab-config.json

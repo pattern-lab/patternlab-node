@@ -55,7 +55,7 @@ const Pattern = function(
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // TODO: Remove if block when dropping ordering by prefix and keep else code
-  // (When we dorp the info about the old ordering is deprecated)
+  // (When we drop the info about the old ordering is deprecated)
   if (
     (prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(0, info)) ||
       prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(1, info)) ||

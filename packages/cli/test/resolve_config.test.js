@@ -2,8 +2,8 @@ const tap = require('tap');
 const wrapAsync = require('../bin/utils').wrapAsync;
 const resolveConfig = require('../bin/resolve-config');
 
-tap.test('resolveConfig ->', t =>
-  wrapAsync(function*() {
+tap.test('resolveConfig ->', (t) =>
+  wrapAsync(function* () {
     const config = yield resolveConfig(
       './test/fixtures/patternlab-config.json'
     );

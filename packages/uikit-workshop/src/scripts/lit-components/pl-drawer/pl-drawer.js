@@ -138,7 +138,7 @@ class Drawer extends LitElement {
                   title="Menu"
                   size="small"
                   icon-only="true"
-                  @click="${_ => store.dispatch(updateDrawerState(false))}"
+                  @click="${(_) => store.dispatch(updateDrawerState(false))}"
                 >
                   <pl-icon slot="after" name="close"></pl-icon>
                 </pl-button>
