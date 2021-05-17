@@ -80,11 +80,11 @@ async function findTab(patternlab, pattern) {
         });
       }
     } catch (err) {
-      console.log(
+      console.error(
         'plugin-tab: There was an error parsing sibling JSON for ' +
           pattern.relPath
       );
-      console.log(err);
+      console.error(err);
     }
   }
 }

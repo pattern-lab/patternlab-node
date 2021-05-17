@@ -84,8 +84,8 @@ module.exports = function (patternlab, obj, key) {
   try {
     dataObj = JSON.parse(dataObjAsString);
   } catch (err) {
-    logger.warning(`There was an error parsing JSON for ${key}`);
-    logger.warning(err);
+    logger.error(`There was an error parsing JSON for ${key}`);
+    logger.error(err);
   }
 
   return dataObj;
