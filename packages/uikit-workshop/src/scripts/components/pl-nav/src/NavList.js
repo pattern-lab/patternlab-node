@@ -8,6 +8,8 @@ export const NavList = (props) => {
   const { children, category, categoryName, elem } = props;
   const reorderedChildren = [];
 
+  const random = Math.random().toString().substr(2);
+
   const nonViewAllItems = elem.noViewAll
     ? children.filter((item) => !item.isDocPattern)
     : children.filter(
@@ -33,7 +35,7 @@ export const NavList = (props) => {
 
             {nonViewAllItems.length >= 1 && (
               <NavToggle
-                aria-controls={category}
+                aria-controls={`${category}-${random}`}
                 onClick={elem.toggleSpecialNavPanel}
               >
                 Expand / Collapse {category} Panel
@@ -42,7 +44,10 @@ export const NavList = (props) => {
           </div>
         ))
       ) : (
-        <NavButton aria-controls={category} onClick={elem.toggleNavPanel}>
+        <NavButton
+          aria-controls={`${category}-${random}`}
+          onClick={elem.toggleNavPanel}
+        >
           {categoryName}
         </NavButton>
       )}
@@ -50,7 +55,7 @@ export const NavList = (props) => {
       {((viewAllItems.length && nonViewAllItems.length) ||
         viewAllItems.length === 0) && (
         <ol
-          id={category}
+          id={`${category}-${random}`}
           className={`pl-c-nav__subsublist pl-c-nav__subsublist--dropdown pl-js-acc-panel`}
         >
           {nonViewAllItems.map((patternSubgroupItem) => (

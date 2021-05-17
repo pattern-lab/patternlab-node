@@ -414,6 +414,7 @@ class IFrame extends BaseLitComponent {
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
             src=${ifDefined(url === '' ? undefined : url)}
             srcdoc=${ifDefined(url === '' ? this.iframe404Fallback : undefined)}
+            title="Pattern details"
           ></iframe>
 
           <div class="pl-c-viewport__resizer pl-js-resize-container">

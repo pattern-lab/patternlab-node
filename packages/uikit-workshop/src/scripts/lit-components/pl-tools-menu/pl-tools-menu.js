@@ -128,6 +128,7 @@ class ToolsMenu extends BaseLitComponent {
           icon-only
           @click="${this.handleClick}"
           class="pl-c-tools__toggle"
+          title="Settings"
         >
           <pl-icon name="settings" slot="after"></pl-icon>
         </pl-button>
