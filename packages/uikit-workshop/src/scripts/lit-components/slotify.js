@@ -1,4 +1,4 @@
-export const Slotify = Base =>
+export const Slotify = (Base) =>
   class extends Base {
     templateMap = new Map();
 
@@ -15,7 +15,7 @@ export const Slotify = Base =>
     // Save a reference to the pseudoSlot content before lit-element renders
     saveSlots() {
       const childNodes = [];
-      Array.from(this.childNodes).forEach(child => {
+      Array.from(this.childNodes).forEach((child) => {
         const slot = this.assignSlotToContent(child);
 
         if (!child.textContent || child.textContent.trim().length > 0) {
@@ -29,12 +29,12 @@ export const Slotify = Base =>
 
       const shouldSlotChildren =
         childNodes.length > 1 ||
-        childNodes.some(child => !this.isEmptyTextNode(child));
+        childNodes.some((child) => !this.isEmptyTextNode(child));
 
       if (shouldSlotChildren) {
         const fragment = document.createDocumentFragment();
 
-        childNodes.forEach(child => {
+        childNodes.forEach((child) => {
           fragment.appendChild(child);
         });
 

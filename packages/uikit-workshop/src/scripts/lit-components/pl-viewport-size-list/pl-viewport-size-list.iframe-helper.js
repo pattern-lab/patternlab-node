@@ -15,10 +15,10 @@ function sendPatternLabKeyEvent(e, name) {
   }
 }
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', (e) => {
   sendPatternLabKeyEvent(e, 'iframeKeyDownEvent');
 });
 
-document.addEventListener('keyup', e => {
+document.addEventListener('keyup', (e) => {
   sendPatternLabKeyEvent(e, 'iframeKeyUpEvent');
 });

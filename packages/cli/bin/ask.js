@@ -12,8 +12,8 @@ const ask = inquirer.prompt;
  * @param {object} options - Options passed in from CLI
  * @param {boolean} options.force - Flag whether to force install in existing project directory. May overwrite stuff.
  */
-const init = options =>
-  wrapsAsync(function*() {
+const init = (options) =>
+  wrapsAsync(function* () {
     /**
      * @property {string} project_root="./" - Path to the project root directory
      * @property {string|Symbol} edition - The name of the edition npm package or a Symbol for no install

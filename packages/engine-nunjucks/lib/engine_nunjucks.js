@@ -59,7 +59,7 @@ const engine_nunjucks = {
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and return it.
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     try {
       let partial = partialString.match(this.findPartialKeyRE)[1];
       partial = partial.replace(/["']/g, '');
@@ -72,7 +72,7 @@ const engine_nunjucks = {
   },
 
   // keep track of partials and their paths so we can replace the name with the path
-  registerPartial: function(pattern) {
+  registerPartial: function (pattern) {
     // only register each partial once. Otherwise we'll eat up a ton of memory.
     if (partialRegistry.indexOf(pattern.patternPartial) === -1) {
       partialRegistry[pattern.patternPartial] = pattern.relPath.replace(
@@ -83,22 +83,22 @@ const engine_nunjucks = {
   },
 
   // still requires the mustache syntax because of the way PL handles lists
-  findListItems: function(pattern) {
+  findListItems: function (pattern) {
     const matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // handled by nunjucks. This is here to keep PL from erroring
-  findPartialsWithStyleModifiers: function() {
+  findPartialsWithStyleModifiers: function () {
     return null;
   },
 
   // handled by nunjucks. This is here to keep PL from erroring
-  findPartialsWithPatternParameters: function() {
+  findPartialsWithPatternParameters: function () {
     return null;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -120,7 +120,7 @@ const engine_nunjucks = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.njk');
     this.spawnFile(config, '_foot.njk');
   },
@@ -131,12 +131,12 @@ const engine_nunjucks = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     // Create Pattern Loader
     // Since Pattern Lab includes are not path based we need a custom loader for Nunjucks.
     function PatternLoader() {}
 
-    PatternLoader.prototype.getSource = function(name) {
+    PatternLoader.prototype.getSource = function (name) {
       const fullPath = path.resolve(
         config.paths.source.patterns,
         partialRegistry[name]
@@ -169,7 +169,7 @@ const engine_nunjucks = {
     }
 
     if (extensions) {
-      extensions.forEach(extensionPath => {
+      extensions.forEach((extensionPath) => {
         // Load any user Defined configurations
         const nunjucksConfigPath = path.join(process.cwd(), extensionPath);
 

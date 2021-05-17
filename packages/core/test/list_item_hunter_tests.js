@@ -16,7 +16,7 @@ engineLoader.loadAllEngines(config);
 
 tap.test(
   'process_list_item_partials converts partial to simpler format',
-  test => {
+  (test) => {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
     const listPath = path.join('test', 'list.mustache');
@@ -28,7 +28,7 @@ tap.test(
     //act
     list_item_hunter.process_list_item_partials(testPattern, pl).then(() => {
       //assert
-      test.equals(
+      test.equal(
         util.sanitized(testPattern.extendedTemplate),
         util.sanitized(`
       {{#listItems-three}}
@@ -43,7 +43,7 @@ tap.test(
 
 tap.test(
   'process_list_item_partials converts partial with includes to simpler format',
-  test => {
+  (test) => {
     //arrange
     const pl = util.fakePatternLab(testPatternsPath);
     const listPath = path.join('test', 'listWithPartial.mustache');
@@ -55,7 +55,7 @@ tap.test(
     //act
     list_item_hunter.process_list_item_partials(testPattern, pl).then(() => {
       //assert
-      test.equals(
+      test.equal(
         util.sanitized(testPattern.extendedTemplate),
         util.sanitized(`
       {{#listItems-two}}

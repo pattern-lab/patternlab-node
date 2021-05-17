@@ -11,8 +11,8 @@ const writeJsonAsync = require('../utils').writeJsonAsync;
  * @desc Handles async install and activation of starterkits/plugins
  * @param {object} options
  */
-const install = options =>
-  wrapAsync(function*() {
+const install = (options) =>
+  wrapAsync(function* () {
     const config = yield resolveConfig(options.parent.config);
 
     const spinner = ora(
@@ -21,8 +21,8 @@ const install = options =>
 
     if (options.starterkits && Array.isArray(options.starterkits)) {
       const starterkits = yield Promise.all(
-        options.starterkits.map(starterkit =>
-          wrapAsync(function*() {
+        options.starterkits.map((starterkit) =>
+          wrapAsync(function* () {
             spinner.text = `⊙ patternlab → Installing starterkit: ${starterkit}`;
             return yield installStarterkit(
               {
@@ -42,8 +42,8 @@ const install = options =>
     }
     if (options.plugins && Array.isArray(options.plugins)) {
       const plugins = yield Promise.all(
-        options.plugins.map(plugin =>
-          wrapAsync(function*() {
+        options.plugins.map((plugin) =>
+          wrapAsync(function* () {
             return yield installPlugin(
               {
                 name: plugin,

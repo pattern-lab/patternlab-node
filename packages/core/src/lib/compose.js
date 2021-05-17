@@ -168,10 +168,10 @@ module.exports = async function (pattern, patternlab) {
               'config.paths.source.data global data'
             );
           } catch (err) {
-            logger.info(
+            logger.error(
               'There was an error parsing JSON for ' + pattern.relPath
             );
-            logger.info(err);
+            logger.error(err);
           }
           allFooterData = _.merge(allFooterData, pattern.jsonFileData);
           allFooterData.cacheBuster = patternlab.cacheBuster;
