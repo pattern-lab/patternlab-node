@@ -10,8 +10,8 @@ const preview = proxyquire('../bin/serve', {
   '@pattern-lab/core': patternLabMock,
 });
 
-tap.test('Serve ->', t =>
-  wrapAsync(function*() {
+tap.test('Serve ->', (t) =>
+  wrapAsync(function* () {
     const config = yield resolveConfig(
       './test/fixtures/patternlab-config.json'
     );

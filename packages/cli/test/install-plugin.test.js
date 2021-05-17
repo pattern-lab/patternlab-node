@@ -14,8 +14,8 @@ const minimalConfig = {
   },
 };
 
-tap.test('Install plugin-tab ->', t =>
-  wrapAsync(function*() {
+tap.test('Install plugin-tab ->', (t) =>
+  wrapAsync(function* () {
     yield installPlugin('@pattern-lab/plugin-tab', minimalConfig);
     const pkg = yield moduleExist('@pattern-lab/plugin-tab');
     t.ok(pkg, 'module should exist after install');

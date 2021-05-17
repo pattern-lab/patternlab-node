@@ -10,8 +10,8 @@ const sourceDir = 'source';
 const publicDir = 'public';
 const exportDir = 'patterns_export';
 
-tap.test('Scaffold ->', t =>
-  wrapAsync(function*() {
+tap.test('Scaffold ->', (t) =>
+  wrapAsync(function* () {
     yield scaffold(projectDir, sourceDir, publicDir, exportDir);
     t.ok(exists.sync(path.resolve(projectDir)), 'should create project dir');
     t.ok(

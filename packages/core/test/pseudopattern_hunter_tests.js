@@ -42,7 +42,7 @@ function stubPatternlab() {
   return pl;
 }
 
-tap.test('pseudpattern found and added as a pattern', function(test) {
+tap.test('pseudpattern found and added as a pattern', function (test) {
   //arrange
   var pl = stubPatternlab();
 
@@ -53,20 +53,20 @@ tap.test('pseudpattern found and added as a pattern', function(test) {
   var patternCountBefore = pl.patterns.length;
   return pph.find_pseudopatterns(atomPattern, pl).then(() => {
     //assert
-    test.equals(patternCountBefore + 1, pl.patterns.length);
-    test.equals(pl.patterns[1].patternPartial, 'test-styled-atom-alt');
-    test.equals(
+    test.equal(patternCountBefore + 1, pl.patterns.length);
+    test.equal(pl.patterns[1].patternPartial, 'test-styled-atom-alt');
+    test.equal(
       JSON.stringify(pl.patterns[1].jsonFileData),
       JSON.stringify({ message: 'alternateMessage' })
     );
-    test.equals(
+    test.equal(
       pl.patterns[1].patternLink,
       'test-styled-atom-alt' + path.sep + 'test-styled-atom-alt.html'
     );
   });
 });
 
-tap.test('pseudpattern does not pollute base pattern data', function(test) {
+tap.test('pseudpattern does not pollute base pattern data', function (test) {
   //arrange
   var pl = stubPatternlab();
 
@@ -76,8 +76,8 @@ tap.test('pseudpattern does not pollute base pattern data', function(test) {
   var patternCountBefore = pl.patterns.length;
   return pph.find_pseudopatterns(atomPattern, pl).then(() => {
     //assert
-    test.equals(pl.patterns[0].patternPartial, 'test-styled-atom');
-    test.equals(
+    test.equal(pl.patterns[0].patternPartial, 'test-styled-atom');
+    test.equal(
       JSON.stringify(pl.patterns[0].jsonFileData),
       JSON.stringify({ message: 'baseMessage' })
     );
@@ -86,7 +86,7 @@ tap.test('pseudpattern does not pollute base pattern data', function(test) {
 
 tap.test(
   'pseudpattern variant includes stylePartials and parameteredPartials',
-  function(test) {
+  function (test) {
     //arrange
     var pl = stubPatternlab();
 
@@ -122,9 +122,9 @@ tap.test(
     //act
     return pph.find_pseudopatterns(pseudoPattern, pl).then(() => {
       //assert
-      test.equals(pl.patterns[2].patternPartial, 'test-pseudomodifier-test');
-      test.equals(pl.patterns[2].stylePartials, pseudoPattern.stylePartials);
-      test.equals(
+      test.equal(pl.patterns[2].patternPartial, 'test-pseudomodifier-test');
+      test.equal(pl.patterns[2].stylePartials, pseudoPattern.stylePartials);
+      test.equal(
         pl.patterns[2].parameteredPartials,
         pseudoPattern.parameteredPartials
       );
@@ -132,7 +132,7 @@ tap.test(
   }
 );
 
-tap.test('pseudo pattern variant data should merge arrays', function(test) {
+tap.test('pseudo pattern variant data should merge arrays', function (test) {
   const pl = stubPatternlab();
   pl.config.patternMergeVariantArrays = true;
 
@@ -141,8 +141,8 @@ tap.test('pseudo pattern variant data should merge arrays', function(test) {
   addPattern(pattern, pl);
 
   return pph.find_pseudopatterns(pattern, pl).then(() => {
-    test.equals(pl.patterns[1].patternPartial, 'test-variant-test-merge');
-    test.equals(
+    test.equal(pl.patterns[1].patternPartial, 'test-variant-test-merge');
+    test.equal(
       JSON.stringify(pl.patterns[1].jsonFileData),
       JSON.stringify({
         a: 2,
@@ -155,7 +155,7 @@ tap.test('pseudo pattern variant data should merge arrays', function(test) {
 
 tap.test(
   'pseudo pattern variant data should merge arrays if config "patternMergeVariantArrays" is not available as default behavior',
-  function(test) {
+  function (test) {
     const pl = stubPatternlab();
 
     const pattern = loadPattern('test/variant-test.mustache', pl);
@@ -163,8 +163,8 @@ tap.test(
     addPattern(pattern, pl);
 
     return pph.find_pseudopatterns(pattern, pl).then(() => {
-      test.equals(pl.patterns[1].patternPartial, 'test-variant-test-merge');
-      test.equals(
+      test.equal(pl.patterns[1].patternPartial, 'test-variant-test-merge');
+      test.equal(
         JSON.stringify(pl.patterns[1].jsonFileData),
         JSON.stringify({
           a: 2,
@@ -176,7 +176,7 @@ tap.test(
   }
 );
 
-tap.test('pseudo pattern variant data should override arrays', function(test) {
+tap.test('pseudo pattern variant data should override arrays', function (test) {
   const pl = stubPatternlab();
   pl.config.patternMergeVariantArrays = false;
 
@@ -185,8 +185,8 @@ tap.test('pseudo pattern variant data should override arrays', function(test) {
   addPattern(pattern, pl);
 
   return pph.find_pseudopatterns(pattern, pl).then(() => {
-    test.equals(pl.patterns[1].patternPartial, 'test-variant-test-merge');
-    test.equals(
+    test.equal(pl.patterns[1].patternPartial, 'test-variant-test-merge');
+    test.equal(
       JSON.stringify(pl.patterns[1].jsonFileData),
       JSON.stringify({
         a: 2,

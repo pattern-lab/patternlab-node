@@ -22,7 +22,7 @@ const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
 const installEdition = (edition, config, projectDir) => {
   const pkg = require(path.resolve(projectDir, 'package.json'));
 
-  return wrapAsync(function*() {
+  return wrapAsync(function* () {
     /**
      * 1. Trigger edition install
      * 2. Copy over the mandatory edition files to sourceDir

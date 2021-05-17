@@ -54,7 +54,7 @@
 //   goSmall();
 // });
 
-Mousetrap.bind('ctrl+shift+s', function(e) {
+Mousetrap.bind('ctrl+shift+s', function (e) {
   goSmall();
   return false;
 });
@@ -81,7 +81,7 @@ Mousetrap.bind('ctrl+shift+s', function(e) {
 //   goMedium();
 // });
 
-Mousetrap.bind('ctrl+shift+m', function(e) {
+Mousetrap.bind('ctrl+shift+m', function (e) {
   goMedium();
   return false;
 });
@@ -106,7 +106,7 @@ Mousetrap.bind('ctrl+shift+m', function(e) {
 //   goLarge();
 // });
 
-Mousetrap.bind('ctrl+shift+l', function(e) {
+Mousetrap.bind('ctrl+shift+l', function (e) {
   goLarge();
   return false;
 });
@@ -122,7 +122,7 @@ Mousetrap.bind('ctrl+shift+l', function(e) {
 // });
 
 //Click Random Size Button
-$('#pl-size-random').on('click', function(e) {
+$('#pl-size-random').on('click', function (e) {
   e.preventDefault();
   killDisco();
   killHay();
@@ -131,7 +131,7 @@ $('#pl-size-random').on('click', function(e) {
 });
 
 //Click for Disco Mode, which resizes the viewport randomly
-$('#pl-size-disco').on('click', function(e) {
+$('#pl-size-disco').on('click', function (e) {
   e.preventDefault();
   killHay();
   fullMode = false;
@@ -159,7 +159,7 @@ function startDisco() {
   discoID = setInterval(disco, 800);
 }
 
-Mousetrap.bind('ctrl+shift+d', function(e) {
+Mousetrap.bind('ctrl+shift+d', function (e) {
   if (!discoMode) {
     startDisco();
   } else {
@@ -169,7 +169,7 @@ Mousetrap.bind('ctrl+shift+d', function(e) {
 });
 
 //Stephen Hay Mode - "Start with the small screen first, then expand until it looks like shit. Time for a breakpoint!"
-$('#pl-size-hay').on('click', function(e) {
+$('#pl-size-hay').on('click', function (e) {
   e.preventDefault();
   killDisco();
   if (hayMode) {
@@ -219,7 +219,7 @@ function killHay() {
 // });
 
 //Pixel input
-$sizePx.on('keydown', function(e) {
+$sizePx.on('keydown', function (e) {
   let val = Math.floor($(this).val());
 
   if (e.keyCode === 38) {
@@ -238,13 +238,13 @@ $sizePx.on('keydown', function(e) {
   }
 });
 
-$sizePx.on('keyup', function() {
+$sizePx.on('keyup', function () {
   const val = Math.floor($(this).val());
   updateSizeReading(val, 'px', 'updateEmInput');
 });
 
 //Em input
-$sizeEms.on('keydown', function(e) {
+$sizeEms.on('keydown', function (e) {
   let val = parseFloat($(this).val());
 
   if (e.keyCode === 38) {
@@ -262,13 +262,13 @@ $sizeEms.on('keydown', function(e) {
   }
 });
 
-$sizeEms.on('keyup', function() {
+$sizeEms.on('keyup', function () {
   const val = parseFloat($(this).val());
   updateSizeReading(val, 'em', 'updatePxInput');
 });
 
 // set 0 to 320px as a default
-Mousetrap.bind('ctrl+shift+0', function(e) {
+Mousetrap.bind('ctrl+shift+0', function (e) {
   e.preventDefault();
   sizeiframe(320, true);
   return false;

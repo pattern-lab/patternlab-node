@@ -3,8 +3,8 @@ const buildPatterns = require('../build');
 const resolveConfig = require('../resolve-config');
 const { error, info, wrapAsync } = require('../utils');
 
-const build = options =>
-  wrapAsync(function*() {
+const build = (options) =>
+  wrapAsync(function* () {
     try {
       const config = yield resolveConfig(options.parent.config);
       yield buildPatterns(config, options);

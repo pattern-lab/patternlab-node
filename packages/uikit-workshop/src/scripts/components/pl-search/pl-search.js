@@ -60,7 +60,7 @@ class Search extends BaseComponent {
   }
 
   connected() {
-    Mousetrap.bind('command+shift+f', function(e) {
+    Mousetrap.bind('command+shift+f', function (e) {
       e.preventDefault();
       this.toggleSearch();
     });
@@ -83,7 +83,7 @@ class Search extends BaseComponent {
     clearButtonText: props.string,
   };
 
-  onInput = e => {
+  onInput = (e) => {
     const value = e.target.value;
 
     this.setState({
@@ -130,7 +130,7 @@ class Search extends BaseComponent {
     }
   }
 
-  getSuggestionValue = suggestion => suggestion.label;
+  getSuggestionValue = (suggestion) => suggestion.label;
 
   renderSuggestion(item, { query, isHighlighted }) {
     return <span>{item.highlightedLabel}</span>;
@@ -156,9 +156,9 @@ class Search extends BaseComponent {
     const fuse = new Fuse(this.items, fuseOptions);
     const results = fuse.search(value);
 
-    const highlighter = function(item) {
+    const highlighter = function (item) {
       const resultItem = item;
-      resultItem.matches.forEach(matchItem => {
+      resultItem.matches.forEach((matchItem) => {
         const text = resultItem.item[matchItem.key];
         const result = [];
         const matches = [].concat(matchItem.indices);
@@ -182,14 +182,14 @@ class Search extends BaseComponent {
         );
 
         if (resultItem.children && resultItem.children.length > 0) {
-          resultItem.children.forEach(child => {
+          resultItem.children.forEach((child) => {
             highlighter(child);
           });
         }
       });
     };
 
-    results.forEach(resultItem => {
+    results.forEach((resultItem) => {
       highlighter(resultItem);
     });
 

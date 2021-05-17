@@ -7,8 +7,8 @@ var liveServer = require('..').start({
   cors: true,
 });
 
-describe('cors tests', function() {
-  it('should respond with appropriate header', function(done) {
+describe('cors tests', function () {
+  it('should respond with appropriate header', function (done) {
     request(liveServer)
       .get('/index.html')
       .set('Origin', 'http://example.com')
@@ -17,7 +17,7 @@ describe('cors tests', function() {
       .expect(/Hello world/i)
       .expect(200, done);
   });
-  it('should support preflighted requests', function(done) {
+  it('should support preflighted requests', function (done) {
     request(liveServer)
       .options('/index.html')
       .set('Origin', 'http://example.com')
@@ -28,7 +28,7 @@ describe('cors tests', function() {
       .expect('Access-Control-Allow-Headers', 'X-PINGOTHER')
       .expect(204, done);
   });
-  it('should support requests with credentials', function(done) {
+  it('should support requests with credentials', function (done) {
     request(liveServer)
       .options('/index.html')
       .set('Origin', 'http://example.com')

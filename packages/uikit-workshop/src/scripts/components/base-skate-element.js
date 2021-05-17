@@ -2,7 +2,7 @@ import { dashCase, empty, keys } from 'skatejs/dist/esnext/util';
 
 const _extends =
   Object.assign ||
-  function(target) {
+  function (target) {
     for (let i = 1; i < arguments.length; i++) {
       const source = arguments[i];
       for (const key in source) {
@@ -54,7 +54,7 @@ function defineProps(constructor) {
     return;
   }
   const { props } = constructor;
-  keys(props).forEach(name => {
+  keys(props).forEach((name) => {
     let func = props[name] || props.any;
     if (defaultTypesMap.has(func)) {
       func = defaultTypesMap.get(func);
@@ -78,7 +78,7 @@ export function prop(definition) {
   const propertyDefinition = definition || {};
 
   // Allows decorators, or imperative definitions.
-  const func = function({ constructor }, name) {
+  const func = function ({ constructor }, name) {
     const normalized = normalizePropertyDefinition(name, propertyDefinition);
 
     // Ensure that we can cache properties. We have to do this so the _props object literal doesn't modify parent
@@ -128,7 +128,7 @@ export function prop(definition) {
 
   // Allows easy extension of pre-defined props { ...prop(), ...{} }.
   Object.keys(propertyDefinition).forEach(
-    key => (func[key] = propertyDefinition[key])
+    (key) => (func[key] = propertyDefinition[key])
   );
 
   return func;
@@ -172,7 +172,7 @@ export class SkateElement extends HTMLElement {
 
   set props(props) {
     const ctorProps = this.constructor.props;
-    keys(props).forEach(k => k in ctorProps && (this[k] = props[k]));
+    keys(props).forEach((k) => k in ctorProps && (this[k] = props[k]));
   }
 
   get state() {
@@ -255,7 +255,7 @@ SkateElement._props = {};
 
 const { parse, stringify } = JSON;
 const attribute = Object.freeze({ source: true });
-const zeroOrNumber = val => (empty(val) ? 0 : Number(val));
+const zeroOrNumber = (val) => (empty(val) ? 0 : Number(val));
 
 const any = prop({
   attribute,
@@ -263,7 +263,7 @@ const any = prop({
 
 const array = prop({
   attribute,
-  coerce: val => (Array.isArray(val) ? val : empty(val) ? null : [val]),
+  coerce: (val) => (Array.isArray(val) ? val : empty(val) ? null : [val]),
   default: Object.freeze([]),
   deserialize: parse,
   serialize: stringify,
@@ -273,8 +273,8 @@ const boolean = prop({
   attribute,
   coerce: Boolean,
   default: false,
-  deserialize: val => !empty(val),
-  serialize: val => (val ? '' : null),
+  deserialize: (val) => !empty(val),
+  serialize: (val) => (val ? '' : null),
 });
 
 const number = prop({
@@ -282,7 +282,7 @@ const number = prop({
   default: 0,
   coerce: zeroOrNumber,
   deserialize: zeroOrNumber,
-  serialize: val => (empty(val) ? null : String(Number(val))),
+  serialize: (val) => (empty(val) ? null : String(Number(val))),
 });
 
 const object = prop({
@@ -296,7 +296,7 @@ const string = prop({
   attribute,
   default: '',
   coerce: String,
-  serialize: val => (empty(val) ? null : String(val)),
+  serialize: (val) => (empty(val) ? null : String(val)),
 });
 
 defaultTypesMap.set(Array, array);

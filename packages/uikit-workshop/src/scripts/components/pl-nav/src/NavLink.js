@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { PatternState } from './PatternState';
 
-export const NavLink = props => {
+export const NavLink = (props) => {
   return (
     <a
       href={`patterns/${props.item.patternPath}`}
@@ -12,7 +12,7 @@ export const NavLink = props => {
                 : 'pl-c-nav__link--subsublink'
             }
           `}
-      onClick={e => props.elem.handleClick(e, props.item.patternPartial)}
+      onClick={(e) => props.elem.handleClick(e, props.item.patternPartial)}
       data-patternpartial={props.item.patternPartial}
     >
       {props.item.isDocPattern && props.category
