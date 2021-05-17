@@ -7,7 +7,7 @@ const listItems = require('./files/_data/listitems.json');
 const buildlistItems = rewire('../src/lib/buildListItems');
 
 const _Mock = {
-  shuffle: function(list) {
+  shuffle: function (list) {
     return list;
   },
 };
@@ -19,7 +19,7 @@ buildlistItems.__set__({
 
 tap.test(
   'buildlistItems transforms container of listItems with one value',
-  test => {
+  (test) => {
     // do this to avoid the shuffling for now
     const container = Object.assign({}, { listitems: { '1': listItems['1'] } });
     buildlistItems(container);
@@ -38,7 +38,7 @@ tap.test(
 
 tap.test(
   'buildlistItems transforms container of listItems with three values',
-  test => {
+  (test) => {
     // do this to avoid the shuffling for now
     const container = { listitems: listItems };
     buildlistItems(container);

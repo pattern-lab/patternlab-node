@@ -31,7 +31,7 @@ function exportPatterns(config) {
     );
   });
 
-  archive.on('error', function(err) {
+  archive.on('error', function (err) {
     throw new TypeError(
       `export: An error occured during zipping the patterns: ${err}`
     );

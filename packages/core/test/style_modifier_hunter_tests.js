@@ -6,7 +6,7 @@ var smh = require('../src/lib/style_modifier_hunter');
 
 tap.test(
   'uses the partial stylemodifer to modify the patterns extendedTemplate',
-  function(test) {
+  function (test) {
     //arrange
     var pl = {};
     pl.partials = {};
@@ -27,12 +27,12 @@ tap.test(
     );
 
     //assert
-    test.equals(pattern.extendedTemplate, '<div class="foo bar"></div>');
+    test.equal(pattern.extendedTemplate, '<div class="foo bar"></div>');
     test.end();
   }
 );
 
-tap.test('replaces style modifiers with spaces in the syntax', function(test) {
+tap.test('replaces style modifiers with spaces in the syntax', function (test) {
   //arrange
   var pl = {};
   pl.partials = {};
@@ -53,11 +53,11 @@ tap.test('replaces style modifiers with spaces in the syntax', function(test) {
   );
 
   //assert
-  test.equals(pattern.extendedTemplate, '<div class="foo bar"></div>');
+  test.equal(pattern.extendedTemplate, '<div class="foo bar"></div>');
   test.end();
 });
 
-tap.test('replaces multiple style modifiers', function(test) {
+tap.test('replaces multiple style modifiers', function (test) {
   //arrange
   var pl = {};
   pl.partials = {};
@@ -78,13 +78,13 @@ tap.test('replaces multiple style modifiers', function(test) {
   );
 
   //assert
-  test.equals(pattern.extendedTemplate, '<div class="foo bar baz dum"></div>');
+  test.equal(pattern.extendedTemplate, '<div class="foo bar baz dum"></div>');
   test.end();
 });
 
 tap.test(
   'does not alter pattern extendedTemplate if styleModifier not found in partial',
-  function(test) {
+  function (test) {
     //arrange
     var pl = {};
     pl.partials = {};
@@ -101,7 +101,7 @@ tap.test(
     style_modifier_hunter.consume_style_modifier(pattern, '{{> partial}}', pl);
 
     //assert
-    test.equals(
+    test.equal(
       pattern.extendedTemplate,
       '<div class="foo {{styleModifier}}"></div>'
     );

@@ -12,7 +12,7 @@ const wrapAsync = require('./utils').wrapAsync;
  * @return {object|boolean} Returns the config object or false otherwise.
  */
 function resolveConfig(configPath) {
-  return wrapAsync(function*() {
+  return wrapAsync(function* () {
     if (typeof configPath !== 'string') {
       error(
         'resolveConfig: If configPath is set, it is expected to be of type string.'

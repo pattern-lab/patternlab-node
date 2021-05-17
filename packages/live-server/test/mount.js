@@ -10,15 +10,15 @@ var liveServer = require('..').start({
   ],
 });
 
-describe('mount tests', function() {
-  it('should respond with sub.html', function(done) {
+describe('mount tests', function () {
+  it('should respond with sub.html', function (done) {
     request(liveServer)
       .get('/mounted/sub.html')
       .expect('Content-Type', 'text/html; charset=UTF-8')
       .expect(/Subdirectory/i)
       .expect(200, done);
   });
-  it('should respond with style.css', function(done) {
+  it('should respond with style.css', function (done) {
     request(liveServer)
       .get('/style')
       .expect('Content-Type', 'text/css; charset=UTF-8')
