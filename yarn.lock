@@ -3651,7 +3651,7 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bcryptjs@^2.3.0:
+bcryptjs@^2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/bcryptjs/-/bcryptjs-2.4.3.tgz#9ab5627b93e60621ff7cdac5da9733027df1d0cb"
   integrity sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms=
@@ -8942,15 +8942,20 @@ htmlspecialchars@^1.0.5:
   resolved "https://registry.yarnpkg.com/htmlspecialchars/-/htmlspecialchars-1.0.5.tgz#f430f8c1d5f3709be7bebaea696dc04824306a30"
   integrity sha1-9DD4wdXzcJvnvrrqaW3ASCQwajA=
 
-http-auth@3.2.x:
-  version "3.2.4"
-  resolved "https://registry.yarnpkg.com/http-auth/-/http-auth-3.2.4.tgz#285ae2024dc734a729a087508b630fc8f595f711"
-  integrity sha512-jeWAPP0UbI3dM6knyYbYbMvBoxwXGQp0eu70GGV9Ezo/pHmpv1dFLwM0CtaG+GFqUBkGZM/V8Jp/0gXFYwIOUQ==
+http-auth-connect@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/http-auth-connect/-/http-auth-connect-1.0.4.tgz#c5826ac95a5e6f1b5a001bf2274046296de04724"
+  integrity sha512-W/LE15e3w3PrlgUr0fGG6RonTPV0OuEptdXQGhDfyM3tcvoV9KQXqV0D3+JLkBNXo5DskSNLGfuHijSgLCgbFA==
+
+http-auth@4.1.x:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/http-auth/-/http-auth-4.1.5.tgz#29f9d6a0d2c89750ddc956715a4227bd25ffe4c7"
+  integrity sha512-FVzE7P4d9iIrkMPs0Nb8once1qjo1ki/C/pKLW9+ehdQQdbdHYGc+LpVzss5tRcKPkNrvnPmKZ8bygeYX9fdew==
   dependencies:
     apache-crypt "^1.1.2"
     apache-md5 "^1.0.6"
-    bcryptjs "^2.3.0"
-    uuid "^3.0.0"
+    bcryptjs "^2.4.3"
+    uuid "^3.4.0"
 
 http-cache-semantics@3.8.1:
   version "3.8.1"
@@ -17882,7 +17887,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.0, uuid@^3.3.2:
+uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
