@@ -1,4 +1,4 @@
-export const saveState = state => {
+export const saveState = (state) => {
   const json = localStorage.getItem('patternlab') || '{}';
   const stringifiedNewState = JSON.stringify(state);
 

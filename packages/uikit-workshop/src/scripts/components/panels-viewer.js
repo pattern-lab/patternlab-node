@@ -106,8 +106,8 @@ export const panelsViewer = {
           const e = new XMLHttpRequest();
           // @todo: look deeper into how we can refactor this particular code block
           /* eslint-disable */
-          e.onload = (function(i, panels, patternData, iframeRequest) {
-            return function() {
+          e.onload = (function (i, panels, patternData, iframeRequest) {
+            return function () {
               // since non-existant files (such as .scss from plugin-tab) still return a 200, we need to instead inspect the contents
               // we look for responseText that starts with the doctype
               let rText = this.responseText;

@@ -15,7 +15,7 @@ const mkdirsAsync = require('./utils').mkdirsAsync;
  * @return {void}
  */
 const scaffold = (projectDir, sourceDir, publicDir, exportDir) =>
-  wrapAsync(function*() {
+  wrapAsync(function* () {
     const projectPath = path.join(process.cwd(), projectDir);
     if (!fs.existsSync(path.join(projectPath, 'package.json'))) {
       fs.ensureDirSync(projectPath);

@@ -31,8 +31,8 @@ const defaultConfig = {
   noViewAll: false,
 };
 
-module.exports = function(apiConfig) {
-  return new Promise(async resolve => {
+module.exports = function (apiConfig) {
+  return new Promise(async (resolve) => {
     let customConfig = defaultConfig;
     let configToSearchFor;
 

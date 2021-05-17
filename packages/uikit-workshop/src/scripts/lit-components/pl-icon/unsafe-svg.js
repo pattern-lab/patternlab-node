@@ -37,7 +37,7 @@ const previousValues = new WeakMap();
  * sanitized or escaped, as it may lead to cross-site-scripting
  * vulnerabilities.
  */
-export const unsafeSVG = directive(value => part => {
+export const unsafeSVG = directive((value) => (part) => {
   // if (!(part instanceof NodePart)) {
   //   throw new Error('unsafeSVG can only be used in text bindings');
   // }

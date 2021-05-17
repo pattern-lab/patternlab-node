@@ -109,9 +109,9 @@ class Header extends BaseLitComponent {
           ? html`
               <pl-logo
                 src-light="${window.config?.theme?.logo?.srcLight ||
-                  'styleguide/images/pattern-lab-logo--on-light.svg'}"
+                'styleguide/images/pattern-lab-logo--on-light.svg'}"
                 src-dark="${window.config?.theme?.logo?.srcDark ||
-                  'styleguide/images/pattern-lab-logo--on-dark.svg'}"
+                'styleguide/images/pattern-lab-logo--on-dark.svg'}"
                 url="${window.config?.theme?.logo?.url === '' ||
                 window.config?.theme?.logo?.url === 'none'
                   ? ''

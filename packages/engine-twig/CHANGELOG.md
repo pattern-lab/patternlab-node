@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+
+### Bug Fixes
+
+* **pseudopatterns:** use the template instead of the pseudo data file for template rendering [#1308](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/issues/1308) ([#1312](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/issues/1312)) ([7ecca69](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/commit/7ecca69bcfed4060d17390b76562e5f468b4a897))
+
+
+
+
+
 # [5.14.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.13.3...v5.14.0) (2021-01-12)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig
