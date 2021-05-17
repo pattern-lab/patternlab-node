@@ -222,7 +222,7 @@ class IFrame extends BaseLitComponent {
       // this.iframe.style.width = theSize + 'px'; // resize viewport to desired size
 
       // auto-remove transition classes if not the animate param isn't set to true
-      setTimeout(function() {
+      setTimeout(function () {
         if (animate === true) {
           self.iframeContainer.classList.remove('is-animating');
           self.iframe.classList.remove('is-animating');
@@ -255,7 +255,7 @@ class IFrame extends BaseLitComponent {
       this.origOrientation = window.orientation;
       window.addEventListener(
         'orientationchange',
-        function() {
+        function () {
           if (window.orientation !== this.origOrientation) {
             const newWidth = window.innerWidth;
             self.iframeContainer.style.width = newWidth;
@@ -468,7 +468,7 @@ class IFrame extends BaseLitComponent {
 
     document.body.addEventListener(
       'mouseup',
-      function() {
+      function () {
         self.iframeCover.removeEventListener(
           'mousemove',
           handleIframeCoverResize

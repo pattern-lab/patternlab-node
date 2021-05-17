@@ -15,14 +15,14 @@ engineLoader.loadAllEngines(config);
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
 var fsMock = {
-  outputFileSync: function(path, data, cb) {},
-  outputFile: function(path, data, cb) {},
+  outputFileSync: function (path, data, cb) {},
+  outputFile: function (path, data, cb) {},
 };
 
-var renderMock = function(template, data, partials) {
+var renderMock = function (template, data, partials) {
   return Promise.resolve('');
 };
-var buildFooterMock = function(patternlab, patternPartial) {
+var buildFooterMock = function (patternlab, patternPartial) {
   return Promise.resolve('');
 };
 
@@ -69,7 +69,7 @@ function createFakePatternLab(customProps) {
 
 tap.test(
   'isPatternExcluded - returns true when pattern filename starts with underscore',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = new Pattern('test/ignored-pattern.mustache');
@@ -79,14 +79,14 @@ tap.test(
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
-    test.equals(result, true);
+    test.equal(result, true);
     test.end();
   }
 );
 
 tap.test(
   'isPatternExcluded - returns true when pattern is defaultPattern',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = new Pattern('test/foo.mustache');
@@ -96,14 +96,14 @@ tap.test(
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
-    test.equals(result, true);
+    test.equal(result, true);
     test.end();
   }
 );
 
 tap.test(
   'isPatternExcluded - returns true when pattern within underscored directory - top level',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
@@ -127,14 +127,14 @@ tap.test(
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
-    test.equals(result, true);
+    test.equal(result, true);
     test.end();
   }
 );
 
 tap.test(
   'isPatternExcluded - returns true when pattern within underscored directory - subgroup level',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
@@ -153,14 +153,14 @@ tap.test(
     var result = ui.isPatternExcluded(pattern, patternlab, uikit);
 
     //assert
-    test.equals(result, true);
+    test.equal(result, true);
     test.end();
   }
 );
 
 tap.test(
   'isPatternExcluded - returns true when pattern state found withing uikit exclusions',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
@@ -178,12 +178,12 @@ tap.test(
     });
 
     //assert
-    test.equals(result, true);
+    test.equal(result, true);
     test.end();
   }
 );
 
-tap.test('groupPatterns - creates pattern groups correctly', function(test) {
+tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   //arrange
   var patternlab = createFakePatternLab({
     patterns: [],
@@ -207,27 +207,27 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   //act
   var result = ui.groupPatterns(patternlab, uikit);
 
-  test.equals(
+  test.equal(
     result.patternGroups.patternGroup1.patternSubgroup1.blue.patternPartial,
     'patternGroup1-blue'
   );
-  test.equals(
+  test.equal(
     result.patternGroups.patternGroup1.patternSubgroup1.red.patternPartial,
     'patternGroup1-red'
   );
-  test.equals(
+  test.equal(
     result.patternGroups.patternGroup1.patternSubgroup1.yellow.patternPartial,
     'patternGroup1-yellow'
   );
-  test.equals(
+  test.equal(
     result.patternGroups.patternGroup1.patternSubgroup2.black.patternPartial,
     'patternGroup1-black'
   );
-  test.equals(
+  test.equal(
     result.patternGroups.patternGroup1.patternSubgroup2.grey.patternPartial,
     'patternGroup1-grey'
   );
-  test.equals(
+  test.equal(
     result.patternGroups.patternGroup1.patternSubgroup2.white.patternPartial,
     'patternGroup1-white'
   );
@@ -241,17 +241,17 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   //"patternGroup1", "root" (because it's a top-level flat pattern) and at last "test"
 
   // Flat patterns
-  test.equals(
+  test.equal(
     patternlab.patternGroups[1].patternItems[0].patternPartial,
     'root-foobar',
     'flat pattern foobar on root'
   );
-  test.equals(
+  test.equal(
     patternlab.patternGroups[2].patternItems[0].patternPartial,
     'test-bar',
     'first pattern item should be test-bar'
   );
-  test.equals(
+  test.equal(
     patternlab.patternGroups[2].patternItems[1].patternPartial,
     'test-foo',
     'second pattern item should be test-foo'
@@ -262,51 +262,52 @@ tap.test('groupPatterns - creates pattern groups correctly', function(test) {
   test.end();
 });
 
-tap.test('groupPatterns - orders patterns when provided from md', function(
-  test
-) {
-  //arrange
-  var patternlab = createFakePatternLab({
-    patterns: [],
-    patternGroups: {},
-    subgroupPatterns: {},
-  });
+tap.test(
+  'groupPatterns - orders patterns when provided from md',
+  function (test) {
+    //arrange
+    var patternlab = createFakePatternLab({
+      patterns: [],
+      patternGroups: {},
+      subgroupPatterns: {},
+    });
 
-  // Should be sorted by order and secondly by name
-  patternlab.patterns.push(
-    new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-    new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-    new Pattern('patternGroup1/patternSubgroup1/blue.mustache')
-  );
-  ui.resetUIBuilderState(patternlab);
+    // Should be sorted by order and secondly by name
+    patternlab.patterns.push(
+      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.mustache')
+    );
+    ui.resetUIBuilderState(patternlab);
 
-  // Set order of red to 1 to sort it after the others
-  patternlab.patterns[1].order = 1;
+    // Set order of red to 1 to sort it after the others
+    patternlab.patterns[1].order = 1;
 
-  //act
-  ui.groupPatterns(patternlab, uikit);
+    //act
+    ui.groupPatterns(patternlab, uikit);
 
-  let patternGroup = _.find(patternlab.patternGroups, [
-    'patternGroup',
-    'patternGroup1',
-  ]);
-  let patternSubgroup = _.find(patternGroup.patternGroupItems, [
-    'patternSubgroup',
-    'patternSubgroup1',
-  ]);
-  var items = patternSubgroup.patternSubgroupItems;
+    let patternGroup = _.find(patternlab.patternGroups, [
+      'patternGroup',
+      'patternGroup1',
+    ]);
+    let patternSubgroup = _.find(patternGroup.patternGroupItems, [
+      'patternSubgroup',
+      'patternSubgroup1',
+    ]);
+    var items = patternSubgroup.patternSubgroupItems;
 
-  // Viewall should come last since it shows all patterns that are above
-  test.equals(items[0].patternPartial, 'patternGroup1-blue');
-  test.equals(items[1].patternPartial, 'patternGroup1-yellow');
-  test.equals(items[2].patternPartial, 'patternGroup1-red');
+    // Viewall should come last since it shows all patterns that are above
+    test.equal(items[0].patternPartial, 'patternGroup1-blue');
+    test.equal(items[1].patternPartial, 'patternGroup1-yellow');
+    test.equal(items[2].patternPartial, 'patternGroup1-red');
 
-  test.end();
-});
+    test.end();
+  }
+);
 
 tap.test(
   'groupPatterns - retains pattern order from name when order provided from md is malformed',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
@@ -337,9 +338,9 @@ tap.test(
     var items = patternSubgroup.patternSubgroupItems;
 
     // Viewall should come last since it shows all patterns that are above
-    test.equals(items[0].patternPartial, 'patternGroup1-blue');
-    test.equals(items[1].patternPartial, 'patternGroup1-red');
-    test.equals(items[2].patternPartial, 'patternGroup1-yellow');
+    test.equal(items[0].patternPartial, 'patternGroup1-blue');
+    test.equal(items[1].patternPartial, 'patternGroup1-red');
+    test.equal(items[2].patternPartial, 'patternGroup1-yellow');
 
     test.end();
   }
@@ -347,7 +348,7 @@ tap.test(
 
 tap.test(
   'groupPatterns - sorts viewall subgroup pattern to the beginning',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
@@ -380,13 +381,13 @@ tap.test(
     var items = patternSubgroup.patternSubgroupItems;
 
     // Viewall should come last since it shows all patterns that are above
-    test.equals(
+    test.equal(
       items[3].patternPartial,
       'viewall-patternGroup1-patternSubgroup1'
     );
-    test.equals(items[0].patternPartial, 'patternGroup1-blue');
-    test.equals(items[1].patternPartial, 'patternGroup1-yellow');
-    test.equals(items[2].patternPartial, 'patternGroup1-red');
+    test.equal(items[0].patternPartial, 'patternGroup1-blue');
+    test.equal(items[1].patternPartial, 'patternGroup1-yellow');
+    test.equal(items[2].patternPartial, 'patternGroup1-red');
 
     test.end();
   }
@@ -394,7 +395,7 @@ tap.test(
 
 tap.test(
   'groupPatterns - creates documentation patterns for each type and subgroup if not exists',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
@@ -418,13 +419,13 @@ tap.test(
     var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
-    test.equals(
+    test.equal(
       result.patternGroups.patternGroup1.patternSubgroup1[
         'viewall-patternGroup1-patternSubgroup1'
       ].patternPartial,
       'viewall-patternGroup1-patternSubgroup1'
     );
-    test.equals(
+    test.equal(
       result.patternGroups.patternGroup1.patternSubgroup2[
         'viewall-patternGroup1-patternSubgroup2'
       ].patternPartial,
@@ -437,7 +438,7 @@ tap.test(
 
 tap.test(
   'groupPatterns - adds each pattern to the patternPaths object',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
@@ -461,29 +462,29 @@ tap.test(
     var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
-    test.equals(patternlab.patternPaths['test']['foo'], 'test-foo');
-    test.equals(patternlab.patternPaths['test']['bar'], 'test-bar');
-    test.equals(
+    test.equal(patternlab.patternPaths['test']['foo'], 'test-foo');
+    test.equal(patternlab.patternPaths['test']['bar'], 'test-bar');
+    test.equal(
       patternlab.patternPaths['patternGroup1']['blue'],
       'patternGroup1-patternSubgroup1-blue'
     );
-    test.equals(
+    test.equal(
       patternlab.patternPaths['patternGroup1']['red'],
       'patternGroup1-patternSubgroup1-red'
     );
-    test.equals(
+    test.equal(
       patternlab.patternPaths['patternGroup1']['yellow'],
       'patternGroup1-patternSubgroup1-yellow'
     );
-    test.equals(
+    test.equal(
       patternlab.patternPaths['patternGroup1']['black'],
       'patternGroup1-patternSubgroup2-black'
     );
-    test.equals(
+    test.equal(
       patternlab.patternPaths['patternGroup1']['grey'],
       'patternGroup1-patternSubgroup2-grey'
     );
-    test.equals(
+    test.equal(
       patternlab.patternPaths['patternGroup1']['white'],
       'patternGroup1-patternSubgroup2-white'
     );
@@ -494,7 +495,7 @@ tap.test(
 
 tap.test(
   'groupPatterns - adds each pattern to the view all paths object',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({
       patterns: [],
@@ -518,13 +519,13 @@ tap.test(
     var result = ui.groupPatterns(patternlab, uikit);
 
     //assert
-    test.equals('todo', 'todo');
+    test.equal('todo', 'todo');
 
     test.end();
   }
 );
 
-tap.test('resetUIBuilderState - reset global objects', function(test) {
+tap.test('resetUIBuilderState - reset global objects', function (test) {
   //arrange
   var patternlab = createFakePatternLab({
     patternPaths: { foo: 1 },
@@ -536,16 +537,16 @@ tap.test('resetUIBuilderState - reset global objects', function(test) {
   ui.resetUIBuilderState(patternlab);
 
   //assert
-  test.equals(patternlab.patternPaths.foo, undefined);
-  test.equals(patternlab.viewAllPaths.bar, undefined);
-  test.equals(patternlab.patternGroups.length, 0);
+  test.equal(patternlab.patternPaths.foo, undefined);
+  test.equal(patternlab.viewAllPaths.bar, undefined);
+  test.equal(patternlab.patternGroups.length, 0);
 
   test.end();
 });
 
 tap.test(
   'buildViewAllPages - adds viewall page for each type and subgroup NOT! for flat patterns',
-  function(test) {
+  function (test) {
     //arrange
     const mainPageHeadHtml = '<head></head>';
     const patternlab = createFakePatternLab({
@@ -577,7 +578,7 @@ tap.test(
       patternlab,
       styleguidePatterns,
       uikit
-    ).then(allPatterns => {
+    ).then((allPatterns) => {
       // assert
       // this was a nuanced one. buildViewAllPages() had return false; statements
       // within _.forOwn(...) loops, causing premature termination of the entire loop
@@ -604,7 +605,7 @@ tap.test(
        * --- grey
        * --- white
        */
-      test.equals(uniquePatterns.length, 9, '3 viewall pages should be added');
+      test.equal(uniquePatterns.length, 9, '3 viewall pages should be added');
 
       test.end();
     });
@@ -613,7 +614,7 @@ tap.test(
 
 tap.test(
   'buildViewAllPages - adds viewall page for each type and subgroup FOR! flat patterns',
-  function(test) {
+  function (test) {
     //arrange
     const mainPageHeadHtml = '<head></head>';
     const patternlab = createFakePatternLab({
@@ -647,7 +648,7 @@ tap.test(
       patternlab,
       styleguidePatterns,
       uikit
-    ).then(allPatterns => {
+    ).then((allPatterns) => {
       // assert
       // this was a nuanced one. buildViewAllPages() had return false; statements
       // within _.forOwn(...) loops, causing premature termination of the entire loop
@@ -677,7 +678,7 @@ tap.test(
        * --- grey
        * --- white
        */
-      test.equals(uniquePatterns.length, 11, '4 viewall pages should be added');
+      test.equal(uniquePatterns.length, 11, '4 viewall pages should be added');
 
       test.end();
     });

@@ -54,9 +54,7 @@ class Logo extends BaseLitComponent {
           height="${ifDefined(this.height)}"
         />
         ${this.text && this.text !== ''
-          ? html`
-              <span class="pl-c-logo__text">${this.text}</span>
-            `
+          ? html` <span class="pl-c-logo__text">${this.text}</span> `
           : ''}
       </a>
     `;

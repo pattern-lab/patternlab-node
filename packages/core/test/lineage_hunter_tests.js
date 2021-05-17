@@ -58,7 +58,7 @@ function createBasePatternLabObject() {
   return pl;
 }
 
-tap.test('find_lineage - finds lineage', function(test) {
+tap.test('find_lineage - finds lineage', function (test) {
   //setup current pattern from what we would have during execution
   var currentPattern = new Pattern(
     'organisms/global/header.mustache', // relative path now
@@ -148,7 +148,7 @@ tap.test('find_lineage - finds lineage', function(test) {
     },
   };
   // BAD: This "patches" the relative path which is unset when using "createEmpty"
-  patternlab.patterns.forEach(p => (p.relPath = p.patternLink));
+  patternlab.patterns.forEach((p) => (p.relPath = p.patternLink));
 
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
@@ -156,10 +156,10 @@ tap.test('find_lineage - finds lineage', function(test) {
 
   // Ensure compatibility
   for (let i of [currentPattern.lineageIndex, graphLineageIndex]) {
-    test.equals(i.length, 3);
-    test.equals(i[0], 'atoms-logo');
-    test.equals(i[1], 'molecules-primary-nav');
-    test.equals(i[2], 'molecules-search');
+    test.equal(i.length, 3);
+    test.equal(i[0], 'atoms-logo');
+    test.equal(i[1], 'molecules-primary-nav');
+    test.equal(i[2], 'molecules-search');
   }
 
   test.end();
@@ -167,7 +167,7 @@ tap.test('find_lineage - finds lineage', function(test) {
 
 tap.test(
   'find_lineage - finds lineage with spaced pattern parameters',
-  function(test) {
+  function (test) {
     //setup current pattern from what we would have during execution
     var currentPattern = createFakeEmptyErrorPattern();
     extend(currentPattern, {
@@ -194,10 +194,10 @@ tap.test(
 
     lineage_hunter.find_lineage(currentPattern, patternlab);
 
-    test.equals(currentPattern.lineageIndex.length, 1);
-    test.equals(currentPattern.lineageIndex[0], 'atoms-error');
-    test.equals(patternlab.patterns[0].lineageRIndex.length, 1);
-    test.equals(
+    test.equal(currentPattern.lineageIndex.length, 1);
+    test.equal(currentPattern.lineageIndex[0], 'atoms-error');
+    test.equal(patternlab.patterns[0].lineageRIndex.length, 1);
+    test.equal(
       patternlab.patterns[0].lineageR[0].lineagePattern,
       'molecules-error'
     );
@@ -212,14 +212,14 @@ tap.test(
     );
     var currentPatternLineageIndex = graph.lineageIndex(currentPattern);
 
-    test.equals(currentPatternLineageIndex.length, 1);
-    test.equals(currentPatternLineageIndex[0], 'atoms-error');
+    test.equal(currentPatternLineageIndex.length, 1);
+    test.equal(currentPatternLineageIndex[0], 'atoms-error');
 
     var patternlabPattern0_lineageRIndex = graph.lineageRIndex(
       patternlab.patterns[0]
     );
-    test.equals(patternlabPattern0_lineageRIndex.length, 1);
-    test.equals(patternlabPattern0_lineageRIndex[0], 'molecules-error');
+    test.equal(patternlabPattern0_lineageRIndex.length, 1);
+    test.equal(patternlabPattern0_lineageRIndex[0], 'molecules-error');
 
     test.end();
   }
@@ -227,7 +227,7 @@ tap.test(
 
 tap.test(
   'cascade_pattern_states promotes a lower pattern state up to the consumer',
-  function(test) {
+  function (test) {
     //arrange
     var pl = createBasePatternLabObject();
 
@@ -257,14 +257,14 @@ tap.test(
 
     //assert
     var consumerPatternReturned = getPartial('test-foo', pl);
-    test.equals(consumerPatternReturned.patternState, 'inreview');
+    test.equal(consumerPatternReturned.patternState, 'inreview');
     test.end();
   }
 );
 
 tap.test(
   'cascade_pattern_states promotes a lower pattern state up to the consumers lineage',
-  function(test) {
+  function (test) {
     //arrange
     var pl = createBasePatternLabObject();
 
@@ -295,14 +295,14 @@ tap.test(
     //assert
     var consumerPatternReturned = getPartial('test-foo', pl);
     const lineage = pl.graph.lineage(consumerPatternReturned);
-    test.equals(lineage[0].lineageState, 'inreview');
+    test.equal(lineage[0].lineageState, 'inreview');
     test.end();
   }
 );
 
 tap.test(
   'cascade_pattern_states sets the pattern state on any lineage patterns reverse lineage',
-  function(test) {
+  function (test) {
     //arrange
     var pl = createBasePatternLabObject();
 
@@ -317,7 +317,7 @@ tap.test(
     //assert
     var consumedPatternReturned = getPartial('test-bar', pl);
     let lineageR = pl.graph.lineageR(consumedPatternReturned);
-    test.equals(lineageR[0].lineageState, 'inreview');
+    test.equal(lineageR[0].lineageState, 'inreview');
 
     test.end();
   }
@@ -325,7 +325,7 @@ tap.test(
 
 tap.test(
   'cascade_pattern_states promotes lower pattern state when consumer does not have its own state',
-  function(test) {
+  function (test) {
     //arrange
     var pl = createBasePatternLabObject();
 
@@ -354,16 +354,16 @@ tap.test(
 
     //assert
     var consumerPatternReturned = getPartial('test-foo', pl);
-    test.equals(consumerPatternReturned.lineage.length, 1);
-    test.equals(consumerPatternReturned.lineage[0].lineageState, 'inreview');
-    test.equals(consumerPatternReturned.patternState, 'inreview');
+    test.equal(consumerPatternReturned.lineage.length, 1);
+    test.equal(consumerPatternReturned.lineage[0].lineageState, 'inreview');
+    test.equal(consumerPatternReturned.patternState, 'inreview');
     test.end();
   }
 );
 
 tap.test(
   'find_lineage - finds lineage with unspaced pattern parameters',
-  function(test) {
+  function (test) {
     //setup current pattern from what we would have during execution
     var currentPattern = createFakeEmptyErrorPattern();
     extend(currentPattern, {
@@ -405,10 +405,10 @@ tap.test(
 
     lineage_hunter.find_lineage(currentPattern, patternlab);
 
-    test.equals(currentPattern.lineageIndex.length, 1);
-    test.equals(currentPattern.lineageIndex[0], 'atoms-error');
-    test.equals(patternlab.patterns[0].lineageRIndex.length, 1);
-    test.equals(
+    test.equal(currentPattern.lineageIndex.length, 1);
+    test.equal(currentPattern.lineageIndex[0], 'atoms-error');
+    test.equal(patternlab.patterns[0].lineageRIndex.length, 1);
+    test.equal(
       patternlab.patterns[0].lineageR[0].lineagePattern,
       'molecules-error'
     );
@@ -416,148 +416,150 @@ tap.test(
     var currentPatternLineageIndex = patternlab.graph.lineageIndex(
       currentPattern
     );
-    test.equals(currentPatternLineageIndex.length, 1);
-    test.equals(currentPatternLineageIndex[0], 'atoms-error');
+    test.equal(currentPatternLineageIndex.length, 1);
+    test.equal(currentPatternLineageIndex[0], 'atoms-error');
 
     var pattern0LineageRIndex = patternlab.graph.lineageRIndex(
       patternlab.patterns[0]
     );
-    test.equals(pattern0LineageRIndex.length, 1);
-    test.equals(pattern0LineageRIndex[0], 'molecules-error');
+    test.equal(pattern0LineageRIndex.length, 1);
+    test.equal(pattern0LineageRIndex[0], 'molecules-error');
 
     test.end();
   }
 );
 
-tap.test('find_lineage - finds lineage with spaced styleModifier', function(
-  test
-) {
-  //setup current pattern from what we would have during execution
-  var currentPattern = Pattern.createEmpty({
-    name: 'molecules-toast-error',
-    subdir: 'molecules\\toast',
-    filename: 'error.mustache',
-    data: null,
-    template: '{{> atoms-error:foo }}',
-    extendedTemplate: '{{> atoms-error:foo }}',
-    patternBaseName: 'error',
-    patternLink: 'molecules-toast-error/molecules-toast-error.html',
-    patternGroup: 'molecules',
-    patternSubgroup: 'molecules\\toast',
-    flatPatternPath: 'molecules\\toast',
-    patternPartial: 'molecules-error',
-    patternState: '',
-    lineage: [],
-    lineageIndex: [],
-    lineageR: [],
-    lineageRIndex: [],
-  });
-  var patternlab = {
-    graph: new PatternGraph(null, 0),
-    patterns: [
-      Pattern.createEmpty({
-        name: 'atoms-alerts-error',
-        subdir: 'atoms\\alerts',
-        filename: 'error.mustache',
-        data: null,
-        template: '<h1> {{message}} </h1>',
-        extendedTemplate: '<h1> {{message}} </h1>',
-        patternBaseName: 'error',
-        patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
-        patternGroup: 'atoms',
-        patternSubgroup: 'atoms\\alerts',
-        flatPatternPath: 'atoms\\alerts',
-        patternPartial: 'atoms-error',
-        patternState: '',
-        lineage: [],
-        lineageIndex: [],
-        lineageR: [],
-        lineageRIndex: [],
-      }),
-    ],
-    config: {
-      outputFileSuffixes: {
-        rendered: '.rendered',
-        rawTemplate: '',
-        markupOnly: '.markup-only',
+tap.test(
+  'find_lineage - finds lineage with spaced styleModifier',
+  function (test) {
+    //setup current pattern from what we would have during execution
+    var currentPattern = Pattern.createEmpty({
+      name: 'molecules-toast-error',
+      subdir: 'molecules\\toast',
+      filename: 'error.mustache',
+      data: null,
+      template: '{{> atoms-error:foo }}',
+      extendedTemplate: '{{> atoms-error:foo }}',
+      patternBaseName: 'error',
+      patternLink: 'molecules-toast-error/molecules-toast-error.html',
+      patternGroup: 'molecules',
+      patternSubgroup: 'molecules\\toast',
+      flatPatternPath: 'molecules\\toast',
+      patternPartial: 'molecules-error',
+      patternState: '',
+      lineage: [],
+      lineageIndex: [],
+      lineageR: [],
+      lineageRIndex: [],
+    });
+    var patternlab = {
+      graph: new PatternGraph(null, 0),
+      patterns: [
+        Pattern.createEmpty({
+          name: 'atoms-alerts-error',
+          subdir: 'atoms\\alerts',
+          filename: 'error.mustache',
+          data: null,
+          template: '<h1> {{message}} </h1>',
+          extendedTemplate: '<h1> {{message}} </h1>',
+          patternBaseName: 'error',
+          patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
+          patternGroup: 'atoms',
+          patternSubgroup: 'atoms\\alerts',
+          flatPatternPath: 'atoms\\alerts',
+          patternPartial: 'atoms-error',
+          patternState: '',
+          lineage: [],
+          lineageIndex: [],
+          lineageR: [],
+          lineageRIndex: [],
+        }),
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only',
+        },
       },
-    },
-  };
+    };
 
-  lineage_hunter.find_lineage(currentPattern, patternlab);
+    lineage_hunter.find_lineage(currentPattern, patternlab);
 
-  test.equals(currentPattern.lineageIndex.length, 1);
-  test.equals(currentPattern.lineageIndex[0], 'atoms-error');
+    test.equal(currentPattern.lineageIndex.length, 1);
+    test.equal(currentPattern.lineageIndex[0], 'atoms-error');
 
-  test.end();
-});
+    test.end();
+  }
+);
 
-tap.test('find_lineage - finds lineage with unspaced styleModifier', function(
-  test
-) {
-  //setup current pattern from what we would have during execution
-  var currentPattern = Pattern.createEmpty({
-    name: 'molecules-toast-error',
-    subdir: 'molecules\\toast',
-    filename: 'error.mustache',
-    data: null,
-    template: '{{> atoms-error:foo }}',
-    extendedTemplate: '{{>atoms-error:foo}}',
-    patternBaseName: 'error',
-    patternLink: 'molecules-toast-error/molecules-toast-error.html',
-    patternGroup: 'molecules',
-    patternSubgroup: 'molecules\\toast',
-    flatPatternPath: 'molecules\\toast',
-    patternPartial: 'molecules-error',
-    patternState: '',
-    lineage: [],
-    lineageIndex: [],
-    lineageR: [],
-    lineageRIndex: [],
-  });
-  var patternlab = {
-    graph: PatternGraph.empty(),
-    patterns: [
-      Pattern.createEmpty({
-        name: 'atoms-alerts-error',
-        subdir: 'atoms\\alerts',
-        filename: 'error.mustache',
-        data: null,
-        template: '<h1> {{message}} </h1>',
-        extendedTemlpate: '<h1> {{message}} </h1>',
-        patternBaseName: 'error',
-        patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
-        patternGroup: 'atoms',
-        patternSubgroup: 'atoms\\alerts',
-        flatPatternPath: 'atoms\\alerts',
-        patternPartial: 'atoms-error',
-        patternState: '',
-        lineage: [],
-        lineageIndex: [],
-        lineageR: [],
-        lineageRIndex: [],
-      }),
-    ],
-    config: {
-      outputFileSuffixes: {
-        rendered: '.rendered',
-        rawTemplate: '',
-        markupOnly: '.markup-only',
+tap.test(
+  'find_lineage - finds lineage with unspaced styleModifier',
+  function (test) {
+    //setup current pattern from what we would have during execution
+    var currentPattern = Pattern.createEmpty({
+      name: 'molecules-toast-error',
+      subdir: 'molecules\\toast',
+      filename: 'error.mustache',
+      data: null,
+      template: '{{> atoms-error:foo }}',
+      extendedTemplate: '{{>atoms-error:foo}}',
+      patternBaseName: 'error',
+      patternLink: 'molecules-toast-error/molecules-toast-error.html',
+      patternGroup: 'molecules',
+      patternSubgroup: 'molecules\\toast',
+      flatPatternPath: 'molecules\\toast',
+      patternPartial: 'molecules-error',
+      patternState: '',
+      lineage: [],
+      lineageIndex: [],
+      lineageR: [],
+      lineageRIndex: [],
+    });
+    var patternlab = {
+      graph: PatternGraph.empty(),
+      patterns: [
+        Pattern.createEmpty({
+          name: 'atoms-alerts-error',
+          subdir: 'atoms\\alerts',
+          filename: 'error.mustache',
+          data: null,
+          template: '<h1> {{message}} </h1>',
+          extendedTemlpate: '<h1> {{message}} </h1>',
+          patternBaseName: 'error',
+          patternLink: 'atoms-alerts-error/atoms-alerts-error.html',
+          patternGroup: 'atoms',
+          patternSubgroup: 'atoms\\alerts',
+          flatPatternPath: 'atoms\\alerts',
+          patternPartial: 'atoms-error',
+          patternState: '',
+          lineage: [],
+          lineageIndex: [],
+          lineageR: [],
+          lineageRIndex: [],
+        }),
+      ],
+      config: {
+        outputFileSuffixes: {
+          rendered: '.rendered',
+          rawTemplate: '',
+          markupOnly: '.markup-only',
+        },
       },
-    },
-  };
+    };
 
-  lineage_hunter.find_lineage(currentPattern, patternlab);
+    lineage_hunter.find_lineage(currentPattern, patternlab);
 
-  test.equals(currentPattern.lineageIndex.length, 1);
-  test.equals(currentPattern.lineageIndex[0], 'atoms-error');
+    test.equal(currentPattern.lineageIndex.length, 1);
+    test.equal(currentPattern.lineageIndex[0], 'atoms-error');
 
-  test.end();
-});
+    test.end();
+  }
+);
 
 tap.test(
   'find_lineage - finds lineage with fuzzy partial with styleModifier',
-  function(test) {
+  function (test) {
     //setup current pattern from what we would have during execution
     var currentPattern = Pattern.createEmpty({
       name: 'molecules-toast-error',
@@ -613,14 +615,14 @@ tap.test(
     var lineage_hunter = new lh();
     lineage_hunter.find_lineage(currentPattern, patternlab);
 
-    test.equals(currentPattern.lineageIndex.length, 1);
-    test.equals(currentPattern.lineageIndex[0], 'atoms-error');
+    test.equal(currentPattern.lineageIndex.length, 1);
+    test.equal(currentPattern.lineageIndex[0], 'atoms-error');
 
     test.end();
   }
 );
 
-tap.test('find_lineage - does not apply lineage twice', function(test) {
+tap.test('find_lineage - does not apply lineage twice', function (test) {
   //setup current pattern from what we would have during execution
   var currentPattern = createFakeEmptyErrorPattern();
   extend(currentPattern, {
@@ -663,10 +665,10 @@ tap.test('find_lineage - does not apply lineage twice', function(test) {
   lineage_hunter.find_lineage(currentPattern, patternlab);
   lineage_hunter.find_lineage(currentPattern, patternlab);
 
-  test.equals(currentPattern.lineageIndex.length, 1);
-  test.equals(currentPattern.lineageIndex[0], 'atoms-error');
-  test.equals(patternlab.patterns[0].lineageRIndex.length, 1);
-  test.equals(
+  test.equal(currentPattern.lineageIndex.length, 1);
+  test.equal(currentPattern.lineageIndex[0], 'atoms-error');
+  test.equal(patternlab.patterns[0].lineageRIndex.length, 1);
+  test.equal(
     patternlab.patterns[0].lineageR[0].lineagePattern,
     'molecules-error'
   );
@@ -674,11 +676,11 @@ tap.test('find_lineage - does not apply lineage twice', function(test) {
   var graph = patternlab.graph;
 
   var currentPatternLineageIndex = graph.lineageIndex(currentPattern);
-  test.equals(currentPatternLineageIndex.length, 1);
-  test.equals(currentPatternLineageIndex[0], 'atoms-error');
+  test.equal(currentPatternLineageIndex.length, 1);
+  test.equal(currentPatternLineageIndex[0], 'atoms-error');
   var patternZeroLineageR = graph.lineageR(patternlab.patterns[0]);
-  test.equals(patternZeroLineageR.length, 1);
-  test.equals(patternZeroLineageR[0].patternPartial, 'molecules-error');
+  test.equal(patternZeroLineageR.length, 1);
+  test.equal(patternZeroLineageR[0].patternPartial, 'molecules-error');
 
   test.end();
 });

@@ -41,8 +41,8 @@ function escapeAtPartialBlock(partialString) {
 }
 
 function loadHelpers(helpers) {
-  helpers.forEach(globPattern => {
-    glob.sync(globPattern).forEach(filePath => {
+  helpers.forEach((globPattern) => {
+    glob.sync(globPattern).forEach((filePath) => {
       require(path.join(process.cwd(), filePath))(Handlebars);
     });
   });
@@ -68,7 +68,7 @@ const engine_handlebars = {
     return Promise.resolve(compiled(data));
   },
 
-  registerPartial: function(pattern) {
+  registerPartial: function (pattern) {
     // register exact partial name
     Handlebars.registerPartial(pattern.patternPartial, pattern.template);
 
@@ -80,7 +80,7 @@ const engine_handlebars = {
     const matches = pattern.template.match(findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function() {
+  findPartialsWithStyleModifiers: function () {
     // TODO: make the call to this from oPattern objects conditional on their
     // being implemented here.
     return [];
@@ -88,24 +88,24 @@ const engine_handlebars = {
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function() {
+  findPartialsWithPatternParameters: function () {
     // TODO: make the call to this from oPattern objects conditional on their
     // being implemented here.
     return [];
   },
-  findListItems: function(pattern) {
+  findListItems: function (pattern) {
     const matches = pattern.template.match(findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     const partial = partialString.replace(findPartialsRE, '$1');
     return partial;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -127,7 +127,7 @@ const engine_handlebars = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.hbs');
     this.spawnFile(config, '_foot.hbs');
   },
@@ -138,7 +138,7 @@ const engine_handlebars = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     let helpers;
 
     try {

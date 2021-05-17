@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-export const NavButton = props => {
+export const NavButton = (props) => {
   return (
     <button
       className={`pl-c-nav__link pl-c-nav__link--dropdown pl-js-acc-handle`}

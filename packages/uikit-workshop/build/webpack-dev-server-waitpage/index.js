@@ -43,7 +43,7 @@ const webpackDevServerWaitpage = (server, options) => {
   const compilers = server.compilers;
   //  || [server.middleware.context.compiler];
   for (let i = 0; i < compilers.length; i++) {
-    new webpack.ProgressPlugin(function() {
+    new webpack.ProgressPlugin(function () {
       data.progress[i] = arguments;
     }).apply(compilers[i]);
   }
@@ -53,8 +53,8 @@ const webpackDevServerWaitpage = (server, options) => {
     if (
       fs
         .readdirSync(__dirname)
-        .filter(x => x.endsWith('.ejs'))
-        .map(x => x.slice(0, -4))
+        .filter((x) => x.endsWith('.ejs'))
+        .map((x) => x.slice(0, -4))
         .indexOf(options.theme) < 0
     ) {
       throw new Error(`Unknown theme provided: ${options.theme}`);
@@ -66,12 +66,12 @@ const webpackDevServerWaitpage = (server, options) => {
   }
 
   // eslint-disable-next-line no-return-assign
-  Object.keys(options).forEach(key => (data[key] = options[key])); // expend data with options
+  Object.keys(options).forEach((key) => (data[key] = options[key])); // expend data with options
 
   let wasValid = false;
 
   return async (req, res, next) => {
-    const valid = data.progress.every(p => p[0] === 1);
+    const valid = data.progress.every((p) => p[0] === 1);
     wasValid = wasValid || valid;
 
     if (

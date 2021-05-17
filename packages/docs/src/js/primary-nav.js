@@ -8,14 +8,14 @@
  * 3) If the nav dropdown trigger parent already has active class, remove it.
  * 4) If the nav dropdown trigger parent does not have an active class, add it.
  */
-(function() {
+(function () {
 	var navDropdownListItem = document.querySelector('.js-nav-dropdown');
 	var navLink = document.querySelectorAll('.js-nav-dropdown-trigger'); /* 1 */
 
 	for (i = 0; i < navLink.length; i++) {
 		/* 1 */
 
-		navLink[i].addEventListener('click', function(event) {
+		navLink[i].addEventListener('click', function (event) {
 			/* 2 */
 			event.preventDefault();
 			var navLinkParent = this.parentNode; /* 2 */
@@ -64,7 +64,7 @@
 	for (i = 0; i < navToggle.length; i++) {
 		/* 1 */
 
-		navToggle[i].addEventListener('click', function(event) {
+		navToggle[i].addEventListener('click', function (event) {
 			/* 2 */
 			event.preventDefault();
 			var navToggleElement = this;
