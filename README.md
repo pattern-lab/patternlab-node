@@ -8,7 +8,8 @@ This monorepo contains the core of Pattern Lab / Node and all related engines, U
 
 If you'd like to see what a front-end project built with Pattern Lab looks like, check out this [online demo of Pattern Lab output](https://demo.patternlab.io/).
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+[![Continuous Integration](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml)
+[![CodeQL](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml)
 ![current release](https://img.shields.io/npm/v/@pattern-lab/core.svg)
 ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![Coverage Status](https://coveralls.io/repos/github/pattern-lab/patternlab-node/badge.svg?branch=master)](https://coveralls.io/github/pattern-lab/patternlab-node?branch=master)
@@ -62,7 +63,7 @@ Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.i
 
 Pattern Lab / Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [contributors](https://github.com/pattern-lab/patternlab-node/graphs/contributors).
 
-Thanks to [Netlify](https://www.netlify.com/) for build tooling and hosting. 
+Thanks to [Netlify](https://www.netlify.com/) for build tooling and hosting.
 
 
 ## Contributing
