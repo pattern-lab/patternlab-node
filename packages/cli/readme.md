@@ -2,7 +2,8 @@
 
 > Command-line interface (CLI) for the patternlab-node core.
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+[![Continuous Integration](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml)
+[![CodeQL](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml)
 
 
 ## Installation
