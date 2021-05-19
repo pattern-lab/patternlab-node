@@ -26,6 +26,6 @@
     "build": "cd dist/css && npx node-sass style.scss style.css"
   },
   "engines": {
-    "node": ">= 10.18.0"
+    "node": ">=12.12.0"
   }
 }
