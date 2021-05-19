@@ -22,7 +22,7 @@
     "http-auth-connect": "1.0.4",
     "morgan": "1.10.0",
     "object-assign": "4.1.1",
-    "open": "7.4.2",
+    "open": "8.0.9",
     "proxy-middleware": "0.15.0",
     "send": "0.16.2",
     "serve-index": "1.9.1"

@@ -369,14 +369,14 @@ LiveServer.start = function (options) {
     if (openPath !== null)
       if (typeof openPath === 'object') {
         openPath.forEach((p) =>
-          open(openURL + p, { app: browser }).catch(() =>
+          open(openURL + p, { app: { name: browser } }).catch(() =>
             console.log(
               'Warning: Could not open pattern lab in default browser.'
             )
           )
         );
       } else {
-        open(openURL + openPath, { app: browser }).catch(() =>
+        open(openURL + openPath, { app: { name: browser } }).catch(() =>
           console.log('Warning: Could not open pattern lab in default browser.')
         );
       }
