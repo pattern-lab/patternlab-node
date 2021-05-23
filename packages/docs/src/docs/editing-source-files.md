@@ -15,10 +15,10 @@ When editing Pattern Lab you must put your files and edit them in the `./source/
 
 For the most part you can organize `./source/` anyway you see fit. There are a few Pattern Lab-specific directories though. They are:
 
-- `_annotations/` - where your annotations reside. [learn more](/docs/adding-annotations/).
-- `_data/` - where the global data used to render your patterns resides. [learn more](/docs/overview-of-data/).
-- `_meta/` - where the header and footer that get applied to all of your patterns resides. [learn more](/docs/modifying-the-pattern-header-and-footer/).
-- `_patterns/` - where your patterns, pattern documentation, and pattern-specific data reside. [learn more](/docs/reorganizing-patterns/).
+- `_annotations/` - where your annotations reside. [learn more about adding annotations](/docs/adding-annotations/).
+- `_data/` - where the global data used to render your patterns resides. [learn more about (pattern) data](/docs/overview-of-data/).
+- `_meta/` - where the header and footer that get applied to all of your patterns resides. [learn more about meta files](/docs/modifying-the-pattern-header-and-footer/).
+- `_patterns/` - where your patterns, pattern documentation, and pattern-specific data reside. [learn more about how to organize patterns](/docs/reorganizing-patterns/).
 
 ## Configuring Pattern Lab Directories
 
