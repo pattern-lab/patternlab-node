@@ -8489,11 +8489,6 @@ hosted-git-info@^4.0.1:
   dependencies:
     lru-cache "^6.0.0"
 
-htm@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/htm/-/htm-1.0.1.tgz#378e99a27da2b3712825313ac5c9c452bc276abc"
-  integrity sha512-xyqCZ7W60upCff/WAbfcIR4M17JzhRIAq2u9n69Zq/f/AyzC8H8LSY7FpDvkg9pTM8lsF1LGsINGUSXuSb/utw==
-
 html-encoding-sniffer@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/html-encoding-sniffer/-/html-encoding-sniffer-1.0.2.tgz#e70d84b94da53aa375e11fe3a351be6642ca46f8"
