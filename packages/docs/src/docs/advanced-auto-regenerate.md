@@ -1,5 +1,4 @@
 ---
-eleventyExcludeFromCollections: true
 title: Watching for Changes and Auto Regenerating Patterns
 tags:
   - docs

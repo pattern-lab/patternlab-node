@@ -1,7 +1,6 @@
 ---
 layout: layouts/page-base.njk
 title: Resources
-sitemapPriority: '0.8'
 ---
 
 ## Style guides and atomic design
