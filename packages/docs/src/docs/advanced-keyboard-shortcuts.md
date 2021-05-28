@@ -7,7 +7,6 @@ eleventyNavigation:
   title: Keyboard Shortcuts
   key: advanced
   order: 300
-sitemapPriority: '0.8'
 ---
 
 > **Note:** This feature is currently disabled. It will be back in a future release of `styleguidekit-assets-default`.

@@ -7,7 +7,6 @@ eleventyNavigation:
   title: Creating Pattern-specific Values
   key: data
   order: 300
-sitemapPriority: '0.8'
 ---
 
 > **Note:** This article uses JSON because it is a standard between with the Node version of Pattern Lab.
