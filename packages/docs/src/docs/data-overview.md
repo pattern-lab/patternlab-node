@@ -7,7 +7,6 @@ eleventyNavigation:
   title: Overview of Data
   key: data
   order: 300
-sitemapPriority: '0.8'
 ---
 
 The primary default global source of data used when rendering Pattern Lab patterns can be found in `./source/_data/`.

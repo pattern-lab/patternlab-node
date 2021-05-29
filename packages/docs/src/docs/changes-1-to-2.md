@@ -1,5 +1,4 @@
 ---
-eleventyExcludeFromCollections: true
 title: Pattern Lab 1 to Pattern Lab 2 Changes
 tags:
   - docs
