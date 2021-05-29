@@ -8,6 +8,7 @@ eleventyNavigation:
   key: patterns
   order: 80
 sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 By default, the Node version of Pattern Lab organizes pattern groups, pattern subgroups, and patterns alphabetically when displaying them in the drop-down navigation, pattern subgroup "view all" pages, and the "all" style guide. This may not meet your needs. You can re-order pattern groups, pattern subgroups, and patterns by prefixing them with two-digit numbers.

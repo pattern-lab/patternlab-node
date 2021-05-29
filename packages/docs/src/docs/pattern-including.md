@@ -8,6 +8,7 @@ eleventyNavigation:
   key: patterns
   order: 90
 sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 To include one pattern within another, for example to create a molecule from several atoms, you can either use:

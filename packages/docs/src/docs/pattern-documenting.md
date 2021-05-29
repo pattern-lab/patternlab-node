@@ -8,6 +8,7 @@ eleventyNavigation:
   key: patterns
   order: 110
 sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Pattern documentation gives developers and designers the ability to provide context for their patterns. The documentation file consists of Markdown with YAML front matter. It should follow this format:

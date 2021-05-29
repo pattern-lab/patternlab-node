@@ -8,6 +8,7 @@ eleventyNavigation:
   key: patterns
   order: 130
 sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 To add your own assets like JavaScript and CSS to your patterns' header and footer you need to modify two files:
