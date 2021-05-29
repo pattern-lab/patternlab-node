@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Hiding Patterns in the Navigation
   key: patterns
   order: 170
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Removing a pattern from Pattern Lab's drop-down navigation and style guide is accomplished by setting the `hidden` frontmatter key on any pattern's companion `.md` file. For example, we may have a Google Map-based pattern that we don't need for a particular project. The path might look like:
