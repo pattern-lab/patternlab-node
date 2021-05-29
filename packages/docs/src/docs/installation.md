@@ -7,8 +7,6 @@ eleventyNavigation:
   title: Installing Pattern Lab
   key: getting-started
   order: 0
-sitemapPriority: '0.9'
-sitemapChangefreq: 'monthly'
 ---
 
 ## Step 1: Install requirements
