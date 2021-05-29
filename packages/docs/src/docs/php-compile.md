@@ -1,4 +1,5 @@
 ---
+eleventyExcludeFromCollections: true
 title: php-compile
 tags:
   - demo-content

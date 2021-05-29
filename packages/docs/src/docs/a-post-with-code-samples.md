@@ -1,4 +1,5 @@
 ---
+eleventyExcludeFromCollections: true
 title: DOCS DOCS DOCS
 tags:
   - demo-content
