@@ -7,6 +7,7 @@ eleventyNavigation:
   title: Managing Pattern Assets
   key: patterns
   order: 120
+sitemapPriority: '0.8'
 ---
 
 Assets for patterns - including JavaScript, CSS, and images - should be stored and edited in the `./source/` directory. Pattern Lab will move these assets to the `./public/` directory for you when you generate your site or when you watch the `./source/` directory for changes. _You can name and organize your assets however you like._ If you would like to use `./source/stylesheets/` to store your styles instead of `./source/css/` you can do that. The structure will be maintained when they're moved to the `./public/` directory.

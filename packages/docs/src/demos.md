@@ -2,6 +2,7 @@
 layout: layouts/demos.njk
 title: Pattern Lab Demos
 category: getting-started
+sitemapPriority: '0.9'
 ---
 
 
