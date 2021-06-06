@@ -483,6 +483,8 @@ LiveServer.start = function (options) {
       });
     }
   };
+
+  return server;
 };
 
 LiveServer.shutdown = function () {
