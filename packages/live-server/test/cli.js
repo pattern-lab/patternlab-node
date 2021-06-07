@@ -16,7 +16,10 @@ describe('command line usage', function () {
   it('--version', function (done) {
     exec_test(['--version'], function (error, stdout, stdin) {
       assert(!error, error);
-      assert(stdout.indexOf('live-server') == 0, 'version not found');
+      assert(
+        stdout.indexOf('@pattern-lab/live-server') == 0,
+        'version not found'
+      );
       done();
     });
   });
