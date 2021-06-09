@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Using Pattern States
   key: patterns
   order: 160
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Pattern states provide your team and client a simple visual of the current state of patterns in Pattern Lab. Pattern states can track progress of a pattern from development, through client review, to completion or they can be used to give certain patterns specific classes. It's important to note that the state of a pattern can be influenced by its pattern partials.
