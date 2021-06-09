@@ -140,7 +140,11 @@ class Drawer extends LitElement {
                   icon-only="true"
                   @click="${(_) => store.dispatch(updateDrawerState(false))}"
                 >
-                  <pl-icon slot="after" name="close"></pl-icon>
+                  <pl-icon
+                    slot="after"
+                    name="close"
+                    aria-hidden="true"
+                  ></pl-icon>
                 </pl-button>
               </div>
             </div>
@@ -152,7 +156,11 @@ class Drawer extends LitElement {
                   <div class="pl-c-loader__content">
                     <div class="pl-c-loader__message">Loading Code Panel</div>
                     <div class="pl-c-loader__spinner">
-                      <svg class="pl-c-loader-svg" viewBox="0 0 268 255">
+                      <svg
+                        class="pl-c-loader-svg"
+                        viewBox="0 0 268 255"
+                        aria-hidden="true"
+                      >
                         <circle
                           class="pl-c-loader-svg__outer-circle"
                           cx="134.2"

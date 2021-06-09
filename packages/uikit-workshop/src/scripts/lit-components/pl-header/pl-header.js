@@ -101,6 +101,7 @@ class Header extends BaseLitComponent {
             height="20"
             width="20"
             fill="currentColor"
+            aria-hidden="true"
           ></pl-icon>
           <span class="is-vishidden">Toggle Menu</span>
         </button>

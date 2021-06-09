@@ -7,6 +7,8 @@ tags:
 eleventyNavigation:
   key: php-compile
   order: 300
+sitemapChangefreq: 'never'
+sitemapIgnore: true
 ---
 
 The PHP version of Pattern Lab is being deprecated in favor of a new unified Pattern Lab core. The PHP docs for this topic can be viewed here.
