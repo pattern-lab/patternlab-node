@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Editing Pattern Lab Source Files
   key: getting-started
   order: 20
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 When editing Pattern Lab you must put your files and edit them in the `./source/` directory. This includes your static assets like [JavaScript, CSS, and images](/docs/managing-pattern-assets/). Each time your site is generated your patterns will be compiled and your static assets will be moved to the `./public/` directory. Because of this you **should not edit** the files in the `./public/` directory.
