@@ -7,6 +7,7 @@ eleventyNavigation:
   title: Template Language and PatternEngines
   key: advanced
   order: 300
+sitemapPriority: '0.8'
 ---
 
 By default Pattern Lab uses the Mustache template language, extended with [pattern parameters](/docs/using-pattern-parameters/). PatternEngines let you add support for a template language of your personal choice. Each PatternEngine has it's own set of features and caveats.
