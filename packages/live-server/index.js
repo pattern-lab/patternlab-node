@@ -484,7 +484,7 @@ LiveServer.start = function (options) {
     }
   };
 
-  return server;
+  return server; // eslint-disable-line consistent-return
 };
 
 LiveServer.shutdown = function () {
