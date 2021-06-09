@@ -55,13 +55,13 @@ describe('basic functional tests', function () {
       })
       .expect(200, done);
   });
-  xit('should have WebSocket connection', function (done) {
-    done(); // todo
-  });
-  xit('should reload on page change', function (done) {
-    done(); // todo
-  });
-  xit('should reload (without refreshing) on css change', function (done) {
-    done(); // todo
-  });
+  // xit('should have WebSocket connection', function (done) {
+  //   done(); // todo
+  // });
+  // xit('should reload on page change', function (done) {
+  //   done(); // todo
+  // });
+  // xit('should reload (without refreshing) on css change', function (done) {
+  //   done(); // todo
+  // });
 });
