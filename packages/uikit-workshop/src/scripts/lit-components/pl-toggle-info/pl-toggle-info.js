@@ -72,6 +72,7 @@ class InfoToggle extends LitElement {
         <pl-icon
           name="${this.isDrawerOpen ? 'code-collapse' : 'code-expand'}"
           slot="after"
+          aria-hidden="true"
         ></pl-icon>
       </pl-button>
     `;

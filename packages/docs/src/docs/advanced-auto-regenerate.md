@@ -7,6 +7,8 @@ eleventyNavigation:
   key: Watching for Changes and Auto Regenerating Patterns
   parent: advanced
   order: 300
+sitemapPriority: '0.8'
+sitemapIgnore: true
 ---
 
 Pattern Lab has the ability to watch for changes to patterns and frontend assets. When these files change, it will automatically rebuild the entire Pattern Lab website. You simply make your changes, save the file, and Pattern Lab will take care of the rest.

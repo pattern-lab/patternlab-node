@@ -9,17 +9,15 @@
 {% set demoListItems = collections.demos %}
 
 {% block content %}
-  <main id="main-content">
-    <div class="l-container">
-      {% include "components/page-header.njk" %}
-      
-        <h2 class="c-section-header">In the wild</h2>
-          {% set demoListCategory = 'example' %}
-          {% include "partials/components/demo-list.njk" %}
+  <div class="l-container">
+    {% include "components/page-header.njk" %}
+    
+      <h2 class="c-section-header">In the wild</h2>
+        {% set demoListCategory = 'example' %}
+        {% include "partials/components/demo-list.njk" %}
 
-        <h2 class="c-section-header">Starterkits</h2>
-          {% set demoListCategory = 'starterkit' %}
-          {% include "partials/components/demo-list.njk" %}
-    </div>
-  </main>
+      <h2 class="c-section-header">Starterkits</h2>
+        {% set demoListCategory = 'starterkit' %}
+        {% include "partials/components/demo-list.njk" %}
+  </div>
 {% endblock %} 

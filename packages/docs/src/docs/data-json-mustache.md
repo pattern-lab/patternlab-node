@@ -7,6 +7,7 @@ eleventyNavigation:
   title: Introduction to JSON & Mustache Variables
   key: data
   order: 300
+sitemapPriority: '0.8'
 ---
 
 > This documentation is provided as a simple introduction to using one of the supported data types and one of the supported PatternEngines. The best reference for this topic is the [Mustache documentation](http://mustache.github.io/mustache.5.html) but this should provide a good beginner's primer.

@@ -316,7 +316,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                       <span class="is-vishidden">Resize viewport to small</span>
-                      <pl-icon name="phone"></pl-icon>
+                      <pl-icon name="phone" aria-hidden="true"></pl-icon>
                     `,
                 }}
               />
@@ -333,7 +333,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                       <span class="is-vishidden">Resize viewport to medium</span>
-                      <pl-icon name="tablet"></pl-icon>
+                      <pl-icon name="tablet" aria-hidden="true"></pl-icon>
                     `,
                 }}
               />
@@ -350,7 +350,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                       <span class="is-vishidden">Resize viewport to large</span>
-                      <pl-icon name="laptop"></pl-icon>
+                      <pl-icon name="laptop" aria-hidden="true"></pl-icon>
                     `,
                 }}
               />
@@ -367,7 +367,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                       <span class="is-vishidden">Resize viewport to full</span>
-                      <pl-icon name="desktop"></pl-icon>
+                      <pl-icon name="desktop" aria-hidden="true"></pl-icon>
                     `,
                 }}
               />
@@ -384,7 +384,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                       <span class="is-vishidden">Resize viewport to random</span>
-                      <pl-icon name="random"></pl-icon>
+                      <pl-icon name="random" aria-hidden="true"></pl-icon>
                     `,
                 }}
               />
@@ -401,7 +401,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                       <span class="is-vishidden">Resize viewport using disco mode!</span>
-                      <pl-icon name="disco-ball"></pl-icon>
+                      <pl-icon name="disco-ball" aria-hidden="true"></pl-icon>
                     `,
                 }}
               />
@@ -418,7 +418,7 @@ class ViewportSizes extends BaseComponent {
                 dangerouslySetInnerHTML={{
                   __html: `
                      <span class="is-vishidden">Resize viewport using hay mode!</span>
-                     <pl-icon name="hay"></pl-icon>
+                     <pl-icon name="hay" aria-hidden="true"></pl-icon>
                    `,
                 }}
               />

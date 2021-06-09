@@ -5,6 +5,7 @@ date: '2020-02-17'
 tags:
   - blog
 url: '/posts/pattern-lab-website-redesign'
+sitemapChangefreq: 'never'
 ---
 
 We're pleased to announce the Pattern Lab website is undergoing a much-needed facelift!
