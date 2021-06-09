@@ -8,4 +8,5 @@ tags:
   - demo-content
   - code
 refLink: https://patternlab-handlebars-preview.netlify.app/?p=all
+sitemapIgnore: true
 ---

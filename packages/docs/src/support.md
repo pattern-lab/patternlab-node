@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 title: Pattern Lab Support
+sitemapPriority: '0.8'
 ---
 
 ## GitHub
