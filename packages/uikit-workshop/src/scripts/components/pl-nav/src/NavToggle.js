@@ -11,7 +11,7 @@ export const NavToggle = (props) => {
       <span
         class="pl-c-nav__link-icon"
         dangerouslySetInnerHTML={{
-          __html: '<pl-icon name="arrow-down"></pl-icon>',
+          __html: '<pl-icon name="arrow-down" aria-hidden="true"></pl-icon>',
         }}
       />
     </button>

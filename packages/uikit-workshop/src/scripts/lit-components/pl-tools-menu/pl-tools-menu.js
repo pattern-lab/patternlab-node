@@ -130,7 +130,7 @@ class ToolsMenu extends BaseLitComponent {
           class="pl-c-tools__toggle"
           title="Settings"
         >
-          <pl-icon name="settings" slot="after"></pl-icon>
+          <pl-icon name="settings" slot="after" aria-hidden="true"></pl-icon>
         </pl-button>
         <ul
           class="pl-c-tools__list pl-js-acc-panel ${this.isOpen
@@ -157,7 +157,11 @@ class ToolsMenu extends BaseLitComponent {
                     class="pl-js-open-new-window"
                   >
                     Open In New Tab
-                    <pl-icon name="new-tab" slot="after"></pl-icon>
+                    <pl-icon
+                      name="new-tab"
+                      slot="after"
+                      aria-hidden="true"
+                    ></pl-icon>
                   </pl-button>
                 </li>
               `
@@ -167,7 +171,11 @@ class ToolsMenu extends BaseLitComponent {
                 <li class="pl-c-tools__item">
                   <pl-button href="https://patternlab.io" target="_blank">
                     Pattern Lab Docs
-                    <pl-icon name="help" slot="after"></pl-icon>
+                    <pl-icon
+                      name="help"
+                      slot="after"
+                      aria-hidden="true"
+                    ></pl-icon>
                   </pl-button>
                 </li>
               `
