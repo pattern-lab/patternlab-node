@@ -484,7 +484,8 @@ LiveServer.start = function (options) {
     }
   };
 
-  return server; // eslint-disable-line consistent-return
+  // server needs to get returned for the tests
+   return server; // eslint-disable-line consistent-return
 };
 
 LiveServer.shutdown = function () {
