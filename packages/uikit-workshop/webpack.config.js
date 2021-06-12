@@ -1,19 +1,15 @@
 // webpack.config.js
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const NoEmitPlugin = require('no-emit-webpack-plugin');
-const autoprefixer = require('autoprefixer');
-const CriticalCssPlugin = require('critical-css-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const selectorImporter = require('node-sass-selector-importer');
 const PrerenderSPAPlugin = require('prerender-spa-plugin');
-const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const WebpackBar = require('webpackbar');
 
 const cosmiconfig = require('cosmiconfig');
@@ -27,7 +23,7 @@ const defaultConfig = {
   sourceMaps: true,
   watch: argv.watch ? true : false,
   publicPath: './styleguide/',
-  copy: [{ from: './src/images/**', to: 'images', flatten: true }],
+  copy: { patterns: [{ from: './src/images/**', to: 'images/[name][ext]' }] },
   noViewAll: false,
 };
 
@@ -108,7 +104,9 @@ module.exports = function (apiConfig) {
         loader: 'postcss-loader',
         options: {
           sourceMap: config.sourceMaps,
-          plugins: () => [autoprefixer()],
+          postcssOptions: {
+            plugins: [['autoprefixer', {}]],
+          },
         },
       },
       {
@@ -149,7 +147,6 @@ module.exports = function (apiConfig) {
       output: {
         path: path.resolve(config.rootDir, `${config.buildDir}/styleguide`),
         publicPath: `${config.publicPath}`,
-        filename: '[name].js',
         chunkFilename: `js/[name]-chunk-[chunkhash].js`,
       },
       module: {
@@ -227,8 +224,10 @@ module.exports = function (apiConfig) {
       mode: config.prod ? 'production' : 'development',
       optimization: {
         minimize: config.prod,
-        occurrenceOrder: true,
-        namedChunks: true,
+        // TODO: decide on the conflict "optimization.namedChunks: true → optimization.chunkIds: 'named'" and "optimization.occurrenceOrder: true → optimization: { chunkIds: 'total-size', moduleIds: 'size' }" source: https://webpack.js.org/migrate/5/#update-outdated-options
+        // chunkIds: 'named',
+        chunkIds: 'total-size',
+        moduleIds: 'size',
         removeAvailableModules: true,
         removeEmptyChunks: true,
         nodeEnv: 'production',
@@ -237,9 +236,9 @@ module.exports = function (apiConfig) {
         splitChunks: {
           chunks: 'async',
           cacheGroups: {
-            vendors: {
+            defaultVendors: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
+              idHint: 'vendors',
               chunks: 'async',
               reuseExistingChunk: true,
             },
@@ -249,7 +248,6 @@ module.exports = function (apiConfig) {
           ? [
               new TerserPlugin({
                 test: /\.m?js(\?.*)?$/i,
-                sourceMap: config.prod ? false : config.sourceMaps,
                 terserOptions: {
                   safari10: true,
                 },
@@ -260,26 +258,10 @@ module.exports = function (apiConfig) {
       plugins: [
         new WebpackBar(),
         new CopyPlugin(config.copy),
+        // TODO: Check whether this is still correctly implemented (correct filename?), introduced with https://github.com/pattern-lab/patternlab-node/commit/318801a4ac10eb7263a09ab948c5cc272a922ce9#diff-8c9b7dba764c6bd34aaec36a6a42e7b69d9a46b19712a47706355bb8616d3319R156 - especially if this is meant to work in combination with Mini CSS Extract Plugin it's probably a little simpler to declare now: https://github.com/xipasduarte/no-emit-webpack-plugin/releases/tag/v4.0.1
         new NoEmitPlugin(['css/pattern-lab.js']),
       ],
     };
-
-    webpackConfig.plugins.push(
-      new HardSourceWebpackPlugin({
-        info: {
-          level: 'warn',
-        },
-        // Clean up large, old caches automatically.
-        cachePrune: {
-          // Caches younger than `maxAge` are not considered for deletion. They must
-          // be at least this (default: 2 days) old in milliseconds.
-          maxAge: 2 * 24 * 60 * 60 * 1000,
-          // All caches together must be larger than `sizeThreshold` before any
-          // caches will be deleted. Together they must be at least 300MB in size
-          sizeThreshold: 300 * 1024 * 1024,
-        },
-      })
-    );
 
     const legacyConfig = merge(webpackConfig, {
       entry: {
@@ -309,7 +291,6 @@ module.exports = function (apiConfig) {
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
-          allChunks: true,
         }),
       ],
     });
@@ -349,22 +330,19 @@ module.exports = function (apiConfig) {
       },
       plugins: [
         // clear out the buildDir on every fresh Webpack build
-        new CleanWebpackPlugin(
-          config.watch
+        new CleanWebpackPlugin({
+          verbose: false,
+          cleanOnceBeforeBuildPatterns: config.watch
             ? []
             : [
                 `${config.buildDir}/index.html`,
                 `${config.buildDir}/styleguide/css`,
                 `${config.buildDir}/styleguide/js`,
               ],
-          {
-            allowExternal: true,
-            verbose: false,
 
-            // perform clean just before files are emitted to the output dir
-            beforeEmit: false,
-          }
-        ),
+          // perform clean just before files are emitted to the output dir
+          beforeEmit: false,
+        }),
         new HtmlWebpackPlugin({
           filename: '../index.html',
           template: path.resolve(__dirname, 'src/html/index.html'),
@@ -373,7 +351,6 @@ module.exports = function (apiConfig) {
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
-          allChunks: true,
         }),
       ],
     });
