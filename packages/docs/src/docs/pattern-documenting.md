@@ -55,6 +55,22 @@ We'd name our documentation file:
 atoms/button/button~red.md
 ```
 
+## Documenting Subgroups
+
+
+To document pattern subgroups, you need to create a companion `.md` file for that subgroup. For example create `_patters/atoms/buttons/_buttons.md` for a pattern subgroup. In the `.md` file, the above concept can be applied. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without prefixes}.md`
+
+
+```markdown
+---
+order: 0
+---
+
+This is a *Markdown* description of the subgroup button.
+```
+
+In the future we'll even also provide the possibility to document groups as well.
+
 ## Adding More Attributes to the Front Matter
 
 A future update of Pattern Lab will support more front matter attributes including: excludeFromStyleguide and links.
