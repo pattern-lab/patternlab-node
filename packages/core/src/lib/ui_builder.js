@@ -140,7 +140,9 @@ const ui_builder = function () {
         patternName: _.startCase(
           isSubgroupPattern ? pattern.patternSubgroup : pattern.patternGroup
         ),
-        patternDesc: '',
+        patternDesc: isSubgroupPattern
+          ? pattern.patternSubgroupData.markdown
+          : pattern.patternGroupData.markdown,
         patternPartial: `viewall-${pattern.patternGroup}-${
           isSubgroupPattern ? pattern.patternSubgroup : 'all'
         }`,
