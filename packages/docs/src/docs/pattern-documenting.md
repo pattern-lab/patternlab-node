@@ -62,9 +62,6 @@ To document pattern subgroups, you need to create a companion `.md` file for tha
 
 
 ```markdown
----
-order: 0
----
 
 This is a *Markdown* description of the subgroup button.
 ```
