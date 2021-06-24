@@ -35,13 +35,13 @@ describe('basic functional tests', function () {
       .expect(/<script [^]+?live reload enabled[^]+?<\/script>/i)
       .expect(200, done);
   });
-  it('should inject also svg files', function (done) {
+  it('should not inject script into svg files', function (done) {
     request(liveServer)
       .get('/test.svg')
       .expect('Content-Type', 'image/svg+xml')
       .expect(function (res) {
-        if (res.body.toString().indexOf('Live reload enabled') == -1)
-          throw new Error('injected code not found');
+        if (res.body.toString().indexOf('Live reload enabled') !== -1)
+          throw new Error('injected script code found');
       })
       .expect(200, done);
   });
@@ -54,14 +54,5 @@ describe('basic functional tests', function () {
           throw new Error('injected code should not be found');
       })
       .expect(200, done);
-  });
-  xit('should have WebSocket connection', function (done) {
-    done(); // todo
-  });
-  xit('should reload on page change', function (done) {
-    done(); // todo
-  });
-  xit('should reload (without refreshing) on css change', function (done) {
-    done(); // todo
   });
 });

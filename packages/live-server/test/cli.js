@@ -16,7 +16,10 @@ describe('command line usage', function () {
   it('--version', function (done) {
     exec_test(['--version'], function (error, stdout, stdin) {
       assert(!error, error);
-      assert(stdout.indexOf('live-server') == 0, 'version not found');
+      assert(
+        stdout.indexOf('@pattern-lab/live-server') == 0,
+        'version not found'
+      );
       done();
     });
   });
@@ -42,7 +45,10 @@ describe('command line usage', function () {
       ['--port=16123', '--no-browser', '--test'],
       function (error, stdout, stdin) {
         assert(!error, error);
-        assert(stdout.indexOf('Serving') == 0, 'serving string not found');
+        assert(
+          !Boolean(stdout.indexOf('Serving') == 0),
+          'serving string not found'
+        );
         assert(
           stdout.indexOf('at http://127.0.0.1:16123') != -1,
           'port string not found'
@@ -56,7 +62,10 @@ describe('command line usage', function () {
       ['--host=localhost', '--no-browser', '--test'],
       function (error, stdout, stdin) {
         assert(!error, error);
-        assert(stdout.indexOf('Serving') == 0, 'serving string not found');
+        assert(
+          !Boolean(stdout.indexOf('Serving') == 0),
+          'serving string not found'
+        );
         assert(
           stdout.indexOf('at http://localhost:') != -1,
           'host string not found'
@@ -74,7 +83,10 @@ describe('command line usage', function () {
       ],
       function (error, stdout, stdin) {
         assert(!error, error);
-        assert(stdout.indexOf('Serving') == 0, 'serving string not found');
+        assert(
+          !Boolean(stdout.indexOf('Serving') == 0),
+          'serving string not found'
+        );
         done();
       }
     );
