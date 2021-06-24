@@ -36,7 +36,7 @@
   "scripts": {
     "lint": "eslint live-server.js index.js",
     "hint": "jshint live-server.js index.js",
-    "test:separate": "mocha test && npm run lint"
+    "test:separate": "mocha test --exit && npm run lint"
   },
   "bin": {
     "live-server": "./live-server.js"
