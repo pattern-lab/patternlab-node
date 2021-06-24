@@ -23,7 +23,7 @@ const markdown_parser = function () {
         if (chunks && chunks[1]) {
           //parse the yaml if we got it
           const frontmatter = chunks[1];
-          returnObject = yaml.safeLoad(frontmatter);
+          returnObject = yaml.load(frontmatter);
         }
 
         if (chunks[2]) {

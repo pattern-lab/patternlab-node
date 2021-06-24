@@ -145,11 +145,9 @@ class Search extends BaseComponent {
     const fuseOptions = {
       shouldSort: true,
       threshold: 0.3,
-      tokenize: true,
       includeMatches: true,
       location: 0,
       distance: 100,
-      maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: ['label'],
     };

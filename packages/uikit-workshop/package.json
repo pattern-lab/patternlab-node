@@ -35,9 +35,9 @@
     "@pattern-lab/core": "^5.14.3",
     "@pattern-lab/engine-handlebars": "^5.14.3",
     "@pattern-lab/engine-mustache": "^5.14.3",
-    "better-opn": "^1.0.0",
+    "better-opn": "^3.0.0",
     "browser-sync": "^2.26.7",
-    "ejs": "^2.7.2",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "hasha": "^5.2.2",
     "portfinder": "^1.0.28",
@@ -61,15 +61,15 @@
     "@webcomponents/custom-elements": "^1.4.3",
     "autoprefixer": "^9.6.5",
     "babel-loader": "^8.0.6",
-    "classnames": "^2.2.6",
+    "classnames": "^2.3.1",
     "clean-css-loader": "^1.0.1",
     "clean-webpack-plugin": "0.1.19",
     "clipboard": "^2.0.8",
     "copy-webpack-plugin": "^5.0.2",
-    "cosmiconfig": "^5.0.6",
+    "cosmiconfig": "^7.0.0",
     "css-loader": "^3.2.0",
     "fg-loadjs": "^1.1.0",
-    "fuse.js": "^3.4.5",
+    "fuse.js": "^6.4.6",
     "hard-source-webpack-plugin-patch": "^0.13.3",
     "hogan.js": "^3.0.2",
     "html-loader": "^0.5.5",
@@ -79,7 +79,7 @@
     "mini-css-extract-plugin": "^0.8.0",
     "mousetrap": "^1.6.5",
     "no-emit-webpack-plugin": "^1.0.0",
-    "node-sass": "^6.0.0",
+    "node-sass": "^6.0.1",
     "node-sass-selector-importer": "^5.2.0",
     "postcss-loader": "^3.0.0",
     "preact": "8.3.1",
@@ -97,7 +97,7 @@
     "redux-thunk": "^2.3.0",
     "sass-loader": "^10.1.1",
     "scriptjs": "^2.5.9",
-    "scroll-js": "^2.2.0",
+    "scroll-js": "^3.3.0",
     "skatejs": "^5.2.4",
     "style-loader": "^1.0.0",
     "svg-sprite-loader": "^4.1.6",
@@ -108,7 +108,7 @@
     "webpack-cli": "^3.3.9",
     "webpack-merge": "^4.2.2",
     "wolfy87-eventemitter": "^5.2.9",
-    "yargs": "^16.2.0"
+    "yargs": "^17.0.1"
   },
   "browserslist": [
     "last 2 version",
@@ -123,5 +123,8 @@
     "views-twig",
     "webpack.config.js"
   ],
-  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac",
+  "engines": {
+    "node": ">=12.12.0"
+  }
 }
