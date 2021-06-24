@@ -172,7 +172,8 @@ LiveServer.start = function (options) {
   const port = options.port !== undefined ? options.port : 8080; // 0 means random
   const root = options.root || process.cwd();
   const mount = options.mount || [];
-  const watchPaths = options.watch || [root, ...options.assets];
+  const watchPaths =
+    options.watch || (options.assets ? [root, ...options.assets] : [root]);
   LiveServer.logLevel = options.logLevel === undefined ? 2 : options.logLevel;
 
   let openPath =
@@ -482,6 +483,9 @@ LiveServer.start = function (options) {
       });
     }
   };
+
+  // server needs to get returned for the tests
+  return server; // eslint-disable-line consistent-return
 };
 
 LiveServer.shutdown = function () {
