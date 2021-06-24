@@ -2,7 +2,10 @@
 {{# descBlockExists }}
 
 <div
-  class="pl-c-pattern-info__panel pl-c-pattern-info__panel--info pl-js-pattern-info"
+  class="
+    pl-c-pattern-info__panel pl-c-pattern-info__panel--info
+    pl-js-pattern-info
+  "
 >
   {{# isPatternView }}
   <!-- extra info for modal view -->
@@ -83,9 +86,7 @@
       <li class="pl-c-annotations__item">
         <h3 class="pl-c-annotations__item-title">{{ title }}</h3>
 
-        <div class="pl-c-annotations__item-body">
-          {{{ comment }}}
-        </div>
+        <div class="pl-c-annotations__item-body">{{{ comment }}}</div>
         <!--end pl-c-annotations__item-body-->
       </li>
       <!--end pl-c-annotations__item-->
