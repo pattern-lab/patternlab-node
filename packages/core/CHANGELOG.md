@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.15.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+
+### Features
+
+* **documentation:** added (sub)groups documentation again [#1262](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1262) ([#1334](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1334)) ([9fac269](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/9fac2699d2f6c64c4544e8e4d8e18c1a1ce7e49f))
+
+
+
+
+
 ## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.14.2...v5.14.3) (2021-05-17)
 
 **Note:** Version bump only for package @pattern-lab/core
