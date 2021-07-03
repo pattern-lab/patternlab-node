@@ -381,14 +381,16 @@ Pattern.prototype = {
         .map((o, i) => {
           if (i === 0) {
             // TODO: Remove when prefix gets deprecated
-            info.patternGroupOrder =
-              Pattern.prototype.setPatternOrderDataForInfo(o);
+            info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
+              o
+            );
           }
 
           if (i === 1) {
             // TODO: Remove when prefix gets deprecated
-            info.patternSubgroupOrder =
-              Pattern.prototype.setPatternOrderDataForInfo(o);
+            info.patternSubgroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
+              o
+            );
           }
 
           return o.replace(prefixMatcher, '');

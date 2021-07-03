@@ -64,11 +64,10 @@ module.exports = function (currentPattern, patternlab) {
                 `within ${currentPattern.patternPartial}, replacing extendedTemplate partial ${foundPartial} with ${cleanPartialPattern.patternPartial}'s extendedTemplate`
               );
 
-              currentPattern.extendedTemplate =
-                currentPattern.extendedTemplate.replace(
-                  foundPartial,
-                  cleanPartialPattern.extendedTemplate
-                );
+              currentPattern.extendedTemplate = currentPattern.extendedTemplate.replace(
+                foundPartial,
+                cleanPartialPattern.extendedTemplate
+              );
 
               // update the extendedTemplate in the partials object in case this
               // pattern is consumed later
