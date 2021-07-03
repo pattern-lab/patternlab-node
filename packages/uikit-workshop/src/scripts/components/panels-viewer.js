@@ -177,9 +177,8 @@ export const panelsViewer = {
           template = document.getElementById(panel.templateID);
           templateCompiled = Hogan.compile(template.innerHTML);
           templateRendered = templateCompiled.render(patternData);
-          const normalizedCode = normalizeWhitespace.normalize(
-            templateRendered
-          );
+          const normalizedCode =
+            normalizeWhitespace.normalize(templateRendered);
           normalizedCode.replace(/[\r\n]+/g, '\n\n');
           const highlightedCode = Prism.highlight(
             normalizedCode,

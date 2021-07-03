@@ -21,7 +21,7 @@ tap.test(
   'buildlistItems transforms container of listItems with one value',
   (test) => {
     // do this to avoid the shuffling for now
-    const container = Object.assign({}, { listitems: { '1': listItems['1'] } });
+    const container = Object.assign({}, { listitems: { 1: listItems['1'] } });
     buildlistItems(container);
     test.same(container.listitems, {
       'listItems-one': [

@@ -29,7 +29,8 @@ const glob = require('glob');
 
 // regexes, stored here so they're only compiled once
 const findPartialsRE = /{{#?>\s*([\w-\/.]+)(?:.|\s+)*?}}/g;
-const findListItemsRE = /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
+const findListItemsRE =
+  /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
 const findAtPartialBlockRE = /{{#?>\s*@partial-block\s*}}/g;
 
 function escapeAtPartialBlock(partialString) {

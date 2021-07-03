@@ -242,7 +242,8 @@ class Search extends BaseComponent {
     return (
       <div
         className={classNames('pl-c-typeahead__input-wrapper', {
-          [`pl-c-typeahead__input-wrapper--with-clear-button`]: shouldShowClearButton,
+          [`pl-c-typeahead__input-wrapper--with-clear-button`]:
+            shouldShowClearButton,
         })}
       >
         <input {...inputProps} />

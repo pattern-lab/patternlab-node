@@ -28,9 +28,8 @@ var engineNames = Object.keys(patternEngines);
 tap.test(
   'getEngineNameForPattern returns "mustache" from test pattern',
   function (test) {
-    var engineName = patternEngines.getEngineNameForPattern(
-      mustacheTestPattern
-    );
+    var engineName =
+      patternEngines.getEngineNameForPattern(mustacheTestPattern);
     test.equal(engineName, 'mustache');
     test.end();
   }

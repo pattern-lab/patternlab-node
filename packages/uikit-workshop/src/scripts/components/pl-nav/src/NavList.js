@@ -3,12 +3,13 @@ import { NavToggle } from './NavToggle';
 import { NavLink } from './NavLink';
 import { NavItem } from './NavItem';
 import { NavButton } from './NavButton';
+import { getRandom } from '../../../utils';
 
 export const NavList = (props) => {
   const { children, category, categoryName, elem } = props;
   const reorderedChildren = [];
 
-  const random = Math.random().toString().substr(2);
+  const random = getRandom(10000000, 99999999);
 
   const nonViewAllItems = elem.noViewAll
     ? children.filter((item) => !item.isDocPattern)
