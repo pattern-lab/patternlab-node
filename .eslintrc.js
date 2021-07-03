@@ -6,7 +6,8 @@ module.exports = {
     es6: true,
     browser: true,
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
+  // TODO: Check for "Note: The parserOptions described in the official documentation are for the default parser and are not necessarily supported by @babel/eslint-parser. Please see the section directly below for supported parserOptions.": https://www.npmjs.com/package/@babel/eslint-parser
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -17,8 +18,9 @@ module.exports = {
     },
   },
   globals: {},
-  plugins: ['prettier'],
-  extends: ['eslint-config-prettier'].map(require.resolve),
+  plugins: ['@babel', 'prettier'],
+  extends: ['plugin:prettier/recommended'],
+  // TODO: Check for "ESLint rules relating to code formatting", compare to "This plugin works best if you disable all other ESLint rules relating to code formatting, and only enable rules that detect potential bugs. (If another active ESLint rule disagrees with prettier about how code should be formatted, it will be impossible to avoid lint errors.)", source: https://github.com/prettier/eslint-plugin-prettier#recommended-configuration
   rules: {
     'prettier/prettier': 'error',
     'block-scoped-var': 0,
@@ -27,7 +29,7 @@ module.exports = {
     curly: [2, 'all'],
     'dot-notation': [1, { allowKeywords: true }],
     eqeqeq: [2, 'allow-null'],
-    'global-strict': [0, 'never'],
+    'strict': [0, 'never'],
     'guard-for-in': 2,
     'key-spacing': 0,
     'new-cap': 0,
@@ -49,9 +51,9 @@ module.exports = {
     'no-irregular-whitespace': 1,
     'no-iterator': 2,
     'no-loop-func': 2,
-    'no-mixed-requires': 0,
+    'node/no-mixed-requires': 0,
     'no-multi-str': 2,
-    'no-native-reassign': 2,
+    'no-global-assign': 2,
     'no-new': 2,
     'no-param-reassign': 1,
     'no-proto': 2,
