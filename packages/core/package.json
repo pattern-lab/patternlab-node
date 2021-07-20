@@ -17,7 +17,7 @@
     "lodash": "4.17.21",
     "markdown-it": "12.0.6",
     "node-fetch": "2.6.1",
-    "recursive-copy": "2.0.11",
+    "recursive-copy": "2.0.13",
     "update-notifier": "5.1.0"
   },
   "devDependencies": {
