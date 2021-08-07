@@ -326,8 +326,6 @@ Prevent specific filetypes being copied from your `source` to your `public` fold
 ]
 ```
 
-These template and page patterns would still be accessible via navigation.
-
 **default**: `[]`
 
 ## uikits

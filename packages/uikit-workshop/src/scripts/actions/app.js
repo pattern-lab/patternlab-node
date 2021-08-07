@@ -9,17 +9,15 @@ export const UPDATE_CURRENT_URL = 'UPDATE_CURRENT_URL';
 export const UPDATE_CURRENT_PATTERN = 'UPDATE_CURRENT_PATTERN';
 export const IS_VIEWALL_PAGE = 'IS_VIEWALL_PAGE';
 
-export const updateCurrentPattern = (currentPattern) => (
-  dispatch,
-  getState
-) => {
-  if (getState().app.currentPattern !== currentPattern) {
-    dispatch({
-      type: UPDATE_CURRENT_PATTERN,
-      currentPattern,
-    });
-  }
-};
+export const updateCurrentPattern =
+  (currentPattern) => (dispatch, getState) => {
+    if (getState().app.currentPattern !== currentPattern) {
+      dispatch({
+        type: UPDATE_CURRENT_PATTERN,
+        currentPattern,
+      });
+    }
+  };
 
 export const updateCurrentUrl = (currentUrl) => (dispatch, getState) => {
   if (getState().app.currentUrl !== currentUrl) {
@@ -75,17 +73,15 @@ export const updateDrawerState = (opened) => (dispatch, getState) => {
   }
 };
 
-export const updateDrawerAnimationState = (drawerIsAnimating) => (
-  dispatch,
-  getState
-) => {
-  if (getState().app.drawerIsAnimating !== drawerIsAnimating) {
-    dispatch({
-      type: UPDATE_DRAWER_ANIMATION_STATE,
-      drawerIsAnimating,
-    });
-  }
-};
+export const updateDrawerAnimationState =
+  (drawerIsAnimating) => (dispatch, getState) => {
+    if (getState().app.drawerIsAnimating !== drawerIsAnimating) {
+      dispatch({
+        type: UPDATE_DRAWER_ANIMATION_STATE,
+        drawerIsAnimating,
+      });
+    }
+  };
 
 export const updateDrawerHeight = (height) => (dispatch, getState) => {
   if (getState().app.drawerHeight !== height) {

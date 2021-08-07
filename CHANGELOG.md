@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.15.0](https://github.com/pattern-lab/patternlab-node/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* **live-server:** testing ([#1331](https://github.com/pattern-lab/patternlab-node/issues/1331)) ([2b2e1b1](https://github.com/pattern-lab/patternlab-node/commit/2b2e1b1c2426ab578dc014ea99df520d17a7db92))
+
+
+### Features
+
+* **docs:** adding a sitemap.xml ([#1329](https://github.com/pattern-lab/patternlab-node/issues/1329)) ([0a7fd95](https://github.com/pattern-lab/patternlab-node/commit/0a7fd95d5f1c3ce690bbe89cc30580ff58d1ab9c))
+* **documentation:** added (sub)groups documentation again [#1262](https://github.com/pattern-lab/patternlab-node/issues/1262) ([#1334](https://github.com/pattern-lab/patternlab-node/issues/1334)) ([9fac269](https://github.com/pattern-lab/patternlab-node/commit/9fac2699d2f6c64c4544e8e4d8e18c1a1ce7e49f))
+
+
+
+
+
 ## [5.14.3](https://github.com/pattern-lab/patternlab-node/compare/v5.14.2...v5.14.3) (2021-05-17)
 
 
