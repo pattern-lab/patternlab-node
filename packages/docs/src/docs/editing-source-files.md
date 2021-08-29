@@ -79,4 +79,6 @@ In the Node version of Pattern Lab you can modify the following configuration op
 
 ## Watching for Source File Changes
 
-Manually generating the Pattern Lab website after each change can be cumbersome. The Node version of Pattern Lab comes with the ability to watch files in the `./source/` directory for changes and re-generate the site automatically. The Pattern Lab website can also be automatically reloaded..
+Manually generating the Pattern Lab website after each change can be cumbersome. The Node version of Pattern Lab comes with the ability to watch files in the `./source/` directory for changes and re-generate the site automatically. The Pattern Lab website can also be automatically reloaded.
+
+If you're doing bigger changes especially to the file and folder structure, it's recommended to stop patternlab, delete the cache file `dependencyGraph.json` within the projects root and start patternlab again, as these changes might conflict with the existing cache structures.
