@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/website",
-  "version": "5.14.3",
+  "version": "5.15.0",
   "description": "The website for patternlab.io",
   "main": "index.js",
   "dependencies": {
@@ -11,6 +11,7 @@
     "concurrently": "^4.1.0",
     "html-minifier": "^4.0.0",
     "json-to-scss": "^1.6.2",
+    "nunjucks": "^3.2.3",
     "sass": "^1.32.8",
     "semver": "^6.3.0",
     "slugify": "^1.5.0",
@@ -34,7 +35,7 @@
     "sass:process": "yarn sass:tokens && sass src/scss/style.scss dist/css/style.css --style=compressed",
     "cms:precompile": "make-dir dist/admin && nunjucks-precompile src/_includes > dist/admin/templates.js -i \"\\.(njk|css|svg)$\"",
     "cms:bundle": "rollup --config",
-    "start": "concurrently \"yarn sass:process -- --watch\" \"yarn cms:bundle -- --watch\" \"chokidar \\\"src/_includes/**\\\" -c \\\"yarn cms:precompile\\\"\" \"yarn serve\"",
+    "start": "concurrently \"yarn sass:process --watch\" \"yarn cms:bundle --watch\" \"chokidar \\\"src/_includes/**\\\" -c \\\"yarn cms:precompile\\\"\" \"yarn serve\"",
     "serve": "cross-env ELEVENTY_ENV=development npx eleventy --serve",
     "production": "yarn sass:process && yarn cms:precompile && yarn cms:bundle && npx eleventy"
   },

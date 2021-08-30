@@ -7,11 +7,13 @@ eleventyNavigation:
   key: getting-started
   title: Editing the Configuration Options
   order: 30
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Pattern Lab Node comes with a configuration file [(`patternlab-config.json`)](https://github.com/pattern-lab/patternlab-node/blob/master/packages/core/patternlab-config.json) that allows you to modify certain aspects of the system. The latest default values are included within. This file is shipped within [the editions](https://github.com/pattern-lab?utf8=%E2%9C%93&query=edition-node) or can be supplied from core and the command line interface. Below is a description of each configuration option and how it affects Pattern Lab Node.
 
-### cacheBust
+## cacheBust
 
 Instructs Pattern Lab to append a unique query string to Javascript and CSS assets throughout the frontend.
 
@@ -21,13 +23,13 @@ Instructs Pattern Lab to append a unique query string to Javascript and CSS asse
 
 **default**: `true`
 
-### cleanPublic
+## cleanPublic
 
 Sets whether or not to delete `public.patterns/` upon each build of Pattern Lab. When set to false, [incremental builds](https://github.com/pattern-lab/patternlab-node/wiki/Incremental-Builds) are also enabled.
 
 **default**: `true`
 
-### defaultPatttern
+## defaultPattern
 
 Sets a specific pattern upon launch of the styleguide. This pattern will not be available in the navigation, or in view all pages. The only way to get to it will be via a refresh. Set it using the [short-hand pattern-include syntax](/docs/including-patterns/):
 
@@ -39,19 +41,19 @@ A special value of `all` can also be supplied to display all patterns on load.
 
 **default**: `all`
 
-### defaultShowPatternInfo
+## defaultShowPatternInfo
 
 Sets whether or not you want the styleguide to load with the pattern info open or closed.
 
 **default**: `false`
 
-### defaultPatternInfoPanelCode (optional)
+## defaultPatternInfoPanelCode (optional)
 
 Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, or instead use value `html` to display the html code initially, or the value defined for the _patternExtension_.
 
 **default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"` | `"html"`)
 
-### ishControlsHide
+## ishControlsHide
 
 Sets whether or not to hide navigation options within the styleguide.
 
@@ -77,7 +79,7 @@ Sets whether or not to hide navigation options within the styleguide.
 }
 ```
 
-### ishViewportRange
+## ishViewportRange
 
 Sets the boundaries of each of the viewport toggles, 'S'mall, 'M'edium, and 'L'arge. Clicking on one of these buttons will randomly set the ish Viewport to a value within the given range. Setting the range to the same number can effectively set an exact value. The first entry in `ishViewportRange.s` is the `ishViewportMinimum`, which is now obsolete. The second entry in `ishViewportRange.l` is the `ishViewportMaximum`, which is now also obsolete.
 
@@ -91,7 +93,7 @@ Sets the boundaries of each of the viewport toggles, 'S'mall, 'M'edium, and 'L'a
 },
 ```
 
-### logLevel
+## logLevel
 
 Sets the level of verbosity for Pattern Lab Node logging.
 
@@ -105,7 +107,7 @@ This replaces the now obsolete `debug` flag.
 
 **default**: `info`
 
-### outputFileSuffixes
+## outputFileSuffixes
 
 Sets the naming of output pattern files. Suffixes are defined for 'rendered', 'rawTemplate', and 'markupOnly' files. This configuration is needed for some PatternEngines that use the same input and output file extensions. Most users will not have to change this.
 
@@ -117,7 +119,7 @@ Sets the naming of output pattern files. Suffixes are defined for 'rendered', 'r
 },
 ```
 
-### paths
+## paths
 
 Sets the configurable source and public directories for files Pattern Lab Node operates within. Build, copy, output, and server operations rely upon these paths. Some paths are relative to the current UIKit. See UIKit configuration for more info. Note the `patternlabFiles` which help create the front end styleguide. Note also the intentional repetition of the nested structure, made this way for maximum flexibility. These are unlikely to change unless you customize your environment or write custom UIKits.
 
@@ -158,13 +160,13 @@ Sets the configurable source and public directories for files Pattern Lab Node o
   },
 ```
 
-### patternExtension
+## patternExtension
 
 Sets the panel name and language for the code tab on the styleguide. Since this only accepts one value, this is a place where mixed pattern trees (different PatternEngines in the same instance of Pattern Lab) does not quite work.
 
 **default**: `mustache`
 
-### patternStateCascade
+## patternStateCascade
 
 See the [Pattern State Documentation](/docs/using-pattern-states/)
 
@@ -174,13 +176,13 @@ See the [Pattern State Documentation](/docs/using-pattern-states/)
 "patternStateCascade": ["inprogress", "inreview", "complete"],
 ```
 
-### patternExportDirectory
+## patternExportDirectory
 
 Sets the location that any export operations should output files to. This may be a relative or absolute path.
 
 **default**: `./pattern_exports/`
 
-### patternExportPatternPartials
+## patternExportPatternPartials
 
 Sets an array of patterns (using the [short-hand pattern-include syntax](/docs/including-patterns/)) to be exported after a build.
 
@@ -192,7 +194,7 @@ For example, to export the navigation, header, and footer, one might do:
 
 **default**: `[]`
 
-### patternMergeVariantArrays
+## patternMergeVariantArrays
 
 Used to override the merge behavior of pattern variants. For more information see [The Pseudo-Pattern File Data](docs/using-pseudo-patterns/#heading-the-pseudo-pattern-file-data).
 
@@ -205,7 +207,7 @@ Used to override the merge behavior of pattern variants. For more information se
 
 **default**: `true` | `undefined`
 
-### renderFlatPatternsOnViewAllPages
+## renderFlatPatternsOnViewAllPages
 
 Used to activate rendering flat patterns on view all pages and generate view all pages if only flat patterns are available
 
@@ -218,7 +220,7 @@ Used to activate rendering flat patterns on view all pages and generate view all
 
 **default**: `false` | `undefined`
 
-### serverOptions
+## serverOptions
 
 Sets [live-server options](https://github.com/pattern-lab/live-server#usage-from-node):
 
@@ -244,7 +246,7 @@ Sets [live-server options](https://github.com/pattern-lab/live-server#usage-from
 },
 ```
 
-### starterkitSubDir
+## starterkitSubDir
 
 [Starterkits](/docs/starterkits/) by convention house their files within the `dist/` directory. Should someone ever wish to change this, this key is available.
 
@@ -254,7 +256,7 @@ Sets [live-server options](https://github.com/pattern-lab/live-server#usage-from
 "starterkitSubDir": "dist",
 ```
 
-### styleGuideExcludes
+## styleGuideExcludes
 
 Sets whole pattern types to be excluded from the "All" patterns page on the styleguide. This is useful to decrease initial load of the styleguide. For example, to exlude all patterns under `templates` and `pages`, add the following:
 
@@ -269,7 +271,7 @@ These template and page patterns would still be accessible via navigation.
 
 **default**: `[]`
 
-### theme
+## theme
 
 Sets the theme options for the styleguide. There are five options:
 * `"color"`
@@ -314,7 +316,7 @@ And `"logo"` lets you finetune the different aspects of the logo displayed on th
 }
 ```
 
-### transformedAssetTypes (optional)
+## transformedAssetTypes (optional)
 
 Prevent specific filetypes being copied from your `source` to your `public` folder like e.g. CSS preprocessor source files (`.scss`), you could specify those within an array of your pattern lab config:
 
@@ -324,11 +326,9 @@ Prevent specific filetypes being copied from your `source` to your `public` fold
 ]
 ```
 
-These template and page patterns would still be accessible via navigation.
-
 **default**: `[]`
 
-### uikits
+## uikits
 
 Introduced in Pattern Lab Node v3, UIKits are a new term in the Pattern Lab [Ecosystem](/docs/overview-of-pattern-lab's-ecosystem/). They are an evolution of the original Styleguidekit pattern which separated front-end templates from front-end assets like stylesheets and code. The existing `styleguidekit-assets-default` and `styleguidekit-mustache-default` have merged into `uikit-workshop`.
 

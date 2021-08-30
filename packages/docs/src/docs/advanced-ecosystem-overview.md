@@ -7,6 +7,7 @@ eleventyNavigation:
   key: advanced
   title: Overview of Pattern Lab's Ecosystem
   order: 300
+sitemapPriority: '0.8'
 ---
 
 Pattern Lab 2 introduces the beginnings of an ecosystem that will allow teams to mix, match and extend Pattern Lab to meet their specific needs. It will also make it easier for the Pattern Lab team to push out new features. Documentation that explains how best to take advantage of the ecosystem will be released in the coming weeks.
@@ -19,7 +20,7 @@ Editions let teams and agencies bundle all the things that support their unique 
 
 The following is good overview of what components might make up an edition:
 
-<img src="/images/pattern-lab-2-image_18-large-opt.png">
+<img src="/images/pattern-lab-2-image_18-large-opt.png" width="640" height="509" alt="Pattern Lab Edition">
 
 This is by no means exhaustive and can be added to as needed. Here is a description of each component:
 

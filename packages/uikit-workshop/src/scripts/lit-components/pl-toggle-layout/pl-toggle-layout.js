@@ -88,6 +88,7 @@ class LayoutToggle extends LitElement {
         <pl-icon
           slot="after"
           name="${this.layoutMode === 'horizontal' ? 'layout-h' : 'layout-v'}"
+          aria-hidden="true"
         ></pl-icon>
       </pl-button>
     `;

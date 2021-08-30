@@ -76,7 +76,11 @@ class ThemeToggle extends LitElement {
       >
         Switch Theme
 
-        <pl-icon slot="after" name="theme-${this.themeMode}"></pl-icon>
+        <pl-icon
+          slot="after"
+          name="theme-${this.themeMode}"
+          aria-hidden="true"
+        ></pl-icon>
       </pl-button>
     `;
   }

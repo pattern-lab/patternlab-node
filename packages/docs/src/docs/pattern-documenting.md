@@ -7,9 +7,11 @@ eleventyNavigation:
   title: Documenting Patterns
   key: patterns
   order: 110
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
-Pattern documentation gives developers and designers the ability to provide context for their patterns. The documentation file consists of Markdown with YAML front matter. It should follow this format:
+Pattern documentation gives developers and designers the ability to provide context for their patterns and subgroups. The documentation file consists of Markdown with YAML front matter. It should follow this format:
 
 ```
 ---
@@ -52,6 +54,19 @@ We'd name our documentation file:
 ```
 atoms/button/button~red.md
 ```
+
+## Documenting Subgroups
+
+
+To document pattern subgroups, you need to create a companion `.md` file for that subgroup. For example create `_patters/atoms/buttons/_buttons.md` for a pattern subgroup. In the `.md` file, the above concept can be applied. The doc-file resolving works the following `{patternsRoot}/{pattern-group folder name}/{pattern-sub-group folder name}/_{pattern-sub-group raw name without prefixes}.md`
+
+
+```markdown
+
+This is a *Markdown* description of the subgroup button.
+```
+
+In the future we'll even also provide the possibility to document groups as well.
 
 ## Adding More Attributes to the Front Matter
 
