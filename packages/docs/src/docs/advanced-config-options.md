@@ -291,7 +291,7 @@ Available values are:
   "logo": {
     "text": "Pattern Lab",
     "altText": "Pattern Lab Logo",
-    "url": "/",
+    "url": "./",
     "srcLight": "styleguide/images/pattern-lab-logo--on-light.svg",
     "srcDark": "styleguide/images/pattern-lab-logo--on-dark.svg",
     "width": "187",
