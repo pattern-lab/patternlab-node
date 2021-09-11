@@ -13982,7 +13982,22 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-recursive-copy@2.0.11, recursive-copy@^2.0.10:
+recursive-copy@2.0.13:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/recursive-copy/-/recursive-copy-2.0.13.tgz#ace471459650f379d4127dd64aa2a4ceca808aa2"
+  integrity sha512-BjmE6R/dOImStEku+017L3Z0I6u/lA+SVr1sySWbTLjmQKDTESNmJ9WBZP8wbN5FuvqNvSYvRKA/IKQhAjqnpQ==
+  dependencies:
+    del "^2.2.0"
+    errno "^0.1.2"
+    graceful-fs "^4.1.4"
+    junk "^1.0.1"
+    maximatch "^0.1.0"
+    mkdirp "^0.5.1"
+    pify "^2.3.0"
+    promise "^7.0.1"
+    slash "^1.0.0"
+
+recursive-copy@^2.0.10:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/recursive-copy/-/recursive-copy-2.0.11.tgz#7ed3c0f4b6bb0ffda7cab62bf865a82f5a391c39"
   integrity sha512-DqL2kO10mUne7XK5BPcwRtOJJZKhddD7IrW4UmHmKrwdV3HLPWcw6Jr4Jh12ooddfJOVz7ynFoFYYnPM7De0Og==
