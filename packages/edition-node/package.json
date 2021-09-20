@@ -23,7 +23,8 @@
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
-    "pl:version": "patternlab --version"
+    "pl:version": "patternlab --version",
+    "start": "npm run pl:serve"
   },
   "license": "MIT",
   "engines": {
