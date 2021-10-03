@@ -237,7 +237,7 @@ Sets [live-server options](https://github.com/pattern-lab/live-server#usage-from
 | mount         | [['/components', './node_modules']]    | Mount a directory to a route.                                                                                                                                                                                    |
 | logLevel      | 2                                      | 0 = errors only, 1 = some, 2 = lots                                                                                                                                                                              |
 | middleware    | [function(req, res, next) { next(); }] | Takes an array of Connect-compatible middleware that are injected into the server middleware stack |
-| https         | 'ssl/ssl.js'                           | adding the path to a configuration module for HTTPS dev servers, see detailed explanation on the <a href="/docs/running-pattern-lab/#heading-running-localhost-via-https">`running patternlab` page</a> |
+| https         | 'ssl/ssl.js'                           | adding the path to a configuration module for HTTPS dev servers, see detailed explanation on the[`running patternlab` page](/docs/running-pattern-lab/#heading-running-localhost-via-https) |
 
 **default**:
 
