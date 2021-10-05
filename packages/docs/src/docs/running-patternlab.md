@@ -79,7 +79,7 @@ module.exports = {
 };
 ```
 
-Finally you'll have to add this as configuration module to the patternlab `serverOptions` within the `patternlab-config.json` file:
+Finally, you'll have to add this as a configuration module to the pattern lab `serverOptions` within the `patternlab-config.json` file:
 ```json
 "serverOptions": {
   ...
