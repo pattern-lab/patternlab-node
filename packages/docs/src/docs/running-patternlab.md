@@ -30,7 +30,7 @@ If you're doing bigger changes especially to the file and folder structure and r
 
 There might be use cases in which you'd like to let your [localhost dev server run via HTTPS instead of HTTP](https://github.com/pattern-lab/live-server#https), like e.g. when consuming from other secure contexts to prevent browser errors or problems.
 
-Achieving this is a three step process:
+Achieving this is a three-step process:
 - generate a self-signed SSL certificate
 - add it to the trusted certificates
 - configure the certificates for `live-server`
