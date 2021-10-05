@@ -63,7 +63,9 @@ const server = (patternlab) => {
           setTimeout(() => {
             try {
               liveServer.start(liveServerConfig);
-              resolveMsg = `Pattern Lab is being served from http://127.0.0.1:${liveServerConfig.port}`;
+              resolveMsg = `Pattern Lab is being served from ${
+                liveServerConfig.https ? 'https' : 'http'
+              }://127.0.0.1:${liveServerConfig.port}`;
               logger.info(resolveMsg);
             } catch (e) {
               const err = `Pattern Lab serve failed to start: ${e}`;
