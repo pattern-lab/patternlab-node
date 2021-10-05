@@ -50,7 +50,7 @@ openssl req -x509 -nodes -out ssl/localhost.crt \
    printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
 
-This has been adapted from <https://stackoverflow.com/a/56074120> according to the [`Let's encrypt` instructions](https://letsencrypt.org/docs/certificates-for-localhost/); additionally DigitalOcean provices some further explanations in [a tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04).
+This has been adapted from <https://stackoverflow.com/a/56074120> according to the [`Let's encrypt` instructions](https://letsencrypt.org/docs/certificates-for-localhost/); additionally, DigitalOcean provides some further explanations in [a tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04).
 
 #### Add the certificate to the trusted certificates
 
