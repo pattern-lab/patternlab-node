@@ -66,7 +66,7 @@ You could as well skip this step and accept the certificate after opening the se
 
 According to the [`live-server` documentation](https://github.com/pattern-lab/live-server#https), you'll then add those certificates to the local dev server:
 
-> In order to enable HTTPS support, you'll need to create a configuration module.
+> To enable HTTPS support, you'll need to create a configuration module.
 
 In our case, you could, e.g., create a file called `ssl.js` in the `ssl` folder with the following contents:
 
