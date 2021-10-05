@@ -54,7 +54,7 @@ This has been adapted from <https://stackoverflow.com/a/56074120> according to t
 
 #### Add the certificate to the trusted certificates
 
-A [stack overflow entry](https://stackoverflow.com/a/56074120) as well mentions to use the following command to add the certificate to the trusted certificates, as [suggested on a blog](https://derflounder.wordpress.com/2011/03/13/adding-new-trusted-root-certificates-to-system-keychain/):
+A [stack overflow entry](https://stackoverflow.com/a/56074120) as well mentions using the following command to add the certificate to the trusted certificates, as [suggested on a blog](https://derflounder.wordpress.com/2011/03/13/adding-new-trusted-root-certificates-to-system-keychain/):
 
 ```
 sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "ssl/localhost.crt"
