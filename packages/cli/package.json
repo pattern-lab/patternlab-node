@@ -55,7 +55,7 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "license": "MIT",
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=12.13.1"
   },
   "publishConfig": {
     "access": "public"
