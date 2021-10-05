@@ -68,7 +68,7 @@ According to the [`live-server` documentation](https://github.com/pattern-lab/li
 
 > In order to enable HTTPS support, you'll need to create a configuration module.
 
-In our case, you could e.g. create a file called `ssl.js` in the `ssl` folder with the following contents:
+In our case, you could, e.g., create a file called `ssl.js` in the `ssl` folder with the following contents:
 
 ```js
 var fs = require("fs");
