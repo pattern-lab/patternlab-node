@@ -42,7 +42,7 @@ This will bring up an installation menu that presents the following steps:
 
 ## Step 5: Choose initial patterns
 
-**`What initial patterns do you want included in your project?`** - Choose the <a href="/docs/starterkits/">Starterkit</a> you want to begin your project with. The options are:
+**`What initial patterns do you want included in your project?`** - Choose the [Starterkit](/docs/starterkits/) you want to begin your project with. The options are:
 
 - **`Handlebars base patterns`** `(some basic patterns to get started with)`
 - **`Handlebars demo patterns`** `(full demo website and patterns)`
