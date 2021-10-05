@@ -60,7 +60,7 @@ A [stack overflow entry](https://stackoverflow.com/a/56074120) as well mentions 
 sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "ssl/localhost.crt"
 ```
 
-You could as well skip this step and accept the certificate after opening the secured patternlab in your browser for the first time, as described in step 5 of the [DigitalOcean tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04#step-5-test-encryption).
+You could as well skip this step and accept the certificate after opening the secured pattern lab in your browser for the first time, as described in step 5 of the [DigitalOcean tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-16-04#step-5-test-encryption).
 
 #### Configure the certificates for `live-server`
 
