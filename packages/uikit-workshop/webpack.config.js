@@ -2,7 +2,6 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
 const TerserPlugin = require('terser-webpack-plugin');
-const NoEmitPlugin = require('no-emit-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -256,11 +255,7 @@ module.exports = function (apiConfig) {
             ]
           : [],
       },
-      plugins: [
-        new WebpackBar(),
-        new CopyPlugin(config.copy),
-        new NoEmitPlugin(['css/pattern-lab.js']),
-      ],
+      plugins: [new WebpackBar(), new CopyPlugin(config.copy)],
     };
 
     webpackConfig.plugins.push(

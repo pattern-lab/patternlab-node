@@ -413,8 +413,9 @@ tap.test(
       'molecules-error'
     );
 
-    var currentPatternLineageIndex =
-      patternlab.graph.lineageIndex(currentPattern);
+    var currentPatternLineageIndex = patternlab.graph.lineageIndex(
+      currentPattern
+    );
     test.equal(currentPatternLineageIndex.length, 1);
     test.equal(currentPatternLineageIndex[0], 'atoms-error');
 

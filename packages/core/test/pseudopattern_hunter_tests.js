@@ -96,10 +96,12 @@ tap.test(
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
-    atomPattern.stylePartials =
-      atomPattern.findPartialsWithStyleModifiers(atomPattern);
-    atomPattern.parameteredPartials =
-      atomPattern.findPartialsWithPatternParameters(atomPattern);
+    atomPattern.stylePartials = atomPattern.findPartialsWithStyleModifiers(
+      atomPattern
+    );
+    atomPattern.parameteredPartials = atomPattern.findPartialsWithPatternParameters(
+      atomPattern
+    );
 
     var pseudoPattern = new Pattern('test/pseudomodifier.mustache');
     pseudoPattern.template = fs.readFileSync(
@@ -107,10 +109,12 @@ tap.test(
       'utf8'
     );
     pseudoPattern.extendedTemplate = atomPattern.template;
-    pseudoPattern.stylePartials =
-      pseudoPattern.findPartialsWithStyleModifiers(pseudoPattern);
-    pseudoPattern.parameteredPartials =
-      pseudoPattern.findPartialsWithPatternParameters(pseudoPattern);
+    pseudoPattern.stylePartials = pseudoPattern.findPartialsWithStyleModifiers(
+      pseudoPattern
+    );
+    pseudoPattern.parameteredPartials = pseudoPattern.findPartialsWithPatternParameters(
+      pseudoPattern
+    );
 
     addPattern(atomPattern, pl);
     addPattern(pseudoPattern, pl);

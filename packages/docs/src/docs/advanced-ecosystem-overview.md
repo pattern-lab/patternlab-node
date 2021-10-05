@@ -38,9 +38,9 @@ Importing a starterkit is only a few keystrokes away after installation.
 
 [Learn more about Starterkits](/docs/starterkits/)
 
-### StyleguideKits
+### UIKits
 
-StyleguideKits are the front-end of Pattern Lab. We call this “The Viewer.” StyleguideKits allow agencies and organizations to develop custom, branded Pattern Lab UIs to show off their patterns.
+UIKits are the front-end of Pattern Lab. We call this “The Viewer.” UIKits allow agencies and organizations to develop custom, branded Pattern Lab UIs to show off their patterns.
 
 ### PatternEngines
 
