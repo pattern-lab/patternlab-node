@@ -23,7 +23,7 @@
     "lint": "eslint **/*.js"
   },
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=12.13.1"
   },
   "publishConfig": {
     "access": "public"
