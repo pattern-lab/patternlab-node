@@ -37,7 +37,7 @@ Achieving this is a three-step process:
 
 #### Generate a self-signed SSL certificate
 
-First create a folder like e.g. `ssl` in the root of your project.
+First, create a folder like, e.g., `ssl` at the root of your project.
 
 Then run the following command in your terminal:
 
