@@ -291,7 +291,7 @@ Available values are:
   "logo": {
     "text": "Pattern Lab",
     "altText": "Pattern Lab Logo",
-    "url": "/",
+    "url": "./",
     "srcLight": "styleguide/images/pattern-lab-logo--on-light.svg",
     "srcDark": "styleguide/images/pattern-lab-logo--on-dark.svg",
     "width": "187",
@@ -325,8 +325,6 @@ Prevent specific filetypes being copied from your `source` to your `public` fold
   "scss"
 ]
 ```
-
-These template and page patterns would still be accessible via navigation.
 
 **default**: `[]`
 
