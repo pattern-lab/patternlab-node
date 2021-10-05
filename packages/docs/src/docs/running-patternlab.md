@@ -87,4 +87,4 @@ Finally, you'll have to add this as a configuration module to the pattern lab `s
 },
 ```
 
-Et voilà, after starting the process of serving patternlab the next time it'll open as a secured page.
+Et voilà, after starting the process of serving pattern lab the next time, it'll open as a secured page.
