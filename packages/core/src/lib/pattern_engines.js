@@ -240,7 +240,8 @@ const PatternEngines = Object.create({
     }
 
     // not a hidden pattern, let's dig deeper
-    const supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
+    const supportedPatternFileExtensions =
+      PatternEngines.getSupportedFileExtensions();
     return (
       supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
       PatternEngines.isPseudoPatternJSON(filename)

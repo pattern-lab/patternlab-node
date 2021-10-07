@@ -140,7 +140,9 @@ const ui_builder = function () {
         patternName: _.startCase(
           isSubgroupPattern ? pattern.patternSubgroup : pattern.patternGroup
         ),
-        patternDesc: '',
+        patternDesc: isSubgroupPattern
+          ? pattern.patternSubgroupData.markdown
+          : pattern.patternGroupData.markdown,
         patternPartial: `viewall-${pattern.patternGroup}-${
           isSubgroupPattern ? pattern.patternSubgroup : 'all'
         }`,
@@ -400,9 +402,8 @@ const ui_builder = function () {
           ] = {};
           groupedPatterns.patternGroups[pattern.patternGroup][
             pattern.patternSubgroup
-          ][
-            'viewall-' + pattern.patternGroup + '-' + pattern.patternSubgroup
-          ] = injectDocumentationBlock(pattern, patternlab, true);
+          ]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubgroup] =
+            injectDocumentationBlock(pattern, patternlab, true);
 
           addToViewAllPaths(patternlab, pattern);
           addPatternSubgroupItem(patternlab, pattern, true);
@@ -586,9 +587,8 @@ const ui_builder = function () {
                     `Omitting ${patternGroupName}/${patternName} from  building a viewall page because its patternSubgroup is specified in styleguideExcludes.`
                   );
                 } else {
-                  styleguideGroupedPatterns = styleguideGroupedPatterns.concat(
-                    subgroupPatterns
-                  );
+                  styleguideGroupedPatterns =
+                    styleguideGroupedPatterns.concat(subgroupPatterns);
                 }
 
                 groupedPatterns = groupedPatterns.concat(subgroupPatterns);

@@ -1,14 +1,14 @@
 {
   "name": "@pattern-lab/engine-react-testing-tree",
   "description": "The tree of components we use to test, develop and validate the React engine",
-  "version": "5.14.3",
+  "version": "5.15.0",
   "private": true,
   "main": "gulpfile.js",
   "dependencies": {
-    "@pattern-lab/core": "^5.14.3",
+    "@pattern-lab/core": "^5.15.0",
     "@pattern-lab/engine-mustache": "^5.14.3",
     "@pattern-lab/engine-react": "^5.14.3",
-    "@pattern-lab/uikit-workshop": "^5.14.3",
+    "@pattern-lab/uikit-workshop": "^5.15.0",
     "gulp": "3.9.1",
     "minimist": "^1.2.5",
     "react": "16.2.0"
@@ -31,6 +31,6 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=12.13.1"
   }
 }

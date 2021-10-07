@@ -236,7 +236,8 @@ Sets [live-server options](https://github.com/pattern-lab/live-server#usage-from
 | wait          | 100                                    | Waits for all changes, before reloading. Defaults to 0 sec.                                                                                                                                                      |
 | mount         | [['/components', './node_modules']]    | Mount a directory to a route.                                                                                                                                                                                    |
 | logLevel      | 2                                      | 0 = errors only, 1 = some, 2 = lots                                                                                                                                                                              |
-| middleware    | [function(req, res, next) { next(); }] | Takes an array of Connect-compatible middleware that are injected into the server middleware stack                                                                                                               |
+| middleware    | [function(req, res, next) { next(); }] | Takes an array of Connect-compatible middleware that are injected into the server middleware stack |
+| https         | 'ssl/ssl.js'                           | adding the path to a configuration module for HTTPS dev servers, see detailed explanation on the[`running patternlab` page](/docs/running-pattern-lab/#heading-running-localhost-via-https) |
 
 **default**:
 
@@ -291,7 +292,7 @@ Available values are:
   "logo": {
     "text": "Pattern Lab",
     "altText": "Pattern Lab Logo",
-    "url": "/",
+    "url": "./",
     "srcLight": "styleguide/images/pattern-lab-logo--on-light.svg",
     "srcDark": "styleguide/images/pattern-lab-logo--on-dark.svg",
     "width": "187",
@@ -325,8 +326,6 @@ Prevent specific filetypes being copied from your `source` to your `public` fold
   "scss"
 ]
 ```
-
-These template and page patterns would still be accessible via navigation.
 
 **default**: `[]`
 
