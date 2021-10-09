@@ -89,7 +89,9 @@ const PatternEngines = Object.create({
         engineDirectory.path
       );
 
-      logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
+      logger.debug(
+        `Loading engines from ${engineDirectory.displayName}: ${engineDirectory.path} ...`
+      );
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
