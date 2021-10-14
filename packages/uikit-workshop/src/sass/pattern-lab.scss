@@ -105,11 +105,19 @@
 }
 
 .pl-c-main {
-  overflow-x: hidden;
+  // Preventing cropping pattern parts #1174 - absolutely positioned pattern parts at the vertical end of the "page" would get cropped elsewhere
   min-height: 100vh;
+
   max-width: 100vw;
   padding-left: .5rem;
   padding-right: .5rem;
+
+  // Clearing all remaining floats
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
 }
 
 /*------------------------------------*\
