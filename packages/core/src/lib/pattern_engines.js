@@ -17,6 +17,10 @@ const enginesDirectories = [
     path: path.resolve(__dirname, '..', '..', 'node_modules'),
   },
   {
+    displayName: 'the edition or test directory',
+    path: path.join(process.cwd(), 'node_modules'),
+  },
+  {
     displayName: 'the general node_modules directory',
     path: path.resolve(resolvePackageFolder('@pattern-lab/core'), '..', '..'),
   },
