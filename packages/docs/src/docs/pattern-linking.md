@@ -50,7 +50,7 @@ http://patternlab.localhost/?w=40em  (sets the viewport to 40em or 640px)
 And it works with the `p` query string variable so you can also do:
 
 ```
-http://patternlab.localhost/?p=atoms-landscape-4x3&w=400px
+http://patternlab.localhost/?p=atoms-landscape&w=400px
 ```
 
 ## <span id="annotations-view"></span>Opening Annotations View on Page Load
@@ -95,7 +95,7 @@ http://patternlab.localhost/?hay=true
 And it works with the `p` query string variable so you can also do:
 
 ```
-http://patternlab.localhost/?p=atoms-landscape-4x3&h=true
+http://patternlab.localhost/?p=atoms-landscape&h=true
 ```
 
 ## <span id="disco-mode"></span>Starting Disco Mode on Page Load
@@ -110,5 +110,5 @@ http://patternlab.localhost/?disco=true
 And it works with the `p` query string variable so you can also do:
 
 ```
-http://patternlab.localhost/?p=atoms-landscape-4x3&d=true
+http://patternlab.localhost/?p=atoms-landscape&d=true
 ```
