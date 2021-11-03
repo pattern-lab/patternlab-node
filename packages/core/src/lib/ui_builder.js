@@ -102,7 +102,7 @@ const ui_builder = function () {
     // this pattern is contained with a directory documented as hidden (a handy way to hide whole directories from the nav
     isOmitted =
       (pattern.patternGroupData && pattern.patternGroupData.hidden) ||
-      (pattern.patternSubGroupData && pattern.patternSubGroupData.hidden) ||
+      (pattern.patternSubgroupData && pattern.patternSubgroupData.hidden) ||
       // TODO: Remove next two lines when removing support & deprecation waring for underscore prefix hiding
       pattern.relPath.charAt(0) === '_' ||
       pattern.relPath.indexOf(path.sep + '_') > -1;
