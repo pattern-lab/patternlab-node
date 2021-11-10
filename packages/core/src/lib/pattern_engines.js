@@ -9,15 +9,21 @@ const engineMatcher = /^engine-(.*)$/;
 
 const logger = require('./log');
 
+const { resolvePackageFolder } = require('@pattern-lab/core/src/lib/resolver');
+
 const enginesDirectories = [
   {
     displayName: 'the core',
-    path: path.resolve(__dirname, '..', '..', 'node_modules')
+    path: path.resolve(__dirname, '..', '..', 'node_modules'),
   },
   {
     displayName: 'the edition or test directory',
-    path: path.join(process.cwd(), 'node_modules')
-  }
+    path: path.join(process.cwd(), 'node_modules'),
+  },
+  {
+    displayName: 'the general node_modules directory',
+    path: path.resolve(resolvePackageFolder('@pattern-lab/core'), '..', '..'),
+  },
 ];
 
 /**
@@ -77,21 +83,23 @@ const PatternEngines = Object.create({
    * @param patternLabConfig
    * @memberof PatternEngines
    */
-  loadAllEngines: function(patternLabConfig) {
+  loadAllEngines: function (patternLabConfig) {
     const self = this;
 
     // Try to load engines! We scan for engines at each path specified above. This
     // function is kind of a big deal.
-    enginesDirectories.forEach(function(engineDirectory) {
+    enginesDirectories.forEach(function (engineDirectory) {
       const enginesInThisDir = findEngineModulesInDirectory(
         engineDirectory.path
       );
 
-      logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
+      logger.debug(
+        `Loading engines from ${engineDirectory.displayName}: ${engineDirectory.path} ...`
+      );
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
-      enginesInThisDir.forEach(function(engineDiscovery) {
+      enginesInThisDir.forEach(function (engineDiscovery) {
         let errorMessage;
         const successMessage = 'good to go';
 
@@ -138,7 +146,7 @@ const PatternEngines = Object.create({
    * @param pattern
    * @returns engine name matching pattern
    */
-  getEngineNameForPattern: function(pattern) {
+  getEngineNameForPattern: function (pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
     const of = require('./object_factory');
     if (
@@ -175,7 +183,7 @@ const PatternEngines = Object.create({
    * @param pattern
    * @returns name of engine for pattern
    */
-  getEngineForPattern: function(pattern) {
+  getEngineForPattern: function (pattern) {
     if (pattern.isPseudoPattern) {
       return this.getEngineForPattern(pattern.basePattern);
     } else {
@@ -189,9 +197,9 @@ const PatternEngines = Object.create({
    * @memberof PatternEngines
    * @returns Array all supported file extensions
    */
-  getSupportedFileExtensions: function() {
+  getSupportedFileExtensions: function () {
     const engineNames = Object.keys(PatternEngines);
-    const allEnginesExtensions = engineNames.map(engineName => {
+    const allEnginesExtensions = engineNames.map((engineName) => {
       return PatternEngines[engineName].engineFileExtension;
     });
     return [].concat.apply([], allEnginesExtensions);
@@ -203,7 +211,7 @@ const PatternEngines = Object.create({
    * @param fileExtension
    * @returns Boolean
    */
-  isFileExtensionSupported: function(fileExtension) {
+  isFileExtensionSupported: function (fileExtension) {
     const supportedExtensions = PatternEngines.getSupportedFileExtensions();
     return supportedExtensions.lastIndexOf(fileExtension) !== -1;
   },
@@ -214,7 +222,7 @@ const PatternEngines = Object.create({
    * @param filename
    * @return boolean
    */
-  isPseudoPatternJSON: function(filename) {
+  isPseudoPatternJSON: function (filename) {
     const extension = path.extname(filename);
     return extension === '.json' && filename.indexOf('~') > -1;
   },
@@ -229,7 +237,7 @@ const PatternEngines = Object.create({
    * @param filename
    * @returns boolean
    */
-  isPatternFile: function(filename) {
+  isPatternFile: function (filename) {
     // skip hidden patterns/files without a second thought
     const extension = path.extname(filename);
     if (
@@ -245,7 +253,7 @@ const PatternEngines = Object.create({
       supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
       PatternEngines.isPseudoPatternJSON(filename)
     );
-  }
+  },
 });
 
 module.exports = PatternEngines;
