@@ -9,6 +9,8 @@ const engineMatcher = /^engine-(.*)$/;
 
 const logger = require('./log');
 
+const { resolvePackageFolder } = require('@pattern-lab/core/src/lib/resolver');
+
 const enginesDirectories = [
   {
     displayName: 'the core',
@@ -17,6 +19,10 @@ const enginesDirectories = [
   {
     displayName: 'the edition or test directory',
     path: path.join(process.cwd(), 'node_modules'),
+  },
+  {
+    displayName: 'the general node_modules directory',
+    path: path.resolve(resolvePackageFolder('@pattern-lab/core'), '..', '..'),
   },
 ];
 
@@ -87,7 +93,9 @@ const PatternEngines = Object.create({
         engineDirectory.path
       );
 
-      logger.debug(`Loading engines from ${engineDirectory.displayName}...`);
+      logger.debug(
+        `Loading engines from ${engineDirectory.displayName}: ${engineDirectory.path} ...`
+      );
 
       // find all engine-named things in this directory and try to load them,
       // unless it's already been loaded.
@@ -240,8 +248,7 @@ const PatternEngines = Object.create({
     }
 
     // not a hidden pattern, let's dig deeper
-    const supportedPatternFileExtensions =
-      PatternEngines.getSupportedFileExtensions();
+    const supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
     return (
       supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
       PatternEngines.isPseudoPatternJSON(filename)

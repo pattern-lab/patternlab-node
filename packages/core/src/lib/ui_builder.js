@@ -102,7 +102,7 @@ const ui_builder = function () {
     // this pattern is contained with a directory documented as hidden (a handy way to hide whole directories from the nav
     isOmitted =
       (pattern.patternGroupData && pattern.patternGroupData.hidden) ||
-      (pattern.patternSubGroupData && pattern.patternSubGroupData.hidden) ||
+      (pattern.patternSubgroupData && pattern.patternSubgroupData.hidden) ||
       // TODO: Remove next two lines when removing support & deprecation waring for underscore prefix hiding
       pattern.relPath.charAt(0) === '_' ||
       pattern.relPath.indexOf(path.sep + '_') > -1;
@@ -402,8 +402,9 @@ const ui_builder = function () {
           ] = {};
           groupedPatterns.patternGroups[pattern.patternGroup][
             pattern.patternSubgroup
-          ]['viewall-' + pattern.patternGroup + '-' + pattern.patternSubgroup] =
-            injectDocumentationBlock(pattern, patternlab, true);
+          ][
+            'viewall-' + pattern.patternGroup + '-' + pattern.patternSubgroup
+          ] = injectDocumentationBlock(pattern, patternlab, true);
 
           addToViewAllPaths(patternlab, pattern);
           addPatternSubgroupItem(patternlab, pattern, true);
@@ -587,8 +588,9 @@ const ui_builder = function () {
                     `Omitting ${patternGroupName}/${patternName} from  building a viewall page because its patternSubgroup is specified in styleguideExcludes.`
                   );
                 } else {
-                  styleguideGroupedPatterns =
-                    styleguideGroupedPatterns.concat(subgroupPatterns);
+                  styleguideGroupedPatterns = styleguideGroupedPatterns.concat(
+                    subgroupPatterns
+                  );
                 }
 
                 groupedPatterns = groupedPatterns.concat(subgroupPatterns);

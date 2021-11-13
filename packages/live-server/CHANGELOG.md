@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
 # [5.15.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.14.3...v5.15.0) (2021-07-01)
 
 

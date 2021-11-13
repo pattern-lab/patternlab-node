@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.2](https://github.com/pattern-lab/patternlab-node/compare/v5.15.1...v5.15.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **core:** Subgroup cannot be hidden ([#1368](https://github.com/pattern-lab/patternlab-node/issues/1368)) ([3ce13ab](https://github.com/pattern-lab/patternlab-node/commit/3ce13abffaab2810194003aeca88be671fedd38f))
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* **docs:** use "UIKits" instead of "StyleguideKits" ([#1345](https://github.com/pattern-lab/patternlab-node/issues/1345)) ([a2885ea](https://github.com/pattern-lab/patternlab-node/commit/a2885ea738c2d807dd99c6749ac6e6437d8d3e7e))
+* **initialize:** updating no-emit-webpack-plugin dependency [#1348](https://github.com/pattern-lab/patternlab-node/issues/1348) ([#1349](https://github.com/pattern-lab/patternlab-node/issues/1349)) ([a884897](https://github.com/pattern-lab/patternlab-node/commit/a884897cf9f98b61c9bdd20acf7e079de0782f10))
+* **node16:** prevent warning on installation process ([#1352](https://github.com/pattern-lab/patternlab-node/issues/1352)) ([d58e4c6](https://github.com/pattern-lab/patternlab-node/commit/d58e4c6f2979f5e0bba9a14e17e0dbc4afc64f75))
+
+
+### Features
+
+* added https description to the docs ([#1355](https://github.com/pattern-lab/patternlab-node/issues/1355)) ([4118f74](https://github.com/pattern-lab/patternlab-node/commit/4118f740810842b16cf86b9ee28bda2a623aa9c7))
+
+
+### Reverts
+
+* Revert "refactor: optimized engines directory retrieval (#1359)" (#1363) ([a275d36](https://github.com/pattern-lab/patternlab-node/commit/a275d36c50c3846fc51c78baf6e11dba5309f5dc)), closes [#1359](https://github.com/pattern-lab/patternlab-node/issues/1359) [#1363](https://github.com/pattern-lab/patternlab-node/issues/1363)
+
+
+
+
+
 # [5.15.0](https://github.com/pattern-lab/patternlab-node/compare/v5.14.3...v5.15.0) (2021-07-01)
 
 
