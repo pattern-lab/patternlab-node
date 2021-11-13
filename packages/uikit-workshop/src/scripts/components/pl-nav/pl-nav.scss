@@ -257,8 +257,8 @@ pl-nav {
 .pl-c-nav__link--sublink {
   text-transform: none;
   font-size: 0.78rem;
-  padding-left: $pl-space + math.div($pl-space, 2);
-  padding-right: $pl-space + math.div($pl-space, 2);
+  padding-left: $pl-space + $pl-space * 0.5;
+  padding-right: $pl-space + $pl-space * 0.5;
 
   &.pl-is-active {
     box-shadow: inset 4px 0 0 #6c79d9;

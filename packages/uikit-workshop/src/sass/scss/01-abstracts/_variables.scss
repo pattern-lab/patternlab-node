@@ -40,7 +40,7 @@ $pl-font-size-large: 1.2rem;
 $pl-space: 1rem;
 $pl-doublespace: $pl-space * 2;
 $pl-pad: 1rem;
-$pl-pad-half: math.div($pl-pad, 2);
+$pl-pad-half: $pl-pad * 0.5;
 $offset-top: 2rem;
 
 // Breakpoints
