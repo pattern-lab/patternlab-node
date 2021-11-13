@@ -23,6 +23,6 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cd dist/css && npx node-sass style.scss style.css"
+    "build": "cd dist/css && sass style.scss style.css"
   }
 }
