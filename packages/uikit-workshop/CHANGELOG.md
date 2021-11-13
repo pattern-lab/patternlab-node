@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.15.1...v5.15.2) (2021-11-03)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* **initialize:** updating no-emit-webpack-plugin dependency [#1348](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1348) ([#1349](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1349)) ([a884897](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a884897cf9f98b61c9bdd20acf7e079de0782f10))
+
+
+
+
+
 # [5.15.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.14.3...v5.15.0) (2021-07-01)
 
 **Note:** Version bump only for package @pattern-lab/uikit-workshop

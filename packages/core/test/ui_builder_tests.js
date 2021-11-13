@@ -145,7 +145,7 @@ tap.test(
       patternPartial: 'shown-foo',
     });
 
-    pattern.patternSubGroupData = {
+    pattern.patternSubgroupData = {
       hidden: true,
     };
 
