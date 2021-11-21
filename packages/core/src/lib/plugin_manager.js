@@ -1,6 +1,6 @@
 'use strict';
 
-const plugin_manager = function () {
+const plugin_manager = function() {
   const logger = require('./log');
 
   /**
@@ -9,7 +9,7 @@ const plugin_manager = function () {
    */
   function initializePlugins(patternlab) {
     const foundPlugins = Object.keys(patternlab.config.plugins || {});
-    foundPlugins.forEach((plugin) => {
+    foundPlugins.forEach(plugin => {
       logger.info(`Found plugin: ${plugin}`);
       logger.info(`Attempting to load and initialize plugin.`);
       const pluginModule = require(plugin);
@@ -19,8 +19,8 @@ const plugin_manager = function () {
 
   async function raiseEvent(patternlab, eventName, args) {
     patternlab.events.emit(eventName, args);
-    await (async function () {
-      const hookHandlers = (patternlab.hooks[eventName] || []).map((h) =>
+    await (async function() {
+      const hookHandlers = (patternlab.hooks[eventName] || []).map(h =>
         h(args)
       );
 
@@ -29,12 +29,12 @@ const plugin_manager = function () {
   }
 
   return {
-    intialize_plugins: (patternlab) => {
+    intialize_plugins: patternlab => {
       initializePlugins(patternlab);
     },
     raiseEvent: async (patternlab, eventName, ...args) => {
       await raiseEvent(patternlab, eventName, args);
-    },
+    }
   };
 };
 

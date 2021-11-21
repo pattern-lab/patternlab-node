@@ -2,7 +2,7 @@
 
 const logger = require('./log');
 
-const style_modifier_hunter = function () {
+const style_modifier_hunter = function() {
   /**
    * Modifies a patterns partial with any styleModifiers found on the supplied partial
    *
@@ -36,9 +36,9 @@ const style_modifier_hunter = function () {
   }
 
   return {
-    consume_style_modifier: function (pattern, partial, patternlab) {
+    consume_style_modifier: function(pattern, partial, patternlab) {
       consumestylemodifier(pattern, partial, patternlab);
-    },
+    }
   };
 };
 

@@ -6,7 +6,7 @@ const isScopedPackage = require('./isScopedPackage');
 
 let fs = require('fs-extra'); // eslint-disable-line
 
-const isDir = (fPath) => {
+const isDir = fPath => {
   const stats = fs.lstatSync(fPath);
   return stats.isDirectory() || stats.isSymbolicLink();
 };
@@ -27,7 +27,7 @@ module.exports = (dir, filter) => {
      */
     const dirList = fs
       .readdirSync(fPath)
-      .filter((p) => isDir(path.join(fPath, p)));
+      .filter(p => isDir(path.join(fPath, p)));
 
     /**
      * @name m
@@ -35,10 +35,10 @@ module.exports = (dir, filter) => {
      * @type {Array<Engine>}
      */
     const m = foundModules.concat(
-      dirList.filter(filter).map((mod) => {
+      dirList.filter(filter).map(mod => {
         return {
           name: filter(mod),
-          modulePath: path.join(fPath, mod),
+          modulePath: path.join(fPath, mod)
         };
       })
     );
@@ -52,7 +52,7 @@ module.exports = (dir, filter) => {
       ...m,
       ...dirList
         .filter(isScopedPackage) // 2
-        .map((scope) => findModules(path.join(fPath, scope), m)) // 3
+        .map(scope => findModules(path.join(fPath, scope), m)) // 3
     );
   };
 

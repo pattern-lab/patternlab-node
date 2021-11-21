@@ -37,11 +37,9 @@ const engine_nunjucks = {
   expandPartials: false,
 
   // regexes, stored here so they're only compiled once
-  findPartialsRE:
-    /{%\s*(?:extends|include|import|from)\s+(?:'[^']+'|"[^"]+").*%}/g,
+  findPartialsRE: /{%\s*(?:extends|include|import|from)\s+(?:'[^']+'|"[^"]+").*%}/g,
   findPartialKeyRE: /{%\s*(?:extends|include|import|from)\s+('[^']+'|"[^"]+")/,
-  findListItemsRE:
-    /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // still requires mustache style syntax because of how PL implements lists
+  findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // still requires mustache style syntax because of how PL implements lists
 
   // render it
   renderPattern: function renderPattern(pattern, data) {

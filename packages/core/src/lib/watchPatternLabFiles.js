@@ -18,13 +18,13 @@ const watchPatternLabFiles = (
   // watch global structures, such as _data/* and _meta/
   const globalSources = [
     assetDirectories.source.data,
-    assetDirectories.source.meta,
+    assetDirectories.source.meta
   ];
-  const globalPaths = globalSources.map((globalSource) =>
+  const globalPaths = globalSources.map(globalSource =>
     path.join(path.resolve(basePath, globalSource), '*')
   );
 
-  _.each(globalPaths, (globalPath) => {
+  _.each(globalPaths, globalPath => {
     logger.debug(`Pattern Lab is watching ${globalPath} for changes!`);
 
     if (patternlab.watchers[globalPath]) {
@@ -36,37 +36,37 @@ const watchPatternLabFiles = (
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 200,
-        pollInterval: 100,
+        pollInterval: 100
       },
-      persistent: !watchOnce,
+      persistent: !watchOnce
     });
 
     //watch for changes and rebuild
     globalWatcher
-      .on('addDir', async (p) => {
+      .on('addDir', async p => {
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_GLOBAL_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
-      .on('add', async (p) => {
+      .on('add', async p => {
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_GLOBAL_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
-      .on('change', async (p) => {
+      .on('change', async p => {
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_GLOBAL_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       });
@@ -78,13 +78,13 @@ const watchPatternLabFiles = (
   const baseFileExtensions = ['.json', '.yml', '.yaml', '.md'];
   const patternWatches = baseFileExtensions
     .concat(patternlab.engines.getSupportedFileExtensions())
-    .map((dotExtension) =>
+    .map(dotExtension =>
       path.join(
         path.resolve(basePath, assetDirectories.source.patterns),
         `/**/*${dotExtension}`
       )
     );
-  _.each(patternWatches, (patternWatchPath) => {
+  _.each(patternWatches, patternWatchPath => {
     logger.debug(
       `Pattern Lab is watching ${patternWatchPath} for changes - local!`
     );
@@ -98,61 +98,61 @@ const watchPatternLabFiles = (
       ignoreInitial: true,
       awaitWriteFinish: {
         stabilityThreshold: 200,
-        pollInterval: 100,
+        pollInterval: 100
       },
-      persistent: !watchOnce,
+      persistent: !watchOnce
     });
 
     //watch for changes and rebuild
     patternWatcher
-      .on('addDir', async (p) => {
+      .on('addDir', async p => {
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
-      .on('add', async (p) => {
+      .on('add', async p => {
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
-      .on('change', async (p) => {
+      .on('change', async p => {
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
       // the watcher does not react on unlink and unlinkDir
       // events, so patterns are never removed
-      .on('unlink', async (p) => {
+      .on('unlink', async p => {
         patternlab.graph.sync();
         patternlab.graph.upgradeVersion();
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       })
-      .on('unlinkDir', async (p) => {
+      .on('unlinkDir', async p => {
         patternlab.graph.sync();
         patternlab.graph.upgradeVersion();
         await pluginMananger.raiseEvent(
           patternlab,
           events.PATTERNLAB_PATTERN_CHANGE,
           {
-            file: p,
+            file: p
           }
         );
       });

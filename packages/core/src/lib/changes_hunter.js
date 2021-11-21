@@ -12,7 +12,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * For detecting changed patterns.
  * @constructor
  */
-const ChangesHunter = function () {};
+const ChangesHunter = function() {};
 
 ChangesHunter.prototype = {
   /**
@@ -25,7 +25,7 @@ ChangesHunter.prototype = {
    *
    * @see {@link CompileState}
    */
-  checkBuildState: function (pattern, patternlab) {
+  checkBuildState: function(pattern, patternlab) {
     //write the compiled template to the public patterns directory
     const renderedTemplatePath =
       patternlab.config.paths.public.patterns +
@@ -40,12 +40,12 @@ ChangesHunter.prototype = {
       pattern.compileState = CompileState.NEEDS_REBUILD;
     }
 
-    _.each(patternlab.uikits, (uikit) => {
+    _.each(patternlab.uikits, uikit => {
       try {
         // renderedTemplatePath required to display a single element
         // Markup only is required for "View All" pages. It will get loaded later on.
         // If any of these is missing, mark pattern for recompile
-        [renderedTemplatePath, markupOnlyPath].forEach((renderedFile) => {
+        [renderedTemplatePath, markupOnlyPath].forEach(renderedFile => {
           // Prevent error message if file does not exist
           fs.accessSync(
             path.join(process.cwd(), uikit.outputDir, renderedFile),
@@ -94,7 +94,7 @@ ChangesHunter.prototype = {
    * @param {Pattern} currentPattern
    * @param {string} file
    */
-  checkLastModified: function (currentPattern, file) {
+  checkLastModified: function(currentPattern, file) {
     if (file && fs.pathExistsSync(file)) {
       try {
         const stat = fs.statSync(file);
@@ -110,12 +110,12 @@ ChangesHunter.prototype = {
     }
   },
 
-  needsRebuild: function (lastModified, p) {
+  needsRebuild: function(lastModified, p) {
     if (p.compileState !== CompileState.CLEAN || !p.lastModified) {
       return true;
     }
     return p.lastModified >= lastModified;
-  },
+  }
 };
 
 module.exports = ChangesHunter;

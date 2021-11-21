@@ -6,7 +6,7 @@ const liveServer = require('@pattern-lab/live-server');
 const events = require('./events');
 const logger = require('./log');
 
-const server = (patternlab) => {
+const server = patternlab => {
   const _module = {
     serve: () => {
       let serverReady = false;
@@ -17,10 +17,10 @@ const server = (patternlab) => {
         file: 'index.html',
         logLevel: 0, // errors only
         wait: 1000,
-        port: 3000,
+        port: 3000
       };
 
-      const servers = Object.keys(patternlab.uikits).map((kit) => {
+      const servers = Object.keys(patternlab.uikits).map(kit => {
         const uikit = patternlab.uikits[kit];
         defaults.root = path.resolve(
           path.join(
@@ -36,30 +36,6 @@ const server = (patternlab) => {
             patternlab.config.paths.public.root
           )
         );
-        defaults.assets = [
-          path.resolve(
-            path.join(
-              process.cwd(),
-              patternlab.config.paths.source.js,
-              '**',
-              '*.js' // prevent preprocessors like typescript from reloading
-            )
-          ),
-          path.resolve(
-            path.join(process.cwd(), patternlab.config.paths.source.images)
-          ),
-          path.resolve(
-            path.join(process.cwd(), patternlab.config.paths.source.fonts)
-          ),
-          path.resolve(
-            path.join(
-              process.cwd(),
-              patternlab.config.paths.source.css,
-              '**',
-              '*.css' // prevent preprocessors from reloading
-            )
-          ),
-        ];
 
         // allow for overrides should they exist inside patternlab-config.json
         const liveServerConfig = Object.assign(
@@ -74,7 +50,7 @@ const server = (patternlab) => {
             if (serverReady) {
               _module.reload({
                 file: '',
-                action: 'reload',
+                action: 'reload'
               });
             }
           });
@@ -106,10 +82,10 @@ const server = (patternlab) => {
 
       return Promise.all(servers);
     },
-    reload: (data) => {
+    reload: data => {
       const _data = data || {
         file: '',
-        action: '',
+        action: ''
       };
       return new Promise((resolve, reject) => {
         let action;
@@ -132,9 +108,9 @@ const server = (patternlab) => {
     refreshCSS: () => {
       return _module.reload({
         file: '',
-        action: 'refresh',
+        action: 'refresh'
       });
-    },
+    }
   };
   return _module;
 };
