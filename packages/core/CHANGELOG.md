@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.15.1...v5.15.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **core:** Subgroup cannot be hidden ([#1368](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1368)) ([3ce13ab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/3ce13abffaab2810194003aeca88be671fedd38f))
+
+
+
+
+
 ## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.15.0...v5.15.1) (2021-10-16)
 
 
