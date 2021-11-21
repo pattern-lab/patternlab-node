@@ -38,12 +38,12 @@ $space : 1em;
 $space-and-half : $space*1.5;
 $space-double : $space*2;
 $space-quad : $space*4;
-$space-half : $space/2;
+$space-half : $space*0.5;
 $pad : 1em;
 $pad-and-half : $pad*1.5;
 $pad-double : $pad*2;
-$pad-half : $pad/2;
-$pad-quarter :$pad/4;
+$pad-half : $pad*0.5;
+$pad-quarter :$pad*0.25;
 
 //Borders
 $border-med: 3px;
