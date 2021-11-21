@@ -387,7 +387,8 @@ class IFrame extends BaseLitComponent {
          * Workaround to avoiding an infinite loop (if using srcdoc) which breaks the ability to
          * hit the back button if you hit a 404
          */
-        this.iframe.contentWindow.document.body.innerHTML = this.iframe404Fallback;
+        this.iframe.contentWindow.document.body.innerHTML =
+          this.iframe404Fallback;
       }
     }, 100);
   }

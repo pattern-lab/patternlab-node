@@ -13,15 +13,15 @@ let render = require('./render'); //eslint-disable-line prefer-const
  * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternGroup-all
  * @returns A promise which resolves with the HTML
  */
-module.exports = function(patternlab, patternPartial, uikit) {
+module.exports = function (patternlab, patternPartial, uikit) {
   //first render the general footer
   return render(Pattern.createEmpty({ extendedTemplate: uikit.footer }), {
     patternData: JSON.stringify({
-      patternPartial: patternPartial
+      patternPartial: patternPartial,
     }),
-    cacheBuster: patternlab.cacheBuster
+    cacheBuster: patternlab.cacheBuster,
   })
-    .then(footerPartial => {
+    .then((footerPartial) => {
       let allFooterData;
       try {
         allFooterData = jsonCopy(
@@ -36,7 +36,7 @@ module.exports = function(patternlab, patternPartial, uikit) {
 
       return render(patternlab.userFoot, allFooterData);
     })
-    .catch(reason => {
+    .catch((reason) => {
       console.log(reason);
       logger.error('Error building buildFooterHTML');
     });

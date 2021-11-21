@@ -19,7 +19,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 // loads a pattern from disk, creates a Pattern object from it and
 // all its associated files, and records it in patternlab.patterns[]
-module.exports = function(relPath, patternlab) {
+module.exports = function (relPath, patternlab) {
   const fileObject = path.parse(relPath);
 
   //extract some information
@@ -145,8 +145,8 @@ module.exports = function(relPath, patternlab) {
     `${jsonFilename}.yaml`,
     `${listJsonFileName}.json`,
     `${listJsonFileName}.yml`,
-    `${listJsonFileName}.yaml`
-  ].forEach(file => {
+    `${listJsonFileName}.yaml`,
+  ].forEach((file) => {
     changes_hunter.checkLastModified(currentPattern, file);
   });
 

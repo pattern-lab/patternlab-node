@@ -113,13 +113,13 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                 return render(
                   Pattern.createEmpty({
                     // todo should this be uikit.header?
-                    extendedTemplate: patternlab.header
+                    extendedTemplate: patternlab.header,
                   }),
                   {
-                    cacheBuster: patternlab.cacheBuster
+                    cacheBuster: patternlab.cacheBuster,
                   }
                 )
-                  .then(results => {
+                  .then((results) => {
                     patternlab.data.patternLabHead = results;
 
                     // If deletePatternDir == true or graph needs to be updated
@@ -133,7 +133,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                     if (patternlab.incrementalBuildsEnabled) {
                       // When the graph was loaded from file, some patterns might have been moved/deleted between runs
                       // so the graph data become out of sync
-                      patternlab.graph.sync().forEach(n => {
+                      patternlab.graph.sync().forEach((n) => {
                         logger.info('[Deleted/Moved] ' + n);
                       });
 
@@ -150,18 +150,18 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                     }
                     //render all patterns last, so lineageR works
                     const allPatternsPromise = patternsToBuild.map(
-                      async pattern => await compose(pattern, patternlab)
+                      async (pattern) => await compose(pattern, patternlab)
                     );
                     //copy non-pattern files like JavaScript
-                    const allJS = patternsToBuild.map(pattern => {
+                    const allJS = patternsToBuild.map((pattern) => {
                       const { name, patternPartial, subdir } = pattern;
                       const {
                         source: { patterns: sourceDir },
-                        public: { patterns: publicDir }
+                        public: { patterns: publicDir },
                       } = patternlab.config.paths;
                       const src = path.join(sourceDir, subdir);
                       const dest = path.join(publicDir, name);
-                      return map(patternlab.uikits, uikit => {
+                      return map(patternlab.uikits, (uikit) => {
                         return copy(
                           src,
                           path.resolve(process.cwd(), uikit.outputDir, dest),
@@ -170,7 +170,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                             filter: ['*.js'],
                             rename: () => {
                               return `${patternPartial}.js`;
-                            }
+                            },
                           }
                         ).on(copy.events.COPY_FILE_COMPLETE, () => {
                           logger.debug(
@@ -199,27 +199,27 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
                         //export patterns if necessary
                         pattern_exporter.export_patterns(patternlab);
                       })
-                      .catch(reason => {
+                      .catch((reason) => {
                         console.log(reason);
                         logger.error('Error rendering patterns');
                       });
                   })
-                  .catch(reason => {
+                  .catch((reason) => {
                     console.log(reason);
                     logger.error('Error rendering pattern lab header');
                   });
               })
-              .catch(reason => {
+              .catch((reason) => {
                 console.log(reason);
                 logger.error('Error processing meta patterns');
               });
           })
-          .catch(reason => {
+          .catch((reason) => {
             console.log(reason);
             logger.error('Error processing patterns recursively');
           });
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.log(reason);
         logger.error('Error in buildPatterns()');
       });

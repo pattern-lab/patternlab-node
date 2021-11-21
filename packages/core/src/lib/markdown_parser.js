@@ -3,7 +3,7 @@ const md = require('markdown-it')();
 const yaml = require('js-yaml');
 const logger = require('./log');
 
-const markdown_parser = function() {
+const markdown_parser = function () {
   /**
    * Converts a markdown block with frontmatter (each is optional, technically) to a well-formed object.
    * @param block - the ".md" file, which can contain frontmatter or not, or only frontmatter.
@@ -47,9 +47,9 @@ const markdown_parser = function() {
   }
 
   return {
-    parse: function(block) {
+    parse: function (block) {
       return parseMarkdownBlock(block);
-    }
+    },
   };
 };
 

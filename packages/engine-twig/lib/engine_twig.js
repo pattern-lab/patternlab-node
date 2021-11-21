@@ -126,7 +126,8 @@ var engine_twig = {
   // regexes, stored here so they're only compiled once
   findPartialsRE: /{%[-]?\s*(?:extends|include|embed|from|import|use)\s+('[^']+'|"[^"]+").*?%}/g,
   findPartialKeyRE: /"((?:\\.|[^"\\])*)"/,
-  findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
+  findListItemsRE:
+    /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
 
   // render it
   renderPattern: function renderPattern(pattern, data, partials) {

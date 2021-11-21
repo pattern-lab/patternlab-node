@@ -1,6 +1,6 @@
 'use strict';
 
-const starterkit_manager = function(config) {
+const starterkit_manager = function (config) {
   const path = require('path');
   const fetch = require('node-fetch');
   const fs = require('fs-extra');
@@ -74,11 +74,11 @@ const starterkit_manager = function(config) {
       {
         method: 'GET',
         headers: {
-          Accept: 'application/json'
-        }
+          Accept: 'application/json',
+        },
       }
     )
-      .then(function(res) {
+      .then(function (res) {
         const contentType = res.headers.get('content-type');
         if (contentType && contentType.indexOf('application/json') === -1) {
           throw new TypeError(
@@ -87,15 +87,15 @@ const starterkit_manager = function(config) {
         }
         return res.json();
       })
-      .then(function(json) {
+      .then(function (json) {
         if (!json.items || !Array.isArray(json.items)) {
           return false;
         }
-        return json.items.map(function(repo) {
+        return json.items.map(function (repo) {
           return { name: repo.name, url: repo.html_url };
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
         logger.error(err);
         return false;
       });
@@ -111,29 +111,31 @@ const starterkit_manager = function(config) {
   //TODO review for deletion or convert callers to use findModules()
   function detectStarterKits() {
     const node_modules_path = path.join(process.cwd(), 'node_modules');
-    const npm_modules = fs.readdirSync(node_modules_path).filter(function(dir) {
-      const module_path = path.join(process.cwd(), 'node_modules', dir);
-      return (
-        fs.statSync(module_path).isDirectory() &&
-        dir.indexOf('starterkit-') === 0
-      );
-    });
+    const npm_modules = fs
+      .readdirSync(node_modules_path)
+      .filter(function (dir) {
+        const module_path = path.join(process.cwd(), 'node_modules', dir);
+        return (
+          fs.statSync(module_path).isDirectory() &&
+          dir.indexOf('starterkit-') === 0
+        );
+      });
     return npm_modules;
   }
 
   return {
-    load_starterkit: function(starterkitName, clean) {
+    load_starterkit: function (starterkitName, clean) {
       loadStarterKit(starterkitName, clean);
     },
-    list_starterkits: function() {
+    list_starterkits: function () {
       return listStarterkits();
     },
-    pack_starterkit: function() {
+    pack_starterkit: function () {
       packStarterkit();
     },
-    detect_starterkits: function() {
+    detect_starterkits: function () {
       return detectStarterKits();
-    }
+    },
   };
 };
 

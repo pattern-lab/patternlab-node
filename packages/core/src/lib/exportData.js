@@ -11,7 +11,7 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * Write out our pattern information for use by the front end
  * @param patternlab - global data store
  */
-module.exports = function(patternlab, uikit) {
+module.exports = function (patternlab, uikit) {
   const annotation_exporter = new ae(patternlab);
 
   const paths = patternlab.config.paths;
