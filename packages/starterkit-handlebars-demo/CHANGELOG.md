@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.3](https://github.com/pattern-lab/patternlab-node/compare/v5.15.2...v5.15.3) (2021-11-21)
+
+
+### Bug Fixes
+
+* **handlebars-demo:** move and modify the icon files ([#1377](https://github.com/pattern-lab/patternlab-node/issues/1377)) ([7c66f8a](https://github.com/pattern-lab/patternlab-node/commit/7c66f8ad4cd15e0a814f9808d0fbca727903aeb5))
+
+
+
+
+
 ## [5.15.2](https://github.com/pattern-lab/patternlab-node/compare/v5.15.1...v5.15.2) (2021-11-03)
 
 **Note:** Version bump only for package @pattern-lab/starterkit-handlebars-demo

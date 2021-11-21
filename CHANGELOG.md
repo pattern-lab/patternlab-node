@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.3](https://github.com/pattern-lab/patternlab-node/compare/v5.15.2...v5.15.3) (2021-11-21)
+
+
+### Bug Fixes
+
+* **docs:** tiles z-index to not overlay the menu anymore ([#1370](https://github.com/pattern-lab/patternlab-node/issues/1370)) ([384dc89](https://github.com/pattern-lab/patternlab-node/commit/384dc8900ee5768f5a260fd00fe03d11ae047484))
+* **handlebars-demo:** move and modify the icon files ([#1377](https://github.com/pattern-lab/patternlab-node/issues/1377)) ([7c66f8a](https://github.com/pattern-lab/patternlab-node/commit/7c66f8ad4cd15e0a814f9808d0fbca727903aeb5))
+
+
+### Features
+
+* **vs-code:** added recommendations ([#1375](https://github.com/pattern-lab/patternlab-node/issues/1375)) ([cfa74c0](https://github.com/pattern-lab/patternlab-node/commit/cfa74c0d09c3aae78ef10654f48749a568f3e30d))
+* ensure consistent line endings across files ([#1372](https://github.com/pattern-lab/patternlab-node/issues/1372)) ([57efccb](https://github.com/pattern-lab/patternlab-node/commit/57efccb895f142d8a18e774d7b7c01b2f1266737))
+
+
+
+
+
 ## [5.15.2](https://github.com/pattern-lab/patternlab-node/compare/v5.15.1...v5.15.2) (2021-11-03)
 
 
