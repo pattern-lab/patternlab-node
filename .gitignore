@@ -3,7 +3,6 @@ pattern_exports/
 .DS_Store
 Thumbs.db
 .nyc_output/
-.vscode/
 .idea/
 .env
 packages/core/test/public

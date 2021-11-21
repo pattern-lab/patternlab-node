@@ -1,5 +1,5 @@
 {
-	"iconPath" : "../../icons.svg",
+	"iconPath" : "../../images/icons/",
 	"icon" : "search",
 	"icons" : [
 		{ "icon" : "minus" },

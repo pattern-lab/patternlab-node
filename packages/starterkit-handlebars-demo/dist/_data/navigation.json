@@ -37,7 +37,7 @@
         {
             "label": false,
             "navIcon": {
-                "iconPath": "../../icons.svg",
+                "iconPath": "../../images/icons/",
                 "navIcon": "shopping-cart"
             },
             "url" : "link.pages-cart"
