@@ -5,7 +5,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const selectorImporter = require('node-sass-selector-importer');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
@@ -123,7 +122,6 @@ module.exports = function (apiConfig) {
           sassOptions: {
             sourceMap: config.sourceMaps,
             outputStyle: 'expanded',
-            importer: [selectorImporter()],
           },
         },
       },

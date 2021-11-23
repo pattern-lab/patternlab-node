@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "5.15.2",
+  "version": "5.15.3",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -78,8 +78,6 @@
     "lit-html": "^1.1.2",
     "mini-css-extract-plugin": "^0.8.0",
     "mousetrap": "^1.6.5",
-    "node-sass": "^6.0.0",
-    "node-sass-selector-importer": "^5.2.0",
     "postcss-loader": "^3.0.0",
     "preact": "8.3.1",
     "preact-compat": "3.18.4",
@@ -92,8 +90,9 @@
     "react-autosuggest": "^9.4.2",
     "react-dom": "^16.8.6",
     "react-html-parser": "^2.0.2",
-    "redux": "3.7.2",
-    "redux-thunk": "^2.3.0",
+    "redux": "4.1.2",
+    "redux-thunk": "^2.4.0",
+    "sass": "1.43.4",
     "sass-loader": "^10.1.1",
     "scriptjs": "^2.5.9",
     "scroll-js": "^2.2.0",
