@@ -3,7 +3,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const selectorImporter = require('node-sass-selector-importer');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
@@ -120,8 +119,7 @@ module.exports = function (apiConfig) {
         options: {
           sassOptions: {
             sourceMap: config.sourceMaps,
-            outputStyle: 'expanded',
-            importer: [selectorImporter()],
+            outputStyle: 'expanded'
           },
         },
       },
