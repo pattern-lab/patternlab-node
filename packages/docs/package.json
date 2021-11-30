@@ -18,7 +18,7 @@
     "stalfos": "github:hankchizljaw/stalfos#c8971d22726326cfc04089b2da4d51eeb1ebb0eb"
   },
   "devDependencies": {
-    "@11ty/eleventy-navigation": "^0.1.5",
+    "@11ty/eleventy-navigation": "^0.3.2",
     "@erquhart/rollup-plugin-node-builtins": "^2.1.5",
     "bl": "^3.0.0",
     "chokidar-cli": "^2.1.0",
