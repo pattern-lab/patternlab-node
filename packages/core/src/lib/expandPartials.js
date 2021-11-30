@@ -9,7 +9,7 @@ const getPartial = require('./get');
 const parameter_hunter = new ph();
 const style_modifier_hunter = new smh();
 
-module.exports = function(currentPattern, patternlab) {
+module.exports = function (currentPattern, patternlab) {
   const processRecursive = require('./processRecursive');
 
   //find how many partials there may be for the given pattern
@@ -31,7 +31,7 @@ module.exports = function(currentPattern, patternlab) {
       .find_parameters(currentPattern, patternlab)
       .then(() => {
         //do something with the regular old partials
-        foundPatternPartials.forEach(foundPartial => {
+        foundPatternPartials.forEach((foundPartial) => {
           const partial = currentPattern.findPartial(foundPartial);
           const partialPattern = getPartial(partial, patternlab);
 
@@ -77,13 +77,13 @@ module.exports = function(currentPattern, patternlab) {
 
               return Promise.resolve();
             })
-            .catch(reason => {
+            .catch((reason) => {
               console.log(reason);
               logger.error(reason);
             });
         });
       })
-      .catch(reason => {
+      .catch((reason) => {
         console.log(reason);
         logger.error(reason);
       });

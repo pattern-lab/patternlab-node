@@ -4,7 +4,7 @@ const logger = require('./log');
 const decompose = require('./decompose');
 const getPartial = require('./get');
 
-module.exports = function(file, patternlab) {
+module.exports = function (file, patternlab) {
   //find current pattern in patternlab object using file as a partial
   const currentPattern = getPartial(file, patternlab, false);
 
@@ -19,7 +19,7 @@ module.exports = function(file, patternlab) {
   }
 
   //call our helper method to actually unravel the pattern with any partials
-  return decompose(currentPattern, patternlab).catch(reason => {
+  return decompose(currentPattern, patternlab).catch((reason) => {
     console.log(reason);
     logger.error(reason);
   });
