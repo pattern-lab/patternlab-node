@@ -4,7 +4,7 @@
   "description": "The website for patternlab.io",
   "main": "index.js",
   "dependencies": {
-    "@11ty/eleventy": "^0.8.3",
+    "@11ty/eleventy": "^0.11.1",
     "@11ty/eleventy-plugin-rss": "^1.1.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.3",
     "@tbranyen/jsdom": "^13.0.0",
