@@ -7,7 +7,7 @@ class Tooltip extends Slotify(LitElement) {
     return {
       message: { type: String },
       position: { type: String },
-      child: {},
+      child: {}
     };
   }
 

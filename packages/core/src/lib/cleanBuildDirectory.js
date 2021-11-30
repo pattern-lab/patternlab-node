@@ -15,12 +15,12 @@ module.exports = (incrementalBuildsEnabled, patternlab) => {
     return Promise.resolve();
   } else {
     return Promise.all(
-      _.map(patternlab.uikits, (uikit) => {
+      _.map(patternlab.uikits, uikit => {
         return fs.emptyDir(
           path.join(process.cwd(), uikit.outputDir, paths.public.patterns)
         );
       })
-    ).catch((reason) => {
+    ).catch(reason => {
       logger.error(reason);
     });
   }

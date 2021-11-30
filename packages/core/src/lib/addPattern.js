@@ -2,7 +2,7 @@
 
 const logger = require('./log');
 
-module.exports = function (pattern, patternlab) {
+module.exports = function(pattern, patternlab) {
   //add the link to the global object
   if (!patternlab.data.link) {
     patternlab.data.link = {};

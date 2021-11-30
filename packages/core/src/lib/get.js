@@ -2,7 +2,7 @@
 
 const logger = require('./log');
 
-module.exports = function (partialName, patternlab, reportWarning = true) {
+module.exports = function(partialName, patternlab, reportWarning = true) {
   //look for exact partial matches
   for (let i = 0; i < patternlab.patterns.length; i++) {
     if (patternlab.patterns[i].patternPartial === partialName) {

@@ -2,7 +2,7 @@
 const getPartial = require('./get');
 const logger = require('./log');
 
-const lineage_hunter = function () {
+const lineage_hunter = function() {
   function findlineage(pattern, patternlab) {
     // As we are adding edges from pattern to ancestor patterns, ensure it is known to the graph
     patternlab.graph.add(pattern);
@@ -10,7 +10,7 @@ const lineage_hunter = function () {
     //find the {{> template-name }} within patterns
     const matches = pattern.findPartials();
     if (matches !== null) {
-      matches.forEach(function (match) {
+      matches.forEach(function(match) {
         //get the ancestorPattern
         const ancestorPattern = getPartial(
           pattern.findPartial(match),
@@ -27,7 +27,7 @@ const lineage_hunter = function () {
           //create the more complex patternLineage object too
           const l = {
             lineagePattern: ancestorPattern.patternPartial,
-            lineagePath: '../../patterns/' + ancestorPattern.patternLink,
+            lineagePath: '../../patterns/' + ancestorPattern.patternLink
           };
           if (ancestorPattern.patternState) {
             l.lineageState = ancestorPattern.patternState;
@@ -49,7 +49,7 @@ const lineage_hunter = function () {
             //create the more complex patternLineage object in reverse
             const lr = {
               lineagePattern: pattern.patternPartial,
-              lineagePath: '../../patterns/' + pattern.patternLink,
+              lineagePath: '../../patterns/' + pattern.patternLink
             };
             if (pattern.patternState) {
               lr.lineageState = pattern.patternState;
@@ -158,12 +158,12 @@ const lineage_hunter = function () {
   }
 
   return {
-    find_lineage: function (pattern, patternlab) {
+    find_lineage: function(pattern, patternlab) {
       findlineage(pattern, patternlab);
     },
-    cascade_pattern_states: function (patternlab) {
+    cascade_pattern_states: function(patternlab) {
       cascadePatternStates(patternlab);
-    },
+    }
   };
 };
 

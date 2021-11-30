@@ -15,7 +15,7 @@ const pluginManager = new pm();
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 
-module.exports = async function (pattern, patternlab) {
+module.exports = async function(pattern, patternlab) {
   // Pattern does not need to be built and recompiled more than once
   if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
     return Promise.resolve(false);
@@ -41,7 +41,7 @@ module.exports = async function (pattern, patternlab) {
   );
 
   return Promise.all(
-    _.map(patternlab.uikits, (uikit) => {
+    _.map(patternlab.uikits, uikit => {
       // exclude pattern from uikit rendering
       if (uikitExcludePattern(pattern, uikit)) {
         return Promise.resolve();
@@ -125,18 +125,18 @@ module.exports = async function (pattern, patternlab) {
         patternBreadcrumb:
           pattern.patternGroup === pattern.patternSubgroup
             ? {
-                patternGroup: pattern.patternGroup,
+                patternGroup: pattern.patternGroup
               }
             : {
                 patternGroup: pattern.patternGroup,
-                patternSubgroup: pattern.patternSubgroup,
+                patternSubgroup: pattern.patternSubgroup
               },
         patternExtension: pattern.fileExtension.substr(1), //remove the dot because styleguide asset default adds it for us
         patternName: pattern.patternName,
         patternPartial: pattern.patternPartial,
         patternState: pattern.patternState,
         patternEngineName: pattern.engine.engineName,
-        extraOutput: extraOutput,
+        extraOutput: extraOutput
       });
 
       //set the pattern-specific footer by compiling the general-footer with data, and then adding it to the meta footer
@@ -145,16 +145,16 @@ module.exports = async function (pattern, patternlab) {
         {
           isPattern: pattern.isPattern,
           patternData: pattern.patternData,
-          cacheBuster: patternlab.cacheBuster,
+          cacheBuster: patternlab.cacheBuster
         }
       );
 
       return Promise.all([
         headPromise,
         patternPartialPromise,
-        footerPartialPromise,
+        footerPartialPromise
       ])
-        .then((intermediateResults) => {
+        .then(intermediateResults => {
           // retrieve results of promises
           const headHTML = intermediateResults[0]; //headPromise
           pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
@@ -178,7 +178,7 @@ module.exports = async function (pattern, patternlab) {
           allFooterData.patternLabFoot = footerPartial;
 
           return render(patternlab.userFoot, allFooterData).then(
-            async (footerHTML) => {
+            async footerHTML => {
               ///////////////
               // WRITE FILES
               ///////////////
@@ -211,7 +211,7 @@ module.exports = async function (pattern, patternlab) {
             }
           );
         })
-        .catch((reason) => {
+        .catch(reason => {
           console.log(reason);
         });
     })

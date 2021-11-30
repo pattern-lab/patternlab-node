@@ -6,7 +6,7 @@ const _ = require('lodash');
 const mp = require('./markdown_parser');
 const logger = require('./log');
 
-const annotations_exporter = function (pl) {
+const annotations_exporter = function(pl) {
   const paths = pl.config.paths;
   let oldAnnotations;
 
@@ -68,7 +68,7 @@ const annotations_exporter = function (pl) {
     //let annotations = annotations;
     const markdown_parser = parser;
 
-    return function (filePath) {
+    return function(filePath) {
       const annotationsMD = fs.readFileSync(path.resolve(filePath), 'utf8');
 
       //take the annotation snippets and split them on our custom delimiter
@@ -110,15 +110,15 @@ const annotations_exporter = function (pl) {
   }
 
   return {
-    gather: function () {
+    gather: function() {
       return gatherAnnotations();
     },
-    gatherJS: function () {
+    gatherJS: function() {
       return parseAnnotationsJS();
     },
-    gatherMD: function () {
+    gatherMD: function() {
       return parseAnnotationsMD();
-    },
+    }
   };
 };
 

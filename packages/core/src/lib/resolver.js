@@ -23,7 +23,7 @@ const resolvePackageLocations = () => {
 const resolveFileInPackage = (packageName, ...pathElements) => {
   if (process.env.projectDir) {
     return require.resolve(path.join(packageName, ...pathElements), {
-      paths: resolvePackageLocations(),
+      paths: resolvePackageLocations()
     });
   } else {
     return require.resolve(path.join(packageName, ...pathElements));
@@ -34,7 +34,7 @@ const resolveFileInPackage = (packageName, ...pathElements) => {
  * @func resolvePackageFolder
  * Resolves the location of a package on disc
  */
-const resolvePackageFolder = (packageName) => {
+const resolvePackageFolder = packageName => {
   return path.dirname(resolveFileInPackage(packageName, 'package.json'));
 };
 
@@ -49,5 +49,5 @@ const resolveDirInPackage = (packageName, ...pathElements) => {
 module.exports = {
   resolveFileInPackage,
   resolveDirInPackage,
-  resolvePackageFolder,
+  resolvePackageFolder
 };

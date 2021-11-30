@@ -14,7 +14,7 @@ function header() {
     'rankdir=LR;',
     'ranksep="4 equally·";',
     'node [style=filled,color=white];',
-    'edge [style=dotted constraint=false]',
+    'edge [style=dotted constraint=false]'
   ];
 }
 
@@ -23,7 +23,7 @@ function header() {
  * @param name
  * @return {string}
  */
-const niceKey = function (name) {
+const niceKey = function(name) {
   return 'O' + name.replace('-', '');
 };
 
@@ -69,7 +69,7 @@ function subGraph(group, patterns) {
     patterns.map(addNode).join(''),
 
     //patterns.map(p => "\"" + p.name + "\"").join(" -> ") + "[style=invis]",
-    '}',
+    '}'
   ];
 }
 
@@ -84,7 +84,7 @@ const PatternGraphDot = {};
  * @param patternGraph
  * @return {string}
  */
-PatternGraphDot.generate = function (patternGraph) {
+PatternGraphDot.generate = function(patternGraph) {
   const g = patternGraph.graph;
   const patterns = patternGraph.patterns;
   const buckets = new Map();
@@ -93,7 +93,7 @@ PatternGraphDot.generate = function (patternGraph) {
     'firebrick',
     'slateblue',
     'darkgoldenrod',
-    'black',
+    'black'
   ];
   const colorMap = new Map();
   let colIdx = 0;

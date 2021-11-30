@@ -14,7 +14,7 @@ const markdown_parser = new mp();
 const FILE_EXTENSION = '.md';
 const GROUP_DOC_PREFIX = '_';
 
-module.exports = function (pattern, patternlab, isVariant) {
+module.exports = function(pattern, patternlab, isVariant) {
   try {
     const markdownFileName = path.resolve(
       patternlab.config.paths.source.patterns,

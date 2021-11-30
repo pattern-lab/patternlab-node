@@ -27,8 +27,7 @@ const engine_twig_php = {
   engineName: 'twig-php',
   engineFileExtension: '.twig',
   expandPartials: false,
-  findPartialsRE:
-    /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?(with|%}|\s*%})/g,
+  findPartialsRE: /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?(with|%}|\s*%})/g,
   findPartialKeyRE: /"((?:\\.|[^"\\])*)"|'((?:\\.|[^"\\])*)'/,
   namespaces: [],
 
@@ -46,8 +45,12 @@ const engine_twig_php = {
       process.exit(1);
     }
 
-    const { namespaces, alterTwigEnv, relativeFrom, ...rest } =
-      config.engines.twig;
+    const {
+      namespaces,
+      alterTwigEnv,
+      relativeFrom,
+      ...rest
+    } = config.engines.twig;
 
     // Schema on config object being passed in:
     // https://github.com/basaltinc/twig-renderer/blob/master/config.schema.json
