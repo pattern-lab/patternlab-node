@@ -205,9 +205,8 @@ module.exports = async function(pattern, patternlab) {
               );
 
               // Allows serializing the compile state
-              patternlab.graph.node(
-                pattern
-              ).compileState = pattern.compileState = CompileState.CLEAN;
+              patternlab.graph.node(pattern).compileState =
+                pattern.compileState = CompileState.CLEAN;
               logger.info('Built pattern: ' + pattern.patternPartial);
             }
           );
