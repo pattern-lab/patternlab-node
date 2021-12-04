@@ -47,12 +47,6 @@ Sets whether or not you want the styleguide to load with the pattern info open o
 
 **default**: `false`
 
-## defaultInitialViewportWidth (optional)
-
-Possibility to define whether the initial viewport width on opening pattern lab in the browser should take the default of `100%` (value `true`) or take the (permanently) persisted value after the users have interacted with the viewport resize buttons previously (value `false`). This is especially beneficial in case that you'd expect the pages in full viewport at revisits, and even further if your startpage is defined as a "static" markdown welcome / orientation page.
-
-**default**: `false`
-
 ## defaultPatternInfoPanelCode (optional)
 
 Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, or instead use value `html` to display the html code initially, or the value defined for the _patternExtension_.
