@@ -53,7 +53,7 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
   const dataFiles = glob.sync(dataFilesFullPath, globOptions);
   let mergeObject = {};
 
-  dataFiles.forEach(function (filePath) {
+  dataFiles.forEach(function(filePath) {
     try {
       const jsonData = yaml.safeLoad(
         fsDep.readFileSync(path.resolve(filePath), 'utf8')
@@ -70,6 +70,6 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
 module.exports = function configFileLoader() {
   return {
     loadDataFromFile: loadFile,
-    loadDataFromFolder: loadDataFromFolder,
+    loadDataFromFolder: loadDataFromFolder
   };
 };

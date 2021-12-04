@@ -9,11 +9,7 @@ const _ = require('lodash');
  * @param {*} dataToMergeWithObject the object that should be merged with the original data
  * @param {*} patternlabConfig the patternlab configuration object
  */
-module.exports = function (
-  dataObject,
-  dataToMergeWithObject,
-  patternlabConfig
-) {
+module.exports = function(dataObject, dataToMergeWithObject, patternlabConfig) {
   return _.mergeWith(
     {},
     dataObject,
