@@ -120,7 +120,7 @@ module.exports = function (apiConfig) {
         options: {
           sassOptions: {
             sourceMap: config.sourceMaps,
-            outputStyle: 'expanded',
+            outputStyle: 'expanded'
           },
         },
       },
