@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const execa = require('execa');
-const fs = require('fs');
+const fs = require('fs-extra');
 const wrapAsync = require('./utils').wrapAsync;
 const mkdirsAsync = require('./utils').mkdirsAsync;
 
@@ -18,6 +18,7 @@ const scaffold = (projectDir, sourceDir, publicDir, exportDir) =>
   wrapAsync(function* () {
     const projectPath = path.join(process.cwd(), projectDir);
     if (!fs.existsSync(path.join(projectPath, 'package.json'))) {
+      fs.ensureDirSync(projectPath);
       execa.sync('npm', ['init', '-y'], {
         cwd: projectPath,
       });
