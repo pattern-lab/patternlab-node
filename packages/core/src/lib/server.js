@@ -36,30 +36,6 @@ const server = (patternlab) => {
             patternlab.config.paths.public.root
           )
         );
-        defaults.assets = [
-          path.resolve(
-            path.join(
-              process.cwd(),
-              patternlab.config.paths.source.js,
-              '**',
-              '*.js' // prevent preprocessors like typescript from reloading
-            )
-          ),
-          path.resolve(
-            path.join(process.cwd(), patternlab.config.paths.source.images)
-          ),
-          path.resolve(
-            path.join(process.cwd(), patternlab.config.paths.source.fonts)
-          ),
-          path.resolve(
-            path.join(
-              process.cwd(),
-              patternlab.config.paths.source.css,
-              '**',
-              '*.css' // prevent preprocessors from reloading
-            )
-          ),
-        ];
 
         // allow for overrides should they exist inside patternlab-config.json
         const liveServerConfig = Object.assign(
