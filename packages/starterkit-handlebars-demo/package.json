@@ -24,5 +24,8 @@
   },
   "scripts": {
     "build": "cd dist/css && sass style.scss style.css"
+  },
+  "engines": {
+    "node": ">=12.13.1"
   }
 }
