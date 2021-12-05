@@ -32,20 +32,6 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "devDependencies": {
-    "@pattern-lab/core": "^5.15.2",
-    "@pattern-lab/engine-handlebars": "^5.15.1",
-    "@pattern-lab/engine-mustache": "^5.15.1",
-    "better-opn": "^1.0.0",
-    "browser-sync": "^2.26.7",
-    "ejs": "^2.7.2",
-    "express": "^4.17.1",
-    "hasha": "^5.2.2",
-    "portfinder": "^1.0.28",
-    "webpack-dev-middleware": "^3.7.2",
-    "webpack-hot-middleware": "^2.25.0",
-    "webpackbar": "^4.0.0"
-  },
-  "dependencies": {
     "@babel/core": "^7.13.14",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-proposal-decorators": "^7.13.5",
@@ -56,11 +42,16 @@
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.12",
     "@babel/runtime": "^7.13.10",
+    "@pattern-lab/core": "^5.15.2",
+    "@pattern-lab/engine-handlebars": "^5.15.1",
+    "@pattern-lab/engine-mustache": "^5.15.1",
     "@pattern-lab/uikit-polyfills": "^5.14.3",
     "@reach/visually-hidden": "^0.1.2",
     "@webcomponents/custom-elements": "^1.4.3",
     "autoprefixer": "^9.6.5",
     "babel-loader": "^8.0.6",
+    "better-opn": "^1.0.0",
+    "browser-sync": "^2.26.7",
     "classnames": "^2.2.6",
     "clean-css-loader": "^1.0.1",
     "clean-webpack-plugin": "0.1.19",
@@ -68,9 +59,12 @@
     "copy-webpack-plugin": "^5.0.2",
     "cosmiconfig": "^5.0.6",
     "css-loader": "^3.2.0",
+    "ejs": "^2.7.2",
+    "express": "^4.17.1",
     "fg-loadjs": "^1.1.0",
     "fuse.js": "^3.4.5",
     "hard-source-webpack-plugin-patch": "^0.13.3",
+    "hasha": "^5.2.2",
     "hogan.js": "^3.0.2",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^4.0.0-beta.11",
@@ -78,6 +72,7 @@
     "lit-html": "^1.1.2",
     "mini-css-extract-plugin": "^0.8.0",
     "mousetrap": "^1.6.5",
+    "portfinder": "^1.0.28",
     "postcss-loader": "^3.0.0",
     "preact": "8.3.1",
     "preact-compat": "3.18.4",
@@ -104,9 +99,14 @@
     "ts-loader": "^6.2.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
     "webpack-merge": "^4.2.2",
+    "webpackbar": "^4.0.0",
     "wolfy87-eventemitter": "^5.2.9",
     "yargs": "^16.2.0"
+  },
+  "dependencies": {
   },
   "browserslist": [
     "last 2 version",
@@ -121,5 +121,8 @@
     "views-twig",
     "webpack.config.js"
   ],
-  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac",
+  "engines": {
+    "node": ">=12.13.1"
+  }
 }
