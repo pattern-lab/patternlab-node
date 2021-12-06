@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/live-server",
-  "version": "5.15.4",
+  "version": "5.15.5",
   "description": "simple development http server with live reload capability",
   "keywords": [
     "front-end",

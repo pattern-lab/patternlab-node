@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/pattern-lab/patternlab-node/issues/1386)) ([6fa630e](https://github.com/pattern-lab/patternlab-node/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
 ## [5.15.4](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.4) (2021-12-06)
 
 
