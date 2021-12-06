@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.5](https://github.com/pattern-lab/edition-node-gulp/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
+## [5.15.4](https://github.com/pattern-lab/edition-node-gulp/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+**Note:** Version bump only for package @pattern-lab/engine-react-testing-tree
+
+
+
+
+
 ## [5.15.3](https://github.com/pattern-lab/edition-node-gulp/compare/v5.15.2...v5.15.3) (2021-11-21)
 
 **Note:** Version bump only for package @pattern-lab/engine-react-testing-tree

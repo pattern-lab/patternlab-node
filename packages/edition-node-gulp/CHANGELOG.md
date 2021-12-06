@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+
+### Bug Fixes
+
+* corrected some github urls ([#1388](https://github.com/pattern-lab/patternlab-node/issues/1388)) ([7f37e9d](https://github.com/pattern-lab/patternlab-node/commit/7f37e9d56b553dc4be53590766c0fc6251458829))
+
+
+
+
+
+## [5.15.4](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+
+### Bug Fixes
+
+* corrected some github urls ([#1388](https://github.com/pattern-lab/patternlab-node/issues/1388)) ([7f37e9d](https://github.com/pattern-lab/patternlab-node/commit/7f37e9d56b553dc4be53590766c0fc6251458829))
+
+
+
+
+
 ## [5.15.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/edition-node-gulp/compare/v5.15.2...v5.15.3) (2021-11-21)
 
 **Note:** Version bump only for package @pattern-lab/edition-node-gulp
