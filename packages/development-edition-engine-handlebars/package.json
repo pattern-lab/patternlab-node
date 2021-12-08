@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/development-edition-engine-handlebars",
   "private": true,
-  "version": "5.15.5",
+  "version": "5.15.7",
   "description": "The tree of components we use to test, develop and validate the Handlebars engine",
   "scripts": {
     "pl:build": "patternlab build --config ./patternlab-config.json",
@@ -35,6 +35,6 @@
     "@pattern-lab/engine-mustache": "^5.15.1",
     "@pattern-lab/plugin-tab": "^5.15.1",
     "@pattern-lab/starterkit-handlebars-demo": "^5.15.5",
-    "@pattern-lab/uikit-workshop": "^5.15.5"
+    "@pattern-lab/uikit-workshop": "^5.15.7"
   }
 }
