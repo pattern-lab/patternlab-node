@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@pattern-lab/core": "^5.15.5",
-    "@pattern-lab/live-server": "^5.15.5",
     "archiver": "2.1.1",
     "chalk": "4.1.0",
     "commander": "2.15.1",
