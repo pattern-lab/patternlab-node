@@ -4,7 +4,6 @@
 /* eslint-disable no-param-reassign, no-unused-vars */
 
 import Hogan from 'hogan.js';
-import Normalizer from 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js';
 import pretty from 'pretty';
 import { html, render } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
@@ -13,6 +12,7 @@ import { panelsUtil } from './panels-util';
 import { urlHandler, Dispatcher } from '../utils';
 import './pl-copy-to-clipboard/pl-copy-to-clipboard';
 import { PrismLanguages as Prism } from './prism-languages';
+import Normalizer from 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.js';
 
 const normalizeWhitespace = new Normalizer({
   'remove-trailing': true,
