@@ -78,6 +78,11 @@ module.exports = function (apiConfig) {
           '@babel/plugin-proposal-optional-chaining',
           ['@babel/plugin-proposal-decorators', { legacy: true }],
           ['@babel/plugin-proposal-class-properties', { loose: true }],
+          ['@babel/plugin-proposal-private-methods', { loose: true }],
+          [
+            '@babel/plugin-proposal-private-property-in-object',
+            { loose: true },
+          ],
           '@babel/plugin-syntax-dynamic-import',
           '@babel/plugin-syntax-jsx' /* [1] */,
           [
