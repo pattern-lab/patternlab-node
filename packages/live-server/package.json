@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/live-server",
-  "version": "5.15.1",
+  "version": "5.15.5",
   "description": "simple development http server with live reload capability",
   "keywords": [
     "front-end",
@@ -18,7 +18,8 @@
     "cors": "2.8.5",
     "event-stream": "3.3.4",
     "faye-websocket": "0.11.x",
-    "http-auth": "3.2.x",
+    "http-auth": "4.1.x",
+    "http-auth-connect": "^1.0.5",
     "morgan": "1.10.0",
     "object-assign": "4.1.1",
     "opn": "5.3.0",
