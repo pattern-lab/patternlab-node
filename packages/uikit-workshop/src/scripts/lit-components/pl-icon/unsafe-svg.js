@@ -14,7 +14,7 @@
 
 import { reparentNodes } from 'lit-html/lib/dom.js';
 // import { isPrimitive } from 'lit-html/lib/parts.js';
-import { directive, NodePart } from 'lit-html/lit-html.js';
+import { directive } from 'lit-html/lit-html.js';
 import importNode from '@ungap/import-node';
 // document.importNode = importNode;
 
