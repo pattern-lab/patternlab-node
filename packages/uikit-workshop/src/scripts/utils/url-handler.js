@@ -212,6 +212,6 @@ export const urlHandler = {
 /**
  * handle the onpopstate event
  */
-window.onpopstate = function (event) {
+window.onpopstate = function (/*event*/) {
   urlHandler.skipBack = true;
 };
