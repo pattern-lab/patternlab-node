@@ -39,7 +39,7 @@ async function serve(patternlab, configPath, buildDir = 'public') {
   const filesToWatch = [
     {
       match: [`${process.cwd()}/patternlab-config.json`],
-      fn: async function (event, filePath) {
+      fn: async function (/*event, filePath*/) {
         // when the main PL config changes, clear Node's cache (so the JSON config is re-read) and trigger another PL build
         // this allows config changes to show up without restarting the build!
         Object.keys(require.cache).forEach(function (key) {
