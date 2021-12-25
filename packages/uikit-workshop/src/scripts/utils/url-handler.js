@@ -155,10 +155,6 @@ export const urlHandler = {
    * @param  {String}       the path given by the loaded iframe
    */
   pushPattern(pattern, givenPath) {
-    const data = {
-      pattern,
-    };
-
     const fileName = urlHandler.getFileName(pattern);
     let path = window.location.pathname;
     path =
