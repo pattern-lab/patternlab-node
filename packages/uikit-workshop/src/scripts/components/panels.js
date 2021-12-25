@@ -46,7 +46,7 @@ export const Panels = {
   },
 };
 
-function init(event) {
+function init(/*event*/) {
   // does the origin sending the message match the current host? if not dev/null the request
 
   const fileSuffixPattern =
