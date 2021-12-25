@@ -14,7 +14,8 @@ const writeJsonAsync = require('../utils').writeJsonAsync;
 const defaultPatternlabConfig = patternlab.getDefaultConfig();
 
 // https://github.com/TehShrike/deepmerge#overwrite-array
-const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+const overwriteMerge = (destinationArray, sourceArray /*, options*/) =>
+  sourceArray;
 
 const init = (options) =>
   wrapAsync(function* () {

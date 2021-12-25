@@ -17,7 +17,8 @@ const {
 } = require('@pattern-lab/core/src/lib/resolver');
 
 // https://github.com/TehShrike/deepmerge#overwrite-array
-const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+const overwriteMerge = (destinationArray, sourceArray /*, options*/) =>
+  sourceArray;
 
 const installEdition = (edition, config, projectDir) => {
   const pkg = require(path.resolve(projectDir, 'package.json'));
