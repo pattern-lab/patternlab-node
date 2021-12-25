@@ -28,7 +28,7 @@ import importNode from '@ungap/import-node';
 // The DocumentFragment is used as a unique key to check if the last value
 // rendered to the part was with unsafeSVG. If not, we'll always re-render the
 // value passed to unsafeSVG.
-const previousValues = new WeakMap();
+// const previousValues = new WeakMap();
 
 /**
  * Renders the result as SVG, rather than text.
