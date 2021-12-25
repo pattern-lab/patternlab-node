@@ -19,3 +19,6 @@ import 'core-js/modules/es.promise';
 import 'core-js/es6/symbol';
 import 'core-js/web/dom-collections';
 import 'core-js/web/url-search-params';
+
+// Element.matches() polyfill
+import 'element-matches';
