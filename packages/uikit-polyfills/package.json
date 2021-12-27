@@ -10,7 +10,6 @@
     "core-js": "^3.6.5",
     "custom-event-polyfill": "^1.0.7",
     "element-closest": "^3.0.2",
-    "element-matches": "^0.1.2",
     "get-own-property-symbols": "^0.9.5"
   },
   "publishConfig": {

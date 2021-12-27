@@ -5946,11 +5946,6 @@ element-closest@^3.0.2:
   resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.2.tgz#3814a69a84f30e48e63eaf57341f4dbf4227d2aa"
   integrity sha512-JxKQiJKX0Zr5Q2/bCaTx8P+UbfyMET1OQd61qu5xQFeWr1km3fGaxelSJtnfT27XQ5Uoztn2yIyeamAc/VX13g==
 
-element-matches@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/element-matches/-/element-matches-0.1.2.tgz#7345cb71e965bd2b12f725e524591c102198361a"
-  integrity sha512-yWh1otcs3OKUWDvu/IxyI36ZI3WNaRZlI0uG/DK6fu0pap0VYZ0J5pEGTk1zakme+hT0OKHwhlHc0N5TJhY6yQ==
-
 elliptic@^6.5.3:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.4.tgz#da37cebd31e79a1367e941b592ed1fbebd58abbb"
