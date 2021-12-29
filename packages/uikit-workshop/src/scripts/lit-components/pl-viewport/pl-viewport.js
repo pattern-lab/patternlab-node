@@ -396,6 +396,7 @@ class IFrame extends BaseLitComponent {
     const url = urlHandler.getFileName(this.getPatternParam());
 
     const initialWidth =
+      !window.config.defaultInitialViewportWidth &&
       store.getState().app.viewportPx &&
       store.getState().app.viewportPx <= this.clientWidth
         ? store.getState().app.viewportPx + 'px;'
