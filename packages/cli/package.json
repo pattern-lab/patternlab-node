@@ -13,7 +13,7 @@
     "@pattern-lab/live-server": "^5.15.5",
     "archiver": "2.1.1",
     "chalk": "4.1.0",
-    "commander": "6.2.1",
+    "commander": "7.2.0",
     "deepmerge": "^2.1.1",
     "execa": "4.0.3",
     "fs-extra": "6.0.1",
