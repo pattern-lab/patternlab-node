@@ -4,6 +4,8 @@ import 'get-own-property-symbols';
 import '@webcomponents/webcomponentsjs/webcomponents-bundle';
 
 import 'element-closest';
+// A matches polyfill is already included in the previous closest polyfill – as long as that one is still included, we won't need the next one
+// import 'element-matches';
 import 'core-js/modules/es.string.includes';
 import 'core-js/modules/es.string.trim-end';
 import 'core-js/modules/es.string.trim-start';
