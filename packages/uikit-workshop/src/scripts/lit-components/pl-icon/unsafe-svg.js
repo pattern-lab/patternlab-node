@@ -14,7 +14,7 @@
 
 import { reparentNodes } from 'lit-html/lib/dom.js';
 // import { isPrimitive } from 'lit-html/lib/parts.js';
-import { directive, NodePart } from 'lit-html/lit-html.js';
+import { directive } from 'lit-html/lit-html.js';
 import importNode from '@ungap/import-node';
 // document.importNode = importNode;
 
@@ -28,7 +28,6 @@ import importNode from '@ungap/import-node';
 // The DocumentFragment is used as a unique key to check if the last value
 // rendered to the part was with unsafeSVG. If not, we'll always re-render the
 // value passed to unsafeSVG.
-const previousValues = new WeakMap();
 
 /**
  * Renders the result as SVG, rather than text.

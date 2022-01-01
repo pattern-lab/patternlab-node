@@ -1,11 +1,4 @@
-import {
-  html,
-  LitElement,
-  unsafeCSS,
-  css,
-  svg,
-  customElement,
-} from 'lit-element';
+import { html, LitElement, customElement } from 'lit-element';
 import styles from './pl-icon.scss?external';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 const icons = {};
