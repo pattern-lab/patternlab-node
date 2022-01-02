@@ -5,23 +5,33 @@
   "img": {
     "landscape_4x3": {
       "src": "../../images/fpo_4x3.png",
-      "alt": "4x3 Image"
+      "alt": "4x3 Image",
+      "width": "600",
+      "height": "450"
     },
     "landscape_16x9": {
       "src": "../../images/fpo_16x9.png",
-      "alt": "16x9 Image"
+      "alt": "16x9 Image",
+      "width": "1280",
+      "height": "720"
     },
     "square": {
       "src": "../../images/fpo_square.png",
-      "alt": "Square Thumbnail"
+      "alt": "Square Thumbnail",
+      "width": "600",
+      "height": "600"
     },
     "avatar" : {
       "src" : "../../images/fpo_avatar.png",
-      "alt" : "Person Name"
+      "alt" : "Person Name",
+      "width": "300",
+      "height": "300"
     },
     "rectangle": {
       "src": "http://placeimg.com/400/300/tech",
-      "alt": "Rectangle"
+      "alt": "Rectangle",
+      "width": "400",
+      "height": "300"
     }
   },
   "headline" : {

@@ -40,28 +40,34 @@ We may want our JSON file to be a little more organized and our Mustache variabl
 
 ```javascript
 "square": {
-    "alt": "Square"
     "src": "../../images/fpo_square.png",
+    "alt": "Square",
+    "width": "600",
+    "height": "600"
 },
 "avatar": {
-    "alt": "Avatar"
     "src": "../../images/fpo_avatar.png",
+    "alt": "Avatar",
+    "width": "300",
+    "height": "300"
 }
 ```
 
-Note how their are attributes ( `src`, `alt` ) nested within a larger container ( `square` ). Also note how the attributes are separated by commas. If we wanted to use the attributes for the square image in our pattern we'd write:
+Note how their are attributes ( `src`, `alt`, `width`, `height` ) nested within a larger container ( `square` ). Also note how the attributes are separated by commas. If we wanted to use the attributes for the square image in our pattern we'd write:
 
 ```html
 <img
 	src="{% raw %}{{ square.src }}{% endraw %}"
 	alt="{% raw %}{{ square.alt }}{% endraw %}"
+	width="{% raw %}{{ square.width }}{% endraw %}"
+	height="{% raw %}{{ square.height }}{% endraw %}"
 />
 ```
 
 This would compile to:
 
 ```html
-<img src="../../images/fpo_square.png" alt="Square" />
+<img src="../../images/fpo_square.png" alt="Square" width="600" height="600" />
 ```
 
 This nesting makes it easier to read how the attributes are organized in our patterns. The default `data.json` file has several examples of this type of nesting of attributes.
