@@ -1,0 +1,9 @@
+{
+  "comments" : [
+    {
+      "el": ".c-header",
+      "title" : "Masthead",
+      "comment": "The main header of the site doesn't take up too much screen real estate in order to keep the focus on the core content."
+    }
+  ]
+}
