@@ -19,7 +19,7 @@ This Edition comes with the following components:
 
 ## Prerequisites
 
-This Edition uses [Node](https://nodejs.org) for core processing, [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp.js](http://gulpjs.com/) to run tasks and interface with the core library. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
+This Edition uses [Node](https://nodejs.org/) for core processing, [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp.js](https://gulpjs.com/) to run tasks and interface with the core library. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
 
 ## Installing
 

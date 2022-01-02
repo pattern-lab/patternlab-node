@@ -20,7 +20,7 @@
       "alt" : "Person Name"
     },
     "rectangle": {
-      "src": "http://placeimg.com/400/300/tech",
+      "src": "https://placeimg.com/400/300/tech",
       "alt": "Rectangle"
     }
   },
