@@ -54,7 +54,7 @@ The `.editorconfig` controls spaces / tabs within supported editors. Check out t
 
 ## Tests
 
-Add unit and integration tests if you can. It's always nice if our code coverage improves bit by bit (literally!). We are using [Node Tap](http://www.node-tap.org/) as test framework and [Rewire](https://github.com/jhnns/rewire) for mocking things like file system access.
+Add unit and integration tests if you can. It's always nice if our code coverage improves bit by bit (literally!). We are using [Node Tap](https://node-tap.org/) as test framework and [Rewire](https://github.com/jhnns/rewire) for mocking things like file system access.
 
 ## Branching Scheme
 
