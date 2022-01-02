@@ -36,12 +36,10 @@
 /**
  * Annotation tooltip
  * 1) Appears inside the iframe over any element that has an
- *    anootation attached to it.
- * 2) Annotation tip gets dynamically set to `display: none` via
- *    JavaScript
+ *    annotation attached to it.
  */
 .pl-c-annotation-tip {
-  display: flex; /* 2 */
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px !important;
