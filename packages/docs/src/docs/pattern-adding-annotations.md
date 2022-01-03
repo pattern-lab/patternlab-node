@@ -32,6 +32,8 @@ This is an example of an annotation saved as part of `annotations.json` that wil
 }
 ```
 
+Compare to e.g. [`handlebars` annotations](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/starterkit-handlebars-demo/dist/_annotations/annotations.json) or [`twig` annotations](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/starterkit-twig-demo/dist/_annotations/annotations.json) editions demo content as well.
+
 ## Markdown Example
 
 This is an example of an annotation saved as part of `annotations.md` that will be added to an element with the class `logo`:
