@@ -2,7 +2,7 @@
   "name":             "pattern-lab/starterkit-twig-demo",
   "description":      "Pattern Lab's Demo StarterKit for Twig.",
   "keywords":         ["twig", "pattern lab", "starterkit", "demo"],
-  "homepage":         "http://patternlab.io",
+  "homepage":         "https://patternlab.io",
   "license":          "MIT",
   "type":             "patternlab-starterkit",
   "authors": [
@@ -14,7 +14,7 @@
     },
     {
       "name":         "Brad Frost",
-      "homepage":     "http://bradfrostweb.com",
+      "homepage":     "https://bradfrost.com",
       "role":         "Creator"
     }
   ],

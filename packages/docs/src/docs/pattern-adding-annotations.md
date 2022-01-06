@@ -28,7 +28,7 @@ This is an example of an annotation saved as part of `annotations.js` that will 
 {
 	"el": ".logo",
  	"title" : "Logo",
- 	"comment": "The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.</p><p>Further reading: <a href=\"http://bradfrostweb.com/blog/mobile/hi-res-optimization/\">Optimizing Web Experiences for High Resolution Screens</a></p>"
+ 	"comment": "The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.</p><p>Further reading: <a href=\"https://bradfrost.com/blog/mobile/hi-res-optimization/\">Optimizing Web Experiences for High Resolution Screens</a></p>"
 }
 ```
 
@@ -43,7 +43,7 @@ title: Logo
 ---
 The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.
 
-Further reading: [Optimizing Web Experiences for High Resolution Screens](http://bradfrostweb.com/blog/mobile/hi-res-optimization/)
+Further reading: [Optimizing Web Experiences for High Resolution Screens](https://bradfrost.com/blog/mobile/hi-res-optimization/)
 ```
 
 To separate multiple annotations within one file use `~*~` between annotations.
@@ -55,7 +55,7 @@ title: Logo
 ---
 The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.
 
-Further reading: [Optimizing Web Experiences for High Resolution Screens](http://bradfrostweb.com/blog/mobile/hi-res-optimization/)
+Further reading: [Optimizing Web Experiences for High Resolution Screens](https://bradfrost.com/blog/mobile/hi-res-optimization/)
 ~*~
 ---
 el: .hamburger

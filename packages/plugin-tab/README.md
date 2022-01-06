@@ -10,7 +10,7 @@ The Tab Plugin allows Pattern Lab Node users to see sibling files next to a patt
 
 ## Installation
 
-To add the Tab Plugin to your project using [npm](http://npmjs.com/) type:
+To add the Tab Plugin to your project using [npm](https://www.npmjs.com/) type:
 
     npm install @pattern-lab/plugin-tab --save
 

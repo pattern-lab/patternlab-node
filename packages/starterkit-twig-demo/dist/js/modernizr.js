@@ -1,5 +1,5 @@
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
- * Build: http://modernizr.com/download/#-shiv-cssclasses-load
+ * Build: https://modernizr.com/download/#-shiv-cssclasses-load
  */
 (window.Modernizr = (function(a, b, c) {
   function u(a) {

@@ -4,7 +4,7 @@
 
 # UIKit Default
 
-Front-end assets and templates for the default Pattern Lab [workshop](http://bradfrost.com/blog/post/the-workshop-and-the-storefront/) view.
+Front-end assets and templates for the default Pattern Lab [workshop](https://bradfrost.com/blog/post/the-workshop-and-the-storefront/) view.
 
 This code is responsible for creating Pattern Lab's default workshop UI look, feel, and functionality.
 
@@ -20,9 +20,9 @@ Pattern Lab Node uses [npm](https://www.npmjs.com/) to manage project dependenci
 
 In order to modify these assets you need to install the following:
 
-* [Node.js](http://nodejs.org) and NPM
-* [Bower](http://bower.io)
-* [Ruby Sass](http://sass-lang.com/install)
+* [Node.js](https://nodejs.org/) and NPM
+* [Bower](https://bower.io/)
+* [Ruby Sass](https://sass-lang.com/install)
 
 ## Development Set-up
 
