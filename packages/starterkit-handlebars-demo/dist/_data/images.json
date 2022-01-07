@@ -1,5 +1,7 @@
 {
     "src" : "https://via.placeholder.com/1200x800",
     "alt": "landscape image",
-    "logoImg" : "../../images/logo.png"
+    "logoImg" : "../../images/logo.png",
+    "width": "1200",
+    "height": "800"
 }

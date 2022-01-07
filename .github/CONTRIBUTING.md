@@ -50,11 +50,11 @@ This ensures that any changes you've made will still result in a clean and funct
 
 Formatting is automated via [Prettier](https://prettier.io/), setup to run on precommit. We suggest [editor integration](https://prettier.io/docs/en/editors.html) for this and for eslint. Prettier is further configured within `.prettierrc`. Eslint validates syntax and usage that Prettier doesn't handle. Configuration for both is found within the `.eslintrc.js` file.
 
-The `.editorconfig` controls spaces / tabs within supported editors. Check out their [site](http://editorconfig.org/).
+The `.editorconfig` controls spaces / tabs within supported editors. Check out their [site](https://editorconfig.org/).
 
 ## Tests
 
-Add unit and integration tests if you can. It's always nice if our code coverage improves bit by bit (literally!). We are using [Node Tap](http://www.node-tap.org/) as test framework and [Rewire](https://github.com/jhnns/rewire) for mocking things like file system access.
+Add unit and integration tests if you can. It's always nice if our code coverage improves bit by bit (literally!). We are using [Node Tap](https://node-tap.org/) as test framework and [Rewire](https://github.com/jhnns/rewire) for mocking things like file system access.
 
 ## Branching Scheme
 

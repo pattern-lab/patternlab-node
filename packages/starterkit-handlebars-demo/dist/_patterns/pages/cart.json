@@ -8,6 +8,8 @@
 			"url": "#",
 			"src": "../../images/women-boot-wedges.jpg",
 			"alt": "placeholder image",
+			"width": "1200",
+			"height": "800",
 			"stripeField": {
 				"styleModifier": "c-field--small",
 				"label": "Quantity",
@@ -23,6 +25,8 @@
 			"url": "#",
 			"src": "../../images/men-brown-dress-shoes.jpg",
 			"alt": "placeholder image",
+			"width": "1200",
+			"height": "800",
 			"stripeField": {
 				"styleModifier": "c-field--small",
 				"label": "Quantity",

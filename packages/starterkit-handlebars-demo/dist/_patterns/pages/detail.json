@@ -5,7 +5,9 @@
     },
     "featureImage": {
         "src": "../../images/women-boot-wedges.jpg",
-        "alt": "Boot wedges"
+        "alt": "Boot wedges",
+        "width": "1200",
+        "height": "800"
     },
     "htmlText": "<p>These suede booties are the perfect shoes to accent your outfit whether heading to a casual dinner or an elaborate gala.</p><p>These booties come in a sepia (shown) or a stark black. These are made of 100% suede in U.S.A.</p><h2>$120</h2>",
     "priceSection": {
