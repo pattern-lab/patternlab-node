@@ -1,5 +1,5 @@
 'use strict';
-const exists = require('path-exists');
+const fs = require('fs-extra');
 const path = require('path');
 const error = require('./utils').error;
 const readJsonAsync = require('./utils').readJsonAsync;
@@ -19,7 +19,7 @@ function resolveConfig(configPath) {
       );
       return false;
     }
-    if (!exists.sync(configPath)) {
+    if (!fs.existsSync(configPath)) {
       error(`resolveConfig: configPath ${configPath} does not exists`);
       return false;
     }

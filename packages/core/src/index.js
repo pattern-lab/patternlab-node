@@ -15,7 +15,6 @@ const updateNotifier = require('update-notifier');
 const packageInfo = require('../package.json');
 const events = require('./lib/events');
 const pe = require('./lib/pattern_exporter');
-const pm = require('./lib/plugin_manager');
 
 const defaultConfig = require('../patternlab-config.json');
 
