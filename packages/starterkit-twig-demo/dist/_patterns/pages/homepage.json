@@ -7,7 +7,9 @@
 			"img": {
 				"landscape_16x9": {
 					"src": "../../images/sample/landscape-16x9-mountains.jpg",
-					"alt": "Mountains"	
+					"alt": "Mountains",
+					"width": "1151",
+					"height": "638"
 				}
 			},
 			"headline" : {
@@ -20,7 +22,9 @@
 			"img": {
 				"landscape_4x3": {
 					"src": "../../images/sample/tout-4x3-climber.jpg",
-					"alt": "Climber"	
+					"alt": "Climber",
+					"width": "640",
+					"height": "480"
 				}
 			},
 			"headline" : {
@@ -31,7 +35,9 @@
 			"img": {
 				"landscape_4x3": {
 					"src": "../../images/sample/tout-4x3-stream.jpg",
-					"alt": "Stream hiking"	
+					"alt": "Stream hiking",
+					"width": "640",
+					"height": "480"
 				}
 			},
 			"headline" : {
@@ -42,7 +48,9 @@
 			"img": {
 				"landscape_4x3": {
 					"src": "../../images/sample/tout-4x3-climbers.jpg",
-					"alt": "Explore hiking trails"	
+					"alt": "Explore hiking trails",
+					"width": "640",
+					"height": "480"
 				}
 			},
 			"headline" : {
@@ -55,7 +63,9 @@
 			"img": {
 				"square": {
 					"src": "../../images/sample/thumb-square-river.jpg",
-					"alt": "Post Thumbnail"	
+					"alt": "Post Thumbnail",
+					"width": "600",
+					"height": "600"
 				}
 			},
 			"headline" : {
@@ -69,7 +79,9 @@
 			"img": {
 				"square": {
 					"src": "../../images/sample/thumb-square-ivy.jpg",
-					"alt": "Ivy"	
+					"alt": "Ivy",
+					"width": "600",
+					"height": "600"
 				}
 			},
 			"headline" : {
@@ -83,7 +95,9 @@
 			"img": {
 				"square": {
 					"src": "../../images/sample/thumb-square-yosemite.jpg",
-					"alt": "Yosemite"	
+					"alt": "Yosemite",
+					"width": "600",
+					"height": "600"
 				}
 			},
 			"headline" : {
@@ -97,7 +111,9 @@
 			"img": {
 				"square": {
 					"src": "../../images/sample/thumb-square-fire.jpg",
-					"alt": "Fire"	
+					"alt": "Fire",
+					"width": "600",
+					"height": "600"
 				}
 			},
 			"headline" : {
@@ -111,7 +127,9 @@
 			"img": {
 				"square": {
 					"src": "../../images/sample/thumb-square-gear.jpg",
-					"alt": "Camping Gear"	
+					"alt": "Camping Gear",
+					"width": "600",
+					"height": "600"
 				}
 			},
 			"headline" : {

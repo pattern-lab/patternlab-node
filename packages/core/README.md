@@ -112,7 +112,7 @@ The Pattern Lab Node team uses [our gitter.im channel, pattern-lab/node](https:/
 
 There is also a dedicated Pattern Lab channel on the [design system slack](http://designsystems.herokuapp.com) run by [@jina](https://twitter.com/jina).
 
-Ask or answer Pattern Lab questions on Stack Overflow: http://stackoverflow.com/questions/tagged/patternlab.io
+Ask or answer Pattern Lab questions on Stack Overflow: https://stackoverflow.com/questions/tagged/patternlab.io
 
 ## License
 
