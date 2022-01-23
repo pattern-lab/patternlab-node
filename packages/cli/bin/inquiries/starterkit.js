@@ -35,7 +35,7 @@ const starterkitSetup = [
     ],
     default: {
       name: 'Handlebars demo patterns (full demo website and patterns)',
-      value: 'starterkit-handlebars-demo',
+      value: '@pattern-lab/starterkit-handlebars-demo',
     },
   },
   {

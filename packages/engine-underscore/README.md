@@ -61,4 +61,4 @@ If you feed that template JSON that (for whatever reason) has `foo.bar` as `null
 
 and know that the output will be more safely "To be, or, not to be, null" instead of just throwing an error and crashing the pattern. This is mainly useful for operationalized pattern templates that will be provided with JSON from services that you can't control in Pattern Lab.
 
-Note that `obj` is an Underscore pattern's current data context. See [Dr. Axel Rauschmeyer's article](http://www.2ality.com/2012/06/underscore-templates.html) for more.
+Note that `obj` is an Underscore pattern's current data context. See [Dr. Axel Rauschmeyer's article](https://2ality.com/2012/06/underscore-templates.html) for more.

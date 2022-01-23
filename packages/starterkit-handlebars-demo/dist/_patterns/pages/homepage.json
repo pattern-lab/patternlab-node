@@ -3,6 +3,8 @@
 		"url": "link.pages-detail",
 		"src": "../../images/group-shoes.jpg",
 		"alt": "Group of shoes",
+		"width": "1200",
+		"height": "801",
 		"heading" :  "Shoes For The Soul"
 	},
 	"promoBlock": [

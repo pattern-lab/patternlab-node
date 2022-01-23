@@ -17,13 +17,13 @@ sitemapPriority: '0.8'
 - [Frost Finery](http://patterns.frostfinery.com)
 - [Pittsburgh Food Bank](https://foodbank.bradfrost.com/patternlab/v10/)
 - [brianmuenzenmeyer.com](http://www.brianmuenzenmeyer.com/patternlab/public/)
-- [Altinn](http://altinn.github.io/DesignSystem/)
+- [Altinn](https://altinn.github.io/DesignSystem/)
 
 ## Articles
 
 - [Making And Maintaining Atomic Design Systems With Pattern Lab 2 by Brad Frost, Dave Olsen, Brian Muenzenmeyer](https://www.smashingmagazine.com/2016/07/building-maintaining-atomic-design-systems-pattern-lab/)
 - [Using Pattern Lab to Design Build and Maintain a (Jekyll) Website by Brian Muenzenmeyer](http://www.brianmuenzenmeyer.com/using-patternlab-to-design-build-and-maintain-a-website)
-- [Solving Problems with Pattern Lab - Small Team Workflow by Brian Muenzenmeyer](http://www.brianmuenzenmeyer.com/solving-problems-with-pattern-lab-small-team-workflow)
+- [Solving Problems with Pattern Lab - Small Team Workflow by Brian Muenzenmeyer](https://www.brianmuenzenmeyer.com/solving-problems-with-pattern-lab-small-team-workflow)
 - [Adding Common Gulp Tasks to Pattern Lab Node by Brian Muenzenmeyer](http://www.brianmuenzenmeyer.com/adding-common-gulp-tasks-to-pattern-lab-node)
 - [Why and How to Test Your Pattern Library: Testing Strategy by Jim Newbery](https://tinnedfruit.com/writing/why-and-how-to-test-your-pattern-library.html)
 - [Why and How to Test Your Pattern Library: Testing a Pattern Lab Project by Jim Newbery](https://tinnedfruit.com/writing/why-and-how-to-test-your-pattern-library-2.html)

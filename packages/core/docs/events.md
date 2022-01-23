@@ -156,4 +156,4 @@ Invoked when a pattern changes.
 
 ---
 
-[Pattern Lab](http://patternlab.io) Node is [MIT Licensed](https://github.com/pattern-lab/patternlab-node/blob/master/LICENSE)
+[Pattern Lab](https://patternlab.io) Node is [MIT Licensed](https://github.com/pattern-lab/patternlab-node/blob/master/LICENSE)

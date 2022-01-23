@@ -71,6 +71,7 @@ export const Slotify = (Base) =>
       } else if (defaultContent) {
         return defaultContent;
       } else {
+        // eslint-disable-next-line consistent-return
         return;
       }
     }
