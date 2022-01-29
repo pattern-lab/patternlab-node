@@ -313,5 +313,8 @@
   position: absolute;
   z-index: 100;
 }
+.pl-c-annotation-tip[hidden] {
+  visibility: hidden;
+}
 
 /*# sourceMappingURL=pattern-scaffolding.css.map */

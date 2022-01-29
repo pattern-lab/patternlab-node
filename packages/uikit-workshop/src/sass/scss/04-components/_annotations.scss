@@ -39,9 +39,7 @@
  *    annotation attached to it.
  */
 .pl-c-annotation-tip {
-  &:not([hidden]) {
-    display: flex;
-  }
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px !important;
@@ -54,4 +52,8 @@
   font-size: 16px !important;
   position: absolute;
   z-index: 100;
+
+  &[hidden] {
+    visibility: hidden;
+  }
 }
