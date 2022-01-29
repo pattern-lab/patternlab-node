@@ -299,7 +299,6 @@
  *    annotation attached to it.
  */
 .pl-c-annotation-tip {
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 24px !important;
@@ -313,8 +312,8 @@
   position: absolute;
   z-index: 100;
 }
-.pl-c-annotation-tip[hidden] {
-  visibility: hidden;
+.pl-c-annotation-tip:not([hidden]) {
+  display: flex;
 }
 
 /*# sourceMappingURL=pattern-scaffolding.css.map */
