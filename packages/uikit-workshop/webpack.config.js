@@ -9,8 +9,8 @@ const argv = require('yargs').argv;
 const { merge } = require('webpack-merge');
 const WebpackBar = require('webpackbar');
 
-const cosmiconfig = require('cosmiconfig');
-const explorer = cosmiconfig('patternlab');
+const cosmiconfigSync = require('cosmiconfig').cosmiconfigSync;
+const explorerSync = cosmiconfigSync('patternlab');
 
 // @todo: wire these two ocnfigs up to use cosmicconfig!
 const defaultConfig = {
@@ -30,9 +30,9 @@ module.exports = function (apiConfig) {
     let configToSearchFor;
 
     if (argv.patternlabrc) {
-      configToSearchFor = await explorer.loadSync(argv.patternlabrc);
+      configToSearchFor = await explorerSync.load(argv.patternlabrc);
     } else {
-      configToSearchFor = await explorer.searchSync();
+      configToSearchFor = await explorerSync.search();
     }
 
     if (configToSearchFor) {

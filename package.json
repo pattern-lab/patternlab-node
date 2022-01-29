@@ -10,15 +10,13 @@
     ]
   },
   "dependencies": {
-    "@auto-it/released": "^9.40.5",
+    "@auto-it/released": "^10.27.0",
     "@babel/plugin-proposal-decorators": "^7.13.5",
     "@babel/plugin-syntax-jsx": "^7.12.13",
-    "auto": "^9.40.5",
+    "auto": "^10.27.0",
     "babel-eslint": "^10.0.2",
     "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "lerna": "4.0.0",
     "prettier": "^2.2.1",
@@ -53,6 +51,6 @@
     ]
   },
   "devDependencies": {
-    "husky": "^6.0.0"
+    "husky": "^7.0.4"
   }
 }

@@ -1,4 +1,4 @@
-const exists = require('path-exists');
+const fs = require('fs-extra');
 const getUniqueProjectPath = require('./utils/getUniqueProjectPath');
 const path = require('path');
 const spawnCmd = require('./utils/spawnCmd');
@@ -25,23 +25,23 @@ tap.test('Init and build ->', (t) =>
       `${projectRoot}/patternlab-config.json`,
     ]);
     t.ok(
-      exists.sync(path.resolve(projectRoot, 'public')),
+      fs.existsSync(path.resolve(projectRoot, 'public')),
       'should build all files into public dir'
     );
     t.ok(
-      exists.sync(path.resolve(projectRoot, 'public', 'annotations')),
+      fs.existsSync(path.resolve(projectRoot, 'public', 'annotations')),
       'with an annotations dir'
     );
     t.ok(
-      exists.sync(path.resolve(projectRoot, 'public', 'css')),
+      fs.existsSync(path.resolve(projectRoot, 'public', 'css')),
       'with a css dir'
     );
     t.ok(
-      exists.sync(path.resolve(projectRoot, 'public', 'images')),
+      fs.existsSync(path.resolve(projectRoot, 'public', 'images')),
       'with a images dir'
     );
     t.ok(
-      exists.sync(path.resolve(projectRoot, 'public', 'styleguide')),
+      fs.existsSync(path.resolve(projectRoot, 'public', 'styleguide')),
       'with a styleguide dir'
     );
     t.end();

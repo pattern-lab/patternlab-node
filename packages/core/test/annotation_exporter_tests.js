@@ -20,12 +20,12 @@ function createFakePatternLab(anPath, customProps) {
 }
 
 var patternlab = createFakePatternLab(anPath);
-var ae = require('../src/lib/annotation_exporter')(patternlab);
+var ae = require('../src/lib/annotationExporter')(patternlab);
 
 tap.test('converts old JS annotations into new format', function (test) {
   //arrange
   //act
-  var annotations = ae.gatherJS();
+  var annotations = ae.gatherJSON();
 
   //assert
   test.equal(annotations.length, 2);
@@ -33,7 +33,7 @@ tap.test('converts old JS annotations into new format', function (test) {
   test.equal(annotations[1].title, 'Logo');
   test.equal(
     annotations[1].comment,
-    'The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don\'t support SVG images.</p><p>Further reading: <a href="http://bradfrostweb.com/blog/mobile/hi-res-optimization/">Optimizing Web Experiences for High Resolution Screens</a></p>'
+    'The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don\'t support SVG images.</p><p>Further reading: <a href="https://bradfrost.com/blog/mobile/hi-res-optimization/">Optimizing Web Experiences for High Resolution Screens</a></p>'
   );
 
   test.end();
@@ -77,7 +77,7 @@ tap.test('merges both annotation methods into one array', function (test) {
 tap.test('when there are 0 annotation files', function (test) {
   var emptyAnPath = './test/files/empty/';
   var patternlab2 = createFakePatternLab(emptyAnPath);
-  var ae2 = require('../src/lib/annotation_exporter')(patternlab2);
+  var ae2 = require('../src/lib/annotationExporter')(patternlab2);
 
   var annotations = ae2.gather();
   test.equal(annotations.length, 0);

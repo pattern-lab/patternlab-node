@@ -1,5 +1,5 @@
 <p align="center">
-  <img src='/patternlab.png' width="300" alt="Pattern Lab Logo" style="max-width: 100%;" />
+  <img src='/patternlab.png' width="300" height="166" alt="Pattern Lab Logo" style="max-width: 100%;" />
 </p>
 
 # Pattern Lab
@@ -65,6 +65,23 @@ Pattern Lab / Node wouldn't be what it is today without the support of the commu
 
 Thanks to [Netlify](https://www.netlify.com/) for build tooling and hosting.
 
+## Node Support Policy
+
+We only support actively [maintained](https://github.com/nodejs/Release#release-schedule) versions of Node.
+
+We specifically limit our support to maintenance versions of Node, not because this package won't work on other versions, but because we have a limited amount of time, and supporting the oldest maintenance offers the greatest return on that investment while still providing the lowest standard level for installations on any possible actively maintained environment out there.	 
+
+This package may work correctly on newer versions of Node. It may even be possible to use this package on older versions of Node. However, that's more unlikely as we'll make every effort to take advantage of features available in the oldest maintenance Node version we support.
+
+As each Node maintenance version reaches its end-of-life, we will replace that version from the `node` `engines` property of our package's `package.json` file with the newer oldest one. As this replacement would be considered a breaking change, we will publish a new major version of this package. We will not accept any requests to support an end-of-life version of Node. Any merge requests or issues supporting an end-of-life version of Node will be closed.
+
+And we might even update the minor and patch version of that supported maintenance Node version regularly, without making this a breaking change than as it should be in everybody's interest even also to follow this concept of using patched software as their development system basis, especially on those older Node versions.
+
+We will accept code that allows this package to run on newer, non-maintenance versions of Node. Furthermore, we will attempt to ensure our changes work on the latest version of Node. To help in that commitment, we even test that out by ourselves and get feedback from the community regularly regarding all LTS versions of Node and the most recent Node release called current.
+
+JavaScript package managers like e.g. [NVM](https://github.com/nvm-sh/nvm) should allow you to install this package with any version of Node, with, at most, a warning if your version of Node does not fall within the range specified by our `node` `engines` property. If you encounter issues installing this package, please report the issue to your package manager.
+
+This policy has been adapted from <https://github.com/conventional-changelog/conventional-changelog#node-support-policy>.
 
 ## Contributing
 

@@ -1,4 +1,4 @@
-import { LitElement, html, customElement } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import styles from './pl-tooltip.scss?external';
 import { Slotify } from '../slotify';
 
@@ -7,7 +7,7 @@ class Tooltip extends Slotify(LitElement) {
     return {
       message: { type: String },
       position: { type: String },
-      child: {}
+      child: {},
     };
   }
 
