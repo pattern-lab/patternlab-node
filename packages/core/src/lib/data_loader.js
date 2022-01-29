@@ -21,9 +21,7 @@ function loadFile(dataFilePath, fsDep) {
 
     if (dataFile && fsDep.existsSync(path.resolve(dataFile))) {
       try {
-        return yaml.safeLoad(
-          fsDep.readFileSync(path.resolve(dataFile), 'utf8')
-        );
+        return yaml.load(fsDep.readFileSync(path.resolve(dataFile), 'utf8'));
       } catch (err) {
         throw new Error(`Error loading file: ${dataFile} - ${err.message}`);
       }
@@ -55,7 +53,7 @@ function loadDataFromFolder(dataFilesPath, excludeFileNames, fsDep) {
 
   dataFiles.forEach(function (filePath) {
     try {
-      const jsonData = yaml.safeLoad(
+      const jsonData = yaml.load(
         fsDep.readFileSync(path.resolve(filePath), 'utf8')
       );
       mergeObject = _.merge(mergeObject, jsonData);

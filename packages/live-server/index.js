@@ -8,7 +8,7 @@ const path = require('path');
 const url = require('url');
 const http = require('http');
 const send = require('send');
-const open = require('opn');
+const open = require('open');
 const es = require('event-stream');
 const os = require('os');
 const chokidar = require('chokidar');
@@ -370,14 +370,14 @@ LiveServer.start = function (options) {
     if (openPath !== null)
       if (typeof openPath === 'object') {
         openPath.forEach((p) =>
-          open(openURL + p, { app: browser }).catch(() =>
+          open(openURL + p, { app: { name: browser } }).catch(() =>
             console.log(
               'Warning: Could not open pattern lab in default browser.'
             )
           )
         );
       } else {
-        open(openURL + openPath, { app: browser }).catch(() =>
+        open(openURL + openPath, { app: { name: browser } }).catch(() =>
           console.log('Warning: Could not open pattern lab in default browser.')
         );
       }

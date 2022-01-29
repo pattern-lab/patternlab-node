@@ -4,7 +4,7 @@
   "version": "5.15.1",
   "main": "lib/engine_handlebars.js",
   "dependencies": {
-    "fs-extra": "^8.1.0",
+    "fs-extra": "^10.0.0",
     "glob": "^7.1.6",
     "handlebars": "^4.7.7"
   },
