@@ -69,7 +69,7 @@ Thanks to [Netlify](https://www.netlify.com/) for build tooling and hosting.
 
 We only support actively [maintained](https://github.com/nodejs/Release#release-schedule) versions of Node.
 
-We specifically limit our support to maintenance versions of Node, not because this package won't work on other versions, but because we have a limited amount of time, and supporting the oldest maintenance offers the greatest return on that investment, while still providing the lowest common level for installations on any possible actively maintained environment out there.
+We specifically limit our support to maintenance versions of Node, not because this package won't work on other versions, but because we have a limited amount of time, and supporting the oldest maintenance offers the greatest return on that investment while still providing the lowest standard level for installations on any possible actively maintained environment out there.	 
 
 It's possible this package will work correctly on newer versions of Node. It may even be possible to use this package on older versions of Node, though that's more unlikely as we'll make every effort to take advantage of features available in the oldest maintenance Node version we support.
 
