@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/plugin-tab",
-  "version": "5.16.0",
+  "version": "5.16.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
