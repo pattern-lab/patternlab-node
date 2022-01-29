@@ -8,7 +8,7 @@
     "@pattern-lab/core": "^5.15.5",
     "@pattern-lab/engine-mustache": "^5.15.1",
     "@pattern-lab/uikit-workshop": "^5.15.7",
-    "gulp": "3.9.1",
+    "gulp": "4.0.2",
     "minimist": "1.2.5"
   },
   "keywords": [
