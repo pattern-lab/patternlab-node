@@ -168,7 +168,7 @@ export const modalStyleguide = {
       patternPartialSelector + '.pl-c-annotation-tip'
     );
     for (let i = 0; i < elsToHide.length; i++) {
-      elsToHide[i].style.display = 'none';
+      elsToHide[i].hidden = true;
     }
   },
 
@@ -242,7 +242,7 @@ export const modalStyleguide = {
                 .getComputedStyle(elsToHighlight[j], null)
                 .getPropertyValue('max-height') === '0px'
             ) {
-              span.style.display = 'none';
+              span.hidden = true;
             }
 
             const annotationTip = document.querySelector(
@@ -254,7 +254,7 @@ export const modalStyleguide = {
                 elsToHighlight[j].firstChild
               );
             } else {
-              annotationTip.style.display = 'inline-flex';
+              annotationTip.hidden = false;
             }
 
             elsToHighlight[j].onclick = (function (el) {

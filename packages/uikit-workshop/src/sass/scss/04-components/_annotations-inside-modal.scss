@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+/*------------------------------------*\
+    #ANNOTATIONS INSIDE MODAL
+\*------------------------------------*/
+
+/**
+ * Annotations area
+ * 1) Appears inside of modal
+ */
+.pl-c-annotations {
+  margin: 1rem 0;
+}
+
+/**
+ * Annotations Title
+ * Says the word "Annotations"
+ */
+.pl-c-annotations__title {
+  font-size: 1.2rem !important;
+  margin: 0 0 0.5rem;
+}
+
+/**
+ * Annotations list
+ * 1) Ordered list of annotations
+ * 2) Presented with parent selector to force styles
+ *    over pl-c-text-passage
+ */
+.pl-c-annotations .pl-c-annotations__list {
+  counter-reset: the-count;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/**
+ * Annotations list item
+ * 1) Displays each item as a number
+ */
+.pl-c-annotations__item {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: $pl-border-radius-med;
+  transition: background-color $pl-animate-quick ease;
+
+  &:before {
+    content: counter(the-count);
+    counter-increment: the-count;
+    font-size: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    padding: 2px;
+    text-align: center;
+    background-color: $pl-color-gray-50;
+    color: $pl-color-white;
+    position: absolute;
+    top: 4px;
+    left: 0;
+  }
+
+  &.pl-is-active {
+    outline: 1px dotted $pl-color-gray-50;
+    outline-offset: -1px;
+  }
+}
+
+.pl-c-annotations .pl-c-annotations__item-title {
+  margin-bottom: 0;
+}
