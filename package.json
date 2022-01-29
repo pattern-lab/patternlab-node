@@ -10,7 +10,7 @@
     ]
   },
   "dependencies": {
-    "@auto-it/released": "^9.40.5",
+    "@auto-it/released": "^10.27.0",
     "@babel/core": "^7.13.14",
     "@babel/eslint-parser": "^7.13.14",
     "@babel/eslint-plugin": "^7.13.15",
@@ -19,7 +19,7 @@
     "@babel/plugin-syntax-jsx": "^7.12.13",
     "@babel/plugin-transform-react-jsx": "^7.13.12",
     "@babel/preset-env": "^7.13.12",
-    "auto": "^9.40.5",
+    "auto": "^10.27.0",
     "babel-eslint": "^10.0.2",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -60,6 +60,6 @@
     ]
   },
   "devDependencies": {
-    "husky": "^6.0.0"
+    "husky": "^7.0.4"
   }
 }
