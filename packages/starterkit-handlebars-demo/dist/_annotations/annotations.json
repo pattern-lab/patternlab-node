@@ -1,4 +1,4 @@
-var comments = {
+{
   "comments" : [
     {
       "el": ".c-header",
@@ -11,4 +11,4 @@ var comments = {
       "comment": "The logo isn't an image but regular text, which ensures that the logo displays crisply even on high resolution displays."
     }
   ]
-};
+}
