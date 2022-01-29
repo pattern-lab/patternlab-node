@@ -71,7 +71,7 @@ We only support actively [maintained](https://github.com/nodejs/Release#release-
 
 We specifically limit our support to maintenance versions of Node, not because this package won't work on other versions, but because we have a limited amount of time, and supporting the oldest maintenance offers the greatest return on that investment while still providing the lowest standard level for installations on any possible actively maintained environment out there.	 
 
-It's possible this package will work correctly on newer versions of Node. It may even be possible to use this package on older versions of Node, though that's more unlikely as we'll make every effort to take advantage of features available in the oldest maintenance Node version we support.
+This package may work correctly on newer versions of Node. It may even be possible to use this package on older versions of Node. However, that's more unlikely as we'll make every effort to take advantage of features available in the oldest maintenance Node version we support.
 
 As each Node maintenance version reaches its end-of-life we will replace that version from the `node` `engines` property of our package's `package.json` file with the newer oldes one. As this replacement would be considered a breaking change, we will entail the publishing of a new major version of this package. We will not accept any requests to support an end-of-life version of Node. Any merge requests or issues supporting an end-of-life version of Node will be closed.
 
