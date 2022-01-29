@@ -75,7 +75,7 @@ This package may work correctly on newer versions of Node. It may even be possib
 
 As each Node maintenance version reaches its end-of-life, we will replace that version from the `node` `engines` property of our package's `package.json` file with the newer oldest one. As this replacement would be considered a breaking change, we will publish a new major version of this package. We will not accept any requests to support an end-of-life version of Node. Any merge requests or issues supporting an end-of-life version of Node will be closed.
 
-And we might even update the minor and patch version of that supported maintenance Node version on a regular basis, without making this a breaking change than as it should be in everybodys interest to even also follow this concept of using patched software as their development system basis, especially on those older Node versions.
+And we might even update the minor and patch version of that supported maintenance Node version regularly, without making this a breaking change than as it should be in everybody's interest even also to follow this concept of using patched software as their development system basis, especially on those older Node versions.
 
 We will accept code that allows this package to run on newer, non-maintenance versions of Node. Furthermore, we will attempt to ensure our changes work on the latest version of Node. To help in that commitment, we even test that out by ourselves and get feedback from the community regularly regarding all LTS versions of Node and the most recent Node release called current.
 
