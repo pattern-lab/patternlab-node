@@ -81,7 +81,7 @@ We will accept code that allows this package to run on newer, non-maintenance ve
 
 JavaScript package managers like e.g. [NVM](https://github.com/nvm-sh/nvm) should allow you to install this package with any version of Node, with, at most, a warning if your version of Node does not fall within the range specified by our `node` `engines` property. If you encounter issues installing this package, please report the issue to your package manager.
 
-This policy as been adapted from <https://github.com/conventional-changelog/conventional-changelog#node-support-policy>
+This policy has been adapted from <https://github.com/conventional-changelog/conventional-changelog#node-support-policy>.
 
 ## Contributing
 
