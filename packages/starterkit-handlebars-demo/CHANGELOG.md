@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+
+### Bug Fixes
+
+* **annotations:** displaying annotation tooltips correctly ([#1406](https://github.com/pattern-lab/patternlab-node/issues/1406)) ([3f33ce5](https://github.com/pattern-lab/patternlab-node/commit/3f33ce5c51f2f7a6afd86d3500b7659afd0198e6)), closes [#2](https://github.com/pattern-lab/patternlab-node/issues/2) [#1](https://github.com/pattern-lab/patternlab-node/issues/1)
+* **annotations:** hiding those correctly ([#1415](https://github.com/pattern-lab/patternlab-node/issues/1415)) ([ef0a60f](https://github.com/pattern-lab/patternlab-node/commit/ef0a60fcc8656acc6d83bb0723c02a658f7ff1f3))
+
+
+
+
+
 ## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
 
 **Note:** Version bump only for package @pattern-lab/starterkit-handlebars-demo

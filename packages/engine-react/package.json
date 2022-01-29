@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-react",
   "description": "The React engine for Pattern Lab / Node",
-  "version": "5.15.1",
+  "version": "5.16.0",
   "private": true,
   "main": "lib/engine_react.js",
   "dependencies": {

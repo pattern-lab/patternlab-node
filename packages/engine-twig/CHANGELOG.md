@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
 ## [5.15.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.15.2...v5.15.3) (2021-11-21)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig
