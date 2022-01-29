@@ -77,7 +77,7 @@ As each Node maintenance version reaches its end-of-life, we will replace that v
 
 And we might even update the minor and patch version of that supported maintenance Node version on a regular basis, without making this a breaking change than as it should be in everybodys interest to even also follow this concept of using patched software as their development system basis, especially on those older Node versions.
 
-We will accept code that allows this package to run on newer, non-maintenance, versions of Node. Furthermore, we will attempt to ensure our own changes work on the latest version of Node. To help in that commitment, we even test that out by ourselves and get feedback from the community on a regular basis regarding all LTS versions of Node in addition the most recent Node release called current.
+We will accept code that allows this package to run on newer, non-maintenance versions of Node. Furthermore, we will attempt to ensure our changes work on the latest version of Node. To help in that commitment, we even test that out by ourselves and get feedback from the community regularly regarding all LTS versions of Node and the most recent Node release called current.
 
 JavaScript package managers like e.g. [NVM](https://github.com/nvm-sh/nvm) should allow you to install this package with any version of Node, with, at most, a warning if your version of Node does not fall within the range specified by our `node` `engines` property. If you encounter issues installing this package, please report the issue to your package manager.
 
