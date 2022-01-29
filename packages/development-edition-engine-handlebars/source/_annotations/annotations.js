@@ -1,0 +1,3 @@
+var comments = {
+  "comments": []
+};
