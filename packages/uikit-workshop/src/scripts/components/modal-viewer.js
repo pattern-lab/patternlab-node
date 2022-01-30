@@ -3,6 +3,7 @@
  * "Modal" (aka Panel UI) for the Viewer Layer - for both annotations and code/info
  */
 
+import { scrollTo } from 'scroll-js';
 import { urlHandler, Dispatcher, iframeMsgDataExtraction } from '../utils';
 import { panelsViewer } from './panels-viewer';
 import { store } from '../store.js';
@@ -221,18 +222,19 @@ export const modalViewer = {
       els[i].classList.remove('pl-is-active');
     }
 
-    const patternInfoPanelElem = document.querySelector(
-      '.pl-c-pattern-info__panel'
-    );
+    const patternInfoElem = document.querySelector('.pl-js-pattern-info');
+    // const scroll = new Scroll(patternInfoElem);
 
     // add active class to called element and scroll to it
     for (let i = 0; i < els.length; ++i) {
       if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
 
-        patternInfoPanelElem.scroll({
+        scrollTo(patternInfoElem, document.body, {
           top: els[i].offsetTop - 14,
           behavior: 'smooth',
+        }).then(function () {
+          // console.log('finished scrolling');
         });
       }
     }
