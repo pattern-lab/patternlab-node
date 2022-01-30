@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.1](https://github.com/bradfrost/pl-website-eleventy/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/website
+
+
+
+
+
 ## [5.15.5](https://github.com/bradfrost/pl-website-eleventy/compare/v5.15.3...v5.15.5) (2021-12-06)
 
 
