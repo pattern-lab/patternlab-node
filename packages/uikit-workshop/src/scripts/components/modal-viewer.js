@@ -230,7 +230,7 @@ export const modalViewer = {
       if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
 
-        scrollTo(patternInfoElem, document.body, {
+        scrollTo(patternInfoElem, {
           top: els[i].offsetTop - 14,
           behavior: 'smooth',
         }).then(function () {
