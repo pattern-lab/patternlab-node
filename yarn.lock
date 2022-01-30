@@ -14264,11 +14264,6 @@ scriptjs@^2.5.9:
   resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.9.tgz#343915cd2ec2ed9bfdde2b9875cd28f59394b35f"
   integrity sha512-qGVDoreyYiP1pkQnbnFAUIS5AjenNwwQBdl7zeos9etl+hYKWahjRTfzAZZYBv5xNHx7vNKCmaLDQZ6Fr2AEXg==
 
-scroll-js@3.4.x:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/scroll-js/-/scroll-js-3.4.2.tgz#76f6560a8a4ed320388458cabaefa0542b580bb9"
-  integrity sha512-MREqn2aZzl8g2fPT6Q4ZplshB0TU0w8nNWrp78qDE0XuQm/JO2aDdehstR0FLsNaAT+lv+bGOQmhsK5azUg4Ow==
-
 section-iterator@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/section-iterator/-/section-iterator-2.0.0.tgz#bf444d7afeeb94ad43c39ad2fb26151627ccba2a"

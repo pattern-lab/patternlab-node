@@ -90,7 +90,6 @@
     "sass": "1.43.4",
     "sass-loader": "^10.1.1",
     "scriptjs": "^2.5.9",
-    "scroll-js": "3.4.x",
     "skatejs": "^5.2.4",
     "style-loader": "^1.0.0",
     "svg-sprite-loader": "^4.1.6",
