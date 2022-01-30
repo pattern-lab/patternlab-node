@@ -230,10 +230,13 @@ export const modalViewer = {
       if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
 
-        patternInfoPanelElem.scroll({
-          top: els[i].offsetTop - 14,
-          behavior: 'smooth',
-        });
+        // Scroll to the related entry withtin the pattern info panel
+        if (patternInfoElem.scroll) {
+          patternInfoElem.scroll({
+            top: els[i].offsetTop - 14,
+            behavior: 'smooth',
+          });
+        }
       }
     }
   },
