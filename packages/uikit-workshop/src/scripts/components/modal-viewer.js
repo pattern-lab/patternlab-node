@@ -221,9 +221,7 @@ export const modalViewer = {
       els[i].classList.remove('pl-is-active');
     }
 
-    const patternInfoPanelElem = document.querySelector(
-      '.pl-c-pattern-info__panel'
-    );
+    const patternInfoElem = document.querySelector('.pl-js-pattern-info');
 
     // add active class to called element and scroll to it
     for (let i = 0; i < els.length; ++i) {
