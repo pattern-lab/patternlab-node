@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-liquid",
   "description": "The Liquid engine for Pattern Lab / Node",
-  "version": "5.15.1",
+  "version": "5.16.1",
   "main": "lib/engine_liquid.js",
   "dependencies": {
     "fs-extra": "10.0.0",
