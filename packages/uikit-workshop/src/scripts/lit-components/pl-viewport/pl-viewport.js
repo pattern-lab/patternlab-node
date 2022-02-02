@@ -413,7 +413,6 @@ class IFrame extends BaseLitComponent {
           <iframe
             class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this
               .themeMode}"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
             src=${ifDefined(url === '' ? undefined : url)}
             srcdoc=${ifDefined(url === '' ? this.iframe404Fallback : undefined)}
             title="Pattern details"
