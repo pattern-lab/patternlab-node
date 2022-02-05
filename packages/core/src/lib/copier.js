@@ -49,11 +49,21 @@ const copier = () => {
     //find out where we are
     const basePath = path.resolve(process.cwd());
 
-    const copyOptions = {
+    let copyOptions = {
       overwrite: true,
       emitter: patternlab.events,
       debug: patternlab.config.logLevel === 'debug',
     };
+
+    // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from packages/core/src/lib/watchAssets.js#L45
+    if (patternlab.config.transformedAssetTypes) {
+      copyOptions.filter = new RegExp(
+        `^.*\\.(?!${patternlab.config.transformedAssetTypes.join(
+          '$|'
+        )}$)[^.]+$`,
+        'i'
+      );
+    }
 
     //loop through each directory asset object (source / public pairing)
 
