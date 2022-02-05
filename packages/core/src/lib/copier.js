@@ -55,12 +55,12 @@ const copier = () => {
       debug: patternlab.config.logLevel === 'debug',
     };
 
-    // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from packages/core/src/lib/watchAssets.js#L45
+    // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from https://stackoverflow.com/a/18086622
     if (patternlab.config.transformedAssetTypes) {
       copyOptions.filter = new RegExp(
-        `^.*\\.(?!${patternlab.config.transformedAssetTypes.join(
-          '$|'
-        )}$)[^.]+$`,
+        `^(.*\.(?!(${patternlab.config.transformedAssetTypes.join(
+          '|'
+        )})$))?[^.]*$`,
         'i'
       );
     }
