@@ -102,7 +102,7 @@ const copier = () => {
     copyPromises.push(
       _.map(patternlab.uikits, (uikit) => {
         copyFile(
-          `${assetDirectories.source.root}/favicon.ico`,
+          `${assetDirectories.source.root}favicon.ico`,
           path.join(
             basePath,
             uikit.outputDir,
