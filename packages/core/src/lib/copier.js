@@ -49,7 +49,7 @@ const copier = () => {
     //find out where we are
     const basePath = path.resolve(process.cwd());
 
-    let copyOptions = {
+    const copyOptions = {
       overwrite: true,
       emitter: patternlab.events,
       debug: patternlab.config.logLevel === 'debug',
