@@ -58,7 +58,7 @@ const copier = () => {
     // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from https://stackoverflow.com/a/6745455
     if (patternlab.config.transformedAssetTypes) {
       copyOptions.filter = new RegExp(
-        `.*(?<!\.${patternlab.config.transformedAssetTypes.join('|')})$`,
+        `.*(?<![.](${patternlab.config.transformedAssetTypes.join('|')}))$`,
         'i'
       );
     }
