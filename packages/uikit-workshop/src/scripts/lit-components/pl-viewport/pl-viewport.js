@@ -405,7 +405,7 @@ class IFrame extends BaseLitComponent {
 
     return html`
       <div class="pl-c-viewport pl-js-viewport">
-        <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
+        <div class="pl-c-viewport__cover pl-js-viewport-cover" hidden></div>
         <div
           class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container"
           style="width: ${initialWidth}"
@@ -413,7 +413,6 @@ class IFrame extends BaseLitComponent {
           <iframe
             class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this
               .themeMode}"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
             src=${ifDefined(url === '' ? undefined : url)}
             srcdoc=${ifDefined(url === '' ? this.iframe404Fallback : undefined)}
             title="Pattern details"
@@ -450,7 +449,7 @@ class IFrame extends BaseLitComponent {
     this.fullMode = false;
 
     // show the cover
-    this.iframeCover.style.display = 'block';
+    this.iframeCover.hidden = false;
 
     function handleIframeCoverResize(e) {
       const viewportWidth = origViewportWidth + 2 * (e.clientX - origClientX);
@@ -476,7 +475,7 @@ class IFrame extends BaseLitComponent {
           'mousemove',
           handleIframeCoverResize
         );
-        self.iframeCover.style.display = 'none';
+        self.iframeCover.hidden = true;
         self
           .querySelector('.pl-js-resize-handle')
           .classList.remove('is-resizing');
