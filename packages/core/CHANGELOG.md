@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* transformed asset types is ignored ([#1426](https://github.com/pattern-lab/patternlab-node/issues/1426)) ([8cbe189](https://github.com/pattern-lab/patternlab-node/commit/8cbe189d45afaa753ce6de41bdd9de1596e074f3)), closes [#1339](https://github.com/pattern-lab/patternlab-node/issues/1339)
+
+
+
+
+
 ## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
 
 **Note:** Version bump only for package @pattern-lab/core
