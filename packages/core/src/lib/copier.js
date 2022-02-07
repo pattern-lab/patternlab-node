@@ -55,6 +55,14 @@ const copier = () => {
       debug: patternlab.config.logLevel === 'debug',
     };
 
+    // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from https://stackoverflow.com/a/6745455
+    if (patternlab.config.transformedAssetTypes) {
+      copyOptions.filter = new RegExp(
+        `.*(?<![.](${patternlab.config.transformedAssetTypes.join('|')}))$`,
+        'i'
+      );
+    }
+
     //loop through each directory asset object (source / public pairing)
 
     const copyPromises = [];
@@ -92,7 +100,7 @@ const copier = () => {
     copyPromises.push(
       _.map(patternlab.uikits, (uikit) => {
         copyFile(
-          `${assetDirectories.source.root}/favicon.ico`,
+          `${assetDirectories.source.root}favicon.ico`,
           path.join(
             basePath,
             uikit.outputDir,
