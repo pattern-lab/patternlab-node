@@ -29,7 +29,7 @@
     "@pattern-lab/uikit-workshop": "^5.16.2"
   },
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=14.19.1"
   },
   "publishConfig": {
     "access": "public"

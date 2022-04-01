@@ -26,7 +26,7 @@
     "url": "git://github.com/pattern-lab/patternlab-node.git"
   },
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=14.19.1"
   },
   "dependencies": {
     "@pattern-lab/cli": "^5.16.2",
