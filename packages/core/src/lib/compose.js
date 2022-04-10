@@ -10,6 +10,7 @@ const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
 const pm = require('./plugin_manager');
 const dataMerger = require('./dataMerger');
+const patternWrapClassesChangePatternTemplate = require('./patternWrapClasses');
 const pluginManager = new pm();
 
 const Pattern = require('./object_factory').Pattern;
@@ -159,6 +160,7 @@ module.exports = async function (pattern, patternlab) {
           const headHTML = intermediateResults[0]; //headPromise
           pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
           const footerPartial = intermediateResults[2]; //footerPartialPromise
+          patternWrapClassesChangePatternTemplate(patternlab, pattern);
 
           //finish up our footer data
           let allFooterData;
