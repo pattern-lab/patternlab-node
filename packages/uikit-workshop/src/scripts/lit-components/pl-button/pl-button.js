@@ -93,6 +93,7 @@ class Button extends Slotify(LitElement) {
                 ? 'pl-c-button--icon-only'
                 : ''}"
               title=${ifDefined(this.title === '' ? undefined : this.title)}
+              type="button"
             >
               ${this.innerTemplate()}
             </button>
