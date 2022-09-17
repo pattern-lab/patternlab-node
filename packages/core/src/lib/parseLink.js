@@ -7,7 +7,7 @@ const getPartial = require('./get');
 
 module.exports = function (patternlab, obj, key) {
   //check for 'link.patternPartial'
-  const linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
+  const linkRE = /(?:'|")(link\.[\w-]+)(?:'|")/g;
 
   //stringify the passed in object
   let dataObjAsString;
