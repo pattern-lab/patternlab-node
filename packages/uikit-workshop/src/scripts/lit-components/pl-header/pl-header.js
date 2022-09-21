@@ -95,6 +95,7 @@ class Header extends BaseLitComponent {
         <button
           class="pl-c-header__nav-toggle pl-js-nav-trigger"
           @click="${this.toggleNav}"
+          type="button"
         >
           <pl-icon
             name="${this.isActive ? 'close' : 'menu'}"

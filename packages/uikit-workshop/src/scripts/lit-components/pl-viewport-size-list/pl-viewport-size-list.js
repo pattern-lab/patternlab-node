@@ -319,6 +319,7 @@ class ViewportSizes extends BaseComponent {
                       <pl-icon name="phone" aria-hidden="true"></pl-icon>
                     `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
@@ -336,6 +337,7 @@ class ViewportSizes extends BaseComponent {
                       <pl-icon name="tablet" aria-hidden="true"></pl-icon>
                     `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
@@ -353,6 +355,7 @@ class ViewportSizes extends BaseComponent {
                       <pl-icon name="laptop" aria-hidden="true"></pl-icon>
                     `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
@@ -370,6 +373,7 @@ class ViewportSizes extends BaseComponent {
                       <pl-icon name="desktop" aria-hidden="true"></pl-icon>
                     `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
@@ -387,6 +391,7 @@ class ViewportSizes extends BaseComponent {
                       <pl-icon name="random" aria-hidden="true"></pl-icon>
                     `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
@@ -404,6 +409,7 @@ class ViewportSizes extends BaseComponent {
                       <pl-icon name="disco-ball" aria-hidden="true"></pl-icon>
                     `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
@@ -421,6 +427,7 @@ class ViewportSizes extends BaseComponent {
                      <pl-icon name="hay" aria-hidden="true"></pl-icon>
                    `,
                 }}
+                type="button"
               />
             </pl-tooltip>
           </li>
