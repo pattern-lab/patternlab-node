@@ -152,7 +152,9 @@ class IFrame extends BaseLitComponent {
           : window.location.protocol +
             '//' +
             window.location.host +
-            window.location.pathname.replace('index.html', '') +
+            (window.config.noIndexHtmlremoval
+              ? window.location.pathname
+              : window.location.pathname.replace('index.html', '')) +
             '?p=' +
             currentPattern;
 
@@ -512,7 +514,9 @@ class IFrame extends BaseLitComponent {
             : window.location.protocol +
               '//' +
               window.location.host +
-              window.location.pathname.replace('index.html', '') +
+              (window.config.noIndexHtmlremoval
+                ? window.location.pathname
+                : window.location.pathname.replace('index.html', '')) +
               '?p=' +
               currentPattern;
 
