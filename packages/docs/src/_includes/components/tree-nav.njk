@@ -5,23 +5,23 @@
         {% for item in navigation.items %}
         <li class="c-tree-nav__item {% if item.subnav %}js-nav-dropdown{% endif %}">
             {% if item.subnav %}
-            <button class="c-tree-nav__link c-tree-nav__link--btn js-nav-dropdown-trigger" aria-expanded="true">
+            <button class="c-tree-nav__link c-tree-nav__link--btn js-nav-dropdown-trigger" aria-expanded="true" type="button">
                 {{ item.label }}
                 {% set className = "c-tree-nav__icon" %}
                 {% include "components/icon-chevron-down.njk" %}
             </button>
-            
+
             <ul class="c-tree-nav__subnav">
                 {% for subnav in item.subnav %}
-                
+
                 <li class="c-tree-nav__subnav-item">
                     <span class="c-tree-nav__subnav-title">
                         {{ subnav.label }}
                     </span><!--end c-tree-nav__subnav-link-->
                     {% set subnavCategory = subnav.category %}
                     {% include "components/tree-subnav.njk" %}
-                </li><!--end c-tree-nav__subnav-item-->    
-                {% endfor %}  
+                </li><!--end c-tree-nav__subnav-item-->
+                {% endfor %}
             </ul><!--end c-tree-nav__subnav-->
             {% else %}
             <a class="c-tree-nav__link" href="{{ item.url }}">{{ item.label }}</a>
