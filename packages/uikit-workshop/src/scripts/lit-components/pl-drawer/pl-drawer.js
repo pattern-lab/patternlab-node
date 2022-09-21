@@ -104,7 +104,6 @@ class Drawer extends LitElement {
           : 300
         : 0;
 
-    const coverStyles = { display: this.isMouseDown ? 'block' : 'none' };
     const drawerStyles = {
       height: `${renderedHeight}px`,
       transitionDuration: this.isMouseDown ? '0ms' : '300ms',
@@ -112,7 +111,7 @@ class Drawer extends LitElement {
 
     return html`
       <div>
-        <div class="pl-c-drawer__cover" style="${styleMap(coverStyles)}"></div>
+        <div class="pl-c-drawer__cover" ?hidden="${!this.isMouseDown}"></div>
         <div style="${styleMap(drawerStyles)}" class="pl-c-drawer__wrapper">
           <div class="pl-c-drawer__resizer" @mousedown="${this.onMouseDown}">
             <svg

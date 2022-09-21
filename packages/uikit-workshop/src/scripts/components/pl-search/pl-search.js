@@ -253,6 +253,7 @@ class Search extends BaseComponent {
             onClick={() => {
               this.clearSearch();
             }}
+            type="button"
           >
             <VisuallyHidden>{clearButtonText}</VisuallyHidden>
             <svg
