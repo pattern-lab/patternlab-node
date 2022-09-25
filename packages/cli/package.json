@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/cli",
   "description": "Command-line interface (CLI) for the @pattern-lab/core.",
-  "version": "5.16.2",
+  "version": "5.17.0",
   "bin": {
     "patternlab": "bin/patternlab.js"
   },
@@ -9,7 +9,7 @@
     "name": "Patternlab contributors"
   },
   "dependencies": {
-    "@pattern-lab/core": "^5.16.2",
+    "@pattern-lab/core": "^5.17.0",
     "archiver": "5.3.0",
     "chalk": "4.1.0",
     "commander": "6.2.1",
