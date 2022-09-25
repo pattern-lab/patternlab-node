@@ -113,6 +113,14 @@ This replaces the now obsolete `debug` flag.
 
 **default**: `info`
 
+## noIndexHtmlremoval (optional)
+
+You might host your pattern lab in an environment that doesn't acknowledge the default file to be `index.html` in case that none is provided – Gitlab Pages is an example for this, where you might publish your preview builds to during development. So in case that you get a URL like `<PATH>/index.html`, it will redirect to `<PATH>/?p=all`. You might not be able to share this resulting URL or even do a refresh of the page, as the server would respond with a 404 error.
+
+To disable this redirect which is similar to how Single Page Applications work, you could set the optional configuration `"noIndexHtmlremoval"` to `true`.
+
+**default**: `false`
+
 ## outputFileSuffixes
 
 Sets the naming of output pattern files. Suffixes are defined for 'rendered', 'rawTemplate', and 'markupOnly' files. This configuration is needed for some PatternEngines that use the same input and output file extensions. Most users will not have to change this.
