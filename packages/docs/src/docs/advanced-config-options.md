@@ -399,3 +399,17 @@ Important details:
     }
   ]
 ```
+
+## Pattern Engine-Twig
+### loadExtensionFile
+Adding custom TwingExtensions to `engine-twig` via setting a filename in
+
+```javascript
+"engine": {
+  "twig": {
+    "loadExtensionFile": ""
+  }
+}
+```
+
+- `loadExtensionFile`: filename in Patternlab root directory. Details: [engine-twig readme](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/engine-twig/README.md)
