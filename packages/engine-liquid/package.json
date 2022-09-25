@@ -22,7 +22,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=14.19.1"
+    "node": ">=14.20.1"
   },
   "publishConfig": {
     "access": "public"
