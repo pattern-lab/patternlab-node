@@ -210,7 +210,7 @@ For example, to export the navigation, header, and footer, one might do:
 
 ## patternMergeVariantArrays
 
-Used to override the merge behavior of pattern variants. For more information see [The Pseudo-Pattern File Data](docs/using-pseudo-patterns/#heading-the-pseudo-pattern-file-data).
+Used to override the merge behavior of pattern variants. For more information see [The Pseudo-Pattern File Data](/docs/using-pseudo-patterns/#heading-the-pseudo-pattern-file-data).
 
 - `true` will merge arrays of the pattern and pseudo-pattern with [lodash merge](https://lodash.com/docs/4.17.15#merge)
 - `false` will override arrays from the pattern with pseudo-patterns arrays
@@ -220,6 +220,29 @@ Used to override the merge behavior of pattern variants. For more information se
 ```
 
 **default**: `true` | `undefined`
+
+## patternWrapClassesEnable
+
+Set to `true` to enable adding a wrapper div with css class(es) around a pattern.  
+For more information see [Pattern Wrap Classes](/docs/pattern-wrap-classes/).
+
+```javascript
+"patternWrapClassesEnable": false,
+```
+
+**default**: `false`
+
+## patternWrapClassesKey
+
+Configure your class keys for `"patternWrapClassesEnable": true`.  
+For more information see [Pattern Wrap Classes](/docs/pattern-wrap-classes/).
+
+
+```javascript
+"patternWrapClassesKey": ['theme-class'],
+```
+
+**default**: `[]`
 
 ## renderFlatPatternsOnViewAllPages
 
