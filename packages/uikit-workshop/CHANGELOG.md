@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* div isn't allowed in button elements ([#1438](https://github.com/pattern-lab/patternlab-node/issues/1438)) ([e5c6950](https://github.com/pattern-lab/patternlab-node/commit/e5c6950e6218df99f9d9d35388c36a0130236f28))
+
+
+
+
+
 ## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
 
 
