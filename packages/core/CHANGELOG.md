@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+
+### Features
+
+* integrate @hadl/patternlab-plugin-pattern-wrap into core ([#1433](https://github.com/pattern-lab/patternlab-node/issues/1433)) ([414e038](https://github.com/pattern-lab/patternlab-node/commit/414e0383732b4bc4682981000908d1e0d1292703)), closes [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432) [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432)
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* code scanning alert ([#1442](https://github.com/pattern-lab/patternlab-node/issues/1442)) ([749a3e7](https://github.com/pattern-lab/patternlab-node/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+
+
+
+
+
 ## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
 
 

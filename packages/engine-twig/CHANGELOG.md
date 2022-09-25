@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+
+### Features
+
+* **engine-twig:** add custom twing extensions ([#1435](https://github.com/pattern-lab/patternlab-node/issues/1435)) ([c32a45c](https://github.com/pattern-lab/patternlab-node/commit/c32a45c02e3b71bb841e7ea15cae000a68857df3)), closes [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230) [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230)
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
 ## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig
