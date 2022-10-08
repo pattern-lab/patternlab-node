@@ -64,7 +64,7 @@
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=14.20.1"
   },
   "publishConfig": {
     "access": "public"
