@@ -59,7 +59,7 @@ patternlab.serve({
 });
 ```
 
-* Read more about [configuration](http://patternlab.io/docs/advanced-config-options.html#node) via `patternlab-config.json`.
+* Read more about [configuration](https://patternlab.io/docs/editing-the-configuration-options/) via `patternlab-config.json`.
 
 * Read more about the rest of [Public API](./docs), and already implemented for you within [Editions](#editions).
 
