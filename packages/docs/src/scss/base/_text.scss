@@ -51,6 +51,7 @@ code {
 	background: $color-brand-purple-light;
 	padding: 0.2rem;
 	line-height: 1.2;
+	color: $color-gray-60;
 }
 
 /**
@@ -71,6 +72,7 @@ pre {
 		border: 0;
 		background: transparent;
 		color: inherit;
+		white-space: pre-wrap;
 	}
 }
 

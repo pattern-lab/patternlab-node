@@ -1,0 +1,25 @@
+{{> organisms-header }}
+<main role="main">
+
+		<div class="l-container">
+			{{#if page.title }}
+			{{> molecules-page-header }}
+			{{/if}}
+
+			{{#if hero }}
+			{{#with hero }}
+			{{> molecules-hero width="1200" height="800" }}
+			{{/with }}
+			{{/if}}
+
+			{{# stackedBlockSection }}
+			{{> organisms-stacked-block-list }}
+			{{/ stackedBlockSection }}
+
+			{{> molecules-pagination}}
+
+		</div><!--end .l-main-->
+
+	</div><!--end .l-two-col-->
+</main>
+{{> organisms-footer }}

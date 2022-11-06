@@ -1,6 +1,7 @@
 ![Pattern Lab Logo](https://github.com/pattern-lab/patternlab-node/raw/master/patternlab.png 'Pattern Lab Logo')
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+[![Continuous Integration](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml)
+[![CodeQL](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml)
 ![current release](https://img.shields.io/npm/v/@pattern-lab/core.svg)
 ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![Coverage Status](https://coveralls.io/repos/github/pattern-lab/patternlab-node/badge.svg?branch=master)](https://coveralls.io/github/pattern-lab/patternlab-node?branch=master)
@@ -10,7 +11,7 @@
 
 # Pattern Lab Node Core
 
-This is the core API and orchestrator of the  [Pattern Lab ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html).
+This is the core API and orchestrator of the  [Pattern Lab ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/).
 
 ## Installation
 
@@ -35,9 +36,9 @@ For users wanting a more pre-packaged experience several editions are available.
 
 ## Ecosystem
 
-![Pattern Lab Ecosystem](http://patternlab.io/assets/pattern-lab-2-image_18-large-opt.png)
+![Pattern Lab Ecosystem](https://patternlab.io/images/pattern-lab-2-image_18-large-opt.png)
 
-Core, and Editions, are part of the [Pattern Lab Ecosystem](http://patternlab.io/docs/advanced-ecosystem-overview.html). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
+Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
 
 ## Usage
 
@@ -102,9 +103,7 @@ Please read the [contribution guidelines](https://github.com/pattern-lab/pattern
 
 ## Core Team
 
-* [@bmuenzenmeyer](https://github.com/bmuenzenmeyer) - Lead Maintainer
 * [@geoffp](https://github.com/geoffp) - Core Contributor
-* [@raphaelokon](https://github.com/raphaelokon) - CLI Contributor
 * [@tburny](https://github.com/tburny) - Core Contributor
 
 ## Community
@@ -113,7 +112,7 @@ The Pattern Lab Node team uses [our gitter.im channel, pattern-lab/node](https:/
 
 There is also a dedicated Pattern Lab channel on the [design system slack](http://designsystems.herokuapp.com) run by [@jina](https://twitter.com/jina).
 
-Ask or answer Pattern Lab questions on Stack Overflow: http://stackoverflow.com/questions/tagged/patternlab.io
+Ask or answer Pattern Lab questions on Stack Overflow: https://stackoverflow.com/questions/tagged/patternlab.io
 
 ## License
 

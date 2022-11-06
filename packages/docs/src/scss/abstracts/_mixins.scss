@@ -91,6 +91,9 @@
 		z-index: 0;
 		content: attr(data-text);
 
+		// Mitigating the positioning by 4px from the left to not have the words break incorrectly (see #GH-1158)
+		margin-right: -4px;
+
 		background-image: radial-gradient(
 			$color-brand-purple 0%,
 			$color-brand-purple 60%,

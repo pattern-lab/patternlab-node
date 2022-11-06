@@ -7,16 +7,16 @@
 
 The pure wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core), the default pattern engine, and supporting frontend assets.
 
-[Online Demo of Pattern Lab Output](http://demo.patternlab.io/)
+[Online Demo of Pattern Lab Output](https://demo.patternlab.io/)
 
 ## Packaged Components
 
 This Edition comes with the following components:
 
 * `@pattern-lab/core`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core) | [npm](https://www.npmjs.com/package/@pattern-lab/core)
-* `@pattern-lab/cli`: [GitHub](https://github.com/pattern-lab/tree/master/packages/cli) | [npm](https://www.npmjs.com/package/@pattern-lab/cli)
-* `@pattern-lab/engine-handlebars`: [GitHub](https://github.com/pattern-lab/tree/master/packages/engine-handlebars) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-handlebars)
-* `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
+* `@pattern-lab/cli`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli) | [npm](https://www.npmjs.com/package/@pattern-lab/cli)
+* `@pattern-lab/engine-handlebars`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-handlebars)
+* `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
 
 ## Prerequisites
 

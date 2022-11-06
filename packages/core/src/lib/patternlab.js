@@ -54,7 +54,7 @@ module.exports = class PatternLab {
     //
     this.data = {};
     this.patterns = [];
-    this.subtypePatterns = {};
+    this.subgroupPatterns = {};
     this.partials = {};
 
     // Cache the package.json in RAM
@@ -215,10 +215,10 @@ module.exports = class PatternLab {
   }
 
   writePatternFiles(headHTML, pattern, footerHTML, outputBasePath) {
-    const nullFormatter = str => str;
-    const defaultFormatter = codeString =>
+    const nullFormatter = (str) => str;
+    const defaultFormatter = (codeString) =>
       cleanHtml(codeString, { indent_size: 2 });
-    const makePath = type =>
+    const makePath = (type) =>
       path.join(
         this.config.paths.public.patterns,
         pattern.getPatternLink(this, type)
@@ -258,7 +258,7 @@ module.exports = class PatternLab {
     );
 
     //write the compiled template to the public patterns directory
-    outputFiles.forEach(outFile =>
+    outputFiles.forEach((outFile) =>
       fs.outputFileSync(
         path.join(process.cwd(), outputBasePath, outFile.path),
         outFile.content
@@ -274,22 +274,22 @@ module.exports = class PatternLab {
    */
   registerLogger(logLevel) {
     if (logLevel === undefined) {
-      logger.log.on('info', msg => console.info(msg));
-      logger.log.on('warning', msg => console.info(msg));
-      logger.log.on('error', msg => console.info(msg));
+      logger.log.on('info', (msg) => console.info(msg));
+      logger.log.on('warning', (msg) => console.info(msg));
+      logger.log.on('error', (msg) => console.info(msg));
     } else {
       if (logLevel === 'quiet') {
         return;
       }
       switch (logLevel) {
         case 'debug':
-          logger.log.on('debug', msg => console.info(msg));
+          logger.log.on('debug', (msg) => console.info(msg));
         case 'info':
-          logger.log.on('info', msg => console.info(msg));
+          logger.log.on('info', (msg) => console.info(msg));
         case 'warning':
-          logger.log.on('warning', msg => console.info(msg));
+          logger.log.on('warning', (msg) => console.info(msg));
         case 'error':
-          logger.log.on('error', msg => console.info(msg));
+          logger.log.on('error', (msg) => console.info(msg));
       }
     }
   }
@@ -307,7 +307,12 @@ module.exports = class PatternLab {
   // dive once to perform iterative populating of patternlab object
   processAllPatternsIterative(patterns_dir) {
     const self = this;
-    const promiseAllPatternFiles = new Promise(function(resolve) {
+
+    // before updating the patterns has to be reset, otherwise
+    // deleted pattern would still be present in the patterns array
+    this.patterns = [];
+
+    const promiseAllPatternFiles = new Promise(function (resolve) {
       dive(
         patterns_dir,
         (err, file) => {
@@ -333,11 +338,11 @@ module.exports = class PatternLab {
     });
     return promiseAllPatternFiles.then(() => {
       return Promise.all(
-        this.patterns.map(pattern => {
+        this.patterns.map((pattern) => {
           return processIterative(pattern, self);
         })
       ).then(() => {
-        // patterns sorted by name so the patterntype and patternsubtype is adhered to for menu building
+        // patterns sorted by name so the patternGroup and patternSubgroup is adhered to for menu building
         this.patterns.sort((pattern1, pattern2) =>
           pattern1.name.localeCompare(pattern2.name)
         );
@@ -348,7 +353,7 @@ module.exports = class PatternLab {
   processAllPatternsRecursive(patterns_dir) {
     const self = this;
 
-    const promiseAllPatternFiles = new Promise(function(resolve) {
+    const promiseAllPatternFiles = new Promise(function (resolve) {
       dive(
         patterns_dir,
         (err, file) => {

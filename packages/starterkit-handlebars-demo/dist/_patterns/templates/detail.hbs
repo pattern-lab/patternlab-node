@@ -1,0 +1,32 @@
+{{> organisms-header }}
+<main role="main">
+	<div class="l-container">
+		{{> molecules-page-header }}
+	</div>
+
+	<div class="l-container">
+		<div class="l-page-layout l-page-layout--two-column u-margin-bottom-large">
+
+			<div class="l-page-layout__main">
+				{{# featureImage }}
+				<img src="{{ src }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}" />
+				{{/ featureImage }}
+			</div><!--end .l-main-->
+
+			<div class="l-page-layout__secondary">
+				<div class="l-linelength-container">
+					{{> organisms-text-passage }}
+				</div>
+				{{# checkoutForm }}
+				{{> organisms-form }}
+				{{/ checkoutForm }}
+			</div><!--end .l-sidebar-->
+
+		</div><!--end l--two-col-->
+		{{#with  stackedBlockSection }}
+		{{> organisms-stacked-block-section }}
+		{{/ with }}
+	</div><!--end l-container-->
+
+</main>
+{{> organisms-footer }}

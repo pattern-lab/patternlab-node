@@ -7,9 +7,10 @@ eleventyNavigation:
   title: Adding Annotations
   key: patterns
   order: 180
+sitemapPriority: '0.8'
 ---
 
-Annotations provide an easy way to add notes to elements that may appear inside patterns. Annotations can be saved as a single JSON file at `./source/_annotations/annotations.js` or as multiple Markdown files in `./source/_annotations/`. They're _not_ tied to any specific patterns. When annotations are active they are compared against every pattern using a CSS selector syntax.
+Annotations provide an easy way to add notes to elements that may appear inside patterns. Annotations can be saved as a single JSON file at `./source/_annotations/annotations.json` or as multiple Markdown files in `./source/_annotations/`. They're _not_ tied to any specific patterns. When annotations are active they are compared against every pattern using a CSS selector syntax.
 
 ## The Elements of an Annotation
 
@@ -21,15 +22,17 @@ The elements of an annotation are:
 
 ## JSON Example
 
-This is an example of an annotation saved as part of `annotations.js` that will be added to an element with the class `logo`:
+This is an example of an annotation saved as part of `annotations.json` that will be added to an element with the class `logo`:
 
 ```javascript
 {
 	"el": ".logo",
  	"title" : "Logo",
- 	"comment": "The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.</p><p>Further reading: <a href=\"http://bradfrostweb.com/blog/mobile/hi-res-optimization/\">Optimizing Web Experiences for High Resolution Screens</a></p>"
+ 	"comment": "The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.</p><p>Further reading: <a href=\"https://bradfrost.com/blog/mobile/hi-res-optimization/\">Optimizing Web Experiences for High Resolution Screens</a></p>"
 }
 ```
+
+Compare to e.g. [`handlebars` annotations](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/starterkit-handlebars-demo/dist/_annotations/annotations.json) or [`twig` annotations](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/starterkit-twig-demo/dist/_annotations/annotations.json) editions demo content as well.
 
 ## Markdown Example
 
@@ -42,7 +45,7 @@ title: Logo
 ---
 The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.
 
-Further reading: [Optimizing Web Experiences for High Resolution Screens](http://bradfrostweb.com/blog/mobile/hi-res-optimization/)
+Further reading: [Optimizing Web Experiences for High Resolution Screens](https://bradfrost.com/blog/mobile/hi-res-optimization/)
 ```
 
 To separate multiple annotations within one file use `~*~` between annotations.
@@ -54,7 +57,7 @@ title: Logo
 ---
 The logo image is an SVG file, which ensures that the logo displays crisply even on high resolution displays. A PNG fallback is provided for browsers that don't support SVG images.
 
-Further reading: [Optimizing Web Experiences for High Resolution Screens](http://bradfrostweb.com/blog/mobile/hi-res-optimization/)
+Further reading: [Optimizing Web Experiences for High Resolution Screens](https://bradfrost.com/blog/mobile/hi-res-optimization/)
 ~*~
 ---
 el: .hamburger

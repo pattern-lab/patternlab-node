@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
+# [5.13.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.12.0...v5.13.0) (2020-08-26)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/plugin-tab
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 

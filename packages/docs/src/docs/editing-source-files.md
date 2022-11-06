@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Editing Pattern Lab Source Files
   key: getting-started
   order: 20
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 When editing Pattern Lab you must put your files and edit them in the `./source/` directory. This includes your static assets like [JavaScript, CSS, and images](/docs/managing-pattern-assets/). Each time your site is generated your patterns will be compiled and your static assets will be moved to the `./public/` directory. Because of this you **should not edit** the files in the `./public/` directory.
@@ -15,10 +17,10 @@ When editing Pattern Lab you must put your files and edit them in the `./source/
 
 For the most part you can organize `./source/` anyway you see fit. There are a few Pattern Lab-specific directories though. They are:
 
-- `_annotations/` - where your annotations reside. [learn more](/docs/adding-annotations/).
-- `_data/` - where the global data used to render your patterns resides. [learn more](/docs/overview-of-data/).
-- `_meta/` - where the header and footer that get applied to all of your patterns resides. [learn more](/docs/modifying-the-pattern-header-and-footer/).
-- `_patterns/` - where your patterns, pattern documentation, and pattern-specific data reside. [learn more](/docs/reorganizing-patterns/).
+- `_annotations/` - where your annotations reside. [learn more about adding annotations](/docs/adding-annotations/).
+- `_data/` - where the global data used to render your patterns resides. [learn more about (pattern) data](/docs/overview-of-data/).
+- `_meta/` - where the header and footer that get applied to all of your patterns resides. [learn more about meta files](/docs/modifying-the-pattern-header-and-footer/).
+- `_patterns/` - where your patterns, pattern documentation, and pattern-specific data reside. [learn more about how to organize patterns](/docs/reorganizing-patterns/).
 
 ## Configuring Pattern Lab Directories
 
@@ -75,6 +77,10 @@ In the Node version of Pattern Lab you can modify the following configuration op
 }
 ```
 
+## Problems after changing the structure
+
+If you're doing bigger changes, especially to the file and folder structure, and recognize some errors on the console like, e.g. `TypeError: Cannot read property 'render' of undefined` or `Error building BuildFooterHTML`, it's recommended to stop pattern lab, delete the cache file `dependencyGraph.json` within the root of the project and start pattern lab again, as these changes might conflict with the existing cache structures.
+
 ## Watching for Source File Changes
 
-Manually generating the Pattern Lab website after each change can be cumbersome. The Node version of Pattern Lab comes with the ability to watch files in the `./source/` directory for changes and re-generate the site automatically. The Pattern Lab website can also be automatically reloaded..
+Manually generating the Pattern Lab website after each change can be cumbersome. The Node version of Pattern Lab comes with the ability to watch files in the `./source/` directory for changes and re-generate the site automatically. The Pattern Lab website can also be automatically reloaded.

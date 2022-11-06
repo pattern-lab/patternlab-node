@@ -1,10 +1,10 @@
 {
   "name": "@pattern-lab/engine-liquid",
   "description": "The Liquid engine for Pattern Lab / Node",
-  "version": "5.0.0",
+  "version": "5.16.1",
   "main": "lib/engine_liquid.js",
   "dependencies": {
-    "fs-extra": "5.0.0",
+    "fs-extra": "10.0.0",
     "liquidjs": "2.2.0"
   },
   "keywords": [
@@ -22,9 +22,10 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=10.0"
+    "node": ">=14.20.1"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

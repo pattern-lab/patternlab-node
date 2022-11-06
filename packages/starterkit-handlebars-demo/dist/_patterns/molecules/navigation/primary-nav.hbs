@@ -1,0 +1,22 @@
+<nav class="c-primary-nav" role="navigation">
+
+    <ul class="c-primary-nav__list">
+
+        {{#each navItems }}
+		<li class="c-primary-nav__item {{ styleModifier }}">
+
+			<a href="{{ url }}" class="c-primary-nav__link">
+                {{#if label }}{{ label }}{{/ if }}
+                {{#with navIcon }}
+                <svg class="c-icon c-primary-nav__icon">
+                    <use xlink:href="{{ iconPath }}{{ navIcon }}.svg#{{ navIcon }}"></use>
+                </svg>
+                {{/ with }}
+            </a><!--end c-primary-nav__link-->
+
+		</li><!-- end c-primary-nav__list__item -->
+        {{/ each }}
+
+	</ul><!-- end c-primary-nav__list -->
+
+</nav><!-- end c-primary-nav -->

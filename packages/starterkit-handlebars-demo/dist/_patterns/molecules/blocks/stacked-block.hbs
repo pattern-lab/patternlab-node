@@ -1,0 +1,25 @@
+<a href="{{ url }}" class="c-stacked-block {{ styleModifier }}">
+
+	<div class="c-stacked-block__header">
+		{{#with stackedBlockMedia }}
+		<div class="c-stacked-block__media">
+			{{> atoms-stacked-block-image width="1200" height="800" }}
+		</div>
+		{{/ with }}
+		{{# with onSale }}
+		<span class="c-stacked-block__badge">{{ badge }}</span>
+		{{/ with }}
+	</div>
+
+	<div class="c-stacked-block__body">
+		<h2 class="c-stacked-block__title">{{ headline }}</h2>
+		{{#if excerpt}}<p class="c-stacked-block__excerpt">{{ excerpt }}</p>{{/ if }}
+	</div><!-- end c-stacked-block__body -->
+
+	<div class="c-stacked-block__footer">
+		<span class="c-stacked-block__meta">{{ label }}</span>
+		{{# with onSale }}
+		<span class="c-stacked-block__optional">{{ price }}</span>
+		{{/ with }}
+	</div>
+</a><!-- end c-stacked-block -->

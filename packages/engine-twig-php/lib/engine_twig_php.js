@@ -27,7 +27,8 @@ const engine_twig_php = {
   engineName: 'twig-php',
   engineFileExtension: '.twig',
   expandPartials: false,
-  findPartialsRE: /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?(with|%}|\s*%})/g,
+  findPartialsRE:
+    /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?(with|%}|\s*%})/g,
   findPartialKeyRE: /"((?:\\.|[^"\\])*)"|'((?:\\.|[^"\\])*)'/,
   namespaces: [],
 
@@ -37,7 +38,7 @@ const engine_twig_php = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     patternLabConfig = config;
 
     if (!config.engines.twig) {
@@ -45,7 +46,8 @@ const engine_twig_php = {
       process.exit(1);
     }
 
-    const { namespaces, alterTwigEnv, relativeFrom,  ...rest } = config.engines.twig;
+    const { namespaces, alterTwigEnv, relativeFrom, ...rest } =
+      config.engines.twig;
 
     // Schema on config object being passed in:
     // https://github.com/basaltinc/twig-renderer/blob/master/config.schema.json
@@ -87,7 +89,7 @@ const engine_twig_php = {
 
       twigRenderer
         .render(patternPath, data)
-        .then(results => {
+        .then((results) => {
           if (results.ok) {
             resolve(results.html + details);
           } else {
@@ -103,7 +105,7 @@ const engine_twig_php = {
             }
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -118,7 +120,7 @@ const engine_twig_php = {
    */
   spawnMeta(config) {
     const { paths } = config;
-    ['_00-head.twig', '_01-foot.twig'].forEach(fileName => {
+    ['_head.twig', '_foot.twig'].forEach((fileName) => {
       const metaFilePath = path.resolve(paths.source.meta, fileName);
       try {
         fs.statSync(metaFilePath);
@@ -150,11 +152,11 @@ const engine_twig_php = {
   // {%
   //   include '@molecules/teaser-card/teaser-card.twig'
   // %}
-  findPartials: function(pattern) {
+  findPartials: function (pattern) {
     const matches = pattern.template.match(this.findPartialsRE);
     const filteredMatches =
       matches &&
-      matches.filter(match => {
+      matches.filter((match) => {
         // Filter out programmatically created includes.
         // i.e. {% include '@namespace/icons/assets/' ~ name ~ '.svg' %}
         return match.indexOf('~') === -1;
@@ -180,14 +182,14 @@ const engine_twig_php = {
 
   // Given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     try {
       let partial = partialString.match(this.findPartialKeyRE)[0];
       partial = partial.replace(/"/g, '');
       partial = partial.replace(/'/g, '');
 
       // Check if namespaces is not empty.
-      const selectedNamespace = this.namespaces.filter(namespace => {
+      const selectedNamespace = this.namespaces.filter((namespace) => {
         // Check to see if this partial contains within the namespace id.
         return partial.indexOf(`@${namespace.id}`) !== -1;
       });
@@ -209,7 +211,7 @@ const engine_twig_php = {
             : selectedNamespace[0].paths[index];
 
           // Replace the name space with the actual path.
-          // i.e. @atoms -> source/_patterns/00-atoms
+          // i.e. @atoms -> source/_patterns/atoms
           const tempPartial = path.join(
             process.cwd(),
             partial.replace(`@${selectedNamespace[0].id}`, patternPath)
@@ -219,20 +221,20 @@ const engine_twig_php = {
             // Check to see if the file actually exists.
             if (fs.existsSync(tempPartial)) {
               // get the path to the top-level folder of this pattern
-              // ex. /Users/bradfrost/sites/pattern-lab/packages/edition-twig/source/_patterns/00-atoms
+              // ex. /Users/bradfrost/sites/pattern-lab/packages/edition-twig/source/_patterns/atoms
               const fullFolderPath = `${
                 tempPartial.split(selectedNamespace[0].paths[index])[0]
               }${selectedNamespace[0].paths[index]}`;
 
               // then tease out the folder name itself (including the # prefix)
-              // ex. 00-atoms
+              // ex. atoms
               const folderName = fullFolderPath.substring(
                 fullFolderPath.lastIndexOf('/') + 1,
                 fullFolderPath.length
               );
 
               // finally, return the Twig path we created from the full file path
-              // ex. 00-atoms/05-buttons/button.twig
+              // ex. atoms/buttons/button.twig
               const fullIncludePath = tempPartial.replace(
                 tempPartial.split(
                   `${folderName}${tempPartial.split(folderName)[1]}`

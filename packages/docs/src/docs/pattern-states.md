@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Using Pattern States
   key: patterns
   order: 160
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Pattern states provide your team and client a simple visual of the current state of patterns in Pattern Lab. Pattern states can track progress of a pattern from development, through client review, to completion or they can be used to give certain patterns specific classes. It's important to note that the state of a pattern can be influenced by its pattern partials.
@@ -45,8 +47,8 @@ The three default states included with Pattern Lab might not be enough for every
 You can use the following as your CSS template for new pattern states:
 
 ```css
-{% raw %}.newpatternstate:before {
-    color: #B10DC9 !important;
+{% raw %}.pl-c-pattern-state--newpatternstate {
+    background-color: #B10DC9;
 }{% endraw %}
 ```
 

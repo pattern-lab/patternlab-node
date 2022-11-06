@@ -15,7 +15,7 @@ To get the options for a particular command, for example the `--generate` comman
 
 ## A Special Note About Windows
 
-To access the command prompt on Windows you can [follow the directions from Microsoft](http://windows.microsoft.com/en-us/windows-vista/open-a-command-prompt-window). After getting to the command prompt type the following to make sure you have PHP installed:
+To access the command prompt on Windows you can [follow the directions from Microsoft](https://support.microsoft.com/en-us/windows/powershell-is-replacing-command-prompt-fdb690cf-876c-d866-2124-21b6fb29a45f). After getting to the command prompt type the following to make sure you have PHP installed:
 
     php -v
 

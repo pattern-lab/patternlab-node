@@ -13,7 +13,7 @@ const markModifiedPatterns = rewire('../src/lib/markModifiedPatterns');
 const config = require('./util/patternlab-config.json');
 
 const fsMock = {
-  readFileSync: function(path, encoding, cb) {
+  readFileSync: function (path, encoding, cb) {
     return '';
   },
 };
@@ -28,7 +28,7 @@ const public_dir = './test/public';
 
 tap.only(
   'markModifiedPatterns - finds patterns modified since a given date',
-  function(test) {
+  function (test) {
     //arrange
     markModifiedPatterns.__set__('fs', fsMock);
 
@@ -40,7 +40,7 @@ tap.only(
       markupOnly: '.markup-only',
     };
 
-    var pattern = new Pattern('00-test/01-bar.mustache');
+    var pattern = new Pattern('test/bar.mustache');
 
     pattern.extendedTemplate = undefined;
     pattern.template = 'bar';
@@ -75,7 +75,7 @@ tap.only(
 
 tap.test(
   'markModifiedPatterns - finds patterns when modification date is missing',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = emptyPatternLab();
     patternlab.partials = {};
@@ -83,7 +83,7 @@ tap.test(
     patternlab.config = { logLevel: 'quiet' };
     patternlab.config.outputFileSuffixes = { rendered: '' };
 
-    var pattern = new Pattern('00-test/01-bar.mustache');
+    var pattern = new Pattern('test/bar.mustache');
     pattern.extendedTemplate = undefined;
     pattern.template = 'bar';
     pattern.lastModified = undefined;
@@ -96,24 +96,25 @@ tap.test(
 );
 
 // This is the case when we want to force recompilation
-tap.test('markModifiedPatterns - finds patterns via compile state', function(
-  test
-) {
-  //arrange
-  var patternlab = emptyPatternLab();
-  patternlab.partials = {};
-  patternlab.data = { link: {} };
-  patternlab.config = { logLevel: 'quiet' };
-  patternlab.config.outputFileSuffixes = { rendered: '' };
+tap.test(
+  'markModifiedPatterns - finds patterns via compile state',
+  function (test) {
+    //arrange
+    var patternlab = emptyPatternLab();
+    patternlab.partials = {};
+    patternlab.data = { link: {} };
+    patternlab.config = { logLevel: 'quiet' };
+    patternlab.config.outputFileSuffixes = { rendered: '' };
 
-  var pattern = new Pattern('00-test/01-bar.mustache');
-  pattern.extendedTemplate = undefined;
-  pattern.template = 'bar';
-  pattern.lastModified = 100000;
-  pattern.compileState = CompileState.NEEDS_REBUILD;
-  patternlab.patterns = [pattern];
+    var pattern = new Pattern('test/bar.mustache');
+    pattern.extendedTemplate = undefined;
+    pattern.template = 'bar';
+    pattern.lastModified = 100000;
+    pattern.compileState = CompileState.NEEDS_REBUILD;
+    patternlab.patterns = [pattern];
 
-  let p = markModifiedPatterns(1000, patternlab);
-  test.same(p.modified.length, 1);
-  test.end();
-});
+    let p = markModifiedPatterns(1000, patternlab);
+    test.same(p.modified.length, 1);
+    test.end();
+  }
+);

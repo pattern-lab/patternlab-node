@@ -1,0 +1,28 @@
+name: Continuous Integration
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the source code
+        uses: actions/checkout@v2
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: '>=14.20.1'
+
+      - name: Setup the project
+        run: |
+          yarn run setup
+          npx lerna add @pattern-lab/engine-mustache --scope=@pattern-lab/core
+          npx lerna add @pattern-lab/engine-handlebars --scope=@pattern-lab/core
+          npx lerna add @pattern-lab/engine-underscore --scope=@pattern-lab/core
+          npx lerna add @pattern-lab/engine-liquid --scope=@pattern-lab/core
+          npx lerna add @pattern-lab/engine-twig --scope=@pattern-lab/core
+          npx lerna add @pattern-lab/engine-react --scope=@pattern-lab/core
+
+      - name: Run Unit Tests
+        run: yarn run test

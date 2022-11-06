@@ -5,13 +5,13 @@
 To install the Nunjucks PatternEngine in your edition, run `npm install @pattern-lab/engine-nunjucks`.
 
 ## Supported features
-- [x] [Includes](http://patternlab.io/docs/pattern-including.html)
+- [x] [Includes](https://patternlab.io/docs/including-patterns/)
 - [x] Lineage
-- [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
-- [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
-- [x] [Pattern States](http://patternlab.io/docs/pattern-states.html)
-- [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using native Nunjucks variables)
-- [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using native Nunjucks variables)
+- [x] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
+- [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
+- [x] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
+- [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/) (Accomplished instead using native Nunjucks variables)
+- [ ] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177) (Accomplished instead using native Nunjucks variables)
 
 Level of Support is more or less full. Partial calls and lineage hunting are supported. Nunjucks does not support the mustache-specific syntax extensions, style modifiers and pattern parameters, because their use cases are addressed by the core Nunjucks feature set. Pattern Lab's listitems feature is still written in the mustache syntax.
 

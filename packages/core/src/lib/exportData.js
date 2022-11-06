@@ -1,10 +1,9 @@
 'use strict';
 
-const eol = require('os').EOL;
 const path = require('path');
-const _ = require('lodash');
+const eol = require('os').EOL;
 
-const ae = require('./annotation_exporter');
+const ae = require('./annotationExporter');
 
 let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
@@ -12,8 +11,8 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
  * Write out our pattern information for use by the front end
  * @param patternlab - global data store
  */
-module.exports = function(patternlab) {
-  const annotation_exporter = new ae(patternlab);
+module.exports = function (patternlab, uikit) {
+  const annotationExporter = new ae(patternlab);
 
   const paths = patternlab.config.paths;
 
@@ -32,8 +31,8 @@ module.exports = function(patternlab) {
 
   //navItems
   output +=
-    'var navItems = {"patternTypes": ' +
-    JSON.stringify(patternlab.patternTypes) +
+    'var navItems = {"patternGroups": ' +
+    JSON.stringify(patternlab.patternGroups) +
     ', "ishControlsHide": ' +
     JSON.stringify(patternlab.config.ishControlsHide) +
     '};' +
@@ -68,22 +67,20 @@ module.exports = function(patternlab) {
     eol;
 
   //annotations
-  const annotationsJSON = annotation_exporter.gather();
+  const annotationsJSON = annotationExporter.gather();
   const annotations =
     'var comments = { "comments" : ' + JSON.stringify(annotationsJSON) + '};';
-  _.each(patternlab.uikits, uikit => {
-    fs.outputFileSync(
-      path.resolve(
-        path.join(
-          process.cwd(),
-          uikit.outputDir,
-          paths.public.annotations,
-          'annotations.js'
-        )
-      ),
-      annotations
-    );
-  });
+  fs.outputFileSync(
+    path.resolve(
+      path.join(
+        process.cwd(),
+        uikit.outputDir,
+        paths.public.annotations,
+        'annotations.js'
+      )
+    ),
+    annotations
+  );
 
   // add module.export to the Nodejs-specific file generated.
   const exportedOutput =
@@ -91,22 +88,20 @@ module.exports = function(patternlab) {
     'module.exports = { config, ishControls, navItems, patternPaths, viewAllPaths, plugins, defaultShowPatternInfo, defaultPattern };';
 
   //write all output to patternlab-data
-  _.each(patternlab.uikits, uikit => {
-    fs.outputFileSync(
-      path.resolve(
-        path.join(process.cwd(), uikit.outputDir, paths.public.data),
-        'patternlab-data.js'
-      ),
-      output
-    );
-    fs.outputFileSync(
-      path.resolve(
-        path.join(process.cwd(), uikit.outputDir, paths.public.data),
-        'patternlab-data.cjs.js'
-      ),
-      exportedOutput
-    );
-  });
+  fs.outputFileSync(
+    path.resolve(
+      path.join(process.cwd(), uikit.outputDir, paths.public.data),
+      'patternlab-data.js'
+    ),
+    output
+  );
+  fs.outputFileSync(
+    path.resolve(
+      path.join(process.cwd(), uikit.outputDir, paths.public.data),
+      'patternlab-data.cjs.js'
+    ),
+    exportedOutput
+  );
 
   return output;
 };

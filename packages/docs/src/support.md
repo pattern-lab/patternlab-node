@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 title: Pattern Lab Support
+sitemapPriority: '0.8'
 ---
 
 ## GitHub
@@ -9,4 +10,4 @@ title: Pattern Lab Support
 
 ## Gitter
 
-You can head over to [Pattern Lab's Gitter](https://gitter.im/pattern-lab/home) to chat with the Pattern Lab community. This is a great place to talk shop, ask quesitons, and get (and give!) help.
+You can head over to [Pattern Lab's Gitter](https://gitter.im/pattern-lab/home) to chat with the Pattern Lab community. This is a great place to talk shop, ask questions, and get (and give!) help.

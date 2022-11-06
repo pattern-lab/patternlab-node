@@ -35,7 +35,7 @@ const PATTERN_GRAPH_VERSION = 1;
  * @see PatternGraph#fromJson
  * @see <a href="https://github.com/pattern-lab/patternlab-node/issues/540">#540</a>
  */
-const PatternGraph = function(graph, timestamp, version) {
+const PatternGraph = function (graph, timestamp, version) {
   this.graph =
     graph ||
     new Graph({
@@ -50,8 +50,8 @@ const PatternGraph = function(graph, timestamp, version) {
   this.version = version || PATTERN_GRAPH_VERSION;
 };
 
-// shorthand. Use relPath as it is always unique, even with subPatternType
-const nodeName = p => (p instanceof Pattern ? p.relPath : p);
+// shorthand. Use relPath as it is always unique, even with subPatternGroup
+const nodeName = (p) => (p instanceof Pattern ? p.relPath : p);
 
 PatternGraph.prototype = {
   /**
@@ -61,11 +61,11 @@ PatternGraph.prototype = {
    *
    * @see {@link https://github.com/pattern-lab/patternlab-node/issues/580|Issue #580}
    */
-  sync: function() {
+  sync: function () {
     // Remove any patterns that are in the graph data, but that haven't been discovered when
     // walking all patterns iteratively
-    const nodesToRemove = this.nodes().filter(n => !this.patterns.has(n));
-    nodesToRemove.forEach(n => this.remove(n));
+    const nodesToRemove = this.nodes().filter((n) => !this.patterns.has(n));
+    nodesToRemove.forEach((n) => this.remove(n));
     return nodesToRemove;
   },
 
@@ -73,7 +73,7 @@ PatternGraph.prototype = {
    * Creates an independent copy of the graph where nodes and edges can be modified without
    * affecting the source.
    */
-  clone: function() {
+  clone: function () {
     const json = graphlib.json.write(this.graph);
     const graph = graphlib.json.read(json);
     return new PatternGraph(graph, this.timestamp, this.version);
@@ -85,7 +85,7 @@ PatternGraph.prototype = {
    *
    * @param {Pattern} pattern
    */
-  add: function(pattern) {
+  add: function (pattern) {
     const n = nodeName(pattern);
     if (!this.patterns.has(n)) {
       this.graph.setNode(n, {
@@ -96,7 +96,7 @@ PatternGraph.prototype = {
     }
   },
 
-  remove: function(pattern) {
+  remove: function (pattern) {
     const n = nodeName(pattern);
     this.graph.removeNode(n);
     this.patterns.remove(n);
@@ -106,8 +106,8 @@ PatternGraph.prototype = {
    * Removes nodes from this graph for which the given predicate function returns false.
    * @param {function} fn which takes a node name as argument
    */
-  filter: function(fn) {
-    this.graph.nodes().forEach(n => {
+  filter: function (fn) {
+    this.graph.nodes().forEach((n) => {
       if (!fn(n)) {
         this.remove(n);
       }
@@ -123,7 +123,7 @@ PatternGraph.prototype = {
    *
    * @throws {Error} If the pattern is unknown
    */
-  link: function(patternFrom, patternTo) {
+  link: function (patternFrom, patternTo) {
     const nameFrom = nodeName(patternFrom);
     const nameTo = nodeName(patternTo);
     for (const name of [nameFrom, nameTo]) {
@@ -141,7 +141,7 @@ PatternGraph.prototype = {
    *
    * @return {boolean}
    */
-  hasLink: function(patternFrom, patternTo) {
+  hasLink: function (patternFrom, patternTo) {
     const nameFrom = nodeName(patternFrom);
     const nameTo = nodeName(patternTo);
     return this.graph.hasEdge(nameFrom, nameTo);
@@ -157,8 +157,8 @@ PatternGraph.prototype = {
    * @return {Array} An Array of {@link Pattern}s in the order by which the changed patters must be
    * compiled.
    */
-  compileOrder: function() {
-    const compileStateFilter = function(patterns, n) {
+  compileOrder: function () {
+    const compileStateFilter = function (patterns, n) {
       const node = patterns.get(n);
       return node.compileState !== CompileState.CLEAN;
     };
@@ -173,10 +173,10 @@ PatternGraph.prototype = {
     });
 
     const nodes = this.graph.nodes();
-    const changedNodes = nodes.filter(n =>
+    const changedNodes = nodes.filter((n) =>
       compileStateFilter(this.patterns, n)
     );
-    this.nodes2patterns(changedNodes).forEach(pattern => {
+    this.nodes2patterns(changedNodes).forEach((pattern) => {
       const patternNode = nodeName(pattern);
       if (!compileGraph.hasNode(patternNode)) {
         compileGraph.setNode(patternNode);
@@ -211,7 +211,7 @@ PatternGraph.prototype = {
    * @param fn A function that takes the currently viewed pattern and node data. Allows synching data
    * between patterns and node metadata.
    */
-  applyReverse: function(pattern, fn) {
+  applyReverse: function (pattern, fn) {
     for (const p of this.lineageR(pattern)) {
       fn(p, pattern);
       this.applyReverse(p, fn);
@@ -225,7 +225,7 @@ PatternGraph.prototype = {
    *
    * @return [null|Pattern]
    */
-  node: function(pattern) {
+  node: function (pattern) {
     return this.graph.node(nodeName(pattern));
   },
 
@@ -234,8 +234,8 @@ PatternGraph.prototype = {
    * @param nodes {Array}
    * @return {Array} An Array of Patterns
    */
-  nodes2patterns: function(nodes) {
-    return nodes.map(n => this.patterns.get(n));
+  nodes2patterns: function (nodes) {
+    return nodes.map((n) => this.patterns.get(n));
   },
 
   // TODO cache result in a Map[String, Array]?
@@ -246,7 +246,7 @@ PatternGraph.prototype = {
    * @param pattern
    * @return {*|Array}
    */
-  lineage: function(pattern) {
+  lineage: function (pattern) {
     const nodes = this.graph.successors(nodeName(pattern));
     return this.nodes2patterns(nodes);
   },
@@ -256,7 +256,7 @@ PatternGraph.prototype = {
    * @param {Pattern} pattern
    * @return {*|Array}
    */
-  lineageR: function(pattern) {
+  lineageR: function (pattern) {
     const nodes = this.graph.predecessors(nodeName(pattern));
     return this.nodes2patterns(nodes);
   },
@@ -267,9 +267,9 @@ PatternGraph.prototype = {
    *
    * @see {@link PatternGraph.lineage(pattern)}
    */
-  lineageIndex: function(pattern) {
+  lineageIndex: function (pattern) {
     const lineage = this.lineage(pattern);
-    return lineage.map(p => p.patternPartial);
+    return lineage.map((p) => p.patternPartial);
   },
 
   /**
@@ -280,16 +280,16 @@ PatternGraph.prototype = {
    *
    * @see {@link PatternGraph.lineageRIndex(pattern)}
    */
-  lineageRIndex: function(pattern) {
+  lineageRIndex: function (pattern) {
     const lineageR = this.lineageR(pattern);
-    return lineageR.map(p => p.patternPartial);
+    return lineageR.map((p) => p.patternPartial);
   },
 
   /**
    * Creates an object representing the graph and meta data.
    * @returns {{timestamp: number, graph}}
    */
-  toJson: function() {
+  toJson: function () {
     return {
       version: this.version,
       timestamp: this.timestamp,
@@ -300,14 +300,14 @@ PatternGraph.prototype = {
   /**
    * @return {Array} An array of all node names.
    */
-  nodes: function() {
+  nodes: function () {
     return this.graph.nodes();
   },
 
   /**
    * Updates the version to the most recent one
    */
-  upgradeVersion: function() {
+  upgradeVersion: function () {
     this.version = PATTERN_GRAPH_VERSION;
   },
 };
@@ -317,7 +317,7 @@ PatternGraph.prototype = {
  * @param {int} [version=PATTERN_GRAPH_VERSION]
  * @return {PatternGraph}
  */
-PatternGraph.empty = function(version) {
+PatternGraph.empty = function (version) {
   return new PatternGraph(null, 0, version || PATTERN_GRAPH_VERSION);
 };
 
@@ -326,7 +326,7 @@ PatternGraph.empty = function(version) {
  * @param {PatternGraph|Object} graphOrJson
  * @return {boolean}
  */
-PatternGraph.checkVersion = function(graphOrJson) {
+PatternGraph.checkVersion = function (graphOrJson) {
   return graphOrJson.version === PATTERN_GRAPH_VERSION;
 };
 
@@ -346,7 +346,7 @@ function VersionMismatch(oldVersion) {
  * @param {object} o The JSON object to read from
  * @return {PatternGraph}
  */
-PatternGraph.fromJson = function(o) {
+PatternGraph.fromJson = function (o) {
   if (!PatternGraph.checkVersion(o)) {
     throw new VersionMismatch(o.version);
   }
@@ -360,7 +360,7 @@ PatternGraph.fromJson = function(o) {
  * @param {string} [fileName='dependencyGraph.json'] Name of the graph file
  * @return {string}
  */
-PatternGraph.resolveJsonGraphFile = function(
+PatternGraph.resolveJsonGraphFile = function (
   filePath = process.cwd(),
   fileName = 'dependencyGraph.json'
 ) {
@@ -377,7 +377,7 @@ PatternGraph.resolveJsonGraphFile = function(
  * @see {@link PatternGraph.fromJson}
  * @see {@link PatternGraph.resolveJsonGraphFile}
  */
-PatternGraph.loadFromFile = function(filePath, fileName) {
+PatternGraph.loadFromFile = function (filePath, fileName) {
   const jsonGraphFile = this.resolveJsonGraphFile(filePath, fileName);
 
   // File is fresh, so simply construct an empty graph in memory
@@ -399,7 +399,7 @@ PatternGraph.loadFromFile = function(filePath, fileName) {
  *
  * @see {@link PatternGraph.resolveJsonGraphFile}
  */
-PatternGraph.storeToFile = function(patternlab) {
+PatternGraph.storeToFile = function (patternlab) {
   if (process.env.PATTERNLAB_ENV === 'CI') {
     return;
   }
@@ -413,7 +413,7 @@ PatternGraph.storeToFile = function(patternlab) {
  * @param patternlab
  @ @param {string} fileName Output filename
  */
-PatternGraph.exportToDot = function(patternlab, fileName) {
+PatternGraph.exportToDot = function (patternlab, fileName) {
   const dotFile = this.resolveJsonGraphFile(undefined, fileName);
   const g = PatternGraphDot.generate(patternlab.graph);
   fs.outputFileSync(dotFile, g);

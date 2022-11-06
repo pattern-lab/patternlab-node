@@ -5,10 +5,9 @@ import styles from './pl-toggle-info.scss?external';
 
 @customElement('pl-toggle-info')
 class InfoToggle extends LitElement {
-  constructor(self) {
-    self = super(self);
-    self.handleClick = self.handleClick.bind(self);
-    return self;
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
   }
 
   createRenderRoot() {
@@ -73,6 +72,7 @@ class InfoToggle extends LitElement {
         <pl-icon
           name="${this.isDrawerOpen ? 'code-collapse' : 'code-expand'}"
           slot="after"
+          aria-hidden="true"
         ></pl-icon>
       </pl-button>
     `;

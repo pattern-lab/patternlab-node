@@ -29,7 +29,7 @@ const utilMustache = require('./util_mustache');
 // it does, so we're cool, right?
 let patternLabConfig = {};
 
-var engine_mustache = {
+const engine_mustache = {
   engine: Mustache,
   engineName: 'mustache',
   engineFileExtension: '.mustache',
@@ -69,7 +69,7 @@ var engine_mustache = {
    * @returns {array|null} An array if a match is found, null if not.
    */
   patternMatcher: function patternMatcher(pattern, regex) {
-    var matches;
+    let matches;
     if (typeof pattern === 'string') {
       matches = pattern.match(regex);
     } else if (
@@ -81,7 +81,7 @@ var engine_mustache = {
     return matches;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -103,50 +103,42 @@ var engine_mustache = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
-    this.spawnFile(config, '_00-head.mustache');
-    this.spawnFile(config, '_01-foot.mustache');
+  spawnMeta: function (config) {
+    this.spawnFile(config, '_head.mustache');
+    this.spawnFile(config, '_foot.mustache');
   },
 
   // find and return any {{> template-name }} within pattern
   findPartials: function findPartials(pattern) {
-    var matches = this.patternMatcher(pattern, this.findPartialsRE);
-    return matches;
+    return this.patternMatcher(pattern, this.findPartialsRE);
   },
-  findPartialsWithStyleModifiers: function(pattern) {
-    var matches = this.patternMatcher(
-      pattern,
-      this.findPartialsWithStyleModifiersRE
-    );
-    return matches;
+  findPartialsWithStyleModifiers: function (pattern) {
+    return this.patternMatcher(pattern, this.findPartialsWithStyleModifiersRE);
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function(pattern) {
-    var matches = this.patternMatcher(
+  findPartialsWithPatternParameters: function (pattern) {
+    return this.patternMatcher(
       pattern,
       this.findPartialsWithPatternParametersRE
     );
-    return matches;
   },
-  findListItems: function(pattern) {
-    var matches = this.patternMatcher(pattern, this.findListItemsRE);
-    return matches;
+  findListItems: function (pattern) {
+    return this.patternMatcher(pattern, this.findListItemsRE);
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial_new: function(partialString) {
-    var partial = partialString.replace(this.findPartialRE, '$1');
-    return partial;
+  findPartial_new: function (partialString) {
+    return partialString.replace(this.findPartialRE, '$1');
   },
 
   // GTP: the old implementation works better. We might not need
   // this.findPartialRE anymore if it works in all cases!
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     //strip out the template cruft
-    var foundPatternPartial = partialString
+    let foundPatternPartial = partialString
       .replace('{{> ', '')
       .replace(' }}', '')
       .replace('{{>', '')
@@ -172,7 +164,7 @@ var engine_mustache = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     patternLabConfig = config;
   },
 };

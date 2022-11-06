@@ -15,33 +15,33 @@ engineLoader.loadAllEngines(config);
 
 // don't run these tests unless the react engine is installed
 if (!engineLoader.react) {
-  tap.test('React engine not installed, skipping tests.', test => {
+  tap.test('React engine not installed, skipping tests.', (test) => {
     test.end();
   });
 } else {
   const fpl = testUtils.fakePatternLab(testPatternsPath);
 
-  tap.test('Load the hello world pattern and verify contents', test => {
+  tap.test('Load the hello world pattern and verify contents', (test) => {
     const patternPath = path.join(
       testPatternsPath,
-      '00-atoms/00-general/HelloWorld.jsx'
+      'atoms/general/HelloWorld.jsx'
     );
     const patternContent = fs.readFileSync(patternPath, { encoding: 'utf8' });
     const pattern = loadPattern(patternPath, fpl);
 
-    test.equals(pattern.template, patternContent);
+    test.equal(pattern.template, patternContent);
     test.end();
   });
 
-  tap.test('Load the hello world pattern and verify output', test => {
+  tap.test('Load the hello world pattern and verify output', (test) => {
     const patternPath = path.join(
       testPatternsPath,
-      '00-atoms/00-general/HelloWorld.jsx'
+      'atoms/general/HelloWorld.jsx'
     );
     const pattern = loadPattern(patternPath, fpl);
 
-    return pattern.render().then(output => {
-      test.equals(output, '<div>Hello world!</div>\n');
+    return pattern.render().then((output) => {
+      test.equal(output, '<div>Hello world!</div>\n');
     });
   });
 }

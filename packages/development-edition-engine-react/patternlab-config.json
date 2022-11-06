@@ -25,16 +25,7 @@
     "m": [500, 800],
     "l": [800, 2600]
   },
-<<<<<<< HEAD:packages/development-edition-engine-react/patternlab-config.json
   "logLevel": "info",
-=======
-  "patternExportAll": false,
-  "patternExportPreserveDirectoryStructure": false,
-  "patternExportRaw": false,
-  "patternExportPatternPartials": [],
-  "patternExportDirectory": "./pattern_exports/",
-  "cacheBust": true,
->>>>>>> 436dd99e50d808cd14691593b927209f1ecb663e:patternlab-config.json
   "outputFileSuffixes": {
     "rendered": ".rendered",
     "rawTemplate": "",
@@ -55,8 +46,8 @@
         "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-footer.mustache",
         "patternSection":
         "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSection.mustache",
-        "patternSectionSubtype":
-        "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubtype.mustache",
+        "patternSectionSubgroup":
+        "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubgroup.mustache",
         "viewall":
         "./node_modules/@pattern-lab/uikit-workshop/views/viewall.mustache"
       },
@@ -79,8 +70,13 @@
   },
   "patternExtension": "mustache",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
+  "patternExportAll": false,
+  "patternExportPreserveDirectoryStructure": false,
+  "patternExportRaw": false,
   "patternExportDirectory": "./pattern_exports/",
   "patternExportPatternPartials": [],
+  "patternMergeVariantArrays": true,
+  "renderFlatPatternsOnViewAllPages": false,
   "serverOptions": {
     "wait": 1000
   },

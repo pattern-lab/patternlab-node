@@ -3,6 +3,356 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+
+### Features
+
+* **engine-twig:** add custom twing extensions ([#1435](https://github.com/pattern-lab/patternlab-node/issues/1435)) ([c32a45c](https://github.com/pattern-lab/patternlab-node/commit/c32a45c02e3b71bb841e7ea15cae000a68857df3)), closes [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230) [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230)
+* integrate @hadl/patternlab-plugin-pattern-wrap into core ([#1433](https://github.com/pattern-lab/patternlab-node/issues/1433)) ([414e038](https://github.com/pattern-lab/patternlab-node/commit/414e0383732b4bc4682981000908d1e0d1292703)), closes [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432) [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432)
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* code scanning alert ([#1442](https://github.com/pattern-lab/patternlab-node/issues/1442)) ([749a3e7](https://github.com/pattern-lab/patternlab-node/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+* div isn't allowed in button elements ([#1438](https://github.com/pattern-lab/patternlab-node/issues/1438)) ([e5c6950](https://github.com/pattern-lab/patternlab-node/commit/e5c6950e6218df99f9d9d35388c36a0130236f28))
+* twig logo is rendered as "NaN" ([#1434](https://github.com/pattern-lab/patternlab-node/issues/1434)) ([ab6b133](https://github.com/pattern-lab/patternlab-node/commit/ab6b133019d9dfa3816e8fc9a9caa7b547e19097)), closes [#1407](https://github.com/pattern-lab/patternlab-node/issues/1407)
+
+
+
+
+
+## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* transformed asset types is ignored ([#1426](https://github.com/pattern-lab/patternlab-node/issues/1426)) ([8cbe189](https://github.com/pattern-lab/patternlab-node/commit/8cbe189d45afaa753ce6de41bdd9de1596e074f3)), closes [#1339](https://github.com/pattern-lab/patternlab-node/issues/1339)
+
+
+### Features
+
+* remove sandbox attribute from iframe ([#1422](https://github.com/pattern-lab/patternlab-node/issues/1422)) ([4335660](https://github.com/pattern-lab/patternlab-node/commit/4335660bac6f87618baaef9d773e00d7e80c6eec))
+
+
+
+
+
+## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+
+### Bug Fixes
+
+* **annotations:** displaying annotation tooltips correctly ([#1406](https://github.com/pattern-lab/patternlab-node/issues/1406)) ([3f33ce5](https://github.com/pattern-lab/patternlab-node/commit/3f33ce5c51f2f7a6afd86d3500b7659afd0198e6)), closes [#2](https://github.com/pattern-lab/patternlab-node/issues/2) [#1](https://github.com/pattern-lab/patternlab-node/issues/1)
+* **annotations:** hiding those correctly ([#1415](https://github.com/pattern-lab/patternlab-node/issues/1415)) ([ef0a60f](https://github.com/pattern-lab/patternlab-node/commit/ef0a60fcc8656acc6d83bb0723c02a658f7ff1f3))
+
+
+
+
+
+## [5.15.7](https://github.com/pattern-lab/patternlab-node/compare/v5.15.6...v5.15.7) (2021-12-07)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+## [5.15.6](https://github.com/pattern-lab/patternlab-node/compare/v5.15.5...v5.15.6) (2021-12-07)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+
+### Bug Fixes
+
+* corrected some github urls ([#1388](https://github.com/pattern-lab/patternlab-node/issues/1388)) ([7f37e9d](https://github.com/pattern-lab/patternlab-node/commit/7f37e9d56b553dc4be53590766c0fc6251458829))
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/pattern-lab/patternlab-node/issues/1386)) ([6fa630e](https://github.com/pattern-lab/patternlab-node/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
+## [5.15.4](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+
+### Bug Fixes
+
+* corrected some github urls ([#1388](https://github.com/pattern-lab/patternlab-node/issues/1388)) ([7f37e9d](https://github.com/pattern-lab/patternlab-node/commit/7f37e9d56b553dc4be53590766c0fc6251458829))
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/pattern-lab/patternlab-node/issues/1386)) ([6fa630e](https://github.com/pattern-lab/patternlab-node/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
+## [5.15.3](https://github.com/pattern-lab/patternlab-node/compare/v5.15.2...v5.15.3) (2021-11-21)
+
+
+### Bug Fixes
+
+* **docs:** tiles z-index to not overlay the menu anymore ([#1370](https://github.com/pattern-lab/patternlab-node/issues/1370)) ([384dc89](https://github.com/pattern-lab/patternlab-node/commit/384dc8900ee5768f5a260fd00fe03d11ae047484))
+* **handlebars-demo:** move and modify the icon files ([#1377](https://github.com/pattern-lab/patternlab-node/issues/1377)) ([7c66f8a](https://github.com/pattern-lab/patternlab-node/commit/7c66f8ad4cd15e0a814f9808d0fbca727903aeb5))
+
+
+### Features
+
+* **vs-code:** added recommendations ([#1375](https://github.com/pattern-lab/patternlab-node/issues/1375)) ([cfa74c0](https://github.com/pattern-lab/patternlab-node/commit/cfa74c0d09c3aae78ef10654f48749a568f3e30d))
+* ensure consistent line endings across files ([#1372](https://github.com/pattern-lab/patternlab-node/issues/1372)) ([57efccb](https://github.com/pattern-lab/patternlab-node/commit/57efccb895f142d8a18e774d7b7c01b2f1266737))
+
+
+
+
+
+## [5.15.2](https://github.com/pattern-lab/patternlab-node/compare/v5.15.1...v5.15.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **core:** Subgroup cannot be hidden ([#1368](https://github.com/pattern-lab/patternlab-node/issues/1368)) ([3ce13ab](https://github.com/pattern-lab/patternlab-node/commit/3ce13abffaab2810194003aeca88be671fedd38f))
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* **docs:** use "UIKits" instead of "StyleguideKits" ([#1345](https://github.com/pattern-lab/patternlab-node/issues/1345)) ([a2885ea](https://github.com/pattern-lab/patternlab-node/commit/a2885ea738c2d807dd99c6749ac6e6437d8d3e7e))
+* **initialize:** updating no-emit-webpack-plugin dependency [#1348](https://github.com/pattern-lab/patternlab-node/issues/1348) ([#1349](https://github.com/pattern-lab/patternlab-node/issues/1349)) ([a884897](https://github.com/pattern-lab/patternlab-node/commit/a884897cf9f98b61c9bdd20acf7e079de0782f10))
+* **node16:** prevent warning on installation process ([#1352](https://github.com/pattern-lab/patternlab-node/issues/1352)) ([d58e4c6](https://github.com/pattern-lab/patternlab-node/commit/d58e4c6f2979f5e0bba9a14e17e0dbc4afc64f75))
+
+
+### Features
+
+* added https description to the docs ([#1355](https://github.com/pattern-lab/patternlab-node/issues/1355)) ([4118f74](https://github.com/pattern-lab/patternlab-node/commit/4118f740810842b16cf86b9ee28bda2a623aa9c7))
+
+
+### Reverts
+
+* Revert "refactor: optimized engines directory retrieval (#1359)" (#1363) ([a275d36](https://github.com/pattern-lab/patternlab-node/commit/a275d36c50c3846fc51c78baf6e11dba5309f5dc)), closes [#1359](https://github.com/pattern-lab/patternlab-node/issues/1359) [#1363](https://github.com/pattern-lab/patternlab-node/issues/1363)
+
+
+
+
+
+# [5.15.0](https://github.com/pattern-lab/patternlab-node/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* **live-server:** testing ([#1331](https://github.com/pattern-lab/patternlab-node/issues/1331)) ([2b2e1b1](https://github.com/pattern-lab/patternlab-node/commit/2b2e1b1c2426ab578dc014ea99df520d17a7db92))
+
+
+### Features
+
+* **docs:** adding a sitemap.xml ([#1329](https://github.com/pattern-lab/patternlab-node/issues/1329)) ([0a7fd95](https://github.com/pattern-lab/patternlab-node/commit/0a7fd95d5f1c3ce690bbe89cc30580ff58d1ab9c))
+* **documentation:** added (sub)groups documentation again [#1262](https://github.com/pattern-lab/patternlab-node/issues/1262) ([#1334](https://github.com/pattern-lab/patternlab-node/issues/1334)) ([9fac269](https://github.com/pattern-lab/patternlab-node/commit/9fac2699d2f6c64c4544e8e4d8e18c1a1ce7e49f))
+
+
+
+
+
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+
+### Bug Fixes
+
+* **pseudopatterns:** use the template instead of the pseudo data file for template rendering [#1308](https://github.com/pattern-lab/patternlab-node/issues/1308) ([#1312](https://github.com/pattern-lab/patternlab-node/issues/1312)) ([7ecca69](https://github.com/pattern-lab/patternlab-node/commit/7ecca69bcfed4060d17390b76562e5f468b4a897))
+
+
+
+
+
+## [5.14.2](https://github.com/pattern-lab/patternlab-node/compare/v5.14.1...v5.14.2) (2021-03-28)
+
+
+### Bug Fixes
+
+* **core:** ReadDocumentation throw error on older node versions ([#1295](https://github.com/pattern-lab/patternlab-node/issues/1295)) ([399d0e1](https://github.com/pattern-lab/patternlab-node/commit/399d0e118ab77a414a926b078da9abbcb5347969))
+* **twig:** starter-kit-twig urls are incorrect on npm ([#1297](https://github.com/pattern-lab/patternlab-node/issues/1297)) ([4256d6b](https://github.com/pattern-lab/patternlab-node/commit/4256d6b13f9c2cfadf7620b0cb744cf71c3257f5))
+
+
+
+
+
+## [5.14.1](https://github.com/pattern-lab/patternlab-node/compare/v5.14.0...v5.14.1) (2021-02-19)
+
+
+### Bug Fixes
+
+* **demopage:** switched to HTTPS URLs for image placeholders ([#1289](https://github.com/pattern-lab/patternlab-node/issues/1289)) ([e09bf6a](https://github.com/pattern-lab/patternlab-node/commit/e09bf6aae9bad99365b5a01381e0df6de9ddeafe))
+
+
+
+
+
+# [5.14.0](https://github.com/pattern-lab/patternlab-node/compare/v5.13.3...v5.14.0) (2021-01-12)
+
+**Note:** Version bump only for package patternlab-node
+
+
+
+
+
+## [5.13.3](https://github.com/pattern-lab/patternlab-node/compare/v5.13.2...v5.13.3) (2020-12-17)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+## [5.13.2](https://github.com/pattern-lab/patternlab-node/compare/v5.13.1...v5.13.2) (2020-11-12)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+## [5.13.1](https://github.com/pattern-lab/patternlab-node/compare/v5.13.0...v5.13.1) (2020-09-06)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+# [5.13.0](https://github.com/pattern-lab/patternlab-node/compare/v5.12.0...v5.13.0) (2020-08-26)
+
+**Note:** Version bump only for package patternlab-node-main
+
+
+
+
+
+# [5.12.0](https://github.com/pattern-lab/patternlab-node/compare/v5.11.1...v5.12.0) (2020-08-09)
+
+**Note:** Version bump only for package patternlab-node
+
+
+
+
+
+## [5.11.1](https://github.com/pattern-lab/patternlab-node/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+
+### Bug Fixes
+
+* update Viewport Size toggle to better handle async-loaded ishControl data + prevent rendering errors ([b937706](https://github.com/pattern-lab/patternlab-node/commit/b93770669c6f723128ba68e522c9398cc1d2d70c))
+* update Webpack config to point to the patched version of preact-dom ([d3660b7](https://github.com/pattern-lab/patternlab-node/commit/d3660b78bc0a74c52ed85b69b023c612b789c318))
+* update yarn.lock ([dca1948](https://github.com/pattern-lab/patternlab-node/commit/dca19489b85f715de3ade2294fa49df89b8bb59f))
+* visually hide NavToggle icon text; fix for visual regression after merging down https://github.com/pattern-lab/patternlab-node/pull/1227 ([3a2ad9f](https://github.com/pattern-lab/patternlab-node/commit/3a2ad9f12d83b6d21dcca62e89d944a6a46342f6))
+* **docs:** corrected a URL ([26ede14](https://github.com/pattern-lab/patternlab-node/commit/26ede14a6eafe8649cbc6b0076d84f1d323c3e20))
+* **docs:** fixed css code for custom patternstates color ([8995241](https://github.com/pattern-lab/patternlab-node/commit/89952416162c01d1e3e05221ce58a7755544131c)), closes [#1216](https://github.com/pattern-lab/patternlab-node/issues/1216)
+* **docs:** headlines styling breaks in edge cases [#1158](https://github.com/pattern-lab/patternlab-node/issues/1158) ([d8244a2](https://github.com/pattern-lab/patternlab-node/commit/d8244a2d307b0a81d0846491f8c5a12e0ae167a5))
+* **patternflyouts:** preventing horizontal scrollbar in pattern flyouts in Edge 18 [#1124](https://github.com/pattern-lab/patternlab-node/issues/1124) ([63300bc](https://github.com/pattern-lab/patternlab-node/commit/63300bc00ee797e38bfdb73fdc7694c188a423dc))
+* **patternstate:** added css color for pattern state "inprogress" [#1216](https://github.com/pattern-lab/patternlab-node/issues/1216) ([856bcda](https://github.com/pattern-lab/patternlab-node/commit/856bcda150239928bb5e8719246b97e9fa366468))
+* **resetcss:** selector in uikit-workshop [#1109](https://github.com/pattern-lab/patternlab-node/issues/1109) ([6893b7c](https://github.com/pattern-lab/patternlab-node/commit/6893b7cb5478309d4fdab0121edba3921718bd69))
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+* enable partial build via option ([4b9dbf9](https://github.com/pattern-lab/patternlab-node/commit/4b9dbf9095bfb8bfd2360b310dd7395dbfe3cf98))
+
+
+
+
+
+# [5.11.0](https://github.com/pattern-lab/patternlab-node/compare/v5.10.2...v5.11.0) (2020-06-28)
+
+
+### Bug Fixes
+
+* update Viewport Size toggle to better handle async-loaded ishControl data + prevent rendering errors ([b937706](https://github.com/pattern-lab/patternlab-node/commit/b93770669c6f723128ba68e522c9398cc1d2d70c))
+* update Webpack config to point to the patched version of preact-dom ([d3660b7](https://github.com/pattern-lab/patternlab-node/commit/d3660b78bc0a74c52ed85b69b023c612b789c318))
+* visually hide NavToggle icon text; fix for visual regression after merging down https://github.com/pattern-lab/patternlab-node/pull/1227 ([3a2ad9f](https://github.com/pattern-lab/patternlab-node/commit/3a2ad9f12d83b6d21dcca62e89d944a6a46342f6))
+* **docs:** corrected a URL ([26ede14](https://github.com/pattern-lab/patternlab-node/commit/26ede14a6eafe8649cbc6b0076d84f1d323c3e20))
+* **docs:** fixed css code for custom patternstates color ([8995241](https://github.com/pattern-lab/patternlab-node/commit/89952416162c01d1e3e05221ce58a7755544131c)), closes [#1216](https://github.com/pattern-lab/patternlab-node/issues/1216)
+* **docs:** headlines styling breaks in edge cases [#1158](https://github.com/pattern-lab/patternlab-node/issues/1158) ([d8244a2](https://github.com/pattern-lab/patternlab-node/commit/d8244a2d307b0a81d0846491f8c5a12e0ae167a5))
+* **patternflyouts:** preventing horizontal scrollbar in pattern flyouts in Edge 18 [#1124](https://github.com/pattern-lab/patternlab-node/issues/1124) ([63300bc](https://github.com/pattern-lab/patternlab-node/commit/63300bc00ee797e38bfdb73fdc7694c188a423dc))
+* **patternstate:** added css color for pattern state "inprogress" [#1216](https://github.com/pattern-lab/patternlab-node/issues/1216) ([856bcda](https://github.com/pattern-lab/patternlab-node/commit/856bcda150239928bb5e8719246b97e9fa366468))
+* **resetcss:** selector in uikit-workshop [#1109](https://github.com/pattern-lab/patternlab-node/issues/1109) ([6893b7c](https://github.com/pattern-lab/patternlab-node/commit/6893b7cb5478309d4fdab0121edba3921718bd69))
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+* enable partial build via option ([4b9dbf9](https://github.com/pattern-lab/patternlab-node/commit/4b9dbf9095bfb8bfd2360b310dd7395dbfe3cf98))
+
+
+
+
+
+## [5.10.2](https://github.com/pattern-lab/patternlab-node/compare/v5.10.1...v5.10.2) (2020-05-24)
+
+
+### Bug Fixes
+
+* update link to new PL docs homepage ([831b467](https://github.com/pattern-lab/patternlab-node/commit/831b467c57b9259c32ce3d3ddf366fe1867a48a9))
+
+
+
+
+
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package pl-node
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+
+### Bug Fixes
+
+* **docs:** google lighthouse error - bg and text contrast ratio [#1197](https://github.com/pattern-lab/patternlab-node/issues/1197) ([f43978a](https://github.com/pattern-lab/patternlab-node/commit/f43978a3a121b661cfbf763ba72bcda2c36a5d3a))
+* **docs:** resolving broken link (new URL) in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([8dc020a](https://github.com/pattern-lab/patternlab-node/commit/8dc020a217b51cfafdd62ceca95fc42811a6c285))
+* **docs:** resolving broken link (new URL) in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([f557fdd](https://github.com/pattern-lab/patternlab-node/commit/f557fddeda640d88c7267d9d5fba8e8cc5e07929))
+* **docs:** resolving broken link (new URL) in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([0023a91](https://github.com/pattern-lab/patternlab-node/commit/0023a910126a635006c1ad468a412af0e93338fb))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([c9635ec](https://github.com/pattern-lab/patternlab-node/commit/c9635ec2d9eb700b23188d5c72b83b3d16e6deda))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([f56ad39](https://github.com/pattern-lab/patternlab-node/commit/f56ad3951ea0319a43f0b1aeabba0d3ad96c5553))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([cae9420](https://github.com/pattern-lab/patternlab-node/commit/cae94208c52e4068430e048e729f4ff97847715a))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([84138c3](https://github.com/pattern-lab/patternlab-node/commit/84138c36cdfe5b9a38b34e32b177a0416b077716))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([374c103](https://github.com/pattern-lab/patternlab-node/commit/374c103a59504ba239b16680f86a89b4d95e304f))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([cb0fcdb](https://github.com/pattern-lab/patternlab-node/commit/cb0fcdb5ad8504f9d78d4d5e040afa408aa2c356))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([48de8c2](https://github.com/pattern-lab/patternlab-node/commit/48de8c2e134a61c0b4440375254bc9590a3e2563))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([363f22c](https://github.com/pattern-lab/patternlab-node/commit/363f22c643239ef4ca48d6f5942111604fda5ead))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([487cc78](https://github.com/pattern-lab/patternlab-node/commit/487cc783388043ec16ab1e54a3bfd8490038d058))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([571017f](https://github.com/pattern-lab/patternlab-node/commit/571017ffafa2cf6e8fa01b7ea7effc88922b05d1))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([420e829](https://github.com/pattern-lab/patternlab-node/commit/420e8293c033557ede073bc13e68955a450a3c8e))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([b4eb12e](https://github.com/pattern-lab/patternlab-node/commit/b4eb12e68ceb402964a7e303610e5b0c008876ba))
+* Contribution guidelines should refer to yarn ([c30cc81](https://github.com/pattern-lab/patternlab-node/commit/c30cc81a3e155072774438304b73d58b6635876d))
+* **uikitworkshop:** preventing cropping pattern parts [#1174](https://github.com/pattern-lab/patternlab-node/issues/1174) ([6a67d03](https://github.com/pattern-lab/patternlab-node/commit/6a67d039048129e9837c3b6eb3e195ed2e86a815))
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 

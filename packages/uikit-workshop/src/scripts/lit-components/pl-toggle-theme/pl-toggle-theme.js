@@ -6,13 +6,12 @@ import styles from './pl-toggle-theme.scss?external';
 
 @customElement('pl-toggle-theme')
 class ThemeToggle extends LitElement {
-  constructor(self) {
-    self = super(self);
-    self.targetOrigin =
+  constructor() {
+    super();
+    this.targetOrigin =
       window.location.protocol === 'file:'
         ? '*'
         : window.location.protocol + '//' + window.location.host;
-    return self;
   }
 
   static get properties() {
@@ -73,11 +72,15 @@ class ThemeToggle extends LitElement {
       <pl-button
         class="pl-c-tools__action pl-c-toggle-theme__action"
         title="Switch Theme"
-        @click="${_ => store.dispatch(updateThemeMode(toggleThemeMode))}"
+        @click="${(_) => store.dispatch(updateThemeMode(toggleThemeMode))}"
       >
         Switch Theme
 
-        <pl-icon slot="after" name="theme-${this.themeMode}"></pl-icon>
+        <pl-icon
+          slot="after"
+          name="theme-${this.themeMode}"
+          aria-hidden="true"
+        ></pl-icon>
       </pl-button>
     `;
   }

@@ -16,12 +16,11 @@ const { error, log } = require('./utils');
 const pkg = require('../package.json');
 
 // Register info and error logging
-log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
-log.on('patternlab.info', msg => console.log(msg)); // eslint-disable-line
+log.on('patternlab.error', (err) => console.log(err)); // eslint-disable-line
+log.on('patternlab.info', (msg) => console.log(msg)); // eslint-disable-line
 
 // Conditionally register verbose logging
-const verboseLogs = verbose =>
-  log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
+const verboseLogs = () => log.on('patternlab.debug', (msg) => console.log(msg)); // eslint-disable-line
 
 // Conditionally unregister all logging
 const silenceLogs = () => {
@@ -31,7 +30,7 @@ const silenceLogs = () => {
 };
 
 // Split strings into an array
-const list = val => val.split(',');
+const list = (val) => val.split(',');
 
 /**
  * Hook up cli version, usage and options
@@ -43,7 +42,7 @@ cli
   .option(
     '-c, --config <path>',
     'Specify config file. Default looks up the project dir',
-    val => val.trim(),
+    (val) => val.trim(),
     path.resolve(process.cwd(), 'patternlab-config.json')
   )
   .option('-v, --verbose', 'Show verbose console logs', verboseLogs)
@@ -58,7 +57,7 @@ cli
   .alias('compile')
   .description('Build Pattern Lab. Optionally (re-)build only the patterns')
   .option('-p, --patterns-only', 'Whether to only build patterns')
-  .option('--no-watch', 'Start watching for changes')
+  .option('--watch', 'Start watching for changes')
   .action(build);
 
 /**

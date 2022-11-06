@@ -53,18 +53,18 @@ export const urlHandler = {
 
     // look at this as a regular pattern
     const bits = this.getPatternInfo(nameClean, paths);
-    const patternType = bits[0];
+    const patternGroup = bits[0];
     const pattern = bits[1];
 
     if (
-      paths[patternType] !== undefined &&
-      paths[patternType][pattern] !== undefined
+      paths[patternGroup] !== undefined &&
+      paths[patternGroup][pattern] !== undefined
     ) {
-      fileName = paths[patternType][pattern];
-    } else if (paths[patternType] !== undefined) {
-      for (const patternMatchKey in paths[patternType]) {
+      fileName = paths[patternGroup][pattern];
+    } else if (paths[patternGroup] !== undefined) {
+      for (const patternMatchKey in paths[patternGroup]) {
         if (patternMatchKey.indexOf(pattern) !== -1) {
-          fileName = paths[patternType][patternMatchKey];
+          fileName = paths[patternGroup][patternMatchKey];
           break;
         }
       }
@@ -114,15 +114,15 @@ export const urlHandler = {
     let i = 1;
     const c = patternBits.length;
 
-    let patternType = patternBits[0];
-    while (paths[patternType] === undefined && i < c) {
-      patternType += '-' + patternBits[i];
+    let patternGroup = patternBits[0];
+    while (paths[patternGroup] === undefined && i < c) {
+      patternGroup += '-' + patternBits[i];
       i++;
     }
 
-    const pattern = name.slice(patternType.length + 1, name.length);
+    const pattern = name.slice(patternGroup.length + 1, name.length);
 
-    return [patternType, pattern];
+    return [patternGroup, pattern];
   },
 
   /**
@@ -132,7 +132,7 @@ export const urlHandler = {
    */
   getRequestVars() {
     // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-    const oGetVars = new (function(sSearch) {
+    const oGetVars = new (function (sSearch) {
       if (sSearch.length > 1) {
         for (
           let aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split('&');
@@ -155,10 +155,6 @@ export const urlHandler = {
    * @param  {String}       the path given by the loaded iframe
    */
   pushPattern(pattern, givenPath) {
-    const data = {
-      pattern,
-    };
-
     const fileName = urlHandler.getFileName(pattern);
     let path = window.location.pathname;
     path =
@@ -216,6 +212,6 @@ export const urlHandler = {
 /**
  * handle the onpopstate event
  */
-window.onpopstate = function(event) {
+window.onpopstate = function () {
   urlHandler.skipBack = true;
 };

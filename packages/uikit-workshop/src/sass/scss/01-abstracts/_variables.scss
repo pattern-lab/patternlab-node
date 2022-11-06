@@ -24,6 +24,7 @@ $pl-color-trans-white-25: rgba(255, 255, 255, 0.25);
 $pl-color-state-info: #02a4d5;
 $pl-color-state-complete: #03790f;
 $pl-color-state-inreview: #c7a118;
+$pl-color-state-inprogress: #b00b02;
 $pl-color-state-deprecated: #b00b02;
 
 // Font Family
@@ -39,7 +40,7 @@ $pl-font-size-large: 1.2rem;
 $pl-space: 1rem;
 $pl-doublespace: $pl-space * 2;
 $pl-pad: 1rem;
-$pl-pad-half: $pl-pad/2;
+$pl-pad-half: $pl-pad * 0.5;
 $offset-top: 2rem;
 
 // Breakpoints

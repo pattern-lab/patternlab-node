@@ -5,21 +5,21 @@
 
 # Pattern Lab Node - Gulp Edition
 
-The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core)), the default PatternEngine, and supporting frontend assets.
+The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core), the default PatternEngine, and supporting frontend assets.
 
-[Online Demo of Pattern Lab Output](http://demo.patternlab.io/)
+[Online Demo of Pattern Lab Output](https://demo.patternlab.io/)
 
 ## Packaged Components
 
 This Edition comes with the following components:
 
 * `@pattern-lab/core`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core) | [npm](https://www.npmjs.com/package/@pattern-lab/core)
-* `@pattern-lab/engine-mustache`: [GitHub](https://github.com/pattern-lab/tree/master/packages/engine-mustache) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-mustache)
-* `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
+* `@pattern-lab/engine-mustache`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-mustache) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-mustache)
+* `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
 
 ## Prerequisites
 
-This Edition uses [Node](https://nodejs.org) for core processing, [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp.js](http://gulpjs.com/) to run tasks and interface with the core library. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
+This Edition uses [Node](https://nodejs.org/) for core processing, [npm](https://www.npmjs.com/) to manage project dependencies, and [gulp.js](https://gulpjs.com/) to run tasks and interface with the core library. You can follow the directions for [installing Node](https://nodejs.org/en/download/) on the Node website if you haven't done so already. Installation of Node will include npm.
 
 ## Installing
 

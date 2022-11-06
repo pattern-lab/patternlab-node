@@ -10,49 +10,48 @@ import Mousetrap from 'mousetrap';
 import VisuallyHidden from '@reach/visually-hidden';
 import Autosuggest from 'react-autosuggest';
 
-import { urlHandler } from '../../utils';
+import { urlHandler, iframeMsgDataExtraction } from '../../utils';
 import { BaseComponent } from '../base-component';
 
 @define
 class Search extends BaseComponent {
   static is = 'pl-search';
 
-  constructor(self) {
-    self = super(self);
-    self.useShadow = false;
-    self.defaultMaxResults = 10;
+  constructor() {
+    super();
+    this.useShadow = false;
+    this.defaultMaxResults = 10;
 
     // Autosuggest is a controlled component.
     // This means that you need to provide an input value
     // and an onChange handler that updates this value (see below).
     // Suggestions also need to be provided to the Autosuggest,
     // and they are initially empty because the Autosuggest is closed.
-    self.state = {
+    this.state = {
       value: '',
       suggestions: [],
       isFocused: false,
     };
 
-    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
-    self.onChange = self.onChange.bind(self);
-    self.toggleSearch = self.toggleSearch.bind(self);
-    self.closeSearch = self.closeSearch.bind(self);
-    self.renderInputComponent = self.renderInputComponent.bind(self);
-    self.openSearch = self.openSearch.bind(self);
-    return self;
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.toggleSearch = this.toggleSearch.bind(this);
+    this.closeSearch = this.closeSearch.bind(this);
+    this.renderInputComponent = this.renderInputComponent.bind(this);
+    this.openSearch = this.openSearch.bind(this);
   }
 
   connecting() {
     super.connecting && super.connecting();
 
     this.items = [];
-    for (const patternType in window.patternPaths) {
-      if (window.patternPaths.hasOwnProperty(patternType)) {
-        for (const pattern in window.patternPaths[patternType]) {
-          if (window.patternPaths[patternType].hasOwnProperty(pattern)) {
+    for (const patternGroup in window.patternPaths) {
+      if (window.patternPaths.hasOwnProperty(patternGroup)) {
+        for (const pattern in window.patternPaths[patternGroup]) {
+          if (window.patternPaths[patternGroup].hasOwnProperty(pattern)) {
             const obj = {};
-            obj.label = patternType + '-' + pattern;
-            obj.id = window.patternPaths[patternType][pattern];
+            obj.label = patternGroup + '-' + pattern;
+            obj.id = window.patternPaths[patternGroup][pattern];
             this.items.push(obj);
           }
         }
@@ -61,10 +60,9 @@ class Search extends BaseComponent {
   }
 
   connected() {
-    const self = this;
-    Mousetrap.bind('command+shift+f', function(e) {
+    Mousetrap.bind('command+shift+f', function (e) {
       e.preventDefault();
-      self.toggleSearch();
+      this.toggleSearch();
     });
     window.addEventListener('message', this.receiveIframeMessage, false);
   }
@@ -85,7 +83,7 @@ class Search extends BaseComponent {
     clearButtonText: props.string,
   };
 
-  onInput = e => {
+  onInput = (e) => {
     const value = e.target.value;
 
     this.setState({
@@ -118,22 +116,12 @@ class Search extends BaseComponent {
     document.activeElement.blur();
   }
 
-  receiveIframeMessage(event) {
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.keyPress') {
       if (data.key === 'f' && data.metaKey === true) {
@@ -142,7 +130,7 @@ class Search extends BaseComponent {
     }
   }
 
-  getSuggestionValue = suggestion => suggestion.label;
+  getSuggestionValue = (suggestion) => suggestion.label;
 
   renderSuggestion(item, { query, isHighlighted }) {
     return <span>{item.highlightedLabel}</span>;
@@ -157,20 +145,18 @@ class Search extends BaseComponent {
     const fuseOptions = {
       shouldSort: true,
       threshold: 0.3,
-      tokenize: true,
       includeMatches: true,
       location: 0,
       distance: 100,
-      maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: ['label'],
     };
     const fuse = new Fuse(this.items, fuseOptions);
     const results = fuse.search(value);
 
-    const highlighter = function(item) {
+    const highlighter = function (item) {
       const resultItem = item;
-      resultItem.matches.forEach(matchItem => {
+      resultItem.matches.forEach((matchItem) => {
         const text = resultItem.item[matchItem.key];
         const result = [];
         const matches = [].concat(matchItem.indices);
@@ -194,14 +180,14 @@ class Search extends BaseComponent {
         );
 
         if (resultItem.children && resultItem.children.length > 0) {
-          resultItem.children.forEach(child => {
+          resultItem.children.forEach((child) => {
             highlighter(child);
           });
         }
       });
     };
 
-    results.forEach(resultItem => {
+    results.forEach((resultItem) => {
       highlighter(resultItem);
     });
 
@@ -254,7 +240,8 @@ class Search extends BaseComponent {
     return (
       <div
         className={classNames('pl-c-typeahead__input-wrapper', {
-          [`pl-c-typeahead__input-wrapper--with-clear-button`]: shouldShowClearButton,
+          [`pl-c-typeahead__input-wrapper--with-clear-button`]:
+            shouldShowClearButton,
         })}
       >
         <input {...inputProps} />
@@ -266,6 +253,7 @@ class Search extends BaseComponent {
             onClick={() => {
               this.clearSearch();
             }}
+            type="button"
           >
             <VisuallyHidden>{clearButtonText}</VisuallyHidden>
             <svg

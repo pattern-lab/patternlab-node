@@ -7,6 +7,7 @@ eleventyNavigation:
   title: Exporting Patterns
   key: advanced
   order: 300
+sitemapPriority: '0.8'
 ---
 
 While the Pattern Lab website is great for design, iteration, alignment, and discussion - you may find yourself wanting to export whole pattern markup snippets into a different environment.

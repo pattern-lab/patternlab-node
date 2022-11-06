@@ -1,0 +1,42 @@
+{
+  "items": [
+    {
+      "name": "$font-size-sm",
+      "value": "0.75rem",
+      "comment": ""
+    },
+    {
+      "name": "$font-size-sm-2",
+      "value": "0.85rem",
+      "comment": ""
+    },
+    {
+      "name": "$font-size-med",
+      "value": "1rem",
+      "comment": ""
+    },
+    {
+      "name": "$font-size-med-2",
+      "value": "1.2rem",
+      "comment": ""
+    },
+    {
+      "name": "$font-size-large",
+      "value": "2rem",
+      "comment": ""
+    },
+    {
+      "name": "$font-size-xl",
+      "value": "3rem",
+      "comment": ""
+    },
+    {
+      "name": "$font-size-xxl",
+      "value": "4rem",
+      "comment": ""
+    }
+  ],
+  "meta": {
+    "description": ""
+  }
+}

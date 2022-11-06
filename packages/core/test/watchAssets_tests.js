@@ -12,7 +12,7 @@ const patterns_dir = './test/files/_patterns';
 
 tap.test(
   'watchAssets - adds assetWatcher to patternlab.watchers for given key ',
-  test => {
+  (test) => {
     const pl = util.fakePatternLab(patterns_dir, { watchers: [] });
     const key = 'images';
 
@@ -25,15 +25,15 @@ tap.test(
       true
     );
 
-    test.equals(_.keys(pl.watchers)[0], 'images');
+    test.equal(_.keys(pl.watchers)[0], 'images');
 
     test.end();
   }
 );
 
-tap.test('watchAssets - complete path copied', test => {
-  const copyFileMock = function(p, des) {
-    test.equals(des, path.resolve('/proj/public/images/sample/waterfall.jpg'));
+tap.test('watchAssets - complete path copied', (test) => {
+  const copyFileMock = function (p, des) {
+    test.equal(des, path.resolve('/proj/public/images/sample/waterfall.jpg'));
   };
 
   //set our mocks in place of usual require()

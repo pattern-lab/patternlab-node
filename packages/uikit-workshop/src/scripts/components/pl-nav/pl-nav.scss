@@ -75,7 +75,8 @@ pl-nav {
       transform: translateX(-100%);
       transition: all 0.3s ease;
       opacity: 0;
-      box-shadow: 0 3px 6px rgba(21,22,25,.16), 0 3px 6px rgba(21,22,25,.23);
+      box-shadow: 0 3px 6px rgba(21, 22, 25, 0.16),
+        0 3px 6px rgba(21, 22, 25, 0.23);
       visibility: visible;
 
       &.pl-is-active {
@@ -256,8 +257,8 @@ pl-nav {
 .pl-c-nav__link--sublink {
   text-transform: none;
   font-size: 0.78rem;
-  padding-left: $pl-space + ($pl-space / 2);
-  padding-right: $pl-space + ($pl-space / 2);
+  padding-left: $pl-space + $pl-space * 0.5;
+  padding-right: $pl-space + $pl-space * 0.5;
 
   &.pl-is-active {
     box-shadow: inset 4px 0 0 #6c79d9;
@@ -276,7 +277,7 @@ pl-nav {
   padding-left: 1.45rem;
   padding-right: 0.75rem;
   flex-grow: 1;
-  font-size: .8rem;
+  font-size: 0.8rem;
 
   @media all and (min-width: $pl-bp-med) {
     .pl-c-body--theme-horizontal & {
@@ -303,7 +304,9 @@ pl-nav {
   font-size: 1.3rem; // temp solution till new pl-button used in Navigation
 }
 
-.pl-c-nav__link--overview-wrapper.pl-is-active > .pl-c-nav__link--section-dropdown > .pl-c-nav__link-icon,
+.pl-c-nav__link--overview-wrapper.pl-is-active
+  > .pl-c-nav__link--section-dropdown
+  > .pl-c-nav__link-icon,
 .pl-c-nav__link--title.pl-is-active > .pl-c-nav__link-icon,
 .pl-c-nav__link--section-dropdown.pl-is-active > .pl-c-nav__link-icon,
 .pl-c-nav__link--dropdown.pl-is-active > .pl-c-nav__link-icon {
@@ -327,8 +330,8 @@ pl-nav {
     border-radius: $pl-border-radius-med;
     border-style: solid;
     border-width: 1px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.1);
-    transition: all .2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
     transform: translateY(-12px);
     z-index: 1;
     transition: all $pl-animate-quick ease-out;
@@ -340,11 +343,11 @@ pl-nav {
     }
 
     .pl-c-body--theme-light & {
-      border-color: rgba($pl-color-black, .2);
+      border-color: rgba($pl-color-black, 0.2);
     }
 
     .pl-c-body--theme-dark & {
-      border-color: rgba($pl-color-white, .2);
+      border-color: rgba($pl-color-white, 0.2);
     }
   }
 }
@@ -370,7 +373,7 @@ pl-nav {
   }
 
   .pl-c-nav__link--sublink {
-    padding-left: 1.5rem + .75rem;
+    padding-left: 1.5rem + 0.75rem;
   }
 
   @media all and (max-width: $pl-bp-med - 1) {
@@ -379,7 +382,7 @@ pl-nav {
     }
 
     .pl-c-nav__link--sublink {
-      padding-left: 1.5rem + .75rem;
+      padding-left: 1.5rem + 0.75rem;
     }
   }
 }
@@ -404,7 +407,7 @@ pl-nav {
 
 .pl-c-nav__sublist--dropdown.pl-is-active {
   @media all and (min-width: $pl-bp-med) {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-left: 1px solid $pl-color-gray-87;
     border-right: 1px solid $pl-color-gray-87;
 
@@ -420,7 +423,6 @@ pl-nav {
     border: none;
   }
 }
-
 
 .pl-c-nav__link--overview.pl-is-active {
   &:hover:before {
@@ -452,8 +454,8 @@ pl-nav {
     opacity: 0;
     top: 0;
     bottom: 0;
-    border-top: 1px solid rgba(0, 0, 0, .1);
-    border-bottom: 1px solid rgba(0, 0, 0, .1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     pointer-events: none;
   }
 
@@ -470,7 +472,7 @@ pl-nav {
     }
 
     &:after {
-      border-bottom: 1px solid rgba(255, 255, 255, .1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
   }
 }
@@ -586,11 +588,19 @@ pl-nav {
   opacity: 1;
 
   .pl-c-body--theme-horizontal & {
-    overflow: auto;
+    overflow-y: auto;
   }
 
   @media all and (min-width: $pl-bp-med) {
     height: auto;
     max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+  }
+}
+
+.pl-c-body--theme-horizontal {
+  @media all and (min-width: $pl-bp-med) {
+    .pl-is-active + .pl-c-nav__subsublist {
+      max-height: none;
+    }
   }
 }

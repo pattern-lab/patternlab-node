@@ -48,15 +48,15 @@
 	"footerNav": [
 		{
 			"label": "Resources",
-			"url": "/resources"
+			"url": "/resources/"
 		},
 		{
 			"label": "Updates",
-			"url": "/updates"
+			"url": "/updates/"
 		},
 		{
 			"label": "Demos",
-			"url": "/demos"
+			"url": "/demos/"
 		},
 		{
 			"label": "On Github",

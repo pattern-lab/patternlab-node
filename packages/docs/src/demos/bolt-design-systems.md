@@ -7,5 +7,6 @@ tags:
   - demo-in-the-wild
   - demo-content
   - code
-image: /images/800x600.png
+refLink: https://boltdesignsystem.com/pattern-lab/?p=pages-d8-homepage
+sitemapIgnore: true
 ---

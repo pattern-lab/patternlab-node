@@ -17,15 +17,15 @@ During the upgrade process Pattern Lab 2 will move or add any files that are req
 
 Pattern Lab 2 was a complete rewrite and reorganization of Pattern Lab 1. [Learn about the changes](/docs/changes-1-to-2.html). To upgrade do the following:
 
-1. [Download](http://patternlab.io/download.html) the PHP edition that matches your needs
+1. [Download](https://patternlab.io/docs/installing-pattern-lab/) the PHP edition that matches your needs
 
 If you chose a Mustache-based edition do the following:
 
 1. Copy `./source` from your old project to your new edition
-2. Copy `./source/_patterns/00-atoms/00-meta/_00-head.mustache` to `./source/_meta/_00-head.mustache`
-3. Copy `./source/_patterns/00-atoms/00-meta/_01-foot.mustache` to `./source/_meta/_00-foot.mustache` (you can then delete `source/_patterns/00-atoms/00-meta/` directory)
-4. In `./source/_meta/_00-head.mustache`, replace `{% raw %}{% pattern-lab-head %}{% endraw %}` with `{% raw %}{{{ patternLabHead }}}{% endraw %}`
-5. In `./source/_meta/_00-foot.mustache` replace `{% raw %}{% pattern-lab-foot %}{% endraw %}` with `{% raw %}{{{ patternLabFoot }}}{% endraw %}`
+2. Copy `./source/_patterns/atoms/meta/_head.mustache` to `./source/_meta/_head.mustache`
+3. Copy `./source/_patterns/atoms/meta/_foot.mustache` to `./source/_meta/_foot.mustache` (you can then delete `source/_patterns/atoms/meta/` directory)
+4. In `./source/_meta/_head.mustache`, replace `{% raw %}{% pattern-lab-head %}{% endraw %}` with `{% raw %}{{{ patternLabHead }}}{% endraw %}`
+5. In `./source/_meta/_foot.mustache` replace `{% raw %}{% pattern-lab-foot %}{% endraw %}` with `{% raw %}{{{ patternLabFoot }}}{% endraw %}`
 6. Copy `./source/_data/annotations.js` to `./source/_annotations/annotations.js`
 7. Remove the underscore in front of the JSON files in `source/data` (i.e. `data.json` not `_data.json`).
 

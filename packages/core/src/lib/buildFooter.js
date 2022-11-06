@@ -10,10 +10,10 @@ let render = require('./render'); //eslint-disable-line prefer-const
 /**
  * Builds footer HTML from the general footer and user-defined footer
  * @param patternlab - global data store
- * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternType-all
+ * @param patternPartial - the partial key to build this for, either viewall-patternPartial or a viewall-patternGroup-all
  * @returns A promise which resolves with the HTML
  */
-module.exports = function(patternlab, patternPartial, uikit) {
+module.exports = function (patternlab, patternPartial, uikit) {
   //first render the general footer
   return render(Pattern.createEmpty({ extendedTemplate: uikit.footer }), {
     patternData: JSON.stringify({
@@ -21,7 +21,7 @@ module.exports = function(patternlab, patternPartial, uikit) {
     }),
     cacheBuster: patternlab.cacheBuster,
   })
-    .then(footerPartial => {
+    .then((footerPartial) => {
       let allFooterData;
       try {
         allFooterData = jsonCopy(
@@ -29,14 +29,14 @@ module.exports = function(patternlab, patternPartial, uikit) {
           'config.paths.source.data plus patterns data'
         );
       } catch (err) {
-        logger.warning('There was an error parsing JSON for patternlab.data');
-        logger.warning(err);
+        logger.error('There was an error parsing JSON for patternlab.data');
+        logger.error(err);
       }
       allFooterData.patternLabFoot = footerPartial;
 
       return render(patternlab.userFoot, allFooterData);
     })
-    .catch(reason => {
+    .catch((reason) => {
       console.log(reason);
       logger.error('Error building buildFooterHTML');
     });

@@ -5,10 +5,9 @@ import styles from './pl-toggle-layout.scss?external';
 
 @customElement('pl-toggle-layout')
 class LayoutToggle extends LitElement {
-  constructor(self) {
-    self = super(self);
-    self.handleClick = self.handleClick.bind(self);
-    return self;
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
   }
 
   createRenderRoot() {
@@ -89,6 +88,7 @@ class LayoutToggle extends LitElement {
         <pl-icon
           slot="after"
           name="${this.layoutMode === 'horizontal' ? 'layout-h' : 'layout-v'}"
+          aria-hidden="true"
         ></pl-icon>
       </pl-button>
     `;

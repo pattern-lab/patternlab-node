@@ -18,7 +18,7 @@ doc
     'name-format': 'backticks',
     template: fs.readFileSync('./scripts/api.handlebars', 'utf8'),
   })
-  .then(x => {
+  .then((x) => {
     fs.outputFile(path.resolve(process.cwd(), './docs/README.md'), x);
   });
 
@@ -29,6 +29,6 @@ doc
     'name-format': 'backticks',
     template: fs.readFileSync('./scripts/events.handlebars', 'utf8'),
   })
-  .then(x => {
+  .then((x) => {
     fs.outputFile(path.resolve(process.cwd(), './docs/events.md'), x);
   });

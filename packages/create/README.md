@@ -12,5 +12,5 @@ This is the same as using the main Pattern Lab CLI's `init` command:
 
 ```bash
 npm i -g @pattern-lab/cli
-pattern-lab init
+patternlab init
 ```

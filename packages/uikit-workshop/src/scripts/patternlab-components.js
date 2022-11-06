@@ -2,6 +2,7 @@ import './components/pl-nav/pl-nav';
 import './components/pl-search/pl-search';
 import './lit-components/pl-icon/pl-icon';
 import './lit-components/pl-button/pl-button';
+import './lit-components/pl-tooltip/pl-tooltip';
 import './lit-components/pl-toggle-info/pl-toggle-info';
 import './lit-components/pl-toggle-layout/pl-toggle-layout';
 import './lit-components/pl-toggle-theme/pl-toggle-theme';

@@ -3,6 +3,263 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* div isn't allowed in button elements ([#1438](https://github.com/pattern-lab/patternlab-node/issues/1438)) ([e5c6950](https://github.com/pattern-lab/patternlab-node/commit/e5c6950e6218df99f9d9d35388c36a0130236f28))
+
+
+
+
+
+## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
+
+
+### Features
+
+* remove sandbox attribute from iframe ([#1422](https://github.com/pattern-lab/patternlab-node/issues/1422)) ([4335660](https://github.com/pattern-lab/patternlab-node/commit/4335660bac6f87618baaef9d773e00d7e80c6eec))
+
+
+
+
+
+## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+
+### Bug Fixes
+
+* **annotations:** displaying annotation tooltips correctly ([#1406](https://github.com/pattern-lab/patternlab-node/issues/1406)) ([3f33ce5](https://github.com/pattern-lab/patternlab-node/commit/3f33ce5c51f2f7a6afd86d3500b7659afd0198e6)), closes [#2](https://github.com/pattern-lab/patternlab-node/issues/2) [#1](https://github.com/pattern-lab/patternlab-node/issues/1)
+* **annotations:** hiding those correctly ([#1415](https://github.com/pattern-lab/patternlab-node/issues/1415)) ([ef0a60f](https://github.com/pattern-lab/patternlab-node/commit/ef0a60fcc8656acc6d83bb0723c02a658f7ff1f3))
+
+
+
+
+
+## [5.15.7](https://github.com/pattern-lab/patternlab-node/compare/v5.15.6...v5.15.7) (2021-12-07)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.15.6](https://github.com/pattern-lab/patternlab-node/compare/v5.15.5...v5.15.6) (2021-12-07)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/pattern-lab/patternlab-node/issues/1386)) ([6fa630e](https://github.com/pattern-lab/patternlab-node/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
+## [5.15.4](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/pattern-lab/patternlab-node/issues/1386)) ([6fa630e](https://github.com/pattern-lab/patternlab-node/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
+## [5.15.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.15.2...v5.15.3) (2021-11-21)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.15.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.15.1...v5.15.2) (2021-11-03)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* **initialize:** updating no-emit-webpack-plugin dependency [#1348](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1348) ([#1349](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1349)) ([a884897](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/a884897cf9f98b61c9bdd20acf7e079de0782f10))
+
+
+
+
+
+# [5.15.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.14.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.14.1...v5.14.2) (2021-03-28)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.14.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.14.0...v5.14.1) (2021-02-19)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.14.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.13.3...v5.14.0) (2021-01-12)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.13.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.13.2...v5.13.3) (2020-12-17)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.13.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.13.1...v5.13.2) (2020-11-12)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.13.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.13.0...v5.13.1) (2020-09-06)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.13.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.12.0...v5.13.0) (2020-08-26)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.12.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.11.1...v5.12.0) (2020-08-09)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+## [5.11.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.2...v5.11.1) (2020-06-28)
+
+
+### Bug Fixes
+
+* update Viewport Size toggle to better handle async-loaded ishControl data + prevent rendering errors ([b937706](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/b93770669c6f723128ba68e522c9398cc1d2d70c))
+* update Webpack config to point to the patched version of preact-dom ([d3660b7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d3660b78bc0a74c52ed85b69b023c612b789c318))
+* visually hide NavToggle icon text; fix for visual regression after merging down https://github.com/pattern-lab/patternlab-node/pull/1227 ([3a2ad9f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/3a2ad9f12d83b6d21dcca62e89d944a6a46342f6))
+* **patternflyouts:** preventing horizontal scrollbar in pattern flyouts in Edge 18 [#1124](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1124) ([63300bc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/63300bc00ee797e38bfdb73fdc7694c188a423dc))
+* **patternstate:** added css color for pattern state "inprogress" [#1216](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1216) ([856bcda](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/856bcda150239928bb5e8719246b97e9fa366468))
+* **resetcss:** selector in uikit-workshop [#1109](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1109) ([6893b7c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6893b7cb5478309d4fdab0121edba3921718bd69))
+
+
+
+
+
+# [5.11.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.2...v5.11.0) (2020-06-28)
+
+
+### Bug Fixes
+
+* update Viewport Size toggle to better handle async-loaded ishControl data + prevent rendering errors ([b937706](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/b93770669c6f723128ba68e522c9398cc1d2d70c))
+* update Webpack config to point to the patched version of preact-dom ([d3660b7](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/d3660b78bc0a74c52ed85b69b023c612b789c318))
+* visually hide NavToggle icon text; fix for visual regression after merging down https://github.com/pattern-lab/patternlab-node/pull/1227 ([3a2ad9f](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/3a2ad9f12d83b6d21dcca62e89d944a6a46342f6))
+* **patternflyouts:** preventing horizontal scrollbar in pattern flyouts in Edge 18 [#1124](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1124) ([63300bc](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/63300bc00ee797e38bfdb73fdc7694c188a423dc))
+* **patternstate:** added css color for pattern state "inprogress" [#1216](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1216) ([856bcda](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/856bcda150239928bb5e8719246b97e9fa366468))
+* **resetcss:** selector in uikit-workshop [#1109](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1109) ([6893b7c](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6893b7cb5478309d4fdab0121edba3921718bd69))
+
+
+
+
+
+## [5.10.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.1...v5.10.2) (2020-05-24)
+
+
+### Bug Fixes
+
+* update link to new PL docs homepage ([831b467](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/831b467c57b9259c32ce3d3ddf366fe1867a48a9))
+
+
+
+
+
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/uikit-workshop
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+
+### Bug Fixes
+
+* **uikitworkshop:** preventing cropping pattern parts [#1174](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/issues/1174) ([6a67d03](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/commit/6a67d039048129e9837c3b6eb3e195ed2e86a815))
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 

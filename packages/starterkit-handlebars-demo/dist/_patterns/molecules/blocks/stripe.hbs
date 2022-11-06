@@ -1,0 +1,22 @@
+<div class="c-stripe">
+
+    <div class="c-stripe__left-container">
+		<a href="{{ url }}" class="c-stripe__link">
+            <img src="{{ src }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}"  class="c-stripe__img" />
+		</a>
+    </div>
+
+    <div class="c-stripe__right-container">
+		<h3 class="c-stripe__title"><a href="{{ url }}" class="c-stripe__title-link">{{ headline}}</a></h3>
+        {{# stripeField }}
+        {{> molecules-text-field }}
+        {{/ stripeField }}
+        {{#with cartPrice }}
+		<div class="c-stripe__meta">
+            <label class="c-stripe__meta-label">{{ label }}</label>
+            <span class="c-stripe__meta-span">{{ meta }}</span>
+        </div>
+        {{/ with }}
+    </div>
+
+</div><!--end c-stripe-->

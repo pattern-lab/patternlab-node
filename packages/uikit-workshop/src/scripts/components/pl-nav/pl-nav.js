@@ -7,8 +7,8 @@ const classNames = require('classnames');
 import { getParents } from './get-parents';
 import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
+import { iframeMsgDataExtraction } from '../../utils';
 import Mousetrap from 'mousetrap';
-import 'url-search-params-polyfill';
 
 import { NavTitle } from './src/NavTitle';
 import { NavList } from './src/NavList';
@@ -19,21 +19,21 @@ import { NavItem } from './src/NavItem';
 class Nav extends BaseComponent {
   static is = 'pl-nav';
 
-  constructor(self) {
-    self = super(self);
-    self.toggleNavPanel = self.toggleNavPanel.bind(self);
-    self.toggleSpecialNavPanel = self.toggleSpecialNavPanel.bind(self);
-    self.handleClick = self.handleClick.bind(self);
-    self.handleURLChange = self.handleURLChange.bind(self);
-    self.handlePageClick = self.handlePageClick.bind(self);
-    self._hasInitiallyRendered = false;
-    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
-    self.useShadow = false;
-    return self;
+  constructor() {
+    super();
+    this.toggleNavPanel = this.toggleNavPanel.bind(this);
+    this.toggleSpecialNavPanel = this.toggleSpecialNavPanel.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleURLChange = this.handleURLChange.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this._hasInitiallyRendered = false;
+    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
+    this.useShadow = false;
   }
 
   handlePageClick(e) {
     if (
+      e.target.closest &&
       e.target.closest('.pl-c-nav') === null &&
       e.target.closest('.pl-js-nav-trigger') === null &&
       e.target.closest('svg') === null &&
@@ -89,24 +89,13 @@ class Nav extends BaseComponent {
     }
   }
 
-  receiveIframeMessage(event) {
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
     const self = this;
-
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
@@ -129,25 +118,25 @@ class Nav extends BaseComponent {
 
     if (topLevelOnly === true && window.innerWidth > 670) {
       this.navContainer.classList.remove('pl-is-active');
-      this.topLevelTriggers.forEach(trigger => {
+      this.topLevelTriggers.forEach((trigger) => {
         trigger.classList.remove('pl-is-active');
         trigger.nextSibling.classList.remove('pl-is-active');
       });
     } else {
       if (this.layoutMode !== 'vertical') {
         this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach(trigger => {
+        this.navAccordionTriggers.forEach((trigger) => {
           trigger.classList.remove('pl-is-active');
         });
-        this.navAccordionPanels.forEach(panel => {
+        this.navAccordionPanels.forEach((panel) => {
           panel.classList.remove('pl-is-active');
         });
       } else if (this.layoutMode === 'vertical' && window.innerWidth <= 670) {
         this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach(trigger => {
+        this.navAccordionTriggers.forEach((trigger) => {
           trigger.classList.remove('pl-is-active');
         });
-        this.navAccordionPanels.forEach(panel => {
+        this.navAccordionPanels.forEach((panel) => {
           panel.classList.remove('pl-is-active');
         });
       } else {
@@ -181,14 +170,14 @@ class Nav extends BaseComponent {
         getParents(this.activeLink, '.pl-js-acc-panel')
       );
 
-      panels.forEach(panel => {
+      panels.forEach((panel) => {
         const panelTrigger = panel.previousSibling;
         if (panelTrigger) {
           triggers.push(panelTrigger);
         }
       });
 
-      triggers.forEach(trigger => {
+      triggers.forEach((trigger) => {
         trigger.classList.add('pl-is-active');
         this.previousActiveLinks.push(trigger);
       });
@@ -232,7 +221,7 @@ class Nav extends BaseComponent {
         '.pl-c-nav__link--title.pl-is-active'
       );
 
-      this.topLevelTriggers.forEach(trigger => {
+      this.topLevelTriggers.forEach((trigger) => {
         if (trigger !== target) {
           trigger.classList.remove('pl-is-active');
           trigger.nextSibling.classList.remove('pl-is-active');
@@ -256,32 +245,33 @@ class Nav extends BaseComponent {
   }
 
   render({ layoutMode }) {
-    const patternTypes = window.navItems.patternTypes;
+    const patternGroups = window.navItems.patternGroups;
 
     return (
       <ol class="pl-c-nav__list pl-js-pattern-nav-target">
-        {patternTypes.map((item, i) => {
+        {patternGroups.map((item, i) => {
           const patternItems = item.patternItems;
 
           return (
-            <NavItem className={`pl-c-nav__item--${item.patternTypeLC}`}>
+            <NavItem className={`pl-c-nav__item--${item.patternGroupLC}`}>
               <NavTitle
-                aria-controls={item.patternTypeLC}
+                aria-controls={item.patternGroupLC}
                 onClick={this.toggleNavPanel}
               >
-                {item.patternTypeUC}
+                {item.patternGroupUC}
               </NavTitle>
               <ol
-                id={item.patternSubtypeUC}
+                id={item.patternGroupLC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
               >
-                {item.patternTypeItems.map((patternSubtype, i) => {
+                {item.patternGroupItems.map((patternSubgroup, i) => {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubtype.patternSubtypeUC}
+                      category={patternSubgroup.patternSubgroupLC}
+                      categoryName={patternSubgroup.patternSubgroupUC}
                     >
-                      {patternSubtype.patternSubtypeItems}
+                      {patternSubgroup.patternSubgroupItems}
                     </NavList>
                   );
                 })}
@@ -306,19 +296,20 @@ class Nav extends BaseComponent {
         {(window.ishControls === undefined ||
           window.ishControls.ishControlsHide === undefined ||
           (window.ishControls.ishControlsHide['views-all'] !== true &&
-            window.ishControls.ishControlsHide.all !== true)) && (
-          <NavItem>
-            <a
-              onClick={e => this.handleClick(e, 'all')}
-              href="styleguide/html/styleguide.html"
-              class="pl-c-nav__link pl-c-nav__link--pattern"
-              data-patternpartial="all"
-              tabindex="0"
-            >
-              All
-            </a>
-          </NavItem>
-        )}
+            window.ishControls.ishControlsHide.all !== true)) &&
+          !this.noViewAll && (
+            <NavItem>
+              <a
+                onClick={(e) => this.handleClick(e, 'all')}
+                href="styleguide/html/styleguide.html"
+                class="pl-c-nav__link pl-c-nav__link--pattern"
+                data-patternpartial="all"
+                tabindex="0"
+              >
+                All
+              </a>
+            </NavItem>
+          )}
       </ol>
     );
   }

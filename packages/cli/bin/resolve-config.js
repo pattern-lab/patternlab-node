@@ -1,5 +1,5 @@
 'use strict';
-const exists = require('path-exists');
+const fs = require('fs-extra');
 const path = require('path');
 const error = require('./utils').error;
 const readJsonAsync = require('./utils').readJsonAsync;
@@ -12,14 +12,14 @@ const wrapAsync = require('./utils').wrapAsync;
  * @return {object|boolean} Returns the config object or false otherwise.
  */
 function resolveConfig(configPath) {
-  return wrapAsync(function*() {
+  return wrapAsync(function* () {
     if (typeof configPath !== 'string') {
       error(
         'resolveConfig: If configPath is set, it is expected to be of type string.'
       );
       return false;
     }
-    if (!exists.sync(configPath)) {
+    if (!fs.existsSync(configPath)) {
       error(`resolveConfig: configPath ${configPath} does not exists`);
       return false;
     }

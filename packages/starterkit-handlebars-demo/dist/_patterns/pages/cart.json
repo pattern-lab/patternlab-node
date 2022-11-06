@@ -1,0 +1,52 @@
+{
+	"page": {
+		"title": "You have 2 items in your cart",
+		"description": "Please review your cart details before checking out."
+	},
+	"stripeList": [
+		{
+			"url": "#",
+			"src": "../../images/women-boot-wedges.jpg",
+			"alt": "placeholder image",
+			"width": "1200",
+			"height": "800",
+			"stripeField": {
+				"styleModifier": "c-field--small",
+				"label": "Quantity",
+				"value": "1"
+			},
+			"headline": "Suede Booties",
+			"cartPrice": {
+				"label": "Price",
+				"meta": "$120"
+			}
+		},
+		{
+			"url": "#",
+			"src": "../../images/men-brown-dress-shoes.jpg",
+			"alt": "placeholder image",
+			"width": "1200",
+			"height": "800",
+			"stripeField": {
+				"styleModifier": "c-field--small",
+				"label": "Quantity",
+				"value": "1"
+			},
+			"headline": "Brown Dress Shoes",
+			"cartPrice": {
+				"label": "Price",
+				"meta": "$140"
+			}
+		}
+	],
+	"totalPrice": {
+		"label": "Total",
+		"number": "$360"
+	},
+	"checkoutButton": {
+		"buttonTag": false,
+		"linkTag": true,
+		"url": "link.pages-checkout",
+		"buttonText": "Checkout"
+	}
+}

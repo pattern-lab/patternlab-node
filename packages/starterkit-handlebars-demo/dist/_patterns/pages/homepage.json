@@ -1,0 +1,128 @@
+{
+	"hero" : {
+		"url": "link.pages-detail",
+		"src": "../../images/group-shoes.jpg",
+		"alt": "Group of shoes",
+		"width": "1200",
+		"height": "801",
+		"heading" :  "Shoes For The Soul"
+	},
+	"promoBlock": [
+		{
+			"promoBlockLink": {
+				"url": "#"
+			},
+			"src": "../../images/women-boots.jpg",
+			"alt": "Women's boots",
+			"heading": "Go Out In Style",
+			"description": "Dive into the Fall season with these stylish casual boots that are great for a jump in the leaves or a night out on the town."
+		},
+		{
+			"promoBlockLink": {
+				"url": "#"
+			},
+			"styleModifier": "c-promo-block--right",
+			"src": "../../images/men-casual-shoes.jpg",
+			"alt": "striped sneakers",
+			"heading": "Casual But Classy",
+			"description": "Feel comfortable in your own shoes no matter what the situation."
+		},
+		{
+			"promoBlockLink": {
+				"url": "#"
+			},
+			"src": "../../images/women-hiking-boots.jpg",
+			"alt": "hiking boots in woods",
+			"heading": "Immerse Yourself In Nature",
+			"description": "Explore the outdoors and clear your head with a hike in one of our sleek boot styles."
+		},
+		{
+			"promoBlockLink": {
+				"url": "#"
+			},
+			"styleModifier": "c-promo-block--right u-margin-bottom-large",
+			"src": "../../images/kids-velcro.jpg",
+			"alt": "kid's velcro shoes",
+			"heading": "Discover the Unknown",
+			"description": "Take the path least traveled and write your own story with our shoes."
+		}
+	],
+	"toutSection" : {
+		"styleModifier" : "l-grid--4up",
+		"toutList" : [
+			{
+				"url": "link.pages-category",
+				"headline":  "Women's fashion",
+				"imgLandscapeSrc" : "../../images/woman-outside-brownstone.jpg",
+				"imgLandscapeAlt" : "Woman in sweater"
+			},
+			{
+				"url": "link.pages-category",
+				"headline": "Men's fashion",
+				"imgLandscapeSrc" : "../../images/smiling-man-in-formalwear.jpg",
+				"imgLandscapeAlt" : "Man in formalwear"
+			},
+			{
+				"url": "link.pages-category",
+				"headline": "Kid's Fashion",
+				"imgLandscapeSrc" : "../../images/father-daughter-fashion.jpg",
+				"imgLandscapeAlt" : "Child with father"
+			}
+	    ]
+	},
+	"saleSection" : {
+		"sectionTitle": "On Sale",
+		"stackedBlockList": [
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/men-blue-shoes.jpg",
+					"alt" : "blue walking shoes"
+				},
+				"headline" : "Walking Shoes",
+				"excerpt" : "This casual pair of shoes will have you looking dapper in the city",
+				"label" : "$60",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$90"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/women-hiking-boots.jpg",
+					"alt" : "leather boots"
+				},
+				"headline" : "Leather Boots",
+				"excerpt" : "Hike down the trail in these durable, 100% authentic leather boots.",
+				"label" : "$120",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$150"
+				}
+			},
+			{
+				"styleModifier" : "",
+				"url" : "link.pages-detail",
+				"stackedBlockMedia": {
+					"src" : "../../images/women-blue-heels.jpg",
+					"alt" : "blue heels"
+				},
+				"headline" : "Blue Suede Heels",
+				"excerpt" : "Strut your stuff on the streets with these stunning high heels",
+				"label" : "$80",
+				"onSale": {
+					"badge": "Sale",
+					"price": "$110"
+				}
+
+			}
+		],
+		"btnTag": false,
+		"linkTag": true,
+		"url": "link.pages-category-on-sale",
+		"buttonText" : "See All Sale Items"
+	}
+}

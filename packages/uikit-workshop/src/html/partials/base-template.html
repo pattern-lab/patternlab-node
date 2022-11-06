@@ -10,11 +10,11 @@
     <ul class="pl-c-breadcrumb">
       {{# patternBreadcrumb }}
 
-      <li class="pl-c-breadcrumb__item">{{ patternType }}</li>
+      <li class="pl-c-breadcrumb__item">{{ patternGroup }}</li>
 
-      {{# patternSubtype }}
-      <li class="pl-c-breadcrumb__item">{{ patternSubtype }}</li>
-      {{/ patternSubtype }} {{/ patternBreadcrumb }}
+      {{# patternSubgroup }}
+      <li class="pl-c-breadcrumb__item">{{ patternSubgroup }}</li>
+      {{/ patternSubgroup }} {{/ patternBreadcrumb }}
     </ul>
     <!--end pl-c-breadcrumb-->
 
@@ -83,9 +83,7 @@
       <li class="pl-c-annotations__item">
         <h3 class="pl-c-annotations__item-title">{{ title }}</h3>
 
-        <div class="pl-c-annotations__item-body">
-          {{{ comment }}}
-        </div>
+        <div class="pl-c-annotations__item-body">{{{ comment }}}</div>
         <!--end pl-c-annotations__item-body-->
       </li>
       <!--end pl-c-annotations__item-->
@@ -132,6 +130,7 @@
           class="pl-c-code-copy-btn pl-js-code-copy-btn"
           size="small"
           data-clipboard-target="#pl-{{ patternPartial }}-{{ id }}-panel code"
+          type="button"
         >
           <span class="pl-c-code-copy-btn__icon-text">Copy</span>
           <svg

@@ -13,10 +13,11 @@ const readDocumentation = require('./readDocumentation');
 const lineage_hunter = new lh();
 const changes_hunter = new ch();
 const yaml = require('js-yaml');
+const dataMerger = require('./dataMerger');
 
-const pseudopattern_hunter = function() {};
+const pseudopattern_hunter = function () {};
 
-pseudopattern_hunter.prototype.find_pseudopatterns = function(
+pseudopattern_hunter.prototype.find_pseudopatterns = function (
   currentPattern,
   patternlab
 ) {
@@ -49,30 +50,27 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
           paths.source.patterns,
           pseudoPatterns[i]
         );
-        variantFileData = yaml.safeLoad(
+        variantFileData = yaml.load(
           fs.readFileSync(variantFileFullPath, 'utf8')
         );
       } catch (err) {
-        logger.warning(
+        logger.error(
           `There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`
         );
-        logger.warning(err);
+        logger.error(err);
       }
 
       //extend any existing data with variant data
-      variantFileData = _.merge(
-        {},
+      variantFileData = dataMerger(
         currentPattern.jsonFileData,
-        variantFileData
+        variantFileData,
+        patternlab.config
       );
 
       const variantName = pseudoPatterns[i]
         .substring(pseudoPatterns[i].indexOf('~') + 1)
         .split('.')[0];
-      const variantExtension = pseudoPatterns[i]
-        .split('.')
-        .slice(-1)
-        .pop();
+      const variantExtension = pseudoPatterns[i].split('.').slice(-1).pop();
       const variantFilePath = path.join(
         currentPattern.subdir,
         currentPattern.fileName + '~' + variantName + '.' + variantExtension
@@ -100,13 +98,15 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function(
         },
         patternlab
       );
+      patternVariant.order = _.clone(currentPattern.order);
+      patternVariant.hidden = _.clone(currentPattern.hidden);
 
       changes_hunter.checkBuildState(patternVariant, patternlab);
       patternlab.graph.add(patternVariant);
       patternlab.graph.link(patternVariant, currentPattern);
 
       //process the companion markdown file if it exists
-      readDocumentation(patternVariant, patternlab);
+      readDocumentation(patternVariant, patternlab, true);
 
       //find pattern lineage
       lineage_hunter.find_lineage(patternVariant, patternlab);

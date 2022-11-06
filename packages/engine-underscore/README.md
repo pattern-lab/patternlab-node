@@ -6,13 +6,13 @@ To install the Underscore PatternEngine in your edition, `npm install @pattern-l
 
 ## Supported features
 
-* [x] [Includes](http://patternlab.io/docs/pattern-including.html) (Accomplished using the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60))
+* [x] [Includes](https://patternlab.io/docs/including-patterns/) (Accomplished using the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60))
 * [x] Lineage
-* [x] [Hidden Patterns](http://patternlab.io/docs/pattern-hiding.html)
-* [x] [Pseudo-Patterns](http://patternlab.io/docs/pattern-pseudo-patterns.html)
-* [x] [Pattern States](http://patternlab.io/docs/pattern-states.html)
-* [ ] [Pattern Parameters](http://patternlab.io/docs/pattern-parameters.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
-* [ ] [Style Modifiers](http://patternlab.io/docs/pattern-stylemodifier.html) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
+* [x] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
+* [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
+* [x] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
+* [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
+* [ ] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177) (Accomplished instead using parameter object passed to the included [`_.renderNamedPartial()`](https://github.com/pattern-lab/patternlab-node/blob/master/packages/engine-underscore/lib/engine_underscore.js#L54-L60) mixin function)
 
 ## Extensions to basic Underscore functionality
 
@@ -61,4 +61,4 @@ If you feed that template JSON that (for whatever reason) has `foo.bar` as `null
 
 and know that the output will be more safely "To be, or, not to be, null" instead of just throwing an error and crashing the pattern. This is mainly useful for operationalized pattern templates that will be provided with JSON from services that you can't control in Pattern Lab.
 
-Note that `obj` is an Underscore pattern's current data context. See [Dr. Axel Rauschmeyer's article](http://www.2ality.com/2012/06/underscore-templates.html) for more.
+Note that `obj` is an Underscore pattern's current data context. See [Dr. Axel Rauschmeyer's article](https://2ality.com/2012/06/underscore-templates.html) for more.

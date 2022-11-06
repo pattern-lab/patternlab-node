@@ -9,16 +9,17 @@ export const UPDATE_CURRENT_URL = 'UPDATE_CURRENT_URL';
 export const UPDATE_CURRENT_PATTERN = 'UPDATE_CURRENT_PATTERN';
 export const IS_VIEWALL_PAGE = 'IS_VIEWALL_PAGE';
 
-export const updateCurrentPattern = currentPattern => (dispatch, getState) => {
-  if (getState().app.currentPattern !== currentPattern) {
-    dispatch({
-      type: UPDATE_CURRENT_PATTERN,
-      currentPattern,
-    });
-  }
-};
+export const updateCurrentPattern =
+  (currentPattern) => (dispatch, getState) => {
+    if (getState().app.currentPattern !== currentPattern) {
+      dispatch({
+        type: UPDATE_CURRENT_PATTERN,
+        currentPattern,
+      });
+    }
+  };
 
-export const updateCurrentUrl = currentUrl => (dispatch, getState) => {
+export const updateCurrentUrl = (currentUrl) => (dispatch, getState) => {
   if (getState().app.currentUrl !== currentUrl) {
     dispatch({
       type: UPDATE_CURRENT_URL,
@@ -27,7 +28,7 @@ export const updateCurrentUrl = currentUrl => (dispatch, getState) => {
   }
 };
 
-export const updateLayoutMode = layoutMode => (dispatch, getState) => {
+export const updateLayoutMode = (layoutMode) => (dispatch, getState) => {
   if (getState().app.layoutMode !== layoutMode) {
     dispatch({
       type: UPDATE_LAYOUT_MODE,
@@ -36,7 +37,7 @@ export const updateLayoutMode = layoutMode => (dispatch, getState) => {
   }
 };
 
-export const updateViewportPx = viewportPx => (dispatch, getState) => {
+export const updateViewportPx = (viewportPx) => (dispatch, getState) => {
   if (getState().app.viewportPx !== viewportPx) {
     dispatch({
       type: UPDATE_VIEWPORT_PX,
@@ -45,7 +46,7 @@ export const updateViewportPx = viewportPx => (dispatch, getState) => {
   }
 };
 
-export const updateViewportEm = viewportEm => (dispatch, getState) => {
+export const updateViewportEm = (viewportEm) => (dispatch, getState) => {
   if (getState().app.viewportEm !== viewportEm) {
     dispatch({
       type: UPDATE_VIEWPORT_EM,
@@ -54,7 +55,7 @@ export const updateViewportEm = viewportEm => (dispatch, getState) => {
   }
 };
 
-export const updateThemeMode = themeMode => (dispatch, getState) => {
+export const updateThemeMode = (themeMode) => (dispatch, getState) => {
   if (getState().app.themeMode !== themeMode) {
     dispatch({
       type: UPDATE_THEME_MODE,
@@ -63,7 +64,7 @@ export const updateThemeMode = themeMode => (dispatch, getState) => {
   }
 };
 
-export const updateDrawerState = opened => (dispatch, getState) => {
+export const updateDrawerState = (opened) => (dispatch, getState) => {
   if (getState().app.drawerOpened !== opened) {
     dispatch({
       type: UPDATE_DRAWER_STATE,
@@ -72,19 +73,17 @@ export const updateDrawerState = opened => (dispatch, getState) => {
   }
 };
 
-export const updateDrawerAnimationState = drawerIsAnimating => (
-  dispatch,
-  getState
-) => {
-  if (getState().app.drawerIsAnimating !== drawerIsAnimating) {
-    dispatch({
-      type: UPDATE_DRAWER_ANIMATION_STATE,
-      drawerIsAnimating,
-    });
-  }
-};
+export const updateDrawerAnimationState =
+  (drawerIsAnimating) => (dispatch, getState) => {
+    if (getState().app.drawerIsAnimating !== drawerIsAnimating) {
+      dispatch({
+        type: UPDATE_DRAWER_ANIMATION_STATE,
+        drawerIsAnimating,
+      });
+    }
+  };
 
-export const updateDrawerHeight = height => (dispatch, getState) => {
+export const updateDrawerHeight = (height) => (dispatch, getState) => {
   if (getState().app.drawerHeight !== height) {
     dispatch({
       type: UPDATE_DRAWER_HEIGHT,
@@ -93,7 +92,7 @@ export const updateDrawerHeight = height => (dispatch, getState) => {
   }
 };
 
-export const isViewallPage = isViewall => (dispatch, getState) => {
+export const isViewallPage = (isViewall) => (dispatch, getState) => {
   if (getState().app.isViewallPage !== isViewall) {
     dispatch({
       type: IS_VIEWALL_PAGE,

@@ -3,6 +3,97 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+## [5.15.4](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+# [5.15.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+
+### Bug Fixes
+
+* **live-server:** testing ([#1331](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/issues/1331)) ([2b2e1b1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/commit/2b2e1b1c2426ab578dc014ea99df520d17a7db92))
+
+
+
+
+
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+## [5.14.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.14.1...v5.14.2) (2021-03-28)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+# [5.13.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.12.0...v5.13.0) (2020-08-26)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+## [5.10.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.10.0...v5.10.1) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
+# [5.10.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.9.3...v5.10.0) (2020-05-09)
+
+**Note:** Version bump only for package @pattern-lab/live-server
+
+
+
+
+
 ## [5.9.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server/compare/v5.9.2...v5.9.3) (2020-05-01)
 
 **Note:** Version bump only for package @pattern-lab/live-server

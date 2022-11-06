@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Using Pattern Parameters
   key: patterns
   order: 150
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 **Important:** Pattern parameters are supported by the Node Mustache PatternEngines. Other template languages provide better solutions to this problem.
@@ -27,7 +29,7 @@ Pattern parameters are Pattern Lab-specific, have no relationship to Mustache, a
 
 The attributes listed in the pattern parameters need to match Mustache variable names in your pattern. The values listed for each attribute will replace the Mustache variables. For example:
 
-    {% raw %}{{> patternType-pattern(attribute1: value, attribute2: "value string") }}{% endraw %}
+    {% raw %}{{> patternGroup-pattern(attribute1: value, attribute2: "value string") }}{% endraw %}
 
 Again, pattern parameters are a simple find and replace of Mustache variables with the supplied values.
 

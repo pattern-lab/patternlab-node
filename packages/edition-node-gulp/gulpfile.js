@@ -34,36 +34,32 @@ function serve() {
     });
 }
 
-gulp.task('patternlab:version', function() {
+gulp.task('patternlab:version', function () {
   console.log(patternlab.version());
 });
 
-gulp.task('patternlab:patternsonly', function() {
+gulp.task('patternlab:patternsonly', function () {
   patternlab.patternsonly(config.cleanPublic);
 });
 
-gulp.task('patternlab:liststarterkits', function() {
+gulp.task('patternlab:liststarterkits', function () {
   patternlab.liststarterkits();
 });
 
-gulp.task('patternlab:loadstarterkit', function() {
+gulp.task('patternlab:loadstarterkit', function () {
   patternlab.loadstarterkit(argv.kit, argv.clean);
 });
 
-gulp.task('patternlab:build', function() {
+gulp.task('patternlab:build', function () {
   build().then(() => {
     // do something else when this promise resolves
   });
 });
 
-gulp.task('patternlab:serve', function() {
+gulp.task('patternlab:serve', function () {
   serve().then(() => {
     // do something else when this promise resolves
   });
-});
-
-gulp.task('patternlab:installplugin', function() {
-  patternlab.installplugin(argv.plugin);
 });
 
 gulp.task('default', ['patternlab:help']);

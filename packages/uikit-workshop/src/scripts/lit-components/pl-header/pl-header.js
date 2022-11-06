@@ -3,6 +3,7 @@ import { store } from '../../store.js'; // connect to redux
 import { ifDefined } from 'lit-html/directives/if-defined';
 import { html } from 'lit-html';
 import { BaseLitComponent } from '../../components/base-component';
+import { iframeMsgDataExtraction } from '../../utils';
 import { customElement } from 'lit-element';
 import Mousetrap from 'mousetrap';
 import styles from './pl-header.scss?external';
@@ -94,12 +95,14 @@ class Header extends BaseLitComponent {
         <button
           class="pl-c-header__nav-toggle pl-js-nav-trigger"
           @click="${this.toggleNav}"
+          type="button"
         >
           <pl-icon
             name="${this.isActive ? 'close' : 'menu'}"
             height="20"
             width="20"
             fill="currentColor"
+            aria-hidden="true"
           ></pl-icon>
           <span class="is-vishidden">Toggle Menu</span>
         </button>
@@ -108,13 +111,13 @@ class Header extends BaseLitComponent {
           ? html`
               <pl-logo
                 src-light="${window.config?.theme?.logo?.srcLight ||
-                  'styleguide/images/pattern-lab-logo--on-light.svg'}"
+                'styleguide/images/pattern-lab-logo--on-light.svg'}"
                 src-dark="${window.config?.theme?.logo?.srcDark ||
-                  'styleguide/images/pattern-lab-logo--on-dark.svg'}"
+                'styleguide/images/pattern-lab-logo--on-dark.svg'}"
                 url="${window.config?.theme?.logo?.url === '' ||
                 window.config?.theme?.logo?.url === 'none'
                   ? ''
-                  : window.config?.theme?.logo?.url || '/'}"
+                  : window.config?.theme?.logo?.url || './'}"
                 alt-text="${window.config?.theme?.logo?.altText || ''}"
                 theme="${this.themeMode}"
                 width="${ifDefined(window.config?.theme?.logo?.width)}"
@@ -142,24 +145,14 @@ class Header extends BaseLitComponent {
     `;
   }
 
-  receiveIframeMessage(event) {
+  /**
+   *
+   * @param {MessageEvent} e A message received by a target object.
+   */
+  receiveIframeMessage(e) {
     const self = this;
 
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {

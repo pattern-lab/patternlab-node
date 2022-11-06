@@ -1,0 +1,17 @@
+{
+  "items": [
+    {
+      "name": "$font-family-primary",
+      "value": "'Raleway', \"HelveticaNeue\", \"Helvetica\", \"Arial\", sans-serif",
+      "comment": ""
+    },
+    {
+      "name": "$font-family-secondary",
+      "value": "'Abel', serif",
+      "comment": ""
+    }
+  ],
+  "meta": {
+    "description": ""
+  }
+}

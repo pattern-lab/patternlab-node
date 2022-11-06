@@ -6,8 +6,8 @@ const wrapAsync = require('../bin/utils').wrapAsync;
 
 const projectRoot = getUniqueProjectPath();
 
-tap.test('Enable ->', t =>
-  wrapAsync(function*() {
+tap.test('Enable ->', (t) =>
+  wrapAsync(function* () {
     yield spawnCmd([
       'init',
       '--verbose',

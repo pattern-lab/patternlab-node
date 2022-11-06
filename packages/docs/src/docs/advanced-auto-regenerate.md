@@ -7,6 +7,8 @@ eleventyNavigation:
   key: Watching for Changes and Auto Regenerating Patterns
   parent: advanced
   order: 300
+sitemapPriority: '0.8'
+sitemapIgnore: true
 ---
 
 Pattern Lab has the ability to watch for changes to patterns and frontend assets. When these files change, it will automatically rebuild the entire Pattern Lab website. You simply make your changes, save the file, and Pattern Lab will take care of the rest.
@@ -23,7 +25,7 @@ gulp patternlab:build --watch
 
 ## How to Start the Watch and Self-Host the Pattern Lab Website
 
-Rather than manually refreshing your browser when your patterns or frontend assets change you can have Pattern Lab watch for changes and [auto-reload your browser window](/docs/viewing-patterns.html#node) for you when it’s in watch mode.
+Rather than manually refreshing your browser when your patterns or frontend assets change you can have Pattern Lab watch for changes and [auto-reload your browser window](/docs/multi-browser-and-multi-device-testing-with-page-follow/) for you when it’s in watch mode.
 
 ## How to Stop the Watch
 

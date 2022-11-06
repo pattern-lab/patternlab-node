@@ -9,10 +9,10 @@ var markdown_parser = new mp();
 
 tap.test(
   'parses pattern description block correctly when frontmatter not present',
-  function(test) {
+  function (test) {
     //arrange
     var markdownFileName = path.resolve(
-      `${__dirname}/files/_patterns/00-test/02-baz.md`
+      `${__dirname}/files/_patterns/test/baz.md`
     );
     var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
@@ -20,17 +20,17 @@ tap.test(
     var returnObject = markdown_parser.parse(markdownFileContents);
 
     //assert
-    test.equals(returnObject.markdown, '<h3>Only baz</h3>\n');
+    test.equal(returnObject.markdown, '<h3>Only baz</h3>\n');
     test.end();
   }
 );
 
 tap.test(
   'parses pattern description block correctly when frontmatter present',
-  function(test) {
+  function (test) {
     //arrange
     var markdownFileName = path.resolve(
-      `${__dirname}/files/_patterns/00-test/01-bar.md`
+      `${__dirname}/files/_patterns/test/bar.md`
     );
     var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
@@ -38,19 +38,19 @@ tap.test(
     var returnObject = markdown_parser.parse(markdownFileContents);
 
     //assert
-    test.equals(
+    test.equal(
       returnObject.markdown,
       '<h2>A Simple Bit of Markup</h2>\n<p>Foo cannot get simpler than bar, amiright?</p>\n'
     );
-    test.equals(returnObject.state, 'complete');
+    test.equal(returnObject.state, 'complete');
     test.end();
   }
 );
 
-tap.test('parses frontmatter only when no markdown present', function(test) {
+tap.test('parses frontmatter only when no markdown present', function (test) {
   //arrange
   var markdownFileName = path.resolve(
-    `${__dirname}/files/_patterns/00-test/03-styled-atom.md`
+    `${__dirname}/files/_patterns/test/styled-atom.md`
   );
   var markdownFileContents = fs.readFileSync(markdownFileName, 'utf8');
 
@@ -58,7 +58,7 @@ tap.test('parses frontmatter only when no markdown present', function(test) {
   var returnObject = markdown_parser.parse(markdownFileContents);
 
   //assert
-  test.equals(returnObject.markdown, '');
-  test.equals(returnObject.state, 'inprogress');
+  test.equal(returnObject.markdown, '');
+  test.equal(returnObject.state, 'inprogress');
   test.end();
 });

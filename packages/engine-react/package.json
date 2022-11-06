@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/engine-react",
   "description": "The React engine for Pattern Lab / Node",
-  "version": "5.0.0",
+  "version": "5.16.1",
   "private": true,
   "main": "lib/engine_react.js",
   "dependencies": {
@@ -10,7 +10,7 @@
     "babel-preset-react": "6.16.0",
     "cheerio": "0.22.0",
     "hogan": "1.0.2",
-    "js-beautify": "1.6.4",
+    "js-beautify": "1.13.5",
     "react": "15.3.2",
     "react-dom": "15.3.2"
   },
@@ -31,7 +31,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=10.0"
+    "node": ">=14.20.1"
   },
   "publishConfig": {
     "access": "public"

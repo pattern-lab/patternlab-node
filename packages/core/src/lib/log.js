@@ -63,8 +63,8 @@ const error = log.error.bind(log);
  * @param {string} - a message to report
  * @returns {function} - a callback to be passed to a Promise's .catch()
  */
-const reportError = function(message) {
-  return function(err) {
+const reportError = function (message) {
+  return function (err) {
     console.log(message);
     console.log(err);
   };
