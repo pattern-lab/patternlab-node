@@ -101,7 +101,7 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-middleware": "^6.0.1",
     "webpack-hot-middleware": "^2.25.3",
-    "webpack-merge": "^5.7.3",
+    "webpack-merge": "^5.8.0",
     "webpackbar": "5.0.0-3",
     "wolfy87-eventemitter": "^5.2.9",
     "yargs": "^17.0.1"
