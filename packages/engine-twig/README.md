@@ -16,3 +16,42 @@ Now that this engine uses a better Twig Javascript library, the following issues
 * [Verify maturity of Twig engine](https://github.com/pattern-lab/patternlab-node/issues/285)
 
 See https://github.com/pattern-lab/the-spec/issues/37 for more info.
+
+## Adding Custom Extensions
+
+Create a JS file in Pattern Lab root directory (e.g. `twingExtensions.js`) and set 
+```javascript
+"engine": {
+  "twig": {
+    "loadExtensionFile": "twingExtensions.js"
+  }
+}
+```
+in `patternlab-config.json`. See [Editing the Configuration Options](https://patternlab.io/docs/editing-the-configuration-options/#heading-loadextensionfile) for more info.
+
+- this JS file must export a Map for `TwingEnvironment.addExtensions(extensions: Map<string, TwingExtensionInterface>)`
+- Map will be added to the TwingEnvironment on startup
+
+### Example
+
+```javascript
+// twingExtensions.js
+const { TwingExtension, TwingFunction } = require('twing');
+
+const extensionsMap = new Map();
+
+class TestTwingExtension extends TwingExtension {
+  getFunctions() {
+    return [
+      new TwingFunction('foobar', function (foo) {
+        return Promise.resolve(`function foobar called with param "${foo}"`);
+      }),
+    ];
+  }
+}
+extensionsMap.set('TestTwingExtension', new TestTwingExtension());
+
+module.exports = extensionsMap;
+```
+
+See https://nightlycommit.github.io/twing/advanced.html#creating-an-extension for more details on how to create extensions

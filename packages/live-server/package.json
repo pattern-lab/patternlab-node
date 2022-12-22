@@ -44,7 +44,7 @@
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=14.20.1"
   },
   "publishConfig": {
     "access": "public"

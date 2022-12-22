@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.4](https://github.com/bradfrost/pl-website-eleventy/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* code scanning alert ([#1442](https://github.com/bradfrost/pl-website-eleventy/issues/1442)) ([749a3e7](https://github.com/bradfrost/pl-website-eleventy/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+
+
+
+
+
 ## [5.16.1](https://github.com/bradfrost/pl-website-eleventy/compare/v5.16.0...v5.16.1) (2022-01-29)
 
 **Note:** Version bump only for package @pattern-lab/website

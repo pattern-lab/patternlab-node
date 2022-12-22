@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/starterkit-handlebars-demo",
-  "version": "5.16.2",
+  "version": "5.16.4",
   "description": "Pattern Lab's Demo StarterKit for Handlebars.",
   "main": "README.md",
   "repository": {
@@ -26,6 +26,6 @@
     "build": "cd dist/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css"
   },
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=14.20.1"
   }
 }
