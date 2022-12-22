@@ -4285,18 +4285,26 @@ classnames@^2.3.1:
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
-clean-css-loader@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/clean-css-loader/-/clean-css-loader-3.0.0.tgz#1a2e9d0edee3f234bb05f29a73621ba4651605a6"
-  integrity sha512-r99ZAb/PlHqGGK9CVMbd4q/v8jDU79Jgm9NA39Uoilt52+2wEBPPXmX0cMpV+avwwtUUDtjBBPyxCU2A7lnTbA==
+clean-css-loader@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/clean-css-loader/-/clean-css-loader-4.1.1.tgz#b09c37ed6473889a6c71574c86f3d14b62ec5294"
+  integrity sha512-ipWsH2tIjBcMjB/hDFEPMYbTJYgewEqNJj6wAIfr1ZFme4r5O4WuUFdcVCym/t1sTOB+h0lQWPeUJOWq8cu1HQ==
   dependencies:
-    clean-css "^4.2.3"
+    clean-css "^5.0.0"
     loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
 
-clean-css@4.2.x, clean-css@^4.2.1, clean-css@^4.2.3:
+clean-css@4.2.x, clean-css@^4.2.1:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.2.4.tgz#733bf46eba4e607c6891ea57c24a989356831178"
   integrity sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==
+  dependencies:
+    source-map "~0.6.0"
+
+clean-css@^5.0.0:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-5.3.1.tgz#d0610b0b90d125196a2894d35366f734e5d7aa32"
+  integrity sha512-lCr8OHhiWCTw4v8POJovCoh4T7I9U11yVsPjMWWnnMmp9ZowCxyad1Pathle/9HjaDp+fdQKjO9fQydE6RHTZg==
   dependencies:
     source-map "~0.6.0"
 
