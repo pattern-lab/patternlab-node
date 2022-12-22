@@ -11,7 +11,7 @@
     "nunjucks": "^3.2.3"
   },
   "engines": {
-    "node": ">=16.19.0"
+    "node": ">=16.18.1"
   },
   "keywords": [
     "Pattern Lab",

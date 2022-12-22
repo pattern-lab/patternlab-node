@@ -26,6 +26,6 @@
     "build": "cd dist/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css"
   },
   "engines": {
-    "node": ">=16.19.0"
+    "node": ">=16.18.1"
   }
 }
