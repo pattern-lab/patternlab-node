@@ -31,7 +31,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=14.20.1"
+    "node": ">=16.19.0"
   },
   "publishConfig": {
     "access": "public"
