@@ -56,7 +56,7 @@
     "clean-css-loader": "^3.0.0",
     "clean-webpack-plugin": "4.0.0",
     "clipboard": "^2.0.8",
-    "copy-webpack-plugin": "^8.1.0",
+    "copy-webpack-plugin": "^11.0.0",
     "cosmiconfig": "^7.0.0",
     "css-loader": "^3.2.0",
     "ejs": "^3.1.6",
