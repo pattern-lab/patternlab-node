@@ -73,7 +73,7 @@
     "mousetrap": "^1.6.5",
     "portfinder": "^1.0.28",
     "postcss": "^8.2.8",
-    "postcss-loader": "^5.2.0",
+    "postcss-loader": "^7.0.2",
     "preact": "8.3.1",
     "preact-compat": "3.18.4",
     "preact-context": "1.1.2",
