@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+
+### Features
+
+* **engine-twig:** add custom twing extensions ([#1435](https://github.com/pattern-lab/patternlab-node/issues/1435)) ([c32a45c](https://github.com/pattern-lab/patternlab-node/commit/c32a45c02e3b71bb841e7ea15cae000a68857df3)), closes [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230) [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230)
+* integrate @hadl/patternlab-plugin-pattern-wrap into core ([#1433](https://github.com/pattern-lab/patternlab-node/issues/1433)) ([414e038](https://github.com/pattern-lab/patternlab-node/commit/414e0383732b4bc4682981000908d1e0d1292703)), closes [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432) [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432)
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* code scanning alert ([#1442](https://github.com/pattern-lab/patternlab-node/issues/1442)) ([749a3e7](https://github.com/pattern-lab/patternlab-node/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+* div isn't allowed in button elements ([#1438](https://github.com/pattern-lab/patternlab-node/issues/1438)) ([e5c6950](https://github.com/pattern-lab/patternlab-node/commit/e5c6950e6218df99f9d9d35388c36a0130236f28))
+* twig logo is rendered as "NaN" ([#1434](https://github.com/pattern-lab/patternlab-node/issues/1434)) ([ab6b133](https://github.com/pattern-lab/patternlab-node/commit/ab6b133019d9dfa3816e8fc9a9caa7b547e19097)), closes [#1407](https://github.com/pattern-lab/patternlab-node/issues/1407)
+
+
+
+
+
 ## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
 
 

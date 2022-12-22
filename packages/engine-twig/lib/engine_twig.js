@@ -229,6 +229,26 @@ var engine_twig = {
         fileSystemLoader.addPath(namespaces[key], key);
       });
     }
+
+    // add twing extensions
+    if (
+      config['engines'] &&
+      config['engines']['twig'] &&
+      config['engines']['twig']['loadExtensionsFile']
+    ) {
+      const extensionsFile = path.resolve(
+        './',
+        config['engines']['twig']['loadExtensionsFile']
+      );
+      if (fs.pathExistsSync(extensionsFile)) {
+        try {
+          const extensionsMap = require(extensionsFile);
+          twing.addExtensions(extensionsMap);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
   },
 };
 
