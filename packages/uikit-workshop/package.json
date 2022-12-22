@@ -97,7 +97,7 @@
     "svg-transform-loader": "^2.0.13",
     "svgo-loader": "^3.0.0",
     "ts-loader": "^8.0.18",
-    "webpack": "^5.30.0",
+    "webpack": "^5.75.0",
     "webpack-cli": "^4.6.0",
     "webpack-dev-middleware": "^4.1.0",
     "webpack-hot-middleware": "^2.25.0",
