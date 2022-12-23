@@ -189,7 +189,8 @@ module.exports = function (apiConfig) {
                 loader: 'html-loader',
                 options: {
                   // super important -- this prevents the embedded iframe srcdoc HTML from breaking!
-                  preventAttributesEscaping: true,
+                  // @todo: we need to check on this again
+                  // preventAttributesEscaping: true,
                   preprocessor: processNestedHtml,
                   minimize: {
                     minifyCSS: false,
