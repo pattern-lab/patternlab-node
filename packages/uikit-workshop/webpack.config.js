@@ -171,7 +171,6 @@ module.exports = function (apiConfig) {
                 loader: 'html-loader',
                 options: {
                   interpolate: true,
-                  minimize: config.prod ? true : false,
                   minifyCSS: false,
                   minifyJS: config.prod ? true : false,
                   // super important -- this prevents the embedded iframe srcdoc HTML from breaking!
