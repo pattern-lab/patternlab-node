@@ -188,11 +188,13 @@ module.exports = function (apiConfig) {
               {
                 loader: 'html-loader',
                 options: {
-                  minifyCSS: false,
-                  minifyJS: config.prod ? true : false,
                   // super important -- this prevents the embedded iframe srcdoc HTML from breaking!
                   preventAttributesEscaping: true,
                   preprocessor: processNestedHtml,
+                  minimize: {
+                    minifyCSS: false,
+                    minifyJS: config.prod ? true : false,
+                  },
                 },
               },
             ],
