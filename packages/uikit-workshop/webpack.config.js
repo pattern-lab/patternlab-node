@@ -8,6 +8,7 @@ const path = require('path');
 const argv = require('yargs').argv;
 const { merge } = require('webpack-merge');
 const WebpackBar = require('webpackbar');
+const fs = require('node:fs');
 
 const cosmiconfigSync = require('cosmiconfig').cosmiconfigSync;
 const explorerSync = cosmiconfigSync('patternlab');
@@ -23,6 +24,19 @@ const defaultConfig = {
   copy: { patterns: [{ from: './src/images/**', to: 'images/[name][ext]' }] },
   noViewAll: false,
 };
+
+// Requiring partials
+// adapted from https://github.com/webpack-contrib/html-loader/issues/291#issuecomment-721909576
+const INCLUDE_PATTERN = /\<include src=\"(.+)\"\/?\>(?:\<\/include\>)?/gi;
+const processNestedHtml = (content, loaderContext) =>
+  !INCLUDE_PATTERN.test(content)
+    ? content
+    : content.replace(INCLUDE_PATTERN, (m, src) =>
+        processNestedHtml(
+          fs.readFileSync(path.resolve(loaderContext.context, src), 'utf8'),
+          loaderContext
+        )
+      );
 
 module.exports = function (apiConfig) {
   return new Promise(async (resolve) => {
@@ -170,11 +184,11 @@ module.exports = function (apiConfig) {
               {
                 loader: 'html-loader',
                 options: {
-                  interpolate: true,
                   minifyCSS: false,
                   minifyJS: config.prod ? true : false,
                   // super important -- this prevents the embedded iframe srcdoc HTML from breaking!
                   preventAttributesEscaping: true,
+                  preprocessor: processNestedHtml,
                 },
               },
             ],
