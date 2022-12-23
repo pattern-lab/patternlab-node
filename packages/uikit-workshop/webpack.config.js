@@ -21,7 +21,11 @@ const defaultConfig = {
   sourceMaps: true,
   watch: argv.watch ? true : false,
   publicPath: './styleguide/',
-  copy: { patterns: [{ from: './src/images/**', to: 'images/[name][ext]' }] },
+  copy: {
+    patterns: [
+      { from: '../uikit-workshop/src/images/**', to: 'images/[name][ext]' },
+    ],
+  },
   noViewAll: false,
 };
 
