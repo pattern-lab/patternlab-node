@@ -209,7 +209,7 @@ Other engine specific configuration options can be added and will be passed to t
 ```
 
 Configuring the engines in the config file was introduced in v5.14. The fallback lookup mode by scanning the
-`node_modules` folder is **deprecated** will be removed in v6.
+`node_modules` folder is **deprecated** and will be removed in Pattern Lab v6.
 
 ## patternStateCascade
 
