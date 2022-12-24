@@ -95,7 +95,7 @@
         "mustache"
       ]
     },
-    "handlebars": {
+    "react": {
       "package": "@pattern-lab/engine-react",
       "fileExtensions": [
         "jsx"
