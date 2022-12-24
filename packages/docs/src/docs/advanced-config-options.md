@@ -182,7 +182,7 @@ Sets the panel name and language for the code tab on the styleguide. Since this 
 
 ## engines
 
-An engine is a wrapper around a templating library like Mustache, Handlebars, Twig or others. An engine package
+An engine is a wrapper around a templating library like Handlebars, Twig or others. An engine package
 is the bridge between Pattern Lab and the standalone NPM package supporting the templating language.
 
 `engines` accepts an map of Engine objects. The mandatory properties for each Pattern Lab engine are:
