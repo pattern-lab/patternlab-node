@@ -202,6 +202,7 @@ Other engine specific configuration options can be added and will be passed to t
         "handlebars",
         "hbs"
       ],
+      "extend": "helpers/*.js"
       ...
     }
   }
