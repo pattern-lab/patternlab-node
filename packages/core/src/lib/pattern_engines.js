@@ -136,7 +136,7 @@ const PatternEngines = Object.create({
         } finally {
           // report on the status of the engine, one way or another!
           logger.info(
-            `Pattern Engine ${engineConfig.extension}: ${
+            `Pattern Engine ${name} / package ${engineConfig.package}: ${
               errorMessage ? errorMessage : successMessage
             }`
           );
@@ -181,7 +181,9 @@ const PatternEngines = Object.create({
           } finally {
             // report on the status of the engine, one way or another!
             logger.info(
-              `Pattern Engine ${engineDiscovery.name}: ${
+              `Pattern Engine ${
+                engineDiscovery.name
+              } by discovery (deprecated): ${
                 errorMessage ? errorMessage : successMessage
               }`
             );
