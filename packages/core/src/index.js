@@ -15,7 +15,6 @@ const updateNotifier = require('update-notifier');
 const packageInfo = require('../package.json');
 const events = require('./lib/events');
 const pe = require('./lib/pattern_exporter');
-const pm = require('./lib/plugin_manager');
 
 const defaultConfig = require('../patternlab-config.json');
 
@@ -41,7 +40,7 @@ updateNotifier({
  * @static
  * @return {object} Returns the object representation of the `patternlab-config.json`
  */
-const getDefaultConfig = function() {
+const getDefaultConfig = function () {
   return defaultConfig;
 };
 
@@ -53,11 +52,11 @@ const getDefaultConfig = function() {
  * @static
  * @returns {string} current @pattern-lab/core version as defined in `package.json`
  */
-const getVersion = function() {
+const getVersion = function () {
   return packageInfo.version;
 };
 
-const patternlab_module = function(config) {
+const patternlab_module = function (config) {
   const PatternLabClass = require('./lib/patternlab');
   const patternlab = new PatternLabClass(config);
   const server = serverModule(patternlab);
@@ -71,7 +70,7 @@ const patternlab_module = function(config) {
      * @instance
      * @returns {string} current patternlab-node version as defined in `package.json`, as string
      */
-    version: function() {
+    version: function () {
       return patternlab.getVersion();
     },
 
@@ -95,7 +94,7 @@ const patternlab_module = function(config) {
      * @instance
      * @returns {boolean} if pattern lab is currently busy compiling
      */
-    isBusy: function() {
+    isBusy: function () {
       return patternlab.isBusy;
     },
 
@@ -114,7 +113,7 @@ const patternlab_module = function(config) {
      * @see {@link ./events.md|all events}
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    build: async function(options) {
+    build: async function (options) {
       // process.on('unhandledRejection', (reason, p) => {
       //   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
       //   // application specific logging, throwing an error, or other logic here
@@ -186,7 +185,7 @@ const patternlab_module = function(config) {
      * @instance
      * @return {object} Returns the object representation of the `patternlab-config.json`
      */
-    getDefaultConfig: function() {
+    getDefaultConfig: function () {
       return getDefaultConfig();
     },
 
@@ -198,7 +197,7 @@ const patternlab_module = function(config) {
      * @instance
      * @returns {Array<string>} all supported file extensions
      */
-    getSupportedTemplateExtensions: function() {
+    getSupportedTemplateExtensions: function () {
       return patternlab.getSupportedTemplateExtensions();
     },
 
@@ -210,7 +209,7 @@ const patternlab_module = function(config) {
      * @instance
      * @returns {Promise} Returns an Array<{name,url}> for the starterkit repos
      */
-    liststarterkits: function() {
+    liststarterkits: function () {
       return patternlab.listStarterkits();
     },
 
@@ -224,7 +223,7 @@ const patternlab_module = function(config) {
      * @param {boolean} clean whether or not to delete contents of source/ before load
      * @returns {void}
      */
-    loadstarterkit: function(starterkitName, clean) {
+    loadstarterkit: function (starterkitName, clean) {
       patternlab.loadStarterKit(starterkitName, clean);
     },
 
@@ -239,7 +238,7 @@ const patternlab_module = function(config) {
      * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
      * @returns {Promise} a promise fulfilled when build is complete
      */
-    patternsonly: async function(options) {
+    patternsonly: async function (options) {
       if (patternlab && patternlab.isBusy) {
         logger.info(
           'Pattern Lab is busy building a previous run - returning early.'
@@ -274,11 +273,11 @@ const patternlab_module = function(config) {
        * @param {bool} [options.watch=true] whether or not Pattern Lab should watch configured `source/` directories for changes to rebuild
        * @returns {Promise} a promise fulfilled when build is complete
        */
-      serve: options => {
+      serve: (options) => {
         return _api
           .build(options)
           .then(() => server.serve())
-          .catch(e =>
+          .catch((e) =>
             logger.error(`error inside core index.js server serve: ${e}`)
           );
       },

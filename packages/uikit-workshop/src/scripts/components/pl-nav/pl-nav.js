@@ -118,25 +118,25 @@ class Nav extends BaseComponent {
 
     if (topLevelOnly === true && window.innerWidth > 670) {
       this.navContainer.classList.remove('pl-is-active');
-      this.topLevelTriggers.forEach(trigger => {
+      this.topLevelTriggers.forEach((trigger) => {
         trigger.classList.remove('pl-is-active');
         trigger.nextSibling.classList.remove('pl-is-active');
       });
     } else {
       if (this.layoutMode !== 'vertical') {
         this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach(trigger => {
+        this.navAccordionTriggers.forEach((trigger) => {
           trigger.classList.remove('pl-is-active');
         });
-        this.navAccordionPanels.forEach(panel => {
+        this.navAccordionPanels.forEach((panel) => {
           panel.classList.remove('pl-is-active');
         });
       } else if (this.layoutMode === 'vertical' && window.innerWidth <= 670) {
         this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach(trigger => {
+        this.navAccordionTriggers.forEach((trigger) => {
           trigger.classList.remove('pl-is-active');
         });
-        this.navAccordionPanels.forEach(panel => {
+        this.navAccordionPanels.forEach((panel) => {
           panel.classList.remove('pl-is-active');
         });
       } else {
@@ -170,14 +170,14 @@ class Nav extends BaseComponent {
         getParents(this.activeLink, '.pl-js-acc-panel')
       );
 
-      panels.forEach(panel => {
+      panels.forEach((panel) => {
         const panelTrigger = panel.previousSibling;
         if (panelTrigger) {
           triggers.push(panelTrigger);
         }
       });
 
-      triggers.forEach(trigger => {
+      triggers.forEach((trigger) => {
         trigger.classList.add('pl-is-active');
         this.previousActiveLinks.push(trigger);
       });
@@ -221,7 +221,7 @@ class Nav extends BaseComponent {
         '.pl-c-nav__link--title.pl-is-active'
       );
 
-      this.topLevelTriggers.forEach(trigger => {
+      this.topLevelTriggers.forEach((trigger) => {
         if (trigger !== target) {
           trigger.classList.remove('pl-is-active');
           trigger.nextSibling.classList.remove('pl-is-active');
@@ -261,7 +261,7 @@ class Nav extends BaseComponent {
                 {item.patternGroupUC}
               </NavTitle>
               <ol
-                id={item.patternSubgroupUC}
+                id={item.patternGroupLC}
                 className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
               >
                 {item.patternGroupItems.map((patternSubgroup, i) => {
@@ -300,7 +300,7 @@ class Nav extends BaseComponent {
           !this.noViewAll && (
             <NavItem>
               <a
-                onClick={e => this.handleClick(e, 'all')}
+                onClick={(e) => this.handleClick(e, 'all')}
                 href="styleguide/html/styleguide.html"
                 class="pl-c-nav__link pl-c-nav__link--pattern"
                 data-patternpartial="all"

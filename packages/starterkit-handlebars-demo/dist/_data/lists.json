@@ -5,7 +5,9 @@
 			"url": "#",
 			"stackedBlockMedia": {
 				"src": "https://via.placeholder.com/600x400",
-				"alt": "placeholder image"
+				"alt": "placeholder image",
+				"width": "600",
+				"height": "400"
 			},
 			"headline": "Heading ipsum dolor sit (39 characters)",
 			"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
@@ -16,7 +18,9 @@
 			"url": "#",
 			"stackedBlockMedia": {
 				"src": "https://via.placeholder.com/600x400",
-				"alt": "placeholder image"
+				"alt": "placeholder image",
+				"width": "600",
+				"height": "400"
 			},
 			"headline": "Heading ipsum dolor sit (39 characters)",
 			"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
@@ -27,7 +31,9 @@
 			"url": "#",
 			"stackedBlockMedia": {
 				"src": "https://via.placeholder.com/600x400",
-				"alt": "placeholder image"
+				"alt": "placeholder image",
+				"width": "600",
+				"height": "400"
 			},
 			"headline": "Heading ipsum dolor sit (39 characters)",
 			"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
@@ -38,7 +44,9 @@
 			"url": "#",
 			"stackedBlockMedia": {
 				"src": "https://via.placeholder.com/600x400",
-				"alt": "placeholder image"
+				"alt": "placeholder image",
+				"width": "600",
+				"height": "400"
 			},
 			"headline": "Heading ipsum dolor sit (39 characters)",
 			"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
@@ -49,7 +57,9 @@
 			"url": "#",
 			"stackedBlockMedia": {
 				"src": "https://via.placeholder.com/600x400",
-				"alt": "placeholder image"
+				"alt": "placeholder image",
+				"width": "600",
+				"height": "400"
 			},
 			"headline": "Heading ipsum dolor sit (39 characters)",
 			"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
@@ -60,7 +70,9 @@
 			"url": "#",
 			"stackedBlockMedia": {
 				"src": "https://via.placeholder.com/600x400",
-				"alt": "placeholder image"
+				"alt": "placeholder image",
+				"width": "600",
+				"height": "400"
 			},
 			"headline": "Heading ipsum dolor sit (39 characters)",
 			"excerpt": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",

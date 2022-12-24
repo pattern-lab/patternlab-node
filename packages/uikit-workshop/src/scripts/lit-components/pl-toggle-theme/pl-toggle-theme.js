@@ -72,11 +72,15 @@ class ThemeToggle extends LitElement {
       <pl-button
         class="pl-c-tools__action pl-c-toggle-theme__action"
         title="Switch Theme"
-        @click="${_ => store.dispatch(updateThemeMode(toggleThemeMode))}"
+        @click="${(_) => store.dispatch(updateThemeMode(toggleThemeMode))}"
       >
         Switch Theme
 
-        <pl-icon slot="after" name="theme-${this.themeMode}"></pl-icon>
+        <pl-icon
+          slot="after"
+          name="theme-${this.themeMode}"
+          aria-hidden="true"
+        ></pl-icon>
       </pl-button>
     `;
   }

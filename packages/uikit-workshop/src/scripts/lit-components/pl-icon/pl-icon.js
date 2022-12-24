@@ -1,22 +1,15 @@
-import {
-  html,
-  LitElement,
-  unsafeCSS,
-  css,
-  svg,
-  customElement,
-} from 'lit-element';
+import { html, LitElement, customElement } from 'lit-element';
 import styles from './pl-icon.scss?external';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html';
 const icons = {};
 
 // automatically pull in every SVG icon file in from the icons folder
 const svgIcons = require.context('../../../icons', true, /\.svg$/);
-svgIcons.keys().forEach(iconName => {
+svgIcons.keys().forEach((iconName) => {
   const name = iconName.replace('./', '');
   const icon = import(`../../../icons/${name}`);
 
-  icon.then(Icon => {
+  icon.then((Icon) => {
     icons[Icon.default.id] = Icon.default;
   });
 });
@@ -65,9 +58,7 @@ class Icon extends LitElement {
       </svg>
     `;
 
-    return html`
-      ${unsafeHTML(svgMarkup)}
-    `;
+    return html` ${unsafeHTML(svgMarkup)} `;
   }
 }
 

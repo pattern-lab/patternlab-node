@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+
+### Features
+
+* **engine-twig:** add custom twing extensions ([#1435](https://github.com/pattern-lab/patternlab-node/issues/1435)) ([c32a45c](https://github.com/pattern-lab/patternlab-node/commit/c32a45c02e3b71bb841e7ea15cae000a68857df3)), closes [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230) [#1230](https://github.com/pattern-lab/patternlab-node/issues/1230)
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
+## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
+## [5.15.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.15.2...v5.15.3) (2021-11-21)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+**Note:** Version bump only for package @pattern-lab/engine-twig
+
+
+
+
+
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+
+### Bug Fixes
+
+* **pseudopatterns:** use the template instead of the pseudo data file for template rendering [#1308](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/issues/1308) ([#1312](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/issues/1312)) ([7ecca69](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/commit/7ecca69bcfed4060d17390b76562e5f468b4a897))
+
+
+
+
+
 # [5.14.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-twig/compare/v5.13.3...v5.14.0) (2021-01-12)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig

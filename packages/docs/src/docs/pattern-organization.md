@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Overview of Patterns
   key: patterns
   order: 10
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Patterns can be found in `./source/_patterns/`. Patterns must be written in the template languages supported by Pattern Lab's PatternEngines. For Node there are [several more PatternEngines to choose from](/docs/template-language-and-patternengines/).

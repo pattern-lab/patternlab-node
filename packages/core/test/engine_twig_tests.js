@@ -12,7 +12,7 @@ var eol = require('os').EOL;
 // don't run these tests unless twig is installed
 var engineLoader = require('../src/lib/pattern_engines');
 if (!engineLoader.twig) {
-  tap.test('Twig engine not installed, skipping tests.', function(test) {
+  tap.test('Twig engine not installed, skipping tests.', function (test) {
     test.end();
   });
   return;
@@ -62,15 +62,15 @@ function testFindPartials(test, partialTests) {
   var results = currentPattern.findPartials();
 
   // assert
-  test.equals(results.length, partialTests.length);
-  partialTests.forEach(function(testString, index) {
-    test.equals(results[index], testString);
+  test.equal(results.length, partialTests.length);
+  partialTests.forEach(function (testString, index) {
+    test.equal(results[index], testString);
   });
 
   test.end();
 }
 
-tap.test('button twig pattern renders', function(test) {
+tap.test('button twig pattern renders', function (test) {
   test.plan(1);
 
   var patternPath = path.join('atoms', 'general', 'button.twig');
@@ -105,13 +105,13 @@ tap.test('button twig pattern renders', function(test) {
     .then(() => {
       assembler.process_pattern_recursive(patternPath, patternlab);
 
-      test.equals(helloWorldPattern.render(), expectedValue);
+      test.equal(helloWorldPattern.render(), expectedValue);
     });
 });
 
 tap.test(
   'media object twig pattern can see the atoms-button and atoms-image partials and renders them',
-  function(test) {
+  function (test) {
     test.plan(1);
 
     // pattern paths
@@ -124,7 +124,7 @@ tap.test(
     );
 
     var expectedValue =
-      '<style>\n  .Media {\n    display: flex;\n    align-items: flex-start;\n  }\n\n  .Media > img {\n    margin-right: 1em;\n    max-width: 200px;\n  }\n\n  .Media-body {\n    flex: 1;\n  }\n</style>\n\n\n\n\n<div class="Media">\n  <img src="http://placeholdit.imgix.net/~text?txtsize=33&txt=280%C3%97220&w=280&h=220&fm=pjpg"\n  srcset="http://placeholdit.imgix.net/~text?txtsize=33&txt=280%C3%97220&w=280&h=220&fm=pjpg 280w,\n          http://placeholdit.imgix.net/~text?txtsize=33&txt=560%C3%97440&w=560&h=440&fm=pjpg 560w,\n          http://placeholdit.imgix.net/~text?txtsize=33&txt=840%C3%97660&w=840&h=660&fm=pjpg 840w"\n  sizes="100vw">\n\n  <style>\n  .btn {\n    padding: 10px;\n    border-radius: 10px;\n    display: inline-block;\n    text-align: center;\n  }\n</style>\n\n<a href="#" class="btn">Button</a>\n\n\n  <div class="Media-body">\n\n    \n    \n\n    <p>Oh, hello world!</p>\n  </div>\n</div>\n';
+      '<style>\n  .Media {\n    display: flex;\n    align-items: flex-start;\n  }\n\n  .Media > img {\n    margin-right: 1em;\n    max-width: 200px;\n  }\n\n  .Media-body {\n    flex: 1;\n  }\n</style>\n\n\n\n\n<div class="Media">\n  <img src="https://place-hold.it/280x220?text=280%C3%97220&fontsize=33"\n  srcset="https://place-hold.it/280x220?text=280%C3%97220&fontsize=33 280w,\n          https://place-hold.it/560x440?text=560%C3%97440&fontsize=33 560w,\n          https://place-hold.it/840x660?text=840%C3%97660&fontsize=33 840w"\n  sizes="100vw">\n\n  <style>\n  .btn {\n    padding: 10px;\n    border-radius: 10px;\n    display: inline-block;\n    text-align: center;\n  }\n</style>\n\n<a href="#" class="btn">Button</a>\n\n\n  <div class="Media-body">\n\n    \n    \n\n    <p>Oh, hello world!</p>\n  </div>\n</div>\n';
 
     // set up environment
     var patternlab = new fakePatternLab(); // environment
@@ -145,7 +145,7 @@ tap.test(
 
       // test
       // this pattern is too long - so just remove line endings on both sides and compare output
-      test.equals(
+      test.equal(
         mediaObjectPattern.render().replace(/\r?\n|\r/gm, ''),
         expectedValue.replace(/\r?\n|\r/gm, '')
       );
@@ -153,41 +153,43 @@ tap.test(
   }
 );
 
-tap.test('twig partials can render JSON values', { skip: true }, function(
-  test
-) {
-  test.plan(1);
+tap.test(
+  'twig partials can render JSON values',
+  { skip: true },
+  function (test) {
+    test.plan(1);
 
-  // pattern paths
-  var pattern1Path = path.resolve(
-    testPatternsPath,
-    'atoms',
-    'global',
-    'helloworld-withdata.hbs'
-  );
+    // pattern paths
+    var pattern1Path = path.resolve(
+      testPatternsPath,
+      'atoms',
+      'global',
+      'helloworld-withdata.hbs'
+    );
 
-  // set up environment
-  var patternlab = new fakePatternLab(); // environment
+    // set up environment
+    var patternlab = new fakePatternLab(); // environment
 
-  // do all the normal processing of the pattern
-  var helloWorldWithData = assembler.process_pattern_iterative(
-    pattern1Path,
-    patternlab
-  );
-  assembler.process_pattern_recursive(pattern1Path, patternlab);
+    // do all the normal processing of the pattern
+    var helloWorldWithData = assembler.process_pattern_iterative(
+      pattern1Path,
+      patternlab
+    );
+    assembler.process_pattern_recursive(pattern1Path, patternlab);
 
-  // test
-  test.equals(
-    helloWorldWithData.render(),
-    'Hello world!\nYeah, we got the subtitle from the JSON.\n'
-  );
-  test.end();
-});
+    // test
+    test.equal(
+      helloWorldWithData.render(),
+      'Hello world!\nYeah, we got the subtitle from the JSON.\n'
+    );
+    test.end();
+  }
+);
 
 tap.test(
   'twig partials use the JSON environment from the calling pattern and can accept passed parameters',
   { skip: true },
-  function(test) {
+  function (test) {
     test.plan(1);
 
     // pattern paths
@@ -214,7 +216,7 @@ tap.test(
     assembler.process_pattern_recursive(molPath, patternlab);
 
     // test
-    test.equals(
+    test.equal(
       mol.render(),
       '<h2>Call with default JSON environment:</h2>\nThis is Hello world!\nfrom the default JSON.\n\n\n<h2>Call with passed parameter:</h2>\nHowever, this is Hello world!\nfrom a totally different blob.\n\n'
     );
@@ -222,7 +224,7 @@ tap.test(
   }
 );
 
-tap.test('find_pattern_partials finds partials', function(test) {
+tap.test('find_pattern_partials finds partials', function (test) {
   testFindPartials(test, [
     '{% include "atoms-image" %}',
     "{% include 'atoms-image' %}",
@@ -233,20 +235,21 @@ tap.test('find_pattern_partials finds partials', function(test) {
   ]);
 });
 
-tap.test('find_pattern_partials finds verbose partials', function(test) {
+tap.test('find_pattern_partials finds verbose partials', function (test) {
   testFindPartials(test, [
     "{% include 'molecules/components/comment-header.twig' %}",
     "{% include 'atoms/global/test' %}",
   ]);
 });
 
-tap.test('find_pattern_partials finds partials with twig parameters', function(
-  test
-) {
-  testFindPartials(test, [
-    "{% include 'molecules-template' with {'foo': 'bar'} %}",
-    "{% include 'molecules-template' with vars %}",
-    "{% include 'molecules-template.twig' with {'foo': 'bar'} only %}",
-    "{% include 'organisms-sidebar' ignore missing with {'foo': 'bar'} %}",
-  ]);
-});
+tap.test(
+  'find_pattern_partials finds partials with twig parameters',
+  function (test) {
+    testFindPartials(test, [
+      "{% include 'molecules-template' with {'foo': 'bar'} %}",
+      "{% include 'molecules-template' with vars %}",
+      "{% include 'molecules-template.twig' with {'foo': 'bar'} only %}",
+      "{% include 'organisms-sidebar' ignore missing with {'foo': 'bar'} %}",
+    ]);
+  }
+);

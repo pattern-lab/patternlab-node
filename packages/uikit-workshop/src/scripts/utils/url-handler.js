@@ -132,7 +132,7 @@ export const urlHandler = {
    */
   getRequestVars() {
     // the following is taken from https://developer.mozilla.org/en-US/docs/Web/API/window.location
-    const oGetVars = new (function(sSearch) {
+    const oGetVars = new (function (sSearch) {
       if (sSearch.length > 1) {
         for (
           let aItKey, nKeyId = 0, aCouples = sSearch.substr(1).split('&');
@@ -155,10 +155,6 @@ export const urlHandler = {
    * @param  {String}       the path given by the loaded iframe
    */
   pushPattern(pattern, givenPath) {
-    const data = {
-      pattern,
-    };
-
     const fileName = urlHandler.getFileName(pattern);
     let path = window.location.pathname;
     path =
@@ -216,6 +212,6 @@ export const urlHandler = {
 /**
  * handle the onpopstate event
  */
-window.onpopstate = function(event) {
+window.onpopstate = function () {
   urlHandler.skipBack = true;
 };

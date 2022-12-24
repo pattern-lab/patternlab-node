@@ -5,9 +5,9 @@ const path = require('path');
 const logger = require('./log');
 const getPartial = require('./get');
 
-module.exports = function(patternlab, obj, key) {
+module.exports = function (patternlab, obj, key) {
   //check for 'link.patternPartial'
-  const linkRE = /(?:'|")(link\.[A-z0-9-_]+)(?:'|")/g;
+  const linkRE = /(?:'|")(link\.[\w-]+)(?:'|")/g;
 
   //stringify the passed in object
   let dataObjAsString;
@@ -20,7 +20,7 @@ module.exports = function(patternlab, obj, key) {
   const linkMatches = dataObjAsString.match(linkRE);
 
   if (linkMatches) {
-    linkMatches.forEach(dataLink => {
+    linkMatches.forEach((dataLink) => {
       if (dataLink && dataLink.split('.').length >= 2) {
         //get the partial the link refers to
         const linkPatternPartial = dataLink.split('.')[1].replace(/'|"/g, '');
@@ -34,7 +34,7 @@ module.exports = function(patternlab, obj, key) {
             .replace('viewall-', '')
             .replace('-all', '');
           const pattern = patternlab.patterns.find(
-            p => p.patternGroup === partial
+            (p) => p.patternGroup === partial
           );
 
           if (pattern) {
@@ -45,7 +45,7 @@ module.exports = function(patternlab, obj, key) {
           // group and subgroup there will be a view all page for that group)
           const partial = linkPatternPartial.replace('viewall-', '');
           const pattern = patternlab.patterns.find(
-            p => `${p.patternGroup}-${p.patternSubgroup}` === partial
+            (p) => `${p.patternGroup}-${p.patternSubgroup}` === partial
           );
 
           if (pattern) {
@@ -84,8 +84,8 @@ module.exports = function(patternlab, obj, key) {
   try {
     dataObj = JSON.parse(dataObjAsString);
   } catch (err) {
-    logger.warning(`There was an error parsing JSON for ${key}`);
-    logger.warning(err);
+    logger.error(`There was an error parsing JSON for ${key}`);
+    logger.error(err);
   }
 
   return dataObj;

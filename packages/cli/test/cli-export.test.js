@@ -1,4 +1,4 @@
-const exists = require('path-exists');
+const fs = require('fs-extra');
 const getUniqueProjectPath = require('./utils/getUniqueProjectPath');
 const path = require('path');
 const spawnCmd = require('./utils/spawnCmd');
@@ -7,8 +7,8 @@ const wrapAsync = require('../bin/utils').wrapAsync;
 
 const projectRoot = getUniqueProjectPath();
 
-tap.test('Init and export ->', t =>
-  wrapAsync(function*() {
+tap.test('Init and export ->', (t) =>
+  wrapAsync(function* () {
     yield spawnCmd([
       'init',
       '--verbose',
@@ -25,7 +25,9 @@ tap.test('Init and export ->', t =>
       `${projectRoot}/patternlab-config.json`,
     ]);
     t.ok(
-      exists.sync(path.resolve(projectRoot, 'pattern_exports', 'patterns.zip')),
+      fs.existsSync(
+        path.resolve(projectRoot, 'pattern_exports', 'patterns.zip')
+      ),
       ' should create patterns.zip'
     );
     t.end();

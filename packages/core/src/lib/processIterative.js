@@ -5,7 +5,7 @@ const pph = require('./pseudopattern_hunter');
 
 // This is now solely for analysis; loading of the pattern file is
 // above, in loadPatternIterative()
-module.exports = function(pattern, patternlab) {
+module.exports = function (pattern, patternlab) {
   //look for a pseudo pattern by checking if there is a file
   //containing same name, with ~ in it, ending in .json
   return pph

@@ -6,7 +6,7 @@ const liveServer = require('@pattern-lab/live-server');
 const events = require('./events');
 const logger = require('./log');
 
-const server = patternlab => {
+const server = (patternlab) => {
   const _module = {
     serve: () => {
       let serverReady = false;
@@ -20,7 +20,7 @@ const server = patternlab => {
         port: 3000,
       };
 
-      const servers = Object.keys(patternlab.uikits).map(kit => {
+      const servers = Object.keys(patternlab.uikits).map((kit) => {
         const uikit = patternlab.uikits[kit];
         defaults.root = path.resolve(
           path.join(
@@ -87,7 +87,9 @@ const server = patternlab => {
           setTimeout(() => {
             try {
               liveServer.start(liveServerConfig);
-              resolveMsg = `Pattern Lab is being served from http://127.0.0.1:${liveServerConfig.port}`;
+              resolveMsg = `Pattern Lab is being served from ${
+                liveServerConfig.https ? 'https' : 'http'
+              }://127.0.0.1:${liveServerConfig.port}`;
               logger.info(resolveMsg);
             } catch (e) {
               const err = `Pattern Lab serve failed to start: ${e}`;
@@ -104,7 +106,7 @@ const server = patternlab => {
 
       return Promise.all(servers);
     },
-    reload: data => {
+    reload: (data) => {
       const _data = data || {
         file: '',
         action: '',

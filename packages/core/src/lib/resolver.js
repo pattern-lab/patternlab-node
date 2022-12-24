@@ -34,7 +34,7 @@ const resolveFileInPackage = (packageName, ...pathElements) => {
  * @func resolvePackageFolder
  * Resolves the location of a package on disc
  */
-const resolvePackageFolder = packageName => {
+const resolvePackageFolder = (packageName) => {
   return path.dirname(resolveFileInPackage(packageName, 'package.json'));
 };
 

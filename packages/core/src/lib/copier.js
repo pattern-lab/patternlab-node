@@ -8,7 +8,7 @@ const watchAssets = require('./watchAssets');
 const watchPatternLabFiles = require('./watchPatternLabFiles');
 
 const copier = () => {
-  const transform_paths = directories => {
+  const transform_paths = (directories) => {
     //create array with all source keys minus our blacklist
     const dirs = {};
     const blackList = [
@@ -55,6 +55,14 @@ const copier = () => {
       debug: patternlab.config.logLevel === 'debug',
     };
 
+    // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from https://stackoverflow.com/a/6745455
+    if (patternlab.config.transformedAssetTypes) {
+      copyOptions.filter = new RegExp(
+        `.*(?<![.](${patternlab.config.transformedAssetTypes.join('|')}))$`,
+        'i'
+      );
+    }
+
     //loop through each directory asset object (source / public pairing)
 
     const copyPromises = [];
@@ -66,7 +74,7 @@ const copier = () => {
       } else {
         //just copy
         copyPromises.push(
-          _.map(patternlab.uikits, uikit => {
+          _.map(patternlab.uikits, (uikit) => {
             copyFile(
               dir.source,
               path.join(basePath, uikit.outputDir, dir.public),
@@ -79,7 +87,7 @@ const copier = () => {
 
     // copy the styleguide
     copyPromises.push(
-      _.map(patternlab.uikits, uikit => {
+      _.map(patternlab.uikits, (uikit) => {
         copyFile(
           path.join(uikit.modulePath, assetDirectories.source.styleguide),
           path.join(basePath, uikit.outputDir, assetDirectories.public.root),
@@ -90,9 +98,9 @@ const copier = () => {
 
     // copy the favicon
     copyPromises.push(
-      _.map(patternlab.uikits, uikit => {
+      _.map(patternlab.uikits, (uikit) => {
         copyFile(
-          `${assetDirectories.source.root}/favicon.ico`,
+          `${assetDirectories.source.root}favicon.ico`,
           path.join(
             basePath,
             uikit.outputDir,
@@ -116,7 +124,7 @@ const copier = () => {
     copyAndWatch: (assetDirectories, patternlab, options) => {
       return copyAndWatch(assetDirectories, patternlab, options);
     },
-    transformConfigPaths: paths => {
+    transformConfigPaths: (paths) => {
       return transform_paths(paths);
     },
   };

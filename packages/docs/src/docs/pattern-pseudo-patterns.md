@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Using Pseudo-Patterns
   key: patterns
   order: 140
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 Pseudo-patterns give developers and designers the ability to quickly build multiple unique variants of an existing pattern. This feature is especially useful when developing template- and page-style patterns or showing the states of other patterns.

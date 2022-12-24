@@ -3,7 +3,7 @@ const md = require('markdown-it')();
 const yaml = require('js-yaml');
 const logger = require('./log');
 
-const markdown_parser = function() {
+const markdown_parser = function () {
   /**
    * Converts a markdown block with frontmatter (each is optional, technically) to a well-formed object.
    * @param block - the ".md" file, which can contain frontmatter or not, or only frontmatter.
@@ -23,7 +23,7 @@ const markdown_parser = function() {
         if (chunks && chunks[1]) {
           //parse the yaml if we got it
           const frontmatter = chunks[1];
-          returnObject = yaml.safeLoad(frontmatter);
+          returnObject = yaml.load(frontmatter);
         }
 
         if (chunks[2]) {
@@ -47,7 +47,7 @@ const markdown_parser = function() {
   }
 
   return {
-    parse: function(block) {
+    parse: function (block) {
       return parseMarkdownBlock(block);
     },
   };

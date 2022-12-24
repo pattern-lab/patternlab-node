@@ -81,7 +81,7 @@ const engine_mustache = {
     return matches;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -103,7 +103,7 @@ const engine_mustache = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.mustache');
     this.spawnFile(config, '_foot.mustache');
   },
@@ -112,31 +112,31 @@ const engine_mustache = {
   findPartials: function findPartials(pattern) {
     return this.patternMatcher(pattern, this.findPartialsRE);
   },
-  findPartialsWithStyleModifiers: function(pattern) {
+  findPartialsWithStyleModifiers: function (pattern) {
     return this.patternMatcher(pattern, this.findPartialsWithStyleModifiersRE);
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function(pattern) {
+  findPartialsWithPatternParameters: function (pattern) {
     return this.patternMatcher(
       pattern,
       this.findPartialsWithPatternParametersRE
     );
   },
-  findListItems: function(pattern) {
+  findListItems: function (pattern) {
     return this.patternMatcher(pattern, this.findListItemsRE);
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial_new: function(partialString) {
+  findPartial_new: function (partialString) {
     return partialString.replace(this.findPartialRE, '$1');
   },
 
   // GTP: the old implementation works better. We might not need
   // this.findPartialRE anymore if it works in all cases!
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     //strip out the template cruft
     let foundPatternPartial = partialString
       .replace('{{> ', '')
@@ -164,7 +164,7 @@ const engine_mustache = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     patternLabConfig = config;
   },
 };

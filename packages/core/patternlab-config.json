@@ -105,5 +105,7 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "patternWrapClassesEnable": false,
+  "patternWrapClassesKey": []
 }

@@ -7,6 +7,7 @@ eleventyNavigation:
   key: advanced
   title: Overview of Pattern Lab's Ecosystem
   order: 300
+sitemapPriority: '0.8'
 ---
 
 Pattern Lab 2 introduces the beginnings of an ecosystem that will allow teams to mix, match and extend Pattern Lab to meet their specific needs. It will also make it easier for the Pattern Lab team to push out new features. Documentation that explains how best to take advantage of the ecosystem will be released in the coming weeks.
@@ -19,7 +20,7 @@ Editions let teams and agencies bundle all the things that support their unique 
 
 The following is good overview of what components might make up an edition:
 
-<img src="/images/pattern-lab-2-image_18-large-opt.png">
+<img src="/images/pattern-lab-2-image_18-large-opt.png" width="640" height="509" alt="Pattern Lab Edition">
 
 This is by no means exhaustive and can be added to as needed. Here is a description of each component:
 
@@ -37,9 +38,9 @@ Importing a starterkit is only a few keystrokes away after installation.
 
 [Learn more about Starterkits](/docs/starterkits/)
 
-### StyleguideKits
+### UIKits
 
-StyleguideKits are the front-end of Pattern Lab. We call this “The Viewer.” StyleguideKits allow agencies and organizations to develop custom, branded Pattern Lab UIs to show off their patterns.
+UIKits are the front-end of Pattern Lab. We call this “The Viewer.” UIKits allow agencies and organizations to develop custom, branded Pattern Lab UIs to show off their patterns.
 
 ### PatternEngines
 
@@ -56,7 +57,8 @@ Currently the following plugins are provided by the community:
 * [plugin-node-minify-html](https://github.com/JosefBredereck/plugin-node-minify-html): Patternlab Node HTML tabs panel compressor/minifier/beautifier
 * [patternlab-plugin-node-wrappable](https://github.com/networkteam/patternlab-plugin-node-wrappable): Configuration to wrap patterns styleguide HTML output (e.g. for inverse backgrounds)
 * [plugin-node-patternlab-inline-assets](https://github.com/michaelworm/plugin-node-patternlab-inline-assets): Consume and inline assets (out of the file system) into your templates before compiling
-* [plugin-node-uiextension](https://github.com/bmuenzenmeyer/plugin-node-uiextension): Provide a simple Patternlab chrome customization path versus forking the `StyleguideKit`
+* [plugin-node-uiextension](https://github.com/bmuenzenmeyer/plugin-node-uiextension): Provide a simple Patternlab chrome customization path versus forking the `StyleguideKit` / `UIKit`
+  * [@mfranzke/plugin-node-uiextension](https://github.com/mfranzke/plugin-node-uiextension): A fork of the previous plugin that mainly ensures Pattern lab version 5 compability and enhances by some new features.
 
 Please feel to contribute and [add your plugin to this list as well](https://github.com/pattern-lab/patternlab-node/edit/dev/packages/docs/src/docs/advanced-ecosystem-overview.md).
 

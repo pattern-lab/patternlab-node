@@ -6,7 +6,7 @@ const uikitExcludePattern = require('../src/lib/uikitExcludePattern');
 
 tap.test(
   'uikitExcludePattern - returns false when uikit has no excluded states',
-  test => {
+  (test) => {
     //arrange
     const uikit = { excludedPatternStates: [] };
     const pattern = { patternState: 'complete' };
@@ -22,7 +22,7 @@ tap.test(
 
 tap.test(
   'uikitExcludePattern - returns false pattern does not have same state as uikit exclusions',
-  test => {
+  (test) => {
     //arrange
     const uikit = { excludedPatternStates: ['complete'] };
     const pattern = { patternState: 'inprogress' };
@@ -38,7 +38,7 @@ tap.test(
 
 tap.test(
   'uikitExcludePattern - returns true when uikit has same state as pattern',
-  test => {
+  (test) => {
     //arrange
     const uikit = { excludedPatternStates: ['inreview', 'complete'] };
     const pattern = { patternState: 'complete' };
@@ -54,7 +54,7 @@ tap.test(
 
 tap.test(
   'uikitExcludePattern - returns false when uikit has no excluded tags',
-  test => {
+  (test) => {
     //arrange
     const uikit = { excludedTags: [] };
     const pattern = { tags: 'foo-tag' };
@@ -70,7 +70,7 @@ tap.test(
 
 tap.test(
   'uikitExcludePattern - returns false pattern does not have same tags as uikit exclusions',
-  test => {
+  (test) => {
     //arrange
     const uikit = { excludedTags: ['bat-tag'] };
     const pattern = { tags: 'foo-tag' };
@@ -86,7 +86,7 @@ tap.test(
 
 tap.test(
   'uikitExcludePattern - returns true when uikit has same tags as pattern',
-  test => {
+  (test) => {
     //arrange
     const uikit = { excludedTags: ['bar-tag', 'foo-tag'] };
     const pattern = { tags: 'foo-tag' };

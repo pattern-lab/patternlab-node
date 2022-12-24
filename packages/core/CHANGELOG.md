@@ -3,6 +3,133 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
+
+
+### Features
+
+* integrate @hadl/patternlab-plugin-pattern-wrap into core ([#1433](https://github.com/pattern-lab/patternlab-node/issues/1433)) ([414e038](https://github.com/pattern-lab/patternlab-node/commit/414e0383732b4bc4682981000908d1e0d1292703)), closes [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432) [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432)
+
+
+
+
+
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* code scanning alert ([#1442](https://github.com/pattern-lab/patternlab-node/issues/1442)) ([749a3e7](https://github.com/pattern-lab/patternlab-node/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+
+
+
+
+
+## [5.16.2](https://github.com/pattern-lab/patternlab-node/compare/v5.16.1...v5.16.2) (2022-02-07)
+
+
+### Bug Fixes
+
+* transformed asset types is ignored ([#1426](https://github.com/pattern-lab/patternlab-node/issues/1426)) ([8cbe189](https://github.com/pattern-lab/patternlab-node/commit/8cbe189d45afaa753ce6de41bdd9de1596e074f3)), closes [#1339](https://github.com/pattern-lab/patternlab-node/issues/1339)
+
+
+
+
+
+## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+# [5.16.0](https://github.com/pattern-lab/patternlab-node/compare/v5.15.7...v5.16.0) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+## [5.15.5](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+## [5.15.4](https://github.com/pattern-lab/patternlab-node/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+## [5.15.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.15.1...v5.15.2) (2021-11-03)
+
+
+### Bug Fixes
+
+* **core:** Subgroup cannot be hidden ([#1368](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1368)) ([3ce13ab](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/3ce13abffaab2810194003aeca88be671fedd38f))
+
+
+
+
+
+## [5.15.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.15.0...v5.15.1) (2021-10-16)
+
+
+### Bug Fixes
+
+* **node16:** prevent warning on installation process ([#1352](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1352)) ([d58e4c6](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/d58e4c6f2979f5e0bba9a14e17e0dbc4afc64f75))
+
+
+### Features
+
+* added https description to the docs ([#1355](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1355)) ([4118f74](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/4118f740810842b16cf86b9ee28bda2a623aa9c7))
+
+
+### Reverts
+
+* Revert "refactor: optimized engines directory retrieval (#1359)" (#1363) ([a275d36](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/a275d36c50c3846fc51c78baf6e11dba5309f5dc)), closes [#1359](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1359) [#1363](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1363)
+
+
+
+
+
+# [5.15.0](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+
+### Features
+
+* **documentation:** added (sub)groups documentation again [#1262](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1262) ([#1334](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1334)) ([9fac269](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/9fac2699d2f6c64c4544e8e4d8e18c1a1ce7e49f))
+
+
+
+
+
+## [5.14.3](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+**Note:** Version bump only for package @pattern-lab/core
+
+
+
+
+
+## [5.14.2](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.14.1...v5.14.2) (2021-03-28)
+
+
+### Bug Fixes
+
+* **core:** ReadDocumentation throw error on older node versions ([#1295](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/issues/1295)) ([399d0e1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/commit/399d0e118ab77a414a926b078da9abbcb5347969))
+
+
+
+
+
 ## [5.14.1](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core/compare/v5.14.0...v5.14.1) (2021-02-19)
 
 **Note:** Version bump only for package @pattern-lab/core
