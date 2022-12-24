@@ -180,12 +180,12 @@ Sets the panel name and language for the code tab on the styleguide. Since this 
 
 **default**: `mustache`
 
-### engines
+## engines
 
 An engine is a wrapper around a templating library like Mustache, Handlebars, Twig or others. An engine package
-is the bridge between PatternLab and the standalone NPM package supporting the templating language.
+is the bridge between Pattern Lab and the standalone NPM package supporting the templating language.
 
-`engines` accepts an map of Engine objects. The mandatory properties for each PatternLab engine are:
+`engines` accepts an map of Engine objects. The mandatory properties for each Pattern Lab engine are:
 
 - `package`: the NodeJS package name. Add the package of the engine as a dependency in `package.json` before you configure it here.
 - `fileExtensions`: list of pattern file extensions which will be handled by this pattern engine.
