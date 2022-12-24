@@ -89,12 +89,6 @@
     "layout": "horizontal"
   },
   "engines": {
-    "mustache": {
-      "package":"@pattern-lab/engine-mustache",
-      "fileExtensions": [
-        "mustache"
-      ]
-    },
     "react": {
       "package": "@pattern-lab/engine-react",
       "fileExtensions": [

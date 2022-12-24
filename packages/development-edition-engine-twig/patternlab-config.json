@@ -103,12 +103,6 @@
     }
   ],
   "engines": {
-    "mustache": {
-      "package":"@pattern-lab/engine-mustache",
-      "fileExtensions": [
-        "mustache"
-      ]
-    },
     "twig": {
       "package": "@pattern-lab/engine-twig",
       "fileExtensions": [

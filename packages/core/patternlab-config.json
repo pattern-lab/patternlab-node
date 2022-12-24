@@ -89,11 +89,13 @@
     "layout": "horizontal"
   },
   "engines": {
-    "mustache": {
-      "package":"@pattern-lab/engine-mustache",
+    "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
       "fileExtensions": [
-        "mustache"
-      ]
+        "handlebars",
+        "hbs"
+      ],
+      "extend": "helpers/*.js"
     }
   },
   "uikits": [
