@@ -132,10 +132,6 @@ module.exports = function (relPath, patternlab) {
 
   currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
-  //find any stylemodifiers that may be in the current pattern
-  currentPattern.stylePartials =
-    currentPattern.findPartialsWithStyleModifiers();
-
   //find any pattern parameters that may be in the current pattern
   currentPattern.parameteredPartials =
     currentPattern.findPartialsWithPatternParameters();
