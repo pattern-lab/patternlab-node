@@ -4,10 +4,10 @@
         "description": false
     },
 	"stackedBlockSection" : {
-		"styleModifier": "u-margin-bottom-large",
+		"additionalClasses": "u-margin-bottom-large",
 		"stackedBlockList": [
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-shiny-sneakers.jpg",
