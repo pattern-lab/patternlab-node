@@ -112,7 +112,7 @@ const PatternEngines = Object.create({
 
         try {
           // Give it a try! load 'er up. But not if we already have,
-          // of course.  Also pass the pattern lab config object into
+          // of course. Also pass the Pattern Lab config object into
           // the engine's closure scope so it can know things about
           // things.
           if (self[name]) {
@@ -160,7 +160,7 @@ const PatternEngines = Object.create({
 
           try {
             // Give it a try! load 'er up. But not if we already have,
-            // of course.  Also pass the pattern lab config object into
+            // of course. Also pass the Pattern Lab config object into
             // the engine's closure scope so it can know things about
             // things.
             if (self[engineDiscovery.name]) {
