@@ -196,10 +196,11 @@ Other engine specific configuration options can be added and will be passed to t
 
 ```javascript
   "engines": {
-    "mustache": {
-      "package": "@pattern-lab/engine-mustache",
+    "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
       "extensions": [
-        "mustache"
+        "handlebars",
+        "hbs"
       ],
       ...
     }
