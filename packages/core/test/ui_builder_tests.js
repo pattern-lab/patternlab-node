@@ -72,7 +72,7 @@ tap.test(
   function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('test/ignored-pattern.mustache');
+    var pattern = new Pattern('test/ignored-pattern.hbs');
     pattern.hidden = true;
 
     //act
@@ -89,7 +89,7 @@ tap.test(
   function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
-    var pattern = new Pattern('test/foo.mustache');
+    var pattern = new Pattern('test/foo.hbs');
     patternlab.config.defaultPattern = 'test-foo';
 
     //act
@@ -192,9 +192,9 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
   });
 
   patternlab.patterns.push(
-    new Pattern('foobar.mustache'),
-    new Pattern('test/bar.mustache'),
-    new Pattern('test/foo.mustache'),
+    new Pattern('foobar.hbs'),
+    new Pattern('test/bar.hbs'),
+    new Pattern('test/foo.hbs'),
     new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
     new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
     new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -404,8 +404,8 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('test/foo.mustache'),
-      new Pattern('test/bar.mustache'),
+      new Pattern('test/foo.hbs'),
+      new Pattern('test/bar.hbs'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -447,8 +447,8 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('test/foo.mustache'),
-      new Pattern('test/bar.mustache'),
+      new Pattern('test/foo.hbs'),
+      new Pattern('test/bar.hbs'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -504,8 +504,8 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('test/foo.mustache'),
-      new Pattern('test/bar.mustache'),
+      new Pattern('test/foo.hbs'),
+      new Pattern('test/bar.hbs'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -560,7 +560,7 @@ tap.test(
 
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
-      new Pattern('test/foo.mustache'),
+      new Pattern('test/foo.hbs'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
@@ -630,7 +630,7 @@ tap.test(
 
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
-      new Pattern('test/foo.mustache'),
+      new Pattern('test/foo.hbs'),
       new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
       new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),

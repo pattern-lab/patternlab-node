@@ -23,7 +23,7 @@ tap.test('reading pattern wrap class from markdown', function (test) {
 
   const patternPathMarkdown = path.join(
     'test',
-    'pattern-wrap-class-markdown.mustache'
+    'pattern-wrap-class-markdown.hbs'
   );
   const patternMarkdown = loadPattern(patternPathMarkdown, patternlab);
   patternWrapClassesChangePatternTemplate(patternlab, patternMarkdown);
@@ -42,7 +42,7 @@ tap.test('reading pattern wrap class from json', function (test) {
     patternWrapClassesKey: ['theme-class'],
   };
 
-  const patternPathJson = path.join('test', 'pattern-wrap-class-json.mustache');
+  const patternPathJson = path.join('test', 'pattern-wrap-class-json.hbs');
   const patternJson = loadPattern(patternPathJson, patternlab);
   patternWrapClassesChangePatternTemplate(patternlab, patternJson);
   const patternPartialJson =

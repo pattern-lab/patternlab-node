@@ -41,15 +41,15 @@
       "styleguide": "./node_modules/@pattern-lab/uikit-workshop/dist/",
       "patternlabFiles": {
         "general-header":
-        "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-header.mustache",
+        "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-header.hbs",
         "general-footer":
-        "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-footer.mustache",
+        "./node_modules/@pattern-lab/uikit-workshop/views/partials/general-footer.hbs",
         "patternSection":
-        "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSection.mustache",
+        "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSection.hbs",
         "patternSectionSubgroup":
-        "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubgroup.mustache",
+        "./node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubgroup.hbs",
         "viewall":
-        "./node_modules/@pattern-lab/uikit-workshop/views/viewall.mustache"
+        "./node_modules/@pattern-lab/uikit-workshop/viewall.hbs"
       },
       "js" : "./source/js",
       "images" : "./source/images",

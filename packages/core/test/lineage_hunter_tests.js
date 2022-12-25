@@ -231,9 +231,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('test/bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.hbs');
     atomPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/bar.mustache',
+      pl.config.paths.source.patterns + 'test/bar.hbs',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -241,9 +241,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('test/foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.hbs');
     consumerPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/foo.mustache',
+      pl.config.paths.source.patterns + 'test/foo.hbs',
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -268,9 +268,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('test/bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.hbs');
     atomPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/bar.mustache',
+      pl.config.paths.source.patterns + 'test/bar.hbs',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -278,9 +278,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('test/foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.hbs');
     consumerPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/foo.mustache',
+      pl.config.paths.source.patterns + 'test/foo.hbs',
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -306,8 +306,8 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = loadPattern('test/bar.mustache', pl);
-    var consumerPattern = loadPattern('test/foo.mustache', pl);
+    var atomPattern = loadPattern('test/bar.hbs', pl);
+    var consumerPattern = loadPattern('test/foo.hbs', pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -329,9 +329,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('test/bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.hbs');
     atomPattern.template = fs.readFileSync(
-      path.resolve(pl.config.paths.source.patterns, 'test/bar.mustache'),
+      path.resolve(pl.config.paths.source.patterns, 'test/bar.hbs'),
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -339,9 +339,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('test/foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.hbs');
     consumerPattern.template = fs.readFileSync(
-      path.resolve(pl.config.paths.source.patterns, 'test/foo.mustache'),
+      path.resolve(pl.config.paths.source.patterns, 'test/foo.hbs'),
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;

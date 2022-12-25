@@ -31,7 +31,7 @@ tap.test(
 tap.test('loadPattern - loads pattern sibling json if found', function (test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
-  var patternPath = path.join('test', 'styled-atom.mustache');
+  var patternPath = path.join('test', 'styled-atom.hbs');
 
   //act
   var result = loadPattern(patternPath, patternlab);
@@ -104,7 +104,7 @@ tap.test(
   (test) => {
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
-    const basePatternPath = path.join('test', 'pseudomodifier.mustache');
+    const basePatternPath = path.join('test', 'pseudomodifier.hbs');
 
     //act
     const result = loadPattern(basePatternPath, patternlab);
@@ -122,13 +122,13 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    const basePatternAPath = path.join('orderTest', 'a', 'a-test.mustache');
-    const basePatternBPath = path.join('orderTest', 'b', 'b-test.mustache');
+    const basePatternAPath = path.join('orderTest', 'a', 'a-test.hbs');
+    const basePatternBPath = path.join('orderTest', 'b', 'b-test.hbs');
     const basePatternCPath = path.join(
       'orderTest',
       'c',
       'subfolder',
-      'subfolder.mustache'
+      'subfolder.hbs'
     );
 
     //act

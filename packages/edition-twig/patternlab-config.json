@@ -105,11 +105,11 @@
       "annotations": "./source/_annotations/",
       "styleguide": "dist/",
       "patternlabFiles": {
-        "general-header": "views/partials/general-header.mustache",
-        "general-footer": "views/partials/general-footer.mustache",
-        "patternSection": "views/partials/patternSection.mustache",
-        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.mustache",
-        "viewall": "views/viewall.mustache"
+        "general-header": "views/partials/general-header.hbs",
+        "general-footer": "views/partials/general-footer.hbs",
+        "patternSection": "views/partials/patternSection.hbs",
+        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.hbs",
+        "viewall": "viewall.hbs"
       },
       "js": "./source/js",
       "images": "./source/images",

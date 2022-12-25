@@ -19,7 +19,7 @@ export const pluginLoader = {
           const l = t.length - 1;
           const s = t[l];
           const n = document.createElement('script');
-          n.type = 'text/mustache';
+          n.type = 'text/x-handlebars-template';
           n.id = plugin.name.replace('/', '-') + '-' + key + '-template';
           n.innerHTML = plugin.templates[key];
           s.parentNode.insertBefore(n, s.nextSibling);
