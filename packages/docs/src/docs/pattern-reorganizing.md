@@ -16,14 +16,14 @@ By default, the Node version of Pattern Lab organizes pattern groups, pattern su
 For example, we'll look at how we can re-organize patterns. Using alphabetical ordering the `lists` pattern subgroup in `atoms` looks like:
 
 ```
-definition.mustache
-ordered.mustache
-unordered.mustache
+definition.hbs
+ordered.hbs
+unordered.hbs
 ```
 
 This is also the order they'll show up in the drop-down navigation. Because you rarely need to see the definition list pattern, maybe you want to have it show up last in the navigation. To re-order the patterns add the parameter `order` to the documentation `.md` file of the pattern. If no documentation `.md` file exists, you can create one:
 
-The default value for `order` is `0`. That's why there is no file for `ordered.mustache` required.
+The default value for `order` is `0`. That's why there is no file for `ordered.hbs` required.
 
 ```
 ---
@@ -42,9 +42,9 @@ order: 1
 Result
 
 ```
-ordered.mustache
-unordered.mustache
-definition.mustache
+ordered.hbs
+unordered.hbs
+definition.hbs
 ```
 
 ## Re-ordering Pseudo-Patterns
@@ -56,8 +56,8 @@ The rules for re-ordering [pseudo-patterns](/docs/using-pseudo-patterns/) are sl
 - Third: order by `pattern-name` / `variant-name`
 
 ```
-- some-other-pattern.mustache
-- some-pattern.mustache
+- some-other-pattern.hbs
+- some-pattern.hbs
 - some-pattern.yml
 - some-pattern~variation1.yml
 - some-pattern~variation2.yml

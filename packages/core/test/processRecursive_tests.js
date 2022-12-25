@@ -20,10 +20,10 @@ tap.test('processRecursive recursively includes partials', function (test) {
   //assert
   const patternlab = util.fakePatternLab(patterns_dir);
 
-  var fooPatternPath = path.join('test', 'foo.mustache');
+  var fooPatternPath = path.join('test', 'foo.hbs');
   var fooPattern = loadPattern(fooPatternPath, patternlab);
 
-  var barPatternPath = path.join('test', 'bar.mustache');
+  var barPatternPath = path.join('test', 'bar.hbs');
   var barPattern = loadPattern(barPatternPath, patternlab);
 
   var p1 = processIterative(fooPattern, patternlab);
@@ -315,10 +315,10 @@ tap
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('test', 'bar.mustache');
+    var atomPath = path.join('test', 'bar.hbs');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var templatePath = path.join('test', 'foo.mustache');
+    var templatePath = path.join('test', 'foo.hbs');
     var templatePattern = loadPattern(templatePath, patternlab);
 
     var pagesPath = path.join('test', 'inception.hbs');
@@ -412,7 +412,7 @@ tap.test(
     //arrange
     var pl = util.fakePatternLab(patterns_dir);
 
-    var testPatternPath = path.join('test', 'bar.mustache');
+    var testPatternPath = path.join('test', 'bar.hbs');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //act
@@ -439,7 +439,7 @@ tap.test(
     //arrange
     var pl = util.fakePatternLab(patterns_dir);
 
-    var testPatternPath = path.join('test', 'bar.mustache');
+    var testPatternPath = path.join('test', 'bar.hbs');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //act

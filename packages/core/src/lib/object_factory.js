@@ -33,7 +33,7 @@ const Pattern = function (
   patternlab,
   isPromoteToFlatPatternRun
 ) {
-  this.relPath = path.normalize(relPath); // 'atoms/global/colors.mustache'
+  this.relPath = path.normalize(relPath); // 'atoms/global/colors.hbs'
 
   /**
    * We expect relPath to be the path of the pattern template, relative to the
@@ -52,7 +52,7 @@ const Pattern = function (
 
   this.fileName = pathObj.name; // 'colors'
   this.subdir = pathObj.dir; // 'atoms/global'
-  this.fileExtension = pathObj.ext; // '.mustache'
+  this.fileExtension = pathObj.ext; // '.hbs'
 
   // TODO: Remove if block when dropping ordering by prefix and keep else code
   // (When we drop the info about the old ordering is deprecated)
@@ -347,7 +347,7 @@ Pattern.prototype = {
    */
   getPatternInfo: (pathObj, patternlab, isPromoteToFlatPatternRun) => {
     const info = {
-      // colors(.mustache) is deeply nested in atoms-/global/colors
+      // colors(.hbs) is deeply nested in atoms-/global/colors
       patternlab: patternlab,
       patternHasOwnDir: isPromoteToFlatPatternRun
         ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===

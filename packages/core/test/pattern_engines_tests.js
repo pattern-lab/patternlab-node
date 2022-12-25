@@ -10,11 +10,11 @@ patternEngines.loadAllEngines(config);
 
 // the mustache test pattern, stolen from object_factory unit tests
 var mustacheTestPattern = new Pattern(
-  'source/_patterns/atoms/global/colors-alt.mustache',
+  'source/_patterns/atoms/global/colors-alt.hbs',
   { d: 123 }
 );
 var mustacheTestPseudoPatternBasePattern = new Pattern(
-  'source/_patterns/pages/homepage.mustache',
+  'source/_patterns/pages/homepage.hbs',
   { d: 123 }
 );
 var mustacheTestPseudoPattern = new Pattern(
@@ -64,7 +64,7 @@ tap.test(
   'getEngineForPattern returns a reference to the mustache engine from test pattern',
   function (test) {
     var engine = patternEngines.getEngineForPattern(mustacheTestPattern);
-    test.equal(engine, patternEngines.mustache);
+    test.equal(engine, patternEngines.hbs);
     test.end();
   }
 );
@@ -73,7 +73,7 @@ tap.test(
   'getEngineForPattern returns a reference to the mustache engine from test pseudo-pattern',
   function (test) {
     var engine = patternEngines.getEngineForPattern(mustacheTestPseudoPattern);
-    test.equal(engine, patternEngines.mustache);
+    test.equal(engine, patternEngines.hbs);
     test.end();
   }
 );
@@ -116,11 +116,11 @@ tap.test(
   function (test) {
     // each test case
     var filenames = {
-      'comment-thread.mustache': true,
+      'comment-thread.hbs': true,
       'comment-thread.fakeextthatdoesntexist': false,
       'comment-thread': false,
-      '_comment-thread.mustache': true,
-      '.comment-thread.mustache': false,
+      '_comment-thread.hbs': true,
+      '.comment-thread.hbs': false,
       'comment-thread.json': false,
       'homepage~emergency.json': true,
     };
@@ -198,10 +198,10 @@ tap.test(
 );
 
 tap.test(
-  'patternEngines object reports that it supports the .mustache extension',
+  'patternEngines object reports that it supports the .hbs extension',
   function (test) {
     test.plan(1);
-    test.ok(patternEngines.isFileExtensionSupported('.mustache'));
+    test.ok(patternEngines.isFileExtensionSupported('.hbs'));
     test.end();
   }
 );

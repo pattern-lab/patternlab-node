@@ -19,7 +19,7 @@ tap.test(
     });
 
     pl.engines.getSupportedFileExtensions = () => {
-      return ['.mustache'];
+      return ['.hbs', '.handlebars'];
     };
 
     watchPatternLabFiles(
@@ -36,8 +36,8 @@ tap.test(
     );
 
     // should have two for _data and _meta
-    // should have five for '.json', '.yml', '.yaml', '.md' and '.mustache'
-    test.equal(Object.keys(pl.watchers).length, 7);
+    // should have five for '.json', '.yml', '.yaml', '.md', '.hbs' and '.handlebars'
+    test.equal(Object.keys(pl.watchers).length, 8);
 
     test.end();
   }

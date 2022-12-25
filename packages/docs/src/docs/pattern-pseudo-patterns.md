@@ -35,11 +35,11 @@ From a navigation and naming perspective `patternName` and `pseudoPatternName` w
 
 Adding a pseudo-pattern is as simple as naming it correctly and following the [pattern-specific JSON file](/docs/creating-pattern-specific-values/) instructions for organizing its content. Let's look at a simple example where we want to show an emergency notification on our homepage Mustache template. Our `templates/` directory might look like this:
 
-    article.mustache
-    blog.mustache
-    homepage.mustache
+    article.hbs
+    blog.hbs
+    homepage.hbs
 
-Our `homepage.mustache` template might look like this:
+Our `homepage.hbs` template might look like this:
 
 ```html
 {% raw %}
@@ -51,12 +51,12 @@ Our `homepage.mustache` template might look like this:
 {% endraw %}
 ```
 
-If our `_data.json` file doesn't give a value for `emergency` that section will never show up when `homepage.mustache` is rendered. Obviously we'd need to show _both_ the regular and emergency states of the homepage but we don't want to duplicate the entire `homepage.mustache` template. That would be a maintenance nightmare. So let's add our pseudo-pattern:
+If our `_data.json` file doesn't give a value for `emergency` that section will never show up when `homepage.hbs` is rendered. Obviously we'd need to show _both_ the regular and emergency states of the homepage but we don't want to duplicate the entire `homepage.hbs` template. That would be a maintenance nightmare. So let's add our pseudo-pattern:
 
 ```
-article.mustache
-blog.mustache
-homepage.mustache
+article.hbs
+blog.hbs
+homepage.hbs
 homepage~emergency.json
 ```
 

@@ -13,7 +13,7 @@ sitemapChangefreq: 'monthly'
 
 Removing a pattern from Pattern Lab's drop-down navigation and style guide is accomplished by setting the `hidden` frontmatter key on any pattern's companion `.md` file. For example, we may have a Google Map-based pattern that we don't need for a particular project. The path might look like:
 
-    molecules/media/map.mustache
+    molecules/media/map.hbs
 
 We would create or edit a file in the same location, calling it `map.md`:
 

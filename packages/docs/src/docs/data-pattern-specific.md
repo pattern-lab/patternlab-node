@@ -19,7 +19,7 @@ Storing data for your atoms, molecules, and organisms in `./source/_data` may wo
 In order to tell the Node version of Pattern Lab to use pattern-specific data to override the default global data create a JSON file with the same name as the pattern and put it in the same directory as the pattern. For example, if you wanted to provide pattern-specific data for the `article` pattern under the pattern type `pages` your `pages` directory would look like this:
 
 ```
-pages/article.mustache
+pages/article.hbs
 pages/article.json
 ```
 

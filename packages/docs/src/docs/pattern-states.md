@@ -28,7 +28,7 @@ Any pattern that includes a pattern partial that has a lower pattern state will 
 Giving patterns a state is accomplished by setting the `state` frontmatter key on any pattern's companion `.md` file. Consider this media block pattern:
 
 ```
-./source/_patterns/molecules/blocks/media-block.mustache
+./source/_patterns/molecules/blocks/media-block.hbs
 ```
 
 We would create or edit a file in the same location, calling it `media-block.md`:

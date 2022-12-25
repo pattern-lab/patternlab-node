@@ -113,9 +113,9 @@ tap.test(
         path.sep +
         'patternSubgroup' +
         path.sep +
-        'foo.mustache',
+        'foo.hbs',
       isPattern: true,
-      fileName: 'foo.mustache',
+      fileName: 'foo.hbs',
       patternPartial: 'hidden-foo',
     });
 
@@ -138,10 +138,9 @@ tap.test(
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
-      relPath:
-        'shown' + path.sep + 'patternsubtype' + path.sep + 'foo.mustache',
+      relPath: 'shown' + path.sep + 'patternsubtype' + path.sep + 'foo.hbs',
       isPattern: true,
-      fileName: 'foo.mustache',
+      fileName: 'foo.hbs',
       patternPartial: 'shown-foo',
     });
 
@@ -164,10 +163,9 @@ tap.test(
     //arrange
     var patternlab = createFakePatternLab({});
     var pattern = Pattern.createEmpty({
-      relPath:
-        'shown' + path.sep + '_patternSubgroup' + path.sep + 'foo.mustache',
+      relPath: 'shown' + path.sep + '_patternSubgroup' + path.sep + 'foo.hbs',
       isPattern: true,
-      fileName: 'foo.mustache',
+      fileName: 'foo.hbs',
       patternPartial: 'shown-foo',
       patternState: 'complete',
     });
@@ -195,12 +193,12 @@ tap.test('groupPatterns - creates pattern groups correctly', function (test) {
     new Pattern('foobar.hbs'),
     new Pattern('test/bar.hbs'),
     new Pattern('test/foo.hbs'),
-    new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-    new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-    new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-    new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
-    new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
-    new Pattern('patternGroup1/patternSubgroup2/white.mustache')
+    new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+    new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+    new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+    new Pattern('patternGroup1/patternSubgroup2/black.hbs'),
+    new Pattern('patternGroup1/patternSubgroup2/grey.hbs'),
+    new Pattern('patternGroup1/patternSubgroup2/white.hbs')
   );
   ui.resetUIBuilderState(patternlab);
 
@@ -274,9 +272,9 @@ tap.test(
 
     // Should be sorted by order and secondly by name
     patternlab.patterns.push(
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -316,9 +314,9 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -357,9 +355,9 @@ tap.test(
     });
 
     patternlab.patterns.push(
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -406,12 +404,12 @@ tap.test(
     patternlab.patterns.push(
       new Pattern('test/foo.hbs'),
       new Pattern('test/bar.hbs'),
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/black.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/white.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -449,12 +447,12 @@ tap.test(
     patternlab.patterns.push(
       new Pattern('test/foo.hbs'),
       new Pattern('test/bar.hbs'),
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/black.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/white.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -506,12 +504,12 @@ tap.test(
     patternlab.patterns.push(
       new Pattern('test/foo.hbs'),
       new Pattern('test/bar.hbs'),
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/black.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/white.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -561,12 +559,12 @@ tap.test(
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
       new Pattern('test/foo.hbs'),
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/black.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/white.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -584,8 +582,8 @@ tap.test(
       // within _.forOwn(...) loops, causing premature termination of the entire loop
       // when what was intended was a continue
       // we expect 10 here because:
-      //   - foo.mustache is flat and therefore does not have a viewall page
-      //   - the colors.mustache files make 6
+      //   - foo.hbs is flat and therefore does not have a viewall page
+      //   - the colors.hbs files make 6
       //   - patternSubgroup1 and patternSubgroup2 make 8
       //   - the general view all page make 9
       // while most of that heavy lifting occurs inside groupPatterns and not buildViewAllPages,
@@ -631,12 +629,12 @@ tap.test(
     patternlab.patterns.push(
       //this flat pattern is found and causes trouble for the rest of the crew
       new Pattern('test/foo.hbs'),
-      new Pattern('patternGroup1/patternSubgroup1/blue.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/red.mustache'),
-      new Pattern('patternGroup1/patternSubgroup1/yellow.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/black.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/grey.mustache'),
-      new Pattern('patternGroup1/patternSubgroup2/white.mustache')
+      new Pattern('patternGroup1/patternSubgroup1/blue.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/red.hbs'),
+      new Pattern('patternGroup1/patternSubgroup1/yellow.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/black.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/grey.hbs'),
+      new Pattern('patternGroup1/patternSubgroup2/white.hbs')
     );
     ui.resetUIBuilderState(patternlab);
 
@@ -654,8 +652,8 @@ tap.test(
       // within _.forOwn(...) loops, causing premature termination of the entire loop
       // when what was intended was a continue
       // we expect 8 here because:
-      //   - foo.mustache is flat and therefore does not have a viewall page
-      //   - the colors.mustache files make 6
+      //   - foo.hbs is flat and therefore does not have a viewall page
+      //   - the colors.hbs files make 6
       //   - patternSubgroup1 and patternSubgroup2 make 8
       //   - the general view all page make 9
       //   - the view-all page of test and test-foo make 11

@@ -24,7 +24,7 @@ The shorthand include syntax is less verbose than the default include syntax for
 
 For example, to include the following pattern in a molecule:
 
-    atoms/images/landscape-16x9.mustache
+    atoms/images/landscape-16x9.hbs
 
 The shorthand include syntax would be:
 
@@ -39,7 +39,7 @@ The following are examples of using the shorthand include syntax with our suppor
 {% raw %}{% include "atoms-landscape-16x9" %} // Twig{% endraw %}
 ```
 
-The shorthand syntax also allows for fuzzy matching on pattern names. This means that if you feel your pattern name is going to be unique within a given pattern type you can supply just the unique part of the pattern name and the partial will be included correctly. For example, using the shorthand syntax the pattern `atoms-landscape-16x9.mustache` could be written as:
+The shorthand syntax also allows for fuzzy matching on pattern names. This means that if you feel your pattern name is going to be unique within a given pattern type you can supply just the unique part of the pattern name and the partial will be included correctly. For example, using the shorthand syntax the pattern `atoms-landscape-16x9.hbs` could be written as:
 
     atoms-16x9
 
@@ -50,9 +50,9 @@ _Warning:_ Because subgroups are not included in the shorthand include syntax a 
 
 ## The Default Include Syntax
 
-If you need more specificity when including patterns the Node version of Pattern Lab also support the include syntax for the template language that you're using. For example, the syntax for Mustache is the path to the pattern minus the `.mustache` extension. Let's say we wanted to include the following pattern in a molecule:
+If you need more specificity when including patterns the Node version of Pattern Lab also support the include syntax for the template language that you're using. For example, the syntax for Mustache is the path to the pattern minus the `.hbs` extension. Let's say we wanted to include the following pattern in a molecule:
 
-    atoms/images/landscape-16x9.mustache
+    atoms/images/landscape-16x9.hbs
 
 The default Mustache include syntax would be:
 
@@ -68,13 +68,13 @@ Here are some examples of how to include patterns as well as some gotchas.
 
 ```handlebars
 {% raw %}// partials to match
-atoms/global/test.mustache
-atoms/global/test-with-picture.mustache
+atoms/global/test.hbs
+atoms/global/test-with-picture.hbs
 
 // using the shorthand partials syntax
-{{> atoms-test }}               // will match atoms/global/test.mustache
-{{> atoms-test-with-picture }}  // will match atoms/global/test-with-picture.mustache
+{{> atoms-test }}               // will match atoms/global/test.hbs
+{{> atoms-test-with-picture }}  // will match atoms/global/test-with-picture.hbs
 
 // using the default mustache partials syntax
-{{> atoms/global/test }}  // will match atoms/global/test.mustache{% endraw %}
+{{> atoms/global/test }}  // will match atoms/global/test.hbs{% endraw %}
 ```

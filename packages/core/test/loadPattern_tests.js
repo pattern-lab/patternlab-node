@@ -46,7 +46,7 @@ tap.test(
   function (test) {
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
-    var fooPatternPath = path.join('test', 'bar.mustache');
+    var fooPatternPath = path.join('test', 'bar.hbs');
 
     //act
     var result = loadPattern(fooPatternPath, patternlab);
@@ -62,7 +62,7 @@ tap.test(
   function (test) {
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
-    var fooPatternPath = path.join('test', 'bar.mustache');
+    var fooPatternPath = path.join('test', 'bar.hbs');
 
     //act
     var result = loadPattern(fooPatternPath, patternlab);
