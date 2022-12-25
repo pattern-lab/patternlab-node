@@ -9,16 +9,6 @@ var testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 var eol = require('os').EOL;
 var config = require('./util/patternlab-config.json');
 
-// don't run these tests unless mustache is installed
-var engineLoader = require('../src/lib/pattern_engines');
-engineLoader.loadAllEngines(config);
-if (!engineLoader.mustache) {
-  tap.test('Mustache engine not installed, skipping tests.', function (test) {
-    test.end();
-  });
-  return;
-}
-
 // fake pattern lab constructor:
 // sets up a fake patternlab object, which is needed by the pattern processing
 // apparatus.
