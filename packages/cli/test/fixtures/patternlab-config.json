@@ -49,7 +49,7 @@
 				"patternSectionSubgroup":
 					"node_modules/@pattern-lab/uikit-workshop/views/partials/patternSectionSubgroup.hbs",
 				"viewall":
-					"node_modules/@pattern-lab/uikit-workshop/viewall.hbs"
+					"node_modules/@pattern-lab/uikit-workshop/views/viewall.hbs"
 			},
 			"js": "./test/fixtures/source/js",
 			"images": "./test/fixtures/source/images",
