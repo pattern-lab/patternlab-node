@@ -24,7 +24,7 @@ There are three places to store data in Pattern Lab:
 - in [pattern-specific](/docs/creating-pattern-specific-values/) files in `./source/_patterns`.
 - in [pseudo-pattern](/docs/using-pseudo-patterns/) files in `./source/_patterns`.
 
-### A Special Note About Pattern Parameters
+### A Special Note About Pattern Parameters (Mustache engine)
 
 [Pattern parameters](/docs/using-pattern-parameters/) are a simple find and replace of variables in the included pattern. As such they do not affect the context stack of Mustache and we don't consider them true data. They have no impact on overall data inheritance and they cannot be used any deeper than the included pattern. They are a hack.
 

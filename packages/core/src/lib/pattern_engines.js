@@ -70,7 +70,7 @@ function findEngineModulesInDirectory(dir) {
 // any loaded PatternEngine by addressing them like this:
 //
 //   var PatternEngines = require('./pattern_engines/pattern_engines');
-//   var Mustache = PatternEngines['mustache'];
+//   var Handlebars = PatternEngines['handlebars'];
 //
 // Object.create lets us create an object with a specified prototype. We want
 // this here because we would like the object's "own properties" to include
@@ -172,9 +172,9 @@ const PatternEngines = Object.create({
       }
     }
 
-    // otherwise, assume it's a plain mustache template string and act
+    // otherwise, assume it's a plain handlebars template string and act
     // accordingly
-    return 'mustache';
+    return 'handlebars';
   },
 
   /**

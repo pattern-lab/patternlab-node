@@ -11,6 +11,8 @@ sitemapPriority: '0.8'
 sitemapChangefreq: 'monthly'
 ---
 
+## Mustache
+
 **Important:** Pattern parameters are supported by the Node Mustache PatternEngines. Other template languages provide better solutions to this problem.
 
 Pattern parameters are a **simple** mechanism for replacing Mustache variables in an included pattern. They are limited to replacing variables in the included pattern and **only** the included pattern. They are especially useful when including a single pattern multiple times in a molecule, template, or page and you want to supply unique data to that pattern each time it's included. Pattern parameters **do not** currently support the following:
@@ -25,7 +27,7 @@ Pattern parameters are Pattern Lab-specific, have no relationship to Mustache, a
 - [Adding Pattern Parameters to Your Pattern Partial](#adding-pattern-parameters)
 - [Toggling Sections with Pattern Parameters](#toggling-sections)
 
-## <span id="pattern-parameter-syntax"></span>The Pattern Parameter Syntax
+### <span id="pattern-parameter-syntax"></span>The Pattern Parameter Syntax
 
 The attributes listed in the pattern parameters need to match Mustache variable names in your pattern. The values listed for each attribute will replace the Mustache variables. For example:
 
@@ -33,7 +35,7 @@ The attributes listed in the pattern parameters need to match Mustache variable 
 
 Again, pattern parameters are a simple find and replace of Mustache variables with the supplied values.
 
-## <span id="adding-pattern-parameters"></span>Adding Pattern Parameters to Your Pattern Partial
+### <span id="adding-pattern-parameters"></span>Adding Pattern Parameters to Your Pattern Partial
 
 Let's look at a simple example for how we might use pattern parameters. First we'll set-up a pattern that might be included multiple times. We'll make it a simple "message" pattern with a single Mustache variable of `message`.
 
@@ -73,7 +75,7 @@ Instead we can use pattern parameters to supply unique messages for each instanc
 
 Now each pattern would have its very own message.
 
-## <span id="toggling-sections"></span>Toggling Sections with Pattern Parameters
+### <span id="toggling-sections"></span>Toggling Sections with Pattern Parameters
 
 While pattern parameters are not a one-to-one match for Mustache they do offer the ability to toggle sections of content. For example we might have the following in a generic header pattern called `organisms-header`:
 

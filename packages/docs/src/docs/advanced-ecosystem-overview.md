@@ -44,7 +44,7 @@ UIKits are the front-end of Pattern Lab. We call this “The Viewer.” UIKits a
 
 ### PatternEngines
 
-PatternEngines are the templating engines that are responsible for parsing patterns and turning them into HTML. PatternEngines give Pattern Lab Core the flexibility to render many different types of template languages. Current PatternEngines include Mustache and Twig, with others like Handlebars and Underscore in development. And there’s no stopping you from adding another templating engine to Pattern Lab.
+PatternEngines are the templating engines that are responsible for parsing patterns and turning them into HTML. PatternEngines give Pattern Lab Core the flexibility to render many different types of template languages. Current PatternEngines include Handlebars and Twig, with others like React and Underscore in development. And there’s nothing stopping you from adding another templating engine to Pattern Lab.
 
 ### Plugins
 

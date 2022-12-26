@@ -1,16 +1,16 @@
 ---
-title: Introduction to JSON & Mustache Variables
+title: Introduction to JSON & Handlebars Variables
 tags:
   - docs
 category: data
 eleventyNavigation:
-  title: Introduction to JSON & Mustache Variables
+  title: Introduction to JSON & Handlebars Variables
   key: data
   order: 300
 sitemapPriority: '0.8'
 ---
 
-> This documentation is provided as a simple introduction to using one of the supported data types and one of the supported PatternEngines. The best reference for this topic is the [Mustache documentation](https://mustache.github.io/mustache.5.html) but this should provide a good beginner's primer.
+> This documentation is provided as a simple introduction to using one of the supported data types and one of the supported PatternEngines. The best reference for this topic is the [Handlebars documentation](https://handlebarsjs.com/contributing/interactive-examples.html#embedding-parts-of-an-example) but this should provide a good beginner's primer.
 
 ## Simple Variables
 
@@ -20,13 +20,13 @@ At its core JSON is a simple key-value store. This means that any piece of data 
 "src": "../../images/fpo_avatar.png"
 ```
 
-In this case the key is `src` and the value is `../../images/fpo_avatar.png`. Let's look at how we might reference this data in a pattern template. Mustache variables are denoted by the double-curly braces (or mustaches).
+In this case the key is `src` and the value is `../../images/fpo_avatar.png`. Let's look at how we might reference this data in a pattern template. Handlebars variables are denoted by the double-curly braces (or mustaches).
 
 ```html
 <img src="{% raw %}{{ src }}{% endraw %}" alt="Avatar" />
 ```
 
-The Mustache variable is `{% raw %}{{ src }}{% endraw %}`. Note that `src` matches the name of the key in our JSON example. When the Node version of Pattern Lab compile this template the end result will be:
+The Handlebars variable is `{% raw %}{{ src }}{% endraw %}`. Note that `src` matches the name of the key in our JSON example. When the Node version of Pattern Lab compile this template the end result will be:
 
 ```html
 <img src="../../images/fpo_avatar.png" alt="Avatar" />
@@ -36,7 +36,7 @@ Note that `{% raw %}{{ src }}{% endraw %}` was replaced by the value for `src` f
 
 ## Nested Variables
 
-We may want our JSON file to be a little more organized and our Mustache variable names to be a little more descriptive. For example, maybe we have multiple image sizes that we want to provide image sources for. We might organize our JSON key-values this way:
+We may want our JSON file to be a little more organized and our Handlebars variable names to be a little more descriptive. For example, maybe we have multiple image sizes that we want to provide image sources for. We might organize our JSON key-values this way:
 
 ```javascript
 "square": {
@@ -74,13 +74,13 @@ This nesting makes it easier to read how the attributes are organized in our pat
 
 ## Rendering HTML in Variables
 
-You may want to include HTML in your variables. By default, Mustache will convert HTML mark-up to their HTML entity equivalents. For example, our JSON may look like:
+You may want to include HTML in your variables. By default, Handlebars will convert HTML mark-up to their HTML entity equivalents. For example, our JSON may look like:
 
 ```javascript
 "lyrics": "Just <em>good ol' boys</em>, wouldn't change if they could, <strong>fightin'</strong> the system like a true modern day Robin Hood."
 ```
 
-Based on our previous Mustache examples you would probably write out your template like so:
+Based on our previous Handlebars examples you would probably write out your template like so:
 
 ```html
 <h2>TV Show Lyrics</h2>

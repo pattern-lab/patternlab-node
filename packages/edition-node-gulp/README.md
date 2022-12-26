@@ -14,7 +14,7 @@ The Gulp wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/p
 This Edition comes with the following components:
 
 * `@pattern-lab/core`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core) | [npm](https://www.npmjs.com/package/@pattern-lab/core)
-* `@pattern-lab/engine-mustache`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-mustache) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-mustache)
+* `@pattern-lab/engine-handlebars`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-handlebars)
 * `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
 
 ## Prerequisites

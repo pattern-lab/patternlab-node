@@ -68,7 +68,7 @@
       "css" : "./public/css"
     }
   },
-  "patternExtension": "mustache",
+  "patternExtension": "hbs",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternExportAll": false,
   "patternExportPreserveDirectoryStructure": false,

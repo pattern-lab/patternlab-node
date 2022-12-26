@@ -26,7 +26,7 @@ Here are the parts:
 - `patternName` is the name of the pattern. This is used when the pattern is displayed in the drop downs in Pattern Lab.
 - `patternExtension` is the file extension that tells the PatternEngine to render the pattern. For example, `.hbs`.
 
-Dashes (`-`) in your pattern types, pattern subgroups or pattern names will be replaced with spaces. For example, if you want a pattern to be displayed in the drop-down as "Hamburger Navigation" and you're using the Mustache PatternEngine you should name it `hamburger-navigation.hbs`.
+Dashes (`-`) in your pattern types, pattern subgroups or pattern names will be replaced with spaces. For example, if you want a pattern to be displayed in the drop-down as "Hamburger Navigation" and you're using the Handlebars PatternEngine you should name it `hamburger-navigation.hbs`.
 
 ## Pattern Type Naming Conventions
 

@@ -14,7 +14,7 @@ sitemapChangefreq: 'monthly'
 To include one pattern within another, for example to create a molecule from several atoms, you can either use:
 
 - a shorthand include syntax or
-- the default include syntax for the template language you're using (e.g. Mustache, Twig, Handlebars).
+- the default include syntax for the template language you're using (e.g. Handlebars, Twig).
 
 ## The Shorthand Include Syntax
 
@@ -35,7 +35,7 @@ The pattern type matches the top-level folder and is `atoms`. The pattern name m
 The following are examples of using the shorthand include syntax with our supported PatternEngines:
 
 ```
-{% raw %}{{> atoms-landscape-16x9 }}          // Mustache{% endraw %}
+{% raw %}{{> atoms-landscape-16x9 }}          // Handlebars{% endraw %}
 {% raw %}{% include "atoms-landscape-16x9" %} // Twig{% endraw %}
 ```
 
@@ -50,11 +50,11 @@ _Warning:_ Because subgroups are not included in the shorthand include syntax a 
 
 ## The Default Include Syntax
 
-If you need more specificity when including patterns the Node version of Pattern Lab also support the include syntax for the template language that you're using. For example, the syntax for Mustache is the path to the pattern minus the `.hbs` extension. Let's say we wanted to include the following pattern in a molecule:
+If you need more specificity when including patterns the Node version of Pattern Lab also support the include syntax for the template language that you're using. For example, the syntax for Handlebars is the path to the pattern minus the `.hbs` extension. Let's say we wanted to include the following pattern in a molecule:
 
     atoms/images/landscape-16x9.hbs
 
-The default Mustache include syntax would be:
+The default Handlebars include syntax would be:
 
 ```handlebars
 {% raw %}{{> atoms/images/landscape-16x9 }}{% endraw %}
@@ -75,6 +75,6 @@ atoms/global/test-with-picture.hbs
 {{> atoms-test }}               // will match atoms/global/test.hbs
 {{> atoms-test-with-picture }}  // will match atoms/global/test-with-picture.hbs
 
-// using the default mustache partials syntax
+// using the default handlebars partials syntax
 {{> atoms/global/test }}  // will match atoms/global/test.hbs{% endraw %}
 ```
