@@ -6,7 +6,6 @@
   "dependencies": {
     "@pattern-lab/cli": "^5.17.0",
     "@pattern-lab/core": "^5.17.0",
-    "@pattern-lab/engine-mustache": "^5.16.4",
     "@pattern-lab/uikit-workshop": "^5.17.0",
     "gulp": "4.0.2",
     "minimist": "1.2.5"
