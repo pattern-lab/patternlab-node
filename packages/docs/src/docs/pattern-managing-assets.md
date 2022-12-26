@@ -24,28 +24,34 @@ Pattern Lab has a configuration object which allows users to separate source pat
 ```javascript
   "paths" : {
     "source" : {
-      "root": "./source/",
-      "patterns" : "./source/_patterns/",
-      "data" : "./source/_data/",
-      "meta": "./source/_meta/",
-      "annotations" : "./source/_annotations/",
-      "styleguide" : "./node_modules/styleguidekit-assets-default/dist/",
-      "patternlabFiles" : "./node_modules/styleguidekit-mustache-default/views/",
-      "js" : "./source/js",
-      "images" : "./source/images",
-      "fonts" : "./source/fonts",
-      "css" : "./source/css/"
+      "root": "source/",
+      "patterns" : "source/_patterns/",
+      "data" : "source/_data/",
+      "meta": "source/_meta/",
+      "annotations" : "source/_annotations/",
+      "styleguide" : "dist/",
+      "patternlabFiles": {
+        "general-header": "views/partials/general-header.hbs",
+        "general-footer": "views/partials/general-footer.hbs",
+        "patternSection": "views/partials/patternSection.hbs",
+        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.hbs",
+        "viewall": "views/viewall.hbs"
+      },
+      "js" : "source/js",
+      "images" : "source/images",
+      "fonts" : "source/fonts",
+      "css" : "source/css/"
     },
     "public" : {
-      "root" : "./public/",
-      "patterns" : "./public/patterns/",
-      "data" : "./public/styleguide/data/",
-      "annotations" : "./public/annotations/",
-      "styleguide" : "./public/styleguide/",
-      "js" : "./public/js",
-      "images" : "./public/images",
-      "fonts" : "./public/fonts",
-      "css" : "./public/css"
+      "root" : "public/",
+      "patterns" : "public/patterns/",
+      "data" : "public/styleguide/data/",
+      "annotations" : "public/annotations/",
+      "styleguide" : "public/styleguide/",
+      "js" : "public/js",
+      "images" : "public/images",
+      "fonts" : "public/fonts",
+      "css" : "public/css"
     }
   }
 ```
