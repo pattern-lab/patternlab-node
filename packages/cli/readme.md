@@ -95,7 +95,7 @@ Passing no options starts the init in interactive mode
 		-h, --help                output usage information
 		-p, --project-dir <path>  Specify a project directory. Default: ./
 		-e, --edition <name>      Specify an edition to install. Default: @pattern-lab/edition-node
-		-k, --starterkit <name>   Specify a starterkit to install. Default: @pattern-lab/starterkit-handlebars-vanilla
+		-k, --starterkit <name>   Specify a starterkit to install. Default: @pattern-lab/starterkit-handlebars-demo
 ```
 
 ### Serve Pattern Lab
