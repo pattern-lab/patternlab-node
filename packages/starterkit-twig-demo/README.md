@@ -3,7 +3,7 @@
 
 # Demo StarterKit for Twig
 
-The Demo StarterKit for Twig is meant to be used as a demo that highlights how to combine Twig and Pattern Lab. It is currently very thin. We're looking for maintainers who may be interested in making this demo the equal to if not better than the Mustache demo.
+The Demo StarterKit for Twig is meant to be used as a demo that highlights how to combine Twig and Pattern Lab. It is currently very thin. We're looking for maintainers who may be interested in making this demo the equal to if not better than the Handlebars demo.
 
 ## Requirements
 
