@@ -9,7 +9,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "6.16.0",
     "babel-preset-react": "6.16.0",
     "cheerio": "0.22.0",
-    "hogan": "1.0.2",
+    "handlebars": "^4.7.7",
     "js-beautify": "1.13.5",
     "react": "15.3.2",
     "react-dom": "15.3.2"
