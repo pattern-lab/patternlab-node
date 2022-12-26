@@ -149,11 +149,11 @@ Sets the configurable source and public directories for files Pattern Lab Node o
       "annotations": "./source/_annotations/",
       "styleguide": "dist/",
       "patternlabFiles": {
-        "general-header": "views/partials/general-header.handlebars",
-        "general-footer": "views/partials/general-footer.handlebars",
-        "patternSection": "views/partials/patternSection.handlebars",
-        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.handlebars",
-        "viewall": "views/viewall.handlebars"
+        "general-header": "views/partials/general-header.hbs",
+        "general-footer": "views/partials/general-footer.hbs",
+        "patternSection": "views/partials/patternSection.hbs",
+        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.hbs",
+        "viewall": "views/viewall.hbs"
       },
       "js": "./source/js",
       "images": "./source/images",
