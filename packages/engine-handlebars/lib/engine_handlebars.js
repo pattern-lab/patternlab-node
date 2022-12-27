@@ -129,8 +129,8 @@ const engine_handlebars = {
    * assume it's already present
    */
   spawnMeta: function (config) {
-    this.spawnFile(config, '_head.hbs');
-    this.spawnFile(config, '_foot.hbs');
+    this.spawnFile(config, '_head.' + config.patternExtension);
+    this.spawnFile(config, '_foot.' + config.patternExtension);
   },
 
   /**

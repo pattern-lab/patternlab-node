@@ -41,18 +41,30 @@ const Pattern = function (
    */
   const pathObj = path.parse(this.relPath);
 
+  // We need to check for templates with a fileextension that contains multiple dots like e.g. .html.twig
+  if (
+    patternlab?.config?.patternExtension?.includes('.') &&
+    this.relPath.endsWith('.' + patternlab.config.patternExtension)
+  ) {
+    this.fileName = path.basename(
+      this.relPath,
+      '.' + patternlab.config.patternExtension
+    ); // e.g. 'colors'
+  } else {
+    this.fileName = pathObj.name; // e.g. 'colors'
+  }
+  this.subdir = pathObj.dir; // 'atoms/global'
+  this.fileExtension = pathObj.ext; // '.hbs'
+
   const info = this.getPatternInfo(
     pathObj,
     patternlab,
     isPromoteToFlatPatternRun ||
       (patternlab &&
         patternlab.config &&
-        patternlab.config.allPatternsAreDeeplyNested)
+        patternlab.config.allPatternsAreDeeplyNested),
+    this.fileName
   );
-
-  this.fileName = pathObj.name; // 'colors'
-  this.subdir = pathObj.dir; // 'atoms/global'
-  this.fileExtension = pathObj.ext; // '.mustache'
 
   // TODO: Remove if block when dropping ordering by prefix and keep else code
   // (When we drop the info about the old ordering is deprecated)
@@ -345,15 +357,20 @@ Pattern.prototype = {
    *
    * @param pathObj path.parse() object containing useful path information
    */
-  getPatternInfo: (pathObj, patternlab, isPromoteToFlatPatternRun) => {
+  getPatternInfo: (
+    pathObj,
+    patternlab,
+    isPromoteToFlatPatternRun,
+    filename
+  ) => {
     const info = {
       // colors(.mustache) is deeply nested in atoms-/global/colors
       patternlab: patternlab,
       patternHasOwnDir: isPromoteToFlatPatternRun
         ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
-            pathObj.name.replace(prefixMatcher, '') ||
+            filename.replace(prefixMatcher, '') ||
           path.basename(pathObj.dir).replace(prefixMatcher, '') ===
-            pathObj.name.split('~')[0].replace(prefixMatcher, '')
+            filename.split('~')[0].replace(prefixMatcher, '')
         : false,
     };
 
