@@ -14,7 +14,7 @@ const path = require('path');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const Babel = require('babel-core');
-const Handlebars = require('handlebars');
+const Hogan = require('hogan');
 const beautify = require('js-beautify');
 const cheerio = require('cheerio');
 const _require = require;
@@ -44,7 +44,7 @@ let patternLabConfig = {};
 
 let enableRuntimeCode = true;
 
-const outputTemplate = Handlebars.compile(
+const outputTemplate = Hogan.compile(
   fs.readFileSync(path.join(__dirname, './outputTemplate.mustache'), 'utf8')
 );
 
