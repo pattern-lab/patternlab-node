@@ -54,7 +54,7 @@ Note how some sets of files even extend into the "vendor" `./node_modules/` dire
 
 ## Preprocessed files
 
-In case you're using a preprocessor to e.g. compile TypeScript files to JavaScript files, or SCSS/SASS files to CSS files, you might want to use your solution of choice, that perfectly fits your needs. Pattern lab doesn't restrict you at all on this, and as well doesn't deliver any defaults for the general pattern files. So e.g. you could install [`sass` node package](https://www.npmjs.com/package/sass) to compile `.scss` files, add a script to your `package.json` as well, and let those files get genereated at the `./source/css` folder.
+In case you're using a preprocessor to e.g. compile TypeScript files to JavaScript files, or SCSS/SASS files to CSS files, you might want to use your solution of choice, that perfectly fits your needs. Pattern Lab doesn't restrict you at all on this, and as well doesn't deliver any defaults for the general pattern files. So e.g. you could install [`sass` node package](https://www.npmjs.com/package/sass) to compile `.scss` files, add a script to your `package.json` as well, and let those files get generated at the `./source/css` folder.
 
 You might want to even also ignore those source files from being copied over to your `public` folders, as they won't need to get delivered to a hosting environment, which we describe in the next section.
 
