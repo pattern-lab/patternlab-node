@@ -1,0 +1,26 @@
+/*------------------------------------*\
+    #FONT REFERENCES
+\*------------------------------------*/
+
+/**
+ * Referencing SCSS mixins by @fontsource library
+ * Hardening references by – redundant, but specifically – declaring the variables previous to @include
+ */
+
+// Generate CSS declarations for Abel font
+@import "@fontsource/abel/scss/mixins";
+$style: normal;
+$weight: 400;
+@include fontFace($fontDir: '../fonts');
+
+// Generate CSS declarations for Raleway font
+@import "@fontsource/raleway/scss/mixins";
+$style: normal;
+$weight: 400;
+@include fontFace($fontDir: '../fonts');
+$style: italic;
+$weight: 400;
+@include fontFace($fontDir: '../fonts');
+$style: normal;
+$weight: 700;
+@include fontFace($fontDir: '../fonts');
