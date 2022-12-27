@@ -13,3 +13,4 @@ packages/**/annotations.js
 *.json
 *.md
 *.scss
+**/_meta/_head.*
