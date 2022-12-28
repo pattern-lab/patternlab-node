@@ -2041,11 +2041,6 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@pattern-lab/starterkit-mustache-base@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-base/-/starterkit-mustache-base-3.0.3.tgz#8ce9bc8e0d2254ee970a09c4bdc76d4f6131c91d"
-  integrity sha512-AALdLim5L4ODDjUevRGBY/omhzTU38tSJMRRLaCnwoZ9dxn2QOZNampxj5T7Fhn4oTQnyjhawslVbqVekoViig==
-
 "@reach/visually-hidden@^0.1.2":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.1.4.tgz#0dc4ecedf523004337214187db70a46183bd945b"
@@ -15033,26 +15028,6 @@ standard-version@9.1.1:
     semver "^7.1.1"
     stringify-package "^1.0.1"
     yargs "^16.0.0"
-
-starterkit-mustache-acidtest@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-acidtest/-/starterkit-mustache-acidtest-0.0.3.tgz#8ad2b69f955b487ce60415b4d2b0e2177aa0af29"
-  integrity sha1-itK2n5VbSHzmBBW00rDiF3qgryk=
-
-starterkit-mustache-bootstrap@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-bootstrap/-/starterkit-mustache-bootstrap-0.1.1.tgz#1cc0b988a8e6fc084dbb9604bf166af17b4216e6"
-  integrity sha1-HMC5iKjm/AhNu5YEvxZq8XtCFuY=
-
-starterkit-mustache-foundation@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-foundation/-/starterkit-mustache-foundation-0.1.1.tgz#083bf6c1cf6a605ce8729555d502726fa419fd01"
-  integrity sha1-CDv2wc9qYFzocpVV1QJyb6QZ/QE=
-
-starterkit-mustache-materialdesign@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-materialdesign/-/starterkit-mustache-materialdesign-0.1.2.tgz#1806fa26c87a79ed343cffc139d215a634b7994a"
-  integrity sha1-GAb6Jsh6ee00PP/BOdIVpjS3mUo=
 
 static-extend@^0.1.1:
   version "0.1.2"
