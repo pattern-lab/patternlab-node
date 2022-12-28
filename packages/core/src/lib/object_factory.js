@@ -46,15 +46,13 @@ const Pattern = function (
     patternlab?.config?.patternExtension?.includes('.') &&
     this.relPath.endsWith('.' + patternlab.config.patternExtension)
   ) {
-    this.fileName = path.basename(
-      this.relPath,
-      '.' + patternlab.config.patternExtension
-    ); // e.g. 'colors'
+    this.fileExtension = '.' + patternlab.config.patternExtension; // e.g. '.html.twig'
+    this.fileName = path.basename(this.relPath, this.fileExtension); // e.g. 'colors'
   } else {
+    this.fileExtension = pathObj.ext; // e.g. '.hbs'
     this.fileName = pathObj.name; // e.g. 'colors'
   }
   this.subdir = pathObj.dir; // 'atoms/global'
-  this.fileExtension = pathObj.ext; // '.hbs'
 
   const info = this.getPatternInfo(
     pathObj,
