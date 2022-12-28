@@ -168,9 +168,6 @@ const engine_underscore = {
     const matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function () {
-    return [];
-  },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern

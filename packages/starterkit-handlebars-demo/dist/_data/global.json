@@ -1,5 +1,5 @@
 {
     "footerLogo": {
-        "styleModifier": "c-logo--light"
+        "additionalClasses": "c-logo--light"
     }
 }

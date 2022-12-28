@@ -11,9 +11,6 @@ module.exports = function (pattern, patternlab) {
   return pph
     .find_pseudopatterns(pattern, patternlab)
     .then(() => {
-      //find any stylemodifiers that may be in the current pattern
-      pattern.stylePartials = pattern.findPartialsWithStyleModifiers();
-
       //find any pattern parameters that may be in the current pattern
       pattern.parameteredPartials = pattern.findPartialsWithPatternParameters();
       return Promise.resolve(pattern);

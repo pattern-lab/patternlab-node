@@ -11,7 +11,7 @@
 			"width": "1200",
 			"height": "800",
 			"stripeField": {
-				"styleModifier": "c-field--small",
+				"additionalClasses": "c-field--small",
 				"label": "Quantity",
 				"value": "1"
 			},
@@ -28,7 +28,7 @@
 			"width": "1200",
 			"height": "800",
 			"stripeField": {
-				"styleModifier": "c-field--small",
+				"additionalClasses": "c-field--small",
 				"label": "Quantity",
 				"value": "1"
 			},
