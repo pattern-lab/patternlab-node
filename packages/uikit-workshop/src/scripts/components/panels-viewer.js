@@ -176,7 +176,7 @@ export const panelsViewer = {
           // vanilla render of pattern data
           template = document.getElementById(panel.templateID);
           templateCompiled = Handlebars.compile(template.innerHTML);
-          templateRendered = templateCompiled.render(patternData);
+          templateRendered = templateCompiled(patternData);
           const normalizedCode =
             normalizeWhitespace.normalize(templateRendered);
           normalizedCode.replace(/[\r\n]+/g, '\n\n');
@@ -305,7 +305,7 @@ export const panelsViewer = {
     // render all of the panels in the base panel template
     const template = document.querySelector('.pl-js-panel-template-base');
     const templateCompiled = Handlebars.compile(template.innerHTML);
-    templateRendered = templateCompiled.render(patternData);
+    templateRendered = templateCompiled(patternData);
 
     // make sure templateRendered is modified to be an HTML element
     const div = document.createElement('div');
