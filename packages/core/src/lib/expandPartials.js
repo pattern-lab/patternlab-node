@@ -2,12 +2,10 @@
 
 const logger = require('./log');
 const ph = require('./parameter_hunter');
-const smh = require('./style_modifier_hunter');
 const jsonCopy = require('./json_copy');
 const getPartial = require('./get');
 
 const parameter_hunter = new ph();
-const style_modifier_hunter = new smh();
 
 module.exports = function (currentPattern, patternlab) {
   const processRecursive = require('./processRecursive');
@@ -46,18 +44,6 @@ module.exports = function (currentPattern, patternlab) {
                 partialPattern,
                 `partial pattern ${partial}`
               );
-
-              //if partial has style modifier data, replace the styleModifier value
-              if (
-                currentPattern.stylePartials &&
-                currentPattern.stylePartials.length > 0
-              ) {
-                style_modifier_hunter.consume_style_modifier(
-                  cleanPartialPattern,
-                  foundPartial,
-                  patternlab
-                );
-              }
 
               //this is what we came here for
               logger.debug(
