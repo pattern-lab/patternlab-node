@@ -3,7 +3,7 @@
  */
 /* eslint-disable no-param-reassign, no-unused-vars */
 
-import Handlebars from 'handlebars';
+import Handlebars from 'handlebars/dist/handlebars';
 import pretty from 'pretty';
 import { html, render } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
