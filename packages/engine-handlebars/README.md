@@ -9,8 +9,8 @@ To install the Handlebars PatternEngine in your edition, `npm install --save @pa
 * [x] [Hidden Patterns](https://patternlab.io/docs/hiding-patterns-in-the-navigation/)
 * [x] [Pseudo-Patterns](https://patternlab.io/docs/using-pseudo-patterns/)
 * [x] [Pattern States](https://patternlab.io/docs/using-pattern-states/)
-* [ ] [Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/) (Accomplished instead using [native Handlebars partial arguments](https://handlebarsjs.com/guide/partials.html))
-* [ ] [Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177) (Accomplished instead using [native Handlebars partial arguments](https://handlebarsjs.com/guide/partials.html))
+* [ ] ~~[Pattern Parameters](https://patternlab.io/docs/using-pattern-parameters/)~~ (Accomplished instead using [native Handlebars partial arguments](https://handlebarsjs.com/guide/partials.html))
+* [ ] ~~[Style Modifiers](https://github.com/pattern-lab/patternlab-node/issues/1177)~~ (Accomplished instead using [native Handlebars partial arguments](https://handlebarsjs.com/guide/partials.html))
 
 ## Helpers
 

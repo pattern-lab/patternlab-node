@@ -86,7 +86,6 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (
           extendedTemplate: currentPattern.extendedTemplate,
           isPseudoPattern: true,
           basePattern: currentPattern,
-          stylePartials: currentPattern.stylePartials,
           parameteredPartials: currentPattern.parameteredPartials,
 
           // Only regular patterns are discovered during iterative walks

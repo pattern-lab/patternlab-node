@@ -249,13 +249,6 @@ tap.test(
 );
 
 tap.test(
-  'find_pattern_partials finds simple partials with style modifiers',
-  function (test) {
-    testFindPartials(test, ['{{> molecules-single-comment:foo }}']);
-  }
-);
-
-tap.test(
   'find_pattern_partials finds partials with handlebars parameters',
   function (test) {
     testFindPartials(test, [
