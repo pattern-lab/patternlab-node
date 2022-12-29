@@ -167,10 +167,6 @@ const engine_twig_php = {
     return filteredMatches;
   },
 
-  findPartialsWithStyleModifiers(pattern) {
-    return null;
-  },
-
   findPartialsWithPatternParameters(pattern) {
     return null;
   },

@@ -6,7 +6,7 @@
                 "label": "Shipping Information"
             },
             {
-                "styleModifier": "is-current",
+                "additionalClasses": "is-current",
                 "number": "2",
                 "label": "Billing Information"
             },

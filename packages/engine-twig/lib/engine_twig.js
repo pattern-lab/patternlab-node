@@ -153,11 +153,6 @@ var engine_twig = {
     var matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function () {
-    // TODO: make the call to this from oPattern objects conditional on their
-    // being implemented here.
-    return [];
-  },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
