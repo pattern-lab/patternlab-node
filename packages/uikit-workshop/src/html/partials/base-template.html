@@ -8,13 +8,13 @@
   <!-- extra info for modal view -->
   <div class="pl-c-pattern-info__header">
     <ul class="pl-c-breadcrumb">
-      {{#each patternBreadcrumb }}
+      {{#if patternBreadcrumb }}
 
       <li class="pl-c-breadcrumb__item">{{ patternGroup }}</li>
 
       {{#if patternSubgroup }}
       <li class="pl-c-breadcrumb__item">{{ patternSubgroup }}</li>
-      {{/if }} {{/each }}
+      {{/if }} {{/if }}
     </ul>
     <!--end pl-c-breadcrumb-->
 
