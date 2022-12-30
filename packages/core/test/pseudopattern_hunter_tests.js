@@ -84,49 +84,41 @@ tap.test('pseudpattern does not pollute base pattern data', function (test) {
   });
 });
 
-tap.test(
-  'pseudpattern variant includes stylePartials and parameteredPartials',
-  function (test) {
-    //arrange
-    var pl = stubPatternlab();
+tap.test('pseudpattern variant includes parameteredPartials', function (test) {
+  //arrange
+  var pl = stubPatternlab();
 
-    var atomPattern = new Pattern('test/styled-atom.hbs');
-    atomPattern.template = fs.readFileSync(
-      patterns_dir + 'test/styled-atom.hbs',
-      'utf8'
+  var atomPattern = new Pattern('test/styled-atom.hbs');
+  atomPattern.template = fs.readFileSync(
+    patterns_dir + 'test/styled-atom.hbs',
+    'utf8'
+  );
+  atomPattern.extendedTemplate = atomPattern.template;
+  atomPattern.parameteredPartials =
+    atomPattern.findPartialsWithPatternParameters(atomPattern);
+
+  var pseudoPattern = new Pattern('test/pseudomodifier.hbs');
+  pseudoPattern.template = fs.readFileSync(
+    patterns_dir + 'test/pseudomodifier.hbs',
+    'utf8'
+  );
+  pseudoPattern.extendedTemplate = atomPattern.template;
+  pseudoPattern.parameteredPartials =
+    pseudoPattern.findPartialsWithPatternParameters(pseudoPattern);
+
+  addPattern(atomPattern, pl);
+  addPattern(pseudoPattern, pl);
+
+  //act
+  return pph.find_pseudopatterns(pseudoPattern, pl).then(() => {
+    //assert
+    test.equal(pl.patterns[2].patternPartial, 'test-pseudomodifier-test');
+    test.equal(
+      pl.patterns[2].parameteredPartials,
+      pseudoPattern.parameteredPartials
     );
-    atomPattern.extendedTemplate = atomPattern.template;
-    atomPattern.stylePartials =
-      atomPattern.findPartialsWithStyleModifiers(atomPattern);
-    atomPattern.parameteredPartials =
-      atomPattern.findPartialsWithPatternParameters(atomPattern);
-
-    var pseudoPattern = new Pattern('test/pseudomodifier.hbs');
-    pseudoPattern.template = fs.readFileSync(
-      patterns_dir + 'test/pseudomodifier.hbs',
-      'utf8'
-    );
-    pseudoPattern.extendedTemplate = atomPattern.template;
-    pseudoPattern.stylePartials =
-      pseudoPattern.findPartialsWithStyleModifiers(pseudoPattern);
-    pseudoPattern.parameteredPartials =
-      pseudoPattern.findPartialsWithPatternParameters(pseudoPattern);
-
-    addPattern(atomPattern, pl);
-    addPattern(pseudoPattern, pl);
-
-    //act
-    return pph.find_pseudopatterns(pseudoPattern, pl).then(() => {
-      //assert
-      test.equal(pl.patterns[2].patternPartial, 'test-pseudomodifier-test');
-      test.equal(pl.patterns[2].stylePartials, pseudoPattern.stylePartials);
-      test.equal(
-        pl.patterns[2].parameteredPartials,
-        pseudoPattern.parameteredPartials
-      );
-    });
-  }
-);
+  });
+});
 
 tap.test('pseudo pattern variant data should merge arrays', function (test) {
   const pl = stubPatternlab();

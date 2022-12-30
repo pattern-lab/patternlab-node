@@ -14,64 +14,34 @@ const minimalConfig = {
   },
 };
 
-tap.test('Install starterkit-mustache-demo ->', (t) =>
+tap.test('Install @pattern-lab/starterkit-handlebars-vanilla ->', (t) =>
   wrapAsync(function* () {
     yield installStarterkit(
-      '@pattern-lab/starterkit-mustache-demo',
+      '@pattern-lab/starterkit-handlebars-vanilla',
       minimalConfig
     );
-    const pkg = yield moduleExist('@pattern-lab/starterkit-mustache-demo');
+    const pkg = yield moduleExist('@pattern-lab/starterkit-handlebars-vanilla');
     t.ok(pkg, 'module should exist after install');
     t.end();
   })
 );
 
-tap.test('Install starterkit-mustache-base ->', (t) =>
+tap.test('Install @pattern-lab/starterkit-handlebars-demo ->', (t) =>
   wrapAsync(function* () {
     yield installStarterkit(
-      '@pattern-lab/starterkit-mustache-base',
+      '@pattern-lab/starterkit-handlebars-demo',
       minimalConfig
     );
-    const pkg = yield moduleExist('@pattern-lab/starterkit-mustache-base');
+    const pkg = yield moduleExist('@pattern-lab/starterkit-handlebars-demo');
     t.ok(pkg, 'module should exist after install');
     t.end();
   })
 );
 
-tap.test('Install starterkit-mustache-bootstrap ->', (t) =>
+tap.test('Install @pattern-lab/starterkit-twig-demo ->', (t) =>
   wrapAsync(function* () {
-    yield installStarterkit('starterkit-mustache-bootstrap', minimalConfig);
-    const pkg = yield moduleExist('starterkit-mustache-bootstrap');
-    t.ok(pkg, 'module should exist after install');
-    t.end();
-  })
-);
-
-tap.test('Install starterkit-mustache-foundation ->', (t) =>
-  wrapAsync(function* () {
-    yield installStarterkit('starterkit-mustache-foundation', minimalConfig);
-    const pkg = yield moduleExist('starterkit-mustache-foundation');
-    t.ok(pkg, 'module should exist after install');
-    t.end();
-  })
-);
-
-tap.test('Install starterkit-mustache-acidtest ->', (t) =>
-  wrapAsync(function* () {
-    yield installStarterkit('starterkit-mustache-acidtest', minimalConfig);
-    const pkg = yield moduleExist('starterkit-mustache-acidtest');
-    t.ok(pkg, 'module should exist after install');
-    t.end();
-  })
-);
-
-tap.test('Install starterkit-mustache-materialdesign ->', (t) =>
-  wrapAsync(function* () {
-    yield installStarterkit(
-      'starterkit-mustache-materialdesign',
-      minimalConfig
-    );
-    const pkg = yield moduleExist('starterkit-mustache-materialdesign');
+    yield installStarterkit('@pattern-lab/starterkit-twig-demo', minimalConfig);
+    const pkg = yield moduleExist('@pattern-lab/starterkit-twig-demo');
     t.ok(pkg, 'module should exist after install');
     t.end();
   })

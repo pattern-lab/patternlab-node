@@ -254,34 +254,6 @@ tap.test('buildPatterns suite', (test) => {
       );
 
       tap.test(
-        'correctly ignores bookended partials without a style modifier when the same partial has a style modifier between',
-        (test) => {
-          var pattern = get('test-bookend-listitem', patternlab);
-          test.equal(
-            util.sanitized(pattern.extendedTemplate),
-            util.sanitized(`<div class="test_group">
-          {{#listItems-two}}
-            <span class="test_base {{styleModifier}}">
-            {{message}}
-        </span>
-
-            <span class="test_base test_1">
-            {{message}}
-        </span>
-
-            <span class="test_base {{styleModifier}}">
-            {{message}}
-        </span>
-
-          {{/listItems-two}}
-        </div>
-        `)
-          );
-          test.end();
-        }
-      );
-
-      tap.test(
         'listItems keys (`one` through `twelve`) can be used more than once per pattern',
         (test) => {
           var pattern = get('test-repeatedListItems', patternlab);

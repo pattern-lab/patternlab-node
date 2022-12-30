@@ -7,7 +7,7 @@
 			"buttonText": "Button"
 		},
         {
-			"styleModifier": "c-btn--bare",
+			"additionalClasses": "c-btn--bare",
 			"buttonTag": true,
 			"buttonText": "Button"
 		}

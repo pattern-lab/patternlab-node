@@ -68,7 +68,7 @@
 			"css": "./test/fixtures/public/css"
 		}
 	},
-	"patternExtension": "mustache",
+	"patternExtension": "hbs",
 	"patternStateCascade": ["inprogress", "inreview", "complete"],
 	"patternExportDirectory": "./pattern_exports/",
 	"patternExportPatternPartials": [],

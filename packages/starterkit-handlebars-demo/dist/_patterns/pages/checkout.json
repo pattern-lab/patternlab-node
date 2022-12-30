@@ -32,7 +32,7 @@
             },
             {
                 "inlineCheckbox": {
-                    "styleModifier": "u-margin-bottom-large",
+                    "additionalClasses": "u-margin-bottom-large",
                     "label": "Billing address is the same as shipping"
                 }
             }
@@ -48,7 +48,7 @@
         }
     ],
     "definitionListSection": {
-        "styleModifier":"c-definition-list-list--lined",
+        "additionalClasses":"c-definition-list-list--lined",
         "definitionItems": [
             {
                 "definitionList": {

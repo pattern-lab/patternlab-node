@@ -2041,11 +2041,6 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@pattern-lab/starterkit-mustache-base@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@pattern-lab/starterkit-mustache-base/-/starterkit-mustache-base-3.0.3.tgz#8ce9bc8e0d2254ee970a09c4bdc76d4f6131c91d"
-  integrity sha512-AALdLim5L4ODDjUevRGBY/omhzTU38tSJMRRLaCnwoZ9dxn2QOZNampxj5T7Fhn4oTQnyjhawslVbqVekoViig==
-
 "@reach/visually-hidden@^0.1.2":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.1.4.tgz#0dc4ecedf523004337214187db70a46183bd945b"
@@ -8186,10 +8181,10 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hogan.js@*, hogan.js@^3.0.2:
+hogan.js@*:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/hogan.js/-/hogan.js-3.0.2.tgz#4cd9e1abd4294146e7679e41d7898732b02c7bfd"
-  integrity sha1-TNnhq9QpQUbnZ55B14mHMrAse/0=
+  integrity sha512-RqGs4wavGYJWE07t35JQccByczmNUXQT0E12ZYV1VKYu5UiAU9lsos/yBAcf840+zrUQQxgVduCR5/B8nNtibg==
   dependencies:
     mkdirp "0.3.0"
     nopt "1.0.10"
@@ -8197,7 +8192,7 @@ hogan.js@*, hogan.js@^3.0.2:
 hogan@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/hogan/-/hogan-1.0.2.tgz#d8d5e57fae0e7787b3e01e14256f9d588a23d1f0"
-  integrity sha1-2NXlf64Od4ez4B4UJW+dWIoj0fA=
+  integrity sha512-2RV7G4f+Rt9YIYDu01r6pgZvP+XhrXi/JKlXd4b+vRybXk94ui4PQjbh/lFaH8gQtxCygy/WKkqmpm0IyZysJA==
   dependencies:
     hogan.js "*"
 
@@ -11080,7 +11075,7 @@ mkdirp2@^1.0.4:
 mkdirp@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.0.tgz#1bbf5ab1ba827af23575143490426455f481fe1e"
-  integrity sha1-G79asbqCevI1dRQ0kEJkVfSB/h4=
+  integrity sha512-OHsdUcVAQ6pOtg5JYWpCBo9W/GySVuwvP9hueRMW7UqshC0tbfzLv8wjySTPm3tfUZ/21CE9E1pJagOA91Pxew==
 
 mkdirp@0.5.1:
   version "0.5.1"
@@ -11426,7 +11421,7 @@ noms@0.0.0:
 nopt@1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-1.0.10.tgz#6ddd21bd2a31417b92727dd585f8a6f37608ebee"
-  integrity sha1-bd0hvSoxQXuScn3Vhfim83YI6+4=
+  integrity sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg==
   dependencies:
     abbrev "1"
 
@@ -15033,26 +15028,6 @@ standard-version@9.1.1:
     semver "^7.1.1"
     stringify-package "^1.0.1"
     yargs "^16.0.0"
-
-starterkit-mustache-acidtest@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-acidtest/-/starterkit-mustache-acidtest-0.0.3.tgz#8ad2b69f955b487ce60415b4d2b0e2177aa0af29"
-  integrity sha1-itK2n5VbSHzmBBW00rDiF3qgryk=
-
-starterkit-mustache-bootstrap@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-bootstrap/-/starterkit-mustache-bootstrap-0.1.1.tgz#1cc0b988a8e6fc084dbb9604bf166af17b4216e6"
-  integrity sha1-HMC5iKjm/AhNu5YEvxZq8XtCFuY=
-
-starterkit-mustache-foundation@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-foundation/-/starterkit-mustache-foundation-0.1.1.tgz#083bf6c1cf6a605ce8729555d502726fa419fd01"
-  integrity sha1-CDv2wc9qYFzocpVV1QJyb6QZ/QE=
-
-starterkit-mustache-materialdesign@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/starterkit-mustache-materialdesign/-/starterkit-mustache-materialdesign-0.1.2.tgz#1806fa26c87a79ed343cffc139d215a634b7994a"
-  integrity sha1-GAb6Jsh6ee00PP/BOdIVpjS3mUo=
 
 static-extend@^0.1.1:
   version "0.1.2"

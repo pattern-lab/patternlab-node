@@ -4,10 +4,10 @@
         "description": false
     },
 	"stackedBlockSection" : {
-		"styleModifier": "u-margin-bottom-large",
+		"additionalClasses": "u-margin-bottom-large",
 		"stackedBlockList": [
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/men-blue-shoes.jpg",
@@ -22,7 +22,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/women-hiking-boots.jpg",
@@ -37,7 +37,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/women-blue-heels.jpg",
@@ -53,7 +53,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/men-chucks.jpg",
@@ -69,7 +69,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/men-brown-shoes.jpg",
@@ -84,7 +84,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-leather-booties.jpg",

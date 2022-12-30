@@ -17,7 +17,7 @@ tap.test('Init and export ->', (t) =>
       '--edition',
       '@pattern-lab/edition-node',
       '--starterkit',
-      '@pattern-lab/starterkit-mustache-base',
+      '@pattern-lab/starterkit-handlebars-vanilla',
     ]);
     yield spawnCmd([
       'export',

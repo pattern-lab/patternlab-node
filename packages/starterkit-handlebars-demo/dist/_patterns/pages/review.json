@@ -10,7 +10,7 @@
                 "label": "Billing Information"
             },
             {
-                "styleModifier": "is-current",
+                "additionalClasses": "is-current",
                 "number": "3",
                 "label": "Review Order"
             },
@@ -25,7 +25,7 @@
         "description": "Please make sure your information is correct below before submitting your order."
     },
     "definitionListSection": {
-        "styleModifier":"c-definition-list-list--lined",
+        "additionalClasses":"c-definition-list-list--lined",
         "definitionItems": [
             {
                 "definitionList": {
