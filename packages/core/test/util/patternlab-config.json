@@ -12,7 +12,7 @@
         "patternSection": "views/partials/patternSection.hbs",
         "patternSectionSubgroup":
           "views/partials/patternSectionSubgroup.hbs",
-        "viewall": "viewall.hbs"
+        "viewall": "views/viewall.hbs"
       },
       "js": "./test/files/js",
       "images": "./test/files/images",
