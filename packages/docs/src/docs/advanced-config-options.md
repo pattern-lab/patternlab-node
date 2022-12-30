@@ -433,7 +433,7 @@ Important details:
 - the [default `paths.source` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/a4961bd5d696a05fb516cdd951163b0f918d5e19) within `patternlab-config.json` are now relative to the current UIKit. See the [structure of uikit-workshop](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) for more info
 - the [default `paths.public` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/812bab3659f504043e8b61b1dc1cdac71f248449) within `patternlab-config.json` are now relative to the current UIKit's `outputDir`. Absolute paths will no longer work. Someone could test putting an absolute path in a UIKit `outputDir` property and see what happens I suppose.
 - `dependencyGraph.json` has moved to the project root rather than `public/` as we should only retain one
-- The lookup of the uikit by `name` is **deprecated** and will be removed in v6. The user will be notified of it. If the `package` property isn't defined, there is a default fallback lookup strategy where the value of `name` is tried as:
+- The lookup of the uikit by `name` is **deprecated** and will be removed in v7. The user will be notified of it. If the `package` property isn't defined, there is a default fallback lookup strategy where the value of `name` is tried as:
   - `<name>`
   - `uikit-<name>`
   - `@pattern-lab/<name>`
