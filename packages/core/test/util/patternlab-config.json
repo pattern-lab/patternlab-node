@@ -56,7 +56,7 @@
   "patternStates": {},
   "patternExportPatternPartials": [],
   "patternExportDirectory": "./pattern_exports/",
-  "patternExtension": "mustache",
+  "patternExtension": "hbs",
   "patternMergeVariantArrays": true,
   "renderFlatPatternsOnViewAllPages": false,
   "cacheBust": true,
