@@ -109,7 +109,7 @@
         "general-footer": "views/partials/general-footer.hbs",
         "patternSection": "views/partials/patternSection.hbs",
         "patternSectionSubgroup": "views/partials/patternSectionSubgroup.hbs",
-        "viewall": "viewall.hbs"
+        "viewall": "views/viewall.hbs"
       },
       "js": "./source/js",
       "images": "./source/images",
