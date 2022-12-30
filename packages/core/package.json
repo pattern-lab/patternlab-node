@@ -4,7 +4,7 @@
   "version": "5.17.0",
   "main": "./src/index.js",
   "dependencies": {
-    "@pattern-lab/engine-mustache": "^5.16.4",
+    "@pattern-lab/engine-handlebars": "^5.16.4",
     "@pattern-lab/live-server": "^5.16.1",
     "chalk": "4.1.0",
     "chokidar": "3.5.1",

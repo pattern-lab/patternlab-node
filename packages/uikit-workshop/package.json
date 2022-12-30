@@ -44,7 +44,6 @@
     "@babel/runtime": "^7.13.10",
     "@pattern-lab/core": "^5.17.0",
     "@pattern-lab/engine-handlebars": "^5.16.4",
-    "@pattern-lab/engine-mustache": "^5.16.4",
     "@pattern-lab/uikit-polyfills": "^5.16.1",
     "@reach/visually-hidden": "^0.1.2",
     "@webcomponents/custom-elements": "^1.4.3",
