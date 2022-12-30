@@ -103,7 +103,7 @@ const PatternEngines = Object.create({
     const enginesInConfig = findEnginesInConfig(patternLabConfig);
 
     if (enginesInConfig) {
-      // Quick fix until we've removed @pattern-lab/engine-mustache, starting with https://github.com/pattern-lab/patternlab-node/issues/1239
+      // Quick fix until we've removed @pattern-lab/engine-mustache, starting with https://github.com/pattern-lab/patternlab-node/issues/1239 & https://github.com/pattern-lab/patternlab-node/pull/1455
       // @TODO: Remove after removing @pattern-lab/engine-mustache dependency
       enginesInConfig.mustache = enginesInConfig.mustache || {};
       enginesInConfig.mustache.package =
