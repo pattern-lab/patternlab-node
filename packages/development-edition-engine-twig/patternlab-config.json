@@ -104,6 +104,10 @@
   ],
   "engines": {
     "twig": {
+      "package": "@pattern-lab/engine-twig",
+      "fileExtensions": [
+        "twig"
+      ],
       "namespaces": {
         "atoms": "source/_patterns/atoms/",
         "molecules": "source/_patterns/molecules/",
