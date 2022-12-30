@@ -8,71 +8,75 @@ var config = require('./util/patternlab-config.json');
 
 patternEngines.loadAllEngines(config);
 
-// the mustache test pattern, stolen from object_factory unit tests
-var mustacheTestPattern = new Pattern(
+// the handlebars test pattern, stolen from object_factory unit tests
+var handlebarsTestPattern = new Pattern(
   'source/_patterns/atoms/global/colors-alt.hbs',
   { d: 123 }
 );
-var mustacheTestPseudoPatternBasePattern = new Pattern(
+var handlebarsTestPseudoPatternBasePattern = new Pattern(
   'source/_patterns/pages/homepage.hbs',
   { d: 123 }
 );
-var mustacheTestPseudoPattern = new Pattern(
+var handlebarsTestPseudoPattern = new Pattern(
   'source/_patterns/pages/homepage~emergency.json',
   { d: 123 }
 );
-mustacheTestPseudoPattern.isPseudoPattern = true;
-mustacheTestPseudoPattern.basePattern = mustacheTestPseudoPatternBasePattern;
+handlebarsTestPseudoPattern.isPseudoPattern = true;
+handlebarsTestPseudoPattern.basePattern =
+  handlebarsTestPseudoPatternBasePattern;
 var engineNames = Object.keys(patternEngines);
 
 tap.test(
-  'getEngineNameForPattern returns "mustache" from test pattern',
+  'getEngineNameForPattern returns "handlebars" from test pattern',
   function (test) {
-    var engineName =
-      patternEngines.getEngineNameForPattern(mustacheTestPattern);
-    test.equal(engineName, 'mustache');
+    var engineName = patternEngines.getEngineNameForPattern(
+      handlebarsTestPattern
+    );
+    test.equal(engineName, 'handlebars');
     test.end();
   }
 );
 
 tap.test(
-  'getEngineNameForPattern returns "mustache" for a plain string template as a backwards compatibility measure',
+  'getEngineNameForPattern returns "handlebars" for a plain string template as a backwards compatibility measure',
   function (test) {
     test.plan(1);
     test.equal(
       patternEngines.getEngineNameForPattern('plain text string'),
-      'mustache'
+      'handlebars'
     );
     test.end();
   }
 );
 
 tap.test(
-  'getEngineNameForPattern returns "mustache" for an artificial empty template',
+  'getEngineNameForPattern returns "handlebars" for an artificial empty template',
   function (test) {
     test.plan(1);
     var emptyPattern = Pattern.createEmpty();
     test.equal(
       patternEngines.getEngineNameForPattern(emptyPattern),
-      'mustache'
+      'handlebars'
     );
     test.end();
   }
 );
 
 tap.test(
-  'getEngineForPattern returns a reference to the mustache engine from test pattern',
+  'getEngineForPattern returns a reference to the handlebars engine from test pattern',
   function (test) {
-    var engine = patternEngines.getEngineForPattern(mustacheTestPattern);
+    var engine = patternEngines.getEngineForPattern(handlebarsTestPattern);
     test.equal(engine, patternEngines.hbs);
     test.end();
   }
 );
 
 tap.test(
-  'getEngineForPattern returns a reference to the mustache engine from test pseudo-pattern',
+  'getEngineForPattern returns a reference to the handlebars engine from test pseudo-pattern',
   function (test) {
-    var engine = patternEngines.getEngineForPattern(mustacheTestPseudoPattern);
+    var engine = patternEngines.getEngineForPattern(
+      handlebarsTestPseudoPattern
+    );
     test.equal(engine, patternEngines.hbs);
     test.end();
   }
@@ -189,10 +193,10 @@ function testProps(object, propTests, test) {
 }
 
 tap.test(
-  'patternEngines object contains at least the default mustache engine',
+  'patternEngines object contains at least the default handlebars engine',
   function (test) {
     test.plan(1);
-    test.ok(patternEngines.hasOwnProperty('mustache'));
+    test.ok(patternEngines.hasOwnProperty('handlebars'));
     test.end();
   }
 );
