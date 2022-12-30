@@ -28,7 +28,7 @@ Modifying the views:
 - **ctrl+shift+a**: open/close info panels
 - **ctrl+shift+c**: open/close info panels
 - **cmd+a/ctrl+a**: select the content of the current open tab in code view
-- **ctrl+shift+u**: make the Mustache tab active
+- **ctrl+shift+u**: make the Handlebars tab active
 - **ctrl+shift+y**: make the HTML tab active
 - **esc**: close the open view
 

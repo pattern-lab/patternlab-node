@@ -178,7 +178,7 @@ Sets the configurable source and public directories for files Pattern Lab Node o
 
 Sets the panel name and language for the code tab on the styleguide. Since this only accepts one value, this is a place where mixed pattern trees (different PatternEngines in the same instance of Pattern Lab) does not quite work.
 
-**default**: `mustache`
+**default**: `hbs`
 
 ## engines
 
