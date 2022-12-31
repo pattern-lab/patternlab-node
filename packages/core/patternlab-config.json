@@ -88,6 +88,16 @@
     "density": "compact",
     "layout": "horizontal"
   },
+  "engines": {
+    "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
+      "fileExtensions": [
+        "handlebars",
+        "hbs"
+      ],
+      "extend": "helpers/*.js"
+    }
+  },
   "uikits": [
     {
       "name": "uikit-workshop",
@@ -97,5 +107,7 @@
       "excludedPatternStates": [],
       "excludedTags": []
     }
-  ]
+  ],
+  "patternWrapClassesEnable": false,
+  "patternWrapClassesKey": []
 }

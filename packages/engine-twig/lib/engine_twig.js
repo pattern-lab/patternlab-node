@@ -153,11 +153,6 @@ var engine_twig = {
     var matches = pattern.template.match(this.findPartialsRE);
     return matches;
   },
-  findPartialsWithStyleModifiers: function () {
-    // TODO: make the call to this from oPattern objects conditional on their
-    // being implemented here.
-    return [];
-  },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
@@ -228,6 +223,26 @@ var engine_twig = {
       Object.keys(namespaces).forEach(function (key, index) {
         fileSystemLoader.addPath(namespaces[key], key);
       });
+    }
+
+    // add twing extensions
+    if (
+      config['engines'] &&
+      config['engines']['twig'] &&
+      config['engines']['twig']['loadExtensionsFile']
+    ) {
+      const extensionsFile = path.resolve(
+        './',
+        config['engines']['twig']['loadExtensionsFile']
+      );
+      if (fs.pathExistsSync(extensionsFile)) {
+        try {
+          const extensionsMap = require(extensionsFile);
+          twing.addExtensions(extensionsMap);
+        } catch (e) {
+          console.error(e);
+        }
+      }
     }
   },
 };

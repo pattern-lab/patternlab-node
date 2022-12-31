@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "5.16.2",
+  "version": "5.17.0",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -42,9 +42,9 @@
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.12",
     "@babel/runtime": "^7.13.10",
-    "@pattern-lab/core": "^5.16.2",
-    "@pattern-lab/engine-handlebars": "^5.16.1",
-    "@pattern-lab/engine-mustache": "^5.16.1",
+    "@pattern-lab/core": "^5.17.0",
+    "@pattern-lab/engine-handlebars": "^5.16.4",
+    "@pattern-lab/engine-mustache": "^5.16.4",
     "@pattern-lab/uikit-polyfills": "^5.16.1",
     "@reach/visually-hidden": "^0.1.2",
     "@webcomponents/custom-elements": "^1.4.3",
@@ -63,9 +63,9 @@
     "express": "^4.17.1",
     "fg-loadjs": "^1.1.0",
     "fuse.js": "^6.4.6",
+    "handlebars": "^4.7.7",
     "hard-source-webpack-plugin-patch": "^0.13.3",
     "hasha": "^5.2.2",
-    "hogan.js": "^3.0.2",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^4.0.0-beta.11",
     "lit-element": "^2.2.1",
@@ -121,6 +121,6 @@
   ],
   "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac",
   "engines": {
-    "node": ">=12.13.1"
+    "node": ">=14.21.1"
   }
 }

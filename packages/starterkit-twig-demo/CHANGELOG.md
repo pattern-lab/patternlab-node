@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* twig logo is rendered as "NaN" ([#1434](https://github.com/pattern-lab/patternlab-node/issues/1434)) ([ab6b133](https://github.com/pattern-lab/patternlab-node/commit/ab6b133019d9dfa3816e8fc9a9caa7b547e19097)), closes [#1407](https://github.com/pattern-lab/patternlab-node/issues/1407)
+
+
+
+
+
 ## [5.16.1](https://github.com/pattern-lab/patternlab-node/compare/v5.16.0...v5.16.1) (2022-01-29)
 
 **Note:** Version bump only for package @pattern-lab/starterkit-twig-demo

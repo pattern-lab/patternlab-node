@@ -174,10 +174,6 @@ var engine_react = {
     return matches;
   },
 
-  findPartialsWithStyleModifiers(pattern) {
-    return [];
-  },
-
   // returns any patterns that match {{> value(foo:'bar') }} or {{>
   // value:mod(foo:'bar') }} within the pattern
   findPartialsWithPatternParameters(pattern) {
