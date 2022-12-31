@@ -67,7 +67,7 @@ function findEnginesInConfig(config) {
     return config.engines;
   }
   logger.warning(
-    "Scanning the 'node_modules' folder for pattern engines is deprecated and will be removed in v6."
+    "Scanning the 'node_modules' folder for pattern engines is deprecated and will be removed in v7."
   );
   logger.warning(
     'To configure your engines in patternlab-config.json, see https://patternlab.io/docs/editing-the-configuration-options/#heading-engines'
