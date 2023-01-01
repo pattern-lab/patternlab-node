@@ -24,7 +24,7 @@
     "chokidar-cli": "^2.1.0",
     "cross-env": "^5.2.0",
     "make-dir-cli": "^2.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.8.1",
     "rollup": "^1.16.1",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-json": "^4.0.0",
@@ -55,6 +55,6 @@
   "homepage": "https://github.com/bradfrost/pl-website-eleventy/#readme",
   "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac",
   "engines": {
-    "node": ">=14.20.1"
+    "node": ">=14.21.1"
   }
 }

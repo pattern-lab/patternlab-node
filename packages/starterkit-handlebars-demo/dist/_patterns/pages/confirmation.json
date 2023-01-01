@@ -14,7 +14,7 @@
                 "label": "Review Order"
             },
             {
-                "styleModifier": "is-current",
+                "additionalClasses": "is-current",
                 "number": "4",
                 "label": "Confirmation"
             }

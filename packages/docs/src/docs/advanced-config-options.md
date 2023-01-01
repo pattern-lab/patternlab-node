@@ -180,6 +180,37 @@ Sets the panel name and language for the code tab on the styleguide. Since this 
 
 **default**: `hbs`
 
+## engines
+
+An engine is a wrapper around a templating library like Handlebars, Twig or others. An [engine package](docs/template-language-and-patternengines/)
+is the bridge between Pattern Lab and the standalone NPM package supporting the templating language.
+
+`engines` accepts an map of Engine objects. The mandatory properties for each Pattern Lab engine are:
+
+- `package`: the NodeJS package name. Add the package of the engine as a dependency in `package.json` before you configure it here.
+- `fileExtensions`: list of pattern file extensions which will be handled by this pattern engine.
+
+Other engine specific configuration options can be added and will be passed to the pattern engine at loading time. See the NPM package documentation for the properties each pattern engine supports.
+
+**default**:
+
+```javascript
+  "engines": {
+    "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
+      "extensions": [
+        "handlebars",
+        "hbs"
+      ],
+      "extend": "helpers/*.js"
+      ...
+    }
+  }
+```
+
+Configuring the engines in the config file was introduced in v5.14. The fallback lookup mode by scanning the
+`node_modules` folder is **deprecated** and will be removed in Pattern Lab v7.
+
 ## patternStateCascade
 
 See the [Pattern State Documentation](/docs/using-pattern-states/)
@@ -402,7 +433,7 @@ Important details:
 - the [default `paths.source` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/a4961bd5d696a05fb516cdd951163b0f918d5e19) within `patternlab-config.json` are now relative to the current UIKit. See the [structure of uikit-workshop](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) for more info
 - the [default `paths.public` object paths](https://github.com/pattern-lab/patternlab-node/pull/840/commits/812bab3659f504043e8b61b1dc1cdac71f248449) within `patternlab-config.json` are now relative to the current UIKit's `outputDir`. Absolute paths will no longer work. Someone could test putting an absolute path in a UIKit `outputDir` property and see what happens I suppose.
 - `dependencyGraph.json` has moved to the project root rather than `public/` as we should only retain one
-- The lookup of the uikit by `name` is deprecated and the user will be notified of it. If the `package` property isn't defined, there is a default fallback lookup strategy where the value of `name` is tried as:
+- The lookup of the uikit by `name` is **deprecated** and will be removed in v7. The user will be notified of it. If the `package` property isn't defined, there is a default fallback lookup strategy where the value of `name` is tried as:
   - `<name>`
   - `uikit-<name>`
   - `@pattern-lab/<name>`

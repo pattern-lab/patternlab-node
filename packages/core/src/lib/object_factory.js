@@ -265,10 +265,6 @@ Pattern.prototype = {
     return this.engine.findPartials(this);
   },
 
-  findPartialsWithStyleModifiers: function () {
-    return this.engine.findPartialsWithStyleModifiers(this);
-  },
-
   findPartialsWithPatternParameters: function () {
     return this.engine.findPartialsWithPatternParameters(this);
   },

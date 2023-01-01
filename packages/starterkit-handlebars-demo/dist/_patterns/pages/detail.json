@@ -90,7 +90,7 @@
         "sectionTitle": "Related Items",
         "stackedBlockList": [
     		{
-    			"styleModifier" : "",
+    			"additionalClasses": "",
     			"url" : "link.pages-detail",
     			"stackedBlockMedia": {
     				"src" : "../../images/men-blue-shoes.jpg",
@@ -101,7 +101,7 @@
     			"label" : "$60"
     		},
     		{
-    			"styleModifier" : "",
+    			"additionalClasses": "",
     			"url" : "link.pages-detail",
     			"stackedBlockMedia": {
     				"src" : "../../images/women-hiking-boots.jpg",
@@ -112,7 +112,7 @@
     			"label" : "$120"
     		},
     		{
-    			"styleModifier" : "",
+    			"additionalClasses": "",
     			"url" : "link.pages-detail",
     			"stackedBlockMedia": {
     				"src" : "../../images/women-blue-heels.jpg",

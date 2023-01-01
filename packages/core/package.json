@@ -28,7 +28,7 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "jsdoc-to-markdown": "6.0.1",
-    "prettier": "^2.2.1",
+    "prettier": "^2.8.1",
     "rewire": "2.5.2",
     "standard-version": "9.1.1",
     "tap": "14.11.0"
@@ -63,7 +63,7 @@
     "test": "tap test/*_tests.js --reporter spec --coverage"
   },
   "engines": {
-    "node": ">=14.20.1"
+    "node": ">=14.21.1"
   },
   "publishConfig": {
     "access": "public"
