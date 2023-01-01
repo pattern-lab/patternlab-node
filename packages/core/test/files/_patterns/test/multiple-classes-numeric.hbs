@@ -1,5 +1,5 @@
 <div class="test_group">
-    {{> test-styled-atom:foo1 }}
-    {{> test-styled-atom:foo1|foo2 }}
-    {{> test-styled-atom:foo1|foo2(message: "bar") }}
+    {{> test-styled-atom additionalClasses="foo1" }}
+    {{> test-styled-atom additionalClasses="foo1 foo2" }}
+    {{> test-styled-atom additionalClasses="foo1 foo2" message="bar" }}
 </div>
