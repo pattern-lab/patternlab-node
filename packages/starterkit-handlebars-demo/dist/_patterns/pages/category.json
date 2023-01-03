@@ -4,10 +4,10 @@
         "description": false
     },
 	"stackedBlockSection" : {
-		"styleModifier": "u-margin-bottom-large",
+		"additionalClasses": "u-margin-bottom-large",
 		"stackedBlockList": [
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/women-blue-heels.jpg",
@@ -23,7 +23,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/women-hiking-boots.jpg",
@@ -38,7 +38,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/women-leather-booties.jpg",
@@ -53,7 +53,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/women-boot-wedges.jpg",
@@ -64,7 +64,7 @@
 				"label" : "$120"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-adidas.jpg",
@@ -75,7 +75,7 @@
 				"label" : "$90"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-boots.jpg",
@@ -86,7 +86,7 @@
 				"label" : "$70"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-colorful.jpg",
@@ -97,7 +97,7 @@
 				"label" : "$75"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-combat-boots.jpg",
@@ -109,7 +109,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/women-white-heels.jpg",

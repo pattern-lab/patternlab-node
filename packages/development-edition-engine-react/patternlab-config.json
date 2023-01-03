@@ -87,5 +87,13 @@
     "color": "dark",
     "density": "compact",
     "layout": "horizontal"
+  },
+  "engines": {
+    "react": {
+      "package": "@pattern-lab/engine-react",
+      "fileExtensions": [
+        "jsx"
+      ]
+    }
   }
 }

@@ -3,7 +3,7 @@
  */
 /* eslint-disable no-param-reassign, no-unused-vars */
 
-import Hogan from 'hogan.js';
+import Handlebars from 'handlebars/dist/handlebars';
 import pretty from 'pretty';
 import { html, render } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
@@ -175,8 +175,8 @@ export const panelsViewer = {
         } else {
           // vanilla render of pattern data
           template = document.getElementById(panel.templateID);
-          templateCompiled = Hogan.compile(template.innerHTML);
-          templateRendered = templateCompiled.render(patternData);
+          templateCompiled = Handlebars.compile(template.innerHTML);
+          templateRendered = templateCompiled(patternData);
           const normalizedCode =
             normalizeWhitespace.normalize(templateRendered);
           normalizedCode.replace(/[\r\n]+/g, '\n\n');
@@ -272,7 +272,7 @@ export const panelsViewer = {
       }
     }
 
-    // add *Exists attributes for Hogan templates
+    // add *Exists attributes for Handlebars templates
     // figure out if the description exists
     patternData.patternDescExists =
       patternData.patternDesc.length > 0 ||
@@ -304,8 +304,8 @@ export const panelsViewer = {
 
     // render all of the panels in the base panel template
     const template = document.querySelector('.pl-js-panel-template-base');
-    const templateCompiled = Hogan.compile(template.innerHTML);
-    templateRendered = templateCompiled.render(patternData);
+    const templateCompiled = Handlebars.compile(template.innerHTML);
+    templateRendered = templateCompiled(patternData);
 
     // make sure templateRendered is modified to be an HTML element
     const div = document.createElement('div');

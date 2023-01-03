@@ -17,7 +17,7 @@ tap.test('Init and build ->', (t) =>
       '--edition',
       '@pattern-lab/edition-node',
       '--starterkit',
-      '@pattern-lab/starterkit-mustache-demo',
+      '@pattern-lab/starterkit-handlebars-demo',
     ]);
     yield spawnCmd([
       'build',

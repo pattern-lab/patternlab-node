@@ -17,7 +17,7 @@ tap.test('Init ->', (t) =>
       '--edition',
       '@pattern-lab/edition-node',
       '--starterkit',
-      '@pattern-lab/starterkit-mustache-base',
+      '@pattern-lab/starterkit-handlebars-vanilla',
     ]);
     t.ok(
       fs.existsSync(path.resolve(projectRoot)),
