@@ -40,7 +40,7 @@ module.exports = {
 
   // // partial expansion is only necessary for Mustache templates that have
   // // style modifiers or pattern parameters (I think)
-  // expandPartials: true,
+  expandPartials: false,
 
   // regexes, stored here so they're only compiled once
   findPartialsRE: utils.partialsRE,
