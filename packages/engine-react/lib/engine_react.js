@@ -14,7 +14,7 @@ const path = require('path');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const Babel = require('babel-core');
-const Hogan = require('hogan');
+const Handlebars = require('handlebars');
 const beautify = require('js-beautify');
 const cheerio = require('cheerio');
 const _require = require;
@@ -44,8 +44,8 @@ let patternLabConfig = {};
 
 let enableRuntimeCode = true;
 
-const outputTemplate = Hogan.compile(
-  fs.readFileSync(path.join(__dirname, './outputTemplate.mustache'), 'utf8')
+const outputTemplate = Handlebars.compile(
+  fs.readFileSync(path.join(__dirname, './outputTemplate.hbs'), 'utf8')
 );
 
 let registeredComponents = {
@@ -106,7 +106,7 @@ var engine_react = {
       React.createFactory(transpiledModule)(data)
     );
 
-    renderedHTML = outputTemplate.render({
+    renderedHTML = outputTemplate({
       htmlOutput: staticMarkup,
     });
 
