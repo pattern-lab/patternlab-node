@@ -13,7 +13,7 @@ const writeJsonAsync = require('../utils').writeJsonAsync;
  */
 const install = (options) =>
   wrapAsync(function* () {
-    const config = yield resolveConfig(options.parent.config);
+    const config = yield resolveConfig(options.config);
 
     const spinner = ora(
       `⊙ patternlab → Installing additional resources …`
@@ -58,7 +58,7 @@ const install = (options) =>
         `⊙ patternlab → Installed following plugins: ${plugins.join(', ')}`
       );
     }
-    yield writeJsonAsync(options.parent.config, config);
+    yield writeJsonAsync(options.config, config);
     spinner.succeed(`⊙ patternlab → Updated config`);
   });
 
