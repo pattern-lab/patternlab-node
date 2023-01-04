@@ -193,9 +193,6 @@ module.exports = function (apiConfig) {
                     minifyJS: config.prod ? true : false,
                   },
                   preprocessor: processNestedHtml,
-                  // super important -- this prevents the embedded iframe srcdoc HTML from breaking!
-                  // @todo: we need to check on this again
-                  // preventAttributesEscaping: true,
                 },
               },
             ],
