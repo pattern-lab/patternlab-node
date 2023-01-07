@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars, no-shadow */
 import { define, props } from 'skatejs';
+// this line is required for rendering even if it is note used in the code
 import { h, Fragment } from 'preact';
 
 const classNames = require('classnames');
@@ -11,6 +12,7 @@ import Mousetrap from 'mousetrap';
 
 import { NavLink } from './nav-link';
 import { NavList } from './nav-list';
+import { iframeMsgDataExtraction } from '../../utils';
 
 @define
 class Nav extends BaseComponent {
@@ -106,22 +108,7 @@ class Nav extends BaseComponent {
 
   receiveIframeMessage(event) {
     const self = this;
-
-    // does the origin sending the message match the current host? if not dev/null the request
-    if (
-      window.location.protocol !== 'file:' &&
-      event.origin !== window.location.protocol + '//' + window.location.host
-    ) {
-      return;
-    }
-
-    let data = {};
-    try {
-      data =
-        typeof event.data !== 'string' ? event.data : JSON.parse(event.data);
-    } catch (e) {
-      // @todo: how do we want to handle exceptions here?
-    }
+    const data = iframeMsgDataExtraction(e);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {

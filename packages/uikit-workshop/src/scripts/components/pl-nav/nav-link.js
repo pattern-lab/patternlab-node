@@ -1,3 +1,4 @@
+// this line is required for rendering even if it is note used in the code
 import { h, Fragment } from 'preact';
 const classNames = require('classnames');
 

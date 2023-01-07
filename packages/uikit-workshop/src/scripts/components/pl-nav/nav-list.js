@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars, no-shadow */
+// this line is required for rendering even if it is note used in the code
 import { h, Fragment } from 'preact';
 import { NavLink } from './nav-link';
 
