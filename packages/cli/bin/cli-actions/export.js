@@ -5,7 +5,7 @@ const wrapAsync = require('../utils').wrapAsync;
 
 const _export = (options) =>
   wrapAsync(function* () {
-    const config = yield resolveConfig(options.parent.config);
+    const config = yield resolveConfig(options.config);
     archive(config);
   });
 
