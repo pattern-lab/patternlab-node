@@ -1,11 +1,8 @@
 'use strict';
 
 const logger = require('./log');
-const ph = require('./parameter_hunter');
 const jsonCopy = require('./json_copy');
 const getPartial = require('./get');
-
-const parameter_hunter = new ph();
 
 module.exports = function (currentPattern, patternlab) {
   const processRecursive = require('./processRecursive');
