@@ -76,7 +76,8 @@ pl-nav {
       transform: translateX(-100%);
       transition: all 0.3s ease;
       opacity: 0;
-      box-shadow: 0 3px 6px rgba(21,22,25,.16), 0 3px 6px rgba(21,22,25,.23);
+      box-shadow: 0 3px 6px rgba(21, 22, 25, 0.16),
+        0 3px 6px rgba(21, 22, 25, 0.23);
       visibility: visible;
 
       &.pl-is-active {

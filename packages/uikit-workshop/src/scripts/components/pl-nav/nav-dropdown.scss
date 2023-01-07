@@ -5,17 +5,17 @@
  * 1) On larger screens, display as dropdowns that
  *    hangs over the header
  */
- .pl-c-nav__dropdown {
+.pl-c-nav__dropdown {
   @media all and (min-width: $pl-bp-med) {
     position: absolute;
     top: 100%; /* 1 */
     left: 0;
-    min-width: 12rem;
+    min-width: 14rem;
     border-radius: $pl-border-radius-med;
     border-style: solid;
     border-width: 1px;
-    box-shadow: 0 2px 5px rgba(0,0,0,.1);
-    transition: all .2s ease;
+    box-shadow: 0 2px 5px rgba($pl-color-black, 0.1);
+    transition: all 0.2s ease;
     transform: translateY(-12px);
     z-index: 1;
     transition: all $pl-animate-quick ease-out;
@@ -26,11 +26,11 @@
   }
 
   .pl-c-body--theme-light & {
-    border-color: rgba($pl-color-black, .2);
+    border-color: rgba($pl-color-black, 0.2);
   }
 
   .pl-c-body--theme-dark & {
-    border-color: rgba($pl-color-white, .2);
+    border-color: rgba($pl-color-white, 0.2);
   }
 
   .pl-c-body--theme-sidebar & {

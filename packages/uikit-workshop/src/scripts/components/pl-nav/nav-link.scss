@@ -3,7 +3,7 @@
 /**
  * Nav link
  */
- .pl-c-nav__link {
+.pl-c-nav__link {
   @include linkStyle;
   border: 0;
   text-align: left;
@@ -20,8 +20,9 @@
   padding: 0.6rem 0.6rem;
   flex-basis: calc(100% - 2.5rem);
   position: relative;
+  height: var(--nav-item-height, auto);
 
-  &:after {
+  &::after {
     content: '';
     pointer-events: none;
     opacity: 0;
@@ -35,11 +36,11 @@
     display: block;
   }
 
-  &:hover:after {
+  &:hover::after {
     opacity: 0.1;
   }
 
-  &:focus:after {
+  &:focus::after {
     opacity: 0.1;
   }
 
@@ -59,13 +60,13 @@
   }
 
   &--level-1 {
-    padding-left: $pl-space + ($pl-space / 2);
+    padding-left: $pl-space + ($pl-space * 0.5);
     font-size: 0.85rem;
   }
 
   &--level-2 {
-    font-size: 0.78rem;
-    padding-left: $pl-space * 2 + ($pl-space / 4);
+    font-size: 0.825rem;
+    padding-left: $pl-space * 2 + ($pl-space * 0.25);
   }
 
   // top level nav links (categories)
@@ -180,10 +181,8 @@
   }
 
   &:hover {
-    // background-color: transparent !important;
-
-    &:after,
-    &:focus:after {
+    &::after,
+    &:focus::after {
       opacity: 0.1;
     }
   }

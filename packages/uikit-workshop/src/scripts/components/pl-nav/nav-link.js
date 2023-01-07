@@ -1,7 +1,7 @@
 import { h, Fragment } from 'preact';
 const classNames = require('classnames');
 
-export const NavLink = props => {
+export const NavLink = (props) => {
   const classes = classNames('pl-c-nav__link', {
     [`pl-c-nav__link--level-${props.level}`]: props.level !== undefined,
     'pl-c-nav__link--icon-only': props.iconOnly,

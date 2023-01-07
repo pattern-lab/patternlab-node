@@ -2,28 +2,28 @@
 import { h, Fragment } from 'preact';
 import { NavLink } from './nav-link';
 
-export const NavList = props => {
+export const NavList = (props) => {
   const { children, category, elem } = props;
 
   const nonViewAllItems = elem.noViewAll
-    ? children.filter(item => item.patternName !== 'View All')
+    ? children.filter((item) => item.patternName !== 'View All')
     : children.filter(
-        item =>
+        (item) =>
           item.patternName !== 'View All' && !item.patternName.includes(' Docs')
       );
   const viewAllItems = elem.noViewAll
     ? []
-    : children.filter(item => item.patternName === 'View All');
+    : children.filter((item) => item.patternName === 'View All');
 
   return (
     <li className={`pl-c-nav__list-item`}>
       {viewAllItems.length > 0 ? (
-        viewAllItems.map(patternSubtypeItem => (
+        viewAllItems.map((patternSubtypeItem) => (
           <>
             <NavLink
               href={`patterns/${patternSubtypeItem.patternPath}`}
               level={1}
-              onClick={e =>
+              onClick={(e) =>
                 elem.handleClick(e, patternSubtypeItem.patternPartial)
               }
               state={patternSubtypeItem.patternState}
@@ -40,7 +40,7 @@ export const NavList = props => {
                 iconName={'arrow-down'}
                 aria-controls={category}
                 level={1}
-                onClick={e => elem.iconOnlyPanelToggle(e.target)}
+                onClick={(e) => elem.iconOnlyPanelToggle(e.target)}
               >
                 {category}
               </NavLink>
@@ -52,7 +52,7 @@ export const NavList = props => {
           level={2}
           iconName={'arrow-down'}
           aria-controls={category}
-          onClick={e => elem.panelToggle(e.target)}
+          onClick={(e) => elem.panelToggle(e.target)}
         >
           {category}
         </NavLink>
@@ -64,12 +64,12 @@ export const NavList = props => {
           id={category}
           className={`pl-c-nav__list pl-c-nav__accordion pl-js-nav-accordion`}
         >
-          {nonViewAllItems.map(patternSubtypeItem => (
+          {nonViewAllItems.map((patternSubtypeItem) => (
             <li class="pl-c-nav__list-item">
               <NavLink
                 href={`patterns/${patternSubtypeItem.patternPath}`}
                 level={2}
-                onClick={e =>
+                onClick={(e) =>
                   elem.handleClick(e, patternSubtypeItem.patternPartial)
                 }
                 data-patternpartial={patternSubtypeItem.patternPartial}
