@@ -99,6 +99,11 @@
   ],
   "engines": {
     "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
+      "fileExtensions": [
+        "handlebars",
+        "hbs"
+      ],
       "extend": "helpers/*.js"
     }
   }

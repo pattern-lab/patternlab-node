@@ -1,137 +1,136 @@
 <!-- description, etc. -->
-{{# descBlockExists }}
+{{#if descBlockExists }}
 
 <div
   class="pl-c-pattern-info__panel pl-c-pattern-info__panel--info pl-js-pattern-info"
 >
-  {{# isPatternView }}
+  {{#if isPatternView }}
   <!-- extra info for modal view -->
   <div class="pl-c-pattern-info__header">
     <ul class="pl-c-breadcrumb">
-      {{# patternBreadcrumb }}
+      {{#with patternBreadcrumb }}
 
       <li class="pl-c-breadcrumb__item">{{ patternGroup }}</li>
 
-      {{# patternSubgroup }}
+      {{#if patternSubgroup }}
       <li class="pl-c-breadcrumb__item">{{ patternSubgroup }}</li>
-      {{/ patternSubgroup }} {{/ patternBreadcrumb }}
+      {{/if }} {{/with }}
     </ul>
     <!--end pl-c-breadcrumb-->
 
     <h2 class="pl-c-pattern-info__title">
-      {{ patternName }} {{# patternState }}
+      {{ patternName }} {{#if patternState }}
       <span
         class="pl-c-pattern-state pl-c-pattern-state--{{ patternState }}"
         title="{{ patternState }}"
       ></span>
-      {{/ patternState }}
+      {{/if }}
     </h2>
     <!--end pl-c-pattern-info__title-->
   </div>
   <!--end pl-c-pattern-info__header-->
-  {{/ isPatternView }} {{# patternDescExists }}
+  {{/if }} {{#if patternDescExists }}
   <div class="pl-c-pattern-info__description pl-c-text-passage">
-    {{{ patternDesc }}} {{# patternDescAdditions }} {{{ patternDescAdditions }}}
-    {{/ patternDescAdditions }}
+    {{{ patternDesc }}} {{#if patternDescAdditions }} {{{ patternDescAdditions
+    }}} {{/if }}
   </div>
   <!--end pl-c-pattern-info__description-->
-  {{/ patternDescExists }} {{# lineageExists }}
+  {{/if }} {{#if lineageExists }}
   <p class="pl-c-lineage pl-js-lineage">
     The
     <em>{{ patternName }}</em>
-    pattern contains the following patterns: {{# lineage }}
+    pattern contains the following patterns: {{#each lineage }}
     <a
       href="{{ lineagePath }}"
       class="pl-c-lineage__link pl-js-lineage-link"
       data-patternpartial="{{ lineagePattern }}"
     >
-      {{ lineagePattern }} {{# lineageState }}<span
+      {{ lineagePattern }} {{#if lineageState }}<span
         class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}"
         title="{{ lineageState }}"
       />
-      {{/ lineageState }}
+      {{/if }}
     </a>
     <!--end pl-c-lineage__link-->
-    {{# hasComma }}, {{/ hasComma }} {{/ lineage }}
+    {{#if hasComma }}, {{/if }} {{/each }}
   </p>
   <!--end pl-c-lineage-->
-  {{/ lineageExists }} {{# lineageRExists }}
+  {{/if }} {{#if lineageRExists }}
   <p class="pl-c-lineage">
     The
     <em>{{ patternName }}</em>
-    pattern is included in the following patterns: {{# lineageR }}
+    pattern is included in the following patterns: {{#each lineageR }}
     <a
       href="{{ lineagePath }}"
       class="pl-c-lineage__link pl-js-lineage-link"
       data-patternpartial="{{ lineagePattern }}"
     >
-      {{ lineagePattern }} {{# lineageState }}<span
+      {{ lineagePattern }} {{#if lineageState }}<span
         class="pl-c-pattern-state pl-c-pattern-state--{{ lineageState }}"
         title="{{ lineageState }}"
       />
-      {{/ lineageState }}
+      {{/if }}
     </a>
     <!--end pl-c-lineage__link-->
-    {{# hasComma }}, {{/ hasComma }} {{/ lineageR }}
+    {{#if hasComma }}, {{/if }} {{/each }}
   </p>
   <!--end pl-c-lineage-->
-  {{/ lineageRExists }} {{# annotationExists }}
+  {{/if }} {{#if annotationExists }}
   <div class="pl-c-annotations pl-c-text-passage pl-js-annotations">
     <h2 class="pl-c-annotations__title">Annotations</h2>
     <ol class="pl-c-annotations__list">
-      {{# annotations }}
+      {{#each annotations }}
       <li class="pl-c-annotations__item">
         <h3 class="pl-c-annotations__item-title">{{ title }}</h3>
 
-        <div class="pl-c-annotations__item-body">
-          {{{ comment }}}
-        </div>
+        <div class="pl-c-annotations__item-body">{{{ comment }}}</div>
         <!--end pl-c-annotations__item-body-->
       </li>
       <!--end pl-c-annotations__item-->
-      {{/ annotations }}
+      {{/each }}
     </ol>
     <!--end pl-c-annotations__list-->
   </div>
   <!--end pl-c-annotations-->
-  {{/ annotationExists }}
+  {{/if }}
 </div>
 <!--end pl-c-pattern-info__panel-->
-{{/ descBlockExists }}
+{{/if }}
 
 <div class="pl-c-pattern-info__panel pl-c-pattern-info__panel--code">
   <div id="pl-{{ patternPartial }}-tabs" class="pl-c-tabs pl-js-tabs">
     <div class="pl-c-tabs__header">
       <ul class="pl-c-tabs__list">
-        {{# panels }}
+        {{#each panels }}
         <li class="pl-c-tabs__list-item">
           <a
             class="pl-c-tabs__link pl-js-tab-link"
-            href="#pl-{{ patternPartial }}-{{ id }}-panel"
-            id="pl-{{ patternPartial }}-{{ id }}-tab"
-            data-patternpartial="{{ patternPartial }}"
+            href="#pl-{{ ../patternPartial }}-{{ id }}-panel"
+            id="pl-{{ ../patternPartial }}-{{ id }}-tab"
+            data-patternpartial="{{ ../patternPartial }}"
             data-panelid="{{ id }}"
             no-smooth-scroll
             >{{ name }}</a
           >
         </li>
         <!--end pl-c-tabs__list-item-->
-        {{/ panels }}
+        {{/each }}
       </ul>
       <!--end pl-c-tabs__list-->
     </div>
     <!--end pl-c-tabs__header-->
 
     <div id="pl-{{ patternPartial }}-panels" class="pl-c-tabs__content">
-      {{# panels }}
+      {{#each panels }}
       <div
-        id="pl-{{ patternPartial }}-{{ id }}-panel"
+        id="pl-{{ ../patternPartial }}-{{ id }}-panel"
         class="pl-c-tabs__panel pl-js-tab-panel"
       >
         <button
           class="pl-c-code-copy-btn pl-js-code-copy-btn"
           size="small"
-          data-clipboard-target="#pl-{{ patternPartial }}-{{ id }}-panel code"
+          data-clipboard-target="#pl-{{ ../patternPartial }}-{{ id }}-panel code"
+          type="button"
         >
           <span class="pl-c-code-copy-btn__icon-text">Copy</span>
           <svg
@@ -167,7 +166,7 @@
         {{{ content }}}
       </div>
       <!--end pl-c-tabs__panel-->
-      {{/ panels }}
+      {{/each }}
     </div>
     <!--end pl-c-tabs__content-->
   </div>

@@ -15,33 +15,33 @@ process.env.PATTERNLAB_ENV = 'CI';
 
 //set up a global mocks - we don't want to be writing/rendering any files right now
 
-const copierMock = function() {
+const copierMock = function () {
   return {
-    copyAndWatch: function() {
+    copyAndWatch: function () {
       return Promise.resolve();
     },
   };
 };
 
-const uiBuilderMock = function() {
+const uiBuilderMock = function () {
   return {
-    buildFrontend: function() {
+    buildFrontend: function () {
       return Promise.resolve();
     },
   };
 };
 
 const fsMock = {
-  outputFileSync: function(path, content) {
+  outputFileSync: function (path, content) {
     /* INTENTIONAL NOOP */
   },
-  readJSONSync: function(path, encoding) {
+  readJSONSync: function (path, encoding) {
     return fs.readJSONSync(path, encoding);
   },
-  emptyDir: function(path) {
+  emptyDir: function (path) {
     return fs.emptyDir(path);
   },
-  readFileSync: function(path, encoding) {
+  readFileSync: function (path, encoding) {
     return fs.readFileSync(path, encoding);
   },
 };
@@ -57,29 +57,29 @@ entry.__set__({
   copier: copierMock,
 });
 
-tap.test('version - should call patternlab.getVersion', test => {
+tap.test('version - should call patternlab.getVersion', (test) => {
   //arrange
   const pl = new entry(testConfig);
 
   //act
   //assert
-  test.equals(pl.version(), packageInfo.version);
+  test.equal(pl.version(), packageInfo.version);
   test.end();
 });
 
 tap.test(
   'getDefaultConfig - static method should return the default config object',
-  test => {
+  (test) => {
     const requestedConfig = entry.getDefaultConfig();
     test.type(requestedConfig, 'object');
-    test.equals(requestedConfig, defaultConfig);
+    test.equal(requestedConfig, defaultConfig);
     test.end();
   }
 );
 
 tap.test(
   'getDefaultConfig - instance method should return the default config object',
-  test => {
+  (test) => {
     //arrange
     const pl = new entry(testConfig);
 
@@ -87,12 +87,12 @@ tap.test(
     //assert
     const requestedConfig = pl.getDefaultConfig();
     test.type(requestedConfig, 'object');
-    test.equals(requestedConfig, defaultConfig);
+    test.equal(requestedConfig, defaultConfig);
     test.end();
   }
 );
 
-tap.test('patternsonly a promise', test => {
+tap.test('patternsonly a promise', (test) => {
   //arrange
   const revert = entry.__set__('buildPatterns', buildPatternsMock);
   const pl = new entry(testConfig);
@@ -104,7 +104,7 @@ tap.test('patternsonly a promise', test => {
   });
 });
 
-tap.test('patternsonly calls buildPatterns', test => {
+tap.test('patternsonly calls buildPatterns', (test) => {
   //arrange
   const revert = entry.__set__(
     'buildPatterns',
@@ -113,7 +113,7 @@ tap.test('patternsonly calls buildPatterns', test => {
       test.ok(cleanPublic);
       test.type(patternlab, 'object');
       test.type(data, 'object');
-      test.equals(data.foo, 'bar');
+      test.equal(data.foo, 'bar');
       return Promise.resolve();
     }
   );
@@ -128,9 +128,9 @@ tap.test('patternsonly calls buildPatterns', test => {
     });
 });
 
-tap.test('serve calls serve', test => {
+tap.test('serve calls serve', (test) => {
   //arrange
-  const revert = entry.__set__('serverModule', patternlab => {
+  const revert = entry.__set__('serverModule', (patternlab) => {
     return {
       serve: () => {
         test.ok(1);
@@ -149,7 +149,7 @@ tap.test('serve calls serve', test => {
   });
 });
 
-tap.test('buildPatterns suite', test => {
+tap.test('buildPatterns suite', (test) => {
   //arrange
 
   const patternExporterMock = {
@@ -158,17 +158,17 @@ tap.test('buildPatterns suite', test => {
      the contents of the patterns look like. This, coupled with a mocking of fs and the ui_builder, allow us to focus
      only on the order of events within build.
      */
-    export_patterns: function(patternlab) {
+    export_patterns: function (patternlab) {
       tap.test(
         'replace data link even when pattern parameter present',
-        function(test) {
+        function (test) {
           var pattern = get('test-paramParent', patternlab);
-          test.equals(
+          test.equal(
             util.sanitized(pattern.extendedTemplate),
             '<div class="foo"> <a href="{{url}}">Cool Dude</a> </div>',
             'partial inclusion completes'
           );
-          test.equals(
+          test.equal(
             pattern.patternPartialCode.indexOf('test-foo.rendered.html') > -1,
             true,
             'data link should be replaced properly'
@@ -179,9 +179,9 @@ tap.test('buildPatterns suite', test => {
 
       tap.test(
         'finds partials with their own parameters and renders them too',
-        function(test) {
+        function (test) {
           var pattern = get('test-c', patternlab);
-          test.equals(
+          test.equal(
             util.sanitized(pattern.patternPartialCode),
             util.sanitized(`<b>c</b>
         <b>b</b>
@@ -195,9 +195,9 @@ tap.test('buildPatterns suite', test => {
 
       tap.test(
         'finds and extends templates with mixed parameter and global data',
-        function(test) {
+        function (test) {
           var pattern = get('test-sticky-comment', patternlab);
-          test.equals(
+          test.equal(
             util.sanitized(pattern.patternPartialCode),
             util.sanitized(
               `<h1>Bar</h1><p>A life is like a garden. Perfect moments can be had, but not preserved, except in memory.</p>`
@@ -207,9 +207,9 @@ tap.test('buildPatterns suite', test => {
         }
       );
 
-      tap.test('expands links inside parameters', function(test) {
+      tap.test('expands links inside parameters', function (test) {
         var pattern = get('test-linkInParameter', patternlab);
-        test.equals(
+        test.equal(
           util.sanitized(pattern.patternPartialCode),
           util.sanitized(
             `<a href="/patterns/test-comment/test-comment.rendered.html">Cool Dude</a>`
@@ -218,10 +218,10 @@ tap.test('buildPatterns suite', test => {
         test.end();
       });
 
-      tap.test('uses global listItem property', test => {
+      tap.test('uses global listItem property', (test) => {
         var pattern = get('test-listWithPartial', patternlab);
         let assertionCount = 0;
-        ['dA', 'dB', 'dC'].forEach(d => {
+        ['dA', 'dB', 'dC'].forEach((d) => {
           if (pattern.patternPartialCode.indexOf(d) > -1) {
             assertionCount++;
           }
@@ -232,7 +232,7 @@ tap.test('buildPatterns suite', test => {
 
       tap.test(
         'overwrites listItem property if that property is in local .listitem.json',
-        test => {
+        (test) => {
           var pattern = get('test-listWithListItems', patternlab);
           test.ok(pattern.patternPartialCode.indexOf('tX') > -1);
           test.ok(pattern.patternPartialCode.indexOf('tY') > -1);
@@ -244,7 +244,7 @@ tap.test('buildPatterns suite', test => {
 
       tap.test(
         'uses global listItem property after merging local .listitem.json',
-        test => {
+        (test) => {
           var pattern = get('test-listWithListItems', patternlab);
           test.ok(pattern.patternPartialCode.indexOf('dA') > -1);
           test.ok(pattern.patternPartialCode.indexOf('dB') > -1);
@@ -254,38 +254,10 @@ tap.test('buildPatterns suite', test => {
       );
 
       tap.test(
-        'correctly ignores bookended partials without a style modifier when the same partial has a style modifier between',
-        test => {
-          var pattern = get('test-bookend-listitem', patternlab);
-          test.equals(
-            util.sanitized(pattern.extendedTemplate),
-            util.sanitized(`<div class="test_group">
-          {{#listItems-two}}
-            <span class="test_base {{styleModifier}}">
-            {{message}}
-        </span>
-
-            <span class="test_base test_1">
-            {{message}}
-        </span>
-
-            <span class="test_base {{styleModifier}}">
-            {{message}}
-        </span>
-
-          {{/listItems-two}}
-        </div>
-        `)
-          );
-          test.end();
-        }
-      );
-
-      tap.test(
         'listItems keys (`one` through `twelve`) can be used more than once per pattern',
-        test => {
+        (test) => {
           var pattern = get('test-repeatedListItems', patternlab);
-          test.equals(
+          test.equal(
             util.sanitized(pattern.patternPartialCode),
             util.sanitized(`AAA BBB`)
           );
@@ -298,7 +270,7 @@ tap.test('buildPatterns suite', test => {
       // From issue #145 https://github.com/pattern-lab/patternlab-node/issues/145
       // tap.test(' parses parameters containing html tags', function (test) {
       //   var pattern = get('test-parameterTags', patternlab);
-      //   test.equals(util.sanitized(pattern.patternPartialCode), util.sanitized(`<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>`));
+      //   test.equal(util.sanitized(pattern.patternPartialCode), util.sanitized(`<p><strong>Single-quoted</strong></p><p><em>Double-quoted</em></p><p><strong class="foo" id=\'bar\'>With attributes</strong></p>`));
       //   test.end();
       // });
 
@@ -313,7 +285,7 @@ tap.test('buildPatterns suite', test => {
   testConfig.patternExportPatternPartials = ['test-paramParent'];
   const pl = new entry(testConfig);
 
-  test.equals(pl.events.eventNames().length, 0);
+  test.equal(pl.events.eventNames().length, 0);
 
   //act
   return pl
@@ -325,12 +297,12 @@ tap.test('buildPatterns suite', test => {
       },
     })
     .then(() => {
-      test.equals(
+      test.equal(
         pl.events.eventNames().length,
         2,
         'should register two events'
       );
-      test.equals(pl.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE), 1);
-      test.equals(pl.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE), 1);
+      test.equal(pl.events.listenerCount(events.PATTERNLAB_PATTERN_CHANGE), 1);
+      test.equal(pl.events.listenerCount(events.PATTERNLAB_GLOBAL_CHANGE), 1);
     });
 });

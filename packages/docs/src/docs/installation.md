@@ -7,11 +7,15 @@ eleventyNavigation:
   title: Installing Pattern Lab
   key: getting-started
   order: 0
+sitemapPriority: '0.9'
+sitemapChangefreq: 'monthly'
 ---
 
 ## Step 1: Install requirements
 
-Make sure you have [Node.js](https://nodejs.org/en/download/) installed before setting up Pattern Lab.
+Make sure you have [Node.js](https://nodejs.org/en/download/) installed before setting up Pattern Lab, e.g. by checking for the node version: `node -v`
+
+Please make sure to have at minimum version node 7 installed, but even better at least the node version that's being mentioned in [.nvmrc](https://github.com/pattern-lab/patternlab-node/blob/dev/); [Node version manager](https://github.com/nvm-sh/nvm) might be a good option if you can't update.
 
 ## Step 2: Run the create Pattern Lab command
 
@@ -38,13 +42,15 @@ This will bring up an installation menu that presents the following steps:
 
 ## Step 5: Choose initial patterns
 
-**`What initial patterns do you want included in your project?`** - Choose the <a href="/docs/starterkits/">Starterkit</a> you want to begin your project with. The options are:
+**`What initial patterns do you want included in your project?`** - Choose the [Starterkit](/docs/starterkits/) you want to begin your project with. The options are:
 
-- **`Handlebars base patterns`** `(some basic patterns to get started with)` - TODO: include demo link
-- **`Handlebars demo patterns`** `(full demo website and patterns)` - TODO: include demo link
-- **`Twig (PHP) demo patterns`** `(full demo website and patterns)` - TODO: include demo link
+- **`Handlebars base patterns`** `(some basic patterns to get started with)`
+- **`Handlebars demo patterns`** `(full demo website and patterns)`
+- **`Twig (PHP) demo patterns`** `(full demo website and patterns)`
 - **`Custom starterkit`** - point to a custom Pattern Lab starterkit TODO: include instructions on including custom starterkits
 - **`Blank project (no patterns)`** - This won't include any initial patterns in your project so you can start completely from scratch
+
+You can find all starter kits on our [demos page](/demos/)
 
 ## Step 6: Confirm your choices
 

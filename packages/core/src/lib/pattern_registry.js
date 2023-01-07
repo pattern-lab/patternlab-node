@@ -4,7 +4,7 @@
  * Allows lookups for patterns via a central registry.
  * @constructor
  */
-const PatternRegistry = function() {
+const PatternRegistry = function () {
   this.key2pattern = new Map();
 
   /** For lookups by {@link Pattern#partialKey} */
@@ -12,15 +12,15 @@ const PatternRegistry = function() {
 };
 
 PatternRegistry.prototype = {
-  allPatterns: function() {
+  allPatterns: function () {
     return Array.from(this.key2pattern.values());
   },
 
-  has: function(name) {
+  has: function (name) {
     return this.key2pattern.has(name);
   },
 
-  get: function(name) {
+  get: function (name) {
     return this.key2pattern.get(name);
   },
 
@@ -28,18 +28,18 @@ PatternRegistry.prototype = {
    * Adds the given pattern to the registry. If a pattern with the same key exists, it is replaced.
    * @param pattern {Pattern|*}
    */
-  put: function(pattern) {
+  put: function (pattern) {
     const name = PatternRegistry.partialName(pattern);
     this.partials.set(name, pattern);
     const key = PatternRegistry.patternKey(pattern);
     this.key2pattern.set(key, pattern);
   },
 
-  remove: function(name) {
+  remove: function (name) {
     this.key2pattern.delete(name);
   },
 
-  getPartial: function(partialName) {
+  getPartial: function (partialName) {
     /*
      Code in here has been moved from getPartial() to prepare for some refactoring.
      There are a few advantages to this method:
@@ -83,7 +83,7 @@ PatternRegistry.prototype = {
   },
 };
 
-PatternRegistry.patternKey = function(pattern) {
+PatternRegistry.patternKey = function (pattern) {
   return pattern.relPath;
 };
 
@@ -93,7 +93,7 @@ PatternRegistry.patternKey = function(pattern) {
  * @param pattern {Pattern}
  * @return {string}
  */
-PatternRegistry.partialName = function(pattern) {
+PatternRegistry.partialName = function (pattern) {
   return pattern.patternPartial;
 };
 

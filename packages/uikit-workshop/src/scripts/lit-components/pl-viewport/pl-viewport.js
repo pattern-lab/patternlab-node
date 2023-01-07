@@ -152,7 +152,9 @@ class IFrame extends BaseLitComponent {
           : window.location.protocol +
             '//' +
             window.location.host +
-            window.location.pathname.replace('index.html', '') +
+            (window.config.noIndexHtmlremoval
+              ? window.location.pathname
+              : window.location.pathname.replace('index.html', '')) +
             '?p=' +
             currentPattern;
 
@@ -222,7 +224,7 @@ class IFrame extends BaseLitComponent {
       // this.iframe.style.width = theSize + 'px'; // resize viewport to desired size
 
       // auto-remove transition classes if not the animate param isn't set to true
-      setTimeout(function() {
+      setTimeout(function () {
         if (animate === true) {
           self.iframeContainer.classList.remove('is-animating');
           self.iframe.classList.remove('is-animating');
@@ -255,9 +257,9 @@ class IFrame extends BaseLitComponent {
       this.origOrientation = window.orientation;
       window.addEventListener(
         'orientationchange',
-        function() {
+        function () {
           if (window.orientation !== this.origOrientation) {
-            let newWidth = window.innerWidth;
+            const newWidth = window.innerWidth;
             self.iframeContainer.style.width = newWidth;
             self.iframe.style.width = newWidth;
             self.updateSizeReading(newWidth);
@@ -387,7 +389,8 @@ class IFrame extends BaseLitComponent {
          * Workaround to avoiding an infinite loop (if using srcdoc) which breaks the ability to
          * hit the back button if you hit a 404
          */
-        this.iframe.contentWindow.document.body.innerHTML = this.iframe404Fallback;
+        this.iframe.contentWindow.document.body.innerHTML =
+          this.iframe404Fallback;
       }
     }, 100);
   }
@@ -396,6 +399,7 @@ class IFrame extends BaseLitComponent {
     const url = urlHandler.getFileName(this.getPatternParam());
 
     const initialWidth =
+      !window.config.defaultInitialViewportWidth &&
       store.getState().app.viewportPx &&
       store.getState().app.viewportPx <= this.clientWidth
         ? store.getState().app.viewportPx + 'px;'
@@ -403,7 +407,7 @@ class IFrame extends BaseLitComponent {
 
     return html`
       <div class="pl-c-viewport pl-js-viewport">
-        <div class="pl-c-viewport__cover pl-js-viewport-cover"></div>
+        <div class="pl-c-viewport__cover pl-js-viewport-cover" hidden></div>
         <div
           class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container"
           style="width: ${initialWidth}"
@@ -411,9 +415,9 @@ class IFrame extends BaseLitComponent {
           <iframe
             class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this
               .themeMode}"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"
             src=${ifDefined(url === '' ? undefined : url)}
             srcdoc=${ifDefined(url === '' ? this.iframe404Fallback : undefined)}
+            title="Pattern details"
           ></iframe>
 
           <div class="pl-c-viewport__resizer pl-js-resize-container">
@@ -447,7 +451,7 @@ class IFrame extends BaseLitComponent {
     this.fullMode = false;
 
     // show the cover
-    this.iframeCover.style.display = 'block';
+    this.iframeCover.hidden = false;
 
     function handleIframeCoverResize(e) {
       const viewportWidth = origViewportWidth + 2 * (e.clientX - origClientX);
@@ -468,12 +472,12 @@ class IFrame extends BaseLitComponent {
 
     document.body.addEventListener(
       'mouseup',
-      function() {
+      function () {
         self.iframeCover.removeEventListener(
           'mousemove',
           handleIframeCoverResize
         );
-        self.iframeCover.style.display = 'none';
+        self.iframeCover.hidden = true;
         self
           .querySelector('.pl-js-resize-handle')
           .classList.remove('is-resizing');
@@ -510,7 +514,9 @@ class IFrame extends BaseLitComponent {
             : window.location.protocol +
               '//' +
               window.location.host +
-              window.location.pathname.replace('index.html', '') +
+              (window.config.noIndexHtmlremoval
+                ? window.location.pathname
+                : window.location.pathname.replace('index.html', '')) +
               '?p=' +
               currentPattern;
 

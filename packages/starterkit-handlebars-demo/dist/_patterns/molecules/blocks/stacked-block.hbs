@@ -1,9 +1,9 @@
-<a href="{{ url }}" class="c-stacked-block {{ styleModifier }}">
+<a href="{{ url }}" class="c-stacked-block {{ additionalClasses }}">
 
 	<div class="c-stacked-block__header">
 		{{#with stackedBlockMedia }}
 		<div class="c-stacked-block__media">
-			{{> atoms-stacked-block-image }}
+			{{> atoms-stacked-block-image width="1200" height="800" }}
 		</div>
 		{{/ with }}
 		{{# with onSale }}

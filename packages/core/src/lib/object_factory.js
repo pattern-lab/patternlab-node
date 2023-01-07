@@ -27,7 +27,7 @@ const prefixMatcherDeprecationCheckHidden = /^_.+/;
  * @param {Patternlab} patternlab The actual pattern lab instance
  * @param {boolean} isPromoteToFlatPatternRun specifies if the pattern needs to be removed from its deep nesting folder
  */
-const Pattern = function(
+const Pattern = function (
   relPath,
   jsonFileData,
   patternlab,
@@ -55,7 +55,7 @@ const Pattern = function(
   this.fileExtension = pathObj.ext; // '.mustache'
 
   // TODO: Remove if block when dropping ordering by prefix and keep else code
-  // (When we dorp the info about the old ordering is deprecated)
+  // (When we drop the info about the old ordering is deprecated)
   if (
     (prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(0, info)) ||
       prefixMatcherDeprecationCheckOrder.test(this.getDirLevel(1, info)) ||
@@ -173,10 +173,19 @@ const Pattern = function(
     this.patternGroupData.order = info.patternSubgroupOrder;
   }
 
+  // TODO: Remove the following when ordering by file prefix gets obsolete
+  if (prefixMatcherDeprecationCheckOrder.test(this.fileName)) {
+    if (this.fileName.indexOf('~') === -1) {
+      this.order = this.setPatternOrderDataForInfo(this.fileName);
+    } else {
+      this.variantOrder = this.setPatternOrderDataForInfo(this.fileName);
+    }
+  }
+
   /**
    * Determines if this pattern needs to be recompiled.
    *
-   * @ee {@link CompileState}*/
+   * @see {@link CompileState}*/
   this.compileState = null;
 
   /**
@@ -192,7 +201,7 @@ const Pattern = function(
 
 Pattern.prototype = {
   // render function - acts as a proxy for the PatternEngine's
-  render: function(data, partials) {
+  render: function (data, partials) {
     if (!this.extendedTemplate) {
       this.extendedTemplate = this.template;
     }
@@ -204,17 +213,17 @@ Pattern.prototype = {
         partials
       );
       return promise
-        .then(results => {
+        .then((results) => {
           return results;
         })
-        .catch(reason => {
+        .catch((reason) => {
           return Promise.reject(reason);
         });
     }
     return Promise.reject('where is the engine?');
   },
 
-  registerPartial: function() {
+  registerPartial: function () {
     if (this.engine && typeof this.engine.registerPartial === 'function') {
       this.engine.registerPartial(this);
     }
@@ -230,7 +239,7 @@ Pattern.prototype = {
    * @param {string} suffixType File suffix
    * @param {string} customFileExtension Custom extension
    */
-  getPatternLink: function(patternlab, suffixType, customFileExtension) {
+  getPatternLink: function (patternlab, suffixType, customFileExtension) {
     // if no suffixType is provided, we default to rendered
     const suffixConfig = patternlab.config.outputFileSuffixes;
     const suffix = suffixType
@@ -252,23 +261,19 @@ Pattern.prototype = {
    * The finders all delegate to the PatternEngine, which also
    * encapsulates all appropriate regex's
    */
-  findPartials: function() {
+  findPartials: function () {
     return this.engine.findPartials(this);
   },
 
-  findPartialsWithStyleModifiers: function() {
-    return this.engine.findPartialsWithStyleModifiers(this);
-  },
-
-  findPartialsWithPatternParameters: function() {
+  findPartialsWithPatternParameters: function () {
     return this.engine.findPartialsWithPatternParameters(this);
   },
 
-  findListItems: function() {
+  findListItems: function () {
     return this.engine.findListItems(this);
   },
 
-  findPartial: function(partialString) {
+  findPartial: function (partialString) {
     return this.engine.findPartial(partialString);
   },
 
@@ -278,7 +283,7 @@ Pattern.prototype = {
    * @param {Number} level Level of folder to get
    * @param {Object} pInfo general information about the pattern
    */
-  getDirLevel: function(level, pInfo) {
+  getDirLevel: function (level, pInfo) {
     const items = this.subdir.split(path.sep);
     pInfo && pInfo.patternHasOwnDir && items.pop();
 
@@ -300,7 +305,7 @@ Pattern.prototype = {
    *
    * @param {Patternlab} patternlab Current patternlab instance
    */
-  promoteFromDirectoryToFlatPattern: function(patternlab) {
+  promoteFromDirectoryToFlatPattern: function (patternlab) {
     const p = new Pattern(this.relPath, this.jsonFileData, patternlab, true);
     // Only reset the specific fields, not everything
     Object.assign(this, {
@@ -321,7 +326,7 @@ Pattern.prototype = {
    * @param {*} pathStr the path that needs to be checked for number prefixes
    * @returns the order number or 0 when no prefix is available
    */
-  setPatternOrderDataForInfo: pathStr => {
+  setPatternOrderDataForInfo: (pathStr) => {
     const match = pathStr.match(prefixMatcherDeprecationCheckOrder);
     return match && match.length >= 1
       ? pathStr.match(prefixMatcherDeprecationCheckOrder)[1].replace('-', '')
@@ -349,7 +354,7 @@ Pattern.prototype = {
     };
 
     info.dir = info.patternHasOwnDir ? pathObj.dir.split(path.sep).pop() : '';
-    info.dirLevel = pathObj.dir.split(path.sep).filter(s => !!s).length;
+    info.dirLevel = pathObj.dir.split(path.sep).filter((s) => !!s).length;
 
     // Only relevant for deprecation check and message
     if (path.parse(pathObj.dir).base === '_meta') {
@@ -371,15 +376,15 @@ Pattern.prototype = {
         .split(/\/|\\/, 2)
         .map((o, i) => {
           if (i === 0) {
-            info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
-              o
-            );
+            // TODO: Remove when prefix gets deprecated
+            info.patternGroupOrder =
+              Pattern.prototype.setPatternOrderDataForInfo(o);
           }
 
           if (i === 1) {
-            info.patternSubgroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
-              o
-            );
+            // TODO: Remove when prefix gets deprecated
+            info.patternSubgroupOrder =
+              Pattern.prototype.setPatternOrderDataForInfo(o);
           }
 
           return o.replace(prefixMatcher, '');
@@ -388,7 +393,7 @@ Pattern.prototype = {
         .replace(new RegExp(`-${info.dir}$`), '');
       info.verbosePartial = pathObj.dir
         .split(/\/|\\/, 2)
-        .map(o => o.replace(prefixMatcher, ''))
+        .map((o) => o.replace(prefixMatcher, ''))
         .join('/')
         .replace(new RegExp(`-${info.dir}$`), '');
     }
@@ -406,7 +411,7 @@ Pattern.prototype = {
  * @param {Object} customProps Properties to apply to new pattern
  * @param {Patternlab} patternlab Current patternlab instance
  */
-Pattern.createEmpty = function(customProps, patternlab) {
+Pattern.createEmpty = function (customProps, patternlab) {
   let relPath = '';
   if (customProps) {
     if (customProps.relPath) {
@@ -425,7 +430,7 @@ Pattern.createEmpty = function(customProps, patternlab) {
  * parameters that replace the positional parameters that the Pattern
  * constructor takes.
  */
-Pattern.create = function(relPath, data, customProps, patternlab) {
+Pattern.create = function (relPath, data, customProps, patternlab) {
   const newPattern = new Pattern(relPath || '', data || null, patternlab);
   return Object.assign(newPattern, customProps);
 };

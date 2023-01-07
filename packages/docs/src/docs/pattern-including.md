@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Including Patterns
   key: patterns
   order: 90
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 To include one pattern within another, for example to create a molecule from several atoms, you can either use:
@@ -28,7 +30,7 @@ The shorthand include syntax would be:
 
     atoms-landscape-16x9
 
-The pattern type matches the top-level folder and is `atoms`. The pattern name matches the template file and is `landscape-16x9`. Any digits used for ordering are _dropped_ from both the pattern type and pattern name. Pattern subgroups are _never_ a part of the shorthand include syntax. This way patterns can be re-organized within a pattern type and/or by using digits without needing to change your pattern includes.
+The pattern type matches the top-level folder and is `atoms`. The pattern name matches the template file and is `landscape-16x9`. Any digits used in the filename for ordering (which is deprecated, use [the order parameter](/docs/reorganizing-patterns/) instead) are _dropped_ from both the pattern type and pattern name references. Pattern subgroups are _never_ a part of the shorthand include syntax. This way patterns can be re-organized within a pattern type and/or by using digits (which is deprecated, use [the order parameter](/docs/reorganizing-patterns/) instead) without needing to change your pattern includes.
 
 The following are examples of using the shorthand include syntax with our supported PatternEngines:
 
@@ -58,7 +60,7 @@ The default Mustache include syntax would be:
 {% raw %}{{> atoms/images/landscape-16x9 }}{% endraw %}
 ```
 
-**Important:** Unlike the shorthand include syntax the template language specific include syntax **must** include any digits used for ordering and subgroup directories. Pattern paths need to be updated when either is changed for a given pattern.
+**Important:** Unlike the shorthand include syntax the template language specific include syntax **must** include any digits used for ordering (which is deprecated, use [the order parameter](/docs/reorganizing-patterns/) instead) and subgroup directories. Pattern paths need to be updated when either is changed for a given pattern.
 
 ## Examples and Gotchas
 
@@ -67,17 +69,12 @@ Here are some examples of how to include patterns as well as some gotchas.
 ```handlebars
 {% raw %}// partials to match
 atoms/global/test.mustache
-atoms/global/test.mustache
-atoms/global/test.mustache
 atoms/global/test-with-picture.mustache
 
 // using the shorthand partials syntax
 {{> atoms-test }}               // will match atoms/global/test.mustache
-                                // using the shorthand syntax you'll never be able to match test nor test in this scenario
 {{> atoms-test-with-picture }}  // will match atoms/global/test-with-picture.mustache
-{{> atoms-test-wit }}           // will match atoms/global/test-with-picture.mustache
 
 // using the default mustache partials syntax
-{{> atoms/global/test }}     // won't match anything because atoms is missing its digits
 {{> atoms/global/test }}  // will match atoms/global/test.mustache{% endraw %}
 ```

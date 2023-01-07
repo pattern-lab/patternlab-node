@@ -19,7 +19,20 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 // loads a pattern from disk, creates a Pattern object from it and
 // all its associated files, and records it in patternlab.patterns[]
-module.exports = function(relPath, patternlab) {
+module.exports = function (relPath, patternlab) {
+  const fileObject = path.parse(relPath);
+
+  //extract some information
+  const filename = fileObject.base;
+  const ext = fileObject.ext;
+  const patternsPath = patternlab.config.paths.source.patterns;
+
+  // skip non-pattern files
+  if (!patternEngines.isPatternFile(filename, patternlab)) {
+    return null;
+  }
+
+  // Determine patterns nested too deep and show a warning
   const relativeDepth = (relPath.match(/\w(?=\\)|\w(?=\/)/g) || []).length;
   if (relativeDepth > 3) {
     logger.warning('');
@@ -49,18 +62,6 @@ module.exports = function(relPath, patternlab) {
       'Read More: https://patternlab.io/docs/overview-of-patterns/'
     );
     logger.warning('');
-  }
-
-  const fileObject = path.parse(relPath);
-
-  //extract some information
-  const filename = fileObject.base;
-  const ext = fileObject.ext;
-  const patternsPath = patternlab.config.paths.source.patterns;
-
-  // skip non-pattern files
-  if (!patternEngines.isPatternFile(filename, patternlab)) {
-    return null;
   }
 
   //make a new Pattern Object
@@ -93,10 +94,10 @@ module.exports = function(relPath, patternlab) {
       );
     }
   } catch (err) {
-    logger.warning(
+    logger.error(
       `There was an error parsing sibling JSON for ${currentPattern.relPath}`
     );
-    logger.warning(err);
+    logger.error(err);
   }
 
   //look for a listitems.json file for this template
@@ -117,10 +118,10 @@ module.exports = function(relPath, patternlab) {
       buildListItems(currentPattern);
     }
   } catch (err) {
-    logger.warning(
+    logger.error(
       `There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`
     );
-    logger.warning(err);
+    logger.error(err);
   }
 
   //look for a markdown file for this template
@@ -131,11 +132,9 @@ module.exports = function(relPath, patternlab) {
 
   currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
-  //find any stylemodifiers that may be in the current pattern
-  currentPattern.stylePartials = currentPattern.findPartialsWithStyleModifiers();
-
   //find any pattern parameters that may be in the current pattern
-  currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
+  currentPattern.parameteredPartials =
+    currentPattern.findPartialsWithPatternParameters();
 
   [
     templatePath,
@@ -145,7 +144,7 @@ module.exports = function(relPath, patternlab) {
     `${listJsonFileName}.json`,
     `${listJsonFileName}.yml`,
     `${listJsonFileName}.yaml`,
-  ].forEach(file => {
+  ].forEach((file) => {
     changes_hunter.checkLastModified(currentPattern, file);
   });
 

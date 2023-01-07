@@ -15,7 +15,7 @@ const safePluginName = '@pattern-lab-plugin-tab';
 
 function writeConfigToOutput(patternlab, pluginConfig) {
   try {
-    _.each(patternlab.uikits, uikit => {
+    _.each(patternlab.uikits, (uikit) => {
       fs.outputFileSync(
         path.join(
           process.cwd(),
@@ -138,7 +138,7 @@ function pluginInit(patternlab) {
               '/*SNIPPETS*/',
               snippetString
             );
-            _.each(patternlab.uikits, uikit => {
+            _.each(patternlab.uikits, (uikit) => {
               fs.outputFileSync(
                 path.join(process.cwd(), uikit.outputDir, writePath),
                 tabJSFileContents

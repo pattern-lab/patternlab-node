@@ -10,7 +10,7 @@ const util = require('./util/test_utils.js');
 const testPatternsPath = path.resolve(__dirname, 'files', '_patterns');
 
 const fsMock = {
-  outputFileSync: function(path, content) {
+  outputFileSync: function (path, content) {
     /* INTENTIONAL NOOP */
   },
 };
@@ -28,70 +28,70 @@ const uikitFoo = {
   excludedTags: ['baz'],
 };
 
-tap.test('exportData exports config', function(test) {
+tap.test('exportData exports config', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('config') > -1, true);
-  test.equals(result.indexOf('paths') > -1, true);
-  test.equals(result.indexOf('theme') > -1, true);
+  test.equal(result.indexOf('config') > -1, true);
+  test.equal(result.indexOf('paths') > -1, true);
+  test.equal(result.indexOf('theme') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports ishControls', function(test) {
+tap.test('exportData exports ishControls', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('ishControlsHide') > -1, true);
+  test.equal(result.indexOf('ishControlsHide') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports navItems', function(test) {
+tap.test('exportData exports navItems', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('patternGroups') > -1, true);
+  test.equal(result.indexOf('patternGroups') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports patternPaths', function(test) {
+tap.test('exportData exports patternPaths', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('patternPaths') > -1, true);
+  test.equal(result.indexOf('patternPaths') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports viewAllPaths', function(test) {
+tap.test('exportData exports viewAllPaths', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('viewAllPaths') > -1, true);
+  test.equal(result.indexOf('viewAllPaths') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports plugins', function(test) {
+tap.test('exportData exports plugins', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('plugins') > -1, true);
+  test.equal(result.indexOf('plugins') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports defaultShowPatternInfo', function(test) {
+tap.test('exportData exports defaultShowPatternInfo', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('defaultShowPatternInfo') > -1, true);
-  test.equals(result.indexOf('"defaultShowPatternInfo":false') > -1, true);
+  test.equal(result.indexOf('defaultShowPatternInfo') > -1, true);
+  test.equal(result.indexOf('"defaultShowPatternInfo":false') > -1, true);
   test.end();
 });
 
-tap.test('exportData exports defaultPattern', function(test) {
+tap.test('exportData exports defaultPattern', function (test) {
   const patternlab = util.fakePatternLab(testPatternsPath);
   const result = exportData(patternlab, uikitFoo);
 
-  test.equals(result.indexOf('defaultPattern') > -1, true);
-  test.equals(result.indexOf('"defaultPattern":"all"') > -1, true);
+  test.equal(result.indexOf('defaultPattern') > -1, true);
+  test.equal(result.indexOf('"defaultPattern":"all"') > -1, true);
   test.end();
 });

@@ -16,7 +16,7 @@ engineLoader.loadAllEngines(config);
 
 const patterns_dir = `${__dirname}/files/_patterns`;
 
-tap.test('processRecursive recursively includes partials', function(test) {
+tap.test('processRecursive recursively includes partials', function (test) {
   //assert
   const patternlab = util.fakePatternLab(patterns_dir);
 
@@ -36,7 +36,7 @@ tap.test('processRecursive recursively includes partials', function(test) {
         .then(() => {
           //assert
           const expectedValue = 'bar';
-          test.equals(
+          test.equal(
             util.sanitized(fooPattern.extendedTemplate),
             util.sanitized(expectedValue)
           );
@@ -47,271 +47,8 @@ tap.test('processRecursive recursively includes partials', function(test) {
     .catch(test.threw);
 });
 
-tap.test(
-  'processRecursive - correctly replaces all stylemodifiers when multiple duplicate patterns with different stylemodifiers found',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var groupPath = path.join('test', 'group.mustache');
-    var groupPattern = loadPattern(groupPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(groupPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(groupPath, patternlab)
-          .then(() => {
-            //assert
-            const expectedValue =
-              '<div class="test_group"> <span class="test_base test_1"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
-            test.equals(
-              util.sanitized(groupPattern.extendedTemplate),
-              util.sanitized(expectedValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
-tap.only(
-  'processRecursive - correctly replaces multiple stylemodifier classes on same partial',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var groupPath = path.join('test', 'multiple-classes-numeric.mustache');
-    var groupPattern = loadPattern(groupPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(groupPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(groupPath, patternlab)
-          .then(() => {
-            //assert
-            const expectedValue =
-              '<div class="test_group"> <span class="test_base foo1"> {{message}} </span> <span class="test_base foo1 foo2"> {{message}} </span> <span class="test_base foo1 foo2"> bar </span> </div>';
-            test.equals(
-              util.sanitized(groupPattern.extendedTemplate),
-              util.sanitized(expectedValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
-tap.test(
-  'processRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var mixedPath = path.join('test', 'mixed.mustache');
-    var mixedPattern = loadPattern(mixedPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(mixedPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(mixedPath, patternlab)
-          .then(() => {
-            //assert. here we expect {{styleModifier}} to be in the first group, since it was not replaced by anything. rendering with data will then remove this (correctly)
-            const expectedValue =
-              '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base test_4"> {{message}} </span> </div>';
-            test.equals(
-              util.sanitized(mixedPattern.extendedTemplate),
-              util.sanitized(expectedValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
-tap.test(
-  'processRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier  between',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var bookendPath = path.join('test', 'bookend.mustache');
-    var bookendPattern = loadPattern(bookendPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(bookendPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(bookendPath, patternlab)
-          .then(() => {
-            //assert. here we expect {{styleModifier}} to be in the first and last group, since it was not replaced by anything. rendering with data will then remove this (correctly)
-            const expectedValue =
-              '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> {{message}} </span> <span class="test_base test_3"> {{message}} </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
-            test.equals(
-              util.sanitized(bookendPattern.extendedTemplate),
-              util.sanitized(expectedValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
-tap.test(
-  'processRecursive - correctly ignores a partial without a style modifier when the same partial later has a style modifier and pattern parameters',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var mixedPath = path.join('test', 'mixed-params.mustache');
-    var mixedPattern = loadPattern(mixedPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(mixedPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(mixedPath, patternlab)
-          .then(() => {
-            //assert. here we expect {{styleModifier}} to be in the first span, since it was not replaced by anything. rendering with data will then remove this (correctly)
-            const expectedValue =
-              '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base test_4"> 4 </span> </div>';
-            test.equals(
-              util.sanitized(mixedPattern.extendedTemplate),
-              util.sanitized(expectedValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
-tap.test(
-  'processRecursive - correctly ignores bookended partials without a style modifier when the same partial has a style modifier and pattern parameters between',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var bookendPath = path.join('test', 'bookend-params.mustache');
-    var bookendPattern = loadPattern(bookendPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(bookendPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(bookendPath, patternlab)
-          .then(() => {
-            //assert. here we expect {{styleModifier}} to be in the first and last span, since it was not replaced by anything. rendering with data will then remove this (correctly)
-            const expectedValue =
-              '<div class="test_group"> <span class="test_base {{styleModifier}}"> {{message}} </span> <span class="test_base test_2"> 2 </span> <span class="test_base test_3"> 3 </span> <span class="test_base {{styleModifier}}"> {{message}} </span> </div>';
-            test.equals(
-              util.sanitized(bookendPattern.extendedTemplate),
-              util.sanitized(expectedValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
-tap.test(
-  'processRecursive - does not pollute previous patterns when a later one is found with a styleModifier',
-  function(test) {
-    //arrange
-    const patternlab = util.fakePatternLab(patterns_dir);
-
-    var atomPath = path.join('test', 'styled-atom.mustache');
-    var atomPattern = loadPattern(atomPath, patternlab);
-
-    var anotherPath = path.join('test', 'another-styled-atom.mustache');
-    var anotherPattern = loadPattern(anotherPath, patternlab);
-
-    var p1 = processIterative(atomPattern, patternlab);
-    var p2 = processIterative(anotherPattern, patternlab);
-
-    Promise.all([p1, p2])
-      .then(() => {
-        //act
-        processRecursive(anotherPath, patternlab)
-          .then(() => {
-            //assert
-            const expectedCleanValue =
-              '<span class="test_base {{styleModifier}}"> {{message}} </span>';
-            const expectedSetValue =
-              '<span class="test_base test_1"> {{message}} </span>';
-
-            //this is the "atom" - it should remain unchanged
-            test.equals(
-              util.sanitized(atomPattern.template),
-              util.sanitized(expectedCleanValue)
-            );
-            test.equals(
-              util.sanitized(atomPattern.extendedTemplate),
-              util.sanitized(expectedCleanValue)
-            );
-
-            // this is the style modifier pattern, which should resolve correctly
-            test.equals(
-              util.sanitized(anotherPattern.template),
-              '{{> test-styled-atom:test_1 }}'
-            );
-            test.equals(
-              util.sanitized(anotherPattern.extendedTemplate),
-              util.sanitized(expectedSetValue)
-            );
-            test.end();
-          })
-          .catch(test.threw);
-      })
-      .catch(test.threw);
-  }
-);
-
 tap
-  .test('processRecursive - ensure deep-nesting works', function(test) {
+  .test('processRecursive - ensure deep-nesting works', function (test) {
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
@@ -339,31 +76,28 @@ tap
       //act
       return test.test(
         'processRecursive - ensure deep-nesting works2',
-        function(tt) {
+        function (tt) {
           //assert
           const expectedCleanValue = 'bar';
           const expectedSetValue = 'bar';
 
           //this is the "atom" - it should remain unchanged
-          tt.equals(util.sanitized(atomPattern.template), expectedCleanValue);
-          tt.equals(
+          tt.equal(util.sanitized(atomPattern.template), expectedCleanValue);
+          tt.equal(
             util.sanitized(atomPattern.extendedTemplate),
             expectedCleanValue
           );
 
           //this is the "template pattern" - it should have an updated extendedTemplate but an unchanged template
-          tt.equals(
-            util.sanitized(templatePattern.template),
-            '{{> test-bar }}'
-          );
-          tt.equals(
+          tt.equal(util.sanitized(templatePattern.template), '{{> test-bar }}');
+          tt.equal(
             util.sanitized(templatePattern.extendedTemplate),
             expectedSetValue
           );
 
           //this is the "pages pattern" - it should have an updated extendedTemplate equal to the template pattern but an unchanged template
-          tt.equals(util.sanitized(pagesPattern.template), '{{> test-foo }}');
-          tt.equals(
+          tt.equal(util.sanitized(pagesPattern.template), '{{> test-foo }}');
+          tt.equal(
             util.sanitized(pagesPattern.extendedTemplate),
             expectedSetValue
           );
@@ -375,7 +109,7 @@ tap
   })
   .catch(tap.threw);
 
-tap.test('hidden patterns can be called by their nice names', function(test) {
+tap.test('hidden patterns can be called by their nice names', function (test) {
   //arrange
   const patternlab = util.fakePatternLab(patterns_dir);
 
@@ -393,9 +127,9 @@ tap.test('hidden patterns can be called by their nice names', function(test) {
     //act
     processRecursive(hiddenPatternPath, patternlab).then(() => {
       processRecursive(testPatternPath, patternlab).then(() => {
-        testPattern.render().then(results => {
+        testPattern.render().then((results) => {
           //assert
-          test.equals(
+          test.equal(
             util.sanitized(results),
             util.sanitized(
               "Hello there! Here's the hidden atom: [This is the hidden atom]"
@@ -409,35 +143,9 @@ tap.test('hidden patterns can be called by their nice names', function(test) {
   });
 });
 
-tap.test('parses pattern title correctly when frontmatter present', function(
-  test
-) {
-  //arrange
-  var pl = util.fakePatternLab(patterns_dir);
-
-  var testPatternPath = path.join('test', 'bar.mustache');
-  var testPattern = loadPattern(testPatternPath, pl);
-
-  //act
-  Promise.all([
-    processIterative(testPattern, pl),
-    processRecursive(testPatternPath, pl),
-  ])
-    .then(results => {
-      //assert
-      test.equals(
-        results[0].patternName,
-        'An Atom Walks Into a Bar',
-        'patternName not overridden'
-      );
-      test.end();
-    })
-    .catch(test.threw);
-});
-
 tap.test(
-  'parses pattern extra frontmatter correctly when frontmatter present',
-  function(test) {
+  'parses pattern title correctly when frontmatter present',
+  function (test) {
     //arrange
     var pl = util.fakePatternLab(patterns_dir);
 
@@ -449,9 +157,36 @@ tap.test(
       processIterative(testPattern, pl),
       processRecursive(testPatternPath, pl),
     ])
-      .then(results => {
+      .then((results) => {
         //assert
-        test.equals(results[0].allMarkdown.joke, 'bad', 'extra key not added');
+        test.equal(
+          results[0].patternName,
+          'An Atom Walks Into a Bar',
+          'patternName not overridden'
+        );
+        test.end();
+      })
+      .catch(test.threw);
+  }
+);
+
+tap.test(
+  'parses pattern extra frontmatter correctly when frontmatter present',
+  function (test) {
+    //arrange
+    var pl = util.fakePatternLab(patterns_dir);
+
+    var testPatternPath = path.join('test', 'bar.mustache');
+    var testPattern = loadPattern(testPatternPath, pl);
+
+    //act
+    Promise.all([
+      processIterative(testPattern, pl),
+      processRecursive(testPatternPath, pl),
+    ])
+      .then((results) => {
+        //assert
+        test.equal(results[0].allMarkdown.joke, 'bad', 'extra key not added');
         test.end();
       })
       .catch(test.threw);

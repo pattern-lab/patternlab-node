@@ -2,13 +2,9 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
 const TerserPlugin = require('terser-webpack-plugin');
-const NoEmitPlugin = require('no-emit-webpack-plugin');
 const autoprefixer = require('autoprefixer');
-const CriticalCssPlugin = require('critical-css-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const selectorImporter = require('node-sass-selector-importer');
-const PrerenderSPAPlugin = require('prerender-spa-plugin');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
@@ -16,8 +12,8 @@ const argv = require('yargs').argv;
 const merge = require('webpack-merge');
 const WebpackBar = require('webpackbar');
 
-const cosmiconfig = require('cosmiconfig');
-const explorer = cosmiconfig('patternlab');
+const cosmiconfigSync = require('cosmiconfig').cosmiconfigSync;
+const explorerSync = cosmiconfigSync('patternlab');
 
 // @todo: wire these two ocnfigs up to use cosmicconfig!
 const defaultConfig = {
@@ -31,15 +27,15 @@ const defaultConfig = {
   noViewAll: false,
 };
 
-module.exports = function(apiConfig) {
-  return new Promise(async resolve => {
+module.exports = function (apiConfig) {
+  return new Promise(async (resolve) => {
     let customConfig = defaultConfig;
     let configToSearchFor;
 
     if (argv.patternlabrc) {
-      configToSearchFor = await explorer.loadSync(argv.patternlabrc);
+      configToSearchFor = await explorerSync.load(argv.patternlabrc);
     } else {
-      configToSearchFor = await explorer.searchSync();
+      configToSearchFor = await explorerSync.search();
     }
 
     if (configToSearchFor) {
@@ -81,6 +77,11 @@ module.exports = function(apiConfig) {
           '@babel/plugin-proposal-optional-chaining',
           ['@babel/plugin-proposal-decorators', { legacy: true }],
           ['@babel/plugin-proposal-class-properties', { loose: true }],
+          ['@babel/plugin-proposal-private-methods', { loose: true }],
+          [
+            '@babel/plugin-proposal-private-property-in-object',
+            { loose: true },
+          ],
           '@babel/plugin-syntax-dynamic-import',
           '@babel/plugin-syntax-jsx' /* [1] */,
           [
@@ -125,7 +126,6 @@ module.exports = function(apiConfig) {
           sassOptions: {
             sourceMap: config.sourceMaps,
             outputStyle: 'expanded',
-            importer: [selectorImporter()],
           },
         },
       },
@@ -255,11 +255,7 @@ module.exports = function(apiConfig) {
             ]
           : [],
       },
-      plugins: [
-        new WebpackBar(),
-        new CopyPlugin(config.copy),
-        new NoEmitPlugin(['css/pattern-lab.js']),
-      ],
+      plugins: [new WebpackBar(), new CopyPlugin(config.copy)],
     };
 
     webpackConfig.plugins.push(

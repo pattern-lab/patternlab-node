@@ -66,7 +66,7 @@ const error = log.error.bind(log);
  * @desc Wraps an generator function to yield out promisified stuff
  * @param {function} fn - Takes a generator function
  */
-const wrapAsync = fn =>
+const wrapAsync = (fn) =>
   new Promise((resolve, reject) => {
     const generator = fn();
     /* eslint-disable */
@@ -84,9 +84,7 @@ const wrapAsync = fn =>
       if (res.done) {
         return resolve(v);
       }
-      Promise.resolve(v)
-        .then(spwn)
-        .catch(spwn);
+      Promise.resolve(v).then(spwn).catch(spwn);
     })();
     /* eslint-enable */
   });
@@ -114,13 +112,13 @@ const asyncGlob = (pattern, opts) =>
  * @return {Promise}
  */
 const copyWithPattern = (cwd, pattern, dest) =>
-  wrapAsync(function*() {
+  wrapAsync(function* () {
     const files = yield asyncGlob(pattern, { cwd: cwd });
     if (files.length === 0) {
       debug('copy: Nothing to copy');
     }
     // Copy concurrently
-    const promises = files.map(file =>
+    const promises = files.map((file) =>
       fs.copy(path.join(cwd, file), path.join(dest, file))
     );
     return yield Promise.all(promises);
@@ -131,8 +129,8 @@ const copyWithPattern = (cwd, pattern, dest) =>
  * @desc Fetches packages from an npm package registry and adds a reference in the package.json under dependencies
  * @param {string} packageName - The package name
  */
-const fetchPackage = packageName =>
-  wrapAsync(function*() {
+const fetchPackage = (packageName) =>
+  wrapAsync(function* () {
     const useYarn = hasYarn();
     const pm = useYarn ? 'yarn' : 'npm';
     const installCmd = useYarn ? 'add' : 'install';
@@ -159,8 +157,8 @@ const fetchPackage = packageName =>
  * @param {string} packageName - The package name
  * @return {boolean}
  */
-const checkAndInstallPackage = packageName =>
-  wrapAsync(function*() {
+const checkAndInstallPackage = (packageName) =>
+  wrapAsync(function* () {
     try {
       resolvePackageFolder(packageName);
       return true;
@@ -186,7 +184,7 @@ const noop = () => {};
  * @param {object} data
  */
 const writeJsonAsync = (filePath, data) =>
-  wrapAsync(function*() {
+  wrapAsync(function* () {
     yield fs.outputJSON(filePath, data, { spaces: 2 });
   });
 
@@ -198,7 +196,7 @@ const writeJsonAsync = (filePath, data) =>
  * @param {object} fileName - the filePath of the JSON
  */
 const getJSONKey = (packageName, key, fileName = 'package.json') =>
-  wrapAsync(function*() {
+  wrapAsync(function* () {
     yield checkAndInstallPackage(packageName);
     const jsonData = yield fs.readJson(
       resolveFileInPackage(packageName, fileName)

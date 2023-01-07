@@ -14,9 +14,9 @@ The pure wrapper around [Pattern Lab Node Core](https://github.com/pattern-lab/p
 This Edition comes with the following components:
 
 * `@pattern-lab/core`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core) | [npm](https://www.npmjs.com/package/@pattern-lab/core)
-* `@pattern-lab/cli`: [GitHub](https://github.com/pattern-lab/tree/master/packages/cli) | [npm](https://www.npmjs.com/package/@pattern-lab/cli)
-* `@pattern-lab/engine-handlebars`: [GitHub](https://github.com/pattern-lab/tree/master/packages/engine-handlebars) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-handlebars)
-* `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
+* `@pattern-lab/cli`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/cli) | [npm](https://www.npmjs.com/package/@pattern-lab/cli)
+* `@pattern-lab/engine-handlebars`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-handlebars) | [npm](https://www.npmjs.com/package/@pattern-lab/engine-handlebars)
+* `@pattern-lab/uikit-workshop`: [GitHub](https://github.com/pattern-lab/patternlab-node/tree/master/packages/uikit-workshop) | [npm](https://www.npmjs.com/package/@pattern-lab/uikit-workshop)
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ This Edition uses [Node](https://nodejs.org) for core processing and [npm](https
 
 ## Installing
 
-Pattern Lab Node can be used different ways. Editions lilke this one are **example** pairings of Pattern Lab code and do not always have an upgrade path or simple means to run as a dependency within a larger project. Users wishing to be most current and have the greatest flexibility are encouraged to consume `core` directly. Users wanting to learn more about Pattern Lab and have a tailored default experience are encouraged to start with an Edition. Both methods still expect to interact with other elements of the [Pattern Lab Ecosystem](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core#ecosystem).
+The Pattern Lab Node can be used in different ways. Editions like this one are **example** pairings of Pattern Lab code and do not always have an upgrade path or simple means to run as a dependency within a larger project. Users wishing to be most current and have the greatest flexibility are encouraged to consume `core` directly. Users wanting to learn more about Pattern Lab and have a tailored default experience are encouraged to start with an edition. Both methods still expect to interact with other elements of the [Pattern Lab Ecosystem](https://github.com/pattern-lab/patternlab-node/tree/master/packages/core#ecosystem).
 
 Read the [installation instructions](https://github.com/pattern-lab/patternlab-node/tree/master#installation).
 

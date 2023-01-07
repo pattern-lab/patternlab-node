@@ -1,4 +1,4 @@
-<div class="c-promo-block {{ styleModifier }}">
+<div class="c-promo-block {{ additionalClasses }}">
 	<div class="c-promo-block__body">
 		{{#with promoBlockLink }}
 		<a href="{{ url }}" class="c-promo-block__link">
@@ -14,7 +14,7 @@
 		{{#with promoBlockLink }}
 		<a href="{{ url }}" class="c-promo-block__link">
 		{{/ with }}
-			<img src="{{ src }}" alt="{{ alt }}" class="c-promo-block__img" />
+			<img src="{{ src }}" alt="{{ alt }}" width="{{ width }}" height="{{ height }}" class="c-promo-block__img" />
 		{{#if promoBlockLink }}
 		</a>
 		{{/ if }}

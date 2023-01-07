@@ -3,21 +3,21 @@ const {JSDOM} = jsdom;
 const minify = require('../utils/minify.js');
 const slugify = require('slugify');
 
-module.exports = function(value, outputPath) {
+module.exports = function (value, outputPath) {
 	if (outputPath.endsWith('.html')) {
 		const DOM = new JSDOM(value, {
-			resources: 'usable'
+			resources: 'usable',
 		});
 
 		const document = DOM.window.document;
 		const articleImages = [...document.querySelectorAll('main article img')];
 		const articleHeadings = [
-			...document.querySelectorAll('main article h2, main article h3')
+			...document.querySelectorAll('main article h2, main article h3'),
 		];
 		const articleEmbeds = [...document.querySelectorAll('main article iframe')];
 
 		if (articleImages.length) {
-			articleImages.forEach(image => {
+			articleImages.forEach((image) => {
 				image.setAttribute('loading', 'lazy');
 
 				// If an image has a title it means that the user added a caption
@@ -40,7 +40,7 @@ module.exports = function(value, outputPath) {
 
 		if (articleHeadings.length) {
 			// Loop each heading and add a little anchor and an ID to each one
-			articleHeadings.forEach(heading => {
+			articleHeadings.forEach((heading) => {
 				const headingSlug = slugify(heading.textContent.toLowerCase());
 				const anchor = document.createElement('a');
 
@@ -59,7 +59,7 @@ module.exports = function(value, outputPath) {
 
 		// Look for videos are wrap them in a container element
 		if (articleEmbeds.length) {
-			articleEmbeds.forEach(embed => {
+			articleEmbeds.forEach((embed) => {
 				if (embed.hasAttribute('allowfullscreen')) {
 					const player = document.createElement('div');
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /* eslint-disable no-unused-vars */
 'use strict';
-const cli = require('commander');
+const { Command } = require('commander');
+const cli = new Command();
 const path = require('path');
 const build = require('./cli-actions/build');
 const disable = require('./cli-actions/disable');
@@ -16,11 +17,11 @@ const { error, log } = require('./utils');
 const pkg = require('../package.json');
 
 // Register info and error logging
-log.on('patternlab.error', err => console.log(err)); // eslint-disable-line
-log.on('patternlab.info', msg => console.log(msg)); // eslint-disable-line
+log.on('patternlab.error', (err) => console.log(err)); // eslint-disable-line
+log.on('patternlab.info', (msg) => console.log(msg)); // eslint-disable-line
 
 // Conditionally register verbose logging
-const verboseLogs = () => log.on('patternlab.debug', msg => console.log(msg)); // eslint-disable-line
+const verboseLogs = () => log.on('patternlab.debug', (msg) => console.log(msg)); // eslint-disable-line
 
 // Conditionally unregister all logging
 const silenceLogs = () => {
@@ -30,7 +31,7 @@ const silenceLogs = () => {
 };
 
 // Split strings into an array
-const list = val => val.split(',');
+const list = (val) => val.split(',');
 
 /**
  * Hook up cli version, usage and options
@@ -38,15 +39,7 @@ const list = val => val.split(',');
 cli
   .version(version(pkg), '-V, --version')
   .usage('<cmd> [options]')
-  .arguments('<cmd> [options]')
-  .option(
-    '-c, --config <path>',
-    'Specify config file. Default looks up the project dir',
-    val => val.trim(),
-    path.resolve(process.cwd(), 'patternlab-config.json')
-  )
-  .option('-v, --verbose', 'Show verbose console logs', verboseLogs)
-  .option('--silent', 'Turn off console logs', silenceLogs);
+  .arguments('<cmd> [options]');
 
 /**
  * build
@@ -133,6 +126,20 @@ cli
   .description('Starts a server to inspect files in browser')
   .option('--no-watch', 'Start watching for changes')
   .action(serve);
+
+// Common options can be added manually after setting up program and subcommands.
+// If the options are unsorted in the help, these will appear last.
+cli.commands.forEach((command) => {
+  command
+    .option(
+      '-c, --config <path>',
+      'Specify config file. Default looks up the project dir',
+      (val) => val.trim(),
+      path.resolve(process.cwd(), 'patternlab-config.json')
+    )
+    .option('-v, --verbose', 'Show verbose console logs', verboseLogs)
+    .option('--silent', 'Turn off console logs', silenceLogs);
+});
 
 // Show additional help
 cli.on('--help', help);

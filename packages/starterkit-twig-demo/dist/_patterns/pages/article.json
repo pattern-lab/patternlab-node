@@ -8,11 +8,15 @@
 	"img": {
 		"landscape_4x3": {
 			"src": "../../images/sample/landscape-16x9-mountains.jpg",
-			"alt": "Mountains"
+			"alt": "Mountains",
+			"width": "1151",
+			"height": "638"
 		},
 		"landscape_16x9": {
 			"src": "../../images/sample/landscape-16x9-mountains.jpg",
-			"alt": "Mountains"	
+			"alt": "Mountains",
+			"width": "1151",
+			"height": "638"
 		}
 	},
 	"inset_blocks" : [

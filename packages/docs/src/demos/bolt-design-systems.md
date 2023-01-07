@@ -8,4 +8,5 @@ tags:
   - demo-content
   - code
 refLink: https://boltdesignsystem.com/pattern-lab/?p=pages-d8-homepage
+sitemapIgnore: true
 ---

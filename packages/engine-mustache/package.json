@@ -1,10 +1,10 @@
 {
   "name": "@pattern-lab/engine-mustache",
   "description": "The Mustache engine for Pattern Lab / Node",
-  "version": "5.12.0",
+  "version": "5.16.4",
   "main": "lib/engine_mustache.js",
   "dependencies": {
-    "fs-extra": "0.30.0",
+    "fs-extra": "10.0.0",
     "mustache": "3.1.0"
   },
   "keywords": [
@@ -22,7 +22,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=14.21.1"
   },
   "publishConfig": {
     "access": "public"

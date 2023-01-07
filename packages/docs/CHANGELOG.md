@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.16.4](https://github.com/bradfrost/pl-website-eleventy/compare/v5.16.2...v5.16.4) (2022-09-23)
+
+
+### Bug Fixes
+
+* code scanning alert ([#1442](https://github.com/bradfrost/pl-website-eleventy/issues/1442)) ([749a3e7](https://github.com/bradfrost/pl-website-eleventy/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+
+
+
+
+
+## [5.16.1](https://github.com/bradfrost/pl-website-eleventy/compare/v5.16.0...v5.16.1) (2022-01-29)
+
+**Note:** Version bump only for package @pattern-lab/website
+
+
+
+
+
+## [5.15.5](https://github.com/bradfrost/pl-website-eleventy/compare/v5.15.3...v5.15.5) (2021-12-06)
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/bradfrost/pl-website-eleventy/issues/1386)) ([6fa630e](https://github.com/bradfrost/pl-website-eleventy/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
+## [5.15.4](https://github.com/bradfrost/pl-website-eleventy/compare/v5.15.3...v5.15.4) (2021-12-06)
+
+
+### Features
+
+* define initial viewport ([#1386](https://github.com/bradfrost/pl-website-eleventy/issues/1386)) ([6fa630e](https://github.com/bradfrost/pl-website-eleventy/commit/6fa630e2353ed68295550e59c31148269f3b7cd0))
+
+
+
+
+
+## [5.15.3](https://github.com/bradfrost/pl-website-eleventy/compare/v5.15.2...v5.15.3) (2021-11-21)
+
+
+### Bug Fixes
+
+* **docs:** tiles z-index to not overlay the menu anymore ([#1370](https://github.com/bradfrost/pl-website-eleventy/issues/1370)) ([384dc89](https://github.com/bradfrost/pl-website-eleventy/commit/384dc8900ee5768f5a260fd00fe03d11ae047484))
+
+
+
+
+
+# [5.15.0](https://github.com/bradfrost/pl-website-eleventy/compare/v5.14.3...v5.15.0) (2021-07-01)
+
+
+### Features
+
+* **docs:** adding a sitemap.xml ([#1329](https://github.com/bradfrost/pl-website-eleventy/issues/1329)) ([0a7fd95](https://github.com/bradfrost/pl-website-eleventy/commit/0a7fd95d5f1c3ce690bbe89cc30580ff58d1ab9c))
+* **documentation:** added (sub)groups documentation again [#1262](https://github.com/bradfrost/pl-website-eleventy/issues/1262) ([#1334](https://github.com/bradfrost/pl-website-eleventy/issues/1334)) ([9fac269](https://github.com/bradfrost/pl-website-eleventy/commit/9fac2699d2f6c64c4544e8e4d8e18c1a1ce7e49f))
+
+
+
+
+
+
+## [5.14.3](https://github.com/bradfrost/pl-website-eleventy/compare/v5.14.2...v5.14.3) (2021-05-17)
+
+**Note:** Version bump only for package @pattern-lab/website
+
+
+
+
+
+
+## [5.14.2](https://github.com/bradfrost/pl-website-eleventy/compare/v5.14.1...v5.14.2) (2021-03-28)
+
+**Note:** Version bump only for package @pattern-lab/website
+
+
+
+
+
+
 ## [5.13.1](https://github.com/bradfrost/pl-website-eleventy/compare/v5.13.0...v5.13.1) (2020-09-06)
 
 **Note:** Version bump only for package @pattern-lab/website

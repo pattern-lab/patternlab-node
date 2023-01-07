@@ -10,19 +10,17 @@
     ]
   },
   "dependencies": {
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/plugin-syntax-jsx": "^7.2.0",
+    "@auto-it/released": "^10.27.0",
+    "@babel/plugin-proposal-decorators": "^7.13.5",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "auto": "^10.27.0",
     "babel-eslint": "^10.0.2",
     "eslint": "^6.1.0",
-    "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
-    "prettier": "^1.14.3",
-    "lerna": "3.17.0",
-    "pretty-quick": "^1.11.1",
-    "auto": "^9.40.5",
-    "@auto-it/released": "^9.40.5"
+    "lerna": "4.0.0",
+    "prettier": "^2.8.1",
+    "pretty-quick": "^3.1.3"
   },
   "repository": {
     "type": "git",
@@ -41,7 +39,8 @@
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
     "postpublish": "auto release",
     "preview:docs": "cd packages/docs && yarn production",
-    "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build"
+    "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
+    "prepare": "husky install"
   },
   "nyc": {
     "exclude": [
@@ -50,5 +49,8 @@
       "packages/core/test",
       "packages/live-server"
     ]
+  },
+  "devDependencies": {
+    "husky": "^8.0.2"
   }
 }

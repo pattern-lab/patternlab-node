@@ -1,11 +1,11 @@
 {
   "name": "@pattern-lab/starterkit-twig-demo",
-  "version": "5.10.1",
+  "version": "5.16.4",
   "description": "Pattern Lab's Demo StarterKit for Twig.",
   "main": "README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pattern-lab/starterkit-twig-demo.git"
+    "url": "git+https://github.com/pattern-lab/patternlab-node.git"
   },
   "keywords": [
     "Pattern Lab",
@@ -18,9 +18,12 @@
   "bugs": {
     "url": "https://github.com/pattern-lab/patternlab-node/issues"
   },
-  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-twig-demo",
+  "homepage": "https://github.com/pattern-lab/patternlab-node/tree/dev/packages/starterkit-twig-demo",
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
+  "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac",
+  "engines": {
+    "node": ">=14.21.1"
+  }
 }

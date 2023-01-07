@@ -1,15 +1,12 @@
 'use strict';
 
-const smh = require('./style_modifier_hunter');
-const style_modifier_hunter = new smh();
-
 const getPartial = require('./get');
 const logger = require('./log');
 const parseLink = require('./parseLink');
 const jsonCopy = require('./json_copy');
 const replaceParameter = require('./replaceParameter');
 
-const parameter_hunter = function() {
+const parameter_hunter = function () {
   /**
    * This function is really to accommodate the lax JSON-like syntax allowed by
    * Pattern Lab PHP for parameter submissions to partials. Unfortunately, no
@@ -289,7 +286,7 @@ const parameter_hunter = function() {
               paramData = JSON.parse(paramStringWellFormed);
             } catch (err) {
               logger.warning(
-                `There was an error parsing JSON for ${pattern.relPath}`
+                `There was a problem parsing JSON parameters for ${pattern.relPath}`
               );
               logger.warning(err);
             }
@@ -313,15 +310,6 @@ const parameter_hunter = function() {
               }
             }
 
-            //if partial has style modifier data, replace the styleModifier value
-            if (pattern.stylePartials && pattern.stylePartials.length > 0) {
-              style_modifier_hunter.consume_style_modifier(
-                partialPattern,
-                pMatch,
-                patternlab
-              );
-            }
-
             // set pattern.extendedTemplate pMatch with replacedPartial
             pattern.extendedTemplate = pattern.extendedTemplate.replace(
               pMatch,
@@ -331,7 +319,7 @@ const parameter_hunter = function() {
             //todo: this no longer needs to be a promise
             return Promise.resolve();
           })
-          .catch(reason => {
+          .catch((reason) => {
             console.log(reason);
             logger.error(reason);
           });
@@ -342,7 +330,7 @@ const parameter_hunter = function() {
   }
 
   return {
-    find_parameters: function(pattern, patternlab) {
+    find_parameters: function (pattern, patternlab) {
       return findparameters(pattern, patternlab);
     },
   };

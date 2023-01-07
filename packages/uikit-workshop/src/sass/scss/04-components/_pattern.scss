@@ -26,6 +26,10 @@
   font-size: 90%;
   color: $pl-color-gray-55;
 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   &:empty {
     padding: 0;
   }
@@ -68,11 +72,9 @@
 */
 .pl-c-pattern__extra-toggle {
   font-size: 0.8rem;
-  position: absolute;
-  bottom: -1px;
-  right: 0;
-  z-index: 1;
+  margin-bottom: -1px;
   padding: 0.4rem 0.5rem;
+  padding-right: 1.75rem;
   color: $pl-color-gray-55;
   background-color: transparent;
   cursor: pointer;
@@ -80,7 +82,7 @@
   transition: all $pl-animate-quick ease-out;
   font-family: $pl-font;
   border-color: #ddd;
-  border-width: 1px; // fix for different browser defaults 
+  border-width: 1px; // fix for different browser defaults
   border-style: solid; // fix for different browser defaults (ex. Safari)
   display: flex;
   align-items: center;
@@ -102,22 +104,14 @@
   }
 }
 
-.pl-c-pattern__toggle-icon-wrapper {
-  position: relative;
-  height: 1rem;
-  width: 1rem;
-}
-
 .pl-c-pattern__toggle-icon {
   height: 0.9rem;
   width: 0.9rem;
   display: inline-block;
   vertical-align: middle;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  transition: transform .1s linear, opacity .1s linear;
+  right: .625rem;
+  transition: opacity .1s linear;
 }
 
 .pl-c-pattern__toggle-icon--expand {
@@ -139,7 +133,7 @@
   }
 }
 
-.pl-c-pattern__extra-toggle-text ~ .pl-c-pattern__toggle-icon-wrapper {
+.pl-c-pattern__extra-toggle-text ~ svg {
   margin-left: 0.25rem;
 }
 

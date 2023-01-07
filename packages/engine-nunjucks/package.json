@@ -7,11 +7,11 @@
   "deprecated": false,
   "description": "The nunjucks PatternEngine for Pattern Lab / Node",
   "dependencies": {
-    "fs-extra": "7.0.0",
-    "nunjucks": "^3.2.0"
+    "fs-extra": "10.0.0",
+    "nunjucks": "^3.2.3"
   },
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=14.21.1"
   },
   "keywords": [
     "Pattern Lab",
@@ -26,7 +26,7 @@
   "main": "lib/engine_nunjucks.js",
   "name": "@pattern-lab/engine-nunjucks",
   "scripts": {},
-  "version": "5.10.1",
+  "version": "5.16.1",
   "publishConfig": {
     "access": "public"
   },

@@ -5,8 +5,8 @@
 
         {% if item.data.category == demoListCategory %}
         <li class="c-demo-list__item">
-            
-            <a href="{{ item.data.url }}" target="_blank" class="c-stacked-block">
+
+            <a href="{{ item.data.url }}" target="_blank" class="c-stacked-block" rel="noopener noreferrer">
               <div class="c-stacked-block__preview-container">
                 <div class="c-stacked-block__bar">
                   <div class="c-stacked-block__bar-dots"></div>
@@ -15,19 +15,19 @@
                   <div class="c-stacked-block__bar-dots"></div>
                 </div>
                 <div class="c-stacked-block__preview-content">
-                  <iframe class="c-stacked-block__frame-item" src="{{item.data.refLink}}" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
+                  <iframe title="preview of {{ item.data.title }}" class="c-stacked-block__frame-item" src="{{item.data.refLink}}" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
                   <div class="c-stacked-block__frame-overlay"></div>
                 </div>
               </div>
-              
+
               <h3 class="c-stacked-block__title">
-              {{ item.data.title }} 
+              {{ item.data.title }}
               </h3>
               <p class="c-stacked-block__description">
-              {{ item.data.description}} 
+              {{ item.data.description}}
               </p>
             </a>
-    
+
         </li>
         {% endif %}
 

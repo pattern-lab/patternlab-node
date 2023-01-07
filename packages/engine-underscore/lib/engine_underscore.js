@@ -21,10 +21,10 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-var _ = require('underscore');
+const _ = require('underscore');
 
-var partialRegistry = {};
-var errorStyling = `
+const partialRegistry = {};
+const errorStyling = `
 <style>
   .plError {
     background: linear-gradient(to bottom, #f1f1f1 0%,#ffffff 60%);
@@ -51,16 +51,16 @@ function addParentContext(data, currentContext) {
 }
 
 _.mixin({
-  renderNamedPartial: function(partialKey, data, currentContext) {
-    var compiledPartial = partialRegistry[partialKey];
+  renderNamedPartial: function (partialKey, data, currentContext) {
+    const compiledPartial = partialRegistry[partialKey];
     if (typeof compiledPartial !== 'function') {
       throw `Pattern ${partialKey} not found.`;
     }
 
     return _.renderPartial(compiledPartial, data, currentContext);
   },
-  renderPartial: function(compiledPartial, dataIn, currentContext) {
-    var data = dataIn || {};
+  renderPartial: function (compiledPartial, dataIn, currentContext) {
+    let data = dataIn || {};
 
     if (
       dataIn &&
@@ -74,9 +74,9 @@ _.mixin({
     return compiledPartial(data);
   },
   /* eslint-disable no-eval, no-unused-vars */
-  getPath: function(pathString, currentContext, debug) {
+  getPath: function (pathString, currentContext, debug) {
     try {
-      var result = eval('currentContext.' + pathString);
+      const result = eval('currentContext.' + pathString);
       if (debug) {
         console.log('getPath result = ', result);
       }
@@ -87,7 +87,7 @@ _.mixin({
   },
 });
 
-var engine_underscore = {
+const engine_underscore = {
   engine: _,
   engineName: 'underscore',
   engineFileExtension: ['.html', '.underscore'],
@@ -97,13 +97,15 @@ var engine_underscore = {
   expandPartials: false,
 
   // regexes, stored here so they're only compiled once
-  findPartialsRE: /<%=\s*_\.renderNamedPartial[ \t]*\(\s*("(?:[^"].*?)"|'(?:[^'].*?)').*?%>/g, // TODO
-  findListItemsRE: /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
+  findPartialsRE:
+    /<%=\s*_\.renderNamedPartial[ \t]*\(\s*("(?:[^"].*?)"|'(?:[^'].*?)').*?%>/g, // TODO
+  findListItemsRE:
+    /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g,
 
   // render it
   renderPattern: function renderPattern(pattern, data, partials) {
-    var renderedHTML;
-    var compiled;
+    let renderedHTML;
+    let compiled;
 
     try {
       compiled = partialRegistry[pattern.patternPartial];
@@ -127,7 +129,7 @@ var engine_underscore = {
         })
       );
     } catch (e) {
-      var errorMessage = `Error rendering underscore pattern "${
+      const errorMessage = `Error rendering underscore pattern "${
         pattern.patternName
       }" (${pattern.relPath}): [${e.toString()}]`;
       console.log(errorMessage);
@@ -145,11 +147,11 @@ var engine_underscore = {
     return renderedHTML;
   },
 
-  registerPartial: function(pattern) {
-    var compiled;
+  registerPartial: function (pattern) {
+    let compiled;
 
     try {
-      var templateString = pattern.extendedTemplate || pattern.template;
+      const templateString = pattern.extendedTemplate || pattern.template;
       compiled = _.template(templateString);
     } catch (e) {
       console.log(
@@ -163,34 +165,34 @@ var engine_underscore = {
 
   // find and return any {{> template-name }} within pattern
   findPartials: function findPartials(pattern) {
-    var matches = pattern.template.match(this.findPartialsRE);
+    const matches = pattern.template.match(this.findPartialsRE);
     return matches;
-  },
-  findPartialsWithStyleModifiers: function() {
-    return [];
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
   // value:mod(foo:"bar") }} within the pattern
-  findPartialsWithPatternParameters: function() {
+  findPartialsWithPatternParameters: function () {
     return [];
   },
-  findListItems: function(pattern) {
-    var matches = pattern.template.match(this.findListItemsRE);
+  findListItems: function (pattern) {
+    const matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
-  findPartial: function(partialString) {
-    var edgeQuotesMatcher = /^["']|["']$/g;
-    var partialIDWithQuotes = partialString.replace(this.findPartialsRE, '$1');
-    var partialID = partialIDWithQuotes.replace(edgeQuotesMatcher, '');
+  findPartial: function (partialString) {
+    const edgeQuotesMatcher = /^["']|["']$/g;
+    const partialIDWithQuotes = partialString.replace(
+      this.findPartialsRE,
+      '$1'
+    );
+    const partialID = partialIDWithQuotes.replace(edgeQuotesMatcher, '');
 
     return partialID;
   },
 
-  spawnFile: function(config, fileName) {
+  spawnFile: function (config, fileName) {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {
@@ -213,7 +215,7 @@ var engine_underscore = {
    * @param {object} config - the global config object from core, since we won't
    * assume it's already present
    */
-  spawnMeta: function(config) {
+  spawnMeta: function (config) {
     this.spawnFile(config, '_head.html');
     this.spawnFile(config, '_foot.html');
   },

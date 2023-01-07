@@ -95,12 +95,14 @@ class Header extends BaseLitComponent {
         <button
           class="pl-c-header__nav-toggle pl-js-nav-trigger"
           @click="${this.toggleNav}"
+          type="button"
         >
           <pl-icon
             name="${this.isActive ? 'close' : 'menu'}"
             height="20"
             width="20"
             fill="currentColor"
+            aria-hidden="true"
           ></pl-icon>
           <span class="is-vishidden">Toggle Menu</span>
         </button>
@@ -109,13 +111,13 @@ class Header extends BaseLitComponent {
           ? html`
               <pl-logo
                 src-light="${window.config?.theme?.logo?.srcLight ||
-                  'styleguide/images/pattern-lab-logo--on-light.svg'}"
+                'styleguide/images/pattern-lab-logo--on-light.svg'}"
                 src-dark="${window.config?.theme?.logo?.srcDark ||
-                  'styleguide/images/pattern-lab-logo--on-dark.svg'}"
+                'styleguide/images/pattern-lab-logo--on-dark.svg'}"
                 url="${window.config?.theme?.logo?.url === '' ||
                 window.config?.theme?.logo?.url === 'none'
                   ? ''
-                  : window.config?.theme?.logo?.url || '/'}"
+                  : window.config?.theme?.logo?.url || './'}"
                 alt-text="${window.config?.theme?.logo?.altText || ''}"
                 theme="${this.themeMode}"
                 width="${ifDefined(window.config?.theme?.logo?.width)}"

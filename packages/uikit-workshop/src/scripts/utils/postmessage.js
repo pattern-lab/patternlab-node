@@ -12,7 +12,7 @@ if (window.self !== window.top) {
   // find all links and add an onclick handler for replacing the iframe address so the history works
   const aTags = document.getElementsByTagName('a');
   for (let i = 0; i < aTags.length; i++) {
-    aTags[i].onclick = function(e) {
+    aTags[i].onclick = function (e) {
       const href = this.getAttribute('href');
       const target = this.getAttribute('target');
       if (

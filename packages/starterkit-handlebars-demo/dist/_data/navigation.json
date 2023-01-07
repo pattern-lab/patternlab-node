@@ -1,6 +1,6 @@
 {
     "navToggle" : {
-        "styleModifier" : "c-btn--small c-header__nav-btn js-nav-trigger",
+        "additionalClasses": "c-btn--small c-header__nav-btn js-nav-trigger",
         "buttonText" : "Menu"
     },
     "paginationList" : [
@@ -37,7 +37,7 @@
         {
             "label": false,
             "navIcon": {
-                "iconPath": "../../icons.svg",
+                "iconPath": "../../images/icons/",
                 "navIcon": "shopping-cart"
             },
             "url" : "link.pages-cart"
@@ -64,7 +64,7 @@
     "progressTracker" : {
         "items": [
             {
-                "styleModifier": "is-current",
+                "additionalClasses": "is-current",
                 "number": "1",
                 "label": "Shipping Information"
             },

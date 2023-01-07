@@ -1,13 +1,13 @@
 {
   "name": "@pattern-lab/engine-twig-php",
   "description": "The Twig PHP engine for Pattern Lab Node",
-  "version": "5.13.3",
+  "version": "5.17.0",
   "main": "lib/engine_twig_php.js",
   "dependencies": {
-    "@basalt/twig-renderer": "0.13.1",
-    "@pattern-lab/core": "^5.13.3",
-    "chalk": "^4.0.0",
-    "fs-extra": "0.30.0"
+    "@basalt/twig-renderer": "^2.0.0",
+    "@pattern-lab/core": "^5.17.0",
+    "chalk": "^4.1.0",
+    "fs-extra": "10.0.0"
   },
   "keywords": [
     "Pattern Lab",
@@ -18,7 +18,7 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": {
     "name": "Evan Lovely",
-    "url": "http://evanlovely.com"
+    "url": "https://www.evanlovely.com"
   },
   "maintainers": [
     {
@@ -28,7 +28,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=14.21.1"
   },
   "publishConfig": {
     "access": "public"

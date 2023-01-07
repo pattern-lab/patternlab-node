@@ -1,11 +1,11 @@
 {
   "name": "@pattern-lab/engine-twig",
   "description": "The Twig engine for Pattern Lab / Node",
-  "version": "5.10.2",
+  "version": "5.17.0",
   "main": "lib/engine_twig.js",
   "dependencies": {
-    "fs-extra": "0.30.0",
-    "twing": "^5.0.1"
+    "fs-extra": "10.0.0",
+    "twing": "^5.0.2"
   },
   "keywords": [
     "Pattern Lab",
@@ -22,7 +22,7 @@
   "license": "MIT",
   "scripts": {},
   "engines": {
-    "node": ">=12.12.0"
+    "node": ">=14.21.1"
   },
   "publishConfig": {
     "access": "public"

@@ -4,10 +4,10 @@ module.exports = {
 	colors() {
 		let response = [];
 
-		Object.keys(tokens.colors).forEach(key => {
+		Object.keys(tokens.colors).forEach((key) => {
 			response.push({
 				value: tokens.colors[key],
-				key
+				key,
 			});
 		});
 
@@ -16,13 +16,13 @@ module.exports = {
 	sizes() {
 		let response = [];
 
-		Object.keys(tokens['size-scale']).forEach(key => {
+		Object.keys(tokens['size-scale']).forEach((key) => {
 			response.push({
 				value: tokens['size-scale'][key],
-				key
+				key,
 			});
 		});
 
 		return response;
-	}
+	},
 };

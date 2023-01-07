@@ -1,6 +1,8 @@
 {
     "stackedBlockMedia": {
-        "src": "http://via.placeholder.com/600x400"
+        "src": "https://via.placeholder.com/600x400",
+        "width": "600",
+        "height": "400"
     },
     "stripeField": true,
     "cartPrice": {

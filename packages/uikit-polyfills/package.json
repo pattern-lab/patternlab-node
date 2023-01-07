@@ -1,18 +1,21 @@
 {
   "name": "@pattern-lab/uikit-polyfills",
-  "version": "5.13.1",
-  "description": "Web Component Polyfills used in Pattern Lab's UIKit",
+  "version": "5.16.1",
+  "description": "Web Component and further necessary Polyfills used in Pattern Lab's UIKit",
   "main": "index.js",
   "author": "Salem Ghoweri <me@salemghoweri.com>",
   "license": "MIT",
   "dependencies": {
-    "@webcomponents/webcomponentsjs": "^2.4.4",
+    "@webcomponents/webcomponentsjs": "^2.5.0",
     "core-js": "^3.6.5",
     "custom-event-polyfill": "^1.0.7",
     "element-closest": "^3.0.2",
-    "get-own-property-symbols": "^0.9.4"
+    "get-own-property-symbols": "^0.9.5"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=14.21.1"
   }
 }

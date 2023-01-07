@@ -147,7 +147,7 @@ class Nav extends BaseComponent {
 
     if (topLevelOnly === true && window.innerWidth > 670) {
       this.navContainer.classList.remove('is-open');
-      this.topLevelTriggers.forEach(trigger => {
+      this.topLevelTriggers.forEach((trigger) => {
         if (trigger !== exceptFor || exceptFor === undefined) {
           trigger.classList.remove('is-open');
         }
@@ -193,7 +193,7 @@ class Nav extends BaseComponent {
         getParents(this.activeLink, '.pl-js-nav-accordion')
       );
 
-      panels.forEach(panel => {
+      panels.forEach((panel) => {
         const panelTrigger = panel.previousSibling;
         if (panelTrigger) {
           if (panelTrigger.previousSibling) {
@@ -204,7 +204,7 @@ class Nav extends BaseComponent {
         }
       });
 
-      triggers.forEach(trigger => {
+      triggers.forEach((trigger) => {
         trigger.classList.add('is-open');
         this.previouslyActiveLinks.push(trigger);
       });
@@ -278,7 +278,7 @@ class Nav extends BaseComponent {
                         <NavLink
                           href={`patterns/${patternItem.patternPath}`}
                           level={1}
-                          onClick={e =>
+                          onClick={(e) =>
                             this.handleClick(e, patternItem.patternPartial)
                           }
                           data-patternpartial={patternItem.patternPartial}
@@ -300,18 +300,19 @@ class Nav extends BaseComponent {
         {(window.ishControls === undefined ||
           window.ishControls.ishControlsHide === undefined ||
           (window.ishControls.ishControlsHide['views-all'] !== true &&
-            window.ishControls.ishControlsHide.all !== true)) && (
-          <li class="pl-c-nav__list-item">
-            <NavLink
-              onClick={e => this.handleClick(e, 'all')}
-              href="styleguide/html/styleguide.html"
-              level={0}
-              data-patternpartial="all"
-            >
-              All
-            </NavLink>
-          </li>
-        )}
+            window.ishControls.ishControlsHide.all !== true)) &&
+          !this.noViewAll && (
+            <li class="pl-c-nav__list-item">
+              <NavLink
+                onClick={(e) => this.handleClick(e, 'all')}
+                href="styleguide/html/styleguide.html"
+                level={0}
+                data-patternpartial="all"
+              >
+                All
+              </NavLink>
+            </li>
+          )}
       </ol>
     );
   }

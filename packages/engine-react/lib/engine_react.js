@@ -14,7 +14,7 @@ const path = require('path');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const Babel = require('babel-core');
-const Hogan = require('hogan');
+const Handlebars = require('handlebars');
 const beautify = require('js-beautify');
 const cheerio = require('cheerio');
 const _require = require;
@@ -44,8 +44,8 @@ let patternLabConfig = {};
 
 let enableRuntimeCode = true;
 
-const outputTemplate = Hogan.compile(
-  fs.readFileSync(path.join(__dirname, './outputTemplate.mustache'), 'utf8')
+const outputTemplate = Handlebars.compile(
+  fs.readFileSync(path.join(__dirname, './outputTemplate.hbs'), 'utf8')
 );
 
 let registeredComponents = {
@@ -64,7 +64,7 @@ function babelTransform(pattern) {
 
   // eval() module code in this little scope that injects our
   // custom wrap of require();
-  (require => {
+  ((require) => {
     /* eslint-disable no-eval */
     transpiledModule = eval(transpiledModule.code);
   })(customRequire);
@@ -106,11 +106,11 @@ var engine_react = {
       React.createFactory(transpiledModule)(data)
     );
 
-    renderedHTML = outputTemplate.render({
+    renderedHTML = outputTemplate({
       htmlOutput: staticMarkup,
     });
 
-    return Promise.resolve(renderedHTML).catch(e => {
+    return Promise.resolve(renderedHTML).catch((e) => {
       var errorMessage = `Error rendering React pattern "${
         pattern.patternName
       }" (${pattern.relPath}): [${e.toString()}]`;
@@ -161,7 +161,7 @@ var engine_react = {
     }
 
     // Remove unregistered imports from the matches
-    matches.map(m => {
+    matches.map((m) => {
       const key = self.findPartial(m);
       if (!registeredComponents.byPatternPartial[key]) {
         const i = matches.indexOf(m);
@@ -172,10 +172,6 @@ var engine_react = {
     });
 
     return matches;
-  },
-
-  findPartialsWithStyleModifiers(pattern) {
-    return [];
   },
 
   // returns any patterns that match {{> value(foo:'bar') }} or {{>
@@ -224,7 +220,7 @@ var engine_react = {
    *
    * @param {object} config - the global config object from core
    */
-  usePatternLabConfig: function(config) {
+  usePatternLabConfig: function (config) {
     patternLabConfig = config;
 
     try {

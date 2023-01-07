@@ -2,10 +2,10 @@ const exportPatterns = require('../bin/cli-actions/export');
 const tap = require('tap');
 const wrapAsync = require('../bin/utils').wrapAsync;
 
-tap.test('Export ->', t => {
+tap.test('Export ->', (t) => {
   t.plan(2);
-  t.test('with options empty', tt =>
-    wrapAsync(function*() {
+  t.test('with options empty', (tt) =>
+    wrapAsync(function* () {
       try {
         yield exportPatterns();
       } catch (err) {
@@ -14,8 +14,8 @@ tap.test('Export ->', t => {
       }
     })
   );
-  t.test('with options not an object', tt =>
-    wrapAsync(function*() {
+  t.test('with options not an object', (tt) =>
+    wrapAsync(function* () {
       try {
         yield exportPatterns(123);
       } catch (err) {

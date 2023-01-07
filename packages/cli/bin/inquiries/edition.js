@@ -28,7 +28,7 @@ const editionSetup = [
         value: false,
       },
     ],
-    default: function() {
+    default: function () {
       return {
         name: 'Handlebars',
         value: '@pattern-lab/edition-node',

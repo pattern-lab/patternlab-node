@@ -10,7 +10,7 @@ const build = proxyquire('../bin/build', {
 });
 const opts = { patternsOnly: true };
 
-tap.test('Build ->', t => {
+tap.test('Build ->', (t) => {
   t.throws(
     () => {
       build();

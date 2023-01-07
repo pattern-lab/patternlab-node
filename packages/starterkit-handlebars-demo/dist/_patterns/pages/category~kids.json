@@ -6,7 +6,7 @@
 	"stackedBlockSection" : {
 		"stackedBlockList": [
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/men-chucks.jpg",
@@ -22,7 +22,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/girls-high-tops.jpg",
@@ -33,7 +33,7 @@
 				"label" : "$90"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/kids-green-shoes.jpg",
@@ -45,7 +45,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/kids-technicolor-nikes.jpg",
@@ -56,7 +56,7 @@
 				"label" : "$120"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/girls-nike.jpg",
@@ -67,7 +67,7 @@
 				"label" : "$70"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/kids-velcro.jpg",

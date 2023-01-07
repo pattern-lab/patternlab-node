@@ -178,8 +178,8 @@ export const modalViewer = {
   },
 
   addClickEvents(contentContainer = document) {
-    contentContainer.querySelectorAll('.pl-js-lineage-link').forEach(link => {
-      link.addEventListener('click', e => {
+    contentContainer.querySelectorAll('.pl-js-lineage-link').forEach((link) => {
+      link.addEventListener('click', (e) => {
         const patternPartial = e.target.getAttribute('data-patternpartial');
 
         if (patternPartial && modalViewer.iframeCustomElement) {
@@ -230,10 +230,10 @@ export const modalViewer = {
       if (i + 1 === pos) {
         els[i].classList.add('pl-is-active');
 
-        scrollTo(patternInfoElem, document.body, {
+        scrollTo(patternInfoElem, {
           top: els[i].offsetTop - 14,
           behavior: 'smooth',
-        }).then(function() {
+        }).then(function () {
           // console.log('finished scrolling');
         });
       }

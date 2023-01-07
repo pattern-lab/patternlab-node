@@ -6,8 +6,8 @@ const wrapAsync = require('../bin/utils').wrapAsync;
 
 const projectRoot = getUniqueProjectPath();
 
-tap.test('Enable ->', t =>
-  wrapAsync(function*() {
+tap.test('Enable ->', (t) =>
+  wrapAsync(function* () {
     yield spawnCmd([
       'init',
       '--verbose',
@@ -16,7 +16,7 @@ tap.test('Enable ->', t =>
       '--edition',
       '@pattern-lab/edition-node',
       '--starterkit',
-      '@pattern-lab/starterkit-mustache-base',
+      '@pattern-lab/starterkit-handlebars-vanilla',
     ]);
     yield spawnCmd([
       'install',

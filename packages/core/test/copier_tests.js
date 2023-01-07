@@ -52,7 +52,7 @@ function createFakePatternLab(customProps) {
 
 tap.test(
   'transformConfigPaths takes configuration.paths() and maps to a better key store',
-  function(test) {
+  function (test) {
     //arrange
     var patternlab = createFakePatternLab({});
 
@@ -60,10 +60,10 @@ tap.test(
     var result = copier.transformConfigPaths(patternlab.config.paths);
 
     //assert
-    test.equals(result.img.source, './test/img');
-    test.equals(result.img.public, './test/output/img');
-    test.equals(result.css.source, './test/css');
-    test.equals(result.css.public, './test/output/css');
+    test.equal(result.img.source, './test/img');
+    test.equal(result.img.public, './test/output/img');
+    test.equal(result.css.source, './test/css');
+    test.equal(result.css.public, './test/output/css');
     test.end();
   }
 );

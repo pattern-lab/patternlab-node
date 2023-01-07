@@ -6,7 +6,7 @@ const rewire = require('rewire');
 const ch = rewire('../src/lib/changes_hunter');
 
 const fsMock = {
-  statSync: function() {
+  statSync: function () {
     return {
       mtime: {
         getTime: () => {
@@ -27,41 +27,41 @@ ch.__set__({
 
 const changes_hunter = new ch();
 
-tap.test('checkLastModified - sets lastModified to fileTime ', function(test) {
+tap.test('checkLastModified - sets lastModified to fileTime ', function (test) {
   //arrange
   const mockPattern = { lastModified: 0 };
   //act
   changes_hunter.checkLastModified(mockPattern, {});
 
   //assert
-  test.equals(mockPattern.lastModified, 100);
+  test.equal(mockPattern.lastModified, 100);
   test.end();
 });
 
 tap.test(
   'checkLastModified - does not alter pattern if file not found',
-  function(test) {
+  function (test) {
     //arrange
     const mockPattern = { lastModified: 1010 };
     //act
     changes_hunter.checkLastModified(mockPattern, null);
 
     //assert
-    test.equals(mockPattern.lastModified, 1010);
+    test.equal(mockPattern.lastModified, 1010);
     test.end();
   }
 );
 
 tap.test(
   'checkLastModified - uses pattern.lastModified if greater than file time',
-  function(test) {
+  function (test) {
     //arrange
     const mockPattern = { lastModified: 101 };
     //act
     changes_hunter.checkLastModified(mockPattern, {});
 
     //assert
-    test.equals(mockPattern.lastModified, 101);
+    test.equal(mockPattern.lastModified, 101);
     test.end();
   }
 );

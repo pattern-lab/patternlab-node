@@ -2,7 +2,8 @@
 
 > Command-line interface (CLI) for the patternlab-node core.
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+[![Continuous Integration](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml)
+[![CodeQL](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml)
 
 
 ## Installation
@@ -93,8 +94,8 @@ Passing no options starts the init in interactive mode
 	Options:
 		-h, --help                output usage information
 		-p, --project-dir <path>  Specify a project directory. Default: ./
-		-e, --edition <name>      Specify an edition to install. Default: edition-node
-		-k, --starterkit <name>   Specify a starterkit to install. Default: starterkit-mustache-base
+		-e, --edition <name>      Specify an edition to install. Default: @pattern-lab/edition-node
+		-k, --starterkit <name>   Specify a starterkit to install. Default: @pattern-lab/starterkit-handlebars-demo
 ```
 
 ### Serve Pattern Lab

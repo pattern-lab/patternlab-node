@@ -13,7 +13,7 @@ const {
 } = require('@pattern-lab/core/src/lib/resolver');
 
 const installStarterkit = (starterkit, config) =>
-  wrapAsync(function*() {
+  wrapAsync(function* () {
     const sourceDir = config.paths.source.root;
     const name = starterkit.value || starterkit;
     yield checkAndInstallPackage(name);

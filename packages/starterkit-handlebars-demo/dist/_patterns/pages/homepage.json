@@ -3,6 +3,8 @@
 		"url": "link.pages-detail",
 		"src": "../../images/group-shoes.jpg",
 		"alt": "Group of shoes",
+		"width": "1200",
+		"height": "801",
 		"heading" :  "Shoes For The Soul"
 	},
 	"promoBlock": [
@@ -19,7 +21,7 @@
 			"promoBlockLink": {
 				"url": "#"
 			},
-			"styleModifier": "c-promo-block--right",
+			"additionalClasses": "c-promo-block--right",
 			"src": "../../images/men-casual-shoes.jpg",
 			"alt": "striped sneakers",
 			"heading": "Casual But Classy",
@@ -38,7 +40,7 @@
 			"promoBlockLink": {
 				"url": "#"
 			},
-			"styleModifier": "c-promo-block--right u-margin-bottom-large",
+			"additionalClasses": "c-promo-block--right u-margin-bottom-large",
 			"src": "../../images/kids-velcro.jpg",
 			"alt": "kid's velcro shoes",
 			"heading": "Discover the Unknown",
@@ -46,7 +48,7 @@
 		}
 	],
 	"toutSection" : {
-		"styleModifier" : "l-grid--4up",
+		"additionalClasses": "l-grid--4up",
 		"toutList" : [
 			{
 				"url": "link.pages-category",
@@ -72,7 +74,7 @@
 		"sectionTitle": "On Sale",
 		"stackedBlockList": [
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/men-blue-shoes.jpg",
@@ -87,7 +89,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/women-hiking-boots.jpg",
@@ -102,7 +104,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/women-blue-heels.jpg",

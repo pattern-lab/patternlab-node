@@ -1,6 +1,7 @@
 ![Pattern Lab Logo](https://github.com/pattern-lab/patternlab-node/raw/master/patternlab.png 'Pattern Lab Logo')
 
-[![Build Status](https://travis-ci.org/pattern-lab/patternlab-node.svg?branch=master)](https://travis-ci.org/pattern-lab/patternlab-node)
+[![Continuous Integration](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml)
+[![CodeQL](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml)
 ![current release](https://img.shields.io/npm/v/@pattern-lab/core.svg)
 ![license](https://img.shields.io/github/license/pattern-lab/patternlab-node.svg)
 [![Coverage Status](https://coveralls.io/repos/github/pattern-lab/patternlab-node/badge.svg?branch=master)](https://coveralls.io/github/pattern-lab/patternlab-node?branch=master)
@@ -111,7 +112,7 @@ The Pattern Lab Node team uses [our gitter.im channel, pattern-lab/node](https:/
 
 There is also a dedicated Pattern Lab channel on the [design system slack](http://designsystems.herokuapp.com) run by [@jina](https://twitter.com/jina).
 
-Ask or answer Pattern Lab questions on Stack Overflow: http://stackoverflow.com/questions/tagged/patternlab.io
+Ask or answer Pattern Lab questions on Stack Overflow: https://stackoverflow.com/questions/tagged/patternlab.io
 
 ## License
 

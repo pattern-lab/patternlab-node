@@ -7,6 +7,8 @@ eleventyNavigation:
   title: Using Pattern Parameters
   key: patterns
   order: 150
+sitemapPriority: '0.8'
+sitemapChangefreq: 'monthly'
 ---
 
 **Important:** Pattern parameters are supported by the Node Mustache PatternEngines. Other template languages provide better solutions to this problem.

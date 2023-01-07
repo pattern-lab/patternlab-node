@@ -10,8 +10,8 @@ const writeJsonAsync = require('../utils').writeJsonAsync;
  * @desc Handles deactivation of starterkits/plugins
  * @param {object} options
  */
-const enable = options =>
-  wrapAsync(function*() {
+const enable = (options) =>
+  wrapAsync(function* () {
     const {
       parent: { config: configPath },
       plugins,
@@ -24,7 +24,7 @@ const enable = options =>
       spinner.succeed(
         `⊙ patternlab → Disable following plugins: ${plugins.join(', ')}`
       );
-      plugins.map(plugin => {
+      plugins.map((plugin) => {
         if (_.has(config, `plugins[${plugin}]`)) {
           _.set(config, `plugins[${plugin}]['enabled']`, false);
           spinner.succeed(
@@ -35,7 +35,7 @@ const enable = options =>
         }
       });
     }
-    yield writeJsonAsync(options.parent.config, config);
+    yield writeJsonAsync(options.config, config);
     spinner.succeed(`⊙ patternlab → Updated config`);
   });
 

@@ -9,12 +9,14 @@ const parseLink = require('./parseLink');
 const render = require('./render');
 const uikitExcludePattern = require('./uikitExcludePattern');
 const pm = require('./plugin_manager');
+const dataMerger = require('./dataMerger');
+const patternWrapClassesChangePatternTemplate = require('./patternWrapClasses');
 const pluginManager = new pm();
 
 const Pattern = require('./object_factory').Pattern;
 const CompileState = require('./object_factory').CompileState;
 
-module.exports = async function(pattern, patternlab) {
+module.exports = async function (pattern, patternlab) {
   // Pattern does not need to be built and recompiled more than once
   if (!pattern.isPattern || pattern.compileState === CompileState.CLEAN) {
     return Promise.resolve(false);
@@ -40,7 +42,7 @@ module.exports = async function(pattern, patternlab) {
   );
 
   return Promise.all(
-    _.map(patternlab.uikits, uikit => {
+    _.map(patternlab.uikits, (uikit) => {
       // exclude pattern from uikit rendering
       if (uikitExcludePattern(pattern, uikit)) {
         return Promise.resolve();
@@ -56,8 +58,14 @@ module.exports = async function(pattern, patternlab) {
         'listitems.json + any pattern listitems.json'
       );
 
-      allData = _.merge({}, patternlab.data, pattern.jsonFileData);
-      allData = _.merge({}, allData, allListItems);
+      allData = dataMerger(
+        patternlab.data,
+        pattern.jsonFileData,
+        patternlab.config
+      );
+      // _.merge({}, patternlab.data, pattern.jsonFileData);
+      allData = dataMerger(allData, allListItems, patternlab.config);
+      // _.merge({}, allData, allListItems);
       allData.cacheBuster = patternlab.cacheBuster;
       allData.patternPartial = pattern.patternPartial;
 
@@ -147,11 +155,12 @@ module.exports = async function(pattern, patternlab) {
         patternPartialPromise,
         footerPartialPromise,
       ])
-        .then(intermediateResults => {
+        .then((intermediateResults) => {
           // retrieve results of promises
           const headHTML = intermediateResults[0]; //headPromise
           pattern.patternPartialCode = intermediateResults[1]; //patternPartialPromise
           const footerPartial = intermediateResults[2]; //footerPartialPromise
+          patternWrapClassesChangePatternTemplate(patternlab, pattern);
 
           //finish up our footer data
           let allFooterData;
@@ -161,17 +170,17 @@ module.exports = async function(pattern, patternlab) {
               'config.paths.source.data global data'
             );
           } catch (err) {
-            logger.info(
+            logger.error(
               'There was an error parsing JSON for ' + pattern.relPath
             );
-            logger.info(err);
+            logger.error(err);
           }
           allFooterData = _.merge(allFooterData, pattern.jsonFileData);
           allFooterData.cacheBuster = patternlab.cacheBuster;
           allFooterData.patternLabFoot = footerPartial;
 
           return render(patternlab.userFoot, allFooterData).then(
-            async footerHTML => {
+            async (footerHTML) => {
               ///////////////
               // WRITE FILES
               ///////////////
@@ -198,14 +207,13 @@ module.exports = async function(pattern, patternlab) {
               );
 
               // Allows serializing the compile state
-              patternlab.graph.node(
-                pattern
-              ).compileState = pattern.compileState = CompileState.CLEAN;
+              patternlab.graph.node(pattern).compileState =
+                pattern.compileState = CompileState.CLEAN;
               logger.info('Built pattern: ' + pattern.patternPartial);
             }
           );
         })
-        .catch(reason => {
+        .catch((reason) => {
           console.log(reason);
         });
     })

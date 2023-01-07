@@ -15,7 +15,7 @@ const parseTransform = require('./src/transforms/parse-transform.js');
 // Import data files
 const site = require('./src/_data/site.json');
 
-module.exports = function(config) {
+module.exports = function (config) {
 	// Filters
 	config.addFilter('dateFilter', dateFilter);
 	config.addFilter('markdownFilter', markdownFilter);
@@ -33,33 +33,36 @@ module.exports = function(config) {
 	config.addPassthroughCopy('src/js');
 	config.addPassthroughCopy('src/admin/config.yml');
 	config.addPassthroughCopy('src/admin/previews.js');
-	config.addPassthroughCopy('node_modules/nunjucks/browser/nunjucks-slim.js');
+	config.addPassthroughCopy({
+		'../../node_modules/nunjucks/browser/nunjucks-slim.js':
+			'node_modules/nunjucks/browser/nunjucks-slim.js',
+	});
 
 	const now = new Date();
 
 	// Custom collections
-	const livePosts = post => post.date <= now && !post.data.draft;
-	config.addCollection('posts', collection => {
+	const livePosts = (post) => post.date <= now && !post.data.draft;
+	config.addCollection('posts', (collection) => {
 		return [
-			...collection.getFilteredByGlob('./src/posts/*.md').filter(livePosts)
+			...collection.getFilteredByGlob('./src/posts/*.md').filter(livePosts),
 		].reverse();
 	});
 
-	config.addCollection('demos', collection => {
+	config.addCollection('demos', (collection) => {
 		return [...collection.getFilteredByGlob('./src/demos/*.md')].reverse();
 	});
 
-	config.addCollection('postFeed', collection => {
+	config.addCollection('postFeed', (collection) => {
 		return [...collection.getFilteredByGlob('./src/posts/*.md').filter(livePosts)]
 			.reverse()
 			.slice(0, site.maxPostsPerPage);
 	});
 
-	config.addCollection('docs', collection => {
+	config.addCollection('docs', (collection) => {
 		return [...collection.getFilteredByGlob('./src/docs/*.md')].reverse();
 	});
 
-	config.addCollection('docsOrdered', collection => {
+	config.addCollection('docsOrdered', (collection) => {
 		const docs = collection.getFilteredByGlob('src/docs/*.md').sort((a, b) => {
 			return Number(a.data.order) - Number(b.data.order);
 		});
@@ -74,7 +77,7 @@ module.exports = function(config) {
 	// 404
 	config.setBrowserSyncConfig({
 		callbacks: {
-			ready: function(err, browserSync) {
+			ready: function (err, browserSync) {
 				const content_404 = fs.readFileSync('dist/404.html');
 
 				browserSync.addMiddleware('*', (req, res) => {
@@ -82,15 +85,15 @@ module.exports = function(config) {
 					res.write(content_404);
 					res.end();
 				});
-			}
-		}
+			},
+		},
 	});
 
 	return {
 		dir: {
 			input: 'src',
-			output: 'dist'
+			output: 'dist',
 		},
-		passthroughFileCopy: true
+		passthroughFileCopy: true,
 	};
 };

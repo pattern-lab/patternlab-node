@@ -10,8 +10,7 @@ const starterkitSetup = [
     message: 'What initial patterns do you want included in your project?',
     choices: [
       {
-        name:
-          'Handlebars base patterns (some basic patterns to get started with)',
+        name: 'Handlebars base patterns (some basic patterns to get started with)',
         value: '@pattern-lab/starterkit-handlebars-vanilla',
       },
       {
@@ -35,7 +34,7 @@ const starterkitSetup = [
     ],
     default: {
       name: 'Handlebars demo patterns (full demo website and patterns)',
-      value: 'starterkit-handlebars-demo',
+      value: '@pattern-lab/starterkit-handlebars-demo',
     },
   },
   {

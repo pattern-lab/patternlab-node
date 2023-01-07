@@ -26,7 +26,7 @@ class ThemeToggle extends HTMLElement {
 	}
 
 	applySetting(passedSetting) {
-		let currentSetting = passedSetting || localStorage.getItem(this.STORAGE_KEY);
+		const currentSetting = passedSetting || localStorage.getItem(this.STORAGE_KEY);
 
 		if (currentSetting) {
 			document.documentElement.setAttribute('data-user-color-scheme', currentSetting);
@@ -68,7 +68,10 @@ class ThemeToggle extends HTMLElement {
 		this.innerHTML = html`
 			<div class="[ theme-toggle ] [ md:ta-right gap-top-500 ]">
 				<div role="status" class="[ visually-hidden ][ js-mode-status ]"></div>
-				<button class="[ button ] [ font-base text-base weight-bold ] [ js-mode-toggle ]">
+				<button
+					class="[ button ] [ font-base text-base weight-bold ] [ js-mode-toggle ]"
+					type="button"
+				>
 					Dark theme
 				</button>
 			</div>
@@ -81,7 +84,7 @@ class ThemeToggle extends HTMLElement {
 		this.modeToggleButton = document.querySelector('.js-mode-toggle');
 		this.modeStatusElement = document.querySelector('.js-mode-status');
 
-		this.modeToggleButton.addEventListener('click', evt => {
+		this.modeToggleButton.addEventListener('click', (evt) => {
 			evt.preventDefault();
 
 			this.applySetting(this.toggleSetting());

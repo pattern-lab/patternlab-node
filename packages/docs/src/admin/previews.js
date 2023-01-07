@@ -27,11 +27,11 @@ const Home = ({entry}) => (
 						url: 'javascript:void(0)',
 						date: new Date(),
 						data: {
-							title: 'Sample Post'
-						}
-					}
-				]
-			}
+							title: 'Sample Post',
+						},
+					},
+				],
+			},
 		})}
 	/>
 );
@@ -43,7 +43,7 @@ const Post = ({entry}) => (
 		context={({title, date, body}) => ({
 			title,
 			date,
-			content: markdownFilter(body || '')
+			content: markdownFilter(body || ''),
 		})}
 	/>
 );
@@ -54,7 +54,7 @@ const Page = ({entry}) => (
 		path="layouts/page.njk"
 		context={({title, body}) => ({
 			title,
-			content: markdownFilter(body || '')
+			content: markdownFilter(body || ''),
 		})}
 	/>
 );
@@ -67,8 +67,8 @@ const SiteData = ({entry}) => (
 			site: {
 				name,
 				shortDesc,
-				showThemeCredit
-			}
+				showThemeCredit,
+			},
 		})}
 	/>
 );
@@ -79,8 +79,8 @@ const Nav = ({entry}) => (
 		path="layouts/base.njk"
 		context={({items}) => ({
 			navigation: {
-				items
-			}
+				items,
+			},
 		})}
 	/>
 );
