@@ -6,7 +6,7 @@ const { error, info, wrapAsync } = require('../utils');
 const build = (options) =>
   wrapAsync(function* () {
     try {
-      const config = yield resolveConfig(options.parent.config);
+      const config = yield resolveConfig(options.config);
       yield buildPatterns(config, options);
       info(`build: Yay, your Pattern Lab project was successfully built ☺`);
     } catch (err) {
