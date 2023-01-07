@@ -154,7 +154,7 @@
   color: currentColor;
 
   // border to indicate which nav links have two specific actions
-  &:before {
+  &::before {
     opacity: 0.1;
     right: 2.4rem;
     width: 1px;
@@ -162,15 +162,15 @@
     transform: translateY(-50%);
   }
 
-  &:after {
+  &::after {
     opacity: 0;
     width: 2.5rem;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
   }
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     height: 2.5rem;
     transition: opacity $pl-animate-quick ease-out;
     content: '';

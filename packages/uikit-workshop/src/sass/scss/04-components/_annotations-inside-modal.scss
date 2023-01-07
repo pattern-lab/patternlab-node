@@ -45,7 +45,7 @@
   border-radius: $pl-border-radius-med;
   transition: background-color $pl-animate-quick ease;
 
-  &:before {
+  &::before {
     content: counter(the-count);
     counter-increment: the-count;
     font-size: 85%;

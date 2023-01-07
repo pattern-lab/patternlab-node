@@ -11,7 +11,7 @@
 */
 
 $pl-resizer-width: 20px;
-$pl-viewport-bg: #F4F4F4;
+$pl-viewport-bg: #f4f4f4;
 
 .pl-c-viewport-modal-wrapper {
   background-color: $pl-viewport-bg;
@@ -177,11 +177,11 @@ pl-iframe {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background .3s cubic-bezier(.25,.8,.25,1)!important;
+  transition: background 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
   cursor: ew-resize;
   background-color: $pl-viewport-bg;
 
-  &:after {
+  &::after {
     content: '';
     height: 100%;
     width: 100%;
@@ -192,16 +192,16 @@ pl-iframe {
     pointer-events: none;
     display: block;
     background-color: currentColor;
-    transition: .3s cubic-bezier(.25,.8,.25,1);
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
-  &.is-resizing:after,
-  &:hover:after {
+  &.is-resizing::after,
+  &:hover::after {
     opacity: 0.1;
   }
 
-  &:focus:after,
-  &:active:after {
+  &:focus::after,
+  &:active::after {
     opacity: 0.2;
   }
 

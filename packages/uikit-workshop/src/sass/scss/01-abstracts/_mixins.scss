@@ -40,15 +40,12 @@
 
   &:hover,
   &.pl-is-active:hover {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, 0.1);
   }
-
 
   /**
      * Header link styles inside light theme
      */
-
-
 
   /**
      * Header link styles inside cozy theme
@@ -96,7 +93,7 @@
   user-select: none; /* Likely future */
 }
 
-@mixin buttonStyles(){
+@mixin buttonStyles() {
   color: inherit;
   text-decoration: none;
   background: transparent;
@@ -112,7 +109,7 @@
   position: relative;
   min-width: 30px;
 
-  &:after {
+  &::after {
     content: '';
     display: block;
     position: absolute;
@@ -122,19 +119,19 @@
     width: 100%;
     pointer-events: none;
     opacity: 0;
-    transition: opacity .1s ease;
+    transition: opacity 0.1s ease;
     background-color: currentColor;
   }
 
   // &:focus,
   &:hover {
-    &:after {
+    &::after {
       opacity: 0.1;
     }
   }
 
   &:active:hover {
-    &:after {
+    &::after {
       opacity: 0.2;
     }
   }
@@ -143,7 +140,7 @@
     outline: 1px dotted;
     outline-offset: -1px;
 
-    &:after {
+    &::after {
       opacity: 0.1;
     }
   }
