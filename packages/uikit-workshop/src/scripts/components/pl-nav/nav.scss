@@ -1,0 +1,137 @@
+/*------------------------------------*\
+    #NAVIGATION
+\*------------------------------------*/
+
+pl-nav {
+  background-color: inherit; // so the inside of dropdowns inherits the correct color
+  display: block; // vertically align children
+  flex-grow: 1;
+  align-items: center;
+
+  @media all and (min-width: $pl-bp-med) {
+    padding: 0;
+    display: flex; // vertically align children
+  }
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+}
+
+/**
+ * Navigation container
+ * 1) Collapse height on small screens. Menu trigger button
+ *    activates nav
+ */
+.pl-c-nav {
+  @include accordionPanel;
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  position: absolute;
+  left: 0; // IE 11 layout broken
+  top: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: max-height $pl-animate-quick ease-out;
+  flex-shrink: 1;
+  visibility: hidden;
+  transition: transform 0.2s ease-out, opacity 0 0.2s ease-out;
+
+  @media all and (max-width: $pl-bp-med) {
+    position: fixed;
+    top: 44px;
+    bottom: 0;
+    height: auto;
+    z-index: -1;
+  }
+
+  &.pl-is-active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .pl-c-body--theme-sidebar & {
+    display: block;
+    display: flex;
+    overflow: hidden;
+    visibility: visible;
+    flex-shrink: 0;
+
+    @media all and (min-height: 500px) {
+      flex-shrink: 1;
+    }
+
+    @media all and (max-width: $pl-bp-med) {
+      max-width: 240px;
+
+      position: fixed;
+      top: 44px;
+      bottom: 0;
+      height: auto;
+      max-height: calc(100% - 2rem);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      transform: translateX(-100%);
+      transition: all 0.3s ease;
+      opacity: 0;
+      box-shadow: 0 3px 6px rgba(21, 22, 25, 0.16),
+        0 3px 6px rgba(21, 22, 25, 0.23);
+      visibility: visible;
+
+      &.pl-is-active {
+        transform: translateX(0);
+        opacity: 1;
+        transition: transform 0.2s ease-out;
+      }
+    }
+  }
+
+  @media all and (max-width: $pl-bp-med) {
+    &.is-open {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
+  @media all and (min-width: $pl-bp-med) {
+    overflow: visible;
+    max-height: none;
+    visibility: visible;
+
+    &.is-open {
+      overflow: visible;
+    }
+  }
+
+  /**
+    * Active navigaiton
+    * 1) Slide
+    * 2) Set the height to the vierport height minus the height
+    *    of the header
+    */
+  &.is-open {
+    @media all and (max-width: $pl-bp-med - 1) {
+      box-shadow: 0 2px 4px $pl-color-black;
+
+      .pl-c-body--theme-light & {
+        box-shadow: 0 2px 4px darken($pl-color-gray-20, 15%);
+      }
+    }
+
+    // if nav was opened on smaller screen and screen is resized, it'll be cut off otherwise
+    @media all and (min-width: $pl-bp-med) {
+      max-height: none;
+    }
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    flex-direction: row;
+    position: relative;
+    top: auto;
+    width: auto;
+    box-shadow: none;
+  }
+}
