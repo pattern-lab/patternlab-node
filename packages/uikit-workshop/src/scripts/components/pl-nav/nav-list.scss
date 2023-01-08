@@ -1,0 +1,37 @@
+@import '../../../sass/scss/core.scss';
+
+/**
+ * Nav list
+ * 1) appears as an <ol>
+ * 2) display as a horizontal list on larger screens
+ * 3) On small screens, move the nav list after the typeahead form field
+ */
+.pl-c-nav__list {
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-shrink: 0; // helps prevent top-level nav items from occasionally wrapping to multiple lines
+  flex-grow: 1; // auto-fill extra space available
+  width: 100%;
+  max-width: 100%; // so content doesn't won't spill out horizontally
+  order: 2;
+  background-color: inherit; // allows the nav's children inherit from the parent header
+
+  @media all and (min-width: $pl-bp-med) {
+    display: flex; /* 2 */
+    order: 1;
+  }
+}
+
+/**
+ * Nav list item
+ */
+.pl-c-nav__list-item {
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-flow: row wrap;
+  width: 100%;
+}
