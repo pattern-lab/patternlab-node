@@ -72,11 +72,11 @@ class Drawer extends LitElement {
   }
 
   onMouseMove(event) {
-    // 1/2 the height of the UI being dragged. @todo: make sure this 7px is calculated
+    // 1/2 the height of the UI being dragged. @todo: make sure this 20px is calculated
     const clientHeight = event.targetTouches
       ? event.targetTouches[0].clientY
       : event.clientY;
-    const panelHeight = window.innerHeight - clientHeight + 7;
+    const panelHeight = window.innerHeight - clientHeight + 28;
 
     this.drawerHeight = panelHeight;
   }

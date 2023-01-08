@@ -33,7 +33,7 @@ const enable = (options) =>
         }
       });
     }
-    yield writeJsonAsync(options.parent.config, config);
+    yield writeJsonAsync(options.config, config);
     spinner.succeed(`⊙ patternlab → Updated config`);
   });
 
