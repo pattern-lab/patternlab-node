@@ -7,10 +7,6 @@
  * and define them against variables that we can utilise anywhere throughout the project.
  */
 
-
-
-
-
 /*------------------------------------*\
     #GLOBAL TEXT COLOR
 \*------------------------------------*/
@@ -27,22 +23,14 @@ $color-text-bg: $color-white !default;
 $color-text-highlight: $color-gray-93;
 $color-text-highlight-bg: $color-gray-13;
 
-
-
-
-
 /*------------------------------------*\
     #LINKS
 \*------------------------------------*/
 
 $color-links: $color-gray-73 !default;
-$color-links-hover: $color-gray-50!default;
+$color-links-hover: $color-gray-50 !default;
 $color-links-active: $color-gray-93 !default;
 $color-links-visited: $color-gray-93 !default;
-
-
-
-
 
 /*------------------------------------*\
     #BUTTONS
@@ -60,10 +48,6 @@ $color-btn-secondary-border: $color-gray-93 !default;
 
 $color-btn-disabled: $color-gray-50 !default;
 $color-btn-disabled-bg: $color-gray-07 !default;
-
-
-
-
 
 /*------------------------------------*\
     #FORMS

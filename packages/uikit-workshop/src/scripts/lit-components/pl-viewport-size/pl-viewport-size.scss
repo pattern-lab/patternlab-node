@@ -20,7 +20,7 @@ pl-viewport-size {
   border: 0;
 
   // Prevent zooming on phone browser when the font size is smaller than 16px
-  // As it would break the visualization the field itself will be scaled to 85% 
+  // As it would break the visualization the field itself will be scaled to 85%
   font-size: 1rem;
   transform: scale(0.85);
 
@@ -81,4 +81,3 @@ pl-viewport-size {
   padding: 0;
   cursor: pointer;
 }
-
