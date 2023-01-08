@@ -1,0 +1,27 @@
+@import '../../../sass/scss/core.scss';
+
+.pl-c-nav__accordion {
+  background-color: inherit; // allows the nav's children inherit from the parent header
+  @include listReset();
+  @include accordionPanel();
+  display: flex;
+  flex-flow: row wrap;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.is-open ~ .pl-c-nav__accordion {
+  visibility: visible;
+  max-height: none;
+  transform: translateY(0);
+  opacity: 1;
+
+  .pl-c-body--theme-horizontal & {
+    overflow: auto;
+  }
+
+  @media all and (min-width: $pl-bp-med) {
+    height: auto;
+    max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+  }
+}

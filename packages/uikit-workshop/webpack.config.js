@@ -103,7 +103,7 @@ module.exports = function (apiConfig) {
             '@babel/plugin-transform-react-jsx' /* [1] */,
             {
               pragma: 'h',
-              pragmaFrag: '"span"',
+              pragmaFrag: 'Fragment',
               throwIfNamespace: false,
               useBuiltIns: false,
             },
@@ -156,11 +156,9 @@ module.exports = function (apiConfig) {
       resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-          react: path.resolve(__dirname, './src/scripts/utils/preact-compat'),
-          'react-dom': path.resolve(
-            __dirname,
-            './src/scripts/utils/preact-compat'
-          ),
+          react: 'preact/compat',
+          'react-dom/test-utils': 'preact/test-utils',
+          'react-dom': 'preact/compat',
         },
       },
       output: {

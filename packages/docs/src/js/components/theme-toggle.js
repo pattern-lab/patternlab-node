@@ -26,7 +26,7 @@ class ThemeToggle extends HTMLElement {
 	}
 
 	applySetting(passedSetting) {
-		let currentSetting = passedSetting || localStorage.getItem(this.STORAGE_KEY);
+		const currentSetting = passedSetting || localStorage.getItem(this.STORAGE_KEY);
 
 		if (currentSetting) {
 			document.documentElement.setAttribute('data-user-color-scheme', currentSetting);

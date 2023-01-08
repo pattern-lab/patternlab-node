@@ -1,34 +1,52 @@
 /* eslint-disable no-unused-vars, no-shadow */
 import { define, props } from 'skatejs';
-import { h } from 'preact';
+// this line is required for rendering even if it is note used in the code
+import { h, Fragment } from 'preact';
 
 const classNames = require('classnames');
 
 import { getParents } from './get-parents';
 import { store } from '../../store.js'; // redux store
 import { BaseComponent } from '../base-component.js';
-import { iframeMsgDataExtraction } from '../../utils';
 import Mousetrap from 'mousetrap';
 
-import { NavTitle } from './src/NavTitle';
-import { NavList } from './src/NavList';
-import { NavLink } from './src/NavLink';
-import { NavItem } from './src/NavItem';
+import { NavLink } from './nav-link';
+import { NavList } from './nav-list';
+import { iframeMsgDataExtraction } from '../../utils';
 
 @define
 class Nav extends BaseComponent {
   static is = 'pl-nav';
 
-  constructor() {
-    super();
-    this.toggleNavPanel = this.toggleNavPanel.bind(this);
-    this.toggleSpecialNavPanel = this.toggleSpecialNavPanel.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleURLChange = this.handleURLChange.bind(this);
-    this.handlePageClick = this.handlePageClick.bind(this);
-    this._hasInitiallyRendered = false;
-    this.receiveIframeMessage = this.receiveIframeMessage.bind(this);
-    this.useShadow = false;
+  static props = {
+    autoClose: {
+      ...props.boolean,
+      ...{ default: true },
+    },
+    currentPattern: props.string,
+    layoutMode: props.string,
+    collapsedByDefault: {
+      ...props.boolean,
+      ...{ default: true },
+    },
+    noViewAll: {
+      ...props.boolean,
+      ...{ default: window.config?.theme?.noViewAll || false },
+    },
+  };
+
+  constructor(self) {
+    self = super(self);
+    self.panelToggle = self.panelToggle.bind(self);
+    self.iconOnlyPanelToggle = self.iconOnlyPanelToggle.bind(self);
+    self.handleClick = self.handleClick.bind(self);
+    self.handleTopLevelNavClick = self.handleTopLevelNavClick.bind(self);
+    self.handleURLChange = self.handleURLChange.bind(self);
+    self.handlePageClick = self.handlePageClick.bind(self);
+    self._hasInitiallyRendered = false;
+    self.receiveIframeMessage = self.receiveIframeMessage.bind(self);
+    self.useShadow = false;
+    return self;
   }
 
   handlePageClick(e) {
@@ -46,13 +64,12 @@ class Nav extends BaseComponent {
   }
 
   connected() {
-    this.isOpenClass = 'pl-is-active';
-    const self = this;
+    this.isOpenClass = 'is-open';
     const state = store.getState();
     this.layoutMode = state.app.layoutMode || '';
     this.currentPattern = state.app.currentPattern || '';
     this.elem = this;
-    this.previousActiveLinks = [];
+    this.previouslyActiveLinks = [];
     this.iframeElem = document.querySelector('pl-iframe');
 
     window.addEventListener('message', this.receiveIframeMessage, false);
@@ -89,11 +106,7 @@ class Nav extends BaseComponent {
     }
   }
 
-  /**
-   *
-   * @param {MessageEvent} e A message received by a target object.
-   */
-  receiveIframeMessage(e) {
+  receiveIframeMessage(event) {
     const self = this;
     const data = iframeMsgDataExtraction(e);
 
@@ -108,40 +121,26 @@ class Nav extends BaseComponent {
     }
   }
 
-  cleanupActiveNav(topLevelOnly) {
+  /**
+   * Helper method that partially cleans up the active nav links
+   * @param {boolean} topLevelOnly - only clean up the top most level nav links
+   * @param {Node} exceptFor - optionally specify an element to skip cleaning up
+   */
+  cleanupActiveNav(topLevelOnly, exceptFor) {
     this.navContainer = document.querySelector('.pl-js-nav-container');
-    this.navAccordionTriggers = document.querySelectorAll('.pl-js-acc-handle');
-    this.navAccordionPanels = document.querySelectorAll('.pl-js-acc-panel');
     this.topLevelTriggers = document.querySelectorAll(
-      '.pl-c-nav__link--title.pl-is-active'
+      '.pl-c-nav__link--title.is-open'
     );
 
     if (topLevelOnly === true && window.innerWidth > 670) {
-      this.navContainer.classList.remove('pl-is-active');
+      this.navContainer.classList.remove('is-open');
       this.topLevelTriggers.forEach((trigger) => {
-        trigger.classList.remove('pl-is-active');
-        trigger.nextSibling.classList.remove('pl-is-active');
+        if (trigger !== exceptFor || exceptFor === undefined) {
+          trigger.classList.remove('is-open');
+        }
       });
     } else {
-      if (this.layoutMode !== 'vertical') {
-        this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach((trigger) => {
-          trigger.classList.remove('pl-is-active');
-        });
-        this.navAccordionPanels.forEach((panel) => {
-          panel.classList.remove('pl-is-active');
-        });
-      } else if (this.layoutMode === 'vertical' && window.innerWidth <= 670) {
-        this.navContainer.classList.remove('pl-is-active');
-        this.navAccordionTriggers.forEach((trigger) => {
-          trigger.classList.remove('pl-is-active');
-        });
-        this.navAccordionPanels.forEach((panel) => {
-          panel.classList.remove('pl-is-active');
-        });
-      } else {
-        this.navContainer.classList.remove('pl-is-active');
-      }
+      this.navContainer.classList.remove('is-open');
     }
   }
 
@@ -151,83 +150,60 @@ class Nav extends BaseComponent {
     this.cleanupActiveNav();
   }
 
+  // auto-close other top level nav dropdowns on larger screens
+  handleTopLevelNavClick(e) {
+    if (this.layoutMode !== 'vertical' && window.innerWidth > 670) {
+      this.cleanupActiveNav(true, e.target);
+    }
+    this.panelToggle(e.target);
+  }
+
   handleURLChange() {
     const currentPattern = this.currentPattern;
     this.activeLink = document.querySelector(
       `[data-patternpartial="${currentPattern}"]`
     );
 
-    if (this.previousActiveLinks) {
-      this.previousActiveLinks.forEach((link, index) => {
-        this.previousActiveLinks[index].classList.remove('pl-is-active');
+    if (this.previouslyActiveLinks) {
+      this.previouslyActiveLinks.forEach((link, index) => {
+        this.previouslyActiveLinks[index].classList.remove('is-open');
+        this.previouslyActiveLinks[index].classList.remove('is-active');
       });
     }
-    this.previousActiveLinks = [];
+    this.previouslyActiveLinks = [];
 
     if (this.activeLink) {
+      this.activeLink.classList.add('is-active');
+
       const triggers = [this.activeLink];
       const panels = Array.from(
-        getParents(this.activeLink, '.pl-js-acc-panel')
+        getParents(this.activeLink, '.pl-js-nav-accordion')
       );
 
       panels.forEach((panel) => {
         const panelTrigger = panel.previousSibling;
         if (panelTrigger) {
-          triggers.push(panelTrigger);
+          if (panelTrigger.previousSibling) {
+            triggers.push(panelTrigger.previousSibling);
+          } else {
+            triggers.push(panelTrigger);
+          }
         }
       });
 
       triggers.forEach((trigger) => {
-        trigger.classList.add('pl-is-active');
-        this.previousActiveLinks.push(trigger);
+        trigger.classList.add('is-open');
+        this.previouslyActiveLinks.push(trigger);
       });
     }
   }
 
-  static props = {
-    autoClose: {
-      ...props.boolean,
-      ...{ default: true },
-    },
-    currentPattern: props.string,
-    layoutMode: props.string,
-    collapsedByDefault: {
-      ...props.boolean,
-      ...{ default: true },
-    },
-    noViewAll: {
-      ...props.boolean,
-      ...{ default: window.config?.theme?.noViewAll || false },
-    },
-  };
-
-  toggleSpecialNavPanel(e) {
-    const target = e.target;
-    target.parentNode.classList.toggle('pl-is-active');
+  iconOnlyPanelToggle(target) {
+    target.previousSibling.classList.toggle('is-open');
   }
 
-  toggleNavPanel(e) {
-    const target = e.target;
-
-    target.classList.toggle('pl-is-active');
-
-    // when the Nav renders as a dropdown menu, only allow one top-level menu item to be open at a time to prevent overlap issues
-    if (
-      this.layoutMode !== 'vertical' &&
-      window.innerWidth > 670 &&
-      target.classList.contains('pl-c-nav__link--title')
-    ) {
-      this.topLevelTriggers = document.querySelectorAll(
-        '.pl-c-nav__link--title.pl-is-active'
-      );
-
-      this.topLevelTriggers.forEach((trigger) => {
-        if (trigger !== target) {
-          trigger.classList.remove('pl-is-active');
-          trigger.nextSibling.classList.remove('pl-is-active');
-        }
-      });
-    }
+  panelToggle(target) {
+    target.classList.toggle('is-open');
   }
 
   rendered() {
@@ -248,28 +224,31 @@ class Nav extends BaseComponent {
     const patternGroups = window.navItems.patternGroups;
 
     return (
-      <ol class="pl-c-nav__list pl-js-pattern-nav-target">
+      <ol class="pl-c-nav__list">
         {patternGroups.map((item, i) => {
+          const classes = classNames('pl-c-nav__list-item');
           const patternItems = item.patternItems;
 
           return (
-            <NavItem className={`pl-c-nav__item--${item.patternGroupLC}`}>
-              <NavTitle
+            <li className={classes}>
+              <NavLink
+                iconPos={'before'}
+                iconName={'arrow-down'}
+                isTitle={true}
                 aria-controls={item.patternGroupLC}
-                onClick={this.toggleNavPanel}
+                onClick={this.handleTopLevelNavClick}
               >
-                {item.patternGroupUC}
-              </NavTitle>
+                {item.patternGroupLC}
+              </NavLink>
               <ol
-                id={item.patternGroupLC}
-                className={`pl-c-nav__sublist pl-c-nav__sublist--dropdown pl-js-acc-panel`}
+                id={item.patternSubgroupUC}
+                className={`pl-c-nav__list pl-c-nav__accordion pl-c-nav__dropdown pl-js-nav-accordion`}
               >
                 {item.patternGroupItems.map((patternSubgroup, i) => {
                   return (
                     <NavList
                       elem={this.elem}
-                      category={patternSubgroup.patternSubgroupLC}
-                      categoryName={patternSubgroup.patternSubgroupUC}
+                      category={patternSubgroup.patternSubgroupUC}
                     >
                       {patternSubgroup.patternSubgroupItems}
                     </NavList>
@@ -282,13 +261,25 @@ class Nav extends BaseComponent {
                       patternItem.patternPartial.includes('viewall') ? (
                       ''
                     ) : (
-                      <NavItem>
-                        <NavLink item={patternItem} elem={this} />
-                      </NavItem>
+                      <li class="pl-c-nav__list-item">
+                        <NavLink
+                          href={`patterns/${patternItem.patternPath}`}
+                          level={1}
+                          onClick={(e) =>
+                            this.handleClick(e, patternItem.patternPartial)
+                          }
+                          data-patternpartial={patternItem.patternPartial}
+                          state={patternItem.patternState}
+                        >
+                          {patternItem.patternName === 'View All'
+                            ? patternItem.patternName + ' ' + item.patternTypeUC
+                            : patternItem.patternName}
+                        </NavLink>
+                      </li>
                     );
                   })}
               </ol>
-            </NavItem>
+            </li>
           );
         })}
 
@@ -298,17 +289,16 @@ class Nav extends BaseComponent {
           (window.ishControls.ishControlsHide['views-all'] !== true &&
             window.ishControls.ishControlsHide.all !== true)) &&
           !this.noViewAll && (
-            <NavItem>
-              <a
+            <li class="pl-c-nav__list-item">
+              <NavLink
                 onClick={(e) => this.handleClick(e, 'all')}
                 href="styleguide/html/styleguide.html"
-                class="pl-c-nav__link pl-c-nav__link--pattern"
+                level={0}
                 data-patternpartial="all"
-                tabindex="0"
               >
                 All
-              </a>
-            </NavItem>
+              </NavLink>
+            </li>
           )}
       </ol>
     );
