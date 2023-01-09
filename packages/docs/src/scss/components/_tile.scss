@@ -3,73 +3,73 @@
 \*------------------------------------*/
 
 .c-tile {
-	position: relative;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
+   position: relative;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
 }
 
 .c-tile__body {
-	padding: 2rem;
-	position: relative;
-	z-index: 1; // TODO: Evaluate whether this declaration is (still) necessary
-	flex: 1;
+   padding: 2rem;
+   position: relative;
+   z-index: 1; // TODO: Evaluate whether this declaration is (still) necessary
+   flex: 1;
 
-	.c-tile--green & {
-		color: $color-brand-green-dark;
-		background: $color-brand-green-light;
-	}
+   .c-tile--green & {
+      color: $color-brand-green-dark;
+      background: $color-brand-green-light;
+   }
 
-	.c-tile--orange & {
-		color: $color-brand-orange-dark;
-		background: $color-brand-orange-light;
-	}
+   .c-tile--orange & {
+      color: $color-brand-orange-dark;
+      background: $color-brand-orange-light;
+   }
 
-	.c-tile--purple & {
-		color: $color-brand-purple-dark;
-		background: $color-brand-purple-light;
-	}
+   .c-tile--purple & {
+      color: $color-brand-purple-dark;
+      background: $color-brand-purple-light;
+   }
 }
 
 .c-tile__shadow {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	right: -10px;
-	bottom: -10px;
-	z-index: 0; // TODO: Evaluate whether this declaration is (still) necessary
-	@include stripedBoxShadow('green');
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   right: -10px;
+   bottom: -10px;
+   z-index: 0; // TODO: Evaluate whether this declaration is (still) necessary
+   @include stripedBoxShadow('green');
 
-	.c-tile--orange & {
-		@include stripedBoxShadow('orange');
-	}
+   .c-tile--orange & {
+      @include stripedBoxShadow('orange');
+   }
 
-	.c-tile--purple & {
-		@include stripedBoxShadow('purple');
-	}
+   .c-tile--purple & {
+      @include stripedBoxShadow('purple');
+   }
 }
 
 .c-tile__title {
-	color: inherit;
+   color: inherit;
 }
 
 .c-tile__link {
-	color: inherit;
+   color: inherit;
 
-	&:hover,
-	&:focus {
-		color: inherit;
-		text-decoration: underline;
-	}
+   &:hover,
+   &:focus {
+      color: inherit;
+      text-decoration: underline;
+   }
 }
 
 .c-tile__description a {
-	color: inherit;
-	text-decoration: underline;
+   color: inherit;
+   text-decoration: underline;
 
-	&:hover,
-	&:focus {
-		color: inherit;
-		text-decoration: none;
-	}
+   &:hover,
+   &:focus {
+      color: inherit;
+      text-decoration: none;
+   }
 }

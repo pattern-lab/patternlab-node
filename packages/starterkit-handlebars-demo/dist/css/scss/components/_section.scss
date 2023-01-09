@@ -10,7 +10,7 @@
      position: relative;
      margin-bottom: 1rem;
 
-     &:after {
+     &::after {
          content: '';
          display: block;
          flex: 1;

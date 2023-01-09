@@ -1,4 +1,4 @@
- /*------------------------------------*\
+/*------------------------------------*\
     #TABLE OF CONTENTS
 \*------------------------------------*/
 /**
@@ -12,78 +12,62 @@
 /*------------------------------------*\
     #ABSTRACTS
 \*------------------------------------*/
-@import "scss/abstracts/variables";
-@import "scss/abstracts/mixins";
-@import "scss/abstracts/colors";
-@import "scss/abstracts/typography";
-
-
-
-
+@import 'scss/abstracts/variables';
+@import 'scss/abstracts/mixins';
+@import 'scss/abstracts/colors';
+@import 'scss/abstracts/typography';
 
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
-@import "scss/base/reset";
-@import "scss/base/fonts";
-@import "scss/base/body";
-@import "scss/base/links";
-@import "scss/base/lists";
-@import "scss/base/headings";
-@import "scss/base/forms";
-@import "scss/base/buttons";
-@import "scss/base/main";
-@import "scss/base/media";
-@import "scss/base/text";
-@import "scss/base/table";
-
-
-
-
+@import 'scss/base/reset';
+@import 'scss/base/fonts';
+@import 'scss/base/body';
+@import 'scss/base/links';
+@import 'scss/base/lists';
+@import 'scss/base/headings';
+@import 'scss/base/forms';
+@import 'scss/base/buttons';
+@import 'scss/base/main';
+@import 'scss/base/media';
+@import 'scss/base/text';
+@import 'scss/base/table';
 
 /*------------------------------------*\
     #LAYOUT
 \*------------------------------------*/
-@import "scss/layout/layout";
-
-
-
-
+@import 'scss/layout/layout';
 
 /*------------------------------------*\
     #COMPONENTS
 \*------------------------------------*/
-@import "scss/components/buttons";
-@import "scss/components/definition-list";
-@import "scss/components/definition-list-list";
-@import "scss/components/hero";
-@import "scss/components/tout";
-@import "scss/components/section";
-@import "scss/components/stacked-block";
-@import "scss/components/stripe";
-@import "scss/components/footer";
-@import "scss/components/footer-nav";
-@import "scss/components/header";
-@import "scss/components/logo";
-@import "scss/components/icon";
-@import "scss/components/input";
-@import "scss/components/page-header";
-@import "scss/components/pagination";
-@import "scss/components/primary-nav";
-@import "scss/components/promo-block";
-@import "scss/components/progress-tracker";
-@import "scss/components/text-passage";
-@import "scss/components/field";
-@import "scss/components/search-form";
-@import "scss/components/stacked-block-list";
-@import "scss/components/total";
-
-
-
-
+@import 'scss/components/buttons';
+@import 'scss/components/definition-list';
+@import 'scss/components/definition-list-list';
+@import 'scss/components/hero';
+@import 'scss/components/tout';
+@import 'scss/components/section';
+@import 'scss/components/stacked-block';
+@import 'scss/components/stripe';
+@import 'scss/components/footer';
+@import 'scss/components/footer-nav';
+@import 'scss/components/header';
+@import 'scss/components/logo';
+@import 'scss/components/icon';
+@import 'scss/components/input';
+@import 'scss/components/page-header';
+@import 'scss/components/pagination';
+@import 'scss/components/primary-nav';
+@import 'scss/components/promo-block';
+@import 'scss/components/progress-tracker';
+@import 'scss/components/text-passage';
+@import 'scss/components/field';
+@import 'scss/components/search-form';
+@import 'scss/components/stacked-block-list';
+@import 'scss/components/total';
 
 /*------------------------------------*\
     #UTILITIES
 \*------------------------------------*/
-@import "scss/utilities/visibility";
-@import "scss/utilities/spacing";
+@import 'scss/utilities/visibility';
+@import 'scss/utilities/spacing';

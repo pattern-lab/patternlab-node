@@ -12,21 +12,21 @@
 	padding: $pad-half;
 	border-bottom: 1px solid $gray-light-3;
 
-	&:after {
+	&::after {
 		content:"+";
 		float: right;
 	}
-		
+
 	&:hover {
 		color: $white;
 		background: $gray-dark;
 
 	}
-	
+
 	&.active {
 		background: $gray-dark;
 
-		&:after {
+		&::after {
 			content:"-";
 		}
 	}

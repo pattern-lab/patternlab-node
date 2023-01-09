@@ -1,9 +1,9 @@
 const markdownIt = require('markdown-it')({
-	html: true,
-	breaks: true,
-	linkify: true,
+   html: true,
+   breaks: true,
+   linkify: true,
 });
 
 module.exports = function markdown(value) {
-	return markdownIt.render(value);
+   return markdownIt.render(value);
 };

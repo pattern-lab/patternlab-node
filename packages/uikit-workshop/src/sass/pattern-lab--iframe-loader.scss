@@ -18,7 +18,7 @@
   bottom: 0;
 }
 
-.pl-c-loader-wrapper:not(:last-child){
+.pl-c-loader-wrapper:not(:last-child) {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;

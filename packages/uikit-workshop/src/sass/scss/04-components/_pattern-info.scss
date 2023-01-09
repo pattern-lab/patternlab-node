@@ -12,7 +12,6 @@
   display: flex;
   flex-direction: column;
 
-
   /**
      *  Pattern info inside the "view all" template
      */
@@ -39,7 +38,6 @@
     -webkit-overflow-scrolling: touch;
     flex-grow: 1;
 
-
     @media all and (min-width: $pl-bp-large) {
       position: static;
       flex-direction: row;
@@ -53,7 +51,7 @@
  *    Right side contains pattern code
  */
 .pl-c-pattern-info__panel {
-  padding: .5rem;
+  padding: 0.5rem;
   flex-shrink: 0; // prevent panel from collapsing in height (especially on smaller screens like iPhone)
   display: flex;
   flex-direction: column;
@@ -74,7 +72,6 @@
  * 1) Left panel that contains pattern title, lineage, description, annotations
  */
 .pl-c-pattern-info__panel--info {
-
   @media all and (min-width: $pl-bp-large) {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
