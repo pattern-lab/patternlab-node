@@ -28,7 +28,7 @@ pl-search {
 
     // grow in size when focusing on inner input
     &:focus-within {
-      flex-shrink: .5;
+      flex-shrink: 0.5;
     }
 
     .pl-c-body--theme-sidebar & {
@@ -82,7 +82,7 @@ pl-search {
   color: $pl-color-white;
   background-color: rgba(var(--theme-text-rgb), 0.05);
   color: rgba(var(--theme-text-rgb), 0.67);
-  border-color: rgba(0, 0, 0, .1);
+  border-color: rgba(0, 0, 0, 0.1);
   border-color: rgba(var(--theme-text-rgb), 0.17);
   text-overflow: ellipsis;
   border-width: 1px;

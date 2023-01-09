@@ -198,7 +198,7 @@
     counter-increment: linenumber;
   }
 
-  .line-numbers-rows > span:before {
+  .line-numbers-rows > span::before {
     content: counter(linenumber);
     color: #999;
     display: block;

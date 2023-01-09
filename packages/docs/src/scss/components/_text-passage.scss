@@ -6,105 +6,105 @@
  * 1) A passage of text, including various components (i.e. article, blog post)
  */
 .c-text-passage {
-	p {
-		margin-bottom: $spacing-large;
-	}
+   p {
+      margin-bottom: $spacing-large;
+   }
 
-	/**
+   /**
 	 * Link within the text passage
 	 */
-	a {
-		border-bottom: 1px solid $color-black;
-		background: $color-brand-green-light;
+   a {
+      border-bottom: 1px solid $color-black;
+      background: $color-brand-green-light;
 
-		&:hover,
-		&:focus {
-			color: $color-black;
-			border-bottom-color: $color-brand-green;
-		}
-	}
+      &:hover,
+      &:focus {
+         color: $color-black;
+         border-bottom-color: $color-brand-green;
+      }
+   }
 
-	/**
+   /**
 	 * Blockquote within text passage
 	 */
-	blockquote {
-		padding-left: 0.8rem;
-		border-left: 3px solid $color-gray-73;
-		color: $color-gray-50;
-		font-size: 1rem;
-	}
+   blockquote {
+      padding-left: 0.8rem;
+      border-left: 3px solid $color-gray-73;
+      color: $color-gray-50;
+      font-size: 1rem;
+   }
 
-	/**
+   /**
 	  * First-level heading within text passage
 	  */
-	h1 {
-		margin-bottom: $spacing;
-	}
+   h1 {
+      margin-bottom: $spacing;
+   }
 
-	/**
+   /**
 	 * Second-level heading within text passage
 	 */
-	h2 {
-		margin: 3rem 0 $spacing;
-		color: $color-gray-73;
-	}
+   h2 {
+      margin: 3rem 0 $spacing;
+      color: $color-gray-73;
+   }
 
-	/**
+   /**
 	 * Third-level heading within text passage
 	 */
-	h3 {
-		margin: 3rem 0 $spacing;
-	}
+   h3 {
+      margin: 3rem 0 $spacing;
+   }
 
-	/**
+   /**
 	 * Fourth-level heading within text passage
 	 */
-	h4 {
-		margin: 3rem 0 $spacing;
-	}
+   h4 {
+      margin: 3rem 0 $spacing;
+   }
 
-	/**
+   /**
 	 * Fifth-level heading within text passage
 	 */
-	h5 {
-		margin: 3rem 0 $spacing;
-	}
+   h5 {
+      margin: 3rem 0 $spacing;
+   }
 
-	/**
+   /**
 	 * Sixth-level heading within text passage
 	 */
-	h6 {
-		margin: 3rem 0 $spacing;
-	}
+   h6 {
+      margin: 3rem 0 $spacing;
+   }
 
-	/**
+   /**
 	 * Unordered list within text passage
 	 */
-	ul {
-		list-style: disc;
-		margin-left: 1.25rem;
-		margin-bottom: $spacing-large;
+   ul {
+      list-style: disc;
+      margin-left: 1.25rem;
+      margin-bottom: $spacing-large;
 
-		li:last-child {
-			margin-bottom: 0;
-		}
-	}
+      li:last-child {
+         margin-bottom: 0;
+      }
+   }
 
-	/**
+   /**
 	 * Ordered list within text passage
 	 */
-	ol {
-		list-style: decimal;
-		margin-left: $spacing;
-		margin-bottom: $spacing-large;
+   ol {
+      list-style: decimal;
+      margin-left: $spacing;
+      margin-bottom: $spacing-large;
 
-		li:last-child {
-			margin-bottom: 0;
-		}
-	}
+      li:last-child {
+         margin-bottom: 0;
+      }
+   }
 
-	li {
-		margin-bottom: $spacing;
-		line-height: 1.6;
-	}
+   li {
+      margin-bottom: $spacing;
+      line-height: 1.6;
+   }
 }

@@ -22,7 +22,7 @@
     width: 5rem;
 
     /* Don't display the horizontal line on the last item number */
-    &:last-child .c-progress-tracker__number:before {
+    &:last-child .c-progress-tracker__number::before {
         display: none;
     }
 }
@@ -56,7 +56,7 @@
         border-color: $color-brand-blue;
     }
 
-    &:before {
+    &::before {
         content: " ";
         display: block;
         width: 4rem;

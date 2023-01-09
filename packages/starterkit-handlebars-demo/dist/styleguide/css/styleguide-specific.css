@@ -22,14 +22,14 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 .sg-colors li {
   -webkit-box-flex: 1;
   -webkit-flex: auto;
-      -ms-flex: auto;
-          flex: auto;
+  -ms-flex: auto;
+  flex: auto;
   padding: 0.3em;
   margin: 0 0.5em 0.5em 0;
   min-width: 5em;
