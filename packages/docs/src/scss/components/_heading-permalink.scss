@@ -7,32 +7,32 @@
  */
 
 .heading-permalink {
-  position: absolute;
-  top: -3px;
-  left: -20px;
-  display: block;
-  padding-right: 4px;
+   position: absolute;
+   top: -3px;
+   left: -20px;
+   display: block;
+   padding-right: 4px;
 
-  .c-text-passage & {
-    opacity: 0;
-    border-bottom: 0;
-    background: none;
-    transition: opacity 0.15s ease;
+   .c-text-passage & {
+      opacity: 0;
+      border-bottom: 0;
+      background: none;
+      transition: opacity 0.15s ease;
 
-    &:focus {
+      &:focus {
+         opacity: 1;
+      }
+   }
+
+   .c-text-passage h2:hover &,
+   .c-text-passage h2:focus &,
+   .c-text-passage h3:hover &,
+   .c-text-passage h3:focus & {
       opacity: 1;
-    }
-  }
-
-  .c-text-passage h2:hover &,
-  .c-text-passage h2:focus &,
-  .c-text-passage h3:hover &,
-  .c-text-passage h3:focus & {
-    opacity: 1;
-  }
+   }
 }
 
 .heading-permalink__icon {
-  width: 16px;
-  height: 16px;
+   width: 16px;
+   height: 16px;
 }

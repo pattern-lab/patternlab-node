@@ -6,74 +6,74 @@
  * Paragraph base styles
  */
 p {
-	margin-bottom: $spacing;
+   margin-bottom: $spacing;
 }
 
 /**
  * Blockquote base styles
  */
 blockquote {
-	font-style: italic;
-	border-left: 1px solid $color-gray-50;
-	color: $color-gray-50;
-	padding-left: 1rem;
-	margin-bottom: $spacing;
+   font-style: italic;
+   border-left: 1px solid $color-gray-50;
+   color: $color-gray-50;
+   padding-left: 1rem;
+   margin-bottom: $spacing;
 }
 
 /**
  * Horizontal rule base styles
  */
 hr {
-	border: 0;
-	height: $border-width-thick;
-	background: $color-gray-13;
-	margin: 2rem 0;
+   border: 0;
+   height: $border-width-thick;
+   background: $color-gray-13;
+   margin: 2rem 0;
 }
 
 /**
  * Selection styles
  */
 ::-moz-selection {
-	color: $color-text-highlight;
-	background: $color-text-highlight-bg; /* Gecko Browsers */
+   color: $color-text-highlight;
+   background: $color-text-highlight-bg; /* Gecko Browsers */
 }
 
 ::selection {
-	color: $color-text-highlight;
-	background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
+   color: $color-text-highlight;
+   background: $color-text-highlight-bg; /* WebKit/Blink Browsers */
 }
 
 /**
  * Code base styles
  */
 code {
-	display: inline;
-	background: $color-brand-purple-light;
-	padding: 0.2rem;
-	line-height: 1.2;
-	color: $color-gray-60;
+   display: inline;
+   background: $color-brand-purple-light;
+   padding: 0.2rem;
+   line-height: 1.2;
+   color: $color-gray-60;
 }
 
 /**
  * Preformatted text base styles
  */
 pre {
-	background: $color-gray-88;
-	padding: 2rem;
-	@include boxShadowEffect('green');
-	color: $color-white;
-	position: relative;
-	@include hideScrollbar();
+   background: $color-gray-88;
+   padding: 2rem;
+   @include boxShadowEffect('green');
+   color: $color-white;
+   position: relative;
+   @include hideScrollbar();
 
-	/**
+   /**
 	 * Remove border from code within preformatted text block
 	 */
-	code {
-		border: 0;
-		background: transparent;
-		color: inherit;
-		white-space: pre-wrap;
-	}
+   code {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      white-space: pre-wrap;
+   }
 }
 
 // /**

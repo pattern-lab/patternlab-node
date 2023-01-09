@@ -155,7 +155,10 @@
  * FPO block within two column fixed layout within secondary section
  * 1) Width expands entire container at small screens
  */
-.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+.sg-pattern-example
+  .l-page-layout--two-column-fixed
+  .l-page-layout__secondary
+  .fpo-block {
   width: 100%;
   /* 1 */
 }
@@ -166,7 +169,10 @@
  * 2) Set width = width of vertical header
  */
 @media all and (min-width: 70em) {
-  .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+  .sg-pattern-example
+    .l-page-layout--two-column-fixed
+    .l-page-layout__secondary
+    .fpo-block {
     width: 20rem;
     /* 1 */
     height: 100vh;
@@ -191,7 +197,9 @@
  * 3) Float this left to get layout sections side by side within PL "View All" section
  */
 @media all and (min-width: 70em) {
-  .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary {
+  .sg-pattern-example
+    .l-page-layout--two-column-fixed
+    .l-page-layout__secondary {
     position: absolute;
     /* 1 */
     height: inherit;
@@ -204,7 +212,10 @@
  *  Fpo block within pattern example, two column fixed, and secondary section
  * 1) Make fpo block width of the container on small screens
  */
-.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+.sg-pattern-example
+  .l-page-layout--two-column-fixed
+  .l-page-layout__secondary
+  .fpo-block {
   width: 100%;
   /* 1 */
 }
@@ -215,7 +226,10 @@
  * 2) Height inherits so it doesn't span longer than the pattern window on "All" PL page
  */
 @media all and (min-width: 70em) {
-  .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+  .sg-pattern-example
+    .l-page-layout--two-column-fixed
+    .l-page-layout__secondary
+    .fpo-block {
     width: 20rem;
     /* 1 */
     height: inherit;
@@ -232,7 +246,10 @@
 /**
  * Add height of fpo block to equal height of main to help with scrolling main window/fixed sidebar effect.
  */
-.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__main .fpo-block {
+.sg-pattern-example
+  .l-page-layout--two-column-fixed
+  .l-page-layout__main
+  .fpo-block {
   height: 30rem;
   margin-bottom: 0;
 }
