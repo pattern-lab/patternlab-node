@@ -33,9 +33,9 @@ pl-tools-menu {
   width: 12rem;
   border-radius: 6px;
   top: calc(100% - 2px);
-  box-shadow: 0 0 5px rgba(0, 0, 0, .2);
-  background-color:  $pl-color-gray-87;
-  background-color: var(--theme-primary,  $pl-color-gray-87);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background-color: $pl-color-gray-87;
+  background-color: var(--theme-primary, $pl-color-gray-87);
   transform: translateY(-4rem);
   opacity: 0;
   max-height: 0;
@@ -52,7 +52,7 @@ pl-tools-menu {
 
   .pl-c-body--theme-light & {
     background-color: $pl-color-white;
-    background-color: var(--theme-primary,  $pl-color-white);
+    background-color: var(--theme-primary, $pl-color-white);
   }
 
   .pl-c-body--theme-sidebar & {
@@ -73,18 +73,18 @@ pl-tools-menu {
     overflow: visible;
   }
 
-  &:before {
+  &::before {
     content: '';
     height: 14px;
     width: 14px;
     background-color: $pl-color-gray-87;
-    background-color: var(--theme-primary,  $pl-color-gray-87);
+    background-color: var(--theme-primary, $pl-color-gray-87);
     position: absolute;
     right: 0px;
     top: -10px;
     transform: translateY(50%) translateX(-50%) rotate(45deg);
     transition: opacity 0.1s ease-out;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
     .pl-c-body--theme-sidebar & {
       @media all and (min-width: $pl-bp-med) {
@@ -93,7 +93,7 @@ pl-tools-menu {
     }
   }
 
-  &.is-active:before {
+  &.is-active::before {
     opacity: 1;
     visibility: visible;
   }
@@ -127,4 +127,3 @@ pl-tools-menu {
     }
   }
 }
-

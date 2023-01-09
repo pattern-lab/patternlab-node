@@ -6,20 +6,20 @@
  * Link base styles
  */
 a {
-  color: $color-links;
-  text-decoration: none;
-  transition: color $anim-fade-quick $anim-ease;
+   color: $color-links;
+   text-decoration: none;
+   transition: color $anim-fade-quick $anim-ease;
 
-  &:hover,
-  &:focus {
-    color: $color-links-hover;
-  }
+   &:hover,
+   &:focus {
+      color: $color-links-hover;
+   }
 
-  &:focus {
-    @include focus();
-  }
+   &:focus {
+      @include focus();
+   }
 
-  &:active {
-    color: $color-links-active;
-  }
+   &:active {
+      color: $color-links-active;
+   }
 }

@@ -19,7 +19,7 @@ pl-controls {
       padding-top: 0.5rem;
       // box-shadow: 0 -2px 5px rgba($pl-color-black, 0.1);
 
-      &:before {
+      &::before {
         position: absolute;
         left: 0;
         right: 0;
