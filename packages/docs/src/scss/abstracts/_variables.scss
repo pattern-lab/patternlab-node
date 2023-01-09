@@ -184,9 +184,9 @@ $bp-large: 60em;
 $bp-xl: 70em;
 
 :root {
-	--scrollbar-track-color: transparent;
-	--scrollbar-color: rgba(0, 0, 0, 0.2);
+   --scrollbar-track-color: transparent;
+   --scrollbar-color: rgba(0, 0, 0, 0.2);
 
-	--scrollbar-size: 0.375rem;
-	--scrollbar-minlength: 1.5rem; /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
+   --scrollbar-size: 0.375rem;
+   --scrollbar-minlength: 1.5rem; /* Minimum length of scrollbar thumb (width of horizontal, height of vertical) */
 }

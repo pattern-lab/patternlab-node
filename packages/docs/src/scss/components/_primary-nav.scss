@@ -6,37 +6,37 @@
  * Primary navigation existing in the header and maybe the footer
  */
 .c-primary-nav {
-	margin-left: auto;
+   margin-left: auto;
 }
 
 /**
  * Primary navigation list
  */
 .c-primary-nav__list {
-	display: flex;
+   display: flex;
 }
 
 /**
  * Primary navigation item
  */
 .c-primary-nav__item {
-	margin-right: 1rem;
+   margin-right: 1rem;
 }
 
 /**
  * Primary navigation link
  */
 .c-primary-nav__link {
-	display: block;
-	padding: 0.5rem 0;
-	transition: color 0.2s ease;
+   display: block;
+   padding: 0.5rem 0;
+   transition: color 0.2s ease;
 
-	&:hover {
-		color: $color-white;
-	}
+   &:hover {
+      color: $color-white;
+   }
 
-	&:focus {
-		color: $color-white;
-		font-weight: bold;
-	}
+   &:focus {
+      color: $color-white;
+      font-weight: bold;
+   }
 }

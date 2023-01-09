@@ -170,7 +170,7 @@ pl-drawer {
   padding-top: 5px;
   padding-bottom: 5px;
 
-  &:after {
+  &::after {
     content: '';
     height: 100%;
     width: 100%;
