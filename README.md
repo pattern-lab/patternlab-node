@@ -4,7 +4,7 @@
 
 # Pattern Lab
 
-This monorepo contains the core of Pattern Lab / Node and all related engines, UI kits, plugins and utilities. Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
+This monorepo contains the core of Pattern Lab / Node and all related engines, UI kits, plugins, and utilities. Pattern Lab helps you and your team build thoughtful, pattern-driven user interfaces using atomic design principles.
 
 If you'd like to see what a front-end project built with Pattern Lab looks like, check out this [online demo of Pattern Lab output](https://demo.patternlab.io/).
 
@@ -32,25 +32,25 @@ As of Pattern Lab Node 3.0.0, installation of [Editions](https://patternlab.io/d
 
 The below assumes a new directory and project is required. This is likely what you want to do if starting from scratch. You could also run this within an existing project. The CLI will ask you for the installation location.
 
-1. Open a terminal window and following along below:
+1. Open a terminal window and follow along below:
     ```bash
     mkdir new-project
     cd new-project
     npm create pattern-lab
     ```
     > If you get an error stating that `npx` is not installed, ensure you are on `npm 5.2.0` or later by running `npm -v` or install it globally with `npm install -g npx`. [Learn more about npx.](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b)
-1. Follow the on-screen prompts to choose your Edition and a Starterkit should you want one.
-  - If you chose `edition-node`, new commands in the "scripts" will be added in your `package.json`.
+1. Follow the on-screen prompts to choose your Edition and a Starter Kit should you want one.
+  - If you chose `edition-node`, new commands in the "scripts" will be added to your `package.json`.
   - If you chose `edition-node-gulp`, a `gulpfile.js` will be added to your project.
 
-  > Notice that `@pattern-lab/cli` was installed as a depdendency. Learn how to further [use the cli in your own project](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/cli/readme.md#configuring-your-project-to-use-the-cli).
+  > Notice that `@pattern-lab/cli` was installed as a dependency. Learn how to further [use the cli in your own project](https://github.com/pattern-lab/patternlab-node/blob/dev/packages/cli/readme.md#configuring-your-project-to-use-the-cli).
 
 
 ## Ecosystem
 
 ![Pattern Lab Ecosystem](https://patternlab.io/images/pattern-lab-2-image_18-large-opt.png)
 
-Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). With this architecture, we encourage people to write and maintain their own Editions, Starterkits, and even PatternEngines.
+Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.io/docs/overview-of-pattern-lab's-ecosystem/). With this architecture, we encourage people to write and maintain their own Editions, Starter kits, and even PatternEngines.
 
 ## Changelog
 
@@ -63,7 +63,7 @@ Core, and Editions, are part of the [Pattern Lab Ecosystem](https://patternlab.i
 
 Pattern Lab / Node wouldn't be what it is today without the support of the community. It will always be free and open source. Continued development is made possible in part from the support of [contributors](https://github.com/pattern-lab/patternlab-node/graphs/contributors).
 
-Thanks to [Netlify](https://www.netlify.com/) for build tooling and hosting.
+Thanks to [Netlify](https://www.netlify.com/) for building tooling and hosting.
 
 ## Node Support Policy
 
