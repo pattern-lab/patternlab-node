@@ -28,8 +28,7 @@ const engine_twig_php = {
   engineFileExtension: '.twig',
   expandPartials: false,
   findPartialsRE:
-    /{%\s*(?:extends|include|embed)\s+('[^']+'|"[^"]+").*?(with|%}|\s*%})/g,
-  findPartialKeyRE: /"((?:\\.|[^"\\])*)"|'((?:\\.|[^"\\])*)'/,
+    /{[%{]\s*.*?(?:extends|include|embed|from|import|use)\(?\s*['"](.+?)['"][\s\S]*?\)?\s*[%}]}/g,
   namespaces: [],
 
   /**
@@ -180,9 +179,7 @@ const engine_twig_php = {
   // return it.
   findPartial: function (partialString) {
     try {
-      let partial = partialString.match(this.findPartialKeyRE)[0];
-      partial = partial.replace(/"/g, '');
-      partial = partial.replace(/'/g, '');
+      const partial = partialString.replace(this.findPartialsRE, '$1');
 
       // Check if namespaces is not empty.
       const selectedNamespace = this.namespaces.filter((namespace) => {
