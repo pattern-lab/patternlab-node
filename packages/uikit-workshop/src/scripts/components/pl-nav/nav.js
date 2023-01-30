@@ -108,7 +108,7 @@ class Nav extends BaseComponent {
 
   receiveIframeMessage(event) {
     const self = this;
-    const data = iframeMsgDataExtraction(e);
+    const data = iframeMsgDataExtraction(event);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
