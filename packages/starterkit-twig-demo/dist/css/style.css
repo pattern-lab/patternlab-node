@@ -125,21 +125,21 @@ figure {
   *zoom: 1;
 }
 
-.cf:before,
-.l-two-col:before,
-[role='main']:before,
-.cf:after,
-.l-two-col:after,
-[role='main']:after {
+.cf::before,
+.l-two-col::before,
+[role='main']::before,
+.cf::after,
+.l-two-col::after,
+[role='main']::after {
   content: ' ';
   /* 1 */
   display: table;
   /* 2 */
 }
 
-.cf:after,
-.l-two-col:after,
-[role='main']:after {
+.cf::after,
+.l-two-col::after,
+[role='main']::after {
   clear: both;
 }
 
@@ -935,7 +935,7 @@ td {
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
-[data-icon]:before {
+[data-icon]::before {
   font-family: 'icons';
   content: attr(data-icon);
   speak: none;
@@ -944,28 +944,28 @@ td {
   -webkit-font-smoothing: antialiased;
 }
 
-.icon-twitter:before,
-.icon-stumbleupon:before,
-.icon-pinterest:before,
-.icon-linkedin:before,
-.icon-google-plus:before,
-.icon-search:before,
-.icon-play:before,
-.icon-menu:before,
-.icon-arrow-left:before,
-.icon-arrow-right:before,
-.icon-bubble:before,
-.icon-facebook:before,
-.icon-feed:before,
-.icon-youtube:before,
-.icon-tag:before,
-.icon-tumblr:before,
+.icon-twitter::before,
+.icon-stumbleupon::before,
+.icon-pinterest::before,
+.icon-linkedin::before,
+.icon-google-plus::before,
+.icon-search::before,
+.icon-play::before,
+.icon-menu::before,
+.icon-arrow-left::before,
+.icon-arrow-right::before,
+.icon-bubble::before,
+.icon-facebook::before,
+.icon-feed::before,
+.icon-youtube::before,
+.icon-tag::before,
+.icon-tumblr::before,
 .icon-instagram,
 .icon-podcast,
 .icon-apple,
 .icon-android,
-.icon-arrow:after,
-.icon-envelope:before {
+.icon-arrow::after,
+.icon-envelope::before {
   font-family: 'icons';
   speak: none;
   font-style: normal;
@@ -976,91 +976,91 @@ td {
   -webkit-font-smoothing: antialiased;
 }
 
-.icon-twitter:before {
+.icon-twitter::before {
   content: '\74';
 }
 
-.icon-stumbleupon:before {
+.icon-stumbleupon::before {
   content: '\75';
 }
 
-.icon-pinterest:before {
+.icon-pinterest::before {
   content: '\70';
 }
 
-.icon-linkedin:before {
+.icon-linkedin::before {
   content: '\69';
 }
 
-.icon-google-plus:before {
+.icon-google-plus::before {
   content: '\67';
 }
 
-.icon-search:before {
+.icon-search::before {
   content: '\73';
 }
 
-.icon-play:before {
+.icon-play::before {
   content: '\61';
 }
 
-.icon-menu:before {
+.icon-menu::before {
   content: '\21';
 }
 
-.icon-arrow-left:before {
+.icon-arrow-left::before {
   content: '\23';
 }
 
-.icon-arrow-right:before {
+.icon-arrow-right::before {
   content: '\24';
 }
 
-.icon-bubble:before {
+.icon-bubble::before {
   content: '\25';
 }
 
-.icon-facebook:before {
+.icon-facebook::before {
   content: '\66';
 }
 
-.icon-feed:before {
+.icon-feed::before {
   content: '\27';
 }
 
-.icon-youtube:before {
+.icon-youtube::before {
   content: '\79';
 }
 
-.icon-tag:before {
+.icon-tag::before {
   content: '\28';
 }
 
-.icon-tumblr:before {
+.icon-tumblr::before {
   content: '\6d';
 }
 
-.icon-instagram:before {
+.icon-instagram::before {
   content: '\22';
 }
 
-.icon-podcast:before {
+.icon-podcast::before {
   content: '\26';
 }
 
-.icon-android:before {
+.icon-android::before {
   content: '\29';
 }
 
-.icon-apple:before {
+.icon-apple::before {
   content: '\2a';
 }
 
-.icon-envelope:before {
+.icon-envelope::before {
   content: '\2b';
 }
 
-.icon-arrow:after {
+.icon-arrow::after {
   content: '\61';
   display: inline-block;
   -webkit-transform: rotate(90deg);
@@ -1070,7 +1070,7 @@ td {
   transform: rotate(90deg);
 }
 
-.icon-play:before {
+.icon-play::before {
   font-size: 0.7rem;
   padding-left: 0.2em;
 }
@@ -1080,7 +1080,7 @@ td {
   margin-left: 2em;
 }
 
-.icon-play-box:before {
+.icon-play-box::before {
   padding: 0.25em;
   background: gray;
   color: white;
@@ -1355,7 +1355,7 @@ td {
   padding: 0.5em;
   border-bottom: 1px solid #dddddd;
 }
-.acc-handle:after {
+.acc-handle::after {
   content: '+';
   float: right;
 }
@@ -1366,7 +1366,7 @@ td {
 .acc-handle.active {
   background: #333333;
 }
-.acc-handle.active:after {
+.acc-handle.active::after {
   content: '-';
 }
 

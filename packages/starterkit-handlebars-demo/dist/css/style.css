@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*------------------------------------*\
     #TABLE OF CONTENTS
 \*------------------------------------*/
@@ -195,6 +196,141 @@ header, footer, nav, section, article, figure {
   display: block;
 }
 
+/*------------------------------------*\
+    #FONT REFERENCES
+\*------------------------------------*/
+/**
+ * Referencing SCSS mixins by @fontsource library
+ * Hardening references by – redundant, but specifically – declaring the variables previous to @include
+ */
+@font-face {
+  font-family: "Abel";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/abel-latin-400-normal.woff2") format("woff2"), url("../fonts/abel-all-400-normal.woff") format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-cyrillic-ext-400-normal.woff2") format("woff2"), url("../fonts/raleway-all-400-normal.woff") format("woff");
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-cyrillic-400-normal.woff2") format("woff2"), url("../fonts/raleway-all-400-normal.woff") format("woff");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-vietnamese-400-normal.woff2") format("woff2"), url("../fonts/raleway-all-400-normal.woff") format("woff");
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-latin-ext-400-normal.woff2") format("woff2"), url("../fonts/raleway-all-400-normal.woff") format("woff");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-latin-400-normal.woff2") format("woff2"), url("../fonts/raleway-all-400-normal.woff") format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-cyrillic-ext-400-italic.woff2") format("woff2"), url("../fonts/raleway-all-400-italic.woff") format("woff");
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-cyrillic-400-italic.woff2") format("woff2"), url("../fonts/raleway-all-400-italic.woff") format("woff");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-vietnamese-400-italic.woff2") format("woff2"), url("../fonts/raleway-all-400-italic.woff") format("woff");
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-latin-ext-400-italic.woff2") format("woff2"), url("../fonts/raleway-all-400-italic.woff") format("woff");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("../fonts/raleway-latin-400-italic.woff2") format("woff2"), url("../fonts/raleway-all-400-italic.woff") format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../fonts/raleway-cyrillic-ext-700-normal.woff2") format("woff2"), url("../fonts/raleway-all-700-normal.woff") format("woff");
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../fonts/raleway-cyrillic-700-normal.woff2") format("woff2"), url("../fonts/raleway-all-700-normal.woff") format("woff");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../fonts/raleway-vietnamese-700-normal.woff2") format("woff2"), url("../fonts/raleway-all-700-normal.woff") format("woff");
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../fonts/raleway-latin-ext-700-normal.woff2") format("woff2"), url("../fonts/raleway-all-700-normal.woff") format("woff");
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("../fonts/raleway-latin-700-normal.woff2") format("woff2"), url("../fonts/raleway-all-700-normal.woff") format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 /*------------------------------------*\
     #BODY
 \*------------------------------------*/
@@ -796,7 +932,7 @@ tr {
 	#HERO BLOCK
 \*------------------------------------*/
 /**
- * 1) Sit hero flush with header. Normally we wouldn't 
+ * 1) Sit hero flush with header. Normally we wouldn't
  *    do this and handle margin using utility classes,
  *    but we're taking a shortcut for a demo.
  */
@@ -911,7 +1047,7 @@ tr {
   position: relative;
   margin-bottom: 1rem;
 }
-.c-section__header:after {
+.c-section__header::after {
   content: "";
   display: block;
   flex: 1;
@@ -1453,7 +1589,7 @@ tr {
   position: relative;
   z-index: 0;
 }
-.c-promo-block__media:before {
+.c-promo-block__media::before {
   content: "";
   background: linear-gradient(to left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 40%, #000 100%);
   position: absolute;
@@ -1462,7 +1598,7 @@ tr {
   bottom: 0;
   left: 0;
 }
-.c-promo-block--right .c-promo-block__media:before {
+.c-promo-block--right .c-promo-block__media::before {
   background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 20%, #000 100%);
 }
 
@@ -1540,7 +1676,7 @@ tr {
   width: 5rem;
   /* Don't display the horizontal line on the last item number */
 }
-.c-progress-tracker__item:last-child .c-progress-tracker__number:before {
+.c-progress-tracker__item:last-child .c-progress-tracker__number::before {
   display: none;
 }
 
@@ -1570,7 +1706,7 @@ tr {
   color: #041544;
   border-color: #114689;
 }
-.c-progress-tracker__number:before {
+.c-progress-tracker__number::before {
   content: " ";
   display: block;
   width: 4rem;

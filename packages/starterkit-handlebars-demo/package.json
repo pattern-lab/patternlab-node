@@ -23,9 +23,14 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cd dist/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css"
+    "build": "copyfiles ../../node_modules/@fontsource/abel/files/*.woff* ../../node_modules/@fontsource/raleway/files/*400-*.woff* ../../node_modules/@fontsource/raleway/files/*700-normal.woff* dist/fonts -f && cd dist/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css --load-path=../../../../node_modules/"
   },
   "engines": {
     "node": ">=16.18.1"
+  },
+  "devDependencies": {
+    "@fontsource/abel": "^4.5.7",
+    "@fontsource/raleway": "^4.5.11",
+    "copyfiles": "^2.4.1"
   }
 }

@@ -10,40 +10,40 @@
  * Input placeholder text base styles
  */
 ::-webkit-input-placeholder {
-  color: $color-form-placeholder;
+   color: $color-form-placeholder;
 }
 
 ::-moz-placeholder {
-  color: $color-form-placeholder;
+   color: $color-form-placeholder;
 }
 
 :-ms-input-placeholder {
-  color: $color-form-placeholder;
+   color: $color-form-placeholder;
 }
 
 /**
  * Fieldset base styles
  */
 fieldset {
-  border: 0;
-  padding: 0;
-  margin: 0;
+   border: 0;
+   padding: 0;
+   margin: 0;
 }
 
 /**
  * Legend base styles
  */
 legend {
-  margin-bottom: 0.25rem;
+   margin-bottom: 0.25rem;
 }
 
 /**
  * Label base styles
  */
 label {
-  display: block;
-  padding-bottom: 0.25rem;
-  color: $color-form-label;
+   display: block;
+   padding-bottom: 0.25rem;
+   color: $color-form-label;
 }
 
 /**
@@ -53,16 +53,16 @@ button,
 input,
 select,
 textarea {
-  font-family: inherit;
-  font-size: $font-size-med;
-  margin: 0;
+   font-family: inherit;
+   font-size: $font-size-med;
+   margin: 0;
 }
 
 /**
  * Text area base styles
  */
 textarea {
-  resize: none;
+   resize: none;
 }
 
 /**
@@ -70,14 +70,14 @@ textarea {
  */
 input,
 textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: $border-width solid $color-form-border;
-  background: $color-form-bg;
+   width: 100%;
+   padding: 0.5rem;
+   border: $border-width solid $color-form-border;
+   background: $color-form-bg;
 
-  &:focus {
-    border-color: $color-form-border-focus;
-  }
+   &:focus {
+      border-color: $color-form-border-focus;
+   }
 }
 
 /**
@@ -90,7 +90,7 @@ input[type='search']::-webkit-search-decoration,
 input[type='url'],
 input[type='number'],
 textarea {
-  -webkit-appearance: none;
+   -webkit-appearance: none;
 }
 
 /**
@@ -98,17 +98,17 @@ textarea {
  */
 input[type='checkbox'],
 input[type='radio'] {
-  width: auto;
-  margin-right: 0.3rem;
-  border-color: $color-form-border;
+   width: auto;
+   margin-right: 0.3rem;
+   border-color: $color-form-border;
 }
 
 /**
  * Search input base styles
  */
 input[type='search'] {
-  -webkit-appearance: none;
-  border-radius: 0;
+   -webkit-appearance: none;
+   border-radius: 0;
 }
 
 /**
@@ -116,15 +116,15 @@ input[type='search'] {
  * 1) Remove default styling
  */
 select {
-  display: block;
-  font-size: $font-size-med;
-  width: 100%;
-  border: $border-width solid $color-form-border;
-  padding: 0.5rem;
-  background: $color-form-bg;
-  color: $color-form;
+   display: block;
+   font-size: $font-size-med;
+   width: 100%;
+   border: $border-width solid $color-form-border;
+   padding: 0.5rem;
+   background: $color-form-bg;
+   color: $color-form;
 
-  &:focus {
-    border-color: $color-form-border-focus;
-  }
+   &:focus {
+      border-color: $color-form-border-focus;
+   }
 }

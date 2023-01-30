@@ -18,7 +18,7 @@
 	position: relative;
 	z-index: 0;
 
-	&:before {
+	&::before {
 		content: "";
 		background: linear-gradient(
 			to left,

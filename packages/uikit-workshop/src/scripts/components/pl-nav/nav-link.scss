@@ -1,0 +1,194 @@
+@import '../../../sass/scss/core.scss';
+
+/**
+ * Nav link
+ */
+.pl-c-nav__link {
+  @include linkStyle;
+  border: 0;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  outline: 0;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  margin: 0; // remove default button margin in Safari
+  color: inherit;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0.6rem 0.6rem;
+  flex-basis: calc(100% - 2.5rem);
+  position: relative;
+  height: var(--nav-item-height, auto);
+
+  &::after {
+    content: '';
+    pointer-events: none;
+    opacity: 0;
+    background-color: currentColor;
+    transition: opacity $pl-animate-quick ease-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: block;
+  }
+
+  &:hover::after {
+    opacity: 0.1;
+  }
+
+  &:focus::after {
+    opacity: 0.1;
+  }
+
+  &:focus {
+    outline-offset: -1px;
+    outline: 1px dotted;
+  }
+
+  &--level-0 {
+    .pl-c-body--theme-sidebar & {
+      padding-left: 1.45rem;
+    }
+
+    @media all and (max-width: $pl-bp-med) {
+      padding-left: 1.45rem;
+    }
+  }
+
+  &--level-1 {
+    padding-left: $pl-space + ($pl-space * 0.5);
+    font-size: 0.85rem;
+  }
+
+  &--level-2 {
+    font-size: 0.825rem;
+    padding-left: $pl-space * 2 + ($pl-space * 0.25);
+  }
+
+  // top level nav links (categories)
+  &--title {
+    font-size: 0.8rem;
+    color: $pl-color-gray-20;
+    color: var(--theme-text, $pl-color-gray-20);
+
+    > .pl-c-nav__link-icon {
+      font-size: inherit;
+    }
+
+    .pl-c-body--theme-light & {
+      color: $pl-color-black;
+      color: var(--theme-text);
+    }
+  }
+
+  &.is-active:not(.pl-c-nav__link--title) {
+    box-shadow: inset 4px 0 0 #6c79d9;
+
+    // move the "active" border style to the bottom on ONLY the top level links (ex. "All")
+    @media all and (min-width: $pl-bp-med) {
+      &.pl-c-nav__link--level-0 {
+        .pl-c-body--theme-horizontal & {
+          box-shadow: inset 0 -4px 0 #6c79d9;
+        }
+      }
+    }
+  }
+}
+
+.pl-c-nav__link-text {
+  flex-grow: 1;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.pl-c-nav__link-icon {
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+  pointer-events: none;
+  color: currentColor;
+  display: inline;
+  transition: all $pl-animate-quick ease-out;
+  transform: rotate(-90deg);
+  flex-grow: 0;
+  line-height: 0;
+  font-size: 1.3rem; // temp solution till new pl-button used in Navigation
+}
+
+.pl-c-nav__link.is-open > .pl-c-nav__link-icon,
+.pl-c-nav__link.is-open ~ .pl-c-nav__link > .pl-c-nav__link-icon {
+  transform: rotate(0);
+}
+
+// workaround to disable focus on links inside open panels within a closed dropdown
+.pl-c-nav__link:first-child:not(.is-open) ~ .pl-c-nav__list--panel {
+  .pl-c-nav__link {
+    visibility: hidden;
+  }
+}
+
+// workaround to disable focus on links inside open panels within a closed dropdown
+.is-open ~ .pl-c-nav__list--panel {
+  .pl-c-nav__link {
+    visibility: visible;
+  }
+}
+
+.pl-c-nav__link--icon-only {
+  position: relative;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  padding: 0 !important;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 0;
+  flex-basis: 2.5rem;
+  right: 0;
+  border: 2px solid transparent !important;
+  justify-content: center;
+  align-items: center;
+  color: currentColor;
+
+  // border to indicate which nav links have two specific actions
+  &::before {
+    opacity: 0.1;
+    right: 2.4rem;
+    width: 1px;
+    left: auto;
+    transform: translateY(-50%);
+  }
+
+  &::after {
+    opacity: 0;
+    width: 2.5rem;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  &::before,
+  &::after {
+    height: 2.5rem;
+    transition: opacity $pl-animate-quick ease-out;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    background-color: currentColor;
+  }
+
+  &:hover {
+    &::after,
+    &:focus::after {
+      opacity: 0.1;
+    }
+  }
+
+  &:focus {
+    outline-offset: -1px;
+    outline: 1px dotted;
+  }
+}

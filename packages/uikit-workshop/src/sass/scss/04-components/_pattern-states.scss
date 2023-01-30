@@ -9,9 +9,9 @@
 .pl-c-pattern-state {
   width: 0.5em;
   height: 0.5em;
-  margin-bottom: 0.25em;
   margin-left: 0.5em;
   border-radius: 50%;
+  display: inline-block;
   background-color: $pl-color-state-info;
 
   &--complete {
@@ -34,6 +34,6 @@
 /**
 * Complete state
 */
-.complete:before {
+.complete::before {
   color: #03790f !important;
 }

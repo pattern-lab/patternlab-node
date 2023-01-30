@@ -4,10 +4,10 @@
         "description": false
     },
 	"stackedBlockSection" : {
-		"styleModifier": "u-margin-bottom-large",
+		"additionalClasses": "u-margin-bottom-large",
 		"stackedBlockList": [
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../images/men-blue-shoes.jpg",
@@ -22,7 +22,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
 				"stackedBlockMedia": {
 					"src" : "../../../images/men-brown-shoes.jpg",
@@ -37,7 +37,7 @@
 				}
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/men-brown-dress-shoes.jpg",
@@ -49,7 +49,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/men-casual-shoes.jpg",
@@ -60,7 +60,7 @@
 				"label" : "$70"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/men-gray-shoes.jpg",
@@ -72,7 +72,7 @@
 
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/men-loafers.jpg",
@@ -83,7 +83,7 @@
 				"label" : "$180"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/men-walking-shoes.jpg",
@@ -94,7 +94,7 @@
 				"label" : "$95"
 			},
 			{
-				"styleModifier" : "",
+				"additionalClasses": "",
 				"url" : "link.pages-detail",
                 "stackedBlockMedia": {
     				"src" : "../../../images/men-winter-boots.jpg",

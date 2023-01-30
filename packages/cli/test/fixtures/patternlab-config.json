@@ -68,7 +68,7 @@
 			"css": "./test/fixtures/public/css"
 		}
 	},
-	"patternExtension": "mustache",
+	"patternExtension": "hbs",
 	"patternStateCascade": ["inprogress", "inreview", "complete"],
 	"patternExportDirectory": "./pattern_exports/",
 	"patternExportPatternPartials": [],
@@ -83,5 +83,15 @@
 		"color": "dark",
 		"density": "compact",
 		"layout": "horizontal"
-	}
+	},
+  "engines": {
+    "handlebars": {
+      "package": "@pattern-lab/engine-handlebars",
+      "fileExtensions": [
+        "handlebars",
+        "hbs"
+      ],
+      "extend": "helpers/*.js"
+    }
+  }
 }

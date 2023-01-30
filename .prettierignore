@@ -9,7 +9,9 @@ packages/core/scripts/api.handlebars
 packages/core/scripts/events.handlebars
 packages/core/test/files/annotations.js
 packages/**/annotations.js
-**/uikit-workshop/src/js/**/*
 *.json
 *.md
-*.scss
+**/reset.scss
+**/_meta/_head.*
+**/_meta/_foot.*
+**/development-edition*/source/_patterns/**

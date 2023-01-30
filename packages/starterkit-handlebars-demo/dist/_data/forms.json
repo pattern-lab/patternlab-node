@@ -44,7 +44,7 @@
     "searchForm": true,
     "searchFormButton": {
         "buttonTag": true,
-        "styleModifier": "u-is-vishidden",
+        "additionalClasses": "u-is-vishidden",
         "buttonText": "Search"
     },
     "fields": [
@@ -121,7 +121,7 @@
     "formButtons": [
         {},
         {
-            "styleModifier": "c-btn--bare"
+            "additionalClasses": "c-btn--bare"
         }
     ]
 }

@@ -21,7 +21,6 @@ pl-viewport-sizes {
   @media all and (min-width: $pl-bp-med) {
     align-items: center;
     -webkit-overflow-scrolling: touch;
-
   }
 
   @media all and (min-width: $pl-bp-med) {
@@ -55,4 +54,3 @@ pl-viewport-sizes {
 .pl-c-size-list__item:last-child {
   margin-right: auto;
 }
-

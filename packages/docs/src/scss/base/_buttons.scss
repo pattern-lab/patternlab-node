@@ -7,9 +7,9 @@
  * 1) These should be styled using c-btn
  */
 button {
-  cursor: pointer;
+   cursor: pointer;
 
-  &:focus {
-    @include focus();
-  }
+   &:focus {
+      @include focus();
+   }
 }
