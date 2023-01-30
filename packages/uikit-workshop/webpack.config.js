@@ -1,16 +1,14 @@
 // webpack.config.js
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin-patch');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const argv = require('yargs').argv;
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const WebpackBar = require('webpackbar');
+const fs = require('node:fs');
 
 const cosmiconfigSync = require('cosmiconfig').cosmiconfigSync;
 const explorerSync = cosmiconfigSync('patternlab');
@@ -23,9 +21,26 @@ const defaultConfig = {
   sourceMaps: true,
   watch: argv.watch ? true : false,
   publicPath: './styleguide/',
-  copy: [{ from: './src/images/**', to: 'images', flatten: true }],
+  copy: {
+    patterns: [
+      { from: '../uikit-workshop/src/images/**', to: 'images/[name][ext]' },
+    ],
+  },
   noViewAll: false,
 };
+
+// Requiring partials
+// adapted from https://github.com/webpack-contrib/html-loader/issues/291#issuecomment-721909576
+const INCLUDE_PATTERN = /\<include src=\"(.+)\"\/?\>(?:\<\/include\>)?/gi;
+const processNestedHtml = (content, loaderContext) =>
+  !INCLUDE_PATTERN.test(content)
+    ? content
+    : content.replace(INCLUDE_PATTERN, (m, src) =>
+        processNestedHtml(
+          fs.readFileSync(path.resolve(loaderContext.context, src), 'utf8'),
+          loaderContext
+        )
+      );
 
 module.exports = function (apiConfig) {
   return new Promise(async (resolve) => {
@@ -109,7 +124,9 @@ module.exports = function (apiConfig) {
         loader: 'postcss-loader',
         options: {
           sourceMap: config.sourceMaps,
-          plugins: () => [autoprefixer()],
+          postcssOptions: {
+            plugins: [['autoprefixer', {}]],
+          },
         },
       },
       {
@@ -147,7 +164,6 @@ module.exports = function (apiConfig) {
       output: {
         path: path.resolve(config.rootDir, `${config.buildDir}/styleguide`),
         publicPath: `${config.publicPath}`,
-        filename: '[name].js',
         chunkFilename: `js/[name]-chunk-[chunkhash].js`,
       },
       module: {
@@ -170,12 +186,11 @@ module.exports = function (apiConfig) {
               {
                 loader: 'html-loader',
                 options: {
-                  interpolate: true,
-                  minimize: config.prod ? true : false,
-                  minifyCSS: false,
-                  minifyJS: config.prod ? true : false,
-                  // super important -- this prevents the embedded iframe srcdoc HTML from breaking!
-                  preventAttributesEscaping: true,
+                  minimize: {
+                    minifyCSS: false,
+                    minifyJS: config.prod ? true : false,
+                  },
+                  preprocessor: processNestedHtml,
                 },
               },
             ],
@@ -225,8 +240,8 @@ module.exports = function (apiConfig) {
       mode: config.prod ? 'production' : 'development',
       optimization: {
         minimize: config.prod,
-        occurrenceOrder: true,
-        namedChunks: true,
+        chunkIds: 'total-size',
+        moduleIds: 'size',
         removeAvailableModules: true,
         removeEmptyChunks: true,
         nodeEnv: 'production',
@@ -235,9 +250,9 @@ module.exports = function (apiConfig) {
         splitChunks: {
           chunks: 'async',
           cacheGroups: {
-            vendors: {
+            defaultVendors: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
+              idHint: 'vendors',
               chunks: 'async',
               reuseExistingChunk: true,
             },
@@ -247,7 +262,6 @@ module.exports = function (apiConfig) {
           ? [
               new TerserPlugin({
                 test: /\.m?js(\?.*)?$/i,
-                sourceMap: config.prod ? false : config.sourceMaps,
                 terserOptions: {
                   safari10: true,
                 },
@@ -257,23 +271,6 @@ module.exports = function (apiConfig) {
       },
       plugins: [new WebpackBar(), new CopyPlugin(config.copy)],
     };
-
-    webpackConfig.plugins.push(
-      new HardSourceWebpackPlugin({
-        info: {
-          level: 'warn',
-        },
-        // Clean up large, old caches automatically.
-        cachePrune: {
-          // Caches younger than `maxAge` are not considered for deletion. They must
-          // be at least this (default: 2 days) old in milliseconds.
-          maxAge: 2 * 24 * 60 * 60 * 1000,
-          // All caches together must be larger than `sizeThreshold` before any
-          // caches will be deleted. Together they must be at least 300MB in size
-          sizeThreshold: 300 * 1024 * 1024,
-        },
-      })
-    );
 
     const legacyConfig = merge(webpackConfig, {
       entry: {
@@ -303,7 +300,6 @@ module.exports = function (apiConfig) {
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
-          allChunks: true,
         }),
       ],
     });
@@ -343,22 +339,19 @@ module.exports = function (apiConfig) {
       },
       plugins: [
         // clear out the buildDir on every fresh Webpack build
-        new CleanWebpackPlugin(
-          config.watch
+        new CleanWebpackPlugin({
+          verbose: false,
+          cleanOnceBeforeBuildPatterns: config.watch
             ? []
             : [
                 `${config.buildDir}/index.html`,
                 `${config.buildDir}/styleguide/css`,
                 `${config.buildDir}/styleguide/js`,
               ],
-          {
-            allowExternal: true,
-            verbose: false,
 
-            // perform clean just before files are emitted to the output dir
-            beforeEmit: false,
-          }
-        ),
+          // perform clean just before files are emitted to the output dir
+          beforeEmit: false,
+        }),
         new HtmlWebpackPlugin({
           filename: '../index.html',
           template: path.resolve(__dirname, 'src/html/index.html'),
@@ -367,7 +360,6 @@ module.exports = function (apiConfig) {
         new MiniCssExtractPlugin({
           filename: `[name].css`,
           chunkFilename: `[id].css`,
-          allChunks: true,
         }),
       ],
     });
