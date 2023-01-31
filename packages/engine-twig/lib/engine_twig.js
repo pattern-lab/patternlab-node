@@ -51,7 +51,7 @@ class TwingLoaderPatternLab {
    * @throws TwingErrorLoader When name is not found
    */
   getSourceContext(name, from) {
-    var pattern = this.patterns.get(name);
+    const pattern = this.patterns.get(name);
     return Promise.resolve(
       new TwingSource(pattern.extendedTemplate, name, pattern.relPath)
     );
@@ -116,23 +116,23 @@ const fileSystemLoader = new TwingLoaderFilesystem();
 const patternLabLoader = new TwingLoaderPatternLab();
 const chainLoader = new TwingLoaderChain([fileSystemLoader, patternLabLoader]);
 const twing = new TwingEnvironment(chainLoader);
-var metaPath;
+let metaPath;
+let patternLabConfig = {};
 
-var engine_twig = {
+const engine_twig = {
   engine: twing,
   engineName: 'twig',
   engineFileExtension: ['.twig', '.html.twig'],
 
   // regexes, stored here so they're only compiled once
   findPartialsRE:
-    /{%[-]?\s*(?:extends|include|embed|from|import|use)\s+('[^']+'|"[^"]+").*?%}/g,
-  findPartialKeyRE: /"((?:\\.|[^"\\])*)"/,
+    /{[%{]\s*.*?(?:extends|include|embed|from|import|use)\(?\s*['"](.+?)['"][\s\S]*?\)?\s*[%}]}/g,
   findListItemsRE:
     /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g, // TODO
 
   // render it
   renderPattern: function renderPattern(pattern, data, partials) {
-    var patternPath = pattern.basePattern
+    let patternPath = pattern.basePattern
       ? pattern.basePattern.relPath
       : pattern.relPath;
     if (patternPath.lastIndexOf(metaPath) === 0) {
@@ -150,8 +150,15 @@ var engine_twig = {
 
   // find and return any {% include 'template-name' %} within pattern
   findPartials: function findPartials(pattern) {
-    var matches = pattern.template.match(this.findPartialsRE);
-    return matches;
+    const matches = pattern.template.match(this.findPartialsRE);
+    const filteredMatches =
+      matches &&
+      matches.filter((match) => {
+        // Filter out programmatically created includes.
+        // i.e. {% include '@namespace/icons/assets/' ~ name ~ '.svg' %}
+        return match.indexOf('~') === -1;
+      });
+    return filteredMatches;
   },
 
   // returns any patterns that match {{> value(foo:"bar") }} or {{>
@@ -161,18 +168,90 @@ var engine_twig = {
     // being implemented here.
     return [];
   },
+
   findListItems: function (pattern) {
-    var matches = pattern.template.match(this.findListItemsRE);
+    const matches = pattern.template.match(this.findListItemsRE);
     return matches;
   },
 
   // given a pattern, and a partial string, tease out the "pattern key" and
   // return it.
   findPartial: function (partialString) {
-    var partial = partialString.match(this.findPartialKeyRE)[0];
-    partial = partial.replace(/"/g, '');
+    try {
+      const partial = partialString.replace(this.findPartialsRE, '$1');
 
-    return partial;
+      // Check if namespaces is not empty.
+      const [selectedNamespace] = fileSystemLoader
+        .getNamespaces()
+        .filter((namespace) => {
+          // Check to see if this partial contains within the namespace id.
+          return partial.indexOf(`@${namespace}`) !== -1;
+        });
+
+      let namespaceResolvedPartial = '';
+
+      if (selectedNamespace.length > 0) {
+        // Loop through all namespaces and try to resolve the namespace to a file path.
+        const namespacePaths = fileSystemLoader.getPaths(selectedNamespace);
+
+        for (let index = 0; index < namespacePaths.length; index++) {
+          const patternPath = path.isAbsolute(namespacePaths[index])
+            ? path.relative(
+                patternLabConfig.paths.source.root,
+                namespacePaths[index]
+              )
+            : namespacePaths[index];
+
+          // Replace the name space with the actual path.
+          // i.e. @atoms -> source/_patterns/atoms
+          const tempPartial = path.join(
+            process.cwd(),
+            partial.replace(`@${selectedNamespace}`, patternPath)
+          );
+
+          try {
+            // Check to see if the file actually exists.
+            if (fs.existsSync(tempPartial)) {
+              // get the path to the top-level folder of this pattern
+              // ex. /Users/bradfrost/sites/pattern-lab/packages/edition-twig/source/_patterns/atoms
+              const fullFolderPath = `${
+                tempPartial.split(namespacePaths[index])[0]
+              }${namespacePaths[index]}`;
+
+              // then tease out the folder name itself (including the # prefix)
+              // ex. atoms
+              const folderName = fullFolderPath.substring(
+                fullFolderPath.lastIndexOf('/') + 1,
+                fullFolderPath.length
+              );
+
+              // finally, return the Twig path we created from the full file path
+              // ex. atoms/buttons/button.twig
+              const fullIncludePath = tempPartial.replace(
+                tempPartial.split(
+                  `${folderName}${tempPartial.split(folderName)[1]}`
+                )[0],
+                ''
+              );
+
+              namespaceResolvedPartial = fullIncludePath;
+
+              // After it matches one time, set the resolved partial and exit the loop.
+              break;
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      }
+      // Return the path with the namespace resolved OR the regex'd partial.
+      return namespaceResolvedPartial || partial;
+    } catch (err) {
+      console.error(
+        'Error occurred when trying to find partial name in: ' + partialString
+      );
+      return null;
+    }
   },
 
   spawnFile: function (config, fileName) {
@@ -209,17 +288,18 @@ var engine_twig = {
    * @param {object} config - the global config object from core
    */
   usePatternLabConfig: function (config) {
+    patternLabConfig = config;
     metaPath = path.resolve(config.paths.source.meta);
     // Global paths
     fileSystemLoader.addPath(config.paths.source.meta);
     fileSystemLoader.addPath(config.paths.source.patterns);
     // Namespaced paths
     if (
-      config['engines'] &&
-      config['engines']['twig'] &&
-      config['engines']['twig']['namespaces']
+      config.engines &&
+      config.engines.twig &&
+      config.engines.twig.namespaces
     ) {
-      var namespaces = config['engines']['twig']['namespaces'];
+      const namespaces = config.engines.twig.namespaces;
       Object.keys(namespaces).forEach(function (key, index) {
         fileSystemLoader.addPath(namespaces[key], key);
       });
@@ -227,13 +307,13 @@ var engine_twig = {
 
     // add twing extensions
     if (
-      config['engines'] &&
-      config['engines']['twig'] &&
-      config['engines']['twig']['loadExtensionsFile']
+      config.engines &&
+      config.engines.twig &&
+      config.engines.twig.loadExtensionsFile
     ) {
       const extensionsFile = path.resolve(
         './',
-        config['engines']['twig']['loadExtensionsFile']
+        config.engines.twig.loadExtensionsFile
       );
       if (fs.pathExistsSync(extensionsFile)) {
         try {

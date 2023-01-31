@@ -103,10 +103,10 @@ class ToolsMenu extends BaseLitComponent {
    *
    * @param {MessageEvent} e A message received by a target object.
    */
-  receiveIframeMessage(e) {
+  receiveIframeMessage(event) {
     const self = this;
 
-    const data = iframeMsgDataExtraction(e);
+    const data = iframeMsgDataExtraction(event);
 
     if (data.event !== undefined && data.event === 'patternLab.pageClick') {
       try {
