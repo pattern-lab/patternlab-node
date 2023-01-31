@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/development-edition-engine-handlebars",
   "private": true,
-  "version": "5.17.0",
+  "version": "6.0.0",
   "description": "The tree of components we use to test, develop and validate the Handlebars engine",
   "scripts": {
     "pl:build": "patternlab build --config ./patternlab-config.json",
@@ -29,12 +29,12 @@
     "node": ">=14.21.1"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^5.17.0",
-    "@pattern-lab/core": "^5.17.0",
-    "@pattern-lab/engine-handlebars": "^5.16.4",
-    "@pattern-lab/engine-mustache": "^5.16.4",
-    "@pattern-lab/plugin-tab": "^5.16.1",
-    "@pattern-lab/starterkit-handlebars-demo": "^5.16.4",
-    "@pattern-lab/uikit-workshop": "^5.17.0"
+    "@pattern-lab/cli": "^6.0.0",
+    "@pattern-lab/core": "^6.0.0",
+    "@pattern-lab/engine-handlebars": "^6.0.0",
+    "@pattern-lab/engine-mustache": "^6.0.0",
+    "@pattern-lab/plugin-tab": "^6.0.0",
+    "@pattern-lab/starterkit-handlebars-demo": "^6.0.0",
+    "@pattern-lab/uikit-workshop": "^6.0.0"
   }
 }

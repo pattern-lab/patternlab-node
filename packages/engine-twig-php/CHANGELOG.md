@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/pattern-lab/patternlab-node/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+
+### Bug Fixes
+
+* **engine-twig-php:** twig include function syntax not matched by findPartials ([#1472](https://github.com/pattern-lab/patternlab-node/issues/1472)) ([3677539](https://github.com/pattern-lab/patternlab-node/commit/3677539409ac41dfee71d90cc429be5c92890838)), closes [#1471](https://github.com/pattern-lab/patternlab-node/issues/1471)
+
+
+
+
+
 # [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
 
 **Note:** Version bump only for package @pattern-lab/engine-twig-php
