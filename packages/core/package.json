@@ -4,6 +4,7 @@
   "version": "6.0.0",
   "main": "./src/index.js",
   "dependencies": {
+    "@pattern-lab/engine-handlebars": "^6.0.0",
     "@pattern-lab/engine-mustache": "^6.0.0",
     "@pattern-lab/live-server": "^6.0.0",
     "chalk": "4.1.0",
