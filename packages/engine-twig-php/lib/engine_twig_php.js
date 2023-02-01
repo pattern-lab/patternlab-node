@@ -57,6 +57,7 @@ const engine_twig_php = {
       },
       relativeFrom,
       alterTwigEnv,
+      package,
       ...rest,
     });
 
