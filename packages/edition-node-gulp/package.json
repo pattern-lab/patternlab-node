@@ -1,13 +1,13 @@
 {
   "name": "@pattern-lab/edition-node-gulp",
   "description": "The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.",
-  "version": "5.17.0",
+  "version": "6.0.1",
   "main": "gulpfile.js",
   "dependencies": {
-    "@pattern-lab/cli": "^5.17.0",
-    "@pattern-lab/core": "^5.17.0",
-    "@pattern-lab/engine-mustache": "^5.16.4",
-    "@pattern-lab/uikit-workshop": "^5.17.0",
+    "@pattern-lab/cli": "^6.0.1",
+    "@pattern-lab/core": "^6.0.1",
+    "@pattern-lab/engine-mustache": "^6.0.0",
+    "@pattern-lab/uikit-workshop": "^6.0.1",
     "gulp": "4.0.2",
     "minimist": "1.2.5"
   },
