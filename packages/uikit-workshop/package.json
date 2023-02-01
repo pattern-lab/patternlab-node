@@ -1,6 +1,6 @@
 {
   "name": "@pattern-lab/uikit-workshop",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Front-end assets and templates for the default Pattern Lab workshop view",
   "main": "gulpfile.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.12",
     "@babel/runtime": "^7.13.10",
-    "@pattern-lab/core": "^6.0.0",
+    "@pattern-lab/core": "^6.0.1",
     "@pattern-lab/engine-handlebars": "^6.0.0",
     "@pattern-lab/engine-mustache": "^6.0.0",
     "@pattern-lab/uikit-polyfills": "^6.0.0",
