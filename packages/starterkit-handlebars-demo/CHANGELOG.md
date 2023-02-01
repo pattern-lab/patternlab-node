@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/pattern-lab/patternlab-node/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+
+### Features
+
+* activate prettier for scss ([#1468](https://github.com/pattern-lab/patternlab-node/issues/1468)) ([fac6ad4](https://github.com/pattern-lab/patternlab-node/commit/fac6ad4be48c95eccfe890a280cad441ee84f677))
+
+
+
+
+
 ## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
 
 **Note:** Version bump only for package @pattern-lab/starterkit-handlebars-demo

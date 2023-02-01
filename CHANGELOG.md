@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/pattern-lab/patternlab-node/compare/v6.0.0...v6.0.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* **twig engine:** startup and running problems ([#1478](https://github.com/pattern-lab/patternlab-node/issues/1478)) ([e5a1904](https://github.com/pattern-lab/patternlab-node/commit/e5a19049f083315939406677b1c0480f4b420569))
+
+
+
+
+
+# [6.0.0](https://github.com/pattern-lab/patternlab-node/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+
+### Bug Fixes
+
+* **engine-twig-php:** twig include function syntax not matched by findPartials ([#1472](https://github.com/pattern-lab/patternlab-node/issues/1472)) ([3677539](https://github.com/pattern-lab/patternlab-node/commit/3677539409ac41dfee71d90cc429be5c92890838)), closes [#1471](https://github.com/pattern-lab/patternlab-node/issues/1471)
+* **engine-twig:** twig include function syntax not matched by findPartials ([#1473](https://github.com/pattern-lab/patternlab-node/issues/1473)) ([cfa792b](https://github.com/pattern-lab/patternlab-node/commit/cfa792b2753d9f9f1840e08d55983c6c051b01fd)), closes [#1471](https://github.com/pattern-lab/patternlab-node/issues/1471)
+* hogan to handlebars migration leftovers ([#1461](https://github.com/pattern-lab/patternlab-node/issues/1461)) ([566485a](https://github.com/pattern-lab/patternlab-node/commit/566485a5c20d739bfe9c77c11b8ddfa09e292481))
+* HTML structure ([#1450](https://github.com/pattern-lab/patternlab-node/issues/1450)) ([8567e2b](https://github.com/pattern-lab/patternlab-node/commit/8567e2b218a4ef9df0e359ca77229dda54712200))
+* js error ([#1475](https://github.com/pattern-lab/patternlab-node/issues/1475)) ([209b9a1](https://github.com/pattern-lab/patternlab-node/commit/209b9a15871354ac4ae982d93d6be03272799005)), closes [/github.com/pattern-lab/patternlab-node/pull/1102/files#diff-9111c2e0138c935342632437be7178f25322b8f5c86431f2b85f4fe760d32980L96-R111](https://github.com//github.com/pattern-lab/patternlab-node/pull/1102/files/issues/diff-9111c2e0138c935342632437be7178f25322b8f5c86431f2b85f4fe760d32980L96-R111)
+* updated base template to handlebars ([#1463](https://github.com/pattern-lab/patternlab-node/issues/1463)) ([c69c658](https://github.com/pattern-lab/patternlab-node/commit/c69c658d06dab9a1bf04f77e7902ff3f07c94c3e))
+
+
+### Features
+
+* activate prettier for scss ([#1468](https://github.com/pattern-lab/patternlab-node/issues/1468)) ([fac6ad4](https://github.com/pattern-lab/patternlab-node/commit/fac6ad4be48c95eccfe890a280cad441ee84f677))
+* **docs:** added plugin ([#1469](https://github.com/pattern-lab/patternlab-node/issues/1469)) ([535c5f0](https://github.com/pattern-lab/patternlab-node/commit/535c5f0805936a25eeddde0e360cb6000c000b1b))
+
+
+
+
+
 # [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
 
 

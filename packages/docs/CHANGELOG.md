@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/bradfrost/pl-website-eleventy/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+
+### Features
+
+* activate prettier for scss ([#1468](https://github.com/bradfrost/pl-website-eleventy/issues/1468)) ([fac6ad4](https://github.com/bradfrost/pl-website-eleventy/commit/fac6ad4be48c95eccfe890a280cad441ee84f677))
+* **docs:** added plugin ([#1469](https://github.com/bradfrost/pl-website-eleventy/issues/1469)) ([535c5f0](https://github.com/bradfrost/pl-website-eleventy/commit/535c5f0805936a25eeddde0e360cb6000c000b1b))
+
+
+
+
+
 ## [5.16.4](https://github.com/bradfrost/pl-website-eleventy/compare/v5.16.2...v5.16.4) (2022-09-23)
 
 
