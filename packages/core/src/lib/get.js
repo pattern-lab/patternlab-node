@@ -35,7 +35,7 @@ module.exports = function (partialName, patternlab, reportWarning = true) {
   }
   if (reportWarning) {
     logger.warning(
-      `Could not find pattern referenced with partial syntax ${partialName}.
+      `Could not find pattern referenced with partial syntax "${partialName}" from "${patternlab.config.paths.source.patterns}".
       This can occur when a pattern was renamed, moved, or no longer exists but it still referenced within a different template or within data as a link.`
     );
   }

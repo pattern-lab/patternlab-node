@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/pattern-lab/patternlab-node/compare/v6.0.0...v6.0.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* **twig engine:** startup and running problems ([#1478](https://github.com/pattern-lab/patternlab-node/issues/1478)) ([e5a1904](https://github.com/pattern-lab/patternlab-node/commit/e5a19049f083315939406677b1c0480f4b420569))
+
+
+
+
+
+# [6.0.0](https://github.com/pattern-lab/patternlab-node/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+**Note:** Version bump only for package @pattern-lab/edition-twig
+
+
+
+
+
 # [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
 
 **Note:** Version bump only for package @pattern-lab/edition-twig

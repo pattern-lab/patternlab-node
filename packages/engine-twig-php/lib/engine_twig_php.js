@@ -40,13 +40,17 @@ const engine_twig_php = {
   usePatternLabConfig: function (config) {
     patternLabConfig = config;
 
-    if (!config.engines.twig) {
+    if (!config.engines['twig-php']) {
       console.error('Missing "twig" in Pattern Lab config file; exiting...');
       process.exit(1);
     }
 
     const { namespaces, alterTwigEnv, relativeFrom, ...rest } =
-      config.engines.twig;
+      config.engines['twig-php'];
+
+    // since package is a reserved word in node, we need to delete it from the config object like this
+    delete rest.package;
+    delete rest.fileExtensions;
 
     // Schema on config object being passed in:
     // https://github.com/basaltinc/twig-renderer/blob/master/config.schema.json
@@ -224,10 +228,7 @@ const engine_twig_php = {
 
               // then tease out the folder name itself (including the # prefix)
               // ex. atoms
-              const folderName = fullFolderPath.substring(
-                fullFolderPath.lastIndexOf('/') + 1,
-                fullFolderPath.length
-              );
+              const folderName = path.parse(fullFolderPath).base;
 
               // finally, return the Twig path we created from the full file path
               // ex. atoms/buttons/button.twig
