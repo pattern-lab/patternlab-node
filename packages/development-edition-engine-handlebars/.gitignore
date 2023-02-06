@@ -7,4 +7,4 @@ Thumbs.db
 .idea/
 public
 dependencyGraph.json
-source/*
+source

@@ -2,11 +2,6 @@
   "name": "@pattern-lab/engine-mustache",
   "description": "The Mustache engine for Pattern Lab / Node",
   "version": "6.0.0",
-  "main": "lib/engine_mustache.js",
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "mustache": "3.1.0"
-  },
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -20,7 +15,6 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
-  "scripts": {},
   "engines": {
     "node": ">=14.21.1"
   },

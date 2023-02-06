@@ -2,11 +2,6 @@
   "name": "@pattern-lab/engine-twig",
   "description": "The Twig engine for Pattern Lab / Node",
   "version": "6.0.0",
-  "main": "lib/engine_twig.js",
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "twing": "^5.0.2"
-  },
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -20,7 +15,6 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
-  "scripts": {},
   "engines": {
     "node": ">=14.21.1"
   },

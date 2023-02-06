@@ -3,14 +3,7 @@
   "description": "The gulp wrapper around patternlab-node core, providing tasks to interact with the core library and move supporting frontend assets.",
   "version": "6.0.1",
   "main": "gulpfile.js",
-  "dependencies": {
-    "@pattern-lab/cli": "^6.0.1",
-    "@pattern-lab/core": "^6.0.1",
-    "@pattern-lab/engine-mustache": "^6.0.0",
-    "@pattern-lab/uikit-workshop": "^6.0.1",
-    "gulp": "4.0.2",
-    "minimist": "1.2.5"
-  },
+  "license": "MIT",
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -25,7 +18,14 @@
     "gulp": "gulp -- ",
     "patternlab": "patternlab"
   },
-  "license": "MIT",
+  "dependencies": {
+    "@pattern-lab/cli": "^6.0.1",
+    "@pattern-lab/core": "^6.0.1",
+    "@pattern-lab/engine-mustache": "^6.0.0",
+    "@pattern-lab/uikit-workshop": "^6.0.1",
+    "gulp": "4.0.2",
+    "minimist": "1.2.5"
+  },
   "engines": {
     "node": ">=14.21.1"
   },

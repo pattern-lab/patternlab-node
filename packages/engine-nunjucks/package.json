@@ -1,15 +1,13 @@
 {
+  "name": "@pattern-lab/engine-nunjucks",
+  "version": "6.0.0",
+  "description": "The nunjucks PatternEngine for Pattern Lab / Node",
+  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks",
+  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": {
     "name": "Dan White"
   },
-  "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/engine-nunjucks",
-  "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "deprecated": false,
-  "description": "The nunjucks PatternEngine for Pattern Lab / Node",
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "nunjucks": "^3.2.3"
-  },
   "engines": {
     "node": ">=14.21.1"
   },
@@ -23,10 +21,6 @@
     "Nunjucks"
   ],
   "license": "MIT",
-  "main": "lib/engine_nunjucks.js",
-  "name": "@pattern-lab/engine-nunjucks",
-  "scripts": {},
-  "version": "6.0.0",
   "publishConfig": {
     "access": "public"
   },

@@ -2,6 +2,7 @@
   "name": "@pattern-lab/edition-twig",
   "version": "6.0.1",
   "description": "Pattern Lab node with Twig PHP Engine",
+  "license": "MIT",
   "author": {
     "name": "Evan Lovely",
     "url": "https://www.evanlovely.com"
@@ -10,6 +11,14 @@
     {
       "name": "Salem Ghoweri"
     }
+  ],
+  "keywords": [
+    "Pattern",
+    "Lab",
+    "Atomic",
+    "Web",
+    "Design",
+    "Twig"
   ],
   "main": "patternlab-config.json",
   "scripts": {
@@ -34,14 +43,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "Pattern",
-    "Lab",
-    "Atomic",
-    "Web",
-    "Design",
-    "Twig"
-  ],
-  "license": "MIT",
   "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

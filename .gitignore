@@ -1,10 +1,7 @@
 node_modules/
 pattern_exports/
-.DS_Store
-Thumbs.db
 .nyc_output/
 .idea/
-.env
 packages/core/test/public
 packages/*/public
 !packages/core/test/patterns/public/.gitkeep
@@ -12,5 +9,42 @@ packages/*/public
 lerna-debug.log
 packages/edition-node-gulp/dependencyGraph.json
 packages/uikit-workshop/dist
+.yarn
 
 yarn-error.log
+
+# compiled output
+dist
+tmp
+/out-tsc
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+.env
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

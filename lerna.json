@@ -2,17 +2,23 @@
   "lerna": "4.0.0",
   "version": "6.0.1",
   "packages": [
-    "packages/*"
+    "packages/cli",
+    "packages/core",
+    "packages/docs",
+    "packages/live-server",
+    "packages/plugin-tab",
+    "packages/starterkit-handlebars",
+    "packages/starterkit-twig-demo",
+    "packages/uikit-polyfills",
+    "packages/uikit-workshop",
+    "dist/packages/*"
   ],
   "command": {
     "init": {
       "exact": true
     },
     "publish": {
-      "allowBranch": [
-        "master",
-        "dev"
-      ],
+      "allowBranch": ["master", "dev"],
       "conventionalCommits": true,
       "gitReset": true,
       "includeMergedTags": true,
@@ -23,16 +29,8 @@
       "includeMergedTags": true
     }
   },
-  "ignoreChanges": [
-    "**/__fixtures__/**",
-    "**/__tests__/**",
-    "**/*.md",
-    "**/__snapshots__/**"
-  ],
+  "ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**", "**/*.md", "**/__snapshots__/**"],
   "npmClient": "yarn",
-  "npmClientArgs": [
-    "--ignore-optional",
-    "--registry=https://registry.npmjs.org/"
-  ],
+  "npmClientArgs": ["--ignore-optional", "--registry=https://registry.npmjs.org/"],
   "useWorkspaces": true
 }

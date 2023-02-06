@@ -38,9 +38,7 @@
     "hint": "jshint live-server.js index.js",
     "test:separate": "mocha test --exit && npm run lint"
   },
-  "bin": {
-    "live-server": "./live-server.js"
-  },
+  "bin": "./live-server.js",
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/live-server",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "engines": {

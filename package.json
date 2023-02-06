@@ -1,26 +1,22 @@
 {
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/cli",
+      "packages/core",
+      "packages/docs",
+      "packages/live-server",
+      "packages/plugin-tab",
+      "packages/starterkit-handlebars",
+      "packages/starterkit-twig-demo",
+      "packages/uikit-polyfills",
+      "packages/uikit-workshop",
+      "dist/packages/*"
     ],
     "nohoist": [
       "@pattern-lab/engine-*",
       "**/@pattern-lab/engine-*",
       "**/@pattern-lab/uikit-workshop"
     ]
-  },
-  "dependencies": {
-    "@auto-it/released": "^10.27.0",
-    "@babel/plugin-proposal-decorators": "^7.13.5",
-    "@babel/plugin-syntax-jsx": "^7.12.13",
-    "auto": "^10.27.0",
-    "babel-eslint": "^10.0.2",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "lerna": "4.0.0",
-    "prettier": "^2.8.1",
-    "pretty-quick": "^3.1.3"
   },
   "repository": {
     "type": "git",
@@ -40,7 +36,58 @@
     "postpublish": "auto release",
     "preview:docs": "cd packages/docs && yarn production",
     "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build:engine": "nx run engine-handlebars:build",
+    "build:all": "nx run-many --target=build"
+  },
+  "devDependencies": {
+    "@auto-it/all-contributors": "10.38.5",
+    "@auto-it/conventional-commits": "10.38.5",
+    "@auto-it/first-time-contributor": "10.38.5",
+    "@auto-it/released": "^10.27.0",
+    "@babel/plugin-proposal-decorators": "^7.13.5",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@basalt/twig-renderer": "^2.1.0",
+    "@jscutlery/semver": "^2.29.3",
+    "@nrwl/eslint-plugin-nx": "15.6.3",
+    "@nrwl/jest": "15.6.3",
+    "@nrwl/js": "15.6.3",
+    "@nrwl/linter": "15.6.3",
+    "@nrwl/workspace": "15.6.3",
+    "@types/fs-extra": "^11.0.1",
+    "@types/glob": "^8.0.1",
+    "@types/jest": "28.1.1",
+    "@types/mustache": "^4.2.2",
+    "@types/node": "18.11.18",
+    "@types/nunjucks": "^3.2.1",
+    "@types/underscore": "^1.11.4",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "auto": "^10.27.0",
+    "babel-eslint": "^10.0.2",
+    "eslint": "~8.15.0",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "fs-extra": "^11.1.0",
+    "glob": "^8.1.0",
+    "gulp": "^4.0.2",
+    "handlebars": "4.7.7",
+    "husky": "^8.0.2",
+    "jest": "28.1.1",
+    "jest-environment-jsdom": "28.1.1",
+    "lerna": "4.0.0",
+    "liquidjs": "10.4.0",
+    "mustache": "4.2.0",
+    "nunjucks": "3.2.3",
+    "nx": "15.6.3",
+    "prettier": "^2.8.1",
+    "pretty-quick": "^3.1.3",
+    "ts-jest": "28.0.5",
+    "ts-node": "10.9.1",
+    "tslib": "^2.3.0",
+    "twing": "^5.1.2",
+    "typescript": "~4.8.2",
+    "underscore": "^1.13.6"
   },
   "nyc": {
     "exclude": [
@@ -49,8 +96,5 @@
       "packages/core/test",
       "packages/live-server"
     ]
-  },
-  "devDependencies": {
-    "husky": "^8.0.2"
   }
 }

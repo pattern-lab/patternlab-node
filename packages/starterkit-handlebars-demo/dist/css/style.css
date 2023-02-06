@@ -340,8 +340,7 @@ header, footer, nav, section, article, figure {
  *    This is used to achieve a sticky footer
  */
 html {
-  min-height: 100vh;
-  /* 1 */
+  min-height: 100vh; /* 1 */
 }
 
 /**
@@ -350,13 +349,11 @@ html {
  *    This is used to achieve a sticky footer
  */
 body {
-  min-height: 100vh;
-  /* 1 */
+  min-height: 100vh; /* 1 */
   font-family: "Raleway", "HelveticaNeue", "Helvetica", "Arial", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  -webkit-text-size-adjust: 100%;
-  /* 1 */
+  -webkit-text-size-adjust: 100%; /* 1 */
   background-color: #fff;
   color: #131313;
 }
@@ -636,14 +633,12 @@ hr {
  */
 ::-moz-selection {
   color: #131313;
-  background: #ddd;
-  /* Gecko Browsers */
+  background: #ddd; /* Gecko Browsers */
 }
 
 ::selection {
   color: #131313;
-  background: #ddd;
-  /* WebKit/Blink Browsers */
+  background: #ddd; /* WebKit/Blink Browsers */
 }
 
 /**
@@ -932,15 +927,14 @@ tr {
 	#HERO BLOCK
 \*------------------------------------*/
 /**
- * 1) Sit hero flush with header. Normally we wouldn't
+ * 1) Sit hero flush with header. Normally we wouldn't 
  *    do this and handle margin using utility classes,
  *    but we're taking a shortcut for a demo.
  */
 .c-hero {
   display: block;
   position: relative;
-  margin: -2rem 0 2rem;
-  /* 1 */
+  margin: -2rem 0 2rem; /* 1 */
 }
 
 /**
@@ -1072,8 +1066,7 @@ tr {
   display: flex;
   flex-direction: column;
   position: relative;
-  max-width: 600px;
-  /* 2 */
+  max-width: 600px; /* 2 */
   transition: transform 0.15s ease-out;
 }
 .c-stacked-block:hover, .c-stacked-block:focus {
@@ -1581,8 +1574,7 @@ tr {
 .c-promo-block {
   color: #fff;
   position: relative;
-  margin-top: -2rem;
-  /* 1 */
+  margin-top: -2rem; /* 1 */
 }
 
 .c-promo-block__media {
@@ -1661,11 +1653,9 @@ tr {
  *    unavailable.
  */
 .c-progress-tracker {
-  display: flex;
-  /* 2 */
+  display: flex; /* 2 */
   justify-content: center;
-  flex-wrap: wrap;
-  /* 2 */
+  flex-wrap: wrap; /* 2 */
 }
 
 /* Progress tracker iterm */

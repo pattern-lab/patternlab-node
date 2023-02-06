@@ -2,11 +2,6 @@
   "name": "@pattern-lab/engine-liquid",
   "description": "The Liquid engine for Pattern Lab / Node",
   "version": "6.0.0",
-  "main": "lib/engine_liquid.js",
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "liquidjs": "2.2.0"
-  },
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -20,7 +15,6 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Cameron Roe",
   "license": "MIT",
-  "scripts": {},
   "engines": {
     "node": ">=14.21.1"
   },
