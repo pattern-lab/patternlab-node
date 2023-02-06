@@ -1,1 +1,2 @@
-export * from './lib/engine-mustache';
+import { EngineMustache } from './lib/engine-mustache';
+export default EngineMustache;

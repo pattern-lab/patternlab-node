@@ -16,8 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@pattern-lab/cli": ["packages/cli/src/index.ts"],
-      "@pattern-lab/core": ["packages/core/src/index.ts"],
+      "@pattern-lab/cli": ["packages/cli/bin/patternlab.js"],
+      "@pattern-lab/core": ["packages/core/src/index.js"],
       "@pattern-lab/create": ["packages/create/src/index.ts"],
       "@pattern-lab/docs": ["packages/docs/src/index.ts"],
       "@pattern-lab/edition-node": ["packages/edition-node/src/index.ts"],
@@ -30,13 +30,9 @@
       "@pattern-lab/engine-twig": ["packages/engine-twig/src/index.ts"],
       "@pattern-lab/engine-twig-php": ["packages/engine-twig-php/src/index.ts"],
       "@pattern-lab/engine-underscore": ["packages/engine-underscore/src/index.ts"],
-      "@pattern-lab/live-server": ["packages/live-server/src/index.ts"],
-      "@pattern-lab/plugin-tab": ["packages/plugin-tab/src/index.ts"],
-      "@pattern-lab/starterkit-handlebars-demo": ["packages/starterkit-handlebars-demo/src/index.ts"],
-      "@pattern-lab/starterkit-twig-demo": ["packages/starterkit-twig-demo/src/index.ts"],
-      "@pattern-lab/types": ["packages/types/src/index.ts"],
-      "@pattern-lab/uikit-polyfills": ["packages/uikit-polyfills/src/index.ts"],
-      "@pattern-lab/uikit-workshop": ["packages/uikit-workshop/src/index.ts"]
+      "@pattern-lab/live-server": ["packages/live-server/src/index.js"],
+      "@pattern-lab/plugin-tab": ["packages/plugin-tab/src/index.js"],
+      "@pattern-lab/types": ["packages/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

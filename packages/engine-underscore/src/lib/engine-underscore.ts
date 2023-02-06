@@ -81,7 +81,7 @@ _.mixin({
   },
 });
 
-export default class EngineUnderscore implements PatternLabEngine {
+export class EngineUnderscore implements PatternLabEngine {
   engine = _;
   engineName = 'underscore';
   engineFileExtension = ['.html', '.underscore'];

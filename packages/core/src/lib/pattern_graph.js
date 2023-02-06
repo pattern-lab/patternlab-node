@@ -25,6 +25,7 @@ const PATTERN_GRAPH_VERSION = 1;
  *
  * @constructor Constructs a new PatternGraph from a JSON-style JavaScript object or an empty graph
  * if no argument is given.
+ * @type Class
  *
  * @param {Graph} graph  The graphlib graph object
  * @param {int} timestamp The unix timestamp
@@ -173,9 +174,7 @@ PatternGraph.prototype = {
     });
 
     const nodes = this.graph.nodes();
-    const changedNodes = nodes.filter((n) =>
-      compileStateFilter(this.patterns, n)
-    );
+    const changedNodes = nodes.filter((n) => compileStateFilter(this.patterns, n));
     this.nodes2patterns(changedNodes).forEach((pattern) => {
       const patternNode = nodeName(pattern);
       if (!compileGraph.hasNode(patternNode)) {
@@ -360,10 +359,7 @@ PatternGraph.fromJson = function (o) {
  * @param {string} [fileName='dependencyGraph.json'] Name of the graph file
  * @return {string}
  */
-PatternGraph.resolveJsonGraphFile = function (
-  filePath = process.cwd(),
-  fileName = 'dependencyGraph.json'
-) {
+PatternGraph.resolveJsonGraphFile = function (filePath = process.cwd(), fileName = 'dependencyGraph.json') {
   return path.resolve(filePath, fileName);
 };
 

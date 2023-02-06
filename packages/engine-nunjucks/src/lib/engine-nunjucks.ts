@@ -38,7 +38,7 @@ class PatternLoader implements nunjucks.ILoader {
   }
 }
 
-export default class EngineNinjucks implements PatternLabEngine {
+export class EngineNunjucks implements PatternLabEngine {
   engineName = 'nunjucks';
   engineFileExtension = ['.njk'];
   expandPartials = false;

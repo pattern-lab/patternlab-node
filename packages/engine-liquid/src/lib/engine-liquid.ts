@@ -17,7 +17,7 @@ import {
   partialsWithStyleModifiersRE,
 } from './utilities/liquid.util';
 
-export default class EngineLiquid implements PatternLabEngine {
+export class EngineLiquid implements PatternLabEngine {
   private engine = new Liquid({ dynamicPartials: false });
   engineName = 'liquid';
   engineFileExtension = ['.liquid', '.html'];

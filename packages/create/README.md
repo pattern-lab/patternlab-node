@@ -6,7 +6,7 @@ To get started, simply run:
 npm create pattern-lab
 ```
 
-Then follow the prompts. 
+Then follow the prompts.
 
 This is the same as using the main Pattern Lab CLI's `init` command:
 

@@ -12,9 +12,6 @@
     "element-closest": "^3.0.2",
     "get-own-property-symbols": "^0.9.5"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "engines": {
     "node": ">=14.21.1"
   }

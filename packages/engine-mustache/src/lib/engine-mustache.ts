@@ -28,7 +28,7 @@ import {
 } from './utilities/mustache.util';
 import Mustache from 'mustache';
 
-export default class EngineMustache implements PatternLabEngine {
+export class EngineMustache implements PatternLabEngine {
   private engine = Mustache;
   engineName = 'mustache';
   engineFileExtension = ['.mustache'];

@@ -5,9 +5,9 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "node ./build-tools.js",
-    "prepublish": "npm run build",
-    "postbootstrap": "npm run build",
-    "build": "webpack-cli --config webpack.config.js --progress --bail --stats=minimal",
+    "prepublish": "npm run build-project",
+    "postbootstrap": "npm run build-project",
+    "build-project": "webpack-cli --config webpack.config.js --progress --bail --stats=minimal",
     "watch": "webpack-cli --config webpack.config.js --progress --watch --stats=minimal",
     "test": "npm run build"
   },

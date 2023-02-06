@@ -19,18 +19,10 @@
     "url": "https://github.com/pattern-lab/patternlab-node/issues"
   },
   "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-handlebars-demo",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
-    "build": "copyfiles ../../node_modules/@fontsource/abel/files/*.woff* ../../node_modules/@fontsource/raleway/files/*400-*.woff* ../../node_modules/@fontsource/raleway/files/*700-normal.woff* dist/fonts -f && cd dist/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css --load-path=../../../../node_modules/"
+    "build": "copyfiles ../../node_modules/@fontsource/abel/files/*.woff* ../../node_modules/@fontsource/raleway/files/*400-*.woff* ../../node_modules/@fontsource/raleway/files/*700-normal.woff* src/fonts -f && cd src/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css --load-path=../../../../node_modules/"
   },
   "engines": {
     "node": ">=14.21.1"
-  },
-  "devDependencies": {
-    "@fontsource/abel": "^4.5.7",
-    "@fontsource/raleway": "^4.5.11",
-    "copyfiles": "^2.4.1"
   }
 }

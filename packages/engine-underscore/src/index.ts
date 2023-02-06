@@ -1,1 +1,2 @@
-export * from './lib/engine-underscore';
+import { EngineUnderscore } from './lib/engine-underscore';
+export default EngineUnderscore;

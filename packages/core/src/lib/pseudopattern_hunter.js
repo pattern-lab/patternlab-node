@@ -15,21 +15,17 @@ const changes_hunter = new ch();
 const yaml = require('js-yaml');
 const dataMerger = require('./dataMerger');
 
+/**
+ * @type Class
+ */
 const pseudopattern_hunter = function () {};
 
-pseudopattern_hunter.prototype.find_pseudopatterns = function (
-  currentPattern,
-  patternlab
-) {
+pseudopattern_hunter.prototype.find_pseudopatterns = function (currentPattern, patternlab) {
   const paths = patternlab.config.paths;
 
   //look for a pseudo pattern by checking if there is a file containing same
   //name, with ~ in it, ending in .json, .yml or .yaml
-  const needle =
-    currentPattern.subdir +
-    '/' +
-    currentPattern.fileName +
-    '~*.{json,yml,yaml}';
+  const needle = currentPattern.subdir + '/' + currentPattern.fileName + '~*.{json,yml,yaml}';
   const pseudoPatterns = glob.sync(needle, {
     cwd: paths.source.patterns,
     debug: false,
@@ -38,42 +34,27 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (
 
   if (pseudoPatterns.length > 0) {
     for (let i = 0; i < pseudoPatterns.length; i++) {
-      logger.debug(
-        `Found pseudoPattern variant of ${currentPattern.patternPartial}`
-      );
+      logger.debug(`Found pseudoPattern variant of ${currentPattern.patternPartial}`);
 
       //we want to do everything we normally would here, except instead read the pseudoPattern data
       let variantFileFullPath;
       let variantFileData;
       try {
-        variantFileFullPath = path.resolve(
-          paths.source.patterns,
-          pseudoPatterns[i]
-        );
-        variantFileData = yaml.load(
-          fs.readFileSync(variantFileFullPath, 'utf8')
-        );
+        variantFileFullPath = path.resolve(paths.source.patterns, pseudoPatterns[i]);
+        variantFileData = yaml.load(fs.readFileSync(variantFileFullPath, 'utf8'));
       } catch (err) {
-        logger.error(
-          `There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`
-        );
+        logger.error(`There was an error parsing pseudopattern JSON for ${currentPattern.relPath}`);
         logger.error(err);
       }
 
       //extend any existing data with variant data
-      variantFileData = dataMerger(
-        currentPattern.jsonFileData,
-        variantFileData,
-        patternlab.config
-      );
+      variantFileData = dataMerger(currentPattern.jsonFileData, variantFileData, patternlab.config);
 
-      const variantName = pseudoPatterns[i]
-        .substring(pseudoPatterns[i].indexOf('~') + 1)
-        .split('.')[0];
+      const variantName = pseudoPatterns[i].substring(pseudoPatterns[i].indexOf('~') + 1).split('.')[0];
       const variantExtension = pseudoPatterns[i].split('.').slice(-1).pop();
       const variantFilePath = path.join(
         currentPattern.subdir,
-        currentPattern.fileName + '~' + variantName + '.' + variantExtension
+        currentPattern.fileName + '~' + variantName + '.' + variantExtension,
       );
       const lm = fs.statSync(variantFileFullPath);
       const patternVariant = Pattern.create(
@@ -95,7 +76,7 @@ pseudopattern_hunter.prototype.find_pseudopatterns = function (
           // use the same template engine as the non-variant
           engine: currentPattern.engine,
         },
-        patternlab
+        patternlab,
       );
       patternVariant.order = _.clone(currentPattern.order);
       patternVariant.hidden = _.clone(currentPattern.hidden);

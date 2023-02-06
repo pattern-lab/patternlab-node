@@ -23,7 +23,7 @@ import {
   PatternPartial,
 } from '@pattern-lab/types';
 
-export default class EngineTwigPhp implements PatternLabEngine {
+export class EngineTwigPhp implements PatternLabEngine {
   private engine!: TwigRenderer;
   engineName = 'twig-php';
   engineFileExtension = ['.twig'];

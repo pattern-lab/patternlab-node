@@ -1,0 +1,56 @@
+{
+  "name": "starterkit-handlebars-demo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/starterkit-handlebars-demo/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/starterkit-handlebars-demo",
+        "main": "packages/starterkit-handlebars-demo/src/index.ts",
+        "tsConfig": "packages/starterkit-handlebars-demo/tsconfig.lib.json",
+        "assets": [
+          "packages/starterkit-handlebars-demo/*.md",
+          "packages/starterkit-handlebars-demo/LICENSE",
+          {
+            "glob": "**/*",
+            "input": "packages/starterkit-handlebars-demo/src",
+            "output": "dist",
+            "ignore": ["index.ts"]
+          }
+        ]
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs starterkit-handlebars-demo {args.ver} {args.tag}"
+      },
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/starterkit-handlebars-demo/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/starterkit-handlebars-demo/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

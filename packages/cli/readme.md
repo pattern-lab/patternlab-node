@@ -5,14 +5,16 @@
 [![Continuous Integration](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/continuous-integration.yml)
 [![CodeQL](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml/badge.svg?branch=dev)](https://github.com/pattern-lab/patternlab-node/actions/workflows/codeql-analysis.yml)
 
-
 ## Installation
-*Note: Global installs are currently not supported and will be fixed when the Pattern Lab core hits v3.0.0*
+
+_Note: Global installs are currently not supported and will be fixed when the Pattern Lab core hits v3.0.0_
 
 #### Via NPM
+
 `npm install @pattern-lab/cli --save-dev`
 
 #### Via Yarn
+
 `yarn add @pattern-lab/cli --dev`
 
 ## Configuring Your Project to Use the CLI
@@ -28,6 +30,7 @@ Open `package.json` and add the following to your `scripts` object:
 + "patternlab": "patternlab"
 },
 ```
+
 This tells `npm` to look in the local `node_modules/.bin` directory for the `patternlab` CLI.
 
 Subcommands and options can then be forwarded to the CLI like this:
@@ -55,7 +58,9 @@ npm run pl:serve
 ```
 
 ## API & Usage
+
 ### General usage
+
 ```
 Usage: patternlab <cmd> [options]
 	Commands:
@@ -74,6 +79,7 @@ Usage: patternlab <cmd> [options]
 ```
 
 ### Build/Compile Pattern Lab
+
 ```
 Usage: build|compile [options]
 
@@ -85,6 +91,7 @@ Build Pattern Lab. Optionally (re-)build only the patterns
 ```
 
 ### Initialize Pattern Lab
+
 ```
 Usage: init [options]
 
@@ -99,6 +106,7 @@ Passing no options starts the init in interactive mode
 ```
 
 ### Serve Pattern Lab
+
 ```
 Usage: serve|browse [options]
 
@@ -111,6 +119,7 @@ Starts a server to inspect files in browser
 ```
 
 ### Export Pattern Lab
+
 ```
 Usage: export [options]
 
@@ -121,6 +130,7 @@ Export a Pattern Lab patterns into a compressed format
 ```
 
 ### Install Pattern Lab starterkits or plugins
+
 ```
 Usage: install|add [options]
 
@@ -134,10 +144,13 @@ Installs Pattern Lab related modules like starterkits or plugins
 ```
 
 ## Examples
+
 ```
     $ patternlab init # Initialize a Pattern Lab project.
     $ patternlab build # Builds Pattern Lab from the current dir
     $ patternlab build --config <path/to/patternlab-config> # Builds Pattern Lab from different project directory
 ```
+
 ## License
+
 MIT © [Patternlab contributors](https://github.com/pattern-lab/patternlab-node/blob/master/CODEOWNERS)

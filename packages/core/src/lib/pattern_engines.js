@@ -67,10 +67,10 @@ function findEnginesInConfig(config) {
     return config.engines;
   }
   logger.warning(
-    "Scanning the 'node_modules' folder for pattern engines is deprecated and will be removed in v7."
+    "Scanning the 'node_modules' folder for pattern engines is deprecated and will be removed in v7.",
   );
   logger.warning(
-    'To configure your engines in patternlab-config.json, see https://patternlab.io/docs/editing-the-configuration-options/#heading-engines'
+    'To configure your engines in patternlab-config.json, see https://patternlab.io/docs/editing-the-configuration-options/#heading-engines',
   );
   return null;
 }
@@ -106,10 +106,8 @@ const PatternEngines = Object.create({
       // Quick fix until we've removed @pattern-lab/engine-mustache, starting with https://github.com/pattern-lab/patternlab-node/issues/1239 & https://github.com/pattern-lab/patternlab-node/pull/1455
       // @TODO: Remove after removing @pattern-lab/engine-mustache dependency
       enginesInConfig.mustache = enginesInConfig.mustache || {};
-      enginesInConfig.mustache.package =
-        enginesInConfig.mustache.package || '@pattern-lab/engine-mustache';
-      enginesInConfig.mustache.extensions =
-        enginesInConfig.mustache.extensions || 'mustache';
+      enginesInConfig.mustache.package = enginesInConfig.mustache.package || '@pattern-lab/engine-mustache';
+      enginesInConfig.mustache.extensions = enginesInConfig.mustache.extensions || 'mustache';
 
       // Try loading each of the configured pattern engines
       // eslint-disable-next-line guard-for-in
@@ -127,7 +125,9 @@ const PatternEngines = Object.create({
             throw new Error('already loaded, skipping.');
           }
           if ('package' in engineConfig) {
-            self[name] = require(engineConfig.package);
+            const Engine = require(engineConfig.package).default;
+            const engine = new Engine();
+            self[name] = engine;
             if (typeof self[name].usePatternLabConfig === 'function') {
               self[name].usePatternLabConfig(patternLabConfig);
             }
@@ -136,7 +136,7 @@ const PatternEngines = Object.create({
             }
           } else {
             logger.warning(
-              `Engine ${name} not configured correctly. Please configure your engines in patternlab-config.json as documented in https://patternlab.io/docs/editing-the-configuration-options/#heading-engines`
+              `Engine ${name} not configured correctly. Please configure your engines in patternlab-config.json as documented in https://patternlab.io/docs/editing-the-configuration-options/#heading-engines`,
             );
           }
         } catch (err) {
@@ -146,7 +146,7 @@ const PatternEngines = Object.create({
           logger.info(
             `Pattern Engine ${name} / package ${engineConfig.package}: ${
               errorMessage ? errorMessage : successMessage
-            }`
+            }`,
           );
         }
       }
@@ -154,9 +154,7 @@ const PatternEngines = Object.create({
       // Try to load engines! We scan for engines at each path specified above. This
       // function is kind of a big deal.
       enginesDirectories.forEach(function (engineDirectory) {
-        const enginesInThisDir = findEngineModulesInDirectory(
-          engineDirectory.path
-        );
+        const enginesInThisDir = findEngineModulesInDirectory(engineDirectory.path);
 
         `Loading engines from ${engineDirectory.displayName}: ${engineDirectory.path} ...`;
 
@@ -174,11 +172,10 @@ const PatternEngines = Object.create({
             if (self[engineDiscovery.name]) {
               throw new Error('already loaded, skipping.');
             }
-            self[engineDiscovery.name] = require(engineDiscovery.modulePath);
-            if (
-              typeof self[engineDiscovery.name].usePatternLabConfig ===
-              'function'
-            ) {
+            const Engine = require(engineDiscovery.modulePath).default;
+            const engine = new Engine();
+            self[engineDiscovery.name] = engine;
+            if (typeof self[engineDiscovery.name].usePatternLabConfig === 'function') {
               self[engineDiscovery.name].usePatternLabConfig(patternLabConfig);
             }
             if (typeof self[engineDiscovery.name].spawnMeta === 'function') {
@@ -189,11 +186,9 @@ const PatternEngines = Object.create({
           } finally {
             // report on the status of the engine, one way or another!
             logger.info(
-              `Pattern Engine ${
-                engineDiscovery.name
-              } by discovery (deprecated): ${
+              `Pattern Engine ${engineDiscovery.name} by discovery (deprecated): ${
                 errorMessage ? errorMessage : successMessage
-              }`
+              }`,
             );
           }
         });
@@ -216,11 +211,7 @@ const PatternEngines = Object.create({
   getEngineNameForPattern: function (pattern) {
     // avoid circular dependency by putting this in here. TODO: is this slow?
     const of = require('./object_factory');
-    if (
-      pattern instanceof of.Pattern &&
-      typeof pattern.fileExtension === 'string' &&
-      pattern.fileExtension
-    ) {
+    if (pattern instanceof of.Pattern && typeof pattern.fileExtension === 'string' && pattern.fileExtension) {
       //loop through known engines and find the one that supports the pattern's fileExtension
       const engineNames = Object.keys(this);
       for (let i = 0; i < engineNames.length; i++) {
@@ -315,8 +306,7 @@ const PatternEngines = Object.create({
     }
 
     // not a hidden pattern, let's dig deeper
-    const supportedPatternFileExtensions =
-      PatternEngines.getSupportedFileExtensions();
+    const supportedPatternFileExtensions = PatternEngines.getSupportedFileExtensions();
     return (
       supportedPatternFileExtensions.lastIndexOf(extension) !== -1 ||
       PatternEngines.isPseudoPatternJSON(filename)

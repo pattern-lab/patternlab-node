@@ -1,1 +1,2 @@
-export * from './lib/engine-liquid';
+import { EngineLiquid } from './lib/engine-liquid';
+export default EngineLiquid;

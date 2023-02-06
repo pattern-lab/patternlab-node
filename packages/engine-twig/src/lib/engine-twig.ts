@@ -35,7 +35,7 @@ const fileSystemLoader = new TwingLoaderFilesystem();
 const patternLabLoader = new TwingLoaderPatternLab();
 const chainLoader = new TwingLoaderChain([fileSystemLoader, patternLabLoader]);
 
-export default class EngineTwig implements PatternLabEngine {
+export class EngineTwig implements PatternLabEngine {
   private engine = new TwingEnvironment(chainLoader);
   engineName = 'twig';
   engineFileExtension = ['.twig'];

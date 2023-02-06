@@ -1,1 +1,2 @@
-export * from './lib/engine-twig';
+import { EngineTwig } from './lib/engine-twig';
+export default EngineTwig;

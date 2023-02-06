@@ -1,0 +1,46 @@
+{
+  "name": "plugin-tab",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/plugin-tab/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/plugin-tab",
+        "main": "packages/plugin-tab/src/index.js",
+        "tsConfig": "packages/plugin-tab/tsconfig.lib.json",
+        "assets": [
+          "packages/plugin-tab/*.md",
+          "packages/plugin-tab/LICENSE",
+          "packages/plugin-tab/postinstall.js",
+          "packages/plugin-tab/config/**",
+          "packages/plugin-tab/config.json"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/plugin-tab/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/plugin-tab/jest.config.js",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
