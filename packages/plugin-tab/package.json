@@ -13,5 +13,10 @@
   "author": "Brian Muenzenmeyer",
   "license": "MIT",
   "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab",
+  "dependencies": {
+    "fs-extra": "10.0.0",
+    "glob": "7.1.6",
+    "lodash": "4.17.21"
+  },
   "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

@@ -15,6 +15,11 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "glob": "^7.1.6",
+    "handlebars": "^4.7.7"
+  },
   "engines": {
     "node": ">=14.21.1"
   },

@@ -22,6 +22,11 @@
   "scripts": {
     "build": "copyfiles ../../node_modules/@fontsource/abel/files/*.woff* ../../node_modules/@fontsource/raleway/files/*400-*.woff* ../../node_modules/@fontsource/raleway/files/*700-normal.woff* src/fonts -f && cd src/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css --load-path=../../../../node_modules/"
   },
+  "devDependencies": {
+    "@fontsource/abel": "^4.5.7",
+    "@fontsource/raleway": "^4.5.11",
+    "copyfiles": "^2.4.1"
+  },
   "engines": {
     "node": ">=14.21.1"
   }
