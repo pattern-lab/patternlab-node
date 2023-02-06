@@ -32,9 +32,6 @@
     "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^6.0.1",
-    "@pattern-lab/core": "^6.0.1",
-    "@pattern-lab/engine-twig-php": "^6.0.1",
     "@pattern-lab/uikit-workshop": "^6.0.1"
   },
   "engines": {

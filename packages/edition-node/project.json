@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/edition-node/src",
   "projectType": "library",
-  "implicitDependencies": ["core", "engine-handlebars"],
+  "implicitDependencies": ["cli", "core", "engine-handlebars"],
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",

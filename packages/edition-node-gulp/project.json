@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/edition-node-gulp/src",
   "projectType": "library",
-  "implicitDependencies": ["core", "engine-mustache"],
+  "implicitDependencies": ["cli", "core", "engine-mustache"],
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",

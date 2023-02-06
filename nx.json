@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "pattern-lab",
-  "useDaemonProcess": false,
   "affected": {
     "defaultBase": "main"
   },

@@ -4,12 +4,11 @@
   "version": "6.0.1",
   "description": "The tree of components we use to test, develop and validate the twig engine (not engine-twig-php)",
   "scripts": {
-    "postbootstrap": "patternlab install --starterkits @pattern-lab/starterkit-twig-demo",
     "pl:build": "patternlab build --config ./patternlab-config.json",
-    "pl:debug": "node --inspect-brk=24984 node_modules/.bin/patternlab build --config ./patternlab-config.json",
     "pl:help": "patternlab --help",
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
+    "pl:starterkit": "patternlab install --starterkits @pattern-lab/starterkit-twig-demo",
     "pl:version": "patternlab --version",
     "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
@@ -30,10 +29,10 @@
     "node": ">=14.21.1"
   },
   "dependencies": {
-    "@pattern-lab/cli": "^6.0.1",
-    "@pattern-lab/core": "^6.0.1",
-    "@pattern-lab/engine-twig": "^6.0.0",
-    "@pattern-lab/starterkit-twig-demo": "^6.0.1",
+    "@pattern-lab/cli": "file:../../../dist/packages/cli",
+    "@pattern-lab/core": "file:../../../dist/packages/core",
+    "@pattern-lab/engine-twig": "file:../../../dist/packages/engine-twig",
+    "@pattern-lab/starterkit-twig-demo": "file:../../../dist/packages/starterkit-twig-demo",
     "@pattern-lab/uikit-workshop": "^6.0.1"
   },
   "workspaces": {

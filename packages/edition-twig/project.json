@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/edition-twig/src",
   "projectType": "library",
-  "implicitDependencies": ["core", "engine-twig-php"],
+  "implicitDependencies": ["cli", "core", "engine-twig-php"],
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
