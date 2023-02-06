@@ -1,0 +1,27 @@
+{
+  "lerna": "4.0.0",
+  "version": "6.0.1",
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "init": {
+      "exact": true
+    },
+    "publish": {
+      "allowBranch": ["master", "dev"],
+      "conventionalCommits": true,
+      "gitReset": true,
+      "includeMergedTags": true,
+      "noCommitHooks": true,
+      "verifyAccess": true
+    },
+    "changed": {
+      "includeMergedTags": true
+    }
+  },
+  "ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**", "**/*.md", "**/__snapshots__/**"],
+  "npmClient": "yarn",
+  "npmClientArgs": ["--ignore-optional", "--registry=https://registry.npmjs.org/"],
+  "useWorkspaces": true
+}

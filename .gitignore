@@ -14,7 +14,9 @@ packages/uikit-workshop/dist
 yarn-error.log
 
 # compiled output
-dist
+dist/packages/*
+!dist/packages/development-edition-**
+!dist/package.json
 tmp
 /out-tsc
 

@@ -1,0 +1,20 @@
+{
+    "workspaces": {
+        "packages": [
+          "packages/*"
+        ],
+        "nohoist": [
+          "@pattern-lab/engine-*",
+          "**/@pattern-lab/engine-*",
+          "**/@pattern-lab/uikit-workshop"
+        ]
+    },
+    "private": true,
+    "scripts": {
+        "postinstall": "lerna run postbootstrap",
+        "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build"
+    },
+    "devDependencies": {
+        "lerna": "4.0.0"
+    }
+}

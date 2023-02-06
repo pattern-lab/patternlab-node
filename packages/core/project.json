@@ -11,7 +11,7 @@
         "outputPath": "dist/packages/core",
         "main": "packages/core/src/index.js",
         "tsConfig": "packages/core/tsconfig.lib.json",
-        "assets": ["packages/core/*.md", "packages/core/LICENSE"]
+        "assets": ["packages/core/*.md", "packages/core/LICENSE", "packages/core/patternlab-config.json"]
       }
     },
     "publish": {
