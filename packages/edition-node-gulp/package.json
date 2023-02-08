@@ -18,9 +18,6 @@
     "gulp": "gulp -- ",
     "patternlab": "patternlab"
   },
-  "dependencies": {
-    "@pattern-lab/uikit-workshop": "^6.0.1"
-  },
   "engines": {
     "node": ">=14.21.1"
   },

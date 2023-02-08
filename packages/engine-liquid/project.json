@@ -15,7 +15,8 @@
           "packages/engine-liquid/*.md",
           "packages/engine-liquid/LICENSE",
           "packages/engine-liquid/_meta/*"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

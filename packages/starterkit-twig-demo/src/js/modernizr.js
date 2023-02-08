@@ -1,7 +1,7 @@
 /* Modernizr 2.6.2 (Custom Build) | MIT & BSD
  * Build: https://modernizr.com/download/#-shiv-cssclasses-load
  */
-(window.Modernizr = (function(a, b, c) {
+(window.Modernizr = (function (a, b, c) {
   function u(a) {
     j.cssText = a;
   }
@@ -17,8 +17,7 @@
   function y(a, b, d) {
     for (var e in a) {
       var f = b[a[e]];
-      if (f !== c)
-        return d === !1 ? a[e] : w(f, 'function') ? f.bind(d || b) : f;
+      if (f !== c) return d === !1 ? a[e] : w(f, 'function') ? f.bind(d || b) : f;
     }
     return !1;
   }
@@ -40,20 +39,20 @@
     s = {}.hasOwnProperty,
     t;
   !w(s, 'undefined') && !w(s.call, 'undefined')
-    ? (t = function(a, b) {
+    ? (t = function (a, b) {
         return s.call(a, b);
       })
-    : (t = function(a, b) {
+    : (t = function (a, b) {
         return b in a && w(a.constructor.prototype[b], 'undefined');
       }),
     Function.prototype.bind ||
-      (Function.prototype.bind = function(b) {
+      (Function.prototype.bind = function (b) {
         var c = this;
         if (typeof c != 'function') throw new TypeError();
         var d = q.call(arguments, 1),
-          e = function() {
+          e = function () {
             if (this instanceof e) {
-              var a = function() {};
+              var a = function () {};
               a.prototype = c.prototype;
               var f = new a(),
                 g = c.apply(f, d.concat(q.call(arguments)));
@@ -63,33 +62,26 @@
           };
         return e;
       });
-  for (var z in m)
-    t(m, z) &&
-      ((r = z.toLowerCase()), (e[r] = m[z]()), p.push((e[r] ? '' : 'no-') + r));
+  for (var z in m) t(m, z) && ((r = z.toLowerCase()), (e[r] = m[z]()), p.push((e[r] ? '' : 'no-') + r));
   return (
-    (e.addTest = function(a, b) {
+    (e.addTest = function (a, b) {
       if (typeof a == 'object') for (var d in a) t(a, d) && e.addTest(d, a[d]);
       else {
         a = a.toLowerCase();
         if (e[a] !== c) return e;
         (b = typeof b == 'function' ? b() : b),
-          typeof f != 'undefined' &&
-            f &&
-            (g.className += ' ' + (b ? '' : 'no-') + a),
+          typeof f != 'undefined' && f && (g.className += ' ' + (b ? '' : 'no-') + a),
           (e[a] = b);
       }
       return e;
     }),
     u(''),
     (i = k = null),
-    (function(a, b) {
+    (function (a, b) {
       function k(a, b) {
         var c = a.createElement('p'),
           d = a.getElementsByTagName('head')[0] || a.documentElement;
-        return (
-          (c.innerHTML = 'x<style>' + b + '</style>'),
-          d.insertBefore(c.lastChild, d.firstChild)
-        );
+        return (c.innerHTML = 'x<style>' + b + '</style>'), d.insertBefore(c.lastChild, d.firstChild);
       }
       function l() {
         var a = r.elements;
@@ -108,8 +100,8 @@
           f.cache[a]
             ? (g = f.cache[a].cloneNode())
             : e.test(a)
-              ? (g = (f.cache[a] = f.createElem(a)).cloneNode())
-              : (g = f.createElem(a)),
+            ? (g = (f.cache[a] = f.createElem(a)).cloneNode())
+            : (g = f.createElem(a)),
           g.canHaveChildren && !d.test(a) ? f.frag.appendChild(g) : g
         );
       }
@@ -130,7 +122,7 @@
           (b.createElem = a.createElement),
           (b.createFrag = a.createDocumentFragment),
           (b.frag = b.createFrag())),
-          (a.createElement = function(c) {
+          (a.createElement = function (c) {
             return r.shivMethods ? n(c, a, b) : b.createElem(c);
           }),
           (a.createDocumentFragment = Function(
@@ -138,12 +130,10 @@
             'return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&(' +
               l()
                 .join()
-                .replace(/\w+/g, function(a) {
-                  return (
-                    b.createElem(a), b.frag.createElement(a), 'c("' + a + '")'
-                  );
+                .replace(/\w+/g, function (a) {
+                  return b.createElem(a), b.frag.createElement(a), 'c("' + a + '")';
                 }) +
-              ');return n}'
+              ');return n}',
           )(r, b.frag));
       }
       function q(a) {
@@ -155,7 +145,7 @@
             !c.hasCSS &&
             (c.hasCSS = !!k(
               a,
-              'article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}mark{background:#FF0;color:#000}'
+              'article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}mark{background:#FF0;color:#000}',
             )),
           j || p(a, c),
           a
@@ -163,20 +153,21 @@
       }
       var c = a.html5 || {},
         d = /^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i,
-        e = /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,
+        e =
+          /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i,
         f,
         g = '_html5shiv',
         h = 0,
         i = {},
         j;
-      (function() {
+      (function () {
         try {
           var a = b.createElement('a');
           (a.innerHTML = '<xyz></xyz>'),
             (f = 'hidden' in a),
             (j =
               a.childNodes.length == 1 ||
-              (function() {
+              (function () {
                 b.createElement('a');
                 var a = b.createDocumentFragment();
                 return (
@@ -204,13 +195,11 @@
       (a.html5 = r), q(b);
     })(this, b),
     (e._version = d),
-    (g.className =
-      g.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') +
-      (f ? ' js ' + p.join(' ') : '')),
+    (g.className = g.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') + (f ? ' js ' + p.join(' ') : '')),
     e
   );
 })(this, this.document)),
-  (function(a, b, c) {
+  (function (a, b, c) {
     function d(a) {
       return '[object Function]' == o.call(a);
     }
@@ -226,26 +215,17 @@
       (q = 1),
         a
           ? a.t
-            ? m(function() {
-                ('c' == a.t
-                  ? B.injectCss
-                  : B.injectJs)(a.s, 0, a.a, a.x, a.e, 1);
+            ? m(function () {
+                ('c' == a.t ? B.injectCss : B.injectJs)(a.s, 0, a.a, a.x, a.e, 1);
               }, 0)
             : (a(), h())
           : (q = 0);
     }
     function i(a, c, d, e, f, i, j) {
       function k(b) {
-        if (
-          !o &&
-          g(l.readyState) &&
-          ((u.r = o = 1),
-          !q && h(),
-          (l.onload = l.onreadystatechange = null),
-          b)
-        ) {
+        if (!o && g(l.readyState) && ((u.r = o = 1), !q && h(), (l.onload = l.onreadystatechange = null), b)) {
           'img' != a &&
-            m(function() {
+            m(function () {
               t.removeChild(l);
             }, 50);
           for (var d in y[c]) y[c].hasOwnProperty(d) && y[c][d].onload();
@@ -259,22 +239,20 @@
       1 === y[c] && ((r = 1), (y[c] = [])),
         'object' == a ? (l.data = c) : ((l.src = c), (l.type = a)),
         (l.width = l.height = '0'),
-        (l.onerror = l.onload = l.onreadystatechange = function() {
-          k.call(this, r);
-        }),
+        (l.onerror =
+          l.onload =
+          l.onreadystatechange =
+            function () {
+              k.call(this, r);
+            }),
         p.splice(e, 0, u),
-        'img' != a &&
-          (r || 2 === y[c]
-            ? (t.insertBefore(l, s ? null : n), m(k, j))
-            : y[c].push(l));
+        'img' != a && (r || 2 === y[c] ? (t.insertBefore(l, s ? null : n), m(k, j)) : y[c].push(l));
     }
     function j(a, b, c, d, f) {
       return (
         (q = 0),
         (b = b || 'j'),
-        e(a)
-          ? i('c' == b ? v : u, a, b, this.i++, c, d, f)
-          : (p.splice(this.i++, 0, a), 1 == p.length && h()),
+        e(a) ? i('c' == b ? v : u, a, b, this.i++, c, d, f) : (p.splice(this.i++, 0, a), 1 == p.length && h()),
         this
       );
     }
@@ -297,19 +275,19 @@
       v = l ? 'script' : u,
       w =
         Array.isArray ||
-        function(a) {
+        function (a) {
           return '[object Array]' == o.call(a);
         },
       x = [],
       y = {},
       z = {
-        timeout: function(a, b) {
+        timeout: function (a, b) {
           return b.length && (a.timeout = b[0]), a;
         },
       },
       A,
       B;
-    (B = function(a) {
+    (B = function (a) {
       function b(a) {
         var a = a.split('!'),
           b = x.length,
@@ -319,56 +297,29 @@
           e,
           f,
           g;
-        for (f = 0; f < d; f++)
-          (g = a[f].split('=')), (e = z[g.shift()]) && (c = e(c, g));
+        for (f = 0; f < d; f++) (g = a[f].split('=')), (e = z[g.shift()]) && (c = e(c, g));
         for (f = 0; f < b; f++) c = x[f](c);
         return c;
       }
       function g(a, e, f, g, h) {
         var i = b(a),
           j = i.autoCallback;
-        i.url
-          .split('.')
-          .pop()
-          .split('?')
-          .shift(),
+        i.url.split('.').pop().split('?').shift(),
           i.bypass ||
-            (e &&
-              (e = d(e)
-                ? e
-                : e[a] ||
-                  e[g] ||
-                  e[
-                    a
-                      .split('/')
-                      .pop()
-                      .split('?')[0]
-                  ]),
+            (e && (e = d(e) ? e : e[a] || e[g] || e[a.split('/').pop().split('?')[0]]),
             i.instead
               ? i.instead(a, e, f, g, h)
               : (y[i.url] ? (i.noexec = !0) : (y[i.url] = 1),
                 f.load(
                   i.url,
-                  i.forceCSS ||
-                  (!i.forceJS &&
-                    'css' ==
-                      i.url
-                        .split('.')
-                        .pop()
-                        .split('?')
-                        .shift())
-                    ? 'c'
-                    : c,
+                  i.forceCSS || (!i.forceJS && 'css' == i.url.split('.').pop().split('?').shift()) ? 'c' : c,
                   i.noexec,
                   i.attrs,
-                  i.timeout
+                  i.timeout,
                 ),
                 (d(e) || d(j)) &&
-                  f.load(function() {
-                    k(),
-                      e && e(i.origUrl, h, g),
-                      j && j(i.origUrl, h, g),
-                      (y[i.url] = 2);
+                  f.load(function () {
+                    k(), e && e(i.origUrl, h, g), j && j(i.origUrl, h, g), (y[i.url] = 2);
                   })));
       }
       function h(a, b) {
@@ -376,13 +327,13 @@
           if (a) {
             if (e(a))
               c ||
-                (j = function() {
+                (j = function () {
                   var a = [].slice.call(arguments);
                   k.apply(this, a), l();
                 }),
                 g(a, j, b, 0, h);
             else if (Object(a) === a)
-              for (n in ((m = (function() {
+              for (n in ((m = (function () {
                 var b = 0,
                   c;
                 for (c in a) a.hasOwnProperty(c) && b++;
@@ -393,12 +344,12 @@
                   (!c &&
                     !--m &&
                     (d(j)
-                      ? (j = function() {
+                      ? (j = function () {
                           var a = [].slice.call(arguments);
                           k.apply(this, a), l();
                         })
-                      : (j[n] = (function(a) {
-                          return function() {
+                      : (j[n] = (function (a) {
+                          return function () {
                             var b = [].slice.call(arguments);
                             a && a.apply(this, b), l();
                           };
@@ -421,14 +372,13 @@
       if (e(a)) g(a, 0, l, 0);
       else if (w(a))
         for (i = 0; i < a.length; i++)
-          (j = a[i]),
-            e(j) ? g(j, 0, l, 0) : w(j) ? B(j) : Object(j) === j && h(j, l);
+          (j = a[i]), e(j) ? g(j, 0, l, 0) : w(j) ? B(j) : Object(j) === j && h(j, l);
       else Object(a) === a && h(a, l);
     }),
-      (B.addPrefix = function(a, b) {
+      (B.addPrefix = function (a, b) {
         z[a] = b;
       }),
-      (B.addFilter = function(a) {
+      (B.addFilter = function (a) {
         x.push(a);
       }),
       (B.errorTimeout = 1e4),
@@ -437,15 +387,14 @@
         ((b.readyState = 'loading'),
         b.addEventListener(
           'DOMContentLoaded',
-          (A = function() {
-            b.removeEventListener('DOMContentLoaded', A, 0),
-              (b.readyState = 'complete');
+          (A = function () {
+            b.removeEventListener('DOMContentLoaded', A, 0), (b.readyState = 'complete');
           }),
-          0
+          0,
         )),
       (a.yepnope = k()),
       (a.yepnope.executeStack = h),
-      (a.yepnope.injectJs = function(a, c, d, e, i, j) {
+      (a.yepnope.injectJs = function (a, c, d, e, i, j) {
         var k = b.createElement('script'),
           l,
           o,
@@ -453,17 +402,16 @@
         k.src = a;
         for (o in d) k.setAttribute(o, d[o]);
         (c = j ? h : c || f),
-          (k.onreadystatechange = k.onload = function() {
-            !l &&
-              g(k.readyState) &&
-              ((l = 1), c(), (k.onload = k.onreadystatechange = null));
-          }),
-          m(function() {
+          (k.onreadystatechange = k.onload =
+            function () {
+              !l && g(k.readyState) && ((l = 1), c(), (k.onload = k.onreadystatechange = null));
+            }),
+          m(function () {
             l || ((l = 1), c(1));
           }, e),
           i ? k.onload() : n.parentNode.insertBefore(k, n);
       }),
-      (a.yepnope.injectCss = function(a, c, d, e, g, i) {
+      (a.yepnope.injectCss = function (a, c, d, e, g, i) {
         var e = b.createElement('link'),
           j,
           c = i ? h : c || f;
@@ -472,6 +420,6 @@
         g || (n.parentNode.insertBefore(e, n), m(c, 0));
       });
   })(this, document),
-  (Modernizr.load = function() {
+  (Modernizr.load = function () {
     yepnope.apply(window, [].slice.call(arguments, 0));
   });

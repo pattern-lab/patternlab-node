@@ -15,7 +15,8 @@
           "packages/engine-nunjucks/*.md",
           "packages/engine-ninjucks/LICENSE",
           "packages/engine-ninjucks/_meta/*"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

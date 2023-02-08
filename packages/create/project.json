@@ -12,7 +12,8 @@
         "outputPath": "dist/packages/create",
         "main": "packages/create/src/index.js",
         "tsConfig": "packages/create/tsconfig.lib.json",
-        "assets": ["packages/create/*.md", "packages/create/LICENSE"]
+        "assets": ["packages/create/*.md", "packages/create/LICENSE"],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

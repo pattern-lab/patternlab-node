@@ -15,7 +15,8 @@
           "packages/engine-twig-php/*.md",
           "packages/engine-twig-php/LICENSE",
           "packages/engine-twig-php/_meta/*"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

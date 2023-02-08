@@ -15,7 +15,8 @@
           "packages/engine-underscore/*.md",
           "packages/engine-underscore/LICENSE",
           "packages/engine-underscore/_meta/*"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

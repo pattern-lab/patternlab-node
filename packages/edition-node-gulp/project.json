@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/edition-node-gulp/src",
   "projectType": "library",
-  "implicitDependencies": ["cli", "core", "engine-mustache"],
+  "implicitDependencies": ["cli", "core", "engine-mustache", "uikit-workshop"],
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
@@ -21,7 +21,8 @@
             "output": "",
             "ignore": ["index.ts"]
           }
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

@@ -16,7 +16,8 @@
           "packages/live-server/LICENSE",
           "packages/live-server/middleware/**",
           "packages/live-server/src/injected.html"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

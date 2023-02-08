@@ -17,7 +17,8 @@
           "packages/plugin-tab/postinstall.js",
           "packages/plugin-tab/config/**",
           "packages/plugin-tab/config.json"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "lint": {

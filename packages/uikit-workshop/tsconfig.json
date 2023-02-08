@@ -1,28 +1,13 @@
 {
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "dist"
-  ],
-  "compilerOptions": {
-    "noEmit": true,
-    "allowJs": true,
-    "checkJs": true,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "dist",
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "target": "esnext",
-    "jsx": "react",
-    "module": "esnext",
-    "lib": ["es2017", "dom"],
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "baseUrl": "src/scripts"
-  },
-  "typeAcquisition": {
-    "enable": true
-  }
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

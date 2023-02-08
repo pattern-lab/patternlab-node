@@ -18,10 +18,6 @@
     "name": "Dan White"
   },
   "deprecated": false,
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "nunjucks": "^3.2.3"
-  },
   "engines": {
     "node": ">=14.21.1"
   },

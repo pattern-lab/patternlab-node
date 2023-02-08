@@ -35,6 +35,6 @@
     "@pattern-lab/engine-mustache": "file:../../../dist/packages/engine-mustache",
     "@pattern-lab/plugin-tab": "file:../../../dist/packages/plugin-tab",
     "@pattern-lab/starterkit-handlebars-demo": "file:../../../dist/packages/starterkit-handlebars-demo",
-    "@pattern-lab/uikit-workshop": "^6.0.1"
+    "@pattern-lab/uikit-workshop": "file:../../../dist/packages/uikit-workshop"
   }
 }

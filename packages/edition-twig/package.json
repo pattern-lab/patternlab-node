@@ -31,9 +31,6 @@
     "version": "patternlab --version",
     "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
   },
-  "dependencies": {
-    "@pattern-lab/uikit-workshop": "^6.0.1"
-  },
   "engines": {
     "node": ">=14.21.1"
   },

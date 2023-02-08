@@ -1,0 +1,57 @@
+{
+  "name": "uikit-workshop",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/uikit-workshop/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/uikit-workshop",
+        "main": "packages/uikit-workshop/src/scripts/patternlab-pattern.js",
+        "tsConfig": "packages/uikit-workshop/tsconfig.app.json",
+        "webpackConfig": "packages/uikit-workshop/webpack.config.js",
+        "generatePackageJson": true,
+        "isolatedConfig": true
+      },
+      "configurations": {
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/webpack:dev-server",
+      "options": {
+        "buildTarget": "uikit-workshop:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "uikit-workshop:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/uikit-workshop/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/uikit-workshop/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  }
+}

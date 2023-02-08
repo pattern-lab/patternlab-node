@@ -11,7 +11,8 @@
         "outputPath": "dist/packages/engine-twig",
         "main": "packages/engine-twig/src/index.ts",
         "tsConfig": "packages/engine-twig/tsconfig.lib.json",
-        "assets": ["packages/engine-twig/*.md", "packages/engine-twig/LICENSE", "packages/engine-twig/_meta/*"]
+        "assets": ["packages/engine-twig/*.md", "packages/engine-twig/LICENSE", "packages/engine-twig/_meta/*"],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

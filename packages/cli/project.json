@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/cli/src",
   "projectType": "library",
+  "implicitDependencies": ["core"],
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
@@ -11,7 +12,8 @@
         "outputPath": "dist/packages/cli",
         "main": "packages/cli/bin/patternlab.ts",
         "tsConfig": "packages/cli/tsconfig.lib.json",
-        "assets": ["packages/cli/*.md", "packages/cli/LICENSE"]
+        "assets": ["packages/cli/*.md", "packages/cli/LICENSE"],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

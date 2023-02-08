@@ -33,7 +33,7 @@
     "@pattern-lab/core": "file:../../../dist/packages/core",
     "@pattern-lab/engine-twig-php": "file:../../../dist/packages/engine-twig-php",
     "@pattern-lab/starterkit-twig-demo": "file:../../../dist/packages/starterkit-twig-demo",
-    "@pattern-lab/uikit-workshop": "^6.0.1"
+    "@pattern-lab/uikit-workshop": "file:../../../dist/packages/uikit-workshop"
   },
   "workspaces": {
     "nohoist": [

@@ -85,7 +85,8 @@ function pluginInit(patternlab) {
   patternlab.plugins.push(pluginConfig);
 
   //write the plugin config folder to public/pattern-lab
-  const pluginFiles = glob.sync(__dirname + '/config/**/*');
+  const relativePrefix = path.join('..', 'config');
+  const pluginFiles = glob.sync(path.resolve(__dirname, relativePrefix) + '/**/*');
 
   if (pluginFiles && pluginFiles.length > 0) {
     const tab_frontend_snippet = fs.readFileSync(path.resolve(__dirname + '/lib/snippet.js'), 'utf8');
@@ -94,7 +95,7 @@ function pluginInit(patternlab) {
       try {
         const fileStat = fs.statSync(pluginFiles[i]);
         if (fileStat.isFile()) {
-          const relativePath = path.relative(__dirname, pluginFiles[i]).replace('config', ''); //config is dropped
+          const relativePath = path.relative(__dirname, pluginFiles[i]).replace(relativePrefix, ''); //config is dropped
           const writePath = path.join(
             patternlab.config.paths.public.root,
             'patternlab-components',

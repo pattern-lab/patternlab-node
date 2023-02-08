@@ -15,7 +15,8 @@
           "packages/engine-handlebars/*.md",
           "packages/engine-handlebars/LICENSE",
           "packages/engine-handlebars/_meta/*"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {

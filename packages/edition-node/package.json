@@ -21,9 +21,6 @@
     "pl:version": "patternlab --version",
     "start": "npm run pl:serve"
   },
-  "dependencies": {
-    "@pattern-lab/uikit-workshop": "^6.0.1"
-  },
   "engines": {
     "node": ">=14.21.1"
   },

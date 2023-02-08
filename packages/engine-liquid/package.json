@@ -15,10 +15,6 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Cameron Roe",
   "license": "MIT",
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "liquidjs": "10.4.0"
-  },
   "engines": {
     "node": ">=14.21.1"
   },

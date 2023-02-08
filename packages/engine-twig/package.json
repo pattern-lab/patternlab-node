@@ -15,10 +15,6 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
-  "dependencies": {
-    "fs-extra": "10.0.0",
-    "twing": "^5.0.2"
-  },
   "engines": {
     "node": ">=14.21.1"
   },

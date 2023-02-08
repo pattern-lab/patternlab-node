@@ -3,26 +3,15 @@
   <head>
     <title id="title">Pattern Lab</title>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="initial-scale=1, width=device-width, viewport-fit=cover"
-    />
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover" />
     <meta name="theme-color" content="#ababab" />
     <!-- webpackIgnore: true -->
     <link rel="stylesheet" href="styleguide/css/pattern-lab.css" media="all" />
 
     <!-- webpackIgnore: true -->
-    <link
-      rel="prefetch"
-      as="image"
-      href="styleguide/images/pattern-lab-logo--on-dark.svg"
-    />
+    <link rel="prefetch" as="image" href="styleguide/images/pattern-lab-logo--on-dark.svg" />
     <!-- webpackIgnore: true -->
-    <link
-      rel="prefetch"
-      as="image"
-      href="styleguide/images/pattern-lab-logo--on-light.svg"
-    />
+    <link rel="prefetch" as="image" href="styleguide/images/pattern-lab-logo--on-light.svg" />
   </head>
 
   <body class="pl-c-body">
@@ -39,11 +28,7 @@
     <!-- webpackIgnore: true -->
     <script src="annotations/annotations.js" defer></script>
     <!-- webpackIgnore: true -->
-    <script
-      src="styleguide/js/patternlab-viewer.modern.js"
-      type="module"
-      crossorigin
-    ></script>
+    <script src="styleguide/js/patternlab-viewer.js" type="module" crossorigin></script>
     <script>
       // https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
       (function () {
@@ -60,7 +45,7 @@
               }
               e.preventDefault();
             },
-            true
+            true,
           );
           check.type = 'module';
           check.src = '.';
@@ -69,13 +54,6 @@
         }
       })();
     </script>
-    <!-- webpackIgnore: true -->
-    <script
-      src="styleguide/js/patternlab-viewer.js"
-      defer
-      nomodule
-      crossorigin
-    ></script>
 
     <script>
       // Check that service workers are registered

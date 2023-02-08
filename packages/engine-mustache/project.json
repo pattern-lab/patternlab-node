@@ -15,7 +15,8 @@
           "packages/engine-mustache/*.md",
           "packages/engine-mustache/LICENSE",
           "packages/engine-mustache/_meta/*"
-        ]
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "publish": {
