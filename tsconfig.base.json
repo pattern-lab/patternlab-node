@@ -19,7 +19,7 @@
       "@pattern-lab/cli": ["packages/cli/bin/patternlab.js"],
       "@pattern-lab/core": ["packages/core/src/index.js"],
       "@pattern-lab/create": ["packages/create/src/index.ts"],
-      "@pattern-lab/docs": ["packages/docs/src/index.ts"],
+      "@pattern-lab/docs": ["packages/docs/src/index.js"],
       "@pattern-lab/edition-node": ["packages/edition-node/src/index.ts"],
       "@pattern-lab/edition-node-gulp": ["packages/edition-node-gulp/src/index.ts"],
       "@pattern-lab/edition-twig": ["packages/edition-twig/src/index.ts"],

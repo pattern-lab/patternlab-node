@@ -3,6 +3,7 @@
     "type": "git",
     "url": "git+https://github.com/pattern-lab/patternlab-node.git"
   },
+  "version": "6.0.1",
   "private": true,
   "scripts": {
     "postinstall": "yarn build:all",
@@ -16,10 +17,8 @@
     "postpublish": "auto release",
     "preview:docs": "cd packages/docs && yarn production",
     "prepare": "husky install",
-    "build:edition": "nx run edition-node:build",
-    "build:uikit2": "npx nx run uikit-workshop:build --no-cache",
     "build:all": "nx run-many --target=build --configuration=production",
-    "version:all": "nx run-many --target=version --configuration=production"
+    "version:all": "nx run-many --target=version --baseBranch=master --syncVersions --noVerify"
   },
   "dependencies": {
     "@11ty/eleventy": "^0.12.1",
