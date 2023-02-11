@@ -23,14 +23,6 @@
         ]
       }
     },
-    "release": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "baseBranch": "main",
-        "preset": "conventional",
-        "tagPrefix": "${projectName}@"
-      }
-    },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
@@ -57,6 +49,12 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional"
       }
     }
   },

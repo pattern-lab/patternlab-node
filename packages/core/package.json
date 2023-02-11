@@ -1,7 +1,7 @@
 {
   "name": "@pattern-lab/core",
   "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
-  "version": "6.0.1",
+  "version": "1.0.0",
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",

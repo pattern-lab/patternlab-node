@@ -1,7 +1,126 @@
-# Change Log
+# Changelog
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
+
+## 1.0.0 (2023-02-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **core:** plugins now use async functions instead of events
+* **API:** change `version()` to return a string representation of the version, removing `v()`
+
+### Features
+
+* add nx workspace settings ([5bbee08](https://github.com/pattern-lab/patternlab-node/commit/5bbee082c4e0d2d8187fbd487827090baf010fbe))
+* add release feature ([7f731c4](https://github.com/pattern-lab/patternlab-node/commit/7f731c4b56e663b57d71c7776c0c5e6424c1575e))
+* added https description to the docs ([#1355](https://github.com/pattern-lab/patternlab-node/issues/1355)) ([4118f74](https://github.com/pattern-lab/patternlab-node/commit/4118f740810842b16cf86b9ee28bda2a623aa9c7))
+* **api:** expose getVersion statically ([4683cd0](https://github.com/pattern-lab/patternlab-node/commit/4683cd00ae493be18d08a29e2ff370b70928c9de))
+* **API:** remove reliance on patternlab object during plugin install ([0850fd6](https://github.com/pattern-lab/patternlab-node/commit/0850fd6909ac1939a89be9840fbfa7d64fdda56d))
+* **API:** standardize v() and version() into a single call ([6309e69](https://github.com/pattern-lab/patternlab-node/commit/6309e693b0971ea26c86e0e2b957ba413492e1b7))
+* **config:** add new default pattern export options ([a7487a0](https://github.com/pattern-lab/patternlab-node/commit/a7487a0681cb11e6f3c5c8eaefd62e5648ad5ea3))
+* **core:** Add tests for help command ([62cd8fb](https://github.com/pattern-lab/patternlab-node/commit/62cd8fb2fb05a676ea9b730f4c9340eac005e9eb))
+* **core:** fix pattern export all conflicts ([b210d82](https://github.com/pattern-lab/patternlab-node/commit/b210d820ba8ac0b64c82c7ff0f18c9f8a900fce2))
+* **core:** invoke registered plugin hooks ([a54d775](https://github.com/pattern-lab/patternlab-node/commit/a54d7753b6939fe6a58da543f4fb34f64dd8901a))
+* **core:** remove plugin install / disable / enable logic ([5a58824](https://github.com/pattern-lab/patternlab-node/commit/5a588240400870203c682d5071cd32f6dff9f94d)), closes [#872](https://github.com/pattern-lab/patternlab-node/issues/872)
+* **documentation:** added (sub)groups documentation again [#1262](https://github.com/pattern-lab/patternlab-node/issues/1262) ([#1334](https://github.com/pattern-lab/patternlab-node/issues/1334)) ([9fac269](https://github.com/pattern-lab/patternlab-node/commit/9fac2699d2f6c64c4544e8e4d8e18c1a1ce7e49f))
+* **events:** add PATTERNLAB_BUILD_END event and rename BUILD_START ([5b7bfa3](https://github.com/pattern-lab/patternlab-node/commit/5b7bfa38c22f37737c59bbf945defec48718a7d9))
+* **help:** remove help. API is now documented ([2aef3a1](https://github.com/pattern-lab/patternlab-node/commit/2aef3a14e72c22fc6c3fba584bd8df6d4dc54fb9))
+* integrate @hadl/patternlab-plugin-pattern-wrap into core ([#1433](https://github.com/pattern-lab/patternlab-node/issues/1433)) ([414e038](https://github.com/pattern-lab/patternlab-node/commit/414e0383732b4bc4682981000908d1e0d1292703)), closes [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432) [#1432](https://github.com/pattern-lab/patternlab-node/issues/1432)
+* move dev packages ([0136648](https://github.com/pattern-lab/patternlab-node/commit/0136648039233f82a608bd194f686bcf99159192))
+* **package:** add npmrc file ([55f5bc2](https://github.com/pattern-lab/patternlab-node/commit/55f5bc26d635805648caa2d35d1bf306fe4740d5))
+* **package:** Hoist up tap and test command. ([6cacdb6](https://github.com/pattern-lab/patternlab-node/commit/6cacdb64b4327777bdea8c6c9f36ad20e608278f))
+* **package:** pin all dependencies ([415698e](https://github.com/pattern-lab/patternlab-node/commit/415698eb9a70d477ffb7b2906e679ac8f2051c60))
+* **package:** remove package-lock.json files ([5ab3995](https://github.com/pattern-lab/patternlab-node/commit/5ab399599a1dbea8239fbd09a34d5f39ad762e21))
+* **package:** standardize and hoist common devDependencies ([7f4ce6f](https://github.com/pattern-lab/patternlab-node/commit/7f4ce6ff1238986bed906c27d2f4bf7329752d92))
+* **packages:** Update all package.json repo and bug links ([5eb2c11](https://github.com/pattern-lab/patternlab-node/commit/5eb2c1148d428170236907cbbc42ba05d046e408))
+* **plugin-tab, core:** initial plugin hook exploration ([2f3d39a](https://github.com/pattern-lab/patternlab-node/commit/2f3d39ac6b125ad4c6b872e27ee224ce2ea33a12))
+* **README:** Update for brevity and consistency ([aec7c50](https://github.com/pattern-lab/patternlab-node/commit/aec7c50aedb1e081c541cd106f31125f70658dec))
+* **server:** beginning of refator ([a3d65c3](https://github.com/pattern-lab/patternlab-node/commit/a3d65c3af547371c6c10b33ec8133b48e9ed2a1d))
+* **server:** continue server refactor ([8f6cd91](https://github.com/pattern-lab/patternlab-node/commit/8f6cd91d7aac80c4110f5bb99b7f01af451c0a1b))
+* **uikits:** add uikits to test config ([43a2017](https://github.com/pattern-lab/patternlab-node/commit/43a2017c330736343569a5cc12c378284665c137))
+* **uikits:** additional test coverage ([f5b60b2](https://github.com/pattern-lab/patternlab-node/commit/f5b60b2462bd1659db8c900874b728a5eec0b584))
+* **uikits:** additional test coverage of the main API ([fbcacfb](https://github.com/pattern-lab/patternlab-node/commit/fbcacfb9bbabf70d4f55336bec5ab0f9133ebf15))
+* **uikits:** clean each build directory if configured ([8e11342](https://github.com/pattern-lab/patternlab-node/commit/8e1134280d2c031825f716a7710618bcb04e22f9))
+* **uikits:** copy pattern-specific javascript ([3ac93dc](https://github.com/pattern-lab/patternlab-node/commit/3ac93dc06ad3d2f725fa36e6f20c6aba6bebb0e9))
+* **uikits:** create MVP output to disk ([e1598d3](https://github.com/pattern-lab/patternlab-node/commit/e1598d37e0b3e4aa9dd34a1f5da6eddde353d8dd))
+* **uikits:** filter out excluded pattern states from uikit output ([87c9d0d](https://github.com/pattern-lab/patternlab-node/commit/87c9d0d2c315d9f6060df70fc41a7f4a9a5e9f9d))
+* **uikits:** load uikits before build ([4565202](https://github.com/pattern-lab/patternlab-node/commit/4565202d32e5498512d01ff03e21f9fdb51b4c20))
+* **uikits:** output assets and annotations to each location ([b0a84ca](https://github.com/pattern-lab/patternlab-node/commit/b0a84cad95242867d5cf1fa1dd0edb0a6adff3c6))
+* **uikits:** output pattern files to each location ([5df87b0](https://github.com/pattern-lab/patternlab-node/commit/5df87b058ccd128b41f72f90671084bd4373bf71))
+* **uikits:** promote dependencyGraph.json output to root ([dd3e708](https://github.com/pattern-lab/patternlab-node/commit/dd3e708570b8dda69626cc19264c40e745755a96))
+* **uikits:** render header and footer data correctly ([f2a6f23](https://github.com/pattern-lab/patternlab-node/commit/f2a6f23eff6d730a2b493d470b3b159b8c6880d2))
+* **uikits:** support incremental builds ([6670364](https://github.com/pattern-lab/patternlab-node/commit/66703646401b18af17e81d8ce2495f659408387c))
+* **uikits:** support watched-asset copying ([4f05311](https://github.com/pattern-lab/patternlab-node/commit/4f0531137b19cd2e49ed09edeab24392d1eb1a28))
+* **uikits:** uikits config to default ([a393851](https://github.com/pattern-lab/patternlab-node/commit/a39385165e6d7398c0aa4fd2283651b5c10ac872))
+* update workspace settings ([e8f3746](https://github.com/pattern-lab/patternlab-node/commit/e8f37460a50ac56c4cdcc8fd942ed9adc1ca7c30))
+* update workspace settings ([39092c1](https://github.com/pattern-lab/patternlab-node/commit/39092c13ed91cfd2a6a51929d4bd612abc937038))
+* **watches:** add additional assets to ignore ([18e74c2](https://github.com/pattern-lab/patternlab-node/commit/18e74c2f34aacd3b5cd983337ea41b202496e717))
+
+
+### Bug Fixes
+
+* **1049:** Treat folders like patterns only if they're subfolders of pattern groupings ([4eb79ab](https://github.com/pattern-lab/patternlab-node/commit/4eb79ab48b335a35b2e5ed3b7053974b8e8bb6b6))
+* add a new method to check if PL is currently compiling + add new method to get the config PL is using ([26e886c](https://github.com/pattern-lab/patternlab-node/commit/26e886c93db5d135c91de648724f7278c4d5b3e9))
+* add eslint fixes ([00d7bbe](https://github.com/pattern-lab/patternlab-node/commit/00d7bbe319ea77a6ee8cc9cd0348856feaaf13ad))
+* **build:** improve stability of changes causing a live-server reload ([06c6123](https://github.com/pattern-lab/patternlab-node/commit/06c61237a8c197a58129846296e7b7e20b254aa3))
+* **buildPatterns:** move meta processing back into function for now ([cea2c45](https://github.com/pattern-lab/patternlab-node/commit/cea2c45ba6d6f3f0ed5772027dbec2b28aba0bf1))
+* **changes_hunter:** guard for incrementalRebuild while watching ([c652b9c](https://github.com/pattern-lab/patternlab-node/commit/c652b9ced3c87c80239174a50c90d2695ed1a1a3)), closes [#794](https://github.com/pattern-lab/patternlab-node/issues/794) [#802](https://github.com/pattern-lab/patternlab-node/issues/802)
+* clean up Pattern.createEmpty conditionals to improve readability; fix typo / formatting bug causing mustache loader to not compile base UI templates as expected ([0c965cc](https://github.com/pattern-lab/patternlab-node/commit/0c965cc7f7fca2d5100f2e92438f5799bb934fe7))
+* **cli:** pass watch options cleanly to core ([8bf186b](https://github.com/pattern-lab/patternlab-node/commit/8bf186b8e2ea2ea5ddcd2d6242b670275b65567f))
+* code scanning alert ([#1442](https://github.com/pattern-lab/patternlab-node/issues/1442)) ([749a3e7](https://github.com/pattern-lab/patternlab-node/commit/749a3e722249846c522e3f7de6e73b5afa8531b1))
+* **config:** Add npm registry to lerna config ([1473cd5](https://github.com/pattern-lab/patternlab-node/commit/1473cd554c24b4c1baa4ee5ac59958f3499b9902))
+* **config:** update patch to uikit files ([5ccd0d2](https://github.com/pattern-lab/patternlab-node/commit/5ccd0d2ed89ee031f940432b3177cd29417835fa))
+* **core:** allow plugin resolution to follow normal algorithm ([3f6b83b](https://github.com/pattern-lab/patternlab-node/commit/3f6b83be080c88aec1d8b73bececb76f0f57a79d))
+* **core:** do not warn about uikit-polyfills ([6bb68e7](https://github.com/pattern-lab/patternlab-node/commit/6bb68e763769969546542bf7aaf6d1f4235c6622))
+* **core:** find plugins from config only and with simpler args ([fe7351c](https://github.com/pattern-lab/patternlab-node/commit/fe7351cba346425512cbb2ef3a1b7728ab06ae60))
+* **core:** Fix tests ([31d67a7](https://github.com/pattern-lab/patternlab-node/commit/31d67a778796c475f1a0a0c3e05477f3eaa8ecc7))
+* **core:** re-add cleanPublic fix ([c100bbc](https://github.com/pattern-lab/patternlab-node/commit/c100bbca3f339e9132acb9c482e98c1c8a66b8b5))
+* **core:** ReadDocumentation throw error on older node versions ([#1295](https://github.com/pattern-lab/patternlab-node/issues/1295)) ([399d0e1](https://github.com/pattern-lab/patternlab-node/commit/399d0e118ab77a414a926b078da9abbcb5347969))
+* **core:** rename serverModule import to avoid conflict with CLI ([f3170e7](https://github.com/pattern-lab/patternlab-node/commit/f3170e7db1f004e99828884743ab74adc0ddf783))
+* **core:** Subgroup cannot be hidden ([#1368](https://github.com/pattern-lab/patternlab-node/issues/1368)) ([3ce13ab](https://github.com/pattern-lab/patternlab-node/commit/3ce13abffaab2810194003aeca88be671fedd38f))
+* correct typo in build logging ([96d989f](https://github.com/pattern-lab/patternlab-node/commit/96d989f8869630ba9f59705bfca66755f20e35ab))
+* **data_loader:** look for exact name of the file passed in ([eb46be2](https://github.com/pattern-lab/patternlab-node/commit/eb46be232ef6ea92b02e460803ecc1ca656e7184))
+* **docs:** regenerate API documentation ([830c568](https://github.com/pattern-lab/patternlab-node/commit/830c568dae28e743917a9d19860a5ec13641c8d8))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([cae9420](https://github.com/pattern-lab/patternlab-node/commit/cae94208c52e4068430e048e729f4ff97847715a))
+* **docs:** resolving broken links in new docs site [#1192](https://github.com/pattern-lab/patternlab-node/issues/1192) ([b4eb12e](https://github.com/pattern-lab/patternlab-node/commit/b4eb12e68ceb402964a7e303610e5b0c008876ba))
+* **docs:** update event info with tab example ([0f227a3](https://github.com/pattern-lab/patternlab-node/commit/0f227a374ee0bec02d6e9d8a3ec8735d7bb55761))
+* enable partial build via option ([8aaa533](https://github.com/pattern-lab/patternlab-node/commit/8aaa53398563ade14123c481bf509f9ee0c768f5))
+* **get:** add internal ability to omit missing pattern warning ([e3dddc6](https://github.com/pattern-lab/patternlab-node/commit/e3dddc66a648f01987847320dd887c47eb7bc592)), closes [#786](https://github.com/pattern-lab/patternlab-node/issues/786)
+* **lint:** run code through prettier ([ca52fde](https://github.com/pattern-lab/patternlab-node/commit/ca52fded2a3cebe294aa0bfa2ea09d8694abd85e)), closes [#825](https://github.com/pattern-lab/patternlab-node/issues/825)
+* manually bump package.json versions of packages published in September but with mismatched package.json versions ([98dfadf](https://github.com/pattern-lab/patternlab-node/commit/98dfadf083eacc6741a8a8d4a79ef0cf869360d2))
+* **node16:** prevent warning on installation process ([#1352](https://github.com/pattern-lab/patternlab-node/issues/1352)) ([d58e4c6](https://github.com/pattern-lab/patternlab-node/commit/d58e4c6f2979f5e0bba9a14e17e0dbc4afc64f75))
+* **package:** Allow .json extension on annotations file (issue [#836](https://github.com/pattern-lab/patternlab-node/issues/836)) ([b92e62b](https://github.com/pattern-lab/patternlab-node/commit/b92e62b6d258a46487a9d6a6e1d1b123fd495ab7))
+* **package:** clarify description of package ([c65611e](https://github.com/pattern-lab/patternlab-node/commit/c65611e0a94ccfa175a3ad38ba2065e3638889e6))
+* **packages:** Allow scoped publishing ([58beeb6](https://github.com/pattern-lab/patternlab-node/commit/58beeb6ee8a111d0caa4e2da6af138d634dc5355))
+* **package:** update LICENSE ([337aa32](https://github.com/pattern-lab/patternlab-node/commit/337aa32a22eab42641c087b0909d6c3bf5525399))
+* **package:** update tap dependency ([2b70ff4](https://github.com/pattern-lab/patternlab-node/commit/2b70ff4f2766d6dd8189c2db1f00d31a8d28e333))
+* **pattern graph:** move support and coverage of graph file to root ([bb9ef3c](https://github.com/pattern-lab/patternlab-node/commit/bb9ef3c4ffa12813b9580bed6308ad2790e6583e))
+* **pattern watch:** Defensively add change listeners ([cdbd11f](https://github.com/pattern-lab/patternlab-node/commit/cdbd11f445bb940c377ddff89e920a0510d8f5c8))
+* **patterns:** find all patterns inlcuding pseudo patterns ([d0672f6](https://github.com/pattern-lab/patternlab-node/commit/d0672f65e7f35616621f9ebc7d703905b697a6a2)), closes [#975](https://github.com/pattern-lab/patternlab-node/issues/975)
+* **plugin:** correct spelling error and function locations ([d4abd88](https://github.com/pattern-lab/patternlab-node/commit/d4abd88cb017550002407241b5045a2ad1adb1dc))
+* **plugins:** support scoped packages ([44f0f8e](https://github.com/pattern-lab/patternlab-node/commit/44f0f8e421ad7f9f5ae8f6f8ef771da2875700c5))
+* revert fixing prettier issues with annotations.js file to fix failing tests ([962020b](https://github.com/pattern-lab/patternlab-node/commit/962020b0acabfa62f8aeac964e18bef8f56ce3fe))
+* revert previous uikit configurable path updates to unblock Twig renderer work getting merged in ([42bfe29](https://github.com/pattern-lab/patternlab-node/commit/42bfe29aeaa68b956110f3b7fe88d6395cf98286))
+* **server:** remove setInterval hack ([a76e4a2](https://github.com/pattern-lab/patternlab-node/commit/a76e4a247f21262e90218ae0a2154cfa181b5875))
+* **test:** fix the test please and thank you ([cdc6c38](https://github.com/pattern-lab/patternlab-node/commit/cdc6c3867afb5a1d746c37c0ae0af2bc8040df93))
+* **test:** sledgehammer a test ([8b34be0](https://github.com/pattern-lab/patternlab-node/commit/8b34be0a39b1ec499d454304db33229175fd675f))
+* **tests:** prevent dependency graph output file from being written ([0d9c57e](https://github.com/pattern-lab/patternlab-node/commit/0d9c57ebe44ad5858668cc8453a973e033c8f3ed))
+* **tests:** Revert annotations file back to expected legacy format ([3618f27](https://github.com/pattern-lab/patternlab-node/commit/3618f27bc32aaf7c3b0f6da60d746e7274d07ff8))
+* transformed asset types is ignored ([#1426](https://github.com/pattern-lab/patternlab-node/issues/1426)) ([8cbe189](https://github.com/pattern-lab/patternlab-node/commit/8cbe189d45afaa753ce6de41bdd9de1596e074f3)), closes [#1339](https://github.com/pattern-lab/patternlab-node/issues/1339)
+* **twig engine:** startup and running problems ([#1478](https://github.com/pattern-lab/patternlab-node/issues/1478)) ([e5a1904](https://github.com/pattern-lab/patternlab-node/commit/e5a19049f083315939406677b1c0480f4b420569))
+* **uikits:** fix generation of view all pages within uikits ([7d6bdce](https://github.com/pattern-lab/patternlab-node/commit/7d6bdce1b380da15621db27958c57f4b576526db))
+* **uikits:** fix ui_builder_tests ([e75f434](https://github.com/pattern-lab/patternlab-node/commit/e75f4348633457bdaa3e90bbac22c194285fcbe7))
+* updates to address eslint / prettier issues ([d945acc](https://github.com/pattern-lab/patternlab-node/commit/d945acc13b8e4e36f3815b017fbc12266c323d1f))
+* updates to fix eslint / prettier issues; update packages/core to reuse root .eslintrc.js file ([5b7a057](https://github.com/pattern-lab/patternlab-node/commit/5b7a057d46ccd16b5832af1441030c7b76f237a8))
+* **viewall:** fix viewall generation ([543558a](https://github.com/pattern-lab/patternlab-node/commit/543558a692d4db04b7d29f11f940cfd67ae25a6a))
+* **watch:** wire up serve and watch listeners correctly ([04cd18e](https://github.com/pattern-lab/patternlab-node/commit/04cd18e2439f9d44ef1540f3722ea82a7f623c5e))
+
+
+### Reverts
+
+* Revert "refactor: optimized engines directory retrieval (#1359)" (#1363) ([a275d36](https://github.com/pattern-lab/patternlab-node/commit/a275d36c50c3846fc51c78baf6e11dba5309f5dc)), closes [#1359](https://github.com/pattern-lab/patternlab-node/issues/1359) [#1363](https://github.com/pattern-lab/patternlab-node/issues/1363)
+* Revert "[skip travis] chore(release): publish v5.10.0" ([7496318](https://github.com/pattern-lab/patternlab-node/commit/7496318e083f667b6da914e21595c52442d62703))
 
 ## [6.0.1](https://github.com/pattern-lab/patternlab-node/compare/v6.0.0...v6.0.1) (2023-02-01)
 

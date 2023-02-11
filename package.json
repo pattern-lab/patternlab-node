@@ -19,7 +19,7 @@
     "build:edition": "nx run edition-node:build",
     "build:uikit2": "npx nx run uikit-workshop:build --no-cache",
     "build:all": "nx run-many --target=build --configuration=production",
-    "release:all": "nx run-many --target=release --configuration=production"
+    "version:all": "nx run-many --target=version --configuration=production"
   },
   "dependencies": {
     "@11ty/eleventy": "^0.12.1",
@@ -89,6 +89,8 @@
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "7.18.6",
     "@babel/runtime": "^7.13.10",
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
     "@erquhart/rollup-plugin-node-builtins": "^2.1.5",
     "@fontsource/abel": "^4.5.7",
     "@fontsource/raleway": "^4.5.11",
