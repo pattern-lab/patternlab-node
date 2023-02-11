@@ -15,6 +15,14 @@
         "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
+    "release": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "baseBranch": "main",
+        "preset": "conventional",
+        "tagPrefix": "${projectName}@"
+      }
+    },
     "publish": {
       "executor": "nx:run-commands",
       "options": {

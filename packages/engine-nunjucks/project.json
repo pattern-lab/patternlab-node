@@ -13,10 +13,18 @@
         "tsConfig": "packages/engine-nunjucks/tsconfig.lib.json",
         "assets": [
           "packages/engine-nunjucks/*.md",
-          "packages/engine-ninjucks/LICENSE",
-          "packages/engine-ninjucks/_meta/*"
+          "packages/engine-nunjucks/LICENSE",
+          "packages/engine-nunjucks/_meta/*"
         ],
         "buildableProjectDepsInPackageJsonType": "dependencies"
+      }
+    },
+    "release": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "baseBranch": "main",
+        "preset": "conventional",
+        "tagPrefix": "${projectName}@"
       }
     },
     "publish": {

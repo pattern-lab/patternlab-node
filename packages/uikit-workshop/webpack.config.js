@@ -25,6 +25,8 @@ const defaultConfig = {
       { from: './packages/uikit-workshop/views/*', to: '../../views/[name][ext]' },
       { from: './packages/uikit-workshop/views/partials/*', to: '../../views/partials/[name][ext]' },
       { from: './packages/uikit-workshop/package.json', to: '../../[name][ext]' },
+      { from: './packages/uikit-workshop/LICENSE', to: '../../[name][ext]' },
+      { from: './packages/uikit-workshop/CHANGELOG.md', to: '../../[name][ext]' },
     ],
   },
   noViewAll: false,
