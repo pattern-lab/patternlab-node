@@ -15,7 +15,6 @@
     "clean": "git clean -dfx",
     "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
     "postpublish": "auto release",
-    "preview:docs": "cd packages/docs && yarn production",
     "prepare": "husky install",
     "build:all": "nx run-many --target=build --configuration=production",
     "version:all": "nx run-many --target=version --baseBranch=master --syncVersions --noVerify"

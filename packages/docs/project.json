@@ -15,8 +15,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "node packages/docs/tools/rename-output.js"
-      },
-      "dependsOn": ["build-docs"]
+      }
     },
     "build": {
       "executor": "@nrwl/js:tsc",
@@ -35,7 +34,10 @@
           }
         ]
       },
-      "dependsOn": ["rename-output"]
+      "dependsOn": [
+        { "projects": "self", "target": "build-docs" },
+        { "projects": "self", "target": "rename-output" }
+      ]
     },
     "publish": {
       "executor": "nx:run-commands",

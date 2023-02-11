@@ -2,7 +2,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "pattern-lab",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "dev"
   },
   "tasksRunnerOptions": {
     "default": {
@@ -25,15 +25,14 @@
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": ["{projectRoot}/**/*"],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s"
-    ],
-    "sharedGlobals": ["{workspaceRoot}/babel.config.json"]
+    ]
   },
   "workspaceLayout": {
     "appsDir": "packages",
