@@ -80,7 +80,7 @@ export class EngineHandlebars implements PatternLabEngine {
     try {
       fs.statSync(metaFilePath);
     } catch (err) {
-      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '..', '_meta/', fileName), 'utf8');
       fs.outputFileSync(metaFilePath, metaFileContent);
     }
   }

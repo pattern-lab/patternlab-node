@@ -12,7 +12,7 @@
     "preview:hbs": "cd packages/development-edition-engine-handlebars && yarn pl:starterkit && yarn pl:build",
     "preview:twig": "cd packages/development-edition-engine-twig && yarn pl:starterkit && yarn pl:build",
     "preview:twig-php": "cd packages/development-edition-engine-twig-php && yarn pl:starterkit && yarn pl:build",
-    "postinstall2": "yarn preview:hbs && yarn preview:twig"
+    "postinstall": "yarn preview:hbs && yarn preview:twig"
   },
   "devDependencies": {
     "lerna": "4.0.0"

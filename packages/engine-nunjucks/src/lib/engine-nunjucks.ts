@@ -102,7 +102,7 @@ export class EngineNunjucks implements PatternLabEngine {
       fs.statSync(metaFilePath);
     } catch (err) {
       //not a file, so spawn it from the included file
-      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '_meta/', fileName), 'utf8');
+      const metaFileContent = fs.readFileSync(path.resolve(__dirname, '..', '..', '_meta/', fileName), 'utf8');
       fs.outputFileSync(metaFilePath, metaFileContent);
     }
   }

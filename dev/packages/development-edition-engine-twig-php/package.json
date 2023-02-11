@@ -32,6 +32,7 @@
     "@pattern-lab/cli": "file:../../../dist/packages/cli",
     "@pattern-lab/core": "file:../../../dist/packages/core",
     "@pattern-lab/engine-twig-php": "file:../../../dist/packages/engine-twig-php",
+    "@pattern-lab/engine-mustache": "file:../../../dist/packages/engine-mustache",
     "@pattern-lab/starterkit-twig-demo": "file:../../../dist/packages/starterkit-twig-demo",
     "@pattern-lab/uikit-workshop": "file:../../../dist/packages/uikit-workshop"
   },
