@@ -13,8 +13,5 @@
     "preview:twig": "cd packages/development-edition-engine-twig && yarn pl:starterkit && yarn pl:build",
     "preview:twig-php": "cd packages/development-edition-engine-twig-php && yarn pl:starterkit && yarn pl:build",
     "postinstall": "yarn preview:hbs && yarn preview:twig"
-  },
-  "devDependencies": {
-    "lerna": "4.0.0"
   }
 }
