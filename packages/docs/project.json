@@ -1,0 +1,70 @@
+{
+  "name": "docs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/docs/src",
+  "projectType": "library",
+  "targets": {
+    "build-docs": {
+      "executor": "nx:run-script",
+      "outputs": ["{projectRoot}/output"],
+      "options": {
+        "script": "production"
+      }
+    },
+    "rename-output": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/docs/tools/rename-output.js"
+      },
+      "dependsOn": ["build-docs"]
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/docs",
+        "main": "packages/docs/src/index.ts",
+        "tsConfig": "packages/docs/tsconfig.lib.json",
+        "assets": [
+          "packages/docs/*.md",
+          "packages/docs/LICENSE",
+          {
+            "glob": "**/*",
+            "input": "packages/docs/output",
+            "output": "dist"
+          }
+        ]
+      },
+      "dependsOn": ["rename-output"]
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs docs {args.ver} {args.tag}"
+      },
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/docs/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/docs/jest.config.js",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

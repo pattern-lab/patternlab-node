@@ -134,6 +134,7 @@
     "husky": "^8.0.2",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
+    "json-to-scss": "1.6.2",
     "lit-element": "^2.2.1",
     "lit-html": "^1.1.2",
     "make-dir-cli": "^2.0.0",
