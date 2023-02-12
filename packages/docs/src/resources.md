@@ -14,10 +14,8 @@ sitemapPriority: '0.8'
 ## Pattern Lab Examples
 
 - [Pattern Lab Demo](https://demo.patternlab.io/)
-- [Frost Finery](http://patterns.frostfinery.com)
-- [Pittsburgh Food Bank](https://foodbank.bradfrost.com/patternlab/v10/)
-- [brianmuenzenmeyer.com](http://www.brianmuenzenmeyer.com/patternlab/public/)
 - [Altinn](https://altinn.github.io/DesignSystem/)
+- [hTWOo UI Framework](https://lab.n8d.studio/htwoo/) - [Demo](https://lab.n8d.studio/htwoo/htwoo-core/)
 
 ## Articles
 
